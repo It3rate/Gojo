@@ -2014,6 +2014,44 @@ public sealed class BoundaryFlowLaneBasisTests
         });
 
         Assert.True(BoundaryFlowSharedCapacityTransfer.TryReadTransfers(shared, out var transfers));
+        Assert.True(BoundaryFlowSharedCapacityTransfer.TryRead(
+            shared,
+            out var readCapacity,
+            out var routeGroup,
+            out var transferGroup,
+            out var residueGroup,
+            out var unusedCapacity));
+        Assert.Equal(capacity, readCapacity);
+        Assert.True(BoundaryFlowSharedCapacityTransfer.TryReadAllocationWitness(
+            shared,
+            new Carrier(),
+            out var allocationWitness));
+        Assert.True(ReadWitness.TryRead(
+            allocationWitness,
+            out var allocatedRoutes,
+            out var allocationSurface,
+            out var allocatedTransfers,
+            out var allocationResidue,
+            out _));
+        Assert.Equal(routeGroup, allocatedRoutes);
+        Assert.Equal(capacity, allocationSurface);
+        Assert.Equal(transferGroup, allocatedTransfers);
+        Assert.True(Assert.IsType<Relation>(allocationResidue).TryReadOrderedElementsOn(
+            Assert.IsType<Carrier>(((Relation)allocationResidue).Right),
+            out var allocationResidueParts));
+        Assert.Equal(2, allocationResidueParts.Length);
+        Assert.Equal(unusedCapacity, allocationResidueParts[0]);
+        Assert.Equal(residueGroup, allocationResidueParts[1]);
+
+        Assert.True(BoundaryFlowSharedCapacityTransfer.TryReadTimeline(shared, out var timeline));
+        Assert.True(TimeStepSequence.TryRead(timeline, out _, out var initial, out var steps));
+        Assert.Equal(routeGroup, initial);
+        Assert.Equal(3, steps.Length);
+        AssertSharedAllocationStep(steps[0], routeGroup, allocationWitness, transferGroup, unusedCapacity, residueGroup);
+        var routes = ReadOrderedElements(routeGroup);
+        AssertSharedTransferStep(steps[1], routes[0], transfers[0], expectedWitnessCount: 2, expectedBlockedMagnitude: 10);
+        AssertSharedTransferStep(steps[2], routes[1], transfers[1], expectedWitnessCount: 2, expectedBlockedMagnitude: 10);
+
         var targetBefore = BoundaryFlowValueSurface.Create(
             new Carrier(),
             target,
@@ -2066,6 +2104,26 @@ public sealed class BoundaryFlowLaneBasisTests
         Assert.Equal(5, summaries[1].Blocked.Magnitude.Ticks);
 
         Assert.True(BoundaryFlowSharedCapacityTransfer.TryReadTransfers(shared, out var transfers));
+        Assert.True(BoundaryFlowSharedCapacityTransfer.TryRead(
+            shared,
+            out _,
+            out var routeGroup,
+            out var transferGroup,
+            out var residueGroup,
+            out var unusedCapacity));
+        Assert.True(BoundaryFlowSharedCapacityTransfer.TryReadTimeline(shared, out var timeline));
+        Assert.True(TimeStepSequence.TryRead(timeline, out _, out var initial, out var steps));
+        Assert.Equal(routeGroup, initial);
+        Assert.Equal(3, steps.Length);
+        Assert.True(BoundaryFlowSharedCapacityTransfer.TryReadAllocationWitness(
+            shared,
+            new Carrier(),
+            out var allocationWitness));
+        AssertSharedAllocationStep(steps[0], routeGroup, allocationWitness, transferGroup, unusedCapacity, residueGroup);
+        var routes = ReadOrderedElements(routeGroup);
+        AssertSharedTransferStep(steps[1], routes[0], transfers[0], expectedWitnessCount: 2, expectedBlockedMagnitude: 0);
+        AssertSharedTransferStep(steps[2], routes[1], transfers[1], expectedWitnessCount: 1, expectedBlockedMagnitude: 5);
+
         var targetBefore = BoundaryFlowValueSurface.Create(
             new Carrier(),
             target,
@@ -2631,6 +2689,63 @@ public sealed class BoundaryFlowLaneBasisTests
         Assert.Equal(expectedPoint, metricPoint);
     }
 
+    private static void AssertSharedAllocationStep(
+        Relation step,
+        Relation expectedRoutes,
+        Relation expectedWitness,
+        Relation expectedTransfers,
+        Relation expectedUnusedCapacity,
+        Relation expectedResidues)
+    {
+        Assert.True(TimeStepSequence.TryReadStep(
+            step,
+            out _,
+            out var start,
+            out var end,
+            out var before,
+            out var transition,
+            out var after,
+            out var residue));
+        Assert.Equal(0, start.Ticks);
+        Assert.Equal(1, end.Ticks);
+        Assert.Equal(expectedRoutes, before);
+        Assert.Equal(expectedWitness, transition);
+        Assert.Equal(expectedTransfers, after);
+        var residueParts = ReadOrderedElements(Assert.IsType<Relation>(residue));
+        Assert.Equal(2, residueParts.Length);
+        Assert.Equal(expectedUnusedCapacity, residueParts[0]);
+        Assert.Equal(expectedResidues, residueParts[1]);
+    }
+
+    private static void AssertSharedTransferStep(
+        Relation step,
+        IElement expectedRoute,
+        Relation expectedTransfer,
+        int expectedWitnessCount,
+        long expectedBlockedMagnitude)
+    {
+        Assert.True(TimeStepSequence.TryReadStep(
+            step,
+            out _,
+            out _,
+            out _,
+            out var before,
+            out var transition,
+            out var after,
+            out var residue));
+        Assert.Equal(expectedRoute, before);
+        Assert.Equal(expectedTransfer, after);
+        var witnesses = ReadOrderedElements(Assert.IsType<Relation>(transition));
+        Assert.Equal(expectedWitnessCount, witnesses.Length);
+        foreach (var witness in witnesses)
+        {
+            Assert.True(ReadWitness.TryRead(witness, out _));
+        }
+
+        Assert.True(BoundaryFlowValueSurface.TryReadValue(Assert.IsType<Relation>(residue), out var blockedRead));
+        Assert.Equal(expectedBlockedMagnitude, blockedRead.Magnitude.Ticks);
+    }
+
     private static void AssertTransferValueWitness(
         Relation witness,
         Relation expectedRoute,
@@ -2699,6 +2814,14 @@ public sealed class BoundaryFlowLaneBasisTests
         Assert.Equal(expectedLane, read.Lane);
         Assert.Equal(expectedMagnitude, read.Magnitude.Ticks);
         Assert.Equal(expectedLegal, read.IsLegal);
+    }
+
+    private static IElement[] ReadOrderedElements(Relation group)
+    {
+        Assert.True(group.TryReadOrderedElementsOn(
+            Assert.IsType<Carrier>(group.Right),
+            out var elements));
+        return elements;
     }
 
 }

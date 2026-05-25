@@ -3789,13 +3789,35 @@ public static class BoundaryFlowSharedCapacityTransfer
         Relation residues,
         Relation unusedCapacity)
     {
+        var capacitySurface = capacity ?? ConceptSurface.UnknownPoint();
+        var routeGroup = routes ?? ConceptSurface.UnknownPoint();
+        var transferGroup = transfers ?? ConceptSurface.UnknownPoint();
+        var residueGroup = residues ?? ConceptSurface.UnknownPoint();
+        var unused = unusedCapacity ?? ConceptSurface.UnknownPoint();
+        var allocationWitness = CreateAllocationWitness(
+            capacitySurface,
+            routeGroup,
+            transferGroup,
+            residueGroup,
+            unused,
+            Relation.OrderedGroup(new Carrier(), capacitySurface, routeGroup, residueGroup, unused));
+        var timeline = CreateTimeline(
+            capacitySurface,
+            routeGroup,
+            transferGroup,
+            residueGroup,
+            unused,
+            allocationWitness);
+
         return Relation.OrderedGroup(
             ConceptSurface.RootOrNew(root),
-            capacity ?? ConceptSurface.UnknownPoint(),
-            routes ?? ConceptSurface.UnknownPoint(),
-            transfers ?? ConceptSurface.UnknownPoint(),
-            residues ?? ConceptSurface.UnknownPoint(),
-            unusedCapacity ?? ConceptSurface.UnknownPoint());
+            capacitySurface,
+            routeGroup,
+            transferGroup,
+            residueGroup,
+            unused,
+            allocationWitness,
+            timeline);
     }
 
     public static bool TryAccept(
@@ -3984,6 +4006,81 @@ public static class BoundaryFlowSharedCapacityTransfer
         return true;
     }
 
+    public static bool TryReadAllocationWitness(
+        Relation sharedTransferSurface,
+        Carrier root,
+        out Relation witness)
+    {
+        if (ReadWitness.TryReadEmbedded(sharedTransferSurface, index: 5, out witness))
+        {
+            return true;
+        }
+
+        if (TryRead(
+                sharedTransferSurface,
+                out var capacity,
+                out var routes,
+                out var transfers,
+                out var residues,
+                out var unusedCapacity))
+        {
+            witness = CreateAllocationWitness(
+                capacity,
+                routes,
+                transfers,
+                residues,
+                unusedCapacity,
+                sharedTransferSurface,
+                root);
+            return true;
+        }
+
+        witness = null!;
+        return false;
+    }
+
+    public static bool TryReadTimeline(
+        Relation sharedTransferSurface,
+        out Relation timeline)
+    {
+        if (ConceptSurfaceReader.TryReadRootElements(sharedTransferSurface, out var elements) &&
+            elements.Length >= 7 &&
+            elements[6] is Relation embeddedTimeline &&
+            TimeStepSequence.TryRead(embeddedTimeline, out _, out _, out _))
+        {
+            timeline = embeddedTimeline;
+            return true;
+        }
+
+        if (TryRead(
+                sharedTransferSurface,
+                out var capacity,
+                out var routes,
+                out var transfers,
+                out var residues,
+                out var unusedCapacity))
+        {
+            var allocationWitness = CreateAllocationWitness(
+                capacity,
+                routes,
+                transfers,
+                residues,
+                unusedCapacity,
+                sharedTransferSurface);
+            timeline = CreateTimeline(
+                capacity,
+                routes,
+                transfers,
+                residues,
+                unusedCapacity,
+                allocationWitness);
+            return true;
+        }
+
+        timeline = null!;
+        return false;
+    }
+
     private static bool TryReadCapacityWitness(
         Relation capacity,
         out CarrierLocation capacityLocation,
@@ -4148,6 +4245,105 @@ public static class BoundaryFlowSharedCapacityTransfer
 
         return accepted;
     }
+
+    private static Relation CreateAllocationWitness(
+        Relation capacity,
+        Relation routes,
+        Relation transfers,
+        Relation residues,
+        Relation unusedCapacity,
+        IElement provenance,
+        Carrier root = null!) =>
+        ReadWitness.Create(
+            ConceptSurface.RootOrNew(root),
+            routes,
+            capacity,
+            transfers,
+            Relation.OrderedGroup(new Carrier(), unusedCapacity, residues),
+            provenance ?? ConceptSurface.UnknownPoint());
+
+    private static Relation CreateTimeline(
+        Relation capacity,
+        Relation routes,
+        Relation transfers,
+        Relation residues,
+        Relation unusedCapacity,
+        Relation allocationWitness)
+    {
+        var time = new Carrier();
+        var routeElements = ReadGroupElements(routes);
+        var transferElements = ReadGroupElements(transfers);
+        var residueElements = ReadGroupElements(residues);
+        var count = Math.Max(routeElements.Length, transferElements.Length);
+        var steps = new List<Relation>(count + 1)
+        {
+            TimeStepSequence.Step(
+                new Carrier(),
+                time,
+                0,
+                1,
+                routes,
+                allocationWitness,
+                transfers,
+                Relation.OrderedGroup(new Carrier(), unusedCapacity, residues))
+        };
+
+        for (var index = 0; index < count; index++)
+        {
+            var before = ElementOrUnknown(routeElements, index);
+            var after = ElementOrUnknown(transferElements, index);
+            var residue = ElementOrUnknown(residueElements, index);
+            steps.Add(TimeStepSequence.Step(
+                new Carrier(),
+                time,
+                index + 1,
+                index + 2,
+                before,
+                TransferWitnessGroup(after),
+                after,
+                residue));
+        }
+
+        return TimeStepSequence.Create(new Carrier(), time, routes, [.. steps]);
+    }
+
+    private static Relation TransferWitnessGroup(IElement transfer)
+    {
+        if (transfer is not Relation transferSurface ||
+            !BoundaryFlowValueTransfer.TryReadTransferWitnesses(
+                transferSurface,
+                new Carrier(),
+                out var acceptedWitness,
+                out var blockedWitness))
+        {
+            return Relation.OrderedGroup(new Carrier(), ConceptSurface.UnknownPoint());
+        }
+
+        var witnesses = new List<IElement>(2);
+        if (acceptedWitness is not null)
+        {
+            witnesses.Add(acceptedWitness);
+        }
+
+        if (blockedWitness is not null)
+        {
+            witnesses.Add(blockedWitness);
+        }
+
+        return witnesses.Count == 0
+            ? Relation.OrderedGroup(new Carrier(), ConceptSurface.UnknownPoint())
+            : Relation.OrderedGroup(new Carrier(), [.. witnesses]);
+    }
+
+    private static IElement[] ReadGroupElements(Relation group) =>
+        ConceptSurfaceReader.TryReadRootElements(group, out var elements)
+            ? elements
+            : [];
+
+    private static IElement ElementOrUnknown(IElement[] elements, int index) =>
+        index >= 0 && index < elements.Length
+            ? elements[index]
+            : ConceptSurface.UnknownPoint();
 
     private static Relation[] CleanRelations(IReadOnlyList<Relation> relations)
     {
