@@ -2,10 +2,13 @@
 
 ## Active Scope
 
+- This repository is exclusively the Gojo kernel extraction.
 - Gojo is the active kernel model.
 - Core code lives in `Gojo/Core`.
 - Tests live in `Gojo.Tests`.
 - Use `Gojo.slnx` for builds and tests.
+- Do not look for or depend on the old Core4, Kernel, Runtime, Probe, GearDemo, or SIMD projects. They are not part of this repo.
+- Historical Core4 ideas that were kept intentionally are summarized in `docs/LegacyCore4IdeaInventory.md` and in copied `Gojo/axioms` notes.
 
 ## Gojo Structure Rules
 
@@ -18,6 +21,9 @@
 - Prefer calculated and locally read values to stored duplicates.
 - Stable crystallized structures such as `UnitShape` are valid when stability is the concept being represented.
 - Incomplete or incompatible states are information. Prefer tension, failed reads, residue, or explicit unresolved structure over exceptions and guard-heavy invalid-value checks.
+- Resolution is part of the read, not an error state. A low-resolution read is a valid read.
+- Repetition is first-class structure: selected structure, controller, transition, feedback, residue, and timeline should remain inspectable.
+- For concept-surface work, prefer boundary/flow evidence, lane basis, lane transitions, focus/read surfaces, capacity, settlement witnesses, and timelines over named concept classes or symbolic tags.
 
 ## Tension, Residue, And Reads
 
@@ -34,4 +40,6 @@ Run:
 dotnet test Gojo.slnx
 ```
 
-Treat `Gojo/axioms` and current Gojo code as the active source of truth. Historical Core4 notes are useful comparison material only where they have been copied into `docs` or `Gojo/axioms`.
+Treat `Gojo/axioms`, `Gojo/ConceptSurface`, `docs`, and current Gojo code as the active source of truth. Historical Core4 notes are useful comparison material only where they have been copied into `docs` or `Gojo/axioms`.
+
+The initial extraction passed 543 tests after removing GearDemo tests and references.
