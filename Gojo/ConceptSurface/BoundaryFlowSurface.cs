@@ -3120,6 +3120,174 @@ public readonly record struct BoundaryFlowTransferRead(
 }
 
 /// <summary>
+/// Builds a visible route -> transfer -> settlement timeline from the
+/// projection, acceptance, and target-settlement witnesses already present in
+/// the local surfaces.
+/// </summary>
+public static class BoundaryFlowRouteSettlementTimeline
+{
+    public static bool TryCreate(
+        Relation routeSurface,
+        Relation transferSurface,
+        Relation settlementSurface,
+        out Relation timeline)
+    {
+        if (!BoundaryFlowValueTransfer.TryRead(
+                transferSurface,
+                out var transferRoute,
+                out _,
+                out var blockedValue,
+                out _) ||
+            (routeSurface is not null && !transferRoute.Equals(routeSurface)))
+        {
+            timeline = null!;
+            return false;
+        }
+
+        var route = routeSurface ?? transferRoute;
+        return TryCreate(route, transferSurface, settlementSurface, blockedValue, out timeline);
+    }
+
+    public static bool TryCreate(
+        Relation transferSurface,
+        Relation settlementSurface,
+        out Relation timeline)
+    {
+        if (!BoundaryFlowValueTransfer.TryRead(
+                transferSurface,
+                out var routeSurface,
+                out _,
+                out var blockedValue,
+                out _))
+        {
+            timeline = null!;
+            return false;
+        }
+
+        return TryCreate(routeSurface, transferSurface, settlementSurface, blockedValue, out timeline);
+    }
+
+    public static bool TryRead(
+        Relation timeline,
+        out Relation projectionStep,
+        out Relation transferStep,
+        out Relation settlementStep)
+    {
+        if (TimeStepSequence.TryRead(timeline, out _, out _, out var steps) &&
+            steps.Length >= 3)
+        {
+            projectionStep = steps[0];
+            transferStep = steps[1];
+            settlementStep = steps[2];
+            return true;
+        }
+
+        projectionStep = null!;
+        transferStep = null!;
+        settlementStep = null!;
+        return false;
+    }
+
+    private static bool TryCreate(
+        Relation routeSurface,
+        Relation transferSurface,
+        Relation settlementSurface,
+        IElement blockedValue,
+        out Relation timeline)
+    {
+        if (!BoundaryFlowValueRoute.TryRead(
+                routeSurface,
+                out _,
+                out _,
+                out _,
+                out _,
+                out var routeResidue) ||
+            !BoundaryFlowValueRoute.TryReadProjectionWitness(
+                routeSurface,
+                new Carrier(),
+                out var projectionWitness) ||
+            !BoundaryFlowValueTransfer.TryReadTransferWitnesses(
+                transferSurface,
+                new Carrier(),
+                out var acceptedWitness,
+                out var blockedWitness) ||
+            !BoundaryFlowTargetSettlement.TryRead(
+                settlementSurface,
+                out var targetBefore,
+                out var settlementTransfer,
+                out var targetAfter,
+                out var settlementResidue,
+                out _) ||
+            !settlementTransfer.Equals(transferSurface) ||
+            !BoundaryFlowTargetSettlement.TryReadWitness(
+                settlementSurface,
+                new Carrier(),
+                out var settlementWitness))
+        {
+            timeline = null!;
+            return false;
+        }
+
+        var time = new Carrier();
+        var transferWitnesses = TransferWitnessGroup(acceptedWitness, blockedWitness);
+        var projectionStep = TimeStepSequence.Step(
+            new Carrier(),
+            time,
+            0,
+            1,
+            routeSurface,
+            projectionWitness,
+            transferSurface,
+            routeResidue);
+        var transferStep = TimeStepSequence.Step(
+            new Carrier(),
+            time,
+            1,
+            2,
+            transferSurface,
+            transferWitnesses,
+            settlementSurface,
+            blockedValue);
+        var settlementStep = TimeStepSequence.Step(
+            new Carrier(),
+            time,
+            2,
+            3,
+            targetBefore,
+            settlementWitness,
+            targetAfter,
+            settlementResidue);
+
+        timeline = TimeStepSequence.Create(
+            new Carrier(),
+            time,
+            routeSurface,
+            projectionStep,
+            transferStep,
+            settlementStep);
+        return true;
+    }
+
+    private static Relation TransferWitnessGroup(Relation acceptedWitness, Relation blockedWitness)
+    {
+        var witnesses = new List<IElement>(2);
+        if (acceptedWitness is not null)
+        {
+            witnesses.Add(acceptedWitness);
+        }
+
+        if (blockedWitness is not null)
+        {
+            witnesses.Add(blockedWitness);
+        }
+
+        return witnesses.Count == 0
+            ? Relation.OrderedGroup(new Carrier(), ConceptSurface.UnknownPoint())
+            : Relation.OrderedGroup(new Carrier(), [.. witnesses]);
+    }
+}
+
+/// <summary>
 /// Attaches a capacity witness to a specific target site and lane basis. The
 /// capacity value is still ordinary point structure; this surface makes the
 /// target-local attachment inspectable.

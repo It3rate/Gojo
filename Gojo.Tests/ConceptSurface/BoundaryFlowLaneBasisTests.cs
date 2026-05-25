@@ -1542,6 +1542,151 @@ public sealed class BoundaryFlowLaneBasisTests
     }
 
     [Fact]
+    public void RouteTransferAndSettlementCanBeReadAsOneWitnessTimeline()
+    {
+        var source = new Carrier();
+        var target = new Carrier();
+        var sourceAxis = CarrierAxisSurface.PositiveUnit(new Carrier(), source);
+        var targetAxis = CarrierAxisSurface.PositiveUnit(new Carrier(), target);
+        var sourceValue = BoundaryFlowValueSurface.Create(
+            new Carrier(),
+            source,
+            3,
+            BoundaryFlowLane.PositiveForward,
+            sourceAxis);
+        var targetBefore = BoundaryFlowValueSurface.Create(
+            new Carrier(),
+            target,
+            20,
+            BoundaryFlowLane.PositiveForward,
+            targetAxis);
+        var route = new Relation(
+            Relation.Segment(source, 0, 10),
+            Relation.Segment(target, 0, 100));
+
+        Assert.True(BoundaryFlowValueRoute.TryProject(
+            sourceValue,
+            route,
+            targetAxis,
+            target,
+            out var routeSurface));
+        Assert.True(BoundaryFlowValueTransfer.TryAccept(routeSurface, out var transfer));
+        Assert.True(BoundaryFlowTargetSettlement.TrySettle(
+            targetBefore,
+            transfer,
+            out var settlement));
+        Assert.True(BoundaryFlowTargetSettlement.TryRead(
+            settlement,
+            out _,
+            out _,
+            out var targetAfter,
+            out var settlementResidue,
+            out _));
+
+        Assert.True(BoundaryFlowRouteSettlementTimeline.TryCreate(
+            routeSurface,
+            transfer,
+            settlement,
+            out var flowTimeline));
+        Assert.True(TimeStepSequence.TryRead(flowTimeline, out _, out var initial, out var steps));
+        Assert.Equal(routeSurface, initial);
+        Assert.Equal(3, steps.Length);
+        Assert.True(BoundaryFlowRouteSettlementTimeline.TryRead(
+            flowTimeline,
+            out var projectionStep,
+            out var transferStep,
+            out var settlementStep));
+        Assert.Equal(steps[0], projectionStep);
+        Assert.Equal(steps[1], transferStep);
+        Assert.Equal(steps[2], settlementStep);
+
+        Assert.True(TimeStepSequence.TryReadStep(
+            projectionStep,
+            out _,
+            out var projectionStart,
+            out var projectionEnd,
+            out var projectionBefore,
+            out var projectionTransition,
+            out var projectionAfter,
+            out var projectionResidue));
+        Assert.Equal(0, projectionStart.Ticks);
+        Assert.Equal(1, projectionEnd.Ticks);
+        Assert.Equal(routeSurface, projectionBefore);
+        Assert.Equal(transfer, projectionAfter);
+        Assert.True(ReadWitness.TryRead(Assert.IsType<Relation>(projectionTransition), out _, out var routeReadSurface, out _, out _, out _));
+        Assert.Equal(route, routeReadSurface);
+        Assert.True(ConceptSurfaceReaderForTests.TryReadPoint(projectionResidue, out var routeResidue));
+        Assert.Equal(0, routeResidue.Ticks);
+
+        Assert.True(TimeStepSequence.TryReadStep(
+            transferStep,
+            out _,
+            out var transferStart,
+            out var transferEnd,
+            out var transferBefore,
+            out var transferTransition,
+            out var transferAfter,
+            out var transferResidue));
+        Assert.Equal(1, transferStart.Ticks);
+        Assert.Equal(2, transferEnd.Ticks);
+        Assert.Equal(transfer, transferBefore);
+        Assert.Equal(settlement, transferAfter);
+        Assert.True(Assert.IsType<Relation>(transferTransition).TryReadOrderedElementsOn(
+            Assert.IsType<Carrier>(((Relation)transferTransition).Right),
+            out var transferWitnesses));
+        Assert.Equal(2, transferWitnesses.Length);
+        Assert.True(ReadWitness.TryRead(transferWitnesses[0], out var acceptedWitness));
+        AssertTransferValueWitness(
+            acceptedWitness,
+            routeSurface,
+            targetAxis,
+            BoundaryFlowLane.PositiveForward,
+            30,
+            expectedLegal: true,
+            out _);
+        Assert.True(ReadWitness.TryRead(transferWitnesses[1], out var blockedWitness));
+        AssertTransferValueWitness(
+            blockedWitness,
+            routeSurface,
+            targetAxis,
+            BoundaryFlowLane.PositiveForward,
+            0,
+            expectedLegal: true,
+            out _);
+        Assert.True(BoundaryFlowValueSurface.TryReadValue(
+            Assert.IsType<Relation>(transferResidue),
+            targetAxis,
+            out var blockedRead));
+        Assert.Equal(0, blockedRead.Magnitude.Ticks);
+
+        Assert.True(TimeStepSequence.TryReadStep(
+            settlementStep,
+            out _,
+            out var settlementStart,
+            out var settlementEnd,
+            out var settlementBefore,
+            out var settlementTransition,
+            out var settlementAfter,
+            out var readSettlementResidue));
+        Assert.Equal(2, settlementStart.Ticks);
+        Assert.Equal(3, settlementEnd.Ticks);
+        Assert.Equal(targetBefore, settlementBefore);
+        Assert.Equal(targetAfter, settlementAfter);
+        Assert.Equal(settlementResidue, readSettlementResidue);
+        Assert.True(ReadWitness.TryRead(
+            Assert.IsType<Relation>(settlementTransition),
+            out var witnessedBefore,
+            out var settlementReadSurface,
+            out var witnessedAfter,
+            out var witnessedResidue,
+            out _));
+        Assert.Equal(targetBefore, witnessedBefore);
+        Assert.Equal(transfer, settlementReadSurface);
+        Assert.Equal(targetAfter, witnessedAfter);
+        Assert.Equal(settlementResidue, witnessedResidue);
+    }
+
+    [Fact]
     public void TargetSettlementCanBeReadAsCommonWitness()
     {
         var source = new Carrier();
