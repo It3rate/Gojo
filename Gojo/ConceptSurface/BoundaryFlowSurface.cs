@@ -2776,12 +2776,21 @@ public static class BoundaryFlowValueTransfer
         IElement blockedValue,
         IElement capacityOrGate)
     {
+        var route = routeSurface ?? ConceptSurface.UnknownPoint();
+        var accepted = acceptedValue ?? ConceptSurface.UnknownPoint();
+        var blocked = blockedValue ?? ConceptSurface.UnknownPoint();
+        var gate = capacityOrGate ?? ConceptSurface.UnknownPoint();
+        var acceptedWitness = TransferValueWitnessOrUnknown(route, accepted, blocked, gate);
+        var blockedWitness = TransferValueWitnessOrUnknown(route, blocked, accepted, gate);
+
         return Relation.OrderedGroup(
             ConceptSurface.RootOrNew(root),
-            routeSurface ?? ConceptSurface.UnknownPoint(),
-            acceptedValue ?? ConceptSurface.UnknownPoint(),
-            blockedValue ?? ConceptSurface.UnknownPoint(),
-            capacityOrGate ?? ConceptSurface.UnknownPoint());
+            route,
+            accepted,
+            blocked,
+            gate,
+            acceptedWitness,
+            blockedWitness);
     }
 
     public static bool TryAccept(
@@ -2914,6 +2923,86 @@ public static class BoundaryFlowValueTransfer
         return true;
     }
 
+    public static bool TryReadAcceptedWitness(
+        Relation transferSurface,
+        Carrier root,
+        out Relation witness)
+    {
+        if (TryReadEmbeddedWitness(transferSurface, index: 4, out witness))
+        {
+            return true;
+        }
+
+        if (TryRead(
+                transferSurface,
+                out var routeSurface,
+                out var acceptedValue,
+                out var blockedValue,
+                out var capacityOrGate) &&
+            TryCreateTransferValueWitness(
+                routeSurface,
+                acceptedValue,
+                blockedValue,
+                capacityOrGate,
+                root,
+                out witness))
+        {
+            return true;
+        }
+
+        witness = null!;
+        return false;
+    }
+
+    public static bool TryReadBlockedWitness(
+        Relation transferSurface,
+        Carrier root,
+        out Relation witness)
+    {
+        if (TryReadEmbeddedWitness(transferSurface, index: 5, out witness))
+        {
+            return true;
+        }
+
+        if (TryRead(
+                transferSurface,
+                out var routeSurface,
+                out var acceptedValue,
+                out var blockedValue,
+                out var capacityOrGate) &&
+            TryCreateTransferValueWitness(
+                routeSurface,
+                blockedValue,
+                acceptedValue,
+                capacityOrGate,
+                root,
+                out witness))
+        {
+            return true;
+        }
+
+        witness = null!;
+        return false;
+    }
+
+    public static bool TryReadTransferWitnesses(
+        Relation transferSurface,
+        Carrier root,
+        out Relation acceptedWitness,
+        out Relation blockedWitness)
+    {
+        var hasAccepted = TryReadAcceptedWitness(transferSurface, root, out acceptedWitness);
+        var hasBlocked = TryReadBlockedWitness(transferSurface, root, out blockedWitness);
+        if (hasAccepted || hasBlocked)
+        {
+            return true;
+        }
+
+        acceptedWitness = null!;
+        blockedWitness = null!;
+        return false;
+    }
+
     private static Relation CreateTransferValue(
         BoundaryFlowValueRead projectedRead,
         long magnitudeTicks,
@@ -2939,6 +3028,89 @@ public static class BoundaryFlowValueTransfer
 
     private static long SignedResidueTicks(BoundaryFlowLane lane, long magnitudeTicks) =>
         lane.Boundary.IsNegative ? checked(-magnitudeTicks) : magnitudeTicks;
+
+    private static IElement TransferValueWitnessOrUnknown(
+        Relation routeSurface,
+        IElement resultValue,
+        IElement residueValue,
+        IElement capacityOrGate) =>
+        TryCreateTransferValueWitness(
+            routeSurface,
+            resultValue,
+            residueValue,
+            capacityOrGate,
+            new Carrier(),
+            out var witness)
+            ? witness
+            : ConceptSurface.UnknownPoint();
+
+    private static bool TryCreateTransferValueWitness(
+        Relation routeSurface,
+        IElement resultValue,
+        IElement residueValue,
+        IElement capacityOrGate,
+        Carrier root,
+        out Relation witness)
+    {
+        if (resultValue is not Relation resultRelation ||
+            !BoundaryFlowValueSurface.TryReadBasisRead(resultRelation, new Carrier(), out var resultBasisRead))
+        {
+            witness = null!;
+            return false;
+        }
+
+        var residue = residueValue is Relation residueRelation &&
+            BoundaryFlowValueSurface.TryReadBasisRead(residueRelation, new Carrier(), out var residueBasisRead)
+                ? residueBasisRead
+                : residueValue ?? ConceptSurface.UnknownPoint();
+        var route = routeSurface ?? ConceptSurface.UnknownPoint();
+        var gate = capacityOrGate ?? ConceptSurface.UnknownPoint();
+        var provenance = Relation.OrderedGroup(
+            new Carrier(),
+            route,
+            gate);
+
+        witness = ReadWitness.Create(
+            ConceptSurface.RootOrNew(root),
+            route,
+            TransferReadSurface(route, gate),
+            resultBasisRead,
+            residue,
+            provenance);
+        return true;
+    }
+
+    private static Relation TransferReadSurface(Relation routeSurface, IElement capacityOrGate)
+    {
+        if (routeSurface is not null &&
+            BoundaryFlowValueRoute.TryReadProjectionWitness(routeSurface, new Carrier(), out var projectionWitness))
+        {
+            return Relation.OrderedGroup(
+                new Carrier(),
+                projectionWitness,
+                capacityOrGate ?? ConceptSurface.UnknownPoint());
+        }
+
+        return Relation.OrderedGroup(
+            new Carrier(),
+            routeSurface ?? ConceptSurface.UnknownPoint(),
+            capacityOrGate ?? ConceptSurface.UnknownPoint());
+    }
+
+    private static bool TryReadEmbeddedWitness(Relation transferSurface, int index, out Relation witness)
+    {
+        if (ConceptSurfaceReader.TryReadRootElements(transferSurface, out var elements) &&
+            elements.Length > index &&
+            elements[index] is Relation candidate &&
+            ReadWitness.TryRead(candidate, out _, out _, out _, out _, out _))
+        {
+            witness = candidate;
+            return true;
+        }
+
+        witness = null!;
+        return false;
+    }
 }
 
 public readonly record struct BoundaryFlowTransferRead(

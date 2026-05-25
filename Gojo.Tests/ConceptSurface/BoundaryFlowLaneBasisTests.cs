@@ -1301,6 +1301,44 @@ public sealed class BoundaryFlowLaneBasisTests
         Assert.Equal(50, read.Accepted.Magnitude.Ticks);
         Assert.Equal("-50f", read.Accepted.Notation);
         Assert.Equal(0, read.Blocked.Magnitude.Ticks);
+
+        Assert.True(BoundaryFlowValueTransfer.TryReadAcceptedWitness(
+            transfer,
+            new Carrier(),
+            out var acceptedWitness));
+        AssertTransferValueWitness(
+            acceptedWitness,
+            routeSurface,
+            targetAxis,
+            BoundaryFlowLane.NegativeForward,
+            50,
+            expectedLegal: true,
+            out var acceptedResidue);
+        AssertTransferResidueValue(
+            acceptedResidue,
+            targetAxis,
+            BoundaryFlowLane.NegativeForward,
+            0,
+            expectedLegal: true);
+
+        Assert.True(BoundaryFlowValueTransfer.TryReadBlockedWitness(
+            transfer,
+            new Carrier(),
+            out var blockedWitness));
+        AssertTransferValueWitness(
+            blockedWitness,
+            routeSurface,
+            targetAxis,
+            BoundaryFlowLane.NegativeForward,
+            0,
+            expectedLegal: true,
+            out var blockedResidue);
+        AssertTransferResidueValue(
+            blockedResidue,
+            targetAxis,
+            BoundaryFlowLane.NegativeForward,
+            50,
+            expectedLegal: true);
     }
 
     [Fact]
@@ -1337,6 +1375,25 @@ public sealed class BoundaryFlowLaneBasisTests
         Assert.Equal("-5i", read.Blocked.Notation);
         Assert.True(ConceptSurfaceReaderForTests.TryReadPoint(read.Blocked.ResidueOrTension, out var residue));
         Assert.Equal(-5, residue.Ticks);
+
+        Assert.False(BoundaryFlowValueTransfer.TryReadAcceptedWitness(
+            transfer,
+            new Carrier(),
+            out _));
+        Assert.True(BoundaryFlowValueTransfer.TryReadBlockedWitness(
+            transfer,
+            new Carrier(),
+            out var blockedWitness));
+        AssertTransferValueWitness(
+            blockedWitness,
+            routeSurface,
+            targetAxis,
+            BoundaryFlowLane.NegativeInverse,
+            5,
+            expectedLegal: false,
+            out var blockedResidue);
+        Assert.True(ConceptSurfaceReaderForTests.TryReadPoint(blockedResidue, out var acceptedResidue));
+        Assert.True(acceptedResidue.Carrier.IsUnknown);
     }
 
     [Fact]
@@ -1377,6 +1434,40 @@ public sealed class BoundaryFlowLaneBasisTests
         Assert.Equal("20f", read.Blocked.Notation);
         Assert.True(ConceptSurfaceReaderForTests.TryReadPoint(read.Blocked.ResidueOrTension, out var residue));
         Assert.Equal(20, residue.Ticks);
+
+        Assert.True(BoundaryFlowValueTransfer.TryReadTransferWitnesses(
+            transfer,
+            new Carrier(),
+            out var acceptedWitness,
+            out var blockedWitness));
+        AssertTransferValueWitness(
+            acceptedWitness,
+            routeSurface,
+            targetAxis,
+            BoundaryFlowLane.PositiveForward,
+            30,
+            expectedLegal: true,
+            out var acceptedResidue);
+        AssertTransferResidueValue(
+            acceptedResidue,
+            targetAxis,
+            BoundaryFlowLane.PositiveForward,
+            20,
+            expectedLegal: true);
+        AssertTransferValueWitness(
+            blockedWitness,
+            routeSurface,
+            targetAxis,
+            BoundaryFlowLane.PositiveForward,
+            20,
+            expectedLegal: true,
+            out var blockedResidue);
+        AssertTransferResidueValue(
+            blockedResidue,
+            targetAxis,
+            BoundaryFlowLane.PositiveForward,
+            30,
+            expectedLegal: true);
     }
 
     [Fact]
@@ -2393,6 +2484,76 @@ public sealed class BoundaryFlowLaneBasisTests
         Assert.Equal(expectedRoute, parts[0]);
         Assert.True(ConceptSurfaceReaderForTests.TryReadPoint(parts[1], out var metricPoint));
         Assert.Equal(expectedPoint, metricPoint);
+    }
+
+    private static void AssertTransferValueWitness(
+        Relation witness,
+        Relation expectedRoute,
+        Relation expectedBasis,
+        BoundaryFlowLane expectedLane,
+        long expectedMagnitude,
+        bool expectedLegal,
+        out IElement residueOrTension)
+    {
+        Assert.True(ReadWitness.TryRead(
+            witness,
+            out var selected,
+            out var readSurface,
+            out var result,
+            out residueOrTension,
+            out var provenance));
+        Assert.Equal(expectedRoute, selected);
+        Assert.True(Assert.IsType<Relation>(readSurface).TryReadOrderedElementsOn(
+            Assert.IsType<Carrier>(((Relation)readSurface).Right),
+            out var readSurfaceParts));
+        Assert.Equal(2, readSurfaceParts.Length);
+        Assert.True(ReadWitness.TryRead(Assert.IsType<Relation>(readSurfaceParts[0]), out _, out _, out _, out _, out _));
+        Assert.True(BasisReadSurface.TryRead(
+            Assert.IsType<Relation>(result),
+            out var value,
+            out _,
+            out var laneBasis,
+            out _,
+            out _,
+            out _));
+        Assert.Equal(expectedBasis, laneBasis);
+        Assert.True(BoundaryFlowValueSurface.TryReadValue(
+            Assert.IsType<Relation>(value),
+            Assert.IsType<Relation>(laneBasis),
+            out var read));
+        Assert.Equal(expectedLane, read.Lane);
+        Assert.Equal(expectedMagnitude, read.Magnitude.Ticks);
+        Assert.Equal(expectedLegal, read.IsLegal);
+        Assert.True(Assert.IsType<Relation>(provenance).TryReadOrderedElementsOn(
+            Assert.IsType<Carrier>(((Relation)provenance).Right),
+            out var provenanceParts));
+        Assert.Equal(2, provenanceParts.Length);
+        Assert.Equal(expectedRoute, provenanceParts[0]);
+    }
+
+    private static void AssertTransferResidueValue(
+        IElement residueOrTension,
+        Relation expectedBasis,
+        BoundaryFlowLane expectedLane,
+        long expectedMagnitude,
+        bool expectedLegal)
+    {
+        Assert.True(BasisReadSurface.TryRead(
+            Assert.IsType<Relation>(residueOrTension),
+            out var value,
+            out _,
+            out var laneBasis,
+            out _,
+            out _,
+            out _));
+        Assert.Equal(expectedBasis, laneBasis);
+        Assert.True(BoundaryFlowValueSurface.TryReadValue(
+            Assert.IsType<Relation>(value),
+            Assert.IsType<Relation>(laneBasis),
+            out var read));
+        Assert.Equal(expectedLane, read.Lane);
+        Assert.Equal(expectedMagnitude, read.Magnitude.Ticks);
+        Assert.Equal(expectedLegal, read.IsLegal);
     }
 
 }
