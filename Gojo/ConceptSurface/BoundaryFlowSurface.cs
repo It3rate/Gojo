@@ -2587,10 +2587,137 @@ public static class BoundaryFlowValueRoute
         return false;
     }
 
+    /// <summary>
+    /// Reads the source side of a projection route as a basis read, preserving
+    /// the projection relation with the signed/whole source coordinate used by
+    /// the projection.
+    /// </summary>
+    public static bool TryReadSourceBasisRead(
+        Relation routeSurface,
+        Carrier root,
+        out Relation basisRead)
+    {
+        if (TryRead(
+                routeSurface,
+                out var sourceValue,
+                out var projectionRoute,
+                out _,
+                out _,
+                out _) &&
+            BoundaryFlowValueSurface.TryRead(sourceValue, out _, out _, out var laneMarker, out _, out _) &&
+            BoundaryFlowValueSurface.TryReadValueWithBasis(sourceValue, out var sourceRead))
+        {
+            basisRead = BasisReadSurface.Create(
+                ConceptSurface.RootOrNew(root),
+                sourceValue,
+                laneMarker,
+                sourceRead.LaneBasis,
+                RouteMetricEvidence(projectionRoute, sourceRead),
+                sourceRead.ResidueOrTension,
+                routeSurface);
+            return true;
+        }
+
+        basisRead = null!;
+        return false;
+    }
+
+    /// <summary>
+    /// Reads the projected target side of a route as a basis read, preserving
+    /// the projection relation with the signed/whole target coordinate reached
+    /// by the projection.
+    /// </summary>
+    public static bool TryReadTargetBasisRead(
+        Relation routeSurface,
+        Carrier root,
+        out Relation basisRead)
+    {
+        if (TryRead(
+                routeSurface,
+                out _,
+                out var projectionRoute,
+                out var targetBasis,
+                out var targetValue,
+                out _) &&
+            BoundaryFlowValueSurface.TryRead(targetValue, out _, out _, out var laneMarker, out _, out _) &&
+            BoundaryFlowValueSurface.TryReadValueWithBasis(targetValue, targetBasis, out var targetRead))
+        {
+            basisRead = BasisReadSurface.Create(
+                ConceptSurface.RootOrNew(root),
+                targetValue,
+                laneMarker,
+                targetBasis,
+                RouteMetricEvidence(projectionRoute, targetRead),
+                targetRead.ResidueOrTension,
+                routeSurface);
+            return true;
+        }
+
+        basisRead = null!;
+        return false;
+    }
+
+    public static bool TryReadBasisReads(
+        Relation routeSurface,
+        Carrier root,
+        out Relation sourceBasisRead,
+        out Relation targetBasisRead)
+    {
+        if (TryReadSourceBasisRead(routeSurface, root, out sourceBasisRead) &&
+            TryReadTargetBasisRead(routeSurface, root, out targetBasisRead))
+        {
+            return true;
+        }
+
+        sourceBasisRead = null!;
+        targetBasisRead = null!;
+        return false;
+    }
+
+    /// <summary>
+    /// Reads the route as a common witness from source basis read, through the
+    /// projection relation, to target basis read, with route residue preserved.
+    /// </summary>
+    public static bool TryReadProjectionWitness(
+        Relation routeSurface,
+        Carrier root,
+        out Relation witness)
+    {
+        if (TryRead(
+                routeSurface,
+                out _,
+                out var projectionRoute,
+                out _,
+                out _,
+                out var residueOrTension) &&
+            TryReadBasisReads(routeSurface, new Carrier(), out var sourceBasisRead, out var targetBasisRead))
+        {
+            witness = ReadWitness.Create(
+                ConceptSurface.RootOrNew(root),
+                sourceBasisRead,
+                projectionRoute,
+                targetBasisRead,
+                residueOrTension,
+                routeSurface);
+            return true;
+        }
+
+        witness = null!;
+        return false;
+    }
+
     private static CarrierLocation ProjectedSourceLocation(BoundaryFlowValueRead sourceRead) =>
         sourceRead.IsWholeBoundary
             ? sourceRead.Magnitude
             : new CarrierLocation(sourceRead.Magnitude.Carrier, sourceRead.SignedTicks);
+
+    private static Relation RouteMetricEvidence(Relation projectionRoute, BoundaryFlowValueBasisRead read) =>
+        Relation.OrderedGroup(
+            new Carrier(),
+            projectionRoute ?? ConceptSurface.UnknownPoint(),
+            Relation.Point(
+                read.Magnitude.Carrier,
+                read.IsWholeBoundary ? read.Magnitude.Ticks : read.SignedTicks));
 
     private static BoundaryFlowLane ProjectedTargetLane(
         BoundaryFlowValueRead sourceRead,

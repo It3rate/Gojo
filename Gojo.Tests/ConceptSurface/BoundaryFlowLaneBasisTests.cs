@@ -1078,6 +1078,115 @@ public sealed class BoundaryFlowLaneBasisTests
     }
 
     [Fact]
+    public void RouteCanExposeSourceAndTargetCommonBasisReads()
+    {
+        var source = new Carrier();
+        var target = new Carrier();
+        var sourceAxis = CarrierAxisSurface.SignedForward(new Carrier(), source);
+        var targetAxis = CarrierAxisSurface.SignedForward(new Carrier(), target);
+        var sourceValue = BoundaryFlowValueSurface.Create(
+            new Carrier(),
+            source,
+            5,
+            BoundaryFlowLane.NegativeForward,
+            sourceAxis);
+        var route = new Relation(
+            Relation.Segment(source, -10, 10),
+            Relation.Segment(target, -100, 100));
+
+        Assert.True(BoundaryFlowValueRoute.TryProject(
+            sourceValue,
+            route,
+            targetAxis,
+            target,
+            out var routeSurface));
+        Assert.True(BoundaryFlowValueRoute.TryReadBasisReads(
+            routeSurface,
+            new Carrier(),
+            out var sourceBasisRead,
+            out var targetBasisRead));
+
+        Assert.True(BasisReadSurface.TryRead(
+            sourceBasisRead,
+            out var sourceSelected,
+            out var sourceAxisOrFace,
+            out var sourceLaneBasis,
+            out var sourceMetric,
+            out _,
+            out var sourceProvenance));
+        Assert.Equal(sourceValue, sourceSelected);
+        Assert.True(BoundaryFlowLaneSurface.TryRead(
+            Assert.IsType<Relation>(sourceAxisOrFace),
+            out var sourceLane,
+            out _,
+            out _));
+        Assert.Equal(BoundaryFlowLane.NegativeForward, sourceLane);
+        Assert.Equal(sourceAxis, sourceLaneBasis);
+        Assert.Equal(routeSurface, sourceProvenance);
+        AssertRouteMetric(sourceMetric, route, new CarrierLocation(source, -5));
+
+        Assert.True(BasisReadSurface.TryRead(
+            targetBasisRead,
+            out var targetSelected,
+            out var targetAxisOrFace,
+            out var targetLaneBasis,
+            out var targetMetric,
+            out var targetResidue,
+            out var targetProvenance));
+        Assert.True(BoundaryFlowValueSurface.TryReadValue(
+            Assert.IsType<Relation>(targetSelected),
+            targetAxis,
+            out var targetRead));
+        Assert.Equal(BoundaryFlowLane.NegativeForward, targetRead.Lane);
+        Assert.True(BoundaryFlowLaneSurface.TryRead(
+            Assert.IsType<Relation>(targetAxisOrFace),
+            out var targetLane,
+            out _,
+            out _));
+        Assert.Equal(BoundaryFlowLane.NegativeForward, targetLane);
+        Assert.Equal(targetAxis, targetLaneBasis);
+        Assert.Equal(targetRead.ResidueOrTension, targetResidue);
+        Assert.Equal(routeSurface, targetProvenance);
+        AssertRouteMetric(targetMetric, route, new CarrierLocation(target, -50));
+
+        Assert.True(BoundaryFlowValueRoute.TryReadProjectionWitness(
+            routeSurface,
+            new Carrier(),
+            out var witness));
+        Assert.True(ReadWitness.TryRead(
+            witness,
+            out var witnessedSource,
+            out var projectionSurface,
+            out var witnessedTarget,
+            out var projectionResidue,
+            out var provenance));
+        Assert.True(BasisReadSurface.TryRead(
+            Assert.IsType<Relation>(witnessedSource),
+            out var witnessedSourceSelected,
+            out _,
+            out var witnessedSourceBasis,
+            out var witnessedSourceMetric,
+            out _,
+            out _));
+        Assert.Equal(sourceValue, witnessedSourceSelected);
+        Assert.Equal(sourceAxis, witnessedSourceBasis);
+        AssertRouteMetric(witnessedSourceMetric, route, new CarrierLocation(source, -5));
+        Assert.Equal(route, projectionSurface);
+        Assert.True(BasisReadSurface.TryRead(
+            Assert.IsType<Relation>(witnessedTarget),
+            out _,
+            out _,
+            out var witnessedTargetBasis,
+            out var witnessedTargetMetric,
+            out _,
+            out _));
+        Assert.Equal(targetAxis, witnessedTargetBasis);
+        AssertRouteMetric(witnessedTargetMetric, route, new CarrierLocation(target, -50));
+        Assert.Equal(targetRead.ResidueOrTension, projectionResidue);
+        Assert.Equal(routeSurface, provenance);
+    }
+
+    [Fact]
     public void RouteKeepsRejectedInverseFlowVisibleOnForwardOnlyTarget()
     {
         var source = new Carrier();
@@ -1107,6 +1216,28 @@ public sealed class BoundaryFlowLaneBasisTests
         Assert.Equal("-5i", targetRead.Notation);
         Assert.True(ConceptSurfaceReaderForTests.TryReadPoint(targetRead.ResidueOrTension, out var residue));
         Assert.Equal(-5, residue.Ticks);
+
+        Assert.True(BoundaryFlowValueRoute.TryReadTargetBasisRead(
+            routeSurface,
+            new Carrier(),
+            out var targetBasisRead));
+        Assert.True(BasisReadSurface.TryRead(
+            targetBasisRead,
+            out _,
+            out var targetAxisOrFace,
+            out var readTargetBasis,
+            out var targetMetric,
+            out var targetResidue,
+            out _));
+        Assert.Equal(targetAxis, readTargetBasis);
+        Assert.True(BoundaryFlowLaneSurface.TryRead(
+            Assert.IsType<Relation>(targetAxisOrFace),
+            out var occupiedLane,
+            out _,
+            out _));
+        Assert.Equal(BoundaryFlowLane.NegativeInverse, occupiedLane);
+        Assert.Equal(targetRead.ResidueOrTension, targetResidue);
+        AssertRouteMetric(targetMetric, route, new CarrierLocation(target, -5));
     }
 
     [Fact]
@@ -2247,6 +2378,21 @@ public sealed class BoundaryFlowLaneBasisTests
             target,
             out var routeSurface));
         return routeSurface;
+    }
+
+    private static void AssertRouteMetric(
+        IElement metricEvidence,
+        Relation expectedRoute,
+        CarrierLocation expectedPoint)
+    {
+        var metricGroup = Assert.IsType<Relation>(metricEvidence);
+        Assert.True(metricGroup.TryReadOrderedElementsOn(
+            Assert.IsType<Carrier>(metricGroup.Right),
+            out var parts));
+        Assert.Equal(2, parts.Length);
+        Assert.Equal(expectedRoute, parts[0]);
+        Assert.True(ConceptSurfaceReaderForTests.TryReadPoint(parts[1], out var metricPoint));
+        Assert.Equal(expectedPoint, metricPoint);
     }
 
 }
