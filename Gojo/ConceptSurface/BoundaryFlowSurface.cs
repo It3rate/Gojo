@@ -4700,6 +4700,51 @@ public static class CarrierAxisSurface
     }
 
     /// <summary>
+    /// Reads a carrier axis as the common witness skeleton: selected carrier
+    /// through axis surface yields its lane basis, with boundary/flow evidence
+    /// preserved as provenance.
+    /// </summary>
+    public static bool TryReadLaneBasisWitness(
+        Relation surface,
+        Carrier root,
+        out Relation witness)
+    {
+        if (TryRead(
+                surface,
+                out var carrier,
+                out var boundary,
+                out var flow,
+                out var boundarySurface,
+                out var flowSurface))
+        {
+            var selected = carrier.IsUnknown
+                ? (IElement)ConceptSurface.UnknownPoint()
+                : carrier;
+            var laneBasis = BoundaryFlowLaneBasis.Create(
+                new Carrier(),
+                boundary,
+                flow,
+                selected);
+            var provenance = Relation.OrderedGroup(
+                new Carrier(),
+                boundarySurface,
+                flowSurface);
+
+            witness = ReadWitness.Create(
+                ConceptSurface.RootOrNew(root),
+                selected,
+                surface,
+                laneBasis,
+                ConceptSurface.UnknownPoint(),
+                provenance);
+            return true;
+        }
+
+        witness = null!;
+        return false;
+    }
+
+    /// <summary>
     /// Reads a structurally dualed axis surface without mutating the source.
     /// Boundary sides and flow exposure are dualed; no-flow and both-flow
     /// remain stable under flow dualing.

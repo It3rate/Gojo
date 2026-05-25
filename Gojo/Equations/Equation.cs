@@ -1,4 +1,5 @@
 using Gojo.Core;
+using Gojo.Structures;
 
 namespace Gojo.Equations;
 
@@ -174,6 +175,88 @@ public static class Equation
         return false;
     }
 
+    /// <summary>
+    /// Creates a common read witness for one prediction without changing the
+    /// equation's native prediction shape.
+    /// </summary>
+    public static Relation PredictWitness(
+        Carrier root,
+        Relation equation,
+        IElement input,
+        Carrier output)
+    {
+        var supplied = input ?? Relation.Point(Carrier.Unknown, 0);
+        var prediction = Predict(equation, supplied, output);
+        return TryCreatePredictionWitness(root, equation, supplied, prediction, out var witness)
+            ? witness
+            : ReadWitness.Create(
+                RootOrNew(root),
+                supplied,
+                equation ?? Relation.Point(Carrier.Unknown, 0),
+                prediction,
+                Relation.Point(Carrier.Unknown, 0),
+                prediction);
+    }
+
+    /// <summary>Packages an existing prediction as selected input, equation surface, output, residue, and raw prediction provenance.</summary>
+    public static bool TryCreatePredictionWitness(
+        Carrier root,
+        Relation equation,
+        IElement input,
+        Relation prediction,
+        out Relation witness)
+    {
+        if (TryReadPrediction(prediction, out var predicted, out var residue))
+        {
+            witness = ReadWitness.Create(
+                RootOrNew(root),
+                input ?? Relation.Point(Carrier.Unknown, 0),
+                equation ?? Relation.Point(Carrier.Unknown, 0),
+                predicted,
+                residue,
+                prediction);
+            return true;
+        }
+
+        witness = null!;
+        return false;
+    }
+
+    /// <summary>Reads a common prediction witness back into equation-specific parts.</summary>
+    public static bool TryReadPredictionWitness(
+        Relation witness,
+        out IElement input,
+        out Relation equation,
+        out CarrierLocation predicted,
+        out IElement residue,
+        out IElement provenance)
+    {
+        if (ReadWitness.TryRead(
+                witness,
+                out var selected,
+                out var readSurface,
+                out var result,
+                out var residueOrTension,
+                out var witnessProvenance) &&
+            readSurface is Relation equationSurface &&
+            result is CarrierLocation predictedLocation)
+        {
+            input = selected;
+            equation = equationSurface;
+            predicted = predictedLocation;
+            residue = residueOrTension;
+            provenance = witnessProvenance;
+            return true;
+        }
+
+        input = default!;
+        equation = null!;
+        predicted = default;
+        residue = default!;
+        provenance = default!;
+        return false;
+    }
+
     private static IElement PortGroup(IReadOnlyList<Relation> ports)
     {
         if (CountOf(ports) == 0)
@@ -195,6 +278,9 @@ public static class Equation
 
     private static Carrier RootOrUnknown(Carrier carrier) =>
         carrier ?? Carrier.Unknown;
+
+    private static Carrier RootOrNew(Carrier carrier) =>
+        carrier ?? new Carrier();
 
     private static Relation ProjectScalar(Relation equation, CarrierLocation input, Carrier output) =>
         equation is null

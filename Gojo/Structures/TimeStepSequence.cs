@@ -122,6 +122,36 @@ public static class TimeStepSequence
         return false;
     }
 
+    /// <summary>
+    /// Reads a timed step as the common read-witness skeleton:
+    /// before, transition, after, residue, with the time span as provenance.
+    /// </summary>
+    public static bool TryReadStepWitness(Relation step, Carrier root, out Relation witness)
+    {
+        if (TryReadStep(
+                step,
+                out var span,
+                out _,
+                out _,
+                out var before,
+                out var transition,
+                out var after,
+                out var residue))
+        {
+            witness = ReadWitness.Create(
+                RootOrNew(root),
+                before,
+                transition,
+                after,
+                residue,
+                span);
+            return true;
+        }
+
+        witness = null!;
+        return false;
+    }
+
     /// <summary>Reads a time span when both endpoints are grounded on the same carrier.</summary>
     public static bool TryReadSpan(Relation span, out CarrierLocation start, out CarrierLocation end)
     {

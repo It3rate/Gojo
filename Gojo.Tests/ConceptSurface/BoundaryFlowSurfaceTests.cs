@@ -1,5 +1,6 @@
 using Gojo.ConceptSurface;
 using Gojo.Core;
+using Gojo.Structures;
 
 namespace Gojo.Tests.ConceptSurface;
 
@@ -205,6 +206,40 @@ public sealed class BoundaryFlowSurfaceTests
         Assert.Equal(teamARead, activeRead);
         Assert.Equal(possession, readState);
         Assert.NotEqual(teamARead, teamBRead);
+    }
+
+    [Fact]
+    public void ConceptFocusCanUseCommonReadWitnessShape()
+    {
+        var field = new Carrier();
+        var fieldSurface = BoundaryFlowSurface.Create(
+            new Carrier(),
+            BoundaryExposure.BoundedWhole,
+            FlowExposure.None,
+            Relation.Segment(field, 0, 100));
+        var teamRead = new Relation(
+            Relation.Segment(field, 0, 100),
+            Relation.Segment(new Carrier(), 0, 100));
+        var result = Relation.Point(field, 70);
+        var residue = Relation.Point(field, 0);
+        var focus = ConceptReadFocus.CreateWitness(
+            new Carrier(),
+            fieldSurface,
+            teamRead,
+            result,
+            residue);
+
+        Assert.True(ConceptReadFocus.TryReadWitness(
+            focus,
+            out var selected,
+            out var readSurface,
+            out var readResult,
+            out var residueOrTension,
+            out _));
+        Assert.Equal(fieldSurface, selected);
+        Assert.Equal(teamRead, readSurface);
+        Assert.Equal(result, readResult);
+        Assert.Equal(residue, residueOrTension);
     }
 
     [Fact]
@@ -452,6 +487,41 @@ public sealed class BoundaryFlowSurfaceTests
     }
 
     [Fact]
+    public void CarrierAxisCanWitnessItsLaneBasis()
+    {
+        var carrier = new Carrier();
+        var axis = CarrierAxisSurface.SignedForward(new Carrier(), carrier);
+
+        Assert.True(CarrierAxisSurface.TryReadLaneBasisWitness(axis, new Carrier(), out var witness));
+        Assert.True(ReadWitness.TryRead(
+            witness,
+            out var selected,
+            out var readSurface,
+            out var result,
+            out var residueOrTension,
+            out var provenance));
+        Assert.Same(carrier, Assert.IsType<Carrier>(selected));
+        Assert.Equal(axis, readSurface);
+        var laneBasis = Assert.IsType<Relation>(result);
+        Assert.True(BoundaryFlowLaneBasis.TryRead(
+            laneBasis,
+            out var exposure,
+            out var laneSelected,
+            out var lanes));
+        Assert.Equal("PN:F", exposure.Label);
+        Assert.Same(carrier, Assert.IsType<Carrier>(laneSelected));
+        Assert.Equal("PF|NF", string.Join("|", lanes.Select(lane => lane.Label)));
+        Assert.True(ConceptSurfaceReaderForBoundaryFlowTests.TryReadPoint(
+            Assert.IsType<Relation>(residueOrTension),
+            out var residue));
+        Assert.True(residue.Carrier.IsUnknown);
+        Assert.True(Assert.IsType<Relation>(provenance).TryReadOrderedElementsOn(
+            Assert.IsType<Carrier>(((Relation)provenance).Right),
+            out var evidence));
+        Assert.Equal(2, evidence.Length);
+    }
+
+    [Fact]
     public void RelationFlowSurfaceDualSwapsFlowExposureAndEvidence()
     {
         var route = new Carrier();
@@ -514,5 +584,23 @@ public sealed class BoundaryFlowSurfaceTests
         {
             Assert.Equal(expectedEvidence, evidence);
         }
+    }
+}
+
+internal static class ConceptSurfaceReaderForBoundaryFlowTests
+{
+    public static bool TryReadPoint(IElement element, out CarrierLocation location)
+    {
+        if (element is Relation point &&
+            point.Left is CarrierLocation pointLocation &&
+            point.Right is Carrier pointCarrier &&
+            pointLocation.Carrier.SameIdentityAs(pointCarrier))
+        {
+            location = pointLocation;
+            return true;
+        }
+
+        location = default;
+        return false;
     }
 }

@@ -44,6 +44,40 @@ public sealed class TimeStepSequenceTests
     }
 
     [Fact]
+    public void StepCanBeReadAsCommonWitness()
+    {
+        var time = new Carrier();
+        var value = new Carrier();
+        var before = Relation.Point(value, 2);
+        var transition = Relation.Segment(value, 2, 5);
+        var after = Relation.Point(value, 5);
+        var residue = Relation.Point(value, 0);
+        var step = TimeStepSequence.Step(
+            new Carrier(),
+            time,
+            7,
+            8,
+            before,
+            transition,
+            after,
+            residue);
+
+        Assert.True(TimeStepSequence.TryReadStepWitness(step, new Carrier(), out var witness));
+        Assert.True(ReadWitness.TryRead(
+            witness,
+            out var selected,
+            out var readSurface,
+            out var result,
+            out var residueOrTension,
+            out var provenance));
+        Assert.Equal(before, selected);
+        Assert.Equal(transition, readSurface);
+        Assert.Equal(after, result);
+        Assert.Equal(residue, residueOrTension);
+        Assert.Equal(Relation.Segment(time, 7, 8), Assert.IsType<Relation>(provenance));
+    }
+
+    [Fact]
     public void SequenceReadsClockOriginInitialStateAndOrderedSteps()
     {
         var time = new Carrier();

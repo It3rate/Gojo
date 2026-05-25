@@ -438,6 +438,39 @@ public static class ConceptReadFocus
     public static Relation Create(Carrier root, IElement selected, Relation readSurface) =>
         Create(root, selected, readSurface, ConceptSurface.UnknownPoint());
 
+    /// <summary>
+    /// Creates focus as a common read witness: selected structure, read
+    /// surface, result, residue/tension, and provenance.
+    /// </summary>
+    public static Relation CreateWitness(
+        Carrier root,
+        IElement selected,
+        Relation readSurface,
+        IElement result,
+        IElement residueOrTension,
+        IElement provenance) =>
+        ReadWitness.Create(
+            ConceptSurface.RootOrNew(root),
+            selected,
+            readSurface ?? ConceptSurface.UnknownPoint(),
+            result,
+            residueOrTension,
+            provenance);
+
+    public static Relation CreateWitness(
+        Carrier root,
+        IElement selected,
+        Relation readSurface,
+        IElement result,
+        IElement residueOrTension) =>
+        CreateWitness(
+            root,
+            selected,
+            readSurface,
+            result,
+            residueOrTension,
+            ConceptSurface.UnknownPoint());
+
     public static bool TryRead(
         Relation focus,
         out IElement selected,
@@ -457,6 +490,46 @@ public static class ConceptReadFocus
         selected = default!;
         readSurface = null!;
         resultOrResidue = default!;
+        return false;
+    }
+
+    /// <summary>
+    /// Reads either the common witness shape or the older compact focus shape
+    /// as a read witness.
+    /// </summary>
+    public static bool TryReadWitness(
+        Relation focus,
+        out IElement selected,
+        out Relation readSurface,
+        out IElement result,
+        out IElement residueOrTension,
+        out IElement provenance)
+    {
+        if (ReadWitness.TryRead(
+                focus,
+                out selected,
+                out var witnessReadSurface,
+                out result,
+                out residueOrTension,
+                out provenance) &&
+            witnessReadSurface is Relation relationReadSurface)
+        {
+            readSurface = relationReadSurface;
+            return true;
+        }
+
+        if (TryRead(focus, out selected, out readSurface, out result))
+        {
+            residueOrTension = ConceptSurface.UnknownPoint();
+            provenance = focus;
+            return true;
+        }
+
+        selected = default!;
+        readSurface = null!;
+        result = default!;
+        residueOrTension = default!;
+        provenance = default!;
         return false;
     }
 }
