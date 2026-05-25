@@ -2928,7 +2928,7 @@ public static class BoundaryFlowValueTransfer
         Carrier root,
         out Relation witness)
     {
-        if (TryReadEmbeddedWitness(transferSurface, index: 4, out witness))
+        if (ReadWitness.TryReadEmbedded(transferSurface, index: 4, out witness))
         {
             return true;
         }
@@ -2959,7 +2959,7 @@ public static class BoundaryFlowValueTransfer
         Carrier root,
         out Relation witness)
     {
-        if (TryReadEmbeddedWitness(transferSurface, index: 5, out witness))
+        if (ReadWitness.TryReadEmbedded(transferSurface, index: 5, out witness))
         {
             return true;
         }
@@ -3097,20 +3097,6 @@ public static class BoundaryFlowValueTransfer
             capacityOrGate ?? ConceptSurface.UnknownPoint());
     }
 
-    private static bool TryReadEmbeddedWitness(Relation transferSurface, int index, out Relation witness)
-    {
-        if (ConceptSurfaceReader.TryReadRootElements(transferSurface, out var elements) &&
-            elements.Length > index &&
-            elements[index] is Relation candidate &&
-            ReadWitness.TryRead(candidate, out _, out _, out _, out _, out _))
-        {
-            witness = candidate;
-            return true;
-        }
-
-        witness = null!;
-        return false;
-    }
 }
 
 public readonly record struct BoundaryFlowTransferRead(
@@ -4169,7 +4155,7 @@ public static class BoundaryFlowTargetSettlement
         Carrier root,
         out Relation witness)
     {
-        if (TryReadEmbeddedWitness(settlementSurface, out witness))
+        if (ReadWitness.TryReadEmbedded(settlementSurface, index: 5, out witness))
         {
             return true;
         }
@@ -4189,21 +4175,6 @@ public static class BoundaryFlowTargetSettlement
                 targetAfter,
                 residue,
                 timeline);
-            return true;
-        }
-
-        witness = null!;
-        return false;
-    }
-
-    private static bool TryReadEmbeddedWitness(Relation settlementSurface, out Relation witness)
-    {
-        if (ConceptSurfaceReader.TryReadRootElements(settlementSurface, out var elements) &&
-            elements.Length >= 6 &&
-            elements[5] is Relation candidate &&
-            ReadWitness.TryRead(candidate, out _, out _, out _, out _, out _))
-        {
-            witness = candidate;
             return true;
         }
 
@@ -4410,7 +4381,7 @@ public static class BoundaryFlowTargetSettlementRun
         Carrier root,
         out Relation witness)
     {
-        if (TryReadEmbeddedWitness(runSurface, out witness))
+        if (ReadWitness.TryReadEmbedded(runSurface, index: 5, out witness))
         {
             return true;
         }
@@ -4430,21 +4401,6 @@ public static class BoundaryFlowTargetSettlementRun
                 finalTarget,
                 residues,
                 timeline);
-            return true;
-        }
-
-        witness = null!;
-        return false;
-    }
-
-    private static bool TryReadEmbeddedWitness(Relation runSurface, out Relation witness)
-    {
-        if (ConceptSurfaceReader.TryReadRootElements(runSurface, out var elements) &&
-            elements.Length >= 6 &&
-            elements[5] is Relation candidate &&
-            ReadWitness.TryRead(candidate, out _, out _, out _, out _, out _))
-        {
-            witness = candidate;
             return true;
         }
 

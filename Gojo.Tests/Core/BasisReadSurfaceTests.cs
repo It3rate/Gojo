@@ -71,4 +71,27 @@ public sealed class BasisReadSurfaceTests
         Assert.Equal(residue, residueOrTension);
         Assert.Equal(provenance, witnessedProvenance);
     }
+
+    [Fact]
+    public void BasisReadCanBeReadFromEmbeddedSlot()
+    {
+        var selected = new Carrier();
+        var axis = Relation.Segment(selected, 0, 10);
+        var basisRead = BasisReadSurface.Create(
+            new Carrier(),
+            selected,
+            axis,
+            Relation.OrderedGroup(new Carrier(), axis),
+            Relation.Point(selected, 4),
+            Relation.Point(Carrier.Unknown, 0),
+            axis);
+        var surface = Relation.OrderedGroup(
+            new Carrier(),
+            Relation.Point(Carrier.Unknown, 0),
+            basisRead);
+
+        Assert.True(BasisReadSurface.TryReadEmbedded(surface, 1, out var embedded));
+        Assert.Equal(basisRead, embedded);
+        Assert.False(BasisReadSurface.TryReadEmbedded(surface, 0, out _));
+    }
 }

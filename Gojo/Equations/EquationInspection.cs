@@ -263,12 +263,8 @@ public static class EquationInspection
         Carrier root,
         out Relation witness)
     {
-        if (TryReadRootElements(sample, out var elements) &&
-            elements.Length >= 5 &&
-            elements[4] is Relation embeddedWitness &&
-            ReadWitness.TryRead(embeddedWitness, out _, out _, out _, out _, out _))
+        if (ReadWitness.TryReadEmbedded(sample, index: 4, out witness))
         {
-            witness = embeddedWitness;
             return true;
         }
 

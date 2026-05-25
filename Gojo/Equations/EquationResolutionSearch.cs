@@ -354,7 +354,7 @@ public static class EquationResolutionSearch
         Carrier root,
         out Relation witness)
     {
-        if (TryReadEmbeddedWitness(sample, index: 8, out witness))
+        if (ReadWitness.TryReadEmbedded(sample, index: 8, out witness))
         {
             return true;
         }
@@ -392,7 +392,7 @@ public static class EquationResolutionSearch
         Carrier root,
         out Relation witness)
     {
-        if (TryReadEmbeddedWitness(sample, index: 9, out witness))
+        if (ReadWitness.TryReadEmbedded(sample, index: 9, out witness))
         {
             return true;
         }
@@ -656,21 +656,6 @@ public static class EquationResolutionSearch
         }
 
         elements = [];
-        return false;
-    }
-
-    private static bool TryReadEmbeddedWitness(Relation sample, int index, out Relation witness)
-    {
-        if (TryReadRootElements(sample, out var elements) &&
-            elements.Length > index &&
-            elements[index] is Relation candidate &&
-            ReadWitness.TryRead(candidate, out _, out _, out _, out _, out _))
-        {
-            witness = candidate;
-            return true;
-        }
-
-        witness = null!;
         return false;
     }
 

@@ -79,6 +79,34 @@ public static class BasisReadSurface
         return false;
     }
 
+    /// <summary>Reads an element only when it is a valid common basis-read relation.</summary>
+    public static bool TryRead(IElement element, out Relation basisRead)
+    {
+        if (element is Relation candidate &&
+            TryRead(candidate, out _, out _, out _, out _, out _, out _))
+        {
+            basisRead = candidate;
+            return true;
+        }
+
+        basisRead = null!;
+        return false;
+    }
+
+    /// <summary>Reads a basis read embedded at an ordered-group slot.</summary>
+    public static bool TryReadEmbedded(Relation structure, int index, out Relation basisRead)
+    {
+        if (index >= 0 &&
+            TryReadRootElements(structure, out var elements) &&
+            elements.Length > index)
+        {
+            return TryRead(elements[index], out basisRead);
+        }
+
+        basisRead = null!;
+        return false;
+    }
+
     /// <summary>Projects a basis read into the common read-witness skeleton.</summary>
     public static bool TryReadWitness(
         Relation basisRead,

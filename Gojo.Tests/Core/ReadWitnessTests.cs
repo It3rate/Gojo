@@ -62,4 +62,25 @@ public sealed class ReadWitnessTests
         Assert.True(ReadWitness.TryReadTimeline(witness, out var readTimeline));
         Assert.Equal(timeline, readTimeline);
     }
+
+    [Fact]
+    public void ReadWitnessCanBeReadFromEmbeddedSlot()
+    {
+        var selected = Relation.Point(new Carrier(), 2);
+        var witness = ReadWitness.Create(
+            new Carrier(),
+            selected,
+            Relation.Segment(new Carrier(), 0, 10),
+            Relation.Point(new Carrier(), 7),
+            Relation.Point(Carrier.Unknown, 0),
+            selected);
+        var surface = Relation.OrderedGroup(
+            new Carrier(),
+            Relation.Point(Carrier.Unknown, 0),
+            witness);
+
+        Assert.True(ReadWitness.TryReadEmbedded(surface, 1, out var embedded));
+        Assert.Equal(witness, embedded);
+        Assert.False(ReadWitness.TryReadEmbedded(surface, 0, out _));
+    }
 }

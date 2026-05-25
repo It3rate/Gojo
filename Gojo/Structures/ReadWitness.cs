@@ -67,6 +67,34 @@ public static class ReadWitness
         return false;
     }
 
+    /// <summary>Reads an element only when it is a valid common read witness relation.</summary>
+    public static bool TryRead(IElement element, out Relation witness)
+    {
+        if (element is Relation candidate &&
+            TryRead(candidate, out _, out _, out _, out _, out _))
+        {
+            witness = candidate;
+            return true;
+        }
+
+        witness = null!;
+        return false;
+    }
+
+    /// <summary>Reads a witness embedded at an ordered-group slot.</summary>
+    public static bool TryReadEmbedded(Relation structure, int index, out Relation witness)
+    {
+        if (index >= 0 &&
+            TryReadRootElements(structure, out var elements) &&
+            elements.Length > index)
+        {
+            return TryRead(elements[index], out witness);
+        }
+
+        witness = null!;
+        return false;
+    }
+
     /// <summary>Reads a witnessed timeline when provenance is a time-step sequence.</summary>
     public static bool TryReadTimeline(Relation witness, out Relation timeline)
     {
