@@ -700,6 +700,48 @@ public sealed class BoundaryFlowLaneBasisTests
     }
 
     [Fact]
+    public void SignedDeltaCanBeReadAsCommonWitness()
+    {
+        var carrier = new Carrier();
+        var axis = CarrierAxisSurface.SignedForward(new Carrier(), carrier);
+        var value = BoundaryFlowValueSurface.Create(
+            new Carrier(),
+            carrier,
+            5,
+            BoundaryFlowLane.PositiveForward,
+            axis);
+
+        Assert.True(BoundaryFlowValueSettlement.TryApplySignedDeltaWitness(
+            value,
+            axis,
+            -8,
+            out var witness));
+        Assert.True(ReadWitness.TryRead(
+            witness,
+            out var selected,
+            out var readSurface,
+            out var result,
+            out var residueOrTension,
+            out var provenance));
+        Assert.Equal(value, selected);
+        Assert.True(Assert.IsType<Relation>(readSurface).TryReadOrderedElementsOn(
+            Assert.IsType<Carrier>(((Relation)readSurface).Right),
+            out var readParts));
+        Assert.Equal(axis, readParts[0]);
+        Assert.True(ConceptSurfaceReaderForTests.TryReadPoint(readParts[1], out var delta));
+        Assert.Equal(-8, delta.Ticks);
+        Assert.True(BoundaryFlowValueSurface.TryReadValue(Assert.IsType<Relation>(result), out var read));
+        Assert.Equal("-3f", read.Notation);
+        Assert.True(ConceptSurfaceReaderForTests.TryReadPoint(residueOrTension, out var residue));
+        Assert.Equal(0, residue.Ticks);
+        Assert.True(Assert.IsType<Relation>(provenance).TryReadOrderedElementsOn(
+            Assert.IsType<Carrier>(((Relation)provenance).Right),
+            out var provenanceParts));
+        Assert.Equal(value, provenanceParts[0]);
+        Assert.Equal(axis, provenanceParts[1]);
+    }
+
+    [Fact]
     public void PositiveForwardSurfaceLeavesResidueWhenDeltaWouldNeedNegativeLane()
     {
         var carrier = new Carrier();
@@ -1203,6 +1245,60 @@ public sealed class BoundaryFlowLaneBasisTests
     }
 
     [Fact]
+    public void TargetSettlementCanBeReadAsCommonWitness()
+    {
+        var source = new Carrier();
+        var target = new Carrier();
+        var sourceAxis = CarrierAxisSurface.PositiveUnit(new Carrier(), source);
+        var targetAxis = CarrierAxisSurface.PositiveUnit(new Carrier(), target);
+        var sourceValue = BoundaryFlowValueSurface.Create(
+            new Carrier(),
+            source,
+            3,
+            BoundaryFlowLane.PositiveForward,
+            sourceAxis);
+        var targetBefore = BoundaryFlowValueSurface.Create(
+            new Carrier(),
+            target,
+            20,
+            BoundaryFlowLane.PositiveForward,
+            targetAxis);
+        var route = new Relation(
+            Relation.Segment(source, 0, 10),
+            Relation.Segment(target, 0, 100));
+
+        Assert.True(BoundaryFlowValueRoute.TryProject(
+            sourceValue,
+            route,
+            targetAxis,
+            target,
+            out var routeSurface));
+        Assert.True(BoundaryFlowValueTransfer.TryAccept(routeSurface, out var transfer));
+        Assert.True(BoundaryFlowTargetSettlement.TrySettle(
+            targetBefore,
+            transfer,
+            out var settlement));
+        Assert.True(BoundaryFlowTargetSettlement.TryReadWitness(
+            settlement,
+            new Carrier(),
+            out var witness));
+        Assert.True(ReadWitness.TryRead(
+            witness,
+            out var selected,
+            out var readSurface,
+            out var result,
+            out var residueOrTension,
+            out var provenance));
+        Assert.Equal(targetBefore, selected);
+        Assert.Equal(transfer, readSurface);
+        Assert.True(BoundaryFlowValueSurface.TryReadValue(Assert.IsType<Relation>(result), out var afterRead));
+        Assert.Equal("50f", afterRead.Notation);
+        Assert.True(ConceptSurfaceReaderForTests.TryReadPoint(residueOrTension, out var residue));
+        Assert.Equal(0, residue.Ticks);
+        Assert.True(TimeStepSequence.TryRead(Assert.IsType<Relation>(provenance), out _, out _, out _));
+    }
+
+    [Fact]
     public void TargetSettlementKeepsBeforeValueWhenTransferIsBlocked()
     {
         var source = new Carrier();
@@ -1363,6 +1459,30 @@ public sealed class BoundaryFlowLaneBasisTests
         Assert.Equal(30, totals.AcceptedMagnitude);
         Assert.Equal(0, totals.BlockedMagnitude);
         Assert.Equal(2, totals.StepCount);
+
+        Assert.True(BoundaryFlowTargetSettlementRun.TryReadWitness(
+            run,
+            new Carrier(),
+            out var witness));
+        Assert.True(ReadWitness.TryRead(
+            witness,
+            out var selected,
+            out var readSurface,
+            out var result,
+            out var residueOrTension,
+            out var provenance));
+        Assert.Equal(targetBefore, selected);
+        Assert.True(Assert.IsType<Relation>(readSurface).TryReadOrderedElementsOn(
+            Assert.IsType<Carrier>(((Relation)readSurface).Right),
+            out var readTransfers));
+        Assert.Equal(2, readTransfers.Length);
+        Assert.True(BoundaryFlowValueSurface.TryReadValue(Assert.IsType<Relation>(result), out var resultRead));
+        Assert.Equal("40f", resultRead.Notation);
+        Assert.True(Assert.IsType<Relation>(residueOrTension).TryReadOrderedElementsOn(
+            Assert.IsType<Carrier>(((Relation)residueOrTension).Right),
+            out var readResidues));
+        Assert.Equal(2, readResidues.Length);
+        Assert.Equal(timeline, provenance);
     }
 
     [Fact]

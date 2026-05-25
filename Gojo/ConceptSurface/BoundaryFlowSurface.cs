@@ -2324,6 +2324,53 @@ public static class BoundaryFlowValueSettlement
         return true;
     }
 
+    public static bool TryApplySignedDeltaWitness(
+        Relation valueSurface,
+        long deltaTicks,
+        out Relation witness)
+    {
+        if (!BoundaryFlowValueSurface.TryReadValueWithBasis(valueSurface, out var basisRead))
+        {
+            witness = null!;
+            return false;
+        }
+
+        return TryApplySignedDeltaWitness(valueSurface, basisRead.LaneBasis, deltaTicks, out witness);
+    }
+
+    public static bool TryApplySignedDeltaWitness(
+        Relation valueSurface,
+        Relation laneBasis,
+        long deltaTicks,
+        out Relation witness)
+    {
+        if (!BoundaryFlowValueSurface.TryReadValueWithBasis(valueSurface, laneBasis, out var beforeRead) ||
+            !TryApplySignedDelta(valueSurface, laneBasis, deltaTicks, out var settledValue) ||
+            !BoundaryFlowValueSurface.TryReadValue(settledValue, laneBasis, out var afterRead))
+        {
+            witness = null!;
+            return false;
+        }
+
+        var deltaSurface = Relation.OrderedGroup(
+            new Carrier(),
+            laneBasis,
+            Relation.Point(beforeRead.Magnitude.Carrier, deltaTicks));
+        var provenance = Relation.OrderedGroup(
+            new Carrier(),
+            valueSurface,
+            laneBasis);
+
+        witness = ReadWitness.Create(
+            new Carrier(),
+            valueSurface,
+            deltaSurface,
+            settledValue,
+            afterRead.ResidueOrTension,
+            provenance);
+        return true;
+    }
+
     private static bool CanMoveToLane(
         UnitShape unitShape,
         Relation laneBasis,
@@ -3745,6 +3792,33 @@ public static class BoundaryFlowTargetSettlement
         return false;
     }
 
+    public static bool TryReadWitness(
+        Relation settlementSurface,
+        Carrier root,
+        out Relation witness)
+    {
+        if (TryRead(
+                settlementSurface,
+                out var targetBefore,
+                out var transferSurface,
+                out var targetAfter,
+                out var residue,
+                out var timeline))
+        {
+            witness = ReadWitness.Create(
+                ConceptSurface.RootOrNew(root),
+                targetBefore,
+                transferSurface,
+                targetAfter,
+                residue,
+                timeline);
+            return true;
+        }
+
+        witness = null!;
+        return false;
+    }
+
     private static bool CanApplyAcceptedToTarget(
         Relation targetBefore,
         BoundaryFlowValueRead accepted,
@@ -3922,6 +3996,33 @@ public static class BoundaryFlowTargetSettlementRun
         }
 
         timeline = null!;
+        return false;
+    }
+
+    public static bool TryReadWitness(
+        Relation runSurface,
+        Carrier root,
+        out Relation witness)
+    {
+        if (TryRead(
+                runSurface,
+                out var initialTarget,
+                out var finalTarget,
+                out var transfers,
+                out var residues,
+                out var timeline))
+        {
+            witness = ReadWitness.Create(
+                ConceptSurface.RootOrNew(root),
+                initialTarget,
+                transfers,
+                finalTarget,
+                residues,
+                timeline);
+            return true;
+        }
+
+        witness = null!;
         return false;
     }
 

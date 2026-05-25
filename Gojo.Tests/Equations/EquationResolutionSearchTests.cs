@@ -207,4 +207,125 @@ public sealed class EquationResolutionSearchTests
         Assert.Equal(0, residual.Ticks);
         Assert.Equal(0, magnitude.Ticks);
     }
+
+    [Fact]
+    public void ResolutionCandidateCanExposePredictionAndClaimWitnesses()
+    {
+        var x = new Carrier();
+        var output = new Carrier();
+        var polynomial = EquationPolynomial.Create(new Carrier(), x, output, -9, 0, 1);
+
+        EquationResolutionSearch.Search(
+            new Carrier(),
+            polynomial,
+            x,
+            output,
+            targetTicks: 0,
+            startTicks: -10,
+            endTicks: 10,
+            candidateCount: 5,
+            roundCount: 1,
+            out var rounds);
+
+        Assert.True(EquationResolutionSearch.TryReadSelectedSample(rounds[0], out var selectedSample));
+        Assert.True(EquationResolutionSearch.TryReadCandidatePredictionWitness(
+            selectedSample,
+            polynomial,
+            new Carrier(),
+            out var predictionWitness));
+        Assert.True(ReadWitness.TryRead(
+            predictionWitness,
+            out var candidateInput,
+            out var equationSurface,
+            out var predicted,
+            out var predictionResidue,
+            out var predictionProvenance));
+        Assert.Equal(new CarrierLocation(x, 0), Assert.IsType<CarrierLocation>(candidateInput));
+        Assert.Equal(polynomial, equationSurface);
+        Assert.Equal(new CarrierLocation(output, -9), Assert.IsType<CarrierLocation>(predicted));
+        Assert.IsType<Relation>(predictionResidue);
+        Assert.Equal(selectedSample, predictionProvenance);
+
+        Assert.True(EquationResolutionSearch.TryReadCandidateClaimWitness(
+            selectedSample,
+            new Carrier(),
+            out var claimWitness));
+        Assert.True(ReadWitness.TryRead(
+            claimWitness,
+            out var claimSelected,
+            out var claimSurface,
+            out var claimResult,
+            out var claimResidue,
+            out var claimProvenance));
+        Assert.Equal(new CarrierLocation(output, -9), Assert.IsType<CarrierLocation>(claimSelected));
+        Assert.True(OperationClaim.TryRead(
+            Assert.IsType<Relation>(claimSurface),
+            out _,
+            out _,
+            out _,
+            out _,
+            out _,
+            out _));
+        Assert.True(Assert.IsType<Relation>(claimResult).TryReadOrderedElementsOn(
+            Assert.IsType<Carrier>(((Relation)claimResult).Right),
+            out var resultParts));
+        Assert.Equal(3, resultParts.Length);
+        Assert.Equal(selectedSample, claimProvenance);
+        Assert.IsType<Relation>(claimResidue);
+    }
+
+    [Fact]
+    public void SearchRoundsCanBeReadAsCommonRefinements()
+    {
+        var x = new Carrier();
+        var output = new Carrier();
+        var polynomial = EquationPolynomial.Create(new Carrier(), x, output, -9, 0, 1);
+
+        var search = EquationResolutionSearch.Search(
+            new Carrier(),
+            polynomial,
+            x,
+            output,
+            targetTicks: 0,
+            startTicks: -10,
+            endTicks: 10,
+            candidateCount: 5,
+            roundCount: 2,
+            out _);
+
+        Assert.True(EquationResolutionSearch.TryReadRefinements(
+            search,
+            new Carrier(),
+            out var refinements));
+        Assert.Equal(2, refinements.Length);
+        Assert.True(RefinementSurface.TryRead(
+            refinements[0],
+            out var parameter,
+            out var binding,
+            out var witness,
+            out var residue,
+            out var provenance));
+        Assert.Equal(Relation.Segment(x, -10, 10), Assert.IsType<Relation>(parameter));
+        Assert.True(Assert.IsType<Relation>(binding).Right is Relation);
+        Assert.True(ReadWitness.TryRead(
+            witness,
+            out var selected,
+            out var readSurface,
+            out var result,
+            out var witnessResidue,
+            out _));
+        Assert.Equal(new CarrierLocation(x, 0), Assert.IsType<CarrierLocation>(selected));
+        Assert.Equal(polynomial, readSurface);
+        Assert.Equal(new CarrierLocation(output, -9), Assert.IsType<CarrierLocation>(result));
+        Assert.Equal(witnessResidue, residue);
+        Assert.True(TimeStepSequence.TryReadStep(
+            Assert.IsType<Relation>(provenance),
+            out _,
+            out _,
+            out _,
+            out _,
+            out _,
+            out _,
+            out _));
+    }
 }

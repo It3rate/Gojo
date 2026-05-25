@@ -234,7 +234,7 @@ public static class EquationInspection
         out IElement residue)
     {
         if (TryReadRootElements(sample, out var elements) &&
-            elements.Length == 4 &&
+            elements.Length >= 4 &&
             elements[0] is Relation indexPoint &&
             indexPoint.Left is CarrierLocation indexLocation &&
             elements[2] is CarrierLocation predictedLocation)
@@ -250,6 +250,37 @@ public static class EquationInspection
         input = default!;
         predicted = default;
         residue = default!;
+        return false;
+    }
+
+    /// <summary>
+    /// Reads one prediction sample as the common witness skeleton, using the
+    /// supplied equation as the read surface and the sample as provenance.
+    /// </summary>
+    public static bool TryReadPredictionSampleWitness(
+        Relation sample,
+        Relation equation,
+        Carrier root,
+        out Relation witness)
+    {
+        if (TryReadPredictionSampleElement(
+                sample,
+                out _,
+                out var input,
+                out var predicted,
+                out var residue))
+        {
+            witness = ReadWitness.Create(
+                RootOrNew(root),
+                input,
+                equation ?? Relation.Point(Carrier.Unknown, 0),
+                predicted,
+                residue,
+                sample);
+            return true;
+        }
+
+        witness = null!;
         return false;
     }
 

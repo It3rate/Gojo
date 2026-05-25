@@ -228,6 +228,82 @@ public static class EquationResolutionSearch
         return false;
     }
 
+    /// <summary>
+    /// Reads one refinement round as parameter span, selected binding sample,
+    /// prediction witness, residue, and round/timeline provenance.
+    /// </summary>
+    public static bool TryReadRoundRefinement(
+        Relation round,
+        Relation equation,
+        Carrier root,
+        out Relation refinement)
+    {
+        if (!TryReadRound(
+                round,
+                out _,
+                out var span,
+                out _,
+                out _,
+                out _) ||
+            !TryReadSelectedSample(round, out var selectedSample) ||
+            !TryReadCandidatePredictionWitness(
+                selectedSample,
+                equation,
+                new Carrier(),
+                out var witness) ||
+            !ReadWitness.TryRead(
+                witness,
+                out _,
+                out _,
+                out _,
+                out var residue,
+                out _))
+        {
+            refinement = null!;
+            return false;
+        }
+
+        refinement = RefinementSurface.Create(
+            RootOrNew(root),
+            span,
+            new Relation(span, selectedSample),
+            witness,
+            residue,
+            round);
+        return true;
+    }
+
+    /// <summary>Reads all search rounds as common refinement surfaces.</summary>
+    public static bool TryReadRefinements(
+        Relation search,
+        Carrier root,
+        out Relation[] refinements)
+    {
+        if (!TryReadRootElements(search, out var elements) ||
+            elements.Length < 2 ||
+            elements[1] is not Relation equation ||
+            !TryReadRounds(search, out var rounds))
+        {
+            refinements = [];
+            return false;
+        }
+
+        var built = new List<Relation>();
+        foreach (var round in rounds)
+        {
+            if (!TryReadRoundRefinement(round, equation, root, out var refinement))
+            {
+                refinements = [];
+                return false;
+            }
+
+            built.Add(refinement);
+        }
+
+        refinements = [.. built];
+        return true;
+    }
+
     /// <summary>Reads one candidate sample from a refinement round.</summary>
     public static bool TryReadCandidateSample(
         Relation sample,
@@ -264,6 +340,80 @@ public static class EquationResolutionSearch
         readableResidual = default;
         magnitude = default;
         residue = default!;
+        return false;
+    }
+
+    /// <summary>
+    /// Reads one candidate as the common prediction witness: candidate input
+    /// through equation surface yields predicted output, preserving residue
+    /// and the full candidate sample as provenance.
+    /// </summary>
+    public static bool TryReadCandidatePredictionWitness(
+        Relation sample,
+        Relation equation,
+        Carrier root,
+        out Relation witness)
+    {
+        if (TryReadCandidateSample(
+                sample,
+                out _,
+                out var input,
+                out var predicted,
+                out _,
+                out _,
+                out _,
+                out var residue))
+        {
+            witness = ReadWitness.Create(
+                RootOrNew(root),
+                input,
+                equation ?? Relation.Point(Carrier.Unknown, 0),
+                predicted,
+                residue,
+                sample);
+            return true;
+        }
+
+        witness = null!;
+        return false;
+    }
+
+    /// <summary>
+    /// Reads one candidate's equality claim as a witness from predicted value
+    /// through the claim surface to readable residual magnitude evidence.
+    /// </summary>
+    public static bool TryReadCandidateClaimWitness(
+        Relation sample,
+        Carrier root,
+        out Relation witness)
+    {
+        if (TryReadCandidateSample(
+                sample,
+                out _,
+                out _,
+                out var predicted,
+                out var signedResidual,
+                out var readableResidual,
+                out var magnitude,
+                out var residue) &&
+            TryReadCandidateClaim(sample, out var claim))
+        {
+            var result = Relation.OrderedGroup(
+                new Carrier(),
+                signedResidual,
+                readableResidual,
+                magnitude);
+            witness = ReadWitness.Create(
+                RootOrNew(root),
+                predicted,
+                claim,
+                result,
+                residue,
+                sample);
+            return true;
+        }
+
+        witness = null!;
         return false;
     }
 
