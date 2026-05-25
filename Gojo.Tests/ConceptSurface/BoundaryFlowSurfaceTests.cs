@@ -522,6 +522,45 @@ public sealed class BoundaryFlowSurfaceTests
     }
 
     [Fact]
+    public void CarrierAxisCanBeReadAsCommonBasisRead()
+    {
+        var carrier = new Carrier();
+        var axis = CarrierAxisSurface.SignedForward(new Carrier(), carrier);
+
+        Assert.True(CarrierAxisSurface.TryReadLaneBasisRead(axis, new Carrier(), out var basisRead));
+        Assert.True(BasisReadSurface.TryRead(
+            basisRead,
+            out var selected,
+            out var axisOrFaceSurface,
+            out var laneBasisElement,
+            out var metricEvidence,
+            out var residueOrTension,
+            out var provenance));
+        Assert.Same(carrier, Assert.IsType<Carrier>(selected));
+        Assert.Equal(axis, axisOrFaceSurface);
+        var laneBasis = Assert.IsType<Relation>(laneBasisElement);
+        Assert.True(BoundaryFlowLaneBasis.TryRead(
+            laneBasis,
+            out var exposure,
+            out _,
+            out var lanes));
+        Assert.Equal("PN:F", exposure.Label);
+        Assert.Equal("PF|NF", string.Join("|", lanes.Select(lane => lane.Label)));
+        Assert.True(ConceptSurfaceReaderForBoundaryFlowTests.TryReadPoint(
+            Assert.IsType<Relation>(metricEvidence),
+            out var metric));
+        Assert.True(metric.Carrier.IsUnknown);
+        Assert.True(ConceptSurfaceReaderForBoundaryFlowTests.TryReadPoint(
+            Assert.IsType<Relation>(residueOrTension),
+            out var residue));
+        Assert.True(residue.Carrier.IsUnknown);
+        Assert.True(Assert.IsType<Relation>(provenance).TryReadOrderedElementsOn(
+            Assert.IsType<Carrier>(((Relation)provenance).Right),
+            out var evidence));
+        Assert.Equal(2, evidence.Length);
+    }
+
+    [Fact]
     public void RelationFlowSurfaceDualSwapsFlowExposureAndEvidence()
     {
         var route = new Carrier();

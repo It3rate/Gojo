@@ -1260,6 +1260,36 @@ public static class BoundaryFlowLaneBasis
     }
 
     /// <summary>
+    /// Reads a lane-basis surface as a common basis read. The paired
+    /// boundary/flow surface is kept as axis/face evidence, while the lane
+    /// basis itself remains the basis result.
+    /// </summary>
+    public static bool TryReadBasisRead(
+        Relation basis,
+        Carrier root,
+        out Relation basisRead)
+    {
+        if (ConceptSurfaceReader.TryReadRootElements(basis, out var elements) &&
+            elements.Length >= 2 &&
+            elements[0] is Relation boundaryFlowSurface &&
+            TryRead(basis, out _, out var selected, out _))
+        {
+            basisRead = BasisReadSurface.Create(
+                ConceptSurface.RootOrNew(root),
+                selected,
+                boundaryFlowSurface,
+                basis,
+                ConceptSurface.UnknownPoint(),
+                ConceptSurface.UnknownPoint(),
+                basis);
+            return true;
+        }
+
+        basisRead = null!;
+        return false;
+    }
+
+    /// <summary>
     /// Reads possible lanes from a unit-shape descriptor, or returns the
     /// low-resolution whole/no-flow default for descriptor-free unit shapes.
     /// </summary>
@@ -2086,6 +2116,35 @@ public static class BoundaryFlowValueSurface
             lanes.Contains(lane),
             residueOrTension);
         return true;
+    }
+
+    /// <summary>
+    /// Reads a value's occupied lane against its resolved possible-lane basis
+    /// as the common axis/face/lane basis-read surface.
+    /// </summary>
+    public static bool TryReadBasisRead(
+        Relation valueSurface,
+        Carrier root,
+        out Relation basisRead)
+    {
+        if (ConceptSurfaceReader.TryReadRootElements(valueSurface, out var elements) &&
+            elements.Length >= 2 &&
+            elements[1] is Relation laneMarker &&
+            TryReadValueWithBasis(valueSurface, out var read))
+        {
+            basisRead = BasisReadSurface.Create(
+                ConceptSurface.RootOrNew(root),
+                valueSurface,
+                laneMarker,
+                read.LaneBasis,
+                elements[0],
+                read.ResidueOrTension,
+                valueSurface);
+            return true;
+        }
+
+        basisRead = null!;
+        return false;
     }
 
     public static bool TryCreateInferred(
@@ -4878,6 +4937,25 @@ public static class CarrierAxisSurface
         Carrier root,
         out Relation witness)
     {
+        if (TryReadLaneBasisRead(surface, root, out var basisRead))
+        {
+            return BasisReadSurface.TryReadWitness(basisRead, root, out witness);
+        }
+
+        witness = null!;
+        return false;
+    }
+
+    /// <summary>
+    /// Reads a carrier axis into the common basis-read surface: selected
+    /// carrier, axis evidence, legal lane basis, unresolved metric evidence,
+    /// unresolved residue, and boundary/flow provenance.
+    /// </summary>
+    public static bool TryReadLaneBasisRead(
+        Relation surface,
+        Carrier root,
+        out Relation basisRead)
+    {
         if (TryRead(
                 surface,
                 out var carrier,
@@ -4899,17 +4977,18 @@ public static class CarrierAxisSurface
                 boundarySurface,
                 flowSurface);
 
-            witness = ReadWitness.Create(
+            basisRead = BasisReadSurface.Create(
                 ConceptSurface.RootOrNew(root),
                 selected,
                 surface,
                 laneBasis,
                 ConceptSurface.UnknownPoint(),
+                ConceptSurface.UnknownPoint(),
                 provenance);
             return true;
         }
 
-        witness = null!;
+        basisRead = null!;
         return false;
     }
 

@@ -251,6 +251,81 @@ public sealed class BoundaryFlowLaneBasisTests
     }
 
     [Fact]
+    public void LaneBasisCanBeReadAsCommonBasisRead()
+    {
+        var selected = Relation.Segment(new Carrier(), -4, 4);
+        var boundaryFlowSurface = BoundaryFlowSurface.Create(
+            new Carrier(),
+            BoundaryExposure.FullSigned,
+            FlowExposure.Forward,
+            selected);
+        var basis = BoundaryFlowLaneBasis.Create(new Carrier(), boundaryFlowSurface, selected);
+
+        Assert.True(BoundaryFlowLaneBasis.TryReadBasisRead(basis, new Carrier(), out var basisRead));
+        Assert.True(BasisReadSurface.TryRead(
+            basisRead,
+            out var readSelected,
+            out var axisOrFaceSurface,
+            out var laneBasis,
+            out var metricEvidence,
+            out var residueOrTension,
+            out var provenance));
+        Assert.Equal(selected, readSelected);
+        Assert.Equal(boundaryFlowSurface, axisOrFaceSurface);
+        Assert.Equal(basis, laneBasis);
+        Assert.True(ConceptSurfaceReaderForTests.TryReadPoint(
+            Assert.IsType<Relation>(metricEvidence),
+            out var metric));
+        Assert.True(metric.Carrier.IsUnknown);
+        Assert.True(ConceptSurfaceReaderForTests.TryReadPoint(
+            Assert.IsType<Relation>(residueOrTension),
+            out var residue));
+        Assert.True(residue.Carrier.IsUnknown);
+        Assert.Equal(basis, provenance);
+    }
+
+    [Fact]
+    public void ValueBasisReadCanBeReadAsCommonBasisRead()
+    {
+        var selected = Relation.Segment(new Carrier(), -4, 4);
+        var basis = BoundaryFlowLaneBasis.Create(
+            new Carrier(),
+            BoundaryExposure.FullSigned,
+            FlowExposure.Forward,
+            selected);
+        var magnitudeCarrier = new Carrier();
+        var residue = Relation.Point(Carrier.Unknown, 3);
+        var value = BoundaryFlowValueSurface.Create(
+            new Carrier(),
+            Relation.Point(magnitudeCarrier, 7),
+            BoundaryFlowLane.NegativeForward,
+            basis,
+            residue);
+
+        Assert.True(BoundaryFlowValueSurface.TryReadBasisRead(value, new Carrier(), out var basisRead));
+        Assert.True(BasisReadSurface.TryRead(
+            basisRead,
+            out var readSelected,
+            out var axisOrFaceSurface,
+            out var laneBasis,
+            out var metricEvidence,
+            out var residueOrTension,
+            out var provenance));
+        Assert.Equal(value, readSelected);
+        Assert.True(BoundaryFlowLaneSurface.TryRead(
+            Assert.IsType<Relation>(axisOrFaceSurface),
+            out var occupiedLane,
+            out _,
+            out _));
+        Assert.Equal(BoundaryFlowLane.NegativeForward, occupiedLane);
+        Assert.Equal(basis, laneBasis);
+        Assert.True(ConceptSurfaceReaderForTests.TryReadPoint(metricEvidence, out var metric));
+        Assert.Equal(new CarrierLocation(magnitudeCarrier, 7), metric);
+        Assert.Equal(residue, residueOrTension);
+        Assert.Equal(value, provenance);
+    }
+
+    [Fact]
     public void LaneBasisCanAttachToUnitShapeWithoutCarrierAxis()
     {
         var unitCarrier = new Carrier();
