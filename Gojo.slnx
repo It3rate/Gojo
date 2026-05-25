@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="Gojo/Gojo.csproj" />
+  <Project Path="Gojo.Tests/Gojo.Tests.csproj" />
+</Solution>
