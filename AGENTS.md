@@ -7,7 +7,6 @@
 - Core code lives in `Gojo/Core`.
 - Tests live in `Gojo.Tests`.
 - Use `Gojo.slnx` for builds and tests.
-- Do not look for or depend on the old Core4, Kernel, Runtime, Probe, GearDemo, or SIMD projects. They are not part of this repo.
 - Historical Core4 ideas that were kept intentionally are summarized in `docs/LegacyCore4IdeaInventory.md` and in copied `Gojo/axioms` notes.
 
 ## Gojo Structure Rules
