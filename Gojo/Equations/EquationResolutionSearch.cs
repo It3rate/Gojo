@@ -263,7 +263,7 @@ public static class EquationResolutionSearch
             return false;
         }
 
-        refinement = RefinementSurface.Create(
+        refinement = RefinementRead.Create(
             RootOrNew(root),
             span,
             new Relation(span, selectedSample),
@@ -273,7 +273,7 @@ public static class EquationResolutionSearch
         return true;
     }
 
-    /// <summary>Reads all search rounds as common refinement surfaces.</summary>
+    /// <summary>Reads all search rounds as common refinement reads.</summary>
     public static bool TryReadRefinements(
         Relation search,
         Carrier root,

@@ -4,6 +4,10 @@
 full primitive algebra, participation model, assembly rules, extension pipeline,
 and missing core structure proposals.
 
+**Read spine:** see [`../../docs/GojoReadSpine.md`](../../docs/GojoReadSpine.md)
+for the common `ReadWitness`, `BasisReadSurface`, refinement, and timeline
+shape used across equations and concept-surface work.
+
 `ConceptSurface` is a proposed Gojo-native foothold for low-resolution
 conceptual structures. It is meant to sit above `UnitShape` in scale, not above
 Gojo in meaning.

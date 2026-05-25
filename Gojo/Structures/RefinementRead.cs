@@ -3,15 +3,15 @@ using Gojo.Core;
 namespace Gojo.Structures;
 
 /// <summary>
-/// Common relation-shaped refinement record. It connects a parameter surface,
+/// Common relation-shaped refinement read. It connects a parameter,
 /// a binding or candidate choice, a read witness, visible residue/tension, and
 /// optional timeline/provenance. It does not own refinement meaning; it only
 /// makes the refinement attempt traversable.
 /// </summary>
-public static class RefinementSurface
+public static class RefinementRead
 {
     /// <summary>
-    /// Creates a refinement surface:
+    /// Creates a refinement read:
     /// parameter, binding, witness, residue/tension, timeline/provenance.
     /// </summary>
     public static Relation Create(
@@ -31,7 +31,7 @@ public static class RefinementSurface
             timelineOrProvenance ?? UnknownPoint());
     }
 
-    /// <summary>Creates a refinement surface using the witness residue and no extra timeline.</summary>
+    /// <summary>Creates a refinement read using the witness residue and no extra timeline.</summary>
     public static Relation Create(
         Carrier root,
         IElement parameter,
@@ -51,7 +51,7 @@ public static class RefinementSurface
         return Create(root, parameter, binding, witness, residue, UnknownPoint());
     }
 
-    /// <summary>Reads a refinement surface created by <see cref="Create(Carrier,IElement,IElement,Relation,IElement,IElement)"/>.</summary>
+    /// <summary>Reads a refinement read created by <see cref="Create(Carrier,IElement,IElement,Relation,IElement,IElement)"/>.</summary>
     public static bool TryRead(
         Relation refinement,
         out IElement parameter,
@@ -81,7 +81,7 @@ public static class RefinementSurface
         return false;
     }
 
-    /// <summary>Reads the witness embedded in a refinement surface.</summary>
+    /// <summary>Reads the witness embedded in a refinement read.</summary>
     public static bool TryReadWitness(Relation refinement, out Relation witness)
     {
         if (TryRead(refinement, out _, out _, out witness, out _, out _))

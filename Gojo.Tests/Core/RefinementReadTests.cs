@@ -3,10 +3,10 @@ using Gojo.Structures;
 
 namespace Gojo.Tests.Core;
 
-public sealed class RefinementSurfaceTests
+public sealed class RefinementReadTests
 {
     [Fact]
-    public void RefinementSurfaceReadsParameterBindingWitnessResidueAndTimeline()
+    public void RefinementReadReadsParameterBindingWitnessResidueAndTimeline()
     {
         var parameter = Relation.Segment(new Carrier(), 0, 10);
         var binding = new Relation(parameter, Relation.Point(new Carrier(), 4));
@@ -31,7 +31,7 @@ public sealed class RefinementSurfaceTests
             residue);
         var timeline = TimeStepSequence.Create(new Carrier(), time, parameter, step);
 
-        var refinement = RefinementSurface.Create(
+        var refinement = RefinementRead.Create(
             new Carrier(),
             parameter,
             binding,
@@ -39,7 +39,7 @@ public sealed class RefinementSurfaceTests
             residue,
             timeline);
 
-        Assert.True(RefinementSurface.TryRead(
+        Assert.True(RefinementRead.TryRead(
             refinement,
             out var readParameter,
             out var readBinding,
@@ -51,9 +51,9 @@ public sealed class RefinementSurfaceTests
         Assert.Equal(witness, readWitness);
         Assert.Equal(residue, readResidue);
         Assert.Equal(timeline, readTimeline);
-        Assert.True(RefinementSurface.TryReadWitness(refinement, out var embeddedWitness));
+        Assert.True(RefinementRead.TryReadWitness(refinement, out var embeddedWitness));
         Assert.Equal(witness, embeddedWitness);
-        Assert.True(RefinementSurface.TryReadTimeline(refinement, out var embeddedTimeline));
+        Assert.True(RefinementRead.TryReadTimeline(refinement, out var embeddedTimeline));
         Assert.Equal(timeline, embeddedTimeline);
     }
 }

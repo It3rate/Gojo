@@ -300,7 +300,7 @@ public sealed class EquationResolutionSearchTests
             new Carrier(),
             out var refinements));
         Assert.Equal(2, refinements.Length);
-        Assert.True(RefinementSurface.TryRead(
+        Assert.True(RefinementRead.TryRead(
             refinements[0],
             out var parameter,
             out var binding,
