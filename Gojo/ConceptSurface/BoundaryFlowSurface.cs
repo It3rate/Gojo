@@ -3670,13 +3670,27 @@ public static class BoundaryFlowTargetSettlement
         IElement residue,
         Relation timeline)
     {
+        var before = targetBefore ?? ConceptSurface.UnknownPoint();
+        var transfer = transferSurface ?? ConceptSurface.UnknownPoint();
+        var after = targetAfter ?? ConceptSurface.UnknownPoint();
+        var residueOrTension = residue ?? ConceptSurface.UnknownPoint();
+        var time = timeline ?? ConceptSurface.UnknownPoint();
+        var witness = ReadWitness.Create(
+            new Carrier(),
+            before,
+            transfer,
+            after,
+            residueOrTension,
+            time);
+
         return Relation.OrderedGroup(
             ConceptSurface.RootOrNew(root),
-            targetBefore ?? ConceptSurface.UnknownPoint(),
-            transferSurface ?? ConceptSurface.UnknownPoint(),
-            targetAfter ?? ConceptSurface.UnknownPoint(),
-            residue ?? ConceptSurface.UnknownPoint(),
-            timeline ?? ConceptSurface.UnknownPoint());
+            before,
+            transfer,
+            after,
+            residueOrTension,
+            time,
+            witness);
     }
 
     public static bool TrySettle(
@@ -3797,6 +3811,11 @@ public static class BoundaryFlowTargetSettlement
         Carrier root,
         out Relation witness)
     {
+        if (TryReadEmbeddedWitness(settlementSurface, out witness))
+        {
+            return true;
+        }
+
         if (TryRead(
                 settlementSurface,
                 out var targetBefore,
@@ -3812,6 +3831,21 @@ public static class BoundaryFlowTargetSettlement
                 targetAfter,
                 residue,
                 timeline);
+            return true;
+        }
+
+        witness = null!;
+        return false;
+    }
+
+    private static bool TryReadEmbeddedWitness(Relation settlementSurface, out Relation witness)
+    {
+        if (ConceptSurfaceReader.TryReadRootElements(settlementSurface, out var elements) &&
+            elements.Length >= 6 &&
+            elements[5] is Relation candidate &&
+            ReadWitness.TryRead(candidate, out _, out _, out _, out _, out _))
+        {
+            witness = candidate;
             return true;
         }
 
@@ -3870,13 +3904,27 @@ public static class BoundaryFlowTargetSettlementRun
         Relation residues,
         Relation timeline)
     {
+        var initial = initialTarget ?? ConceptSurface.UnknownPoint();
+        var final = finalTarget ?? ConceptSurface.UnknownPoint();
+        var transferGroup = transfers ?? ConceptSurface.UnknownPoint();
+        var residueGroup = residues ?? ConceptSurface.UnknownPoint();
+        var time = timeline ?? ConceptSurface.UnknownPoint();
+        var witness = ReadWitness.Create(
+            new Carrier(),
+            initial,
+            transferGroup,
+            final,
+            residueGroup,
+            time);
+
         return Relation.OrderedGroup(
             ConceptSurface.RootOrNew(root),
-            initialTarget ?? ConceptSurface.UnknownPoint(),
-            finalTarget ?? ConceptSurface.UnknownPoint(),
-            transfers ?? ConceptSurface.UnknownPoint(),
-            residues ?? ConceptSurface.UnknownPoint(),
-            timeline ?? ConceptSurface.UnknownPoint());
+            initial,
+            final,
+            transferGroup,
+            residueGroup,
+            time,
+            witness);
     }
 
     public static bool TrySettle(
@@ -4004,6 +4052,11 @@ public static class BoundaryFlowTargetSettlementRun
         Carrier root,
         out Relation witness)
     {
+        if (TryReadEmbeddedWitness(runSurface, out witness))
+        {
+            return true;
+        }
+
         if (TryRead(
                 runSurface,
                 out var initialTarget,
@@ -4019,6 +4072,21 @@ public static class BoundaryFlowTargetSettlementRun
                 finalTarget,
                 residues,
                 timeline);
+            return true;
+        }
+
+        witness = null!;
+        return false;
+    }
+
+    private static bool TryReadEmbeddedWitness(Relation runSurface, out Relation witness)
+    {
+        if (ConceptSurfaceReader.TryReadRootElements(runSurface, out var elements) &&
+            elements.Length >= 6 &&
+            elements[5] is Relation candidate &&
+            ReadWitness.TryRead(candidate, out _, out _, out _, out _, out _))
+        {
+            witness = candidate;
             return true;
         }
 

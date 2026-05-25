@@ -60,6 +60,10 @@ public sealed class EquationWitnessTests
         Assert.Equal(equation, readSurface);
         Assert.Equal(new CarrierLocation(output, 30), Assert.IsType<CarrierLocation>(result));
         Assert.Equal(new CarrierLocation(input, 0), Assert.IsType<CarrierLocation>(residueOrTension));
-        Assert.Equal(mappedSamples[0], provenance);
+        Assert.True(Equation.TryReadPrediction(
+            Assert.IsType<Relation>(provenance),
+            out var provenancePrediction,
+            out _));
+        Assert.Equal(result, provenancePrediction);
     }
 }

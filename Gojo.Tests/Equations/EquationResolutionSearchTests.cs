@@ -228,6 +228,7 @@ public sealed class EquationResolutionSearchTests
             out var rounds);
 
         Assert.True(EquationResolutionSearch.TryReadSelectedSample(rounds[0], out var selectedSample));
+        Assert.True(EquationResolutionSearch.TryReadCandidateClaim(selectedSample, out var selectedClaim));
         Assert.True(EquationResolutionSearch.TryReadCandidatePredictionWitness(
             selectedSample,
             polynomial,
@@ -244,7 +245,7 @@ public sealed class EquationResolutionSearchTests
         Assert.Equal(polynomial, equationSurface);
         Assert.Equal(new CarrierLocation(output, -9), Assert.IsType<CarrierLocation>(predicted));
         Assert.IsType<Relation>(predictionResidue);
-        Assert.Equal(selectedSample, predictionProvenance);
+        Assert.Equal(selectedClaim, predictionProvenance);
 
         Assert.True(EquationResolutionSearch.TryReadCandidateClaimWitness(
             selectedSample,
@@ -266,11 +267,12 @@ public sealed class EquationResolutionSearchTests
             out _,
             out _,
             out _));
+        Assert.Equal(selectedClaim, claimSurface);
         Assert.True(Assert.IsType<Relation>(claimResult).TryReadOrderedElementsOn(
             Assert.IsType<Carrier>(((Relation)claimResult).Right),
             out var resultParts));
         Assert.Equal(3, resultParts.Length);
-        Assert.Equal(selectedSample, claimProvenance);
+        Assert.Equal(selectedClaim, claimProvenance);
         Assert.IsType<Relation>(claimResidue);
     }
 

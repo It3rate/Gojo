@@ -354,6 +354,11 @@ public static class EquationResolutionSearch
         Carrier root,
         out Relation witness)
     {
+        if (TryReadEmbeddedWitness(sample, index: 8, out witness))
+        {
+            return true;
+        }
+
         if (TryReadCandidateSample(
                 sample,
                 out _,
@@ -387,6 +392,11 @@ public static class EquationResolutionSearch
         Carrier root,
         out Relation witness)
     {
+        if (TryReadEmbeddedWitness(sample, index: 9, out witness))
+        {
+            return true;
+        }
+
         if (TryReadCandidateSample(
                 sample,
                 out _,
@@ -542,7 +552,8 @@ public static class EquationResolutionSearch
                 signedResidual,
                 magnitudeLocation,
                 residue ?? prediction,
-                claim);
+                claim,
+                equation);
             entries[index] = ExtremaTournament.Entry(samples[index], magnitudeLocation);
         }
 
@@ -592,8 +603,32 @@ public static class EquationResolutionSearch
         CarrierLocation readableResidual,
         CarrierLocation magnitude,
         IElement residue,
-        Relation claim) =>
-        Relation.OrderedGroup(
+        Relation claim,
+        Relation equation)
+    {
+        var residueOrTension = residue ?? Relation.Point(Carrier.Unknown, 0);
+        var claimSurface = claim ?? Relation.Point(Carrier.Unknown, 0);
+        var predictionWitness = ReadWitness.Create(
+            new Carrier(),
+            input,
+            equation ?? Relation.Point(Carrier.Unknown, 0),
+            predicted,
+            residueOrTension,
+            claimSurface);
+        var claimResult = Relation.OrderedGroup(
+            new Carrier(),
+            signedResidual,
+            readableResidual,
+            magnitude);
+        var claimWitness = ReadWitness.Create(
+            new Carrier(),
+            predicted,
+            claimSurface,
+            claimResult,
+            residueOrTension,
+            claimSurface);
+
+        return Relation.OrderedGroup(
             new Carrier(),
             Relation.Point(sampleIndex, index),
             input,
@@ -601,8 +636,11 @@ public static class EquationResolutionSearch
             signedResidual,
             readableResidual,
             magnitude,
-            residue,
-            claim);
+            residueOrTension,
+            claimSurface,
+            predictionWitness,
+            claimWitness);
+    }
 
     private static long CandidateTicks(long startTicks, long span, int sampleCount, int index) =>
         sampleCount <= 1
@@ -618,6 +656,21 @@ public static class EquationResolutionSearch
         }
 
         elements = [];
+        return false;
+    }
+
+    private static bool TryReadEmbeddedWitness(Relation sample, int index, out Relation witness)
+    {
+        if (TryReadRootElements(sample, out var elements) &&
+            elements.Length > index &&
+            elements[index] is Relation candidate &&
+            ReadWitness.TryRead(candidate, out _, out _, out _, out _, out _))
+        {
+            witness = candidate;
+            return true;
+        }
+
+        witness = null!;
         return false;
     }
 

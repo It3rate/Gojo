@@ -28,7 +28,7 @@ public static class EquationInspection
         for (var sampleIndex = 0; sampleIndex < count; sampleIndex++)
         {
             var prediction = Equation.Predict(equation, inputs[sampleIndex], output);
-            samples[sampleIndex] = PredictionSample(index, sampleIndex, inputs[sampleIndex], prediction);
+            samples[sampleIndex] = PredictionSample(index, sampleIndex, inputs[sampleIndex], equation, prediction);
         }
 
         return Relation.OrderedGroup(
@@ -56,7 +56,7 @@ public static class EquationInspection
         {
             var input = inputs[sampleIndex] ?? Relation.Point(Carrier.Unknown, 0);
             var prediction = Equation.Predict(equation, input, output);
-            samples[sampleIndex] = PredictionSample(index, sampleIndex, input, prediction);
+            samples[sampleIndex] = PredictionSample(index, sampleIndex, input, equation, prediction);
         }
 
         return Relation.OrderedGroup(
@@ -263,6 +263,15 @@ public static class EquationInspection
         Carrier root,
         out Relation witness)
     {
+        if (TryReadRootElements(sample, out var elements) &&
+            elements.Length >= 5 &&
+            elements[4] is Relation embeddedWitness &&
+            ReadWitness.TryRead(embeddedWitness, out _, out _, out _, out _, out _))
+        {
+            witness = embeddedWitness;
+            return true;
+        }
+
         if (TryReadPredictionSampleElement(
                 sample,
                 out _,
@@ -355,23 +364,34 @@ public static class EquationInspection
         Carrier index,
         int sampleIndex,
         CarrierLocation input,
+        Relation equation,
         Relation prediction) =>
-        PredictionSample(index, sampleIndex, (IElement)input, prediction);
+        PredictionSample(index, sampleIndex, (IElement)input, equation, prediction);
 
     private static Relation PredictionSample(
         Carrier index,
         int sampleIndex,
         IElement input,
+        Relation equation,
         Relation prediction)
     {
         if (prediction.Left is CarrierLocation predicted)
         {
+            var residue = prediction.Right ?? Relation.Point(Carrier.Unknown, 0);
+            var witness = ReadWitness.Create(
+                new Carrier(),
+                input,
+                equation ?? Relation.Point(Carrier.Unknown, 0),
+                predicted,
+                residue,
+                prediction);
             return Relation.OrderedGroup(
                 new Carrier(),
                 Relation.Point(index, sampleIndex),
                 input,
                 predicted,
-                prediction.Right);
+                residue,
+                witness);
         }
 
         return Relation.OrderedGroup(new Carrier(), Relation.Point(index, sampleIndex), input, prediction);
@@ -421,12 +441,12 @@ public static class EquationInspection
         out CarrierLocation[] locations)
     {
         if (TryReadRootElements(sample, out var elements) &&
-            elements.Length == expectedLocations &&
+            elements.Length >= expectedLocations &&
             elements[0] is Relation indexPoint &&
             indexPoint.Left is CarrierLocation index &&
-            elements.Skip(1).All(element => element is CarrierLocation))
+            elements.Skip(1).Take(expectedLocations - 1).All(element => element is CarrierLocation))
         {
-            locations = [index, .. elements.Skip(1).Cast<CarrierLocation>()];
+            locations = [index, .. elements.Skip(1).Take(expectedLocations - 1).Cast<CarrierLocation>()];
             return true;
         }
 
