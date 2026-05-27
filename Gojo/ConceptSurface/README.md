@@ -8,7 +8,7 @@ and missing core structure proposals.
 for the common `ReadWitness`, `BasisReadSurface`, refinement, and timeline
 shape used across equations and concept-surface work.
 
-`ConceptSurface` is a proposed Gojo-native foothold for low-resolution
+`ConceptSurface` is a Gojo-native inspection record for low-resolution
 conceptual structures. It is meant to sit above `UnitShape` in scale, not above
 Gojo in meaning.
 
@@ -25,11 +25,10 @@ this connected structure affords this kind of topology, focus, flow,
 parameterization, and settlement
 ```
 
-The name is only a design handle. A future helper may build and read these
-surfaces, much like `RepeatSurface`, but the concept must remain visible as
-ordinary carriers, locations, relations, unit shapes, slots, tension, residue,
-and timelines. If the helper code disappears, the structure should still be
-inspectable and meaningful.
+The name is only a design handle. The helper builds and reads ordinary relation
+structure, but the concept must remain visible as ordinary carriers, locations,
+relations, unit shapes, slots, tension, residue, and timelines. If the helper
+code disappeared, the structure should still be inspectable and meaningful.
 
 This note starts with physical, mechanical, CAD, manufacturing, and engineering
 concepts because they are more grounded than pure language concepts. The same
@@ -67,50 +66,74 @@ This is analogous to how equation surfaces can start coarse and then become
 more precise through prediction, residue, resolution search, and repeat
 evidence. A concept word is a read at a resolution, not the source of meaning.
 
-## Proposed Surface Skeleton
+## Current Surface Skeleton
 
-A low-resolution concept surface can be represented as an ordered group:
+A low-resolution concept surface is represented as an ordered group:
 
 ```text
 ConceptSurface(root)
   selected structure
   topology surface
-  focus surface
-  flow surface
-  parameter surface
+  focus / read surface
+  flow or lane surface
+  parameter / metric surface
   constraint surface
   settlement / residue / tension witness
-  refinement timeline
+  refinement timeline / provenance
 ```
 
 This shape is intentionally ordinary Gojo structure:
 
 - `selected structure` is the thing being interpreted.
 - `topology surface` records how carriers, spans, regions, or joins connect.
-- `focus surface` records the local site, side, span, or observer read being
-  emphasized.
-- `flow surface` records allowed, blocked, agnostic, convergent, divergent, or
-  opposed participation using carrier faces and relation direction.
-- `parameter surface` contains open slots, carrier locations, spans, or
-  repeat controllers that can later refine the concept.
+- `focus / read surface` records the local site, side, span, or observer read
+  being emphasized. A focused read can use `ConceptReadFocus` or the common
+  `ReadWitness` skeleton.
+- `flow or lane surface` records allowed, blocked, agnostic, convergent,
+  divergent, or opposed participation. Current code usually keeps
+  boundary/domain evidence, flow exposure, lane basis, lane transition, and
+  occupied value surfaces separate until a read binds them.
+- `parameter / metric surface` contains open slots, carrier locations, spans,
+  repeat controllers, or metric evidence that can later refine the concept.
 - `constraint surface` bounds parameters or flow using faces, spans, ratios,
   ladders, or opposed carriers.
 - `settlement / residue / tension witness` records what happens when the
-  structure is perturbed or read.
-- `refinement timeline` records one or more steps where parameters become more
-  resolved, residue changes, or topology hardens.
+  structure is perturbed or read. This should generally be a `ReadWitness`.
+- `refinement timeline / provenance` records one or more steps where
+  parameters become more resolved, residue changes, or topology hardens.
+  Current code uses `TimeStepSequence`; individual parameter attempts use
+  `RefinementRead`.
 
-An executable helper could expose:
+The current executable helpers expose:
 
 ```csharp
 ConceptSurface.Create(...)
 ConceptSurface.TryRead(...)
-ConceptSurface.TryReadFocus(...)
-ConceptSurface.TryReadParameters(...)
+ConceptReadFocus.Create(...)
+ConceptReadFocus.CreateWitness(...)
 ```
 
-but those helpers should only construct and inspect relation structure. They
-must not own concept identity.
+Those helpers only construct and inspect relation structure. They must not own
+concept identity.
+
+## Current Read Tools
+
+The concept-surface layer now sits on a small common read grammar:
+
+| Tool | Role |
+| --- | --- |
+| `ReadWitness` | General local read: selected, read surface, result, residue/tension, provenance. |
+| `BasisReadSurface` | Basis-bearing read: selected, axis/face evidence, lane basis, metric evidence, residue/tension, provenance. |
+| `TimeStepSequence` | Ordered transition evidence that can be read back as witnesses. |
+| `RefinementRead` | Parameter binding plus witness plus residue/tension plus timeline/provenance. |
+| `RepeatSurface` | Repeated selected structure, controller, transition, feedback, residue, and timeline. |
+| `ConceptReadFocus` | Concept-local focus read that can also emit the common witness shape. |
+| `BoundaryFlowLaneBasis` | Legal boundary/flow lanes for a selected structure. |
+| `BoundaryFlowLaneTransitionSurface` | Directed evidence that one occupied lane can move into another. |
+| `BoundaryFlowValueSurface` | Unsigned magnitude occupying one lane against a basis. |
+
+This means concept words should usually be described as structured reads over
+these tools rather than as new word-owned classes.
 
 ## Primitive Gojo Vocabulary
 
@@ -158,6 +181,40 @@ than in an external classifier.
 
 Flow should be encoded by carrier faces, signed locations, and relation shape,
 not by a symbolic flow tag.
+
+The current boundary/flow tooling keeps three questions separate:
+
+```text
+axis/domain:
+  which carrier-like position surface is addressable?
+
+flow exposure:
+  which relation or traversal faces route calibrated change?
+
+lane basis:
+  which combined boundary/flow lanes may a value occupy?
+```
+
+The preferred low-level split is:
+
+```text
+CarrierBoundarySurface
+  boundary/domain evidence for a carrier-like axis
+
+RelationFlowSurface
+  flow exposure evidence for a relation/traversal surface
+
+BoundaryFlowLaneBasis
+  legal lane grammar for a selected structure
+
+BoundaryFlowValueSurface
+  one magnitude occupying one lane against a basis
+```
+
+`CarrierAxisSurface` remains useful as a convenience bundle, but it should not
+hide the axis/domain versus traversal/flow distinction. Lane basis is not
+carrier-owned; a selected unit shape, bounded whole, bridge opening, route
+target, or carrier can all carry lane evidence.
 
 Useful distinctions:
 
@@ -247,6 +304,11 @@ outlet, valve, or blocked junction.
 Focus can be encoded as a relation-readable selection. It is not a comment or
 metadata bag.
 
+The current common shape for a focus read is either a `ConceptReadFocus` or a
+`ReadWitness`. The important part is the same in both cases: the selected
+source, the read surface, the result, the residue/tension, and the provenance
+stay connected.
+
 Examples:
 
 ```text
@@ -299,6 +361,12 @@ only the topology. It is a read over that topology centered on the passage.
 
 Parameters should start as open structure. They can later be bound by evidence,
 resolution search, design constraints, or settlement.
+
+When a parameter is tested or bound, the attempt should be recorded as a
+`RefinementRead`: parameter, binding or candidate choice, read witness,
+residue/tension, and timeline/provenance. Metric embodiment that is not yet a
+full CAD object should usually travel through `BasisReadSurface.metricEvidence`
+or ordinary span/point relation evidence.
 
 Useful parameter encodings:
 
@@ -381,15 +449,22 @@ exception or hidden validation flag.
 Concept surfaces should be useful as solver seeds. A large design equation can
 start with low-resolution concepts and refine them.
 
-Refinement should be recorded as structure:
+Refinement should be recorded as structure using the common read spine:
 
 ```text
+RefinementRead
+  parameter
+  binding or candidate choice
+  ReadWitness
+  residue or tension
+  TimeStepSequence / provenance
+
 TimeStepSequence
-  initial low-resolution surface
-  step 0: bind one parameter
-  step 1: test settlement
-  step 2: preserve residue
-  step 3: narrow a span
+  initial low-resolution structure
+  step 0: bind/test one parameter
+  step 1: read settlement witness
+  step 2: preserve residue or tension
+  step 3: narrow metric evidence or lane basis
   step 4: harden a more specific topology
 ```
 
@@ -1615,21 +1690,22 @@ The descriptors change, but the structural ghost remains. A concept surface
 can use descriptors to preserve or replace context, while the algebraic
 structure keeps the relation pattern inspectable.
 
-## Near-Term Code Direction
+## Current Code Direction
 
-Potential implementation steps:
+Implemented footholds:
 
-1. Add a small `ConceptSurface` helper that creates and reads the skeleton
-   ordered group.
-2. Keep all fields as `IElement`; do not introduce concept enums.
-3. Add local reads for focus, parameter slots, and residue surfaces.
-4. Reuse `StructuralPattern` for unresolved parameter slots.
-5. Reuse `TimeStepSequence` for refinement witnesses.
-6. Reuse `RepeatSurface` for repeated features such as teeth, detents, marks,
-   threads, slots, and pores.
-7. Add tests that prove low-resolution surfaces remain inspectable when
-   partially parameterized.
+- `ConceptSurface` creates and reads the skeleton ordered group.
+- `ConceptReadFocus` creates local focus reads and projects them into
+  `ReadWitness`.
+- `ReadWitness`, `BasisReadSurface`, `RefinementRead`, and
+  `TimeStepSequence` provide the common read/refinement grammar.
+- Boundary/flow code now separates boundary/domain evidence, flow exposure,
+  lane basis, lane transition, value occupation, route projection, transfer,
+  settlement, and shared capacity.
+- `RepeatSurface` and `TimeStepSequence` are available for repeated features
+  such as teeth, detents, marks, threads, slots, pores, and refinement rounds.
 
-The first executable target should be modest: build and read a concept surface
-without interpreting the word. Interpretation should remain a local read over
-topology, focus, flow, parameters, and settlement evidence.
+Near-term work should keep interpretation as a local read over topology, focus,
+axis/domain, flow exposure, lane basis, metric evidence, parameters, and
+settlement evidence. For high-level mechanical concepts, prefer feature reads
+with witnesses and residue over word-owned classes or symbolic tags.
