@@ -28,6 +28,12 @@ Gojo.Tests/
   Equations/
   ConceptSurface/
 
+GojoCAD/
+  graphical format definition surfaces over Gojo structure
+
+GojoCAD.Tests/
+  graphical format read/construction tests
+
 docs/
   LegacyCore4IdeaInventory.md
 ```
