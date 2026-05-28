@@ -85,36 +85,7 @@ internal sealed class VisualizerDrawOperation : ICustomDrawOperation
 
     private void DrawSample(SKCanvas canvas)
     {
-        using var dotPaint = new SKPaint
-        {
-            IsAntialias = true,
-            Color = new SKColor(31, 45, 61),
-            Style = SKPaintStyle.Fill
-        };
-        using var radialDotPaint = new SKPaint
-        {
-            IsAntialias = true,
-            Color = new SKColor(162, 64, 46),
-            Style = SKPaintStyle.Fill
-        };
-        using var segmentPaint = new SKPaint
-        {
-            IsAntialias = true,
-            Color = new SKColor(42, 91, 143),
-            StrokeWidth = 5f,
-            StrokeCap = SKStrokeCap.Round,
-            Style = SKPaintStyle.Stroke
-        };
-
-        Adapter.DrawDot(canvas, sample.Dot, sample.Projection, 10f, dotPaint);
-        Adapter.DrawRadialFlow(
-            canvas,
-            sample.RadialFlow,
-            sample.Projection,
-            58f,
-            new SKColor(162, 64, 46, 110),
-            new SKColor(162, 64, 46, 0));
-        Adapter.DrawDot(canvas, sample.RadialDot, sample.Projection, 9f, radialDotPaint);
-        Adapter.DrawSegment(canvas, sample.Segment, sample.Projection, segmentPaint);
+        using var paints = new GojoCadSkiaPaints();
+        Adapter.DrawElement(canvas, sample.Structure, sample.Projection, paints);
     }
 }

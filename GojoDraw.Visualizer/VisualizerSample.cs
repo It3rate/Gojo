@@ -5,10 +5,7 @@ using GojoDraw;
 namespace GojoDraw.Visualizer;
 
 internal sealed record VisualizerSample(
-    Relation Dot,
-    Relation RadialDot,
-    Relation RadialFlow,
-    Relation Segment,
+    IElement Structure,
     SiteSkiaProjection Projection)
 {
     public static VisualizerSample Create()
@@ -23,6 +20,7 @@ internal sealed record VisualizerSample(
         var radialDot = GraphicStructure.Point(drawing, radialSite);
         var radialFlow = GraphicStructure.RadialFlow(radialDot);
         var segment = GraphicStructure.Segment(drawing, segmentStart, segmentEnd);
+        var structure = new Relation(dot, new Relation(radialFlow, segment));
 
         var projection = new SiteSkiaProjection()
             .Map(dotSite, 150, 245)
@@ -30,6 +28,6 @@ internal sealed record VisualizerSample(
             .Map(segmentStart, 560, 320)
             .Map(segmentEnd, 710, 170);
 
-        return new VisualizerSample(dot, radialDot, radialFlow, segment, projection);
+        return new VisualizerSample(structure, projection);
     }
 }

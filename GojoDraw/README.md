@@ -7,7 +7,7 @@ The intended direction is:
 
 ```text
 GojoCAD structure carries graphic concepts
-GojoDraw locally reads those concepts
+GojoDraw walks relation structure and renders forms it recognizes
 Skia receives paths, points, gradients, colors, and paint at the boundary
 ```
 
@@ -15,9 +15,10 @@ For now the adapter is intentionally tiny:
 
 - draw a GojoCAD point as a dot
 - draw GojoCAD radial flow as a radial gradient around its source point
-- draw a GojoCAD segment as a Skia line
-- draw a GojoCAD directed segment when a caller wants to inspect inverse-start
-  to positive-end flow
+- draw a GojoCAD segment as a Skia line with small endpoint bars
+- draw a GojoCAD directed segment as inverse-start to positive-end flow with
+  an arrow tip at the positive end
+- walk a larger `IElement` and render each recognized primitive relation form
 
 Style and display values are currently supplied by the visualizer because
 GojoCAD does not yet define style surfaces. As those concepts arrive in

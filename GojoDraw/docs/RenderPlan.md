@@ -11,8 +11,8 @@ Convert GojoCAD structures to Skia values only at adapter/render boundaries:
 ```text
 carrier location -> SKPoint
 radial flow      -> radial gradient draw
-segment          -> SKCanvas line
-directed segment -> line read from inverse start to positive end
+segment          -> line plus endpoint bars
+directed segment -> line with arrow tip at positive end
 ```
 
 Do not add viewport, timer, stroke, color, or component state as GojoDraw-owned
@@ -26,6 +26,8 @@ visualizer/demo code may supply paint and projection values directly.
 - one point as a dot
 - one point with radial flow as a radial gradient
 - one ordinary segment
+- one composite relation handed to the adapter, which walks the structure and
+  renders recognized primitive forms
 
 There is no animation yet. Avalonia is used only as a host, with no XAML, and
 the actual drawing is done through Skia custom drawing.

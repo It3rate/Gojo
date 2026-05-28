@@ -13,7 +13,8 @@ structure first, local reads second, external output later.
 | Graphic need | Gojo-native structure |
 | --- | --- |
 | Site, marker, endpoint | `CarrierLocation`, `TickRef`, `Relation.Point(...)` |
-| Directed span | ordered point-to-point relation |
+| Segment | ordinary positive-face point-to-point relation |
+| Directed segment | inverse-face start plus positive-face end relation |
 | Ray or line seed | orthogonal outlet of a zero-length segment |
 | Radial seed | orthogonal outlet of a point |
 | Circumference or contour | circular unit shape from a point source |
@@ -22,7 +23,7 @@ structure first, local reads second, external output later.
 | Anti-area, hole, cut | opposed or inverse area participation |
 | Partition | point, segment, reset, repeat, or resolution structure over a carrier |
 | Arc | selected partition of a radial or contour carrier |
-| Polyline | ordered group of directed spans |
+| Polyline | ordered group of ordinary or directed segment relations |
 | Closure | endpoint return through shared site evidence |
 | Branch or merge | shared junction site plus connected spans and lane evidence |
 | Stroke order | time sequence over selected spans |
@@ -41,7 +42,7 @@ models.
 | System | GojoCAD reading |
 | --- | --- |
 | Point | grounded site on a carrier |
-| Segment | directed span between two point relations |
+| Segment | ordinary positive-face span between two point relations |
 | Polyline | ordered repeated spans with explicit joins |
 | Polygon | closed polyline plus fill participation |
 | Circle | point-radial seed plus radius and contour evidence |

@@ -1,5 +1,4 @@
 using Gojo.Core;
-using Gojo.Reads;
 
 namespace GojoCAD;
 
@@ -39,68 +38,4 @@ public static class GraphicStructure
     /// <summary>Creates radial flow potential from a point without measuring radius.</summary>
     public static Relation RadialFlow(Relation point) =>
         Relation.OrthogonalOutlet(point);
-
-    /// <summary>Reads a Gojo point relation into its grounded location.</summary>
-    public static bool TryReadPoint(Relation point, out CarrierLocation location)
-    {
-        if (point.Left is CarrierLocation candidate &&
-            point.Right is Carrier carrier &&
-            candidate.Carrier.SameIdentityAs(carrier))
-        {
-            location = candidate;
-            return true;
-        }
-
-        location = default;
-        return false;
-    }
-
-    /// <summary>Reads a positive-face segment between two point relations.</summary>
-    public static bool TryReadSegment(
-        Relation segment,
-        out CarrierLocation start,
-        out CarrierLocation end)
-    {
-        if (segment.Left is Relation startPoint &&
-            segment.Right is Relation endPoint &&
-            TryReadPoint(startPoint, out start) &&
-            TryReadPoint(endPoint, out end) &&
-            start.Carrier.SameIdentityAs(end.Carrier) &&
-            !start.Carrier.IsInverse &&
-            !end.Carrier.IsInverse)
-        {
-            return true;
-        }
-
-        start = default;
-        end = default;
-        return false;
-    }
-
-    /// <summary>Reads a directed segment as inverse-face start and positive-face end.</summary>
-    public static bool TryReadDirectedSegment(
-        Relation directedSegment,
-        out CarrierLocation inverseStart,
-        out CarrierLocation positiveEnd) =>
-        directedSegment.TryReadDirectedSegment(out inverseStart, out positiveEnd);
-
-    /// <summary>Reads radial flow as an orthogonal outlet from a point.</summary>
-    public static bool TryReadRadialFlow(Relation radialFlow, out Relation point)
-    {
-        if (radialFlow.Left is Relation sourcePoint &&
-            TryReadPoint(sourcePoint, out _) &&
-            radialFlow.Right is Relation outlet &&
-            TryReadSegment(outlet, out var start, out var end) &&
-            start.Carrier.IsUnknown &&
-            end.Carrier.IsUnknown &&
-            start.Ticks == 0 &&
-            end.Ticks == 0)
-        {
-            point = sourcePoint;
-            return true;
-        }
-
-        point = null!;
-        return false;
-    }
 }
