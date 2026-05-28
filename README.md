@@ -34,6 +34,12 @@ GojoCAD/
 GojoCAD.Tests/
   graphical format read/construction tests
 
+GojoDraw/
+  Skia adapter for GojoCAD elements
+
+GojoDraw.Visualizer/
+  demo-only no-XAML Avalonia app that exercises GojoDraw
+
 docs/
   LegacyCore4IdeaInventory.md
 ```

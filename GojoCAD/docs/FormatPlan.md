@@ -165,8 +165,8 @@ tension.
 
 ## 7. Near-Term Milestones
 
-1. Keep the current point, span, polyline, branch, and clothoid-like transition
-   tests passing.
+1. Keep the current point, radial flow, segment, and directed-segment tests
+   passing.
 2. Add a small curve-control surface for quadratic and cubic Bezier-like
    definitions.
 3. Add contour partition helpers for arcs and circular phase.

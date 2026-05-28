@@ -42,16 +42,14 @@ The first executable surface is intentionally small:
 
 - shared graphic sites through `TickRef`
 - point construction over Gojo carriers
-- directed spans
-- ordered polylines
-- closed polyline reads
-- branch and merge surfaces through shared junction sites
-- unsolved curve-transition evidence
-- clothoid-like length-to-curvature transition evidence
+- radial flow as an orthogonal outlet from a point
+- ordinary positive-face segments
+- directed segments whose start is aligned inverse flow and whose end is
+  positive flow
 
-These are enough to start defining simple curves, stroke order, connected
-linework, and Y/T style junctions without adding rendering or symbolic shape
-enums.
+These are enough to start defining dots, radial potential, ordinary spans, and
+the inverse-start/positive-end directed segment shape before adding linework
+composition, curves, or junctions.
 
 ## Non-Goals For Now
 

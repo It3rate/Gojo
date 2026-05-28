@@ -42,3 +42,14 @@ dotnet test Gojo.slnx
 Treat `Gojo/axioms`, `Gojo/ConceptSurface`, `docs`, and current Gojo code as the active source of truth. Historical Core4 notes are useful comparison material only where they have been copied into `docs` or `Gojo/axioms`.
 
 The initial extraction passed 543 tests after removing GearDemo tests and references.
+
+## UI And Demo Code
+
+- Use Avalonia for UI code, but never use XAML. All rendering is in native skia or other low level library, not xaml.
+- GojoDraw is a render library that converts GojoCad elements to skia or other low level drawing libraries, so it is the skia level for Gojo Core, but can include things like animation or components that are very general, like buttons and sliders.
+- Use native Skia rendering and render per time based tick for animation. Redraw the areas that need updating.
+- Keep UI code and logic separate from Gojo core unless a missing kernel capability is clearly discovered, in that case suggest a port of a feature.
+- Reusable UI pieces can live in component libraries, but they should not own Gojo meaning.
+- Convert GojoCad structures to `int`, `double`, pixels, strings, colors, or display DTOs (data transfer objects) only at adapter/render boundaries.
+- Avoid React-style state snapshots and broad global read records. Prefer local observers/inspectors over the structures being displayed. Dynamically compute rather than store values, where possible.
+- Use GojoDraw only as a render library that creates meaningful visualization of GojoCad elements and structures. We can have a visualizer in there that excercises the library, but all demo code should be in a new project.
