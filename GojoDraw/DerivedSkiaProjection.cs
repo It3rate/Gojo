@@ -25,72 +25,46 @@ public sealed class DerivedSkiaProjection : IGojoCadSkiaProjection
         Collect(structure ?? throw new ArgumentNullException(nameof(structure)));
     }
 
-    public bool TryProject(CarrierLocation location, out SKPoint point)
+    public SKPoint Project(CarrierLocation location)
     {
-        if (location.Carrier is null)
-        {
-            point = default;
-            return false;
-        }
-
-        if (!TryProjectModel(Normalize(location), out var modelPoint))
-        {
-            point = default;
-            return false;
-        }
-
-        point = ReadViewportTransform().Apply(modelPoint);
-        return true;
+        var normalized = location.Carrier is null
+            ? new CarrierLocation(Carrier.Unknown, location.Ticks)
+            : Normalize(location);
+        return ReadViewportTransform().Apply(ProjectModel(normalized));
     }
 
-    private bool TryProjectModel(CarrierLocation location, out SKPoint point)
+    private SKPoint ProjectModel(CarrierLocation location)
     {
-        if (location.Carrier is null)
-        {
-            point = default;
-            return false;
-        }
-
         var key = LocationKey.Of(location);
-        if (modelPoints.TryGetValue(key, out point))
+        if (modelPoints.TryGetValue(key, out var point))
         {
-            return true;
+            return point;
         }
 
-        var projected = location.Carrier.TryReadCircularOrigin(out _)
-            ? TryProjectCircularModel(location, out point)
-            : TryProjectLinearModel(location, out point);
-        if (projected)
-        {
-            modelPoints[key] = point;
-        }
+        point = IsCircularCarrier(location.Carrier)
+            ? ProjectCircularModel(location)
+            : ProjectLinearModel(location);
+        modelPoints[key] = point;
 
-        return projected;
+        return point;
     }
 
-    private bool TryProjectLinearModel(CarrierLocation location, out SKPoint point)
+    private SKPoint ProjectLinearModel(CarrierLocation location)
     {
         var basis = ReadLinearBasis(location.Carrier);
-        point = new SKPoint(
+        return new SKPoint(
             basis.Origin.X + location.Ticks * basis.TickVector.X,
             basis.Origin.Y + location.Ticks * basis.TickVector.Y);
-        return true;
     }
 
-    private bool TryProjectCircularModel(CarrierLocation location, out SKPoint point)
+    private SKPoint ProjectCircularModel(CarrierLocation location)
     {
-        if (!TryReadCircularBasis(location.Carrier, out var basis))
-        {
-            point = default;
-            return false;
-        }
-
+        var basis = ReadCircularProjectionBasis(location.Carrier);
         var phase = (location.Ticks - basis.AnchorTicks) / (float)basis.PeriodTicks;
         var angle = phase * MathF.PI * 2f;
-        point = new SKPoint(
+        return new SKPoint(
             basis.Center.X + MathF.Cos(angle) * basis.Radius,
             basis.Center.Y - MathF.Sin(angle) * basis.Radius);
-        return true;
     }
 
     private LinearBasis ReadLinearBasis(Carrier carrier)
@@ -103,10 +77,9 @@ public sealed class DerivedSkiaProjection : IGojoCadSkiaProjection
 
         var origin = new SKPoint(0, 0);
         var angle = 0f;
-        if (forward.TryReadLinearOrigin(out var linearOrigin) &&
-            TryProjectModel(Normalize(linearOrigin), out var projectedOrigin))
+        if (forward.TryReadLinearOrigin(out var linearOrigin))
         {
-            origin = projectedOrigin;
+            origin = ProjectModel(Normalize(linearOrigin));
             angle = SampleAngle();
         }
 
@@ -115,19 +88,15 @@ public sealed class DerivedSkiaProjection : IGojoCadSkiaProjection
         return basis;
     }
 
-    private bool TryReadCircularBasis(Carrier carrier, out CircularBasis basis)
+    private CircularBasis ReadCircularProjectionBasis(Carrier carrier)
     {
-        if (circularBases.TryGetValue(carrier.Id, out basis))
+        if (circularBases.TryGetValue(carrier.Id, out var basis))
         {
-            return true;
+            return basis;
         }
 
-        if (!carrier.TryReadCircularOrigin(out var origin) ||
-            !TryProjectModel(Normalize(origin), out var center))
-        {
-            basis = default;
-            return false;
-        }
+        var origin = ReadCircularOrigin(carrier);
+        var center = ProjectModel(Normalize(origin));
 
         var attachment = evidence.Attachments
             .Select(attachment => attachment.ForCircularCarrier(carrier))
@@ -135,9 +104,9 @@ public sealed class DerivedSkiaProjection : IGojoCadSkiaProjection
                 match.Circular.Carrier is not null &&
                 match.Other.Carrier is not null &&
                 !match.Other.Carrier.TryReadCircularOrigin(out _));
-        if (attachment.Circular.Carrier is not null &&
-            TryProjectModel(Normalize(attachment.Other), out var anchorPoint))
+        if (attachment.Circular.Carrier is not null)
         {
+            var anchorPoint = ProjectModel(Normalize(attachment.Other));
             var radius = Distance(center, anchorPoint);
             if (radius <= 0.1f)
             {
@@ -150,7 +119,7 @@ public sealed class DerivedSkiaProjection : IGojoCadSkiaProjection
                 attachment.Circular.Ticks,
                 ReadCircularPeriod(carrier, attachment.Circular.Ticks));
             circularBases[carrier.Id] = basis;
-            return true;
+            return basis;
         }
 
         var marker = evidence.Locations
@@ -165,7 +134,7 @@ public sealed class DerivedSkiaProjection : IGojoCadSkiaProjection
             anchorTicks,
             ReadCircularPeriod(carrier, anchorTicks));
         circularBases[carrier.Id] = basis;
-        return true;
+        return basis;
     }
 
     private long ReadCircularPeriod(Carrier carrier, long anchorTicks)
@@ -218,22 +187,17 @@ public sealed class DerivedSkiaProjection : IGojoCadSkiaProjection
         var bounds = new ModelBounds();
         foreach (var location in evidence.Locations.Select(Normalize))
         {
-            if (TryProjectModel(location, out var point))
-            {
-                bounds.Include(point);
-            }
+            bounds.Include(ProjectModel(location));
         }
 
         foreach (var carrier in evidence.Locations
             .Select(location => NormalizeCarrier(location.Carrier))
-            .Where(carrier => carrier.TryReadCircularOrigin(out _))
+            .Where(IsCircularCarrier)
             .GroupBy(carrier => carrier.Id)
             .Select(group => group.First()))
         {
-            if (TryReadCircularBasis(carrier, out var circle))
-            {
-                bounds.IncludeCircle(circle.Center, circle.Radius);
-            }
+            var circle = ReadCircularProjectionBasis(carrier);
+            bounds.IncludeCircle(circle.Center, circle.Radius);
         }
 
         return bounds.ToRect();
@@ -246,13 +210,13 @@ public sealed class DerivedSkiaProjection : IGojoCadSkiaProjection
             return;
         }
 
-        if (TryReadPointOnAnyCarrier(relation, out var point))
+        if (RecognizePointOnAnyCarrier(relation, out var point))
         {
             evidence.Locations.Add(point);
             return;
         }
 
-        if (TryReadPointPair(relation, out var left, out var right))
+        if (RecognizePointPair(relation, out var left, out var right))
         {
             evidence.Attachments.Add(new AttachmentEvidence(left, right));
         }
@@ -261,15 +225,15 @@ public sealed class DerivedSkiaProjection : IGojoCadSkiaProjection
         Collect(relation.Right);
     }
 
-    private static bool TryReadPointPair(
+    private static bool RecognizePointPair(
         Relation relation,
         out CarrierLocation left,
         out CarrierLocation right)
     {
         if (relation.Left is Relation leftPoint &&
             relation.Right is Relation rightPoint &&
-            TryReadPointOnAnyCarrier(leftPoint, out left) &&
-            TryReadPointOnAnyCarrier(rightPoint, out right))
+            RecognizePointOnAnyCarrier(leftPoint, out left) &&
+            RecognizePointOnAnyCarrier(rightPoint, out right))
         {
             return true;
         }
@@ -279,7 +243,7 @@ public sealed class DerivedSkiaProjection : IGojoCadSkiaProjection
         return false;
     }
 
-    private static bool TryReadPointOnAnyCarrier(Relation relation, out CarrierLocation location)
+    private static bool RecognizePointOnAnyCarrier(Relation relation, out CarrierLocation location)
     {
         if (relation.Left is CarrierLocation candidate &&
             relation.Right is Carrier carrier &&
@@ -294,6 +258,13 @@ public sealed class DerivedSkiaProjection : IGojoCadSkiaProjection
     }
 
     private float SampleAngle() => (float)random.NextDouble() * MathF.PI * 2f;
+
+    private static CarrierLocation ReadCircularOrigin(Carrier carrier) =>
+        carrier.TryReadCircularOrigin(out var origin)
+            ? origin
+            : new CarrierLocation(Carrier.Unknown, 0);
+
+    private static bool IsCircularCarrier(Carrier carrier) => carrier.TryReadCircularOrigin(out _);
 
     private static CarrierLocation Normalize(CarrierLocation location)
     {

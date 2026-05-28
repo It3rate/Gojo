@@ -24,6 +24,10 @@ Projection should be derived from GojoCAD relation evidence where possible.
 Ambiguous values can be sampled from bounded ranges for the current run instead
 of being fixed in per-site pixel maps.
 
+Recognized structures should render as recognized structures. Missing radius,
+period, orientation, style, or detail should lead to sampled, partial, or
+tension-like visualization rather than a failed render branch.
+
 ## Current Visualizer
 
 `GojoDraw.Visualizer` displays:

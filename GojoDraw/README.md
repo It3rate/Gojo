@@ -36,4 +36,8 @@ local value from a bounded range using the visualizer seed. That keeps the
 structure inspectable without pretending the format already contains an exact
 answer.
 
+Once a primitive relation is recognized, GojoDraw should render it as present.
+Incomplete detail becomes sampled or partial visualization, not a quiet failure
+to draw.
+
 The first demo lives in `GojoDraw.Visualizer` and uses Avalonia without XAML.

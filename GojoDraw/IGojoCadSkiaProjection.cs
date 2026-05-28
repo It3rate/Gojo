@@ -9,5 +9,5 @@ namespace GojoDraw;
 /// </summary>
 public interface IGojoCadSkiaProjection
 {
-    bool TryProject(CarrierLocation location, out SKPoint point);
+    SKPoint Project(CarrierLocation location);
 }
