@@ -18,9 +18,11 @@ For now the adapter is intentionally tiny:
 - draw a GojoCAD segment as a Skia line with small endpoint bars
 - draw a GojoCAD directed segment as inverse-start to positive-end flow with
   an arrow tip at the positive end
-- infer a circumference from circular carrier unit shape plus projected marker
-  evidence
-- draw partition sites as small low-intensity squares
+- derive projection from connected point, attachment, unit-shape, and viewport
+  evidence instead of per-site pixel maps
+- infer a circumference from circular carrier unit shape plus attached marker
+  and radius evidence
+- draw partition sites as low-intensity line ticks
 - walk a larger `IElement` and render each recognized primitive relation form
 - emit render-boundary hover hit areas for visualizer controls
 
@@ -28,5 +30,10 @@ Style and display values are currently supplied by the visualizer because
 GojoCAD does not yet define style surfaces. As those concepts arrive in
 GojoCAD, GojoDraw should read them from structure rather than owning them as
 render state.
+
+When a projection value is not yet structurally determined, GojoDraw samples a
+local value from a bounded range using the visualizer seed. That keeps the
+structure inspectable without pretending the format already contains an exact
+answer.
 
 The first demo lives in `GojoDraw.Visualizer` and uses Avalonia without XAML.

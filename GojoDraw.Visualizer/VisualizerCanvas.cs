@@ -128,8 +128,12 @@ internal sealed class VisualizerDrawOperation : ICustomDrawOperation
     private void DrawSample(SKCanvas canvas)
     {
         using var paints = new GojoCadSkiaPaints();
+        var projection = new DerivedSkiaProjection(
+            sample.Structure,
+            new SKRect(0, 0, (float)Bounds.Width, (float)Bounds.Height),
+            sample.ProjectionSeed);
         hitAreas.Clear();
-        Adapter.DrawElement(canvas, sample.Structure, sample.Projection, paints, hitAreas);
+        Adapter.DrawElement(canvas, sample.Structure, projection, paints, hitAreas);
     }
 
     private void DrawHover(SKCanvas canvas)
