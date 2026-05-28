@@ -11,22 +11,31 @@ internal sealed record VisualizerSample(
     public static VisualizerSample Create()
     {
         var drawing = new Carrier();
-        var dotSite = GraphicStructure.Site(0);
-        var radialSite = GraphicStructure.Site(1);
-        var segmentStart = GraphicStructure.Site(2);
-        var segmentEnd = GraphicStructure.Site(3);
+        var hubSite = GraphicStructure.Site(0);
+        var rimSite = GraphicStructure.Site(1);
+        var orbitSite = GraphicStructure.Site(2);
+        var arrowEndSite = GraphicStructure.Site(3);
 
-        var dot = GraphicStructure.Point(drawing, dotSite);
-        var radialDot = GraphicStructure.Point(drawing, radialSite);
-        var radialFlow = GraphicStructure.RadialFlow(radialDot);
-        var segment = GraphicStructure.Segment(drawing, segmentStart, segmentEnd);
-        var structure = new Relation(dot, new Relation(radialFlow, segment));
+        var hub = GraphicStructure.Point(drawing, hubSite);
+        var radialFlow = GraphicStructure.RadialFlow(hub);
+        var radiusSegment = GraphicStructure.Segment(drawing, hubSite, rimSite);
+        var directedSegment = GraphicStructure.DirectedSegment(drawing, hubSite, arrowEndSite);
+
+        var circumference = new Carrier(UnitShape.CircularFrom(hub));
+        var rimMarker = GraphicStructure.Point(circumference, rimSite);
+        var circumferenceChord = GraphicStructure.Segment(circumference, rimSite, orbitSite);
+        var rimAttachment = new Relation(GraphicStructure.Point(drawing, rimSite), rimMarker);
+        var contourAttachment = new Relation(radialFlow, new Relation(rimAttachment, circumferenceChord));
+
+        var structure = new Relation(
+            hub,
+            new Relation(radiusSegment, new Relation(directedSegment, contourAttachment)));
 
         var projection = new SiteSkiaProjection()
-            .Map(dotSite, 150, 245)
-            .Map(radialSite, 400, 245)
-            .Map(segmentStart, 560, 320)
-            .Map(segmentEnd, 710, 170);
+            .Map(hubSite, 320, 250)
+            .Map(rimSite, 500, 250)
+            .Map(orbitSite, 450, 120)
+            .Map(arrowEndSite, 215, 145);
 
         return new VisualizerSample(structure, projection);
     }

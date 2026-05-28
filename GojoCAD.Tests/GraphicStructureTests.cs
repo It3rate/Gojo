@@ -73,4 +73,23 @@ public sealed class GraphicStructureTests
         Assert.Equal(4, positiveEnd.Ticks);
         Assert.True(inverseStart.Carrier.UnitShape.AlgebraicallyCompatibleWith(positiveEnd.Carrier.UnitShape));
     }
+
+    [Fact]
+    public void DirectedSegmentCanUseSharedGraphicSites()
+    {
+        var axis = new Carrier();
+        var startSite = GraphicStructure.Site(2);
+        var endSite = GraphicStructure.Site(4);
+
+        var directed = GraphicStructure.DirectedSegment(axis, startSite, endSite);
+
+        var startPoint = Assert.IsType<Relation>(directed.Left);
+        var endPoint = Assert.IsType<Relation>(directed.Right);
+        var inverseStart = Assert.IsType<CarrierLocation>(startPoint.Left);
+        var positiveEnd = Assert.IsType<CarrierLocation>(endPoint.Left);
+        Assert.True(inverseStart.Carrier.SameIdentityAs(axis.Inverse()));
+        Assert.True(positiveEnd.Carrier.SameIdentityAs(axis));
+        Assert.True(inverseStart.SameTickRefAs(new CarrierLocation(axis.Inverse(), startSite)));
+        Assert.True(positiveEnd.SameTickRefAs(new CarrierLocation(axis, endSite)));
+    }
 }

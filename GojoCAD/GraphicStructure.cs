@@ -32,6 +32,17 @@ public static class GraphicStructure
     /// Creates a directed segment whose start is on the aligned inverse face
     /// and whose end is on the positive face: start*i + end.
     /// </summary>
+    public static Relation DirectedSegment(Carrier carrier, TickRef inverseStart, TickRef positiveEnd)
+    {
+        var forward = carrier ?? Carrier.Unknown;
+        var inverse = forward.IsUnknown ? Carrier.Unknown : forward.Inverse();
+        return new(Point(inverse, inverseStart), Point(forward, positiveEnd));
+    }
+
+    /// <summary>
+    /// Creates a directed segment whose start is on the aligned inverse face
+    /// and whose end is on the positive face: start*i + end.
+    /// </summary>
     public static Relation DirectedSegment(Carrier carrier, long inverseStart, long positiveEnd) =>
         Relation.DirectedSegment(carrier, inverseStart, positiveEnd);
 
