@@ -13,6 +13,8 @@ carrier location -> SKPoint
 radial flow      -> radial gradient draw
 segment          -> line plus endpoint bars
 directed segment -> line with arrow tip at positive end
+circular carrier -> circumference from circular origin and marker point
+point on basis   -> partition square when it belongs to a segment/circumference
 ```
 
 Do not add viewport, timer, stroke, color, or component state as GojoDraw-owned
@@ -26,6 +28,8 @@ visualizer/demo code may supply paint and projection values directly.
 - one point as a dot
 - one point with radial flow as a radial gradient
 - one ordinary segment
+- one inferred circumference with partition marks
+- hover text over rendered primitive regions
 - one composite relation handed to the adapter, which walks the structure and
   renders recognized primitive forms
 
