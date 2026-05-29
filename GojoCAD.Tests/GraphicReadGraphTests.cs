@@ -162,8 +162,28 @@ public sealed class GraphicReadGraphTests
         var shared = Assert.Single(graph.ReadsOf<SharedSiteRead>(), site => site.Points.Count == 3);
         Assert.All(shared.Points, point => Assert.True(point.Location.SameTickRefAs(shared.Points[0].Location)));
         Assert.Equal(3, graph.ReadsOf<SegmentConnectionRead>().Count());
+        Assert.Empty(graph.ReadsOf<SegmentJoinRead>());
         var junctionRead = Assert.Single(graph.ReadsOf<SegmentJunctionRead>());
         Assert.Equal(3, junctionRead.Endpoints.Count);
+        Assert.Equal([0, 1, 2], graph.Bands.Select(band => band.Order).ToArray());
+    }
+
+    [Fact]
+    public void ReadsSegmentJoinOnlyAtTwoEndpointSite()
+    {
+        var middle = GraphicStructure.Site(0);
+        var first = GraphicStructure.Segment(new Carrier(), GraphicStructure.Site(-8), middle);
+        var second = GraphicStructure.Segment(new Carrier(), middle, GraphicStructure.Site(8));
+        var structure = new Relation(first, second);
+
+        var graph = GraphicReadGraph.From(structure);
+
+        var join = Assert.Single(graph.ReadsOf<SegmentJoinRead>());
+        Assert.Equal(2, join.Site.Points.Count);
+        Assert.Equal(middle.Id, join.First.Point.Location.Tick?.Id);
+        Assert.Equal(middle.Id, join.Second.Point.Location.Tick?.Id);
+        Assert.Empty(graph.ReadsOf<SegmentJunctionRead>());
+        Assert.Empty(graph.ReadsOf<BoundaryJoinRead>());
         Assert.Equal([0, 1, 2], graph.Bands.Select(band => band.Order).ToArray());
     }
 
@@ -184,6 +204,9 @@ public sealed class GraphicReadGraphTests
         Assert.Contains(affected.OfType<SegmentConnectionRead>(), connection =>
             ReferenceEquals(connection.Left.Segment.Source, second) ||
             ReferenceEquals(connection.Right.Segment.Source, second));
+        Assert.Contains(affected.OfType<SegmentJoinRead>(), join =>
+            ReferenceEquals(join.First.Segment.Source, second) ||
+            ReferenceEquals(join.Second.Segment.Source, second));
     }
 
     [Fact]
@@ -245,8 +268,10 @@ public sealed class GraphicReadGraphTests
         var boundary = Assert.Single(graph.ReadsOf<ClosedSegmentBoundaryRead>());
         Assert.Equal(3, boundary.Segments.Count);
         Assert.Equal(3, boundary.Sites.Count);
+        Assert.Equal(3, graph.ReadsOf<SegmentJoinRead>().Count());
+        Assert.Equal(3, graph.ReadsOf<BoundaryJoinRead>().Count());
         Assert.Empty(graph.ReadsOf<SegmentJunctionRead>());
-        Assert.Equal([0, 1, 4], graph.Bands.Select(band => band.Order).ToArray());
+        Assert.Equal([0, 1, 2, 4], graph.Bands.Select(band => band.Order).ToArray());
     }
 
     [Fact]

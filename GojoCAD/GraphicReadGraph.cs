@@ -344,6 +344,11 @@ public sealed class GraphicReadGraph
                 yield return witness;
             }
 
+            foreach (var join in DeriveSegmentJoins(reads))
+            {
+                yield return join;
+            }
+
             foreach (var junction in DeriveSegmentJunctions(reads))
             {
                 yield return junction;
@@ -355,19 +360,23 @@ public sealed class GraphicReadGraph
             }
         }
 
+        private static IEnumerable<GraphicRead> DeriveSegmentJoins(IReadOnlyList<GraphicRead> reads)
+        {
+            foreach (var site in reads.OfType<SharedSiteRead>())
+            {
+                var endpoints = ReadSegmentEndpointsAt(site, reads);
+                if (endpoints.Length == 2)
+                {
+                    yield return new SegmentJoinRead(site.Source, site, endpoints[0], endpoints[1]);
+                }
+            }
+        }
+
         private static IEnumerable<GraphicRead> DeriveSegmentJunctions(IReadOnlyList<GraphicRead> reads)
         {
             foreach (var site in reads.OfType<SharedSiteRead>())
             {
-                var endpoints = reads
-                    .OfType<SegmentConnectionRead>()
-                    .SelectMany(connection => new[] { connection.Left, connection.Right })
-                    .Where(endpoint => site.Points.Any(point =>
-                        point.Location.SameTickRefAs(endpoint.Point.Location) ||
-                        SameNormalizedLocation(point.Location, endpoint.Point.Location)))
-                    .GroupBy(endpoint => endpoint.Segment.Source)
-                    .Select(group => group.First())
-                    .ToArray();
+                var endpoints = ReadSegmentEndpointsAt(site, reads);
                 if (endpoints.Length >= 3)
                 {
                     yield return new SegmentJunctionRead(site.Source, site, endpoints);
@@ -410,13 +419,19 @@ public sealed class GraphicReadGraph
 
         private static IEnumerable<GraphicRead> DeriveBoundaryControls(IReadOnlyList<GraphicRead> reads)
         {
-            foreach (var boundary in DeriveClosedSegmentBoundaries(reads))
+            var boundaries = DeriveClosedSegmentBoundaries(reads).ToArray();
+            foreach (var boundary in boundaries)
             {
                 yield return boundary;
             }
+
+            foreach (var join in DeriveBoundaryJoins(reads, boundaries))
+            {
+                yield return join;
+            }
         }
 
-        private static IEnumerable<GraphicRead> DeriveClosedSegmentBoundaries(IReadOnlyList<GraphicRead> reads)
+        private static IEnumerable<ClosedSegmentBoundaryRead> DeriveClosedSegmentBoundaries(IReadOnlyList<GraphicRead> reads)
         {
             var segments = reads
                 .OfType<PositiveSegmentRead>()
@@ -488,6 +503,25 @@ public sealed class GraphicReadGraph
                 if (closed && boundarySites.Count == component.Count)
                 {
                     yield return new ClosedSegmentBoundaryRead(component[0].Source, component, boundarySites);
+                }
+            }
+        }
+
+        private static IEnumerable<GraphicRead> DeriveBoundaryJoins(
+            IReadOnlyList<GraphicRead> reads,
+            IReadOnlyList<ClosedSegmentBoundaryRead> boundaries)
+        {
+            var joins = reads.OfType<SegmentJoinRead>().ToArray();
+            foreach (var boundary in boundaries)
+            {
+                foreach (var site in boundary.Sites)
+                {
+                    var siteSignature = EndpointGroupSignature(site);
+                    foreach (var join in joins.Where(join =>
+                        EndpointGroupSignature([join.First, join.Second]) == siteSignature))
+                    {
+                        yield return new BoundaryJoinRead(join.Source, boundary, join);
+                    }
                 }
             }
         }
@@ -589,6 +623,20 @@ public sealed class GraphicReadGraph
             var max = Math.Max(start, end);
             return point.Ticks > min && point.Ticks < max;
         }
+
+        private static SegmentEndpointRead[] ReadSegmentEndpointsAt(
+            SharedSiteRead site,
+            IReadOnlyList<GraphicRead> reads) =>
+            [.. reads
+                .OfType<SegmentConnectionRead>()
+                .SelectMany(connection => new[] { connection.Left, connection.Right })
+                .Where(endpoint => site.Points.Any(point =>
+                    point.Location.SameTickRefAs(endpoint.Point.Location) ||
+                    SameNormalizedLocation(point.Location, endpoint.Point.Location)))
+                .GroupBy(endpoint => endpoint.Segment.Source)
+                .Select(group => group.First())
+                .OrderBy(endpoint => endpoint.Segment.Source is Relation relation ? relation.Id : 0UL)
+                .ThenBy(endpoint => endpoint.IsStart)];
 
         private static bool IsInteriorPointOnCircularSpan(CarrierLocation point, CircularSpanRead span)
         {
@@ -1150,6 +1198,22 @@ public sealed record SegmentConnectionRead(
     ];
 }
 
+public sealed record SegmentJoinRead(
+    IElement Source,
+    SharedSiteRead Site,
+    SegmentEndpointRead First,
+    SegmentEndpointRead Second) : GraphicRead(Source)
+{
+    public override IEnumerable<IElement> Sources =>
+        Site.Sources.Concat(new[]
+        {
+            First.Segment.Source,
+            First.Point.Source,
+            Second.Segment.Source,
+            Second.Point.Source
+        });
+}
+
 public sealed record SegmentJunctionRead(
     IElement Source,
     SharedSiteRead Site,
@@ -1171,6 +1235,14 @@ public sealed record ClosedSegmentBoundaryRead(
     public override IEnumerable<IElement> Sources =>
         Segments.Select(segment => segment.Source)
             .Concat(Sites.SelectMany(site => site.Select(endpoint => endpoint.Point.Source)));
+}
+
+public sealed record BoundaryJoinRead(
+    IElement Source,
+    ClosedSegmentBoundaryRead Boundary,
+    SegmentJoinRead Join) : GraphicRead(Source)
+{
+    public override IEnumerable<IElement> Sources => Boundary.Sources.Concat(Join.Sources);
 }
 
 public sealed record SegmentPartitionRead(

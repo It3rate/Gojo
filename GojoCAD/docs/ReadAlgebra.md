@@ -84,12 +84,13 @@ The order should stay algebraic rather than becoming a giant classifier:
 | --- | --- | --- |
 | `0` | local primitive relation reads | point, point pair, span, zero span, directed segment, radial seed, circular marker/span |
 | `1` | incidence and partition reads | point attachment, shared site, segment partition, contour partition, segment connection |
-| `2` | second-order control reads | radius attachment, linear basis witness/alignment, segment junction, future perpendicular/equal-length witnesses |
+| `2` | second-order control reads | radius attachment, linear basis witness/alignment, segment join/junction, future perpendicular/equal-length witnesses |
 | `3` | contour and curvature controls | tangent continuity, curvature continuity, rounded corner, clothoid/involute witnesses |
-| `4` | boundary, area, and topology controls | closed boundary, area, anti-area, branch, merge, crossing/intersection |
+| `4` | boundary, area, and topology controls | closed boundary, boundary join, area, anti-area, branch, merge, crossing/intersection |
 | `5` | resolution and concept conditioning | coarse-to-fine ladders, named concept hints, feature settlement witnesses |
 
-Only the first three bands are executable right now. `GraphicReadGraph.Bands`
+Bands `0`, `1`, `2`, and the initial boundary reads in band `4` are executable
+right now. `GraphicReadGraph.Bands`
 exposes the non-empty read bands in order. The band number is a read-pass
 grade, not a symbolic shape tag; the source relation structure still carries
 the meaning.
@@ -104,8 +105,10 @@ Current executable control surface:
 | `RadiusAttachmentRead` | `2` | a base-carrier point fixes radius evidence for a circular marker |
 | `LinearBasisWitnessRead` | `2` | a non-origin point on a linear carrier attaches to another projected point, fixing direction and scale when possible |
 | `LinearBasisAlignmentRead` | `2` | non-origin points on two linear carriers attach, carrying same-flow or opposed-flow basis evidence |
+| `SegmentJoinRead` | `2` | exactly two segment endpoints participate at one shared site; this is join evidence, not yet corner evidence |
 | `SegmentJunctionRead` | `2` | at least three segment endpoints participate at one shared site |
 | `ClosedSegmentBoundaryRead` | `4` | connected segment endpoints form a closed boundary cycle, before any fill or area style participates |
+| `BoundaryJoinRead` | `4` | a two-endpoint join participates as a site on a closed boundary; this can feed later corner, smoothing, or area reads |
 
 ## Second-Order Control Reads
 

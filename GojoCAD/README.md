@@ -77,6 +77,8 @@ GojoCAD structure.
 - unresolved parameters should remain visible as residue or tension
 - equal visible geometry may have different provenance
 - joins should be actual shared sites or explicit relations, not equal numbers
+- two-span joins, higher-valence junctions, and closed boundaries should stay
+  separate until stronger evidence upgrades them
 - branch, merge, intersection, and crossing are different local reads over
   connection structure
 - style presence and style detail should be separate participation surfaces
