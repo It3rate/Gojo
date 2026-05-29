@@ -1,6 +1,7 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
+using Avalonia.Layout;
 
 namespace GojoDraw.Visualizer;
 
@@ -36,6 +37,25 @@ internal sealed class MainWindow : Window
         Height = 520;
         MinWidth = 420;
         MinHeight = 320;
-        Content = new VisualizerCanvas { Sample = VisualizerSample.Create() };
+
+        var canvas = new VisualizerCanvas { Sample = VisualizerSample.Create() };
+        var refreshButton = new Button
+        {
+            Content = "Refresh",
+            HorizontalAlignment = HorizontalAlignment.Right,
+            VerticalAlignment = VerticalAlignment.Top,
+            Margin = new Thickness(12),
+            Padding = new Thickness(12, 6),
+        };
+
+        refreshButton.Click += (_, _) =>
+        {
+            canvas.Sample = canvas.Sample?.Resample() ?? VisualizerSample.Create();
+        };
+
+        var root = new Grid();
+        root.Children.Add(canvas);
+        root.Children.Add(refreshButton);
+        Content = root;
     }
 }

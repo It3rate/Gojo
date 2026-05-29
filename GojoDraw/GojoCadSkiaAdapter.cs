@@ -42,6 +42,24 @@ public sealed class GojoCadSkiaAdapter
             drawn++;
         }
 
+        foreach (var sheet in graph.ReadsOf<SheetSeedRead>())
+        {
+            DrawSheetSeed(canvas, sheet, projection, paints, hitAreas);
+            drawn++;
+        }
+
+        foreach (var line in graph.ReadsOf<LineSeedRead>())
+        {
+            DrawLineSeed(canvas, line, projection, paints, hitAreas);
+            drawn++;
+        }
+
+        foreach (var attachment in graph.ReadsOf<RadiusAttachmentRead>())
+        {
+            DrawRadiusAttachment(canvas, attachment, projection, paints, hitAreas);
+            drawn++;
+        }
+
         drawn += DrawCircumferences(canvas, graph, projection, paints, hitAreas, pointRoles);
 
         foreach (var span in graph.ReadsOf<CircularSpanRead>())
@@ -220,6 +238,62 @@ public sealed class GojoCadSkiaAdapter
             DrawSegmentTick(canvas, point.Location, startPoint, endPoint, projection, paints, hitAreas, "segment tick", priority: 5);
             pointRoles.Add(LocationKey.Of(point));
         }
+    }
+
+    private static void DrawLineSeed(
+        SKCanvas canvas,
+        LineSeedRead seed,
+        IGojoCadSkiaProjection projection,
+        GojoCadSkiaPaints paints,
+        ICollection<GojoCadSkiaHitArea>? hitAreas)
+    {
+        var location = seed.Span.Left.Location;
+        var center = projection.Project(location);
+        var before = projection.Project(new CarrierLocation(location.Carrier, location.Ticks - 1));
+        var after = projection.Project(new CarrierLocation(location.Carrier, location.Ticks + 1));
+        var normal = PerpendicularUnit(before, after);
+        var half = paints.LineSeedLength * 0.5f;
+        var start = new SKPoint(center.X - normal.X * half, center.Y - normal.Y * half);
+        var end = new SKPoint(center.X + normal.X * half, center.Y + normal.Y * half);
+
+        canvas.DrawLine(start, end, paints.LineSeed);
+        AddHit(hitAreas, LineBounds(start, end, 8f), "line seed", priority: 2);
+    }
+
+    private static void DrawSheetSeed(
+        SKCanvas canvas,
+        SheetSeedRead seed,
+        IGojoCadSkiaProjection projection,
+        GojoCadSkiaPaints paints,
+        ICollection<GojoCadSkiaHitArea>? hitAreas)
+    {
+        var start = projection.Project(seed.Span.Start.Location);
+        var end = projection.Project(seed.Span.End.Location);
+        var normal = PerpendicularUnit(start, end);
+        var half = paints.SheetSeedWidth * 0.5f;
+        using var path = new SKPath();
+        path.MoveTo(start.X + normal.X * half, start.Y + normal.Y * half);
+        path.LineTo(end.X + normal.X * half, end.Y + normal.Y * half);
+        path.LineTo(end.X - normal.X * half, end.Y - normal.Y * half);
+        path.LineTo(start.X - normal.X * half, start.Y - normal.Y * half);
+        path.Close();
+
+        canvas.DrawPath(path, paints.SheetSeed);
+        canvas.DrawPath(path, paints.SheetSeedEdge);
+        AddHit(hitAreas, path.Bounds, "sheet seed", priority: 1);
+    }
+
+    private static void DrawRadiusAttachment(
+        SKCanvas canvas,
+        RadiusAttachmentRead attachment,
+        IGojoCadSkiaProjection projection,
+        GojoCadSkiaPaints paints,
+        ICollection<GojoCadSkiaHitArea>? hitAreas)
+    {
+        var start = projection.Project(attachment.BasePoint.Location);
+        var end = projection.Project(attachment.Marker.Point.Location);
+        canvas.DrawLine(start, end, paints.RadiusAttachment);
+        AddHit(hitAreas, LineBounds(start, end, 7f), "radius attachment", priority: 2);
     }
 
     private static void DrawDirectedSegment(

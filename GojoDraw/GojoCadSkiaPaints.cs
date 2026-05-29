@@ -11,17 +11,21 @@ public sealed class GojoCadSkiaPaints : IDisposable
     public GojoCadSkiaPaints()
     {
         Dot = Fill(new SKColor(31, 45, 61));
-        Segment = Stroke(new SKColor(42, 91, 143), 5f);
-        DirectedSegment = Stroke(new SKColor(63, 113, 83), 5f);
-        Circumference = Stroke(new SKColor(95, 103, 116, 160), 1.5f);
-        CircumferenceSpan = Stroke(new SKColor(42, 91, 143, 150), 2.25f);
-        EndpointBar = Stroke(new SKColor(128, 132, 137, 185), 2f);
-        Partition = Stroke(new SKColor(82, 88, 96, 190), 1.75f);
-        Basis = Stroke(new SKColor(70, 76, 84, 190), 1.5f);
+        Segment = Stroke(new SKColor(42, 91, 143), 2.5f);
+        DirectedSegment = Stroke(new SKColor(63, 113, 83), 2.75f);
+        Circumference = Stroke(new SKColor(95, 103, 116, 135), 1.1f);
+        CircumferenceSpan = Stroke(new SKColor(42, 91, 143, 145), 1.6f);
+        EndpointBar = Stroke(new SKColor(128, 132, 137, 170), 1.2f);
+        Partition = Stroke(new SKColor(82, 88, 96, 170), 1.1f);
+        Basis = Stroke(new SKColor(70, 76, 84, 185), 1.1f);
+        LineSeed = Stroke(new SKColor(116, 75, 134, 145), 1.2f);
+        SheetSeed = Fill(new SKColor(42, 91, 143, 28));
+        SheetSeedEdge = Stroke(new SKColor(42, 91, 143, 80), 1f);
+        RadiusAttachment = Stroke(new SKColor(151, 92, 52, 120), 1.1f);
         HoverBackground = Fill(new SKColor(255, 255, 255, 235));
         HoverBorder = Stroke(new SKColor(80, 86, 96, 210), 1f);
         HoverText = Fill(new SKColor(31, 37, 45));
-        RadialInner = new SKColor(162, 64, 46, 110);
+        RadialInner = new SKColor(162, 64, 46, 78);
         RadialOuter = new SKColor(162, 64, 46, 0);
     }
 
@@ -41,29 +45,41 @@ public sealed class GojoCadSkiaPaints : IDisposable
 
     public SKPaint Basis { get; }
 
+    public SKPaint LineSeed { get; }
+
+    public SKPaint SheetSeed { get; }
+
+    public SKPaint SheetSeedEdge { get; }
+
+    public SKPaint RadiusAttachment { get; }
+
     public SKPaint HoverBackground { get; }
 
     public SKPaint HoverBorder { get; }
 
     public SKPaint HoverText { get; }
 
-    public float DotRadius { get; init; } = 9f;
+    public float DotRadius { get; init; } = 5.5f;
 
-    public float RadialRadius { get; init; } = 58f;
+    public float RadialRadius { get; init; } = 34f;
 
     public SKColor RadialInner { get; init; }
 
     public SKColor RadialOuter { get; init; }
 
-    public float EndpointBarLength { get; init; } = 17f;
+    public float EndpointBarLength { get; init; } = 10f;
 
-    public float PartitionTickLength { get; init; } = 15f;
+    public float PartitionTickLength { get; init; } = 9f;
 
-    public float BasisSize { get; init; } = 10f;
+    public float BasisSize { get; init; } = 7f;
 
-    public float ArrowLength { get; init; } = 18f;
+    public float ArrowLength { get; init; } = 11f;
 
-    public float ArrowWidth { get; init; } = 8f;
+    public float ArrowWidth { get; init; } = 5f;
+
+    public float LineSeedLength { get; init; } = 38f;
+
+    public float SheetSeedWidth { get; init; } = 18f;
 
     public void Dispose()
     {
@@ -75,6 +91,10 @@ public sealed class GojoCadSkiaPaints : IDisposable
         EndpointBar.Dispose();
         Partition.Dispose();
         Basis.Dispose();
+        LineSeed.Dispose();
+        SheetSeed.Dispose();
+        SheetSeedEdge.Dispose();
+        RadiusAttachment.Dispose();
         HoverBackground.Dispose();
         HoverBorder.Dispose();
         HoverText.Dispose();

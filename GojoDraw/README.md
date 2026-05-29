@@ -21,6 +21,8 @@ For now the adapter is intentionally tiny:
 - draw a GojoCAD segment as a Skia line with small endpoint bars
 - draw a GojoCAD directed segment as inverse-start to positive-end flow with
   an arrow tip at the positive end
+- draw line seeds, sheet seeds, and radius attachments as low-intensity
+  provisional reads
 - derive projection from connected point, attachment, unit-shape, and viewport
   evidence instead of per-site pixel maps
 - infer a circumference from circular carrier unit shape plus attached marker

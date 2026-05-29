@@ -40,13 +40,14 @@ directed span, radial seed, circular marker/span, and partition reads.
 
 `GojoDraw.Visualizer` displays:
 
-- one point as a dot
-- one point with radial flow as a radial gradient
-- one ordinary segment
-- one inferred circumference with partition marks
+- one connected GojoCAD structure with roughly thirty relation elements
+- multiple points, radial flows, ordinary segments, and directed segments
+- line and sheet orthogonal seeds as low-intensity provisional reads
+- inferred circumferences with contour spans, radius attachments, and
+  partition marks
 - hover text over rendered primitive regions
-- one composite relation handed to the adapter, which walks the structure and
-  renders recognized primitive forms
+- one composite relation handed to the adapter, which renders the carried
+  `GraphicReadGraph` reads
 
 There is no animation yet. Avalonia is used only as a host, with no XAML, and
 the actual drawing is done through Skia custom drawing.

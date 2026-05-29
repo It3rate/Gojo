@@ -7,13 +7,14 @@ using Avalonia.Skia;
 using Avalonia.VisualTree;
 using GojoDraw;
 using SkiaSharp;
+using System.Threading;
 
 namespace GojoDraw.Visualizer;
 
 internal sealed class VisualizerCanvas : Control
 {
     private VisualizerSample? sample;
-    private readonly List<GojoCadSkiaHitArea> hitAreas = [];
+    private GojoCadSkiaHitArea[] hitAreas = [];
     private GojoCadSkiaHitArea? hover;
     private SKPoint hoverPoint;
 
@@ -28,6 +29,8 @@ internal sealed class VisualizerCanvas : Control
         set
         {
             sample = value;
+            hover = null;
+            Volatile.Write(ref hitAreas, []);
             InvalidateVisual();
         }
     }
@@ -40,7 +43,12 @@ internal sealed class VisualizerCanvas : Control
             return;
         }
 
-        context.Custom(new VisualizerDrawOperation(new Rect(Bounds.Size), Sample, hitAreas, hover, hoverPoint));
+        context.Custom(new VisualizerDrawOperation(
+            new Rect(Bounds.Size),
+            Sample,
+            PublishHitAreas,
+            hover,
+            hoverPoint));
     }
 
     protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)
@@ -54,7 +62,8 @@ internal sealed class VisualizerCanvas : Control
         base.OnPointerMoved(e);
         var position = e.GetPosition(this);
         hoverPoint = new SKPoint((float)position.X, (float)position.Y);
-        var next = hitAreas
+        var snapshot = Volatile.Read(ref hitAreas);
+        var next = snapshot
             .Where(area => area.Contains(hoverPoint))
             .OrderByDescending(area => area.Priority)
             .FirstOrDefault();
@@ -74,26 +83,31 @@ internal sealed class VisualizerCanvas : Control
             InvalidateVisual();
         }
     }
+
+    private void PublishHitAreas(GojoCadSkiaHitArea[] nextHitAreas)
+    {
+        Volatile.Write(ref hitAreas, nextHitAreas);
+    }
 }
 
 internal sealed class VisualizerDrawOperation : ICustomDrawOperation
 {
     private static readonly GojoCadSkiaAdapter Adapter = new();
     private readonly VisualizerSample sample;
-    private readonly List<GojoCadSkiaHitArea> hitAreas;
+    private readonly Action<GojoCadSkiaHitArea[]> publishHitAreas;
     private readonly GojoCadSkiaHitArea? hover;
     private readonly SKPoint hoverPoint;
 
     public VisualizerDrawOperation(
         Rect bounds,
         VisualizerSample sample,
-        List<GojoCadSkiaHitArea> hitAreas,
+        Action<GojoCadSkiaHitArea[]> publishHitAreas,
         GojoCadSkiaHitArea? hover,
         SKPoint hoverPoint)
     {
         Bounds = bounds;
         this.sample = sample;
-        this.hitAreas = hitAreas;
+        this.publishHitAreas = publishHitAreas;
         this.hover = hover;
         this.hoverPoint = hoverPoint;
     }
@@ -132,8 +146,9 @@ internal sealed class VisualizerDrawOperation : ICustomDrawOperation
             sample.Structure,
             new SKRect(0, 0, (float)Bounds.Width, (float)Bounds.Height),
             sample.ProjectionSeed);
-        hitAreas.Clear();
+        var hitAreas = new List<GojoCadSkiaHitArea>();
         Adapter.DrawElement(canvas, sample.Structure, projection, paints, hitAreas);
+        publishHitAreas(hitAreas.ToArray());
     }
 
     private void DrawHover(SKCanvas canvas)
