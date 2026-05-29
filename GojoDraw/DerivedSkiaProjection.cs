@@ -1,4 +1,5 @@
 using Gojo.Core;
+using GojoCAD;
 using SkiaSharp;
 
 namespace GojoDraw;
@@ -22,7 +23,16 @@ public sealed class DerivedSkiaProjection : IGojoCadSkiaProjection
     {
         this.viewport = viewport;
         random = new Random(seed);
-        Collect(structure ?? throw new ArgumentNullException(nameof(structure)));
+        var graph = GraphicReadGraph.From(structure ?? throw new ArgumentNullException(nameof(structure)));
+        foreach (var point in graph.ReadsOf<PointRead>())
+        {
+            evidence.Locations.Add(point.Location);
+        }
+
+        foreach (var pair in graph.ReadsOf<PointPairRead>())
+        {
+            evidence.Attachments.Add(new AttachmentEvidence(pair.Left.Location, pair.Right.Location));
+        }
     }
 
     public SKPoint Project(CarrierLocation location)
@@ -201,60 +211,6 @@ public sealed class DerivedSkiaProjection : IGojoCadSkiaProjection
         }
 
         return bounds.ToRect();
-    }
-
-    private void Collect(IElement element)
-    {
-        if (element is not Relation relation)
-        {
-            return;
-        }
-
-        if (RecognizePointOnAnyCarrier(relation, out var point))
-        {
-            evidence.Locations.Add(point);
-            return;
-        }
-
-        if (RecognizePointPair(relation, out var left, out var right))
-        {
-            evidence.Attachments.Add(new AttachmentEvidence(left, right));
-        }
-
-        Collect(relation.Left);
-        Collect(relation.Right);
-    }
-
-    private static bool RecognizePointPair(
-        Relation relation,
-        out CarrierLocation left,
-        out CarrierLocation right)
-    {
-        if (relation.Left is Relation leftPoint &&
-            relation.Right is Relation rightPoint &&
-            RecognizePointOnAnyCarrier(leftPoint, out left) &&
-            RecognizePointOnAnyCarrier(rightPoint, out right))
-        {
-            return true;
-        }
-
-        left = default;
-        right = default;
-        return false;
-    }
-
-    private static bool RecognizePointOnAnyCarrier(Relation relation, out CarrierLocation location)
-    {
-        if (relation.Left is CarrierLocation candidate &&
-            relation.Right is Carrier carrier &&
-            candidate.Carrier.SameIdentityAs(carrier))
-        {
-            location = candidate;
-            return true;
-        }
-
-        location = default;
-        return false;
     }
 
     private float SampleAngle() => (float)random.NextDouble() * MathF.PI * 2f;

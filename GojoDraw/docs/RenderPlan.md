@@ -28,6 +28,14 @@ Recognized structures should render as recognized structures. Missing radius,
 period, orientation, style, or detail should lead to sampled, partial, or
 tension-like visualization rather than a failed render branch.
 
+The recognition path should move toward the GojoCAD
+[read algebra](../../GojoCAD/docs/ReadAlgebra.md): derive a read graph from
+relation structure, then render carried reads instead of testing every possible
+primitive at every relation.
+
+The adapter now consumes the initial `GraphicReadGraph` for point, span,
+directed span, radial seed, circular marker/span, and partition reads.
+
 ## Current Visualizer
 
 `GojoDraw.Visualizer` displays:

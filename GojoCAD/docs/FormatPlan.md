@@ -8,6 +8,11 @@ GojoCAD should not mimic a conventional vector-command model. It should define
 graphic structure in the same way Gojo defines other concepts: connected
 structure first, local reads second, external output later.
 
+The lower-level recognition direction is captured in
+[ReadAlgebra.md](ReadAlgebra.md). That document treats discovery as a derived
+read graph over relation structure, where each local relation read carries
+evidence upward instead of every consumer testing every possible shape.
+
 ## 1. Primitive Graphic Alphabet
 
 | Graphic need | Gojo-native structure |
@@ -168,14 +173,16 @@ tension.
 
 1. Keep the current point, radial flow, segment, and directed-segment tests
    passing.
-2. Add a small curve-control surface for quadratic and cubic Bezier-like
+2. Continue expanding `GraphicReadGraph` so GojoDraw and future consumers can
+   consume carried local reads rather than flat shape tests.
+3. Add a small curve-control surface for quadratic and cubic Bezier-like
    definitions.
-3. Add contour partition helpers for arcs and circular phase.
-4. Add explicit fill and anti-fill format helpers over closed or bounded
+4. Add contour partition helpers for arcs and circular phase.
+5. Add explicit fill and anti-fill format helpers over closed or bounded
    boundaries.
-5. Add style participation surfaces for stroke, fill, color, and width.
-6. Add resolution-ladder examples for coarse-to-fine graphic reads.
-7. Add local read witnesses for corners, rounded corners, intersections,
+6. Add style participation surfaces for stroke, fill, color, and width.
+7. Add resolution-ladder examples for coarse-to-fine graphic reads.
+8. Add local read witnesses for corners, rounded corners, intersections,
    crossings, branches, and merges.
 
 Each milestone should prefer relation structure over wrapper classes. Helper

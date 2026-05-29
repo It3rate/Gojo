@@ -51,6 +51,11 @@ These are enough to start defining dots, radial potential, ordinary spans, and
 the inverse-start/positive-end directed segment shape before adding linework
 composition, curves, or junctions.
 
+`GraphicReadGraph` is the first executable read-algebra surface over these
+relations. It derives temporary read nodes such as points, spans, radial seeds,
+circular markers, contour spans, and partitions without making those code
+objects the source of meaning.
+
 ## Non-Goals For Now
 
 - no rendering
@@ -74,3 +79,5 @@ GojoCAD structure.
 - style presence and style detail should be separate participation surfaces
 
 See [docs/FormatPlan.md](docs/FormatPlan.md) for the current roadmap.
+See [docs/ReadAlgebra.md](docs/ReadAlgebra.md) for the initial relation-read
+algebra and read graph direction.

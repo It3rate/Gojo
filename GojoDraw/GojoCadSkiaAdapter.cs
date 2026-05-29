@@ -1,4 +1,5 @@
 using Gojo.Core;
+using GojoCAD;
 using SkiaSharp;
 
 namespace GojoDraw;
@@ -21,50 +22,13 @@ public sealed class GojoCadSkiaAdapter
         ArgumentNullException.ThrowIfNull(projection);
         ArgumentNullException.ThrowIfNull(paints);
 
-        var evidence = new RenderEvidence();
-        Collect(element, evidence);
-        return DrawEvidence(canvas, evidence, projection, paints, hitAreas);
+        var graph = GraphicReadGraph.From(element);
+        return DrawReadGraph(canvas, graph, projection, paints, hitAreas);
     }
 
-    private static void Collect(IElement element, RenderEvidence evidence)
-    {
-        if (element is not Relation relation)
-        {
-            return;
-        }
-
-        if (RecognizeRadialFlow(relation, out var radialPoint))
-        {
-            evidence.RadialFlows.Add(radialPoint);
-            Collect(radialPoint, evidence);
-            return;
-        }
-
-        if (RecognizeDirectedSegment(relation, out var inverseStart, out var positiveEnd))
-        {
-            evidence.DirectedSegments.Add(new DirectedSegmentEvidence(inverseStart, positiveEnd));
-            return;
-        }
-
-        if (RecognizePositiveSegment(relation, out var start, out var end))
-        {
-            evidence.PositiveSegments.Add(new SegmentEvidence(start, end));
-            return;
-        }
-
-        if (RecognizePoint(relation, out var point))
-        {
-            evidence.Points.Add(point);
-            return;
-        }
-
-        Collect(relation.Left, evidence);
-        Collect(relation.Right, evidence);
-    }
-
-    private static int DrawEvidence(
+    private static int DrawReadGraph(
         SKCanvas canvas,
-        RenderEvidence evidence,
+        GraphicReadGraph graph,
         IGojoCadSkiaProjection projection,
         GojoCadSkiaPaints paints,
         ICollection<GojoCadSkiaHitArea>? hitAreas)
@@ -72,35 +36,37 @@ public sealed class GojoCadSkiaAdapter
         var drawn = 0;
         var pointRoles = new HashSet<LocationKey>();
 
-        foreach (var radialPoint in evidence.RadialFlows)
+        foreach (var radial in graph.ReadsOf<RadialSeedRead>())
         {
-            DrawRadialFlow(canvas, radialPoint, projection, paints, hitAreas);
+            DrawRadialFlow(canvas, radial.Point, projection, paints, hitAreas);
             drawn++;
         }
 
-        drawn += DrawCircumferences(canvas, evidence, projection, paints, hitAreas, pointRoles);
+        drawn += DrawCircumferences(canvas, graph, projection, paints, hitAreas, pointRoles);
 
-        foreach (var segment in evidence.PositiveSegments)
+        foreach (var span in graph.ReadsOf<CircularSpanRead>())
         {
-            if (IsCircularCarrier(segment.Start.Carrier))
-            {
-                DrawCircumferenceSpan(canvas, segment, projection, paints, hitAreas, pointRoles);
-                drawn++;
-            }
-            else
-            {
-                DrawPositiveSegment(canvas, segment, evidence.Points, projection, paints, hitAreas, pointRoles);
-                drawn++;
-            }
+            DrawCircumferenceSpan(canvas, span, projection, paints, hitAreas, pointRoles);
+            drawn++;
         }
 
-        foreach (var segment in evidence.DirectedSegments)
+        foreach (var segment in graph.ReadsOf<PositiveSegmentRead>()
+            .Where(segment => !IsCircularCarrier(segment.Start.Location.Carrier)))
+        {
+            var partitions = graph.ReadsOf<SegmentPartitionRead>()
+                .Where(partition => ReferenceEquals(partition.Segment, segment))
+                .Select(partition => partition.Point);
+            DrawPositiveSegment(canvas, segment, partitions, projection, paints, hitAreas, pointRoles);
+            drawn++;
+        }
+
+        foreach (var segment in graph.ReadsOf<DirectedSegmentRead>())
         {
             DrawDirectedSegment(canvas, segment, projection, paints, hitAreas);
             drawn++;
         }
 
-        foreach (var point in evidence.Points)
+        foreach (var point in graph.ReadsOf<PointRead>().Where(point => !point.Location.Carrier.IsUnknown))
         {
             var key = LocationKey.Of(point);
             if (pointRoles.Contains(key))
@@ -108,16 +74,16 @@ public sealed class GojoCadSkiaAdapter
                 continue;
             }
 
-            if (IsCircularCarrier(point.Carrier))
+            if (IsCircularCarrier(point.Location.Carrier))
             {
-                var circle = ReadCircleProjection(point, projection);
-                DrawCircumferenceTick(canvas, circle.Center, point, projection, paints, hitAreas, "circumference tick", priority: 5);
+                var circle = ReadCircleProjection(point.Location, projection);
+                DrawCircumferenceTick(canvas, circle.Center, point.Location, projection, paints, hitAreas, "circumference tick", priority: 5);
                 pointRoles.Add(key);
                 drawn++;
             }
             else
             {
-                DrawDot(canvas, point, projection, paints, hitAreas);
+                DrawDot(canvas, point.Location, projection, paints, hitAreas);
                 drawn++;
             }
         }
@@ -127,15 +93,20 @@ public sealed class GojoCadSkiaAdapter
 
     private static int DrawCircumferences(
         SKCanvas canvas,
-        RenderEvidence evidence,
+        GraphicReadGraph graph,
         IGojoCadSkiaProjection projection,
         GojoCadSkiaPaints paints,
         ICollection<GojoCadSkiaHitArea>? hitAreas,
         HashSet<LocationKey> pointRoles)
     {
         var drawn = 0;
-        var circularLocations = evidence.Points
-            .Concat(evidence.PositiveSegments.SelectMany(segment => new[] { segment.Start, segment.End }))
+        var circularLocations = graph.ReadsOf<CircularMarkerRead>()
+            .Select(marker => marker.Point.Location)
+            .Concat(graph.ReadsOf<CircularSpanRead>().SelectMany(span => new[]
+            {
+                span.Segment.Start.Location,
+                span.Segment.End.Location
+            }))
             .Where(location => IsCircularCarrier(location.Carrier))
             .GroupBy(location => location.Carrier.Id);
 
@@ -152,7 +123,7 @@ public sealed class GojoCadSkiaAdapter
             DrawBasisRect(canvas, origin, projection, paints, hitAreas, "circumference basis origin", priority: 6);
             pointRoles.Add(LocationKey.Of(origin));
 
-            foreach (var location in group)
+            foreach (var location in group.GroupBy(LocationKey.Of).Select(group => group.First()))
             {
                 DrawCircumferenceTick(canvas, circle.Center, location, projection, paints, hitAreas, "circumference tick", priority: 5);
                 pointRoles.Add(LocationKey.Of(location));
@@ -165,15 +136,17 @@ public sealed class GojoCadSkiaAdapter
 
     private static void DrawCircumferenceSpan(
         SKCanvas canvas,
-        SegmentEvidence segment,
+        CircularSpanRead span,
         IGojoCadSkiaProjection projection,
         GojoCadSkiaPaints paints,
         ICollection<GojoCadSkiaHitArea>? hitAreas,
         HashSet<LocationKey> pointRoles)
     {
-        var circle = ReadCircleProjection(segment.Start, projection);
-        var startPoint = projection.Project(segment.Start);
-        var endPoint = projection.Project(segment.End);
+        var start = span.Segment.Start.Location;
+        var end = span.Segment.End.Location;
+        var circle = ReadCircleProjection(start, projection);
+        var startPoint = projection.Project(start);
+        var endPoint = projection.Project(end);
 
         var bounds = CircleBounds(circle.Center, circle.Radius);
         var startAngle = AngleDegrees(circle.Center, startPoint);
@@ -182,10 +155,10 @@ public sealed class GojoCadSkiaAdapter
         canvas.DrawArc(bounds, startAngle, sweep, false, paints.CircumferenceSpan);
         AddHit(hitAreas, bounds, "circumference span", priority: 3);
 
-        DrawCircumferenceTick(canvas, circle.Center, segment.Start, projection, paints, hitAreas, "circumference tick", priority: 5);
-        DrawCircumferenceTick(canvas, circle.Center, segment.End, projection, paints, hitAreas, "circumference tick", priority: 5);
-        pointRoles.Add(LocationKey.Of(segment.Start));
-        pointRoles.Add(LocationKey.Of(segment.End));
+        DrawCircumferenceTick(canvas, circle.Center, start, projection, paints, hitAreas, "circumference tick", priority: 5);
+        DrawCircumferenceTick(canvas, circle.Center, end, projection, paints, hitAreas, "circumference tick", priority: 5);
+        pointRoles.Add(LocationKey.Of(start));
+        pointRoles.Add(LocationKey.Of(end));
     }
 
     private static void DrawDot(
@@ -202,13 +175,12 @@ public sealed class GojoCadSkiaAdapter
 
     private static void DrawRadialFlow(
         SKCanvas canvas,
-        Relation point,
+        PointRead point,
         IGojoCadSkiaProjection projection,
         GojoCadSkiaPaints paints,
         ICollection<GojoCadSkiaHitArea>? hitAreas)
     {
-        RecognizePoint(point, out var location);
-        var center = projection.Project(location);
+        var center = projection.Project(point.Location);
         using var paint = new SKPaint
         {
             IsAntialias = true,
@@ -226,37 +198,39 @@ public sealed class GojoCadSkiaAdapter
 
     private static void DrawPositiveSegment(
         SKCanvas canvas,
-        SegmentEvidence segment,
-        IReadOnlyList<CarrierLocation> points,
+        PositiveSegmentRead segment,
+        IEnumerable<PointRead> points,
         IGojoCadSkiaProjection projection,
         GojoCadSkiaPaints paints,
         ICollection<GojoCadSkiaHitArea>? hitAreas,
         HashSet<LocationKey> pointRoles)
     {
-        var startPoint = projection.Project(segment.Start);
-        var endPoint = projection.Project(segment.End);
+        var start = segment.Start.Location;
+        var end = segment.End.Location;
+        var startPoint = projection.Project(start);
+        var endPoint = projection.Project(end);
 
         canvas.DrawLine(startPoint, endPoint, paints.Segment);
         DrawEndpointBar(canvas, startPoint, endPoint, paints);
         DrawEndpointBar(canvas, endPoint, startPoint, paints);
         AddHit(hitAreas, LineBounds(startPoint, endPoint, 10f), "segment", priority: 2);
 
-        foreach (var point in points.Where(point => IsInteriorPointOnSegment(point, segment)))
+        foreach (var point in points)
         {
-            DrawSegmentTick(canvas, point, startPoint, endPoint, projection, paints, hitAreas, "segment tick", priority: 5);
+            DrawSegmentTick(canvas, point.Location, startPoint, endPoint, projection, paints, hitAreas, "segment tick", priority: 5);
             pointRoles.Add(LocationKey.Of(point));
         }
     }
 
     private static void DrawDirectedSegment(
         SKCanvas canvas,
-        DirectedSegmentEvidence segment,
+        DirectedSegmentRead segment,
         IGojoCadSkiaProjection projection,
         GojoCadSkiaPaints paints,
         ICollection<GojoCadSkiaHitArea>? hitAreas)
     {
-        var startPoint = projection.Project(segment.InverseStart);
-        var endPoint = projection.Project(segment.PositiveEnd);
+        var startPoint = projection.Project(segment.InverseStart.Location);
+        var endPoint = projection.Project(segment.PositiveEnd.Location);
 
         canvas.DrawLine(startPoint, endPoint, paints.DirectedSegment);
         DrawArrowTip(canvas, startPoint, endPoint, paints);
@@ -312,105 +286,6 @@ public sealed class GojoCadSkiaAdapter
         AddHit(hitAreas, bounds, text, priority);
     }
 
-    private static bool RecognizePoint(Relation relation, out CarrierLocation location)
-    {
-        if (relation.Left is CarrierLocation candidate &&
-            relation.Right is Carrier carrier &&
-            candidate.Carrier.SameIdentityAs(carrier) &&
-            !candidate.Carrier.IsUnknown)
-        {
-            location = candidate;
-            return true;
-        }
-
-        location = default;
-        return false;
-    }
-
-    private static bool RecognizePositiveSegment(
-        Relation relation,
-        out CarrierLocation start,
-        out CarrierLocation end)
-    {
-        if (relation.Left is Relation startPoint &&
-            relation.Right is Relation endPoint &&
-            RecognizePoint(startPoint, out start) &&
-            RecognizePoint(endPoint, out end) &&
-            start.Carrier.SameIdentityAs(end.Carrier) &&
-            !start.Carrier.IsInverse &&
-            !end.Carrier.IsInverse)
-        {
-            return true;
-        }
-
-        start = default;
-        end = default;
-        return false;
-    }
-
-    private static bool RecognizeDirectedSegment(
-        Relation relation,
-        out CarrierLocation inverseStart,
-        out CarrierLocation positiveEnd)
-    {
-        if (relation.Left is Relation startPoint &&
-            relation.Right is Relation endPoint &&
-            RecognizePointOnAnyCarrier(startPoint, out inverseStart) &&
-            RecognizePointOnAnyCarrier(endPoint, out positiveEnd) &&
-            inverseStart.Carrier.IsInverse &&
-            !positiveEnd.Carrier.IsInverse &&
-            inverseStart.Carrier.Inverse().SameIdentityAs(positiveEnd.Carrier))
-        {
-            return true;
-        }
-
-        inverseStart = default;
-        positiveEnd = default;
-        return false;
-    }
-
-    private static bool RecognizeRadialFlow(Relation relation, out Relation point)
-    {
-        if (relation.Left is Relation sourcePoint &&
-            RecognizePoint(sourcePoint, out _) &&
-            relation.Right is Relation outlet &&
-            IsUnknownZeroSegment(outlet))
-        {
-            point = sourcePoint;
-            return true;
-        }
-
-        point = null!;
-        return false;
-    }
-
-    private static bool IsUnknownZeroSegment(Relation relation)
-    {
-        return
-            relation.Left is Relation startPoint &&
-            relation.Right is Relation endPoint &&
-            RecognizePointOnAnyCarrier(startPoint, out var start) &&
-            RecognizePointOnAnyCarrier(endPoint, out var end) &&
-            start.Carrier.IsUnknown &&
-            end.Carrier.IsUnknown &&
-            start.Ticks == 0 &&
-            end.Ticks == 0;
-    }
-
-    private static bool RecognizePointOnAnyCarrier(Relation relation, out CarrierLocation location)
-    {
-        if (relation.Left is CarrierLocation candidate &&
-            relation.Right is Carrier carrier &&
-            candidate.Carrier.SameIdentityAs(carrier))
-        {
-            location = candidate;
-            return true;
-        }
-
-        location = default;
-        return false;
-    }
-
     private static CircleProjection ReadCircleProjection(
         CarrierLocation marker,
         IGojoCadSkiaProjection projection)
@@ -420,18 +295,6 @@ public sealed class GojoCadSkiaAdapter
         var markerPoint = projection.Project(marker);
         var radius = MathF.Max(0.1f, Distance(center, markerPoint));
         return new CircleProjection(center, radius);
-    }
-
-    private static bool IsInteriorPointOnSegment(CarrierLocation point, SegmentEvidence segment)
-    {
-        if (!point.Carrier.SameIdentityAs(segment.Start.Carrier))
-        {
-            return false;
-        }
-
-        var min = Math.Min(segment.Start.Ticks, segment.End.Ticks);
-        var max = Math.Max(segment.Start.Ticks, segment.End.Ticks);
-        return point.Ticks > min && point.Ticks < max;
     }
 
     private static void DrawEndpointBar(
@@ -556,26 +419,13 @@ public sealed class GojoCadSkiaAdapter
             ? origin
             : new CarrierLocation(Carrier.Unknown, 0);
 
-    private sealed class RenderEvidence
-    {
-        public List<CarrierLocation> Points { get; } = [];
-
-        public List<SegmentEvidence> PositiveSegments { get; } = [];
-
-        public List<DirectedSegmentEvidence> DirectedSegments { get; } = [];
-
-        public List<Relation> RadialFlows { get; } = [];
-    }
-
-    private readonly record struct SegmentEvidence(CarrierLocation Start, CarrierLocation End);
-
-    private readonly record struct DirectedSegmentEvidence(CarrierLocation InverseStart, CarrierLocation PositiveEnd);
-
     private readonly record struct CircleProjection(SKPoint Center, float Radius);
 
     private readonly record struct LocationKey(ulong CarrierId, ulong TickRefId, long Ticks)
     {
         public static LocationKey Of(CarrierLocation location) =>
             new(location.Carrier.Id, location.Tick?.Id ?? 0, location.Ticks);
+
+        public static LocationKey Of(PointRead point) => Of(point.Location);
     }
 }

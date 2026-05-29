@@ -11,6 +11,9 @@ GojoDraw walks relation structure and renders forms it recognizes
 Skia receives paths, points, gradients, colors, and paint at the boundary
 ```
 
+Recognition comes from GojoCAD's `GraphicReadGraph`; GojoDraw should consume
+those temporary reads rather than maintaining a separate shape algebra.
+
 For now the adapter is intentionally tiny:
 
 - draw a GojoCAD point as a dot
