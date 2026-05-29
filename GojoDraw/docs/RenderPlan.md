@@ -40,7 +40,8 @@ relation structure, then render carried reads instead of testing every possible
 primitive at every relation.
 
 The adapter now consumes the initial `GraphicReadGraph` for point, span,
-directed span, radial seed, circular marker/span, and partition reads.
+directed span, radial seed, circular marker/span, partition, radius attachment,
+and linear basis witness reads.
 
 ## Current Visualizer
 

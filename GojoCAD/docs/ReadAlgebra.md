@@ -61,6 +61,7 @@ without erasing the others.
 | point on circular carrier | circular carrier basis | unit shape is `CircularFrom(origin)` | circumference marker, contour partition |
 | point on circular carrier | point on same circular carrier | distinct ticks | circumference span, arc candidate |
 | point on base carrier | point on circular carrier | circular origin is on base carrier or attached through a shared site | radius/contour attachment |
+| non-origin point on linear carrier | point on another carrier | linear carrier has an origin unit shape | linear basis witness for direction and scale |
 | segment | point on same carrier | point tick falls inside segment ticks | segment partition tick |
 | circumference span | point on same circular carrier | point tick falls inside span read | contour partition tick |
 | span | span | shared endpoint, carrier location, or `TickRef` | connected path fragment |
@@ -70,6 +71,53 @@ without erasing the others.
 
 This table is not a shape enum. Each row is a local composition rule. The read
 may carry multiple rows upward when the structure supports them.
+
+## Read Order And Bands
+
+Order matters because higher reads depend on lower evidence. The reader should
+advance in bands, where each band can consume everything already carried and
+add more reads without erasing earlier possibilities.
+
+The order should stay algebraic rather than becoming a giant classifier:
+
+| Band | Current role | Example reads |
+| --- | --- | --- |
+| `0` | local primitive relation reads | point, point pair, span, zero span, directed segment, radial seed, circular marker/span |
+| `1` | incidence and partition reads | segment partition, contour partition, connected path fragment |
+| `2` | second-order control reads | radius attachment, linear basis witness, future parallel/perpendicular/equal-length witnesses |
+| `3` | contour and curvature controls | tangent continuity, curvature continuity, rounded corner, clothoid/involute witnesses |
+| `4` | boundary, area, and topology controls | closed boundary, area, anti-area, branch, merge, crossing/intersection |
+| `5` | resolution and concept conditioning | coarse-to-fine ladders, named concept hints, feature settlement witnesses |
+
+Only the first three bands are executable right now. `GraphicReadGraph.Bands`
+exposes the non-empty read bands in order. The band number is a read-pass
+grade, not a symbolic shape tag; the source relation structure still carries
+the meaning.
+
+## Second-Order Control Reads
+
+Second-order controls are not usually the visible primitive. They guide how
+visible primitives resolve: where a basis points, how far a radius reaches,
+which spans connect, whether a boundary closes, or which local ambiguity should
+remain as tension.
+
+Useful families to preserve:
+
+| Family | Control examples |
+| --- | --- |
+| incidence / attachment | coincident points, point-on-segment, point-on-circumference, endpoint-to-endpoint, endpoint-to-contour point, branch node, merge node, intersection witness |
+| direction / basis | second point fixes a linear carrier, parallel carriers, anti-parallel carriers, perpendicular carriers, tangent-to-circumference, normal/radius alignment, angle relation, directed-flow alignment |
+| metric | equal length, proportional length, fixed radius, radius from attachment, equal radius, shared tick scale, partition ratio, circumference period, resolution ladder |
+| contour / curvature | arc span, tangent continuity, curvature continuity, clothoid transition witness, involute relation, spline control relation, corner, rounded-corner control, cusp/sharp-corner witness |
+| area / boundary | closed boundary, directed boundary, fill area, anti-area/cutout, inside/outside relation, winding direction, containment, shared boundary edge, area partition |
+| topology / graph | branch, merge, Y split, T junction, crossing without connection, crossing with connection, stroke order, path ordering, connected component witness |
+| repetition / grade | repeated partition, grid/lattice basis, symmetry, mirror, rotational symmetry, array along segment, array around circumference, low-to-high resolution read |
+
+These should be derived from relation evidence as far as possible. A future
+parallel read, for example, should be a relation between carrier bases or their
+witnesses; it should not be a stored `Parallel` enum. A future area read should
+come from boundary direction, closure, and fill participation; it should not
+start as an opaque polygon type.
 
 ## Evidence To Carry Upward
 
@@ -114,6 +162,9 @@ possible shape question again.
 The first executable surface exposes this as:
 
 ```text
+GraphicReadGraph.Bands
+  non-empty ordered read bands, currently primitive -> incidence -> control
+
 GraphicReadGraph.NavigateFrom(changed, radius)
   local nodes around a changed relation, carrier, location, or TickRef
 

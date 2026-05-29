@@ -15,6 +15,8 @@ public sealed class DerivedSkiaProjection : IGojoCadSkiaProjection
     private readonly Dictionary<ulong, LinearBasis> linearBases = [];
     private readonly Dictionary<ulong, CircularBasis> circularBases = [];
     private readonly Dictionary<ulong, long> circularPeriods = [];
+    private readonly HashSet<ulong> resolvingLinearBases = [];
+    private readonly HashSet<ulong> resolvingCircularBases = [];
     private readonly SKRect viewport;
     private readonly Random random;
     private ViewportTransform? viewportTransform;
@@ -29,9 +31,19 @@ public sealed class DerivedSkiaProjection : IGojoCadSkiaProjection
             evidence.Locations.Add(point.Location);
         }
 
-        foreach (var pair in graph.ReadsOf<PointPairRead>())
+        foreach (var marker in graph.ReadsOf<CircularMarkerRead>())
         {
-            evidence.Attachments.Add(new AttachmentEvidence(pair.Left.Location, pair.Right.Location));
+            evidence.CircularOrigins[NormalizeCarrier(marker.Point.Location.Carrier).Id] = Normalize(marker.Origin);
+        }
+
+        foreach (var radius in graph.ReadsOf<RadiusAttachmentRead>())
+        {
+            evidence.RadiusAttachments.Add(radius);
+        }
+
+        foreach (var witness in graph.ReadsOf<LinearBasisWitnessRead>())
+        {
+            evidence.LinearBasisWitnesses.Add(witness);
         }
     }
 
@@ -51,7 +63,7 @@ public sealed class DerivedSkiaProjection : IGojoCadSkiaProjection
             return point;
         }
 
-        point = IsCircularCarrier(location.Carrier)
+        point = HasCircularOrigin(location.Carrier)
             ? ProjectCircularModel(location)
             : ProjectLinearModel(location);
         modelPoints[key] = point;
@@ -85,45 +97,59 @@ public sealed class DerivedSkiaProjection : IGojoCadSkiaProjection
             return basis;
         }
 
-        var origin = new SKPoint(0, 0);
-        var angle = 0f;
-        if (forward.TryReadLinearOrigin(out var linearOrigin))
+        if (!resolvingLinearBases.Add(forward.Id))
         {
-            var normalizedOrigin = Normalize(linearOrigin);
-            origin = ProjectModel(normalizedOrigin);
-            if (ReadLinearAttachmentBasis(forward, normalizedOrigin, origin, out basis))
-            {
-                linearBases[forward.Id] = basis;
-                return basis;
-            }
-
-            angle = SampleAngle();
+            return new LinearBasis(new SKPoint(0, 0), new SKPoint(1, 0));
         }
 
-        basis = new LinearBasis(origin, new SKPoint(MathF.Cos(angle), -MathF.Sin(angle)));
-        linearBases[forward.Id] = basis;
-        return basis;
+        var origin = new SKPoint(0, 0);
+        var angle = 0f;
+        try
+        {
+            if (forward.TryReadLinearOrigin(out var linearOrigin))
+            {
+                var normalizedOrigin = Normalize(linearOrigin);
+                origin = ProjectModel(normalizedOrigin);
+                if (ReadLinearAttachmentBasis(forward, origin, out basis))
+                {
+                    linearBases[forward.Id] = basis;
+                    return basis;
+                }
+
+                angle = SampleAngle();
+            }
+
+            basis = new LinearBasis(origin, new SKPoint(MathF.Cos(angle), -MathF.Sin(angle)));
+            linearBases[forward.Id] = basis;
+            return basis;
+        }
+        finally
+        {
+            resolvingLinearBases.Remove(forward.Id);
+        }
     }
 
     private bool ReadLinearAttachmentBasis(
         Carrier carrier,
-        CarrierLocation originLocation,
         SKPoint originPoint,
         out LinearBasis basis)
     {
-        foreach (var attachment in evidence.Attachments
-            .Select(attachment => attachment.ForLinearCarrier(carrier, originLocation.Ticks))
-            .Where(match => match.Linear.Carrier is not null)
-            .OrderBy(match => AttachmentCarrierRank(match.Other.Carrier))
-            .ThenBy(match => Math.Abs(match.Linear.Ticks - originLocation.Ticks)))
+        foreach (var witness in evidence.LinearBasisWitnesses
+            .Where(witness => witness.LinearCarrier.SameIdentityAs(carrier))
+            .OrderBy(witness => witness.WitnessPoint.CircularMarker is null ? 0 : 1)
+            .ThenBy(witness => Math.Abs(witness.LinearLocation.Ticks - witness.LinearOriginTicks)))
         {
-            var tickDelta = attachment.Linear.Ticks - originLocation.Ticks;
+            var tickDelta = witness.LinearLocation.Ticks - witness.LinearOriginTicks;
             if (tickDelta == 0)
             {
                 continue;
             }
 
-            var anchorPoint = ProjectModel(Normalize(attachment.Other));
+            if (!TryProjectModelForControl(witness.WitnessPoint.Location, out var anchorPoint))
+            {
+                continue;
+            }
+
             var dx = anchorPoint.X - originPoint.X;
             var dy = anchorPoint.Y - originPoint.Y;
             if (MathF.Sqrt(dx * dx + dy * dy) <= 0.001f)
@@ -146,48 +172,49 @@ public sealed class DerivedSkiaProjection : IGojoCadSkiaProjection
             return basis;
         }
 
-        var origin = ReadCircularOrigin(carrier);
-        var center = ProjectModel(Normalize(origin));
-
-        var attachment = evidence.Attachments
-            .Select(attachment => attachment.ForCircularCarrier(carrier))
-            .Where(match =>
-                match.Circular.Carrier is not null &&
-                match.Other.Carrier is not null &&
-                !match.Other.Carrier.TryReadCircularOrigin(out _))
-            .OrderBy(match => AttachmentCarrierRank(match.Other.Carrier))
-            .FirstOrDefault();
-        if (attachment.Circular.Carrier is not null)
+        if (!resolvingCircularBases.Add(carrier.Id))
         {
-            var anchorPoint = ProjectModel(Normalize(attachment.Other));
-            var radius = Distance(center, anchorPoint);
-            if (radius <= 0.1f)
+            return new CircularBasis(new SKPoint(0, 0), SampleModelRadius(carrier, 0), 0, 1);
+        }
+
+        try
+        {
+            var origin = ReadCircularOrigin(carrier);
+            var center = ProjectModel(Normalize(origin));
+            var attachment = evidence.RadiusAttachments
+                .Where(attachment => attachment.Marker.Point.Location.Carrier.SameIdentityAs(carrier))
+                .FirstOrDefault();
+            if (attachment is not null &&
+                TryProjectModelForControl(attachment.BasePoint.Location, out var anchorPoint))
             {
-                radius = SampleModelRadius(carrier, origin.Ticks);
+                var radius = Distance(center, anchorPoint);
+                if (radius <= 0.1f)
+                {
+                    radius = SampleModelRadius(carrier, origin.Ticks);
+                }
+
+                basis = new CircularBasis(
+                    center,
+                    radius,
+                    attachment.Marker.Point.Location.Ticks,
+                    ReadCircularPeriod(carrier, attachment.Marker.Point.Location.Ticks));
+                circularBases[carrier.Id] = basis;
+                return basis;
             }
 
+            var anchorTicks = ReadCircularAnchorTicks(carrier, origin.Ticks);
             basis = new CircularBasis(
                 center,
-                radius,
-                attachment.Circular.Ticks,
-                ReadCircularPeriod(carrier, attachment.Circular.Ticks));
+                SampleModelRadius(carrier, origin.Ticks),
+                anchorTicks,
+                ReadCircularPeriod(carrier, anchorTicks));
             circularBases[carrier.Id] = basis;
             return basis;
         }
-
-        var marker = evidence.Locations
-            .Where(location => location.Carrier.SameIdentityAs(carrier))
-            .OrderBy(location => Math.Abs(location.Ticks - origin.Ticks))
-            .FirstOrDefault(location => location.Ticks != origin.Ticks);
-        var anchorTicks = marker.Carrier is null ? origin.Ticks : marker.Ticks;
-
-        basis = new CircularBasis(
-            center,
-            SampleModelRadius(carrier, origin.Ticks),
-            anchorTicks,
-            ReadCircularPeriod(carrier, anchorTicks));
-        circularBases[carrier.Id] = basis;
-        return basis;
+        finally
+        {
+            resolvingCircularBases.Remove(carrier.Id);
+        }
     }
 
     private long ReadCircularPeriod(Carrier carrier, long anchorTicks)
@@ -245,7 +272,7 @@ public sealed class DerivedSkiaProjection : IGojoCadSkiaProjection
 
         foreach (var carrier in evidence.Locations
             .Select(location => NormalizeCarrier(location.Carrier))
-            .Where(IsCircularCarrier)
+            .Where(HasCircularOrigin)
             .GroupBy(carrier => carrier.Id)
             .Select(group => group.First()))
         {
@@ -258,12 +285,22 @@ public sealed class DerivedSkiaProjection : IGojoCadSkiaProjection
 
     private float SampleAngle() => (float)random.NextDouble() * MathF.PI * 2f;
 
-    private static CarrierLocation ReadCircularOrigin(Carrier carrier) =>
-        carrier.TryReadCircularOrigin(out var origin)
+    private long ReadCircularAnchorTicks(Carrier carrier, long originTicks)
+    {
+        var marker = evidence.Locations
+            .Where(location => location.Carrier.SameIdentityAs(carrier))
+            .OrderBy(location => Math.Abs(location.Ticks - originTicks))
+            .FirstOrDefault(location => location.Ticks != originTicks);
+        return marker.Carrier is null ? originTicks : marker.Ticks;
+    }
+
+    private CarrierLocation ReadCircularOrigin(Carrier carrier) =>
+        evidence.CircularOrigins.TryGetValue(NormalizeCarrier(carrier).Id, out var origin)
             ? origin
             : new CarrierLocation(Carrier.Unknown, 0);
 
-    private static bool IsCircularCarrier(Carrier carrier) => carrier.TryReadCircularOrigin(out _);
+    private bool HasCircularOrigin(Carrier carrier) =>
+        evidence.CircularOrigins.ContainsKey(NormalizeCarrier(carrier).Id);
 
     private static CarrierLocation Normalize(CarrierLocation location)
     {
@@ -274,14 +311,18 @@ public sealed class DerivedSkiaProjection : IGojoCadSkiaProjection
 
     private static Carrier NormalizeCarrier(Carrier carrier) => carrier.IsInverse ? carrier.Inverse() : carrier;
 
-    private static int AttachmentCarrierRank(Carrier carrier)
+    private bool TryProjectModelForControl(CarrierLocation location, out SKPoint point)
     {
-        if (carrier.TryReadCircularOrigin(out _))
+        var normalized = Normalize(location);
+        var carrier = NormalizeCarrier(normalized.Carrier);
+        if (!HasCircularOrigin(carrier) && resolvingLinearBases.Contains(carrier.Id))
         {
-            return 2;
+            point = default;
+            return false;
         }
 
-        return carrier.TryReadLinearOrigin(out _) ? 1 : 0;
+        point = ProjectModel(normalized);
+        return true;
     }
 
     private static float Distance(SKPoint left, SKPoint right)
@@ -295,7 +336,11 @@ public sealed class DerivedSkiaProjection : IGojoCadSkiaProjection
     {
         public List<CarrierLocation> Locations { get; } = [];
 
-        public List<AttachmentEvidence> Attachments { get; } = [];
+        public Dictionary<ulong, CarrierLocation> CircularOrigins { get; } = [];
+
+        public List<RadiusAttachmentRead> RadiusAttachments { get; } = [];
+
+        public List<LinearBasisWitnessRead> LinearBasisWitnesses { get; } = [];
     }
 
     private sealed class ModelBounds
@@ -388,45 +433,6 @@ public sealed class DerivedSkiaProjection : IGojoCadSkiaProjection
     private readonly record struct LinearBasis(SKPoint Origin, SKPoint TickVector);
 
     private readonly record struct CircularBasis(SKPoint Center, float Radius, long AnchorTicks, long PeriodTicks);
-
-    private readonly record struct AttachmentEvidence(CarrierLocation Left, CarrierLocation Right)
-    {
-        public (CarrierLocation Linear, CarrierLocation Other) ForLinearCarrier(Carrier carrier, long originTicks)
-        {
-            var left = Normalize(Left);
-            var right = Normalize(Right);
-            if (left.Carrier.SameIdentityAs(carrier) &&
-                left.Ticks != originTicks &&
-                !right.Carrier.SameIdentityAs(carrier))
-            {
-                return (left, right);
-            }
-
-            if (right.Carrier.SameIdentityAs(carrier) &&
-                right.Ticks != originTicks &&
-                !left.Carrier.SameIdentityAs(carrier))
-            {
-                return (right, left);
-            }
-
-            return default;
-        }
-
-        public (CarrierLocation Circular, CarrierLocation Other) ForCircularCarrier(Carrier carrier)
-        {
-            if (Left.Carrier.SameIdentityAs(carrier))
-            {
-                return (Left, Right);
-            }
-
-            if (Right.Carrier.SameIdentityAs(carrier))
-            {
-                return (Right, Left);
-            }
-
-            return default;
-        }
-    }
 
     private readonly record struct LocationKey(ulong CarrierId, long Ticks)
     {

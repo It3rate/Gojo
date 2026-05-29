@@ -35,6 +35,7 @@ public sealed class GraphicReadGraphTests
         var tick = Assert.Single(graph.ReadsOf<SegmentPartitionRead>());
         Assert.Equal(5, tick.Point.Location.Ticks);
         Assert.Equal(span, tick.Segment);
+        Assert.Equal([0, 1], graph.Bands.Select(band => band.Order).ToArray());
     }
 
     [Fact]
@@ -118,6 +119,29 @@ public sealed class GraphicReadGraphTests
         Assert.True(attachment.Marker.Point.Location.Carrier.SameIdentityAs(contour));
         Assert.Equal(12, attachment.BasePoint.Location.Ticks);
         Assert.Equal(12, attachment.Marker.Point.Location.Ticks);
+    }
+
+    [Fact]
+    public void ReadsLinearBasisWitnessFromEndpointAttachmentToContourPoint()
+    {
+        var baseAxis = new Carrier();
+        var origin = GraphicStructure.Point(baseAxis, 0);
+        var contour = new Carrier(UnitShape.CircularFrom(origin));
+        var linear = new Carrier(UnitShape.LinearFrom(GraphicStructure.Segment(baseAxis, 0, 0)));
+        var endpointAttachment = new Relation(
+            GraphicStructure.Point(linear, 11),
+            GraphicStructure.Point(contour, 12));
+
+        var graph = GraphicReadGraph.From(endpointAttachment);
+
+        var witness = Assert.Single(graph.ReadsOf<LinearBasisWitnessRead>());
+        Assert.True(witness.LinearCarrier.SameIdentityAs(linear));
+        Assert.Equal(0, witness.LinearOriginTicks);
+        Assert.Equal(11, witness.LinearLocation.Ticks);
+        Assert.True(witness.SourceOrigin.Carrier.SameIdentityAs(baseAxis));
+        Assert.True(witness.WitnessPoint.Location.Carrier.SameIdentityAs(contour));
+        Assert.Empty(graph.ReadsOf<RadiusAttachmentRead>());
+        Assert.Equal([0, 2], graph.Bands.Select(band => band.Order).ToArray());
     }
 
     [Fact]

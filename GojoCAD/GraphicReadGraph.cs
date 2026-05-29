@@ -11,11 +11,13 @@ public sealed class GraphicReadGraph
     private GraphicReadGraph(
         GraphicReadNode root,
         IReadOnlyList<GraphicReadNode> nodes,
+        IReadOnlyList<GraphicReadBand> bands,
         IReadOnlyList<GraphicRead> reads,
         GraphicReadIndex index)
     {
         Root = root;
         Nodes = nodes;
+        Bands = bands;
         Reads = reads;
         this.index = index;
     }
@@ -25,6 +27,8 @@ public sealed class GraphicReadGraph
     public GraphicReadNode Root { get; }
 
     public IReadOnlyList<GraphicReadNode> Nodes { get; }
+
+    public IReadOnlyList<GraphicReadBand> Bands { get; }
 
     public IReadOnlyList<GraphicRead> Reads { get; }
 
@@ -105,10 +109,14 @@ public sealed class GraphicReadGraph
         public GraphicReadGraph Read(IElement source)
         {
             var root = Visit(source);
-            var reads = nodes.SelectMany(node => node.LocalReads).ToList();
-            reads.AddRange(DerivePartitions(reads).ToArray());
-            reads.AddRange(DeriveRadiusAttachments(reads).ToArray());
-            return new GraphicReadGraph(root, [.. nodes], reads, GraphicReadIndex.From(nodes));
+            var bands = new List<GraphicReadBand>();
+            var reads = new List<GraphicRead>();
+
+            AddBand(bands, reads, order: 0, nodes.SelectMany(node => node.LocalReads));
+            AddBand(bands, reads, order: 1, DerivePartitions(reads));
+            AddBand(bands, reads, order: 2, DeriveSecondOrderControls(reads));
+
+            return new GraphicReadGraph(root, [.. nodes], [.. bands], [.. reads], GraphicReadIndex.From(nodes));
         }
 
         private GraphicReadNode Visit(IElement source)
@@ -236,16 +244,75 @@ public sealed class GraphicReadGraph
         {
             foreach (var pair in reads.OfType<PointPairRead>())
             {
-                if (pair.Left.CircularMarker is not null && !IsCircularCarrier(pair.Right.Location.Carrier))
+                if (pair.Left.CircularMarker is not null &&
+                    IsRadiusBasePoint(pair.Right.Location, pair.Left.CircularMarker))
                 {
                     yield return new RadiusAttachmentRead(pair.Source, pair.Right, pair.Left.CircularMarker);
                 }
 
-                if (pair.Right.CircularMarker is not null && !IsCircularCarrier(pair.Left.Location.Carrier))
+                if (pair.Right.CircularMarker is not null &&
+                    IsRadiusBasePoint(pair.Left.Location, pair.Right.CircularMarker))
                 {
                     yield return new RadiusAttachmentRead(pair.Source, pair.Left, pair.Right.CircularMarker);
                 }
             }
+        }
+
+        private static IEnumerable<GraphicRead> DeriveSecondOrderControls(IReadOnlyList<GraphicRead> reads)
+        {
+            foreach (var radius in DeriveRadiusAttachments(reads))
+            {
+                yield return radius;
+            }
+
+            foreach (var witness in DeriveLinearBasisWitnesses(reads))
+            {
+                yield return witness;
+            }
+        }
+
+        private static IEnumerable<GraphicRead> DeriveLinearBasisWitnesses(IReadOnlyList<GraphicRead> reads)
+        {
+            foreach (var pair in reads.OfType<PointPairRead>())
+            {
+                if (TryReadLinearBasisWitness(pair, pair.Left, pair.Right, out var leftWitness))
+                {
+                    yield return leftWitness;
+                }
+
+                if (TryReadLinearBasisWitness(pair, pair.Right, pair.Left, out var rightWitness))
+                {
+                    yield return rightWitness;
+                }
+            }
+        }
+
+        private static bool TryReadLinearBasisWitness(
+            PointPairRead pair,
+            PointRead linearPoint,
+            PointRead witnessPoint,
+            out LinearBasisWitnessRead witness)
+        {
+            var linearLocation = Normalize(linearPoint.Location);
+            var carrier = NormalizeCarrier(linearLocation.Carrier);
+            if (!carrier.TryReadLinearOrigin(out var sourceOrigin) ||
+                linearLocation.Ticks == LinearCarrierOriginTicks ||
+                witnessPoint.Location.Carrier.SameIdentityAs(linearPoint.Location.Carrier))
+            {
+                witness = default!;
+                return false;
+            }
+
+            witness = new LinearBasisWitnessRead(
+                pair.Source,
+                carrier,
+                LinearCarrierOriginTicks,
+                sourceOrigin,
+                linearLocation,
+                linearPoint,
+                witnessPoint,
+                pair);
+            return true;
         }
 
         private static void AddPointReads(List<GraphicRead> reads, PointRead point)
@@ -313,8 +380,37 @@ public sealed class GraphicReadGraph
 
         private static bool IsCircularCarrier(Carrier carrier) => ReadCircularOrigin(carrier, out _);
 
+        private static bool IsRadiusBasePoint(CarrierLocation location, CircularMarkerRead marker) =>
+            !IsCircularCarrier(location.Carrier) &&
+            location.Carrier.SameIdentityAs(marker.Origin.Carrier);
+
         private static bool ReadCircularOrigin(Carrier carrier, out CarrierLocation origin) =>
             carrier.TryReadCircularOrigin(out origin);
+
+        private static CarrierLocation Normalize(CarrierLocation location) =>
+            location.Carrier.IsInverse
+                ? new CarrierLocation(location.Carrier.Inverse(), checked(-location.Ticks))
+                : location;
+
+        private static Carrier NormalizeCarrier(Carrier carrier) => carrier.IsInverse ? carrier.Inverse() : carrier;
+
+        private static void AddBand(
+            List<GraphicReadBand> bands,
+            List<GraphicRead> reads,
+            int order,
+            IEnumerable<GraphicRead> nextReads)
+        {
+            var bandReads = nextReads.ToArray();
+            if (bandReads.Length == 0)
+            {
+                return;
+            }
+
+            bands.Add(new GraphicReadBand(order, bandReads));
+            reads.AddRange(bandReads);
+        }
+
+        private const long LinearCarrierOriginTicks = 0;
     }
 }
 
@@ -549,6 +645,8 @@ public sealed record GraphicReadRefresh(
     IReadOnlyList<GraphicReadNode> CurrentNodes,
     IReadOnlyList<GraphicRead> CurrentReads);
 
+public sealed record GraphicReadBand(int Order, IReadOnlyList<GraphicRead> Reads);
+
 public abstract record GraphicRead(IElement Source);
 
 public sealed record PointRead(IElement Source, CarrierLocation Location) : GraphicRead(Source)
@@ -602,6 +700,16 @@ public sealed record RadiusAttachmentRead(
     IElement Source,
     PointRead BasePoint,
     CircularMarkerRead Marker) : GraphicRead(Source);
+
+public sealed record LinearBasisWitnessRead(
+    IElement Source,
+    Carrier LinearCarrier,
+    long LinearOriginTicks,
+    CarrierLocation SourceOrigin,
+    CarrierLocation LinearLocation,
+    PointRead LinearPoint,
+    PointRead WitnessPoint,
+    PointPairRead Attachment) : GraphicRead(Source);
 
 public sealed record SegmentPartitionRead(
     IElement Source,
