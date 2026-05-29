@@ -25,6 +25,8 @@ For now the adapter is intentionally tiny:
   provisional reads
 - derive projection from connected point, attachment, unit-shape, and viewport
   evidence instead of per-site pixel maps
+- derive a linear carrier's direction from an origin plus a non-origin
+  attachment witness before sampling an unresolved direction
 - infer a circumference from circular carrier unit shape plus attached marker
   and radius evidence
 - draw partition sites as low-intensity line ticks

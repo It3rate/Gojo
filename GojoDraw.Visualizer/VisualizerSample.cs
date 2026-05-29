@@ -82,6 +82,9 @@ internal sealed record VisualizerSample(
         var rimAxisOriginAttachment = new Relation(
             GraphicStructure.Point(drawing, radiusSite),
             GraphicStructure.Point(rimAxis, axisOrigin));
+        var arrowAxisArcAttachment = new Relation(
+            GraphicStructure.Point(arrowAxis, arrowFar),
+            GraphicStructure.Point(circumference, contourB));
 
         var elements = new IElement[]
         {
@@ -112,7 +115,8 @@ internal sealed record VisualizerSample(
             rimAxisOriginAttachment,
             GraphicStructure.DirectedSegment(rimAxis, rimArrowBack, rimArrowForward),
             GraphicStructure.Segment(rimAxis, axisOrigin, rimArrowForward),
-            GraphicStructure.Point(rimAxis, rimArrowMid)
+            GraphicStructure.Point(rimAxis, rimArrowMid),
+            arrowAxisArcAttachment
         };
 
         var structure = Chain(elements);

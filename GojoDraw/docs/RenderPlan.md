@@ -24,6 +24,12 @@ Projection should be derived from GojoCAD relation evidence where possible.
 Ambiguous values can be sampled from bounded ranges for the current run instead
 of being fixed in per-site pixel maps.
 
+Linear projection now reads an ordered basis from local evidence when it can:
+a linear origin plus a non-origin attachment witness gives direction and scale.
+If that witness is a point on a circumference, the line follows the current
+projection of that contour point; any unresolved contour period can still be
+sampled.
+
 Recognized structures should render as recognized structures. Missing radius,
 period, orientation, style, or detail should lead to sampled, partial, or
 tension-like visualization rather than a failed render branch.
@@ -45,6 +51,7 @@ directed span, radial seed, circular marker/span, and partition reads.
 - line and sheet orthogonal seeds as low-intensity provisional reads
 - inferred circumferences with contour spans, radius attachments, and
   partition marks
+- a directed segment aligned by an endpoint attachment to a point on an arc
 - a small left-side legend whose glyphs are built as GojoCAD structures and
   rendered through the same adapter path
 - hover text over rendered primitive regions
