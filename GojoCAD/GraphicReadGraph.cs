@@ -115,6 +115,7 @@ public sealed class GraphicReadGraph
             AddBand(bands, reads, order: 0, nodes.SelectMany(node => node.LocalReads));
             AddBand(bands, reads, order: 1, DeriveIncidenceReads(reads));
             AddBand(bands, reads, order: 2, DeriveSecondOrderControls(reads));
+            AddBand(bands, reads, order: 4, DeriveBoundaryControls(reads));
 
             return new GraphicReadGraph(root, [.. nodes], [.. bands], [.. reads], GraphicReadIndex.From(nodes));
         }
@@ -347,6 +348,11 @@ public sealed class GraphicReadGraph
             {
                 yield return junction;
             }
+
+            foreach (var alignment in DeriveLinearBasisAlignments(reads))
+            {
+                yield return alignment;
+            }
         }
 
         private static IEnumerable<GraphicRead> DeriveSegmentJunctions(IReadOnlyList<GraphicRead> reads)
@@ -385,6 +391,107 @@ public sealed class GraphicReadGraph
             }
         }
 
+        private static IEnumerable<GraphicRead> DeriveLinearBasisAlignments(IReadOnlyList<GraphicRead> reads)
+        {
+            foreach (var attachment in reads.OfType<PointAttachmentRead>())
+            {
+                if (TryReadLinearBasisPoint(attachment.Left, out var left) &&
+                    TryReadLinearBasisPoint(attachment.Right, out var right) &&
+                    !left.Carrier.SameIdentityAs(right.Carrier))
+                {
+                    yield return new LinearBasisAlignmentRead(
+                        attachment.Source,
+                        left,
+                        right,
+                        attachment);
+                }
+            }
+        }
+
+        private static IEnumerable<GraphicRead> DeriveBoundaryControls(IReadOnlyList<GraphicRead> reads)
+        {
+            foreach (var boundary in DeriveClosedSegmentBoundaries(reads))
+            {
+                yield return boundary;
+            }
+        }
+
+        private static IEnumerable<GraphicRead> DeriveClosedSegmentBoundaries(IReadOnlyList<GraphicRead> reads)
+        {
+            var segments = reads
+                .OfType<PositiveSegmentRead>()
+                .Where(segment => !IsCircularCarrier(segment.Start.Location.Carrier))
+                .ToArray();
+            if (segments.Length < 3)
+            {
+                yield break;
+            }
+
+            var endpoints = segments
+                .SelectMany(segment => new[]
+                {
+                    new SegmentEndpointRead(segment, segment.Start, IsStart: true),
+                    new SegmentEndpointRead(segment, segment.End, IsStart: false)
+                })
+                .ToArray();
+            var endpointGroups = ReadSharedEndpointGroups(endpoints).ToArray();
+            var groupByEndpoint = IndexEndpointGroups(endpointGroups);
+            var adjacent = BuildSegmentAdjacency(segments, endpointGroups);
+            var visited = new HashSet<PositiveSegmentRead>();
+
+            foreach (var seed in segments)
+            {
+                if (!visited.Add(seed))
+                {
+                    continue;
+                }
+
+                var component = ReadSegmentComponent(seed, adjacent, visited);
+                if (component.Count < 3)
+                {
+                    continue;
+                }
+
+                var componentEndpoints = component
+                    .SelectMany(segment => new[]
+                    {
+                        new SegmentEndpointRead(segment, segment.Start, IsStart: true),
+                        new SegmentEndpointRead(segment, segment.End, IsStart: false)
+                    })
+                    .ToArray();
+                var boundarySites = new List<IReadOnlyList<SegmentEndpointRead>>();
+                var closed = true;
+                foreach (var endpoint in componentEndpoints)
+                {
+                    if (!groupByEndpoint.TryGetValue(endpoint, out var group))
+                    {
+                        closed = false;
+                        break;
+                    }
+
+                    var participating = group
+                        .Where(candidate => component.Contains(candidate.Segment))
+                        .Distinct()
+                        .ToArray();
+                    if (participating.Length != 2)
+                    {
+                        closed = false;
+                        break;
+                    }
+
+                    if (!boundarySites.Any(site => EndpointGroupSignature(site) == EndpointGroupSignature(participating)))
+                    {
+                        boundarySites.Add(participating);
+                    }
+                }
+
+                if (closed && boundarySites.Count == component.Count)
+                {
+                    yield return new ClosedSegmentBoundaryRead(component[0].Source, component, boundarySites);
+                }
+            }
+        }
+
         private static bool TryReadLinearBasisWitness(
             PointPairRead pair,
             PointRead linearPoint,
@@ -410,6 +517,27 @@ public sealed class GraphicReadGraph
                 linearPoint,
                 witnessPoint,
                 pair);
+            return true;
+        }
+
+        private static bool TryReadLinearBasisPoint(PointRead point, out LinearBasisPointRead basisPoint)
+        {
+            var location = Normalize(point.Location);
+            var carrier = NormalizeCarrier(location.Carrier);
+            if (!carrier.TryReadLinearOrigin(out var sourceOrigin) ||
+                location.Ticks == LinearCarrierOriginTicks)
+            {
+                basisPoint = default!;
+                return false;
+            }
+
+            basisPoint = new LinearBasisPointRead(
+                point.Source,
+                carrier,
+                LinearCarrierOriginTicks,
+                sourceOrigin,
+                location,
+                point);
             return true;
         }
 
@@ -565,6 +693,64 @@ public sealed class GraphicReadGraph
                 .Select(endpoint =>
                     $"{(endpoint.Segment.Source is Relation relation ? relation.Id : 0UL)}:{endpoint.IsStart}")
                 .Order());
+
+        private static Dictionary<SegmentEndpointRead, IReadOnlyList<SegmentEndpointRead>> IndexEndpointGroups(
+            IEnumerable<IReadOnlyList<SegmentEndpointRead>> endpointGroups)
+        {
+            var index = new Dictionary<SegmentEndpointRead, IReadOnlyList<SegmentEndpointRead>>();
+            foreach (var group in endpointGroups)
+            {
+                foreach (var endpoint in group)
+                {
+                    index.TryAdd(endpoint, group);
+                }
+            }
+
+            return index;
+        }
+
+        private static Dictionary<PositiveSegmentRead, List<PositiveSegmentRead>> BuildSegmentAdjacency(
+            IReadOnlyList<PositiveSegmentRead> segments,
+            IReadOnlyList<IReadOnlyList<SegmentEndpointRead>> endpointGroups)
+        {
+            var adjacent = segments.ToDictionary(segment => segment, _ => new List<PositiveSegmentRead>());
+            foreach (var group in endpointGroups)
+            {
+                var groupSegments = group.Select(endpoint => endpoint.Segment).Distinct().ToArray();
+                for (var leftIndex = 0; leftIndex < groupSegments.Length; leftIndex++)
+                for (var rightIndex = leftIndex + 1; rightIndex < groupSegments.Length; rightIndex++)
+                {
+                    adjacent[groupSegments[leftIndex]].Add(groupSegments[rightIndex]);
+                    adjacent[groupSegments[rightIndex]].Add(groupSegments[leftIndex]);
+                }
+            }
+
+            return adjacent;
+        }
+
+        private static IReadOnlyList<PositiveSegmentRead> ReadSegmentComponent(
+            PositiveSegmentRead seed,
+            IReadOnlyDictionary<PositiveSegmentRead, List<PositiveSegmentRead>> adjacent,
+            HashSet<PositiveSegmentRead> visited)
+        {
+            var component = new List<PositiveSegmentRead> { seed };
+            var pending = new Queue<PositiveSegmentRead>();
+            pending.Enqueue(seed);
+            while (pending.Count != 0)
+            {
+                var current = pending.Dequeue();
+                foreach (var next in adjacent[current])
+                {
+                    if (visited.Add(next))
+                    {
+                        component.Add(next);
+                        pending.Enqueue(next);
+                    }
+                }
+            }
+
+            return component;
+        }
 
         private static void AddBand(
             List<GraphicReadBand> bands,
@@ -901,6 +1087,33 @@ public sealed record LinearBasisWitnessRead(
     public override IEnumerable<IElement> Sources => [Source, LinearPoint.Source, WitnessPoint.Source];
 }
 
+public sealed record LinearBasisPointRead(
+    IElement Source,
+    Carrier Carrier,
+    long OriginTicks,
+    CarrierLocation SourceOrigin,
+    CarrierLocation Location,
+    PointRead Point) : GraphicRead(Source)
+{
+    public long DeltaTicks => Location.Ticks - OriginTicks;
+
+    public override IEnumerable<IElement> Sources => [Source, Point.Source];
+}
+
+public sealed record LinearBasisAlignmentRead(
+    IElement Source,
+    LinearBasisPointRead Left,
+    LinearBasisPointRead Right,
+    PointAttachmentRead Attachment) : GraphicRead(Source)
+{
+    public bool HasSameFlow => Math.Sign(Left.DeltaTicks) == Math.Sign(Right.DeltaTicks);
+
+    public bool HasOpposedFlow => Math.Sign(Left.DeltaTicks) == -Math.Sign(Right.DeltaTicks);
+
+    public override IEnumerable<IElement> Sources =>
+        Attachment.Sources.Concat(Left.Sources).Concat(Right.Sources);
+}
+
 public sealed record PointAttachmentRead(
     IElement Source,
     PointRead Left,
@@ -948,6 +1161,16 @@ public sealed record SegmentJunctionRead(
             endpoint.Segment.Source,
             endpoint.Point.Source
         }));
+}
+
+public sealed record ClosedSegmentBoundaryRead(
+    IElement Source,
+    IReadOnlyList<PositiveSegmentRead> Segments,
+    IReadOnlyList<IReadOnlyList<SegmentEndpointRead>> Sites) : GraphicRead(Source)
+{
+    public override IEnumerable<IElement> Sources =>
+        Segments.Select(segment => segment.Source)
+            .Concat(Sites.SelectMany(site => site.Select(endpoint => endpoint.Point.Source)));
 }
 
 public sealed record SegmentPartitionRead(

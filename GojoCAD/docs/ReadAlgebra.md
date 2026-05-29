@@ -84,7 +84,7 @@ The order should stay algebraic rather than becoming a giant classifier:
 | --- | --- | --- |
 | `0` | local primitive relation reads | point, point pair, span, zero span, directed segment, radial seed, circular marker/span |
 | `1` | incidence and partition reads | point attachment, shared site, segment partition, contour partition, segment connection |
-| `2` | second-order control reads | radius attachment, linear basis witness, segment junction, future parallel/perpendicular/equal-length witnesses |
+| `2` | second-order control reads | radius attachment, linear basis witness/alignment, segment junction, future perpendicular/equal-length witnesses |
 | `3` | contour and curvature controls | tangent continuity, curvature continuity, rounded corner, clothoid/involute witnesses |
 | `4` | boundary, area, and topology controls | closed boundary, area, anti-area, branch, merge, crossing/intersection |
 | `5` | resolution and concept conditioning | coarse-to-fine ladders, named concept hints, feature settlement witnesses |
@@ -103,7 +103,9 @@ Current executable control surface:
 | `SegmentConnectionRead` | `1` | segment endpoints meet at a shared site |
 | `RadiusAttachmentRead` | `2` | a base-carrier point fixes radius evidence for a circular marker |
 | `LinearBasisWitnessRead` | `2` | a non-origin point on a linear carrier attaches to another projected point, fixing direction and scale when possible |
+| `LinearBasisAlignmentRead` | `2` | non-origin points on two linear carriers attach, carrying same-flow or opposed-flow basis evidence |
 | `SegmentJunctionRead` | `2` | at least three segment endpoints participate at one shared site |
+| `ClosedSegmentBoundaryRead` | `4` | connected segment endpoints form a closed boundary cycle, before any fill or area style participates |
 
 ## Second-Order Control Reads
 

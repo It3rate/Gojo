@@ -187,6 +187,69 @@ public sealed class GraphicReadGraphTests
     }
 
     [Fact]
+    public void ReadsLinearBasisAlignmentBetweenLinearCarriers()
+    {
+        var baseAxis = new Carrier();
+        var first = new Carrier(UnitShape.LinearFrom(GraphicStructure.Segment(baseAxis, 0, 0)));
+        var second = new Carrier(UnitShape.LinearFrom(GraphicStructure.Segment(baseAxis, 4, 4)));
+        var aligned = new Relation(
+            GraphicStructure.Point(first, 5),
+            GraphicStructure.Point(second, 10));
+
+        var graph = GraphicReadGraph.From(aligned);
+
+        Assert.Equal(2, graph.ReadsOf<LinearBasisWitnessRead>().Count());
+        var alignment = Assert.Single(graph.ReadsOf<LinearBasisAlignmentRead>());
+        Assert.True(alignment.Left.Carrier.SameIdentityAs(first));
+        Assert.True(alignment.Right.Carrier.SameIdentityAs(second));
+        Assert.Equal(5, alignment.Left.DeltaTicks);
+        Assert.Equal(10, alignment.Right.DeltaTicks);
+        Assert.True(alignment.HasSameFlow);
+        Assert.False(alignment.HasOpposedFlow);
+    }
+
+    [Fact]
+    public void ReadsOpposedLinearBasisAlignmentFromInverseFace()
+    {
+        var baseAxis = new Carrier();
+        var first = new Carrier(UnitShape.LinearFrom(GraphicStructure.Segment(baseAxis, 0, 0)));
+        var second = new Carrier(UnitShape.LinearFrom(GraphicStructure.Segment(baseAxis, 4, 4)));
+        var opposed = new Relation(
+            GraphicStructure.Point(first, 5),
+            GraphicStructure.Point(second.Inverse(), 10));
+
+        var graph = GraphicReadGraph.From(opposed);
+
+        var alignment = Assert.Single(graph.ReadsOf<LinearBasisAlignmentRead>());
+        Assert.True(alignment.Left.Carrier.SameIdentityAs(first));
+        Assert.True(alignment.Right.Carrier.SameIdentityAs(second));
+        Assert.Equal(5, alignment.Left.DeltaTicks);
+        Assert.Equal(-10, alignment.Right.DeltaTicks);
+        Assert.False(alignment.HasSameFlow);
+        Assert.True(alignment.HasOpposedFlow);
+    }
+
+    [Fact]
+    public void ReadsClosedSegmentBoundaryFromEndpointCycle()
+    {
+        var firstSite = GraphicStructure.Site(0);
+        var secondSite = GraphicStructure.Site(10);
+        var thirdSite = GraphicStructure.Site(20);
+        var first = GraphicStructure.Segment(new Carrier(), firstSite, secondSite);
+        var second = GraphicStructure.Segment(new Carrier(), secondSite, thirdSite);
+        var third = GraphicStructure.Segment(new Carrier(), thirdSite, firstSite);
+        var structure = Chain(first, second, third);
+
+        var graph = GraphicReadGraph.From(structure);
+
+        var boundary = Assert.Single(graph.ReadsOf<ClosedSegmentBoundaryRead>());
+        Assert.Equal(3, boundary.Segments.Count);
+        Assert.Equal(3, boundary.Sites.Count);
+        Assert.Empty(graph.ReadsOf<SegmentJunctionRead>());
+        Assert.Equal([0, 1, 4], graph.Bands.Select(band => band.Order).ToArray());
+    }
+
+    [Fact]
     public void NavigationFromSharedSiteFindsAffectedLocalReads()
     {
         var axis = new Carrier();
