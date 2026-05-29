@@ -38,7 +38,7 @@ public sealed class GojoCadSkiaAdapter
 
         foreach (var radial in graph.ReadsOf<RadialSeedRead>())
         {
-            DrawRadialFlow(canvas, radial.Point, projection, paints, hitAreas);
+            DrawRadialFlow(canvas, radial, projection, paints, hitAreas);
             drawn++;
         }
 
@@ -95,13 +95,13 @@ public sealed class GojoCadSkiaAdapter
             if (IsCircularCarrier(point.Location.Carrier))
             {
                 var circle = ReadCircleProjection(point.Location, projection);
-                DrawCircumferenceTick(canvas, circle.Center, point.Location, projection, paints, hitAreas, "circumference tick", priority: 5);
+                DrawCircumferenceTick(canvas, circle.Center, point.Location, projection, paints, hitAreas, "circumference tick", priority: 5, point.Source);
                 pointRoles.Add(key);
                 drawn++;
             }
             else
             {
-                DrawDot(canvas, point.Location, projection, paints, hitAreas);
+                DrawDot(canvas, point, projection, paints, hitAreas);
                 drawn++;
             }
         }
@@ -119,32 +119,32 @@ public sealed class GojoCadSkiaAdapter
     {
         var drawn = 0;
         var circularLocations = graph.ReadsOf<CircularMarkerRead>()
-            .Select(marker => marker.Point.Location)
+            .Select(marker => new LocatedSource(marker.Point.Location, marker.Source))
             .Concat(graph.ReadsOf<CircularSpanRead>().SelectMany(span => new[]
             {
-                span.Segment.Start.Location,
-                span.Segment.End.Location
+                new LocatedSource(span.Segment.Start.Location, span.Source),
+                new LocatedSource(span.Segment.End.Location, span.Source)
             }))
-            .Where(location => IsCircularCarrier(location.Carrier))
-            .GroupBy(location => location.Carrier.Id);
+            .Where(entry => IsCircularCarrier(entry.Location.Carrier))
+            .GroupBy(entry => entry.Location.Carrier.Id);
 
         foreach (var group in circularLocations)
         {
             var marker = group.First();
-            var circle = ReadCircleProjection(marker, projection);
+            var circle = ReadCircleProjection(marker.Location, projection);
 
             canvas.DrawCircle(circle.Center, circle.Radius, paints.Circumference);
-            AddHit(hitAreas, CircleBounds(circle.Center, circle.Radius), "circumference", priority: 1);
+            AddHit(hitAreas, CircleBounds(circle.Center, circle.Radius), "circumference", priority: 1, marker.Source);
             drawn++;
 
-            var origin = ReadCircularOrigin(marker.Carrier);
-            DrawBasisRect(canvas, origin, projection, paints, hitAreas, "circumference basis origin", priority: 6);
+            var origin = ReadCircularOrigin(marker.Location.Carrier);
+            DrawBasisRect(canvas, origin, projection, paints, hitAreas, "circumference basis origin", priority: 6, marker.Source);
             pointRoles.Add(LocationKey.Of(origin));
 
-            foreach (var location in group.GroupBy(LocationKey.Of).Select(group => group.First()))
+            foreach (var entry in group.GroupBy(entry => LocationKey.Of(entry.Location)).Select(group => group.First()))
             {
-                DrawCircumferenceTick(canvas, circle.Center, location, projection, paints, hitAreas, "circumference tick", priority: 5);
-                pointRoles.Add(LocationKey.Of(location));
+                DrawCircumferenceTick(canvas, circle.Center, entry.Location, projection, paints, hitAreas, "circumference tick", priority: 5, entry.Source);
+                pointRoles.Add(LocationKey.Of(entry.Location));
                 drawn++;
             }
         }
@@ -171,34 +171,35 @@ public sealed class GojoCadSkiaAdapter
         var endAngle = AngleDegrees(circle.Center, endPoint);
         var sweep = ShortestSweep(startAngle, endAngle);
         canvas.DrawArc(bounds, startAngle, sweep, false, paints.CircumferenceSpan);
-        AddHit(hitAreas, bounds, "circumference span", priority: 3);
+        AddHit(hitAreas, bounds, "circumference span", priority: 3, span.Source);
 
-        DrawCircumferenceTick(canvas, circle.Center, start, projection, paints, hitAreas, "circumference tick", priority: 5);
-        DrawCircumferenceTick(canvas, circle.Center, end, projection, paints, hitAreas, "circumference tick", priority: 5);
+        DrawCircumferenceTick(canvas, circle.Center, start, projection, paints, hitAreas, "circumference tick", priority: 5, span.Source);
+        DrawCircumferenceTick(canvas, circle.Center, end, projection, paints, hitAreas, "circumference tick", priority: 5, span.Source);
         pointRoles.Add(LocationKey.Of(start));
         pointRoles.Add(LocationKey.Of(end));
     }
 
     private static void DrawDot(
         SKCanvas canvas,
-        CarrierLocation location,
-        IGojoCadSkiaProjection projection,
-        GojoCadSkiaPaints paints,
-        ICollection<GojoCadSkiaHitArea>? hitAreas)
-    {
-        var center = projection.Project(location);
-        canvas.DrawCircle(center, paints.DotRadius, paints.Dot);
-        AddHit(hitAreas, CenteredRect(center, paints.DotRadius * 2.4f), $"point {location.Carrier.Id}:{location.Ticks}", priority: 6);
-    }
-
-    private static void DrawRadialFlow(
-        SKCanvas canvas,
         PointRead point,
         IGojoCadSkiaProjection projection,
         GojoCadSkiaPaints paints,
         ICollection<GojoCadSkiaHitArea>? hitAreas)
     {
-        var center = projection.Project(point.Location);
+        var location = point.Location;
+        var center = projection.Project(location);
+        canvas.DrawCircle(center, paints.DotRadius, paints.Dot);
+        AddHit(hitAreas, CenteredRect(center, paints.DotRadius * 2.4f), $"point {location.Carrier.Id}:{location.Ticks}", priority: 6, point.Source);
+    }
+
+    private static void DrawRadialFlow(
+        SKCanvas canvas,
+        RadialSeedRead radial,
+        IGojoCadSkiaProjection projection,
+        GojoCadSkiaPaints paints,
+        ICollection<GojoCadSkiaHitArea>? hitAreas)
+    {
+        var center = projection.Project(radial.Point.Location);
         using var paint = new SKPaint
         {
             IsAntialias = true,
@@ -211,7 +212,7 @@ public sealed class GojoCadSkiaAdapter
             Style = SKPaintStyle.Fill
         };
         canvas.DrawCircle(center, paints.RadialRadius, paint);
-        AddHit(hitAreas, CircleBounds(center, paints.RadialRadius), "radial flow", priority: 0);
+        AddHit(hitAreas, CircleBounds(center, paints.RadialRadius), "radial flow", priority: 0, radial.Source);
     }
 
     private static void DrawPositiveSegment(
@@ -231,11 +232,11 @@ public sealed class GojoCadSkiaAdapter
         canvas.DrawLine(startPoint, endPoint, paints.Segment);
         DrawEndpointBar(canvas, startPoint, endPoint, paints);
         DrawEndpointBar(canvas, endPoint, startPoint, paints);
-        AddHit(hitAreas, LineBounds(startPoint, endPoint, 10f), "segment", priority: 2);
+        AddHit(hitAreas, LineBounds(startPoint, endPoint, 10f), "segment", priority: 2, segment.Source);
 
         foreach (var point in points)
         {
-            DrawSegmentTick(canvas, point.Location, startPoint, endPoint, projection, paints, hitAreas, "segment tick", priority: 5);
+            DrawSegmentTick(canvas, point.Location, startPoint, endPoint, projection, paints, hitAreas, "segment tick", priority: 5, point.Source);
             pointRoles.Add(LocationKey.Of(point));
         }
     }
@@ -257,7 +258,7 @@ public sealed class GojoCadSkiaAdapter
         var end = new SKPoint(center.X + normal.X * half, center.Y + normal.Y * half);
 
         canvas.DrawLine(start, end, paints.LineSeed);
-        AddHit(hitAreas, LineBounds(start, end, 8f), "line seed", priority: 2);
+        AddHit(hitAreas, LineBounds(start, end, 8f), "line seed", priority: 2, seed.Source);
     }
 
     private static void DrawSheetSeed(
@@ -280,7 +281,7 @@ public sealed class GojoCadSkiaAdapter
 
         canvas.DrawPath(path, paints.SheetSeed);
         canvas.DrawPath(path, paints.SheetSeedEdge);
-        AddHit(hitAreas, path.Bounds, "sheet seed", priority: 1);
+        AddHit(hitAreas, path.Bounds, "sheet seed", priority: 1, seed.Source);
     }
 
     private static void DrawRadiusAttachment(
@@ -293,7 +294,7 @@ public sealed class GojoCadSkiaAdapter
         var start = projection.Project(attachment.BasePoint.Location);
         var end = projection.Project(attachment.Marker.Point.Location);
         canvas.DrawLine(start, end, paints.RadiusAttachment);
-        AddHit(hitAreas, LineBounds(start, end, 7f), "radius attachment", priority: 2);
+        AddHit(hitAreas, LineBounds(start, end, 7f), "radius attachment", priority: 2, attachment.Source);
     }
 
     private static void DrawDirectedSegment(
@@ -308,7 +309,7 @@ public sealed class GojoCadSkiaAdapter
 
         canvas.DrawLine(startPoint, endPoint, paints.DirectedSegment);
         DrawArrowTip(canvas, startPoint, endPoint, paints);
-        AddHit(hitAreas, LineBounds(startPoint, endPoint, 12f), "directed segment", priority: 4);
+        AddHit(hitAreas, LineBounds(startPoint, endPoint, 12f), "directed segment", priority: 4, segment.Source);
     }
 
     private static void DrawSegmentTick(
@@ -320,13 +321,14 @@ public sealed class GojoCadSkiaAdapter
         GojoCadSkiaPaints paints,
         ICollection<GojoCadSkiaHitArea>? hitAreas,
         string text,
-        int priority)
+        int priority,
+        IElement? source)
     {
         var point = projection.Project(location);
         var perpendicular = PerpendicularUnit(startPoint, endPoint);
         DrawTick(canvas, point, perpendicular, paints);
         var bounds = CenteredRect(point, paints.PartitionTickLength);
-        AddHit(hitAreas, bounds, text, priority);
+        AddHit(hitAreas, bounds, text, priority, source);
     }
 
     private static void DrawCircumferenceTick(
@@ -337,12 +339,13 @@ public sealed class GojoCadSkiaAdapter
         GojoCadSkiaPaints paints,
         ICollection<GojoCadSkiaHitArea>? hitAreas,
         string text,
-        int priority)
+        int priority,
+        IElement? source)
     {
         var point = projection.Project(location);
         DrawTick(canvas, point, Unit(center, point), paints);
         var bounds = CenteredRect(point, paints.PartitionTickLength);
-        AddHit(hitAreas, bounds, text, priority);
+        AddHit(hitAreas, bounds, text, priority, source);
     }
 
     private static void DrawBasisRect(
@@ -352,12 +355,13 @@ public sealed class GojoCadSkiaAdapter
         GojoCadSkiaPaints paints,
         ICollection<GojoCadSkiaHitArea>? hitAreas,
         string text,
-        int priority)
+        int priority,
+        IElement? source)
     {
         var point = projection.Project(location);
         var bounds = CenteredRect(point, paints.BasisSize);
         canvas.DrawRect(bounds, paints.Basis);
-        AddHit(hitAreas, bounds, text, priority);
+        AddHit(hitAreas, bounds, text, priority, source);
     }
 
     private static CircleProjection ReadCircleProjection(
@@ -424,9 +428,10 @@ public sealed class GojoCadSkiaAdapter
         ICollection<GojoCadSkiaHitArea>? hitAreas,
         SKRect bounds,
         string text,
-        int priority)
+        int priority,
+        IElement? source = null)
     {
-        hitAreas?.Add(new GojoCadSkiaHitArea(bounds, text, priority));
+        hitAreas?.Add(new GojoCadSkiaHitArea(bounds, text, priority, source));
     }
 
     private static SKRect CenteredRect(SKPoint center, float size)
@@ -492,6 +497,8 @@ public sealed class GojoCadSkiaAdapter
         carrier.TryReadCircularOrigin(out var origin)
             ? origin
             : new CarrierLocation(Carrier.Unknown, 0);
+
+    private readonly record struct LocatedSource(CarrierLocation Location, IElement Source);
 
     private readonly record struct CircleProjection(SKPoint Center, float Radius);
 

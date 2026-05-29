@@ -272,7 +272,7 @@ internal sealed class VisualizerDrawOperation : ICustomDrawOperation
         }
 
         using var paints = new GojoCadSkiaPaints();
-        var text = hover.Text;
+        var text = ReadHoverText(hover);
         paints.HoverText.TextSize = 13f;
         var width = paints.HoverText.MeasureText(text);
         var x = MathF.Min(hoverPoint.X + 14f, (float)Bounds.Width - width - 30f);
@@ -284,5 +284,13 @@ internal sealed class VisualizerDrawOperation : ICustomDrawOperation
         canvas.DrawRoundRect(box, 4f, 4f, paints.HoverBackground);
         canvas.DrawRoundRect(box, 4f, 4f, paints.HoverBorder);
         canvas.DrawText(text, x, y, paints.HoverText);
+    }
+
+    private string ReadHoverText(GojoCadSkiaHitArea area)
+    {
+        var index = sample.SourceIndexOf(area.Source);
+        return index is null
+            ? area.Text
+            : $"{area.Text} element[{index.Value}]";
     }
 }

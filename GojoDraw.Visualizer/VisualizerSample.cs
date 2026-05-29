@@ -5,9 +5,15 @@ namespace GojoDraw.Visualizer;
 
 internal sealed record VisualizerSample(
     IElement Structure,
-    int ProjectionSeed)
+    int ProjectionSeed,
+    IReadOnlyDictionary<ulong, int> ElementIndexes)
 {
     public VisualizerSample Resample() => this with { ProjectionSeed = Random.Shared.Next() };
+
+    public int? SourceIndexOf(IElement? source) =>
+        source is Relation relation && ElementIndexes.TryGetValue(relation.Id, out var index)
+            ? index
+            : null;
 
     public static IReadOnlyList<VisualizerLegendEntry> CreateLegend() =>
     [
@@ -111,7 +117,7 @@ internal sealed record VisualizerSample(
 
         var structure = Chain(elements);
 
-        return new VisualizerSample(structure, Random.Shared.Next());
+        return new VisualizerSample(structure, Random.Shared.Next(), IndexElements(elements));
     }
 
     private static VisualizerLegendEntry LegendEntry(string label, IElement structure, int seed) =>
@@ -206,6 +212,20 @@ internal sealed record VisualizerSample(
         }
 
         return structure;
+    }
+
+    private static IReadOnlyDictionary<ulong, int> IndexElements(IReadOnlyList<IElement> elements)
+    {
+        var indexes = new Dictionary<ulong, int>();
+        for (var index = 0; index < elements.Count; index++)
+        {
+            if (elements[index] is Relation relation)
+            {
+                indexes[relation.Id] = index;
+            }
+        }
+
+        return indexes;
     }
 }
 
