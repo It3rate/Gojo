@@ -11,12 +11,16 @@ public sealed class GraphicReadGraph
     private GraphicReadGraph(
         GraphicReadNode root,
         IReadOnlyList<GraphicReadNode> nodes,
-        IReadOnlyList<GraphicRead> reads)
+        IReadOnlyList<GraphicRead> reads,
+        GraphicReadIndex index)
     {
         Root = root;
         Nodes = nodes;
         Reads = reads;
+        this.index = index;
     }
+
+    private readonly GraphicReadIndex index;
 
     public GraphicReadNode Root { get; }
 
@@ -27,6 +31,69 @@ public sealed class GraphicReadGraph
     public IEnumerable<TRead> ReadsOf<TRead>()
         where TRead : GraphicRead =>
         Reads.OfType<TRead>();
+
+    public IReadOnlyList<GraphicReadNode> NavigateFrom(IElement changed, int radius = 2)
+    {
+        if (changed is null)
+        {
+            return [];
+        }
+
+        var boundedRadius = Math.Max(0, radius);
+        var found = new HashSet<GraphicReadNode>();
+        var pending = new Queue<(GraphicReadNode Node, int Depth)>();
+        foreach (var seed in index.SeedsFor(changed))
+        {
+            if (found.Add(seed))
+            {
+                pending.Enqueue((seed, 0));
+            }
+        }
+
+        while (pending.Count != 0)
+        {
+            var (node, depth) = pending.Dequeue();
+            if (depth >= boundedRadius)
+            {
+                continue;
+            }
+
+            foreach (var next in index.NeighborsOf(node))
+            {
+                if (found.Add(next))
+                {
+                    pending.Enqueue((next, depth + 1));
+                }
+            }
+        }
+
+        return [.. found.OrderBy(node => node.Order)];
+    }
+
+    public IReadOnlyList<GraphicRead> AffectedReadsFrom(IElement changed, int radius = 2)
+    {
+        var affectedSources = NavigateFrom(changed, radius)
+            .Select(node => node.Source)
+            .OfType<Relation>()
+            .Select(relation => relation.Id)
+            .ToHashSet();
+        return [.. Reads.Where(read =>
+            read.Source is Relation relation &&
+            affectedSources.Contains(relation.Id))];
+    }
+
+    public GraphicReadRefresh RefreshFrom(IElement changed, int radius = 2)
+    {
+        var previousNodes = NavigateFrom(changed, radius);
+        var previousReads = AffectedReadsFrom(changed, radius);
+        var next = From(Root.Source);
+        return new GraphicReadRefresh(
+            next,
+            previousNodes,
+            previousReads,
+            next.NavigateFrom(changed, radius),
+            next.AffectedReadsFrom(changed, radius));
+    }
 
     public static GraphicReadGraph From(IElement source) =>
         new Reader().Read(source ?? throw new ArgumentNullException(nameof(source)));
@@ -41,7 +108,7 @@ public sealed class GraphicReadGraph
             var reads = nodes.SelectMany(node => node.LocalReads).ToList();
             reads.AddRange(DerivePartitions(reads).ToArray());
             reads.AddRange(DeriveRadiusAttachments(reads).ToArray());
-            return new GraphicReadGraph(root, [.. nodes], reads);
+            return new GraphicReadGraph(root, [.. nodes], reads, GraphicReadIndex.From(nodes));
         }
 
         private GraphicReadNode Visit(IElement source)
@@ -57,6 +124,8 @@ public sealed class GraphicReadGraph
             var right = Visit(relation.Right);
             var localReads = Compose(relation, left, right);
             var node = new GraphicReadNode(relation, left, right, localReads);
+            left.AddParent(node);
+            right.AddParent(node);
             nodes.Add(node);
             return node;
         }
@@ -249,19 +318,208 @@ public sealed class GraphicReadGraph
     }
 }
 
+internal sealed class GraphicReadIndex
+{
+    private readonly Dictionary<ulong, List<GraphicReadNode>> relationNodes = [];
+    private readonly Dictionary<ulong, List<GraphicReadNode>> carrierNodes = [];
+    private readonly Dictionary<ulong, List<GraphicReadNode>> tickRefNodes = [];
+
+    private GraphicReadIndex()
+    {
+    }
+
+    public static GraphicReadIndex From(IEnumerable<GraphicReadNode> nodes)
+    {
+        var index = new GraphicReadIndex();
+        foreach (var node in nodes)
+        {
+            index.AddNode(node);
+        }
+
+        return index;
+    }
+
+    public IReadOnlyList<GraphicReadNode> SeedsFor(IElement changed)
+    {
+        var seeds = new List<GraphicReadNode>();
+        switch (changed)
+        {
+            case Relation relation:
+                AddFrom(relationNodes, relation.Id, seeds);
+                break;
+            case Carrier carrier:
+                AddFrom(carrierNodes, carrier.Id, seeds);
+                break;
+            case CarrierLocation location:
+                AddLocationSeeds(location, seeds);
+                break;
+            case TickRef tick:
+                AddFrom(tickRefNodes, tick.Id, seeds);
+                break;
+        }
+
+        return [.. seeds.Distinct()];
+    }
+
+    public IEnumerable<GraphicReadNode> NeighborsOf(GraphicReadNode node)
+    {
+        if (node.Left is not null)
+        {
+            yield return node.Left;
+        }
+
+        if (node.Right is not null)
+        {
+            yield return node.Right;
+        }
+
+        foreach (var parent in node.Parents)
+        {
+            yield return parent;
+        }
+
+        foreach (var location in DirectLocationsOf(node.Source))
+        {
+            foreach (var shared in NodesForLocation(location))
+            {
+                if (!ReferenceEquals(shared, node))
+                {
+                    yield return shared;
+                }
+            }
+        }
+
+        foreach (var carrier in DirectCarriersOf(node.Source))
+        {
+            foreach (var shared in NodesForCarrier(carrier))
+            {
+                if (!ReferenceEquals(shared, node))
+                {
+                    yield return shared;
+                }
+            }
+        }
+    }
+
+    private void AddNode(GraphicReadNode node)
+    {
+        if (node.Source is Relation relation)
+        {
+            AddTo(relationNodes, relation.Id, node);
+        }
+
+        foreach (var carrier in DirectCarriersOf(node.Source))
+        {
+            AddTo(carrierNodes, carrier.Id, node);
+        }
+
+        foreach (var location in DirectLocationsOf(node.Source))
+        {
+            if (location.Tick is not null)
+            {
+                AddTo(tickRefNodes, location.Tick.Id, node);
+            }
+        }
+    }
+
+    private void AddLocationSeeds(CarrierLocation location, List<GraphicReadNode> seeds)
+    {
+        if (location.Tick is not null)
+        {
+            AddFrom(tickRefNodes, location.Tick.Id, seeds);
+        }
+
+        AddFrom(carrierNodes, location.Carrier.Id, seeds);
+    }
+
+    private IEnumerable<GraphicReadNode> NodesForLocation(CarrierLocation location)
+    {
+        if (location.Tick is not null &&
+            tickRefNodes.TryGetValue(location.Tick.Id, out var byTick))
+        {
+            foreach (var node in byTick)
+            {
+                yield return node;
+            }
+        }
+    }
+
+    private IEnumerable<GraphicReadNode> NodesForCarrier(Carrier carrier) =>
+        carrierNodes.TryGetValue(carrier.Id, out var nodes)
+            ? nodes
+            : [];
+
+    private static CarrierLocation[] DirectLocationsOf(IElement element) => element switch
+    {
+        CarrierLocation location => [location],
+        Relation { Left: CarrierLocation left, Right: CarrierLocation right } => [left, right],
+        Relation { Left: CarrierLocation left } => [left],
+        Relation { Right: CarrierLocation right } => [right],
+        _ => []
+    };
+
+    private static Carrier[] DirectCarriersOf(IElement element) => element switch
+    {
+        Carrier carrier => [carrier],
+        CarrierLocation location => [location.Carrier],
+        Relation { Left: Carrier left, Right: Carrier right } => [left, right],
+        Relation { Left: Carrier left, Right: CarrierLocation right } => [left, right.Carrier],
+        Relation { Left: CarrierLocation left, Right: Carrier right } => [left.Carrier, right],
+        Relation { Left: Carrier left } => [left],
+        Relation { Right: Carrier right } => [right],
+        Relation { Left: CarrierLocation left } => [left.Carrier],
+        Relation { Right: CarrierLocation right } => [right.Carrier],
+        _ => []
+    };
+
+    private static void AddTo(
+        Dictionary<ulong, List<GraphicReadNode>> index,
+        ulong key,
+        GraphicReadNode node)
+    {
+        if (!index.TryGetValue(key, out var nodes))
+        {
+            nodes = [];
+            index[key] = nodes;
+        }
+
+        if (!nodes.Contains(node))
+        {
+            nodes.Add(node);
+        }
+    }
+
+    private static void AddFrom(
+        Dictionary<ulong, List<GraphicReadNode>> index,
+        ulong key,
+        List<GraphicReadNode> target)
+    {
+        if (index.TryGetValue(key, out var nodes))
+        {
+            target.AddRange(nodes);
+        }
+    }
+}
+
 public sealed class GraphicReadNode
 {
+    private static ulong orderCounter;
+    private readonly List<GraphicReadNode> parents = [];
+
     internal GraphicReadNode(
         IElement source,
         GraphicReadNode? left,
         GraphicReadNode? right,
         IReadOnlyList<GraphicRead> localReads)
     {
+        Order = NextOrder();
         Source = source;
         Left = left;
         Right = right;
         LocalReads = localReads;
     }
+
+    public ulong Order { get; }
 
     public IElement Source { get; }
 
@@ -269,8 +527,27 @@ public sealed class GraphicReadNode
 
     public GraphicReadNode? Right { get; }
 
+    public IReadOnlyList<GraphicReadNode> Parents => parents;
+
     public IReadOnlyList<GraphicRead> LocalReads { get; }
+
+    internal void AddParent(GraphicReadNode parent)
+    {
+        if (!parents.Contains(parent))
+        {
+            parents.Add(parent);
+        }
+    }
+
+    private static ulong NextOrder() => orderCounter++;
 }
+
+public sealed record GraphicReadRefresh(
+    GraphicReadGraph CurrentGraph,
+    IReadOnlyList<GraphicReadNode> PreviousNodes,
+    IReadOnlyList<GraphicRead> PreviousReads,
+    IReadOnlyList<GraphicReadNode> CurrentNodes,
+    IReadOnlyList<GraphicRead> CurrentReads);
 
 public abstract record GraphicRead(IElement Source);
 

@@ -119,4 +119,59 @@ public sealed class GraphicReadGraphTests
         Assert.Equal(12, attachment.BasePoint.Location.Ticks);
         Assert.Equal(12, attachment.Marker.Point.Location.Ticks);
     }
+
+    [Fact]
+    public void NavigationFromSharedSiteFindsAffectedLocalReads()
+    {
+        var axis = new Carrier();
+        var partitionSite = GraphicStructure.Site(5);
+        var segment = GraphicStructure.Segment(axis, 2, 8);
+        var partition = GraphicStructure.Point(axis, partitionSite);
+        var structure = new Relation(segment, partition);
+        var graph = GraphicReadGraph.From(structure);
+
+        var affectedReads = graph.AffectedReadsFrom(partitionSite, radius: 2);
+
+        Assert.Contains(affectedReads.OfType<PointRead>(), read => read.Location.Ticks == 5);
+        Assert.Contains(affectedReads.OfType<PositiveSegmentRead>(), read =>
+            read.Start.Location.Ticks == 2 &&
+            read.End.Location.Ticks == 8);
+        Assert.Single(affectedReads.OfType<SegmentPartitionRead>());
+    }
+
+    [Fact]
+    public void RefreshFromSharedSiteRebuildsChangedReadsFromStructure()
+    {
+        var axis = new Carrier();
+        var partitionSite = GraphicStructure.Site(5);
+        var segment = GraphicStructure.Segment(axis, 2, 8);
+        var partition = GraphicStructure.Point(axis, partitionSite);
+        var structure = new Relation(segment, partition);
+        var graph = GraphicReadGraph.From(structure);
+
+        partitionSite.Set(12);
+        var refresh = graph.RefreshFrom(partitionSite, radius: 2);
+
+        Assert.Single(refresh.PreviousReads.OfType<SegmentPartitionRead>());
+        Assert.Empty(refresh.CurrentGraph.ReadsOf<SegmentPartitionRead>());
+        Assert.Contains(refresh.CurrentReads.OfType<PointRead>(), read => read.Location.Ticks == 12);
+    }
+
+    [Fact]
+    public void RefreshFromSharedSiteKeepsNewPartitionWhenMovedInsideSpan()
+    {
+        var axis = new Carrier();
+        var partitionSite = GraphicStructure.Site(12);
+        var segment = GraphicStructure.Segment(axis, 2, 18);
+        var partition = GraphicStructure.Point(axis, partitionSite);
+        var structure = new Relation(segment, partition);
+        var graph = GraphicReadGraph.From(structure);
+
+        partitionSite.Set(7);
+        var refresh = graph.RefreshFrom(partitionSite, radius: 2);
+
+        var currentPartition = Assert.Single(refresh.CurrentGraph.ReadsOf<SegmentPartitionRead>());
+        Assert.Equal(7, currentPartition.Point.Location.Ticks);
+        Assert.Contains(refresh.CurrentReads.OfType<SegmentPartitionRead>(), read => read.Point.Location.Ticks == 7);
+    }
 }

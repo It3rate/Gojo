@@ -111,6 +111,23 @@ This makes discovery incremental. A point can become a segment endpoint, then a
 partition, then a branch site, without the renderer needing to ask every
 possible shape question again.
 
+The first executable surface exposes this as:
+
+```text
+GraphicReadGraph.NavigateFrom(changed, radius)
+  local nodes around a changed relation, carrier, location, or TickRef
+
+GraphicReadGraph.AffectedReadsFrom(changed, radius)
+  reads carried by that local neighborhood
+
+GraphicReadGraph.RefreshFrom(changed, radius)
+  a rebuilt read graph plus previous/current affected neighborhoods
+```
+
+This is still explicit refresh rather than live eventing. It gives consumers a
+bounded neighborhood to reconsider when a shared site moves or new structure is
+attached, while the canonical source remains the relation graph.
+
 ## Direction For GojoDraw
 
 GojoDraw should eventually consume this read graph rather than running its own
