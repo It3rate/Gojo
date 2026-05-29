@@ -31,6 +31,9 @@ For now the adapter is intentionally tiny:
 - walk a larger `IElement` and render each recognized primitive relation form
 - emit render-boundary hover hit areas for visualizer controls
 
+The visualizer also renders a small left-side legend. Its glyphs are ordinary
+GojoCAD structures drawn through the adapter; only the labels are visualizer UI.
+
 Style and display values are currently supplied by the visualizer because
 GojoCAD does not yet define style surfaces. As those concepts arrive in
 GojoCAD, GojoDraw should read them from structure rather than owning them as

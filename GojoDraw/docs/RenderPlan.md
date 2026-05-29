@@ -45,6 +45,8 @@ directed span, radial seed, circular marker/span, and partition reads.
 - line and sheet orthogonal seeds as low-intensity provisional reads
 - inferred circumferences with contour spans, radius attachments, and
   partition marks
+- a small left-side legend whose glyphs are built as GojoCAD structures and
+  rendered through the same adapter path
 - hover text over rendered primitive regions
 - one composite relation handed to the adapter, which renders the carried
   `GraphicReadGraph` reads

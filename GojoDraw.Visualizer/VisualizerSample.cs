@@ -9,6 +9,20 @@ internal sealed record VisualizerSample(
 {
     public VisualizerSample Resample() => this with { ProjectionSeed = Random.Shared.Next() };
 
+    public static IReadOnlyList<VisualizerLegendEntry> CreateLegend() =>
+    [
+        LegendEntry("point", CreatePointLegend(), 101),
+        LegendEntry("radial", CreateRadialLegend(), 102),
+        LegendEntry("segment", CreateSegmentLegend(), 103),
+        LegendEntry("partition", CreateSegmentPartitionLegend(), 104),
+        LegendEntry("directed", CreateDirectedLegend(), 105),
+        LegendEntry("line seed", CreateLineSeedLegend(), 106),
+        LegendEntry("sheet seed", CreateSheetSeedLegend(), 107),
+        LegendEntry("radius", CreateRadiusAttachmentLegend(), 108),
+        LegendEntry("circle", CreateCircumferenceLegend(), 109),
+        LegendEntry("arc/span", CreateCircumferenceSpanLegend(), 110)
+    ];
+
     public static VisualizerSample Create()
     {
         var drawing = new Carrier();
@@ -100,6 +114,84 @@ internal sealed record VisualizerSample(
         return new VisualizerSample(structure, Random.Shared.Next());
     }
 
+    private static VisualizerLegendEntry LegendEntry(string label, IElement structure, int seed) =>
+        new(label, structure, seed);
+
+    private static IElement CreatePointLegend()
+    {
+        var carrier = new Carrier();
+        return GraphicStructure.Point(carrier, 0);
+    }
+
+    private static IElement CreateRadialLegend()
+    {
+        var carrier = new Carrier();
+        var point = GraphicStructure.Point(carrier, 0);
+        return GraphicStructure.RadialFlow(point);
+    }
+
+    private static IElement CreateSegmentLegend()
+    {
+        var carrier = new Carrier();
+        return GraphicStructure.Segment(carrier, 0, 8);
+    }
+
+    private static IElement CreateSegmentPartitionLegend()
+    {
+        var carrier = new Carrier();
+        var segment = GraphicStructure.Segment(carrier, 0, 8);
+        var partition = GraphicStructure.Point(carrier, 4);
+        return Chain([segment, partition]);
+    }
+
+    private static IElement CreateDirectedLegend()
+    {
+        var carrier = new Carrier();
+        return GraphicStructure.DirectedSegment(carrier, 2, 8);
+    }
+
+    private static IElement CreateLineSeedLegend()
+    {
+        var carrier = new Carrier();
+        var zeroSpan = GraphicStructure.Segment(carrier, 4, 4);
+        return Relation.OrthogonalOutlet(zeroSpan);
+    }
+
+    private static IElement CreateSheetSeedLegend()
+    {
+        var carrier = new Carrier();
+        var segment = GraphicStructure.Segment(carrier, 0, 8);
+        return Relation.OrthogonalOutlet(segment);
+    }
+
+    private static IElement CreateRadiusAttachmentLegend()
+    {
+        var carrier = new Carrier();
+        var origin = GraphicStructure.Point(carrier, 0);
+        var circle = new Carrier(UnitShape.CircularFrom(origin));
+        return new Relation(
+            GraphicStructure.Point(carrier, 7),
+            GraphicStructure.Point(circle, 7));
+    }
+
+    private static IElement CreateCircumferenceLegend()
+    {
+        var carrier = new Carrier();
+        var origin = GraphicStructure.Point(carrier, 0);
+        var circle = new Carrier(UnitShape.CircularFrom(origin));
+        return GraphicStructure.Point(circle, 8);
+    }
+
+    private static IElement CreateCircumferenceSpanLegend()
+    {
+        var carrier = new Carrier();
+        var origin = GraphicStructure.Point(carrier, 0);
+        var circle = new Carrier(UnitShape.CircularFrom(origin));
+        var span = GraphicStructure.Segment(circle, 8, 18);
+        var partition = GraphicStructure.Point(circle, 13);
+        return Chain([span, partition]);
+    }
+
     private static IElement Chain(IReadOnlyList<IElement> elements)
     {
         if (elements.Count == 0)
@@ -116,3 +208,8 @@ internal sealed record VisualizerSample(
         return structure;
     }
 }
+
+internal sealed record VisualizerLegendEntry(
+    string Label,
+    IElement Structure,
+    int ProjectionSeed);
