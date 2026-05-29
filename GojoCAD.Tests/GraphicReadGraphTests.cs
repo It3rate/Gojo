@@ -140,8 +140,50 @@ public sealed class GraphicReadGraphTests
         Assert.Equal(11, witness.LinearLocation.Ticks);
         Assert.True(witness.SourceOrigin.Carrier.SameIdentityAs(baseAxis));
         Assert.True(witness.WitnessPoint.Location.Carrier.SameIdentityAs(contour));
+        Assert.Single(graph.ReadsOf<PointAttachmentRead>());
         Assert.Empty(graph.ReadsOf<RadiusAttachmentRead>());
-        Assert.Equal([0, 2], graph.Bands.Select(band => band.Order).ToArray());
+        Assert.Equal([0, 1, 2], graph.Bands.Select(band => band.Order).ToArray());
+    }
+
+    [Fact]
+    public void ReadsSharedSitesSegmentConnectionsAndJunctions()
+    {
+        var junction = GraphicStructure.Site(0);
+        var axisA = new Carrier();
+        var axisB = new Carrier();
+        var axisC = new Carrier();
+        var first = GraphicStructure.Segment(axisA, GraphicStructure.Site(-8), junction);
+        var second = GraphicStructure.Segment(axisB, junction, GraphicStructure.Site(8));
+        var third = GraphicStructure.Segment(axisC, junction, GraphicStructure.Site(13));
+        var structure = Chain(first, second, third);
+
+        var graph = GraphicReadGraph.From(structure);
+
+        var shared = Assert.Single(graph.ReadsOf<SharedSiteRead>(), site => site.Points.Count == 3);
+        Assert.All(shared.Points, point => Assert.True(point.Location.SameTickRefAs(shared.Points[0].Location)));
+        Assert.Equal(3, graph.ReadsOf<SegmentConnectionRead>().Count());
+        var junctionRead = Assert.Single(graph.ReadsOf<SegmentJunctionRead>());
+        Assert.Equal(3, junctionRead.Endpoints.Count);
+        Assert.Equal([0, 1, 2], graph.Bands.Select(band => band.Order).ToArray());
+    }
+
+    [Fact]
+    public void AffectedReadsFromSegmentSourceIncludesCompositeConnectionReads()
+    {
+        var junction = GraphicStructure.Site(0);
+        var axisA = new Carrier();
+        var axisB = new Carrier();
+        var first = GraphicStructure.Segment(axisA, GraphicStructure.Site(-8), junction);
+        var second = GraphicStructure.Segment(axisB, junction, GraphicStructure.Site(8));
+        var structure = new Relation(first, second);
+        var graph = GraphicReadGraph.From(structure);
+
+        var affected = graph.AffectedReadsFrom(second, radius: 2);
+
+        Assert.Contains(affected.OfType<SharedSiteRead>(), site => site.Points.Count == 2);
+        Assert.Contains(affected.OfType<SegmentConnectionRead>(), connection =>
+            ReferenceEquals(connection.Left.Segment.Source, second) ||
+            ReferenceEquals(connection.Right.Segment.Source, second));
     }
 
     [Fact]
@@ -197,5 +239,21 @@ public sealed class GraphicReadGraphTests
         var currentPartition = Assert.Single(refresh.CurrentGraph.ReadsOf<SegmentPartitionRead>());
         Assert.Equal(7, currentPartition.Point.Location.Ticks);
         Assert.Contains(refresh.CurrentReads.OfType<SegmentPartitionRead>(), read => read.Point.Location.Ticks == 7);
+    }
+
+    private static IElement Chain(params IElement[] elements)
+    {
+        if (elements.Length == 0)
+        {
+            return Carrier.Unknown;
+        }
+
+        var structure = elements[^1];
+        for (var index = elements.Length - 2; index >= 0; index--)
+        {
+            structure = new Relation(elements[index], structure);
+        }
+
+        return structure;
     }
 }

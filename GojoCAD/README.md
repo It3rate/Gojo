@@ -53,10 +53,11 @@ composition, curves, or junctions.
 
 `GraphicReadGraph` is the first executable read-algebra surface over these
 relations. It derives temporary read nodes such as points, spans, radial seeds,
-circular markers, contour spans, partitions, and early second-order control
-reads without making those code objects the source of meaning. It can also
-navigate from changed relations, carriers, locations, and shared sites to
-report the local reads that need to be reconsidered.
+circular markers, contour spans, point attachments, shared sites, segment
+connections, partitions, and early second-order control reads without making
+those code objects the source of meaning. It can also navigate from changed
+relations, carriers, locations, and shared sites to report the local reads that
+need to be reconsidered.
 
 ## Non-Goals For Now
 
