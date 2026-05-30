@@ -84,9 +84,9 @@ The order should stay algebraic rather than becoming a giant classifier:
 | --- | --- | --- |
 | `0` | local primitive relation reads | point, point pair, span, zero span, directed segment, radial seed, circular marker/span |
 | `1` | incidence and partition reads | point attachment, shared site, segment partition, contour partition, segment connection |
-| `2` | second-order control reads | radius attachment, linear basis witness/alignment, segment join/junction, future perpendicular/equal-length witnesses |
+| `2` | second-order control reads | radius attachment, linear basis witness/alignment, segment join/flow/junction, future perpendicular/equal-length witnesses |
 | `3` | contour and curvature controls | tangent continuity, curvature continuity, rounded corner, clothoid/involute witnesses |
-| `4` | boundary, area, and topology controls | closed boundary, boundary join, area, anti-area, branch, merge, crossing/intersection |
+| `4` | boundary, area, and topology controls | closed boundary, boundary join/flow, area, anti-area, branch, merge, crossing/intersection |
 | `5` | resolution and concept conditioning | coarse-to-fine ladders, named concept hints, feature settlement witnesses |
 
 Bands `0`, `1`, `2`, and the initial boundary reads in band `4` are executable
@@ -106,9 +106,11 @@ Current executable control surface:
 | `LinearBasisWitnessRead` | `2` | a non-origin point on a linear carrier attaches to another projected point, fixing direction and scale when possible |
 | `LinearBasisAlignmentRead` | `2` | non-origin points on two linear carriers attach, carrying same-flow or opposed-flow basis evidence |
 | `SegmentJoinRead` | `2` | exactly two segment endpoints participate at one shared site; this is join evidence, not yet corner evidence |
+| `SegmentJoinFlowRead` | `2` | local carrier and tick-flow evidence for each side of a two-endpoint join |
 | `SegmentJunctionRead` | `2` | at least three segment endpoints participate at one shared site |
 | `ClosedSegmentBoundaryRead` | `4` | connected segment endpoints form a closed boundary cycle, before any fill or area style participates |
 | `BoundaryJoinRead` | `4` | a two-endpoint join participates as a site on a closed boundary; this can feed later corner, smoothing, or area reads |
+| `BoundaryJoinFlowRead` | `4` | join-flow evidence lifted to a closed boundary site |
 
 ## Second-Order Control Reads
 
@@ -134,6 +136,12 @@ parallel read, for example, should be a relation between carrier bases or their
 witnesses; it should not be a stored `Parallel` enum. A future area read should
 come from boundary direction, closure, and fill participation; it should not
 start as an opaque polygon type.
+
+Current join flow evidence is deliberately weaker than corner evidence. A
+two-endpoint join can share a carrier with opposed local flow, share a carrier
+with same-side local flow, or transition between carriers. A boundary read may
+later use that evidence to distinguish straight continuation, turn, cusp,
+rounding, or unresolved tension.
 
 ## Evidence To Carry Upward
 

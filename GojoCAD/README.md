@@ -79,6 +79,8 @@ GojoCAD structure.
 - joins should be actual shared sites or explicit relations, not equal numbers
 - two-span joins, higher-valence junctions, and closed boundaries should stay
   separate until stronger evidence upgrades them
+- local flow evidence should be carried upward from joins into boundaries
+  before naming turns, corners, or smoothing
 - branch, merge, intersection, and crossing are different local reads over
   connection structure
 - style presence and style detail should be separate participation surfaces

@@ -182,9 +182,34 @@ public sealed class GraphicReadGraphTests
         Assert.Equal(2, join.Site.Points.Count);
         Assert.Equal(middle.Id, join.First.Point.Location.Tick?.Id);
         Assert.Equal(middle.Id, join.Second.Point.Location.Tick?.Id);
+        var flow = Assert.Single(graph.ReadsOf<SegmentJoinFlowRead>());
+        Assert.True(flow.IsCarrierTransition);
+        Assert.False(flow.SharesCarrier);
         Assert.Empty(graph.ReadsOf<SegmentJunctionRead>());
         Assert.Empty(graph.ReadsOf<BoundaryJoinRead>());
         Assert.Equal([0, 1, 2], graph.Bands.Select(band => band.Order).ToArray());
+    }
+
+    [Fact]
+    public void ReadsSegmentJoinFlowOnSameCarrier()
+    {
+        var axis = new Carrier();
+        var middle = GraphicStructure.Site(0);
+        var first = GraphicStructure.Segment(axis, GraphicStructure.Site(-8), middle);
+        var second = GraphicStructure.Segment(axis, middle, GraphicStructure.Site(8));
+        var structure = new Relation(first, second);
+
+        var graph = GraphicReadGraph.From(structure);
+
+        var flow = Assert.Single(graph.ReadsOf<SegmentJoinFlowRead>());
+        Assert.True(flow.SharesCarrier);
+        Assert.True(flow.UsesSameFace);
+        Assert.False(flow.UsesOpposedFaces);
+        Assert.False(flow.IsCarrierTransition);
+        Assert.Equal(-8, flow.First.AwayTicks);
+        Assert.Equal(8, flow.Second.AwayTicks);
+        Assert.True(flow.HasOpposedLocalFlow);
+        Assert.False(flow.HasSameLocalFlow);
     }
 
     [Fact]
@@ -207,6 +232,9 @@ public sealed class GraphicReadGraphTests
         Assert.Contains(affected.OfType<SegmentJoinRead>(), join =>
             ReferenceEquals(join.First.Segment.Source, second) ||
             ReferenceEquals(join.Second.Segment.Source, second));
+        Assert.Contains(affected.OfType<SegmentJoinFlowRead>(), flow =>
+            ReferenceEquals(flow.Join.First.Segment.Source, second) ||
+            ReferenceEquals(flow.Join.Second.Segment.Source, second));
     }
 
     [Fact]
@@ -270,6 +298,8 @@ public sealed class GraphicReadGraphTests
         Assert.Equal(3, boundary.Sites.Count);
         Assert.Equal(3, graph.ReadsOf<SegmentJoinRead>().Count());
         Assert.Equal(3, graph.ReadsOf<BoundaryJoinRead>().Count());
+        Assert.Equal(3, graph.ReadsOf<BoundaryJoinFlowRead>().Count());
+        Assert.All(graph.ReadsOf<BoundaryJoinFlowRead>(), flow => Assert.True(flow.IsCarrierTransition));
         Assert.Empty(graph.ReadsOf<SegmentJunctionRead>());
         Assert.Equal([0, 1, 2, 4], graph.Bands.Select(band => band.Order).ToArray());
     }

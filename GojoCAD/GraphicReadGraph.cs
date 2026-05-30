@@ -344,9 +344,15 @@ public sealed class GraphicReadGraph
                 yield return witness;
             }
 
-            foreach (var join in DeriveSegmentJoins(reads))
+            var joins = DeriveSegmentJoins(reads).ToArray();
+            foreach (var join in joins)
             {
                 yield return join;
+            }
+
+            foreach (var flow in DeriveSegmentJoinFlows(joins))
+            {
+                yield return flow;
             }
 
             foreach (var junction in DeriveSegmentJunctions(reads))
@@ -360,7 +366,7 @@ public sealed class GraphicReadGraph
             }
         }
 
-        private static IEnumerable<GraphicRead> DeriveSegmentJoins(IReadOnlyList<GraphicRead> reads)
+        private static IEnumerable<SegmentJoinRead> DeriveSegmentJoins(IReadOnlyList<GraphicRead> reads)
         {
             foreach (var site in reads.OfType<SharedSiteRead>())
             {
@@ -369,6 +375,18 @@ public sealed class GraphicReadGraph
                 {
                     yield return new SegmentJoinRead(site.Source, site, endpoints[0], endpoints[1]);
                 }
+            }
+        }
+
+        private static IEnumerable<GraphicRead> DeriveSegmentJoinFlows(IReadOnlyList<SegmentJoinRead> joins)
+        {
+            foreach (var join in joins)
+            {
+                yield return new SegmentJoinFlowRead(
+                    join.Source,
+                    join,
+                    ReadSegmentEndpointFlow(join.First),
+                    ReadSegmentEndpointFlow(join.Second));
             }
         }
 
@@ -425,9 +443,15 @@ public sealed class GraphicReadGraph
                 yield return boundary;
             }
 
-            foreach (var join in DeriveBoundaryJoins(reads, boundaries))
+            var boundaryJoins = DeriveBoundaryJoins(reads, boundaries).ToArray();
+            foreach (var join in boundaryJoins)
             {
                 yield return join;
+            }
+
+            foreach (var flow in DeriveBoundaryJoinFlows(reads, boundaryJoins))
+            {
+                yield return flow;
             }
         }
 
@@ -507,7 +531,7 @@ public sealed class GraphicReadGraph
             }
         }
 
-        private static IEnumerable<GraphicRead> DeriveBoundaryJoins(
+        private static IEnumerable<BoundaryJoinRead> DeriveBoundaryJoins(
             IReadOnlyList<GraphicRead> reads,
             IReadOnlyList<ClosedSegmentBoundaryRead> boundaries)
         {
@@ -522,6 +546,23 @@ public sealed class GraphicReadGraph
                     {
                         yield return new BoundaryJoinRead(join.Source, boundary, join);
                     }
+                }
+            }
+        }
+
+        private static IEnumerable<GraphicRead> DeriveBoundaryJoinFlows(
+            IReadOnlyList<GraphicRead> reads,
+            IReadOnlyList<BoundaryJoinRead> boundaryJoins)
+        {
+            var flows = reads.OfType<SegmentJoinFlowRead>().ToArray();
+            foreach (var boundaryJoin in boundaryJoins)
+            {
+                var joinSignature = EndpointGroupSignature([boundaryJoin.Join.First, boundaryJoin.Join.Second]);
+                foreach (var flow in flows.Where(flow =>
+                    ReferenceEquals(flow.Join, boundaryJoin.Join) ||
+                    EndpointGroupSignature([flow.Join.First, flow.Join.Second]) == joinSignature))
+                {
+                    yield return new BoundaryJoinFlowRead(boundaryJoin.Source, boundaryJoin, flow);
                 }
             }
         }
@@ -637,6 +678,21 @@ public sealed class GraphicReadGraph
                 .Select(group => group.First())
                 .OrderBy(endpoint => endpoint.Segment.Source is Relation relation ? relation.Id : 0UL)
                 .ThenBy(endpoint => endpoint.IsStart)];
+
+        private static SegmentEndpointFlow ReadSegmentEndpointFlow(SegmentEndpointRead endpoint)
+        {
+            var site = Normalize(endpoint.Point.Location);
+            var otherPoint = endpoint.IsStart
+                ? endpoint.Segment.End
+                : endpoint.Segment.Start;
+            var other = Normalize(otherPoint.Location);
+            return new SegmentEndpointFlow(
+                endpoint,
+                endpoint.Point.Location.Carrier,
+                NormalizeCarrier(site.Carrier),
+                site.Ticks,
+                other.Ticks);
+        }
 
         private static bool IsInteriorPointOnCircularSpan(CarrierLocation point, CircularSpanRead span)
         {
@@ -1214,6 +1270,49 @@ public sealed record SegmentJoinRead(
         });
 }
 
+public sealed record SegmentEndpointFlow(
+    SegmentEndpointRead Endpoint,
+    Carrier Carrier,
+    Carrier NormalizedCarrier,
+    long SiteTicks,
+    long OtherTicks)
+{
+    public long AwayTicks => OtherTicks - SiteTicks;
+
+    public int AwaySign => Math.Sign(AwayTicks);
+
+    public bool HasResolvedFlow => AwayTicks != 0;
+}
+
+public sealed record SegmentJoinFlowRead(
+    IElement Source,
+    SegmentJoinRead Join,
+    SegmentEndpointFlow First,
+    SegmentEndpointFlow Second) : GraphicRead(Source)
+{
+    public bool SharesCarrier => First.NormalizedCarrier.SameIdentityAs(Second.NormalizedCarrier);
+
+    public bool UsesSameFace => First.Carrier.SameIdentityAs(Second.Carrier);
+
+    public bool UsesOpposedFaces => SharesCarrier && !UsesSameFace;
+
+    public bool IsCarrierTransition => !SharesCarrier;
+
+    public bool HasResolvedFlow => First.HasResolvedFlow && Second.HasResolvedFlow;
+
+    public bool HasOpposedLocalFlow =>
+        SharesCarrier &&
+        HasResolvedFlow &&
+        First.AwaySign == -Second.AwaySign;
+
+    public bool HasSameLocalFlow =>
+        SharesCarrier &&
+        HasResolvedFlow &&
+        First.AwaySign == Second.AwaySign;
+
+    public override IEnumerable<IElement> Sources => Join.Sources;
+}
+
 public sealed record SegmentJunctionRead(
     IElement Source,
     SharedSiteRead Site,
@@ -1243,6 +1342,20 @@ public sealed record BoundaryJoinRead(
     SegmentJoinRead Join) : GraphicRead(Source)
 {
     public override IEnumerable<IElement> Sources => Boundary.Sources.Concat(Join.Sources);
+}
+
+public sealed record BoundaryJoinFlowRead(
+    IElement Source,
+    BoundaryJoinRead BoundaryJoin,
+    SegmentJoinFlowRead Flow) : GraphicRead(Source)
+{
+    public bool IsCarrierTransition => Flow.IsCarrierTransition;
+
+    public bool HasOpposedLocalFlow => Flow.HasOpposedLocalFlow;
+
+    public bool HasSameLocalFlow => Flow.HasSameLocalFlow;
+
+    public override IEnumerable<IElement> Sources => BoundaryJoin.Sources.Concat(Flow.Sources);
 }
 
 public sealed record SegmentPartitionRead(
