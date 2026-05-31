@@ -26,7 +26,9 @@ internal sealed record VisualizerSample(
         LegendEntry("sheet seed", CreateSheetSeedLegend(), 107),
         LegendEntry("radius", CreateRadiusAttachmentLegend(), 108),
         LegendEntry("circle", CreateCircumferenceLegend(), 109),
-        LegendEntry("arc/span", CreateCircumferenceSpanLegend(), 110)
+        LegendEntry("arc/span", CreateCircumferenceSpanLegend(), 110),
+        LegendEntry("frame path", CreateSharedFramePolylineLegend(), 111),
+        LegendEntry("step path", CreateRepeatedStepPathLegend(), 112)
     ];
 
     public static VisualizerSample Create()
@@ -86,6 +88,41 @@ internal sealed record VisualizerSample(
             GraphicStructure.Point(arrowAxis, arrowFar),
             GraphicStructure.Point(circumference, contourB));
 
+        var frame = new Carrier();
+        var frameX = new Carrier();
+        var frameY = new Carrier();
+        var framePoints = new[]
+        {
+            GraphicStructure.FramePoint(frame, new CarrierLocation(frameX, 0), new CarrierLocation(frameY, -24)),
+            GraphicStructure.FramePoint(frame, new CarrierLocation(frameX, 8), new CarrierLocation(frameY, -24)),
+            GraphicStructure.FramePoint(frame, new CarrierLocation(frameX, 16), new CarrierLocation(frameY, -24)),
+            GraphicStructure.FramePoint(frame, new CarrierLocation(frameX, 24), new CarrierLocation(frameY, -24)),
+            GraphicStructure.FramePoint(frame, new CarrierLocation(frameX, 32), new CarrierLocation(frameY, -24))
+        };
+        var framePolyline = Enumerable.Range(0, 4)
+            .Select(index => GraphicStructure.FrameSegment(framePoints[index], framePoints[index + 1]))
+            .ToArray();
+
+        var stepTemplateBasis = new Carrier();
+        var stepTemplate = new Relation(
+            GraphicStructure.Segment(stepTemplateBasis, 0, 8),
+            GraphicStructure.Point(stepTemplateBasis, 3));
+        var stepSites = new[]
+        {
+            GraphicStructure.Site(40),
+            GraphicStructure.Site(48),
+            GraphicStructure.Site(56),
+            GraphicStructure.Site(64),
+            GraphicStructure.Site(72)
+        };
+        var repeatedStepPolyline = Enumerable.Range(0, 4)
+            .Select(index =>
+            {
+                var carrier = new Carrier(UnitShape.DescribedAtom(stepTemplate));
+                return GraphicStructure.Segment(carrier, stepSites[index], stepSites[index + 1]);
+            })
+            .ToArray();
+
         var elements = new IElement[]
         {
             GraphicStructure.RadialFlow(hub),
@@ -116,7 +153,15 @@ internal sealed record VisualizerSample(
             GraphicStructure.DirectedSegment(rimAxis, rimArrowBack, rimArrowForward),
             GraphicStructure.Segment(rimAxis, axisOrigin, rimArrowForward),
             GraphicStructure.Point(rimAxis, rimArrowMid),
-            arrowAxisArcAttachment
+            arrowAxisArcAttachment,
+            framePolyline[0],
+            framePolyline[1],
+            framePolyline[2],
+            framePolyline[3],
+            repeatedStepPolyline[0],
+            repeatedStepPolyline[1],
+            repeatedStepPolyline[2],
+            repeatedStepPolyline[3]
         };
 
         var structure = Chain(elements);
@@ -200,6 +245,45 @@ internal sealed record VisualizerSample(
         var span = GraphicStructure.Segment(circle, 8, 18);
         var partition = GraphicStructure.Point(circle, 13);
         return Chain([span, partition]);
+    }
+
+    private static IElement CreateSharedFramePolylineLegend()
+    {
+        var frame = new Carrier();
+        var x = new Carrier();
+        var y = new Carrier();
+        var points = new[]
+        {
+            GraphicStructure.FramePoint(frame, new CarrierLocation(x, 0), new CarrierLocation(y, 0)),
+            GraphicStructure.FramePoint(frame, new CarrierLocation(x, 4), new CarrierLocation(y, 0)),
+            GraphicStructure.FramePoint(frame, new CarrierLocation(x, 8), new CarrierLocation(y, 0))
+        };
+        return Chain([
+            GraphicStructure.FrameSegment(points[0], points[1]),
+            GraphicStructure.FrameSegment(points[1], points[2])
+        ]);
+    }
+
+    private static IElement CreateRepeatedStepPathLegend()
+    {
+        var templateBasis = new Carrier();
+        var template = new Relation(
+            GraphicStructure.Segment(templateBasis, 0, 4),
+            GraphicStructure.Point(templateBasis, 2));
+        var sites = new[]
+        {
+            GraphicStructure.Site(0),
+            GraphicStructure.Site(4),
+            GraphicStructure.Site(8),
+            GraphicStructure.Site(12)
+        };
+        return Chain(Enumerable.Range(0, 3)
+            .Select(index =>
+            {
+                var carrier = new Carrier(UnitShape.DescribedAtom(template));
+                return (IElement)GraphicStructure.Segment(carrier, sites[index], sites[index + 1]);
+            })
+            .ToArray());
     }
 
     private static IElement Chain(IReadOnlyList<IElement> elements)

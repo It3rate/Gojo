@@ -185,6 +185,9 @@ public sealed class GraphicReadGraphTests
         var flow = Assert.Single(graph.ReadsOf<SegmentJoinFlowRead>());
         Assert.True(flow.IsCarrierTransition);
         Assert.False(flow.SharesCarrier);
+        var compatibility = Assert.Single(graph.ReadsOf<SegmentJoinUnitCompatibilityRead>());
+        Assert.True(compatibility.HasDifferentAlgebra);
+        Assert.False(compatibility.AlgebraicallyCompatible);
         Assert.Empty(graph.ReadsOf<SegmentJunctionRead>());
         Assert.Empty(graph.ReadsOf<BoundaryJoinRead>());
         Assert.Equal([0, 1, 2], graph.Bands.Select(band => band.Order).ToArray());
@@ -210,6 +213,151 @@ public sealed class GraphicReadGraphTests
         Assert.Equal(8, flow.Second.AwayTicks);
         Assert.True(flow.HasOpposedLocalFlow);
         Assert.False(flow.HasSameLocalFlow);
+        var compatibility = Assert.Single(graph.ReadsOf<SegmentJoinUnitCompatibilityRead>());
+        Assert.True(compatibility.SharesUnitShapeIdentity);
+        Assert.True(compatibility.CompatibleWithDescriptors);
+        Assert.False(compatibility.HasDifferentDescriptors);
+    }
+
+    [Fact]
+    public void ReadsSharedTemplateProvenanceAcrossDifferentCarrierInstances()
+    {
+        var descriptor = GraphicStructure.Point(new Carrier(), 1);
+        var firstCarrier = new Carrier(UnitShape.DescribedAtom(descriptor));
+        var secondCarrier = new Carrier(UnitShape.DescribedAtom(descriptor));
+        var middle = GraphicStructure.Site(0);
+        var first = GraphicStructure.Segment(firstCarrier, GraphicStructure.Site(-8), middle);
+        var second = GraphicStructure.Segment(secondCarrier, middle, GraphicStructure.Site(8));
+        var structure = new Relation(first, second);
+
+        var graph = GraphicReadGraph.From(structure);
+
+        Assert.Equal(2, graph.ReadsOf<CarrierUnitRead>().Count());
+        var compatibility = Assert.Single(graph.ReadsOf<SegmentJoinUnitCompatibilityRead>());
+        Assert.False(compatibility.SharesUnitShapeIdentity);
+        Assert.True(compatibility.AlgebraicallyCompatible);
+        Assert.True(compatibility.CompatibleWithDescriptors);
+        Assert.True(compatibility.HasSharedTemplateProvenance);
+        Assert.False(compatibility.HasDifferentDescriptors);
+        Assert.Equal(1, compatibility.First.DescriptorCount);
+        Assert.Equal(1, compatibility.Second.DescriptorCount);
+    }
+
+    [Fact]
+    public void ReadsDifferentUnitProvenanceAcrossCompatibleAlgebra()
+    {
+        var lightDescriptor = GraphicStructure.Point(new Carrier(), 1);
+        var heatDescriptor = GraphicStructure.Point(new Carrier(), 1);
+        var lightCarrier = new Carrier(UnitShape.DescribedAtom(lightDescriptor));
+        var heatCarrier = new Carrier(UnitShape.DescribedAtom(heatDescriptor));
+        var middle = GraphicStructure.Site(0);
+        var light = GraphicStructure.Segment(lightCarrier, GraphicStructure.Site(-8), middle);
+        var heat = GraphicStructure.Segment(heatCarrier, middle, GraphicStructure.Site(8));
+        var structure = new Relation(light, heat);
+
+        var graph = GraphicReadGraph.From(structure);
+
+        var compatibility = Assert.Single(graph.ReadsOf<SegmentJoinUnitCompatibilityRead>());
+        Assert.True(compatibility.AlgebraicallyCompatible);
+        Assert.False(compatibility.CompatibleWithDescriptors);
+        Assert.True(compatibility.HasDifferentDescriptors);
+        Assert.False(compatibility.HasDifferentAlgebra);
+    }
+
+    [Fact]
+    public void ReadsOpenSegmentPathFromSharedCarrierSegments()
+    {
+        var axis = new Carrier();
+        var firstSite = GraphicStructure.Site(0);
+        var secondSite = GraphicStructure.Site(8);
+        var thirdSite = GraphicStructure.Site(16);
+        var fourthSite = GraphicStructure.Site(24);
+        var fifthSite = GraphicStructure.Site(32);
+        var first = GraphicStructure.Segment(axis, firstSite, secondSite);
+        var second = GraphicStructure.Segment(axis, secondSite, thirdSite);
+        var third = GraphicStructure.Segment(axis, thirdSite, fourthSite);
+        var fourth = GraphicStructure.Segment(axis, fourthSite, fifthSite);
+        var structure = Chain(first, second, third, fourth);
+
+        var graph = GraphicReadGraph.From(structure);
+
+        var path = Assert.Single(graph.ReadsOf<OpenSegmentPathRead>());
+        Assert.Equal([first, second, third, fourth], path.Segments.Select(segment => segment.Source).ToArray());
+        Assert.Equal(4, path.Segments.Count);
+        Assert.Equal(3, path.Joins.Count);
+        Assert.True(path.HasSingleCarrier);
+        Assert.False(path.HasCarrierTransitions);
+        Assert.True(path.HasCompatibleUnitProvenance);
+        Assert.False(path.HasSharedTemplateProvenance);
+    }
+
+    [Fact]
+    public void ReadsOpenSegmentPathFromRepeatedStepTemplateInstances()
+    {
+        var templateBasis = new Carrier();
+        var arcRadiusTemplate = new Relation(
+            GraphicStructure.Segment(templateBasis, 0, 8),
+            GraphicStructure.Point(templateBasis, 3));
+        var sites = new[]
+        {
+            GraphicStructure.Site(0),
+            GraphicStructure.Site(8),
+            GraphicStructure.Site(16),
+            GraphicStructure.Site(24),
+            GraphicStructure.Site(32)
+        };
+        var segments = Enumerable.Range(0, 4)
+            .Select(index =>
+            {
+                var carrier = new Carrier(UnitShape.DescribedAtom(arcRadiusTemplate));
+                return GraphicStructure.Segment(carrier, sites[index], sites[index + 1]);
+            })
+            .ToArray();
+        var structure = Chain(segments);
+
+        var graph = GraphicReadGraph.From(structure);
+
+        var path = Assert.Single(graph.ReadsOf<OpenSegmentPathRead>());
+        Assert.Equal(4, path.Segments.Count);
+        Assert.Equal(3, path.Joins.Count);
+        Assert.False(path.HasSingleCarrier);
+        Assert.True(path.HasCarrierTransitions);
+        Assert.True(path.HasCompatibleUnitProvenance);
+        Assert.True(path.HasSharedTemplateProvenance);
+        Assert.All(path.UnitCompatibilities, compatibility =>
+        {
+            Assert.True(compatibility.HasSharedTemplateProvenance);
+            Assert.True(compatibility.CompatibleWithDescriptors);
+        });
+    }
+
+    [Fact]
+    public void ReadsSharedFramePolylineFromCoordinatePointSegments()
+    {
+        var frame = new Carrier();
+        var x = new Carrier();
+        var y = new Carrier();
+        var points = new[]
+        {
+            GraphicStructure.FramePoint(frame, new CarrierLocation(x, 0), new CarrierLocation(y, 0)),
+            GraphicStructure.FramePoint(frame, new CarrierLocation(x, 8), new CarrierLocation(y, 0)),
+            GraphicStructure.FramePoint(frame, new CarrierLocation(x, 16), new CarrierLocation(y, 0)),
+            GraphicStructure.FramePoint(frame, new CarrierLocation(x, 24), new CarrierLocation(y, 0)),
+            GraphicStructure.FramePoint(frame, new CarrierLocation(x, 32), new CarrierLocation(y, 0))
+        };
+        var segments = Enumerable.Range(0, 4)
+            .Select(index => GraphicStructure.FrameSegment(points[index], points[index + 1]))
+            .ToArray();
+        var structure = Chain(segments);
+
+        var graph = GraphicReadGraph.From(structure);
+
+        Assert.Equal(4, graph.ReadsOf<SharedFrameSegmentRead>().Count());
+        var path = Assert.Single(graph.ReadsOf<SharedFramePolylineRead>());
+        Assert.Equal(2, path.CoordinateCount);
+        Assert.Equal(4, path.Segments.Count);
+        Assert.Equal(3, path.Sites.Count);
+        Assert.Equal([segments[0], segments[1], segments[2], segments[3]], path.Segments.Select(segment => segment.Source).ToArray());
     }
 
     [Fact]
@@ -299,7 +447,10 @@ public sealed class GraphicReadGraphTests
         Assert.Equal(3, graph.ReadsOf<SegmentJoinRead>().Count());
         Assert.Equal(3, graph.ReadsOf<BoundaryJoinRead>().Count());
         Assert.Equal(3, graph.ReadsOf<BoundaryJoinFlowRead>().Count());
+        Assert.Equal(3, graph.ReadsOf<BoundaryJoinUnitCompatibilityRead>().Count());
         Assert.All(graph.ReadsOf<BoundaryJoinFlowRead>(), flow => Assert.True(flow.IsCarrierTransition));
+        Assert.All(graph.ReadsOf<BoundaryJoinUnitCompatibilityRead>(), compatibility =>
+            Assert.True(compatibility.HasDifferentAlgebra));
         Assert.Empty(graph.ReadsOf<SegmentJunctionRead>());
         Assert.Equal([0, 1, 2, 4], graph.Bands.Select(band => band.Order).ToArray());
     }

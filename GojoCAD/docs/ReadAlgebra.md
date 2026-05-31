@@ -62,9 +62,14 @@ without erasing the others.
 | point on circular carrier | point on same circular carrier | distinct ticks | circumference span, arc candidate |
 | point on base carrier | point on circular carrier | circular origin is on base carrier or attached through a shared site | radius/contour attachment |
 | non-origin point on linear carrier | point on another carrier | linear carrier has an origin unit shape | linear basis witness for direction and scale |
+| observed carrier | unit shape surface/descriptors | carrier participates in a point or span read | carrier unit/provenance evidence |
+| ordered coordinate group | two or more carrier locations share one frame holder | ordered group participants are locations | shared-frame point |
+| shared-frame point | shared-frame point | same coordinate carrier basis, distinct coordinate tuple | shared-frame segment |
 | segment | point on same carrier | point tick falls inside segment ticks | segment partition tick |
 | circumference span | point on same circular carrier | point tick falls inside span read | contour partition tick |
 | span | span | shared endpoint, carrier location, or `TickRef` | connected path fragment |
+| connected non-branching span component | two terminal endpoint sites, interior sites valence two | segment path / repeated-step path |
+| connected shared-frame segments | two terminal frame points, interior frame points valence two | shared-frame polyline |
 | span group | shared site | local valence greater than two | branch, merge, junction candidate |
 | any read | style participation | style carrier attaches to selected read | styled read with unresolved or exact detail |
 | any read | resolution participation | carrier/unit ladder relates to selected read | coarser or finer read surface |
@@ -82,9 +87,9 @@ The order should stay algebraic rather than becoming a giant classifier:
 
 | Band | Current role | Example reads |
 | --- | --- | --- |
-| `0` | local primitive relation reads | point, point pair, span, zero span, directed segment, radial seed, circular marker/span |
-| `1` | incidence and partition reads | point attachment, shared site, segment partition, contour partition, segment connection |
-| `2` | second-order control reads | radius attachment, linear basis witness/alignment, segment join/flow/junction, future perpendicular/equal-length witnesses |
+| `0` | local primitive relation reads | point, frame point, point pair, span, frame segment, zero span, directed segment, radial seed, circular marker/span |
+| `1` | incidence, unit, and partition reads | carrier unit/provenance, point attachment, shared site, segment partition, contour partition, segment connection |
+| `2` | second-order control reads | radius attachment, linear basis witness/alignment, segment join/flow/unit/junction, future perpendicular/equal-length witnesses |
 | `3` | contour and curvature controls | tangent continuity, curvature continuity, rounded corner, clothoid/involute witnesses |
 | `4` | boundary, area, and topology controls | closed boundary, boundary join/flow, area, anti-area, branch, merge, crossing/intersection |
 | `5` | resolution and concept conditioning | coarse-to-fine ladders, named concept hints, feature settlement witnesses |
@@ -100,17 +105,24 @@ Current executable control surface:
 | Read | Band | Meaning |
 | --- | --- | --- |
 | `PointAttachmentRead` | `1` | a direct relation joins points on distinct carriers |
+| `CarrierUnitRead` | `1` | observed carrier unit-shape surface and descriptor provenance |
 | `SharedSiteRead` | `1` | multiple point reads share a `TickRef` or normalized carrier location |
 | `SegmentConnectionRead` | `1` | segment endpoints meet at a shared site |
+| `SharedFramePointRead` | `0` | ordered coordinate tuple over a shared frame/group holder |
+| `SharedFrameSegmentRead` | `0` | relation between two shared-frame coordinate tuples in the same coordinate basis |
 | `RadiusAttachmentRead` | `2` | a base-carrier point fixes radius evidence for a circular marker |
 | `LinearBasisWitnessRead` | `2` | a non-origin point on a linear carrier attaches to another projected point, fixing direction and scale when possible |
 | `LinearBasisAlignmentRead` | `2` | non-origin points on two linear carriers attach, carrying same-flow or opposed-flow basis evidence |
 | `SegmentJoinRead` | `2` | exactly two segment endpoints participate at one shared site; this is join evidence, not yet corner evidence |
 | `SegmentJoinFlowRead` | `2` | local carrier and tick-flow evidence for each side of a two-endpoint join |
+| `SegmentJoinUnitCompatibilityRead` | `2` | unit-shape compatibility and descriptor provenance across a two-endpoint join |
 | `SegmentJunctionRead` | `2` | at least three segment endpoints participate at one shared site |
 | `ClosedSegmentBoundaryRead` | `4` | connected segment endpoints form a closed boundary cycle, before any fill or area style participates |
 | `BoundaryJoinRead` | `4` | a two-endpoint join participates as a site on a closed boundary; this can feed later corner, smoothing, or area reads |
 | `BoundaryJoinFlowRead` | `4` | join-flow evidence lifted to a closed boundary site |
+| `BoundaryJoinUnitCompatibilityRead` | `4` | join unit-compatibility evidence lifted to a closed boundary site |
+| `OpenSegmentPathRead` | `4` | non-branching open path over ordinary segment reads and their joins |
+| `SharedFramePolylineRead` | `4` | non-branching open path over shared-frame segment reads |
 
 ## Second-Order Control Reads
 
@@ -142,6 +154,85 @@ two-endpoint join can share a carrier with opposed local flow, share a carrier
 with same-side local flow, or transition between carriers. A boundary read may
 later use that evidence to distinguish straight continuation, turn, cusp,
 rounding, or unresolved tension.
+
+Carrier unit evidence is deliberately weaker than kind-transfer evidence. Two
+joined carriers can share one unit identity, share compatible descriptor
+provenance through separate carrier instances, have the same bare algebra with
+different descriptors, or have different algebra altogether. This is the lower
+evidence needed before a future read can say "same path turned" or "one kind
+settled into another kind."
+
+## Polyline Basis Patterns
+
+A polyline can be defined through at least two useful basis patterns.
+
+The shared-frame pattern repeats data in one fused basis:
+
+```text
+shared XY/group basis
+point 0 -> x0, y0
+point 1 -> x1, y1
+point 2 -> x2, y2
+```
+
+Every point references the same coordinate surface. This is useful for global
+measurement, intersection, fill, projection, and direct editing.
+
+The repeated-step pattern repeats a structural template:
+
+```text
+step template
+  start site
+  local span / arc / radius / length evidence
+  end site
+
+step 0 instance
+step 1 instance appended to step 0 end
+step 2 instance appended to step 1 end
+```
+
+Each step can have its own carrier instance, direction, length, arc, or radius.
+The instances can still share template provenance through compatible
+`UnitShape` descriptors. This is repetition by addition: a new instance is
+appended to the current path, and route continuity comes from the ordered
+attachment of one step's end to the next step's start.
+
+This distinction helps separate turn evidence from kind-transfer evidence:
+
+```text
+turn
+  route continuity
+  carrier/basis transition
+  compatible carried unit provenance
+
+change of kind
+  source-to-target transfer or settlement participation
+  different unit descriptor provenance or algebra
+  optional residue/tension from incomplete conversion
+
+both
+  route continuity plus transfer evidence
+```
+
+The same geometry can support more than one read. The read graph should carry
+both route and unit/provenance evidence upward rather than forcing a single
+label early.
+
+The executable path layer now follows this split:
+
+```text
+SharedFramePolylineRead
+  emerges from ordered coordinate groups and frame segments
+  all points refer back to the same coordinate carrier basis
+
+OpenSegmentPathRead
+  emerges from ordinary segment joins
+  can read as a shared-carrier path or as repeated step instances when join
+  unit compatibility carries shared template provenance
+```
+
+The repeated-step read is intentionally based on connected segment instances
+and their unit descriptors, not on a special polyline marker.
 
 ## Evidence To Carry Upward
 

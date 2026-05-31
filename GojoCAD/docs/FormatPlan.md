@@ -28,7 +28,8 @@ evidence upward instead of every consumer testing every possible shape.
 | Anti-area, hole, cut | opposed or inverse area participation |
 | Partition | point, segment, reset, repeat, or resolution structure over a carrier |
 | Arc | selected partition of a radial or contour carrier |
-| Polyline | ordered group of ordinary or directed segment relations |
+| Polyline, shared-frame | ordered points or spans referencing one fused/group basis |
+| Polyline, repeated-step | appended instances of a span/arc template with connected endpoints |
 | Closure | endpoint return through shared site evidence |
 | Branch or merge | shared junction site plus connected spans and lane evidence |
 | Stroke order | time sequence over selected spans |
@@ -48,7 +49,8 @@ models.
 | --- | --- |
 | Point | grounded site on a carrier |
 | Segment | ordinary positive-face span between two point relations |
-| Polyline | ordered repeated spans with explicit joins |
+| Polyline, shared-frame | repeated point data in one fused basis |
+| Polyline, repeated-step | repeated span/arc basis instances with explicit joins |
 | Polygon | closed polyline plus fill participation |
 | Circle | point-radial seed plus radius and contour evidence |
 | Arc | contour partition with start/end markers and optional direction |
@@ -66,6 +68,16 @@ models.
 
 The goal is not mathematical minimalism. The goal is a structure that matches
 how people talk about and refine shapes.
+
+Shared-frame and repeated-step polylines are different read surfaces, not
+competing truths. A shared-frame polyline repeats coordinate data against one
+basis and now reads as ordered coordinate groups connected by frame segments.
+A repeated-step polyline repeats a structural template by addition: each new
+step instance appends to the current path and can carry its own local length,
+turn, arc, radius, or curvature evidence while preserving template provenance
+through compatible unit descriptors. The current read graph exposes this as an
+ordinary open segment path with shared template provenance, not as a special
+polyline tag.
 
 ## 3. Curve Definitions Before Calculation
 

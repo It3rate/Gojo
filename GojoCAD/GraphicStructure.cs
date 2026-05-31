@@ -28,6 +28,14 @@ public static class GraphicStructure
     public static Relation Segment(Carrier carrier, long start, long end) =>
         Relation.Segment(carrier, start, end);
 
+    /// <summary>Creates a coordinate tuple point in a shared frame/group basis.</summary>
+    public static Relation FramePoint(Carrier frame, params CarrierLocation[] coordinates) =>
+        Relation.OrderedGroup(frame, (coordinates ?? []).Cast<IElement>().ToArray());
+
+    /// <summary>Creates a segment between two coordinate tuple points.</summary>
+    public static Relation FrameSegment(Relation start, Relation end) =>
+        new(start, end);
+
     /// <summary>
     /// Creates a directed segment whose start is on the aligned inverse face
     /// and whose end is on the positive face: start*i + end.

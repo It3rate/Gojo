@@ -12,6 +12,8 @@ public sealed class GojoCadSkiaPaints : IDisposable
     {
         Dot = Fill(new SKColor(31, 45, 61));
         Segment = Stroke(new SKColor(42, 91, 143), 2.5f);
+        SharedFrameSegment = Stroke(new SKColor(115, 76, 155), 2.1f);
+        SharedFramePoint = Fill(new SKColor(115, 76, 155, 190));
         DirectedSegment = Stroke(new SKColor(63, 113, 83), 2.75f);
         Circumference = Stroke(new SKColor(95, 103, 116, 135), 1.1f);
         CircumferenceSpan = Stroke(new SKColor(42, 91, 143, 145), 1.6f);
@@ -32,6 +34,10 @@ public sealed class GojoCadSkiaPaints : IDisposable
     public SKPaint Dot { get; }
 
     public SKPaint Segment { get; }
+
+    public SKPaint SharedFrameSegment { get; }
+
+    public SKPaint SharedFramePoint { get; }
 
     public SKPaint DirectedSegment { get; }
 
@@ -85,6 +91,8 @@ public sealed class GojoCadSkiaPaints : IDisposable
     {
         Dot.Dispose();
         Segment.Dispose();
+        SharedFrameSegment.Dispose();
+        SharedFramePoint.Dispose();
         DirectedSegment.Dispose();
         Circumference.Dispose();
         CircumferenceSpan.Dispose();

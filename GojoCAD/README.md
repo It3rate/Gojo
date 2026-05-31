@@ -81,6 +81,10 @@ GojoCAD structure.
   separate until stronger evidence upgrades them
 - local flow evidence should be carried upward from joins into boundaries
   before naming turns, corners, or smoothing
+- carrier unit and descriptor provenance should be carried separately from
+  geometry so turns and changes of kind do not collapse into one read
+- shared-frame polylines and repeated-step polylines should emerge from
+  coordinate groups, segment joins, and unit/template provenance
 - branch, merge, intersection, and crossing are different local reads over
   connection structure
 - style presence and style detail should be separate participation surfaces

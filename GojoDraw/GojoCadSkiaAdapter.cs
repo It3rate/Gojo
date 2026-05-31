@@ -68,6 +68,12 @@ public sealed class GojoCadSkiaAdapter
             drawn++;
         }
 
+        foreach (var segment in graph.ReadsOf<SharedFrameSegmentRead>())
+        {
+            DrawSharedFrameSegment(canvas, segment, projection, paints, hitAreas);
+            drawn++;
+        }
+
         foreach (var segment in graph.ReadsOf<PositiveSegmentRead>()
             .Where(segment => !IsCircularCarrier(segment.Start.Location.Carrier)))
         {
@@ -310,6 +316,22 @@ public sealed class GojoCadSkiaAdapter
         canvas.DrawLine(startPoint, endPoint, paints.DirectedSegment);
         DrawArrowTip(canvas, startPoint, endPoint, paints);
         AddHit(hitAreas, LineBounds(startPoint, endPoint, 12f), "directed segment", priority: 4, segment.Source);
+    }
+
+    private static void DrawSharedFrameSegment(
+        SKCanvas canvas,
+        SharedFrameSegmentRead segment,
+        IGojoCadSkiaProjection projection,
+        GojoCadSkiaPaints paints,
+        ICollection<GojoCadSkiaHitArea>? hitAreas)
+    {
+        var start = projection.ProjectFrame(segment.Start.Coordinates);
+        var end = projection.ProjectFrame(segment.End.Coordinates);
+
+        canvas.DrawLine(start, end, paints.SharedFrameSegment);
+        canvas.DrawCircle(start, paints.DotRadius * 0.62f, paints.SharedFramePoint);
+        canvas.DrawCircle(end, paints.DotRadius * 0.62f, paints.SharedFramePoint);
+        AddHit(hitAreas, LineBounds(start, end, 9f), "shared-frame segment", priority: 3, segment.Source);
     }
 
     private static void DrawSegmentTick(

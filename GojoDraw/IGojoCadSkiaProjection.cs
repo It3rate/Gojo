@@ -10,4 +10,6 @@ namespace GojoDraw;
 public interface IGojoCadSkiaProjection
 {
     SKPoint Project(CarrierLocation location);
+
+    SKPoint ProjectFrame(IReadOnlyList<CarrierLocation> coordinates);
 }
