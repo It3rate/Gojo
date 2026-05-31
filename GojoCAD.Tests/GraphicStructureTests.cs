@@ -57,6 +57,59 @@ public sealed class GraphicStructureTests
     }
 
     [Fact]
+    public void PinIsOrdinaryRelation()
+    {
+        var first = new Carrier();
+        var second = new Carrier();
+        var firstPoint = GraphicStructure.Point(first, 2);
+        var secondPoint = GraphicStructure.Point(second, 4);
+
+        var pin = GraphicStructure.Pin(firstPoint, secondPoint);
+
+        Assert.Same(firstPoint, pin.Left);
+        Assert.Same(secondPoint, pin.Right);
+    }
+
+    [Fact]
+    public void LinearCarrierAtUsesOneSharedSiteAsOrigin()
+    {
+        var axis = new Carrier();
+        var site = GraphicStructure.Site(7);
+
+        var linear = GraphicStructure.LinearCarrierAt(axis, site);
+
+        Assert.True(linear.TryReadLinearOrigin(out var origin));
+        Assert.True(origin.Carrier.SameIdentityAs(axis));
+        Assert.Equal(7, origin.Ticks);
+    }
+
+    [Fact]
+    public void LinearCarrierAtCanUsePointRelationAsOrigin()
+    {
+        var axis = new Carrier();
+        var point = GraphicStructure.Point(axis, GraphicStructure.Site(7));
+
+        var linear = GraphicStructure.LinearCarrierAt(point);
+
+        Assert.True(linear.TryReadLinearOrigin(out var origin));
+        Assert.True(origin.Carrier.SameIdentityAs(axis));
+        Assert.Equal(7, origin.Ticks);
+    }
+
+    [Fact]
+    public void CircularCarrierAtUsesOneSharedSiteAsOrigin()
+    {
+        var axis = new Carrier();
+        var site = GraphicStructure.Site(7);
+
+        var circular = GraphicStructure.CircularCarrierAt(axis, site);
+
+        Assert.True(circular.TryReadCircularOrigin(out var origin));
+        Assert.True(origin.Carrier.SameIdentityAs(axis));
+        Assert.Equal(7, origin.Ticks);
+    }
+
+    [Fact]
     public void DirectedSegmentUsesInverseStartAndPositiveEnd()
     {
         var axis = new Carrier();

@@ -252,6 +252,8 @@ internal sealed class VisualizerDrawOperation : ICustomDrawOperation
 
         paints.Segment.StrokeWidth = 1.6f;
         paints.SegmentTension.StrokeWidth = 1.5f;
+        paints.AngleControlledSegment.StrokeWidth = 1.8f;
+        paints.AngleControlledSegmentTension.StrokeWidth = 1.7f;
         paints.DirectedSegment.StrokeWidth = 1.8f;
         paints.DirectedSegmentTension.StrokeWidth = 1.7f;
         paints.Circumference.StrokeWidth = 0.9f;

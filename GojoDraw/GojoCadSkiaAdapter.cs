@@ -35,6 +35,7 @@ public sealed class GojoCadSkiaAdapter
     {
         var drawn = 0;
         var pointRoles = new HashSet<LocationKey>();
+        var angleControlledPathSegments = ReadAngleControlledPathSegmentSources(graph);
 
         foreach (var radial in graph.ReadsOf<RadialSeedRead>())
         {
@@ -80,7 +81,15 @@ public sealed class GojoCadSkiaAdapter
             var partitions = graph.ReadsOf<SegmentPartitionRead>()
                 .Where(partition => ReferenceEquals(partition.Segment, segment))
                 .Select(partition => partition.Point);
-            DrawPositiveSegment(canvas, segment, partitions, projection, paints, hitAreas, pointRoles);
+            DrawPositiveSegment(
+                canvas,
+                segment,
+                partitions,
+                IsAngleControlledPathSegment(segment, angleControlledPathSegments),
+                projection,
+                paints,
+                hitAreas,
+                pointRoles);
             drawn++;
         }
 
@@ -93,6 +102,13 @@ public sealed class GojoCadSkiaAdapter
         foreach (var segment in graph.ReadsOf<DirectedSegmentRead>())
         {
             DrawDirectedSegment(canvas, segment, projection, paints, hitAreas);
+            drawn++;
+        }
+
+        foreach (var segment in graph.ReadsOf<PositiveSegmentRead>()
+            .Where(segment => IsAngleControlledPathSegment(segment, angleControlledPathSegments)))
+        {
+            DrawAngleControlledSegmentOverlay(canvas, segment, projection, paints);
             drawn++;
         }
 
@@ -156,7 +172,18 @@ public sealed class GojoCadSkiaAdapter
             DrawBasisRect(canvas, origin, projection, paints, hitAreas, "circumference basis origin", priority: 6, marker.Source);
             pointRoles.Add(LocationKey.Of(origin));
 
-            foreach (var entry in group.GroupBy(entry => LocationKey.Of(entry.Location)).Select(group => group.First()))
+            var observedTicks = group.GroupBy(entry => LocationKey.Of(entry.Location))
+                .Select(group => group.First())
+                .ToArray();
+            DrawCircumferenceTickLadder(
+                canvas,
+                circle.Center,
+                marker.Location.Carrier,
+                observedTicks.Select(entry => entry.Location),
+                projection,
+                paints);
+
+            foreach (var entry in observedTicks)
             {
                 DrawCircumferenceTick(canvas, circle.Center, entry.Location, projection, paints, hitAreas, "circumference tick", priority: 5, entry.Source);
                 pointRoles.Add(LocationKey.Of(entry.Location));
@@ -239,6 +266,7 @@ public sealed class GojoCadSkiaAdapter
         SKCanvas canvas,
         PositiveSegmentRead segment,
         IEnumerable<PointRead> points,
+        bool isAngleControlledPathSegment,
         IGojoCadSkiaProjection projection,
         GojoCadSkiaPaints paints,
         ICollection<GojoCadSkiaHitArea>? hitAreas,
@@ -248,9 +276,10 @@ public sealed class GojoCadSkiaAdapter
         var end = segment.End.Location;
         var startPoint = projection.Project(start);
         var endPoint = projection.Project(end);
-        var paint = projection.UsesSampledProjection(start) || projection.UsesSampledProjection(end)
-            ? paints.SegmentTension
-            : paints.Segment;
+        var isSampled = projection.UsesSampledProjection(start) || projection.UsesSampledProjection(end);
+        var paint = isAngleControlledPathSegment
+            ? (isSampled ? paints.AngleControlledSegmentTension : paints.AngleControlledSegment)
+            : (isSampled ? paints.SegmentTension : paints.Segment);
 
         canvas.DrawLine(startPoint, endPoint, paint);
         DrawEndpointBar(canvas, startPoint, endPoint, paints);
@@ -286,6 +315,42 @@ public sealed class GojoCadSkiaAdapter
         canvas.DrawLine(start, end, paint);
         AddHit(hitAreas, LineBounds(start, end, 8f), "line seed", priority: 2, seed.Source);
     }
+
+    private static void DrawAngleControlledSegmentOverlay(
+        SKCanvas canvas,
+        PositiveSegmentRead segment,
+        IGojoCadSkiaProjection projection,
+        GojoCadSkiaPaints paints)
+    {
+        var start = segment.Start.Location;
+        var end = segment.End.Location;
+        var startPoint = projection.Project(start);
+        var endPoint = projection.Project(end);
+        var paint = projection.UsesSampledProjection(start) || projection.UsesSampledProjection(end)
+            ? paints.AngleControlledSegmentTension
+            : paints.AngleControlledSegment;
+        canvas.DrawLine(startPoint, endPoint, paint);
+    }
+
+    private static HashSet<ulong> ReadAngleControlledPathSegmentSources(GraphicReadGraph graph)
+    {
+        var circularWitnesses = graph.ReadsOf<LinearBasisWitnessRead>()
+            .Where(witness => witness.WitnessPoint.CircularMarker is not null)
+            .ToArray();
+        return [.. graph.ReadsOf<OpenSegmentPathRead>()
+            .SelectMany(path => path.Segments)
+            .Where(segment => circularWitnesses.Any(witness =>
+                witness.LinearCarrier.SameIdentityAs(segment.Start.Location.Carrier)))
+            .Select(segment => segment.Source)
+            .OfType<Relation>()
+            .Select(relation => relation.Id)];
+    }
+
+    private static bool IsAngleControlledPathSegment(
+        PositiveSegmentRead segment,
+        IReadOnlySet<ulong> angleControlledPathSegments) =>
+        segment.Source is Relation relation &&
+        angleControlledPathSegments.Contains(relation.Id);
 
     private static void DrawSheetSeed(
         SKCanvas canvas,
@@ -421,6 +486,63 @@ public sealed class GojoCadSkiaAdapter
         DrawTick(canvas, point, Unit(center, point), paints);
         var bounds = CenteredRect(point, paints.PartitionTickLength);
         AddHit(hitAreas, bounds, text, priority, source);
+    }
+
+    private static void DrawCircumferenceTickLadder(
+        SKCanvas canvas,
+        SKPoint center,
+        Carrier carrier,
+        IEnumerable<CarrierLocation> observedLocations,
+        IGojoCadSkiaProjection projection,
+        GojoCadSkiaPaints paints)
+    {
+        var period = ReadObservedCircumferencePeriod(observedLocations);
+        if (period <= 0)
+        {
+            return;
+        }
+
+        var tickStep = Math.Max(1, (int)Math.Ceiling(period / 16d));
+        for (var tick = 0; tick < period; tick += tickStep)
+        {
+            DrawCircumferenceTickMark(
+                canvas,
+                center,
+                new CarrierLocation(carrier, tick),
+                projection,
+                paints);
+        }
+    }
+
+    private static long ReadObservedCircumferencePeriod(IEnumerable<CarrierLocation> observedLocations)
+    {
+        var deltas = observedLocations
+            .Select(location => Math.Abs(location.Ticks))
+            .Where(delta => delta > 0)
+            .Distinct()
+            .Order()
+            .ToArray();
+        if (deltas.Length < 2)
+        {
+            return 0;
+        }
+
+        var candidate = deltas[^1];
+        var previous = deltas[^2];
+        return candidate >= previous * 2
+            ? candidate
+            : 0;
+    }
+
+    private static void DrawCircumferenceTickMark(
+        SKCanvas canvas,
+        SKPoint center,
+        CarrierLocation location,
+        IGojoCadSkiaProjection projection,
+        GojoCadSkiaPaints paints)
+    {
+        var point = projection.Project(location);
+        DrawTick(canvas, point, Unit(center, point), paints);
     }
 
     private static void DrawBasisRect(

@@ -109,6 +109,17 @@ public sealed class UnitShape : IEquatable<UnitShape>
         return OrthogonalOf(point);
     }
 
+    /// <summary>Creates a linear ray-like unit shape from one origin point.</summary>
+    public static UnitShape LinearAt(Relation point)
+    {
+        if (!IsUnitPoint(point))
+        {
+            throw new ArgumentException("Linear orthogonal unit shapes require a point source.", nameof(point));
+        }
+
+        return OrthogonalOf(new Relation(point, point));
+    }
+
     /// <summary>Creates a linear ray-like unit shape from coincident segment points.</summary>
     public static UnitShape LinearFrom(Relation zeroLengthSegment)
     {

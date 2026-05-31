@@ -28,6 +28,26 @@ public static class GraphicStructure
     public static Relation Segment(Carrier carrier, long start, long end) =>
         Relation.Segment(carrier, start, end);
 
+    /// <summary>Joins two graphic relations as ordinary inspectable structure.</summary>
+    public static Relation Pin(Relation first, Relation second) =>
+        new(first, second);
+
+    /// <summary>Creates a linear carrier whose origin is a single shared site.</summary>
+    public static Carrier LinearCarrierAt(Carrier carrier, TickRef site) =>
+        LinearCarrierAt(Point(carrier, site));
+
+    /// <summary>Creates a linear carrier whose origin is a point relation.</summary>
+    public static Carrier LinearCarrierAt(Relation point) =>
+        new(UnitShape.LinearAt(point));
+
+    /// <summary>Creates a circular carrier whose origin is a single shared site.</summary>
+    public static Carrier CircularCarrierAt(Carrier carrier, TickRef site) =>
+        new(UnitShape.CircularFrom(Point(carrier, site)));
+
+    /// <summary>Creates a circular carrier whose origin is a point relation.</summary>
+    public static Carrier CircularCarrierAt(Relation point) =>
+        new(UnitShape.CircularFrom(point));
+
     /// <summary>Creates a coordinate tuple point in a shared frame/group basis.</summary>
     public static Relation FramePoint(Carrier frame, params CarrierLocation[] coordinates) =>
         Relation.OrderedGroup(frame, (coordinates ?? []).Cast<IElement>().ToArray());

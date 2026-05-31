@@ -171,9 +171,10 @@ public sealed class DerivedSkiaProjection : IGojoCadSkiaProjection
         var basis = ReadCircularProjectionBasis(location.Carrier);
         var phase = (location.Ticks - basis.AnchorTicks) / (float)basis.PeriodTicks;
         var angle = phase * MathF.PI * 2f;
+        var direction = RotateCounterClockwise(basis.AnchorUnit, angle);
         return new SKPoint(
-            basis.Center.X + MathF.Cos(angle) * basis.Radius,
-            basis.Center.Y - MathF.Sin(angle) * basis.Radius);
+            basis.Center.X + direction.X * basis.Radius,
+            basis.Center.Y + direction.Y * basis.Radius);
     }
 
     private LinearBasis ReadLinearBasis(Carrier carrier)
@@ -272,7 +273,7 @@ public sealed class DerivedSkiaProjection : IGojoCadSkiaProjection
 
         if (!resolvingCircularBases.Add(carrier.Id))
         {
-            return new CircularBasis(new SKPoint(0, 0), SampleModelRadius(carrier, 0), 0, 1);
+            return new CircularBasis(new SKPoint(0, 0), new SKPoint(1, 0), SampleModelRadius(carrier, 0), 0, 1);
         }
 
         try
@@ -295,6 +296,10 @@ public sealed class DerivedSkiaProjection : IGojoCadSkiaProjection
                     continue;
                 }
 
+                var anchorUnit = new SKPoint(
+                    (anchorPoint.X - center.X) / radius,
+                    (anchorPoint.Y - center.Y) / radius);
+
                 if (UsesSampledProjectionModel(Normalize(attachment.BasePoint.Location)))
                 {
                     sampledCircularRadii.Add(carrier.Id);
@@ -302,6 +307,7 @@ public sealed class DerivedSkiaProjection : IGojoCadSkiaProjection
 
                 basis = new CircularBasis(
                     center,
+                    anchorUnit,
                     radius,
                     attachment.Marker.Point.Location.Ticks,
                     ReadCircularPeriod(carrier, attachment.Marker.Point.Location.Ticks));
@@ -312,6 +318,7 @@ public sealed class DerivedSkiaProjection : IGojoCadSkiaProjection
             var anchorTicks = ReadCircularAnchorTicks(carrier, origin.Ticks);
             basis = new CircularBasis(
                 center,
+                new SKPoint(1, 0),
                 SampleModelRadius(carrier, origin.Ticks),
                 anchorTicks,
                 ReadCircularPeriod(carrier, anchorTicks));
@@ -331,6 +338,13 @@ public sealed class DerivedSkiaProjection : IGojoCadSkiaProjection
             return Math.Max(1, period);
         }
 
+        period = ReadObservedPartitionPeriod(carrier, anchorTicks);
+        if (period > 0)
+        {
+            circularPeriods[carrier.Id] = period;
+            return period;
+        }
+
         var maxDelta = ReadObservedTickDelta(carrier, anchorTicks);
         var lower = Math.Max(1, maxDelta * 2);
         var upper = Math.Max(lower + 1, maxDelta * 4);
@@ -340,6 +354,27 @@ public sealed class DerivedSkiaProjection : IGojoCadSkiaProjection
         circularPeriods[carrier.Id] = period;
         sampledCircularPeriods.Add(carrier.Id);
         return period;
+    }
+
+    private long ReadObservedPartitionPeriod(Carrier carrier, long anchorTicks)
+    {
+        var deltas = evidence.Locations
+            .Where(location => location.Carrier.SameIdentityAs(carrier))
+            .Select(location => Math.Abs(location.Ticks - anchorTicks))
+            .Where(delta => delta > 0)
+            .Distinct()
+            .Order()
+            .ToArray();
+        if (deltas.Length < 2)
+        {
+            return 0;
+        }
+
+        var candidate = deltas[^1];
+        var previous = deltas[^2];
+        return candidate >= previous * 2
+            ? candidate
+            : 0;
     }
 
     private long ReadObservedTickDelta(Carrier carrier, long anchorTicks)
@@ -490,6 +525,15 @@ public sealed class DerivedSkiaProjection : IGojoCadSkiaProjection
         return MathF.Sqrt(dx * dx + dy * dy);
     }
 
+    private static SKPoint RotateCounterClockwise(SKPoint unit, float radians)
+    {
+        var cos = MathF.Cos(radians);
+        var sin = MathF.Sin(radians);
+        return new SKPoint(
+            unit.X * cos + unit.Y * sin,
+            -unit.X * sin + unit.Y * cos);
+    }
+
     private sealed class ProjectionEvidence
     {
         public List<CarrierLocation> Locations { get; } = [];
@@ -596,7 +640,12 @@ public sealed class DerivedSkiaProjection : IGojoCadSkiaProjection
 
     private readonly record struct LinearBasis(SKPoint Origin, SKPoint TickVector);
 
-    private readonly record struct CircularBasis(SKPoint Center, float Radius, long AnchorTicks, long PeriodTicks);
+    private readonly record struct CircularBasis(
+        SKPoint Center,
+        SKPoint AnchorUnit,
+        float Radius,
+        long AnchorTicks,
+        long PeriodTicks);
 
     private readonly record struct LocationKey(ulong CarrierId, long Ticks)
     {

@@ -219,6 +219,21 @@ public sealed class UnitShapeTests
     }
 
     [Fact]
+    public void LinearAtBuildsCollapsedBasisFromOnePoint()
+    {
+        var carrier = new Carrier();
+        var point = Relation.Point(carrier, 4);
+
+        var linear = UnitShape.LinearAt(point);
+
+        Assert.True(linear.TryReadLinearSource(out var origin));
+        Assert.Same(carrier, origin.Carrier);
+        Assert.Equal(4, origin.Ticks);
+        Assert.True(linear.CompatibleWith(UnitShape.LinearFrom(Relation.Segment(carrier, 4, 4))));
+        Assert.False(linear.CompatibleWith(UnitShape.CircularFrom(point)));
+    }
+
+    [Fact]
     public void OfficialSheetShapeComesFromNonzeroSegmentOrthogonalOutlet()
     {
         var carrier = new Carrier();

@@ -40,6 +40,34 @@ evidence upward instead of every consumer testing every possible shape.
 These should remain primitives or local reads. They should not be collapsed
 into broad enums such as shape type, curve type, or junction type.
 
+## Site Pinning And Coincidence
+
+Equal tick values are not enough to mean that two graphic elements are joined.
+Two independent locations may render at the same position and still only be a
+crossing, overlap, or unresolved coincidence. A true joint needs shared
+structure: a shared `TickRef`, a reused point relation, or an explicit relation
+between the participating points.
+
+`GraphicStructure.Pin(a,b)` is intentionally only ordinary `Relation(a,b)`.
+It is not a wrapper object or metadata tag. It exists so sample and application
+code can say "these point relations are joined" without hiding the join from
+the read graph.
+
+Construction helpers such as `UnitShape.LinearAt(...)`,
+`GraphicStructure.LinearCarrierAt(...)`, and
+`GraphicStructure.CircularCarrierAt(...)` avoid duplicated "start equals end"
+parameters when a carrier is seeded at one site. They make the construction
+intent local and inspectable. A `UnitShape` is still a crystallized basis
+surface, so live retargeting should be represented by an explicit pin or
+attachment relation when the graphic meaning is "this center follows that
+point."
+
+For circular carriers, a radius attachment is also phase evidence when the
+attached marker is on the circle. The vector from the circle center to the base
+point should define that marker's local angular direction. Without that
+evidence, rendering may default to a horizontal-right anchor, but paths should
+prefer inherited local direction from the incoming segment or carrier basis.
+
 ## 2. Systems To Support As Local Reads
 
 The following external systems are useful inspirations, not mandatory internal
