@@ -89,7 +89,7 @@ internal sealed record VisualizerDocument(
             "radial" => selection.Point is not null,
             "segment" => selection.LineSeed is not null || selection.Point is not null && selection.CircularMarker is null || SelectedIndex is null,
             "partition" => selection.Segment is not null || selection.CircularMarker is not null,
-            "directed" => selection.Point is not null && selection.CircularMarker is null || SelectedIndex is null,
+            "directed" => selection.LineSeed is not null || selection.Point is not null && selection.CircularMarker is null || SelectedIndex is null,
             "line seed" => selection.Point is not null,
             "sheet seed" => selection.Segment is not null && !IsCircularCarrier(selection.Segment.Start.Location.Carrier),
             "radius" => selection.CircularMarker is not null || selection.RadialSeed is not null,
@@ -115,7 +115,7 @@ internal sealed record VisualizerDocument(
             "radial" => "select a point",
             "segment" => "select a non-circular point or line seed",
             "partition" => "select a segment or circle point",
-            "directed" => "select a non-circular point",
+            "directed" => "select a non-circular point or line seed",
             "line seed" => "select a point",
             "sheet seed" => "select a segment",
             "radius" => "select a circle point or radial",
@@ -250,7 +250,13 @@ internal sealed record VisualizerDocument(
 
     private VisualizerDocument AddDirected()
     {
-        var point = ReadSelection().Point;
+        var selection = ReadSelection();
+        if (selection.LineSeed is not null)
+        {
+            return AddLineSeedLength(selection.LineSeed, directed: true);
+        }
+
+        var point = selection.Point;
         var carrier = point?.Location.Carrier ?? Drawing;
         var start = point?.Location.Tick ?? GraphicStructure.Site(SampleFreeTick());
         var end = SiteNear(start.Ticks, 6, 14);
@@ -380,28 +386,6 @@ internal sealed record VisualizerDocument(
         var startPoint = ReadSelection().Point;
         var start = startPoint?.Location ?? new CarrierLocation(Drawing, GraphicStructure.Site(SampleFreeTick()));
         var startRelation = PointAt(start);
-        var startSite = GraphicStructure.Site(0);
-        var firstEnd = GraphicStructure.Site(SampleOffset(7, 14));
-        var secondEnd = GraphicStructure.Site(SampleOffset(6, 13));
-        var thirdEnd = GraphicStructure.Site(SampleOffset(6, 13));
-
-        var firstLine = GraphicStructure.LinearCarrierAt(startRelation);
-        var firstLineStart = GraphicStructure.Point(firstLine, startSite);
-        var firstLineEnd = GraphicStructure.Point(firstLine, firstEnd);
-        var firstJoin = GraphicStructure.Pin(startRelation, firstLineStart);
-        var firstSegment = GraphicStructure.Segment(firstLine, startSite, firstEnd);
-
-        var secondLine = GraphicStructure.LinearCarrierAt(firstLineEnd);
-        var secondLineStart = GraphicStructure.Point(secondLine, startSite);
-        var secondLineEnd = GraphicStructure.Point(secondLine, secondEnd);
-        var secondJoin = GraphicStructure.Pin(firstLineEnd, secondLineStart);
-        var secondSegment = GraphicStructure.Segment(secondLine, startSite, secondEnd);
-
-        var thirdLine = GraphicStructure.LinearCarrierAt(secondLineEnd);
-        var thirdLineStart = GraphicStructure.Point(thirdLine, startSite);
-        var thirdLineEnd = GraphicStructure.Point(thirdLine, thirdEnd);
-        var thirdJoin = GraphicStructure.Pin(secondLineEnd, thirdLineStart);
-        var thirdSegment = GraphicStructure.Segment(thirdLine, startSite, thirdEnd);
 
         var additions = new List<IElement>();
         if (startPoint is null)
@@ -409,19 +393,48 @@ internal sealed record VisualizerDocument(
             additions.Add(startRelation);
         }
 
-        additions.AddRange([
-            firstJoin,
-            firstLineEnd,
-            firstSegment,
-            secondJoin,
-            secondLineEnd,
-            secondSegment,
-            thirdJoin,
-            thirdLineEnd,
-            thirdSegment
-        ]);
+        var origin = startRelation;
+        var incomingCarrier = start.Carrier;
+        var incomingTicks = start.Ticks;
+        for (var index = 0; index < 3; index++)
+        {
+            var step = CreateRelativeAngleStep(origin, incomingCarrier, incomingTicks);
+            additions.AddRange(step.Elements);
+            origin = step.EndPoint;
+            incomingCarrier = step.Line;
+            incomingTicks = step.End.Ticks;
+        }
 
-        return Append(additions, selectedOffset: additions.Count - 2);
+        var selectedOffset = additions.FindIndex(element => ReferenceEquals(element, origin));
+        return Append(additions, selectedOffset: selectedOffset >= 0 ? selectedOffset : additions.Count - 1);
+    }
+
+    private static RelativeAngleStep CreateRelativeAngleStep(
+        Relation origin,
+        Carrier incomingCarrier,
+        long incomingTicks)
+    {
+        var start = GraphicStructure.Site(0);
+        var end = GraphicStructure.Site(SampleOffset(7, 12));
+        var radiusLength = SampleOffset(7, 12);
+        var circleAnchor = GraphicStructure.Site(0);
+        var circlePeriod = GraphicStructure.Site(24);
+        var turn = GraphicStructure.Site(SampleSignedOffset(3, 9));
+
+        var line = GraphicStructure.LinearCarrierAt(origin);
+        var circle = GraphicStructure.CircularCarrierAt(origin);
+        var lineStart = GraphicStructure.Point(line, start);
+        var lineEnd = GraphicStructure.Point(line, end);
+        var join = GraphicStructure.Pin(origin, lineStart);
+        var segment = GraphicStructure.Segment(line, start, end);
+        var radius = GraphicStructure.Pin(
+            GraphicStructure.Point(incomingCarrier, GraphicStructure.Site(incomingTicks + radiusLength)),
+            GraphicStructure.Point(circle, circleAnchor));
+        var partition = GraphicStructure.Point(circle, turn);
+        var period = GraphicStructure.Point(circle, circlePeriod);
+        var witness = GraphicStructure.Pin(lineEnd, partition);
+
+        return new RelativeAngleStep(line, end, lineEnd, [join, lineEnd, segment, radius, partition, period, witness]);
     }
 
     private VisualizerDocument AddAngleStep()
@@ -508,7 +521,7 @@ internal sealed record VisualizerDocument(
         };
     }
 
-    private VisualizerDocument AddLineSeedLength(LineSeedRead seed)
+    private VisualizerDocument AddLineSeedLength(LineSeedRead seed, bool directed = false)
     {
         var origin = seed.Span.Left.Location;
         var line = GraphicStructure.LinearCarrierAt(PointAt(origin));
@@ -517,7 +530,9 @@ internal sealed record VisualizerDocument(
         var lineStart = GraphicStructure.Point(line, start);
         var lineEnd = GraphicStructure.Point(line, end);
         var join = GraphicStructure.Pin(PointAt(origin), lineStart);
-        var segment = GraphicStructure.Segment(line, start, end);
+        var segment = directed
+            ? GraphicStructure.DirectedSegment(line, start, end)
+            : GraphicStructure.Segment(line, start, end);
         return Append([join, lineEnd, segment], selectedOffset: 1);
     }
 
@@ -627,4 +642,10 @@ internal sealed record VisualizerDocument(
         CircularSpanRead? CircularSpan = null,
         RadialSeedRead? RadialSeed = null,
         LineSeedRead? LineSeed = null);
+
+    private sealed record RelativeAngleStep(
+        Carrier Line,
+        TickRef End,
+        Relation EndPoint,
+        IReadOnlyList<IElement> Elements);
 }

@@ -23,14 +23,14 @@ public sealed class DerivedSkiaProjection : IGojoCadSkiaProjection
     private readonly HashSet<ulong> resolvingCircularBases = [];
     private readonly SKRect viewport;
     private readonly SKRect? fixedModelBounds;
-    private readonly Random random;
+    private readonly int seed;
     private ViewportTransform? viewportTransform;
 
     public DerivedSkiaProjection(IElement structure, SKRect viewport, int seed, SKRect? fixedModelBounds = null)
     {
         this.viewport = viewport;
         this.fixedModelBounds = fixedModelBounds;
-        random = new Random(seed);
+        this.seed = seed;
         var graph = GraphicReadGraph.From(structure ?? throw new ArgumentNullException(nameof(structure)));
         foreach (var point in graph.ReadsOf<PointRead>())
         {
@@ -211,7 +211,13 @@ public sealed class DerivedSkiaProjection : IGojoCadSkiaProjection
                     return basis;
                 }
 
-                angle = SampleAngle();
+                if (ReadLinearOrthogonalSourceBasis(forward, origin, out basis))
+                {
+                    linearBases[forward.Id] = basis;
+                    return basis;
+                }
+
+                angle = SampleAngle(forward);
                 sampledLinearCarriers.Add(forward.Id);
             }
 
@@ -264,6 +270,50 @@ public sealed class DerivedSkiaProjection : IGojoCadSkiaProjection
 
         basis = default;
         return false;
+    }
+
+    private bool ReadLinearOrthogonalSourceBasis(
+        Carrier carrier,
+        SKPoint originPoint,
+        out LinearBasis basis)
+    {
+        if (!TryReadLinearOrthogonalSourceLocation(carrier, out var sourceLocation))
+        {
+            basis = default;
+            return false;
+        }
+
+        var sourceCarrier = NormalizeCarrier(sourceLocation.Carrier);
+        if (sourceCarrier.SameIdentityAs(carrier))
+        {
+            basis = default;
+            return false;
+        }
+
+        var beforeLocation = new CarrierLocation(sourceCarrier, sourceLocation.Ticks - 1);
+        var afterLocation = new CarrierLocation(sourceCarrier, sourceLocation.Ticks + 1);
+        if (!TryProjectModelForControl(beforeLocation, out var before) ||
+            !TryProjectModelForControl(afterLocation, out var after))
+        {
+            basis = default;
+            return false;
+        }
+
+        var dx = (after.X - before.X) * 0.5f;
+        var dy = (after.Y - before.Y) * 0.5f;
+        if (MathF.Sqrt(dx * dx + dy * dy) <= 0.001f)
+        {
+            basis = default;
+            return false;
+        }
+
+        if (UsesSampledProjectionModel(sourceLocation))
+        {
+            sampledLinearCarriers.Add(carrier.Id);
+        }
+
+        basis = new LinearBasis(originPoint, new SKPoint(-dy, dx));
+        return true;
     }
 
     private CircularBasis ReadCircularProjectionBasis(Carrier carrier)
@@ -352,7 +402,7 @@ public sealed class DerivedSkiaProjection : IGojoCadSkiaProjection
         var upper = Math.Max(lower + 1, maxDelta * 4);
         period = upper >= int.MaxValue
             ? lower
-            : random.Next((int)lower, (int)upper);
+            : RandomFor(carrier, anchorTicks, 201).Next((int)lower, (int)upper);
         circularPeriods[carrier.Id] = period;
         sampledCircularPeriods.Add(carrier.Id);
         return period;
@@ -394,7 +444,7 @@ public sealed class DerivedSkiaProjection : IGojoCadSkiaProjection
     {
         var tickDelta = ReadObservedTickDelta(carrier, originTicks);
         sampledCircularRadii.Add(NormalizeCarrier(carrier).Id);
-        return tickDelta * (1.2f + (float)random.NextDouble() * 1.4f);
+        return tickDelta * (1.2f + (float)RandomFor(carrier, originTicks, 301).NextDouble() * 1.4f);
     }
 
     private ViewportTransform ReadViewportTransform()
@@ -434,16 +484,22 @@ public sealed class DerivedSkiaProjection : IGojoCadSkiaProjection
         return bounds.ToRect();
     }
 
-    private float SampleAngle() => (float)random.NextDouble() * MathF.PI * 2f;
+    private float SampleAngle(Carrier carrier) =>
+        (float)RandomFor(carrier, 101).NextDouble() * MathF.PI * 2f;
 
     private void SeedSampledOpenSegmentPathModels()
     {
         var pathIndex = 0;
         foreach (var path in evidence.OpenSegmentPaths
-            .Where(path => path.HasCarrierTransitions && path.HasCompatibleUnitProvenance))
+            .Where(path =>
+                path.HasCarrierTransitions &&
+                path.HasCompatibleUnitProvenance &&
+                !PathHasLocalLinearBasisEvidence(path)))
         {
-            var cursor = new SKPoint(0, 18f * ++pathIndex);
-            var angle = ((float)random.NextDouble() - 0.5f) * 0.7f;
+            var ordinal = ++pathIndex;
+            var pathRandom = RandomFor(path.Source, ordinal, 401);
+            var cursor = new SKPoint(0, 18f * ordinal);
+            var angle = ((float)pathRandom.NextDouble() - 0.5f) * 0.7f;
             foreach (var segment in path.Segments)
             {
                 var start = Normalize(segment.Start.Location);
@@ -451,7 +507,7 @@ public sealed class DerivedSkiaProjection : IGojoCadSkiaProjection
                 modelPoints[LocationKey.Of(start)] = cursor;
                 sampledPathLocations.Add(LocationKey.Of(start));
                 var length = MathF.Max(2f, MathF.Abs(end.Ticks - start.Ticks));
-                angle += ((float)random.NextDouble() - 0.5f) * 0.75f;
+                angle += ((float)pathRandom.NextDouble() - 0.5f) * 0.75f;
                 cursor = new SKPoint(
                     cursor.X + MathF.Cos(angle) * length,
                     cursor.Y - MathF.Sin(angle) * length);
@@ -459,6 +515,39 @@ public sealed class DerivedSkiaProjection : IGojoCadSkiaProjection
                 sampledPathLocations.Add(LocationKey.Of(end));
             }
         }
+    }
+
+    private bool PathHasLocalLinearBasisEvidence(OpenSegmentPathRead path) =>
+        path.Segments.All(segment => HasLocalLinearBasisEvidence(segment.Start.Location.Carrier));
+
+    private bool HasLocalLinearBasisEvidence(Carrier carrier)
+    {
+        var forward = NormalizeCarrier(carrier);
+        if (!forward.TryReadLinearOrigin(out _))
+        {
+            return true;
+        }
+
+        return evidence.LinearBasisWitnesses.Any(witness => witness.LinearCarrier.SameIdentityAs(forward)) ||
+            TryReadLinearOrthogonalSourceLocation(forward, out _);
+    }
+
+    private static bool TryReadLinearOrthogonalSourceLocation(Carrier carrier, out CarrierLocation location)
+    {
+        if (carrier.UnitShape.TryReadOrthogonalSource(out var source))
+        {
+            var zeroSpan = GraphicReadGraph.From(source)
+                .ReadsOf<ZeroSpanRead>()
+                .FirstOrDefault();
+            if (zeroSpan is not null)
+            {
+                location = Normalize(zeroSpan.Left.Location);
+                return true;
+            }
+        }
+
+        location = default;
+        return false;
     }
 
     private long ReadCircularAnchorTicks(Carrier carrier, long originTicks)
@@ -519,6 +608,36 @@ public sealed class DerivedSkiaProjection : IGojoCadSkiaProjection
         point = ProjectModel(normalized);
         return true;
     }
+
+    private Random RandomFor(Carrier carrier, int salt) =>
+        RandomFor(NormalizeCarrier(carrier).Id, 0, salt);
+
+    private Random RandomFor(Carrier carrier, long ticks, int salt) =>
+        RandomFor(NormalizeCarrier(carrier).Id, ticks, salt);
+
+    private Random RandomFor(IElement source, int ordinal, int salt)
+    {
+        var identity = source is Relation relation
+            ? relation.Id
+            : (ulong)Math.Max(0, ordinal);
+        return RandomFor(identity, ordinal, salt);
+    }
+
+    private Random RandomFor(ulong identity, long ticks, int salt)
+    {
+        unchecked
+        {
+            var hash = 1469598103934665603UL;
+            hash = Mix(hash, (uint)seed);
+            hash = Mix(hash, identity);
+            hash = Mix(hash, (ulong)ticks);
+            hash = Mix(hash, (uint)salt);
+            return new Random((int)(hash ^ (hash >> 32)));
+        }
+    }
+
+    private static ulong Mix(ulong hash, ulong value) =>
+        (hash ^ value) * 1099511628211UL;
 
     private static float Distance(SKPoint left, SKPoint right)
     {

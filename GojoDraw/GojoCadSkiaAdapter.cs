@@ -65,7 +65,7 @@ public sealed class GojoCadSkiaAdapter
 
         foreach (var attachment in graph.ReadsOf<RadiusAttachmentRead>())
         {
-            DrawRadiusAttachment(canvas, attachment, projection, paints, hitAreas);
+            DrawRadiusAttachment(canvas, attachment, projection, paints, hitAreas, pointRoles);
             drawn++;
         }
 
@@ -398,7 +398,8 @@ public sealed class GojoCadSkiaAdapter
         RadiusAttachmentRead attachment,
         IGojoCadSkiaProjection projection,
         GojoCadSkiaPaints paints,
-        ICollection<GojoCadSkiaHitArea>? hitAreas)
+        ICollection<GojoCadSkiaHitArea>? hitAreas,
+        HashSet<LocationKey> pointRoles)
     {
         var start = projection.Project(attachment.BasePoint.Location);
         var end = projection.Project(attachment.Marker.Point.Location);
@@ -408,6 +409,8 @@ public sealed class GojoCadSkiaAdapter
                 : paints.RadiusAttachment;
         canvas.DrawLine(start, end, paint);
         AddHit(hitAreas, LineBounds(start, end, 7f), "radius attachment", priority: 2, attachment.Source);
+        pointRoles.Add(LocationKey.Of(attachment.BasePoint.Location));
+        pointRoles.Add(LocationKey.Of(attachment.Marker.Point.Location));
     }
 
     private static void DrawInverseSegment(
@@ -741,10 +744,10 @@ public sealed class GojoCadSkiaAdapter
 
     private readonly record struct CircleProjection(SKPoint Center, float Radius);
 
-    private readonly record struct LocationKey(ulong CarrierId, ulong TickRefId, long Ticks)
+    private readonly record struct LocationKey(ulong CarrierId, long Ticks)
     {
         public static LocationKey Of(CarrierLocation location) =>
-            new(location.Carrier.Id, location.Tick?.Id ?? 0, location.Ticks);
+            new(location.Carrier.Id, location.Ticks);
 
         public static LocationKey Of(PointRead point) => Of(point.Location);
     }
