@@ -28,7 +28,8 @@ internal sealed record VisualizerSample(
         LegendEntry("circle", CreateCircumferenceLegend(), 109),
         LegendEntry("arc/span", CreateCircumferenceSpanLegend(), 110),
         LegendEntry("frame path", CreateSharedFramePolylineLegend(), 111),
-        LegendEntry("step path", CreateRepeatedStepPathLegend(), 112)
+        LegendEntry("step path", CreateRepeatedStepPathLegend(), 112),
+        LegendEntry("angle", CreateCircularAngleLegend(), 113)
     ];
 
     public static VisualizerSample Create()
@@ -74,6 +75,9 @@ internal sealed record VisualizerSample(
         var secondRadiusAttachment = new Relation(
             GraphicStructure.Point(drawing, midSite),
             GraphicStructure.Point(circumference, midSite));
+        var angleRadialAttachment = new Relation(
+            GraphicStructure.Point(drawing, hubSite),
+            GraphicStructure.Point(circumference, contourB));
 
         var arrowAxis = new Carrier(UnitShape.LinearFrom(GraphicStructure.Segment(drawing, hubSite, hubSite)));
         var arrowOriginAttachment = new Relation(
@@ -94,10 +98,10 @@ internal sealed record VisualizerSample(
         var framePoints = new[]
         {
             GraphicStructure.FramePoint(frame, new CarrierLocation(frameX, 0), new CarrierLocation(frameY, -24)),
-            GraphicStructure.FramePoint(frame, new CarrierLocation(frameX, 8), new CarrierLocation(frameY, -24)),
-            GraphicStructure.FramePoint(frame, new CarrierLocation(frameX, 16), new CarrierLocation(frameY, -24)),
-            GraphicStructure.FramePoint(frame, new CarrierLocation(frameX, 24), new CarrierLocation(frameY, -24)),
-            GraphicStructure.FramePoint(frame, new CarrierLocation(frameX, 32), new CarrierLocation(frameY, -24))
+            GraphicStructure.FramePoint(frame, new CarrierLocation(frameX, 8), new CarrierLocation(frameY, -18)),
+            GraphicStructure.FramePoint(frame, new CarrierLocation(frameX, 16), new CarrierLocation(frameY, -29)),
+            GraphicStructure.FramePoint(frame, new CarrierLocation(frameX, 24), new CarrierLocation(frameY, -20)),
+            GraphicStructure.FramePoint(frame, new CarrierLocation(frameX, 32), new CarrierLocation(frameY, -27))
         };
         var framePolyline = Enumerable.Range(0, 4)
             .Select(index => GraphicStructure.FrameSegment(framePoints[index], framePoints[index + 1]))
@@ -140,6 +144,7 @@ internal sealed record VisualizerSample(
             Relation.OrthogonalOutlet(sheetSource),
             firstRadiusAttachment,
             secondRadiusAttachment,
+            angleRadialAttachment,
             GraphicStructure.Segment(circumference, contourA, contourC),
             GraphicStructure.Point(circumference, contourB),
             GraphicStructure.Segment(circumference, contourC, contourE),
@@ -255,8 +260,8 @@ internal sealed record VisualizerSample(
         var points = new[]
         {
             GraphicStructure.FramePoint(frame, new CarrierLocation(x, 0), new CarrierLocation(y, 0)),
-            GraphicStructure.FramePoint(frame, new CarrierLocation(x, 4), new CarrierLocation(y, 0)),
-            GraphicStructure.FramePoint(frame, new CarrierLocation(x, 8), new CarrierLocation(y, 0))
+            GraphicStructure.FramePoint(frame, new CarrierLocation(x, 4), new CarrierLocation(y, 3)),
+            GraphicStructure.FramePoint(frame, new CarrierLocation(x, 8), new CarrierLocation(y, -1))
         };
         return Chain([
             GraphicStructure.FrameSegment(points[0], points[1]),
@@ -284,6 +289,27 @@ internal sealed record VisualizerSample(
                 return (IElement)GraphicStructure.Segment(carrier, sites[index], sites[index + 1]);
             })
             .ToArray());
+    }
+
+    private static IElement CreateCircularAngleLegend()
+    {
+        var carrier = new Carrier();
+        var origin = GraphicStructure.Point(carrier, 0);
+        var circle = new Carrier(UnitShape.CircularFrom(origin));
+        var radialBasis = new Relation(
+            GraphicStructure.Point(carrier, 6),
+            GraphicStructure.Point(circle, 8));
+        var arc = GraphicStructure.Segment(circle, 8, 13);
+        var centerToArc = new Relation(
+            GraphicStructure.Point(carrier, 0),
+            GraphicStructure.Point(circle, 13));
+        var ray = new Carrier(UnitShape.LinearFrom(GraphicStructure.Segment(carrier, 0, 0)));
+        var rayToArc = new Relation(
+            GraphicStructure.Point(ray, 6),
+            GraphicStructure.Point(circle, 13));
+        var raySegment = GraphicStructure.Segment(ray, 0, 6);
+
+        return Chain([radialBasis, arc, centerToArc, rayToArc, raySegment]);
     }
 
     private static IElement Chain(IReadOnlyList<IElement> elements)

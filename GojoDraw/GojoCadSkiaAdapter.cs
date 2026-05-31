@@ -84,6 +84,12 @@ public sealed class GojoCadSkiaAdapter
             drawn++;
         }
 
+        foreach (var segment in graph.ReadsOf<InverseSegmentRead>())
+        {
+            DrawInverseSegment(canvas, segment, projection, paints, hitAreas);
+            drawn++;
+        }
+
         foreach (var segment in graph.ReadsOf<DirectedSegmentRead>())
         {
             DrawDirectedSegment(canvas, segment, projection, paints, hitAreas);
@@ -138,8 +144,11 @@ public sealed class GojoCadSkiaAdapter
         {
             var marker = group.First();
             var circle = ReadCircleProjection(marker.Location, projection);
+            var paint = projection.UsesSampledCarrierShape(marker.Location.Carrier)
+                ? paints.CircumferenceTension
+                : paints.Circumference;
 
-            canvas.DrawCircle(circle.Center, circle.Radius, paints.Circumference);
+            canvas.DrawCircle(circle.Center, circle.Radius, paint);
             AddHit(hitAreas, CircleBounds(circle.Center, circle.Radius), "circumference", priority: 1, marker.Source);
             drawn++;
 
@@ -176,7 +185,12 @@ public sealed class GojoCadSkiaAdapter
         var startAngle = AngleDegrees(circle.Center, startPoint);
         var endAngle = AngleDegrees(circle.Center, endPoint);
         var sweep = ShortestSweep(startAngle, endAngle);
-        canvas.DrawArc(bounds, startAngle, sweep, false, paints.CircumferenceSpan);
+        var paint = projection.UsesSampledCarrierShape(start.Carrier) ||
+            projection.UsesSampledProjection(start) ||
+            projection.UsesSampledProjection(end)
+                ? paints.CircumferenceSpanTension
+                : paints.CircumferenceSpan;
+        canvas.DrawArc(bounds, startAngle, sweep, false, paint);
         AddHit(hitAreas, bounds, "circumference span", priority: 3, span.Source);
 
         DrawCircumferenceTick(canvas, circle.Center, start, projection, paints, hitAreas, "circumference tick", priority: 5, span.Source);
@@ -234,8 +248,11 @@ public sealed class GojoCadSkiaAdapter
         var end = segment.End.Location;
         var startPoint = projection.Project(start);
         var endPoint = projection.Project(end);
+        var paint = projection.UsesSampledProjection(start) || projection.UsesSampledProjection(end)
+            ? paints.SegmentTension
+            : paints.Segment;
 
-        canvas.DrawLine(startPoint, endPoint, paints.Segment);
+        canvas.DrawLine(startPoint, endPoint, paint);
         DrawEndpointBar(canvas, startPoint, endPoint, paints);
         DrawEndpointBar(canvas, endPoint, startPoint, paints);
         AddHit(hitAreas, LineBounds(startPoint, endPoint, 10f), "segment", priority: 2, segment.Source);
@@ -262,8 +279,11 @@ public sealed class GojoCadSkiaAdapter
         var half = paints.LineSeedLength * 0.5f;
         var start = new SKPoint(center.X - normal.X * half, center.Y - normal.Y * half);
         var end = new SKPoint(center.X + normal.X * half, center.Y + normal.Y * half);
+        var paint = projection.UsesSampledProjection(location)
+            ? paints.LineSeedTension
+            : paints.LineSeed;
 
-        canvas.DrawLine(start, end, paints.LineSeed);
+        canvas.DrawLine(start, end, paint);
         AddHit(hitAreas, LineBounds(start, end, 8f), "line seed", priority: 2, seed.Source);
     }
 
@@ -284,9 +304,13 @@ public sealed class GojoCadSkiaAdapter
         path.LineTo(end.X - normal.X * half, end.Y - normal.Y * half);
         path.LineTo(start.X - normal.X * half, start.Y - normal.Y * half);
         path.Close();
+        var edgePaint = projection.UsesSampledProjection(seed.Span.Start.Location) ||
+            projection.UsesSampledProjection(seed.Span.End.Location)
+                ? paints.SheetSeedEdgeTension
+                : paints.SheetSeedEdge;
 
         canvas.DrawPath(path, paints.SheetSeed);
-        canvas.DrawPath(path, paints.SheetSeedEdge);
+        canvas.DrawPath(path, edgePaint);
         AddHit(hitAreas, path.Bounds, "sheet seed", priority: 1, seed.Source);
     }
 
@@ -299,8 +323,33 @@ public sealed class GojoCadSkiaAdapter
     {
         var start = projection.Project(attachment.BasePoint.Location);
         var end = projection.Project(attachment.Marker.Point.Location);
-        canvas.DrawLine(start, end, paints.RadiusAttachment);
+        var paint = projection.UsesSampledProjection(attachment.BasePoint.Location) ||
+            projection.UsesSampledProjection(attachment.Marker.Point.Location)
+                ? paints.RadiusAttachmentTension
+                : paints.RadiusAttachment;
+        canvas.DrawLine(start, end, paint);
         AddHit(hitAreas, LineBounds(start, end, 7f), "radius attachment", priority: 2, attachment.Source);
+    }
+
+    private static void DrawInverseSegment(
+        SKCanvas canvas,
+        InverseSegmentRead segment,
+        IGojoCadSkiaProjection projection,
+        GojoCadSkiaPaints paints,
+        ICollection<GojoCadSkiaHitArea>? hitAreas)
+    {
+        var start = segment.Start.Location;
+        var end = segment.End.Location;
+        var startPoint = projection.Project(start);
+        var endPoint = projection.Project(end);
+        var paint = projection.UsesSampledProjection(start) || projection.UsesSampledProjection(end)
+            ? paints.SegmentTension
+            : paints.Segment;
+
+        canvas.DrawLine(startPoint, endPoint, paint);
+        DrawEndpointBar(canvas, startPoint, endPoint, paints);
+        DrawEndpointBar(canvas, endPoint, startPoint, paints);
+        AddHit(hitAreas, LineBounds(startPoint, endPoint, 10f), "inverse segment", priority: 2, segment.Source);
     }
 
     private static void DrawDirectedSegment(
@@ -312,9 +361,13 @@ public sealed class GojoCadSkiaAdapter
     {
         var startPoint = projection.Project(segment.InverseStart.Location);
         var endPoint = projection.Project(segment.PositiveEnd.Location);
+        var paint = projection.UsesSampledProjection(segment.InverseStart.Location) ||
+            projection.UsesSampledProjection(segment.PositiveEnd.Location)
+                ? paints.DirectedSegmentTension
+                : paints.DirectedSegment;
 
-        canvas.DrawLine(startPoint, endPoint, paints.DirectedSegment);
-        DrawArrowTip(canvas, startPoint, endPoint, paints);
+        canvas.DrawLine(startPoint, endPoint, paint);
+        DrawArrowTip(canvas, startPoint, endPoint, paints, paint);
         AddHit(hitAreas, LineBounds(startPoint, endPoint, 12f), "directed segment", priority: 4, segment.Source);
     }
 
@@ -428,7 +481,8 @@ public sealed class GojoCadSkiaAdapter
         SKCanvas canvas,
         SKPoint start,
         SKPoint end,
-        GojoCadSkiaPaints paints)
+        GojoCadSkiaPaints paints,
+        SKPaint paint)
     {
         var direction = Unit(start, end);
         var perpendicular = new SKPoint(-direction.Y, direction.X);
@@ -442,8 +496,8 @@ public sealed class GojoCadSkiaAdapter
             back.X - perpendicular.X * paints.ArrowWidth,
             back.Y - perpendicular.Y * paints.ArrowWidth);
 
-        canvas.DrawLine(end, left, paints.DirectedSegment);
-        canvas.DrawLine(end, right, paints.DirectedSegment);
+        canvas.DrawLine(end, left, paint);
+        canvas.DrawLine(end, right, paint);
     }
 
     private static void AddHit(

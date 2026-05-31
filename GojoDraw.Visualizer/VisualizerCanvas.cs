@@ -251,15 +251,22 @@ internal sealed class VisualizerDrawOperation : ICustomDrawOperation
         };
 
         paints.Segment.StrokeWidth = 1.6f;
+        paints.SegmentTension.StrokeWidth = 1.5f;
         paints.DirectedSegment.StrokeWidth = 1.8f;
+        paints.DirectedSegmentTension.StrokeWidth = 1.7f;
         paints.Circumference.StrokeWidth = 0.9f;
+        paints.CircumferenceTension.StrokeWidth = 0.9f;
         paints.CircumferenceSpan.StrokeWidth = 1.2f;
+        paints.CircumferenceSpanTension.StrokeWidth = 1.1f;
         paints.EndpointBar.StrokeWidth = 1f;
         paints.Partition.StrokeWidth = 1f;
         paints.Basis.StrokeWidth = 1f;
         paints.LineSeed.StrokeWidth = 1f;
+        paints.LineSeedTension.StrokeWidth = 1f;
         paints.SheetSeedEdge.StrokeWidth = 0.9f;
+        paints.SheetSeedEdgeTension.StrokeWidth = 0.9f;
         paints.RadiusAttachment.StrokeWidth = 1f;
+        paints.RadiusAttachmentTension.StrokeWidth = 1f;
 
         return paints;
     }

@@ -219,19 +219,33 @@ public sealed class GraphicReadGraph
             {
                 var segment = new PositiveSegmentRead(pair.Source, pair.Left, pair.Right);
                 reads.Add(segment);
+                reads.Add(new PathSegmentRead(pair.Source, segment, pair.Left, pair.Right));
                 if (ReadCircularOrigin(left.Carrier, out var origin))
                 {
                     reads.Add(new CircularSpanRead(pair.Source, segment, origin));
                 }
             }
+            else if (left.Carrier.SameIdentityAs(right.Carrier) &&
+                !left.Carrier.IsUnknown &&
+                left.Carrier.IsInverse &&
+                right.Carrier.IsInverse)
+            {
+                var segment = new InverseSegmentRead(pair.Source, pair.Left, pair.Right);
+                reads.Add(segment);
+                reads.Add(new PathSegmentRead(pair.Source, segment, pair.Left, pair.Right));
+            }
 
             if (IsDirectedPair(left, right))
             {
-                reads.Add(new DirectedSegmentRead(pair.Source, pair.Left, pair.Right, IsSourceOrderReversed: false));
+                var segment = new DirectedSegmentRead(pair.Source, pair.Left, pair.Right, IsSourceOrderReversed: false);
+                reads.Add(segment);
+                reads.Add(new PathSegmentRead(pair.Source, segment, pair.Left, pair.Right));
             }
             else if (IsDirectedPair(right, left))
             {
-                reads.Add(new DirectedSegmentRead(pair.Source, pair.Right, pair.Left, IsSourceOrderReversed: true));
+                var segment = new DirectedSegmentRead(pair.Source, pair.Right, pair.Left, IsSourceOrderReversed: true);
+                reads.Add(segment);
+                reads.Add(new PathSegmentRead(pair.Source, segment, pair.Right, pair.Left));
             }
         }
 
@@ -685,18 +699,18 @@ public sealed class GraphicReadGraph
         private static IEnumerable<GraphicRead> DeriveOpenSegmentPaths(IReadOnlyList<GraphicRead> reads)
         {
             var segments = reads
-                .OfType<PositiveSegmentRead>()
-                .Where(segment => !IsCircularCarrier(segment.Start.Location.Carrier))
+                .OfType<PathSegmentRead>()
+                .Where(segment => !IsCircularCarrier(NormalizeCarrier(segment.Start.Location.Carrier)))
                 .ToArray();
             if (segments.Length < 3)
             {
                 yield break;
             }
 
-            var endpoints = ReadSegmentEndpoints(segments);
-            var endpointGroups = ReadAllEndpointGroups(endpoints);
-            var adjacent = BuildSegmentAdjacency(segments, endpointGroups);
-            var visited = new HashSet<PositiveSegmentRead>();
+            var endpoints = ReadPathSegmentEndpoints(segments);
+            var endpointGroups = ReadAllPathEndpointGroups(endpoints, reads);
+            var adjacent = BuildPathSegmentAdjacency(segments, endpointGroups);
+            var visited = new HashSet<PathSegmentRead>();
 
             foreach (var seed in segments)
             {
@@ -1016,12 +1030,113 @@ public sealed class GraphicReadGraph
             return groups;
         }
 
+        private static PathSegmentEndpointRead[] ReadPathSegmentEndpoints(IReadOnlyList<PathSegmentRead> segments) =>
+            [.. segments.SelectMany(segment => new[]
+            {
+                new PathSegmentEndpointRead(segment, segment.Start, IsStart: true),
+                new PathSegmentEndpointRead(segment, segment.End, IsStart: false)
+            })];
+
+        private static IReadOnlyList<IReadOnlyList<PathSegmentEndpointRead>> ReadAllPathEndpointGroups(
+            IReadOnlyList<PathSegmentEndpointRead> endpoints,
+            IReadOnlyList<GraphicRead> reads)
+        {
+            var parent = Enumerable.Range(0, endpoints.Count).ToArray();
+
+            int Find(int index)
+            {
+                while (parent[index] != index)
+                {
+                    parent[index] = parent[parent[index]];
+                    index = parent[index];
+                }
+
+                return index;
+            }
+
+            void Union(int left, int right)
+            {
+                var leftRoot = Find(left);
+                var rightRoot = Find(right);
+                if (leftRoot != rightRoot)
+                {
+                    parent[rightRoot] = leftRoot;
+                }
+            }
+
+            void UnionGroup(IEnumerable<int> indexes)
+            {
+                var groupIndexes = indexes.ToArray();
+                if (groupIndexes.Length < 2)
+                {
+                    return;
+                }
+
+                for (var index = 1; index < groupIndexes.Length; index++)
+                {
+                    Union(groupIndexes[0], groupIndexes[index]);
+                }
+            }
+
+            foreach (var group in endpoints
+                .Select((endpoint, index) => (endpoint, index))
+                .GroupBy(entry => LocationGroupKey.Of(entry.endpoint.Point.Location)))
+            {
+                UnionGroup(group.Select(entry => entry.index));
+            }
+
+            foreach (var group in endpoints
+                .Select((endpoint, index) => (endpoint, index))
+                .Where(entry => entry.endpoint.Point.Location.Tick is not null)
+                .GroupBy(entry => entry.endpoint.Point.Location.Tick!.Id))
+            {
+                UnionGroup(group.Select(entry => entry.index));
+            }
+
+            foreach (var attachment in reads.OfType<PointAttachmentRead>())
+            {
+                var leftIndexes = ReadEndpointIndexesAt(endpoints, attachment.Left.Location);
+                var rightIndexes = ReadEndpointIndexesAt(endpoints, attachment.Right.Location);
+                if (leftIndexes.Length == 0 || rightIndexes.Length == 0)
+                {
+                    continue;
+                }
+
+                foreach (var leftIndex in leftIndexes)
+                foreach (var rightIndex in rightIndexes)
+                {
+                    Union(leftIndex, rightIndex);
+                }
+            }
+
+            return [.. endpoints
+                .Select((endpoint, index) => (endpoint, root: Find(index)))
+                .GroupBy(entry => entry.root)
+                .Select(group => (IReadOnlyList<PathSegmentEndpointRead>)[.. group.Select(entry => entry.endpoint)])];
+        }
+
+        private static int[] ReadEndpointIndexesAt(
+            IReadOnlyList<PathSegmentEndpointRead> endpoints,
+            CarrierLocation location) =>
+            [.. endpoints
+                .Select((endpoint, index) => (endpoint, index))
+                .Where(entry =>
+                    entry.endpoint.Point.Location.SameTickRefAs(location) ||
+                    SameNormalizedLocation(entry.endpoint.Point.Location, location))
+                .Select(entry => entry.index)];
+
         private static string PointGroupSignature(IEnumerable<PointRead> points) =>
             string.Join(",", points
                 .Select(point => point.Source is Relation relation ? relation.Id : 0UL)
                 .Order());
 
         private static string EndpointGroupSignature(IEnumerable<SegmentEndpointRead> endpoints) =>
+            string.Join(",", endpoints
+                .Select(endpoint =>
+                    $"{(endpoint.Segment.Source is Relation relation ? relation.Id : 0UL)}:{endpoint.IsStart}")
+                .Order());
+
+        private static string PathEndpointGroupSignature(IEnumerable<PathSegmentEndpointRead> endpoints) =>
             string.Join(",", endpoints
                 .Select(endpoint =>
                     $"{(endpoint.Segment.Source is Relation relation ? relation.Id : 0UL)}:{endpoint.IsStart}")
@@ -1042,11 +1157,45 @@ public sealed class GraphicReadGraph
             return index;
         }
 
+        private static Dictionary<PathSegmentEndpointRead, IReadOnlyList<PathSegmentEndpointRead>> IndexPathEndpointGroups(
+            IEnumerable<IReadOnlyList<PathSegmentEndpointRead>> endpointGroups)
+        {
+            var index = new Dictionary<PathSegmentEndpointRead, IReadOnlyList<PathSegmentEndpointRead>>();
+            foreach (var group in endpointGroups)
+            {
+                foreach (var endpoint in group)
+                {
+                    index.TryAdd(endpoint, group);
+                }
+            }
+
+            return index;
+        }
+
         private static Dictionary<PositiveSegmentRead, List<PositiveSegmentRead>> BuildSegmentAdjacency(
             IReadOnlyList<PositiveSegmentRead> segments,
             IReadOnlyList<IReadOnlyList<SegmentEndpointRead>> endpointGroups)
         {
             var adjacent = segments.ToDictionary(segment => segment, _ => new List<PositiveSegmentRead>());
+            foreach (var group in endpointGroups)
+            {
+                var groupSegments = group.Select(endpoint => endpoint.Segment).Distinct().ToArray();
+                for (var leftIndex = 0; leftIndex < groupSegments.Length; leftIndex++)
+                for (var rightIndex = leftIndex + 1; rightIndex < groupSegments.Length; rightIndex++)
+                {
+                    adjacent[groupSegments[leftIndex]].Add(groupSegments[rightIndex]);
+                    adjacent[groupSegments[rightIndex]].Add(groupSegments[leftIndex]);
+                }
+            }
+
+            return adjacent;
+        }
+
+        private static Dictionary<PathSegmentRead, List<PathSegmentRead>> BuildPathSegmentAdjacency(
+            IReadOnlyList<PathSegmentRead> segments,
+            IReadOnlyList<IReadOnlyList<PathSegmentEndpointRead>> endpointGroups)
+        {
+            var adjacent = segments.ToDictionary(segment => segment, _ => new List<PathSegmentRead>());
             foreach (var group in endpointGroups)
             {
                 var groupSegments = group.Select(endpoint => endpoint.Segment).Distinct().ToArray();
@@ -1085,9 +1234,33 @@ public sealed class GraphicReadGraph
             return component;
         }
 
+        private static IReadOnlyList<PathSegmentRead> ReadSegmentComponent(
+            PathSegmentRead seed,
+            IReadOnlyDictionary<PathSegmentRead, List<PathSegmentRead>> adjacent,
+            HashSet<PathSegmentRead> visited)
+        {
+            var component = new List<PathSegmentRead> { seed };
+            var pending = new Queue<PathSegmentRead>();
+            pending.Enqueue(seed);
+            while (pending.Count != 0)
+            {
+                var current = pending.Dequeue();
+                foreach (var next in adjacent[current])
+                {
+                    if (visited.Add(next))
+                    {
+                        component.Add(next);
+                        pending.Enqueue(next);
+                    }
+                }
+            }
+
+            return component;
+        }
+
         private static bool TryReadOpenSegmentPath(
-            IReadOnlyList<PositiveSegmentRead> component,
-            IReadOnlyList<IReadOnlyList<SegmentEndpointRead>> endpointGroups,
+            IReadOnlyList<PathSegmentRead> component,
+            IReadOnlyList<IReadOnlyList<PathSegmentEndpointRead>> endpointGroups,
             IReadOnlyList<GraphicRead> reads,
             out OpenSegmentPathRead path)
         {
@@ -1095,7 +1268,7 @@ public sealed class GraphicReadGraph
             var groups = endpointGroups
                 .Select(group => group.Where(endpoint => componentSet.Contains(endpoint.Segment)).ToArray())
                 .Where(group => group.Length != 0)
-                .GroupBy(EndpointGroupSignature)
+                .GroupBy(PathEndpointGroupSignature)
                 .Select(group => group.First())
                 .ToArray();
 
@@ -1113,7 +1286,7 @@ public sealed class GraphicReadGraph
                 return false;
             }
 
-            var groupByEndpoint = IndexEndpointGroups(groups);
+            var groupByEndpoint = IndexPathEndpointGroups(groups);
             if (!TryOrderSegmentPath(terminals[0][0], component.Count, groupByEndpoint, out var orderedSegments))
             {
                 path = default!;
@@ -1146,7 +1319,7 @@ public sealed class GraphicReadGraph
             var compatibilities = new List<SegmentJoinUnitCompatibilityRead>();
             foreach (var group in joinGroups)
             {
-                var signature = EndpointGroupSignature(group);
+                var signature = PathEndpointGroupSignature(group);
                 if (joinsBySignature.TryGetValue(signature, out var join))
                 {
                     joins.Add(join);
@@ -1173,13 +1346,13 @@ public sealed class GraphicReadGraph
         }
 
         private static bool TryOrderSegmentPath(
-            SegmentEndpointRead startEndpoint,
+            PathSegmentEndpointRead startEndpoint,
             int expectedCount,
-            IReadOnlyDictionary<SegmentEndpointRead, IReadOnlyList<SegmentEndpointRead>> groupByEndpoint,
-            out IReadOnlyList<PositiveSegmentRead> orderedSegments)
+            IReadOnlyDictionary<PathSegmentEndpointRead, IReadOnlyList<PathSegmentEndpointRead>> groupByEndpoint,
+            out IReadOnlyList<PathSegmentRead> orderedSegments)
         {
-            var ordered = new List<PositiveSegmentRead>();
-            var visited = new HashSet<PositiveSegmentRead>();
+            var ordered = new List<PathSegmentRead>();
+            var visited = new HashSet<PathSegmentRead>();
             var incoming = startEndpoint;
 
             while (visited.Add(incoming.Segment))
@@ -1205,10 +1378,10 @@ public sealed class GraphicReadGraph
             return ordered.Count == expectedCount;
         }
 
-        private static SegmentEndpointRead OtherEndpoint(SegmentEndpointRead endpoint) =>
+        private static PathSegmentEndpointRead OtherEndpoint(PathSegmentEndpointRead endpoint) =>
             endpoint.IsStart
-                ? new SegmentEndpointRead(endpoint.Segment, endpoint.Segment.End, IsStart: false)
-                : new SegmentEndpointRead(endpoint.Segment, endpoint.Segment.Start, IsStart: true);
+                ? new PathSegmentEndpointRead(endpoint.Segment, endpoint.Segment.End, IsStart: false)
+                : new PathSegmentEndpointRead(endpoint.Segment, endpoint.Segment.Start, IsStart: true);
 
         private static IReadOnlyList<IReadOnlyList<SharedFrameSegmentEndpointRead>> ReadSharedFrameEndpointGroups(
             IReadOnlyList<SharedFrameSegmentRead> segments)
@@ -1645,6 +1818,8 @@ public sealed record PointPairRead(IElement Source, PointRead Left, PointRead Ri
 
 public sealed record PositiveSegmentRead(IElement Source, PointRead Start, PointRead End) : GraphicRead(Source);
 
+public sealed record InverseSegmentRead(IElement Source, PointRead Start, PointRead End) : GraphicRead(Source);
+
 public sealed record SharedFramePointRead(
     IElement Source,
     Carrier Holder,
@@ -1668,6 +1843,22 @@ public sealed record DirectedSegmentRead(
     PointRead InverseStart,
     PointRead PositiveEnd,
     bool IsSourceOrderReversed) : GraphicRead(Source);
+
+public sealed record PathSegmentRead(
+    IElement Source,
+    GraphicRead Segment,
+    PointRead Start,
+    PointRead End) : GraphicRead(Source)
+{
+    public bool IsPositive => Segment is PositiveSegmentRead;
+
+    public bool IsInverse => Segment is InverseSegmentRead;
+
+    public bool IsDirected => Segment is DirectedSegmentRead;
+
+    public override IEnumerable<IElement> Sources =>
+        Segment.Sources.Concat([Start.Source, End.Source]);
+}
 
 public sealed record OrthogonalOutletRead(
     IElement Source,
@@ -1786,6 +1977,11 @@ public sealed record SharedSiteRead(
 
 public sealed record SegmentEndpointRead(
     PositiveSegmentRead Segment,
+    PointRead Point,
+    bool IsStart);
+
+public sealed record PathSegmentEndpointRead(
+    PathSegmentRead Segment,
     PointRead Point,
     bool IsStart);
 
@@ -1954,7 +2150,7 @@ public sealed record BoundaryJoinUnitCompatibilityRead(
 
 public sealed record OpenSegmentPathRead(
     IElement Source,
-    IReadOnlyList<PositiveSegmentRead> Segments,
+    IReadOnlyList<PathSegmentRead> Segments,
     IReadOnlyList<SegmentJoinRead> Joins,
     IReadOnlyList<SegmentJoinFlowRead> JoinFlows,
     IReadOnlyList<SegmentJoinUnitCompatibilityRead> UnitCompatibilities) : GraphicRead(Source)
@@ -1966,6 +2162,14 @@ public sealed record OpenSegmentPathRead(
                 : segment.Start.Location.Carrier)
             .DistinctBy(carrier => carrier.Id)
             .Count() == 1;
+
+    public bool IsAllPositive => Segments.All(segment => segment.IsPositive);
+
+    public bool IsAllInverse => Segments.All(segment => segment.IsInverse);
+
+    public bool IsAllDirected => Segments.All(segment => segment.IsDirected);
+
+    public bool IsMixedSegmentForm => !IsAllPositive && !IsAllInverse && !IsAllDirected;
 
     public bool HasCarrierTransitions => JoinFlows.Any(flow => flow.IsCarrierTransition);
 

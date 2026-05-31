@@ -12,18 +12,25 @@ public sealed class GojoCadSkiaPaints : IDisposable
     {
         Dot = Fill(new SKColor(31, 45, 61));
         Segment = Stroke(new SKColor(42, 91, 143), 2.5f);
+        SegmentTension = DashedStroke(new SKColor(42, 91, 143, 185), 2.2f);
         SharedFrameSegment = Stroke(new SKColor(115, 76, 155), 2.1f);
         SharedFramePoint = Fill(new SKColor(115, 76, 155, 190));
         DirectedSegment = Stroke(new SKColor(63, 113, 83), 2.75f);
+        DirectedSegmentTension = DashedStroke(new SKColor(63, 113, 83, 190), 2.45f);
         Circumference = Stroke(new SKColor(95, 103, 116, 135), 1.1f);
+        CircumferenceTension = DashedStroke(new SKColor(95, 103, 116, 130), 1.1f);
         CircumferenceSpan = Stroke(new SKColor(42, 91, 143, 145), 1.6f);
+        CircumferenceSpanTension = DashedStroke(new SKColor(42, 91, 143, 145), 1.45f);
         EndpointBar = Stroke(new SKColor(128, 132, 137, 170), 1.2f);
         Partition = Stroke(new SKColor(82, 88, 96, 170), 1.1f);
         Basis = Stroke(new SKColor(70, 76, 84, 185), 1.1f);
         LineSeed = Stroke(new SKColor(116, 75, 134, 145), 1.2f);
+        LineSeedTension = DashedStroke(new SKColor(116, 75, 134, 135), 1.1f);
         SheetSeed = Fill(new SKColor(42, 91, 143, 28));
         SheetSeedEdge = Stroke(new SKColor(42, 91, 143, 80), 1f);
+        SheetSeedEdgeTension = DashedStroke(new SKColor(42, 91, 143, 90), 1f);
         RadiusAttachment = Stroke(new SKColor(151, 92, 52, 120), 1.1f);
+        RadiusAttachmentTension = DashedStroke(new SKColor(151, 92, 52, 130), 1.1f);
         HoverBackground = Fill(new SKColor(255, 255, 255, 235));
         HoverBorder = Stroke(new SKColor(80, 86, 96, 210), 1f);
         HoverText = Fill(new SKColor(31, 37, 45));
@@ -35,15 +42,23 @@ public sealed class GojoCadSkiaPaints : IDisposable
 
     public SKPaint Segment { get; }
 
+    public SKPaint SegmentTension { get; }
+
     public SKPaint SharedFrameSegment { get; }
 
     public SKPaint SharedFramePoint { get; }
 
     public SKPaint DirectedSegment { get; }
 
+    public SKPaint DirectedSegmentTension { get; }
+
     public SKPaint Circumference { get; }
 
+    public SKPaint CircumferenceTension { get; }
+
     public SKPaint CircumferenceSpan { get; }
+
+    public SKPaint CircumferenceSpanTension { get; }
 
     public SKPaint EndpointBar { get; }
 
@@ -53,11 +68,17 @@ public sealed class GojoCadSkiaPaints : IDisposable
 
     public SKPaint LineSeed { get; }
 
+    public SKPaint LineSeedTension { get; }
+
     public SKPaint SheetSeed { get; }
 
     public SKPaint SheetSeedEdge { get; }
 
+    public SKPaint SheetSeedEdgeTension { get; }
+
     public SKPaint RadiusAttachment { get; }
+
+    public SKPaint RadiusAttachmentTension { get; }
 
     public SKPaint HoverBackground { get; }
 
@@ -91,18 +112,25 @@ public sealed class GojoCadSkiaPaints : IDisposable
     {
         Dot.Dispose();
         Segment.Dispose();
+        SegmentTension.Dispose();
         SharedFrameSegment.Dispose();
         SharedFramePoint.Dispose();
         DirectedSegment.Dispose();
+        DirectedSegmentTension.Dispose();
         Circumference.Dispose();
+        CircumferenceTension.Dispose();
         CircumferenceSpan.Dispose();
+        CircumferenceSpanTension.Dispose();
         EndpointBar.Dispose();
         Partition.Dispose();
         Basis.Dispose();
         LineSeed.Dispose();
+        LineSeedTension.Dispose();
         SheetSeed.Dispose();
         SheetSeedEdge.Dispose();
+        SheetSeedEdgeTension.Dispose();
         RadiusAttachment.Dispose();
+        RadiusAttachmentTension.Dispose();
         HoverBackground.Dispose();
         HoverBorder.Dispose();
         HoverText.Dispose();
@@ -124,4 +152,11 @@ public sealed class GojoCadSkiaPaints : IDisposable
         StrokeJoin = SKStrokeJoin.Round,
         Style = SKPaintStyle.Stroke
     };
+
+    private static SKPaint DashedStroke(SKColor color, float width)
+    {
+        var paint = Stroke(color, width);
+        paint.PathEffect = SKPathEffect.CreateDash([6f, 5f], 0f);
+        return paint;
+    }
 }

@@ -44,8 +44,10 @@ internal sealed class MainWindow : Window
             Content = "Refresh",
             HorizontalAlignment = HorizontalAlignment.Right,
             VerticalAlignment = VerticalAlignment.Top,
-            Margin = new Thickness(12),
-            Padding = new Thickness(12, 6),
+            Margin = new Thickness(16),
+            Padding = new Thickness(20, 12),
+            MinWidth = 112,
+            MinHeight = 44
         };
 
         refreshButton.Click += (_, _) =>

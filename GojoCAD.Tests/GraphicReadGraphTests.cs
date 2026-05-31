@@ -332,6 +332,97 @@ public sealed class GraphicReadGraphTests
     }
 
     [Fact]
+    public void ReadsOpenSegmentPathFromInverseSegments()
+    {
+        var axis = new Carrier();
+        var firstSite = GraphicStructure.Site(0);
+        var secondSite = GraphicStructure.Site(8);
+        var thirdSite = GraphicStructure.Site(16);
+        var fourthSite = GraphicStructure.Site(24);
+        var first = GraphicStructure.Segment(axis.Inverse(), firstSite, secondSite);
+        var second = GraphicStructure.Segment(axis.Inverse(), secondSite, thirdSite);
+        var third = GraphicStructure.Segment(axis.Inverse(), thirdSite, fourthSite);
+        var structure = Chain(first, second, third);
+
+        var graph = GraphicReadGraph.From(structure);
+
+        Assert.Equal(3, graph.ReadsOf<InverseSegmentRead>().Count());
+        var path = Assert.Single(graph.ReadsOf<OpenSegmentPathRead>());
+        Assert.True(path.IsAllInverse);
+        Assert.False(path.IsMixedSegmentForm);
+        Assert.Equal([first, second, third], path.Segments.Select(segment => segment.Source).ToArray());
+    }
+
+    [Fact]
+    public void ReadsOpenSegmentPathFromDirectedSegments()
+    {
+        var axis = new Carrier();
+        var firstSite = GraphicStructure.Site(0);
+        var secondSite = GraphicStructure.Site(8);
+        var thirdSite = GraphicStructure.Site(16);
+        var fourthSite = GraphicStructure.Site(24);
+        var first = GraphicStructure.DirectedSegment(axis, firstSite, secondSite);
+        var second = GraphicStructure.DirectedSegment(axis, secondSite, thirdSite);
+        var third = GraphicStructure.DirectedSegment(axis, thirdSite, fourthSite);
+        var structure = Chain(first, second, third);
+
+        var graph = GraphicReadGraph.From(structure);
+
+        Assert.Equal(3, graph.ReadsOf<DirectedSegmentRead>().Count());
+        var path = Assert.Single(graph.ReadsOf<OpenSegmentPathRead>());
+        Assert.True(path.IsAllDirected);
+        Assert.False(path.IsMixedSegmentForm);
+        Assert.Equal([first, second, third], path.Segments.Select(segment => segment.Source).ToArray());
+    }
+
+    [Fact]
+    public void ReadsMixedConnectedPathWithoutCallingItUniformPolyline()
+    {
+        var axis = new Carrier();
+        var firstSite = GraphicStructure.Site(0);
+        var secondSite = GraphicStructure.Site(8);
+        var thirdSite = GraphicStructure.Site(16);
+        var fourthSite = GraphicStructure.Site(24);
+        var positive = GraphicStructure.Segment(axis, firstSite, secondSite);
+        var directed = GraphicStructure.DirectedSegment(axis, secondSite, thirdSite);
+        var inverse = GraphicStructure.Segment(axis.Inverse(), thirdSite, fourthSite);
+        var structure = Chain(positive, directed, inverse);
+
+        var graph = GraphicReadGraph.From(structure);
+
+        var path = Assert.Single(graph.ReadsOf<OpenSegmentPathRead>());
+        Assert.True(path.IsMixedSegmentForm);
+        Assert.False(path.IsAllPositive);
+        Assert.False(path.IsAllDirected);
+        Assert.False(path.IsAllInverse);
+        Assert.Equal([positive, directed, inverse], path.Segments.Select(segment => segment.Source).ToArray());
+    }
+
+    [Fact]
+    public void ReadsConnectedPathThroughBoundEndpointRelations()
+    {
+        var axisA = new Carrier();
+        var axisB = new Carrier();
+        var axisC = new Carrier();
+        var first = GraphicStructure.Segment(axisA, 0, 8);
+        var second = GraphicStructure.Segment(axisB, 10, 18);
+        var third = GraphicStructure.Segment(axisC, 20, 28);
+        var firstJoin = new Relation(
+            GraphicStructure.Point(axisA, 8),
+            GraphicStructure.Point(axisB, 10));
+        var secondJoin = new Relation(
+            GraphicStructure.Point(axisB, 18),
+            GraphicStructure.Point(axisC, 20));
+        var structure = Chain(first, firstJoin, second, secondJoin, third);
+
+        var graph = GraphicReadGraph.From(structure);
+
+        var path = Assert.Single(graph.ReadsOf<OpenSegmentPathRead>());
+        Assert.True(path.IsAllPositive);
+        Assert.Equal([first, second, third], path.Segments.Select(segment => segment.Source).ToArray());
+    }
+
+    [Fact]
     public void ReadsSharedFramePolylineFromCoordinatePointSegments()
     {
         var frame = new Carrier();
@@ -340,10 +431,10 @@ public sealed class GraphicReadGraphTests
         var points = new[]
         {
             GraphicStructure.FramePoint(frame, new CarrierLocation(x, 0), new CarrierLocation(y, 0)),
-            GraphicStructure.FramePoint(frame, new CarrierLocation(x, 8), new CarrierLocation(y, 0)),
-            GraphicStructure.FramePoint(frame, new CarrierLocation(x, 16), new CarrierLocation(y, 0)),
-            GraphicStructure.FramePoint(frame, new CarrierLocation(x, 24), new CarrierLocation(y, 0)),
-            GraphicStructure.FramePoint(frame, new CarrierLocation(x, 32), new CarrierLocation(y, 0))
+            GraphicStructure.FramePoint(frame, new CarrierLocation(x, 8), new CarrierLocation(y, 4)),
+            GraphicStructure.FramePoint(frame, new CarrierLocation(x, 16), new CarrierLocation(y, -3)),
+            GraphicStructure.FramePoint(frame, new CarrierLocation(x, 24), new CarrierLocation(y, 5)),
+            GraphicStructure.FramePoint(frame, new CarrierLocation(x, 32), new CarrierLocation(y, 1))
         };
         var segments = Enumerable.Range(0, 4)
             .Select(index => GraphicStructure.FrameSegment(points[index], points[index + 1]))
@@ -357,6 +448,8 @@ public sealed class GraphicReadGraphTests
         Assert.Equal(2, path.CoordinateCount);
         Assert.Equal(4, path.Segments.Count);
         Assert.Equal(3, path.Sites.Count);
+        Assert.Contains(path.Segments.SelectMany(segment => new[] { segment.Start, segment.End }), point =>
+            point.Coordinates[1].Ticks != 0);
         Assert.Equal([segments[0], segments[1], segments[2], segments[3]], path.Segments.Select(segment => segment.Source).ToArray());
     }
 

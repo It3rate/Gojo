@@ -15,6 +15,10 @@ public sealed class DerivedSkiaProjection : IGojoCadSkiaProjection
     private readonly Dictionary<ulong, LinearBasis> linearBases = [];
     private readonly Dictionary<ulong, CircularBasis> circularBases = [];
     private readonly Dictionary<ulong, long> circularPeriods = [];
+    private readonly HashSet<ulong> sampledLinearCarriers = [];
+    private readonly HashSet<ulong> sampledCircularRadii = [];
+    private readonly HashSet<ulong> sampledCircularPeriods = [];
+    private readonly HashSet<LocationKey> sampledPathLocations = [];
     private readonly HashSet<ulong> resolvingLinearBases = [];
     private readonly HashSet<ulong> resolvingCircularBases = [];
     private readonly SKRect viewport;
@@ -56,7 +60,7 @@ public sealed class DerivedSkiaProjection : IGojoCadSkiaProjection
             evidence.OpenSegmentPaths.Add(path);
         }
 
-        SeedOpenSegmentPathModels();
+        SeedSampledOpenSegmentPathModels();
     }
 
     public SKPoint Project(CarrierLocation location)
@@ -69,6 +73,28 @@ public sealed class DerivedSkiaProjection : IGojoCadSkiaProjection
 
     public SKPoint ProjectFrame(IReadOnlyList<CarrierLocation> coordinates) =>
         ReadViewportTransform().Apply(ProjectFrameModel(coordinates));
+
+    public bool UsesSampledProjection(CarrierLocation location)
+    {
+        var normalized = Normalize(location);
+        _ = ProjectModel(normalized);
+        return UsesSampledProjectionModel(normalized);
+    }
+
+    public bool UsesSampledCarrierShape(Carrier carrier)
+    {
+        var normalized = NormalizeCarrier(carrier);
+        if (!HasCircularOrigin(normalized))
+        {
+            _ = ReadLinearBasis(normalized);
+            return sampledLinearCarriers.Contains(normalized.Id);
+        }
+
+        _ = ReadCircularProjectionBasis(normalized);
+        var origin = ReadCircularOrigin(normalized);
+        return sampledCircularRadii.Contains(normalized.Id) ||
+            UsesSampledProjectionModel(Normalize(origin));
+    }
 
     private SKPoint ProjectModel(CarrierLocation location)
     {
@@ -142,6 +168,11 @@ public sealed class DerivedSkiaProjection : IGojoCadSkiaProjection
             {
                 var normalizedOrigin = Normalize(linearOrigin);
                 origin = ProjectModel(normalizedOrigin);
+                if (UsesSampledProjectionModel(normalizedOrigin))
+                {
+                    sampledLinearCarriers.Add(forward.Id);
+                }
+
                 if (ReadLinearAttachmentBasis(forward, origin, out basis))
                 {
                     linearBases[forward.Id] = basis;
@@ -149,6 +180,7 @@ public sealed class DerivedSkiaProjection : IGojoCadSkiaProjection
                 }
 
                 angle = SampleAngle();
+                sampledLinearCarriers.Add(forward.Id);
             }
 
             basis = new LinearBasis(origin, new SKPoint(MathF.Cos(angle), -MathF.Sin(angle)));
@@ -189,6 +221,11 @@ public sealed class DerivedSkiaProjection : IGojoCadSkiaProjection
                 continue;
             }
 
+            if (UsesSampledProjectionModel(Normalize(witness.WitnessPoint.Location)))
+            {
+                sampledLinearCarriers.Add(carrier.Id);
+            }
+
             basis = new LinearBasis(originPoint, new SKPoint(dx / tickDelta, dy / tickDelta));
             return true;
         }
@@ -213,16 +250,25 @@ public sealed class DerivedSkiaProjection : IGojoCadSkiaProjection
         {
             var origin = ReadCircularOrigin(carrier);
             var center = ProjectModel(Normalize(origin));
-            var attachment = evidence.RadiusAttachments
+            var attachments = evidence.RadiusAttachments
                 .Where(attachment => attachment.Marker.Point.Location.Carrier.SameIdentityAs(carrier))
-                .FirstOrDefault();
-            if (attachment is not null &&
-                TryProjectModelForControl(attachment.BasePoint.Location, out var anchorPoint))
+                .ToArray();
+            foreach (var attachment in attachments)
             {
+                if (!TryProjectModelForControl(attachment.BasePoint.Location, out var anchorPoint))
+                {
+                    continue;
+                }
+
                 var radius = Distance(center, anchorPoint);
                 if (radius <= 0.1f)
                 {
-                    radius = SampleModelRadius(carrier, origin.Ticks);
+                    continue;
+                }
+
+                if (UsesSampledProjectionModel(Normalize(attachment.BasePoint.Location)))
+                {
+                    sampledCircularRadii.Add(carrier.Id);
                 }
 
                 basis = new CircularBasis(
@@ -263,6 +309,7 @@ public sealed class DerivedSkiaProjection : IGojoCadSkiaProjection
             ? lower
             : random.Next((int)lower, (int)upper);
         circularPeriods[carrier.Id] = period;
+        sampledCircularPeriods.Add(carrier.Id);
         return period;
     }
 
@@ -280,6 +327,7 @@ public sealed class DerivedSkiaProjection : IGojoCadSkiaProjection
     private float SampleModelRadius(Carrier carrier, long originTicks)
     {
         var tickDelta = ReadObservedTickDelta(carrier, originTicks);
+        sampledCircularRadii.Add(NormalizeCarrier(carrier).Id);
         return tickDelta * (1.2f + (float)random.NextDouble() * 1.4f);
     }
 
@@ -322,21 +370,27 @@ public sealed class DerivedSkiaProjection : IGojoCadSkiaProjection
 
     private float SampleAngle() => (float)random.NextDouble() * MathF.PI * 2f;
 
-    private void SeedOpenSegmentPathModels()
+    private void SeedSampledOpenSegmentPathModels()
     {
         var pathIndex = 0;
         foreach (var path in evidence.OpenSegmentPaths
             .Where(path => path.HasCarrierTransitions && path.HasCompatibleUnitProvenance))
         {
             var cursor = new SKPoint(0, 18f * ++pathIndex);
+            var angle = ((float)random.NextDouble() - 0.5f) * 0.7f;
             foreach (var segment in path.Segments)
             {
                 var start = Normalize(segment.Start.Location);
                 var end = Normalize(segment.End.Location);
                 modelPoints[LocationKey.Of(start)] = cursor;
+                sampledPathLocations.Add(LocationKey.Of(start));
                 var length = MathF.Max(2f, MathF.Abs(end.Ticks - start.Ticks));
-                cursor = new SKPoint(cursor.X + length, cursor.Y);
+                angle += ((float)random.NextDouble() - 0.5f) * 0.75f;
+                cursor = new SKPoint(
+                    cursor.X + MathF.Cos(angle) * length,
+                    cursor.Y - MathF.Sin(angle) * length);
                 modelPoints[LocationKey.Of(end)] = cursor;
+                sampledPathLocations.Add(LocationKey.Of(end));
             }
         }
     }
@@ -357,6 +411,25 @@ public sealed class DerivedSkiaProjection : IGojoCadSkiaProjection
 
     private bool HasCircularOrigin(Carrier carrier) =>
         evidence.CircularOrigins.ContainsKey(NormalizeCarrier(carrier).Id);
+
+    private bool UsesSampledProjectionModel(CarrierLocation normalized)
+    {
+        var carrier = NormalizeCarrier(normalized.Carrier);
+        var key = LocationKey.Of(normalized);
+        if (sampledPathLocations.Contains(key))
+        {
+            return true;
+        }
+
+        if (HasCircularOrigin(carrier))
+        {
+            return sampledCircularRadii.Contains(carrier.Id) ||
+                sampledCircularPeriods.Contains(carrier.Id) ||
+                UsesSampledProjectionModel(Normalize(ReadCircularOrigin(carrier)));
+        }
+
+        return sampledLinearCarriers.Contains(carrier.Id);
+    }
 
     private static CarrierLocation Normalize(CarrierLocation location)
     {

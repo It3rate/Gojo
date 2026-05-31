@@ -12,4 +12,8 @@ public interface IGojoCadSkiaProjection
     SKPoint Project(CarrierLocation location);
 
     SKPoint ProjectFrame(IReadOnlyList<CarrierLocation> coordinates);
+
+    bool UsesSampledProjection(CarrierLocation location);
+
+    bool UsesSampledCarrierShape(Carrier carrier);
 }
