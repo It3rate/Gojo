@@ -1,4 +1,5 @@
 using Gojo.Core;
+using GojoCAD;
 using SkiaSharp;
 
 namespace GojoDraw;
@@ -12,6 +13,8 @@ public interface IGojoCadSkiaProjection
     SKPoint Project(CarrierLocation location);
 
     SKPoint ProjectFrame(IReadOnlyList<CarrierLocation> coordinates);
+
+    SKPoint ProjectFrame(SharedFramePointRead point);
 
     bool UsesSampledProjection(CarrierLocation location);
 

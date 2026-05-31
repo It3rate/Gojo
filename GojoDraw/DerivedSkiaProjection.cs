@@ -55,6 +55,11 @@ public sealed class DerivedSkiaProjection : IGojoCadSkiaProjection
             evidence.FramePoints.Add(framePoint);
         }
 
+        foreach (var attachment in graph.ReadsOf<SharedFramePointAttachmentRead>())
+        {
+            evidence.FramePointAttachments.Add(attachment);
+        }
+
         foreach (var path in graph.ReadsOf<OpenSegmentPathRead>())
         {
             evidence.OpenSegmentPaths.Add(path);
@@ -73,6 +78,9 @@ public sealed class DerivedSkiaProjection : IGojoCadSkiaProjection
 
     public SKPoint ProjectFrame(IReadOnlyList<CarrierLocation> coordinates) =>
         ReadViewportTransform().Apply(ProjectFrameModel(coordinates));
+
+    public SKPoint ProjectFrame(SharedFramePointRead point) =>
+        ReadViewportTransform().Apply(ProjectFrameModel(point));
 
     public bool UsesSampledProjection(CarrierLocation location)
     {
@@ -127,6 +135,27 @@ public sealed class DerivedSkiaProjection : IGojoCadSkiaProjection
         var x = Normalize(coordinates[0]).Ticks;
         var y = Normalize(coordinates[1]).Ticks;
         return new SKPoint(x, -y);
+    }
+
+    private SKPoint ProjectFrameModel(SharedFramePointRead point)
+    {
+        var raw = ProjectFrameModel(point.Coordinates);
+        var offset = ReadFrameOffset(point);
+        return new SKPoint(raw.X + offset.X, raw.Y + offset.Y);
+    }
+
+    private SKPoint ReadFrameOffset(SharedFramePointRead point)
+    {
+        var attachment = evidence.FramePointAttachments.FirstOrDefault(attachment =>
+            attachment.FramePoint.Holder.SameIdentityAs(point.Holder));
+        if (attachment is null)
+        {
+            return new SKPoint(0, 0);
+        }
+
+        var frameAnchor = ProjectFrameModel(attachment.FramePoint.Coordinates);
+        var pointAnchor = ProjectModel(Normalize(attachment.Point.Location));
+        return new SKPoint(pointAnchor.X - frameAnchor.X, pointAnchor.Y - frameAnchor.Y);
     }
 
     private SKPoint ProjectLinearModel(CarrierLocation location)
@@ -200,7 +229,7 @@ public sealed class DerivedSkiaProjection : IGojoCadSkiaProjection
     {
         foreach (var witness in evidence.LinearBasisWitnesses
             .Where(witness => witness.LinearCarrier.SameIdentityAs(carrier))
-            .OrderBy(witness => witness.WitnessPoint.CircularMarker is null ? 0 : 1)
+            .OrderBy(witness => witness.WitnessPoint.CircularMarker is null ? 1 : 0)
             .ThenBy(witness => Math.Abs(witness.LinearLocation.Ticks - witness.LinearOriginTicks)))
         {
             var tickDelta = witness.LinearLocation.Ticks - witness.LinearOriginTicks;
@@ -352,7 +381,7 @@ public sealed class DerivedSkiaProjection : IGojoCadSkiaProjection
 
         foreach (var point in evidence.FramePoints)
         {
-            bounds.Include(ProjectFrameModel(point.Coordinates));
+            bounds.Include(ProjectFrameModel(point));
         }
 
         foreach (var carrier in evidence.Locations
@@ -472,6 +501,8 @@ public sealed class DerivedSkiaProjection : IGojoCadSkiaProjection
         public List<LinearBasisWitnessRead> LinearBasisWitnesses { get; } = [];
 
         public List<SharedFramePointRead> FramePoints { get; } = [];
+
+        public List<SharedFramePointAttachmentRead> FramePointAttachments { get; } = [];
 
         public List<OpenSegmentPathRead> OpenSegmentPaths { get; } = [];
     }

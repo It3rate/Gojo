@@ -378,8 +378,8 @@ public sealed class GojoCadSkiaAdapter
         GojoCadSkiaPaints paints,
         ICollection<GojoCadSkiaHitArea>? hitAreas)
     {
-        var start = projection.ProjectFrame(segment.Start.Coordinates);
-        var end = projection.ProjectFrame(segment.End.Coordinates);
+        var start = projection.ProjectFrame(segment.Start);
+        var end = projection.ProjectFrame(segment.End);
 
         canvas.DrawLine(start, end, paints.SharedFrameSegment);
         canvas.DrawCircle(start, paints.DotRadius * 0.62f, paints.SharedFramePoint);

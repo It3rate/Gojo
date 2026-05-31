@@ -454,6 +454,28 @@ public sealed class GraphicReadGraphTests
     }
 
     [Fact]
+    public void ReadsSharedFramePointAttachmentToOrdinaryPoint()
+    {
+        var drawing = new Carrier();
+        var frame = new Carrier();
+        var x = new Carrier();
+        var y = new Carrier();
+        var framePoint = GraphicStructure.FramePoint(
+            frame,
+            new CarrierLocation(x, 8),
+            new CarrierLocation(y, 3));
+        var drawingPoint = GraphicStructure.Point(drawing, 12);
+        var structure = new Relation(framePoint, drawingPoint);
+
+        var graph = GraphicReadGraph.From(structure);
+
+        var attachment = Assert.Single(graph.ReadsOf<SharedFramePointAttachmentRead>());
+        Assert.True(attachment.FramePoint.Holder.SameIdentityAs(frame));
+        Assert.True(attachment.Point.Location.Carrier.SameIdentityAs(drawing));
+        Assert.Equal(12, attachment.Point.Location.Ticks);
+    }
+
+    [Fact]
     public void AffectedReadsFromSegmentSourceIncludesCompositeConnectionReads()
     {
         var junction = GraphicStructure.Site(0);

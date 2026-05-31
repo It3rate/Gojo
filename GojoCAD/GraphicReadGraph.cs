@@ -174,6 +174,18 @@ public sealed class GraphicReadGraph
                 }
             }
 
+            foreach (var leftFramePoint in left.LocalReads.OfType<SharedFramePointRead>())
+            foreach (var rightPoint in right.LocalReads.OfType<PointRead>())
+            {
+                reads.Add(new SharedFramePointAttachmentRead(relation, leftFramePoint, rightPoint));
+            }
+
+            foreach (var leftPoint in left.LocalReads.OfType<PointRead>())
+            foreach (var rightFramePoint in right.LocalReads.OfType<SharedFramePointRead>())
+            {
+                reads.Add(new SharedFramePointAttachmentRead(relation, rightFramePoint, leftPoint));
+            }
+
             foreach (var outlet in right.LocalReads.OfType<ZeroSpanRead>().Where(IsUnknownZeroSpan))
             {
                 foreach (var sourcePoint in left.LocalReads.OfType<PointRead>())
@@ -1834,6 +1846,14 @@ public sealed record SharedFrameSegmentRead(
     SharedFramePointRead End) : GraphicRead(Source)
 {
     public override IEnumerable<IElement> Sources => [Source, Start.Source, End.Source];
+}
+
+public sealed record SharedFramePointAttachmentRead(
+    IElement Source,
+    SharedFramePointRead FramePoint,
+    PointRead Point) : GraphicRead(Source)
+{
+    public override IEnumerable<IElement> Sources => [Source, FramePoint.Source, Point.Source];
 }
 
 public sealed record ZeroSpanRead(IElement Source, PointRead Left, PointRead Right) : GraphicRead(Source);

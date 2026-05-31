@@ -41,9 +41,9 @@ internal sealed record VisualizerSample(
         var radiusSite = GraphicStructure.Site(8);
         var highSite = GraphicStructure.Site(9);
         var sheetEndSite = GraphicStructure.Site(10);
-        var farSite = GraphicStructure.Site(12);
+        var farSite = GraphicStructure.Site(42);
         var outerSite = GraphicStructure.Site(16);
-        var tailSite = GraphicStructure.Site(20);
+        var tailSite = GraphicStructure.Site(25);
 
         var contourA = GraphicStructure.Site(8);
         var contourB = GraphicStructure.Site(12);
@@ -106,26 +106,49 @@ internal sealed record VisualizerSample(
         var framePolyline = Enumerable.Range(0, 4)
             .Select(index => GraphicStructure.FrameSegment(framePoints[index], framePoints[index + 1]))
             .ToArray();
+        var frameAnchor = new Relation(framePoints[0], GraphicStructure.Point(drawing, outerSite));
 
-        var stepTemplateBasis = new Carrier();
-        var stepTemplate = new Relation(
-            GraphicStructure.Segment(stepTemplateBasis, 0, 8),
-            GraphicStructure.Point(stepTemplateBasis, 3));
-        var stepSites = new[]
-        {
-            GraphicStructure.Site(40),
-            GraphicStructure.Site(48),
-            GraphicStructure.Site(56),
-            GraphicStructure.Site(64),
-            GraphicStructure.Site(72)
-        };
-        var repeatedStepPolyline = Enumerable.Range(0, 4)
-            .Select(index =>
-            {
-                var carrier = new Carrier(UnitShape.DescribedAtom(stepTemplate));
-                return GraphicStructure.Segment(carrier, stepSites[index], stepSites[index + 1]);
-            })
-            .ToArray();
+        var angleLineA = new Carrier(UnitShape.LinearFrom(GraphicStructure.Segment(drawing, tailSite, tailSite)));
+        var angleCircleA = new Carrier(UnitShape.CircularFrom(GraphicStructure.Point(drawing, tailSite)));
+        var angleSegmentA = GraphicStructure.Segment(angleLineA, 0, 9);
+        var angleStartAttachment = new Relation(
+            GraphicStructure.Point(drawing, tailSite),
+            GraphicStructure.Point(angleLineA, 0));
+        var angleRadiusA = new Relation(
+            GraphicStructure.Point(drawing, 35),
+            GraphicStructure.Point(angleCircleA, 0));
+        var angleArcA = GraphicStructure.Segment(angleCircleA, 0, 5);
+        var angleWitnessA = new Relation(
+            GraphicStructure.Point(angleLineA, 9),
+            GraphicStructure.Point(angleCircleA, 5));
+
+        var angleLineB = new Carrier(UnitShape.LinearFrom(GraphicStructure.Segment(angleLineA, 9, 9)));
+        var angleCircleB = new Carrier(UnitShape.CircularFrom(GraphicStructure.Point(angleLineA, 9)));
+        var angleSegmentB = GraphicStructure.Segment(angleLineB, 0, 8);
+        var angleJoinAB = new Relation(
+            GraphicStructure.Point(angleLineA, 9),
+            GraphicStructure.Point(angleLineB, 0));
+        var angleRadiusB = new Relation(
+            GraphicStructure.Point(angleLineA, 15),
+            GraphicStructure.Point(angleCircleB, 0));
+        var angleArcB = GraphicStructure.Segment(angleCircleB, 0, -4);
+        var angleWitnessB = new Relation(
+            GraphicStructure.Point(angleLineB, 8),
+            GraphicStructure.Point(angleCircleB, -4));
+
+        var angleLineC = new Carrier(UnitShape.LinearFrom(GraphicStructure.Segment(angleLineB, 8, 8)));
+        var angleCircleC = new Carrier(UnitShape.CircularFrom(GraphicStructure.Point(angleLineB, 8)));
+        var angleSegmentC = GraphicStructure.Segment(angleLineC, 0, 7);
+        var angleJoinBC = new Relation(
+            GraphicStructure.Point(angleLineB, 8),
+            GraphicStructure.Point(angleLineC, 0));
+        var angleRadiusC = new Relation(
+            GraphicStructure.Point(angleLineB, 13),
+            GraphicStructure.Point(angleCircleC, 0));
+        var angleArcC = GraphicStructure.Segment(angleCircleC, 0, 6);
+        var angleWitnessC = new Relation(
+            GraphicStructure.Point(angleLineC, 7),
+            GraphicStructure.Point(angleCircleC, 6));
 
         var elements = new IElement[]
         {
@@ -159,14 +182,26 @@ internal sealed record VisualizerSample(
             GraphicStructure.Segment(rimAxis, axisOrigin, rimArrowForward),
             GraphicStructure.Point(rimAxis, rimArrowMid),
             arrowAxisArcAttachment,
+            frameAnchor,
             framePolyline[0],
             framePolyline[1],
             framePolyline[2],
             framePolyline[3],
-            repeatedStepPolyline[0],
-            repeatedStepPolyline[1],
-            repeatedStepPolyline[2],
-            repeatedStepPolyline[3]
+            angleStartAttachment,
+            angleSegmentA,
+            angleRadiusA,
+            angleArcA,
+            angleWitnessA,
+            angleJoinAB,
+            angleSegmentB,
+            angleRadiusB,
+            angleArcB,
+            angleWitnessB,
+            angleJoinBC,
+            angleSegmentC,
+            angleRadiusC,
+            angleArcC,
+            angleWitnessC
         };
 
         var structure = Chain(elements);
