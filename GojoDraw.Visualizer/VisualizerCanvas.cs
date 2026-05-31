@@ -410,6 +410,7 @@ internal sealed class VisualizerDrawOperation : ICustomDrawOperation
         for (var index = 0; index < entries.Count; index++)
         {
             var entry = entries[index];
+            var display = document.DisplayFor(entry);
             var column = index % LegendColumns;
             var row = index / LegendColumns;
             var cell = new SKRect(
@@ -432,8 +433,8 @@ internal sealed class VisualizerDrawOperation : ICustomDrawOperation
 
             canvas.Save();
             canvas.ClipRect(glyphBounds);
-            var projection = new DerivedSkiaProjection(entry.Structure, glyphBounds, entry.ProjectionSeed);
-            Adapter.DrawElement(canvas, entry.Structure, projection, paints);
+            var projection = new DerivedSkiaProjection(display.Structure, glyphBounds, display.ProjectionSeed);
+            Adapter.DrawElement(canvas, display.Structure, projection, paints);
             canvas.Restore();
 
             if (!enabled)
@@ -441,15 +442,15 @@ internal sealed class VisualizerDrawOperation : ICustomDrawOperation
                 canvas.DrawRoundRect(cell, 4f, 4f, disabledWash);
             }
 
-            canvas.DrawText(
-                entry.Label,
-                cell.Left + 51f,
-                cell.Top + cell.Height * 0.5f + 4f,
+            DrawLegendLabel(
+                canvas,
+                display.Label,
+                cell,
                 enabled ? enabledLabel : disabledLabel);
 
             var text = enabled
-                ? $"add {entry.Label}"
-                : $"{entry.Label}: {document.DisabledReason(entry)}";
+                ? $"add {display.Label}"
+                : $"{display.Label}: {document.DisabledReason(entry)}";
             legendHits.Add(new VisualizerLegendHitArea(
                 cell,
                 EntryIndex: index,
@@ -477,6 +478,26 @@ internal sealed class VisualizerDrawOperation : ICustomDrawOperation
 
     private static SKRect ReadStableModelBounds() =>
         new(-48f, -48f, 88f, 52f);
+
+    private static void DrawLegendLabel(SKCanvas canvas, string label, SKRect cell, SKPaint basePaint)
+    {
+        using var paint = new SKPaint
+        {
+            IsAntialias = basePaint.IsAntialias,
+            Color = basePaint.Color,
+            TextSize = basePaint.TextSize,
+            Typeface = basePaint.Typeface,
+            Style = basePaint.Style
+        };
+        var x = cell.Left + 51f;
+        var maxWidth = MathF.Max(16f, cell.Right - x - 4f);
+        while (paint.TextSize > 8f && paint.MeasureText(label) > maxWidth)
+        {
+            paint.TextSize -= 0.5f;
+        }
+
+        canvas.DrawText(label, x, cell.Top + cell.Height * 0.5f + 4f, paint);
+    }
 
     private static GojoCadSkiaPaints CreateLegendPaints()
     {

@@ -96,6 +96,9 @@ internal sealed record VisualizerDocument(
             "circumference" => selection.Point is not null,
             "coordinate path" => selection.Point is not null || SelectedIndex is null,
             "relative path" => selection.Point is not null || SelectedIndex is null,
+            "parallel lines" => selection.Segment is not null && !IsCircularCarrier(selection.Segment.Start.Location.Carrier),
+            "circle offset" => selection.CircularMarker is not null || selection.CircularSpan is not null,
+            "directed path" => selection.LineSeed is not null || selection.Point is not null || SelectedIndex is null,
             _ => false
         };
     }
@@ -104,7 +107,7 @@ internal sealed record VisualizerDocument(
     {
         if (CanApply(entry))
         {
-            return $"add {entry.Label}";
+            return $"add {DisplayFor(entry).Label}";
         }
 
         return entry.Label switch
@@ -120,7 +123,44 @@ internal sealed record VisualizerDocument(
             "circumference" => "select a point",
             "coordinate path" => "select a point",
             "relative path" => "select a point",
+            "parallel lines" => "select a linear span",
+            "circle offset" => "select a circle point or arc",
+            "directed path" => "select a point or line seed",
             _ => "not implemented yet"
+        };
+    }
+
+    public VisualizerLegendDisplay DisplayFor(VisualizerLegendEntry entry)
+    {
+        var selection = ReadSelection();
+        var isCircular = selection.CircularMarker is not null || selection.CircularSpan is not null;
+        var isLinear = selection.LineSeed is not null ||
+            selection.Segment is not null && !IsCircularCarrier(selection.Segment.Start.Location.Carrier) ||
+            selection.Point is not null && !isCircular;
+
+        return entry.Label switch
+        {
+            "line seed" when selection.Point is not null && !isCircular =>
+                new VisualizerLegendDisplay("linear carrier", entry.Structure, entry.ProjectionSeed),
+            "span" when isCircular =>
+                new VisualizerLegendDisplay("arc", VisualizerSample.CreateCircularSpanLegend(), 1003),
+            "span" when isLinear =>
+                new VisualizerLegendDisplay("segment", VisualizerSample.CreateLinearSpanLegend(), 1004),
+            "directed span" when isCircular =>
+                new VisualizerLegendDisplay("directed arc", VisualizerSample.CreateCircularDirectedSpanLegend(), 1005),
+            "directed span" when isLinear =>
+                new VisualizerLegendDisplay("directed segment", VisualizerSample.CreateLinearDirectedSpanLegend(), 1006),
+            "partition" when isCircular =>
+                new VisualizerLegendDisplay("circle partition", entry.Structure, entry.ProjectionSeed),
+            "partition" when selection.Segment is not null =>
+                new VisualizerLegendDisplay("span partition", entry.Structure, entry.ProjectionSeed),
+            "directed path" when isCircular =>
+                new VisualizerLegendDisplay("directed arc path", entry.Structure, entry.ProjectionSeed),
+            "directed path" when isLinear =>
+                new VisualizerLegendDisplay("directed segment path", entry.Structure, entry.ProjectionSeed),
+            "circle offset" when isCircular =>
+                new VisualizerLegendDisplay("circumference offset", entry.Structure, entry.ProjectionSeed),
+            _ => new VisualizerLegendDisplay(entry.Label, entry.Structure, entry.ProjectionSeed)
         };
     }
 
@@ -144,6 +184,9 @@ internal sealed record VisualizerDocument(
             "circumference" => AddCircle(includeRadius: false),
             "coordinate path" => AddFramePath(),
             "relative path" => AddStepPath(),
+            "parallel lines" => AddParallelLines(),
+            "circle offset" => AddCircleOffset(),
+            "directed path" => AddDirectedPath(),
             _ => this
         };
     }
@@ -475,6 +518,120 @@ internal sealed record VisualizerDocument(
         return Append(additions, selectedOffset: additions.Count - 6);
     }
 
+    private VisualizerDocument AddParallelLines()
+    {
+        var segment = ReadSelection().Segment;
+        if (segment is null ||
+            IsCircularCarrier(segment.Start.Location.Carrier))
+        {
+            return this;
+        }
+
+        var sourceStart = segment.Start.Location;
+        var sourceEnd = segment.End.Location;
+        var length = sourceEnd.Ticks - sourceStart.Ticks;
+        if (length == 0)
+        {
+            length = SampleSignedOffset(6, 12);
+        }
+
+        var offset = SampleOffset(5, 10);
+        var startOffsetEnd = GraphicStructure.Site(offset);
+        var endOffsetEnd = GraphicStructure.Site(offset);
+        var parallelStart = GraphicStructure.Site(0);
+        var parallelEnd = GraphicStructure.Site(length);
+
+        var startOffsetLine = GraphicStructure.LinearCarrierAt(PointAt(sourceStart));
+        var endOffsetLine = GraphicStructure.LinearCarrierAt(PointAt(sourceEnd));
+        var startOffsetOrigin = GraphicStructure.Point(startOffsetLine, GraphicStructure.Site(0));
+        var endOffsetOrigin = GraphicStructure.Point(endOffsetLine, GraphicStructure.Site(0));
+        var startOffsetPoint = GraphicStructure.Point(startOffsetLine, startOffsetEnd);
+        var endOffsetPoint = GraphicStructure.Point(endOffsetLine, endOffsetEnd);
+        var startOffsetJoin = GraphicStructure.Pin(PointAt(sourceStart), startOffsetOrigin);
+        var endOffsetJoin = GraphicStructure.Pin(PointAt(sourceEnd), endOffsetOrigin);
+        var startOffsetSpan = GraphicStructure.Segment(startOffsetLine, GraphicStructure.Site(0), startOffsetEnd);
+        var endOffsetSpan = GraphicStructure.Segment(endOffsetLine, GraphicStructure.Site(0), endOffsetEnd);
+
+        var parallelLine = GraphicStructure.LinearCarrierAt(startOffsetPoint);
+        var parallelStartPoint = GraphicStructure.Point(parallelLine, parallelStart);
+        var parallelEndPoint = GraphicStructure.Point(parallelLine, parallelEnd);
+        var parallelOriginJoin = GraphicStructure.Pin(startOffsetPoint, parallelStartPoint);
+        var parallelEndWitness = GraphicStructure.Pin(parallelEndPoint, endOffsetPoint);
+        var parallelSpan = GraphicStructure.Segment(parallelLine, parallelStart, parallelEnd);
+
+        return Append([
+            startOffsetJoin,
+            endOffsetJoin,
+            startOffsetSpan,
+            endOffsetSpan,
+            parallelOriginJoin,
+            parallelEndPoint,
+            parallelEndWitness,
+            parallelSpan
+        ], selectedOffset: 7);
+    }
+
+    private VisualizerDocument AddCircleOffset()
+    {
+        var selection = ReadSelection();
+        var origin = selection.CircularSpan?.Origin ?? selection.CircularMarker?.Origin;
+        var source = selection.CircularSpan?.Segment.Start.Location ?? selection.CircularMarker?.Point.Location;
+        if (origin is not CarrierLocation circularOrigin ||
+            source is not CarrierLocation sourceLocation)
+        {
+            return this;
+        }
+
+        var circle = GraphicStructure.CircularCarrierAt(PointAt(circularOrigin));
+        var markerTick = selection.CircularSpan?.Segment.Start.Location.Tick ?? sourceLocation.Tick;
+        var markerPoint = GraphicStructure.Point(circle, markerTick);
+        var radiusBase = GraphicStructure.Point(
+            circularOrigin.Carrier,
+            GraphicStructure.Site(circularOrigin.Ticks + SampleOffset(7, 14)));
+        var radius = GraphicStructure.Pin(radiusBase, markerPoint);
+        var additions = new List<IElement> { markerPoint, radius };
+
+        if (selection.CircularSpan is not null)
+        {
+            var start = selection.CircularSpan.Segment.Start.Location.Tick;
+            var end = selection.CircularSpan.Segment.End.Location.Tick;
+            additions.Add(GraphicStructure.Segment(circle, start, end));
+        }
+
+        return Append(additions, selectedOffset: additions.Count - 1);
+    }
+
+    private VisualizerDocument AddDirectedPath()
+    {
+        var selection = ReadSelection();
+        if (selection.LineSeed is not null)
+        {
+            return AddLineSeedPath(selection.LineSeed, directed: true);
+        }
+
+        var point = selection.Point;
+        var carrier = point?.Location.Carrier ?? Drawing;
+        var start = point?.Location.Tick ?? GraphicStructure.Site(SampleFreeTick());
+        var current = start;
+        var additions = new List<IElement>();
+        if (point is null)
+        {
+            additions.Add(GraphicStructure.Point(carrier, start));
+        }
+
+        for (var index = 0; index < 3; index++)
+        {
+            var next = SiteNear(current.Ticks, IsCircularCarrier(carrier) ? 3 : 5, IsCircularCarrier(carrier) ? 8 : 12);
+            var endPoint = GraphicStructure.Point(carrier, next);
+            var directed = GraphicStructure.DirectedSegment(carrier, current, next);
+            additions.Add(endPoint);
+            additions.Add(directed);
+            current = next;
+        }
+
+        return Append(additions, selectedOffset: additions.Count - 2);
+    }
+
     private SelectionContext ReadSelection()
     {
         if (SelectedIndex is not int selectedIndex)
@@ -528,6 +685,40 @@ internal sealed record VisualizerDocument(
             ? GraphicStructure.DirectedSegment(line, start, end)
             : GraphicStructure.Segment(line, start, end);
         return Append([join, lineEnd, segment], selectedOffset: 1);
+    }
+
+    private VisualizerDocument AddLineSeedPath(LineSeedRead seed, bool directed)
+    {
+        var origin = seed.Span.Left.Location;
+        var line = GraphicStructure.LinearCarrierAt(PointAt(origin));
+        var start = GraphicStructure.Site(0);
+        var firstEnd = GraphicStructure.Site(7);
+        var secondEnd = GraphicStructure.Site(14);
+        var thirdEnd = GraphicStructure.Site(21);
+        var lineStart = GraphicStructure.Point(line, start);
+        var firstPoint = GraphicStructure.Point(line, firstEnd);
+        var secondPoint = GraphicStructure.Point(line, secondEnd);
+        var thirdPoint = GraphicStructure.Point(line, thirdEnd);
+        var join = GraphicStructure.Pin(PointAt(origin), lineStart);
+        var first = directed
+            ? GraphicStructure.DirectedSegment(line, start, firstEnd)
+            : GraphicStructure.Segment(line, start, firstEnd);
+        var second = directed
+            ? GraphicStructure.DirectedSegment(line, firstEnd, secondEnd)
+            : GraphicStructure.Segment(line, firstEnd, secondEnd);
+        var third = directed
+            ? GraphicStructure.DirectedSegment(line, secondEnd, thirdEnd)
+            : GraphicStructure.Segment(line, secondEnd, thirdEnd);
+
+        return Append([
+            join,
+            firstPoint,
+            first,
+            secondPoint,
+            second,
+            thirdPoint,
+            third
+        ], selectedOffset: 5);
     }
 
     private static Relation PointAt(CarrierLocation location) =>

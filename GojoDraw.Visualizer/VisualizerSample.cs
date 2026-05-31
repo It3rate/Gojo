@@ -259,6 +259,36 @@ internal sealed record VisualizerSample(
     private static VisualizerLegendEntry LegendEntry(string label, IElement structure, int seed) =>
         new(label, structure, seed);
 
+    public static IElement CreateLinearSpanLegend()
+    {
+        var carrier = new Carrier();
+        return GraphicStructure.Segment(carrier, 0, 8);
+    }
+
+    public static IElement CreateCircularSpanLegend()
+    {
+        var carrier = new Carrier();
+        var origin = GraphicStructure.Point(carrier, 0);
+        var circle = new Carrier(UnitShape.CircularFrom(origin));
+        var span = GraphicStructure.Segment(circle, 8, 18);
+        var partition = GraphicStructure.Point(circle, 13);
+        return Chain([span, partition]);
+    }
+
+    public static IElement CreateLinearDirectedSpanLegend()
+    {
+        var carrier = new Carrier();
+        return GraphicStructure.DirectedSegment(carrier, 2, 8);
+    }
+
+    public static IElement CreateCircularDirectedSpanLegend()
+    {
+        var carrier = new Carrier();
+        var origin = GraphicStructure.Point(carrier, 0);
+        var circle = new Carrier(UnitShape.CircularFrom(origin));
+        return GraphicStructure.DirectedSegment(circle, 3, 10);
+    }
+
     private static IElement CreatePointLegend()
     {
         var carrier = new Carrier();
@@ -274,13 +304,7 @@ internal sealed record VisualizerSample(
 
     private static IElement CreateSpanLegend()
     {
-        var carrier = new Carrier();
-        var origin = GraphicStructure.Point(carrier, 0);
-        var circle = GraphicStructure.CircularCarrierAt(origin);
-        return Chain([
-            GraphicStructure.Segment(carrier, 0, 8),
-            GraphicStructure.Segment(circle, 3, 10)
-        ]);
+        return Chain([CreateLinearSpanLegend(), CreateCircularSpanLegend()]);
     }
 
     private static IElement CreateSegmentPartitionLegend()
@@ -295,13 +319,7 @@ internal sealed record VisualizerSample(
 
     private static IElement CreateDirectedSpanLegend()
     {
-        var carrier = new Carrier();
-        var origin = GraphicStructure.Point(carrier, 0);
-        var circle = GraphicStructure.CircularCarrierAt(origin);
-        return Chain([
-            GraphicStructure.DirectedSegment(carrier, 2, 8),
-            GraphicStructure.DirectedSegment(circle, 3, 10)
-        ]);
+        return Chain([CreateLinearDirectedSpanLegend(), CreateCircularDirectedSpanLegend()]);
     }
 
     private static IElement CreateLineSeedLegend()
@@ -334,16 +352,6 @@ internal sealed record VisualizerSample(
         var origin = GraphicStructure.Point(carrier, 0);
         var circle = new Carrier(UnitShape.CircularFrom(origin));
         return GraphicStructure.Point(circle, 8);
-    }
-
-    private static IElement CreateCircumferenceSpanLegend()
-    {
-        var carrier = new Carrier();
-        var origin = GraphicStructure.Point(carrier, 0);
-        var circle = new Carrier(UnitShape.CircularFrom(origin));
-        var span = GraphicStructure.Segment(circle, 8, 18);
-        var partition = GraphicStructure.Point(circle, 13);
-        return Chain([span, partition]);
     }
 
     private static IElement CreateSharedFramePolylineLegend()
@@ -497,6 +505,11 @@ internal sealed record VisualizerSample(
 }
 
 internal sealed record VisualizerLegendEntry(
+    string Label,
+    IElement Structure,
+    int ProjectionSeed);
+
+internal sealed record VisualizerLegendDisplay(
     string Label,
     IElement Structure,
     int ProjectionSeed);
