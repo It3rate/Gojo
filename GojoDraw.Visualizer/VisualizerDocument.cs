@@ -87,17 +87,15 @@ internal sealed record VisualizerDocument(
         {
             "point" => true,
             "radial" => selection.Point is not null,
-            "segment" => selection.LineSeed is not null || selection.Point is not null && selection.CircularMarker is null || SelectedIndex is null,
+            "span" => selection.LineSeed is not null || selection.Point is not null || SelectedIndex is null,
             "partition" => selection.Segment is not null || selection.CircularMarker is not null,
-            "directed" => selection.LineSeed is not null || selection.Point is not null && selection.CircularMarker is null || SelectedIndex is null,
+            "directed span" => selection.LineSeed is not null || selection.Point is not null || SelectedIndex is null,
             "line seed" => selection.Point is not null,
             "sheet seed" => selection.Segment is not null && !IsCircularCarrier(selection.Segment.Start.Location.Carrier),
             "radius" => selection.CircularMarker is not null || selection.RadialSeed is not null,
             "circumference" => selection.Point is not null,
-            "arc/span" => selection.CircularMarker is not null,
             "coordinate path" => selection.Point is not null || SelectedIndex is null,
             "relative path" => selection.Point is not null || SelectedIndex is null,
-            "angle path" => selection.Point is not null || SelectedIndex is null,
             _ => false
         };
     }
@@ -113,18 +111,16 @@ internal sealed record VisualizerDocument(
         {
             "point" => "add point",
             "radial" => "select a point",
-            "segment" => "select a non-circular point or line seed",
+            "span" => "select a point or line seed",
             "partition" => "select a segment or circle point",
-            "directed" => "select a non-circular point or line seed",
+            "directed span" => "select a point or line seed",
             "line seed" => "select a point",
             "sheet seed" => "select a segment",
             "radius" => "select a circle point or radial",
             "circumference" => "select a point",
-            "arc/span" => "select a circle point",
             "coordinate path" => "select a point",
             "relative path" => "select a point",
-            "angle path" => "select a point",
-            _ => "not available"
+            _ => "not implemented yet"
         };
     }
 
@@ -139,17 +135,15 @@ internal sealed record VisualizerDocument(
         {
             "point" => AddPoint(),
             "radial" => AddRadial(),
-            "segment" => AddSegment(),
+            "span" => AddSegment(),
             "partition" => AddPartition(),
-            "directed" => AddDirected(),
+            "directed span" => AddDirected(),
             "line seed" => AddLineSeed(),
             "sheet seed" => AddSheetSeed(),
             "radius" => AddRadiusAttachment(),
             "circumference" => AddCircle(includeRadius: false),
-            "arc/span" => AddCircularSpan(),
             "coordinate path" => AddFramePath(),
             "relative path" => AddStepPath(),
-            "angle path" => AddAngleStep(),
             _ => this
         };
     }

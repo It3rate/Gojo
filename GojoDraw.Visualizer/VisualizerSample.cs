@@ -19,22 +19,36 @@ internal sealed record VisualizerSample(
             ? index
             : null;
 
-    public static IReadOnlyList<VisualizerLegendEntry> CreateLegend() =>
+    public static IReadOnlyList<VisualizerLegendPage> CreateLegendPages() =>
     [
-        LegendEntry("point", CreatePointLegend(), 101),
-        LegendEntry("radial", CreateRadialLegend(), 102),
-        LegendEntry("segment", CreateSegmentLegend(), 103),
-        LegendEntry("partition", CreateSegmentPartitionLegend(), 104),
-        LegendEntry("directed", CreateDirectedLegend(), 105),
-        LegendEntry("line seed", CreateLineSeedLegend(), 106),
-        LegendEntry("sheet seed", CreateSheetSeedLegend(), 107),
-        LegendEntry("radius", CreateRadiusAttachmentLegend(), 108),
-        LegendEntry("circumference", CreateCircumferenceLegend(), 109),
-        LegendEntry("arc/span", CreateCircumferenceSpanLegend(), 110),
-        LegendEntry("coordinate path", CreateSharedFramePolylineLegend(), 111),
-        LegendEntry("relative path", CreateRepeatedStepPathLegend(), 112),
-        LegendEntry("angle path", CreateCircularAngleLegend(), 113)
+        new VisualizerLegendPage("Primitives",
+        [
+            LegendEntry("point", CreatePointLegend(), 101),
+            LegendEntry("radial", CreateRadialLegend(), 102),
+            LegendEntry("line seed", CreateLineSeedLegend(), 106),
+            LegendEntry("circumference", CreateCircumferenceLegend(), 109),
+            LegendEntry("radius", CreateRadiusAttachmentLegend(), 108),
+            LegendEntry("span", CreateSpanLegend(), 103),
+            LegendEntry("directed span", CreateDirectedSpanLegend(), 105),
+            LegendEntry("partition", CreateSegmentPartitionLegend(), 104),
+            LegendEntry("sheet seed", CreateSheetSeedLegend(), 107)
+        ]),
+        new VisualizerLegendPage("Combinations",
+        [
+            LegendEntry("coordinate path", CreateSharedFramePolylineLegend(), 111),
+            LegendEntry("relative path", CreateCircularAngleLegend(), 112),
+            LegendEntry("parallel lines", CreateParallelLinesLegend(), 114),
+            LegendEntry("circle offset", CreateCircleOffsetLegend(), 115),
+            LegendEntry("directed path", CreateDirectedPathLegend(), 116),
+            LegendEntry("area", CreateAreaLegend(), 117),
+            LegendEntry("anti-area", CreateAntiAreaLegend(), 118),
+            LegendEntry("branch", CreateBranchLegend(), 119),
+            LegendEntry("merge", CreateMergeLegend(), 120)
+        ])
     ];
+
+    public static IReadOnlyList<VisualizerLegendEntry> CreateLegend() =>
+        CreateLegendPages().SelectMany(page => page.Entries).ToArray();
 
     public static VisualizerSample Create()
     {
@@ -258,10 +272,15 @@ internal sealed record VisualizerSample(
         return GraphicStructure.RadialFlow(point);
     }
 
-    private static IElement CreateSegmentLegend()
+    private static IElement CreateSpanLegend()
     {
         var carrier = new Carrier();
-        return GraphicStructure.Segment(carrier, 0, 8);
+        var origin = GraphicStructure.Point(carrier, 0);
+        var circle = GraphicStructure.CircularCarrierAt(origin);
+        return Chain([
+            GraphicStructure.Segment(carrier, 0, 8),
+            GraphicStructure.Segment(circle, 3, 10)
+        ]);
     }
 
     private static IElement CreateSegmentPartitionLegend()
@@ -274,10 +293,15 @@ internal sealed record VisualizerSample(
         return Chain([segment, partitionA, partitionB, partitionC]);
     }
 
-    private static IElement CreateDirectedLegend()
+    private static IElement CreateDirectedSpanLegend()
     {
         var carrier = new Carrier();
-        return GraphicStructure.DirectedSegment(carrier, 2, 8);
+        var origin = GraphicStructure.Point(carrier, 0);
+        var circle = GraphicStructure.CircularCarrierAt(origin);
+        return Chain([
+            GraphicStructure.DirectedSegment(carrier, 2, 8),
+            GraphicStructure.DirectedSegment(circle, 3, 10)
+        ]);
     }
 
     private static IElement CreateLineSeedLegend()
@@ -382,6 +406,65 @@ internal sealed record VisualizerSample(
         return Chain([radialBasis, arc, centerToArc, rayToArc, raySegment]);
     }
 
+    private static IElement CreateParallelLinesLegend()
+    {
+        var carrier = new Carrier();
+        var first = GraphicStructure.Segment(carrier, 0, 8);
+        var secondCarrier = new Carrier(UnitShape.LinearFrom(GraphicStructure.Segment(carrier, 3, 3)));
+        var alignment = GraphicStructure.Pin(
+            GraphicStructure.Point(carrier, 8),
+            GraphicStructure.Point(secondCarrier, 8));
+        var second = GraphicStructure.Segment(secondCarrier, 0, 8);
+        return Chain([first, alignment, second]);
+    }
+
+    private static IElement CreateCircleOffsetLegend()
+    {
+        var carrier = new Carrier();
+        var origin = GraphicStructure.Point(carrier, 0);
+        var inner = new Carrier(UnitShape.CircularFrom(origin));
+        var outer = new Carrier(UnitShape.CircularFrom(origin));
+        return Chain([
+            GraphicStructure.Point(inner, 8),
+            GraphicStructure.Point(outer, 12),
+            GraphicStructure.Segment(inner, 4, 12),
+            GraphicStructure.Segment(outer, 4, 12)
+        ]);
+    }
+
+    private static IElement CreateDirectedPathLegend()
+    {
+        var carrier = new Carrier();
+        return Chain([
+            GraphicStructure.DirectedSegment(carrier, 0, 5),
+            GraphicStructure.DirectedSegment(carrier, 5, 10)
+        ]);
+    }
+
+    private static IElement CreateAreaLegend()
+    {
+        var carrier = new Carrier();
+        return Chain([
+            GraphicStructure.Segment(carrier, 0, 6),
+            GraphicStructure.Segment(carrier, 6, 10),
+            GraphicStructure.Segment(carrier, 10, 0)
+        ]);
+    }
+
+    private static IElement CreateAntiAreaLegend() => CreateAreaLegend();
+
+    private static IElement CreateBranchLegend()
+    {
+        var carrier = new Carrier();
+        return Chain([
+            GraphicStructure.Segment(carrier, 0, 6),
+            GraphicStructure.Segment(carrier, 6, 10),
+            GraphicStructure.Segment(carrier, 6, 2)
+        ]);
+    }
+
+    private static IElement CreateMergeLegend() => CreateBranchLegend();
+
     private static IElement Chain(IReadOnlyList<IElement> elements)
     {
         if (elements.Count == 0)
@@ -417,3 +500,7 @@ internal sealed record VisualizerLegendEntry(
     string Label,
     IElement Structure,
     int ProjectionSeed);
+
+internal sealed record VisualizerLegendPage(
+    string Label,
+    IReadOnlyList<VisualizerLegendEntry> Entries);

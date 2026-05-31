@@ -441,6 +441,12 @@ public sealed class GojoCadSkiaAdapter
         GojoCadSkiaPaints paints,
         ICollection<GojoCadSkiaHitArea>? hitAreas)
     {
+        if (IsCircularCarrier(segment.PositiveEnd.Location.Carrier))
+        {
+            DrawDirectedCircularSpan(canvas, segment, projection, paints, hitAreas);
+            return;
+        }
+
         var startPoint = projection.Project(segment.InverseStart.Location);
         var endPoint = projection.Project(segment.PositiveEnd.Location);
         var paint = projection.UsesSampledProjection(segment.InverseStart.Location) ||
@@ -451,6 +457,32 @@ public sealed class GojoCadSkiaAdapter
         canvas.DrawLine(startPoint, endPoint, paint);
         DrawArrowTip(canvas, startPoint, endPoint, paints, paint);
         AddHit(hitAreas, LineBounds(startPoint, endPoint, 12f), "directed segment", priority: 4, segment.Source);
+    }
+
+    private static void DrawDirectedCircularSpan(
+        SKCanvas canvas,
+        DirectedSegmentRead segment,
+        IGojoCadSkiaProjection projection,
+        GojoCadSkiaPaints paints,
+        ICollection<GojoCadSkiaHitArea>? hitAreas)
+    {
+        var circle = ReadCircleProjection(segment.PositiveEnd.Location, projection);
+        var startPoint = projection.Project(segment.InverseStart.Location);
+        var endPoint = projection.Project(segment.PositiveEnd.Location);
+        var bounds = CircleBounds(circle.Center, circle.Radius);
+        var startAngle = AngleDegrees(circle.Center, startPoint);
+        var endAngle = AngleDegrees(circle.Center, endPoint);
+        var sweep = ShortestSweep(startAngle, endAngle);
+        var paint = projection.UsesSampledProjection(segment.InverseStart.Location) ||
+            projection.UsesSampledProjection(segment.PositiveEnd.Location)
+                ? paints.DirectedSegmentTension
+                : paints.DirectedSegment;
+
+        canvas.DrawArc(bounds, startAngle, sweep, false, paint);
+        var arrowSweep = MathF.Abs(sweep) <= 0.001f ? 1f : MathF.Sign(sweep);
+        var tangentStart = PointOnCircle(circle.Center, circle.Radius, endAngle - arrowSweep * 7f);
+        DrawArrowTip(canvas, tangentStart, endPoint, paints, paint);
+        AddHit(hitAreas, bounds, "directed arc", priority: 4, segment.Source);
     }
 
     private static void DrawSharedFrameSegment(
@@ -708,6 +740,14 @@ public sealed class GojoCadSkiaAdapter
         }
 
         return sweep;
+    }
+
+    private static SKPoint PointOnCircle(SKPoint center, float radius, float angleDegrees)
+    {
+        var radians = angleDegrees * MathF.PI / 180f;
+        return new SKPoint(
+            center.X + MathF.Cos(radians) * radius,
+            center.Y + MathF.Sin(radians) * radius);
     }
 
     private static SKPoint PerpendicularUnit(SKPoint start, SKPoint end)

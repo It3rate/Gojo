@@ -14,13 +14,14 @@ namespace GojoDraw.Visualizer;
 
 internal sealed class VisualizerCanvas : Control
 {
-    internal static readonly IReadOnlyList<VisualizerLegendEntry> LegendEntries = VisualizerSample.CreateLegend();
+    internal static readonly IReadOnlyList<VisualizerLegendPage> LegendPages = VisualizerSample.CreateLegendPages();
 
     private VisualizerDocument? document;
     private GojoCadSkiaHitArea[] structureHitAreas = [];
     private VisualizerLegendHitArea[] legendHitAreas = [];
     private VisualizerHover? hover;
     private SKPoint hoverPoint;
+    private int activeLegendPageIndex;
 
     public VisualizerCanvas()
     {
@@ -54,7 +55,8 @@ internal sealed class VisualizerCanvas : Control
             PublishStructureHitAreas,
             PublishLegendHitAreas,
             hover,
-            hoverPoint));
+            hoverPoint,
+            activeLegendPageIndex));
     }
 
     protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)
@@ -89,7 +91,13 @@ internal sealed class VisualizerCanvas : Control
         var hit = ReadHitAt(new SKPoint((float)position.X, (float)position.Y));
         if (hit?.LegendIndex is int legendIndex)
         {
-            var entry = LegendEntries[legendIndex];
+            var entries = ReadActiveLegendEntries();
+            if (legendIndex < 0 || legendIndex >= entries.Count)
+            {
+                return;
+            }
+
+            var entry = entries[legendIndex];
             if (Document.CanApply(entry))
             {
                 Document = Document.Apply(entry);
@@ -99,10 +107,27 @@ internal sealed class VisualizerCanvas : Control
             return;
         }
 
+        if (hit?.LegendPageIndex is int legendPageIndex)
+        {
+            activeLegendPageIndex = Math.Clamp(legendPageIndex, 0, Math.Max(0, LegendPages.Count - 1));
+            hover = null;
+            InvalidateVisual();
+            e.Handled = true;
+            return;
+        }
+
         Document = hit?.Source is null
             ? Document with { SelectedIndex = null }
             : Document.SelectSource(hit.Source);
         e.Handled = true;
+    }
+
+    private IReadOnlyList<VisualizerLegendEntry> ReadActiveLegendEntries()
+    {
+        var pageIndex = Math.Clamp(activeLegendPageIndex, 0, Math.Max(0, LegendPages.Count - 1));
+        return LegendPages.Count == 0
+            ? []
+            : LegendPages[pageIndex].Entries;
     }
 
     protected override void OnPointerExited(PointerEventArgs e)
@@ -128,7 +153,8 @@ internal sealed class VisualizerCanvas : Control
                 legend.Text,
                 legend.Priority,
                 Source: null,
-                LegendIndex: legend.EntryIndex);
+                LegendIndex: legend.EntryIndex,
+                LegendPageIndex: legend.PageIndex);
         }
 
         var structure = Volatile.Read(ref structureHitAreas)
@@ -142,7 +168,8 @@ internal sealed class VisualizerCanvas : Control
                 structure.Text,
                 structure.Priority,
                 structure.Source,
-                LegendIndex: null);
+                LegendIndex: null,
+                LegendPageIndex: null);
     }
 
     private void PublishStructureHitAreas(GojoCadSkiaHitArea[] nextHitAreas)
@@ -160,7 +187,7 @@ internal sealed class VisualizerDrawOperation : ICustomDrawOperation
 {
     private const float LegendWidth = 286f;
     private const float LegendGap = 10f;
-    private const float LegendTopPadding = 34f;
+    private const float LegendTopPadding = 62f;
     private const float LegendCellMinHeight = 46f;
     private const int LegendColumns = 2;
 
@@ -170,6 +197,7 @@ internal sealed class VisualizerDrawOperation : ICustomDrawOperation
     private readonly Action<VisualizerLegendHitArea[]> publishLegendHitAreas;
     private readonly VisualizerHover? hover;
     private readonly SKPoint hoverPoint;
+    private readonly int activeLegendPageIndex;
 
     public VisualizerDrawOperation(
         Rect bounds,
@@ -177,7 +205,8 @@ internal sealed class VisualizerDrawOperation : ICustomDrawOperation
         Action<GojoCadSkiaHitArea[]> publishStructureHitAreas,
         Action<VisualizerLegendHitArea[]> publishLegendHitAreas,
         VisualizerHover? hover,
-        SKPoint hoverPoint)
+        SKPoint hoverPoint,
+        int activeLegendPageIndex)
     {
         Bounds = bounds;
         this.document = document;
@@ -185,6 +214,7 @@ internal sealed class VisualizerDrawOperation : ICustomDrawOperation
         this.publishLegendHitAreas = publishLegendHitAreas;
         this.hover = hover;
         this.hoverPoint = hoverPoint;
+        this.activeLegendPageIndex = activeLegendPageIndex;
     }
 
     public Rect Bounds { get; }
@@ -312,12 +342,63 @@ internal sealed class VisualizerDrawOperation : ICustomDrawOperation
             Color = new SKColor(255, 254, 250, 158),
             Style = SKPaintStyle.Fill
         };
+        using var tabFill = new SKPaint
+        {
+            IsAntialias = true,
+            Color = new SKColor(62, 80, 96, 16),
+            Style = SKPaintStyle.Fill
+        };
+        using var activeTabFill = new SKPaint
+        {
+            IsAntialias = true,
+            Color = new SKColor(34, 101, 145, 34),
+            Style = SKPaintStyle.Fill
+        };
 
         canvas.DrawRect(bounds, background);
         canvas.DrawLine(bounds.Right, bounds.Top, bounds.Right, bounds.Bottom, divider);
         canvas.DrawText("Legend", bounds.Left + 12f, bounds.Top + 21f, title);
 
-        var entries = VisualizerCanvas.LegendEntries;
+        var pages = VisualizerCanvas.LegendPages;
+        var pageIndex = Math.Clamp(activeLegendPageIndex, 0, Math.Max(0, pages.Count - 1));
+        if (pages.Count == 0)
+        {
+            publishLegendHitAreas([]);
+            return;
+        }
+
+        var tabGap = 6f;
+        var tabWidth = (bounds.Width - 24f - tabGap * (pages.Count - 1)) / pages.Count;
+        for (var index = 0; index < pages.Count; index++)
+        {
+            var tab = new SKRect(
+                bounds.Left + 12f + index * (tabWidth + tabGap),
+                bounds.Top + 31f,
+                bounds.Left + 12f + index * (tabWidth + tabGap) + tabWidth,
+                bounds.Top + 54f);
+            var active = index == pageIndex;
+            var hovered = hover?.LegendPageIndex == index;
+            canvas.DrawRoundRect(tab, 4f, 4f, active ? activeTabFill : tabFill);
+            if (hovered && !active)
+            {
+                canvas.DrawRoundRect(tab, 4f, 4f, hoverFill);
+            }
+
+            canvas.DrawText(
+                pages[index].Label,
+                tab.Left + 8f,
+                tab.Top + 15.5f,
+                active ? title : enabledLabel);
+            legendHits.Add(new VisualizerLegendHitArea(
+                tab,
+                EntryIndex: null,
+                PageIndex: index,
+                Text: $"show {pages[index].Label}",
+                IsEnabled: true,
+                Priority: 30));
+        }
+
+        var entries = pages[pageIndex].Entries;
         var rows = Math.Max(1, (int)Math.Ceiling(entries.Count / (double)LegendColumns));
         var cellGap = 8f;
         var cellWidth = (bounds.Width - 24f - cellGap) / LegendColumns;
@@ -369,7 +450,13 @@ internal sealed class VisualizerDrawOperation : ICustomDrawOperation
             var text = enabled
                 ? $"add {entry.Label}"
                 : $"{entry.Label}: {document.DisabledReason(entry)}";
-            legendHits.Add(new VisualizerLegendHitArea(cell, index, text, enabled, Priority: 20));
+            legendHits.Add(new VisualizerLegendHitArea(
+                cell,
+                EntryIndex: index,
+                PageIndex: null,
+                Text: text,
+                IsEnabled: enabled,
+                Priority: 20));
         }
 
         publishLegendHitAreas(legendHits.ToArray());
@@ -470,7 +557,8 @@ internal sealed class VisualizerDrawOperation : ICustomDrawOperation
 
 internal sealed record VisualizerLegendHitArea(
     SKRect Bounds,
-    int EntryIndex,
+    int? EntryIndex,
+    int? PageIndex,
     string Text,
     bool IsEnabled,
     int Priority)
@@ -483,4 +571,5 @@ internal sealed record VisualizerHover(
     string Text,
     int Priority,
     IElement? Source,
-    int? LegendIndex);
+    int? LegendIndex,
+    int? LegendPageIndex);
