@@ -123,7 +123,7 @@ internal sealed record VisualizerSample(
             GraphicStructure.Point(angleCircleA, 5));
 
         var angleLineB = new Carrier(UnitShape.LinearFrom(GraphicStructure.Segment(angleLineA, 9, 9)));
-        var angleCircleB = new Carrier(UnitShape.CircularFrom(GraphicStructure.Point(angleLineA, 9)));
+        var angleCircleB = new Carrier(UnitShape.CircularFrom(GraphicStructure.Point(angleLineA, 11)));
         var angleSegmentB = GraphicStructure.Segment(angleLineB, 0, 8);
         var angleJoinAB = new Relation(
             GraphicStructure.Point(angleLineA, 9),
