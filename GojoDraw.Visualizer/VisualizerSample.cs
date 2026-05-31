@@ -8,6 +8,10 @@ internal sealed record VisualizerSample(
     int ProjectionSeed,
     IReadOnlyDictionary<ulong, int> ElementIndexes)
 {
+    public Carrier Drawing { get; init; } = new();
+
+    public IReadOnlyList<IElement> Elements { get; init; } = [];
+
     public VisualizerSample Resample() => this with { ProjectionSeed = Random.Shared.Next() };
 
     public int? SourceIndexOf(IElement? source) =>
@@ -25,11 +29,11 @@ internal sealed record VisualizerSample(
         LegendEntry("line seed", CreateLineSeedLegend(), 106),
         LegendEntry("sheet seed", CreateSheetSeedLegend(), 107),
         LegendEntry("radius", CreateRadiusAttachmentLegend(), 108),
-        LegendEntry("circle", CreateCircumferenceLegend(), 109),
+        LegendEntry("circumference", CreateCircumferenceLegend(), 109),
         LegendEntry("arc/span", CreateCircumferenceSpanLegend(), 110),
-        LegendEntry("frame path", CreateSharedFramePolylineLegend(), 111),
-        LegendEntry("step path", CreateRepeatedStepPathLegend(), 112),
-        LegendEntry("angle", CreateCircularAngleLegend(), 113)
+        LegendEntry("coordinate path", CreateSharedFramePolylineLegend(), 111),
+        LegendEntry("relative path", CreateRepeatedStepPathLegend(), 112),
+        LegendEntry("angle path", CreateCircularAngleLegend(), 113)
     ];
 
     public static VisualizerSample Create()
@@ -231,7 +235,11 @@ internal sealed record VisualizerSample(
 
         var structure = Chain(elements);
 
-        return new VisualizerSample(structure, Random.Shared.Next(), IndexElements(elements));
+        return new VisualizerSample(structure, Random.Shared.Next(), IndexElements(elements))
+        {
+            Drawing = drawing,
+            Elements = elements
+        };
     }
 
     private static VisualizerLegendEntry LegendEntry(string label, IElement structure, int seed) =>
@@ -260,8 +268,10 @@ internal sealed record VisualizerSample(
     {
         var carrier = new Carrier();
         var segment = GraphicStructure.Segment(carrier, 0, 8);
-        var partition = GraphicStructure.Point(carrier, 4);
-        return Chain([segment, partition]);
+        var partitionA = GraphicStructure.Point(carrier, 2);
+        var partitionB = GraphicStructure.Point(carrier, 4);
+        var partitionC = GraphicStructure.Point(carrier, 6);
+        return Chain([segment, partitionA, partitionB, partitionC]);
     }
 
     private static IElement CreateDirectedLegend()

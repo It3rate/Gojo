@@ -597,7 +597,7 @@ public sealed class GraphicReadGraph
             var endpointGroups = ReadSharedEndpointGroups(endpoints).ToArray();
             var groupByEndpoint = IndexEndpointGroups(endpointGroups);
             var adjacent = BuildSegmentAdjacency(segments, endpointGroups);
-            var visited = new HashSet<PositiveSegmentRead>();
+            var visited = ReadReferenceSet<PositiveSegmentRead>();
 
             foreach (var seed in segments)
             {
@@ -630,8 +630,9 @@ public sealed class GraphicReadGraph
                     }
 
                     var participating = group
-                        .Where(candidate => component.Contains(candidate.Segment))
-                        .Distinct()
+                        .Where(candidate => component.Any(segment => ReferenceEquals(segment, candidate.Segment)))
+                        .GroupBy(endpoint => endpoint.Segment, ReadReferenceComparer<PositiveSegmentRead>())
+                        .Select(endpointGroup => endpointGroup.First())
                         .ToArray();
                     if (participating.Length != 2)
                     {
@@ -722,7 +723,7 @@ public sealed class GraphicReadGraph
             var endpoints = ReadPathSegmentEndpoints(segments);
             var endpointGroups = ReadAllPathEndpointGroups(endpoints, reads);
             var adjacent = BuildPathSegmentAdjacency(segments, endpointGroups);
-            var visited = new HashSet<PathSegmentRead>();
+            var visited = ReadReferenceSet<PathSegmentRead>();
 
             foreach (var seed in segments)
             {
@@ -750,7 +751,7 @@ public sealed class GraphicReadGraph
 
             var endpointGroups = ReadSharedFrameEndpointGroups(segments);
             var adjacent = BuildSharedFrameSegmentAdjacency(segments, endpointGroups);
-            var visited = new HashSet<SharedFrameSegmentRead>();
+            var visited = ReadReferenceSet<SharedFrameSegmentRead>();
 
             foreach (var seed in segments)
             {
@@ -1188,10 +1189,18 @@ public sealed class GraphicReadGraph
             IReadOnlyList<PositiveSegmentRead> segments,
             IReadOnlyList<IReadOnlyList<SegmentEndpointRead>> endpointGroups)
         {
-            var adjacent = segments.ToDictionary(segment => segment, _ => new List<PositiveSegmentRead>());
+            var adjacent = ReadReferenceDictionary<PositiveSegmentRead, List<PositiveSegmentRead>>();
+            foreach (var segment in segments)
+            {
+                adjacent.TryAdd(segment, []);
+            }
+
             foreach (var group in endpointGroups)
             {
-                var groupSegments = group.Select(endpoint => endpoint.Segment).Distinct().ToArray();
+                var groupSegments = group
+                    .Select(endpoint => endpoint.Segment)
+                    .Distinct(ReadReferenceComparer<PositiveSegmentRead>())
+                    .ToArray();
                 for (var leftIndex = 0; leftIndex < groupSegments.Length; leftIndex++)
                 for (var rightIndex = leftIndex + 1; rightIndex < groupSegments.Length; rightIndex++)
                 {
@@ -1207,10 +1216,18 @@ public sealed class GraphicReadGraph
             IReadOnlyList<PathSegmentRead> segments,
             IReadOnlyList<IReadOnlyList<PathSegmentEndpointRead>> endpointGroups)
         {
-            var adjacent = segments.ToDictionary(segment => segment, _ => new List<PathSegmentRead>());
+            var adjacent = ReadReferenceDictionary<PathSegmentRead, List<PathSegmentRead>>();
+            foreach (var segment in segments)
+            {
+                adjacent.TryAdd(segment, []);
+            }
+
             foreach (var group in endpointGroups)
             {
-                var groupSegments = group.Select(endpoint => endpoint.Segment).Distinct().ToArray();
+                var groupSegments = group
+                    .Select(endpoint => endpoint.Segment)
+                    .Distinct(ReadReferenceComparer<PathSegmentRead>())
+                    .ToArray();
                 for (var leftIndex = 0; leftIndex < groupSegments.Length; leftIndex++)
                 for (var rightIndex = leftIndex + 1; rightIndex < groupSegments.Length; rightIndex++)
                 {
@@ -1276,7 +1293,7 @@ public sealed class GraphicReadGraph
             IReadOnlyList<GraphicRead> reads,
             out OpenSegmentPathRead path)
         {
-            var componentSet = component.ToHashSet();
+            var componentSet = ReadReferenceSet<PathSegmentRead>(component);
             var groups = endpointGroups
                 .Select(group => group.Where(endpoint => componentSet.Contains(endpoint.Segment)).ToArray())
                 .Where(group => group.Length != 0)
@@ -1305,7 +1322,7 @@ public sealed class GraphicReadGraph
                 return false;
             }
 
-            var orderedSet = orderedSegments.ToHashSet();
+            var orderedSet = ReadReferenceSet<PathSegmentRead>(orderedSegments);
             if (orderedSet.Count != component.Count || !component.All(orderedSet.Contains))
             {
                 path = default!;
@@ -1364,7 +1381,7 @@ public sealed class GraphicReadGraph
             out IReadOnlyList<PathSegmentRead> orderedSegments)
         {
             var ordered = new List<PathSegmentRead>();
-            var visited = new HashSet<PathSegmentRead>();
+            var visited = ReadReferenceSet<PathSegmentRead>();
             var incoming = startEndpoint;
 
             while (visited.Add(incoming.Segment))
@@ -1377,7 +1394,7 @@ public sealed class GraphicReadGraph
                     break;
                 }
 
-                var next = group.FirstOrDefault(endpoint => !endpoint.Segment.Equals(incoming.Segment));
+                var next = group.FirstOrDefault(endpoint => !ReferenceEquals(endpoint.Segment, incoming.Segment));
                 if (next is null)
                 {
                     break;
@@ -1414,10 +1431,18 @@ public sealed class GraphicReadGraph
             IReadOnlyList<SharedFrameSegmentRead> segments,
             IEnumerable<IReadOnlyList<SharedFrameSegmentEndpointRead>> endpointGroups)
         {
-            var adjacent = segments.ToDictionary(segment => segment, _ => new List<SharedFrameSegmentRead>());
+            var adjacent = ReadReferenceDictionary<SharedFrameSegmentRead, List<SharedFrameSegmentRead>>();
+            foreach (var segment in segments)
+            {
+                adjacent.TryAdd(segment, []);
+            }
+
             foreach (var group in endpointGroups.Where(group => group.Count > 1))
             {
-                var groupSegments = group.Select(endpoint => endpoint.Segment).Distinct().ToArray();
+                var groupSegments = group
+                    .Select(endpoint => endpoint.Segment)
+                    .Distinct(ReadReferenceComparer<SharedFrameSegmentRead>())
+                    .ToArray();
                 for (var leftIndex = 0; leftIndex < groupSegments.Length; leftIndex++)
                 for (var rightIndex = leftIndex + 1; rightIndex < groupSegments.Length; rightIndex++)
                 {
@@ -1458,7 +1483,7 @@ public sealed class GraphicReadGraph
             IReadOnlyList<IReadOnlyList<SharedFrameSegmentEndpointRead>> endpointGroups,
             out SharedFramePolylineRead path)
         {
-            var componentSet = component.ToHashSet();
+            var componentSet = ReadReferenceSet<SharedFrameSegmentRead>(component);
             var groups = endpointGroups
                 .Select(group => group.Where(endpoint => componentSet.Contains(endpoint.Segment)).ToArray())
                 .Where(group => group.Length != 0)
@@ -1495,7 +1520,7 @@ public sealed class GraphicReadGraph
                 return false;
             }
 
-            var orderedSet = ordered.ToHashSet();
+            var orderedSet = ReadReferenceSet<SharedFrameSegmentRead>(ordered);
             if (orderedSet.Count != component.Count || !component.All(orderedSet.Contains))
             {
                 path = default!;
@@ -1513,7 +1538,7 @@ public sealed class GraphicReadGraph
             out IReadOnlyList<SharedFrameSegmentRead> orderedSegments)
         {
             var ordered = new List<SharedFrameSegmentRead>();
-            var visited = new HashSet<SharedFrameSegmentRead>();
+            var visited = ReadReferenceSet<SharedFrameSegmentRead>();
             var incoming = startEndpoint;
 
             while (visited.Add(incoming.Segment))
@@ -1528,7 +1553,7 @@ public sealed class GraphicReadGraph
                     break;
                 }
 
-                var next = group.FirstOrDefault(endpoint => !endpoint.Segment.Equals(incoming.Segment));
+                var next = group.FirstOrDefault(endpoint => !ReferenceEquals(endpoint.Segment, incoming.Segment));
                 if (next is null)
                 {
                     break;
@@ -1570,6 +1595,22 @@ public sealed class GraphicReadGraph
             reads.AddRange(bandReads);
         }
 
+        private static Dictionary<TKey, TValue> ReadReferenceDictionary<TKey, TValue>()
+            where TKey : class =>
+            new(ReadReferenceComparer<TKey>());
+
+        private static HashSet<T> ReadReferenceSet<T>()
+            where T : class =>
+            new(ReadReferenceComparer<T>());
+
+        private static HashSet<T> ReadReferenceSet<T>(IEnumerable<T> values)
+            where T : class =>
+            new(values, ReadReferenceComparer<T>());
+
+        private static IEqualityComparer<T> ReadReferenceComparer<T>()
+            where T : class =>
+            ReferenceReadComparer<T>.Instance;
+
         private const long LinearCarrierOriginTicks = 0;
 
         private readonly record struct LocationGroupKey(ulong CarrierId, long Ticks)
@@ -1579,6 +1620,17 @@ public sealed class GraphicReadGraph
                 var normalized = Normalize(location);
                 return new LocationGroupKey(NormalizeCarrier(normalized.Carrier).Id, normalized.Ticks);
             }
+        }
+
+        private sealed class ReferenceReadComparer<T> : IEqualityComparer<T>
+            where T : class
+        {
+            public static ReferenceReadComparer<T> Instance { get; } = new();
+
+            public bool Equals(T? x, T? y) => ReferenceEquals(x, y);
+
+            public int GetHashCode(T obj) =>
+                System.Runtime.CompilerServices.RuntimeHelpers.GetHashCode(obj);
         }
     }
 }

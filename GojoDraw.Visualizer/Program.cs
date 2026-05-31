@@ -33,31 +33,62 @@ internal sealed class MainWindow : Window
     public MainWindow()
     {
         Title = "GojoDraw Visualizer";
-        Width = 820;
-        Height = 520;
-        MinWidth = 420;
-        MinHeight = 320;
+        Width = 1120;
+        Height = 720;
+        MinWidth = 720;
+        MinHeight = 480;
 
-        var canvas = new VisualizerCanvas { Sample = VisualizerSample.Create() };
+        var canvas = new VisualizerCanvas { Document = VisualizerDocument.CreateInitial() };
         var refreshButton = new Button
         {
             Content = "Refresh",
-            HorizontalAlignment = HorizontalAlignment.Right,
-            VerticalAlignment = VerticalAlignment.Top,
-            Margin = new Thickness(16),
             Padding = new Thickness(20, 12),
             MinWidth = 112,
+            MinHeight = 44
+        };
+        var randomButton = new Button
+        {
+            Content = "Random",
+            Padding = new Thickness(20, 12),
+            MinWidth = 104,
+            MinHeight = 44
+        };
+        var clearButton = new Button
+        {
+            Content = "Clear",
+            Padding = new Thickness(20, 12),
+            MinWidth = 96,
             MinHeight = 44
         };
 
         refreshButton.Click += (_, _) =>
         {
-            canvas.Sample = canvas.Sample?.Resample() ?? VisualizerSample.Create();
+            canvas.Document = canvas.Document?.Resample() ?? VisualizerDocument.CreateInitial();
         };
+        randomButton.Click += (_, _) =>
+        {
+            canvas.Document = VisualizerDocument.CreateRandom();
+        };
+        clearButton.Click += (_, _) =>
+        {
+            canvas.Document = VisualizerDocument.CreateEmpty();
+        };
+
+        var buttons = new StackPanel
+        {
+            Orientation = Orientation.Horizontal,
+            HorizontalAlignment = HorizontalAlignment.Right,
+            VerticalAlignment = VerticalAlignment.Top,
+            Margin = new Thickness(16),
+            Spacing = 8
+        };
+        buttons.Children.Add(refreshButton);
+        buttons.Children.Add(randomButton);
+        buttons.Children.Add(clearButton);
 
         var root = new Grid();
         root.Children.Add(canvas);
-        root.Children.Add(refreshButton);
+        root.Children.Add(buttons);
         Content = root;
     }
 }

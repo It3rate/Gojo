@@ -22,12 +22,14 @@ public sealed class DerivedSkiaProjection : IGojoCadSkiaProjection
     private readonly HashSet<ulong> resolvingLinearBases = [];
     private readonly HashSet<ulong> resolvingCircularBases = [];
     private readonly SKRect viewport;
+    private readonly SKRect? fixedModelBounds;
     private readonly Random random;
     private ViewportTransform? viewportTransform;
 
-    public DerivedSkiaProjection(IElement structure, SKRect viewport, int seed)
+    public DerivedSkiaProjection(IElement structure, SKRect viewport, int seed, SKRect? fixedModelBounds = null)
     {
         this.viewport = viewport;
+        this.fixedModelBounds = fixedModelBounds;
         random = new Random(seed);
         var graph = GraphicReadGraph.From(structure ?? throw new ArgumentNullException(nameof(structure)));
         foreach (var point in graph.ReadsOf<PointRead>())
@@ -402,7 +404,7 @@ public sealed class DerivedSkiaProjection : IGojoCadSkiaProjection
             return viewportTransform;
         }
 
-        viewportTransform = ViewportTransform.From(ReadModelBounds(), viewport);
+        viewportTransform = ViewportTransform.From(fixedModelBounds ?? ReadModelBounds(), viewport);
         return viewportTransform;
     }
 

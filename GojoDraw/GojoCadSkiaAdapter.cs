@@ -35,6 +35,14 @@ public sealed class GojoCadSkiaAdapter
     {
         var drawn = 0;
         var pointRoles = new HashSet<LocationKey>();
+        foreach (var framePoint in graph.ReadsOf<SharedFramePointRead>())
+        {
+            foreach (var coordinate in framePoint.Coordinates)
+            {
+                pointRoles.Add(LocationKey.Of(coordinate));
+            }
+        }
+
         var angleControlledPathSegments = ReadAngleControlledPathSegmentSources(graph);
 
         foreach (var radial in graph.ReadsOf<RadialSeedRead>())
@@ -72,6 +80,12 @@ public sealed class GojoCadSkiaAdapter
         foreach (var segment in graph.ReadsOf<SharedFrameSegmentRead>())
         {
             DrawSharedFrameSegment(canvas, segment, projection, paints, hitAreas);
+            drawn++;
+        }
+
+        foreach (var attachment in graph.ReadsOf<SharedFramePointAttachmentRead>())
+        {
+            DrawSharedFrameAttachment(canvas, attachment, projection, paints, hitAreas, pointRoles);
             drawn++;
         }
 
@@ -452,6 +466,21 @@ public sealed class GojoCadSkiaAdapter
         AddHit(hitAreas, LineBounds(start, end, 9f), "shared-frame segment", priority: 3, segment.Source);
     }
 
+    private static void DrawSharedFrameAttachment(
+        SKCanvas canvas,
+        SharedFramePointAttachmentRead attachment,
+        IGojoCadSkiaProjection projection,
+        GojoCadSkiaPaints paints,
+        ICollection<GojoCadSkiaHitArea>? hitAreas,
+        HashSet<LocationKey> pointRoles)
+    {
+        var point = projection.ProjectFrame(attachment.FramePoint);
+        DrawFramePointBox(canvas, point, paints, 1.08f);
+        var bounds = CenteredRect(point, paints.BasisSize * 1.6f);
+        AddHit(hitAreas, bounds, "frame basis", priority: 6, attachment.Source);
+        pointRoles.Add(LocationKey.Of(attachment.Point.Location));
+    }
+
     private static void DrawSegmentTick(
         SKCanvas canvas,
         CarrierLocation location,
@@ -559,6 +588,18 @@ public sealed class GojoCadSkiaAdapter
         var bounds = CenteredRect(point, paints.BasisSize);
         canvas.DrawRect(bounds, paints.Basis);
         AddHit(hitAreas, bounds, text, priority, source);
+    }
+
+    private static void DrawFramePointBox(
+        SKCanvas canvas,
+        SKPoint point,
+        GojoCadSkiaPaints paints,
+        float scale)
+    {
+        var size = paints.BasisSize * scale;
+        var bounds = CenteredRect(point, size);
+        canvas.DrawRect(bounds, paints.SharedFramePoint);
+        canvas.DrawRect(bounds, paints.Basis);
     }
 
     private static CircleProjection ReadCircleProjection(

@@ -5,6 +5,7 @@ using Avalonia.Media;
 using Avalonia.Rendering.SceneGraph;
 using Avalonia.Skia;
 using Avalonia.VisualTree;
+using Gojo.Core;
 using GojoDraw;
 using SkiaSharp;
 using System.Threading;
@@ -13,9 +14,12 @@ namespace GojoDraw.Visualizer;
 
 internal sealed class VisualizerCanvas : Control
 {
-    private VisualizerSample? sample;
-    private GojoCadSkiaHitArea[] hitAreas = [];
-    private GojoCadSkiaHitArea? hover;
+    internal static readonly IReadOnlyList<VisualizerLegendEntry> LegendEntries = VisualizerSample.CreateLegend();
+
+    private VisualizerDocument? document;
+    private GojoCadSkiaHitArea[] structureHitAreas = [];
+    private VisualizerLegendHitArea[] legendHitAreas = [];
+    private VisualizerHover? hover;
     private SKPoint hoverPoint;
 
     public VisualizerCanvas()
@@ -23,14 +27,15 @@ internal sealed class VisualizerCanvas : Control
         ClipToBounds = true;
     }
 
-    public VisualizerSample? Sample
+    public VisualizerDocument? Document
     {
-        get => sample;
+        get => document;
         set
         {
-            sample = value;
+            document = value;
             hover = null;
-            Volatile.Write(ref hitAreas, []);
+            Volatile.Write(ref structureHitAreas, []);
+            Volatile.Write(ref legendHitAreas, []);
             InvalidateVisual();
         }
     }
@@ -38,15 +43,16 @@ internal sealed class VisualizerCanvas : Control
     public override void Render(DrawingContext context)
     {
         base.Render(context);
-        if (Sample is null)
+        if (Document is null)
         {
             return;
         }
 
         context.Custom(new VisualizerDrawOperation(
             new Rect(Bounds.Size),
-            Sample,
-            PublishHitAreas,
+            Document,
+            PublishStructureHitAreas,
+            PublishLegendHitAreas,
             hover,
             hoverPoint));
     }
@@ -62,16 +68,41 @@ internal sealed class VisualizerCanvas : Control
         base.OnPointerMoved(e);
         var position = e.GetPosition(this);
         hoverPoint = new SKPoint((float)position.X, (float)position.Y);
-        var snapshot = Volatile.Read(ref hitAreas);
-        var next = snapshot
-            .Where(area => area.Contains(hoverPoint))
-            .OrderByDescending(area => area.Priority)
-            .FirstOrDefault();
+        var next = ReadHitAt(hoverPoint);
         if (!Equals(next, hover))
         {
             hover = next;
             InvalidateVisual();
         }
+    }
+
+    protected override void OnPointerPressed(PointerPressedEventArgs e)
+    {
+        base.OnPointerPressed(e);
+        if (Document is null ||
+            !e.GetCurrentPoint(this).Properties.IsLeftButtonPressed)
+        {
+            return;
+        }
+
+        var position = e.GetPosition(this);
+        var hit = ReadHitAt(new SKPoint((float)position.X, (float)position.Y));
+        if (hit?.LegendIndex is int legendIndex)
+        {
+            var entry = LegendEntries[legendIndex];
+            if (Document.CanApply(entry))
+            {
+                Document = Document.Apply(entry);
+            }
+
+            e.Handled = true;
+            return;
+        }
+
+        Document = hit?.Source is null
+            ? Document with { SelectedIndex = null }
+            : Document.SelectSource(hit.Source);
+        e.Handled = true;
     }
 
     protected override void OnPointerExited(PointerEventArgs e)
@@ -84,36 +115,74 @@ internal sealed class VisualizerCanvas : Control
         }
     }
 
-    private void PublishHitAreas(GojoCadSkiaHitArea[] nextHitAreas)
+    private VisualizerHover? ReadHitAt(SKPoint point)
     {
-        Volatile.Write(ref hitAreas, nextHitAreas);
+        var legend = Volatile.Read(ref legendHitAreas)
+            .Where(area => area.Contains(point))
+            .OrderByDescending(area => area.Priority)
+            .FirstOrDefault();
+        if (legend is not null)
+        {
+            return new VisualizerHover(
+                legend.Bounds,
+                legend.Text,
+                legend.Priority,
+                Source: null,
+                LegendIndex: legend.EntryIndex);
+        }
+
+        var structure = Volatile.Read(ref structureHitAreas)
+            .Where(area => area.Contains(point))
+            .OrderByDescending(area => area.Priority)
+            .FirstOrDefault();
+        return structure is null
+            ? null
+            : new VisualizerHover(
+                structure.Bounds,
+                structure.Text,
+                structure.Priority,
+                structure.Source,
+                LegendIndex: null);
+    }
+
+    private void PublishStructureHitAreas(GojoCadSkiaHitArea[] nextHitAreas)
+    {
+        Volatile.Write(ref structureHitAreas, nextHitAreas);
+    }
+
+    private void PublishLegendHitAreas(VisualizerLegendHitArea[] nextHitAreas)
+    {
+        Volatile.Write(ref legendHitAreas, nextHitAreas);
     }
 }
 
 internal sealed class VisualizerDrawOperation : ICustomDrawOperation
 {
-    private const float LegendWidth = 152f;
+    private const float LegendWidth = 286f;
     private const float LegendGap = 10f;
     private const float LegendTopPadding = 34f;
-    private const float LegendRowMinHeight = 27f;
+    private const float LegendCellMinHeight = 46f;
+    private const int LegendColumns = 2;
 
     private static readonly GojoCadSkiaAdapter Adapter = new();
-    private static readonly IReadOnlyList<VisualizerLegendEntry> LegendEntries = VisualizerSample.CreateLegend();
-    private readonly VisualizerSample sample;
-    private readonly Action<GojoCadSkiaHitArea[]> publishHitAreas;
-    private readonly GojoCadSkiaHitArea? hover;
+    private readonly VisualizerDocument document;
+    private readonly Action<GojoCadSkiaHitArea[]> publishStructureHitAreas;
+    private readonly Action<VisualizerLegendHitArea[]> publishLegendHitAreas;
+    private readonly VisualizerHover? hover;
     private readonly SKPoint hoverPoint;
 
     public VisualizerDrawOperation(
         Rect bounds,
-        VisualizerSample sample,
-        Action<GojoCadSkiaHitArea[]> publishHitAreas,
-        GojoCadSkiaHitArea? hover,
+        VisualizerDocument document,
+        Action<GojoCadSkiaHitArea[]> publishStructureHitAreas,
+        Action<VisualizerLegendHitArea[]> publishLegendHitAreas,
+        VisualizerHover? hover,
         SKPoint hoverPoint)
     {
         Bounds = bounds;
-        this.sample = sample;
-        this.publishHitAreas = publishHitAreas;
+        this.document = document;
+        this.publishStructureHitAreas = publishStructureHitAreas;
+        this.publishLegendHitAreas = publishLegendHitAreas;
         this.hover = hover;
         this.hoverPoint = hoverPoint;
     }
@@ -151,21 +220,53 @@ internal sealed class VisualizerDrawOperation : ICustomDrawOperation
         using var paints = new GojoCadSkiaPaints();
         var viewport = ReadSampleViewport();
         var projection = new DerivedSkiaProjection(
-            sample.Structure,
+            document.Structure,
             viewport,
-            sample.ProjectionSeed);
+            document.ProjectionSeed,
+            ReadStableModelBounds());
         var hitAreas = new List<GojoCadSkiaHitArea>();
-        Adapter.DrawElement(canvas, sample.Structure, projection, paints, hitAreas);
-        publishHitAreas(hitAreas.ToArray());
+        Adapter.DrawElement(canvas, document.Structure, projection, paints, hitAreas);
+        DrawSelection(canvas, hitAreas);
+        publishStructureHitAreas(hitAreas.ToArray());
+    }
+
+    private void DrawSelection(SKCanvas canvas, IReadOnlyList<GojoCadSkiaHitArea> hitAreas)
+    {
+        if (document.SelectedIndex is null)
+        {
+            return;
+        }
+
+        using var fill = new SKPaint
+        {
+            IsAntialias = true,
+            Color = new SKColor(230, 145, 46, 34),
+            Style = SKPaintStyle.Fill
+        };
+        using var stroke = new SKPaint
+        {
+            IsAntialias = true,
+            Color = new SKColor(207, 112, 38, 220),
+            StrokeWidth = 1.6f,
+            Style = SKPaintStyle.Stroke
+        };
+
+        foreach (var area in hitAreas.Where(area => document.SourceIndexOf(area.Source) == document.SelectedIndex))
+        {
+            var bounds = Expanded(area.Bounds, 4f);
+            canvas.DrawRoundRect(bounds, 4f, 4f, fill);
+            canvas.DrawRoundRect(bounds, 4f, 4f, stroke);
+        }
     }
 
     private void DrawLegend(SKCanvas canvas)
     {
         var bounds = ReadLegendBounds();
+        var legendHits = new List<VisualizerLegendHitArea>();
         using var background = new SKPaint
         {
             IsAntialias = true,
-            Color = new SKColor(255, 254, 250, 230),
+            Color = new SKColor(255, 254, 250, 238),
             Style = SKPaintStyle.Fill
         };
         using var divider = new SKPaint
@@ -178,17 +279,37 @@ internal sealed class VisualizerDrawOperation : ICustomDrawOperation
         using var title = new SKPaint
         {
             IsAntialias = true,
-            Color = new SKColor(39, 45, 54, 210),
+            Color = new SKColor(39, 45, 54, 220),
             TextSize = 12f,
             Typeface = SKTypeface.FromFamilyName("Segoe UI", SKFontStyle.Bold),
             Style = SKPaintStyle.Fill
         };
-        using var label = new SKPaint
+        using var enabledLabel = new SKPaint
         {
             IsAntialias = true,
-            Color = new SKColor(50, 56, 66, 210),
-            TextSize = 11f,
+            Color = new SKColor(50, 56, 66, 220),
+            TextSize = 10.5f,
             Typeface = SKTypeface.FromFamilyName("Segoe UI"),
+            Style = SKPaintStyle.Fill
+        };
+        using var disabledLabel = new SKPaint
+        {
+            IsAntialias = true,
+            Color = new SKColor(103, 108, 117, 120),
+            TextSize = 10.5f,
+            Typeface = SKTypeface.FromFamilyName("Segoe UI"),
+            Style = SKPaintStyle.Fill
+        };
+        using var hoverFill = new SKPaint
+        {
+            IsAntialias = true,
+            Color = new SKColor(34, 101, 145, 22),
+            Style = SKPaintStyle.Fill
+        };
+        using var disabledWash = new SKPaint
+        {
+            IsAntialias = true,
+            Color = new SKColor(255, 254, 250, 158),
             Style = SKPaintStyle.Fill
         };
 
@@ -196,21 +317,37 @@ internal sealed class VisualizerDrawOperation : ICustomDrawOperation
         canvas.DrawLine(bounds.Right, bounds.Top, bounds.Right, bounds.Bottom, divider);
         canvas.DrawText("Legend", bounds.Left + 12f, bounds.Top + 21f, title);
 
+        var entries = VisualizerCanvas.LegendEntries;
+        var rows = Math.Max(1, (int)Math.Ceiling(entries.Count / (double)LegendColumns));
+        var cellGap = 8f;
+        var cellWidth = (bounds.Width - 24f - cellGap) / LegendColumns;
         var rowHeight = MathF.Max(
-            LegendRowMinHeight,
-            (bounds.Height - LegendTopPadding - 8f) / Math.Max(1, LegendEntries.Count));
+            LegendCellMinHeight,
+            (bounds.Height - LegendTopPadding - 10f) / rows);
         using var paints = CreateLegendPaints();
 
-        for (var index = 0; index < LegendEntries.Count; index++)
+        for (var index = 0; index < entries.Count; index++)
         {
-            var entry = LegendEntries[index];
-            var rowTop = bounds.Top + LegendTopPadding + index * rowHeight;
-            var rowCenter = rowTop + rowHeight * 0.5f;
+            var entry = entries[index];
+            var column = index % LegendColumns;
+            var row = index / LegendColumns;
+            var cell = new SKRect(
+                bounds.Left + 10f + column * (cellWidth + cellGap),
+                bounds.Top + LegendTopPadding + row * rowHeight,
+                bounds.Left + 10f + column * (cellWidth + cellGap) + cellWidth,
+                bounds.Top + LegendTopPadding + row * rowHeight + rowHeight - 4f);
             var glyphBounds = new SKRect(
-                bounds.Left + 10f,
-                rowTop + 4f,
-                bounds.Left + 58f,
-                rowTop + rowHeight - 4f);
+                cell.Left + 5f,
+                cell.Top + 5f,
+                cell.Left + 45f,
+                cell.Bottom - 5f);
+            var enabled = document.CanApply(entry);
+            var isHovered = hover?.LegendIndex == index;
+
+            if (isHovered)
+            {
+                canvas.DrawRoundRect(cell, 4f, 4f, hoverFill);
+            }
 
             canvas.Save();
             canvas.ClipRect(glyphBounds);
@@ -218,13 +355,29 @@ internal sealed class VisualizerDrawOperation : ICustomDrawOperation
             Adapter.DrawElement(canvas, entry.Structure, projection, paints);
             canvas.Restore();
 
-            canvas.DrawText(entry.Label, bounds.Left + 68f, rowCenter + 4f, label);
+            if (!enabled)
+            {
+                canvas.DrawRoundRect(cell, 4f, 4f, disabledWash);
+            }
+
+            canvas.DrawText(
+                entry.Label,
+                cell.Left + 51f,
+                cell.Top + cell.Height * 0.5f + 4f,
+                enabled ? enabledLabel : disabledLabel);
+
+            var text = enabled
+                ? $"add {entry.Label}"
+                : $"{entry.Label}: {document.DisabledReason(entry)}";
+            legendHits.Add(new VisualizerLegendHitArea(cell, index, text, enabled, Priority: 20));
         }
+
+        publishLegendHitAreas(legendHits.ToArray());
     }
 
     private SKRect ReadLegendBounds()
     {
-        var width = MathF.Min(LegendWidth, MathF.Max(124f, (float)Bounds.Width * 0.23f));
+        var width = MathF.Min(LegendWidth, MathF.Max(184f, (float)Bounds.Width * 0.31f));
         return new SKRect(0, 0, width, (float)Bounds.Height);
     }
 
@@ -235,31 +388,34 @@ internal sealed class VisualizerDrawOperation : ICustomDrawOperation
         return new SKRect(left, 0, (float)Bounds.Width, (float)Bounds.Height);
     }
 
+    private static SKRect ReadStableModelBounds() =>
+        new(-48f, -48f, 88f, 52f);
+
     private static GojoCadSkiaPaints CreateLegendPaints()
     {
         var paints = new GojoCadSkiaPaints
         {
-            DotRadius = 3.4f,
-            RadialRadius = 14f,
-            EndpointBarLength = 7f,
-            PartitionTickLength = 7f,
+            DotRadius = 3.2f,
+            RadialRadius = 12f,
+            EndpointBarLength = 6f,
+            PartitionTickLength = 6f,
             BasisSize = 5f,
-            ArrowLength = 7f,
+            ArrowLength = 6f,
             ArrowWidth = 3f,
-            LineSeedLength = 24f,
-            SheetSeedWidth = 10f
+            LineSeedLength = 22f,
+            SheetSeedWidth = 9f
         };
 
-        paints.Segment.StrokeWidth = 1.6f;
-        paints.SegmentTension.StrokeWidth = 1.5f;
+        paints.Segment.StrokeWidth = 1.5f;
+        paints.SegmentTension.StrokeWidth = 1.4f;
         paints.AngleControlledSegment.StrokeWidth = 1.8f;
-        paints.AngleControlledSegmentTension.StrokeWidth = 1.7f;
-        paints.DirectedSegment.StrokeWidth = 1.8f;
-        paints.DirectedSegmentTension.StrokeWidth = 1.7f;
+        paints.AngleControlledSegmentTension.StrokeWidth = 1.6f;
+        paints.DirectedSegment.StrokeWidth = 1.7f;
+        paints.DirectedSegmentTension.StrokeWidth = 1.6f;
         paints.Circumference.StrokeWidth = 0.9f;
         paints.CircumferenceTension.StrokeWidth = 0.9f;
-        paints.CircumferenceSpan.StrokeWidth = 1.2f;
-        paints.CircumferenceSpanTension.StrokeWidth = 1.1f;
+        paints.CircumferenceSpan.StrokeWidth = 1.1f;
+        paints.CircumferenceSpanTension.StrokeWidth = 1f;
         paints.EndpointBar.StrokeWidth = 1f;
         paints.Partition.StrokeWidth = 1f;
         paints.Basis.StrokeWidth = 1f;
@@ -295,11 +451,36 @@ internal sealed class VisualizerDrawOperation : ICustomDrawOperation
         canvas.DrawText(text, x, y, paints.HoverText);
     }
 
-    private string ReadHoverText(GojoCadSkiaHitArea area)
+    private string ReadHoverText(VisualizerHover area)
     {
-        var index = sample.SourceIndexOf(area.Source);
+        if (area.LegendIndex is not null)
+        {
+            return area.Text;
+        }
+
+        var index = document.SourceIndexOf(area.Source);
         return index is null
             ? area.Text
             : $"{area.Text} element[{index.Value}]";
     }
+
+    private static SKRect Expanded(SKRect rect, float amount) =>
+        new(rect.Left - amount, rect.Top - amount, rect.Right + amount, rect.Bottom + amount);
 }
+
+internal sealed record VisualizerLegendHitArea(
+    SKRect Bounds,
+    int EntryIndex,
+    string Text,
+    bool IsEnabled,
+    int Priority)
+{
+    public bool Contains(SKPoint point) => Bounds.Contains(point);
+}
+
+internal sealed record VisualizerHover(
+    SKRect Bounds,
+    string Text,
+    int Priority,
+    IElement? Source,
+    int? LegendIndex);
