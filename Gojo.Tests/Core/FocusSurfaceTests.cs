@@ -181,6 +181,49 @@ public sealed class FocusSurfaceTests
         Assert.Equal(sharpRectangle, before);
         Assert.Equal(cornerAFocus, transition);
         Assert.Equal(afterCornerA, after);
+        Assert.True(FocusSurface.TryReadStep(
+            first,
+            out var focusSpan,
+            out var focusStart,
+            out var focusEnd,
+            out var focusBefore,
+            out var readFocus,
+            out var focusAfter,
+            out var focusResidue));
+        Assert.Equal(Relation.Segment(clock, 0, 1), focusSpan);
+        Assert.Equal(new CarrierLocation(clock, 0), focusStart);
+        Assert.Equal(new CarrierLocation(clock, 1), focusEnd);
+        Assert.Equal(sharpRectangle, focusBefore);
+        Assert.Equal(cornerAFocus, readFocus);
+        Assert.Equal(afterCornerA, focusAfter);
+        Assert.Equal(Relation.Point(Carrier.Unknown, 0), focusResidue);
+    }
+
+    [Fact]
+    public void FocusStepReadRejectsNonFocusTransition()
+    {
+        var clock = TimeStepSequence.CreateClock(new Carrier());
+        var source = Relation.Segment(new Carrier(), 0, 1);
+        var transition = Relation.Segment(new Carrier(), 1, 2);
+        var step = TimeStepSequence.Step(
+            new Carrier(),
+            clock,
+            0,
+            1,
+            source,
+            transition,
+            Relation.Point(new Carrier(), 2),
+            Relation.Point(Carrier.Unknown, 0));
+
+        Assert.False(FocusSurface.TryReadStep(
+            step,
+            out _,
+            out _,
+            out _,
+            out _,
+            out _,
+            out _,
+            out _));
     }
 
     [Fact]
@@ -227,6 +270,258 @@ public sealed class FocusSurfaceTests
         Assert.Equal(participation, result);
         Assert.Equal(residue, readResidue);
         Assert.Equal(timeline, provenance);
+    }
+
+    [Fact]
+    public void FocusCanProjectAcrossRungsThroughCorrespondence()
+    {
+        var coarse = new Carrier();
+        var detailed = new Carrier();
+        var coarseHorizontal = Relation.Segment(coarse, 0, 10);
+        var coarseVertical = Relation.Segment(coarse, 10, 20);
+        var coarseSource = FocusSurface.Frame(new Carrier(), coarseHorizontal, coarseVertical);
+        var coarseCorner = Relation.Point(coarse, 10);
+        var coarseSelectedSpan = Relation.Segment(coarse, 8, 12);
+        var coarseCarry = FocusSurface.Frame(
+            new Carrier(),
+            Relation.Segment(coarse, 0, 8),
+            Relation.Segment(coarse, 12, 20));
+        var coarseFocus = FocusSurface.Create(
+            new Carrier(),
+            coarseSource,
+            coarseCorner,
+            coarseSelectedSpan,
+            coarseCarry,
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0));
+
+        var detailedHorizontal = Relation.Segment(detailed, 0, 30);
+        var detailedVertical = Relation.Segment(detailed, 30, 55);
+        var detailedSource = FocusSurface.Frame(new Carrier(), detailedHorizontal, detailedVertical);
+        var detailedCorner = Relation.Point(detailed, 30);
+        var detailedSelectedSpan = Relation.Segment(detailed, 24, 36);
+        var detailedCarry = FocusSurface.Frame(
+            new Carrier(),
+            Relation.Segment(detailed, 0, 24),
+            Relation.Segment(detailed, 36, 55));
+        var correspondence = FocusSurface.BindingFrame(
+            new Carrier(),
+            FocusSurface.Bind(coarseCorner, detailedCorner),
+            FocusSurface.Bind(coarseSelectedSpan, detailedSelectedSpan),
+            FocusSurface.Bind(coarseCarry, detailedCarry));
+        var residue = new Placeholder();
+
+        Assert.True(FocusSurface.TryProject(
+            coarseFocus,
+            new Carrier(),
+            detailedSource,
+            correspondence,
+            residue,
+            out var projected,
+            out var projection));
+
+        Assert.True(FocusSurface.TryRead(
+            projected,
+            out var readSource,
+            out var readBasis,
+            out var readParticipation,
+            out var readComplement,
+            out _,
+            out var readCorrespondence,
+            out var readResidue,
+            out var readProvenance));
+        Assert.Equal(detailedSource, readSource);
+        Assert.Equal(detailedCorner, readBasis);
+        Assert.Equal(detailedSelectedSpan, readParticipation);
+        Assert.Equal(detailedCarry, readComplement);
+        Assert.Equal(correspondence, readCorrespondence);
+        Assert.Equal(residue, readResidue);
+        Assert.True(FocusSurface.TryReadFrame(readProvenance, out var provenanceParts));
+        Assert.Equal([coarseFocus, correspondence, Relation.Point(Carrier.Unknown, 0)], provenanceParts);
+
+        Assert.True(FocusSurface.TryReadProjection(
+            projection,
+            out var sourceFocus,
+            out var targetSource,
+            out var projectionCorrespondence,
+            out var projectedFocus,
+            out var projectionResidue));
+        Assert.Equal(coarseFocus, sourceFocus);
+        Assert.Equal(detailedSource, targetSource);
+        Assert.Equal(correspondence, projectionCorrespondence);
+        Assert.Equal(projected, projectedFocus);
+        Assert.Equal(residue, projectionResidue);
+    }
+
+    [Fact]
+    public void FocusProjectionPreservesUnmappedParticipationAsResidueBearingStructure()
+    {
+        var sourceCarrier = new Carrier();
+        var targetCarrier = new Carrier();
+        var source = Relation.Segment(sourceCarrier, 0, 10);
+        var sourceBasis = Relation.Point(sourceCarrier, 5);
+        var sourceParticipation = Relation.Segment(sourceCarrier, 4, 6);
+        var targetSource = Relation.Segment(targetCarrier, 0, 20);
+        var targetBasis = Relation.Point(targetCarrier, 10);
+        var correspondence = FocusSurface.BindingFrame(
+            new Carrier(),
+            FocusSurface.Bind(sourceBasis, targetBasis));
+        var unresolved = new Placeholder();
+        var focus = FocusSurface.Create(
+            new Carrier(),
+            source,
+            sourceBasis,
+            sourceParticipation,
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0),
+            unresolved,
+            Relation.Point(Carrier.Unknown, 0));
+
+        Assert.True(FocusSurface.TryProject(
+            focus,
+            new Carrier(),
+            targetSource,
+            correspondence,
+            unresolved,
+            out var projected,
+            out _));
+
+        Assert.True(FocusSurface.TryRead(
+            projected,
+            out _,
+            out var readBasis,
+            out var readParticipation,
+            out _,
+            out _,
+            out _,
+            out var readResidue,
+            out _));
+        Assert.Equal(targetBasis, readBasis);
+        Assert.Equal(sourceParticipation, readParticipation);
+        Assert.Equal(unresolved, readResidue);
+    }
+
+    [Fact]
+    public void FocusCanCreateResultWitness()
+    {
+        var source = Relation.Segment(new Carrier(), 0, 10);
+        var focusBasis = Relation.Point(new Carrier(), 5);
+        var participation = Relation.Segment(new Carrier(), 4, 6);
+        var result = FocusSurface.Frame(new Carrier(), source, Relation.Segment(new Carrier(), 0, 3));
+        var residue = new Placeholder();
+        var provenance = Relation.Point(new Carrier(), 1);
+        var focus = FocusSurface.Create(
+            new Carrier(),
+            source,
+            focusBasis,
+            participation,
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0),
+            residue,
+            provenance);
+
+        Assert.True(FocusSurface.TryCreateResultWitness(
+            new Carrier(),
+            focus,
+            result,
+            residue,
+            provenance,
+            out var witness));
+        Assert.True(FocusSurface.TryReadResultWitness(
+            witness,
+            out var readFocus,
+            out var readSource,
+            out var readResult,
+            out var readResidue,
+            out var readProvenance));
+        Assert.Equal(focus, readFocus);
+        Assert.Equal(source, readSource);
+        Assert.Equal(result, readResult);
+        Assert.Equal(residue, readResidue);
+        Assert.Equal(provenance, readProvenance);
+    }
+
+    [Fact]
+    public void FocusCanCreateAndReadRefinement()
+    {
+        var source = Relation.Segment(new Carrier(), 0, 10);
+        var focus = FocusSurface.Create(
+            new Carrier(),
+            source,
+            Relation.Point(new Carrier(), 5),
+            Relation.Segment(new Carrier(), 4, 6));
+        var result = FocusSurface.Frame(new Carrier(), source, Relation.Segment(new Carrier(), 0, 3));
+        var residue = new Placeholder();
+        var provenance = Relation.Point(new Carrier(), 1);
+
+        Assert.True(FocusSurface.TryCreateRefinementRead(
+            new Carrier(),
+            focus,
+            result,
+            residue,
+            provenance,
+            out var refinement));
+
+        Assert.True(FocusSurface.TryReadRefinement(
+            refinement,
+            out var readFocus,
+            out var readResult,
+            out var witness,
+            out var readResidue,
+            out var readProvenance));
+        Assert.Equal(focus, readFocus);
+        Assert.Equal(result, readResult);
+        Assert.Equal(residue, readResidue);
+        Assert.Equal(provenance, readProvenance);
+        Assert.True(FocusSurface.TryReadResultWitness(
+            witness,
+            out var witnessFocus,
+            out _,
+            out var witnessResult,
+            out _,
+            out _));
+        Assert.Equal(focus, witnessFocus);
+        Assert.Equal(result, witnessResult);
+    }
+
+    [Fact]
+    public void FocusRefinementReadRejectsMismatchedWitnessResult()
+    {
+        var source = Relation.Segment(new Carrier(), 0, 10);
+        var focus = FocusSurface.Create(
+            new Carrier(),
+            source,
+            Relation.Point(new Carrier(), 5),
+            Relation.Segment(new Carrier(), 4, 6));
+        var result = Relation.Point(new Carrier(), 1);
+        var differentResult = Relation.Point(new Carrier(), 2);
+        var residue = new Placeholder();
+        Assert.True(FocusSurface.TryCreateResultWitness(
+            new Carrier(),
+            focus,
+            differentResult,
+            residue,
+            Relation.Point(Carrier.Unknown, 0),
+            out var witness));
+        var refinement = RefinementRead.Create(
+            new Carrier(),
+            focus,
+            result,
+            witness,
+            residue,
+            Relation.Point(Carrier.Unknown, 0));
+
+        Assert.False(FocusSurface.TryReadRefinement(
+            refinement,
+            out _,
+            out _,
+            out _,
+            out _,
+            out _));
     }
 
     [Fact]

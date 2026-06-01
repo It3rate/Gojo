@@ -191,6 +191,33 @@ That lets a structure remain valid between partial refinements. One corner can
 settle before another corner, a field color can change between them, and each
 intermediate state can still be read.
 
+Focus can project across ladder rungs when correspondence is available:
+
+```text
+lower-rung focus
+  + correspondence bindings
+  + target source
+  -> projected focus
+  + projection residue
+```
+
+The projection is structural evidence, not a hidden lookup. Pieces that do not
+map remain visible in the projected focus and can be carried as residue or
+tension.
+
+A focus can also create a result witness:
+
+```text
+source structure
+  read through focus surface
+  produces result structure
+  leaves residue
+  with provenance
+```
+
+This result witness can be wrapped by `RefinementRead`, which makes focus the
+bridge from selection into structural ladders.
+
 ## RefinementRead
 
 `RefinementRead` is the common relation-shaped refinement record.

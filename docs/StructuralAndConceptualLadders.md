@@ -756,9 +756,11 @@ metadata wrappers.
 
 `FocusSurface` is the first core step here. It can already hold source,
 focus basis, selected participation, complement, replacement, correspondence,
-residue, and provenance/timeline. The next work is making those roles settle
-more deeply into real ladder transformations instead of only carrying them as
-ordered structural evidence.
+residue, and provenance/timeline. It can also project focus through
+correspondence into another rung, create a result witness, and participate in
+ordered focus steps. The next work is making those roles settle more deeply
+into real ladder transformations instead of only carrying them as ordered
+structural evidence.
 
 ## Implementation Bias
 

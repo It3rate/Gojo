@@ -71,6 +71,82 @@ public static class FocusSurface
         new(source ?? UnknownPoint(), target ?? UnknownPoint());
 
     /// <summary>
+    /// Creates focus projection evidence:
+    /// source focus, target source, correspondence, projected focus, residue.
+    /// </summary>
+    public static Relation Projection(
+        Carrier root,
+        Relation sourceFocus,
+        IElement targetSource,
+        IElement correspondence,
+        Relation projectedFocus,
+        IElement residueOrTension) =>
+        Relation.OrderedGroup(
+            RootOrNew(root),
+            sourceFocus ?? UnknownPoint(),
+            targetSource ?? UnknownPoint(),
+            correspondence ?? UnknownPoint(),
+            projectedFocus ?? UnknownPoint(),
+            residueOrTension ?? UnknownPoint());
+
+    /// <summary>
+    /// Projects a focus through correspondence into a target source. The
+    /// correspondence is ordinary binding structure; unmatched source pieces
+    /// remain visible in the projected focus.
+    /// </summary>
+    public static bool TryProject(
+        Relation focus,
+        Carrier root,
+        IElement targetSource,
+        IElement correspondence,
+        IElement residueOrTension,
+        out Relation projectedFocus,
+        out Relation projection)
+    {
+        if (!TryRead(
+                focus,
+                out _,
+                out var focusBasis,
+                out var participation,
+                out var complement,
+                out var replacement,
+                out _,
+                out var focusResidue,
+                out var provenanceOrTimeline))
+        {
+            projectedFocus = null!;
+            projection = null!;
+            return false;
+        }
+
+        var bindings = ReadCorrespondenceBindings(correspondence);
+        var projectionResidue = residueOrTension ?? focusResidue ?? UnknownPoint();
+        var projectionProvenance = Frame(
+            new Carrier(),
+            focus,
+            correspondence ?? UnknownPoint(),
+            provenanceOrTimeline ?? UnknownPoint());
+        projectedFocus = Create(
+            RootOrNew(root),
+            targetSource ?? ApplyCorrespondence(focus, bindings),
+            ApplyCorrespondence(focusBasis, bindings),
+            ApplyCorrespondence(participation, bindings),
+            ApplyCorrespondence(complement, bindings),
+            ApplyCorrespondence(replacement, bindings),
+            correspondence ?? UnknownPoint(),
+            projectionResidue,
+            projectionProvenance);
+        projection = Projection(
+            new Carrier(),
+            focus,
+            targetSource ?? UnknownPoint(),
+            correspondence ?? UnknownPoint(),
+            projectedFocus,
+            projectionResidue);
+        return true;
+    }
+
+    /// <summary>
     /// Creates a partial span record:
     /// whole span, selected span, carry-forward complement, residue/tension.
     /// </summary>
@@ -124,6 +200,68 @@ public static class FocusSurface
         IElement initial,
         params Relation[] steps) =>
         TimeStepSequence.Create(RootOrNew(root), RootOrNew(clock), initial ?? UnknownPoint(), steps ?? []);
+
+    /// <summary>
+    /// Creates a common read witness where the selected source is read through
+    /// this focus surface to produce a result.
+    /// </summary>
+    public static bool TryCreateResultWitness(
+        Carrier root,
+        Relation focus,
+        IElement result,
+        IElement residueOrTension,
+        IElement provenance,
+        out Relation witness)
+    {
+        if (TryRead(focus, out var source, out _, out _, out _, out _, out _, out var focusResidue, out var focusProvenance))
+        {
+            witness = ReadWitness.Create(
+                RootOrNew(root),
+                source,
+                focus,
+                result ?? UnknownPoint(),
+                residueOrTension ?? focusResidue ?? UnknownPoint(),
+                provenance ?? focusProvenance ?? UnknownPoint());
+            return true;
+        }
+
+        witness = null!;
+        return false;
+    }
+
+    /// <summary>
+    /// Creates a refinement read where the focus is the parameter being refined
+    /// and the result is the candidate binding.
+    /// </summary>
+    public static bool TryCreateRefinementRead(
+        Carrier root,
+        Relation focus,
+        IElement result,
+        IElement residueOrTension,
+        IElement provenance,
+        out Relation refinement)
+    {
+        if (TryCreateResultWitness(
+                new Carrier(),
+                focus,
+                result,
+                residueOrTension,
+                provenance,
+                out var witness))
+        {
+            refinement = RefinementRead.Create(
+                RootOrNew(root),
+                focus,
+                result ?? UnknownPoint(),
+                witness,
+                residueOrTension ?? UnknownPoint(),
+                provenance ?? UnknownPoint());
+            return true;
+        }
+
+        refinement = null!;
+        return false;
+    }
 
     /// <summary>Reads a focus surface created by <see cref="Create(Carrier,IElement,IElement,IElement,IElement,IElement,IElement,IElement,IElement)"/>.</summary>
     public static bool TryRead(
@@ -214,6 +352,152 @@ public static class FocusSurface
         return false;
     }
 
+    /// <summary>Reads focus projection evidence.</summary>
+    public static bool TryReadProjection(
+        Relation projection,
+        out Relation sourceFocus,
+        out IElement targetSource,
+        out IElement correspondence,
+        out Relation projectedFocus,
+        out IElement residueOrTension)
+    {
+        if (TryReadRootElements(projection, out var elements) &&
+            elements.Length >= 5 &&
+            elements[0] is Relation sourceFocusRelation &&
+            elements[3] is Relation projectedFocusRelation)
+        {
+            sourceFocus = sourceFocusRelation;
+            targetSource = elements[1];
+            correspondence = elements[2];
+            projectedFocus = projectedFocusRelation;
+            residueOrTension = elements[4];
+            return true;
+        }
+
+        sourceFocus = null!;
+        targetSource = default!;
+        correspondence = default!;
+        projectedFocus = null!;
+        residueOrTension = default!;
+        return false;
+    }
+
+    /// <summary>Reads a timed step whose transition evidence is a focus surface.</summary>
+    public static bool TryReadStep(
+        Relation step,
+        out Relation span,
+        out CarrierLocation start,
+        out CarrierLocation end,
+        out IElement before,
+        out Relation focus,
+        out IElement after,
+        out IElement residueOrTension)
+    {
+        if (TimeStepSequence.TryReadStep(
+                step,
+                out var timeSpan,
+                out var startLocation,
+                out var endLocation,
+                out var beforeElement,
+                out var transition,
+                out var afterElement,
+                out var residue) &&
+            transition is Relation focusSurface &&
+            TryRead(focusSurface, out _, out _, out _, out _, out _, out _, out _, out _))
+        {
+            span = timeSpan;
+            start = startLocation;
+            end = endLocation;
+            before = beforeElement;
+            focus = focusSurface;
+            after = afterElement;
+            residueOrTension = residue;
+            return true;
+        }
+
+        span = null!;
+        start = default;
+        end = default;
+        before = default!;
+        focus = null!;
+        after = default!;
+        residueOrTension = default!;
+        return false;
+    }
+
+    /// <summary>Reads a result witness whose read surface is a focus surface.</summary>
+    public static bool TryReadResultWitness(
+        Relation witness,
+        out Relation focus,
+        out IElement source,
+        out IElement result,
+        out IElement residueOrTension,
+        out IElement provenance)
+    {
+        if (ReadWitness.TryRead(
+                witness,
+                out var selected,
+                out var readSurface,
+                out var witnessResult,
+                out var witnessResidue,
+                out var witnessProvenance) &&
+            readSurface is Relation focusSurface &&
+            TryRead(focusSurface, out _, out _, out _, out _, out _, out _, out _, out _))
+        {
+            focus = focusSurface;
+            source = selected;
+            result = witnessResult;
+            residueOrTension = witnessResidue;
+            provenance = witnessProvenance;
+            return true;
+        }
+
+        focus = null!;
+        source = default!;
+        result = default!;
+        residueOrTension = default!;
+        provenance = default!;
+        return false;
+    }
+
+    /// <summary>Reads a refinement read whose parameter is a focus surface.</summary>
+    public static bool TryReadRefinement(
+        Relation refinement,
+        out Relation focus,
+        out IElement result,
+        out Relation witness,
+        out IElement residueOrTension,
+        out IElement provenance)
+    {
+        if (RefinementRead.TryRead(
+                refinement,
+                out var parameter,
+                out var binding,
+                out var readWitness,
+                out var refinementResidue,
+                out var refinementProvenance) &&
+            parameter is Relation focusSurface &&
+            TryRead(focusSurface, out _, out _, out _, out _, out _, out _, out _, out _) &&
+            TryReadResultWitness(readWitness, out var witnessedFocus, out _, out var witnessedResult, out _, out _) &&
+            Equals(focusSurface, witnessedFocus) &&
+            Equals(binding, witnessedResult))
+        {
+            focus = focusSurface;
+            result = binding;
+            witness = readWitness;
+            residueOrTension = refinementResidue;
+            provenance = refinementProvenance;
+            return true;
+        }
+
+        focus = null!;
+        result = default!;
+        witness = null!;
+        residueOrTension = default!;
+        provenance = default!;
+        return false;
+    }
+
     /// <summary>Projects a focus surface into the common read-witness skeleton.</summary>
     public static bool TryReadWitness(Relation focus, Carrier root, out Relation witness)
     {
@@ -276,6 +560,35 @@ public static class FocusSurface
 
         elements = [];
         return false;
+    }
+
+    private static Relation[] ReadCorrespondenceBindings(IElement correspondence) =>
+        TryReadBindingFrame(correspondence, out var bindings)
+            ? bindings
+            : correspondence is Relation binding
+                ? [binding]
+                : [];
+
+    private static IElement ApplyCorrespondence(IElement element, IReadOnlyList<Relation> bindings)
+    {
+        foreach (var binding in bindings)
+        {
+            if (Equals(element, binding.Left))
+            {
+                return binding.Right;
+            }
+        }
+
+        if (element is not Relation relation)
+        {
+            return element;
+        }
+
+        var left = ApplyCorrespondence(relation.Left, bindings);
+        var right = ApplyCorrespondence(relation.Right, bindings);
+        return ReferenceEquals(left, relation.Left) && ReferenceEquals(right, relation.Right)
+            ? relation
+            : new Relation(left, right);
     }
 
     private static Relation UnknownPoint() =>
