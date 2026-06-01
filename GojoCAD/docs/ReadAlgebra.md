@@ -94,7 +94,7 @@ The order should stay algebraic rather than becoming a giant classifier:
 | `4` | boundary, area, and topology controls | closed boundary, boundary join/flow, area, anti-area, branch, merge, crossing/intersection |
 | `5` | resolution and concept conditioning | coarse-to-fine ladders, named concept hints, feature settlement witnesses |
 
-Bands `0`, `1`, `2`, and the initial boundary reads in band `4` are executable
+Bands `0`, `1`, `2`, and the initial boundary/area reads in band `4` are executable
 right now. `GraphicReadGraph.Bands`
 exposes the non-empty read bands in order. The band number is a read-pass
 grade, not a symbolic shape tag; the source relation structure still carries
@@ -121,6 +121,8 @@ Current executable control surface:
 | `BoundaryJoinRead` | `4` | a two-endpoint join participates as a site on a closed boundary; this can feed later corner, smoothing, or area reads |
 | `BoundaryJoinFlowRead` | `4` | join-flow evidence lifted to a closed boundary site |
 | `BoundaryJoinUnitCompatibilityRead` | `4` | join unit-compatibility evidence lifted to a closed boundary site |
+| `AreaParticipationRead` | `4` | a point on a fill carrier whose orthogonal source contains a closed boundary |
+| `AreaRead` | `4` | a closed boundary matched with positive or inverse area participation |
 | `OpenSegmentPathRead` | `4` | non-branching open path over ordinary segment reads and their joins |
 | `SharedFramePolylineRead` | `4` | non-branching open path over shared-frame segment reads |
 
@@ -145,9 +147,10 @@ Useful families to preserve:
 
 These should be derived from relation evidence as far as possible. A future
 parallel read, for example, should be a relation between carrier bases or their
-witnesses; it should not be a stored `Parallel` enum. A future area read should
-come from boundary direction, closure, and fill participation; it should not
-start as an opaque polygon type.
+witnesses; it should not be a stored `Parallel` enum. The current area read
+comes from closure plus fill participation: a closed boundary remains only a
+boundary until a fill carrier participates through an orthogonal boundary
+source. It does not start as an opaque polygon type.
 
 Current join flow evidence is deliberately weaker than corner evidence. A
 two-endpoint join can share a carrier with opposed local flow, share a carrier

@@ -89,6 +89,12 @@ public sealed class GojoCadSkiaAdapter
             drawn++;
         }
 
+        foreach (var area in graph.ReadsOf<AreaRead>())
+        {
+            DrawArea(canvas, area, projection, paints, hitAreas, pointRoles);
+            drawn++;
+        }
+
         foreach (var boundary in graph.ReadsOf<ClosedSegmentBoundaryRead>())
         {
             DrawClosedSegmentBoundary(canvas, boundary, projection, paints, hitAreas);
@@ -529,20 +535,63 @@ public sealed class GojoCadSkiaAdapter
         GojoCadSkiaPaints paints,
         ICollection<GojoCadSkiaHitArea>? hitAreas)
     {
+        var path = BuildClosedSegmentBoundaryPath(boundary, projection);
+        if (path is null)
+        {
+            return;
+        }
+
+        using (path)
+        {
+            canvas.DrawPath(path, paints.AreaBoundary);
+            AddHit(hitAreas, path.Bounds, "closed boundary", priority: 1, boundary.Source);
+        }
+    }
+
+    private static void DrawArea(
+        SKCanvas canvas,
+        AreaRead area,
+        IGojoCadSkiaProjection projection,
+        GojoCadSkiaPaints paints,
+        ICollection<GojoCadSkiaHitArea>? hitAreas,
+        HashSet<LocationKey> pointRoles)
+    {
+        var path = BuildClosedSegmentBoundaryPath(area.Boundary, projection);
+        if (path is null)
+        {
+            return;
+        }
+
+        using (path)
+        {
+            canvas.DrawPath(path, area.IsAntiArea ? paints.AntiAreaFill : paints.AreaFill);
+            AddHit(hitAreas, path.Bounds, area.IsAntiArea ? "anti-area" : "area", priority: 2, area.Source);
+        }
+
+        foreach (var point in area.Participation.Points)
+        {
+            pointRoles.Add(LocationKey.Of(point.Location));
+        }
+    }
+
+    private static SKPath? BuildClosedSegmentBoundaryPath(
+        ClosedSegmentBoundaryRead boundary,
+        IGojoCadSkiaProjection projection)
+    {
         var points = boundary.Sites
             .Select(site => AverageProjectedSite(site, projection))
             .Distinct()
             .ToArray();
         if (points.Length < 3)
         {
-            return;
+            return null;
         }
 
         var center = new SKPoint(points.Average(point => point.X), points.Average(point => point.Y));
         var ordered = points
             .OrderBy(point => MathF.Atan2(point.Y - center.Y, point.X - center.X))
             .ToArray();
-        using var path = new SKPath();
+        var path = new SKPath();
         path.MoveTo(ordered[0]);
         foreach (var point in ordered.Skip(1))
         {
@@ -550,9 +599,7 @@ public sealed class GojoCadSkiaAdapter
         }
 
         path.Close();
-        canvas.DrawPath(path, paints.AreaFill);
-        canvas.DrawPath(path, paints.AreaBoundary);
-        AddHit(hitAreas, path.Bounds, "closed boundary", priority: 1, boundary.Source);
+        return path;
     }
 
     private static SKPoint AverageProjectedSite(

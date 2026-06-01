@@ -579,6 +579,17 @@ public sealed class GraphicReadGraph
                 yield return compatibility;
             }
 
+            var areaParticipations = DeriveAreaParticipations(reads).ToArray();
+            foreach (var participation in areaParticipations)
+            {
+                yield return participation;
+            }
+
+            foreach (var area in DeriveAreas(boundaries, areaParticipations))
+            {
+                yield return area;
+            }
+
             foreach (var path in DeriveOpenSegmentPaths(reads))
             {
                 yield return path;
@@ -720,6 +731,63 @@ public sealed class GraphicReadGraph
                         boundaryJoin,
                         compatibility);
                 }
+            }
+        }
+
+        private static IEnumerable<AreaParticipationRead> DeriveAreaParticipations(IReadOnlyList<GraphicRead> reads)
+        {
+            var points = reads.OfType<PointRead>().ToArray();
+            foreach (var unit in reads
+                .OfType<CarrierUnitRead>()
+                .Where(unit => unit.HasOrthogonalSource && unit.OrthogonalSource is not null))
+            {
+                var participationPoints = points
+                    .Where(point => NormalizeCarrier(point.Location.Carrier)
+                        .SameIdentityAs(NormalizeCarrier(unit.Carrier)))
+                    .ToArray();
+                if (participationPoints.Length == 0)
+                {
+                    continue;
+                }
+
+                var sourceGraph = GraphicReadGraph.From(unit.OrthogonalSource!);
+                foreach (var boundary in sourceGraph.ReadsOf<ClosedSegmentBoundaryRead>())
+                {
+                    yield return new AreaParticipationRead(
+                        unit.Source,
+                        unit,
+                        participationPoints,
+                        boundary);
+                }
+            }
+        }
+
+        private static IEnumerable<AreaRead> DeriveAreas(
+            IReadOnlyList<ClosedSegmentBoundaryRead> boundaries,
+            IReadOnlyList<AreaParticipationRead> participations)
+        {
+            var matchedParticipations = ReadReferenceSet<AreaParticipationRead>();
+            var participationByBoundary = participations
+                .GroupBy(participation => BoundaryGeometrySignature(participation.Boundary))
+                .ToDictionary(group => group.Key, group => group.ToArray());
+
+            foreach (var boundary in boundaries)
+            {
+                if (!participationByBoundary.TryGetValue(BoundaryGeometrySignature(boundary), out var matches))
+                {
+                    continue;
+                }
+
+                foreach (var participation in matches)
+                {
+                    matchedParticipations.Add(participation);
+                    yield return new AreaRead(participation.Source, boundary, participation);
+                }
+            }
+
+            foreach (var participation in participations.Where(participation => !matchedParticipations.Contains(participation)))
+            {
+                yield return new AreaRead(participation.Source, participation.Boundary, participation);
             }
         }
 
@@ -1261,6 +1329,24 @@ public sealed class GraphicReadGraph
                 .Select(endpoint =>
                     $"{(endpoint.Segment.Source is Relation relation ? relation.Id : 0UL)}:{endpoint.IsStart}")
                 .Order());
+
+        private static string BoundaryGeometrySignature(ClosedSegmentBoundaryRead boundary) =>
+            string.Join("|", boundary.Segments.Select(SegmentGeometrySignature).Order());
+
+        private static string SegmentGeometrySignature(PositiveSegmentRead segment)
+        {
+            var start = LocationGeometrySignature(segment.Start.Location);
+            var end = LocationGeometrySignature(segment.End.Location);
+            return string.CompareOrdinal(start, end) <= 0
+                ? $"{start}->{end}"
+                : $"{end}->{start}";
+        }
+
+        private static string LocationGeometrySignature(CarrierLocation location)
+        {
+            var normalized = Normalize(location);
+            return $"{NormalizeCarrier(normalized.Carrier).Id}:{normalized.Ticks}";
+        }
 
         private static string PathEndpointGroupSignature(IEnumerable<PathSegmentEndpointRead> endpoints) =>
             string.Join(",", endpoints
@@ -2331,6 +2417,28 @@ public sealed record BoundaryJoinUnitCompatibilityRead(
     public bool HasDifferentAlgebra => Compatibility.HasDifferentAlgebra;
 
     public override IEnumerable<IElement> Sources => BoundaryJoin.Sources.Concat(Compatibility.Sources);
+}
+
+public sealed record AreaParticipationRead(
+    IElement Source,
+    CarrierUnitRead Unit,
+    IReadOnlyList<PointRead> Points,
+    ClosedSegmentBoundaryRead Boundary) : GraphicRead(Source)
+{
+    public bool IsInverse => Unit.Carrier.IsInverse;
+
+    public override IEnumerable<IElement> Sources =>
+        Unit.Sources.Concat(Points.Select(point => point.Source)).Concat(Boundary.Sources);
+}
+
+public sealed record AreaRead(
+    IElement Source,
+    ClosedSegmentBoundaryRead Boundary,
+    AreaParticipationRead Participation) : GraphicRead(Source)
+{
+    public bool IsAntiArea => Participation.IsInverse;
+
+    public override IEnumerable<IElement> Sources => Boundary.Sources.Concat(Participation.Sources);
 }
 
 public sealed record OpenSegmentPathRead(

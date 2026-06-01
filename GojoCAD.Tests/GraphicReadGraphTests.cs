@@ -566,6 +566,7 @@ public sealed class GraphicReadGraphTests
         Assert.All(graph.ReadsOf<BoundaryJoinFlowRead>(), flow => Assert.True(flow.IsCarrierTransition));
         Assert.All(graph.ReadsOf<BoundaryJoinUnitCompatibilityRead>(), compatibility =>
             Assert.True(compatibility.HasDifferentAlgebra));
+        Assert.Empty(graph.ReadsOf<AreaRead>());
         Assert.Empty(graph.ReadsOf<SegmentJunctionRead>());
         Assert.Equal([0, 1, 2, 4], graph.Bands.Select(band => band.Order).ToArray());
     }
@@ -597,6 +598,118 @@ public sealed class GraphicReadGraphTests
         Assert.Equal(4, boundary.Segments.Count);
         Assert.Equal(4, boundary.Sites.Count);
         Assert.Equal(4, graph.ReadsOf<BoundaryJoinRead>().Count());
+    }
+
+    [Fact]
+    public void ReadsAreaFromBoundaryFillParticipation()
+    {
+        var firstSite = GraphicStructure.Site(0);
+        var secondSite = GraphicStructure.Site(10);
+        var thirdSite = GraphicStructure.Site(20);
+        var first = GraphicStructure.Segment(new Carrier(), firstSite, secondSite);
+        var second = GraphicStructure.Segment(new Carrier(), secondSite, thirdSite);
+        var third = GraphicStructure.Segment(new Carrier(), thirdSite, firstSite);
+        var fill = GraphicStructure.AreaFill(first, second, third);
+        var structure = Chain(first, second, third, fill);
+
+        var graph = GraphicReadGraph.From(structure);
+
+        var boundary = Assert.Single(graph.ReadsOf<ClosedSegmentBoundaryRead>());
+        var participation = Assert.Single(graph.ReadsOf<AreaParticipationRead>());
+        var area = Assert.Single(graph.ReadsOf<AreaRead>());
+        Assert.Same(boundary, area.Boundary);
+        Assert.Same(participation, area.Participation);
+        Assert.False(area.IsAntiArea);
+        Assert.Equal(3, participation.Boundary.Segments.Count);
+    }
+
+    [Fact]
+    public void ReadsAntiAreaFromInverseBoundaryFillParticipation()
+    {
+        var firstSite = GraphicStructure.Site(0);
+        var secondSite = GraphicStructure.Site(10);
+        var thirdSite = GraphicStructure.Site(20);
+        var first = GraphicStructure.Segment(new Carrier(), firstSite, secondSite);
+        var second = GraphicStructure.Segment(new Carrier(), secondSite, thirdSite);
+        var third = GraphicStructure.Segment(new Carrier(), thirdSite, firstSite);
+        var fill = GraphicStructure.AntiAreaFill(first, second, third);
+        var structure = Chain(first, second, third, fill);
+
+        var graph = GraphicReadGraph.From(structure);
+
+        var area = Assert.Single(graph.ReadsOf<AreaRead>());
+        Assert.True(area.IsAntiArea);
+    }
+
+    [Fact]
+    public void ReadsAdjacentAreasThroughLocalFillParticipation()
+    {
+        var bottom = new Carrier();
+        var leftLower = new Carrier(UnitShape.LinearFrom(GraphicStructure.Segment(bottom, 0, 0)));
+        var rightLower = new Carrier(UnitShape.LinearFrom(GraphicStructure.Segment(bottom, 10, 10)));
+        var middle = new Carrier(UnitShape.LinearFrom(GraphicStructure.Segment(leftLower, 4, 4)));
+        var leftUpper = new Carrier(UnitShape.LinearFrom(GraphicStructure.Segment(middle, 0, 0)));
+        var rightUpper = new Carrier(UnitShape.LinearFrom(GraphicStructure.Segment(middle, 10, 10)));
+        var top = new Carrier(UnitShape.LinearFrom(GraphicStructure.Segment(leftUpper, 4, 4)));
+
+        var bottomSegment = GraphicStructure.Segment(bottom, 0, 10);
+        var leftLowerSegment = GraphicStructure.Segment(leftLower, 0, 4);
+        var rightLowerSegment = GraphicStructure.Segment(rightLower, 0, 4);
+        var middleSegment = GraphicStructure.Segment(middle, 0, 10);
+        var leftUpperSegment = GraphicStructure.Segment(leftUpper, 0, 4);
+        var rightUpperSegment = GraphicStructure.Segment(rightUpper, 0, 4);
+        var topSegment = GraphicStructure.Segment(top, 0, 10);
+
+        var lowerBottomLeft = GraphicStructure.Pin(GraphicStructure.Point(bottom, 0), GraphicStructure.Point(leftLower, 0));
+        var lowerTopLeft = GraphicStructure.Pin(GraphicStructure.Point(leftLower, 4), GraphicStructure.Point(middle, 0));
+        var lowerTopRight = GraphicStructure.Pin(GraphicStructure.Point(middle, 10), GraphicStructure.Point(rightLower, 4));
+        var lowerBottomRight = GraphicStructure.Pin(GraphicStructure.Point(bottom, 10), GraphicStructure.Point(rightLower, 0));
+        var upperBottomLeft = GraphicStructure.Pin(GraphicStructure.Point(middle, 0), GraphicStructure.Point(leftUpper, 0));
+        var upperTopLeft = GraphicStructure.Pin(GraphicStructure.Point(leftUpper, 4), GraphicStructure.Point(top, 0));
+        var upperTopRight = GraphicStructure.Pin(GraphicStructure.Point(top, 10), GraphicStructure.Point(rightUpper, 4));
+        var upperBottomRight = GraphicStructure.Pin(GraphicStructure.Point(middle, 10), GraphicStructure.Point(rightUpper, 0));
+
+        var lowerFill = GraphicStructure.AreaFill(
+            bottomSegment,
+            leftLowerSegment,
+            middleSegment,
+            rightLowerSegment,
+            lowerBottomLeft,
+            lowerTopLeft,
+            lowerTopRight,
+            lowerBottomRight);
+        var upperFill = GraphicStructure.AreaFill(
+            middleSegment,
+            leftUpperSegment,
+            topSegment,
+            rightUpperSegment,
+            upperBottomLeft,
+            upperTopLeft,
+            upperTopRight,
+            upperBottomRight);
+        var structure = Chain(
+            bottomSegment,
+            leftLowerSegment,
+            rightLowerSegment,
+            middleSegment,
+            leftUpperSegment,
+            rightUpperSegment,
+            topSegment,
+            lowerBottomLeft,
+            lowerTopLeft,
+            lowerTopRight,
+            lowerBottomRight,
+            upperBottomLeft,
+            upperTopLeft,
+            upperTopRight,
+            upperBottomRight,
+            lowerFill,
+            upperFill);
+
+        var graph = GraphicReadGraph.From(structure);
+
+        Assert.Equal(2, graph.ReadsOf<AreaRead>().Count());
+        Assert.Equal(2, graph.ReadsOf<AreaParticipationRead>().Count());
     }
 
     [Fact]

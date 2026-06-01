@@ -77,4 +77,92 @@ public static class GraphicStructure
     /// <summary>Creates radial flow potential from a point without measuring radius.</summary>
     public static Relation RadialFlow(Relation point) =>
         Relation.OrthogonalOutlet(point);
+
+    /// <summary>Creates positive area participation from a closed boundary surface.</summary>
+    public static Relation AreaFill(params IElement[] boundaryElements) =>
+        FillParticipation(inverse: false, boundaryElements);
+
+    /// <summary>Creates inverse area participation from a closed boundary surface.</summary>
+    public static Relation AntiAreaFill(params IElement[] boundaryElements) =>
+        FillParticipation(inverse: true, boundaryElements);
+
+    private static Relation FillParticipation(bool inverse, IReadOnlyList<IElement> boundaryElements)
+    {
+        var boundary = ChainBoundary(PreserveBoundaryEndpointPins(boundaryElements));
+        var fill = inverse
+            ? boundary.CreateInverseFillBasis()
+            : boundary.CreateFillBasis();
+        return Point(fill, Site(1));
+    }
+
+    private static IReadOnlyList<IElement> PreserveBoundaryEndpointPins(IReadOnlyList<IElement> elements)
+    {
+        var preserved = elements.ToList();
+        var endpoints = elements
+            .SelectMany(ReadBoundaryEndpoints)
+            .ToArray();
+        for (var leftIndex = 0; leftIndex < endpoints.Length; leftIndex++)
+        for (var rightIndex = leftIndex + 1; rightIndex < endpoints.Length; rightIndex++)
+        {
+            var left = endpoints[leftIndex];
+            var right = endpoints[rightIndex];
+            if (ReferenceEquals(left.Segment, right.Segment) ||
+                !EndpointLocationsMeet(left.Location, right.Location))
+            {
+                continue;
+            }
+
+            preserved.Add(Pin(left.Point, right.Point));
+        }
+
+        return preserved;
+    }
+
+    private static IEnumerable<BoundaryEndpoint> ReadBoundaryEndpoints(IElement element)
+    {
+        if (element is Relation segment &&
+            TryReadPoint(segment.Left, out var start) &&
+            TryReadPoint(segment.Right, out var end))
+        {
+            yield return new BoundaryEndpoint(segment, (Relation)segment.Left, start);
+            yield return new BoundaryEndpoint(segment, (Relation)segment.Right, end);
+        }
+    }
+
+    private static bool TryReadPoint(IElement element, out CarrierLocation location)
+    {
+        if (element is Relation point &&
+            point.Left is CarrierLocation pointLocation &&
+            point.Right is Carrier carrier &&
+            pointLocation.Carrier.SameIdentityAs(carrier))
+        {
+            location = pointLocation;
+            return true;
+        }
+
+        location = default;
+        return false;
+    }
+
+    private static bool EndpointLocationsMeet(CarrierLocation left, CarrierLocation right) =>
+        left.SameTickRefAs(right) ||
+        left.Carrier.SameIdentityAs(right.Carrier) && left.Ticks == right.Ticks;
+
+    private static Relation ChainBoundary(IReadOnlyList<IElement> elements)
+    {
+        if (elements.Count == 0)
+        {
+            return new Relation(Carrier.Unknown, Carrier.Unknown);
+        }
+
+        IElement structure = elements[^1];
+        for (var index = elements.Count - 2; index >= 0; index--)
+        {
+            structure = new Relation(elements[index], structure);
+        }
+
+        return structure as Relation ?? new Relation(structure, structure);
+    }
+
+    private sealed record BoundaryEndpoint(Relation Segment, Relation Point, CarrierLocation Location);
 }

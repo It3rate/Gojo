@@ -586,6 +586,15 @@ internal sealed record VisualizerDocument(
         var parallelOriginJoin = GraphicStructure.Pin(startOffsetPoint, parallelStartPoint);
         var parallelEndWitness = GraphicStructure.Pin(parallelEndPoint, endOffsetPoint);
         var parallelSpan = GraphicStructure.Segment(parallelLine, parallelStart, parallelEnd);
+        var areaFill = GraphicStructure.AreaFill(
+            segment.Source,
+            startOffsetJoin,
+            endOffsetJoin,
+            startOffsetSpan,
+            endOffsetSpan,
+            parallelOriginJoin,
+            parallelEndWitness,
+            parallelSpan);
         var elements = new List<IElement>
         {
             startOffsetJoin,
@@ -600,6 +609,7 @@ internal sealed record VisualizerDocument(
         {
             elements.Insert(2, startOffsetSpan);
             elements.Insert(3, endOffsetSpan);
+            elements.Add(areaFill);
         }
 
         return new TwoLineStrip(elements, elements.IndexOf(parallelSpan));
