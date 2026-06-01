@@ -34,6 +34,7 @@ public sealed class GojoCadSkiaAdapter
         ICollection<GojoCadSkiaHitArea>? hitAreas)
     {
         var drawn = 0;
+        var repeatControlSources = ReadRepeatControlSources(graph);
         var pointRoles = new HashSet<LocationKey>();
         foreach (var framePoint in graph.ReadsOf<SharedFramePointRead>())
         {
@@ -45,25 +46,29 @@ public sealed class GojoCadSkiaAdapter
 
         var angleControlledPathSegments = ReadAngleControlledPathSegmentSources(graph);
 
-        foreach (var radial in graph.ReadsOf<RadialSeedRead>())
+        foreach (var radial in graph.ReadsOf<RadialSeedRead>()
+            .Where(read => !IsRepeatControlSource(read.Source, repeatControlSources)))
         {
             DrawRadialFlow(canvas, radial, projection, paints, hitAreas);
             drawn++;
         }
 
-        foreach (var sheet in graph.ReadsOf<SheetSeedRead>())
+        foreach (var sheet in graph.ReadsOf<SheetSeedRead>()
+            .Where(read => !IsRepeatControlSource(read.Source, repeatControlSources)))
         {
             DrawSheetSeed(canvas, sheet, projection, paints, hitAreas);
             drawn++;
         }
 
-        foreach (var line in graph.ReadsOf<LineSeedRead>())
+        foreach (var line in graph.ReadsOf<LineSeedRead>()
+            .Where(read => !IsRepeatControlSource(read.Source, repeatControlSources)))
         {
             DrawLineSeed(canvas, line, projection, paints, hitAreas);
             drawn++;
         }
 
-        foreach (var attachment in graph.ReadsOf<RadiusAttachmentRead>())
+        foreach (var attachment in graph.ReadsOf<RadiusAttachmentRead>()
+            .Where(read => !IsRepeatControlSource(read.Source, repeatControlSources)))
         {
             DrawRadiusAttachment(canvas, attachment, projection, paints, hitAreas, pointRoles);
             drawn++;
@@ -71,37 +76,43 @@ public sealed class GojoCadSkiaAdapter
 
         drawn += DrawCircumferences(canvas, graph, projection, paints, hitAreas, pointRoles);
 
-        foreach (var span in graph.ReadsOf<CircularSpanRead>())
+        foreach (var span in graph.ReadsOf<CircularSpanRead>()
+            .Where(read => !IsRepeatControlSource(read.Source, repeatControlSources)))
         {
             DrawCircumferenceSpan(canvas, span, projection, paints, hitAreas, pointRoles);
             drawn++;
         }
 
-        foreach (var segment in graph.ReadsOf<SharedFrameSegmentRead>())
+        foreach (var segment in graph.ReadsOf<SharedFrameSegmentRead>()
+            .Where(read => !IsRepeatControlSource(read.Source, repeatControlSources)))
         {
             DrawSharedFrameSegment(canvas, segment, projection, paints, hitAreas);
             drawn++;
         }
 
-        foreach (var attachment in graph.ReadsOf<SharedFramePointAttachmentRead>())
+        foreach (var attachment in graph.ReadsOf<SharedFramePointAttachmentRead>()
+            .Where(read => !IsRepeatControlSource(read.Source, repeatControlSources)))
         {
             DrawSharedFrameAttachment(canvas, attachment, projection, paints, hitAreas, pointRoles);
             drawn++;
         }
 
-        foreach (var area in graph.ReadsOf<AreaRead>())
+        foreach (var area in graph.ReadsOf<AreaRead>()
+            .Where(read => !IsRepeatControlSource(read.Source, repeatControlSources)))
         {
             DrawArea(canvas, area, projection, paints, hitAreas, pointRoles);
             drawn++;
         }
 
-        foreach (var boundary in graph.ReadsOf<ClosedSegmentBoundaryRead>())
+        foreach (var boundary in graph.ReadsOf<ClosedSegmentBoundaryRead>()
+            .Where(read => !IsRepeatControlSource(read.Source, repeatControlSources)))
         {
             DrawClosedSegmentBoundary(canvas, boundary, projection, paints, hitAreas);
             drawn++;
         }
 
         foreach (var segment in graph.ReadsOf<PositiveSegmentRead>()
+            .Where(segment => !IsRepeatControlSource(segment.Source, repeatControlSources))
             .Where(segment => !IsCircularCarrier(segment.Start.Location.Carrier)))
         {
             var partitions = graph.ReadsOf<SegmentPartitionRead>()
@@ -119,13 +130,15 @@ public sealed class GojoCadSkiaAdapter
             drawn++;
         }
 
-        foreach (var segment in graph.ReadsOf<InverseSegmentRead>())
+        foreach (var segment in graph.ReadsOf<InverseSegmentRead>()
+            .Where(read => !IsRepeatControlSource(read.Source, repeatControlSources)))
         {
             DrawInverseSegment(canvas, segment, projection, paints, hitAreas);
             drawn++;
         }
 
-        foreach (var segment in graph.ReadsOf<DirectedSegmentRead>())
+        foreach (var segment in graph.ReadsOf<DirectedSegmentRead>()
+            .Where(read => !IsRepeatControlSource(read.Source, repeatControlSources)))
         {
             DrawDirectedSegment(canvas, segment, projection, paints, hitAreas);
             drawn++;
@@ -144,13 +157,16 @@ public sealed class GojoCadSkiaAdapter
         }
 
         foreach (var segment in graph.ReadsOf<PositiveSegmentRead>()
+            .Where(segment => !IsRepeatControlSource(segment.Source, repeatControlSources))
             .Where(segment => IsAngleControlledPathSegment(segment, angleControlledPathSegments)))
         {
             DrawAngleControlledSegmentOverlay(canvas, segment, projection, paints);
             drawn++;
         }
 
-        foreach (var point in graph.ReadsOf<PointRead>().Where(point => !point.Location.Carrier.IsUnknown))
+        foreach (var point in graph.ReadsOf<PointRead>()
+            .Where(point => !IsRepeatControlSource(point.Source, repeatControlSources))
+            .Where(point => !point.Location.Carrier.IsUnknown))
         {
             var key = LocationKey.Of(point);
             if (pointRoles.Contains(key))
@@ -174,6 +190,33 @@ public sealed class GojoCadSkiaAdapter
 
         return drawn;
     }
+
+    private static HashSet<ulong> ReadRepeatControlSources(GraphicReadGraph graph)
+    {
+        var sources = new HashSet<ulong>();
+        foreach (var repeat in graph.ReadsOf<GraphicRepeatRead>())
+        {
+            AddRelationTree(repeat.Source, sources);
+        }
+
+        return sources;
+    }
+
+    private static void AddRelationTree(IElement source, HashSet<ulong> sources)
+    {
+        if (source is not Relation relation ||
+            !sources.Add(relation.Id))
+        {
+            return;
+        }
+
+        AddRelationTree(relation.Left, sources);
+        AddRelationTree(relation.Right, sources);
+    }
+
+    private static bool IsRepeatControlSource(IElement source, IReadOnlySet<ulong> repeatControlSources) =>
+        source is Relation relation &&
+        repeatControlSources.Contains(relation.Id);
 
     private static int DrawCircumferences(
         SKCanvas canvas,

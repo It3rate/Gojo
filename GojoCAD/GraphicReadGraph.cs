@@ -1,4 +1,6 @@
 using Gojo.Core;
+using Gojo.Patterns;
+using Gojo.Structures;
 
 namespace GojoCAD;
 
@@ -148,6 +150,16 @@ public sealed class GraphicReadGraph
             if (RecognizeSharedFramePoint(relation, out var framePoint))
             {
                 reads.Add(framePoint);
+            }
+
+            if (RecognizeRepeatTemplate(relation, out var repeatTemplate))
+            {
+                reads.Add(repeatTemplate);
+            }
+
+            if (RecognizeRepeatSurface(relation, out var repeat))
+            {
+                reads.Add(repeat);
             }
 
             if (RecognizePoint(relation, out var point))
@@ -1001,6 +1013,97 @@ public sealed class GraphicReadGraph
 
             point = default!;
             return false;
+        }
+
+        private static bool RecognizeRepeatTemplate(Relation relation, out GraphicRepeatTemplateRead template)
+        {
+            if (RepeatSurface.TryReadTemplate(
+                    relation,
+                    out var inputPorts,
+                    out var selected,
+                    out var outputPorts) &&
+                TryReadPortSet(inputPorts, out var inputPortList) &&
+                TryReadPortSet(outputPorts, out var outputPortList) &&
+                inputPortList.Length != 0 &&
+                outputPortList.Length != 0)
+            {
+                template = new GraphicRepeatTemplateRead(
+                    relation,
+                    inputPorts,
+                    selected,
+                    outputPorts,
+                    inputPortList,
+                    outputPortList);
+                return true;
+            }
+
+            template = default!;
+            return false;
+        }
+
+        private static bool RecognizeRepeatSurface(Relation relation, out GraphicRepeatRead repeat)
+        {
+            if (RepeatSurface.TryRead(
+                    relation,
+                    out var selected,
+                    out var controller,
+                    out var transition,
+                    out var feedback,
+                    out var residue,
+                    out var timeline) &&
+                selected is Relation templateRelation &&
+                RecognizeRepeatTemplate(templateRelation, out var template) &&
+                RepeatSurface.TryReadFrame(transition, out var transitionBindings) &&
+                RepeatSurface.TryReadFrame(feedback, out var feedbackBindings))
+            {
+                var feedbackFeeds = feedbackBindings
+                    .Where(feed => FeedbackMatchesTemplatePorts(feed, template))
+                    .ToArray();
+                if (feedbackFeeds.Length == 0)
+                {
+                    repeat = default!;
+                    return false;
+                }
+
+                repeat = new GraphicRepeatRead(
+                    relation,
+                    template,
+                    controller,
+                    transition,
+                    transitionBindings,
+                    feedback,
+                    feedbackFeeds,
+                    residue,
+                    timeline);
+                return true;
+            }
+
+            repeat = default!;
+            return false;
+        }
+
+        private static bool TryReadPortSet(IElement ports, out IElement[] portElements)
+        {
+            if (RepeatSurface.TryReadPorts(ports, out var elements) &&
+                elements.All(element => StructuralPattern.TryReadSlot(element, out _)))
+            {
+                portElements = elements;
+                return true;
+            }
+
+            portElements = [];
+            return false;
+        }
+
+        private static bool FeedbackMatchesTemplatePorts(Relation feed, GraphicRepeatTemplateRead template)
+        {
+            if (!RepeatSurface.TryReadFeed(feed, out var outputPort, out var inputPort))
+            {
+                return false;
+            }
+
+            return template.OutputPortList.Any(port => Equals(port, outputPort)) &&
+                template.InputPortList.Any(port => Equals(port, inputPort));
         }
 
         private static bool IsUnknownZeroSpan(ZeroSpanRead span) =>
@@ -2164,6 +2267,36 @@ public sealed record SharedFrameSegmentRead(
     SharedFramePointRead End) : GraphicRead(Source)
 {
     public override IEnumerable<IElement> Sources => [Source, Start.Source, End.Source];
+}
+
+public sealed record GraphicRepeatTemplateRead(
+    IElement Source,
+    IElement InputPorts,
+    IElement Selected,
+    IElement OutputPorts,
+    IReadOnlyList<IElement> InputPortList,
+    IReadOnlyList<IElement> OutputPortList) : GraphicRead(Source)
+{
+    public override IEnumerable<IElement> Sources =>
+        [Source, InputPorts, Selected, OutputPorts, .. InputPortList, .. OutputPortList];
+}
+
+public sealed record GraphicRepeatRead(
+    IElement Source,
+    GraphicRepeatTemplateRead Template,
+    IElement Controller,
+    IElement Transition,
+    IReadOnlyList<Relation> TransitionBindings,
+    IElement Feedback,
+    IReadOnlyList<Relation> FeedbackBindings,
+    IElement Residue,
+    IElement Timeline) : GraphicRead(Source)
+{
+    public override IEnumerable<IElement> Sources =>
+        Template.Sources
+            .Concat([Source, Controller, Transition, Feedback, Residue, Timeline])
+            .Concat(TransitionBindings)
+            .Concat(FeedbackBindings);
 }
 
 public sealed record SharedFramePointAttachmentRead(

@@ -1,4 +1,6 @@
 using Gojo.Core;
+using Gojo.Patterns;
+using Gojo.Structures;
 
 namespace GojoCAD;
 
@@ -85,6 +87,48 @@ public static class GraphicStructure
     /// <summary>Creates inverse area participation from a closed boundary surface.</summary>
     public static Relation AntiAreaFill(params IElement[] boundaryElements) =>
         FillParticipation(inverse: true, boundaryElements);
+
+    /// <summary>
+    /// Creates the abstract repeat surface for a relative angle/length path
+    /// step. The concrete geometry may be expanded separately; this surface
+    /// preserves the template, controller, transition ports, and feedback.
+    /// </summary>
+    public static Relation RelativeAngleStepRepeat(int count)
+    {
+        var start = new Placeholder();
+        var incoming = new Placeholder();
+        var angle = new Placeholder();
+        var length = new Placeholder();
+        var end = new Placeholder();
+        var outgoing = new Placeholder();
+        var inputPorts = RepeatSurface.Ports(new Carrier(), start, incoming, angle, length);
+        var outputPorts = RepeatSurface.Ports(new Carrier(), end, outgoing);
+        var selected = Relation.OrderedGroup(
+            new Carrier(),
+            start,
+            incoming,
+            angle,
+            length,
+            end,
+            outgoing);
+        var template = RepeatSurface.Template(new Carrier(), inputPorts, selected, outputPorts);
+        var transition = RepeatSurface.Frame(
+            new Carrier(),
+            StructuralPattern.Bind(end, new Relation(new Relation(start, angle), length)),
+            StructuralPattern.Bind(outgoing, new Relation(incoming, angle)));
+        var feedback = RepeatSurface.Frame(
+            new Carrier(),
+            RepeatSurface.Feed(end, start),
+            RepeatSurface.Feed(outgoing, incoming));
+
+        return RepeatSurface.Create(
+            new Carrier(),
+            template,
+            RepeatSurface.Count(RepeatSurface.CreateAxis(new Carrier()), Math.Max(0, count)),
+            transition,
+            feedback,
+            Point(Carrier.Unknown, 0));
+    }
 
     private static Relation FillParticipation(bool inverse, IReadOnlyList<IElement> boundaryElements)
     {

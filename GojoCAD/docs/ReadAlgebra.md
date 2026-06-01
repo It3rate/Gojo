@@ -110,6 +110,8 @@ Current executable control surface:
 | `SegmentConnectionRead` | `1` | segment endpoints meet at a shared site |
 | `SharedFramePointRead` | `0` | ordered coordinate tuple over a shared frame/group holder |
 | `SharedFrameSegmentRead` | `0` | relation between two shared-frame coordinate tuples in the same coordinate basis |
+| `GraphicRepeatTemplateRead` | `0` | repeat template with slot-shaped input ports, selected structure, and output ports |
+| `GraphicRepeatRead` | `0` | repeat surface whose selected template has feedback from output ports to later input ports |
 | `RadiusAttachmentRead` | `2` | a base-carrier point fixes radius evidence for a circular marker |
 | `LinearBasisWitnessRead` | `2` | a non-origin point on a linear carrier attaches to another projected point, fixing direction and scale when possible |
 | `LinearBasisAlignmentRead` | `2` | non-origin points on two linear carriers attach, carrying same-flow or opposed-flow basis evidence |
@@ -209,6 +211,23 @@ The instances can still share template provenance through compatible
 `UnitShape` descriptors. This is repetition by addition: a new instance is
 appended to the current path, and route continuity comes from the ordered
 attachment of one step's end to the next step's start.
+
+The stronger repeat-control foothold is now explicit:
+
+```text
+input ports:   start, incoming basis, angle, length
+selected:      relative angle/length step structure
+output ports:  end, outgoing basis
+feedback:      end -> next start, outgoing -> next incoming basis
+controller:    repeat count / phase / later equation
+```
+
+The expanded geometry still gives ordinary connected segment, circular marker,
+radius, and linear witness reads. The repeat surface preserves the repeated
+template and feedback relation without turning the path into a code-side loop.
+Renderers should treat repeat-control surfaces as control evidence, not as
+ordinary visible controller geometry, until a dedicated repeat visualizer
+exists.
 
 This distinction helps separate turn evidence from kind-transfer evidence:
 

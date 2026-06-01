@@ -463,6 +463,7 @@ internal sealed record VisualizerDocument(
         }
 
         var selectedOffset = additions.FindIndex(element => ReferenceEquals(element, origin));
+        additions.Add(GraphicStructure.RelativeAngleStepRepeat(3));
         return Append(additions, selectedOffset: selectedOffset >= 0 ? selectedOffset : additions.Count - 1);
     }
 

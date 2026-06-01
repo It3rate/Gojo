@@ -1,4 +1,5 @@
 using Gojo.Core;
+using Gojo.Structures;
 using GojoCAD;
 
 namespace GojoCAD.Tests;
@@ -333,6 +334,26 @@ public sealed class GraphicReadGraphTests
             Assert.True(compatibility.HasSharedTemplateProvenance);
             Assert.True(compatibility.CompatibleWithDescriptors);
         });
+    }
+
+    [Fact]
+    public void ReadsRelativeAngleStepRepeatSurface()
+    {
+        var repeat = GraphicStructure.RelativeAngleStepRepeat(count: 3);
+
+        var graph = GraphicReadGraph.From(repeat);
+
+        var template = Assert.Single(graph.ReadsOf<GraphicRepeatTemplateRead>());
+        Assert.Equal(4, template.InputPortList.Count);
+        Assert.Equal(2, template.OutputPortList.Count);
+        var repeatRead = Assert.Single(graph.ReadsOf<GraphicRepeatRead>());
+        Assert.Equal(template.Source, repeatRead.Template.Source);
+        Assert.True(RepeatSurface.TryReadSpan(repeatRead.Controller, out var start, out var end));
+        Assert.Equal(0, start.Ticks);
+        Assert.Equal(3, end.Ticks);
+        Assert.Equal(2, repeatRead.TransitionBindings.Count);
+        Assert.Equal(2, repeatRead.FeedbackBindings.Count);
+        Assert.Equal([0, 1], graph.Bands.Select(band => band.Order).ToArray());
     }
 
     [Fact]
