@@ -238,6 +238,53 @@ repeat root
   witnessed timeline
 ```
 
+When the selected structure needs to expose re-entry directly, it can be read
+as a port template:
+
+```text
+template
+  input ports
+  selected structure
+  output ports
+
+frame
+  input port  -> current data or current structure
+  output port -> result data or result structure
+
+feedback
+  output port -> next input port
+```
+
+This is not a special loop object above Gojo. The ports are slot-shaped
+elements, frames are ordered groups of ordinary relation bindings, and feedback
+is a relation that is interpreted in feedback context as "this output feeds
+that later input." A single application is just the same structure with one
+frame. Repetition appears when a controller and feedback surface let the output
+of one frame become input evidence for another frame.
+
+The additive case is the smallest example:
+
+```text
+selected:   Current + Increment -> Next
+frame 0:    Current = 0, Increment = 3
+transition: Next = Current + Increment
+feedback:   Next -> Current
+frame 1:    Current = 3, Increment = 3
+frame 2:    Current = 6, Increment = 3
+```
+
+The same skeleton supports a graphical repeated step:
+
+```text
+selected:   start point + angle partition + length/radius -> end point
+feedback:   end point -> next start point
+data:       per-frame angle and length bindings
+```
+
+It also supports power-like reads. Squared and cubed are not separate symbolic
+operators; they are repeated participation where the product output feeds the
+next product input under a count controller.
+
 The selected structure is the thing being repeated. It may be a carrier
 location, relation, equation surface, pattern, claim, carry route, or whole
 nested repeat. The controller is not restricted to a literal count. It may be:

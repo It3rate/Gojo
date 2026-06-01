@@ -1,4 +1,5 @@
 using Gojo.Core;
+using Gojo.Patterns;
 
 namespace Gojo.Structures;
 
@@ -10,6 +11,151 @@ namespace Gojo.Structures;
 /// </summary>
 public static class RepeatSurface
 {
+    /// <summary>Creates an ordered port set. Ports are ordinary slot-shaped elements.</summary>
+    public static Relation Ports(Carrier root, params IElement[] ports) =>
+        Relation.OrderedGroup(RootOrNew(root), ports ?? []);
+
+    /// <summary>Creates an ordered frame of slot bindings.</summary>
+    public static Relation Frame(Carrier root, params Relation[] bindings) =>
+        Relation.OrderedGroup(RootOrNew(root), bindings ?? []);
+
+    /// <summary>
+    /// Creates a repeatable template from input ports, selected structure, and
+    /// output ports. The ports and selected structure remain ordinary Gojo
+    /// relation structure.
+    /// </summary>
+    public static Relation Template(
+        Carrier root,
+        IElement inputPorts,
+        IElement selected,
+        IElement outputPorts) =>
+        Relation.OrderedGroup(
+            RootOrNew(root),
+            inputPorts ?? Ports(new Carrier()),
+            selected ?? UnknownPoint(),
+            outputPorts ?? Ports(new Carrier()));
+
+    /// <summary>
+    /// Creates feedback evidence that the output port feeds the next input
+    /// port. The relation is interpreted in feedback context as
+    /// output -> next input.
+    /// </summary>
+    public static Relation Feed(IElement outputPort, IElement nextInputPort) =>
+        new(outputPort ?? UnknownPoint(), nextInputPort ?? UnknownPoint());
+
+    /// <summary>Reads a repeatable template created by <see cref="Template"/>.</summary>
+    public static bool TryReadTemplate(
+        Relation template,
+        out IElement inputPorts,
+        out IElement selected,
+        out IElement outputPorts)
+    {
+        if (TryReadRootElements(template, out var elements) &&
+            elements.Length >= 3)
+        {
+            inputPorts = elements[0];
+            selected = elements[1];
+            outputPorts = elements[2];
+            return true;
+        }
+
+        inputPorts = default!;
+        selected = default!;
+        outputPorts = default!;
+        return false;
+    }
+
+    /// <summary>Reads an ordered port set.</summary>
+    public static bool TryReadPorts(IElement ports, out IElement[] portElements)
+    {
+        if (ports is Relation portsRelation &&
+            TryReadRootElements(portsRelation, out var elements))
+        {
+            portElements = elements;
+            return true;
+        }
+
+        portElements = [];
+        return false;
+    }
+
+    /// <summary>Reads an ordered frame of relation-shaped bindings.</summary>
+    public static bool TryReadFrame(IElement frame, out Relation[] bindings)
+    {
+        if (frame is Relation frameRelation &&
+            TryReadRootElements(frameRelation, out var elements))
+        {
+            bindings = [.. elements.OfType<Relation>()];
+            return true;
+        }
+
+        bindings = [];
+        return false;
+    }
+
+    /// <summary>Reads a feedback relation as output port -> next input port.</summary>
+    public static bool TryReadFeed(Relation feed, out IElement outputPort, out IElement nextInputPort)
+    {
+        if (feed is not null)
+        {
+            outputPort = feed.Left;
+            nextInputPort = feed.Right;
+            return true;
+        }
+
+        outputPort = default!;
+        nextInputPort = default!;
+        return false;
+    }
+
+    /// <summary>Applies transition bindings to a frame, producing the next visible frame.</summary>
+    public static Relation[] ApplyTransitionFrame(
+        IReadOnlyList<Relation> frame,
+        IReadOnlyList<Relation> transitionBindings) =>
+        StructuralPattern.Advance(frame ?? [], transitionBindings ?? []);
+
+    /// <summary>Applies transition bindings to a frame, producing the next visible frame.</summary>
+    public static Relation[] ApplyTransitionFrame(
+        IReadOnlyList<Relation> frame,
+        params Relation[] transitionBindings) =>
+        ApplyTransitionFrame(frame, (IReadOnlyList<Relation>)transitionBindings);
+
+    /// <summary>
+    /// Builds the next input frame from output-to-input feedback evidence and
+    /// optional pass-through or external data bindings.
+    /// </summary>
+    public static Relation[] ApplyFeedbackFrame(
+        IReadOnlyList<Relation> frame,
+        IReadOnlyList<Relation> feedback,
+        IReadOnlyList<Relation> dataBindings)
+    {
+        var transitions = new List<Relation>();
+        foreach (var feed in feedback ?? [])
+        {
+            if (TryReadFeed(feed, out var outputPort, out var nextInputPort))
+            {
+                transitions.Add(new Relation(nextInputPort, outputPort));
+            }
+        }
+
+        if (dataBindings is not null)
+        {
+            transitions.AddRange(dataBindings);
+        }
+
+        return ApplyTransitionFrame(frame ?? [], transitions);
+    }
+
+    /// <summary>
+    /// Builds the next input frame from output-to-input feedback evidence and
+    /// optional pass-through or external data bindings.
+    /// </summary>
+    public static Relation[] ApplyFeedbackFrame(
+        IReadOnlyList<Relation> frame,
+        IReadOnlyList<Relation> feedback,
+        params Relation[] dataBindings) =>
+        ApplyFeedbackFrame(frame, feedback, (IReadOnlyList<Relation>)dataBindings);
+
     /// <summary>Creates a repeat axis carrier sharing the supplied basis unit shape.</summary>
     public static Carrier CreateAxis(Carrier basis)
     {

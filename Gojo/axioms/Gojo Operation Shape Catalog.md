@@ -249,6 +249,10 @@ Current executable footholds:
 
 Do not add a magic repeat operator. Repetition should remain visible as
 selected structure, controller, transition, feedback, residue, and timeline.
+When re-entry matters, the selected structure can expose input ports and output
+ports, with feedback relations connecting output ports back into later input
+ports. A non-repeated operation is the same shape with one frame and no
+meaningful feedback traversal.
 
 The current executable foothold is `RepeatSurface`:
 
@@ -259,6 +263,15 @@ transition: Product(output, repeated unit ports)
 feedback:   witnessed repeated factors
 residue:    product read residue
 timeline:   per-repeat partial products
+```
+
+The general port form is:
+
+```text
+template:   inputs, selected structure, outputs
+frame:      port bindings
+transition: next output bindings read through the current frame
+feedback:   output port -> next input port
 ```
 
 Readable examples:
