@@ -16,6 +16,8 @@ public sealed class GojoCadSkiaPaints : IDisposable
         AngleControlledSegment = Stroke(new SKColor(199, 45, 47), 3f);
         AngleControlledSegmentTension = DashedStroke(new SKColor(199, 45, 47, 205), 2.7f);
         SharedFrameSegment = Stroke(new SKColor(115, 76, 155), 2.1f);
+        SharedFrameCurve = Stroke(new SKColor(115, 76, 155), 2.45f);
+        SharedFrameCurveTension = DashedStroke(new SKColor(115, 76, 155, 190), 2.2f);
         SharedFramePoint = Fill(new SKColor(115, 76, 155, 190));
         DirectedSegment = Stroke(new SKColor(63, 113, 83), 2.75f);
         DirectedSegmentTension = DashedStroke(new SKColor(63, 113, 83, 190), 2.45f);
@@ -59,6 +61,10 @@ public sealed class GojoCadSkiaPaints : IDisposable
     public SKPaint AngleControlledSegmentTension { get; }
 
     public SKPaint SharedFrameSegment { get; }
+
+    public SKPaint SharedFrameCurve { get; }
+
+    public SKPaint SharedFrameCurveTension { get; }
 
     public SKPaint SharedFramePoint { get; }
 
@@ -150,6 +156,8 @@ public sealed class GojoCadSkiaPaints : IDisposable
         AngleControlledSegment.Dispose();
         AngleControlledSegmentTension.Dispose();
         SharedFrameSegment.Dispose();
+        SharedFrameCurve.Dispose();
+        SharedFrameCurveTension.Dispose();
         SharedFramePoint.Dispose();
         DirectedSegment.Dispose();
         DirectedSegmentTension.Dispose();

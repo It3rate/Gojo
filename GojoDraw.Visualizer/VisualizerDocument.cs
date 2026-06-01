@@ -86,6 +86,7 @@ internal sealed record VisualizerDocument(
         return entry.Label switch
         {
             var label when IsLetterLabel(label) => true,
+            var label when IsCurveLabel(label) => true,
             "point" => true,
             "radial" => selection.Point is not null,
             "span" => selection.LineSeed is not null || selection.Point is not null || SelectedIndex is null,
@@ -118,6 +119,7 @@ internal sealed record VisualizerDocument(
         return entry.Label switch
         {
             var label when IsLetterLabel(label) => "add letter pattern",
+            var label when IsCurveLabel(label) => "add curve",
             "point" => "add point",
             "radial" => "select a point",
             "span" => "select a point or line seed",
@@ -180,6 +182,8 @@ internal sealed record VisualizerDocument(
                 new VisualizerLegendDisplay("directed merge", entry.Structure, entry.ProjectionSeed),
             var label when IsLetterLabel(label) && selection.Point is not null =>
                 new VisualizerLegendDisplay($"anchored {label}", entry.Structure, entry.ProjectionSeed),
+            var label when IsCurveLabel(label) && selection.Point is not null =>
+                new VisualizerLegendDisplay($"anchored {label}", entry.Structure, entry.ProjectionSeed),
             _ => new VisualizerLegendDisplay(entry.Label, entry.Structure, entry.ProjectionSeed)
         };
     }
@@ -194,6 +198,7 @@ internal sealed record VisualizerDocument(
         return entry.Label switch
         {
             var label when TryReadLetter(label, out var letter) => AddLetter(letter),
+            var label when IsCurveLabel(label) => AddCurve(label),
             "point" => AddPoint(),
             "radial" => AddRadial(),
             "span" => AddSegment(),
@@ -214,6 +219,15 @@ internal sealed record VisualizerDocument(
             "merge" => AddMerge(),
             _ => this
         };
+    }
+
+    private VisualizerDocument AddCurve(string label)
+    {
+        var anchor = ReadSelection().Point is { } point
+            ? PointAt(point.Location)
+            : null;
+        var additions = VisualizerSample.CreateCurveElements(label, anchor);
+        return Append(additions, selectedOffset: additions.Count - 1);
     }
 
     private VisualizerDocument AddLetter(char letter)
@@ -935,6 +949,9 @@ internal sealed record VisualizerDocument(
 
     private static bool IsLetterLabel(string label) =>
         TryReadLetter(label, out _);
+
+    private static bool IsCurveLabel(string label) =>
+        label is "frame arc" or "quadratic" or "cubic" or "transition" or "clothoid" or "involute";
 
     private static bool TryReadLetter(string label, out char letter)
     {

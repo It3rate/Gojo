@@ -58,9 +58,29 @@ public static class GraphicStructure
     public static Relation FrameSegment(Relation start, Relation end) =>
         new(start, end);
 
-    /// <summary>Creates an arc from shared-frame center/start/end coordinate tuple points.</summary>
+    /// <summary>Creates an arc from a shared-frame center and endpoint span.</summary>
     public static Relation FrameArc(Relation center, Relation start, Relation end) =>
-        Relation.OrderedGroup(new Carrier(), center, start, end);
+        new(center, FrameSegment(start, end));
+
+    /// <summary>Creates a quadratic curve from a shared-frame chord and control point.</summary>
+    public static Relation FrameQuadraticCurve(Relation start, Relation control, Relation end) =>
+        new(FrameSegment(start, end), control);
+
+    /// <summary>Creates a cubic curve from a shared-frame chord and control span.</summary>
+    public static Relation FrameCubicCurve(Relation start, Relation firstControl, Relation secondControl, Relation end) =>
+        new(FrameSegment(start, end), FrameSegment(firstControl, secondControl));
+
+    /// <summary>Creates transition evidence from an incoming frame span to an outgoing frame span.</summary>
+    public static Relation FrameCurveTransition(Relation incoming, Relation outgoing) =>
+        new(incoming, outgoing);
+
+    /// <summary>Creates clothoid transition evidence over a frame transition plus length/grade span.</summary>
+    public static Relation FrameClothoidTransition(Relation transition, Relation length) =>
+        new(transition, length);
+
+    /// <summary>Creates involute evidence from a base frame arc and an unwound/tangent length span.</summary>
+    public static Relation FrameInvoluteCurve(Relation baseArc, Relation unwoundLength) =>
+        new(baseArc, unwoundLength);
 
     /// <summary>
     /// Creates a directed segment whose start is on the aligned inverse face

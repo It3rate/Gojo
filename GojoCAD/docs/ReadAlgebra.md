@@ -65,7 +65,12 @@ without erasing the others.
 | observed carrier | unit shape surface/descriptors | carrier participates in a point or span read | carrier unit/provenance evidence |
 | ordered coordinate group | two or more carrier locations share one frame holder | ordered group participants are locations | shared-frame point |
 | shared-frame point | shared-frame point | same coordinate carrier basis, distinct coordinate tuple | shared-frame segment |
-| ordered shared-frame center/start/end | three shared-frame points use the same coordinate basis | center differs from both arc endpoints | shared-frame arc |
+| shared-frame point + shared-frame span | center and span endpoints use the same coordinate basis | center differs from both arc endpoints | shared-frame arc |
+| shared-frame span + shared-frame point | chord endpoints and control use the same coordinate basis | control differs from both endpoints | quadratic curve |
+| shared-frame span + shared-frame span | chord and control span use the same coordinate basis without shared endpoints | cubic curve |
+| shared-frame span + shared-frame span | spans share one endpoint | transition curve / corner smoothing control |
+| transition curve + length span | transition and length evidence use the same coordinate basis | linear curvature transition witness | clothoid transition |
+| shared-frame arc + length span | base arc and unwound length use the same coordinate basis | tangent/unwinding evidence | involute circle |
 | segment | point on same carrier | point tick falls inside segment ticks | segment partition tick |
 | circumference span | point on same circular carrier | point tick falls inside span read | contour partition tick |
 | span | span | shared endpoint, carrier location, or `TickRef` | connected path fragment |
@@ -112,7 +117,12 @@ Current executable control surface:
 | `SegmentConnectionRead` | `1` | segment endpoints meet at a shared site |
 | `SharedFramePointRead` | `0` | ordered coordinate tuple over a shared frame/group holder |
 | `SharedFrameSegmentRead` | `0` | relation between two shared-frame coordinate tuples in the same coordinate basis |
-| `SharedFrameArcRead` | `0` | ordered shared-frame center/start/end points that define an arc in a coordinate frame |
+| `SharedFrameArcRead` | `0` | shared-frame center plus endpoint span that define an arc in a coordinate frame |
+| `SharedFrameQuadraticCurveRead` | `0` | shared-frame chord plus one control point |
+| `SharedFrameCubicCurveRead` | `0` | shared-frame chord plus control span |
+| `SharedFrameCurveTransitionRead` | `0` | two shared-frame spans that share a junction and can flow through it as one transition |
+| `SharedFrameClothoidTransitionRead` | `0` | transition plus length/grade evidence for a linear-curvature curve |
+| `SharedFrameInvoluteCircleRead` | `0` | base arc plus unwound/tangent length evidence |
 | `GraphicRepeatTemplateRead` | `0` | repeat template with slot-shaped input ports, selected structure, and output ports |
 | `GraphicRepeatRead` | `0` | repeat surface whose selected template has feedback from output ports to later input ports |
 | `RadiusAttachmentRead` | `2` | a base-carrier point fixes radius evidence for a circular marker |

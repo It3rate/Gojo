@@ -559,7 +559,61 @@ public sealed class GraphicReadGraphTests
         Assert.Equal(center, arc.Center.Source);
         Assert.Equal(start, arc.Start.Source);
         Assert.Equal(end, arc.End.Source);
-        Assert.Empty(graph.ReadsOf<SharedFrameSegmentRead>());
+        Assert.Equal(arc.Span, Assert.Single(graph.ReadsOf<SharedFrameSegmentRead>()));
+    }
+
+    [Fact]
+    public void ReadsSharedFrameBezierCurvesFromCoordinateControls()
+    {
+        var frame = new Carrier();
+        var x = new Carrier();
+        var y = new Carrier();
+        var start = GraphicStructure.FramePoint(frame, new CarrierLocation(x, 0), new CarrierLocation(y, 0));
+        var control = GraphicStructure.FramePoint(frame, new CarrierLocation(x, 4), new CarrierLocation(y, 8));
+        var firstControl = GraphicStructure.FramePoint(frame, new CarrierLocation(x, 3), new CarrierLocation(y, 10));
+        var secondControl = GraphicStructure.FramePoint(frame, new CarrierLocation(x, 8), new CarrierLocation(y, 10));
+        var end = GraphicStructure.FramePoint(frame, new CarrierLocation(x, 10), new CarrierLocation(y, 0));
+        var quadratic = GraphicStructure.FrameQuadraticCurve(start, control, end);
+        var cubic = GraphicStructure.FrameCubicCurve(start, firstControl, secondControl, end);
+        var structure = Chain(quadratic, cubic);
+
+        var graph = GraphicReadGraph.From(structure);
+
+        var quadraticRead = Assert.Single(graph.ReadsOf<SharedFrameQuadraticCurveRead>());
+        Assert.Equal(control, quadraticRead.Control.Source);
+        var cubicRead = Assert.Single(graph.ReadsOf<SharedFrameCubicCurveRead>());
+        Assert.Equal(firstControl, cubicRead.FirstControl.Source);
+        Assert.Equal(secondControl, cubicRead.SecondControl.Source);
+    }
+
+    [Fact]
+    public void ReadsSharedFrameTransitionClothoidAndInvoluteControls()
+    {
+        var frame = new Carrier();
+        var x = new Carrier();
+        var y = new Carrier();
+        var lowerLeft = GraphicStructure.FramePoint(frame, new CarrierLocation(x, 0), new CarrierLocation(y, 0));
+        var corner = GraphicStructure.FramePoint(frame, new CarrierLocation(x, 8), new CarrierLocation(y, 0));
+        var upperRight = GraphicStructure.FramePoint(frame, new CarrierLocation(x, 8), new CarrierLocation(y, 8));
+        var lengthEnd = GraphicStructure.FramePoint(frame, new CarrierLocation(x, 4), new CarrierLocation(y, 4));
+        var incoming = GraphicStructure.FrameSegment(lowerLeft, corner);
+        var outgoing = GraphicStructure.FrameSegment(corner, upperRight);
+        var transition = GraphicStructure.FrameCurveTransition(incoming, outgoing);
+        var length = GraphicStructure.FrameSegment(corner, lengthEnd);
+        var clothoid = GraphicStructure.FrameClothoidTransition(transition, length);
+        var center = GraphicStructure.FramePoint(frame, new CarrierLocation(x, 4), new CarrierLocation(y, 4));
+        var arc = GraphicStructure.FrameArc(center, lowerLeft, corner);
+        var involute = GraphicStructure.FrameInvoluteCurve(arc, length);
+        var structure = Chain(clothoid, involute);
+
+        var graph = GraphicReadGraph.From(structure);
+
+        var transitionRead = Assert.Single(graph.ReadsOf<SharedFrameCurveTransitionRead>());
+        Assert.Equal(corner, transitionRead.Junction.Source);
+        var clothoidRead = Assert.Single(graph.ReadsOf<SharedFrameClothoidTransitionRead>());
+        Assert.Equal(length, clothoidRead.Length.Source);
+        var involuteRead = Assert.Single(graph.ReadsOf<SharedFrameInvoluteCircleRead>());
+        Assert.Equal(length, involuteRead.UnwoundLength.Source);
     }
 
     [Fact]

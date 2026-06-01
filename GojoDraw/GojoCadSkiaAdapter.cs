@@ -45,6 +45,7 @@ public sealed class GojoCadSkiaAdapter
         }
 
         var angleControlledPathSegments = ReadAngleControlledPathSegmentSources(graph);
+        var frameCurveSupportSources = ReadFrameCurveSupportSources(graph);
 
         foreach (var radial in graph.ReadsOf<RadialSeedRead>()
             .Where(read => !IsRepeatControlSource(read.Source, repeatControlSources)))
@@ -84,7 +85,8 @@ public sealed class GojoCadSkiaAdapter
         }
 
         foreach (var segment in graph.ReadsOf<SharedFrameSegmentRead>()
-            .Where(read => !IsRepeatControlSource(read.Source, repeatControlSources)))
+            .Where(read => !IsRepeatControlSource(read.Source, repeatControlSources))
+            .Where(read => !IsFrameCurveSupportSource(read.Source, frameCurveSupportSources)))
         {
             DrawSharedFrameSegment(canvas, segment, projection, paints, hitAreas);
             drawn++;
@@ -94,6 +96,41 @@ public sealed class GojoCadSkiaAdapter
             .Where(read => !IsRepeatControlSource(read.Source, repeatControlSources)))
         {
             DrawSharedFrameArc(canvas, arc, projection, paints, hitAreas);
+            drawn++;
+        }
+
+        foreach (var quadratic in graph.ReadsOf<SharedFrameQuadraticCurveRead>()
+            .Where(read => !IsRepeatControlSource(read.Source, repeatControlSources)))
+        {
+            DrawSharedFrameQuadraticCurve(canvas, quadratic, projection, paints, hitAreas);
+            drawn++;
+        }
+
+        foreach (var cubic in graph.ReadsOf<SharedFrameCubicCurveRead>()
+            .Where(read => !IsRepeatControlSource(read.Source, repeatControlSources)))
+        {
+            DrawSharedFrameCubicCurve(canvas, cubic, projection, paints, hitAreas);
+            drawn++;
+        }
+
+        foreach (var transition in graph.ReadsOf<SharedFrameCurveTransitionRead>()
+            .Where(read => !IsRepeatControlSource(read.Source, repeatControlSources)))
+        {
+            DrawSharedFrameTransition(canvas, transition, projection, paints, hitAreas, paints.SharedFrameCurve);
+            drawn++;
+        }
+
+        foreach (var clothoid in graph.ReadsOf<SharedFrameClothoidTransitionRead>()
+            .Where(read => !IsRepeatControlSource(read.Source, repeatControlSources)))
+        {
+            DrawSharedFrameTransition(canvas, clothoid.Transition, projection, paints, hitAreas, paints.SharedFrameCurveTension, "clothoid transition");
+            drawn++;
+        }
+
+        foreach (var involute in graph.ReadsOf<SharedFrameInvoluteCircleRead>()
+            .Where(read => !IsRepeatControlSource(read.Source, repeatControlSources)))
+        {
+            DrawSharedFrameInvolute(canvas, involute, projection, paints, hitAreas);
             drawn++;
         }
 
@@ -229,6 +266,56 @@ public sealed class GojoCadSkiaAdapter
     private static bool IsRepeatControlSource(IElement source, IReadOnlySet<ulong> repeatControlSources) =>
         source is Relation relation &&
         repeatControlSources.Contains(relation.Id);
+
+    private static HashSet<ulong> ReadFrameCurveSupportSources(GraphicReadGraph graph)
+    {
+        var sources = new HashSet<ulong>();
+        void Add(IElement source)
+        {
+            if (source is Relation relation)
+            {
+                sources.Add(relation.Id);
+            }
+        }
+
+        foreach (var arc in graph.ReadsOf<SharedFrameArcRead>())
+        {
+            Add(arc.Span.Source);
+        }
+
+        foreach (var curve in graph.ReadsOf<SharedFrameQuadraticCurveRead>())
+        {
+            Add(curve.Chord.Source);
+        }
+
+        foreach (var curve in graph.ReadsOf<SharedFrameCubicCurveRead>())
+        {
+            Add(curve.Chord.Source);
+            Add(curve.ControlSpan.Source);
+        }
+
+        foreach (var transition in graph.ReadsOf<SharedFrameCurveTransitionRead>())
+        {
+            Add(transition.Incoming.Source);
+            Add(transition.Outgoing.Source);
+        }
+
+        foreach (var clothoid in graph.ReadsOf<SharedFrameClothoidTransitionRead>())
+        {
+            Add(clothoid.Length.Source);
+        }
+
+        foreach (var involute in graph.ReadsOf<SharedFrameInvoluteCircleRead>())
+        {
+            Add(involute.UnwoundLength.Source);
+        }
+
+        return sources;
+    }
+
+    private static bool IsFrameCurveSupportSource(IElement source, IReadOnlySet<ulong> frameCurveSupportSources) =>
+        source is Relation relation &&
+        frameCurveSupportSources.Contains(relation.Id);
 
     private static int DrawCircumferences(
         SKCanvas canvas,
@@ -596,11 +683,87 @@ public sealed class GojoCadSkiaAdapter
         var endAngle = AngleDegrees(center, end);
         var sweep = ShortestSweep(startAngle, endAngle);
 
-        canvas.DrawArc(bounds, startAngle, sweep, false, paints.SharedFrameSegment);
+        canvas.DrawArc(bounds, startAngle, sweep, false, paints.SharedFrameCurve);
         canvas.DrawCircle(start, paints.DotRadius * 0.52f, paints.SharedFramePoint);
         canvas.DrawCircle(end, paints.DotRadius * 0.52f, paints.SharedFramePoint);
         DrawFramePointBox(canvas, center, paints, 0.72f);
         AddHit(hitAreas, bounds, "shared-frame arc", priority: 3, arc.Source);
+    }
+
+    private static void DrawSharedFrameQuadraticCurve(
+        SKCanvas canvas,
+        SharedFrameQuadraticCurveRead curve,
+        IGojoCadSkiaProjection projection,
+        GojoCadSkiaPaints paints,
+        ICollection<GojoCadSkiaHitArea>? hitAreas)
+    {
+        var start = projection.ProjectFrame(curve.Start);
+        var control = projection.ProjectFrame(curve.Control);
+        var end = projection.ProjectFrame(curve.End);
+        using var path = new SKPath();
+        path.MoveTo(start);
+        path.QuadTo(control, end);
+        canvas.DrawPath(path, paints.SharedFrameCurve);
+        DrawFramePointBox(canvas, control, paints, 0.64f);
+        AddHit(hitAreas, path.Bounds, "quadratic curve", priority: 3, curve.Source);
+    }
+
+    private static void DrawSharedFrameCubicCurve(
+        SKCanvas canvas,
+        SharedFrameCubicCurveRead curve,
+        IGojoCadSkiaProjection projection,
+        GojoCadSkiaPaints paints,
+        ICollection<GojoCadSkiaHitArea>? hitAreas)
+    {
+        var start = projection.ProjectFrame(curve.Start);
+        var first = projection.ProjectFrame(curve.FirstControl);
+        var second = projection.ProjectFrame(curve.SecondControl);
+        var end = projection.ProjectFrame(curve.End);
+        using var path = new SKPath();
+        path.MoveTo(start);
+        path.CubicTo(first, second, end);
+        canvas.DrawPath(path, paints.SharedFrameCurve);
+        DrawFramePointBox(canvas, first, paints, 0.58f);
+        DrawFramePointBox(canvas, second, paints, 0.58f);
+        AddHit(hitAreas, path.Bounds, "cubic curve", priority: 3, curve.Source);
+    }
+
+    private static void DrawSharedFrameTransition(
+        SKCanvas canvas,
+        SharedFrameCurveTransitionRead transition,
+        IGojoCadSkiaProjection projection,
+        GojoCadSkiaPaints paints,
+        ICollection<GojoCadSkiaHitArea>? hitAreas,
+        SKPaint paint,
+        string text = "curve transition")
+    {
+        var start = projection.ProjectFrame(transition.Incoming.Start);
+        var junction = projection.ProjectFrame(transition.Junction);
+        var end = projection.ProjectFrame(transition.Outgoing.End);
+        using var path = new SKPath();
+        path.MoveTo(start);
+        path.QuadTo(junction, end);
+        canvas.DrawPath(path, paint);
+        DrawFramePointBox(canvas, junction, paints, 0.64f);
+        AddHit(hitAreas, path.Bounds, text, priority: 3, transition.Source);
+    }
+
+    private static void DrawSharedFrameInvolute(
+        SKCanvas canvas,
+        SharedFrameInvoluteCircleRead involute,
+        IGojoCadSkiaProjection projection,
+        GojoCadSkiaPaints paints,
+        ICollection<GojoCadSkiaHitArea>? hitAreas)
+    {
+        var start = projection.ProjectFrame(involute.BaseArc.Start);
+        var first = projection.ProjectFrame(involute.BaseArc.End);
+        var second = projection.ProjectFrame(involute.UnwoundLength.Start);
+        var end = projection.ProjectFrame(involute.UnwoundLength.End);
+        using var path = new SKPath();
+        path.MoveTo(start);
+        path.CubicTo(first, second, end);
+        canvas.DrawPath(path, paints.SharedFrameCurveTension);
+        AddHit(hitAreas, path.Bounds, "involute circle", priority: 3, involute.Source);
     }
 
     private static void DrawSharedFrameAttachment(

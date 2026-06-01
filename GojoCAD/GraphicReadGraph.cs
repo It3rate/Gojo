@@ -152,11 +152,6 @@ public sealed class GraphicReadGraph
                 reads.Add(framePoint);
             }
 
-            if (RecognizeSharedFrameArc(relation, out var frameArc))
-            {
-                reads.Add(frameArc);
-            }
-
             if (RecognizeRepeatTemplate(relation, out var repeatTemplate))
             {
                 reads.Add(repeatTemplate);
@@ -188,6 +183,77 @@ public sealed class GraphicReadGraph
                     !SameFramePoint(leftFramePoint, rightFramePoint))
                 {
                     reads.Add(new SharedFrameSegmentRead(relation, leftFramePoint, rightFramePoint));
+                }
+            }
+
+            foreach (var center in left.LocalReads.OfType<SharedFramePointRead>())
+            foreach (var span in right.LocalReads.OfType<SharedFrameSegmentRead>())
+            {
+                if (HaveSameFrameBasis(center, span.Start) &&
+                    HaveSameFrameBasis(center, span.End) &&
+                    !SameFramePoint(center, span.Start) &&
+                    !SameFramePoint(center, span.End))
+                {
+                    reads.Add(new SharedFrameArcRead(relation, center, span.Start, span.End, span));
+                }
+            }
+
+            foreach (var chord in left.LocalReads.OfType<SharedFrameSegmentRead>())
+            foreach (var control in right.LocalReads.OfType<SharedFramePointRead>())
+            {
+                if (HaveSameFrameBasis(chord.Start, control) &&
+                    !SameFramePoint(chord.Start, control) &&
+                    !SameFramePoint(chord.End, control))
+                {
+                    reads.Add(new SharedFrameQuadraticCurveRead(relation, chord.Start, control, chord.End, chord));
+                }
+            }
+
+            foreach (var chord in left.LocalReads.OfType<SharedFrameSegmentRead>())
+            foreach (var controlSpan in right.LocalReads.OfType<SharedFrameSegmentRead>())
+            {
+                if (!HaveSameFrameBasis(chord.Start, controlSpan.Start) ||
+                    !HaveSameFrameBasis(chord.Start, controlSpan.End))
+                {
+                    continue;
+                }
+
+                if (TryReadSharedFrameTransition(chord, controlSpan, out var transition))
+                {
+                    reads.Add(new SharedFrameCurveTransitionRead(
+                        relation,
+                        transition.Incoming,
+                        transition.Outgoing,
+                        transition.Junction));
+                }
+                else
+                {
+                    reads.Add(new SharedFrameCubicCurveRead(
+                        relation,
+                        chord.Start,
+                        controlSpan.Start,
+                        controlSpan.End,
+                        chord.End,
+                        chord,
+                        controlSpan));
+                }
+            }
+
+            foreach (var transition in left.LocalReads.OfType<SharedFrameCurveTransitionRead>())
+            foreach (var length in right.LocalReads.OfType<SharedFrameSegmentRead>())
+            {
+                if (HaveSameFrameBasis(transition.Incoming.Start, length.Start))
+                {
+                    reads.Add(new SharedFrameClothoidTransitionRead(relation, transition, length));
+                }
+            }
+
+            foreach (var arc in left.LocalReads.OfType<SharedFrameArcRead>())
+            foreach (var length in right.LocalReads.OfType<SharedFrameSegmentRead>())
+            {
+                if (HaveSameFrameBasis(arc.Center, length.Start))
+                {
+                    reads.Add(new SharedFrameInvoluteCircleRead(relation, arc, length));
                 }
             }
 
@@ -1173,44 +1239,6 @@ public sealed class GraphicReadGraph
             return false;
         }
 
-        private static bool RecognizeSharedFrameArc(Relation relation, out SharedFrameArcRead arc)
-        {
-            if (relation.Right is not Carrier holder ||
-                !relation.TryReadOrderedElementsOn(holder, out var elements) ||
-                elements.Length != 3 ||
-                elements.Any(element => element is not Relation))
-            {
-                arc = default!;
-                return false;
-            }
-
-            var points = elements
-                .Cast<Relation>()
-                .Select(element => RecognizeSharedFramePoint(element, out var point) ? point : null)
-                .ToArray();
-            if (points.Any(point => point is null))
-            {
-                arc = default!;
-                return false;
-            }
-
-            var center = points[0]!;
-            var start = points[1]!;
-            var end = points[2]!;
-            if (!HaveSameFrameBasis(center, start) ||
-                !HaveSameFrameBasis(center, end) ||
-                SameFramePoint(center, start) ||
-                SameFramePoint(center, end) ||
-                SameFramePoint(start, end))
-            {
-                arc = default!;
-                return false;
-            }
-
-            arc = new SharedFrameArcRead(relation, center, start, end);
-            return true;
-        }
-
         private static bool RecognizeRepeatTemplate(Relation relation, out GraphicRepeatTemplateRead template)
         {
             if (RepeatSurface.TryReadTemplate(
@@ -1361,6 +1389,45 @@ public sealed class GraphicReadGraph
 
         private static bool IsOutgoingDirectedEndpoint(PathSegmentEndpointRead endpoint) =>
             endpoint.Segment.IsDirected && endpoint.IsStart;
+
+        private static bool TryReadSharedFrameTransition(
+            SharedFrameSegmentRead left,
+            SharedFrameSegmentRead right,
+            out SharedFrameTransition transition)
+        {
+            if (SameFramePoint(left.End, right.Start))
+            {
+                transition = new SharedFrameTransition(left, right, left.End);
+                return true;
+            }
+
+            if (SameFramePoint(left.Start, right.End))
+            {
+                transition = new SharedFrameTransition(right, left, left.Start);
+                return true;
+            }
+
+            if (SameFramePoint(left.Start, right.Start))
+            {
+                transition = new SharedFrameTransition(
+                    new SharedFrameSegmentRead(left.Source, left.End, left.Start),
+                    right,
+                    left.Start);
+                return true;
+            }
+
+            if (SameFramePoint(left.End, right.End))
+            {
+                transition = new SharedFrameTransition(
+                    left,
+                    new SharedFrameSegmentRead(right.Source, right.End, right.Start),
+                    left.End);
+                return true;
+            }
+
+            transition = default;
+            return false;
+        }
 
         private static bool IsInteriorPointOnCircularSpan(CarrierLocation point, CircularSpanRead span)
         {
@@ -2182,6 +2249,11 @@ public sealed class GraphicReadGraph
             PathGraphNodeRead? Start = null,
             PathGraphNodeRead? End = null);
 
+        private readonly record struct SharedFrameTransition(
+            SharedFrameSegmentRead Incoming,
+            SharedFrameSegmentRead Outgoing,
+            SharedFramePointRead Junction);
+
         private readonly record struct LocationGroupKey(ulong CarrierId, long Ticks)
         {
             public static LocationGroupKey Of(CarrierLocation location)
@@ -2473,9 +2545,61 @@ public sealed record SharedFrameArcRead(
     IElement Source,
     SharedFramePointRead Center,
     SharedFramePointRead Start,
-    SharedFramePointRead End) : GraphicRead(Source)
+    SharedFramePointRead End,
+    SharedFrameSegmentRead Span) : GraphicRead(Source)
 {
-    public override IEnumerable<IElement> Sources => [Source, Center.Source, Start.Source, End.Source];
+    public override IEnumerable<IElement> Sources => [Source, Center.Source, Start.Source, End.Source, Span.Source];
+}
+
+public sealed record SharedFrameQuadraticCurveRead(
+    IElement Source,
+    SharedFramePointRead Start,
+    SharedFramePointRead Control,
+    SharedFramePointRead End,
+    SharedFrameSegmentRead Chord) : GraphicRead(Source)
+{
+    public override IEnumerable<IElement> Sources => [Source, Start.Source, Control.Source, End.Source, Chord.Source];
+}
+
+public sealed record SharedFrameCubicCurveRead(
+    IElement Source,
+    SharedFramePointRead Start,
+    SharedFramePointRead FirstControl,
+    SharedFramePointRead SecondControl,
+    SharedFramePointRead End,
+    SharedFrameSegmentRead Chord,
+    SharedFrameSegmentRead ControlSpan) : GraphicRead(Source)
+{
+    public override IEnumerable<IElement> Sources =>
+        [Source, Start.Source, FirstControl.Source, SecondControl.Source, End.Source, Chord.Source, ControlSpan.Source];
+}
+
+public sealed record SharedFrameCurveTransitionRead(
+    IElement Source,
+    SharedFrameSegmentRead Incoming,
+    SharedFrameSegmentRead Outgoing,
+    SharedFramePointRead Junction) : GraphicRead(Source)
+{
+    public override IEnumerable<IElement> Sources =>
+        [Source, Incoming.Source, Outgoing.Source, Junction.Source];
+}
+
+public sealed record SharedFrameClothoidTransitionRead(
+    IElement Source,
+    SharedFrameCurveTransitionRead Transition,
+    SharedFrameSegmentRead Length) : GraphicRead(Source)
+{
+    public override IEnumerable<IElement> Sources =>
+        [Source, Transition.Source, Length.Source, .. Transition.Sources, .. Length.Sources];
+}
+
+public sealed record SharedFrameInvoluteCircleRead(
+    IElement Source,
+    SharedFrameArcRead BaseArc,
+    SharedFrameSegmentRead UnwoundLength) : GraphicRead(Source)
+{
+    public override IEnumerable<IElement> Sources =>
+        [Source, BaseArc.Source, UnwoundLength.Source, .. BaseArc.Sources, .. UnwoundLength.Sources];
 }
 
 public sealed record GraphicRepeatTemplateRead(

@@ -46,6 +46,15 @@ internal sealed record VisualizerSample(
             LegendEntry("branch", CreateBranchLegend(), 119),
             LegendEntry("merge", CreateMergeLegend(), 120)
         ]),
+        new VisualizerLegendPage("Curves",
+        [
+            LegendEntry("frame arc", CreateFrameArcLegend(), 141),
+            LegendEntry("quadratic", CreateQuadraticCurveLegend(), 142),
+            LegendEntry("cubic", CreateCubicCurveLegend(), 143),
+            LegendEntry("transition", CreateCurveTransitionLegend(), 144),
+            LegendEntry("clothoid", CreateClothoidTransitionLegend(), 145),
+            LegendEntry("involute", CreateInvoluteCurveLegend(), 146)
+        ]),
         new VisualizerLegendPage("Letters",
         [
             LegendEntry("letter I", CreateLetterLegend('I'), 131),
@@ -483,6 +492,95 @@ internal sealed record VisualizerSample(
     }
 
     private static IElement CreateMergeLegend() => CreateBranchLegend();
+
+    private static IElement CreateFrameArcLegend() =>
+        Chain(CreateCurveElements("frame arc"));
+
+    private static IElement CreateQuadraticCurveLegend() =>
+        Chain(CreateCurveElements("quadratic"));
+
+    private static IElement CreateCubicCurveLegend() =>
+        Chain(CreateCurveElements("cubic"));
+
+    private static IElement CreateCurveTransitionLegend() =>
+        Chain(CreateCurveElements("transition"));
+
+    private static IElement CreateClothoidTransitionLegend() =>
+        Chain(CreateCurveElements("clothoid"));
+
+    private static IElement CreateInvoluteCurveLegend() =>
+        Chain(CreateCurveElements("involute"));
+
+    public static IReadOnlyList<IElement> CreateCurveElements(
+        string kind,
+        Relation? anchorPoint = null)
+    {
+        var frame = new Carrier();
+        var x = new Carrier();
+        var y = new Carrier();
+        var points = new Dictionary<(long X, long Y), Relation>();
+        Relation Point(long px, long py)
+        {
+            var key = (X: px, Y: py);
+            if (!points.TryGetValue(key, out var point))
+            {
+                point = GraphicStructure.FramePoint(
+                    frame,
+                    new CarrierLocation(x, key.X),
+                    new CarrierLocation(y, key.Y));
+                points[key] = point;
+            }
+
+            return point;
+        }
+
+        Relation Segment(long ax, long ay, long bx, long by) =>
+            GraphicStructure.FrameSegment(Point(ax, ay), Point(bx, by));
+
+        var elements = new List<IElement>();
+        if (anchorPoint is not null)
+        {
+            elements.Add(GraphicStructure.Pin(Point(0, 0), anchorPoint));
+        }
+
+        switch (kind)
+        {
+            case "frame arc":
+                elements.Add(GraphicStructure.FrameArc(Point(5, 5), Point(0, 5), Point(5, 10)));
+                break;
+            case "quadratic":
+                elements.Add(GraphicStructure.FrameQuadraticCurve(Point(0, 0), Point(5, 10), Point(10, 0)));
+                break;
+            case "cubic":
+                elements.Add(GraphicStructure.FrameCubicCurve(Point(0, 0), Point(2, 10), Point(8, 10), Point(10, 0)));
+                break;
+            case "transition":
+                elements.Add(GraphicStructure.FrameCurveTransition(
+                    Segment(0, 0, 6, 0),
+                    Segment(6, 0, 6, 6)));
+                break;
+            case "clothoid":
+                {
+                    var transition = GraphicStructure.FrameCurveTransition(
+                        Segment(0, 0, 6, 0),
+                        Segment(6, 0, 6, 6));
+                    elements.Add(GraphicStructure.FrameClothoidTransition(
+                        transition,
+                        Segment(6, 0, 9, 3)));
+                    break;
+                }
+            case "involute":
+                {
+                    var arc = GraphicStructure.FrameArc(Point(4, 4), Point(4, 8), Point(8, 4));
+                    elements.Add(GraphicStructure.FrameInvoluteCurve(
+                        arc,
+                        Segment(8, 4, 11, 7)));
+                    break;
+                }
+        }
+
+        return elements;
+    }
 
     private static IElement CreateLetterLegend(char letter) =>
         Chain(CreateLetterElements(letter));
