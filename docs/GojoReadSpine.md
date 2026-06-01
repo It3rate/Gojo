@@ -154,6 +154,43 @@ operation follow, tournaments, and equation searches share the same temporal
 shape. The timeline is not only a log. It is evidence that can be inspected,
 compared, or used as provenance by a later read.
 
+## FocusSurface
+
+`FocusSurface` is the first common foothold for structural selection. It is not
+a UI selection object. It records a local focus over connected structure:
+
+```text
+FocusSurface
+  source structure
+  focus basis
+  selected participation
+  carry-forward complement
+  replacement or anti-participation
+  correspondence
+  residue or tension
+  provenance or timeline
+```
+
+The important use case is partial selection. A rounded rectangle corner does
+not only select two whole edges. It selects subspans near a corner relation,
+carries forward the rest of the edges, replaces the sharp participation with a
+transition, and preserves unresolved radius/tangent residue.
+
+Focus can also be sequenced without inventing a separate sequencer. A timed
+step can use a focus surface as its transition evidence:
+
+```text
+before structure
+  read through focus surface
+  produces after structure
+  leaves residue
+  during this time span
+```
+
+That lets a structure remain valid between partial refinements. One corner can
+settle before another corner, a field color can change between them, and each
+intermediate state can still be read.
+
 ## RefinementRead
 
 `RefinementRead` is the common relation-shaped refinement record.

@@ -720,6 +720,7 @@ Gojo already has strong substrate for ladders:
 - unit shapes and unit provenance
 - resolution reads
 - residue and tension
+- focus surfaces for structural selection
 - repeat surfaces
 - read graphs
 - branch/merge topology
@@ -737,7 +738,7 @@ The main missing tools are not primitives. They are correspondence tools.
 
 Needed:
 
-- focus selection as structure
+- focus projection across ladder rungs
 - carry-forward relations
 - replacement/settlement relations
 - anti-participation for removed or hidden parts
@@ -752,6 +753,12 @@ Needed:
 
 The important rule remains: these should be Gojo-native relation surfaces, not
 metadata wrappers.
+
+`FocusSurface` is the first core step here. It can already hold source,
+focus basis, selected participation, complement, replacement, correspondence,
+residue, and provenance/timeline. The next work is making those roles settle
+more deeply into real ladder transformations instead of only carrying them as
+ordered structural evidence.
 
 ## Implementation Bias
 
