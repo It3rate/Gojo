@@ -65,11 +65,13 @@ without erasing the others.
 | observed carrier | unit shape surface/descriptors | carrier participates in a point or span read | carrier unit/provenance evidence |
 | ordered coordinate group | two or more carrier locations share one frame holder | ordered group participants are locations | shared-frame point |
 | shared-frame point | shared-frame point | same coordinate carrier basis, distinct coordinate tuple | shared-frame segment |
+| ordered shared-frame center/start/end | three shared-frame points use the same coordinate basis | center differs from both arc endpoints | shared-frame arc |
 | segment | point on same carrier | point tick falls inside segment ticks | segment partition tick |
 | circumference span | point on same circular carrier | point tick falls inside span read | contour partition tick |
 | span | span | shared endpoint, carrier location, or `TickRef` | connected path fragment |
 | connected non-branching span component | two terminal endpoint sites, interior sites valence two | segment path / repeated-step path |
 | connected shared-frame segments | two terminal frame points, interior frame points valence two | shared-frame polyline |
+| connected path component | endpoints group into terminal, valence-two, branch, or loop sites | path graph topology read |
 | span group | shared site | local valence greater than two | branch, merge, junction candidate |
 | any read | style participation | style carrier attaches to selected read | styled read with unresolved or exact detail |
 | any read | resolution participation | carrier/unit ladder relates to selected read | coarser or finer read surface |
@@ -110,6 +112,7 @@ Current executable control surface:
 | `SegmentConnectionRead` | `1` | segment endpoints meet at a shared site |
 | `SharedFramePointRead` | `0` | ordered coordinate tuple over a shared frame/group holder |
 | `SharedFrameSegmentRead` | `0` | relation between two shared-frame coordinate tuples in the same coordinate basis |
+| `SharedFrameArcRead` | `0` | ordered shared-frame center/start/end points that define an arc in a coordinate frame |
 | `GraphicRepeatTemplateRead` | `0` | repeat template with slot-shaped input ports, selected structure, and output ports |
 | `GraphicRepeatRead` | `0` | repeat surface whose selected template has feedback from output ports to later input ports |
 | `RadiusAttachmentRead` | `2` | a base-carrier point fixes radius evidence for a circular marker |
@@ -128,6 +131,7 @@ Current executable control surface:
 | `PathJunctionRead` | `4` | at least three path-segment endpoints meet at one shared attachment site |
 | `BranchRead` | `4` | a directed path junction with one incoming endpoint and two or more outgoing endpoints |
 | `MergeRead` | `4` | a directed path junction with two or more incoming endpoints and one outgoing endpoint |
+| `PathGraphRead` | `4` | connected path endpoints lifted to terminal, valence-two, branch, or closed-loop topology without naming the object |
 | `OpenSegmentPathRead` | `4` | non-branching open path over ordinary segment reads and their joins |
 | `SharedFramePolylineRead` | `4` | non-branching open path over shared-frame segment reads |
 

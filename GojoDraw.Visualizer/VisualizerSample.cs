@@ -45,6 +45,16 @@ internal sealed record VisualizerSample(
             LegendEntry("anti-area", CreateAntiAreaLegend(), 118),
             LegendEntry("branch", CreateBranchLegend(), 119),
             LegendEntry("merge", CreateMergeLegend(), 120)
+        ]),
+        new VisualizerLegendPage("Letters",
+        [
+            LegendEntry("letter I", CreateLetterLegend('I'), 131),
+            LegendEntry("letter L", CreateLetterLegend('L'), 132),
+            LegendEntry("letter T", CreateLetterLegend('T'), 133),
+            LegendEntry("letter O", CreateLetterLegend('O'), 134),
+            LegendEntry("letter A", CreateLetterLegend('A'), 135),
+            LegendEntry("letter Y", CreateLetterLegend('Y'), 136),
+            LegendEntry("letter R", CreateLetterLegend('R'), 137)
         ])
     ];
 
@@ -473,6 +483,104 @@ internal sealed record VisualizerSample(
     }
 
     private static IElement CreateMergeLegend() => CreateBranchLegend();
+
+    private static IElement CreateLetterLegend(char letter) =>
+        Chain(CreateLetterElements(letter));
+
+    public static IReadOnlyList<IElement> CreateLetterElements(
+        char letter,
+        Relation? anchorPoint = null,
+        long xOffset = 0)
+    {
+        var frame = new Carrier();
+        var x = new Carrier();
+        var y = new Carrier();
+        var points = new Dictionary<(long X, long Y), Relation>();
+        Relation Point(long px, long py)
+        {
+            var key = (X: px + xOffset, Y: py);
+            if (!points.TryGetValue(key, out var point))
+            {
+                point = GraphicStructure.FramePoint(
+                    frame,
+                    new CarrierLocation(x, key.X),
+                    new CarrierLocation(y, key.Y));
+                points[key] = point;
+            }
+
+            return point;
+        }
+
+        Relation Segment(long ax, long ay, long bx, long by) =>
+            GraphicStructure.FrameSegment(Point(ax, ay), Point(bx, by));
+
+        Relation Arc(long cx, long cy, long ax, long ay, long bx, long by) =>
+            GraphicStructure.FrameArc(Point(cx, cy), Point(ax, ay), Point(bx, by));
+
+        IElement[] letterElements = char.ToUpperInvariant(letter) switch
+        {
+            'I' =>
+            [
+                Segment(0, 12, 5, 12),
+                Segment(5, 12, 10, 12),
+                Segment(5, 12, 5, 0),
+                Segment(0, 0, 5, 0),
+                Segment(5, 0, 10, 0)
+            ],
+            'L' =>
+            [
+                Segment(0, 12, 0, 0),
+                Segment(0, 0, 9, 0)
+            ],
+            'T' =>
+            [
+                Segment(0, 12, 5, 12),
+                Segment(5, 12, 10, 12),
+                Segment(5, 12, 5, 0)
+            ],
+            'O' =>
+            [
+                Arc(5, 6, 5, 11, 10, 6),
+                Arc(5, 6, 10, 6, 5, 1),
+                Arc(5, 6, 5, 1, 0, 6),
+                Arc(5, 6, 0, 6, 5, 11)
+            ],
+            'A' =>
+            [
+                Segment(0, 0, 3, 7),
+                Segment(3, 7, 5, 12),
+                Segment(5, 12, 7, 7),
+                Segment(7, 7, 10, 0),
+                Segment(3, 7, 7, 7)
+            ],
+            'Y' =>
+            [
+                Segment(0, 12, 5, 6),
+                Segment(10, 12, 5, 6),
+                Segment(5, 6, 5, 0)
+            ],
+            'R' =>
+            [
+                Segment(0, 0, 0, 6),
+                Segment(0, 6, 0, 12),
+                Segment(0, 12, 3, 12),
+                Arc(3, 9, 3, 12, 6, 9),
+                Arc(3, 9, 6, 9, 3, 6),
+                Segment(3, 6, 0, 6),
+                Segment(0, 6, 9, 0)
+            ],
+            _ => [Segment(0, 0, 8, 0)]
+        };
+
+        var elements = new List<IElement>();
+        if (anchorPoint is not null)
+        {
+            elements.Add(GraphicStructure.Pin(Point(0, 0), anchorPoint));
+        }
+
+        elements.AddRange(letterElements);
+        return elements;
+    }
 
     private static IElement Chain(IReadOnlyList<IElement> elements)
     {

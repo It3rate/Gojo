@@ -195,7 +195,10 @@ public sealed class GraphicReadGraphTests
         Assert.False(compatibility.AlgebraicallyCompatible);
         Assert.Empty(graph.ReadsOf<SegmentJunctionRead>());
         Assert.Empty(graph.ReadsOf<BoundaryJoinRead>());
-        Assert.Equal([0, 1, 2], graph.Bands.Select(band => band.Order).ToArray());
+        var pathGraph = Assert.Single(graph.ReadsOf<PathGraphRead>());
+        Assert.Equal(2, pathGraph.Edges.Count);
+        Assert.Equal(2, pathGraph.TerminalNodeCount);
+        Assert.Equal([0, 1, 2, 4], graph.Bands.Select(band => band.Order).ToArray());
     }
 
     [Fact]
@@ -537,6 +540,80 @@ public sealed class GraphicReadGraphTests
         Assert.Contains(path.Segments.SelectMany(segment => new[] { segment.Start, segment.End }), point =>
             point.Coordinates[1].Ticks != 0);
         Assert.Equal([segments[0], segments[1], segments[2], segments[3]], path.Segments.Select(segment => segment.Source).ToArray());
+    }
+
+    [Fact]
+    public void ReadsSharedFrameArcFromCoordinatePointTriple()
+    {
+        var frame = new Carrier();
+        var x = new Carrier();
+        var y = new Carrier();
+        var center = GraphicStructure.FramePoint(frame, new CarrierLocation(x, 5), new CarrierLocation(y, 6));
+        var start = GraphicStructure.FramePoint(frame, new CarrierLocation(x, 5), new CarrierLocation(y, 11));
+        var end = GraphicStructure.FramePoint(frame, new CarrierLocation(x, 10), new CarrierLocation(y, 6));
+        var arcElement = GraphicStructure.FrameArc(center, start, end);
+
+        var graph = GraphicReadGraph.From(arcElement);
+
+        var arc = Assert.Single(graph.ReadsOf<SharedFrameArcRead>());
+        Assert.Equal(center, arc.Center.Source);
+        Assert.Equal(start, arc.Start.Source);
+        Assert.Equal(end, arc.End.Source);
+        Assert.Empty(graph.ReadsOf<SharedFrameSegmentRead>());
+    }
+
+    [Fact]
+    public void ReadsPathGraphFromSharedFrameLetterT()
+    {
+        var frame = new Carrier();
+        var x = new Carrier();
+        var y = new Carrier();
+        var topLeft = GraphicStructure.FramePoint(frame, new CarrierLocation(x, 0), new CarrierLocation(y, 12));
+        var topCenter = GraphicStructure.FramePoint(frame, new CarrierLocation(x, 5), new CarrierLocation(y, 12));
+        var topRight = GraphicStructure.FramePoint(frame, new CarrierLocation(x, 10), new CarrierLocation(y, 12));
+        var bottomCenter = GraphicStructure.FramePoint(frame, new CarrierLocation(x, 5), new CarrierLocation(y, 0));
+        var leftTop = GraphicStructure.FrameSegment(topLeft, topCenter);
+        var rightTop = GraphicStructure.FrameSegment(topCenter, topRight);
+        var stem = GraphicStructure.FrameSegment(topCenter, bottomCenter);
+        var structure = Chain(leftTop, rightTop, stem);
+
+        var graph = GraphicReadGraph.From(structure);
+
+        var pathGraph = Assert.Single(graph.ReadsOf<PathGraphRead>());
+        Assert.Equal(3, pathGraph.Edges.Count);
+        Assert.Equal(4, pathGraph.Nodes.Count);
+        Assert.Equal(3, pathGraph.TerminalNodeCount);
+        Assert.Equal(1, pathGraph.BranchNodeCount);
+        Assert.False(pathGraph.HasClosedTopology);
+        var branch = Assert.Single(pathGraph.Nodes, node => node.Valence == 3);
+        Assert.All(branch.Endpoints, endpoint => Assert.NotNull(endpoint.SharedFramePoint));
+    }
+
+    [Fact]
+    public void ReadsClosedPathGraphFromSharedFrameLetterO()
+    {
+        var frame = new Carrier();
+        var x = new Carrier();
+        var y = new Carrier();
+        var bottomLeft = GraphicStructure.FramePoint(frame, new CarrierLocation(x, 0), new CarrierLocation(y, 0));
+        var bottomRight = GraphicStructure.FramePoint(frame, new CarrierLocation(x, 8), new CarrierLocation(y, 0));
+        var topRight = GraphicStructure.FramePoint(frame, new CarrierLocation(x, 8), new CarrierLocation(y, 10));
+        var topLeft = GraphicStructure.FramePoint(frame, new CarrierLocation(x, 0), new CarrierLocation(y, 10));
+        var bottom = GraphicStructure.FrameSegment(bottomLeft, bottomRight);
+        var right = GraphicStructure.FrameSegment(bottomRight, topRight);
+        var top = GraphicStructure.FrameSegment(topRight, topLeft);
+        var left = GraphicStructure.FrameSegment(topLeft, bottomLeft);
+        var structure = Chain(bottom, right, top, left);
+
+        var graph = GraphicReadGraph.From(structure);
+
+        var pathGraph = Assert.Single(graph.ReadsOf<PathGraphRead>());
+        Assert.Equal(4, pathGraph.Edges.Count);
+        Assert.Equal(4, pathGraph.Nodes.Count);
+        Assert.Equal(0, pathGraph.TerminalNodeCount);
+        Assert.Equal(0, pathGraph.BranchNodeCount);
+        Assert.True(pathGraph.HasClosedTopology);
+        Assert.All(pathGraph.Nodes, node => Assert.Equal(2, node.Valence));
     }
 
     [Fact]

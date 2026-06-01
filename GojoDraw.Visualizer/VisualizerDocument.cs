@@ -85,6 +85,7 @@ internal sealed record VisualizerDocument(
         var selection = ReadSelection();
         return entry.Label switch
         {
+            var label when IsLetterLabel(label) => true,
             "point" => true,
             "radial" => selection.Point is not null,
             "span" => selection.LineSeed is not null || selection.Point is not null || SelectedIndex is null,
@@ -116,6 +117,7 @@ internal sealed record VisualizerDocument(
 
         return entry.Label switch
         {
+            var label when IsLetterLabel(label) => "add letter pattern",
             "point" => "add point",
             "radial" => "select a point",
             "span" => "select a point or line seed",
@@ -176,6 +178,8 @@ internal sealed record VisualizerDocument(
                 new VisualizerLegendDisplay("directed branch", entry.Structure, entry.ProjectionSeed),
             "merge" when selection.Point is not null =>
                 new VisualizerLegendDisplay("directed merge", entry.Structure, entry.ProjectionSeed),
+            var label when IsLetterLabel(label) && selection.Point is not null =>
+                new VisualizerLegendDisplay($"anchored {label}", entry.Structure, entry.ProjectionSeed),
             _ => new VisualizerLegendDisplay(entry.Label, entry.Structure, entry.ProjectionSeed)
         };
     }
@@ -189,6 +193,7 @@ internal sealed record VisualizerDocument(
 
         return entry.Label switch
         {
+            var label when TryReadLetter(label, out var letter) => AddLetter(letter),
             "point" => AddPoint(),
             "radial" => AddRadial(),
             "span" => AddSegment(),
@@ -209,6 +214,15 @@ internal sealed record VisualizerDocument(
             "merge" => AddMerge(),
             _ => this
         };
+    }
+
+    private VisualizerDocument AddLetter(char letter)
+    {
+        var anchor = ReadSelection().Point is { } point
+            ? PointAt(point.Location)
+            : null;
+        var additions = VisualizerSample.CreateLetterElements(letter, anchor);
+        return Append(additions, selectedOffset: additions.Count - 1);
     }
 
     private VisualizerDocument AddPoint()
@@ -918,6 +932,23 @@ internal sealed record VisualizerDocument(
 
     private static bool IsCircularCarrier(Carrier carrier) =>
         carrier.TryReadCircularOrigin(out _);
+
+    private static bool IsLetterLabel(string label) =>
+        TryReadLetter(label, out _);
+
+    private static bool TryReadLetter(string label, out char letter)
+    {
+        const string Prefix = "letter ";
+        if (label.StartsWith(Prefix, StringComparison.OrdinalIgnoreCase) &&
+            label.Length == Prefix.Length + 1)
+        {
+            letter = char.ToUpperInvariant(label[^1]);
+            return true;
+        }
+
+        letter = '\0';
+        return false;
+    }
 
     private static IElement Chain(IReadOnlyList<IElement> elements)
     {

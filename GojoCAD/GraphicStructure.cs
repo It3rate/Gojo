@@ -58,6 +58,10 @@ public static class GraphicStructure
     public static Relation FrameSegment(Relation start, Relation end) =>
         new(start, end);
 
+    /// <summary>Creates an arc from shared-frame center/start/end coordinate tuple points.</summary>
+    public static Relation FrameArc(Relation center, Relation start, Relation end) =>
+        Relation.OrderedGroup(new Carrier(), center, start, end);
+
     /// <summary>
     /// Creates a directed segment whose start is on the aligned inverse face
     /// and whose end is on the positive face: start*i + end.

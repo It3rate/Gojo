@@ -90,6 +90,13 @@ public sealed class GojoCadSkiaAdapter
             drawn++;
         }
 
+        foreach (var arc in graph.ReadsOf<SharedFrameArcRead>()
+            .Where(read => !IsRepeatControlSource(read.Source, repeatControlSources)))
+        {
+            DrawSharedFrameArc(canvas, arc, projection, paints, hitAreas);
+            drawn++;
+        }
+
         foreach (var attachment in graph.ReadsOf<SharedFramePointAttachmentRead>()
             .Where(read => !IsRepeatControlSource(read.Source, repeatControlSources)))
         {
@@ -154,6 +161,11 @@ public sealed class GojoCadSkiaAdapter
         {
             DrawBranchMergeNode(canvas, merge.Junction, projection, paints.MergeNode, "merge", paints, hitAreas, pointRoles, merge.Source);
             drawn++;
+        }
+
+        foreach (var pathGraph in graph.ReadsOf<PathGraphRead>())
+        {
+            drawn += DrawPathGraphNodes(canvas, pathGraph, projection, paints, hitAreas, pointRoles, repeatControlSources);
         }
 
         foreach (var segment in graph.ReadsOf<PositiveSegmentRead>()
@@ -568,6 +580,29 @@ public sealed class GojoCadSkiaAdapter
         AddHit(hitAreas, LineBounds(start, end, 9f), "shared-frame segment", priority: 3, segment.Source);
     }
 
+    private static void DrawSharedFrameArc(
+        SKCanvas canvas,
+        SharedFrameArcRead arc,
+        IGojoCadSkiaProjection projection,
+        GojoCadSkiaPaints paints,
+        ICollection<GojoCadSkiaHitArea>? hitAreas)
+    {
+        var center = projection.ProjectFrame(arc.Center);
+        var start = projection.ProjectFrame(arc.Start);
+        var end = projection.ProjectFrame(arc.End);
+        var radius = MathF.Max(0.1f, (Distance(center, start) + Distance(center, end)) * 0.5f);
+        var bounds = CircleBounds(center, radius);
+        var startAngle = AngleDegrees(center, start);
+        var endAngle = AngleDegrees(center, end);
+        var sweep = ShortestSweep(startAngle, endAngle);
+
+        canvas.DrawArc(bounds, startAngle, sweep, false, paints.SharedFrameSegment);
+        canvas.DrawCircle(start, paints.DotRadius * 0.52f, paints.SharedFramePoint);
+        canvas.DrawCircle(end, paints.DotRadius * 0.52f, paints.SharedFramePoint);
+        DrawFramePointBox(canvas, center, paints, 0.72f);
+        AddHit(hitAreas, bounds, "shared-frame arc", priority: 3, arc.Source);
+    }
+
     private static void DrawSharedFrameAttachment(
         SKCanvas canvas,
         SharedFramePointAttachmentRead attachment,
@@ -649,6 +684,82 @@ public sealed class GojoCadSkiaAdapter
         {
             pointRoles.Add(LocationKey.Of(endpoint.Point.Location));
         }
+    }
+
+    private static int DrawPathGraphNodes(
+        SKCanvas canvas,
+        PathGraphRead pathGraph,
+        IGojoCadSkiaProjection projection,
+        GojoCadSkiaPaints paints,
+        ICollection<GojoCadSkiaHitArea>? hitAreas,
+        HashSet<LocationKey> pointRoles,
+        IReadOnlySet<ulong> repeatControlSources)
+    {
+        var drawn = 0;
+        foreach (var node in pathGraph.Nodes)
+        {
+            var endpoints = node.Endpoints
+                .Where(endpoint => !IsRepeatControlSource(endpoint.Segment.Source, repeatControlSources))
+                .ToArray();
+            if (endpoints.Length == 0 ||
+                endpoints.Length == 2 ||
+                !TryAverageProjectedPathGraphNode(endpoints, projection, out var point))
+            {
+                continue;
+            }
+
+            var paint = endpoints.Length >= 3
+                ? paints.PathGraphBranchNode
+                : paints.PathGraphTerminalNode;
+            var text = endpoints.Length >= 3
+                ? $"path branch valence {endpoints.Length}"
+                : "path terminal valence 1";
+            var source = endpoints[0].Segment.Source;
+            canvas.DrawCircle(point, paints.PathGraphNodeRadius, paint);
+            canvas.DrawCircle(point, paints.PathGraphNodeRadius, paints.TopologyNodeBorder);
+            AddHit(hitAreas, CenteredRect(point, paints.PathGraphNodeRadius * 2.4f), text, priority: 6, source);
+            foreach (var endpoint in endpoints)
+            {
+                if (endpoint.Point is not null)
+                {
+                    pointRoles.Add(LocationKey.Of(endpoint.Point));
+                }
+            }
+
+            drawn++;
+        }
+
+        return drawn;
+    }
+
+    private static bool TryAverageProjectedPathGraphNode(
+        IReadOnlyList<PathGraphEndpointRead> endpoints,
+        IGojoCadSkiaProjection projection,
+        out SKPoint point)
+    {
+        var points = endpoints
+            .Select(endpoint =>
+            {
+                if (endpoint.Point is not null)
+                {
+                    return (SKPoint?)projection.Project(endpoint.Point.Location);
+                }
+
+                return endpoint.SharedFramePoint is not null
+                    ? projection.ProjectFrame(endpoint.SharedFramePoint)
+                    : (SKPoint?)null;
+            })
+            .Where(candidate => candidate.HasValue)
+            .Select(candidate => candidate!.Value)
+            .ToArray();
+        if (points.Length == 0)
+        {
+            point = default;
+            return false;
+        }
+
+        point = new SKPoint(points.Average(candidate => candidate.X), points.Average(candidate => candidate.Y));
+        return true;
     }
 
     private static SKPath? BuildClosedSegmentBoundaryPath(

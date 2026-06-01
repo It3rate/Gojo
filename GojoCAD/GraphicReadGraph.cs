@@ -152,6 +152,11 @@ public sealed class GraphicReadGraph
                 reads.Add(framePoint);
             }
 
+            if (RecognizeSharedFrameArc(relation, out var frameArc))
+            {
+                reads.Add(frameArc);
+            }
+
             if (RecognizeRepeatTemplate(relation, out var repeatTemplate))
             {
                 reads.Add(repeatTemplate);
@@ -613,6 +618,11 @@ public sealed class GraphicReadGraph
                 yield return branchOrMerge;
             }
 
+            foreach (var graph in DerivePathGraphs(reads))
+            {
+                yield return graph;
+            }
+
             foreach (var path in DeriveOpenSegmentPaths(reads))
             {
                 yield return path;
@@ -749,6 +759,154 @@ public sealed class GraphicReadGraph
                     yield return new MergeRead(junction.Source, junction, incoming, outgoing);
                 }
             }
+        }
+
+        private static IEnumerable<PathGraphRead> DerivePathGraphs(IReadOnlyList<GraphicRead> reads)
+        {
+            if (TryDerivePathSegmentGraph(reads, out var pathGraph))
+            {
+                yield return pathGraph;
+            }
+
+            if (TryDeriveSharedFramePathGraph(reads, out var frameGraph))
+            {
+                yield return frameGraph;
+            }
+        }
+
+        private static bool TryDerivePathSegmentGraph(
+            IReadOnlyList<GraphicRead> reads,
+            out PathGraphRead graph)
+        {
+            var segments = reads.OfType<PathSegmentRead>().ToArray();
+            if (segments.Length == 0)
+            {
+                graph = default!;
+                return false;
+            }
+
+            var endpoints = ReadPathSegmentEndpoints(segments);
+            var endpointGroups = ReadAllPathEndpointGroups(endpoints, reads);
+            var nodesBySegment = ReadReferenceDictionary<PathSegmentRead, PathGraphSegmentNodes>();
+            var nodes = new List<PathGraphNodeRead>();
+            foreach (var group in endpointGroups)
+            {
+                var graphEndpoints = group
+                    .Select(endpoint => new PathGraphEndpointRead(
+                        endpoint.Segment,
+                        endpoint.Point.Source,
+                        endpoint.IsStart,
+                        endpoint.Point,
+                        SharedFramePoint: null))
+                    .ToArray();
+                if (graphEndpoints.Length == 0)
+                {
+                    continue;
+                }
+
+                var node = new PathGraphNodeRead(graphEndpoints[0].Source, graphEndpoints);
+                nodes.Add(node);
+                foreach (var endpoint in group)
+                {
+                    var segmentNodes = nodesBySegment.TryGetValue(endpoint.Segment, out var current)
+                        ? current
+                        : new PathGraphSegmentNodes();
+                    segmentNodes = endpoint.IsStart
+                        ? segmentNodes with { Start = node }
+                        : segmentNodes with { End = node };
+                    nodesBySegment[endpoint.Segment] = segmentNodes;
+                }
+            }
+
+            var edges = new List<PathGraphEdgeRead>();
+            foreach (var segment in segments)
+            {
+                if (!nodesBySegment.TryGetValue(segment, out var segmentNodes) ||
+                    segmentNodes.Start is null ||
+                    segmentNodes.End is null)
+                {
+                    continue;
+                }
+
+                edges.Add(new PathGraphEdgeRead(
+                    segment.Source,
+                    segment,
+                    segmentNodes.Start,
+                    segmentNodes.End,
+                    segment.IsDirected,
+                    IsCircularCarrier(NormalizeCarrier(segment.Start.Location.Carrier)),
+                    IsSharedFrame: false));
+            }
+
+            graph = new PathGraphRead(segments[0].Source, nodes, edges);
+            return edges.Count >= 2;
+        }
+
+        private static bool TryDeriveSharedFramePathGraph(
+            IReadOnlyList<GraphicRead> reads,
+            out PathGraphRead graph)
+        {
+            var segments = reads.OfType<SharedFrameSegmentRead>().ToArray();
+            if (segments.Length == 0)
+            {
+                graph = default!;
+                return false;
+            }
+
+            var endpointGroups = ReadSharedFrameEndpointGroups(segments);
+            var nodesBySegment = ReadReferenceDictionary<SharedFrameSegmentRead, PathGraphSegmentNodes>();
+            var nodes = new List<PathGraphNodeRead>();
+            foreach (var group in endpointGroups)
+            {
+                var graphEndpoints = group
+                    .Select(endpoint => new PathGraphEndpointRead(
+                        endpoint.Segment,
+                        endpoint.Point.Source,
+                        endpoint.IsStart,
+                        Point: null,
+                        SharedFramePoint: endpoint.Point))
+                    .ToArray();
+                if (graphEndpoints.Length == 0)
+                {
+                    continue;
+                }
+
+                var node = new PathGraphNodeRead(graphEndpoints[0].Source, graphEndpoints);
+                nodes.Add(node);
+                foreach (var endpoint in group)
+                {
+                    var segmentNodes = nodesBySegment.TryGetValue(endpoint.Segment, out var current)
+                        ? current
+                        : new PathGraphSegmentNodes();
+                    segmentNodes = endpoint.IsStart
+                        ? segmentNodes with { Start = node }
+                        : segmentNodes with { End = node };
+                    nodesBySegment[endpoint.Segment] = segmentNodes;
+                }
+            }
+
+            var edges = new List<PathGraphEdgeRead>();
+            foreach (var segment in segments)
+            {
+                if (!nodesBySegment.TryGetValue(segment, out var segmentNodes) ||
+                    segmentNodes.Start is null ||
+                    segmentNodes.End is null)
+                {
+                    continue;
+                }
+
+                edges.Add(new PathGraphEdgeRead(
+                    segment.Source,
+                    segment,
+                    segmentNodes.Start,
+                    segmentNodes.End,
+                    IsDirected: false,
+                    IsCircular: false,
+                    IsSharedFrame: true));
+            }
+
+            graph = new PathGraphRead(segments[0].Source, nodes, edges);
+            return edges.Count >= 2;
         }
 
         private static IEnumerable<BoundaryJoinRead> DeriveBoundaryJoins(
@@ -1013,6 +1171,44 @@ public sealed class GraphicReadGraph
 
             point = default!;
             return false;
+        }
+
+        private static bool RecognizeSharedFrameArc(Relation relation, out SharedFrameArcRead arc)
+        {
+            if (relation.Right is not Carrier holder ||
+                !relation.TryReadOrderedElementsOn(holder, out var elements) ||
+                elements.Length != 3 ||
+                elements.Any(element => element is not Relation))
+            {
+                arc = default!;
+                return false;
+            }
+
+            var points = elements
+                .Cast<Relation>()
+                .Select(element => RecognizeSharedFramePoint(element, out var point) ? point : null)
+                .ToArray();
+            if (points.Any(point => point is null))
+            {
+                arc = default!;
+                return false;
+            }
+
+            var center = points[0]!;
+            var start = points[1]!;
+            var end = points[2]!;
+            if (!HaveSameFrameBasis(center, start) ||
+                !HaveSameFrameBasis(center, end) ||
+                SameFramePoint(center, start) ||
+                SameFramePoint(center, end) ||
+                SameFramePoint(start, end))
+            {
+                arc = default!;
+                return false;
+            }
+
+            arc = new SharedFrameArcRead(relation, center, start, end);
+            return true;
         }
 
         private static bool RecognizeRepeatTemplate(Relation relation, out GraphicRepeatTemplateRead template)
@@ -1982,6 +2178,10 @@ public sealed class GraphicReadGraph
 
         private const long LinearCarrierOriginTicks = 0;
 
+        private sealed record PathGraphSegmentNodes(
+            PathGraphNodeRead? Start = null,
+            PathGraphNodeRead? End = null);
+
         private readonly record struct LocationGroupKey(ulong CarrierId, long Ticks)
         {
             public static LocationGroupKey Of(CarrierLocation location)
@@ -2267,6 +2467,15 @@ public sealed record SharedFrameSegmentRead(
     SharedFramePointRead End) : GraphicRead(Source)
 {
     public override IEnumerable<IElement> Sources => [Source, Start.Source, End.Source];
+}
+
+public sealed record SharedFrameArcRead(
+    IElement Source,
+    SharedFramePointRead Center,
+    SharedFramePointRead Start,
+    SharedFramePointRead End) : GraphicRead(Source)
+{
+    public override IEnumerable<IElement> Sources => [Source, Center.Source, Start.Source, End.Source];
 }
 
 public sealed record GraphicRepeatTemplateRead(
@@ -2603,6 +2812,49 @@ public sealed record MergeRead(
         Junction.Sources
             .Concat(Incoming.SelectMany(endpoint => endpoint.Segment.Sources))
             .Concat(Outgoing.SelectMany(endpoint => endpoint.Segment.Sources));
+}
+
+public sealed record PathGraphEndpointRead(
+    GraphicRead Segment,
+    IElement Source,
+    bool IsStart,
+    PointRead? Point,
+    SharedFramePointRead? SharedFramePoint);
+
+public sealed record PathGraphNodeRead(
+    IElement Source,
+    IReadOnlyList<PathGraphEndpointRead> Endpoints)
+{
+    public int Valence => Endpoints.Count;
+
+    public IEnumerable<IElement> Sources =>
+        Endpoints.SelectMany(endpoint => endpoint.Segment.Sources).Prepend(Source);
+}
+
+public sealed record PathGraphEdgeRead(
+    IElement Source,
+    GraphicRead Segment,
+    PathGraphNodeRead Start,
+    PathGraphNodeRead End,
+    bool IsDirected,
+    bool IsCircular,
+    bool IsSharedFrame);
+
+public sealed record PathGraphRead(
+    IElement Source,
+    IReadOnlyList<PathGraphNodeRead> Nodes,
+    IReadOnlyList<PathGraphEdgeRead> Edges) : GraphicRead(Source)
+{
+    public int TerminalNodeCount => Nodes.Count(node => node.Valence == 1);
+
+    public int BranchNodeCount => Nodes.Count(node => node.Valence >= 3);
+
+    public bool HasClosedTopology => Edges.Count != 0 && Nodes.All(node => node.Valence == 2);
+
+    public override IEnumerable<IElement> Sources =>
+        Edges.SelectMany(edge => edge.Segment.Sources)
+            .Concat(Nodes.SelectMany(node => node.Sources))
+            .Prepend(Source);
 }
 
 public sealed record ClosedSegmentBoundaryRead(
