@@ -101,6 +101,8 @@ internal sealed record VisualizerDocument(
             "circle offset" => selection.CircularMarker is not null || selection.CircularSpan is not null,
             "directed path" => selection.LineSeed is not null || selection.Point is not null || SelectedIndex is null,
             "area" => selection.Segment is not null && !IsCircularCarrier(selection.Segment.Start.Location.Carrier),
+            "branch" => selection.Point is not null || SelectedIndex is null,
+            "merge" => selection.Point is not null || SelectedIndex is null,
             _ => false
         };
     }
@@ -130,6 +132,8 @@ internal sealed record VisualizerDocument(
             "circle offset" => "select a circle point or arc",
             "directed path" => "select a point or line seed",
             "area" => "select a linear span",
+            "branch" => "select a point",
+            "merge" => "select a point",
             _ => "not implemented yet"
         };
     }
@@ -168,6 +172,10 @@ internal sealed record VisualizerDocument(
                 new VisualizerLegendDisplay("offset parallel", entry.Structure, entry.ProjectionSeed),
             "area" when selection.Segment is not null =>
                 new VisualizerLegendDisplay("area strip", entry.Structure, entry.ProjectionSeed),
+            "branch" when selection.Point is not null =>
+                new VisualizerLegendDisplay("directed branch", entry.Structure, entry.ProjectionSeed),
+            "merge" when selection.Point is not null =>
+                new VisualizerLegendDisplay("directed merge", entry.Structure, entry.ProjectionSeed),
             _ => new VisualizerLegendDisplay(entry.Label, entry.Structure, entry.ProjectionSeed)
         };
     }
@@ -197,6 +205,8 @@ internal sealed record VisualizerDocument(
             "circle offset" => AddCircleOffset(),
             "directed path" => AddDirectedPath(),
             "area" => AddAreaStrip(),
+            "branch" => AddBranch(),
+            "merge" => AddMerge(),
             _ => this
         };
     }
@@ -674,6 +684,80 @@ internal sealed record VisualizerDocument(
         }
 
         return Append(additions, selectedOffset: additions.Count - 2);
+    }
+
+    private VisualizerDocument AddBranch() => AddDirectedJunction(branch: true);
+
+    private VisualizerDocument AddMerge() => AddDirectedJunction(branch: false);
+
+    private VisualizerDocument AddDirectedJunction(bool branch)
+    {
+        var point = ReadSelection().Point;
+        var origin = point?.Location ?? new CarrierLocation(Drawing, GraphicStructure.Site(SampleFreeTick()));
+        var originPoint = PointAt(origin);
+        var junction = GraphicStructure.Site(0);
+        var circle = GraphicStructure.CircularCarrierAt(originPoint);
+        var circleAnchor = GraphicStructure.Site(0);
+        var circlePeriod = GraphicStructure.Site(24);
+        var anchorPoint = GraphicStructure.Point(circle, circleAnchor);
+        var periodPoint = GraphicStructure.Point(circle, circlePeriod);
+        var radiusBase = GraphicStructure.Point(
+            origin.Carrier,
+            GraphicStructure.Site(origin.Ticks + SampleOffset(9, 13)));
+        var radius = GraphicStructure.Pin(radiusBase, anchorPoint);
+
+        var additions = new List<IElement>();
+        if (point is null)
+        {
+            additions.Add(originPoint);
+        }
+
+        additions.AddRange([anchorPoint, periodPoint, radius]);
+        additions.AddRange(branch
+            ? CreateBranchRays(originPoint, circle, junction)
+            : CreateMergeRays(originPoint, circle, junction));
+
+        return Append(additions, selectedOffset: additions.Count - 1);
+    }
+
+    private static IReadOnlyList<IElement> CreateBranchRays(
+        Relation origin,
+        Carrier circle,
+        TickRef junction) =>
+        [
+            .. CreateDirectedRay(origin, circle, junction, circleTicks: 12, outgoing: false),
+            .. CreateDirectedRay(origin, circle, junction, circleTicks: 3, outgoing: true),
+            .. CreateDirectedRay(origin, circle, junction, circleTicks: -3, outgoing: true)
+        ];
+
+    private static IReadOnlyList<IElement> CreateMergeRays(
+        Relation origin,
+        Carrier circle,
+        TickRef junction) =>
+        [
+            .. CreateDirectedRay(origin, circle, junction, circleTicks: 3, outgoing: false),
+            .. CreateDirectedRay(origin, circle, junction, circleTicks: -3, outgoing: false),
+            .. CreateDirectedRay(origin, circle, junction, circleTicks: 0, outgoing: true)
+        ];
+
+    private static IReadOnlyList<IElement> CreateDirectedRay(
+        Relation origin,
+        Carrier circle,
+        TickRef junction,
+        long circleTicks,
+        bool outgoing)
+    {
+        var line = GraphicStructure.LinearCarrierAt(origin);
+        var length = SampleOffset(8, 14);
+        var directionSite = GraphicStructure.Site(length);
+        var partition = GraphicStructure.Point(circle, GraphicStructure.Site(circleTicks));
+        var directionPoint = GraphicStructure.Point(line, directionSite);
+        var witness = GraphicStructure.Pin(directionPoint, partition);
+        var segment = outgoing
+            ? GraphicStructure.DirectedSegment(line, junction, directionSite)
+            : GraphicStructure.DirectedSegment(line, GraphicStructure.Site(-length), junction);
+
+        return [partition, directionPoint, witness, segment];
     }
 
     private SelectionContext ReadSelection()

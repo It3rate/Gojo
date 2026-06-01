@@ -165,7 +165,11 @@ public sealed class GraphicReadGraphTests
         Assert.Empty(graph.ReadsOf<SegmentJoinRead>());
         var junctionRead = Assert.Single(graph.ReadsOf<SegmentJunctionRead>());
         Assert.Equal(3, junctionRead.Endpoints.Count);
-        Assert.Equal([0, 1, 2], graph.Bands.Select(band => band.Order).ToArray());
+        var pathJunction = Assert.Single(graph.ReadsOf<PathJunctionRead>());
+        Assert.Equal(3, pathJunction.Endpoints.Count);
+        Assert.Empty(graph.ReadsOf<BranchRead>());
+        Assert.Empty(graph.ReadsOf<MergeRead>());
+        Assert.Equal([0, 1, 2, 4], graph.Bands.Select(band => band.Order).ToArray());
     }
 
     [Fact]
@@ -373,6 +377,67 @@ public sealed class GraphicReadGraphTests
         Assert.True(path.IsAllDirected);
         Assert.False(path.IsMixedSegmentForm);
         Assert.Equal([first, second, third], path.Segments.Select(segment => segment.Source).ToArray());
+    }
+
+    [Fact]
+    public void ReadsDirectedBranchAtPathJunction()
+    {
+        var axis = new Carrier();
+        var junction = GraphicStructure.Site(0);
+        var incoming = GraphicStructure.DirectedSegment(axis, GraphicStructure.Site(-9), junction);
+        var firstOutgoing = GraphicStructure.DirectedSegment(axis, junction, GraphicStructure.Site(8));
+        var secondOutgoing = GraphicStructure.DirectedSegment(axis, junction, GraphicStructure.Site(15));
+        var structure = Chain(incoming, firstOutgoing, secondOutgoing);
+
+        var graph = GraphicReadGraph.From(structure);
+
+        var junctionRead = Assert.Single(graph.ReadsOf<PathJunctionRead>());
+        Assert.Equal(3, junctionRead.Endpoints.Count);
+        var branch = Assert.Single(graph.ReadsOf<BranchRead>());
+        Assert.Same(junctionRead, branch.Junction);
+        Assert.Single(branch.Incoming);
+        Assert.Equal(2, branch.Outgoing.Count);
+        Assert.Empty(graph.ReadsOf<MergeRead>());
+        Assert.Empty(graph.ReadsOf<OpenSegmentPathRead>());
+    }
+
+    [Fact]
+    public void ReadsDirectedMergeAtPathJunction()
+    {
+        var axis = new Carrier();
+        var junction = GraphicStructure.Site(0);
+        var firstIncoming = GraphicStructure.DirectedSegment(axis, GraphicStructure.Site(-9), junction);
+        var secondIncoming = GraphicStructure.DirectedSegment(axis, GraphicStructure.Site(-15), junction);
+        var outgoing = GraphicStructure.DirectedSegment(axis, junction, GraphicStructure.Site(8));
+        var structure = Chain(firstIncoming, secondIncoming, outgoing);
+
+        var graph = GraphicReadGraph.From(structure);
+
+        var junctionRead = Assert.Single(graph.ReadsOf<PathJunctionRead>());
+        Assert.Equal(3, junctionRead.Endpoints.Count);
+        var merge = Assert.Single(graph.ReadsOf<MergeRead>());
+        Assert.Same(junctionRead, merge.Junction);
+        Assert.Equal(2, merge.Incoming.Count);
+        Assert.Single(merge.Outgoing);
+        Assert.Empty(graph.ReadsOf<BranchRead>());
+        Assert.Empty(graph.ReadsOf<OpenSegmentPathRead>());
+    }
+
+    [Fact]
+    public void KeepsMixedPathJunctionWithoutBranchOrMergeName()
+    {
+        var axis = new Carrier();
+        var junction = GraphicStructure.Site(0);
+        var incoming = GraphicStructure.DirectedSegment(axis, GraphicStructure.Site(-9), junction);
+        var outgoing = GraphicStructure.DirectedSegment(axis, junction, GraphicStructure.Site(8));
+        var plain = GraphicStructure.Segment(axis, junction, GraphicStructure.Site(15));
+        var structure = Chain(incoming, outgoing, plain);
+
+        var graph = GraphicReadGraph.From(structure);
+
+        Assert.Single(graph.ReadsOf<PathJunctionRead>());
+        Assert.Empty(graph.ReadsOf<BranchRead>());
+        Assert.Empty(graph.ReadsOf<MergeRead>());
     }
 
     [Fact]

@@ -131,6 +131,18 @@ public sealed class GojoCadSkiaAdapter
             drawn++;
         }
 
+        foreach (var branch in graph.ReadsOf<BranchRead>())
+        {
+            DrawBranchMergeNode(canvas, branch.Junction, projection, paints.BranchNode, "branch", paints, hitAreas, pointRoles, branch.Source);
+            drawn++;
+        }
+
+        foreach (var merge in graph.ReadsOf<MergeRead>())
+        {
+            DrawBranchMergeNode(canvas, merge.Junction, projection, paints.MergeNode, "merge", paints, hitAreas, pointRoles, merge.Source);
+            drawn++;
+        }
+
         foreach (var segment in graph.ReadsOf<PositiveSegmentRead>()
             .Where(segment => IsAngleControlledPathSegment(segment, angleControlledPathSegments)))
         {
@@ -574,6 +586,28 @@ public sealed class GojoCadSkiaAdapter
         }
     }
 
+    private static void DrawBranchMergeNode(
+        SKCanvas canvas,
+        PathJunctionRead junction,
+        IGojoCadSkiaProjection projection,
+        SKPaint fill,
+        string text,
+        GojoCadSkiaPaints paints,
+        ICollection<GojoCadSkiaHitArea>? hitAreas,
+        HashSet<LocationKey> pointRoles,
+        IElement source)
+    {
+        var point = AverageProjectedPathSite(junction.Endpoints, projection);
+        canvas.DrawCircle(point, paints.TopologyNodeRadius, fill);
+        canvas.DrawCircle(point, paints.TopologyNodeRadius, paints.TopologyNodeBorder);
+        AddHit(hitAreas, CenteredRect(point, paints.TopologyNodeRadius * 2.2f), text, priority: 7, source);
+
+        foreach (var endpoint in junction.Endpoints)
+        {
+            pointRoles.Add(LocationKey.Of(endpoint.Point.Location));
+        }
+    }
+
     private static SKPath? BuildClosedSegmentBoundaryPath(
         ClosedSegmentBoundaryRead boundary,
         IGojoCadSkiaProjection projection)
@@ -604,6 +638,16 @@ public sealed class GojoCadSkiaAdapter
 
     private static SKPoint AverageProjectedSite(
         IReadOnlyList<SegmentEndpointRead> site,
+        IGojoCadSkiaProjection projection)
+    {
+        var points = site
+            .Select(endpoint => projection.Project(endpoint.Point.Location))
+            .ToArray();
+        return new SKPoint(points.Average(point => point.X), points.Average(point => point.Y));
+    }
+
+    private static SKPoint AverageProjectedPathSite(
+        IReadOnlyList<PathSegmentEndpointRead> site,
         IGojoCadSkiaProjection projection)
     {
         var points = site

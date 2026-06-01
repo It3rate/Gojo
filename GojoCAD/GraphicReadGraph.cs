@@ -590,6 +590,17 @@ public sealed class GraphicReadGraph
                 yield return area;
             }
 
+            var pathJunctions = DerivePathJunctions(reads).ToArray();
+            foreach (var junction in pathJunctions)
+            {
+                yield return junction;
+            }
+
+            foreach (var branchOrMerge in DeriveBranchMergeReads(pathJunctions))
+            {
+                yield return branchOrMerge;
+            }
+
             foreach (var path in DeriveOpenSegmentPaths(reads))
             {
                 yield return path;
@@ -674,6 +685,56 @@ public sealed class GraphicReadGraph
                 if (closed && boundarySites.Count == component.Count)
                 {
                     yield return new ClosedSegmentBoundaryRead(component[0].Source, component, boundarySites);
+                }
+            }
+        }
+
+        private static IEnumerable<PathJunctionRead> DerivePathJunctions(IReadOnlyList<GraphicRead> reads)
+        {
+            var segments = reads
+                .OfType<PathSegmentRead>()
+                .ToArray();
+            if (segments.Length < 3)
+            {
+                yield break;
+            }
+
+            var endpoints = ReadPathSegmentEndpoints(segments);
+            foreach (var group in ReadAllPathEndpointGroups(endpoints, reads))
+            {
+                var participating = group
+                    .GroupBy(endpoint => endpoint.Segment, ReadReferenceComparer<PathSegmentRead>())
+                    .Select(endpointGroup => endpointGroup.First())
+                    .ToArray();
+                if (participating.Length >= 3)
+                {
+                    yield return new PathJunctionRead(participating[0].Segment.Source, participating);
+                }
+            }
+        }
+
+        private static IEnumerable<GraphicRead> DeriveBranchMergeReads(IReadOnlyList<PathJunctionRead> junctions)
+        {
+            foreach (var junction in junctions)
+            {
+                var directed = junction.Endpoints
+                    .Where(endpoint => endpoint.Segment.IsDirected)
+                    .ToArray();
+                if (directed.Length != junction.Endpoints.Count)
+                {
+                    continue;
+                }
+
+                var incoming = directed.Where(IsIncomingDirectedEndpoint).ToArray();
+                var outgoing = directed.Where(IsOutgoingDirectedEndpoint).ToArray();
+                if (incoming.Length == 1 && outgoing.Length >= 2)
+                {
+                    yield return new BranchRead(junction.Source, junction, incoming, outgoing);
+                }
+
+                if (incoming.Length >= 2 && outgoing.Length == 1)
+                {
+                    yield return new MergeRead(junction.Source, junction, incoming, outgoing);
                 }
             }
         }
@@ -995,6 +1056,12 @@ public sealed class GraphicReadGraph
                 site.Ticks,
                 other.Ticks);
         }
+
+        private static bool IsIncomingDirectedEndpoint(PathSegmentEndpointRead endpoint) =>
+            endpoint.Segment.IsDirected && !endpoint.IsStart;
+
+        private static bool IsOutgoingDirectedEndpoint(PathSegmentEndpointRead endpoint) =>
+            endpoint.Segment.IsDirected && endpoint.IsStart;
 
         private static bool IsInteriorPointOnCircularSpan(CarrierLocation point, CircularSpanRead span)
         {
@@ -2367,6 +2434,42 @@ public sealed record SegmentJunctionRead(
             endpoint.Segment.Source,
             endpoint.Point.Source
         }));
+}
+
+public sealed record PathJunctionRead(
+    IElement Source,
+    IReadOnlyList<PathSegmentEndpointRead> Endpoints) : GraphicRead(Source)
+{
+    public override IEnumerable<IElement> Sources =>
+        Endpoints.SelectMany(endpoint => new[]
+        {
+            endpoint.Segment.Source,
+            endpoint.Point.Source
+        }).Prepend(Source);
+}
+
+public sealed record BranchRead(
+    IElement Source,
+    PathJunctionRead Junction,
+    IReadOnlyList<PathSegmentEndpointRead> Incoming,
+    IReadOnlyList<PathSegmentEndpointRead> Outgoing) : GraphicRead(Source)
+{
+    public override IEnumerable<IElement> Sources =>
+        Junction.Sources
+            .Concat(Incoming.SelectMany(endpoint => endpoint.Segment.Sources))
+            .Concat(Outgoing.SelectMany(endpoint => endpoint.Segment.Sources));
+}
+
+public sealed record MergeRead(
+    IElement Source,
+    PathJunctionRead Junction,
+    IReadOnlyList<PathSegmentEndpointRead> Incoming,
+    IReadOnlyList<PathSegmentEndpointRead> Outgoing) : GraphicRead(Source)
+{
+    public override IEnumerable<IElement> Sources =>
+        Junction.Sources
+            .Concat(Incoming.SelectMany(endpoint => endpoint.Segment.Sources))
+            .Concat(Outgoing.SelectMany(endpoint => endpoint.Segment.Sources));
 }
 
 public sealed record ClosedSegmentBoundaryRead(

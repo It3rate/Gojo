@@ -123,6 +123,9 @@ Current executable control surface:
 | `BoundaryJoinUnitCompatibilityRead` | `4` | join unit-compatibility evidence lifted to a closed boundary site |
 | `AreaParticipationRead` | `4` | a point on a fill carrier whose orthogonal source contains a closed boundary |
 | `AreaRead` | `4` | a closed boundary matched with positive or inverse area participation |
+| `PathJunctionRead` | `4` | at least three path-segment endpoints meet at one shared attachment site |
+| `BranchRead` | `4` | a directed path junction with one incoming endpoint and two or more outgoing endpoints |
+| `MergeRead` | `4` | a directed path junction with two or more incoming endpoints and one outgoing endpoint |
 | `OpenSegmentPathRead` | `4` | non-branching open path over ordinary segment reads and their joins |
 | `SharedFramePolylineRead` | `4` | non-branching open path over shared-frame segment reads |
 
@@ -157,6 +160,13 @@ two-endpoint join can share a carrier with opposed local flow, share a carrier
 with same-side local flow, or transition between carriers. A boundary read may
 later use that evidence to distinguish straight continuation, turn, cusp,
 rounding, or unresolved tension.
+
+Branch and merge reads use directed endpoint flow before naming the topology.
+The lower read is `PathJunctionRead`: three or more path endpoints share a
+site. It becomes a branch only when all participating endpoints are directed
+and the local flow has exactly one incoming side with multiple outgoing sides.
+It becomes a merge only when the directed evidence reverses that count. Mixed
+or undirected junctions stay inspectable as unresolved junction topology.
 
 Carrier unit evidence is deliberately weaker than kind-transfer evidence. Two
 joined carriers can share one unit identity, share compatible descriptor

@@ -36,6 +36,9 @@ public sealed class GojoCadSkiaPaints : IDisposable
         AreaFill = Fill(new SKColor(71, 126, 94, 34));
         AntiAreaFill = Fill(new SKColor(199, 45, 47, 32));
         AreaBoundary = Stroke(new SKColor(71, 126, 94, 115), 1.2f);
+        BranchNode = Fill(new SKColor(63, 113, 83, 190));
+        MergeNode = Fill(new SKColor(42, 91, 143, 190));
+        TopologyNodeBorder = Stroke(new SKColor(255, 255, 255, 225), 1.4f);
         HoverBackground = Fill(new SKColor(255, 255, 255, 235));
         HoverBorder = Stroke(new SKColor(80, 86, 96, 210), 1f);
         HoverText = Fill(new SKColor(31, 37, 45));
@@ -95,6 +98,12 @@ public sealed class GojoCadSkiaPaints : IDisposable
 
     public SKPaint AreaBoundary { get; }
 
+    public SKPaint BranchNode { get; }
+
+    public SKPaint MergeNode { get; }
+
+    public SKPaint TopologyNodeBorder { get; }
+
     public SKPaint HoverBackground { get; }
 
     public SKPaint HoverBorder { get; }
@@ -122,6 +131,8 @@ public sealed class GojoCadSkiaPaints : IDisposable
     public float LineSeedLength { get; init; } = 38f;
 
     public float SheetSeedWidth { get; init; } = 18f;
+
+    public float TopologyNodeRadius { get; init; } = 6.5f;
 
     public void Dispose()
     {
@@ -151,6 +162,9 @@ public sealed class GojoCadSkiaPaints : IDisposable
         AreaFill.Dispose();
         AntiAreaFill.Dispose();
         AreaBoundary.Dispose();
+        BranchNode.Dispose();
+        MergeNode.Dispose();
+        TopologyNodeBorder.Dispose();
         HoverBackground.Dispose();
         HoverBorder.Dispose();
         HoverText.Dispose();
