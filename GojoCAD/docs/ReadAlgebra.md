@@ -71,6 +71,9 @@ without erasing the others.
 | shared-frame span + shared-frame span | spans share one endpoint | transition curve / corner smoothing control |
 | transition curve + length span | transition and length evidence use the same coordinate basis | linear curvature transition witness | clothoid transition |
 | shared-frame arc + length span | base arc and unwound length use the same coordinate basis | tangent/unwinding evidence | involute circle |
+| path span + path span | spans share a `TickRef`, endpoint, or grounded site | carrier-native transition control |
+| carrier transition + path span | transition plus length/grade evidence stays in carrier coordinates | carrier-native clothoid witness |
+| circular span + path span | circular phase plus tangent/unwound length evidence | carrier-native involute circle |
 | segment | point on same carrier | point tick falls inside segment ticks | segment partition tick |
 | circumference span | point on same circular carrier | point tick falls inside span read | contour partition tick |
 | span | span | shared endpoint, carrier location, or `TickRef` | connected path fragment |
@@ -123,6 +126,9 @@ Current executable control surface:
 | `SharedFrameCurveTransitionRead` | `0` | two shared-frame spans that share a junction and can flow through it as one transition |
 | `SharedFrameClothoidTransitionRead` | `0` | transition plus length/grade evidence for a linear-curvature curve |
 | `SharedFrameInvoluteCircleRead` | `0` | base arc plus unwound/tangent length evidence |
+| `CarrierCurveTransitionRead` | `0` | two ordinary path spans sharing a junction, with carrier evidence preserved instead of projected into XY |
+| `CarrierClothoidTransitionRead` | `0` | carrier transition plus length/grade span for a linear-curvature transition witness |
+| `CarrierInvoluteCircleRead` | `0` | circular span plus tangent/unwound path span |
 | `GraphicRepeatTemplateRead` | `0` | repeat template with slot-shaped input ports, selected structure, and output ports |
 | `GraphicRepeatRead` | `0` | repeat surface whose selected template has feedback from output ports to later input ports |
 | `RadiusAttachmentRead` | `2` | a base-carrier point fixes radius evidence for a circular marker |

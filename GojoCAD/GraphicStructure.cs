@@ -50,6 +50,25 @@ public static class GraphicStructure
     public static Carrier CircularCarrierAt(Relation point) =>
         new(UnitShape.CircularFrom(point));
 
+    /// <summary>Creates a circular arc as a span on a circular carrier from an origin point.</summary>
+    public static Relation CircularArc(Relation origin, TickRef start, TickRef end)
+    {
+        var circle = CircularCarrierAt(origin);
+        return Segment(circle, start, end);
+    }
+
+    /// <summary>Creates transition evidence from an incoming carrier span to an outgoing carrier span.</summary>
+    public static Relation CarrierCurveTransition(Relation incoming, Relation outgoing) =>
+        new(incoming, outgoing);
+
+    /// <summary>Creates clothoid evidence over a carrier transition plus length/grade span.</summary>
+    public static Relation CarrierClothoidTransition(Relation transition, Relation length) =>
+        new(transition, length);
+
+    /// <summary>Creates involute evidence from a circular arc and an unwound/tangent length span.</summary>
+    public static Relation CarrierInvoluteCurve(Relation baseArc, Relation unwoundLength) =>
+        new(baseArc, unwoundLength);
+
     /// <summary>Creates a coordinate tuple point in a shared frame/group basis.</summary>
     public static Relation FramePoint(Carrier frame, params CarrierLocation[] coordinates) =>
         Relation.OrderedGroup(frame, (coordinates ?? []).Cast<IElement>().ToArray());

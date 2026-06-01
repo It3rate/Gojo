@@ -269,6 +269,31 @@ public sealed class GraphicReadGraph
                 reads.Add(new SharedFramePointAttachmentRead(relation, rightFramePoint, leftPoint));
             }
 
+            foreach (var incoming in left.LocalReads.OfType<PathSegmentRead>())
+            foreach (var outgoing in right.LocalReads.OfType<PathSegmentRead>())
+            {
+                if (TryReadCarrierTransition(incoming, outgoing, out var transition))
+                {
+                    reads.Add(new CarrierCurveTransitionRead(
+                        relation,
+                        transition.Incoming,
+                        transition.Outgoing,
+                        transition.Junction));
+                }
+            }
+
+            foreach (var transition in left.LocalReads.OfType<CarrierCurveTransitionRead>())
+            foreach (var length in right.LocalReads.OfType<PathSegmentRead>())
+            {
+                reads.Add(new CarrierClothoidTransitionRead(relation, transition, length));
+            }
+
+            foreach (var arc in left.LocalReads.OfType<CircularSpanRead>())
+            foreach (var length in right.LocalReads.OfType<PathSegmentRead>())
+            {
+                reads.Add(new CarrierInvoluteCircleRead(relation, arc, length));
+            }
+
             foreach (var outlet in right.LocalReads.OfType<ZeroSpanRead>().Where(IsUnknownZeroSpan))
             {
                 foreach (var sourcePoint in left.LocalReads.OfType<PointRead>())
@@ -1429,6 +1454,49 @@ public sealed class GraphicReadGraph
             return false;
         }
 
+        private static bool TryReadCarrierTransition(
+            PathSegmentRead left,
+            PathSegmentRead right,
+            out CarrierTransition transition)
+        {
+            if (SamePathPoint(left.End, right.Start))
+            {
+                transition = new CarrierTransition(left, right, left.End);
+                return true;
+            }
+
+            if (SamePathPoint(left.Start, right.End))
+            {
+                transition = new CarrierTransition(right, left, left.Start);
+                return true;
+            }
+
+            if (SamePathPoint(left.Start, right.Start))
+            {
+                transition = new CarrierTransition(
+                    new PathSegmentRead(left.Source, left.Segment, left.End, left.Start),
+                    right,
+                    left.Start);
+                return true;
+            }
+
+            if (SamePathPoint(left.End, right.End))
+            {
+                transition = new CarrierTransition(
+                    left,
+                    new PathSegmentRead(right.Source, right.Segment, right.End, right.Start),
+                    left.End);
+                return true;
+            }
+
+            transition = default;
+            return false;
+        }
+
+        private static bool SamePathPoint(PointRead left, PointRead right) =>
+            left.Location.SameTickRefAs(right.Location) ||
+            SameNormalizedLocation(left.Location, right.Location);
+
         private static bool IsInteriorPointOnCircularSpan(CarrierLocation point, CircularSpanRead span)
         {
             if (!point.Carrier.SameIdentityAs(span.Segment.Start.Location.Carrier))
@@ -2254,6 +2322,11 @@ public sealed class GraphicReadGraph
             SharedFrameSegmentRead Outgoing,
             SharedFramePointRead Junction);
 
+        private readonly record struct CarrierTransition(
+            PathSegmentRead Incoming,
+            PathSegmentRead Outgoing,
+            PointRead Junction);
+
         private readonly record struct LocationGroupKey(ulong CarrierId, long Ticks)
         {
             public static LocationGroupKey Of(CarrierLocation location)
@@ -2597,6 +2670,53 @@ public sealed record SharedFrameInvoluteCircleRead(
     IElement Source,
     SharedFrameArcRead BaseArc,
     SharedFrameSegmentRead UnwoundLength) : GraphicRead(Source)
+{
+    public override IEnumerable<IElement> Sources =>
+        [Source, BaseArc.Source, UnwoundLength.Source, .. BaseArc.Sources, .. UnwoundLength.Sources];
+}
+
+public sealed record CarrierCurveTransitionRead(
+    IElement Source,
+    PathSegmentRead Incoming,
+    PathSegmentRead Outgoing,
+    PointRead Junction) : GraphicRead(Source)
+{
+    public bool IsLineToLine =>
+        !IsCircularCarrier(Incoming.Start.Location.Carrier) &&
+        !IsCircularCarrier(Outgoing.End.Location.Carrier);
+
+    public bool IsLineToArc =>
+        !IsCircularCarrier(Incoming.Start.Location.Carrier) &&
+        IsCircularCarrier(Outgoing.End.Location.Carrier);
+
+    public bool IsArcToLine =>
+        IsCircularCarrier(Incoming.Start.Location.Carrier) &&
+        !IsCircularCarrier(Outgoing.End.Location.Carrier);
+
+    public bool IsArcToArc =>
+        IsCircularCarrier(Incoming.Start.Location.Carrier) &&
+        IsCircularCarrier(Outgoing.End.Location.Carrier);
+
+    public override IEnumerable<IElement> Sources =>
+        [Source, Incoming.Source, Outgoing.Source, Junction.Source, .. Incoming.Sources, .. Outgoing.Sources];
+
+    private static bool IsCircularCarrier(Carrier carrier) =>
+        carrier.TryReadCircularOrigin(out _);
+}
+
+public sealed record CarrierClothoidTransitionRead(
+    IElement Source,
+    CarrierCurveTransitionRead Transition,
+    PathSegmentRead Length) : GraphicRead(Source)
+{
+    public override IEnumerable<IElement> Sources =>
+        [Source, Transition.Source, Length.Source, .. Transition.Sources, .. Length.Sources];
+}
+
+public sealed record CarrierInvoluteCircleRead(
+    IElement Source,
+    CircularSpanRead BaseArc,
+    PathSegmentRead UnwoundLength) : GraphicRead(Source)
 {
     public override IEnumerable<IElement> Sources =>
         [Source, BaseArc.Source, UnwoundLength.Source, .. BaseArc.Sources, .. UnwoundLength.Sources];

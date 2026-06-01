@@ -617,6 +617,54 @@ public sealed class GraphicReadGraphTests
     }
 
     [Fact]
+    public void ReadsCarrierNativeTransitionAndClothoidControls()
+    {
+        var baseCarrier = new Carrier();
+        var origin = GraphicStructure.Point(baseCarrier, 0);
+        var junction = GraphicStructure.Site(0);
+        var incomingStart = GraphicStructure.Site(-8);
+        var outgoingEnd = GraphicStructure.Site(8);
+        var incomingCarrier = GraphicStructure.LinearCarrierAt(origin);
+        var outgoingCarrier = new Carrier(UnitShape.LinearFrom(GraphicStructure.Segment(incomingCarrier, junction, junction)));
+        var incoming = GraphicStructure.Segment(incomingCarrier, incomingStart, junction);
+        var outgoing = GraphicStructure.Segment(outgoingCarrier, junction, outgoingEnd);
+        var transition = GraphicStructure.CarrierCurveTransition(incoming, outgoing);
+        var length = GraphicStructure.Segment(incomingCarrier, junction, GraphicStructure.Site(12));
+        var clothoid = GraphicStructure.CarrierClothoidTransition(transition, length);
+
+        var graph = GraphicReadGraph.From(clothoid);
+
+        var transitionRead = Assert.Single(graph.ReadsOf<CarrierCurveTransitionRead>());
+        Assert.True(transitionRead.IsLineToLine);
+        Assert.Equal(junction.Id, transitionRead.Junction.Location.Tick?.Id);
+        var clothoidRead = Assert.Single(graph.ReadsOf<CarrierClothoidTransitionRead>());
+        Assert.Same(transitionRead, clothoidRead.Transition);
+        Assert.Equal(length, clothoidRead.Length.Source);
+    }
+
+    [Fact]
+    public void ReadsCarrierNativeInvoluteFromCircularArcAndTangentLength()
+    {
+        var baseCarrier = new Carrier();
+        var origin = GraphicStructure.Point(baseCarrier, 0);
+        var circle = GraphicStructure.CircularCarrierAt(origin);
+        var arcStart = GraphicStructure.Site(0);
+        var arcEnd = GraphicStructure.Site(6);
+        var arc = GraphicStructure.Segment(circle, arcStart, arcEnd);
+        var tangent = GraphicStructure.LinearCarrierAt(GraphicStructure.Point(circle, arcEnd));
+        var length = GraphicStructure.Segment(tangent, GraphicStructure.Site(0), GraphicStructure.Site(9));
+        var involute = GraphicStructure.CarrierInvoluteCurve(arc, length);
+
+        var graph = GraphicReadGraph.From(involute);
+
+        var circular = Assert.Single(graph.ReadsOf<CircularSpanRead>());
+        Assert.Equal(arc, circular.Source);
+        var involuteRead = Assert.Single(graph.ReadsOf<CarrierInvoluteCircleRead>());
+        Assert.Same(circular, involuteRead.BaseArc);
+        Assert.Equal(length, involuteRead.UnwoundLength.Source);
+    }
+
+    [Fact]
     public void ReadsPathGraphFromSharedFrameLetterT()
     {
         var frame = new Carrier();

@@ -134,6 +134,27 @@ public sealed class GojoCadSkiaAdapter
             drawn++;
         }
 
+        foreach (var transition in graph.ReadsOf<CarrierCurveTransitionRead>()
+            .Where(read => !IsRepeatControlSource(read.Source, repeatControlSources)))
+        {
+            DrawCarrierTransition(canvas, transition, projection, paints, hitAreas, paints.SharedFrameCurve);
+            drawn++;
+        }
+
+        foreach (var clothoid in graph.ReadsOf<CarrierClothoidTransitionRead>()
+            .Where(read => !IsRepeatControlSource(read.Source, repeatControlSources)))
+        {
+            DrawCarrierTransition(canvas, clothoid.Transition, projection, paints, hitAreas, paints.SharedFrameCurveTension, "carrier clothoid");
+            drawn++;
+        }
+
+        foreach (var involute in graph.ReadsOf<CarrierInvoluteCircleRead>()
+            .Where(read => !IsRepeatControlSource(read.Source, repeatControlSources)))
+        {
+            DrawCarrierInvolute(canvas, involute, projection, paints, hitAreas);
+            drawn++;
+        }
+
         foreach (var attachment in graph.ReadsOf<SharedFramePointAttachmentRead>()
             .Where(read => !IsRepeatControlSource(read.Source, repeatControlSources)))
         {
@@ -306,6 +327,22 @@ public sealed class GojoCadSkiaAdapter
         }
 
         foreach (var involute in graph.ReadsOf<SharedFrameInvoluteCircleRead>())
+        {
+            Add(involute.UnwoundLength.Source);
+        }
+
+        foreach (var transition in graph.ReadsOf<CarrierCurveTransitionRead>())
+        {
+            Add(transition.Incoming.Source);
+            Add(transition.Outgoing.Source);
+        }
+
+        foreach (var clothoid in graph.ReadsOf<CarrierClothoidTransitionRead>())
+        {
+            Add(clothoid.Length.Source);
+        }
+
+        foreach (var involute in graph.ReadsOf<CarrierInvoluteCircleRead>())
         {
             Add(involute.UnwoundLength.Source);
         }
@@ -765,6 +802,54 @@ public sealed class GojoCadSkiaAdapter
         canvas.DrawPath(path, paints.SharedFrameCurveTension);
         AddHit(hitAreas, path.Bounds, "involute circle", priority: 3, involute.Source);
     }
+
+    private static void DrawCarrierTransition(
+        SKCanvas canvas,
+        CarrierCurveTransitionRead transition,
+        IGojoCadSkiaProjection projection,
+        GojoCadSkiaPaints paints,
+        ICollection<GojoCadSkiaHitArea>? hitAreas,
+        SKPaint paint,
+        string text = "carrier transition")
+    {
+        var start = projection.Project(OtherTransitionEndpoint(transition.Incoming, transition.Junction).Location);
+        var junction = projection.Project(transition.Junction.Location);
+        var end = projection.Project(OtherTransitionEndpoint(transition.Outgoing, transition.Junction).Location);
+        using var path = new SKPath();
+        path.MoveTo(start);
+        path.QuadTo(junction, end);
+        canvas.DrawPath(path, paint);
+        canvas.DrawCircle(junction, paints.PathGraphNodeRadius * 0.72f, paints.PathGraphBranchNode);
+        AddHit(hitAreas, path.Bounds, text, priority: 3, transition.Source);
+    }
+
+    private static void DrawCarrierInvolute(
+        SKCanvas canvas,
+        CarrierInvoluteCircleRead involute,
+        IGojoCadSkiaProjection projection,
+        GojoCadSkiaPaints paints,
+        ICollection<GojoCadSkiaHitArea>? hitAreas)
+    {
+        var start = projection.Project(involute.BaseArc.Segment.Start.Location);
+        var arcEnd = projection.Project(involute.BaseArc.Segment.End.Location);
+        var tangentStart = projection.Project(involute.UnwoundLength.Start.Location);
+        var tangentEnd = projection.Project(involute.UnwoundLength.End.Location);
+        using var path = new SKPath();
+        path.MoveTo(start);
+        path.CubicTo(arcEnd, tangentStart, tangentEnd);
+        canvas.DrawPath(path, paints.SharedFrameCurveTension);
+        AddHit(hitAreas, path.Bounds, "carrier involute", priority: 3, involute.Source);
+    }
+
+    private static PointRead OtherTransitionEndpoint(PathSegmentRead segment, PointRead junction) =>
+        SameProjectedEndpoint(segment.Start, junction)
+            ? segment.End
+            : segment.Start;
+
+    private static bool SameProjectedEndpoint(PointRead left, PointRead right) =>
+        left.Location.SameTickRefAs(right.Location) ||
+        left.Location.Carrier.SameIdentityAs(right.Location.Carrier) &&
+        left.Location.Ticks == right.Location.Ticks;
 
     private static void DrawSharedFrameAttachment(
         SKCanvas canvas,

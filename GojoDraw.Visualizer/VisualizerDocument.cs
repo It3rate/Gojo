@@ -951,7 +951,7 @@ internal sealed record VisualizerDocument(
         TryReadLetter(label, out _);
 
     private static bool IsCurveLabel(string label) =>
-        label is "frame arc" or "quadratic" or "cubic" or "transition" or "clothoid" or "involute";
+        label is "arc" or "quadratic" or "cubic" or "transition" or "clothoid" or "involute";
 
     private static bool TryReadLetter(string label, out char letter)
     {
