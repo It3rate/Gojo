@@ -263,27 +263,41 @@ public sealed class GraphicReadGraph
 
         private static IEnumerable<GraphicRead> DeriveIncidenceReads(IReadOnlyList<GraphicRead> reads)
         {
-            foreach (var unit in DeriveCarrierUnitReads(reads))
+            var working = reads.ToList();
+
+            var units = DeriveCarrierUnitReads(working).ToArray();
+            foreach (var unit in units)
             {
                 yield return unit;
             }
 
-            foreach (var attachment in DerivePointAttachments(reads))
+            working.AddRange(units);
+
+            var attachments = DerivePointAttachments(working).ToArray();
+            foreach (var attachment in attachments)
             {
                 yield return attachment;
             }
 
-            foreach (var site in DeriveSharedSites(reads))
+            working.AddRange(attachments);
+
+            var sites = DeriveSharedSites(working).ToArray();
+            foreach (var site in sites)
             {
                 yield return site;
             }
 
-            foreach (var partition in DerivePartitions(reads))
+            working.AddRange(sites);
+
+            var partitions = DerivePartitions(working).ToArray();
+            foreach (var partition in partitions)
             {
                 yield return partition;
             }
 
-            foreach (var connection in DeriveSegmentConnections(reads))
+            working.AddRange(partitions);
+
+            foreach (var connection in DeriveSegmentConnections(working))
             {
                 yield return connection;
             }
@@ -335,7 +349,7 @@ public sealed class GraphicReadGraph
         private static IEnumerable<GraphicRead> DeriveSharedSites(IReadOnlyList<GraphicRead> reads)
         {
             var points = reads.OfType<PointRead>().ToArray();
-            foreach (var group in ReadSharedPointGroups(points))
+            foreach (var group in ReadAllPointGroups(points, reads))
             {
                 yield return new SharedSiteRead(group[0].Source, group);
             }
@@ -373,7 +387,7 @@ public sealed class GraphicReadGraph
                 })
                 .ToArray();
 
-            foreach (var group in ReadSharedEndpointGroups(endpoints))
+            foreach (var group in ReadAllSegmentEndpointGroups(endpoints, reads))
             {
                 for (var leftIndex = 0; leftIndex < group.Count; leftIndex++)
                 for (var rightIndex = leftIndex + 1; rightIndex < group.Count; rightIndex++)
@@ -594,7 +608,7 @@ public sealed class GraphicReadGraph
                     new SegmentEndpointRead(segment, segment.End, IsStart: false)
                 })
                 .ToArray();
-            var endpointGroups = ReadSharedEndpointGroups(endpoints).ToArray();
+            var endpointGroups = ReadAllSegmentEndpointGroups(endpoints, reads).ToArray();
             var groupByEndpoint = IndexEndpointGroups(endpointGroups);
             var adjacent = BuildSegmentAdjacency(segments, endpointGroups);
             var visited = ReadReferenceSet<PositiveSegmentRead>();
@@ -963,59 +977,83 @@ public sealed class GraphicReadGraph
                 pair.First.SameTickRefAs(pair.Second) ||
                 SameNormalizedLocation(pair.First, pair.Second));
 
-        private static IEnumerable<IReadOnlyList<PointRead>> ReadSharedPointGroups(IReadOnlyList<PointRead> points)
+        private static IReadOnlyList<IReadOnlyList<PointRead>> ReadAllPointGroups(
+            IReadOnlyList<PointRead> points,
+            IReadOnlyList<GraphicRead> reads)
         {
-            var emitted = new HashSet<string>();
-            foreach (var group in points
-                .GroupBy(point => LocationGroupKey.Of(point.Location))
-                .Where(group => group.Count() > 1)
-                .Select(group => group.ToArray()))
+            var parent = Enumerable.Range(0, points.Count).ToArray();
+
+            int Find(int index)
             {
-                if (emitted.Add(PointGroupSignature(group)))
+                while (parent[index] != index)
                 {
-                    yield return group;
+                    parent[index] = parent[parent[index]];
+                    index = parent[index];
+                }
+
+                return index;
+            }
+
+            void Union(int left, int right)
+            {
+                var leftRoot = Find(left);
+                var rightRoot = Find(right);
+                if (leftRoot != rightRoot)
+                {
+                    parent[rightRoot] = leftRoot;
+                }
+            }
+
+            void UnionGroup(IEnumerable<int> indexes)
+            {
+                var groupIndexes = indexes.ToArray();
+                if (groupIndexes.Length < 2)
+                {
+                    return;
+                }
+
+                for (var index = 1; index < groupIndexes.Length; index++)
+                {
+                    Union(groupIndexes[0], groupIndexes[index]);
                 }
             }
 
             foreach (var group in points
-                .Where(point => point.Location.Tick is not null)
-                .GroupBy(point => point.Location.Tick.Id)
-                .Where(group => group.Count() > 1)
-                .Select(group => group.ToArray()))
+                .Select((point, index) => (point, index))
+                .GroupBy(entry => LocationGroupKey.Of(entry.point.Location)))
             {
-                if (emitted.Add(PointGroupSignature(group)))
-                {
-                    yield return group;
-                }
-            }
-        }
-
-        private static IEnumerable<IReadOnlyList<SegmentEndpointRead>> ReadSharedEndpointGroups(
-            IReadOnlyList<SegmentEndpointRead> endpoints)
-        {
-            var emitted = new HashSet<string>();
-            foreach (var group in endpoints
-                .GroupBy(endpoint => LocationGroupKey.Of(endpoint.Point.Location))
-                .Where(group => group.Count() > 1)
-                .Select(group => group.ToArray()))
-            {
-                if (emitted.Add(EndpointGroupSignature(group)))
-                {
-                    yield return group;
-                }
+                UnionGroup(group.Select(entry => entry.index));
             }
 
-            foreach (var group in endpoints
-                .Where(endpoint => endpoint.Point.Location.Tick is not null)
-                .GroupBy(endpoint => endpoint.Point.Location.Tick.Id)
-                .Where(group => group.Count() > 1)
-                .Select(group => group.ToArray()))
+            foreach (var group in points
+                .Select((point, index) => (point, index))
+                .Where(entry => entry.point.Location.Tick is not null)
+                .GroupBy(entry => entry.point.Location.Tick!.Id))
             {
-                if (emitted.Add(EndpointGroupSignature(group)))
+                UnionGroup(group.Select(entry => entry.index));
+            }
+
+            foreach (var attachment in reads.OfType<PointAttachmentRead>())
+            {
+                var leftIndexes = ReadPointIndexesAt(points, attachment.Left.Location);
+                var rightIndexes = ReadPointIndexesAt(points, attachment.Right.Location);
+                if (leftIndexes.Length == 0 || rightIndexes.Length == 0)
                 {
-                    yield return group;
+                    continue;
+                }
+
+                foreach (var leftIndex in leftIndexes)
+                foreach (var rightIndex in rightIndexes)
+                {
+                    Union(leftIndex, rightIndex);
                 }
             }
+
+            return [.. points
+                .Select((point, index) => (point, root: Find(index)))
+                .GroupBy(entry => entry.root)
+                .Select(group => (IReadOnlyList<PointRead>)[.. group.Select(entry => entry.point)])
+                .Where(group => group.Count > 1)];
         }
 
         private static SegmentEndpointRead[] ReadSegmentEndpoints(IReadOnlyList<PositiveSegmentRead> segments) =>
@@ -1025,22 +1063,82 @@ public sealed class GraphicReadGraph
                 new SegmentEndpointRead(segment, segment.End, IsStart: false)
             })];
 
-        private static IReadOnlyList<IReadOnlyList<SegmentEndpointRead>> ReadAllEndpointGroups(
-            IReadOnlyList<SegmentEndpointRead> endpoints)
+        private static IReadOnlyList<IReadOnlyList<SegmentEndpointRead>> ReadAllSegmentEndpointGroups(
+            IReadOnlyList<SegmentEndpointRead> endpoints,
+            IReadOnlyList<GraphicRead> reads)
         {
-            var groups = ReadSharedEndpointGroups(endpoints)
-                .Select(group => (IReadOnlyList<SegmentEndpointRead>)[.. group])
-                .ToList();
-            var assigned = groups.SelectMany(group => group).ToHashSet();
-            foreach (var endpoint in endpoints)
+            var parent = Enumerable.Range(0, endpoints.Count).ToArray();
+
+            int Find(int index)
             {
-                if (!assigned.Contains(endpoint))
+                while (parent[index] != index)
                 {
-                    groups.Add([endpoint]);
+                    parent[index] = parent[parent[index]];
+                    index = parent[index];
+                }
+
+                return index;
+            }
+
+            void Union(int left, int right)
+            {
+                var leftRoot = Find(left);
+                var rightRoot = Find(right);
+                if (leftRoot != rightRoot)
+                {
+                    parent[rightRoot] = leftRoot;
                 }
             }
 
-            return groups;
+            void UnionGroup(IEnumerable<int> indexes)
+            {
+                var groupIndexes = indexes.ToArray();
+                if (groupIndexes.Length < 2)
+                {
+                    return;
+                }
+
+                for (var index = 1; index < groupIndexes.Length; index++)
+                {
+                    Union(groupIndexes[0], groupIndexes[index]);
+                }
+            }
+
+            foreach (var group in endpoints
+                .Select((endpoint, index) => (endpoint, index))
+                .GroupBy(entry => LocationGroupKey.Of(entry.endpoint.Point.Location)))
+            {
+                UnionGroup(group.Select(entry => entry.index));
+            }
+
+            foreach (var group in endpoints
+                .Select((endpoint, index) => (endpoint, index))
+                .Where(entry => entry.endpoint.Point.Location.Tick is not null)
+                .GroupBy(entry => entry.endpoint.Point.Location.Tick!.Id))
+            {
+                UnionGroup(group.Select(entry => entry.index));
+            }
+
+            foreach (var attachment in reads.OfType<PointAttachmentRead>())
+            {
+                var leftIndexes = ReadEndpointIndexesAt(endpoints, attachment.Left.Location);
+                var rightIndexes = ReadEndpointIndexesAt(endpoints, attachment.Right.Location);
+                if (leftIndexes.Length == 0 || rightIndexes.Length == 0)
+                {
+                    continue;
+                }
+
+                foreach (var leftIndex in leftIndexes)
+                foreach (var rightIndex in rightIndexes)
+                {
+                    Union(leftIndex, rightIndex);
+                }
+            }
+
+            return [.. endpoints
+                .Select((endpoint, index) => (endpoint, root: Find(index)))
+                .GroupBy(entry => entry.root)
+                .Select(group => (IReadOnlyList<SegmentEndpointRead>)[.. group.Select(entry => entry.endpoint)])];
         }
 
         private static PathSegmentEndpointRead[] ReadPathSegmentEndpoints(IReadOnlyList<PathSegmentRead> segments) =>
@@ -1129,7 +1227,7 @@ public sealed class GraphicReadGraph
         }
 
         private static int[] ReadEndpointIndexesAt(
-            IReadOnlyList<PathSegmentEndpointRead> endpoints,
+            IReadOnlyList<SegmentEndpointRead> endpoints,
             CarrierLocation location) =>
             [.. endpoints
                 .Select((endpoint, index) => (endpoint, index))
@@ -1138,10 +1236,25 @@ public sealed class GraphicReadGraph
                     SameNormalizedLocation(entry.endpoint.Point.Location, location))
                 .Select(entry => entry.index)];
 
-        private static string PointGroupSignature(IEnumerable<PointRead> points) =>
-            string.Join(",", points
-                .Select(point => point.Source is Relation relation ? relation.Id : 0UL)
-                .Order());
+        private static int[] ReadPointIndexesAt(
+            IReadOnlyList<PointRead> points,
+            CarrierLocation location) =>
+            [.. points
+                .Select((point, index) => (point, index))
+                .Where(entry =>
+                    entry.point.Location.SameTickRefAs(location) ||
+                    SameNormalizedLocation(entry.point.Location, location))
+                .Select(entry => entry.index)];
+
+        private static int[] ReadEndpointIndexesAt(
+            IReadOnlyList<PathSegmentEndpointRead> endpoints,
+            CarrierLocation location) =>
+            [.. endpoints
+                .Select((endpoint, index) => (endpoint, index))
+                .Where(entry =>
+                    entry.endpoint.Point.Location.SameTickRefAs(location) ||
+                    SameNormalizedLocation(entry.endpoint.Point.Location, location))
+                .Select(entry => entry.index)];
 
         private static string EndpointGroupSignature(IEnumerable<SegmentEndpointRead> endpoints) =>
             string.Join(",", endpoints

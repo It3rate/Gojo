@@ -37,6 +37,7 @@ internal sealed record VisualizerSample(
         [
             LegendEntry("coordinate path", CreateSharedFramePolylineLegend(), 111),
             LegendEntry("relative path", CreateCircularAngleLegend(), 112),
+            LegendEntry("direction length", CreateCircularAngleLegend(), 121),
             LegendEntry("parallel lines", CreateParallelLinesLegend(), 114),
             LegendEntry("circle offset", CreateCircleOffsetLegend(), 115),
             LegendEntry("directed path", CreateDirectedPathLegend(), 116),

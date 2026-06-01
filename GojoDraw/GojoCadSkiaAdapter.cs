@@ -89,6 +89,12 @@ public sealed class GojoCadSkiaAdapter
             drawn++;
         }
 
+        foreach (var boundary in graph.ReadsOf<ClosedSegmentBoundaryRead>())
+        {
+            DrawClosedSegmentBoundary(canvas, boundary, projection, paints, hitAreas);
+            drawn++;
+        }
+
         foreach (var segment in graph.ReadsOf<PositiveSegmentRead>()
             .Where(segment => !IsCircularCarrier(segment.Start.Location.Carrier)))
         {
@@ -514,6 +520,49 @@ public sealed class GojoCadSkiaAdapter
         var bounds = CenteredRect(point, paints.BasisSize * 1.6f);
         AddHit(hitAreas, bounds, "frame basis", priority: 6, attachment.Source);
         pointRoles.Add(LocationKey.Of(attachment.Point.Location));
+    }
+
+    private static void DrawClosedSegmentBoundary(
+        SKCanvas canvas,
+        ClosedSegmentBoundaryRead boundary,
+        IGojoCadSkiaProjection projection,
+        GojoCadSkiaPaints paints,
+        ICollection<GojoCadSkiaHitArea>? hitAreas)
+    {
+        var points = boundary.Sites
+            .Select(site => AverageProjectedSite(site, projection))
+            .Distinct()
+            .ToArray();
+        if (points.Length < 3)
+        {
+            return;
+        }
+
+        var center = new SKPoint(points.Average(point => point.X), points.Average(point => point.Y));
+        var ordered = points
+            .OrderBy(point => MathF.Atan2(point.Y - center.Y, point.X - center.X))
+            .ToArray();
+        using var path = new SKPath();
+        path.MoveTo(ordered[0]);
+        foreach (var point in ordered.Skip(1))
+        {
+            path.LineTo(point);
+        }
+
+        path.Close();
+        canvas.DrawPath(path, paints.AreaFill);
+        canvas.DrawPath(path, paints.AreaBoundary);
+        AddHit(hitAreas, path.Bounds, "closed boundary", priority: 1, boundary.Source);
+    }
+
+    private static SKPoint AverageProjectedSite(
+        IReadOnlyList<SegmentEndpointRead> site,
+        IGojoCadSkiaProjection projection)
+    {
+        var points = site
+            .Select(endpoint => projection.Project(endpoint.Point.Location))
+            .ToArray();
+        return new SKPoint(points.Average(point => point.X), points.Average(point => point.Y));
     }
 
     private static void DrawSegmentTick(

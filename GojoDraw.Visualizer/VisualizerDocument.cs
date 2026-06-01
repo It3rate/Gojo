@@ -96,9 +96,11 @@ internal sealed record VisualizerDocument(
             "circumference" => selection.Point is not null,
             "coordinate path" => selection.Point is not null || SelectedIndex is null,
             "relative path" => selection.Point is not null || SelectedIndex is null,
+            "direction length" => selection.Point is not null || SelectedIndex is null,
             "parallel lines" => selection.Segment is not null && !IsCircularCarrier(selection.Segment.Start.Location.Carrier),
             "circle offset" => selection.CircularMarker is not null || selection.CircularSpan is not null,
             "directed path" => selection.LineSeed is not null || selection.Point is not null || SelectedIndex is null,
+            "area" => selection.Segment is not null && !IsCircularCarrier(selection.Segment.Start.Location.Carrier),
             _ => false
         };
     }
@@ -123,9 +125,11 @@ internal sealed record VisualizerDocument(
             "circumference" => "select a point",
             "coordinate path" => "select a point",
             "relative path" => "select a point",
+            "direction length" => "select a point",
             "parallel lines" => "select a linear span",
             "circle offset" => "select a circle point or arc",
             "directed path" => "select a point or line seed",
+            "area" => "select a linear span",
             _ => "not implemented yet"
         };
     }
@@ -160,6 +164,10 @@ internal sealed record VisualizerDocument(
                 new VisualizerLegendDisplay("directed segment path", entry.Structure, entry.ProjectionSeed),
             "circle offset" when isCircular =>
                 new VisualizerLegendDisplay("circumference offset", entry.Structure, entry.ProjectionSeed),
+            "parallel lines" when selection.Segment is not null =>
+                new VisualizerLegendDisplay("offset parallel", entry.Structure, entry.ProjectionSeed),
+            "area" when selection.Segment is not null =>
+                new VisualizerLegendDisplay("area strip", entry.Structure, entry.ProjectionSeed),
             _ => new VisualizerLegendDisplay(entry.Label, entry.Structure, entry.ProjectionSeed)
         };
     }
@@ -184,9 +192,11 @@ internal sealed record VisualizerDocument(
             "circumference" => AddCircle(includeRadius: false),
             "coordinate path" => AddFramePath(),
             "relative path" => AddStepPath(),
+            "direction length" => AddAngleStep(),
             "parallel lines" => AddParallelLines(),
             "circle offset" => AddCircleOffset(),
             "directed path" => AddDirectedPath(),
+            "area" => AddAreaStrip(),
             _ => this
         };
     }
@@ -481,7 +491,6 @@ internal sealed record VisualizerDocument(
         var startRelation = PointAt(start);
         var lineStart = GraphicStructure.Site(0);
         var lineEnd = GraphicStructure.Site(SampleOffset(7, 14));
-        var radiusSite = SiteNear(start.Ticks, 9, 18);
         var circleAnchor = GraphicStructure.Site(0);
         var circlePeriod = GraphicStructure.Site(24);
         var circlePartition = GraphicStructure.Site(SampleOffset(4, 10));
@@ -492,9 +501,7 @@ internal sealed record VisualizerDocument(
         var lineEndPoint = GraphicStructure.Point(line, lineEnd);
         var startJoin = GraphicStructure.Pin(startRelation, lineStartPoint);
         var segment = GraphicStructure.Segment(line, lineStart, lineEnd);
-        var radius = GraphicStructure.Pin(
-            GraphicStructure.Point(start.Carrier, radiusSite),
-            GraphicStructure.Point(circle, circleAnchor));
+        var anchor = GraphicStructure.Point(circle, circleAnchor);
         var partition = GraphicStructure.Point(circle, circlePartition);
         var period = GraphicStructure.Point(circle, circlePeriod);
         var witness = GraphicStructure.Pin(lineEndPoint, partition);
@@ -509,13 +516,13 @@ internal sealed record VisualizerDocument(
             startJoin,
             lineEndPoint,
             segment,
-            radius,
+            anchor,
             partition,
             period,
             witness
         ]);
 
-        return Append(additions, selectedOffset: additions.Count - 6);
+        return Append(additions, selectedOffset: additions.IndexOf(segment));
     }
 
     private VisualizerDocument AddParallelLines()
@@ -527,6 +534,27 @@ internal sealed record VisualizerDocument(
             return this;
         }
 
+        var strip = CreateTwoLineStrip(segment, includeConnectors: false);
+        return Append(strip.Elements, strip.SelectedOffset);
+    }
+
+    private VisualizerDocument AddAreaStrip()
+    {
+        var segment = ReadSelection().Segment;
+        if (segment is null ||
+            IsCircularCarrier(segment.Start.Location.Carrier))
+        {
+            return this;
+        }
+
+        var strip = CreateTwoLineStrip(segment, includeConnectors: true);
+        return Append(strip.Elements, strip.SelectedOffset);
+    }
+
+    private static TwoLineStrip CreateTwoLineStrip(
+        PositiveSegmentRead segment,
+        bool includeConnectors)
+    {
         var sourceStart = segment.Start.Location;
         var sourceEnd = segment.End.Location;
         var length = sourceEnd.Ticks - sourceStart.Ticks;
@@ -558,17 +586,23 @@ internal sealed record VisualizerDocument(
         var parallelOriginJoin = GraphicStructure.Pin(startOffsetPoint, parallelStartPoint);
         var parallelEndWitness = GraphicStructure.Pin(parallelEndPoint, endOffsetPoint);
         var parallelSpan = GraphicStructure.Segment(parallelLine, parallelStart, parallelEnd);
-
-        return Append([
+        var elements = new List<IElement>
+        {
             startOffsetJoin,
             endOffsetJoin,
-            startOffsetSpan,
-            endOffsetSpan,
             parallelOriginJoin,
             parallelEndPoint,
             parallelEndWitness,
             parallelSpan
-        ], selectedOffset: 7);
+        };
+
+        if (includeConnectors)
+        {
+            elements.Insert(2, startOffsetSpan);
+            elements.Insert(3, endOffsetSpan);
+        }
+
+        return new TwoLineStrip(elements, elements.IndexOf(parallelSpan));
     }
 
     private VisualizerDocument AddCircleOffset()
@@ -833,4 +867,8 @@ internal sealed record VisualizerDocument(
         TickRef End,
         Relation EndPoint,
         IReadOnlyList<IElement> Elements);
+
+    private sealed record TwoLineStrip(
+        IReadOnlyList<IElement> Elements,
+        int SelectedOffset);
 }

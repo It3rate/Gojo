@@ -33,6 +33,8 @@ public sealed class GojoCadSkiaPaints : IDisposable
         SheetSeedEdgeTension = DashedStroke(new SKColor(42, 91, 143, 90), 1f);
         RadiusAttachment = Stroke(new SKColor(151, 92, 52, 120), 1.1f);
         RadiusAttachmentTension = DashedStroke(new SKColor(151, 92, 52, 130), 1.1f);
+        AreaFill = Fill(new SKColor(71, 126, 94, 34));
+        AreaBoundary = Stroke(new SKColor(71, 126, 94, 115), 1.2f);
         HoverBackground = Fill(new SKColor(255, 255, 255, 235));
         HoverBorder = Stroke(new SKColor(80, 86, 96, 210), 1f);
         HoverText = Fill(new SKColor(31, 37, 45));
@@ -85,6 +87,10 @@ public sealed class GojoCadSkiaPaints : IDisposable
     public SKPaint RadiusAttachment { get; }
 
     public SKPaint RadiusAttachmentTension { get; }
+
+    public SKPaint AreaFill { get; }
+
+    public SKPaint AreaBoundary { get; }
 
     public SKPaint HoverBackground { get; }
 
@@ -139,6 +145,8 @@ public sealed class GojoCadSkiaPaints : IDisposable
         SheetSeedEdgeTension.Dispose();
         RadiusAttachment.Dispose();
         RadiusAttachmentTension.Dispose();
+        AreaFill.Dispose();
+        AreaBoundary.Dispose();
         HoverBackground.Dispose();
         HoverBorder.Dispose();
         HoverText.Dispose();

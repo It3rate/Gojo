@@ -533,6 +533,7 @@ internal sealed class VisualizerDrawOperation : ICustomDrawOperation
         paints.SheetSeedEdgeTension.StrokeWidth = 0.9f;
         paints.RadiusAttachment.StrokeWidth = 1f;
         paints.RadiusAttachmentTension.StrokeWidth = 1f;
+        paints.AreaBoundary.StrokeWidth = 0.9f;
 
         return paints;
     }

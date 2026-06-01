@@ -241,6 +241,16 @@ public sealed class DerivedSkiaProjection : IGojoCadSkiaProjection
             .OrderBy(witness => witness.WitnessPoint.CircularMarker is null ? 1 : 0)
             .ThenBy(witness => Math.Abs(witness.LinearLocation.Ticks - witness.LinearOriginTicks)))
         {
+            if (!ReferenceEquals(witness.LinearPoint, witness.Attachment.Left))
+            {
+                continue;
+            }
+
+            if (WitnessCarrierOriginDependsOn(witness.WitnessPoint.Location.Carrier, carrier))
+            {
+                continue;
+            }
+
             var tickDelta = witness.LinearLocation.Ticks - witness.LinearOriginTicks;
             if (tickDelta == 0)
             {
@@ -270,6 +280,14 @@ public sealed class DerivedSkiaProjection : IGojoCadSkiaProjection
 
         basis = default;
         return false;
+    }
+
+    private static bool WitnessCarrierOriginDependsOn(Carrier witnessCarrier, Carrier resolvingCarrier)
+    {
+        var witness = NormalizeCarrier(witnessCarrier);
+        var resolving = NormalizeCarrier(resolvingCarrier);
+        return witness.TryReadLinearOrigin(out var origin) &&
+            NormalizeCarrier(origin.Carrier).SameIdentityAs(resolving);
     }
 
     private bool ReadLinearOrthogonalSourceBasis(
@@ -552,8 +570,16 @@ public sealed class DerivedSkiaProjection : IGojoCadSkiaProjection
 
     private long ReadCircularAnchorTicks(Carrier carrier, long originTicks)
     {
-        var marker = evidence.Locations
+        var markers = evidence.Locations
             .Where(location => location.Carrier.SameIdentityAs(carrier))
+            .ToArray();
+        var zeroMarker = markers.FirstOrDefault(location => location.Ticks == 0);
+        if (zeroMarker.Carrier is not null)
+        {
+            return zeroMarker.Ticks;
+        }
+
+        var marker = markers
             .OrderBy(location => Math.Abs(location.Ticks - originTicks))
             .FirstOrDefault(location => location.Ticks != originTicks);
         return marker.Carrier is null ? originTicks : marker.Ticks;

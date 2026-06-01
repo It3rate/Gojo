@@ -571,6 +571,35 @@ public sealed class GraphicReadGraphTests
     }
 
     [Fact]
+    public void ReadsClosedSegmentBoundaryThroughEndpointAttachments()
+    {
+        var bottom = new Carrier();
+        var left = new Carrier(UnitShape.LinearFrom(GraphicStructure.Segment(bottom, 0, 0)));
+        var top = new Carrier(UnitShape.LinearFrom(GraphicStructure.Segment(left, 4, 4)));
+        var right = new Carrier(UnitShape.LinearFrom(GraphicStructure.Segment(bottom, 10, 10)));
+        var bottomSegment = GraphicStructure.Segment(bottom, 0, 10);
+        var leftSegment = GraphicStructure.Segment(left, 0, 4);
+        var topSegment = GraphicStructure.Segment(top, 0, 10);
+        var rightSegment = GraphicStructure.Segment(right, 0, 4);
+        var structure = Chain(
+            bottomSegment,
+            leftSegment,
+            topSegment,
+            rightSegment,
+            GraphicStructure.Pin(GraphicStructure.Point(bottom, 0), GraphicStructure.Point(left, 0)),
+            GraphicStructure.Pin(GraphicStructure.Point(left, 4), GraphicStructure.Point(top, 0)),
+            GraphicStructure.Pin(GraphicStructure.Point(top, 10), GraphicStructure.Point(right, 4)),
+            GraphicStructure.Pin(GraphicStructure.Point(bottom, 10), GraphicStructure.Point(right, 0)));
+
+        var graph = GraphicReadGraph.From(structure);
+
+        var boundary = Assert.Single(graph.ReadsOf<ClosedSegmentBoundaryRead>());
+        Assert.Equal(4, boundary.Segments.Count);
+        Assert.Equal(4, boundary.Sites.Count);
+        Assert.Equal(4, graph.ReadsOf<BoundaryJoinRead>().Count());
+    }
+
+    [Fact]
     public void NavigationFromSharedSiteFindsAffectedLocalReads()
     {
         var axis = new Carrier();
