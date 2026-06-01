@@ -278,6 +278,8 @@ public sealed class GraphicReadGraph
                         relation,
                         transition.Incoming,
                         transition.Outgoing,
+                        transition.Entry,
+                        transition.Exit,
                         transition.Junction));
                 }
             }
@@ -1461,36 +1463,42 @@ public sealed class GraphicReadGraph
         {
             if (SamePathPoint(left.End, right.Start))
             {
-                transition = new CarrierTransition(left, right, left.End);
+                transition = new CarrierTransition(left, right, left.End, right.Start, left.End);
                 return true;
             }
 
             if (SamePathPoint(left.Start, right.End))
             {
-                transition = new CarrierTransition(right, left, left.Start);
+                transition = new CarrierTransition(right, left, right.End, left.Start, left.Start);
                 return true;
             }
 
             if (SamePathPoint(left.Start, right.Start))
             {
+                var incoming = new PathSegmentRead(left.Source, left.Segment, left.End, left.Start);
                 transition = new CarrierTransition(
-                    new PathSegmentRead(left.Source, left.Segment, left.End, left.Start),
+                    incoming,
                     right,
+                    incoming.End,
+                    right.Start,
                     left.Start);
                 return true;
             }
 
             if (SamePathPoint(left.End, right.End))
             {
+                var outgoing = new PathSegmentRead(right.Source, right.Segment, right.End, right.Start);
                 transition = new CarrierTransition(
                     left,
-                    new PathSegmentRead(right.Source, right.Segment, right.End, right.Start),
+                    outgoing,
+                    left.End,
+                    outgoing.Start,
                     left.End);
                 return true;
             }
 
-            transition = default;
-            return false;
+            transition = new CarrierTransition(left, right, left.End, right.Start, Junction: null);
+            return true;
         }
 
         private static bool SamePathPoint(PointRead left, PointRead right) =>
@@ -2325,7 +2333,9 @@ public sealed class GraphicReadGraph
         private readonly record struct CarrierTransition(
             PathSegmentRead Incoming,
             PathSegmentRead Outgoing,
-            PointRead Junction);
+            PointRead Entry,
+            PointRead Exit,
+            PointRead? Junction);
 
         private readonly record struct LocationGroupKey(ulong CarrierId, long Ticks)
         {
@@ -2679,26 +2689,34 @@ public sealed record CarrierCurveTransitionRead(
     IElement Source,
     PathSegmentRead Incoming,
     PathSegmentRead Outgoing,
-    PointRead Junction) : GraphicRead(Source)
+    PointRead Entry,
+    PointRead Exit,
+    PointRead? Junction) : GraphicRead(Source)
 {
+    public bool IsJoined => Junction is not null;
+
+    public bool IsBridged => Junction is null;
+
     public bool IsLineToLine =>
-        !IsCircularCarrier(Incoming.Start.Location.Carrier) &&
-        !IsCircularCarrier(Outgoing.End.Location.Carrier);
+        !IsCircularCarrier(Entry.Location.Carrier) &&
+        !IsCircularCarrier(Exit.Location.Carrier);
 
     public bool IsLineToArc =>
-        !IsCircularCarrier(Incoming.Start.Location.Carrier) &&
-        IsCircularCarrier(Outgoing.End.Location.Carrier);
+        !IsCircularCarrier(Entry.Location.Carrier) &&
+        IsCircularCarrier(Exit.Location.Carrier);
 
     public bool IsArcToLine =>
-        IsCircularCarrier(Incoming.Start.Location.Carrier) &&
-        !IsCircularCarrier(Outgoing.End.Location.Carrier);
+        IsCircularCarrier(Entry.Location.Carrier) &&
+        !IsCircularCarrier(Exit.Location.Carrier);
 
     public bool IsArcToArc =>
-        IsCircularCarrier(Incoming.Start.Location.Carrier) &&
-        IsCircularCarrier(Outgoing.End.Location.Carrier);
+        IsCircularCarrier(Entry.Location.Carrier) &&
+        IsCircularCarrier(Exit.Location.Carrier);
 
     public override IEnumerable<IElement> Sources =>
-        [Source, Incoming.Source, Outgoing.Source, Junction.Source, .. Incoming.Sources, .. Outgoing.Sources];
+        Junction is null
+            ? [Source, Incoming.Source, Outgoing.Source, Entry.Source, Exit.Source, .. Incoming.Sources, .. Outgoing.Sources]
+            : [Source, Incoming.Source, Outgoing.Source, Entry.Source, Exit.Source, Junction.Source, .. Incoming.Sources, .. Outgoing.Sources];
 
     private static bool IsCircularCarrier(Carrier carrier) =>
         carrier.TryReadCircularOrigin(out _);

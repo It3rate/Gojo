@@ -636,10 +636,64 @@ public sealed class GraphicReadGraphTests
 
         var transitionRead = Assert.Single(graph.ReadsOf<CarrierCurveTransitionRead>());
         Assert.True(transitionRead.IsLineToLine);
+        Assert.True(transitionRead.IsJoined);
+        Assert.NotNull(transitionRead.Junction);
         Assert.Equal(junction.Id, transitionRead.Junction.Location.Tick?.Id);
         var clothoidRead = Assert.Single(graph.ReadsOf<CarrierClothoidTransitionRead>());
         Assert.Same(transitionRead, clothoidRead.Transition);
         Assert.Equal(length, clothoidRead.Length.Source);
+    }
+
+    [Fact]
+    public void ReadsCarrierNativeArcToLineClothoidControl()
+    {
+        var baseCarrier = new Carrier();
+        var origin = GraphicStructure.Point(baseCarrier, 0);
+        var circle = GraphicStructure.CircularCarrierAt(origin);
+        var arcStart = GraphicStructure.Site(0);
+        var arcEnd = GraphicStructure.Site(6);
+        var lineEnd = GraphicStructure.Site(14);
+        var arc = GraphicStructure.Segment(circle, arcStart, arcEnd);
+        var tangent = GraphicStructure.LinearCarrierAt(GraphicStructure.Point(circle, arcEnd));
+        var line = GraphicStructure.Segment(tangent, arcEnd, lineEnd);
+        var transition = GraphicStructure.CarrierCurveTransition(arc, line);
+        var length = GraphicStructure.Segment(tangent, arcEnd, GraphicStructure.Site(18));
+        var clothoid = GraphicStructure.CarrierClothoidTransition(transition, length);
+
+        var graph = GraphicReadGraph.From(clothoid);
+
+        var transitionRead = Assert.Single(graph.ReadsOf<CarrierCurveTransitionRead>());
+        Assert.True(transitionRead.IsArcToLine);
+        Assert.True(transitionRead.IsJoined);
+        Assert.NotNull(transitionRead.Junction);
+        Assert.Equal(arcEnd.Id, transitionRead.Junction.Location.Tick?.Id);
+        Assert.Single(graph.ReadsOf<CarrierClothoidTransitionRead>());
+    }
+
+    [Fact]
+    public void ReadsCarrierNativeBridgedParallelLineClothoidControl()
+    {
+        var firstCarrier = new Carrier();
+        var firstStart = GraphicStructure.Site(0);
+        var firstEnd = GraphicStructure.Site(8);
+        var secondCarrier = new Carrier(UnitShape.LinearFrom(GraphicStructure.Segment(firstCarrier, 4, 4)));
+        var secondStart = GraphicStructure.Site(0);
+        var secondEnd = GraphicStructure.Site(8);
+        var incoming = GraphicStructure.Segment(firstCarrier, firstStart, firstEnd);
+        var outgoing = GraphicStructure.Segment(secondCarrier, secondStart, secondEnd);
+        var transition = GraphicStructure.CarrierCurveTransition(incoming, outgoing);
+        var length = GraphicStructure.Segment(firstCarrier, firstEnd, GraphicStructure.Site(16));
+        var clothoid = GraphicStructure.CarrierClothoidTransition(transition, length);
+
+        var graph = GraphicReadGraph.From(clothoid);
+
+        var transitionRead = Assert.Single(graph.ReadsOf<CarrierCurveTransitionRead>());
+        Assert.True(transitionRead.IsLineToLine);
+        Assert.True(transitionRead.IsBridged);
+        Assert.Null(transitionRead.Junction);
+        Assert.Equal(firstEnd.Id, transitionRead.Entry.Location.Tick?.Id);
+        Assert.Equal(secondStart.Id, transitionRead.Exit.Location.Tick?.Id);
+        Assert.Single(graph.ReadsOf<CarrierClothoidTransitionRead>());
     }
 
     [Fact]

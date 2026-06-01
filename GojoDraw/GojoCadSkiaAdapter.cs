@@ -812,14 +812,25 @@ public sealed class GojoCadSkiaAdapter
         SKPaint paint,
         string text = "carrier transition")
     {
-        var start = projection.Project(OtherTransitionEndpoint(transition.Incoming, transition.Junction).Location);
-        var junction = projection.Project(transition.Junction.Location);
-        var end = projection.Project(OtherTransitionEndpoint(transition.Outgoing, transition.Junction).Location);
+        var start = projection.Project(transition.Incoming.Start.Location);
+        var entry = projection.Project(transition.Entry.Location);
+        var exit = projection.Project(transition.Exit.Location);
+        var end = projection.Project(transition.Outgoing.End.Location);
         using var path = new SKPath();
-        path.MoveTo(start);
-        path.QuadTo(junction, end);
+        if (transition.Junction is null)
+        {
+            path.MoveTo(entry);
+            path.CubicTo(start, end, exit);
+        }
+        else
+        {
+            var junction = projection.Project(transition.Junction.Location);
+            path.MoveTo(start);
+            path.QuadTo(junction, end);
+            canvas.DrawCircle(junction, paints.PathGraphNodeRadius * 0.72f, paints.PathGraphBranchNode);
+        }
+
         canvas.DrawPath(path, paint);
-        canvas.DrawCircle(junction, paints.PathGraphNodeRadius * 0.72f, paints.PathGraphBranchNode);
         AddHit(hitAreas, path.Bounds, text, priority: 3, transition.Source);
     }
 
@@ -840,16 +851,6 @@ public sealed class GojoCadSkiaAdapter
         canvas.DrawPath(path, paints.SharedFrameCurveTension);
         AddHit(hitAreas, path.Bounds, "carrier involute", priority: 3, involute.Source);
     }
-
-    private static PointRead OtherTransitionEndpoint(PathSegmentRead segment, PointRead junction) =>
-        SameProjectedEndpoint(segment.Start, junction)
-            ? segment.End
-            : segment.Start;
-
-    private static bool SameProjectedEndpoint(PointRead left, PointRead right) =>
-        left.Location.SameTickRefAs(right.Location) ||
-        left.Location.Carrier.SameIdentityAs(right.Location.Carrier) &&
-        left.Location.Ticks == right.Location.Ticks;
 
     private static void DrawSharedFrameAttachment(
         SKCanvas canvas,
