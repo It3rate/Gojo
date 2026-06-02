@@ -208,6 +208,51 @@ public static class TransformSurface
     }
 
     /// <summary>
+    /// Creates focus-change evidence:
+    /// previous focus, new focus, correspondence, residue/tension, provenance.
+    /// </summary>
+    public static Relation FocusChange(
+        Carrier root,
+        Relation previousFocus,
+        Relation newFocus,
+        IElement correspondence,
+        IElement residueOrTension,
+        IElement provenance)
+    {
+        return Relation.OrderedGroup(
+            RootOrNew(root),
+            previousFocus ?? UnknownPoint(),
+            newFocus ?? UnknownPoint(),
+            correspondence ?? UnknownPoint(),
+            residueOrTension ?? UnknownPoint(),
+            provenance ?? UnknownPoint());
+    }
+
+    /// <summary>
+    /// Creates affected-slice evidence:
+    /// previous application frame, focus change, carried prefix, affected
+    /// application suffix, residue/tension, provenance.
+    /// </summary>
+    public static Relation AffectedSlice(
+        Carrier root,
+        IElement previousApplications,
+        Relation focusChange,
+        IElement carriedPrefix,
+        IElement affectedApplications,
+        IElement residueOrTension,
+        IElement provenance)
+    {
+        return Relation.OrderedGroup(
+            RootOrNew(root),
+            previousApplications ?? ApplicationFrame(new Carrier()),
+            focusChange ?? UnknownPoint(),
+            carriedPrefix ?? ApplicationFrame(new Carrier()),
+            affectedApplications ?? ApplicationFrame(new Carrier()),
+            residueOrTension ?? UnknownPoint(),
+            provenance ?? UnknownPoint());
+    }
+
+    /// <summary>
     /// Applies a reusable transform to a real focus surface. This records the
     /// concrete patch and read witness; it does not mutate the source focus.
     /// </summary>
@@ -400,6 +445,82 @@ public static class TransformSurface
             EffectiveEvidence(residueOrTension, applicationResidue),
             EffectiveEvidence(provenance, applicationProvenance));
         return true;
+    }
+
+    /// <summary>Creates focus-change evidence only when both sides are focus surfaces and differ.</summary>
+    public static bool TryCreateFocusChange(
+        Carrier root,
+        Relation previousFocus,
+        Relation newFocus,
+        IElement correspondence,
+        IElement residueOrTension,
+        IElement provenance,
+        out Relation focusChange)
+    {
+        if (!FocusSurface.TryRead(previousFocus, out _, out _, out _, out _, out _, out _, out _, out _) ||
+            !FocusSurface.TryRead(newFocus, out _, out _, out _, out _, out _, out _, out _, out _) ||
+            Equals(previousFocus, newFocus))
+        {
+            focusChange = null!;
+            return false;
+        }
+
+        focusChange = FocusChange(
+            RootOrNew(root),
+            previousFocus,
+            newFocus,
+            correspondence ?? UnknownPoint(),
+            residueOrTension ?? UnknownPoint(),
+            provenance ?? UnknownPoint());
+        return true;
+    }
+
+    /// <summary>
+    /// Discovers the affected suffix of an application frame from a focus
+    /// change. The first application whose focus is the previous focus starts
+    /// the affected slice.
+    /// </summary>
+    public static bool TryCreateAffectedSlice(
+        Carrier root,
+        IElement previousApplications,
+        Relation focusChange,
+        IElement residueOrTension,
+        IElement provenance,
+        out Relation affectedSlice)
+    {
+        if (!TryReadApplicationFrame(previousApplications, out var applications) ||
+            !TryReadFocusChange(
+                focusChange,
+                out var previousFocus,
+                out _,
+                out _,
+                out var focusResidue,
+                out var focusProvenance) ||
+            !TryFindApplicationFocusIndex(applications, previousFocus, out var affectedIndex))
+        {
+            affectedSlice = null!;
+            return false;
+        }
+
+        var carried = ApplicationFrame(new Carrier(), [.. applications.Take(affectedIndex)]);
+        var affected = ApplicationFrame(new Carrier(), [.. applications.Skip(affectedIndex)]);
+        var candidate = AffectedSlice(
+            RootOrNew(root),
+            previousApplications,
+            focusChange,
+            carried,
+            affected,
+            EffectiveEvidence(residueOrTension, focusResidue),
+            EffectiveEvidence(provenance, focusProvenance));
+
+        if (TryReadAffectedSlice(candidate, out _, out _, out _, out _, out _, out _))
+        {
+            affectedSlice = candidate;
+            return true;
+        }
+
+        affectedSlice = null!;
+        return false;
     }
 
     /// <summary>
@@ -613,6 +734,39 @@ public static class TransformSurface
         }
 
         replays = [];
+        return false;
+    }
+
+    /// <summary>Reads focus-change evidence created by <see cref="FocusChange"/>.</summary>
+    public static bool TryReadFocusChange(
+        Relation focusChange,
+        out Relation previousFocus,
+        out Relation newFocus,
+        out IElement correspondence,
+        out IElement residueOrTension,
+        out IElement provenance)
+    {
+        if (TryReadRootElements(focusChange, out var elements) &&
+            elements.Length == 5 &&
+            elements[0] is Relation previousFocusRelation &&
+            elements[1] is Relation newFocusRelation &&
+            FocusSurface.TryRead(previousFocusRelation, out _, out _, out _, out _, out _, out _, out _, out _) &&
+            FocusSurface.TryRead(newFocusRelation, out _, out _, out _, out _, out _, out _, out _, out _) &&
+            !Equals(previousFocusRelation, newFocusRelation))
+        {
+            previousFocus = previousFocusRelation;
+            newFocus = newFocusRelation;
+            correspondence = elements[2];
+            residueOrTension = elements[3];
+            provenance = elements[4];
+            return true;
+        }
+
+        previousFocus = null!;
+        newFocus = null!;
+        correspondence = default!;
+        residueOrTension = default!;
+        provenance = default!;
         return false;
     }
 
@@ -1028,6 +1182,63 @@ public static class TransformSurface
         return false;
     }
 
+    /// <summary>Reads affected-slice evidence created by <see cref="AffectedSlice"/>.</summary>
+    public static bool TryReadAffectedSlice(
+        Relation affectedSlice,
+        out IElement previousApplications,
+        out Relation focusChange,
+        out IElement carriedPrefix,
+        out IElement affectedApplications,
+        out IElement residueOrTension,
+        out IElement provenance)
+    {
+        if (TryReadRootElements(affectedSlice, out var elements) &&
+            elements.Length == 6 &&
+            TryReadApplicationFrame(elements[0], out var previous) &&
+            elements[1] is Relation focusChangeRelation &&
+            TryReadFocusChange(
+                focusChangeRelation,
+                out var previousFocus,
+                out _,
+                out _,
+                out _,
+                out _) &&
+            TryReadApplicationFrame(elements[2], out var carried) &&
+            TryReadApplicationFrame(elements[3], out var affected) &&
+            affected.Length > 0 &&
+            carried.Length + affected.Length == previous.Length &&
+            IsPrefix(previous, carried) &&
+            IsSuffixFrom(previous, carried.Length, affected) &&
+            TryReadApplication(
+                affected[0],
+                out _,
+                out var affectedFocus,
+                out _,
+                out _,
+                out _,
+                out _,
+                out _,
+                out _) &&
+            Equals(previousFocus, affectedFocus))
+        {
+            previousApplications = elements[0];
+            focusChange = focusChangeRelation;
+            carriedPrefix = elements[2];
+            affectedApplications = elements[3];
+            residueOrTension = elements[4];
+            provenance = elements[5];
+            return true;
+        }
+
+        previousApplications = default!;
+        focusChange = null!;
+        carriedPrefix = default!;
+        affectedApplications = default!;
+        residueOrTension = default!;
+        provenance = default!;
+        return false;
+    }
+
     private static bool TryReadRootElements(Relation structure, out IElement[] elements)
     {
         if (structure?.Right is Carrier holder &&
@@ -1100,6 +1311,56 @@ public static class TransformSurface
                     out _,
                     out _) ||
                 !Equals(previous[startIndex + index], previousApplication))
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private static bool TryFindApplicationFocusIndex(
+        IReadOnlyList<Relation> applications,
+        Relation focus,
+        out int index)
+    {
+        for (var candidateIndex = 0; candidateIndex < applications.Count; candidateIndex++)
+        {
+            if (TryReadApplication(
+                    applications[candidateIndex],
+                    out _,
+                    out var applicationFocus,
+                    out _,
+                    out _,
+                    out _,
+                    out _,
+                    out _,
+                    out _) &&
+                Equals(applicationFocus, focus))
+            {
+                index = candidateIndex;
+                return true;
+            }
+        }
+
+        index = -1;
+        return false;
+    }
+
+    private static bool IsSuffixFrom(
+        IReadOnlyList<Relation> full,
+        int startIndex,
+        IReadOnlyList<Relation> suffix)
+    {
+        if (startIndex < 0 ||
+            startIndex + suffix.Count != full.Count)
+        {
+            return false;
+        }
+
+        for (var index = 0; index < suffix.Count; index++)
+        {
+            if (!Equals(full[startIndex + index], suffix[index]))
             {
                 return false;
             }

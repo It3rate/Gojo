@@ -833,6 +833,30 @@ next previous application in order, producing the current application frame.
 This gives Gojo a first replayable-history shape before solving automatic
 dependency discovery.
 
+The first affected-slice discovery is focus based:
+
+```text
+FocusChange
+  previous focus
+  new focus
+  correspondence
+  residue or tension
+  provenance
+
+AffectedSlice
+  previous application frame
+  focus change
+  carried prefix
+  affected application suffix
+  residue or tension
+  provenance
+```
+
+The affected suffix begins at the first application whose focus matches the
+previous focus in the focus-change record. This is conservative, but it is
+structural: a later dependency read can refine the suffix, split it, or carry
+more applications forward without changing the basic replay shape.
+
 Structural ladders can now carry complete rungs, rung frames,
 focus-transition timelines, transform-application timelines, current-rung
 reads, local change reads, and rungs created from transform applications.
@@ -851,8 +875,9 @@ duplicating the source in a separate argument. This keeps "what is selected"
 inside Gojo structure instead of turning it into code-side intent.
 
 The next work is making transform operation structure settle real outputs
-rather than only deriving correspondence. Union, projection, automatic affected
-slice discovery, multi-parent patch histories, and stronger replay residue are still open.
+rather than only deriving correspondence. Union, projection, refined dependency
+reads inside affected suffixes, multi-parent patch histories, and stronger
+replay residue are still open.
 Those should remain operation structure and witnessed residue, not symbolic
 operation enums.
 

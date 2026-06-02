@@ -320,6 +320,31 @@ previous application in order. This does not infer dependencies yet; it gives a
 structural place to record a replay run once a dependency/focus read has found
 the affected slice.
 
+The first affected-slice read starts from focus-change evidence:
+
+```text
+FocusChange
+  previous focus
+  new focus
+  correspondence
+  residue or tension
+  provenance
+
+AffectedSlice
+  previous application frame
+  focus change
+  carried prefix
+  affected application suffix
+  residue or tension
+  provenance
+```
+
+The affected slice is the suffix beginning at the first application whose focus
+matches the previous focus in the change. This is still a low-resolution
+dependency read. It does not know that a later application is independent; it
+preserves the conservative suffix so replay can proceed without losing
+evidence.
+
 The patch witness is the temporal/change relation. It records the source read
 through the transform and keeps the selected participation, carried complement,
 replacement or introduction, correspondence, result, residue, and provenance
