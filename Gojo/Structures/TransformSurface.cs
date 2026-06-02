@@ -524,6 +524,63 @@ public static class TransformSurface
     }
 
     /// <summary>
+    /// Creates partial replay from an affected slice. The carried prefix comes
+    /// from the affected-slice read, and replay records must replace affected
+    /// applications in order.
+    /// </summary>
+    public static bool TryCreatePartialReplayFromAffectedSlice(
+        Carrier root,
+        Relation affectedSlice,
+        IReadOnlyList<Relation> replays,
+        IElement residueOrTension,
+        IElement provenance,
+        out Relation partialReplay)
+    {
+        if (!TryReadAffectedSlice(
+                affectedSlice,
+                out var previousApplications,
+                out _,
+                out var carriedPrefix,
+                out var affectedApplications,
+                out var affectedResidue,
+                out var affectedProvenance) ||
+            !TryReadApplicationFrame(affectedApplications, out var affected) ||
+            replays is null ||
+            replays.Count == 0 ||
+            replays.Count > affected.Length)
+        {
+            partialReplay = null!;
+            return false;
+        }
+
+        for (var index = 0; index < replays.Count; index++)
+        {
+            if (!TryReadReplay(
+                    replays[index],
+                    out var previousApplication,
+                    out _,
+                    out _,
+                    out _,
+                    out _,
+                    out _) ||
+                !Equals(affected[index], previousApplication))
+            {
+                partialReplay = null!;
+                return false;
+            }
+        }
+
+        return TryCreatePartialReplay(
+            root,
+            previousApplications,
+            carriedPrefix,
+            replays,
+            EffectiveEvidence(residueOrTension, affectedResidue),
+            EffectiveEvidence(provenance, affectedProvenance),
+            out partialReplay);
+    }
+
+    /// <summary>
     /// Creates a partial replay run. Carried prefix applications must be the
     /// leading applications from the previous frame; replay records then
     /// replace the following previous applications in order.

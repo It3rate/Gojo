@@ -345,6 +345,11 @@ dependency read. It does not know that a later application is independent; it
 preserves the conservative suffix so replay can proceed without losing
 evidence.
 
+An affected slice can create partial replay directly. The carried prefix is
+read from the affected slice, and each replay record must replace the affected
+applications in order. Code does not have to restate the prefix once the slice
+has been discovered.
+
 The patch witness is the temporal/change relation. It records the source read
 through the transform and keeps the selected participation, carried complement,
 replacement or introduction, correspondence, result, residue, and provenance

@@ -857,6 +857,12 @@ previous focus in the focus-change record. This is conservative, but it is
 structural: a later dependency read can refine the suffix, split it, or carry
 more applications forward without changing the basic replay shape.
 
+The affected slice can feed partial replay directly. The replay builder reads
+the carried prefix from the slice and verifies that replay records replace the
+affected applications in order. That removes one code-side restatement of
+intent: once a focus-change read finds the affected slice, replay can follow
+that structure.
+
 Structural ladders can now carry complete rungs, rung frames,
 focus-transition timelines, transform-application timelines, current-rung
 reads, local change reads, and rungs created from transform applications.
