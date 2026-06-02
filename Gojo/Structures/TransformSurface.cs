@@ -175,6 +175,38 @@ public static class TransformSurface
             provenance ?? UnknownPoint());
     }
 
+    /// <summary>Creates an ordered frame of transform applications.</summary>
+    public static Relation ApplicationFrame(Carrier root, params Relation[] applications) =>
+        Relation.OrderedGroup(RootOrNew(root), applications ?? []);
+
+    /// <summary>Creates an ordered frame of replay records.</summary>
+    public static Relation ReplayFrame(Carrier root, params Relation[] replays) =>
+        Relation.OrderedGroup(RootOrNew(root), replays ?? []);
+
+    /// <summary>
+    /// Creates partial replay evidence:
+    /// previous applications, carried prefix, replay frame, current
+    /// applications, residue/tension, provenance.
+    /// </summary>
+    public static Relation PartialReplay(
+        Carrier root,
+        IElement previousApplications,
+        IElement carriedPrefix,
+        IElement replayFrame,
+        IElement currentApplications,
+        IElement residueOrTension,
+        IElement provenance)
+    {
+        return Relation.OrderedGroup(
+            RootOrNew(root),
+            previousApplications ?? ApplicationFrame(new Carrier()),
+            carriedPrefix ?? ApplicationFrame(new Carrier()),
+            replayFrame ?? ReplayFrame(new Carrier()),
+            currentApplications ?? ApplicationFrame(new Carrier()),
+            residueOrTension ?? UnknownPoint(),
+            provenance ?? UnknownPoint());
+    }
+
     /// <summary>
     /// Applies a reusable transform to a real focus surface. This records the
     /// concrete patch and read witness; it does not mutate the source focus.
@@ -370,6 +402,75 @@ public static class TransformSurface
         return true;
     }
 
+    /// <summary>
+    /// Creates a partial replay run. Carried prefix applications must be the
+    /// leading applications from the previous frame; replay records then
+    /// replace the following previous applications in order.
+    /// </summary>
+    public static bool TryCreatePartialReplay(
+        Carrier root,
+        IElement previousApplications,
+        IElement carriedPrefix,
+        IReadOnlyList<Relation> replays,
+        IElement residueOrTension,
+        IElement provenance,
+        out Relation partialReplay)
+    {
+        if (!TryReadApplicationFrame(previousApplications, out var previous) ||
+            !TryReadApplicationFrame(carriedPrefix, out var carried) ||
+            replays is null ||
+            replays.Count == 0 ||
+            carried.Length + replays.Count > previous.Length ||
+            !IsPrefix(previous, carried))
+        {
+            partialReplay = null!;
+            return false;
+        }
+
+        var cleanReplays = new List<Relation>();
+        var current = new List<Relation>(carried);
+        for (var index = 0; index < replays.Count; index++)
+        {
+            var replay = replays[index];
+            if (!TryReadReplay(
+                    replay,
+                    out var previousApplication,
+                    out _,
+                    out var newApplication,
+                    out _,
+                    out _,
+                    out _) ||
+                !Equals(previous[carried.Length + index], previousApplication))
+            {
+                partialReplay = null!;
+                return false;
+            }
+
+            cleanReplays.Add(replay);
+            current.Add(newApplication);
+        }
+
+        var replayFrame = ReplayFrame(new Carrier(), [.. cleanReplays]);
+        var currentFrame = ApplicationFrame(new Carrier(), [.. current]);
+        var candidate = PartialReplay(
+            RootOrNew(root),
+            previousApplications,
+            carriedPrefix,
+            replayFrame,
+            currentFrame,
+            residueOrTension ?? UnknownPoint(),
+            provenance ?? UnknownPoint());
+
+        if (TryReadPartialReplay(candidate, out _, out _, out _, out _, out _, out _))
+        {
+            partialReplay = candidate;
+            return true;
+        }
+
+        partialReplay = null!;
+        return false;
+    }
+
     /// <summary>Creates a patch by reading selection roles from a focus surface.</summary>
     public static bool TryCreatePatchFromFocus(
         Carrier root,
@@ -458,6 +559,60 @@ public static class TransformSurface
         outputPorts = default!;
         residuePolicy = default!;
         provenance = default!;
+        return false;
+    }
+
+    /// <summary>Reads an ordered frame of transform applications.</summary>
+    public static bool TryReadApplicationFrame(IElement frame, out Relation[] applications)
+    {
+        if (frame is Relation relation &&
+            TryReadRootElements(relation, out var elements))
+        {
+            var read = new List<Relation>();
+            foreach (var element in elements)
+            {
+                if (element is not Relation application ||
+                    !TryReadApplication(application, out _, out _, out _, out _, out _, out _, out _, out _))
+                {
+                    applications = [];
+                    return false;
+                }
+
+                read.Add(application);
+            }
+
+            applications = [.. read];
+            return true;
+        }
+
+        applications = [];
+        return false;
+    }
+
+    /// <summary>Reads an ordered frame of replay records.</summary>
+    public static bool TryReadReplayFrame(IElement frame, out Relation[] replays)
+    {
+        if (frame is Relation relation &&
+            TryReadRootElements(relation, out var elements))
+        {
+            var read = new List<Relation>();
+            foreach (var element in elements)
+            {
+                if (element is not Relation replay ||
+                    !TryReadReplay(replay, out _, out _, out _, out _, out _, out _))
+                {
+                    replays = [];
+                    return false;
+                }
+
+                read.Add(replay);
+            }
+
+            replays = [.. read];
+            return true;
+        }
+
+        replays = [];
         return false;
     }
 
@@ -832,6 +987,47 @@ public static class TransformSurface
         return false;
     }
 
+    /// <summary>Reads partial replay evidence created by <see cref="PartialReplay"/>.</summary>
+    public static bool TryReadPartialReplay(
+        Relation partialReplay,
+        out IElement previousApplications,
+        out IElement carriedPrefix,
+        out IElement replayFrame,
+        out IElement currentApplications,
+        out IElement residueOrTension,
+        out IElement provenance)
+    {
+        if (TryReadRootElements(partialReplay, out var elements) &&
+            elements.Length == 6 &&
+            TryReadApplicationFrame(elements[0], out var previous) &&
+            TryReadApplicationFrame(elements[1], out var carried) &&
+            TryReadReplayFrame(elements[2], out var replays) &&
+            TryReadApplicationFrame(elements[3], out var current) &&
+            replays.Length > 0 &&
+            carried.Length + replays.Length <= previous.Length &&
+            current.Length == carried.Length + replays.Length &&
+            IsPrefix(previous, carried) &&
+            CurrentMatchesReplay(carried, replays, current) &&
+            ReplaysMatchPrevious(previous, carried.Length, replays))
+        {
+            previousApplications = elements[0];
+            carriedPrefix = elements[1];
+            replayFrame = elements[2];
+            currentApplications = elements[3];
+            residueOrTension = elements[4];
+            provenance = elements[5];
+            return true;
+        }
+
+        previousApplications = default!;
+        carriedPrefix = default!;
+        replayFrame = default!;
+        currentApplications = default!;
+        residueOrTension = default!;
+        provenance = default!;
+        return false;
+    }
+
     private static bool TryReadRootElements(Relation structure, out IElement[] elements)
     {
         if (structure?.Right is Carrier holder &&
@@ -864,6 +1060,90 @@ public static class TransformSurface
         IsUnknownPoint(element) ||
         element is Relation relation &&
         TryReadStalePatch(relation, out _, out _, out _, out _, out _, out _);
+
+    private static bool IsPrefix(IReadOnlyList<Relation> full, IReadOnlyList<Relation> prefix)
+    {
+        if (prefix.Count > full.Count)
+        {
+            return false;
+        }
+
+        for (var index = 0; index < prefix.Count; index++)
+        {
+            if (!Equals(full[index], prefix[index]))
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private static bool ReplaysMatchPrevious(
+        IReadOnlyList<Relation> previous,
+        int startIndex,
+        IReadOnlyList<Relation> replays)
+    {
+        if (startIndex + replays.Count > previous.Count)
+        {
+            return false;
+        }
+
+        for (var index = 0; index < replays.Count; index++)
+        {
+            if (!TryReadReplay(
+                    replays[index],
+                    out var previousApplication,
+                    out _,
+                    out _,
+                    out _,
+                    out _,
+                    out _) ||
+                !Equals(previous[startIndex + index], previousApplication))
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private static bool CurrentMatchesReplay(
+        IReadOnlyList<Relation> carried,
+        IReadOnlyList<Relation> replays,
+        IReadOnlyList<Relation> current)
+    {
+        if (current.Count != carried.Count + replays.Count)
+        {
+            return false;
+        }
+
+        for (var index = 0; index < carried.Count; index++)
+        {
+            if (!Equals(carried[index], current[index]))
+            {
+                return false;
+            }
+        }
+
+        for (var index = 0; index < replays.Count; index++)
+        {
+            if (!TryReadReplay(
+                    replays[index],
+                    out _,
+                    out _,
+                    out var newApplication,
+                    out _,
+                    out _,
+                    out _) ||
+                !Equals(newApplication, current[carried.Count + index]))
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
 
     private static IElement EffectiveEvidence(IElement primary, IElement fallback)
     {

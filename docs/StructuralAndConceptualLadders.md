@@ -815,6 +815,24 @@ This is the CAD-history behavior: the instruction survives edits upstream, and
 the old patch remains inspectable as historical settlement instead of becoming
 the transform itself.
 
+Partial replay records a bounded slice of that behavior:
+
+```text
+PartialReplay
+  previous application frame
+  carried prefix
+  replay frame
+  current application frame
+  residue or tension
+  provenance
+```
+
+The current read is intentionally ordered. The carried prefix must be the
+leading applications from the previous frame. Each replay then replaces the
+next previous application in order, producing the current application frame.
+This gives Gojo a first replayable-history shape before solving automatic
+dependency discovery.
+
 Structural ladders can now carry complete rungs, rung frames,
 focus-transition timelines, transform-application timelines, current-rung
 reads, local change reads, and rungs created from transform applications.
@@ -833,8 +851,8 @@ duplicating the source in a separate argument. This keeps "what is selected"
 inside Gojo structure instead of turning it into code-side intent.
 
 The next work is making transform operation structure settle real outputs
-rather than only deriving correspondence. Union, projection, partial replay,
-multi-parent patch histories, and stronger replay residue are still open.
+rather than only deriving correspondence. Union, projection, automatic affected
+slice discovery, multi-parent patch histories, and stronger replay residue are still open.
 Those should remain operation structure and witnessed residue, not symbolic
 operation enums.
 

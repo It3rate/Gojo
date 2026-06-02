@@ -446,6 +446,224 @@ public sealed class TransformSurfaceTests
     }
 
     [Fact]
+    public void PartialReplayCarriesPrefixAndReplaysAffectedApplications()
+    {
+        var sourceCarrier = new Carrier();
+        var source = Relation.Segment(sourceCarrier, 0, 20);
+        var firstInput = new Placeholder();
+        var firstOutput = new Placeholder();
+        var secondInput = new Placeholder();
+        var secondOutput = new Placeholder();
+        var firstTransform = TransformSurface.Create(
+            new Carrier(),
+            TransformSurface.Ports(new Carrier(), firstInput),
+            TransformSurface.Map(firstInput, firstOutput),
+            TransformSurface.Ports(new Carrier(), firstOutput),
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0));
+        var secondTransform = TransformSurface.Create(
+            new Carrier(),
+            TransformSurface.Ports(new Carrier(), secondInput),
+            TransformSurface.Map(secondInput, secondOutput),
+            TransformSurface.Ports(new Carrier(), secondOutput),
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0));
+
+        var firstSelected = Relation.Segment(sourceCarrier, 2, 4);
+        var firstReplacement = Relation.Segment(new Carrier(), 0, 2);
+        var firstFocus = FocusSurface.Create(
+            new Carrier(),
+            source,
+            Relation.Point(sourceCarrier, 3),
+            firstSelected,
+            Relation.Segment(sourceCarrier, 0, 2),
+            firstReplacement,
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0));
+        var firstBindings = FocusSurface.BindingFrame(
+            new Carrier(),
+            FocusSurface.Bind(firstInput, firstSelected),
+            FocusSurface.Bind(firstOutput, firstReplacement));
+        Assert.True(TransformSurface.TryCreateApplication(
+            new Carrier(),
+            firstTransform,
+            firstFocus,
+            firstBindings,
+            FocusSurface.Frame(new Carrier(), source, firstReplacement),
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0),
+            out var firstApplication));
+
+        var secondSelected = Relation.Segment(sourceCarrier, 8, 10);
+        var secondReplacement = Relation.Segment(new Carrier(), 0, 2);
+        var secondFocus = FocusSurface.Create(
+            new Carrier(),
+            source,
+            Relation.Point(sourceCarrier, 9),
+            secondSelected,
+            Relation.Segment(sourceCarrier, 0, 8),
+            secondReplacement,
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0));
+        var secondBindings = FocusSurface.BindingFrame(
+            new Carrier(),
+            FocusSurface.Bind(secondInput, secondSelected),
+            FocusSurface.Bind(secondOutput, secondReplacement));
+        Assert.True(TransformSurface.TryCreateApplication(
+            new Carrier(),
+            secondTransform,
+            secondFocus,
+            secondBindings,
+            FocusSurface.Frame(new Carrier(), source, secondReplacement),
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0),
+            out var secondApplication));
+
+        var previousFrame = TransformSurface.ApplicationFrame(new Carrier(), firstApplication, secondApplication);
+        var carriedPrefix = TransformSurface.ApplicationFrame(new Carrier(), firstApplication);
+        var changedSecondSelected = Relation.Segment(sourceCarrier, 9, 13);
+        var changedSecondReplacement = Relation.Segment(new Carrier(), 0, 4);
+        var changedSecondFocus = FocusSurface.Create(
+            new Carrier(),
+            source,
+            Relation.Point(sourceCarrier, 11),
+            changedSecondSelected,
+            Relation.Segment(sourceCarrier, 0, 9),
+            changedSecondReplacement,
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0));
+        var changedSecondBindings = FocusSurface.BindingFrame(
+            new Carrier(),
+            FocusSurface.Bind(secondInput, changedSecondSelected),
+            FocusSurface.Bind(secondOutput, changedSecondReplacement));
+        var replayResidue = new Placeholder();
+        Assert.True(TransformSurface.TryReplayApplication(
+            new Carrier(),
+            secondApplication,
+            changedSecondFocus,
+            changedSecondBindings,
+            FocusSurface.Frame(new Carrier(), source, changedSecondReplacement),
+            replayResidue,
+            Relation.Point(Carrier.Unknown, 0),
+            out var secondReplay));
+
+        Assert.True(TransformSurface.TryCreatePartialReplay(
+            new Carrier(),
+            previousFrame,
+            carriedPrefix,
+            [secondReplay],
+            replayResidue,
+            Relation.Point(Carrier.Unknown, 0),
+            out var partialReplay));
+
+        Assert.True(TransformSurface.TryReadPartialReplay(
+            partialReplay,
+            out var readPreviousFrame,
+            out var readCarriedPrefix,
+            out var readReplayFrame,
+            out var readCurrentFrame,
+            out var readResidue,
+            out _));
+        Assert.Equal(previousFrame, readPreviousFrame);
+        Assert.Equal(carriedPrefix, readCarriedPrefix);
+        Assert.Equal(replayResidue, readResidue);
+        Assert.True(TransformSurface.TryReadReplayFrame(readReplayFrame, out var replayRecords));
+        Assert.Equal([secondReplay], replayRecords);
+        Assert.True(TransformSurface.TryReadApplicationFrame(readCurrentFrame, out var currentApplications));
+        Assert.Equal(2, currentApplications.Length);
+        Assert.Equal(firstApplication, currentApplications[0]);
+        Assert.True(TransformSurface.TryReadReplay(
+            secondReplay,
+            out _,
+            out _,
+            out var replayedSecondApplication,
+            out _,
+            out _,
+            out _));
+        Assert.Equal(replayedSecondApplication, currentApplications[1]);
+    }
+
+    [Fact]
+    public void PartialReplayRejectsOutOfOrderReplay()
+    {
+        var sourceCarrier = new Carrier();
+        var source = Relation.Segment(sourceCarrier, 0, 20);
+        var first = Relation.Segment(sourceCarrier, 2, 4);
+        var second = Relation.Segment(sourceCarrier, 8, 10);
+        var replacement = Relation.Segment(new Carrier(), 0, 2);
+        var transform = TransformSurface.Create(
+            new Carrier(),
+            TransformSurface.Ports(new Carrier(), first),
+            TransformSurface.Map(first, replacement),
+            TransformSurface.Ports(new Carrier(), replacement),
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0));
+        var firstFocus = FocusSurface.Create(
+            new Carrier(),
+            source,
+            Relation.Point(sourceCarrier, 3),
+            first,
+            Relation.Point(Carrier.Unknown, 0),
+            replacement,
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0));
+        var secondFocus = FocusSurface.Create(
+            new Carrier(),
+            source,
+            Relation.Point(sourceCarrier, 9),
+            second,
+            Relation.Point(Carrier.Unknown, 0),
+            replacement,
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0));
+
+        Assert.True(TransformSurface.TryCreateApplication(
+            new Carrier(),
+            transform,
+            firstFocus,
+            Relation.Point(Carrier.Unknown, 0),
+            FocusSurface.Frame(new Carrier(), source, replacement),
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0),
+            out var firstApplication));
+        Assert.True(TransformSurface.TryCreateApplication(
+            new Carrier(),
+            transform,
+            secondFocus,
+            Relation.Point(Carrier.Unknown, 0),
+            FocusSurface.Frame(new Carrier(), source, replacement),
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0),
+            out var secondApplication));
+        Assert.True(TransformSurface.TryReplayApplication(
+            new Carrier(),
+            firstApplication,
+            secondFocus,
+            Relation.Point(Carrier.Unknown, 0),
+            FocusSurface.Frame(new Carrier(), source, replacement),
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0),
+            out var outOfOrderReplay));
+
+        var previousFrame = TransformSurface.ApplicationFrame(new Carrier(), firstApplication, secondApplication);
+        var carriedPrefix = TransformSurface.ApplicationFrame(new Carrier(), firstApplication);
+
+        Assert.False(TransformSurface.TryCreatePartialReplay(
+            new Carrier(),
+            previousFrame,
+            carriedPrefix,
+            [outOfOrderReplay],
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0),
+            out _));
+    }
+
+    [Fact]
     public void StructuralLadderCanUseTransformApplicationAsTimelineTransition()
     {
         var sourceCarrier = new Carrier();

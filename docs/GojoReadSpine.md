@@ -301,6 +301,25 @@ The old patch is not destroyed or overwritten. It remains evidence of what
 settled before, while the replay records the new application of the same
 transform instruction.
 
+Partial replay records the slice of history that was reused and the slice that
+was replayed:
+
+```text
+PartialReplay
+  previous application frame
+  carried prefix
+  replay frame
+  current application frame
+  residue or tension
+  provenance
+```
+
+The current read requires the carried prefix to be the leading applications
+from the previous frame, and each replay record must correspond to the next
+previous application in order. This does not infer dependencies yet; it gives a
+structural place to record a replay run once a dependency/focus read has found
+the affected slice.
+
 The patch witness is the temporal/change relation. It records the source read
 through the transform and keeps the selected participation, carried complement,
 replacement or introduction, correspondence, result, residue, and provenance
