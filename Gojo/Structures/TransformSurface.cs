@@ -306,7 +306,7 @@ public static class TransformSurface
 
     /// <summary>
     /// Creates operation-output evidence:
-    /// application, operation, bound input, operation read, output target,
+    /// application, operation, bound input, operation read, output target surface,
     /// result, residue/tension, provenance.
     /// </summary>
     public static Relation OperationOutput(
@@ -644,7 +644,7 @@ public static class TransformSurface
 
     /// <summary>
     /// Reads a transform application's executable operation through its
-    /// bindings and records the settled output target.
+    /// bindings and records the settled output target surface.
     /// </summary>
     public static bool TryCreateOperationOutputRead(
         Carrier root,
@@ -668,7 +668,7 @@ public static class TransformSurface
             !TryBuildOperationInput(operationRelation.Left, bindings, out var inputEvidence) ||
             !TryReadOperationReader(outputPorts, operationRelation.Right, result, out var reader) ||
             !operationRelation.TryReadOperationFrom(inputEvidence, reader, out var operationRead) ||
-            !TryReadOperationOutputTarget(operationRead, out var outputTarget))
+            !TryReadOperationOutputTargets(operationRead, out var outputTarget))
         {
             operationOutput = null!;
             return false;
@@ -1694,14 +1694,14 @@ public static class TransformSurface
                 out _,
                 out _,
                 out _) &&
-            TryRead(transform, out _, out var transformOperation, out _, out _, out _) &&
+            TryRead(transform, out _, out var transformOperation, out var outputPorts, out _, out _) &&
             Equals(transformOperation, elements[1]) &&
             elements[1] is Relation operationRelation &&
-            TryReadOperationReader(elements[4], out var reader) &&
+            TryReadOperationReader(outputPorts, operationRelation.Right, applicationResult, out var reader) &&
             operationRelation.TryReadOperationFrom(elements[2], reader, out var expectedRead) &&
-            Equals(expectedRead, elements[3]) &&
-            TryReadOperationOutputTarget(elements[3], out var expectedTarget) &&
-            Equals(expectedTarget, elements[4]) &&
+            ElementStructureMatches(expectedRead, elements[3]) &&
+            TryReadOperationOutputTargets(elements[3], out var expectedTarget) &&
+            ElementStructureMatches(expectedTarget, elements[4]) &&
             Equals(applicationResult, elements[5]))
         {
             application = applicationRelation;
@@ -1860,25 +1860,115 @@ public static class TransformSurface
         return false;
     }
 
-    private static bool TryReadOperationOutputTarget(IElement operationRead, out IElement outputTarget)
+    private static bool TryReadOperationOutputTargets(IElement operationRead, out IElement outputTargets)
     {
         if (operationRead is Relation read)
         {
-            switch (read.Left)
+            if (TryReadOperationTermTargets(read.Left, out var targets))
             {
-                case CarrierLocation location:
-                    outputTarget = Relation.Point(location.Carrier, location.Ticks);
-                    return true;
-                case Relation relation:
-                    outputTarget = relation;
-                    return true;
-                case IElement element:
-                    outputTarget = element;
-                    return true;
+                outputTargets = targets.Length == 1
+                    ? targets[0]
+                    : Frame(new Carrier(), targets);
+                return true;
             }
+
+            return TryReadOperationTargetElement(read.Left, out outputTargets);
         }
 
-        outputTarget = default!;
+        outputTargets = default!;
+        return false;
+    }
+
+    private static bool TryReadOperationTermTargets(IElement element, out IElement[] targets)
+    {
+        if (element is Relation group &&
+            TryReadRootElements(group, out var terms) &&
+            terms.Length > 0)
+        {
+            var collected = new List<IElement>();
+            foreach (var term in terms)
+            {
+                if (!TryReadOperationTermTarget(term, out var target))
+                {
+                    targets = [];
+                    return false;
+                }
+
+                collected.Add(target);
+            }
+
+            targets = [.. collected];
+            return true;
+        }
+
+        targets = [];
+        return false;
+    }
+
+    private static bool TryReadOperationTermTarget(IElement term, out IElement target)
+    {
+        if (term is Relation { Left: CarrierLocation location })
+        {
+            target = Relation.Point(location.Carrier, location.Ticks);
+            return true;
+        }
+
+        return TryReadOperationTargetElement(term, out target);
+    }
+
+    private static bool TryReadOperationTargetElement(IElement element, out IElement target)
+    {
+        switch (element)
+        {
+            case CarrierLocation location:
+                target = Relation.Point(location.Carrier, location.Ticks);
+                return true;
+            case Relation relation:
+                target = relation;
+                return true;
+            default:
+                target = element;
+                return element is not null;
+        }
+    }
+
+    private static bool ElementStructureMatches(IElement expected, IElement actual)
+    {
+        if (Equals(expected, actual))
+        {
+            return true;
+        }
+
+        if (TryReadTargetSurfaceElements(expected, out var expectedElements) &&
+            TryReadTargetSurfaceElements(actual, out var actualElements))
+        {
+            return expectedElements.Length == actualElements.Length &&
+                expectedElements
+                    .Zip(actualElements)
+                    .All(pair => ElementStructureMatches(pair.First, pair.Second));
+        }
+
+        if (expected is Relation expectedRelation &&
+            actual is Relation actualRelation)
+        {
+            return ElementStructureMatches(expectedRelation.Left, actualRelation.Left) &&
+                ElementStructureMatches(expectedRelation.Right, actualRelation.Right);
+        }
+
+        return false;
+    }
+
+    private static bool TryReadTargetSurfaceElements(IElement element, out IElement[] elements)
+    {
+        if (element is Relation relation &&
+            TryReadRootElements(relation, out var readElements) &&
+            readElements.Length > 0)
+        {
+            elements = readElements;
+            return true;
+        }
+
+        elements = [];
         return false;
     }
 

@@ -265,7 +265,7 @@ OperationOutput
   operation
   bound input evidence
   operation read
-  output target
+  output target surface
   result
   residue or tension
   provenance
@@ -274,10 +274,11 @@ OperationOutput
 This is the first bridge from operation structure to settled output evidence.
 The creator applies the application's binding relations to the operation port
 surface, asks the core operation reader for the output, and records the output
-target as structure. Dependency reads can then use that output target even when
-it is only one element inside a larger result frame. Static map/carry/fold
-shapes still derive correspondence; executable operation surfaces additionally
-produce a witnessed output target.
+target surface as structure. A simple read records one target; a product
+expansion records an ordered surface of product-term targets. Dependency reads
+can then use any child target even when it is only one element inside a larger
+result frame. Static map/carry/fold shapes still derive correspondence;
+executable operation surfaces additionally produce a witnessed output surface.
 
 The transform is the reusable instruction. The application is the concrete
 settlement of that instruction against a real focus:

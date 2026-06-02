@@ -249,6 +249,82 @@ public sealed class TransformSurfaceTests
     }
 
     [Fact]
+    public void OperationOutputReadPreservesProductExpansionTargets()
+    {
+        var lengthShape = new Carrier().UnitShape;
+        var x = new Carrier(lengthShape);
+        var y = new Carrier(lengthShape);
+        var area = new Carrier(UnitShape.Product(lengthShape, lengthShape));
+        var xPort = new Relation(Relation.Point(x, 1), Relation.Point(Carrier.Unknown, 1));
+        var yPort = new Relation(Relation.Point(y, 1), Relation.Point(Carrier.Unknown, 1));
+        var outputSurface = Relation.Segment(area, 0, 1);
+        var operation = new Relation(new Relation(xPort, yPort), outputSurface);
+        var transform = TransformSurface.Create(
+            new Carrier(),
+            TransformSurface.Ports(new Carrier(), xPort, yPort),
+            operation,
+            TransformSurface.Ports(new Carrier(), outputSurface),
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0));
+        var xFused = new Relation(Relation.Point(x, 3), Relation.Point(x.Inverse(), 2));
+        var yFused = new Relation(
+            new CarrierLocation(y.Inverse(), 4),
+            new CarrierLocation(y, 5));
+        var source = FocusSurface.Frame(new Carrier(), xFused, yFused);
+        var result = FocusSurface.Frame(new Carrier(), source);
+        var application = CreateApplication(
+            transform,
+            CreateFocus(
+                source,
+                xFused,
+                source,
+                Relation.Point(Carrier.Unknown, 0),
+                Relation.Point(Carrier.Unknown, 0),
+                Relation.Point(Carrier.Unknown, 0)),
+            FocusSurface.BindingFrame(
+                new Carrier(),
+                FocusSurface.Bind(xPort, xFused),
+                FocusSurface.Bind(yPort, yFused)),
+            result);
+
+        Assert.True(TransformSurface.TryCreateOperationOutputRead(
+            new Carrier(),
+            application,
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0),
+            out var operationOutput));
+        Assert.True(TransformSurface.TryReadOperationOutput(
+            operationOutput,
+            out _,
+            out _,
+            out _,
+            out _,
+            out var outputTargets,
+            out _,
+            out _,
+            out _));
+
+        var targetFrame = Assert.IsType<Relation>(outputTargets);
+        var holder = Assert.IsType<Carrier>(targetFrame.Right);
+        Assert.True(targetFrame.TryReadOrderedElementsOn(holder, out var targets));
+        Assert.Equal(4, targets.Length);
+        AssertPointTarget(targets[0], area.Inverse(), 8);
+        AssertPointTarget(targets[1], area.Inverse(), 10);
+        AssertPointTarget(targets[2], area.Inverse(), 12);
+        AssertPointTarget(targets[3], area, 15);
+
+        static void AssertPointTarget(IElement element, Carrier expectedCarrier, long expectedTicks)
+        {
+            var point = Assert.IsType<Relation>(element);
+            var location = Assert.IsType<CarrierLocation>(point.Left);
+            var carrier = Assert.IsType<Carrier>(point.Right);
+            Assert.True(location.Carrier.SameIdentityAs(expectedCarrier));
+            Assert.True(carrier.SameIdentityAs(expectedCarrier));
+            Assert.Equal(expectedTicks, location.Ticks);
+        }
+    }
+
+    [Fact]
     public void ApplicationDependencyDiscoversSettledOperationOutputInsideProducerResult()
     {
         var x = new Carrier();
@@ -318,6 +394,81 @@ public sealed class TransformSurfaceTests
         Assert.Contains(bindings, binding =>
             Equals(binding.Left, output) &&
             Equals(binding.Right, output));
+    }
+
+    [Fact]
+    public void ApplicationDependencyDiscoversOneProductExpansionOutputTarget()
+    {
+        var lengthShape = new Carrier().UnitShape;
+        var x = new Carrier(lengthShape);
+        var y = new Carrier(lengthShape);
+        var area = new Carrier(UnitShape.Product(lengthShape, lengthShape));
+        var xPort = new Relation(Relation.Point(x, 1), Relation.Point(Carrier.Unknown, 1));
+        var yPort = new Relation(Relation.Point(y, 1), Relation.Point(Carrier.Unknown, 1));
+        var outputSurface = Relation.Segment(area, 0, 1);
+        var operation = new Relation(new Relation(xPort, yPort), outputSurface);
+        var producerTransform = TransformSurface.Create(
+            new Carrier(),
+            TransformSurface.Ports(new Carrier(), xPort, yPort),
+            operation,
+            TransformSurface.Ports(new Carrier(), outputSurface),
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0));
+        var xFused = new Relation(Relation.Point(x, 3), Relation.Point(x.Inverse(), 2));
+        var yFused = new Relation(
+            new CarrierLocation(y.Inverse(), 4),
+            new CarrierLocation(y, 5));
+        var source = FocusSurface.Frame(new Carrier(), xFused, yFused);
+        var consumedOutput = Relation.Point(area.Inverse(), 10);
+        var producerApplication = CreateApplication(
+            producerTransform,
+            CreateFocus(
+                source,
+                xFused,
+                source,
+                Relation.Point(Carrier.Unknown, 0),
+                Relation.Point(Carrier.Unknown, 0),
+                Relation.Point(Carrier.Unknown, 0)),
+            FocusSurface.BindingFrame(
+                new Carrier(),
+                FocusSurface.Bind(xPort, xFused),
+                FocusSurface.Bind(yPort, yFused)),
+            FocusSurface.Frame(new Carrier(), source, consumedOutput));
+
+        var consumerReplacement = Relation.Point(new Carrier(), 1);
+        var consumerTransform = CreateMapTransform(new Placeholder(), new Placeholder());
+        var consumerApplication = CreateApplication(
+            consumerTransform,
+            CreateFocus(
+                consumedOutput,
+                consumedOutput,
+                consumedOutput,
+                Relation.Point(Carrier.Unknown, 0),
+                consumerReplacement,
+                FocusSurface.Bind(consumedOutput, consumerReplacement)),
+            FocusSurface.Bind(ReadInputPort(consumerTransform), consumedOutput),
+            FocusSurface.Frame(new Carrier(), consumedOutput, consumerReplacement));
+
+        Assert.True(TransformSurface.TryCreateApplicationDependency(
+            new Carrier(),
+            producerApplication,
+            consumerApplication,
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0),
+            out var dependency));
+        Assert.True(TransformSurface.TryReadApplicationDependency(
+            dependency,
+            out var readProducer,
+            out var readConsumer,
+            out var evidence,
+            out _,
+            out _));
+        Assert.Equal(producerApplication, readProducer);
+        Assert.Equal(consumerApplication, readConsumer);
+        Assert.True(FocusSurface.TryReadBindingFrame(evidence, out var bindings));
+        Assert.Contains(bindings, binding =>
+            Equals(binding.Left, consumedOutput) &&
+            Equals(binding.Right, consumedOutput));
     }
 
     [Fact]

@@ -796,7 +796,7 @@ OperationOutput
   operation
   bound input evidence
   operation read
-  output target
+  output target surface
   result
   residue or tension
   provenance
@@ -804,10 +804,12 @@ OperationOutput
 
 The creator applies an application's bindings to the operation port surface,
 uses the core operation reader to produce a concrete operation read, and
-records the extracted output target. This lets dependency discovery find a
-producer output even when the target is only one element in a larger result
-frame. It is not a full transform solver yet; it is the first structural
-witness that an operation surface produced this output in this application.
+records the extracted output target surface. A simple read produces one target;
+a product expansion produces an ordered surface of term targets. This lets
+dependency discovery find a producer output even when the target is only one
+element in a larger result frame. It is not a full transform solver yet; it is
+the first structural witness that an operation surface produced this output
+surface in this application.
 
 Transform applications can also be replayed against a changed focus. Replay
 reuses the transform instruction, creates a new application for the new focus,
