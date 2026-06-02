@@ -307,17 +307,18 @@ was replayed:
 ```text
 PartialReplay
   previous application frame
-  carried prefix
+  carried applications
   replay frame
   current application frame
   residue or tension
   provenance
 ```
 
-The current read requires the carried prefix to be the leading applications
-from the previous frame, and each replay record must correspond to the next
-previous application in order. This gives a structural place to record a replay
-run once a dependency/focus read has found the affected slice.
+The current read orders the result through the previous application frame.
+Carried applications remain unchanged, replay records replace their previous
+applications, and unmentioned applications are pending. This can still express
+the old prefix case, but it can also carry an independent later application
+after a middle application has been replayed.
 
 The first affected-slice read starts from focus-change evidence:
 
@@ -367,6 +368,28 @@ evidence from a producer output to a consumer input, which lets the structure
 say "this feeds that" even when the two sides are not the same object. This is
 still a local read over application, focus, patch, and binding structure, not a
 global classifier or dependency side table.
+
+Dependency-aware affected slices use that evidence:
+
+```text
+ApplicationDependencyFrame
+  dependency...
+
+DependencyAffectedSlice
+  previous application frame
+  focus change
+  dependency frame
+  carried applications
+  affected applications
+  residue or tension
+  provenance
+```
+
+The changed application and transitive consumers are affected. Applications in
+the frame that do not consume the changed chain are carried, even when they
+appear later in the previous frame. The focus change should point to the actual
+focus relation held by the application; a duplicate focus with the same interior
+values is only a lookalike, not the same structural site.
 
 The patch witness is the temporal/change relation. It records the source read
 through the transform and keeps the selected participation, carried complement,

@@ -179,13 +179,17 @@ public static class TransformSurface
     public static Relation ApplicationFrame(Carrier root, params Relation[] applications) =>
         Relation.OrderedGroup(RootOrNew(root), applications ?? []);
 
+    /// <summary>Creates an ordered frame of application dependencies.</summary>
+    public static Relation ApplicationDependencyFrame(Carrier root, params Relation[] dependencies) =>
+        Relation.OrderedGroup(RootOrNew(root), dependencies ?? []);
+
     /// <summary>Creates an ordered frame of replay records.</summary>
     public static Relation ReplayFrame(Carrier root, params Relation[] replays) =>
         Relation.OrderedGroup(RootOrNew(root), replays ?? []);
 
     /// <summary>
     /// Creates partial replay evidence:
-    /// previous applications, carried prefix, replay frame, current
+    /// previous applications, carried applications, replay frame, current
     /// applications, residue/tension, provenance.
     /// </summary>
     public static Relation PartialReplay(
@@ -247,6 +251,32 @@ public static class TransformSurface
             previousApplications ?? ApplicationFrame(new Carrier()),
             focusChange ?? UnknownPoint(),
             carriedPrefix ?? ApplicationFrame(new Carrier()),
+            affectedApplications ?? ApplicationFrame(new Carrier()),
+            residueOrTension ?? UnknownPoint(),
+            provenance ?? UnknownPoint());
+    }
+
+    /// <summary>
+    /// Creates dependency-aware affected-slice evidence:
+    /// previous application frame, focus change, dependency frame, carried
+    /// applications, affected applications, residue/tension, provenance.
+    /// </summary>
+    public static Relation DependencyAffectedSlice(
+        Carrier root,
+        IElement previousApplications,
+        Relation focusChange,
+        IElement dependencyFrame,
+        IElement carriedApplications,
+        IElement affectedApplications,
+        IElement residueOrTension,
+        IElement provenance)
+    {
+        return Relation.OrderedGroup(
+            RootOrNew(root),
+            previousApplications ?? ApplicationFrame(new Carrier()),
+            focusChange ?? UnknownPoint(),
+            dependencyFrame ?? ApplicationDependencyFrame(new Carrier()),
+            carriedApplications ?? ApplicationFrame(new Carrier()),
             affectedApplications ?? ApplicationFrame(new Carrier()),
             residueOrTension ?? UnknownPoint(),
             provenance ?? UnknownPoint());
@@ -585,6 +615,61 @@ public static class TransformSurface
     }
 
     /// <summary>
+    /// Discovers affected applications from a focus change and dependency
+    /// frame. The changed application and transitive consumers are affected;
+    /// other applications remain carried.
+    /// </summary>
+    public static bool TryCreateDependencyAffectedSlice(
+        Carrier root,
+        IElement previousApplications,
+        IElement dependencyFrame,
+        Relation focusChange,
+        IElement residueOrTension,
+        IElement provenance,
+        out Relation affectedSlice)
+    {
+        if (!TryReadApplicationFrame(previousApplications, out var applications) ||
+            !TryReadApplicationDependencyFrame(dependencyFrame, out var dependencies) ||
+            !TryReadFocusChange(
+                focusChange,
+                out var previousFocus,
+                out _,
+                out _,
+                out var focusResidue,
+                out var focusProvenance) ||
+            !TryFindApplicationFocusIndex(applications, previousFocus, out var affectedIndex) ||
+            !TryComputeDependencyAffectedApplications(
+                applications,
+                applications[affectedIndex],
+                dependencies,
+                out var carried,
+                out var affected))
+        {
+            affectedSlice = null!;
+            return false;
+        }
+
+        var candidate = DependencyAffectedSlice(
+            RootOrNew(root),
+            previousApplications,
+            focusChange,
+            dependencyFrame,
+            ApplicationFrame(new Carrier(), carried),
+            ApplicationFrame(new Carrier(), affected),
+            EffectiveEvidence(residueOrTension, focusResidue),
+            EffectiveEvidence(provenance, focusProvenance));
+
+        if (TryReadDependencyAffectedSlice(candidate, out _, out _, out _, out _, out _, out _, out _))
+        {
+            affectedSlice = candidate;
+            return true;
+        }
+
+        affectedSlice = null!;
+        return false;
+    }
+
+    /// <summary>
     /// Creates partial replay from an affected slice. The carried prefix comes
     /// from the affected-slice read, and replay records must replace affected
     /// applications in order.
@@ -642,9 +727,66 @@ public static class TransformSurface
     }
 
     /// <summary>
-    /// Creates a partial replay run. Carried prefix applications must be the
-    /// leading applications from the previous frame; replay records then
-    /// replace the following previous applications in order.
+    /// Creates partial replay from a dependency-aware affected slice. Replay
+    /// records must replace applications in the affected frame; carried
+    /// independent applications remain in the current frame.
+    /// </summary>
+    public static bool TryCreatePartialReplayFromDependencyAffectedSlice(
+        Carrier root,
+        Relation affectedSlice,
+        IReadOnlyList<Relation> replays,
+        IElement residueOrTension,
+        IElement provenance,
+        out Relation partialReplay)
+    {
+        if (!TryReadDependencyAffectedSlice(
+                affectedSlice,
+                out var previousApplications,
+                out _,
+                out _,
+                out var carriedApplications,
+                out var affectedApplications,
+                out var affectedResidue,
+                out var affectedProvenance) ||
+            !TryReadApplicationFrame(affectedApplications, out var affected) ||
+            replays is null ||
+            replays.Count == 0 ||
+            replays.Count > affected.Length)
+        {
+            partialReplay = null!;
+            return false;
+        }
+
+        for (var index = 0; index < replays.Count; index++)
+        {
+            if (!TryReadReplay(
+                    replays[index],
+                    out var previousApplication,
+                    out _,
+                    out _,
+                    out _,
+                    out _,
+                    out _) ||
+                !Equals(affected[index], previousApplication))
+            {
+                partialReplay = null!;
+                return false;
+            }
+        }
+
+        return TryCreatePartialReplay(
+            root,
+            previousApplications,
+            carriedApplications,
+            replays,
+            EffectiveEvidence(residueOrTension, affectedResidue),
+            EffectiveEvidence(provenance, affectedProvenance),
+            out partialReplay);
+    }
+
+    /// <summary>
+    /// Creates a partial replay run. Carried applications remain unchanged;
+    /// replay records replace their previous applications in frame order.
     /// </summary>
     public static bool TryCreatePartialReplay(
         Carrier root,
@@ -659,38 +801,14 @@ public static class TransformSurface
             !TryReadApplicationFrame(carriedPrefix, out var carried) ||
             replays is null ||
             replays.Count == 0 ||
-            carried.Length + replays.Count > previous.Length ||
-            !IsPrefix(previous, carried))
+            !TryBuildCurrentApplications(previous, carried, replays, out var current))
         {
             partialReplay = null!;
             return false;
         }
 
-        var cleanReplays = new List<Relation>();
-        var current = new List<Relation>(carried);
-        for (var index = 0; index < replays.Count; index++)
-        {
-            var replay = replays[index];
-            if (!TryReadReplay(
-                    replay,
-                    out var previousApplication,
-                    out _,
-                    out var newApplication,
-                    out _,
-                    out _,
-                    out _) ||
-                !Equals(previous[carried.Length + index], previousApplication))
-            {
-                partialReplay = null!;
-                return false;
-            }
-
-            cleanReplays.Add(replay);
-            current.Add(newApplication);
-        }
-
-        var replayFrame = ReplayFrame(new Carrier(), [.. cleanReplays]);
-        var currentFrame = ApplicationFrame(new Carrier(), [.. current]);
+        var replayFrame = ReplayFrame(new Carrier(), [.. replays]);
+        var currentFrame = ApplicationFrame(new Carrier(), current);
         var candidate = PartialReplay(
             RootOrNew(root),
             previousApplications,
@@ -825,6 +943,33 @@ public static class TransformSurface
         }
 
         applications = [];
+        return false;
+    }
+
+    /// <summary>Reads an ordered frame of application dependencies.</summary>
+    public static bool TryReadApplicationDependencyFrame(IElement frame, out Relation[] dependencies)
+    {
+        if (frame is Relation relation &&
+            TryReadRootElements(relation, out var elements))
+        {
+            var read = new List<Relation>();
+            foreach (var element in elements)
+            {
+                if (element is not Relation dependency ||
+                    !TryReadApplicationDependency(dependency, out _, out _, out _, out _, out _))
+                {
+                    dependencies = [];
+                    return false;
+                }
+
+                read.Add(dependency);
+            }
+
+            dependencies = [.. read];
+            return true;
+        }
+
+        dependencies = [];
         return false;
     }
 
@@ -1276,11 +1421,8 @@ public static class TransformSurface
             TryReadReplayFrame(elements[2], out var replays) &&
             TryReadApplicationFrame(elements[3], out var current) &&
             replays.Length > 0 &&
-            carried.Length + replays.Length <= previous.Length &&
-            current.Length == carried.Length + replays.Length &&
-            IsPrefix(previous, carried) &&
-            CurrentMatchesReplay(carried, replays, current) &&
-            ReplaysMatchPrevious(previous, carried.Length, replays))
+            TryBuildCurrentApplications(previous, carried, replays, out var expectedCurrent) &&
+            ApplicationsMatch(expectedCurrent, current))
         {
             previousApplications = elements[0];
             carriedPrefix = elements[1];
@@ -1295,6 +1437,61 @@ public static class TransformSurface
         carriedPrefix = default!;
         replayFrame = default!;
         currentApplications = default!;
+        residueOrTension = default!;
+        provenance = default!;
+        return false;
+    }
+
+    /// <summary>Reads dependency-aware affected-slice evidence created by <see cref="DependencyAffectedSlice"/>.</summary>
+    public static bool TryReadDependencyAffectedSlice(
+        Relation affectedSlice,
+        out IElement previousApplications,
+        out Relation focusChange,
+        out IElement dependencyFrame,
+        out IElement carriedApplications,
+        out IElement affectedApplications,
+        out IElement residueOrTension,
+        out IElement provenance)
+    {
+        if (TryReadRootElements(affectedSlice, out var elements) &&
+            elements.Length == 7 &&
+            TryReadApplicationFrame(elements[0], out var previous) &&
+            elements[1] is Relation focusChangeRelation &&
+            TryReadFocusChange(
+                focusChangeRelation,
+                out var previousFocus,
+                out _,
+                out _,
+                out _,
+                out _) &&
+            TryReadApplicationDependencyFrame(elements[2], out var dependencies) &&
+            TryReadApplicationFrame(elements[3], out var carried) &&
+            TryReadApplicationFrame(elements[4], out var affected) &&
+            TryFindApplicationFocusIndex(previous, previousFocus, out var affectedIndex) &&
+            TryComputeDependencyAffectedApplications(
+                previous,
+                previous[affectedIndex],
+                dependencies,
+                out var expectedCarried,
+                out var expectedAffected) &&
+            ApplicationsMatch(carried, expectedCarried) &&
+            ApplicationsMatch(affected, expectedAffected))
+        {
+            previousApplications = elements[0];
+            focusChange = focusChangeRelation;
+            dependencyFrame = elements[2];
+            carriedApplications = elements[3];
+            affectedApplications = elements[4];
+            residueOrTension = elements[5];
+            provenance = elements[6];
+            return true;
+        }
+
+        previousApplications = default!;
+        focusChange = null!;
+        dependencyFrame = default!;
+        carriedApplications = default!;
+        affectedApplications = default!;
         residueOrTension = default!;
         provenance = default!;
         return false;
@@ -1442,35 +1639,6 @@ public static class TransformSurface
         return true;
     }
 
-    private static bool ReplaysMatchPrevious(
-        IReadOnlyList<Relation> previous,
-        int startIndex,
-        IReadOnlyList<Relation> replays)
-    {
-        if (startIndex + replays.Count > previous.Count)
-        {
-            return false;
-        }
-
-        for (var index = 0; index < replays.Count; index++)
-        {
-            if (!TryReadReplay(
-                    replays[index],
-                    out var previousApplication,
-                    out _,
-                    out _,
-                    out _,
-                    out _,
-                    out _) ||
-                !Equals(previous[startIndex + index], previousApplication))
-            {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
     private static bool TryFindApplicationFocusIndex(
         IReadOnlyList<Relation> applications,
         Relation focus,
@@ -1521,35 +1689,118 @@ public static class TransformSurface
         return true;
     }
 
-    private static bool CurrentMatchesReplay(
-        IReadOnlyList<Relation> carried,
-        IReadOnlyList<Relation> replays,
-        IReadOnlyList<Relation> current)
+    private static bool TryComputeDependencyAffectedApplications(
+        IReadOnlyList<Relation> applications,
+        Relation changedApplication,
+        IReadOnlyList<Relation> dependencies,
+        out Relation[] carried,
+        out Relation[] affected)
     {
-        if (current.Count != carried.Count + replays.Count)
+        if (!ContainsRelation(applications, changedApplication))
         {
+            carried = [];
+            affected = [];
             return false;
         }
 
-        for (var index = 0; index < carried.Count; index++)
+        var affectedSet = new List<Relation> { changedApplication };
+        var expanded = true;
+        while (expanded)
         {
-            if (!Equals(carried[index], current[index]))
+            expanded = false;
+            foreach (var dependency in dependencies)
             {
-                return false;
+                if (!TryReadApplicationDependency(
+                        dependency,
+                        out var producer,
+                        out var consumer,
+                        out _,
+                        out _,
+                        out _) ||
+                    !ContainsRelation(applications, producer) ||
+                    !ContainsRelation(applications, consumer) ||
+                    !ContainsRelation(affectedSet, producer) ||
+                    ContainsRelation(affectedSet, consumer))
+                {
+                    continue;
+                }
+
+                affectedSet.Add(consumer);
+                expanded = true;
             }
         }
 
-        for (var index = 0; index < replays.Count; index++)
+        var carriedList = new List<Relation>();
+        var affectedList = new List<Relation>();
+        foreach (var application in applications)
         {
-            if (!TryReadReplay(
-                    replays[index],
+            if (ContainsRelation(affectedSet, application))
+            {
+                affectedList.Add(application);
+            }
+            else
+            {
+                carriedList.Add(application);
+            }
+        }
+
+        carried = [.. carriedList];
+        affected = [.. affectedList];
+        return affected.Length > 0;
+    }
+
+    private static bool TryBuildCurrentApplications(
+        IReadOnlyList<Relation> previous,
+        IReadOnlyList<Relation> carried,
+        IReadOnlyList<Relation> replays,
+        out Relation[] current)
+    {
+        if (previous.Count == 0 ||
+            replays.Count == 0 ||
+            !ApplicationsBelongTo(previous, carried) ||
+            !ReplayPreviousApplicationsBelongTo(previous, replays) ||
+            !ApplicationsAreUnique(carried) ||
+            !ReplayPreviousApplicationsAreUnique(replays) ||
+            ReplayPreviousApplicationsOverlap(carried, replays))
+        {
+            current = [];
+            return false;
+        }
+
+        var read = new List<Relation>();
+        foreach (var previousApplication in previous)
+        {
+            if (ContainsRelation(carried, previousApplication))
+            {
+                read.Add(previousApplication);
+                continue;
+            }
+
+            if (TryFindReplayForPrevious(replays, previousApplication, out var replay) &&
+                TryReadReplay(
+                    replay,
                     out _,
                     out _,
                     out var newApplication,
                     out _,
                     out _,
-                    out _) ||
-                !Equals(newApplication, current[carried.Count + index]))
+                    out _))
+            {
+                read.Add(newApplication);
+            }
+        }
+
+        current = [.. read];
+        return current.Length > 0;
+    }
+
+    private static bool ApplicationsBelongTo(
+        IReadOnlyList<Relation> previous,
+        IReadOnlyList<Relation> applications)
+    {
+        foreach (var application in applications)
+        {
+            if (!ContainsRelation(previous, application))
             {
                 return false;
             }
@@ -1557,6 +1808,153 @@ public static class TransformSurface
 
         return true;
     }
+
+    private static bool ReplayPreviousApplicationsBelongTo(
+        IReadOnlyList<Relation> previous,
+        IReadOnlyList<Relation> replays)
+    {
+        foreach (var replay in replays)
+        {
+            if (!TryReadReplay(
+                    replay,
+                    out var previousApplication,
+                    out _,
+                    out _,
+                    out _,
+                    out _,
+                    out _) ||
+                !ContainsRelation(previous, previousApplication))
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private static bool ApplicationsAreUnique(IReadOnlyList<Relation> applications)
+    {
+        for (var left = 0; left < applications.Count; left++)
+        {
+            for (var right = left + 1; right < applications.Count; right++)
+            {
+                if (Equals(applications[left], applications[right]))
+                {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    private static bool ReplayPreviousApplicationsAreUnique(IReadOnlyList<Relation> replays)
+    {
+        for (var left = 0; left < replays.Count; left++)
+        {
+            if (!TryReadReplay(
+                    replays[left],
+                    out var leftPrevious,
+                    out _,
+                    out _,
+                    out _,
+                    out _,
+                    out _))
+            {
+                return false;
+            }
+
+            for (var right = left + 1; right < replays.Count; right++)
+            {
+                if (!TryReadReplay(
+                        replays[right],
+                        out var rightPrevious,
+                        out _,
+                        out _,
+                        out _,
+                        out _,
+                        out _) ||
+                    Equals(leftPrevious, rightPrevious))
+                {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    private static bool ReplayPreviousApplicationsOverlap(
+        IReadOnlyList<Relation> carried,
+        IReadOnlyList<Relation> replays)
+    {
+        foreach (var replay in replays)
+        {
+            if (!TryReadReplay(
+                    replay,
+                    out var previousApplication,
+                    out _,
+                    out _,
+                    out _,
+                    out _,
+                    out _) ||
+                ContainsRelation(carried, previousApplication))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private static bool TryFindReplayForPrevious(
+        IReadOnlyList<Relation> replays,
+        Relation previousApplication,
+        out Relation replay)
+    {
+        foreach (var candidate in replays)
+        {
+            if (TryReadReplay(
+                    candidate,
+                    out var candidatePrevious,
+                    out _,
+                    out _,
+                    out _,
+                    out _,
+                    out _) &&
+                Equals(candidatePrevious, previousApplication))
+            {
+                replay = candidate;
+                return true;
+            }
+        }
+
+        replay = null!;
+        return false;
+    }
+
+    private static bool ApplicationsMatch(
+        IReadOnlyList<Relation> left,
+        IReadOnlyList<Relation> right)
+    {
+        if (left.Count != right.Count)
+        {
+            return false;
+        }
+
+        for (var index = 0; index < left.Count; index++)
+        {
+            if (!Equals(left[index], right[index]))
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private static bool ContainsRelation(IEnumerable<Relation> candidates, Relation relation) =>
+        candidates.Any(candidate => Equals(candidate, relation));
 
     private static bool TryCreateDependencyEvidence(
         Relation producerApplication,

@@ -820,18 +820,18 @@ Partial replay records a bounded slice of that behavior:
 ```text
 PartialReplay
   previous application frame
-  carried prefix
+  carried applications
   replay frame
   current application frame
   residue or tension
   provenance
 ```
 
-The current read is intentionally ordered. The carried prefix must be the
-leading applications from the previous frame. Each replay then replaces the
-next previous application in order, producing the current application frame.
-This gives Gojo a first replayable-history shape that dependency and focus
-reads can feed.
+The current read is intentionally ordered through the previous application
+frame. Carried applications remain unchanged, replay records replace their
+previous applications, and unmentioned applications are pending. This preserves
+the old carried-prefix case while allowing a later independent application to
+remain carried after a middle application replays.
 
 The first affected-slice discovery is focus based:
 
@@ -882,6 +882,28 @@ This is useful for replay because it begins to distinguish "everything after
 this focus changed" from "this later application actually consumes that earlier
 application."
 
+Dependency-guided affected slices make that distinction explicit:
+
+```text
+ApplicationDependencyFrame
+  dependency...
+
+DependencyAffectedSlice
+  previous application frame
+  focus change
+  dependency frame
+  carried applications
+  affected applications
+  residue or tension
+  provenance
+```
+
+The changed application and transitive consumers are affected. Independent
+applications are carried even if they occur later in the previous frame. This
+also clarified an important structural rule: focus-change evidence should
+reference the actual focus relation carried by an application, not an equivalent
+copy with a different root carrier.
+
 Structural ladders can now carry complete rungs, rung frames,
 focus-transition timelines, transform-application timelines, current-rung
 reads, local change reads, and rungs created from transform applications.
@@ -900,9 +922,9 @@ duplicating the source in a separate argument. This keeps "what is selected"
 inside Gojo structure instead of turning it into code-side intent.
 
 The next work is making transform operation structure settle real outputs
-rather than only deriving correspondence. Union, projection, dependency-guided
-affected slices, multi-parent patch histories, and stronger replay residue are
-still open.
+rather than only deriving correspondence. Union, projection, multi-parent patch
+histories, dependency inference beyond direct output-to-input bindings, and
+stronger replay residue are still open.
 Those should remain operation structure and witnessed residue, not symbolic
 operation enums.
 

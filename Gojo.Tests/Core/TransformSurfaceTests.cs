@@ -1247,6 +1247,351 @@ public sealed class TransformSurfaceTests
     }
 
     [Fact]
+    public void DependencyAffectedSliceCarriesIndependentLaterApplications()
+    {
+        var sourceCarrier = new Carrier();
+        var source = Relation.Segment(sourceCarrier, 0, 30);
+        var firstSelected = Relation.Segment(sourceCarrier, 2, 4);
+        var secondSelected = Relation.Segment(sourceCarrier, 10, 12);
+        var thirdSelected = Relation.Segment(sourceCarrier, 20, 22);
+        var secondReplacement = Relation.Segment(new Carrier(), 0, 3);
+        var firstApplication = CreateSegmentApplication(
+            source,
+            Relation.Point(sourceCarrier, 3),
+            firstSelected,
+            Relation.Segment(new Carrier(), 0, 2));
+        var secondApplication = CreateSegmentApplication(
+            source,
+            Relation.Point(sourceCarrier, 11),
+            secondSelected,
+            secondReplacement);
+        Assert.True(TransformSurface.TryReadApplication(
+            secondApplication,
+            out _,
+            out var secondFocus,
+            out _,
+            out _,
+            out _,
+            out _,
+            out _,
+            out _));
+        var thirdApplication = CreateSegmentApplication(
+            source,
+            Relation.Point(sourceCarrier, 21),
+            thirdSelected,
+            Relation.Segment(new Carrier(), 0, 4));
+        var changedSecondFocus = CreateFocus(
+            source,
+            Relation.Point(sourceCarrier, 12),
+            Relation.Segment(sourceCarrier, 10, 14),
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Segment(new Carrier(), 0, 4),
+            FocusSurface.Bind(secondSelected, Relation.Segment(sourceCarrier, 10, 14)));
+        Assert.True(TransformSurface.TryCreateFocusChange(
+            new Carrier(),
+            secondFocus,
+            changedSecondFocus,
+            FocusSurface.Bind(secondSelected, Relation.Segment(sourceCarrier, 10, 14)),
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0),
+            out var focusChange));
+
+        var previousFrame = TransformSurface.ApplicationFrame(new Carrier(), firstApplication, secondApplication, thirdApplication);
+        var emptyDependencies = TransformSurface.ApplicationDependencyFrame(new Carrier());
+
+        Assert.True(TransformSurface.TryReadApplicationFrame(previousFrame, out var previousApplications));
+        Assert.Equal(3, previousApplications.Length);
+        Assert.True(TransformSurface.TryReadApplicationDependencyFrame(emptyDependencies, out var dependencies));
+        Assert.Empty(dependencies);
+        Assert.True(TransformSurface.TryReadFocusChange(
+            focusChange,
+            out var previousSecondFocus,
+            out _,
+            out _,
+            out _,
+            out _));
+        Assert.Equal(previousSecondFocus, secondFocus);
+
+        Assert.True(TransformSurface.TryCreateDependencyAffectedSlice(
+            new Carrier(),
+            previousFrame,
+            emptyDependencies,
+            focusChange,
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0),
+            out var affectedSlice));
+        Assert.True(TransformSurface.TryReadDependencyAffectedSlice(
+            affectedSlice,
+            out var readPrevious,
+            out _,
+            out var dependencyFrame,
+            out var carriedApplications,
+            out var affectedApplications,
+            out _,
+            out _));
+        Assert.Equal(previousFrame, readPrevious);
+        Assert.Equal(emptyDependencies, dependencyFrame);
+        Assert.True(TransformSurface.TryReadApplicationFrame(carriedApplications, out var carried));
+        Assert.True(TransformSurface.TryReadApplicationFrame(affectedApplications, out var affected));
+        Assert.Equal([firstApplication, thirdApplication], carried);
+        Assert.Equal([secondApplication], affected);
+    }
+
+    [Fact]
+    public void DependencyAffectedSliceIncludesTransitiveConsumers()
+    {
+        var sourceCarrier = new Carrier();
+        var source = Relation.Segment(sourceCarrier, 0, 40);
+        var firstSelected = Relation.Segment(sourceCarrier, 2, 4);
+        var secondSelected = Relation.Segment(sourceCarrier, 12, 14);
+        var thirdSelected = Relation.Segment(sourceCarrier, 22, 24);
+        var fourthSelected = Relation.Segment(sourceCarrier, 32, 34);
+        var firstReplacement = Relation.Segment(new Carrier(), 0, 2);
+        var secondReplacement = Relation.Segment(new Carrier(), 0, 3);
+        var thirdReplacement = Relation.Segment(new Carrier(), 0, 4);
+        var firstApplication = CreateSegmentApplication(source, Relation.Point(sourceCarrier, 3), firstSelected, firstReplacement);
+        Assert.True(TransformSurface.TryReadApplication(
+            firstApplication,
+            out _,
+            out var firstFocus,
+            out _,
+            out _,
+            out _,
+            out _,
+            out _,
+            out _));
+        var secondApplication = CreateSegmentApplication(source, Relation.Point(sourceCarrier, 13), secondSelected, secondReplacement);
+        var thirdApplication = CreateSegmentApplication(source, Relation.Point(sourceCarrier, 23), thirdSelected, thirdReplacement);
+        var fourthApplication = CreateSegmentApplication(
+            source,
+            Relation.Point(sourceCarrier, 33),
+            fourthSelected,
+            Relation.Segment(new Carrier(), 0, 5));
+        var firstToSecond = TransformSurface.ApplicationDependency(
+            new Carrier(),
+            firstApplication,
+            secondApplication,
+            FocusSurface.Bind(firstReplacement, secondSelected),
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0));
+        var secondToThird = TransformSurface.ApplicationDependency(
+            new Carrier(),
+            secondApplication,
+            thirdApplication,
+            FocusSurface.Bind(secondReplacement, thirdSelected),
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0));
+        var dependencyFrame = TransformSurface.ApplicationDependencyFrame(new Carrier(), firstToSecond, secondToThird);
+        var changedFirstFocus = CreateFocus(
+            source,
+            Relation.Point(sourceCarrier, 4),
+            Relation.Segment(sourceCarrier, 2, 6),
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Segment(new Carrier(), 0, 4),
+            FocusSurface.Bind(firstSelected, Relation.Segment(sourceCarrier, 2, 6)));
+        Assert.True(TransformSurface.TryCreateFocusChange(
+            new Carrier(),
+            firstFocus,
+            changedFirstFocus,
+            FocusSurface.Bind(firstSelected, Relation.Segment(sourceCarrier, 2, 6)),
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0),
+            out var focusChange));
+
+        Assert.True(TransformSurface.TryCreateDependencyAffectedSlice(
+            new Carrier(),
+            TransformSurface.ApplicationFrame(new Carrier(), firstApplication, secondApplication, thirdApplication, fourthApplication),
+            dependencyFrame,
+            focusChange,
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0),
+            out var affectedSlice));
+        Assert.True(TransformSurface.TryReadDependencyAffectedSlice(
+            affectedSlice,
+            out _,
+            out _,
+            out _,
+            out var carriedApplications,
+            out var affectedApplications,
+            out _,
+            out _));
+        Assert.True(TransformSurface.TryReadApplicationFrame(carriedApplications, out var carried));
+        Assert.True(TransformSurface.TryReadApplicationFrame(affectedApplications, out var affected));
+        Assert.Equal([fourthApplication], carried);
+        Assert.Equal([firstApplication, secondApplication, thirdApplication], affected);
+    }
+
+    [Fact]
+    public void PartialReplayFromDependencyAffectedSliceCarriesIndependentApplications()
+    {
+        var sourceCarrier = new Carrier();
+        var source = Relation.Segment(sourceCarrier, 0, 30);
+        var firstApplication = CreateSegmentApplication(
+            source,
+            Relation.Point(sourceCarrier, 3),
+            Relation.Segment(sourceCarrier, 2, 4),
+            Relation.Segment(new Carrier(), 0, 2));
+        var secondSelected = Relation.Segment(sourceCarrier, 10, 12);
+        var secondReplacement = Relation.Segment(new Carrier(), 0, 3);
+        var secondApplication = CreateSegmentApplication(source, Relation.Point(sourceCarrier, 11), secondSelected, secondReplacement);
+        Assert.True(TransformSurface.TryReadApplication(
+            secondApplication,
+            out _,
+            out var secondFocus,
+            out _,
+            out _,
+            out _,
+            out _,
+            out _,
+            out _));
+        var thirdApplication = CreateSegmentApplication(
+            source,
+            Relation.Point(sourceCarrier, 21),
+            Relation.Segment(sourceCarrier, 20, 22),
+            Relation.Segment(new Carrier(), 0, 4));
+        var changedSecondSelected = Relation.Segment(sourceCarrier, 10, 14);
+        var changedSecondReplacement = Relation.Segment(new Carrier(), 0, 4);
+        var changedSecondFocus = CreateFocus(
+            source,
+            Relation.Point(sourceCarrier, 12),
+            changedSecondSelected,
+            Relation.Point(Carrier.Unknown, 0),
+            changedSecondReplacement,
+            FocusSurface.Bind(secondSelected, changedSecondSelected));
+        Assert.True(TransformSurface.TryCreateFocusChange(
+            new Carrier(),
+            secondFocus,
+            changedSecondFocus,
+            FocusSurface.Bind(secondSelected, changedSecondSelected),
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0),
+            out var focusChange));
+        var previousFrame = TransformSurface.ApplicationFrame(new Carrier(), firstApplication, secondApplication, thirdApplication);
+        Assert.True(TransformSurface.TryCreateDependencyAffectedSlice(
+            new Carrier(),
+            previousFrame,
+            TransformSurface.ApplicationDependencyFrame(new Carrier()),
+            focusChange,
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0),
+            out var affectedSlice));
+        Assert.True(TransformSurface.TryReplayApplication(
+            new Carrier(),
+            secondApplication,
+            changedSecondFocus,
+            FocusSurface.Bind(secondSelected, changedSecondSelected),
+            FocusSurface.Frame(new Carrier(), source, changedSecondReplacement),
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0),
+            out var secondReplay));
+
+        Assert.True(TransformSurface.TryCreatePartialReplayFromDependencyAffectedSlice(
+            new Carrier(),
+            affectedSlice,
+            [secondReplay],
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0),
+            out var partialReplay));
+        Assert.True(TransformSurface.TryReadPartialReplay(
+            partialReplay,
+            out _,
+            out var carriedApplications,
+            out _,
+            out var currentApplications,
+            out _,
+            out _));
+        Assert.True(TransformSurface.TryReadApplicationFrame(carriedApplications, out var carried));
+        Assert.True(TransformSurface.TryReadApplicationFrame(currentApplications, out var current));
+        Assert.True(TransformSurface.TryReadReplay(
+            secondReplay,
+            out _,
+            out _,
+            out var replayedSecond,
+            out _,
+            out _,
+            out _));
+        Assert.Equal([firstApplication, thirdApplication], carried);
+        Assert.Equal([firstApplication, replayedSecond, thirdApplication], current);
+    }
+
+    [Fact]
+    public void PartialReplayFromDependencyAffectedSliceRejectsReplayOutsideAffectedOrder()
+    {
+        var sourceCarrier = new Carrier();
+        var source = Relation.Segment(sourceCarrier, 0, 20);
+        var firstSelected = Relation.Segment(sourceCarrier, 2, 4);
+        var secondSelected = Relation.Segment(sourceCarrier, 12, 14);
+        var firstReplacement = Relation.Segment(new Carrier(), 0, 2);
+        var secondReplacement = Relation.Segment(new Carrier(), 0, 3);
+        var firstApplication = CreateSegmentApplication(source, Relation.Point(sourceCarrier, 3), firstSelected, firstReplacement);
+        Assert.True(TransformSurface.TryReadApplication(
+            firstApplication,
+            out _,
+            out var firstFocus,
+            out _,
+            out _,
+            out _,
+            out _,
+            out _,
+            out _));
+        var secondApplication = CreateSegmentApplication(source, Relation.Point(sourceCarrier, 13), secondSelected, secondReplacement);
+        var dependency = TransformSurface.ApplicationDependency(
+            new Carrier(),
+            firstApplication,
+            secondApplication,
+            FocusSurface.Bind(firstReplacement, secondSelected),
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0));
+        var changedFirstSelected = Relation.Segment(sourceCarrier, 2, 6);
+        var changedFirstFocus = CreateFocus(
+            source,
+            Relation.Point(sourceCarrier, 4),
+            changedFirstSelected,
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Segment(new Carrier(), 0, 4),
+            FocusSurface.Bind(firstSelected, changedFirstSelected));
+        Assert.True(TransformSurface.TryCreateFocusChange(
+            new Carrier(),
+            firstFocus,
+            changedFirstFocus,
+            FocusSurface.Bind(firstSelected, changedFirstSelected),
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0),
+            out var focusChange));
+        Assert.True(TransformSurface.TryCreateDependencyAffectedSlice(
+            new Carrier(),
+            TransformSurface.ApplicationFrame(new Carrier(), firstApplication, secondApplication),
+            TransformSurface.ApplicationDependencyFrame(new Carrier(), dependency),
+            focusChange,
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0),
+            out var affectedSlice));
+        Assert.True(TransformSurface.TryReplayApplication(
+            new Carrier(),
+            secondApplication,
+            CreateFocus(
+                source,
+                Relation.Point(sourceCarrier, 15),
+                Relation.Segment(sourceCarrier, 12, 18),
+                Relation.Point(Carrier.Unknown, 0),
+                Relation.Segment(new Carrier(), 0, 6),
+                FocusSurface.Bind(secondSelected, Relation.Segment(sourceCarrier, 12, 18))),
+            FocusSurface.Bind(secondSelected, Relation.Segment(sourceCarrier, 12, 18)),
+            FocusSurface.Frame(new Carrier(), source, Relation.Segment(new Carrier(), 0, 6)),
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0),
+            out var secondReplay));
+
+        Assert.False(TransformSurface.TryCreatePartialReplayFromDependencyAffectedSlice(
+            new Carrier(),
+            affectedSlice,
+            [secondReplay],
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0),
+            out _));
+    }
+
+    [Fact]
     public void StructuralLadderCanUseTransformApplicationAsTimelineTransition()
     {
         var sourceCarrier = new Carrier();
@@ -1423,6 +1768,29 @@ public sealed class TransformSurfaceTests
         Assert.Equal(correspondence, patchCorrespondence);
         Assert.Equal(result, patchResult);
         Assert.Equal(residue, patchResidue);
+    }
+
+    private static Relation CreateSegmentApplication(
+        IElement source,
+        IElement focusBasis,
+        IElement selected,
+        IElement replacement)
+    {
+        var transform = CreateMapTransform(new Placeholder(), new Placeholder());
+        return CreateApplication(
+            transform,
+            CreateFocus(
+                source,
+                focusBasis,
+                selected,
+                Relation.Point(Carrier.Unknown, 0),
+                replacement,
+                FocusSurface.Bind(selected, replacement)),
+            FocusSurface.BindingFrame(
+                new Carrier(),
+                FocusSurface.Bind(ReadInputPort(transform), selected),
+                FocusSurface.Bind(ReadOutputPort(transform), replacement)),
+            FocusSurface.Frame(new Carrier(), source, replacement));
     }
 
     private static Relation CreateMapTransform(IElement inputPort, IElement outputPort) =>
