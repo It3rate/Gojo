@@ -316,9 +316,8 @@ PartialReplay
 
 The current read requires the carried prefix to be the leading applications
 from the previous frame, and each replay record must correspond to the next
-previous application in order. This does not infer dependencies yet; it gives a
-structural place to record a replay run once a dependency/focus read has found
-the affected slice.
+previous application in order. This gives a structural place to record a replay
+run once a dependency/focus read has found the affected slice.
 
 The first affected-slice read starts from focus-change evidence:
 
@@ -349,6 +348,25 @@ An affected slice can create partial replay directly. The carried prefix is
 read from the affected slice, and each replay record must replace the affected
 applications in order. Code does not have to restate the prefix once the slice
 has been discovered.
+
+The first sharper application dependency read is output-to-input based:
+
+```text
+ApplicationDependency
+  producer application
+  consumer application
+  dependency evidence
+  residue or tension
+  provenance
+```
+
+The automatic creator is conservative. It derives evidence when producer output
+structure, such as a replacement or result, is reused by the consumer focus or
+consumer input binding. The exact reader can also recognize explicit binding
+evidence from a producer output to a consumer input, which lets the structure
+say "this feeds that" even when the two sides are not the same object. This is
+still a local read over application, focus, patch, and binding structure, not a
+global classifier or dependency side table.
 
 The patch witness is the temporal/change relation. It records the source read
 through the transform and keeps the selected participation, carried complement,

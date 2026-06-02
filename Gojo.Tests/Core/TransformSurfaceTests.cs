@@ -1084,6 +1084,169 @@ public sealed class TransformSurfaceTests
     }
 
     [Fact]
+    public void ApplicationDependencyDiscoversProducerOutputConsumedByFocus()
+    {
+        var sourceCarrier = new Carrier();
+        var source = Relation.Segment(sourceCarrier, 0, 20);
+        var producerSelected = Relation.Segment(sourceCarrier, 2, 4);
+        var producerReplacement = Relation.Segment(new Carrier(), 0, 2);
+        var producerFocus = CreateFocus(
+            source,
+            Relation.Point(sourceCarrier, 3),
+            producerSelected,
+            Relation.Point(Carrier.Unknown, 0),
+            producerReplacement,
+            FocusSurface.Bind(producerSelected, producerReplacement));
+        var producerTransform = CreateMapTransform(new Placeholder(), new Placeholder());
+        var producerResult = FocusSurface.Frame(new Carrier(), source, producerReplacement);
+        var producerApplication = CreateApplication(
+            producerTransform,
+            producerFocus,
+            FocusSurface.BindingFrame(
+                new Carrier(),
+                FocusSurface.Bind(ReadInputPort(producerTransform), producerSelected),
+                FocusSurface.Bind(ReadOutputPort(producerTransform), producerReplacement)),
+            producerResult);
+
+        var consumerReplacement = Relation.Segment(new Carrier(), 0, 3);
+        var consumerFocus = CreateFocus(
+            producerResult,
+            producerReplacement,
+            producerReplacement,
+            Relation.Point(Carrier.Unknown, 0),
+            consumerReplacement,
+            FocusSurface.Bind(producerReplacement, consumerReplacement));
+        var consumerTransform = CreateMapTransform(new Placeholder(), new Placeholder());
+        var consumerApplication = CreateApplication(
+            consumerTransform,
+            consumerFocus,
+            FocusSurface.Bind(ReadInputPort(consumerTransform), producerReplacement),
+            FocusSurface.Frame(new Carrier(), producerResult, consumerReplacement));
+
+        Assert.True(TransformSurface.TryCreateApplicationDependency(
+            new Carrier(),
+            producerApplication,
+            consumerApplication,
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0),
+            out var dependency));
+        Assert.True(TransformSurface.TryReadApplicationDependency(
+            dependency,
+            out var readProducer,
+            out var readConsumer,
+            out var evidence,
+            out _,
+            out _));
+        Assert.Equal(producerApplication, readProducer);
+        Assert.Equal(consumerApplication, readConsumer);
+        Assert.True(FocusSurface.TryReadBindingFrame(evidence, out var bindings));
+        Assert.Contains(bindings, binding =>
+            Equals(binding.Left, producerReplacement) &&
+            Equals(binding.Right, producerReplacement));
+    }
+
+    [Fact]
+    public void ApplicationDependencyCanBeExplicitBindingBetweenOutputAndConsumerInput()
+    {
+        var sourceCarrier = new Carrier();
+        var source = Relation.Segment(sourceCarrier, 0, 20);
+        var producerSelected = Relation.Segment(sourceCarrier, 2, 4);
+        var producerReplacement = Relation.Segment(new Carrier(), 0, 2);
+        var producerTransform = CreateMapTransform(new Placeholder(), new Placeholder());
+        var producerApplication = CreateApplication(
+            producerTransform,
+            CreateFocus(
+                source,
+                Relation.Point(sourceCarrier, 3),
+                producerSelected,
+                Relation.Point(Carrier.Unknown, 0),
+                producerReplacement,
+                FocusSurface.Bind(producerSelected, producerReplacement)),
+            FocusSurface.Bind(ReadOutputPort(producerTransform), producerReplacement),
+            FocusSurface.Frame(new Carrier(), source, producerReplacement));
+
+        var consumerSelected = Relation.Segment(sourceCarrier, 8, 10);
+        var consumerReplacement = Relation.Segment(new Carrier(), 0, 3);
+        var consumerTransform = CreateMapTransform(new Placeholder(), new Placeholder());
+        var consumerApplication = CreateApplication(
+            consumerTransform,
+            CreateFocus(
+                source,
+                Relation.Point(sourceCarrier, 9),
+                consumerSelected,
+                Relation.Point(Carrier.Unknown, 0),
+                consumerReplacement,
+                FocusSurface.Bind(consumerSelected, consumerReplacement)),
+            FocusSurface.Bind(ReadInputPort(consumerTransform), consumerSelected),
+            FocusSurface.Frame(new Carrier(), source, consumerReplacement));
+
+        var explicitEvidence = FocusSurface.BindingFrame(
+            new Carrier(),
+            FocusSurface.Bind(producerReplacement, consumerSelected));
+        var dependency = TransformSurface.ApplicationDependency(
+            new Carrier(),
+            producerApplication,
+            consumerApplication,
+            explicitEvidence,
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0));
+
+        Assert.True(TransformSurface.TryReadApplicationDependency(
+            dependency,
+            out var readProducer,
+            out var readConsumer,
+            out var readEvidence,
+            out _,
+            out _));
+        Assert.Equal(producerApplication, readProducer);
+        Assert.Equal(consumerApplication, readConsumer);
+        Assert.Equal(explicitEvidence, readEvidence);
+    }
+
+    [Fact]
+    public void ApplicationDependencyDoesNotInferFromSharedUnproducedSource()
+    {
+        var sourceCarrier = new Carrier();
+        var source = Relation.Segment(sourceCarrier, 0, 20);
+        var firstSelected = Relation.Segment(sourceCarrier, 2, 4);
+        var secondSelected = Relation.Segment(sourceCarrier, 8, 10);
+        var firstReplacement = Relation.Segment(new Carrier(), 0, 2);
+        var secondReplacement = Relation.Segment(new Carrier(), 0, 3);
+        var firstTransform = CreateMapTransform(new Placeholder(), new Placeholder());
+        var secondTransform = CreateMapTransform(new Placeholder(), new Placeholder());
+        var firstApplication = CreateApplication(
+            firstTransform,
+            CreateFocus(
+                source,
+                Relation.Point(sourceCarrier, 3),
+                firstSelected,
+                Relation.Point(Carrier.Unknown, 0),
+                firstReplacement,
+                FocusSurface.Bind(firstSelected, firstReplacement)),
+            FocusSurface.Bind(ReadOutputPort(firstTransform), firstReplacement),
+            FocusSurface.Frame(new Carrier(), source, firstReplacement));
+        var secondApplication = CreateApplication(
+            secondTransform,
+            CreateFocus(
+                source,
+                Relation.Point(sourceCarrier, 9),
+                secondSelected,
+                Relation.Point(Carrier.Unknown, 0),
+                secondReplacement,
+                FocusSurface.Bind(secondSelected, secondReplacement)),
+            FocusSurface.Bind(ReadInputPort(secondTransform), secondSelected),
+            FocusSurface.Frame(new Carrier(), source, secondReplacement));
+
+        Assert.False(TransformSurface.TryCreateApplicationDependency(
+            new Carrier(),
+            firstApplication,
+            secondApplication,
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0),
+            out _));
+    }
+
+    [Fact]
     public void StructuralLadderCanUseTransformApplicationAsTimelineTransition()
     {
         var sourceCarrier = new Carrier();
@@ -1260,5 +1423,64 @@ public sealed class TransformSurfaceTests
         Assert.Equal(correspondence, patchCorrespondence);
         Assert.Equal(result, patchResult);
         Assert.Equal(residue, patchResidue);
+    }
+
+    private static Relation CreateMapTransform(IElement inputPort, IElement outputPort) =>
+        TransformSurface.Create(
+            new Carrier(),
+            TransformSurface.Ports(new Carrier(), inputPort),
+            TransformSurface.Map(inputPort, outputPort),
+            TransformSurface.Ports(new Carrier(), outputPort),
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0));
+
+    private static Relation CreateFocus(
+        IElement source,
+        IElement focusBasis,
+        IElement participation,
+        IElement complement,
+        IElement replacement,
+        IElement correspondence) =>
+        FocusSurface.Create(
+            new Carrier(),
+            source,
+            focusBasis,
+            participation,
+            complement,
+            replacement,
+            correspondence,
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0));
+
+    private static Relation CreateApplication(
+        Relation transform,
+        Relation focus,
+        IElement bindings,
+        IElement result)
+    {
+        Assert.True(TransformSurface.TryCreateApplication(
+            new Carrier(),
+            transform,
+            focus,
+            bindings,
+            result,
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0),
+            out var application));
+        return application;
+    }
+
+    private static IElement ReadInputPort(Relation transform)
+    {
+        Assert.True(TransformSurface.TryRead(transform, out var inputPorts, out _, out _, out _, out _));
+        Assert.True(TransformSurface.TryReadPorts(inputPorts, out var ports));
+        return ports[0];
+    }
+
+    private static IElement ReadOutputPort(Relation transform)
+    {
+        Assert.True(TransformSurface.TryRead(transform, out _, out _, out var outputPorts, out _, out _));
+        Assert.True(TransformSurface.TryReadPorts(outputPorts, out var ports));
+        return ports[0];
     }
 }

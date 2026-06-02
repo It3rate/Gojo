@@ -253,6 +253,28 @@ public static class TransformSurface
     }
 
     /// <summary>
+    /// Creates application dependency evidence:
+    /// producer application, consumer application, dependency bindings,
+    /// residue/tension, provenance.
+    /// </summary>
+    public static Relation ApplicationDependency(
+        Carrier root,
+        Relation producerApplication,
+        Relation consumerApplication,
+        IElement dependencyEvidence,
+        IElement residueOrTension,
+        IElement provenance)
+    {
+        return Relation.OrderedGroup(
+            RootOrNew(root),
+            producerApplication ?? UnknownPoint(),
+            consumerApplication ?? UnknownPoint(),
+            dependencyEvidence ?? UnknownPoint(),
+            residueOrTension ?? UnknownPoint(),
+            provenance ?? UnknownPoint());
+    }
+
+    /// <summary>
     /// Applies a reusable transform to a real focus surface. This records the
     /// concrete patch and read witness; it does not mutate the source focus.
     /// </summary>
@@ -520,6 +542,45 @@ public static class TransformSurface
         }
 
         affectedSlice = null!;
+        return false;
+    }
+
+    /// <summary>
+    /// Discovers direct dependency evidence when a consumer application
+    /// references output structure from a producer application.
+    /// </summary>
+    public static bool TryCreateApplicationDependency(
+        Carrier root,
+        Relation producerApplication,
+        Relation consumerApplication,
+        IElement residueOrTension,
+        IElement provenance,
+        out Relation dependency)
+    {
+        if (!TryReadApplication(producerApplication, out _, out _, out _, out _, out _, out _, out var producerResidue, out var producerProvenance) ||
+            !TryReadApplication(consumerApplication, out _, out _, out _, out _, out _, out _, out var consumerResidue, out var consumerProvenance) ||
+            Equals(producerApplication, consumerApplication) ||
+            !TryCreateDependencyEvidence(producerApplication, consumerApplication, out var evidence))
+        {
+            dependency = null!;
+            return false;
+        }
+
+        var candidate = ApplicationDependency(
+            RootOrNew(root),
+            producerApplication,
+            consumerApplication,
+            evidence,
+            EffectiveEvidence(residueOrTension, consumerResidue, producerResidue),
+            EffectiveEvidence(provenance, consumerProvenance, producerProvenance));
+
+        if (TryReadApplicationDependency(candidate, out _, out _, out _, out _, out _))
+        {
+            dependency = candidate;
+            return true;
+        }
+
+        dependency = null!;
         return false;
     }
 
@@ -1296,6 +1357,40 @@ public static class TransformSurface
         return false;
     }
 
+    /// <summary>Reads application dependency evidence created by <see cref="ApplicationDependency"/>.</summary>
+    public static bool TryReadApplicationDependency(
+        Relation dependency,
+        out Relation producerApplication,
+        out Relation consumerApplication,
+        out IElement dependencyEvidence,
+        out IElement residueOrTension,
+        out IElement provenance)
+    {
+        if (TryReadRootElements(dependency, out var elements) &&
+            elements.Length == 5 &&
+            elements[0] is Relation producer &&
+            TryReadApplication(producer, out _, out _, out _, out _, out _, out _, out _, out _) &&
+            elements[1] is Relation consumer &&
+            TryReadApplication(consumer, out _, out _, out _, out _, out _, out _, out _, out _) &&
+            !Equals(producer, consumer) &&
+            DependencyEvidenceMatches(producer, consumer, elements[2]))
+        {
+            producerApplication = producer;
+            consumerApplication = consumer;
+            dependencyEvidence = elements[2];
+            residueOrTension = elements[3];
+            provenance = elements[4];
+            return true;
+        }
+
+        producerApplication = null!;
+        consumerApplication = null!;
+        dependencyEvidence = default!;
+        residueOrTension = default!;
+        provenance = default!;
+        return false;
+    }
+
     private static bool TryReadRootElements(Relation structure, out IElement[] elements)
     {
         if (structure?.Right is Carrier holder &&
@@ -1462,6 +1557,242 @@ public static class TransformSurface
 
         return true;
     }
+
+    private static bool TryCreateDependencyEvidence(
+        Relation producerApplication,
+        Relation consumerApplication,
+        out Relation evidence)
+    {
+        var outputCandidates = ReadProducerOutputCandidates(producerApplication);
+        var inputCandidates = ReadConsumerInputCandidates(consumerApplication);
+        var bindings = new List<Relation>();
+
+        foreach (var output in outputCandidates)
+        {
+            foreach (var input in inputCandidates)
+            {
+                if (Equals(output, input) &&
+                    !bindings.Any(binding => Equals(binding.Left, output) && Equals(binding.Right, input)))
+                {
+                    bindings.Add(FocusSurface.Bind(output, input));
+                }
+            }
+        }
+
+        if (bindings.Count > 0)
+        {
+            evidence = FocusSurface.BindingFrame(new Carrier(), [.. bindings]);
+            return true;
+        }
+
+        evidence = null!;
+        return false;
+    }
+
+    private static bool DependencyEvidenceMatches(
+        Relation producerApplication,
+        Relation consumerApplication,
+        IElement dependencyEvidence)
+    {
+        var bindings = ReadBindingClauses(dependencyEvidence);
+        if (bindings.Length == 0)
+        {
+            return false;
+        }
+
+        var outputCandidates = ReadProducerOutputCandidates(producerApplication);
+        var inputCandidates = ReadConsumerInputCandidates(consumerApplication);
+        foreach (var binding in bindings)
+        {
+            if (ContainsElement(outputCandidates, binding.Left) &&
+                ContainsElement(inputCandidates, binding.Right))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private static IElement[] ReadProducerOutputCandidates(Relation application)
+    {
+        if (!TryReadApplication(
+                application,
+                out var transform,
+                out _,
+                out var bindings,
+                out var result,
+                out var patch,
+                out _,
+                out _,
+                out _))
+        {
+            return [];
+        }
+
+        var candidates = new List<IElement>();
+        AddCandidate(candidates, result);
+        if (TryRead(transform, out _, out _, out var outputPorts, out _, out _) &&
+            TryReadPorts(outputPorts, out var outputPortElements))
+        {
+            AddCandidates(candidates, outputPortElements);
+            AddBindingTargetsForSources(candidates, bindings, outputPortElements);
+        }
+
+        if (TryReadPatch(
+                patch,
+                out _,
+                out _,
+                out _,
+                out _,
+                out _,
+                out var replacement,
+                out var correspondence,
+                out var patchResult,
+                out _,
+                out _))
+        {
+            AddCandidate(candidates, replacement);
+            AddCandidate(candidates, patchResult);
+            AddBindingTargets(candidates, correspondence);
+        }
+
+        return [.. candidates];
+    }
+
+    private static IElement[] ReadConsumerInputCandidates(Relation application)
+    {
+        if (!TryReadApplication(
+                application,
+                out var transform,
+                out var focus,
+                out var bindings,
+                out _,
+                out var patch,
+                out _,
+                out _,
+                out _))
+        {
+            return [];
+        }
+
+        var candidates = new List<IElement>();
+        if (TryRead(transform, out var inputPorts, out _, out _, out _, out _) &&
+            TryReadPorts(inputPorts, out var inputPortElements))
+        {
+            AddCandidates(candidates, inputPortElements);
+            AddBindingTargetsForSources(candidates, bindings, inputPortElements);
+        }
+
+        AddBindingSources(candidates, bindings);
+        if (FocusSurface.TryRead(
+                focus,
+                out var source,
+                out var focusBasis,
+                out var participation,
+                out var complement,
+                out _,
+                out var focusCorrespondence,
+                out _,
+                out _))
+        {
+            AddCandidate(candidates, source);
+            AddCandidate(candidates, focusBasis);
+            AddCandidate(candidates, participation);
+            AddCandidate(candidates, complement);
+            AddBindingSources(candidates, focusCorrespondence);
+        }
+
+        if (TryReadPatch(
+                patch,
+                out var patchSource,
+                out _,
+                out _,
+                out var patchParticipation,
+                out var patchComplement,
+                out _,
+                out var patchCorrespondence,
+                out _,
+                out _,
+                out _))
+        {
+            AddCandidate(candidates, patchSource);
+            AddCandidate(candidates, patchParticipation);
+            AddCandidate(candidates, patchComplement);
+            AddBindingSources(candidates, patchCorrespondence);
+        }
+
+        return [.. candidates];
+    }
+
+    private static Relation[] ReadBindingClauses(IElement evidence)
+    {
+        if (evidence is not Relation relation)
+        {
+            return [];
+        }
+
+        if (FocusSurface.TryReadBindingFrame(relation, out var bindings) &&
+            bindings.Length > 0)
+        {
+            return bindings;
+        }
+
+        return [relation];
+    }
+
+    private static void AddBindingTargetsForSources(
+        List<IElement> candidates,
+        IElement bindings,
+        IReadOnlyList<IElement> sources)
+    {
+        foreach (var binding in ReadBindingClauses(bindings))
+        {
+            if (ContainsElement(sources, binding.Left))
+            {
+                AddCandidate(candidates, binding.Right);
+            }
+        }
+    }
+
+    private static void AddBindingTargets(List<IElement> candidates, IElement bindings)
+    {
+        foreach (var binding in ReadBindingClauses(bindings))
+        {
+            AddCandidate(candidates, binding.Right);
+        }
+    }
+
+    private static void AddBindingSources(List<IElement> candidates, IElement bindings)
+    {
+        foreach (var binding in ReadBindingClauses(bindings))
+        {
+            AddCandidate(candidates, binding.Left);
+        }
+    }
+
+    private static void AddCandidates(List<IElement> candidates, IEnumerable<IElement> elements)
+    {
+        foreach (var element in elements)
+        {
+            AddCandidate(candidates, element);
+        }
+    }
+
+    private static void AddCandidate(List<IElement> candidates, IElement element)
+    {
+        if (element is null ||
+            IsUnknownPoint(element) ||
+            ContainsElement(candidates, element))
+        {
+            return;
+        }
+
+        candidates.Add(element);
+    }
+
+    private static bool ContainsElement(IEnumerable<IElement> candidates, IElement element) =>
+        candidates.Any(candidate => Equals(candidate, element));
 
     private static IElement EffectiveEvidence(IElement primary, IElement fallback)
     {

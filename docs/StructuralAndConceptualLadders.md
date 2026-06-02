@@ -830,8 +830,8 @@ PartialReplay
 The current read is intentionally ordered. The carried prefix must be the
 leading applications from the previous frame. Each replay then replaces the
 next previous application in order, producing the current application frame.
-This gives Gojo a first replayable-history shape before solving automatic
-dependency discovery.
+This gives Gojo a first replayable-history shape that dependency and focus
+reads can feed.
 
 The first affected-slice discovery is focus based:
 
@@ -863,6 +863,25 @@ affected applications in order. That removes one code-side restatement of
 intent: once a focus-change read finds the affected slice, replay can follow
 that structure.
 
+Application dependencies now have an initial relation shape:
+
+```text
+ApplicationDependency
+  producer application
+  consumer application
+  dependency evidence
+  residue or tension
+  provenance
+```
+
+The first automatic read only discovers direct consumption: producer output
+structure reused by a consumer focus or input binding. The exact surface can
+also carry explicit binding evidence from a producer output to a consumer
+input, so dependency can be represented as structure rather than a side table.
+This is useful for replay because it begins to distinguish "everything after
+this focus changed" from "this later application actually consumes that earlier
+application."
+
 Structural ladders can now carry complete rungs, rung frames,
 focus-transition timelines, transform-application timelines, current-rung
 reads, local change reads, and rungs created from transform applications.
@@ -881,9 +900,9 @@ duplicating the source in a separate argument. This keeps "what is selected"
 inside Gojo structure instead of turning it into code-side intent.
 
 The next work is making transform operation structure settle real outputs
-rather than only deriving correspondence. Union, projection, refined dependency
-reads inside affected suffixes, multi-parent patch histories, and stronger
-replay residue are still open.
+rather than only deriving correspondence. Union, projection, dependency-guided
+affected slices, multi-parent patch histories, and stronger replay residue are
+still open.
 Those should remain operation structure and witnessed residue, not symbolic
 operation enums.
 
