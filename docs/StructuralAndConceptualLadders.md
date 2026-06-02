@@ -728,6 +728,10 @@ Gojo already has strong substrate for ladders:
 - orthogonal thickening
 - circular and linear carriers
 - carrier-native curve transitions
+- `FocusSurface` for partial selection, projection, result witnesses, and
+  focus timelines
+- `StructuralLadderSurface` for exact rung records, rung frames, timelines,
+  current-rung reads, and local change reads
 
 These are enough to start expressing real structural ladders without inventing
 a separate model layer.
@@ -738,11 +742,11 @@ The main missing tools are not primitives. They are correspondence tools.
 
 Needed:
 
-- focus projection across ladder rungs
+- deeper focus projection across ladder rungs
 - carry-forward relations
 - replacement/settlement relations
 - anti-participation for removed or hidden parts
-- explicit result surfaces
+- richer explicit result surfaces
 - abstraction reads from fine to coarse
 - crystallization/forgetting of provenance
 - residue preservation across structural rungs
@@ -754,13 +758,29 @@ Needed:
 The important rule remains: these should be Gojo-native relation surfaces, not
 metadata wrappers.
 
-`FocusSurface` is the first core step here. It can already hold source,
-focus basis, selected participation, complement, replacement, correspondence,
-residue, and provenance/timeline. It can also project focus through
-correspondence into another rung, create a result witness, and participate in
-ordered focus steps. The next work is making those roles settle more deeply
-into real ladder transformations instead of only carrying them as ordered
-structural evidence.
+`FocusSurface` and `StructuralLadderSurface` are the current core steps.
+Focus can already hold source, focus basis, selected participation, complement,
+replacement, correspondence, residue, and provenance/timeline. It can project
+focus through correspondence into another rung, create a result witness, and
+participate in ordered focus steps. Structural ladders can now carry complete
+rungs, rung frames, focus-transition timelines, current-rung reads, and local
+change reads.
+
+One implementation lesson is already clear: broad ordered-group reads are too
+eager for crystallized ladder surfaces. A rung should read as a rung because
+the exact rung surface is present, not because nested participant relations
+happen to contain enough fields. Convenience constructors should also avoid
+overload shapes that can reinterpret full evidence as rung lists.
+
+The same is true for focus. A structural refinement should start from a real
+focus surface. The focus surface selects participation, carries complement,
+provides replacement or anti-participation, and preserves correspondence and
+residue. A refined rung can then read its source from that focus rather than
+duplicating the source in a separate argument. This keeps "what is selected"
+inside Gojo structure instead of turning it into code-side intent.
+
+The next work is making focus roles settle more deeply into real ladder
+transformations instead of only carrying them as ordered structural evidence.
 
 ## Implementation Bias
 

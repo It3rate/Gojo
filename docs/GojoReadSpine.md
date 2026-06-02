@@ -176,6 +176,11 @@ not only select two whole edges. It selects subspans near a corner relation,
 carries forward the rest of the edges, replaces the sharp participation with a
 transition, and preserves unresolved radius/tangent residue.
 
+Focus reads are exact ordered surfaces. A relation does not become focus merely
+because nested structure happens to contain eight readable fields. This keeps
+selection from being simulated by nearby structure: the focus surface itself
+must be present and readable.
+
 Focus can also be sequenced without inventing a separate sequencer. A timed
 step can use a focus surface as its transition evidence:
 
@@ -217,6 +222,58 @@ source structure
 
 This result witness can be wrapped by `RefinementRead`, which makes focus the
 bridge from selection into structural ladders.
+
+## StructuralLadderSurface
+
+`StructuralLadderSurface` is the first executable relation shape for structural
+and conceptual ladders. A rung is a complete structure plus optional focus,
+result, correspondence, residue, witness, refinement, and provenance evidence:
+
+```text
+Rung
+  source structure
+  focus surface or unresolved focus
+  result structure
+  correspondence
+  residue or tension
+  result witness
+  refinement read
+  provenance or timeline
+```
+
+A ladder then carries:
+
+```text
+StructuralLadderSurface
+  base rung
+  rung frame
+  history or timeline
+  residue or tension
+  provenance
+```
+
+The rung frame is an ordered relation of readable rungs. The timeline uses the
+shared `TimeStepSequence` shape, where each step carries a focus surface as the
+transition evidence and after-rung as the settled state.
+
+The current implementation deliberately reads rungs and ladders as exact
+ordered surfaces. This is not a symbolic tag. It is a guard against false reads
+where a broad recursive ordered-group inspection mines nested participant
+structure and shifts fields. If the exact rung surface is not present, the read
+should fail or fall back to lower-resolution evidence rather than inventing a
+ladder from nearby structure.
+
+The explicit ladder constructor takes base rung, rung frame, timeline/history,
+residue, and provenance. The shorthand for "base plus these rungs, with no
+timeline yet" is named `CreateWithRungs` so it cannot steal full constructor
+calls where all evidence happens to be relation-shaped.
+
+Refined rungs should be created from focus when possible. `Rung` remains the
+raw relation-shaped constructor, but `TryCreateRefinedRungFromFocus` reads the
+source directly from the focus surface and then creates the rung, result
+witness, and refinement read. That path makes the focus/selection relation the
+entry point for structural adjustment instead of asking code to restate the
+source and selection intent separately.
 
 ## RefinementRead
 

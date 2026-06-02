@@ -276,7 +276,7 @@ public static class FocusSurface
         out IElement provenanceOrTimeline)
     {
         if (TryReadRootElements(focus, out var elements) &&
-            elements.Length >= 8)
+            elements.Length == 8)
         {
             source = elements[0];
             focusBasis = elements[1];
@@ -309,7 +309,7 @@ public static class FocusSurface
         out IElement residueOrTension)
     {
         if (TryReadRootElements(partialSpan, out var elements) &&
-            elements.Length >= 4)
+            elements.Length == 4)
         {
             wholeSpan = elements[0];
             selectedSpan = elements[1];
@@ -362,7 +362,7 @@ public static class FocusSurface
         out IElement residueOrTension)
     {
         if (TryReadRootElements(projection, out var elements) &&
-            elements.Length >= 5 &&
+            elements.Length == 5 &&
             elements[0] is Relation sourceFocusRelation &&
             elements[3] is Relation projectedFocusRelation)
         {
@@ -553,12 +553,85 @@ public static class FocusSurface
     private static bool TryReadRootElements(Relation structure, out IElement[] elements)
     {
         if (structure?.Right is Carrier holder &&
-            structure.TryReadOrderedElementsOn(holder, out elements))
+            TryReadOrderedGroupChain(structure.Left, holder, out elements))
         {
             return true;
         }
 
         elements = [];
+        return false;
+    }
+
+    private static bool TryReadOrderedGroupChain(IElement root, Carrier holder, out IElement[] elements)
+    {
+        var collected = new List<IElement>();
+        if (CollectOrderedGroupChain(root, holder, collected))
+        {
+            elements = [.. collected];
+            return true;
+        }
+
+        elements = [];
+        return false;
+    }
+
+    private static bool CollectOrderedGroupChain(IElement element, Carrier holder, List<IElement> elements)
+    {
+        if (IsEmptyGroupMarker(element, holder))
+        {
+            return true;
+        }
+
+        if (TryReadDirectAdditiveAttachment(element, holder, out var participant))
+        {
+            elements.Add(participant);
+            return true;
+        }
+
+        if (element is Relation relation)
+        {
+            return CollectOrderedGroupChain(relation.Left, holder, elements) &&
+                CollectOrderedGroupChain(relation.Right, holder, elements);
+        }
+
+        return false;
+    }
+
+    private static bool TryReadDirectAdditiveAttachment(IElement element, Carrier holder, out IElement participant)
+    {
+        if (element is Relation relation &&
+            relation.Left is Relation holderOrigin &&
+            TryReadPoint(holderOrigin, out var origin, out var originCarrier) &&
+            originCarrier.SameIdentityAs(holder) &&
+            origin.Ticks == 0)
+        {
+            participant = relation.Right;
+            return true;
+        }
+
+        participant = default!;
+        return false;
+    }
+
+    private static bool IsEmptyGroupMarker(IElement element, Carrier holder) =>
+        TryReadPoint(element, out var location, out var carrier) &&
+        carrier.SameIdentityAs(holder) &&
+        location.Ticks == 1;
+
+    private static bool TryReadPoint(IElement element, out CarrierLocation location, out Carrier carrier)
+    {
+        if (element is Relation point &&
+            point.Left is CarrierLocation pointLocation &&
+            point.Right is Carrier pointCarrier &&
+            pointLocation.Carrier.SameIdentityAs(pointCarrier))
+        {
+            location = pointLocation;
+            carrier = pointCarrier;
+            return true;
+        }
+
+        location = default;
+        carrier = null!;
         return false;
     }
 

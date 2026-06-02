@@ -114,6 +114,37 @@ public sealed class FocusSurfaceTests
     }
 
     [Fact]
+    public void FocusSurfaceReadRejectsOverfullOrderedSurface()
+    {
+        var source = Relation.Segment(new Carrier(), 0, 10);
+        var focusBasis = Relation.Point(new Carrier(), 5);
+        var participation = Relation.Segment(new Carrier(), 4, 6);
+        var unresolved = Relation.Point(Carrier.Unknown, 0);
+        var overfull = Relation.OrderedGroup(
+            new Carrier(),
+            source,
+            focusBasis,
+            participation,
+            unresolved,
+            unresolved,
+            unresolved,
+            unresolved,
+            unresolved,
+            Relation.Point(new Carrier(), 1));
+
+        Assert.False(FocusSurface.TryRead(
+            overfull,
+            out _,
+            out _,
+            out _,
+            out _,
+            out _,
+            out _,
+            out _,
+            out _));
+    }
+
+    [Fact]
     public void FocusStepUsesTimeStepSequenceForOrderedPartialStates()
     {
         var clock = TimeStepSequence.CreateClock(new Carrier());
