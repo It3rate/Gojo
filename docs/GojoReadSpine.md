@@ -256,6 +256,29 @@ correspondence. A transform application can derive bindings from them when
 explicit bindings are unresolved, while still recording the exact bindings
 that settled in the application and patch witness.
 
+Executable operation surfaces can also be read through application bindings to
+produce an operation-output witness:
+
+```text
+OperationOutput
+  application
+  operation
+  bound input evidence
+  operation read
+  output target
+  result
+  residue or tension
+  provenance
+```
+
+This is the first bridge from operation structure to settled output evidence.
+The creator applies the application's binding relations to the operation port
+surface, asks the core operation reader for the output, and records the output
+target as structure. Dependency reads can then use that output target even when
+it is only one element inside a larger result frame. Static map/carry/fold
+shapes still derive correspondence; executable operation surfaces additionally
+produce a witnessed output target.
+
 The transform is the reusable instruction. The application is the concrete
 settlement of that instruction against a real focus:
 
@@ -368,12 +391,12 @@ participation, and correspondence bindings, so an output can be discovered
 inside a transform operation or a correspondence frame. It still does not treat
 a shared source as dependency evidence by itself; producer result frames are
 matched as whole results unless output-side structure is visible through the
-patch, output ports, or correspondence. The exact reader can also recognize
-explicit binding evidence from a producer output to a consumer input, which
-lets the structure say "this feeds that" even when the two sides are not the
-same object. This is still a local read over application, focus, patch,
-operation, and binding structure, not a global classifier or dependency side
-table.
+patch, output ports, correspondence, or an operation-output witness. The exact
+reader can also recognize explicit binding evidence from a producer output to a
+consumer input, which lets the structure say "this feeds that" even when the
+two sides are not the same object. This is still a local read over application,
+focus, patch, operation, and binding structure, not a global classifier or
+dependency side table.
 
 Dependency-aware affected slices use that evidence:
 

@@ -788,6 +788,27 @@ These operation shapes can derive correspondence bindings during a transform
 application. Explicit bindings can still be supplied, but a transform does not
 need a separate metadata table to say that an output came from an input.
 
+Executable operation surfaces now have a first output witness:
+
+```text
+OperationOutput
+  application
+  operation
+  bound input evidence
+  operation read
+  output target
+  result
+  residue or tension
+  provenance
+```
+
+The creator applies an application's bindings to the operation port surface,
+uses the core operation reader to produce a concrete operation read, and
+records the extracted output target. This lets dependency discovery find a
+producer output even when the target is only one element in a larger result
+frame. It is not a full transform solver yet; it is the first structural
+witness that an operation surface produced this output in this application.
+
 Transform applications can also be replayed against a changed focus. Replay
 reuses the transform instruction, creates a new application for the new focus,
 and records stale patch evidence when the previous patch no longer settles
@@ -879,12 +900,12 @@ It now walks nested operation inputs, focus participation, patch participation,
 and correspondence bindings, so a producer replacement can be found inside a
 consumer transform operation or correspondence frame. It deliberately does not
 treat a shared source as dependency evidence by itself; dependency needs output
-structure, explicit binding evidence, or a whole producer result being consumed.
-The exact surface can also carry explicit binding evidence from a producer
-output to a consumer input, so dependency can be represented as structure rather
-than a side table. This is useful for replay because it begins to distinguish
-"everything after this focus changed" from "this later application actually
-consumes that earlier application."
+structure, operation-output evidence, explicit binding evidence, or a whole
+producer result being consumed. The exact surface can also carry explicit
+binding evidence from a producer output to a consumer input, so dependency can
+be represented as structure rather than a side table. This is useful for replay
+because it begins to distinguish "everything after this focus changed" from
+"this later application actually consumes that earlier application."
 
 Dependency-guided affected slices make that distinction explicit:
 
@@ -925,10 +946,10 @@ residue. A refined rung can then read its source from that focus rather than
 duplicating the source in a separate argument. This keeps "what is selected"
 inside Gojo structure instead of turning it into code-side intent.
 
-The next work is making transform operation structure settle real outputs
-rather than only deriving correspondence. Union, projection, multi-parent patch
-histories, inferred dependency evidence from settled live outputs, and stronger
-replay residue are still open.
+The next work is broadening operation-output settlement. Union, projection,
+multi-output operations, multi-parent patch histories, inferred dependency
+evidence from live carrier settlement, and stronger replay residue are still
+open.
 Those should remain operation structure and witnessed residue, not symbolic
 operation enums.
 

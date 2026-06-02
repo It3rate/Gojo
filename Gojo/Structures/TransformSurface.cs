@@ -305,6 +305,34 @@ public static class TransformSurface
     }
 
     /// <summary>
+    /// Creates operation-output evidence:
+    /// application, operation, bound input, operation read, output target,
+    /// result, residue/tension, provenance.
+    /// </summary>
+    public static Relation OperationOutput(
+        Carrier root,
+        Relation application,
+        IElement operation,
+        IElement inputEvidence,
+        IElement operationRead,
+        IElement outputTarget,
+        IElement result,
+        IElement residueOrTension,
+        IElement provenance)
+    {
+        return Relation.OrderedGroup(
+            RootOrNew(root),
+            application ?? UnknownPoint(),
+            operation ?? UnknownPoint(),
+            inputEvidence ?? UnknownPoint(),
+            operationRead ?? UnknownPoint(),
+            outputTarget ?? UnknownPoint(),
+            result ?? UnknownPoint(),
+            residueOrTension ?? UnknownPoint(),
+            provenance ?? UnknownPoint());
+    }
+
+    /// <summary>
     /// Applies a reusable transform to a real focus surface. This records the
     /// concrete patch and read witness; it does not mutate the source focus.
     /// </summary>
@@ -611,6 +639,59 @@ public static class TransformSurface
         }
 
         dependency = null!;
+        return false;
+    }
+
+    /// <summary>
+    /// Reads a transform application's executable operation through its
+    /// bindings and records the settled output target.
+    /// </summary>
+    public static bool TryCreateOperationOutputRead(
+        Carrier root,
+        Relation application,
+        IElement residueOrTension,
+        IElement provenance,
+        out Relation operationOutput)
+    {
+        if (!TryReadApplication(
+                application,
+                out var transform,
+                out _,
+                out var bindings,
+                out var result,
+                out _,
+                out _,
+                out var applicationResidue,
+                out var applicationProvenance) ||
+            !TryRead(transform, out _, out var operation, out var outputPorts, out _, out _) ||
+            operation is not Relation operationRelation ||
+            !TryBuildOperationInput(operationRelation.Left, bindings, out var inputEvidence) ||
+            !TryReadOperationReader(outputPorts, operationRelation.Right, result, out var reader) ||
+            !operationRelation.TryReadOperationFrom(inputEvidence, reader, out var operationRead) ||
+            !TryReadOperationOutputTarget(operationRead, out var outputTarget))
+        {
+            operationOutput = null!;
+            return false;
+        }
+
+        var candidate = OperationOutput(
+            RootOrNew(root),
+            application,
+            operation,
+            inputEvidence,
+            operationRead,
+            outputTarget,
+            result,
+            EffectiveEvidence(residueOrTension, applicationResidue),
+            EffectiveEvidence(provenance, applicationProvenance));
+
+        if (TryReadOperationOutput(candidate, out _, out _, out _, out _, out _, out _, out _, out _))
+        {
+            operationOutput = candidate;
+            return true;
+        }
+
+        operationOutput = null!;
         return false;
     }
 
@@ -1588,6 +1669,63 @@ public static class TransformSurface
         return false;
     }
 
+    /// <summary>Reads operation-output evidence created by <see cref="OperationOutput"/>.</summary>
+    public static bool TryReadOperationOutput(
+        Relation operationOutput,
+        out Relation application,
+        out IElement operation,
+        out IElement inputEvidence,
+        out IElement operationRead,
+        out IElement outputTarget,
+        out IElement result,
+        out IElement residueOrTension,
+        out IElement provenance)
+    {
+        if (TryReadRootElements(operationOutput, out var elements) &&
+            elements.Length == 8 &&
+            elements[0] is Relation applicationRelation &&
+            TryReadApplication(
+                applicationRelation,
+                out var transform,
+                out _,
+                out _,
+                out var applicationResult,
+                out _,
+                out _,
+                out _,
+                out _) &&
+            TryRead(transform, out _, out var transformOperation, out _, out _, out _) &&
+            Equals(transformOperation, elements[1]) &&
+            elements[1] is Relation operationRelation &&
+            TryReadOperationReader(elements[4], out var reader) &&
+            operationRelation.TryReadOperationFrom(elements[2], reader, out var expectedRead) &&
+            Equals(expectedRead, elements[3]) &&
+            TryReadOperationOutputTarget(elements[3], out var expectedTarget) &&
+            Equals(expectedTarget, elements[4]) &&
+            Equals(applicationResult, elements[5]))
+        {
+            application = applicationRelation;
+            operation = elements[1];
+            inputEvidence = elements[2];
+            operationRead = elements[3];
+            outputTarget = elements[4];
+            result = elements[5];
+            residueOrTension = elements[6];
+            provenance = elements[7];
+            return true;
+        }
+
+        application = null!;
+        operation = default!;
+        inputEvidence = default!;
+        operationRead = default!;
+        outputTarget = default!;
+        result = default!;
+        residueOrTension = default!;
+        provenance = default!;
+        return false;
+    }
+
     private static bool TryReadRootElements(Relation structure, out IElement[] elements)
     {
         if (structure?.Right is Carrier holder &&
@@ -1626,6 +1764,122 @@ public static class TransformSurface
         }
 
         clauses.Add(relation);
+    }
+
+    private static bool TryBuildOperationInput(IElement portSurface, IElement bindings, out IElement inputEvidence)
+    {
+        var bindingClauses = ReadBindingClauses(bindings);
+        if (bindingClauses.Length == 0)
+        {
+            inputEvidence = default!;
+            return false;
+        }
+
+        inputEvidence = ApplyBindings(portSurface, bindingClauses, out var changed);
+        return changed;
+    }
+
+    private static IElement ApplyBindings(IElement element, IReadOnlyList<Relation> bindings, out bool changed)
+    {
+        foreach (var binding in bindings)
+        {
+            if (Equals(element, binding.Left))
+            {
+                changed = true;
+                return binding.Right;
+            }
+        }
+
+        if (element is Relation relation)
+        {
+            var left = ApplyBindings(relation.Left, bindings, out var leftChanged);
+            var right = ApplyBindings(relation.Right, bindings, out var rightChanged);
+            changed = leftChanged || rightChanged;
+            return changed ? new Relation(left, right) : element;
+        }
+
+        changed = false;
+        return element;
+    }
+
+    private static bool TryReadOperationReader(
+        IElement outputPorts,
+        IElement operationOutputSurface,
+        IElement result,
+        out Carrier reader)
+    {
+        if (TryReadConcreteCarrier(outputPorts, out reader) ||
+            TryReadConcreteCarrier(operationOutputSurface, out reader) ||
+            TryReadConcreteCarrier(result, out reader))
+        {
+            return true;
+        }
+
+        reader = null!;
+        return false;
+    }
+
+    private static bool TryReadOperationReader(IElement outputTarget, out Carrier reader) =>
+        TryReadConcreteCarrier(outputTarget, out reader);
+
+    private static bool TryReadConcreteCarrier(IElement element, out Carrier carrier)
+    {
+        switch (element)
+        {
+            case Carrier candidate when !candidate.IsUnknown:
+                carrier = candidate;
+                return true;
+            case CarrierLocation location when !location.Carrier.IsUnknown:
+                carrier = location.Carrier;
+                return true;
+            case Relation relation:
+                if (TryReadRootElements(relation, out var elements) &&
+                    elements.Length > 0)
+                {
+                    foreach (var child in elements)
+                    {
+                        if (TryReadConcreteCarrier(child, out carrier))
+                        {
+                            return true;
+                        }
+                    }
+
+                    break;
+                }
+
+                if (TryReadConcreteCarrier(relation.Left, out carrier) ||
+                    TryReadConcreteCarrier(relation.Right, out carrier))
+                {
+                    return true;
+                }
+
+                break;
+        }
+
+        carrier = null!;
+        return false;
+    }
+
+    private static bool TryReadOperationOutputTarget(IElement operationRead, out IElement outputTarget)
+    {
+        if (operationRead is Relation read)
+        {
+            switch (read.Left)
+            {
+                case CarrierLocation location:
+                    outputTarget = Relation.Point(location.Carrier, location.Ticks);
+                    return true;
+                case Relation relation:
+                    outputTarget = relation;
+                    return true;
+                case IElement element:
+                    outputTarget = element;
+                    return true;
+            }
+        }
+
+        outputTarget = default!;
+        return false;
     }
 
     private static bool IsReadableStaleOrUnknown(IElement element) =>
@@ -2065,6 +2319,26 @@ public static class TransformSurface
             AddCandidateTree(candidates, replacement);
             AddCandidate(candidates, patchResult);
             AddBindingTargets(candidates, correspondence);
+        }
+
+        if (TryCreateOperationOutputRead(
+                new Carrier(),
+                application,
+                UnknownPoint(),
+                UnknownPoint(),
+                out var operationOutput) &&
+            TryReadOperationOutput(
+                operationOutput,
+                out _,
+                out _,
+                out _,
+                out _,
+                out var outputTarget,
+                out _,
+                out _,
+                out _))
+        {
+            AddCandidateTree(candidates, outputTarget);
         }
 
         return [.. candidates];
