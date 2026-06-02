@@ -730,8 +730,11 @@ Gojo already has strong substrate for ladders:
 - carrier-native curve transitions
 - `FocusSurface` for partial selection, projection, result witnesses, and
   focus timelines
+- `TransformSurface` for reusable selection transforms, concrete transform
+  applications, patch witnesses, and transform-application ladder steps
 - `StructuralLadderSurface` for exact rung records, rung frames, timelines,
-  current-rung reads, and local change reads
+  current-rung reads, local change reads, and rungs created from transform
+  applications
 
 These are enough to start expressing real structural ladders without inventing
 a separate model layer.
@@ -758,13 +761,23 @@ Needed:
 The important rule remains: these should be Gojo-native relation surfaces, not
 metadata wrappers.
 
-`FocusSurface` and `StructuralLadderSurface` are the current core steps.
-Focus can already hold source, focus basis, selected participation, complement,
-replacement, correspondence, residue, and provenance/timeline. It can project
-focus through correspondence into another rung, create a result witness, and
-participate in ordered focus steps. Structural ladders can now carry complete
-rungs, rung frames, focus-transition timelines, current-rung reads, and local
-change reads.
+`FocusSurface`, `TransformSurface`, and `StructuralLadderSurface` are the
+current core steps. Focus can already hold source, focus basis, selected
+participation, complement, replacement, correspondence, residue, and
+provenance/timeline. It can project focus through correspondence into another
+rung, create a result witness, and participate in ordered focus steps.
+
+`TransformSurface` separates the reusable instruction from the patch that
+settled on one focus. A transform has input ports, operation structure, output
+ports, residue policy, and provenance. A transform application binds that
+instruction to a real focus, records parameter bindings, produces a result,
+and carries a patch witness. The patch witness preserves source, transform,
+focus, selected participation, carried complement, replacement/introduction,
+correspondence, result, residue, and provenance.
+
+Structural ladders can now carry complete rungs, rung frames,
+focus-transition timelines, transform-application timelines, current-rung
+reads, local change reads, and rungs created from transform applications.
 
 One implementation lesson is already clear: broad ordered-group reads are too
 eager for crystallized ladder surfaces. A rung should read as a rung because
@@ -779,26 +792,31 @@ residue. A refined rung can then read its source from that focus rather than
 duplicating the source in a separate argument. This keeps "what is selected"
 inside Gojo structure instead of turning it into code-side intent.
 
-The next work is making focus roles settle more deeply into real ladder
-transformations instead of only carrying them as ordered structural evidence.
+The next work is making transform operation structure stronger. The current
+surface records that an instruction was applied, but the operation itself is
+still ordinary relation evidence. That is intentional for the first pass. The
+important next step is letting operation structure express delete, carry,
+introduce, split, fold, union, interpolation, and projection without becoming a
+symbolic operation enum.
 
 ## Implementation Bias
 
-The first implementation should probably avoid a grand ladder class. A better
-path is to make one or two small refinement surfaces that are useful in the
-current graphical work, then let the common shape harden from repeated use.
+The first implementation should avoid a grand ladder class. A better path is
+to make one or two small refinement examples that are useful in the current
+graphical work, then let the common shape harden from repeated use.
 
 Good early reads:
 
-- sharp corner to rounded corner
+- sharp corner to rounded corner through a generic transform application
 - segment to thick strip
 - circle to crescent
 - skeleton stroke to outline stroke
 - net connection to routed path
 
-Each target should prove the same essentials: source, focus, carry-forward,
-detail, residue, and result. If those pieces remain traversable, the ladder
-idea can grow without becoming a wrapper around Gojo.
+Each target should prove the same essentials: source, focus, reusable
+transform, carry-forward, introduced detail, patch witness, residue, and
+result. If those pieces remain traversable, the ladder idea can grow without
+becoming a wrapper around Gojo.
 
 ## Near-Term Target
 

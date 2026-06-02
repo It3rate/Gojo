@@ -106,6 +106,59 @@ public static class StructuralLadderSurface
         return false;
     }
 
+    /// <summary>
+    /// Creates a refined rung from a transform application. The application
+    /// supplies the focus, result, residue, and transform/patch evidence.
+    /// </summary>
+    public static bool TryCreateRungFromTransformApplication(
+        Carrier root,
+        Relation application,
+        out Relation rung)
+    {
+        if (!TransformSurface.TryReadApplication(
+                application,
+                out _,
+                out var focus,
+                out _,
+                out var result,
+                out _,
+                out _,
+                out var residueOrTension,
+                out var provenance) ||
+            !FocusSurface.TryRead(
+                focus,
+                out var source,
+                out _,
+                out _,
+                out _,
+                out _,
+                out _,
+                out _,
+                out _))
+        {
+            rung = null!;
+            return false;
+        }
+
+        var candidate = Rung(
+            RootOrNew(root),
+            source,
+            focus,
+            result,
+            application,
+            residueOrTension,
+            provenance);
+
+        if (TryReadRung(candidate, out _, out _, out _, out _, out _, out _, out _, out _))
+        {
+            rung = candidate;
+            return true;
+        }
+
+        rung = null!;
+        return false;
+    }
+
     /// <summary>Creates an ordered frame of ladder rungs.</summary>
     public static Relation RungFrame(Carrier root, params Relation[] rungs) =>
         Relation.OrderedGroup(RootOrNew(root), rungs ?? []);
@@ -161,6 +214,29 @@ public static class StructuralLadderSurface
             endTicks,
             beforeRung ?? BaseRung(new Carrier(), UnknownPoint()),
             focus ?? UnknownPoint(),
+            afterRung ?? BaseRung(new Carrier(), UnknownPoint()),
+            residueOrTension ?? UnknownPoint());
+
+    /// <summary>
+    /// Creates one timed ladder transition whose evidence is a transform
+    /// application rather than a raw focus surface.
+    /// </summary>
+    public static Relation TransformStep(
+        Carrier root,
+        Carrier clock,
+        long startTicks,
+        long endTicks,
+        Relation beforeRung,
+        Relation transformApplication,
+        Relation afterRung,
+        IElement residueOrTension) =>
+        TimeStepSequence.Step(
+            RootOrNew(root),
+            RootOrNew(clock),
+            startTicks,
+            endTicks,
+            beforeRung ?? BaseRung(new Carrier(), UnknownPoint()),
+            transformApplication ?? UnknownPoint(),
             afterRung ?? BaseRung(new Carrier(), UnknownPoint()),
             residueOrTension ?? UnknownPoint());
 
@@ -329,6 +405,62 @@ public static class StructuralLadderSurface
         return false;
     }
 
+    /// <summary>Reads a timed ladder step whose transition is a transform application.</summary>
+    public static bool TryReadTransformStep(
+        Relation step,
+        out Relation span,
+        out CarrierLocation start,
+        out CarrierLocation end,
+        out Relation beforeRung,
+        out Relation transformApplication,
+        out Relation afterRung,
+        out IElement residueOrTension)
+    {
+        if (TimeStepSequence.TryReadStep(
+                step,
+                out var timeSpan,
+                out var startLocation,
+                out var endLocation,
+                out var before,
+                out var transition,
+                out var after,
+                out var residue) &&
+            before is Relation beforeRelation &&
+            after is Relation afterRelation &&
+            transition is Relation applicationRelation &&
+            TryReadRung(beforeRelation, out _, out _, out _, out _, out _, out _, out _, out _) &&
+            TryReadRung(afterRelation, out _, out _, out _, out _, out _, out _, out _, out _) &&
+            TransformSurface.TryReadApplication(
+                applicationRelation,
+                out _,
+                out _,
+                out _,
+                out _,
+                out _,
+                out _,
+                out _,
+                out _))
+        {
+            span = timeSpan;
+            start = startLocation;
+            end = endLocation;
+            beforeRung = beforeRelation;
+            transformApplication = applicationRelation;
+            afterRung = afterRelation;
+            residueOrTension = residue;
+            return true;
+        }
+
+        span = null!;
+        start = default;
+        end = default;
+        beforeRung = null!;
+        transformApplication = null!;
+        afterRung = null!;
+        residueOrTension = default!;
+        return false;
+    }
+
     /// <summary>
     /// Creates a local change read from a refined rung. This is a read over the
     /// rung and its focus surface; it does not replace the rung structure.
@@ -481,6 +613,10 @@ public static class StructuralLadderSurface
                 if (TryReadStep(step, out _, out _, out _, out _, out _, out var after, out _))
                 {
                     rungs.Add(after);
+                }
+                else if (TryReadTransformStep(step, out _, out _, out _, out _, out _, out var transformAfter, out _))
+                {
+                    rungs.Add(transformAfter);
                 }
             }
 

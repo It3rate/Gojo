@@ -223,6 +223,61 @@ source structure
 This result witness can be wrapped by `RefinementRead`, which makes focus the
 bridge from selection into structural ladders.
 
+## TransformSurface
+
+`TransformSurface` is the first common foothold for reusable structural
+transforms. A focus surface says what is selected in one source. A transform
+surface says what kind of instruction can be applied to a selection without
+destroying the original historical source.
+
+```text
+TransformSurface
+  input ports
+  operation structure
+  output ports
+  residue policy
+  provenance
+```
+
+The transform is the reusable instruction. The application is the concrete
+settlement of that instruction against a real focus:
+
+```text
+TransformApplication
+  transform
+  focus
+  parameter bindings
+  result
+  patch witness
+  read witness
+  residue or tension
+  provenance
+```
+
+The patch witness is the temporal/change relation. It records the source read
+through the transform and keeps the selected participation, carried complement,
+replacement or introduction, correspondence, result, residue, and provenance
+visible:
+
+```text
+Patch
+  source structure
+  transform
+  focus
+  selected participation
+  carried complement
+  replacement or introduction
+  correspondence
+  result
+  residue or tension
+  provenance
+```
+
+This separates "the reusable operation" from "what happened when it was
+applied." That distinction matters for editable structural histories: a later
+read can keep the transform and re-apply it to a changed focus instead of
+treating the old after-state as the operation itself.
+
 ## StructuralLadderSurface
 
 `StructuralLadderSurface` is the first executable relation shape for structural
@@ -253,8 +308,11 @@ StructuralLadderSurface
 ```
 
 The rung frame is an ordered relation of readable rungs. The timeline uses the
-shared `TimeStepSequence` shape, where each step carries a focus surface as the
-transition evidence and after-rung as the settled state.
+shared `TimeStepSequence` shape, where each step carries transition evidence
+and an after-rung as the settled state. Transition evidence can be a raw focus
+surface for older focus-step reads, or a `TransformApplication` when the step
+should preserve the reusable transform instruction separately from the patch
+that settled.
 
 The current implementation deliberately reads rungs and ladders as exact
 ordered surfaces. This is not a symbolic tag. It is a guard against false reads
@@ -274,6 +332,46 @@ source directly from the focus surface and then creates the rung, result
 witness, and refinement read. That path makes the focus/selection relation the
 entry point for structural adjustment instead of asking code to restate the
 source and selection intent separately.
+
+## Rounded Corner Example
+
+Rounded-corner refinement is now an example of the generic transform path, not
+a core surface. It does not introduce a special corner object. It builds a
+sharp-corner source, a focus surface, a reusable transform instruction, and a
+transform application:
+
+```text
+sharp-corner source
+  incoming edge
+  corner join
+  outgoing edge
+
+focus
+  source: sharp-corner source
+  basis: corner join
+  participation: two partial spans near the corner
+  complement: carried incoming and outgoing edge spans
+  replacement: rounded transition
+  correspondence: tangent bindings
+  residue: tangent/radius/transition mismatch
+  provenance
+
+transform
+  input ports: selected incoming/outgoing spans
+  operation: selected spans -> rounded transition with tangent evidence
+  output ports: carried incoming, transition, carried outgoing
+
+patch / result
+  incoming carry
+  rounded transition
+  outgoing carry
+  correspondence
+```
+
+The application produces the patch witness. A refined rung can then be created
+from that transform application, with the application stored as correspondence
+evidence. This keeps the transform replayable while the patch records the
+actual before/focus/result settlement.
 
 ## RefinementRead
 
