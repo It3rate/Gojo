@@ -123,7 +123,7 @@ public sealed class TransformSurfaceTests
         Assert.Equal(selected, patchParticipation);
         Assert.Equal(carry, patchComplement);
         Assert.Equal(replacement, patchReplacement);
-        Assert.Equal(focusCorrespondence, patchCorrespondence);
+        Assert.Equal(bindings, patchCorrespondence);
         Assert.Equal(result, patchResult);
         Assert.Equal(residue, patchResidue);
         Assert.Equal(provenance, patchProvenance);
@@ -140,6 +140,129 @@ public sealed class TransformSurfaceTests
         Assert.Equal(result, witnessResult);
         Assert.Equal(residue, witnessResidue);
         Assert.Equal(provenance, witnessProvenance);
+    }
+
+    [Fact]
+    public void TransformOperationShapesReadCarryIntroduceRemoveSplitFoldAndInterpolate()
+    {
+        var input = Relation.Point(new Carrier(), 1);
+        var output = Relation.Point(new Carrier(), 2);
+        var extra = Relation.Point(new Carrier(), 3);
+        var grade = Relation.Point(new Carrier(), 4);
+        var outputPorts = TransformSurface.Ports(new Carrier(), output, extra);
+        var inputPorts = TransformSurface.Ports(new Carrier(), input, extra);
+
+        var carry = TransformSurface.Carry(input, output);
+        var introduce = TransformSurface.Introduce(output);
+        var remove = TransformSurface.Remove(input);
+        var split = TransformSurface.Split(input, outputPorts);
+        var fold = TransformSurface.Fold(inputPorts, output);
+        var interpolate = TransformSurface.Interpolate(input, extra, grade, output);
+
+        Assert.True(TransformSurface.TryReadMap(carry, out var mapInput, out var mapOutput));
+        Assert.Equal(input, mapInput);
+        Assert.Equal(output, mapOutput);
+
+        Assert.True(TransformSurface.TryReadIntroduce(introduce, out var introducedOutput));
+        Assert.Equal(output, introducedOutput);
+
+        Assert.True(TransformSurface.TryReadRemove(remove, out var removedInput));
+        Assert.Equal(input, removedInput);
+
+        Assert.True(TransformSurface.TryReadSplit(split, out var splitInput, out var splitOutputs));
+        Assert.Equal(input, splitInput);
+        Assert.Equal(outputPorts, splitOutputs);
+
+        Assert.True(TransformSurface.TryReadFold(fold, out var foldInputs, out var foldOutput));
+        Assert.Equal(inputPorts, foldInputs);
+        Assert.Equal(output, foldOutput);
+
+        Assert.True(TransformSurface.TryReadInterpolate(
+            interpolate,
+            out var first,
+            out var second,
+            out var readGrade,
+            out var interpolatedOutput));
+        Assert.Equal(input, first);
+        Assert.Equal(extra, second);
+        Assert.Equal(grade, readGrade);
+        Assert.Equal(output, interpolatedOutput);
+    }
+
+    [Fact]
+    public void TransformApplicationCanDeriveBindingsFromOperationEvidence()
+    {
+        var sourceCarrier = new Carrier();
+        var source = Relation.Segment(sourceCarrier, 0, 10);
+        var selected = Relation.Segment(sourceCarrier, 4, 6);
+        var carry = Relation.Segment(sourceCarrier, 0, 4);
+        var replacement = Relation.Segment(new Carrier(), 0, 3);
+        var introduced = Relation.Point(new Carrier(), 9);
+        var operation = TransformSurface.Frame(
+            new Carrier(),
+            TransformSurface.Remove(selected),
+            TransformSurface.Carry(carry, carry),
+            TransformSurface.Introduce(introduced),
+            TransformSurface.Map(selected, replacement));
+        var transform = TransformSurface.Create(
+            new Carrier(),
+            TransformSurface.Ports(new Carrier(), selected),
+            operation,
+            TransformSurface.Ports(new Carrier(), replacement, introduced),
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0));
+        var focus = FocusSurface.Create(
+            new Carrier(),
+            source,
+            Relation.Point(sourceCarrier, 5),
+            selected,
+            carry,
+            replacement,
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0));
+        var result = FocusSurface.Frame(new Carrier(), carry, replacement, introduced);
+
+        Assert.True(TransformSurface.TryDeriveBindings(operation, out var derived));
+        Assert.True(FocusSurface.TryReadBindingFrame(derived, out var derivedBindings));
+        Assert.Equal(4, derivedBindings.Length);
+
+        Assert.True(TransformSurface.TryCreateApplication(
+            new Carrier(),
+            transform,
+            focus,
+            Relation.Point(Carrier.Unknown, 0),
+            result,
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0),
+            out var application));
+        Assert.True(TransformSurface.TryReadApplication(
+            application,
+            out _,
+            out _,
+            out var applicationBindings,
+            out _,
+            out var patch,
+            out _,
+            out _,
+            out _));
+        Assert.True(FocusSurface.TryReadBindingFrame(applicationBindings, out var applicationBindingClauses));
+        Assert.Equal(derivedBindings, applicationBindingClauses);
+
+        Assert.True(TransformSurface.TryReadPatch(
+            patch,
+            out _,
+            out _,
+            out _,
+            out _,
+            out _,
+            out _,
+            out var patchCorrespondence,
+            out _,
+            out _,
+            out _));
+        Assert.True(FocusSurface.TryReadBindingFrame(patchCorrespondence, out var patchBindingClauses));
+        Assert.Equal(derivedBindings, patchBindingClauses);
     }
 
     [Fact]

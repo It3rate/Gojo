@@ -775,6 +775,19 @@ and carries a patch witness. The patch witness preserves source, transform,
 focus, selected participation, carried complement, replacement/introduction,
 correspondence, result, residue, and provenance.
 
+The first operation reads are deliberately small relation shapes:
+
+- map/carry: `input -> output`
+- introduce: `unknown -> output`
+- remove: `input -> unknown`
+- split: `input -> output ports`
+- fold: `input ports -> output`
+- interpolate: `first, second, grade/basis ports -> output`
+
+These operation shapes can derive correspondence bindings during a transform
+application. Explicit bindings can still be supplied, but a transform does not
+need a separate metadata table to say that an output came from an input.
+
 Structural ladders can now carry complete rungs, rung frames,
 focus-transition timelines, transform-application timelines, current-rung
 reads, local change reads, and rungs created from transform applications.
@@ -792,12 +805,11 @@ residue. A refined rung can then read its source from that focus rather than
 duplicating the source in a separate argument. This keeps "what is selected"
 inside Gojo structure instead of turning it into code-side intent.
 
-The next work is making transform operation structure stronger. The current
-surface records that an instruction was applied, but the operation itself is
-still ordinary relation evidence. That is intentional for the first pass. The
-important next step is letting operation structure express delete, carry,
-introduce, split, fold, union, interpolation, and projection without becoming a
-symbolic operation enum.
+The next work is making transform operation structure settle real outputs
+rather than only deriving correspondence. Union, projection, partial replay,
+stale application detection, and multi-parent patch histories are still open.
+Those should remain operation structure and witnessed residue, not symbolic
+operation enums.
 
 ## Implementation Bias
 

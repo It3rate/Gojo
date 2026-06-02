@@ -239,6 +239,23 @@ TransformSurface
   provenance
 ```
 
+Operation structure is also ordinary relation structure. The first low-level
+operation reads are:
+
+```text
+map / carry       input -> output
+introduce         unknown -> output
+remove            input -> unknown
+split             input -> output ports
+fold              input ports -> output
+interpolate       first, second, grade/basis ports -> output
+```
+
+These are not symbolic operation kinds. They are relation shapes that imply
+correspondence. A transform application can derive bindings from them when
+explicit bindings are unresolved, while still recording the exact bindings
+that settled in the application and patch witness.
+
 The transform is the reusable instruction. The application is the concrete
 settlement of that instruction against a real focus:
 

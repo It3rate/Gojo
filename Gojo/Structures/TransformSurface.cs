@@ -17,6 +17,34 @@ public static class TransformSurface
     public static Relation Frame(Carrier root, params IElement[] elements) =>
         Relation.OrderedGroup(RootOrNew(root), elements ?? []);
 
+    /// <summary>Creates direct input-to-output operation evidence.</summary>
+    public static Relation Map(IElement input, IElement output) =>
+        new(input ?? UnknownPoint(), output ?? UnknownPoint());
+
+    /// <summary>Creates carry-forward evidence. Structurally this is input -> output.</summary>
+    public static Relation Carry(IElement input, IElement output) =>
+        Map(input, output);
+
+    /// <summary>Creates introduction evidence. Structurally this is unresolved input -> output.</summary>
+    public static Relation Introduce(IElement output) =>
+        Map(UnknownPoint(), output);
+
+    /// <summary>Creates removal/anti-participation evidence. Structurally this is input -> unresolved output.</summary>
+    public static Relation Remove(IElement input) =>
+        Map(input, UnknownPoint());
+
+    /// <summary>Creates split evidence. Structurally this is input -> output ports.</summary>
+    public static Relation Split(IElement input, IElement outputPorts) =>
+        Map(input, outputPorts ?? Ports(new Carrier()));
+
+    /// <summary>Creates fold evidence. Structurally this is input ports -> output.</summary>
+    public static Relation Fold(IElement inputPorts, IElement output) =>
+        Map(inputPorts ?? Ports(new Carrier()), output);
+
+    /// <summary>Creates interpolation evidence. Structurally this is input ports -> output.</summary>
+    public static Relation Interpolate(IElement first, IElement second, IElement gradeOrBasis, IElement output) =>
+        Fold(Ports(new Carrier(), first ?? UnknownPoint(), second ?? UnknownPoint(), gradeOrBasis ?? UnknownPoint()), output);
+
     /// <summary>
     /// Creates a reusable transform instruction:
     /// input ports, operation structure, output ports, residue policy,
@@ -113,7 +141,7 @@ public static class TransformSurface
         IElement provenance,
         out Relation application)
     {
-        if (!TryRead(transform, out _, out _, out _, out _, out _) ||
+        if (!TryRead(transform, out _, out var operation, out _, out _, out _) ||
             !FocusSurface.TryRead(
                 focus,
                 out _,
@@ -129,7 +157,10 @@ public static class TransformSurface
             return false;
         }
 
-        var effectiveBindings = EffectiveEvidence(bindings, focusCorrespondence);
+        var operationBindings = TryDeriveBindings(operation, out var derivedBindings)
+            ? derivedBindings
+            : UnknownPoint();
+        var effectiveBindings = EffectiveEvidence(bindings, operationBindings, focusCorrespondence);
         var effectiveResidue = EffectiveEvidence(residueOrTension, focusResidue);
         var effectiveProvenance = EffectiveEvidence(provenance, focusProvenance);
 
@@ -137,6 +168,7 @@ public static class TransformSurface
                 new Carrier(),
                 transform,
                 focus,
+                effectiveBindings,
                 result,
                 effectiveResidue,
                 effectiveProvenance,
@@ -185,6 +217,28 @@ public static class TransformSurface
         IElement provenance,
         out Relation patch)
     {
+        return TryCreatePatchFromFocus(
+            root,
+            transform,
+            focus,
+            null!,
+            result,
+            residueOrTension,
+            provenance,
+            out patch);
+    }
+
+    /// <summary>Creates a patch by reading selection roles from a focus surface with explicit correspondence evidence.</summary>
+    public static bool TryCreatePatchFromFocus(
+        Carrier root,
+        Relation transform,
+        Relation focus,
+        IElement correspondenceEvidence,
+        IElement result,
+        IElement residueOrTension,
+        IElement provenance,
+        out Relation patch)
+    {
         if (!TryRead(transform, out _, out _, out _, out _, out _) ||
             !FocusSurface.TryRead(
                 focus,
@@ -193,7 +247,7 @@ public static class TransformSurface
                 out var participation,
                 out var complement,
                 out var replacement,
-                out var correspondence,
+                out var focusCorrespondence,
                 out var focusResidue,
                 out var focusProvenance))
         {
@@ -209,7 +263,7 @@ public static class TransformSurface
             participation,
             complement,
             replacement,
-            correspondence,
+            EffectiveEvidence(correspondenceEvidence, focusCorrespondence),
             result ?? UnknownPoint(),
             EffectiveEvidence(residueOrTension, focusResidue),
             EffectiveEvidence(provenance, focusProvenance));
@@ -241,6 +295,154 @@ public static class TransformSurface
         outputPorts = default!;
         residuePolicy = default!;
         provenance = default!;
+        return false;
+    }
+
+    /// <summary>Reads an ordered port set.</summary>
+    public static bool TryReadPorts(IElement ports, out IElement[] portElements)
+    {
+        if (ports is Relation relation &&
+            TryReadRootElements(relation, out var elements))
+        {
+            portElements = elements;
+            return true;
+        }
+
+        portElements = [];
+        return false;
+    }
+
+    /// <summary>Reads direct input-to-output operation evidence.</summary>
+    public static bool TryReadMap(Relation operation, out IElement input, out IElement output)
+    {
+        if (operation is not null)
+        {
+            input = operation.Left;
+            output = operation.Right;
+            return true;
+        }
+
+        input = default!;
+        output = default!;
+        return false;
+    }
+
+    /// <summary>Reads introduction evidence as unresolved input -> output.</summary>
+    public static bool TryReadIntroduce(Relation operation, out IElement output)
+    {
+        if (TryReadMap(operation, out var input, out var candidateOutput) &&
+            IsUnknownPoint(input) &&
+            !IsUnknownPoint(candidateOutput))
+        {
+            output = candidateOutput;
+            return true;
+        }
+
+        output = default!;
+        return false;
+    }
+
+    /// <summary>Reads removal evidence as input -> unresolved output.</summary>
+    public static bool TryReadRemove(Relation operation, out IElement input)
+    {
+        if (TryReadMap(operation, out var candidateInput, out var output) &&
+            !IsUnknownPoint(candidateInput) &&
+            IsUnknownPoint(output))
+        {
+            input = candidateInput;
+            return true;
+        }
+
+        input = default!;
+        return false;
+    }
+
+    /// <summary>Reads split evidence as input -> output ports.</summary>
+    public static bool TryReadSplit(Relation operation, out IElement input, out IElement outputPorts)
+    {
+        if (TryReadMap(operation, out var candidateInput, out var candidateOutputs) &&
+            !IsUnknownPoint(candidateInput) &&
+            TryReadPorts(candidateOutputs, out var outputs) &&
+            outputs.Length > 1)
+        {
+            input = candidateInput;
+            outputPorts = candidateOutputs;
+            return true;
+        }
+
+        input = default!;
+        outputPorts = default!;
+        return false;
+    }
+
+    /// <summary>Reads fold evidence as input ports -> output.</summary>
+    public static bool TryReadFold(Relation operation, out IElement inputPorts, out IElement output)
+    {
+        if (TryReadMap(operation, out var candidateInputs, out var candidateOutput) &&
+            TryReadPorts(candidateInputs, out var inputs) &&
+            inputs.Length > 1 &&
+            !IsUnknownPoint(candidateOutput))
+        {
+            inputPorts = candidateInputs;
+            output = candidateOutput;
+            return true;
+        }
+
+        inputPorts = default!;
+        output = default!;
+        return false;
+    }
+
+    /// <summary>Reads interpolation evidence as first, second, grade/basis -> output.</summary>
+    public static bool TryReadInterpolate(
+        Relation operation,
+        out IElement first,
+        out IElement second,
+        out IElement gradeOrBasis,
+        out IElement output)
+    {
+        if (TryReadFold(operation, out var inputPorts, out var candidateOutput) &&
+            TryReadPorts(inputPorts, out var inputs) &&
+            inputs.Length == 3)
+        {
+            first = inputs[0];
+            second = inputs[1];
+            gradeOrBasis = inputs[2];
+            output = candidateOutput;
+            return true;
+        }
+
+        first = default!;
+        second = default!;
+        gradeOrBasis = default!;
+        output = default!;
+        return false;
+    }
+
+    /// <summary>
+    /// Derives correspondence bindings from operation evidence. A transform can
+    /// still carry explicit bindings; this read only exposes what the operation
+    /// itself already implies.
+    /// </summary>
+    public static bool TryDeriveBindings(IElement operation, out Relation bindings)
+    {
+        var clauses = ReadOperationClauses(operation);
+        var derived = new List<Relation>();
+        foreach (var clause in clauses)
+        {
+            if (TryReadMap(clause, out var input, out var output))
+            {
+                derived.Add(FocusSurface.Bind(input, output));
+            }
+        }
+
+        if (derived.Count > 0)
+        {
+            bindings = FocusSurface.BindingFrame(new Carrier(), [.. derived]);
+            return true;
+        }
+
+        bindings = null!;
         return false;
     }
 
@@ -371,6 +573,22 @@ public static class TransformSurface
         return false;
     }
 
+    private static Relation[] ReadOperationClauses(IElement operation)
+    {
+        if (operation is not Relation relation)
+        {
+            return [];
+        }
+
+        if (TryReadRootElements(relation, out var elements) &&
+            elements.Length > 0)
+        {
+            return [.. elements.OfType<Relation>()];
+        }
+
+        return [relation];
+    }
+
     private static IElement EffectiveEvidence(IElement primary, IElement fallback)
     {
         if (primary is null || IsUnknownPoint(primary))
@@ -379,6 +597,19 @@ public static class TransformSurface
         }
 
         return primary;
+    }
+
+    private static IElement EffectiveEvidence(params IElement[] evidence)
+    {
+        foreach (var element in evidence ?? [])
+        {
+            if (element is not null && !IsUnknownPoint(element))
+            {
+                return element;
+            }
+        }
+
+        return UnknownPoint();
     }
 
     private static Relation UnknownTransform() =>
