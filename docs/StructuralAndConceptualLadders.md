@@ -874,13 +874,17 @@ ApplicationDependency
   provenance
 ```
 
-The first automatic read only discovers direct consumption: producer output
-structure reused by a consumer focus or input binding. The exact surface can
-also carry explicit binding evidence from a producer output to a consumer
-input, so dependency can be represented as structure rather than a side table.
-This is useful for replay because it begins to distinguish "everything after
-this focus changed" from "this later application actually consumes that earlier
-application."
+The automatic read discovers local consumption of producer output structure.
+It now walks nested operation inputs, focus participation, patch participation,
+and correspondence bindings, so a producer replacement can be found inside a
+consumer transform operation or correspondence frame. It deliberately does not
+treat a shared source as dependency evidence by itself; dependency needs output
+structure, explicit binding evidence, or a whole producer result being consumed.
+The exact surface can also carry explicit binding evidence from a producer
+output to a consumer input, so dependency can be represented as structure rather
+than a side table. This is useful for replay because it begins to distinguish
+"everything after this focus changed" from "this later application actually
+consumes that earlier application."
 
 Dependency-guided affected slices make that distinction explicit:
 
@@ -923,8 +927,8 @@ inside Gojo structure instead of turning it into code-side intent.
 
 The next work is making transform operation structure settle real outputs
 rather than only deriving correspondence. Union, projection, multi-parent patch
-histories, dependency inference beyond direct output-to-input bindings, and
-stronger replay residue are still open.
+histories, inferred dependency evidence from settled live outputs, and stronger
+replay residue are still open.
 Those should remain operation structure and witnessed residue, not symbolic
 operation enums.
 

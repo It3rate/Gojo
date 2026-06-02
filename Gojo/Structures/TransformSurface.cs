@@ -1602,18 +1602,30 @@ public static class TransformSurface
 
     private static Relation[] ReadOperationClauses(IElement operation)
     {
-        if (operation is not Relation relation)
+        var clauses = new List<Relation>();
+        CollectOperationClauses(operation, clauses);
+        return [.. clauses];
+    }
+
+    private static void CollectOperationClauses(IElement element, List<Relation> clauses)
+    {
+        if (element is not Relation relation)
         {
-            return [];
+            return;
         }
 
         if (TryReadRootElements(relation, out var elements) &&
             elements.Length > 0)
         {
-            return [.. elements.OfType<Relation>()];
+            foreach (var child in elements)
+            {
+                CollectOperationClauses(child, clauses);
+            }
+
+            return;
         }
 
-        return [relation];
+        clauses.Add(relation);
     }
 
     private static bool IsReadableStaleOrUnknown(IElement element) =>
@@ -2002,8 +2014,8 @@ public static class TransformSurface
         var inputCandidates = ReadConsumerInputCandidates(consumerApplication);
         foreach (var binding in bindings)
         {
-            if (ContainsElement(outputCandidates, binding.Left) &&
-                ContainsElement(inputCandidates, binding.Right))
+            if (ElementTreeContainsAny(binding.Left, outputCandidates) &&
+                ElementTreeContainsAny(binding.Right, inputCandidates))
             {
                 return true;
             }
@@ -2033,7 +2045,7 @@ public static class TransformSurface
         if (TryRead(transform, out _, out _, out var outputPorts, out _, out _) &&
             TryReadPorts(outputPorts, out var outputPortElements))
         {
-            AddCandidates(candidates, outputPortElements);
+            AddCandidateTrees(candidates, outputPortElements);
             AddBindingTargetsForSources(candidates, bindings, outputPortElements);
         }
 
@@ -2050,7 +2062,7 @@ public static class TransformSurface
                 out _,
                 out _))
         {
-            AddCandidate(candidates, replacement);
+            AddCandidateTree(candidates, replacement);
             AddCandidate(candidates, patchResult);
             AddBindingTargets(candidates, correspondence);
         }
@@ -2075,11 +2087,12 @@ public static class TransformSurface
         }
 
         var candidates = new List<IElement>();
-        if (TryRead(transform, out var inputPorts, out _, out _, out _, out _) &&
+        if (TryRead(transform, out var inputPorts, out var operation, out _, out _, out _) &&
             TryReadPorts(inputPorts, out var inputPortElements))
         {
-            AddCandidates(candidates, inputPortElements);
+            AddCandidateTrees(candidates, inputPortElements);
             AddBindingTargetsForSources(candidates, bindings, inputPortElements);
+            AddOperationInputCandidates(candidates, operation);
         }
 
         AddBindingSources(candidates, bindings);
@@ -2095,9 +2108,9 @@ public static class TransformSurface
                 out _))
         {
             AddCandidate(candidates, source);
-            AddCandidate(candidates, focusBasis);
-            AddCandidate(candidates, participation);
-            AddCandidate(candidates, complement);
+            AddCandidateTree(candidates, focusBasis);
+            AddCandidateTree(candidates, participation);
+            AddCandidateTree(candidates, complement);
             AddBindingSources(candidates, focusCorrespondence);
         }
 
@@ -2115,8 +2128,8 @@ public static class TransformSurface
                 out _))
         {
             AddCandidate(candidates, patchSource);
-            AddCandidate(candidates, patchParticipation);
-            AddCandidate(candidates, patchComplement);
+            AddCandidateTree(candidates, patchParticipation);
+            AddCandidateTree(candidates, patchComplement);
             AddBindingSources(candidates, patchCorrespondence);
         }
 
@@ -2125,18 +2138,41 @@ public static class TransformSurface
 
     private static Relation[] ReadBindingClauses(IElement evidence)
     {
+        var clauses = new List<Relation>();
+        CollectBindingClauses(evidence, clauses);
+        return [.. clauses];
+    }
+
+    private static void CollectBindingClauses(IElement evidence, List<Relation> clauses)
+    {
         if (evidence is not Relation relation)
         {
-            return [];
+            return;
         }
 
-        if (FocusSurface.TryReadBindingFrame(relation, out var bindings) &&
-            bindings.Length > 0)
+        if (TryReadRootElements(relation, out var elements) &&
+            elements.Length > 0)
         {
-            return bindings;
+            foreach (var element in elements)
+            {
+                CollectBindingClauses(element, clauses);
+            }
+
+            return;
         }
 
-        return [relation];
+        clauses.Add(relation);
+    }
+
+    private static void AddOperationInputCandidates(List<IElement> candidates, IElement operation)
+    {
+        foreach (var clause in ReadOperationClauses(operation))
+        {
+            if (TryReadMap(clause, out var input, out _))
+            {
+                AddCandidateTree(candidates, input);
+            }
+        }
     }
 
     private static void AddBindingTargetsForSources(
@@ -2148,7 +2184,7 @@ public static class TransformSurface
         {
             if (ContainsElement(sources, binding.Left))
             {
-                AddCandidate(candidates, binding.Right);
+                AddCandidateTree(candidates, binding.Right);
             }
         }
     }
@@ -2157,7 +2193,7 @@ public static class TransformSurface
     {
         foreach (var binding in ReadBindingClauses(bindings))
         {
-            AddCandidate(candidates, binding.Right);
+            AddCandidateTree(candidates, binding.Right);
         }
     }
 
@@ -2165,21 +2201,69 @@ public static class TransformSurface
     {
         foreach (var binding in ReadBindingClauses(bindings))
         {
-            AddCandidate(candidates, binding.Left);
+            AddCandidateTree(candidates, binding.Left);
         }
     }
 
-    private static void AddCandidates(List<IElement> candidates, IEnumerable<IElement> elements)
+    private static void AddCandidateTrees(List<IElement> candidates, IEnumerable<IElement> elements)
     {
         foreach (var element in elements)
         {
-            AddCandidate(candidates, element);
+            AddCandidateTree(candidates, element);
         }
+    }
+
+    private static void AddCandidateTree(List<IElement> candidates, IElement element)
+    {
+        AddCandidate(candidates, element);
+
+        if (element is not Relation relation)
+        {
+            return;
+        }
+
+        if (TryReadRootElements(relation, out var elements) &&
+            elements.Length > 0)
+        {
+            foreach (var child in elements)
+            {
+                AddCandidateTree(candidates, child);
+            }
+
+            return;
+        }
+
+        AddCandidateTree(candidates, relation.Left);
+        AddCandidateTree(candidates, relation.Right);
+    }
+
+    private static bool ElementTreeContainsAny(IElement element, IReadOnlyList<IElement> candidates)
+    {
+        if (ContainsElement(candidates, element))
+        {
+            return true;
+        }
+
+        if (element is not Relation relation)
+        {
+            return false;
+        }
+
+        if (TryReadRootElements(relation, out var elements) &&
+            elements.Length > 0)
+        {
+            return elements.Any(child => ElementTreeContainsAny(child, candidates));
+        }
+
+        return ElementTreeContainsAny(relation.Left, candidates) ||
+            ElementTreeContainsAny(relation.Right, candidates);
     }
 
     private static void AddCandidate(List<IElement> candidates, IElement element)
     {
         if (element is null ||
+            element is Carrier ||
+            element is CarrierLocation ||
             IsUnknownPoint(element) ||
             ContainsElement(candidates, element))
         {

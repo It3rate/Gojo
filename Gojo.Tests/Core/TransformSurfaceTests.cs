@@ -1247,6 +1247,118 @@ public sealed class TransformSurfaceTests
     }
 
     [Fact]
+    public void ApplicationDependencyDiscoversProducerOutputInsideConsumerOperationInput()
+    {
+        var sourceCarrier = new Carrier();
+        var source = Relation.Segment(sourceCarrier, 0, 20);
+        var producerSelected = Relation.Segment(sourceCarrier, 2, 4);
+        var producerReplacement = Relation.Segment(new Carrier(), 0, 2);
+        var producerApplication = CreateSegmentApplication(
+            source,
+            Relation.Point(sourceCarrier, 3),
+            producerSelected,
+            producerReplacement);
+        var consumerSelected = Relation.Segment(sourceCarrier, 8, 10);
+        var consumerReplacement = Relation.Segment(new Carrier(), 0, 3);
+        var inputPort = new Placeholder();
+        var outputPort = new Placeholder();
+        var grade = Relation.Point(new Carrier(), 1);
+        var consumerTransform = TransformSurface.Create(
+            new Carrier(),
+            TransformSurface.Ports(new Carrier(), inputPort),
+            TransformSurface.Interpolate(producerReplacement, inputPort, grade, outputPort),
+            TransformSurface.Ports(new Carrier(), outputPort),
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0));
+        var consumerApplication = CreateApplication(
+            consumerTransform,
+            CreateFocus(
+                source,
+                Relation.Point(sourceCarrier, 9),
+                consumerSelected,
+                Relation.Point(Carrier.Unknown, 0),
+                consumerReplacement,
+                FocusSurface.Bind(consumerSelected, consumerReplacement)),
+            FocusSurface.BindingFrame(
+                new Carrier(),
+                FocusSurface.Bind(inputPort, consumerSelected),
+                FocusSurface.Bind(outputPort, consumerReplacement)),
+            FocusSurface.Frame(new Carrier(), source, consumerReplacement));
+
+        Assert.True(TransformSurface.TryCreateApplicationDependency(
+            new Carrier(),
+            producerApplication,
+            consumerApplication,
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0),
+            out var dependency));
+        Assert.True(TransformSurface.TryReadApplicationDependency(
+            dependency,
+            out _,
+            out _,
+            out var evidence,
+            out _,
+            out _));
+        Assert.True(FocusSurface.TryReadBindingFrame(evidence, out var bindings));
+        Assert.Contains(bindings, binding =>
+            Equals(binding.Left, producerReplacement) &&
+            Equals(binding.Right, producerReplacement));
+    }
+
+    [Fact]
+    public void ApplicationDependencyDiscoversProducerOutputInsideConsumerCorrespondence()
+    {
+        var sourceCarrier = new Carrier();
+        var source = Relation.Segment(sourceCarrier, 0, 20);
+        var producerSelected = Relation.Segment(sourceCarrier, 2, 4);
+        var producerReplacement = Relation.Segment(new Carrier(), 0, 2);
+        var producerApplication = CreateSegmentApplication(
+            source,
+            Relation.Point(sourceCarrier, 3),
+            producerSelected,
+            producerReplacement);
+        var consumerSelected = Relation.Segment(sourceCarrier, 8, 10);
+        var consumerReplacement = Relation.Segment(new Carrier(), 0, 3);
+        var consumerTransform = CreateMapTransform(new Placeholder(), new Placeholder());
+        var correspondenceSource = FocusSurface.Frame(new Carrier(), producerReplacement, consumerSelected);
+        var consumerApplication = CreateApplication(
+            consumerTransform,
+            CreateFocus(
+                source,
+                Relation.Point(sourceCarrier, 9),
+                consumerSelected,
+                Relation.Point(Carrier.Unknown, 0),
+                consumerReplacement,
+                FocusSurface.BindingFrame(
+                    new Carrier(),
+                    FocusSurface.Bind(correspondenceSource, consumerReplacement))),
+            FocusSurface.BindingFrame(
+                new Carrier(),
+                FocusSurface.Bind(ReadInputPort(consumerTransform), consumerSelected),
+                FocusSurface.Bind(ReadOutputPort(consumerTransform), consumerReplacement)),
+            FocusSurface.Frame(new Carrier(), source, consumerReplacement));
+
+        Assert.True(TransformSurface.TryCreateApplicationDependency(
+            new Carrier(),
+            producerApplication,
+            consumerApplication,
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0),
+            out var dependency));
+        Assert.True(TransformSurface.TryReadApplicationDependency(
+            dependency,
+            out _,
+            out _,
+            out var evidence,
+            out _,
+            out _));
+        Assert.True(FocusSurface.TryReadBindingFrame(evidence, out var bindings));
+        Assert.Contains(bindings, binding =>
+            Equals(binding.Left, producerReplacement) &&
+            Equals(binding.Right, producerReplacement));
+    }
+
+    [Fact]
     public void DependencyAffectedSliceCarriesIndependentLaterApplications()
     {
         var sourceCarrier = new Carrier();

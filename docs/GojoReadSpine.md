@@ -362,12 +362,18 @@ ApplicationDependency
 ```
 
 The automatic creator is conservative. It derives evidence when producer output
-structure, such as a replacement or result, is reused by the consumer focus or
-consumer input binding. The exact reader can also recognize explicit binding
-evidence from a producer output to a consumer input, which lets the structure
-say "this feeds that" even when the two sides are not the same object. This is
-still a local read over application, focus, patch, and binding structure, not a
-global classifier or dependency side table.
+structure, such as a replacement or result, is consumed by the next application.
+The read now walks nested operation inputs, focus participation, patch
+participation, and correspondence bindings, so an output can be discovered
+inside a transform operation or a correspondence frame. It still does not treat
+a shared source as dependency evidence by itself; producer result frames are
+matched as whole results unless output-side structure is visible through the
+patch, output ports, or correspondence. The exact reader can also recognize
+explicit binding evidence from a producer output to a consumer input, which
+lets the structure say "this feeds that" even when the two sides are not the
+same object. This is still a local read over application, focus, patch,
+operation, and binding structure, not a global classifier or dependency side
+table.
 
 Dependency-aware affected slices use that evidence:
 
