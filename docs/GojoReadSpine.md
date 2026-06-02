@@ -271,6 +271,36 @@ TransformApplication
   provenance
 ```
 
+Applications can be replayed against a changed focus without treating the old
+after-state as the operation:
+
+```text
+Replay
+  previous application
+  new focus
+  new application
+  stale patch or residue
+  residue or tension
+  provenance
+```
+
+When the previous patch no longer matches the new focus, stale evidence is
+recorded:
+
+```text
+StalePatch
+  previous application
+  previous patch
+  previous focus
+  new focus
+  residue or tension
+  provenance
+```
+
+The old patch is not destroyed or overwritten. It remains evidence of what
+settled before, while the replay records the new application of the same
+transform instruction.
+
 The patch witness is the temporal/change relation. It records the source read
 through the transform and keeps the selected participation, carried complement,
 replacement or introduction, correspondence, result, residue, and provenance

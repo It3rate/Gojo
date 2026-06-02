@@ -128,6 +128,54 @@ public static class TransformSurface
     }
 
     /// <summary>
+    /// Creates stale patch evidence:
+    /// previous application, previous patch, previous focus, new focus,
+    /// residue/tension, provenance.
+    /// </summary>
+    public static Relation StalePatch(
+        Carrier root,
+        Relation previousApplication,
+        Relation previousPatch,
+        Relation previousFocus,
+        Relation newFocus,
+        IElement residueOrTension,
+        IElement provenance)
+    {
+        return Relation.OrderedGroup(
+            RootOrNew(root),
+            previousApplication ?? UnknownPoint(),
+            previousPatch ?? UnknownPoint(),
+            previousFocus ?? UnknownPoint(),
+            newFocus ?? UnknownPoint(),
+            residueOrTension ?? UnknownPoint(),
+            provenance ?? UnknownPoint());
+    }
+
+    /// <summary>
+    /// Creates replay evidence:
+    /// previous application, new focus, new application, stale patch evidence,
+    /// residue/tension, provenance.
+    /// </summary>
+    public static Relation Replay(
+        Carrier root,
+        Relation previousApplication,
+        Relation newFocus,
+        Relation newApplication,
+        IElement stalePatchOrResidue,
+        IElement residueOrTension,
+        IElement provenance)
+    {
+        return Relation.OrderedGroup(
+            RootOrNew(root),
+            previousApplication ?? UnknownPoint(),
+            newFocus ?? UnknownPoint(),
+            newApplication ?? UnknownPoint(),
+            stalePatchOrResidue ?? UnknownPoint(),
+            residueOrTension ?? UnknownPoint(),
+            provenance ?? UnknownPoint());
+    }
+
+    /// <summary>
     /// Applies a reusable transform to a real focus surface. This records the
     /// concrete patch and read witness; it does not mutate the source focus.
     /// </summary>
@@ -205,6 +253,121 @@ public static class TransformSurface
 
         application = null!;
         return false;
+    }
+
+    /// <summary>
+    /// Replays a previous transform application against a changed focus. The
+    /// transform is reused; the resulting application and stale patch evidence
+    /// remain inspectable.
+    /// </summary>
+    public static bool TryReplayApplication(
+        Carrier root,
+        Relation previousApplication,
+        Relation newFocus,
+        IElement bindings,
+        IElement result,
+        IElement residueOrTension,
+        IElement provenance,
+        out Relation replay)
+    {
+        if (!TryReadApplication(
+                previousApplication,
+                out var transform,
+                out _,
+                out _,
+                out _,
+                out _,
+                out _,
+                out var previousResidue,
+                out var previousProvenance))
+        {
+            replay = null!;
+            return false;
+        }
+
+        var stale = TryCreateStalePatch(
+            new Carrier(),
+            previousApplication,
+            newFocus,
+            EffectiveEvidence(residueOrTension, previousResidue),
+            EffectiveEvidence(provenance, previousProvenance),
+            out var stalePatch)
+            ? stalePatch
+            : UnknownPoint();
+        var replayProvenance = Frame(
+            new Carrier(),
+            previousApplication,
+            stale,
+            EffectiveEvidence(provenance, previousProvenance));
+
+        if (!TryCreateApplication(
+                new Carrier(),
+                transform,
+                newFocus,
+                bindings,
+                result,
+                residueOrTension,
+                replayProvenance,
+                out var newApplication))
+        {
+            replay = null!;
+            return false;
+        }
+
+        var candidate = Replay(
+            RootOrNew(root),
+            previousApplication,
+            newFocus,
+            newApplication,
+            stale,
+            EffectiveEvidence(residueOrTension, previousResidue),
+            replayProvenance);
+
+        if (TryReadReplay(candidate, out _, out _, out _, out _, out _, out _))
+        {
+            replay = candidate;
+            return true;
+        }
+
+        replay = null!;
+        return false;
+    }
+
+    /// <summary>Creates stale patch evidence when a previous patch is read against a different focus.</summary>
+    public static bool TryCreateStalePatch(
+        Carrier root,
+        Relation previousApplication,
+        Relation newFocus,
+        IElement residueOrTension,
+        IElement provenance,
+        out Relation stalePatch)
+    {
+        if (!TryReadApplication(
+                previousApplication,
+                out _,
+                out var previousFocus,
+                out _,
+                out _,
+                out var previousPatch,
+                out _,
+                out var applicationResidue,
+                out var applicationProvenance) ||
+            !FocusSurface.TryRead(newFocus, out _, out _, out _, out _, out _, out _, out _, out _) ||
+            Equals(previousFocus, newFocus))
+        {
+            stalePatch = null!;
+            return false;
+        }
+
+        stalePatch = StalePatch(
+            RootOrNew(root),
+            previousApplication,
+            previousPatch,
+            previousFocus,
+            newFocus,
+            EffectiveEvidence(residueOrTension, applicationResidue),
+            EffectiveEvidence(provenance, applicationProvenance));
+        return true;
     }
 
     /// <summary>Creates a patch by reading selection roles from a focus surface.</summary>
@@ -561,6 +724,114 @@ public static class TransformSurface
         return false;
     }
 
+    /// <summary>Reads stale patch evidence created by <see cref="StalePatch"/>.</summary>
+    public static bool TryReadStalePatch(
+        Relation stalePatch,
+        out Relation previousApplication,
+        out Relation previousPatch,
+        out Relation previousFocus,
+        out Relation newFocus,
+        out IElement residueOrTension,
+        out IElement provenance)
+    {
+        if (TryReadRootElements(stalePatch, out var elements) &&
+            elements.Length == 6 &&
+            elements[0] is Relation applicationRelation &&
+            TryReadApplication(
+                applicationRelation,
+                out _,
+                out var applicationFocus,
+                out _,
+                out _,
+                out var applicationPatch,
+                out _,
+                out _,
+                out _) &&
+            elements[1] is Relation patchRelation &&
+            TryReadPatch(patchRelation, out _, out _, out _, out _, out _, out _, out _, out _, out _, out _) &&
+            elements[2] is Relation previousFocusRelation &&
+            FocusSurface.TryRead(previousFocusRelation, out _, out _, out _, out _, out _, out _, out _, out _) &&
+            elements[3] is Relation newFocusRelation &&
+            FocusSurface.TryRead(newFocusRelation, out _, out _, out _, out _, out _, out _, out _, out _) &&
+            Equals(applicationPatch, patchRelation) &&
+            Equals(applicationFocus, previousFocusRelation))
+        {
+            previousApplication = applicationRelation;
+            previousPatch = patchRelation;
+            previousFocus = previousFocusRelation;
+            newFocus = newFocusRelation;
+            residueOrTension = elements[4];
+            provenance = elements[5];
+            return true;
+        }
+
+        previousApplication = null!;
+        previousPatch = null!;
+        previousFocus = null!;
+        newFocus = null!;
+        residueOrTension = default!;
+        provenance = default!;
+        return false;
+    }
+
+    /// <summary>Reads replay evidence created by <see cref="Replay"/>.</summary>
+    public static bool TryReadReplay(
+        Relation replay,
+        out Relation previousApplication,
+        out Relation newFocus,
+        out Relation newApplication,
+        out IElement stalePatchOrResidue,
+        out IElement residueOrTension,
+        out IElement provenance)
+    {
+        if (TryReadRootElements(replay, out var elements) &&
+            elements.Length == 6 &&
+            elements[0] is Relation previousApplicationRelation &&
+            TryReadApplication(
+                previousApplicationRelation,
+                out var previousTransform,
+                out _,
+                out _,
+                out _,
+                out _,
+                out _,
+                out _,
+                out _) &&
+            elements[1] is Relation newFocusRelation &&
+            FocusSurface.TryRead(newFocusRelation, out _, out _, out _, out _, out _, out _, out _, out _) &&
+            elements[2] is Relation newApplicationRelation &&
+            TryReadApplication(
+                newApplicationRelation,
+                out var replayTransform,
+                out var replayFocus,
+                out _,
+                out _,
+                out _,
+                out _,
+                out _,
+                out _) &&
+            Equals(previousTransform, replayTransform) &&
+            Equals(newFocusRelation, replayFocus) &&
+            IsReadableStaleOrUnknown(elements[3]))
+        {
+            previousApplication = previousApplicationRelation;
+            newFocus = newFocusRelation;
+            newApplication = newApplicationRelation;
+            stalePatchOrResidue = elements[3];
+            residueOrTension = elements[4];
+            provenance = elements[5];
+            return true;
+        }
+
+        previousApplication = null!;
+        newFocus = null!;
+        newApplication = null!;
+        stalePatchOrResidue = default!;
+        residueOrTension = default!;
+        provenance = default!;
+        return false;
+    }
+
     private static bool TryReadRootElements(Relation structure, out IElement[] elements)
     {
         if (structure?.Right is Carrier holder &&
@@ -588,6 +859,11 @@ public static class TransformSurface
 
         return [relation];
     }
+
+    private static bool IsReadableStaleOrUnknown(IElement element) =>
+        IsUnknownPoint(element) ||
+        element is Relation relation &&
+        TryReadStalePatch(relation, out _, out _, out _, out _, out _, out _);
 
     private static IElement EffectiveEvidence(IElement primary, IElement fallback)
     {

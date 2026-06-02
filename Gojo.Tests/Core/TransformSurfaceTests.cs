@@ -266,6 +266,186 @@ public sealed class TransformSurfaceTests
     }
 
     [Fact]
+    public void TransformApplicationCanReplayAgainstChangedFocusAndPreserveStalePatch()
+    {
+        var sourceCarrier = new Carrier();
+        var source = Relation.Segment(sourceCarrier, 0, 12);
+        var inputPort = new Placeholder();
+        var outputPort = new Placeholder();
+        var transform = TransformSurface.Create(
+            new Carrier(),
+            TransformSurface.Ports(new Carrier(), inputPort),
+            TransformSurface.Map(inputPort, outputPort),
+            TransformSurface.Ports(new Carrier(), outputPort),
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0));
+
+        var oldSelected = Relation.Segment(sourceCarrier, 4, 6);
+        var oldCarry = FocusSurface.Frame(
+            new Carrier(),
+            Relation.Segment(sourceCarrier, 0, 4),
+            Relation.Segment(sourceCarrier, 6, 12));
+        var oldReplacement = Relation.Segment(new Carrier(), 0, 3);
+        var oldFocus = FocusSurface.Create(
+            new Carrier(),
+            source,
+            Relation.Point(sourceCarrier, 5),
+            oldSelected,
+            oldCarry,
+            oldReplacement,
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0));
+        var oldBindings = FocusSurface.BindingFrame(
+            new Carrier(),
+            FocusSurface.Bind(inputPort, oldSelected),
+            FocusSurface.Bind(outputPort, oldReplacement));
+        var oldResult = FocusSurface.Frame(new Carrier(), oldCarry, oldReplacement);
+
+        Assert.True(TransformSurface.TryCreateApplication(
+            new Carrier(),
+            transform,
+            oldFocus,
+            oldBindings,
+            oldResult,
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0),
+            out var oldApplication));
+        Assert.True(TransformSurface.TryReadApplication(
+            oldApplication,
+            out _,
+            out _,
+            out _,
+            out _,
+            out var oldPatch,
+            out _,
+            out _,
+            out _));
+
+        var newSelected = Relation.Segment(sourceCarrier, 5, 8);
+        var newCarry = FocusSurface.Frame(
+            new Carrier(),
+            Relation.Segment(sourceCarrier, 0, 5),
+            Relation.Segment(sourceCarrier, 8, 12));
+        var newReplacement = Relation.Segment(new Carrier(), 0, 5);
+        var newFocus = FocusSurface.Create(
+            new Carrier(),
+            source,
+            Relation.Point(sourceCarrier, 6),
+            newSelected,
+            newCarry,
+            newReplacement,
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0));
+        var newBindings = FocusSurface.BindingFrame(
+            new Carrier(),
+            FocusSurface.Bind(inputPort, newSelected),
+            FocusSurface.Bind(outputPort, newReplacement));
+        var newResult = FocusSurface.Frame(new Carrier(), newCarry, newReplacement);
+        var replayResidue = new Placeholder();
+
+        Assert.True(TransformSurface.TryReplayApplication(
+            new Carrier(),
+            oldApplication,
+            newFocus,
+            newBindings,
+            newResult,
+            replayResidue,
+            Relation.Point(Carrier.Unknown, 0),
+            out var replay));
+
+        Assert.True(TransformSurface.TryReadReplay(
+            replay,
+            out var replayPrevious,
+            out var replayFocus,
+            out var replayApplication,
+            out var stale,
+            out var replayReadResidue,
+            out var replayProvenance));
+        Assert.Equal(oldApplication, replayPrevious);
+        Assert.Equal(newFocus, replayFocus);
+        Assert.Equal(replayResidue, replayReadResidue);
+        Assert.True(FocusSurface.TryReadFrame(replayProvenance, out var replayProvenanceParts));
+        Assert.Equal(3, replayProvenanceParts.Length);
+
+        Assert.True(TransformSurface.TryReadApplication(
+            replayApplication,
+            out var replayTransform,
+            out var applicationFocus,
+            out var applicationBindings,
+            out var applicationResult,
+            out _,
+            out _,
+            out var applicationResidue,
+            out _));
+        Assert.Equal(transform, replayTransform);
+        Assert.Equal(newFocus, applicationFocus);
+        Assert.Equal(newBindings, applicationBindings);
+        Assert.Equal(newResult, applicationResult);
+        Assert.Equal(replayResidue, applicationResidue);
+
+        var stalePatch = Assert.IsType<Relation>(stale);
+        Assert.True(TransformSurface.TryReadStalePatch(
+            stalePatch,
+            out var stalePreviousApplication,
+            out var stalePreviousPatch,
+            out var stalePreviousFocus,
+            out var staleNewFocus,
+            out var staleResidue,
+            out _));
+        Assert.Equal(oldApplication, stalePreviousApplication);
+        Assert.Equal(oldPatch, stalePreviousPatch);
+        Assert.Equal(oldFocus, stalePreviousFocus);
+        Assert.Equal(newFocus, staleNewFocus);
+        Assert.Equal(replayResidue, staleResidue);
+    }
+
+    [Fact]
+    public void StalePatchIsNotCreatedWhenFocusStillMatches()
+    {
+        var sourceCarrier = new Carrier();
+        var source = Relation.Segment(sourceCarrier, 0, 10);
+        var selected = Relation.Segment(sourceCarrier, 4, 6);
+        var replacement = Relation.Segment(new Carrier(), 0, 3);
+        var focus = FocusSurface.Create(
+            new Carrier(),
+            source,
+            Relation.Point(sourceCarrier, 5),
+            selected,
+            Relation.Segment(sourceCarrier, 0, 4),
+            replacement,
+            FocusSurface.Bind(selected, replacement),
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0));
+        var transform = TransformSurface.Create(
+            new Carrier(),
+            TransformSurface.Ports(new Carrier(), selected),
+            TransformSurface.Map(selected, replacement),
+            TransformSurface.Ports(new Carrier(), replacement),
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0));
+
+        Assert.True(TransformSurface.TryCreateApplication(
+            new Carrier(),
+            transform,
+            focus,
+            FocusSurface.Bind(selected, replacement),
+            FocusSurface.Frame(new Carrier(), source, replacement),
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0),
+            out var application));
+
+        Assert.False(TransformSurface.TryCreateStalePatch(
+            new Carrier(),
+            application,
+            focus,
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0),
+            out _));
+    }
+
+    [Fact]
     public void StructuralLadderCanUseTransformApplicationAsTimelineTransition()
     {
         var sourceCarrier = new Carrier();

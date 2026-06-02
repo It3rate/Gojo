@@ -788,6 +788,33 @@ These operation shapes can derive correspondence bindings during a transform
 application. Explicit bindings can still be supplied, but a transform does not
 need a separate metadata table to say that an output came from an input.
 
+Transform applications can also be replayed against a changed focus. Replay
+reuses the transform instruction, creates a new application for the new focus,
+and records stale patch evidence when the previous patch no longer settles
+against that focus:
+
+```text
+Replay
+  previous application
+  new focus
+  new application
+  stale patch or residue
+  residue or tension
+  provenance
+
+StalePatch
+  previous application
+  previous patch
+  previous focus
+  new focus
+  residue or tension
+  provenance
+```
+
+This is the CAD-history behavior: the instruction survives edits upstream, and
+the old patch remains inspectable as historical settlement instead of becoming
+the transform itself.
+
 Structural ladders can now carry complete rungs, rung frames,
 focus-transition timelines, transform-application timelines, current-rung
 reads, local change reads, and rungs created from transform applications.
@@ -807,7 +834,7 @@ inside Gojo structure instead of turning it into code-side intent.
 
 The next work is making transform operation structure settle real outputs
 rather than only deriving correspondence. Union, projection, partial replay,
-stale application detection, and multi-parent patch histories are still open.
+multi-parent patch histories, and stronger replay residue are still open.
 Those should remain operation structure and witnessed residue, not symbolic
 operation enums.
 
