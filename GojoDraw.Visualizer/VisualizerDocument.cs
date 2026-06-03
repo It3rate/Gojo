@@ -12,14 +12,8 @@ internal sealed record VisualizerDocument(
 {
     public IElement Structure => DemoPage?.Structure ?? Chain(Elements);
 
-    public static VisualizerDocument CreateInitial()
-    {
-        var sample = VisualizerSample.Create();
-        return new VisualizerDocument(
-            sample.Drawing,
-            sample.Elements,
-            sample.ProjectionSeed);
-    }
+    public static VisualizerDocument CreateInitial() =>
+        CreateEmpty();
 
     public static VisualizerDocument CreateEmpty() =>
         new(new Carrier(), [], Random.Shared.Next());
@@ -38,14 +32,14 @@ internal sealed record VisualizerDocument(
 
             var enabled = legend
                 .Where(document.CanApply)
-                .Where(entry => entry.Label != "feature replay")
+                .Where(entry => !VisualizerLadderDemo.IsDemoLabel(entry.Label))
                 .Where(entry => entry.Label != "point" || Random.Shared.NextDouble() < 0.2)
                 .ToArray();
             if (enabled.Length == 0)
             {
                 enabled = [.. legend
                     .Where(document.CanApply)
-                    .Where(entry => entry.Label != "feature replay")];
+                    .Where(entry => !VisualizerLadderDemo.IsDemoLabel(entry.Label))];
             }
 
             if (enabled.Length == 0)
@@ -96,7 +90,7 @@ internal sealed record VisualizerDocument(
         {
             var label when IsLetterLabel(label) => true,
             var label when IsCurveLabel(label) => true,
-            "feature replay" => true,
+            var label when VisualizerLadderDemo.IsDemoLabel(label) => true,
             "point" => true,
             "radial" => selection.Point is not null,
             "span" => selection.LineSeed is not null || selection.Point is not null || SelectedIndex is null,
@@ -130,7 +124,7 @@ internal sealed record VisualizerDocument(
         {
             var label when IsLetterLabel(label) => "add letter pattern",
             var label when IsCurveLabel(label) => "add curve",
-            "feature replay" => "open feature replay ladder",
+            var label when VisualizerLadderDemo.IsDemoLabel(label) => "open ladder replay demo",
             "point" => "add point",
             "radial" => "select a point",
             "span" => "select a point or line seed",
@@ -195,8 +189,8 @@ internal sealed record VisualizerDocument(
                 new VisualizerLegendDisplay($"anchored {label}", entry.Structure, entry.ProjectionSeed),
             var label when IsCurveLabel(label) && selection.Point is not null =>
                 new VisualizerLegendDisplay($"anchored {label}", entry.Structure, entry.ProjectionSeed),
-            "feature replay" =>
-                new VisualizerLegendDisplay("feature replay", entry.Structure, entry.ProjectionSeed),
+            var label when VisualizerLadderDemo.IsDemoLabel(label) =>
+                new VisualizerLegendDisplay(label, entry.Structure, entry.ProjectionSeed),
             _ => new VisualizerLegendDisplay(entry.Label, entry.Structure, entry.ProjectionSeed)
         };
     }
@@ -212,7 +206,7 @@ internal sealed record VisualizerDocument(
         {
             var label when TryReadLetter(label, out var letter) => AddLetter(letter),
             var label when IsCurveLabel(label) => AddCurve(label),
-            "feature replay" => CreateFeatureReplayDemo(),
+            var label when VisualizerLadderDemo.IsDemoLabel(label) => CreateLadderDemo(label),
             "point" => AddPoint(),
             "radial" => AddRadial(),
             "span" => AddSegment(),
@@ -235,9 +229,9 @@ internal sealed record VisualizerDocument(
         };
     }
 
-    private static VisualizerDocument CreateFeatureReplayDemo()
+    private static VisualizerDocument CreateLadderDemo(string label)
     {
-        var demo = VisualizerLadderDemo.CreateFeatureReplay();
+        var demo = VisualizerLadderDemo.Create(label);
         return new VisualizerDocument(
             new Carrier(),
             [],

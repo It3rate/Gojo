@@ -2,6 +2,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Layout;
+using Avalonia.Media;
 
 namespace GojoDraw.Visualizer;
 
@@ -12,7 +13,11 @@ internal static class Program
     {
         if (args.Any(arg => string.Equals(arg, "--smoke-demo", StringComparison.OrdinalIgnoreCase)))
         {
-            _ = VisualizerLadderDemo.CreateFeatureReplay();
+            foreach (var demo in VisualizerLadderDemo.CreateAll())
+            {
+                _ = demo.Structure;
+            }
+
             return;
         }
 
@@ -46,7 +51,7 @@ internal sealed class MainWindow : Window
         MinWidth = 720;
         MinHeight = 480;
 
-        var canvas = new VisualizerCanvas { Document = VisualizerDocument.CreateInitial() };
+        var canvas = new VisualizerCanvas { Document = VisualizerDocument.CreateEmpty() };
         var refreshButton = new Button
         {
             Content = "Refresh",
@@ -69,34 +74,55 @@ internal sealed class MainWindow : Window
             MinHeight = 44
         };
 
-        refreshButton.Click += (_, _) =>
-        {
-            canvas.Document = canvas.Document?.Resample() ?? VisualizerDocument.CreateInitial();
-        };
-        randomButton.Click += (_, _) =>
-        {
-            canvas.Document = VisualizerDocument.CreateRandom();
-        };
-        clearButton.Click += (_, _) =>
-        {
-            canvas.Document = VisualizerDocument.CreateEmpty();
-        };
-
         var buttons = new StackPanel
         {
             Orientation = Orientation.Horizontal,
-            HorizontalAlignment = HorizontalAlignment.Right,
-            VerticalAlignment = VerticalAlignment.Top,
-            Margin = new Thickness(16),
             Spacing = 8
         };
         buttons.Children.Add(refreshButton);
         buttons.Children.Add(randomButton);
         buttons.Children.Add(clearButton);
+        var buttonChrome = new Border
+        {
+            HorizontalAlignment = HorizontalAlignment.Right,
+            VerticalAlignment = VerticalAlignment.Top,
+            Margin = new Thickness(14),
+            Padding = new Thickness(6),
+            CornerRadius = new CornerRadius(7),
+            Background = new SolidColorBrush(Color.FromArgb(205, 255, 254, 250)),
+            BorderBrush = new SolidColorBrush(Color.FromArgb(88, 82, 88, 96)),
+            BorderThickness = new Thickness(1),
+            Child = buttons
+        };
+
+        void SetDocument(VisualizerDocument next)
+        {
+            canvas.Document = next;
+        }
+
+        void UpdateButtonVisibility()
+        {
+            buttonChrome.IsVisible = canvas.Document?.DemoPage is null;
+        }
+
+        refreshButton.Click += (_, _) =>
+        {
+            SetDocument(canvas.Document?.Resample() ?? VisualizerDocument.CreateEmpty());
+        };
+        randomButton.Click += (_, _) =>
+        {
+            SetDocument(VisualizerDocument.CreateRandom());
+        };
+        clearButton.Click += (_, _) =>
+        {
+            SetDocument(VisualizerDocument.CreateEmpty());
+        };
+        canvas.DocumentChanged += (_, _) => UpdateButtonVisibility();
 
         var root = new Grid();
         root.Children.Add(canvas);
-        root.Children.Add(buttons);
+        root.Children.Add(buttonChrome);
+        UpdateButtonVisibility();
         Content = root;
     }
 }

@@ -67,7 +67,12 @@ internal sealed record VisualizerSample(
         ]),
         new VisualizerLegendPage("Ladder",
         [
-            LegendEntry("feature replay", VisualizerLadderDemo.CreateLegendGlyph(), 151)
+            LegendEntry("feature replay", VisualizerLadderDemo.CreateLegendGlyph("feature replay"), 151),
+            LegendEntry("route replay", VisualizerLadderDemo.CreateLegendGlyph("route replay"), 152),
+            LegendEntry("stroke replay", VisualizerLadderDemo.CreateLegendGlyph("stroke replay"), 153),
+            LegendEntry("branch replay", VisualizerLadderDemo.CreateLegendGlyph("branch replay"), 154),
+            LegendEntry("letter replay", VisualizerLadderDemo.CreateLegendGlyph("letter replay"), 155),
+            LegendEntry("crescent replay", VisualizerLadderDemo.CreateLegendGlyph("crescent replay"), 156)
         ])
     ];
 

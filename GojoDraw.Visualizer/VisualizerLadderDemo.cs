@@ -55,48 +55,89 @@ internal sealed record VisualizerDemoLabel(
 
 internal static class VisualizerLadderDemo
 {
-    public static VisualizerDemoPage CreateFeatureReplay()
+    private static readonly DemoDefinition[] Definitions =
+    [
+        new("feature replay", "Feature Replay Ladder", DemoKind.RoundedCorner),
+        new("route replay", "Route Replay Ladder", DemoKind.Route),
+        new("stroke replay", "Stroke Outline Ladder", DemoKind.StrokeOutline),
+        new("branch replay", "Branch Replay Ladder", DemoKind.Branch),
+        new("letter replay", "Letter Replay Ladder", DemoKind.Letter),
+        new("crescent replay", "Crescent Replay Ladder", DemoKind.Crescent)
+    ];
+
+    public static IReadOnlyList<string> DemoLabels =>
+        Definitions.Select(definition => definition.Label).ToArray();
+
+    public static bool IsDemoLabel(string label) =>
+        Definitions.Any(definition => string.Equals(definition.Label, label, StringComparison.OrdinalIgnoreCase));
+
+    public static VisualizerDemoPage Create(string label)
+    {
+        var definition = Definitions.FirstOrDefault(definition =>
+            string.Equals(definition.Label, label, StringComparison.OrdinalIgnoreCase)) ??
+            Definitions[0];
+        return Create(definition);
+    }
+
+    public static IReadOnlyList<VisualizerDemoPage> CreateAll() =>
+        Definitions.Select(Create).ToArray();
+
+    public static VisualizerDemoPage CreateFeatureReplay() =>
+        Create(Definitions[0]);
+
+    public static IElement CreateLegendGlyph(string label)
+    {
+        var definition = Definitions.FirstOrDefault(definition =>
+            string.Equals(definition.Label, label, StringComparison.OrdinalIgnoreCase)) ??
+            Definitions[0];
+        return Chain(CreateDrawing(definition.Kind, DemoStage.FocusedTransform));
+    }
+
+    public static IElement CreateLegendGlyph() =>
+        CreateLegendGlyph(Definitions[0].Label);
+
+    private static VisualizerDemoPage Create(DemoDefinition definition)
     {
         var replay = CreateReplayEvidence();
         var panels = new[]
         {
             new VisualizerDemoPanel(
                 "1. Base rung",
-                "Sharp feature A feeds B and D. C is independent.",
-                CreateFeatureDrawing(FeatureDrawingStage.Base),
+                ReadCaption(definition.Kind, DemoStage.Base),
+                CreateDrawing(definition.Kind, DemoStage.Base),
                 replay.BaseRung,
                 Random.Shared.Next(),
-                FeatureModelBounds(),
-                CreateFeatureLabels(FeatureDrawingStage.Base)),
+                DemoModelBounds(definition.Kind),
+                CreateLabels(definition.Kind, DemoStage.Base)),
             new VisualizerDemoPanel(
                 "2. Focus + transform",
-                "The corner focus carries its exterior and proposes a rounded transition.",
-                CreateFeatureDrawing(FeatureDrawingStage.FocusedTransform),
+                ReadCaption(definition.Kind, DemoStage.FocusedTransform),
+                CreateDrawing(definition.Kind, DemoStage.FocusedTransform),
                 replay.AffectedSlice,
                 Random.Shared.Next(),
-                FeatureModelBounds(),
-                CreateFeatureLabels(FeatureDrawingStage.FocusedTransform)),
+                DemoModelBounds(definition.Kind),
+                CreateLabels(definition.Kind, DemoStage.FocusedTransform)),
             new VisualizerDemoPanel(
                 "3. Partial replay",
-                "A' and carried C are current. Dependent consumers remain explicit residue.",
-                CreateFeatureDrawing(FeatureDrawingStage.PartialReplay),
+                ReadCaption(definition.Kind, DemoStage.PartialReplay),
+                CreateDrawing(definition.Kind, DemoStage.PartialReplay),
                 replay.PartialReplayRung,
                 Random.Shared.Next(),
-                FeatureModelBounds(),
-                CreateFeatureLabels(FeatureDrawingStage.PartialReplay),
+                DemoModelBounds(definition.Kind),
+                CreateLabels(definition.Kind, DemoStage.PartialReplay),
                 replay.StaleCount == 1 ? "1 stale dependency" : $"{replay.StaleCount} stale dependencies"),
             new VisualizerDemoPanel(
                 "4. Resumed rung",
-                "B' and D' replay against A'. The current rung is settled.",
-                CreateFeatureDrawing(FeatureDrawingStage.SettledReplay),
+                ReadCaption(definition.Kind, DemoStage.SettledReplay),
+                CreateDrawing(definition.Kind, DemoStage.SettledReplay),
                 replay.SettledRung,
                 Random.Shared.Next(),
-                FeatureModelBounds(),
-                CreateFeatureLabels(FeatureDrawingStage.SettledReplay))
+                DemoModelBounds(definition.Kind),
+                CreateLabels(definition.Kind, DemoStage.SettledReplay))
         };
 
         return new VisualizerDemoPage(
-            "Feature Replay Ladder",
+            definition.PageTitle,
             StructuralLadderSurface.CreateWithRungs(
                 new Carrier(),
                 replay.BaseRung,
@@ -104,9 +145,6 @@ internal static class VisualizerLadderDemo
                 replay.SettledRung),
             panels);
     }
-
-    public static IElement CreateLegendGlyph() =>
-        Chain(CreateFeatureDrawing(FeatureDrawingStage.FocusedTransform));
 
     private static ReplayEvidence CreateReplayEvidence()
     {
@@ -380,39 +418,45 @@ internal static class VisualizerLadderDemo
         return ports[0];
     }
 
-    private static IReadOnlyList<IElement> CreateFeatureDrawing(FeatureDrawingStage stage)
+    private static IReadOnlyList<IElement> CreateDrawing(DemoKind kind, DemoStage stage)
     {
-        var frame = new Carrier();
-        var x = new Carrier();
-        var y = new Carrier();
-        var points = new Dictionary<(long X, long Y), Relation>();
+        var sketch = new FrameSketch();
+        var elements = new List<IElement>();
+        void Add(params IElement[] items) => elements.AddRange(items);
 
-        Relation Point(long px, long py)
+        switch (kind)
         {
-            var key = (X: px, Y: py);
-            if (!points.TryGetValue(key, out var point))
-            {
-                point = GraphicStructure.FramePoint(
-                    frame,
-                    new CarrierLocation(x, px),
-                    new CarrierLocation(y, py));
-                points[key] = point;
-            }
-
-            return point;
+            case DemoKind.RoundedCorner:
+                AddRoundedCorner(sketch, stage, Add);
+                break;
+            case DemoKind.Route:
+                AddRoute(sketch, stage, Add);
+                break;
+            case DemoKind.StrokeOutline:
+                AddStrokeOutline(sketch, stage, Add);
+                break;
+            case DemoKind.Branch:
+                AddBranch(sketch, stage, Add);
+                break;
+            case DemoKind.Letter:
+                AddLetter(sketch, stage, Add);
+                break;
+            case DemoKind.Crescent:
+                AddCrescent(sketch, stage, Add);
+                break;
         }
 
-        Relation Segment(long ax, long ay, long bx, long by) =>
-            GraphicStructure.FrameSegment(Point(ax, ay), Point(bx, by));
+        return elements;
+    }
 
-        Relation Arc(long cx, long cy, long ax, long ay, long bx, long by) =>
-            GraphicStructure.FrameArc(Point(cx, cy), Point(ax, ay), Point(bx, by));
-
-        var elements = new List<IElement>();
+    private static void AddRoundedCorner(FrameSketch sketch, DemoStage stage, Action<IElement[]> add)
+    {
+        Relation Segment(long ax, long ay, long bx, long by) => sketch.Segment(ax, ay, bx, by);
+        Relation Arc(long cx, long cy, long ax, long ay, long bx, long by) => sketch.Arc(cx, cy, ax, ay, bx, by);
         switch (stage)
         {
-            case FeatureDrawingStage.Base:
-                elements.AddRange([
+            case DemoStage.Base:
+                add([
                     Segment(-22, 0, 14, 0),
                     Segment(14, 0, 14, 18),
                     Segment(14, 12, 25, 12),
@@ -421,8 +465,8 @@ internal static class VisualizerLadderDemo
                 ]);
                 break;
 
-            case FeatureDrawingStage.FocusedTransform:
-                elements.AddRange([
+            case DemoStage.FocusedTransform:
+                add([
                     Segment(-22, 0, 5, 0),
                     Segment(5, 0, 14, 0),
                     Segment(14, 0, 14, 8),
@@ -432,8 +476,8 @@ internal static class VisualizerLadderDemo
                 ]);
                 break;
 
-            case FeatureDrawingStage.PartialReplay:
-                elements.AddRange([
+            case DemoStage.PartialReplay:
+                add([
                     Segment(-22, 0, 8, 0),
                     Arc(8, 6, 8, 0, 14, 6),
                     Segment(14, 6, 14, 18),
@@ -441,8 +485,8 @@ internal static class VisualizerLadderDemo
                 ]);
                 break;
 
-            case FeatureDrawingStage.SettledReplay:
-                elements.AddRange([
+            case DemoStage.SettledReplay:
+                add([
                     Segment(-22, 0, 8, 0),
                     Arc(8, 6, 8, 0, 14, 6),
                     Segment(14, 6, 14, 18),
@@ -452,44 +496,391 @@ internal static class VisualizerLadderDemo
                 ]);
                 break;
         }
-
-        return elements;
     }
 
-    private static IReadOnlyList<VisualizerDemoLabel> CreateFeatureLabels(FeatureDrawingStage stage)
+    private static void AddRoute(FrameSketch sketch, DemoStage stage, Action<IElement[]> add)
+    {
+        Relation Segment(long ax, long ay, long bx, long by) => sketch.Segment(ax, ay, bx, by);
+        Relation Arc(long cx, long cy, long ax, long ay, long bx, long by) => sketch.Arc(cx, cy, ax, ay, bx, by);
+        switch (stage)
+        {
+            case DemoStage.Base:
+                add([
+                    Segment(-23, 0, 12, 0),
+                    Segment(12, 0, 12, 15),
+                    Segment(12, 15, 26, 15),
+                    Segment(3, 0, 3, -11),
+                    Segment(-25, -17, -12, -17),
+                    Segment(-12, -17, -12, -9),
+                    Segment(-12, -9, -25, -9),
+                    Segment(-25, -9, -25, -17)
+                ]);
+                break;
+            case DemoStage.FocusedTransform:
+                add([
+                    Segment(-23, 0, 4, 0),
+                    Arc(4, 7, 4, 0, 11, 7),
+                    Segment(11, 7, 11, 18),
+                    Segment(12, 15, 26, 15),
+                    Segment(3, 0, 3, -11),
+                    Segment(-25, -17, -12, -17),
+                    Segment(-12, -17, -12, -9),
+                    Segment(-12, -9, -25, -9),
+                    Segment(-25, -9, -25, -17)
+                ]);
+                break;
+            case DemoStage.PartialReplay:
+                add([
+                    Segment(-23, 0, 4, 0),
+                    Arc(4, 7, 4, 0, 11, 7),
+                    Segment(11, 7, 11, 18),
+                    Segment(-25, -17, -12, -17),
+                    Segment(-12, -17, -12, -9),
+                    Segment(-12, -9, -25, -9),
+                    Segment(-25, -9, -25, -17)
+                ]);
+                break;
+            case DemoStage.SettledReplay:
+                add([
+                    Segment(-23, 0, 4, 0),
+                    Arc(4, 7, 4, 0, 11, 7),
+                    Segment(11, 7, 11, 18),
+                    Segment(11, 15, 26, 15),
+                    Segment(4, 0, -2, -11),
+                    Segment(-25, -17, -12, -17),
+                    Segment(-12, -17, -12, -9),
+                    Segment(-12, -9, -25, -9),
+                    Segment(-25, -9, -25, -17)
+                ]);
+                break;
+        }
+    }
+
+    private static void AddStrokeOutline(FrameSketch sketch, DemoStage stage, Action<IElement[]> add)
+    {
+        Relation Segment(long ax, long ay, long bx, long by) => sketch.Segment(ax, ay, bx, by);
+        Relation Arc(long cx, long cy, long ax, long ay, long bx, long by) => sketch.Arc(cx, cy, ax, ay, bx, by);
+        switch (stage)
+        {
+            case DemoStage.Base:
+                add([
+                    Segment(-20, 0, 18, 0),
+                    Segment(18, -5, 18, 5),
+                    Segment(-20, -5, -20, 5),
+                    Segment(0, 0, 0, -12),
+                    Segment(-24, -17, -12, -17)
+                ]);
+                break;
+            case DemoStage.FocusedTransform:
+                add([
+                    Segment(-18, 4, 18, 4),
+                    Segment(-18, -4, 18, -4),
+                    Arc(-18, 0, -18, -4, -18, 4),
+                    Arc(18, 0, 18, 4, 18, -4),
+                    Segment(0, 0, 0, -12),
+                    Segment(-24, -17, -12, -17)
+                ]);
+                break;
+            case DemoStage.PartialReplay:
+                add([
+                    Segment(-18, 4, 18, 4),
+                    Segment(-18, -4, 18, -4),
+                    Arc(-18, 0, -18, -4, -18, 4),
+                    Arc(18, 0, 18, 4, 18, -4),
+                    Segment(-24, -17, -12, -17)
+                ]);
+                break;
+            case DemoStage.SettledReplay:
+                add([
+                    Segment(-18, 4, 18, 4),
+                    Segment(-18, -4, 18, -4),
+                    Arc(-18, 0, -18, -4, -18, 4),
+                    Arc(18, 0, 18, 4, 18, -4),
+                    Segment(18, 4, 25, 8),
+                    Segment(18, -4, 25, -8),
+                    Segment(-18, 0, -26, -9),
+                    Segment(-24, -17, -12, -17)
+                ]);
+                break;
+        }
+    }
+
+    private static void AddBranch(FrameSketch sketch, DemoStage stage, Action<IElement[]> add)
+    {
+        Relation Segment(long ax, long ay, long bx, long by) => sketch.Segment(ax, ay, bx, by);
+        Relation Arc(long cx, long cy, long ax, long ay, long bx, long by) => sketch.Arc(cx, cy, ax, ay, bx, by);
+        switch (stage)
+        {
+            case DemoStage.Base:
+                add([
+                    Segment(-24, 0, 0, 0),
+                    Segment(0, 0, 17, 12),
+                    Segment(0, 0, 17, -12),
+                    Segment(0, 0, 0, 15),
+                    Segment(-24, -17, -12, -17)
+                ]);
+                break;
+            case DemoStage.FocusedTransform:
+                add([
+                    Segment(-24, 0, -2, 0),
+                    Arc(0, 5, -2, 0, 8, 8),
+                    Arc(0, -5, -2, 0, 8, -8),
+                    Segment(0, 0, 0, 15),
+                    Segment(-24, -17, -12, -17)
+                ]);
+                break;
+            case DemoStage.PartialReplay:
+                add([
+                    Segment(-24, 0, -2, 0),
+                    Arc(0, 5, -2, 0, 8, 8),
+                    Arc(0, -5, -2, 0, 8, -8),
+                    Segment(-24, -17, -12, -17)
+                ]);
+                break;
+            case DemoStage.SettledReplay:
+                add([
+                    Segment(-24, 0, -2, 0),
+                    Arc(0, 5, -2, 0, 8, 8),
+                    Arc(0, -5, -2, 0, 8, -8),
+                    Segment(8, 8, 20, 14),
+                    Segment(8, -8, 20, -14),
+                    Segment(2, 0, 0, 15),
+                    Segment(-24, -17, -12, -17)
+                ]);
+                break;
+        }
+    }
+
+    private static void AddLetter(FrameSketch sketch, DemoStage stage, Action<IElement[]> add)
+    {
+        Relation Segment(long ax, long ay, long bx, long by) => sketch.Segment(ax, ay, bx, by);
+        Relation Arc(long cx, long cy, long ax, long ay, long bx, long by) => sketch.Arc(cx, cy, ax, ay, bx, by);
+        switch (stage)
+        {
+            case DemoStage.Base:
+                add([
+                    Segment(-14, -12, -14, 14),
+                    Segment(-14, 14, 8, 14),
+                    Segment(8, 14, 8, 2),
+                    Segment(8, 2, -14, 2),
+                    Segment(-14, 2, 13, -12),
+                    Segment(-24, -17, -12, -17)
+                ]);
+                break;
+            case DemoStage.FocusedTransform:
+                add([
+                    Segment(-14, -12, -14, 14),
+                    Segment(-14, 14, 0, 14),
+                    Arc(0, 8, 0, 14, 8, 8),
+                    Arc(0, 8, 8, 8, 0, 2),
+                    Segment(0, 2, -14, 2),
+                    Segment(-14, 2, 13, -12),
+                    Segment(-24, -17, -12, -17)
+                ]);
+                break;
+            case DemoStage.PartialReplay:
+                add([
+                    Segment(-14, -12, -14, 14),
+                    Segment(-14, 14, 0, 14),
+                    Arc(0, 8, 0, 14, 8, 8),
+                    Arc(0, 8, 8, 8, 0, 2),
+                    Segment(0, 2, -14, 2),
+                    Segment(-24, -17, -12, -17)
+                ]);
+                break;
+            case DemoStage.SettledReplay:
+                add([
+                    Segment(-14, -12, -14, 14),
+                    Segment(-14, 14, 0, 14),
+                    Arc(0, 8, 0, 14, 8, 8),
+                    Arc(0, 8, 8, 8, 0, 2),
+                    Segment(0, 2, -14, 2),
+                    Segment(-10, 2, 14, -12),
+                    Segment(-24, -17, -12, -17)
+                ]);
+                break;
+        }
+    }
+
+    private static void AddCrescent(FrameSketch sketch, DemoStage stage, Action<IElement[]> add)
+    {
+        Relation Segment(long ax, long ay, long bx, long by) => sketch.Segment(ax, ay, bx, by);
+        Relation Arc(long cx, long cy, long ax, long ay, long bx, long by) => sketch.Arc(cx, cy, ax, ay, bx, by);
+        switch (stage)
+        {
+            case DemoStage.Base:
+                add([
+                    Arc(0, 0, 0, 14, 14, 0),
+                    Arc(0, 0, 14, 0, 0, -14),
+                    Arc(0, 0, 0, -14, -14, 0),
+                    Arc(0, 0, -14, 0, 0, 14),
+                    Segment(5, 10, 5, -10),
+                    Segment(-2, 0, 10, 0),
+                    Segment(-24, -17, -12, -17)
+                ]);
+                break;
+            case DemoStage.FocusedTransform:
+                add([
+                    Arc(0, 0, 0, 14, 14, 0),
+                    Arc(0, 0, 14, 0, 0, -14),
+                    Arc(0, 0, 0, -14, -14, 0),
+                    Arc(0, 0, -14, 0, 0, 14),
+                    Arc(5, 0, 5, 11, 13, 0),
+                    Arc(5, 0, 13, 0, 5, -11),
+                    Segment(-2, 0, 10, 0),
+                    Segment(-24, -17, -12, -17)
+                ]);
+                break;
+            case DemoStage.PartialReplay:
+                add([
+                    Arc(0, 0, 0, 14, 14, 0),
+                    Arc(0, 0, 14, 0, 0, -14),
+                    Arc(0, 0, 0, -14, -14, 0),
+                    Arc(0, 0, -14, 0, 0, 14),
+                    Arc(5, 0, 5, 11, 13, 0),
+                    Arc(5, 0, 13, 0, 5, -11),
+                    Segment(-24, -17, -12, -17)
+                ]);
+                break;
+            case DemoStage.SettledReplay:
+                add([
+                    Arc(0, 0, 0, 14, 14, 0),
+                    Arc(0, 0, 14, 0, 0, -14),
+                    Arc(0, 0, 0, -14, -14, 0),
+                    Arc(0, 0, -14, 0, 0, 14),
+                    Arc(5, 0, 5, 11, 13, 0),
+                    Arc(5, 0, 13, 0, 5, -11),
+                    Segment(5, 11, 5, -11),
+                    Segment(-5, 0, 8, 0),
+                    Segment(-24, -17, -12, -17)
+                ]);
+                break;
+        }
+    }
+
+    private static IReadOnlyList<VisualizerDemoLabel> CreateLabels(DemoKind kind, DemoStage stage)
     {
         var stale = new SKColor(169, 54, 57, 235);
         var settled = new SKColor(48, 87, 135, 230);
         var neutral = new SKColor(31, 37, 45, 220);
         var changed = new SKColor(86, 68, 145, 235);
+        var positions = kind switch
+        {
+            DemoKind.RoundedCorner => new LabelPositions(
+                new SKPoint(12f, 4f),
+                new SKPoint(22f, 15f),
+                new SKPoint(-16f, -16f),
+                new SKPoint(1f, -12f),
+                new SKPoint(8f, -4f),
+                new SKPoint(9f, -4f),
+                new SKPoint(22f, 15f),
+                new SKPoint(-1f, -12f)),
+            DemoKind.Route => new LabelPositions(
+                new SKPoint(11f, 5f),
+                new SKPoint(23f, 18f),
+                new SKPoint(-24f, -5f),
+                new SKPoint(1f, -13f),
+                new SKPoint(7f, 4f),
+                new SKPoint(8f, 4f),
+                new SKPoint(23f, 18f),
+                new SKPoint(-4f, -13f)),
+            DemoKind.StrokeOutline => new LabelPositions(
+                new SKPoint(0f, 4f),
+                new SKPoint(24f, 9f),
+                new SKPoint(-19f, -20f),
+                new SKPoint(0f, -14f),
+                new SKPoint(0f, 7f),
+                new SKPoint(0f, 7f),
+                new SKPoint(24f, 10f),
+                new SKPoint(-25f, -11f)),
+            DemoKind.Branch => new LabelPositions(
+                new SKPoint(0f, 4f),
+                new SKPoint(18f, 15f),
+                new SKPoint(-19f, -20f),
+                new SKPoint(18f, -15f),
+                new SKPoint(3f, 4f),
+                new SKPoint(3f, 4f),
+                new SKPoint(18f, 15f),
+                new SKPoint(18f, -15f)),
+            DemoKind.Letter => new LabelPositions(
+                new SKPoint(-17f, 11f),
+                new SKPoint(9f, 11f),
+                new SKPoint(-19f, -20f),
+                new SKPoint(9f, -11f),
+                new SKPoint(2f, 12f),
+                new SKPoint(2f, 12f),
+                new SKPoint(9f, 11f),
+                new SKPoint(10f, -11f)),
+            DemoKind.Crescent => new LabelPositions(
+                new SKPoint(-10f, 12f),
+                new SKPoint(12f, 8f),
+                new SKPoint(-19f, -20f),
+                new SKPoint(9f, 2f),
+                new SKPoint(-9f, 12f),
+                new SKPoint(-9f, 12f),
+                new SKPoint(12f, 8f),
+                new SKPoint(8f, 2f)),
+            _ => new LabelPositions(
+                new SKPoint(12f, 4f),
+                new SKPoint(22f, 15f),
+                new SKPoint(-16f, -16f),
+                new SKPoint(1f, -12f),
+                new SKPoint(8f, -4f),
+                new SKPoint(9f, -4f),
+                new SKPoint(22f, 15f),
+                new SKPoint(-1f, -12f))
+        };
 
         return stage switch
         {
-            FeatureDrawingStage.PartialReplay =>
+            DemoStage.PartialReplay =>
             [
-                new VisualizerDemoLabel("A'", 8f, -4f, changed),
-                new VisualizerDemoLabel("B", 22f, 15f, stale),
-                new VisualizerDemoLabel("C", -16f, -16f, neutral),
-                new VisualizerDemoLabel("D", 1f, -12f, stale)
+                new VisualizerDemoLabel("A'", positions.PartialA.X, positions.PartialA.Y, changed),
+                new VisualizerDemoLabel("B", positions.SettledB.X, positions.SettledB.Y, stale),
+                new VisualizerDemoLabel("C", positions.C.X, positions.C.Y, neutral),
+                new VisualizerDemoLabel("D", positions.SettledD.X, positions.SettledD.Y, stale)
             ],
-            FeatureDrawingStage.SettledReplay =>
+            DemoStage.SettledReplay =>
             [
-                new VisualizerDemoLabel("A'", 9f, -4f, changed),
-                new VisualizerDemoLabel("B'", 22f, 15f, settled),
-                new VisualizerDemoLabel("C", -16f, -16f, neutral),
-                new VisualizerDemoLabel("D'", -1f, -12f, settled)
+                new VisualizerDemoLabel("A'", positions.SettledA.X, positions.SettledA.Y, changed),
+                new VisualizerDemoLabel("B'", positions.SettledB.X, positions.SettledB.Y, settled),
+                new VisualizerDemoLabel("C", positions.C.X, positions.C.Y, neutral),
+                new VisualizerDemoLabel("D'", positions.SettledD.X, positions.SettledD.Y, settled)
             ],
             _ =>
             [
-                new VisualizerDemoLabel("A", 12f, 4f, changed),
-                new VisualizerDemoLabel("B", 22f, 15f, settled),
-                new VisualizerDemoLabel("C", -16f, -16f, neutral),
-                new VisualizerDemoLabel("D", 1f, -12f, settled)
+                new VisualizerDemoLabel("A", positions.BaseA.X, positions.BaseA.Y, changed),
+                new VisualizerDemoLabel("B", positions.B.X, positions.B.Y, settled),
+                new VisualizerDemoLabel("C", positions.C.X, positions.C.Y, neutral),
+                new VisualizerDemoLabel("D", positions.D.X, positions.D.Y, settled)
             ]
         };
     }
 
-    private static SKRect FeatureModelBounds() =>
+    private static string ReadCaption(DemoKind kind, DemoStage stage)
+    {
+        var noun = kind switch
+        {
+            DemoKind.RoundedCorner => "corner",
+            DemoKind.Route => "route",
+            DemoKind.StrokeOutline => "stroke",
+            DemoKind.Branch => "junction",
+            DemoKind.Letter => "letter bowl",
+            DemoKind.Crescent => "outer curve",
+            _ => "feature"
+        };
+
+        return stage switch
+        {
+            DemoStage.Base => $"A is the current {noun}; B and D depend on it. C is carried.",
+            DemoStage.FocusedTransform => $"The focus proposes A' while preserving the rest as relation evidence.",
+            DemoStage.PartialReplay => "A' and C are current. B and D remain visible stale dependency residue.",
+            DemoStage.SettledReplay => "B' and D' replay against A'. The ladder's current rung is settled.",
+            _ => string.Empty
+        };
+    }
+
+    private static SKRect DemoModelBounds(DemoKind _) =>
         new(-27f, -21f, 31f, 23f);
 
     private static IElement Chain(IReadOnlyList<IElement> elements)
@@ -523,7 +914,61 @@ internal static class VisualizerLadderDemo
         Relation SettledRung,
         int StaleCount);
 
-    private enum FeatureDrawingStage
+    private sealed record DemoDefinition(
+        string Label,
+        string PageTitle,
+        DemoKind Kind);
+
+    private sealed record LabelPositions(
+        SKPoint BaseA,
+        SKPoint B,
+        SKPoint C,
+        SKPoint D,
+        SKPoint PartialA,
+        SKPoint SettledA,
+        SKPoint SettledB,
+        SKPoint SettledD);
+
+    private sealed class FrameSketch
+    {
+        private readonly Carrier frame = new();
+        private readonly Carrier x = new();
+        private readonly Carrier y = new();
+        private readonly Dictionary<(long X, long Y), Relation> points = [];
+
+        public Relation Point(long px, long py)
+        {
+            var key = (X: px, Y: py);
+            if (!points.TryGetValue(key, out var point))
+            {
+                point = GraphicStructure.FramePoint(
+                    frame,
+                    new CarrierLocation(x, px),
+                    new CarrierLocation(y, py));
+                points[key] = point;
+            }
+
+            return point;
+        }
+
+        public Relation Segment(long ax, long ay, long bx, long by) =>
+            GraphicStructure.FrameSegment(Point(ax, ay), Point(bx, by));
+
+        public Relation Arc(long cx, long cy, long ax, long ay, long bx, long by) =>
+            GraphicStructure.FrameArc(Point(cx, cy), Point(ax, ay), Point(bx, by));
+    }
+
+    private enum DemoKind
+    {
+        RoundedCorner,
+        Route,
+        StrokeOutline,
+        Branch,
+        Letter,
+        Crescent
+    }
+
+    private enum DemoStage
     {
         Base,
         FocusedTransform,

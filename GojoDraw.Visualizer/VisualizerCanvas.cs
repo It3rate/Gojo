@@ -28,6 +28,8 @@ internal sealed class VisualizerCanvas : Control
         ClipToBounds = true;
     }
 
+    public event EventHandler? DocumentChanged;
+
     public VisualizerDocument? Document
     {
         get => document;
@@ -38,6 +40,7 @@ internal sealed class VisualizerCanvas : Control
             Volatile.Write(ref structureHitAreas, []);
             Volatile.Write(ref legendHitAreas, []);
             InvalidateVisual();
+            DocumentChanged?.Invoke(this, EventArgs.Empty);
         }
     }
 
