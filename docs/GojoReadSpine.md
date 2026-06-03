@@ -367,6 +367,9 @@ producer has been replayed while the consumer is still the previous application.
 That witness can seed the next replay pass: a later consumer replay can resume
 from the stale dependency residue and rebuild the current frame without
 re-reading the original affected slice.
+Resume is not prefix-only: if several consumers are stale, a replay can match
+any stale consumer by structure and the unmatched consumers remain as stale
+dependency residue.
 
 The first affected-slice read starts from focus-change evidence:
 
@@ -454,6 +457,9 @@ If only A has been replayed so far, the current frame can contain `A'` and C,
 while the partial replay residue contains `StaleDependency(A -> B, A', B)`.
 Supplying `B -> B'` later can resume directly from that residue, producing
 `A'`, `B'`, and C with the stale dependency cleared.
+With multiple stale consumers, replaying only D first can produce `A'`, C, and
+`D'` while B remains as stale dependency residue; replaying B later settles the
+whole chain.
 
 The patch witness is the temporal/change relation. It records the source read
 through the transform and keeps the selected participation, carried complement,

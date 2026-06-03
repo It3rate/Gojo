@@ -2243,6 +2243,244 @@ public sealed class TransformSurfaceTests
     }
 
     [Fact]
+    public void StaleDependencyResumeCanReplayLaterConsumerAndLeaveEarlierResidue()
+    {
+        var sourceCarrier = new Carrier();
+        var source = Relation.Segment(sourceCarrier, 0, 40);
+        var producerSelected = Relation.Segment(sourceCarrier, 2, 4);
+        var producerReplacement = Relation.Segment(new Carrier(), 0, 2);
+        var firstConsumerSelected = Relation.Segment(sourceCarrier, 10, 12);
+        var firstConsumerReplacement = Relation.Segment(new Carrier(), 0, 3);
+        var independentSelected = Relation.Segment(sourceCarrier, 20, 22);
+        var laterConsumerSelected = Relation.Segment(sourceCarrier, 30, 32);
+        var laterConsumerReplacement = Relation.Segment(new Carrier(), 0, 4);
+        var producerApplication = CreateSegmentApplication(
+            source,
+            Relation.Point(sourceCarrier, 3),
+            producerSelected,
+            producerReplacement);
+        Assert.True(TransformSurface.TryReadApplication(
+            producerApplication,
+            out _,
+            out var producerFocus,
+            out _,
+            out _,
+            out _,
+            out _,
+            out _,
+            out _));
+        var firstConsumerApplication = CreateSegmentApplication(
+            source,
+            Relation.Point(sourceCarrier, 11),
+            firstConsumerSelected,
+            firstConsumerReplacement);
+        var independentApplication = CreateSegmentApplication(
+            source,
+            Relation.Point(sourceCarrier, 21),
+            independentSelected,
+            Relation.Segment(new Carrier(), 0, 2));
+        var laterConsumerApplication = CreateSegmentApplication(
+            source,
+            Relation.Point(sourceCarrier, 31),
+            laterConsumerSelected,
+            laterConsumerReplacement);
+        var producerToFirstConsumer = TransformSurface.ApplicationDependency(
+            new Carrier(),
+            producerApplication,
+            firstConsumerApplication,
+            FocusSurface.Bind(producerReplacement, firstConsumerSelected),
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0));
+        var producerToLaterConsumer = TransformSurface.ApplicationDependency(
+            new Carrier(),
+            producerApplication,
+            laterConsumerApplication,
+            FocusSurface.Bind(producerReplacement, laterConsumerSelected),
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0));
+
+        var changedProducerSelected = Relation.Segment(sourceCarrier, 2, 6);
+        var changedProducerReplacement = Relation.Segment(new Carrier(), 0, 4);
+        var changedProducerFocus = CreateFocus(
+            source,
+            Relation.Point(sourceCarrier, 4),
+            changedProducerSelected,
+            Relation.Point(Carrier.Unknown, 0),
+            changedProducerReplacement,
+            FocusSurface.Bind(producerSelected, changedProducerSelected));
+        Assert.True(TransformSurface.TryCreateFocusChange(
+            new Carrier(),
+            producerFocus,
+            changedProducerFocus,
+            FocusSurface.Bind(producerSelected, changedProducerSelected),
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0),
+            out var focusChange));
+        var previousFrame = TransformSurface.ApplicationFrame(
+            new Carrier(),
+            producerApplication,
+            firstConsumerApplication,
+            independentApplication,
+            laterConsumerApplication);
+        var dependencyFrame = TransformSurface.ApplicationDependencyFrame(
+            new Carrier(),
+            producerToFirstConsumer,
+            producerToLaterConsumer);
+        Assert.True(TransformSurface.TryCreateDependencyAffectedSlice(
+            new Carrier(),
+            previousFrame,
+            dependencyFrame,
+            focusChange,
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0),
+            out var affectedSlice));
+        Assert.True(TransformSurface.TryReplayApplication(
+            new Carrier(),
+            producerApplication,
+            changedProducerFocus,
+            FocusSurface.Bind(producerSelected, changedProducerSelected),
+            FocusSurface.Frame(new Carrier(), source, changedProducerReplacement),
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0),
+            out var producerReplay));
+        Assert.True(TransformSurface.TryCreatePartialReplayFromDependencyAffectedSlice(
+            new Carrier(),
+            affectedSlice,
+            [producerReplay],
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0),
+            out var producerOnlyPartialReplay));
+        Assert.True(TransformSurface.TryReadPartialReplay(
+            producerOnlyPartialReplay,
+            out _,
+            out _,
+            out _,
+            out var producerOnlyCurrentApplications,
+            out var producerOnlyResidue,
+            out _));
+        Assert.True(TransformSurface.TryReadApplicationFrame(producerOnlyCurrentApplications, out var producerOnlyCurrent));
+        Assert.True(TransformSurface.TryReadReplay(
+            producerReplay,
+            out _,
+            out _,
+            out var replayedProducer,
+            out _,
+            out _,
+            out _));
+        Assert.Equal([replayedProducer, independentApplication], producerOnlyCurrent);
+        Assert.True(TransformSurface.TryReadStaleDependencyResidue(producerOnlyResidue, out var initialStale));
+        Assert.Equal(2, initialStale.Length);
+        AssertStaleConsumer(initialStale[0], firstConsumerApplication);
+        AssertStaleConsumer(initialStale[1], laterConsumerApplication);
+
+        var changedLaterConsumerSelected = Relation.Segment(sourceCarrier, 30, 36);
+        var changedLaterConsumerReplacement = Relation.Segment(new Carrier(), 0, 6);
+        var changedLaterConsumerFocus = CreateFocus(
+            source,
+            Relation.Point(sourceCarrier, 33),
+            changedLaterConsumerSelected,
+            Relation.Point(Carrier.Unknown, 0),
+            changedLaterConsumerReplacement,
+            FocusSurface.Bind(laterConsumerSelected, changedLaterConsumerSelected));
+        Assert.True(TransformSurface.TryReplayApplication(
+            new Carrier(),
+            laterConsumerApplication,
+            changedLaterConsumerFocus,
+            FocusSurface.Bind(laterConsumerSelected, changedLaterConsumerSelected),
+            FocusSurface.Frame(new Carrier(), source, changedLaterConsumerReplacement),
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0),
+            out var laterConsumerReplay));
+        Assert.True(TransformSurface.TryCreatePartialReplayFromStaleDependencyResidue(
+            new Carrier(),
+            producerOnlyPartialReplay,
+            [laterConsumerReplay],
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0),
+            out var laterConsumerResumedReplay));
+        Assert.True(TransformSurface.TryReadPartialReplay(
+            laterConsumerResumedReplay,
+            out _,
+            out _,
+            out _,
+            out var laterConsumerCurrentApplications,
+            out var remainingResidue,
+            out _));
+        Assert.True(TransformSurface.TryReadApplicationFrame(laterConsumerCurrentApplications, out var laterConsumerCurrent));
+        Assert.True(TransformSurface.TryReadReplay(
+            laterConsumerReplay,
+            out _,
+            out _,
+            out var replayedLaterConsumer,
+            out _,
+            out _,
+            out _));
+        Assert.Equal([replayedProducer, independentApplication, replayedLaterConsumer], laterConsumerCurrent);
+        Assert.True(TransformSurface.TryReadStaleDependencyResidue(remainingResidue, out var remainingStale));
+        Assert.Single(remainingStale);
+        AssertStaleConsumer(remainingStale[0], firstConsumerApplication);
+
+        var changedFirstConsumerSelected = Relation.Segment(sourceCarrier, 10, 15);
+        var changedFirstConsumerReplacement = Relation.Segment(new Carrier(), 0, 5);
+        var changedFirstConsumerFocus = CreateFocus(
+            source,
+            Relation.Point(sourceCarrier, 13),
+            changedFirstConsumerSelected,
+            Relation.Point(Carrier.Unknown, 0),
+            changedFirstConsumerReplacement,
+            FocusSurface.Bind(firstConsumerSelected, changedFirstConsumerSelected));
+        Assert.True(TransformSurface.TryReplayApplication(
+            new Carrier(),
+            firstConsumerApplication,
+            changedFirstConsumerFocus,
+            FocusSurface.Bind(firstConsumerSelected, changedFirstConsumerSelected),
+            FocusSurface.Frame(new Carrier(), source, changedFirstConsumerReplacement),
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0),
+            out var firstConsumerReplay));
+        Assert.True(TransformSurface.TryCreatePartialReplayFromStaleDependencyResidue(
+            new Carrier(),
+            laterConsumerResumedReplay,
+            [firstConsumerReplay],
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0),
+            out var fullyResumedReplay));
+        Assert.True(TransformSurface.TryReadPartialReplay(
+            fullyResumedReplay,
+            out _,
+            out _,
+            out _,
+            out var fullyResumedCurrentApplications,
+            out var fullyResumedResidue,
+            out _));
+        Assert.True(TransformSurface.TryReadApplicationFrame(fullyResumedCurrentApplications, out var fullyResumedCurrent));
+        Assert.True(TransformSurface.TryReadReplay(
+            firstConsumerReplay,
+            out _,
+            out _,
+            out var replayedFirstConsumer,
+            out _,
+            out _,
+            out _));
+        Assert.Equal(
+            [replayedProducer, replayedFirstConsumer, independentApplication, replayedLaterConsumer],
+            fullyResumedCurrent);
+        Assert.Equal(Relation.Point(Carrier.Unknown, 0), fullyResumedResidue);
+
+        static void AssertStaleConsumer(Relation staleDependency, Relation expectedConsumer)
+        {
+            Assert.True(TransformSurface.TryReadStaleDependency(
+                staleDependency,
+                out _,
+                out _,
+                out var staleConsumer,
+                out _,
+                out _));
+            Assert.Equal(expectedConsumer, staleConsumer);
+        }
+    }
+
+    [Fact]
     public void StructuralLadderCanUseTransformApplicationAsTimelineTransition()
     {
         var sourceCarrier = new Carrier();

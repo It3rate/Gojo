@@ -957,8 +957,7 @@ public static class TransformSurface
 
     /// <summary>
     /// Resumes a partial replay from stale dependency residue. Existing replay
-    /// records are preserved; new replay records must replace stale consumers in
-    /// residue order.
+    /// records are preserved; new replay records must replace stale consumers.
     /// </summary>
     public static bool TryCreatePartialReplayFromStaleDependencyResidue(
         Carrier root,
@@ -980,37 +979,13 @@ public static class TransformSurface
             !TryReadStaleDependencyResidue(partialResidue, out var staleDependencies) ||
             replays is null ||
             replays.Count == 0 ||
-            replays.Count > staleDependencies.Length)
+            !TryReadRemainingStaleDependencies(staleDependencies, replays, out var remainingStaleDependencies))
         {
             resumedReplay = null!;
             return false;
         }
 
-        for (var index = 0; index < replays.Count; index++)
-        {
-            if (!TryReadStaleDependency(
-                    staleDependencies[index],
-                    out _,
-                    out _,
-                    out var staleConsumerApplication,
-                    out _,
-                    out _) ||
-                !TryReadReplay(
-                    replays[index],
-                    out var replayPreviousApplication,
-                    out _,
-                    out _,
-                    out _,
-                    out _,
-                    out _) ||
-                !Equals(staleConsumerApplication, replayPreviousApplication))
-            {
-                resumedReplay = null!;
-                return false;
-            }
-        }
-
-        var remainingStaleResidue = StaleDependencyResidueOf(staleDependencies.Skip(replays.Count));
+        var remainingStaleResidue = StaleDependencyResidueOf(remainingStaleDependencies);
         return TryCreatePartialReplay(
             root,
             previousApplications,
@@ -2426,6 +2401,71 @@ public static class TransformSurface
                 CollectStaleDependencyResidue(element, staleDependencies);
             }
         }
+    }
+
+    private static bool TryReadRemainingStaleDependencies(
+        IReadOnlyList<Relation> staleDependencies,
+        IReadOnlyList<Relation> replays,
+        out Relation[] remainingStaleDependencies)
+    {
+        var matched = new bool[staleDependencies.Count];
+        foreach (var replay in replays)
+        {
+            if (!TryReadReplay(
+                    replay,
+                    out var replayPreviousApplication,
+                    out _,
+                    out _,
+                    out _,
+                    out _,
+                    out _) ||
+                !TryFindStaleDependencyForConsumer(staleDependencies, matched, replayPreviousApplication, out var matchIndex))
+            {
+                remainingStaleDependencies = [];
+                return false;
+            }
+
+            matched[matchIndex] = true;
+        }
+
+        var remaining = new List<Relation>();
+        for (var index = 0; index < staleDependencies.Count; index++)
+        {
+            if (!matched[index])
+            {
+                remaining.Add(staleDependencies[index]);
+            }
+        }
+
+        remainingStaleDependencies = [.. remaining];
+        return true;
+    }
+
+    private static bool TryFindStaleDependencyForConsumer(
+        IReadOnlyList<Relation> staleDependencies,
+        IReadOnlyList<bool> matched,
+        Relation consumerApplication,
+        out int index)
+    {
+        for (var candidateIndex = 0; candidateIndex < staleDependencies.Count; candidateIndex++)
+        {
+            if (!matched[candidateIndex] &&
+                TryReadStaleDependency(
+                    staleDependencies[candidateIndex],
+                    out _,
+                    out _,
+                    out var staleConsumerApplication,
+                    out _,
+                    out _) &&
+                Equals(staleConsumerApplication, consumerApplication))
+            {
+                index = candidateIndex;
+                return true;
+            }
+        }
+
+        index = -1;
+        return false;
     }
 
     private static bool TryBuildCurrentApplications(

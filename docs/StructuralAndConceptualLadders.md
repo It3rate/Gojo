@@ -881,6 +881,9 @@ update.
 That residue can seed a later replay pass: a consumer replay can resume from the
 stale dependency witness and rebuild the current rung without reconstructing the
 original affected-slice read.
+Resume does not have to consume stale dependencies as a prefix. A supplied
+replay can match any stale consumer by structure, and any unmatched stale
+consumers remain as residue.
 
 The first affected-slice discovery is focus based:
 
@@ -966,6 +969,8 @@ If only A has replayed so far, the current rung can contain `A'` and C, while
 the partial replay residue carries `StaleDependency(A -> B, A', B)`.
 Supplying `B -> B'` later can resume from that residue, yielding `A'`, `B'`,
 and C with the stale dependency cleared.
+With two stale consumers B and D, replaying D first can yield `A'`, C, and `D'`
+while B remains as residue; replaying B later completes the rung.
 
 Structural ladders can now carry complete rungs, rung frames,
 focus-transition timelines, transform-application timelines, current-rung
