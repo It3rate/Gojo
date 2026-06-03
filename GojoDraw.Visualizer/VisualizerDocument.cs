@@ -7,9 +7,10 @@ internal sealed record VisualizerDocument(
     Carrier Drawing,
     IReadOnlyList<IElement> Elements,
     int ProjectionSeed,
-    int? SelectedIndex = null)
+    int? SelectedIndex = null,
+    VisualizerDemoPage? DemoPage = null)
 {
-    public IElement Structure => Chain(Elements);
+    public IElement Structure => DemoPage?.Structure ?? Chain(Elements);
 
     public static VisualizerDocument CreateInitial()
     {
@@ -37,11 +38,14 @@ internal sealed record VisualizerDocument(
 
             var enabled = legend
                 .Where(document.CanApply)
+                .Where(entry => entry.Label != "feature replay")
                 .Where(entry => entry.Label != "point" || Random.Shared.NextDouble() < 0.2)
                 .ToArray();
             if (enabled.Length == 0)
             {
-                enabled = [.. legend.Where(document.CanApply)];
+                enabled = [.. legend
+                    .Where(document.CanApply)
+                    .Where(entry => entry.Label != "feature replay")];
             }
 
             if (enabled.Length == 0)
@@ -55,7 +59,12 @@ internal sealed record VisualizerDocument(
         return document.Resample();
     }
 
-    public VisualizerDocument Resample() => this with { ProjectionSeed = Random.Shared.Next() };
+    public VisualizerDocument Resample() =>
+        this with
+        {
+            ProjectionSeed = Random.Shared.Next(),
+            DemoPage = DemoPage?.Resample()
+        };
 
     public int? SourceIndexOf(IElement? source)
     {
@@ -87,6 +96,7 @@ internal sealed record VisualizerDocument(
         {
             var label when IsLetterLabel(label) => true,
             var label when IsCurveLabel(label) => true,
+            "feature replay" => true,
             "point" => true,
             "radial" => selection.Point is not null,
             "span" => selection.LineSeed is not null || selection.Point is not null || SelectedIndex is null,
@@ -120,6 +130,7 @@ internal sealed record VisualizerDocument(
         {
             var label when IsLetterLabel(label) => "add letter pattern",
             var label when IsCurveLabel(label) => "add curve",
+            "feature replay" => "open feature replay ladder",
             "point" => "add point",
             "radial" => "select a point",
             "span" => "select a point or line seed",
@@ -184,6 +195,8 @@ internal sealed record VisualizerDocument(
                 new VisualizerLegendDisplay($"anchored {label}", entry.Structure, entry.ProjectionSeed),
             var label when IsCurveLabel(label) && selection.Point is not null =>
                 new VisualizerLegendDisplay($"anchored {label}", entry.Structure, entry.ProjectionSeed),
+            "feature replay" =>
+                new VisualizerLegendDisplay("feature replay", entry.Structure, entry.ProjectionSeed),
             _ => new VisualizerLegendDisplay(entry.Label, entry.Structure, entry.ProjectionSeed)
         };
     }
@@ -199,6 +212,7 @@ internal sealed record VisualizerDocument(
         {
             var label when TryReadLetter(label, out var letter) => AddLetter(letter),
             var label when IsCurveLabel(label) => AddCurve(label),
+            "feature replay" => CreateFeatureReplayDemo(),
             "point" => AddPoint(),
             "radial" => AddRadial(),
             "span" => AddSegment(),
@@ -219,6 +233,16 @@ internal sealed record VisualizerDocument(
             "merge" => AddMerge(),
             _ => this
         };
+    }
+
+    private static VisualizerDocument CreateFeatureReplayDemo()
+    {
+        var demo = VisualizerLadderDemo.CreateFeatureReplay();
+        return new VisualizerDocument(
+            new Carrier(),
+            [],
+            Random.Shared.Next(),
+            DemoPage: demo);
     }
 
     private VisualizerDocument AddCurve(string label)
@@ -825,7 +849,8 @@ internal sealed record VisualizerDocument(
         {
             Elements = next,
             ProjectionSeed = ProjectionSeed,
-            SelectedIndex = selected
+            SelectedIndex = selected,
+            DemoPage = null
         };
     }
 

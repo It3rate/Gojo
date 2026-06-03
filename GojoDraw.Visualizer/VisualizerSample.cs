@@ -21,7 +21,7 @@ internal sealed record VisualizerSample(
 
     public static IReadOnlyList<VisualizerLegendPage> CreateLegendPages() =>
     [
-        new VisualizerLegendPage("Primitives",
+        new VisualizerLegendPage("Prim",
         [
             LegendEntry("point", CreatePointLegend(), 101),
             LegendEntry("radial", CreateRadialLegend(), 102),
@@ -33,7 +33,7 @@ internal sealed record VisualizerSample(
             LegendEntry("partition", CreateSegmentPartitionLegend(), 104),
             LegendEntry("sheet seed", CreateSheetSeedLegend(), 107)
         ]),
-        new VisualizerLegendPage("Combinations",
+        new VisualizerLegendPage("Combos",
         [
             LegendEntry("coordinate path", CreateSharedFramePolylineLegend(), 111),
             LegendEntry("relative path", CreateCircularAngleLegend(), 112),
@@ -64,6 +64,10 @@ internal sealed record VisualizerSample(
             LegendEntry("letter A", CreateLetterLegend('A'), 135),
             LegendEntry("letter Y", CreateLetterLegend('Y'), 136),
             LegendEntry("letter R", CreateLetterLegend('R'), 137)
+        ]),
+        new VisualizerLegendPage("Ladder",
+        [
+            LegendEntry("feature replay", VisualizerLadderDemo.CreateLegendGlyph(), 151)
         ])
     ];
 

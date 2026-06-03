@@ -247,6 +247,12 @@ internal sealed class VisualizerDrawOperation : ICustomDrawOperation
 
     private void DrawSample(SKCanvas canvas)
     {
+        if (document.DemoPage is { } demoPage)
+        {
+            DrawDemoPage(canvas, demoPage);
+            return;
+        }
+
         using var paints = new GojoCadSkiaPaints();
         var viewport = ReadSampleViewport();
         var projection = new DerivedSkiaProjection(
@@ -258,6 +264,188 @@ internal sealed class VisualizerDrawOperation : ICustomDrawOperation
         Adapter.DrawElement(canvas, document.Structure, projection, paints, hitAreas);
         DrawSelection(canvas, hitAreas);
         publishStructureHitAreas(hitAreas.ToArray());
+    }
+
+    private void DrawDemoPage(SKCanvas canvas, VisualizerDemoPage demoPage)
+    {
+        var viewport = ReadSampleViewport();
+        var hitAreas = new List<GojoCadSkiaHitArea>();
+        using var paints = CreateDemoPaints();
+        using var panelFill = new SKPaint
+        {
+            IsAntialias = true,
+            Color = new SKColor(255, 254, 250, 210),
+            Style = SKPaintStyle.Fill
+        };
+        using var panelStroke = new SKPaint
+        {
+            IsAntialias = true,
+            Color = new SKColor(84, 91, 102, 72),
+            StrokeWidth = 1f,
+            Style = SKPaintStyle.Stroke
+        };
+        using var title = new SKPaint
+        {
+            IsAntialias = true,
+            Color = new SKColor(31, 37, 45, 225),
+            TextSize = 13f,
+            Typeface = SKTypeface.FromFamilyName("Segoe UI", SKFontStyle.Bold),
+            Style = SKPaintStyle.Fill
+        };
+        using var caption = new SKPaint
+        {
+            IsAntialias = true,
+            Color = new SKColor(57, 64, 74, 195),
+            TextSize = 10.5f,
+            Typeface = SKTypeface.FromFamilyName("Segoe UI"),
+            Style = SKPaintStyle.Fill
+        };
+
+        DrawTextFitted(
+            canvas,
+            demoPage.Label,
+            viewport.Left + 18f,
+            viewport.Top + 27f,
+            viewport.Width - 36f,
+            title,
+            10f);
+
+        var content = new SKRect(
+            viewport.Left + 16f,
+            viewport.Top + 42f,
+            viewport.Right - 16f,
+            viewport.Bottom - 16f);
+        var gap = 16f;
+        var panelWidth = (content.Width - gap) * 0.5f;
+        var panelHeight = (content.Height - gap) * 0.5f;
+
+        for (var index = 0; index < demoPage.Panels.Count; index++)
+        {
+            var panel = demoPage.Panels[index];
+            var column = index % 2;
+            var row = index / 2;
+            var bounds = new SKRect(
+                content.Left + column * (panelWidth + gap),
+                content.Top + row * (panelHeight + gap),
+                content.Left + column * (panelWidth + gap) + panelWidth,
+                content.Top + row * (panelHeight + gap) + panelHeight);
+
+            canvas.DrawRoundRect(bounds, 6f, 6f, panelFill);
+            canvas.DrawRoundRect(bounds, 6f, 6f, panelStroke);
+            DrawDemoPanel(canvas, panel, bounds, paints, title, caption, hitAreas);
+        }
+
+        publishStructureHitAreas(hitAreas.ToArray());
+    }
+
+    private static void DrawDemoPanel(
+        SKCanvas canvas,
+        VisualizerDemoPanel panel,
+        SKRect bounds,
+        GojoCadSkiaPaints paints,
+        SKPaint title,
+        SKPaint caption,
+        ICollection<GojoCadSkiaHitArea> hitAreas)
+    {
+        var titleBaseline = bounds.Top + 21f;
+        DrawTextFitted(
+            canvas,
+            panel.Title,
+            bounds.Left + 12f,
+            titleBaseline,
+            bounds.Width - 24f,
+            title,
+            9f);
+
+        var drawingBounds = new SKRect(
+            bounds.Left + 12f,
+            bounds.Top + 31f,
+            bounds.Right - 12f,
+            bounds.Bottom - 46f);
+        canvas.Save();
+        canvas.ClipRect(drawingBounds);
+        var projection = new DerivedSkiaProjection(
+            panel.Structure,
+            drawingBounds,
+            panel.ProjectionSeed,
+            panel.ModelBounds);
+        Adapter.DrawElement(canvas, panel.Structure, projection, paints, hitAreas);
+        canvas.Restore();
+
+        if (!string.IsNullOrWhiteSpace(panel.ResidueText))
+        {
+            DrawResidueBadge(canvas, panel.ResidueText, bounds);
+        }
+
+        DrawWrappedText(
+            canvas,
+            panel.Caption,
+            new SKRect(bounds.Left + 12f, bounds.Bottom - 38f, bounds.Right - 12f, bounds.Bottom - 8f),
+            caption,
+            lineHeight: 13f,
+            maxLines: 2);
+        hitAreas.Add(new GojoCadSkiaHitArea(
+            bounds,
+            panel.Title,
+            Priority: 0,
+            Source: panel.Evidence));
+    }
+
+    private static GojoCadSkiaPaints CreateDemoPaints()
+    {
+        var paints = new GojoCadSkiaPaints
+        {
+            DotRadius = 4.3f,
+            RadialRadius = 20f,
+            EndpointBarLength = 7f,
+            PartitionTickLength = 7f,
+            BasisSize = 5f,
+            ArrowLength = 7f,
+            ArrowWidth = 3.5f,
+            LineSeedLength = 26f,
+            SheetSeedWidth = 10f
+        };
+
+        paints.SharedFrameSegment.StrokeWidth = 2.2f;
+        paints.SharedFrameCurve.StrokeWidth = 2.8f;
+        paints.SharedFrameCurveTension.StrokeWidth = 2.1f;
+        paints.SharedFramePoint.Color = new SKColor(88, 74, 142, 185);
+        return paints;
+    }
+
+    private static void DrawResidueBadge(SKCanvas canvas, string text, SKRect bounds)
+    {
+        using var fill = new SKPaint
+        {
+            IsAntialias = true,
+            Color = new SKColor(199, 45, 47, 26),
+            Style = SKPaintStyle.Fill
+        };
+        using var stroke = new SKPaint
+        {
+            IsAntialias = true,
+            Color = new SKColor(199, 45, 47, 130),
+            StrokeWidth = 1f,
+            Style = SKPaintStyle.Stroke
+        };
+        using var textPaint = new SKPaint
+        {
+            IsAntialias = true,
+            Color = new SKColor(143, 41, 43, 225),
+            TextSize = 10f,
+            Typeface = SKTypeface.FromFamilyName("Segoe UI", SKFontStyle.Bold),
+            Style = SKPaintStyle.Fill
+        };
+
+        var textWidth = textPaint.MeasureText(text);
+        var badge = new SKRect(
+            bounds.Right - textWidth - 26f,
+            bounds.Top + 8f,
+            bounds.Right - 10f,
+            bounds.Top + 29f);
+        canvas.DrawRoundRect(badge, 4f, 4f, fill);
+        canvas.DrawRoundRect(badge, 4f, 4f, stroke);
+        canvas.DrawText(text, badge.Left + 8f, badge.Top + 14.5f, textPaint);
     }
 
     private void DrawSelection(SKCanvas canvas, IReadOnlyList<GojoCadSkiaHitArea> hitAreas)
@@ -384,11 +572,14 @@ internal sealed class VisualizerDrawOperation : ICustomDrawOperation
                 canvas.DrawRoundRect(tab, 4f, 4f, hoverFill);
             }
 
-            canvas.DrawText(
+            DrawTextFitted(
+                canvas,
                 pages[index].Label,
-                tab.Left + 8f,
+                tab.Left + 6f,
                 tab.Top + 15.5f,
-                active ? title : enabledLabel);
+                tab.Width - 12f,
+                active ? title : enabledLabel,
+                7.5f);
             legendHits.Add(new VisualizerLegendHitArea(
                 tab,
                 EntryIndex: null,
@@ -481,6 +672,25 @@ internal sealed class VisualizerDrawOperation : ICustomDrawOperation
 
     private static void DrawLegendLabel(SKCanvas canvas, string label, SKRect cell, SKPaint basePaint)
     {
+        DrawTextFitted(
+            canvas,
+            label,
+            cell.Left + 51f,
+            cell.Top + cell.Height * 0.5f + 4f,
+            MathF.Max(16f, cell.Right - cell.Left - 55f),
+            basePaint,
+            8f);
+    }
+
+    private static void DrawTextFitted(
+        SKCanvas canvas,
+        string text,
+        float x,
+        float baseline,
+        float maxWidth,
+        SKPaint basePaint,
+        float minTextSize)
+    {
         using var paint = new SKPaint
         {
             IsAntialias = basePaint.IsAntialias,
@@ -489,14 +699,75 @@ internal sealed class VisualizerDrawOperation : ICustomDrawOperation
             Typeface = basePaint.Typeface,
             Style = basePaint.Style
         };
-        var x = cell.Left + 51f;
-        var maxWidth = MathF.Max(16f, cell.Right - x - 4f);
-        while (paint.TextSize > 8f && paint.MeasureText(label) > maxWidth)
+        while (paint.TextSize > minTextSize && paint.MeasureText(text) > maxWidth)
         {
             paint.TextSize -= 0.5f;
         }
 
-        canvas.DrawText(label, x, cell.Top + cell.Height * 0.5f + 4f, paint);
+        canvas.DrawText(text, x, baseline, paint);
+    }
+
+    private static void DrawWrappedText(
+        SKCanvas canvas,
+        string text,
+        SKRect bounds,
+        SKPaint basePaint,
+        float lineHeight,
+        int maxLines)
+    {
+        if (string.IsNullOrWhiteSpace(text) || maxLines <= 0)
+        {
+            return;
+        }
+
+        using var paint = new SKPaint
+        {
+            IsAntialias = basePaint.IsAntialias,
+            Color = basePaint.Color,
+            TextSize = basePaint.TextSize,
+            Typeface = basePaint.Typeface,
+            Style = basePaint.Style
+        };
+        var words = text.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        var lines = new List<string>();
+        var current = string.Empty;
+        foreach (var word in words)
+        {
+            var candidate = string.IsNullOrEmpty(current) ? word : $"{current} {word}";
+            if (paint.MeasureText(candidate) <= bounds.Width || string.IsNullOrEmpty(current))
+            {
+                current = candidate;
+                continue;
+            }
+
+            lines.Add(current);
+            current = word;
+            if (lines.Count == maxLines)
+            {
+                break;
+            }
+        }
+
+        if (lines.Count < maxLines && !string.IsNullOrEmpty(current))
+        {
+            lines.Add(current);
+        }
+
+        for (var index = 0; index < lines.Count && index < maxLines; index++)
+        {
+            var line = lines[index];
+            if (index == maxLines - 1 && index < words.Length - 1 && paint.MeasureText(line) > bounds.Width)
+            {
+                while (line.Length > 1 && paint.MeasureText($"{line}...") > bounds.Width)
+                {
+                    line = line[..^1];
+                }
+
+                line = $"{line}...";
+            }
+
+            canvas.DrawText(line, bounds.Left, bounds.Top + 10.5f + index * lineHeight, paint);
+        }
     }
 
     private static GojoCadSkiaPaints CreateLegendPaints()
