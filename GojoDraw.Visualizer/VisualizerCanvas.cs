@@ -367,7 +367,9 @@ internal sealed class VisualizerDrawOperation : ICustomDrawOperation
             bounds.Bottom - 46f);
         canvas.Save();
         canvas.ClipRect(drawingBounds);
-        var panelStructure = Chain(panel.Elements);
+        var panelStructure = Chain(panel.Elements
+            .Select(element => element.Element)
+            .ToArray());
         var projection = new DerivedSkiaProjection(
             panelStructure,
             drawingBounds,
@@ -375,7 +377,10 @@ internal sealed class VisualizerDrawOperation : ICustomDrawOperation
             panel.ModelBounds);
         foreach (var element in panel.Elements)
         {
-            Adapter.DrawElement(canvas, element, projection, paints, hitAreas);
+            using var elementPaints = element.Tint.HasValue
+                ? CreateDemoPaints(element.Tint.Value)
+                : null;
+            Adapter.DrawElement(canvas, element.Element, projection, elementPaints ?? paints, hitAreas);
         }
 
         DrawDemoLabels(canvas, panel, drawingBounds);
@@ -400,7 +405,7 @@ internal sealed class VisualizerDrawOperation : ICustomDrawOperation
             Source: panel.Evidence));
     }
 
-    private static GojoCadSkiaPaints CreateDemoPaints()
+    private static GojoCadSkiaPaints CreateDemoPaints(SKColor? tint = null)
     {
         var paints = new GojoCadSkiaPaints
         {
@@ -419,8 +424,41 @@ internal sealed class VisualizerDrawOperation : ICustomDrawOperation
         paints.SharedFrameCurve.StrokeWidth = 2.8f;
         paints.SharedFrameCurveTension.StrokeWidth = 2.1f;
         paints.SharedFramePoint.Color = new SKColor(88, 74, 142, 185);
+        if (tint.HasValue)
+        {
+            ApplyDemoTint(paints, tint.Value);
+        }
+
         return paints;
     }
+
+    private static void ApplyDemoTint(GojoCadSkiaPaints paints, SKColor tint)
+    {
+        var stroke = tint;
+        var tension = WithAlpha(tint, Math.Min(tint.Alpha, (byte)170));
+        var point = WithAlpha(tint, Math.Min(tint.Alpha, (byte)190));
+
+        paints.Segment.Color = stroke;
+        paints.SegmentTension.Color = tension;
+        paints.AngleControlledSegment.Color = stroke;
+        paints.AngleControlledSegmentTension.Color = tension;
+        paints.SharedFrameSegment.Color = stroke;
+        paints.SharedFrameCurve.Color = stroke;
+        paints.SharedFrameCurveTension.Color = tension;
+        paints.SharedFramePoint.Color = point;
+        paints.DirectedSegment.Color = stroke;
+        paints.DirectedSegmentTension.Color = tension;
+        paints.CircumferenceSpan.Color = tension;
+        paints.CircumferenceSpanTension.Color = tension;
+        paints.AreaBoundary.Color = tension;
+        paints.BranchNode.Color = point;
+        paints.MergeNode.Color = point;
+        paints.PathGraphBranchNode.Color = point;
+        paints.PathGraphTerminalNode.Color = point;
+    }
+
+    private static SKColor WithAlpha(SKColor color, byte alpha) =>
+        new(color.Red, color.Green, color.Blue, alpha);
 
     private static void DrawDemoLabels(SKCanvas canvas, VisualizerDemoPanel panel, SKRect drawingBounds)
     {

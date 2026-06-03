@@ -10,7 +10,10 @@ internal sealed record VisualizerDemoPage(
     IElement Evidence,
     IReadOnlyList<VisualizerDemoPanel> Panels)
 {
-    public IElement Structure => Chain(Panels.SelectMany(panel => panel.Elements).ToArray());
+    public IElement Structure => Chain(Panels
+        .SelectMany(panel => panel.Elements)
+        .Select(element => element.Element)
+        .ToArray());
 
     public VisualizerDemoPage Resample() =>
         this with
@@ -40,12 +43,16 @@ internal sealed record VisualizerDemoPage(
 internal sealed record VisualizerDemoPanel(
     string Title,
     string Caption,
-    IReadOnlyList<IElement> Elements,
+    IReadOnlyList<VisualizerDemoElement> Elements,
     IElement Evidence,
     int ProjectionSeed,
     SKRect ModelBounds,
     IReadOnlyList<VisualizerDemoLabel> Labels,
     string? ResidueText = null);
+
+internal sealed record VisualizerDemoElement(
+    IElement Element,
+    SKColor? Tint = null);
 
 internal sealed record VisualizerDemoLabel(
     string Text,
@@ -55,6 +62,10 @@ internal sealed record VisualizerDemoLabel(
 
 internal static class VisualizerLadderDemo
 {
+    private static readonly SKColor CurrentTint = new(104, 77, 155, 235);
+    private static readonly SKColor SettledTint = new(52, 94, 145, 225);
+    private static readonly SKColor LowerRungTint = new(45, 130, 118, 220);
+
     private static readonly DemoDefinition[] Definitions =
     [
         new("feature replay", "Feature Replay Ladder", DemoKind.RoundedCorner),
@@ -90,7 +101,9 @@ internal static class VisualizerLadderDemo
         var definition = Definitions.FirstOrDefault(definition =>
             string.Equals(definition.Label, label, StringComparison.OrdinalIgnoreCase)) ??
             Definitions[0];
-        return Chain(CreateDrawing(definition.Kind, DemoStage.FocusedTransform));
+        return Chain(CreateDrawing(definition.Kind, DemoStage.FocusedTransform)
+            .Select(element => element.Element)
+            .ToArray());
     }
 
     public static IElement CreateLegendGlyph() =>
@@ -418,7 +431,7 @@ internal static class VisualizerLadderDemo
         return ports[0];
     }
 
-    private static IReadOnlyList<IElement> CreateDrawing(DemoKind kind, DemoStage stage)
+    private static IReadOnlyList<VisualizerDemoElement> CreateDrawing(DemoKind kind, DemoStage stage)
     {
         var sketch = new FrameSketch();
         var elements = new List<IElement>();
@@ -446,7 +459,25 @@ internal static class VisualizerLadderDemo
                 break;
         }
 
-        return elements;
+        var tint = stage is DemoStage.SettledReplay ? SettledTint : CurrentTint;
+        var rendered = elements
+            .Select(element => new VisualizerDemoElement(element, tint))
+            .ToList();
+        rendered.AddRange(CreateLowerRungTriangle(sketch)
+            .Select(element => new VisualizerDemoElement(element, LowerRungTint)));
+
+        return rendered;
+    }
+
+    private static IReadOnlyList<IElement> CreateLowerRungTriangle(FrameSketch sketch)
+    {
+        Relation Segment(long ax, long ay, long bx, long by) => sketch.Segment(ax, ay, bx, by);
+        return
+        [
+            Segment(-25, -18, -13, -18),
+            Segment(-13, -18, -19, -9),
+            Segment(-19, -9, -25, -18)
+        ];
     }
 
     private static void AddRoundedCorner(FrameSketch sketch, DemoStage stage, Action<IElement[]> add)
@@ -460,8 +491,7 @@ internal static class VisualizerLadderDemo
                     Segment(-22, 0, 14, 0),
                     Segment(14, 0, 14, 18),
                     Segment(14, 12, 25, 12),
-                    Segment(2, 0, 2, -9),
-                    Segment(-22, -13, -10, -13)
+                    Segment(2, 0, 2, -9)
                 ]);
                 break;
 
@@ -471,8 +501,7 @@ internal static class VisualizerLadderDemo
                     Segment(5, 0, 14, 0),
                     Segment(14, 0, 14, 8),
                     Segment(14, 8, 14, 18),
-                    Arc(8, 6, 8, 0, 14, 6),
-                    Segment(-22, -13, -10, -13)
+                    Arc(8, 6, 8, 0, 14, 6)
                 ]);
                 break;
 
@@ -480,8 +509,7 @@ internal static class VisualizerLadderDemo
                 add([
                     Segment(-22, 0, 8, 0),
                     Arc(8, 6, 8, 0, 14, 6),
-                    Segment(14, 6, 14, 18),
-                    Segment(-22, -13, -10, -13)
+                    Segment(14, 6, 14, 18)
                 ]);
                 break;
 
@@ -491,8 +519,7 @@ internal static class VisualizerLadderDemo
                     Arc(8, 6, 8, 0, 14, 6),
                     Segment(14, 6, 14, 18),
                     Segment(14, 12, 25, 12),
-                    Segment(8, 0, 0, -9),
-                    Segment(-22, -13, -10, -13)
+                    Segment(8, 0, 0, -9)
                 ]);
                 break;
         }
@@ -509,11 +536,7 @@ internal static class VisualizerLadderDemo
                     Segment(-23, 0, 12, 0),
                     Segment(12, 0, 12, 15),
                     Segment(12, 15, 26, 15),
-                    Segment(3, 0, 3, -11),
-                    Segment(-25, -17, -12, -17),
-                    Segment(-12, -17, -12, -9),
-                    Segment(-12, -9, -25, -9),
-                    Segment(-25, -9, -25, -17)
+                    Segment(3, 0, 3, -11)
                 ]);
                 break;
             case DemoStage.FocusedTransform:
@@ -522,22 +545,14 @@ internal static class VisualizerLadderDemo
                     Arc(4, 7, 4, 0, 11, 7),
                     Segment(11, 7, 11, 18),
                     Segment(12, 15, 26, 15),
-                    Segment(3, 0, 3, -11),
-                    Segment(-25, -17, -12, -17),
-                    Segment(-12, -17, -12, -9),
-                    Segment(-12, -9, -25, -9),
-                    Segment(-25, -9, -25, -17)
+                    Segment(3, 0, 3, -11)
                 ]);
                 break;
             case DemoStage.PartialReplay:
                 add([
                     Segment(-23, 0, 4, 0),
                     Arc(4, 7, 4, 0, 11, 7),
-                    Segment(11, 7, 11, 18),
-                    Segment(-25, -17, -12, -17),
-                    Segment(-12, -17, -12, -9),
-                    Segment(-12, -9, -25, -9),
-                    Segment(-25, -9, -25, -17)
+                    Segment(11, 7, 11, 18)
                 ]);
                 break;
             case DemoStage.SettledReplay:
@@ -546,11 +561,7 @@ internal static class VisualizerLadderDemo
                     Arc(4, 7, 4, 0, 11, 7),
                     Segment(11, 7, 11, 18),
                     Segment(11, 15, 26, 15),
-                    Segment(4, 0, -2, -11),
-                    Segment(-25, -17, -12, -17),
-                    Segment(-12, -17, -12, -9),
-                    Segment(-12, -9, -25, -9),
-                    Segment(-25, -9, -25, -17)
+                    Segment(4, 0, -2, -11)
                 ]);
                 break;
         }
@@ -567,39 +578,35 @@ internal static class VisualizerLadderDemo
                     Segment(-20, 0, 18, 0),
                     Segment(18, -5, 18, 5),
                     Segment(-20, -5, -20, 5),
-                    Segment(0, 0, 0, -12),
-                    Segment(-24, -17, -12, -17)
+                    Segment(0, 0, 0, -12)
                 ]);
                 break;
             case DemoStage.FocusedTransform:
                 add([
                     Segment(-18, 4, 18, 4),
                     Segment(-18, -4, 18, -4),
-                    Arc(-18, 0, -18, -4, -18, 4),
-                    Arc(18, 0, 18, 4, 18, -4),
-                    Segment(0, 0, 0, -12),
-                    Segment(-24, -17, -12, -17)
+                    Arc(-18, 0, -18, 4, -18, -4),
+                    Arc(18, 0, 18, -4, 18, 4),
+                    Segment(0, 0, 0, -12)
                 ]);
                 break;
             case DemoStage.PartialReplay:
                 add([
                     Segment(-18, 4, 18, 4),
                     Segment(-18, -4, 18, -4),
-                    Arc(-18, 0, -18, -4, -18, 4),
-                    Arc(18, 0, 18, 4, 18, -4),
-                    Segment(-24, -17, -12, -17)
+                    Arc(-18, 0, -18, 4, -18, -4),
+                    Arc(18, 0, 18, -4, 18, 4)
                 ]);
                 break;
             case DemoStage.SettledReplay:
                 add([
                     Segment(-18, 4, 18, 4),
                     Segment(-18, -4, 18, -4),
-                    Arc(-18, 0, -18, -4, -18, 4),
-                    Arc(18, 0, 18, 4, 18, -4),
+                    Arc(-18, 0, -18, 4, -18, -4),
+                    Arc(18, 0, 18, -4, 18, 4),
                     Segment(18, 4, 25, 8),
                     Segment(18, -4, 25, -8),
-                    Segment(-18, 0, -26, -9),
-                    Segment(-24, -17, -12, -17)
+                    Segment(-18, 0, -26, -9)
                 ]);
                 break;
         }
@@ -608,7 +615,7 @@ internal static class VisualizerLadderDemo
     private static void AddBranch(FrameSketch sketch, DemoStage stage, Action<IElement[]> add)
     {
         Relation Segment(long ax, long ay, long bx, long by) => sketch.Segment(ax, ay, bx, by);
-        Relation Arc(long cx, long cy, long ax, long ay, long bx, long by) => sketch.Arc(cx, cy, ax, ay, bx, by);
+        Relation Curve(long ax, long ay, long cx, long cy, long bx, long by) => sketch.Quadratic(ax, ay, cx, cy, bx, by);
         switch (stage)
         {
             case DemoStage.Base:
@@ -616,36 +623,34 @@ internal static class VisualizerLadderDemo
                     Segment(-24, 0, 0, 0),
                     Segment(0, 0, 17, 12),
                     Segment(0, 0, 17, -12),
-                    Segment(0, 0, 0, 15),
-                    Segment(-24, -17, -12, -17)
+                    Segment(0, 0, 0, 15)
                 ]);
                 break;
             case DemoStage.FocusedTransform:
                 add([
                     Segment(-24, 0, -2, 0),
-                    Arc(0, 5, -2, 0, 8, 8),
-                    Arc(0, -5, -2, 0, 8, -8),
-                    Segment(0, 0, 0, 15),
-                    Segment(-24, -17, -12, -17)
+                    Curve(-2, 0, 4, 4, 10, 10),
+                    Segment(10, 10, 17, 12),
+                    Curve(-2, 0, 4, -4, 10, -10),
+                    Segment(10, -10, 17, -12),
+                    Segment(0, 0, 0, 15)
                 ]);
                 break;
             case DemoStage.PartialReplay:
                 add([
                     Segment(-24, 0, -2, 0),
-                    Arc(0, 5, -2, 0, 8, 8),
-                    Arc(0, -5, -2, 0, 8, -8),
-                    Segment(-24, -17, -12, -17)
+                    Curve(-2, 0, 4, 4, 10, 10),
+                    Curve(-2, 0, 4, -4, 10, -10)
                 ]);
                 break;
             case DemoStage.SettledReplay:
                 add([
                     Segment(-24, 0, -2, 0),
-                    Arc(0, 5, -2, 0, 8, 8),
-                    Arc(0, -5, -2, 0, 8, -8),
-                    Segment(8, 8, 20, 14),
-                    Segment(8, -8, 20, -14),
-                    Segment(2, 0, 0, 15),
-                    Segment(-24, -17, -12, -17)
+                    Curve(-2, 0, 4, 4, 10, 10),
+                    Curve(-2, 0, 4, -4, 10, -10),
+                    Segment(10, 10, 20, 14),
+                    Segment(10, -10, 20, -14),
+                    Segment(2, 0, 0, 15)
                 ]);
                 break;
         }
@@ -654,7 +659,7 @@ internal static class VisualizerLadderDemo
     private static void AddLetter(FrameSketch sketch, DemoStage stage, Action<IElement[]> add)
     {
         Relation Segment(long ax, long ay, long bx, long by) => sketch.Segment(ax, ay, bx, by);
-        Relation Arc(long cx, long cy, long ax, long ay, long bx, long by) => sketch.Arc(cx, cy, ax, ay, bx, by);
+        Relation Curve(long ax, long ay, long cx, long cy, long bx, long by) => sketch.Quadratic(ax, ay, cx, cy, bx, by);
         switch (stage)
         {
             case DemoStage.Base:
@@ -663,40 +668,36 @@ internal static class VisualizerLadderDemo
                     Segment(-14, 14, 8, 14),
                     Segment(8, 14, 8, 2),
                     Segment(8, 2, -14, 2),
-                    Segment(-14, 2, 13, -12),
-                    Segment(-24, -17, -12, -17)
+                    Segment(-14, 2, 13, -12)
                 ]);
                 break;
             case DemoStage.FocusedTransform:
                 add([
                     Segment(-14, -12, -14, 14),
                     Segment(-14, 14, 0, 14),
-                    Arc(0, 8, 0, 14, 8, 8),
-                    Arc(0, 8, 8, 8, 0, 2),
+                    Curve(0, 14, 9, 14, 9, 8),
+                    Curve(9, 8, 9, 2, 0, 2),
                     Segment(0, 2, -14, 2),
-                    Segment(-14, 2, 13, -12),
-                    Segment(-24, -17, -12, -17)
+                    Segment(-14, 2, 13, -12)
                 ]);
                 break;
             case DemoStage.PartialReplay:
                 add([
                     Segment(-14, -12, -14, 14),
                     Segment(-14, 14, 0, 14),
-                    Arc(0, 8, 0, 14, 8, 8),
-                    Arc(0, 8, 8, 8, 0, 2),
-                    Segment(0, 2, -14, 2),
-                    Segment(-24, -17, -12, -17)
+                    Curve(0, 14, 9, 14, 9, 8),
+                    Curve(9, 8, 9, 2, 0, 2),
+                    Segment(0, 2, -14, 2)
                 ]);
                 break;
             case DemoStage.SettledReplay:
                 add([
                     Segment(-14, -12, -14, 14),
                     Segment(-14, 14, 0, 14),
-                    Arc(0, 8, 0, 14, 8, 8),
-                    Arc(0, 8, 8, 8, 0, 2),
+                    Curve(0, 14, 9, 14, 9, 8),
+                    Curve(9, 8, 9, 2, 0, 2),
                     Segment(0, 2, -14, 2),
-                    Segment(-10, 2, 14, -12),
-                    Segment(-24, -17, -12, -17)
+                    Segment(-10, 2, 14, -12)
                 ]);
                 break;
         }
@@ -706,6 +707,7 @@ internal static class VisualizerLadderDemo
     {
         Relation Segment(long ax, long ay, long bx, long by) => sketch.Segment(ax, ay, bx, by);
         Relation Arc(long cx, long cy, long ax, long ay, long bx, long by) => sketch.Arc(cx, cy, ax, ay, bx, by);
+        Relation Curve(long ax, long ay, long cx, long cy, long bx, long by) => sketch.Quadratic(ax, ay, cx, cy, bx, by);
         switch (stage)
         {
             case DemoStage.Base:
@@ -715,44 +717,29 @@ internal static class VisualizerLadderDemo
                     Arc(0, 0, 0, -14, -14, 0),
                     Arc(0, 0, -14, 0, 0, 14),
                     Segment(5, 10, 5, -10),
-                    Segment(-2, 0, 10, 0),
-                    Segment(-24, -17, -12, -17)
+                    Segment(-2, 0, 10, 0)
                 ]);
                 break;
             case DemoStage.FocusedTransform:
                 add([
-                    Arc(0, 0, 0, 14, 14, 0),
-                    Arc(0, 0, 14, 0, 0, -14),
-                    Arc(0, 0, 0, -14, -14, 0),
-                    Arc(0, 0, -14, 0, 0, 14),
-                    Arc(5, 0, 5, 11, 13, 0),
-                    Arc(5, 0, 13, 0, 5, -11),
-                    Segment(-2, 0, 10, 0),
-                    Segment(-24, -17, -12, -17)
+                    Arc(0, 0, 0, 14, -14, 0),
+                    Arc(0, 0, -14, 0, 0, -14),
+                    Curve(0, 14, -8, 0, 0, -14),
+                    Segment(-2, 0, 10, 0)
                 ]);
                 break;
             case DemoStage.PartialReplay:
                 add([
-                    Arc(0, 0, 0, 14, 14, 0),
-                    Arc(0, 0, 14, 0, 0, -14),
-                    Arc(0, 0, 0, -14, -14, 0),
-                    Arc(0, 0, -14, 0, 0, 14),
-                    Arc(5, 0, 5, 11, 13, 0),
-                    Arc(5, 0, 13, 0, 5, -11),
-                    Segment(-24, -17, -12, -17)
+                    Arc(0, 0, 0, 14, -14, 0),
+                    Arc(0, 0, -14, 0, 0, -14),
+                    Curve(0, 14, -8, 0, 0, -14)
                 ]);
                 break;
             case DemoStage.SettledReplay:
                 add([
-                    Arc(0, 0, 0, 14, 14, 0),
-                    Arc(0, 0, 14, 0, 0, -14),
-                    Arc(0, 0, 0, -14, -14, 0),
-                    Arc(0, 0, -14, 0, 0, 14),
-                    Arc(5, 0, 5, 11, 13, 0),
-                    Arc(5, 0, 13, 0, 5, -11),
-                    Segment(5, 11, 5, -11),
-                    Segment(-5, 0, 8, 0),
-                    Segment(-24, -17, -12, -17)
+                    Arc(0, 0, 0, 14, -14, 0),
+                    Arc(0, 0, -14, 0, 0, -14),
+                    Curve(0, 14, -8, 0, 0, -14)
                 ]);
                 break;
         }
@@ -762,14 +749,13 @@ internal static class VisualizerLadderDemo
     {
         var stale = new SKColor(169, 54, 57, 235);
         var settled = new SKColor(48, 87, 135, 230);
-        var neutral = new SKColor(31, 37, 45, 220);
         var changed = new SKColor(86, 68, 145, 235);
         var positions = kind switch
         {
             DemoKind.RoundedCorner => new LabelPositions(
                 new SKPoint(12f, 4f),
                 new SKPoint(22f, 15f),
-                new SKPoint(-16f, -16f),
+                new SKPoint(-7f, -18f),
                 new SKPoint(1f, -12f),
                 new SKPoint(8f, -4f),
                 new SKPoint(9f, -4f),
@@ -778,7 +764,7 @@ internal static class VisualizerLadderDemo
             DemoKind.Route => new LabelPositions(
                 new SKPoint(11f, 5f),
                 new SKPoint(23f, 18f),
-                new SKPoint(-24f, -5f),
+                new SKPoint(-7f, -18f),
                 new SKPoint(1f, -13f),
                 new SKPoint(7f, 4f),
                 new SKPoint(8f, 4f),
@@ -787,7 +773,7 @@ internal static class VisualizerLadderDemo
             DemoKind.StrokeOutline => new LabelPositions(
                 new SKPoint(0f, 4f),
                 new SKPoint(24f, 9f),
-                new SKPoint(-19f, -20f),
+                new SKPoint(-7f, -18f),
                 new SKPoint(0f, -14f),
                 new SKPoint(0f, 7f),
                 new SKPoint(0f, 7f),
@@ -796,7 +782,7 @@ internal static class VisualizerLadderDemo
             DemoKind.Branch => new LabelPositions(
                 new SKPoint(0f, 4f),
                 new SKPoint(18f, 15f),
-                new SKPoint(-19f, -20f),
+                new SKPoint(-7f, -18f),
                 new SKPoint(18f, -15f),
                 new SKPoint(3f, 4f),
                 new SKPoint(3f, 4f),
@@ -805,7 +791,7 @@ internal static class VisualizerLadderDemo
             DemoKind.Letter => new LabelPositions(
                 new SKPoint(-17f, 11f),
                 new SKPoint(9f, 11f),
-                new SKPoint(-19f, -20f),
+                new SKPoint(-7f, -18f),
                 new SKPoint(9f, -11f),
                 new SKPoint(2f, 12f),
                 new SKPoint(2f, 12f),
@@ -814,7 +800,7 @@ internal static class VisualizerLadderDemo
             DemoKind.Crescent => new LabelPositions(
                 new SKPoint(-10f, 12f),
                 new SKPoint(12f, 8f),
-                new SKPoint(-19f, -20f),
+                new SKPoint(-7f, -18f),
                 new SKPoint(9f, 2f),
                 new SKPoint(-9f, 12f),
                 new SKPoint(-9f, 12f),
@@ -823,7 +809,7 @@ internal static class VisualizerLadderDemo
             _ => new LabelPositions(
                 new SKPoint(12f, 4f),
                 new SKPoint(22f, 15f),
-                new SKPoint(-16f, -16f),
+                new SKPoint(-7f, -18f),
                 new SKPoint(1f, -12f),
                 new SKPoint(8f, -4f),
                 new SKPoint(9f, -4f),
@@ -837,21 +823,21 @@ internal static class VisualizerLadderDemo
             [
                 new VisualizerDemoLabel("A'", positions.PartialA.X, positions.PartialA.Y, changed),
                 new VisualizerDemoLabel("B", positions.SettledB.X, positions.SettledB.Y, stale),
-                new VisualizerDemoLabel("C", positions.C.X, positions.C.Y, neutral),
+                new VisualizerDemoLabel("C (from lower rung)", positions.C.X, positions.C.Y, LowerRungTint),
                 new VisualizerDemoLabel("D", positions.SettledD.X, positions.SettledD.Y, stale)
             ],
             DemoStage.SettledReplay =>
             [
                 new VisualizerDemoLabel("A'", positions.SettledA.X, positions.SettledA.Y, changed),
                 new VisualizerDemoLabel("B'", positions.SettledB.X, positions.SettledB.Y, settled),
-                new VisualizerDemoLabel("C", positions.C.X, positions.C.Y, neutral),
+                new VisualizerDemoLabel("C (from lower rung)", positions.C.X, positions.C.Y, LowerRungTint),
                 new VisualizerDemoLabel("D'", positions.SettledD.X, positions.SettledD.Y, settled)
             ],
             _ =>
             [
                 new VisualizerDemoLabel("A", positions.BaseA.X, positions.BaseA.Y, changed),
                 new VisualizerDemoLabel("B", positions.B.X, positions.B.Y, settled),
-                new VisualizerDemoLabel("C", positions.C.X, positions.C.Y, neutral),
+                new VisualizerDemoLabel("C (from lower rung)", positions.C.X, positions.C.Y, LowerRungTint),
                 new VisualizerDemoLabel("D", positions.D.X, positions.D.Y, settled)
             ]
         };
@@ -872,9 +858,9 @@ internal static class VisualizerLadderDemo
 
         return stage switch
         {
-            DemoStage.Base => $"A is the current {noun}; B and D depend on it. C is carried.",
+            DemoStage.Base => $"A is the current {noun}; B and D depend on it. C comes from a lower rung.",
             DemoStage.FocusedTransform => $"The focus proposes A' while preserving the rest as relation evidence.",
-            DemoStage.PartialReplay => "A' and C are current. B and D remain visible stale dependency residue.",
+            DemoStage.PartialReplay => "A' changes while C remains lower-rung evidence. B and D remain stale residue.",
             DemoStage.SettledReplay => "B' and D' replay against A'. The ladder's current rung is settled.",
             _ => string.Empty
         };
@@ -956,6 +942,9 @@ internal static class VisualizerLadderDemo
 
         public Relation Arc(long cx, long cy, long ax, long ay, long bx, long by) =>
             GraphicStructure.FrameArc(Point(cx, cy), Point(ax, ay), Point(bx, by));
+
+        public Relation Quadratic(long ax, long ay, long cx, long cy, long bx, long by) =>
+            GraphicStructure.FrameQuadraticCurve(Point(ax, ay), Point(cx, cy), Point(bx, by));
     }
 
     private enum DemoKind

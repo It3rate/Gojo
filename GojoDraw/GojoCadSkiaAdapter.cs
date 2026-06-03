@@ -113,13 +113,6 @@ public sealed class GojoCadSkiaAdapter
             drawn++;
         }
 
-        foreach (var transition in graph.ReadsOf<SharedFrameCurveTransitionRead>()
-            .Where(read => !IsRepeatControlSource(read.Source, repeatControlSources)))
-        {
-            DrawSharedFrameTransition(canvas, transition, projection, paints, hitAreas, paints.SharedFrameCurve);
-            drawn++;
-        }
-
         foreach (var clothoid in graph.ReadsOf<SharedFrameClothoidTransitionRead>()
             .Where(read => !IsRepeatControlSource(read.Source, repeatControlSources)))
         {
@@ -315,14 +308,10 @@ public sealed class GojoCadSkiaAdapter
             Add(curve.ControlSpan.Source);
         }
 
-        foreach (var transition in graph.ReadsOf<SharedFrameCurveTransitionRead>())
-        {
-            Add(transition.Incoming.Source);
-            Add(transition.Outgoing.Source);
-        }
-
         foreach (var clothoid in graph.ReadsOf<SharedFrameClothoidTransitionRead>())
         {
+            Add(clothoid.Transition.Incoming.Source);
+            Add(clothoid.Transition.Outgoing.Source);
             Add(clothoid.Length.Source);
         }
 
@@ -1272,7 +1261,7 @@ public sealed class GojoCadSkiaAdapter
     private static float ShortestSweep(float start, float end)
     {
         var sweep = end - start;
-        while (sweep > 180f)
+        while (sweep >= 180f)
         {
             sweep -= 360f;
         }
