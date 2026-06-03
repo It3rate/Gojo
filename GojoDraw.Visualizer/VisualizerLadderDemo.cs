@@ -10,7 +10,7 @@ internal sealed record VisualizerDemoPage(
     IElement Evidence,
     IReadOnlyList<VisualizerDemoPanel> Panels)
 {
-    public IElement Structure => Chain(Panels.Select(panel => panel.Structure).ToArray());
+    public IElement Structure => Chain(Panels.SelectMany(panel => panel.Elements).ToArray());
 
     public VisualizerDemoPage Resample() =>
         this with
@@ -40,11 +40,18 @@ internal sealed record VisualizerDemoPage(
 internal sealed record VisualizerDemoPanel(
     string Title,
     string Caption,
-    IElement Structure,
+    IReadOnlyList<IElement> Elements,
     IElement Evidence,
     int ProjectionSeed,
     SKRect ModelBounds,
+    IReadOnlyList<VisualizerDemoLabel> Labels,
     string? ResidueText = null);
+
+internal sealed record VisualizerDemoLabel(
+    string Text,
+    float X,
+    float Y,
+    SKColor Color);
 
 internal static class VisualizerLadderDemo
 {
@@ -59,14 +66,16 @@ internal static class VisualizerLadderDemo
                 CreateFeatureDrawing(FeatureDrawingStage.Base),
                 replay.BaseRung,
                 Random.Shared.Next(),
-                FeatureModelBounds()),
+                FeatureModelBounds(),
+                CreateFeatureLabels(FeatureDrawingStage.Base)),
             new VisualizerDemoPanel(
                 "2. Focus + transform",
                 "The corner focus carries its exterior and proposes a rounded transition.",
                 CreateFeatureDrawing(FeatureDrawingStage.FocusedTransform),
                 replay.AffectedSlice,
                 Random.Shared.Next(),
-                FeatureModelBounds()),
+                FeatureModelBounds(),
+                CreateFeatureLabels(FeatureDrawingStage.FocusedTransform)),
             new VisualizerDemoPanel(
                 "3. Partial replay",
                 "A' and carried C are current. Dependent consumers remain explicit residue.",
@@ -74,6 +83,7 @@ internal static class VisualizerLadderDemo
                 replay.PartialReplayRung,
                 Random.Shared.Next(),
                 FeatureModelBounds(),
+                CreateFeatureLabels(FeatureDrawingStage.PartialReplay),
                 replay.StaleCount == 1 ? "1 stale dependency" : $"{replay.StaleCount} stale dependencies"),
             new VisualizerDemoPanel(
                 "4. Resumed rung",
@@ -81,7 +91,8 @@ internal static class VisualizerLadderDemo
                 CreateFeatureDrawing(FeatureDrawingStage.SettledReplay),
                 replay.SettledRung,
                 Random.Shared.Next(),
-                FeatureModelBounds())
+                FeatureModelBounds(),
+                CreateFeatureLabels(FeatureDrawingStage.SettledReplay))
         };
 
         return new VisualizerDemoPage(
@@ -95,7 +106,7 @@ internal static class VisualizerLadderDemo
     }
 
     public static IElement CreateLegendGlyph() =>
-        CreateFeatureDrawing(FeatureDrawingStage.FocusedTransform);
+        Chain(CreateFeatureDrawing(FeatureDrawingStage.FocusedTransform));
 
     private static ReplayEvidence CreateReplayEvidence()
     {
@@ -369,7 +380,7 @@ internal static class VisualizerLadderDemo
         return ports[0];
     }
 
-    private static IElement CreateFeatureDrawing(FeatureDrawingStage stage)
+    private static IReadOnlyList<IElement> CreateFeatureDrawing(FeatureDrawingStage stage)
     {
         var frame = new Carrier();
         var x = new Carrier();
@@ -442,7 +453,40 @@ internal static class VisualizerLadderDemo
                 break;
         }
 
-        return Chain(elements);
+        return elements;
+    }
+
+    private static IReadOnlyList<VisualizerDemoLabel> CreateFeatureLabels(FeatureDrawingStage stage)
+    {
+        var stale = new SKColor(169, 54, 57, 235);
+        var settled = new SKColor(48, 87, 135, 230);
+        var neutral = new SKColor(31, 37, 45, 220);
+        var changed = new SKColor(86, 68, 145, 235);
+
+        return stage switch
+        {
+            FeatureDrawingStage.PartialReplay =>
+            [
+                new VisualizerDemoLabel("A'", 8f, -4f, changed),
+                new VisualizerDemoLabel("B", 22f, 15f, stale),
+                new VisualizerDemoLabel("C", -16f, -16f, neutral),
+                new VisualizerDemoLabel("D", 1f, -12f, stale)
+            ],
+            FeatureDrawingStage.SettledReplay =>
+            [
+                new VisualizerDemoLabel("A'", 9f, -4f, changed),
+                new VisualizerDemoLabel("B'", 22f, 15f, settled),
+                new VisualizerDemoLabel("C", -16f, -16f, neutral),
+                new VisualizerDemoLabel("D'", -1f, -12f, settled)
+            ],
+            _ =>
+            [
+                new VisualizerDemoLabel("A", 12f, 4f, changed),
+                new VisualizerDemoLabel("B", 22f, 15f, settled),
+                new VisualizerDemoLabel("C", -16f, -16f, neutral),
+                new VisualizerDemoLabel("D", 1f, -12f, settled)
+            ]
+        };
     }
 
     private static SKRect FeatureModelBounds() =>

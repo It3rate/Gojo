@@ -364,12 +364,18 @@ internal sealed class VisualizerDrawOperation : ICustomDrawOperation
             bounds.Bottom - 46f);
         canvas.Save();
         canvas.ClipRect(drawingBounds);
+        var panelStructure = Chain(panel.Elements);
         var projection = new DerivedSkiaProjection(
-            panel.Structure,
+            panelStructure,
             drawingBounds,
             panel.ProjectionSeed,
             panel.ModelBounds);
-        Adapter.DrawElement(canvas, panel.Structure, projection, paints, hitAreas);
+        foreach (var element in panel.Elements)
+        {
+            Adapter.DrawElement(canvas, element, projection, paints, hitAreas);
+        }
+
+        DrawDemoLabels(canvas, panel, drawingBounds);
         canvas.Restore();
 
         if (!string.IsNullOrWhiteSpace(panel.ResidueText))
@@ -411,6 +417,63 @@ internal sealed class VisualizerDrawOperation : ICustomDrawOperation
         paints.SharedFrameCurveTension.StrokeWidth = 2.1f;
         paints.SharedFramePoint.Color = new SKColor(88, 74, 142, 185);
         return paints;
+    }
+
+    private static void DrawDemoLabels(SKCanvas canvas, VisualizerDemoPanel panel, SKRect drawingBounds)
+    {
+        using var textPaint = new SKPaint
+        {
+            IsAntialias = true,
+            TextSize = 12f,
+            Typeface = SKTypeface.FromFamilyName("Segoe UI", SKFontStyle.Bold),
+            Style = SKPaintStyle.Fill
+        };
+        using var labelFill = new SKPaint
+        {
+            IsAntialias = true,
+            Color = new SKColor(255, 254, 250, 220),
+            Style = SKPaintStyle.Fill
+        };
+        using var labelStroke = new SKPaint
+        {
+            IsAntialias = true,
+            Color = new SKColor(82, 88, 96, 95),
+            StrokeWidth = 1f,
+            Style = SKPaintStyle.Stroke
+        };
+
+        foreach (var label in panel.Labels)
+        {
+            textPaint.Color = label.Color;
+            var point = ProjectDemoModel(label.X, label.Y, panel.ModelBounds, drawingBounds);
+            var width = textPaint.MeasureText(label.Text);
+            var box = new SKRect(
+                point.X - 5f,
+                point.Y - 17f,
+                point.X + width + 6f,
+                point.Y + 4f);
+            canvas.DrawRoundRect(box, 4f, 4f, labelFill);
+            canvas.DrawRoundRect(box, 4f, 4f, labelStroke);
+            canvas.DrawText(label.Text, point.X, point.Y, textPaint);
+        }
+    }
+
+    private static SKPoint ProjectDemoModel(float x, float y, SKRect modelBounds, SKRect viewport)
+    {
+        var margin = MathF.Min(36f, MathF.Min(viewport.Width, viewport.Height) * 0.12f);
+        var innerWidth = Math.Max(1f, viewport.Width - margin * 2f);
+        var innerHeight = Math.Max(1f, viewport.Height - margin * 2f);
+        var scale = MathF.Min(innerWidth / modelBounds.Width, innerHeight / modelBounds.Height);
+        var modelCenter = new SKPoint(
+            modelBounds.Left + modelBounds.Width * 0.5f,
+            modelBounds.Top + modelBounds.Height * 0.5f);
+        var viewportCenter = new SKPoint(
+            viewport.Left + viewport.Width * 0.5f,
+            viewport.Top + viewport.Height * 0.5f);
+        var offset = new SKPoint(
+            viewportCenter.X - modelCenter.X * scale,
+            viewportCenter.Y - modelCenter.Y * scale);
+        return new SKPoint(offset.X + x * scale, offset.Y - y * scale);
     }
 
     private static void DrawResidueBadge(SKCanvas canvas, string text, SKRect bounds)
@@ -844,6 +907,22 @@ internal sealed class VisualizerDrawOperation : ICustomDrawOperation
         return index is null
             ? area.Text
             : $"{area.Text} element[{index.Value}]";
+    }
+
+    private static IElement Chain(IReadOnlyList<IElement> elements)
+    {
+        if (elements.Count == 0)
+        {
+            return Carrier.Unknown;
+        }
+
+        var structure = elements[^1];
+        for (var index = elements.Count - 2; index >= 0; index--)
+        {
+            structure = new Relation(elements[index], structure);
+        }
+
+        return structure;
     }
 
     private static SKRect Expanded(SKRect rect, float amount) =>
