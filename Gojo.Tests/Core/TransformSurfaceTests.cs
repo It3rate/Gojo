@@ -2120,6 +2120,43 @@ public sealed class TransformSurfaceTests
             Relation.Point(Carrier.Unknown, 0),
             Relation.Point(Carrier.Unknown, 0),
             out var producerReplay));
+        Assert.True(TransformSurface.TryCreatePartialReplayFromDependencyAffectedSlice(
+            new Carrier(),
+            affectedSlice,
+            [producerReplay],
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0),
+            out var producerOnlyPartialReplay));
+        Assert.True(TransformSurface.TryReadPartialReplay(
+            producerOnlyPartialReplay,
+            out _,
+            out _,
+            out _,
+            out var producerOnlyCurrentApplications,
+            out var producerOnlyResidue,
+            out _));
+        Assert.True(TransformSurface.TryReadApplicationFrame(producerOnlyCurrentApplications, out var producerOnlyCurrent));
+        Assert.True(TransformSurface.TryReadReplay(
+            producerReplay,
+            out _,
+            out _,
+            out var replayedProducerOnly,
+            out _,
+            out _,
+            out _));
+        Assert.Equal([replayedProducerOnly, independentApplication], producerOnlyCurrent);
+        var staleDependency = Assert.IsType<Relation>(producerOnlyResidue);
+        Assert.True(TransformSurface.TryReadStaleDependency(
+            staleDependency,
+            out var staleReadDependency,
+            out var staleProducerReplay,
+            out var staleConsumerApplication,
+            out _,
+            out _));
+        Assert.Equal(dependency, staleReadDependency);
+        Assert.Equal(producerReplay, staleProducerReplay);
+        Assert.Equal(consumerApplication, staleConsumerApplication);
+
         var newConsumerReplacement = Relation.Point(new Carrier(), 2);
         var changedConsumerFocus = CreateFocus(
             newConsumedOutput,
@@ -2151,7 +2188,7 @@ public sealed class TransformSurfaceTests
             out var replayCarriedApplications,
             out _,
             out var currentApplications,
-            out _,
+            out var fullReplayResidue,
             out _));
         Assert.True(TransformSurface.TryReadApplicationFrame(replayCarriedApplications, out var replayCarried));
         Assert.True(TransformSurface.TryReadApplicationFrame(currentApplications, out var current));
@@ -2173,6 +2210,7 @@ public sealed class TransformSurfaceTests
             out _));
         Assert.Equal([independentApplication], replayCarried);
         Assert.Equal([replayedProducer, replayedConsumer, independentApplication], current);
+        Assert.Equal(Relation.Point(Carrier.Unknown, 0), fullReplayResidue);
     }
 
     [Fact]

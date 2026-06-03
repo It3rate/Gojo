@@ -183,6 +183,10 @@ public static class TransformSurface
     public static Relation ApplicationDependencyFrame(Carrier root, params Relation[] dependencies) =>
         Relation.OrderedGroup(RootOrNew(root), dependencies ?? []);
 
+    /// <summary>Creates an ordered frame of stale dependency witnesses.</summary>
+    public static Relation StaleDependencyFrame(Carrier root, params Relation[] staleDependencies) =>
+        Relation.OrderedGroup(RootOrNew(root), staleDependencies ?? []);
+
     /// <summary>Creates an ordered frame of replay records.</summary>
     public static Relation ReplayFrame(Carrier root, params Relation[] replays) =>
         Relation.OrderedGroup(RootOrNew(root), replays ?? []);
@@ -300,6 +304,28 @@ public static class TransformSurface
             producerApplication ?? UnknownPoint(),
             consumerApplication ?? UnknownPoint(),
             dependencyEvidence ?? UnknownPoint(),
+            residueOrTension ?? UnknownPoint(),
+            provenance ?? UnknownPoint());
+    }
+
+    /// <summary>
+    /// Creates stale dependency evidence:
+    /// dependency, producer replay, stale consumer application, residue/tension,
+    /// provenance.
+    /// </summary>
+    public static Relation StaleDependency(
+        Carrier root,
+        Relation dependency,
+        Relation producerReplay,
+        Relation staleConsumerApplication,
+        IElement residueOrTension,
+        IElement provenance)
+    {
+        return Relation.OrderedGroup(
+            RootOrNew(root),
+            dependency ?? UnknownPoint(),
+            producerReplay ?? UnknownPoint(),
+            staleConsumerApplication ?? UnknownPoint(),
             residueOrTension ?? UnknownPoint(),
             provenance ?? UnknownPoint());
     }
@@ -643,6 +669,59 @@ public static class TransformSurface
     }
 
     /// <summary>
+    /// Creates stale dependency evidence when a producer has been replayed but
+    /// a dependent consumer is still represented by its previous application.
+    /// </summary>
+    public static bool TryCreateStaleDependency(
+        Carrier root,
+        Relation dependency,
+        Relation producerReplay,
+        Relation staleConsumerApplication,
+        IElement residueOrTension,
+        IElement provenance,
+        out Relation staleDependency)
+    {
+        if (!TryReadApplicationDependency(
+                dependency,
+                out var producerApplication,
+                out var consumerApplication,
+                out _,
+                out var dependencyResidue,
+                out var dependencyProvenance) ||
+            !TryReadReplay(
+                producerReplay,
+                out var replayedPreviousApplication,
+                out _,
+                out _,
+                out _,
+                out var replayResidue,
+                out var replayProvenance) ||
+            !Equals(producerApplication, replayedPreviousApplication) ||
+            !Equals(consumerApplication, staleConsumerApplication))
+        {
+            staleDependency = null!;
+            return false;
+        }
+
+        var candidate = StaleDependency(
+            RootOrNew(root),
+            dependency,
+            producerReplay,
+            staleConsumerApplication,
+            EffectiveEvidence(residueOrTension, replayResidue, dependencyResidue),
+            EffectiveEvidence(provenance, replayProvenance, dependencyProvenance));
+
+        if (TryReadStaleDependency(candidate, out _, out _, out _, out _, out _))
+        {
+            staleDependency = candidate;
+            return true;
+        }
+
+        staleDependency = null!;
+        return false;
+    }
+
+    /// <summary>
     /// Reads a transform application's executable operation through its
     /// bindings and records the settled output target surface.
     /// </summary>
@@ -824,11 +903,12 @@ public static class TransformSurface
                 affectedSlice,
                 out var previousApplications,
                 out _,
-                out _,
+                out var dependencyFrame,
                 out var carriedApplications,
                 out var affectedApplications,
                 out var affectedResidue,
                 out var affectedProvenance) ||
+            !TryReadApplicationDependencyFrame(dependencyFrame, out var dependencies) ||
             !TryReadApplicationFrame(affectedApplications, out var affected) ||
             replays is null ||
             replays.Count == 0 ||
@@ -855,12 +935,22 @@ public static class TransformSurface
             }
         }
 
+        var replayResidue = TryCreateStaleDependencyResidue(
+            dependencies,
+            affected,
+            replays,
+            residueOrTension,
+            provenance,
+            out var staleDependencyResidue)
+            ? CombineEvidence(residueOrTension, staleDependencyResidue, affectedResidue)
+            : EffectiveEvidence(residueOrTension, affectedResidue);
+
         return TryCreatePartialReplay(
             root,
             previousApplications,
             carriedApplications,
             replays,
-            EffectiveEvidence(residueOrTension, affectedResidue),
+            replayResidue,
             EffectiveEvidence(provenance, affectedProvenance),
             out partialReplay);
     }
@@ -1051,6 +1141,33 @@ public static class TransformSurface
         }
 
         dependencies = [];
+        return false;
+    }
+
+    /// <summary>Reads an ordered frame of stale dependency witnesses.</summary>
+    public static bool TryReadStaleDependencyFrame(IElement frame, out Relation[] staleDependencies)
+    {
+        if (frame is Relation relation &&
+            TryReadRootElements(relation, out var elements))
+        {
+            var read = new List<Relation>();
+            foreach (var element in elements)
+            {
+                if (element is not Relation staleDependency ||
+                    !TryReadStaleDependency(staleDependency, out _, out _, out _, out _, out _))
+                {
+                    staleDependencies = [];
+                    return false;
+                }
+
+                read.Add(staleDependency);
+            }
+
+            staleDependencies = [.. read];
+            return true;
+        }
+
+        staleDependencies = [];
         return false;
     }
 
@@ -1669,6 +1786,54 @@ public static class TransformSurface
         return false;
     }
 
+    /// <summary>Reads stale dependency evidence created by <see cref="StaleDependency"/>.</summary>
+    public static bool TryReadStaleDependency(
+        Relation staleDependency,
+        out Relation dependency,
+        out Relation producerReplay,
+        out Relation staleConsumerApplication,
+        out IElement residueOrTension,
+        out IElement provenance)
+    {
+        if (TryReadRootElements(staleDependency, out var elements) &&
+            elements.Length == 5 &&
+            elements[0] is Relation dependencyRelation &&
+            TryReadApplicationDependency(
+                dependencyRelation,
+                out var producerApplication,
+                out var consumerApplication,
+                out _,
+                out _,
+                out _) &&
+            elements[1] is Relation replayRelation &&
+            TryReadReplay(
+                replayRelation,
+                out var replayedPreviousApplication,
+                out _,
+                out _,
+                out _,
+                out _,
+                out _) &&
+            Equals(producerApplication, replayedPreviousApplication) &&
+            elements[2] is Relation consumerRelation &&
+            Equals(consumerApplication, consumerRelation))
+        {
+            dependency = dependencyRelation;
+            producerReplay = replayRelation;
+            staleConsumerApplication = consumerRelation;
+            residueOrTension = elements[3];
+            provenance = elements[4];
+            return true;
+        }
+
+        dependency = null!;
+        producerReplay = null!;
+        staleConsumerApplication = null!;
+        residueOrTension = default!;
+        provenance = default!;
+        return false;
+    }
+
     /// <summary>Reads operation-output evidence created by <see cref="OperationOutput"/>.</summary>
     public static bool TryReadOperationOutput(
         Relation operationOutput,
@@ -2103,6 +2268,51 @@ public static class TransformSurface
         carried = [.. carriedList];
         affected = [.. affectedList];
         return affected.Length > 0;
+    }
+
+    private static bool TryCreateStaleDependencyResidue(
+        IReadOnlyList<Relation> dependencies,
+        IReadOnlyList<Relation> affected,
+        IReadOnlyList<Relation> replays,
+        IElement residueOrTension,
+        IElement provenance,
+        out IElement staleDependencyResidue)
+    {
+        var staleDependencies = new List<Relation>();
+        foreach (var dependency in dependencies)
+        {
+            if (!TryReadApplicationDependency(
+                    dependency,
+                    out var producerApplication,
+                    out var consumerApplication,
+                    out _,
+                    out _,
+                    out _) ||
+                !ContainsRelation(affected, consumerApplication) ||
+                TryFindReplayForPrevious(replays, consumerApplication, out _) ||
+                !TryFindReplayForPrevious(replays, producerApplication, out var producerReplay) ||
+                !TryCreateStaleDependency(
+                    new Carrier(),
+                    dependency,
+                    producerReplay,
+                    consumerApplication,
+                    residueOrTension,
+                    provenance,
+                    out var staleDependency))
+            {
+                continue;
+            }
+
+            staleDependencies.Add(staleDependency);
+        }
+
+        staleDependencyResidue = staleDependencies.Count switch
+        {
+            0 => UnknownPoint(),
+            1 => staleDependencies[0],
+            _ => StaleDependencyFrame(new Carrier(), [.. staleDependencies])
+        };
+        return staleDependencies.Count > 0;
     }
 
     private static bool TryBuildCurrentApplications(
@@ -2661,6 +2871,25 @@ public static class TransformSurface
         }
 
         return UnknownPoint();
+    }
+
+    private static IElement CombineEvidence(params IElement[] evidence)
+    {
+        var meaningful = new List<IElement>();
+        foreach (var element in evidence ?? [])
+        {
+            if (element is not null && !IsUnknownPoint(element))
+            {
+                meaningful.Add(element);
+            }
+        }
+
+        return meaningful.Count switch
+        {
+            0 => UnknownPoint(),
+            1 => meaningful[0],
+            _ => Frame(new Carrier(), [.. meaningful])
+        };
     }
 
     private static Relation UnknownTransform() =>

@@ -863,6 +863,22 @@ previous applications, and unmentioned applications are pending. This preserves
 the old carried-prefix case while allowing a later independent application to
 remain carried after a middle application replays.
 
+Dependency partial replay can now expose pending dependent consumers as residue:
+
+```text
+StaleDependency
+  dependency
+  producer replay
+  stale consumer application
+  residue or tension
+  provenance
+```
+
+This is a structural witness that a dependency-producing application has moved
+forward while its consumer is still the previous application. It gives a partial
+rung a valid current frame plus explicit tension for the missing dependent
+update.
+
 The first affected-slice discovery is focus based:
 
 ```text
@@ -943,6 +959,8 @@ application B consumes `area^-:12`, and application C is independent. If A is
 replayed with a changed input and the consumed term becomes `area^-:16`, the
 dependency-aware slice marks A and B as affected, carries C, and partial replay
 can replace A and B while preserving C in the current rung.
+If only A has replayed so far, the current rung can contain `A'` and C, while
+the partial replay residue carries `StaleDependency(A -> B, A', B)`.
 
 Structural ladders can now carry complete rungs, rung frames,
 focus-transition timelines, transform-application timelines, current-rung

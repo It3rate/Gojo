@@ -350,6 +350,21 @@ applications, and unmentioned applications are pending. This can still express
 the old prefix case, but it can also carry an independent later application
 after a middle application has been replayed.
 
+Dependency partial replay can leave a dependent consumer pending without hiding
+why it is absent from the current frame:
+
+```text
+StaleDependency
+  dependency
+  producer replay
+  stale consumer application
+  residue or tension
+  provenance
+```
+
+This is not a side-table marker. It is a relation witness that the dependency's
+producer has been replayed while the consumer is still the previous application.
+
 The first affected-slice read starts from focus-change evidence:
 
 ```text
@@ -432,6 +447,8 @@ B consumes `area^-:12`, and later application C is independent. If A is replayed
 with a changed input so that the consumed term is now `area^-:16`, the
 dependency-aware affected slice reads A and B as affected while carrying C.
 Partial replay can then replace A and B in frame order and leave C unchanged.
+If only A has been replayed so far, the current frame can contain `A'` and C,
+while the partial replay residue contains `StaleDependency(A -> B, A', B)`.
 
 The patch witness is the temporal/change relation. It records the source read
 through the transform and keeps the selected participation, carried complement,
