@@ -2175,6 +2175,35 @@ public sealed class TransformSurfaceTests
             Relation.Point(Carrier.Unknown, 0),
             out var consumerReplay));
 
+        Assert.True(TransformSurface.TryCreatePartialReplayFromStaleDependencyResidue(
+            new Carrier(),
+            producerOnlyPartialReplay,
+            [consumerReplay],
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0),
+            out var resumedPartialReplay));
+        Assert.True(TransformSurface.TryReadPartialReplay(
+            resumedPartialReplay,
+            out _,
+            out var resumedCarriedApplications,
+            out _,
+            out var resumedCurrentApplications,
+            out var resumedResidue,
+            out _));
+        Assert.True(TransformSurface.TryReadApplicationFrame(resumedCarriedApplications, out var resumedCarried));
+        Assert.True(TransformSurface.TryReadApplicationFrame(resumedCurrentApplications, out var resumedCurrent));
+        Assert.True(TransformSurface.TryReadReplay(
+            consumerReplay,
+            out _,
+            out _,
+            out var replayedConsumerFromResidue,
+            out _,
+            out _,
+            out _));
+        Assert.Equal([independentApplication], resumedCarried);
+        Assert.Equal([replayedProducerOnly, replayedConsumerFromResidue, independentApplication], resumedCurrent);
+        Assert.Equal(Relation.Point(Carrier.Unknown, 0), resumedResidue);
+
         Assert.True(TransformSurface.TryCreatePartialReplayFromDependencyAffectedSlice(
             new Carrier(),
             affectedSlice,

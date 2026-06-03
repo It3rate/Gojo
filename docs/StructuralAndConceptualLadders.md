@@ -878,6 +878,9 @@ This is a structural witness that a dependency-producing application has moved
 forward while its consumer is still the previous application. It gives a partial
 rung a valid current frame plus explicit tension for the missing dependent
 update.
+That residue can seed a later replay pass: a consumer replay can resume from the
+stale dependency witness and rebuild the current rung without reconstructing the
+original affected-slice read.
 
 The first affected-slice discovery is focus based:
 
@@ -961,6 +964,8 @@ dependency-aware slice marks A and B as affected, carries C, and partial replay
 can replace A and B while preserving C in the current rung.
 If only A has replayed so far, the current rung can contain `A'` and C, while
 the partial replay residue carries `StaleDependency(A -> B, A', B)`.
+Supplying `B -> B'` later can resume from that residue, yielding `A'`, `B'`,
+and C with the stale dependency cleared.
 
 Structural ladders can now carry complete rungs, rung frames,
 focus-transition timelines, transform-application timelines, current-rung

@@ -956,6 +956,72 @@ public static class TransformSurface
     }
 
     /// <summary>
+    /// Resumes a partial replay from stale dependency residue. Existing replay
+    /// records are preserved; new replay records must replace stale consumers in
+    /// residue order.
+    /// </summary>
+    public static bool TryCreatePartialReplayFromStaleDependencyResidue(
+        Carrier root,
+        Relation partialReplay,
+        IReadOnlyList<Relation> replays,
+        IElement residueOrTension,
+        IElement provenance,
+        out Relation resumedReplay)
+    {
+        if (!TryReadPartialReplay(
+                partialReplay,
+                out var previousApplications,
+                out var carriedApplications,
+                out var replayFrame,
+                out _,
+                out var partialResidue,
+                out var partialProvenance) ||
+            !TryReadReplayFrame(replayFrame, out var existingReplays) ||
+            !TryReadStaleDependencyResidue(partialResidue, out var staleDependencies) ||
+            replays is null ||
+            replays.Count == 0 ||
+            replays.Count > staleDependencies.Length)
+        {
+            resumedReplay = null!;
+            return false;
+        }
+
+        for (var index = 0; index < replays.Count; index++)
+        {
+            if (!TryReadStaleDependency(
+                    staleDependencies[index],
+                    out _,
+                    out _,
+                    out var staleConsumerApplication,
+                    out _,
+                    out _) ||
+                !TryReadReplay(
+                    replays[index],
+                    out var replayPreviousApplication,
+                    out _,
+                    out _,
+                    out _,
+                    out _,
+                    out _) ||
+                !Equals(staleConsumerApplication, replayPreviousApplication))
+            {
+                resumedReplay = null!;
+                return false;
+            }
+        }
+
+        var remainingStaleResidue = StaleDependencyResidueOf(staleDependencies.Skip(replays.Count));
+        return TryCreatePartialReplay(
+            root,
+            previousApplications,
+            carriedApplications,
+            [.. existingReplays, .. replays],
+            CombineEvidence(residueOrTension, remainingStaleResidue),
+            EffectiveEvidence(provenance, partialProvenance),
+            out resumedReplay);
+    }
+
+    /// <summary>
     /// Creates a partial replay run. Carried applications remain unchanged;
     /// replay records replace their previous applications in frame order.
     /// </summary>
@@ -1169,6 +1235,15 @@ public static class TransformSurface
 
         staleDependencies = [];
         return false;
+    }
+
+    /// <summary>Reads stale dependency witnesses from residue evidence.</summary>
+    public static bool TryReadStaleDependencyResidue(IElement residue, out Relation[] staleDependencies)
+    {
+        var read = new List<Relation>();
+        CollectStaleDependencyResidue(residue, read);
+        staleDependencies = [.. read];
+        return staleDependencies.Length > 0;
     }
 
     /// <summary>Reads an ordered frame of replay records.</summary>
@@ -2313,6 +2388,44 @@ public static class TransformSurface
             _ => StaleDependencyFrame(new Carrier(), [.. staleDependencies])
         };
         return staleDependencies.Count > 0;
+    }
+
+    private static IElement StaleDependencyResidueOf(IEnumerable<Relation> staleDependencies)
+    {
+        var read = staleDependencies.ToArray();
+        return read.Length switch
+        {
+            0 => UnknownPoint(),
+            1 => read[0],
+            _ => StaleDependencyFrame(new Carrier(), read)
+        };
+    }
+
+    private static void CollectStaleDependencyResidue(IElement residue, List<Relation> staleDependencies)
+    {
+        if (residue is not Relation relation ||
+            IsUnknownPoint(relation))
+        {
+            return;
+        }
+
+        if (TryReadStaleDependency(relation, out _, out _, out _, out _, out _))
+        {
+            if (!ContainsRelation(staleDependencies, relation))
+            {
+                staleDependencies.Add(relation);
+            }
+
+            return;
+        }
+
+        if (TryReadRootElements(relation, out var elements))
+        {
+            foreach (var element in elements)
+            {
+                CollectStaleDependencyResidue(element, staleDependencies);
+            }
+        }
     }
 
     private static bool TryBuildCurrentApplications(

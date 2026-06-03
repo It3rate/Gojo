@@ -364,6 +364,9 @@ StaleDependency
 
 This is not a side-table marker. It is a relation witness that the dependency's
 producer has been replayed while the consumer is still the previous application.
+That witness can seed the next replay pass: a later consumer replay can resume
+from the stale dependency residue and rebuild the current frame without
+re-reading the original affected slice.
 
 The first affected-slice read starts from focus-change evidence:
 
@@ -449,6 +452,8 @@ dependency-aware affected slice reads A and B as affected while carrying C.
 Partial replay can then replace A and B in frame order and leave C unchanged.
 If only A has been replayed so far, the current frame can contain `A'` and C,
 while the partial replay residue contains `StaleDependency(A -> B, A', B)`.
+Supplying `B -> B'` later can resume directly from that residue, producing
+`A'`, `B'`, and C with the stale dependency cleared.
 
 The patch witness is the temporal/change relation. It records the source read
 through the transform and keeps the selected participation, carried complement,
