@@ -280,6 +280,12 @@ can then use any child target even when it is only one element inside a larger
 result frame. Static map/carry/fold shapes still derive correspondence;
 executable operation surfaces additionally produce a witnessed output surface.
 
+Concrete example: a transform application can bind fused `x` faces and fused
+`y` faces through a product operation over an area carrier. The operation read
+can expose four term targets such as `area^-:8`, `area^-:10`, `area^-:12`, and
+`area:15`. A later application can consume only `area^-:12`; dependency reading
+can now find that exact term through the producer's operation-output witness.
+
 The transform is the reusable instruction. The application is the concrete
 settlement of that instruction against a real focus:
 
@@ -420,6 +426,12 @@ the frame that do not consume the changed chain are carried, even when they
 appear later in the previous frame. The focus change should point to the actual
 focus relation held by the application; a duplicate focus with the same interior
 values is only a lookalike, not the same structural site.
+
+Concrete example: application A produces the four area terms above, application
+B consumes `area^-:12`, and later application C is independent. If A is replayed
+with a changed input so that the consumed term is now `area^-:16`, the
+dependency-aware affected slice reads A and B as affected while carrying C.
+Partial replay can then replace A and B in frame order and leave C unchanged.
 
 The patch witness is the temporal/change relation. It records the source read
 through the transform and keeps the selected participation, carried complement,

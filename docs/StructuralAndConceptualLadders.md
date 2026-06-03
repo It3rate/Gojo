@@ -811,6 +811,13 @@ element in a larger result frame. It is not a full transform solver yet; it is
 the first structural witness that an operation surface produced this output
 surface in this application.
 
+Concrete example: a transform can bind fused `x` faces and fused `y` faces into
+a product operation over an area carrier. The operation-output witness can expose
+term targets like `area^-:8`, `area^-:10`, `area^-:12`, and `area:15`. A later
+application can consume only `area^-:12`, and dependency discovery can now read
+that one term as producer output instead of treating the whole result frame as
+one vague dependency.
+
 Transform applications can also be replayed against a changed focus. Replay
 reuses the transform instruction, creates a new application for the new focus,
 and records stale patch evidence when the previous patch no longer settles
@@ -930,6 +937,12 @@ applications are carried even if they occur later in the previous frame. This
 also clarified an important structural rule: focus-change evidence should
 reference the actual focus relation carried by an application, not an equivalent
 copy with a different root carrier.
+
+Concrete replay example: application A produces the four area terms above,
+application B consumes `area^-:12`, and application C is independent. If A is
+replayed with a changed input and the consumed term becomes `area^-:16`, the
+dependency-aware slice marks A and B as affected, carries C, and partial replay
+can replace A and B while preserving C in the current rung.
 
 Structural ladders can now carry complete rungs, rung frames,
 focus-transition timelines, transform-application timelines, current-rung

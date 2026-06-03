@@ -1986,6 +1986,196 @@ public sealed class TransformSurfaceTests
     }
 
     [Fact]
+    public void DependencyPartialReplayFollowsOperationOutputProductTermConsumer()
+    {
+        var lengthShape = new Carrier().UnitShape;
+        var x = new Carrier(lengthShape);
+        var y = new Carrier(lengthShape);
+        var area = new Carrier(UnitShape.Product(lengthShape, lengthShape));
+        var xPort = new Relation(Relation.Point(x, 1), Relation.Point(Carrier.Unknown, 1));
+        var yPort = new Relation(Relation.Point(y, 1), Relation.Point(Carrier.Unknown, 1));
+        var outputSurface = Relation.Segment(area, 0, 1);
+        var producerTransform = TransformSurface.Create(
+            new Carrier(),
+            TransformSurface.Ports(new Carrier(), xPort, yPort),
+            new Relation(new Relation(xPort, yPort), outputSurface),
+            TransformSurface.Ports(new Carrier(), outputSurface),
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0));
+        var xFused = new Relation(Relation.Point(x, 3), Relation.Point(x.Inverse(), 2));
+        var yFused = new Relation(
+            new CarrierLocation(y.Inverse(), 4),
+            new CarrierLocation(y, 5));
+        var producerSource = FocusSurface.Frame(new Carrier(), xFused, yFused);
+        var consumedOutput = Relation.Point(area.Inverse(), 12);
+        var producerApplication = CreateApplication(
+            producerTransform,
+            CreateFocus(
+                producerSource,
+                xFused,
+                producerSource,
+                Relation.Point(Carrier.Unknown, 0),
+                Relation.Point(Carrier.Unknown, 0),
+                Relation.Point(Carrier.Unknown, 0)),
+            FocusSurface.BindingFrame(
+                new Carrier(),
+                FocusSurface.Bind(xPort, xFused),
+                FocusSurface.Bind(yPort, yFused)),
+            FocusSurface.Frame(new Carrier(), producerSource, consumedOutput));
+        Assert.True(TransformSurface.TryReadApplication(
+            producerApplication,
+            out _,
+            out var producerFocus,
+            out _,
+            out _,
+            out _,
+            out _,
+            out _,
+            out _));
+
+        var consumerInputPort = new Placeholder();
+        var consumerOutputPort = new Placeholder();
+        var consumerTransform = CreateMapTransform(consumerInputPort, consumerOutputPort);
+        var consumerReplacement = Relation.Point(new Carrier(), 1);
+        var consumerApplication = CreateApplication(
+            consumerTransform,
+            CreateFocus(
+                consumedOutput,
+                consumedOutput,
+                consumedOutput,
+                Relation.Point(Carrier.Unknown, 0),
+                consumerReplacement,
+                FocusSurface.Bind(consumedOutput, consumerReplacement)),
+            FocusSurface.Bind(consumerInputPort, consumedOutput),
+            FocusSurface.Frame(new Carrier(), consumedOutput, consumerReplacement));
+        var independentApplication = CreateSegmentApplication(
+            Relation.Segment(new Carrier(), 0, 20),
+            Relation.Point(new Carrier(), 2),
+            Relation.Segment(new Carrier(), 1, 3),
+            Relation.Segment(new Carrier(), 0, 2));
+        Assert.True(TransformSurface.TryCreateApplicationDependency(
+            new Carrier(),
+            producerApplication,
+            consumerApplication,
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0),
+            out var dependency));
+
+        var newXFused = new Relation(Relation.Point(x, 4), Relation.Point(x.Inverse(), 2));
+        var newProducerSource = FocusSurface.Frame(new Carrier(), newXFused, yFused);
+        var newConsumedOutput = Relation.Point(area.Inverse(), 16);
+        var changedProducerFocus = CreateFocus(
+            newProducerSource,
+            newXFused,
+            newProducerSource,
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0),
+            FocusSurface.Bind(xFused, newXFused));
+        Assert.True(TransformSurface.TryCreateFocusChange(
+            new Carrier(),
+            producerFocus,
+            changedProducerFocus,
+            FocusSurface.Bind(xFused, newXFused),
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0),
+            out var focusChange));
+        var previousFrame = TransformSurface.ApplicationFrame(
+            new Carrier(),
+            producerApplication,
+            consumerApplication,
+            independentApplication);
+        var dependencyFrame = TransformSurface.ApplicationDependencyFrame(new Carrier(), dependency);
+
+        Assert.True(TransformSurface.TryCreateDependencyAffectedSlice(
+            new Carrier(),
+            previousFrame,
+            dependencyFrame,
+            focusChange,
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0),
+            out var affectedSlice));
+        Assert.True(TransformSurface.TryReadDependencyAffectedSlice(
+            affectedSlice,
+            out _,
+            out _,
+            out _,
+            out var carriedApplications,
+            out var affectedApplications,
+            out _,
+            out _));
+        Assert.True(TransformSurface.TryReadApplicationFrame(carriedApplications, out var carried));
+        Assert.True(TransformSurface.TryReadApplicationFrame(affectedApplications, out var affected));
+        Assert.Equal([independentApplication], carried);
+        Assert.Equal([producerApplication, consumerApplication], affected);
+
+        Assert.True(TransformSurface.TryReplayApplication(
+            new Carrier(),
+            producerApplication,
+            changedProducerFocus,
+            FocusSurface.BindingFrame(
+                new Carrier(),
+                FocusSurface.Bind(xPort, newXFused),
+                FocusSurface.Bind(yPort, yFused)),
+            FocusSurface.Frame(new Carrier(), newProducerSource, newConsumedOutput),
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0),
+            out var producerReplay));
+        var newConsumerReplacement = Relation.Point(new Carrier(), 2);
+        var changedConsumerFocus = CreateFocus(
+            newConsumedOutput,
+            newConsumedOutput,
+            newConsumedOutput,
+            Relation.Point(Carrier.Unknown, 0),
+            newConsumerReplacement,
+            FocusSurface.Bind(consumedOutput, newConsumedOutput));
+        Assert.True(TransformSurface.TryReplayApplication(
+            new Carrier(),
+            consumerApplication,
+            changedConsumerFocus,
+            FocusSurface.Bind(consumerInputPort, newConsumedOutput),
+            FocusSurface.Frame(new Carrier(), newConsumedOutput, newConsumerReplacement),
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0),
+            out var consumerReplay));
+
+        Assert.True(TransformSurface.TryCreatePartialReplayFromDependencyAffectedSlice(
+            new Carrier(),
+            affectedSlice,
+            [producerReplay, consumerReplay],
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0),
+            out var partialReplay));
+        Assert.True(TransformSurface.TryReadPartialReplay(
+            partialReplay,
+            out _,
+            out var replayCarriedApplications,
+            out _,
+            out var currentApplications,
+            out _,
+            out _));
+        Assert.True(TransformSurface.TryReadApplicationFrame(replayCarriedApplications, out var replayCarried));
+        Assert.True(TransformSurface.TryReadApplicationFrame(currentApplications, out var current));
+        Assert.True(TransformSurface.TryReadReplay(
+            producerReplay,
+            out _,
+            out _,
+            out var replayedProducer,
+            out _,
+            out _,
+            out _));
+        Assert.True(TransformSurface.TryReadReplay(
+            consumerReplay,
+            out _,
+            out _,
+            out var replayedConsumer,
+            out _,
+            out _,
+            out _));
+        Assert.Equal([independentApplication], replayCarried);
+        Assert.Equal([replayedProducer, replayedConsumer, independentApplication], current);
+    }
+
+    [Fact]
     public void StructuralLadderCanUseTransformApplicationAsTimelineTransition()
     {
         var sourceCarrier = new Carrier();
