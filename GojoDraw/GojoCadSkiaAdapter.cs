@@ -834,13 +834,11 @@ public sealed class GojoCadSkiaAdapter
         GojoCadSkiaPaints paints,
         ICollection<GojoCadSkiaHitArea>? hitAreas)
     {
+        var center = projection.ProjectFrame(involute.BaseArc.Center);
         var start = projection.ProjectFrame(involute.BaseArc.Start);
-        var first = projection.ProjectFrame(involute.BaseArc.End);
-        var second = projection.ProjectFrame(involute.UnwoundLength.Start);
-        var end = projection.ProjectFrame(involute.UnwoundLength.End);
-        using var path = new SKPath();
-        path.MoveTo(start);
-        path.CubicTo(first, second, end);
+        var end = projection.ProjectFrame(involute.BaseArc.End);
+        var length = ProjectedLength(involute.UnwoundLength, projection);
+        using var path = BuildInvolutePath(center, start, end, length);
         canvas.DrawPath(path, paints.SharedFrameCurveTension);
         AddHit(hitAreas, path.Bounds, "involute circle", priority: 3, involute.Source);
     }
@@ -923,15 +921,57 @@ public sealed class GojoCadSkiaAdapter
         GojoCadSkiaPaints paints,
         ICollection<GojoCadSkiaHitArea>? hitAreas)
     {
+        var center = projection.Project(involute.BaseArc.Origin);
         var start = projection.Project(involute.BaseArc.Segment.Start.Location);
-        var arcEnd = projection.Project(involute.BaseArc.Segment.End.Location);
-        var tangentStart = projection.Project(involute.UnwoundLength.Start.Location);
-        var tangentEnd = projection.Project(involute.UnwoundLength.End.Location);
-        using var path = new SKPath();
-        path.MoveTo(start);
-        path.CubicTo(arcEnd, tangentStart, tangentEnd);
+        var end = projection.Project(involute.BaseArc.Segment.End.Location);
+        var length = ProjectedLength(involute.UnwoundLength, projection);
+        using var path = BuildInvolutePath(center, start, end, length);
         canvas.DrawPath(path, paints.SharedFrameCurveTension);
         AddHit(hitAreas, path.Bounds, "carrier involute", priority: 3, involute.Source);
+    }
+
+    private static SKPath BuildInvolutePath(
+        SKPoint center,
+        SKPoint start,
+        SKPoint end,
+        float unwoundLength)
+    {
+        var radius = MathF.Max(1f, (Distance(center, start) + Distance(center, end)) * 0.5f);
+        var startAngle = AngleDegrees(center, start);
+        var endAngle = AngleDegrees(center, end);
+        var sweep = ShortestSweep(startAngle, endAngle);
+        if (MathF.Abs(sweep) < 0.01f)
+        {
+            sweep = 42f;
+        }
+
+        var arcLength = MathF.Abs(sweep) * MathF.PI / 180f * radius;
+        var length = unwoundLength > 0.5f
+            ? unwoundLength
+            : arcLength;
+        var path = new SKPath();
+        const int Steps = 36;
+        for (var index = 0; index <= Steps; index++)
+        {
+            var u = index / (float)Steps;
+            var angle = startAngle + sweep * u;
+            var basePoint = PointOnCircle(center, radius, angle);
+            var radial = Unit(center, basePoint);
+            var tangent = sweep >= 0f
+                ? new SKPoint(radial.Y, -radial.X)
+                : new SKPoint(-radial.Y, radial.X);
+            var point = Add(basePoint, Scale(tangent, length * u));
+            if (index == 0)
+            {
+                path.MoveTo(point);
+            }
+            else
+            {
+                path.LineTo(point);
+            }
+        }
+
+        return path;
     }
 
     private static SKPath BuildClothoidPath(

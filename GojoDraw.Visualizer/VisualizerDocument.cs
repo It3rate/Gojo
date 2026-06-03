@@ -244,10 +244,22 @@ internal sealed record VisualizerDocument(
         var anchor = ReadSelection().Point is { } point
             ? PointAt(point.Location)
             : null;
+        var createdPlacementAnchor = false;
+        if (anchor is null && IsPlacedCurveLabel(label))
+        {
+            anchor = GraphicStructure.Point(Drawing, GraphicStructure.Site(ReadNextCurveOriginTick()));
+            createdPlacementAnchor = true;
+        }
+
         var variant = label == "clothoid" && anchor is null
             ? Random.Shared.Next(4)
             : (int?)null;
         var additions = VisualizerSample.CreateCurveElements(label, anchor, variant);
+        if (createdPlacementAnchor && anchor is not null)
+        {
+            additions = [anchor, .. additions];
+        }
+
         return Append(additions, selectedOffset: additions.Count - 1);
     }
 
@@ -978,6 +990,19 @@ internal sealed record VisualizerDocument(
         return new LetterPlacement(column * ColumnStep, -row * RowStep);
     }
 
+    private long ReadNextCurveOriginTick()
+    {
+        const long Step = 46;
+        var graph = GraphicReadGraph.From(Structure);
+        var occupied = graph.ReadsOf<PointRead>()
+            .Where(point => point.Location.Carrier.SameIdentityAs(Drawing))
+            .Select(point => point.Location.Ticks)
+            .ToArray();
+        return occupied.Length == 0
+            ? -42
+            : occupied.Max() + Step;
+    }
+
     private static long SampleFreeTick() =>
         Random.Shared.NextInt64(-30, 72);
 
@@ -997,7 +1022,13 @@ internal sealed record VisualizerDocument(
         TryReadLetter(label, out _);
 
     private static bool IsCurveLabel(string label) =>
-        label is "arc" or "quadratic" or "cubic" or "transition" or "clothoid" or "involute";
+        label is "arc" or "quadratic" or "cubic" or "transition" or
+            "clothoid" or "clothoid line-line" or "clothoid curve-line" or "clothoid curve-curve" or
+            "involute" or "gear teeth";
+
+    private static bool IsPlacedCurveLabel(string label) =>
+        label is "clothoid" or "clothoid line-line" or "clothoid curve-line" or "clothoid curve-curve" or
+            "involute" or "gear teeth";
 
     private static bool TryReadLetter(string label, out char letter)
     {
