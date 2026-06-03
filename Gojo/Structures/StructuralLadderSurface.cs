@@ -28,11 +28,11 @@ public static class StructuralLadderSurface
         var resultElement = result ?? sourceElement;
         var residue = residueOrTension ?? UnknownPoint();
         var provenance = provenanceOrTimeline ?? UnknownPoint();
-        var witness = TryCreateFocusWitness(focusElement, resultElement, residue, provenance, out var focusWitness)
-            ? focusWitness
+        var witness = TryCreateRungWitness(sourceElement, focusElement, resultElement, residue, provenance, out var rungWitness)
+            ? rungWitness
             : UnknownPoint();
-        var refinement = TryCreateFocusRefinement(focusElement, resultElement, residue, provenance, out var focusRefinement)
-            ? focusRefinement
+        var refinement = TryCreateRungRefinement(sourceElement, focusElement, resultElement, residue, provenance, witness, out var rungRefinement)
+            ? rungRefinement
             : UnknownPoint();
 
         return Relation.OrderedGroup(
@@ -146,6 +146,48 @@ public static class StructuralLadderSurface
             focus,
             result,
             application,
+            residueOrTension,
+            provenance);
+
+        if (TryReadRung(candidate, out _, out _, out _, out _, out _, out _, out _, out _))
+        {
+            rung = candidate;
+            return true;
+        }
+
+        rung = null!;
+        return false;
+    }
+
+    /// <summary>
+    /// Creates a rung from partial replay progress. The previous application
+    /// frame is the source, the current application frame is the result, and
+    /// stale dependency residue remains visible on the rung.
+    /// </summary>
+    public static bool TryCreateRungFromPartialReplay(
+        Carrier root,
+        Relation partialReplay,
+        out Relation rung)
+    {
+        if (!TransformSurface.TryReadPartialReplay(
+                partialReplay,
+                out var previousApplications,
+                out _,
+                out _,
+                out var currentApplications,
+                out var residueOrTension,
+                out var provenance))
+        {
+            rung = null!;
+            return false;
+        }
+
+        var candidate = Rung(
+            RootOrNew(root),
+            previousApplications,
+            partialReplay,
+            currentApplications,
+            partialReplay,
             residueOrTension,
             provenance);
 
@@ -638,14 +680,16 @@ public static class StructuralLadderSurface
         return true;
     }
 
-    private static bool TryCreateFocusWitness(
+    private static bool TryCreateRungWitness(
+        IElement source,
         IElement focus,
         IElement result,
         IElement residueOrTension,
         IElement provenance,
         out Relation witness)
     {
-        if (focus is Relation focusRelation)
+        if (focus is Relation focusRelation &&
+            FocusSurface.TryRead(focusRelation, out _, out _, out _, out _, out _, out _, out _, out _))
         {
             return FocusSurface.TryCreateResultWitness(
                 new Carrier(),
@@ -656,18 +700,43 @@ public static class StructuralLadderSurface
                 out witness);
         }
 
+        if (focus is Relation partialReplay &&
+            TransformSurface.TryReadPartialReplay(
+                partialReplay,
+                out var previousApplications,
+                out _,
+                out _,
+                out var currentApplications,
+                out _,
+                out _) &&
+            Equals(source, previousApplications) &&
+            Equals(result, currentApplications))
+        {
+            witness = ReadWitness.Create(
+                new Carrier(),
+                source,
+                partialReplay,
+                result,
+                residueOrTension,
+                provenance);
+            return true;
+        }
+
         witness = null!;
         return false;
     }
 
-    private static bool TryCreateFocusRefinement(
+    private static bool TryCreateRungRefinement(
+        IElement source,
         IElement focus,
         IElement result,
         IElement residueOrTension,
         IElement provenance,
+        IElement witness,
         out Relation refinement)
     {
-        if (focus is Relation focusRelation)
+        if (focus is Relation focusRelation &&
+            FocusSurface.TryRead(focusRelation, out _, out _, out _, out _, out _, out _, out _, out _))
         {
             return FocusSurface.TryCreateRefinementRead(
                 new Carrier(),
@@ -676,6 +745,39 @@ public static class StructuralLadderSurface
                 residueOrTension,
                 provenance,
                 out refinement);
+        }
+
+        if (focus is Relation partialReplay &&
+            witness is Relation readWitness &&
+            TransformSurface.TryReadPartialReplay(
+                partialReplay,
+                out var previousApplications,
+                out _,
+                out _,
+                out var currentApplications,
+                out _,
+                out _) &&
+            Equals(source, previousApplications) &&
+            Equals(result, currentApplications) &&
+            ReadWitness.TryRead(
+                readWitness,
+                out var witnessedSource,
+                out var readSurface,
+                out var witnessedResult,
+                out _,
+                out _) &&
+            Equals(source, witnessedSource) &&
+            Equals(partialReplay, readSurface) &&
+            Equals(result, witnessedResult))
+        {
+            refinement = RefinementRead.Create(
+                new Carrier(),
+                partialReplay,
+                result,
+                readWitness,
+                residueOrTension,
+                provenance);
+            return true;
         }
 
         refinement = null!;
@@ -793,6 +895,17 @@ public static class StructuralLadderSurface
             return true;
         }
 
+        return IsValidFocusRung(source, focus, result, witness, refinement) ||
+            IsValidPartialReplayRung(source, focus, result, witness, refinement);
+    }
+
+    private static bool IsValidFocusRung(
+        IElement source,
+        IElement focus,
+        IElement result,
+        IElement witness,
+        IElement refinement)
+    {
         return focus is Relation focusRelation &&
             FocusSurface.TryRead(focusRelation, out _, out _, out _, out _, out _, out _, out _, out _) &&
             witness is Relation witnessRelation &&
@@ -815,6 +928,48 @@ public static class StructuralLadderSurface
                 out _) &&
             Equals(focusRelation, refinedFocus) &&
             Equals(result, refinedResult);
+    }
+
+    private static bool IsValidPartialReplayRung(
+        IElement source,
+        IElement focus,
+        IElement result,
+        IElement witness,
+        IElement refinement)
+    {
+        return focus is Relation partialReplay &&
+            TransformSurface.TryReadPartialReplay(
+                partialReplay,
+                out var previousApplications,
+                out _,
+                out _,
+                out var currentApplications,
+                out _,
+                out _) &&
+            Equals(source, previousApplications) &&
+            Equals(result, currentApplications) &&
+            witness is Relation witnessRelation &&
+            ReadWitness.TryRead(
+                witnessRelation,
+                out var witnessedSource,
+                out var readSurface,
+                out var witnessedResult,
+                out _,
+                out _) &&
+            Equals(source, witnessedSource) &&
+            Equals(partialReplay, readSurface) &&
+            Equals(result, witnessedResult) &&
+            refinement is Relation refinementRelation &&
+            RefinementRead.TryRead(
+                refinementRelation,
+                out var parameter,
+                out var binding,
+                out var embeddedWitness,
+                out _,
+                out _) &&
+            Equals(partialReplay, parameter) &&
+            Equals(result, binding) &&
+            Equals(witnessRelation, embeddedWitness);
     }
 
     private static Relation UnknownPoint() =>

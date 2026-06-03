@@ -733,8 +733,8 @@ Gojo already has strong substrate for ladders:
 - `TransformSurface` for reusable selection transforms, concrete transform
   applications, patch witnesses, and transform-application ladder steps
 - `StructuralLadderSurface` for exact rung records, rung frames, timelines,
-  current-rung reads, local change reads, and rungs created from transform
-  applications
+  current-rung reads, local change reads, rungs created from transform
+  applications, and current rungs created from partial replay
 
 These are enough to start expressing real structural ladders without inventing
 a separate model layer.
@@ -972,9 +972,20 @@ and C with the stale dependency cleared.
 With two stale consumers B and D, replaying D first can yield `A'`, C, and `D'`
 while B remains as residue; replaying B later completes the rung.
 
+That in-progress replay can now be lifted directly into a ladder rung. The
+partial replay itself acts as the transition/read surface. The previous
+application frame is the source, the current application frame is the result,
+and the stale dependency residue is rung residue. This keeps replay progress
+usable by structural ladders without hiding the still-unsettled dependency
+chain.
+
 Structural ladders can now carry complete rungs, rung frames,
 focus-transition timelines, transform-application timelines, current-rung
-reads, local change reads, and rungs created from transform applications.
+reads, local change reads, rungs created from transform applications, and
+rungs created from partial replay. At this point the transform/replay path has
+an inspectable arc from application, to dependency, to affected slice, to
+partial replay, to stale dependency residue, to resumed replay, and finally to
+a current ladder rung.
 
 One implementation lesson is already clear: broad ordered-group reads are too
 eager for crystallized ladder surfaces. A rung should read as a rung because

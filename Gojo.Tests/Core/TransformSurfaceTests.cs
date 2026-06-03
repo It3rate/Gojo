@@ -2372,6 +2372,49 @@ public sealed class TransformSurfaceTests
         Assert.Equal(2, initialStale.Length);
         AssertStaleConsumer(initialStale[0], firstConsumerApplication);
         AssertStaleConsumer(initialStale[1], laterConsumerApplication);
+        Assert.True(StructuralLadderSurface.TryCreateRungFromPartialReplay(
+            new Carrier(),
+            producerOnlyPartialReplay,
+            out var partialReplayRung));
+        Assert.True(StructuralLadderSurface.TryReadRung(
+            partialReplayRung,
+            out var rungSource,
+            out var rungFocus,
+            out var rungResult,
+            out var rungCorrespondence,
+            out var rungResidue,
+            out var rungWitness,
+            out var rungRefinement,
+            out _));
+        Assert.Equal(previousFrame, rungSource);
+        Assert.Equal(producerOnlyPartialReplay, rungFocus);
+        Assert.Equal(producerOnlyCurrentApplications, rungResult);
+        Assert.Equal(producerOnlyPartialReplay, rungCorrespondence);
+        Assert.Equal(producerOnlyResidue, rungResidue);
+        Assert.True(ReadWitness.TryRead(
+            Assert.IsType<Relation>(rungWitness),
+            out var witnessedSource,
+            out var readSurface,
+            out var witnessedResult,
+            out _,
+            out _));
+        Assert.Equal(previousFrame, witnessedSource);
+        Assert.Equal(producerOnlyPartialReplay, readSurface);
+        Assert.Equal(producerOnlyCurrentApplications, witnessedResult);
+        Assert.True(RefinementRead.TryRead(
+            Assert.IsType<Relation>(rungRefinement),
+            out var refinementParameter,
+            out var refinementBinding,
+            out var refinementWitness,
+            out _,
+            out _));
+        Assert.Equal(producerOnlyPartialReplay, refinementParameter);
+        Assert.Equal(producerOnlyCurrentApplications, refinementBinding);
+        Assert.Equal(rungWitness, refinementWitness);
+        var baseRung = StructuralLadderSurface.BaseRung(new Carrier(), previousFrame);
+        var ladder = StructuralLadderSurface.CreateWithRungs(new Carrier(), baseRung, partialReplayRung);
+        Assert.True(StructuralLadderSurface.TryReadCurrentRung(ladder, out var currentRung));
+        Assert.Equal(partialReplayRung, currentRung);
 
         var changedLaterConsumerSelected = Relation.Segment(sourceCarrier, 30, 36);
         var changedLaterConsumerReplacement = Relation.Segment(new Carrier(), 0, 6);

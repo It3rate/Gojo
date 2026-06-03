@@ -461,6 +461,14 @@ With multiple stale consumers, replaying only D first can produce `A'`, C, and
 `D'` while B remains as stale dependency residue; replaying B later settles the
 whole chain.
 
+Partial replay can also be read into a structural ladder rung. The previous
+application frame is the rung source, the partial replay itself is the focus
+and correspondence evidence, the current application frame is the rung result,
+and any stale dependency residue remains attached to the rung. That lets a
+ladder ask "what is currently settled?" without needing to know every replay
+detail, while still preserving unresolved dependent consumers as visible
+tension.
+
 The patch witness is the temporal/change relation. It records the source read
 through the transform and keeps the selected participation, carried complement,
 replacement or introduction, correspondence, result, residue, and provenance
@@ -494,7 +502,7 @@ result, correspondence, residue, witness, refinement, and provenance evidence:
 ```text
 Rung
   source structure
-  focus surface or unresolved focus
+  focus surface, partial replay, or unresolved focus
   result structure
   correspondence
   residue or tension
@@ -539,6 +547,13 @@ source directly from the focus surface and then creates the rung, result
 witness, and refinement read. That path makes the focus/selection relation the
 entry point for structural adjustment instead of asking code to restate the
 source and selection intent separately.
+
+Transform replay has a parallel entry point:
+`TryCreateRungFromPartialReplay`. It reads `PartialReplay` as the transition
+surface: previous applications become the source, current applications become
+the result, and replay residue remains rung residue. This gives structural
+ladders a current-state read over an in-progress replay without crystallizing
+stale dependencies away.
 
 ## Rounded Corner Example
 
