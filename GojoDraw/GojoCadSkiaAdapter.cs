@@ -47,6 +47,7 @@ public sealed class GojoCadSkiaAdapter
         var angleControlledPathSegments = ReadAngleControlledPathSegmentSources(graph);
         var frameCurveSupportSources = ReadFrameCurveSupportSources(graph);
         var carrierClothoidTransitionSources = ReadCarrierClothoidTransitionSources(graph);
+        var carrierClothoidLengthSources = ReadCarrierClothoidLengthSources(graph);
         var carrierInvoluteSupportSources = ReadCarrierInvoluteSupportSources(graph);
 
         foreach (var radial in graph.ReadsOf<RadialSeedRead>()
@@ -176,6 +177,7 @@ public sealed class GojoCadSkiaAdapter
 
         foreach (var segment in graph.ReadsOf<PositiveSegmentRead>()
             .Where(segment => !IsRepeatControlSource(segment.Source, repeatControlSources))
+            .Where(segment => !IsCarrierClothoidLengthSource(segment.Source, carrierClothoidLengthSources))
             .Where(segment => !IsCarrierInvoluteSupportSource(segment.Source, carrierInvoluteSupportSources))
             .Where(segment => !IsCircularCarrier(segment.Start.Location.Carrier)))
         {
@@ -368,6 +370,26 @@ public sealed class GojoCadSkiaAdapter
         IReadOnlySet<ulong> carrierClothoidTransitionSources) =>
         source is Relation relation &&
         carrierClothoidTransitionSources.Contains(relation.Id);
+
+    private static HashSet<ulong> ReadCarrierClothoidLengthSources(GraphicReadGraph graph)
+    {
+        var sources = new HashSet<ulong>();
+        foreach (var clothoid in graph.ReadsOf<CarrierClothoidTransitionRead>())
+        {
+            if (clothoid.Length.Source is Relation relation)
+            {
+                sources.Add(relation.Id);
+            }
+        }
+
+        return sources;
+    }
+
+    private static bool IsCarrierClothoidLengthSource(
+        IElement source,
+        IReadOnlySet<ulong> carrierClothoidLengthSources) =>
+        source is Relation relation &&
+        carrierClothoidLengthSources.Contains(relation.Id);
 
     private static HashSet<ulong> ReadCarrierInvoluteSupportSources(GraphicReadGraph graph)
     {
@@ -971,10 +993,10 @@ public sealed class GojoCadSkiaAdapter
         var baseTicks = Math.Abs(
             involute.BaseArc.Segment.End.Location.Ticks -
             involute.BaseArc.Segment.Start.Location.Ticks);
-        var lengthTicks = Math.Abs(
+        var lengthTicks =
             involute.UnwoundLength.End.Location.Ticks -
-            involute.UnwoundLength.Start.Location.Ticks);
-        if (baseTicks <= 0 || lengthTicks <= 0)
+            involute.UnwoundLength.Start.Location.Ticks;
+        if (baseTicks <= 0 || lengthTicks == 0)
         {
             return arcLength;
         }
@@ -998,7 +1020,7 @@ public sealed class GojoCadSkiaAdapter
         }
 
         var arcLength = MathF.Abs(sweep) * MathF.PI / 180f * radius;
-        var length = unwoundLength > 0.5f
+        var length = MathF.Abs(unwoundLength) > 0.5f
             ? unwoundLength
             : arcLength;
         var path = new SKPath();

@@ -33,13 +33,15 @@ internal sealed record VisualizerDocument(
             var enabled = legend
                 .Where(document.CanApply)
                 .Where(entry => !VisualizerLadderDemo.IsDemoLabel(entry.Label))
+                .Where(entry => !IsSpiralLabel(entry.Label))
                 .Where(entry => entry.Label != "point" || Random.Shared.NextDouble() < 0.2)
                 .ToArray();
             if (enabled.Length == 0)
             {
                 enabled = [.. legend
                     .Where(document.CanApply)
-                    .Where(entry => !VisualizerLadderDemo.IsDemoLabel(entry.Label))];
+                    .Where(entry => !VisualizerLadderDemo.IsDemoLabel(entry.Label))
+                    .Where(entry => !IsSpiralLabel(entry.Label))];
             }
 
             if (enabled.Length == 0)
@@ -205,6 +207,7 @@ internal sealed record VisualizerDocument(
         return entry.Label switch
         {
             var label when TryReadLetter(label, out var letter) => AddLetter(letter),
+            var label when IsSpiralLabel(label) => RedrawSpiralCurve(label),
             var label when IsCurveLabel(label) => AddCurve(label),
             var label when VisualizerLadderDemo.IsDemoLabel(label) => CreateLadderDemo(label),
             "point" => AddPoint(),
@@ -237,6 +240,16 @@ internal sealed record VisualizerDocument(
             [],
             Random.Shared.Next(),
             DemoPage: demo);
+    }
+
+    private static VisualizerDocument RedrawSpiralCurve(string label)
+    {
+        var additions = VisualizerSample.CreateCurveElements(label, variant: Random.Shared.Next());
+        return new VisualizerDocument(
+            new Carrier(),
+            additions,
+            Random.Shared.Next(),
+            SelectedIndex: additions.Count - 1);
     }
 
     private VisualizerDocument AddCurve(string label)
@@ -1024,11 +1037,15 @@ internal sealed record VisualizerDocument(
     private static bool IsCurveLabel(string label) =>
         label is "arc" or "quadratic" or "cubic" or "transition" or
             "clothoid" or "clothoid line-line" or "clothoid curve-line" or "clothoid curve-curve" or
-            "involute" or "gear teeth";
+            "involute" or "involute flank set" or "gear teeth";
+
+    private static bool IsSpiralLabel(string label) =>
+        label is "clothoid" or "clothoid line-line" or "clothoid curve-line" or "clothoid curve-curve" or
+            "involute" or "involute flank set" or "gear teeth";
 
     private static bool IsPlacedCurveLabel(string label) =>
         label is "clothoid" or "clothoid line-line" or "clothoid curve-line" or "clothoid curve-curve" or
-            "involute" or "gear teeth";
+            "involute" or "involute flank set" or "gear teeth";
 
     private static bool TryReadLetter(string label, out char letter)
     {
