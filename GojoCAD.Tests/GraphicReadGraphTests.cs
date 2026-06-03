@@ -697,6 +697,33 @@ public sealed class GraphicReadGraphTests
     }
 
     [Fact]
+    public void ReadsCarrierNativeArcToArcClothoidControl()
+    {
+        var baseCarrier = new Carrier();
+        var origin = GraphicStructure.Point(baseCarrier, 0);
+        var firstCircle = GraphicStructure.CircularCarrierAt(origin);
+        var firstStart = GraphicStructure.Site(0);
+        var shared = GraphicStructure.Site(6);
+        var firstArc = GraphicStructure.Segment(firstCircle, firstStart, shared);
+        var secondCenter = GraphicStructure.Point(firstCircle, 12);
+        var secondCircle = GraphicStructure.CircularCarrierAt(secondCenter);
+        var secondEnd = GraphicStructure.Site(13);
+        var secondArc = GraphicStructure.Segment(secondCircle, shared, secondEnd);
+        var transition = GraphicStructure.CarrierCurveTransition(firstArc, secondArc);
+        var length = GraphicStructure.Segment(secondCircle, shared, GraphicStructure.Site(17));
+        var clothoid = GraphicStructure.CarrierClothoidTransition(transition, length);
+
+        var graph = GraphicReadGraph.From(clothoid);
+
+        var transitionRead = Assert.Single(graph.ReadsOf<CarrierCurveTransitionRead>());
+        Assert.True(transitionRead.IsArcToArc);
+        Assert.True(transitionRead.IsJoined);
+        Assert.NotNull(transitionRead.Junction);
+        Assert.Equal(shared.Id, transitionRead.Junction.Location.Tick?.Id);
+        Assert.Single(graph.ReadsOf<CarrierClothoidTransitionRead>());
+    }
+
+    [Fact]
     public void ReadsCarrierNativeInvoluteFromCircularArcAndTangentLength()
     {
         var baseCarrier = new Carrier();

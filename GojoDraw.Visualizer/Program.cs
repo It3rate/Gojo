@@ -55,29 +55,38 @@ internal sealed class MainWindow : Window
         var refreshButton = new Button
         {
             Content = "Refresh",
-            Padding = new Thickness(20, 12),
-            MinWidth = 112,
-            MinHeight = 44
+            Padding = new Thickness(12, 5),
+            MinWidth = 78,
+            MinHeight = 30,
+            Background = new SolidColorBrush(Color.FromArgb(225, 255, 254, 250)),
+            BorderBrush = new SolidColorBrush(Color.FromArgb(120, 82, 88, 96)),
+            BorderThickness = new Thickness(1)
         };
         var randomButton = new Button
         {
             Content = "Random",
-            Padding = new Thickness(20, 12),
-            MinWidth = 104,
-            MinHeight = 44
+            Padding = new Thickness(12, 5),
+            MinWidth = 78,
+            MinHeight = 30,
+            Background = new SolidColorBrush(Color.FromArgb(225, 255, 254, 250)),
+            BorderBrush = new SolidColorBrush(Color.FromArgb(120, 82, 88, 96)),
+            BorderThickness = new Thickness(1)
         };
         var clearButton = new Button
         {
             Content = "Clear",
-            Padding = new Thickness(20, 12),
-            MinWidth = 96,
-            MinHeight = 44
+            Padding = new Thickness(12, 5),
+            MinWidth = 66,
+            MinHeight = 30,
+            Background = new SolidColorBrush(Color.FromArgb(225, 255, 254, 250)),
+            BorderBrush = new SolidColorBrush(Color.FromArgb(120, 82, 88, 96)),
+            BorderThickness = new Thickness(1)
         };
 
         var buttons = new StackPanel
         {
             Orientation = Orientation.Horizontal,
-            Spacing = 8
+            Spacing = 6
         };
         buttons.Children.Add(refreshButton);
         buttons.Children.Add(randomButton);
@@ -86,12 +95,10 @@ internal sealed class MainWindow : Window
         {
             HorizontalAlignment = HorizontalAlignment.Right,
             VerticalAlignment = VerticalAlignment.Top,
-            Margin = new Thickness(14),
-            Padding = new Thickness(6),
-            CornerRadius = new CornerRadius(7),
-            Background = new SolidColorBrush(Color.FromArgb(205, 255, 254, 250)),
-            BorderBrush = new SolidColorBrush(Color.FromArgb(88, 82, 88, 96)),
-            BorderThickness = new Thickness(1),
+            Margin = new Thickness(8, 6, 10, 0),
+            Padding = new Thickness(0),
+            Background = Brushes.Transparent,
+            BorderThickness = new Thickness(0),
             Child = buttons
         };
 

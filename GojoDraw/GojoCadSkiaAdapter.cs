@@ -46,6 +46,7 @@ public sealed class GojoCadSkiaAdapter
 
         var angleControlledPathSegments = ReadAngleControlledPathSegmentSources(graph);
         var frameCurveSupportSources = ReadFrameCurveSupportSources(graph);
+        var carrierClothoidTransitionSources = ReadCarrierClothoidTransitionSources(graph);
 
         foreach (var radial in graph.ReadsOf<RadialSeedRead>()
             .Where(read => !IsRepeatControlSource(read.Source, repeatControlSources)))
@@ -116,7 +117,7 @@ public sealed class GojoCadSkiaAdapter
         foreach (var clothoid in graph.ReadsOf<SharedFrameClothoidTransitionRead>()
             .Where(read => !IsRepeatControlSource(read.Source, repeatControlSources)))
         {
-            DrawSharedFrameTransition(canvas, clothoid.Transition, projection, paints, hitAreas, paints.SharedFrameCurveTension, "clothoid transition");
+            DrawSharedFrameClothoidTransition(canvas, clothoid, projection, paints, hitAreas);
             drawn++;
         }
 
@@ -128,7 +129,8 @@ public sealed class GojoCadSkiaAdapter
         }
 
         foreach (var transition in graph.ReadsOf<CarrierCurveTransitionRead>()
-            .Where(read => !IsRepeatControlSource(read.Source, repeatControlSources)))
+            .Where(read => !IsRepeatControlSource(read.Source, repeatControlSources))
+            .Where(read => !IsCarrierClothoidTransitionSource(read.Source, carrierClothoidTransitionSources)))
         {
             DrawCarrierTransition(canvas, transition, projection, paints, hitAreas, paints.SharedFrameCurve);
             drawn++;
@@ -137,7 +139,7 @@ public sealed class GojoCadSkiaAdapter
         foreach (var clothoid in graph.ReadsOf<CarrierClothoidTransitionRead>()
             .Where(read => !IsRepeatControlSource(read.Source, repeatControlSources)))
         {
-            DrawCarrierTransition(canvas, clothoid.Transition, projection, paints, hitAreas, paints.SharedFrameCurveTension, "carrier clothoid");
+            DrawCarrierClothoidTransition(canvas, clothoid, projection, paints, hitAreas);
             drawn++;
         }
 
@@ -342,6 +344,26 @@ public sealed class GojoCadSkiaAdapter
     private static bool IsFrameCurveSupportSource(IElement source, IReadOnlySet<ulong> frameCurveSupportSources) =>
         source is Relation relation &&
         frameCurveSupportSources.Contains(relation.Id);
+
+    private static HashSet<ulong> ReadCarrierClothoidTransitionSources(GraphicReadGraph graph)
+    {
+        var sources = new HashSet<ulong>();
+        foreach (var clothoid in graph.ReadsOf<CarrierClothoidTransitionRead>())
+        {
+            if (clothoid.Transition.Source is Relation relation)
+            {
+                sources.Add(relation.Id);
+            }
+        }
+
+        return sources;
+    }
+
+    private static bool IsCarrierClothoidTransitionSource(
+        IElement source,
+        IReadOnlySet<ulong> carrierClothoidTransitionSources) =>
+        source is Relation relation &&
+        carrierClothoidTransitionSources.Contains(relation.Id);
 
     private static int DrawCircumferences(
         SKCanvas canvas,
@@ -774,6 +796,37 @@ public sealed class GojoCadSkiaAdapter
         AddHit(hitAreas, path.Bounds, text, priority: 3, transition.Source);
     }
 
+    private static void DrawSharedFrameClothoidTransition(
+        SKCanvas canvas,
+        SharedFrameClothoidTransitionRead clothoid,
+        IGojoCadSkiaProjection projection,
+        GojoCadSkiaPaints paints,
+        ICollection<GojoCadSkiaHitArea>? hitAreas)
+    {
+        var transition = clothoid.Transition;
+        var start = projection.ProjectFrame(transition.Incoming.Start);
+        var end = projection.ProjectFrame(transition.Outgoing.End);
+        var incomingStart = projection.ProjectFrame(transition.Incoming.Start);
+        var incomingEnd = projection.ProjectFrame(transition.Incoming.End);
+        var outgoingStart = projection.ProjectFrame(transition.Outgoing.Start);
+        var outgoingEnd = projection.ProjectFrame(transition.Outgoing.End);
+        var startTangent = Unit(incomingStart, incomingEnd);
+        var endTangent = Unit(outgoingStart, outgoingEnd);
+        var lengthHint = ProjectedLength(clothoid.Length, projection);
+        using var path = BuildClothoidPath(
+            start,
+            end,
+            startTangent,
+            endTangent,
+            startCurvature: 0f,
+            endCurvature: 0f,
+            lengthHint);
+
+        canvas.DrawPath(path, paints.SharedFrameCurveTension);
+        DrawFramePointBox(canvas, projection.ProjectFrame(transition.Junction), paints, 0.64f);
+        AddHit(hitAreas, path.Bounds, "clothoid transition", priority: 3, clothoid.Source);
+    }
+
     private static void DrawSharedFrameInvolute(
         SKCanvas canvas,
         SharedFrameInvoluteCircleRead involute,
@@ -823,6 +876,46 @@ public sealed class GojoCadSkiaAdapter
         AddHit(hitAreas, path.Bounds, text, priority: 3, transition.Source);
     }
 
+    private static void DrawCarrierClothoidTransition(
+        SKCanvas canvas,
+        CarrierClothoidTransitionRead clothoid,
+        IGojoCadSkiaProjection projection,
+        GojoCadSkiaPaints paints,
+        ICollection<GojoCadSkiaHitArea>? hitAreas)
+    {
+        var transition = clothoid.Transition;
+        var startPoint = transition.Junction is null
+            ? transition.Entry
+            : transition.Incoming.Start;
+        var endPoint = transition.Junction is null
+            ? transition.Exit
+            : transition.Outgoing.End;
+        var start = projection.Project(startPoint.Location);
+        var end = projection.Project(endPoint.Location);
+        var startTangent = ReadPathTangent(transition.Incoming, startPoint, projection);
+        var endTangent = ReadPathTangent(transition.Outgoing, endPoint, projection);
+        var startCurvature = ReadPathCurvature(transition.Incoming, startPoint, projection);
+        var endCurvature = ReadPathCurvature(transition.Outgoing, endPoint, projection);
+        var lengthHint = ProjectedLength(clothoid.Length, projection);
+        using var path = BuildClothoidPath(
+            start,
+            end,
+            startTangent,
+            endTangent,
+            startCurvature,
+            endCurvature,
+            lengthHint);
+
+        canvas.DrawPath(path, paints.SharedFrameCurveTension);
+        if (transition.Junction is not null)
+        {
+            var junction = projection.Project(transition.Junction.Location);
+            canvas.DrawCircle(junction, paints.PathGraphNodeRadius * 0.72f, paints.PathGraphBranchNode);
+        }
+
+        AddHit(hitAreas, path.Bounds, ReadCarrierClothoidText(transition), priority: 3, clothoid.Source);
+    }
+
     private static void DrawCarrierInvolute(
         SKCanvas canvas,
         CarrierInvoluteCircleRead involute,
@@ -839,6 +932,122 @@ public sealed class GojoCadSkiaAdapter
         path.CubicTo(arcEnd, tangentStart, tangentEnd);
         canvas.DrawPath(path, paints.SharedFrameCurveTension);
         AddHit(hitAreas, path.Bounds, "carrier involute", priority: 3, involute.Source);
+    }
+
+    private static SKPath BuildClothoidPath(
+        SKPoint start,
+        SKPoint end,
+        SKPoint startTangent,
+        SKPoint endTangent,
+        float startCurvature,
+        float endCurvature,
+        float lengthHint)
+    {
+        var distance = Math.Max(1f, Distance(start, end));
+        var hinted = lengthHint > 0.5f
+            ? Math.Min(lengthHint * 0.55f, distance * 0.82f)
+            : distance * 0.38f;
+        var startHandle = hinted * CurvatureHandleScale(startCurvature, distance);
+        var endHandle = hinted * CurvatureHandleScale(endCurvature, distance);
+        var first = Add(start, Scale(startTangent, startHandle));
+        var second = Add(end, Scale(endTangent, -endHandle));
+        var path = new SKPath();
+        path.MoveTo(start);
+        path.CubicTo(first, second, end);
+        return path;
+    }
+
+    private static float CurvatureHandleScale(float curvature, float distance)
+    {
+        var normalized = MathF.Min(1.4f, MathF.Abs(curvature) * distance);
+        return 1f / (1f + normalized * 0.24f);
+    }
+
+    private static float ProjectedLength(SharedFrameSegmentRead segment, IGojoCadSkiaProjection projection) =>
+        Distance(projection.ProjectFrame(segment.Start), projection.ProjectFrame(segment.End));
+
+    private static float ProjectedLength(PathSegmentRead segment, IGojoCadSkiaProjection projection) =>
+        Distance(projection.Project(segment.Start.Location), projection.Project(segment.End.Location));
+
+    private static SKPoint ReadPathTangent(
+        PathSegmentRead segment,
+        PointRead endpoint,
+        IGojoCadSkiaProjection projection)
+    {
+        var start = projection.Project(segment.Start.Location);
+        var end = projection.Project(segment.End.Location);
+        if (!IsCircularCarrier(endpoint.Location.Carrier))
+        {
+            return Unit(start, end);
+        }
+
+        var delta = segment.End.Location.Ticks - segment.Start.Location.Ticks;
+        if (delta == 0)
+        {
+            return Unit(start, end);
+        }
+
+        var direction = Math.Sign(delta);
+        var step = Math.Max(1, Math.Abs(delta) / 16);
+        var endpointPoint = projection.Project(endpoint.Location);
+        if (SamePathLocation(endpoint.Location, segment.Start.Location))
+        {
+            var sample = new CarrierLocation(
+                endpoint.Location.Carrier,
+                GraphicStructure.Site(segment.Start.Location.Ticks + direction * step));
+            return Unit(endpointPoint, projection.Project(sample));
+        }
+
+        if (SamePathLocation(endpoint.Location, segment.End.Location))
+        {
+            var sample = new CarrierLocation(
+                endpoint.Location.Carrier,
+                GraphicStructure.Site(segment.End.Location.Ticks - direction * step));
+            return Unit(projection.Project(sample), endpointPoint);
+        }
+
+        return Unit(start, end);
+    }
+
+    private static float ReadPathCurvature(
+        PathSegmentRead segment,
+        PointRead endpoint,
+        IGojoCadSkiaProjection projection)
+    {
+        if (!IsCircularCarrier(endpoint.Location.Carrier))
+        {
+            return 0f;
+        }
+
+        var center = projection.Project(ReadCircularOrigin(endpoint.Location.Carrier));
+        var point = projection.Project(endpoint.Location);
+        var radius = Math.Max(1f, Distance(center, point));
+        var start = projection.Project(segment.Start.Location);
+        var end = projection.Project(segment.End.Location);
+        var sweep = ShortestSweep(AngleDegrees(center, start), AngleDegrees(center, end));
+        return MathF.Sign(sweep == 0f ? 1f : sweep) / radius;
+    }
+
+    private static string ReadCarrierClothoidText(CarrierCurveTransitionRead transition)
+    {
+        if (transition.IsLineToArc)
+        {
+            return "line to arc clothoid";
+        }
+
+        if (transition.IsArcToLine)
+        {
+            return "arc to line clothoid";
+        }
+
+        if (transition.IsArcToArc)
+        {
+            return "arc to arc clothoid";
+        }
+
+        return transition.IsBridged
+            ? "bridged line clothoid"
+            : "line to line clothoid";
     }
 
     private static void DrawSharedFrameAttachment(
@@ -1298,6 +1507,12 @@ public sealed class GojoCadSkiaAdapter
             : new SKPoint(dx / length, dy / length);
     }
 
+    private static SKPoint Add(SKPoint point, SKPoint vector) =>
+        new(point.X + vector.X, point.Y + vector.Y);
+
+    private static SKPoint Scale(SKPoint vector, float scale) =>
+        new(vector.X * scale, vector.Y * scale);
+
     private static float Distance(SKPoint left, SKPoint right)
     {
         var dx = right.X - left.X;
@@ -1306,6 +1521,11 @@ public sealed class GojoCadSkiaAdapter
     }
 
     private static bool IsCircularCarrier(Carrier carrier) => carrier.TryReadCircularOrigin(out _);
+
+    private static bool SamePathLocation(CarrierLocation left, CarrierLocation right) =>
+        left.SameTickRefAs(right) ||
+        left.Carrier.SameIdentityAs(right.Carrier) &&
+        left.Ticks == right.Ticks;
 
     private static CarrierLocation ReadCircularOrigin(Carrier carrier) =>
         carrier.TryReadCircularOrigin(out var origin)

@@ -244,7 +244,10 @@ internal sealed record VisualizerDocument(
         var anchor = ReadSelection().Point is { } point
             ? PointAt(point.Location)
             : null;
-        var additions = VisualizerSample.CreateCurveElements(label, anchor);
+        var variant = label == "clothoid" && anchor is null
+            ? Random.Shared.Next(4)
+            : (int?)null;
+        var additions = VisualizerSample.CreateCurveElements(label, anchor, variant);
         return Append(additions, selectedOffset: additions.Count - 1);
     }
 
@@ -253,7 +256,14 @@ internal sealed record VisualizerDocument(
         var anchor = ReadSelection().Point is { } point
             ? PointAt(point.Location)
             : null;
-        var additions = VisualizerSample.CreateLetterElements(letter, anchor);
+        var placement = anchor is null
+            ? ReadNextLetterPlacement()
+            : default;
+        var additions = VisualizerSample.CreateLetterElements(
+            letter,
+            anchor,
+            placement.XOffset,
+            placement.YOffset);
         return Append(additions, selectedOffset: additions.Count - 1);
     }
 
@@ -951,6 +961,23 @@ internal sealed record VisualizerDocument(
     private static TickRef SiteNear(long ticks, int min, int max) =>
         GraphicStructure.Site(ticks + SampleSignedOffset(min, max));
 
+    private LetterPlacement ReadNextLetterPlacement()
+    {
+        const int Columns = 4;
+        const long ColumnStep = 18;
+        const long RowStep = 18;
+
+        var frameCount = GraphicReadGraph.From(Structure)
+            .ReadsOf<SharedFramePointRead>()
+            .Where(point => point.Coordinates.Count >= 2)
+            .Select(point => point.Holder.Id)
+            .Distinct()
+            .Count();
+        var column = frameCount % Columns;
+        var row = frameCount / Columns;
+        return new LetterPlacement(column * ColumnStep, -row * RowStep);
+    }
+
     private static long SampleFreeTick() =>
         Random.Shared.NextInt64(-30, 72);
 
@@ -1033,4 +1060,8 @@ internal sealed record VisualizerDocument(
     private sealed record TwoLineStrip(
         IReadOnlyList<IElement> Elements,
         int SelectedOffset);
+
+    private readonly record struct LetterPlacement(
+        long XOffset,
+        long YOffset);
 }

@@ -522,11 +522,12 @@ internal sealed record VisualizerSample(
 
     public static IReadOnlyList<IElement> CreateCurveElements(
         string kind,
-        Relation? anchorPoint = null)
+        Relation? anchorPoint = null,
+        int? variant = null)
     {
         if (kind is "arc" or "transition" or "clothoid" or "involute")
         {
-            return CreateCarrierCurveElements(kind, anchorPoint);
+            return CreateCarrierCurveElements(kind, anchorPoint, variant);
         }
 
         var frame = new Carrier();
@@ -569,7 +570,8 @@ internal sealed record VisualizerSample(
 
     private static IReadOnlyList<IElement> CreateCarrierCurveElements(
         string kind,
-        Relation? anchorPoint)
+        Relation? anchorPoint,
+        int? variant)
     {
         var baseCarrier = new Carrier();
         var origin = anchorPoint ?? GraphicStructure.Point(baseCarrier, 0);
@@ -600,12 +602,11 @@ internal sealed record VisualizerSample(
                 break;
             case "clothoid":
                 {
-                    var transition = CreateCarrierTransition(origin);
-                    var length = GraphicStructure.Segment(
-                        transition.IncomingCarrier,
-                        transition.Junction,
-                        GraphicStructure.Site(12));
-                    elements.Add(GraphicStructure.CarrierClothoidTransition(transition.Transition, length));
+                    elements.AddRange(CreateCarrierClothoidElements(
+                        origin,
+                        radiusCarrier,
+                        radiusTicks,
+                        variant.GetValueOrDefault()));
                     break;
                 }
             case "involute":
@@ -627,6 +628,94 @@ internal sealed record VisualizerSample(
         return elements;
     }
 
+    private static IReadOnlyList<IElement> CreateCarrierClothoidElements(
+        Relation origin,
+        Carrier radiusCarrier,
+        long radiusTicks,
+        int variant)
+    {
+        return Math.Abs(variant % 4) switch
+        {
+            1 => CreateBridgedLineClothoid(origin),
+            2 => CreateArcLineClothoid(origin, radiusCarrier, radiusTicks),
+            3 => CreateArcArcClothoid(origin, radiusCarrier, radiusTicks),
+            _ => CreateLineLineClothoid(origin)
+        };
+    }
+
+    private static IReadOnlyList<IElement> CreateLineLineClothoid(Relation origin)
+    {
+        var transition = CreateCarrierTransition(origin);
+        var length = GraphicStructure.Segment(
+            transition.IncomingCarrier,
+            transition.Junction,
+            GraphicStructure.Site(12));
+        return [GraphicStructure.CarrierClothoidTransition(transition.Transition, length)];
+    }
+
+    private static IReadOnlyList<IElement> CreateBridgedLineClothoid(Relation origin)
+    {
+        var first = GraphicStructure.LinearCarrierAt(origin);
+        var firstStart = GraphicStructure.Site(0);
+        var firstEnd = GraphicStructure.Site(9);
+        var second = new Carrier(UnitShape.LinearFrom(GraphicStructure.Segment(first, 5, 5)));
+        var secondStart = GraphicStructure.Site(0);
+        var secondEnd = GraphicStructure.Site(9);
+        var incoming = GraphicStructure.Segment(first, firstStart, firstEnd);
+        var outgoing = GraphicStructure.Segment(second, secondStart, secondEnd);
+        var transition = GraphicStructure.CarrierCurveTransition(incoming, outgoing);
+        var length = GraphicStructure.Segment(first, firstEnd, GraphicStructure.Site(17));
+        return [GraphicStructure.CarrierClothoidTransition(transition, length)];
+    }
+
+    private static IReadOnlyList<IElement> CreateArcLineClothoid(
+        Relation origin,
+        Carrier radiusCarrier,
+        long radiusTicks)
+    {
+        var circle = GraphicStructure.CircularCarrierAt(origin);
+        var arcStart = GraphicStructure.Site(-6);
+        var arcEnd = GraphicStructure.Site(0);
+        var lineEnd = GraphicStructure.Site(12);
+        var radius = GraphicStructure.Pin(
+            GraphicStructure.Point(radiusCarrier, radiusTicks),
+            GraphicStructure.Point(circle, arcStart));
+        var period = GraphicStructure.Point(circle, 24);
+        var arc = GraphicStructure.Segment(circle, arcStart, arcEnd);
+        var tangent = GraphicStructure.LinearCarrierAt(GraphicStructure.Point(circle, arcEnd));
+        var line = GraphicStructure.Segment(tangent, arcEnd, lineEnd);
+        var transition = GraphicStructure.CarrierCurveTransition(arc, line);
+        var length = GraphicStructure.Segment(tangent, arcEnd, GraphicStructure.Site(18));
+        return [radius, period, GraphicStructure.CarrierClothoidTransition(transition, length)];
+    }
+
+    private static IReadOnlyList<IElement> CreateArcArcClothoid(
+        Relation origin,
+        Carrier radiusCarrier,
+        long radiusTicks)
+    {
+        var first = GraphicStructure.CircularCarrierAt(origin);
+        var firstStart = GraphicStructure.Site(-6);
+        var firstEnd = GraphicStructure.Site(0);
+        var radiusA = GraphicStructure.Pin(
+            GraphicStructure.Point(radiusCarrier, radiusTicks),
+            GraphicStructure.Point(first, firstStart));
+        var periodA = GraphicStructure.Point(first, 24);
+        var incoming = GraphicStructure.Segment(first, firstStart, firstEnd);
+        var secondCenter = GraphicStructure.Point(first, GraphicStructure.Site(12));
+        var second = GraphicStructure.CircularCarrierAt(secondCenter);
+        var secondStart = firstEnd;
+        var secondEnd = GraphicStructure.Site(13);
+        var radiusB = GraphicStructure.Pin(
+            GraphicStructure.Point(first, firstEnd),
+            GraphicStructure.Point(second, secondStart));
+        var periodB = GraphicStructure.Point(second, 24);
+        var outgoing = GraphicStructure.Segment(second, secondStart, secondEnd);
+        var transition = GraphicStructure.CarrierCurveTransition(incoming, outgoing);
+        var length = GraphicStructure.Segment(second, secondStart, GraphicStructure.Site(17));
+        return [radiusA, periodA, radiusB, periodB, GraphicStructure.CarrierClothoidTransition(transition, length)];
+    }
+
     private static CarrierTransitionParts CreateCarrierTransition(Relation origin)
     {
         var junction = GraphicStructure.Site(0);
@@ -646,7 +735,8 @@ internal sealed record VisualizerSample(
     public static IReadOnlyList<IElement> CreateLetterElements(
         char letter,
         Relation? anchorPoint = null,
-        long xOffset = 0)
+        long xOffset = 0,
+        long yOffset = 0)
     {
         var frame = new Carrier();
         var x = new Carrier();
@@ -654,7 +744,7 @@ internal sealed record VisualizerSample(
         var points = new Dictionary<(long X, long Y), Relation>();
         Relation Point(long px, long py)
         {
-            var key = (X: px + xOffset, Y: py);
+            var key = (X: px + xOffset, Y: py + yOffset);
             if (!points.TryGetValue(key, out var point))
             {
                 point = GraphicStructure.FramePoint(
