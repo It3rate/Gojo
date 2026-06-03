@@ -251,8 +251,8 @@ internal sealed record VisualizerDocument(
             createdPlacementAnchor = true;
         }
 
-        var variant = label == "clothoid" && anchor is null
-            ? Random.Shared.Next(4)
+        var variant = IsPlacedCurveLabel(label) || label == "clothoid"
+            ? Random.Shared.Next()
             : (int?)null;
         var additions = VisualizerSample.CreateCurveElements(label, anchor, variant);
         if (createdPlacementAnchor && anchor is not null)

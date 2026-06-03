@@ -47,6 +47,7 @@ public sealed class GojoCadSkiaAdapter
         var angleControlledPathSegments = ReadAngleControlledPathSegmentSources(graph);
         var frameCurveSupportSources = ReadFrameCurveSupportSources(graph);
         var carrierClothoidTransitionSources = ReadCarrierClothoidTransitionSources(graph);
+        var carrierInvoluteSupportSources = ReadCarrierInvoluteSupportSources(graph);
 
         foreach (var radial in graph.ReadsOf<RadialSeedRead>()
             .Where(read => !IsRepeatControlSource(read.Source, repeatControlSources)))
@@ -147,6 +148,8 @@ public sealed class GojoCadSkiaAdapter
             .Where(read => !IsRepeatControlSource(read.Source, repeatControlSources)))
         {
             DrawCarrierInvolute(canvas, involute, projection, paints, hitAreas);
+            pointRoles.Add(LocationKey.Of(involute.UnwoundLength.Start.Location));
+            pointRoles.Add(LocationKey.Of(involute.UnwoundLength.End.Location));
             drawn++;
         }
 
@@ -173,6 +176,7 @@ public sealed class GojoCadSkiaAdapter
 
         foreach (var segment in graph.ReadsOf<PositiveSegmentRead>()
             .Where(segment => !IsRepeatControlSource(segment.Source, repeatControlSources))
+            .Where(segment => !IsCarrierInvoluteSupportSource(segment.Source, carrierInvoluteSupportSources))
             .Where(segment => !IsCircularCarrier(segment.Start.Location.Carrier)))
         {
             var partitions = graph.ReadsOf<SegmentPartitionRead>()
@@ -364,6 +368,26 @@ public sealed class GojoCadSkiaAdapter
         IReadOnlySet<ulong> carrierClothoidTransitionSources) =>
         source is Relation relation &&
         carrierClothoidTransitionSources.Contains(relation.Id);
+
+    private static HashSet<ulong> ReadCarrierInvoluteSupportSources(GraphicReadGraph graph)
+    {
+        var sources = new HashSet<ulong>();
+        foreach (var involute in graph.ReadsOf<CarrierInvoluteCircleRead>())
+        {
+            if (involute.UnwoundLength.Source is Relation relation)
+            {
+                sources.Add(relation.Id);
+            }
+        }
+
+        return sources;
+    }
+
+    private static bool IsCarrierInvoluteSupportSource(
+        IElement source,
+        IReadOnlySet<ulong> carrierInvoluteSupportSources) =>
+        source is Relation relation &&
+        carrierInvoluteSupportSources.Contains(relation.Id);
 
     private static int DrawCircumferences(
         SKCanvas canvas,
@@ -924,10 +948,38 @@ public sealed class GojoCadSkiaAdapter
         var center = projection.Project(involute.BaseArc.Origin);
         var start = projection.Project(involute.BaseArc.Segment.Start.Location);
         var end = projection.Project(involute.BaseArc.Segment.End.Location);
-        var length = ProjectedLength(involute.UnwoundLength, projection);
+        var length = ReadCarrierInvoluteLength(involute, center, start, end);
         using var path = BuildInvolutePath(center, start, end, length);
         canvas.DrawPath(path, paints.SharedFrameCurveTension);
         AddHit(hitAreas, path.Bounds, "carrier involute", priority: 3, involute.Source);
+    }
+
+    private static float ReadCarrierInvoluteLength(
+        CarrierInvoluteCircleRead involute,
+        SKPoint center,
+        SKPoint start,
+        SKPoint end)
+    {
+        var radius = MathF.Max(1f, (Distance(center, start) + Distance(center, end)) * 0.5f);
+        var sweep = MathF.Abs(ShortestSweep(AngleDegrees(center, start), AngleDegrees(center, end)));
+        if (sweep < 0.01f)
+        {
+            sweep = 42f;
+        }
+
+        var arcLength = sweep * MathF.PI / 180f * radius;
+        var baseTicks = Math.Abs(
+            involute.BaseArc.Segment.End.Location.Ticks -
+            involute.BaseArc.Segment.Start.Location.Ticks);
+        var lengthTicks = Math.Abs(
+            involute.UnwoundLength.End.Location.Ticks -
+            involute.UnwoundLength.Start.Location.Ticks);
+        if (baseTicks <= 0 || lengthTicks <= 0)
+        {
+            return arcLength;
+        }
+
+        return arcLength * lengthTicks / baseTicks;
     }
 
     private static SKPath BuildInvolutePath(
