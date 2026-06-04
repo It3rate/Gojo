@@ -47,6 +47,7 @@ public sealed class GojoCadSkiaAdapter
         var angleControlledPathSegments = ReadAngleControlledPathSegmentSources(graph);
         var frameCurveSupportSources = ReadFrameCurveSupportSources(graph);
         var carrierClothoidTransitionSources = ReadCarrierClothoidTransitionSources(graph);
+        var carrierInvoluteTransitionSources = ReadCarrierInvoluteTransitionSources(graph);
         var carrierClothoidLengthSources = ReadCarrierClothoidLengthSources(graph);
         var carrierInvoluteSupportSources = ReadCarrierInvoluteSupportSources(graph);
 
@@ -132,7 +133,8 @@ public sealed class GojoCadSkiaAdapter
 
         foreach (var transition in graph.ReadsOf<CarrierCurveTransitionRead>()
             .Where(read => !IsRepeatControlSource(read.Source, repeatControlSources))
-            .Where(read => !IsCarrierClothoidTransitionSource(read.Source, carrierClothoidTransitionSources)))
+            .Where(read => !IsCarrierClothoidTransitionSource(read.Source, carrierClothoidTransitionSources))
+            .Where(read => !IsCarrierInvoluteTransitionSource(read.Source, carrierInvoluteTransitionSources)))
         {
             DrawCarrierTransition(canvas, transition, projection, paints, hitAreas, paints.SharedFrameCurve);
             drawn++;
@@ -370,6 +372,26 @@ public sealed class GojoCadSkiaAdapter
         IReadOnlySet<ulong> carrierClothoidTransitionSources) =>
         source is Relation relation &&
         carrierClothoidTransitionSources.Contains(relation.Id);
+
+    private static HashSet<ulong> ReadCarrierInvoluteTransitionSources(GraphicReadGraph graph)
+    {
+        var sources = new HashSet<ulong>();
+        foreach (var involute in graph.ReadsOf<CarrierInvoluteCircleRead>())
+        {
+            if (involute.Source is Relation relation)
+            {
+                sources.Add(relation.Id);
+            }
+        }
+
+        return sources;
+    }
+
+    private static bool IsCarrierInvoluteTransitionSource(
+        IElement source,
+        IReadOnlySet<ulong> carrierInvoluteTransitionSources) =>
+        source is Relation relation &&
+        carrierInvoluteTransitionSources.Contains(relation.Id);
 
     private static HashSet<ulong> ReadCarrierClothoidLengthSources(GraphicReadGraph graph)
     {
