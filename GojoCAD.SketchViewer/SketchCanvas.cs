@@ -98,14 +98,14 @@ internal sealed class SketchDrawOperation : ICustomDrawOperation
         var boundedRung = Math.Clamp(selectedRungIndex, 0, Math.Max(0, rungs.Count - 1));
         if (rungs.Count == 0)
         {
-            using var paints = CreateSketchPaints(Blue(255), 3.4f);
+            using var paints = CreateSketchPaints(Blue(255), 3.4f, hidePoints: true);
             Renderer.Draw(canvas, scene.Structure, viewport, scene.ProjectionSeed, scene.ModelBounds, paints);
             return;
         }
 
         if (boundedRung == rungs.Count - 1)
         {
-            DrawRung(canvas, rungs[boundedRung], viewport, Blue(255), 3.4f);
+            DrawRung(canvas, rungs[boundedRung], viewport, Blue(255), 3.4f, hidePoints: true);
             return;
         }
 
@@ -116,7 +116,7 @@ internal sealed class SketchDrawOperation : ICustomDrawOperation
             DrawRung(canvas, rungs[index], viewport, Gray(alpha), 1.75f);
         }
 
-        DrawRung(canvas, rungs[boundedRung], viewport, Blue(255), 3.4f);
+        DrawRung(canvas, rungs[boundedRung], viewport, CurrentGray(235), 3.2f, hidePoints: false);
     }
 
     private void DrawHeader(SKCanvas canvas, SKRect viewport)
@@ -143,7 +143,7 @@ internal sealed class SketchDrawOperation : ICustomDrawOperation
         DrawTextLine(canvas, $"{scene.Caption}  {rungText}", viewport.Left, 56f, viewport.Width, caption);
     }
 
-    private void DrawRung(SKCanvas canvas, Relation rung, SKRect viewport, SKColor color, float strokeWidth)
+    private void DrawRung(SKCanvas canvas, Relation rung, SKRect viewport, SKColor color, float strokeWidth, bool hidePoints = false)
     {
         if (!StructuralLadderSurface.TryReadRung(
                 rung,
@@ -159,11 +159,11 @@ internal sealed class SketchDrawOperation : ICustomDrawOperation
             return;
         }
 
-        using var paints = CreateSketchPaints(color, strokeWidth);
+        using var paints = CreateSketchPaints(color, strokeWidth, hidePoints);
         Renderer.Draw(canvas, result, viewport, scene.ProjectionSeed, scene.ModelBounds, paints);
     }
 
-    private static GojoCadSkiaPaints CreateSketchPaints(SKColor color, float strokeWidth)
+    private static GojoCadSkiaPaints CreateSketchPaints(SKColor color, float strokeWidth, bool hidePoints = false)
     {
         var paints = new GojoCadSkiaPaints
         {
@@ -196,18 +196,21 @@ internal sealed class SketchDrawOperation : ICustomDrawOperation
         ApplyStroke(paints.LineSeedTension, color, Math.Max(1f, strokeWidth * 0.5f));
         ApplyStroke(paints.SheetSeedEdge, color, Math.Max(1f, strokeWidth * 0.45f));
         ApplyStroke(paints.SheetSeedEdgeTension, color, Math.Max(1f, strokeWidth * 0.45f));
-        paints.Dot.Color = color;
-        paints.SharedFramePoint.Color = color;
-        paints.BranchNode.Color = color;
-        paints.MergeNode.Color = color;
-        paints.PathGraphTerminalNode.Color = color;
-        paints.PathGraphBranchNode.Color = color;
+        var pointColor = hidePoints ? new SKColor(color.Red, color.Green, color.Blue, 0) : color;
+        paints.Dot.Color = pointColor;
+        paints.SharedFramePoint.Color = pointColor;
+        paints.BranchNode.Color = pointColor;
+        paints.MergeNode.Color = pointColor;
+        paints.PathGraphTerminalNode.Color = pointColor;
+        paints.PathGraphBranchNode.Color = pointColor;
         return paints;
     }
 
     private static SKColor Blue(byte alpha) => new(36, 91, 148, alpha);
 
     private static SKColor Gray(byte alpha) => new(84, 90, 98, alpha);
+
+    private static SKColor CurrentGray(byte alpha) => new(48, 58, 68, alpha);
 
     private static void ApplyStroke(SKPaint paint, SKColor color, float strokeWidth)
     {

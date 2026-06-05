@@ -21,73 +21,52 @@ internal static class SketchSamples
         var x = new Carrier();
         var y = new Carrier();
 
-        var lowerLeft = Point(frame, x, y, -52, -30);
-        var lowerRight = Point(frame, x, y, 52, -30);
-        var upperRight = Point(frame, x, y, 52, 8);
-        var roofApex = Point(frame, x, y, 0, 40);
-        var roofAntennaJoint = Point(frame, x, y, -24, 25);
-        var upperLeft = Point(frame, x, y, -52, 8);
+        Relation P(long xTicks, long yTicks) =>
+            Point(frame, x, y, xTicks, yTicks);
 
-        var doorLeftBottom = Point(frame, x, y, -14, -30);
-        var doorLeftTop = Point(frame, x, y, -14, -8);
-        var doorLeftControl = Point(frame, x, y, -14, 8);
-        var doorRightControl = Point(frame, x, y, 14, 8);
-        var doorRightTop = Point(frame, x, y, 14, -8);
-        var doorRightBottom = Point(frame, x, y, 14, -30);
+        Relation Oval(long centerX, long centerY, long radiusX, long radiusY)
+        {
+            var left = P(centerX - radiusX, centerY);
+            var top = P(centerX, centerY + radiusY);
+            var right = P(centerX + radiusX, centerY);
+            var bottom = P(centerX, centerY - radiusY);
+            var controlX = Math.Max(2, radiusX / 2);
+            var controlY = Math.Max(2, radiusY / 2);
+            return Chain(
+                GraphicStructure.FrameCubicCurve(left, P(centerX - radiusX, centerY + controlY), P(centerX - controlX, centerY + radiusY), top),
+                GraphicStructure.FrameCubicCurve(top, P(centerX + controlX, centerY + radiusY), P(centerX + radiusX, centerY + controlY), right),
+                GraphicStructure.FrameCubicCurve(right, P(centerX + radiusX, centerY - controlY), P(centerX + controlX, centerY - radiusY), bottom),
+                GraphicStructure.FrameCubicCurve(bottom, P(centerX - controlX, centerY - radiusY), P(centerX - radiusX, centerY - controlY), left));
+        }
 
-        var windowLowerLeft = Point(frame, x, y, 22, -14);
-        var windowLowerRight = Point(frame, x, y, 42, -14);
-        var windowUpperRight = Point(frame, x, y, 42, 6);
-        var windowUpperLeft = Point(frame, x, y, 22, 6);
-        var windowMidLeft = Point(frame, x, y, 22, -4);
-        var windowMidRight = Point(frame, x, y, 42, -4);
-        var windowMidTop = Point(frame, x, y, 32, 6);
-        var windowMidBottom = Point(frame, x, y, 32, -14);
-        var windowCenter = Point(frame, x, y, 32, -4);
+        Relation Cloudlet(long anchorX, long anchorY)
+        {
+            var left = P(anchorX, anchorY);
+            var leftPeak = P(anchorX + 10, anchorY + 12);
+            var leftValley = P(anchorX + 19, anchorY + 5);
+            var middlePeak = P(anchorX + 30, anchorY + 16);
+            var middleValley = P(anchorX + 40, anchorY + 6);
+            var rightPeak = P(anchorX + 49, anchorY + 11);
+            var right = P(anchorX + 54, anchorY - 1);
+            var lowerRight = P(anchorX + 42, anchorY - 9);
+            var lowerLeft = P(anchorX + 16, anchorY - 8);
+            return Chain(
+                GraphicStructure.FrameCubicCurve(left, P(anchorX, anchorY + 7), P(anchorX + 7, anchorY + 12), leftPeak),
+                GraphicStructure.FrameCubicCurve(leftPeak, P(anchorX + 13, anchorY + 12), P(anchorX + 18, anchorY + 9), leftValley),
+                GraphicStructure.FrameCubicCurve(leftValley, P(anchorX + 21, anchorY + 12), P(anchorX + 26, anchorY + 16), middlePeak),
+                GraphicStructure.FrameCubicCurve(middlePeak, P(anchorX + 34, anchorY + 16), P(anchorX + 38, anchorY + 11), middleValley),
+                GraphicStructure.FrameCubicCurve(middleValley, P(anchorX + 43, anchorY + 11), P(anchorX + 45, anchorY + 11), rightPeak),
+                GraphicStructure.FrameCubicCurve(rightPeak, P(anchorX + 52, anchorY + 11), P(anchorX + 54, anchorY + 5), right),
+                GraphicStructure.FrameCubicCurve(right, P(anchorX + 54, anchorY - 6), P(anchorX + 48, anchorY - 9), lowerRight),
+                GraphicStructure.FrameCubicCurve(lowerRight, P(anchorX + 36, anchorY - 9), P(anchorX + 22, anchorY - 8), lowerLeft),
+                GraphicStructure.FrameCubicCurve(lowerLeft, P(anchorX + 6, anchorY - 8), P(anchorX, anchorY - 7), left));
+        }
 
-        var windowRoundTopLeft = Point(frame, x, y, 26, 6);
-        var windowRoundTopRight = Point(frame, x, y, 38, 6);
-        var windowRoundRightTop = Point(frame, x, y, 42, 2);
-        var windowRoundRightBottom = Point(frame, x, y, 42, -10);
-        var windowRoundBottomRight = Point(frame, x, y, 38, -14);
-        var windowRoundBottomLeft = Point(frame, x, y, 26, -14);
-        var windowRoundLeftBottom = Point(frame, x, y, 22, -10);
-        var windowRoundLeftTop = Point(frame, x, y, 22, 2);
-
-        var windowTopRightControlA = Point(frame, x, y, 40, 6);
-        var windowTopRightControlB = Point(frame, x, y, 42, 4);
-        var windowBottomRightControlA = Point(frame, x, y, 42, -12);
-        var windowBottomRightControlB = Point(frame, x, y, 40, -14);
-        var windowBottomLeftControlA = Point(frame, x, y, 24, -14);
-        var windowBottomLeftControlB = Point(frame, x, y, 22, -12);
-        var windowTopLeftControlA = Point(frame, x, y, 22, 4);
-        var windowTopLeftControlB = Point(frame, x, y, 24, 6);
-
-        var windowRectangle = Chain(
-            GraphicStructure.FrameSegment(windowLowerLeft, windowLowerRight),
-            GraphicStructure.FrameSegment(windowLowerRight, windowUpperRight),
-            GraphicStructure.FrameSegment(windowUpperRight, windowUpperLeft),
-            GraphicStructure.FrameSegment(windowUpperLeft, windowLowerLeft));
-        var windowCross = Chain(
-            GraphicStructure.FrameSegment(windowMidLeft, windowCenter),
-            GraphicStructure.FrameSegment(windowCenter, windowMidRight),
-            GraphicStructure.FrameSegment(windowMidTop, windowCenter),
-            GraphicStructure.FrameSegment(windowCenter, windowMidBottom));
-        var roundedWindow = Chain(
-            GraphicStructure.FrameSegment(windowRoundTopLeft, windowRoundTopRight),
-            GraphicStructure.FrameCubicCurve(windowRoundTopRight, windowTopRightControlA, windowTopRightControlB, windowRoundRightTop),
-            GraphicStructure.FrameSegment(windowRoundRightTop, windowRoundRightBottom),
-            GraphicStructure.FrameCubicCurve(windowRoundRightBottom, windowBottomRightControlA, windowBottomRightControlB, windowRoundBottomRight),
-            GraphicStructure.FrameSegment(windowRoundBottomRight, windowRoundBottomLeft),
-            GraphicStructure.FrameCubicCurve(windowRoundBottomLeft, windowBottomLeftControlA, windowBottomLeftControlB, windowRoundLeftBottom),
-            GraphicStructure.FrameSegment(windowRoundLeftBottom, windowRoundLeftTop),
-            GraphicStructure.FrameCubicCurve(windowRoundLeftTop, windowTopLeftControlA, windowTopLeftControlB, windowRoundTopLeft));
-        var roundedWindowPlus = Chain(roundedWindow, windowCross);
-
-        var antennaTip = Point(frame, x, y, -29, 43);
-        var antennaLeft = Point(frame, x, y, -38, 48);
-        var antennaRight = Point(frame, x, y, -18, 46);
-
+        var lowerLeft = P(-52, -30);
+        var lowerRight = P(52, -30);
+        var upperRight = P(52, 8);
+        var upperLeft = P(-52, 8);
+        var roofApex = P(0, 40);
         var houseBoxTop = GraphicStructure.FrameSegment(upperRight, upperLeft);
         var houseBox = Chain(
             GraphicStructure.FrameSegment(lowerLeft, lowerRight),
@@ -98,9 +77,13 @@ internal static class SketchSamples
             GraphicStructure.FrameSegment(lowerLeft, lowerRight),
             GraphicStructure.FrameSegment(lowerRight, upperRight),
             GraphicStructure.FrameSegment(upperRight, roofApex),
-            GraphicStructure.FrameSegment(roofApex, roofAntennaJoint),
-            GraphicStructure.FrameSegment(roofAntennaJoint, upperLeft),
+            GraphicStructure.FrameSegment(roofApex, upperLeft),
             GraphicStructure.FrameSegment(upperLeft, lowerLeft));
+
+        var doorLeftBottom = P(-14, -30);
+        var doorRightBottom = P(14, -30);
+        var doorRightTop = P(14, -8);
+        var doorLeftTop = P(-14, -8);
         var doorRectangle = Chain(
             GraphicStructure.FrameSegment(doorLeftBottom, doorRightBottom),
             GraphicStructure.FrameSegment(doorRightBottom, doorRightTop),
@@ -108,158 +91,177 @@ internal static class SketchSamples
             GraphicStructure.FrameSegment(doorLeftTop, doorLeftBottom));
         var archedDoor = Chain(
             GraphicStructure.FrameSegment(doorLeftBottom, doorLeftTop),
-            GraphicStructure.FrameCubicCurve(doorLeftTop, doorLeftControl, doorRightControl, doorRightTop),
+            GraphicStructure.FrameCubicCurve(doorLeftTop, P(-14, 8), P(14, 8), doorRightTop),
             GraphicStructure.FrameSegment(doorRightTop, doorRightBottom),
             GraphicStructure.FrameSegment(doorRightBottom, doorLeftBottom));
-        var antennaStem = GraphicStructure.FrameSegment(roofAntennaJoint, antennaTip);
-        var refinedAntenna = Chain(
-            antennaStem,
-            GraphicStructure.FrameSegment(antennaTip, antennaLeft),
-            GraphicStructure.FrameSegment(antennaTip, antennaRight));
 
-        const long cloudAnchorX = -120;
-        const long cloudAnchorY = 60;
-        Relation CloudPoint(long xOffset, long yOffset) =>
-            Point(frame, x, y, cloudAnchorX + xOffset, cloudAnchorY + yOffset);
+        var windowLowerLeft = P(22, -14);
+        var windowLowerRight = P(42, -14);
+        var windowUpperRight = P(42, 6);
+        var windowUpperLeft = P(22, 6);
+        var windowCenter = P(32, -4);
+        var windowRectangle = Chain(
+            GraphicStructure.FrameSegment(windowLowerLeft, windowLowerRight),
+            GraphicStructure.FrameSegment(windowLowerRight, windowUpperRight),
+            GraphicStructure.FrameSegment(windowUpperRight, windowUpperLeft),
+            GraphicStructure.FrameSegment(windowUpperLeft, windowLowerLeft));
+        var windowCross = Chain(
+            GraphicStructure.FrameSegment(P(22, -4), windowCenter),
+            GraphicStructure.FrameSegment(windowCenter, P(42, -4)),
+            GraphicStructure.FrameSegment(P(32, 6), windowCenter),
+            GraphicStructure.FrameSegment(windowCenter, P(32, -14)));
+        var roundedWindow = Chain(
+            GraphicStructure.FrameSegment(P(26, 6), P(38, 6)),
+            GraphicStructure.FrameCubicCurve(P(38, 6), P(40, 6), P(42, 4), P(42, 2)),
+            GraphicStructure.FrameSegment(P(42, 2), P(42, -10)),
+            GraphicStructure.FrameCubicCurve(P(42, -10), P(42, -12), P(40, -14), P(38, -14)),
+            GraphicStructure.FrameSegment(P(38, -14), P(26, -14)),
+            GraphicStructure.FrameCubicCurve(P(26, -14), P(24, -14), P(22, -12), P(22, -10)),
+            GraphicStructure.FrameSegment(P(22, -10), P(22, 2)),
+            GraphicStructure.FrameCubicCurve(P(22, 2), P(22, 4), P(24, 6), P(26, 6)));
+        var roundedWindowPlus = Chain(roundedWindow, windowCross);
 
-        var cloudLeftCusp = CloudPoint(0, 0);
-        var cloudLeftPeak = CloudPoint(10, 12);
-        var cloudLeftValley = CloudPoint(19, 5);
-        var cloudMiddlePeak = CloudPoint(30, 16);
-        var cloudMiddleValley = CloudPoint(40, 6);
-        var cloudRightPeak = CloudPoint(49, 11);
-        var cloudRightCusp = CloudPoint(54, -1);
-        var cloudLowerRight = CloudPoint(42, -9);
-        var cloudLowerLeft = CloudPoint(16, -8);
+        var chimneyLowerLeft = P(14, 31);
+        var chimneyLowerRight = P(24, 25);
+        var chimneyUpperRight = P(24, 42);
+        var chimneyUpperLeft = P(14, 42);
+        var chimneyBody = Chain(
+            GraphicStructure.FrameSegment(chimneyLowerLeft, chimneyLowerRight),
+            GraphicStructure.FrameSegment(chimneyLowerRight, chimneyUpperRight),
+            GraphicStructure.FrameSegment(chimneyUpperRight, chimneyUpperLeft),
+            GraphicStructure.FrameSegment(chimneyUpperLeft, chimneyLowerLeft));
+        var chimneyWithCap = Chain(
+            chimneyBody,
+            GraphicStructure.FrameSegment(P(10, 42), P(28, 42)),
+            GraphicStructure.FrameSegment(P(28, 42), P(19, 48)),
+            GraphicStructure.FrameSegment(P(19, 48), P(10, 42)));
 
-        var cloudLeftCuspOut = CloudPoint(0, 7);
-        var cloudLeftPeakIn = CloudPoint(7, 12);
-        var cloudLeftPeakOut = CloudPoint(13, 12);
-        var cloudLeftValleyIn = CloudPoint(18, 9);
+        var cloudOval = Oval(98, 48, 27, 12);
+        var cloudOutline = Cloudlet(70, 48);
 
-        var cloudLeftValleyOut = CloudPoint(21, 12);
-        var cloudMiddlePeakIn = CloudPoint(26, 16);
-        var cloudMiddlePeakOut = CloudPoint(34, 16);
-        var cloudMiddleValleyIn = CloudPoint(38, 11);
-        var cloudMiddleValleyOut = CloudPoint(43, 11);
-        var cloudRightPeakIn = CloudPoint(45, 11);
-        var cloudRightPeakOut = CloudPoint(52, 11);
-        var cloudRightCuspIn = CloudPoint(54, 5);
+        var treeTrunkLine = GraphicStructure.FrameSegment(P(-94, -30), P(-94, 8));
+        var treeBall = Oval(-94, 22, 17, 15);
+        var treeLineBall = Chain(treeTrunkLine, treeBall);
+        var treeBranches = Chain(
+            treeTrunkLine,
+            GraphicStructure.FrameSegment(P(-94, 4), P(-113, 20)),
+            GraphicStructure.FrameSegment(P(-94, 4), P(-76, 22)),
+            treeBall);
+        var treeTrunkThick = Chain(
+            GraphicStructure.FrameSegment(P(-99, -30), P(-90, -30)),
+            GraphicStructure.FrameSegment(P(-90, -30), P(-90, 8)),
+            GraphicStructure.FrameSegment(P(-90, 8), P(-99, 8)),
+            GraphicStructure.FrameSegment(P(-99, 8), P(-99, -30)));
+        var treeWithThickTrunk = Chain(
+            treeTrunkThick,
+            GraphicStructure.FrameSegment(P(-94, 4), P(-113, 20)),
+            GraphicStructure.FrameSegment(P(-94, 4), P(-76, 22)),
+            treeBall);
+        var leftBranchThick = Chain(
+            GraphicStructure.FrameSegment(P(-97, 6), P(-92, 2)),
+            GraphicStructure.FrameSegment(P(-92, 2), P(-111, 18)),
+            GraphicStructure.FrameSegment(P(-111, 18), P(-115, 22)),
+            GraphicStructure.FrameSegment(P(-115, 22), P(-97, 6)));
+        var rightBranchThick = Chain(
+            GraphicStructure.FrameSegment(P(-96, 6), P(-91, 3)),
+            GraphicStructure.FrameSegment(P(-91, 3), P(-75, 20)),
+            GraphicStructure.FrameSegment(P(-75, 20), P(-78, 25)),
+            GraphicStructure.FrameSegment(P(-78, 25), P(-96, 6)));
+        var treeWoodThick = Chain(treeTrunkThick, leftBranchThick, rightBranchThick, treeBall);
+        var treeLeafRegions = Chain(
+            treeTrunkThick,
+            leftBranchThick,
+            rightBranchThick,
+            Oval(-112, 28, 15, 13),
+            Oval(-93, 35, 18, 16),
+            Oval(-74, 28, 15, 13));
+        var treeFluffy = Chain(
+            treeTrunkThick,
+            leftBranchThick,
+            rightBranchThick,
+            Cloudlet(-134, 26),
+            Cloudlet(-121, 38),
+            Cloudlet(-108, 28));
 
-        var cloudRightCuspDown = CloudPoint(54, -6);
-        var cloudLowerRightIn = CloudPoint(48, -9);
-        var cloudLowerRightOut = CloudPoint(36, -9);
-        var cloudLowerLeftIn = CloudPoint(22, -8);
-        var cloudLowerLeftOut = CloudPoint(6, -8);
-        var cloudLeftCuspReturn = CloudPoint(0, -7);
-        var cloudOvalTop = CloudPoint(27, 13);
-        var cloudOvalRight = CloudPoint(54, -1);
-        var cloudOvalBottom = CloudPoint(27, -10);
-        var cloudOvalLeftToTopA = CloudPoint(0, 7);
-        var cloudOvalLeftToTopB = CloudPoint(12, 13);
-        var cloudOvalTopToRightA = CloudPoint(42, 13);
-        var cloudOvalTopToRightB = CloudPoint(54, 7);
-        var cloudOvalRightToBottomA = CloudPoint(54, -7);
-        var cloudOvalRightToBottomB = CloudPoint(42, -10);
-        var cloudOvalBottomToLeftA = CloudPoint(12, -10);
-        var cloudOvalBottomToLeftB = CloudPoint(0, -7);
-        var cloudOval = Chain(
-            GraphicStructure.FrameCubicCurve(cloudLeftCusp, cloudOvalLeftToTopA, cloudOvalLeftToTopB, cloudOvalTop),
-            GraphicStructure.FrameCubicCurve(cloudOvalTop, cloudOvalTopToRightA, cloudOvalTopToRightB, cloudOvalRight),
-            GraphicStructure.FrameCubicCurve(cloudOvalRight, cloudOvalRightToBottomA, cloudOvalRightToBottomB, cloudOvalBottom),
-            GraphicStructure.FrameCubicCurve(cloudOvalBottom, cloudOvalBottomToLeftA, cloudOvalBottomToLeftB, cloudLeftCusp));
-        var cloudOutline = Chain(
-            // Puffy cloud: peaks and lower joins are tangential; valleys and tips are cusp-like direction changes.
-            GraphicStructure.FrameCubicCurve(cloudLeftCusp, cloudLeftCuspOut, cloudLeftPeakIn, cloudLeftPeak),
-            GraphicStructure.FrameCubicCurve(cloudLeftPeak, cloudLeftPeakOut, cloudLeftValleyIn, cloudLeftValley),
-            GraphicStructure.FrameCubicCurve(cloudLeftValley, cloudLeftValleyOut, cloudMiddlePeakIn, cloudMiddlePeak),
-            GraphicStructure.FrameCubicCurve(cloudMiddlePeak, cloudMiddlePeakOut, cloudMiddleValleyIn, cloudMiddleValley),
-            GraphicStructure.FrameCubicCurve(cloudMiddleValley, cloudMiddleValleyOut, cloudRightPeakIn, cloudRightPeak),
-            GraphicStructure.FrameCubicCurve(cloudRightPeak, cloudRightPeakOut, cloudRightCuspIn, cloudRightCusp),
-            GraphicStructure.FrameCubicCurve(cloudRightCusp, cloudRightCuspDown, cloudLowerRightIn, cloudLowerRight),
-            GraphicStructure.FrameCubicCurve(cloudLowerRight, cloudLowerRightOut, cloudLowerLeftIn, cloudLowerLeft),
-            GraphicStructure.FrameCubicCurve(cloudLowerLeft, cloudLowerLeftOut, cloudLeftCuspReturn, cloudLeftCusp));
+        var rough = Chain(houseBox, cloudOval, treeLineBall);
+        var roofState = Chain(houseRoof, cloudOval, treeLineBall);
+        var treeSplitState = Chain(houseRoof, cloudOval, treeBranches);
+        var doorRectState = Chain(houseRoof, cloudOval, treeBranches, doorRectangle);
+        var treeTrunkState = Chain(houseRoof, cloudOval, treeWithThickTrunk, doorRectangle);
+        var windowRectState = Chain(houseRoof, cloudOval, treeWithThickTrunk, doorRectangle, windowRectangle);
+        var treeBranchThickState = Chain(houseRoof, cloudOval, treeWoodThick, doorRectangle, windowRectangle);
+        var doorArchState = Chain(houseRoof, cloudOval, treeWoodThick, archedDoor, windowRectangle);
+        var windowRefinedState = Chain(houseRoof, cloudOval, treeWoodThick, archedDoor, roundedWindowPlus);
+        var treeRegionsState = Chain(houseRoof, cloudOval, treeLeafRegions, archedDoor, roundedWindowPlus);
+        var cloudRefinedState = Chain(houseRoof, cloudOutline, treeLeafRegions, archedDoor, roundedWindowPlus);
+        var chimneyBodyState = Chain(houseRoof, cloudOutline, treeLeafRegions, archedDoor, roundedWindowPlus, chimneyBody);
+        var treeFluffyState = Chain(houseRoof, cloudOutline, treeFluffy, archedDoor, roundedWindowPlus, chimneyBody);
+        var finalSketch = Chain(houseRoof, cloudOutline, treeFluffy, archedDoor, roundedWindowPlus, chimneyWithCap);
 
-        var roughHouseAndCloud = Chain(houseBox, cloudOval);
-        var peakedHouseAndOval = Chain(houseRoof, cloudOval);
-        var rectFeatures = Chain(houseRoof, cloudOval, doorRectangle, windowRectangle);
-        var refinedFeatures = Chain(houseRoof, cloudOval, archedDoor, roundedWindowPlus);
-        var refinedCloud = Chain(houseRoof, cloudOutline, archedDoor, roundedWindowPlus);
-        var antennaLine = Chain(houseRoof, cloudOutline, archedDoor, roundedWindowPlus, antennaStem);
-        var finalSketch = Chain(houseRoof, cloudOutline, archedDoor, roundedWindowPlus, refinedAntenna);
-
-        var baseRung = StructuralLadderSurface.BaseRung(new Carrier(), roughHouseAndCloud);
-        var roofStep = RefinedRung(
-            roughHouseAndCloud,
-            houseBoxTop,
-            houseBox,
-            cloudOval,
-            houseRoof,
-            peakedHouseAndOval);
-        var featureRectStep = RefinedRung(
-            peakedHouseAndOval,
-            houseRoof,
-            peakedHouseAndOval,
-            peakedHouseAndOval,
-            Chain(doorRectangle, windowRectangle),
-            rectFeatures);
-        var featureRefineStep = RefinedRung(
-            rectFeatures,
-            Chain(doorRectangle, windowRectangle),
-            Chain(doorRectangle, windowRectangle),
-            Chain(houseRoof, cloudOval),
-            Chain(archedDoor, roundedWindowPlus),
-            refinedFeatures);
-        var cloudRefineStep = RefinedRung(
-            refinedFeatures,
-            cloudLeftCusp,
-            cloudOval,
-            Chain(houseRoof, archedDoor, roundedWindowPlus),
-            cloudOutline,
-            refinedCloud);
-        var antennaLineStep = RefinedRung(
-            refinedCloud,
-            roofAntennaJoint,
-            roofAntennaJoint,
-            refinedCloud,
-            antennaStem,
-            antennaLine);
-        var antennaRefineStep = RefinedRung(
-            antennaLine,
-            antennaTip,
-            antennaStem,
-            refinedCloud,
-            refinedAntenna,
-            finalSketch);
+        var baseRung = StructuralLadderSurface.BaseRung(new Carrier(), rough);
+        var roofStep = RefinedRung(rough, houseBoxTop, houseBox, Chain(cloudOval, treeLineBall), houseRoof, roofState);
+        var treeSplitStep = RefinedRung(roofState, P(-94, 4), treeLineBall, Chain(houseRoof, cloudOval), treeBranches, treeSplitState);
+        var doorRectStep = RefinedRung(treeSplitState, doorLeftBottom, doorLeftBottom, treeSplitState, doorRectangle, doorRectState);
+        var treeTrunkStep = RefinedRung(doorRectState, treeTrunkLine, treeBranches, Chain(houseRoof, cloudOval, doorRectangle), treeWithThickTrunk, treeTrunkState);
+        var windowRectStep = RefinedRung(treeTrunkState, windowLowerLeft, windowLowerLeft, treeTrunkState, windowRectangle, windowRectState);
+        var treeBranchThickStep = RefinedRung(windowRectState, P(-94, 4), treeWithThickTrunk, Chain(houseRoof, cloudOval, doorRectangle, windowRectangle), treeWoodThick, treeBranchThickState);
+        var doorArchStep = RefinedRung(treeBranchThickState, doorRectangle, doorRectangle, Chain(houseRoof, cloudOval, treeWoodThick, windowRectangle), archedDoor, doorArchState);
+        var windowRefineStep = RefinedRung(doorArchState, windowRectangle, windowRectangle, Chain(houseRoof, cloudOval, treeWoodThick, archedDoor), roundedWindowPlus, windowRefinedState);
+        var treeRegionStep = RefinedRung(windowRefinedState, treeBall, treeWoodThick, Chain(houseRoof, cloudOval, archedDoor, roundedWindowPlus), treeLeafRegions, treeRegionsState);
+        var cloudRefineStep = RefinedRung(treeRegionsState, cloudOval, cloudOval, Chain(houseRoof, treeLeafRegions, archedDoor, roundedWindowPlus), cloudOutline, cloudRefinedState);
+        var chimneyBodyStep = RefinedRung(cloudRefinedState, P(19, 33), P(19, 33), cloudRefinedState, chimneyBody, chimneyBodyState);
+        var treeFluffyStep = RefinedRung(chimneyBodyState, treeLeafRegions, treeLeafRegions, Chain(houseRoof, cloudOutline, archedDoor, roundedWindowPlus, chimneyBody), treeFluffy, treeFluffyState);
+        var chimneyCapStep = RefinedRung(treeFluffyState, chimneyBody, chimneyBody, Chain(houseRoof, cloudOutline, treeFluffy, archedDoor, roundedWindowPlus), chimneyWithCap, finalSketch);
         var sketchRungs = new[]
         {
             baseRung,
             roofStep.Rung,
-            featureRectStep.Rung,
-            featureRefineStep.Rung,
+            treeSplitStep.Rung,
+            doorRectStep.Rung,
+            treeTrunkStep.Rung,
+            windowRectStep.Rung,
+            treeBranchThickStep.Rung,
+            doorArchStep.Rung,
+            windowRefineStep.Rung,
+            treeRegionStep.Rung,
             cloudRefineStep.Rung,
-            antennaLineStep.Rung,
-            antennaRefineStep.Rung
+            chimneyBodyStep.Rung,
+            treeFluffyStep.Rung,
+            chimneyCapStep.Rung
         };
         var sketchFocuses = new[]
         {
             roofStep.Focus,
-            featureRectStep.Focus,
-            featureRefineStep.Focus,
+            treeSplitStep.Focus,
+            doorRectStep.Focus,
+            treeTrunkStep.Focus,
+            windowRectStep.Focus,
+            treeBranchThickStep.Focus,
+            doorArchStep.Focus,
+            windowRefineStep.Focus,
+            treeRegionStep.Focus,
             cloudRefineStep.Focus,
-            antennaLineStep.Focus,
-            antennaRefineStep.Focus
+            chimneyBodyStep.Focus,
+            treeFluffyStep.Focus,
+            chimneyCapStep.Focus
         };
         var ladder = TimelineLadder(sketchRungs, sketchFocuses);
         var rungLabels = new[]
         {
-            "Box + oval",
+            "Box + oval + tree ball",
             "Peak roof",
-            "Door/window rectangles",
-            "Arch door + window",
+            "Tree branch split",
+            "Door rectangle",
+            "Tree trunk thickens",
+            "Window rectangle",
+            "Tree branches thicken",
+            "Door arch",
+            "Window rounded plus",
+            "Tree leaf regions",
             "Puffy cloud",
-            "Antenna line",
-            "Antenna refined"
+            "Chimney body",
+            "Tree fluffs out",
+            "Pointy chimney cap"
         };
 
         return new SketchScene(
@@ -267,7 +269,7 @@ internal static class SketchSamples
             "Ordered rough-in ladder from box and oval to the finished sketch.",
             ladder,
             seed,
-            new SKRect(-148, -84, 58, 38),
+            new SKRect(-142, -84, 136, 42),
             rungLabels);
     }
 
