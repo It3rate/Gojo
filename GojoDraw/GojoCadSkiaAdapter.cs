@@ -1,4 +1,5 @@
 using Gojo.Core;
+using Gojo.Structures;
 using GojoCAD;
 using SkiaSharp;
 
@@ -22,8 +23,54 @@ public sealed class GojoCadSkiaAdapter
         ArgumentNullException.ThrowIfNull(projection);
         ArgumentNullException.ThrowIfNull(paints);
 
-        var graph = GraphicReadGraph.From(element);
+        var graph = GraphicReadGraph.From(SelectCurrentRenderableRungs(element));
         return DrawReadGraph(canvas, graph, projection, paints, hitAreas);
+    }
+
+    private static IElement SelectCurrentRenderableRungs(IElement element) =>
+        SelectCurrentRenderableRungs(element, []);
+
+    private static IElement SelectCurrentRenderableRungs(IElement element, Dictionary<ulong, IElement> visited)
+    {
+        if (element is not Relation relation)
+        {
+            return element;
+        }
+
+        if (visited.TryGetValue(relation.Id, out var known))
+        {
+            return known;
+        }
+
+        visited[relation.Id] = relation;
+        if (StructuralLadderSurface.TryReadCurrentRung(relation, out var currentRung) &&
+            StructuralLadderSurface.TryReadRung(
+                currentRung,
+                out _,
+                out _,
+                out var result,
+                out _,
+                out _,
+                out _,
+                out _,
+                out _))
+        {
+            var current = SelectCurrentRenderableRungs(result, visited);
+            visited[relation.Id] = current;
+            return current;
+        }
+
+        var left = SelectCurrentRenderableRungs(relation.Left, visited);
+        var right = SelectCurrentRenderableRungs(relation.Right, visited);
+        if (ReferenceEquals(left, relation.Left) &&
+            ReferenceEquals(right, relation.Right))
+        {
+            return relation;
+        }
+
+        var replacement = new Relation(left, right);
+        visited[relation.Id] = replacement;
+        return replacement;
     }
 
     private static int DrawReadGraph(

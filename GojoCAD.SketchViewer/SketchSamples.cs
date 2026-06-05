@@ -1,4 +1,5 @@
 using Gojo.Core;
+using Gojo.Structures;
 using SkiaSharp;
 
 namespace GojoCAD.SketchViewer;
@@ -48,7 +49,7 @@ internal static class SketchSamples
         var antennaRight = Point(frame, x, y, -18, 46);
 
         const long cloudAnchorX = -120;
-        const long cloudAnchorY = 50;
+        const long cloudAnchorY = 60;
         Relation CloudPoint(long xOffset, long yOffset) =>
             Point(frame, x, y, cloudAnchorX + xOffset, cloudAnchorY + yOffset);
 
@@ -83,6 +84,40 @@ internal static class SketchSamples
         var cloudLowerLeftOut = CloudPoint(6, -8);
         var cloudLeftCuspReturn = CloudPoint(0, -7);
         var cloudPlacement = new Relation(upperLeft, new Relation(cloudLeftCusp, Carrier.Unknown));
+        var cloudOutline = Chain(
+            // Puffy cloud: peaks and lower joins are tangential; valleys and tips are cusp-like direction changes.
+            GraphicStructure.FrameCubicCurve(cloudLeftCusp, cloudLeftCuspOut, cloudLeftPeakIn, cloudLeftPeak),
+            GraphicStructure.FrameCubicCurve(cloudLeftPeak, cloudLeftPeakOut, cloudLeftValleyIn, cloudLeftValley),
+            GraphicStructure.FrameCubicCurve(cloudLeftValley, cloudLeftValleyOut, cloudMiddlePeakIn, cloudMiddlePeak),
+            GraphicStructure.FrameCubicCurve(cloudMiddlePeak, cloudMiddlePeakOut, cloudMiddleValleyIn, cloudMiddleValley),
+            GraphicStructure.FrameCubicCurve(cloudMiddleValley, cloudMiddleValleyOut, cloudRightPeakIn, cloudRightPeak),
+            GraphicStructure.FrameCubicCurve(cloudRightPeak, cloudRightPeakOut, cloudRightCuspIn, cloudRightCusp),
+            GraphicStructure.FrameCubicCurve(cloudRightCusp, cloudRightCuspDown, cloudLowerRightIn, cloudLowerRight),
+            GraphicStructure.FrameCubicCurve(cloudLowerRight, cloudLowerRightOut, cloudLowerLeftIn, cloudLowerLeft),
+            GraphicStructure.FrameCubicCurve(cloudLowerLeft, cloudLowerLeftOut, cloudLeftCuspReturn, cloudLeftCusp));
+        var cloudCorrespondence = FocusSurface.BindingFrame(
+            new Carrier(),
+            FocusSurface.Bind(cloudLeftCusp, cloudOutline));
+        var cloudFocus = FocusSurface.Create(
+            new Carrier(),
+            cloudPlacement,
+            upperLeft,
+            cloudLeftCusp,
+            cloudPlacement,
+            cloudOutline,
+            cloudCorrespondence,
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0));
+        var cloudBaseRung = StructuralLadderSurface.BaseRung(new Carrier(), cloudPlacement);
+        var cloudRefinedRung = StructuralLadderSurface.Rung(
+            new Carrier(),
+            cloudPlacement,
+            cloudFocus,
+            cloudOutline,
+            cloudCorrespondence,
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0));
+        var cloudLadder = StructuralLadderSurface.CreateWithRungs(new Carrier(), cloudBaseRung, cloudRefinedRung);
 
         var elements = new IElement[]
         {
@@ -113,19 +148,8 @@ internal static class SketchSamples
             GraphicStructure.FrameSegment(antennaTip, antennaLeft),
             GraphicStructure.FrameSegment(antennaTip, antennaRight),
 
-            // Cloud placement: upperLeft is the house landmark, cloudLeftCusp is the local cloud anchor.
-            cloudPlacement,
-
-            // Puffy cloud: peaks and lower joins are tangential; valleys and tips are cusp-like direction changes.
-            GraphicStructure.FrameCubicCurve(cloudLeftCusp, cloudLeftCuspOut, cloudLeftPeakIn, cloudLeftPeak),
-            GraphicStructure.FrameCubicCurve(cloudLeftPeak, cloudLeftPeakOut, cloudLeftValleyIn, cloudLeftValley),
-            GraphicStructure.FrameCubicCurve(cloudLeftValley, cloudLeftValleyOut, cloudMiddlePeakIn, cloudMiddlePeak),
-            GraphicStructure.FrameCubicCurve(cloudMiddlePeak, cloudMiddlePeakOut, cloudMiddleValleyIn, cloudMiddleValley),
-            GraphicStructure.FrameCubicCurve(cloudMiddleValley, cloudMiddleValleyOut, cloudRightPeakIn, cloudRightPeak),
-            GraphicStructure.FrameCubicCurve(cloudRightPeak, cloudRightPeakOut, cloudRightCuspIn, cloudRightCusp),
-            GraphicStructure.FrameCubicCurve(cloudRightCusp, cloudRightCuspDown, cloudLowerRightIn, cloudLowerRight),
-            GraphicStructure.FrameCubicCurve(cloudLowerRight, cloudLowerRightOut, cloudLowerLeftIn, cloudLowerLeft),
-            GraphicStructure.FrameCubicCurve(cloudLowerLeft, cloudLowerLeftOut, cloudLeftCuspReturn, cloudLeftCusp)
+            // Cloud ladder: coarse placement anchor refines into the local offset outline.
+            cloudLadder
         };
 
         return new SketchScene(
@@ -133,7 +157,7 @@ internal static class SketchSamples
             "Straight outline, tangent door arch, closed window, roof branch joint, and a cusped puffy cloud.",
             Chain(elements),
             seed,
-            new SKRect(-128, -40, 68, 54));
+            new SKRect(-88, -80, 108, 38));
     }
 
     private static Relation Point(Carrier frame, Carrier x, Carrier y, long xTicks, long yTicks) =>
