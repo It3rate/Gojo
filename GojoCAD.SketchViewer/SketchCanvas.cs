@@ -202,8 +202,8 @@ internal sealed class SketchDrawOperation : ICustomDrawOperation
         ApplyStroke(paints.LineSeedTension, color, Math.Max(1f, strokeWidth * 0.5f));
         ApplyStroke(paints.SheetSeedEdge, color, Math.Max(1f, strokeWidth * 0.45f));
         ApplyStroke(paints.SheetSeedEdgeTension, color, Math.Max(1f, strokeWidth * 0.45f));
-        paints.AreaFill.Color = new SKColor(255, 255, 255, 204);
-        paints.AreaBoundary.Color = new SKColor(255, 255, 255, 0);
+        paints.AreaFill.Color = new SKColor(255, 255, 255, 244);
+        ApplyStroke(paints.AreaBoundary, color, Math.Max(1f, strokeWidth * 0.82f));
         var pointColor = hidePoints ? new SKColor(color.Red, color.Green, color.Blue, 0) : color;
         var pointBorderColor = hidePoints ? new SKColor(color.Red, color.Green, color.Blue, 0) : paints.TopologyNodeBorder.Color;
         paints.Dot.Color = pointColor;

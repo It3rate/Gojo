@@ -112,20 +112,6 @@ public sealed class GojoCadSkiaAdapter
             drawn++;
         }
 
-        foreach (var area in graph.ReadsOf<SharedFrameAreaRead>()
-            .Where(read => !IsRepeatControlSource(read.Source, repeatControlSources)))
-        {
-            DrawSharedFrameArea(canvas, area, projection, paints, hitAreas, pointRoles);
-            drawn++;
-        }
-
-        foreach (var boundary in graph.ReadsOf<ClosedSharedFrameBoundaryRead>()
-            .Where(read => !IsRepeatControlSource(read.Source, repeatControlSources)))
-        {
-            DrawClosedSharedFrameBoundary(canvas, boundary, projection, paints, hitAreas);
-            drawn++;
-        }
-
         foreach (var radial in graph.ReadsOf<RadialSeedRead>()
             .Where(read => !IsRepeatControlSource(read.Source, repeatControlSources)))
         {
@@ -270,6 +256,13 @@ public sealed class GojoCadSkiaAdapter
             .Where(read => !IsRepeatControlSource(read.Source, repeatControlSources)))
         {
             DrawDirectedSegment(canvas, segment, projection, paints, hitAreas);
+            drawn++;
+        }
+
+        foreach (var area in graph.ReadsOf<SharedFrameAreaRead>()
+            .Where(read => !IsRepeatControlSource(read.Source, repeatControlSources)))
+        {
+            DrawSharedFrameArea(canvas, area, projection, paints, hitAreas, pointRoles);
             drawn++;
         }
 
@@ -1299,6 +1292,7 @@ public sealed class GojoCadSkiaAdapter
         using (path)
         {
             canvas.DrawPath(path, area.IsAntiArea ? paints.AntiAreaFill : paints.AreaFill);
+            canvas.DrawPath(path, paints.AreaBoundary);
             AddHit(hitAreas, path.Bounds, area.IsAntiArea ? "anti-area" : "area", priority: 2, area.Source);
         }
 
@@ -1345,6 +1339,7 @@ public sealed class GojoCadSkiaAdapter
         using (path)
         {
             canvas.DrawPath(path, area.IsAntiArea ? paints.AntiAreaFill : paints.AreaFill);
+            canvas.DrawPath(path, paints.AreaBoundary);
             AddHit(hitAreas, path.Bounds, area.IsAntiArea ? "frame anti-area" : "frame area", priority: 2, area.Source);
         }
 
