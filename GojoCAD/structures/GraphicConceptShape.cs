@@ -1,5 +1,6 @@
 using Gojo.Core;
 using Gojo.Structures;
+using System.Runtime.CompilerServices;
 
 namespace GojoCAD.Structures;
 
@@ -112,6 +113,35 @@ public static class GraphicConceptShape
             outgoingPort ?? TensionSlot(),
             joinEvidence ?? TensionSlot(),
             TensionSlot());
+
+    /// <summary>Reads raw port-to-port join evidence created by <see cref="PortJoin(Carrier,IElement,IElement,IElement)"/>.</summary>
+    public static bool TryReadPortJoin(
+        Relation join,
+        out IElement incomingPort,
+        out IElement outgoingPort,
+        out IElement joinEvidence,
+        out IElement residueOrTension)
+    {
+        if (TryReadFrameElements(join, out var elements) &&
+            elements.Length == 4 &&
+            elements[0] is Relation incomingRelation &&
+            elements[1] is Relation outgoingRelation &&
+            TryReadPortConcept(incomingRelation, out _, out _, out _, out _, out _) &&
+            TryReadPortConcept(outgoingRelation, out _, out _, out _, out _, out _))
+        {
+            incomingPort = elements[0];
+            outgoingPort = elements[1];
+            joinEvidence = elements[2];
+            residueOrTension = elements[3];
+            return true;
+        }
+
+        incomingPort = default!;
+        outgoingPort = default!;
+        joinEvidence = default!;
+        residueOrTension = default!;
+        return false;
+    }
 
     /// <summary>Folds two open sections into a new current two-port composite section.</summary>
     public static Relation FoldSections(Carrier root, IElement first, IElement second) =>
@@ -510,6 +540,105 @@ public static class GraphicConceptShape
         return false;
     }
 
+    /// <summary>
+    /// Discovers a current composite concept shape from existing section/join
+    /// evidence. This does not claim original provenance; it builds a fresh
+    /// concept surface from shared ports and explicit port joins.
+    /// </summary>
+    public static bool TryDiscoverCompositeShape(IElement structure, out Relation composite)
+    {
+        if (structure is Relation existingComposite &&
+            TryReadCompositeShape(
+                existingComposite,
+                out _,
+                out _,
+                out _,
+                out _,
+                out _,
+                out _))
+        {
+            composite = existingComposite;
+            return true;
+        }
+
+        var sections = new List<DiscoveredSection>();
+        var explicitJoins = new List<IElement>();
+        CollectLocalCompositeEvidence(structure, sections, explicitJoins);
+
+        if (sections.Count == 0)
+        {
+            composite = null!;
+            return false;
+        }
+
+        if (sections.Count == 1)
+        {
+            composite = SingleSectionComposite(new Carrier(), sections[0].Source);
+            return true;
+        }
+
+        var endpoints = sections
+            .SelectMany(section => new[]
+            {
+                new EndpointUse(section, section.StartPort),
+                new EndpointUse(section, section.EndPort)
+            })
+            .ToArray();
+        var consumedPorts = new HashSet<IElement>(ElementReferenceComparer.Instance);
+        var internalJoins = new List<IElement>();
+
+        foreach (var explicitJoin in explicitJoins)
+        {
+            internalJoins.Add(explicitJoin);
+            if (explicitJoin is Relation joinRelation &&
+                TryReadPortJoin(joinRelation, out var incomingPort, out var outgoingPort, out _, out _))
+            {
+                consumedPorts.Add(incomingPort);
+                consumedPorts.Add(outgoingPort);
+            }
+        }
+
+        foreach (var group in endpoints.GroupBy(endpoint => endpoint.Port, ElementReferenceComparer.Instance))
+        {
+            var uses = group.ToArray();
+            if (uses.Length < 2)
+            {
+                continue;
+            }
+
+            consumedPorts.Add(group.Key);
+            internalJoins.Add(SharedPortJoin(group.Key, uses.Select(use => use.Section.Source).ToArray()));
+        }
+
+        var exposedPorts = endpoints
+            .Where(endpoint => !consumedPorts.Contains(endpoint.Port))
+            .Select(endpoint => endpoint.Port)
+            .Distinct(ElementReferenceComparer.Instance)
+            .ToArray();
+        var lowerStructure = structure ?? Frame(new Carrier(), sections.Select(section => section.Source).ToArray());
+        var joinFrame = Frame(new Carrier(), [.. internalJoins]);
+
+        composite = exposedPorts.Length == 2
+            ? CompositeSection(
+                new Carrier(),
+                exposedPorts[0],
+                Frame(new Carrier(), lowerStructure, joinFrame, TensionSlot()),
+                exposedPorts[1],
+                lowerStructure,
+                internalJoins,
+                TensionSlot(),
+                TensionSlot())
+            : JunctionShape(
+                new Carrier(),
+                exposedPorts,
+                lowerStructure,
+                joinFrame,
+                internalJoins,
+                TensionSlot(),
+                TensionSlot());
+        return true;
+    }
+
     /// <summary>Creates unresolved opposed-face residue/tension.</summary>
     public static Relation TensionSlot()
     {
@@ -610,6 +739,64 @@ public static class GraphicConceptShape
             TensionSlot(),
             TensionSlot());
     }
+
+    private static void CollectLocalCompositeEvidence(
+        IElement structure,
+        List<DiscoveredSection> sections,
+        List<IElement> explicitJoins)
+    {
+        if (structure is not Relation relation)
+        {
+            return;
+        }
+
+        if (TryReadFrameElements(relation, out var elements))
+        {
+            var directSections = new List<DiscoveredSection>();
+            var directJoins = new List<IElement>();
+            foreach (var element in elements)
+            {
+                if (element is not Relation child)
+                {
+                    continue;
+                }
+
+                if (TryReadSectionConcept(child, out var childStartPort, out _, out var childEndPort, out _))
+                {
+                    directSections.Add(new DiscoveredSection(child, childStartPort, childEndPort));
+                }
+                else if (TryReadPortJoin(child, out _, out _, out _, out _))
+                {
+                    directJoins.Add(child);
+                }
+            }
+
+            if (directSections.Count > 0 || directJoins.Count > 0)
+            {
+                sections.AddRange(directSections);
+                explicitJoins.AddRange(directJoins);
+                return;
+            }
+        }
+
+        if (TryReadSectionConcept(relation, out var startPort, out _, out var endPort, out _))
+        {
+            sections.Add(new DiscoveredSection(relation, startPort, endPort));
+            return;
+        }
+
+        if (TryReadPortJoin(relation, out _, out _, out _, out _))
+        {
+            explicitJoins.Add(relation);
+        }
+    }
+
+    private static Relation SharedPortJoin(IElement sharedPort, IReadOnlyList<IElement> participants) =>
+        Frame(
+            new Carrier(),
+            sharedPort ?? TensionSlot(),
+            Frame(new Carrier(), participants?.ToArray() ?? []),
+            TensionSlot());
 
     private static Relation JunctionFromDirectedSections(IElement primary, IReadOnlyList<IElement> secondary, bool merge)
     {
@@ -744,4 +931,21 @@ public static class GraphicConceptShape
     }
 
     private static Carrier RootOrNew(Carrier root) => root ?? new Carrier();
+
+    private sealed record DiscoveredSection(IElement Source, IElement StartPort, IElement EndPort);
+
+    private sealed record EndpointUse(DiscoveredSection Section, IElement Port);
+
+    private sealed class ElementReferenceComparer : IEqualityComparer<IElement>
+    {
+        public static readonly ElementReferenceComparer Instance = new();
+
+        private ElementReferenceComparer()
+        {
+        }
+
+        public bool Equals(IElement? x, IElement? y) => ReferenceEquals(x, y);
+
+        public int GetHashCode(IElement obj) => RuntimeHelpers.GetHashCode(obj);
+    }
 }

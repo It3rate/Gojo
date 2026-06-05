@@ -79,6 +79,30 @@ available for replay, history, and structural ladders. A later crystallization
 step may choose to forget that provenance, but this structural concept layer
 keeps it by default.
 
+## Discovery From Completed Structure
+
+Construction is not the only way to get a concept shape. A finished structure
+can also be inspected and folded into a fresh current concept surface.
+
+`TryDiscoverCompositeShape` currently verifies this first step. It reads local
+section concepts and looks for:
+
+- shared endpoint port references
+- explicit `PortJoin` evidence
+- existing composite shapes
+
+From that evidence it creates a new `CompositeSection` or `JunctionShape`. The
+new surface has lower structure and interior joins, but its previous-rung slot
+is unresolved tension unless real provenance was present. This is intentional:
+discovery should not pretend to know the edit history.
+
+This is the path for importing completed geometry. For example, an SVG adapter
+can convert path endpoints and curve pieces into Gojo ports/sections first.
+Then discovery can infer joins, exposed ports, and junctions from the resulting
+Gojo structure. Later reads can extend the same pattern to tangent continuity,
+closed boundaries, area/anti-area, branch/merge direction, and curve-family
+evidence.
+
 `Elaborate` creates a compact higher-rung shape by keeping the lower rung,
 adding evidence, and preserving unresolved residue. `ElaborationLadder` records
 the same move as a structural ladder rung, so the lower and higher structures

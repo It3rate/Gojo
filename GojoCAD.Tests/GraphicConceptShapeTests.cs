@@ -179,6 +179,104 @@ public sealed class GraphicConceptShapeTests
     }
 
     [Fact]
+    public void DiscoveryCreatesCompositeSectionFromRawSharedPortChain()
+    {
+        var start = GraphicConceptShape.Port(new Carrier());
+        var middle = GraphicConceptShape.Port(new Carrier());
+        var end = GraphicConceptShape.Port(new Carrier());
+        var first = GraphicConceptShape.Section(new Carrier(), start, GraphicConceptShape.TensionSlot(), middle);
+        var second = GraphicConceptShape.Section(new Carrier(), middle, GraphicConceptShape.TensionSlot(), end);
+        var completedShape = GraphicConceptShape.Frame(new Carrier(), first, second);
+
+        Assert.True(GraphicConceptShape.TryDiscoverCompositeShape(completedShape, out var composite));
+
+        Assert.True(GraphicConceptShape.TryReadCompositeShape(
+            composite,
+            out var exposedPorts,
+            out var visibleSurface,
+            out var lowerStructure,
+            out var internalJoins,
+            out var previousRung,
+            out _));
+        Assert.Equal(2, exposedPorts.Length);
+        Assert.Same(start, exposedPorts[0]);
+        Assert.Same(end, exposedPorts[1]);
+        Assert.Single(internalJoins);
+        Assert.Contains(Walk(lowerStructure), element => ReferenceEquals(element, completedShape));
+        Assert.Contains(Walk(previousRung), element => element is Placeholder);
+        Assert.True(GraphicConceptShape.TryReadSectionConcept(
+            Assert.IsType<Relation>(visibleSurface),
+            out var readStart,
+            out _,
+            out var readEnd,
+            out _));
+        Assert.Same(start, readStart);
+        Assert.Same(end, readEnd);
+    }
+
+    [Fact]
+    public void DiscoveryCreatesJunctionShapeFromRawThreeWaySharedPort()
+    {
+        var center = GraphicConceptShape.Port(new Carrier());
+        var top = GraphicConceptShape.Port(new Carrier());
+        var left = GraphicConceptShape.Port(new Carrier());
+        var right = GraphicConceptShape.Port(new Carrier());
+        var vertical = GraphicConceptShape.Section(new Carrier(), top, GraphicConceptShape.TensionSlot(), center);
+        var leftArm = GraphicConceptShape.Section(new Carrier(), center, GraphicConceptShape.TensionSlot(), left);
+        var rightArm = GraphicConceptShape.Section(new Carrier(), center, GraphicConceptShape.TensionSlot(), right);
+        var completedShape = GraphicConceptShape.Frame(new Carrier(), vertical, leftArm, rightArm);
+
+        Assert.True(GraphicConceptShape.TryDiscoverCompositeShape(completedShape, out var junction));
+
+        Assert.True(GraphicConceptShape.TryReadCompositeShape(
+            junction,
+            out var exposedPorts,
+            out _,
+            out var lowerStructure,
+            out var internalJoins,
+            out _,
+            out _));
+        Assert.Equal(3, exposedPorts.Length);
+        Assert.Contains(top, exposedPorts);
+        Assert.Contains(left, exposedPorts);
+        Assert.Contains(right, exposedPorts);
+        Assert.Single(internalJoins);
+        Assert.DoesNotContain(center, exposedPorts);
+        Assert.Contains(Walk(lowerStructure), element => ReferenceEquals(element, vertical));
+        Assert.Contains(Walk(lowerStructure), element => ReferenceEquals(element, leftArm));
+        Assert.Contains(Walk(lowerStructure), element => ReferenceEquals(element, rightArm));
+    }
+
+    [Fact]
+    public void DiscoveryUsesExplicitPortJoinWhenPortsAreNotSharedByReference()
+    {
+        var start = GraphicConceptShape.Port(new Carrier());
+        var firstEnd = GraphicConceptShape.Port(new Carrier());
+        var secondStart = GraphicConceptShape.Port(new Carrier());
+        var end = GraphicConceptShape.Port(new Carrier());
+        var first = GraphicConceptShape.Section(new Carrier(), start, GraphicConceptShape.TensionSlot(), firstEnd);
+        var second = GraphicConceptShape.Section(new Carrier(), secondStart, GraphicConceptShape.TensionSlot(), end);
+        var join = GraphicConceptShape.PortJoin(new Carrier(), firstEnd, secondStart);
+        var completedShape = GraphicConceptShape.Frame(new Carrier(), first, second, join);
+
+        Assert.True(GraphicConceptShape.TryDiscoverCompositeShape(completedShape, out var composite));
+
+        Assert.True(GraphicConceptShape.TryReadCompositeShape(
+            composite,
+            out var exposedPorts,
+            out _,
+            out _,
+            out var internalJoins,
+            out _,
+            out _));
+        Assert.Equal(2, exposedPorts.Length);
+        Assert.Same(start, exposedPorts[0]);
+        Assert.Same(end, exposedPorts[1]);
+        Assert.Single(internalJoins);
+        Assert.Same(join, internalJoins[0]);
+    }
+
+    [Fact]
     public void BoundaryAreaAndThicknessAreLadderLikeElaborations()
     {
         var path = GraphicConceptShape.OpenPath(
