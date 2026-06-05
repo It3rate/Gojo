@@ -3,6 +3,7 @@
   <Project Path="Gojo.Tests/Gojo.Tests.csproj" />
   <Project Path="GojoCAD/GojoCAD.csproj" />
   <Project Path="GojoCAD.Tests/GojoCAD.Tests.csproj" />
+  <Project Path="GojoCAD.SketchViewer/GojoCAD.SketchViewer.csproj" />
   <Project Path="GojoDraw/GojoDraw.csproj" />
   <Project Path="GojoDraw.Visualizer/GojoDraw.Visualizer.csproj" />
 </Solution>
