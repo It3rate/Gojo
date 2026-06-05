@@ -5,6 +5,7 @@ using Avalonia.Layout;
 using Avalonia.Media;
 using Gojo.Core;
 using Gojo.Structures;
+using GojoCAD.Structures;
 
 namespace GojoCAD.SketchViewer;
 
@@ -109,6 +110,60 @@ internal static class Program
             {
                 throw new InvalidOperationException($"Sketch scene '{scene.Label}' has a transform step without a readable operation output.");
             }
+        }
+
+        var normalizedParameterReads = 0;
+        var templateInstances = 0;
+        foreach (var relation in WalkRelations(ladder))
+        {
+            if (GraphicParameterSurface.TryReadNormalizedValue(
+                    relation,
+                    out _,
+                    out _,
+                    out _,
+                    out _,
+                    out _,
+                    out _,
+                    out _,
+                    out _))
+            {
+                normalizedParameterReads++;
+            }
+
+            if (GraphicParameterSurface.TryReadTemplateInstance(
+                    relation,
+                    out _,
+                    out _,
+                    out _,
+                    out _))
+            {
+                templateInstances++;
+            }
+        }
+
+        if (normalizedParameterReads < 12 || templateInstances < 6)
+        {
+            throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not preserve parameterized template evidence.");
+        }
+    }
+
+    private static IEnumerable<Relation> WalkRelations(IElement element)
+    {
+        if (element is not Relation relation)
+        {
+            yield break;
+        }
+
+        yield return relation;
+
+        foreach (var child in WalkRelations(relation.Left))
+        {
+            yield return child;
+        }
+
+        foreach (var child in WalkRelations(relation.Right))
+        {
+            yield return child;
         }
     }
 }

@@ -130,3 +130,23 @@ Most of this structure is intentionally ambiguous. The ambiguity is represented
 as placeholder/tension structure so a later reader can settle a concrete line,
 arc, tangent, branch, or area without pretending the current rung already knows
 coordinates or curve parameters.
+
+## Parameter Surfaces
+
+`GraphicParameterSurface` is the first parameterization layer for these graphic
+structures. It still builds ordinary Gojo relation structure rather than a
+code-side parameter bag.
+
+`NormalizedValue` records a reusable 0..scale parameter on a basis surface. The
+surface keeps both a coarse parameter/result and a refined parameter/result,
+plus a `ResolutionLadder` so the read can distinguish rough placement from
+later detail. The scale does not need to be decimal; the ladder levels carry
+whatever ratios the structure supplies.
+
+`TemplateInstance` records that a concrete result came from a reusable template
+under a binding frame. The read requires real placeholder/descriptor slots and
+bindings for those slots, so it is not just a four-field wrapper. In the
+SketchViewer house ladder, the three tree leaf blobs are instances of one leaf
+template. Their centers and radii are normalized parameters over local basis
+spans; the earlier tree crown rung uses coarse circular instances, and the
+later rung uses refined blob instances.

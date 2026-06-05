@@ -1,5 +1,6 @@
 using Gojo.Core;
 using Gojo.Structures;
+using GojoCAD.Structures;
 using SkiaSharp;
 
 namespace GojoCAD.SketchViewer;
@@ -23,6 +24,68 @@ internal static class SketchSamples
 
         Relation P(long xTicks, long yTicks) =>
             Point(frame, x, y, xTicks, yTicks);
+
+        long Lerp(long start, long end, long ticks, long scale = 100) =>
+            start + ((end - start) * ticks / scale);
+
+        long[] DecomposeTicks(long ticks, IReadOnlyList<long> scales)
+        {
+            if (scales.Count == 0)
+            {
+                return [];
+            }
+
+            var remaining = ticks;
+            var digits = new long[scales.Count];
+            for (var index = scales.Count - 1; index >= 0; index--)
+            {
+                var scale = scales[index] == 0 ? 1 : scales[index];
+                digits[index] = remaining / scale;
+                remaining %= scale;
+            }
+
+            return digits;
+        }
+
+        long CoarseTicks(long refinedTicks, IReadOnlyList<long> scales)
+        {
+            var digits = DecomposeTicks(refinedTicks, scales);
+            var coarse = 0L;
+            for (var index = 1; index < digits.Length; index++)
+            {
+                coarse += digits[index] * scales[index];
+            }
+
+            return coarse;
+        }
+
+        Relation NormalizedValue(
+            IElement basis,
+            long refinedTicks,
+            long scaleTicks,
+            IElement coarseResult,
+            IElement refinedResult)
+        {
+            var scales = new long[] { 1, 8, 40 };
+            var digits = DecomposeTicks(refinedTicks, scales);
+            var resolution = GraphicParameterSurface.ResolutionValue(
+                new Carrier(),
+                scales,
+                digits,
+                out _,
+                out var composite);
+            return GraphicParameterSurface.NormalizedValue(
+                new Carrier(),
+                basis,
+                new Carrier(),
+                scaleTicks,
+                CoarseTicks(refinedTicks, scales),
+                composite,
+                coarseResult,
+                refinedResult,
+                resolution,
+                UnknownPoint());
+        }
 
         Relation Oval(long centerX, long centerY, long radiusX, long radiusY)
         {
@@ -272,16 +335,102 @@ internal static class SketchSamples
             P(-132, 20),
             P(-121, 11),
             P(-113, 5));
+
+        var leafCenterSlot = new Placeholder();
+        var leafRadiusXSlot = new Placeholder();
+        var leafRadiusYSlot = new Placeholder();
+        var leafTemplate = GraphicParameterSurface.Frame(
+            new Carrier(),
+            leafCenterSlot,
+            leafRadiusXSlot,
+            leafRadiusYSlot);
+        var leafCenterXBasis = GraphicStructure.FrameSegment(P(-145, 16), P(-75, 16));
+        var leafCenterYBasis = GraphicStructure.FrameSegment(P(-145, 16), P(-145, 58));
+        var leafRadiusXBasis = Relation.Segment(new Carrier(), 0, 1);
+        var leafRadiusYBasis = Relation.Segment(new Carrier(), 0, 1);
+
+        (Relation ApproxCircle, Relation Blob, Relation CircleInstance, Relation BlobInstance) LeafInstance(
+            long centerXTicks,
+            long centerYTicks,
+            long radiusXTicks,
+            long radiusYTicks)
+        {
+            const long scale = 100;
+            var coarseCenterXTicks = CoarseTicks(centerXTicks, [1, 8, 40]);
+            var coarseCenterYTicks = CoarseTicks(centerYTicks, [1, 8, 40]);
+            var coarseRadiusXTicks = CoarseTicks(radiusXTicks, [1, 8, 40]);
+            var coarseRadiusYTicks = CoarseTicks(radiusYTicks, [1, 8, 40]);
+            var coarseCenterX = Lerp(-145, -75, coarseCenterXTicks, scale);
+            var coarseCenterY = Lerp(16, 58, coarseCenterYTicks, scale);
+            var centerX = Lerp(-145, -75, centerXTicks, scale);
+            var centerY = Lerp(16, 58, centerYTicks, scale);
+            var coarseRadiusX = Lerp(10, 24, coarseRadiusXTicks, scale);
+            var coarseRadiusY = Lerp(8, 22, coarseRadiusYTicks, scale);
+            var radiusX = Lerp(10, 24, radiusXTicks, scale);
+            var radiusY = Lerp(8, 22, radiusYTicks, scale);
+            var coarseCenter = P(coarseCenterX, coarseCenterY);
+            var center = P(centerX, centerY);
+            var coarseRadiusXValue = Relation.Point(new Carrier(), coarseRadiusX);
+            var radiusXValue = Relation.Point(new Carrier(), radiusX);
+            var coarseRadiusYValue = Relation.Point(new Carrier(), coarseRadiusY);
+            var radiusYValue = Relation.Point(new Carrier(), radiusY);
+            var parameterEvidence = GraphicParameterSurface.Frame(
+                new Carrier(),
+                NormalizedValue(leafCenterXBasis, centerXTicks, scale, coarseCenter, center),
+                NormalizedValue(leafCenterYBasis, centerYTicks, scale, coarseCenter, center),
+                NormalizedValue(leafRadiusXBasis, radiusXTicks, scale, coarseRadiusXValue, radiusXValue),
+                NormalizedValue(leafRadiusYBasis, radiusYTicks, scale, coarseRadiusYValue, radiusYValue));
+            var approximateRadius = Math.Max(6, (coarseRadiusX + coarseRadiusY) / 2);
+            var approximateCircle = Circle(coarseCenterX, coarseCenterY, approximateRadius);
+            var blob = FilledLeafBlob(centerX, centerY, radiusX, radiusY);
+            var circleBindings = FocusSurface.BindingFrame(
+                new Carrier(),
+                FocusSurface.Bind(leafCenterSlot, coarseCenter),
+                FocusSurface.Bind(leafRadiusXSlot, coarseRadiusXValue),
+                FocusSurface.Bind(leafRadiusYSlot, coarseRadiusYValue));
+            var blobBindings = FocusSurface.BindingFrame(
+                new Carrier(),
+                FocusSurface.Bind(leafCenterSlot, center),
+                FocusSurface.Bind(leafRadiusXSlot, radiusXValue),
+                FocusSurface.Bind(leafRadiusYSlot, radiusYValue));
+            var circleInstance = GraphicParameterSurface.TemplateInstance(
+                new Carrier(),
+                leafTemplate,
+                circleBindings,
+                approximateCircle,
+                parameterEvidence);
+            var blobInstance = GraphicParameterSurface.TemplateInstance(
+                new Carrier(),
+                leafTemplate,
+                blobBindings,
+                blob,
+                parameterEvidence);
+            return (approximateCircle, blob, circleInstance, blobInstance);
+        }
+
+        var leftLeaf = LeafInstance(21, 31, 50, 50);
+        var crownLeaf = LeafInstance(53, 60, 64, 64);
+        var rightLeaf = LeafInstance(83, 36, 50, 50);
+        var leafRegionEvidence = GraphicParameterSurface.Frame(
+            new Carrier(),
+            leftLeaf.CircleInstance,
+            crownLeaf.CircleInstance,
+            rightLeaf.CircleInstance);
+        var leafBlobEvidence = GraphicParameterSurface.Frame(
+            new Carrier(),
+            leftLeaf.BlobInstance,
+            crownLeaf.BlobInstance,
+            rightLeaf.BlobInstance);
         var treeLeafRegions = Chain(
             treeWoodMerged,
-            Circle(-128, 29, 15),
-            Circle(-108, 39, 17),
-            Circle(-88, 30, 15));
+            leftLeaf.ApproxCircle,
+            crownLeaf.ApproxCircle,
+            rightLeaf.ApproxCircle);
         var treeFluffy = Chain(
             treeWoodMerged,
-            FilledLeafBlob(-130, 29, 17, 15),
-            FilledLeafBlob(-108, 41, 19, 17),
-            FilledLeafBlob(-87, 31, 17, 15));
+            leftLeaf.Blob,
+            crownLeaf.Blob,
+            rightLeaf.Blob);
 
         var horizonState = horizon;
         var houseBoxState = Chain(horizon, houseBox);
@@ -322,10 +471,10 @@ internal static class SketchSamples
         var treeWoodMergeStep = RefinedRung(treeBranchThickState, treeWoodThick, treeWoodThick, Chain(horizon, houseWithOverhang, cloudOval, archedDoor, windowRectangle), treeWoodMerged, treeWoodMergedState);
         var windowPlusStep = RefinedRung(treeWoodMergedState, windowRectangle, windowRectangle, Chain(horizon, houseWithOverhang, cloudOval, treeWoodMerged, archedDoor), windowPlus, windowPlusState);
         var windowRefineStep = RefinedRung(windowPlusState, windowRectangle, windowPlus, Chain(horizon, houseWithOverhang, cloudOval, treeWoodMerged, archedDoor), roundedWindowPlus, windowRefinedState);
-        var treeRegionStep = RefinedRung(windowRefinedState, treeBall, treeWoodMerged, Chain(horizon, houseWithOverhang, cloudOval, archedDoor, roundedWindowPlus), treeLeafRegions, treeRegionsState);
+        var treeRegionStep = RefinedRung(windowRefinedState, treeBall, treeWoodMerged, Chain(horizon, houseWithOverhang, cloudOval, archedDoor, roundedWindowPlus), treeLeafRegions, treeRegionsState, leafRegionEvidence);
         var cloudRefineStep = RefinedRung(treeRegionsState, cloudOval, cloudOval, Chain(horizon, houseWithOverhang, treeLeafRegions, archedDoor, roundedWindowPlus), cloudOutline, cloudRefinedState);
         var chimneyBodyStep = RefinedRung(cloudRefinedState, roofOverhang, roofOverhang, cloudRefinedState, chimneyBody, chimneyBodyState);
-        var treeFluffyStep = RefinedRung(chimneyBodyState, treeLeafRegions, treeLeafRegions, Chain(horizon, houseWithOverhang, cloudOutline, archedDoor, roundedWindowPlus, chimneyBody), treeFluffy, treeFluffyState);
+        var treeFluffyStep = RefinedRung(chimneyBodyState, treeLeafRegions, treeLeafRegions, Chain(horizon, houseWithOverhang, cloudOutline, archedDoor, roundedWindowPlus, chimneyBody), treeFluffy, treeFluffyState, leafBlobEvidence);
         var chimneyCapStep = RefinedRung(treeFluffyState, chimneyBody, chimneyBody, Chain(horizon, houseWithOverhang, cloudOutline, treeFluffy, archedDoor, roundedWindowPlus), chimneyWithCap, chimneyCapState);
         var doorKnobStep = RefinedRung(chimneyCapState, doorKnob, doorKnob, chimneyCapState, doorKnob, finalSketch);
         var sketchRungs = new[]
@@ -419,7 +568,8 @@ internal static class SketchSamples
         IElement participation,
         IElement complement,
         IElement replacement,
-        IElement result)
+        IElement result,
+        IElement? parameterEvidence = null)
     {
         var correspondence = FocusSurface.BindingFrame(
             new Carrier(),
@@ -446,7 +596,8 @@ internal static class SketchSamples
             TransformSurface.Remove(selectedPort),
             TransformSurface.Carry(carryPort, carryPort),
             TransformSurface.Map(selectedPort, replacementPort),
-            operation);
+            operation,
+            parameterEvidence ?? UnknownPoint());
         var transform = TransformSurface.Create(
             new Carrier(),
             TransformSurface.Ports(new Carrier(), selectedPort, carryPort, replacementPort),
@@ -469,7 +620,7 @@ internal static class SketchSamples
                 bindings,
                 result,
                 UnknownPoint(),
-                UnknownPoint(),
+                parameterEvidence ?? UnknownPoint(),
                 out var application))
         {
             throw new InvalidOperationException("Generated sketch refinement did not create a transform application.");
