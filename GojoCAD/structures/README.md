@@ -171,3 +171,12 @@ as zero for the body rung and positive for the capped rung. These are still
 ordinary structural ladder transitions: the drawn result is concrete, while the
 application provenance keeps the normalized parameter and template evidence
 available for reads and replay.
+
+The SketchViewer house sample has begun using those basis surfaces as
+construction anchors too. The horizon, wall spans, roof overhang, chimney foot,
+tree root, tree junction, and branch tips are derived from local 0..1-ish basis
+spans before they are rendered. The tree split/curve/thickening/merge rungs now
+carry a reusable topology template with normalized root, junction, branch-tip,
+and crown-center evidence. This is still sample-side calculation for concrete
+pixels, but the corresponding Gojo structure records the basis and parameter
+surfaces needed for later replay or replacement.

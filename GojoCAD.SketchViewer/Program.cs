@@ -141,7 +141,7 @@ internal static class Program
             }
         }
 
-        if (normalizedParameterReads < 27 || templateInstances < 14)
+        if (normalizedParameterReads < 35 || templateInstances < 18)
         {
             throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not preserve parameterized template evidence.");
         }

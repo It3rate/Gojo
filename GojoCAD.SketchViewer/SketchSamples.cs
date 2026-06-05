@@ -49,6 +49,73 @@ internal static class SketchSamples
                 refinedResult,
                 UnknownPoint());
 
+        (Relation Point, long X, long Y) Site(long xTicks, long yTicks) =>
+            (P(xTicks, yTicks), xTicks, yTicks);
+
+        (
+            Relation Start,
+            Relation End,
+            Relation Span,
+            long StartX,
+            long StartY,
+            long EndX,
+            long EndY) BasisSpan(long startX, long startY, long endX, long endY)
+        {
+            var start = Site(startX, startY);
+            var end = Site(endX, endY);
+            return (
+                start.Point,
+                end.Point,
+                GraphicStructure.FrameSegment(start.Point, end.Point),
+                start.X,
+                start.Y,
+                end.X,
+                end.Y);
+        }
+
+        (Relation Point, long X, long Y) PointOnSpan(
+            (
+                Relation Start,
+                Relation End,
+                Relation Span,
+                long StartX,
+                long StartY,
+                long EndX,
+                long EndY) span,
+            long ticks,
+            long scale = 100)
+        {
+            var xTicks = Lerp(span.StartX, span.EndX, ticks, scale);
+            var yTicks = Lerp(span.StartY, span.EndY, ticks, scale);
+            return Site(xTicks, yTicks);
+        }
+
+        (Relation Point, long X, long Y) PointFromAxes(
+            (
+                Relation Start,
+                Relation End,
+                Relation Span,
+                long StartX,
+                long StartY,
+                long EndX,
+                long EndY) xBasis,
+            long xTicks,
+            (
+                Relation Start,
+                Relation End,
+                Relation Span,
+                long StartX,
+                long StartY,
+                long EndX,
+                long EndY) yBasis,
+            long yTicks,
+            long scale = 100)
+        {
+            var xPoint = PointOnSpan(xBasis, xTicks, scale);
+            var yPoint = PointOnSpan(yBasis, yTicks, scale);
+            return Site(xPoint.X, yPoint.Y);
+        }
+
         Relation Oval(long centerX, long centerY, long radiusX, long radiusY)
         {
             var left = P(centerX - radiusX, centerY);
@@ -154,15 +221,27 @@ internal static class SketchSamples
                 GraphicStructure.FrameSegment(upperRightPoint, upperLeftPoint),
                 GraphicStructure.FrameSegment(upperLeftPoint, lowerLeftPoint));
 
-        var horizon = GraphicStructure.FrameSegment(P(-148, -30), P(134, -30));
-        var lowerLeft = P(-52, -30);
-        var lowerRight = P(52, -30);
-        var upperRight = P(52, 8);
-        var upperLeft = P(-52, 8);
-        var roofApex = P(0, 40);
-        var roofOverhangLeft = P(-65, 8);
-        var roofOverhangApex = P(0, 48);
-        var roofOverhangRight = P(65, 8);
+        var horizonBasis = BasisSpan(-148, -30, 134, -30);
+        var horizon = horizonBasis.Span;
+        var houseBottomBasis = BasisSpan(-52, -30, 52, -30);
+        var houseLeftBasis = BasisSpan(-52, -30, -52, 8);
+        var houseRightBasis = BasisSpan(52, -30, 52, 8);
+        var lowerLeft = houseBottomBasis.Start;
+        var lowerRight = houseBottomBasis.End;
+        var upperLeft = houseLeftBasis.End;
+        var upperRight = houseRightBasis.End;
+        var roofApexSite = PointOnSpan(BasisSpan(-52, 8, 52, 8), 50);
+        var roofApex = P(roofApexSite.X, roofApexSite.Y + 32);
+        const long roofExtensionTicks = 13;
+        const long roofLiftTicks = 8;
+        var roofOverhangLeft = P(-52 - roofExtensionTicks, 8);
+        var roofOverhangApex = P(roofApexSite.X, roofApexSite.Y + 32 + roofLiftTicks);
+        var roofOverhangRight = P(52 + roofExtensionTicks, 8);
+        var roofRightOverhangBasis = BasisSpan(
+            roofApexSite.X,
+            roofApexSite.Y + 32 + roofLiftTicks,
+            52 + roofExtensionTicks,
+            8);
         var houseBoxTop = GraphicStructure.FrameSegment(upperRight, upperLeft);
         var houseBox = Chain(
             GraphicStructure.FrameSegment(lowerLeft, lowerRight),
@@ -191,13 +270,18 @@ internal static class SketchSamples
             roofOverhang,
             GraphicParameterSurface.Frame(
                 new Carrier(),
-                ParameterValue(houseBoxTop, 13, 100, houseBoxTop, roofOverhang),
-                ParameterValue(GraphicStructure.FrameSegment(upperLeft, P(-52, 58)), 16, 100, houseRoof, roofOverhang)),
-            FocusSurface.Bind(roofExtensionSlot, Relation.Point(new Carrier(), 13)),
-            FocusSurface.Bind(roofLiftSlot, Relation.Point(new Carrier(), 8)));
+                ParameterValue(houseBoxTop, roofExtensionTicks, 100, houseBoxTop, roofOverhang),
+                ParameterValue(
+                    BasisSpan(roofApexSite.X, roofApexSite.Y + 32, roofApexSite.X, roofApexSite.Y + 82).Span,
+                    roofLiftTicks,
+                    100,
+                    houseRoof,
+                    roofOverhang)),
+            FocusSurface.Bind(roofExtensionSlot, Relation.Point(new Carrier(), roofExtensionTicks)),
+            FocusSurface.Bind(roofLiftSlot, Relation.Point(new Carrier(), roofLiftTicks)));
 
-        var wallXBasis = GraphicStructure.FrameSegment(lowerLeft, lowerRight);
-        var wallYBasis = GraphicStructure.FrameSegment(lowerLeft, upperLeft);
+        var wallXBasis = houseBottomBasis.Span;
+        var wallYBasis = houseLeftBasis.Span;
         var doorTemplateCenterSlot = new Placeholder();
         var doorTemplateWidthSlot = new Placeholder();
         var doorTemplateHeightSlot = new Placeholder();
@@ -208,13 +292,12 @@ internal static class SketchSamples
             doorTemplateHeightSlot);
         const long doorCenterXTicks = 50;
         const long doorCenterYTicks = 29;
-        var doorCenterX = Lerp(-52, 52, doorCenterXTicks);
-        var doorCenterY = Lerp(-30, 8, doorCenterYTicks);
-        var doorCoarseCenterX = Lerp(-52, 52, CoarseTicks(doorCenterXTicks));
-        var doorCoarseCenterY = Lerp(-30, 8, CoarseTicks(doorCenterYTicks));
-        var doorCenter = P(doorCenterX, doorCenterY);
-        var doorCoarseXPoint = P(doorCoarseCenterX, doorCenterY);
-        var doorCoarseYPoint = P(doorCenterX, doorCoarseCenterY);
+        var doorCenterSite = PointFromAxes(houseBottomBasis, doorCenterXTicks, houseLeftBasis, doorCenterYTicks);
+        var doorCoarseXSite = PointFromAxes(houseBottomBasis, CoarseTicks(doorCenterXTicks), houseLeftBasis, doorCenterYTicks);
+        var doorCoarseYSite = PointFromAxes(houseBottomBasis, doorCenterXTicks, houseLeftBasis, CoarseTicks(doorCenterYTicks));
+        var doorCenter = doorCenterSite.Point;
+        var doorCoarseXPoint = doorCoarseXSite.Point;
+        var doorCoarseYPoint = doorCoarseYSite.Point;
         var doorWidth = Relation.Point(new Carrier(), 28);
         var doorCoarseWidth = Relation.Point(new Carrier(), 20);
         var doorHeight = Relation.Point(new Carrier(), 22);
@@ -268,13 +351,12 @@ internal static class SketchSamples
         var windowUpperLeft = P(22, 6);
         const long windowCenterXTicks = 81;
         const long windowCenterYTicks = 68;
-        var windowCenterX = Lerp(-52, 52, windowCenterXTicks);
-        var windowCenterY = Lerp(-30, 8, windowCenterYTicks);
-        var windowCoarseCenterX = Lerp(-52, 52, CoarseTicks(windowCenterXTicks));
-        var windowCoarseCenterY = Lerp(-30, 8, CoarseTicks(windowCenterYTicks));
-        var windowCenter = P(windowCenterX, windowCenterY);
-        var windowCoarseXPoint = P(windowCoarseCenterX, windowCenterY);
-        var windowCoarseYPoint = P(windowCenterX, windowCoarseCenterY);
+        var windowCenterSite = PointFromAxes(houseBottomBasis, windowCenterXTicks, houseLeftBasis, windowCenterYTicks);
+        var windowCoarseXSite = PointFromAxes(houseBottomBasis, CoarseTicks(windowCenterXTicks), houseLeftBasis, windowCenterYTicks);
+        var windowCoarseYSite = PointFromAxes(houseBottomBasis, windowCenterXTicks, houseLeftBasis, CoarseTicks(windowCenterYTicks));
+        var windowCenter = windowCenterSite.Point;
+        var windowCoarseXPoint = windowCoarseXSite.Point;
+        var windowCoarseYPoint = windowCoarseYSite.Point;
         var windowWidth = Relation.Point(new Carrier(), 20);
         var windowCoarseWidth = Relation.Point(new Carrier(), 16);
         var windowHeight = Relation.Point(new Carrier(), 20);
@@ -333,10 +415,17 @@ internal static class SketchSamples
             FocusSurface.Bind(windowTemplateHeightSlot, windowHeight),
             FocusSurface.Bind(windowTemplateCornerSlot, windowCornerRadius));
 
-        var chimneyLowerLeft = P(14, 39);
-        var chimneyLowerRight = P(26, 32);
-        var chimneyUpperRight = P(26, 51);
-        var chimneyUpperLeft = P(14, 51);
+        const long chimneyBaseLeftTicks = 22;
+        const long chimneyBaseRightTicks = 40;
+        const long chimneyTopY = 51;
+        var chimneyBaseLeftSite = PointOnSpan(roofRightOverhangBasis, chimneyBaseLeftTicks);
+        var chimneyBaseRightSite = PointOnSpan(roofRightOverhangBasis, chimneyBaseRightTicks);
+        var chimneyBaseLeftCoarseSite = PointOnSpan(roofRightOverhangBasis, CoarseTicks(chimneyBaseLeftTicks));
+        var chimneyBaseRightCoarseSite = PointOnSpan(roofRightOverhangBasis, CoarseTicks(chimneyBaseRightTicks));
+        var chimneyLowerLeft = chimneyBaseLeftSite.Point;
+        var chimneyLowerRight = chimneyBaseRightSite.Point;
+        var chimneyUpperRight = P(chimneyBaseRightSite.X, chimneyTopY);
+        var chimneyUpperLeft = P(chimneyBaseLeftSite.X, chimneyTopY);
         var chimneyBody = Chain(
             GraphicStructure.FrameSegment(chimneyLowerLeft, chimneyLowerRight),
             GraphicStructure.FrameSegment(chimneyLowerRight, chimneyUpperRight),
@@ -357,8 +446,11 @@ internal static class SketchSamples
             chimneyWidthSlot,
             chimneyHeightSlot,
             chimneyCapRiseSlot);
-        var chimneyCenter = P(20, 42);
-        var chimneyCoarseCenter = P(13, 39);
+        const long chimneyCenterTicks = 31;
+        var chimneyCenterOnRoof = PointOnSpan(roofRightOverhangBasis, chimneyCenterTicks);
+        var chimneyCoarseCenterOnRoof = PointOnSpan(roofRightOverhangBasis, CoarseTicks(chimneyCenterTicks));
+        var chimneyCenter = P(chimneyCenterOnRoof.X, 42);
+        var chimneyCoarseCenter = P(chimneyCoarseCenterOnRoof.X, chimneyCoarseCenterOnRoof.Y);
         var chimneyWidth = Relation.Point(new Carrier(), 12);
         var chimneyCoarseWidth = Relation.Point(new Carrier(), 8);
         var chimneyHeight = Relation.Point(new Carrier(), 19);
@@ -367,7 +459,9 @@ internal static class SketchSamples
         var chimneyNoCapRise = Relation.Point(new Carrier(), 0);
         var chimneyEvidence = GraphicParameterSurface.Frame(
             new Carrier(),
-            ParameterValue(roofOverhang, 54, 100, chimneyCoarseCenter, chimneyCenter),
+            ParameterValue(roofRightOverhangBasis.Span, chimneyCenterTicks, 100, chimneyCoarseCenter, chimneyCenter),
+            ParameterValue(roofRightOverhangBasis.Span, chimneyBaseLeftTicks, 100, chimneyBaseLeftCoarseSite.Point, chimneyLowerLeft),
+            ParameterValue(roofRightOverhangBasis.Span, chimneyBaseRightTicks, 100, chimneyBaseRightCoarseSite.Point, chimneyLowerRight),
             ParameterValue(Relation.Segment(new Carrier(), 0, 1), 36, 100, chimneyCoarseWidth, chimneyWidth),
             ParameterValue(Relation.Segment(new Carrier(), 0, 1), 48, 100, chimneyCoarseHeight, chimneyHeight),
             ParameterValue(Relation.Segment(new Carrier(), 0, 1), 28, 100, chimneyNoCapRise, chimneyCapRise));
@@ -394,13 +488,29 @@ internal static class SketchSamples
         var cloudOval = Oval(84, 48, 24, 11);
         var cloudOutline = Cloudlet(58, 48);
 
-        var treeRoot = P(-108, -30);
-        var treeTop = P(-108, 8);
-        var treeJunction = P(-108, 4);
-        var treeLeftTip = P(-128, 22);
-        var treeRightTip = P(-88, 23);
-        var treeTrunkLine = GraphicStructure.FrameSegment(treeRoot, treeTop);
-        var treeBall = Circle(-108, 24, 17);
+        const long treeRootTicks = 14;
+        const long treeJunctionTicks = 89;
+        const long treeLeftTipXTicks = 24;
+        const long treeLeftTipYTicks = 14;
+        const long treeRightTipXTicks = 81;
+        const long treeRightTipYTicks = 17;
+        const long treeBallCenterXTicks = 53;
+        const long treeBallCenterYTicks = 20;
+        var treeRootSite = PointOnSpan(horizonBasis, treeRootTicks);
+        var treeTrunkBasis = BasisSpan(treeRootSite.X, treeRootSite.Y, treeRootSite.X, treeRootSite.Y + 38);
+        var treeRoot = treeRootSite.Point;
+        var treeTop = treeTrunkBasis.End;
+        var treeJunctionSite = PointOnSpan(treeTrunkBasis, treeJunctionTicks);
+        var treeJunction = treeJunctionSite.Point;
+        var treeCrownXBasis = BasisSpan(-145, 16, -75, 16);
+        var treeCrownYBasis = BasisSpan(-145, 16, -145, 58);
+        var treeLeftTipSite = PointFromAxes(treeCrownXBasis, treeLeftTipXTicks, treeCrownYBasis, treeLeftTipYTicks);
+        var treeRightTipSite = PointFromAxes(treeCrownXBasis, treeRightTipXTicks, treeCrownYBasis, treeRightTipYTicks);
+        var treeBallCenter = PointFromAxes(treeCrownXBasis, treeBallCenterXTicks, treeCrownYBasis, treeBallCenterYTicks);
+        var treeLeftTip = treeLeftTipSite.Point;
+        var treeRightTip = treeRightTipSite.Point;
+        var treeTrunkLine = treeTrunkBasis.Span;
+        var treeBall = Circle(treeBallCenter.X, treeBallCenter.Y, 17);
         var treeLineBall = Chain(treeTrunkLine, treeBall);
         var treeBranches = Chain(
             treeTrunkLine,
@@ -457,6 +567,101 @@ internal static class SketchSamples
             P(-132, 20),
             P(-121, 11),
             P(-113, 5));
+
+        var treeRootSlot = new Placeholder();
+        var treeJunctionSlot = new Placeholder();
+        var treeLeftTipSlot = new Placeholder();
+        var treeRightTipSlot = new Placeholder();
+        var treeCrownCenterSlot = new Placeholder();
+        var treeTopologyTemplate = GraphicParameterSurface.Frame(
+            new Carrier(),
+            treeRootSlot,
+            treeJunctionSlot,
+            treeLeftTipSlot,
+            treeRightTipSlot,
+            treeCrownCenterSlot);
+        var treeRootCoarseSite = PointOnSpan(horizonBasis, CoarseTicks(treeRootTicks));
+        var treeJunctionCoarseSite = PointOnSpan(treeTrunkBasis, CoarseTicks(treeJunctionTicks));
+        var treeLeftTipCoarseXSite = PointFromAxes(
+            treeCrownXBasis,
+            CoarseTicks(treeLeftTipXTicks),
+            treeCrownYBasis,
+            treeLeftTipYTicks);
+        var treeLeftTipCoarseYSite = PointFromAxes(
+            treeCrownXBasis,
+            treeLeftTipXTicks,
+            treeCrownYBasis,
+            CoarseTicks(treeLeftTipYTicks));
+        var treeRightTipCoarseXSite = PointFromAxes(
+            treeCrownXBasis,
+            CoarseTicks(treeRightTipXTicks),
+            treeCrownYBasis,
+            treeRightTipYTicks);
+        var treeRightTipCoarseYSite = PointFromAxes(
+            treeCrownXBasis,
+            treeRightTipXTicks,
+            treeCrownYBasis,
+            CoarseTicks(treeRightTipYTicks));
+        var treeBallCenterCoarseXSite = PointFromAxes(
+            treeCrownXBasis,
+            CoarseTicks(treeBallCenterXTicks),
+            treeCrownYBasis,
+            treeBallCenterYTicks);
+        var treeBallCenterCoarseYSite = PointFromAxes(
+            treeCrownXBasis,
+            treeBallCenterXTicks,
+            treeCrownYBasis,
+            CoarseTicks(treeBallCenterYTicks));
+        var treeTopologyEvidence = GraphicParameterSurface.Frame(
+            new Carrier(),
+            ParameterValue(horizonBasis.Span, treeRootTicks, 100, treeRootCoarseSite.Point, treeRoot),
+            ParameterValue(treeTrunkBasis.Span, treeJunctionTicks, 100, treeJunctionCoarseSite.Point, treeJunction),
+            ParameterValue(treeCrownXBasis.Span, treeLeftTipXTicks, 100, treeLeftTipCoarseXSite.Point, treeLeftTip),
+            ParameterValue(treeCrownYBasis.Span, treeLeftTipYTicks, 100, treeLeftTipCoarseYSite.Point, treeLeftTip),
+            ParameterValue(treeCrownXBasis.Span, treeRightTipXTicks, 100, treeRightTipCoarseXSite.Point, treeRightTip),
+            ParameterValue(treeCrownYBasis.Span, treeRightTipYTicks, 100, treeRightTipCoarseYSite.Point, treeRightTip),
+            ParameterValue(treeCrownXBasis.Span, treeBallCenterXTicks, 100, treeBallCenterCoarseXSite.Point, treeBallCenter.Point),
+            ParameterValue(treeCrownYBasis.Span, treeBallCenterYTicks, 100, treeBallCenterCoarseYSite.Point, treeBallCenter.Point));
+        var treeBranchesInstance = GraphicParameterSurface.TemplateInstanceFromBindings(
+            new Carrier(),
+            treeTopologyTemplate,
+            treeBranches,
+            treeTopologyEvidence,
+            FocusSurface.Bind(treeRootSlot, treeRoot),
+            FocusSurface.Bind(treeJunctionSlot, treeJunction),
+            FocusSurface.Bind(treeLeftTipSlot, treeLeftTip),
+            FocusSurface.Bind(treeRightTipSlot, treeRightTip),
+            FocusSurface.Bind(treeCrownCenterSlot, treeBallCenter.Point));
+        var treeCurvedBranchesInstance = GraphicParameterSurface.TemplateInstanceFromBindings(
+            new Carrier(),
+            treeTopologyTemplate,
+            treeCurvedBranches,
+            treeTopologyEvidence,
+            FocusSurface.Bind(treeRootSlot, treeRoot),
+            FocusSurface.Bind(treeJunctionSlot, treeJunction),
+            FocusSurface.Bind(treeLeftTipSlot, treeLeftTip),
+            FocusSurface.Bind(treeRightTipSlot, treeRightTip),
+            FocusSurface.Bind(treeCrownCenterSlot, treeBallCenter.Point));
+        var treeWoodThickInstance = GraphicParameterSurface.TemplateInstanceFromBindings(
+            new Carrier(),
+            treeTopologyTemplate,
+            treeWoodThick,
+            treeTopologyEvidence,
+            FocusSurface.Bind(treeRootSlot, treeRoot),
+            FocusSurface.Bind(treeJunctionSlot, treeJunction),
+            FocusSurface.Bind(treeLeftTipSlot, treeLeftTip),
+            FocusSurface.Bind(treeRightTipSlot, treeRightTip),
+            FocusSurface.Bind(treeCrownCenterSlot, treeBallCenter.Point));
+        var treeWoodMergedInstance = GraphicParameterSurface.TemplateInstanceFromBindings(
+            new Carrier(),
+            treeTopologyTemplate,
+            treeWoodMerged,
+            treeTopologyEvidence,
+            FocusSurface.Bind(treeRootSlot, treeRoot),
+            FocusSurface.Bind(treeJunctionSlot, treeJunction),
+            FocusSurface.Bind(treeLeftTipSlot, treeLeftTip),
+            FocusSurface.Bind(treeRightTipSlot, treeRightTip),
+            FocusSurface.Bind(treeCrownCenterSlot, treeBallCenter.Point));
 
         var leafCenterSlot = new Placeholder();
         var leafRadiusXSlot = new Placeholder();
@@ -577,14 +782,14 @@ internal static class SketchSamples
         var treeSeedStep = RefinedRung(roofState, treeRoot, treeRoot, roofState, treeLineBall, treeSeedState);
         var cloudSeedStep = RefinedRung(treeSeedState, cloudOval, cloudOval, treeSeedState, cloudOval, cloudSeedState);
         var roofOverhangStep = RefinedRung(cloudSeedState, roofOverhang, roofOverhang, cloudSeedState, roofOverhang, roofOverhangState, roofOverhangEvidence);
-        var treeSplitStep = RefinedRung(roofOverhangState, treeJunction, treeLineBall, Chain(horizon, houseWithOverhang, cloudOval), treeBranches, treeSplitState);
+        var treeSplitStep = RefinedRung(roofOverhangState, treeJunction, treeLineBall, Chain(horizon, houseWithOverhang, cloudOval), treeBranches, treeSplitState, treeBranchesInstance);
         var doorRectStep = RefinedRung(treeSplitState, doorLeftBottom, doorLeftBottom, treeSplitState, doorRectangle, doorRectState, doorRectangleInstance);
-        var treeCurveStep = RefinedRung(doorRectState, treeJunction, treeBranches, Chain(horizon, houseWithOverhang, cloudOval, doorRectangle), treeCurvedBranches, treeCurvedState);
+        var treeCurveStep = RefinedRung(doorRectState, treeJunction, treeBranches, Chain(horizon, houseWithOverhang, cloudOval, doorRectangle), treeCurvedBranches, treeCurvedState, treeCurvedBranchesInstance);
         var windowRectStep = RefinedRung(treeCurvedState, windowLowerLeft, windowLowerLeft, treeCurvedState, windowRectangle, windowRectState, windowRectangleInstance);
         var treeTrunkStep = RefinedRung(windowRectState, treeTrunkLine, treeCurvedBranches, Chain(horizon, houseWithOverhang, cloudOval, doorRectangle, windowRectangle), treeWithThickTrunk, treeTrunkState);
         var doorArchStep = RefinedRung(treeTrunkState, doorRectangle, doorRectangle, Chain(horizon, houseWithOverhang, cloudOval, treeWithThickTrunk, windowRectangle), archedDoor, doorArchState, archedDoorInstance);
-        var treeBranchThickStep = RefinedRung(doorArchState, treeJunction, treeWithThickTrunk, Chain(horizon, houseWithOverhang, cloudOval, archedDoor, windowRectangle), treeWoodThick, treeBranchThickState);
-        var treeWoodMergeStep = RefinedRung(treeBranchThickState, treeWoodThick, treeWoodThick, Chain(horizon, houseWithOverhang, cloudOval, archedDoor, windowRectangle), treeWoodMerged, treeWoodMergedState);
+        var treeBranchThickStep = RefinedRung(doorArchState, treeJunction, treeWithThickTrunk, Chain(horizon, houseWithOverhang, cloudOval, archedDoor, windowRectangle), treeWoodThick, treeBranchThickState, treeWoodThickInstance);
+        var treeWoodMergeStep = RefinedRung(treeBranchThickState, treeWoodThick, treeWoodThick, Chain(horizon, houseWithOverhang, cloudOval, archedDoor, windowRectangle), treeWoodMerged, treeWoodMergedState, treeWoodMergedInstance);
         var windowPlusStep = RefinedRung(treeWoodMergedState, windowRectangle, windowRectangle, Chain(horizon, houseWithOverhang, cloudOval, treeWoodMerged, archedDoor), windowPlus, windowPlusState, windowPlusInstance);
         var windowRefineStep = RefinedRung(windowPlusState, windowRectangle, windowPlus, Chain(horizon, houseWithOverhang, cloudOval, treeWoodMerged, archedDoor), roundedWindowPlus, windowRefinedState, roundedWindowInstance);
         var treeRegionStep = RefinedRung(windowRefinedState, treeBall, treeWoodMerged, Chain(horizon, houseWithOverhang, cloudOval, archedDoor, roundedWindowPlus), treeLeafRegions, treeRegionsState, leafRegionEvidence);
