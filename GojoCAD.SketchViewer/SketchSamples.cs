@@ -1,5 +1,4 @@
 using Gojo.Core;
-using GojoCAD.Structures;
 using SkiaSharp;
 
 namespace GojoCAD.SketchViewer;
@@ -11,126 +10,130 @@ internal static class SketchSamples
         var seed = Random.Shared.Next();
         return
         [
-            CreateSharedFrameContinuousLine(seed),
-            CreateCarrierJoinedLine(seed + 17),
-            CreateDiscoveredCompositeLine(seed + 31),
-            CreateResurfacedCurve(seed + 47)
+            CreateComplexHouseSketch(seed)
         ];
     }
 
-    private static SketchScene CreateSharedFrameContinuousLine(int seed)
+    private static SketchScene CreateComplexHouseSketch(int seed)
     {
         var frame = new Carrier();
         var x = new Carrier();
         var y = new Carrier();
-        var points = new[]
+
+        var lowerLeft = Point(frame, x, y, -52, -30);
+        var lowerRight = Point(frame, x, y, 52, -30);
+        var upperRight = Point(frame, x, y, 52, 8);
+        var roofApex = Point(frame, x, y, 0, 40);
+        var roofAntennaJoint = Point(frame, x, y, -24, 25);
+        var upperLeft = Point(frame, x, y, -52, 8);
+
+        var doorLeftBottom = Point(frame, x, y, -14, -30);
+        var doorLeftTop = Point(frame, x, y, -14, -8);
+        var doorLeftControl = Point(frame, x, y, -14, 8);
+        var doorRightControl = Point(frame, x, y, 14, 8);
+        var doorRightTop = Point(frame, x, y, 14, -8);
+        var doorRightBottom = Point(frame, x, y, 14, -30);
+
+        var windowLowerLeft = Point(frame, x, y, 22, -14);
+        var windowLowerRight = Point(frame, x, y, 42, -14);
+        var windowUpperRight = Point(frame, x, y, 42, 6);
+        var windowUpperLeft = Point(frame, x, y, 22, 6);
+        var windowMidLeft = Point(frame, x, y, 22, -4);
+        var windowMidRight = Point(frame, x, y, 42, -4);
+        var windowMidTop = Point(frame, x, y, 32, 6);
+        var windowMidBottom = Point(frame, x, y, 32, -14);
+
+        var antennaTip = Point(frame, x, y, -29, 43);
+        var antennaLeft = Point(frame, x, y, -38, 48);
+        var antennaRight = Point(frame, x, y, -18, 46);
+
+        const long cloudAnchorX = -120;
+        const long cloudAnchorY = 50;
+        Relation CloudPoint(long xOffset, long yOffset) =>
+            Point(frame, x, y, cloudAnchorX + xOffset, cloudAnchorY + yOffset);
+
+        var cloudLeftCusp = CloudPoint(0, 0);
+        var cloudLeftPeak = CloudPoint(10, 12);
+        var cloudLeftValley = CloudPoint(19, 5);
+        var cloudMiddlePeak = CloudPoint(30, 16);
+        var cloudMiddleValley = CloudPoint(40, 6);
+        var cloudRightPeak = CloudPoint(49, 11);
+        var cloudRightCusp = CloudPoint(54, -1);
+        var cloudLowerRight = CloudPoint(42, -9);
+        var cloudLowerLeft = CloudPoint(16, -8);
+
+        var cloudLeftCuspOut = CloudPoint(0, 7);
+        var cloudLeftPeakIn = CloudPoint(7, 12);
+        var cloudLeftPeakOut = CloudPoint(13, 12);
+        var cloudLeftValleyIn = CloudPoint(18, 9);
+
+        var cloudLeftValleyOut = CloudPoint(21, 12);
+        var cloudMiddlePeakIn = CloudPoint(26, 16);
+        var cloudMiddlePeakOut = CloudPoint(34, 16);
+        var cloudMiddleValleyIn = CloudPoint(38, 11);
+        var cloudMiddleValleyOut = CloudPoint(43, 11);
+        var cloudRightPeakIn = CloudPoint(45, 11);
+        var cloudRightPeakOut = CloudPoint(52, 11);
+        var cloudRightCuspIn = CloudPoint(54, 5);
+
+        var cloudRightCuspDown = CloudPoint(54, -6);
+        var cloudLowerRightIn = CloudPoint(48, -9);
+        var cloudLowerRightOut = CloudPoint(36, -9);
+        var cloudLowerLeftIn = CloudPoint(22, -8);
+        var cloudLowerLeftOut = CloudPoint(6, -8);
+        var cloudLeftCuspReturn = CloudPoint(0, -7);
+        var cloudPlacement = new Relation(upperLeft, new Relation(cloudLeftCusp, Carrier.Unknown));
+
+        var elements = new IElement[]
         {
-            Point(frame, x, y, -46, -16),
-            Point(frame, x, y, -26, 10),
-            Point(frame, x, y, -4, 2),
-            Point(frame, x, y, 18, 26),
-            Point(frame, x, y, 46, 6)
+            // Outer closed house outline.
+            GraphicStructure.FrameSegment(lowerLeft, lowerRight),
+            GraphicStructure.FrameSegment(lowerRight, upperRight),
+            GraphicStructure.FrameSegment(upperRight, roofApex),
+            GraphicStructure.FrameSegment(roofApex, roofAntennaJoint),
+            GraphicStructure.FrameSegment(roofAntennaJoint, upperLeft),
+            GraphicStructure.FrameSegment(upperLeft, lowerLeft),
+
+            // Curved closed door loop. Cubic controls make the arch tangent to the side lines.
+            GraphicStructure.FrameSegment(doorLeftBottom, doorLeftTop),
+            GraphicStructure.FrameCubicCurve(doorLeftTop, doorLeftControl, doorRightControl, doorRightTop),
+            GraphicStructure.FrameSegment(doorRightTop, doorRightBottom),
+            GraphicStructure.FrameSegment(doorRightBottom, doorLeftBottom),
+
+            // Closed window loop with divider branches.
+            GraphicStructure.FrameSegment(windowLowerLeft, windowLowerRight),
+            GraphicStructure.FrameSegment(windowLowerRight, windowUpperRight),
+            GraphicStructure.FrameSegment(windowUpperRight, windowUpperLeft),
+            GraphicStructure.FrameSegment(windowUpperLeft, windowLowerLeft),
+            GraphicStructure.FrameSegment(windowMidLeft, windowMidRight),
+            GraphicStructure.FrameSegment(windowMidTop, windowMidBottom),
+
+            // Roof antenna: the branch shares an actual split point on the roof segment.
+            GraphicStructure.FrameSegment(roofAntennaJoint, antennaTip),
+            GraphicStructure.FrameSegment(antennaTip, antennaLeft),
+            GraphicStructure.FrameSegment(antennaTip, antennaRight),
+
+            // Cloud placement: upperLeft is the house landmark, cloudLeftCusp is the local cloud anchor.
+            cloudPlacement,
+
+            // Puffy cloud: peaks and lower joins are tangential; valleys and tips are cusp-like direction changes.
+            GraphicStructure.FrameCubicCurve(cloudLeftCusp, cloudLeftCuspOut, cloudLeftPeakIn, cloudLeftPeak),
+            GraphicStructure.FrameCubicCurve(cloudLeftPeak, cloudLeftPeakOut, cloudLeftValleyIn, cloudLeftValley),
+            GraphicStructure.FrameCubicCurve(cloudLeftValley, cloudLeftValleyOut, cloudMiddlePeakIn, cloudMiddlePeak),
+            GraphicStructure.FrameCubicCurve(cloudMiddlePeak, cloudMiddlePeakOut, cloudMiddleValleyIn, cloudMiddleValley),
+            GraphicStructure.FrameCubicCurve(cloudMiddleValley, cloudMiddleValleyOut, cloudRightPeakIn, cloudRightPeak),
+            GraphicStructure.FrameCubicCurve(cloudRightPeak, cloudRightPeakOut, cloudRightCuspIn, cloudRightCusp),
+            GraphicStructure.FrameCubicCurve(cloudRightCusp, cloudRightCuspDown, cloudLowerRightIn, cloudLowerRight),
+            GraphicStructure.FrameCubicCurve(cloudLowerRight, cloudLowerRightOut, cloudLowerLeftIn, cloudLowerLeft),
+            GraphicStructure.FrameCubicCurve(cloudLowerLeft, cloudLowerLeftOut, cloudLeftCuspReturn, cloudLeftCusp)
         };
-        var segments = new IElement[]
-        {
-            GraphicStructure.FrameSegment(points[0], points[1]),
-            GraphicStructure.FrameSegment(points[1], points[2]),
-            GraphicStructure.FrameSegment(points[2], points[3]),
-            GraphicStructure.FrameSegment(points[3], points[4])
-        };
 
         return new SketchScene(
-            "Shared Frame Continuous Line",
-            "Four connected frame segments share endpoint point structure.",
-            Chain(segments),
+            "House Sketch With Roof Antenna",
+            "Straight outline, tangent door arch, closed window, roof branch joint, and a cusped puffy cloud.",
+            Chain(elements),
             seed,
-            new SKRect(-58, -34, 58, 34));
-    }
-
-    private static SketchScene CreateCarrierJoinedLine(int seed)
-    {
-        var axis = new Carrier();
-        var a = GraphicStructure.Site(0);
-        var b = GraphicStructure.Site(16);
-        var c = GraphicStructure.Site(28);
-        var d = GraphicStructure.Site(45);
-        var first = GraphicStructure.Segment(axis, a, b);
-        var second = GraphicStructure.Segment(axis, b, c);
-        var third = GraphicStructure.Segment(axis, c, d);
-        var branchCarrier = GraphicStructure.LinearCarrierAt(axis, c);
-        var branch = GraphicStructure.Segment(branchCarrier, 0, 17);
-        var branchWitness = GraphicStructure.Pin(
-            GraphicStructure.Point(axis, c),
-            GraphicStructure.Point(branchCarrier, 0));
-
-        return new SketchScene(
-            "Carrier Chain With Branch Seed",
-            "Continuous carrier spans share TickRef endpoints; a linear branch is pinned at one join.",
-            Chain(first, second, third, branchWitness, branch),
-            seed,
-            new SKRect(-4, -28, 52, 20));
-    }
-
-    private static SketchScene CreateDiscoveredCompositeLine(int seed)
-    {
-        var start = GraphicConceptShape.Port(new Carrier());
-        var middle = GraphicConceptShape.Port(new Carrier());
-        var end = GraphicConceptShape.Port(new Carrier());
-        var firstConcept = GraphicConceptShape.Section(new Carrier(), start, GraphicConceptShape.TensionSlot(), middle);
-        var secondConcept = GraphicConceptShape.Section(new Carrier(), middle, GraphicConceptShape.TensionSlot(), end);
-        var discoveredSource = GraphicConceptShape.Frame(new Carrier(), firstConcept, secondConcept);
-        GraphicConceptShape.TryDiscoverCompositeShape(discoveredSource, out var discovered);
-
-        var frame = new Carrier();
-        var x = new Carrier();
-        var y = new Carrier();
-        var p0 = Point(frame, x, y, -36, 0);
-        var p1 = Point(frame, x, y, 0, 0);
-        var p2 = Point(frame, x, y, 38, 0);
-        var visual = Chain(
-            GraphicStructure.FrameSegment(p0, p1),
-            GraphicStructure.FrameSegment(p1, p2),
-            discovered);
-
-        return new SketchScene(
-            "Discovered Two-Port Composite",
-            "Raw section concepts discover a composite while concrete frame spans provide the sketch pixels.",
-            visual,
-            seed,
-            new SKRect(-45, -18, 45, 18));
-    }
-
-    private static SketchScene CreateResurfacedCurve(int seed)
-    {
-        var start = GraphicConceptShape.Port(new Carrier());
-        var middle = GraphicConceptShape.Port(new Carrier());
-        var end = GraphicConceptShape.Port(new Carrier());
-        var first = GraphicConceptShape.Section(new Carrier(), start, GraphicConceptShape.TensionSlot(), middle);
-        var second = GraphicConceptShape.Section(new Carrier(), middle, GraphicConceptShape.TensionSlot(), end);
-        var joined = GraphicConceptShape.Join(new Carrier(), first, second);
-        var refined = GraphicConceptShape.RefineCompositeSection(
-            new Carrier(),
-            joined,
-            GraphicConceptShape.BezierEvidenceSurface(new Carrier()));
-
-        var frame = new Carrier();
-        var x = new Carrier();
-        var y = new Carrier();
-        var p0 = Point(frame, x, y, -44, -16);
-        var p1 = Point(frame, x, y, -6, 4);
-        var p2 = Point(frame, x, y, 42, -10);
-        var control = Point(frame, x, y, 10, 34);
-        var lower = Chain(
-            GraphicStructure.FrameSegment(p0, p1),
-            GraphicStructure.FrameSegment(p1, p2));
-        var curve = GraphicStructure.FrameQuadraticCurve(p0, control, p2);
-
-        return new SketchScene(
-            "Composite Resurfaced As Curve",
-            "Two lower straight spans remain, while a higher rung can expose one curved section.",
-            Chain(lower, curve, refined),
-            seed,
-            new SKRect(-56, -28, 56, 42));
+            new SKRect(-128, -40, 68, 54));
     }
 
     private static Relation Point(Carrier frame, Carrier x, Carrier y, long xTicks, long yTicks) =>
