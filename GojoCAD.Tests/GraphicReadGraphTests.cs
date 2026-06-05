@@ -970,6 +970,35 @@ public sealed class GraphicReadGraphTests
     }
 
     [Fact]
+    public void ReadsAreaFromSharedFrameBoundaryFillParticipation()
+    {
+        var frame = new Carrier();
+        var x = new Carrier();
+        var y = new Carrier();
+        Relation Point(long xTicks, long yTicks) =>
+            GraphicStructure.FramePoint(frame, new CarrierLocation(x, xTicks), new CarrierLocation(y, yTicks));
+        var lowerLeft = Point(0, 0);
+        var lowerRight = Point(10, 0);
+        var upperRight = Point(10, 8);
+        var upperLeft = Point(0, 8);
+        var bottom = GraphicStructure.FrameSegment(lowerLeft, lowerRight);
+        var right = GraphicStructure.FrameSegment(lowerRight, upperRight);
+        var top = GraphicStructure.FrameSegment(upperRight, upperLeft);
+        var left = GraphicStructure.FrameSegment(upperLeft, lowerLeft);
+        var fill = GraphicStructure.AreaFill(bottom, right, top, left);
+        var structure = Chain(fill);
+
+        var graph = GraphicReadGraph.From(structure);
+
+        var participation = Assert.Single(graph.ReadsOf<SharedFrameAreaParticipationRead>());
+        var area = Assert.Single(graph.ReadsOf<SharedFrameAreaRead>());
+        Assert.Same(participation, area.Participation);
+        Assert.False(area.IsAntiArea);
+        Assert.Equal(4, participation.Boundary.Segments.Count);
+        Assert.Equal(4, participation.Boundary.Sites.Count);
+    }
+
+    [Fact]
     public void ReadsAntiAreaFromInverseBoundaryFillParticipation()
     {
         var firstSite = GraphicStructure.Site(0);

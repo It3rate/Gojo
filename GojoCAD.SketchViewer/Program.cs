@@ -64,8 +64,8 @@ internal sealed class MainWindow : Window
             BorderThickness = new Thickness(0),
             Padding = new Thickness(0)
         };
-        var refreshButton = CreateButton("Refresh");
         var nextButton = CreateButton("Next");
+        var pointsButton = CreateButton(document.ShowConstructionPoints ? "Points On" : "Points Off");
         var rungLabel = new TextBlock
         {
             FontSize = 12.5,
@@ -101,6 +101,7 @@ internal sealed class MainWindow : Window
         {
             document = next;
             canvas.Document = next;
+            pointsButton.Content = next.ShowConstructionPoints ? "Points On" : "Points Off";
             UpdateRungControls(next);
             isUpdatingSceneList = true;
             try
@@ -126,8 +127,8 @@ internal sealed class MainWindow : Window
                 SetDocument(document.Select(sceneList.SelectedIndex));
             }
         };
-        refreshButton.Click += (_, _) => SetDocument(document.Resample());
         nextButton.Click += (_, _) => SetDocument(document.Select((document.SelectedSceneIndex + 1) % document.Scenes.Count));
+        pointsButton.Click += (_, _) => SetDocument(document.ToggleConstructionPoints());
         rungSlider.ValueChanged += nextRung =>
         {
             if (!isUpdatingRungSlider)
@@ -142,8 +143,8 @@ internal sealed class MainWindow : Window
             Spacing = 8,
             Margin = new Thickness(0, 14, 0, 0)
         };
-        buttonRow.Children.Add(refreshButton);
         buttonRow.Children.Add(nextButton);
+        buttonRow.Children.Add(pointsButton);
         var rungPanel = new StackPanel
         {
             Margin = new Thickness(0, 20, 0, 14)

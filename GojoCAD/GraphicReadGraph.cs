@@ -673,6 +673,12 @@ public sealed class GraphicReadGraph
                 yield return boundary;
             }
 
+            var sharedFrameBoundaries = DeriveClosedSharedFrameBoundaries(reads).ToArray();
+            foreach (var boundary in sharedFrameBoundaries)
+            {
+                yield return boundary;
+            }
+
             var boundaryJoins = DeriveBoundaryJoins(reads, boundaries).ToArray();
             foreach (var join in boundaryJoins)
             {
@@ -696,6 +702,17 @@ public sealed class GraphicReadGraph
             }
 
             foreach (var area in DeriveAreas(boundaries, areaParticipations))
+            {
+                yield return area;
+            }
+
+            var sharedFrameAreaParticipations = DeriveSharedFrameAreaParticipations(reads).ToArray();
+            foreach (var participation in sharedFrameAreaParticipations)
+            {
+                yield return participation;
+            }
+
+            foreach (var area in DeriveSharedFrameAreas(sharedFrameBoundaries, sharedFrameAreaParticipations))
             {
                 yield return area;
             }
@@ -800,6 +817,96 @@ public sealed class GraphicReadGraph
                 if (closed && boundarySites.Count == component.Count)
                 {
                     yield return new ClosedSegmentBoundaryRead(component[0].Source, component, boundarySites);
+                }
+            }
+        }
+
+        private static IEnumerable<ClosedSharedFrameBoundaryRead> DeriveClosedSharedFrameBoundaries(IReadOnlyList<GraphicRead> reads)
+        {
+            var segments = reads.OfType<SharedFrameSegmentRead>().ToArray();
+            if (segments.Length < 3)
+            {
+                yield break;
+            }
+
+            var endpointGroups = ReadSharedFrameEndpointGroups(segments);
+            var strictBoundaries = DeriveClosedSharedFrameBoundariesFromGroups(segments, endpointGroups).ToArray();
+            if (strictBoundaries.Length != 0)
+            {
+                foreach (var boundary in strictBoundaries)
+                {
+                    yield return boundary;
+                }
+
+                yield break;
+            }
+
+            foreach (var boundary in DeriveClosedSharedFrameBoundariesFromGroups(
+                segments,
+                ReadLooseSharedFrameEndpointGroups(segments)))
+            {
+                yield return boundary;
+            }
+        }
+
+        private static IEnumerable<ClosedSharedFrameBoundaryRead> DeriveClosedSharedFrameBoundariesFromGroups(
+            IReadOnlyList<SharedFrameSegmentRead> segments,
+            IReadOnlyList<IReadOnlyList<SharedFrameSegmentEndpointRead>> endpointGroups)
+        {
+            var groupByEndpoint = IndexSharedFrameEndpointGroups(endpointGroups);
+            var adjacent = BuildSharedFrameSegmentAdjacency(segments, endpointGroups);
+            var visited = ReadReferenceSet<SharedFrameSegmentRead>();
+
+            foreach (var seed in segments)
+            {
+                if (!visited.Add(seed))
+                {
+                    continue;
+                }
+
+                var component = ReadSharedFrameSegmentComponent(seed, adjacent, visited);
+                if (component.Count < 3)
+                {
+                    continue;
+                }
+
+                var componentEndpoints = component
+                    .SelectMany(segment => new[]
+                    {
+                        new SharedFrameSegmentEndpointRead(segment, segment.Start, IsStart: true),
+                        new SharedFrameSegmentEndpointRead(segment, segment.End, IsStart: false)
+                    })
+                    .ToArray();
+                var boundarySites = new List<IReadOnlyList<SharedFrameSegmentEndpointRead>>();
+                var closed = true;
+                foreach (var endpoint in componentEndpoints)
+                {
+                    if (!groupByEndpoint.TryGetValue(endpoint, out var group))
+                    {
+                        closed = false;
+                        break;
+                    }
+
+                    var participating = group
+                        .Where(candidate => component.Any(segment => ReferenceEquals(segment, candidate.Segment)))
+                        .GroupBy(endpoint => endpoint.Segment, ReadReferenceComparer<SharedFrameSegmentRead>())
+                        .Select(endpointGroup => endpointGroup.First())
+                        .ToArray();
+                    if (participating.Length != 2)
+                    {
+                        closed = false;
+                        break;
+                    }
+
+                    if (!boundarySites.Any(site => FrameEndpointGroupSignature(site) == FrameEndpointGroupSignature(participating)))
+                    {
+                        boundarySites.Add(participating);
+                    }
+                }
+
+                if (closed && boundarySites.Count == component.Count)
+                {
+                    yield return new ClosedSharedFrameBoundaryRead(component[0].Source, component, boundarySites);
                 }
             }
         }
@@ -1112,6 +1219,63 @@ public sealed class GraphicReadGraph
             foreach (var participation in participations.Where(participation => !matchedParticipations.Contains(participation)))
             {
                 yield return new AreaRead(participation.Source, participation.Boundary, participation);
+            }
+        }
+
+        private static IEnumerable<SharedFrameAreaParticipationRead> DeriveSharedFrameAreaParticipations(IReadOnlyList<GraphicRead> reads)
+        {
+            var points = reads.OfType<PointRead>().ToArray();
+            foreach (var unit in reads
+                .OfType<CarrierUnitRead>()
+                .Where(unit => unit.HasOrthogonalSource && unit.OrthogonalSource is not null))
+            {
+                var participationPoints = points
+                    .Where(point => NormalizeCarrier(point.Location.Carrier)
+                        .SameIdentityAs(NormalizeCarrier(unit.Carrier)))
+                    .ToArray();
+                if (participationPoints.Length == 0)
+                {
+                    continue;
+                }
+
+                var sourceGraph = GraphicReadGraph.From(unit.OrthogonalSource!);
+                foreach (var boundary in sourceGraph.ReadsOf<ClosedSharedFrameBoundaryRead>())
+                {
+                    yield return new SharedFrameAreaParticipationRead(
+                        unit.Source,
+                        unit,
+                        participationPoints,
+                        boundary);
+                }
+            }
+        }
+
+        private static IEnumerable<SharedFrameAreaRead> DeriveSharedFrameAreas(
+            IReadOnlyList<ClosedSharedFrameBoundaryRead> boundaries,
+            IReadOnlyList<SharedFrameAreaParticipationRead> participations)
+        {
+            var matchedParticipations = ReadReferenceSet<SharedFrameAreaParticipationRead>();
+            var participationByBoundary = participations
+                .GroupBy(participation => SharedFrameBoundaryGeometrySignature(participation.Boundary))
+                .ToDictionary(group => group.Key, group => group.ToArray());
+
+            foreach (var boundary in boundaries)
+            {
+                if (!participationByBoundary.TryGetValue(SharedFrameBoundaryGeometrySignature(boundary), out var matches))
+                {
+                    continue;
+                }
+
+                foreach (var participation in matches)
+                {
+                    matchedParticipations.Add(participation);
+                    yield return new SharedFrameAreaRead(participation.Source, boundary, participation);
+                }
+            }
+
+            foreach (var participation in participations.Where(participation => !matchedParticipations.Contains(participation)))
+            {
+                yield return new SharedFrameAreaRead(participation.Source, participation.Boundary, participation);
             }
         }
 
@@ -1842,10 +2006,22 @@ public sealed class GraphicReadGraph
         private static string BoundaryGeometrySignature(ClosedSegmentBoundaryRead boundary) =>
             string.Join("|", boundary.Segments.Select(SegmentGeometrySignature).Order());
 
+        private static string SharedFrameBoundaryGeometrySignature(ClosedSharedFrameBoundaryRead boundary) =>
+            string.Join("|", boundary.Segments.Select(SharedFrameSegmentGeometrySignature).Order());
+
         private static string SegmentGeometrySignature(PositiveSegmentRead segment)
         {
             var start = LocationGeometrySignature(segment.Start.Location);
             var end = LocationGeometrySignature(segment.End.Location);
+            return string.CompareOrdinal(start, end) <= 0
+                ? $"{start}->{end}"
+                : $"{end}->{start}";
+        }
+
+        private static string SharedFrameSegmentGeometrySignature(SharedFrameSegmentRead segment)
+        {
+            var start = FramePointSignature(segment.Start);
+            var end = FramePointSignature(segment.End);
             return string.CompareOrdinal(start, end) <= 0
                 ? $"{start}->{end}"
                 : $"{end}->{start}";
@@ -1882,6 +2058,21 @@ public sealed class GraphicReadGraph
             IEnumerable<IReadOnlyList<PathSegmentEndpointRead>> endpointGroups)
         {
             var index = new Dictionary<PathSegmentEndpointRead, IReadOnlyList<PathSegmentEndpointRead>>();
+            foreach (var group in endpointGroups)
+            {
+                foreach (var endpoint in group)
+                {
+                    index.TryAdd(endpoint, group);
+                }
+            }
+
+            return index;
+        }
+
+        private static Dictionary<SharedFrameSegmentEndpointRead, IReadOnlyList<SharedFrameSegmentEndpointRead>> IndexSharedFrameEndpointGroups(
+            IEnumerable<IReadOnlyList<SharedFrameSegmentEndpointRead>> endpointGroups)
+        {
+            var index = new Dictionary<SharedFrameSegmentEndpointRead, IReadOnlyList<SharedFrameSegmentEndpointRead>>();
             foreach (var group in endpointGroups)
             {
                 foreach (var endpoint in group)
@@ -2135,6 +2326,21 @@ public sealed class GraphicReadGraph
                 .Select(group => (IReadOnlyList<SharedFrameSegmentEndpointRead>)[.. group])];
         }
 
+        private static IReadOnlyList<IReadOnlyList<SharedFrameSegmentEndpointRead>> ReadLooseSharedFrameEndpointGroups(
+            IReadOnlyList<SharedFrameSegmentRead> segments)
+        {
+            var endpoints = segments
+                .SelectMany(segment => new[]
+                {
+                    new SharedFrameSegmentEndpointRead(segment, segment.Start, IsStart: true),
+                    new SharedFrameSegmentEndpointRead(segment, segment.End, IsStart: false)
+                })
+                .ToArray();
+            return [.. endpoints
+                .GroupBy(endpoint => LooseFramePointSignature(endpoint.Point))
+                .Select(group => (IReadOnlyList<SharedFrameSegmentEndpointRead>)[.. group])];
+        }
+
         private static Dictionary<SharedFrameSegmentRead, List<SharedFrameSegmentRead>> BuildSharedFrameSegmentAdjacency(
             IReadOnlyList<SharedFrameSegmentRead> segments,
             IEnumerable<IReadOnlyList<SharedFrameSegmentEndpointRead>> endpointGroups)
@@ -2280,6 +2486,9 @@ public sealed class GraphicReadGraph
                 var normalized = Normalize(location);
                 return $"{NormalizeCarrier(normalized.Carrier).Id}:{normalized.Tick?.Id ?? 0}:{normalized.Ticks}";
             }));
+
+        private static string LooseFramePointSignature(SharedFramePointRead point) =>
+            string.Join("|", point.Coordinates.Select(location => Normalize(location).Ticks));
 
         private static string FrameEndpointGroupSignature(IEnumerable<SharedFrameSegmentEndpointRead> endpoints) =>
             string.Join(",", endpoints
@@ -3129,6 +3338,16 @@ public sealed record ClosedSegmentBoundaryRead(
             .Concat(Sites.SelectMany(site => site.Select(endpoint => endpoint.Point.Source)));
 }
 
+public sealed record ClosedSharedFrameBoundaryRead(
+    IElement Source,
+    IReadOnlyList<SharedFrameSegmentRead> Segments,
+    IReadOnlyList<IReadOnlyList<SharedFrameSegmentEndpointRead>> Sites) : GraphicRead(Source)
+{
+    public override IEnumerable<IElement> Sources =>
+        Segments.Select(segment => segment.Source)
+            .Concat(Sites.SelectMany(site => site.Select(endpoint => endpoint.Point.Source)));
+}
+
 public sealed record BoundaryJoinRead(
     IElement Source,
     ClosedSegmentBoundaryRead Boundary,
@@ -3185,6 +3404,28 @@ public sealed record AreaRead(
     IElement Source,
     ClosedSegmentBoundaryRead Boundary,
     AreaParticipationRead Participation) : GraphicRead(Source)
+{
+    public bool IsAntiArea => Participation.IsInverse;
+
+    public override IEnumerable<IElement> Sources => Boundary.Sources.Concat(Participation.Sources);
+}
+
+public sealed record SharedFrameAreaParticipationRead(
+    IElement Source,
+    CarrierUnitRead Unit,
+    IReadOnlyList<PointRead> Points,
+    ClosedSharedFrameBoundaryRead Boundary) : GraphicRead(Source)
+{
+    public bool IsInverse => Unit.Carrier.IsInverse;
+
+    public override IEnumerable<IElement> Sources =>
+        Unit.Sources.Concat(Points.Select(point => point.Source)).Concat(Boundary.Sources);
+}
+
+public sealed record SharedFrameAreaRead(
+    IElement Source,
+    ClosedSharedFrameBoundaryRead Boundary,
+    SharedFrameAreaParticipationRead Participation) : GraphicRead(Source)
 {
     public bool IsAntiArea => Participation.IsInverse;
 

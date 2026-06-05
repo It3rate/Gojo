@@ -39,6 +39,51 @@ internal static class SketchSamples
                 GraphicStructure.FrameCubicCurve(bottom, P(centerX - controlX, centerY - radiusY), P(centerX - radiusX, centerY - controlY), left));
         }
 
+        Relation Circle(long centerX, long centerY, long radius)
+        {
+            var center = P(centerX, centerY);
+            var right = P(centerX + radius, centerY);
+            var top = P(centerX, centerY + radius);
+            var left = P(centerX - radius, centerY);
+            var bottom = P(centerX, centerY - radius);
+            return Chain(
+                GraphicStructure.FrameArc(center, right, top),
+                GraphicStructure.FrameArc(center, top, left),
+                GraphicStructure.FrameArc(center, left, bottom),
+                GraphicStructure.FrameArc(center, bottom, right));
+        }
+
+        Relation AreaPolygon(params Relation[] points)
+        {
+            if (points.Length < 3)
+            {
+                return UnknownPoint();
+            }
+
+            var edges = new IElement[points.Length];
+            for (var index = 0; index < points.Length; index++)
+            {
+                edges[index] = GraphicStructure.FrameSegment(points[index], points[(index + 1) % points.Length]);
+            }
+
+            return GraphicStructure.AreaFill(edges);
+        }
+
+        Relation FilledCircle(long centerX, long centerY, long radius)
+        {
+            return Chain(
+                AreaPolygon(
+                    P(centerX + radius, centerY),
+                    P(centerX + radius * 7 / 10, centerY + radius * 7 / 10),
+                    P(centerX, centerY + radius),
+                    P(centerX - radius * 7 / 10, centerY + radius * 7 / 10),
+                    P(centerX - radius, centerY),
+                    P(centerX - radius * 7 / 10, centerY - radius * 7 / 10),
+                    P(centerX, centerY - radius),
+                    P(centerX + radius * 7 / 10, centerY - radius * 7 / 10)),
+                Circle(centerX, centerY, radius));
+        }
+
         Relation Cloudlet(long anchorX, long anchorY)
         {
             var left = P(anchorX, anchorY);
@@ -62,11 +107,35 @@ internal static class SketchSamples
                 GraphicStructure.FrameCubicCurve(lowerLeft, P(anchorX + 6, anchorY - 8), P(anchorX, anchorY - 7), left));
         }
 
+        Relation FilledLeafBlob(long centerX, long centerY, long radiusX, long radiusY)
+        {
+            var left = P(centerX - radiusX, centerY);
+            var upperLeft = P(centerX - radiusX / 2, centerY + radiusY);
+            var top = P(centerX + radiusX / 6, centerY + radiusY + 2);
+            var upperRight = P(centerX + radiusX, centerY + radiusY / 3);
+            var right = P(centerX + radiusX, centerY - radiusY / 4);
+            var lowerRight = P(centerX + radiusX / 3, centerY - radiusY);
+            var lowerLeft = P(centerX - radiusX * 3 / 4, centerY - radiusY * 2 / 3);
+            return Chain(
+                AreaPolygon(left, upperLeft, top, upperRight, right, lowerRight, lowerLeft),
+                GraphicStructure.FrameCubicCurve(left, P(centerX - radiusX, centerY + radiusY / 2), P(centerX - radiusX * 3 / 4, centerY + radiusY), upperLeft),
+                GraphicStructure.FrameCubicCurve(upperLeft, P(centerX - radiusX / 3, centerY + radiusY + 3), P(centerX, centerY + radiusY + 4), top),
+                GraphicStructure.FrameCubicCurve(top, P(centerX + radiusX / 2, centerY + radiusY + 3), P(centerX + radiusX, centerY + radiusY), upperRight),
+                GraphicStructure.FrameCubicCurve(upperRight, P(centerX + radiusX + 3, centerY + radiusY / 5), P(centerX + radiusX + 2, centerY), right),
+                GraphicStructure.FrameCubicCurve(right, P(centerX + radiusX, centerY - radiusY / 2), P(centerX + radiusX / 2, centerY - radiusY), lowerRight),
+                GraphicStructure.FrameCubicCurve(lowerRight, P(centerX - radiusX / 6, centerY - radiusY - 2), P(centerX - radiusX * 2 / 3, centerY - radiusY), lowerLeft),
+                GraphicStructure.FrameCubicCurve(lowerLeft, P(centerX - radiusX, centerY - radiusY / 2), P(centerX - radiusX - 2, centerY - radiusY / 5), left));
+        }
+
+        var horizon = GraphicStructure.FrameSegment(P(-148, -30), P(134, -30));
         var lowerLeft = P(-52, -30);
         var lowerRight = P(52, -30);
         var upperRight = P(52, 8);
         var upperLeft = P(-52, 8);
         var roofApex = P(0, 40);
+        var roofOverhangLeft = P(-65, 8);
+        var roofOverhangApex = P(0, 48);
+        var roofOverhangRight = P(65, 8);
         var houseBoxTop = GraphicStructure.FrameSegment(upperRight, upperLeft);
         var houseBox = Chain(
             GraphicStructure.FrameSegment(lowerLeft, lowerRight),
@@ -79,6 +148,10 @@ internal static class SketchSamples
             GraphicStructure.FrameSegment(upperRight, roofApex),
             GraphicStructure.FrameSegment(roofApex, upperLeft),
             GraphicStructure.FrameSegment(upperLeft, lowerLeft));
+        var roofOverhang = Chain(
+            GraphicStructure.FrameSegment(roofOverhangLeft, roofOverhangApex),
+            GraphicStructure.FrameSegment(roofOverhangApex, roofOverhangRight));
+        var houseWithOverhang = Chain(houseRoof, roofOverhang);
 
         var doorLeftBottom = P(-14, -30);
         var doorRightBottom = P(14, -30);
@@ -110,6 +183,7 @@ internal static class SketchSamples
             GraphicStructure.FrameSegment(windowCenter, P(42, -4)),
             GraphicStructure.FrameSegment(P(32, 6), windowCenter),
             GraphicStructure.FrameSegment(windowCenter, P(32, -14)));
+        var windowPlus = Chain(windowRectangle, windowCross);
         var roundedWindow = Chain(
             GraphicStructure.FrameSegment(P(26, 6), P(38, 6)),
             GraphicStructure.FrameCubicCurve(P(38, 6), P(40, 6), P(42, 4), P(42, 2)),
@@ -121,10 +195,10 @@ internal static class SketchSamples
             GraphicStructure.FrameCubicCurve(P(22, 2), P(22, 4), P(24, 6), P(26, 6)));
         var roundedWindowPlus = Chain(roundedWindow, windowCross);
 
-        var chimneyLowerLeft = P(14, 31);
-        var chimneyLowerRight = P(24, 25);
-        var chimneyUpperRight = P(24, 42);
-        var chimneyUpperLeft = P(14, 42);
+        var chimneyLowerLeft = P(14, 39);
+        var chimneyLowerRight = P(26, 32);
+        var chimneyUpperRight = P(26, 51);
+        var chimneyUpperLeft = P(14, 51);
         var chimneyBody = Chain(
             GraphicStructure.FrameSegment(chimneyLowerLeft, chimneyLowerRight),
             GraphicStructure.FrameSegment(chimneyLowerRight, chimneyUpperRight),
@@ -132,96 +206,122 @@ internal static class SketchSamples
             GraphicStructure.FrameSegment(chimneyUpperLeft, chimneyLowerLeft));
         var chimneyWithCap = Chain(
             chimneyBody,
-            GraphicStructure.FrameSegment(P(10, 42), P(28, 42)),
-            GraphicStructure.FrameSegment(P(28, 42), P(19, 48)),
-            GraphicStructure.FrameSegment(P(19, 48), P(10, 42)));
+            GraphicStructure.FrameSegment(P(10, 51), P(30, 51)),
+            GraphicStructure.FrameSegment(P(30, 51), P(20, 58)),
+            GraphicStructure.FrameSegment(P(20, 58), P(10, 51)));
 
-        var cloudOval = Oval(98, 48, 27, 12);
-        var cloudOutline = Cloudlet(70, 48);
+        var cloudOval = Oval(84, 48, 24, 11);
+        var cloudOutline = Cloudlet(58, 48);
 
-        var treeTrunkLine = GraphicStructure.FrameSegment(P(-94, -30), P(-94, 8));
-        var treeBall = Oval(-94, 22, 17, 15);
+        var treeRoot = P(-108, -30);
+        var treeTop = P(-108, 8);
+        var treeJunction = P(-108, 4);
+        var treeLeftTip = P(-128, 22);
+        var treeRightTip = P(-88, 23);
+        var treeTrunkLine = GraphicStructure.FrameSegment(treeRoot, treeTop);
+        var treeBall = Circle(-108, 24, 17);
         var treeLineBall = Chain(treeTrunkLine, treeBall);
         var treeBranches = Chain(
             treeTrunkLine,
-            GraphicStructure.FrameSegment(P(-94, 4), P(-113, 20)),
-            GraphicStructure.FrameSegment(P(-94, 4), P(-76, 22)),
+            GraphicStructure.FrameSegment(treeJunction, treeLeftTip),
+            GraphicStructure.FrameSegment(treeJunction, treeRightTip),
             treeBall);
+        var treeLeftCurve = GraphicStructure.FrameCubicCurve(treeJunction, P(-112, 11), P(-121, 18), treeLeftTip);
+        var treeRightCurve = GraphicStructure.FrameCubicCurve(treeJunction, P(-103, 12), P(-95, 20), treeRightTip);
+        var treeCurvedBranches = Chain(treeTrunkLine, treeLeftCurve, treeRightCurve, treeBall);
         var treeTrunkThick = Chain(
-            GraphicStructure.FrameSegment(P(-99, -30), P(-90, -30)),
-            GraphicStructure.FrameSegment(P(-90, -30), P(-90, 8)),
-            GraphicStructure.FrameSegment(P(-90, 8), P(-99, 8)),
-            GraphicStructure.FrameSegment(P(-99, 8), P(-99, -30)));
+            GraphicStructure.FrameSegment(P(-113, -30), P(-103, -30)),
+            GraphicStructure.FrameSegment(P(-103, -30), P(-103, 8)),
+            GraphicStructure.FrameSegment(P(-103, 8), P(-113, 8)),
+            GraphicStructure.FrameSegment(P(-113, 8), P(-113, -30)));
         var treeWithThickTrunk = Chain(
             treeTrunkThick,
-            GraphicStructure.FrameSegment(P(-94, 4), P(-113, 20)),
-            GraphicStructure.FrameSegment(P(-94, 4), P(-76, 22)),
+            treeLeftCurve,
+            treeRightCurve,
             treeBall);
         var leftBranchThick = Chain(
-            GraphicStructure.FrameSegment(P(-97, 6), P(-92, 2)),
-            GraphicStructure.FrameSegment(P(-92, 2), P(-111, 18)),
-            GraphicStructure.FrameSegment(P(-111, 18), P(-115, 22)),
-            GraphicStructure.FrameSegment(P(-115, 22), P(-97, 6)));
+            GraphicStructure.FrameCubicCurve(P(-113, 8), P(-117, 14), P(-123, 20), P(-131, 25)),
+            GraphicStructure.FrameCubicCurve(P(-131, 25), P(-133, 23), P(-130, 18), P(-125, 17)),
+            GraphicStructure.FrameCubicCurve(P(-125, 17), P(-119, 13), P(-112, 8), P(-104, 2)),
+            GraphicStructure.FrameCubicCurve(P(-104, 2), P(-106, 5), P(-110, 7), P(-113, 8)));
         var rightBranchThick = Chain(
-            GraphicStructure.FrameSegment(P(-96, 6), P(-91, 3)),
-            GraphicStructure.FrameSegment(P(-91, 3), P(-75, 20)),
-            GraphicStructure.FrameSegment(P(-75, 20), P(-78, 25)),
-            GraphicStructure.FrameSegment(P(-78, 25), P(-96, 6)));
+            GraphicStructure.FrameCubicCurve(P(-112, 8), P(-105, 13), P(-94, 20), P(-82, 27)),
+            GraphicStructure.FrameCubicCurve(P(-82, 27), P(-78, 25), P(-82, 19), P(-87, 18)),
+            GraphicStructure.FrameCubicCurve(P(-87, 18), P(-96, 13), P(-103, 7), P(-104, 2)),
+            GraphicStructure.FrameCubicCurve(P(-104, 2), P(-107, 5), P(-110, 7), P(-112, 8)));
         var treeWoodThick = Chain(treeTrunkThick, leftBranchThick, rightBranchThick, treeBall);
         var treeLeafRegions = Chain(
             treeTrunkThick,
             leftBranchThick,
             rightBranchThick,
-            Oval(-112, 28, 15, 13),
-            Oval(-93, 35, 18, 16),
-            Oval(-74, 28, 15, 13));
+            FilledCircle(-128, 29, 15),
+            FilledCircle(-108, 39, 17),
+            FilledCircle(-88, 30, 15));
         var treeFluffy = Chain(
             treeTrunkThick,
             leftBranchThick,
             rightBranchThick,
-            Cloudlet(-134, 26),
-            Cloudlet(-121, 38),
-            Cloudlet(-108, 28));
+            FilledLeafBlob(-130, 29, 17, 15),
+            FilledLeafBlob(-108, 41, 19, 17),
+            FilledLeafBlob(-87, 31, 17, 15));
 
-        var rough = Chain(houseBox, cloudOval, treeLineBall);
-        var roofState = Chain(houseRoof, cloudOval, treeLineBall);
-        var treeSplitState = Chain(houseRoof, cloudOval, treeBranches);
-        var doorRectState = Chain(houseRoof, cloudOval, treeBranches, doorRectangle);
-        var treeTrunkState = Chain(houseRoof, cloudOval, treeWithThickTrunk, doorRectangle);
-        var windowRectState = Chain(houseRoof, cloudOval, treeWithThickTrunk, doorRectangle, windowRectangle);
-        var treeBranchThickState = Chain(houseRoof, cloudOval, treeWoodThick, doorRectangle, windowRectangle);
-        var doorArchState = Chain(houseRoof, cloudOval, treeWoodThick, archedDoor, windowRectangle);
-        var windowRefinedState = Chain(houseRoof, cloudOval, treeWoodThick, archedDoor, roundedWindowPlus);
-        var treeRegionsState = Chain(houseRoof, cloudOval, treeLeafRegions, archedDoor, roundedWindowPlus);
-        var cloudRefinedState = Chain(houseRoof, cloudOutline, treeLeafRegions, archedDoor, roundedWindowPlus);
-        var chimneyBodyState = Chain(houseRoof, cloudOutline, treeLeafRegions, archedDoor, roundedWindowPlus, chimneyBody);
-        var treeFluffyState = Chain(houseRoof, cloudOutline, treeFluffy, archedDoor, roundedWindowPlus, chimneyBody);
-        var finalSketch = Chain(houseRoof, cloudOutline, treeFluffy, archedDoor, roundedWindowPlus, chimneyWithCap);
+        var horizonState = horizon;
+        var houseBoxState = Chain(horizon, houseBox);
+        var roofState = Chain(horizon, houseRoof);
+        var treeSeedState = Chain(horizon, houseRoof, treeLineBall);
+        var cloudSeedState = Chain(horizon, houseRoof, treeLineBall, cloudOval);
+        var roofOverhangState = Chain(horizon, houseWithOverhang, treeLineBall, cloudOval);
+        var treeSplitState = Chain(horizon, houseWithOverhang, treeBranches, cloudOval);
+        var doorRectState = Chain(horizon, houseWithOverhang, treeBranches, cloudOval, doorRectangle);
+        var treeCurvedState = Chain(horizon, houseWithOverhang, treeCurvedBranches, cloudOval, doorRectangle);
+        var windowRectState = Chain(horizon, houseWithOverhang, treeCurvedBranches, cloudOval, doorRectangle, windowRectangle);
+        var treeTrunkState = Chain(horizon, houseWithOverhang, treeWithThickTrunk, cloudOval, doorRectangle, windowRectangle);
+        var doorArchState = Chain(horizon, houseWithOverhang, treeWithThickTrunk, cloudOval, archedDoor, windowRectangle);
+        var treeBranchThickState = Chain(horizon, houseWithOverhang, treeWoodThick, cloudOval, archedDoor, windowRectangle);
+        var windowPlusState = Chain(horizon, houseWithOverhang, treeWoodThick, cloudOval, archedDoor, windowPlus);
+        var windowRefinedState = Chain(horizon, houseWithOverhang, treeWoodThick, cloudOval, archedDoor, roundedWindowPlus);
+        var treeRegionsState = Chain(horizon, houseWithOverhang, treeLeafRegions, cloudOval, archedDoor, roundedWindowPlus);
+        var cloudRefinedState = Chain(horizon, houseWithOverhang, treeLeafRegions, cloudOutline, archedDoor, roundedWindowPlus);
+        var chimneyBodyState = Chain(horizon, houseWithOverhang, treeLeafRegions, cloudOutline, archedDoor, roundedWindowPlus, chimneyBody);
+        var treeFluffyState = Chain(horizon, houseWithOverhang, treeFluffy, cloudOutline, archedDoor, roundedWindowPlus, chimneyBody);
+        var finalSketch = Chain(horizon, houseWithOverhang, treeFluffy, cloudOutline, archedDoor, roundedWindowPlus, chimneyWithCap);
 
-        var baseRung = StructuralLadderSurface.BaseRung(new Carrier(), rough);
-        var roofStep = RefinedRung(rough, houseBoxTop, houseBox, Chain(cloudOval, treeLineBall), houseRoof, roofState);
-        var treeSplitStep = RefinedRung(roofState, P(-94, 4), treeLineBall, Chain(houseRoof, cloudOval), treeBranches, treeSplitState);
+        var baseRung = StructuralLadderSurface.BaseRung(new Carrier(), horizonState);
+        var houseBoxStep = RefinedRung(horizonState, houseBox, horizon, horizonState, houseBox, houseBoxState);
+        var roofStep = RefinedRung(houseBoxState, houseBoxTop, houseBox, horizon, houseRoof, roofState);
+        var treeSeedStep = RefinedRung(roofState, treeRoot, treeRoot, roofState, treeLineBall, treeSeedState);
+        var cloudSeedStep = RefinedRung(treeSeedState, cloudOval, cloudOval, treeSeedState, cloudOval, cloudSeedState);
+        var roofOverhangStep = RefinedRung(cloudSeedState, roofOverhang, roofOverhang, cloudSeedState, roofOverhang, roofOverhangState);
+        var treeSplitStep = RefinedRung(roofOverhangState, treeJunction, treeLineBall, Chain(horizon, houseWithOverhang, cloudOval), treeBranches, treeSplitState);
         var doorRectStep = RefinedRung(treeSplitState, doorLeftBottom, doorLeftBottom, treeSplitState, doorRectangle, doorRectState);
-        var treeTrunkStep = RefinedRung(doorRectState, treeTrunkLine, treeBranches, Chain(houseRoof, cloudOval, doorRectangle), treeWithThickTrunk, treeTrunkState);
-        var windowRectStep = RefinedRung(treeTrunkState, windowLowerLeft, windowLowerLeft, treeTrunkState, windowRectangle, windowRectState);
-        var treeBranchThickStep = RefinedRung(windowRectState, P(-94, 4), treeWithThickTrunk, Chain(houseRoof, cloudOval, doorRectangle, windowRectangle), treeWoodThick, treeBranchThickState);
-        var doorArchStep = RefinedRung(treeBranchThickState, doorRectangle, doorRectangle, Chain(houseRoof, cloudOval, treeWoodThick, windowRectangle), archedDoor, doorArchState);
-        var windowRefineStep = RefinedRung(doorArchState, windowRectangle, windowRectangle, Chain(houseRoof, cloudOval, treeWoodThick, archedDoor), roundedWindowPlus, windowRefinedState);
-        var treeRegionStep = RefinedRung(windowRefinedState, treeBall, treeWoodThick, Chain(houseRoof, cloudOval, archedDoor, roundedWindowPlus), treeLeafRegions, treeRegionsState);
-        var cloudRefineStep = RefinedRung(treeRegionsState, cloudOval, cloudOval, Chain(houseRoof, treeLeafRegions, archedDoor, roundedWindowPlus), cloudOutline, cloudRefinedState);
-        var chimneyBodyStep = RefinedRung(cloudRefinedState, P(19, 33), P(19, 33), cloudRefinedState, chimneyBody, chimneyBodyState);
-        var treeFluffyStep = RefinedRung(chimneyBodyState, treeLeafRegions, treeLeafRegions, Chain(houseRoof, cloudOutline, archedDoor, roundedWindowPlus, chimneyBody), treeFluffy, treeFluffyState);
-        var chimneyCapStep = RefinedRung(treeFluffyState, chimneyBody, chimneyBody, Chain(houseRoof, cloudOutline, treeFluffy, archedDoor, roundedWindowPlus), chimneyWithCap, finalSketch);
+        var treeCurveStep = RefinedRung(doorRectState, treeJunction, treeBranches, Chain(horizon, houseWithOverhang, cloudOval, doorRectangle), treeCurvedBranches, treeCurvedState);
+        var windowRectStep = RefinedRung(treeCurvedState, windowLowerLeft, windowLowerLeft, treeCurvedState, windowRectangle, windowRectState);
+        var treeTrunkStep = RefinedRung(windowRectState, treeTrunkLine, treeCurvedBranches, Chain(horizon, houseWithOverhang, cloudOval, doorRectangle, windowRectangle), treeWithThickTrunk, treeTrunkState);
+        var doorArchStep = RefinedRung(treeTrunkState, doorRectangle, doorRectangle, Chain(horizon, houseWithOverhang, cloudOval, treeWithThickTrunk, windowRectangle), archedDoor, doorArchState);
+        var treeBranchThickStep = RefinedRung(doorArchState, treeJunction, treeWithThickTrunk, Chain(horizon, houseWithOverhang, cloudOval, archedDoor, windowRectangle), treeWoodThick, treeBranchThickState);
+        var windowPlusStep = RefinedRung(treeBranchThickState, windowRectangle, windowRectangle, Chain(horizon, houseWithOverhang, cloudOval, treeWoodThick, archedDoor), windowPlus, windowPlusState);
+        var windowRefineStep = RefinedRung(windowPlusState, windowRectangle, windowPlus, Chain(horizon, houseWithOverhang, cloudOval, treeWoodThick, archedDoor), roundedWindowPlus, windowRefinedState);
+        var treeRegionStep = RefinedRung(windowRefinedState, treeBall, treeWoodThick, Chain(horizon, houseWithOverhang, cloudOval, archedDoor, roundedWindowPlus), treeLeafRegions, treeRegionsState);
+        var cloudRefineStep = RefinedRung(treeRegionsState, cloudOval, cloudOval, Chain(horizon, houseWithOverhang, treeLeafRegions, archedDoor, roundedWindowPlus), cloudOutline, cloudRefinedState);
+        var chimneyBodyStep = RefinedRung(cloudRefinedState, roofOverhang, roofOverhang, cloudRefinedState, chimneyBody, chimneyBodyState);
+        var treeFluffyStep = RefinedRung(chimneyBodyState, treeLeafRegions, treeLeafRegions, Chain(horizon, houseWithOverhang, cloudOutline, archedDoor, roundedWindowPlus, chimneyBody), treeFluffy, treeFluffyState);
+        var chimneyCapStep = RefinedRung(treeFluffyState, chimneyBody, chimneyBody, Chain(horizon, houseWithOverhang, cloudOutline, treeFluffy, archedDoor, roundedWindowPlus), chimneyWithCap, finalSketch);
         var sketchRungs = new[]
         {
             baseRung,
+            houseBoxStep.Rung,
             roofStep.Rung,
+            treeSeedStep.Rung,
+            cloudSeedStep.Rung,
+            roofOverhangStep.Rung,
             treeSplitStep.Rung,
             doorRectStep.Rung,
-            treeTrunkStep.Rung,
+            treeCurveStep.Rung,
             windowRectStep.Rung,
-            treeBranchThickStep.Rung,
+            treeTrunkStep.Rung,
             doorArchStep.Rung,
+            treeBranchThickStep.Rung,
+            windowPlusStep.Rung,
             windowRefineStep.Rung,
             treeRegionStep.Rung,
             cloudRefineStep.Rung,
@@ -231,13 +331,19 @@ internal static class SketchSamples
         };
         var sketchFocuses = new[]
         {
+            houseBoxStep.Focus,
             roofStep.Focus,
+            treeSeedStep.Focus,
+            cloudSeedStep.Focus,
+            roofOverhangStep.Focus,
             treeSplitStep.Focus,
             doorRectStep.Focus,
-            treeTrunkStep.Focus,
+            treeCurveStep.Focus,
             windowRectStep.Focus,
-            treeBranchThickStep.Focus,
+            treeTrunkStep.Focus,
             doorArchStep.Focus,
+            treeBranchThickStep.Focus,
+            windowPlusStep.Focus,
             windowRefineStep.Focus,
             treeRegionStep.Focus,
             cloudRefineStep.Focus,
@@ -248,16 +354,22 @@ internal static class SketchSamples
         var ladder = TimelineLadder(sketchRungs, sketchFocuses);
         var rungLabels = new[]
         {
-            "Box + oval + tree ball",
+            "Horizon",
+            "House box",
             "Peak roof",
+            "Tree line + circular crown",
+            "Cloud oval",
+            "Roof overhang",
             "Tree branch split",
             "Door rectangle",
-            "Tree trunk thickens",
+            "Tree split becomes curves",
             "Window rectangle",
-            "Tree branches thicken",
+            "Tree trunk thickens",
             "Door arch",
-            "Window rounded plus",
-            "Tree leaf regions",
+            "Tree branches thicken",
+            "Window plus",
+            "Window rounded rectangle",
+            "Tree leaf circles",
             "Puffy cloud",
             "Chimney body",
             "Tree fluffs out",
@@ -269,7 +381,7 @@ internal static class SketchSamples
             "Ordered rough-in ladder from box and oval to the finished sketch.",
             ladder,
             seed,
-            new SKRect(-142, -84, 136, 42),
+            new SKRect(-156, -84, 138, 64),
             rungLabels);
     }
 

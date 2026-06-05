@@ -98,6 +98,34 @@ public sealed class GojoCadSkiaAdapter
         var carrierClothoidLengthSources = ReadCarrierClothoidLengthSources(graph);
         var carrierInvoluteSupportSources = ReadCarrierInvoluteSupportSources(graph);
 
+        foreach (var area in graph.ReadsOf<AreaRead>()
+            .Where(read => !IsRepeatControlSource(read.Source, repeatControlSources)))
+        {
+            DrawArea(canvas, area, projection, paints, hitAreas, pointRoles);
+            drawn++;
+        }
+
+        foreach (var boundary in graph.ReadsOf<ClosedSegmentBoundaryRead>()
+            .Where(read => !IsRepeatControlSource(read.Source, repeatControlSources)))
+        {
+            DrawClosedSegmentBoundary(canvas, boundary, projection, paints, hitAreas);
+            drawn++;
+        }
+
+        foreach (var area in graph.ReadsOf<SharedFrameAreaRead>()
+            .Where(read => !IsRepeatControlSource(read.Source, repeatControlSources)))
+        {
+            DrawSharedFrameArea(canvas, area, projection, paints, hitAreas, pointRoles);
+            drawn++;
+        }
+
+        foreach (var boundary in graph.ReadsOf<ClosedSharedFrameBoundaryRead>()
+            .Where(read => !IsRepeatControlSource(read.Source, repeatControlSources)))
+        {
+            DrawClosedSharedFrameBoundary(canvas, boundary, projection, paints, hitAreas);
+            drawn++;
+        }
+
         foreach (var radial in graph.ReadsOf<RadialSeedRead>()
             .Where(read => !IsRepeatControlSource(read.Source, repeatControlSources)))
         {
@@ -207,20 +235,6 @@ public sealed class GojoCadSkiaAdapter
             .Where(read => !IsRepeatControlSource(read.Source, repeatControlSources)))
         {
             DrawSharedFrameAttachment(canvas, attachment, projection, paints, hitAreas, pointRoles);
-            drawn++;
-        }
-
-        foreach (var area in graph.ReadsOf<AreaRead>()
-            .Where(read => !IsRepeatControlSource(read.Source, repeatControlSources)))
-        {
-            DrawArea(canvas, area, projection, paints, hitAreas, pointRoles);
-            drawn++;
-        }
-
-        foreach (var boundary in graph.ReadsOf<ClosedSegmentBoundaryRead>()
-            .Where(read => !IsRepeatControlSource(read.Source, repeatControlSources)))
-        {
-            DrawClosedSegmentBoundary(canvas, boundary, projection, paints, hitAreas);
             drawn++;
         }
 
@@ -1294,6 +1308,52 @@ public sealed class GojoCadSkiaAdapter
         }
     }
 
+    private static void DrawClosedSharedFrameBoundary(
+        SKCanvas canvas,
+        ClosedSharedFrameBoundaryRead boundary,
+        IGojoCadSkiaProjection projection,
+        GojoCadSkiaPaints paints,
+        ICollection<GojoCadSkiaHitArea>? hitAreas)
+    {
+        var path = BuildClosedSharedFrameBoundaryPath(boundary, projection);
+        if (path is null)
+        {
+            return;
+        }
+
+        using (path)
+        {
+            canvas.DrawPath(path, paints.AreaBoundary);
+            AddHit(hitAreas, path.Bounds, "closed frame boundary", priority: 1, boundary.Source);
+        }
+    }
+
+    private static void DrawSharedFrameArea(
+        SKCanvas canvas,
+        SharedFrameAreaRead area,
+        IGojoCadSkiaProjection projection,
+        GojoCadSkiaPaints paints,
+        ICollection<GojoCadSkiaHitArea>? hitAreas,
+        HashSet<LocationKey> pointRoles)
+    {
+        var path = BuildClosedSharedFrameBoundaryPath(area.Boundary, projection);
+        if (path is null)
+        {
+            return;
+        }
+
+        using (path)
+        {
+            canvas.DrawPath(path, area.IsAntiArea ? paints.AntiAreaFill : paints.AreaFill);
+            AddHit(hitAreas, path.Bounds, area.IsAntiArea ? "frame anti-area" : "frame area", priority: 2, area.Source);
+        }
+
+        foreach (var point in area.Participation.Points)
+        {
+            pointRoles.Add(LocationKey.Of(point.Location));
+        }
+    }
+
     private static void DrawBranchMergeNode(
         SKCanvas canvas,
         PathJunctionRead junction,
@@ -1420,6 +1480,34 @@ public sealed class GojoCadSkiaAdapter
         return path;
     }
 
+    private static SKPath? BuildClosedSharedFrameBoundaryPath(
+        ClosedSharedFrameBoundaryRead boundary,
+        IGojoCadSkiaProjection projection)
+    {
+        var points = boundary.Sites
+            .Select(site => AverageProjectedSharedFrameSite(site, projection))
+            .Distinct()
+            .ToArray();
+        if (points.Length < 3)
+        {
+            return null;
+        }
+
+        var center = new SKPoint(points.Average(point => point.X), points.Average(point => point.Y));
+        var ordered = points
+            .OrderBy(point => MathF.Atan2(point.Y - center.Y, point.X - center.X))
+            .ToArray();
+        var path = new SKPath();
+        path.MoveTo(ordered[0]);
+        foreach (var point in ordered.Skip(1))
+        {
+            path.LineTo(point);
+        }
+
+        path.Close();
+        return path;
+    }
+
     private static SKPoint AverageProjectedSite(
         IReadOnlyList<SegmentEndpointRead> site,
         IGojoCadSkiaProjection projection)
@@ -1436,6 +1524,16 @@ public sealed class GojoCadSkiaAdapter
     {
         var points = site
             .Select(endpoint => projection.Project(endpoint.Point.Location))
+            .ToArray();
+        return new SKPoint(points.Average(point => point.X), points.Average(point => point.Y));
+    }
+
+    private static SKPoint AverageProjectedSharedFrameSite(
+        IReadOnlyList<SharedFrameSegmentEndpointRead> site,
+        IGojoCadSkiaProjection projection)
+    {
+        var points = site
+            .Select(endpoint => projection.ProjectFrame(endpoint.Point))
             .ToArray();
         return new SKPoint(points.Average(point => point.X), points.Average(point => point.Y));
     }

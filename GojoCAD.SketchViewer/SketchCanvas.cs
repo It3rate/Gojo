@@ -35,7 +35,11 @@ internal sealed class SketchCanvas : Control
         base.Render(context);
         if (Document is { } current)
         {
-            context.Custom(new SketchDrawOperation(new Rect(Bounds.Size), current.SelectedScene, current.CurrentRungIndex));
+            context.Custom(new SketchDrawOperation(
+                new Rect(Bounds.Size),
+                current.SelectedScene,
+                current.CurrentRungIndex,
+                current.ShowConstructionPoints));
         }
     }
 
@@ -51,12 +55,14 @@ internal sealed class SketchDrawOperation : ICustomDrawOperation
     private static readonly GojoCadSkiaSceneRenderer Renderer = new();
     private readonly SketchScene scene;
     private readonly int selectedRungIndex;
+    private readonly bool showConstructionPoints;
 
-    public SketchDrawOperation(Rect bounds, SketchScene scene, int selectedRungIndex)
+    public SketchDrawOperation(Rect bounds, SketchScene scene, int selectedRungIndex, bool showConstructionPoints)
     {
         Bounds = bounds;
         this.scene = scene;
         this.selectedRungIndex = selectedRungIndex;
+        this.showConstructionPoints = showConstructionPoints;
     }
 
     public Rect Bounds { get; }
@@ -98,14 +104,14 @@ internal sealed class SketchDrawOperation : ICustomDrawOperation
         var boundedRung = Math.Clamp(selectedRungIndex, 0, Math.Max(0, rungs.Count - 1));
         if (rungs.Count == 0)
         {
-            using var paints = CreateSketchPaints(Blue(255), 3.4f, hidePoints: true);
+            using var paints = CreateSketchPaints(Blue(255), 3.4f, hidePoints: !showConstructionPoints);
             Renderer.Draw(canvas, scene.Structure, viewport, scene.ProjectionSeed, scene.ModelBounds, paints);
             return;
         }
 
         if (boundedRung == rungs.Count - 1)
         {
-            DrawRung(canvas, rungs[boundedRung], viewport, Blue(255), 3.4f, hidePoints: true);
+            DrawRung(canvas, rungs[boundedRung], viewport, Blue(255), 3.4f, hidePoints: !showConstructionPoints);
             return;
         }
 
@@ -113,10 +119,10 @@ internal sealed class SketchDrawOperation : ICustomDrawOperation
         {
             var distance = boundedRung - index;
             var alpha = (byte)Math.Clamp(122 - distance * 18, 30, 104);
-            DrawRung(canvas, rungs[index], viewport, Gray(alpha), 1.75f);
+            DrawRung(canvas, rungs[index], viewport, Gray(alpha), 1.75f, hidePoints: !showConstructionPoints);
         }
 
-        DrawRung(canvas, rungs[boundedRung], viewport, CurrentGray(235), 3.2f, hidePoints: false);
+        DrawRung(canvas, rungs[boundedRung], viewport, CurrentGray(235), 3.2f, hidePoints: !showConstructionPoints);
     }
 
     private void DrawHeader(SKCanvas canvas, SKRect viewport)
@@ -196,13 +202,22 @@ internal sealed class SketchDrawOperation : ICustomDrawOperation
         ApplyStroke(paints.LineSeedTension, color, Math.Max(1f, strokeWidth * 0.5f));
         ApplyStroke(paints.SheetSeedEdge, color, Math.Max(1f, strokeWidth * 0.45f));
         ApplyStroke(paints.SheetSeedEdgeTension, color, Math.Max(1f, strokeWidth * 0.45f));
+        paints.AreaFill.Color = new SKColor(255, 255, 255, 204);
+        paints.AreaBoundary.Color = new SKColor(255, 255, 255, 0);
         var pointColor = hidePoints ? new SKColor(color.Red, color.Green, color.Blue, 0) : color;
+        var pointBorderColor = hidePoints ? new SKColor(color.Red, color.Green, color.Blue, 0) : paints.TopologyNodeBorder.Color;
         paints.Dot.Color = pointColor;
         paints.SharedFramePoint.Color = pointColor;
         paints.BranchNode.Color = pointColor;
         paints.MergeNode.Color = pointColor;
         paints.PathGraphTerminalNode.Color = pointColor;
         paints.PathGraphBranchNode.Color = pointColor;
+        if (hidePoints)
+        {
+            paints.Basis.Color = pointColor;
+            paints.TopologyNodeBorder.Color = pointBorderColor;
+        }
+
         return paints;
     }
 
