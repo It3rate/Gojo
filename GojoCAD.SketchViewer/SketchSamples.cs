@@ -254,17 +254,31 @@ internal static class SketchSamples
             P(-106, 2),
             P(-111, 3));
         var treeWoodThick = Chain(treeTrunkThick, leftBranchThick, rightBranchThick, treeBall);
+        var treeWoodMerged = AreaPolygon(
+            P(-113, -30),
+            P(-103, -30),
+            P(-103, 2),
+            P(-98, 7),
+            P(-90, 14),
+            P(-82, 22),
+            P(-82, 27),
+            P(-88, 28),
+            P(-98, 20),
+            P(-106, 12),
+            P(-110, 12),
+            P(-119, 20),
+            P(-130, 28),
+            P(-136, 25),
+            P(-132, 20),
+            P(-121, 11),
+            P(-113, 5));
         var treeLeafRegions = Chain(
-            treeTrunkThick,
-            leftBranchThick,
-            rightBranchThick,
+            treeWoodMerged,
             Circle(-128, 29, 15),
             Circle(-108, 39, 17),
             Circle(-88, 30, 15));
         var treeFluffy = Chain(
-            treeTrunkThick,
-            leftBranchThick,
-            rightBranchThick,
+            treeWoodMerged,
             FilledLeafBlob(-130, 29, 17, 15),
             FilledLeafBlob(-108, 41, 19, 17),
             FilledLeafBlob(-87, 31, 17, 15));
@@ -282,8 +296,9 @@ internal static class SketchSamples
         var treeTrunkState = Chain(horizon, houseWithOverhang, treeWithThickTrunk, cloudOval, doorRectangle, windowRectangle);
         var doorArchState = Chain(horizon, houseWithOverhang, treeWithThickTrunk, cloudOval, archedDoor, windowRectangle);
         var treeBranchThickState = Chain(horizon, houseWithOverhang, treeWoodThick, cloudOval, archedDoor, windowRectangle);
-        var windowPlusState = Chain(horizon, houseWithOverhang, treeWoodThick, cloudOval, archedDoor, windowPlus);
-        var windowRefinedState = Chain(horizon, houseWithOverhang, treeWoodThick, cloudOval, archedDoor, roundedWindowPlus);
+        var treeWoodMergedState = Chain(horizon, houseWithOverhang, treeWoodMerged, cloudOval, archedDoor, windowRectangle);
+        var windowPlusState = Chain(horizon, houseWithOverhang, treeWoodMerged, cloudOval, archedDoor, windowPlus);
+        var windowRefinedState = Chain(horizon, houseWithOverhang, treeWoodMerged, cloudOval, archedDoor, roundedWindowPlus);
         var treeRegionsState = Chain(horizon, houseWithOverhang, treeLeafRegions, cloudOval, archedDoor, roundedWindowPlus);
         var cloudRefinedState = Chain(horizon, houseWithOverhang, treeLeafRegions, cloudOutline, archedDoor, roundedWindowPlus);
         var chimneyBodyState = Chain(horizon, houseWithOverhang, treeLeafRegions, cloudOutline, archedDoor, roundedWindowPlus, chimneyBody);
@@ -304,9 +319,10 @@ internal static class SketchSamples
         var treeTrunkStep = RefinedRung(windowRectState, treeTrunkLine, treeCurvedBranches, Chain(horizon, houseWithOverhang, cloudOval, doorRectangle, windowRectangle), treeWithThickTrunk, treeTrunkState);
         var doorArchStep = RefinedRung(treeTrunkState, doorRectangle, doorRectangle, Chain(horizon, houseWithOverhang, cloudOval, treeWithThickTrunk, windowRectangle), archedDoor, doorArchState);
         var treeBranchThickStep = RefinedRung(doorArchState, treeJunction, treeWithThickTrunk, Chain(horizon, houseWithOverhang, cloudOval, archedDoor, windowRectangle), treeWoodThick, treeBranchThickState);
-        var windowPlusStep = RefinedRung(treeBranchThickState, windowRectangle, windowRectangle, Chain(horizon, houseWithOverhang, cloudOval, treeWoodThick, archedDoor), windowPlus, windowPlusState);
-        var windowRefineStep = RefinedRung(windowPlusState, windowRectangle, windowPlus, Chain(horizon, houseWithOverhang, cloudOval, treeWoodThick, archedDoor), roundedWindowPlus, windowRefinedState);
-        var treeRegionStep = RefinedRung(windowRefinedState, treeBall, treeWoodThick, Chain(horizon, houseWithOverhang, cloudOval, archedDoor, roundedWindowPlus), treeLeafRegions, treeRegionsState);
+        var treeWoodMergeStep = RefinedRung(treeBranchThickState, treeWoodThick, treeWoodThick, Chain(horizon, houseWithOverhang, cloudOval, archedDoor, windowRectangle), treeWoodMerged, treeWoodMergedState);
+        var windowPlusStep = RefinedRung(treeWoodMergedState, windowRectangle, windowRectangle, Chain(horizon, houseWithOverhang, cloudOval, treeWoodMerged, archedDoor), windowPlus, windowPlusState);
+        var windowRefineStep = RefinedRung(windowPlusState, windowRectangle, windowPlus, Chain(horizon, houseWithOverhang, cloudOval, treeWoodMerged, archedDoor), roundedWindowPlus, windowRefinedState);
+        var treeRegionStep = RefinedRung(windowRefinedState, treeBall, treeWoodMerged, Chain(horizon, houseWithOverhang, cloudOval, archedDoor, roundedWindowPlus), treeLeafRegions, treeRegionsState);
         var cloudRefineStep = RefinedRung(treeRegionsState, cloudOval, cloudOval, Chain(horizon, houseWithOverhang, treeLeafRegions, archedDoor, roundedWindowPlus), cloudOutline, cloudRefinedState);
         var chimneyBodyStep = RefinedRung(cloudRefinedState, roofOverhang, roofOverhang, cloudRefinedState, chimneyBody, chimneyBodyState);
         var treeFluffyStep = RefinedRung(chimneyBodyState, treeLeafRegions, treeLeafRegions, Chain(horizon, houseWithOverhang, cloudOutline, archedDoor, roundedWindowPlus, chimneyBody), treeFluffy, treeFluffyState);
@@ -327,6 +343,7 @@ internal static class SketchSamples
             treeTrunkStep.Rung,
             doorArchStep.Rung,
             treeBranchThickStep.Rung,
+            treeWoodMergeStep.Rung,
             windowPlusStep.Rung,
             windowRefineStep.Rung,
             treeRegionStep.Rung,
@@ -350,6 +367,7 @@ internal static class SketchSamples
             treeTrunkStep.Focus,
             doorArchStep.Focus,
             treeBranchThickStep.Focus,
+            treeWoodMergeStep.Focus,
             windowPlusStep.Focus,
             windowRefineStep.Focus,
             treeRegionStep.Focus,
@@ -375,6 +393,7 @@ internal static class SketchSamples
             "Tree trunk thickens",
             "Door arch",
             "Tree branches thicken",
+            "Tree wood merges",
             "Window plus",
             "Window rounded rectangle",
             "Tree leaf circles",

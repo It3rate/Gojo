@@ -1479,29 +1479,71 @@ public sealed class GojoCadSkiaAdapter
         ClosedSharedFrameBoundaryRead boundary,
         IGojoCadSkiaProjection projection)
     {
-        var points = boundary.Sites
-            .Select(site => AverageProjectedSharedFrameSite(site, projection))
-            .Distinct()
-            .ToArray();
-        if (points.Length < 3)
+        if (boundary.Segments.Count < 3 ||
+            boundary.Sites.Count < 3)
         {
             return null;
         }
 
-        var center = new SKPoint(points.Average(point => point.X), points.Average(point => point.Y));
-        var ordered = points
-            .OrderBy(point => MathF.Atan2(point.Y - center.Y, point.X - center.X))
-            .ToArray();
-        var path = new SKPath();
-        path.MoveTo(ordered[0]);
-        foreach (var point in ordered.Skip(1))
+        var pointByEndpoint = new Dictionary<SharedFrameSegmentEndpointRead, SKPoint>();
+        var siteByEndpoint = new Dictionary<SharedFrameSegmentEndpointRead, IReadOnlyList<SharedFrameSegmentEndpointRead>>();
+        foreach (var site in boundary.Sites)
         {
-            path.LineTo(point);
+            var point = AverageProjectedSharedFrameSite(site, projection);
+            foreach (var endpoint in site)
+            {
+                pointByEndpoint[endpoint] = point;
+                siteByEndpoint[endpoint] = site;
+            }
+        }
+
+        var start = new SharedFrameSegmentEndpointRead(boundary.Segments[0], boundary.Segments[0].Start, IsStart: true);
+        if (!pointByEndpoint.TryGetValue(start, out var startPoint))
+        {
+            return null;
+        }
+
+        var path = new SKPath();
+        path.MoveTo(startPoint);
+        var visited = new HashSet<ulong>();
+        var incoming = start;
+        while (visited.Add(ReadSourceId(incoming.Segment.Source)))
+        {
+            var outgoing = OtherSharedFrameEndpoint(incoming);
+            if (!pointByEndpoint.TryGetValue(outgoing, out var nextPoint))
+            {
+                path.Dispose();
+                return null;
+            }
+
+            path.LineTo(nextPoint);
+            if (!siteByEndpoint.TryGetValue(outgoing, out var site))
+            {
+                break;
+            }
+
+            var next = site.FirstOrDefault(endpoint =>
+                ReadSourceId(endpoint.Segment.Source) != ReadSourceId(incoming.Segment.Source) &&
+                !visited.Contains(ReadSourceId(endpoint.Segment.Source)));
+            if (next is null)
+            {
+                break;
+            }
+
+            incoming = next;
         }
 
         path.Close();
         return path;
     }
+
+    private static SharedFrameSegmentEndpointRead OtherSharedFrameEndpoint(SharedFrameSegmentEndpointRead endpoint) =>
+        endpoint.IsStart
+            ? new SharedFrameSegmentEndpointRead(endpoint.Segment, endpoint.Segment.End, IsStart: false)
+            : new SharedFrameSegmentEndpointRead(endpoint.Segment, endpoint.Segment.Start, IsStart: true);
+
+    private static ulong ReadSourceId(IElement source) =>
+        source is Relation relation ? relation.Id : 0UL;
 
     private static SKPoint AverageProjectedSite(
         IReadOnlyList<SegmentEndpointRead> site,
