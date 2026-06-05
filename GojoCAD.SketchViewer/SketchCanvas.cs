@@ -4,6 +4,8 @@ using Avalonia.Media;
 using Avalonia.Rendering.SceneGraph;
 using Avalonia.Skia;
 using Avalonia.VisualTree;
+using Gojo.Core;
+using Gojo.Structures;
 using GojoDraw;
 using SkiaSharp;
 
@@ -33,7 +35,7 @@ internal sealed class SketchCanvas : Control
         base.Render(context);
         if (Document is { } current)
         {
-            context.Custom(new SketchDrawOperation(new Rect(Bounds.Size), current.SelectedScene));
+            context.Custom(new SketchDrawOperation(new Rect(Bounds.Size), current.SelectedScene, current.CurrentRungIndex));
         }
     }
 
@@ -48,11 +50,13 @@ internal sealed class SketchDrawOperation : ICustomDrawOperation
 {
     private static readonly GojoCadSkiaSceneRenderer Renderer = new();
     private readonly SketchScene scene;
+    private readonly int selectedRungIndex;
 
-    public SketchDrawOperation(Rect bounds, SketchScene scene)
+    public SketchDrawOperation(Rect bounds, SketchScene scene, int selectedRungIndex)
     {
         Bounds = bounds;
         this.scene = scene;
+        this.selectedRungIndex = selectedRungIndex;
     }
 
     public Rect Bounds { get; }
@@ -90,8 +94,29 @@ internal sealed class SketchDrawOperation : ICustomDrawOperation
             Math.Max(79f, (float)Bounds.Height - 48f));
 
         DrawHeader(canvas, viewport);
-        using var paints = CreateSketchPaints();
-        Renderer.Draw(canvas, scene.Structure, viewport, scene.ProjectionSeed, scene.ModelBounds, paints);
+        var rungs = scene.ReadRungs();
+        var boundedRung = Math.Clamp(selectedRungIndex, 0, Math.Max(0, rungs.Count - 1));
+        if (rungs.Count == 0)
+        {
+            using var paints = CreateSketchPaints(Blue(255), 3.4f);
+            Renderer.Draw(canvas, scene.Structure, viewport, scene.ProjectionSeed, scene.ModelBounds, paints);
+            return;
+        }
+
+        if (boundedRung == rungs.Count - 1)
+        {
+            DrawRung(canvas, rungs[boundedRung], viewport, Blue(255), 3.4f);
+            return;
+        }
+
+        for (var index = 0; index < boundedRung; index++)
+        {
+            var distance = boundedRung - index;
+            var alpha = (byte)Math.Clamp(122 - distance * 18, 30, 104);
+            DrawRung(canvas, rungs[index], viewport, Gray(alpha), 1.75f);
+        }
+
+        DrawRung(canvas, rungs[boundedRung], viewport, Blue(255), 3.4f);
     }
 
     private void DrawHeader(SKCanvas canvas, SKRect viewport)
@@ -114,10 +139,31 @@ internal sealed class SketchDrawOperation : ICustomDrawOperation
         };
 
         canvas.DrawText(scene.Label, viewport.Left, 34f, title);
-        DrawTextLine(canvas, scene.Caption, viewport.Left, 56f, viewport.Width, caption);
+        var rungText = $"{selectedRungIndex + 1}/{scene.RungCount}: {scene.ReadRungLabel(selectedRungIndex)}";
+        DrawTextLine(canvas, $"{scene.Caption}  {rungText}", viewport.Left, 56f, viewport.Width, caption);
     }
 
-    private static GojoCadSkiaPaints CreateSketchPaints()
+    private void DrawRung(SKCanvas canvas, Relation rung, SKRect viewport, SKColor color, float strokeWidth)
+    {
+        if (!StructuralLadderSurface.TryReadRung(
+                rung,
+                out _,
+                out _,
+                out var result,
+                out _,
+                out _,
+                out _,
+                out _,
+                out _))
+        {
+            return;
+        }
+
+        using var paints = CreateSketchPaints(color, strokeWidth);
+        Renderer.Draw(canvas, result, viewport, scene.ProjectionSeed, scene.ModelBounds, paints);
+    }
+
+    private static GojoCadSkiaPaints CreateSketchPaints(SKColor color, float strokeWidth)
     {
         var paints = new GojoCadSkiaPaints
         {
@@ -131,11 +177,42 @@ internal sealed class SketchDrawOperation : ICustomDrawOperation
             LineSeedLength = 30f,
             SheetSeedWidth = 12f
         };
-        paints.Segment.StrokeWidth = 2.1f;
-        paints.SharedFrameSegment.StrokeWidth = 2.25f;
-        paints.SharedFrameCurve.StrokeWidth = 2.7f;
-        paints.SharedFramePoint.Color = new SKColor(70, 76, 84, 145);
+        ApplyStroke(paints.Segment, color, strokeWidth * 0.9f);
+        ApplyStroke(paints.SegmentTension, color, strokeWidth * 0.82f);
+        ApplyStroke(paints.AngleControlledSegment, color, strokeWidth);
+        ApplyStroke(paints.AngleControlledSegmentTension, color, strokeWidth * 0.9f);
+        ApplyStroke(paints.SharedFrameSegment, color, strokeWidth);
+        ApplyStroke(paints.SharedFrameCurve, color, strokeWidth);
+        ApplyStroke(paints.SharedFrameCurveTension, color, strokeWidth * 0.9f);
+        ApplyStroke(paints.DirectedSegment, color, strokeWidth);
+        ApplyStroke(paints.DirectedSegmentTension, color, strokeWidth * 0.9f);
+        ApplyStroke(paints.Circumference, color, Math.Max(1.1f, strokeWidth * 0.45f));
+        ApplyStroke(paints.CircumferenceTension, color, Math.Max(1.1f, strokeWidth * 0.45f));
+        ApplyStroke(paints.CircumferenceSpan, color, Math.Max(1.2f, strokeWidth * 0.55f));
+        ApplyStroke(paints.CircumferenceSpanTension, color, Math.Max(1.2f, strokeWidth * 0.55f));
+        ApplyStroke(paints.EndpointBar, color, Math.Max(1f, strokeWidth * 0.45f));
+        ApplyStroke(paints.Partition, color, Math.Max(1f, strokeWidth * 0.45f));
+        ApplyStroke(paints.LineSeed, color, Math.Max(1f, strokeWidth * 0.5f));
+        ApplyStroke(paints.LineSeedTension, color, Math.Max(1f, strokeWidth * 0.5f));
+        ApplyStroke(paints.SheetSeedEdge, color, Math.Max(1f, strokeWidth * 0.45f));
+        ApplyStroke(paints.SheetSeedEdgeTension, color, Math.Max(1f, strokeWidth * 0.45f));
+        paints.Dot.Color = color;
+        paints.SharedFramePoint.Color = color;
+        paints.BranchNode.Color = color;
+        paints.MergeNode.Color = color;
+        paints.PathGraphTerminalNode.Color = color;
+        paints.PathGraphBranchNode.Color = color;
         return paints;
+    }
+
+    private static SKColor Blue(byte alpha) => new(36, 91, 148, alpha);
+
+    private static SKColor Gray(byte alpha) => new(84, 90, 98, alpha);
+
+    private static void ApplyStroke(SKPaint paint, SKColor color, float strokeWidth)
+    {
+        paint.Color = color;
+        paint.StrokeWidth = strokeWidth;
     }
 
     private static void DrawTextLine(SKCanvas canvas, string text, float x, float baseline, float maxWidth, SKPaint paint)

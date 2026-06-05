@@ -73,7 +73,6 @@ internal static class SketchSamples
             GraphicStructure.FrameSegment(windowCenter, windowMidRight),
             GraphicStructure.FrameSegment(windowMidTop, windowCenter),
             GraphicStructure.FrameSegment(windowCenter, windowMidBottom));
-        var windowCrossedRectangle = Chain(windowRectangle, windowCross);
         var roundedWindow = Chain(
             GraphicStructure.FrameSegment(windowRoundTopLeft, windowRoundTopRight),
             GraphicStructure.FrameCubicCurve(windowRoundTopRight, windowTopRightControlA, windowTopRightControlB, windowRoundRightTop),
@@ -84,60 +83,39 @@ internal static class SketchSamples
             GraphicStructure.FrameSegment(windowRoundLeftBottom, windowRoundLeftTop),
             GraphicStructure.FrameCubicCurve(windowRoundLeftTop, windowTopLeftControlA, windowTopLeftControlB, windowRoundTopLeft));
         var roundedWindowPlus = Chain(roundedWindow, windowCross);
-        var windowCrossCorrespondence = FocusSurface.BindingFrame(
-            new Carrier(),
-            FocusSurface.Bind(windowRectangle, windowCrossedRectangle),
-            FocusSurface.Bind(windowCenter, windowCross));
-        var windowCrossFocus = FocusSurface.Create(
-            new Carrier(),
-            windowRectangle,
-            windowCenter,
-            windowRectangle,
-            windowRectangle,
-            windowCross,
-            windowCrossCorrespondence,
-            Relation.Point(Carrier.Unknown, 0),
-            Relation.Point(Carrier.Unknown, 0));
-        var windowBaseRung = StructuralLadderSurface.BaseRung(new Carrier(), windowRectangle);
-        var windowCrossRung = StructuralLadderSurface.Rung(
-            new Carrier(),
-            windowRectangle,
-            windowCrossFocus,
-            windowCrossedRectangle,
-            windowCrossCorrespondence,
-            Relation.Point(Carrier.Unknown, 0),
-            Relation.Point(Carrier.Unknown, 0));
-        var windowRoundCorrespondence = FocusSurface.BindingFrame(
-            new Carrier(),
-            FocusSurface.Bind(windowRectangle, roundedWindow),
-            FocusSurface.Bind(windowCross, windowCross));
-        var windowRoundFocus = FocusSurface.Create(
-            new Carrier(),
-            windowCrossedRectangle,
-            windowRectangle,
-            windowRectangle,
-            windowCross,
-            roundedWindow,
-            windowRoundCorrespondence,
-            Relation.Point(Carrier.Unknown, 0),
-            Relation.Point(Carrier.Unknown, 0));
-        var windowRoundedRung = StructuralLadderSurface.Rung(
-            new Carrier(),
-            windowCrossedRectangle,
-            windowRoundFocus,
-            roundedWindowPlus,
-            windowRoundCorrespondence,
-            Relation.Point(Carrier.Unknown, 0),
-            Relation.Point(Carrier.Unknown, 0));
-        var windowLadder = StructuralLadderSurface.CreateWithRungs(
-            new Carrier(),
-            windowBaseRung,
-            windowCrossRung,
-            windowRoundedRung);
 
         var antennaTip = Point(frame, x, y, -29, 43);
         var antennaLeft = Point(frame, x, y, -38, 48);
         var antennaRight = Point(frame, x, y, -18, 46);
+
+        var houseBoxTop = GraphicStructure.FrameSegment(upperRight, upperLeft);
+        var houseBox = Chain(
+            GraphicStructure.FrameSegment(lowerLeft, lowerRight),
+            GraphicStructure.FrameSegment(lowerRight, upperRight),
+            houseBoxTop,
+            GraphicStructure.FrameSegment(upperLeft, lowerLeft));
+        var houseRoof = Chain(
+            GraphicStructure.FrameSegment(lowerLeft, lowerRight),
+            GraphicStructure.FrameSegment(lowerRight, upperRight),
+            GraphicStructure.FrameSegment(upperRight, roofApex),
+            GraphicStructure.FrameSegment(roofApex, roofAntennaJoint),
+            GraphicStructure.FrameSegment(roofAntennaJoint, upperLeft),
+            GraphicStructure.FrameSegment(upperLeft, lowerLeft));
+        var doorRectangle = Chain(
+            GraphicStructure.FrameSegment(doorLeftBottom, doorRightBottom),
+            GraphicStructure.FrameSegment(doorRightBottom, doorRightTop),
+            GraphicStructure.FrameSegment(doorRightTop, doorLeftTop),
+            GraphicStructure.FrameSegment(doorLeftTop, doorLeftBottom));
+        var archedDoor = Chain(
+            GraphicStructure.FrameSegment(doorLeftBottom, doorLeftTop),
+            GraphicStructure.FrameCubicCurve(doorLeftTop, doorLeftControl, doorRightControl, doorRightTop),
+            GraphicStructure.FrameSegment(doorRightTop, doorRightBottom),
+            GraphicStructure.FrameSegment(doorRightBottom, doorLeftBottom));
+        var antennaStem = GraphicStructure.FrameSegment(roofAntennaJoint, antennaTip);
+        var refinedAntenna = Chain(
+            antennaStem,
+            GraphicStructure.FrameSegment(antennaTip, antennaLeft),
+            GraphicStructure.FrameSegment(antennaTip, antennaRight));
 
         const long cloudAnchorX = -120;
         const long cloudAnchorY = 60;
@@ -174,7 +152,22 @@ internal static class SketchSamples
         var cloudLowerLeftIn = CloudPoint(22, -8);
         var cloudLowerLeftOut = CloudPoint(6, -8);
         var cloudLeftCuspReturn = CloudPoint(0, -7);
-        var cloudPlacement = new Relation(upperLeft, new Relation(cloudLeftCusp, Carrier.Unknown));
+        var cloudOvalTop = CloudPoint(27, 13);
+        var cloudOvalRight = CloudPoint(54, -1);
+        var cloudOvalBottom = CloudPoint(27, -10);
+        var cloudOvalLeftToTopA = CloudPoint(0, 7);
+        var cloudOvalLeftToTopB = CloudPoint(12, 13);
+        var cloudOvalTopToRightA = CloudPoint(42, 13);
+        var cloudOvalTopToRightB = CloudPoint(54, 7);
+        var cloudOvalRightToBottomA = CloudPoint(54, -7);
+        var cloudOvalRightToBottomB = CloudPoint(42, -10);
+        var cloudOvalBottomToLeftA = CloudPoint(12, -10);
+        var cloudOvalBottomToLeftB = CloudPoint(0, -7);
+        var cloudOval = Chain(
+            GraphicStructure.FrameCubicCurve(cloudLeftCusp, cloudOvalLeftToTopA, cloudOvalLeftToTopB, cloudOvalTop),
+            GraphicStructure.FrameCubicCurve(cloudOvalTop, cloudOvalTopToRightA, cloudOvalTopToRightB, cloudOvalRight),
+            GraphicStructure.FrameCubicCurve(cloudOvalRight, cloudOvalRightToBottomA, cloudOvalRightToBottomB, cloudOvalBottom),
+            GraphicStructure.FrameCubicCurve(cloudOvalBottom, cloudOvalBottomToLeftA, cloudOvalBottomToLeftB, cloudLeftCusp));
         var cloudOutline = Chain(
             // Puffy cloud: peaks and lower joins are tangential; valleys and tips are cusp-like direction changes.
             GraphicStructure.FrameCubicCurve(cloudLeftCusp, cloudLeftCuspOut, cloudLeftPeakIn, cloudLeftPeak),
@@ -186,68 +179,167 @@ internal static class SketchSamples
             GraphicStructure.FrameCubicCurve(cloudRightCusp, cloudRightCuspDown, cloudLowerRightIn, cloudLowerRight),
             GraphicStructure.FrameCubicCurve(cloudLowerRight, cloudLowerRightOut, cloudLowerLeftIn, cloudLowerLeft),
             GraphicStructure.FrameCubicCurve(cloudLowerLeft, cloudLowerLeftOut, cloudLeftCuspReturn, cloudLeftCusp));
-        var cloudCorrespondence = FocusSurface.BindingFrame(
-            new Carrier(),
-            FocusSurface.Bind(cloudLeftCusp, cloudOutline));
-        var cloudFocus = FocusSurface.Create(
-            new Carrier(),
-            cloudPlacement,
-            upperLeft,
+
+        var roughHouseAndCloud = Chain(houseBox, cloudOval);
+        var peakedHouseAndOval = Chain(houseRoof, cloudOval);
+        var rectFeatures = Chain(houseRoof, cloudOval, doorRectangle, windowRectangle);
+        var refinedFeatures = Chain(houseRoof, cloudOval, archedDoor, roundedWindowPlus);
+        var refinedCloud = Chain(houseRoof, cloudOutline, archedDoor, roundedWindowPlus);
+        var antennaLine = Chain(houseRoof, cloudOutline, archedDoor, roundedWindowPlus, antennaStem);
+        var finalSketch = Chain(houseRoof, cloudOutline, archedDoor, roundedWindowPlus, refinedAntenna);
+
+        var baseRung = StructuralLadderSurface.BaseRung(new Carrier(), roughHouseAndCloud);
+        var roofStep = RefinedRung(
+            roughHouseAndCloud,
+            houseBoxTop,
+            houseBox,
+            cloudOval,
+            houseRoof,
+            peakedHouseAndOval);
+        var featureRectStep = RefinedRung(
+            peakedHouseAndOval,
+            houseRoof,
+            peakedHouseAndOval,
+            peakedHouseAndOval,
+            Chain(doorRectangle, windowRectangle),
+            rectFeatures);
+        var featureRefineStep = RefinedRung(
+            rectFeatures,
+            Chain(doorRectangle, windowRectangle),
+            Chain(doorRectangle, windowRectangle),
+            Chain(houseRoof, cloudOval),
+            Chain(archedDoor, roundedWindowPlus),
+            refinedFeatures);
+        var cloudRefineStep = RefinedRung(
+            refinedFeatures,
             cloudLeftCusp,
-            cloudPlacement,
+            cloudOval,
+            Chain(houseRoof, archedDoor, roundedWindowPlus),
             cloudOutline,
-            cloudCorrespondence,
-            Relation.Point(Carrier.Unknown, 0),
-            Relation.Point(Carrier.Unknown, 0));
-        var cloudBaseRung = StructuralLadderSurface.BaseRung(new Carrier(), cloudPlacement);
-        var cloudRefinedRung = StructuralLadderSurface.Rung(
-            new Carrier(),
-            cloudPlacement,
-            cloudFocus,
-            cloudOutline,
-            cloudCorrespondence,
-            Relation.Point(Carrier.Unknown, 0),
-            Relation.Point(Carrier.Unknown, 0));
-        var cloudLadder = StructuralLadderSurface.CreateWithRungs(new Carrier(), cloudBaseRung, cloudRefinedRung);
-
-        var elements = new IElement[]
+            refinedCloud);
+        var antennaLineStep = RefinedRung(
+            refinedCloud,
+            roofAntennaJoint,
+            roofAntennaJoint,
+            refinedCloud,
+            antennaStem,
+            antennaLine);
+        var antennaRefineStep = RefinedRung(
+            antennaLine,
+            antennaTip,
+            antennaStem,
+            refinedCloud,
+            refinedAntenna,
+            finalSketch);
+        var sketchRungs = new[]
         {
-            // Outer closed house outline.
-            GraphicStructure.FrameSegment(lowerLeft, lowerRight),
-            GraphicStructure.FrameSegment(lowerRight, upperRight),
-            GraphicStructure.FrameSegment(upperRight, roofApex),
-            GraphicStructure.FrameSegment(roofApex, roofAntennaJoint),
-            GraphicStructure.FrameSegment(roofAntennaJoint, upperLeft),
-            GraphicStructure.FrameSegment(upperLeft, lowerLeft),
-
-            // Curved closed door loop. Cubic controls make the arch tangent to the side lines.
-            GraphicStructure.FrameSegment(doorLeftBottom, doorLeftTop),
-            GraphicStructure.FrameCubicCurve(doorLeftTop, doorLeftControl, doorRightControl, doorRightTop),
-            GraphicStructure.FrameSegment(doorRightTop, doorRightBottom),
-            GraphicStructure.FrameSegment(doorRightBottom, doorLeftBottom),
-
-            // Window ladder: rectangle -> rectangle with joined plus -> rounded rectangle with joined plus.
-            windowLadder,
-
-            // Roof antenna: the branch shares an actual split point on the roof segment.
-            GraphicStructure.FrameSegment(roofAntennaJoint, antennaTip),
-            GraphicStructure.FrameSegment(antennaTip, antennaLeft),
-            GraphicStructure.FrameSegment(antennaTip, antennaRight),
-
-            // Cloud ladder: coarse placement anchor refines into the local offset outline.
-            cloudLadder
+            baseRung,
+            roofStep.Rung,
+            featureRectStep.Rung,
+            featureRefineStep.Rung,
+            cloudRefineStep.Rung,
+            antennaLineStep.Rung,
+            antennaRefineStep.Rung
+        };
+        var sketchFocuses = new[]
+        {
+            roofStep.Focus,
+            featureRectStep.Focus,
+            featureRefineStep.Focus,
+            cloudRefineStep.Focus,
+            antennaLineStep.Focus,
+            antennaRefineStep.Focus
+        };
+        var ladder = TimelineLadder(sketchRungs, sketchFocuses);
+        var rungLabels = new[]
+        {
+            "Box + oval",
+            "Peak roof",
+            "Door/window rectangles",
+            "Arch door + window",
+            "Puffy cloud",
+            "Antenna line",
+            "Antenna refined"
         };
 
         return new SketchScene(
-            "House Sketch With Roof Antenna",
-            "Straight outline, tangent door arch, closed window, roof branch joint, and a cusped puffy cloud.",
-            Chain(elements),
+            "House Drawing Ladder",
+            "Ordered rough-in ladder from box and oval to the finished sketch.",
+            ladder,
             seed,
-            new SKRect(-148, -80, 48, 38));
+            new SKRect(-148, -84, 58, 38),
+            rungLabels);
+    }
+
+    private static (Relation Rung, Relation Focus) RefinedRung(
+        IElement source,
+        IElement focusBasis,
+        IElement participation,
+        IElement complement,
+        IElement replacement,
+        IElement result)
+    {
+        var correspondence = FocusSurface.BindingFrame(
+            new Carrier(),
+            FocusSurface.Bind(participation, replacement));
+        var focus = FocusSurface.Create(
+            new Carrier(),
+            source,
+            focusBasis,
+            participation,
+            complement,
+            replacement,
+            correspondence,
+            UnknownPoint(),
+            UnknownPoint());
+        var rung = StructuralLadderSurface.Rung(
+            new Carrier(),
+            source,
+            focus,
+            result,
+            correspondence,
+            UnknownPoint(),
+            UnknownPoint());
+        return (rung, focus);
+    }
+
+    private static Relation TimelineLadder(IReadOnlyList<Relation> rungs, IReadOnlyList<Relation> focuses)
+    {
+        if (rungs.Count == 0)
+        {
+            return StructuralLadderSurface.BaseRung(new Carrier(), UnknownPoint());
+        }
+
+        var clock = TimeStepSequence.CreateClock(new Carrier());
+        var stepCount = Math.Min(Math.Max(0, rungs.Count - 1), focuses.Count);
+        var steps = new Relation[stepCount];
+        for (var index = 0; index < stepCount; index++)
+        {
+            steps[index] = StructuralLadderSurface.Step(
+                new Carrier(),
+                clock,
+                index,
+                index + 1,
+                rungs[index],
+                focuses[index],
+                rungs[index + 1],
+                UnknownPoint());
+        }
+
+        return StructuralLadderSurface.Create(
+            new Carrier(),
+            rungs[0],
+            StructuralLadderSurface.RungFrame(new Carrier(), [.. rungs]),
+            StructuralLadderSurface.Timeline(new Carrier(), clock, rungs[0], steps),
+            UnknownPoint(),
+            UnknownPoint());
     }
 
     private static Relation Point(Carrier frame, Carrier x, Carrier y, long xTicks, long yTicks) =>
         GraphicStructure.FramePoint(frame, new CarrierLocation(x, xTicks), new CarrierLocation(y, yTicks));
+
+    private static Relation UnknownPoint() =>
+        Relation.Point(Carrier.Unknown, 0);
 
     private static Relation Chain(params IElement[] elements)
     {
