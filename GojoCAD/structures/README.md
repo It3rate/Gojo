@@ -180,3 +180,26 @@ carry a reusable topology template with normalized root, junction, branch-tip,
 and crown-center evidence. This is still sample-side calculation for concrete
 pixels, but the corresponding Gojo structure records the basis and parameter
 surfaces needed for later replay or replacement.
+
+The opening and chimney refinements now go one step further: the door rectangle,
+arched door, window rectangle, window cross, rounded window, chimney cap, and
+door knob are constructed from their center/width/height/radius/rise parameters.
+The rendered points are still concrete frame points, but those points are
+calculated from the same values bound into the template instance, reducing the
+gap between "evidence says this is parameterized" and "the shape was actually
+created from the parameters."
+
+The cloud and tree foliage follow the same direction. The cloud seed and puffy
+outline are now instances of one anchor/width/height template, with the puffs
+constructed from a normalized local profile. Leaf blobs bind the same reusable
+profile surface alongside their center and radii, and branch curve controls are
+derived from junction/tip landmarks plus local bow values instead of independent
+control-point literals.
+
+The final tree wood merge also smooths the offset branch/trunk construction.
+The earlier rung can still show offset pieces as a construction approximation,
+but the merge rung adds one closed cubic outline around the trunk and both
+branches. A soft sampled fill remains underneath because shared-frame area
+reads currently derive closed areas from segment boundaries only; a later read
+graph upgrade should allow cubic/arc boundaries to participate in fills without
+collapsing the curve offset back into straight segments.
