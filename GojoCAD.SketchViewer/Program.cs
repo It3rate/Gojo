@@ -3,6 +3,8 @@ using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Layout;
 using Avalonia.Media;
+using Gojo.Core;
+using Gojo.Structures;
 
 namespace GojoCAD.SketchViewer;
 
@@ -15,7 +17,7 @@ internal static class Program
         {
             foreach (var scene in SketchSamples.CreateInitialScenes())
             {
-                _ = scene.Structure;
+                ValidateGeneratedScene(scene);
             }
 
             return;
@@ -26,6 +28,89 @@ internal static class Program
 
     public static AppBuilder BuildAvaloniaApp() =>
         AppBuilder.Configure<App>().UsePlatformDetect();
+
+    private static void ValidateGeneratedScene(SketchScene scene)
+    {
+        if (scene.Structure is not Relation ladder ||
+            !StructuralLadderSurface.TryReadRungPath(ladder, out var rungs) ||
+            rungs.Length == 0)
+        {
+            throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not read as a structural ladder.");
+        }
+
+        if (!StructuralLadderSurface.TryReadTimeline(ladder, out var timeline) ||
+            !TimeStepSequence.TryRead(timeline, out _, out _, out var steps))
+        {
+            throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not expose a readable timeline.");
+        }
+
+        if (steps.Length != rungs.Length - 1)
+        {
+            throw new InvalidOperationException($"Sketch scene '{scene.Label}' has a timeline/rung count mismatch.");
+        }
+
+        foreach (var step in steps)
+        {
+            if (!StructuralLadderSurface.TryReadTransformStep(
+                    step,
+                    out _,
+                    out _,
+                    out _,
+                    out _,
+                    out var application,
+                    out _,
+                    out _) ||
+                !TransformSurface.TryReadApplication(
+                    application,
+                    out _,
+                    out _,
+                    out _,
+                    out _,
+                    out var patch,
+                    out _,
+                    out _,
+                    out _))
+            {
+                throw new InvalidOperationException($"Sketch scene '{scene.Label}' has a non-transform ladder step.");
+            }
+
+            if (!TransformSurface.TryReadPatch(
+                    patch,
+                    out _,
+                    out _,
+                    out _,
+                    out _,
+                    out _,
+                    out _,
+                    out _,
+                    out _,
+                    out _,
+                    out _))
+            {
+                throw new InvalidOperationException($"Sketch scene '{scene.Label}' has a transform step without a readable patch.");
+            }
+
+            if (!TransformSurface.TryCreateOperationOutputRead(
+                    new Carrier(),
+                    application,
+                    Relation.Point(Carrier.Unknown, 0),
+                    Relation.Point(Carrier.Unknown, 0),
+                    out var operationOutput) ||
+                !TransformSurface.TryReadOperationOutput(
+                    operationOutput,
+                    out _,
+                    out _,
+                    out _,
+                    out _,
+                    out _,
+                    out _,
+                    out _,
+                    out _))
+            {
+                throw new InvalidOperationException($"Sketch scene '{scene.Label}' has a transform step without a readable operation output.");
+            }
+        }
+    }
 }
 
 internal sealed class App : Application

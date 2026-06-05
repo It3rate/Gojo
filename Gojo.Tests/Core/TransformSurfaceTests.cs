@@ -325,6 +325,82 @@ public sealed class TransformSurfaceTests
     }
 
     [Fact]
+    public void OperationOutputReadSettlesStructuralFoldTemplateFromBindings()
+    {
+        var selectedPort = new Placeholder();
+        var carryPort = new Placeholder();
+        var replacementPort = new Placeholder();
+        var resultPort = new Placeholder();
+        var operationInputPorts = TransformSurface.Ports(new Carrier(), selectedPort, carryPort, replacementPort);
+        var operation = TransformSurface.Fold(operationInputPorts, resultPort);
+        var transform = TransformSurface.Create(
+            new Carrier(),
+            operationInputPorts,
+            operation,
+            TransformSurface.Ports(new Carrier(), resultPort),
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0));
+        var sourceCarrier = new Carrier();
+        var selected = Relation.Segment(sourceCarrier, 4, 6);
+        var carry = Relation.Segment(sourceCarrier, 0, 4);
+        var replacement = Relation.Segment(new Carrier(), 0, 3);
+        var source = FocusSurface.Frame(new Carrier(), selected, carry);
+        var result = FocusSurface.Frame(new Carrier(), carry, replacement);
+        var focus = FocusSurface.Create(
+            new Carrier(),
+            source,
+            Relation.Point(sourceCarrier, 5),
+            selected,
+            carry,
+            replacement,
+            FocusSurface.Bind(selected, replacement),
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0));
+        var bindings = FocusSurface.BindingFrame(
+            new Carrier(),
+            FocusSurface.Bind(selectedPort, selected),
+            FocusSurface.Bind(carryPort, carry),
+            FocusSurface.Bind(replacementPort, replacement),
+            FocusSurface.Bind(resultPort, result));
+
+        Assert.True(TransformSurface.TryCreateApplication(
+            new Carrier(),
+            transform,
+            focus,
+            bindings,
+            result,
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0),
+            out var application));
+        Assert.True(TransformSurface.TryCreateOperationOutputRead(
+            new Carrier(),
+            application,
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0),
+            out var operationOutput));
+        Assert.True(TransformSurface.TryReadOperationOutput(
+            operationOutput,
+            out _,
+            out _,
+            out var inputEvidence,
+            out var operationRead,
+            out var outputTarget,
+            out var readResult,
+            out _,
+            out _));
+
+        Assert.Equal(result, outputTarget);
+        Assert.Equal(result, readResult);
+        var inputFrame = Assert.IsType<Relation>(inputEvidence);
+        var holder = Assert.IsType<Carrier>(inputFrame.Right);
+        Assert.True(inputFrame.TryReadOrderedElementsOn(holder, out var inputElements));
+        Assert.Equal([selected, carry, replacement], inputElements);
+        var structuralRead = Assert.IsType<Relation>(operationRead);
+        Assert.Equal(result, structuralRead.Left);
+        Assert.Equal(inputEvidence, structuralRead.Right);
+    }
+
+    [Fact]
     public void ApplicationDependencyDiscoversSettledOperationOutputInsideProducerResult()
     {
         var x = new Carrier();

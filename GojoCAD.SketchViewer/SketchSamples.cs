@@ -353,31 +353,31 @@ internal static class SketchSamples
             chimneyCapStep.Rung,
             doorKnobStep.Rung
         };
-        var sketchFocuses = new[]
+        var sketchApplications = new[]
         {
-            houseBoxStep.Focus,
-            roofStep.Focus,
-            treeSeedStep.Focus,
-            cloudSeedStep.Focus,
-            roofOverhangStep.Focus,
-            treeSplitStep.Focus,
-            doorRectStep.Focus,
-            treeCurveStep.Focus,
-            windowRectStep.Focus,
-            treeTrunkStep.Focus,
-            doorArchStep.Focus,
-            treeBranchThickStep.Focus,
-            treeWoodMergeStep.Focus,
-            windowPlusStep.Focus,
-            windowRefineStep.Focus,
-            treeRegionStep.Focus,
-            cloudRefineStep.Focus,
-            chimneyBodyStep.Focus,
-            treeFluffyStep.Focus,
-            chimneyCapStep.Focus,
-            doorKnobStep.Focus
+            houseBoxStep.Application,
+            roofStep.Application,
+            treeSeedStep.Application,
+            cloudSeedStep.Application,
+            roofOverhangStep.Application,
+            treeSplitStep.Application,
+            doorRectStep.Application,
+            treeCurveStep.Application,
+            windowRectStep.Application,
+            treeTrunkStep.Application,
+            doorArchStep.Application,
+            treeBranchThickStep.Application,
+            treeWoodMergeStep.Application,
+            windowPlusStep.Application,
+            windowRefineStep.Application,
+            treeRegionStep.Application,
+            cloudRefineStep.Application,
+            chimneyBodyStep.Application,
+            treeFluffyStep.Application,
+            chimneyCapStep.Application,
+            doorKnobStep.Application
         };
-        var ladder = TimelineLadder(sketchRungs, sketchFocuses);
+        var ladder = TimelineLadder(sketchRungs, sketchApplications);
         var rungLabels = new[]
         {
             "Horizon",
@@ -413,7 +413,7 @@ internal static class SketchSamples
             rungLabels);
     }
 
-    private static (Relation Rung, Relation Focus) RefinedRung(
+    private static (Relation Rung, Relation Focus, Relation Application, Relation Transform) RefinedRung(
         IElement source,
         IElement focusBasis,
         IElement participation,
@@ -434,18 +434,59 @@ internal static class SketchSamples
             correspondence,
             UnknownPoint(),
             UnknownPoint());
-        var rung = StructuralLadderSurface.Rung(
+
+        var selectedPort = new Placeholder();
+        var carryPort = new Placeholder();
+        var replacementPort = new Placeholder();
+        var resultPort = new Placeholder();
+        var selectedCarryReplacementPorts = TransformSurface.Ports(new Carrier(), selectedPort, carryPort, replacementPort);
+        var operation = TransformSurface.Fold(selectedCarryReplacementPorts, resultPort);
+        var operationProvenance = TransformSurface.Frame(
             new Carrier(),
-            source,
-            focus,
-            result,
-            correspondence,
+            TransformSurface.Remove(selectedPort),
+            TransformSurface.Carry(carryPort, carryPort),
+            TransformSurface.Map(selectedPort, replacementPort),
+            operation);
+        var transform = TransformSurface.Create(
+            new Carrier(),
+            TransformSurface.Ports(new Carrier(), selectedPort, carryPort, replacementPort),
+            operation,
+            TransformSurface.Ports(new Carrier(), resultPort),
             UnknownPoint(),
-            UnknownPoint());
-        return (rung, focus);
+            operationProvenance);
+        var bindings = FocusSurface.BindingFrame(
+            new Carrier(),
+            FocusSurface.Bind(selectedPort, participation),
+            FocusSurface.Bind(carryPort, complement),
+            FocusSurface.Bind(replacementPort, replacement),
+            FocusSurface.Bind(resultPort, result),
+            FocusSurface.Bind(participation, replacement));
+
+        if (!TransformSurface.TryCreateApplication(
+                new Carrier(),
+                transform,
+                focus,
+                bindings,
+                result,
+                UnknownPoint(),
+                UnknownPoint(),
+                out var application))
+        {
+            throw new InvalidOperationException("Generated sketch refinement did not create a transform application.");
+        }
+
+        if (!StructuralLadderSurface.TryCreateRungFromTransformApplication(
+                new Carrier(),
+                application,
+                out var rung))
+        {
+            throw new InvalidOperationException("Generated sketch transform application did not create a ladder rung.");
+        }
+
+        return (rung, focus, application, transform);
     }
 
-    private static Relation TimelineLadder(IReadOnlyList<Relation> rungs, IReadOnlyList<Relation> focuses)
+    private static Relation TimelineLadder(IReadOnlyList<Relation> rungs, IReadOnlyList<Relation> applications)
     {
         if (rungs.Count == 0)
         {
@@ -453,17 +494,17 @@ internal static class SketchSamples
         }
 
         var clock = TimeStepSequence.CreateClock(new Carrier());
-        var stepCount = Math.Min(Math.Max(0, rungs.Count - 1), focuses.Count);
+        var stepCount = Math.Min(Math.Max(0, rungs.Count - 1), applications.Count);
         var steps = new Relation[stepCount];
         for (var index = 0; index < stepCount; index++)
         {
-            steps[index] = StructuralLadderSurface.Step(
+            steps[index] = StructuralLadderSurface.TransformStep(
                 new Carrier(),
                 clock,
                 index,
                 index + 1,
                 rungs[index],
-                focuses[index],
+                applications[index],
                 rungs[index + 1],
                 UnknownPoint());
         }

@@ -744,10 +744,14 @@ public static class TransformSurface
                 out var applicationProvenance) ||
             !TryRead(transform, out _, out var operation, out var outputPorts, out _, out _) ||
             operation is not Relation operationRelation ||
-            !TryBuildOperationInput(operationRelation.Left, bindings, out var inputEvidence) ||
-            !TryReadOperationReader(outputPorts, operationRelation.Right, result, out var reader) ||
-            !operationRelation.TryReadOperationFrom(inputEvidence, reader, out var operationRead) ||
-            !TryReadOperationOutputTargets(operationRead, out var outputTarget))
+            !TryReadOperationOutputEvidence(
+                operationRelation,
+                outputPorts,
+                bindings,
+                result,
+                out var inputEvidence,
+                out var operationRead,
+                out var outputTarget))
         {
             operationOutput = null!;
             return false;
@@ -1912,10 +1916,26 @@ public static class TransformSurface
             TryRead(transform, out _, out var transformOperation, out var outputPorts, out _, out _) &&
             Equals(transformOperation, elements[1]) &&
             elements[1] is Relation operationRelation &&
-            TryReadOperationReader(outputPorts, operationRelation.Right, applicationResult, out var reader) &&
-            operationRelation.TryReadOperationFrom(elements[2], reader, out var expectedRead) &&
+            TryReadApplication(
+                applicationRelation,
+                out _,
+                out _,
+                out var applicationBindings,
+                out _,
+                out _,
+                out _,
+                out _,
+                out _) &&
+            TryReadOperationOutputEvidence(
+                operationRelation,
+                outputPorts,
+                applicationBindings,
+                applicationResult,
+                out var expectedInput,
+                out var expectedRead,
+                out var expectedTarget) &&
+            ElementStructureMatches(expectedInput, elements[2]) &&
             ElementStructureMatches(expectedRead, elements[3]) &&
-            TryReadOperationOutputTargets(elements[3], out var expectedTarget) &&
             ElementStructureMatches(expectedTarget, elements[4]) &&
             Equals(applicationResult, elements[5]))
         {
@@ -1939,6 +1959,70 @@ public static class TransformSurface
         residueOrTension = default!;
         provenance = default!;
         return false;
+    }
+
+    private static bool TryReadOperationOutputEvidence(
+        Relation operationRelation,
+        IElement outputPorts,
+        IElement bindings,
+        IElement result,
+        out IElement inputEvidence,
+        out IElement operationRead,
+        out IElement outputTarget)
+    {
+        if (TryBuildOperationInput(operationRelation.Left, bindings, out inputEvidence) &&
+            TryReadOperationReader(outputPorts, operationRelation.Right, result, out var reader) &&
+            operationRelation.TryReadOperationFrom(inputEvidence, reader, out var numericRead) &&
+            TryReadOperationOutputTargets(numericRead, out outputTarget))
+        {
+            operationRead = numericRead;
+            return true;
+        }
+
+        if (TryReadStructuralOperationOutputEvidence(
+                operationRelation,
+                bindings,
+                out inputEvidence,
+                out operationRead,
+                out outputTarget))
+        {
+            return true;
+        }
+
+        inputEvidence = default!;
+        operationRead = default!;
+        outputTarget = default!;
+        return false;
+    }
+
+    private static bool TryReadStructuralOperationOutputEvidence(
+        Relation operationRelation,
+        IElement bindings,
+        out IElement inputEvidence,
+        out IElement operationRead,
+        out IElement outputTarget)
+    {
+        var bindingClauses = ReadBindingClauses(bindings);
+        if (bindingClauses.Length == 0)
+        {
+            inputEvidence = default!;
+            operationRead = default!;
+            outputTarget = default!;
+            return false;
+        }
+
+        inputEvidence = ApplyBindings(operationRelation.Left, bindingClauses, out var inputChanged);
+        outputTarget = ApplyBindings(operationRelation.Right, bindingClauses, out var outputChanged);
+        if (!inputChanged || !outputChanged)
+        {
+            inputEvidence = default!;
+            operationRead = default!;
+            outputTarget = default!;
+            return false;
+        }
+
+        operationRead = new Relation(outputTarget, inputEvidence);
+        return true;
     }
 
     private static bool TryReadRootElements(Relation structure, out IElement[] elements)

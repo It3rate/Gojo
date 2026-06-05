@@ -811,6 +811,14 @@ element in a larger result frame. It is not a full transform solver yet; it is
 the first structural witness that an operation surface produced this output
 surface in this application.
 
+For structural folds, the operation output read can now stay non-numeric. When
+the operation is a relation from an input port surface to an output/result port,
+the application bindings are applied to both sides. The resulting witness uses
+the whole bound output surface as the output target and records the bound input
+surface as evidence. This is how the sketch ladder can express "selected,
+carried, and replacement structure fold into the next rung" without reducing
+that result to a numeric carrier calculation.
+
 Concrete example: a transform can bind fused `x` faces and fused `y` faces into
 a product operation over an area carrier. The operation-output witness can expose
 term targets like `area^-:8`, `area^-:10`, `area^-:12`, and `area:15`. A later
