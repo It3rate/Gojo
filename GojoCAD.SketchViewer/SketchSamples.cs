@@ -28,64 +28,26 @@ internal static class SketchSamples
         long Lerp(long start, long end, long ticks, long scale = 100) =>
             start + ((end - start) * ticks / scale);
 
-        long[] DecomposeTicks(long ticks, IReadOnlyList<long> scales)
-        {
-            if (scales.Count == 0)
-            {
-                return [];
-            }
+        var parameterScales = new long[] { 1, 8, 40 };
 
-            var remaining = ticks;
-            var digits = new long[scales.Count];
-            for (var index = scales.Count - 1; index >= 0; index--)
-            {
-                var scale = scales[index] == 0 ? 1 : scales[index];
-                digits[index] = remaining / scale;
-                remaining %= scale;
-            }
+        long CoarseTicks(long refinedTicks) =>
+            GraphicParameterSurface.CoarseTicks(refinedTicks, parameterScales);
 
-            return digits;
-        }
-
-        long CoarseTicks(long refinedTicks, IReadOnlyList<long> scales)
-        {
-            var digits = DecomposeTicks(refinedTicks, scales);
-            var coarse = 0L;
-            for (var index = 1; index < digits.Length; index++)
-            {
-                coarse += digits[index] * scales[index];
-            }
-
-            return coarse;
-        }
-
-        Relation NormalizedValue(
+        Relation ParameterValue(
             IElement basis,
             long refinedTicks,
             long scaleTicks,
             IElement coarseResult,
-            IElement refinedResult)
-        {
-            var scales = new long[] { 1, 8, 40 };
-            var digits = DecomposeTicks(refinedTicks, scales);
-            var resolution = GraphicParameterSurface.ResolutionValue(
-                new Carrier(),
-                scales,
-                digits,
-                out _,
-                out var composite);
-            return GraphicParameterSurface.NormalizedValue(
+            IElement refinedResult) =>
+            GraphicParameterSurface.NormalizedValue(
                 new Carrier(),
                 basis,
-                new Carrier(),
+                refinedTicks,
                 scaleTicks,
-                CoarseTicks(refinedTicks, scales),
-                composite,
+                parameterScales,
                 coarseResult,
                 refinedResult,
-                resolution,
                 UnknownPoint());
-        }
 
         Relation Oval(long centerX, long centerY, long radiusX, long radiusY)
         {
@@ -185,6 +147,13 @@ internal static class SketchSamples
                 P(centerX - radiusX * 2 / 3, centerY - radiusY * 2 / 3));
         }
 
+        Relation RectOutline(Relation lowerLeftPoint, Relation lowerRightPoint, Relation upperRightPoint, Relation upperLeftPoint) =>
+            Chain(
+                GraphicStructure.FrameSegment(lowerLeftPoint, lowerRightPoint),
+                GraphicStructure.FrameSegment(lowerRightPoint, upperRightPoint),
+                GraphicStructure.FrameSegment(upperRightPoint, upperLeftPoint),
+                GraphicStructure.FrameSegment(upperLeftPoint, lowerLeftPoint));
+
         var horizon = GraphicStructure.FrameSegment(P(-148, -30), P(134, -30));
         var lowerLeft = P(-52, -30);
         var lowerRight = P(52, -30);
@@ -210,38 +179,140 @@ internal static class SketchSamples
             GraphicStructure.FrameSegment(roofOverhangLeft, roofOverhangApex),
             GraphicStructure.FrameSegment(roofOverhangApex, roofOverhangRight));
         var houseWithOverhang = Chain(houseRoof, roofOverhang);
+        var roofExtensionSlot = new Placeholder();
+        var roofLiftSlot = new Placeholder();
+        var roofOverhangTemplate = GraphicParameterSurface.Frame(
+            new Carrier(),
+            roofExtensionSlot,
+            roofLiftSlot);
+        var roofOverhangEvidence = GraphicParameterSurface.TemplateInstanceFromBindings(
+            new Carrier(),
+            roofOverhangTemplate,
+            roofOverhang,
+            GraphicParameterSurface.Frame(
+                new Carrier(),
+                ParameterValue(houseBoxTop, 13, 100, houseBoxTop, roofOverhang),
+                ParameterValue(GraphicStructure.FrameSegment(upperLeft, P(-52, 58)), 16, 100, houseRoof, roofOverhang)),
+            FocusSurface.Bind(roofExtensionSlot, Relation.Point(new Carrier(), 13)),
+            FocusSurface.Bind(roofLiftSlot, Relation.Point(new Carrier(), 8)));
 
+        var wallXBasis = GraphicStructure.FrameSegment(lowerLeft, lowerRight);
+        var wallYBasis = GraphicStructure.FrameSegment(lowerLeft, upperLeft);
+        var doorTemplateCenterSlot = new Placeholder();
+        var doorTemplateWidthSlot = new Placeholder();
+        var doorTemplateHeightSlot = new Placeholder();
+        var doorTemplate = GraphicParameterSurface.Frame(
+            new Carrier(),
+            doorTemplateCenterSlot,
+            doorTemplateWidthSlot,
+            doorTemplateHeightSlot);
+        const long doorCenterXTicks = 50;
+        const long doorCenterYTicks = 29;
+        var doorCenterX = Lerp(-52, 52, doorCenterXTicks);
+        var doorCenterY = Lerp(-30, 8, doorCenterYTicks);
+        var doorCoarseCenterX = Lerp(-52, 52, CoarseTicks(doorCenterXTicks));
+        var doorCoarseCenterY = Lerp(-30, 8, CoarseTicks(doorCenterYTicks));
+        var doorCenter = P(doorCenterX, doorCenterY);
+        var doorCoarseXPoint = P(doorCoarseCenterX, doorCenterY);
+        var doorCoarseYPoint = P(doorCenterX, doorCoarseCenterY);
+        var doorWidth = Relation.Point(new Carrier(), 28);
+        var doorCoarseWidth = Relation.Point(new Carrier(), 20);
+        var doorHeight = Relation.Point(new Carrier(), 22);
+        var doorCoarseHeight = Relation.Point(new Carrier(), 15);
+        var doorEvidence = GraphicParameterSurface.Frame(
+            new Carrier(),
+            ParameterValue(wallXBasis, doorCenterXTicks, 100, doorCoarseXPoint, doorCenter),
+            ParameterValue(wallYBasis, doorCenterYTicks, 100, doorCoarseYPoint, doorCenter),
+            ParameterValue(Relation.Segment(new Carrier(), 0, 1), 47, 100, doorCoarseWidth, doorWidth),
+            ParameterValue(Relation.Segment(new Carrier(), 0, 1), 58, 100, doorCoarseHeight, doorHeight));
         var doorLeftBottom = P(-14, -30);
         var doorRightBottom = P(14, -30);
         var doorRightTop = P(14, -8);
         var doorLeftTop = P(-14, -8);
-        var doorRectangle = Chain(
-            GraphicStructure.FrameSegment(doorLeftBottom, doorRightBottom),
-            GraphicStructure.FrameSegment(doorRightBottom, doorRightTop),
-            GraphicStructure.FrameSegment(doorRightTop, doorLeftTop),
-            GraphicStructure.FrameSegment(doorLeftTop, doorLeftBottom));
+        var doorRectangle = RectOutline(doorLeftBottom, doorRightBottom, doorRightTop, doorLeftTop);
+        var doorRectangleInstance = GraphicParameterSurface.TemplateInstanceFromBindings(
+            new Carrier(),
+            doorTemplate,
+            doorRectangle,
+            doorEvidence,
+            FocusSurface.Bind(doorTemplateCenterSlot, doorCenter),
+            FocusSurface.Bind(doorTemplateWidthSlot, doorWidth),
+            FocusSurface.Bind(doorTemplateHeightSlot, doorHeight));
         var archedDoor = Chain(
             GraphicStructure.FrameSegment(doorLeftBottom, doorLeftTop),
             GraphicStructure.FrameCubicCurve(doorLeftTop, P(-14, 8), P(14, 8), doorRightTop),
             GraphicStructure.FrameSegment(doorRightTop, doorRightBottom),
             GraphicStructure.FrameSegment(doorRightBottom, doorLeftBottom));
+        var archedDoorInstance = GraphicParameterSurface.TemplateInstanceFromBindings(
+            new Carrier(),
+            doorTemplate,
+            archedDoor,
+            doorEvidence,
+            FocusSurface.Bind(doorTemplateCenterSlot, doorCenter),
+            FocusSurface.Bind(doorTemplateWidthSlot, doorWidth),
+            FocusSurface.Bind(doorTemplateHeightSlot, doorHeight));
 
+        var windowTemplateCenterSlot = new Placeholder();
+        var windowTemplateWidthSlot = new Placeholder();
+        var windowTemplateHeightSlot = new Placeholder();
+        var windowTemplateCornerSlot = new Placeholder();
+        var windowTemplate = GraphicParameterSurface.Frame(
+            new Carrier(),
+            windowTemplateCenterSlot,
+            windowTemplateWidthSlot,
+            windowTemplateHeightSlot,
+            windowTemplateCornerSlot);
         var windowLowerLeft = P(22, -14);
         var windowLowerRight = P(42, -14);
         var windowUpperRight = P(42, 6);
         var windowUpperLeft = P(22, 6);
-        var windowCenter = P(32, -4);
-        var windowRectangle = Chain(
-            GraphicStructure.FrameSegment(windowLowerLeft, windowLowerRight),
-            GraphicStructure.FrameSegment(windowLowerRight, windowUpperRight),
-            GraphicStructure.FrameSegment(windowUpperRight, windowUpperLeft),
-            GraphicStructure.FrameSegment(windowUpperLeft, windowLowerLeft));
+        const long windowCenterXTicks = 81;
+        const long windowCenterYTicks = 68;
+        var windowCenterX = Lerp(-52, 52, windowCenterXTicks);
+        var windowCenterY = Lerp(-30, 8, windowCenterYTicks);
+        var windowCoarseCenterX = Lerp(-52, 52, CoarseTicks(windowCenterXTicks));
+        var windowCoarseCenterY = Lerp(-30, 8, CoarseTicks(windowCenterYTicks));
+        var windowCenter = P(windowCenterX, windowCenterY);
+        var windowCoarseXPoint = P(windowCoarseCenterX, windowCenterY);
+        var windowCoarseYPoint = P(windowCenterX, windowCoarseCenterY);
+        var windowWidth = Relation.Point(new Carrier(), 20);
+        var windowCoarseWidth = Relation.Point(new Carrier(), 16);
+        var windowHeight = Relation.Point(new Carrier(), 20);
+        var windowCoarseHeight = Relation.Point(new Carrier(), 16);
+        var windowCornerRadius = Relation.Point(new Carrier(), 4);
+        var windowCoarseCornerRadius = Relation.Point(new Carrier(), 0);
+        var windowEvidence = GraphicParameterSurface.Frame(
+            new Carrier(),
+            ParameterValue(wallXBasis, windowCenterXTicks, 100, windowCoarseXPoint, windowCenter),
+            ParameterValue(wallYBasis, windowCenterYTicks, 100, windowCoarseYPoint, windowCenter),
+            ParameterValue(Relation.Segment(new Carrier(), 0, 1), 35, 100, windowCoarseWidth, windowWidth),
+            ParameterValue(Relation.Segment(new Carrier(), 0, 1), 53, 100, windowCoarseHeight, windowHeight),
+            ParameterValue(Relation.Segment(new Carrier(), 0, 1), 32, 100, windowCoarseCornerRadius, windowCornerRadius));
+        var windowRectangle = RectOutline(windowLowerLeft, windowLowerRight, windowUpperRight, windowUpperLeft);
+        var windowRectangleInstance = GraphicParameterSurface.TemplateInstanceFromBindings(
+            new Carrier(),
+            windowTemplate,
+            windowRectangle,
+            windowEvidence,
+            FocusSurface.Bind(windowTemplateCenterSlot, windowCenter),
+            FocusSurface.Bind(windowTemplateWidthSlot, windowWidth),
+            FocusSurface.Bind(windowTemplateHeightSlot, windowHeight),
+            FocusSurface.Bind(windowTemplateCornerSlot, windowCoarseCornerRadius));
         var windowCross = Chain(
             GraphicStructure.FrameSegment(P(22, -4), windowCenter),
             GraphicStructure.FrameSegment(windowCenter, P(42, -4)),
             GraphicStructure.FrameSegment(P(32, 6), windowCenter),
             GraphicStructure.FrameSegment(windowCenter, P(32, -14)));
         var windowPlus = Chain(windowRectangle, windowCross);
+        var windowPlusInstance = GraphicParameterSurface.TemplateInstanceFromBindings(
+            new Carrier(),
+            windowTemplate,
+            windowPlus,
+            windowEvidence,
+            FocusSurface.Bind(windowTemplateCenterSlot, windowCenter),
+            FocusSurface.Bind(windowTemplateWidthSlot, windowWidth),
+            FocusSurface.Bind(windowTemplateHeightSlot, windowHeight),
+            FocusSurface.Bind(windowTemplateCornerSlot, windowCoarseCornerRadius));
         var roundedWindow = Chain(
             GraphicStructure.FrameSegment(P(26, 6), P(38, 6)),
             GraphicStructure.FrameCubicCurve(P(38, 6), P(40, 6), P(42, 4), P(42, 2)),
@@ -252,6 +323,15 @@ internal static class SketchSamples
             GraphicStructure.FrameSegment(P(22, -10), P(22, 2)),
             GraphicStructure.FrameCubicCurve(P(22, 2), P(22, 4), P(24, 6), P(26, 6)));
         var roundedWindowPlus = Chain(roundedWindow, windowCross);
+        var roundedWindowInstance = GraphicParameterSurface.TemplateInstanceFromBindings(
+            new Carrier(),
+            windowTemplate,
+            roundedWindowPlus,
+            windowEvidence,
+            FocusSurface.Bind(windowTemplateCenterSlot, windowCenter),
+            FocusSurface.Bind(windowTemplateWidthSlot, windowWidth),
+            FocusSurface.Bind(windowTemplateHeightSlot, windowHeight),
+            FocusSurface.Bind(windowTemplateCornerSlot, windowCornerRadius));
 
         var chimneyLowerLeft = P(14, 39);
         var chimneyLowerRight = P(26, 32);
@@ -267,6 +347,48 @@ internal static class SketchSamples
             GraphicStructure.FrameSegment(P(10, 51), P(30, 51)),
             GraphicStructure.FrameSegment(P(30, 51), P(20, 58)),
             GraphicStructure.FrameSegment(P(20, 58), P(10, 51)));
+        var chimneyCenterSlot = new Placeholder();
+        var chimneyWidthSlot = new Placeholder();
+        var chimneyHeightSlot = new Placeholder();
+        var chimneyCapRiseSlot = new Placeholder();
+        var chimneyTemplate = GraphicParameterSurface.Frame(
+            new Carrier(),
+            chimneyCenterSlot,
+            chimneyWidthSlot,
+            chimneyHeightSlot,
+            chimneyCapRiseSlot);
+        var chimneyCenter = P(20, 42);
+        var chimneyCoarseCenter = P(13, 39);
+        var chimneyWidth = Relation.Point(new Carrier(), 12);
+        var chimneyCoarseWidth = Relation.Point(new Carrier(), 8);
+        var chimneyHeight = Relation.Point(new Carrier(), 19);
+        var chimneyCoarseHeight = Relation.Point(new Carrier(), 12);
+        var chimneyCapRise = Relation.Point(new Carrier(), 7);
+        var chimneyNoCapRise = Relation.Point(new Carrier(), 0);
+        var chimneyEvidence = GraphicParameterSurface.Frame(
+            new Carrier(),
+            ParameterValue(roofOverhang, 54, 100, chimneyCoarseCenter, chimneyCenter),
+            ParameterValue(Relation.Segment(new Carrier(), 0, 1), 36, 100, chimneyCoarseWidth, chimneyWidth),
+            ParameterValue(Relation.Segment(new Carrier(), 0, 1), 48, 100, chimneyCoarseHeight, chimneyHeight),
+            ParameterValue(Relation.Segment(new Carrier(), 0, 1), 28, 100, chimneyNoCapRise, chimneyCapRise));
+        var chimneyBodyInstance = GraphicParameterSurface.TemplateInstanceFromBindings(
+            new Carrier(),
+            chimneyTemplate,
+            chimneyBody,
+            chimneyEvidence,
+            FocusSurface.Bind(chimneyCenterSlot, chimneyCenter),
+            FocusSurface.Bind(chimneyWidthSlot, chimneyWidth),
+            FocusSurface.Bind(chimneyHeightSlot, chimneyHeight),
+            FocusSurface.Bind(chimneyCapRiseSlot, chimneyNoCapRise));
+        var chimneyCapInstance = GraphicParameterSurface.TemplateInstanceFromBindings(
+            new Carrier(),
+            chimneyTemplate,
+            chimneyWithCap,
+            chimneyEvidence,
+            FocusSurface.Bind(chimneyCenterSlot, chimneyCenter),
+            FocusSurface.Bind(chimneyWidthSlot, chimneyWidth),
+            FocusSurface.Bind(chimneyHeightSlot, chimneyHeight),
+            FocusSurface.Bind(chimneyCapRiseSlot, chimneyCapRise));
         var doorKnob = FilledCircle(7, -15, 2);
 
         var cloudOval = Oval(84, 48, 24, 11);
@@ -356,10 +478,10 @@ internal static class SketchSamples
             long radiusYTicks)
         {
             const long scale = 100;
-            var coarseCenterXTicks = CoarseTicks(centerXTicks, [1, 8, 40]);
-            var coarseCenterYTicks = CoarseTicks(centerYTicks, [1, 8, 40]);
-            var coarseRadiusXTicks = CoarseTicks(radiusXTicks, [1, 8, 40]);
-            var coarseRadiusYTicks = CoarseTicks(radiusYTicks, [1, 8, 40]);
+            var coarseCenterXTicks = CoarseTicks(centerXTicks);
+            var coarseCenterYTicks = CoarseTicks(centerYTicks);
+            var coarseRadiusXTicks = CoarseTicks(radiusXTicks);
+            var coarseRadiusYTicks = CoarseTicks(radiusYTicks);
             var coarseCenterX = Lerp(-145, -75, coarseCenterXTicks, scale);
             var coarseCenterY = Lerp(16, 58, coarseCenterYTicks, scale);
             var centerX = Lerp(-145, -75, centerXTicks, scale);
@@ -376,35 +498,29 @@ internal static class SketchSamples
             var radiusYValue = Relation.Point(new Carrier(), radiusY);
             var parameterEvidence = GraphicParameterSurface.Frame(
                 new Carrier(),
-                NormalizedValue(leafCenterXBasis, centerXTicks, scale, coarseCenter, center),
-                NormalizedValue(leafCenterYBasis, centerYTicks, scale, coarseCenter, center),
-                NormalizedValue(leafRadiusXBasis, radiusXTicks, scale, coarseRadiusXValue, radiusXValue),
-                NormalizedValue(leafRadiusYBasis, radiusYTicks, scale, coarseRadiusYValue, radiusYValue));
+                ParameterValue(leafCenterXBasis, centerXTicks, scale, coarseCenter, center),
+                ParameterValue(leafCenterYBasis, centerYTicks, scale, coarseCenter, center),
+                ParameterValue(leafRadiusXBasis, radiusXTicks, scale, coarseRadiusXValue, radiusXValue),
+                ParameterValue(leafRadiusYBasis, radiusYTicks, scale, coarseRadiusYValue, radiusYValue));
             var approximateRadius = Math.Max(6, (coarseRadiusX + coarseRadiusY) / 2);
             var approximateCircle = Circle(coarseCenterX, coarseCenterY, approximateRadius);
             var blob = FilledLeafBlob(centerX, centerY, radiusX, radiusY);
-            var circleBindings = FocusSurface.BindingFrame(
+            var circleInstance = GraphicParameterSurface.TemplateInstanceFromBindings(
                 new Carrier(),
+                leafTemplate,
+                approximateCircle,
+                parameterEvidence,
                 FocusSurface.Bind(leafCenterSlot, coarseCenter),
                 FocusSurface.Bind(leafRadiusXSlot, coarseRadiusXValue),
                 FocusSurface.Bind(leafRadiusYSlot, coarseRadiusYValue));
-            var blobBindings = FocusSurface.BindingFrame(
+            var blobInstance = GraphicParameterSurface.TemplateInstanceFromBindings(
                 new Carrier(),
+                leafTemplate,
+                blob,
+                parameterEvidence,
                 FocusSurface.Bind(leafCenterSlot, center),
                 FocusSurface.Bind(leafRadiusXSlot, radiusXValue),
                 FocusSurface.Bind(leafRadiusYSlot, radiusYValue));
-            var circleInstance = GraphicParameterSurface.TemplateInstance(
-                new Carrier(),
-                leafTemplate,
-                circleBindings,
-                approximateCircle,
-                parameterEvidence);
-            var blobInstance = GraphicParameterSurface.TemplateInstance(
-                new Carrier(),
-                leafTemplate,
-                blobBindings,
-                blob,
-                parameterEvidence);
             return (approximateCircle, blob, circleInstance, blobInstance);
         }
 
@@ -460,22 +576,22 @@ internal static class SketchSamples
         var roofStep = RefinedRung(houseBoxState, houseBoxTop, houseBox, horizon, houseRoof, roofState);
         var treeSeedStep = RefinedRung(roofState, treeRoot, treeRoot, roofState, treeLineBall, treeSeedState);
         var cloudSeedStep = RefinedRung(treeSeedState, cloudOval, cloudOval, treeSeedState, cloudOval, cloudSeedState);
-        var roofOverhangStep = RefinedRung(cloudSeedState, roofOverhang, roofOverhang, cloudSeedState, roofOverhang, roofOverhangState);
+        var roofOverhangStep = RefinedRung(cloudSeedState, roofOverhang, roofOverhang, cloudSeedState, roofOverhang, roofOverhangState, roofOverhangEvidence);
         var treeSplitStep = RefinedRung(roofOverhangState, treeJunction, treeLineBall, Chain(horizon, houseWithOverhang, cloudOval), treeBranches, treeSplitState);
-        var doorRectStep = RefinedRung(treeSplitState, doorLeftBottom, doorLeftBottom, treeSplitState, doorRectangle, doorRectState);
+        var doorRectStep = RefinedRung(treeSplitState, doorLeftBottom, doorLeftBottom, treeSplitState, doorRectangle, doorRectState, doorRectangleInstance);
         var treeCurveStep = RefinedRung(doorRectState, treeJunction, treeBranches, Chain(horizon, houseWithOverhang, cloudOval, doorRectangle), treeCurvedBranches, treeCurvedState);
-        var windowRectStep = RefinedRung(treeCurvedState, windowLowerLeft, windowLowerLeft, treeCurvedState, windowRectangle, windowRectState);
+        var windowRectStep = RefinedRung(treeCurvedState, windowLowerLeft, windowLowerLeft, treeCurvedState, windowRectangle, windowRectState, windowRectangleInstance);
         var treeTrunkStep = RefinedRung(windowRectState, treeTrunkLine, treeCurvedBranches, Chain(horizon, houseWithOverhang, cloudOval, doorRectangle, windowRectangle), treeWithThickTrunk, treeTrunkState);
-        var doorArchStep = RefinedRung(treeTrunkState, doorRectangle, doorRectangle, Chain(horizon, houseWithOverhang, cloudOval, treeWithThickTrunk, windowRectangle), archedDoor, doorArchState);
+        var doorArchStep = RefinedRung(treeTrunkState, doorRectangle, doorRectangle, Chain(horizon, houseWithOverhang, cloudOval, treeWithThickTrunk, windowRectangle), archedDoor, doorArchState, archedDoorInstance);
         var treeBranchThickStep = RefinedRung(doorArchState, treeJunction, treeWithThickTrunk, Chain(horizon, houseWithOverhang, cloudOval, archedDoor, windowRectangle), treeWoodThick, treeBranchThickState);
         var treeWoodMergeStep = RefinedRung(treeBranchThickState, treeWoodThick, treeWoodThick, Chain(horizon, houseWithOverhang, cloudOval, archedDoor, windowRectangle), treeWoodMerged, treeWoodMergedState);
-        var windowPlusStep = RefinedRung(treeWoodMergedState, windowRectangle, windowRectangle, Chain(horizon, houseWithOverhang, cloudOval, treeWoodMerged, archedDoor), windowPlus, windowPlusState);
-        var windowRefineStep = RefinedRung(windowPlusState, windowRectangle, windowPlus, Chain(horizon, houseWithOverhang, cloudOval, treeWoodMerged, archedDoor), roundedWindowPlus, windowRefinedState);
+        var windowPlusStep = RefinedRung(treeWoodMergedState, windowRectangle, windowRectangle, Chain(horizon, houseWithOverhang, cloudOval, treeWoodMerged, archedDoor), windowPlus, windowPlusState, windowPlusInstance);
+        var windowRefineStep = RefinedRung(windowPlusState, windowRectangle, windowPlus, Chain(horizon, houseWithOverhang, cloudOval, treeWoodMerged, archedDoor), roundedWindowPlus, windowRefinedState, roundedWindowInstance);
         var treeRegionStep = RefinedRung(windowRefinedState, treeBall, treeWoodMerged, Chain(horizon, houseWithOverhang, cloudOval, archedDoor, roundedWindowPlus), treeLeafRegions, treeRegionsState, leafRegionEvidence);
         var cloudRefineStep = RefinedRung(treeRegionsState, cloudOval, cloudOval, Chain(horizon, houseWithOverhang, treeLeafRegions, archedDoor, roundedWindowPlus), cloudOutline, cloudRefinedState);
-        var chimneyBodyStep = RefinedRung(cloudRefinedState, roofOverhang, roofOverhang, cloudRefinedState, chimneyBody, chimneyBodyState);
+        var chimneyBodyStep = RefinedRung(cloudRefinedState, roofOverhang, roofOverhang, cloudRefinedState, chimneyBody, chimneyBodyState, chimneyBodyInstance);
         var treeFluffyStep = RefinedRung(chimneyBodyState, treeLeafRegions, treeLeafRegions, Chain(horizon, houseWithOverhang, cloudOutline, archedDoor, roundedWindowPlus, chimneyBody), treeFluffy, treeFluffyState, leafBlobEvidence);
-        var chimneyCapStep = RefinedRung(treeFluffyState, chimneyBody, chimneyBody, Chain(horizon, houseWithOverhang, cloudOutline, treeFluffy, archedDoor, roundedWindowPlus), chimneyWithCap, chimneyCapState);
+        var chimneyCapStep = RefinedRung(treeFluffyState, chimneyBody, chimneyBody, Chain(horizon, houseWithOverhang, cloudOutline, treeFluffy, archedDoor, roundedWindowPlus), chimneyWithCap, chimneyCapState, chimneyCapInstance);
         var doorKnobStep = RefinedRung(chimneyCapState, doorKnob, doorKnob, chimneyCapState, doorKnob, finalSketch);
         var sketchRungs = new[]
         {

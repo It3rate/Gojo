@@ -46,6 +46,43 @@ public static class GraphicParameterSurface
     }
 
     /// <summary>
+    /// Creates a normalized value and its resolution evidence from a refined
+    /// parameter tick. The coarse parameter is the same value read without the
+    /// finest supplied resolution level.
+    /// </summary>
+    public static Relation NormalizedValue(
+        Carrier root,
+        IElement basis,
+        long refinedTicks,
+        long scaleTicks,
+        IReadOnlyList<long> levelScales,
+        IElement coarseResult,
+        IElement refinedResult,
+        IElement provenance)
+    {
+        var scales = NormalizeScales(levelScales);
+        var digits = DecomposeTicks(refinedTicks, scales);
+        var resolution = ResolutionValue(
+            new Carrier(),
+            scales,
+            digits,
+            out _,
+            out var compositeTicks);
+
+        return NormalizedValue(
+            root,
+            basis,
+            new Carrier(),
+            scaleTicks,
+            CoarseTicks(refinedTicks, scales),
+            compositeTicks,
+            coarseResult,
+            refinedResult,
+            resolution,
+            provenance);
+    }
+
+    /// <summary>
     /// Creates resolution-ladder evidence for a scalar parameter. Level scales
     /// need not be decimal; they are read exactly as supplied.
     /// </summary>
@@ -82,6 +119,57 @@ public static class GraphicParameterSurface
             bindings ?? Frame(new Carrier()),
             result ?? UnknownPoint(),
             provenance ?? UnknownPoint());
+    }
+
+    /// <summary>
+    /// Records a concrete template instance from relation-shaped slot bindings.
+    /// </summary>
+    public static Relation TemplateInstanceFromBindings(
+        Carrier root,
+        IElement template,
+        IElement result,
+        IElement provenance,
+        params Relation[] bindings) =>
+        TemplateInstance(
+            root,
+            template,
+            FocusSurface.BindingFrame(new Carrier(), bindings ?? []),
+            result,
+            provenance);
+
+    /// <summary>
+    /// Decomposes ticks against supplied low-to-high resolution scales.
+    /// </summary>
+    public static long[] DecomposeTicks(long ticks, IReadOnlyList<long> levelScales)
+    {
+        var scales = NormalizeScales(levelScales);
+        var remaining = ticks;
+        var digits = new long[scales.Length];
+        for (var index = scales.Length - 1; index >= 0; index--)
+        {
+            var scale = scales[index] == 0 ? 1 : scales[index];
+            digits[index] = remaining / scale;
+            remaining %= scale;
+        }
+
+        return digits;
+    }
+
+    /// <summary>
+    /// Reads a coarser parameter by removing the finest supplied resolution
+    /// level while preserving all higher levels.
+    /// </summary>
+    public static long CoarseTicks(long refinedTicks, IReadOnlyList<long> levelScales)
+    {
+        var scales = NormalizeScales(levelScales);
+        var digits = DecomposeTicks(refinedTicks, scales);
+        var coarse = 0L;
+        for (var index = 1; index < digits.Length; index++)
+        {
+            coarse += digits[index] * scales[index];
+        }
+
+        return coarse;
     }
 
     /// <summary>Reads a normalized value surface.</summary>
@@ -137,7 +225,8 @@ public static class GraphicParameterSurface
             StructuralPattern.ReadSlots(elements[0]) is { Length: > 0 } slots &&
             elements[1] is Relation bindingFrame &&
             FocusSurface.TryReadBindingFrame(bindingFrame, out var bindingClauses) &&
-            bindingClauses.Any(binding => slots.Any(slot => Equals(slot, binding.Left))))
+            StructuralPattern.ReadSlotBindings(bindingClauses) is { Length: > 0 } slotBindings &&
+            slotBindings.Any(binding => slots.Any(slot => Equals(slot, binding.Left))))
         {
             template = elements[0];
             bindings = elements[1];
@@ -178,6 +267,9 @@ public static class GraphicParameterSurface
 
         return scales[Math.Clamp(index, 0, scales.Count - 1)];
     }
+
+    private static long[] NormalizeScales(IReadOnlyList<long> scales) =>
+        CountOf(scales) == 0 ? [1] : [.. scales];
 
     private static bool TryReadRootElements(Relation structure, out IElement[] elements)
     {

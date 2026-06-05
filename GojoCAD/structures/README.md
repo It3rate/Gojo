@@ -143,6 +143,12 @@ plus a `ResolutionLadder` so the read can distinguish rough placement from
 later detail. The scale does not need to be decimal; the ladder levels carry
 whatever ratios the structure supplies.
 
+The helper can now build that resolution evidence directly from a refined tick
+and supplied level scales. This keeps sample code from owning the tick
+decomposition model. Sketch samples still compute concrete points for display,
+but their parameter evidence is anchored to basis surfaces such as the wall
+width, wall height, roof line, or leaf-local center/radius spans.
+
 `TemplateInstance` records that a concrete result came from a reusable template
 under a binding frame. The read requires real placeholder/descriptor slots and
 bindings for those slots, so it is not just a four-field wrapper. In the
@@ -150,3 +156,18 @@ SketchViewer house ladder, the three tree leaf blobs are instances of one leaf
 template. Their centers and radii are normalized parameters over local basis
 spans; the earlier tree crown rung uses coarse circular instances, and the
 later rung uses refined blob instances.
+
+`TemplateInstanceFromBindings` is the convenience construction for the same
+surface when the caller already has relation-shaped slot bindings. It exists as
+a separately named helper so the binding-frame surface and the binding-list
+surface cannot be confused by overload resolution.
+
+The same surface now carries the window, door, roof-overhang, and chimney
+examples. The opening templates bind center/size parameters against the house
+wall basis, with separate coarse X and Y center evidence rather than one shared
+coarse point. The window additionally refines a corner-radius parameter from a
+coarse rectangle to a rounded rectangle. The chimney binds a cap-rise parameter
+as zero for the body rung and positive for the capped rung. These are still
+ordinary structural ladder transitions: the drawn result is concrete, while the
+application provenance keeps the normalized parameter and template evidence
+available for reads and replay.
