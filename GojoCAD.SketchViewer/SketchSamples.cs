@@ -43,6 +43,97 @@ internal static class SketchSamples
         var windowMidRight = Point(frame, x, y, 42, -4);
         var windowMidTop = Point(frame, x, y, 32, 6);
         var windowMidBottom = Point(frame, x, y, 32, -14);
+        var windowCenter = Point(frame, x, y, 32, -4);
+
+        var windowRoundTopLeft = Point(frame, x, y, 26, 6);
+        var windowRoundTopRight = Point(frame, x, y, 38, 6);
+        var windowRoundRightTop = Point(frame, x, y, 42, 2);
+        var windowRoundRightBottom = Point(frame, x, y, 42, -10);
+        var windowRoundBottomRight = Point(frame, x, y, 38, -14);
+        var windowRoundBottomLeft = Point(frame, x, y, 26, -14);
+        var windowRoundLeftBottom = Point(frame, x, y, 22, -10);
+        var windowRoundLeftTop = Point(frame, x, y, 22, 2);
+
+        var windowTopRightControlA = Point(frame, x, y, 40, 6);
+        var windowTopRightControlB = Point(frame, x, y, 42, 4);
+        var windowBottomRightControlA = Point(frame, x, y, 42, -12);
+        var windowBottomRightControlB = Point(frame, x, y, 40, -14);
+        var windowBottomLeftControlA = Point(frame, x, y, 24, -14);
+        var windowBottomLeftControlB = Point(frame, x, y, 22, -12);
+        var windowTopLeftControlA = Point(frame, x, y, 22, 4);
+        var windowTopLeftControlB = Point(frame, x, y, 24, 6);
+
+        var windowRectangle = Chain(
+            GraphicStructure.FrameSegment(windowLowerLeft, windowLowerRight),
+            GraphicStructure.FrameSegment(windowLowerRight, windowUpperRight),
+            GraphicStructure.FrameSegment(windowUpperRight, windowUpperLeft),
+            GraphicStructure.FrameSegment(windowUpperLeft, windowLowerLeft));
+        var windowCross = Chain(
+            GraphicStructure.FrameSegment(windowMidLeft, windowCenter),
+            GraphicStructure.FrameSegment(windowCenter, windowMidRight),
+            GraphicStructure.FrameSegment(windowMidTop, windowCenter),
+            GraphicStructure.FrameSegment(windowCenter, windowMidBottom));
+        var windowCrossedRectangle = Chain(windowRectangle, windowCross);
+        var roundedWindow = Chain(
+            GraphicStructure.FrameSegment(windowRoundTopLeft, windowRoundTopRight),
+            GraphicStructure.FrameCubicCurve(windowRoundTopRight, windowTopRightControlA, windowTopRightControlB, windowRoundRightTop),
+            GraphicStructure.FrameSegment(windowRoundRightTop, windowRoundRightBottom),
+            GraphicStructure.FrameCubicCurve(windowRoundRightBottom, windowBottomRightControlA, windowBottomRightControlB, windowRoundBottomRight),
+            GraphicStructure.FrameSegment(windowRoundBottomRight, windowRoundBottomLeft),
+            GraphicStructure.FrameCubicCurve(windowRoundBottomLeft, windowBottomLeftControlA, windowBottomLeftControlB, windowRoundLeftBottom),
+            GraphicStructure.FrameSegment(windowRoundLeftBottom, windowRoundLeftTop),
+            GraphicStructure.FrameCubicCurve(windowRoundLeftTop, windowTopLeftControlA, windowTopLeftControlB, windowRoundTopLeft));
+        var roundedWindowPlus = Chain(roundedWindow, windowCross);
+        var windowCrossCorrespondence = FocusSurface.BindingFrame(
+            new Carrier(),
+            FocusSurface.Bind(windowRectangle, windowCrossedRectangle),
+            FocusSurface.Bind(windowCenter, windowCross));
+        var windowCrossFocus = FocusSurface.Create(
+            new Carrier(),
+            windowRectangle,
+            windowCenter,
+            windowRectangle,
+            windowRectangle,
+            windowCross,
+            windowCrossCorrespondence,
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0));
+        var windowBaseRung = StructuralLadderSurface.BaseRung(new Carrier(), windowRectangle);
+        var windowCrossRung = StructuralLadderSurface.Rung(
+            new Carrier(),
+            windowRectangle,
+            windowCrossFocus,
+            windowCrossedRectangle,
+            windowCrossCorrespondence,
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0));
+        var windowRoundCorrespondence = FocusSurface.BindingFrame(
+            new Carrier(),
+            FocusSurface.Bind(windowRectangle, roundedWindow),
+            FocusSurface.Bind(windowCross, windowCross));
+        var windowRoundFocus = FocusSurface.Create(
+            new Carrier(),
+            windowCrossedRectangle,
+            windowRectangle,
+            windowRectangle,
+            windowCross,
+            roundedWindow,
+            windowRoundCorrespondence,
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0));
+        var windowRoundedRung = StructuralLadderSurface.Rung(
+            new Carrier(),
+            windowCrossedRectangle,
+            windowRoundFocus,
+            roundedWindowPlus,
+            windowRoundCorrespondence,
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0));
+        var windowLadder = StructuralLadderSurface.CreateWithRungs(
+            new Carrier(),
+            windowBaseRung,
+            windowCrossRung,
+            windowRoundedRung);
 
         var antennaTip = Point(frame, x, y, -29, 43);
         var antennaLeft = Point(frame, x, y, -38, 48);
@@ -135,13 +226,8 @@ internal static class SketchSamples
             GraphicStructure.FrameSegment(doorRightTop, doorRightBottom),
             GraphicStructure.FrameSegment(doorRightBottom, doorLeftBottom),
 
-            // Closed window loop with divider branches.
-            GraphicStructure.FrameSegment(windowLowerLeft, windowLowerRight),
-            GraphicStructure.FrameSegment(windowLowerRight, windowUpperRight),
-            GraphicStructure.FrameSegment(windowUpperRight, windowUpperLeft),
-            GraphicStructure.FrameSegment(windowUpperLeft, windowLowerLeft),
-            GraphicStructure.FrameSegment(windowMidLeft, windowMidRight),
-            GraphicStructure.FrameSegment(windowMidTop, windowMidBottom),
+            // Window ladder: rectangle -> rectangle with joined plus -> rounded rectangle with joined plus.
+            windowLadder,
 
             // Roof antenna: the branch shares an actual split point on the roof segment.
             GraphicStructure.FrameSegment(roofAntennaJoint, antennaTip),
@@ -157,7 +243,7 @@ internal static class SketchSamples
             "Straight outline, tangent door arch, closed window, roof branch joint, and a cusped puffy cloud.",
             Chain(elements),
             seed,
-            new SKRect(-88, -80, 108, 38));
+            new SKRect(-148, -80, 48, 38));
     }
 
     private static Relation Point(Carrier frame, Carrier x, Carrier y, long xTicks, long yTicks) =>
