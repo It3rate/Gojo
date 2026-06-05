@@ -277,6 +277,77 @@ public sealed class GraphicConceptShapeTests
     }
 
     [Fact]
+    public void CompositeSectionCanBeResurfacedAsHigherCurve()
+    {
+        var start = GraphicConceptShape.Port(new Carrier());
+        var middle = GraphicConceptShape.Port(new Carrier());
+        var end = GraphicConceptShape.Port(new Carrier());
+        var firstBase = GraphicConceptShape.Section(new Carrier(), start, GraphicConceptShape.TensionSlot(), middle);
+        var secondBase = GraphicConceptShape.Section(new Carrier(), middle, GraphicConceptShape.TensionSlot(), end);
+        var first = GraphicConceptShape.Elaborate(new Carrier(), firstBase, GraphicConceptShape.StraightEvidenceSurface(new Carrier()));
+        var second = GraphicConceptShape.Elaborate(new Carrier(), secondBase, GraphicConceptShape.StraightEvidenceSurface(new Carrier()));
+        var joined = GraphicConceptShape.Join(new Carrier(), first, second);
+        var curveEvidence = GraphicConceptShape.CurveEvidenceSurface(new Carrier());
+
+        var refined = GraphicConceptShape.RefineCompositeSection(new Carrier(), joined, curveEvidence);
+
+        Assert.True(GraphicConceptShape.TryReadCompositeShape(
+            refined,
+            out var exposedPorts,
+            out var visibleSurface,
+            out var lowerStructure,
+            out var internalJoins,
+            out var previousRung,
+            out _));
+        Assert.Equal(2, exposedPorts.Length);
+        Assert.Same(start, exposedPorts[0]);
+        Assert.Same(end, exposedPorts[1]);
+        Assert.Single(internalJoins);
+        Assert.Same(joined, previousRung);
+        Assert.Contains(Walk(lowerStructure), element => ReferenceEquals(element, first));
+        Assert.Contains(Walk(lowerStructure), element => ReferenceEquals(element, second));
+        Assert.Contains(Walk(visibleSurface), element => ReferenceEquals(element, curveEvidence));
+        Assert.True(GraphicConceptShape.TryReadSectionConcept(
+            Assert.IsType<Relation>(visibleSurface),
+            out var readStart,
+            out _,
+            out var readEnd,
+            out _));
+        Assert.Same(start, readStart);
+        Assert.Same(end, readEnd);
+    }
+
+    [Fact]
+    public void DiscoveredCompositeCanBeResurfacedAsHigherCurveWithoutProvenance()
+    {
+        var start = GraphicConceptShape.Port(new Carrier());
+        var middle = GraphicConceptShape.Port(new Carrier());
+        var end = GraphicConceptShape.Port(new Carrier());
+        var first = GraphicConceptShape.Section(new Carrier(), start, GraphicConceptShape.TensionSlot(), middle);
+        var second = GraphicConceptShape.Section(new Carrier(), middle, GraphicConceptShape.TensionSlot(), end);
+        var completedShape = GraphicConceptShape.Frame(new Carrier(), first, second);
+        Assert.True(GraphicConceptShape.TryDiscoverCompositeShape(completedShape, out var discovered));
+        var curveEvidence = GraphicConceptShape.BezierEvidenceSurface(new Carrier());
+
+        var refined = GraphicConceptShape.RefineCompositeSection(new Carrier(), discovered, curveEvidence);
+
+        Assert.True(GraphicConceptShape.TryReadCompositeShape(
+            refined,
+            out var exposedPorts,
+            out var visibleSurface,
+            out var lowerStructure,
+            out _,
+            out var previousRung,
+            out _));
+        Assert.Equal(2, exposedPorts.Length);
+        Assert.Same(start, exposedPorts[0]);
+        Assert.Same(end, exposedPorts[1]);
+        Assert.Same(discovered, previousRung);
+        Assert.Contains(Walk(lowerStructure), element => ReferenceEquals(element, completedShape));
+        Assert.Contains(Walk(visibleSurface), element => ReferenceEquals(element, curveEvidence));
+    }
+
+    [Fact]
     public void BoundaryAreaAndThicknessAreLadderLikeElaborations()
     {
         var path = GraphicConceptShape.OpenPath(

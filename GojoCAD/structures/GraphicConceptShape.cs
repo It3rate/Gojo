@@ -45,6 +45,38 @@ public static class GraphicConceptShape
     public static Relation StraightSection(Carrier root) =>
         Elaborate(root, Section(new Carrier()), StraightEvidence(new Carrier()));
 
+    /// <summary>Creates straightness evidence for a section or composite-section refinement.</summary>
+    public static Relation StraightEvidenceSurface(Carrier root) =>
+        StraightEvidence(RootOrNew(root));
+
+    /// <summary>Creates generic curve evidence for a section or composite-section refinement.</summary>
+    public static Relation CurveEvidenceSurface(Carrier root) =>
+        CurveEvidence(RootOrNew(root));
+
+    /// <summary>Creates circular-arc evidence for a section or composite-section refinement.</summary>
+    public static Relation CircularArcEvidenceSurface(Carrier root) =>
+        CircularArcEvidence(RootOrNew(root));
+
+    /// <summary>Creates Bezier control evidence for a section or composite-section refinement.</summary>
+    public static Relation BezierEvidenceSurface(Carrier root, params IElement[] controls) =>
+        BezierEvidence(RootOrNew(root), controls ?? []);
+
+    /// <summary>Creates clothoid transition evidence for a section or composite-section refinement.</summary>
+    public static Relation ClothoidEvidenceSurface(Carrier root) =>
+        ClothoidEvidence(RootOrNew(root));
+
+    /// <summary>Creates involute/unwinding evidence for a section or composite-section refinement.</summary>
+    public static Relation InvoluteEvidenceSurface(Carrier root) =>
+        InvoluteEvidence(RootOrNew(root));
+
+    /// <summary>Creates spline/control-chain evidence for a section or composite-section refinement.</summary>
+    public static Relation SplineEvidenceSurface(Carrier root) =>
+        SplineEvidence(RootOrNew(root));
+
+    /// <summary>Elaborates a section with generic curve evidence.</summary>
+    public static Relation CurveSection(Carrier root) =>
+        Elaborate(root, Section(new Carrier()), CurveEvidence(new Carrier()));
+
     /// <summary>Elaborates a section with circular-arc evidence.</summary>
     public static Relation CircularArcSection(Carrier root) =>
         Elaborate(root, Section(new Carrier()), CircularArcEvidence(new Carrier()));
@@ -639,6 +671,69 @@ public static class GraphicConceptShape
         return true;
     }
 
+    /// <summary>
+    /// Creates a new current two-port section surface over an existing
+    /// composite. The child sections and joins remain lower structure; the
+    /// supplied evidence becomes the higher visible section.
+    /// </summary>
+    public static Relation RefineCompositeSection(Carrier root, IElement composite, IElement sectionEvidence)
+    {
+        var sourceComposite = TryReadCompositeShape(
+                composite as Relation ?? TensionSlot(),
+                out _,
+                out _,
+                out _,
+                out _,
+                out _,
+                out _)
+            ? composite
+            : TryDiscoverCompositeShape(composite, out var discovered)
+                ? discovered
+                : SingleSectionComposite(new Carrier(), composite ?? TensionSlot());
+
+        if (sourceComposite is not Relation sourceRelation ||
+            !TryReadCompositeShape(
+                sourceRelation,
+                out var exposedPorts,
+                out var visibleSurface,
+                out var lowerStructure,
+                out var internalJoins,
+                out _,
+                out var residueOrTension))
+        {
+            return Elaborate(RootOrNew(root), composite ?? TensionSlot(), sectionEvidence ?? TensionSlot());
+        }
+
+        if (exposedPorts.Length != 2)
+        {
+            return CompositeShape(
+                RootOrNew(root),
+                exposedPorts,
+                Elaborate(new Carrier(), visibleSurface, sectionEvidence ?? TensionSlot()),
+                Frame(new Carrier(), lowerStructure, sourceRelation),
+                internalJoins,
+                sourceRelation,
+                residueOrTension ?? TensionSlot());
+        }
+
+        var refinedTrace = Frame(
+            new Carrier(),
+            visibleSurface,
+            sectionEvidence ?? TensionSlot(),
+            TensionSlot());
+        var refinedBase = Section(new Carrier(), exposedPorts[0], refinedTrace, exposedPorts[1]);
+        var refinedVisible = Elaborate(new Carrier(), refinedBase, sectionEvidence ?? TensionSlot());
+
+        return CompositeShape(
+            RootOrNew(root),
+            exposedPorts,
+            refinedVisible,
+            Frame(new Carrier(), lowerStructure, visibleSurface, sourceRelation),
+            internalJoins,
+            sourceRelation,
+            residueOrTension ?? TensionSlot());
+    }
+
     /// <summary>Creates unresolved opposed-face residue/tension.</summary>
     public static Relation TensionSlot()
     {
@@ -669,6 +764,9 @@ public static class GraphicConceptShape
 
     private static Relation StraightEvidence(Carrier root) =>
         Frame(root, FlowSlot(), TensionSlot());
+
+    private static Relation CurveEvidence(Carrier root) =>
+        Frame(root, TraceSlot(), TangentSlot(), TensionSlot());
 
     private static Relation CircularArcEvidence(Carrier root) =>
         Frame(root, Site(), OffsetEvidence(new Carrier()), DirectionSlot(), TensionSlot());

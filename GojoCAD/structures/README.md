@@ -56,6 +56,24 @@ Three or more sections meeting at a shared interior junction become a
 is an elaboration over that junction surface, so branch and merge are directed
 multi-port composite shapes rather than separate primitive tags.
 
+## Resurfacing A Composite
+
+A composite does not have to stay the same kind of visible surface as its lower
+parts. Two straight lower sections can first fold into a two-port composite
+section, and a later rung can resurface that composite as a single curve.
+
+```text
+straight A + straight B -> composite AB
+composite AB + curve evidence -> curved AB'
+```
+
+The lower straight sections and their interior join remain inspectable. The new
+current rung exposes the same two outer ports, but its visible surface can be a
+generic curve, circular arc, Bezier, clothoid, involute, spline, or another
+future section structure. This is deliberately separate from `Join`: joining
+establishes connectivity, while resurfacing changes what the current rung uses
+as the visible section.
+
 ## Editing Inside A Composite
 
 When a later operation focuses an interior join of a composite, the earlier
