@@ -31,12 +31,12 @@ internal static class SketchSamples
                 PenDownZ: 0d));
 
         return new SketchScene(
-            "ABCD ",
-            "Sample gcode",
+            "ABCD Center Stroke",
+            "Center-stroke carving letters imported as GojoCAD motion; B, C, and D curves use G02/G03 arcs.",
             structure,
             seed,
-            ModelBounds: new SKRect(-500f, -205000f, 240000f, -25000f),
-            RungLabels: ["Imported GCode"]);
+            ModelBounds: new SKRect(-5000f, -125000f, 205000f, -55000f),
+            RungLabels: ["Imported ABCD"]);
     }
 
     private static SketchScene CreateGCodeTrace(int seed)
