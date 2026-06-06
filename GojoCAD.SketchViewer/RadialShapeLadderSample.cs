@@ -67,40 +67,10 @@ internal static partial class SketchSamples
         }
 
         Relation DiskFill(long centerX, long centerY, long radius) =>
-            PolygonFill(
-                (centerX + radius, centerY),
-                (centerX + radius * 7 / 10, centerY + radius * 7 / 10),
-                (centerX, centerY + radius),
-                (centerX - radius * 7 / 10, centerY + radius * 7 / 10),
-                (centerX - radius, centerY),
-                (centerX - radius * 7 / 10, centerY - radius * 7 / 10),
-                (centerX, centerY - radius),
-                (centerX + radius * 7 / 10, centerY - radius * 7 / 10));
+            GraphicStructure.AreaFill(Circle(centerX, centerY, radius));
 
-        Relation AntiDiskFill(long centerX, long centerY, long radius)
-        {
-            var points = new (long X, long Y)[]
-            {
-                (centerX + radius, centerY),
-                (centerX + radius * 7 / 10, centerY - radius * 7 / 10),
-                (centerX, centerY - radius),
-                (centerX - radius * 7 / 10, centerY - radius * 7 / 10),
-                (centerX - radius, centerY),
-                (centerX - radius * 7 / 10, centerY + radius * 7 / 10),
-                (centerX, centerY + radius),
-                (centerX + radius * 7 / 10, centerY + radius * 7 / 10)
-            };
-
-            var edges = new IElement[points.Length];
-            for (var index = 0; index < points.Length; index++)
-            {
-                var start = points[index];
-                var end = points[(index + 1) % points.Length];
-                edges[index] = Segment(start.X, start.Y, end.X, end.Y);
-            }
-
-            return GraphicStructure.AntiAreaFill(edges);
-        }
+        Relation AntiDiskFill(long centerX, long centerY, long radius) =>
+            GraphicStructure.AntiAreaFill(Circle(centerX, centerY, radius));
 
         Relation RingFill(long centerX, long centerY, long outerRadius, long innerRadius) =>
             Chain(DiskFill(centerX, centerY, outerRadius), AntiDiskFill(centerX, centerY, innerRadius));
@@ -210,22 +180,16 @@ internal static partial class SketchSamples
 
         var centerOuterFill = DiskFill(0, 0, centerOuter);
         var centerInnerClear = AntiDiskFill(0, 0, centerInner);
-        var horizontalFill = PolygonFill((-armReach, -offset), (armReach, -offset), (armReach, offset), (-armReach, offset));
-        var verticalFill = PolygonFill((-offset, -armReach), (offset, -armReach), (offset, armReach), (-offset, armReach));
+        var centerRingFill = Chain(centerOuterFill, centerInnerClear);
+        var barEnd = armReach - endpointInner;
+        var horizontalFill = PolygonFill((-barEnd, -offset), (barEnd, -offset), (barEnd, offset), (-barEnd, offset));
+        var verticalFill = PolygonFill((-offset, -barEnd), (offset, -barEnd), (offset, barEnd), (-offset, barEnd));
         var rightEndpointFill = RingFill(armReach, 0, endpointOuter, endpointInner);
         var leftEndpointFill = RingFill(-armReach, 0, endpointOuter, endpointInner);
         var topEndpointFill = RingFill(0, armReach, endpointOuter, endpointInner);
         var bottomEndpointFill = RingFill(0, -armReach, endpointOuter, endpointInner);
         var separateFills = Chain(
-            Chain(centerOuterFill, centerInnerClear),
-            horizontalFill,
-            verticalFill,
-            rightEndpointFill,
-            leftEndpointFill,
-            topEndpointFill,
-            bottomEndpointFill);
-        var mergedFills = Chain(
-            Chain(centerOuterFill, centerInnerClear),
+            centerRingFill,
             horizontalFill,
             verticalFill,
             rightEndpointFill,
@@ -243,8 +207,7 @@ internal static partial class SketchSamples
 
         var areaFrame = GraphicBooleanSurface.AreaFrame(
             new Carrier(),
-            centerOuterFill,
-            centerInnerClear,
+            centerRingFill,
             horizontalFill,
             verticalFill,
             rightEndpointFill,
@@ -258,6 +221,7 @@ internal static partial class SketchSamples
         var fillEvidence = GraphicParameterSurface.Frame(new Carrier(), offsetEvidence, areaFrame);
         var fillUnion = GraphicBooleanSurface.AreaUnion(new Carrier(), areaFrame, compositeOutline);
         var roundedUnion = GraphicBooleanSurface.AreaUnion(new Carrier(), areaFrame, roundedOffset);
+        var finalUnion = GraphicBooleanSurface.AreaUnion(new Carrier(), areaFrame, Chain(roundedOffset, ornaments));
 
         var baseRung = StructuralLadderSurface.BaseRung(new Carrier(), centerPlus);
         var endpointStep = RefinedRung(
@@ -289,21 +253,21 @@ internal static partial class SketchSamples
             separateFills,
             separateFills,
             UnknownPoint(),
-            mergedFills,
-            mergedFills,
+            fillUnion,
+            fillUnion,
             fillUnion);
         var outlineStep = RefinedRung(
-            mergedFills,
-            mergedFills,
-            mergedFills,
+            fillUnion,
+            fillUnion,
+            fillUnion,
             UnknownPoint(),
-            compositeOutline,
-            compositeOutline,
+            fillUnion,
+            fillUnion,
             fillUnion);
         var roundedStep = RefinedRung(
-            compositeOutline,
-            compositeOutline,
-            compositeOutline,
+            fillUnion,
+            fillUnion,
+            fillUnion,
             UnknownPoint(),
             roundedOffset,
             roundedOffset,
@@ -314,8 +278,8 @@ internal static partial class SketchSamples
             UnknownPoint(),
             roundedOffset,
             ornaments,
-            finalShape,
-            GraphicParameterSurface.Frame(new Carrier(), roundedOffset, ornaments));
+            finalUnion,
+            GraphicParameterSurface.Frame(new Carrier(), roundedOffset, ornaments, finalShape, finalUnion));
 
         var rungs = new[]
         {

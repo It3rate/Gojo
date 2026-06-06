@@ -201,6 +201,49 @@ internal static class Program
         {
             throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not expose separate offset fill reads.");
         }
+
+        var arcFillReads = GraphicReadGraph.From(fillResult)
+            .ReadsOf<SharedFrameAreaRead>()
+            .Count(area => area.Boundary.Arcs is { Count: > 0 });
+        if (arcFillReads < 5)
+        {
+            throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not preserve circular fills as arc boundaries.");
+        }
+
+        if (!StructuralLadderSurface.TryReadRung(
+                rungs[4],
+                out _,
+                out _,
+                out var mergeResult,
+                out _,
+                out _,
+                out _,
+                out _,
+                out _) ||
+            mergeResult is not Relation mergeUnion ||
+            !GraphicBooleanSurface.TryReadAreaUnion(mergeUnion, out var mergeAreaFrame, out _, out _, out _) ||
+            mergeAreaFrame is not Relation mergeAreaFrameRelation ||
+            !GraphicBooleanSurface.TryReadAreaFrame(mergeAreaFrameRelation, out var mergeParticipants) ||
+            mergeParticipants.Length != 7)
+        {
+            throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not expose the merged fill as an area union.");
+        }
+
+        if (!StructuralLadderSurface.TryReadRung(
+                rungs[5],
+                out _,
+                out _,
+                out var outlineResult,
+                out _,
+                out _,
+                out _,
+                out _,
+                out _) ||
+            outlineResult is not Relation outlineUnion ||
+            !GraphicBooleanSurface.TryReadAreaUnion(outlineUnion, out _, out _, out _, out _))
+        {
+            throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not keep the composite outline tied to the merged area union.");
+        }
     }
 
     private static void ValidateGCodeScene(SketchScene scene, IReadOnlyList<IElement> programElements)

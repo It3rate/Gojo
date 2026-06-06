@@ -195,8 +195,27 @@ internal sealed class SketchDrawOperation : ICustomDrawOperation
             return;
         }
 
-        ReadAreaPaints(rungIndex, useSpecialAreaPaints, out var areaPalette, out var areaFillColor, out var antiAreaFillColor);
-        using var paints = CreateSketchPaints(color, strokeWidth, hidePoints, areaPalette, areaFillColor, antiAreaFillColor);
+        ReadAreaPaints(
+            rungIndex,
+            useSpecialAreaPaints,
+            out var areaPalette,
+            out var areaFillColor,
+            out var antiAreaFillColor,
+            out var hideAreaBoundary,
+            out var hideSharedFrameGeometry,
+            out var drawAreaUnionOutline,
+            out var drawAreaUnionAsOutline);
+        using var paints = CreateSketchPaints(
+            color,
+            strokeWidth,
+            hidePoints,
+            areaPalette,
+            areaFillColor,
+            antiAreaFillColor,
+            hideAreaBoundary,
+            hideSharedFrameGeometry,
+            drawAreaUnionOutline,
+            drawAreaUnionAsOutline);
         Renderer.Draw(canvas, result, viewport, scene.ProjectionSeed, scene.ModelBounds, paints);
     }
 
@@ -205,11 +224,19 @@ internal sealed class SketchDrawOperation : ICustomDrawOperation
         bool useSpecialAreaPaints,
         out IReadOnlyList<SKColor>? areaPalette,
         out SKColor? areaFillColor,
-        out SKColor? antiAreaFillColor)
+        out SKColor? antiAreaFillColor,
+        out bool hideAreaBoundary,
+        out bool hideSharedFrameGeometry,
+        out bool drawAreaUnionOutline,
+        out bool drawAreaUnionAsOutline)
     {
         areaPalette = null;
         areaFillColor = null;
         antiAreaFillColor = null;
+        hideAreaBoundary = false;
+        hideSharedFrameGeometry = false;
+        drawAreaUnionOutline = false;
+        drawAreaUnionAsOutline = false;
         if (!useSpecialAreaPaints ||
             scene.Label != "Radial Shape Ladder")
         {
@@ -220,11 +247,25 @@ internal sealed class SketchDrawOperation : ICustomDrawOperation
         {
             areaPalette = RadialSeparateFillPalette;
             antiAreaFillColor = CanvasBackground;
+            hideAreaBoundary = true;
+            hideSharedFrameGeometry = true;
         }
         else if (rungIndex == 4)
         {
             areaFillColor = RadialMergedFill;
             antiAreaFillColor = CanvasBackground;
+            hideAreaBoundary = true;
+            hideSharedFrameGeometry = true;
+        }
+        else if (rungIndex == 5)
+        {
+            drawAreaUnionAsOutline = true;
+        }
+        else if (rungIndex == 7)
+        {
+            areaFillColor = new SKColor(RadialMergedFill.Red, RadialMergedFill.Green, RadialMergedFill.Blue, 92);
+            hideAreaBoundary = true;
+            drawAreaUnionOutline = true;
         }
     }
 
@@ -234,7 +275,11 @@ internal sealed class SketchDrawOperation : ICustomDrawOperation
         bool hidePoints = false,
         IReadOnlyList<SKColor>? areaFillPalette = null,
         SKColor? areaFillColor = null,
-        SKColor? antiAreaFillColor = null)
+        SKColor? antiAreaFillColor = null,
+        bool hideAreaBoundary = false,
+        bool hideSharedFrameGeometry = false,
+        bool drawAreaUnionOutline = false,
+        bool drawAreaUnionAsOutline = false)
     {
         var paints = new GojoCadSkiaPaints
         {
@@ -247,7 +292,11 @@ internal sealed class SketchDrawOperation : ICustomDrawOperation
             ArrowWidth = 4f,
             LineSeedLength = 30f,
             SheetSeedWidth = 12f,
-            AreaFillPalette = areaFillPalette
+            AreaFillPalette = areaFillPalette,
+            HideAreaBoundary = hideAreaBoundary,
+            HideSharedFrameGeometry = hideSharedFrameGeometry,
+            DrawAreaUnionOutline = drawAreaUnionOutline,
+            DrawAreaUnionAsOutline = drawAreaUnionAsOutline
         };
         ApplyStroke(paints.Segment, color, strokeWidth * 0.9f);
         ApplyStroke(paints.SegmentTension, color, strokeWidth * 0.82f);

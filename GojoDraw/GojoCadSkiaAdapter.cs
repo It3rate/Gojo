@@ -1,6 +1,7 @@
 using Gojo.Core;
 using Gojo.Structures;
 using GojoCAD;
+using GojoCAD.Structures;
 using SkiaSharp;
 
 namespace GojoDraw;
@@ -23,7 +24,14 @@ public sealed class GojoCadSkiaAdapter
         ArgumentNullException.ThrowIfNull(projection);
         ArgumentNullException.ThrowIfNull(paints);
 
-        var graph = GraphicReadGraph.From(SelectCurrentRenderableRungs(element));
+        var renderable = SelectCurrentRenderableRungs(element);
+        if (renderable is Relation union &&
+            GraphicBooleanSurface.TryReadAreaUnion(union, out _, out _, out _, out _))
+        {
+            return DrawAreaUnion(canvas, union, projection, paints, hitAreas);
+        }
+
+        var graph = GraphicReadGraph.From(renderable);
         return DrawReadGraph(canvas, graph, projection, paints, hitAreas);
     }
 
@@ -71,6 +79,144 @@ public sealed class GojoCadSkiaAdapter
         var replacement = new Relation(left, right);
         visited[relation.Id] = replacement;
         return replacement;
+    }
+
+    private static int DrawAreaUnion(
+        SKCanvas canvas,
+        Relation union,
+        IGojoCadSkiaProjection projection,
+        GojoCadSkiaPaints paints,
+        ICollection<GojoCadSkiaHitArea>? hitAreas)
+    {
+        if (!GraphicBooleanSurface.TryReadAreaUnion(
+                union,
+                out var areaFrame,
+                out var outline,
+                out _,
+                out _) ||
+            BuildAreaUnionPath(areaFrame, projection) is not { } path)
+        {
+            return 0;
+        }
+
+        using (path)
+        {
+            if (paints.DrawAreaUnionAsOutline)
+            {
+                canvas.DrawPath(path, paints.AreaBoundary);
+            }
+            else
+            {
+                canvas.DrawPath(path, paints.AreaFill);
+            }
+            AddHit(hitAreas, path.Bounds, "area union", priority: 2, union);
+        }
+
+        if (paints.DrawAreaUnionOutline)
+        {
+            return 1 + DrawReadGraph(canvas, GraphicReadGraph.From(outline), projection, paints, hitAreas);
+        }
+
+        return 1;
+    }
+
+    private static SKPath? BuildAreaUnionPath(IElement areaFrame, IGojoCadSkiaProjection projection)
+    {
+        if (areaFrame is not Relation frame ||
+            !GraphicBooleanSurface.TryReadAreaFrame(frame, out var participants) ||
+            participants.Length == 0)
+        {
+            return null;
+        }
+
+        var composite = new SKPath();
+        var hasComposite = false;
+        foreach (var participant in participants)
+        {
+            using var shape = BuildAreaParticipantPath(participant, projection);
+            if (shape is null)
+            {
+                continue;
+            }
+
+            if (!hasComposite)
+            {
+                composite.AddPath(shape);
+                hasComposite = true;
+            }
+            else
+            {
+                ApplyPathOp(composite, shape, SKPathOp.Union);
+            }
+        }
+
+        if (!hasComposite)
+        {
+            composite.Dispose();
+            return null;
+        }
+
+        return composite;
+    }
+
+    private static SKPath? BuildAreaParticipantPath(IElement participant, IGojoCadSkiaProjection projection)
+    {
+        var graph = GraphicReadGraph.From(participant);
+        var areas = graph.ReadsOf<SharedFrameAreaRead>().ToArray();
+        if (areas.Length == 0)
+        {
+            return null;
+        }
+
+        var positive = areas.Where(area => !area.IsAntiArea).ToArray();
+        var negative = areas.Where(area => area.IsAntiArea).ToArray();
+        var shape = new SKPath();
+        var hasShape = false;
+        foreach (var area in positive)
+        {
+            using var path = BuildClosedSharedFrameBoundaryPath(area.Boundary, projection);
+            if (path is null)
+            {
+                continue;
+            }
+
+            if (!hasShape)
+            {
+                shape.AddPath(path);
+                hasShape = true;
+            }
+            else
+            {
+                ApplyPathOp(shape, path, SKPathOp.Union);
+            }
+        }
+
+        if (!hasShape)
+        {
+            shape.Dispose();
+            return null;
+        }
+
+        foreach (var area in negative)
+        {
+            using var path = BuildClosedSharedFrameBoundaryPath(area.Boundary, projection);
+            if (path is not null)
+            {
+                ApplyPathOp(shape, path, SKPathOp.Difference);
+            }
+        }
+
+        return shape;
+    }
+
+    private static void ApplyPathOp(SKPath target, SKPath operand, SKPathOp operation)
+    {
+        using var result = new SKPath();
+        if (target.Op(operand, operation, result))
+        {
+            target.Reset();
+            target.AddPath(result);
+        }
     }
 
     private static int DrawReadGraph(
@@ -149,47 +295,50 @@ public sealed class GojoCadSkiaAdapter
             drawn++;
         }
 
-        foreach (var segment in graph.ReadsOf<SharedFrameSegmentRead>()
-            .Where(read => !IsRepeatControlSource(read.Source, repeatControlSources))
-            .Where(read => !IsFrameCurveSupportSource(read.Source, frameCurveSupportSources)))
+        if (!paints.HideSharedFrameGeometry)
         {
-            DrawSharedFrameSegment(canvas, segment, projection, paints, hitAreas);
-            drawn++;
-        }
+            foreach (var segment in graph.ReadsOf<SharedFrameSegmentRead>()
+                .Where(read => !IsRepeatControlSource(read.Source, repeatControlSources))
+                .Where(read => !IsFrameCurveSupportSource(read.Source, frameCurveSupportSources)))
+            {
+                DrawSharedFrameSegment(canvas, segment, projection, paints, hitAreas);
+                drawn++;
+            }
 
-        foreach (var arc in graph.ReadsOf<SharedFrameArcRead>()
-            .Where(read => !IsRepeatControlSource(read.Source, repeatControlSources)))
-        {
-            DrawSharedFrameArc(canvas, arc, projection, paints, hitAreas);
-            drawn++;
-        }
+            foreach (var arc in graph.ReadsOf<SharedFrameArcRead>()
+                .Where(read => !IsRepeatControlSource(read.Source, repeatControlSources)))
+            {
+                DrawSharedFrameArc(canvas, arc, projection, paints, hitAreas);
+                drawn++;
+            }
 
-        foreach (var quadratic in graph.ReadsOf<SharedFrameQuadraticCurveRead>()
-            .Where(read => !IsRepeatControlSource(read.Source, repeatControlSources)))
-        {
-            DrawSharedFrameQuadraticCurve(canvas, quadratic, projection, paints, hitAreas);
-            drawn++;
-        }
+            foreach (var quadratic in graph.ReadsOf<SharedFrameQuadraticCurveRead>()
+                .Where(read => !IsRepeatControlSource(read.Source, repeatControlSources)))
+            {
+                DrawSharedFrameQuadraticCurve(canvas, quadratic, projection, paints, hitAreas);
+                drawn++;
+            }
 
-        foreach (var cubic in graph.ReadsOf<SharedFrameCubicCurveRead>()
-            .Where(read => !IsRepeatControlSource(read.Source, repeatControlSources)))
-        {
-            DrawSharedFrameCubicCurve(canvas, cubic, projection, paints, hitAreas);
-            drawn++;
-        }
+            foreach (var cubic in graph.ReadsOf<SharedFrameCubicCurveRead>()
+                .Where(read => !IsRepeatControlSource(read.Source, repeatControlSources)))
+            {
+                DrawSharedFrameCubicCurve(canvas, cubic, projection, paints, hitAreas);
+                drawn++;
+            }
 
-        foreach (var clothoid in graph.ReadsOf<SharedFrameClothoidTransitionRead>()
-            .Where(read => !IsRepeatControlSource(read.Source, repeatControlSources)))
-        {
-            DrawSharedFrameClothoidTransition(canvas, clothoid, projection, paints, hitAreas);
-            drawn++;
-        }
+            foreach (var clothoid in graph.ReadsOf<SharedFrameClothoidTransitionRead>()
+                .Where(read => !IsRepeatControlSource(read.Source, repeatControlSources)))
+            {
+                DrawSharedFrameClothoidTransition(canvas, clothoid, projection, paints, hitAreas);
+                drawn++;
+            }
 
-        foreach (var involute in graph.ReadsOf<SharedFrameInvoluteCircleRead>()
-            .Where(read => !IsRepeatControlSource(read.Source, repeatControlSources)))
-        {
-            DrawSharedFrameInvolute(canvas, involute, projection, paints, hitAreas);
-            drawn++;
+            foreach (var involute in graph.ReadsOf<SharedFrameInvoluteCircleRead>()
+                .Where(read => !IsRepeatControlSource(read.Source, repeatControlSources)))
+            {
+                DrawSharedFrameInvolute(canvas, involute, projection, paints, hitAreas);
+                drawn++;
+            }
         }
 
         foreach (var transition in graph.ReadsOf<CarrierCurveTransitionRead>()
@@ -1278,7 +1427,10 @@ public sealed class GojoCadSkiaAdapter
 
         using (path)
         {
-            canvas.DrawPath(path, paints.AreaBoundary);
+            if (!paints.HideAreaBoundary)
+            {
+                canvas.DrawPath(path, paints.AreaBoundary);
+            }
             AddHit(hitAreas, path.Bounds, "closed boundary", priority: 1, boundary.Source);
         }
     }
@@ -1300,7 +1452,10 @@ public sealed class GojoCadSkiaAdapter
         using (path)
         {
             canvas.DrawPath(path, area.IsAntiArea ? paints.AntiAreaFill : paints.AreaFill);
-            canvas.DrawPath(path, paints.AreaBoundary);
+            if (!paints.HideAreaBoundary)
+            {
+                canvas.DrawPath(path, paints.AreaBoundary);
+            }
             AddHit(hitAreas, path.Bounds, area.IsAntiArea ? "anti-area" : "area", priority: 2, area.Source);
         }
 
@@ -1325,7 +1480,10 @@ public sealed class GojoCadSkiaAdapter
 
         using (path)
         {
-            canvas.DrawPath(path, paints.AreaBoundary);
+            if (!paints.HideAreaBoundary)
+            {
+                canvas.DrawPath(path, paints.AreaBoundary);
+            }
             AddHit(hitAreas, path.Bounds, "closed frame boundary", priority: 1, boundary.Source);
         }
     }
@@ -1349,7 +1507,10 @@ public sealed class GojoCadSkiaAdapter
         {
             using var paletteFill = CreateAreaPalettePaint(paints, paletteIndex);
             canvas.DrawPath(path, area.IsAntiArea ? paints.AntiAreaFill : paletteFill ?? paints.AreaFill);
-            canvas.DrawPath(path, paints.AreaBoundary);
+            if (!paints.HideAreaBoundary)
+            {
+                canvas.DrawPath(path, paints.AreaBoundary);
+            }
             AddHit(hitAreas, path.Bounds, area.IsAntiArea ? "frame anti-area" : "frame area", priority: 2, area.Source);
         }
 
@@ -1513,6 +1674,9 @@ public sealed class GojoCadSkiaAdapter
 
         var pointByEndpoint = new Dictionary<SharedFrameSegmentEndpointRead, SKPoint>();
         var siteByEndpoint = new Dictionary<SharedFrameSegmentEndpointRead, IReadOnlyList<SharedFrameSegmentEndpointRead>>();
+        var arcBySpanSource = (boundary.Arcs ?? [])
+            .GroupBy(arc => ReadSourceId(arc.Span.Source))
+            .ToDictionary(group => group.Key, group => group.First());
         foreach (var site in boundary.Sites)
         {
             var point = AverageProjectedSharedFrameSite(site, projection);
@@ -1542,7 +1706,14 @@ public sealed class GojoCadSkiaAdapter
                 return null;
             }
 
-            path.LineTo(nextPoint);
+            if (arcBySpanSource.TryGetValue(ReadSourceId(incoming.Segment.Source), out var arc))
+            {
+                AddSharedFrameArcEdge(path, arc, incoming.Point, outgoing.Point, projection);
+            }
+            else
+            {
+                path.LineTo(nextPoint);
+            }
             if (!siteByEndpoint.TryGetValue(outgoing, out var site))
             {
                 break;
@@ -1561,6 +1732,24 @@ public sealed class GojoCadSkiaAdapter
 
         path.Close();
         return path;
+    }
+
+    private static void AddSharedFrameArcEdge(
+        SKPath path,
+        SharedFrameArcRead arc,
+        SharedFramePointRead startPointRead,
+        SharedFramePointRead endPointRead,
+        IGojoCadSkiaProjection projection)
+    {
+        var center = projection.ProjectFrame(arc.Center);
+        var start = projection.ProjectFrame(startPointRead);
+        var end = projection.ProjectFrame(endPointRead);
+        var radius = MathF.Max(0.1f, (Distance(center, start) + Distance(center, end)) * 0.5f);
+        var bounds = CircleBounds(center, radius);
+        var startAngle = AngleDegrees(center, start);
+        var endAngle = AngleDegrees(center, end);
+        var sweep = ShortestSweep(startAngle, endAngle);
+        path.ArcTo(bounds, startAngle, sweep, forceMoveTo: false);
     }
 
     private static SharedFrameSegmentEndpointRead OtherSharedFrameEndpoint(SharedFrameSegmentEndpointRead endpoint) =>

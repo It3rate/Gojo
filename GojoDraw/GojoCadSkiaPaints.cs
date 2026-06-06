@@ -132,6 +132,14 @@ public sealed class GojoCadSkiaPaints : IDisposable
 
     public IReadOnlyList<SKColor>? AreaFillPalette { get; init; }
 
+    public bool HideAreaBoundary { get; init; }
+
+    public bool HideSharedFrameGeometry { get; init; }
+
+    public bool DrawAreaUnionOutline { get; init; }
+
+    public bool DrawAreaUnionAsOutline { get; init; }
+
     public float EndpointBarLength { get; init; } = 10f;
 
     public float PartitionTickLength { get; init; } = 9f;

@@ -999,6 +999,33 @@ public sealed class GraphicReadGraphTests
     }
 
     [Fact]
+    public void ReadsSharedFrameAreaArcBoundaryWithoutDiscardingCurveEdges()
+    {
+        var frame = new Carrier();
+        var x = new Carrier();
+        var y = new Carrier();
+        Relation Point(long xTicks, long yTicks) =>
+            GraphicStructure.FramePoint(frame, new CarrierLocation(x, xTicks), new CarrierLocation(y, yTicks));
+        var center = Point(0, 0);
+        var right = Point(10, 0);
+        var top = Point(0, 10);
+        var left = Point(-10, 0);
+        var bottom = Point(0, -10);
+        var circle = Chain(
+            GraphicStructure.FrameArc(center, right, top),
+            GraphicStructure.FrameArc(center, top, left),
+            GraphicStructure.FrameArc(center, left, bottom),
+            GraphicStructure.FrameArc(center, bottom, right));
+        var fill = GraphicStructure.AreaFill(circle);
+
+        var graph = GraphicReadGraph.From(fill);
+
+        var area = Assert.Single(graph.ReadsOf<SharedFrameAreaRead>());
+        Assert.Equal(4, area.Boundary.Segments.Count);
+        Assert.Equal(4, area.Boundary.Arcs?.Count);
+    }
+
+    [Fact]
     public void ReadsAntiAreaFromInverseBoundaryFillParticipation()
     {
         var firstSite = GraphicStructure.Site(0);

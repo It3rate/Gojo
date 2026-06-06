@@ -824,13 +824,14 @@ public sealed class GraphicReadGraph
         private static IEnumerable<ClosedSharedFrameBoundaryRead> DeriveClosedSharedFrameBoundaries(IReadOnlyList<GraphicRead> reads)
         {
             var segments = reads.OfType<SharedFrameSegmentRead>().ToArray();
+            var arcs = reads.OfType<SharedFrameArcRead>().ToArray();
             if (segments.Length < 3)
             {
                 yield break;
             }
 
             var endpointGroups = ReadSharedFrameEndpointGroups(segments);
-            var strictBoundaries = DeriveClosedSharedFrameBoundariesFromGroups(segments, endpointGroups).ToArray();
+            var strictBoundaries = DeriveClosedSharedFrameBoundariesFromGroups(segments, endpointGroups, arcs).ToArray();
             if (strictBoundaries.Length != 0)
             {
                 foreach (var boundary in strictBoundaries)
@@ -843,7 +844,8 @@ public sealed class GraphicReadGraph
 
             foreach (var boundary in DeriveClosedSharedFrameBoundariesFromGroups(
                 segments,
-                ReadLooseSharedFrameEndpointGroups(segments)))
+                ReadLooseSharedFrameEndpointGroups(segments),
+                arcs))
             {
                 yield return boundary;
             }
@@ -851,11 +853,15 @@ public sealed class GraphicReadGraph
 
         private static IEnumerable<ClosedSharedFrameBoundaryRead> DeriveClosedSharedFrameBoundariesFromGroups(
             IReadOnlyList<SharedFrameSegmentRead> segments,
-            IReadOnlyList<IReadOnlyList<SharedFrameSegmentEndpointRead>> endpointGroups)
+            IReadOnlyList<IReadOnlyList<SharedFrameSegmentEndpointRead>> endpointGroups,
+            IReadOnlyList<SharedFrameArcRead> arcs)
         {
             var groupByEndpoint = IndexSharedFrameEndpointGroups(endpointGroups);
             var adjacent = BuildSharedFrameSegmentAdjacency(segments, endpointGroups);
             var visited = ReadReferenceSet<SharedFrameSegmentRead>();
+            var arcBySpanSource = arcs
+                .GroupBy(arc => ReadSourceId(arc.Span.Source))
+                .ToDictionary(group => group.Key, group => group.First());
 
             foreach (var seed in segments)
             {
@@ -906,7 +912,13 @@ public sealed class GraphicReadGraph
 
                 if (closed && boundarySites.Count == component.Count)
                 {
-                    yield return new ClosedSharedFrameBoundaryRead(component[0].Source, component, boundarySites);
+                    var boundaryArcs = component
+                        .Select(segment => arcBySpanSource.TryGetValue(ReadSourceId(segment.Source), out var arc)
+                            ? arc
+                            : null)
+                        .OfType<SharedFrameArcRead>()
+                        .ToArray();
+                    yield return new ClosedSharedFrameBoundaryRead(component[0].Source, component, boundarySites, boundaryArcs);
                 }
             }
         }
@@ -2007,7 +2019,14 @@ public sealed class GraphicReadGraph
             string.Join("|", boundary.Segments.Select(SegmentGeometrySignature).Order());
 
         private static string SharedFrameBoundaryGeometrySignature(ClosedSharedFrameBoundaryRead boundary) =>
-            string.Join("|", boundary.Segments.Select(SharedFrameSegmentGeometrySignature).Order());
+            string.Join(
+                "|",
+                boundary.Segments.Select(SharedFrameSegmentGeometrySignature)
+                    .Concat((boundary.Arcs ?? []).Select(SharedFrameArcGeometrySignature))
+                    .Order());
+
+        private static ulong ReadSourceId(IElement source) =>
+            source is Relation relation ? relation.Id : 0UL;
 
         private static string SegmentGeometrySignature(PositiveSegmentRead segment)
         {
@@ -2026,6 +2045,9 @@ public sealed class GraphicReadGraph
                 ? $"{start}->{end}"
                 : $"{end}->{start}";
         }
+
+        private static string SharedFrameArcGeometrySignature(SharedFrameArcRead arc) =>
+            $"{FramePointSignature(arc.Center)}:{SharedFrameSegmentGeometrySignature(arc.Span)}";
 
         private static string LocationGeometrySignature(CarrierLocation location)
         {
@@ -3341,11 +3363,13 @@ public sealed record ClosedSegmentBoundaryRead(
 public sealed record ClosedSharedFrameBoundaryRead(
     IElement Source,
     IReadOnlyList<SharedFrameSegmentRead> Segments,
-    IReadOnlyList<IReadOnlyList<SharedFrameSegmentEndpointRead>> Sites) : GraphicRead(Source)
+    IReadOnlyList<IReadOnlyList<SharedFrameSegmentEndpointRead>> Sites,
+    IReadOnlyList<SharedFrameArcRead>? Arcs = null) : GraphicRead(Source)
 {
     public override IEnumerable<IElement> Sources =>
         Segments.Select(segment => segment.Source)
-            .Concat(Sites.SelectMany(site => site.Select(endpoint => endpoint.Point.Source)));
+            .Concat(Sites.SelectMany(site => site.Select(endpoint => endpoint.Point.Source)))
+            .Concat((Arcs ?? []).Select(arc => arc.Source));
 }
 
 public sealed record BoundaryJoinRead(
