@@ -449,6 +449,14 @@ public static class GraphicConceptShape
     public static Relation OffsetSection(Carrier root, IElement section) =>
         Elaborate(root, section, OffsetEvidence(new Carrier()));
 
+    /// <summary>Creates parallel/offset evidence with an explicit distance/radius surface.</summary>
+    public static Relation OffsetSection(Carrier root, IElement section, IElement distance) =>
+        Elaborate(root, section, GraphicOffsetSurface.Evidence(new Carrier(), distance));
+
+    /// <summary>Creates parallel/offset evidence from an explicit offset evidence surface.</summary>
+    public static Relation OffsetSectionWithEvidence(Carrier root, IElement section, IElement evidence) =>
+        Elaborate(root, section, evidence ?? OffsetEvidence(new Carrier()));
+
     /// <summary>
     /// Creates an elaborated concept shape:
     /// lower rung, new evidence, unresolved residue/tension.
@@ -795,7 +803,7 @@ public static class GraphicConceptShape
         Frame(root, Frame(new Carrier(), ControlSlot(), ControlSlot(), ControlSlot()), TensionSlot());
 
     private static Relation OffsetEvidence(Carrier root) =>
-        Frame(root, OrthogonalSlot(), TensionSlot());
+        GraphicOffsetSurface.Evidence(root);
 
     private static Relation ClosureEvidence(Carrier root)
     {

@@ -22,6 +22,48 @@ The current ladder is:
 | 4 | connection | join, tangent join, open path, branch, merge |
 | 5 | boundary/body | closed boundary, area, anti-area, thickened section, offset |
 
+## Offset Surfaces
+
+Offsets are structural requests over drawable sections or boundaries, not
+precomputed Cartesian polylines. `GraphicOffsetSurface` records:
+
+- source: the line, arc, Bezier, clothoid, involute, path, or boundary being
+  offset
+- distance/radius evidence: the amount of separation, which may be exact,
+  parameterized, sampled, or unresolved tension
+- side pair: opposed interior/exterior witnesses
+- direction: the positive flow used to interpret the side pair
+- closure: unresolved or explicit evidence for how an open or partial boundary
+  should be completed when a fill asks for one
+- residue/tension: whatever the current read cannot settle
+
+The side pair deliberately separates "interior/exterior" from "left/right".
+Every section has a natural positive flow, and a reader may also sample or read
+the inverse flow when a fill needs a consistent boundary direction. Once a
+direction has been chosen, the renderer can convert the section to a Cartesian
+tangent/normal field and place the red interior and green exterior samples on
+opposed sides. That conversion is not the Gojo meaning; it is only a display
+read.
+
+Full closed shapes such as circles can settle interior/exterior against a center
+or area witness. Partial shapes can still have local side evidence. A letter C,
+for example, can expose an interior side for most of its arc and keep the open
+gap as closure tension. A render pass may visualize that closure as a faint
+line, gradient, clothoid, or other approximate bridge without claiming the
+source is fully closed.
+
+Offset rules by curve family:
+
+| Family | Structural offset meaning | Render-boundary approximation |
+| --- | --- | --- |
+| line / segment | parallel section through the normal side evidence | translate endpoints by the chosen normal |
+| circle / circumference | radial offset against center/area evidence | radius plus/minus offset distance |
+| arc / circular span | partial radial offset with endpoint closure residue | radius plus/minus offset over the span |
+| quadratic / cubic Bezier | offset through endpoint tangent/control evidence | sampled tangent normals or fitted offset curve |
+| clothoid | offset of a curvature-transition section between Gojo elements | sample/render the transition with a numeric clothoid or Bezier approximation, then offset normals |
+| involute | offset of an unwinding section from circular evidence | sample the involute and offset its normal field |
+| open path / partial boundary | local side evidence plus closure tension | offset segments/curves locally and render closure residue if requested |
+
 ## Composite Shapes
 
 Connecting concept shapes knowingly creates a new current concept shape. It does

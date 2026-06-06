@@ -32,6 +32,12 @@ internal static class Program
 
     private static void ValidateGeneratedScene(SketchScene scene)
     {
+        if (scene.OffsetStudy is { } offsetStudy)
+        {
+            ValidateOffsetStudyScene(scene, offsetStudy);
+            return;
+        }
+
         if (scene.Structure is not Relation ladder ||
             !StructuralLadderSurface.TryReadRungPath(ladder, out var rungs) ||
             rungs.Length == 0)
@@ -147,6 +153,31 @@ internal static class Program
         }
     }
 
+    private static void ValidateOffsetStudyScene(SketchScene scene, GojoDraw.GojoCadOffsetStudy offsetStudy)
+    {
+        if (offsetStudy.Samples.Count < 9)
+        {
+            throw new InvalidOperationException($"Offset scene '{scene.Label}' does not cover enough curve families.");
+        }
+
+        var requestReads = WalkRelations(scene.Structure)
+            .Count(relation => GraphicOffsetSurface.TryReadRequest(relation, out _, out _, out _));
+        if (requestReads < offsetStudy.Samples.Count)
+        {
+            throw new InvalidOperationException($"Offset scene '{scene.Label}' does not preserve offset request evidence.");
+        }
+
+        foreach (var sample in offsetStudy.Samples)
+        {
+            if (sample.Original.Count < 2 ||
+                sample.Interior.Count != sample.Original.Count ||
+                sample.Exterior.Count != sample.Original.Count)
+            {
+                throw new InvalidOperationException($"Offset scene '{scene.Label}' has an incomplete sample '{sample.Label}'.");
+            }
+        }
+    }
+
     private static IEnumerable<Relation> WalkRelations(IElement element)
     {
         if (element is not Relation relation)
@@ -205,6 +236,7 @@ internal sealed class MainWindow : Window
             Padding = new Thickness(0)
         };
         var nextButton = CreateButton("Next");
+        var refreshButton = CreateButton("Refresh");
         var pointsButton = CreateButton(document.ShowConstructionPoints ? "Points On" : "Points Off");
         var rungLabel = new TextBlock
         {
@@ -268,6 +300,7 @@ internal sealed class MainWindow : Window
             }
         };
         nextButton.Click += (_, _) => SetDocument(document.Select((document.SelectedSceneIndex + 1) % document.Scenes.Count));
+        refreshButton.Click += (_, _) => SetDocument(document.Resample());
         pointsButton.Click += (_, _) => SetDocument(document.ToggleConstructionPoints());
         rungSlider.ValueChanged += nextRung =>
         {
@@ -284,6 +317,7 @@ internal sealed class MainWindow : Window
             Margin = new Thickness(0, 14, 0, 0)
         };
         buttonRow.Children.Add(nextButton);
+        buttonRow.Children.Add(refreshButton);
         buttonRow.Children.Add(pointsButton);
         var rungPanel = new StackPanel
         {

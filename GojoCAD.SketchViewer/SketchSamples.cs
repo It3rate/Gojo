@@ -1,6 +1,7 @@
 using Gojo.Core;
 using Gojo.Structures;
 using GojoCAD.Structures;
+using GojoDraw;
 using SkiaSharp;
 
 namespace GojoCAD.SketchViewer;
@@ -12,9 +13,346 @@ internal static class SketchSamples
         var seed = Random.Shared.Next();
         return
         [
+            CreateOffsetStudy(seed),
             CreateComplexHouseSketch(seed)
         ];
     }
+
+    private static SketchScene CreateOffsetStudy(int seed)
+    {
+        var random = new Random(seed);
+        var frame = new Carrier();
+        var x = new Carrier();
+        var y = new Carrier();
+        var samples = new List<GojoCadOffsetSample>();
+        var requests = new List<IElement>();
+
+        float Pick(float min, float max) =>
+            min + random.NextSingle() * (max - min);
+
+        long Tick(float value) =>
+            (long)MathF.Round(value * 10f);
+
+        Relation FP(SKPoint point) =>
+            Point(frame, x, y, Tick(point.X), Tick(point.Y));
+
+        Relation Distance(float distance) =>
+            Relation.Segment(new Carrier(), 0, Tick(MathF.Abs(distance)));
+
+        Relation Segment(SKPoint start, SKPoint end) =>
+            GraphicStructure.FrameSegment(FP(start), FP(end));
+
+        Relation ArcSource(SKPoint center, SKPoint start, SKPoint end) =>
+            GraphicStructure.FrameArc(FP(center), FP(start), FP(end));
+
+        void AddNormalOffset(
+            string label,
+            IReadOnlyList<SKPoint> original,
+            Relation source,
+            float offsetDistance,
+            bool closed = false,
+            SKPoint? interiorWitness = null,
+            IReadOnlyList<SKPoint>? closure = null)
+        {
+            IReadOnlyList<SKPoint> interior;
+            IReadOnlyList<SKPoint> exterior;
+            if (interiorWitness is { } witness)
+            {
+                interior = GojoCadOffsetGeometry.OffsetTowardWitness(
+                    original,
+                    witness,
+                    offsetDistance,
+                    closed,
+                    out exterior);
+            }
+            else
+            {
+                interior = GojoCadOffsetGeometry.OffsetNormalField(original, offsetDistance, closed);
+                exterior = GojoCadOffsetGeometry.OffsetNormalField(original, -offsetDistance, closed);
+            }
+
+            samples.Add(new GojoCadOffsetSample(label, original, interior, exterior, closed, closure));
+            requests.Add(GraphicOffsetSurface.RequestWithDistance(new Carrier(), source, Distance(offsetDistance)));
+        }
+
+        void AddRadialOffset(
+            string label,
+            IReadOnlyList<SKPoint> original,
+            IReadOnlyList<SKPoint> interior,
+            IReadOnlyList<SKPoint> exterior,
+            Relation source,
+            float offsetDistance,
+            bool closed,
+            IReadOnlyList<SKPoint>? closure = null)
+        {
+            samples.Add(new GojoCadOffsetSample(label, original, interior, exterior, closed, closure));
+            requests.Add(GraphicOffsetSurface.RequestWithDistance(new Carrier(), source, Distance(offsetDistance)));
+        }
+
+        var lineAngle = Pick(-35f, 35f) * MathF.PI / 180f;
+        var lineStart = new SKPoint(-46f, -2f);
+        var lineEnd = new SKPoint(42f, -2f + MathF.Sin(lineAngle) * 36f);
+        AddNormalOffset("line + positive flow", [lineStart, lineEnd], Segment(lineStart, lineEnd), Pick(7f, 10f));
+
+        var inverseStart = new SKPoint(42f, 6f);
+        var inverseEnd = new SKPoint(-42f, Pick(-20f, 20f));
+        AddNormalOffset("line + inverse flow", [inverseStart, inverseEnd], Segment(inverseStart, inverseEnd), Pick(7f, 10f));
+
+        var circleCenter = new SKPoint(0f, 0f);
+        var circleRadius = Pick(28f, 36f);
+        var circleOffset = Pick(5f, 7f);
+        var circle = CirclePoints(circleCenter, circleRadius, 64);
+        var innerCircle = CirclePoints(circleCenter, circleRadius - circleOffset, 64);
+        var outerCircle = CirclePoints(circleCenter, circleRadius + circleOffset, 64);
+        var circleRight = PointOnCircle(circleCenter, circleRadius, 0f);
+        var circleTop = PointOnCircle(circleCenter, circleRadius, 90f);
+        var circleLeft = PointOnCircle(circleCenter, circleRadius, 180f);
+        var circleBottom = PointOnCircle(circleCenter, circleRadius, 270f);
+        var circleSource = Chain(
+            ArcSource(circleCenter, circleRight, circleTop),
+            ArcSource(circleCenter, circleTop, circleLeft),
+            ArcSource(circleCenter, circleLeft, circleBottom),
+            ArcSource(circleCenter, circleBottom, circleRight));
+        AddRadialOffset("circle full boundary", circle, innerCircle, outerCircle, circleSource, circleOffset, closed: true);
+
+        var arcCenter = new SKPoint(0f, 0f);
+        var arcRadius = Pick(31f, 40f);
+        var arcStart = Pick(20f, 85f);
+        var arcSweep = Pick(150f, 230f);
+        var arcOffset = Pick(5f, 7f);
+        var arc = ArcPoints(arcCenter, arcRadius, arcStart, arcSweep, 38);
+        var arcInterior = ArcPoints(arcCenter, arcRadius - arcOffset, arcStart, arcSweep, 38);
+        var arcExterior = ArcPoints(arcCenter, arcRadius + arcOffset, arcStart, arcSweep, 38);
+        AddRadialOffset(
+            "arc partial boundary",
+            arc,
+            arcInterior,
+            arcExterior,
+            ArcSource(arcCenter, arc[0], arc[^1]),
+            arcOffset,
+            closed: false);
+
+        var quadStart = new SKPoint(-48f, -24f);
+        var quadControl = new SKPoint(Pick(-10f, 12f), Pick(26f, 48f));
+        var quadEnd = new SKPoint(48f, Pick(-22f, 4f));
+        var quad = QuadraticPoints(quadStart, quadControl, quadEnd, 44);
+        AddNormalOffset(
+            "quadratic Bezier",
+            quad,
+            GraphicStructure.FrameQuadraticCurve(FP(quadStart), FP(quadControl), FP(quadEnd)),
+            Pick(5f, 8f));
+
+        var cubicStart = new SKPoint(-50f, -20f);
+        var cubicFirst = new SKPoint(Pick(-40f, -18f), Pick(30f, 50f));
+        var cubicSecond = new SKPoint(Pick(18f, 42f), Pick(-48f, -24f));
+        var cubicEnd = new SKPoint(50f, Pick(10f, 28f));
+        var cubic = CubicPoints(cubicStart, cubicFirst, cubicSecond, cubicEnd, 52);
+        AddNormalOffset(
+            "cubic Bezier",
+            cubic,
+            GraphicStructure.FrameCubicCurve(FP(cubicStart), FP(cubicFirst), FP(cubicSecond), FP(cubicEnd)),
+            Pick(5f, 8f));
+
+        var clothoidStart = new SKPoint(-58f, Pick(-28f, -12f));
+        var clothoidEnd = new SKPoint(58f, Pick(16f, 34f));
+        var startAngle = Pick(-8f, 28f) * MathF.PI / 180f;
+        var endAngle = Pick(132f, 184f) * MathF.PI / 180f;
+        var startTangent = new SKPoint(MathF.Cos(startAngle), MathF.Sin(startAngle));
+        var endTangent = new SKPoint(MathF.Cos(endAngle), MathF.Sin(endAngle));
+        var clothoid = CubicFromTangents(clothoidStart, clothoidEnd, startTangent, endTangent, 32f, 52);
+        var clothoidIncoming = Segment(Add(clothoidStart, Scale(startTangent, -26f)), clothoidStart);
+        var clothoidOutgoing = Segment(clothoidEnd, Add(clothoidEnd, Scale(endTangent, 26f)));
+        var clothoidSource = GraphicStructure.FrameClothoidTransition(
+            GraphicStructure.FrameCurveTransition(clothoidIncoming, clothoidOutgoing),
+            Segment(clothoidStart, Add(clothoidStart, Scale(startTangent, 32f))));
+        AddNormalOffset("clothoid line-line", clothoid, clothoidSource, Pick(5f, 8f));
+
+        var arcLineCenter = new SKPoint(-32f, -8f);
+        var arcLineRadius = Pick(22f, 30f);
+        var arcLineStartAngle = Pick(115f, 150f);
+        var arcLineEndAngle = Pick(30f, 55f);
+        var arcLineStart = PointOnCircle(arcLineCenter, arcLineRadius, arcLineStartAngle);
+        var arcLineEntry = PointOnCircle(arcLineCenter, arcLineRadius, arcLineEndAngle);
+        var arcLineTangent = TangentOnCircle(arcLineCenter, arcLineEntry, clockwise: true);
+        var lineTarget = new SKPoint(52f, Pick(16f, 34f));
+        var lineTangent = Unit(arcLineEntry, lineTarget);
+        var arcLineClothoid = CubicFromTangents(arcLineEntry, lineTarget, arcLineTangent, lineTangent, 28f, 48);
+        var arcLineSource = GraphicStructure.FrameClothoidTransition(
+            GraphicStructure.FrameCurveTransition(
+                ArcSource(arcLineCenter, arcLineStart, arcLineEntry),
+                Segment(lineTarget, Add(lineTarget, Scale(lineTangent, 24f)))),
+            Segment(arcLineEntry, Add(arcLineEntry, Scale(arcLineTangent, 28f))));
+        AddNormalOffset("clothoid arc-line", arcLineClothoid, arcLineSource, Pick(5f, 7f));
+
+        var involuteCenter = new SKPoint(0f, 0f);
+        var involuteRadius = Pick(17f, 23f);
+        var involuteStartAngle = Pick(-30f, 35f) * MathF.PI / 180f;
+        var involuteTheta = Pick(2.2f, 3.15f);
+        var involute = InvolutePoints(involuteCenter, involuteRadius, involuteStartAngle, involuteTheta, 64);
+        var involuteBaseStart = PointOnCircleRadians(involuteCenter, involuteRadius, involuteStartAngle);
+        var involuteBaseEnd = PointOnCircleRadians(involuteCenter, involuteRadius, involuteStartAngle + involuteTheta);
+        var involuteSource = GraphicStructure.FrameInvoluteCurve(
+            ArcSource(involuteCenter, involuteBaseStart, involuteBaseEnd),
+            Segment(involuteBaseStart, involute[^1]));
+        AddNormalOffset("involute unwind", involute, involuteSource, Pick(4f, 6f));
+
+        var cCenter = new SKPoint(0f, 0f);
+        var cRadius = Pick(28f, 36f);
+        var cStart = Pick(48f, 70f);
+        var cSweep = Pick(225f, 260f);
+        var cShape = ArcPoints(cCenter, cRadius, cStart, cSweep, 52);
+        var cClosure = CubicPoints(
+            cShape[^1],
+            Add(cShape[^1], new SKPoint(20f, 8f)),
+            Add(cShape[0], new SKPoint(20f, -8f)),
+            cShape[0],
+            18);
+        AddNormalOffset(
+            "open C with closure tension",
+            cShape,
+            ArcSource(cCenter, cShape[0], cShape[^1]),
+            Pick(5f, 7f),
+            closed: false,
+            interiorWitness: cCenter,
+            closure: cClosure);
+
+        var study = new GojoCadOffsetStudy(samples);
+        return new SketchScene(
+            "Offset Curve Study",
+            "Source curves with structural offset requests; red is interior, green is exterior.",
+            GraphicConceptShape.Frame(new Carrier(), [.. requests]),
+            seed,
+            RungLabels: ["Offset samples"],
+            OffsetStudy: study);
+    }
+
+    private static IReadOnlyList<SKPoint> CirclePoints(SKPoint center, float radius, int steps)
+    {
+        var count = Math.Max(8, steps);
+        var points = new SKPoint[count];
+        for (var index = 0; index < count; index++)
+        {
+            points[index] = PointOnCircle(center, radius, index * 360f / count);
+        }
+
+        return points;
+    }
+
+    private static IReadOnlyList<SKPoint> ArcPoints(SKPoint center, float radius, float startDegrees, float sweepDegrees, int steps)
+    {
+        var count = Math.Max(2, steps);
+        var points = new SKPoint[count + 1];
+        for (var index = 0; index <= count; index++)
+        {
+            var u = index / (float)count;
+            points[index] = PointOnCircle(center, radius, startDegrees + sweepDegrees * u);
+        }
+
+        return points;
+    }
+
+    private static IReadOnlyList<SKPoint> QuadraticPoints(SKPoint start, SKPoint control, SKPoint end, int steps)
+    {
+        var count = Math.Max(2, steps);
+        var points = new SKPoint[count + 1];
+        for (var index = 0; index <= count; index++)
+        {
+            var u = index / (float)count;
+            var oneMinus = 1f - u;
+            points[index] = new SKPoint(
+                oneMinus * oneMinus * start.X + 2f * oneMinus * u * control.X + u * u * end.X,
+                oneMinus * oneMinus * start.Y + 2f * oneMinus * u * control.Y + u * u * end.Y);
+        }
+
+        return points;
+    }
+
+    private static IReadOnlyList<SKPoint> CubicPoints(SKPoint start, SKPoint first, SKPoint second, SKPoint end, int steps)
+    {
+        var count = Math.Max(2, steps);
+        var points = new SKPoint[count + 1];
+        for (var index = 0; index <= count; index++)
+        {
+            var u = index / (float)count;
+            var oneMinus = 1f - u;
+            points[index] = new SKPoint(
+                oneMinus * oneMinus * oneMinus * start.X +
+                3f * oneMinus * oneMinus * u * first.X +
+                3f * oneMinus * u * u * second.X +
+                u * u * u * end.X,
+                oneMinus * oneMinus * oneMinus * start.Y +
+                3f * oneMinus * oneMinus * u * first.Y +
+                3f * oneMinus * u * u * second.Y +
+                u * u * u * end.Y);
+        }
+
+        return points;
+    }
+
+    private static IReadOnlyList<SKPoint> CubicFromTangents(
+        SKPoint start,
+        SKPoint end,
+        SKPoint startTangent,
+        SKPoint endTangent,
+        float handle,
+        int steps)
+    {
+        var first = Add(start, Scale(Unit(startTangent), handle));
+        var second = Add(end, Scale(Unit(endTangent), -handle));
+        return CubicPoints(start, first, second, end, steps);
+    }
+
+    private static IReadOnlyList<SKPoint> InvolutePoints(SKPoint center, float radius, float startRadians, float unwindRadians, int steps)
+    {
+        var count = Math.Max(3, steps);
+        var points = new SKPoint[count + 1];
+        for (var index = 0; index <= count; index++)
+        {
+            var theta = unwindRadians * index / count;
+            var angle = startRadians + theta;
+            points[index] = new SKPoint(
+                center.X + radius * (MathF.Cos(angle) + theta * MathF.Sin(angle)),
+                center.Y + radius * (MathF.Sin(angle) - theta * MathF.Cos(angle)));
+        }
+
+        return points;
+    }
+
+    private static SKPoint PointOnCircle(SKPoint center, float radius, float degrees)
+    {
+        var radians = degrees * MathF.PI / 180f;
+        return PointOnCircleRadians(center, radius, radians);
+    }
+
+    private static SKPoint PointOnCircleRadians(SKPoint center, float radius, float radians) =>
+        new(
+            center.X + MathF.Cos(radians) * radius,
+            center.Y + MathF.Sin(radians) * radius);
+
+    private static SKPoint TangentOnCircle(SKPoint center, SKPoint point, bool clockwise)
+    {
+        var radial = Unit(new SKPoint(point.X - center.X, point.Y - center.Y));
+        return clockwise
+            ? new SKPoint(radial.Y, -radial.X)
+            : new SKPoint(-radial.Y, radial.X);
+    }
+
+    private static SKPoint Add(SKPoint point, SKPoint vector) =>
+        new(point.X + vector.X, point.Y + vector.Y);
+
+    private static SKPoint Scale(SKPoint vector, float scale) =>
+        new(vector.X * scale, vector.Y * scale);
+
+    private static SKPoint Unit(SKPoint vector)
+    {
+        var length = MathF.Sqrt(vector.X * vector.X + vector.Y * vector.Y);
+        return length <= float.Epsilon
+            ? new SKPoint(1f, 0f)
+            : new SKPoint(vector.X / length, vector.Y / length);
+    }
+
+    private static SKPoint Unit(SKPoint start, SKPoint end) =>
+        Unit(new SKPoint(end.X - start.X, end.Y - start.Y));
 
     private static SketchScene CreateComplexHouseSketch(int seed)
     {

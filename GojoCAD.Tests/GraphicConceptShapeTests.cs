@@ -366,6 +366,73 @@ public sealed class GraphicConceptShapeTests
     }
 
     [Fact]
+    public void OffsetEvidenceCarriesSideDirectionDistanceAndClosure()
+    {
+        var section = GraphicConceptShape.CubicBezierSection(new Carrier());
+        var distance = Relation.Segment(new Carrier(), 0, 12);
+        var sidePair = GraphicOffsetSurface.SidePair(new Carrier());
+        var direction = GraphicOffsetSurface.Direction(new Carrier());
+        var closure = GraphicOffsetSurface.Closure(new Carrier());
+        var evidence = GraphicOffsetSurface.Evidence(new Carrier(), distance, sidePair, direction, closure);
+
+        var offset = GraphicConceptShape.OffsetSectionWithEvidence(new Carrier(), section, evidence);
+
+        Assert.Contains(Walk(offset), element => ReferenceEquals(element, section));
+        Assert.True(GraphicOffsetSurface.TryReadEvidence(
+            evidence,
+            out var normalBasis,
+            out var readDistance,
+            out var readSidePair,
+            out var readDirection,
+            out var readClosure,
+            out var residue));
+        Assert.Same(distance, readDistance);
+        Assert.Same(sidePair, readSidePair);
+        Assert.Same(direction, readDirection);
+        Assert.Same(closure, readClosure);
+        Assert.Contains(normalBasis, Walk(evidence));
+        Assert.Contains(residue, Walk(evidence));
+        Assert.True(GraphicOffsetSurface.TryReadSidePair(
+            sidePair,
+            out var interior,
+            out var exterior,
+            out _));
+        Assert.NotSame(interior, exterior);
+        Assert.True(GraphicOffsetSurface.TryReadDirection(
+            direction,
+            out var flow,
+            out _));
+        Assert.Contains(flow, Walk(direction));
+    }
+
+    [Fact]
+    public void OffsetRequestKeepsSourceAndEvidenceTraversable()
+    {
+        var source = GraphicConceptShape.ClothoidSection(new Carrier());
+        var distance = Relation.Segment(new Carrier(), 0, 7);
+        var request = GraphicOffsetSurface.RequestWithDistance(new Carrier(), source, distance);
+
+        Assert.True(GraphicOffsetSurface.TryReadRequest(
+            request,
+            out var readSource,
+            out var evidence,
+            out var residue));
+        Assert.Same(source, readSource);
+        Assert.Contains(source, Walk(request));
+        Assert.Contains(evidence, Walk(request));
+        Assert.Contains(residue, Walk(request));
+        Assert.True(GraphicOffsetSurface.TryReadEvidence(
+            evidence,
+            out _,
+            out var readDistance,
+            out _,
+            out _,
+            out _,
+            out _));
+        Assert.Same(distance, readDistance);
+    }
+
+    [Fact]
     public void ElaborationCanBeRecordedAsStructuralLadder()
     {
         var lower = GraphicConceptShape.Section(new Carrier());

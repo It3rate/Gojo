@@ -1,5 +1,6 @@
 using Gojo.Core;
 using Gojo.Structures;
+using GojoDraw;
 using SkiaSharp;
 
 namespace GojoCAD.SketchViewer;
@@ -10,10 +11,16 @@ internal sealed record SketchScene(
     IElement Structure,
     int ProjectionSeed,
     SKRect? ModelBounds = null,
-    IReadOnlyList<string>? RungLabels = null)
+    IReadOnlyList<string>? RungLabels = null,
+    GojoCadOffsetStudy? OffsetStudy = null)
 {
     public IReadOnlyList<Relation> ReadRungs()
     {
+        if (OffsetStudy is not null)
+        {
+            return [];
+        }
+
         if (Structure is Relation relation &&
             StructuralLadderSurface.TryReadRungPath(relation, out var path))
         {

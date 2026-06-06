@@ -53,6 +53,7 @@ internal sealed class SketchCanvas : Control
 internal sealed class SketchDrawOperation : ICustomDrawOperation
 {
     private static readonly GojoCadSkiaSceneRenderer Renderer = new();
+    private static readonly GojoCadSkiaOffsetStudyRenderer OffsetRenderer = new();
     private readonly SketchScene scene;
     private readonly int selectedRungIndex;
     private readonly bool showConstructionPoints;
@@ -100,6 +101,15 @@ internal sealed class SketchDrawOperation : ICustomDrawOperation
             Math.Max(79f, (float)Bounds.Height - 48f));
 
         DrawHeader(canvas, viewport);
+        if (scene.OffsetStudy is { } offsetStudy)
+        {
+            OffsetRenderer.Draw(
+                canvas,
+                offsetStudy,
+                new SKRect(viewport.Left, viewport.Top + 16f, viewport.Right, viewport.Bottom));
+            return;
+        }
+
         var rungs = scene.ReadRungs();
         var boundedRung = Math.Clamp(selectedRungIndex, 0, Math.Max(0, rungs.Count - 1));
         if (rungs.Count == 0)
