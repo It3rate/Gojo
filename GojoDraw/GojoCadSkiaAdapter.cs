@@ -137,11 +137,18 @@ public sealed class GojoCadSkiaAdapter
 
         var composite = new SKPath();
         var hasComposite = false;
+        var cuts = new List<SKPath>();
         foreach (var participant in participants)
         {
-            using var shape = BuildAreaParticipantPath(participant, projection);
+            var shape = BuildAreaParticipantPath(participant, projection, out var isCut);
             if (shape is null)
             {
+                continue;
+            }
+
+            if (isCut)
+            {
+                cuts.Add(shape);
                 continue;
             }
 
@@ -154,19 +161,36 @@ public sealed class GojoCadSkiaAdapter
             {
                 ApplyPathOp(composite, shape, SKPathOp.Union);
             }
+
+            shape.Dispose();
         }
 
         if (!hasComposite)
         {
+            foreach (var cut in cuts)
+            {
+                cut.Dispose();
+            }
+
             composite.Dispose();
             return null;
+        }
+
+        foreach (var cut in cuts)
+        {
+            ApplyPathOp(composite, cut, SKPathOp.Difference);
+            cut.Dispose();
         }
 
         return composite;
     }
 
-    private static SKPath? BuildAreaParticipantPath(IElement participant, IGojoCadSkiaProjection projection)
+    private static SKPath? BuildAreaParticipantPath(
+        IElement participant,
+        IGojoCadSkiaProjection projection,
+        out bool isCut)
     {
+        isCut = false;
         var graph = GraphicReadGraph.From(participant);
         var areas = graph.ReadsOf<SharedFrameAreaRead>().ToArray();
         if (areas.Length == 0)
@@ -176,9 +200,39 @@ public sealed class GojoCadSkiaAdapter
 
         var positive = areas.Where(area => !area.IsAntiArea).ToArray();
         var negative = areas.Where(area => area.IsAntiArea).ToArray();
+        if (positive.Length == 0)
+        {
+            isCut = negative.Length > 0;
+            return isCut
+                ? BuildAreaBoundaryUnionPath(negative, projection)
+                : null;
+        }
+
+        var shape = BuildAreaBoundaryUnionPath(positive, projection);
+        if (shape is null)
+        {
+            return null;
+        }
+
+        foreach (var area in negative)
+        {
+            using var path = BuildClosedSharedFrameBoundaryPath(area.Boundary, projection);
+            if (path is not null)
+            {
+                ApplyPathOp(shape, path, SKPathOp.Difference);
+            }
+        }
+
+        return shape;
+    }
+
+    private static SKPath? BuildAreaBoundaryUnionPath(
+        IEnumerable<SharedFrameAreaRead> areas,
+        IGojoCadSkiaProjection projection)
+    {
         var shape = new SKPath();
         var hasShape = false;
-        foreach (var area in positive)
+        foreach (var area in areas)
         {
             using var path = BuildClosedSharedFrameBoundaryPath(area.Boundary, projection);
             if (path is null)
@@ -201,15 +255,6 @@ public sealed class GojoCadSkiaAdapter
         {
             shape.Dispose();
             return null;
-        }
-
-        foreach (var area in negative)
-        {
-            using var path = BuildClosedSharedFrameBoundaryPath(area.Boundary, projection);
-            if (path is not null)
-            {
-                ApplyPathOp(shape, path, SKPathOp.Difference);
-            }
         }
 
         return shape;

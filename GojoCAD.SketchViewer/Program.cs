@@ -223,10 +223,21 @@ internal static class Program
             mergeResult is not Relation mergeUnion ||
             !GraphicBooleanSurface.TryReadAreaUnion(mergeUnion, out var mergeAreaFrame, out _, out _, out _) ||
             mergeAreaFrame is not Relation mergeAreaFrameRelation ||
-            !GraphicBooleanSurface.TryReadAreaFrame(mergeAreaFrameRelation, out var mergeParticipants) ||
-            mergeParticipants.Length != 7)
+            !GraphicBooleanSurface.TryReadAreaFrame(mergeAreaFrameRelation, out var mergeParticipants))
         {
             throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not expose the merged fill as an area union.");
+        }
+
+        var mergeAreas = GraphicReadGraph.From(mergeAreaFrameRelation)
+            .ReadsOf<SharedFrameAreaRead>()
+            .ToArray();
+        var positiveMergeAreas = mergeAreas.Count(area => !area.IsAntiArea);
+        var antiMergeAreas = mergeAreas.Count(area => area.IsAntiArea);
+        if (mergeParticipants.Length != 11 ||
+            positiveMergeAreas != 7 ||
+            antiMergeAreas < 9)
+        {
+            throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not expose the merged fill cuts as area-frame structure.");
         }
 
         if (!StructuralLadderSurface.TryReadRung(
@@ -249,6 +260,54 @@ internal static class Program
         if (openingOutlines < 8)
         {
             throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not expose the eight interior union openings.");
+        }
+
+        if (!StructuralLadderSurface.TryReadRung(
+                rungs[6],
+                out _,
+                out _,
+                out var cuspResult,
+                out _,
+                out _,
+                out _,
+                out _,
+                out _) ||
+            !TryReadOrderedFrame(cuspResult, out var cuspSelection) ||
+            cuspSelection.Length < 2)
+        {
+            throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not expose the selected interior cusps.");
+        }
+
+        var cuspMarkers = GraphicReadGraph.From(cuspSelection[1])
+            .ReadsOf<ClosedSharedFrameBoundaryRead>()
+            .Count();
+        if (cuspMarkers < 12)
+        {
+            throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not mark the twelve interior non-tangent joins.");
+        }
+
+        if (!StructuralLadderSurface.TryReadRung(
+                rungs[7],
+                out _,
+                out _,
+                out var roundedResult,
+                out _,
+                out _,
+                out _,
+                out _,
+                out _) ||
+            roundedResult is not Relation roundedUnion ||
+            !GraphicBooleanSurface.TryReadAreaUnion(roundedUnion, out _, out var roundedOutlineWitness, out _, out _))
+        {
+            throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not expose the rounded interior-corner result.");
+        }
+
+        var roundedCenterOpenings = GraphicReadGraph.From(roundedOutlineWitness)
+            .ReadsOf<ClosedSharedFrameBoundaryRead>()
+            .Count(boundary => boundary.Arcs is { Count: >= 4 });
+        if (roundedCenterOpenings < 4)
+        {
+            throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not replace the interior corner joins with rounded arc outlines.");
         }
     }
 
@@ -315,6 +374,19 @@ internal static class Program
         {
             yield return child;
         }
+    }
+
+    private static bool TryReadOrderedFrame(IElement element, out IElement[] elements)
+    {
+        if (element is Relation relation &&
+            relation.Right is Carrier holder &&
+            relation.TryReadOrderedElementsOn(holder, out elements))
+        {
+            return true;
+        }
+
+        elements = [];
+        return false;
     }
 }
 

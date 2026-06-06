@@ -57,6 +57,8 @@ internal sealed class SketchDrawOperation : ICustomDrawOperation
     private static readonly GojoCadSkiaOffsetStudyRenderer OffsetRenderer = new();
     private static readonly SKColor CanvasBackground = new(249, 248, 244);
     private static readonly SKColor RadialMergedFill = new(58, 128, 142, 118);
+    private static readonly SKColor RadialAntiAreaFill = new(226, 50, 55, 58);
+    private static readonly SKColor RadialCuspMarker = new(226, 18, 34, 245);
     private static readonly SKColor[] RadialSeparateFillPalette =
     [
         new(63, 126, 96, 118),
@@ -201,6 +203,11 @@ internal sealed class SketchDrawOperation : ICustomDrawOperation
             return;
         }
 
+        if (TryDrawRadialCuspSelection(canvas, result, rungIndex, viewport, strokeWidth, hidePoints))
+        {
+            return;
+        }
+
         ReadAreaPaints(
             rungIndex,
             useSpecialAreaPaints,
@@ -225,6 +232,40 @@ internal sealed class SketchDrawOperation : ICustomDrawOperation
             drawAreaUnionAsOutline,
             eraseAreaUnionOutline);
         Renderer.Draw(canvas, result, viewport, scene.ProjectionSeed, scene.ModelBounds, paints);
+    }
+
+    private bool TryDrawRadialCuspSelection(
+        SKCanvas canvas,
+        IElement result,
+        int rungIndex,
+        SKRect viewport,
+        float strokeWidth,
+        bool hidePoints)
+    {
+        if (scene.Label != "Radial Shape Ladder" ||
+            rungIndex != 6 ||
+            !TryReadOrderedFrame(result, out var elements) ||
+            elements.Length < 2)
+        {
+            return false;
+        }
+
+        using var outlinePaints = CreateSketchPaints(
+            CurrentGray(235),
+            strokeWidth,
+            hidePoints,
+            antiAreaFillColor: RadialAntiAreaFill,
+            drawAreaUnionOutline: true,
+            drawAreaUnionAsOutline: true);
+        Renderer.Draw(canvas, elements[0], viewport, scene.ProjectionSeed, scene.ModelBounds, outlinePaints);
+
+        using var markerPaints = CreateSketchPaints(
+            RadialCuspMarker,
+            Math.Max(2.4f, strokeWidth * 0.78f),
+            hidePoints: true,
+            hideAreaBoundary: true);
+        Renderer.Draw(canvas, elements[1], viewport, scene.ProjectionSeed, scene.ModelBounds, markerPaints);
+        return true;
     }
 
     private void ReadAreaPaints(
@@ -253,18 +294,16 @@ internal sealed class SketchDrawOperation : ICustomDrawOperation
             return;
         }
 
+        antiAreaFillColor = RadialAntiAreaFill;
         if (rungIndex == 3)
         {
             areaPalette = RadialSeparateFillPalette;
-            antiAreaFillColor = CanvasBackground;
             hideAreaBoundary = true;
             hideSharedFrameGeometry = true;
-            eraseAreaUnionOutline = true;
         }
         else if (rungIndex == 4)
         {
             areaFillColor = RadialMergedFill;
-            antiAreaFillColor = CanvasBackground;
             hideAreaBoundary = true;
             hideSharedFrameGeometry = true;
         }
@@ -275,8 +314,7 @@ internal sealed class SketchDrawOperation : ICustomDrawOperation
         }
         else if (rungIndex == 7)
         {
-            areaFillColor = new SKColor(RadialMergedFill.Red, RadialMergedFill.Green, RadialMergedFill.Blue, 92);
-            hideAreaBoundary = true;
+            drawAreaUnionAsOutline = true;
             drawAreaUnionOutline = true;
         }
     }
@@ -359,6 +397,19 @@ internal sealed class SketchDrawOperation : ICustomDrawOperation
     private static SKColor Gray(byte alpha) => new(84, 90, 98, alpha);
 
     private static SKColor CurrentGray(byte alpha) => new(48, 58, 68, alpha);
+
+    private static bool TryReadOrderedFrame(IElement element, out IElement[] elements)
+    {
+        if (element is Relation relation &&
+            relation.Right is Carrier holder &&
+            relation.TryReadOrderedElementsOn(holder, out elements))
+        {
+            return true;
+        }
+
+        elements = [];
+        return false;
+    }
 
     private static void ApplyStroke(SKPaint paint, SKColor color, float strokeWidth)
     {

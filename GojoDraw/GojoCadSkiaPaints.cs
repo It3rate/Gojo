@@ -36,7 +36,7 @@ public sealed class GojoCadSkiaPaints : IDisposable
         RadiusAttachment = Stroke(new SKColor(151, 92, 52, 120), 1.1f);
         RadiusAttachmentTension = DashedStroke(new SKColor(151, 92, 52, 130), 1.1f);
         AreaFill = Fill(new SKColor(71, 126, 94, 34));
-        AntiAreaFill = Fill(new SKColor(199, 45, 47, 32));
+        AntiAreaFill = Fill(new SKColor(226, 50, 55, 58));
         AreaBoundary = Stroke(new SKColor(71, 126, 94, 115), 1.2f);
         BranchNode = Fill(new SKColor(63, 113, 83, 190));
         MergeNode = Fill(new SKColor(42, 91, 143, 190));
