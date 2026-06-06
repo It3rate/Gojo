@@ -1065,7 +1065,6 @@ internal static class SketchSamples
         var treeRootSite = PointOnSpan(horizonBasis, treeRootTicks);
         var treeTrunkBasis = BasisSpan(treeRootSite.X, treeRootSite.Y, treeRootSite.X, treeRootSite.Y + 38);
         var treeRoot = treeRootSite.Point;
-        var treeTop = treeTrunkBasis.End;
         var treeJunctionSite = PointOnSpan(treeTrunkBasis, treeJunctionTicks);
         var treeJunction = treeJunctionSite.Point;
         var treeCrownXBasis = BasisSpan(-145, 16, -75, 16);
@@ -1076,12 +1075,15 @@ internal static class SketchSamples
         var treeLeftTip = treeLeftTipSite.Point;
         var treeRightTip = treeRightTipSite.Point;
         var treeTrunkLine = treeTrunkBasis.Span;
+        var treeStemLine = GraphicStructure.FrameSegment(treeRoot, treeJunction);
         var treeBall = Circle(treeBallCenter.X, treeBallCenter.Y, 17);
         var treeLineBall = Chain(treeTrunkLine, treeBall);
-        var treeBranches = Chain(
-            treeTrunkLine,
+        var treeYCenterline = Chain(
+            treeStemLine,
             GraphicStructure.FrameSegment(treeJunction, treeLeftTip),
-            GraphicStructure.FrameSegment(treeJunction, treeRightTip),
+            GraphicStructure.FrameSegment(treeJunction, treeRightTip));
+        var treeBranches = Chain(
+            treeYCenterline,
             treeBall);
         var treeLeftControlA = BowedControl(treeJunctionSite, treeLeftTipSite, 25, -15);
         var treeLeftControlB = BowedControl(treeJunctionSite, treeLeftTipSite, 70, -10);
@@ -1097,89 +1099,68 @@ internal static class SketchSamples
             treeRightControlA.Point,
             treeRightControlB.Point,
             treeRightTip);
-        var treeCurvedBranches = Chain(treeTrunkLine, treeLeftCurve, treeRightCurve, treeBall);
-        var treeTrunkThick = Chain(
-            GraphicStructure.FrameSegment(P(-113, -30), P(-103, -30)),
-            GraphicStructure.FrameSegment(P(-103, -30), P(-103, 8)),
-            GraphicStructure.FrameSegment(P(-103, 8), P(-113, 8)),
-            GraphicStructure.FrameSegment(P(-113, 8), P(-113, -30)));
-        var treeWithThickTrunk = Chain(
-            treeTrunkThick,
-            treeLeftCurve,
-            treeRightCurve,
-            treeBall);
-        var leftBranchThick = AreaPolygon(
-            P(-111, 2),
-            P(-121, 11),
-            P(-132, 20),
-            P(-135, 24),
-            P(-130, 28),
-            P(-119, 19),
-            P(-106, 8),
-            P(-105, 4));
-        var rightBranchThick = AreaPolygon(
-            P(-111, 6),
-            P(-100, 16),
-            P(-90, 26),
-            P(-84, 26),
-            P(-85, 20),
-            P(-96, 13),
-            P(-106, 2),
-            P(-111, 3));
-        var treeWoodThick = Chain(treeTrunkThick, leftBranchThick, rightBranchThick, treeBall);
+        var treeCurvedWoodCenterline = Chain(treeStemLine, treeLeftCurve, treeRightCurve);
+        var treeCurvedBranches = Chain(treeCurvedWoodCenterline, treeBall);
         var woodBaseLeft = P(-113, -30);
         var woodBaseRight = P(-103, -30);
-        var woodTrunkRight = P(-103, 2);
+        var woodTrunkRight = P(-101, 3);
         var woodRightLower = P(-82, 22);
-        var woodRightOuter = P(-82, 27);
         var woodRightUpper = P(-88, 28);
         var woodRightCrotch = P(-106, 12);
         var woodCenterCrotch = P(-110, 12);
         var woodLeftUpper = P(-130, 28);
-        var woodLeftOuter = P(-136, 25);
         var woodLeftLower = P(-132, 20);
-        var woodTrunkLeft = P(-113, 5);
-        var treeWoodMergedFill = SoftTreeWoodFill(
+        var woodTrunkLeft = P(-113, 4);
+        var treeWoodMask = SoftTreeWoodFill(
             (-113, -30),
             (-103, -30),
             (-103, -18),
-            (-103, -6),
-            (-102, 2),
-            (-97, 8),
-            (-91, 14),
-            (-86, 19),
+            (-102, -6),
+            (-101, 3),
+            (-99, 8),
+            (-94, 13),
+            (-88, 18),
             (-82, 22),
-            (-82, 26),
-            (-86, 28),
-            (-93, 25),
-            (-100, 20),
+            (-84, 27),
+            (-88, 28),
+            (-95, 26),
+            (-102, 18),
             (-106, 12),
             (-110, 12),
             (-116, 16),
-            (-123, 24),
+            (-123, 25),
             (-130, 28),
-            (-135, 26),
-            (-136, 24),
             (-132, 20),
             (-126, 16),
-            (-120, 11),
-            (-113, 5),
+            (-119, 10),
+            (-113, 4),
             (-113, -8),
             (-113, -20));
+        var treeWoodDraftOutline = ClosedCubicOutline(
+            (woodBaseLeft, P(-110, -30), P(-106, -30), woodBaseRight),
+            (woodBaseRight, P(-103, -18), P(-101, -5), woodTrunkRight),
+            (woodTrunkRight, P(-101, 8), P(-90, 15), woodRightLower),
+            (woodRightLower, P(-78, 24), P(-82, 30), woodRightUpper),
+            (woodRightUpper, P(-95, 26), P(-101, 18), woodRightCrotch),
+            (woodRightCrotch, P(-108, 11), P(-109, 11), woodCenterCrotch),
+            (woodCenterCrotch, P(-111, 11), P(-123, 25), woodLeftUpper),
+            (woodLeftUpper, P(-138, 28), P(-138, 21), woodLeftLower),
+            (woodLeftLower, P(-126, 16), P(-113, 9), woodTrunkLeft),
+            (woodTrunkLeft, P(-113, -5), P(-113, -20), woodBaseLeft));
+        var treeWoodDraft = Chain(treeWoodMask, treeWoodDraftOutline, treeBall);
+        var treeWoodSettled = Chain(treeWoodMask, treeWoodDraftOutline, treeBall);
         var treeWoodMergedOutline = ClosedCubicOutline(
             (woodBaseLeft, P(-110, -30), P(-106, -30), woodBaseRight),
-            (woodBaseRight, P(-103, -20), P(-103, -6), woodTrunkRight),
-            (woodTrunkRight, P(-98, 7), P(-89, 14), woodRightLower),
-            (woodRightLower, P(-80, 24), P(-82, 28), woodRightOuter),
-            (woodRightOuter, P(-84, 29), P(-86, 29), woodRightUpper),
-            (woodRightUpper, P(-94, 27), P(-101, 17), woodRightCrotch),
-            (woodRightCrotch, P(-107, 12), P(-109, 12), woodCenterCrotch),
-            (woodCenterCrotch, P(-116, 15), P(-123, 25), woodLeftUpper),
-            (woodLeftUpper, P(-133, 30), P(-137, 27), woodLeftOuter),
-            (woodLeftOuter, P(-138, 23), P(-135, 20), woodLeftLower),
-            (woodLeftLower, P(-126, 16), P(-118, 9), woodTrunkLeft),
+            (woodBaseRight, P(-103, -18), P(-101, -5), woodTrunkRight),
+            (woodTrunkRight, P(-101, 8), P(-90, 15), woodRightLower),
+            (woodRightLower, P(-78, 24), P(-82, 30), woodRightUpper),
+            (woodRightUpper, P(-95, 26), P(-102, 18), woodRightCrotch),
+            (woodRightCrotch, P(-108, 11), P(-109, 11), woodCenterCrotch),
+            (woodCenterCrotch, P(-111, 11), P(-123, 25), woodLeftUpper),
+            (woodLeftUpper, P(-138, 28), P(-138, 21), woodLeftLower),
+            (woodLeftLower, P(-126, 16), P(-113, 9), woodTrunkLeft),
             (woodTrunkLeft, P(-113, -5), P(-113, -20), woodBaseLeft));
-        var treeWoodMerged = Chain(treeWoodMergedFill, treeWoodMergedOutline);
+        var treeWoodMerged = Chain(treeWoodMask, treeWoodMergedOutline);
 
         var treeRootSlot = new Placeholder();
         var treeJunctionSlot = new Placeholder();
@@ -1255,11 +1236,28 @@ internal static class SketchSamples
             FocusSurface.Bind(treeLeftTipSlot, treeLeftTip),
             FocusSurface.Bind(treeRightTipSlot, treeRightTip),
             FocusSurface.Bind(treeCrownCenterSlot, treeBallCenter.Point));
-        var treeWoodThickInstance = GraphicParameterSurface.TemplateInstanceFromBindings(
+        var treeOffsetEvidence = GraphicParameterSurface.Frame(
+            new Carrier(),
+            treeTopologyEvidence,
+            GraphicOffsetSurface.RequestWithDistance(
+                new Carrier(),
+                treeCurvedWoodCenterline,
+                Relation.Segment(new Carrier(), 0, 5)));
+        var treeWoodDraftInstance = GraphicParameterSurface.TemplateInstanceFromBindings(
             new Carrier(),
             treeTopologyTemplate,
-            treeWoodThick,
-            treeTopologyEvidence,
+            treeWoodDraft,
+            treeOffsetEvidence,
+            FocusSurface.Bind(treeRootSlot, treeRoot),
+            FocusSurface.Bind(treeJunctionSlot, treeJunction),
+            FocusSurface.Bind(treeLeftTipSlot, treeLeftTip),
+            FocusSurface.Bind(treeRightTipSlot, treeRightTip),
+            FocusSurface.Bind(treeCrownCenterSlot, treeBallCenter.Point));
+        var treeWoodSettledInstance = GraphicParameterSurface.TemplateInstanceFromBindings(
+            new Carrier(),
+            treeTopologyTemplate,
+            treeWoodSettled,
+            treeOffsetEvidence,
             FocusSurface.Bind(treeRootSlot, treeRoot),
             FocusSurface.Bind(treeJunctionSlot, treeJunction),
             FocusSurface.Bind(treeLeftTipSlot, treeLeftTip),
@@ -1269,7 +1267,7 @@ internal static class SketchSamples
             new Carrier(),
             treeTopologyTemplate,
             treeWoodMerged,
-            treeTopologyEvidence,
+            treeOffsetEvidence,
             FocusSurface.Bind(treeRootSlot, treeRoot),
             FocusSurface.Bind(treeJunctionSlot, treeJunction),
             FocusSurface.Bind(treeLeftTipSlot, treeLeftTip),
@@ -1381,9 +1379,9 @@ internal static class SketchSamples
         var doorRectState = Chain(horizon, houseWithOverhang, treeBranches, cloudOval, doorRectangle);
         var treeCurvedState = Chain(horizon, houseWithOverhang, treeCurvedBranches, cloudOval, doorRectangle);
         var windowRectState = Chain(horizon, houseWithOverhang, treeCurvedBranches, cloudOval, doorRectangle, windowRectangle);
-        var treeTrunkState = Chain(horizon, houseWithOverhang, treeWithThickTrunk, cloudOval, doorRectangle, windowRectangle);
-        var doorArchState = Chain(horizon, houseWithOverhang, treeWithThickTrunk, cloudOval, archedDoor, windowRectangle);
-        var treeBranchThickState = Chain(horizon, houseWithOverhang, treeWoodThick, cloudOval, archedDoor, windowRectangle);
+        var treeTrunkState = Chain(horizon, houseWithOverhang, treeWoodDraft, cloudOval, doorRectangle, windowRectangle);
+        var doorArchState = Chain(horizon, houseWithOverhang, treeWoodDraft, cloudOval, archedDoor, windowRectangle);
+        var treeBranchThickState = Chain(horizon, houseWithOverhang, treeWoodSettled, cloudOval, archedDoor, windowRectangle);
         var treeWoodMergedState = Chain(horizon, houseWithOverhang, treeWoodMerged, cloudOval, archedDoor, windowRectangle);
         var windowPlusState = Chain(horizon, houseWithOverhang, treeWoodMerged, cloudOval, archedDoor, windowPlus);
         var windowRefinedState = Chain(horizon, houseWithOverhang, treeWoodMerged, cloudOval, archedDoor, roundedWindowPlus);
@@ -1392,7 +1390,7 @@ internal static class SketchSamples
         var chimneyBodyState = Chain(horizon, houseWithOverhang, treeLeafRegions, cloudOutline, archedDoor, roundedWindowPlus, chimneyBody);
         var treeFluffyState = Chain(horizon, houseWithOverhang, treeFluffy, cloudOutline, archedDoor, roundedWindowPlus, chimneyBody);
         var chimneyCapState = Chain(horizon, houseWithOverhang, treeFluffy, cloudOutline, archedDoor, roundedWindowPlus, chimneyWithCap);
-        var finalSketch = Chain(chimneyCapState, doorKnob);
+        var finalSketch = Chain(horizon, houseWithOverhang, treeFluffy, cloudOutline, archedDoor, roundedWindowPlus, chimneyWithCap, doorKnob);
 
         var baseRung = StructuralLadderSurface.BaseRung(new Carrier(), horizonState);
         var houseBoxStep = RefinedRung(horizonState, houseBox, horizon, horizonState, houseBox, houseBoxState);
@@ -1404,10 +1402,10 @@ internal static class SketchSamples
         var doorRectStep = RefinedRung(treeSplitState, doorLeftBottom, doorLeftBottom, treeSplitState, doorRectangle, doorRectState, doorRectangleInstance);
         var treeCurveStep = RefinedRung(doorRectState, treeJunction, treeBranches, Chain(horizon, houseWithOverhang, cloudOval, doorRectangle), treeCurvedBranches, treeCurvedState, treeCurvedBranchesInstance);
         var windowRectStep = RefinedRung(treeCurvedState, windowLowerLeft, windowLowerLeft, treeCurvedState, windowRectangle, windowRectState, windowRectangleInstance);
-        var treeTrunkStep = RefinedRung(windowRectState, treeTrunkLine, treeCurvedBranches, Chain(horizon, houseWithOverhang, cloudOval, doorRectangle, windowRectangle), treeWithThickTrunk, treeTrunkState);
-        var doorArchStep = RefinedRung(treeTrunkState, doorRectangle, doorRectangle, Chain(horizon, houseWithOverhang, cloudOval, treeWithThickTrunk, windowRectangle), archedDoor, doorArchState, archedDoorInstance);
-        var treeBranchThickStep = RefinedRung(doorArchState, treeJunction, treeWithThickTrunk, Chain(horizon, houseWithOverhang, cloudOval, archedDoor, windowRectangle), treeWoodThick, treeBranchThickState, treeWoodThickInstance);
-        var treeWoodMergeStep = RefinedRung(treeBranchThickState, treeWoodThick, treeWoodThick, Chain(horizon, houseWithOverhang, cloudOval, archedDoor, windowRectangle), treeWoodMerged, treeWoodMergedState, treeWoodMergedInstance);
+        var treeTrunkStep = RefinedRung(windowRectState, treeCurvedWoodCenterline, treeCurvedBranches, Chain(horizon, houseWithOverhang, cloudOval, doorRectangle, windowRectangle), treeWoodDraft, treeTrunkState, treeWoodDraftInstance);
+        var doorArchStep = RefinedRung(treeTrunkState, doorRectangle, doorRectangle, Chain(horizon, houseWithOverhang, cloudOval, treeWoodDraft, windowRectangle), archedDoor, doorArchState, archedDoorInstance);
+        var treeBranchThickStep = RefinedRung(doorArchState, treeWoodDraft, treeWoodDraft, Chain(horizon, houseWithOverhang, cloudOval, archedDoor, windowRectangle), treeWoodSettled, treeBranchThickState, treeWoodSettledInstance);
+        var treeWoodMergeStep = RefinedRung(treeBranchThickState, treeWoodSettled, treeWoodSettled, Chain(horizon, houseWithOverhang, cloudOval, archedDoor, windowRectangle), treeWoodMerged, treeWoodMergedState, treeWoodMergedInstance);
         var windowPlusStep = RefinedRung(treeWoodMergedState, windowRectangle, windowRectangle, Chain(horizon, houseWithOverhang, cloudOval, treeWoodMerged, archedDoor), windowPlus, windowPlusState, windowPlusInstance);
         var windowRefineStep = RefinedRung(windowPlusState, windowRectangle, windowPlus, Chain(horizon, houseWithOverhang, cloudOval, treeWoodMerged, archedDoor), roundedWindowPlus, windowRefinedState, roundedWindowInstance);
         var treeRegionStep = RefinedRung(windowRefinedState, treeBall, treeWoodMerged, Chain(horizon, houseWithOverhang, cloudOval, archedDoor, roundedWindowPlus), treeLeafRegions, treeRegionsState, leafRegionEvidence);
@@ -1478,10 +1476,10 @@ internal static class SketchSamples
             "Door rectangle",
             "Tree split becomes curves",
             "Window rectangle",
-            "Tree trunk thickens",
+            "Tree exterior outline",
             "Door arch",
-            "Tree branches thicken",
-            "Tree wood merges",
+            "Tree outline settles",
+            "Tree wood smooths",
             "Window plus",
             "Window rounded rectangle",
             "Tree leaf circles",

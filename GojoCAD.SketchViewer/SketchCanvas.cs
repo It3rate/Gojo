@@ -121,7 +121,7 @@ internal sealed class SketchDrawOperation : ICustomDrawOperation
 
         if (boundedRung == rungs.Count - 1)
         {
-            DrawRung(canvas, rungs[boundedRung], viewport, Blue(255), 3.4f, hidePoints: !showConstructionPoints);
+            DrawRung(canvas, rungs[boundedRung], viewport, Blue(255), 3.4f, hidePoints: true);
             return;
         }
 
