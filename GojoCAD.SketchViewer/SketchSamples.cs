@@ -1,4 +1,5 @@
 using Gojo.Core;
+using GojoCAD.GCode;
 using Gojo.Structures;
 using GojoCAD.Structures;
 using GojoDraw;
@@ -14,8 +15,58 @@ internal static class SketchSamples
         return
         [
             CreateOffsetStudy(seed),
+            CreateGCodeTrace(seed),
             CreateComplexHouseSketch(seed)
         ];
+    }
+
+    private static SketchScene CreateGCodeTrace(int seed)
+    {
+        const string program = """
+            (GojoCAD G-code import sample: square and arc corners)
+            (Units: millimeters. Coordinates are absolute.)
+            G21
+            G90
+            F900
+
+            (Stroke 1: outer path with square left corners and rounded right corners)
+            T1 M6
+            G0 Z5
+            G0 X0 Y0
+            G1 Z-1
+            G1 X70 Y0
+            G3 X82 Y12 I0 J12
+            G1 X82 Y48
+            G3 X70 Y60 I-12 J0
+            G1 X0 Y60
+            G1 X0 Y0
+            G0 Z5
+
+            (Stroke 2: inner square with hard line-line corners)
+            T2 M6
+            G0 X20 Y18
+            G1 Z-1
+            G1 X50 Y18
+            G1 X50 Y42
+            G1 X20 Y42
+            G1 X20 Y18
+            G0 Z5
+
+            M30
+            """;
+        var structure = GCodeParser.Parse(
+            program,
+            new GCodeParseOptions(
+                CoordinateTicksPerUnit: 10,
+                ArcTicksPerTurn: 1440,
+                PenDownZ: 0d));
+
+        return new SketchScene(
+            "G-code Import",
+            "Parsed G0/G1/G2/G3 motion as GojoCAD basis, flow, radial, and circumference structure.",
+            structure,
+            seed,
+            RungLabels: ["Imported program"]);
     }
 
     private static SketchScene CreateOffsetStudy(int seed)

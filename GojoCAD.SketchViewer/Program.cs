@@ -5,6 +5,7 @@ using Avalonia.Layout;
 using Avalonia.Media;
 using Gojo.Core;
 using Gojo.Structures;
+using GojoCAD.GCode;
 using GojoCAD.Structures;
 
 namespace GojoCAD.SketchViewer;
@@ -35,6 +36,14 @@ internal static class Program
         if (scene.OffsetStudy is { } offsetStudy)
         {
             ValidateOffsetStudyScene(scene, offsetStudy);
+            return;
+        }
+
+        if (scene.Structure is Relation program &&
+            GCodeStructure.TryReadProgram(program, out var basis, out var programElements) &&
+            GCodeStructure.TryReadBasis(basis, out _))
+        {
+            ValidateGCodeScene(scene, programElements);
             return;
         }
 
@@ -150,6 +159,49 @@ internal static class Program
         if (normalizedParameterReads < 39 || templateInstances < 20)
         {
             throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not preserve parameterized template evidence.");
+        }
+    }
+
+    private static void ValidateGCodeScene(SketchScene scene, IReadOnlyList<IElement> programElements)
+    {
+        var motions = programElements.OfType<Relation>().ToArray();
+        var lineCount = motions.Count(motion => GCodeStructure.TryReadLineMotion(
+            motion,
+            out _,
+            out _,
+            out _,
+            out _,
+            out _,
+            out _,
+            out _));
+        var arcCount = motions.Count(motion => GCodeStructure.TryReadArcMotion(
+            motion,
+            out _,
+            out _,
+            out _,
+            out _,
+            out _,
+            out _,
+            out _,
+            out _,
+            out _,
+            out _,
+            out _,
+            out _,
+            out _));
+        var strokeChanges = motions.Count(motion => GCodeStructure.TryReadStrokeChange(
+            motion,
+            out _,
+            out _,
+            out _));
+        var graph = GraphicReadGraph.From(scene.Structure);
+        if (lineCount < 4 ||
+            arcCount < 2 ||
+            strokeChanges < 2 ||
+            !graph.ReadsOf<SharedFrameSegmentRead>().Any() ||
+            !graph.ReadsOf<SharedFrameArcRead>().Any())
+        {
+            throw new InvalidOperationException($"G-code scene '{scene.Label}' did not expose renderable imported motion.");
         }
     }
 

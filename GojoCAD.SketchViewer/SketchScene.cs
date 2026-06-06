@@ -27,7 +27,7 @@ internal sealed record SketchScene(
             return path;
         }
 
-        return Structure is Relation fallback ? [fallback] : [];
+        return [];
     }
 
     public int RungCount => Math.Max(1, ReadRungs().Count);
