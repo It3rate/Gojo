@@ -16,8 +16,27 @@ internal static class SketchSamples
         [
             CreateOffsetStudy(seed),
             CreateGCodeTrace(seed),
+            CreateScratchPinsGCodeTrace(seed),
             CreateComplexHouseSketch(seed)
         ];
+    }
+
+    private static SketchScene CreateScratchPinsGCodeTrace(int seed)
+    {
+        var structure = GCodeParser.Parse(
+            ReadGCodeSample("abcd.nc"),
+            new GCodeParseOptions(
+                CoordinateTicksPerUnit: 10000,
+                ArcTicksPerTurn: 1440,
+                PenDownZ: 0d));
+
+        return new SketchScene(
+            "ABCD ",
+            "Sample gcode",
+            structure,
+            seed,
+            ModelBounds: new SKRect(-500f, -205000f, 240000f, -25000f),
+            RungLabels: ["Imported GCode"]);
     }
 
     private static SketchScene CreateGCodeTrace(int seed)
@@ -67,6 +86,26 @@ internal static class SketchSamples
             structure,
             seed,
             RungLabels: ["Imported program"]);
+    }
+
+    private static string ReadGCodeSample(string fileName)
+    {
+        var candidates = new[]
+        {
+            Path.Combine(AppContext.BaseDirectory, "G code", "samples", fileName),
+            Path.Combine(Environment.CurrentDirectory, "GojoCAD", "G code", "samples", fileName),
+            Path.Combine(Environment.CurrentDirectory, "G code", "samples", fileName)
+        };
+
+        foreach (var candidate in candidates)
+        {
+            if (File.Exists(candidate))
+            {
+                return File.ReadAllText(candidate);
+            }
+        }
+
+        throw new FileNotFoundException($"Could not find G-code sample '{fileName}'.", fileName);
     }
 
     private static SketchScene CreateOffsetStudy(int seed)

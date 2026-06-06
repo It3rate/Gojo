@@ -19,4 +19,8 @@
     <ProjectReference Include="..\GojoDraw\GojoDraw.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Include="..\GojoCAD\G code\samples\*.nc" Link="G code\samples\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
 </Project>

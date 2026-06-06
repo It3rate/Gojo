@@ -174,32 +174,9 @@ internal static class Program
             out _,
             out _,
             out _));
-        var arcCount = motions.Count(motion => GCodeStructure.TryReadArcMotion(
-            motion,
-            out _,
-            out _,
-            out _,
-            out _,
-            out _,
-            out _,
-            out _,
-            out _,
-            out _,
-            out _,
-            out _,
-            out _,
-            out _));
-        var strokeChanges = motions.Count(motion => GCodeStructure.TryReadStrokeChange(
-            motion,
-            out _,
-            out _,
-            out _));
         var graph = GraphicReadGraph.From(scene.Structure);
-        if (lineCount < 4 ||
-            arcCount < 2 ||
-            strokeChanges < 2 ||
-            !graph.ReadsOf<SharedFrameSegmentRead>().Any() ||
-            !graph.ReadsOf<SharedFrameArcRead>().Any())
+        if (lineCount < 1 ||
+            !graph.ReadsOf<SharedFrameSegmentRead>().Any())
         {
             throw new InvalidOperationException($"G-code scene '{scene.Label}' did not expose renderable imported motion.");
         }
