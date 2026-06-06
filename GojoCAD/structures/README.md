@@ -70,6 +70,21 @@ must move with that outline as the same structural result. A temporary sampled
 polygon can still be used at the render boundary, but it should be treated as a
 projection of the outline read, not as independent Gojo meaning.
 
+## Area Boolean Surfaces
+
+`GraphicBooleanSurface` records the current boolean foothold for fills and
+outlines. It does not compute a polygon union yet. Instead, it carries:
+
+- input area/fill participants in an ordered area frame
+- requested/result outline evidence
+- boundary-settlement evidence for area-to-area and line-to-line cancellation
+- residue/tension for unsettled overlap, winding, holes, and boundary pieces
+
+This lets a ladder say "these offset fills should union into this outline"
+without pretending the kernel has already learned the clipping operation. A
+future settlement read should replace the temporary outline witness with a
+locally derived composite boundary.
+
 ## Composite Shapes
 
 Connecting concept shapes knowingly creates a new current concept shape. It does

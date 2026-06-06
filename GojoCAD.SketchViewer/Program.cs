@@ -65,6 +65,11 @@ internal static class Program
             throw new InvalidOperationException($"Sketch scene '{scene.Label}' has a timeline/rung count mismatch.");
         }
 
+        if (scene.Label == "Radial Shape Ladder")
+        {
+            ValidateRadialShapeLadder(scene, ladder, rungs);
+        }
+
         foreach (var step in steps)
         {
             if (!StructuralLadderSurface.TryReadTransformStep(
@@ -156,9 +161,45 @@ internal static class Program
             }
         }
 
-        if (normalizedParameterReads < 39 || templateInstances < 20)
+        if (scene.Label == "House Drawing Ladder" &&
+            (normalizedParameterReads < 39 || templateInstances < 20))
         {
             throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not preserve parameterized template evidence.");
+        }
+    }
+
+    private static void ValidateRadialShapeLadder(SketchScene scene, Relation ladder, IReadOnlyList<Relation> rungs)
+    {
+        if (rungs.Count != 8)
+        {
+            throw new InvalidOperationException($"Sketch scene '{scene.Label}' should expose the eight requested shape-ladder steps.");
+        }
+
+        var unionSurfaces = WalkRelations(ladder)
+            .Count(relation => GraphicBooleanSurface.TryReadAreaUnion(relation, out _, out _, out _, out _));
+        if (unionSurfaces < 2)
+        {
+            throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not preserve fill union evidence.");
+        }
+
+        if (!StructuralLadderSurface.TryReadRung(
+                rungs[3],
+                out _,
+                out _,
+                out var fillResult,
+                out _,
+                out _,
+                out _,
+                out _,
+                out _))
+        {
+            throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not expose the separate fill rung.");
+        }
+
+        var fillReads = GraphicReadGraph.From(fillResult).ReadsOf<SharedFrameAreaRead>().Count();
+        if (fillReads < 7)
+        {
+            throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not expose separate offset fill reads.");
         }
     }
 

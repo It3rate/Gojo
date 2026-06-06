@@ -7,7 +7,7 @@ using SkiaSharp;
 
 namespace GojoCAD.SketchViewer;
 
-internal static class SketchSamples
+internal static partial class SketchSamples
 {
     public static IReadOnlyList<SketchScene> CreateInitialScenes()
     {
@@ -15,6 +15,7 @@ internal static class SketchSamples
         return
         [
             CreateOffsetStudy(seed),
+            CreateRadialShapeLadder(seed),
             CreateGCodeTrace(seed),
             CreateScratchPinsGCodeTrace(seed),
             CreateComplexHouseSketch(seed)

@@ -54,6 +54,18 @@ internal sealed class SketchDrawOperation : ICustomDrawOperation
 {
     private static readonly GojoCadSkiaSceneRenderer Renderer = new();
     private static readonly GojoCadSkiaOffsetStudyRenderer OffsetRenderer = new();
+    private static readonly SKColor CanvasBackground = new(249, 248, 244);
+    private static readonly SKColor RadialMergedFill = new(58, 128, 142, 118);
+    private static readonly SKColor[] RadialSeparateFillPalette =
+    [
+        new(63, 126, 96, 118),
+        new(48, 118, 154, 112),
+        new(179, 113, 58, 104),
+        new(142, 84, 148, 102),
+        new(198, 74, 75, 96),
+        new(89, 135, 188, 104),
+        new(109, 148, 68, 104)
+    ];
     private readonly SketchScene scene;
     private readonly int selectedRungIndex;
     private readonly bool showConstructionPoints;
@@ -86,7 +98,7 @@ internal sealed class SketchDrawOperation : ICustomDrawOperation
         using var lease = leaseFeature.Lease();
         var canvas = lease.SkCanvas;
         canvas.Save();
-        canvas.Clear(new SKColor(249, 248, 244));
+        canvas.Clear(CanvasBackground);
         canvas.ClipRect(new SKRect(0, 0, (float)Bounds.Width, (float)Bounds.Height));
         DrawScene(canvas);
         canvas.Restore();
@@ -121,7 +133,7 @@ internal sealed class SketchDrawOperation : ICustomDrawOperation
 
         if (boundedRung == rungs.Count - 1)
         {
-            DrawRung(canvas, rungs[boundedRung], viewport, Blue(255), 3.4f, hidePoints: true);
+            DrawRung(canvas, rungs[boundedRung], boundedRung, viewport, Blue(255), 3.4f, hidePoints: true);
             return;
         }
 
@@ -129,10 +141,10 @@ internal sealed class SketchDrawOperation : ICustomDrawOperation
         {
             var distance = boundedRung - index;
             var alpha = (byte)Math.Clamp(122 - distance * 18, 30, 104);
-            DrawRung(canvas, rungs[index], viewport, Gray(alpha), 1.75f, hidePoints: !showConstructionPoints);
+            DrawRung(canvas, rungs[index], index, viewport, Gray(alpha), 1.75f, hidePoints: !showConstructionPoints, useSpecialAreaPaints: false);
         }
 
-        DrawRung(canvas, rungs[boundedRung], viewport, CurrentGray(235), 3.2f, hidePoints: !showConstructionPoints);
+        DrawRung(canvas, rungs[boundedRung], boundedRung, viewport, CurrentGray(235), 3.2f, hidePoints: !showConstructionPoints);
     }
 
     private void DrawHeader(SKCanvas canvas, SKRect viewport)
@@ -159,7 +171,15 @@ internal sealed class SketchDrawOperation : ICustomDrawOperation
         DrawTextLine(canvas, $"{scene.Caption}  {rungText}", viewport.Left, 56f, viewport.Width, caption);
     }
 
-    private void DrawRung(SKCanvas canvas, Relation rung, SKRect viewport, SKColor color, float strokeWidth, bool hidePoints = false)
+    private void DrawRung(
+        SKCanvas canvas,
+        Relation rung,
+        int rungIndex,
+        SKRect viewport,
+        SKColor color,
+        float strokeWidth,
+        bool hidePoints = false,
+        bool useSpecialAreaPaints = true)
     {
         if (!StructuralLadderSurface.TryReadRung(
                 rung,
@@ -175,11 +195,46 @@ internal sealed class SketchDrawOperation : ICustomDrawOperation
             return;
         }
 
-        using var paints = CreateSketchPaints(color, strokeWidth, hidePoints);
+        ReadAreaPaints(rungIndex, useSpecialAreaPaints, out var areaPalette, out var areaFillColor, out var antiAreaFillColor);
+        using var paints = CreateSketchPaints(color, strokeWidth, hidePoints, areaPalette, areaFillColor, antiAreaFillColor);
         Renderer.Draw(canvas, result, viewport, scene.ProjectionSeed, scene.ModelBounds, paints);
     }
 
-    private static GojoCadSkiaPaints CreateSketchPaints(SKColor color, float strokeWidth, bool hidePoints = false)
+    private void ReadAreaPaints(
+        int rungIndex,
+        bool useSpecialAreaPaints,
+        out IReadOnlyList<SKColor>? areaPalette,
+        out SKColor? areaFillColor,
+        out SKColor? antiAreaFillColor)
+    {
+        areaPalette = null;
+        areaFillColor = null;
+        antiAreaFillColor = null;
+        if (!useSpecialAreaPaints ||
+            scene.Label != "Radial Shape Ladder")
+        {
+            return;
+        }
+
+        if (rungIndex == 3)
+        {
+            areaPalette = RadialSeparateFillPalette;
+            antiAreaFillColor = CanvasBackground;
+        }
+        else if (rungIndex == 4)
+        {
+            areaFillColor = RadialMergedFill;
+            antiAreaFillColor = CanvasBackground;
+        }
+    }
+
+    private static GojoCadSkiaPaints CreateSketchPaints(
+        SKColor color,
+        float strokeWidth,
+        bool hidePoints = false,
+        IReadOnlyList<SKColor>? areaFillPalette = null,
+        SKColor? areaFillColor = null,
+        SKColor? antiAreaFillColor = null)
     {
         var paints = new GojoCadSkiaPaints
         {
@@ -191,7 +246,8 @@ internal sealed class SketchDrawOperation : ICustomDrawOperation
             ArrowLength = 8f,
             ArrowWidth = 4f,
             LineSeedLength = 30f,
-            SheetSeedWidth = 12f
+            SheetSeedWidth = 12f,
+            AreaFillPalette = areaFillPalette
         };
         ApplyStroke(paints.Segment, color, strokeWidth * 0.9f);
         ApplyStroke(paints.SegmentTension, color, strokeWidth * 0.82f);
@@ -212,7 +268,11 @@ internal sealed class SketchDrawOperation : ICustomDrawOperation
         ApplyStroke(paints.LineSeedTension, color, Math.Max(1f, strokeWidth * 0.5f));
         ApplyStroke(paints.SheetSeedEdge, color, Math.Max(1f, strokeWidth * 0.45f));
         ApplyStroke(paints.SheetSeedEdgeTension, color, Math.Max(1f, strokeWidth * 0.45f));
-        paints.AreaFill.Color = new SKColor(255, 255, 255, 244);
+        paints.AreaFill.Color = areaFillColor ?? new SKColor(255, 255, 255, 244);
+        if (antiAreaFillColor is { } antiFill)
+        {
+            paints.AntiAreaFill.Color = antiFill;
+        }
         ApplyStroke(paints.AreaBoundary, color, Math.Max(1f, strokeWidth * 0.82f));
         var pointColor = hidePoints ? new SKColor(color.Red, color.Green, color.Blue, 0) : color;
         var pointBorderColor = hidePoints ? new SKColor(color.Red, color.Green, color.Blue, 0) : paints.TopologyNodeBorder.Color;

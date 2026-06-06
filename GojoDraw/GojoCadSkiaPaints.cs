@@ -130,6 +130,8 @@ public sealed class GojoCadSkiaPaints : IDisposable
 
     public SKColor RadialOuter { get; init; }
 
+    public IReadOnlyList<SKColor>? AreaFillPalette { get; init; }
+
     public float EndpointBarLength { get; init; } = 10f;
 
     public float PartitionTickLength { get; init; } = 9f;

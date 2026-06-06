@@ -259,10 +259,18 @@ public sealed class GojoCadSkiaAdapter
             drawn++;
         }
 
+        var sharedFrameAreaPaletteIndex = 0;
         foreach (var area in graph.ReadsOf<SharedFrameAreaRead>()
             .Where(read => !IsRepeatControlSource(read.Source, repeatControlSources)))
         {
-            DrawSharedFrameArea(canvas, area, projection, paints, hitAreas, pointRoles);
+            DrawSharedFrameArea(
+                canvas,
+                area,
+                projection,
+                paints,
+                hitAreas,
+                pointRoles,
+                area.IsAntiArea ? -1 : sharedFrameAreaPaletteIndex++);
             drawn++;
         }
 
@@ -1328,7 +1336,8 @@ public sealed class GojoCadSkiaAdapter
         IGojoCadSkiaProjection projection,
         GojoCadSkiaPaints paints,
         ICollection<GojoCadSkiaHitArea>? hitAreas,
-        HashSet<LocationKey> pointRoles)
+        HashSet<LocationKey> pointRoles,
+        int paletteIndex)
     {
         var path = BuildClosedSharedFrameBoundaryPath(area.Boundary, projection);
         if (path is null)
@@ -1338,7 +1347,8 @@ public sealed class GojoCadSkiaAdapter
 
         using (path)
         {
-            canvas.DrawPath(path, area.IsAntiArea ? paints.AntiAreaFill : paints.AreaFill);
+            using var paletteFill = CreateAreaPalettePaint(paints, paletteIndex);
+            canvas.DrawPath(path, area.IsAntiArea ? paints.AntiAreaFill : paletteFill ?? paints.AreaFill);
             canvas.DrawPath(path, paints.AreaBoundary);
             AddHit(hitAreas, path.Bounds, area.IsAntiArea ? "frame anti-area" : "frame area", priority: 2, area.Source);
         }
@@ -1347,6 +1357,22 @@ public sealed class GojoCadSkiaAdapter
         {
             pointRoles.Add(LocationKey.Of(point.Location));
         }
+    }
+
+    private static SKPaint? CreateAreaPalettePaint(GojoCadSkiaPaints paints, int paletteIndex)
+    {
+        if (paletteIndex < 0 ||
+            paints.AreaFillPalette is not { Count: > 0 } palette)
+        {
+            return null;
+        }
+
+        return new SKPaint
+        {
+            IsAntialias = paints.AreaFill.IsAntialias,
+            Color = palette[paletteIndex % palette.Count],
+            Style = SKPaintStyle.Fill
+        };
     }
 
     private static void DrawBranchMergeNode(
