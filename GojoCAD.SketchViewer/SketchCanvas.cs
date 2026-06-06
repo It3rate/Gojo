@@ -39,7 +39,8 @@ internal sealed class SketchCanvas : Control
                 new Rect(Bounds.Size),
                 current.SelectedScene,
                 current.CurrentRungIndex,
-                current.ShowConstructionPoints));
+                current.ShowConstructionPoints,
+                current.ShowPreviousRungs));
         }
     }
 
@@ -69,13 +70,15 @@ internal sealed class SketchDrawOperation : ICustomDrawOperation
     private readonly SketchScene scene;
     private readonly int selectedRungIndex;
     private readonly bool showConstructionPoints;
+    private readonly bool showPreviousRungs;
 
-    public SketchDrawOperation(Rect bounds, SketchScene scene, int selectedRungIndex, bool showConstructionPoints)
+    public SketchDrawOperation(Rect bounds, SketchScene scene, int selectedRungIndex, bool showConstructionPoints, bool showPreviousRungs)
     {
         Bounds = bounds;
         this.scene = scene;
         this.selectedRungIndex = selectedRungIndex;
         this.showConstructionPoints = showConstructionPoints;
+        this.showPreviousRungs = showPreviousRungs;
     }
 
     public Rect Bounds { get; }
@@ -137,11 +140,14 @@ internal sealed class SketchDrawOperation : ICustomDrawOperation
             return;
         }
 
-        for (var index = 0; index < boundedRung; index++)
+        if (showPreviousRungs)
         {
-            var distance = boundedRung - index;
-            var alpha = (byte)Math.Clamp(122 - distance * 18, 30, 104);
-            DrawRung(canvas, rungs[index], index, viewport, Gray(alpha), 1.75f, hidePoints: !showConstructionPoints, useSpecialAreaPaints: false);
+            for (var index = 0; index < boundedRung; index++)
+            {
+                var distance = boundedRung - index;
+                var alpha = (byte)Math.Clamp(122 - distance * 18, 30, 104);
+                DrawRung(canvas, rungs[index], index, viewport, Gray(alpha), 1.75f, hidePoints: !showConstructionPoints, useSpecialAreaPaints: false);
+            }
         }
 
         DrawRung(canvas, rungs[boundedRung], boundedRung, viewport, CurrentGray(235), 3.2f, hidePoints: !showConstructionPoints);
@@ -204,7 +210,8 @@ internal sealed class SketchDrawOperation : ICustomDrawOperation
             out var hideAreaBoundary,
             out var hideSharedFrameGeometry,
             out var drawAreaUnionOutline,
-            out var drawAreaUnionAsOutline);
+            out var drawAreaUnionAsOutline,
+            out var eraseAreaUnionOutline);
         using var paints = CreateSketchPaints(
             color,
             strokeWidth,
@@ -215,7 +222,8 @@ internal sealed class SketchDrawOperation : ICustomDrawOperation
             hideAreaBoundary,
             hideSharedFrameGeometry,
             drawAreaUnionOutline,
-            drawAreaUnionAsOutline);
+            drawAreaUnionAsOutline,
+            eraseAreaUnionOutline);
         Renderer.Draw(canvas, result, viewport, scene.ProjectionSeed, scene.ModelBounds, paints);
     }
 
@@ -228,7 +236,8 @@ internal sealed class SketchDrawOperation : ICustomDrawOperation
         out bool hideAreaBoundary,
         out bool hideSharedFrameGeometry,
         out bool drawAreaUnionOutline,
-        out bool drawAreaUnionAsOutline)
+        out bool drawAreaUnionAsOutline,
+        out bool eraseAreaUnionOutline)
     {
         areaPalette = null;
         areaFillColor = null;
@@ -237,6 +246,7 @@ internal sealed class SketchDrawOperation : ICustomDrawOperation
         hideSharedFrameGeometry = false;
         drawAreaUnionOutline = false;
         drawAreaUnionAsOutline = false;
+        eraseAreaUnionOutline = false;
         if (!useSpecialAreaPaints ||
             scene.Label != "Radial Shape Ladder")
         {
@@ -249,6 +259,7 @@ internal sealed class SketchDrawOperation : ICustomDrawOperation
             antiAreaFillColor = CanvasBackground;
             hideAreaBoundary = true;
             hideSharedFrameGeometry = true;
+            eraseAreaUnionOutline = true;
         }
         else if (rungIndex == 4)
         {
@@ -260,6 +271,7 @@ internal sealed class SketchDrawOperation : ICustomDrawOperation
         else if (rungIndex == 5)
         {
             drawAreaUnionAsOutline = true;
+            drawAreaUnionOutline = true;
         }
         else if (rungIndex == 7)
         {
@@ -279,7 +291,8 @@ internal sealed class SketchDrawOperation : ICustomDrawOperation
         bool hideAreaBoundary = false,
         bool hideSharedFrameGeometry = false,
         bool drawAreaUnionOutline = false,
-        bool drawAreaUnionAsOutline = false)
+        bool drawAreaUnionAsOutline = false,
+        bool eraseAreaUnionOutline = false)
     {
         var paints = new GojoCadSkiaPaints
         {
@@ -296,7 +309,8 @@ internal sealed class SketchDrawOperation : ICustomDrawOperation
             HideAreaBoundary = hideAreaBoundary,
             HideSharedFrameGeometry = hideSharedFrameGeometry,
             DrawAreaUnionOutline = drawAreaUnionOutline,
-            DrawAreaUnionAsOutline = drawAreaUnionAsOutline
+            DrawAreaUnionAsOutline = drawAreaUnionAsOutline,
+            EraseAreaUnionOutline = eraseAreaUnionOutline
         };
         ApplyStroke(paints.Segment, color, strokeWidth * 0.9f);
         ApplyStroke(paints.SegmentTension, color, strokeWidth * 0.82f);

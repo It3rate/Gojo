@@ -108,13 +108,19 @@ public sealed class GojoCadSkiaAdapter
             else
             {
                 canvas.DrawPath(path, paints.AreaFill);
+                if (paints.EraseAreaUnionOutline)
+                {
+                    DrawAreaUnionOutlineWitness(canvas, outline, projection, paints, hitAreas, fill: true);
+                }
             }
             AddHit(hitAreas, path.Bounds, "area union", priority: 2, union);
         }
 
         if (paints.DrawAreaUnionOutline)
         {
-            return 1 + DrawReadGraph(canvas, GraphicReadGraph.From(outline), projection, paints, hitAreas);
+            return 1 + (paints.DrawAreaUnionAsOutline
+                ? DrawAreaUnionOutlineWitness(canvas, outline, projection, paints, hitAreas, fill: false)
+                : DrawReadGraph(canvas, GraphicReadGraph.From(outline), projection, paints, hitAreas));
         }
 
         return 1;
@@ -217,6 +223,45 @@ public sealed class GojoCadSkiaAdapter
             target.Reset();
             target.AddPath(result);
         }
+    }
+
+    private static int DrawAreaUnionOutlineWitness(
+        SKCanvas canvas,
+        IElement outline,
+        IGojoCadSkiaProjection projection,
+        GojoCadSkiaPaints paints,
+        ICollection<GojoCadSkiaHitArea>? hitAreas,
+        bool fill)
+    {
+        var graph = GraphicReadGraph.From(outline);
+        var drawn = 0;
+        foreach (var boundary in graph.ReadsOf<ClosedSharedFrameBoundaryRead>())
+        {
+            using var path = BuildClosedSharedFrameBoundaryPath(boundary, projection);
+            if (path is null)
+            {
+                continue;
+            }
+
+            canvas.DrawPath(path, fill ? paints.AntiAreaFill : paints.AreaBoundary);
+            AddHit(hitAreas, path.Bounds, fill ? "area union opening" : "area union outline", priority: 2, boundary.Source);
+            drawn++;
+        }
+
+        foreach (var boundary in graph.ReadsOf<ClosedSegmentBoundaryRead>())
+        {
+            using var path = BuildClosedSegmentBoundaryPath(boundary, projection);
+            if (path is null)
+            {
+                continue;
+            }
+
+            canvas.DrawPath(path, fill ? paints.AntiAreaFill : paints.AreaBoundary);
+            AddHit(hitAreas, path.Bounds, fill ? "area union opening" : "area union outline", priority: 2, boundary.Source);
+            drawn++;
+        }
+
+        return drawn;
     }
 
     private static int DrawReadGraph(

@@ -240,9 +240,15 @@ internal static class Program
                 out _,
                 out _) ||
             outlineResult is not Relation outlineUnion ||
-            !GraphicBooleanSurface.TryReadAreaUnion(outlineUnion, out _, out _, out _, out _))
+            !GraphicBooleanSurface.TryReadAreaUnion(outlineUnion, out _, out var outlineWitness, out _, out _))
         {
             throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not keep the composite outline tied to the merged area union.");
+        }
+
+        var openingOutlines = GraphicReadGraph.From(outlineWitness).ReadsOf<ClosedSharedFrameBoundaryRead>().Count();
+        if (openingOutlines < 8)
+        {
+            throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not expose the eight interior union openings.");
         }
     }
 
@@ -351,6 +357,7 @@ internal sealed class MainWindow : Window
         var nextButton = CreateButton("Next");
         var refreshButton = CreateButton("Refresh");
         var pointsButton = CreateButton(document.ShowConstructionPoints ? "Points On" : "Points Off");
+        var ghostButton = CreateButton(document.ShowPreviousRungs ? "Ghost On" : "Ghost Off");
         var rungLabel = new TextBlock
         {
             FontSize = 12.5,
@@ -387,6 +394,7 @@ internal sealed class MainWindow : Window
             document = next;
             canvas.Document = next;
             pointsButton.Content = next.ShowConstructionPoints ? "Points On" : "Points Off";
+            ghostButton.Content = next.ShowPreviousRungs ? "Ghost On" : "Ghost Off";
             UpdateRungControls(next);
             isUpdatingSceneList = true;
             try
@@ -415,6 +423,7 @@ internal sealed class MainWindow : Window
         nextButton.Click += (_, _) => SetDocument(document.Select((document.SelectedSceneIndex + 1) % document.Scenes.Count));
         refreshButton.Click += (_, _) => SetDocument(document.Resample());
         pointsButton.Click += (_, _) => SetDocument(document.ToggleConstructionPoints());
+        ghostButton.Click += (_, _) => SetDocument(document.TogglePreviousRungs());
         rungSlider.ValueChanged += nextRung =>
         {
             if (!isUpdatingRungSlider)
@@ -423,15 +432,27 @@ internal sealed class MainWindow : Window
             }
         };
 
-        var buttonRow = new StackPanel
+        var buttonRowA = new StackPanel
         {
             Orientation = Orientation.Horizontal,
-            Spacing = 8,
+            Spacing = 6
+        };
+        buttonRowA.Children.Add(nextButton);
+        buttonRowA.Children.Add(refreshButton);
+        var buttonRowB = new StackPanel
+        {
+            Orientation = Orientation.Horizontal,
+            Spacing = 6
+        };
+        buttonRowB.Children.Add(pointsButton);
+        buttonRowB.Children.Add(ghostButton);
+        var buttonRows = new StackPanel
+        {
+            Spacing = 6,
             Margin = new Thickness(0, 14, 0, 0)
         };
-        buttonRow.Children.Add(nextButton);
-        buttonRow.Children.Add(refreshButton);
-        buttonRow.Children.Add(pointsButton);
+        buttonRows.Children.Add(buttonRowA);
+        buttonRows.Children.Add(buttonRowB);
         var rungPanel = new StackPanel
         {
             Margin = new Thickness(0, 20, 0, 14)
@@ -468,11 +489,11 @@ internal sealed class MainWindow : Window
         Grid.SetRow(header, 0);
         Grid.SetRow(rungPanel, 1);
         Grid.SetRow(sceneList, 2);
-        Grid.SetRow(buttonRow, 3);
+        Grid.SetRow(buttonRows, 3);
         sideLayout.Children.Add(header);
         sideLayout.Children.Add(rungPanel);
         sideLayout.Children.Add(sceneList);
-        sideLayout.Children.Add(buttonRow);
+        sideLayout.Children.Add(buttonRows);
 
         var side = new Border
         {
@@ -501,9 +522,10 @@ internal sealed class MainWindow : Window
         new()
         {
             Content = text,
-            Padding = new Thickness(12, 5),
-            MinWidth = 76,
-            MinHeight = 30,
+            Padding = new Thickness(8, 3),
+            MinWidth = 66,
+            MinHeight = 26,
+            FontSize = 12,
             Background = new SolidColorBrush(Color.FromArgb(235, 255, 254, 250)),
             BorderBrush = new SolidColorBrush(Color.FromArgb(120, 82, 88, 96)),
             BorderThickness = new Thickness(1)

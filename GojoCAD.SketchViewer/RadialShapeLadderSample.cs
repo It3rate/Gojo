@@ -107,6 +107,27 @@ internal static partial class SketchSamples
                 Circle(0, -armReach, endpointOuter),
                 Circle(0, -armReach, endpointInner));
 
+        Relation CenterHoleOutline(long signX, long signY)
+        {
+            var corner = P(signX * offset, signY * offset);
+            var circleSide = (long)Math.Round(Math.Sqrt(centerInner * centerInner - offset * offset));
+            return Chain(
+                Segment(signX * offset, signY * offset, signX * offset, signY * circleSide),
+                Arc(0, 0, signX * offset, signY * circleSide, signX * circleSide, signY * offset),
+                GraphicStructure.FrameSegment(P(signX * circleSide, signY * offset), corner));
+        }
+
+        Relation UnionInteriorHoleOutlines() =>
+            Chain(
+                Circle(armReach, 0, endpointInner),
+                Circle(-armReach, 0, endpointInner),
+                Circle(0, armReach, endpointInner),
+                Circle(0, -armReach, endpointInner),
+                CenterHoleOutline(1, 1),
+                CenterHoleOutline(-1, 1),
+                CenterHoleOutline(-1, -1),
+                CenterHoleOutline(1, -1));
+
         Relation RoundedArm(long centerX, long centerY)
         {
             if (Math.Abs(centerX) > 0)
@@ -181,7 +202,7 @@ internal static partial class SketchSamples
         var centerOuterFill = DiskFill(0, 0, centerOuter);
         var centerInnerClear = AntiDiskFill(0, 0, centerInner);
         var centerRingFill = Chain(centerOuterFill, centerInnerClear);
-        var barEnd = armReach - endpointInner;
+        var barEnd = armReach - endpointInner - 2;
         var horizontalFill = PolygonFill((-barEnd, -offset), (barEnd, -offset), (barEnd, offset), (-barEnd, offset));
         var verticalFill = PolygonFill((-offset, -barEnd), (offset, -barEnd), (offset, barEnd), (-offset, barEnd));
         var rightEndpointFill = RingFill(armReach, 0, endpointOuter, endpointInner);
@@ -197,6 +218,7 @@ internal static partial class SketchSamples
             topEndpointFill,
             bottomEndpointFill);
         var compositeOutline = CompositeOutline();
+        var unionInteriorHoles = UnionInteriorHoleOutlines();
         var roundedOffset = RoundedCompositeOutline();
         var ornaments = Chain(
             Circle(0, 42, 6),
@@ -219,7 +241,7 @@ internal static partial class SketchSamples
             GraphicOffsetSurface.RequestWithDistance(new Carrier(), endpointState, Distance(offset)),
             offsetBoundaries);
         var fillEvidence = GraphicParameterSurface.Frame(new Carrier(), offsetEvidence, areaFrame);
-        var fillUnion = GraphicBooleanSurface.AreaUnion(new Carrier(), areaFrame, compositeOutline);
+        var fillUnion = GraphicBooleanSurface.AreaUnion(new Carrier(), areaFrame, unionInteriorHoles);
         var roundedUnion = GraphicBooleanSurface.AreaUnion(new Carrier(), areaFrame, roundedOffset);
         var finalUnion = GraphicBooleanSurface.AreaUnion(new Carrier(), areaFrame, Chain(roundedOffset, ornaments));
 

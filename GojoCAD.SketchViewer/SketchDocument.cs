@@ -4,7 +4,8 @@ internal sealed record SketchDocument(
     IReadOnlyList<SketchScene> Scenes,
     int SelectedSceneIndex,
     int SelectedRungIndex,
-    bool ShowConstructionPoints)
+    bool ShowConstructionPoints,
+    bool ShowPreviousRungs)
 {
     public SketchScene SelectedScene => Scenes[Math.Clamp(SelectedSceneIndex, 0, Scenes.Count - 1)];
 
@@ -14,7 +15,7 @@ internal sealed record SketchDocument(
     public static SketchDocument CreateInitial()
     {
         var scenes = SketchSamples.CreateInitialScenes();
-        return new(scenes, 0, scenes.Count == 0 ? 0 : scenes[0].LastRungIndex, ShowConstructionPoints: false);
+        return new(scenes, 0, scenes.Count == 0 ? 0 : scenes[0].LastRungIndex, ShowConstructionPoints: false, ShowPreviousRungs: true);
     }
 
     public SketchDocument Select(int index) =>
@@ -30,6 +31,9 @@ internal sealed record SketchDocument(
     public SketchDocument ToggleConstructionPoints() =>
         this with { ShowConstructionPoints = !ShowConstructionPoints };
 
+    public SketchDocument TogglePreviousRungs() =>
+        this with { ShowPreviousRungs = !ShowPreviousRungs };
+
     public SketchDocument Resample()
     {
         var scenes = SketchSamples.CreateInitialScenes();
@@ -38,6 +42,7 @@ internal sealed record SketchDocument(
             scenes,
             sceneIndex,
             Math.Clamp(SelectedRungIndex, 0, scenes[sceneIndex].LastRungIndex),
-            ShowConstructionPoints);
+            ShowConstructionPoints,
+            ShowPreviousRungs);
     }
 }
