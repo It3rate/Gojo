@@ -64,6 +64,12 @@ Offset rules by curve family:
 | involute | offset of an unwinding section from circular evidence | sample the involute and offset its normal field |
 | open path / partial boundary | local side evidence plus closure tension | offset segments/curves locally and render closure residue if requested |
 
+For filled offsets, the fill should read from the current offset boundary rather
+than from a separate copied polygon. If the offset outline changes, the fill
+must move with that outline as the same structural result. A temporary sampled
+polygon can still be used at the render boundary, but it should be treated as a
+projection of the outline read, not as independent Gojo meaning.
+
 ## Composite Shapes
 
 Connecting concept shapes knowingly creates a new current concept shape. It does
