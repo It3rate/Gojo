@@ -285,18 +285,14 @@ internal sealed class SketchDrawOperation : ICustomDrawOperation
             var markerWitnesses = new List<IElement>();
             foreach (var framedSelection in framedSelections.OfType<Relation>())
             {
-                if (TryReadSingleSelectionWitness(
-                        framedSelection,
-                        out var selectionSource,
-                        out var selectionMarkers))
+                if (TryReadSingleSelectionWitness(framedSelection, out var selectionSource, out var selectionMarkers))
                 {
                     outlines.Add(selectionSource);
                     markerWitnesses.AddRange(selectionMarkers);
                 }
             }
 
-            if (outlines.Count > 0 &&
-                markerWitnesses.Count > 0)
+            if (outlines.Count > 0)
             {
                 outline = GraphicSelectionSurface.Frame(new Carrier(), [.. outlines]);
                 markerEvidence = GraphicSelectionSurface.Frame(new Carrier(), [.. markerWitnesses]);
@@ -345,12 +341,6 @@ internal sealed class SketchDrawOperation : ICustomDrawOperation
                 {
                     markerWitnesses.Add(ReadRadialMarkerWitness(evidence));
                 }
-            }
-
-            if (markerWitnesses.Count == 0)
-            {
-                outline = default!;
-                return false;
             }
 
             outline = source;

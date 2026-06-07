@@ -221,7 +221,10 @@ internal static partial class SketchSamples
             }
         }
 
-        IElement[] DerivedOffsetBoundaryElements(IElement source, long distanceTicks)
+        IElement[] DerivedOffsetBoundaryElements(
+            IElement source,
+            long distanceTicks,
+            Func<SharedFrameSegmentRead, long>? readSegmentDistanceTicks = null)
         {
             var elements = new List<IElement>();
             foreach (var segment in OpenSharedFrameLineSegments(source))
@@ -239,8 +242,9 @@ internal static partial class SketchSamples
                     continue;
                 }
 
-                var normalX = (long)Math.Round(-deltaY / length * distanceTicks);
-                var normalY = (long)Math.Round(deltaX / length * distanceTicks);
+                var segmentDistanceTicks = Math.Abs(readSegmentDistanceTicks?.Invoke(segment) ?? distanceTicks);
+                var normalX = (long)Math.Round(-deltaY / length * segmentDistanceTicks);
+                var normalY = (long)Math.Round(deltaX / length * segmentDistanceTicks);
                 elements.Add(Segment(startX + normalX, startY + normalY, endX + normalX, endY + normalY));
                 elements.Add(Segment(startX - normalX, startY - normalY, endX - normalX, endY - normalY));
             }
@@ -823,34 +827,67 @@ internal static partial class SketchSamples
             return Group(outlines);
         }
 
-        IElement[] RoundedRectangleParticipants(
-            IElement sourceAreaFrame,
+        IElement[] SplitBisectedAntiRectangleParticipants(
+            IEnumerable<IElement> participants,
+            long bisectorY,
+            long bisectorHalfWidth,
             bool roundPositiveRectangles,
-            bool roundAntiRectangles)
+            bool roundSplitAntiRectangles)
         {
-            return [.. GraphicReadGraph.From(sourceAreaFrame)
-                .ReadsOf<SharedFrameAreaRead>()
-                .DistinctBy(area => SourceId(area.Source))
-                .Select(area =>
+            var split = new List<IElement>();
+            foreach (var participant in participants)
+            {
+                foreach (var area in GraphicReadGraph.From(participant)
+                    .ReadsOf<SharedFrameAreaRead>()
+                    .DistinctBy(area => SourceId(area.Source)))
                 {
-                    if ((!area.IsAntiArea && roundPositiveRectangles ||
-                            area.IsAntiArea && roundAntiRectangles) &&
-                        TryReadAxisAlignedRectangleBoundary(area.Boundary, out var minX, out var maxX, out var minY, out var maxY))
+                    if (area.IsAntiArea &&
+                        TryReadAxisAlignedRectangleBoundary(area.Boundary, out var minX, out var maxX, out var minY, out var maxY) &&
+                        minY < bisectorY - bisectorHalfWidth &&
+                        maxY > bisectorY + bisectorHalfWidth)
                     {
-                        var rounded = RoundedRectangleOutline(
+                        split.Add(GraphicStructure.AntiAreaFill(ReadRectangleOutline(
                             minX,
                             maxX,
                             minY,
+                            bisectorY - bisectorHalfWidth,
+                            roundSplitAntiRectangles)));
+                        split.Add(GraphicStructure.AntiAreaFill(ReadRectangleOutline(
+                            minX,
+                            maxX,
+                            bisectorY + bisectorHalfWidth,
                             maxY,
-                            Math.Min(8, Math.Min(maxX - minX, maxY - minY) / 3));
-                        return area.IsAntiArea
-                            ? GraphicStructure.AntiAreaFill(rounded)
-                            : GraphicStructure.AreaFill(rounded);
+                            roundSplitAntiRectangles)));
+                        continue;
                     }
 
-                    return area.Source;
-                })];
+                    if ((!area.IsAntiArea && roundPositiveRectangles ||
+                            area.IsAntiArea && roundSplitAntiRectangles) &&
+                        TryReadAxisAlignedRectangleBoundary(area.Boundary, out var rectMinX, out var rectMaxX, out var rectMinY, out var rectMaxY))
+                    {
+                        var rounded = ReadRectangleOutline(
+                            rectMinX,
+                            rectMaxX,
+                            rectMinY,
+                            rectMaxY,
+                            rounded: true);
+                        split.Add(area.IsAntiArea
+                            ? GraphicStructure.AntiAreaFill(rounded)
+                            : GraphicStructure.AreaFill(rounded));
+                        continue;
+                    }
+
+                    split.Add(area.Source);
+                }
+            }
+
+            return [.. split];
         }
+
+        Relation ReadRectangleOutline(long minX, long maxX, long minY, long maxY, bool rounded) =>
+            rounded
+                ? RoundedRectangleOutline(minX, maxX, minY, maxY, Math.Min(8, Math.Min(maxX - minX, maxY - minY) / 3))
+                : RectangleOutline(minX, maxX, minY, maxY);
 
         IElement[] AntiAreaFillsFromOutlines(IElement outlines)
         {
@@ -986,8 +1023,10 @@ internal static partial class SketchSamples
 
         const long hOriginX = 265;
         const long hReach = 108;
-        const long hColumnX = 54;
-        const long hSquareHalf = 30;
+        const long hColumnX = 72;
+        const long hSquareHalfX = 34;
+        const long hSquareHalfY = 48;
+        const long hCrossbarHalfWidth = 16;
         var hLeftBottom = PAt(hOriginX, 0, -hColumnX, -hReach);
         var hLeftMid = PAt(hOriginX, 0, -hColumnX, 0);
         var hLeftTop = PAt(hOriginX, 0, -hColumnX, hReach);
@@ -1001,10 +1040,10 @@ internal static partial class SketchSamples
             SegmentFrom(hRightMid, hRightTop),
             SegmentFrom(hLeftMid, hRightMid));
         var hCenterSquare = RectangleOutline(
-            hOriginX - hSquareHalf,
-            hOriginX + hSquareHalf,
-            -hSquareHalf,
-            hSquareHalf);
+            hOriginX - hSquareHalfX,
+            hOriginX + hSquareHalfX,
+            -hSquareHalfY,
+            hSquareHalfY);
         var hShape = Group(hCenterStrokes, hCenterSquare);
         var hLineTipDomain = GraphicBoundaryConceptSurface.LineTipCandidateDomain(new Carrier(), hCenterStrokes);
         var hLineTipSelection = GraphicSelectionSurface.Search(
@@ -1026,19 +1065,48 @@ internal static partial class SketchSamples
             ? generatedHEndpointCircles
             : UnknownPoint();
         var hEndpointState = Group(hShape, hEndpointCircles);
-        var hOffsetBoundaries = Group(DerivedOffsetBoundaryElements(hEndpointState, offset));
-        var hFillParticipants = DerivedFillParticipants(hOffsetBoundaries);
+        var hOffsetBoundaries = Group(DerivedOffsetBoundaryElements(
+            hEndpointState,
+            offset,
+            segment =>
+            {
+                if (TryReadSegmentTicks(segment, out var startX, out var startY, out var endX, out var endY) &&
+                    startY == 0 &&
+                    endY == 0 &&
+                    Math.Min(startX, endX) <= hOriginX &&
+                    Math.Max(startX, endX) >= hOriginX)
+                {
+                    return hCrossbarHalfWidth;
+                }
+
+                return offset;
+            }));
+        var hBaseFillParticipants = DerivedFillParticipants(hOffsetBoundaries);
+        var hFillParticipants = SplitBisectedAntiRectangleParticipants(
+            hBaseFillParticipants,
+            bisectorY: 0,
+            hCrossbarHalfWidth,
+            roundPositiveRectangles: false,
+            roundSplitAntiRectangles: false);
+        var hRoundedFillParticipants = SplitBisectedAntiRectangleParticipants(
+            hBaseFillParticipants,
+            bisectorY: 0,
+            hCrossbarHalfWidth,
+            roundPositiveRectangles: false,
+            roundSplitAntiRectangles: false);
+        var hExteriorRoundedFillParticipants = SplitBisectedAntiRectangleParticipants(
+            hBaseFillParticipants,
+            bisectorY: 0,
+            hCrossbarHalfWidth,
+            roundPositiveRectangles: false,
+            roundSplitAntiRectangles: false);
         var hSeparateFills = Group(hFillParticipants);
         var hAreaFrame = GraphicBooleanSurface.AreaFrame(new Carrier(), hFillParticipants);
-        var hRoundedAreaFrame = GraphicBooleanSurface.AreaFrame(
-            new Carrier(),
-            RoundedRectangleParticipants(hAreaFrame, roundPositiveRectangles: false, roundAntiRectangles: true));
-        var hExteriorRoundedAreaFrame = GraphicBooleanSurface.AreaFrame(
-            new Carrier(),
-            RoundedRectangleParticipants(hAreaFrame, roundPositiveRectangles: true, roundAntiRectangles: true));
+        var hRoundedAreaFrame = GraphicBooleanSurface.AreaFrame(new Carrier(), hRoundedFillParticipants);
+        var hExteriorRoundedAreaFrame = GraphicBooleanSurface.AreaFrame(new Carrier(), hExteriorRoundedFillParticipants);
         var hUnionInteriorHoles = DerivedAntiBoundaryOutlines(hAreaFrame, roundedRectangles: false);
-        var hRoundedUnionInteriorHoles = DerivedAntiBoundaryOutlines(hRoundedAreaFrame, roundedRectangles: true);
-        var hExteriorRoundedInteriorHoles = DerivedAntiBoundaryOutlines(hExteriorRoundedAreaFrame, roundedRectangles: true);
+        var hRoundedUnionInteriorHoles = DerivedAntiBoundaryOutlines(hRoundedAreaFrame, roundedRectangles: false);
+        var hExteriorRoundedInteriorHoles = DerivedAntiBoundaryOutlines(hExteriorRoundedAreaFrame, roundedRectangles: false);
         var hOffsetEvidence = GraphicParameterSurface.Frame(
             new Carrier(),
             GraphicOffsetSurface.RequestWithDistance(new Carrier(), hEndpointState, Distance(offset)),
@@ -1054,7 +1122,7 @@ internal static partial class SketchSamples
             cuspPattern);
         var hRoundedUnion = GraphicBooleanSurface.AreaUnion(new Carrier(), hRoundedAreaFrame, hRoundedUnionInteriorHoles);
         var hRoundedUnionOutlineEvidence = GraphicOutlineSurface.FromArea(new Carrier(), hRoundedUnion, hRoundedUnionInteriorHoles);
-        var hExteriorSharpOutline = GraphicOutlineSurface.PositiveBoundaryOutlinesFromAreas(new Carrier(), hRoundedAreaFrame);
+        var hExteriorSharpOutline = GraphicOutlineSurface.OutlineFrame(new Carrier());
         var hExteriorSharpOutlineEvidence = GraphicOutlineSurface.FromArea(new Carrier(), hRoundedUnion, hExteriorSharpOutline);
         var hExteriorCuspDomain = GraphicBoundaryConceptSurface.CuspCandidateDomain(new Carrier(), hExteriorSharpOutline);
         var hExteriorCuspSelection = GraphicSelectionSurface.Search(
