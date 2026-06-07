@@ -182,6 +182,20 @@ internal static class Program
             throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not preserve fill union evidence.");
         }
 
+        var outlineDerivations = WalkRelations(ladder)
+            .Count(relation => GraphicOutlineSurface.TryReadFromArea(relation, out _, out _, out _, out _));
+        if (outlineDerivations < 2)
+        {
+            throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not preserve area-to-outline derivation evidence.");
+        }
+
+        var terminalCapActions = WalkRelations(ladder)
+            .Count(relation => GraphicBoundaryConceptSurface.TryReadCircleCapsFromLineTipSelection(relation, out _, out _, out _, out _, out _));
+        if (terminalCapActions < 1)
+        {
+            throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not create endpoint circles from terminal-tip cap evidence.");
+        }
+
         if (!StructuralLadderSurface.TryReadRung(
                 rungs[3],
                 out _,

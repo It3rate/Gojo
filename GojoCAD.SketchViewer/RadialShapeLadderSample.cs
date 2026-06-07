@@ -362,11 +362,26 @@ internal static partial class SketchSamples
             Segment(-armReach, 0, armReach, 0),
             Segment(0, -armReach, 0, armReach),
             Circle(0, 0, centerRadius));
-        var endpointCircles = Chain(
-            Circle(armReach, 0, endpointRadius),
-            Circle(-armReach, 0, endpointRadius),
-            Circle(0, armReach, endpointRadius),
-            Circle(0, -armReach, endpointRadius));
+        var lineTipPattern = GraphicBoundaryConceptSurface.LineTipWitnessPattern(new Carrier(), new Placeholder());
+        var lineTipDomain = GraphicBoundaryConceptSurface.LineTipCandidateDomain(new Carrier(), centerPlus);
+        var lineTipSelection = GraphicSelectionSurface.Search(
+            new Carrier(),
+            centerPlus,
+            GraphicSelectionSurface.Frame(new Carrier(), centerPlus, lineTipDomain),
+            lineTipPattern);
+        var endpointCircleAction = GraphicBoundaryConceptSurface.CircleCapsFromLineTipSelection(
+            new Carrier(),
+            lineTipSelection,
+            endpointRadius);
+        var endpointCircles = GraphicBoundaryConceptSurface.TryReadCircleCapsFromLineTipSelection(
+            endpointCircleAction,
+            out _,
+            out _,
+            out _,
+            out var generatedEndpointCircles,
+            out _)
+            ? generatedEndpointCircles
+            : UnknownPoint();
         var endpointState = Chain(centerPlus, endpointCircles);
         var offsetBoundaries = OffsetBoundaryPairs();
 
@@ -446,6 +461,7 @@ internal static partial class SketchSamples
             offsetBoundaries);
         var fillEvidence = GraphicParameterSurface.Frame(new Carrier(), offsetEvidence, areaFrame);
         var fillUnion = GraphicBooleanSurface.AreaUnion(new Carrier(), areaFrame, unionInteriorHoles);
+        var fillUnionOutlineEvidence = GraphicOutlineSurface.FromArea(new Carrier(), fillUnion, unionInteriorHoles);
         var cuspPattern = GraphicBoundaryConceptSurface.CuspWitnessPattern(new Carrier(), new Placeholder());
         var interiorCuspDomain = GraphicBoundaryConceptSurface.CuspCandidateDomain(new Carrier(), unionInteriorHoles);
         var exteriorCuspDomain = GraphicBoundaryConceptSurface.CuspCandidateDomain(new Carrier(), exteriorSharpOutline);
@@ -455,6 +471,8 @@ internal static partial class SketchSamples
             GraphicSelectionSurface.Frame(new Carrier(), fillUnion, interiorCuspDomain),
             cuspPattern);
         var roundedUnion = GraphicBooleanSurface.AreaUnion(new Carrier(), roundedAreaFrame, roundedUnionInteriorHoles);
+        var roundedUnionOutlineEvidence = GraphicOutlineSurface.FromArea(new Carrier(), roundedUnion, roundedUnionInteriorHoles);
+        var exteriorSharpOutlineEvidence = GraphicOutlineSurface.FromArea(new Carrier(), roundedUnion, exteriorSharpOutline);
         var exteriorCuspSelection = GraphicSelectionSurface.Search(
             new Carrier(),
             roundedUnion,
@@ -472,12 +490,12 @@ internal static partial class SketchSamples
         var baseRung = StructuralLadderSurface.BaseRung(new Carrier(), centerPlus);
         var endpointStep = RefinedRung(
             centerPlus,
-            endpointCircles,
-            UnknownPoint(),
+            lineTipPattern,
+            lineTipSelection,
             centerPlus,
             endpointCircles,
             endpointState,
-            GraphicParameterSurface.Frame(new Carrier(), centerPlus, endpointCircles));
+            endpointCircleAction);
         var offsetStep = RefinedRung(
             endpointState,
             endpointState,
@@ -509,7 +527,7 @@ internal static partial class SketchSamples
             UnknownPoint(),
             fillUnion,
             fillUnion,
-            fillUnion);
+            fillUnionOutlineEvidence);
         var cuspStep = RefinedRung(
             fillUnion,
             cuspPattern,
@@ -525,7 +543,7 @@ internal static partial class SketchSamples
             UnknownPoint(),
             roundedUnion,
             roundedUnion,
-            GraphicParameterSurface.Frame(new Carrier(), cuspSelection, roundedUnion));
+            GraphicParameterSurface.Frame(new Carrier(), cuspSelection, roundedUnion, roundedUnionOutlineEvidence));
         var exteriorCuspStep = RefinedRung(
             roundedUnion,
             cuspPattern,
@@ -533,7 +551,7 @@ internal static partial class SketchSamples
             roundedUnion,
             exteriorCuspSelection,
             exteriorCuspSelection,
-            GraphicParameterSurface.Frame(new Carrier(), roundedUnion, exteriorCuspDomain, exteriorCuspSelection));
+            GraphicParameterSurface.Frame(new Carrier(), roundedUnion, exteriorSharpOutlineEvidence, exteriorCuspDomain, exteriorCuspSelection));
         var exteriorRoundedStep = RefinedRung(
             exteriorCuspSelection,
             cuspPattern,

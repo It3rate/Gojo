@@ -140,6 +140,20 @@ public static class GraphicConceptShape
     public static Relation CuspJoinEvidenceSurface(Carrier root) =>
         CuspJoinEvidence(RootOrNew(root));
 
+    /// <summary>
+    /// Creates terminal/tip evidence for an open drawable path endpoint:
+    /// local port, outgoing/ending flow, unresolved continuation residue.
+    /// </summary>
+    public static Relation LineTipEvidenceSurface(Carrier root) =>
+        LineTipEvidence(RootOrNew(root));
+
+    /// <summary>
+    /// Creates circular cap evidence for a selected terminal/tip:
+    /// terminal evidence, circular boundary evidence, local normal, residue.
+    /// </summary>
+    public static Relation CircularTipCapEvidenceSurface(Carrier root) =>
+        CircularTipCapEvidence(RootOrNew(root));
+
     /// <summary>Creates an ambiguous connection between two drawable sections or paths, then folds them into one section.</summary>
     public static Relation Join(Carrier root, IElement incoming, IElement outgoing) =>
         Join(root, incoming, outgoing, TensionSlot());
@@ -227,6 +241,97 @@ public static class GraphicConceptShape
         outgoingTangent = default!;
         orthogonal = default!;
         tangentContinuityExpectation = default!;
+        residueOrTension = default!;
+        return false;
+    }
+
+    /// <summary>Reads circular-arc evidence created by <see cref="CircularArcEvidenceSurface"/>.</summary>
+    public static bool TryReadCircularArcEvidence(
+        Relation evidence,
+        out IElement centerOrSite,
+        out IElement offset,
+        out IElement direction,
+        out IElement residueOrTension)
+    {
+        if (TryReadFrameElements(evidence, out var elements) &&
+            elements.Length == 4 &&
+            elements[1] is Relation offsetRelation &&
+            elements[2] is Relation directionRelation &&
+            GraphicOffsetSurface.TryReadEvidence(
+                offsetRelation,
+                out _,
+                out _,
+                out _,
+                out _,
+                out _,
+                out _) &&
+            TryReadDirectionSlot(directionRelation))
+        {
+            centerOrSite = elements[0];
+            offset = offsetRelation;
+            direction = directionRelation;
+            residueOrTension = elements[3];
+            return true;
+        }
+
+        centerOrSite = default!;
+        offset = default!;
+        direction = default!;
+        residueOrTension = default!;
+        return false;
+    }
+
+    /// <summary>Reads terminal/tip evidence created by <see cref="LineTipEvidenceSurface"/>.</summary>
+    public static bool TryReadLineTipEvidence(
+        Relation evidence,
+        out IElement port,
+        out IElement flow,
+        out IElement residueOrTension)
+    {
+        if (TryReadFrameElements(evidence, out var elements) &&
+            elements.Length == 3 &&
+            elements[0] is Relation portRelation &&
+            elements[1] is Relation flowRelation &&
+            TryReadPortConcept(portRelation, out _, out _, out _, out _, out _))
+        {
+            port = portRelation;
+            flow = flowRelation;
+            residueOrTension = elements[2];
+            return true;
+        }
+
+        port = default!;
+        flow = default!;
+        residueOrTension = default!;
+        return false;
+    }
+
+    /// <summary>Reads circular terminal-cap evidence created by <see cref="CircularTipCapEvidenceSurface"/>.</summary>
+    public static bool TryReadCircularTipCapEvidence(
+        Relation evidence,
+        out IElement terminalTip,
+        out IElement circularBoundary,
+        out IElement orthogonal,
+        out IElement residueOrTension)
+    {
+        if (TryReadFrameElements(evidence, out var elements) &&
+            elements.Length == 4 &&
+            elements[0] is Relation terminalRelation &&
+            elements[1] is Relation circularRelation &&
+            elements[2] is Relation orthogonalRelation &&
+            TryReadLineTipEvidence(terminalRelation, out _, out _, out _) &&
+            TryReadCuspOrCircularEvidence(circularRelation))
+        {
+            terminalTip = terminalRelation;
+            circularBoundary = circularRelation;
+            orthogonal = orthogonalRelation;
+            residueOrTension = elements[3];
+            return true;
+        }
+
+        terminalTip = default!;
+        circularBoundary = default!;
+        orthogonal = default!;
         residueOrTension = default!;
         return false;
     }
@@ -835,6 +940,25 @@ public static class GraphicConceptShape
             Frame(new Carrier(), incomingTangent, outgoingTangent, TensionSlot()),
             TensionSlot());
     }
+
+    private static Relation LineTipEvidence(Carrier root) =>
+        Frame(root, Port(new Carrier()), FlowSlot(), TensionSlot());
+
+    private static Relation CircularTipCapEvidence(Carrier root) =>
+        Frame(
+            root,
+            LineTipEvidence(new Carrier()),
+            CircularArcEvidence(new Carrier()),
+            OrthogonalSlot(),
+            TensionSlot());
+
+    private static bool TryReadCuspOrCircularEvidence(Relation evidence) =>
+        TryReadCircularArcEvidence(evidence, out _, out _, out _, out _);
+
+    private static bool TryReadDirectionSlot(Relation direction) =>
+        TryReadFrameElements(direction, out var elements) &&
+        elements.Length == 3 &&
+        elements[0] is Relation;
 
     private static Relation ControlSlot() =>
         Frame(new Carrier(), Site(), TangentSlot(), TensionSlot());

@@ -74,6 +74,72 @@ public sealed class GraphicBoundaryConceptSurfaceTests
         Assert.Empty(candidates);
     }
 
+    [Fact]
+    public void LineTipCandidateDomainFindsOpenSharedFrameTerminals()
+    {
+        var frame = new Carrier();
+        var x = new Carrier();
+        var y = new Carrier();
+        Relation P(long xTicks, long yTicks) =>
+            GraphicStructure.FramePoint(frame, new CarrierLocation(x, xTicks), new CarrierLocation(y, yTicks));
+        var plus = Chain(
+            GraphicStructure.FrameSegment(P(-20, 0), P(20, 0)),
+            GraphicStructure.FrameSegment(P(0, -20), P(0, 20)));
+        var witnessSlot = new Placeholder();
+        var pattern = GraphicBoundaryConceptSurface.LineTipWitnessPattern(new Carrier(), witnessSlot);
+
+        var domain = GraphicBoundaryConceptSurface.LineTipCandidateDomain(new Carrier(), plus);
+        var selection = GraphicSelectionSurface.Search(new Carrier(), plus, domain, pattern);
+
+        Assert.True(GraphicSelectionSurface.TryReadSelection(
+            selection,
+            out _,
+            out _,
+            out _,
+            out var readMatches,
+            out _));
+        Assert.True(GraphicSelectionSurface.TryReadMatchFrame(
+            Assert.IsType<Relation>(readMatches),
+            out var matches));
+        Assert.Equal(4, matches.Length);
+    }
+
+    [Fact]
+    public void CircleCapsFromLineTipSelectionCreatesCircleOutlinesAtSelectedTips()
+    {
+        var frame = new Carrier();
+        var x = new Carrier();
+        var y = new Carrier();
+        Relation P(long xTicks, long yTicks) =>
+            GraphicStructure.FramePoint(frame, new CarrierLocation(x, xTicks), new CarrierLocation(y, yTicks));
+        var plus = Chain(
+            GraphicStructure.FrameSegment(P(-20, 0), P(20, 0)),
+            GraphicStructure.FrameSegment(P(0, -20), P(0, 20)));
+        var pattern = GraphicBoundaryConceptSurface.LineTipWitnessPattern(new Carrier(), new Placeholder());
+        var domain = GraphicBoundaryConceptSurface.LineTipCandidateDomain(new Carrier(), plus);
+        var selection = GraphicSelectionSurface.Search(new Carrier(), plus, domain, pattern);
+
+        var action = GraphicBoundaryConceptSurface.CircleCapsFromLineTipSelection(new Carrier(), selection, radiusTicks: 6);
+
+        Assert.True(GraphicBoundaryConceptSurface.TryReadCircleCapsFromLineTipSelection(
+            action,
+            out var readSelection,
+            out var capEvidence,
+            out _,
+            out var circleFrame,
+            out _));
+        Assert.Same(selection, readSelection);
+        Assert.True(GraphicConceptShape.TryReadCircularTipCapEvidence(
+            Assert.IsType<Relation>(capEvidence),
+            out _,
+            out _,
+            out _,
+            out _));
+        Assert.True(TryReadOrderedFrame(circleFrame, out var circles));
+        Assert.Equal(4, circles.Length);
+        Assert.Equal(4, GraphicReadGraph.From(circleFrame).ReadsOf<ClosedSharedFrameBoundaryRead>().Count());
+    }
+
     private static Relation Chain(params IElement[] elements)
     {
         IElement structure = elements[^1];
