@@ -223,6 +223,121 @@ public sealed class GraphicSelectionSurfaceTests
         Assert.Same(result, patchResult);
     }
 
+    [Fact]
+    public void StructuralSearchEmitsMatchForConceptShapeInLocalDomain()
+    {
+        var tangentSource = GraphicConceptShape.TangentJoin(
+            new Carrier(),
+            GraphicConceptShape.StraightSection(new Carrier()),
+            GraphicConceptShape.CircularArcSection(new Carrier()));
+        var cuspSource = GraphicConceptShape.CuspJoin(
+            new Carrier(),
+            GraphicConceptShape.StraightSection(new Carrier()),
+            GraphicConceptShape.CircularArcSection(new Carrier()));
+        var tangentEvidence = ReadJoinEvidence(tangentSource);
+        var cuspEvidence = ReadJoinEvidence(cuspSource);
+        var source = GraphicSelectionSurface.Frame(new Carrier(), tangentSource, cuspSource);
+        var domain = GraphicSelectionSurface.Frame(new Carrier(), tangentEvidence, cuspEvidence);
+        var conceptPattern = GraphicConceptShape.CuspJoinEvidenceSurface(new Carrier());
+
+        var selection = GraphicSelectionSurface.Search(new Carrier(), source, domain, conceptPattern);
+
+        Assert.True(GraphicSelectionSurface.TryReadSelection(
+            selection,
+            out var readSource,
+            out var readDomain,
+            out var readPattern,
+            out var readMatches,
+            out _));
+        Assert.Same(source, readSource);
+        Assert.Same(domain, readDomain);
+        Assert.Same(conceptPattern, readPattern);
+        Assert.True(GraphicSelectionSurface.TryReadMatchFrame(
+            Assert.IsType<Relation>(readMatches),
+            out var matches));
+        var match = Assert.Single(matches);
+        Assert.True(GraphicSelectionSurface.TryReadMatch(
+            Assert.IsType<Relation>(match),
+            out var candidate,
+            out _,
+            out var bindings,
+            out var evidence,
+            out _));
+        Assert.Same(cuspEvidence, candidate);
+        Assert.True(FocusSurface.TryReadBindingFrame(bindings, out var bindingClauses));
+        Assert.Contains(bindingClauses, binding => ReferenceEquals(binding.Left, conceptPattern) && ReferenceEquals(binding.Right, cuspEvidence));
+        Assert.True(GraphicSelectionSurface.TryReadPatternEvidence(
+            Assert.IsType<Relation>(evidence),
+            out _,
+            out var appliedPattern,
+            out var evidenceCandidate,
+            out _));
+        Assert.Same(cuspEvidence, appliedPattern);
+        Assert.Same(cuspEvidence, evidenceCandidate);
+    }
+
+    [Fact]
+    public void StructuralSearchCanFindNestedConceptEvidenceInsideComposite()
+    {
+        var cuspSource = GraphicConceptShape.CuspJoin(
+            new Carrier(),
+            GraphicConceptShape.StraightSection(new Carrier()),
+            GraphicConceptShape.CircularArcSection(new Carrier()));
+        var cuspEvidence = ReadJoinEvidence(cuspSource);
+        var conceptPattern = GraphicConceptShape.CuspJoinEvidenceSurface(new Carrier());
+
+        var selection = GraphicSelectionSurface.Search(new Carrier(), cuspSource, cuspSource, conceptPattern);
+
+        Assert.True(GraphicSelectionSurface.TryReadSelection(
+            selection,
+            out _,
+            out _,
+            out _,
+            out var readMatches,
+            out _));
+        Assert.True(GraphicSelectionSurface.TryReadMatchFrame(
+            Assert.IsType<Relation>(readMatches),
+            out var matches));
+        Assert.Contains(matches, match =>
+            match is Relation relation &&
+            GraphicSelectionSurface.TryReadMatch(
+                relation,
+                out var candidate,
+                out _,
+                out _,
+                out _,
+                out _) &&
+            ReferenceEquals(candidate, cuspEvidence));
+    }
+
+    [Fact]
+    public void StructuralSearchLeavesInspectableResidueWhenConceptDoesNotSettle()
+    {
+        var tangentSource = GraphicConceptShape.TangentJoin(
+            new Carrier(),
+            GraphicConceptShape.StraightSection(new Carrier()),
+            GraphicConceptShape.CircularArcSection(new Carrier()));
+        var tangentEvidence = ReadJoinEvidence(tangentSource);
+        var domain = GraphicSelectionSurface.Frame(new Carrier(), tangentEvidence);
+        var conceptPattern = GraphicConceptShape.CuspJoinEvidenceSurface(new Carrier());
+
+        var selection = GraphicSelectionSurface.Search(new Carrier(), tangentSource, domain, conceptPattern);
+
+        Assert.True(GraphicSelectionSurface.TryReadSelection(
+            selection,
+            out _,
+            out _,
+            out _,
+            out var readMatches,
+            out var residue));
+        Assert.True(GraphicSelectionSurface.TryReadMatchFrame(
+            Assert.IsType<Relation>(readMatches),
+            out var matches));
+        Assert.Empty(matches);
+        Assert.Contains(domain, Walk(residue));
+        Assert.Contains(conceptPattern, Walk(residue));
+    }
+
     private static Relation ReadJoinEvidence(Relation composite)
     {
         Assert.True(GraphicConceptShape.TryReadCompositeShape(

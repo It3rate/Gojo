@@ -132,6 +132,79 @@ public static class GraphicSelectionSurface
         return true;
     }
 
+    /// <summary>
+    /// Searches a local domain for structures shaped like the supplied concept
+    /// pattern and returns a selection whose matches carry structural
+    /// correspondence evidence.
+    /// </summary>
+    public static Relation Search(
+        Carrier root,
+        IElement source,
+        IElement searchDomain,
+        IElement conceptPattern)
+    {
+        var domain = searchDomain ?? TensionSlot();
+        var pattern = conceptPattern ?? TensionSlot();
+        var matches = new List<IElement>();
+        foreach (var candidate in WalkCandidates(domain))
+        {
+            if (AlreadyMatched(candidate, matches))
+            {
+                continue;
+            }
+
+            if (TryCreateStructuralMatch(
+                    new Carrier(),
+                    candidate,
+                    pattern,
+                    out var match))
+            {
+                matches.Add(match);
+            }
+        }
+
+        var residue = matches.Count == 0
+            ? Frame(new Carrier(), domain, pattern, TensionSlot())
+            : TensionSlot();
+        return Select(
+            RootOrNew(root),
+            source,
+            domain,
+            pattern,
+            MatchFrame(new Carrier(), [.. matches]),
+            residue);
+    }
+
+    /// <summary>
+    /// Creates one match by comparing relation shape and repeated local
+    /// structure, not by evaluating Cartesian properties.
+    /// </summary>
+    public static bool TryCreateStructuralMatch(
+        Carrier root,
+        IElement candidate,
+        IElement conceptPattern,
+        out Relation match)
+    {
+        var pattern = conceptPattern ?? TensionSlot();
+        var concreteCandidate = candidate ?? TensionSlot();
+        var bindings = new List<Relation>();
+        if (!TryMatchStructure(
+                pattern,
+                concreteCandidate,
+                bindings))
+        {
+            match = null!;
+            return false;
+        }
+
+        return TryCreatePatternMatch(
+            RootOrNew(root),
+            concreteCandidate,
+            pattern,
+            FocusSurface.BindingFrame(new Carrier(), [.. bindings]),
+            out match);
+    }
+
     /// <summary>Reads a selection query/result.</summary>
     public static bool TryReadSelection(
         Relation selection,
@@ -222,6 +295,135 @@ public static class GraphicSelectionSurface
         var slot = new Placeholder();
         return new Relation(slot, slot.Dual());
     }
+
+    private static IEnumerable<IElement> WalkCandidates(IElement root)
+    {
+        yield return root;
+
+        if (root is not Relation relation)
+        {
+            yield break;
+        }
+
+        foreach (var candidate in WalkCandidates(relation.Left))
+        {
+            yield return candidate;
+        }
+
+        foreach (var candidate in WalkCandidates(relation.Right))
+        {
+            yield return candidate;
+        }
+    }
+
+    private static bool AlreadyMatched(IElement candidate, IReadOnlyList<IElement> matches)
+    {
+        foreach (var matchElement in matches)
+        {
+            if (matchElement is Relation match &&
+                TryReadMatch(match, out var matchedCandidate, out _, out _, out _, out _) &&
+                SameElement(matchedCandidate, candidate))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private static bool TryMatchStructure(
+        IElement pattern,
+        IElement candidate,
+        List<Relation> bindings)
+    {
+        if (TryReadBinding(pattern, bindings, out var existing))
+        {
+            return SameElement(existing, candidate);
+        }
+
+        if (StructuralPattern.TryReadSlot(pattern, out _))
+        {
+            return AddBinding(pattern, candidate, bindings);
+        }
+
+        if (pattern is Relation patternRelation &&
+            candidate is Relation candidateRelation)
+        {
+            if (TryReadFrameElements(patternRelation, out var patternElements) &&
+                TryReadFrameElements(candidateRelation, out var candidateElements) &&
+                (patternElements.Length > 0 || candidateElements.Length > 0))
+            {
+                if (patternElements.Length != candidateElements.Length)
+                {
+                    return false;
+                }
+
+                for (var index = 0; index < patternElements.Length; index++)
+                {
+                    if (!TryMatchStructure(patternElements[index], candidateElements[index], bindings))
+                    {
+                        return false;
+                    }
+                }
+
+                return AddBinding(pattern, candidate, bindings);
+            }
+
+            if (!TryMatchStructure(patternRelation.Left, candidateRelation.Left, bindings) ||
+                !TryMatchStructure(patternRelation.Right, candidateRelation.Right, bindings))
+            {
+                return false;
+            }
+
+            return AddBinding(pattern, candidate, bindings);
+        }
+
+        return TryMatchAtom(pattern, candidate) &&
+            AddBinding(pattern, candidate, bindings);
+    }
+
+    private static bool TryMatchAtom(IElement pattern, IElement candidate) =>
+        pattern switch
+        {
+            Carrier => candidate is Carrier,
+            CarrierLocation => candidate is CarrierLocation,
+            _ => Equals(pattern, candidate)
+        };
+
+    private static bool AddBinding(
+        IElement pattern,
+        IElement candidate,
+        List<Relation> bindings)
+    {
+        if (TryReadBinding(pattern, bindings, out var existing))
+        {
+            return SameElement(existing, candidate);
+        }
+
+        bindings.Add(new Relation(pattern, candidate));
+        return true;
+    }
+
+    private static bool TryReadBinding(
+        IElement pattern,
+        IReadOnlyList<Relation> bindings,
+        out IElement candidate)
+    {
+        foreach (var binding in bindings)
+        {
+            if (SameElement(binding.Left, pattern))
+            {
+                candidate = binding.Right;
+                return true;
+            }
+        }
+
+        candidate = default!;
+        return false;
+    }
+
+    private static bool SameElement(IElement left, IElement right) =>
+        ReferenceEquals(left, right) || Equals(left, right);
 
     private static IElement ApplyCorrespondence(
         IElement element,
