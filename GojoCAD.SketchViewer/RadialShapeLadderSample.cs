@@ -120,28 +120,6 @@ internal static partial class SketchSamples
         Relation CenterHoleAntiFill(long signX, long signY) =>
             GraphicStructure.AntiAreaFill(CenterHoleOutline(signX, signY));
 
-        Relation MarkerCircle(long centerX, long centerY) =>
-            Circle(centerX, centerY, 5);
-
-        (long X, long Y)[] CenterHoleCuspSites(long signX, long signY)
-        {
-            var circleSide = (long)Math.Round(Math.Sqrt(centerInner * centerInner - offset * offset));
-            return
-            [
-                (signX * offset, signY * offset),
-                (signX * offset, signY * circleSide),
-                (signX * circleSide, signY * offset)
-            ];
-        }
-
-        (long X, long Y)[] InteriorCuspSites() =>
-        [
-            .. CenterHoleCuspSites(1, 1),
-            .. CenterHoleCuspSites(-1, 1),
-            .. CenterHoleCuspSites(-1, -1),
-            .. CenterHoleCuspSites(1, -1)
-        ];
-
         (long X, long Y) HorizontalCircleCusp(long centerX, long centerY, long radius, long lineY, long sideX)
         {
             var lineOffset = lineY - centerY;
@@ -157,26 +135,6 @@ internal static partial class SketchSamples
                 lineX,
                 centerY + sideY * (long)Math.Round(Math.Sqrt(radius * radius - lineOffset * lineOffset)));
         }
-
-        (long X, long Y)[] ExteriorCuspSites() =>
-        [
-                HorizontalCircleCusp(0, 0, centerOuter, offset, 1),
-                HorizontalCircleCusp(0, 0, centerOuter, -offset, 1),
-                HorizontalCircleCusp(0, 0, centerOuter, offset, -1),
-                HorizontalCircleCusp(0, 0, centerOuter, -offset, -1),
-                VerticalCircleCusp(0, 0, centerOuter, offset, 1),
-                VerticalCircleCusp(0, 0, centerOuter, -offset, 1),
-                VerticalCircleCusp(0, 0, centerOuter, offset, -1),
-                VerticalCircleCusp(0, 0, centerOuter, -offset, -1),
-                HorizontalCircleCusp(armReach, 0, endpointOuter, offset, -1),
-                HorizontalCircleCusp(armReach, 0, endpointOuter, -offset, -1),
-                HorizontalCircleCusp(-armReach, 0, endpointOuter, offset, 1),
-                HorizontalCircleCusp(-armReach, 0, endpointOuter, -offset, 1),
-                VerticalCircleCusp(0, armReach, endpointOuter, offset, -1),
-                VerticalCircleCusp(0, armReach, endpointOuter, -offset, -1),
-                VerticalCircleCusp(0, -armReach, endpointOuter, offset, 1),
-                VerticalCircleCusp(0, -armReach, endpointOuter, -offset, 1)
-        ];
 
         Relation SegmentBetween((long X, long Y) start, (long X, long Y) end) =>
             Segment(start.X, start.Y, end.X, end.Y);
@@ -269,6 +227,52 @@ internal static partial class SketchSamples
         Relation RoundedCenterHoleAntiFill(long signX, long signY) =>
             GraphicStructure.AntiAreaFill(RoundedCenterHoleOutline(signX, signY));
 
+        Relation ExteriorSharpOutline()
+        {
+            var centerTopLeft = VerticalCircleCusp(0, 0, centerOuter, -offset, 1);
+            var centerTopRight = VerticalCircleCusp(0, 0, centerOuter, offset, 1);
+            var centerRightTop = HorizontalCircleCusp(0, 0, centerOuter, offset, 1);
+            var centerRightBottom = HorizontalCircleCusp(0, 0, centerOuter, -offset, 1);
+            var centerBottomRight = VerticalCircleCusp(0, 0, centerOuter, offset, -1);
+            var centerBottomLeft = VerticalCircleCusp(0, 0, centerOuter, -offset, -1);
+            var centerLeftBottom = HorizontalCircleCusp(0, 0, centerOuter, -offset, -1);
+            var centerLeftTop = HorizontalCircleCusp(0, 0, centerOuter, offset, -1);
+            var topLeft = VerticalCircleCusp(0, armReach, endpointOuter, -offset, -1);
+            var topRight = VerticalCircleCusp(0, armReach, endpointOuter, offset, -1);
+            var rightTop = HorizontalCircleCusp(armReach, 0, endpointOuter, offset, -1);
+            var rightBottom = HorizontalCircleCusp(armReach, 0, endpointOuter, -offset, -1);
+            var bottomRight = VerticalCircleCusp(0, -armReach, endpointOuter, offset, 1);
+            var bottomLeft = VerticalCircleCusp(0, -armReach, endpointOuter, -offset, 1);
+            var leftBottom = HorizontalCircleCusp(-armReach, 0, endpointOuter, -offset, 1);
+            var leftTop = HorizontalCircleCusp(-armReach, 0, endpointOuter, offset, 1);
+
+            return Chain(
+                ArcBetween((0, armReach), topLeft, CircleSite(0, armReach, -endpointOuter, 0)),
+                Arc(0, armReach, -endpointOuter, armReach, 0, armReach + endpointOuter),
+                Arc(0, armReach, 0, armReach + endpointOuter, endpointOuter, armReach),
+                ArcBetween((0, armReach), CircleSite(0, armReach, endpointOuter, 0), topRight),
+                SegmentBetween(topRight, centerTopRight),
+                ArcBetween((0, 0), centerTopRight, centerRightTop),
+                SegmentBetween(centerRightTop, rightTop),
+                ArcBetween((armReach, 0), rightTop, CircleSite(armReach, 0, endpointOuter, 0)),
+                ArcBetween((armReach, 0), CircleSite(armReach, 0, endpointOuter, 0), rightBottom),
+                SegmentBetween(rightBottom, centerRightBottom),
+                ArcBetween((0, 0), centerRightBottom, centerBottomRight),
+                SegmentBetween(centerBottomRight, bottomRight),
+                ArcBetween((0, -armReach), bottomRight, CircleSite(0, -armReach, endpointOuter, 0)),
+                Arc(0, -armReach, endpointOuter, -armReach, 0, -armReach - endpointOuter),
+                Arc(0, -armReach, 0, -armReach - endpointOuter, -endpointOuter, -armReach),
+                ArcBetween((0, -armReach), CircleSite(0, -armReach, -endpointOuter, 0), bottomLeft),
+                SegmentBetween(bottomLeft, centerBottomLeft),
+                ArcBetween((0, 0), centerBottomLeft, centerLeftBottom),
+                SegmentBetween(centerLeftBottom, leftBottom),
+                ArcBetween((-armReach, 0), leftBottom, CircleSite(-armReach, 0, -endpointOuter, 0)),
+                ArcBetween((-armReach, 0), CircleSite(-armReach, 0, -endpointOuter, 0), leftTop),
+                SegmentBetween(leftTop, centerLeftTop),
+                ArcBetween((0, 0), centerLeftTop, centerTopLeft),
+                SegmentBetween(centerTopLeft, topLeft));
+        }
+
         Relation ExteriorRoundedOutline()
         {
             const long cornerRadius = 6;
@@ -354,26 +358,6 @@ internal static partial class SketchSamples
                 RoundedCenterHoleOutline(-1, -1),
                 RoundedCenterHoleOutline(1, -1));
 
-        Relation CuspCandidateDomain(params (long X, long Y)[] sites)
-        {
-            var candidates = new IElement[sites.Length];
-            for (var index = 0; index < sites.Length; index++)
-            {
-                candidates[index] = GraphicSelectionSurface.Frame(
-                    new Carrier(),
-                    GraphicConceptShape.CuspJoinEvidenceSurface(new Carrier()),
-                    MarkerCircle(sites[index].X, sites[index].Y));
-            }
-
-            return GraphicSelectionSurface.Frame(new Carrier(), candidates);
-        }
-
-        Relation CuspMarkerSearchPattern() =>
-            GraphicSelectionSurface.Frame(
-                new Carrier(),
-                GraphicConceptShape.CuspJoinEvidenceSurface(new Carrier()),
-                new Placeholder());
-
         var centerPlus = Chain(
             Segment(-armReach, 0, armReach, 0),
             Segment(0, -armReach, 0, armReach),
@@ -414,9 +398,8 @@ internal static partial class SketchSamples
             bottomEndpointFill);
         var compositeOutline = CompositeOutline();
         var unionInteriorHoles = UnionInteriorHoleOutlines();
-        var interiorCuspSites = InteriorCuspSites();
-        var exteriorCuspSites = ExteriorCuspSites();
         var roundedUnionInteriorHoles = RoundedUnionInteriorHoleOutlines();
+        var exteriorSharpOutline = ExteriorSharpOutline();
         var exteriorRoundedOutline = ExteriorRoundedOutline();
         var exteriorRoundedOuterFill = GraphicStructure.AreaFill(exteriorRoundedOutline);
 
@@ -463,9 +446,9 @@ internal static partial class SketchSamples
             offsetBoundaries);
         var fillEvidence = GraphicParameterSurface.Frame(new Carrier(), offsetEvidence, areaFrame);
         var fillUnion = GraphicBooleanSurface.AreaUnion(new Carrier(), areaFrame, unionInteriorHoles);
-        var cuspPattern = CuspMarkerSearchPattern();
-        var interiorCuspDomain = CuspCandidateDomain(interiorCuspSites);
-        var exteriorCuspDomain = CuspCandidateDomain(exteriorCuspSites);
+        var cuspPattern = GraphicBoundaryConceptSurface.CuspWitnessPattern(new Carrier(), new Placeholder());
+        var interiorCuspDomain = GraphicBoundaryConceptSurface.CuspCandidateDomain(new Carrier(), unionInteriorHoles);
+        var exteriorCuspDomain = GraphicBoundaryConceptSurface.CuspCandidateDomain(new Carrier(), exteriorSharpOutline);
         var cuspSelection = GraphicSelectionSurface.Search(
             new Carrier(),
             fillUnion,

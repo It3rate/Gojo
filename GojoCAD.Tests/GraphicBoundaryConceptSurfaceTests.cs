@@ -1,0 +1,100 @@
+using Gojo.Core;
+using GojoCAD.Structures;
+
+namespace GojoCAD.Tests;
+
+public sealed class GraphicBoundaryConceptSurfaceTests
+{
+    [Fact]
+    public void CuspCandidateDomainFindsCornersOnClosedSharedFrameOutline()
+    {
+        var frame = new Carrier();
+        var x = new Carrier();
+        var y = new Carrier();
+        Relation P(long xTicks, long yTicks) =>
+            GraphicStructure.FramePoint(frame, new CarrierLocation(x, xTicks), new CarrierLocation(y, yTicks));
+        var outline = Chain(
+            GraphicStructure.FrameSegment(P(0, 0), P(20, 0)),
+            GraphicStructure.FrameSegment(P(20, 0), P(20, 12)),
+            GraphicStructure.FrameSegment(P(20, 12), P(0, 12)),
+            GraphicStructure.FrameSegment(P(0, 12), P(0, 0)));
+        var witnessSlot = new Placeholder();
+        var pattern = GraphicBoundaryConceptSurface.CuspWitnessPattern(new Carrier(), witnessSlot);
+
+        var domain = GraphicBoundaryConceptSurface.CuspCandidateDomain(new Carrier(), outline);
+        var selection = GraphicSelectionSurface.Search(new Carrier(), outline, domain, pattern);
+
+        Assert.True(GraphicSelectionSurface.TryReadSelection(
+            selection,
+            out _,
+            out _,
+            out _,
+            out var readMatches,
+            out _));
+        Assert.True(GraphicSelectionSurface.TryReadMatchFrame(
+            Assert.IsType<Relation>(readMatches),
+            out var matches));
+        Assert.Equal(4, matches.Length);
+        Assert.All(matches, match =>
+        {
+            Assert.True(GraphicSelectionSurface.TryReadMatch(
+                Assert.IsType<Relation>(match),
+                out _,
+                out _,
+                out var bindings,
+                out _,
+                out _));
+            Assert.True(Gojo.Structures.FocusSurface.TryReadBindingFrame(bindings, out var clauses));
+            Assert.Contains(clauses, clause => ReferenceEquals(clause.Left, witnessSlot));
+        });
+    }
+
+    [Fact]
+    public void CuspCandidateDomainSkipsSameCenterArcContinuations()
+    {
+        var frame = new Carrier();
+        var x = new Carrier();
+        var y = new Carrier();
+        Relation P(long xTicks, long yTicks) =>
+            GraphicStructure.FramePoint(frame, new CarrierLocation(x, xTicks), new CarrierLocation(y, yTicks));
+        var center = P(0, 0);
+        var right = P(10, 0);
+        var top = P(0, 10);
+        var left = P(-10, 0);
+        var bottom = P(0, -10);
+        var circle = Chain(
+            GraphicStructure.FrameArc(center, right, top),
+            GraphicStructure.FrameArc(center, top, left),
+            GraphicStructure.FrameArc(center, left, bottom),
+            GraphicStructure.FrameArc(center, bottom, right));
+
+        var domain = GraphicBoundaryConceptSurface.CuspCandidateDomain(new Carrier(), circle);
+
+        Assert.True(TryReadOrderedFrame(domain, out var candidates));
+        Assert.Empty(candidates);
+    }
+
+    private static Relation Chain(params IElement[] elements)
+    {
+        IElement structure = elements[^1];
+        for (var index = elements.Length - 2; index >= 0; index--)
+        {
+            structure = new Relation(elements[index], structure);
+        }
+
+        return (Relation)structure;
+    }
+
+    private static bool TryReadOrderedFrame(IElement element, out IElement[] elements)
+    {
+        if (element is Relation relation &&
+            relation.Right is Carrier holder &&
+            relation.TryReadOrderedElementsOn(holder, out elements))
+        {
+            return true;
+        }
+
+        elements = [];
+        return false;
+    }
+}
