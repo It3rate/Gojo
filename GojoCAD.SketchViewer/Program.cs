@@ -17,7 +17,7 @@ internal static class Program
     {
         if (args.Any(arg => string.Equals(arg, "--smoke-scenes", StringComparison.OrdinalIgnoreCase)))
         {
-            foreach (var radialComparisonVariant in new[] { 0, 1, 2 })
+            foreach (var radialComparisonVariant in new[] { 0, 1 })
             foreach (var scene in SketchSamples.CreateInitialScenes(radialComparisonVariant))
             {
                 ValidateGeneratedScene(scene);
@@ -171,6 +171,9 @@ internal static class Program
 
     private static void ValidateRadialShapeLadder(SketchScene scene, Relation ladder, IReadOnlyList<Relation> rungs)
     {
+        var comparisonPairMode = scene.Caption.Contains("curved-arm square", StringComparison.OrdinalIgnoreCase) &&
+            scene.Caption.Contains("Y/flat-bottom", StringComparison.OrdinalIgnoreCase);
+        var expectedUnionLanes = comparisonPairMode ? 1 : 2;
         if (rungs.Count != 11)
         {
             throw new InvalidOperationException($"Sketch scene '{scene.Label}' should expose the eleven requested shape-ladder steps.");
@@ -344,22 +347,22 @@ internal static class Program
             .Where(union => union.read)
             .DistinctBy(union => ReadSourceId(union.areaFrame))
             .ToArray();
-        if (mergeAreaFrames.Length < 2)
+        if (mergeAreaFrames.Length < expectedUnionLanes)
         {
-            throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not expose both merged fill lanes as area unions.");
+            throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not expose the expected merged fill lane area unions.");
         }
 
-        var mergeParticipantCount = 0;
+        var mergeParticipantElements = new List<IElement>();
         var mergeAreas = new List<SharedFrameAreaRead>();
         foreach (var (_, mergeAreaFrame) in mergeAreaFrames)
         {
             if (mergeAreaFrame is not Relation mergeAreaFrameRelation ||
-                !GraphicBooleanSurface.TryReadAreaFrame(mergeAreaFrameRelation, out var mergeParticipants))
+                !GraphicBooleanSurface.TryReadAreaFrame(mergeAreaFrameRelation, out var frameParticipants))
             {
                 continue;
             }
 
-            mergeParticipantCount += mergeParticipants.Length;
+            mergeParticipantElements.AddRange(frameParticipants);
             mergeAreas.AddRange(GraphicReadGraph.From(mergeAreaFrameRelation).ReadsOf<SharedFrameAreaRead>());
         }
 
@@ -368,7 +371,30 @@ internal static class Program
         if (positiveMergeAreas < 2 ||
             antiMergeAreas < 8)
         {
-            throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not expose the merged fill cuts as settled area-frame structure.");
+            var positiveBounds = mergeAreas
+                .Where(area => !area.IsAntiArea &&
+                    TryReadSharedFrameBoundaryBounds(area.Boundary, out _, out _, out _, out _))
+                .Select(area =>
+                {
+                    TryReadSharedFrameBoundaryBounds(area.Boundary, out var minX, out var maxX, out var minY, out var maxY);
+                    return $"{minX}:{maxX}:{minY}:{maxY}";
+                })
+                .Distinct()
+                .ToArray();
+            var antiBounds = mergeAreas
+                .Where(area => area.IsAntiArea &&
+                    TryReadSharedFrameBoundaryBounds(area.Boundary, out _, out _, out _, out _))
+                .Select(area =>
+                {
+                    TryReadSharedFrameBoundaryBounds(area.Boundary, out var minX, out var maxX, out var minY, out var maxY);
+                    return $"{minX}:{maxX}:{minY}:{maxY}";
+                })
+                .Distinct()
+                .ToArray();
+            throw new InvalidOperationException(
+                $"Sketch scene '{scene.Label}' did not expose the merged fill cuts as settled area-frame structure. " +
+                $"Positive={positiveMergeAreas} [{string.Join(", ", positiveBounds)}], " +
+                $"anti={antiMergeAreas} [{string.Join(", ", antiBounds)}], comparison={comparisonPairMode}.");
         }
 
         if (scene.Caption.Contains("Y/flat-bottom", StringComparison.OrdinalIgnoreCase))
@@ -392,7 +418,158 @@ internal static class Program
                     $"Sketch scene '{scene.Label}' did not preserve the Y/flat-bottom center and endpoint circles as positive fill areas. " +
                     $"Read {comparisonCircularFillBounds.Length}: {string.Join(", ", comparisonCircularFillBounds)}.");
             }
+
+            var yStrokeFills = mergeAreas
+                .Where(area => !area.IsAntiArea &&
+                    area.Boundary.Arcs is not { Count: > 0 } &&
+                    TryReadSharedFrameBoundaryBounds(area.Boundary, out var minX, out var maxX, out _, out _) &&
+                    minX >= 115 &&
+                    maxX <= 420)
+                .Select(area =>
+                {
+                    TryReadSharedFrameBoundaryBounds(area.Boundary, out var minX, out var maxX, out var minY, out var maxY);
+                    return $"{minX}:{maxX}:{minY}:{maxY}";
+                })
+                .Distinct()
+                .ToArray();
+            if (yStrokeFills.Length < 4)
+            {
+                var offsetLineBounds = ReadSharedFrameLineSegmentBounds(offsetResult)
+                    .Where(bounds => bounds.MinX >= 100 && bounds.MaxX <= 430)
+                    .Select(bounds => $"{bounds.MinX}:{bounds.MaxX}:{bounds.MinY}:{bounds.MaxY}")
+                    .Distinct()
+                    .ToArray();
+                var allPositiveLineFillBounds = mergeAreas
+                    .Where(area => !area.IsAntiArea &&
+                        area.Boundary.Arcs is not { Count: > 0 } &&
+                        TryReadSharedFrameBoundaryBounds(area.Boundary, out _, out _, out _, out _))
+                    .Select(area =>
+                    {
+                        TryReadSharedFrameBoundaryBounds(area.Boundary, out var minX, out var maxX, out var minY, out var maxY);
+                        return $"{minX}:{maxX}:{minY}:{maxY}";
+                    })
+                    .Distinct()
+                    .ToArray();
+                throw new InvalidOperationException(
+                    $"Sketch scene '{scene.Label}' did not derive the Y/flat-bottom arm fills from the offset rung. " +
+                    $"Read {yStrokeFills.Length}: {string.Join(", ", yStrokeFills)}. " +
+                    $"All positive line fills: {string.Join(", ", allPositiveLineFillBounds)}. " +
+                    $"Offset line bounds: {string.Join(", ", offsetLineBounds)}.");
+            }
         }
+
+        if (scene.Caption.Contains("curved-arm square", StringComparison.OrdinalIgnoreCase))
+        {
+            var curvedArmBands = mergeAreas
+                .Where(area => !area.IsAntiArea &&
+                    area.Boundary.Arcs is { Count: 2 } &&
+                    TryReadSharedFrameBoundaryBounds(area.Boundary, out var minX, out var maxX, out _, out _) &&
+                    minX >= -210 &&
+                    maxX <= 80)
+                .Select(area =>
+                {
+                    TryReadSharedFrameBoundaryBounds(area.Boundary, out var minX, out var maxX, out var minY, out var maxY);
+                    return $"{minX}:{maxX}:{minY}:{maxY}";
+                })
+                .Distinct()
+                .ToArray();
+            if (curvedArmBands.Length < 2)
+            {
+                var offsetArcBounds = ReadSharedFrameArcBounds(offsetResult)
+                    .Where(bounds => bounds.MinX >= -230 && bounds.MaxX <= 90)
+                    .Select(bounds => $"{bounds.MinX}:{bounds.MaxX}:{bounds.MinY}:{bounds.MaxY}")
+                    .Distinct()
+                    .ToArray();
+                var positiveArcFillBounds = mergeAreas
+                    .Where(area => !area.IsAntiArea &&
+                        area.Boundary.Arcs is { Count: > 0 } &&
+                        TryReadSharedFrameBoundaryBounds(area.Boundary, out _, out _, out _, out _))
+                    .Select(area =>
+                    {
+                        TryReadSharedFrameBoundaryBounds(area.Boundary, out var minX, out var maxX, out var minY, out var maxY);
+                        return $"{area.Boundary.Arcs?.Count ?? 0}@{minX}:{maxX}:{minY}:{maxY}";
+                    })
+                    .Distinct()
+                    .ToArray();
+                throw new InvalidOperationException(
+                    $"Sketch scene '{scene.Label}' did not derive both curved arm fills from paired offset arcs. " +
+                    $"Read {curvedArmBands.Length}: {string.Join(", ", curvedArmBands)}. " +
+                    $"Offset arc bounds: {string.Join(", ", offsetArcBounds)}. " +
+                    $"Positive arc fills: {string.Join(", ", positiveArcFillBounds)}.");
+            }
+
+            var curvedPositiveFrame = mergeAreas.Any(area =>
+                !area.IsAntiArea &&
+                area.Boundary.Arcs is not { Count: > 0 } &&
+                TryReadSharedFrameBoundaryBounds(area.Boundary, out var minX, out var maxX, out var minY, out var maxY) &&
+                minX >= -125 &&
+                maxX <= -20 &&
+                minY <= -64 &&
+                maxY >= 44);
+            var curvedAntiOpening = mergeAreas.Any(area =>
+                area.IsAntiArea &&
+                area.Boundary.Arcs is not { Count: > 0 } &&
+                TryReadSharedFrameBoundaryBounds(area.Boundary, out var minX, out var maxX, out var minY, out var maxY) &&
+                minX >= -105 &&
+                maxX <= -35 &&
+                minY <= -48 &&
+                maxY >= 28);
+            if (!curvedPositiveFrame ||
+                !curvedAntiOpening)
+            {
+                throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not preserve the curved-arm rectangle as positive frame plus anti opening.");
+            }
+
+            var localOpeningParticipants = mergeParticipantElements
+                .Select(participant =>
+                {
+                    var areas = GraphicReadGraph.From(participant)
+                        .ReadsOf<SharedFrameAreaRead>()
+                        .DistinctBy(area => ReadSourceId(area.Source))
+                        .ToArray();
+                    return (
+                        Participant: participant,
+                        Positive: areas.Where(area => !area.IsAntiArea).ToArray(),
+                        Anti: areas.Where(area => area.IsAntiArea).ToArray());
+                })
+                .Where(participant => participant.Positive.Length > 0 && participant.Anti.Length > 0)
+                .ToArray();
+            var curvedCenterFrameIsLocal = localOpeningParticipants.Any(participant =>
+                participant.Positive.Any(area =>
+                    area.Boundary.Arcs is not { Count: > 0 } &&
+                    TryReadSharedFrameBoundaryBounds(area.Boundary, out var minX, out var maxX, out var minY, out var maxY) &&
+                    minX <= -105 &&
+                    maxX >= -35 &&
+                    minY <= -70 &&
+                    maxY >= 45) &&
+                participant.Anti.Any(area =>
+                    area.Boundary.Arcs is not { Count: > 0 } &&
+                    TryReadSharedFrameBoundaryBounds(area.Boundary, out var minX, out var maxX, out var minY, out var maxY) &&
+                    minX >= -95 &&
+                    maxX <= -45 &&
+                    minY <= -55 &&
+                    maxY >= 30));
+            var yCenterRingIsLocal = localOpeningParticipants.Any(participant =>
+                participant.Positive.Any(area =>
+                    TryReadSharedFrameCircleBoundary(area.Boundary, out var centerX, out var centerY, out var radius) &&
+                    centerX == 265 &&
+                    centerY == 20 &&
+                    radius >= 60) &&
+                participant.Anti.Any(area =>
+                    TryReadSharedFrameCircleBoundary(area.Boundary, out var centerX, out var centerY, out var radius) &&
+                    centerX == 265 &&
+                    centerY == 20 &&
+                    radius >= 40 &&
+                    radius < 60));
+            if (!curvedCenterFrameIsLocal ||
+                !yCenterRingIsLocal)
+            {
+                throw new InvalidOperationException(
+                    $"Sketch scene '{scene.Label}' lifted a comparison centre opening out of its local frame participant before merge. " +
+                    $"Curved local={curvedCenterFrameIsLocal}, Y local={yCenterRingIsLocal}.");
+            }
+        }
+
 
         if (!StructuralLadderSurface.TryReadRung(
                 rungs[5],
@@ -436,9 +613,10 @@ internal static class Program
         }
 
         var cuspMarkers = CountSelectionMarkerBoundaries(cuspResult);
-        if (cuspMarkers < 12)
+        var expectedInteriorCusps = comparisonPairMode ? 4 : 12;
+        if (cuspMarkers < expectedInteriorCusps)
         {
-            throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not mark the twelve interior non-tangent joins.");
+            throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not mark the expected interior non-tangent joins.");
         }
 
         if (!StructuralLadderSurface.TryReadRung(
@@ -508,9 +686,12 @@ internal static class Program
         }
 
         var exteriorCuspMarkers = CountSelectionMarkerBoundaries(exteriorCuspResult);
-        if (exteriorCuspMarkers < 16)
+        var expectedExteriorCusps = comparisonPairMode ? 8 : 16;
+        if (exteriorCuspMarkers < expectedExteriorCusps)
         {
-            throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not mark the sixteen exterior non-tangent joins.");
+            throw new InvalidOperationException(
+                $"Sketch scene '{scene.Label}' did not mark the expected exterior non-tangent joins. " +
+                $"Read {exteriorCuspMarkers}, expected {expectedExteriorCusps}.");
         }
 
         if (!StructuralLadderSurface.TryReadRung(
@@ -536,9 +717,9 @@ internal static class Program
             .Where(union => union.read)
             .DistinctBy(union => ReadSourceId(union.areaFrame))
             .ToArray();
-        if (exteriorRoundedUnions.Length < 2)
+        if (exteriorRoundedUnions.Length < expectedUnionLanes)
         {
-            throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not expose both exterior-rounded lanes.");
+            throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not expose the expected exterior-rounded area union lanes.");
         }
 
         var exteriorRoundedParticipantCount = 0;
@@ -562,7 +743,15 @@ internal static class Program
         var exteriorRoundedOutlines = exteriorRoundedUnions
             .SelectMany(union => GraphicReadGraph.From(union.outlineWitness).ReadsOf<ClosedSharedFrameBoundaryRead>())
             .ToArray();
-        if (!exteriorRoundedOutlines.Any(boundary => boundary.Arcs is { Count: >= 24 }))
+        var exteriorRoundedArcCount = exteriorRoundedOutlines.Sum(boundary => boundary.Arcs?.Count ?? 0);
+        if (comparisonPairMode)
+        {
+            if (exteriorRoundedArcCount < 12)
+            {
+                throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not replace exterior cusp joins with tangent arc outline evidence.");
+            }
+        }
+        else if (!exteriorRoundedOutlines.Any(boundary => boundary.Arcs is { Count: >= 24 }))
         {
             throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not replace exterior cusp joins with tangent arc outline evidence.");
         }
@@ -611,7 +800,7 @@ internal static class Program
             }
         }
 
-        if (finalColoredUnions.Length < 2 ||
+        if (finalColoredUnions.Length < expectedUnionLanes ||
             finalColoredAreas.Count(area => !area.IsAntiArea) < 2 ||
             finalColoredAreas.Count(area => area.IsAntiArea) < 8)
         {
@@ -754,6 +943,93 @@ internal static class Program
         minY = readMinY;
         maxY = readMaxY;
         return sawPoint;
+    }
+
+    private static bool TryReadSharedFrameCircleBoundary(
+        ClosedSharedFrameBoundaryRead boundary,
+        out long centerX,
+        out long centerY,
+        out long radius)
+    {
+        var arcs = boundary.Arcs ?? [];
+        if (arcs.Count < 4 ||
+            arcs[0].Center.Coordinates.Count < 2 ||
+            arcs[0].Start.Coordinates.Count < 2)
+        {
+            centerX = 0;
+            centerY = 0;
+            radius = 0;
+            return false;
+        }
+
+        centerX = arcs[0].Center.Coordinates[0].Ticks;
+        centerY = arcs[0].Center.Coordinates[1].Ticks;
+        var startX = arcs[0].Start.Coordinates[0].Ticks;
+        var startY = arcs[0].Start.Coordinates[1].Ticks;
+        foreach (var arc in arcs)
+        {
+            if (arc.Center.Coordinates.Count < 2 ||
+                arc.Center.Coordinates[0].Ticks != centerX ||
+                arc.Center.Coordinates[1].Ticks != centerY)
+            {
+                radius = 0;
+                return false;
+            }
+        }
+
+        radius = (long)Math.Round(Math.Sqrt(
+            Math.Pow(startX - centerX, 2) +
+            Math.Pow(startY - centerY, 2)));
+        return radius > 0;
+    }
+
+    private static IEnumerable<(long MinX, long MaxX, long MinY, long MaxY)> ReadSharedFrameLineSegmentBounds(IElement element)
+    {
+        var graph = GraphicReadGraph.From(element);
+        var arcSpanIds = graph.ReadsOf<SharedFrameArcRead>()
+            .Select(arc => ReadSourceId(arc.Span.Source))
+            .ToHashSet();
+        foreach (var segment in graph.ReadsOf<SharedFrameSegmentRead>())
+        {
+            if (arcSpanIds.Contains(ReadSourceId(segment.Source)) ||
+                segment.Start.Coordinates.Count < 2 ||
+                segment.End.Coordinates.Count < 2)
+            {
+                continue;
+            }
+
+            var startX = segment.Start.Coordinates[0].Ticks;
+            var startY = segment.Start.Coordinates[1].Ticks;
+            var endX = segment.End.Coordinates[0].Ticks;
+            var endY = segment.End.Coordinates[1].Ticks;
+            yield return (
+                Math.Min(startX, endX),
+                Math.Max(startX, endX),
+                Math.Min(startY, endY),
+                Math.Max(startY, endY));
+        }
+    }
+
+    private static IEnumerable<(long MinX, long MaxX, long MinY, long MaxY)> ReadSharedFrameArcBounds(IElement element)
+    {
+        foreach (var arc in GraphicReadGraph.From(element).ReadsOf<SharedFrameArcRead>())
+        {
+            if (arc.Start.Coordinates.Count < 2 ||
+                arc.End.Coordinates.Count < 2)
+            {
+                continue;
+            }
+
+            var startX = arc.Start.Coordinates[0].Ticks;
+            var startY = arc.Start.Coordinates[1].Ticks;
+            var endX = arc.End.Coordinates[0].Ticks;
+            var endY = arc.End.Coordinates[1].Ticks;
+            yield return (
+                Math.Min(startX, endX),
+                Math.Max(startX, endX),
+                Math.Min(startY, endY),
+                Math.Max(startY, endY));
+        }
     }
 
     private static bool TryReadOrderedFrame(IElement element, out IElement[] elements)

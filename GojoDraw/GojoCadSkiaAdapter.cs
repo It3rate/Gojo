@@ -145,7 +145,7 @@ public sealed class GojoCadSkiaAdapter
             {
                 if (paints.DrawAreaUnionAntiAreas)
                 {
-                    drawn += DrawAreaUnionOpeningWitness(canvas, outline, path.Bounds, projection, paints, hitAreas);
+                    drawn += DrawAreaUnionOpeningWitness(canvas, areaFrame, path, projection, paints, hitAreas);
                 }
 
                 canvas.DrawPath(path, paints.AreaBoundary);
@@ -160,7 +160,7 @@ public sealed class GojoCadSkiaAdapter
 
                 if (paints.DrawAreaUnionAntiAreas)
                 {
-                    drawn += DrawAreaUnionOpeningWitness(canvas, outline, path.Bounds, projection, paints, hitAreas);
+                    drawn += DrawAreaUnionOpeningWitness(canvas, areaFrame, path, projection, paints, hitAreas);
                 }
             }
             AddHit(hitAreas, path.Bounds, "area union", priority: 2, union);
@@ -310,6 +310,54 @@ public sealed class GojoCadSkiaAdapter
         return shape;
     }
 
+    private static SKPath? BuildAreaBoundaryUnionPath(
+        IEnumerable<SharedFrameAreaRead> sharedAreas,
+        IEnumerable<AreaRead> segmentAreas,
+        IGojoCadSkiaProjection projection)
+    {
+        var shape = new SKPath();
+        var hasShape = false;
+
+        void Include(SKPath? path)
+        {
+            if (path is null)
+            {
+                return;
+            }
+
+            using (path)
+            {
+                if (!hasShape)
+                {
+                    shape.AddPath(path);
+                    hasShape = true;
+                }
+                else
+                {
+                    ApplyPathOp(shape, path, SKPathOp.Union);
+                }
+            }
+        }
+
+        foreach (var area in sharedAreas)
+        {
+            Include(BuildClosedSharedFrameBoundaryPath(area.Boundary, projection));
+        }
+
+        foreach (var area in segmentAreas)
+        {
+            Include(BuildClosedSegmentBoundaryPath(area.Boundary, projection));
+        }
+
+        if (hasShape)
+        {
+            return shape;
+        }
+
+        shape.Dispose();
+        return null;
+    }
+
     private static void ApplyCutPath(SKPath target, SKPath cut)
     {
         if (ApplyPathOp(target, cut, SKPathOp.Difference))
@@ -324,22 +372,30 @@ public sealed class GojoCadSkiaAdapter
     private static bool ApplyPathOp(SKPath target, SKPath operand, SKPathOp operation)
     {
         using var result = new SKPath();
-        if (target.Op(operand, operation, result))
+        if (ApplyPathOpInto(target, operand, operation, result))
         {
             target.Reset();
             target.AddPath(result);
             return true;
         }
 
+        return false;
+    }
+
+    private static bool ApplyPathOpInto(SKPath target, SKPath operand, SKPathOp operation, SKPath result)
+    {
+        if (target.Op(operand, operation, result))
+        {
+            return true;
+        }
+
         using var simplifiedTarget = target.Simplify();
         using var simplifiedOperand = operand.Simplify();
-        using var simplifiedResult = new SKPath();
+        result.Reset();
         if (simplifiedTarget is not null &&
             simplifiedOperand is not null &&
-            simplifiedTarget.Op(simplifiedOperand, operation, simplifiedResult))
+            simplifiedTarget.Op(simplifiedOperand, operation, result))
         {
-            target.Reset();
-            target.AddPath(simplifiedResult);
             return true;
         }
 
@@ -387,48 +443,197 @@ public sealed class GojoCadSkiaAdapter
 
     private static int DrawAreaUnionOpeningWitness(
         SKCanvas canvas,
-        IElement outline,
-        SKRect unionBounds,
+        IElement areaFrame,
+        SKPath composite,
         IGojoCadSkiaProjection projection,
         GojoCadSkiaPaints paints,
         ICollection<GojoCadSkiaHitArea>? hitAreas)
     {
-        var graph = GraphicReadGraph.From(outline);
-        var drawn = 0;
-        foreach (var boundary in graph.ReadsOf<ClosedSharedFrameBoundaryRead>())
+        if (areaFrame is Relation frame &&
+            GraphicBooleanSurface.TryReadAreaFrame(frame, out var participants))
         {
-            using var path = BuildClosedSharedFrameBoundaryPath(boundary, projection);
-            if (path is null ||
-                IsUnionOuterBoundary(path.Bounds, unionBounds))
+            var participantReads = participants
+                .Select(participant =>
+                {
+                    var graph = GraphicReadGraph.From(participant);
+                    return (
+                        PositiveShared: graph.ReadsOf<SharedFrameAreaRead>()
+                            .Where(area => !area.IsAntiArea)
+                            .DistinctBy(area => ReadSourceId(area.Source))
+                            .ToArray(),
+                        NegativeShared: graph.ReadsOf<SharedFrameAreaRead>()
+                            .Where(area => area.IsAntiArea)
+                            .DistinctBy(area => ReadSourceId(area.Source))
+                            .ToArray(),
+                        PositiveSegment: graph.ReadsOf<AreaRead>()
+                            .Where(area => !area.IsAntiArea)
+                            .DistinctBy(area => ReadSourceId(area.Source))
+                            .ToArray(),
+                        NegativeSegment: graph.ReadsOf<AreaRead>()
+                            .Where(area => area.IsAntiArea)
+                            .DistinctBy(area => ReadSourceId(area.Source))
+                            .ToArray());
+                })
+                .ToArray();
+            var drawn = 0;
+            for (var index = 0; index < participantReads.Length; index++)
             {
-                continue;
+                var participant = participantReads[index];
+                var hasLocalPositive = participant.PositiveShared.Length > 0 ||
+                    participant.PositiveSegment.Length > 0;
+                using var localOpeningClip = hasLocalPositive
+                    ? BuildPositiveParticipantsPath(participantReads, index, projection)
+                    : null;
+                drawn += DrawAreaUnionOpeningWitness(
+                    canvas,
+                    participant.NegativeShared,
+                    participant.NegativeSegment,
+                    localOpeningClip,
+                    projection,
+                    paints,
+                    hitAreas);
             }
 
-            canvas.DrawPath(path, paints.AntiAreaFill);
-            AddHit(hitAreas, path.Bounds, "area union anti opening", priority: 2, boundary.Source);
-            drawn++;
+            return drawn;
         }
 
-        foreach (var boundary in graph.ReadsOf<ClosedSegmentBoundaryRead>())
+        return DrawAreaUnionOpeningWitness(
+            canvas,
+            GraphicReadGraph.From(areaFrame).ReadsOf<SharedFrameAreaRead>().Where(area => area.IsAntiArea).ToArray(),
+            GraphicReadGraph.From(areaFrame).ReadsOf<AreaRead>().Where(area => area.IsAntiArea).ToArray(),
+            composite,
+            projection,
+            paints,
+            hitAreas);
+    }
+
+    private static int DrawAreaUnionOpeningWitness(
+        SKCanvas canvas,
+        IReadOnlyList<SharedFrameAreaRead> sharedAreas,
+        IReadOnlyList<AreaRead> segmentAreas,
+        SKPath? openingClip,
+        IGojoCadSkiaProjection projection,
+        GojoCadSkiaPaints paints,
+        ICollection<GojoCadSkiaHitArea>? hitAreas)
+    {
+        var drawn = 0;
+        foreach (var area in sharedAreas)
         {
-            using var path = BuildClosedSegmentBoundaryPath(boundary, projection);
-            if (path is null ||
-                IsUnionOuterBoundary(path.Bounds, unionBounds))
+            using var path = BuildClosedSharedFrameBoundaryPath(area.Boundary, projection);
+            if (path is null)
             {
                 continue;
             }
 
-            canvas.DrawPath(path, paints.AntiAreaFill);
-            AddHit(hitAreas, path.Bounds, "area union anti opening", priority: 2, boundary.Source);
-            drawn++;
+            drawn += DrawAreaUnionOpeningPath(canvas, path, openingClip, paints, hitAreas, area.Source);
+        }
+
+        foreach (var area in segmentAreas)
+        {
+            using var path = BuildClosedSegmentBoundaryPath(area.Boundary, projection);
+            if (path is null)
+            {
+                continue;
+            }
+
+            drawn += DrawAreaUnionOpeningPath(canvas, path, openingClip, paints, hitAreas, area.Source);
         }
 
         return drawn;
     }
 
-    private static bool IsUnionOuterBoundary(SKRect bounds, SKRect unionBounds) =>
-        bounds.Width >= unionBounds.Width * 0.72f &&
-        bounds.Height >= unionBounds.Height * 0.72f;
+    private static int DrawAreaUnionOpeningPath(
+        SKCanvas canvas,
+        SKPath path,
+        SKPath? openingClip,
+        GojoCadSkiaPaints paints,
+        ICollection<GojoCadSkiaHitArea>? hitAreas,
+        IElement source)
+    {
+        if (openingClip is null)
+        {
+            canvas.DrawPath(path, paints.AntiAreaFill);
+            AddHit(hitAreas, path.Bounds, "area union anti opening", priority: 2, source);
+            return 1;
+        }
+
+        using var visibleOpening = BuildVisibleOpeningPath(path, openingClip);
+        if (visibleOpening is null)
+        {
+            return 0;
+        }
+
+        canvas.DrawPath(visibleOpening, paints.AntiAreaFill);
+        AddHit(hitAreas, visibleOpening.Bounds, "area union anti opening", priority: 2, source);
+        return 1;
+    }
+
+    private static SKPath? BuildPositiveParticipantsPath(
+        IReadOnlyList<(
+            SharedFrameAreaRead[] PositiveShared,
+            SharedFrameAreaRead[] NegativeShared,
+            AreaRead[] PositiveSegment,
+            AreaRead[] NegativeSegment)> participants,
+        int skipParticipant,
+        IGojoCadSkiaProjection projection)
+    {
+        var composite = new SKPath();
+        var hasComposite = false;
+        for (var index = 0; index < participants.Count; index++)
+        {
+            if (index == skipParticipant)
+            {
+                continue;
+            }
+
+            using var path = BuildAreaBoundaryUnionPath(
+                participants[index].PositiveShared,
+                participants[index].PositiveSegment,
+                projection);
+            if (path is null)
+            {
+                continue;
+            }
+
+            if (!hasComposite)
+            {
+                composite.AddPath(path);
+                hasComposite = true;
+            }
+            else
+            {
+                ApplyPathOp(composite, path, SKPathOp.Union);
+            }
+        }
+
+        if (hasComposite)
+        {
+            return composite;
+        }
+
+        composite.Dispose();
+        return null;
+    }
+
+    private static SKPath? BuildVisibleOpeningPath(SKPath opening, SKPath composite)
+    {
+        var visible = new SKPath();
+        if (!ApplyPathOpInto(opening, composite, SKPathOp.Difference, visible))
+        {
+            visible.Dispose();
+            visible = new SKPath();
+            visible.AddPath(opening);
+        }
+
+        if (visible.Bounds.Width <= 0f ||
+            visible.Bounds.Height <= 0f)
+        {
+            visible.Dispose();
+            return null;
+        }
+
+        return visible;
+    }
 
     private static int DrawReadGraph(
         SKCanvas canvas,

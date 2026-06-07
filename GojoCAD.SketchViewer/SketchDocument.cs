@@ -37,7 +37,7 @@ internal sealed record SketchDocument(
 
     public SketchDocument Resample()
     {
-        var nextVariant = RadialComparisonVariant == 1 ? 2 : 1;
+        var nextVariant = RadialComparisonVariant == 0 ? 1 : 0;
         var scenes = SketchSamples.CreateInitialScenes(nextVariant);
         var sceneIndex = Math.Clamp(SelectedSceneIndex, 0, scenes.Count - 1);
         return new SketchDocument(
