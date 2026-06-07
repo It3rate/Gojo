@@ -17,7 +17,8 @@ internal static class Program
     {
         if (args.Any(arg => string.Equals(arg, "--smoke-scenes", StringComparison.OrdinalIgnoreCase)))
         {
-            foreach (var scene in SketchSamples.CreateInitialScenes())
+            foreach (var radialComparisonVariant in new[] { 0, 1, 2 })
+            foreach (var scene in SketchSamples.CreateInitialScenes(radialComparisonVariant))
             {
                 ValidateGeneratedScene(scene);
             }
@@ -207,12 +208,12 @@ internal static class Program
         var baseQuadraticCurves = baseGraph.ReadsOf<SharedFrameQuadraticCurveRead>().Count();
         var baseCubicCurves = baseGraph.ReadsOf<SharedFrameCubicCurveRead>().Count();
         var baseTransitions = baseGraph.ReadsOf<SharedFrameCurveTransitionRead>().Count();
-        if (baseOpenSegments < 7 ||
+        if (baseOpenSegments < 2 ||
             baseQuadraticCurves != 0 ||
             baseCubicCurves != 0)
         {
             throw new InvalidOperationException(
-                $"Sketch scene '{scene.Label}' base rung should expose the plus/circle and H/square centerline seeds, not a curve read. " +
+                $"Sketch scene '{scene.Label}' base rung should expose centerline seeds with terminal structure, not unsupported Bezier curve reads. " +
                 $"Open={baseOpenSegments}, quadratic={baseQuadraticCurves}, cubic={baseCubicCurves}, transitions={baseTransitions}.");
         }
 
@@ -261,6 +262,35 @@ internal static class Program
         if (terminalCapCircles < 8)
         {
             throw new InvalidOperationException($"Sketch scene '{scene.Label}' should create endpoint cap circles from both open-line seed shapes.");
+        }
+
+        if (!StructuralLadderSurface.TryReadRung(
+                rungs[2],
+                out _,
+                out _,
+                out var offsetResult,
+                out _,
+                out _,
+                out _,
+                out _,
+                out _))
+        {
+            throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not expose the offset boundary rung.");
+        }
+
+        if (scene.Caption.Contains("curved-arm square", StringComparison.OrdinalIgnoreCase))
+        {
+            var offsetGraph = GraphicReadGraph.From(offsetResult);
+            var closedArcSources = offsetGraph.ReadsOf<ClosedSharedFrameBoundaryRead>()
+                .SelectMany(boundary => boundary.Arcs ?? [])
+                .Select(arc => ReadSourceId(arc.Source))
+                .ToHashSet();
+            var openOffsetArcs = offsetGraph.ReadsOf<SharedFrameArcRead>()
+                .Count(arc => !closedArcSources.Contains(ReadSourceId(arc.Source)));
+            if (openOffsetArcs < 4)
+            {
+                throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not keep curved-arm offset arcs in the comparison lane.");
+            }
         }
 
         if (!StructuralLadderSurface.TryReadRung(
@@ -342,6 +372,29 @@ internal static class Program
             throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not expose the merged fill cuts as settled area-frame structure.");
         }
 
+        if (scene.Caption.Contains("Y/flat-bottom", StringComparison.OrdinalIgnoreCase))
+        {
+            var comparisonCircularFillBounds = mergeAreas
+                .Where(area => !area.IsAntiArea &&
+                    area.Boundary.Arcs is { Count: >= 4 } &&
+                    TryReadSharedFrameBoundaryBounds(area.Boundary, out var minX, out var maxX, out _, out _) &&
+                    minX >= 135 &&
+                    maxX <= 390)
+                .Select(area =>
+                {
+                    TryReadSharedFrameBoundaryBounds(area.Boundary, out var minX, out var maxX, out var minY, out var maxY);
+                    return $"{minX}:{maxX}:{minY}:{maxY}";
+                })
+                .Distinct()
+                .ToArray();
+            if (comparisonCircularFillBounds.Length < 5)
+            {
+                throw new InvalidOperationException(
+                    $"Sketch scene '{scene.Label}' did not preserve the Y/flat-bottom center and endpoint circles as positive fill areas. " +
+                    $"Read {comparisonCircularFillBounds.Length}: {string.Join(", ", comparisonCircularFillBounds)}.");
+            }
+        }
+
         if (!StructuralLadderSurface.TryReadRung(
                 rungs[5],
                 out _,
@@ -416,7 +469,7 @@ internal static class Program
             throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not replace the interior corner joins with rounded arc outlines.");
         }
 
-        var hRoundedSplitAntiBoxes = WalkRelations(roundedResult)
+        var comparisonRoundedAntiOpenings = WalkRelations(roundedResult)
             .Where(relation => GraphicBooleanSurface.TryReadAreaUnion(relation, out _, out _, out _, out _))
             .SelectMany(relation =>
             {
@@ -426,19 +479,19 @@ internal static class Program
             .Where(area => area.IsAntiArea &&
                 area.Boundary.Arcs is { Count: >= 4 } &&
                 TryReadSharedFrameBoundaryBounds(area.Boundary, out var minX, out var maxX, out var minY, out var maxY) &&
-                minX >= 235 &&
-                maxX <= 295 &&
-                Math.Abs(minY + maxY) >= 40)
+                minX >= 145 &&
+                maxX <= 390 &&
+                maxY - minY >= 8)
             .Select(area =>
             {
                 TryReadSharedFrameBoundaryBounds(area.Boundary, out var minX, out var maxX, out var minY, out var maxY);
-                return $"{minX}:{maxX}:{Math.Sign(minY + maxY)}";
+                return $"{minX}:{maxX}:{minY}:{maxY}";
             })
             .Distinct()
             .ToArray();
-        if (hRoundedSplitAntiBoxes.Length < 2)
+        if (comparisonRoundedAntiOpenings.Length < 1)
         {
-            throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not preserve both rounded H split anti-area openings.");
+            throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not preserve rounded comparison-lane anti-area openings.");
         }
 
         if (!StructuralLadderSurface.TryReadRung(
@@ -501,7 +554,7 @@ internal static class Program
             }
         }
 
-        if (exteriorRoundedParticipantCount < 16 ||
+        if (exteriorRoundedParticipantCount < 10 ||
             exteriorRoundedAreas.Count(area => !area.IsAntiArea) < 2 ||
             exteriorRoundedAreas.Count(area => area.IsAntiArea) < 8)
         {
@@ -517,12 +570,12 @@ internal static class Program
         }
 
         if (!exteriorRoundedOutlines.Any(boundary =>
-                boundary.Arcs is { Count: >= 20 } &&
+                boundary.Arcs is { Count: >= 4 } &&
                 TryReadSharedFrameBoundaryBounds(boundary, out var minX, out var maxX, out _, out _) &&
                 minX >= 150 &&
                 maxX <= 370))
         {
-            throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not apply selected exterior cusp rounding to the H outline.");
+            throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not apply selected exterior cusp rounding to the comparison outline.");
         }
 
         if (!StructuralLadderSurface.TryReadRung(
@@ -561,7 +614,7 @@ internal static class Program
         }
 
         if (finalColoredUnions.Length < 2 ||
-            finalColoredParticipantCount < 16 ||
+            finalColoredParticipantCount < 10 ||
             finalColoredAreas.Count(area => !area.IsAntiArea) < 2 ||
             finalColoredAreas.Count(area => area.IsAntiArea) < 8)
         {
@@ -901,6 +954,7 @@ internal sealed class MainWindow : Window
         {
             document = next;
             canvas.Document = next;
+            canvas.InvalidateVisual();
             pointsButton.Content = next.ShowConstructionPoints ? "Points On" : "Points Off";
             ghostButton.Content = next.ShowPreviousRungs ? "Ghost On" : "Ghost Off";
             UpdateRungControls(next);

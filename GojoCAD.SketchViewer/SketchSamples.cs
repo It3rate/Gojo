@@ -9,13 +9,13 @@ namespace GojoCAD.SketchViewer;
 
 internal static partial class SketchSamples
 {
-    public static IReadOnlyList<SketchScene> CreateInitialScenes()
+    public static IReadOnlyList<SketchScene> CreateInitialScenes(int radialComparisonVariant = 0)
     {
         var seed = Random.Shared.Next();
         return
         [
+            CreateRadialShapeLadder(seed, radialComparisonVariant),
             CreateOffsetStudy(seed),
-            CreateRadialShapeLadder(seed),
             CreateGCodeTrace(seed),
             CreateScratchPinsGCodeTrace(seed),
             CreateComplexHouseSketch(seed)
