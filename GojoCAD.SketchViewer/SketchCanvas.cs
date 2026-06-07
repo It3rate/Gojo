@@ -6,6 +6,7 @@ using Avalonia.Skia;
 using Avalonia.VisualTree;
 using Gojo.Core;
 using Gojo.Structures;
+using GojoCAD.Structures;
 using GojoDraw;
 using SkiaSharp;
 
@@ -246,8 +247,7 @@ internal sealed class SketchDrawOperation : ICustomDrawOperation
     {
         if (scene.Label != "Radial Shape Ladder" ||
             (rungIndex != 6 && rungIndex != 8) ||
-            !TryReadOrderedFrame(result, out var elements) ||
-            elements.Length < 2)
+            !TryReadRadialSelectionWitness(result, out var outline, out var markerEvidence))
         {
             return false;
         }
@@ -260,15 +260,65 @@ internal sealed class SketchDrawOperation : ICustomDrawOperation
             drawAreaUnionOutline: true,
             drawAreaUnionAsOutline: true,
             drawAreaUnionAntiAreas: true);
-        Renderer.Draw(canvas, elements[0], viewport, scene.ProjectionSeed, scene.ModelBounds, outlinePaints);
+        Renderer.Draw(canvas, outline, viewport, scene.ProjectionSeed, scene.ModelBounds, outlinePaints);
 
         using var markerPaints = CreateSketchPaints(
             RadialCuspMarker,
             Math.Max(2.4f, strokeWidth * 0.78f),
             hidePoints: true,
             hideAreaBoundary: true);
-        Renderer.Draw(canvas, elements[1], viewport, scene.ProjectionSeed, scene.ModelBounds, markerPaints);
+        Renderer.Draw(canvas, markerEvidence, viewport, scene.ProjectionSeed, scene.ModelBounds, markerPaints);
         return true;
+    }
+
+    private static bool TryReadRadialSelectionWitness(
+        IElement result,
+        out IElement outline,
+        out IElement markerEvidence)
+    {
+        if (result is Relation selection &&
+            GraphicSelectionSurface.TryReadSelection(
+                selection,
+                out var source,
+                out _,
+                out _,
+                out var matches,
+                out _) &&
+            matches is Relation matchFrame &&
+            GraphicSelectionSurface.TryReadMatchFrame(matchFrame, out var matchElements) &&
+            matchElements.FirstOrDefault() is Relation firstMatch &&
+            GraphicSelectionSurface.TryReadMatch(
+                firstMatch,
+                out _,
+                out _,
+                out _,
+                out var evidence,
+                out _))
+        {
+            outline = source;
+            markerEvidence = evidence is Relation patternEvidence &&
+                GraphicSelectionSurface.TryReadPatternEvidence(
+                    patternEvidence,
+                    out _,
+                    out var appliedPattern,
+                    out _,
+                    out _)
+                ? appliedPattern
+                : evidence;
+            return true;
+        }
+
+        if (TryReadOrderedFrame(result, out var elements) &&
+            elements.Length >= 2)
+        {
+            outline = elements[0];
+            markerEvidence = elements[1];
+            return true;
+        }
+
+        outline = default!;
+        markerEvidence = default!;
+        return false;
     }
 
     private void ReadAreaPaints(

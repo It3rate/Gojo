@@ -361,6 +361,39 @@ internal static partial class SketchSamples
                 RoundedCenterHoleOutline(-1, -1),
                 RoundedCenterHoleOutline(1, -1));
 
+        Relation ConceptSelection(
+            IElement source,
+            IElement searchDomain,
+            IElement conceptPattern,
+            IElement candidate,
+            IElement markerEvidence)
+        {
+            var bindings = FocusSurface.BindingFrame(
+                new Carrier(),
+                FocusSurface.Bind(conceptPattern, markerEvidence));
+            var match = GraphicSelectionSurface.TryCreatePatternMatch(
+                new Carrier(),
+                candidate,
+                conceptPattern,
+                bindings,
+                out var patternMatch)
+                ? patternMatch
+                : GraphicSelectionSurface.Match(
+                    new Carrier(),
+                    candidate,
+                    conceptPattern,
+                    bindings,
+                    markerEvidence,
+                    GraphicConceptShape.TensionSlot());
+            return GraphicSelectionSurface.Select(
+                new Carrier(),
+                source,
+                searchDomain,
+                conceptPattern,
+                GraphicSelectionSurface.MatchFrame(new Carrier(), match),
+                GraphicConceptShape.TensionSlot());
+        }
+
         var centerPlus = Chain(
             Segment(-armReach, 0, armReach, 0),
             Segment(0, -armReach, 0, armReach),
@@ -450,9 +483,20 @@ internal static partial class SketchSamples
             offsetBoundaries);
         var fillEvidence = GraphicParameterSurface.Frame(new Carrier(), offsetEvidence, areaFrame);
         var fillUnion = GraphicBooleanSurface.AreaUnion(new Carrier(), areaFrame, unionInteriorHoles);
-        var cuspSelection = GraphicParameterSurface.Frame(new Carrier(), fillUnion, cuspMarkers);
+        var cuspPattern = GraphicConceptShape.CuspJoinEvidenceSurface(new Carrier());
+        var cuspSelection = ConceptSelection(
+            fillUnion,
+            GraphicSelectionSurface.Frame(new Carrier(), fillUnion, unionInteriorHoles),
+            cuspPattern,
+            unionInteriorHoles,
+            cuspMarkers);
         var roundedUnion = GraphicBooleanSurface.AreaUnion(new Carrier(), roundedAreaFrame, roundedUnionInteriorHoles);
-        var exteriorCuspSelection = GraphicParameterSurface.Frame(new Carrier(), roundedUnion, exteriorCuspMarkers);
+        var exteriorCuspSelection = ConceptSelection(
+            roundedUnion,
+            GraphicSelectionSurface.Frame(new Carrier(), roundedUnion, exteriorRoundedOutline),
+            cuspPattern,
+            exteriorRoundedOutline,
+            exteriorCuspMarkers);
         var exteriorRoundedUnion = GraphicBooleanSurface.AreaUnion(
             new Carrier(),
             exteriorRoundedAreaFrame,

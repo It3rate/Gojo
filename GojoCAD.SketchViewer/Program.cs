@@ -272,13 +272,12 @@ internal static class Program
                 out _,
                 out _,
                 out _) ||
-            !TryReadOrderedFrame(cuspResult, out var cuspSelection) ||
-            cuspSelection.Length < 2)
+            !TryReadRadialSelectionWitness(cuspResult, out var cuspMarkerWitness))
         {
             throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not expose the selected interior cusps.");
         }
 
-        var cuspMarkers = GraphicReadGraph.From(cuspSelection[1])
+        var cuspMarkers = GraphicReadGraph.From(cuspMarkerWitness)
             .ReadsOf<ClosedSharedFrameBoundaryRead>()
             .Count();
         if (cuspMarkers < 12)
@@ -320,13 +319,12 @@ internal static class Program
                 out _,
                 out _,
                 out _) ||
-            !TryReadOrderedFrame(exteriorCuspResult, out var exteriorCuspSelection) ||
-            exteriorCuspSelection.Length < 2)
+            !TryReadRadialSelectionWitness(exteriorCuspResult, out var exteriorCuspMarkerWitness))
         {
             throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not expose the selected exterior cusps.");
         }
 
-        var exteriorCuspMarkers = GraphicReadGraph.From(exteriorCuspSelection[1])
+        var exteriorCuspMarkers = GraphicReadGraph.From(exteriorCuspMarkerWitness)
             .ReadsOf<ClosedSharedFrameBoundaryRead>()
             .Count();
         if (exteriorCuspMarkers < 16)
@@ -484,6 +482,50 @@ internal static class Program
         }
 
         elements = [];
+        return false;
+    }
+
+    private static bool TryReadRadialSelectionWitness(IElement element, out IElement markerWitness)
+    {
+        if (element is Relation selection &&
+            GraphicSelectionSurface.TryReadSelection(
+                selection,
+                out _,
+                out _,
+                out _,
+                out var matches,
+                out _) &&
+            matches is Relation matchFrame &&
+            GraphicSelectionSurface.TryReadMatchFrame(matchFrame, out var matchElements) &&
+            matchElements.FirstOrDefault() is Relation firstMatch &&
+            GraphicSelectionSurface.TryReadMatch(
+                firstMatch,
+                out _,
+                out _,
+                out _,
+                out var evidence,
+                out _))
+        {
+            markerWitness = evidence is Relation patternEvidence &&
+                GraphicSelectionSurface.TryReadPatternEvidence(
+                    patternEvidence,
+                    out _,
+                    out var appliedPattern,
+                    out _,
+                    out _)
+                ? appliedPattern
+                : evidence;
+            return true;
+        }
+
+        if (TryReadOrderedFrame(element, out var frameElements) &&
+            frameElements.Length >= 2)
+        {
+            markerWitness = frameElements[1];
+            return true;
+        }
+
+        markerWitness = default!;
         return false;
     }
 }
