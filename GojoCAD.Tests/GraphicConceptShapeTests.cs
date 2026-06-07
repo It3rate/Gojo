@@ -74,6 +74,75 @@ public sealed class GraphicConceptShapeTests
     }
 
     [Fact]
+    public void CuspJoinCarriesUnsettledTangentContinuityAsStructure()
+    {
+        var first = GraphicConceptShape.StraightSection(new Carrier());
+        var second = GraphicConceptShape.CircularArcSection(new Carrier());
+
+        var cusp = GraphicConceptShape.CuspJoin(new Carrier(), first, second);
+
+        Assert.True(GraphicConceptShape.TryReadCompositeShape(
+            cusp,
+            out _,
+            out _,
+            out _,
+            out var internalJoins,
+            out _,
+            out _));
+        var join = Assert.Single(internalJoins);
+        Assert.True(GraphicConceptShape.TryReadPortJoin(
+            Assert.IsType<Relation>(join),
+            out _,
+            out _,
+            out var joinEvidence,
+            out _));
+        Assert.True(GraphicConceptShape.TryReadCuspJoinEvidence(
+            Assert.IsType<Relation>(joinEvidence),
+            out var incomingTangent,
+            out var outgoingTangent,
+            out var orthogonal,
+            out var continuityExpectation,
+            out var residue));
+        Assert.Contains(Walk(joinEvidence), element => ReferenceEquals(element, incomingTangent));
+        Assert.Contains(Walk(joinEvidence), element => ReferenceEquals(element, outgoingTangent));
+        Assert.Contains(Walk(joinEvidence), element => ReferenceEquals(element, orthogonal));
+        Assert.Contains(Walk(joinEvidence), element => ReferenceEquals(element, continuityExpectation));
+        Assert.Contains(Walk(joinEvidence), element => ReferenceEquals(element, residue));
+    }
+
+    [Fact]
+    public void CuspJoinEvidenceIsDistinctFromTangentJoinEvidence()
+    {
+        var first = GraphicConceptShape.StraightSection(new Carrier());
+        var second = GraphicConceptShape.CircularArcSection(new Carrier());
+
+        var tangent = GraphicConceptShape.TangentJoin(new Carrier(), first, second);
+
+        Assert.True(GraphicConceptShape.TryReadCompositeShape(
+            tangent,
+            out _,
+            out _,
+            out _,
+            out var internalJoins,
+            out _,
+            out _));
+        var join = Assert.Single(internalJoins);
+        Assert.True(GraphicConceptShape.TryReadPortJoin(
+            Assert.IsType<Relation>(join),
+            out _,
+            out _,
+            out var joinEvidence,
+            out _));
+        Assert.False(GraphicConceptShape.TryReadCuspJoinEvidence(
+            Assert.IsType<Relation>(joinEvidence),
+            out _,
+            out _,
+            out _,
+            out _,
+            out _));
+    }
+
+    [Fact]
     public void JoiningTwoSectionsCreatesCurrentTwoPortComposite()
     {
         var firstStart = GraphicConceptShape.Port(new Carrier());

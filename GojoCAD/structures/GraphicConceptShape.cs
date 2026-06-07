@@ -125,6 +125,21 @@ public static class GraphicConceptShape
             outgoing,
             Frame(new Carrier(), TangentSlot(), TangentSlot(), TensionSlot()));
 
+    /// <summary>
+    /// Creates cusp evidence between two adjacent sections, then folds them
+    /// into one section while preserving the unresolved tangent continuity.
+    /// </summary>
+    public static Relation CuspJoin(Carrier root, IElement incoming, IElement outgoing) =>
+        FoldSections(root, incoming, outgoing, CuspJoinEvidence(new Carrier()));
+
+    /// <summary>
+    /// Creates a structural cusp/corner evidence surface:
+    /// incoming tangent, outgoing tangent, local orthogonal/normal,
+    /// expected tangent continuity, residue/tension.
+    /// </summary>
+    public static Relation CuspJoinEvidenceSurface(Carrier root) =>
+        CuspJoinEvidence(RootOrNew(root));
+
     /// <summary>Creates an ambiguous connection between two drawable sections or paths, then folds them into one section.</summary>
     public static Relation Join(Carrier root, IElement incoming, IElement outgoing) =>
         Join(root, incoming, outgoing, TensionSlot());
@@ -171,6 +186,47 @@ public static class GraphicConceptShape
         incomingPort = default!;
         outgoingPort = default!;
         joinEvidence = default!;
+        residueOrTension = default!;
+        return false;
+    }
+
+    /// <summary>Reads cusp/corner evidence created by <see cref="CuspJoinEvidenceSurface"/>.</summary>
+    public static bool TryReadCuspJoinEvidence(
+        Relation evidence,
+        out IElement incomingTangent,
+        out IElement outgoingTangent,
+        out IElement orthogonal,
+        out IElement tangentContinuityExpectation,
+        out IElement residueOrTension)
+    {
+        if (TryReadFrameElements(evidence, out var elements) &&
+            elements.Length == 5 &&
+            elements[0] is Relation incomingTangentRelation &&
+            elements[1] is Relation outgoingTangentRelation &&
+            elements[2] is Relation orthogonalRelation &&
+            elements[3] is Relation continuityRelation &&
+            elements[4] is Relation residueRelation &&
+            TryReadFrameElements(incomingTangentRelation, out var incomingTangentElements) &&
+            incomingTangentElements.Length == 3 &&
+            TryReadFrameElements(outgoingTangentRelation, out var outgoingTangentElements) &&
+            outgoingTangentElements.Length == 3 &&
+            TryReadFrameElements(continuityRelation, out var continuityElements) &&
+            continuityElements.Length == 3 &&
+            ReferenceEquals(continuityElements[0], elements[0]) &&
+            ReferenceEquals(continuityElements[1], elements[1]))
+        {
+            incomingTangent = elements[0];
+            outgoingTangent = elements[1];
+            orthogonal = orthogonalRelation;
+            tangentContinuityExpectation = continuityRelation;
+            residueOrTension = residueRelation;
+            return true;
+        }
+
+        incomingTangent = default!;
+        outgoingTangent = default!;
+        orthogonal = default!;
+        tangentContinuityExpectation = default!;
         residueOrTension = default!;
         return false;
     }
@@ -766,6 +822,19 @@ public static class GraphicConceptShape
 
     private static Relation OrthogonalSlot() =>
         Relation.OrthogonalOutlet(Site());
+
+    private static Relation CuspJoinEvidence(Carrier root)
+    {
+        var incomingTangent = TangentSlot();
+        var outgoingTangent = TangentSlot();
+        return Frame(
+            root,
+            incomingTangent,
+            outgoingTangent,
+            OrthogonalSlot(),
+            Frame(new Carrier(), incomingTangent, outgoingTangent, TensionSlot()),
+            TensionSlot());
+    }
 
     private static Relation ControlSlot() =>
         Frame(new Carrier(), Site(), TangentSlot(), TensionSlot());
