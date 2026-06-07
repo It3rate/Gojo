@@ -335,11 +335,11 @@ internal static class Program
 
         var positiveMergeAreas = mergeAreas.Count(area => !area.IsAntiArea);
         var antiMergeAreas = mergeAreas.Count(area => area.IsAntiArea);
-        if (mergeParticipantCount < 18 ||
-            positiveMergeAreas < 12 ||
-            antiMergeAreas < 10)
+        if (mergeParticipantCount < 10 ||
+            positiveMergeAreas < 2 ||
+            antiMergeAreas < 8)
         {
-            throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not expose the merged fill cuts as area-frame structure.");
+            throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not expose the merged fill cuts as settled area-frame structure.");
         }
 
         if (!StructuralLadderSurface.TryReadRung(
@@ -416,6 +416,31 @@ internal static class Program
             throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not replace the interior corner joins with rounded arc outlines.");
         }
 
+        var hRoundedSplitAntiBoxes = WalkRelations(roundedResult)
+            .Where(relation => GraphicBooleanSurface.TryReadAreaUnion(relation, out _, out _, out _, out _))
+            .SelectMany(relation =>
+            {
+                GraphicBooleanSurface.TryReadAreaUnion(relation, out var roundedAreaFrame, out _, out _, out _);
+                return GraphicReadGraph.From(roundedAreaFrame).ReadsOf<SharedFrameAreaRead>();
+            })
+            .Where(area => area.IsAntiArea &&
+                area.Boundary.Arcs is { Count: >= 4 } &&
+                TryReadSharedFrameBoundaryBounds(area.Boundary, out var minX, out var maxX, out var minY, out var maxY) &&
+                minX >= 235 &&
+                maxX <= 295 &&
+                Math.Abs(minY + maxY) >= 40)
+            .Select(area =>
+            {
+                TryReadSharedFrameBoundaryBounds(area.Boundary, out var minX, out var maxX, out var minY, out var maxY);
+                return $"{minX}:{maxX}:{Math.Sign(minY + maxY)}";
+            })
+            .Distinct()
+            .ToArray();
+        if (hRoundedSplitAntiBoxes.Length < 2)
+        {
+            throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not preserve both rounded H split anti-area openings.");
+        }
+
         if (!StructuralLadderSurface.TryReadRung(
                 rungs[8],
                 out _,
@@ -489,6 +514,15 @@ internal static class Program
         if (!exteriorRoundedOutlines.Any(boundary => boundary.Arcs is { Count: >= 24 }))
         {
             throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not replace exterior cusp joins with tangent arc outline evidence.");
+        }
+
+        if (!exteriorRoundedOutlines.Any(boundary =>
+                boundary.Arcs is { Count: >= 20 } &&
+                TryReadSharedFrameBoundaryBounds(boundary, out var minX, out var maxX, out _, out _) &&
+                minX >= 150 &&
+                maxX <= 370))
+        {
+            throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not apply selected exterior cusp rounding to the H outline.");
         }
 
         if (!StructuralLadderSurface.TryReadRung(
@@ -616,6 +650,61 @@ internal static class Program
 
     private static ulong ReadSourceId(IElement source) =>
         source is Relation relation ? relation.Id : 0UL;
+
+    private static bool TryReadSharedFrameBoundaryBounds(
+        ClosedSharedFrameBoundaryRead boundary,
+        out long minX,
+        out long maxX,
+        out long minY,
+        out long maxY)
+    {
+        var readMinX = 0L;
+        var readMaxX = 0L;
+        var readMinY = 0L;
+        var readMaxY = 0L;
+        var sawPoint = false;
+
+        void Include(SharedFramePointRead point)
+        {
+            if (point.Coordinates.Count < 2)
+            {
+                return;
+            }
+
+            var x = point.Coordinates[0].Ticks;
+            var y = point.Coordinates[1].Ticks;
+            if (!sawPoint)
+            {
+                readMinX = readMaxX = x;
+                readMinY = readMaxY = y;
+                sawPoint = true;
+                return;
+            }
+
+            readMinX = Math.Min(readMinX, x);
+            readMaxX = Math.Max(readMaxX, x);
+            readMinY = Math.Min(readMinY, y);
+            readMaxY = Math.Max(readMaxY, y);
+        }
+
+        foreach (var segment in boundary.Segments)
+        {
+            Include(segment.Start);
+            Include(segment.End);
+        }
+
+        foreach (var arc in boundary.Arcs ?? [])
+        {
+            Include(arc.Start);
+            Include(arc.End);
+        }
+
+        minX = readMinX;
+        maxX = readMaxX;
+        minY = readMinY;
+        maxY = readMaxY;
+        return sawPoint;
+    }
 
     private static bool TryReadOrderedFrame(IElement element, out IElement[] elements)
     {

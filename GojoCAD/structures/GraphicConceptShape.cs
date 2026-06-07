@@ -154,6 +154,13 @@ public static class GraphicConceptShape
     public static Relation CircularTipCapEvidenceSurface(Carrier root) =>
         CircularTipCapEvidence(RootOrNew(root));
 
+    /// <summary>
+    /// Creates rounded-cusp evidence for a selected cusp join:
+    /// cusp evidence, circular transition evidence, local normal, residue.
+    /// </summary>
+    public static Relation RoundedCuspJoinEvidenceSurface(Carrier root) =>
+        RoundedCuspJoinEvidence(RootOrNew(root));
+
     /// <summary>Creates an ambiguous connection between two drawable sections or paths, then folds them into one section.</summary>
     public static Relation Join(Carrier root, IElement incoming, IElement outgoing) =>
         Join(root, incoming, outgoing, TensionSlot());
@@ -241,6 +248,37 @@ public static class GraphicConceptShape
         outgoingTangent = default!;
         orthogonal = default!;
         tangentContinuityExpectation = default!;
+        residueOrTension = default!;
+        return false;
+    }
+
+    /// <summary>Reads rounded-cusp evidence created by <see cref="RoundedCuspJoinEvidenceSurface"/>.</summary>
+    public static bool TryReadRoundedCuspJoinEvidence(
+        Relation evidence,
+        out IElement cuspEvidence,
+        out IElement circularEvidence,
+        out IElement orthogonal,
+        out IElement residueOrTension)
+    {
+        if (TryReadFrameElements(evidence, out var elements) &&
+            elements.Length == 4 &&
+            elements[0] is Relation cuspRelation &&
+            elements[1] is Relation circularRelation &&
+            elements[2] is Relation orthogonalRelation &&
+            elements[3] is Relation residueRelation &&
+            TryReadCuspJoinEvidence(cuspRelation, out _, out _, out _, out _, out _) &&
+            TryReadCircularArcEvidence(circularRelation, out _, out _, out _, out _))
+        {
+            cuspEvidence = elements[0];
+            circularEvidence = elements[1];
+            orthogonal = orthogonalRelation;
+            residueOrTension = residueRelation;
+            return true;
+        }
+
+        cuspEvidence = default!;
+        circularEvidence = default!;
+        orthogonal = default!;
         residueOrTension = default!;
         return false;
     }
@@ -948,6 +986,14 @@ public static class GraphicConceptShape
         Frame(
             root,
             LineTipEvidence(new Carrier()),
+            CircularArcEvidence(new Carrier()),
+            OrthogonalSlot(),
+            TensionSlot());
+
+    private static Relation RoundedCuspJoinEvidence(Carrier root) =>
+        Frame(
+            root,
+            CuspJoinEvidence(new Carrier()),
             CircularArcEvidence(new Carrier()),
             OrthogonalSlot(),
             TensionSlot());

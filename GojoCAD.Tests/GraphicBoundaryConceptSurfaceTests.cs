@@ -75,6 +75,47 @@ public sealed class GraphicBoundaryConceptSurfaceTests
     }
 
     [Fact]
+    public void RoundedBoundaryFromCuspSelectionReplacesSelectedLineCornersWithArcs()
+    {
+        var frame = new Carrier();
+        var x = new Carrier();
+        var y = new Carrier();
+        Relation P(long xTicks, long yTicks) =>
+            GraphicStructure.FramePoint(frame, new CarrierLocation(x, xTicks), new CarrierLocation(y, yTicks));
+        var outline = Chain(
+            GraphicStructure.FrameSegment(P(0, 0), P(20, 0)),
+            GraphicStructure.FrameSegment(P(20, 0), P(20, 12)),
+            GraphicStructure.FrameSegment(P(20, 12), P(0, 12)),
+            GraphicStructure.FrameSegment(P(0, 12), P(0, 0)));
+        var pattern = GraphicBoundaryConceptSurface.CuspWitnessPattern(new Carrier(), new Placeholder());
+        var domain = GraphicBoundaryConceptSurface.CuspCandidateDomain(new Carrier(), outline);
+        var selection = GraphicSelectionSurface.Search(new Carrier(), outline, domain, pattern);
+
+        var action = GraphicBoundaryConceptSurface.RoundedBoundaryFromCuspSelection(
+            new Carrier(),
+            selection,
+            outline,
+            radiusTicks: 3);
+
+        Assert.True(GraphicBoundaryConceptSurface.TryReadRoundedBoundaryFromCuspSelection(
+            action,
+            out var readSelection,
+            out var roundedEvidence,
+            out _,
+            out var roundedFrame,
+            out _));
+        Assert.Same(selection, readSelection);
+        Assert.True(GraphicConceptShape.TryReadRoundedCuspJoinEvidence(
+            Assert.IsType<Relation>(roundedEvidence),
+            out _,
+            out _,
+            out _,
+            out _));
+        var roundedBoundary = Assert.Single(GraphicReadGraph.From(roundedFrame).ReadsOf<ClosedSharedFrameBoundaryRead>());
+        Assert.Equal(4, roundedBoundary.Arcs?.Count ?? 0);
+    }
+
+    [Fact]
     public void LineTipCandidateDomainFindsOpenSharedFrameTerminals()
     {
         var frame = new Carrier();

@@ -228,7 +228,7 @@ public sealed class GojoCadSkiaAdapter
 
         foreach (var cut in cuts)
         {
-            ApplyPathOp(composite, cut, SKPathOp.Difference);
+            ApplyCutPath(composite, cut);
             cut.Dispose();
         }
 
@@ -269,7 +269,7 @@ public sealed class GojoCadSkiaAdapter
             using var path = BuildClosedSharedFrameBoundaryPath(area.Boundary, projection);
             if (path is not null)
             {
-                ApplyPathOp(shape, path, SKPathOp.Difference);
+                ApplyCutPath(shape, path);
             }
         }
 
@@ -310,14 +310,40 @@ public sealed class GojoCadSkiaAdapter
         return shape;
     }
 
-    private static void ApplyPathOp(SKPath target, SKPath operand, SKPathOp operation)
+    private static void ApplyCutPath(SKPath target, SKPath cut)
+    {
+        if (ApplyPathOp(target, cut, SKPathOp.Difference))
+        {
+            return;
+        }
+
+        target.AddPath(cut);
+        target.FillType = SKPathFillType.EvenOdd;
+    }
+
+    private static bool ApplyPathOp(SKPath target, SKPath operand, SKPathOp operation)
     {
         using var result = new SKPath();
         if (target.Op(operand, operation, result))
         {
             target.Reset();
             target.AddPath(result);
+            return true;
         }
+
+        using var simplifiedTarget = target.Simplify();
+        using var simplifiedOperand = operand.Simplify();
+        using var simplifiedResult = new SKPath();
+        if (simplifiedTarget is not null &&
+            simplifiedOperand is not null &&
+            simplifiedTarget.Op(simplifiedOperand, operation, simplifiedResult))
+        {
+            target.Reset();
+            target.AddPath(simplifiedResult);
+            return true;
+        }
+
+        return false;
     }
 
     private static int DrawAreaUnionOutlineWitness(
