@@ -170,9 +170,9 @@ internal static class Program
 
     private static void ValidateRadialShapeLadder(SketchScene scene, Relation ladder, IReadOnlyList<Relation> rungs)
     {
-        if (rungs.Count != 8)
+        if (rungs.Count != 10)
         {
-            throw new InvalidOperationException($"Sketch scene '{scene.Label}' should expose the eight requested shape-ladder steps.");
+            throw new InvalidOperationException($"Sketch scene '{scene.Label}' should expose the ten requested shape-ladder steps.");
         }
 
         var unionSurfaces = WalkRelations(ladder)
@@ -308,6 +308,71 @@ internal static class Program
         if (roundedCenterOpenings < 4)
         {
             throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not replace the interior corner joins with rounded arc outlines.");
+        }
+
+        if (!StructuralLadderSurface.TryReadRung(
+                rungs[8],
+                out _,
+                out _,
+                out var exteriorCuspResult,
+                out _,
+                out _,
+                out _,
+                out _,
+                out _) ||
+            !TryReadOrderedFrame(exteriorCuspResult, out var exteriorCuspSelection) ||
+            exteriorCuspSelection.Length < 2)
+        {
+            throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not expose the selected exterior cusps.");
+        }
+
+        var exteriorCuspMarkers = GraphicReadGraph.From(exteriorCuspSelection[1])
+            .ReadsOf<ClosedSharedFrameBoundaryRead>()
+            .Count();
+        if (exteriorCuspMarkers < 16)
+        {
+            throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not mark the sixteen exterior non-tangent joins.");
+        }
+
+        if (!StructuralLadderSurface.TryReadRung(
+                rungs[9],
+                out _,
+                out _,
+                out var exteriorRoundedResult,
+                out _,
+                out _,
+                out _,
+                out _,
+                out _) ||
+            exteriorRoundedResult is not Relation exteriorRoundedUnion ||
+            !GraphicBooleanSurface.TryReadAreaUnion(
+                exteriorRoundedUnion,
+                out var exteriorRoundedAreaFrame,
+                out var exteriorRoundedOutlineWitness,
+                out _,
+                out _) ||
+            exteriorRoundedAreaFrame is not Relation exteriorRoundedAreaFrameRelation ||
+            !GraphicBooleanSurface.TryReadAreaFrame(exteriorRoundedAreaFrameRelation, out var exteriorRoundedParticipants))
+        {
+            throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not expose the exterior-rounded area union.");
+        }
+
+        var exteriorRoundedAreas = GraphicReadGraph.From(exteriorRoundedAreaFrameRelation)
+            .ReadsOf<SharedFrameAreaRead>()
+            .ToArray();
+        if (exteriorRoundedParticipants.Length != 9 ||
+            exteriorRoundedAreas.Count(area => !area.IsAntiArea) != 1 ||
+            exteriorRoundedAreas.Count(area => area.IsAntiArea) < 8)
+        {
+            throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not preserve the exterior-rounded positive fill and hole cuts.");
+        }
+
+        var exteriorRoundedOutlines = GraphicReadGraph.From(exteriorRoundedOutlineWitness)
+            .ReadsOf<ClosedSharedFrameBoundaryRead>()
+            .ToArray();
+        if (!exteriorRoundedOutlines.Any(boundary => boundary.Arcs is { Count: >= 24 }))
+        {
+            throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not replace exterior cusp joins with tangent arc outline evidence.");
         }
     }
 

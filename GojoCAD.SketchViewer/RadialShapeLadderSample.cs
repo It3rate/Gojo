@@ -123,13 +123,24 @@ internal static partial class SketchSamples
         Relation MarkerCircle(long centerX, long centerY) =>
             Circle(centerX, centerY, 5);
 
+        Relation CuspMarkers(params (long X, long Y)[] sites)
+        {
+            var markers = new IElement[sites.Length];
+            for (var index = 0; index < sites.Length; index++)
+            {
+                markers[index] = MarkerCircle(sites[index].X, sites[index].Y);
+            }
+
+            return Chain(markers);
+        }
+
         Relation CenterHoleCuspMarkers(long signX, long signY)
         {
             var circleSide = (long)Math.Round(Math.Sqrt(centerInner * centerInner - offset * offset));
-            return Chain(
-                MarkerCircle(signX * offset, signY * offset),
-                MarkerCircle(signX * offset, signY * circleSide),
-                MarkerCircle(signX * circleSide, signY * offset));
+            return CuspMarkers(
+                (signX * offset, signY * offset),
+                (signX * offset, signY * circleSide),
+                (signX * circleSide, signY * offset));
         }
 
         Relation InteriorCuspMarkers() =>
@@ -139,63 +150,117 @@ internal static partial class SketchSamples
                 CenterHoleCuspMarkers(-1, -1),
                 CenterHoleCuspMarkers(1, -1));
 
-        (long X, long Y) PointOnCenterCircle(double degrees)
+        (long X, long Y) HorizontalCircleCusp(long centerX, long centerY, long radius, long lineY, long sideX)
         {
-            var radians = Math.PI * degrees / 180d;
+            var lineOffset = lineY - centerY;
             return (
-                (long)Math.Round(Math.Cos(radians) * centerInner),
-                (long)Math.Round(Math.Sin(radians) * centerInner));
+                centerX + sideX * (long)Math.Round(Math.Sqrt(radius * radius - lineOffset * lineOffset)),
+                lineY);
         }
 
-        double AngleDegrees(long pointX, long pointY) =>
-            Math.Atan2(pointY, pointX) * 180d / Math.PI;
-
-        double ShortestSweep(double startDegrees, double endDegrees)
+        (long X, long Y) VerticalCircleCusp(long centerX, long centerY, long radius, long lineX, long sideY)
         {
-            var sweep = endDegrees - startDegrees;
-            while (sweep > 180d)
-            {
-                sweep -= 360d;
-            }
+            var lineOffset = lineX - centerX;
+            return (
+                lineX,
+                centerY + sideY * (long)Math.Round(Math.Sqrt(radius * radius - lineOffset * lineOffset)));
+        }
 
-            while (sweep < -180d)
-            {
-                sweep += 360d;
-            }
+        Relation ExteriorCuspMarkers() =>
+            CuspMarkers(
+                HorizontalCircleCusp(0, 0, centerOuter, offset, 1),
+                HorizontalCircleCusp(0, 0, centerOuter, -offset, 1),
+                HorizontalCircleCusp(0, 0, centerOuter, offset, -1),
+                HorizontalCircleCusp(0, 0, centerOuter, -offset, -1),
+                VerticalCircleCusp(0, 0, centerOuter, offset, 1),
+                VerticalCircleCusp(0, 0, centerOuter, -offset, 1),
+                VerticalCircleCusp(0, 0, centerOuter, offset, -1),
+                VerticalCircleCusp(0, 0, centerOuter, -offset, -1),
+                HorizontalCircleCusp(armReach, 0, endpointOuter, offset, -1),
+                HorizontalCircleCusp(armReach, 0, endpointOuter, -offset, -1),
+                HorizontalCircleCusp(-armReach, 0, endpointOuter, offset, 1),
+                HorizontalCircleCusp(-armReach, 0, endpointOuter, -offset, 1),
+                VerticalCircleCusp(0, armReach, endpointOuter, offset, -1),
+                VerticalCircleCusp(0, armReach, endpointOuter, -offset, -1),
+                VerticalCircleCusp(0, -armReach, endpointOuter, offset, 1),
+                VerticalCircleCusp(0, -armReach, endpointOuter, -offset, 1));
 
-            return sweep;
+        Relation SegmentBetween((long X, long Y) start, (long X, long Y) end) =>
+            Segment(start.X, start.Y, end.X, end.Y);
+
+        Relation ArcBetween((long X, long Y) center, (long X, long Y) start, (long X, long Y) end) =>
+            Arc(center.X, center.Y, start.X, start.Y, end.X, end.Y);
+
+        (long X, long Y) CircleSite(long centerX, long centerY, long offsetX, long offsetY) =>
+            (centerX + offsetX, centerY + offsetY);
+
+        ((long X, long Y) Center, (long X, long Y) LineTangent, (long X, long Y) CircleTangent)
+            HorizontalExternalFillet(long centerX, long centerY, long radius, long lineY, long sideX, long filletRadius)
+        {
+            var outwardY = Math.Sign(lineY - centerY);
+            var filletCenterY = lineY + outwardY * filletRadius;
+            var filletDistance = radius + filletRadius;
+            var deltaY = filletCenterY - centerY;
+            var filletCenterX = centerX + sideX * (long)Math.Round(Math.Sqrt(
+                filletDistance * filletDistance -
+                deltaY * deltaY));
+            var scale = (double)radius / filletDistance;
+            var circleTangent = (
+                X: centerX + (long)Math.Round((filletCenterX - centerX) * scale),
+                Y: centerY + (long)Math.Round((filletCenterY - centerY) * scale));
+            return ((filletCenterX, filletCenterY), (filletCenterX, lineY), circleTangent);
+        }
+
+        ((long X, long Y) Center, (long X, long Y) LineTangent, (long X, long Y) CircleTangent)
+            VerticalExternalFillet(long centerX, long centerY, long radius, long lineX, long sideY, long filletRadius)
+        {
+            var outwardX = Math.Sign(lineX - centerX);
+            var filletCenterX = lineX + outwardX * filletRadius;
+            var filletDistance = radius + filletRadius;
+            var deltaX = filletCenterX - centerX;
+            var filletCenterY = centerY + sideY * (long)Math.Round(Math.Sqrt(
+                filletDistance * filletDistance -
+                deltaX * deltaX));
+            var scale = (double)radius / filletDistance;
+            var circleTangent = (
+                X: centerX + (long)Math.Round((filletCenterX - centerX) * scale),
+                Y: centerY + (long)Math.Round((filletCenterY - centerY) * scale));
+            return ((filletCenterX, filletCenterY), (lineX, filletCenterY), circleTangent);
         }
 
         Relation RoundedCenterHoleOutline(long signX, long signY)
         {
             const long cornerRadius = 7;
-            const double circleTrimDegrees = 8d;
-            var circleSide = (long)Math.Round(Math.Sqrt(centerInner * centerInner - offset * offset));
+            var filletCenterOffset = offset + cornerRadius;
+            var filletCenterRadius = centerInner - cornerRadius;
+            var straightTangent = (long)Math.Round(Math.Sqrt(
+                filletCenterRadius * filletCenterRadius -
+                filletCenterOffset * filletCenterOffset));
+            var circleScale = (double)centerInner / filletCenterRadius;
+            var circleNearLine = (long)Math.Round(filletCenterOffset * circleScale);
+            var circleNearArc = (long)Math.Round(straightTangent * circleScale);
             var verticalStart = (X: signX * offset, Y: signY * (offset + cornerRadius));
-            var verticalEnd = (X: signX * offset, Y: signY * (circleSide - cornerRadius));
-            var horizontalStart = (X: signX * (circleSide - cornerRadius), Y: signY * offset);
+            var verticalEnd = (X: signX * offset, Y: signY * straightTangent);
+            var verticalArcEnd = (X: signX * circleNearLine, Y: signY * circleNearArc);
+            var horizontalArcStart = (X: signX * circleNearArc, Y: signY * circleNearLine);
+            var horizontalStart = (X: signX * straightTangent, Y: signY * offset);
             var horizontalEnd = (X: signX * (offset + cornerRadius), Y: signY * offset);
-            var startAngle = AngleDegrees(signX * offset, signY * circleSide);
-            var endAngle = AngleDegrees(signX * circleSide, signY * offset);
-            var sweepSign = Math.Sign(ShortestSweep(startAngle, endAngle));
-            var arcStart = PointOnCenterCircle(startAngle + sweepSign * circleTrimDegrees);
-            var arcEnd = PointOnCenterCircle(endAngle - sweepSign * circleTrimDegrees);
 
             return Chain(
                 Segment(verticalStart.X, verticalStart.Y, verticalEnd.X, verticalEnd.Y),
                 Arc(
-                    signX * (offset + cornerRadius),
-                    signY * (circleSide - cornerRadius),
+                    signX * filletCenterOffset,
+                    signY * straightTangent,
                     verticalEnd.X,
                     verticalEnd.Y,
-                    arcStart.X,
-                    arcStart.Y),
-                Arc(0, 0, arcStart.X, arcStart.Y, arcEnd.X, arcEnd.Y),
+                    verticalArcEnd.X,
+                    verticalArcEnd.Y),
+                Arc(0, 0, verticalArcEnd.X, verticalArcEnd.Y, horizontalArcStart.X, horizontalArcStart.Y),
                 Arc(
-                    signX * (circleSide - cornerRadius),
-                    signY * (offset + cornerRadius),
-                    arcEnd.X,
-                    arcEnd.Y,
+                    signX * straightTangent,
+                    signY * filletCenterOffset,
+                    horizontalArcStart.X,
+                    horizontalArcStart.Y,
                     horizontalStart.X,
                     horizontalStart.Y),
                 Segment(horizontalStart.X, horizontalStart.Y, horizontalEnd.X, horizontalEnd.Y),
@@ -210,6 +275,69 @@ internal static partial class SketchSamples
 
         Relation RoundedCenterHoleAntiFill(long signX, long signY) =>
             GraphicStructure.AntiAreaFill(RoundedCenterHoleOutline(signX, signY));
+
+        Relation ExteriorRoundedOutline()
+        {
+            const long cornerRadius = 6;
+            var centerTopLeft = VerticalExternalFillet(0, 0, centerOuter, -offset, 1, cornerRadius);
+            var centerTopRight = VerticalExternalFillet(0, 0, centerOuter, offset, 1, cornerRadius);
+            var centerRightTop = HorizontalExternalFillet(0, 0, centerOuter, offset, 1, cornerRadius);
+            var centerRightBottom = HorizontalExternalFillet(0, 0, centerOuter, -offset, 1, cornerRadius);
+            var centerBottomRight = VerticalExternalFillet(0, 0, centerOuter, offset, -1, cornerRadius);
+            var centerBottomLeft = VerticalExternalFillet(0, 0, centerOuter, -offset, -1, cornerRadius);
+            var centerLeftBottom = HorizontalExternalFillet(0, 0, centerOuter, -offset, -1, cornerRadius);
+            var centerLeftTop = HorizontalExternalFillet(0, 0, centerOuter, offset, -1, cornerRadius);
+            var topLeft = VerticalExternalFillet(0, armReach, endpointOuter, -offset, -1, cornerRadius);
+            var topRight = VerticalExternalFillet(0, armReach, endpointOuter, offset, -1, cornerRadius);
+            var rightTop = HorizontalExternalFillet(armReach, 0, endpointOuter, offset, -1, cornerRadius);
+            var rightBottom = HorizontalExternalFillet(armReach, 0, endpointOuter, -offset, -1, cornerRadius);
+            var bottomRight = VerticalExternalFillet(0, -armReach, endpointOuter, offset, 1, cornerRadius);
+            var bottomLeft = VerticalExternalFillet(0, -armReach, endpointOuter, -offset, 1, cornerRadius);
+            var leftBottom = HorizontalExternalFillet(-armReach, 0, endpointOuter, -offset, 1, cornerRadius);
+            var leftTop = HorizontalExternalFillet(-armReach, 0, endpointOuter, offset, 1, cornerRadius);
+
+            return Chain(
+                ArcBetween((0, armReach), topLeft.CircleTangent, CircleSite(0, armReach, -endpointOuter, 0)),
+                Arc(0, armReach, -endpointOuter, armReach, 0, armReach + endpointOuter),
+                Arc(0, armReach, 0, armReach + endpointOuter, endpointOuter, armReach),
+                ArcBetween((0, armReach), CircleSite(0, armReach, endpointOuter, 0), topRight.CircleTangent),
+                ArcBetween(topRight.Center, topRight.CircleTangent, topRight.LineTangent),
+                SegmentBetween(topRight.LineTangent, centerTopRight.LineTangent),
+                ArcBetween(centerTopRight.Center, centerTopRight.LineTangent, centerTopRight.CircleTangent),
+                ArcBetween((0, 0), centerTopRight.CircleTangent, centerRightTop.CircleTangent),
+                ArcBetween(centerRightTop.Center, centerRightTop.CircleTangent, centerRightTop.LineTangent),
+                SegmentBetween(centerRightTop.LineTangent, rightTop.LineTangent),
+                ArcBetween(rightTop.Center, rightTop.LineTangent, rightTop.CircleTangent),
+                ArcBetween((armReach, 0), rightTop.CircleTangent, CircleSite(armReach, 0, endpointOuter, 0)),
+                ArcBetween((armReach, 0), CircleSite(armReach, 0, endpointOuter, 0), rightBottom.CircleTangent),
+                ArcBetween(rightBottom.Center, rightBottom.CircleTangent, rightBottom.LineTangent),
+                SegmentBetween(rightBottom.LineTangent, centerRightBottom.LineTangent),
+                ArcBetween(centerRightBottom.Center, centerRightBottom.LineTangent, centerRightBottom.CircleTangent),
+                ArcBetween((0, 0), centerRightBottom.CircleTangent, centerBottomRight.CircleTangent),
+                ArcBetween(centerBottomRight.Center, centerBottomRight.CircleTangent, centerBottomRight.LineTangent),
+                SegmentBetween(centerBottomRight.LineTangent, bottomRight.LineTangent),
+                ArcBetween(bottomRight.Center, bottomRight.LineTangent, bottomRight.CircleTangent),
+                ArcBetween((0, -armReach), bottomRight.CircleTangent, CircleSite(0, -armReach, endpointOuter, 0)),
+                Arc(0, -armReach, endpointOuter, -armReach, 0, -armReach - endpointOuter),
+                Arc(0, -armReach, 0, -armReach - endpointOuter, -endpointOuter, -armReach),
+                ArcBetween((0, -armReach), CircleSite(0, -armReach, -endpointOuter, 0), bottomLeft.CircleTangent),
+                ArcBetween(bottomLeft.Center, bottomLeft.CircleTangent, bottomLeft.LineTangent),
+                SegmentBetween(bottomLeft.LineTangent, centerBottomLeft.LineTangent),
+                ArcBetween(centerBottomLeft.Center, centerBottomLeft.LineTangent, centerBottomLeft.CircleTangent),
+                ArcBetween((0, 0), centerBottomLeft.CircleTangent, centerLeftBottom.CircleTangent),
+                ArcBetween(centerLeftBottom.Center, centerLeftBottom.CircleTangent, centerLeftBottom.LineTangent),
+                SegmentBetween(centerLeftBottom.LineTangent, leftBottom.LineTangent),
+                ArcBetween(leftBottom.Center, leftBottom.LineTangent, leftBottom.CircleTangent),
+                ArcBetween((-armReach, 0), leftBottom.CircleTangent, CircleSite(-armReach, 0, -endpointOuter, 0)),
+                ArcBetween((-armReach, 0), CircleSite(-armReach, 0, -endpointOuter, 0), leftTop.CircleTangent),
+                ArcBetween(leftTop.Center, leftTop.CircleTangent, leftTop.LineTangent),
+                SegmentBetween(leftTop.LineTangent, centerLeftTop.LineTangent),
+                ArcBetween(centerLeftTop.Center, centerLeftTop.LineTangent, centerLeftTop.CircleTangent),
+                ArcBetween((0, 0), centerLeftTop.CircleTangent, centerTopLeft.CircleTangent),
+                ArcBetween(centerTopLeft.Center, centerTopLeft.CircleTangent, centerTopLeft.LineTangent),
+                SegmentBetween(centerTopLeft.LineTangent, topLeft.LineTangent),
+                ArcBetween(topLeft.Center, topLeft.LineTangent, topLeft.CircleTangent));
+        }
 
         Relation UnionInteriorHoleOutlines() =>
             Chain(
@@ -275,6 +403,9 @@ internal static partial class SketchSamples
         var unionInteriorHoles = UnionInteriorHoleOutlines();
         var cuspMarkers = InteriorCuspMarkers();
         var roundedUnionInteriorHoles = RoundedUnionInteriorHoleOutlines();
+        var exteriorCuspMarkers = ExteriorCuspMarkers();
+        var exteriorRoundedOutline = ExteriorRoundedOutline();
+        var exteriorRoundedOuterFill = GraphicStructure.AreaFill(exteriorRoundedOutline);
 
         var areaFrame = GraphicBooleanSurface.AreaFrame(
             new Carrier(),
@@ -302,6 +433,17 @@ internal static partial class SketchSamples
             roundedCenterHoleCutNW,
             roundedCenterHoleCutSW,
             roundedCenterHoleCutSE);
+        var exteriorRoundedAreaFrame = GraphicBooleanSurface.AreaFrame(
+            new Carrier(),
+            exteriorRoundedOuterFill,
+            AntiDiskFill(armReach, 0, endpointInner),
+            AntiDiskFill(-armReach, 0, endpointInner),
+            AntiDiskFill(0, armReach, endpointInner),
+            AntiDiskFill(0, -armReach, endpointInner),
+            roundedCenterHoleCutNE,
+            roundedCenterHoleCutNW,
+            roundedCenterHoleCutSW,
+            roundedCenterHoleCutSE);
         var offsetEvidence = GraphicParameterSurface.Frame(
             new Carrier(),
             GraphicOffsetSurface.RequestWithDistance(new Carrier(), endpointState, Distance(offset)),
@@ -310,6 +452,11 @@ internal static partial class SketchSamples
         var fillUnion = GraphicBooleanSurface.AreaUnion(new Carrier(), areaFrame, unionInteriorHoles);
         var cuspSelection = GraphicParameterSurface.Frame(new Carrier(), fillUnion, cuspMarkers);
         var roundedUnion = GraphicBooleanSurface.AreaUnion(new Carrier(), roundedAreaFrame, roundedUnionInteriorHoles);
+        var exteriorCuspSelection = GraphicParameterSurface.Frame(new Carrier(), roundedUnion, exteriorCuspMarkers);
+        var exteriorRoundedUnion = GraphicBooleanSurface.AreaUnion(
+            new Carrier(),
+            exteriorRoundedAreaFrame,
+            Chain(exteriorRoundedOutline, roundedUnionInteriorHoles));
 
         var baseRung = StructuralLadderSurface.BaseRung(new Carrier(), centerPlus);
         var endpointStep = RefinedRung(
@@ -368,6 +515,22 @@ internal static partial class SketchSamples
             roundedUnion,
             roundedUnion,
             GraphicParameterSurface.Frame(new Carrier(), cuspSelection, cuspMarkers, roundedUnion));
+        var exteriorCuspStep = RefinedRung(
+            roundedUnion,
+            exteriorCuspMarkers,
+            roundedUnion,
+            UnknownPoint(),
+            exteriorCuspMarkers,
+            exteriorCuspSelection,
+            GraphicParameterSurface.Frame(new Carrier(), roundedUnion, exteriorCuspMarkers, exteriorCuspSelection));
+        var exteriorRoundedStep = RefinedRung(
+            exteriorCuspSelection,
+            exteriorCuspMarkers,
+            roundedUnion,
+            UnknownPoint(),
+            exteriorRoundedUnion,
+            exteriorRoundedUnion,
+            GraphicParameterSurface.Frame(new Carrier(), exteriorCuspSelection, exteriorCuspMarkers, exteriorRoundedUnion));
 
         var rungs = new[]
         {
@@ -379,6 +542,8 @@ internal static partial class SketchSamples
             outlineStep.Rung,
             cuspStep.Rung,
             roundedStep.Rung,
+            exteriorCuspStep.Rung,
+            exteriorRoundedStep.Rung,
         };
         var applications = new[]
         {
@@ -388,13 +553,15 @@ internal static partial class SketchSamples
             mergeStep.Application,
             outlineStep.Application,
             cuspStep.Application,
-            roundedStep.Application
+            roundedStep.Application,
+            exteriorCuspStep.Application,
+            exteriorRoundedStep.Application
         };
         var ladder = TimelineLadder(rungs, applications);
 
         return new SketchScene(
             "Radial Shape Ladder",
-            "Centerline plus and circle evolve through endpoint rings, offset fills, union evidence, a composite outline, smoothing, and small ornaments.",
+            "Centerline plus and circle evolve through endpoint rings, offset fills, union evidence, cusp selections, and rounded interior/exterior corners.",
             ladder,
             seed,
             new SKRect(-165, -165, 165, 165),
@@ -406,7 +573,9 @@ internal static partial class SketchSamples
                 "Merged fill color",
                 "Composite outline",
                 "Interior cusp selection",
-                "Rounded interior corners"
+                "Rounded interior corners",
+                "Exterior cusp selection",
+                "Rounded exterior corners"
             ]);
     }
 }

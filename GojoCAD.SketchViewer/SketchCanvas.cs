@@ -243,7 +243,7 @@ internal sealed class SketchDrawOperation : ICustomDrawOperation
         bool hidePoints)
     {
         if (scene.Label != "Radial Shape Ladder" ||
-            rungIndex != 6 ||
+            (rungIndex != 6 && rungIndex != 8) ||
             !TryReadOrderedFrame(result, out var elements) ||
             elements.Length < 2)
         {
@@ -312,7 +312,8 @@ internal sealed class SketchDrawOperation : ICustomDrawOperation
             drawAreaUnionAsOutline = true;
             drawAreaUnionOutline = true;
         }
-        else if (rungIndex == 7)
+        else if (rungIndex == 7 ||
+            rungIndex == 9)
         {
             drawAreaUnionAsOutline = true;
             drawAreaUnionOutline = true;
