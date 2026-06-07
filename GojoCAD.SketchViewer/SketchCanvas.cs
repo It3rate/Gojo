@@ -56,7 +56,7 @@ internal sealed class SketchDrawOperation : ICustomDrawOperation
     private static readonly GojoCadSkiaSceneRenderer Renderer = new();
     private static readonly GojoCadSkiaOffsetStudyRenderer OffsetRenderer = new();
     private static readonly SKColor CanvasBackground = new(249, 248, 244);
-    private static readonly SKColor RadialMergedFill = new(58, 128, 142, 118);
+    private static readonly SKColor RadialMergedFill = new(48, 88, 142, 158);
     private static readonly SKColor RadialAntiAreaFill = new(226, 50, 55, 58);
     private static readonly SKColor RadialCuspMarker = new(226, 18, 34, 245);
     private static readonly SKColor[] RadialSeparateFillPalette =
@@ -218,6 +218,7 @@ internal sealed class SketchDrawOperation : ICustomDrawOperation
             out var hideSharedFrameGeometry,
             out var drawAreaUnionOutline,
             out var drawAreaUnionAsOutline,
+            out var drawAreaUnionAntiAreas,
             out var eraseAreaUnionOutline);
         using var paints = CreateSketchPaints(
             color,
@@ -230,6 +231,7 @@ internal sealed class SketchDrawOperation : ICustomDrawOperation
             hideSharedFrameGeometry,
             drawAreaUnionOutline,
             drawAreaUnionAsOutline,
+            drawAreaUnionAntiAreas,
             eraseAreaUnionOutline);
         Renderer.Draw(canvas, result, viewport, scene.ProjectionSeed, scene.ModelBounds, paints);
     }
@@ -256,7 +258,8 @@ internal sealed class SketchDrawOperation : ICustomDrawOperation
             hidePoints,
             antiAreaFillColor: RadialAntiAreaFill,
             drawAreaUnionOutline: true,
-            drawAreaUnionAsOutline: true);
+            drawAreaUnionAsOutline: true,
+            drawAreaUnionAntiAreas: true);
         Renderer.Draw(canvas, elements[0], viewport, scene.ProjectionSeed, scene.ModelBounds, outlinePaints);
 
         using var markerPaints = CreateSketchPaints(
@@ -278,6 +281,7 @@ internal sealed class SketchDrawOperation : ICustomDrawOperation
         out bool hideSharedFrameGeometry,
         out bool drawAreaUnionOutline,
         out bool drawAreaUnionAsOutline,
+        out bool drawAreaUnionAntiAreas,
         out bool eraseAreaUnionOutline)
     {
         areaPalette = null;
@@ -287,6 +291,7 @@ internal sealed class SketchDrawOperation : ICustomDrawOperation
         hideSharedFrameGeometry = false;
         drawAreaUnionOutline = false;
         drawAreaUnionAsOutline = false;
+        drawAreaUnionAntiAreas = false;
         eraseAreaUnionOutline = false;
         if (!useSpecialAreaPaints ||
             scene.Label != "Radial Shape Ladder")
@@ -295,6 +300,7 @@ internal sealed class SketchDrawOperation : ICustomDrawOperation
         }
 
         antiAreaFillColor = RadialAntiAreaFill;
+        drawAreaUnionAntiAreas = rungIndex >= 4 && rungIndex < 10;
         if (rungIndex == 3)
         {
             areaPalette = RadialSeparateFillPalette;
@@ -318,6 +324,15 @@ internal sealed class SketchDrawOperation : ICustomDrawOperation
             drawAreaUnionAsOutline = true;
             drawAreaUnionOutline = true;
         }
+        else if (rungIndex == 10)
+        {
+            areaFillColor = new SKColor(RadialMergedFill.Red, RadialMergedFill.Green, RadialMergedFill.Blue, 146);
+            antiAreaFillColor = CanvasBackground;
+            drawAreaUnionAntiAreas = true;
+            drawAreaUnionOutline = true;
+            hideAreaBoundary = true;
+            hideSharedFrameGeometry = true;
+        }
     }
 
     private static GojoCadSkiaPaints CreateSketchPaints(
@@ -331,6 +346,7 @@ internal sealed class SketchDrawOperation : ICustomDrawOperation
         bool hideSharedFrameGeometry = false,
         bool drawAreaUnionOutline = false,
         bool drawAreaUnionAsOutline = false,
+        bool drawAreaUnionAntiAreas = false,
         bool eraseAreaUnionOutline = false)
     {
         var paints = new GojoCadSkiaPaints
@@ -349,6 +365,7 @@ internal sealed class SketchDrawOperation : ICustomDrawOperation
             HideSharedFrameGeometry = hideSharedFrameGeometry,
             DrawAreaUnionOutline = drawAreaUnionOutline,
             DrawAreaUnionAsOutline = drawAreaUnionAsOutline,
+            DrawAreaUnionAntiAreas = drawAreaUnionAntiAreas,
             EraseAreaUnionOutline = eraseAreaUnionOutline
         };
         ApplyStroke(paints.Segment, color, strokeWidth * 0.9f);

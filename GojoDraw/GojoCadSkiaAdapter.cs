@@ -99,10 +99,16 @@ public sealed class GojoCadSkiaAdapter
             return 0;
         }
 
+        var drawn = 1;
         using (path)
         {
             if (paints.DrawAreaUnionAsOutline)
             {
+                if (paints.DrawAreaUnionAntiAreas)
+                {
+                    drawn += DrawAreaUnionOpeningWitness(canvas, outline, path.Bounds, projection, paints, hitAreas);
+                }
+
                 canvas.DrawPath(path, paints.AreaBoundary);
             }
             else
@@ -112,18 +118,23 @@ public sealed class GojoCadSkiaAdapter
                 {
                     DrawAreaUnionOutlineWitness(canvas, outline, projection, paints, hitAreas, fill: true);
                 }
+
+                if (paints.DrawAreaUnionAntiAreas)
+                {
+                    drawn += DrawAreaUnionOpeningWitness(canvas, outline, path.Bounds, projection, paints, hitAreas);
+                }
             }
             AddHit(hitAreas, path.Bounds, "area union", priority: 2, union);
         }
 
         if (paints.DrawAreaUnionOutline)
         {
-            return 1 + (paints.DrawAreaUnionAsOutline
+            return drawn + (paints.DrawAreaUnionAsOutline
                 ? DrawAreaUnionOutlineWitness(canvas, outline, projection, paints, hitAreas, fill: false)
                 : DrawReadGraph(canvas, GraphicReadGraph.From(outline), projection, paints, hitAreas));
         }
 
-        return 1;
+        return drawn;
     }
 
     private static SKPath? BuildAreaUnionPath(IElement areaFrame, IGojoCadSkiaProjection projection)
@@ -308,6 +319,51 @@ public sealed class GojoCadSkiaAdapter
 
         return drawn;
     }
+
+    private static int DrawAreaUnionOpeningWitness(
+        SKCanvas canvas,
+        IElement outline,
+        SKRect unionBounds,
+        IGojoCadSkiaProjection projection,
+        GojoCadSkiaPaints paints,
+        ICollection<GojoCadSkiaHitArea>? hitAreas)
+    {
+        var graph = GraphicReadGraph.From(outline);
+        var drawn = 0;
+        foreach (var boundary in graph.ReadsOf<ClosedSharedFrameBoundaryRead>())
+        {
+            using var path = BuildClosedSharedFrameBoundaryPath(boundary, projection);
+            if (path is null ||
+                IsUnionOuterBoundary(path.Bounds, unionBounds))
+            {
+                continue;
+            }
+
+            canvas.DrawPath(path, paints.AntiAreaFill);
+            AddHit(hitAreas, path.Bounds, "area union anti opening", priority: 2, boundary.Source);
+            drawn++;
+        }
+
+        foreach (var boundary in graph.ReadsOf<ClosedSegmentBoundaryRead>())
+        {
+            using var path = BuildClosedSegmentBoundaryPath(boundary, projection);
+            if (path is null ||
+                IsUnionOuterBoundary(path.Bounds, unionBounds))
+            {
+                continue;
+            }
+
+            canvas.DrawPath(path, paints.AntiAreaFill);
+            AddHit(hitAreas, path.Bounds, "area union anti opening", priority: 2, boundary.Source);
+            drawn++;
+        }
+
+        return drawn;
+    }
+
+    private static bool IsUnionOuterBoundary(SKRect bounds, SKRect unionBounds) =>
+        bounds.Width >= unionBounds.Width * 0.72f &&
+        bounds.Height >= unionBounds.Height * 0.72f;
 
     private static int DrawReadGraph(
         SKCanvas canvas,

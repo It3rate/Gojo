@@ -457,6 +457,10 @@ internal static partial class SketchSamples
             new Carrier(),
             exteriorRoundedAreaFrame,
             Chain(exteriorRoundedOutline, roundedUnionInteriorHoles));
+        var finalColoredUnion = GraphicBooleanSurface.AreaUnion(
+            new Carrier(),
+            exteriorRoundedAreaFrame,
+            Chain(exteriorRoundedOutline, roundedUnionInteriorHoles));
 
         var baseRung = StructuralLadderSurface.BaseRung(new Carrier(), centerPlus);
         var endpointStep = RefinedRung(
@@ -531,6 +535,14 @@ internal static partial class SketchSamples
             exteriorRoundedUnion,
             exteriorRoundedUnion,
             GraphicParameterSurface.Frame(new Carrier(), exteriorCuspSelection, exteriorCuspMarkers, exteriorRoundedUnion));
+        var finalColoredStep = RefinedRung(
+            exteriorRoundedUnion,
+            exteriorRoundedUnion,
+            exteriorRoundedUnion,
+            UnknownPoint(),
+            finalColoredUnion,
+            finalColoredUnion,
+            GraphicParameterSurface.Frame(new Carrier(), exteriorRoundedUnion, finalColoredUnion));
 
         var rungs = new[]
         {
@@ -544,6 +556,7 @@ internal static partial class SketchSamples
             roundedStep.Rung,
             exteriorCuspStep.Rung,
             exteriorRoundedStep.Rung,
+            finalColoredStep.Rung,
         };
         var applications = new[]
         {
@@ -555,7 +568,8 @@ internal static partial class SketchSamples
             cuspStep.Application,
             roundedStep.Application,
             exteriorCuspStep.Application,
-            exteriorRoundedStep.Application
+            exteriorRoundedStep.Application,
+            finalColoredStep.Application
         };
         var ladder = TimelineLadder(rungs, applications);
 
@@ -575,7 +589,8 @@ internal static partial class SketchSamples
                 "Interior cusp selection",
                 "Rounded interior corners",
                 "Exterior cusp selection",
-                "Rounded exterior corners"
+                "Rounded exterior corners",
+                "Final colored area"
             ]);
     }
 }

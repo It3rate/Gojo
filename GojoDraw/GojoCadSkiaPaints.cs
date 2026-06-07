@@ -140,6 +140,8 @@ public sealed class GojoCadSkiaPaints : IDisposable
 
     public bool DrawAreaUnionAsOutline { get; init; }
 
+    public bool DrawAreaUnionAntiAreas { get; init; }
+
     public bool EraseAreaUnionOutline { get; init; }
 
     public float EndpointBarLength { get; init; } = 10f;

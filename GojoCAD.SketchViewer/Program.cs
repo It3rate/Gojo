@@ -170,9 +170,9 @@ internal static class Program
 
     private static void ValidateRadialShapeLadder(SketchScene scene, Relation ladder, IReadOnlyList<Relation> rungs)
     {
-        if (rungs.Count != 10)
+        if (rungs.Count != 11)
         {
-            throw new InvalidOperationException($"Sketch scene '{scene.Label}' should expose the ten requested shape-ladder steps.");
+            throw new InvalidOperationException($"Sketch scene '{scene.Label}' should expose the eleven requested shape-ladder steps.");
         }
 
         var unionSurfaces = WalkRelations(ladder)
@@ -373,6 +373,39 @@ internal static class Program
         if (!exteriorRoundedOutlines.Any(boundary => boundary.Arcs is { Count: >= 24 }))
         {
             throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not replace exterior cusp joins with tangent arc outline evidence.");
+        }
+
+        if (!StructuralLadderSurface.TryReadRung(
+                rungs[10],
+                out _,
+                out _,
+                out var finalColoredResult,
+                out _,
+                out _,
+                out _,
+                out _,
+                out _) ||
+            finalColoredResult is not Relation finalColoredUnion ||
+            !GraphicBooleanSurface.TryReadAreaUnion(
+                finalColoredUnion,
+                out var finalColoredAreaFrame,
+                out _,
+                out _,
+                out _) ||
+            finalColoredAreaFrame is not Relation finalColoredAreaFrameRelation ||
+            !GraphicBooleanSurface.TryReadAreaFrame(finalColoredAreaFrameRelation, out var finalColoredParticipants))
+        {
+            throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not expose the final colored area union.");
+        }
+
+        var finalColoredAreas = GraphicReadGraph.From(finalColoredAreaFrameRelation)
+            .ReadsOf<SharedFrameAreaRead>()
+            .ToArray();
+        if (finalColoredParticipants.Length != 9 ||
+            finalColoredAreas.Count(area => !area.IsAntiArea) != 1 ||
+            finalColoredAreas.Count(area => area.IsAntiArea) < 8)
+        {
+            throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not keep the final holes as unfilled area cuts.");
         }
     }
 
