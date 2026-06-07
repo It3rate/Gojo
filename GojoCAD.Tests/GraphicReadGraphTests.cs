@@ -773,6 +773,28 @@ public sealed class GraphicReadGraphTests
     }
 
     [Fact]
+    public void OrderedSharedFrameSegmentsDoNotBecomeImplicitCurveControls()
+    {
+        var frame = new Carrier();
+        var x = new Carrier();
+        var y = new Carrier();
+        Relation P(long xTicks, long yTicks) =>
+            GraphicStructure.FramePoint(frame, new CarrierLocation(x, xTicks), new CarrierLocation(y, yTicks));
+        var horizontal = GraphicStructure.FrameSegment(P(-10, 0), P(10, 0));
+        var vertical = GraphicStructure.FrameSegment(P(0, -10), P(0, 10));
+        var plus = Relation.OrderedGroup(new Carrier(), horizontal, vertical);
+
+        var graph = GraphicReadGraph.From(plus);
+
+        var pathGraph = Assert.Single(graph.ReadsOf<PathGraphRead>());
+        Assert.Equal(2, pathGraph.Edges.Count);
+        Assert.Equal(4, pathGraph.TerminalNodeCount);
+        Assert.Empty(graph.ReadsOf<SharedFrameQuadraticCurveRead>());
+        Assert.Empty(graph.ReadsOf<SharedFrameCubicCurveRead>());
+        Assert.Empty(graph.ReadsOf<SharedFrameCurveTransitionRead>());
+    }
+
+    [Fact]
     public void ReadsClosedPathGraphFromSharedFrameLetterO()
     {
         var frame = new Carrier();

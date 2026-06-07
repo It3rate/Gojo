@@ -1,3 +1,4 @@
+using System.Linq;
 using Gojo.Core;
 using Gojo.Structures;
 using GojoCAD.Structures;
@@ -12,11 +13,8 @@ internal static partial class SketchSamples
         const long armReach = 122;
         const long offset = 10;
         const long centerRadius = 71;
-        const long centerOuter = centerRadius + offset;
         const long centerInner = centerRadius - offset;
         const long endpointRadius = 18;
-        const long endpointOuter = endpointRadius + offset;
-        const long endpointInner = endpointRadius - offset;
 
         var frame = new Carrier();
         var x = new Carrier();
@@ -27,6 +25,9 @@ internal static partial class SketchSamples
 
         Relation Distance(long ticks) =>
             Relation.Segment(new Carrier(), 0, Math.Abs(ticks));
+
+        Relation Group(params IElement[] elements) =>
+            Relation.OrderedGroup(new Carrier(), elements ?? []);
 
         Relation Segment(long startX, long startY, long endX, long endY) =>
             GraphicStructure.FrameSegment(P(startX, startY), P(endX, endY));
@@ -41,12 +42,203 @@ internal static partial class SketchSamples
                 Arc(centerX, centerY, centerX - radius, centerY, centerX, centerY - radius),
                 Arc(centerX, centerY, centerX, centerY - radius, centerX + radius, centerY));
 
-        Relation RectOutline(long left, long bottom, long right, long top) =>
-            Chain(
-                Segment(left, bottom, right, bottom),
-                Segment(right, bottom, right, top),
-                Segment(right, top, left, top),
-                Segment(left, top, left, bottom));
+        ulong SourceId(IElement source) =>
+            source is Relation relation ? relation.Id : 0UL;
+
+        bool TryReadPointTicks(SharedFramePointRead point, out long pointX, out long pointY)
+        {
+            if (point.Coordinates.Count >= 2)
+            {
+                pointX = point.Coordinates[0].Ticks;
+                pointY = point.Coordinates[1].Ticks;
+                return true;
+            }
+
+            pointX = 0;
+            pointY = 0;
+            return false;
+        }
+
+        bool TryReadSegmentTicks(
+            SharedFrameSegmentRead segment,
+            out long startX,
+            out long startY,
+            out long endX,
+            out long endY)
+        {
+            if (TryReadPointTicks(segment.Start, out startX, out startY) &&
+                TryReadPointTicks(segment.End, out endX, out endY))
+            {
+                return true;
+            }
+
+            startX = 0;
+            startY = 0;
+            endX = 0;
+            endY = 0;
+            return false;
+        }
+
+        bool TryReadCircleBoundary(
+            ClosedSharedFrameBoundaryRead boundary,
+            out long centerX,
+            out long centerY,
+            out long radius)
+        {
+            var arcs = boundary.Arcs ?? [];
+            if (arcs.Count < 4 ||
+                !TryReadPointTicks(arcs[0].Center, out centerX, out centerY) ||
+                !TryReadPointTicks(arcs[0].Start, out var startX, out var startY))
+            {
+                centerX = 0;
+                centerY = 0;
+                radius = 0;
+                return false;
+            }
+
+            foreach (var arc in arcs)
+            {
+                if (!TryReadPointTicks(arc.Center, out var arcCenterX, out var arcCenterY) ||
+                    arcCenterX != centerX ||
+                    arcCenterY != centerY)
+                {
+                    radius = 0;
+                    return false;
+                }
+            }
+
+            radius = (long)Math.Round(Math.Sqrt(
+                Math.Pow(startX - centerX, 2) +
+                Math.Pow(startY - centerY, 2)));
+            return radius > 0;
+        }
+
+        IEnumerable<SharedFrameSegmentRead> OpenSharedFrameLineSegments(IElement source)
+        {
+            var graph = GraphicReadGraph.From(source);
+            var arcSpanIds = graph.ReadsOf<SharedFrameArcRead>()
+                .Select(arc => SourceId(arc.Span.Source))
+                .ToHashSet();
+            var seen = new HashSet<ulong>();
+
+            foreach (var pathGraph in graph.ReadsOf<PathGraphRead>())
+            foreach (var edge in pathGraph.Edges)
+            {
+                if (edge.Segment is not SharedFrameSegmentRead segment ||
+                    !edge.IsSharedFrame ||
+                    edge.Start.Valence != 1 ||
+                    edge.End.Valence != 1 ||
+                    arcSpanIds.Contains(SourceId(segment.Source)) ||
+                    !seen.Add(SourceId(segment.Source)))
+                {
+                    continue;
+                }
+
+                yield return segment;
+            }
+        }
+
+        IElement[] DerivedOffsetBoundaryElements(IElement source, long distanceTicks)
+        {
+            var elements = new List<IElement>();
+            foreach (var segment in OpenSharedFrameLineSegments(source))
+            {
+                if (!TryReadSegmentTicks(segment, out var startX, out var startY, out var endX, out var endY))
+                {
+                    continue;
+                }
+
+                var deltaX = endX - startX;
+                var deltaY = endY - startY;
+                var length = Math.Sqrt(deltaX * deltaX + deltaY * deltaY);
+                if (length <= 0)
+                {
+                    continue;
+                }
+
+                var normalX = (long)Math.Round(-deltaY / length * distanceTicks);
+                var normalY = (long)Math.Round(deltaX / length * distanceTicks);
+                elements.Add(Segment(startX + normalX, startY + normalY, endX + normalX, endY + normalY));
+                elements.Add(Segment(startX - normalX, startY - normalY, endX - normalX, endY - normalY));
+            }
+
+            var graph = GraphicReadGraph.From(source);
+            var seenCircles = new HashSet<string>();
+            foreach (var boundary in graph.ReadsOf<ClosedSharedFrameBoundaryRead>())
+            {
+                if (!TryReadCircleBoundary(boundary, out var centerX, out var centerY, out var radius) ||
+                    !seenCircles.Add($"{centerX}:{centerY}:{radius}"))
+                {
+                    continue;
+                }
+
+                elements.Add(Circle(centerX, centerY, radius + distanceTicks));
+                if (radius > distanceTicks)
+                {
+                    elements.Add(Circle(centerX, centerY, radius - distanceTicks));
+                }
+            }
+
+            return [.. elements];
+        }
+
+        IElement[] DerivedFillParticipants(IElement offsetStructure)
+        {
+            var participants = new List<IElement>();
+            var lineGroups = OpenSharedFrameLineSegments(offsetStructure)
+                .Select(segment =>
+                {
+                    TryReadSegmentTicks(segment, out var startX, out var startY, out var endX, out var endY);
+                    var horizontal = Math.Abs(endX - startX) >= Math.Abs(endY - startY);
+                    var key = horizontal
+                        ? $"h:{Math.Min(startX, endX)}:{Math.Max(startX, endX)}"
+                        : $"v:{Math.Min(startY, endY)}:{Math.Max(startY, endY)}";
+                    return (key, startX, startY, endX, endY);
+                })
+                .GroupBy(line => line.key);
+            foreach (var group in lineGroups)
+            {
+                var lines = group.ToArray();
+                if (lines.Length != 2)
+                {
+                    continue;
+                }
+
+                participants.Add(PolygonFill(
+                    (lines[0].startX, lines[0].startY),
+                    (lines[0].endX, lines[0].endY),
+                    (lines[1].endX, lines[1].endY),
+                    (lines[1].startX, lines[1].startY)));
+            }
+
+            var circleGroups = GraphicReadGraph.From(offsetStructure)
+                .ReadsOf<ClosedSharedFrameBoundaryRead>()
+                .Select(boundary =>
+                {
+                    var read = TryReadCircleBoundary(boundary, out var centerX, out var centerY, out var radius);
+                    return (read, centerX, centerY, radius);
+                })
+                .Where(circle => circle.read)
+                .DistinctBy(circle => $"{circle.centerX}:{circle.centerY}:{circle.radius}")
+                .GroupBy(circle => $"{circle.centerX}:{circle.centerY}");
+            foreach (var group in circleGroups)
+            {
+                var radii = group
+                    .Select(circle => circle.radius)
+                    .Distinct()
+                    .OrderDescending()
+                    .ToArray();
+                if (radii.Length < 2)
+                {
+                    continue;
+                }
+
+                var first = group.First();
+                participants.Add(RingFill(first.centerX, first.centerY, radii[0], radii[1]));
+            }
+
+            return [.. participants];
+        }
 
         Relation PolygonFill(params (long X, long Y)[] points)
         {
@@ -75,50 +267,18 @@ internal static partial class SketchSamples
         Relation RingFill(long centerX, long centerY, long outerRadius, long innerRadius) =>
             Chain(DiskFill(centerX, centerY, outerRadius), AntiDiskFill(centerX, centerY, innerRadius));
 
-        Relation OffsetBoundaryPairs() =>
-            Chain(
-                Segment(-armReach, offset, armReach, offset),
-                Segment(-armReach, -offset, armReach, -offset),
-                Segment(-offset, -armReach, -offset, armReach),
-                Segment(offset, -armReach, offset, armReach),
-                Circle(0, 0, centerOuter),
-                Circle(0, 0, centerInner),
-                Circle(armReach, 0, endpointOuter),
-                Circle(armReach, 0, endpointInner),
-                Circle(-armReach, 0, endpointOuter),
-                Circle(-armReach, 0, endpointInner),
-                Circle(0, armReach, endpointOuter),
-                Circle(0, armReach, endpointInner),
-                Circle(0, -armReach, endpointOuter),
-                Circle(0, -armReach, endpointInner));
-
-        Relation CompositeOutline() =>
-            Chain(
-                RectOutline(-armReach, -offset, armReach, offset),
-                RectOutline(-offset, -armReach, offset, armReach),
-                Circle(0, 0, centerOuter),
-                Circle(0, 0, centerInner),
-                Circle(armReach, 0, endpointOuter),
-                Circle(armReach, 0, endpointInner),
-                Circle(-armReach, 0, endpointOuter),
-                Circle(-armReach, 0, endpointInner),
-                Circle(0, armReach, endpointOuter),
-                Circle(0, armReach, endpointInner),
-                Circle(0, -armReach, endpointOuter),
-                Circle(0, -armReach, endpointInner));
-
-        Relation CenterHoleOutline(long signX, long signY)
+        Relation CenterHoleOutline(long innerRadius, long halfWidth, long signX, long signY)
         {
-            var corner = P(signX * offset, signY * offset);
-            var circleSide = (long)Math.Round(Math.Sqrt(centerInner * centerInner - offset * offset));
+            var corner = P(signX * halfWidth, signY * halfWidth);
+            var circleSide = (long)Math.Round(Math.Sqrt(innerRadius * innerRadius - halfWidth * halfWidth));
             return Chain(
-                Segment(signX * offset, signY * offset, signX * offset, signY * circleSide),
-                Arc(0, 0, signX * offset, signY * circleSide, signX * circleSide, signY * offset),
-                GraphicStructure.FrameSegment(P(signX * circleSide, signY * offset), corner));
+                Segment(signX * halfWidth, signY * halfWidth, signX * halfWidth, signY * circleSide),
+                Arc(0, 0, signX * halfWidth, signY * circleSide, signX * circleSide, signY * halfWidth),
+                GraphicStructure.FrameSegment(P(signX * circleSide, signY * halfWidth), corner));
         }
 
         Relation CenterHoleAntiFill(long signX, long signY) =>
-            GraphicStructure.AntiAreaFill(CenterHoleOutline(signX, signY));
+            GraphicStructure.AntiAreaFill(CenterHoleOutline(centerInner, offset, signX, signY));
 
         (long X, long Y) HorizontalCircleCusp(long centerX, long centerY, long radius, long lineY, long sideX)
         {
@@ -179,23 +339,23 @@ internal static partial class SketchSamples
             return ((filletCenterX, filletCenterY), (lineX, filletCenterY), circleTangent);
         }
 
-        Relation RoundedCenterHoleOutline(long signX, long signY)
+        Relation RoundedCenterHoleOutline(long innerRadius, long halfWidth, long signX, long signY)
         {
             const long cornerRadius = 7;
-            var filletCenterOffset = offset + cornerRadius;
-            var filletCenterRadius = centerInner - cornerRadius;
+            var filletCenterOffset = halfWidth + cornerRadius;
+            var filletCenterRadius = innerRadius - cornerRadius;
             var straightTangent = (long)Math.Round(Math.Sqrt(
                 filletCenterRadius * filletCenterRadius -
                 filletCenterOffset * filletCenterOffset));
-            var circleScale = (double)centerInner / filletCenterRadius;
+            var circleScale = (double)innerRadius / filletCenterRadius;
             var circleNearLine = (long)Math.Round(filletCenterOffset * circleScale);
             var circleNearArc = (long)Math.Round(straightTangent * circleScale);
-            var verticalStart = (X: signX * offset, Y: signY * (offset + cornerRadius));
-            var verticalEnd = (X: signX * offset, Y: signY * straightTangent);
+            var verticalStart = (X: signX * halfWidth, Y: signY * (halfWidth + cornerRadius));
+            var verticalEnd = (X: signX * halfWidth, Y: signY * straightTangent);
             var verticalArcEnd = (X: signX * circleNearLine, Y: signY * circleNearArc);
             var horizontalArcStart = (X: signX * circleNearArc, Y: signY * circleNearLine);
-            var horizontalStart = (X: signX * straightTangent, Y: signY * offset);
-            var horizontalEnd = (X: signX * (offset + cornerRadius), Y: signY * offset);
+            var horizontalStart = (X: signX * straightTangent, Y: signY * halfWidth);
+            var horizontalEnd = (X: signX * (halfWidth + cornerRadius), Y: signY * halfWidth);
 
             return Chain(
                 Segment(verticalStart.X, verticalStart.Y, verticalEnd.X, verticalEnd.Y),
@@ -225,79 +385,139 @@ internal static partial class SketchSamples
         }
 
         Relation RoundedCenterHoleAntiFill(long signX, long signY) =>
-            GraphicStructure.AntiAreaFill(RoundedCenterHoleOutline(signX, signY));
+            GraphicStructure.AntiAreaFill(RoundedCenterHoleOutline(centerInner, offset, signX, signY));
 
-        Relation ExteriorSharpOutline()
+        bool TryReadRadialProfile(
+            IElement sourceAreaFrame,
+            out long profileArmReach,
+            out long profileHalfWidth,
+            out long profileCenterOuter,
+            out long profileEndpointOuter)
         {
-            var centerTopLeft = VerticalCircleCusp(0, 0, centerOuter, -offset, 1);
-            var centerTopRight = VerticalCircleCusp(0, 0, centerOuter, offset, 1);
-            var centerRightTop = HorizontalCircleCusp(0, 0, centerOuter, offset, 1);
-            var centerRightBottom = HorizontalCircleCusp(0, 0, centerOuter, -offset, 1);
-            var centerBottomRight = VerticalCircleCusp(0, 0, centerOuter, offset, -1);
-            var centerBottomLeft = VerticalCircleCusp(0, 0, centerOuter, -offset, -1);
-            var centerLeftBottom = HorizontalCircleCusp(0, 0, centerOuter, -offset, -1);
-            var centerLeftTop = HorizontalCircleCusp(0, 0, centerOuter, offset, -1);
-            var topLeft = VerticalCircleCusp(0, armReach, endpointOuter, -offset, -1);
-            var topRight = VerticalCircleCusp(0, armReach, endpointOuter, offset, -1);
-            var rightTop = HorizontalCircleCusp(armReach, 0, endpointOuter, offset, -1);
-            var rightBottom = HorizontalCircleCusp(armReach, 0, endpointOuter, -offset, -1);
-            var bottomRight = VerticalCircleCusp(0, -armReach, endpointOuter, offset, 1);
-            var bottomLeft = VerticalCircleCusp(0, -armReach, endpointOuter, -offset, 1);
-            var leftBottom = HorizontalCircleCusp(-armReach, 0, endpointOuter, -offset, 1);
-            var leftTop = HorizontalCircleCusp(-armReach, 0, endpointOuter, offset, 1);
+            var graph = GraphicReadGraph.From(sourceAreaFrame);
+            var positiveCircles = graph.ReadsOf<SharedFrameAreaRead>()
+                .Where(area => !area.IsAntiArea)
+                .Select(area =>
+                {
+                    var read = TryReadCircleBoundary(area.Boundary, out var centerX, out var centerY, out var radius);
+                    return (read, centerX, centerY, radius);
+                })
+                .Where(circle => circle.read)
+                .DistinctBy(circle => $"{circle.centerX}:{circle.centerY}:{circle.radius}")
+                .ToArray();
+            var centerCircle = positiveCircles
+                .Where(circle => circle.centerX == 0 && circle.centerY == 0)
+                .OrderByDescending(circle => circle.radius)
+                .FirstOrDefault();
+            var endpointCircle = positiveCircles
+                .Where(circle => circle.centerX != 0 || circle.centerY != 0)
+                .OrderByDescending(circle => Math.Max(Math.Abs(circle.centerX), Math.Abs(circle.centerY)))
+                .ThenByDescending(circle => circle.radius)
+                .FirstOrDefault();
+            var halfWidths = graph.ReadsOf<SharedFrameAreaRead>()
+                .Where(area => !area.IsAntiArea && area.Boundary.Arcs is not { Count: > 0 })
+                .Select(area =>
+                {
+                    if (!TryReadBoundaryBounds(area.Boundary, out var minX, out var maxX, out var minY, out var maxY))
+                    {
+                        return 0L;
+                    }
+
+                    return Math.Min(maxX - minX, maxY - minY) / 2;
+                })
+                .Where(width => width > 0)
+                .Order()
+                .ToArray();
+
+            profileArmReach = Math.Max(Math.Abs(endpointCircle.centerX), Math.Abs(endpointCircle.centerY));
+            profileHalfWidth = halfWidths.FirstOrDefault();
+            profileCenterOuter = centerCircle.radius;
+            profileEndpointOuter = endpointCircle.radius;
+            return profileArmReach > 0 &&
+                profileHalfWidth > 0 &&
+                profileCenterOuter > 0 &&
+                profileEndpointOuter > 0;
+        }
+
+        Relation ExteriorSharpOutline(
+            long profileArmReach,
+            long profileHalfWidth,
+            long profileCenterOuter,
+            long profileEndpointOuter)
+        {
+            var centerTopLeft = VerticalCircleCusp(0, 0, profileCenterOuter, -profileHalfWidth, 1);
+            var centerTopRight = VerticalCircleCusp(0, 0, profileCenterOuter, profileHalfWidth, 1);
+            var centerRightTop = HorizontalCircleCusp(0, 0, profileCenterOuter, profileHalfWidth, 1);
+            var centerRightBottom = HorizontalCircleCusp(0, 0, profileCenterOuter, -profileHalfWidth, 1);
+            var centerBottomRight = VerticalCircleCusp(0, 0, profileCenterOuter, profileHalfWidth, -1);
+            var centerBottomLeft = VerticalCircleCusp(0, 0, profileCenterOuter, -profileHalfWidth, -1);
+            var centerLeftBottom = HorizontalCircleCusp(0, 0, profileCenterOuter, -profileHalfWidth, -1);
+            var centerLeftTop = HorizontalCircleCusp(0, 0, profileCenterOuter, profileHalfWidth, -1);
+            var topLeft = VerticalCircleCusp(0, profileArmReach, profileEndpointOuter, -profileHalfWidth, -1);
+            var topRight = VerticalCircleCusp(0, profileArmReach, profileEndpointOuter, profileHalfWidth, -1);
+            var rightTop = HorizontalCircleCusp(profileArmReach, 0, profileEndpointOuter, profileHalfWidth, -1);
+            var rightBottom = HorizontalCircleCusp(profileArmReach, 0, profileEndpointOuter, -profileHalfWidth, -1);
+            var bottomRight = VerticalCircleCusp(0, -profileArmReach, profileEndpointOuter, profileHalfWidth, 1);
+            var bottomLeft = VerticalCircleCusp(0, -profileArmReach, profileEndpointOuter, -profileHalfWidth, 1);
+            var leftBottom = HorizontalCircleCusp(-profileArmReach, 0, profileEndpointOuter, -profileHalfWidth, 1);
+            var leftTop = HorizontalCircleCusp(-profileArmReach, 0, profileEndpointOuter, profileHalfWidth, 1);
 
             return Chain(
-                ArcBetween((0, armReach), topLeft, CircleSite(0, armReach, -endpointOuter, 0)),
-                Arc(0, armReach, -endpointOuter, armReach, 0, armReach + endpointOuter),
-                Arc(0, armReach, 0, armReach + endpointOuter, endpointOuter, armReach),
-                ArcBetween((0, armReach), CircleSite(0, armReach, endpointOuter, 0), topRight),
+                ArcBetween((0, profileArmReach), topLeft, CircleSite(0, profileArmReach, -profileEndpointOuter, 0)),
+                Arc(0, profileArmReach, -profileEndpointOuter, profileArmReach, 0, profileArmReach + profileEndpointOuter),
+                Arc(0, profileArmReach, 0, profileArmReach + profileEndpointOuter, profileEndpointOuter, profileArmReach),
+                ArcBetween((0, profileArmReach), CircleSite(0, profileArmReach, profileEndpointOuter, 0), topRight),
                 SegmentBetween(topRight, centerTopRight),
                 ArcBetween((0, 0), centerTopRight, centerRightTop),
                 SegmentBetween(centerRightTop, rightTop),
-                ArcBetween((armReach, 0), rightTop, CircleSite(armReach, 0, endpointOuter, 0)),
-                ArcBetween((armReach, 0), CircleSite(armReach, 0, endpointOuter, 0), rightBottom),
+                ArcBetween((profileArmReach, 0), rightTop, CircleSite(profileArmReach, 0, profileEndpointOuter, 0)),
+                ArcBetween((profileArmReach, 0), CircleSite(profileArmReach, 0, profileEndpointOuter, 0), rightBottom),
                 SegmentBetween(rightBottom, centerRightBottom),
                 ArcBetween((0, 0), centerRightBottom, centerBottomRight),
                 SegmentBetween(centerBottomRight, bottomRight),
-                ArcBetween((0, -armReach), bottomRight, CircleSite(0, -armReach, endpointOuter, 0)),
-                Arc(0, -armReach, endpointOuter, -armReach, 0, -armReach - endpointOuter),
-                Arc(0, -armReach, 0, -armReach - endpointOuter, -endpointOuter, -armReach),
-                ArcBetween((0, -armReach), CircleSite(0, -armReach, -endpointOuter, 0), bottomLeft),
+                ArcBetween((0, -profileArmReach), bottomRight, CircleSite(0, -profileArmReach, profileEndpointOuter, 0)),
+                Arc(0, -profileArmReach, profileEndpointOuter, -profileArmReach, 0, -profileArmReach - profileEndpointOuter),
+                Arc(0, -profileArmReach, 0, -profileArmReach - profileEndpointOuter, -profileEndpointOuter, -profileArmReach),
+                ArcBetween((0, -profileArmReach), CircleSite(0, -profileArmReach, -profileEndpointOuter, 0), bottomLeft),
                 SegmentBetween(bottomLeft, centerBottomLeft),
                 ArcBetween((0, 0), centerBottomLeft, centerLeftBottom),
                 SegmentBetween(centerLeftBottom, leftBottom),
-                ArcBetween((-armReach, 0), leftBottom, CircleSite(-armReach, 0, -endpointOuter, 0)),
-                ArcBetween((-armReach, 0), CircleSite(-armReach, 0, -endpointOuter, 0), leftTop),
+                ArcBetween((-profileArmReach, 0), leftBottom, CircleSite(-profileArmReach, 0, -profileEndpointOuter, 0)),
+                ArcBetween((-profileArmReach, 0), CircleSite(-profileArmReach, 0, -profileEndpointOuter, 0), leftTop),
                 SegmentBetween(leftTop, centerLeftTop),
                 ArcBetween((0, 0), centerLeftTop, centerTopLeft),
                 SegmentBetween(centerTopLeft, topLeft));
         }
 
-        Relation ExteriorRoundedOutline()
+        Relation ExteriorRoundedOutline(
+            long profileArmReach,
+            long profileHalfWidth,
+            long profileCenterOuter,
+            long profileEndpointOuter)
         {
             const long cornerRadius = 6;
-            var centerTopLeft = VerticalExternalFillet(0, 0, centerOuter, -offset, 1, cornerRadius);
-            var centerTopRight = VerticalExternalFillet(0, 0, centerOuter, offset, 1, cornerRadius);
-            var centerRightTop = HorizontalExternalFillet(0, 0, centerOuter, offset, 1, cornerRadius);
-            var centerRightBottom = HorizontalExternalFillet(0, 0, centerOuter, -offset, 1, cornerRadius);
-            var centerBottomRight = VerticalExternalFillet(0, 0, centerOuter, offset, -1, cornerRadius);
-            var centerBottomLeft = VerticalExternalFillet(0, 0, centerOuter, -offset, -1, cornerRadius);
-            var centerLeftBottom = HorizontalExternalFillet(0, 0, centerOuter, -offset, -1, cornerRadius);
-            var centerLeftTop = HorizontalExternalFillet(0, 0, centerOuter, offset, -1, cornerRadius);
-            var topLeft = VerticalExternalFillet(0, armReach, endpointOuter, -offset, -1, cornerRadius);
-            var topRight = VerticalExternalFillet(0, armReach, endpointOuter, offset, -1, cornerRadius);
-            var rightTop = HorizontalExternalFillet(armReach, 0, endpointOuter, offset, -1, cornerRadius);
-            var rightBottom = HorizontalExternalFillet(armReach, 0, endpointOuter, -offset, -1, cornerRadius);
-            var bottomRight = VerticalExternalFillet(0, -armReach, endpointOuter, offset, 1, cornerRadius);
-            var bottomLeft = VerticalExternalFillet(0, -armReach, endpointOuter, -offset, 1, cornerRadius);
-            var leftBottom = HorizontalExternalFillet(-armReach, 0, endpointOuter, -offset, 1, cornerRadius);
-            var leftTop = HorizontalExternalFillet(-armReach, 0, endpointOuter, offset, 1, cornerRadius);
+            var centerTopLeft = VerticalExternalFillet(0, 0, profileCenterOuter, -profileHalfWidth, 1, cornerRadius);
+            var centerTopRight = VerticalExternalFillet(0, 0, profileCenterOuter, profileHalfWidth, 1, cornerRadius);
+            var centerRightTop = HorizontalExternalFillet(0, 0, profileCenterOuter, profileHalfWidth, 1, cornerRadius);
+            var centerRightBottom = HorizontalExternalFillet(0, 0, profileCenterOuter, -profileHalfWidth, 1, cornerRadius);
+            var centerBottomRight = VerticalExternalFillet(0, 0, profileCenterOuter, profileHalfWidth, -1, cornerRadius);
+            var centerBottomLeft = VerticalExternalFillet(0, 0, profileCenterOuter, -profileHalfWidth, -1, cornerRadius);
+            var centerLeftBottom = HorizontalExternalFillet(0, 0, profileCenterOuter, -profileHalfWidth, -1, cornerRadius);
+            var centerLeftTop = HorizontalExternalFillet(0, 0, profileCenterOuter, profileHalfWidth, -1, cornerRadius);
+            var topLeft = VerticalExternalFillet(0, profileArmReach, profileEndpointOuter, -profileHalfWidth, -1, cornerRadius);
+            var topRight = VerticalExternalFillet(0, profileArmReach, profileEndpointOuter, profileHalfWidth, -1, cornerRadius);
+            var rightTop = HorizontalExternalFillet(profileArmReach, 0, profileEndpointOuter, profileHalfWidth, -1, cornerRadius);
+            var rightBottom = HorizontalExternalFillet(profileArmReach, 0, profileEndpointOuter, -profileHalfWidth, -1, cornerRadius);
+            var bottomRight = VerticalExternalFillet(0, -profileArmReach, profileEndpointOuter, profileHalfWidth, 1, cornerRadius);
+            var bottomLeft = VerticalExternalFillet(0, -profileArmReach, profileEndpointOuter, -profileHalfWidth, 1, cornerRadius);
+            var leftBottom = HorizontalExternalFillet(-profileArmReach, 0, profileEndpointOuter, -profileHalfWidth, 1, cornerRadius);
+            var leftTop = HorizontalExternalFillet(-profileArmReach, 0, profileEndpointOuter, profileHalfWidth, 1, cornerRadius);
 
             return Chain(
-                ArcBetween((0, armReach), topLeft.CircleTangent, CircleSite(0, armReach, -endpointOuter, 0)),
-                Arc(0, armReach, -endpointOuter, armReach, 0, armReach + endpointOuter),
-                Arc(0, armReach, 0, armReach + endpointOuter, endpointOuter, armReach),
-                ArcBetween((0, armReach), CircleSite(0, armReach, endpointOuter, 0), topRight.CircleTangent),
+                ArcBetween((0, profileArmReach), topLeft.CircleTangent, CircleSite(0, profileArmReach, -profileEndpointOuter, 0)),
+                Arc(0, profileArmReach, -profileEndpointOuter, profileArmReach, 0, profileArmReach + profileEndpointOuter),
+                Arc(0, profileArmReach, 0, profileArmReach + profileEndpointOuter, profileEndpointOuter, profileArmReach),
+                ArcBetween((0, profileArmReach), CircleSite(0, profileArmReach, profileEndpointOuter, 0), topRight.CircleTangent),
                 ArcBetween(topRight.Center, topRight.CircleTangent, topRight.LineTangent),
                 SegmentBetween(topRight.LineTangent, centerTopRight.LineTangent),
                 ArcBetween(centerTopRight.Center, centerTopRight.LineTangent, centerTopRight.CircleTangent),
@@ -305,8 +525,8 @@ internal static partial class SketchSamples
                 ArcBetween(centerRightTop.Center, centerRightTop.CircleTangent, centerRightTop.LineTangent),
                 SegmentBetween(centerRightTop.LineTangent, rightTop.LineTangent),
                 ArcBetween(rightTop.Center, rightTop.LineTangent, rightTop.CircleTangent),
-                ArcBetween((armReach, 0), rightTop.CircleTangent, CircleSite(armReach, 0, endpointOuter, 0)),
-                ArcBetween((armReach, 0), CircleSite(armReach, 0, endpointOuter, 0), rightBottom.CircleTangent),
+                ArcBetween((profileArmReach, 0), rightTop.CircleTangent, CircleSite(profileArmReach, 0, profileEndpointOuter, 0)),
+                ArcBetween((profileArmReach, 0), CircleSite(profileArmReach, 0, profileEndpointOuter, 0), rightBottom.CircleTangent),
                 ArcBetween(rightBottom.Center, rightBottom.CircleTangent, rightBottom.LineTangent),
                 SegmentBetween(rightBottom.LineTangent, centerRightBottom.LineTangent),
                 ArcBetween(centerRightBottom.Center, centerRightBottom.LineTangent, centerRightBottom.CircleTangent),
@@ -314,10 +534,10 @@ internal static partial class SketchSamples
                 ArcBetween(centerBottomRight.Center, centerBottomRight.CircleTangent, centerBottomRight.LineTangent),
                 SegmentBetween(centerBottomRight.LineTangent, bottomRight.LineTangent),
                 ArcBetween(bottomRight.Center, bottomRight.LineTangent, bottomRight.CircleTangent),
-                ArcBetween((0, -armReach), bottomRight.CircleTangent, CircleSite(0, -armReach, endpointOuter, 0)),
-                Arc(0, -armReach, endpointOuter, -armReach, 0, -armReach - endpointOuter),
-                Arc(0, -armReach, 0, -armReach - endpointOuter, -endpointOuter, -armReach),
-                ArcBetween((0, -armReach), CircleSite(0, -armReach, -endpointOuter, 0), bottomLeft.CircleTangent),
+                ArcBetween((0, -profileArmReach), bottomRight.CircleTangent, CircleSite(0, -profileArmReach, profileEndpointOuter, 0)),
+                Arc(0, -profileArmReach, profileEndpointOuter, -profileArmReach, 0, -profileArmReach - profileEndpointOuter),
+                Arc(0, -profileArmReach, 0, -profileArmReach - profileEndpointOuter, -profileEndpointOuter, -profileArmReach),
+                ArcBetween((0, -profileArmReach), CircleSite(0, -profileArmReach, -profileEndpointOuter, 0), bottomLeft.CircleTangent),
                 ArcBetween(bottomLeft.Center, bottomLeft.CircleTangent, bottomLeft.LineTangent),
                 SegmentBetween(bottomLeft.LineTangent, centerBottomLeft.LineTangent),
                 ArcBetween(centerBottomLeft.Center, centerBottomLeft.LineTangent, centerBottomLeft.CircleTangent),
@@ -325,8 +545,8 @@ internal static partial class SketchSamples
                 ArcBetween(centerLeftBottom.Center, centerLeftBottom.CircleTangent, centerLeftBottom.LineTangent),
                 SegmentBetween(centerLeftBottom.LineTangent, leftBottom.LineTangent),
                 ArcBetween(leftBottom.Center, leftBottom.LineTangent, leftBottom.CircleTangent),
-                ArcBetween((-armReach, 0), leftBottom.CircleTangent, CircleSite(-armReach, 0, -endpointOuter, 0)),
-                ArcBetween((-armReach, 0), CircleSite(-armReach, 0, -endpointOuter, 0), leftTop.CircleTangent),
+                ArcBetween((-profileArmReach, 0), leftBottom.CircleTangent, CircleSite(-profileArmReach, 0, -profileEndpointOuter, 0)),
+                ArcBetween((-profileArmReach, 0), CircleSite(-profileArmReach, 0, -profileEndpointOuter, 0), leftTop.CircleTangent),
                 ArcBetween(leftTop.Center, leftTop.CircleTangent, leftTop.LineTangent),
                 SegmentBetween(leftTop.LineTangent, centerLeftTop.LineTangent),
                 ArcBetween(centerLeftTop.Center, centerLeftTop.LineTangent, centerLeftTop.CircleTangent),
@@ -336,38 +556,118 @@ internal static partial class SketchSamples
                 ArcBetween(topLeft.Center, topLeft.LineTangent, topLeft.CircleTangent));
         }
 
-        Relation UnionInteriorHoleOutlines() =>
-            Chain(
-                Circle(armReach, 0, endpointInner),
-                Circle(-armReach, 0, endpointInner),
-                Circle(0, armReach, endpointInner),
-                Circle(0, -armReach, endpointInner),
-                CenterHoleOutline(1, 1),
-                CenterHoleOutline(-1, 1),
-                CenterHoleOutline(-1, -1),
-                CenterHoleOutline(1, -1));
+        bool TryReadBoundaryBounds(
+            ClosedSharedFrameBoundaryRead boundary,
+            out long minX,
+            out long maxX,
+            out long minY,
+            out long maxY)
+        {
+            var points = boundary.Segments
+                .SelectMany(segment => new[] { segment.Start, segment.End })
+                .Select(point =>
+                {
+                    TryReadPointTicks(point, out var pointX, out var pointY);
+                    return (pointX, pointY);
+                })
+                .ToArray();
+            if (points.Length == 0)
+            {
+                minX = 0;
+                maxX = 0;
+                minY = 0;
+                maxY = 0;
+                return false;
+            }
 
-        Relation RoundedUnionInteriorHoleOutlines() =>
-            Chain(
-                Circle(armReach, 0, endpointInner),
-                Circle(-armReach, 0, endpointInner),
-                Circle(0, armReach, endpointInner),
-                Circle(0, -armReach, endpointInner),
-                RoundedCenterHoleOutline(1, 1),
-                RoundedCenterHoleOutline(-1, 1),
-                RoundedCenterHoleOutline(-1, -1),
-                RoundedCenterHoleOutline(1, -1));
+            minX = points.Min(point => point.pointX);
+            maxX = points.Max(point => point.pointX);
+            minY = points.Min(point => point.pointY);
+            maxY = points.Max(point => point.pointY);
+            return true;
+        }
 
-        var centerPlus = Chain(
+        Relation DerivedUnionInteriorHoleOutlines(IElement sourceAreaFrame, bool rounded)
+        {
+            var graph = GraphicReadGraph.From(sourceAreaFrame);
+            var endpointHoles = new List<(long CenterX, long CenterY, long Radius)>();
+            long? centerInnerRadius = null;
+            foreach (var area in graph.ReadsOf<SharedFrameAreaRead>().Where(area => area.IsAntiArea))
+            {
+                if (!TryReadCircleBoundary(area.Boundary, out var holeCenterX, out var holeCenterY, out var holeRadius))
+                {
+                    continue;
+                }
+
+                if (holeCenterX == 0 && holeCenterY == 0)
+                {
+                    centerInnerRadius = holeRadius;
+                }
+                else
+                {
+                    endpointHoles.Add((holeCenterX, holeCenterY, holeRadius));
+                }
+            }
+
+            var halfWidths = graph.ReadsOf<SharedFrameAreaRead>()
+                .Where(area => !area.IsAntiArea && area.Boundary.Arcs is not { Count: > 0 })
+                .Select(area =>
+                {
+                    if (!TryReadBoundaryBounds(area.Boundary, out var minX, out var maxX, out var minY, out var maxY))
+                    {
+                        return 0L;
+                    }
+
+                    return Math.Min(maxX - minX, maxY - minY) / 2;
+                })
+                .Where(width => width > 0)
+                .DefaultIfEmpty(offset)
+                .Min();
+
+            var innerRadius = centerInnerRadius ?? centerInner;
+            var outlines = endpointHoles
+                .Distinct()
+                .Select(hole => (IElement)Circle(hole.CenterX, hole.CenterY, hole.Radius))
+                .ToList();
+            outlines.Add(rounded
+                ? RoundedCenterHoleOutline(innerRadius, halfWidths, 1, 1)
+                : CenterHoleOutline(innerRadius, halfWidths, 1, 1));
+            outlines.Add(rounded
+                ? RoundedCenterHoleOutline(innerRadius, halfWidths, -1, 1)
+                : CenterHoleOutline(innerRadius, halfWidths, -1, 1));
+            outlines.Add(rounded
+                ? RoundedCenterHoleOutline(innerRadius, halfWidths, -1, -1)
+                : CenterHoleOutline(innerRadius, halfWidths, -1, -1));
+            outlines.Add(rounded
+                ? RoundedCenterHoleOutline(innerRadius, halfWidths, 1, -1)
+                : CenterHoleOutline(innerRadius, halfWidths, 1, -1));
+
+            return Group([.. outlines]);
+        }
+
+        IElement[] AntiAreaFillsFromOutlines(IElement outlines)
+        {
+            if (outlines is Relation outlineFrame &&
+                outlineFrame.Right is Carrier holder &&
+                outlineFrame.TryReadOrderedElementsOn(holder, out var outlineElements))
+            {
+                return [.. outlineElements.Select(outline => GraphicStructure.AntiAreaFill(outline))];
+            }
+
+            return [GraphicStructure.AntiAreaFill(outlines)];
+        }
+
+        var centerPlusStrokes = Group(
             Segment(-armReach, 0, armReach, 0),
-            Segment(0, -armReach, 0, armReach),
-            Circle(0, 0, centerRadius));
+            Segment(0, -armReach, 0, armReach));
+        var centerCircle = Circle(0, 0, centerRadius);
+        var centerPlus = Group(centerPlusStrokes, centerCircle);
         var lineTipPattern = GraphicBoundaryConceptSurface.LineTipWitnessPattern(new Carrier(), new Placeholder());
-        var lineTipDomain = GraphicBoundaryConceptSurface.LineTipCandidateDomain(new Carrier(), centerPlus);
+        var lineTipDomain = GraphicBoundaryConceptSurface.LineTipCandidateDomain(new Carrier(), centerPlusStrokes);
         var lineTipSelection = GraphicSelectionSurface.Search(
             new Carrier(),
-            centerPlus,
-            GraphicSelectionSurface.Frame(new Carrier(), centerPlus, lineTipDomain),
+            centerPlusStrokes,
+            GraphicSelectionSurface.Frame(new Carrier(), centerPlusStrokes, lineTipDomain),
             lineTipPattern);
         var endpointCircleAction = GraphicBoundaryConceptSurface.CircleCapsFromLineTipSelection(
             new Carrier(),
@@ -382,19 +682,9 @@ internal static partial class SketchSamples
             out _)
             ? generatedEndpointCircles
             : UnknownPoint();
-        var endpointState = Chain(centerPlus, endpointCircles);
-        var offsetBoundaries = OffsetBoundaryPairs();
-
-        var centerOuterFill = DiskFill(0, 0, centerOuter);
-        var centerInnerClear = AntiDiskFill(0, 0, centerInner);
-        var centerRingFill = Chain(centerOuterFill, centerInnerClear);
-        var barEnd = armReach - endpointInner - 2;
-        var horizontalFill = PolygonFill((-barEnd, -offset), (barEnd, -offset), (barEnd, offset), (-barEnd, offset));
-        var verticalFill = PolygonFill((-offset, -barEnd), (offset, -barEnd), (offset, barEnd), (-offset, barEnd));
-        var rightEndpointFill = RingFill(armReach, 0, endpointOuter, endpointInner);
-        var leftEndpointFill = RingFill(-armReach, 0, endpointOuter, endpointInner);
-        var topEndpointFill = RingFill(0, armReach, endpointOuter, endpointInner);
-        var bottomEndpointFill = RingFill(0, -armReach, endpointOuter, endpointInner);
+        var endpointState = Group(centerPlus, endpointCircles);
+        var offsetBoundaries = Group(DerivedOffsetBoundaryElements(endpointState, offset));
+        var fillParticipants = DerivedFillParticipants(offsetBoundaries);
         var centerHoleCutNE = CenterHoleAntiFill(1, 1);
         var centerHoleCutNW = CenterHoleAntiFill(-1, 1);
         var centerHoleCutSW = CenterHoleAntiFill(-1, -1);
@@ -403,58 +693,58 @@ internal static partial class SketchSamples
         var roundedCenterHoleCutNW = RoundedCenterHoleAntiFill(-1, 1);
         var roundedCenterHoleCutSW = RoundedCenterHoleAntiFill(-1, -1);
         var roundedCenterHoleCutSE = RoundedCenterHoleAntiFill(1, -1);
-        var separateFills = Chain(
-            centerRingFill,
-            horizontalFill,
-            verticalFill,
-            rightEndpointFill,
-            leftEndpointFill,
-            topEndpointFill,
-            bottomEndpointFill);
-        var compositeOutline = CompositeOutline();
-        var unionInteriorHoles = UnionInteriorHoleOutlines();
-        var roundedUnionInteriorHoles = RoundedUnionInteriorHoleOutlines();
-        var exteriorSharpOutline = ExteriorSharpOutline();
-        var exteriorRoundedOutline = ExteriorRoundedOutline();
-        var exteriorRoundedOuterFill = GraphicStructure.AreaFill(exteriorRoundedOutline);
+        var separateFills = Group(fillParticipants);
 
         var areaFrame = GraphicBooleanSurface.AreaFrame(
             new Carrier(),
-            centerRingFill,
-            horizontalFill,
-            verticalFill,
-            rightEndpointFill,
-            leftEndpointFill,
-            topEndpointFill,
-            bottomEndpointFill,
+            [.. fillParticipants,
             centerHoleCutNE,
             centerHoleCutNW,
             centerHoleCutSW,
-            centerHoleCutSE);
+            centerHoleCutSE]);
         var roundedAreaFrame = GraphicBooleanSurface.AreaFrame(
             new Carrier(),
-            centerRingFill,
-            horizontalFill,
-            verticalFill,
-            rightEndpointFill,
-            leftEndpointFill,
-            topEndpointFill,
-            bottomEndpointFill,
+            [.. fillParticipants,
             roundedCenterHoleCutNE,
             roundedCenterHoleCutNW,
             roundedCenterHoleCutSW,
-            roundedCenterHoleCutSE);
+            roundedCenterHoleCutSE]);
+        var unionInteriorHoles = DerivedUnionInteriorHoleOutlines(areaFrame, rounded: false);
+        var roundedUnionInteriorHoles = DerivedUnionInteriorHoleOutlines(roundedAreaFrame, rounded: true);
+        if (!TryReadRadialProfile(
+                areaFrame,
+                out var profileArmReach,
+                out var profileHalfWidth,
+                out var profileCenterOuter,
+                out var profileEndpointOuter))
+        {
+            throw new InvalidOperationException("Radial shape ladder could not derive the exterior outline profile from its area frame.");
+        }
+
+        if (!TryReadRadialProfile(
+                roundedAreaFrame,
+                out var roundedProfileArmReach,
+                out var roundedProfileHalfWidth,
+                out var roundedProfileCenterOuter,
+                out var roundedProfileEndpointOuter))
+        {
+            throw new InvalidOperationException("Radial shape ladder could not derive the rounded exterior outline profile from its area frame.");
+        }
+
+        var exteriorSharpOutline = ExteriorSharpOutline(
+            profileArmReach,
+            profileHalfWidth,
+            profileCenterOuter,
+            profileEndpointOuter);
+        var exteriorRoundedOutline = ExteriorRoundedOutline(
+            roundedProfileArmReach,
+            roundedProfileHalfWidth,
+            roundedProfileCenterOuter,
+            roundedProfileEndpointOuter);
+        var exteriorRoundedOuterFill = GraphicStructure.AreaFill(exteriorRoundedOutline);
         var exteriorRoundedAreaFrame = GraphicBooleanSurface.AreaFrame(
             new Carrier(),
-            exteriorRoundedOuterFill,
-            AntiDiskFill(armReach, 0, endpointInner),
-            AntiDiskFill(-armReach, 0, endpointInner),
-            AntiDiskFill(0, armReach, endpointInner),
-            AntiDiskFill(0, -armReach, endpointInner),
-            roundedCenterHoleCutNE,
-            roundedCenterHoleCutNW,
-            roundedCenterHoleCutSW,
-            roundedCenterHoleCutSE);
+            [exteriorRoundedOuterFill, .. AntiAreaFillsFromOutlines(roundedUnionInteriorHoles)]);
         var offsetEvidence = GraphicParameterSurface.Frame(
             new Carrier(),
             GraphicOffsetSurface.RequestWithDistance(new Carrier(), endpointState, Distance(offset)),

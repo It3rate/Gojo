@@ -179,7 +179,9 @@ public sealed class GraphicReadGraph
             foreach (var leftFramePoint in left.LocalReads.OfType<SharedFramePointRead>())
             foreach (var rightFramePoint in right.LocalReads.OfType<SharedFramePointRead>())
             {
-                if (HaveSameFrameBasis(leftFramePoint, rightFramePoint) &&
+                if (ReferenceEquals(leftFramePoint.Source, relation.Left) &&
+                    ReferenceEquals(rightFramePoint.Source, relation.Right) &&
+                    HaveSameFrameBasis(leftFramePoint, rightFramePoint) &&
                     !SameFramePoint(leftFramePoint, rightFramePoint))
                 {
                     reads.Add(new SharedFrameSegmentRead(relation, leftFramePoint, rightFramePoint));
@@ -189,7 +191,9 @@ public sealed class GraphicReadGraph
             foreach (var center in left.LocalReads.OfType<SharedFramePointRead>())
             foreach (var span in right.LocalReads.OfType<SharedFrameSegmentRead>())
             {
-                if (HaveSameFrameBasis(center, span.Start) &&
+                if (ReferenceEquals(center.Source, relation.Left) &&
+                    ReferenceEquals(span.Source, relation.Right) &&
+                    HaveSameFrameBasis(center, span.Start) &&
                     HaveSameFrameBasis(center, span.End) &&
                     !SameFramePoint(center, span.Start) &&
                     !SameFramePoint(center, span.End))
@@ -201,7 +205,9 @@ public sealed class GraphicReadGraph
             foreach (var chord in left.LocalReads.OfType<SharedFrameSegmentRead>())
             foreach (var control in right.LocalReads.OfType<SharedFramePointRead>())
             {
-                if (HaveSameFrameBasis(chord.Start, control) &&
+                if (ReferenceEquals(chord.Source, relation.Left) &&
+                    ReferenceEquals(control.Source, relation.Right) &&
+                    HaveSameFrameBasis(chord.Start, control) &&
                     !SameFramePoint(chord.Start, control) &&
                     !SameFramePoint(chord.End, control))
                 {
@@ -212,6 +218,12 @@ public sealed class GraphicReadGraph
             foreach (var chord in left.LocalReads.OfType<SharedFrameSegmentRead>())
             foreach (var controlSpan in right.LocalReads.OfType<SharedFrameSegmentRead>())
             {
+                if (!ReferenceEquals(chord.Source, relation.Left) ||
+                    !ReferenceEquals(controlSpan.Source, relation.Right))
+                {
+                    continue;
+                }
+
                 if (!HaveSameFrameBasis(chord.Start, controlSpan.Start) ||
                     !HaveSameFrameBasis(chord.Start, controlSpan.End))
                 {

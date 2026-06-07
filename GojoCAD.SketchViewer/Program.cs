@@ -175,6 +175,44 @@ internal static class Program
             throw new InvalidOperationException($"Sketch scene '{scene.Label}' should expose the eleven requested shape-ladder steps.");
         }
 
+        if (!StructuralLadderSurface.TryReadRung(
+                rungs[0],
+                out _,
+                out _,
+                out var baseResult,
+                out _,
+                out _,
+                out _,
+                out _,
+                out _))
+        {
+            throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not expose the base rung.");
+        }
+
+        var baseGraph = GraphicReadGraph.From(baseResult);
+        var baseArcSpanSources = baseGraph.ReadsOf<SharedFrameArcRead>()
+            .Select(arc => ReadSourceId(arc.Span.Source))
+            .ToHashSet();
+        var baseOpenSegments = baseGraph.ReadsOf<PathGraphRead>()
+            .SelectMany(graph => graph.Edges)
+            .Count(edge =>
+                edge.IsSharedFrame &&
+                edge.Segment is SharedFrameSegmentRead &&
+                !baseArcSpanSources.Contains(ReadSourceId(edge.Segment.Source)) &&
+                edge.Start.Valence == 1 &&
+                edge.End.Valence == 1);
+        var baseQuadraticCurves = baseGraph.ReadsOf<SharedFrameQuadraticCurveRead>().Count();
+        var baseCubicCurves = baseGraph.ReadsOf<SharedFrameCubicCurveRead>().Count();
+        var baseTransitions = baseGraph.ReadsOf<SharedFrameCurveTransitionRead>().Count();
+        if (baseOpenSegments != 2 ||
+            baseQuadraticCurves != 0 ||
+            baseCubicCurves != 0)
+        {
+            throw new InvalidOperationException(
+                $"Sketch scene '{scene.Label}' base rung should be two open plus strokes plus the center circle, not a curve read. " +
+                $"Open={baseOpenSegments}, quadratic={baseQuadraticCurves}, cubic={baseCubicCurves}, transitions={baseTransitions}.");
+        }
+
         var unionSurfaces = WalkRelations(ladder)
             .Count(relation => GraphicBooleanSurface.TryReadAreaUnion(relation, out _, out _, out _, out _));
         if (unionSurfaces < 2)
@@ -190,10 +228,36 @@ internal static class Program
         }
 
         var terminalCapActions = WalkRelations(ladder)
-            .Count(relation => GraphicBoundaryConceptSurface.TryReadCircleCapsFromLineTipSelection(relation, out _, out _, out _, out _, out _));
-        if (terminalCapActions < 1)
+            .Where(relation => GraphicBoundaryConceptSurface.TryReadCircleCapsFromLineTipSelection(
+                relation,
+                out _,
+                out _,
+                out _,
+                out _,
+                out _))
+            .DistinctBy(relation => relation.Id)
+            .ToArray();
+        if (terminalCapActions.Length < 1)
         {
             throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not create endpoint circles from terminal-tip cap evidence.");
+        }
+
+        var terminalCapCircles = terminalCapActions
+            .SelectMany(action =>
+            {
+                GraphicBoundaryConceptSurface.TryReadCircleCapsFromLineTipSelection(
+                    action,
+                    out _,
+                    out _,
+                    out _,
+                    out var circleFrame,
+                    out _);
+                return GraphicReadGraph.From(circleFrame).ReadsOf<ClosedSharedFrameBoundaryRead>();
+            })
+            .Count();
+        if (terminalCapCircles != 4)
+        {
+            throw new InvalidOperationException($"Sketch scene '{scene.Label}' should create exactly four endpoint cap circles from open line tips.");
         }
 
         if (!StructuralLadderSurface.TryReadRung(
@@ -485,6 +549,9 @@ internal static class Program
             yield return child;
         }
     }
+
+    private static ulong ReadSourceId(IElement source) =>
+        source is Relation relation ? relation.Id : 0UL;
 
     private static bool TryReadOrderedFrame(IElement element, out IElement[] elements)
     {
