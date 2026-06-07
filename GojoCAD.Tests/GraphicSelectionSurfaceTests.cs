@@ -277,6 +277,61 @@ public sealed class GraphicSelectionSurfaceTests
     }
 
     [Fact]
+    public void StructuralSearchBindsWitnessSlotsInsideConceptPattern()
+    {
+        var markerSlot = new Placeholder();
+        var conceptPattern = GraphicSelectionSurface.Frame(
+            new Carrier(),
+            GraphicConceptShape.CuspJoinEvidenceSurface(new Carrier()),
+            markerSlot);
+        var firstMarker = Relation.Point(new Carrier(), 10);
+        var secondMarker = Relation.Segment(new Carrier(), 0, 4);
+        var firstCandidate = GraphicSelectionSurface.Frame(
+            new Carrier(),
+            GraphicConceptShape.CuspJoinEvidenceSurface(new Carrier()),
+            firstMarker);
+        var secondCandidate = GraphicSelectionSurface.Frame(
+            new Carrier(),
+            GraphicConceptShape.CuspJoinEvidenceSurface(new Carrier()),
+            secondMarker);
+        var domain = GraphicSelectionSurface.Frame(new Carrier(), firstCandidate, secondCandidate);
+
+        var selection = GraphicSelectionSurface.Search(new Carrier(), domain, domain, conceptPattern);
+
+        Assert.True(GraphicSelectionSurface.TryReadSelection(
+            selection,
+            out _,
+            out _,
+            out _,
+            out var readMatches,
+            out _));
+        Assert.True(GraphicSelectionSurface.TryReadMatchFrame(
+            Assert.IsType<Relation>(readMatches),
+            out var matches));
+        Assert.Equal(2, matches.Length);
+
+        var markerBindings = matches
+            .OfType<Relation>()
+            .SelectMany(match =>
+            {
+                Assert.True(GraphicSelectionSurface.TryReadMatch(
+                    match,
+                    out _,
+                    out _,
+                    out var bindings,
+                    out _,
+                    out _));
+                Assert.True(FocusSurface.TryReadBindingFrame(bindings, out var bindingClauses));
+                return bindingClauses;
+            })
+            .Where(binding => ReferenceEquals(binding.Left, markerSlot))
+            .Select(binding => binding.Right)
+            .ToArray();
+        Assert.Contains(firstMarker, markerBindings);
+        Assert.Contains(secondMarker, markerBindings);
+    }
+
+    [Fact]
     public void StructuralSearchCanFindNestedConceptEvidenceInsideComposite()
     {
         var cuspSource = GraphicConceptShape.CuspJoin(

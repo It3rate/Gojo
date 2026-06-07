@@ -123,32 +123,24 @@ internal static partial class SketchSamples
         Relation MarkerCircle(long centerX, long centerY) =>
             Circle(centerX, centerY, 5);
 
-        Relation CuspMarkers(params (long X, long Y)[] sites)
-        {
-            var markers = new IElement[sites.Length];
-            for (var index = 0; index < sites.Length; index++)
-            {
-                markers[index] = MarkerCircle(sites[index].X, sites[index].Y);
-            }
-
-            return Chain(markers);
-        }
-
-        Relation CenterHoleCuspMarkers(long signX, long signY)
+        (long X, long Y)[] CenterHoleCuspSites(long signX, long signY)
         {
             var circleSide = (long)Math.Round(Math.Sqrt(centerInner * centerInner - offset * offset));
-            return CuspMarkers(
+            return
+            [
                 (signX * offset, signY * offset),
                 (signX * offset, signY * circleSide),
-                (signX * circleSide, signY * offset));
+                (signX * circleSide, signY * offset)
+            ];
         }
 
-        Relation InteriorCuspMarkers() =>
-            Chain(
-                CenterHoleCuspMarkers(1, 1),
-                CenterHoleCuspMarkers(-1, 1),
-                CenterHoleCuspMarkers(-1, -1),
-                CenterHoleCuspMarkers(1, -1));
+        (long X, long Y)[] InteriorCuspSites() =>
+        [
+            .. CenterHoleCuspSites(1, 1),
+            .. CenterHoleCuspSites(-1, 1),
+            .. CenterHoleCuspSites(-1, -1),
+            .. CenterHoleCuspSites(1, -1)
+        ];
 
         (long X, long Y) HorizontalCircleCusp(long centerX, long centerY, long radius, long lineY, long sideX)
         {
@@ -166,8 +158,8 @@ internal static partial class SketchSamples
                 centerY + sideY * (long)Math.Round(Math.Sqrt(radius * radius - lineOffset * lineOffset)));
         }
 
-        Relation ExteriorCuspMarkers() =>
-            CuspMarkers(
+        (long X, long Y)[] ExteriorCuspSites() =>
+        [
                 HorizontalCircleCusp(0, 0, centerOuter, offset, 1),
                 HorizontalCircleCusp(0, 0, centerOuter, -offset, 1),
                 HorizontalCircleCusp(0, 0, centerOuter, offset, -1),
@@ -183,7 +175,8 @@ internal static partial class SketchSamples
                 VerticalCircleCusp(0, armReach, endpointOuter, offset, -1),
                 VerticalCircleCusp(0, armReach, endpointOuter, -offset, -1),
                 VerticalCircleCusp(0, -armReach, endpointOuter, offset, 1),
-                VerticalCircleCusp(0, -armReach, endpointOuter, -offset, 1));
+                VerticalCircleCusp(0, -armReach, endpointOuter, -offset, 1)
+        ];
 
         Relation SegmentBetween((long X, long Y) start, (long X, long Y) end) =>
             Segment(start.X, start.Y, end.X, end.Y);
@@ -361,38 +354,25 @@ internal static partial class SketchSamples
                 RoundedCenterHoleOutline(-1, -1),
                 RoundedCenterHoleOutline(1, -1));
 
-        Relation ConceptSelection(
-            IElement source,
-            IElement searchDomain,
-            IElement conceptPattern,
-            IElement candidate,
-            IElement markerEvidence)
+        Relation CuspCandidateDomain(params (long X, long Y)[] sites)
         {
-            var bindings = FocusSurface.BindingFrame(
-                new Carrier(),
-                FocusSurface.Bind(conceptPattern, markerEvidence));
-            var match = GraphicSelectionSurface.TryCreatePatternMatch(
-                new Carrier(),
-                candidate,
-                conceptPattern,
-                bindings,
-                out var patternMatch)
-                ? patternMatch
-                : GraphicSelectionSurface.Match(
+            var candidates = new IElement[sites.Length];
+            for (var index = 0; index < sites.Length; index++)
+            {
+                candidates[index] = GraphicSelectionSurface.Frame(
                     new Carrier(),
-                    candidate,
-                    conceptPattern,
-                    bindings,
-                    markerEvidence,
-                    GraphicConceptShape.TensionSlot());
-            return GraphicSelectionSurface.Select(
-                new Carrier(),
-                source,
-                searchDomain,
-                conceptPattern,
-                GraphicSelectionSurface.MatchFrame(new Carrier(), match),
-                GraphicConceptShape.TensionSlot());
+                    GraphicConceptShape.CuspJoinEvidenceSurface(new Carrier()),
+                    MarkerCircle(sites[index].X, sites[index].Y));
+            }
+
+            return GraphicSelectionSurface.Frame(new Carrier(), candidates);
         }
+
+        Relation CuspMarkerSearchPattern() =>
+            GraphicSelectionSurface.Frame(
+                new Carrier(),
+                GraphicConceptShape.CuspJoinEvidenceSurface(new Carrier()),
+                new Placeholder());
 
         var centerPlus = Chain(
             Segment(-armReach, 0, armReach, 0),
@@ -434,9 +414,9 @@ internal static partial class SketchSamples
             bottomEndpointFill);
         var compositeOutline = CompositeOutline();
         var unionInteriorHoles = UnionInteriorHoleOutlines();
-        var cuspMarkers = InteriorCuspMarkers();
+        var interiorCuspSites = InteriorCuspSites();
+        var exteriorCuspSites = ExteriorCuspSites();
         var roundedUnionInteriorHoles = RoundedUnionInteriorHoleOutlines();
-        var exteriorCuspMarkers = ExteriorCuspMarkers();
         var exteriorRoundedOutline = ExteriorRoundedOutline();
         var exteriorRoundedOuterFill = GraphicStructure.AreaFill(exteriorRoundedOutline);
 
@@ -483,20 +463,20 @@ internal static partial class SketchSamples
             offsetBoundaries);
         var fillEvidence = GraphicParameterSurface.Frame(new Carrier(), offsetEvidence, areaFrame);
         var fillUnion = GraphicBooleanSurface.AreaUnion(new Carrier(), areaFrame, unionInteriorHoles);
-        var cuspPattern = GraphicConceptShape.CuspJoinEvidenceSurface(new Carrier());
-        var cuspSelection = ConceptSelection(
+        var cuspPattern = CuspMarkerSearchPattern();
+        var interiorCuspDomain = CuspCandidateDomain(interiorCuspSites);
+        var exteriorCuspDomain = CuspCandidateDomain(exteriorCuspSites);
+        var cuspSelection = GraphicSelectionSurface.Search(
+            new Carrier(),
             fillUnion,
-            GraphicSelectionSurface.Frame(new Carrier(), fillUnion, unionInteriorHoles),
-            cuspPattern,
-            unionInteriorHoles,
-            cuspMarkers);
+            GraphicSelectionSurface.Frame(new Carrier(), fillUnion, interiorCuspDomain),
+            cuspPattern);
         var roundedUnion = GraphicBooleanSurface.AreaUnion(new Carrier(), roundedAreaFrame, roundedUnionInteriorHoles);
-        var exteriorCuspSelection = ConceptSelection(
+        var exteriorCuspSelection = GraphicSelectionSurface.Search(
+            new Carrier(),
             roundedUnion,
-            GraphicSelectionSurface.Frame(new Carrier(), roundedUnion, exteriorRoundedOutline),
-            cuspPattern,
-            exteriorRoundedOutline,
-            exteriorCuspMarkers);
+            GraphicSelectionSurface.Frame(new Carrier(), roundedUnion, exteriorCuspDomain),
+            cuspPattern);
         var exteriorRoundedUnion = GraphicBooleanSurface.AreaUnion(
             new Carrier(),
             exteriorRoundedAreaFrame,
@@ -549,36 +529,36 @@ internal static partial class SketchSamples
             fillUnion);
         var cuspStep = RefinedRung(
             fillUnion,
-            cuspMarkers,
-            unionInteriorHoles,
+            cuspPattern,
+            interiorCuspDomain,
             fillUnion,
-            cuspMarkers,
             cuspSelection,
-            GraphicParameterSurface.Frame(new Carrier(), fillUnion, cuspMarkers, cuspSelection));
+            cuspSelection,
+            GraphicParameterSurface.Frame(new Carrier(), fillUnion, interiorCuspDomain, cuspSelection));
         var roundedStep = RefinedRung(
             cuspSelection,
-            cuspMarkers,
-            fillUnion,
+            cuspPattern,
+            cuspSelection,
             UnknownPoint(),
             roundedUnion,
             roundedUnion,
-            GraphicParameterSurface.Frame(new Carrier(), cuspSelection, cuspMarkers, roundedUnion));
+            GraphicParameterSurface.Frame(new Carrier(), cuspSelection, roundedUnion));
         var exteriorCuspStep = RefinedRung(
             roundedUnion,
-            exteriorCuspMarkers,
+            cuspPattern,
+            exteriorCuspDomain,
             roundedUnion,
-            UnknownPoint(),
-            exteriorCuspMarkers,
             exteriorCuspSelection,
-            GraphicParameterSurface.Frame(new Carrier(), roundedUnion, exteriorCuspMarkers, exteriorCuspSelection));
+            exteriorCuspSelection,
+            GraphicParameterSurface.Frame(new Carrier(), roundedUnion, exteriorCuspDomain, exteriorCuspSelection));
         var exteriorRoundedStep = RefinedRung(
             exteriorCuspSelection,
-            exteriorCuspMarkers,
-            roundedUnion,
+            cuspPattern,
+            exteriorCuspSelection,
             UnknownPoint(),
             exteriorRoundedUnion,
             exteriorRoundedUnion,
-            GraphicParameterSurface.Frame(new Carrier(), exteriorCuspSelection, exteriorCuspMarkers, exteriorRoundedUnion));
+            GraphicParameterSurface.Frame(new Carrier(), exteriorCuspSelection, exteriorRoundedUnion));
         var finalColoredStep = RefinedRung(
             exteriorRoundedUnion,
             exteriorRoundedUnion,

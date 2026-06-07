@@ -285,26 +285,33 @@ internal sealed class SketchDrawOperation : ICustomDrawOperation
                 out var matches,
                 out _) &&
             matches is Relation matchFrame &&
-            GraphicSelectionSurface.TryReadMatchFrame(matchFrame, out var matchElements) &&
-            matchElements.FirstOrDefault() is Relation firstMatch &&
-            GraphicSelectionSurface.TryReadMatch(
-                firstMatch,
-                out _,
-                out _,
-                out _,
-                out var evidence,
-                out _))
+            GraphicSelectionSurface.TryReadMatchFrame(matchFrame, out var matchElements))
         {
+            var markerWitnesses = new List<IElement>();
+            foreach (var matchElement in matchElements)
+            {
+                if (matchElement is Relation match &&
+                    GraphicSelectionSurface.TryReadMatch(
+                        match,
+                        out _,
+                        out _,
+                        out _,
+                        out var evidence,
+                        out _))
+                {
+                    markerWitnesses.Add(ReadRadialMarkerWitness(evidence));
+                }
+            }
+
+            if (markerWitnesses.Count == 0)
+            {
+                outline = default!;
+                markerEvidence = default!;
+                return false;
+            }
+
             outline = source;
-            markerEvidence = evidence is Relation patternEvidence &&
-                GraphicSelectionSurface.TryReadPatternEvidence(
-                    patternEvidence,
-                    out _,
-                    out var appliedPattern,
-                    out _,
-                    out _)
-                ? appliedPattern
-                : evidence;
+            markerEvidence = GraphicSelectionSurface.Frame(new Carrier(), [.. markerWitnesses]);
             return true;
         }
 
@@ -319,6 +326,24 @@ internal sealed class SketchDrawOperation : ICustomDrawOperation
         outline = default!;
         markerEvidence = default!;
         return false;
+    }
+
+    private static IElement ReadRadialMarkerWitness(IElement evidence)
+    {
+        if (evidence is Relation patternEvidence &&
+            GraphicSelectionSurface.TryReadPatternEvidence(
+                patternEvidence,
+                out _,
+                out var appliedPattern,
+                out _,
+                out _) &&
+            TryReadOrderedFrame(appliedPattern, out var appliedElements) &&
+            appliedElements.Length >= 2)
+        {
+            return appliedElements[1];
+        }
+
+        return evidence;
     }
 
     private void ReadAreaPaints(
