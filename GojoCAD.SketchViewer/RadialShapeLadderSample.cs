@@ -60,6 +60,44 @@ internal static partial class SketchSamples
         Relation Circle(long centerX, long centerY, long radius) =>
             CircleAt(0, 0, centerX, centerY, radius);
 
+        Relation ArcBandAt(long originX, long originY, long centerX, long centerY, long startX, long startY, long endX, long endY, long distanceTicks)
+        {
+            var distance = Math.Abs(distanceTicks);
+            var startRadius = Math.Sqrt(
+                Math.Pow(startX - centerX, 2) +
+                Math.Pow(startY - centerY, 2));
+            var endRadius = Math.Sqrt(
+                Math.Pow(endX - centerX, 2) +
+                Math.Pow(endY - centerY, 2));
+            var radius = Math.Min(startRadius, endRadius);
+            if (radius <= distance)
+            {
+                return Chain(ArcAt(originX, originY, centerX, centerY, startX, startY, endX, endY));
+            }
+
+            (long X, long Y) OffsetPoint(long pointX, long pointY, double offsetRadius)
+            {
+                var dx = pointX - centerX;
+                var dy = pointY - centerY;
+                var length = Math.Sqrt(dx * dx + dy * dy);
+                return length <= 0
+                    ? (pointX, pointY)
+                    : (
+                        centerX + (long)Math.Round(dx / length * offsetRadius),
+                        centerY + (long)Math.Round(dy / length * offsetRadius));
+            }
+
+            var outerStart = OffsetPoint(startX, startY, radius + distance);
+            var outerEnd = OffsetPoint(endX, endY, radius + distance);
+            var innerStart = OffsetPoint(startX, startY, radius - distance);
+            var innerEnd = OffsetPoint(endX, endY, radius - distance);
+            return Chain(
+                ArcAt(originX, originY, centerX, centerY, outerStart.X, outerStart.Y, outerEnd.X, outerEnd.Y),
+                SegmentAt(originX, originY, outerEnd.X, outerEnd.Y, innerEnd.X, innerEnd.Y),
+                ArcAt(originX, originY, centerX, centerY, innerEnd.X, innerEnd.Y, innerStart.X, innerStart.Y),
+                SegmentAt(originX, originY, innerStart.X, innerStart.Y, outerStart.X, outerStart.Y));
+        }
+
         Relation RectangleOutline(long minX, long maxX, long minY, long maxY) =>
             Chain(
                 Segment(minX, minY, maxX, minY),
@@ -1119,7 +1157,6 @@ internal static partial class SketchSamples
         Relation hShape;
         Relation hExteriorSharpOutline;
         Relation hUnionInteriorHoles;
-        var hAdditionalPositiveFillOutlines = new List<IElement>();
         string hVariantName;
         if (hVariant == 1)
         {
@@ -1127,66 +1164,65 @@ internal static partial class SketchSamples
             var hCenterSquare = RectangleOutline(
                 hOriginX - 32,
                 hOriginX + 32,
-                -48,
-                48);
+                -58,
+                58);
             hCenterStrokes = Group(
                 ArcAt(hOriginX, 0, 0, 112, -78, 108, 78, 108),
                 ArcAt(hOriginX, 0, 0, -112, -108, -92, 108, -92));
             hShape = Group(hCenterStrokes, hCenterSquare);
-            hExteriorSharpOutline = Chain(
-                ArcAt(hOriginX, 0, 0, 112, -98, 104, 98, 104),
-                SegmentAt(hOriginX, 0, 98, 104, 88, -94),
-                ArcAt(hOriginX, 0, 0, -112, 88, -94, -88, -94),
-                SegmentAt(hOriginX, 0, -88, -94, -98, 104));
+            hExteriorSharpOutline = Group(
+                ArcBandAt(hOriginX, 0, 0, 112, -78, 108, 78, 108, offset),
+                ArcBandAt(hOriginX, 0, 0, -112, -108, -92, 108, -92, offset),
+                Circle(hOriginX - 78, 108, endpointRadius + offset),
+                Circle(hOriginX + 78, 108, endpointRadius + offset),
+                Circle(hOriginX - 108, -92, endpointRadius + offset),
+                Circle(hOriginX + 108, -92, endpointRadius + offset));
             hUnionInteriorHoles = Group(
-                RectangleOutline(hOriginX - 24, hOriginX + 24, -32, 32),
+                RectangleOutline(hOriginX - 24, hOriginX + 24, -42, 42),
                 HEndpointHole(hOriginX - 78, 108),
                 HEndpointHole(hOriginX + 78, 108),
                 HEndpointHole(hOriginX - 108, -92),
                 HEndpointHole(hOriginX + 108, -92));
-            hAdditionalPositiveFillOutlines.Add(Circle(hOriginX - 78, 108, endpointRadius + offset));
-            hAdditionalPositiveFillOutlines.Add(Circle(hOriginX + 78, 108, endpointRadius + offset));
-            hAdditionalPositiveFillOutlines.Add(Circle(hOriginX - 108, -92, endpointRadius + offset));
-            hAdditionalPositiveFillOutlines.Add(Circle(hOriginX + 108, -92, endpointRadius + offset));
         }
         else if (hVariant == 2)
         {
             hVariantName = "Y/flat-bottom";
-            var hYJoint = PAt(hOriginX, 0, 0, 32);
+            var hYJoint = PAt(hOriginX, 0, 0, 38);
             var hBottomJoint = PAt(hOriginX, 0, 0, -82);
             hCenterStrokes = Group(
-                SegmentFrom(PAt(hOriginX, 0, -78, 100), hYJoint),
-                SegmentFrom(PAt(hOriginX, 0, 78, 100), hYJoint),
+                SegmentFrom(PAt(hOriginX, 0, -92, 116), hYJoint),
+                SegmentFrom(PAt(hOriginX, 0, 92, 116), hYJoint),
                 SegmentFrom(hYJoint, hBottomJoint),
-                SegmentFrom(hBottomJoint, PAt(hOriginX, 0, -95, -82)),
-                SegmentFrom(hBottomJoint, PAt(hOriginX, 0, 95, -82)));
-            var hCenterCircle = CircleAt(hOriginX, 0, 0, 22, 48);
+                SegmentFrom(hBottomJoint, PAt(hOriginX, 0, -110, -82)),
+                SegmentFrom(hBottomJoint, PAt(hOriginX, 0, 110, -82)));
+            var hCenterCircle = CircleAt(hOriginX, 0, 0, 20, 62);
             hShape = Group(hCenterStrokes, hCenterCircle);
-            hExteriorSharpOutline = Chain(
-                SegmentAt(hOriginX, 0, -112, -102, 112, -102),
-                SegmentAt(hOriginX, 0, 112, -102, 112, -66),
-                SegmentAt(hOriginX, 0, 112, -66, 18, -66),
-                SegmentAt(hOriginX, 0, 18, -66, 18, 16),
-                SegmentAt(hOriginX, 0, 18, 16, 88, 86),
-                SegmentAt(hOriginX, 0, 88, 86, 66, 108),
-                SegmentAt(hOriginX, 0, 66, 108, 0, 42),
-                SegmentAt(hOriginX, 0, 0, 42, -66, 108),
-                SegmentAt(hOriginX, 0, -66, 108, -88, 86),
-                SegmentAt(hOriginX, 0, -88, 86, -18, 16),
-                SegmentAt(hOriginX, 0, -18, 16, -18, -66),
-                SegmentAt(hOriginX, 0, -18, -66, -112, -66),
-                SegmentAt(hOriginX, 0, -112, -66, -112, -102));
+            hExteriorSharpOutline = Group(
+                Chain(
+                    SegmentAt(hOriginX, 0, -130, -102, 130, -102),
+                    SegmentAt(hOriginX, 0, 130, -102, 130, -62),
+                    SegmentAt(hOriginX, 0, 130, -62, 18, -62),
+                    SegmentAt(hOriginX, 0, 18, -62, 18, 20),
+                    SegmentAt(hOriginX, 0, 18, 20, 104, 104),
+                    SegmentAt(hOriginX, 0, 104, 104, 78, 130),
+                    SegmentAt(hOriginX, 0, 78, 130, 0, 52),
+                    SegmentAt(hOriginX, 0, 0, 52, -78, 130),
+                    SegmentAt(hOriginX, 0, -78, 130, -104, 104),
+                    SegmentAt(hOriginX, 0, -104, 104, -18, 20),
+                    SegmentAt(hOriginX, 0, -18, 20, -18, -62),
+                    SegmentAt(hOriginX, 0, -18, -62, -130, -62),
+                    SegmentAt(hOriginX, 0, -130, -62, -130, -102)),
+                CircleAt(hOriginX, 0, 0, 20, 62),
+                Circle(hOriginX - 92, 116, endpointRadius + offset),
+                Circle(hOriginX + 92, 116, endpointRadius + offset),
+                Circle(hOriginX - 110, -82, endpointRadius + offset),
+                Circle(hOriginX + 110, -82, endpointRadius + offset));
             hUnionInteriorHoles = Group(
-                CircleAt(hOriginX, 0, 0, 22, 32),
-                HEndpointHole(hOriginX - 78, 100),
-                HEndpointHole(hOriginX + 78, 100),
-                HEndpointHole(hOriginX - 95, -82),
-                HEndpointHole(hOriginX + 95, -82));
-            hAdditionalPositiveFillOutlines.Add(Circle(hOriginX, 22, 48));
-            hAdditionalPositiveFillOutlines.Add(Circle(hOriginX - 78, 100, endpointRadius + offset));
-            hAdditionalPositiveFillOutlines.Add(Circle(hOriginX + 78, 100, endpointRadius + offset));
-            hAdditionalPositiveFillOutlines.Add(Circle(hOriginX - 95, -82, endpointRadius + offset));
-            hAdditionalPositiveFillOutlines.Add(Circle(hOriginX + 95, -82, endpointRadius + offset));
+                CircleAt(hOriginX, 0, 0, 20, 28),
+                HEndpointHole(hOriginX - 92, 116),
+                HEndpointHole(hOriginX + 92, 116),
+                HEndpointHole(hOriginX - 110, -82),
+                HEndpointHole(hOriginX + 110, -82));
         }
         else
         {
@@ -1258,7 +1294,6 @@ internal static partial class SketchSamples
         IElement[] HFillParticipants(IElement exteriorOutline, IElement antiOutlines) =>
         [
             GraphicStructure.AreaFill(exteriorOutline),
-            .. hAdditionalPositiveFillOutlines.Select(outline => GraphicStructure.AreaFill(outline)),
             .. AntiAreaFillsFromOutlines(antiOutlines)
         ];
 

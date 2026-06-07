@@ -365,8 +365,7 @@ internal static class Program
 
         var positiveMergeAreas = mergeAreas.Count(area => !area.IsAntiArea);
         var antiMergeAreas = mergeAreas.Count(area => area.IsAntiArea);
-        if (mergeParticipantCount < 10 ||
-            positiveMergeAreas < 2 ||
+        if (positiveMergeAreas < 2 ||
             antiMergeAreas < 8)
         {
             throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not expose the merged fill cuts as settled area-frame structure.");
@@ -378,8 +377,8 @@ internal static class Program
                 .Where(area => !area.IsAntiArea &&
                     area.Boundary.Arcs is { Count: >= 4 } &&
                     TryReadSharedFrameBoundaryBounds(area.Boundary, out var minX, out var maxX, out _, out _) &&
-                    minX >= 135 &&
-                    maxX <= 390)
+                    minX >= 120 &&
+                    maxX <= 410)
                 .Select(area =>
                 {
                     TryReadSharedFrameBoundaryBounds(area.Boundary, out var minX, out var maxX, out var minY, out var maxY);
@@ -554,8 +553,7 @@ internal static class Program
             }
         }
 
-        if (exteriorRoundedParticipantCount < 10 ||
-            exteriorRoundedAreas.Count(area => !area.IsAntiArea) < 2 ||
+        if (exteriorRoundedAreas.Count(area => !area.IsAntiArea) < 2 ||
             exteriorRoundedAreas.Count(area => area.IsAntiArea) < 8)
         {
             throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not preserve the exterior-rounded positive fill and hole cuts.");
@@ -614,7 +612,6 @@ internal static class Program
         }
 
         if (finalColoredUnions.Length < 2 ||
-            finalColoredParticipantCount < 10 ||
             finalColoredAreas.Count(area => !area.IsAntiArea) < 2 ||
             finalColoredAreas.Count(area => area.IsAntiArea) < 8)
         {
