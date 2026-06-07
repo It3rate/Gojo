@@ -276,8 +276,52 @@ internal sealed class SketchDrawOperation : ICustomDrawOperation
         out IElement outline,
         out IElement markerEvidence)
     {
+        if (TryReadOrderedFrame(result, out var framedSelections) &&
+            framedSelections.Length > 0 &&
+            framedSelections.All(element => element is Relation selection &&
+                GraphicSelectionSurface.TryReadSelection(selection, out _, out _, out _, out _, out _)))
+        {
+            var outlines = new List<IElement>();
+            var markerWitnesses = new List<IElement>();
+            foreach (var framedSelection in framedSelections.OfType<Relation>())
+            {
+                if (TryReadSingleSelectionWitness(
+                        framedSelection,
+                        out var selectionSource,
+                        out var selectionMarkers))
+                {
+                    outlines.Add(selectionSource);
+                    markerWitnesses.AddRange(selectionMarkers);
+                }
+            }
+
+            if (outlines.Count > 0 &&
+                markerWitnesses.Count > 0)
+            {
+                outline = GraphicSelectionSurface.Frame(new Carrier(), [.. outlines]);
+                markerEvidence = GraphicSelectionSurface.Frame(new Carrier(), [.. markerWitnesses]);
+                return true;
+            }
+        }
+
         if (result is Relation selection &&
-            GraphicSelectionSurface.TryReadSelection(
+            TryReadSingleSelectionWitness(selection, out outline, out var singleMarkerWitnesses))
+        {
+            markerEvidence = GraphicSelectionSurface.Frame(new Carrier(), [.. singleMarkerWitnesses]);
+            return true;
+        }
+
+        outline = default!;
+        markerEvidence = default!;
+        return false;
+    }
+
+    private static bool TryReadSingleSelectionWitness(
+        Relation selection,
+        out IElement outline,
+        out List<IElement> markerWitnesses)
+    {
+        if (GraphicSelectionSurface.TryReadSelection(
                 selection,
                 out var source,
                 out _,
@@ -287,7 +331,7 @@ internal sealed class SketchDrawOperation : ICustomDrawOperation
             matches is Relation matchFrame &&
             GraphicSelectionSurface.TryReadMatchFrame(matchFrame, out var matchElements))
         {
-            var markerWitnesses = new List<IElement>();
+            markerWitnesses = [];
             foreach (var matchElement in matchElements)
             {
                 if (matchElement is Relation match &&
@@ -306,25 +350,15 @@ internal sealed class SketchDrawOperation : ICustomDrawOperation
             if (markerWitnesses.Count == 0)
             {
                 outline = default!;
-                markerEvidence = default!;
                 return false;
             }
 
             outline = source;
-            markerEvidence = GraphicSelectionSurface.Frame(new Carrier(), [.. markerWitnesses]);
-            return true;
-        }
-
-        if (TryReadOrderedFrame(result, out var elements) &&
-            elements.Length >= 2)
-        {
-            outline = elements[0];
-            markerEvidence = elements[1];
             return true;
         }
 
         outline = default!;
-        markerEvidence = default!;
+        markerWitnesses = [];
         return false;
     }
 

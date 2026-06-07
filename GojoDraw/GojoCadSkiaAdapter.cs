@@ -31,8 +31,47 @@ public sealed class GojoCadSkiaAdapter
             return DrawAreaUnion(canvas, union, projection, paints, hitAreas);
         }
 
+        if (TryReadAreaUnionFrame(renderable, out var unions))
+        {
+            var drawn = 0;
+            foreach (var framedUnion in unions)
+            {
+                drawn += DrawAreaUnion(canvas, framedUnion, projection, paints, hitAreas);
+            }
+
+            return drawn;
+        }
+
         var graph = GraphicReadGraph.From(renderable);
         return DrawReadGraph(canvas, graph, projection, paints, hitAreas);
+    }
+
+    private static bool TryReadAreaUnionFrame(IElement element, out Relation[] unions)
+    {
+        if (element is Relation relation &&
+            relation.Right is Carrier holder &&
+            relation.TryReadOrderedElementsOn(holder, out var elements) &&
+            elements.Length > 0)
+        {
+            var readUnions = new List<Relation>();
+            foreach (var elementInFrame in elements)
+            {
+                if (elementInFrame is not Relation union ||
+                    !GraphicBooleanSurface.TryReadAreaUnion(union, out _, out _, out _, out _))
+                {
+                    unions = [];
+                    return false;
+                }
+
+                readUnions.Add(union);
+            }
+
+            unions = [.. readUnions];
+            return true;
+        }
+
+        unions = [];
+        return false;
     }
 
     private static IElement SelectCurrentRenderableRungs(IElement element) =>

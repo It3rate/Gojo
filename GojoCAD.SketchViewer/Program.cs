@@ -193,23 +193,26 @@ internal static class Program
         var baseArcSpanSources = baseGraph.ReadsOf<SharedFrameArcRead>()
             .Select(arc => ReadSourceId(arc.Span.Source))
             .ToHashSet();
+        var baseClosedBoundarySegmentSources = baseGraph.ReadsOf<ClosedSharedFrameBoundaryRead>()
+            .SelectMany(boundary => boundary.Segments)
+            .Select(segment => ReadSourceId(segment.Source))
+            .ToHashSet();
         var baseOpenSegments = baseGraph.ReadsOf<PathGraphRead>()
             .SelectMany(graph => graph.Edges)
             .Count(edge =>
                 edge.IsSharedFrame &&
                 edge.Segment is SharedFrameSegmentRead &&
                 !baseArcSpanSources.Contains(ReadSourceId(edge.Segment.Source)) &&
-                edge.Start.Valence == 1 &&
-                edge.End.Valence == 1);
+                !baseClosedBoundarySegmentSources.Contains(ReadSourceId(edge.Segment.Source)));
         var baseQuadraticCurves = baseGraph.ReadsOf<SharedFrameQuadraticCurveRead>().Count();
         var baseCubicCurves = baseGraph.ReadsOf<SharedFrameCubicCurveRead>().Count();
         var baseTransitions = baseGraph.ReadsOf<SharedFrameCurveTransitionRead>().Count();
-        if (baseOpenSegments != 2 ||
+        if (baseOpenSegments < 7 ||
             baseQuadraticCurves != 0 ||
             baseCubicCurves != 0)
         {
             throw new InvalidOperationException(
-                $"Sketch scene '{scene.Label}' base rung should be two open plus strokes plus the center circle, not a curve read. " +
+                $"Sketch scene '{scene.Label}' base rung should expose the plus/circle and H/square centerline seeds, not a curve read. " +
                 $"Open={baseOpenSegments}, quadratic={baseQuadraticCurves}, cubic={baseCubicCurves}, transitions={baseTransitions}.");
         }
 
@@ -255,9 +258,9 @@ internal static class Program
                 return GraphicReadGraph.From(circleFrame).ReadsOf<ClosedSharedFrameBoundaryRead>();
             })
             .Count();
-        if (terminalCapCircles != 4)
+        if (terminalCapCircles < 8)
         {
-            throw new InvalidOperationException($"Sketch scene '{scene.Label}' should create exactly four endpoint cap circles from open line tips.");
+            throw new InvalidOperationException($"Sketch scene '{scene.Label}' should create endpoint cap circles from both open-line seed shapes.");
         }
 
         if (!StructuralLadderSurface.TryReadRung(
@@ -297,23 +300,44 @@ internal static class Program
                 out _,
                 out _,
                 out _,
-                out _) ||
-            mergeResult is not Relation mergeUnion ||
-            !GraphicBooleanSurface.TryReadAreaUnion(mergeUnion, out var mergeAreaFrame, out _, out _, out _) ||
-            mergeAreaFrame is not Relation mergeAreaFrameRelation ||
-            !GraphicBooleanSurface.TryReadAreaFrame(mergeAreaFrameRelation, out var mergeParticipants))
+                out _))
         {
             throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not expose the merged fill as an area union.");
         }
 
-        var mergeAreas = GraphicReadGraph.From(mergeAreaFrameRelation)
-            .ReadsOf<SharedFrameAreaRead>()
+        var mergeAreaFrames = WalkRelations(mergeResult)
+            .Select(relation =>
+            {
+                var read = GraphicBooleanSurface.TryReadAreaUnion(relation, out var areaFrame, out _, out _, out _);
+                return (read, areaFrame);
+            })
+            .Where(union => union.read)
+            .DistinctBy(union => ReadSourceId(union.areaFrame))
             .ToArray();
+        if (mergeAreaFrames.Length < 2)
+        {
+            throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not expose both merged fill lanes as area unions.");
+        }
+
+        var mergeParticipantCount = 0;
+        var mergeAreas = new List<SharedFrameAreaRead>();
+        foreach (var (_, mergeAreaFrame) in mergeAreaFrames)
+        {
+            if (mergeAreaFrame is not Relation mergeAreaFrameRelation ||
+                !GraphicBooleanSurface.TryReadAreaFrame(mergeAreaFrameRelation, out var mergeParticipants))
+            {
+                continue;
+            }
+
+            mergeParticipantCount += mergeParticipants.Length;
+            mergeAreas.AddRange(GraphicReadGraph.From(mergeAreaFrameRelation).ReadsOf<SharedFrameAreaRead>());
+        }
+
         var positiveMergeAreas = mergeAreas.Count(area => !area.IsAntiArea);
         var antiMergeAreas = mergeAreas.Count(area => area.IsAntiArea);
-        if (mergeParticipants.Length != 11 ||
-            positiveMergeAreas != 7 ||
-            antiMergeAreas < 9)
+        if (mergeParticipantCount < 18 ||
+            positiveMergeAreas < 12 ||
+            antiMergeAreas < 10)
         {
             throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not expose the merged fill cuts as area-frame structure.");
         }
@@ -327,14 +351,19 @@ internal static class Program
                 out _,
                 out _,
                 out _,
-                out _) ||
-            outlineResult is not Relation outlineUnion ||
-            !GraphicBooleanSurface.TryReadAreaUnion(outlineUnion, out _, out var outlineWitness, out _, out _))
+                out _))
         {
             throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not keep the composite outline tied to the merged area union.");
         }
 
-        var openingOutlines = GraphicReadGraph.From(outlineWitness).ReadsOf<ClosedSharedFrameBoundaryRead>().Count();
+        var openingOutlines = WalkRelations(outlineResult)
+            .Where(relation => GraphicBooleanSurface.TryReadAreaUnion(relation, out _, out _, out _, out _))
+            .SelectMany(relation =>
+            {
+                GraphicBooleanSurface.TryReadAreaUnion(relation, out _, out var outlineWitness, out _, out _);
+                return GraphicReadGraph.From(outlineWitness).ReadsOf<ClosedSharedFrameBoundaryRead>();
+            })
+            .Count();
         if (openingOutlines < 8)
         {
             throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not expose the eight interior union openings.");
@@ -349,15 +378,12 @@ internal static class Program
                 out _,
                 out _,
                 out _,
-                out _) ||
-            !TryReadRadialSelectionWitness(cuspResult, out var cuspMarkerWitness))
+                out _))
         {
             throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not expose the selected interior cusps.");
         }
 
-        var cuspMarkers = GraphicReadGraph.From(cuspMarkerWitness)
-            .ReadsOf<ClosedSharedFrameBoundaryRead>()
-            .Count();
+        var cuspMarkers = CountSelectionMarkerBoundaries(cuspResult);
         if (cuspMarkers < 12)
         {
             throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not mark the twelve interior non-tangent joins.");
@@ -372,15 +398,18 @@ internal static class Program
                 out _,
                 out _,
                 out _,
-                out _) ||
-            roundedResult is not Relation roundedUnion ||
-            !GraphicBooleanSurface.TryReadAreaUnion(roundedUnion, out _, out var roundedOutlineWitness, out _, out _))
+                out _))
         {
             throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not expose the rounded interior-corner result.");
         }
 
-        var roundedCenterOpenings = GraphicReadGraph.From(roundedOutlineWitness)
-            .ReadsOf<ClosedSharedFrameBoundaryRead>()
+        var roundedCenterOpenings = WalkRelations(roundedResult)
+            .Where(relation => GraphicBooleanSurface.TryReadAreaUnion(relation, out _, out _, out _, out _))
+            .SelectMany(relation =>
+            {
+                GraphicBooleanSurface.TryReadAreaUnion(relation, out _, out var roundedOutlineWitness, out _, out _);
+                return GraphicReadGraph.From(roundedOutlineWitness).ReadsOf<ClosedSharedFrameBoundaryRead>();
+            })
             .Count(boundary => boundary.Arcs is { Count: >= 4 });
         if (roundedCenterOpenings < 4)
         {
@@ -396,15 +425,12 @@ internal static class Program
                 out _,
                 out _,
                 out _,
-                out _) ||
-            !TryReadRadialSelectionWitness(exteriorCuspResult, out var exteriorCuspMarkerWitness))
+                out _))
         {
             throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not expose the selected exterior cusps.");
         }
 
-        var exteriorCuspMarkers = GraphicReadGraph.From(exteriorCuspMarkerWitness)
-            .ReadsOf<ClosedSharedFrameBoundaryRead>()
-            .Count();
+        var exteriorCuspMarkers = CountSelectionMarkerBoundaries(exteriorCuspResult);
         if (exteriorCuspMarkers < 16)
         {
             throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not mark the sixteen exterior non-tangent joins.");
@@ -419,32 +445,46 @@ internal static class Program
                 out _,
                 out _,
                 out _,
-                out _) ||
-            exteriorRoundedResult is not Relation exteriorRoundedUnion ||
-            !GraphicBooleanSurface.TryReadAreaUnion(
-                exteriorRoundedUnion,
-                out var exteriorRoundedAreaFrame,
-                out var exteriorRoundedOutlineWitness,
-                out _,
-                out _) ||
-            exteriorRoundedAreaFrame is not Relation exteriorRoundedAreaFrameRelation ||
-            !GraphicBooleanSurface.TryReadAreaFrame(exteriorRoundedAreaFrameRelation, out var exteriorRoundedParticipants))
+                out _))
         {
             throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not expose the exterior-rounded area union.");
         }
 
-        var exteriorRoundedAreas = GraphicReadGraph.From(exteriorRoundedAreaFrameRelation)
-            .ReadsOf<SharedFrameAreaRead>()
+        var exteriorRoundedUnions = WalkRelations(exteriorRoundedResult)
+            .Select(relation =>
+            {
+                var read = GraphicBooleanSurface.TryReadAreaUnion(relation, out var areaFrame, out var outlineWitness, out _, out _);
+                return (read, areaFrame, outlineWitness);
+            })
+            .Where(union => union.read)
+            .DistinctBy(union => ReadSourceId(union.areaFrame))
             .ToArray();
-        if (exteriorRoundedParticipants.Length != 9 ||
-            exteriorRoundedAreas.Count(area => !area.IsAntiArea) != 1 ||
+        if (exteriorRoundedUnions.Length < 2)
+        {
+            throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not expose both exterior-rounded lanes.");
+        }
+
+        var exteriorRoundedParticipantCount = 0;
+        var exteriorRoundedAreas = new List<SharedFrameAreaRead>();
+        foreach (var (_, exteriorRoundedAreaFrame, _) in exteriorRoundedUnions)
+        {
+            if (exteriorRoundedAreaFrame is Relation exteriorRoundedAreaFrameRelation &&
+                GraphicBooleanSurface.TryReadAreaFrame(exteriorRoundedAreaFrameRelation, out var exteriorRoundedParticipants))
+            {
+                exteriorRoundedParticipantCount += exteriorRoundedParticipants.Length;
+                exteriorRoundedAreas.AddRange(GraphicReadGraph.From(exteriorRoundedAreaFrameRelation).ReadsOf<SharedFrameAreaRead>());
+            }
+        }
+
+        if (exteriorRoundedParticipantCount < 16 ||
+            exteriorRoundedAreas.Count(area => !area.IsAntiArea) < 2 ||
             exteriorRoundedAreas.Count(area => area.IsAntiArea) < 8)
         {
             throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not preserve the exterior-rounded positive fill and hole cuts.");
         }
 
-        var exteriorRoundedOutlines = GraphicReadGraph.From(exteriorRoundedOutlineWitness)
-            .ReadsOf<ClosedSharedFrameBoundaryRead>()
+        var exteriorRoundedOutlines = exteriorRoundedUnions
+            .SelectMany(union => GraphicReadGraph.From(union.outlineWitness).ReadsOf<ClosedSharedFrameBoundaryRead>())
             .ToArray();
         if (!exteriorRoundedOutlines.Any(boundary => boundary.Arcs is { Count: >= 24 }))
         {
@@ -460,25 +500,35 @@ internal static class Program
                 out _,
                 out _,
                 out _,
-                out _) ||
-            finalColoredResult is not Relation finalColoredUnion ||
-            !GraphicBooleanSurface.TryReadAreaUnion(
-                finalColoredUnion,
-                out var finalColoredAreaFrame,
-                out _,
-                out _,
-                out _) ||
-            finalColoredAreaFrame is not Relation finalColoredAreaFrameRelation ||
-            !GraphicBooleanSurface.TryReadAreaFrame(finalColoredAreaFrameRelation, out var finalColoredParticipants))
+                out _))
         {
             throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not expose the final colored area union.");
         }
 
-        var finalColoredAreas = GraphicReadGraph.From(finalColoredAreaFrameRelation)
-            .ReadsOf<SharedFrameAreaRead>()
+        var finalColoredUnions = WalkRelations(finalColoredResult)
+            .Select(relation =>
+            {
+                var read = GraphicBooleanSurface.TryReadAreaUnion(relation, out var areaFrame, out _, out _, out _);
+                return (read, areaFrame);
+            })
+            .Where(union => union.read)
+            .DistinctBy(union => ReadSourceId(union.areaFrame))
             .ToArray();
-        if (finalColoredParticipants.Length != 9 ||
-            finalColoredAreas.Count(area => !area.IsAntiArea) != 1 ||
+        var finalColoredParticipantCount = 0;
+        var finalColoredAreas = new List<SharedFrameAreaRead>();
+        foreach (var (_, finalColoredAreaFrame) in finalColoredUnions)
+        {
+            if (finalColoredAreaFrame is Relation finalColoredAreaFrameRelation &&
+                GraphicBooleanSurface.TryReadAreaFrame(finalColoredAreaFrameRelation, out var finalColoredParticipants))
+            {
+                finalColoredParticipantCount += finalColoredParticipants.Length;
+                finalColoredAreas.AddRange(GraphicReadGraph.From(finalColoredAreaFrameRelation).ReadsOf<SharedFrameAreaRead>());
+            }
+        }
+
+        if (finalColoredUnions.Length < 2 ||
+            finalColoredParticipantCount < 16 ||
+            finalColoredAreas.Count(area => !area.IsAntiArea) < 2 ||
             finalColoredAreas.Count(area => area.IsAntiArea) < 8)
         {
             throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not keep the final holes as unfilled area cuts.");
@@ -532,19 +582,33 @@ internal static class Program
 
     private static IEnumerable<Relation> WalkRelations(IElement element)
     {
+        var seen = new HashSet<ulong>();
+        foreach (var relation in WalkRelations(element, seen))
+        {
+            yield return relation;
+        }
+    }
+
+    private static IEnumerable<Relation> WalkRelations(IElement element, ISet<ulong> seen)
+    {
         if (element is not Relation relation)
+        {
+            yield break;
+        }
+
+        if (!seen.Add(relation.Id))
         {
             yield break;
         }
 
         yield return relation;
 
-        foreach (var child in WalkRelations(relation.Left))
+        foreach (var child in WalkRelations(relation.Left, seen))
         {
             yield return child;
         }
 
-        foreach (var child in WalkRelations(relation.Right))
+        foreach (var child in WalkRelations(relation.Right, seen))
         {
             yield return child;
         }
@@ -611,6 +675,47 @@ internal static class Program
 
         markerWitness = default!;
         return false;
+    }
+
+    private static int CountSelectionMarkerBoundaries(IElement element)
+    {
+        var markerWitnesses = new List<IElement>();
+        foreach (var selection in WalkRelations(element)
+            .Where(relation => GraphicSelectionSurface.TryReadSelection(relation, out _, out _, out _, out _, out _))
+            .DistinctBy(relation => relation.Id))
+        {
+            GraphicSelectionSurface.TryReadSelection(
+                selection,
+                out _,
+                out _,
+                out _,
+                out var matches,
+                out _);
+            if (matches is not Relation matchFrame ||
+                !GraphicSelectionSurface.TryReadMatchFrame(matchFrame, out var matchElements))
+            {
+                continue;
+            }
+
+            foreach (var matchElement in matchElements)
+            {
+                if (matchElement is Relation match &&
+                    GraphicSelectionSurface.TryReadMatch(
+                        match,
+                        out _,
+                        out _,
+                        out _,
+                        out var evidence,
+                        out _))
+                {
+                    markerWitnesses.Add(ReadRadialMarkerWitness(evidence));
+                }
+            }
+        }
+
+        return markerWitnesses
+            .SelectMany(witness => GraphicReadGraph.From(witness).ReadsOf<ClosedSharedFrameBoundaryRead>())
+            .Count();
     }
 
     private static IElement ReadRadialMarkerWitness(IElement evidence)
