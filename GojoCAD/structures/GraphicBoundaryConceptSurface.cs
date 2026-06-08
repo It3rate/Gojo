@@ -594,16 +594,31 @@ public static class GraphicBoundaryConceptSurface
 
     private static IElement BoundaryStructure(ClosedSharedFrameBoundaryRead boundary)
     {
-        var arcSpanIds = (boundary.Arcs ?? [])
-            .Select(arc => SourceId(arc.Span.Source))
-            .ToHashSet();
-        var elements = boundary.Segments
-            .Where(segment => !arcSpanIds.Contains(SourceId(segment.Source)))
-            .Select(segment => segment.Source)
-            .Concat((boundary.Arcs ?? []).Select(arc => arc.Source))
-            .ToArray();
+        var arcBySpanSource = (boundary.Arcs ?? [])
+            .GroupBy(arc => SourceId(arc.Span.Source))
+            .ToDictionary(group => group.Key, group => group.First());
+        var elements = TryReadOrientedBoundaryEdges(boundary, out var oriented)
+            ? oriented
+                .Select(edge => OrientedBoundaryElement(edge, arcBySpanSource))
+                .ToArray()
+            : boundary.Segments
+                .Select(segment => arcBySpanSource.TryGetValue(SourceId(segment.Source), out var arc)
+                    ? arc.Source
+                    : segment.Source)
+                .ToArray();
 
         return Chain(elements);
+    }
+
+    private static IElement OrientedBoundaryElement(
+        OrientedBoundaryEdge edge,
+        IReadOnlyDictionary<ulong, SharedFrameArcRead> arcBySpanSource)
+    {
+        var start = (Relation)edge.StartEndpoint.Point.Source;
+        var end = (Relation)edge.EndEndpoint.Point.Source;
+        return arcBySpanSource.TryGetValue(SourceId(edge.Segment.Source), out var arc)
+            ? GraphicStructure.FrameArc((Relation)arc.Center.Source, start, end)
+            : GraphicStructure.FrameSegment(start, end);
     }
 
     private static IReadOnlyList<SharedFrameSegmentEndpointRead>? FindSite(

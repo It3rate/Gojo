@@ -104,7 +104,11 @@ public static class GraphicOutlineSurface
                 continue;
             }
 
-            var outline = BoundaryStructure(area.Boundary);
+            var outline = TryReadableSharedBoundarySource(area.Source, out var areaSource)
+                ? areaSource
+                : TryReadableSharedBoundarySource(area.Boundary.Source, out var boundarySource)
+                    ? boundarySource
+                    : BoundaryStructure(area.Boundary);
             if (!AlreadyContainsSource(outlines, outline))
             {
                 outlines.Add(outline);
@@ -131,38 +135,33 @@ public static class GraphicOutlineSurface
 
     private static IElement BoundaryStructure(ClosedSharedFrameBoundaryRead boundary)
     {
-        var elements = new List<IElement>();
-        foreach (var segment in boundary.Segments)
-        {
-            if (!IsArcSpan(segment, boundary.Arcs ?? []))
-            {
-                elements.Add(segment.Source);
-            }
-        }
-
-        foreach (var arc in boundary.Arcs ?? [])
-        {
-            elements.Add(arc.Source);
-        }
-
-        return Chain([.. elements]);
+        var arcBySpanSource = (boundary.Arcs ?? [])
+            .GroupBy(arc => SourceId(arc.Span.Source))
+            .ToDictionary(group => group.Key, group => group.First());
+        var elements = TryReadOrientedBoundaryEdges(boundary, out var oriented)
+            ? oriented
+                .Select(edge => OrientedBoundaryElement(edge, arcBySpanSource))
+                .ToArray()
+            : boundary.Segments
+                .Select(segment => arcBySpanSource.TryGetValue(SourceId(segment.Source), out var arc)
+                    ? arc.Source
+                    : segment.Source)
+                .ToArray();
+        return Chain(elements);
     }
 
     private static IElement BoundaryStructure(ClosedSegmentBoundaryRead boundary) =>
         Chain([.. boundary.Segments.Select(segment => segment.Source)]);
 
-    private static bool IsArcSpan(SharedFrameSegmentRead segment, IReadOnlyList<SharedFrameArcRead> arcs)
+    private static bool TryReadableSharedBoundarySource(IElement source, out IElement readable)
     {
-        foreach (var arc in arcs)
+        if (GraphicReadGraph.From(source).ReadsOf<ClosedSharedFrameBoundaryRead>().Any())
         {
-            if (ReferenceEquals(arc.Span, segment) ||
-                ReferenceEquals(arc.Span.Source, segment.Source) ||
-                Equals(arc.Span.Source, segment.Source))
-            {
-                return true;
-            }
+            readable = source;
+            return true;
         }
 
+        readable = default!;
         return false;
     }
 
@@ -214,4 +213,66 @@ public static class GraphicOutlineSurface
     }
 
     private static Carrier RootOrNew(Carrier root) => root ?? new Carrier();
+
+    private static IElement OrientedBoundaryElement(
+        OrientedBoundaryEdge edge,
+        IReadOnlyDictionary<ulong, SharedFrameArcRead> arcBySpanSource)
+    {
+        var start = (Relation)edge.StartEndpoint.Point.Source;
+        var end = (Relation)edge.EndEndpoint.Point.Source;
+        return arcBySpanSource.TryGetValue(SourceId(edge.Segment.Source), out var arc)
+            ? GraphicStructure.FrameArc((Relation)arc.Center.Source, start, end)
+            : GraphicStructure.FrameSegment(start, end);
+    }
+
+    private static bool TryReadOrientedBoundaryEdges(
+        ClosedSharedFrameBoundaryRead boundary,
+        out IReadOnlyList<OrientedBoundaryEdge> edges)
+    {
+        var siteByEndpoint = boundary.Sites
+            .SelectMany(site => site.Select(endpoint => (endpoint, site)))
+            .ToDictionary(pair => EndpointSignature(pair.endpoint), pair => pair.site);
+        var first = boundary.Segments[0];
+        var incoming = new SharedFrameSegmentEndpointRead(first, first.Start, IsStart: true);
+        var visited = new HashSet<ulong>();
+        var ordered = new List<OrientedBoundaryEdge>();
+        while (visited.Add(SourceId(incoming.Segment.Source)))
+        {
+            var outgoing = OtherEndpoint(incoming);
+            ordered.Add(new OrientedBoundaryEdge(incoming.Segment, incoming, outgoing));
+            if (!siteByEndpoint.TryGetValue(EndpointSignature(outgoing), out var site))
+            {
+                break;
+            }
+
+            var next = site.FirstOrDefault(endpoint =>
+                SourceId(endpoint.Segment.Source) != SourceId(incoming.Segment.Source) &&
+                !visited.Contains(SourceId(endpoint.Segment.Source)));
+            if (next is null)
+            {
+                break;
+            }
+
+            incoming = next;
+        }
+
+        edges = ordered;
+        return ordered.Count == boundary.Segments.Count;
+    }
+
+    private static SharedFrameSegmentEndpointRead OtherEndpoint(SharedFrameSegmentEndpointRead endpoint) =>
+        endpoint.IsStart
+            ? new SharedFrameSegmentEndpointRead(endpoint.Segment, endpoint.Segment.End, IsStart: false)
+            : new SharedFrameSegmentEndpointRead(endpoint.Segment, endpoint.Segment.Start, IsStart: true);
+
+    private static string EndpointSignature(SharedFrameSegmentEndpointRead endpoint) =>
+        $"{SourceId(endpoint.Segment.Source)}:{(endpoint.IsStart ? "s" : "e")}";
+
+    private static ulong SourceId(IElement source) =>
+        source is Relation relation ? relation.Id : 0UL;
+
+    private readonly record struct OrientedBoundaryEdge(
+        SharedFrameSegmentRead Segment,
+        SharedFrameSegmentEndpointRead StartEndpoint,
+        SharedFrameSegmentEndpointRead EndEndpoint);
 }
