@@ -86,6 +86,46 @@ public sealed class GraphicOrthogonalFillSurfaceTests
     }
 
     [Fact]
+    public void OrthogonalFillParticipantsCreateClosedSegmentLoopFrameWithInnerOpening()
+    {
+        var basis = new TestBasis();
+        var diamond = Group(
+            Segment(basis, 0, 50, 40, 0),
+            Segment(basis, 40, 0, 0, -50),
+            Segment(basis, 0, -50, -40, 0),
+            Segment(basis, -40, 0, 0, 50));
+        var witness = GraphicOffsetSurface.BoundarySideWitness(
+            new Carrier(),
+            diamond,
+            diamond,
+            Group(),
+            Group());
+
+        var participants = GraphicOrthogonalFillSurface.OrthogonalFillParticipants(witness, 8);
+
+        var areas = GraphicReadGraph.From(Group(participants))
+            .ReadsOf<SharedFrameAreaRead>()
+            .DistinctBy(area => ReadSourceId(area.Source))
+            .ToArray();
+        Assert.Single(areas, area => !area.IsAntiArea && area.Boundary.Segments.Count == 4);
+        Assert.Single(areas, area => area.IsAntiArea && area.Boundary.Segments.Count == 4);
+        Assert.Contains(areas, area =>
+            !area.IsAntiArea &&
+            TryReadBounds(area.Boundary, out var minX, out var maxX, out var minY, out var maxY) &&
+            minX < -40 &&
+            maxX > 40 &&
+            minY < -50 &&
+            maxY > 50);
+        Assert.Contains(areas, area =>
+            area.IsAntiArea &&
+            TryReadBounds(area.Boundary, out var minX, out var maxX, out var minY, out var maxY) &&
+            minX > -40 &&
+            maxX < 40 &&
+            minY > -50 &&
+            maxY < 50);
+    }
+
+    [Fact]
     public void OrthogonalFillParticipantsCanSettleCurvedAndYSeedIntoSeparatePositiveLoops()
     {
         var basis = new TestBasis();

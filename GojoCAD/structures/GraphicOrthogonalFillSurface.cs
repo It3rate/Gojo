@@ -105,6 +105,11 @@ public static class GraphicOrthogonalFillSurface
 
             if (!TryReadAxisAlignedRectangleBoundary(boundary, out var template, out var minX, out var maxX, out var minY, out var maxY))
             {
+                if (TryReadClosedSegmentLoopBoundary(boundary, out template, out var points))
+                {
+                    participants.AddRange(ClosedSegmentLoopOrthogonalFrameFills(template, points, distance));
+                }
+
                 continue;
             }
 
@@ -348,6 +353,23 @@ public static class GraphicOrthogonalFillSurface
         return [Chain(outer, inner)];
     }
 
+    private static IElement[] ClosedSegmentLoopOrthogonalFrameFills(
+        SharedFramePointRead template,
+        IReadOnlyList<(long X, long Y)> points,
+        long distanceTicks)
+    {
+        if (points.Count < 3 ||
+            !TryOffsetPolygon(points, distanceTicks, outward: true, out var outer))
+        {
+            return [];
+        }
+
+        var outerFill = GraphicStructure.AreaFill(PolygonBoundary(template, outer));
+        return TryOffsetPolygon(points, distanceTicks, outward: false, out var inner)
+            ? [Chain(outerFill, GraphicStructure.AntiAreaFill(PolygonBoundary(template, inner)))]
+            : [outerFill];
+    }
+
     private static bool TryArcBandFillWithRadii(
         SharedFramePointRead template,
         long centerX,
@@ -433,6 +455,24 @@ public static class GraphicOrthogonalFillSurface
             Segment(template, maxX, minY, maxX, maxY),
             Segment(template, maxX, maxY, minX, maxY),
             Segment(template, minX, maxY, minX, minY));
+
+    private static Relation PolygonBoundary(SharedFramePointRead template, IReadOnlyList<(long X, long Y)> points)
+    {
+        if (points.Count < 3)
+        {
+            return Chain();
+        }
+
+        var edges = new IElement[points.Count];
+        for (var index = 0; index < points.Count; index++)
+        {
+            var start = points[index];
+            var end = points[(index + 1) % points.Count];
+            edges[index] = Segment(template, start.X, start.Y, end.X, end.Y);
+        }
+
+        return Chain(edges);
+    }
 
     private static Relation Arc(
         SharedFramePointRead template,
@@ -565,6 +605,151 @@ public static class GraphicOrthogonalFillSurface
         return true;
     }
 
+    private static bool TryReadClosedSegmentLoopBoundary(
+        ClosedSharedFrameBoundaryRead boundary,
+        out SharedFramePointRead template,
+        out (long X, long Y)[] points)
+    {
+        template = default!;
+        points = [];
+        if (boundary.Arcs is { Count: > 0 } ||
+            boundary.Segments.Count < 3)
+        {
+            return false;
+        }
+
+        var segments = new List<SegmentTicks>();
+        foreach (var segment in boundary.Segments)
+        {
+            if (!TryReadSegmentTicks(segment, out var startX, out var startY, out var endX, out var endY))
+            {
+                return false;
+            }
+
+            segments.Add(new(segment.Start, startX, startY, endX, endY));
+        }
+
+        var used = new bool[segments.Count];
+        var ordered = new List<(long X, long Y)> { (segments[0].StartX, segments[0].StartY) };
+        var current = (segments[0].EndX, segments[0].EndY);
+        used[0] = true;
+        for (var count = 1; count < segments.Count; count++)
+        {
+            ordered.Add(current);
+            var found = false;
+            for (var index = 1; index < segments.Count; index++)
+            {
+                if (used[index])
+                {
+                    continue;
+                }
+
+                var candidate = segments[index];
+                if (SamePoint(current, (candidate.StartX, candidate.StartY)))
+                {
+                    current = (candidate.EndX, candidate.EndY);
+                    used[index] = true;
+                    found = true;
+                    break;
+                }
+
+                if (SamePoint(current, (candidate.EndX, candidate.EndY)))
+                {
+                    current = (candidate.StartX, candidate.StartY);
+                    used[index] = true;
+                    found = true;
+                    break;
+                }
+            }
+
+            if (!found)
+            {
+                return false;
+            }
+        }
+
+        if (!SamePoint(current, ordered[0]) ||
+            Math.Abs(SignedArea(ordered)) < 1d)
+        {
+            return false;
+        }
+
+        template = segments[0].Template;
+        points = [.. ordered];
+        return true;
+    }
+
+    private static bool TryOffsetPolygon(
+        IReadOnlyList<(long X, long Y)> points,
+        long distanceTicks,
+        bool outward,
+        out (long X, long Y)[] offsetPoints)
+    {
+        offsetPoints = [];
+        if (points.Count < 3 ||
+            distanceTicks <= 0)
+        {
+            return false;
+        }
+
+        var centroid = (
+            X: points.Average(point => point.X),
+            Y: points.Average(point => point.Y));
+        var lines = new OffsetLine[points.Count];
+        for (var index = 0; index < points.Count; index++)
+        {
+            var start = points[index];
+            var end = points[(index + 1) % points.Count];
+            var dx = end.X - start.X;
+            var dy = end.Y - start.Y;
+            var length = Math.Sqrt(dx * dx + dy * dy);
+            if (length <= 0d)
+            {
+                return false;
+            }
+
+            var normalX = -dy / length;
+            var normalY = dx / length;
+            var midX = (start.X + end.X) * 0.5d;
+            var midY = (start.Y + end.Y) * 0.5d;
+            if (normalX * (centroid.X - midX) + normalY * (centroid.Y - midY) > 0d)
+            {
+                normalX = -normalX;
+                normalY = -normalY;
+            }
+
+            var side = outward ? 1d : -1d;
+            lines[index] = new(
+                X: start.X + normalX * distanceTicks * side,
+                Y: start.Y + normalY * distanceTicks * side,
+                Dx: dx,
+                Dy: dy);
+        }
+
+        var output = new List<(long X, long Y)>();
+        for (var index = 0; index < lines.Length; index++)
+        {
+            var previous = lines[(index + lines.Length - 1) % lines.Length];
+            var current = lines[index];
+            if (!TryIntersect(previous, current, out var intersection))
+            {
+                return false;
+            }
+
+            output.Add((
+                (long)Math.Round(intersection.X),
+                (long)Math.Round(intersection.Y)));
+        }
+
+        if (Math.Abs(SignedArea(output)) < 1d)
+        {
+            return false;
+        }
+
+        offsetPoints = [.. output];
+        return true;
+    }
+
     private static bool TryReadBoundaryBounds(
         ClosedSharedFrameBoundaryRead boundary,
         out long minX,
@@ -645,4 +830,45 @@ public static class GraphicOrthogonalFillSurface
 
     private static ulong SourceId(IElement source) =>
         source is Relation relation ? relation.Id : 0UL;
+
+    private static bool SamePoint((long X, long Y) left, (long X, long Y) right) =>
+        left.X == right.X && left.Y == right.Y;
+
+    private static double SignedArea(IReadOnlyList<(long X, long Y)> points)
+    {
+        var area = 0d;
+        for (var index = 0; index < points.Count; index++)
+        {
+            var current = points[index];
+            var next = points[(index + 1) % points.Count];
+            area += current.X * next.Y - next.X * current.Y;
+        }
+
+        return area * 0.5d;
+    }
+
+    private static bool TryIntersect(OffsetLine left, OffsetLine right, out (double X, double Y) intersection)
+    {
+        var cross = left.Dx * right.Dy - left.Dy * right.Dx;
+        if (Math.Abs(cross) < 0.0001d)
+        {
+            intersection = default;
+            return false;
+        }
+
+        var deltaX = right.X - left.X;
+        var deltaY = right.Y - left.Y;
+        var t = (deltaX * right.Dy - deltaY * right.Dx) / cross;
+        intersection = (left.X + left.Dx * t, left.Y + left.Dy * t);
+        return true;
+    }
+
+    private readonly record struct SegmentTicks(
+        SharedFramePointRead Template,
+        long StartX,
+        long StartY,
+        long EndX,
+        long EndY);
+
+    private readonly record struct OffsetLine(double X, double Y, double Dx, double Dy);
 }

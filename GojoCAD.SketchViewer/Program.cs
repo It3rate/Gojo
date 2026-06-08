@@ -17,7 +17,7 @@ internal static class Program
     {
         if (args.Any(arg => string.Equals(arg, "--smoke-scenes", StringComparison.OrdinalIgnoreCase)))
         {
-            foreach (var radialComparisonVariant in new[] { 0, 1 })
+            foreach (var radialComparisonVariant in new[] { 0, 1, 2 })
             foreach (var scene in SketchSamples.CreateInitialScenes(radialComparisonVariant))
             {
                 ValidateGeneratedScene(scene);
@@ -171,8 +171,7 @@ internal static class Program
 
     private static void ValidateRadialShapeLadder(SketchScene scene, Relation ladder, IReadOnlyList<Relation> rungs)
     {
-        var comparisonPairMode = scene.Caption.Contains("bug", StringComparison.OrdinalIgnoreCase) &&
-            scene.Caption.Contains("YT", StringComparison.OrdinalIgnoreCase);
+        var comparisonPairMode = !scene.Caption.Contains("H/square", StringComparison.OrdinalIgnoreCase);
         var expectedUnionLanes = comparisonPairMode ? 1 : 2;
         if (rungs.Count != 11)
         {

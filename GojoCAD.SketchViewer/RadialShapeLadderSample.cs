@@ -107,6 +107,31 @@ internal static partial class SketchSamples
                 Segment(maxX, maxY, minX, maxY),
                 Segment(minX, maxY, minX, minY));
 
+        Relation PolygonBoundary(params (long X, long Y)[] points)
+        {
+            if (points.Length < 3)
+            {
+                return Chain();
+            }
+
+            var edges = new IElement[points.Length];
+            for (var index = 0; index < points.Length; index++)
+            {
+                var start = points[index];
+                var end = points[(index + 1) % points.Length];
+                edges[index] = Segment(start.X, start.Y, end.X, end.Y);
+            }
+
+            return Chain(edges);
+        }
+
+        Relation DiamondOutlineAt(long originX, long originY, long halfWidth, long halfHeight) =>
+            Chain(
+                SegmentAt(originX, originY, 0, halfHeight, halfWidth, 0),
+                SegmentAt(originX, originY, halfWidth, 0, 0, -halfHeight),
+                SegmentAt(originX, originY, 0, -halfHeight, -halfWidth, 0),
+                SegmentAt(originX, originY, -halfWidth, 0, 0, halfHeight));
+
         ulong SourceId(IElement source) =>
             source is Relation relation ? relation.Id : 0UL;
 
@@ -217,6 +242,77 @@ internal static partial class SketchSamples
                 $"{maxX}:{maxY}",
                 $"{minX}:{maxY}"
             ]);
+        }
+
+        bool TryReadClosedSegmentLoopBoundary(
+            ClosedSharedFrameBoundaryRead boundary,
+            out (long X, long Y)[] points)
+        {
+            points = [];
+            if (boundary.Arcs is { Count: > 0 } ||
+                boundary.Segments.Count < 3)
+            {
+                return false;
+            }
+
+            var segments = new List<(long StartX, long StartY, long EndX, long EndY)>();
+            foreach (var segment in boundary.Segments)
+            {
+                if (!TryReadSegmentTicks(segment, out var startX, out var startY, out var endX, out var endY))
+                {
+                    return false;
+                }
+
+                segments.Add((startX, startY, endX, endY));
+            }
+
+            var used = new bool[segments.Count];
+            var ordered = new List<(long X, long Y)> { (segments[0].StartX, segments[0].StartY) };
+            var current = (X: segments[0].EndX, Y: segments[0].EndY);
+            used[0] = true;
+            for (var count = 1; count < segments.Count; count++)
+            {
+                ordered.Add(current);
+                var found = false;
+                for (var index = 1; index < segments.Count; index++)
+                {
+                    if (used[index])
+                    {
+                        continue;
+                    }
+
+                    var candidate = segments[index];
+                    if (SamePoint(current, (candidate.StartX, candidate.StartY)))
+                    {
+                        current = (candidate.EndX, candidate.EndY);
+                        used[index] = true;
+                        found = true;
+                        break;
+                    }
+
+                    if (SamePoint(current, (candidate.EndX, candidate.EndY)))
+                    {
+                        current = (candidate.StartX, candidate.StartY);
+                        used[index] = true;
+                        found = true;
+                        break;
+                    }
+                }
+
+                if (!found)
+                {
+                    return false;
+                }
+            }
+
+            if (!SamePoint(current, ordered[0]) ||
+                Math.Abs(SignedArea(ordered)) < 1d)
+            {
+                return false;
+            }
+
+            points = [.. ordered];
+            return true;
         }
 
         IEnumerable<SharedFrameSegmentRead> OpenSharedFrameLineSegments(IElement source)
@@ -551,6 +647,33 @@ internal static partial class SketchSamples
                 }
             }
 
+            var seenLoops = new HashSet<string>();
+            foreach (var boundary in graph.ReadsOf<ClosedSharedFrameBoundaryRead>())
+            {
+                if (TryReadCircleBoundary(boundary, out _, out _, out _) ||
+                    TryReadAxisAlignedRectangleBoundary(boundary, out _, out _, out _, out _) ||
+                    !TryReadClosedSegmentLoopBoundary(boundary, out var points))
+                {
+                    continue;
+                }
+
+                var key = string.Join("|", points.Select(point => $"{point.X}:{point.Y}"));
+                if (!seenLoops.Add(key))
+                {
+                    continue;
+                }
+
+                if (TryOffsetPolygon(points, Math.Abs(distanceTicks), outward: true, out var outer))
+                {
+                    elements.Add(PolygonBoundary(outer));
+                }
+
+                if (TryOffsetPolygon(points, Math.Abs(distanceTicks), outward: false, out var inner))
+                {
+                    elements.Add(PolygonBoundary(inner));
+                }
+            }
+
             return [.. elements];
         }
 
@@ -568,6 +691,97 @@ internal static partial class SketchSamples
             }
 
             return sweep;
+        }
+
+        static bool SamePoint((long X, long Y) left, (long X, long Y) right) =>
+            left.X == right.X && left.Y == right.Y;
+
+        static double SignedArea(IReadOnlyList<(long X, long Y)> points)
+        {
+            var area = 0d;
+            for (var index = 0; index < points.Count; index++)
+            {
+                var current = points[index];
+                var next = points[(index + 1) % points.Count];
+                area += current.X * next.Y - next.X * current.Y;
+            }
+
+            return area * 0.5d;
+        }
+
+        static bool TryOffsetPolygon(
+            IReadOnlyList<(long X, long Y)> points,
+            long distanceTicks,
+            bool outward,
+            out (long X, long Y)[] offsetPoints)
+        {
+            offsetPoints = [];
+            if (points.Count < 3 ||
+                distanceTicks <= 0)
+            {
+                return false;
+            }
+
+            var centroid = (
+                X: points.Average(point => point.X),
+                Y: points.Average(point => point.Y));
+            var lines = new (double X, double Y, double Dx, double Dy)[points.Count];
+            for (var index = 0; index < points.Count; index++)
+            {
+                var start = points[index];
+                var end = points[(index + 1) % points.Count];
+                var dx = end.X - start.X;
+                var dy = end.Y - start.Y;
+                var length = Math.Sqrt(dx * dx + dy * dy);
+                if (length <= 0d)
+                {
+                    return false;
+                }
+
+                var normalX = -dy / length;
+                var normalY = dx / length;
+                var midX = (start.X + end.X) * 0.5d;
+                var midY = (start.Y + end.Y) * 0.5d;
+                if (normalX * (centroid.X - midX) + normalY * (centroid.Y - midY) > 0d)
+                {
+                    normalX = -normalX;
+                    normalY = -normalY;
+                }
+
+                var side = outward ? 1d : -1d;
+                lines[index] = (
+                    start.X + normalX * distanceTicks * side,
+                    start.Y + normalY * distanceTicks * side,
+                    dx,
+                    dy);
+            }
+
+            var output = new List<(long X, long Y)>();
+            for (var index = 0; index < lines.Length; index++)
+            {
+                var previous = lines[(index + lines.Length - 1) % lines.Length];
+                var current = lines[index];
+                var cross = previous.Dx * current.Dy - previous.Dy * current.Dx;
+                if (Math.Abs(cross) < 0.0001d)
+                {
+                    return false;
+                }
+
+                var deltaX = current.X - previous.X;
+                var deltaY = current.Y - previous.Y;
+                var t = (deltaX * current.Dy - deltaY * current.Dx) / cross;
+                output.Add((
+                    (long)Math.Round(previous.X + previous.Dx * t),
+                    (long)Math.Round(previous.Y + previous.Dy * t)));
+            }
+
+            if (Math.Abs(SignedArea(output)) < 1d)
+            {
+                return false;
+            }
+
+            offsetPoints = [.. output];
+            return true;
         }
 
         Relation OffsetSideWitness(
@@ -858,6 +1072,19 @@ internal static partial class SketchSamples
 
                 if (!TryReadAxisAlignedRectangleBoundary(boundary, out var minX, out var maxX, out var minY, out var maxY))
                 {
+                    if (TryReadClosedSegmentLoopBoundary(boundary, out var points))
+                    {
+                        if (TryOffsetPolygon(points, Math.Abs(distanceTicks), outward: true, out var outer))
+                        {
+                            AddElementBoundaryMarkers(PolygonBoundary(outer), positive: true, inverse: false);
+                        }
+
+                        if (TryOffsetPolygon(points, Math.Abs(distanceTicks), outward: false, out var inner))
+                        {
+                            AddElementBoundaryMarkers(PolygonBoundary(inner), positive: false, inverse: true);
+                        }
+                    }
+
                     continue;
                 }
 
@@ -1420,7 +1647,7 @@ internal static partial class SketchSamples
         const long hCrossbarHalfWidth = offset;
         const long hRoundedCornerRadius = 12;
         var hEndpointHoleRadius = endpointHoleRadius;
-        var hVariant = Math.Clamp(comparisonVariant, 0, 1);
+        var hVariant = Math.Clamp(comparisonVariant, 0, 2);
         Relation HEndpointHole(long xTicks, long yTicks) =>
             Circle(xTicks, yTicks, hEndpointHoleRadius);
 
@@ -1430,7 +1657,64 @@ internal static partial class SketchSamples
         Relation hExteriorSharpOutline;
         Relation hUnionInteriorHoles;
         string hVariantName;
-        if (hVariant == 1)
+        if (hVariant == 2)
+        {
+            hVariantName = "crescent + bent-arms";
+            const long crescentOriginX = -70;
+            const long bentOriginX = hOriginX;
+            var crescentCenterCircle = CircleBoundaryAt(crescentOriginX, 0, 0, 0, 58);
+            var crescentCenterStrokes = Group(
+                ArcAt(crescentOriginX, 0, -170, 0, -95, 108, -95, -108),
+                ArcAt(crescentOriginX, 0, 170, 0, 95, -108, 95, 108));
+            var crescentShape = Group(crescentCenterStrokes, crescentCenterCircle);
+            var crescentExterior = Group(
+                ArcBandAt(crescentOriginX, 0, -170, 0, -95, 108, -95, -108, offset),
+                ArcBandAt(crescentOriginX, 0, 170, 0, 95, -108, 95, 108, offset),
+                crescentCenterCircle,
+                Circle(crescentOriginX - 95, 108, endpointRadius + offset),
+                Circle(crescentOriginX - 95, -108, endpointRadius + offset),
+                Circle(crescentOriginX + 95, -108, endpointRadius + offset),
+                Circle(crescentOriginX + 95, 108, endpointRadius + offset));
+            var crescentHoles = Group(
+                CircleBoundaryAt(crescentOriginX, 0, 0, 0, 32),
+                HEndpointHole(crescentOriginX - 95, 108),
+                HEndpointHole(crescentOriginX - 95, -108),
+                HEndpointHole(crescentOriginX + 95, -108),
+                HEndpointHole(crescentOriginX + 95, 108));
+
+            var bentLeftTop = PAt(bentOriginX, 0, -92, 122);
+            var bentLeftKnee = PAt(bentOriginX, 0, -18, -06);
+            var bentLeftLower = PAt(bentOriginX, 0, -132, -88);
+            var bentRightTop = PAt(bentOriginX, 0, 92, 122);
+            var bentRightKnee = PAt(bentOriginX, 0, 18, -06);
+            var bentRightLower = PAt(bentOriginX, 0, 132, -88);
+            var bentCenterStrokes = Group(
+                SegmentFrom(bentLeftTop, bentLeftKnee),
+                SegmentFrom(bentLeftKnee, bentLeftLower),
+                SegmentFrom(bentRightTop, bentRightKnee),
+                SegmentFrom(bentRightKnee, bentRightLower));
+            var bentCenterDiamond = DiamondOutlineAt(bentOriginX, 0, 76, 88);
+            var bentShape = Group(bentCenterStrokes, bentCenterDiamond);
+            var bentExterior = Group(
+                bentCenterDiamond,
+                Circle(bentOriginX - 92, 122, endpointRadius + offset),
+                Circle(bentOriginX - 132, -88, endpointRadius + offset),
+                Circle(bentOriginX + 92, 122, endpointRadius + offset),
+                Circle(bentOriginX + 132, -88, endpointRadius + offset));
+            var bentHoles = Group(
+                DiamondOutlineAt(bentOriginX, 0, 56, 68),
+                HEndpointHole(bentOriginX - 92, 122),
+                HEndpointHole(bentOriginX - 132, -88),
+                HEndpointHole(bentOriginX + 92, 122),
+                HEndpointHole(bentOriginX + 132, -88));
+
+            hCenterStrokes = Group(crescentCenterStrokes, bentCenterStrokes);
+            hBodyShape = Group(crescentCenterCircle, bentCenterDiamond);
+            hShape = Group(crescentShape, bentShape);
+            hExteriorSharpOutline = Group(crescentExterior, bentExterior);
+            hUnionInteriorHoles = Group(crescentHoles, bentHoles);
+        }
+        else if (hVariant == 1)
         {
             hVariantName = "bug + YT";
             const long curvedOriginX = -70;
