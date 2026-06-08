@@ -292,6 +292,58 @@ public sealed class GraphicAreaSettlementSurfaceTests
     }
 
     [Fact]
+    public void SettledPositiveAreaUnionCarriesRingOpeningAsOutline()
+    {
+        var basis = new TestBasis();
+        var ring = Chain(
+            GraphicStructure.AreaFill(Circle(basis, 0, 0, 58)),
+            GraphicStructure.AntiAreaFill(Circle(basis, 0, 0, 32)));
+        var areaFrame = GraphicBooleanSurface.AreaFrame(new Carrier(), ring);
+
+        var union = GraphicAreaSettlementSurface.SettledPositiveAreaUnion(new Carrier(), areaFrame);
+
+        Assert.True(GraphicBooleanSurface.TryReadAreaUnion(union, out _, out var outlineWitness, out _, out _));
+        var outlines = GraphicReadGraph.From(outlineWitness)
+            .ReadsOf<ClosedSharedFrameBoundaryRead>()
+            .DistinctBy(boundary => ReadSourceId(boundary.Source))
+            .ToArray();
+        Assert.True(outlines.Length >= 2);
+        Assert.Contains(outlines, outline =>
+            TryReadBounds(outline, out var minX, out var maxX, out var minY, out var maxY) &&
+            minX >= -32 &&
+            maxX <= 32 &&
+            minY >= -32 &&
+            maxY <= 32);
+    }
+
+    [Fact]
+    public void SettledPositiveAreaUnionCarriesCrescentCenterOpeningAsOutline()
+    {
+        var basis = new TestBasis();
+        const long offset = 10;
+        var centerRing = RingFill(basis, 0, 0, 68, 48);
+        var areaFrame = GraphicBooleanSurface.AreaFrame(
+            new Carrier(),
+            centerRing,
+            GraphicStructure.AreaFill(ArcBand(basis, -170, 0, -95, 108, -95, -108, offset)),
+            GraphicStructure.AreaFill(ArcBand(basis, 170, 0, 95, -108, 95, 108, offset)));
+
+        var union = GraphicAreaSettlementSurface.SettledPositiveAreaUnion(new Carrier(), areaFrame);
+
+        Assert.True(GraphicBooleanSurface.TryReadAreaUnion(union, out _, out var outlineWitness, out _, out _));
+        var outlines = GraphicReadGraph.From(outlineWitness)
+            .ReadsOf<ClosedSharedFrameBoundaryRead>()
+            .DistinctBy(boundary => ReadSourceId(boundary.Source))
+            .ToArray();
+        Assert.Contains(outlines, outline =>
+            TryReadBounds(outline, out var minX, out var maxX, out var minY, out var maxY) &&
+            minX >= -50 &&
+            maxX <= 50 &&
+            minY <= -40 &&
+            maxY >= 40);
+    }
+
+    [Fact]
     public void SettledAreaFrameSynthesizesCompositeLoopAcrossColinearOverlap()
     {
         var basis = new TestBasis();

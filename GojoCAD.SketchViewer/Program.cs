@@ -629,6 +629,50 @@ internal static class Program
             throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not expose the eight interior union openings.");
         }
 
+        if (scene.Caption.Contains("crescent", StringComparison.OrdinalIgnoreCase))
+        {
+            var crescentCenterOpenings = WalkRelations(outlineResult)
+                .Where(relation => GraphicBooleanSurface.TryReadAreaUnion(relation, out _, out _, out _, out _))
+                .SelectMany(relation =>
+                {
+                    GraphicBooleanSurface.TryReadAreaUnion(relation, out _, out var outlineWitness, out _, out _);
+                    return GraphicReadGraph.From(outlineWitness).ReadsOf<ClosedSharedFrameBoundaryRead>();
+                })
+                .Where(boundary =>
+                    TryReadSharedFrameBoundaryBounds(boundary, out var minX, out var maxX, out var minY, out var maxY) &&
+                    minX >= -120 &&
+                    maxX <= -20 &&
+                    minY <= -38 &&
+                    maxY >= 38)
+                .Select(boundary =>
+                {
+                    TryReadSharedFrameBoundaryBounds(boundary, out var minX, out var maxX, out var minY, out var maxY);
+                    return $"{minX}:{maxX}:{minY}:{maxY}:arcs={boundary.Arcs?.Count ?? 0}";
+                })
+                .Distinct()
+                .ToArray();
+            if (crescentCenterOpenings.Length == 0)
+            {
+                var outlineBounds = WalkRelations(outlineResult)
+                    .Where(relation => GraphicBooleanSurface.TryReadAreaUnion(relation, out _, out _, out _, out _))
+                    .SelectMany(relation =>
+                    {
+                        GraphicBooleanSurface.TryReadAreaUnion(relation, out _, out var outlineWitness, out _, out _);
+                        return GraphicReadGraph.From(outlineWitness).ReadsOf<ClosedSharedFrameBoundaryRead>();
+                    })
+                    .Select(boundary =>
+                    {
+                        TryReadSharedFrameBoundaryBounds(boundary, out var minX, out var maxX, out var minY, out var maxY);
+                        return $"{minX}:{maxX}:{minY}:{maxY}:arcs={boundary.Arcs?.Count ?? 0}";
+                    })
+                    .Distinct()
+                    .ToArray();
+                throw new InvalidOperationException(
+                    $"Sketch scene '{scene.Label}' did not preserve the crescent center opening in the merged outline witness. " +
+                    $"Outlines=[{string.Join(", ", outlineBounds)}].");
+            }
+        }
+
         if (!StructuralLadderSurface.TryReadRung(
                 rungs[6],
                 out _,

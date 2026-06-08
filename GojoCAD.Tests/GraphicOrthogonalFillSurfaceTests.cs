@@ -126,6 +126,38 @@ public sealed class GraphicOrthogonalFillSurfaceTests
     }
 
     [Fact]
+    public void OrthogonalFillParticipantsTreatSharedOpenSegmentChainAsOneJoinedBand()
+    {
+        var basis = new TestBasis();
+        var start = basis.P(-48, 72);
+        var knee = basis.P(-10, -6);
+        var end = basis.P(-70, -72);
+        var bentStroke = Group(
+            GraphicStructure.FrameSegment(start, knee),
+            GraphicStructure.FrameSegment(knee, end));
+        var witness = GraphicOffsetSurface.BoundarySideWitness(
+            new Carrier(),
+            bentStroke,
+            bentStroke,
+            Group(),
+            Group());
+
+        var participants = GraphicOrthogonalFillSurface.OrthogonalFillParticipants(witness, 10);
+
+        Assert.Single(participants);
+        var area = Assert.Single(GraphicReadGraph.From(Group(participants))
+            .ReadsOf<SharedFrameAreaRead>()
+            .Where(area => !area.IsAntiArea)
+            .DistinctBy(area => ReadSourceId(area.Source)));
+        Assert.True(area.Boundary.Segments.Count >= 6);
+        Assert.True(TryReadBounds(area.Boundary, out var minX, out var maxX, out var minY, out var maxY));
+        Assert.True(minX < -70);
+        Assert.True(maxX > -10);
+        Assert.True(minY < -72);
+        Assert.True(maxY > 72);
+    }
+
+    [Fact]
     public void OrthogonalFillParticipantsCanSettleCurvedAndYSeedIntoSeparatePositiveLoops()
     {
         var basis = new TestBasis();
@@ -215,6 +247,109 @@ public sealed class GraphicOrthogonalFillSurfaceTests
             string.Join(", ", positiveBounds));
     }
 
+    [Fact]
+    public void OrthogonalFillParticipantsPreserveCrescentCenterOpeningAfterSettlement()
+    {
+        var basis = new TestBasis();
+        const long offset = 10;
+        const long endpointRadius = 18;
+        var crescentCenterStrokes = Group(
+            Arc(basis, -170, 0, -95, 108, -95, -108),
+            Arc(basis, 170, 0, 95, -108, 95, 108));
+        var crescentCenterCircle = Circle(basis, 0, 0, 58);
+        var endpointCircles = Group(
+            Circle(basis, -95, 108, endpointRadius),
+            Circle(basis, -95, -108, endpointRadius),
+            Circle(basis, 95, -108, endpointRadius),
+            Circle(basis, 95, 108, endpointRadius));
+        var source = Group(crescentCenterStrokes, crescentCenterCircle, endpointCircles);
+        var witness = GraphicOffsetSurface.BoundarySideWitness(
+            new Carrier(),
+            source,
+            source,
+            Group(),
+            Group());
+
+        var participants = GraphicOrthogonalFillSurface.OrthogonalFillParticipants(witness, offset, endpointCircles);
+        var areaFrame = GraphicBooleanSurface.AreaFrame(new Carrier(), participants);
+        var union = GraphicAreaSettlementSurface.SettledPositiveAreaUnion(new Carrier(), areaFrame);
+
+        Assert.True(GraphicBooleanSurface.TryReadAreaUnion(union, out _, out var outlineWitness, out _, out _));
+        var outlines = GraphicReadGraph.From(outlineWitness)
+            .ReadsOf<ClosedSharedFrameBoundaryRead>()
+            .DistinctBy(boundary => ReadSourceId(boundary.Source))
+            .ToArray();
+        Assert.Contains(outlines, outline =>
+            TryReadBounds(outline, out var minX, out var maxX, out var minY, out var maxY) &&
+            minX >= -50 &&
+            maxX <= 50 &&
+            minY <= -40 &&
+            maxY >= 40);
+    }
+
+    [Fact]
+    public void OrthogonalFillParticipantsPreserveCrescentOpeningWithBentComparisonShape()
+    {
+        var basis = new TestBasis();
+        const long offset = 10;
+        const long endpointRadius = 18;
+        const long crescentOriginX = -70;
+        const long bentOriginX = 265;
+        var crescentCenterStrokes = Group(
+            TrimmedArc(basis, crescentOriginX - 170, 0, crescentOriginX - 95, 108, crescentOriginX - 95, -108, endpointRadius, endpointRadius),
+            TrimmedArc(basis, crescentOriginX + 170, 0, crescentOriginX + 95, -108, crescentOriginX + 95, 108, endpointRadius, endpointRadius));
+        var crescentCenterCircle = Circle(basis, crescentOriginX, 0, 58);
+        var bentLeftTop = basis.P(bentOriginX - 92, 122);
+        var bentLeftKnee = basis.P(bentOriginX - 18, -6);
+        var bentLeftLower = basis.P(bentOriginX - 132, -88);
+        var bentRightTop = basis.P(bentOriginX + 92, 122);
+        var bentRightKnee = basis.P(bentOriginX + 18, -6);
+        var bentRightLower = basis.P(bentOriginX + 132, -88);
+        var bentCenterStrokes = Group(
+            TrimmedSegment(basis, bentOriginX - 92, 122, bentOriginX - 18, -6, endpointRadius, 0),
+            TrimmedSegment(basis, bentOriginX - 18, -6, bentOriginX - 132, -88, 0, endpointRadius),
+            TrimmedSegment(basis, bentOriginX + 92, 122, bentOriginX + 18, -6, endpointRadius, 0),
+            TrimmedSegment(basis, bentOriginX + 18, -6, bentOriginX + 132, -88, 0, endpointRadius));
+        var bentDiamond = Diamond(basis, bentOriginX, 0, 76, 88);
+        var endpointCircles = Group(
+            Circle(basis, crescentOriginX - 95, 108, endpointRadius),
+            Circle(basis, crescentOriginX - 95, -108, endpointRadius),
+            Circle(basis, crescentOriginX + 95, -108, endpointRadius),
+            Circle(basis, crescentOriginX + 95, 108, endpointRadius),
+            Circle(basis, bentOriginX - 92, 122, endpointRadius),
+            Circle(basis, bentOriginX - 132, -88, endpointRadius),
+            Circle(basis, bentOriginX + 92, 122, endpointRadius),
+            Circle(basis, bentOriginX + 132, -88, endpointRadius));
+        var source = Group(
+            Group(crescentCenterStrokes, bentCenterStrokes),
+            Group(crescentCenterCircle, bentDiamond),
+            endpointCircles);
+        var witness = GraphicOffsetSurface.BoundarySideWitness(
+            new Carrier(),
+            source,
+            source,
+            Group(),
+            Group());
+
+        var participants = GraphicOrthogonalFillSurface.OrthogonalFillParticipants(witness, offset, endpointCircles);
+        var areaFrame = GraphicBooleanSurface.AreaFrame(new Carrier(), participants);
+        var union = GraphicAreaSettlementSurface.SettledPositiveAreaUnion(new Carrier(), areaFrame);
+
+        Assert.True(GraphicBooleanSurface.TryReadAreaUnion(union, out _, out var outlineWitness, out _, out _));
+        var outlines = GraphicReadGraph.From(outlineWitness)
+            .ReadsOf<ClosedSharedFrameBoundaryRead>()
+            .DistinctBy(boundary => ReadSourceId(boundary.Source))
+            .ToArray();
+        var outlineBounds = BoundsStrings(outlines);
+        Assert.True(outlines.Any(outline =>
+            TryReadBounds(outline, out var minX, out var maxX, out var minY, out var maxY) &&
+            minX >= crescentOriginX - 50 &&
+            maxX <= crescentOriginX + 50 &&
+            minY <= -40 &&
+            maxY >= 40),
+            string.Join(", ", outlineBounds));
+    }
+
     private static string[] BoundsStrings(IEnumerable<SharedFrameAreaRead> areas) =>
         [.. areas.Select(area =>
         {
@@ -224,6 +359,17 @@ public sealed class GraphicOrthogonalFillSurfaceTests
             }
 
             return $"{minX}:{maxX}:{minY}:{maxY}:arcs={area.Boundary.Arcs?.Count ?? 0}";
+        })];
+
+    private static string[] BoundsStrings(IEnumerable<ClosedSharedFrameBoundaryRead> boundaries) =>
+        [.. boundaries.Select(boundary =>
+        {
+            if (!TryReadBounds(boundary, out var minX, out var maxX, out var minY, out var maxY))
+            {
+                return "unreadable";
+            }
+
+            return $"{minX}:{maxX}:{minY}:{maxY}:arcs={boundary.Arcs?.Count ?? 0}";
         })];
 
     private static Relation Circle(TestBasis basis, long centerX, long centerY, long radius) =>
@@ -240,11 +386,83 @@ public sealed class GraphicOrthogonalFillSurfaceTests
             Segment(basis, maxX, maxY, minX, maxY),
             Segment(basis, minX, maxY, minX, minY));
 
+    private static Relation Diamond(TestBasis basis, long centerX, long centerY, long halfWidth, long halfHeight) =>
+        Group(
+            Segment(basis, centerX, centerY + halfHeight, centerX + halfWidth, centerY),
+            Segment(basis, centerX + halfWidth, centerY, centerX, centerY - halfHeight),
+            Segment(basis, centerX, centerY - halfHeight, centerX - halfWidth, centerY),
+            Segment(basis, centerX - halfWidth, centerY, centerX, centerY + halfHeight));
+
+    private static Relation TrimmedSegment(
+        TestBasis basis,
+        long startX,
+        long startY,
+        long endX,
+        long endY,
+        long startTrim,
+        long endTrim)
+    {
+        var deltaX = endX - startX;
+        var deltaY = endY - startY;
+        var length = Math.Sqrt(deltaX * deltaX + deltaY * deltaY);
+        var unitX = deltaX / length;
+        var unitY = deltaY / length;
+        return Segment(
+            basis,
+            startX + (long)Math.Round(unitX * startTrim),
+            startY + (long)Math.Round(unitY * startTrim),
+            endX - (long)Math.Round(unitX * endTrim),
+            endY - (long)Math.Round(unitY * endTrim));
+    }
+
+    private static Relation TrimmedArc(
+        TestBasis basis,
+        long centerX,
+        long centerY,
+        long startX,
+        long startY,
+        long endX,
+        long endY,
+        long startTrim,
+        long endTrim)
+    {
+        var radius = Math.Sqrt(
+            Math.Pow(startX - centerX, 2) +
+            Math.Pow(startY - centerY, 2));
+        var startAngle = Math.Atan2(startY - centerY, startX - centerX);
+        var sweep = ShortestSweep(startAngle, Math.Atan2(endY - centerY, endX - centerX));
+        var direction = Math.Sign(sweep == 0d ? 1d : sweep);
+        var trimmedStartAngle = startAngle + direction * startTrim / radius;
+        var trimmedEndAngle = startAngle + sweep - direction * endTrim / radius;
+        (long X, long Y) PointAt(double angle) => (
+            centerX + (long)Math.Round(Math.Cos(angle) * radius),
+            centerY + (long)Math.Round(Math.Sin(angle) * radius));
+        var trimmedStart = PointAt(trimmedStartAngle);
+        var trimmedEnd = PointAt(trimmedEndAngle);
+        return Arc(basis, centerX, centerY, trimmedStart.X, trimmedStart.Y, trimmedEnd.X, trimmedEnd.Y);
+    }
+
     private static Relation Segment(TestBasis basis, long startX, long startY, long endX, long endY) =>
         GraphicStructure.FrameSegment(basis.P(startX, startY), basis.P(endX, endY));
 
     private static Relation Arc(TestBasis basis, long centerX, long centerY, long startX, long startY, long endX, long endY) =>
         GraphicStructure.FrameArc(basis.P(centerX, centerY), basis.P(startX, startY), basis.P(endX, endY));
+
+    private static double ShortestSweep(double startAngle, double endAngle)
+    {
+        var sweep = endAngle - startAngle;
+        while (sweep <= -Math.PI)
+        {
+            sweep += Math.PI * 2d;
+        }
+
+        while (sweep > Math.PI)
+        {
+            sweep -= Math.PI * 2d;
+        }
+
+        return sweep;
+    }
 
     private static bool TryReadBounds(
         ClosedSharedFrameBoundaryRead boundary,

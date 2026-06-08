@@ -1662,7 +1662,7 @@ internal static partial class SketchSamples
             hVariantName = "crescent + bent-arms";
             const long crescentOriginX = -70;
             const long bentOriginX = hOriginX;
-            var crescentCenterCircle = CircleBoundaryAt(crescentOriginX, 0, 0, 0, 58);
+            var crescentCenterCircle = CircleBoundaryAt(crescentOriginX, 0, 0, 0, 78);
             var crescentCenterStrokes = Group(
                 ArcAt(crescentOriginX, 0, -170, 0, -95, 108, -95, -108),
                 ArcAt(crescentOriginX, 0, 170, 0, 95, -108, 95, 108));

@@ -264,6 +264,20 @@ public static class GraphicAreaSettlementSurface
         if (distinctAntiResidue.Length > 0)
         {
             antiFills.InsertRange(0, distinctAntiResidue);
+            foreach (var outline in distinctAntiResidue
+                .SelectMany(AntiAreaBoundaryOutlines)
+                .DistinctBy(SourceId))
+            {
+                if (!ContainsSource(outlines, outline))
+                {
+                    outlines.Add(outline);
+                }
+
+                if (!ContainsSource(antiOutlines, outline))
+                {
+                    antiOutlines.Add(outline);
+                }
+            }
         }
 
         return new SettlementRead(
@@ -320,6 +334,35 @@ public static class GraphicAreaSettlementSurface
         GraphicReadGraph.From(element)
             .ReadsOf<SharedFrameAreaRead>()
             .Any(area => area.IsAntiArea);
+
+    private static IEnumerable<IElement> AntiAreaBoundaryOutlines(IElement element)
+    {
+        foreach (var area in GraphicReadGraph.From(element)
+            .ReadsOf<SharedFrameAreaRead>()
+            .Where(area => area.IsAntiArea)
+            .DistinctBy(area => SourceId(area.Source)))
+        {
+            yield return ReadableBoundaryOutline(area);
+        }
+    }
+
+    private static IElement ReadableBoundaryOutline(SharedFrameAreaRead area)
+    {
+        if (GraphicReadGraph.From(area.Source).ReadsOf<ClosedSharedFrameBoundaryRead>().Any())
+        {
+            return area.Source;
+        }
+
+        if (GraphicReadGraph.From(area.Boundary.Source).ReadsOf<ClosedSharedFrameBoundaryRead>().Any())
+        {
+            return area.Boundary.Source;
+        }
+
+        return BoundaryStructure(area.Boundary);
+    }
+
+    private static bool ContainsSource(IReadOnlyList<IElement> elements, IElement source) =>
+        elements.Any(element => SourceId(element) == SourceId(source));
 
     private static IEnumerable<BoundsRead> ReadAreaBounds(IElement element)
     {
@@ -419,6 +462,25 @@ public static class GraphicAreaSettlementSurface
 
         read = new BoundaryRead(isAnti, [.. edges]);
         return true;
+    }
+
+    private static IElement BoundaryStructure(ClosedSharedFrameBoundaryRead boundary)
+    {
+        var arcBySpanSource = (boundary.Arcs ?? [])
+            .GroupBy(arc => SourceId(arc.Span.Source))
+            .ToDictionary(group => group.Key, group => group.First());
+        var elements = TryReadOrientedBoundaryEdges(boundary, out var oriented)
+            ? oriented
+                .Select(edge => arcBySpanSource.TryGetValue(SourceId(edge.Segment.Source), out var arc)
+                    ? arc.Source
+                    : edge.Segment.Source)
+                .ToArray()
+            : boundary.Segments
+                .Select(segment => arcBySpanSource.TryGetValue(SourceId(segment.Source), out var arc)
+                    ? arc.Source
+                    : segment.Source)
+                .ToArray();
+        return Chain(elements);
     }
 
     private static bool TryCreateLineEdge(OrientedBoundaryEdge source, out BoundaryEdge edge)

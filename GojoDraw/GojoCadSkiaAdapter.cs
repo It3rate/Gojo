@@ -254,7 +254,7 @@ public sealed class GojoCadSkiaAdapter
         var graph = GraphicReadGraph.From(outline);
         var composite = new SKPath
         {
-            FillType = SKPathFillType.Winding
+            FillType = SKPathFillType.EvenOdd
         };
         var hasPath = false;
         foreach (var boundary in graph.ReadsOf<ClosedSharedFrameBoundaryRead>()

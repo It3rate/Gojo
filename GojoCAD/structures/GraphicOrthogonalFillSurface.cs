@@ -65,7 +65,20 @@ public static class GraphicOrthogonalFillSurface
     {
         var distance = Math.Abs(distanceTicks);
         var participants = new List<IElement>();
-        foreach (var (template, startX, startY, endX, endY) in SettledOpenSharedFrameLineSegments(source))
+        var settledPathSegmentIds = new HashSet<ulong>();
+        foreach (var path in OpenSharedFrameSegmentPaths(source))
+        {
+            if (TryOpenSegmentPathBandFill(path.Template, path.Points, distance, out var pathBandFill))
+            {
+                participants.Add(pathBandFill);
+                foreach (var segmentId in path.SegmentSourceIds)
+                {
+                    settledPathSegmentIds.Add(segmentId);
+                }
+            }
+        }
+
+        foreach (var (template, startX, startY, endX, endY) in SettledOpenSharedFrameLineSegments(source, settledPathSegmentIds))
         {
             if (TryLineBandFill(template, startX, startY, endX, endY, distance, out var bandFill))
             {
@@ -166,13 +179,211 @@ public static class GraphicOrthogonalFillSurface
         }
     }
 
-    private static IEnumerable<(SharedFramePointRead Template, long StartX, long StartY, long EndX, long EndY)> SettledOpenSharedFrameLineSegments(IElement source)
+    private static IEnumerable<OpenSegmentPathRead> OpenSharedFrameSegmentPaths(IElement source)
+    {
+        var graph = GraphicReadGraph.From(source);
+        var arcSpanIds = graph.ReadsOf<SharedFrameArcRead>()
+            .Select(arc => SourceId(arc.Span.Source))
+            .ToHashSet();
+        var closedBoundarySegmentIds = graph.ReadsOf<ClosedSharedFrameBoundaryRead>()
+            .SelectMany(boundary => boundary.Segments)
+            .Select(segment => SourceId(segment.Source))
+            .ToHashSet();
+
+        foreach (var pathGraph in graph.ReadsOf<PathGraphRead>())
+        {
+            var eligibleEdges = pathGraph.Edges
+                .Where(edge =>
+                    edge.IsSharedFrame &&
+                    edge.Segment is SharedFrameSegmentRead segment &&
+                    !arcSpanIds.Contains(SourceId(segment.Source)) &&
+                    !closedBoundarySegmentIds.Contains(SourceId(segment.Source)))
+                .ToArray();
+            if (eligibleEdges.Length < 2)
+            {
+                continue;
+            }
+
+            var edgeById = eligibleEdges
+                .GroupBy(edge => SourceId(edge.Source))
+                .ToDictionary(group => group.Key, group => group.First());
+            var nodeEdges = new Dictionary<string, List<ulong>>();
+            foreach (var edge in eligibleEdges)
+            {
+                var edgeId = SourceId(edge.Source);
+                AddNodeEdge(PathNodeKey(edge.Start), edgeId);
+                AddNodeEdge(PathNodeKey(edge.End), edgeId);
+            }
+
+            var unused = edgeById.Keys.ToHashSet();
+            while (unused.Count > 0)
+            {
+                var seedId = unused.First();
+                var component = new HashSet<ulong>();
+                var queue = new Queue<ulong>();
+                queue.Enqueue(seedId);
+                unused.Remove(seedId);
+                while (queue.Count > 0)
+                {
+                    var currentId = queue.Dequeue();
+                    component.Add(currentId);
+                    var currentEdge = edgeById[currentId];
+                    foreach (var nodeKey in new[] { PathNodeKey(currentEdge.Start), PathNodeKey(currentEdge.End) })
+                    foreach (var nextId in nodeEdges[nodeKey])
+                    {
+                        if (unused.Remove(nextId))
+                        {
+                            queue.Enqueue(nextId);
+                        }
+                    }
+                }
+
+                if (component.Count < 2)
+                {
+                    continue;
+                }
+
+                var componentNodeEdges = nodeEdges
+                    .Where(pair => pair.Value.Any(component.Contains))
+                    .ToDictionary(
+                        pair => pair.Key,
+                        pair => pair.Value.Where(component.Contains).ToArray());
+                if (componentNodeEdges.Any(pair => pair.Value.Length > 2))
+                {
+                    continue;
+                }
+
+                var terminals = componentNodeEdges
+                    .Where(pair => pair.Value.Length == 1)
+                    .Select(pair => pair.Key)
+                    .ToArray();
+                if (terminals.Length != 2)
+                {
+                    continue;
+                }
+
+                if (TryWalkOpenSegmentPath(
+                    terminals[0],
+                    component,
+                    edgeById,
+                    componentNodeEdges,
+                    out var template,
+                    out var points,
+                    out var segmentSourceIds))
+                {
+                    yield return new(template, points, segmentSourceIds);
+                }
+            }
+
+            void AddNodeEdge(string nodeKey, ulong edgeId)
+            {
+                if (!nodeEdges.TryGetValue(nodeKey, out var edges))
+                {
+                    edges = [];
+                    nodeEdges[nodeKey] = edges;
+                }
+
+                edges.Add(edgeId);
+            }
+        }
+    }
+
+    private static bool TryWalkOpenSegmentPath(
+        string startNodeKey,
+        IReadOnlySet<ulong> component,
+        IReadOnlyDictionary<ulong, PathGraphEdgeRead> edgeById,
+        IReadOnlyDictionary<string, ulong[]> nodeEdges,
+        out SharedFramePointRead template,
+        out (long X, long Y)[] points,
+        out ulong[] segmentSourceIds)
+    {
+        template = default!;
+        points = [];
+        segmentSourceIds = [];
+        var used = new HashSet<ulong>();
+        var ordered = new List<(long X, long Y)>();
+        var segmentIds = new List<ulong>();
+        var currentNodeKey = startNodeKey;
+        while (used.Count < component.Count)
+        {
+            if (!nodeEdges.TryGetValue(currentNodeKey, out var candidates))
+            {
+                return false;
+            }
+
+            var edgeId = candidates.FirstOrDefault(id => component.Contains(id) && !used.Contains(id));
+            if (edgeId == 0UL ||
+                !edgeById.TryGetValue(edgeId, out var edge) ||
+                edge.Segment is not SharedFrameSegmentRead segment ||
+                !TryReadSegmentTicks(segment, out var startX, out var startY, out var endX, out var endY))
+            {
+                return false;
+            }
+
+            var segmentStart = (startX, startY);
+            var segmentEnd = (endX, endY);
+            var startKey = PointKey(segmentStart);
+            var endKey = PointKey(segmentEnd);
+            if (ordered.Count == 0)
+            {
+                template = segment.Start;
+                if (currentNodeKey == startKey)
+                {
+                    ordered.Add(segmentStart);
+                    ordered.Add(segmentEnd);
+                    currentNodeKey = endKey;
+                }
+                else if (currentNodeKey == endKey)
+                {
+                    ordered.Add(segmentEnd);
+                    ordered.Add(segmentStart);
+                    currentNodeKey = startKey;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else if (currentNodeKey == startKey)
+            {
+                ordered.Add(segmentEnd);
+                currentNodeKey = endKey;
+            }
+            else if (currentNodeKey == endKey)
+            {
+                ordered.Add(segmentStart);
+                currentNodeKey = startKey;
+            }
+            else
+            {
+                return false;
+            }
+
+            used.Add(edgeId);
+            segmentIds.Add(SourceId(segment.Source));
+        }
+
+        if (ordered.Count < 3 ||
+            ordered.Zip(ordered.Skip(1)).Any(pair => SamePoint(pair.First, pair.Second)))
+        {
+            return false;
+        }
+
+        points = [.. ordered];
+        segmentSourceIds = [.. segmentIds];
+        return true;
+    }
+
+    private static IEnumerable<(SharedFramePointRead Template, long StartX, long StartY, long EndX, long EndY)> SettledOpenSharedFrameLineSegments(
+        IElement source,
+        IReadOnlySet<ulong> excludedSegmentSourceIds)
     {
         var axisSegments = new List<(SharedFrameSegmentRead Template, bool Horizontal, long Axis, long Min, long Max)>();
         var freeSegments = new List<SharedFrameSegmentRead>();
         foreach (var segment in OpenSharedFrameLineSegments(source))
         {
-            if (!TryReadSegmentTicks(segment, out var startX, out var startY, out var endX, out var endY))
+            if (excludedSegmentSourceIds.Contains(SourceId(segment.Source)) ||
+                !TryReadSegmentTicks(segment, out var startX, out var startY, out var endX, out var endY))
             {
                 continue;
             }
@@ -232,6 +443,83 @@ public static class GraphicOrthogonalFillSurface
                 yield return (segment.Start, startX, startY, endX, endY);
             }
         }
+    }
+
+    private static bool TryOpenSegmentPathBandFill(
+        SharedFramePointRead template,
+        IReadOnlyList<(long X, long Y)> points,
+        long distanceTicks,
+        out IElement fill)
+    {
+        fill = Carrier.Unknown;
+        if (points.Count < 2 ||
+            distanceTicks <= 0)
+        {
+            return false;
+        }
+
+        var left = new (double X, double Y)[points.Count];
+        var right = new (double X, double Y)[points.Count];
+        var lines = new OffsetPathLine[points.Count - 1];
+        for (var index = 0; index + 1 < points.Count; index++)
+        {
+            var start = points[index];
+            var end = points[index + 1];
+            var dx = end.X - start.X;
+            var dy = end.Y - start.Y;
+            var length = Math.Sqrt(dx * dx + dy * dy);
+            if (length <= 0d)
+            {
+                return false;
+            }
+
+            var normalX = -dy / length * distanceTicks;
+            var normalY = dx / length * distanceTicks;
+            lines[index] = new(
+                start.X,
+                start.Y,
+                dx,
+                dy,
+                normalX,
+                normalY);
+        }
+
+        left[0] = (points[0].X + lines[0].NormalX, points[0].Y + lines[0].NormalY);
+        right[0] = (points[0].X - lines[0].NormalX, points[0].Y - lines[0].NormalY);
+        left[^1] = (points[^1].X + lines[^1].NormalX, points[^1].Y + lines[^1].NormalY);
+        right[^1] = (points[^1].X - lines[^1].NormalX, points[^1].Y - lines[^1].NormalY);
+        for (var index = 1; index + 1 < points.Count; index++)
+        {
+            var previous = lines[index - 1];
+            var current = lines[index];
+            left[index] = TryIntersect(
+                    previous.LeftOffset(),
+                    current.LeftOffset(),
+                    out var leftIntersection)
+                ? leftIntersection
+                : (points[index].X + (previous.NormalX + current.NormalX) * 0.5d,
+                    points[index].Y + (previous.NormalY + current.NormalY) * 0.5d);
+            right[index] = TryIntersect(
+                    previous.RightOffset(),
+                    current.RightOffset(),
+                    out var rightIntersection)
+                ? rightIntersection
+                : (points[index].X - (previous.NormalX + current.NormalX) * 0.5d,
+                    points[index].Y - (previous.NormalY + current.NormalY) * 0.5d);
+        }
+
+        var polygon = left
+            .Concat(right.Reverse())
+            .Select(point => ((long)Math.Round(point.X), (long)Math.Round(point.Y)))
+            .ToArray();
+        if (polygon.Length < 4 ||
+            Math.Abs(SignedArea(polygon)) < 1d)
+        {
+            return false;
+        }
+
+        fill = PolygonFill(template, polygon);
+        return true;
     }
 
     private static bool TryLineBandFill(
@@ -834,6 +1122,23 @@ public static class GraphicOrthogonalFillSurface
     private static bool SamePoint((long X, long Y) left, (long X, long Y) right) =>
         left.X == right.X && left.Y == right.Y;
 
+    private static string PointKey((long X, long Y) point) =>
+        $"{point.X}:{point.Y}";
+
+    private static string PathNodeKey(PathGraphNodeRead node)
+    {
+        foreach (var endpoint in node.Endpoints)
+        {
+            if (endpoint.SharedFramePoint is { } shared &&
+                TryReadPointTicks(shared, out var x, out var y))
+            {
+                return $"{x}:{y}";
+            }
+        }
+
+        return SourceId(node.Source).ToString();
+    }
+
     private static double SignedArea(IReadOnlyList<(long X, long Y)> points)
     {
         var area = 0d;
@@ -871,4 +1176,22 @@ public static class GraphicOrthogonalFillSurface
         long EndY);
 
     private readonly record struct OffsetLine(double X, double Y, double Dx, double Dy);
+
+    private sealed record OpenSegmentPathRead(
+        SharedFramePointRead Template,
+        IReadOnlyList<(long X, long Y)> Points,
+        IReadOnlyList<ulong> SegmentSourceIds);
+
+    private readonly record struct OffsetPathLine(
+        double X,
+        double Y,
+        double Dx,
+        double Dy,
+        double NormalX,
+        double NormalY)
+    {
+        public OffsetLine LeftOffset() => new(X + NormalX, Y + NormalY, Dx, Dy);
+
+        public OffsetLine RightOffset() => new(X - NormalX, Y - NormalY, Dx, Dy);
+    }
 }
