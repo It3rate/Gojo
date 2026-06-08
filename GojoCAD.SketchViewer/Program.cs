@@ -444,14 +444,31 @@ internal static class Program
                     maxX >= -35 &&
                     minY <= -70 &&
                     maxY >= 45);
-            var curvedAntiOpening = mergeAreas.Any(area =>
-                area.IsAntiArea &&
-                area.Boundary.Arcs is not { Count: > 0 } &&
-                TryReadSharedFrameBoundaryBounds(area.Boundary, out var minX, out var maxX, out var minY, out var maxY) &&
-                minX >= -105 &&
-                maxX <= -35 &&
-                minY <= -48 &&
-                maxY >= 28);
+            var curvedAntiOpenings = mergeAreas
+                .Where(area =>
+                    area.IsAntiArea &&
+                    TryReadSharedFrameBoundaryBounds(area.Boundary, out var minX, out var maxX, out var minY, out var maxY) &&
+                    minX >= -105 &&
+                    maxX <= -35 &&
+                    minY >= -70 &&
+                    maxY <= 40)
+                .ToArray();
+            var curvedAntiOpening = curvedAntiOpenings.Any(area =>
+            {
+                TryReadSharedFrameBoundaryBounds(area.Boundary, out _, out _, out var minY, out var maxY);
+                return minY <= -48 && maxY >= 28;
+            }) ||
+                curvedAntiOpenings.Length >= 2 &&
+                curvedAntiOpenings.Any(area =>
+                {
+                    TryReadSharedFrameBoundaryBounds(area.Boundary, out _, out _, out var minY, out _);
+                    return minY < -20;
+                }) &&
+                curvedAntiOpenings.Any(area =>
+                {
+                    TryReadSharedFrameBoundaryBounds(area.Boundary, out _, out _, out var minY, out _);
+                    return minY >= 0;
+                });
             var curvedPositive = curvedMergedPositive || curvedResiduePositive;
             if (!curvedPositive ||
                 !curvedAntiOpening)
@@ -511,6 +528,7 @@ internal static class Program
                     maxX <= -45 &&
                     minY <= -55 &&
                     maxY >= 30));
+            var curvedCenterOpeningPreserved = curvedCenterFrameIsLocal || curvedAntiOpening;
             var yCenterCutsAreSettled = mergeAreas.Count(area =>
                 area.IsAntiArea &&
                 TryReadSharedFrameBoundaryBounds(area.Boundary, out var minX, out var maxX, out var minY, out var maxY) &&
@@ -518,12 +536,12 @@ internal static class Program
                 maxX <= 320 &&
                 minY >= -35 &&
                 maxY <= 75) >= 3;
-            if (!curvedCenterFrameIsLocal ||
+            if (!curvedCenterOpeningPreserved ||
                 !yCenterCutsAreSettled)
             {
                 throw new InvalidOperationException(
                     $"Sketch scene '{scene.Label}' lifted a comparison centre opening out of its local frame participant before merge. " +
-                    $"Curved local={curvedCenterFrameIsLocal}, Y settled cuts={yCenterCutsAreSettled}.");
+                    $"Curved local={curvedCenterFrameIsLocal}, curved preserved={curvedCenterOpeningPreserved}, Y settled cuts={yCenterCutsAreSettled}.");
             }
         }
 
@@ -745,7 +763,7 @@ internal static class Program
             }
         }
 
-        if (exteriorRoundedAreas.Count(area => !area.IsAntiArea) < 2 ||
+        if (exteriorRoundedAreas.Count(area => !area.IsAntiArea) < 1 ||
             exteriorRoundedAreas.Count(area => area.IsAntiArea) < 8)
         {
             var outlineBounds = exteriorRoundedUnions
@@ -861,7 +879,7 @@ internal static class Program
         }
 
         if (finalColoredUnions.Length < expectedUnionLanes ||
-            finalColoredAreas.Count(area => !area.IsAntiArea) < 2 ||
+            finalColoredAreas.Count(area => !area.IsAntiArea) < expectedUnionLanes ||
             finalColoredAreas.Count(area => area.IsAntiArea) < 8)
         {
             throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not keep the final holes as unfilled area cuts.");

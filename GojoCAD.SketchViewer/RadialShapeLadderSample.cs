@@ -265,25 +265,6 @@ internal static partial class SketchSamples
             }
         }
 
-        IEnumerable<SharedFrameSegmentRead> FillCandidateSharedFrameLineSegments(IElement source)
-        {
-            var graph = GraphicReadGraph.From(source);
-            var arcSpanIds = graph.ReadsOf<SharedFrameArcRead>()
-                .Select(arc => SourceId(arc.Span.Source))
-                .ToHashSet();
-            var seen = new HashSet<ulong>();
-            foreach (var segment in graph.ReadsOf<SharedFrameSegmentRead>())
-            {
-                if (arcSpanIds.Contains(SourceId(segment.Source)) ||
-                    !seen.Add(SourceId(segment.Source)))
-                {
-                    continue;
-                }
-
-                yield return segment;
-            }
-        }
-
         IEnumerable<(long StartX, long StartY, long EndX, long EndY)> SettledOpenSharedFrameLineSegmentTicks(IElement source)
         {
             var axisSegments = new List<(bool Horizontal, long Axis, long Min, long Max)>();
@@ -916,174 +897,204 @@ internal static partial class SketchSamples
                 Group([.. inverseMarkers]));
         }
 
-        IElement[] DerivedFillParticipants(IElement offsetStructure)
+        IElement[] DerivedOrthogonalInteriorFills(
+            IElement offsetSideWitness,
+            long distanceTicks,
+            IElement? outwardOnlyCircleSource = null)
         {
             var participants = new List<IElement>();
-            var arcGroups = OpenSharedFrameArcs(offsetStructure)
-                .Select(arc =>
-                {
-                    if (!TryReadPointTicks(arc.Center, out var centerX, out var centerY) ||
-                        !TryReadPointTicks(arc.Start, out var startX, out var startY) ||
-                        !TryReadPointTicks(arc.End, out var endX, out var endY))
-                    {
-                        return (read: false, centerX: 0L, centerY: 0L, startX: 0L, startY: 0L, endX: 0L, endY: 0L, radius: 0d, key: "");
-                    }
-
-                    var startRadius = Math.Sqrt(
-                        Math.Pow(startX - centerX, 2) +
-                        Math.Pow(startY - centerY, 2));
-                    var endRadius = Math.Sqrt(
-                        Math.Pow(endX - centerX, 2) +
-                        Math.Pow(endY - centerY, 2));
-                    var radius = Math.Min(startRadius, endRadius);
-
-                    string DirectionKey(long pointX, long pointY)
-                    {
-                        var dx = pointX - centerX;
-                        var dy = pointY - centerY;
-                        var degrees = Math.Atan2(dy, dx) * 180d / Math.PI;
-                        var sector = (long)Math.Round(degrees / 10d) * 10L;
-                        return $"{sector}";
-                    }
-
-                    var key = $"{centerX}:{centerY}:{DirectionKey(startX, startY)}:{DirectionKey(endX, endY)}";
-                    return (read: true, centerX, centerY, startX, startY, endX, endY, radius, key);
-                })
-                .Where(arc => arc.read && arc.radius > 0d)
-                .GroupBy(arc => arc.key);
-            foreach (var group in arcGroups)
+            var outwardOnlyCircleKeys = (outwardOnlyCircleSource is null
+                    ? []
+                    : CircleReads(outwardOnlyCircleSource)
+                        .Select(circle => $"{circle.CenterX}:{circle.CenterY}:{circle.Radius}"))
+                .ToHashSet();
+            foreach (var source in OffsetWitnessSources(offsetSideWitness)
+                .DistinctBy(SourceId))
             {
-                var arcs = group
-                    .OrderByDescending(arc => arc.radius)
-                    .ToArray();
-                for (var index = 0; index + 1 < arcs.Length; index += 2)
-                {
-                    var outer = arcs[index];
-                    var inner = arcs[index + 1];
-                    participants.Add(GraphicStructure.AreaFill(
-                        Arc(outer.centerX, outer.centerY, outer.startX, outer.startY, outer.endX, outer.endY),
-                        Segment(outer.endX, outer.endY, inner.endX, inner.endY),
-                        Arc(inner.centerX, inner.centerY, inner.endX, inner.endY, inner.startX, inner.startY),
-                        Segment(inner.startX, inner.startY, outer.startX, outer.startY)));
-                }
-            }
-
-            var lineGroups = FillCandidateSharedFrameLineSegments(offsetStructure)
-                .Select(segment =>
-                {
-                    TryReadSegmentTicks(segment, out var startX, out var startY, out var endX, out var endY);
-                    var deltaX = endX - startX;
-                    var deltaY = endY - startY;
-                    var length = Math.Sqrt(deltaX * deltaX + deltaY * deltaY);
-                    if (length <= 0)
-                    {
-                        return (read: false, key: "", normalSort: 0d, startX, startY, endX, endY);
-                    }
-
-                    var dirX = deltaX / length;
-                    var dirY = deltaY / length;
-                    if (dirX < 0d ||
-                        Math.Abs(dirX) < 0.0001d && dirY < 0d)
-                    {
-                        (startX, endX) = (endX, startX);
-                        (startY, endY) = (endY, startY);
-                        dirX = -dirX;
-                        dirY = -dirY;
-                    }
-
-                    var midX = (startX + endX) * 0.5d;
-                    var midY = (startY + endY) * 0.5d;
-                    var normalX = -dirY;
-                    var normalY = dirX;
-                    var directionX = (long)Math.Round(dirX * 1000d);
-                    var directionY = (long)Math.Round(dirY * 1000d);
-                    var centerlineProjection = (long)Math.Round((midX * dirX + midY * dirY) / 10d) * 10L;
-                    var roundedLength = (long)Math.Round(length / 10d) * 10L;
-                    var normalSort = midX * normalX + midY * normalY;
-                    var key = $"{directionX}:{directionY}:{centerlineProjection}:{roundedLength}";
-                    return (read: true, key, normalSort, startX, startY, endX, endY);
-                })
-                .Where(line => line.read)
-                .GroupBy(line => line.key);
-            foreach (var group in lineGroups)
-            {
-                var lines = group
-                    .OrderBy(line => line.normalSort)
-                    .ToArray();
-                if (lines.Length < 2)
-                {
-                    continue;
-                }
-
-                for (var index = 0; index + 1 < lines.Length; index += 2)
-                {
-                    participants.Add(PolygonFill(
-                        (lines[index].startX, lines[index].startY),
-                        (lines[index].endX, lines[index].endY),
-                        (lines[index + 1].endX, lines[index + 1].endY),
-                        (lines[index + 1].startX, lines[index + 1].startY)));
-                }
-            }
-
-            var circleGroups = GraphicReadGraph.From(offsetStructure)
-                .ReadsOf<ClosedSharedFrameBoundaryRead>()
-                .Select(boundary =>
-                {
-                    var read = TryReadCircleBoundary(boundary, out var centerX, out var centerY, out var radius);
-                    return (read, centerX, centerY, radius);
-                })
-                .Where(circle => circle.read)
-                .DistinctBy(circle => $"{circle.centerX}:{circle.centerY}:{circle.radius}")
-                .GroupBy(circle => $"{circle.centerX}:{circle.centerY}");
-            foreach (var group in circleGroups)
-            {
-                var radii = group
-                    .Select(circle => circle.radius)
-                    .Distinct()
-                    .OrderDescending()
-                    .ToArray();
-                if (radii.Length < 2)
-                {
-                    continue;
-                }
-
-                var first = group.First();
-                participants.Add(RingFill(first.centerX, first.centerY, radii[0], radii[1]));
-            }
-
-            var rectangleGroups = GraphicReadGraph.From(offsetStructure)
-                .ReadsOf<ClosedSharedFrameBoundaryRead>()
-                .Select(boundary =>
-                {
-                    var read = TryReadAxisAlignedRectangleBoundary(
-                        boundary,
-                        out var minX,
-                        out var maxX,
-                        out var minY,
-                        out var maxY);
-                    return (read, minX, maxX, minY, maxY);
-                })
-                .Where(rectangle => rectangle.read)
-                .DistinctBy(rectangle => $"{rectangle.minX}:{rectangle.maxX}:{rectangle.minY}:{rectangle.maxY}")
-                .GroupBy(rectangle => $"{rectangle.minX + rectangle.maxX}:{rectangle.minY + rectangle.maxY}");
-            foreach (var group in rectangleGroups)
-            {
-                var rectangles = group
-                    .OrderByDescending(rectangle => (rectangle.maxX - rectangle.minX) * (rectangle.maxY - rectangle.minY))
-                    .ToArray();
-                if (rectangles.Length < 2)
-                {
-                    continue;
-                }
-
-                var outer = rectangles[0];
-                var inner = rectangles[1];
-                participants.Add(Chain(
-                    GraphicStructure.AreaFill(RectangleOutline(outer.minX, outer.maxX, outer.minY, outer.maxY)),
-                    GraphicStructure.AntiAreaFill(RectangleOutline(inner.minX, inner.maxX, inner.minY, inner.maxY))));
+                participants.AddRange(OrthogonalInteriorFillsFromSource(
+                    source,
+                    distanceTicks,
+                    outwardOnlyCircleKeys));
             }
 
             return [.. participants];
+        }
+
+        IEnumerable<IElement> OffsetWitnessSources(IElement source)
+        {
+            if (source is Relation relation &&
+                GraphicOffsetSurface.TryReadBoundarySideWitness(
+                    relation,
+                    out var witnessSource,
+                    out _,
+                    out _,
+                    out _))
+            {
+                yield return witnessSource;
+                yield break;
+            }
+
+            if (source is Relation group &&
+                group.Right is Carrier holder &&
+                group.TryReadOrderedElementsOn(holder, out var elements))
+            {
+                foreach (var element in elements)
+                foreach (var nestedWitnessSource in OffsetWitnessSources(element))
+                {
+                    yield return nestedWitnessSource;
+                }
+            }
+        }
+
+        IElement[] OrthogonalInteriorFillsFromSource(
+            IElement source,
+            long distanceTicks,
+            IReadOnlySet<string> outwardOnlyCircleKeys)
+        {
+            var distance = Math.Abs(distanceTicks);
+            var participants = new List<IElement>();
+            foreach (var (startX, startY, endX, endY) in SettledOpenSharedFrameLineSegmentTicks(source))
+            {
+                if (TryLineBandFill(startX, startY, endX, endY, distance, out var bandFill))
+                {
+                    participants.Add(bandFill);
+                }
+            }
+
+            foreach (var arc in OpenSharedFrameArcs(source))
+            {
+                if (!TryReadPointTicks(arc.Center, out var centerX, out var centerY) ||
+                    !TryReadPointTicks(arc.Start, out var startX, out var startY) ||
+                    !TryReadPointTicks(arc.End, out var endX, out var endY))
+                {
+                    continue;
+                }
+
+                if (TryArcBandFill(centerX, centerY, startX, startY, endX, endY, distance, out var arcBandFill))
+                {
+                    participants.Add(arcBandFill);
+                }
+            }
+
+            var graph = GraphicReadGraph.From(source);
+            foreach (var boundary in graph.ReadsOf<ClosedSharedFrameBoundaryRead>()
+                .DistinctBy(boundary => SourceId(boundary.Source)))
+            {
+                if (TryReadCircleBoundary(boundary, out var centerX, out var centerY, out var radius))
+                {
+                    var circleKey = $"{centerX}:{centerY}:{radius}";
+                    var innerRadius = outwardOnlyCircleKeys.Contains(circleKey)
+                        ? radius
+                        : radius - distance;
+                    var outerRadius = radius + distance;
+                    participants.Add(innerRadius > 0
+                        ? RingFill(centerX, centerY, outerRadius, innerRadius)
+                        : DiskFill(centerX, centerY, outerRadius));
+                    continue;
+                }
+
+                if (!TryReadAxisAlignedRectangleBoundary(boundary, out var minX, out var maxX, out var minY, out var maxY))
+                {
+                    continue;
+                }
+
+                var outer = RectangleOutline(
+                    minX - distance,
+                    maxX + distance,
+                    minY - distance,
+                    maxY + distance);
+                if (maxX - minX > distance * 2 &&
+                    maxY - minY > distance * 2)
+                {
+                    participants.Add(Chain(
+                        GraphicStructure.AreaFill(outer),
+                        GraphicStructure.AntiAreaFill(RectangleOutline(
+                            minX + distance,
+                            maxX - distance,
+                            minY + distance,
+                            maxY - distance))));
+                    continue;
+                }
+
+                participants.Add(GraphicStructure.AreaFill(outer));
+            }
+
+            return [.. participants];
+        }
+
+        bool TryLineBandFill(
+            long startX,
+            long startY,
+            long endX,
+            long endY,
+            long distanceTicks,
+            out IElement fill)
+        {
+            var deltaX = endX - startX;
+            var deltaY = endY - startY;
+            var length = Math.Sqrt(deltaX * deltaX + deltaY * deltaY);
+            if (length <= 0d)
+            {
+                fill = UnknownPoint();
+                return false;
+            }
+
+            var normalX = (long)Math.Round(-deltaY / length * distanceTicks);
+            var normalY = (long)Math.Round(deltaX / length * distanceTicks);
+            fill = PolygonFill(
+                (startX + normalX, startY + normalY),
+                (endX + normalX, endY + normalY),
+                (endX - normalX, endY - normalY),
+                (startX - normalX, startY - normalY));
+            return true;
+        }
+
+        bool TryArcBandFill(
+            long centerX,
+            long centerY,
+            long startX,
+            long startY,
+            long endX,
+            long endY,
+            long distanceTicks,
+            out IElement fill)
+        {
+            var startRadius = Math.Sqrt(
+                Math.Pow(startX - centerX, 2) +
+                Math.Pow(startY - centerY, 2));
+            var endRadius = Math.Sqrt(
+                Math.Pow(endX - centerX, 2) +
+                Math.Pow(endY - centerY, 2));
+            var radius = Math.Min(startRadius, endRadius);
+            if (radius <= distanceTicks ||
+                radius <= 0d)
+            {
+                fill = UnknownPoint();
+                return false;
+            }
+
+            (long X, long Y) OffsetArcPoint(long pointX, long pointY, double offsetRadius)
+            {
+                var dx = pointX - centerX;
+                var dy = pointY - centerY;
+                var length = Math.Sqrt(dx * dx + dy * dy);
+                return length <= 0d
+                    ? (pointX, pointY)
+                    : (
+                        centerX + (long)Math.Round(dx / length * offsetRadius),
+                        centerY + (long)Math.Round(dy / length * offsetRadius));
+            }
+
+            var outerStart = OffsetArcPoint(startX, startY, radius + distanceTicks);
+            var outerEnd = OffsetArcPoint(endX, endY, radius + distanceTicks);
+            var innerStart = OffsetArcPoint(startX, startY, radius - distanceTicks);
+            var innerEnd = OffsetArcPoint(endX, endY, radius - distanceTicks);
+            fill = GraphicStructure.AreaFill(
+                Arc(centerX, centerY, outerStart.X, outerStart.Y, outerEnd.X, outerEnd.Y),
+                Segment(outerEnd.X, outerEnd.Y, innerEnd.X, innerEnd.Y),
+                Arc(centerX, centerY, innerEnd.X, innerEnd.Y, innerStart.X, innerStart.Y),
+                Segment(innerStart.X, innerStart.Y, outerStart.X, outerStart.Y));
+            return true;
         }
 
         IElement[] PositiveAreaFillsFromAreaFrame(IElement sourceAreaFrame) =>
@@ -1286,6 +1297,32 @@ internal static partial class SketchSamples
             profileHalfWidth = halfWidths.FirstOrDefault();
             profileCenterOuter = centerCircle.radius;
             profileEndpointOuter = endpointCircle.radius;
+            return profileArmReach > 0 &&
+                profileHalfWidth > 0 &&
+                profileCenterOuter > 0 &&
+                profileEndpointOuter > 0;
+        }
+
+        bool TryReadSeedOffsetProfile(
+            IElement sourceCenterCircle,
+            IElement sourceEndpointCircles,
+            long distanceTicks,
+            out long profileArmReach,
+            out long profileHalfWidth,
+            out long profileCenterOuter,
+            out long profileEndpointOuter)
+        {
+            var center = CircleReads(sourceCenterCircle)
+                .OrderByDescending(circle => circle.Radius)
+                .FirstOrDefault();
+            var endpoint = CircleReads(sourceEndpointCircles)
+                .OrderByDescending(circle => Math.Max(Math.Abs(circle.CenterX), Math.Abs(circle.CenterY)))
+                .ThenByDescending(circle => circle.Radius)
+                .FirstOrDefault();
+            profileArmReach = Math.Max(Math.Abs(endpoint.CenterX), Math.Abs(endpoint.CenterY));
+            profileHalfWidth = Math.Abs(distanceTicks);
+            profileCenterOuter = center.Radius + Math.Abs(distanceTicks);
+            profileEndpointOuter = endpoint.Radius + Math.Abs(distanceTicks);
             return profileArmReach > 0 &&
                 profileHalfWidth > 0 &&
                 profileCenterOuter > 0 &&
@@ -1561,7 +1598,7 @@ internal static partial class SketchSamples
         var endpointState = Group(trimmedCenterPlusStrokes, centerCircle, endpointCircles);
         var offsetBoundaries = Group(DerivedOffsetBoundaryElements(endpointState, offset, endpointCircles));
         var offsetSideWitness = OffsetSideWitness(endpointState, offsetBoundaries, offset, endpointCircles);
-        var fillParticipants = DerivedFillParticipants(offsetBoundaries);
+        var fillParticipants = DerivedOrthogonalInteriorFills(offsetSideWitness, offset, endpointCircles);
         var centerHoleCutNE = CenterHoleAntiFill(1, 1);
         var centerHoleCutNW = CenterHoleAntiFill(-1, 1);
         var centerHoleCutSW = CenterHoleAntiFill(-1, -1);
@@ -1595,7 +1632,15 @@ internal static partial class SketchSamples
                 out var profileArmReach,
                 out var profileHalfWidth,
                 out var profileCenterOuter,
-                out var profileEndpointOuter))
+                out var profileEndpointOuter) &&
+            !TryReadSeedOffsetProfile(
+                centerCircle,
+                endpointCircles,
+                offset,
+                out profileArmReach,
+                out profileHalfWidth,
+                out profileCenterOuter,
+                out profileEndpointOuter))
         {
             throw new InvalidOperationException("Radial shape ladder could not derive the exterior outline profile from its area frame.");
         }
@@ -1605,7 +1650,15 @@ internal static partial class SketchSamples
                 out var roundedProfileArmReach,
                 out var roundedProfileHalfWidth,
                 out var roundedProfileCenterOuter,
-                out var roundedProfileEndpointOuter))
+                out var roundedProfileEndpointOuter) &&
+            !TryReadSeedOffsetProfile(
+                centerCircle,
+                endpointCircles,
+                offset,
+                out roundedProfileArmReach,
+                out roundedProfileHalfWidth,
+                out roundedProfileCenterOuter,
+                out roundedProfileEndpointOuter))
         {
             throw new InvalidOperationException("Radial shape ladder could not derive the rounded exterior outline profile from its area frame.");
         }
@@ -1816,7 +1869,7 @@ internal static partial class SketchSamples
         var hEndpointState = Group(hTrimmedCenterStrokes, hBodyShape, hEndpointCircles);
         var hOffsetBoundaries = Group(DerivedOffsetBoundaryElements(hEndpointState, offset, hEndpointCircles));
         var hOffsetSideWitness = OffsetSideWitness(hEndpointState, hOffsetBoundaries, offset, hEndpointCircles);
-        var hFillParticipants = DerivedFillParticipants(hOffsetBoundaries);
+        var hFillParticipants = DerivedOrthogonalInteriorFills(hOffsetSideWitness, offset, hEndpointCircles);
         var hSeparateFills = Group(hFillParticipants);
         var hAreaFrame = GraphicBooleanSurface.AreaFrame(new Carrier(), hFillParticipants);
         var hSettledAreaFrame = GraphicAreaSettlementSurface.SettledAreaFrame(new Carrier(), hAreaFrame);
