@@ -15,6 +15,8 @@ internal static partial class SketchSamples
         const long centerRadius = 71;
         const long centerInner = centerRadius - offset;
         const long endpointRadius = 18;
+        const long endpointHoleRadius = endpointRadius - offset;
+        const long roundedCornerRadius = 12;
 
         var frame = new Carrier();
         var x = new Carrier();
@@ -59,6 +61,10 @@ internal static partial class SketchSamples
 
         Relation Circle(long centerX, long centerY, long radius) =>
             CircleAt(0, 0, centerX, centerY, radius);
+
+        Relation EndpointHoleOutlines(IElement circleSource) =>
+            Group([.. CircleReads(circleSource)
+                .Select(circle => Circle(circle.CenterX, circle.CenterY, endpointHoleRadius))]);
 
         Relation ArcBandAt(long originX, long originY, long centerX, long centerY, long startX, long startY, long endX, long endY, long distanceTicks)
         {
@@ -985,54 +991,6 @@ internal static partial class SketchSamples
             return ((filletCenterX, filletCenterY), (lineX, filletCenterY), circleTangent);
         }
 
-        Relation RoundedCenterHoleOutline(long innerRadius, long halfWidth, long signX, long signY)
-        {
-            const long cornerRadius = 14;
-            var filletCenterOffset = halfWidth + cornerRadius;
-            var filletCenterRadius = innerRadius - cornerRadius;
-            var straightTangent = (long)Math.Round(Math.Sqrt(
-                filletCenterRadius * filletCenterRadius -
-                filletCenterOffset * filletCenterOffset));
-            var circleScale = (double)innerRadius / filletCenterRadius;
-            var circleNearLine = (long)Math.Round(filletCenterOffset * circleScale);
-            var circleNearArc = (long)Math.Round(straightTangent * circleScale);
-            var verticalStart = (X: signX * halfWidth, Y: signY * (halfWidth + cornerRadius));
-            var verticalEnd = (X: signX * halfWidth, Y: signY * straightTangent);
-            var verticalArcEnd = (X: signX * circleNearLine, Y: signY * circleNearArc);
-            var horizontalArcStart = (X: signX * circleNearArc, Y: signY * circleNearLine);
-            var horizontalStart = (X: signX * straightTangent, Y: signY * halfWidth);
-            var horizontalEnd = (X: signX * (halfWidth + cornerRadius), Y: signY * halfWidth);
-
-            return Chain(
-                Segment(verticalStart.X, verticalStart.Y, verticalEnd.X, verticalEnd.Y),
-                Arc(
-                    signX * filletCenterOffset,
-                    signY * straightTangent,
-                    verticalEnd.X,
-                    verticalEnd.Y,
-                    verticalArcEnd.X,
-                    verticalArcEnd.Y),
-                Arc(0, 0, verticalArcEnd.X, verticalArcEnd.Y, horizontalArcStart.X, horizontalArcStart.Y),
-                Arc(
-                    signX * straightTangent,
-                    signY * filletCenterOffset,
-                    horizontalArcStart.X,
-                    horizontalArcStart.Y,
-                    horizontalStart.X,
-                    horizontalStart.Y),
-                Segment(horizontalStart.X, horizontalStart.Y, horizontalEnd.X, horizontalEnd.Y),
-                Arc(
-                    signX * (offset + cornerRadius),
-                    signY * (offset + cornerRadius),
-                    horizontalEnd.X,
-                    horizontalEnd.Y,
-                    verticalStart.X,
-                    verticalStart.Y));
-        }
-
-        Relation RoundedCenterHoleAntiFill(long signX, long signY) =>
-            GraphicStructure.AntiAreaFill(RoundedCenterHoleOutline(centerInner, offset, signX, signY));
-
         bool TryReadRadialProfile(
             IElement sourceAreaFrame,
             out long profileArmReach,
@@ -1385,11 +1343,8 @@ internal static partial class SketchSamples
         var centerHoleCutNW = CenterHoleAntiFill(-1, 1);
         var centerHoleCutSW = CenterHoleAntiFill(-1, -1);
         var centerHoleCutSE = CenterHoleAntiFill(1, -1);
-        var roundedCenterHoleCutNE = RoundedCenterHoleAntiFill(1, 1);
-        var roundedCenterHoleCutNW = RoundedCenterHoleAntiFill(-1, 1);
-        var roundedCenterHoleCutSW = RoundedCenterHoleAntiFill(-1, -1);
-        var roundedCenterHoleCutSE = RoundedCenterHoleAntiFill(1, -1);
-        var endpointHoleCuts = AntiAreaFillsFromOutlines(endpointCircles);
+        var endpointHoleOutlines = EndpointHoleOutlines(endpointCircles);
+        var endpointHoleCuts = AntiAreaFillsFromOutlines(endpointHoleOutlines);
         var separateFills = GraphicBooleanSurface.AreaFrame(new Carrier(), [.. fillParticipants, .. endpointHoleCuts]);
         var areaFrame = GraphicBooleanSurface.AreaFrame(
             new Carrier(),
@@ -1400,21 +1355,9 @@ internal static partial class SketchSamples
             centerHoleCutSW,
             centerHoleCutSE]);
         var mergedAreaFrame = GraphicAreaSettlementSurface.SettledPositiveAreaFrame(new Carrier(), areaFrame);
-        var roundedSourceAreaFrame = GraphicBooleanSurface.AreaFrame(
-            new Carrier(),
-            [.. fillParticipants,
-            .. endpointHoleCuts,
-            roundedCenterHoleCutNE,
-            roundedCenterHoleCutNW,
-            roundedCenterHoleCutSW,
-            roundedCenterHoleCutSE]);
-        var roundedAreaFrame = GraphicAreaSettlementSurface.SettledPositiveAreaFrame(new Carrier(), roundedSourceAreaFrame);
         var unionInteriorHoles = Group(
             GraphicAreaSettlementSurface.SettledAntiBoundaryOutlinesFromAreas(new Carrier(), areaFrame),
-            endpointCircles);
-        var roundedUnionInteriorHoles = Group(
-            GraphicAreaSettlementSurface.SettledAntiBoundaryOutlinesFromAreas(new Carrier(), roundedSourceAreaFrame),
-            endpointCircles);
+            endpointHoleOutlines);
         var fillUnion = GraphicAreaSettlementSurface.SettledPositiveAreaUnion(new Carrier(), areaFrame);
         GraphicBooleanSurface.TryReadAreaUnion(fillUnion, out _, out var fillOutlineWitness, out _, out _);
         if (!TryReadRadialProfile(
@@ -1435,41 +1378,11 @@ internal static partial class SketchSamples
             throw new InvalidOperationException("Radial shape ladder could not derive the exterior outline profile from its area frame.");
         }
 
-        if (!TryReadRadialProfile(
-                roundedSourceAreaFrame,
-                out var roundedProfileArmReach,
-                out var roundedProfileHalfWidth,
-                out var roundedProfileCenterOuter,
-                out var roundedProfileEndpointOuter) &&
-            !TryReadSeedOffsetProfile(
-                centerCircle,
-                endpointCircles,
-                offset,
-                out roundedProfileArmReach,
-                out roundedProfileHalfWidth,
-                out roundedProfileCenterOuter,
-                out roundedProfileEndpointOuter))
-        {
-            throw new InvalidOperationException("Radial shape ladder could not derive the rounded exterior outline profile from its area frame.");
-        }
-
         var exteriorSharpOutline = ExteriorSharpOutline(
             profileArmReach,
             profileHalfWidth,
             profileCenterOuter,
             profileEndpointOuter);
-        var exteriorRoundedOutline = ExteriorRoundedOutline(
-            roundedProfileArmReach,
-            roundedProfileHalfWidth,
-            roundedProfileCenterOuter,
-            roundedProfileEndpointOuter);
-        var exteriorRoundedOuterFill = GraphicStructure.AreaFill(exteriorRoundedOutline);
-        var exteriorRoundedSourceAreaFrame = GraphicBooleanSurface.AreaFrame(
-            new Carrier(),
-            [exteriorRoundedOuterFill, .. AntiAreaFillsFromOutlines(roundedUnionInteriorHoles)]);
-        var exteriorRoundedAreaFrame = GraphicAreaSettlementSurface.SettledPositiveAreaFrame(
-            new Carrier(),
-            exteriorRoundedSourceAreaFrame);
         var offsetEvidence = GraphicParameterSurface.Frame(
             new Carrier(),
             GraphicOffsetSurface.RequestWithDistance(new Carrier(), endpointState, Distance(offset)),
@@ -1484,11 +1397,42 @@ internal static partial class SketchSamples
             fillUnion,
             GraphicSelectionSurface.Frame(new Carrier(), fillUnion, interiorCuspDomain),
             cuspPattern);
+        var roundedCuspAction = GraphicBoundaryConceptSurface.RoundedBoundaryFromCuspSelection(
+            new Carrier(),
+            cuspSelection,
+            unionInteriorHoles,
+            roundedCornerRadius);
+        var roundedUnionInteriorHoles = GraphicBoundaryConceptSurface.TryReadRoundedBoundaryFromCuspSelection(
+            roundedCuspAction,
+            out _,
+            out _,
+            out _,
+            out var generatedRoundedInteriorHoles,
+            out _)
+            ? generatedRoundedInteriorHoles
+            : unionInteriorHoles;
+        IElement[] positiveFillParticipants = PositiveAreaFillsFromAreaFrame(mergedAreaFrame);
+        var roundedSourceAreaFrame = GraphicBooleanSurface.AreaFrame(
+            new Carrier(),
+            [.. positiveFillParticipants, .. AntiAreaFillsFromOutlines(roundedUnionInteriorHoles)]);
+        var roundedAreaFrame = GraphicAreaSettlementSurface.SettledPositiveAreaFrame(new Carrier(), roundedSourceAreaFrame);
         var roundedUnionOutlineWitness = Group(
             GraphicOutlineSurface.PositiveBoundaryOutlinesFromAreas(new Carrier(), roundedAreaFrame),
             roundedUnionInteriorHoles);
         var roundedUnion = GraphicBooleanSurface.AreaUnion(new Carrier(), roundedAreaFrame, roundedUnionOutlineWitness);
         var roundedUnionOutlineEvidence = GraphicOutlineSurface.FromArea(new Carrier(), roundedUnion, roundedUnionOutlineWitness);
+        var exteriorRoundedOutline = ExteriorRoundedOutline(
+            profileArmReach,
+            profileHalfWidth,
+            profileCenterOuter,
+            profileEndpointOuter);
+        var exteriorRoundedOuterFill = GraphicStructure.AreaFill(exteriorRoundedOutline);
+        var exteriorRoundedSourceAreaFrame = GraphicBooleanSurface.AreaFrame(
+            new Carrier(),
+            [exteriorRoundedOuterFill, .. AntiAreaFillsFromOutlines(roundedUnionInteriorHoles)]);
+        var exteriorRoundedAreaFrame = GraphicAreaSettlementSurface.SettledPositiveAreaFrame(
+            new Carrier(),
+            exteriorRoundedSourceAreaFrame);
         var exteriorSharpOutlineEvidence = GraphicOutlineSurface.FromArea(new Carrier(), roundedUnion, exteriorSharpOutline);
         var exteriorCuspSelection = GraphicSelectionSurface.Search(
             new Carrier(),
@@ -1511,7 +1455,7 @@ internal static partial class SketchSamples
         const long hSquareHalfY = 58;
         const long hCrossbarHalfWidth = offset;
         const long hRoundedCornerRadius = 12;
-        var hEndpointHoleRadius = endpointRadius;
+        var hEndpointHoleRadius = endpointHoleRadius;
         var hVariant = Math.Clamp(comparisonVariant, 0, 1);
         Relation HEndpointHole(long xTicks, long yTicks) =>
             Circle(xTicks, yTicks, hEndpointHoleRadius);
@@ -1660,19 +1604,20 @@ internal static partial class SketchSamples
             out _)
             ? generatedHEndpointCircles
             : UnknownPoint();
+        var hEndpointHoleOutlines = EndpointHoleOutlines(hEndpointCircles);
         var hTrimmedCenterStrokes = TrimOpenTipsByEndpointCircles(hCenterStrokes, hEndpointCircles);
         var hEndpointState = Group(hTrimmedCenterStrokes, hBodyShape, hEndpointCircles);
         var hOffsetBoundaries = Group(DerivedOffsetBoundaryElements(hEndpointState, offset, hEndpointCircles));
         var hOffsetSideWitness = OffsetSideWitness(hEndpointState, hOffsetBoundaries, offset, hEndpointCircles);
         var hFillParticipants = DerivedOrthogonalInteriorFills(hOffsetSideWitness, offset, hEndpointCircles);
-        var hEndpointHoleCuts = AntiAreaFillsFromOutlines(hEndpointCircles);
+        var hEndpointHoleCuts = AntiAreaFillsFromOutlines(hEndpointHoleOutlines);
         var hSeparateFills = GraphicBooleanSurface.AreaFrame(new Carrier(), [.. hFillParticipants, .. hEndpointHoleCuts]);
         var hAreaFrame = GraphicBooleanSurface.AreaFrame(new Carrier(), [.. hFillParticipants, .. hEndpointHoleCuts]);
         var hSettledAreaFrame = GraphicAreaSettlementSurface.SettledPositiveAreaFrame(new Carrier(), hAreaFrame);
         var hMergedAreaFrame = hSettledAreaFrame;
         hUnionInteriorHoles = Group(
             GraphicAreaSettlementSurface.SettledAntiBoundaryOutlinesFromAreas(new Carrier(), hAreaFrame),
-            hEndpointCircles);
+            hEndpointHoleOutlines);
         var hFillUnion = GraphicAreaSettlementSurface.SettledPositiveAreaUnion(new Carrier(), hAreaFrame);
         GraphicBooleanSurface.TryReadAreaUnion(hFillUnion, out _, out var hFillOutlineWitness, out _, out _);
         var hOffsetEvidence = GraphicParameterSurface.Frame(
@@ -1701,7 +1646,7 @@ internal static partial class SketchSamples
             out _)
             ? generatedHRoundedInteriorHoles
             : hUnionInteriorHoles;
-        hRoundedUnionInteriorHoles = Group(hRoundedUnionInteriorHoles, hEndpointCircles);
+        hRoundedUnionInteriorHoles = Group(hRoundedUnionInteriorHoles, hEndpointHoleOutlines);
         IElement[] hPositiveFillParticipants = PositiveAreaFillsFromAreaFrame(hMergedAreaFrame);
         var hRoundedSourceAreaFrame = GraphicBooleanSurface.AreaFrame(
             new Carrier(),
@@ -1829,7 +1774,7 @@ internal static partial class SketchSamples
                 cuspResult,
                 roundedResult,
                 Group(roundedUnionOutlineEvidence, hRoundedUnionOutlineEvidence),
-                hRoundedCuspAction));
+                Group(roundedCuspAction, hRoundedCuspAction)));
         var exteriorCuspStep = RefinedRung(
             roundedResult,
             cuspPattern,

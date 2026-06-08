@@ -705,8 +705,9 @@ public static class GraphicBoundaryConceptSurface
             0.999);
         var theta = Math.Acos(dot);
         var halfTheta = theta / 2.0;
-        var tangentDistance = radiusTicks / Math.Tan(halfTheta);
-        var maxTangentDistance = Math.Min(incomingLength, outgoingLength) * 0.45;
+        var requestedRadius = Math.Min(radiusTicks, 8L);
+        var tangentDistance = requestedRadius / Math.Tan(halfTheta);
+        var maxTangentDistance = Math.Min(incomingLength, outgoingLength) * 0.28;
         tangentDistance = Math.Min(tangentDistance, maxTangentDistance);
         var effectiveRadius = tangentDistance * Math.Tan(halfTheta);
         var bisectorX = incomingAwayX + outgoingAwayX;
