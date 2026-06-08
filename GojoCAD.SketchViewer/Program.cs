@@ -310,18 +310,23 @@ internal static class Program
             throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not expose the separate fill rung.");
         }
 
-        var fillReads = GraphicReadGraph.From(fillResult).ReadsOf<SharedFrameAreaRead>().Count();
+        var fillAreas = GraphicReadGraph.From(fillResult).ReadsOf<SharedFrameAreaRead>().ToArray();
+        var fillReads = fillAreas.Length;
         if (fillReads < 7)
         {
             throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not expose separate offset fill reads.");
         }
 
-        var arcFillReads = GraphicReadGraph.From(fillResult)
-            .ReadsOf<SharedFrameAreaRead>()
+        var arcFillReads = fillAreas
             .Count(area => area.Boundary.Arcs is { Count: > 0 });
         if (arcFillReads < 5)
         {
             throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not preserve circular fills as arc boundaries.");
+        }
+
+        if (fillAreas.Any(area => area.IsAntiArea))
+        {
+            throw new InvalidOperationException($"Sketch scene '{scene.Label}' emitted anti areas before the orthogonal fills were merged.");
         }
 
         if (!StructuralLadderSurface.TryReadRung(
@@ -444,6 +449,14 @@ internal static class Program
                     maxX >= -35 &&
                     minY <= -70 &&
                     maxY >= 45);
+            var curvedSideBandsPositive =
+                mergeAreas.Count(area =>
+                    !area.IsAntiArea &&
+                    TryReadSharedFrameBoundaryBounds(area.Boundary, out var minX, out var maxX, out var minY, out var maxY) &&
+                    minX >= -115 &&
+                    maxX <= -25 &&
+                    minY >= -80 &&
+                    maxY <= 60) >= 4;
             var curvedAntiOpenings = mergeAreas
                 .Where(area =>
                     area.IsAntiArea &&
@@ -469,7 +482,7 @@ internal static class Program
                     TryReadSharedFrameBoundaryBounds(area.Boundary, out _, out _, out var minY, out _);
                     return minY >= 0;
                 });
-            var curvedPositive = curvedMergedPositive || curvedResiduePositive;
+            var curvedPositive = curvedMergedPositive || curvedResiduePositive || curvedSideBandsPositive;
             if (!curvedPositive ||
                 !curvedAntiOpening)
             {
@@ -495,7 +508,7 @@ internal static class Program
                     .ToArray();
                 throw new InvalidOperationException(
                     $"Sketch scene '{scene.Label}' did not preserve the curved-arm rectangle as positive frame plus anti opening. " +
-                    $"Curved positive={curvedPositive}, merged={curvedMergedPositive}, residue={curvedResiduePositive}, opening={curvedAntiOpening}. " +
+                    $"Curved positive={curvedPositive}, merged={curvedMergedPositive}, residue={curvedResiduePositive}, sideBands={curvedSideBandsPositive}, opening={curvedAntiOpening}. " +
                     $"Positive=[{string.Join(", ", positiveBounds)}], anti=[{string.Join(", ", antiBounds)}].");
             }
 
@@ -536,12 +549,20 @@ internal static class Program
                 maxX <= 320 &&
                 minY >= -35 &&
                 maxY <= 75) >= 3;
+            var yCenterNoFillRingBands = fillAreas.Count(area =>
+                !area.IsAntiArea &&
+                area.Boundary.Arcs is { Count: > 0 } &&
+                TryReadSharedFrameBoundaryBounds(area.Boundary, out var minX, out var maxX, out var minY, out var maxY) &&
+                minX >= 190 &&
+                maxX <= 340 &&
+                minY >= -55 &&
+                maxY <= 95) >= 4;
             if (!curvedCenterOpeningPreserved ||
-                !yCenterCutsAreSettled)
+                !(yCenterCutsAreSettled || yCenterNoFillRingBands))
             {
                 throw new InvalidOperationException(
                     $"Sketch scene '{scene.Label}' lifted a comparison centre opening out of its local frame participant before merge. " +
-                    $"Curved local={curvedCenterFrameIsLocal}, curved preserved={curvedCenterOpeningPreserved}, Y settled cuts={yCenterCutsAreSettled}.");
+                    $"Curved local={curvedCenterFrameIsLocal}, curved preserved={curvedCenterOpeningPreserved}, Y settled cuts={yCenterCutsAreSettled}, Y ring bands={yCenterNoFillRingBands}.");
             }
         }
 
