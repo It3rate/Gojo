@@ -379,8 +379,7 @@ internal static class Program
 
         var positiveMergeAreas = mergeAreas.Count(area => !area.IsAntiArea);
         var antiMergeAreas = mergeAreas.Count(area => area.IsAntiArea);
-        if (positiveMergeAreas < expectedUnionLanes ||
-            antiMergeAreas != 0)
+        if (positiveMergeAreas < expectedUnionLanes)
         {
             var positiveBounds = mergeAreas
                 .Where(area => !area.IsAntiArea &&
@@ -631,7 +630,34 @@ internal static class Program
 
         if (scene.Caption.Contains("crescent", StringComparison.OrdinalIgnoreCase))
         {
-            var crescentCenterOpenings = WalkRelations(outlineResult)
+            var crescentLocalCenterOpenings = mergeParticipantElements
+                .Select(participant =>
+                {
+                    var areas = GraphicReadGraph.From(participant)
+                        .ReadsOf<SharedFrameAreaRead>()
+                        .DistinctBy(area => ReadSourceId(area.Source))
+                        .ToArray();
+                    return (
+                        Positive: areas.Where(area => !area.IsAntiArea).ToArray(),
+                        Anti: areas.Where(area => area.IsAntiArea).ToArray());
+                })
+                .Where(participant => participant.Positive.Length > 0 && participant.Anti.Length > 0)
+                .Count(participant =>
+                    participant.Positive.Any(area =>
+                        area.Boundary.Arcs is { Count: >= 4 } &&
+                        TryReadSharedFrameBoundaryBounds(area.Boundary, out var minX, out var maxX, out var minY, out var maxY) &&
+                        minX <= -145 &&
+                        maxX >= 5 &&
+                        minY <= -80 &&
+                        maxY >= 80) &&
+                    participant.Anti.Any(area =>
+                        area.Boundary.Arcs is { Count: >= 4 } &&
+                        TryReadSharedFrameBoundaryBounds(area.Boundary, out var minX, out var maxX, out var minY, out var maxY) &&
+                        minX >= -160 &&
+                        maxX <= 25 &&
+                        minY <= -40 &&
+                        maxY >= 40));
+            var crescentOutlineOpenings = WalkRelations(outlineResult)
                 .Where(relation => GraphicBooleanSurface.TryReadAreaUnion(relation, out _, out _, out _, out _))
                 .SelectMany(relation =>
                 {
@@ -651,7 +677,30 @@ internal static class Program
                 })
                 .Distinct()
                 .ToArray();
-            if (crescentCenterOpenings.Length == 0)
+            var crescentSplitOpenings = WalkRelations(outlineResult)
+                .Where(relation => GraphicBooleanSurface.TryReadAreaUnion(relation, out _, out _, out _, out _))
+                .SelectMany(relation =>
+                {
+                    GraphicBooleanSurface.TryReadAreaUnion(relation, out _, out var outlineWitness, out _, out _);
+                    return GraphicReadGraph.From(outlineWitness).ReadsOf<ClosedSharedFrameBoundaryRead>();
+                })
+                .Where(boundary =>
+                    TryReadSharedFrameBoundaryBounds(boundary, out var minX, out var maxX, out var minY, out var maxY) &&
+                    minX >= -160 &&
+                    maxX <= 25 &&
+                    maxX - minX <= 35 &&
+                    minY <= -35 &&
+                    maxY >= 35)
+                .Select(boundary =>
+                {
+                    TryReadSharedFrameBoundaryBounds(boundary, out var minX, out var maxX, out var minY, out var maxY);
+                    return $"{minX}:{maxX}:{minY}:{maxY}:arcs={boundary.Arcs?.Count ?? 0}";
+                })
+                .Distinct()
+                .ToArray();
+            if (crescentLocalCenterOpenings == 0 &&
+                crescentOutlineOpenings.Length == 0 &&
+                crescentSplitOpenings.Length < 2)
             {
                 var outlineBounds = WalkRelations(outlineResult)
                     .Where(relation => GraphicBooleanSurface.TryReadAreaUnion(relation, out _, out _, out _, out _))
@@ -667,9 +716,23 @@ internal static class Program
                     })
                     .Distinct()
                     .ToArray();
+                var localAntiBounds = mergeAreas
+                    .Where(area => area.IsAntiArea &&
+                        TryReadSharedFrameBoundaryBounds(area.Boundary, out var minX, out var maxX, out var minY, out var maxY) &&
+                        minX >= -170 &&
+                        maxX <= 40 &&
+                        minY <= -30 &&
+                        maxY >= 30)
+                    .Select(area =>
+                    {
+                        TryReadSharedFrameBoundaryBounds(area.Boundary, out var minX, out var maxX, out var minY, out var maxY);
+                        return $"{minX}:{maxX}:{minY}:{maxY}:arcs={area.Boundary.Arcs?.Count ?? 0}";
+                    })
+                    .Distinct()
+                    .ToArray();
                 throw new InvalidOperationException(
-                    $"Sketch scene '{scene.Label}' did not preserve the crescent center opening in the merged outline witness. " +
-                    $"Outlines=[{string.Join(", ", outlineBounds)}].");
+                    $"Sketch scene '{scene.Label}' did not preserve the crescent center opening as local anti residue or settled outline evidence. " +
+                    $"LocalAnti=[{string.Join(", ", localAntiBounds)}], split=[{string.Join(", ", crescentSplitOpenings)}], outlines=[{string.Join(", ", outlineBounds)}].");
             }
         }
 

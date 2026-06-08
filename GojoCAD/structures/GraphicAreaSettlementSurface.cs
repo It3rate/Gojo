@@ -42,7 +42,7 @@ public static class GraphicAreaSettlementSurface
     public static Relation SettledPositiveAreaUnion(Carrier root, IElement areaFrame)
     {
         var settlement = CreateSettlement(areaFrame);
-        var settledAreaFrame = GraphicBooleanSurface.AreaFrame(new Carrier(), [.. settlement.ResolvedPositiveAreaFills]);
+        var settledAreaFrame = GraphicBooleanSurface.AreaFrame(new Carrier(), [.. settlement.AreaFills]);
         var outlineFrame = GraphicOutlineSurface.OutlineFrame(new Carrier(), [.. settlement.Outlines]);
         return GraphicBooleanSurface.AreaUnion(RootOrNew(root), settledAreaFrame, outlineFrame);
     }
@@ -227,12 +227,11 @@ public static class GraphicAreaSettlementSurface
                 .Where(source => IsUnresolved(source, emittedAntiBounds))
                 .DistinctBy(SourceId)
                 .ToArray();
-            if (positiveResidue.Length > 0 &&
-                antiResidue.Length > 0)
+            if (antiResidue.Length > 0 &&
+                participant.Positive.Count > 0)
             {
                 residue.Add(participant.Source);
-                positiveResidueFills.AddRange(positiveResidue);
-                antiResidueFills.AddRange(antiResidue);
+                positiveResidueFills.Add(participant.Source);
                 continue;
             }
 

@@ -335,18 +335,45 @@ public sealed class GraphicOrthogonalFillSurfaceTests
         var areaFrame = GraphicBooleanSurface.AreaFrame(new Carrier(), participants);
         var union = GraphicAreaSettlementSurface.SettledPositiveAreaUnion(new Carrier(), areaFrame);
 
-        Assert.True(GraphicBooleanSurface.TryReadAreaUnion(union, out _, out var outlineWitness, out _, out _));
+        Assert.True(GraphicBooleanSurface.TryReadAreaUnion(union, out var unionAreaFrame, out var outlineWitness, out _, out _));
+        IElement[] unionParticipants = [];
+        Assert.True(unionAreaFrame is Relation unionAreaFrameRelation &&
+            GraphicBooleanSurface.TryReadAreaFrame(unionAreaFrameRelation, out unionParticipants));
+        var hasLocalCrescentOpening = unionParticipants.Any(participant =>
+        {
+            var areas = GraphicReadGraph.From(participant)
+                .ReadsOf<SharedFrameAreaRead>()
+                .DistinctBy(area => ReadSourceId(area.Source))
+                .ToArray();
+            return areas.Any(area =>
+                    !area.IsAntiArea &&
+                    area.Boundary.Arcs is { Count: >= 4 } &&
+                    TryReadBounds(area.Boundary, out var minX, out var maxX, out var minY, out var maxY) &&
+                    minX <= crescentOriginX - 60 &&
+                    maxX >= crescentOriginX + 60 &&
+                    minY <= -60 &&
+                    maxY >= 60) &&
+                areas.Any(area =>
+                    area.IsAntiArea &&
+                    area.Boundary.Arcs is { Count: >= 4 } &&
+                    TryReadBounds(area.Boundary, out var minX, out var maxX, out var minY, out var maxY) &&
+                    minX >= crescentOriginX - 60 &&
+                    maxX <= crescentOriginX + 60 &&
+                    minY <= -40 &&
+                    maxY >= 40);
+        });
         var outlines = GraphicReadGraph.From(outlineWitness)
             .ReadsOf<ClosedSharedFrameBoundaryRead>()
             .DistinctBy(boundary => ReadSourceId(boundary.Source))
             .ToArray();
         var outlineBounds = BoundsStrings(outlines);
-        Assert.True(outlines.Any(outline =>
-            TryReadBounds(outline, out var minX, out var maxX, out var minY, out var maxY) &&
-            minX >= crescentOriginX - 50 &&
-            maxX <= crescentOriginX + 50 &&
-            minY <= -40 &&
-            maxY >= 40),
+        Assert.True(hasLocalCrescentOpening ||
+            outlines.Any(outline =>
+                TryReadBounds(outline, out var minX, out var maxX, out var minY, out var maxY) &&
+                minX >= crescentOriginX - 50 &&
+                maxX <= crescentOriginX + 50 &&
+                minY <= -40 &&
+                maxY >= 40),
             string.Join(", ", outlineBounds));
     }
 
