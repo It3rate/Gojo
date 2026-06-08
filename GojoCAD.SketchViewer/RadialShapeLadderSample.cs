@@ -600,6 +600,322 @@ internal static partial class SketchSamples
             return sweep;
         }
 
+        Relation OffsetSideWitness(
+            IElement source,
+            IElement offsetBoundary,
+            long distanceTicks,
+            IElement? outwardOnlyCircleSource = null)
+        {
+            const double markerOffset = 5d;
+            const double markerLength = 13d;
+            var positiveMarkers = new List<IElement>();
+            var inverseMarkers = new List<IElement>();
+            var outwardOnlyCircleKeys = (outwardOnlyCircleSource is null
+                    ? []
+                    : CircleReads(outwardOnlyCircleSource)
+                        .Select(circle => $"{circle.CenterX}:{circle.CenterY}:{circle.Radius}"))
+                .ToHashSet();
+
+            void AddLineMarker(List<IElement> markers, long startX, long startY, long endX, long endY, int sideSign)
+            {
+                var deltaX = endX - startX;
+                var deltaY = endY - startY;
+                var length = Math.Sqrt(deltaX * deltaX + deltaY * deltaY);
+                if (length <= 0d)
+                {
+                    return;
+                }
+
+                var tangentX = deltaX / length;
+                var tangentY = deltaY / length;
+                var normalX = -tangentY;
+                var normalY = tangentX;
+                var halfLength = Math.Min(markerLength * 0.5d, Math.Max(4d, length * 0.18d));
+                var centerX = (startX + endX) * 0.5d + normalX * sideSign * markerOffset;
+                var centerY = (startY + endY) * 0.5d + normalY * sideSign * markerOffset;
+                markers.Add(Segment(
+                    (long)Math.Round(centerX - tangentX * halfLength),
+                    (long)Math.Round(centerY - tangentY * halfLength),
+                    (long)Math.Round(centerX + tangentX * halfLength),
+                    (long)Math.Round(centerY + tangentY * halfLength)));
+            }
+
+            void AddArcMarker(List<IElement> markers, long centerX, long centerY, long startX, long startY, long endX, long endY, int sideSign)
+            {
+                var radius = Math.Min(
+                    Math.Sqrt(Math.Pow(startX - centerX, 2) + Math.Pow(startY - centerY, 2)),
+                    Math.Sqrt(Math.Pow(endX - centerX, 2) + Math.Pow(endY - centerY, 2)));
+                if (radius <= 0d)
+                {
+                    return;
+                }
+
+                var startAngle = Math.Atan2(startY - centerY, startX - centerX);
+                var sweep = ShortestSweep(startAngle, Math.Atan2(endY - centerY, endX - centerX));
+                if (Math.Abs(sweep) <= 0.0001d)
+                {
+                    return;
+                }
+
+                var direction = Math.Sign(sweep);
+                var midAngle = startAngle + sweep * 0.5d;
+                var tangentX = -Math.Sin(midAngle) * direction;
+                var tangentY = Math.Cos(midAngle) * direction;
+                var normalX = -tangentY;
+                var normalY = tangentX;
+                var arcX = centerX + Math.Cos(midAngle) * radius;
+                var arcY = centerY + Math.Sin(midAngle) * radius;
+                var centerMarkerX = arcX + normalX * sideSign * markerOffset;
+                var centerMarkerY = arcY + normalY * sideSign * markerOffset;
+                var halfLength = Math.Min(markerLength * 0.5d, Math.Max(4d, Math.Abs(sweep) * radius * 0.18d));
+                markers.Add(Segment(
+                    (long)Math.Round(centerMarkerX - tangentX * halfLength),
+                    (long)Math.Round(centerMarkerY - tangentY * halfLength),
+                    (long)Math.Round(centerMarkerX + tangentX * halfLength),
+                    (long)Math.Round(centerMarkerY + tangentY * halfLength)));
+            }
+
+            void AddLineSideMarkers(long startX, long startY, long endX, long endY, bool positive, bool inverse)
+            {
+                if (positive)
+                {
+                    AddLineMarker(positiveMarkers, startX, startY, endX, endY, sideSign: 1);
+                }
+
+                if (inverse)
+                {
+                    AddLineMarker(inverseMarkers, startX, startY, endX, endY, sideSign: -1);
+                }
+            }
+
+            void AddArcSideMarkers(long centerX, long centerY, long startX, long startY, long endX, long endY, bool positive, bool inverse)
+            {
+                if (positive)
+                {
+                    AddArcMarker(positiveMarkers, centerX, centerY, startX, startY, endX, endY, sideSign: 1);
+                }
+
+                if (inverse)
+                {
+                    AddArcMarker(inverseMarkers, centerX, centerY, startX, startY, endX, endY, sideSign: -1);
+                }
+            }
+
+            void AddClosedBoundaryMarkers(ClosedSharedFrameBoundaryRead boundary, bool positive, bool inverse)
+            {
+                var arcSpanIds = (boundary.Arcs ?? [])
+                    .Select(arc => SourceId(arc.Span.Source))
+                    .ToHashSet();
+                foreach (var segment in boundary.Segments)
+                {
+                    if (arcSpanIds.Contains(SourceId(segment.Source)) ||
+                        !TryReadSegmentTicks(segment, out var startX, out var startY, out var endX, out var endY))
+                    {
+                        continue;
+                    }
+
+                    AddLineSideMarkers(startX, startY, endX, endY, positive, inverse);
+                }
+
+                foreach (var arc in boundary.Arcs ?? [])
+                {
+                    if (!TryReadPointTicks(arc.Center, out var centerX, out var centerY) ||
+                        !TryReadPointTicks(arc.Start, out var startX, out var startY) ||
+                        !TryReadPointTicks(arc.End, out var endX, out var endY))
+                    {
+                        continue;
+                    }
+
+                    AddArcSideMarkers(centerX, centerY, startX, startY, endX, endY, positive, inverse);
+                }
+            }
+
+            void AddElementBoundaryMarkers(IElement boundaryElement, bool positive, bool inverse)
+            {
+                foreach (var boundary in GraphicReadGraph.From(boundaryElement)
+                    .ReadsOf<ClosedSharedFrameBoundaryRead>()
+                    .DistinctBy(boundary => SourceId(boundary.Source)))
+                {
+                    AddClosedBoundaryMarkers(boundary, positive, inverse);
+                }
+            }
+
+            foreach (var (startX, startY, endX, endY) in SettledOpenSharedFrameLineSegmentTicks(source))
+            {
+                AddLineSideMarkers(startX, startY, endX, endY, positive: true, inverse: true);
+
+                var deltaX = endX - startX;
+                var deltaY = endY - startY;
+                var length = Math.Sqrt(deltaX * deltaX + deltaY * deltaY);
+                if (length <= 0d)
+                {
+                    continue;
+                }
+
+                var distance = Math.Abs(distanceTicks);
+                var normalX = (long)Math.Round(-deltaY / length * distance);
+                var normalY = (long)Math.Round(deltaX / length * distance);
+                AddLineSideMarkers(
+                    startX + normalX,
+                    startY + normalY,
+                    endX + normalX,
+                    endY + normalY,
+                    positive: false,
+                    inverse: true);
+                AddLineSideMarkers(
+                    startX - normalX,
+                    startY - normalY,
+                    endX - normalX,
+                    endY - normalY,
+                    positive: true,
+                    inverse: false);
+            }
+
+            foreach (var arc in OpenSharedFrameArcs(source))
+            {
+                if (!TryReadPointTicks(arc.Center, out var centerX, out var centerY) ||
+                    !TryReadPointTicks(arc.Start, out var startX, out var startY) ||
+                    !TryReadPointTicks(arc.End, out var endX, out var endY))
+                {
+                    continue;
+                }
+
+                AddArcSideMarkers(centerX, centerY, startX, startY, endX, endY, positive: true, inverse: true);
+                var startRadius = Math.Sqrt(
+                    Math.Pow(startX - centerX, 2) +
+                    Math.Pow(startY - centerY, 2));
+                var endRadius = Math.Sqrt(
+                    Math.Pow(endX - centerX, 2) +
+                    Math.Pow(endY - centerY, 2));
+                var radius = Math.Min(startRadius, endRadius);
+                if (radius <= 0d)
+                {
+                    continue;
+                }
+
+                (long X, long Y) OffsetArcPoint(long pointX, long pointY, double offsetRadius)
+                {
+                    var dx = pointX - centerX;
+                    var dy = pointY - centerY;
+                    var length = Math.Sqrt(dx * dx + dy * dy);
+                    return length <= 0
+                        ? (pointX, pointY)
+                        : (
+                            centerX + (long)Math.Round(dx / length * offsetRadius),
+                            centerY + (long)Math.Round(dy / length * offsetRadius));
+                }
+
+                void AddGeneratedArcMarkers((long X, long Y) generatedStart, (long X, long Y) generatedEnd)
+                {
+                    var startAngle = Math.Atan2(startY - centerY, startX - centerX);
+                    var sweep = ShortestSweep(startAngle, Math.Atan2(endY - centerY, endX - centerX));
+                    if (Math.Abs(sweep) <= 0.0001d)
+                    {
+                        return;
+                    }
+
+                    var direction = Math.Sign(sweep);
+                    var midAngle = startAngle + sweep * 0.5d;
+                    var tangentX = -Math.Sin(midAngle) * direction;
+                    var tangentY = Math.Cos(midAngle) * direction;
+                    var leftNormalX = -tangentY;
+                    var leftNormalY = tangentX;
+                    var sourceMidRadius = radius;
+                    var generatedRadius = Math.Min(
+                        Math.Sqrt(Math.Pow(generatedStart.X - centerX, 2) + Math.Pow(generatedStart.Y - centerY, 2)),
+                        Math.Sqrt(Math.Pow(generatedEnd.X - centerX, 2) + Math.Pow(generatedEnd.Y - centerY, 2)));
+                    var sourceMidX = centerX + Math.Cos(midAngle) * sourceMidRadius;
+                    var sourceMidY = centerY + Math.Sin(midAngle) * sourceMidRadius;
+                    var generatedMidX = centerX + Math.Cos(midAngle) * generatedRadius;
+                    var generatedMidY = centerY + Math.Sin(midAngle) * generatedRadius;
+                    var sideDot = (generatedMidX - sourceMidX) * leftNormalX +
+                        (generatedMidY - sourceMidY) * leftNormalY;
+                    AddArcSideMarkers(
+                        centerX,
+                        centerY,
+                        generatedStart.X,
+                        generatedStart.Y,
+                        generatedEnd.X,
+                        generatedEnd.Y,
+                        positive: sideDot < 0d,
+                        inverse: sideDot >= 0d);
+                }
+
+                var outerStart = OffsetArcPoint(startX, startY, radius + distanceTicks);
+                var outerEnd = OffsetArcPoint(endX, endY, radius + distanceTicks);
+                AddGeneratedArcMarkers(outerStart, outerEnd);
+                if (radius > distanceTicks)
+                {
+                    var innerStart = OffsetArcPoint(startX, startY, radius - distanceTicks);
+                    var innerEnd = OffsetArcPoint(endX, endY, radius - distanceTicks);
+                    AddGeneratedArcMarkers(innerStart, innerEnd);
+                }
+            }
+
+            var graph = GraphicReadGraph.From(source);
+            foreach (var boundary in graph.ReadsOf<ClosedSharedFrameBoundaryRead>()
+                .DistinctBy(boundary => SourceId(boundary.Source)))
+            {
+                var outwardOnly = TryReadCircleBoundary(boundary, out var centerX, out var centerY, out var radius) &&
+                    outwardOnlyCircleKeys.Contains($"{centerX}:{centerY}:{radius}");
+                AddClosedBoundaryMarkers(boundary, positive: !outwardOnly, inverse: true);
+            }
+
+            foreach (var boundary in graph.ReadsOf<ClosedSharedFrameBoundaryRead>()
+                .DistinctBy(boundary => SourceId(boundary.Source)))
+            {
+                if (TryReadCircleBoundary(boundary, out var centerX, out var centerY, out var radius))
+                {
+                    if (outwardOnlyCircleKeys.Contains($"{centerX}:{centerY}:{radius}"))
+                    {
+                        AddElementBoundaryMarkers(Circle(centerX, centerY, radius + distanceTicks), positive: true, inverse: false);
+                        continue;
+                    }
+
+                    AddElementBoundaryMarkers(Circle(centerX, centerY, radius + distanceTicks), positive: true, inverse: false);
+                    if (radius > distanceTicks)
+                    {
+                        AddElementBoundaryMarkers(Circle(centerX, centerY, radius - distanceTicks), positive: false, inverse: true);
+                    }
+
+                    continue;
+                }
+
+                if (!TryReadAxisAlignedRectangleBoundary(boundary, out var minX, out var maxX, out var minY, out var maxY))
+                {
+                    continue;
+                }
+
+                AddElementBoundaryMarkers(
+                    RectangleOutline(
+                        minX - distanceTicks,
+                        maxX + distanceTicks,
+                        minY - distanceTicks,
+                        maxY + distanceTicks),
+                    positive: true,
+                    inverse: false);
+                if (maxX - minX > distanceTicks * 2 &&
+                    maxY - minY > distanceTicks * 2)
+                {
+                    AddElementBoundaryMarkers(
+                        RectangleOutline(
+                            minX + distanceTicks,
+                            maxX - distanceTicks,
+                            minY + distanceTicks,
+                            maxY - distanceTicks),
+                        positive: false,
+                        inverse: true);
+                }
+            }
+
+            return GraphicOffsetSurface.BoundarySideWitness(
+                new Carrier(),
+                source,
+                offsetBoundary,
+                Group([.. positiveMarkers]),
+                Group([.. inverseMarkers]));
+        }
+
         IElement[] DerivedFillParticipants(IElement offsetStructure)
         {
             var participants = new List<IElement>();
@@ -1244,6 +1560,7 @@ internal static partial class SketchSamples
         var trimmedCenterPlusStrokes = TrimOpenTipsByEndpointCircles(centerPlusStrokes, endpointCircles);
         var endpointState = Group(trimmedCenterPlusStrokes, centerCircle, endpointCircles);
         var offsetBoundaries = Group(DerivedOffsetBoundaryElements(endpointState, offset, endpointCircles));
+        var offsetSideWitness = OffsetSideWitness(endpointState, offsetBoundaries, offset, endpointCircles);
         var fillParticipants = DerivedFillParticipants(offsetBoundaries);
         var centerHoleCutNE = CenterHoleAntiFill(1, 1);
         var centerHoleCutNW = CenterHoleAntiFill(-1, 1);
@@ -1310,7 +1627,7 @@ internal static partial class SketchSamples
         var offsetEvidence = GraphicParameterSurface.Frame(
             new Carrier(),
             GraphicOffsetSurface.RequestWithDistance(new Carrier(), endpointState, Distance(offset)),
-            offsetBoundaries);
+            offsetSideWitness);
         var fillEvidence = GraphicParameterSurface.Frame(new Carrier(), offsetEvidence, areaFrame);
         var fillUnion = GraphicBooleanSurface.AreaUnion(new Carrier(), mergedAreaFrame, GraphicOutlineSurface.BoundaryOutlinesFromAreas(new Carrier(), mergedAreaFrame));
         var fillUnionOutlineEvidence = GraphicOutlineSurface.FromArea(new Carrier(), fillUnion, unionInteriorHoles);
@@ -1498,6 +1815,7 @@ internal static partial class SketchSamples
         var hTrimmedCenterStrokes = TrimOpenTipsByEndpointCircles(hCenterStrokes, hEndpointCircles);
         var hEndpointState = Group(hTrimmedCenterStrokes, hBodyShape, hEndpointCircles);
         var hOffsetBoundaries = Group(DerivedOffsetBoundaryElements(hEndpointState, offset, hEndpointCircles));
+        var hOffsetSideWitness = OffsetSideWitness(hEndpointState, hOffsetBoundaries, offset, hEndpointCircles);
         var hFillParticipants = DerivedFillParticipants(hOffsetBoundaries);
         var hSeparateFills = Group(hFillParticipants);
         var hAreaFrame = GraphicBooleanSurface.AreaFrame(new Carrier(), hFillParticipants);
@@ -1508,7 +1826,7 @@ internal static partial class SketchSamples
         var hOffsetEvidence = GraphicParameterSurface.Frame(
             new Carrier(),
             GraphicOffsetSurface.RequestWithDistance(new Carrier(), hEndpointState, Distance(offset)),
-            hOffsetBoundaries);
+            hOffsetSideWitness);
         var hFillEvidence = GraphicParameterSurface.Frame(new Carrier(), hOffsetEvidence, hMergedAreaFrame);
         var hFillUnion = GraphicBooleanSurface.AreaUnion(
             new Carrier(),
@@ -1588,7 +1906,7 @@ internal static partial class SketchSamples
 
         var baseResult = Lanes(centerPlus, hShape);
         var endpointResult = Lanes(endpointState, hEndpointState);
-        var offsetResult = Lanes(offsetBoundaries, hOffsetBoundaries);
+        var offsetResult = Lanes(offsetSideWitness, hOffsetSideWitness);
         var separateFillResult = Lanes(separateFills, hSeparateFills);
         var mergeResult = Lanes(fillUnion, hFillUnion);
         var outlineResult = Lanes(fillUnionOutlineEvidence, hFillUnionOutlineEvidence);
@@ -1612,7 +1930,7 @@ internal static partial class SketchSamples
             endpointResult,
             endpointResult,
             UnknownPoint(),
-            Group(offsetBoundaries, hOffsetBoundaries),
+            Group(offsetSideWitness, hOffsetSideWitness),
             offsetResult,
             Group(offsetEvidence, hOffsetEvidence));
         var fillStep = RefinedRung(

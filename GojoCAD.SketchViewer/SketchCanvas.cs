@@ -60,6 +60,8 @@ internal sealed class SketchDrawOperation : ICustomDrawOperation
     private static readonly SKColor RadialMergedFill = new(48, 88, 142, 158);
     private static readonly SKColor RadialAntiAreaFill = new(226, 50, 55, 58);
     private static readonly SKColor RadialCuspMarker = new(226, 18, 34, 245);
+    private static readonly SKColor RadialPositiveSide = new(78, 158, 210, 228);
+    private static readonly SKColor RadialInverseSide = new(226, 92, 96, 222);
     private static readonly SKColor[] RadialSeparateFillPalette =
     [
         new(63, 126, 96, 118),
@@ -204,6 +206,11 @@ internal sealed class SketchDrawOperation : ICustomDrawOperation
             return;
         }
 
+        if (TryDrawRadialOffsetSideWitness(canvas, result, rungIndex, viewport, strokeWidth))
+        {
+            return;
+        }
+
         if (TryDrawRadialCuspSelection(canvas, result, rungIndex, viewport, strokeWidth, hidePoints))
         {
             return;
@@ -235,6 +242,90 @@ internal sealed class SketchDrawOperation : ICustomDrawOperation
             drawAreaUnionAntiAreas,
             eraseAreaUnionOutline);
         Renderer.Draw(canvas, result, viewport, scene.ProjectionSeed, scene.ModelBounds, paints);
+    }
+
+    private bool TryDrawRadialOffsetSideWitness(
+        SKCanvas canvas,
+        IElement result,
+        int rungIndex,
+        SKRect viewport,
+        float strokeWidth)
+    {
+        if (scene.Label != "Radial Shape Ladder" ||
+            rungIndex != 2)
+        {
+            return false;
+        }
+
+        var witnesses = ReadOffsetSideWitnesses(result).ToArray();
+        if (witnesses.Length == 0)
+        {
+            return false;
+        }
+
+        using var sourcePaints = CreateSketchPaints(
+            Gray(52),
+            Math.Max(1.2f, strokeWidth * 0.55f),
+            hidePoints: true);
+        using var boundaryPaints = CreateSketchPaints(
+            CurrentGray(228),
+            strokeWidth,
+            hidePoints: true);
+        using var positivePaints = CreateSketchPaints(
+            RadialPositiveSide,
+            Math.Max(2.1f, strokeWidth * 0.78f),
+            hidePoints: true);
+        using var inversePaints = CreateSketchPaints(
+            RadialInverseSide,
+            Math.Max(2.1f, strokeWidth * 0.78f),
+            hidePoints: true);
+
+        foreach (var witness in witnesses)
+        {
+            Renderer.Draw(canvas, witness.Source, viewport, scene.ProjectionSeed, scene.ModelBounds, sourcePaints);
+        }
+
+        foreach (var witness in witnesses)
+        {
+            Renderer.Draw(canvas, witness.Boundary, viewport, scene.ProjectionSeed, scene.ModelBounds, boundaryPaints);
+        }
+
+        foreach (var witness in witnesses)
+        {
+            Renderer.Draw(canvas, witness.PositiveSide, viewport, scene.ProjectionSeed, scene.ModelBounds, positivePaints);
+            Renderer.Draw(canvas, witness.InverseSide, viewport, scene.ProjectionSeed, scene.ModelBounds, inversePaints);
+        }
+
+        return true;
+    }
+
+    private static IEnumerable<OffsetSideWitnessRead> ReadOffsetSideWitnesses(IElement element)
+    {
+        if (element is Relation relation &&
+            GraphicOffsetSurface.TryReadBoundarySideWitness(
+                relation,
+                out var source,
+                out var boundary,
+                out var sidePair,
+                out _) &&
+            GraphicOffsetSurface.TryReadOrthogonalSidePair(
+                sidePair,
+                out var positiveSide,
+                out var inverseSide,
+                out _))
+        {
+            yield return new OffsetSideWitnessRead(source, boundary, positiveSide, inverseSide);
+            yield break;
+        }
+
+        if (TryReadOrderedFrame(element, out var elements))
+        {
+            foreach (var child in elements)
+            foreach (var witness in ReadOffsetSideWitnesses(child))
+            {
+                yield return witness;
+            }
+        }
     }
 
     private bool TryDrawRadialCuspSelection(
@@ -551,4 +642,10 @@ internal sealed class SketchDrawOperation : ICustomDrawOperation
 
         canvas.DrawText(trimmed + ellipsis, x, baseline, paint);
     }
+
+    private readonly record struct OffsetSideWitnessRead(
+        IElement Source,
+        IElement Boundary,
+        IElement PositiveSide,
+        IElement InverseSide);
 }

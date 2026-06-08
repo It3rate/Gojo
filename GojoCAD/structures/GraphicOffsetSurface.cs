@@ -58,6 +58,38 @@ public static class GraphicOffsetSurface
             TensionSlot());
 
     /// <summary>
+    /// Creates inspectable side-fill evidence for a generated boundary. The
+    /// side pair carries the positive orthogonal witness first and the inverse
+    /// orthogonal witness second.
+    /// </summary>
+    public static Relation BoundarySideWitness(
+        Carrier root,
+        IElement source,
+        IElement boundary,
+        IElement positiveSideWitness,
+        IElement inverseSideWitness) =>
+        Frame(
+            root,
+            source ?? TensionSlot(),
+            boundary ?? TensionSlot(),
+            OrthogonalSidePair(new Carrier(), positiveSideWitness, inverseSideWitness),
+            TensionSlot());
+
+    /// <summary>
+    /// Creates local positive/inverse orthogonal side evidence. Missing side
+    /// evidence remains tension instead of being converted into a false read.
+    /// </summary>
+    public static Relation OrthogonalSidePair(
+        Carrier root,
+        IElement positiveSideWitness,
+        IElement inverseSideWitness) =>
+        Frame(
+            root,
+            positiveSideWitness ?? TensionSlot(),
+            inverseSideWitness ?? TensionSlot(),
+            TensionSlot());
+
+    /// <summary>
     /// Creates local interior/exterior side evidence. The paired sites are
     /// opposed faces of the same unresolved side witness.
     /// </summary>
@@ -137,6 +169,55 @@ public static class GraphicOffsetSurface
 
         source = default!;
         evidence = default!;
+        residueOrTension = default!;
+        return false;
+    }
+
+    /// <summary>Reads generated boundary side-fill evidence.</summary>
+    public static bool TryReadBoundarySideWitness(
+        Relation witness,
+        out IElement source,
+        out IElement boundary,
+        out Relation sidePair,
+        out IElement residueOrTension)
+    {
+        if (TryReadFrameElements(witness, out var elements) &&
+            elements.Length == 4 &&
+            elements[2] is Relation sidePairRelation &&
+            TryReadOrthogonalSidePair(sidePairRelation, out _, out _, out _))
+        {
+            source = elements[0];
+            boundary = elements[1];
+            sidePair = sidePairRelation;
+            residueOrTension = elements[3];
+            return true;
+        }
+
+        source = default!;
+        boundary = default!;
+        sidePair = default!;
+        residueOrTension = default!;
+        return false;
+    }
+
+    /// <summary>Reads local positive/inverse orthogonal side evidence.</summary>
+    public static bool TryReadOrthogonalSidePair(
+        Relation sidePair,
+        out IElement positiveSideWitness,
+        out IElement inverseSideWitness,
+        out IElement residueOrTension)
+    {
+        if (TryReadFrameElements(sidePair, out var elements) &&
+            elements.Length == 3)
+        {
+            positiveSideWitness = elements[0];
+            inverseSideWitness = elements[1];
+            residueOrTension = elements[2];
+            return true;
+        }
+
+        positiveSideWitness = default!;
+        inverseSideWitness = default!;
         residueOrTension = default!;
         return false;
     }
