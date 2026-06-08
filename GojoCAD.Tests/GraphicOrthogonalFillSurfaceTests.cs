@@ -6,7 +6,7 @@ namespace GojoCAD.Tests;
 public sealed class GraphicOrthogonalFillSurfaceTests
 {
     [Fact]
-    public void OrthogonalFillParticipantsCreateInnerAndOuterCircleBands()
+    public void OrthogonalFillParticipantsCreateCircleFrameWithInnerOpening()
     {
         var basis = new TestBasis();
         var circle = Circle(basis, 0, 0, 40);
@@ -23,12 +23,12 @@ public sealed class GraphicOrthogonalFillSurfaceTests
             .ReadsOf<SharedFrameAreaRead>()
             .DistinctBy(area => ReadSourceId(area.Source))
             .ToArray();
-        Assert.Equal(8, areas.Count(area => !area.IsAntiArea && area.Boundary.Arcs is { Count: > 0 }));
-        Assert.DoesNotContain(areas, area => area.IsAntiArea);
+        Assert.Single(areas, area => !area.IsAntiArea && area.Boundary.Arcs is { Count: > 0 });
+        Assert.Single(areas, area => area.IsAntiArea && area.Boundary.Arcs is { Count: > 0 });
     }
 
     [Fact]
-    public void OrthogonalFillParticipantsCanKeepEndpointCircleOutwardOnly()
+    public void OrthogonalFillParticipantsUsesSameCircleFrameForEndpointCircles()
     {
         var basis = new TestBasis();
         var circle = Circle(basis, 0, 0, 40);
@@ -45,8 +45,44 @@ public sealed class GraphicOrthogonalFillSurfaceTests
             .ReadsOf<SharedFrameAreaRead>()
             .DistinctBy(area => ReadSourceId(area.Source))
             .ToArray();
-        Assert.Equal(4, areas.Count(area => !area.IsAntiArea && area.Boundary.Arcs is { Count: > 0 }));
-        Assert.DoesNotContain(areas, area => area.IsAntiArea);
+        Assert.Single(areas, area => !area.IsAntiArea && area.Boundary.Arcs is { Count: > 0 });
+        Assert.Single(areas, area => area.IsAntiArea && area.Boundary.Arcs is { Count: > 0 });
+    }
+
+    [Fact]
+    public void OrthogonalFillParticipantsCreateRectangleFrameWithInnerOpening()
+    {
+        var basis = new TestBasis();
+        var rectangle = Rectangle(basis, -20, 20, -40, 40);
+        var witness = GraphicOffsetSurface.BoundarySideWitness(
+            new Carrier(),
+            rectangle,
+            rectangle,
+            Group(),
+            Group());
+
+        var participants = GraphicOrthogonalFillSurface.OrthogonalFillParticipants(witness, 10);
+
+        var areas = GraphicReadGraph.From(Group(participants))
+            .ReadsOf<SharedFrameAreaRead>()
+            .DistinctBy(area => ReadSourceId(area.Source))
+            .ToArray();
+        Assert.Single(areas, area => !area.IsAntiArea && area.Boundary.Arcs is not { Count: > 0 });
+        Assert.Single(areas, area => area.IsAntiArea && area.Boundary.Arcs is not { Count: > 0 });
+        Assert.Contains(areas, area =>
+            !area.IsAntiArea &&
+            TryReadBounds(area.Boundary, out var minX, out var maxX, out var minY, out var maxY) &&
+            minX == -30 &&
+            maxX == 30 &&
+            minY == -50 &&
+            maxY == 50);
+        Assert.Contains(areas, area =>
+            area.IsAntiArea &&
+            TryReadBounds(area.Boundary, out var minX, out var maxX, out var minY, out var maxY) &&
+            minX == -10 &&
+            maxX == 10 &&
+            minY == -30 &&
+            maxY == 30);
     }
 
     [Fact]

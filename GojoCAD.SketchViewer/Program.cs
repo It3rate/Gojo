@@ -171,8 +171,8 @@ internal static class Program
 
     private static void ValidateRadialShapeLadder(SketchScene scene, Relation ladder, IReadOnlyList<Relation> rungs)
     {
-        var comparisonPairMode = scene.Caption.Contains("curved-arm square", StringComparison.OrdinalIgnoreCase) &&
-            scene.Caption.Contains("Y/flat-bottom", StringComparison.OrdinalIgnoreCase);
+        var comparisonPairMode = scene.Caption.Contains("bug", StringComparison.OrdinalIgnoreCase) &&
+            scene.Caption.Contains("YT", StringComparison.OrdinalIgnoreCase);
         var expectedUnionLanes = comparisonPairMode ? 1 : 2;
         if (rungs.Count != 11)
         {
@@ -281,7 +281,7 @@ internal static class Program
             throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not expose the offset boundary rung.");
         }
 
-        if (scene.Caption.Contains("curved-arm square", StringComparison.OrdinalIgnoreCase))
+        if (scene.Caption.Contains("bug", StringComparison.OrdinalIgnoreCase))
         {
             var offsetGraph = GraphicReadGraph.From(offsetResult);
             var closedArcSources = offsetGraph.ReadsOf<ClosedSharedFrameBoundaryRead>()
@@ -409,7 +409,7 @@ internal static class Program
                 $"anti={antiMergeAreas} [{string.Join(", ", antiBounds)}], comparison={comparisonPairMode}.");
         }
 
-        if (scene.Caption.Contains("Y/flat-bottom", StringComparison.OrdinalIgnoreCase))
+        if (scene.Caption.Contains("YT", StringComparison.OrdinalIgnoreCase))
         {
             var yMergedPositive = mergeAreas.Any(area =>
                 !area.IsAntiArea &&
@@ -421,11 +421,11 @@ internal static class Program
             if (!yMergedPositive)
             {
                 throw new InvalidOperationException(
-                    $"Sketch scene '{scene.Label}' did not settle the Y/flat-bottom fills into a merged positive component.");
+                    $"Sketch scene '{scene.Label}' did not settle the YT fills into a merged positive component.");
             }
         }
 
-        if (scene.Caption.Contains("curved-arm square", StringComparison.OrdinalIgnoreCase))
+        if (scene.Caption.Contains("bug", StringComparison.OrdinalIgnoreCase))
         {
             var curvedMergedPositive = mergeAreas.Any(area =>
                 !area.IsAntiArea &&
@@ -552,16 +552,16 @@ internal static class Program
                 TryReadSharedFrameBoundaryBounds(boundary, out var minX, out var maxX, out var minY, out var maxY) &&
                 minX >= 210 &&
                 maxX <= 320 &&
-                minY >= -35 &&
-                maxY <= 75) >= 3;
+                minY >= -5 &&
+                maxY <= 105) >= 3;
             var yCenterNoFillRingBands = fillAreas.Count(area =>
                 !area.IsAntiArea &&
                 area.Boundary.Arcs is { Count: > 0 } &&
                 TryReadSharedFrameBoundaryBounds(area.Boundary, out var minX, out var maxX, out var minY, out var maxY) &&
                 minX >= 190 &&
                 maxX <= 340 &&
-                minY >= -55 &&
-                maxY <= 95) >= 4;
+                minY >= -25 &&
+                maxY <= 125) >= 4;
             if (!curvedCenterOpeningPreserved ||
                 !(yCenterCutsAreSettled || yCenterNoFillRingBands))
             {

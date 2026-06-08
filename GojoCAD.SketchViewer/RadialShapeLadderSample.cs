@@ -13,7 +13,6 @@ internal static partial class SketchSamples
         const long armReach = 122;
         const long offset = 10;
         const long centerRadius = 71;
-        const long centerInner = centerRadius - offset;
         const long endpointRadius = 18;
         const long endpointHoleRadius = endpointRadius - offset;
         const long roundedCornerRadius = 12;
@@ -21,9 +20,6 @@ internal static partial class SketchSamples
         var frame = new Carrier();
         var x = new Carrier();
         var y = new Carrier();
-
-        Relation P(long xTicks, long yTicks) =>
-            Point(frame, x, y, xTicks, yTicks);
 
         Relation PAt(long originX, long originY, long xTicks, long yTicks) =>
             Point(frame, x, y, originX + xTicks, originY + yTicks);
@@ -52,7 +48,7 @@ internal static partial class SketchSamples
         Relation Arc(long centerX, long centerY, long startX, long startY, long endX, long endY) =>
             ArcAt(0, 0, centerX, centerY, startX, startY, endX, endY);
 
-        Relation CircleAt(long originX, long originY, long centerX, long centerY, long radius) =>
+        Relation CircleBoundaryAt(long originX, long originY, long centerX, long centerY, long radius) =>
             Chain(
                 ArcAt(originX, originY, centerX, centerY, centerX + radius, centerY, centerX, centerY + radius),
                 ArcAt(originX, originY, centerX, centerY, centerX, centerY + radius, centerX - radius, centerY),
@@ -60,7 +56,7 @@ internal static partial class SketchSamples
                 ArcAt(originX, originY, centerX, centerY, centerX, centerY - radius, centerX + radius, centerY));
 
         Relation Circle(long centerX, long centerY, long radius) =>
-            CircleAt(0, 0, centerX, centerY, radius);
+            CircleBoundaryAt(0, 0, centerX, centerY, radius);
 
         Relation EndpointHoleOutlines(IElement circleSource) =>
             Group([.. CircleReads(circleSource)
@@ -452,11 +448,6 @@ internal static partial class SketchSamples
         IElement[] DerivedOffsetBoundaryElements(IElement source, long distanceTicks, IElement? outwardOnlyCircleSource = null)
         {
             var elements = new List<IElement>();
-            var outwardOnlyCircleKeys = (outwardOnlyCircleSource is null
-                    ? []
-                    : CircleReads(outwardOnlyCircleSource)
-                        .Select(circle => $"{circle.CenterX}:{circle.CenterY}:{circle.Radius}"))
-                .ToHashSet();
             foreach (var (startX, startY, endX, endY) in SettledOpenSharedFrameLineSegmentTicks(source))
             {
                 var deltaX = endX - startX;
@@ -525,14 +516,6 @@ internal static partial class SketchSamples
                 if (!TryReadCircleBoundary(boundary, out var centerX, out var centerY, out var radius) ||
                     !seenCircles.Add($"{centerX}:{centerY}:{radius}"))
                 {
-                    continue;
-                }
-
-                var circleKey = $"{centerX}:{centerY}:{radius}";
-                if (outwardOnlyCircleKeys.Contains(circleKey))
-                {
-                    elements.Add(Circle(centerX, centerY, radius));
-                    elements.Add(Circle(centerX, centerY, radius + distanceTicks));
                     continue;
                 }
 
@@ -856,6 +839,11 @@ internal static partial class SketchSamples
                     if (outwardOnlyCircleKeys.Contains($"{centerX}:{centerY}:{radius}"))
                     {
                         AddElementBoundaryMarkers(Circle(centerX, centerY, radius + distanceTicks), positive: true, inverse: false);
+                        if (radius > distanceTicks)
+                        {
+                            AddElementBoundaryMarkers(Circle(centerX, centerY, radius - distanceTicks), positive: false, inverse: true);
+                        }
+
                         continue;
                     }
 
@@ -918,19 +906,6 @@ internal static partial class SketchSamples
                 .Where(area => !area.IsAntiArea)
                 .DistinctBy(area => SourceId(area.Source))
                 .Select(area => area.Source)];
-
-        Relation CenterHoleOutline(long innerRadius, long halfWidth, long signX, long signY)
-        {
-            var corner = P(signX * halfWidth, signY * halfWidth);
-            var circleSide = (long)Math.Round(Math.Sqrt(innerRadius * innerRadius - halfWidth * halfWidth));
-            return Chain(
-                Segment(signX * halfWidth, signY * halfWidth, signX * halfWidth, signY * circleSide),
-                Arc(0, 0, signX * halfWidth, signY * circleSide, signX * circleSide, signY * halfWidth),
-                GraphicStructure.FrameSegment(P(signX * circleSide, signY * halfWidth), corner));
-        }
-
-        Relation CenterHoleAntiFill(long signX, long signY) =>
-            GraphicStructure.AntiAreaFill(CenterHoleOutline(centerInner, offset, signX, signY));
 
         (long X, long Y) HorizontalCircleCusp(long centerX, long centerY, long radius, long lineY, long sideX)
         {
@@ -1339,21 +1314,9 @@ internal static partial class SketchSamples
         var offsetBoundaries = Group(DerivedOffsetBoundaryElements(endpointState, offset, endpointCircles));
         var offsetSideWitness = OffsetSideWitness(endpointState, offsetBoundaries, offset, endpointCircles);
         var fillParticipants = DerivedOrthogonalInteriorFills(offsetSideWitness, offset, endpointCircles);
-        var centerHoleCutNE = CenterHoleAntiFill(1, 1);
-        var centerHoleCutNW = CenterHoleAntiFill(-1, 1);
-        var centerHoleCutSW = CenterHoleAntiFill(-1, -1);
-        var centerHoleCutSE = CenterHoleAntiFill(1, -1);
         var endpointHoleOutlines = EndpointHoleOutlines(endpointCircles);
-        var endpointHoleCuts = AntiAreaFillsFromOutlines(endpointHoleOutlines);
-        var separateFills = GraphicBooleanSurface.AreaFrame(new Carrier(), [.. fillParticipants, .. endpointHoleCuts]);
-        var areaFrame = GraphicBooleanSurface.AreaFrame(
-            new Carrier(),
-            [.. fillParticipants,
-            .. endpointHoleCuts,
-            centerHoleCutNE,
-            centerHoleCutNW,
-            centerHoleCutSW,
-            centerHoleCutSE]);
+        var separateFills = GraphicBooleanSurface.AreaFrame(new Carrier(), fillParticipants);
+        var areaFrame = GraphicBooleanSurface.AreaFrame(new Carrier(), fillParticipants);
         var mergedAreaFrame = GraphicAreaSettlementSurface.SettledPositiveAreaFrame(new Carrier(), areaFrame);
         var unionInteriorHoles = Group(
             GraphicAreaSettlementSurface.SettledAntiBoundaryOutlinesFromAreas(new Carrier(), areaFrame),
@@ -1411,6 +1374,7 @@ internal static partial class SketchSamples
             out _)
             ? generatedRoundedInteriorHoles
             : unionInteriorHoles;
+        roundedUnionInteriorHoles = Group(roundedUnionInteriorHoles, endpointHoleOutlines);
         IElement[] positiveFillParticipants = PositiveAreaFillsFromAreaFrame(mergedAreaFrame);
         var roundedSourceAreaFrame = GraphicBooleanSurface.AreaFrame(
             new Carrier(),
@@ -1468,14 +1432,16 @@ internal static partial class SketchSamples
         string hVariantName;
         if (hVariant == 1)
         {
-            hVariantName = "curved-arm square + Y/flat-bottom";
+            hVariantName = "bug + YT";
             const long curvedOriginX = -70;
+            const long curvedBodyShiftY = 24;
             const long yOriginX = hOriginX;
+            const long yCircleCenterY = 46;
             var curvedCenterSquare = RectangleOutline(
                 curvedOriginX - 32,
                 curvedOriginX + 32,
-                -68,
-                48);
+                -68 + curvedBodyShiftY,
+                48 + curvedBodyShiftY);
             var curvedCenterStrokes = Group(
                 ArcAt(curvedOriginX, 0, 0, 112, -78, 108, 78, 108),
                 ArcAt(curvedOriginX, 0, 0, -112, -108, -92, 108, -92));
@@ -1489,7 +1455,7 @@ internal static partial class SketchSamples
                 Circle(curvedOriginX - 108, -92, endpointRadius + offset),
                 Circle(curvedOriginX + 108, -92, endpointRadius + offset));
             var curvedHoles = Group(
-                RectangleOutline(curvedOriginX - 24, curvedOriginX + 24, -52, 32),
+                RectangleOutline(curvedOriginX - 24, curvedOriginX + 24, -52 + curvedBodyShiftY, 32 + curvedBodyShiftY),
                 HEndpointHole(curvedOriginX - 78, 108),
                 HEndpointHole(curvedOriginX + 78, 108),
                 HEndpointHole(curvedOriginX - 108, -92),
@@ -1503,7 +1469,7 @@ internal static partial class SketchSamples
                 SegmentFrom(yJoint, yBottomJoint),
                 SegmentFrom(yBottomJoint, PAt(yOriginX, 0, -110, -82)),
                 SegmentFrom(yBottomJoint, PAt(yOriginX, 0, 110, -82)));
-            var yCenterCircle = CircleAt(yOriginX, 0, 0, 20, 58);
+            var yCenterCircle = CircleBoundaryAt(yOriginX, 0, 0, yCircleCenterY, 58);
             var yShape = Group(yCenterStrokes, yCenterCircle);
             var yExterior = Group(
                 Chain(
@@ -1526,7 +1492,7 @@ internal static partial class SketchSamples
                 Circle(yOriginX - 110, -82, endpointRadius + offset),
                 Circle(yOriginX + 110, -82, endpointRadius + offset));
             var yHoles = Group(
-                CircleAt(yOriginX, 0, 0, 20, 32),
+                CircleBoundaryAt(yOriginX, 0, 0, yCircleCenterY, 32),
                 HEndpointHole(yOriginX - 92, 116),
                 HEndpointHole(yOriginX + 92, 116),
                 HEndpointHole(yOriginX - 110, -82),
@@ -1610,9 +1576,8 @@ internal static partial class SketchSamples
         var hOffsetBoundaries = Group(DerivedOffsetBoundaryElements(hEndpointState, offset, hEndpointCircles));
         var hOffsetSideWitness = OffsetSideWitness(hEndpointState, hOffsetBoundaries, offset, hEndpointCircles);
         var hFillParticipants = DerivedOrthogonalInteriorFills(hOffsetSideWitness, offset, hEndpointCircles);
-        var hEndpointHoleCuts = AntiAreaFillsFromOutlines(hEndpointHoleOutlines);
-        var hSeparateFills = GraphicBooleanSurface.AreaFrame(new Carrier(), [.. hFillParticipants, .. hEndpointHoleCuts]);
-        var hAreaFrame = GraphicBooleanSurface.AreaFrame(new Carrier(), [.. hFillParticipants, .. hEndpointHoleCuts]);
+        var hSeparateFills = GraphicBooleanSurface.AreaFrame(new Carrier(), hFillParticipants);
+        var hAreaFrame = GraphicBooleanSurface.AreaFrame(new Carrier(), hFillParticipants);
         var hSettledAreaFrame = GraphicAreaSettlementSurface.SettledPositiveAreaFrame(new Carrier(), hAreaFrame);
         var hMergedAreaFrame = hSettledAreaFrame;
         hUnionInteriorHoles = Group(
@@ -1841,7 +1806,7 @@ internal static partial class SketchSamples
             seed,
             new SKRect(-245, -165, 430, 165),
             [
-                $"Plus/circle + {hVariantName} seeds",
+                $"{hVariantName} seeds",
                 "Endpoint circles",
                 "Offset boundary pairs",
                 "Separate offset fills",

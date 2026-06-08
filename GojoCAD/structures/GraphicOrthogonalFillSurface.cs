@@ -24,15 +24,10 @@ public static class GraphicOrthogonalFillSurface
         long distanceTicks,
         IElement? outwardOnlyCircleSource = null)
     {
-        var outwardOnlyCircleKeys = (outwardOnlyCircleSource is null
-                ? []
-                : CircleReads(outwardOnlyCircleSource)
-                    .Select(circle => $"{circle.CenterX}:{circle.CenterY}:{circle.Radius}"))
-            .ToHashSet();
         var participants = new List<IElement>();
         foreach (var source in OffsetWitnessSources(offsetSideWitness).DistinctBy(SourceId))
         {
-            participants.AddRange(OrthogonalFillParticipantsFromSource(source, distanceTicks, outwardOnlyCircleKeys));
+            participants.AddRange(OrthogonalFillParticipantsFromSource(source, distanceTicks));
         }
 
         return [.. participants];
@@ -66,8 +61,7 @@ public static class GraphicOrthogonalFillSurface
 
     private static IElement[] OrthogonalFillParticipantsFromSource(
         IElement source,
-        long distanceTicks,
-        IReadOnlySet<string> outwardOnlyCircleKeys)
+        long distanceTicks)
     {
         var distance = Math.Abs(distanceTicks);
         var participants = new List<IElement>();
@@ -100,14 +94,12 @@ public static class GraphicOrthogonalFillSurface
         {
             if (TryReadCircleBoundary(boundary, out var center, out var centerX, out var centerY, out var radius))
             {
-                var outwardOnly = outwardOnlyCircleKeys.Contains($"{centerX}:{centerY}:{radius}");
-                participants.AddRange(CircleOrthogonalBandFills(
+                participants.AddRange(CircleOrthogonalFrameFills(
                     center,
                     centerX,
                     centerY,
                     radius,
-                    distance,
-                    includeInner: !outwardOnly));
+                    distance));
                 continue;
             }
 
@@ -116,7 +108,7 @@ public static class GraphicOrthogonalFillSurface
                 continue;
             }
 
-            participants.AddRange(RectangleOrthogonalBandFills(template, minX, maxX, minY, maxY, distance));
+            participants.AddRange(RectangleOrthogonalFrameFills(template, minX, maxX, minY, maxY, distance));
         }
 
         return [.. participants];
@@ -304,68 +296,30 @@ public static class GraphicOrthogonalFillSurface
             out fill);
     }
 
-    private static IElement[] CircleOrthogonalBandFills(
+    private static IElement[] CircleOrthogonalFrameFills(
         SharedFramePointRead template,
         long centerX,
         long centerY,
         long radius,
-        long distanceTicks,
-        bool includeInner)
+        long distanceTicks)
     {
-        if (radius <= 0)
+        var outerRadius = radius + distanceTicks;
+        if (outerRadius <= 0)
         {
             return [DiskFill(template, centerX, centerY, distanceTicks)];
         }
 
-        var points = new (long X, long Y)[]
+        var outer = DiskFill(template, centerX, centerY, outerRadius);
+        var innerRadius = radius - distanceTicks;
+        if (innerRadius <= 0)
         {
-            (centerX + radius, centerY),
-            (centerX, centerY + radius),
-            (centerX - radius, centerY),
-            (centerX, centerY - radius)
-        };
-        var fills = new List<IElement>();
-        for (var index = 0; index < points.Length; index++)
-        {
-            var start = points[index];
-            var end = points[(index + 1) % points.Length];
-            if (TryArcBandFillWithRadii(
-                    template,
-                    centerX,
-                    centerY,
-                    start.X,
-                    start.Y,
-                    end.X,
-                    end.Y,
-                    innerRadius: radius,
-                    outerRadius: radius + distanceTicks,
-                    out var outerFill))
-            {
-                fills.Add(outerFill);
-            }
-
-            if (includeInner &&
-                radius > distanceTicks &&
-                TryArcBandFillWithRadii(
-                    template,
-                    centerX,
-                    centerY,
-                    start.X,
-                    start.Y,
-                    end.X,
-                    end.Y,
-                    innerRadius: radius - distanceTicks,
-                    outerRadius: radius,
-                    out var innerFill))
-            {
-                fills.Add(innerFill);
-            }
+            return [outer];
         }
 
-        return [.. fills];
+        return [Chain(outer, AntiDiskFill(template, centerX, centerY, innerRadius))];
     }
 
-    private static IElement[] RectangleOrthogonalBandFills(
+    private static IElement[] RectangleOrthogonalFrameFills(
         SharedFramePointRead template,
         long minX,
         long maxX,
@@ -373,66 +327,25 @@ public static class GraphicOrthogonalFillSurface
         long maxY,
         long distanceTicks)
     {
-        var fills = new List<IElement>
+        var outer = GraphicStructure.AreaFill(RectangleBoundary(
+            template,
+            minX - distanceTicks,
+            maxX + distanceTicks,
+            minY - distanceTicks,
+            maxY + distanceTicks));
+        if (maxX - minX <= distanceTicks * 2 ||
+            maxY - minY <= distanceTicks * 2)
         {
-            PolygonFill(
-                template,
-                (minX - distanceTicks, minY - distanceTicks),
-                (maxX + distanceTicks, minY - distanceTicks),
-                (maxX, minY),
-                (minX, minY)),
-            PolygonFill(
-                template,
-                (maxX + distanceTicks, minY - distanceTicks),
-                (maxX + distanceTicks, maxY + distanceTicks),
-                (maxX, maxY),
-                (maxX, minY)),
-            PolygonFill(
-                template,
-                (maxX + distanceTicks, maxY + distanceTicks),
-                (minX - distanceTicks, maxY + distanceTicks),
-                (minX, maxY),
-                (maxX, maxY)),
-            PolygonFill(
-                template,
-                (minX - distanceTicks, maxY + distanceTicks),
-                (minX - distanceTicks, minY - distanceTicks),
-                (minX, minY),
-                (minX, maxY))
-        };
-
-        if (maxX - minX > distanceTicks * 2 &&
-            maxY - minY > distanceTicks * 2)
-        {
-            fills.AddRange([
-                PolygonFill(
-                    template,
-                    (minX, minY),
-                    (maxX, minY),
-                    (maxX - distanceTicks, minY + distanceTicks),
-                    (minX + distanceTicks, minY + distanceTicks)),
-                PolygonFill(
-                    template,
-                    (maxX, minY),
-                    (maxX, maxY),
-                    (maxX - distanceTicks, maxY - distanceTicks),
-                    (maxX - distanceTicks, minY + distanceTicks)),
-                PolygonFill(
-                    template,
-                    (maxX, maxY),
-                    (minX, maxY),
-                    (minX + distanceTicks, maxY - distanceTicks),
-                    (maxX - distanceTicks, maxY - distanceTicks)),
-                PolygonFill(
-                    template,
-                    (minX, maxY),
-                    (minX, minY),
-                    (minX + distanceTicks, minY + distanceTicks),
-                    (minX + distanceTicks, maxY - distanceTicks))
-            ]);
+            return [outer];
         }
 
-        return [.. fills];
+        var inner = GraphicStructure.AntiAreaFill(RectangleBoundary(
+            template,
+            minX + distanceTicks,
+            maxX - distanceTicks,
+            minY + distanceTicks,
+            maxY - distanceTicks));
+        return [Chain(outer, inner)];
     }
 
     private static bool TryArcBandFillWithRadii(
@@ -499,12 +412,27 @@ public static class GraphicOrthogonalFillSurface
     private static Relation DiskFill(SharedFramePointRead template, long centerX, long centerY, long radius) =>
         GraphicStructure.AreaFill(Circle(template, centerX, centerY, radius));
 
+    private static Relation AntiDiskFill(SharedFramePointRead template, long centerX, long centerY, long radius) =>
+        GraphicStructure.AntiAreaFill(Circle(template, centerX, centerY, radius));
+
     private static Relation Circle(SharedFramePointRead template, long centerX, long centerY, long radius) =>
         Chain(
             Arc(template, centerX, centerY, centerX + radius, centerY, centerX, centerY + radius),
             Arc(template, centerX, centerY, centerX, centerY + radius, centerX - radius, centerY),
             Arc(template, centerX, centerY, centerX - radius, centerY, centerX, centerY - radius),
             Arc(template, centerX, centerY, centerX, centerY - radius, centerX + radius, centerY));
+
+    private static Relation RectangleBoundary(
+        SharedFramePointRead template,
+        long minX,
+        long maxX,
+        long minY,
+        long maxY) =>
+        Chain(
+            Segment(template, minX, minY, maxX, minY),
+            Segment(template, maxX, minY, maxX, maxY),
+            Segment(template, maxX, maxY, minX, maxY),
+            Segment(template, minX, maxY, minX, minY));
 
     private static Relation Arc(
         SharedFramePointRead template,
