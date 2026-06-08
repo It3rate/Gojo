@@ -204,6 +204,94 @@ public sealed class GraphicAreaSettlementSurfaceTests
     }
 
     [Fact]
+    public void SettledPositiveAreaUnionKeepsSeparatedCurvedAndYCompositesAsResolvedLoops()
+    {
+        var basis = new TestBasis();
+        const long offset = 10;
+        const long endpointOuter = 28;
+        const long endpointInner = 8;
+        const long curvedOriginX = -70;
+        const long yOriginX = 265;
+        var curvedCenterFrame = Chain(
+            GraphicStructure.AreaFill(Rectangle(basis, curvedOriginX - 32, curvedOriginX + 32, -68, 48)),
+            GraphicStructure.AntiAreaFill(Rectangle(basis, curvedOriginX - 24, curvedOriginX + 24, -52, 32)));
+        var yStem = GraphicStructure.AreaFill(Chain(
+            Segment(basis, yOriginX - 130, -102, yOriginX + 130, -102),
+            Segment(basis, yOriginX + 130, -102, yOriginX + 130, -62),
+            Segment(basis, yOriginX + 130, -62, yOriginX + 18, -62),
+            Segment(basis, yOriginX + 18, -62, yOriginX + 18, 20),
+            Segment(basis, yOriginX + 18, 20, yOriginX + 104, 104),
+            Segment(basis, yOriginX + 104, 104, yOriginX + 78, 130),
+            Segment(basis, yOriginX + 78, 130, yOriginX, 52),
+            Segment(basis, yOriginX, 52, yOriginX - 78, 130),
+            Segment(basis, yOriginX - 78, 130, yOriginX - 104, 104),
+            Segment(basis, yOriginX - 104, 104, yOriginX - 18, 20),
+            Segment(basis, yOriginX - 18, 20, yOriginX - 18, -62),
+            Segment(basis, yOriginX - 18, -62, yOriginX - 130, -62),
+            Segment(basis, yOriginX - 130, -62, yOriginX - 130, -102)));
+        var areaFrame = GraphicBooleanSurface.AreaFrame(
+            new Carrier(),
+            GraphicStructure.AreaFill(ArcBand(
+                basis,
+                curvedOriginX,
+                112,
+                curvedOriginX - 78,
+                108,
+                curvedOriginX + 78,
+                108,
+                offset)),
+            GraphicStructure.AreaFill(ArcBand(
+                basis,
+                curvedOriginX,
+                -112,
+                curvedOriginX - 108,
+                -92,
+                curvedOriginX + 108,
+                -92,
+                offset)),
+            curvedCenterFrame,
+            RingFill(basis, curvedOriginX - 78, 108, endpointOuter, endpointInner),
+            RingFill(basis, curvedOriginX + 78, 108, endpointOuter, endpointInner),
+            RingFill(basis, curvedOriginX - 108, -92, endpointOuter, endpointInner),
+            RingFill(basis, curvedOriginX + 108, -92, endpointOuter, endpointInner),
+            yStem,
+            RingFill(basis, yOriginX, 20, 58, 32),
+            RingFill(basis, yOriginX - 92, 116, endpointOuter, endpointInner),
+            RingFill(basis, yOriginX + 92, 116, endpointOuter, endpointInner),
+            RingFill(basis, yOriginX - 110, -82, endpointOuter, endpointInner),
+            RingFill(basis, yOriginX + 110, -82, endpointOuter, endpointInner));
+
+        var union = GraphicAreaSettlementSurface.SettledPositiveAreaUnion(new Carrier(), areaFrame);
+
+        Assert.True(GraphicBooleanSurface.TryReadAreaUnion(union, out var settledAreaFrame, out var outlineWitness, out _, out _));
+        var positiveAreas = GraphicReadGraph.From(settledAreaFrame)
+            .ReadsOf<SharedFrameAreaRead>()
+            .Where(area => !area.IsAntiArea)
+            .DistinctBy(area => ReadSourceId(area.Source))
+            .ToArray();
+        var outlines = GraphicReadGraph.From(outlineWitness)
+            .ReadsOf<ClosedSharedFrameBoundaryRead>()
+            .DistinctBy(boundary => ReadSourceId(boundary.Source))
+            .ToArray();
+        Assert.Contains(positiveAreas, area =>
+            TryReadBounds(area.Boundary, out var minX, out var maxX, out var minY, out var maxY) &&
+            minX <= curvedOriginX - 100 &&
+            maxX >= curvedOriginX + 100 &&
+            minY <= -110 &&
+            maxY >= 110);
+        Assert.Contains(positiveAreas, area =>
+            TryReadBounds(area.Boundary, out var minX, out var maxX, out var minY, out var maxY) &&
+            minX <= yOriginX - 130 &&
+            maxX >= yOriginX + 130 &&
+            minY <= -100 &&
+            maxY >= 120);
+        Assert.True(outlines.Count(boundary =>
+            TryReadBounds(boundary, out var minX, out var maxX, out _, out _) &&
+            minX >= curvedOriginX - 24 &&
+            maxX <= curvedOriginX + 24) >= 2);
+    }
+
+    [Fact]
     public void SettledAreaFrameSynthesizesCompositeLoopAcrossColinearOverlap()
     {
         var basis = new TestBasis();
@@ -587,26 +675,96 @@ public sealed class GraphicAreaSettlementSurfaceTests
         out long minY,
         out long maxY)
     {
-        var points = boundary.Segments
-            .SelectMany(segment => new[] { segment.Start, segment.End })
-            .Concat((boundary.Arcs ?? []).SelectMany(arc => new[] { arc.Start, arc.End }))
-            .Where(point => point.Coordinates.Count >= 2)
-            .Select(point => (X: point.Coordinates[0].Ticks, Y: point.Coordinates[1].Ticks))
-            .ToArray();
-        if (points.Length == 0)
+        var readMinX = 0L;
+        var readMaxX = 0L;
+        var readMinY = 0L;
+        var readMaxY = 0L;
+        var sawPoint = false;
+
+        void Include(long x, long y)
         {
-            minX = 0;
-            maxX = 0;
-            minY = 0;
-            maxY = 0;
-            return false;
+            if (!sawPoint)
+            {
+                readMinX = readMaxX = x;
+                readMinY = readMaxY = y;
+                sawPoint = true;
+                return;
+            }
+
+            readMinX = Math.Min(readMinX, x);
+            readMaxX = Math.Max(readMaxX, x);
+            readMinY = Math.Min(readMinY, y);
+            readMaxY = Math.Max(readMaxY, y);
         }
 
-        minX = points.Min(point => point.X);
-        maxX = points.Max(point => point.X);
-        minY = points.Min(point => point.Y);
-        maxY = points.Max(point => point.Y);
-        return true;
+        void IncludePoint(SharedFramePointRead point)
+        {
+            if (point.Coordinates.Count >= 2)
+            {
+                Include(point.Coordinates[0].Ticks, point.Coordinates[1].Ticks);
+            }
+        }
+
+        foreach (var segment in boundary.Segments)
+        {
+            IncludePoint(segment.Start);
+            IncludePoint(segment.End);
+        }
+
+        foreach (var arc in boundary.Arcs ?? [])
+        {
+            IncludeArc(arc);
+        }
+
+        minX = readMinX;
+        maxX = readMaxX;
+        minY = readMinY;
+        maxY = readMaxY;
+        return sawPoint;
+
+        void IncludeArc(SharedFrameArcRead arc)
+        {
+            if (arc.Center.Coordinates.Count < 2 ||
+                arc.Start.Coordinates.Count < 2 ||
+                arc.End.Coordinates.Count < 2)
+            {
+                return;
+            }
+
+            var centerX = arc.Center.Coordinates[0].Ticks;
+            var centerY = arc.Center.Coordinates[1].Ticks;
+            var startX = arc.Start.Coordinates[0].Ticks;
+            var startY = arc.Start.Coordinates[1].Ticks;
+            var endX = arc.End.Coordinates[0].Ticks;
+            var endY = arc.End.Coordinates[1].Ticks;
+            var radius = (Math.Sqrt(Math.Pow(startX - centerX, 2) + Math.Pow(startY - centerY, 2)) +
+                Math.Sqrt(Math.Pow(endX - centerX, 2) + Math.Pow(endY - centerY, 2))) * 0.5d;
+            var startAngle = Math.Atan2(startY - centerY, startX - centerX);
+            var sweep = ShortestSweep(startAngle, Math.Atan2(endY - centerY, endX - centerX));
+            for (var index = 0; index <= 32; index++)
+            {
+                var angle = startAngle + sweep * (index / 32d);
+                Include(
+                    (long)Math.Round(centerX + Math.Cos(angle) * radius),
+                    (long)Math.Round(centerY + Math.Sin(angle) * radius));
+            }
+        }
+
+        static double ShortestSweep(double startAngle, double endAngle)
+        {
+            var sweep = endAngle - startAngle;
+            while (sweep <= -Math.PI)
+            {
+                sweep += Math.PI * 2d;
+            }
+
+            while (sweep > Math.PI)
+            {
+                sweep -= Math.PI * 2d;
+            }
+
+            return sweep;
+        }
     }
 
     private static ulong ReadSourceId(IElement source) =>

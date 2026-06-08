@@ -116,6 +116,41 @@ public sealed class GraphicBoundaryConceptSurfaceTests
     }
 
     [Fact]
+    public void RoundedBoundaryFromCuspSelectionReplacesSelectedLineArcCornersWithArcs()
+    {
+        var frame = new Carrier();
+        var x = new Carrier();
+        var y = new Carrier();
+        Relation P(long xTicks, long yTicks) =>
+            GraphicStructure.FramePoint(frame, new CarrierLocation(x, xTicks), new CarrierLocation(y, yTicks));
+        var outline = Chain(
+            GraphicStructure.FrameSegment(P(0, 0), P(20, 0)),
+            GraphicStructure.FrameArc(P(30, 10), P(20, 0), P(40, 10)),
+            GraphicStructure.FrameSegment(P(40, 10), P(0, 20)),
+            GraphicStructure.FrameSegment(P(0, 20), P(0, 0)));
+        var pattern = GraphicBoundaryConceptSurface.CuspWitnessPattern(new Carrier(), new Placeholder());
+        var domain = GraphicBoundaryConceptSurface.CuspCandidateDomain(new Carrier(), outline);
+        var selection = GraphicSelectionSurface.Search(new Carrier(), outline, domain, pattern);
+
+        var action = GraphicBoundaryConceptSurface.RoundedBoundaryFromCuspSelection(
+            new Carrier(),
+            selection,
+            outline,
+            radiusTicks: 6);
+
+        Assert.True(GraphicBoundaryConceptSurface.TryReadRoundedBoundaryFromCuspSelection(
+            action,
+            out _,
+            out _,
+            out _,
+            out var roundedFrame,
+            out var residue));
+        var roundedBoundary = Assert.Single(GraphicReadGraph.From(roundedFrame).ReadsOf<ClosedSharedFrameBoundaryRead>());
+        var arcCount = roundedBoundary.Arcs?.Count ?? 0;
+        Assert.True(arcCount >= 5, $"arcCount={arcCount}");
+    }
+
+    [Fact]
     public void LineTipCandidateDomainFindsOpenSharedFrameTerminals()
     {
         var frame = new Carrier();
@@ -143,6 +178,33 @@ public sealed class GraphicBoundaryConceptSurfaceTests
             Assert.IsType<Relation>(readMatches),
             out var matches));
         Assert.Equal(4, matches.Length);
+    }
+
+    [Fact]
+    public void LineTipCandidateDomainFindsOpenSharedFrameArcTerminals()
+    {
+        var frame = new Carrier();
+        var x = new Carrier();
+        var y = new Carrier();
+        Relation P(long xTicks, long yTicks) =>
+            GraphicStructure.FramePoint(frame, new CarrierLocation(x, xTicks), new CarrierLocation(y, yTicks));
+        var arc = GraphicStructure.FrameArc(P(0, 50), P(-30, 0), P(30, 0));
+        var pattern = GraphicBoundaryConceptSurface.LineTipWitnessPattern(new Carrier(), new Placeholder());
+
+        var domain = GraphicBoundaryConceptSurface.LineTipCandidateDomain(new Carrier(), arc);
+        var selection = GraphicSelectionSurface.Search(new Carrier(), arc, domain, pattern);
+
+        Assert.True(GraphicSelectionSurface.TryReadSelection(
+            selection,
+            out _,
+            out _,
+            out _,
+            out var readMatches,
+            out _));
+        Assert.True(GraphicSelectionSurface.TryReadMatchFrame(
+            Assert.IsType<Relation>(readMatches),
+            out var matches));
+        Assert.Equal(2, matches.Length);
     }
 
     [Fact]

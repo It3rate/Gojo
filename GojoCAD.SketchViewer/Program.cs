@@ -310,23 +310,21 @@ internal static class Program
             throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not expose the separate fill rung.");
         }
 
-        var fillAreas = GraphicReadGraph.From(fillResult).ReadsOf<SharedFrameAreaRead>().ToArray();
-        var fillReads = fillAreas.Length;
-        if (fillReads < 7)
+        var fillAreas = GraphicReadGraph.From(fillResult)
+            .ReadsOf<SharedFrameAreaRead>()
+            .DistinctBy(area => ReadSourceId(area.Source))
+            .ToArray();
+
+        if (fillAreas.Count(area => !area.IsAntiArea) < expectedUnionLanes)
         {
-            throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not expose separate offset fill reads.");
+            throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not expose separate positive offset fill loops.");
         }
 
         var arcFillReads = fillAreas
-            .Count(area => area.Boundary.Arcs is { Count: > 0 });
-        if (arcFillReads < 5)
+            .Count(area => !area.IsAntiArea && area.Boundary.Arcs is { Count: > 0 });
+        if (arcFillReads < expectedUnionLanes)
         {
             throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not preserve circular fills as arc boundaries.");
-        }
-
-        if (fillAreas.Any(area => area.IsAntiArea))
-        {
-            throw new InvalidOperationException($"Sketch scene '{scene.Label}' emitted anti areas before the orthogonal fills were merged.");
         }
 
         if (!StructuralLadderSurface.TryReadRung(
@@ -550,9 +548,8 @@ internal static class Program
                     minY <= -55 &&
                     maxY >= 30));
             var curvedCenterOpeningPreserved = curvedCenterFrameIsLocal || curvedAntiOpening;
-            var yCenterCutsAreSettled = mergeAreas.Count(area =>
-                area.IsAntiArea &&
-                TryReadSharedFrameBoundaryBounds(area.Boundary, out var minX, out var maxX, out var minY, out var maxY) &&
+            var yCenterCutsAreSettled = mergeOutlineBoundaries.Count(boundary =>
+                TryReadSharedFrameBoundaryBounds(boundary, out var minX, out var maxX, out var minY, out var maxY) &&
                 minX >= 210 &&
                 maxX <= 320 &&
                 minY >= -35 &&
@@ -568,9 +565,40 @@ internal static class Program
             if (!curvedCenterOpeningPreserved ||
                 !(yCenterCutsAreSettled || yCenterNoFillRingBands))
             {
+                var yAntiBounds = mergeOutlineBoundaries
+                    .Where(boundary =>
+                        TryReadSharedFrameBoundaryBounds(boundary, out var minX, out var maxX, out var minY, out var maxY) &&
+                        minX >= 190 &&
+                        maxX <= 340 &&
+                        minY >= -55 &&
+                        maxY <= 95)
+                    .Select(boundary =>
+                    {
+                        TryReadSharedFrameBoundaryBounds(boundary, out var minX, out var maxX, out var minY, out var maxY);
+                        return $"{minX}:{maxX}:{minY}:{maxY}";
+                    })
+                    .Distinct()
+                    .ToArray();
+                var yFillRingBounds = fillAreas
+                    .Where(area => !area.IsAntiArea &&
+                        area.Boundary.Arcs is { Count: > 0 } &&
+                        TryReadSharedFrameBoundaryBounds(area.Boundary, out var minX, out var maxX, out var minY, out var maxY) &&
+                        minX >= 190 &&
+                        maxX <= 340 &&
+                        minY >= -55 &&
+                        maxY <= 95)
+                    .Select(area =>
+                    {
+                        TryReadSharedFrameBoundaryBounds(area.Boundary, out var minX, out var maxX, out var minY, out var maxY);
+                        return $"{minX}:{maxX}:{minY}:{maxY}";
+                    })
+                    .Distinct()
+                    .ToArray();
                 throw new InvalidOperationException(
                     $"Sketch scene '{scene.Label}' lifted a comparison centre opening out of its local frame participant before merge. " +
-                    $"Curved local={curvedCenterFrameIsLocal}, curved preserved={curvedCenterOpeningPreserved}, Y settled cuts={yCenterCutsAreSettled}, Y ring bands={yCenterNoFillRingBands}.");
+                    $"Curved local={curvedCenterFrameIsLocal}, curved preserved={curvedCenterOpeningPreserved}, " +
+                    $"Y settled cuts={yCenterCutsAreSettled} [{string.Join(", ", yAntiBounds)}], " +
+                    $"Y ring bands={yCenterNoFillRingBands} [{string.Join(", ", yFillRingBounds)}].");
             }
         }
 
@@ -790,8 +818,12 @@ internal static class Program
             }
         }
 
+        var exteriorRoundedOutlines = exteriorRoundedUnions
+            .SelectMany(union => GraphicReadGraph.From(union.outlineWitness).ReadsOf<ClosedSharedFrameBoundaryRead>())
+            .ToArray();
         if (exteriorRoundedAreas.Count(area => !area.IsAntiArea) < 1 ||
-            exteriorRoundedAreas.Count(area => area.IsAntiArea) < 8)
+            exteriorRoundedAreas.Any(area => area.IsAntiArea) ||
+            exteriorRoundedOutlines.Length < expectedUnionLanes + 8)
         {
             var outlineBounds = exteriorRoundedUnions
                 .SelectMany(union => GraphicReadGraph.From(union.outlineWitness).ReadsOf<ClosedSharedFrameBoundaryRead>())
@@ -827,9 +859,6 @@ internal static class Program
                 $"outline={outlineBounds.Length} [{string.Join(", ", outlineBounds)}].");
         }
 
-        var exteriorRoundedOutlines = exteriorRoundedUnions
-            .SelectMany(union => GraphicReadGraph.From(union.outlineWitness).ReadsOf<ClosedSharedFrameBoundaryRead>())
-            .ToArray();
         var exteriorRoundedArcCount = exteriorRoundedOutlines.Sum(boundary => boundary.Arcs?.Count ?? 0);
         if (comparisonPairMode)
         {
@@ -887,15 +916,15 @@ internal static class Program
         var finalColoredUnions = WalkRelations(finalColoredResult)
             .Select(relation =>
             {
-                var read = GraphicBooleanSurface.TryReadAreaUnion(relation, out var areaFrame, out _, out _, out _);
-                return (read, areaFrame);
+                var read = GraphicBooleanSurface.TryReadAreaUnion(relation, out var areaFrame, out var outlineWitness, out _, out _);
+                return (read, areaFrame, outlineWitness);
             })
             .Where(union => union.read)
             .DistinctBy(union => ReadSourceId(union.areaFrame))
             .ToArray();
         var finalColoredParticipantCount = 0;
         var finalColoredAreas = new List<SharedFrameAreaRead>();
-        foreach (var (_, finalColoredAreaFrame) in finalColoredUnions)
+        foreach (var (_, finalColoredAreaFrame, _) in finalColoredUnions)
         {
             if (finalColoredAreaFrame is Relation finalColoredAreaFrameRelation &&
                 GraphicBooleanSurface.TryReadAreaFrame(finalColoredAreaFrameRelation, out var finalColoredParticipants))
@@ -905,9 +934,13 @@ internal static class Program
             }
         }
 
+        var finalColoredOutlines = finalColoredUnions
+            .SelectMany(union => GraphicReadGraph.From(union.outlineWitness).ReadsOf<ClosedSharedFrameBoundaryRead>())
+            .ToArray();
         if (finalColoredUnions.Length < expectedUnionLanes ||
             finalColoredAreas.Count(area => !area.IsAntiArea) < expectedUnionLanes ||
-            finalColoredAreas.Count(area => area.IsAntiArea) < 8)
+            finalColoredAreas.Any(area => area.IsAntiArea) ||
+            finalColoredOutlines.Length < expectedUnionLanes + 8)
         {
             throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not keep the final holes as unfilled area cuts.");
         }
@@ -1008,15 +1041,8 @@ internal static class Program
         var readMaxY = 0L;
         var sawPoint = false;
 
-        void Include(SharedFramePointRead point)
+        void Include(long x, long y)
         {
-            if (point.Coordinates.Count < 2)
-            {
-                return;
-            }
-
-            var x = point.Coordinates[0].Ticks;
-            var y = point.Coordinates[1].Ticks;
             if (!sawPoint)
             {
                 readMinX = readMaxX = x;
@@ -1031,16 +1057,25 @@ internal static class Program
             readMaxY = Math.Max(readMaxY, y);
         }
 
+        void IncludePoint(SharedFramePointRead point)
+        {
+            if (point.Coordinates.Count < 2)
+            {
+                return;
+            }
+
+            Include(point.Coordinates[0].Ticks, point.Coordinates[1].Ticks);
+        }
+
         foreach (var segment in boundary.Segments)
         {
-            Include(segment.Start);
-            Include(segment.End);
+            IncludePoint(segment.Start);
+            IncludePoint(segment.End);
         }
 
         foreach (var arc in boundary.Arcs ?? [])
         {
-            Include(arc.Start);
-            Include(arc.End);
+            IncludeArc(arc);
         }
 
         minX = readMinX;
@@ -1048,6 +1083,50 @@ internal static class Program
         minY = readMinY;
         maxY = readMaxY;
         return sawPoint;
+
+        void IncludeArc(SharedFrameArcRead arc)
+        {
+            if (arc.Center.Coordinates.Count < 2 ||
+                arc.Start.Coordinates.Count < 2 ||
+                arc.End.Coordinates.Count < 2)
+            {
+                return;
+            }
+
+            var centerX = arc.Center.Coordinates[0].Ticks;
+            var centerY = arc.Center.Coordinates[1].Ticks;
+            var startX = arc.Start.Coordinates[0].Ticks;
+            var startY = arc.Start.Coordinates[1].Ticks;
+            var endX = arc.End.Coordinates[0].Ticks;
+            var endY = arc.End.Coordinates[1].Ticks;
+            var radius = (Math.Sqrt(Math.Pow(startX - centerX, 2) + Math.Pow(startY - centerY, 2)) +
+                Math.Sqrt(Math.Pow(endX - centerX, 2) + Math.Pow(endY - centerY, 2))) * 0.5d;
+            var startAngle = Math.Atan2(startY - centerY, startX - centerX);
+            var sweep = ShortestSweep(startAngle, Math.Atan2(endY - centerY, endX - centerX));
+            for (var index = 0; index <= 32; index++)
+            {
+                var angle = startAngle + sweep * (index / 32d);
+                Include(
+                    (long)Math.Round(centerX + Math.Cos(angle) * radius),
+                    (long)Math.Round(centerY + Math.Sin(angle) * radius));
+            }
+        }
+
+        static double ShortestSweep(double startAngle, double endAngle)
+        {
+            var sweep = endAngle - startAngle;
+            while (sweep <= -Math.PI)
+            {
+                sweep += Math.PI * 2d;
+            }
+
+            while (sweep > Math.PI)
+            {
+                sweep -= Math.PI * 2d;
+            }
+
+            return sweep;
+        }
     }
 
     private static bool TryReadSharedFrameCircleBoundary(

@@ -133,7 +133,7 @@ public sealed class GojoCadSkiaAdapter
                 out var outline,
                 out _,
                 out _) ||
-            BuildAreaUnionPath(areaFrame, projection) is not { } path)
+            BuildAreaUnionPath(areaFrame, outline, projection) is not { } path)
         {
             return 0;
         }
@@ -176,7 +176,21 @@ public sealed class GojoCadSkiaAdapter
         return drawn;
     }
 
-    private static SKPath? BuildAreaUnionPath(IElement areaFrame, IGojoCadSkiaProjection projection)
+    private static SKPath? BuildAreaUnionPath(
+        IElement areaFrame,
+        IElement outline,
+        IGojoCadSkiaProjection projection)
+    {
+        if (!AreaFrameHasAntiAreas(areaFrame) &&
+            BuildAreaUnionOutlinePath(outline, projection) is { } outlinePath)
+        {
+            return outlinePath;
+        }
+
+        return BuildAreaFrameUnionPath(areaFrame, projection);
+    }
+
+    private static SKPath? BuildAreaFrameUnionPath(IElement areaFrame, IGojoCadSkiaProjection projection)
     {
         if (areaFrame is not Relation frame ||
             !GraphicBooleanSurface.TryReadAreaFrame(frame, out var participants) ||
@@ -234,6 +248,53 @@ public sealed class GojoCadSkiaAdapter
 
         return composite;
     }
+
+    private static SKPath? BuildAreaUnionOutlinePath(IElement outline, IGojoCadSkiaProjection projection)
+    {
+        var graph = GraphicReadGraph.From(outline);
+        var composite = new SKPath
+        {
+            FillType = SKPathFillType.Winding
+        };
+        var hasPath = false;
+        foreach (var boundary in graph.ReadsOf<ClosedSharedFrameBoundaryRead>()
+            .DistinctBy(boundary => ReadSourceId(boundary.Source)))
+        {
+            using var path = BuildClosedSharedFrameBoundaryPath(boundary, projection);
+            if (path is null)
+            {
+                continue;
+            }
+
+            composite.AddPath(path);
+            hasPath = true;
+        }
+
+        foreach (var boundary in graph.ReadsOf<ClosedSegmentBoundaryRead>()
+            .DistinctBy(boundary => ReadSourceId(boundary.Source)))
+        {
+            using var path = BuildClosedSegmentBoundaryPath(boundary, projection);
+            if (path is null)
+            {
+                continue;
+            }
+
+            composite.AddPath(path);
+            hasPath = true;
+        }
+
+        if (hasPath)
+        {
+            return composite;
+        }
+
+        composite.Dispose();
+        return null;
+    }
+
+    private static bool AreaFrameHasAntiAreas(IElement areaFrame) =>
+        GraphicReadGraph.From(areaFrame).ReadsOf<SharedFrameAreaRead>().Any(area => area.IsAntiArea) ||
+        GraphicReadGraph.From(areaFrame).ReadsOf<AreaRead>().Any(area => area.IsAntiArea);
 
     private static SKPath? BuildAreaParticipantPath(
         IElement participant,

@@ -11,6 +11,7 @@ public static class GraphicAreaSettlementSurface
 {
     private const double Epsilon = 0.01;
     private const double SampleDistance = 0.55;
+    private const double EndpointSettlementDistance = 1.5;
     private const double MixedLoopMinimumArea = 256d;
 
     /// <summary>
@@ -32,6 +33,18 @@ public static class GraphicAreaSettlementSurface
     {
         var settlement = CreateSettlement(areaFrame);
         return GraphicBooleanSurface.AreaFrame(RootOrNew(root), [.. settlement.PositiveAreaFills]);
+    }
+
+    /// <summary>
+    /// Settles an area frame into a positive area union whose outline witness
+    /// carries both exterior and unfilled interior loops.
+    /// </summary>
+    public static Relation SettledPositiveAreaUnion(Carrier root, IElement areaFrame)
+    {
+        var settlement = CreateSettlement(areaFrame);
+        var settledAreaFrame = GraphicBooleanSurface.AreaFrame(new Carrier(), [.. settlement.ResolvedPositiveAreaFills]);
+        var outlineFrame = GraphicOutlineSurface.OutlineFrame(new Carrier(), [.. settlement.Outlines]);
+        return GraphicBooleanSurface.AreaUnion(RootOrNew(root), settledAreaFrame, outlineFrame);
     }
 
     /// <summary>Reads the settled boundary loops from an area frame.</summary>
@@ -61,7 +74,7 @@ public static class GraphicAreaSettlementSurface
             !GraphicBooleanSurface.TryReadAreaFrame(frame, out var participantElements) ||
             participantElements.Length == 0)
         {
-            return new SettlementRead([], [], [], [], [], []);
+            return EmptySettlement();
         }
 
         var participants = participantElements
@@ -70,7 +83,7 @@ public static class GraphicAreaSettlementSurface
             .ToArray();
         if (participants.Length == 0)
         {
-            return new SettlementRead([], [], [], [], [], []);
+            return EmptySettlement();
         }
 
         var edges = participants
@@ -79,7 +92,7 @@ public static class GraphicAreaSettlementSurface
             .ToArray();
         if (edges.Length == 0)
         {
-            return new SettlementRead([], [], [], [], [], []);
+            return EmptySettlement();
         }
 
         var splitParameters = edges.ToDictionary(edge => edge, _ => new List<double> { 0d, 1d });
@@ -130,10 +143,11 @@ public static class GraphicAreaSettlementSurface
             }
         }
 
-        var frontierFragments = fragments
+        var settledFragments = SettleFragmentEndpoints(fragments);
+        var frontierFragments = settledFragments
             .DistinctBy(FragmentKey)
             .ToArray();
-        var loops = BuildLoops(frontierFragments);
+        var loops = BuildOneSidedBoundaryLoops(frontierFragments);
         var outlines = new List<IElement>();
         var positiveOutlines = new List<IElement>();
         var antiOutlines = new List<IElement>();
@@ -153,13 +167,13 @@ public static class GraphicAreaSettlementSurface
             var isConsistentSide = isFilledLeft || isUnfilledLeft;
             var isPositive = Contains(participants, InteriorSample(loop, signedArea));
             if (!isConsistentSide &&
-                (!isPositive || Math.Abs(signedArea) < MixedLoopMinimumArea) ||
-                !isPositive && signedArea < 0d)
+                (!isPositive || Math.Abs(signedArea) < MixedLoopMinimumArea))
             {
                 continue;
             }
 
-            var elements = loop.Select(fragment => fragment.ToElement()).ToArray();
+            var orientedLoop = OrientLoop(loop, isPositive, signedArea);
+            var elements = orientedLoop.Select(fragment => fragment.ToElement()).ToArray();
             if (elements.Length < 3)
             {
                 continue;
@@ -182,6 +196,10 @@ public static class GraphicAreaSettlementSurface
                 antiFills.Add(fill);
             }
         }
+
+        var resolvedAreaFills = fills.ToArray();
+        var resolvedPositiveAreaFills = positiveFills.ToArray();
+        var resolvedAntiAreaFills = antiFills.ToArray();
 
         var emittedPositiveBounds = fills
             .Where(HasPositiveAreaRead)
@@ -254,8 +272,14 @@ public static class GraphicAreaSettlementSurface
             [.. antiFills],
             [.. outlines],
             [.. positiveOutlines],
-            [.. antiOutlines]);
+            [.. antiOutlines],
+            resolvedAreaFills,
+            resolvedPositiveAreaFills,
+            resolvedAntiAreaFills);
     }
+
+    private static SettlementRead EmptySettlement() =>
+        new([], [], [], [], [], [], [], [], []);
 
     private static ParticipantRead ReadParticipant(IElement participant)
     {
@@ -573,14 +597,15 @@ public static class GraphicAreaSettlementSurface
         }
     }
 
-    private static IReadOnlyList<IReadOnlyList<FragmentRead>> BuildLoops(IReadOnlyList<FragmentRead> fragments)
+    private static IReadOnlyList<IReadOnlyList<FragmentRead>> BuildOneSidedBoundaryLoops(IReadOnlyList<FragmentRead> fragments)
     {
+        // Each fragment is already a local read of area on one orthogonal side
+        // and no-fill on the other; orient it so the filled side is walkable.
         var directed = fragments
-            .SelectMany((fragment, index) => new[]
-            {
-                new DirectedFragmentRead(index, IsReversed: false, fragment),
-                new DirectedFragmentRead(index, IsReversed: true, fragment.Reversed())
-            })
+            .Where(fragment => fragment.LeftInside != fragment.RightInside)
+            .Select((fragment, index) => new BoundaryFragmentRead(
+                index,
+                fragment.LeftInside ? fragment : fragment.Reversed()))
             .ToArray();
         var outgoingByStart = directed
             .GroupBy(edge => PointKey(edge.Fragment.Start))
@@ -589,48 +614,52 @@ public static class GraphicAreaSettlementSurface
                 group => group
                     .OrderBy(edge => DirectionAngle(edge.Fragment.TangentAtStart()))
                     .ToArray());
-        var visited = new HashSet<string>();
+        var used = new HashSet<int>();
         var loops = new List<IReadOnlyList<FragmentRead>>();
         foreach (var seed in directed)
         {
-            if (visited.Contains(seed.Key))
+            if (used.Contains(seed.FragmentIndex))
             {
                 continue;
             }
 
-            var loop = new List<DirectedFragmentRead>();
+            var loop = new List<BoundaryFragmentRead>();
+            var loopIndices = new HashSet<int>();
             var current = seed;
-            var walkSeen = new HashSet<string>();
+            var startKey = PointKey(seed.Fragment.Start);
             var isClosed = false;
             var guard = 0;
             while (guard++ < directed.Length + 2)
             {
-                if (!walkSeen.Add(current.Key))
+                if (used.Contains(current.FragmentIndex) ||
+                    !loopIndices.Add(current.FragmentIndex))
                 {
                     break;
                 }
 
                 loop.Add(current);
-                if (!TryChooseNextFaceEdge(current, outgoingByStart, out var next))
+                var endKey = PointKey(current.Fragment.End);
+                if (endKey == startKey)
+                {
+                    isClosed = true;
+                    break;
+                }
+
+                if (!TryChooseNextBoundaryEdge(current, outgoingByStart, used, loopIndices, out var next))
                 {
                     break;
                 }
 
                 current = next;
-                if (current.Key == seed.Key)
-                {
-                    isClosed = true;
-                    break;
-                }
+            }
+
+            foreach (var edge in loop)
+            {
+                used.Add(edge.FragmentIndex);
             }
 
             if (isClosed && loop.Count >= 3)
             {
-                foreach (var edge in loop)
-                {
-                    visited.Add(edge.Key);
-                }
-
                 loops.Add(loop.Select(edge => edge.Fragment).ToArray());
             }
         }
@@ -638,29 +667,57 @@ public static class GraphicAreaSettlementSurface
         return loops;
     }
 
-    private static bool TryChooseNextFaceEdge(
-        DirectedFragmentRead current,
-        IReadOnlyDictionary<string, DirectedFragmentRead[]> outgoingByStart,
-        out DirectedFragmentRead next)
+    private static IReadOnlyList<FragmentRead> SettleFragmentEndpoints(IReadOnlyList<FragmentRead> fragments)
     {
-        if (!outgoingByStart.TryGetValue(PointKey(current.Fragment.End), out var outgoing) ||
-            outgoing.Length == 0)
+        // Intersection reads from different carriers can differ by sub-tick
+        // residue. Settle nearby endpoints into one shared reference point.
+        var settledPoints = new List<Point2>();
+
+        Point2 Settle(Point2 point)
         {
-            next = default!;
+            foreach (var settled in settledPoints)
+            {
+                if (Length(settled - point) <= EndpointSettlementDistance)
+                {
+                    return settled;
+                }
+            }
+
+            settledPoints.Add(point);
+            return point;
+        }
+
+        return [.. fragments.Select(fragment => fragment.WithEndpoints(
+            Settle(fragment.Start),
+            Settle(fragment.End)))];
+    }
+
+    private static bool TryChooseNextBoundaryEdge(
+        BoundaryFragmentRead current,
+        IReadOnlyDictionary<string, BoundaryFragmentRead[]> outgoingByStart,
+        IReadOnlySet<int> used,
+        IReadOnlySet<int> loopIndices,
+        out BoundaryFragmentRead next)
+    {
+        if (!outgoingByStart.TryGetValue(PointKey(current.Fragment.End), out var outgoing))
+        {
+            next = default;
             return false;
         }
 
-        var reverseIndex = Array.FindIndex(
-            outgoing,
-            candidate => candidate.FragmentIndex == current.FragmentIndex &&
-                candidate.IsReversed != current.IsReversed);
-        if (reverseIndex < 0)
+        var candidates = outgoing
+            .Where(candidate => !used.Contains(candidate.FragmentIndex) && !loopIndices.Contains(candidate.FragmentIndex))
+            .ToArray();
+        if (candidates.Length == 0)
         {
-            next = default!;
+            next = default;
             return false;
         }
 
-        next = outgoing[(reverseIndex - 1 + outgoing.Length) % outgoing.Length];
+        var incomingAngle = DirectionAngle(current.Fragment.TangentAtEnd());
+        next = candidates
+            .OrderBy(candidate => AbsoluteTurn(incomingAngle, DirectionAngle(candidate.Fragment.TangentAtStart())))
+            .First();
         return true;
     }
 
@@ -669,6 +726,19 @@ public static class GraphicAreaSettlementSurface
         return signedArea >= 0d
             ? loop[0].LeftSample()
             : loop[0].RightSample();
+    }
+
+    private static IReadOnlyList<FragmentRead> OrientLoop(
+        IReadOnlyList<FragmentRead> loop,
+        bool isPositive,
+        double signedArea)
+    {
+        var shouldReverse = isPositive
+            ? signedArea > 0d
+            : signedArea < 0d;
+        return shouldReverse
+            ? [.. loop.Reverse().Select(fragment => fragment.Reversed())]
+            : loop;
     }
 
     private static double SignedArea(IReadOnlyList<FragmentRead> loop)
@@ -926,6 +996,22 @@ public static class GraphicAreaSettlementSurface
     private static double DirectionAngle(Point2 direction) =>
         Math.Atan2(direction.Y, direction.X);
 
+    private static double AbsoluteTurn(double fromAngle, double toAngle)
+    {
+        var turn = toAngle - fromAngle;
+        while (turn <= -Math.PI)
+        {
+            turn += Math.PI * 2d;
+        }
+
+        while (turn > Math.PI)
+        {
+            turn -= Math.PI * 2d;
+        }
+
+        return Math.Abs(turn);
+    }
+
     private static double ShortestSweep(double startAngle, double endAngle)
     {
         var sweep = endAngle - startAngle;
@@ -950,7 +1036,10 @@ public static class GraphicAreaSettlementSurface
         IReadOnlyList<IElement> AntiAreaFills,
         IReadOnlyList<IElement> Outlines,
         IReadOnlyList<IElement> PositiveOutlines,
-        IReadOnlyList<IElement> AntiOutlines);
+        IReadOnlyList<IElement> AntiOutlines,
+        IReadOnlyList<IElement> ResolvedAreaFills,
+        IReadOnlyList<IElement> ResolvedPositiveAreaFills,
+        IReadOnlyList<IElement> ResolvedAntiAreaFills);
 
     private sealed record ParticipantRead(
         IElement Source,
@@ -1104,6 +1193,30 @@ public static class GraphicAreaSettlementSurface
         public FragmentRead WithSides(bool leftInside, bool rightInside) =>
             this with { LeftInside = leftInside, RightInside = rightInside };
 
+        public FragmentRead WithEndpoints(Point2 start, Point2 end)
+        {
+            if (!IsArc)
+            {
+                return this with { Start = start, End = end };
+            }
+
+            var startAngle = Angle(Center, start);
+            var sweep = ShortestSweep(startAngle, Angle(Center, end));
+            if (Math.Abs(sweep) >= Epsilon &&
+                Math.Sign(sweep) != Math.Sign(Sweep))
+            {
+                sweep += sweep > 0d ? -Math.PI * 2d : Math.PI * 2d;
+            }
+
+            return this with
+            {
+                Start = start,
+                End = end,
+                StartAngle = startAngle,
+                Sweep = sweep
+            };
+        }
+
         public FragmentRead Reversed() =>
             new(Template, IsArc, End, Start, Center, Radius, StartAngle + Sweep, -Sweep, RightInside, LeftInside);
 
@@ -1222,13 +1335,9 @@ public static class GraphicAreaSettlementSurface
             MaxY >= other.MinY;
     }
 
-    private readonly record struct DirectedFragmentRead(
+    private readonly record struct BoundaryFragmentRead(
         int FragmentIndex,
-        bool IsReversed,
-        FragmentRead Fragment)
-    {
-        public string Key => $"{FragmentIndex}:{(IsReversed ? 1 : 0)}";
-    }
+        FragmentRead Fragment);
 
     private readonly record struct Point2(double X, double Y)
     {

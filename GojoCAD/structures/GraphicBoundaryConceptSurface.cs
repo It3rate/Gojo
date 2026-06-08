@@ -73,6 +73,24 @@ public static class GraphicBoundaryConceptSurface
     {
         var graph = GraphicReadGraph.From(source ?? GraphicConceptShape.TensionSlot());
         var candidates = new List<IElement>();
+        var seenTips = new HashSet<string>();
+
+        void AddCandidate(SharedFramePointRead framePoint, IElement terminatingEdge)
+        {
+            var key = $"{SourceId(framePoint.Source)}:{SourceId(terminatingEdge)}";
+            if (!seenTips.Add(key))
+            {
+                return;
+            }
+
+            candidates.Add(GraphicSelectionSurface.Frame(
+                new Carrier(),
+                GraphicConceptShape.LineTipEvidenceSurface(new Carrier()),
+                CreateWitness(framePoint, witnessRadiusTicks),
+                framePoint.Source,
+                terminatingEdge));
+        }
+
         foreach (var pathGraph in graph.ReadsOf<PathGraphRead>())
         foreach (var node in pathGraph.Nodes.Where(node => node.Valence == 1))
         {
@@ -82,12 +100,22 @@ public static class GraphicBoundaryConceptSurface
                 continue;
             }
 
-            candidates.Add(GraphicSelectionSurface.Frame(
-                new Carrier(),
-                GraphicConceptShape.LineTipEvidenceSurface(new Carrier()),
-                CreateWitness(framePoint, witnessRadiusTicks),
-                framePoint.Source,
-                endpoint.Segment.Source));
+            AddCandidate(framePoint, endpoint.Segment.Source);
+        }
+
+        var closedBoundarySegmentIds = graph.ReadsOf<ClosedSharedFrameBoundaryRead>()
+            .SelectMany(boundary => boundary.Segments)
+            .Select(segment => SourceId(segment.Source))
+            .ToHashSet();
+        foreach (var arc in graph.ReadsOf<SharedFrameArcRead>())
+        {
+            if (closedBoundarySegmentIds.Contains(SourceId(arc.Span.Source)))
+            {
+                continue;
+            }
+
+            AddCandidate(arc.Start, arc.Span.Source);
+            AddCandidate(arc.End, arc.Span.Source);
         }
 
         return GraphicSelectionSurface.Frame(RootOrNew(root), [.. candidates]);
@@ -256,6 +284,77 @@ public static class GraphicBoundaryConceptSurface
 
     private readonly record struct FramePointTicks(SharedFramePointRead Template, long X, long Y);
 
+    private readonly record struct PointTicks(double X, double Y);
+
+    private sealed record EdgeGeometry(
+        SharedFramePointRead Template,
+        bool IsArc,
+        PointTicks Start,
+        PointTicks End,
+        PointTicks Center,
+        double Radius)
+    {
+        public double LengthFromEndToStart() =>
+            IsArc
+                ? Radius * Math.Abs(ShortestSweep(Angle(Center, End), Angle(Center, Start)))
+                : Distance(End, Start);
+
+        public double LengthFromStartToEnd() =>
+            IsArc
+                ? Radius * Math.Abs(ShortestSweep(Angle(Center, Start), Angle(Center, End)))
+                : Distance(Start, End);
+
+        public bool TryDirectionAwayFromEnd(out double unitX, out double unitY) =>
+            TryUnit(End, RawPointFromEnd(Math.Min(1d, LengthFromEndToStart() * 0.5d)), out unitX, out unitY);
+
+        public bool TryDirectionAwayFromStart(out double unitX, out double unitY) =>
+            TryUnit(Start, RawPointFromStart(Math.Min(1d, LengthFromStartToEnd() * 0.5d)), out unitX, out unitY);
+
+        public FramePointTicks PointFromEnd(double distance) =>
+            ToFramePoint(RawPointFromEnd(distance));
+
+        public FramePointTicks PointFromStart(double distance) =>
+            ToFramePoint(RawPointFromStart(distance));
+
+        private PointTicks RawPointFromEnd(double distance) =>
+            IsArc
+                ? ArcPoint(End, Start, distance)
+                : LinePoint(End, Start, distance);
+
+        private PointTicks RawPointFromStart(double distance) =>
+            IsArc
+                ? ArcPoint(Start, End, distance)
+                : LinePoint(Start, End, distance);
+
+        private FramePointTicks ToFramePoint(PointTicks point) =>
+            new(Template, Rounded(point.X), Rounded(point.Y));
+
+        private PointTicks LinePoint(PointTicks from, PointTicks to, double distance)
+        {
+            if (!TryUnit(from, to, out var unitX, out var unitY))
+            {
+                return from;
+            }
+
+            return new PointTicks(from.X + unitX * distance, from.Y + unitY * distance);
+        }
+
+        private PointTicks ArcPoint(PointTicks from, PointTicks to, double distance)
+        {
+            var startAngle = Angle(Center, from);
+            var sweep = ShortestSweep(startAngle, Angle(Center, to));
+            var maxDistance = Radius * Math.Abs(sweep);
+            var clampedDistance = Math.Clamp(distance, 0d, maxDistance);
+            var angleOffset = Radius <= 0d
+                ? 0d
+                : Math.Sign(sweep) * clampedDistance / Radius;
+            var angle = startAngle + angleOffset;
+            return new PointTicks(
+                Center.X + Math.Cos(angle) * Radius,
+                Center.Y + Math.Sin(angle) * Radius);
+        }
+    }
+
     private static IEnumerable<SharedFramePointRead> ReadSelectedSharedFramePoints(IElement selection)
     {
         if (selection is not Relation selectionRelation ||
@@ -423,9 +522,14 @@ public static class GraphicBoundaryConceptSurface
                 continue;
             }
 
-            if (arcBySpanSource.ContainsKey(SourceId(edge.Segment.Source)) ||
-                arcBySpanSource.ContainsKey(SourceId(next.Segment.Source)) ||
-                !TryCreateLineLineRound(edge, next, radiusTicks, out var incomingTrim, out var outgoingTrim, out var arc))
+            if (!TryCreateRoundedJoin(
+                    edge,
+                    next,
+                    arcBySpanSource,
+                    radiusTicks,
+                    out var incomingTrim,
+                    out var outgoingTrim,
+                    out var arc))
             {
                 residue.Add(selected.Source);
                 continue;
@@ -464,7 +568,9 @@ public static class GraphicBoundaryConceptSurface
                     : edge.EndEndpoint.Point.Source;
                 if (!SameFramePoint(start, end))
                 {
-                    elements.Add(GraphicStructure.FrameSegment((Relation)start, (Relation)end));
+                    elements.Add(arcBySpanSource.TryGetValue(segmentId, out sourceArc)
+                        ? GraphicStructure.FrameArc((Relation)sourceArc.Center.Source, (Relation)start, (Relation)end)
+                        : GraphicStructure.FrameSegment((Relation)start, (Relation)end));
                 }
             }
 
@@ -555,6 +661,128 @@ public static class GraphicBoundaryConceptSurface
             CreateFramePoint(incomingTrim),
             CreateFramePoint(outgoingTrim));
         return true;
+    }
+
+    private static bool TryCreateRoundedJoin(
+        OrientedBoundaryEdge incoming,
+        OrientedBoundaryEdge outgoing,
+        IReadOnlyDictionary<ulong, SharedFrameArcRead> arcBySpanSource,
+        long radiusTicks,
+        out FramePointTicks incomingTrim,
+        out FramePointTicks outgoingTrim,
+        out IElement arc)
+    {
+        incomingTrim = default;
+        outgoingTrim = default;
+        arc = default!;
+        if (!TryReadEdgeGeometry(incoming, arcBySpanSource, out var incomingGeometry) ||
+            !TryReadEdgeGeometry(outgoing, arcBySpanSource, out var outgoingGeometry) ||
+            !SamePoint(incomingGeometry.End, outgoingGeometry.Start))
+        {
+            return false;
+        }
+
+        if (!incomingGeometry.IsArc &&
+            !outgoingGeometry.IsArc)
+        {
+            return TryCreateLineLineRound(incoming, outgoing, radiusTicks, out incomingTrim, out outgoingTrim, out arc);
+        }
+
+        var cusp = incomingGeometry.End;
+        var incomingLength = incomingGeometry.LengthFromEndToStart();
+        var outgoingLength = outgoingGeometry.LengthFromStartToEnd();
+        if (incomingLength <= 0d ||
+            outgoingLength <= 0d ||
+            !incomingGeometry.TryDirectionAwayFromEnd(out var incomingAwayX, out var incomingAwayY) ||
+            !outgoingGeometry.TryDirectionAwayFromStart(out var outgoingAwayX, out var outgoingAwayY))
+        {
+            return false;
+        }
+
+        var dot = Math.Clamp(
+            incomingAwayX * outgoingAwayX + incomingAwayY * outgoingAwayY,
+            -0.999,
+            0.999);
+        var theta = Math.Acos(dot);
+        var halfTheta = theta / 2.0;
+        var tangentDistance = radiusTicks / Math.Tan(halfTheta);
+        var maxTangentDistance = Math.Min(incomingLength, outgoingLength) * 0.45;
+        tangentDistance = Math.Min(tangentDistance, maxTangentDistance);
+        var effectiveRadius = tangentDistance * Math.Tan(halfTheta);
+        var bisectorX = incomingAwayX + outgoingAwayX;
+        var bisectorY = incomingAwayY + outgoingAwayY;
+        var bisectorLength = Math.Sqrt(bisectorX * bisectorX + bisectorY * bisectorY);
+        if (tangentDistance <= 0d ||
+            effectiveRadius <= 0d ||
+            bisectorLength <= 0d)
+        {
+            return false;
+        }
+
+        bisectorX /= bisectorLength;
+        bisectorY /= bisectorLength;
+        var centerDistance = effectiveRadius / Math.Sin(halfTheta);
+        incomingTrim = incomingGeometry.PointFromEnd(tangentDistance);
+        outgoingTrim = outgoingGeometry.PointFromStart(tangentDistance);
+        var center = new FramePointTicks(
+            incoming.EndEndpoint.Point,
+            Rounded(cusp.X + bisectorX * centerDistance),
+            Rounded(cusp.Y + bisectorY * centerDistance));
+        if (SameFramePoint(incomingTrim, incoming.EndEndpoint.Point) ||
+            SameFramePoint(outgoingTrim, outgoing.StartEndpoint.Point))
+        {
+            return false;
+        }
+
+        arc = GraphicStructure.FrameArc(
+            CreateFramePoint(center),
+            CreateFramePoint(incomingTrim),
+            CreateFramePoint(outgoingTrim));
+        return true;
+    }
+
+    private static bool TryReadEdgeGeometry(
+        OrientedBoundaryEdge edge,
+        IReadOnlyDictionary<ulong, SharedFrameArcRead> arcBySpanSource,
+        out EdgeGeometry geometry)
+    {
+        geometry = default!;
+        if (!TryReadPointTicks(edge.StartEndpoint.Point, out var startX, out var startY) ||
+            !TryReadPointTicks(edge.EndEndpoint.Point, out var endX, out var endY))
+        {
+            return false;
+        }
+
+        var start = new PointTicks(startX, startY);
+        var end = new PointTicks(endX, endY);
+        if (arcBySpanSource.TryGetValue(SourceId(edge.Segment.Source), out var arc) &&
+            TryReadPointTicks(arc.Center, out var centerX, out var centerY))
+        {
+            var center = new PointTicks(centerX, centerY);
+            var radius = (Distance(center, start) + Distance(center, end)) * 0.5d;
+            if (radius <= 0d)
+            {
+                return false;
+            }
+
+            geometry = new EdgeGeometry(
+                edge.StartEndpoint.Point,
+                IsArc: true,
+                start,
+                end,
+                center,
+                radius);
+            return true;
+        }
+
+        geometry = new EdgeGeometry(
+            edge.StartEndpoint.Point,
+            IsArc: false,
+            start,
+            end,
+            default,
+            Radius: 0d);
+        return Distance(start, end) > 0d;
     }
 
     private static bool TryReadOrientedBoundaryEdges(
@@ -680,6 +908,33 @@ public static class GraphicBoundaryConceptSurface
         left.X == right.Coordinates[0].Ticks &&
         left.Y == right.Coordinates[1].Ticks;
 
+    private static bool SamePoint(PointTicks left, PointTicks right) =>
+        Distance(left, right) < 0.01d;
+
+    private static double Distance(PointTicks left, PointTicks right)
+    {
+        var deltaX = left.X - right.X;
+        var deltaY = left.Y - right.Y;
+        return Math.Sqrt(deltaX * deltaX + deltaY * deltaY);
+    }
+
+    private static bool TryUnit(PointTicks from, PointTicks to, out double unitX, out double unitY)
+    {
+        var deltaX = to.X - from.X;
+        var deltaY = to.Y - from.Y;
+        var length = Math.Sqrt(deltaX * deltaX + deltaY * deltaY);
+        if (length <= 0d)
+        {
+            unitX = 0d;
+            unitY = 0d;
+            return false;
+        }
+
+        unitX = deltaX / length;
+        unitY = deltaY / length;
+        return true;
+    }
+
     private static bool SameFramePoint(SharedFramePointRead left, SharedFramePointRead right) =>
         left.Coordinates.Count >= 2 &&
         right.Coordinates.Count >= 2 &&
@@ -694,6 +949,25 @@ public static class GraphicBoundaryConceptSurface
 
     private static long Rounded(double value) =>
         (long)Math.Round(value, MidpointRounding.AwayFromZero);
+
+    private static double Angle(PointTicks center, PointTicks point) =>
+        Math.Atan2(point.Y - center.Y, point.X - center.X);
+
+    private static double ShortestSweep(double startAngle, double endAngle)
+    {
+        var sweep = endAngle - startAngle;
+        while (sweep <= -Math.PI)
+        {
+            sweep += Math.PI * 2d;
+        }
+
+        while (sweep > Math.PI)
+        {
+            sweep -= Math.PI * 2d;
+        }
+
+        return sweep;
+    }
 
     private static ulong SourceId(IElement source) =>
         source is Relation relation ? relation.Id : 0UL;
