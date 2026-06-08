@@ -899,273 +899,12 @@ internal static partial class SketchSamples
 
         IElement[] DerivedOrthogonalInteriorFills(
             IElement offsetSideWitness,
-            long distanceTicks)
-        {
-            var participants = new List<IElement>();
-            foreach (var source in OffsetWitnessSources(offsetSideWitness)
-                .DistinctBy(SourceId))
-            {
-                participants.AddRange(OrthogonalInteriorFillsFromSource(
-                    source,
-                    distanceTicks));
-            }
-
-            return [.. participants];
-        }
-
-        IEnumerable<IElement> OffsetWitnessSources(IElement source)
-        {
-            if (source is Relation relation &&
-                GraphicOffsetSurface.TryReadBoundarySideWitness(
-                    relation,
-                    out var witnessSource,
-                    out _,
-                    out _,
-                    out _))
-            {
-                yield return witnessSource;
-                yield break;
-            }
-
-            if (source is Relation group &&
-                group.Right is Carrier holder &&
-                group.TryReadOrderedElementsOn(holder, out var elements))
-            {
-                foreach (var element in elements)
-                foreach (var nestedWitnessSource in OffsetWitnessSources(element))
-                {
-                    yield return nestedWitnessSource;
-                }
-            }
-        }
-
-        IElement[] OrthogonalInteriorFillsFromSource(
-            IElement source,
-            long distanceTicks)
-        {
-            var distance = Math.Abs(distanceTicks);
-            var participants = new List<IElement>();
-            foreach (var (startX, startY, endX, endY) in SettledOpenSharedFrameLineSegmentTicks(source))
-            {
-                if (TryLineBandFill(startX, startY, endX, endY, distance, out var bandFill))
-                {
-                    participants.Add(bandFill);
-                }
-            }
-
-            foreach (var arc in OpenSharedFrameArcs(source))
-            {
-                if (!TryReadPointTicks(arc.Center, out var centerX, out var centerY) ||
-                    !TryReadPointTicks(arc.Start, out var startX, out var startY) ||
-                    !TryReadPointTicks(arc.End, out var endX, out var endY))
-                {
-                    continue;
-                }
-
-                if (TryArcBandFill(centerX, centerY, startX, startY, endX, endY, distance, out var arcBandFill))
-                {
-                    participants.Add(arcBandFill);
-                }
-            }
-
-            var graph = GraphicReadGraph.From(source);
-            foreach (var boundary in graph.ReadsOf<ClosedSharedFrameBoundaryRead>()
-                .DistinctBy(boundary => SourceId(boundary.Source)))
-            {
-                if (TryReadCircleBoundary(boundary, out var centerX, out var centerY, out var radius))
-                {
-                    participants.AddRange(CircleOutwardBandFills(centerX, centerY, radius, distance));
-                    continue;
-                }
-
-                if (!TryReadAxisAlignedRectangleBoundary(boundary, out var minX, out var maxX, out var minY, out var maxY))
-                {
-                    continue;
-                }
-
-                participants.AddRange(RectangleOutwardBandFills(minX, maxX, minY, maxY, distance));
-            }
-
-            return [.. participants];
-        }
-
-        bool TryLineBandFill(
-            long startX,
-            long startY,
-            long endX,
-            long endY,
             long distanceTicks,
-            out IElement fill)
-        {
-            var deltaX = endX - startX;
-            var deltaY = endY - startY;
-            var length = Math.Sqrt(deltaX * deltaX + deltaY * deltaY);
-            if (length <= 0d)
-            {
-                fill = UnknownPoint();
-                return false;
-            }
-
-            var normalX = (long)Math.Round(-deltaY / length * distanceTicks);
-            var normalY = (long)Math.Round(deltaX / length * distanceTicks);
-            fill = PolygonFill(
-                (startX + normalX, startY + normalY),
-                (endX + normalX, endY + normalY),
-                (endX - normalX, endY - normalY),
-                (startX - normalX, startY - normalY));
-            return true;
-        }
-
-        bool TryArcBandFill(
-            long centerX,
-            long centerY,
-            long startX,
-            long startY,
-            long endX,
-            long endY,
-            long distanceTicks,
-            out IElement fill)
-        {
-            var startRadius = Math.Sqrt(
-                Math.Pow(startX - centerX, 2) +
-                Math.Pow(startY - centerY, 2));
-            var endRadius = Math.Sqrt(
-                Math.Pow(endX - centerX, 2) +
-                Math.Pow(endY - centerY, 2));
-            var radius = Math.Min(startRadius, endRadius);
-            if (radius <= distanceTicks ||
-                radius <= 0d)
-            {
-                fill = UnknownPoint();
-                return false;
-            }
-
-            (long X, long Y) OffsetArcPoint(long pointX, long pointY, double offsetRadius)
-            {
-                var dx = pointX - centerX;
-                var dy = pointY - centerY;
-                var length = Math.Sqrt(dx * dx + dy * dy);
-                return length <= 0d
-                    ? (pointX, pointY)
-                    : (
-                        centerX + (long)Math.Round(dx / length * offsetRadius),
-                        centerY + (long)Math.Round(dy / length * offsetRadius));
-            }
-
-            var outerStart = OffsetArcPoint(startX, startY, radius + distanceTicks);
-            var outerEnd = OffsetArcPoint(endX, endY, radius + distanceTicks);
-            var innerStart = OffsetArcPoint(startX, startY, radius - distanceTicks);
-            var innerEnd = OffsetArcPoint(endX, endY, radius - distanceTicks);
-            fill = GraphicStructure.AreaFill(
-                Arc(centerX, centerY, outerStart.X, outerStart.Y, outerEnd.X, outerEnd.Y),
-                Segment(outerEnd.X, outerEnd.Y, innerEnd.X, innerEnd.Y),
-                Arc(centerX, centerY, innerEnd.X, innerEnd.Y, innerStart.X, innerStart.Y),
-                Segment(innerStart.X, innerStart.Y, outerStart.X, outerStart.Y));
-            return true;
-        }
-
-        IElement[] CircleOutwardBandFills(long centerX, long centerY, long radius, long distanceTicks)
-        {
-            if (radius <= 0)
-            {
-                return [DiskFill(centerX, centerY, distanceTicks)];
-            }
-
-            var points = new (long X, long Y)[]
-            {
-                (centerX + radius, centerY),
-                (centerX, centerY + radius),
-                (centerX - radius, centerY),
-                (centerX, centerY - radius)
-            };
-            var fills = new List<IElement>();
-            for (var index = 0; index < points.Length; index++)
-            {
-                var start = points[index];
-                var end = points[(index + 1) % points.Length];
-                if (TryArcBandFillWithRadii(
-                        centerX,
-                        centerY,
-                        start.X,
-                        start.Y,
-                        end.X,
-                        end.Y,
-                        innerRadius: radius,
-                        outerRadius: radius + distanceTicks,
-                        out var fill))
-                {
-                    fills.Add(fill);
-                }
-            }
-
-            return [.. fills];
-        }
-
-        IElement[] RectangleOutwardBandFills(long minX, long maxX, long minY, long maxY, long distanceTicks) =>
-        [
-            PolygonFill(
-                (minX - distanceTicks, minY - distanceTicks),
-                (maxX + distanceTicks, minY - distanceTicks),
-                (maxX, minY),
-                (minX, minY)),
-            PolygonFill(
-                (maxX + distanceTicks, minY - distanceTicks),
-                (maxX + distanceTicks, maxY + distanceTicks),
-                (maxX, maxY),
-                (maxX, minY)),
-            PolygonFill(
-                (maxX + distanceTicks, maxY + distanceTicks),
-                (minX - distanceTicks, maxY + distanceTicks),
-                (minX, maxY),
-                (maxX, maxY)),
-            PolygonFill(
-                (minX - distanceTicks, maxY + distanceTicks),
-                (minX - distanceTicks, minY - distanceTicks),
-                (minX, minY),
-                (minX, maxY))
-        ];
-
-        bool TryArcBandFillWithRadii(
-            long centerX,
-            long centerY,
-            long startX,
-            long startY,
-            long endX,
-            long endY,
-            double innerRadius,
-            double outerRadius,
-            out IElement fill)
-        {
-            if (innerRadius < 0d ||
-                outerRadius <= innerRadius)
-            {
-                fill = UnknownPoint();
-                return false;
-            }
-
-            (long X, long Y) OffsetArcPoint(long pointX, long pointY, double offsetRadius)
-            {
-                var dx = pointX - centerX;
-                var dy = pointY - centerY;
-                var length = Math.Sqrt(dx * dx + dy * dy);
-                return length <= 0d
-                    ? (pointX, pointY)
-                    : (
-                        centerX + (long)Math.Round(dx / length * offsetRadius),
-                        centerY + (long)Math.Round(dy / length * offsetRadius));
-            }
-
-            var outerStart = OffsetArcPoint(startX, startY, outerRadius);
-            var outerEnd = OffsetArcPoint(endX, endY, outerRadius);
-            var innerStart = OffsetArcPoint(startX, startY, innerRadius);
-            var innerEnd = OffsetArcPoint(endX, endY, innerRadius);
-            fill = GraphicStructure.AreaFill(
-                Arc(centerX, centerY, outerStart.X, outerStart.Y, outerEnd.X, outerEnd.Y),
-                Segment(outerEnd.X, outerEnd.Y, innerEnd.X, innerEnd.Y),
-                Arc(centerX, centerY, innerEnd.X, innerEnd.Y, innerStart.X, innerStart.Y),
-                Segment(innerStart.X, innerStart.Y, outerStart.X, outerStart.Y));
-            return true;
-        }
+            IElement? outwardOnlyCircleSource = null) =>
+            GraphicOrthogonalFillSurface.OrthogonalFillParticipants(
+                offsetSideWitness,
+                distanceTicks,
+                outwardOnlyCircleSource);
 
         IElement[] PositiveAreaFillsFromAreaFrame(IElement sourceAreaFrame) =>
             [.. GraphicReadGraph.From(sourceAreaFrame)
@@ -1173,27 +912,6 @@ internal static partial class SketchSamples
                 .Where(area => !area.IsAntiArea)
                 .DistinctBy(area => SourceId(area.Source))
                 .Select(area => area.Source)];
-
-        Relation PolygonFill(params (long X, long Y)[] points)
-        {
-            if (points.Length < 3)
-            {
-                return UnknownPoint();
-            }
-
-            var edges = new IElement[points.Length];
-            for (var index = 0; index < points.Length; index++)
-            {
-                var start = points[index];
-                var end = points[(index + 1) % points.Length];
-                edges[index] = Segment(start.X, start.Y, end.X, end.Y);
-            }
-
-            return GraphicStructure.AreaFill(edges);
-        }
-
-        Relation DiskFill(long centerX, long centerY, long radius) =>
-            GraphicStructure.AreaFill(Circle(centerX, centerY, radius));
 
         Relation CenterHoleOutline(long innerRadius, long halfWidth, long signX, long signY)
         {
@@ -1662,7 +1380,7 @@ internal static partial class SketchSamples
         var endpointState = Group(trimmedCenterPlusStrokes, centerCircle, endpointCircles);
         var offsetBoundaries = Group(DerivedOffsetBoundaryElements(endpointState, offset, endpointCircles));
         var offsetSideWitness = OffsetSideWitness(endpointState, offsetBoundaries, offset, endpointCircles);
-        var fillParticipants = DerivedOrthogonalInteriorFills(offsetSideWitness, offset);
+        var fillParticipants = DerivedOrthogonalInteriorFills(offsetSideWitness, offset, endpointCircles);
         var centerHoleCutNE = CenterHoleAntiFill(1, 1);
         var centerHoleCutNW = CenterHoleAntiFill(-1, 1);
         var centerHoleCutSW = CenterHoleAntiFill(-1, -1);
@@ -1680,7 +1398,7 @@ internal static partial class SketchSamples
             centerHoleCutNW,
             centerHoleCutSW,
             centerHoleCutSE]);
-        var mergedAreaFrame = GraphicAreaSettlementSurface.SettledAreaFrame(new Carrier(), areaFrame);
+        var mergedAreaFrame = GraphicAreaSettlementSurface.SettledPositiveAreaFrame(new Carrier(), areaFrame);
         var roundedSourceAreaFrame = GraphicBooleanSurface.AreaFrame(
             new Carrier(),
             [.. fillParticipants,
@@ -1688,9 +1406,9 @@ internal static partial class SketchSamples
             roundedCenterHoleCutNW,
             roundedCenterHoleCutSW,
             roundedCenterHoleCutSE]);
-        var roundedAreaFrame = GraphicAreaSettlementSurface.SettledAreaFrame(new Carrier(), roundedSourceAreaFrame);
-        var unionInteriorHoles = GraphicOutlineSurface.AntiBoundaryOutlinesFromAreas(new Carrier(), mergedAreaFrame);
-        var roundedUnionInteriorHoles = GraphicOutlineSurface.AntiBoundaryOutlinesFromAreas(new Carrier(), roundedAreaFrame);
+        var roundedAreaFrame = GraphicAreaSettlementSurface.SettledPositiveAreaFrame(new Carrier(), roundedSourceAreaFrame);
+        var unionInteriorHoles = GraphicAreaSettlementSurface.SettledAntiBoundaryOutlinesFromAreas(new Carrier(), areaFrame);
+        var roundedUnionInteriorHoles = GraphicAreaSettlementSurface.SettledAntiBoundaryOutlinesFromAreas(new Carrier(), roundedSourceAreaFrame);
         if (!TryReadRadialProfile(
                 areaFrame,
                 out var profileArmReach,
@@ -1746,7 +1464,10 @@ internal static partial class SketchSamples
             GraphicOffsetSurface.RequestWithDistance(new Carrier(), endpointState, Distance(offset)),
             offsetSideWitness);
         var fillEvidence = GraphicParameterSurface.Frame(new Carrier(), offsetEvidence, areaFrame);
-        var fillUnion = GraphicBooleanSurface.AreaUnion(new Carrier(), mergedAreaFrame, GraphicOutlineSurface.BoundaryOutlinesFromAreas(new Carrier(), mergedAreaFrame));
+        var fillUnionOutline = Group(
+            GraphicAreaSettlementSurface.SettledPositiveBoundaryOutlinesFromAreas(new Carrier(), areaFrame),
+            unionInteriorHoles);
+        var fillUnion = GraphicBooleanSurface.AreaUnion(new Carrier(), mergedAreaFrame, fillUnionOutline);
         var fillUnionOutlineEvidence = GraphicOutlineSurface.FromArea(new Carrier(), fillUnion, unionInteriorHoles);
         var cuspPattern = GraphicBoundaryConceptSurface.CuspWitnessPattern(new Carrier(), new Placeholder());
         var interiorCuspDomain = GraphicBoundaryConceptSurface.CuspCandidateDomain(new Carrier(), unionInteriorHoles);
@@ -1933,13 +1654,15 @@ internal static partial class SketchSamples
         var hEndpointState = Group(hTrimmedCenterStrokes, hBodyShape, hEndpointCircles);
         var hOffsetBoundaries = Group(DerivedOffsetBoundaryElements(hEndpointState, offset, hEndpointCircles));
         var hOffsetSideWitness = OffsetSideWitness(hEndpointState, hOffsetBoundaries, offset, hEndpointCircles);
-        var hFillParticipants = DerivedOrthogonalInteriorFills(hOffsetSideWitness, offset);
+        var hFillParticipants = DerivedOrthogonalInteriorFills(hOffsetSideWitness, offset, hEndpointCircles);
         var hSeparateFills = Group(hFillParticipants);
         var hAreaFrame = GraphicBooleanSurface.AreaFrame(new Carrier(), hFillParticipants);
-        var hSettledAreaFrame = GraphicAreaSettlementSurface.SettledAreaFrame(new Carrier(), hAreaFrame);
+        var hSettledAreaFrame = GraphicAreaSettlementSurface.SettledPositiveAreaFrame(new Carrier(), hAreaFrame);
         var hMergedAreaFrame = hSettledAreaFrame;
-        hUnionInteriorHoles = GraphicOutlineSurface.AntiBoundaryOutlinesFromAreas(new Carrier(), hMergedAreaFrame);
-        var hFillOutlineWitness = GraphicOutlineSurface.BoundaryOutlinesFromAreas(new Carrier(), hMergedAreaFrame);
+        hUnionInteriorHoles = GraphicAreaSettlementSurface.SettledAntiBoundaryOutlinesFromAreas(new Carrier(), hAreaFrame);
+        var hFillOutlineWitness = Group(
+            GraphicAreaSettlementSurface.SettledPositiveBoundaryOutlinesFromAreas(new Carrier(), hAreaFrame),
+            hUnionInteriorHoles);
         var hOffsetEvidence = GraphicParameterSurface.Frame(
             new Carrier(),
             GraphicOffsetSurface.RequestWithDistance(new Carrier(), hEndpointState, Distance(offset)),
@@ -1974,7 +1697,7 @@ internal static partial class SketchSamples
         var hRoundedSourceAreaFrame = GraphicBooleanSurface.AreaFrame(
             new Carrier(),
             [.. hPositiveFillParticipants, .. AntiAreaFillsFromOutlines(hRoundedUnionInteriorHoles)]);
-        var hRoundedAreaFrame = GraphicAreaSettlementSurface.SettledAreaFrame(new Carrier(), hRoundedSourceAreaFrame);
+        var hRoundedAreaFrame = GraphicAreaSettlementSurface.SettledPositiveAreaFrame(new Carrier(), hRoundedSourceAreaFrame);
         var hRoundedUnion = GraphicBooleanSurface.AreaUnion(new Carrier(), hRoundedAreaFrame, hRoundedUnionInteriorHoles);
         var hRoundedUnionOutlineEvidence = GraphicOutlineSurface.FromArea(new Carrier(), hRoundedUnion, hRoundedUnionInteriorHoles);
         var hExteriorSharpOutlineFromFill = GraphicOutlineSurface.PositiveBoundaryOutlinesFromAreas(new Carrier(), hRoundedAreaFrame);

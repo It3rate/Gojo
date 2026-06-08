@@ -371,10 +371,19 @@ internal static class Program
             mergeAreas.AddRange(GraphicReadGraph.From(mergeAreaFrameRelation).ReadsOf<SharedFrameAreaRead>());
         }
 
+        var mergeOutlineBoundaries = WalkRelations(mergeResult)
+            .Where(relation => GraphicBooleanSurface.TryReadAreaUnion(relation, out _, out _, out _, out _))
+            .SelectMany(relation =>
+            {
+                GraphicBooleanSurface.TryReadAreaUnion(relation, out _, out var outlineWitness, out _, out _);
+                return GraphicReadGraph.From(outlineWitness).ReadsOf<ClosedSharedFrameBoundaryRead>();
+            })
+            .ToArray();
+
         var positiveMergeAreas = mergeAreas.Count(area => !area.IsAntiArea);
         var antiMergeAreas = mergeAreas.Count(area => area.IsAntiArea);
-        if (positiveMergeAreas < 2 ||
-            antiMergeAreas < 8)
+        if (positiveMergeAreas < expectedUnionLanes ||
+            antiMergeAreas != 0)
         {
             var positiveBounds = mergeAreas
                 .Where(area => !area.IsAntiArea &&
@@ -457,10 +466,9 @@ internal static class Program
                     maxX <= -25 &&
                     minY >= -80 &&
                     maxY <= 60) >= 4;
-            var curvedAntiOpenings = mergeAreas
-                .Where(area =>
-                    area.IsAntiArea &&
-                    TryReadSharedFrameBoundaryBounds(area.Boundary, out var minX, out var maxX, out var minY, out var maxY) &&
+            var curvedAntiOpenings = mergeOutlineBoundaries
+                .Where(boundary =>
+                    TryReadSharedFrameBoundaryBounds(boundary, out var minX, out var maxX, out var minY, out var maxY) &&
                     minX >= -105 &&
                     maxX <= -35 &&
                     minY >= -70 &&
@@ -468,18 +476,18 @@ internal static class Program
                 .ToArray();
             var curvedAntiOpening = curvedAntiOpenings.Any(area =>
             {
-                TryReadSharedFrameBoundaryBounds(area.Boundary, out _, out _, out var minY, out var maxY);
+                TryReadSharedFrameBoundaryBounds(area, out _, out _, out var minY, out var maxY);
                 return minY <= -48 && maxY >= 28;
             }) ||
                 curvedAntiOpenings.Length >= 2 &&
                 curvedAntiOpenings.Any(area =>
                 {
-                    TryReadSharedFrameBoundaryBounds(area.Boundary, out _, out _, out var minY, out _);
+                    TryReadSharedFrameBoundaryBounds(area, out _, out _, out var minY, out _);
                     return minY < -20;
                 }) &&
                 curvedAntiOpenings.Any(area =>
                 {
-                    TryReadSharedFrameBoundaryBounds(area.Boundary, out _, out _, out var minY, out _);
+                    TryReadSharedFrameBoundaryBounds(area, out _, out _, out var minY, out _);
                     return minY >= 0;
                 });
             var curvedPositive = curvedMergedPositive || curvedResiduePositive || curvedSideBandsPositive;
@@ -647,18 +655,17 @@ internal static class Program
             .Where(relation => GraphicBooleanSurface.TryReadAreaUnion(relation, out _, out _, out _, out _))
             .SelectMany(relation =>
             {
-                GraphicBooleanSurface.TryReadAreaUnion(relation, out var roundedAreaFrame, out _, out _, out _);
-                return GraphicReadGraph.From(roundedAreaFrame).ReadsOf<SharedFrameAreaRead>();
+                GraphicBooleanSurface.TryReadAreaUnion(relation, out _, out var roundedOutlineWitness, out _, out _);
+                return GraphicReadGraph.From(roundedOutlineWitness).ReadsOf<ClosedSharedFrameBoundaryRead>();
             })
-            .Where(area => area.IsAntiArea &&
-                area.Boundary.Arcs is { Count: >= 3 } &&
-                TryReadSharedFrameBoundaryBounds(area.Boundary, out var minX, out var maxX, out var minY, out var maxY) &&
+            .Where(boundary => boundary.Arcs is { Count: >= 3 } &&
+                TryReadSharedFrameBoundaryBounds(boundary, out var minX, out var maxX, out var minY, out var maxY) &&
                 minX >= 145 &&
                 maxX <= 390 &&
                 maxY - minY >= 8)
-            .Select(area =>
+            .Select(boundary =>
             {
-                TryReadSharedFrameBoundaryBounds(area.Boundary, out var minX, out var maxX, out var minY, out var maxY);
+                TryReadSharedFrameBoundaryBounds(boundary, out var minX, out var maxX, out var minY, out var maxY);
                 return $"{minX}:{maxX}:{minY}:{maxY}";
             })
             .Distinct()
@@ -669,14 +676,13 @@ internal static class Program
                 .Where(relation => GraphicBooleanSurface.TryReadAreaUnion(relation, out _, out _, out _, out _))
                 .SelectMany(relation =>
                 {
-                    GraphicBooleanSurface.TryReadAreaUnion(relation, out var roundedAreaFrame, out _, out _, out _);
-                    return GraphicReadGraph.From(roundedAreaFrame).ReadsOf<SharedFrameAreaRead>();
+                    GraphicBooleanSurface.TryReadAreaUnion(relation, out _, out var roundedOutlineWitness, out _, out _);
+                    return GraphicReadGraph.From(roundedOutlineWitness).ReadsOf<ClosedSharedFrameBoundaryRead>();
                 })
-                .Where(area => area.IsAntiArea)
-                .Select(area =>
+                .Select(boundary =>
                 {
-                    TryReadSharedFrameBoundaryBounds(area.Boundary, out var minX, out var maxX, out var minY, out var maxY);
-                    return $"{minX}:{maxX}:{minY}:{maxY}:arcs={area.Boundary.Arcs?.Count ?? 0}";
+                    TryReadSharedFrameBoundaryBounds(boundary, out var minX, out var maxX, out var minY, out var maxY);
+                    return $"{minX}:{maxX}:{minY}:{maxY}:arcs={boundary.Arcs?.Count ?? 0}";
                 })
                 .Distinct()
                 .ToArray();

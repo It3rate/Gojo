@@ -24,11 +24,35 @@ public static class GraphicAreaSettlementSurface
         return GraphicBooleanSurface.AreaFrame(RootOrNew(root), [.. settlement.AreaFills]);
     }
 
+    /// <summary>
+    /// Settles an area frame but emits only positive area loops. Unfilled loops
+    /// remain available through settled outline reads.
+    /// </summary>
+    public static Relation SettledPositiveAreaFrame(Carrier root, IElement areaFrame)
+    {
+        var settlement = CreateSettlement(areaFrame);
+        return GraphicBooleanSurface.AreaFrame(RootOrNew(root), [.. settlement.PositiveAreaFills]);
+    }
+
     /// <summary>Reads the settled boundary loops from an area frame.</summary>
     public static Relation SettledBoundaryOutlinesFromAreas(Carrier root, IElement areaFrame)
     {
         var settlement = CreateSettlement(areaFrame);
         return GraphicOutlineSurface.OutlineFrame(RootOrNew(root), [.. settlement.Outlines]);
+    }
+
+    /// <summary>Reads only the settled positive boundary loops from an area frame.</summary>
+    public static Relation SettledPositiveBoundaryOutlinesFromAreas(Carrier root, IElement areaFrame)
+    {
+        var settlement = CreateSettlement(areaFrame);
+        return GraphicOutlineSurface.OutlineFrame(RootOrNew(root), [.. settlement.PositiveOutlines]);
+    }
+
+    /// <summary>Reads only the settled unfilled boundary loops from an area frame.</summary>
+    public static Relation SettledAntiBoundaryOutlinesFromAreas(Carrier root, IElement areaFrame)
+    {
+        var settlement = CreateSettlement(areaFrame);
+        return GraphicOutlineSurface.OutlineFrame(RootOrNew(root), [.. settlement.AntiOutlines]);
     }
 
     private static SettlementRead CreateSettlement(IElement areaFrame)
@@ -37,7 +61,7 @@ public static class GraphicAreaSettlementSurface
             !GraphicBooleanSurface.TryReadAreaFrame(frame, out var participantElements) ||
             participantElements.Length == 0)
         {
-            return new SettlementRead([], []);
+            return new SettlementRead([], [], [], [], [], []);
         }
 
         var participants = participantElements
@@ -46,7 +70,7 @@ public static class GraphicAreaSettlementSurface
             .ToArray();
         if (participants.Length == 0)
         {
-            return new SettlementRead([], []);
+            return new SettlementRead([], [], [], [], [], []);
         }
 
         var edges = participants
@@ -55,7 +79,7 @@ public static class GraphicAreaSettlementSurface
             .ToArray();
         if (edges.Length == 0)
         {
-            return new SettlementRead([], []);
+            return new SettlementRead([], [], [], [], [], []);
         }
 
         var splitParameters = edges.ToDictionary(edge => edge, _ => new List<double> { 0d, 1d });
@@ -111,7 +135,11 @@ public static class GraphicAreaSettlementSurface
             .ToArray();
         var loops = BuildLoops(frontierFragments);
         var outlines = new List<IElement>();
+        var positiveOutlines = new List<IElement>();
+        var antiOutlines = new List<IElement>();
         var fills = new List<IElement>();
+        var positiveFills = new List<IElement>();
+        var antiFills = new List<IElement>();
         foreach (var loop in loops)
         {
             var signedArea = SignedArea(loop);
@@ -139,9 +167,20 @@ public static class GraphicAreaSettlementSurface
 
             var outline = Chain(elements);
             outlines.Add(outline);
-            fills.Add(isPositive
-                ? GraphicStructure.AreaFill(outline)
-                : GraphicStructure.AntiAreaFill(outline));
+            if (isPositive)
+            {
+                positiveOutlines.Add(outline);
+                var fill = GraphicStructure.AreaFill(outline);
+                fills.Add(fill);
+                positiveFills.Add(fill);
+            }
+            else
+            {
+                antiOutlines.Add(outline);
+                var fill = GraphicStructure.AntiAreaFill(outline);
+                fills.Add(fill);
+                antiFills.Add(fill);
+            }
         }
 
         var emittedPositiveBounds = fills
@@ -158,6 +197,8 @@ public static class GraphicAreaSettlementSurface
             !emittedBounds.Any(bounds => bounds.Overlaps(sourceBounds));
 
         var residue = new List<IElement>();
+        var positiveResidueFills = new List<IElement>();
+        var antiResidueFills = new List<IElement>();
         foreach (var participant in participants)
         {
             var positiveResidue = participant.PositiveSources
@@ -172,11 +213,15 @@ public static class GraphicAreaSettlementSurface
                 antiResidue.Length > 0)
             {
                 residue.Add(participant.Source);
+                positiveResidueFills.AddRange(positiveResidue);
+                antiResidueFills.AddRange(antiResidue);
                 continue;
             }
 
             residue.AddRange(positiveResidue);
             residue.AddRange(antiResidue);
+            positiveResidueFills.AddRange(positiveResidue);
+            antiResidueFills.AddRange(antiResidue);
         }
 
         var distinctResidue = residue
@@ -187,7 +232,29 @@ public static class GraphicAreaSettlementSurface
             fills.InsertRange(0, distinctResidue);
         }
 
-        return new SettlementRead([.. fills], [.. outlines]);
+        var distinctPositiveResidue = positiveResidueFills
+            .DistinctBy(SourceId)
+            .ToArray();
+        if (distinctPositiveResidue.Length > 0)
+        {
+            positiveFills.InsertRange(0, distinctPositiveResidue);
+        }
+
+        var distinctAntiResidue = antiResidueFills
+            .DistinctBy(SourceId)
+            .ToArray();
+        if (distinctAntiResidue.Length > 0)
+        {
+            antiFills.InsertRange(0, distinctAntiResidue);
+        }
+
+        return new SettlementRead(
+            [.. fills],
+            [.. positiveFills],
+            [.. antiFills],
+            [.. outlines],
+            [.. positiveOutlines],
+            [.. antiOutlines]);
     }
 
     private static ParticipantRead ReadParticipant(IElement participant)
@@ -877,7 +944,13 @@ public static class GraphicAreaSettlementSurface
 
     private static Carrier RootOrNew(Carrier root) => root ?? new Carrier();
 
-    private sealed record SettlementRead(IReadOnlyList<IElement> AreaFills, IReadOnlyList<IElement> Outlines);
+    private sealed record SettlementRead(
+        IReadOnlyList<IElement> AreaFills,
+        IReadOnlyList<IElement> PositiveAreaFills,
+        IReadOnlyList<IElement> AntiAreaFills,
+        IReadOnlyList<IElement> Outlines,
+        IReadOnlyList<IElement> PositiveOutlines,
+        IReadOnlyList<IElement> AntiOutlines);
 
     private sealed record ParticipantRead(
         IElement Source,

@@ -50,6 +50,32 @@ public sealed class GraphicAreaSettlementSurfaceTests
     }
 
     [Fact]
+    public void SettledPositiveAreaFrameKeepsOpeningsAsOutlinesWithoutAntiAreaFills()
+    {
+        var basis = new TestBasis();
+        var frame = Chain(
+            GraphicStructure.AreaFill(Rectangle(basis, -50, 50, -50, 50)),
+            GraphicStructure.AntiAreaFill(Rectangle(basis, -24, 24, -24, 24)));
+        var bar = GraphicStructure.AreaFill(Rectangle(basis, -6, 6, -50, 50));
+        var areaFrame = GraphicBooleanSurface.AreaFrame(new Carrier(), frame, bar);
+
+        var settledPositive = GraphicAreaSettlementSurface.SettledPositiveAreaFrame(new Carrier(), areaFrame);
+        var openingOutlines = GraphicAreaSettlementSurface.SettledAntiBoundaryOutlinesFromAreas(new Carrier(), areaFrame);
+
+        var areas = GraphicReadGraph.From(settledPositive)
+            .ReadsOf<SharedFrameAreaRead>()
+            .DistinctBy(area => ReadSourceId(area.Source))
+            .ToArray();
+        var openings = GraphicReadGraph.From(openingOutlines)
+            .ReadsOf<ClosedSharedFrameBoundaryRead>()
+            .DistinctBy(boundary => ReadSourceId(boundary.Source))
+            .ToArray();
+        Assert.NotEmpty(areas);
+        Assert.DoesNotContain(areas, area => area.IsAntiArea);
+        Assert.True(openings.Length >= 2);
+    }
+
+    [Fact]
     public void SettledAreaFrameKeepsCurvedArmCompositeAsPositiveStructure()
     {
         var basis = new TestBasis();
