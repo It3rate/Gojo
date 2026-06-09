@@ -25,8 +25,9 @@ public sealed class GojoCadSkiaSceneRenderer
         ArgumentNullException.ThrowIfNull(structure);
 
         using var ownedPaints = paints is null ? new GojoCadSkiaPaints() : null;
+        var projectionSource = GojoCadSkiaAdapter.SelectProjectionSource(structure);
         var projection = new DerivedSkiaProjection(
-            structure,
+            projectionSource,
             viewport,
             projectionSeed,
             fixedModelBounds);

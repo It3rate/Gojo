@@ -43,6 +43,35 @@ public sealed class GraphicBooleanSurfaceTests
     }
 
     [Fact]
+    public void AreaUnionReadRejectsPlainFourSlotFramesWithoutSettlementEvidence()
+    {
+        var frame = new Carrier();
+        var x = new Carrier();
+        var y = new Carrier();
+        Relation Point(long xTicks, long yTicks) =>
+            GraphicStructure.FramePoint(frame, new CarrierLocation(x, xTicks), new CarrierLocation(y, yTicks));
+
+        var fill = RectangleFill(Point, 0, 0, 20, 10);
+        var outline = RectangleOutline(Point, 0, 0, 20, 10);
+        var areaFrame = GraphicBooleanSurface.AreaFrame(new Carrier(), fill);
+        var ordinaryEvidence = GraphicBooleanSurface.Frame(new Carrier(), areaFrame, outline);
+        var residue = GraphicBooleanSurface.Frame(new Carrier());
+        var plainFourSlotFrame = GraphicBooleanSurface.Frame(
+            new Carrier(),
+            areaFrame,
+            outline,
+            ordinaryEvidence,
+            residue);
+
+        Assert.False(GraphicBooleanSurface.TryReadAreaUnion(
+            plainFourSlotFrame,
+            out _,
+            out _,
+            out _,
+            out _));
+    }
+
+    [Fact]
     public void BoundarySettlementCarriesDualAreaAndLineCancellationSlots()
     {
         var settlement = GraphicBooleanSurface.BoundarySettlement(new Carrier());

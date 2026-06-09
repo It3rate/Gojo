@@ -1,4 +1,5 @@
 using Gojo.Core;
+using Gojo.ConceptSurface;
 
 namespace GojoCAD.Structures;
 
@@ -73,7 +74,8 @@ public static class GraphicBooleanSurface
         if (TryReadFrameElements(union, out var elements) &&
             elements.Length == 4 &&
             elements[0] is Relation areas &&
-            TryReadFrameElements(areas, out _))
+            TryReadFrameElements(areas, out _) &&
+            CarriesSettlementEvidence(elements[2]))
         {
             areaFrame = elements[0];
             outline = elements[1];
@@ -88,6 +90,21 @@ public static class GraphicBooleanSurface
         residueOrTension = default!;
         return false;
     }
+
+    /// <summary>
+    /// Reads whether a slot carries settlement evidence usable by area and
+    /// outline participation surfaces.
+    /// </summary>
+    public static bool CarriesSettlementEvidence(IElement evidence) =>
+        evidence is Relation relation &&
+        (TryReadBoundarySettlement(
+                relation,
+                out _,
+                out _,
+                out _,
+                out _,
+                out _) ||
+            ParticipationSettlementSurface.TryRead(relation, out _));
 
     /// <summary>Reads an area frame created by <see cref="AreaFrame"/>.</summary>
     public static bool TryReadAreaFrame(Relation areaFrame, out IElement[] areas) =>

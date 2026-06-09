@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
@@ -7,6 +8,8 @@ using Gojo.Core;
 using Gojo.Structures;
 using GojoCAD.GCode;
 using GojoCAD.Structures;
+using GojoDraw;
+using SkiaSharp;
 
 namespace GojoCAD.SketchViewer;
 
@@ -26,11 +29,108 @@ internal static class Program
             return;
         }
 
+        if (args.Any(arg => string.Equals(arg, "--smoke-render-scenes", StringComparison.OrdinalIgnoreCase)))
+        {
+            SmokeRenderGeneratedScenes(args);
+            return;
+        }
+
         BuildAvaloniaApp().StartWithClassicDesktopLifetime(args);
     }
 
     public static AppBuilder BuildAvaloniaApp() =>
         AppBuilder.Configure<App>().UsePlatformDetect();
+
+    private static void SmokeRenderGeneratedScenes(string[] args)
+    {
+        var renderer = new GojoCadSkiaSceneRenderer();
+        using var bitmap = new SKBitmap(1200, 900);
+        using var canvas = new SKCanvas(bitmap);
+        var viewport = new SKRect(42f, 78f, 1158f, 852f);
+        var rendered = 0;
+        var requestedVariant = ReadIntArg(args, "--variant=");
+        var requestedRung = ReadIntArg(args, "--rung=");
+        var requestedScene = ReadStringArg(args, "--scene=");
+        int[] variants = requestedVariant is { } variant ? [variant] : [0, 1, 2];
+
+        foreach (var radialComparisonVariant in variants)
+        foreach (var scene in SketchSamples.CreateInitialScenes(radialComparisonVariant))
+        {
+            if (scene.OffsetStudy is not null)
+            {
+                continue;
+            }
+
+            if (requestedScene is { Length: > 0 } sceneFilter &&
+                !scene.Label.Contains(sceneFilter, StringComparison.OrdinalIgnoreCase))
+            {
+                continue;
+            }
+
+            var rungs = scene.ReadRungs();
+            if (rungs.Count == 0)
+            {
+                canvas.Clear(SKColors.White);
+                var stopwatch = Stopwatch.StartNew();
+                renderer.Draw(canvas, scene.Structure, viewport, scene.ProjectionSeed, scene.ModelBounds);
+                stopwatch.Stop();
+                Console.WriteLine($"{scene.Label} rendered in {stopwatch.ElapsedMilliseconds} ms.");
+                rendered++;
+                continue;
+            }
+
+            for (var index = 0; index < rungs.Count; index++)
+            {
+                if (requestedRung is { } rungFilter &&
+                    rungFilter != index)
+                {
+                    continue;
+                }
+
+                if (!StructuralLadderSurface.TryReadRung(
+                        rungs[index],
+                        out _,
+                        out _,
+                        out var result,
+                        out _,
+                        out _,
+                        out _,
+                        out _,
+                        out _))
+                {
+                    continue;
+                }
+
+                using var paints = new GojoCadSkiaPaints
+                {
+                    DrawAreaUnionAntiAreas = scene.Label == "Radial Shape Ladder" && index >= 4 && index < 10,
+                    DrawAreaUnionSettlementPartitions = scene.Label == "Radial Shape Ladder" && index >= 4 && index < 10
+                };
+                canvas.Clear(SKColors.White);
+                var stopwatch = Stopwatch.StartNew();
+                renderer.Draw(canvas, result, viewport, scene.ProjectionSeed, scene.ModelBounds, paints);
+                stopwatch.Stop();
+                Console.WriteLine($"{scene.Label} variant {radialComparisonVariant} rung {index} rendered in {stopwatch.ElapsedMilliseconds} ms.");
+                rendered++;
+            }
+        }
+
+        Console.WriteLine($"Rendered {rendered} generated scene/rung surfaces.");
+    }
+
+    private static int? ReadIntArg(IEnumerable<string> args, string prefix) =>
+        args.Select(arg => arg.StartsWith(prefix, StringComparison.OrdinalIgnoreCase)
+                ? arg[prefix.Length..]
+                : null)
+            .FirstOrDefault(value => value is not null && int.TryParse(value, out _)) is { } text
+            ? int.Parse(text)
+            : null;
+
+    private static string? ReadStringArg(IEnumerable<string> args, string prefix) =>
+        args.Select(arg => arg.StartsWith(prefix, StringComparison.OrdinalIgnoreCase)
+                ? arg[prefix.Length..]
+                : null)
+            .FirstOrDefault(value => !string.IsNullOrWhiteSpace(value));
 
     private static void ValidateGeneratedScene(SketchScene scene)
     {

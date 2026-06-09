@@ -1,5 +1,6 @@
 using Gojo.Core;
 using Gojo.ConceptSurface;
+using System.Runtime.CompilerServices;
 
 namespace GojoCAD.Structures;
 
@@ -14,6 +15,7 @@ public static class GraphicAreaSettlementSurface
     private const double SampleDistance = 0.55;
     private const double EndpointSettlementDistance = 1.5;
     private const double MixedLoopMinimumArea = 256d;
+    private static readonly ConditionalWeakTable<Relation, SettlementRead> SettlementCache = new();
 
     /// <summary>
     /// Settles an area frame into positive and anti area loops by splitting
@@ -130,10 +132,14 @@ public static class GraphicAreaSettlementSurface
         return GraphicOutlineSurface.OutlineFrame(RootOrNew(root), [.. settlement.AntiOutlines]);
     }
 
-    private static SettlementRead CreateSettlement(IElement areaFrame)
+    private static SettlementRead CreateSettlement(IElement areaFrame) =>
+        areaFrame is Relation frame
+            ? SettlementCache.GetValue(frame, CreateSettlementUncached)
+            : EmptySettlement();
+
+    private static SettlementRead CreateSettlementUncached(Relation frame)
     {
-        if (areaFrame is not Relation frame ||
-            !GraphicBooleanSurface.TryReadAreaFrame(frame, out var participantElements) ||
+        if (!GraphicBooleanSurface.TryReadAreaFrame(frame, out var participantElements) ||
             participantElements.Length == 0)
         {
             return EmptySettlement();

@@ -215,7 +215,9 @@ public static class GraphicSelectionSurface
         out IElement residueOrTension)
     {
         if (TryReadFrameElements(selection, out var elements) &&
-            elements.Length == 5)
+            elements.Length == 5 &&
+            elements[3] is Relation matchFrame &&
+            TryReadFrameElements(matchFrame, out _))
         {
             source = elements[0];
             searchDomain = elements[1];

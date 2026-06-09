@@ -13,6 +13,45 @@ namespace GojoDraw;
 /// </summary>
 public sealed class GojoCadSkiaAdapter
 {
+    public static IElement SelectProjectionSource(IElement element)
+    {
+        ArgumentNullException.ThrowIfNull(element);
+
+        if (element is Relation directUnion &&
+            GraphicBooleanSurface.TryReadAreaUnion(directUnion, out _, out _, out _, out _))
+        {
+            return AreaUnionProjectionSource(directUnion);
+        }
+
+        if (TryReadAreaUnionFrame(element, out var directUnions))
+        {
+            return Relation.OrderedGroup(
+                new Carrier(),
+                [.. directUnions.Select(AreaUnionProjectionSource)]);
+        }
+
+        if (element is Relation directSelection &&
+            GraphicSelectionSurface.TryReadSelection(directSelection, out _, out _, out _, out _, out _))
+        {
+            return SelectionProjectionSource(directSelection);
+        }
+
+        if (TryReadSelectionFrame(element, out var directSelections))
+        {
+            return Relation.OrderedGroup(
+                new Carrier(),
+                [.. directSelections.Select(SelectionProjectionSource)]);
+        }
+
+        var renderable = SelectCurrentRenderableRungs(element);
+        if (!ReferenceEquals(renderable, element))
+        {
+            return SelectProjectionSource(renderable);
+        }
+
+        return element;
+    }
+
     public int DrawElement(
         SKCanvas canvas,
         IElement element,
@@ -24,6 +63,40 @@ public sealed class GojoCadSkiaAdapter
         ArgumentNullException.ThrowIfNull(element);
         ArgumentNullException.ThrowIfNull(projection);
         ArgumentNullException.ThrowIfNull(paints);
+
+        if (element is Relation directUnion &&
+            GraphicBooleanSurface.TryReadAreaUnion(directUnion, out _, out _, out _, out _))
+        {
+            return DrawAreaUnion(canvas, directUnion, projection, paints, hitAreas);
+        }
+
+        if (TryReadAreaUnionFrame(element, out var directUnions))
+        {
+            var drawn = 0;
+            foreach (var framedUnion in directUnions)
+            {
+                drawn += DrawAreaUnion(canvas, framedUnion, projection, paints, hitAreas);
+            }
+
+            return drawn;
+        }
+
+        if (element is Relation directSelection &&
+            GraphicSelectionSurface.TryReadSelection(directSelection, out _, out _, out _, out _, out _))
+        {
+            return DrawSelection(canvas, directSelection, projection, paints, hitAreas);
+        }
+
+        if (TryReadSelectionFrame(element, out var directSelections))
+        {
+            var drawn = 0;
+            foreach (var selection in directSelections)
+            {
+                drawn += DrawSelection(canvas, selection, projection, paints, hitAreas);
+            }
+
+            return drawn;
+        }
 
         var renderable = SelectCurrentRenderableRungs(element);
         if (renderable is Relation union &&
@@ -45,6 +118,144 @@ public sealed class GojoCadSkiaAdapter
 
         var graph = GraphicReadGraph.From(renderable);
         return DrawReadGraph(canvas, graph, projection, paints, hitAreas);
+    }
+
+    private int DrawSelection(
+        SKCanvas canvas,
+        Relation selection,
+        IGojoCadSkiaProjection projection,
+        GojoCadSkiaPaints paints,
+        ICollection<GojoCadSkiaHitArea>? hitAreas)
+    {
+        if (!GraphicSelectionSurface.TryReadSelection(
+                selection,
+                out var source,
+                out _,
+                out _,
+                out var matches,
+                out _))
+        {
+            return 0;
+        }
+
+        var drawn = DrawElement(canvas, source, projection, paints, hitAreas);
+        var matchEvidence = SelectionMatchEvidence(matches).ToArray();
+        if (matchEvidence.Length != 0)
+        {
+            drawn += DrawReadGraph(
+                canvas,
+                GraphicReadGraph.From(Relation.OrderedGroup(new Carrier(), matchEvidence)),
+                projection,
+                paints,
+                hitAreas);
+        }
+
+        return drawn;
+    }
+
+    private static IElement AreaUnionProjectionSource(Relation union)
+    {
+        if (!GraphicBooleanSurface.TryReadAreaUnion(
+                union,
+                out var areaFrame,
+                out var outline,
+                out var settlementEvidence,
+                out _))
+        {
+            return union;
+        }
+
+        var sources = new List<IElement> { areaFrame, outline };
+        if (TryReadSettlementPartitionSource(settlementEvidence, out var partitions))
+        {
+            sources.Add(partitions);
+        }
+
+        return Relation.OrderedGroup(new Carrier(), [.. sources]);
+    }
+
+    private static IElement SelectionProjectionSource(Relation selection)
+    {
+        if (!GraphicSelectionSurface.TryReadSelection(
+                selection,
+                out var source,
+                out _,
+                out _,
+                out var matches,
+                out _))
+        {
+            return selection;
+        }
+
+        var sources = new List<IElement> { SelectProjectionSource(source) };
+        sources.AddRange(SelectionMatchEvidence(matches));
+        return Relation.OrderedGroup(new Carrier(), [.. sources]);
+    }
+
+    private static IEnumerable<IElement> SelectionMatchEvidence(IElement matches)
+    {
+        if (matches is not Relation matchFrame ||
+            !GraphicSelectionSurface.TryReadMatchFrame(matchFrame, out var matchElements))
+        {
+            yield break;
+        }
+
+        foreach (var matchElement in matchElements)
+        {
+            if (matchElement is not Relation match ||
+                !GraphicSelectionSurface.TryReadMatch(
+                    match,
+                    out _,
+                    out _,
+                    out _,
+                    out var evidence,
+                    out _))
+            {
+                continue;
+            }
+
+            if (evidence is Relation patternEvidence &&
+                GraphicSelectionSurface.TryReadPatternEvidence(
+                    patternEvidence,
+                    out _,
+                    out var appliedPattern,
+                    out _,
+                    out _))
+            {
+                if (appliedPattern is Relation appliedRelation &&
+                    TryReadOrderedElements(appliedRelation, out var appliedElements) &&
+                    appliedElements.Length >= 2)
+                {
+                    yield return appliedElements[1];
+                    continue;
+                }
+
+                yield return appliedPattern;
+                continue;
+            }
+
+            yield return evidence;
+        }
+    }
+
+    private static bool TryReadSettlementPartitionSource(IElement settlementEvidence, out IElement partitions)
+    {
+        if (settlementEvidence is Relation settlement &&
+            ParticipationSettlementSurface.TryRead(settlement, out var read))
+        {
+            partitions = read.Partitions;
+            if (partitions is Relation partitionFrame &&
+                TryReadOrderedElements(partitionFrame, out var partitionLayers) &&
+                partitionLayers.Length > 0)
+            {
+                partitions = partitionLayers[0];
+            }
+
+            return true;
+        }
+
+        partitions = default!;
+        return false;
     }
 
     private static bool TryReadAreaUnionFrame(IElement element, out Relation[] unions)
@@ -72,6 +283,34 @@ public sealed class GojoCadSkiaAdapter
         }
 
         unions = [];
+        return false;
+    }
+
+    private static bool TryReadSelectionFrame(IElement element, out Relation[] selections)
+    {
+        if (element is Relation relation &&
+            relation.Right is Carrier holder &&
+            relation.TryReadOrderedElementsOn(holder, out var elements) &&
+            elements.Length > 0)
+        {
+            var readSelections = new List<Relation>();
+            foreach (var elementInFrame in elements)
+            {
+                if (elementInFrame is not Relation selection ||
+                    !GraphicSelectionSurface.TryReadSelection(selection, out _, out _, out _, out _, out _))
+                {
+                    selections = [];
+                    return false;
+                }
+
+                readSelections.Add(selection);
+            }
+
+            selections = [.. readSelections];
+            return true;
+        }
+
+        selections = [];
         return false;
     }
 
@@ -602,7 +841,7 @@ public sealed class GojoCadSkiaAdapter
 
         return DrawSettlementPartitionGraph(
             canvas,
-            GraphicReadGraph.From(partitionSource),
+            partitionSource,
             projection,
             paints,
             hitAreas);
@@ -610,39 +849,145 @@ public sealed class GojoCadSkiaAdapter
 
     private static int DrawSettlementPartitionGraph(
         SKCanvas canvas,
-        GraphicReadGraph graph,
+        IElement partitionSource,
         IGojoCadSkiaProjection projection,
         GojoCadSkiaPaints paints,
         ICollection<GojoCadSkiaHitArea>? hitAreas)
     {
         var drawn = 0;
-        foreach (var segment in graph.ReadsOf<SharedFrameSegmentRead>()
-            .DistinctBy(segment => ReadSourceId(segment.Source)))
+        foreach (var fragment in SettlementPartitionFragments(partitionSource)
+            .DistinctBy(ReadSourceId))
         {
-            var start = projection.ProjectFrame(segment.Start);
-            var end = projection.ProjectFrame(segment.End);
-            canvas.DrawLine(start, end, paints.AreaSettlementPartition);
-            AddHit(hitAreas, LineBounds(start, end, 8f), "area settlement fragment", priority: 3, segment.Source);
-            drawn++;
-        }
+            if (TryReadSharedFrameArc(fragment, out var arc))
+            {
+                var center = projection.ProjectFrame(arc.Center);
+                var start = projection.ProjectFrame(arc.Start);
+                var end = projection.ProjectFrame(arc.End);
+                var radius = MathF.Max(0.1f, (Distance(center, start) + Distance(center, end)) * 0.5f);
+                var bounds = CircleBounds(center, radius);
+                var startAngle = AngleDegrees(center, start);
+                var endAngle = AngleDegrees(center, end);
+                var sweep = ShortestSweep(startAngle, endAngle);
+                canvas.DrawArc(bounds, startAngle, sweep, false, paints.AreaSettlementPartition);
+                AddHit(hitAreas, bounds, "area settlement fragment", priority: 3, arc.Source);
+                drawn++;
+                continue;
+            }
 
-        foreach (var arc in graph.ReadsOf<SharedFrameArcRead>()
-            .DistinctBy(arc => ReadSourceId(arc.Source)))
-        {
-            var center = projection.ProjectFrame(arc.Center);
-            var start = projection.ProjectFrame(arc.Start);
-            var end = projection.ProjectFrame(arc.End);
-            var radius = MathF.Max(0.1f, (Distance(center, start) + Distance(center, end)) * 0.5f);
-            var bounds = CircleBounds(center, radius);
-            var startAngle = AngleDegrees(center, start);
-            var endAngle = AngleDegrees(center, end);
-            var sweep = ShortestSweep(startAngle, endAngle);
-            canvas.DrawArc(bounds, startAngle, sweep, false, paints.AreaSettlementPartition);
-            AddHit(hitAreas, bounds, "area settlement fragment", priority: 3, arc.Source);
-            drawn++;
+            if (TryReadSharedFrameSegment(fragment, out var segment))
+            {
+                var start = projection.ProjectFrame(segment.Start);
+                var end = projection.ProjectFrame(segment.End);
+                canvas.DrawLine(start, end, paints.AreaSettlementPartition);
+                AddHit(hitAreas, LineBounds(start, end, 8f), "area settlement fragment", priority: 3, segment.Source);
+                drawn++;
+            }
         }
 
         return drawn;
+    }
+
+    private static IEnumerable<IElement> SettlementPartitionFragments(IElement source)
+    {
+        if (TryReadSharedFrameArc(source, out _) ||
+            TryReadSharedFrameSegment(source, out _))
+        {
+            yield return source;
+            yield break;
+        }
+
+        if (source is Relation frame &&
+            TryReadOrderedElements(frame, out var elements))
+        {
+            foreach (var element in elements)
+            foreach (var fragment in SettlementPartitionFragments(element))
+            {
+                yield return fragment;
+            }
+        }
+    }
+
+    private static bool TryReadSharedFrameArc(IElement source, out SharedFrameArcRead arc)
+    {
+        if (source is Relation relation &&
+            relation.Left is Relation centerRelation &&
+            relation.Right is Relation spanRelation &&
+            TryReadSharedFramePoint(centerRelation, out var center) &&
+            TryReadSharedFrameSegment(spanRelation, out var span) &&
+            HaveSameFrameBasis(center, span.Start) &&
+            HaveSameFrameBasis(center, span.End) &&
+            !SameFramePoint(center, span.Start) &&
+            !SameFramePoint(center, span.End))
+        {
+            arc = new SharedFrameArcRead(relation, center, span.Start, span.End, span);
+            return true;
+        }
+
+        arc = default!;
+        return false;
+    }
+
+    private static bool TryReadSharedFrameSegment(IElement source, out SharedFrameSegmentRead segment)
+    {
+        if (source is Relation relation &&
+            relation.Left is Relation startRelation &&
+            relation.Right is Relation endRelation &&
+            TryReadSharedFramePoint(startRelation, out var start) &&
+            TryReadSharedFramePoint(endRelation, out var end) &&
+            HaveSameFrameBasis(start, end) &&
+            !SameFramePoint(start, end))
+        {
+            segment = new SharedFrameSegmentRead(relation, start, end);
+            return true;
+        }
+
+        segment = default!;
+        return false;
+    }
+
+    private static bool TryReadSharedFramePoint(Relation relation, out SharedFramePointRead point)
+    {
+        if (relation.Right is Carrier holder &&
+            relation.TryReadOrderedElementsOn(holder, out var elements) &&
+            elements.Length >= 2 &&
+            elements.All(element => element is CarrierLocation))
+        {
+            point = new SharedFramePointRead(
+                relation,
+                holder,
+                [.. elements.Cast<CarrierLocation>()]);
+            return true;
+        }
+
+        point = default!;
+        return false;
+    }
+
+    private static bool HaveSameFrameBasis(SharedFramePointRead left, SharedFramePointRead right) =>
+        left.Coordinates.Count == right.Coordinates.Count &&
+        left.Coordinates.Zip(right.Coordinates).All(pair =>
+            NormalizeCarrier(pair.First.Carrier).SameIdentityAs(NormalizeCarrier(pair.Second.Carrier)));
+
+    private static bool SameFramePoint(SharedFramePointRead left, SharedFramePointRead right) =>
+        HaveSameFrameBasis(left, right) &&
+        left.Coordinates.Zip(right.Coordinates).All(pair =>
+            pair.First.SameTickRefAs(pair.Second) ||
+            SameNormalizedLocation(pair.First, pair.Second));
+
+    private static CarrierLocation Normalize(CarrierLocation location) =>
+        location.Carrier.IsInverse
+            ? new CarrierLocation(location.Carrier.Inverse(), checked(-location.Ticks))
+            : location;
+
+    private static Carrier NormalizeCarrier(Carrier carrier) =>
+        carrier.IsInverse ? carrier.Inverse() : carrier;
+
+    private static bool SameNormalizedLocation(CarrierLocation left, CarrierLocation right)
+    {
+        var normalizedLeft = Normalize(left);
+        var normalizedRight = Normalize(right);
+        return normalizedLeft.Carrier.SameIdentityAs(normalizedRight.Carrier) &&
+            normalizedLeft.Ticks == normalizedRight.Ticks;
     }
 
     private static int DrawAreaUnionOpeningWitness(

@@ -55,7 +55,8 @@ public static class GraphicOutlineSurface
         out IElement residueOrTension)
     {
         if (TryReadFrameElements(outlineDerivation, out var elements) &&
-            elements.Length == 4)
+            elements.Length == 4 &&
+            GraphicBooleanSurface.CarriesSettlementEvidence(elements[2]))
         {
             areaOrUnion = elements[0];
             outline = elements[1];
