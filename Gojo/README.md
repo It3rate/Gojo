@@ -340,7 +340,7 @@ Gojo/
   Patterns/         placeholder binding and repeated structure helpers
   Reads/            read helpers and legacy read footholds
   Diagnostics/      diagnostics for traversal-oriented inspection
-  Interpretation/   boolean-style read experiments
+  Interpretation/   participation support read projections
   Workspace/        scoped/proxy workspace design notes and future mechanics
   axioms/           active model notes and transition notes
 

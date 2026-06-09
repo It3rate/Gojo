@@ -4,7 +4,7 @@ public sealed partial class Relation
 {
     #region Local State Reads
 
-    /// <summary>Reads boolean-like support participation from a carrier frame.</summary>
+    /// <summary>Reads support participation from a carrier frame.</summary>
     public Relation SupportOn(Carrier reader)
     {
         var (reverse, forward) = ReadStatePair(reader);

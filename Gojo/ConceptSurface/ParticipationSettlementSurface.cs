@@ -6,7 +6,7 @@ namespace Gojo.ConceptSurface;
 
 /// <summary>
 /// Relation-shaped witness for support, overlap, cutout, absence, and other
-/// boolean-style reads over occupied participation. The helper creates and
+/// set-style reads over occupied participation. The helper creates and
 /// reads ordinary Gojo structure; it does not own the operation meaning.
 /// </summary>
 public static class ParticipationSettlementSurface

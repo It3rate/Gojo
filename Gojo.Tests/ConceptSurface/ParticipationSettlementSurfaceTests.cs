@@ -194,7 +194,7 @@ public sealed class ParticipationSettlementSurfaceTests
     }
 
     [Fact]
-    public void SegmentSupportSettlementWrapsExistingSpanBooleanReads()
+    public void SegmentSupportSettlementWrapsExistingSpanParticipationReads()
     {
         var carrier = new Carrier();
         var scope = Relation.Segment(carrier, 0, 10);
@@ -230,21 +230,21 @@ public sealed class ParticipationSettlementSurfaceTests
     }
 
     [Fact]
-    public void BooleanStyleSettlementUsesTheSameSegmentWitness()
+    public void ParticipationSupportSettlementUsesTheSameSegmentWitness()
     {
         var carrier = new Carrier();
         var scope = Relation.Segment(carrier, 0, 10);
         var left = Relation.Segment(carrier, 0, 4);
         var right = Relation.Segment(carrier, 6, 10);
 
-        var settlement = BooleanStyleReads.SettlementOn(carrier, scope, left, right);
+        var settlement = ParticipationSupportReads.SettlementOn(carrier, scope, left, right);
 
         Assert.True(ParticipationSettlementSurface.TryRead(settlement, out var read));
         Assert.Equal(
-            BooleanStyleReads.OrOn(carrier, left, right),
+            ParticipationSupportReads.SupportOn(carrier, left, right),
             Elements(Assert.IsType<Relation>(read.ResultParticipation)));
         Assert.Equal(
-            BooleanStyleReads.BlockOn(carrier, scope, left, right),
+            ParticipationSupportReads.UncoveredWithinOn(carrier, scope, left, right),
             Elements(Assert.IsType<Relation>(read.Uncovered)));
     }
 

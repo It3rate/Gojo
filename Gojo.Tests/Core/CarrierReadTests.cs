@@ -1533,7 +1533,7 @@ public sealed class CarrierReadTests
     }
 
     [Fact]
-    public void BooleanStyleSpanReadsAreSupportProjections()
+    public void ParticipationSupportSpanReadsAreSupportProjections()
     {
         var carrier = new Carrier();
         var forward = new Relation(
@@ -1543,9 +1543,9 @@ public sealed class CarrierReadTests
             new CarrierLocation(carrier, 2),
             new CarrierLocation(carrier, 0));
 
-        Assert.Equal(RelationReads.SupportOn(carrier, forward, reverse), BooleanStyleReads.OrOn(carrier, forward, reverse));
-        Assert.Equal(RelationReads.TensionOn(carrier, forward, reverse), BooleanStyleReads.AndOn(carrier, forward, reverse));
-        Assert.Equal(RelationReads.ExclusiveOn(carrier, forward, reverse), BooleanStyleReads.XorOn(carrier, forward, reverse));
+        Assert.Equal(RelationReads.SupportOn(carrier, forward, reverse), ParticipationSupportReads.SupportOn(carrier, forward, reverse));
+        Assert.Equal(RelationReads.TensionOn(carrier, forward, reverse), ParticipationSupportReads.TensionOn(carrier, forward, reverse));
+        Assert.Equal(RelationReads.ExclusiveOn(carrier, forward, reverse), ParticipationSupportReads.ExclusiveOn(carrier, forward, reverse));
     }
 
     [Fact]
@@ -1670,10 +1670,10 @@ public sealed class CarrierReadTests
 
         Assert.Equal(
             RelationReads.CoveredSpansWithinOn(carrier, scope, supported),
-            BooleanStyleReads.PassOn(carrier, scope, supported));
+            ParticipationSupportReads.CoveredWithinOn(carrier, scope, supported));
         Assert.Equal(
             RelationReads.UncoveredSpansOn(carrier, scope, supported),
-            BooleanStyleReads.BlockOn(carrier, scope, supported));
+            ParticipationSupportReads.UncoveredWithinOn(carrier, scope, supported));
     }
 
     [Fact]
@@ -1689,7 +1689,7 @@ public sealed class CarrierReadTests
 
         Assert.Equal(
             RelationReads.UncoveredSpansOn(carrier, scope, blocked),
-            BooleanStyleReads.NotOn(carrier, scope, blocked));
+            ParticipationSupportReads.UncoveredOn(carrier, scope, blocked));
     }
 
     [Fact]
@@ -1703,8 +1703,8 @@ public sealed class CarrierReadTests
             new CarrierLocation(carrier, 2),
             new CarrierLocation(carrier, 5));
 
-        var passed = BooleanStyleReads.PassOn(carrier, incomingScope, support);
-        var blocked = BooleanStyleReads.BlockOn(carrier, incomingScope, support);
+        var passed = ParticipationSupportReads.CoveredWithinOn(carrier, incomingScope, support);
+        var blocked = ParticipationSupportReads.UncoveredWithinOn(carrier, incomingScope, support);
 
         Assert.Equal(
             new[]
