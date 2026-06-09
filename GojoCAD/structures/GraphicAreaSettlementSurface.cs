@@ -1,4 +1,5 @@
 using Gojo.Core;
+using Gojo.ConceptSurface;
 
 namespace GojoCAD.Structures;
 
@@ -44,7 +45,39 @@ public static class GraphicAreaSettlementSurface
         var settlement = CreateSettlement(areaFrame);
         var settledAreaFrame = GraphicBooleanSurface.AreaFrame(new Carrier(), [.. settlement.AreaFills]);
         var outlineFrame = GraphicOutlineSurface.OutlineFrame(new Carrier(), [.. settlement.Outlines]);
-        return GraphicBooleanSurface.AreaUnion(RootOrNew(root), settledAreaFrame, outlineFrame);
+        var residue = GraphicBooleanSurface.Frame(new Carrier(), [.. settlement.Residue]);
+        var participationSettlement = CreateParticipationSettlement(
+            new Carrier(),
+            areaFrame,
+            settledAreaFrame,
+            outlineFrame,
+            settlement,
+            residue);
+        return GraphicBooleanSurface.AreaUnion(
+            RootOrNew(root),
+            settledAreaFrame,
+            outlineFrame,
+            participationSettlement,
+            residue);
+    }
+
+    /// <summary>
+    /// Reads the area settlement as the shared participation-settlement witness
+    /// used by point, segment, and area-like boolean reads.
+    /// </summary>
+    public static Relation SettledAreaParticipation(Carrier root, IElement areaFrame)
+    {
+        var settlement = CreateSettlement(areaFrame);
+        var settledAreaFrame = GraphicBooleanSurface.AreaFrame(new Carrier(), [.. settlement.AreaFills]);
+        var outlineFrame = GraphicOutlineSurface.OutlineFrame(new Carrier(), [.. settlement.Outlines]);
+        var residue = GraphicBooleanSurface.Frame(new Carrier(), [.. settlement.Residue]);
+        return CreateParticipationSettlement(
+            RootOrNew(root),
+            areaFrame,
+            settledAreaFrame,
+            outlineFrame,
+            settlement,
+            residue);
     }
 
     /// <summary>Reads the settled boundary loops from an area frame.</summary>
@@ -146,6 +179,9 @@ public static class GraphicAreaSettlementSurface
         var settledFragments = SettleFragmentEndpoints(fragments);
         var frontierFragments = settledFragments
             .DistinctBy(FragmentKey)
+            .ToArray();
+        var partitionFragments = frontierFragments
+            .Select(fragment => fragment.ToElement())
             .ToArray();
         var loops = BuildOneSidedBoundaryLoops(frontierFragments).ToList();
         var loopKeys = loops.Select(LoopKey).ToHashSet();
@@ -305,13 +341,67 @@ public static class GraphicAreaSettlementSurface
             [.. outlines],
             [.. positiveOutlines],
             [.. antiOutlines],
+            partitionFragments,
+            distinctResidue,
             resolvedAreaFills,
             resolvedPositiveAreaFills,
             resolvedAntiAreaFills);
     }
 
     private static SettlementRead EmptySettlement() =>
-        new([], [], [], [], [], [], [], [], []);
+        new([], [], [], [], [], [], [], [], [], [], []);
+
+    private static Relation CreateParticipationSettlement(
+        Carrier root,
+        IElement areaFrame,
+        IElement settledAreaFrame,
+        IElement outlineFrame,
+        SettlementRead settlement,
+        IElement residue)
+    {
+        var basis = BoundaryFlowLaneBasis.Create(
+            new Carrier(),
+            BoundaryExposure.BoundedWhole,
+            FlowExposure.Both,
+            areaFrame);
+        var occupied = AreaParticipationValues(new Carrier(), basis, areaFrame);
+
+        return ParticipationSettlementSurface.Create(
+            RootOrNew(root),
+            areaFrame ?? GraphicBooleanSurface.AreaFrame(new Carrier()),
+            outlineFrame ?? GraphicBooleanSurface.AreaFrame(new Carrier()),
+            outlineFrame ?? GraphicBooleanSurface.AreaFrame(new Carrier()),
+            basis,
+            GraphicBooleanSurface.Frame(
+                new Carrier(),
+                GraphicBooleanSurface.Frame(new Carrier(), [.. settlement.FragmentPartitions]),
+                GraphicBooleanSurface.Frame(new Carrier(), [.. settlement.Outlines])),
+            occupied,
+            GraphicBooleanSurface.Frame(new Carrier(), [.. settlement.AreaFills]),
+            GraphicBooleanSurface.Frame(new Carrier(), [.. settlement.AntiAreaFills]),
+            GraphicBooleanSurface.Frame(new Carrier(), [.. settlement.PositiveAreaFills]),
+            GraphicBooleanSurface.Frame(new Carrier(), [.. settlement.AntiAreaFills]),
+            settledAreaFrame ?? GraphicBooleanSurface.AreaFrame(new Carrier()),
+            residue ?? GraphicBooleanSurface.Frame(new Carrier()),
+            GraphicBooleanSurface.Frame(new Carrier(), areaFrame ?? GraphicBooleanSurface.AreaFrame(new Carrier()), outlineFrame ?? GraphicBooleanSurface.AreaFrame(new Carrier())));
+    }
+
+    private static Relation AreaParticipationValues(Carrier root, Relation basis, IElement source)
+    {
+        var values = GraphicReadGraph.From(source)
+            .ReadsOf<SharedFrameAreaRead>()
+            .DistinctBy(area => SourceId(area.Source))
+            .Select(area => BoundaryFlowValueSurface.Create(
+                new Carrier(),
+                Relation.Point(new Carrier(), 1),
+                area.IsAntiArea ? BoundaryFlowLane.WholeInverse : BoundaryFlowLane.WholeForward,
+                basis,
+                area.Source))
+            .Cast<IElement>()
+            .ToArray();
+
+        return GraphicBooleanSurface.Frame(RootOrNew(root), values);
+    }
 
     private static ParticipantRead ReadParticipant(IElement participant)
     {
@@ -1261,6 +1351,8 @@ public static class GraphicAreaSettlementSurface
         IReadOnlyList<IElement> Outlines,
         IReadOnlyList<IElement> PositiveOutlines,
         IReadOnlyList<IElement> AntiOutlines,
+        IReadOnlyList<IElement> FragmentPartitions,
+        IReadOnlyList<IElement> Residue,
         IReadOnlyList<IElement> ResolvedAreaFills,
         IReadOnlyList<IElement> ResolvedPositiveAreaFills,
         IReadOnlyList<IElement> ResolvedAntiAreaFills);

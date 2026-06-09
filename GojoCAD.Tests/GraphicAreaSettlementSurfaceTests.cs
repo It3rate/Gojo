@@ -1,3 +1,4 @@
+using Gojo.ConceptSurface;
 using Gojo.Core;
 using GojoCAD.Structures;
 
@@ -314,6 +315,56 @@ public sealed class GraphicAreaSettlementSurfaceTests
             maxX <= 32 &&
             minY >= -32 &&
             maxY <= 32);
+    }
+
+    [Fact]
+    public void SettledPositiveAreaUnionCarriesParticipationSettlementWitness()
+    {
+        var basis = new TestBasis();
+        var areaFrame = GraphicBooleanSurface.AreaFrame(
+            new Carrier(),
+            GraphicStructure.AreaFill(Rectangle(basis, -50, 50, -50, 50)),
+            GraphicStructure.AntiAreaFill(Rectangle(basis, -24, 24, -24, 24)));
+
+        var union = GraphicAreaSettlementSurface.SettledPositiveAreaUnion(new Carrier(), areaFrame);
+
+        Assert.True(GraphicBooleanSurface.TryReadAreaUnion(
+            union,
+            out var settledAreaFrame,
+            out var outlineWitness,
+            out var settlementWitness,
+            out var residue));
+        var participation = Assert.IsType<Relation>(settlementWitness);
+        Assert.True(ParticipationSettlementSurface.TryRead(participation, out var read));
+        Assert.Equal(areaFrame, read.SelectedParticipants);
+        Assert.Equal(outlineWitness, read.Scope);
+        Assert.Equal(outlineWitness, read.BoundaryEvidence);
+        Assert.Equal(settledAreaFrame, read.ResultParticipation);
+        Assert.Same(residue, read.ResidueOrTension);
+
+        var partitionLayers = Elements(Assert.IsType<Relation>(read.Partitions));
+        Assert.Equal(2, partitionLayers.Length);
+        Assert.NotEmpty(Elements(Assert.IsType<Relation>(partitionLayers[0])));
+        Assert.NotEmpty(Elements(Assert.IsType<Relation>(partitionLayers[1])));
+
+        var basisRead = Assert.IsType<Relation>(read.ParticipationBasis);
+        Assert.True(BoundaryFlowLaneBasis.TryReadLegalLanes(
+            basisRead,
+            out var exposure,
+            out var lanes));
+        Assert.Equal(new BoundaryFlowExposure(BoundaryExposure.BoundedWhole, FlowExposure.Both), exposure);
+        Assert.Equal("SF|SI", string.Join("|", lanes.Select(lane => lane.Label)));
+
+        var occupiedLanes = Elements(Assert.IsType<Relation>(read.OccupiedLaneEvidence))
+            .OfType<Relation>()
+            .Select(value =>
+            {
+                Assert.True(BoundaryFlowValueSurface.TryReadValue(value, out var valueRead));
+                return valueRead.Lane;
+            })
+            .ToArray();
+        Assert.Contains(BoundaryFlowLane.WholeForward, occupiedLanes);
+        Assert.Contains(BoundaryFlowLane.WholeInverse, occupiedLanes);
     }
 
     [Fact]
@@ -821,6 +872,13 @@ public sealed class GraphicAreaSettlementSurfaceTests
 
     private static ulong ReadSourceId(IElement source) =>
         source is Relation relation ? relation.Id : 0UL;
+
+    private static IElement[] Elements(Relation frame)
+    {
+        var holder = Assert.IsType<Carrier>(frame.Right);
+        Assert.True(frame.TryReadOrderedElementsOn(holder, out var elements));
+        return elements;
+    }
 
     private sealed class TestBasis
     {
