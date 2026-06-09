@@ -24,6 +24,7 @@ Several parts of Gojo now need the same underlying pattern:
 - concept focus reads
 - carrier axis, face, and lane reads
 - boundary-flow route projection
+- participation settlement and boolean-style reads
 - accepted and blocked transfer reads
 - target settlement and shared capacity timelines
 
@@ -76,6 +77,14 @@ Examples:
   target-basis evidence, and route residue.
 - A transfer can expose the accepted value and blocked value as separate
   witnesses.
+- A boolean-style support read can expose selected participants, scope,
+  boundary evidence, occupied flow lanes, partitioned cells, settled result,
+  and residue.
+
+For the cross-grade geometry/concept direction, see
+`ParticipationSettlementReads.md`. That note treats boolean-style names as
+low-resolution projections over occupied flow or participation, not as
+operations on bare boundary objects.
 
 ## BasisReadSurface
 

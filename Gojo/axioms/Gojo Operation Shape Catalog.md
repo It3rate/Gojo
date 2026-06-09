@@ -382,6 +382,75 @@ boolean/filter footholds:
 | selected basis passes | accepted witness. |
 | nonmatching basis remains | blocked witness or lane tension. |
 
+## Participation Settlement And Boolean-Style Reads
+
+Boolean-style behavior is not a separate symbolic algebra in Gojo. It is a
+low-resolution read over occupied flow or participation through a selected
+boundary-flow basis.
+
+The important split is:
+
+```text
+boundary
+  point, endpoint, segment, outline, rim, edge, cut, or site evidence
+
+flow / participation
+  support, fill, anti-fill, radiation, traversal, blockage, transfer, or
+  capacity evidence
+
+containment
+  a bounded settlement read of flow through boundary evidence
+```
+
+A bare boundary is not a boolean operand. Two points at one tick reference are
+shared-site or identity evidence, not `AND`. Two outlines that meet are contact
+or boundary relation evidence, not union. Boolean-style reads begin when a
+selected scope exposes occupied participation that can be partitioned into
+sites, spans, fragments, or cells.
+
+Across geometry grades, the same shape should hold:
+
+| Grade | Boundary evidence | Flow / participation evidence | Boolean-style read |
+| --- | --- | --- | --- |
+| 0D point | site or tick reference | radial, open, blocked, or occupied lane | site occupancy in a chosen basis. |
+| 1D segment | start/end sites | interior span support or directed flow | support, tension, exclusive, uncovered spans. |
+| 2D area | outline, rim, or fragment loop | fill, anti-fill, blocked fill, or open inside/outside flow | area union, cutout, overlap, residue. |
+| Higher | shell, wall, surface, port, or limit | volume, void, pressure, material, route, or capacity | solid/cavity/pass/filter settlement. |
+
+The desired read witness is:
+
+```text
+selected participants
+scope or bounded whole
+boundary evidence
+flow / participation basis
+partitioned sites, spans, fragments, or cells
+occupied lane evidence
+settlement / cancellation witness
+result participation
+residue or tension
+provenance or timeline
+```
+
+Traditional names are allowed as projections:
+
+| Name | Gojo read |
+| --- | --- |
+| OR / union | occupied support in at least one selected flow source. |
+| AND / intersection | shared occupied participation in the same partition. |
+| XOR / exclusive | occupied participation that does not settle as shared support. |
+| NOT / complement | uncovered participation inside an explicit scope. |
+| difference / cut | positive support settled against anti-fill, blocked flow, or opposed participation. |
+
+Open boundaries such as `C` shapes, cups, channels, and grooves can expose
+inside/outside or passage flow without yet proving closed containment. That
+unsettled containment is residue, not failure. A boundary with explicitly no
+flow should not participate in an area boolean until some read creates
+positive, negative, anti, blocked, or otherwise occupied participation from it.
+
+For the fuller cross-grade design note, see
+`../../docs/ParticipationSettlementReads.md`.
+
 ## Crystallized Operation Reads
 
 Crystallization hardens an operation read as a new carrier tick without making

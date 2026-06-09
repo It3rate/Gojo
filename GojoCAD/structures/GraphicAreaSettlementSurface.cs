@@ -147,7 +147,20 @@ public static class GraphicAreaSettlementSurface
         var frontierFragments = settledFragments
             .DistinctBy(FragmentKey)
             .ToArray();
-        var loops = BuildOneSidedBoundaryLoops(frontierFragments);
+        var loops = BuildOneSidedBoundaryLoops(frontierFragments).ToList();
+        var loopKeys = loops.Select(LoopKey).ToHashSet();
+        foreach (var noFillLoop in BuildBoundaryFaceLoops(frontierFragments))
+        {
+            var signedArea = SignedArea(noFillLoop);
+            if (signedArea <= Epsilon ||
+                Contains(participants, InteriorSample(noFillLoop, signedArea)) ||
+                !loopKeys.Add(LoopKey(noFillLoop)))
+            {
+                continue;
+            }
+
+            loops.Add(noFillLoop);
+        }
         var outlines = new List<IElement>();
         var positiveOutlines = new List<IElement>();
         var antiOutlines = new List<IElement>();
@@ -672,6 +685,7 @@ public static class GraphicAreaSettlementSurface
             .Where(fragment => fragment.LeftInside != fragment.RightInside)
             .Select((fragment, index) => new BoundaryFragmentRead(
                 index,
+                index,
                 fragment.LeftInside ? fragment : fragment.Reversed()))
             .ToArray();
         var outgoingByStart = directed
@@ -685,7 +699,7 @@ public static class GraphicAreaSettlementSurface
         var loops = new List<IReadOnlyList<FragmentRead>>();
         foreach (var seed in directed)
         {
-            if (used.Contains(seed.FragmentIndex))
+            if (used.Contains(seed.DirectedIndex))
             {
                 continue;
             }
@@ -698,8 +712,82 @@ public static class GraphicAreaSettlementSurface
             var guard = 0;
             while (guard++ < directed.Length + 2)
             {
-                if (used.Contains(current.FragmentIndex) ||
-                    !loopIndices.Add(current.FragmentIndex))
+                if (used.Contains(current.DirectedIndex) ||
+                    !loopIndices.Add(current.DirectedIndex))
+                {
+                    break;
+                }
+
+                loop.Add(current);
+                var endKey = PointKey(current.Fragment.End);
+                if (endKey == startKey)
+                {
+                    isClosed = true;
+                    break;
+                }
+
+                if (!TryChooseSmoothBoundaryEdge(current, outgoingByStart, used, loopIndices, out var next))
+                {
+                    break;
+                }
+
+                current = next;
+            }
+
+            foreach (var edge in loop)
+            {
+                used.Add(edge.DirectedIndex);
+            }
+
+            if (isClosed && loop.Count >= 3)
+            {
+                loops.Add(loop.Select(edge => edge.Fragment).ToArray());
+            }
+        }
+
+        return loops;
+    }
+
+    private static IReadOnlyList<IReadOnlyList<FragmentRead>> BuildBoundaryFaceLoops(IReadOnlyList<FragmentRead> fragments)
+    {
+        // Each fragment is already a local read of area on one orthogonal side
+        // and no-fill on the other. Walk both directed sides so bounded
+        // no-fill faces can become readable anti loops instead of residue.
+        var directed = fragments
+            .Where(fragment => fragment.LeftInside != fragment.RightInside)
+            .SelectMany((fragment, index) => new[]
+            {
+                new BoundaryFragmentRead(index * 2, index, fragment),
+                new BoundaryFragmentRead(index * 2 + 1, index, fragment.Reversed())
+            })
+            .ToArray();
+        var outgoingByStart = directed
+            .GroupBy(edge => PointKey(edge.Fragment.Start))
+            .ToDictionary(
+                group => group.Key,
+                group => group
+                    .OrderBy(edge => DirectionAngle(edge.Fragment.TangentAtStart()))
+                    .ToArray());
+        var used = new HashSet<int>();
+        var loops = new List<IReadOnlyList<FragmentRead>>();
+        var loopKeys = new HashSet<string>();
+        foreach (var seed in directed)
+        {
+            if (used.Contains(seed.DirectedIndex))
+            {
+                continue;
+            }
+
+            var loop = new List<BoundaryFragmentRead>();
+            var loopIndices = new HashSet<int>();
+            var current = seed;
+            var startKey = PointKey(seed.Fragment.Start);
+            var isClosed = false;
+            var guard = 0;
+            while (guard++ < directed.Length + 2)
+            {
+                if (used.Contains(current.DirectedIndex) ||
+                    !loopIndices.Add(current.DirectedIndex))
                 {
                     break;
                 }
@@ -722,16 +810,35 @@ public static class GraphicAreaSettlementSurface
 
             foreach (var edge in loop)
             {
-                used.Add(edge.FragmentIndex);
+                used.Add(edge.DirectedIndex);
             }
 
             if (isClosed && loop.Count >= 3)
             {
-                loops.Add(loop.Select(edge => edge.Fragment).ToArray());
+                var loopFragments = loop.Select(edge => edge.Fragment).ToArray();
+                if (loopKeys.Add(LoopKey(loopFragments)))
+                {
+                    loops.Add(loopFragments);
+                }
             }
         }
 
         return loops;
+    }
+
+    private static string LoopKey(IReadOnlyList<FragmentRead> loop) =>
+        string.Join("|", loop.Select(UndirectedFragmentKey).Order());
+
+    private static string UndirectedFragmentKey(FragmentRead fragment)
+    {
+        var start = PointKey(fragment.Start);
+        var end = PointKey(fragment.End);
+        var orderedStart = string.CompareOrdinal(start, end) <= 0 ? start : end;
+        var orderedEnd = string.CompareOrdinal(start, end) <= 0 ? end : start;
+        var key = $"{(fragment.IsArc ? "a" : "l")}:{orderedStart}:{orderedEnd}";
+        return fragment.IsArc
+            ? $"{key}:{PointKey(fragment.Center)}:{Rounded(fragment.Radius)}"
+            : key;
     }
 
     private static IReadOnlyList<FragmentRead> SettleFragmentEndpoints(IReadOnlyList<FragmentRead> fragments)
@@ -759,6 +866,37 @@ public static class GraphicAreaSettlementSurface
             Settle(fragment.End)))];
     }
 
+    private static bool TryChooseSmoothBoundaryEdge(
+        BoundaryFragmentRead current,
+        IReadOnlyDictionary<string, BoundaryFragmentRead[]> outgoingByStart,
+        IReadOnlySet<int> used,
+        IReadOnlySet<int> loopIndices,
+        out BoundaryFragmentRead next)
+    {
+        if (!outgoingByStart.TryGetValue(PointKey(current.Fragment.End), out var outgoing))
+        {
+            next = default;
+            return false;
+        }
+
+        var candidates = outgoing
+            .Where(candidate =>
+                !used.Contains(candidate.DirectedIndex) &&
+                !loopIndices.Contains(candidate.DirectedIndex))
+            .ToArray();
+        if (candidates.Length == 0)
+        {
+            next = default;
+            return false;
+        }
+
+        var incomingAngle = DirectionAngle(current.Fragment.TangentAtEnd());
+        next = candidates
+            .OrderBy(candidate => AbsoluteTurn(incomingAngle, DirectionAngle(candidate.Fragment.TangentAtStart())))
+            .First();
+        return true;
+    }
+
     private static bool TryChooseNextBoundaryEdge(
         BoundaryFragmentRead current,
         IReadOnlyDictionary<string, BoundaryFragmentRead[]> outgoingByStart,
@@ -773,7 +911,10 @@ public static class GraphicAreaSettlementSurface
         }
 
         var candidates = outgoing
-            .Where(candidate => !used.Contains(candidate.FragmentIndex) && !loopIndices.Contains(candidate.FragmentIndex))
+            .Where(candidate =>
+                candidate.FragmentIndex != current.FragmentIndex &&
+                !used.Contains(candidate.DirectedIndex) &&
+                !loopIndices.Contains(candidate.DirectedIndex))
             .ToArray();
         if (candidates.Length == 0)
         {
@@ -781,9 +922,9 @@ public static class GraphicAreaSettlementSurface
             return false;
         }
 
-        var incomingAngle = DirectionAngle(current.Fragment.TangentAtEnd());
+        var incomingAngle = DirectionAngle(current.Fragment.TangentAtEnd()) + Math.PI;
         next = candidates
-            .OrderBy(candidate => AbsoluteTurn(incomingAngle, DirectionAngle(candidate.Fragment.TangentAtStart())))
+            .OrderBy(candidate => ClockwiseTurn(incomingAngle, DirectionAngle(candidate.Fragment.TangentAtStart())))
             .First();
         return true;
     }
@@ -1077,6 +1218,22 @@ public static class GraphicAreaSettlementSurface
         }
 
         return Math.Abs(turn);
+    }
+
+    private static double ClockwiseTurn(double fromAngle, double toAngle)
+    {
+        var turn = fromAngle - toAngle;
+        while (turn < 0d)
+        {
+            turn += Math.PI * 2d;
+        }
+
+        while (turn >= Math.PI * 2d)
+        {
+            turn -= Math.PI * 2d;
+        }
+
+        return turn;
     }
 
     private static double ShortestSweep(double startAngle, double endAngle)
@@ -1409,6 +1566,7 @@ public static class GraphicAreaSettlementSurface
     }
 
     private readonly record struct BoundaryFragmentRead(
+        int DirectedIndex,
         int FragmentIndex,
         FragmentRead Fragment);
 

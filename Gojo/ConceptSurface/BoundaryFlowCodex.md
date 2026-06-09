@@ -1509,7 +1509,7 @@ The sixteen combinations are:
 
 | State | Meaning | Example uses |
 | --- | --- | --- |
-| `PN:Ø` | full signed position surface with no flow exposure | geometry coordinates, interval union/intersection, graph placement, segment boolean operations. |
+| `PN:Ø` | full signed position surface with no flow exposure | geometry coordinates, graph placement, boundary-only equality/projection, interval partitioning before occupied-flow settlement. |
 | `PN:F` | signed position surface with forward calibrated flow | directed displacement, affine read, time-like axis, one-drive direction over signed positions. |
 | `PN:I` | signed position surface with inverse calibrated flow | mirrored axis, opposed drive basis, reverse read over signed positions. |
 | `PN:FI` | signed surface with both flow faces exposed | reversible mechanics on signed coordinates, exchange/cancellation systems, two opposed drives. |
@@ -1892,3 +1892,12 @@ Flow describes calibrated tension/change exposure. More advanced concepts such
 as bridge traffic, football fields, filters, valves, and gauges are composed
 structures built from these primitives plus reads, partitions, gates,
 controllers, residue, and timelines.
+
+Boolean-style support, overlap, cutout, and complement reads belong to occupied
+flow or participation, not to bare boundary identity. A no-flow boundary can be
+measured, partitioned, selected, offset, or used to generate later flow, but it
+should not union, intersect, or subtract until a selected read exposes support,
+fill, anti-fill, blocked flow, route transfer, or another occupied lane.
+
+For the cross-grade geometry/concept note, see
+`../../docs/ParticipationSettlementReads.md`.

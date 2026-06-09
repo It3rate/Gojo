@@ -274,7 +274,7 @@ public sealed class GraphicOrthogonalFillSurfaceTests
         var areaFrame = GraphicBooleanSurface.AreaFrame(new Carrier(), participants);
         var union = GraphicAreaSettlementSurface.SettledPositiveAreaUnion(new Carrier(), areaFrame);
 
-        Assert.True(GraphicBooleanSurface.TryReadAreaUnion(union, out var unionAreaFrame, out _, out _, out _));
+        Assert.True(GraphicBooleanSurface.TryReadAreaUnion(union, out var unionAreaFrame, out var outlineWitness, out _, out _));
         var unionAreas = GraphicReadGraph.From(unionAreaFrame)
             .ReadsOf<SharedFrameAreaRead>()
             .DistinctBy(area => ReadSourceId(area.Source))
@@ -287,6 +287,17 @@ public sealed class GraphicOrthogonalFillSurfaceTests
             minY <= -50 &&
             maxY >= 50),
             string.Join(", ", BoundsStrings(unionAreas)));
+        var outlines = GraphicReadGraph.From(outlineWitness)
+            .ReadsOf<ClosedSharedFrameBoundaryRead>()
+            .DistinctBy(boundary => ReadSourceId(boundary.Source))
+            .ToArray();
+        Assert.True(outlines.Any(outline =>
+            TryReadBounds(outline, out var minX, out var maxX, out var minY, out var maxY) &&
+            minX <= -35 &&
+            maxX >= 35 &&
+            minY <= -50 &&
+            maxY >= 50),
+            string.Join(", ", BoundsStrings(outlines)));
     }
 
     [Fact]
@@ -355,7 +366,13 @@ public sealed class GraphicOrthogonalFillSurfaceTests
             .ToArray();
         var outlineBounds = BoundsStrings(outlines);
         Assert.True(
-            hasSettledCenterAntiArea,
+            hasSettledCenterAntiArea &&
+            outlines.Any(outline =>
+                TryReadBounds(outline, out var minX, out var maxX, out var minY, out var maxY) &&
+                minX <= crescentOriginX - 35 &&
+                maxX >= crescentOriginX + 35 &&
+                minY <= -50 &&
+                maxY >= 50),
             $"areas={string.Join(", ", BoundsStrings(unionAreas))}; outlines={string.Join(", ", outlineBounds)}");
     }
 
