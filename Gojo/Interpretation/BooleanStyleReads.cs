@@ -1,11 +1,13 @@
 using Gojo.Core;
+using Gojo.ConceptSurface;
 using Gojo.Reads;
 
 namespace Gojo.Interpretation;
 
 /// <summary>
-/// Boolean-style interpretations as lower projections over support/tension
-/// structure. These are aliases over relation reads, not a separate algebra.
+/// Boolean-style interpretations as lower projections over occupied
+/// participation. The array-returning helpers remain aliases over relation
+/// reads; the settlement helper exposes the richer participation witness.
 /// </summary>
 public static class BooleanStyleReads
 {
@@ -32,4 +34,11 @@ public static class BooleanStyleReads
     /// <summary>Reads scope spans not covered by support relations.</summary>
     public static Relation[] BlockOn(Carrier reader, Relation scope, params Relation[] support) =>
         RelationReads.UncoveredSpansOn(reader, scope, support);
+
+    /// <summary>
+    /// Builds the relation-shaped participation settlement behind the scoped
+    /// segment boolean-style reads.
+    /// </summary>
+    public static Relation SettlementOn(Carrier reader, Relation scope, params Relation[] support) =>
+        ParticipationSettlementSurface.CreateSegmentSupport(new Carrier(), reader, scope, support);
 }
