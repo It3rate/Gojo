@@ -22,7 +22,7 @@ public static class GraphicAreaSettlementSurface
     public static Relation SettledAreaFrame(Carrier root, IElement areaFrame)
     {
         var settlement = CreateSettlement(areaFrame);
-        return GraphicBooleanSurface.AreaFrame(RootOrNew(root), [.. settlement.AreaFills]);
+        return GraphicBooleanSurface.AreaFrame(RootOrNew(root), [.. settlement.ResolvedAreaFills]);
     }
 
     /// <summary>
@@ -214,6 +214,12 @@ public static class GraphicAreaSettlementSurface
             !TryReadFirstAreaBounds(source, out var sourceBounds) ||
             !emittedBounds.Any(bounds => bounds.Overlaps(sourceBounds));
 
+        // A partially emitted anti loop is still residue; touching the source
+        // does not settle the unfilled shape that remains.
+        static bool IsUncovered(IElement source, IReadOnlyList<BoundsRead> emittedBounds) =>
+            !TryReadFirstAreaBounds(source, out var sourceBounds) ||
+            !emittedBounds.Any(bounds => bounds.Contains(sourceBounds));
+
         var residue = new List<IElement>();
         var positiveResidueFills = new List<IElement>();
         var antiResidueFills = new List<IElement>();
@@ -224,14 +230,14 @@ public static class GraphicAreaSettlementSurface
                 .DistinctBy(SourceId)
                 .ToArray();
             var antiResidue = participant.NegativeSources
-                .Where(source => IsUnresolved(source, emittedAntiBounds))
+                .Where(source => IsUncovered(source, emittedAntiBounds))
                 .DistinctBy(SourceId)
                 .ToArray();
             if (antiResidue.Length > 0 &&
                 participant.Positive.Count > 0)
             {
                 residue.Add(participant.Source);
-                positiveResidueFills.Add(participant.Source);
+                positiveResidueFills.AddRange(participant.PositiveSources);
                 continue;
             }
 
@@ -1389,6 +1395,12 @@ public static class GraphicAreaSettlementSurface
 
     private readonly record struct BoundsRead(double MinX, double MaxX, double MinY, double MaxY)
     {
+        public bool Contains(BoundsRead other) =>
+            MinX <= other.MinX &&
+            MaxX >= other.MaxX &&
+            MinY <= other.MinY &&
+            MaxY >= other.MaxY;
+
         public bool Overlaps(BoundsRead other) =>
             MinX <= other.MaxX &&
             MaxX >= other.MinX &&

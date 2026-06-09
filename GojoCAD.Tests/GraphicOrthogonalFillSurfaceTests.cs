@@ -254,9 +254,9 @@ public sealed class GraphicOrthogonalFillSurfaceTests
         const long offset = 10;
         const long endpointRadius = 18;
         var crescentCenterStrokes = Group(
-            Arc(basis, -170, 0, -95, 108, -95, -108),
-            Arc(basis, 170, 0, 95, -108, 95, 108));
-        var crescentCenterCircle = Circle(basis, 0, 0, 58);
+            TrimmedArc(basis, -170, 0, -95, 108, -95, -108, endpointRadius, endpointRadius),
+            TrimmedArc(basis, 170, 0, 95, -108, 95, 108, endpointRadius, endpointRadius));
+        var crescentCenterCircle = Circle(basis, 0, 0, 78);
         var endpointCircles = Group(
             Circle(basis, -95, 108, endpointRadius),
             Circle(basis, -95, -108, endpointRadius),
@@ -274,17 +274,19 @@ public sealed class GraphicOrthogonalFillSurfaceTests
         var areaFrame = GraphicBooleanSurface.AreaFrame(new Carrier(), participants);
         var union = GraphicAreaSettlementSurface.SettledPositiveAreaUnion(new Carrier(), areaFrame);
 
-        Assert.True(GraphicBooleanSurface.TryReadAreaUnion(union, out _, out var outlineWitness, out _, out _));
-        var outlines = GraphicReadGraph.From(outlineWitness)
-            .ReadsOf<ClosedSharedFrameBoundaryRead>()
-            .DistinctBy(boundary => ReadSourceId(boundary.Source))
+        Assert.True(GraphicBooleanSurface.TryReadAreaUnion(union, out var unionAreaFrame, out _, out _, out _));
+        var unionAreas = GraphicReadGraph.From(unionAreaFrame)
+            .ReadsOf<SharedFrameAreaRead>()
+            .DistinctBy(area => ReadSourceId(area.Source))
             .ToArray();
-        Assert.Contains(outlines, outline =>
-            TryReadBounds(outline, out var minX, out var maxX, out var minY, out var maxY) &&
-            minX >= -50 &&
-            maxX <= 50 &&
-            minY <= -40 &&
-            maxY >= 40);
+        Assert.True(unionAreas.Any(area =>
+            area.IsAntiArea &&
+            TryReadBounds(area.Boundary, out var minX, out var maxX, out var minY, out var maxY) &&
+            minX <= -35 &&
+            maxX >= 35 &&
+            minY <= -50 &&
+            maxY >= 50),
+            string.Join(", ", BoundsStrings(unionAreas)));
     }
 
     [Fact]
@@ -298,7 +300,7 @@ public sealed class GraphicOrthogonalFillSurfaceTests
         var crescentCenterStrokes = Group(
             TrimmedArc(basis, crescentOriginX - 170, 0, crescentOriginX - 95, 108, crescentOriginX - 95, -108, endpointRadius, endpointRadius),
             TrimmedArc(basis, crescentOriginX + 170, 0, crescentOriginX + 95, -108, crescentOriginX + 95, 108, endpointRadius, endpointRadius));
-        var crescentCenterCircle = Circle(basis, crescentOriginX, 0, 58);
+        var crescentCenterCircle = Circle(basis, crescentOriginX, 0, 78);
         var bentLeftTop = basis.P(bentOriginX - 92, 122);
         var bentLeftKnee = basis.P(bentOriginX - 18, -6);
         var bentLeftLower = basis.P(bentOriginX - 132, -88);
@@ -336,45 +338,25 @@ public sealed class GraphicOrthogonalFillSurfaceTests
         var union = GraphicAreaSettlementSurface.SettledPositiveAreaUnion(new Carrier(), areaFrame);
 
         Assert.True(GraphicBooleanSurface.TryReadAreaUnion(union, out var unionAreaFrame, out var outlineWitness, out _, out _));
-        IElement[] unionParticipants = [];
-        Assert.True(unionAreaFrame is Relation unionAreaFrameRelation &&
-            GraphicBooleanSurface.TryReadAreaFrame(unionAreaFrameRelation, out unionParticipants));
-        var hasLocalCrescentOpening = unionParticipants.Any(participant =>
-        {
-            var areas = GraphicReadGraph.From(participant)
-                .ReadsOf<SharedFrameAreaRead>()
-                .DistinctBy(area => ReadSourceId(area.Source))
-                .ToArray();
-            return areas.Any(area =>
-                    !area.IsAntiArea &&
-                    area.Boundary.Arcs is { Count: >= 4 } &&
-                    TryReadBounds(area.Boundary, out var minX, out var maxX, out var minY, out var maxY) &&
-                    minX <= crescentOriginX - 60 &&
-                    maxX >= crescentOriginX + 60 &&
-                    minY <= -60 &&
-                    maxY >= 60) &&
-                areas.Any(area =>
-                    area.IsAntiArea &&
-                    area.Boundary.Arcs is { Count: >= 4 } &&
-                    TryReadBounds(area.Boundary, out var minX, out var maxX, out var minY, out var maxY) &&
-                    minX >= crescentOriginX - 60 &&
-                    maxX <= crescentOriginX + 60 &&
-                    minY <= -40 &&
-                    maxY >= 40);
-        });
+        var unionAreas = GraphicReadGraph.From(unionAreaFrame)
+            .ReadsOf<SharedFrameAreaRead>()
+            .DistinctBy(area => ReadSourceId(area.Source))
+            .ToArray();
+        var hasSettledCenterAntiArea = unionAreas.Any(area =>
+            area.IsAntiArea &&
+            TryReadBounds(area.Boundary, out var minX, out var maxX, out var minY, out var maxY) &&
+            minX <= crescentOriginX - 35 &&
+            maxX >= crescentOriginX + 35 &&
+            minY <= -50 &&
+            maxY >= 50);
         var outlines = GraphicReadGraph.From(outlineWitness)
             .ReadsOf<ClosedSharedFrameBoundaryRead>()
             .DistinctBy(boundary => ReadSourceId(boundary.Source))
             .ToArray();
         var outlineBounds = BoundsStrings(outlines);
-        Assert.True(hasLocalCrescentOpening ||
-            outlines.Any(outline =>
-                TryReadBounds(outline, out var minX, out var maxX, out var minY, out var maxY) &&
-                minX >= crescentOriginX - 50 &&
-                maxX <= crescentOriginX + 50 &&
-                minY <= -40 &&
-                maxY >= 40),
-            string.Join(", ", outlineBounds));
+        Assert.True(
+            hasSettledCenterAntiArea,
+            $"areas={string.Join(", ", BoundsStrings(unionAreas))}; outlines={string.Join(", ", outlineBounds)}");
     }
 
     private static string[] BoundsStrings(IEnumerable<SharedFrameAreaRead> areas) =>

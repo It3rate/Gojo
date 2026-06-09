@@ -677,30 +677,8 @@ internal static class Program
                 })
                 .Distinct()
                 .ToArray();
-            var crescentSplitOpenings = WalkRelations(outlineResult)
-                .Where(relation => GraphicBooleanSurface.TryReadAreaUnion(relation, out _, out _, out _, out _))
-                .SelectMany(relation =>
-                {
-                    GraphicBooleanSurface.TryReadAreaUnion(relation, out _, out var outlineWitness, out _, out _);
-                    return GraphicReadGraph.From(outlineWitness).ReadsOf<ClosedSharedFrameBoundaryRead>();
-                })
-                .Where(boundary =>
-                    TryReadSharedFrameBoundaryBounds(boundary, out var minX, out var maxX, out var minY, out var maxY) &&
-                    minX >= -160 &&
-                    maxX <= 25 &&
-                    maxX - minX <= 35 &&
-                    minY <= -35 &&
-                    maxY >= 35)
-                .Select(boundary =>
-                {
-                    TryReadSharedFrameBoundaryBounds(boundary, out var minX, out var maxX, out var minY, out var maxY);
-                    return $"{minX}:{maxX}:{minY}:{maxY}:arcs={boundary.Arcs?.Count ?? 0}";
-                })
-                .Distinct()
-                .ToArray();
             if (crescentLocalCenterOpenings == 0 &&
-                crescentOutlineOpenings.Length == 0 &&
-                crescentSplitOpenings.Length < 2)
+                crescentOutlineOpenings.Length == 0)
             {
                 var outlineBounds = WalkRelations(outlineResult)
                     .Where(relation => GraphicBooleanSurface.TryReadAreaUnion(relation, out _, out _, out _, out _))
@@ -732,7 +710,7 @@ internal static class Program
                     .ToArray();
                 throw new InvalidOperationException(
                     $"Sketch scene '{scene.Label}' did not preserve the crescent center opening as local anti residue or settled outline evidence. " +
-                    $"LocalAnti=[{string.Join(", ", localAntiBounds)}], split=[{string.Join(", ", crescentSplitOpenings)}], outlines=[{string.Join(", ", outlineBounds)}].");
+                    $"LocalAnti=[{string.Join(", ", localAntiBounds)}], outlines=[{string.Join(", ", outlineBounds)}].");
             }
         }
 
@@ -1048,7 +1026,12 @@ internal static class Program
             finalColoredAreas.Any(area => area.IsAntiArea) ||
             finalColoredOutlines.Length < expectedUnionLanes + 8)
         {
-            throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not keep the final holes as unfilled area cuts.");
+            throw new InvalidOperationException(
+                $"Sketch scene '{scene.Label}' ({scene.Caption}) did not keep the final holes as unfilled area cuts. " +
+                $"unions={finalColoredUnions.Length}/{expectedUnionLanes}, " +
+                $"positive={finalColoredAreas.Count(area => !area.IsAntiArea)}/{expectedUnionLanes}, " +
+                $"anti={finalColoredAreas.Count(area => area.IsAntiArea)}, " +
+                $"outlines={finalColoredOutlines.Length}/{expectedUnionLanes + 8}.");
         }
     }
 
