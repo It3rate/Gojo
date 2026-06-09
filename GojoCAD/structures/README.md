@@ -72,9 +72,8 @@ projection of the outline read, not as independent Gojo meaning.
 
 ## Area Participation Settlement Surfaces
 
-`GraphicBooleanSurface` is the historical compatibility foothold for fills and
-outlines. Its frames are now treated as area participation and settlement
-evidence, not as code-owned boolean truth. It carries:
+`GraphicAreaParticipationSurface` carries fills and outlines as area
+participation and settlement evidence, not as code-owned set truth. It carries:
 
 - input area/fill participants in an ordered area frame
 - requested/result outline evidence

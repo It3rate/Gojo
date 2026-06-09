@@ -10,7 +10,7 @@ public sealed class GraphicOutlineSurfaceTests
     {
         var area = GraphicConceptShape.Area(new Carrier(), GraphicConceptShape.ClosedBoundary(new Carrier(), GraphicConceptShape.Section(new Carrier())));
         var outline = GraphicConceptShape.ClosedBoundary(new Carrier(), GraphicConceptShape.Section(new Carrier()));
-        var settlement = GraphicBooleanSurface.BoundarySettlement(new Carrier());
+        var settlement = GraphicAreaParticipationSurface.BoundaryCancellationEvidence(new Carrier());
         var residue = GraphicConceptShape.TensionSlot();
 
         var derivation = GraphicOutlineSurface.FromArea(new Carrier(), area, outline, settlement, residue);
@@ -41,7 +41,7 @@ public sealed class GraphicOutlineSurfaceTests
             GraphicStructure.FrameSegment(P(10, 10), P(0, 10)),
             GraphicStructure.FrameSegment(P(0, 10), P(0, 0)));
         var fill = GraphicStructure.AreaFill(square);
-        var areaFrame = GraphicBooleanSurface.AreaFrame(new Carrier(), fill);
+        var areaFrame = GraphicAreaParticipationSurface.AreaFrame(new Carrier(), fill);
 
         var outlines = GraphicOutlineSurface.BoundaryOutlinesFromAreas(new Carrier(), areaFrame);
 

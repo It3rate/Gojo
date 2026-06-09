@@ -14,7 +14,7 @@ public sealed class GraphicAreaSettlementSurfaceTests
             GraphicStructure.AreaFill(Rectangle(basis, -50, 50, -50, 50)),
             GraphicStructure.AntiAreaFill(Rectangle(basis, -24, 24, -24, 24)));
         var bar = GraphicStructure.AreaFill(Rectangle(basis, -6, 6, -50, 50));
-        var areaFrame = GraphicBooleanSurface.AreaFrame(new Carrier(), frame, bar);
+        var areaFrame = GraphicAreaParticipationSurface.AreaFrame(new Carrier(), frame, bar);
 
         var settled = GraphicAreaSettlementSurface.SettledAreaFrame(new Carrier(), areaFrame);
 
@@ -37,7 +37,7 @@ public sealed class GraphicAreaSettlementSurfaceTests
             GraphicStructure.AreaFill(Circle(basis, 0, 0, 60)),
             GraphicStructure.AntiAreaFill(Circle(basis, 0, 0, 34)));
         var bar = GraphicStructure.AreaFill(Rectangle(basis, -7, 7, -60, 60));
-        var areaFrame = GraphicBooleanSurface.AreaFrame(new Carrier(), ring, bar);
+        var areaFrame = GraphicAreaParticipationSurface.AreaFrame(new Carrier(), ring, bar);
 
         var settled = GraphicAreaSettlementSurface.SettledAreaFrame(new Carrier(), areaFrame);
 
@@ -58,7 +58,7 @@ public sealed class GraphicAreaSettlementSurfaceTests
             GraphicStructure.AreaFill(Rectangle(basis, -50, 50, -50, 50)),
             GraphicStructure.AntiAreaFill(Rectangle(basis, -24, 24, -24, 24)));
         var bar = GraphicStructure.AreaFill(Rectangle(basis, -6, 6, -50, 50));
-        var areaFrame = GraphicBooleanSurface.AreaFrame(new Carrier(), frame, bar);
+        var areaFrame = GraphicAreaParticipationSurface.AreaFrame(new Carrier(), frame, bar);
 
         var settledPositive = GraphicAreaSettlementSurface.SettledPositiveAreaFrame(new Carrier(), areaFrame);
         var openingOutlines = GraphicAreaSettlementSurface.SettledAntiBoundaryOutlinesFromAreas(new Carrier(), areaFrame);
@@ -86,7 +86,7 @@ public sealed class GraphicAreaSettlementSurfaceTests
         var centerFrame = Chain(
             GraphicStructure.AreaFill(Rectangle(basis, -32, 32, -68, 48)),
             GraphicStructure.AntiAreaFill(Rectangle(basis, -24, 24, -52, 32)));
-        var areaFrame = GraphicBooleanSurface.AreaFrame(
+        var areaFrame = GraphicAreaParticipationSurface.AreaFrame(
             new Carrier(),
             GraphicStructure.AreaFill(ArcBand(basis, 0, 112, -78, 108, 78, 108, offset)),
             GraphicStructure.AreaFill(ArcBand(basis, 0, -112, -108, -92, 108, -92, offset)),
@@ -140,7 +140,7 @@ public sealed class GraphicAreaSettlementSurfaceTests
             Segment(basis, yOriginX - 18, 20, yOriginX - 18, -62),
             Segment(basis, yOriginX - 18, -62, yOriginX - 130, -62),
             Segment(basis, yOriginX - 130, -62, yOriginX - 130, -102)));
-        var areaFrame = GraphicBooleanSurface.AreaFrame(
+        var areaFrame = GraphicAreaParticipationSurface.AreaFrame(
             new Carrier(),
             GraphicStructure.AreaFill(ArcBand(
                 basis,
@@ -230,7 +230,7 @@ public sealed class GraphicAreaSettlementSurfaceTests
             Segment(basis, yOriginX - 18, 20, yOriginX - 18, -62),
             Segment(basis, yOriginX - 18, -62, yOriginX - 130, -62),
             Segment(basis, yOriginX - 130, -62, yOriginX - 130, -102)));
-        var areaFrame = GraphicBooleanSurface.AreaFrame(
+        var areaFrame = GraphicAreaParticipationSurface.AreaFrame(
             new Carrier(),
             GraphicStructure.AreaFill(ArcBand(
                 basis,
@@ -264,7 +264,7 @@ public sealed class GraphicAreaSettlementSurfaceTests
 
         var union = GraphicAreaSettlementSurface.SettledPositiveAreaUnion(new Carrier(), areaFrame);
 
-        Assert.True(GraphicBooleanSurface.TryReadAreaUnion(union, out var settledAreaFrame, out var outlineWitness, out _, out _));
+        Assert.True(GraphicAreaParticipationSurface.TryReadAreaUnion(union, out var settledAreaFrame, out var outlineWitness, out _, out _));
         var positiveAreas = GraphicReadGraph.From(settledAreaFrame)
             .ReadsOf<SharedFrameAreaRead>()
             .Where(area => !area.IsAntiArea)
@@ -299,11 +299,11 @@ public sealed class GraphicAreaSettlementSurfaceTests
         var ring = Chain(
             GraphicStructure.AreaFill(Circle(basis, 0, 0, 58)),
             GraphicStructure.AntiAreaFill(Circle(basis, 0, 0, 32)));
-        var areaFrame = GraphicBooleanSurface.AreaFrame(new Carrier(), ring);
+        var areaFrame = GraphicAreaParticipationSurface.AreaFrame(new Carrier(), ring);
 
         var union = GraphicAreaSettlementSurface.SettledPositiveAreaUnion(new Carrier(), areaFrame);
 
-        Assert.True(GraphicBooleanSurface.TryReadAreaUnion(union, out _, out var outlineWitness, out _, out _));
+        Assert.True(GraphicAreaParticipationSurface.TryReadAreaUnion(union, out _, out var outlineWitness, out _, out _));
         var outlines = GraphicReadGraph.From(outlineWitness)
             .ReadsOf<ClosedSharedFrameBoundaryRead>()
             .DistinctBy(boundary => ReadSourceId(boundary.Source))
@@ -321,14 +321,14 @@ public sealed class GraphicAreaSettlementSurfaceTests
     public void SettledPositiveAreaUnionCarriesParticipationSettlementWitness()
     {
         var basis = new TestBasis();
-        var areaFrame = GraphicBooleanSurface.AreaFrame(
+        var areaFrame = GraphicAreaParticipationSurface.AreaFrame(
             new Carrier(),
             GraphicStructure.AreaFill(Rectangle(basis, -50, 50, -50, 50)),
             GraphicStructure.AntiAreaFill(Rectangle(basis, -24, 24, -24, 24)));
 
         var union = GraphicAreaSettlementSurface.SettledPositiveAreaUnion(new Carrier(), areaFrame);
 
-        Assert.True(GraphicBooleanSurface.TryReadAreaUnion(
+        Assert.True(GraphicAreaParticipationSurface.TryReadAreaUnion(
             union,
             out var settledAreaFrame,
             out var outlineWitness,
@@ -371,7 +371,7 @@ public sealed class GraphicAreaSettlementSurfaceTests
     public void AreaUnionWithParticipationPreservesSuppliedResultAndOutline()
     {
         var basis = new TestBasis();
-        var sourceAreaFrame = GraphicBooleanSurface.AreaFrame(
+        var sourceAreaFrame = GraphicAreaParticipationSurface.AreaFrame(
             new Carrier(),
             GraphicStructure.AreaFill(Rectangle(basis, -40, 40, -40, 40)),
             GraphicStructure.AntiAreaFill(Rectangle(basis, -12, 12, -12, 12)));
@@ -386,7 +386,7 @@ public sealed class GraphicAreaSettlementSurfaceTests
             resultAreaFrame,
             outlineWitness);
 
-        Assert.True(GraphicBooleanSurface.TryReadAreaUnion(
+        Assert.True(GraphicAreaParticipationSurface.TryReadAreaUnion(
             union,
             out var readAreaFrame,
             out var readOutline,
@@ -408,7 +408,7 @@ public sealed class GraphicAreaSettlementSurfaceTests
         var basis = new TestBasis();
         const long offset = 10;
         var centerRing = RingFill(basis, 0, 0, 68, 48);
-        var areaFrame = GraphicBooleanSurface.AreaFrame(
+        var areaFrame = GraphicAreaParticipationSurface.AreaFrame(
             new Carrier(),
             centerRing,
             GraphicStructure.AreaFill(ArcBand(basis, -170, 0, -95, 108, -95, -108, offset)),
@@ -416,7 +416,7 @@ public sealed class GraphicAreaSettlementSurfaceTests
 
         var union = GraphicAreaSettlementSurface.SettledPositiveAreaUnion(new Carrier(), areaFrame);
 
-        Assert.True(GraphicBooleanSurface.TryReadAreaUnion(union, out _, out var outlineWitness, out _, out _));
+        Assert.True(GraphicAreaParticipationSurface.TryReadAreaUnion(union, out _, out var outlineWitness, out _, out _));
         var outlines = GraphicReadGraph.From(outlineWitness)
             .ReadsOf<ClosedSharedFrameBoundaryRead>()
             .DistinctBy(boundary => ReadSourceId(boundary.Source))
@@ -433,7 +433,7 @@ public sealed class GraphicAreaSettlementSurfaceTests
     public void SettledAreaFrameSynthesizesCompositeLoopAcrossColinearOverlap()
     {
         var basis = new TestBasis();
-        var areaFrame = GraphicBooleanSurface.AreaFrame(
+        var areaFrame = GraphicAreaParticipationSurface.AreaFrame(
             new Carrier(),
             GraphicStructure.AreaFill(Rectangle(basis, -50, 20, -10, 10)),
             GraphicStructure.AreaFill(Rectangle(basis, -20, 50, -10, 10)));
@@ -464,7 +464,7 @@ public sealed class GraphicAreaSettlementSurfaceTests
         var firstEnd = PointOnCircle(radius, 45);
         var secondStart = PointOnCircle(radius, 135);
         var secondEnd = PointOnCircle(radius, 0);
-        var areaFrame = GraphicBooleanSurface.AreaFrame(
+        var areaFrame = GraphicAreaParticipationSurface.AreaFrame(
             new Carrier(),
             GraphicStructure.AreaFill(ArcBand(basis, 0, 0, firstStart.X, firstStart.Y, firstEnd.X, firstEnd.Y, offset)),
             GraphicStructure.AreaFill(ArcBand(basis, 0, 0, secondStart.X, secondStart.Y, secondEnd.X, secondEnd.Y, offset)));
@@ -520,7 +520,7 @@ public sealed class GraphicAreaSettlementSurfaceTests
             out _,
             out var roundedFrame,
             out _));
-        var areaFrame = GraphicBooleanSurface.AreaFrame(
+        var areaFrame = GraphicAreaParticipationSurface.AreaFrame(
             new Carrier(),
             [.. AreaFillsFromOutlines(roundedFrame),
             GraphicStructure.AntiAreaFill(Rectangle(basis, -34, 34, crossbarHalfWidth, 58)),
@@ -566,7 +566,7 @@ public sealed class GraphicAreaSettlementSurfaceTests
             centerHalfX,
             centerHalfY,
             capRadius);
-        var originalHoles = GraphicBooleanSurface.Frame(
+        var originalHoles = GraphicAreaParticipationSurface.Frame(
             new Carrier(),
             Rectangle(basis, -34, 34, crossbarHalfWidth, 58),
             Rectangle(basis, -34, 34, -58, -crossbarHalfWidth),
@@ -574,7 +574,7 @@ public sealed class GraphicAreaSettlementSurfaceTests
             Circle(basis, -columnX, reach, holeRadius),
             Circle(basis, columnX, -reach, holeRadius),
             Circle(basis, columnX, reach, holeRadius));
-        var sharpAreaFrame = GraphicBooleanSurface.AreaFrame(
+        var sharpAreaFrame = GraphicAreaParticipationSurface.AreaFrame(
             new Carrier(),
             [GraphicStructure.AreaFill(outline), .. AntiAreaFillsFromOutlines(originalHoles)]);
         var sharpSettled = GraphicAreaSettlementSurface.SettledAreaFrame(new Carrier(), sharpAreaFrame);
@@ -594,11 +594,11 @@ public sealed class GraphicAreaSettlementSurfaceTests
             out _,
             out var roundedHoles,
             out _));
-        var positiveOnlyAreaFrame = GraphicBooleanSurface.AreaFrame(new Carrier(), PositiveAreaFillsFromAreaFrame(sharpSettled));
+        var positiveOnlyAreaFrame = GraphicAreaParticipationSurface.AreaFrame(new Carrier(), PositiveAreaFillsFromAreaFrame(sharpSettled));
         Assert.NotEmpty(GraphicReadGraph.From(positiveOnlyAreaFrame).ReadsOf<SharedFrameAreaRead>());
         var positiveOnlySettled = GraphicAreaSettlementSurface.SettledAreaFrame(new Carrier(), positiveOnlyAreaFrame);
         Assert.NotEmpty(PositiveAreaFillsFromAreaFrame(positiveOnlySettled));
-        var roundedSourceAreaFrame = GraphicBooleanSurface.AreaFrame(
+        var roundedSourceAreaFrame = GraphicAreaParticipationSurface.AreaFrame(
             new Carrier(),
             [.. PositiveAreaFillsFromAreaFrame(sharpSettled), .. AntiAreaFillsFromOutlines(roundedHoles)]);
 

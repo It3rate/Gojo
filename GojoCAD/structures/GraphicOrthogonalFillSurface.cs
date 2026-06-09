@@ -16,7 +16,7 @@ public static class GraphicOrthogonalFillSurface
         IElement? outwardOnlyCircleSource = null)
     {
         var participants = OrthogonalFillParticipants(offsetSideWitness, distanceTicks, outwardOnlyCircleSource);
-        return GraphicBooleanSurface.AreaFrame(root ?? new Carrier(), participants);
+        return GraphicAreaParticipationSurface.AreaFrame(root ?? new Carrier(), participants);
     }
 
     public static IElement[] OrthogonalFillParticipants(

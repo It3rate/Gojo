@@ -25,7 +25,7 @@ public static class GraphicAreaSettlementSurface
     public static Relation SettledAreaFrame(Carrier root, IElement areaFrame)
     {
         var settlement = CreateSettlement(areaFrame);
-        return GraphicBooleanSurface.AreaFrame(RootOrNew(root), [.. settlement.ResolvedAreaFills]);
+        return GraphicAreaParticipationSurface.AreaFrame(RootOrNew(root), [.. settlement.ResolvedAreaFills]);
     }
 
     /// <summary>
@@ -35,7 +35,7 @@ public static class GraphicAreaSettlementSurface
     public static Relation SettledPositiveAreaFrame(Carrier root, IElement areaFrame)
     {
         var settlement = CreateSettlement(areaFrame);
-        return GraphicBooleanSurface.AreaFrame(RootOrNew(root), [.. settlement.PositiveAreaFills]);
+        return GraphicAreaParticipationSurface.AreaFrame(RootOrNew(root), [.. settlement.PositiveAreaFills]);
     }
 
     /// <summary>
@@ -45,7 +45,7 @@ public static class GraphicAreaSettlementSurface
     public static Relation SettledPositiveAreaUnion(Carrier root, IElement areaFrame)
     {
         var settlement = CreateSettlement(areaFrame);
-        var settledAreaFrame = GraphicBooleanSurface.AreaFrame(new Carrier(), [.. settlement.AreaFills]);
+        var settledAreaFrame = GraphicAreaParticipationSurface.AreaFrame(new Carrier(), [.. settlement.AreaFills]);
         var outlineFrame = GraphicOutlineSurface.OutlineFrame(new Carrier(), [.. settlement.Outlines]);
         return AreaUnionWithParticipation(RootOrNew(root), areaFrame, settledAreaFrame, outlineFrame, settlement);
     }
@@ -76,7 +76,7 @@ public static class GraphicAreaSettlementSurface
         IElement outlineFrame,
         SettlementRead settlement)
     {
-        var residue = GraphicBooleanSurface.Frame(new Carrier(), [.. settlement.Residue]);
+        var residue = GraphicAreaParticipationSurface.Frame(new Carrier(), [.. settlement.Residue]);
         var participationSettlement = CreateParticipationSettlement(
             new Carrier(),
             sourceAreaFrame,
@@ -84,7 +84,7 @@ public static class GraphicAreaSettlementSurface
             outlineFrame,
             settlement,
             residue);
-        return GraphicBooleanSurface.AreaUnion(
+        return GraphicAreaParticipationSurface.AreaUnion(
             RootOrNew(root),
             settledAreaFrame,
             outlineFrame,
@@ -94,14 +94,14 @@ public static class GraphicAreaSettlementSurface
 
     /// <summary>
     /// Reads the area settlement as the shared participation-settlement witness
-    /// used by point, segment, and area-like boolean reads.
+    /// used by point, segment, and area-like participation reads.
     /// </summary>
     public static Relation SettledAreaParticipation(Carrier root, IElement areaFrame)
     {
         var settlement = CreateSettlement(areaFrame);
-        var settledAreaFrame = GraphicBooleanSurface.AreaFrame(new Carrier(), [.. settlement.AreaFills]);
+        var settledAreaFrame = GraphicAreaParticipationSurface.AreaFrame(new Carrier(), [.. settlement.AreaFills]);
         var outlineFrame = GraphicOutlineSurface.OutlineFrame(new Carrier(), [.. settlement.Outlines]);
-        var residue = GraphicBooleanSurface.Frame(new Carrier(), [.. settlement.Residue]);
+        var residue = GraphicAreaParticipationSurface.Frame(new Carrier(), [.. settlement.Residue]);
         return CreateParticipationSettlement(
             RootOrNew(root),
             areaFrame,
@@ -139,7 +139,7 @@ public static class GraphicAreaSettlementSurface
 
     private static SettlementRead CreateSettlementUncached(Relation frame)
     {
-        if (!GraphicBooleanSurface.TryReadAreaFrame(frame, out var participantElements) ||
+        if (!GraphicAreaParticipationSurface.TryReadAreaFrame(frame, out var participantElements) ||
             participantElements.Length == 0)
         {
             return EmptySettlement();
@@ -403,22 +403,22 @@ public static class GraphicAreaSettlementSurface
 
         return ParticipationSettlementSurface.Create(
             RootOrNew(root),
-            areaFrame ?? GraphicBooleanSurface.AreaFrame(new Carrier()),
-            outlineFrame ?? GraphicBooleanSurface.AreaFrame(new Carrier()),
-            outlineFrame ?? GraphicBooleanSurface.AreaFrame(new Carrier()),
+            areaFrame ?? GraphicAreaParticipationSurface.AreaFrame(new Carrier()),
+            outlineFrame ?? GraphicAreaParticipationSurface.AreaFrame(new Carrier()),
+            outlineFrame ?? GraphicAreaParticipationSurface.AreaFrame(new Carrier()),
             basis,
-            GraphicBooleanSurface.Frame(
+            GraphicAreaParticipationSurface.Frame(
                 new Carrier(),
-                GraphicBooleanSurface.Frame(new Carrier(), [.. settlement.FragmentPartitions]),
-                GraphicBooleanSurface.Frame(new Carrier(), [.. settlement.Outlines])),
+                GraphicAreaParticipationSurface.Frame(new Carrier(), [.. settlement.FragmentPartitions]),
+                GraphicAreaParticipationSurface.Frame(new Carrier(), [.. settlement.Outlines])),
             occupied,
-            GraphicBooleanSurface.Frame(new Carrier(), [.. settlement.AreaFills]),
-            GraphicBooleanSurface.Frame(new Carrier(), [.. settlement.AntiAreaFills]),
-            GraphicBooleanSurface.Frame(new Carrier(), [.. settlement.PositiveAreaFills]),
-            GraphicBooleanSurface.Frame(new Carrier(), [.. settlement.AntiAreaFills]),
-            settledAreaFrame ?? GraphicBooleanSurface.AreaFrame(new Carrier()),
-            residue ?? GraphicBooleanSurface.Frame(new Carrier()),
-            GraphicBooleanSurface.Frame(new Carrier(), areaFrame ?? GraphicBooleanSurface.AreaFrame(new Carrier()), outlineFrame ?? GraphicBooleanSurface.AreaFrame(new Carrier())));
+            GraphicAreaParticipationSurface.Frame(new Carrier(), [.. settlement.AreaFills]),
+            GraphicAreaParticipationSurface.Frame(new Carrier(), [.. settlement.AntiAreaFills]),
+            GraphicAreaParticipationSurface.Frame(new Carrier(), [.. settlement.PositiveAreaFills]),
+            GraphicAreaParticipationSurface.Frame(new Carrier(), [.. settlement.AntiAreaFills]),
+            settledAreaFrame ?? GraphicAreaParticipationSurface.AreaFrame(new Carrier()),
+            residue ?? GraphicAreaParticipationSurface.Frame(new Carrier()),
+            GraphicAreaParticipationSurface.Frame(new Carrier(), areaFrame ?? GraphicAreaParticipationSurface.AreaFrame(new Carrier()), outlineFrame ?? GraphicAreaParticipationSurface.AreaFrame(new Carrier())));
     }
 
     private static Relation AreaParticipationValues(Carrier root, Relation basis, IElement source)
@@ -435,7 +435,7 @@ public static class GraphicAreaSettlementSurface
             .Cast<IElement>()
             .ToArray();
 
-        return GraphicBooleanSurface.Frame(RootOrNew(root), values);
+        return GraphicAreaParticipationSurface.Frame(RootOrNew(root), values);
     }
 
     private static ParticipantRead ReadParticipant(IElement participant)

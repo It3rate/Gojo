@@ -1542,14 +1542,14 @@ internal static partial class SketchSamples
         var offsetSideWitness = OffsetSideWitness(endpointState, offsetBoundaries, offset, endpointCircles);
         var fillParticipants = DerivedOrthogonalInteriorFills(offsetSideWitness, offset, endpointCircles);
         var endpointHoleOutlines = EndpointHoleOutlines(endpointCircles);
-        var separateFills = GraphicBooleanSurface.AreaFrame(new Carrier(), fillParticipants);
-        var areaFrame = GraphicBooleanSurface.AreaFrame(new Carrier(), fillParticipants);
+        var separateFills = GraphicAreaParticipationSurface.AreaFrame(new Carrier(), fillParticipants);
+        var areaFrame = GraphicAreaParticipationSurface.AreaFrame(new Carrier(), fillParticipants);
         var mergedAreaFrame = GraphicAreaSettlementSurface.SettledPositiveAreaFrame(new Carrier(), areaFrame);
         var unionInteriorHoles = Group(
             GraphicAreaSettlementSurface.SettledAntiBoundaryOutlinesFromAreas(new Carrier(), areaFrame),
             endpointHoleOutlines);
         var fillUnion = GraphicAreaSettlementSurface.SettledPositiveAreaUnion(new Carrier(), areaFrame);
-        GraphicBooleanSurface.TryReadAreaUnion(fillUnion, out _, out var fillOutlineWitness, out _, out _);
+        GraphicAreaParticipationSurface.TryReadAreaUnion(fillUnion, out _, out var fillOutlineWitness, out _, out _);
         if (!TryReadRadialProfile(
                 areaFrame,
                 out var profileArmReach,
@@ -1603,7 +1603,7 @@ internal static partial class SketchSamples
             : unionInteriorHoles;
         roundedUnionInteriorHoles = Group(roundedUnionInteriorHoles, endpointHoleOutlines);
         IElement[] positiveFillParticipants = PositiveAreaFillsFromAreaFrame(mergedAreaFrame);
-        var roundedSourceAreaFrame = GraphicBooleanSurface.AreaFrame(
+        var roundedSourceAreaFrame = GraphicAreaParticipationSurface.AreaFrame(
             new Carrier(),
             [.. positiveFillParticipants, .. AntiAreaFillsFromOutlines(roundedUnionInteriorHoles)]);
         var roundedAreaFrame = GraphicAreaSettlementSurface.SettledPositiveAreaFrame(new Carrier(), roundedSourceAreaFrame);
@@ -1622,7 +1622,7 @@ internal static partial class SketchSamples
             profileCenterOuter,
             profileEndpointOuter);
         var exteriorRoundedOuterFill = GraphicStructure.AreaFill(exteriorRoundedOutline);
-        var exteriorRoundedSourceAreaFrame = GraphicBooleanSurface.AreaFrame(
+        var exteriorRoundedSourceAreaFrame = GraphicAreaParticipationSurface.AreaFrame(
             new Carrier(),
             [exteriorRoundedOuterFill, .. AntiAreaFillsFromOutlines(roundedUnionInteriorHoles)]);
         var exteriorRoundedAreaFrame = GraphicAreaSettlementSurface.SettledPositiveAreaFrame(
@@ -1866,15 +1866,15 @@ internal static partial class SketchSamples
         var hOffsetBoundaries = Group(DerivedOffsetBoundaryElements(hEndpointState, offset, hEndpointCircles));
         var hOffsetSideWitness = OffsetSideWitness(hEndpointState, hOffsetBoundaries, offset, hEndpointCircles);
         var hFillParticipants = DerivedOrthogonalInteriorFills(hOffsetSideWitness, offset, hEndpointCircles);
-        var hSeparateFills = GraphicBooleanSurface.AreaFrame(new Carrier(), hFillParticipants);
-        var hAreaFrame = GraphicBooleanSurface.AreaFrame(new Carrier(), hFillParticipants);
+        var hSeparateFills = GraphicAreaParticipationSurface.AreaFrame(new Carrier(), hFillParticipants);
+        var hAreaFrame = GraphicAreaParticipationSurface.AreaFrame(new Carrier(), hFillParticipants);
         var hSettledAreaFrame = GraphicAreaSettlementSurface.SettledPositiveAreaFrame(new Carrier(), hAreaFrame);
         var hMergedAreaFrame = hSettledAreaFrame;
         hUnionInteriorHoles = Group(
             GraphicAreaSettlementSurface.SettledAntiBoundaryOutlinesFromAreas(new Carrier(), hAreaFrame),
             hEndpointHoleOutlines);
         var hFillUnion = GraphicAreaSettlementSurface.SettledPositiveAreaUnion(new Carrier(), hAreaFrame);
-        GraphicBooleanSurface.TryReadAreaUnion(hFillUnion, out _, out var hFillOutlineWitness, out _, out _);
+        GraphicAreaParticipationSurface.TryReadAreaUnion(hFillUnion, out _, out var hFillOutlineWitness, out _, out _);
         var hOffsetEvidence = GraphicParameterSurface.Frame(
             new Carrier(),
             GraphicOffsetSurface.RequestWithDistance(new Carrier(), hEndpointState, Distance(offset)),
@@ -1903,7 +1903,7 @@ internal static partial class SketchSamples
             : hUnionInteriorHoles;
         hRoundedUnionInteriorHoles = Group(hRoundedUnionInteriorHoles, hEndpointHoleOutlines);
         IElement[] hPositiveFillParticipants = PositiveAreaFillsFromAreaFrame(hMergedAreaFrame);
-        var hRoundedSourceAreaFrame = GraphicBooleanSurface.AreaFrame(
+        var hRoundedSourceAreaFrame = GraphicAreaParticipationSurface.AreaFrame(
             new Carrier(),
             [.. hPositiveFillParticipants, .. AntiAreaFillsFromOutlines(hRoundedUnionInteriorHoles)]);
         var hRoundedAreaFrame = GraphicAreaSettlementSurface.SettledPositiveAreaFrame(new Carrier(), hRoundedSourceAreaFrame);
@@ -1942,7 +1942,7 @@ internal static partial class SketchSamples
             && HasClosedBoundaryReads(generatedHExteriorRoundedOutline)
             ? generatedHExteriorRoundedOutline
             : hExteriorReadableSourceOutline;
-        var hExteriorRoundedSourceAreaFrame = GraphicBooleanSurface.AreaFrame(
+        var hExteriorRoundedSourceAreaFrame = GraphicAreaParticipationSurface.AreaFrame(
             new Carrier(),
             [.. AreaFillsFromOutlines(hExteriorRoundedOutline), .. AntiAreaFillsFromOutlines(hRoundedUnionInteriorHoles)]);
         var hExteriorRoundedAreaFrame = GraphicAreaSettlementSurface.SettledPositiveAreaFrame(new Carrier(), hExteriorRoundedSourceAreaFrame);

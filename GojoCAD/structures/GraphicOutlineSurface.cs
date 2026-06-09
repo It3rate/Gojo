@@ -29,7 +29,7 @@ public static class GraphicOutlineSurface
             root,
             areaOrUnion,
             outline,
-            GraphicBooleanSurface.BoundarySettlement(new Carrier()),
+            GraphicAreaParticipationSurface.BoundaryCancellationEvidence(new Carrier()),
             TensionSlot());
 
     /// <summary>Creates an area-to-outline derivation with explicit evidence.</summary>
@@ -43,7 +43,7 @@ public static class GraphicOutlineSurface
             root,
             areaOrUnion ?? TensionSlot(),
             outline ?? TensionSlot(),
-            settlementEvidence ?? GraphicBooleanSurface.BoundarySettlement(new Carrier()),
+            settlementEvidence ?? GraphicAreaParticipationSurface.BoundaryCancellationEvidence(new Carrier()),
             residueOrTension ?? TensionSlot());
 
     /// <summary>Reads an area-to-outline derivation surface.</summary>
@@ -56,7 +56,7 @@ public static class GraphicOutlineSurface
     {
         if (TryReadFrameElements(outlineDerivation, out var elements) &&
             elements.Length == 4 &&
-            GraphicBooleanSurface.CarriesSettlementEvidence(elements[2]))
+            GraphicAreaParticipationSurface.CarriesSettlementEvidence(elements[2]))
         {
             areaOrUnion = elements[0];
             outline = elements[1];
@@ -74,8 +74,8 @@ public static class GraphicOutlineSurface
 
     /// <summary>
     /// Locally reads boundary outlines carried by positive and anti areas in
-    /// an area frame. This is not boolean settlement; it preserves the boundary
-    /// evidence that is already present in the area participants.
+    /// an area frame. This preserves the boundary evidence that is already
+    /// present in the area participants.
     /// </summary>
     public static Relation BoundaryOutlinesFromAreas(Carrier root, IElement areaFrame) =>
         BoundaryOutlinesFromAreas(root, areaFrame, includePositive: true, includeAnti: true);

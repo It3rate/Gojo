@@ -18,7 +18,7 @@ public sealed class GojoCadSkiaAdapter
         ArgumentNullException.ThrowIfNull(element);
 
         if (element is Relation directUnion &&
-            GraphicBooleanSurface.TryReadAreaUnion(directUnion, out _, out _, out _, out _))
+            GraphicAreaParticipationSurface.TryReadAreaUnion(directUnion, out _, out _, out _, out _))
         {
             return AreaUnionProjectionSource(directUnion);
         }
@@ -65,7 +65,7 @@ public sealed class GojoCadSkiaAdapter
         ArgumentNullException.ThrowIfNull(paints);
 
         if (element is Relation directUnion &&
-            GraphicBooleanSurface.TryReadAreaUnion(directUnion, out _, out _, out _, out _))
+            GraphicAreaParticipationSurface.TryReadAreaUnion(directUnion, out _, out _, out _, out _))
         {
             return DrawAreaUnion(canvas, directUnion, projection, paints, hitAreas);
         }
@@ -100,7 +100,7 @@ public sealed class GojoCadSkiaAdapter
 
         var renderable = SelectCurrentRenderableRungs(element);
         if (renderable is Relation union &&
-            GraphicBooleanSurface.TryReadAreaUnion(union, out _, out _, out _, out _))
+            GraphicAreaParticipationSurface.TryReadAreaUnion(union, out _, out _, out _, out _))
         {
             return DrawAreaUnion(canvas, union, projection, paints, hitAreas);
         }
@@ -155,7 +155,7 @@ public sealed class GojoCadSkiaAdapter
 
     private static IElement AreaUnionProjectionSource(Relation union)
     {
-        if (!GraphicBooleanSurface.TryReadAreaUnion(
+        if (!GraphicAreaParticipationSurface.TryReadAreaUnion(
                 union,
                 out var areaFrame,
                 out var outline,
@@ -269,7 +269,7 @@ public sealed class GojoCadSkiaAdapter
             foreach (var elementInFrame in elements)
             {
                 if (elementInFrame is not Relation union ||
-                    !GraphicBooleanSurface.TryReadAreaUnion(union, out _, out _, out _, out _))
+                    !GraphicAreaParticipationSurface.TryReadAreaUnion(union, out _, out _, out _, out _))
                 {
                     unions = [];
                     return false;
@@ -367,7 +367,7 @@ public sealed class GojoCadSkiaAdapter
         GojoCadSkiaPaints paints,
         ICollection<GojoCadSkiaHitArea>? hitAreas)
     {
-        if (!GraphicBooleanSurface.TryReadAreaUnion(
+        if (!GraphicAreaParticipationSurface.TryReadAreaUnion(
                 union,
                 out var areaFrame,
                 out var outline,
@@ -443,7 +443,7 @@ public sealed class GojoCadSkiaAdapter
     private static SKPath? BuildAreaFrameUnionPath(IElement areaFrame, IGojoCadSkiaProjection projection)
     {
         if (areaFrame is not Relation frame ||
-            !GraphicBooleanSurface.TryReadAreaFrame(frame, out var participants) ||
+            !GraphicAreaParticipationSurface.TryReadAreaFrame(frame, out var participants) ||
             participants.Length == 0)
         {
             return null;
@@ -761,7 +761,7 @@ public sealed class GojoCadSkiaAdapter
         ICollection<GojoCadSkiaHitArea>? hitAreas)
     {
         if (areaFrame is Relation frame &&
-            GraphicBooleanSurface.TryReadAreaFrame(frame, out var participants))
+            GraphicAreaParticipationSurface.TryReadAreaFrame(frame, out var participants))
         {
             var participantReads = participants
                 .Select(participant =>

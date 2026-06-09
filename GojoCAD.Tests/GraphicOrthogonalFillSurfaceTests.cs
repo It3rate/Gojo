@@ -213,10 +213,10 @@ public sealed class GraphicOrthogonalFillSurfaceTests
                 minY >= 20 &&
                 maxY >= 100),
             string.Join(", ", participantBounds));
-        var areaFrame = GraphicBooleanSurface.AreaFrame(new Carrier(), participants);
+        var areaFrame = GraphicAreaParticipationSurface.AreaFrame(new Carrier(), participants);
         var union = GraphicAreaSettlementSurface.SettledPositiveAreaUnion(new Carrier(), areaFrame);
 
-        Assert.True(GraphicBooleanSurface.TryReadAreaUnion(union, out var settledAreaFrame, out _, out _, out _));
+        Assert.True(GraphicAreaParticipationSurface.TryReadAreaUnion(union, out var settledAreaFrame, out _, out _, out _));
         var positiveAreas = GraphicReadGraph.From(settledAreaFrame)
             .ReadsOf<SharedFrameAreaRead>()
             .Where(area => !area.IsAntiArea)
@@ -271,10 +271,10 @@ public sealed class GraphicOrthogonalFillSurfaceTests
             Group());
 
         var participants = GraphicOrthogonalFillSurface.OrthogonalFillParticipants(witness, offset, endpointCircles);
-        var areaFrame = GraphicBooleanSurface.AreaFrame(new Carrier(), participants);
+        var areaFrame = GraphicAreaParticipationSurface.AreaFrame(new Carrier(), participants);
         var union = GraphicAreaSettlementSurface.SettledPositiveAreaUnion(new Carrier(), areaFrame);
 
-        Assert.True(GraphicBooleanSurface.TryReadAreaUnion(union, out var unionAreaFrame, out var outlineWitness, out _, out _));
+        Assert.True(GraphicAreaParticipationSurface.TryReadAreaUnion(union, out var unionAreaFrame, out var outlineWitness, out _, out _));
         var unionAreas = GraphicReadGraph.From(unionAreaFrame)
             .ReadsOf<SharedFrameAreaRead>()
             .DistinctBy(area => ReadSourceId(area.Source))
@@ -345,10 +345,10 @@ public sealed class GraphicOrthogonalFillSurfaceTests
             Group());
 
         var participants = GraphicOrthogonalFillSurface.OrthogonalFillParticipants(witness, offset, endpointCircles);
-        var areaFrame = GraphicBooleanSurface.AreaFrame(new Carrier(), participants);
+        var areaFrame = GraphicAreaParticipationSurface.AreaFrame(new Carrier(), participants);
         var union = GraphicAreaSettlementSurface.SettledPositiveAreaUnion(new Carrier(), areaFrame);
 
-        Assert.True(GraphicBooleanSurface.TryReadAreaUnion(union, out var unionAreaFrame, out var outlineWitness, out _, out _));
+        Assert.True(GraphicAreaParticipationSurface.TryReadAreaUnion(union, out var unionAreaFrame, out var outlineWitness, out _, out _));
         var unionAreas = GraphicReadGraph.From(unionAreaFrame)
             .ReadsOf<SharedFrameAreaRead>()
             .DistinctBy(area => ReadSourceId(area.Source))

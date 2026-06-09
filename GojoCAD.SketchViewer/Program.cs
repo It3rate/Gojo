@@ -320,7 +320,7 @@ internal static class Program
         }
 
         var unionSurfaces = WalkRelations(ladder)
-            .Count(relation => GraphicBooleanSurface.TryReadAreaUnion(relation, out _, out _, out _, out _));
+            .Count(relation => GraphicAreaParticipationSurface.TryReadAreaUnion(relation, out _, out _, out _, out _));
         if (unionSurfaces < 2)
         {
             throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not preserve fill union evidence.");
@@ -443,7 +443,7 @@ internal static class Program
         var mergeAreaFrames = WalkRelations(mergeResult)
             .Select(relation =>
             {
-                var read = GraphicBooleanSurface.TryReadAreaUnion(relation, out var areaFrame, out _, out _, out _);
+                var read = GraphicAreaParticipationSurface.TryReadAreaUnion(relation, out var areaFrame, out _, out _, out _);
                 return (read, areaFrame);
             })
             .Where(union => union.read)
@@ -459,7 +459,7 @@ internal static class Program
         foreach (var (_, mergeAreaFrame) in mergeAreaFrames)
         {
             if (mergeAreaFrame is not Relation mergeAreaFrameRelation ||
-                !GraphicBooleanSurface.TryReadAreaFrame(mergeAreaFrameRelation, out var frameParticipants))
+                !GraphicAreaParticipationSurface.TryReadAreaFrame(mergeAreaFrameRelation, out var frameParticipants))
             {
                 continue;
             }
@@ -469,10 +469,10 @@ internal static class Program
         }
 
         var mergeOutlineBoundaries = WalkRelations(mergeResult)
-            .Where(relation => GraphicBooleanSurface.TryReadAreaUnion(relation, out _, out _, out _, out _))
+            .Where(relation => GraphicAreaParticipationSurface.TryReadAreaUnion(relation, out _, out _, out _, out _))
             .SelectMany(relation =>
             {
-                GraphicBooleanSurface.TryReadAreaUnion(relation, out _, out var outlineWitness, out _, out _);
+                GraphicAreaParticipationSurface.TryReadAreaUnion(relation, out _, out var outlineWitness, out _, out _);
                 return GraphicReadGraph.From(outlineWitness).ReadsOf<ClosedSharedFrameBoundaryRead>();
             })
             .ToArray();
@@ -716,10 +716,10 @@ internal static class Program
         }
 
         var openingOutlines = WalkRelations(outlineResult)
-            .Where(relation => GraphicBooleanSurface.TryReadAreaUnion(relation, out _, out _, out _, out _))
+            .Where(relation => GraphicAreaParticipationSurface.TryReadAreaUnion(relation, out _, out _, out _, out _))
             .SelectMany(relation =>
             {
-                GraphicBooleanSurface.TryReadAreaUnion(relation, out _, out var outlineWitness, out _, out _);
+                GraphicAreaParticipationSurface.TryReadAreaUnion(relation, out _, out var outlineWitness, out _, out _);
                 return GraphicReadGraph.From(outlineWitness).ReadsOf<ClosedSharedFrameBoundaryRead>();
             })
             .Count();
@@ -758,10 +758,10 @@ internal static class Program
                         minY <= -40 &&
                         maxY >= 40));
             var crescentOutlineOpenings = WalkRelations(outlineResult)
-                .Where(relation => GraphicBooleanSurface.TryReadAreaUnion(relation, out _, out _, out _, out _))
+                .Where(relation => GraphicAreaParticipationSurface.TryReadAreaUnion(relation, out _, out _, out _, out _))
                 .SelectMany(relation =>
                 {
-                    GraphicBooleanSurface.TryReadAreaUnion(relation, out _, out var outlineWitness, out _, out _);
+                    GraphicAreaParticipationSurface.TryReadAreaUnion(relation, out _, out var outlineWitness, out _, out _);
                     return GraphicReadGraph.From(outlineWitness).ReadsOf<ClosedSharedFrameBoundaryRead>();
                 })
                 .Where(boundary =>
@@ -781,10 +781,10 @@ internal static class Program
                 crescentOutlineOpenings.Length == 0)
             {
                 var outlineBounds = WalkRelations(outlineResult)
-                    .Where(relation => GraphicBooleanSurface.TryReadAreaUnion(relation, out _, out _, out _, out _))
+                    .Where(relation => GraphicAreaParticipationSurface.TryReadAreaUnion(relation, out _, out _, out _, out _))
                     .SelectMany(relation =>
                     {
-                        GraphicBooleanSurface.TryReadAreaUnion(relation, out _, out var outlineWitness, out _, out _);
+                        GraphicAreaParticipationSurface.TryReadAreaUnion(relation, out _, out var outlineWitness, out _, out _);
                         return GraphicReadGraph.From(outlineWitness).ReadsOf<ClosedSharedFrameBoundaryRead>();
                     })
                     .Select(boundary =>
@@ -850,10 +850,10 @@ internal static class Program
         }
 
         var roundedCenterOpenings = WalkRelations(roundedResult)
-            .Where(relation => GraphicBooleanSurface.TryReadAreaUnion(relation, out _, out _, out _, out _))
+            .Where(relation => GraphicAreaParticipationSurface.TryReadAreaUnion(relation, out _, out _, out _, out _))
             .SelectMany(relation =>
             {
-                GraphicBooleanSurface.TryReadAreaUnion(relation, out _, out var roundedOutlineWitness, out _, out _);
+                GraphicAreaParticipationSurface.TryReadAreaUnion(relation, out _, out var roundedOutlineWitness, out _, out _);
                 return GraphicReadGraph.From(roundedOutlineWitness).ReadsOf<ClosedSharedFrameBoundaryRead>();
             })
             .Count(boundary => boundary.Arcs is { Count: >= 4 });
@@ -864,10 +864,10 @@ internal static class Program
         }
 
         var comparisonRoundedAntiOpenings = WalkRelations(roundedResult)
-            .Where(relation => GraphicBooleanSurface.TryReadAreaUnion(relation, out _, out _, out _, out _))
+            .Where(relation => GraphicAreaParticipationSurface.TryReadAreaUnion(relation, out _, out _, out _, out _))
             .SelectMany(relation =>
             {
-                GraphicBooleanSurface.TryReadAreaUnion(relation, out _, out var roundedOutlineWitness, out _, out _);
+                GraphicAreaParticipationSurface.TryReadAreaUnion(relation, out _, out var roundedOutlineWitness, out _, out _);
                 return GraphicReadGraph.From(roundedOutlineWitness).ReadsOf<ClosedSharedFrameBoundaryRead>();
             })
             .Where(boundary => boundary.Arcs is { Count: >= 3 } &&
@@ -885,10 +885,10 @@ internal static class Program
         if (comparisonRoundedAntiOpenings.Length < 1)
         {
             var comparisonAntiBounds = WalkRelations(roundedResult)
-                .Where(relation => GraphicBooleanSurface.TryReadAreaUnion(relation, out _, out _, out _, out _))
+                .Where(relation => GraphicAreaParticipationSurface.TryReadAreaUnion(relation, out _, out _, out _, out _))
                 .SelectMany(relation =>
                 {
-                    GraphicBooleanSurface.TryReadAreaUnion(relation, out _, out var roundedOutlineWitness, out _, out _);
+                    GraphicAreaParticipationSurface.TryReadAreaUnion(relation, out _, out var roundedOutlineWitness, out _, out _);
                     return GraphicReadGraph.From(roundedOutlineWitness).ReadsOf<ClosedSharedFrameBoundaryRead>();
                 })
                 .Select(boundary =>
@@ -904,10 +904,10 @@ internal static class Program
         }
 
         var roundedAreas = WalkRelations(roundedResult)
-            .Where(relation => GraphicBooleanSurface.TryReadAreaUnion(relation, out _, out _, out _, out _))
+            .Where(relation => GraphicAreaParticipationSurface.TryReadAreaUnion(relation, out _, out _, out _, out _))
             .SelectMany(relation =>
             {
-                GraphicBooleanSurface.TryReadAreaUnion(relation, out var roundedAreaFrame, out _, out _, out _);
+                GraphicAreaParticipationSurface.TryReadAreaUnion(relation, out var roundedAreaFrame, out _, out _, out _);
                 return GraphicReadGraph.From(roundedAreaFrame).ReadsOf<SharedFrameAreaRead>();
             })
             .ToArray();
@@ -979,7 +979,7 @@ internal static class Program
         var exteriorRoundedUnions = WalkRelations(exteriorRoundedResult)
             .Select(relation =>
             {
-                var read = GraphicBooleanSurface.TryReadAreaUnion(relation, out var areaFrame, out var outlineWitness, out _, out _);
+                var read = GraphicAreaParticipationSurface.TryReadAreaUnion(relation, out var areaFrame, out var outlineWitness, out _, out _);
                 return (read, areaFrame, outlineWitness);
             })
             .Where(union => union.read)
@@ -995,7 +995,7 @@ internal static class Program
         foreach (var (_, exteriorRoundedAreaFrame, _) in exteriorRoundedUnions)
         {
             if (exteriorRoundedAreaFrame is Relation exteriorRoundedAreaFrameRelation &&
-                GraphicBooleanSurface.TryReadAreaFrame(exteriorRoundedAreaFrameRelation, out var exteriorRoundedParticipants))
+                GraphicAreaParticipationSurface.TryReadAreaFrame(exteriorRoundedAreaFrameRelation, out var exteriorRoundedParticipants))
             {
                 exteriorRoundedParticipantCount += exteriorRoundedParticipants.Length;
                 exteriorRoundedAreas.AddRange(GraphicReadGraph.From(exteriorRoundedAreaFrameRelation).ReadsOf<SharedFrameAreaRead>());
@@ -1100,7 +1100,7 @@ internal static class Program
         var finalColoredUnions = WalkRelations(finalColoredResult)
             .Select(relation =>
             {
-                var read = GraphicBooleanSurface.TryReadAreaUnion(relation, out var areaFrame, out var outlineWitness, out _, out _);
+                var read = GraphicAreaParticipationSurface.TryReadAreaUnion(relation, out var areaFrame, out var outlineWitness, out _, out _);
                 return (read, areaFrame, outlineWitness);
             })
             .Where(union => union.read)
@@ -1111,7 +1111,7 @@ internal static class Program
         foreach (var (_, finalColoredAreaFrame, _) in finalColoredUnions)
         {
             if (finalColoredAreaFrame is Relation finalColoredAreaFrameRelation &&
-                GraphicBooleanSurface.TryReadAreaFrame(finalColoredAreaFrameRelation, out var finalColoredParticipants))
+                GraphicAreaParticipationSurface.TryReadAreaFrame(finalColoredAreaFrameRelation, out var finalColoredParticipants))
             {
                 finalColoredParticipantCount += finalColoredParticipants.Length;
                 finalColoredAreas.AddRange(GraphicReadGraph.From(finalColoredAreaFrameRelation).ReadsOf<SharedFrameAreaRead>());

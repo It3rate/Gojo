@@ -3,7 +3,7 @@ using GojoCAD.Structures;
 
 namespace GojoCAD.Tests;
 
-public sealed class GraphicBooleanSurfaceTests
+public sealed class GraphicAreaParticipationSurfaceTests
 {
     [Fact]
     public void AreaUnionCarriesAreasOutlineSettlementAndResidue()
@@ -17,10 +17,10 @@ public sealed class GraphicBooleanSurfaceTests
         var lowerFill = RectangleFill(Point, 0, 0, 20, 10);
         var upperFill = RectangleFill(Point, 0, 10, 20, 20);
         var outline = RectangleOutline(Point, 0, 0, 20, 20);
-        var areaFrame = GraphicBooleanSurface.AreaFrame(new Carrier(), lowerFill, upperFill);
-        var union = GraphicBooleanSurface.AreaUnion(new Carrier(), areaFrame, outline);
+        var areaFrame = GraphicAreaParticipationSurface.AreaFrame(new Carrier(), lowerFill, upperFill);
+        var union = GraphicAreaParticipationSurface.AreaUnion(new Carrier(), areaFrame, outline);
 
-        Assert.True(GraphicBooleanSurface.TryReadAreaUnion(
+        Assert.True(GraphicAreaParticipationSurface.TryReadAreaUnion(
             union,
             out var readAreaFrame,
             out var readOutline,
@@ -35,7 +35,7 @@ public sealed class GraphicBooleanSurfaceTests
         Assert.Contains(residue, Walk(union));
 
         var readFrame = Assert.IsType<Relation>(readAreaFrame);
-        Assert.True(GraphicBooleanSurface.TryReadAreaFrame(readFrame, out var areas));
+        Assert.True(GraphicAreaParticipationSurface.TryReadAreaFrame(readFrame, out var areas));
         Assert.Collection(
             areas,
             area => Assert.Same(lowerFill, area),
@@ -53,17 +53,17 @@ public sealed class GraphicBooleanSurfaceTests
 
         var fill = RectangleFill(Point, 0, 0, 20, 10);
         var outline = RectangleOutline(Point, 0, 0, 20, 10);
-        var areaFrame = GraphicBooleanSurface.AreaFrame(new Carrier(), fill);
-        var ordinaryEvidence = GraphicBooleanSurface.Frame(new Carrier(), areaFrame, outline);
-        var residue = GraphicBooleanSurface.Frame(new Carrier());
-        var plainFourSlotFrame = GraphicBooleanSurface.Frame(
+        var areaFrame = GraphicAreaParticipationSurface.AreaFrame(new Carrier(), fill);
+        var ordinaryEvidence = GraphicAreaParticipationSurface.Frame(new Carrier(), areaFrame, outline);
+        var residue = GraphicAreaParticipationSurface.Frame(new Carrier());
+        var plainFourSlotFrame = GraphicAreaParticipationSurface.Frame(
             new Carrier(),
             areaFrame,
             outline,
             ordinaryEvidence,
             residue);
 
-        Assert.False(GraphicBooleanSurface.TryReadAreaUnion(
+        Assert.False(GraphicAreaParticipationSurface.TryReadAreaUnion(
             plainFourSlotFrame,
             out _,
             out _,
@@ -72,11 +72,11 @@ public sealed class GraphicBooleanSurfaceTests
     }
 
     [Fact]
-    public void BoundarySettlementCarriesDualAreaAndLineCancellationSlots()
+    public void BoundaryCancellationEvidenceCarriesDualAreaAndLineCancellationSlots()
     {
-        var settlement = GraphicBooleanSurface.BoundarySettlement(new Carrier());
+        var settlement = GraphicAreaParticipationSurface.BoundaryCancellationEvidence(new Carrier());
 
-        Assert.True(GraphicBooleanSurface.TryReadBoundarySettlement(
+        Assert.True(GraphicAreaParticipationSurface.TryReadBoundaryCancellationEvidence(
             settlement,
             out var areaBoundary,
             out var inverseAreaBoundary,

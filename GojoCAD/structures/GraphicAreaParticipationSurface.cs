@@ -4,12 +4,12 @@ using Gojo.ConceptSurface;
 namespace GojoCAD.Structures;
 
 /// <summary>
-/// Relation-shaped area participation and settlement evidence. The type name
-/// is historical: these helpers do not decide booleans in code; they preserve
-/// area participants, outline/result evidence, settlement evidence, and residue
-/// as ordinary Gojo structure.
+/// Relation-shaped area participation and settlement evidence. These helpers
+/// preserve area participants, outline/result evidence, settlement evidence,
+/// and residue as ordinary Gojo structure; they do not decide set truth in
+/// code.
 /// </summary>
-public static class GraphicBooleanSurface
+public static class GraphicAreaParticipationSurface
 {
     /// <summary>Creates an ordered evidence frame.</summary>
     public static Relation Frame(Carrier root, params IElement[] elements) =>
@@ -20,15 +20,15 @@ public static class GraphicBooleanSurface
         Frame(root, areas ?? []);
 
     /// <summary>
-    /// Creates the older shared-boundary cancellation foothold. Positive
-    /// area-to-area union can replace this slot with richer participation
-    /// settlement evidence when occupied flow has been read.
+    /// Creates shared-boundary cancellation evidence. Positive area-to-area
+    /// union can replace this slot with richer participation settlement
+    /// evidence when occupied flow has been read.
     /// </summary>
-    public static Relation BoundarySettlement(Carrier root) =>
-        BoundarySettlement(root, AreaBoundarySlot(), LineBoundarySlot(), TensionSlot());
+    public static Relation BoundaryCancellationEvidence(Carrier root) =>
+        BoundaryCancellationEvidence(root, AreaBoundarySlot(), LineBoundarySlot(), TensionSlot());
 
     /// <summary>Creates shared-boundary cancellation evidence with explicit slots.</summary>
-    public static Relation BoundarySettlement(
+    public static Relation BoundaryCancellationEvidence(
         Carrier root,
         Relation areaBoundary,
         Relation lineBoundary,
@@ -47,7 +47,7 @@ public static class GraphicBooleanSurface
     /// residue.
     /// </summary>
     public static Relation AreaUnion(Carrier root, IElement areaFrame, IElement outline) =>
-        AreaUnion(root, areaFrame, outline, BoundarySettlement(new Carrier()), TensionSlot());
+        AreaUnion(root, areaFrame, outline, BoundaryCancellationEvidence(new Carrier()), TensionSlot());
 
     /// <summary>Creates an area union surface with explicit settlement evidence.</summary>
     public static Relation AreaUnion(
@@ -60,7 +60,7 @@ public static class GraphicBooleanSurface
             root,
             areaFrame ?? AreaFrame(new Carrier()),
             outline ?? TensionSlot(),
-            settlementEvidence ?? BoundarySettlement(new Carrier()),
+            settlementEvidence ?? BoundaryCancellationEvidence(new Carrier()),
             residueOrTension ?? TensionSlot());
 
     /// <summary>Reads an area union surface.</summary>
@@ -97,7 +97,7 @@ public static class GraphicBooleanSurface
     /// </summary>
     public static bool CarriesSettlementEvidence(IElement evidence) =>
         evidence is Relation relation &&
-        (TryReadBoundarySettlement(
+        (TryReadBoundaryCancellationEvidence(
                 relation,
                 out _,
                 out _,
@@ -111,7 +111,7 @@ public static class GraphicBooleanSurface
         TryReadFrameElements(areaFrame, out areas);
 
     /// <summary>Reads shared-boundary cancellation evidence.</summary>
-    public static bool TryReadBoundarySettlement(
+    public static bool TryReadBoundaryCancellationEvidence(
         Relation settlement,
         out IElement areaBoundary,
         out IElement inverseAreaBoundary,
