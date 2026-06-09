@@ -45,10 +45,39 @@ public static class GraphicAreaSettlementSurface
         var settlement = CreateSettlement(areaFrame);
         var settledAreaFrame = GraphicBooleanSurface.AreaFrame(new Carrier(), [.. settlement.AreaFills]);
         var outlineFrame = GraphicOutlineSurface.OutlineFrame(new Carrier(), [.. settlement.Outlines]);
+        return AreaUnionWithParticipation(RootOrNew(root), areaFrame, settledAreaFrame, outlineFrame, settlement);
+    }
+
+    /// <summary>
+    /// Creates an area union with a participation-settlement witness while
+    /// preserving a caller-supplied result area frame and outline witness.
+    /// </summary>
+    public static Relation AreaUnionWithParticipation(
+        Carrier root,
+        IElement sourceAreaFrame,
+        IElement settledAreaFrame,
+        IElement outlineFrame)
+    {
+        var settlement = CreateSettlement(sourceAreaFrame);
+        return AreaUnionWithParticipation(
+            RootOrNew(root),
+            sourceAreaFrame,
+            settledAreaFrame,
+            outlineFrame,
+            settlement);
+    }
+
+    private static Relation AreaUnionWithParticipation(
+        Carrier root,
+        IElement sourceAreaFrame,
+        IElement settledAreaFrame,
+        IElement outlineFrame,
+        SettlementRead settlement)
+    {
         var residue = GraphicBooleanSurface.Frame(new Carrier(), [.. settlement.Residue]);
         var participationSettlement = CreateParticipationSettlement(
             new Carrier(),
-            areaFrame,
+            sourceAreaFrame,
             settledAreaFrame,
             outlineFrame,
             settlement,

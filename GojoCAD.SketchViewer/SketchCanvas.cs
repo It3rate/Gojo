@@ -227,6 +227,7 @@ internal sealed class SketchDrawOperation : ICustomDrawOperation
             out var drawAreaUnionOutline,
             out var drawAreaUnionAsOutline,
             out var drawAreaUnionAntiAreas,
+            out var drawAreaUnionSettlementPartitions,
             out var eraseAreaUnionOutline);
         using var paints = CreateSketchPaints(
             color,
@@ -240,6 +241,7 @@ internal sealed class SketchDrawOperation : ICustomDrawOperation
             drawAreaUnionOutline,
             drawAreaUnionAsOutline,
             drawAreaUnionAntiAreas,
+            drawAreaUnionSettlementPartitions,
             eraseAreaUnionOutline);
         Renderer.Draw(canvas, result, viewport, scene.ProjectionSeed, scene.ModelBounds, paints);
     }
@@ -472,6 +474,7 @@ internal sealed class SketchDrawOperation : ICustomDrawOperation
         out bool drawAreaUnionOutline,
         out bool drawAreaUnionAsOutline,
         out bool drawAreaUnionAntiAreas,
+        out bool drawAreaUnionSettlementPartitions,
         out bool eraseAreaUnionOutline)
     {
         areaPalette = null;
@@ -482,6 +485,7 @@ internal sealed class SketchDrawOperation : ICustomDrawOperation
         drawAreaUnionOutline = false;
         drawAreaUnionAsOutline = false;
         drawAreaUnionAntiAreas = false;
+        drawAreaUnionSettlementPartitions = false;
         eraseAreaUnionOutline = false;
         if (!useSpecialAreaPaints ||
             scene.Label != "Radial Shape Ladder")
@@ -491,6 +495,7 @@ internal sealed class SketchDrawOperation : ICustomDrawOperation
 
         antiAreaFillColor = RadialAntiAreaFill;
         drawAreaUnionAntiAreas = rungIndex >= 4 && rungIndex < 10;
+        drawAreaUnionSettlementPartitions = rungIndex >= 4 && rungIndex < 10;
         if (rungIndex == 3)
         {
             areaPalette = RadialSeparateFillPalette;
@@ -537,6 +542,7 @@ internal sealed class SketchDrawOperation : ICustomDrawOperation
         bool drawAreaUnionOutline = false,
         bool drawAreaUnionAsOutline = false,
         bool drawAreaUnionAntiAreas = false,
+        bool drawAreaUnionSettlementPartitions = false,
         bool eraseAreaUnionOutline = false)
     {
         var paints = new GojoCadSkiaPaints
@@ -556,6 +562,7 @@ internal sealed class SketchDrawOperation : ICustomDrawOperation
             DrawAreaUnionOutline = drawAreaUnionOutline,
             DrawAreaUnionAsOutline = drawAreaUnionAsOutline,
             DrawAreaUnionAntiAreas = drawAreaUnionAntiAreas,
+            DrawAreaUnionSettlementPartitions = drawAreaUnionSettlementPartitions,
             EraseAreaUnionOutline = eraseAreaUnionOutline
         };
         ApplyStroke(paints.Segment, color, strokeWidth * 0.9f);

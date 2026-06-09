@@ -3,13 +3,14 @@ using Gojo.Core;
 namespace GojoCAD.Structures;
 
 /// <summary>
-/// Relation-shaped boolean evidence for areas and outlines. These helpers do
-/// not compute clipping; they preserve the requested area settlement, outline
-/// witness, and unresolved residue as ordinary Gojo structure.
+/// Relation-shaped area participation and settlement evidence. The type name
+/// is historical: these helpers do not decide booleans in code; they preserve
+/// area participants, outline/result evidence, settlement evidence, and residue
+/// as ordinary Gojo structure.
 /// </summary>
 public static class GraphicBooleanSurface
 {
-    /// <summary>Creates an ordered boolean/evidence frame.</summary>
+    /// <summary>Creates an ordered evidence frame.</summary>
     public static Relation Frame(Carrier root, params IElement[] elements) =>
         Relation.OrderedGroup(RootOrNew(root), elements ?? []);
 
@@ -18,9 +19,9 @@ public static class GraphicBooleanSurface
         Frame(root, areas ?? []);
 
     /// <summary>
-    /// Creates shared-boundary cancellation evidence. Positive area-to-area
-    /// union should erase opposing internal boundaries while preserving outer
-    /// boundary residue for the final outline read.
+    /// Creates the older shared-boundary cancellation foothold. Positive
+    /// area-to-area union can replace this slot with richer participation
+    /// settlement evidence when occupied flow has been read.
     /// </summary>
     public static Relation BoundarySettlement(Carrier root) =>
         BoundarySettlement(root, AreaBoundarySlot(), LineBoundarySlot(), TensionSlot());
@@ -41,8 +42,8 @@ public static class GraphicBooleanSurface
 
     /// <summary>
     /// Creates an area union surface:
-    /// input areas/fills, requested/result outline, boundary settlement
-    /// evidence, residue.
+    /// input areas/fills, requested/result outline, settlement evidence,
+    /// residue.
     /// </summary>
     public static Relation AreaUnion(Carrier root, IElement areaFrame, IElement outline) =>
         AreaUnion(root, areaFrame, outline, BoundarySettlement(new Carrier()), TensionSlot());
@@ -52,13 +53,13 @@ public static class GraphicBooleanSurface
         Carrier root,
         IElement areaFrame,
         IElement outline,
-        IElement boundarySettlement,
+        IElement settlementEvidence,
         IElement residueOrTension) =>
         Frame(
             root,
             areaFrame ?? AreaFrame(new Carrier()),
             outline ?? TensionSlot(),
-            boundarySettlement ?? BoundarySettlement(new Carrier()),
+            settlementEvidence ?? BoundarySettlement(new Carrier()),
             residueOrTension ?? TensionSlot());
 
     /// <summary>Reads an area union surface.</summary>
@@ -66,7 +67,7 @@ public static class GraphicBooleanSurface
         Relation union,
         out IElement areaFrame,
         out IElement outline,
-        out IElement boundarySettlement,
+        out IElement settlementEvidence,
         out IElement residueOrTension)
     {
         if (TryReadFrameElements(union, out var elements) &&
@@ -76,14 +77,14 @@ public static class GraphicBooleanSurface
         {
             areaFrame = elements[0];
             outline = elements[1];
-            boundarySettlement = elements[2];
+            settlementEvidence = elements[2];
             residueOrTension = elements[3];
             return true;
         }
 
         areaFrame = default!;
         outline = default!;
-        boundarySettlement = default!;
+        settlementEvidence = default!;
         residueOrTension = default!;
         return false;
     }

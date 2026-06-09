@@ -1,4 +1,5 @@
 using Gojo.Core;
+using Gojo.ConceptSurface;
 using Gojo.Structures;
 using GojoCAD;
 using GojoCAD.Structures;
@@ -131,7 +132,7 @@ public sealed class GojoCadSkiaAdapter
                 union,
                 out var areaFrame,
                 out var outline,
-                out _,
+                out var settlementEvidence,
                 out _) ||
             BuildAreaUnionPath(areaFrame, outline, projection) is not { } path)
         {
@@ -164,6 +165,16 @@ public sealed class GojoCadSkiaAdapter
                 }
             }
             AddHit(hitAreas, path.Bounds, "area union", priority: 2, union);
+        }
+
+        if (paints.DrawAreaUnionSettlementPartitions)
+        {
+            drawn += DrawAreaUnionSettlementPartitions(
+                canvas,
+                settlementEvidence,
+                projection,
+                paints,
+                hitAreas);
         }
 
         if (paints.DrawAreaUnionOutline)
@@ -566,6 +577,72 @@ public sealed class GojoCadSkiaAdapter
             projection,
             paints,
             hitAreas);
+    }
+
+    private static int DrawAreaUnionSettlementPartitions(
+        SKCanvas canvas,
+        IElement settlementEvidence,
+        IGojoCadSkiaProjection projection,
+        GojoCadSkiaPaints paints,
+        ICollection<GojoCadSkiaHitArea>? hitAreas)
+    {
+        if (settlementEvidence is not Relation settlement ||
+            !ParticipationSettlementSurface.TryRead(settlement, out var read))
+        {
+            return 0;
+        }
+
+        var partitionSource = read.Partitions;
+        if (partitionSource is Relation partitionFrame &&
+            TryReadOrderedElements(partitionFrame, out var partitionLayers) &&
+            partitionLayers.Length > 0)
+        {
+            partitionSource = partitionLayers[0];
+        }
+
+        return DrawSettlementPartitionGraph(
+            canvas,
+            GraphicReadGraph.From(partitionSource),
+            projection,
+            paints,
+            hitAreas);
+    }
+
+    private static int DrawSettlementPartitionGraph(
+        SKCanvas canvas,
+        GraphicReadGraph graph,
+        IGojoCadSkiaProjection projection,
+        GojoCadSkiaPaints paints,
+        ICollection<GojoCadSkiaHitArea>? hitAreas)
+    {
+        var drawn = 0;
+        foreach (var segment in graph.ReadsOf<SharedFrameSegmentRead>()
+            .DistinctBy(segment => ReadSourceId(segment.Source)))
+        {
+            var start = projection.ProjectFrame(segment.Start);
+            var end = projection.ProjectFrame(segment.End);
+            canvas.DrawLine(start, end, paints.AreaSettlementPartition);
+            AddHit(hitAreas, LineBounds(start, end, 8f), "area settlement fragment", priority: 3, segment.Source);
+            drawn++;
+        }
+
+        foreach (var arc in graph.ReadsOf<SharedFrameArcRead>()
+            .DistinctBy(arc => ReadSourceId(arc.Source)))
+        {
+            var center = projection.ProjectFrame(arc.Center);
+            var start = projection.ProjectFrame(arc.Start);
+            var end = projection.ProjectFrame(arc.End);
+            var radius = MathF.Max(0.1f, (Distance(center, start) + Distance(center, end)) * 0.5f);
+            var bounds = CircleBounds(center, radius);
+            var startAngle = AngleDegrees(center, start);
+            var endAngle = AngleDegrees(center, end);
+            var sweep = ShortestSweep(startAngle, endAngle);
+            canvas.DrawArc(bounds, startAngle, sweep, false, paints.AreaSettlementPartition);
+            AddHit(hitAreas, bounds, "area settlement fragment", priority: 3, arc.Source);
+            drawn++;
+        }
+
+        return drawn;
     }
 
     private static int DrawAreaUnionOpeningWitness(
@@ -2236,6 +2313,18 @@ public sealed class GojoCadSkiaAdapter
 
     private static ulong ReadSourceId(IElement source) =>
         source is Relation relation ? relation.Id : 0UL;
+
+    private static bool TryReadOrderedElements(Relation frame, out IElement[] elements)
+    {
+        if (frame?.Right is Carrier holder &&
+            frame.TryReadOrderedElementsOn(holder, out elements))
+        {
+            return true;
+        }
+
+        elements = [];
+        return false;
+    }
 
     private static SKPoint AverageProjectedSite(
         IReadOnlyList<SegmentEndpointRead> site,

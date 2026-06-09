@@ -5,7 +5,7 @@ namespace GojoCAD.Structures;
 /// <summary>
 /// Relation-shaped outline derivation evidence. The surface keeps outline and
 /// area separate while connecting the requested source, derived outline,
-/// boundary settlement evidence, and unresolved residue.
+/// settlement evidence, and unresolved residue.
 /// </summary>
 public static class GraphicOutlineSurface
 {
@@ -19,8 +19,7 @@ public static class GraphicOutlineSurface
 
     /// <summary>
     /// Creates an area-to-outline derivation:
-    /// area/union source, outline result, boundary settlement evidence,
-    /// residue/tension.
+    /// area/union source, outline result, settlement evidence, residue/tension.
     /// </summary>
     public static Relation FromArea(
         Carrier root,
@@ -38,13 +37,13 @@ public static class GraphicOutlineSurface
         Carrier root,
         IElement areaOrUnion,
         IElement outline,
-        IElement boundarySettlement,
+        IElement settlementEvidence,
         IElement residueOrTension) =>
         Frame(
             root,
             areaOrUnion ?? TensionSlot(),
             outline ?? TensionSlot(),
-            boundarySettlement ?? GraphicBooleanSurface.BoundarySettlement(new Carrier()),
+            settlementEvidence ?? GraphicBooleanSurface.BoundarySettlement(new Carrier()),
             residueOrTension ?? TensionSlot());
 
     /// <summary>Reads an area-to-outline derivation surface.</summary>
@@ -52,7 +51,7 @@ public static class GraphicOutlineSurface
         Relation outlineDerivation,
         out IElement areaOrUnion,
         out IElement outline,
-        out IElement boundarySettlement,
+        out IElement settlementEvidence,
         out IElement residueOrTension)
     {
         if (TryReadFrameElements(outlineDerivation, out var elements) &&
@@ -60,14 +59,14 @@ public static class GraphicOutlineSurface
         {
             areaOrUnion = elements[0];
             outline = elements[1];
-            boundarySettlement = elements[2];
+            settlementEvidence = elements[2];
             residueOrTension = elements[3];
             return true;
         }
 
         areaOrUnion = default!;
         outline = default!;
-        boundarySettlement = default!;
+        settlementEvidence = default!;
         residueOrTension = default!;
         return false;
     }

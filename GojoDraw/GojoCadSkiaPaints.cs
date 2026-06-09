@@ -38,6 +38,7 @@ public sealed class GojoCadSkiaPaints : IDisposable
         AreaFill = Fill(new SKColor(71, 126, 94, 34));
         AntiAreaFill = Fill(new SKColor(226, 50, 55, 58));
         AreaBoundary = Stroke(new SKColor(71, 126, 94, 115), 1.2f);
+        AreaSettlementPartition = DashedStroke(new SKColor(41, 105, 174, 150), 1.35f);
         BranchNode = Fill(new SKColor(63, 113, 83, 190));
         MergeNode = Fill(new SKColor(42, 91, 143, 190));
         PathGraphTerminalNode = Fill(new SKColor(82, 88, 96, 145));
@@ -106,6 +107,8 @@ public sealed class GojoCadSkiaPaints : IDisposable
 
     public SKPaint AreaBoundary { get; }
 
+    public SKPaint AreaSettlementPartition { get; }
+
     public SKPaint BranchNode { get; }
 
     public SKPaint MergeNode { get; }
@@ -141,6 +144,8 @@ public sealed class GojoCadSkiaPaints : IDisposable
     public bool DrawAreaUnionAsOutline { get; init; }
 
     public bool DrawAreaUnionAntiAreas { get; init; }
+
+    public bool DrawAreaUnionSettlementPartitions { get; init; }
 
     public bool EraseAreaUnionOutline { get; init; }
 
@@ -192,6 +197,7 @@ public sealed class GojoCadSkiaPaints : IDisposable
         AreaFill.Dispose();
         AntiAreaFill.Dispose();
         AreaBoundary.Dispose();
+        AreaSettlementPartition.Dispose();
         BranchNode.Dispose();
         MergeNode.Dispose();
         PathGraphTerminalNode.Dispose();

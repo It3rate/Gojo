@@ -368,6 +368,41 @@ public sealed class GraphicAreaSettlementSurfaceTests
     }
 
     [Fact]
+    public void AreaUnionWithParticipationPreservesSuppliedResultAndOutline()
+    {
+        var basis = new TestBasis();
+        var sourceAreaFrame = GraphicBooleanSurface.AreaFrame(
+            new Carrier(),
+            GraphicStructure.AreaFill(Rectangle(basis, -40, 40, -40, 40)),
+            GraphicStructure.AntiAreaFill(Rectangle(basis, -12, 12, -12, 12)));
+        var resultAreaFrame = GraphicAreaSettlementSurface.SettledPositiveAreaFrame(new Carrier(), sourceAreaFrame);
+        var outlineWitness = Chain(
+            GraphicOutlineSurface.PositiveBoundaryOutlinesFromAreas(new Carrier(), resultAreaFrame),
+            GraphicAreaSettlementSurface.SettledAntiBoundaryOutlinesFromAreas(new Carrier(), sourceAreaFrame));
+
+        var union = GraphicAreaSettlementSurface.AreaUnionWithParticipation(
+            new Carrier(),
+            sourceAreaFrame,
+            resultAreaFrame,
+            outlineWitness);
+
+        Assert.True(GraphicBooleanSurface.TryReadAreaUnion(
+            union,
+            out var readAreaFrame,
+            out var readOutline,
+            out var settlementWitness,
+            out _));
+        Assert.Same(resultAreaFrame, readAreaFrame);
+        Assert.Same(outlineWitness, readOutline);
+
+        var participation = Assert.IsType<Relation>(settlementWitness);
+        Assert.True(ParticipationSettlementSurface.TryRead(participation, out var read));
+        Assert.Equal(sourceAreaFrame, read.SelectedParticipants);
+        Assert.Equal(outlineWitness, read.Scope);
+        Assert.Equal(resultAreaFrame, read.ResultParticipation);
+    }
+
+    [Fact]
     public void SettledPositiveAreaUnionCarriesCrescentCenterOpeningAsOutline()
     {
         var basis = new TestBasis();

@@ -1610,7 +1610,11 @@ internal static partial class SketchSamples
         var roundedUnionOutlineWitness = Group(
             GraphicOutlineSurface.PositiveBoundaryOutlinesFromAreas(new Carrier(), roundedAreaFrame),
             roundedUnionInteriorHoles);
-        var roundedUnion = GraphicBooleanSurface.AreaUnion(new Carrier(), roundedAreaFrame, roundedUnionOutlineWitness);
+        var roundedUnion = GraphicAreaSettlementSurface.AreaUnionWithParticipation(
+            new Carrier(),
+            roundedSourceAreaFrame,
+            roundedAreaFrame,
+            roundedUnionOutlineWitness);
         var roundedUnionOutlineEvidence = GraphicOutlineSurface.FromArea(new Carrier(), roundedUnion, roundedUnionOutlineWitness);
         var exteriorRoundedOutline = ExteriorRoundedOutline(
             profileArmReach,
@@ -1630,12 +1634,14 @@ internal static partial class SketchSamples
             roundedUnion,
             GraphicSelectionSurface.Frame(new Carrier(), roundedUnion, exteriorCuspDomain),
             cuspPattern);
-        var exteriorRoundedUnion = GraphicBooleanSurface.AreaUnion(
+        var exteriorRoundedUnion = GraphicAreaSettlementSurface.AreaUnionWithParticipation(
             new Carrier(),
+            exteriorRoundedSourceAreaFrame,
             exteriorRoundedAreaFrame,
             Chain(exteriorRoundedOutline, roundedUnionInteriorHoles));
-        var finalColoredUnion = GraphicBooleanSurface.AreaUnion(
+        var finalColoredUnion = GraphicAreaSettlementSurface.AreaUnionWithParticipation(
             new Carrier(),
+            exteriorRoundedSourceAreaFrame,
             exteriorRoundedAreaFrame,
             Chain(exteriorRoundedOutline, roundedUnionInteriorHoles));
 
@@ -1904,7 +1910,11 @@ internal static partial class SketchSamples
         var hRoundedUnionOutlineWitness = Group(
             GraphicOutlineSurface.PositiveBoundaryOutlinesFromAreas(new Carrier(), hRoundedAreaFrame),
             hRoundedUnionInteriorHoles);
-        var hRoundedUnion = GraphicBooleanSurface.AreaUnion(new Carrier(), hRoundedAreaFrame, hRoundedUnionOutlineWitness);
+        var hRoundedUnion = GraphicAreaSettlementSurface.AreaUnionWithParticipation(
+            new Carrier(),
+            hRoundedSourceAreaFrame,
+            hRoundedAreaFrame,
+            hRoundedUnionOutlineWitness);
         var hRoundedUnionOutlineEvidence = GraphicOutlineSurface.FromArea(new Carrier(), hRoundedUnion, hRoundedUnionOutlineWitness);
         var hExteriorSharpOutlineFromFill = GraphicOutlineSurface.PositiveBoundaryOutlinesFromAreas(new Carrier(), hRoundedAreaFrame);
         var hExteriorReadableSourceOutline = HasClosedBoundaryReads(hExteriorSharpOutlineFromFill)
@@ -1936,12 +1946,14 @@ internal static partial class SketchSamples
             new Carrier(),
             [.. AreaFillsFromOutlines(hExteriorRoundedOutline), .. AntiAreaFillsFromOutlines(hRoundedUnionInteriorHoles)]);
         var hExteriorRoundedAreaFrame = GraphicAreaSettlementSurface.SettledPositiveAreaFrame(new Carrier(), hExteriorRoundedSourceAreaFrame);
-        var hExteriorRoundedUnion = GraphicBooleanSurface.AreaUnion(
+        var hExteriorRoundedUnion = GraphicAreaSettlementSurface.AreaUnionWithParticipation(
             new Carrier(),
+            hExteriorRoundedSourceAreaFrame,
             hExteriorRoundedAreaFrame,
             Group(hExteriorRoundedOutline, hRoundedUnionInteriorHoles));
-        var hFinalColoredUnion = GraphicBooleanSurface.AreaUnion(
+        var hFinalColoredUnion = GraphicAreaSettlementSurface.AreaUnionWithParticipation(
             new Carrier(),
+            hExteriorRoundedSourceAreaFrame,
             hExteriorRoundedAreaFrame,
             Group(hExteriorRoundedOutline, hRoundedUnionInteriorHoles));
 
