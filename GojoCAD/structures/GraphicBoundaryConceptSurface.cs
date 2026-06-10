@@ -74,6 +74,24 @@ public static class GraphicBoundaryConceptSurface
         var graph = GraphicReadGraph.From(source ?? GraphicConceptShape.TensionSlot());
         var candidates = new List<IElement>();
         var seenTips = new HashSet<string>();
+        var arcSpanIds = graph.ReadsOf<SharedFrameArcRead>()
+            .Select(arc => SourceId(arc.Span.Source))
+            .ToHashSet();
+        var circleRadiusSpanIds = graph.ReadsOf<SharedFrameCircleRead>()
+            .Select(circle => SourceId(circle.RadiusSpan.Source))
+            .ToHashSet();
+        var closedBoundarySegmentIds = graph.ReadsOf<ClosedSharedFrameBoundaryRead>()
+            .SelectMany(boundary => boundary.Segments)
+            .Select(segment => SourceId(segment.Source))
+            .ToHashSet();
+
+        bool IsSupportOrClosedSegment(IElement segmentSource)
+        {
+            var id = SourceId(segmentSource);
+            return arcSpanIds.Contains(id) ||
+                circleRadiusSpanIds.Contains(id) ||
+                closedBoundarySegmentIds.Contains(id);
+        }
 
         void AddCandidate(SharedFramePointRead framePoint, IElement terminatingEdge)
         {
@@ -95,7 +113,8 @@ public static class GraphicBoundaryConceptSurface
         foreach (var node in pathGraph.Nodes.Where(node => node.Valence == 1))
         {
             var endpoint = node.Endpoints[0];
-            if (endpoint.SharedFramePoint is not { } framePoint)
+            if (endpoint.SharedFramePoint is not { } framePoint ||
+                IsSupportOrClosedSegment(endpoint.Segment.Source))
             {
                 continue;
             }
@@ -103,10 +122,6 @@ public static class GraphicBoundaryConceptSurface
             AddCandidate(framePoint, endpoint.Segment.Source);
         }
 
-        var closedBoundarySegmentIds = graph.ReadsOf<ClosedSharedFrameBoundaryRead>()
-            .SelectMany(boundary => boundary.Segments)
-            .Select(segment => SourceId(segment.Source))
-            .ToHashSet();
         foreach (var arc in graph.ReadsOf<SharedFrameArcRead>())
         {
             if (closedBoundarySegmentIds.Contains(SourceId(arc.Span.Source)))
@@ -473,17 +488,9 @@ public static class GraphicBoundaryConceptSurface
                 new CarrierLocation(x.Carrier, xTicks),
                 new CarrierLocation(y.Carrier, yTicks));
 
-        Relation Arc(long startX, long startY, long endX, long endY) =>
-            GraphicStructure.FrameArc(
-                P(x.Ticks, y.Ticks),
-                P(startX, startY),
-                P(endX, endY));
-
-        return Chain(
-            Arc(x.Ticks + radiusTicks, y.Ticks, x.Ticks, y.Ticks + radiusTicks),
-            Arc(x.Ticks, y.Ticks + radiusTicks, x.Ticks - radiusTicks, y.Ticks),
-            Arc(x.Ticks - radiusTicks, y.Ticks, x.Ticks, y.Ticks - radiusTicks),
-            Arc(x.Ticks, y.Ticks - radiusTicks, x.Ticks + radiusTicks, y.Ticks));
+        return GraphicStructure.FrameCircle(
+            P(x.Ticks, y.Ticks),
+            P(x.Ticks + radiusTicks, y.Ticks));
     }
 
     private static bool TryCreateRoundedBoundary(
@@ -790,6 +797,12 @@ public static class GraphicBoundaryConceptSurface
         ClosedSharedFrameBoundaryRead boundary,
         out IReadOnlyList<OrientedBoundaryEdge> edges)
     {
+        if (boundary.Segments.Count == 0)
+        {
+            edges = [];
+            return false;
+        }
+
         var siteByEndpoint = boundary.Sites
             .SelectMany(site => site.Select(endpoint => (endpoint, site)))
             .ToDictionary(pair => EndpointSignature(pair.endpoint), pair => pair.site);
@@ -823,6 +836,11 @@ public static class GraphicBoundaryConceptSurface
 
     private static IElement BoundaryStructure(ClosedSharedFrameBoundaryRead boundary)
     {
+        if (boundary.Circles is { Count: > 0 })
+        {
+            return Chain([.. boundary.Circles.Select(circle => circle.Source)]);
+        }
+
         var arcBySpanSource = (boundary.Arcs ?? [])
             .GroupBy(arc => SourceId(arc.Span.Source))
             .ToDictionary(group => group.Key, group => group.First());

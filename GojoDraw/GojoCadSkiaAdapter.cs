@@ -1,4 +1,5 @@
 using Gojo.Core;
+using System.Globalization;
 using Gojo.ConceptSurface;
 using Gojo.Structures;
 using GojoCAD;
@@ -372,8 +373,25 @@ public sealed class GojoCadSkiaAdapter
                 out var areaFrame,
                 out var outline,
                 out var settlementEvidence,
-                out _) ||
-            BuildAreaUnionPath(areaFrame, outline, projection) is not { } path)
+                out _))
+        {
+            return 0;
+        }
+
+        if (paints.DrawAreaUnionFromSharedFrameAreaPartitions &&
+            DrawAreaUnionFromSharedFrameAreaPartitions(
+                canvas,
+                areaFrame,
+                settlementEvidence,
+                outline,
+                projection,
+                paints,
+                hitAreas) is { } partitionDrawn and > 0)
+        {
+            return partitionDrawn;
+        }
+
+        if (BuildAreaUnionPath(areaFrame, outline, projection) is not { } path)
         {
             return 0;
         }
@@ -421,6 +439,126 @@ public sealed class GojoCadSkiaAdapter
             return drawn + (paints.DrawAreaUnionAsOutline
                 ? DrawAreaUnionOutlineWitness(canvas, outline, projection, paints, hitAreas, fill: false)
                 : DrawReadGraph(canvas, GraphicReadGraph.From(outline), projection, paints, hitAreas));
+        }
+
+        return drawn;
+    }
+
+    private static int DrawAreaUnionFromSharedFrameAreaPartitions(
+        SKCanvas canvas,
+        IElement areaFrame,
+        IElement settlementEvidence,
+        IElement outline,
+        IGojoCadSkiaProjection projection,
+        GojoCadSkiaPaints paints,
+        ICollection<GojoCadSkiaHitArea>? hitAreas)
+    {
+        var partitionSource = ReadAreaUnionPartitionSource(areaFrame, settlementEvidence);
+        using var partitions = BuildSharedFrameAreaPartitions(
+            GraphicReadGraph.From(partitionSource),
+            projection,
+            new HashSet<ulong>());
+        if (partitions is null ||
+            BuildPartitionCellUnionPath(partitions.PositiveCells) is not { } path)
+        {
+            return 0;
+        }
+
+        var drawn = 1;
+        using (path)
+        {
+            using var antiCutPath = BuildPartitionCellUnionPath(partitions.AntiCells);
+            if (antiCutPath is not null)
+            {
+                ApplyPathOp(path, antiCutPath, SKPathOp.Difference);
+            }
+
+            if (paints.DrawAreaUnionAsOutline)
+            {
+                canvas.DrawPath(path, paints.AreaBoundary);
+            }
+            else
+            {
+                canvas.DrawPath(path, paints.AreaFill);
+                if (paints.DrawAreaUnionAntiAreas)
+                {
+                    drawn += DrawPartitionOpeningCells(canvas, partitions.AntiCells, paints, hitAreas, partitions.Areas[0].Source);
+                }
+            }
+
+            AddHit(hitAreas, path.Bounds, "area union", priority: 2, areaFrame);
+        }
+
+        if (paints.DrawAreaUnionSettlementPartitions)
+        {
+            drawn += DrawAreaUnionSettlementPartitions(
+                canvas,
+                settlementEvidence,
+                projection,
+                paints,
+                hitAreas);
+        }
+
+        if (paints.DrawAreaUnionOutline)
+        {
+            drawn += paints.DrawAreaUnionAsOutline
+                ? DrawAreaUnionOutlineWitness(canvas, outline, projection, paints, hitAreas, fill: false)
+                : DrawReadGraph(canvas, GraphicReadGraph.From(outline), projection, paints, hitAreas);
+        }
+
+        return drawn;
+    }
+
+    private static IElement ReadAreaUnionPartitionSource(IElement areaFrame, IElement settlementEvidence)
+    {
+        if (settlementEvidence is Relation settlement &&
+            ParticipationSettlementSurface.TryRead(settlement, out var read))
+        {
+            return read.SelectedParticipants;
+        }
+
+        return areaFrame;
+    }
+
+    private static SKPath? BuildPartitionCellUnionPath(IReadOnlyList<SKPath> cells)
+    {
+        var composite = new SKPath();
+        var hasComposite = false;
+        foreach (var cell in cells)
+        {
+            if (!hasComposite)
+            {
+                composite.AddPath(cell);
+                hasComposite = true;
+            }
+            else
+            {
+                ApplyPathOp(composite, cell, SKPathOp.Union);
+            }
+        }
+
+        if (hasComposite)
+        {
+            return composite;
+        }
+
+        composite.Dispose();
+        return null;
+    }
+
+    private static int DrawPartitionOpeningCells(
+        SKCanvas canvas,
+        IReadOnlyList<SKPath> cells,
+        GojoCadSkiaPaints paints,
+        ICollection<GojoCadSkiaHitArea>? hitAreas,
+        IElement source)
+    {
+        var drawn = 0;
+        foreach (var cell in cells)
+        {
+            canvas.DrawPath(cell, paints.AntiAreaFill);
+            AddHit(hitAreas, cell.Bounds, "area union opening", priority: 2, source);
+            drawn++;
         }
 
         return drawn;
@@ -858,6 +996,36 @@ public sealed class GojoCadSkiaAdapter
         foreach (var fragment in SettlementPartitionFragments(partitionSource)
             .DistinctBy(ReadSourceId))
         {
+            if (TryReadSharedFrameCircle(fragment, out var circle))
+            {
+                var center = projection.ProjectFrame(circle.Center);
+                var radiusPoint = projection.ProjectFrame(circle.RadiusPoint);
+                var radius = MathF.Max(0.1f, Distance(center, radiusPoint));
+                var bounds = CircleBounds(center, radius);
+                canvas.DrawCircle(center, radius, paints.AreaSettlementPartition);
+                AddHit(hitAreas, bounds, "area settlement circle", priority: 3, circle.Source);
+                drawn++;
+                continue;
+            }
+
+            if (TryReadSharedFrameArcSection(fragment, out var section))
+            {
+                var center = projection.ProjectFrame(section.Center);
+                var start = projection.ProjectFrame(section.Start);
+                var through = projection.ProjectFrame(section.Through);
+                var end = projection.ProjectFrame(section.End);
+                var radius = MathF.Max(0.1f, (Distance(center, start) + Distance(center, through) + Distance(center, end)) / 3f);
+                var bounds = CircleBounds(center, radius);
+                var startAngle = AngleDegrees(center, start);
+                var throughAngle = AngleDegrees(center, through);
+                var endAngle = AngleDegrees(center, end);
+                var sweep = SweepThrough(startAngle, throughAngle, endAngle);
+                canvas.DrawArc(bounds, startAngle, sweep, false, paints.AreaSettlementPartition);
+                AddHit(hitAreas, bounds, "area settlement arc section", priority: 3, section.Source);
+                drawn++;
+                continue;
+            }
+
             if (TryReadSharedFrameArc(fragment, out var arc))
             {
                 var center = projection.ProjectFrame(arc.Center);
@@ -889,7 +1057,9 @@ public sealed class GojoCadSkiaAdapter
 
     private static IEnumerable<IElement> SettlementPartitionFragments(IElement source)
     {
-        if (TryReadSharedFrameArc(source, out _) ||
+        if (TryReadSharedFrameCircle(source, out _) ||
+            TryReadSharedFrameArcSection(source, out _) ||
+            TryReadSharedFrameArc(source, out _) ||
             TryReadSharedFrameSegment(source, out _))
         {
             yield return source;
@@ -905,6 +1075,42 @@ public sealed class GojoCadSkiaAdapter
                 yield return fragment;
             }
         }
+    }
+
+    private static bool TryReadSharedFrameCircle(IElement source, out SharedFrameCircleRead circle)
+    {
+        if (source is Relation relation &&
+            relation.Left is Relation centerRelation &&
+            relation.Right is Relation radiusSpanRelation &&
+            TryReadSharedFramePoint(centerRelation, out var center) &&
+            TryReadSharedFrameSegment(radiusSpanRelation, out var radiusSpan) &&
+            SameFramePoint(center, radiusSpan.Start) &&
+            !SameFramePoint(center, radiusSpan.End))
+        {
+            circle = new SharedFrameCircleRead(relation, center, radiusSpan.End, radiusSpan);
+            return true;
+        }
+
+        circle = default!;
+        return false;
+    }
+
+    private static bool TryReadSharedFrameArcSection(IElement source, out SharedFrameArcSectionRead section)
+    {
+        if (source is Relation relation &&
+            relation.Left is Relation arcRelation &&
+            relation.Right is Relation throughRelation &&
+            TryReadSharedFrameArc(arcRelation, out var arc) &&
+            TryReadSharedFramePoint(throughRelation, out var through) &&
+            HaveSameFrameBasis(arc.Center, through) &&
+            !SameFramePoint(arc.Center, through))
+        {
+            section = new SharedFrameArcSectionRead(relation, arc, through);
+            return true;
+        }
+
+        section = default!;
+        return false;
     }
 
     private static bool TryReadSharedFrameArc(IElement source, out SharedFrameArcRead arc)
@@ -1196,6 +1402,13 @@ public sealed class GojoCadSkiaAdapter
 
         if (!paints.HideSharedFrameGeometry)
         {
+            foreach (var circle in graph.ReadsOf<SharedFrameCircleRead>()
+                .Where(read => !IsRepeatControlSource(read.Source, repeatControlSources)))
+            {
+                DrawSharedFrameCircle(canvas, circle, projection, paints, hitAreas);
+                drawn++;
+            }
+
             foreach (var segment in graph.ReadsOf<SharedFrameSegmentRead>()
                 .Where(read => !IsRepeatControlSource(read.Source, repeatControlSources))
                 .Where(read => !IsFrameCurveSupportSource(read.Source, frameCurveSupportSources)))
@@ -1307,19 +1520,37 @@ public sealed class GojoCadSkiaAdapter
             drawn++;
         }
 
-        var sharedFrameAreaPaletteIndex = 0;
-        foreach (var area in graph.ReadsOf<SharedFrameAreaRead>()
-            .Where(read => !IsRepeatControlSource(read.Source, repeatControlSources)))
+        var drewSharedFrameAreaPartitions = false;
+        if (paints.DrawSharedFrameAreaPartitions)
         {
-            DrawSharedFrameArea(
+            var partitionDrawn = DrawSharedFrameAreaPartitions(
                 canvas,
-                area,
+                graph,
                 projection,
                 paints,
                 hitAreas,
                 pointRoles,
-                area.IsAntiArea ? -1 : sharedFrameAreaPaletteIndex++);
-            drawn++;
+                repeatControlSources);
+            drawn += partitionDrawn;
+            drewSharedFrameAreaPartitions = partitionDrawn > 0;
+        }
+
+        if (!drewSharedFrameAreaPartitions)
+        {
+            var sharedFrameAreaPaletteIndex = 0;
+            foreach (var area in graph.ReadsOf<SharedFrameAreaRead>()
+                .Where(read => !IsRepeatControlSource(read.Source, repeatControlSources)))
+            {
+                DrawSharedFrameArea(
+                    canvas,
+                    area,
+                    projection,
+                    paints,
+                    hitAreas,
+                    pointRoles,
+                    area.IsAntiArea ? -1 : sharedFrameAreaPaletteIndex++);
+                drawn++;
+            }
         }
 
         foreach (var branch in graph.ReadsOf<BranchRead>())
@@ -1415,6 +1646,11 @@ public sealed class GojoCadSkiaAdapter
         foreach (var arc in graph.ReadsOf<SharedFrameArcRead>())
         {
             Add(arc.Span.Source);
+        }
+
+        foreach (var circle in graph.ReadsOf<SharedFrameCircleRead>())
+        {
+            Add(circle.RadiusSpan.Source);
         }
 
         foreach (var curve in graph.ReadsOf<SharedFrameQuadraticCurveRead>())
@@ -1914,6 +2150,24 @@ public sealed class GojoCadSkiaAdapter
         canvas.DrawCircle(end, paints.DotRadius * 0.52f, paints.SharedFramePoint);
         DrawFramePointBox(canvas, center, paints, 0.72f);
         AddHit(hitAreas, bounds, "shared-frame arc", priority: 3, arc.Source);
+    }
+
+    private static void DrawSharedFrameCircle(
+        SKCanvas canvas,
+        SharedFrameCircleRead circle,
+        IGojoCadSkiaProjection projection,
+        GojoCadSkiaPaints paints,
+        ICollection<GojoCadSkiaHitArea>? hitAreas)
+    {
+        var center = projection.ProjectFrame(circle.Center);
+        var radiusPoint = projection.ProjectFrame(circle.RadiusPoint);
+        var radius = MathF.Max(0.1f, Distance(center, radiusPoint));
+        var bounds = CircleBounds(center, radius);
+
+        canvas.DrawCircle(center, radius, paints.SharedFrameCurve);
+        DrawFramePointBox(canvas, center, paints, 0.72f);
+        canvas.DrawCircle(radiusPoint, paints.DotRadius * 0.52f, paints.SharedFramePoint);
+        AddHit(hitAreas, bounds, "shared-frame circle", priority: 3, circle.Source);
     }
 
     private static void DrawSharedFrameQuadraticCurve(
@@ -2419,6 +2673,412 @@ public sealed class GojoCadSkiaAdapter
         }
     }
 
+    private static int DrawSharedFrameAreaPartitions(
+        SKCanvas canvas,
+        GraphicReadGraph graph,
+        IGojoCadSkiaProjection projection,
+        GojoCadSkiaPaints paints,
+        ICollection<GojoCadSkiaHitArea>? hitAreas,
+        HashSet<LocationKey> pointRoles,
+        IReadOnlySet<ulong> repeatControlSources)
+    {
+        using var partitions = BuildSharedFrameAreaPartitions(graph, projection, repeatControlSources);
+        if (partitions is null)
+        {
+            return 0;
+        }
+
+        var drawn = 0;
+        for (var index = 0; index < partitions.PositiveCells.Count; index++)
+        {
+            using var paletteFill = CreateAreaPalettePaint(paints, index);
+            canvas.DrawPath(partitions.PositiveCells[index], paletteFill ?? paints.AreaFill);
+            if (!paints.HideAreaBoundary)
+            {
+                canvas.DrawPath(partitions.PositiveCells[index], paints.AreaBoundary);
+            }
+
+            AddHit(hitAreas, partitions.PositiveCells[index].Bounds, "frame area partition", priority: 2, partitions.Areas[0].Source);
+            drawn++;
+        }
+
+        foreach (var cell in partitions.AntiCells)
+        {
+            canvas.DrawPath(cell, paints.AntiAreaFill);
+            if (!paints.HideAreaBoundary)
+            {
+                canvas.DrawPath(cell, paints.AreaBoundary);
+            }
+
+            AddHit(hitAreas, cell.Bounds, "frame empty partition", priority: 2, partitions.Areas[0].Source);
+            drawn++;
+        }
+
+        foreach (var area in partitions.Areas)
+        foreach (var point in area.Participation.Points)
+        {
+            pointRoles.Add(LocationKey.Of(point.Location));
+        }
+
+        return drawn;
+    }
+
+    private static SharedFrameAreaPartitionCells? BuildSharedFrameAreaPartitions(
+        GraphicReadGraph graph,
+        IGojoCadSkiaProjection projection,
+        IReadOnlySet<ulong> repeatControlSources)
+    {
+        var areas = graph.ReadsOf<SharedFrameAreaRead>()
+            .Where(read => !IsRepeatControlSource(read.Source, repeatControlSources))
+            .DistinctBy(area => ReadSourceId(area.Source))
+            .ToArray();
+        if (areas.Length == 0)
+        {
+            return null;
+        }
+
+        var positivePaths = areas
+            .Where(area => !area.IsAntiArea)
+            .Select(area => BuildClosedSharedFrameBoundaryPath(area.Boundary, projection))
+            .Where(path => path is not null)
+            .Cast<SKPath>()
+            .ToArray();
+        var antiPaths = areas
+            .Where(area => area.IsAntiArea)
+            .Select(area => BuildClosedSharedFrameBoundaryPath(area.Boundary, projection))
+            .Where(path => path is not null)
+            .Cast<SKPath>()
+            .ToArray();
+
+        List<SKPath>? positiveCells = null;
+        List<SKPath>? antiCells = null;
+        try
+        {
+            positiveCells = AtomizePartitionPaths(positivePaths.Select(ClonePath));
+            antiCells = AtomizePartitionPaths(antiPaths.Select(ClonePath));
+            PartitionCellsByCuts(positiveCells, antiPaths);
+            SubtractPartitionCuts(antiCells, positivePaths, keepWhenCovered: true);
+            RemoveDuplicatePartitionCells(positiveCells);
+            RemoveCoveredPartitionCells(positiveCells, antiCells);
+
+            var result = new SharedFrameAreaPartitionCells(areas, positiveCells, antiCells);
+            positiveCells = null;
+            antiCells = null;
+            return result;
+        }
+        finally
+        {
+            positiveCells?.ForEach(path => path.Dispose());
+            antiCells?.ForEach(path => path.Dispose());
+
+            foreach (var path in antiPaths)
+            {
+                path.Dispose();
+            }
+
+            foreach (var path in positivePaths)
+            {
+                path.Dispose();
+            }
+        }
+    }
+
+    private sealed class SharedFrameAreaPartitionCells(
+        SharedFrameAreaRead[] areas,
+        List<SKPath> positiveCells,
+        List<SKPath> antiCells) : IDisposable
+    {
+        public SharedFrameAreaRead[] Areas { get; } = areas;
+
+        public List<SKPath> PositiveCells { get; } = positiveCells;
+
+        public List<SKPath> AntiCells { get; } = antiCells;
+
+        public void Dispose()
+        {
+            foreach (var path in PositiveCells)
+            {
+                path.Dispose();
+            }
+
+            foreach (var path in AntiCells)
+            {
+                path.Dispose();
+            }
+        }
+    }
+
+    private static void RemoveCoveredPartitionCells(List<SKPath> cells, IReadOnlyList<SKPath> covers)
+    {
+        for (var index = cells.Count - 1; index >= 0; index--)
+        {
+            if (!IsCoveredByAnyPartition(cells[index], covers))
+            {
+                continue;
+            }
+
+            cells[index].Dispose();
+            cells.RemoveAt(index);
+        }
+    }
+
+    private static void RemoveDuplicatePartitionCells(List<SKPath> cells)
+    {
+        var seen = new HashSet<string>();
+        for (var index = cells.Count - 1; index >= 0; index--)
+        {
+            if (seen.Add(PartitionBoundsKey(cells[index].Bounds)))
+            {
+                continue;
+            }
+
+            cells[index].Dispose();
+            cells.RemoveAt(index);
+        }
+    }
+
+    private static string PartitionBoundsKey(SKRect bounds) =>
+        string.Create(
+            CultureInfo.InvariantCulture,
+            $"{MathF.Round(bounds.Left, 2)}:{MathF.Round(bounds.Top, 2)}:{MathF.Round(bounds.Right, 2)}:{MathF.Round(bounds.Bottom, 2)}");
+
+    private static bool IsCoveredByAnyPartition(SKPath cell, IReadOnlyList<SKPath> covers)
+    {
+        foreach (var cover in covers)
+        {
+            using var remainder = DifferencePartitionPath(cell, cover);
+            if (!IsRenderableAreaPath(remainder))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private static List<SKPath> AtomizePartitionPaths(IEnumerable<SKPath> sourcePaths)
+    {
+        var cells = new List<SKPath>();
+        foreach (var sourcePath in sourcePaths)
+        {
+            using (sourcePath)
+            {
+                if (!IsRenderableAreaPath(sourcePath))
+                {
+                    continue;
+                }
+
+                var remainders = new List<SKPath> { ClonePath(sourcePath) };
+                var nextCells = new List<SKPath>();
+                foreach (var cell in cells)
+                {
+                    using (cell)
+                    {
+                        var intersection = TryPartitionPathOp(cell, sourcePath, SKPathOp.Intersect);
+                        AddPartitionFragments(nextCells, intersection);
+
+                        var outside = DifferencePartitionPath(cell, sourcePath);
+                        AddPartitionFragments(nextCells, outside);
+
+                        if (remainders.Count == 0)
+                        {
+                            continue;
+                        }
+
+                        var nextRemainders = new List<SKPath>();
+                        foreach (var remainder in remainders)
+                        {
+                            using (remainder)
+                            {
+                                var nextRemainder = DifferencePartitionPath(remainder, cell);
+                                AddPartitionFragments(nextRemainders, nextRemainder);
+                            }
+                        }
+
+                        remainders = nextRemainders;
+                    }
+                }
+
+                foreach (var remainder in remainders)
+                {
+                    if (IsRenderableAreaPath(remainder))
+                    {
+                        nextCells.Add(remainder);
+                    }
+                    else
+                    {
+                        remainder.Dispose();
+                    }
+                }
+
+                cells = nextCells;
+            }
+        }
+
+        return cells;
+    }
+
+    private static void SubtractPartitionCuts(List<SKPath> cells, IReadOnlyList<SKPath> cuts, bool keepWhenCovered)
+    {
+        if (cells.Count == 0 || cuts.Count == 0)
+        {
+            return;
+        }
+
+        foreach (var cut in cuts)
+        {
+            var nextCells = new List<SKPath>();
+            foreach (var cell in cells)
+            {
+                using (cell)
+                {
+                    var cutCell = DifferencePartitionPath(cell, cut);
+                    if (keepWhenCovered &&
+                        !IsRenderableAreaPath(cutCell))
+                    {
+                        cutCell.Dispose();
+                        nextCells.Add(ClonePath(cell));
+                    }
+                    else
+                    {
+                        AddPartitionFragments(nextCells, cutCell);
+                    }
+                }
+            }
+
+            cells.Clear();
+            cells.AddRange(nextCells);
+        }
+    }
+
+    private static void PartitionCellsByCuts(List<SKPath> cells, IReadOnlyList<SKPath> cuts)
+    {
+        if (cells.Count == 0 || cuts.Count == 0)
+        {
+            return;
+        }
+
+        foreach (var cut in cuts)
+        {
+            var nextCells = new List<SKPath>();
+            foreach (var cell in cells)
+            {
+                using (cell)
+                {
+                    var intersection = TryPartitionPathOp(cell, cut, SKPathOp.Intersect);
+                    AddPartitionFragments(nextCells, intersection);
+
+                    var outside = DifferencePartitionPath(cell, cut);
+                    AddPartitionFragments(nextCells, outside);
+                }
+            }
+
+            cells.Clear();
+            cells.AddRange(nextCells);
+        }
+    }
+
+    private static void AddPartitionFragments(ICollection<SKPath> target, SKPath? path)
+    {
+        if (path is null)
+        {
+            return;
+        }
+
+        using (path)
+        {
+            foreach (var fragment in SplitRenderableAreaPath(path))
+            {
+                target.Add(fragment);
+            }
+        }
+    }
+
+    private static IReadOnlyList<SKPath> SplitRenderableAreaPath(SKPath source)
+    {
+        var fragments = new List<SKPath>();
+        using var iterator = source.CreateRawIterator();
+        var points = new SKPoint[4];
+        SKPath? contour = null;
+        while (iterator.Next(points) is { } verb &&
+            verb != SKPathVerb.Done)
+        {
+            switch (verb)
+            {
+                case SKPathVerb.Move:
+                    YieldContour();
+                    contour = new SKPath { FillType = source.FillType };
+                    contour.MoveTo(points[0]);
+                    break;
+                case SKPathVerb.Line:
+                    contour?.LineTo(points[1]);
+                    break;
+                case SKPathVerb.Quad:
+                    contour?.QuadTo(points[1], points[2]);
+                    break;
+                case SKPathVerb.Conic:
+                    contour?.ConicTo(points[1], points[2], iterator.ConicWeight());
+                    break;
+                case SKPathVerb.Cubic:
+                    contour?.CubicTo(points[1], points[2], points[3]);
+                    break;
+                case SKPathVerb.Close:
+                    contour?.Close();
+                    YieldContour();
+                    break;
+            }
+        }
+
+        YieldContour();
+        return fragments;
+
+        void YieldContour()
+        {
+            if (contour is null)
+            {
+                return;
+            }
+
+            if (IsRenderableAreaPath(contour))
+            {
+                var fragment = contour;
+                contour = null;
+                fragments.Add(fragment);
+                return;
+            }
+
+            contour.Dispose();
+            contour = null;
+        }
+    }
+
+    private static SKPath ClonePath(SKPath source)
+    {
+        var clone = new SKPath { FillType = source.FillType };
+        clone.AddPath(source);
+        return clone;
+    }
+
+    private static SKPath? TryPartitionPathOp(SKPath left, SKPath right, SKPathOp operation)
+    {
+        var result = new SKPath();
+        if (ApplyPathOpInto(left, right, operation, result))
+        {
+            return result;
+        }
+
+        result.Dispose();
+        return null;
+    }
+
+    private static SKPath DifferencePartitionPath(SKPath left, SKPath right) =>
+        TryPartitionPathOp(left, right, SKPathOp.Difference) ?? ClonePath(left);
+
+    private static bool IsRenderableAreaPath(SKPath path) =>
+        !path.IsEmpty &&
+        path.Bounds.Width > 0.2f &&
+        path.Bounds.Height > 0.2f;
+
     private static SKPaint? CreateAreaPalettePaint(GojoCadSkiaPaints paints, int paletteIndex)
     {
         if (paletteIndex < 0 ||
@@ -2430,10 +3090,48 @@ public sealed class GojoCadSkiaAdapter
         return new SKPaint
         {
             IsAntialias = paints.AreaFill.IsAntialias,
-            Color = palette[paletteIndex % palette.Count],
+            Color = ReadPaletteColor(palette, paletteIndex),
             Style = SKPaintStyle.Fill
         };
     }
+
+    private static SKColor ReadPaletteColor(IReadOnlyList<SKColor> palette, int paletteIndex)
+    {
+        if (paletteIndex < palette.Count)
+        {
+            var color = palette[paletteIndex];
+            return new SKColor(color.Red, color.Green, color.Blue);
+        }
+
+        var hue = (paletteIndex * 137.508f) % 360f;
+        var saturation = 58f + paletteIndex % 5 * 7f;
+        var value = 72f + paletteIndex % 4 * 5f;
+        return HsvColor(hue, Math.Min(saturation, 86f), Math.Min(value, 92f));
+    }
+
+    private static SKColor HsvColor(float hue, float saturation, float value)
+    {
+        var c = value / 100f * saturation / 100f;
+        var x = c * (1f - Math.Abs(hue / 60f % 2f - 1f));
+        var m = value / 100f - c;
+        var (r, g, b) = hue switch
+        {
+            < 60f => (c, x, 0f),
+            < 120f => (x, c, 0f),
+            < 180f => (0f, c, x),
+            < 240f => (0f, x, c),
+            < 300f => (x, 0f, c),
+            _ => (c, 0f, x)
+        };
+
+        return new SKColor(
+            ToColorByte((r + m) * 255f),
+            ToColorByte((g + m) * 255f),
+            ToColorByte((b + m) * 255f));
+    }
+
+    private static byte ToColorByte(float value) =>
+        (byte)Math.Clamp((int)MathF.Round(value), 0, 255);
 
     private static void DrawBranchMergeNode(
         SKCanvas canvas,
@@ -2565,6 +3263,20 @@ public sealed class GojoCadSkiaAdapter
         ClosedSharedFrameBoundaryRead boundary,
         IGojoCadSkiaProjection projection)
     {
+        if (boundary.Circles is { Count: > 0 })
+        {
+            var circlePath = new SKPath();
+            foreach (var circle in boundary.Circles)
+            {
+                var center = projection.ProjectFrame(circle.Center);
+                var radiusPoint = projection.ProjectFrame(circle.RadiusPoint);
+                var radius = MathF.Max(0.1f, Distance(center, radiusPoint));
+                circlePath.AddCircle(center.X, center.Y, radius);
+            }
+
+            return circlePath;
+        }
+
         if (boundary.Segments.Count < 3 ||
             boundary.Sites.Count < 3)
         {
@@ -2925,6 +3637,33 @@ public sealed class GojoCadSkiaAdapter
         }
 
         return sweep;
+    }
+
+    private static float SweepThrough(float start, float through, float end)
+    {
+        var positiveEnd = NormalizePositiveDegrees(end - start);
+        var positiveThrough = NormalizePositiveDegrees(through - start);
+        if (positiveThrough <= positiveEnd + 0.001f)
+        {
+            return positiveEnd;
+        }
+
+        return positiveEnd - 360f;
+    }
+
+    private static float NormalizePositiveDegrees(float degrees)
+    {
+        while (degrees < 0f)
+        {
+            degrees += 360f;
+        }
+
+        while (degrees >= 360f)
+        {
+            degrees -= 360f;
+        }
+
+        return degrees;
     }
 
     private static SKPoint PointOnCircle(SKPoint center, float radius, float angleDegrees)

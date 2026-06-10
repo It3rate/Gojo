@@ -138,6 +138,9 @@ public static class GraphicOrthogonalFillSurface
         var arcSpanIds = graph.ReadsOf<SharedFrameArcRead>()
             .Select(arc => SourceId(arc.Span.Source))
             .ToHashSet();
+        var circleRadiusSpanIds = graph.ReadsOf<SharedFrameCircleRead>()
+            .Select(circle => SourceId(circle.RadiusSpan.Source))
+            .ToHashSet();
         var closedBoundarySegmentIds = graph.ReadsOf<ClosedSharedFrameBoundaryRead>()
             .SelectMany(boundary => boundary.Segments)
             .Select(segment => SourceId(segment.Source))
@@ -149,6 +152,7 @@ public static class GraphicOrthogonalFillSurface
             if (edge.Segment is not SharedFrameSegmentRead segment ||
                 !edge.IsSharedFrame ||
                 arcSpanIds.Contains(SourceId(segment.Source)) ||
+                circleRadiusSpanIds.Contains(SourceId(segment.Source)) ||
                 closedBoundarySegmentIds.Contains(SourceId(segment.Source)) ||
                 !seen.Add(SourceId(segment.Source)))
             {
@@ -185,6 +189,9 @@ public static class GraphicOrthogonalFillSurface
         var arcSpanIds = graph.ReadsOf<SharedFrameArcRead>()
             .Select(arc => SourceId(arc.Span.Source))
             .ToHashSet();
+        var circleRadiusSpanIds = graph.ReadsOf<SharedFrameCircleRead>()
+            .Select(circle => SourceId(circle.RadiusSpan.Source))
+            .ToHashSet();
         var closedBoundarySegmentIds = graph.ReadsOf<ClosedSharedFrameBoundaryRead>()
             .SelectMany(boundary => boundary.Segments)
             .Select(segment => SourceId(segment.Source))
@@ -197,6 +204,7 @@ public static class GraphicOrthogonalFillSurface
                     edge.IsSharedFrame &&
                     edge.Segment is SharedFrameSegmentRead segment &&
                     !arcSpanIds.Contains(SourceId(segment.Source)) &&
+                    !circleRadiusSpanIds.Contains(SourceId(segment.Source)) &&
                     !closedBoundarySegmentIds.Contains(SourceId(segment.Source)))
                 .ToArray();
             if (eligibleEdges.Length < 2)
@@ -726,11 +734,9 @@ public static class GraphicOrthogonalFillSurface
         GraphicStructure.AntiAreaFill(Circle(template, centerX, centerY, radius));
 
     private static Relation Circle(SharedFramePointRead template, long centerX, long centerY, long radius) =>
-        Chain(
-            Arc(template, centerX, centerY, centerX + radius, centerY, centerX, centerY + radius),
-            Arc(template, centerX, centerY, centerX, centerY + radius, centerX - radius, centerY),
-            Arc(template, centerX, centerY, centerX - radius, centerY, centerX, centerY - radius),
-            Arc(template, centerX, centerY, centerX, centerY - radius, centerX + radius, centerY));
+        GraphicStructure.FrameCircle(
+            Point(template, centerX, centerY),
+            Point(template, centerX + radius, centerY));
 
     private static Relation RectangleBoundary(
         SharedFramePointRead template,
@@ -819,6 +825,17 @@ public static class GraphicOrthogonalFillSurface
         out long centerY,
         out long radius)
     {
+        if (boundary.Circles is { Count: > 0 } circles &&
+            TryReadPointTicks(circles[0].Center, out centerX, out centerY) &&
+            TryReadPointTicks(circles[0].RadiusPoint, out var radiusX, out var radiusY))
+        {
+            center = circles[0].Center;
+            radius = (long)Math.Round(Math.Sqrt(
+                Math.Pow(radiusX - centerX, 2) +
+                Math.Pow(radiusY - centerY, 2)));
+            return radius > 0;
+        }
+
         var arcs = boundary.Arcs ?? [];
         if (arcs.Count < 4 ||
             !TryReadPointTicks(arcs[0].Center, out centerX, out centerY) ||
@@ -863,6 +880,7 @@ public static class GraphicOrthogonalFillSurface
         minY = 0;
         maxY = 0;
         if (boundary.Arcs is { Count: > 0 } ||
+            boundary.Circles is { Count: > 0 } ||
             boundary.Segments.Count != 4 ||
             !TryReadBoundaryBounds(boundary, out minX, out maxX, out minY, out maxY) ||
             minX == maxX ||
@@ -901,6 +919,7 @@ public static class GraphicOrthogonalFillSurface
         template = default!;
         points = [];
         if (boundary.Arcs is { Count: > 0 } ||
+            boundary.Circles is { Count: > 0 } ||
             boundary.Segments.Count < 3)
         {
             return false;

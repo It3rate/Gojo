@@ -208,6 +208,22 @@ public sealed class GraphicBoundaryConceptSurfaceTests
     }
 
     [Fact]
+    public void LineTipCandidateDomainIgnoresNativeCircleRadiusSpan()
+    {
+        var frame = new Carrier();
+        var x = new Carrier();
+        var y = new Carrier();
+        Relation P(long xTicks, long yTicks) =>
+            GraphicStructure.FramePoint(frame, new CarrierLocation(x, xTicks), new CarrierLocation(y, yTicks));
+        var circle = GraphicStructure.FrameCircle(P(0, 0), P(20, 0));
+
+        var domain = GraphicBoundaryConceptSurface.LineTipCandidateDomain(new Carrier(), circle);
+
+        Assert.True(TryReadOrderedFrame(domain, out var candidates));
+        Assert.Empty(candidates);
+    }
+
+    [Fact]
     public void CircleCapsFromLineTipSelectionCreatesCircleOutlinesAtSelectedTips()
     {
         var frame = new Carrier();

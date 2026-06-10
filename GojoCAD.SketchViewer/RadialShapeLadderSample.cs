@@ -49,11 +49,9 @@ internal static partial class SketchSamples
             ArcAt(0, 0, centerX, centerY, startX, startY, endX, endY);
 
         Relation CircleBoundaryAt(long originX, long originY, long centerX, long centerY, long radius) =>
-            Chain(
-                ArcAt(originX, originY, centerX, centerY, centerX + radius, centerY, centerX, centerY + radius),
-                ArcAt(originX, originY, centerX, centerY, centerX, centerY + radius, centerX - radius, centerY),
-                ArcAt(originX, originY, centerX, centerY, centerX - radius, centerY, centerX, centerY - radius),
-                ArcAt(originX, originY, centerX, centerY, centerX, centerY - radius, centerX + radius, centerY));
+            GraphicStructure.FrameCircle(
+                PAt(originX, originY, centerX, centerY),
+                PAt(originX, originY, centerX + radius, centerY));
 
         Relation Circle(long centerX, long centerY, long radius) =>
             CircleBoundaryAt(0, 0, centerX, centerY, radius);
@@ -175,6 +173,16 @@ internal static partial class SketchSamples
             out long centerY,
             out long radius)
         {
+            if (boundary.Circles is { Count: > 0 } circles &&
+                TryReadPointTicks(circles[0].Center, out centerX, out centerY) &&
+                TryReadPointTicks(circles[0].RadiusPoint, out var radiusX, out var radiusY))
+            {
+                radius = (long)Math.Round(Math.Sqrt(
+                    Math.Pow(radiusX - centerX, 2) +
+                    Math.Pow(radiusY - centerY, 2)));
+                return radius > 0;
+            }
+
             var arcs = boundary.Arcs ?? [];
             if (arcs.Count < 4 ||
                 !TryReadPointTicks(arcs[0].Center, out centerX, out centerY) ||
@@ -215,6 +223,7 @@ internal static partial class SketchSamples
             minY = 0;
             maxY = 0;
             if (boundary.Arcs is { Count: > 0 } ||
+                boundary.Circles is { Count: > 0 } ||
                 boundary.Segments.Count != 4 ||
                 !TryReadBoundaryBounds(boundary, out minX, out maxX, out minY, out maxY) ||
                 minX == maxX ||
@@ -321,6 +330,9 @@ internal static partial class SketchSamples
             var arcSpanIds = graph.ReadsOf<SharedFrameArcRead>()
                 .Select(arc => SourceId(arc.Span.Source))
                 .ToHashSet();
+            var circleRadiusSpanIds = graph.ReadsOf<SharedFrameCircleRead>()
+                .Select(circle => SourceId(circle.RadiusSpan.Source))
+                .ToHashSet();
             var closedBoundarySegmentIds = graph.ReadsOf<ClosedSharedFrameBoundaryRead>()
                 .SelectMany(boundary => boundary.Segments)
                 .Select(segment => SourceId(segment.Source))
@@ -333,6 +345,7 @@ internal static partial class SketchSamples
                 if (edge.Segment is not SharedFrameSegmentRead segment ||
                     !edge.IsSharedFrame ||
                     arcSpanIds.Contains(SourceId(segment.Source)) ||
+                    circleRadiusSpanIds.Contains(SourceId(segment.Source)) ||
                     closedBoundarySegmentIds.Contains(SourceId(segment.Source)) ||
                     !seen.Add(SourceId(segment.Source)))
                 {
@@ -2105,7 +2118,7 @@ internal static partial class SketchSamples
                 $"{hVariantName} seeds",
                 "Endpoint circles",
                 "Offset boundary pairs",
-                "Separate offset fills",
+                "Pre-merge partitions",
                 "Merged fill color",
                 "Composite outline",
                 "Interior cusp selection",

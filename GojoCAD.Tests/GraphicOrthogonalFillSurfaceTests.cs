@@ -23,8 +23,35 @@ public sealed class GraphicOrthogonalFillSurfaceTests
             .ReadsOf<SharedFrameAreaRead>()
             .DistinctBy(area => ReadSourceId(area.Source))
             .ToArray();
-        Assert.Single(areas, area => !area.IsAntiArea && area.Boundary.Arcs is { Count: > 0 });
-        Assert.Single(areas, area => area.IsAntiArea && area.Boundary.Arcs is { Count: > 0 });
+        Assert.Single(areas, area => !area.IsAntiArea && area.Boundary.Circles is { Count: > 0 });
+        Assert.Single(areas, area => area.IsAntiArea && area.Boundary.Circles is { Count: > 0 });
+    }
+
+    [Fact]
+    public void OrthogonalFillParticipantsDoesNotTreatNativeCircleRadiusAsOpenLine()
+    {
+        var basis = new TestBasis();
+        var circle = GraphicStructure.FrameCircle(basis.P(0, 0), basis.P(40, 0));
+        var witness = GraphicOffsetSurface.BoundarySideWitness(
+            new Carrier(),
+            circle,
+            circle,
+            Group(),
+            Group());
+
+        var participants = GraphicOrthogonalFillSurface.OrthogonalFillParticipants(witness, 10);
+
+        var areas = GraphicReadGraph.From(Group(participants))
+            .ReadsOf<SharedFrameAreaRead>()
+            .DistinctBy(area => ReadSourceId(area.Source))
+            .ToArray();
+        Assert.Equal(2, areas.Length);
+        Assert.All(areas, area =>
+        {
+            Assert.Empty(area.Boundary.Segments);
+            Assert.Empty(area.Boundary.Arcs ?? []);
+            Assert.Single(area.Boundary.Circles ?? []);
+        });
     }
 
     [Fact]
@@ -45,8 +72,8 @@ public sealed class GraphicOrthogonalFillSurfaceTests
             .ReadsOf<SharedFrameAreaRead>()
             .DistinctBy(area => ReadSourceId(area.Source))
             .ToArray();
-        Assert.Single(areas, area => !area.IsAntiArea && area.Boundary.Arcs is { Count: > 0 });
-        Assert.Single(areas, area => area.IsAntiArea && area.Boundary.Arcs is { Count: > 0 });
+        Assert.Single(areas, area => !area.IsAntiArea && area.Boundary.Circles is { Count: > 0 });
+        Assert.Single(areas, area => area.IsAntiArea && area.Boundary.Circles is { Count: > 0 });
     }
 
     [Fact]
@@ -165,6 +192,7 @@ public sealed class GraphicOrthogonalFillSurfaceTests
         const long endpointRadius = 18;
         const long curvedOriginX = -70;
         const long yOriginX = 265;
+        const long yCircleCenterY = 46;
         var curvedCenterStrokes = Group(
             Arc(basis, curvedOriginX, 112, curvedOriginX - 78, 108, curvedOriginX + 78, 108),
             Arc(basis, curvedOriginX, -112, curvedOriginX - 108, -92, curvedOriginX + 108, -92));
@@ -177,7 +205,7 @@ public sealed class GraphicOrthogonalFillSurfaceTests
             GraphicStructure.FrameSegment(yJoint, yBottomJoint),
             Segment(basis, yOriginX, -82, yOriginX - 110, -82),
             Segment(basis, yOriginX, -82, yOriginX + 110, -82));
-        var yCenterCircle = Circle(basis, yOriginX, 20, 58);
+        var yCenterCircle = Circle(basis, yOriginX, yCircleCenterY, 58);
         var endpointCircles = Group(
             Circle(basis, curvedOriginX - 78, 108, endpointRadius),
             Circle(basis, curvedOriginX + 78, 108, endpointRadius),
@@ -216,7 +244,7 @@ public sealed class GraphicOrthogonalFillSurfaceTests
         var areaFrame = GraphicAreaParticipationSurface.AreaFrame(new Carrier(), participants);
         var union = GraphicAreaSettlementSurface.SettledPositiveAreaUnion(new Carrier(), areaFrame);
 
-        Assert.True(GraphicAreaParticipationSurface.TryReadAreaUnion(union, out var settledAreaFrame, out _, out _, out _));
+        Assert.True(GraphicAreaParticipationSurface.TryReadAreaUnion(union, out var settledAreaFrame, out var outlineWitness, out _, out _));
         var positiveAreas = GraphicReadGraph.From(settledAreaFrame)
             .ReadsOf<SharedFrameAreaRead>()
             .Where(area => !area.IsAntiArea)
@@ -230,21 +258,23 @@ public sealed class GraphicOrthogonalFillSurfaceTests
         var positiveBounds = BoundsStrings(positiveAreas);
         var antiBounds = BoundsStrings(antiAreas);
         Assert.True(
-            positiveAreas.Any(area =>
-                TryReadBounds(area.Boundary, out var minX, out var maxX, out var minY, out var maxY) &&
-                minX <= curvedOriginX - 100 &&
-                maxX >= curvedOriginX + 100 &&
-                minY <= -110 &&
-                maxY >= 110),
+            BoundsCover(positiveAreas, curvedOriginX - 100, curvedOriginX + 100, -110, 110),
             $"raw={string.Join(", ", participantBounds)} positive={string.Join(", ", positiveBounds)} anti={string.Join(", ", antiBounds)}");
         Assert.True(
-            positiveAreas.Any(area =>
-                TryReadBounds(area.Boundary, out var minX, out var maxX, out var minY, out var maxY) &&
-                minX <= yOriginX - 130 &&
-                maxX >= yOriginX + 130 &&
-                minY <= -100 &&
-                maxY >= 120),
+            BoundsCover(positiveAreas, yOriginX - 80, yOriginX + 130, -100, 110),
             string.Join(", ", positiveBounds));
+        var outlines = GraphicReadGraph.From(outlineWitness)
+            .ReadsOf<ClosedSharedFrameBoundaryRead>()
+            .DistinctBy(boundary => ReadSourceId(boundary.Source))
+            .ToArray();
+        Assert.True(
+            outlines.Count(outline =>
+                TryReadBounds(outline, out var minX, out var maxX, out var minY, out var maxY) &&
+                minX >= yOriginX - 55 &&
+                maxX <= yOriginX + 55 &&
+                minY >= yCircleCenterY - 55 &&
+                maxY <= yCircleCenterY + 55) >= 3,
+            string.Join(", ", BoundsStrings(outlines)));
     }
 
     [Fact]
@@ -293,10 +323,10 @@ public sealed class GraphicOrthogonalFillSurfaceTests
             .ToArray();
         Assert.True(outlines.Any(outline =>
             TryReadBounds(outline, out var minX, out var maxX, out var minY, out var maxY) &&
-            minX <= -35 &&
-            maxX >= 35 &&
-            minY <= -50 &&
-            maxY >= 50),
+            minX >= -70 &&
+            maxX <= 70 &&
+            minY <= -60 &&
+            maxY >= 60),
             string.Join(", ", BoundsStrings(outlines)));
     }
 
@@ -369,10 +399,10 @@ public sealed class GraphicOrthogonalFillSurfaceTests
             hasSettledCenterAntiArea &&
             outlines.Any(outline =>
                 TryReadBounds(outline, out var minX, out var maxX, out var minY, out var maxY) &&
-                minX <= crescentOriginX - 35 &&
-                maxX >= crescentOriginX + 35 &&
-                minY <= -50 &&
-                maxY >= 50),
+                minX >= crescentOriginX - 70 &&
+                maxX <= crescentOriginX + 70 &&
+                minY <= -60 &&
+                maxY >= 60),
             $"areas={string.Join(", ", BoundsStrings(unionAreas))}; outlines={string.Join(", ", outlineBounds)}");
     }
 
@@ -397,6 +427,32 @@ public sealed class GraphicOrthogonalFillSurfaceTests
 
             return $"{minX}:{maxX}:{minY}:{maxY}:arcs={boundary.Arcs?.Count ?? 0}";
         })];
+
+    private static bool BoundsCover(
+        IEnumerable<SharedFrameAreaRead> areas,
+        long minX,
+        long maxX,
+        long minY,
+        long maxY)
+    {
+        var bounds = areas
+            .Select(area => TryReadBounds(area.Boundary, out var readMinX, out var readMaxX, out var readMinY, out var readMaxY)
+                ? new BoundsBox(readMinX, readMaxX, readMinY, readMaxY)
+                : (BoundsBox?)null)
+            .Where(box => box is not null)
+            .Select(box => box!.Value)
+            .Where(box =>
+                box.MinX <= maxX &&
+                box.MaxX >= minX &&
+                box.MinY <= maxY &&
+                box.MaxY >= minY)
+            .ToArray();
+        return bounds.Length > 0 &&
+            bounds.Min(box => box.MinX) <= minX &&
+            bounds.Max(box => box.MaxX) >= maxX &&
+            bounds.Min(box => box.MinY) <= minY &&
+            bounds.Max(box => box.MaxY) >= maxY;
+    }
 
     private static Relation Circle(TestBasis basis, long centerX, long centerY, long radius) =>
         Group(
@@ -538,6 +594,11 @@ public sealed class GraphicOrthogonalFillSurfaceTests
             IncludeArc(arc);
         }
 
+        foreach (var circle in boundary.Circles ?? [])
+        {
+            IncludeCircle(circle);
+        }
+
         minX = readMinX;
         maxX = readMaxX;
         minY = readMinY;
@@ -572,6 +633,23 @@ public sealed class GraphicOrthogonalFillSurfaceTests
             }
         }
 
+        void IncludeCircle(SharedFrameCircleRead circle)
+        {
+            if (circle.Center.Coordinates.Count < 2 ||
+                circle.RadiusPoint.Coordinates.Count < 2)
+            {
+                return;
+            }
+
+            var centerX = circle.Center.Coordinates[0].Ticks;
+            var centerY = circle.Center.Coordinates[1].Ticks;
+            var radiusX = circle.RadiusPoint.Coordinates[0].Ticks;
+            var radiusY = circle.RadiusPoint.Coordinates[1].Ticks;
+            var radius = Math.Sqrt(Math.Pow(radiusX - centerX, 2) + Math.Pow(radiusY - centerY, 2));
+            Include((long)Math.Round(centerX - radius), (long)Math.Round(centerY - radius));
+            Include((long)Math.Round(centerX + radius), (long)Math.Round(centerY + radius));
+        }
+
         static double ShortestSweep(double startAngle, double endAngle)
         {
             var sweep = endAngle - startAngle;
@@ -594,6 +672,8 @@ public sealed class GraphicOrthogonalFillSurfaceTests
 
     private static ulong ReadSourceId(IElement source) =>
         source is Relation relation ? relation.Id : 0UL;
+
+    private readonly record struct BoundsBox(long MinX, long MaxX, long MinY, long MaxY);
 
     private sealed class TestBasis
     {

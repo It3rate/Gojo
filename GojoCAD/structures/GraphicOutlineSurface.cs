@@ -135,6 +135,11 @@ public static class GraphicOutlineSurface
 
     private static IElement BoundaryStructure(ClosedSharedFrameBoundaryRead boundary)
     {
+        if (boundary.Circles is { Count: > 0 })
+        {
+            return Chain([.. boundary.Circles.Select(circle => circle.Source)]);
+        }
+
         var arcBySpanSource = (boundary.Arcs ?? [])
             .GroupBy(arc => SourceId(arc.Span.Source))
             .ToDictionary(group => group.Key, group => group.First());
@@ -229,6 +234,12 @@ public static class GraphicOutlineSurface
         ClosedSharedFrameBoundaryRead boundary,
         out IReadOnlyList<OrientedBoundaryEdge> edges)
     {
+        if (boundary.Segments.Count == 0)
+        {
+            edges = [];
+            return false;
+        }
+
         var siteByEndpoint = boundary.Sites
             .SelectMany(site => site.Select(endpoint => (endpoint, site)))
             .ToDictionary(pair => EndpointSignature(pair.endpoint), pair => pair.site);

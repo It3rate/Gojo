@@ -152,6 +152,16 @@ public sealed class GraphicReadGraph
                 reads.Add(framePoint);
             }
 
+            if (RecognizeSharedFrameCircle(relation, out var frameCircle))
+            {
+                reads.Add(frameCircle);
+            }
+
+            if (RecognizeSharedFrameArcSection(relation, out var frameArcSection))
+            {
+                reads.Add(frameArcSection);
+            }
+
             if (RecognizeRepeatTemplate(relation, out var repeatTemplate))
             {
                 reads.Add(repeatTemplate);
@@ -835,6 +845,16 @@ public sealed class GraphicReadGraph
 
         private static IEnumerable<ClosedSharedFrameBoundaryRead> DeriveClosedSharedFrameBoundaries(IReadOnlyList<GraphicRead> reads)
         {
+            foreach (var circle in reads.OfType<SharedFrameCircleRead>())
+            {
+                yield return new ClosedSharedFrameBoundaryRead(
+                    circle.Source,
+                    [],
+                    [],
+                    Arcs: null,
+                    Circles: [circle]);
+            }
+
             var segments = reads.OfType<SharedFrameSegmentRead>().ToArray();
             var arcs = reads.OfType<SharedFrameArcRead>().ToArray();
             if (segments.Length < 3)
@@ -844,14 +864,11 @@ public sealed class GraphicReadGraph
 
             var endpointGroups = ReadSharedFrameEndpointGroups(segments);
             var strictBoundaries = DeriveClosedSharedFrameBoundariesFromGroups(segments, endpointGroups, arcs).ToArray();
-            if (strictBoundaries.Length != 0)
+            var seenBoundaryGeometry = new HashSet<string>();
+            foreach (var boundary in strictBoundaries)
             {
-                foreach (var boundary in strictBoundaries)
-                {
-                    yield return boundary;
-                }
-
-                yield break;
+                seenBoundaryGeometry.Add(LooseSharedFrameBoundaryGeometrySignature(boundary));
+                yield return boundary;
             }
 
             foreach (var boundary in DeriveClosedSharedFrameBoundariesFromGroups(
@@ -859,7 +876,10 @@ public sealed class GraphicReadGraph
                 ReadLooseSharedFrameEndpointGroups(segments),
                 arcs))
             {
-                yield return boundary;
+                if (seenBoundaryGeometry.Add(LooseSharedFrameBoundaryGeometrySignature(boundary)))
+                {
+                    yield return boundary;
+                }
             }
         }
 
@@ -1454,6 +1474,58 @@ public sealed class GraphicReadGraph
             return false;
         }
 
+        private static bool RecognizeSharedFrameCircle(Relation relation, out SharedFrameCircleRead circle)
+        {
+            if (relation.Left is Relation centerRelation &&
+                relation.Right is Relation radiusSpanRelation &&
+                RecognizeSharedFramePoint(centerRelation, out var center) &&
+                radiusSpanRelation.Left is Relation radiusStartRelation &&
+                radiusSpanRelation.Right is Relation radiusEndRelation &&
+                RecognizeSharedFramePoint(radiusStartRelation, out var radiusStart) &&
+                RecognizeSharedFramePoint(radiusEndRelation, out var radiusEnd) &&
+                SameFramePoint(center, radiusStart) &&
+                HaveSameFrameBasis(center, radiusEnd) &&
+                !SameFramePoint(center, radiusEnd))
+            {
+                var span = new SharedFrameSegmentRead(radiusSpanRelation, radiusStart, radiusEnd);
+                circle = new SharedFrameCircleRead(relation, center, radiusEnd, span);
+                return true;
+            }
+
+            circle = default!;
+            return false;
+        }
+
+        private static bool RecognizeSharedFrameArcSection(Relation relation, out SharedFrameArcSectionRead section)
+        {
+            if (relation.Left is Relation arcRelation &&
+                relation.Right is Relation throughRelation &&
+                arcRelation.Left is Relation centerRelation &&
+                arcRelation.Right is Relation spanRelation &&
+                RecognizeSharedFramePoint(centerRelation, out var center) &&
+                spanRelation.Left is Relation startRelation &&
+                spanRelation.Right is Relation endRelation &&
+                RecognizeSharedFramePoint(startRelation, out var start) &&
+                RecognizeSharedFramePoint(endRelation, out var end) &&
+                RecognizeSharedFramePoint(throughRelation, out var through) &&
+                HaveSameFrameBasis(center, start) &&
+                HaveSameFrameBasis(center, end) &&
+                HaveSameFrameBasis(center, through) &&
+                !SameFramePoint(center, start) &&
+                !SameFramePoint(center, end) &&
+                !SameFramePoint(center, through) &&
+                !SameFramePoint(start, end))
+            {
+                var span = new SharedFrameSegmentRead(spanRelation, start, end);
+                var arc = new SharedFrameArcRead(arcRelation, center, start, end, span);
+                section = new SharedFrameArcSectionRead(relation, arc, through);
+                return true;
+            }
+
+            section = default!;
+            return false;
+        }
+
         private static bool RecognizeRepeatTemplate(Relation relation, out GraphicRepeatTemplateRead template)
         {
             if (RepeatSurface.TryReadTemplate(
@@ -2035,6 +2107,7 @@ public sealed class GraphicReadGraph
                 "|",
                 boundary.Segments.Select(SharedFrameSegmentGeometrySignature)
                     .Concat((boundary.Arcs ?? []).Select(SharedFrameArcGeometrySignature))
+                    .Concat((boundary.Circles ?? []).Select(SharedFrameCircleGeometrySignature))
                     .Order());
 
         private static ulong ReadSourceId(IElement source) =>
@@ -2060,6 +2133,32 @@ public sealed class GraphicReadGraph
 
         private static string SharedFrameArcGeometrySignature(SharedFrameArcRead arc) =>
             $"{FramePointSignature(arc.Center)}:{SharedFrameSegmentGeometrySignature(arc.Span)}";
+
+        private static string SharedFrameCircleGeometrySignature(SharedFrameCircleRead circle) =>
+            $"{FramePointSignature(circle.Center)}:{FramePointSignature(circle.RadiusPoint)}";
+
+        private static string LooseSharedFrameBoundaryGeometrySignature(ClosedSharedFrameBoundaryRead boundary) =>
+            string.Join(
+                "|",
+                boundary.Segments.Select(LooseSharedFrameSegmentGeometrySignature)
+                    .Concat((boundary.Arcs ?? []).Select(LooseSharedFrameArcGeometrySignature))
+                    .Concat((boundary.Circles ?? []).Select(LooseSharedFrameCircleGeometrySignature))
+                    .Order());
+
+        private static string LooseSharedFrameSegmentGeometrySignature(SharedFrameSegmentRead segment)
+        {
+            var start = LooseFramePointSignature(segment.Start);
+            var end = LooseFramePointSignature(segment.End);
+            return string.CompareOrdinal(start, end) <= 0
+                ? $"{start}->{end}"
+                : $"{end}->{start}";
+        }
+
+        private static string LooseSharedFrameArcGeometrySignature(SharedFrameArcRead arc) =>
+            $"{LooseFramePointSignature(arc.Center)}:{LooseSharedFrameSegmentGeometrySignature(arc.Span)}";
+
+        private static string LooseSharedFrameCircleGeometrySignature(SharedFrameCircleRead circle) =>
+            $"{LooseFramePointSignature(circle.Center)}:{LooseFramePointSignature(circle.RadiusPoint)}";
 
         private static string LocationGeometrySignature(CarrierLocation location)
         {
@@ -2877,6 +2976,30 @@ public sealed record SharedFrameArcRead(
     public override IEnumerable<IElement> Sources => [Source, Center.Source, Start.Source, End.Source, Span.Source];
 }
 
+public sealed record SharedFrameCircleRead(
+    IElement Source,
+    SharedFramePointRead Center,
+    SharedFramePointRead RadiusPoint,
+    SharedFrameSegmentRead RadiusSpan) : GraphicRead(Source)
+{
+    public override IEnumerable<IElement> Sources => [Source, Center.Source, RadiusPoint.Source, RadiusSpan.Source];
+}
+
+public sealed record SharedFrameArcSectionRead(
+    IElement Source,
+    SharedFrameArcRead BaseArc,
+    SharedFramePointRead Through) : GraphicRead(Source)
+{
+    public SharedFramePointRead Center => BaseArc.Center;
+
+    public SharedFramePointRead Start => BaseArc.Start;
+
+    public SharedFramePointRead End => BaseArc.End;
+
+    public override IEnumerable<IElement> Sources =>
+        [Source, Through.Source, .. BaseArc.Sources];
+}
+
 public sealed record SharedFrameQuadraticCurveRead(
     IElement Source,
     SharedFramePointRead Start,
@@ -3376,12 +3499,14 @@ public sealed record ClosedSharedFrameBoundaryRead(
     IElement Source,
     IReadOnlyList<SharedFrameSegmentRead> Segments,
     IReadOnlyList<IReadOnlyList<SharedFrameSegmentEndpointRead>> Sites,
-    IReadOnlyList<SharedFrameArcRead>? Arcs = null) : GraphicRead(Source)
+    IReadOnlyList<SharedFrameArcRead>? Arcs = null,
+    IReadOnlyList<SharedFrameCircleRead>? Circles = null) : GraphicRead(Source)
 {
     public override IEnumerable<IElement> Sources =>
         Segments.Select(segment => segment.Source)
             .Concat(Sites.SelectMany(site => site.Select(endpoint => endpoint.Point.Source)))
-            .Concat((Arcs ?? []).Select(arc => arc.Source));
+            .Concat((Arcs ?? []).Select(arc => arc.Source))
+            .Concat((Circles ?? []).Select(circle => circle.Source));
 }
 
 public sealed record BoundaryJoinRead(

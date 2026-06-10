@@ -59,18 +59,46 @@ internal sealed class SketchDrawOperation : ICustomDrawOperation
     private static readonly SKColor CanvasBackground = new(249, 248, 244);
     private static readonly SKColor RadialMergedFill = new(48, 88, 142, 158);
     private static readonly SKColor RadialAntiAreaFill = new(226, 50, 55, 58);
+    private static readonly SKColor RadialMergedAntiAreaFill = new(246, 199, 199);
+    private static readonly SKColor RadialPartitionEmptyFill = new(34, 215, 230);
     private static readonly SKColor RadialCuspMarker = new(226, 18, 34, 245);
     private static readonly SKColor RadialPositiveSide = new(78, 158, 210, 228);
     private static readonly SKColor RadialInverseSide = new(226, 92, 96, 222);
     private static readonly SKColor[] RadialSeparateFillPalette =
     [
-        new(63, 126, 96, 118),
-        new(48, 118, 154, 112),
-        new(179, 113, 58, 104),
-        new(142, 84, 148, 102),
-        new(198, 74, 75, 96),
-        new(89, 135, 188, 104),
-        new(109, 148, 68, 104)
+        new(229, 95, 91),
+        new(79, 142, 210),
+        new(93, 166, 111),
+        new(218, 163, 75),
+        new(166, 111, 194),
+        new(223, 127, 78),
+        new(92, 178, 176),
+        new(199, 89, 132),
+        new(132, 165, 74),
+        new(109, 119, 207),
+        new(217, 115, 166),
+        new(111, 184, 92),
+        new(198, 139, 210),
+        new(232, 139, 95),
+        new(79, 163, 137),
+        new(186, 104, 86),
+        new(102, 151, 221),
+        new(225, 181, 91),
+        new(137, 112, 198),
+        new(99, 181, 151),
+        new(210, 102, 116),
+        new(143, 174, 91),
+        new(221, 127, 189),
+        new(105, 132, 183),
+        new(184, 147, 72),
+        new(82, 170, 205),
+        new(221, 101, 83),
+        new(154, 126, 205),
+        new(112, 174, 121),
+        new(231, 155, 118),
+        new(91, 154, 176),
+        new(201, 118, 157),
+        new(167, 164, 86)
     ];
     private readonly SketchScene scene;
     private readonly int selectedRungIndex;
@@ -224,8 +252,10 @@ internal sealed class SketchDrawOperation : ICustomDrawOperation
             out var antiAreaFillColor,
             out var hideAreaBoundary,
             out var hideSharedFrameGeometry,
+            out var drawSharedFrameAreaPartitions,
             out var drawAreaUnionOutline,
             out var drawAreaUnionAsOutline,
+            out var drawAreaUnionFromSharedFrameAreaPartitions,
             out var drawAreaUnionAntiAreas,
             out var drawAreaUnionSettlementPartitions,
             out var eraseAreaUnionOutline);
@@ -238,8 +268,10 @@ internal sealed class SketchDrawOperation : ICustomDrawOperation
             antiAreaFillColor,
             hideAreaBoundary,
             hideSharedFrameGeometry,
+            drawSharedFrameAreaPartitions,
             drawAreaUnionOutline,
             drawAreaUnionAsOutline,
+            drawAreaUnionFromSharedFrameAreaPartitions,
             drawAreaUnionAntiAreas,
             drawAreaUnionSettlementPartitions,
             eraseAreaUnionOutline);
@@ -471,8 +503,10 @@ internal sealed class SketchDrawOperation : ICustomDrawOperation
         out SKColor? antiAreaFillColor,
         out bool hideAreaBoundary,
         out bool hideSharedFrameGeometry,
+        out bool drawSharedFrameAreaPartitions,
         out bool drawAreaUnionOutline,
         out bool drawAreaUnionAsOutline,
+        out bool drawAreaUnionFromSharedFrameAreaPartitions,
         out bool drawAreaUnionAntiAreas,
         out bool drawAreaUnionSettlementPartitions,
         out bool eraseAreaUnionOutline)
@@ -482,8 +516,10 @@ internal sealed class SketchDrawOperation : ICustomDrawOperation
         antiAreaFillColor = null;
         hideAreaBoundary = false;
         hideSharedFrameGeometry = false;
+        drawSharedFrameAreaPartitions = false;
         drawAreaUnionOutline = false;
         drawAreaUnionAsOutline = false;
+        drawAreaUnionFromSharedFrameAreaPartitions = false;
         drawAreaUnionAntiAreas = false;
         drawAreaUnionSettlementPartitions = false;
         eraseAreaUnionOutline = false;
@@ -499,14 +535,18 @@ internal sealed class SketchDrawOperation : ICustomDrawOperation
         if (rungIndex == 3)
         {
             areaPalette = RadialSeparateFillPalette;
+            antiAreaFillColor = RadialPartitionEmptyFill;
             hideAreaBoundary = true;
             hideSharedFrameGeometry = true;
+            drawSharedFrameAreaPartitions = true;
         }
         else if (rungIndex == 4)
         {
             areaFillColor = RadialMergedFill;
+            antiAreaFillColor = RadialMergedAntiAreaFill;
             hideAreaBoundary = true;
             hideSharedFrameGeometry = true;
+            drawAreaUnionFromSharedFrameAreaPartitions = true;
         }
         else if (rungIndex == 5)
         {
@@ -539,8 +579,10 @@ internal sealed class SketchDrawOperation : ICustomDrawOperation
         SKColor? antiAreaFillColor = null,
         bool hideAreaBoundary = false,
         bool hideSharedFrameGeometry = false,
+        bool drawSharedFrameAreaPartitions = false,
         bool drawAreaUnionOutline = false,
         bool drawAreaUnionAsOutline = false,
+        bool drawAreaUnionFromSharedFrameAreaPartitions = false,
         bool drawAreaUnionAntiAreas = false,
         bool drawAreaUnionSettlementPartitions = false,
         bool eraseAreaUnionOutline = false)
@@ -559,8 +601,10 @@ internal sealed class SketchDrawOperation : ICustomDrawOperation
             AreaFillPalette = areaFillPalette,
             HideAreaBoundary = hideAreaBoundary,
             HideSharedFrameGeometry = hideSharedFrameGeometry,
+            DrawSharedFrameAreaPartitions = drawSharedFrameAreaPartitions,
             DrawAreaUnionOutline = drawAreaUnionOutline,
             DrawAreaUnionAsOutline = drawAreaUnionAsOutline,
+            DrawAreaUnionFromSharedFrameAreaPartitions = drawAreaUnionFromSharedFrameAreaPartitions,
             DrawAreaUnionAntiAreas = drawAreaUnionAntiAreas,
             DrawAreaUnionSettlementPartitions = drawAreaUnionSettlementPartitions,
             EraseAreaUnionOutline = eraseAreaUnionOutline

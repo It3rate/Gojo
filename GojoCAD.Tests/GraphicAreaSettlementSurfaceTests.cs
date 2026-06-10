@@ -123,6 +123,7 @@ public sealed class GraphicAreaSettlementSurfaceTests
         const long endpointInner = 8;
         const long curvedOriginX = -70;
         const long yOriginX = 265;
+        const long yCircleCenterY = 46;
         var curvedCenterFrame = Chain(
             GraphicStructure.AreaFill(Rectangle(basis, curvedOriginX - 32, curvedOriginX + 32, -68, 48)),
             GraphicStructure.AntiAreaFill(Rectangle(basis, curvedOriginX - 24, curvedOriginX + 24, -52, 32)));
@@ -166,7 +167,7 @@ public sealed class GraphicAreaSettlementSurfaceTests
             RingFill(basis, curvedOriginX - 108, -92, endpointOuter, endpointInner),
             RingFill(basis, curvedOriginX + 108, -92, endpointOuter, endpointInner),
             yStem,
-            RingFill(basis, yOriginX, 20, 58, 32),
+            RingFill(basis, yOriginX, yCircleCenterY, 58, 32),
             RingFill(basis, yOriginX - 92, 116, endpointOuter, endpointInner),
             RingFill(basis, yOriginX + 92, 116, endpointOuter, endpointInner),
             RingFill(basis, yOriginX - 110, -82, endpointOuter, endpointInner),
@@ -213,6 +214,7 @@ public sealed class GraphicAreaSettlementSurfaceTests
         const long endpointInner = 8;
         const long curvedOriginX = -70;
         const long yOriginX = 265;
+        const long yCircleCenterY = 46;
         var curvedCenterFrame = Chain(
             GraphicStructure.AreaFill(Rectangle(basis, curvedOriginX - 32, curvedOriginX + 32, -68, 48)),
             GraphicStructure.AntiAreaFill(Rectangle(basis, curvedOriginX - 24, curvedOriginX + 24, -52, 32)));
@@ -256,7 +258,7 @@ public sealed class GraphicAreaSettlementSurfaceTests
             RingFill(basis, curvedOriginX - 108, -92, endpointOuter, endpointInner),
             RingFill(basis, curvedOriginX + 108, -92, endpointOuter, endpointInner),
             yStem,
-            RingFill(basis, yOriginX, 20, 58, 32),
+            RingFill(basis, yOriginX, yCircleCenterY, 58, 32),
             RingFill(basis, yOriginX - 92, 116, endpointOuter, endpointInner),
             RingFill(basis, yOriginX + 92, 116, endpointOuter, endpointInner),
             RingFill(basis, yOriginX - 110, -82, endpointOuter, endpointInner),
@@ -365,6 +367,112 @@ public sealed class GraphicAreaSettlementSurfaceTests
             .ToArray();
         Assert.Contains(BoundaryFlowLane.WholeForward, occupiedLanes);
         Assert.Contains(BoundaryFlowLane.WholeInverse, occupiedLanes);
+    }
+
+    [Fact]
+    public void SettledPositiveAreaUnionPartitionCoalescesUnsplitCircleBoundary()
+    {
+        var basis = new TestBasis();
+        var areaFrame = GraphicAreaParticipationSurface.AreaFrame(
+            new Carrier(),
+            GraphicStructure.AreaFill(Circle(basis, 0, 0, 50)));
+
+        var union = GraphicAreaSettlementSurface.SettledPositiveAreaUnion(new Carrier(), areaFrame);
+
+        Assert.True(GraphicAreaParticipationSurface.TryReadAreaUnion(
+            union,
+            out _,
+            out _,
+            out var settlementWitness,
+            out _));
+        var partitionLayer = FirstPartitionLayer(Assert.IsType<Relation>(settlementWitness));
+        var circles = GraphicReadGraph.From(partitionLayer)
+            .ReadsOf<SharedFrameCircleRead>()
+            .DistinctBy(circle => ReadSourceId(circle.Source))
+            .ToArray();
+        var arcSections = GraphicReadGraph.From(partitionLayer)
+            .ReadsOf<SharedFrameArcSectionRead>()
+            .DistinctBy(section => ReadSourceId(section.Source))
+            .ToArray();
+
+        Assert.Single(circles);
+        Assert.Empty(arcSections);
+    }
+
+    [Fact]
+    public void SettledPositiveAreaUnionPartitionCoalescesUnsplitRingBoundaries()
+    {
+        var basis = new TestBasis();
+        var areaFrame = GraphicAreaParticipationSurface.AreaFrame(
+            new Carrier(),
+            RingFill(basis, 0, 0, 50, 12));
+
+        var union = GraphicAreaSettlementSurface.SettledPositiveAreaUnion(new Carrier(), areaFrame);
+
+        Assert.True(GraphicAreaParticipationSurface.TryReadAreaUnion(
+            union,
+            out _,
+            out _,
+            out var settlementWitness,
+            out _));
+        var partitionLayer = FirstPartitionLayer(Assert.IsType<Relation>(settlementWitness));
+        var circles = GraphicReadGraph.From(partitionLayer)
+            .ReadsOf<SharedFrameCircleRead>()
+            .DistinctBy(circle => ReadSourceId(circle.Source))
+            .ToArray();
+        var arcSections = GraphicReadGraph.From(partitionLayer)
+            .ReadsOf<SharedFrameArcSectionRead>()
+            .DistinctBy(section => ReadSourceId(section.Source))
+            .ToArray();
+
+        Assert.Equal(2, circles.Length);
+        Assert.Empty(arcSections);
+    }
+
+    [Fact]
+    public void SettledPositiveAreaUnionPartitionsRadialPlusIntoBodySectionsAndFourHoleCircles()
+    {
+        var basis = new TestBasis();
+        const long reach = 122;
+        const long offset = 10;
+        const long centerOuter = 81;
+        const long centerInner = 61;
+        const long endpointOuter = 28;
+        const long endpointInner = 8;
+        var areaFrame = GraphicAreaParticipationSurface.AreaFrame(
+            new Carrier(),
+            GraphicStructure.AreaFill(Rectangle(basis, -104, 104, -offset, offset)),
+            GraphicStructure.AreaFill(Rectangle(basis, -offset, offset, -104, 104)),
+            RingFill(basis, 0, 0, centerOuter, centerInner),
+            GraphicStructure.AreaFill(Circle(basis, 0, 0, centerOuter)),
+            RingFill(basis, -reach, 0, endpointOuter, endpointInner),
+            RingFill(basis, reach, 0, endpointOuter, endpointInner),
+            RingFill(basis, 0, -reach, endpointOuter, endpointInner),
+            RingFill(basis, 0, reach, endpointOuter, endpointInner));
+
+        var union = GraphicAreaSettlementSurface.SettledPositiveAreaUnion(new Carrier(), areaFrame);
+
+        Assert.True(GraphicAreaParticipationSurface.TryReadAreaUnion(
+            union,
+            out var settledAreaFrame,
+            out _,
+            out var settlementWitness,
+            out _));
+        var areas = GraphicReadGraph.From(settledAreaFrame)
+            .ReadsOf<SharedFrameAreaRead>()
+            .DistinctBy(area => ReadSourceId(area.Source))
+            .ToArray();
+        var partitionLayer = FirstPartitionLayer(Assert.IsType<Relation>(settlementWitness));
+        var partitionElements = Elements(Assert.IsType<Relation>(partitionLayer));
+        var partitionCircles = GraphicReadGraph.From(partitionLayer)
+            .ReadsOf<SharedFrameCircleRead>()
+            .DistinctBy(circle => ReadSourceId(circle.Source))
+            .ToArray();
+
+        Assert.Single(areas, area => !area.IsAntiArea);
+        Assert.Equal(4, areas.Count(area => area.IsAntiArea));
+        Assert.Equal(4, partitionCircles.Length);
+        Assert.NotEmpty(partitionElements);
     }
 
     [Fact]
@@ -718,6 +826,13 @@ public sealed class GraphicAreaSettlementSurfaceTests
             .Where(area => !area.IsAntiArea)
             .DistinctBy(area => ReadSourceId(area.Source))
             .Select(area => area.Source)];
+
+    private static IElement FirstPartitionLayer(Relation settlementWitness)
+    {
+        Assert.True(ParticipationSettlementSurface.TryRead(settlementWitness, out var read));
+        var layers = Elements(Assert.IsType<Relation>(read.Partitions));
+        return layers[0];
+    }
 
     private static Relation HExteriorSharpOutline(
         TestBasis basis,

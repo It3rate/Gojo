@@ -4,6 +4,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Layout;
 using Avalonia.Media;
+using Gojo.ConceptSurface;
 using Gojo.Core;
 using Gojo.Structures;
 using GojoCAD.GCode;
@@ -15,6 +16,46 @@ namespace GojoCAD.SketchViewer;
 
 internal static class Program
 {
+    private static readonly SKColor RadialMergedFill = new(48, 88, 142, 158);
+    private static readonly SKColor RadialMergedAntiAreaFill = new(246, 199, 199);
+
+    private static readonly SKColor[] RadialPartitionPalette =
+    [
+        new(229, 95, 91),
+        new(79, 142, 210),
+        new(93, 166, 111),
+        new(218, 163, 75),
+        new(166, 111, 194),
+        new(223, 127, 78),
+        new(92, 178, 176),
+        new(199, 89, 132),
+        new(132, 165, 74),
+        new(109, 119, 207),
+        new(217, 115, 166),
+        new(111, 184, 92),
+        new(198, 139, 210),
+        new(232, 139, 95),
+        new(79, 163, 137),
+        new(186, 104, 86),
+        new(102, 151, 221),
+        new(225, 181, 91),
+        new(137, 112, 198),
+        new(99, 181, 151),
+        new(210, 102, 116),
+        new(143, 174, 91),
+        new(221, 127, 189),
+        new(105, 132, 183),
+        new(184, 147, 72),
+        new(82, 170, 205),
+        new(221, 101, 83),
+        new(154, 126, 205),
+        new(112, 174, 121),
+        new(231, 155, 118),
+        new(91, 154, 176),
+        new(201, 118, 157),
+        new(167, 164, 86)
+    ];
+
     [STAThread]
     public static void Main(string[] args)
     {
@@ -35,6 +76,12 @@ internal static class Program
             return;
         }
 
+        if (args.Any(arg => string.Equals(arg, "--inspect-radial-partitions", StringComparison.OrdinalIgnoreCase)))
+        {
+            InspectRadialPartitions(args);
+            return;
+        }
+
         BuildAvaloniaApp().StartWithClassicDesktopLifetime(args);
     }
 
@@ -51,6 +98,8 @@ internal static class Program
         var requestedVariant = ReadIntArg(args, "--variant=");
         var requestedRung = ReadIntArg(args, "--rung=");
         var requestedScene = ReadStringArg(args, "--scene=");
+        var savePath = ReadStringArg(args, "--save=");
+        var verbosePartitions = args.Any(arg => string.Equals(arg, "--verbose", StringComparison.OrdinalIgnoreCase));
         int[] variants = requestedVariant is { } variant ? [variant] : [0, 1, 2];
 
         foreach (var radialComparisonVariant in variants)
@@ -103,19 +152,247 @@ internal static class Program
 
                 using var paints = new GojoCadSkiaPaints
                 {
+                    AreaFillPalette = scene.Label == "Radial Shape Ladder" && index == 3
+                        ? RadialPartitionPalette
+                        : null,
+                    HideAreaBoundary = scene.Label == "Radial Shape Ladder" && (index == 3 || index == 4),
+                    HideSharedFrameGeometry = scene.Label == "Radial Shape Ladder" && (index == 3 || index == 4),
+                    DrawSharedFrameAreaPartitions = scene.Label == "Radial Shape Ladder" && index == 3,
+                    DrawAreaUnionFromSharedFrameAreaPartitions = scene.Label == "Radial Shape Ladder" && index == 4,
                     DrawAreaUnionAntiAreas = scene.Label == "Radial Shape Ladder" && index >= 4 && index < 10,
                     DrawAreaUnionSettlementPartitions = scene.Label == "Radial Shape Ladder" && index >= 4 && index < 10
                 };
+                if (scene.Label == "Radial Shape Ladder" && index == 3)
+                {
+                    paints.AntiAreaFill.Color = new SKColor(34, 215, 230);
+                }
+                else if (scene.Label == "Radial Shape Ladder" && index == 4)
+                {
+                    paints.AreaFill.Color = RadialMergedFill;
+                    paints.AntiAreaFill.Color = RadialMergedAntiAreaFill;
+                }
+
                 canvas.Clear(SKColors.White);
                 var stopwatch = Stopwatch.StartNew();
-                renderer.Draw(canvas, result, viewport, scene.ProjectionSeed, scene.ModelBounds, paints);
+                var hitAreas = new List<GojoCadSkiaHitArea>();
+                var drawn = renderer.Draw(canvas, result, viewport, scene.ProjectionSeed, scene.ModelBounds, paints, hitAreas);
                 stopwatch.Stop();
-                Console.WriteLine($"{scene.Label} variant {radialComparisonVariant} rung {index} rendered in {stopwatch.ElapsedMilliseconds} ms.");
+                var partitionReport = scene.Label == "Radial Shape Ladder" && index == 3
+                    ? RadialPartitionReport(hitAreas, viewport, scene.ModelBounds, verbosePartitions)
+                    : string.Empty;
+                Console.WriteLine($"{scene.Label} variant {radialComparisonVariant} rung {index} rendered {drawn} elements{partitionReport} in {stopwatch.ElapsedMilliseconds} ms.");
+                if (savePath is { Length: > 0 })
+                {
+                    SaveSmokeBitmap(bitmap, savePath);
+                }
+
                 rendered++;
             }
         }
 
         Console.WriteLine($"Rendered {rendered} generated scene/rung surfaces.");
+    }
+
+    private static void SaveSmokeBitmap(SKBitmap bitmap, string path)
+    {
+        var directory = Path.GetDirectoryName(Path.GetFullPath(path));
+        if (!string.IsNullOrWhiteSpace(directory))
+        {
+            Directory.CreateDirectory(directory);
+        }
+
+        using var image = SKImage.FromBitmap(bitmap);
+        using var data = image.Encode(SKEncodedImageFormat.Png, 100);
+        using var stream = File.Open(path, FileMode.Create, FileAccess.Write);
+        data.SaveTo(stream);
+    }
+
+    private static string RadialPartitionReport(
+        IReadOnlyCollection<GojoCadSkiaHitArea> hitAreas,
+        SKRect viewport,
+        SKRect? modelBounds,
+        bool verbose)
+    {
+        var filled = hitAreas.Where(hit => hit.Text == "frame area partition").ToArray();
+        var empty = hitAreas.Where(hit => hit.Text == "frame empty partition").ToArray();
+        var splitX = modelBounds is { } bounds
+            ? ProjectModelX(170f, bounds, viewport)
+            : viewport.MidX;
+        if (verbose &&
+            modelBounds is { } verboseBounds)
+        {
+            Console.WriteLine("  filled:");
+            foreach (var hit in filled.OrderBy(hit => UnprojectModelMidX(hit.Bounds, verboseBounds, viewport)).ThenBy(hit => hit.Bounds.MidY))
+            {
+                Console.WriteLine($"    {PartitionBoundsLabel(hit.Bounds, verboseBounds, viewport)}");
+            }
+
+            Console.WriteLine("  empty:");
+            foreach (var hit in empty.OrderBy(hit => UnprojectModelMidX(hit.Bounds, verboseBounds, viewport)).ThenBy(hit => hit.Bounds.MidY))
+            {
+                Console.WriteLine($"    {PartitionBoundsLabel(hit.Bounds, verboseBounds, viewport)}");
+            }
+        }
+
+        return
+            $" partitions +{filled.Length} empty {empty.Length}" +
+            $" left +{filled.Count(hit => hit.Bounds.MidX < splitX)} empty {empty.Count(hit => hit.Bounds.MidX < splitX)}" +
+            $" right +{filled.Count(hit => hit.Bounds.MidX >= splitX)} empty {empty.Count(hit => hit.Bounds.MidX >= splitX)}";
+    }
+
+    private static string PartitionBoundsLabel(SKRect screenBounds, SKRect modelBounds, SKRect viewport)
+    {
+        var transform = ReadSmokeTransform(modelBounds, viewport);
+        var left = (screenBounds.Left - transform.Offset.X) / transform.Scale;
+        var right = (screenBounds.Right - transform.Offset.X) / transform.Scale;
+        var top = (screenBounds.Top - transform.Offset.Y) / transform.Scale;
+        var bottom = (screenBounds.Bottom - transform.Offset.Y) / transform.Scale;
+        return $"x={left,7:0.0}:{right,7:0.0} y={top,7:0.0}:{bottom,7:0.0}";
+    }
+
+    private static float UnprojectModelMidX(SKRect screenBounds, SKRect modelBounds, SKRect viewport)
+    {
+        var transform = ReadSmokeTransform(modelBounds, viewport);
+        return (screenBounds.MidX - transform.Offset.X) / transform.Scale;
+    }
+
+    private static float ProjectModelX(float modelX, SKRect modelBounds, SKRect viewport)
+    {
+        var transform = ReadSmokeTransform(modelBounds, viewport);
+        return transform.Offset.X + modelX * transform.Scale;
+    }
+
+    private static (float Scale, SKPoint Offset) ReadSmokeTransform(SKRect modelBounds, SKRect viewport)
+    {
+        var margin = MathF.Min(36f, MathF.Min(viewport.Width, viewport.Height) * 0.12f);
+        var innerWidth = Math.Max(1f, viewport.Width - margin * 2f);
+        var innerHeight = Math.Max(1f, viewport.Height - margin * 2f);
+        var scale = MathF.Min(innerWidth / modelBounds.Width, innerHeight / modelBounds.Height);
+        var modelCenterX = modelBounds.Left + modelBounds.Width * 0.5f;
+        var modelCenterY = modelBounds.Top + modelBounds.Height * 0.5f;
+        var viewportCenterX = viewport.Left + viewport.Width * 0.5f;
+        var viewportCenterY = viewport.Top + viewport.Height * 0.5f;
+        return (scale, new SKPoint(
+            viewportCenterX - modelCenterX * scale,
+            viewportCenterY - modelCenterY * scale));
+    }
+
+    private static void InspectRadialPartitions(string[] args)
+    {
+        var requestedVariant = ReadIntArg(args, "--variant=") ?? 0;
+        var requestedRung = ReadIntArg(args, "--rung=") ?? 4;
+        var verbose = args.Any(arg => string.Equals(arg, "--verbose", StringComparison.OrdinalIgnoreCase));
+        var scene = SketchSamples.CreateInitialScenes(requestedVariant)
+            .First(scene => scene.Label == "Radial Shape Ladder");
+        var rungs = scene.ReadRungs();
+        if (!StructuralLadderSurface.TryReadRung(
+                rungs[requestedRung],
+                out _,
+                out _,
+                out var result,
+                out _,
+                out _,
+                out _,
+                out _,
+                out _))
+        {
+            throw new InvalidOperationException($"Radial rung {requestedRung} did not expose a result.");
+        }
+
+        var rungAreas = GraphicReadGraph.From(result)
+            .ReadsOf<SharedFrameAreaRead>()
+            .DistinctBy(area => ReadSourceId(area.Source))
+            .ToArray();
+        Console.WriteLine(
+            $"variant={requestedVariant} rung={requestedRung} areas +{rungAreas.Count(area => !area.IsAntiArea)} empty {rungAreas.Count(area => area.IsAntiArea)}");
+
+        var unionReads = WalkRelations(result)
+            .Where(relation => GraphicAreaParticipationSurface.TryReadAreaUnion(relation, out _, out _, out _, out _))
+            .DistinctBy(ReadSourceId)
+            .ToArray();
+        Console.WriteLine($"variant={requestedVariant} rung={requestedRung} unions={unionReads.Length}");
+        for (var unionIndex = 0; unionIndex < unionReads.Length; unionIndex++)
+        {
+            var union = unionReads[unionIndex];
+            GraphicAreaParticipationSurface.TryReadAreaUnion(union, out var areaFrame, out var outline, out var settlement, out _);
+            var partitionLayer = settlement;
+            if (settlement is Relation settlementRelation &&
+                ParticipationSettlementSurface.TryRead(settlementRelation, out var settlementRead))
+            {
+                partitionLayer = settlementRead.Partitions;
+                if (partitionLayer is Relation partitionFrame &&
+                    partitionFrame.Right is Carrier partitionHolder &&
+                    partitionFrame.TryReadOrderedElementsOn(partitionHolder, out var layers) &&
+                    layers.Length > 0)
+                {
+                    partitionLayer = layers[0];
+                }
+            }
+
+            var directElements = partitionLayer is Relation directFrame &&
+                directFrame.Right is Carrier directHolder &&
+                directFrame.TryReadOrderedElementsOn(directHolder, out var ordered)
+                    ? ordered
+                    : [partitionLayer];
+            var directCircleCount = directElements.Count(element => GraphicReadGraph.From(element).ReadsOf<SharedFrameCircleRead>().Any());
+            var directArcSectionCount = directElements.Count(element => GraphicReadGraph.From(element).ReadsOf<SharedFrameArcSectionRead>().Any());
+            var directArcCount = directElements.Count(element => GraphicReadGraph.From(element).ReadsOf<SharedFrameArcRead>().Any());
+            var directSegmentCount = directElements.Count(element => GraphicReadGraph.From(element).ReadsOf<SharedFrameSegmentRead>().Any());
+            var graph = GraphicReadGraph.From(partitionLayer);
+            var circles = graph.ReadsOf<SharedFrameCircleRead>()
+                .DistinctBy(circle => ReadSourceId(circle.Source))
+                .ToArray();
+            var sections = graph.ReadsOf<SharedFrameArcSectionRead>()
+                .DistinctBy(section => ReadSourceId(section.Source))
+                .ToArray();
+            var arcs = graph.ReadsOf<SharedFrameArcRead>()
+                .DistinctBy(arc => ReadSourceId(arc.Source))
+                .ToArray();
+            var segments = graph.ReadsOf<SharedFrameSegmentRead>()
+                .DistinctBy(segment => ReadSourceId(segment.Source))
+                .ToArray();
+            var points = graph.ReadsOf<SharedFramePointRead>()
+                .Select(PointSignature)
+                .Distinct()
+                .Count();
+            var areas = GraphicReadGraph.From(areaFrame)
+                .ReadsOf<SharedFrameAreaRead>()
+                .DistinctBy(area => ReadSourceId(area.Source))
+                .ToArray();
+            var outlines = GraphicReadGraph.From(outline)
+                .ReadsOf<ClosedSharedFrameBoundaryRead>()
+                .DistinctBy(boundary => ReadSourceId(boundary.Source))
+                .ToArray();
+            Console.WriteLine(
+                $"  union[{unionIndex}] partitions circles={circles.Length} arcSections={sections.Length} arcs={arcs.Length} segments={segments.Length} points={points}; " +
+                $"direct={directElements.Length} c={directCircleCount} as={directArcSectionCount} a={directArcCount} s={directSegmentCount}; " +
+                $"areas +{areas.Count(area => !area.IsAntiArea)} -{areas.Count(area => area.IsAntiArea)} outlines={outlines.Length}");
+            if (verbose)
+            {
+                foreach (var antiArea in areas.Where(area => area.IsAntiArea))
+                {
+                    if (TryReadSharedFrameBoundaryBounds(antiArea.Boundary, out var minX, out var maxX, out var minY, out var maxY))
+                    {
+                        Console.WriteLine($"    anti {minX}:{maxX}:{minY}:{maxY}");
+                    }
+                }
+
+                for (var elementIndex = 0; elementIndex < directElements.Length; elementIndex++)
+                {
+                    var elementGraph = GraphicReadGraph.From(directElements[elementIndex]);
+                    var label = elementGraph.ReadsOf<SharedFrameCircleRead>().Any()
+                        ? "circle"
+                        : elementGraph.ReadsOf<SharedFrameArcSectionRead>().Any()
+                            ? "arc-section"
+                            : "segment";
+                    var pointList = elementGraph.ReadsOf<SharedFramePointRead>()
+                        .Select(PointSignature)
+                        .Distinct()
+                        .ToArray();
+                    Console.WriteLine($"    {elementIndex:00} {label} {string.Join(" ", pointList)}");
+                }
+            }
+        }
     }
 
     private static int? ReadIntArg(IEnumerable<string> args, string prefix) =>
@@ -419,11 +696,14 @@ internal static class Program
             throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not expose separate positive offset fill loops.");
         }
 
-        var arcFillReads = fillAreas
-            .Count(area => !area.IsAntiArea && area.Boundary.Arcs is { Count: > 0 });
-        if (arcFillReads < expectedUnionLanes)
+        var curvedFillReads = fillAreas
+            .Count(area =>
+                !area.IsAntiArea &&
+                (area.Boundary.Arcs is { Count: > 0 } ||
+                    area.Boundary.Circles is { Count: > 0 }));
+        if (curvedFillReads < expectedUnionLanes)
         {
-            throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not preserve circular fills as arc boundaries.");
+            throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not preserve circular fills as curved boundaries.");
         }
 
         if (!StructuralLadderSurface.TryReadRung(
@@ -766,10 +1046,11 @@ internal static class Program
                 })
                 .Where(boundary =>
                     TryReadSharedFrameBoundaryBounds(boundary, out var minX, out var maxX, out var minY, out var maxY) &&
-                    minX >= -120 &&
-                    maxX <= -20 &&
-                    minY <= -38 &&
-                    maxY >= 38)
+                    minX >= -155 &&
+                    maxX <= 10 &&
+                    minY <= -60 &&
+                    maxY >= 60 &&
+                    boundary.Arcs is { Count: >= 4 })
                 .Select(boundary =>
                 {
                     TryReadSharedFrameBoundaryBounds(boundary, out var minX, out var maxX, out var minY, out var maxY);
@@ -777,8 +1058,7 @@ internal static class Program
                 })
                 .Distinct()
                 .ToArray();
-            if (crescentLocalCenterOpenings == 0 &&
-                crescentOutlineOpenings.Length == 0)
+            if (crescentOutlineOpenings.Length == 0)
             {
                 var outlineBounds = WalkRelations(outlineResult)
                     .Where(relation => GraphicAreaParticipationSurface.TryReadAreaUnion(relation, out _, out _, out _, out _))
@@ -809,8 +1089,8 @@ internal static class Program
                     .Distinct()
                     .ToArray();
                 throw new InvalidOperationException(
-                    $"Sketch scene '{scene.Label}' did not preserve the crescent center opening as local anti residue or settled outline evidence. " +
-                    $"LocalAnti=[{string.Join(", ", localAntiBounds)}], outlines=[{string.Join(", ", outlineBounds)}].");
+                    $"Sketch scene '{scene.Label}' did not preserve the crescent center opening as full settled outline evidence. " +
+                    $"Local openings={crescentLocalCenterOpenings}, LocalAnti=[{string.Join(", ", localAntiBounds)}], outlines=[{string.Join(", ", outlineBounds)}].");
             }
         }
 
@@ -829,10 +1109,12 @@ internal static class Program
         }
 
         var cuspMarkers = CountSelectionMarkerBoundaries(cuspResult);
-        var expectedInteriorCusps = comparisonPairMode ? 4 : 12;
+        var expectedInteriorCusps = comparisonPairMode ? 4 : 8;
         if (cuspMarkers < expectedInteriorCusps)
         {
-            throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not mark the expected interior non-tangent joins.");
+            throw new InvalidOperationException(
+                $"Sketch scene '{scene.Label}' did not mark the expected interior non-tangent joins. " +
+                $"Markers={cuspMarkers}, expected={expectedInteriorCusps}.");
         }
 
         if (!StructuralLadderSurface.TryReadRung(
@@ -1005,24 +1287,43 @@ internal static class Program
         var exteriorRoundedOutlines = exteriorRoundedUnions
             .SelectMany(union => GraphicReadGraph.From(union.outlineWitness).ReadsOf<ClosedSharedFrameBoundaryRead>())
             .ToArray();
+        var exteriorRoundedPositiveBounds = exteriorRoundedAreas
+            .Where(area => !area.IsAntiArea)
+            .Select(area =>
+            {
+                TryReadSharedFrameBoundaryBounds(area.Boundary, out var minX, out var maxX, out var minY, out var maxY);
+                return $"{minX}:{maxX}:{minY}:{maxY}";
+            })
+            .Distinct()
+            .ToArray();
+        var exteriorRoundedHoleOutlineBounds = exteriorRoundedOutlines
+            .Select(boundary =>
+            {
+                TryReadSharedFrameBoundaryBounds(boundary, out var minX, out var maxX, out var minY, out var maxY);
+                return $"{minX}:{maxX}:{minY}:{maxY}";
+            })
+            .Where(bounds => !exteriorRoundedPositiveBounds.Contains(bounds))
+            .Distinct()
+            .ToArray();
+        var exteriorRoundedExteriorOutlineBounds = exteriorRoundedOutlines
+            .Select(boundary =>
+            {
+                TryReadSharedFrameBoundaryBounds(boundary, out var minX, out var maxX, out var minY, out var maxY);
+                return $"{minX}:{maxX}:{minY}:{maxY}";
+            })
+            .Where(exteriorRoundedPositiveBounds.Contains)
+            .Distinct()
+            .ToArray();
         if (exteriorRoundedAreas.Count(area => !area.IsAntiArea) < 1 ||
             exteriorRoundedAreas.Any(area => area.IsAntiArea) ||
-            exteriorRoundedOutlines.Length < expectedUnionLanes + 8)
+            exteriorRoundedExteriorOutlineBounds.Length < expectedUnionLanes ||
+            exteriorRoundedHoleOutlineBounds.Length < 8)
         {
             var outlineBounds = exteriorRoundedUnions
                 .SelectMany(union => GraphicReadGraph.From(union.outlineWitness).ReadsOf<ClosedSharedFrameBoundaryRead>())
                 .Select(boundary =>
                 {
                     TryReadSharedFrameBoundaryBounds(boundary, out var minX, out var maxX, out var minY, out var maxY);
-                    return $"{minX}:{maxX}:{minY}:{maxY}";
-                })
-                .Distinct()
-                .ToArray();
-            var positiveBounds = exteriorRoundedAreas
-                .Where(area => !area.IsAntiArea)
-                .Select(area =>
-                {
-                    TryReadSharedFrameBoundaryBounds(area.Boundary, out var minX, out var maxX, out var minY, out var maxY);
                     return $"{minX}:{maxX}:{minY}:{maxY}";
                 })
                 .Distinct()
@@ -1038,12 +1339,19 @@ internal static class Program
                 .ToArray();
             throw new InvalidOperationException(
                 $"Sketch scene '{scene.Label}' did not preserve the exterior-rounded positive fill and hole cuts. " +
-                $"Positive={positiveBounds.Length} [{string.Join(", ", positiveBounds)}], " +
+                $"Positive={exteriorRoundedPositiveBounds.Length} [{string.Join(", ", exteriorRoundedPositiveBounds)}], " +
                 $"anti={antiBounds.Length} [{string.Join(", ", antiBounds)}], " +
+                $"exteriorOutlines={exteriorRoundedExteriorOutlineBounds.Length} [{string.Join(", ", exteriorRoundedExteriorOutlineBounds)}], " +
+                $"holes={exteriorRoundedHoleOutlineBounds.Length} [{string.Join(", ", exteriorRoundedHoleOutlineBounds)}], " +
                 $"outline={outlineBounds.Length} [{string.Join(", ", outlineBounds)}].");
         }
 
-        var exteriorRoundedArcCount = exteriorRoundedOutlines.Sum(boundary => boundary.Arcs?.Count ?? 0);
+        var exteriorRoundedBoundaryEvidence = exteriorRoundedOutlines
+            .Concat(exteriorRoundedAreas
+                .Where(area => !area.IsAntiArea)
+                .Select(area => area.Boundary))
+            .ToArray();
+        var exteriorRoundedArcCount = exteriorRoundedBoundaryEvidence.Sum(boundary => boundary.Arcs?.Count ?? 0);
         if (comparisonPairMode)
         {
             if (exteriorRoundedArcCount < 12)
@@ -1051,17 +1359,17 @@ internal static class Program
                 throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not replace exterior cusp joins with tangent arc outline evidence.");
             }
         }
-        else if (!exteriorRoundedOutlines.Any(boundary => boundary.Arcs is { Count: >= 24 }))
+        else if (!exteriorRoundedBoundaryEvidence.Any(boundary => boundary.Arcs is { Count: >= 24 }))
         {
             throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not replace exterior cusp joins with tangent arc outline evidence.");
         }
 
-        var hasComparisonRoundedOutlineEvidence = exteriorRoundedOutlines.Any(boundary =>
+        var hasComparisonRoundedOutlineEvidence = exteriorRoundedBoundaryEvidence.Any(boundary =>
             boundary.Arcs is { Count: >= 3 } &&
             TryReadSharedFrameBoundaryBounds(boundary, out var minX, out var maxX, out _, out _) &&
             minX >= 140 &&
             maxX <= 390);
-        var hasOriginalRoundedOutlineEvidence = exteriorRoundedOutlines.Any(boundary =>
+        var hasOriginalRoundedOutlineEvidence = exteriorRoundedBoundaryEvidence.Any(boundary =>
             boundary.Arcs is { Count: >= 4 } &&
             TryReadSharedFrameBoundaryBounds(boundary, out var minX, out var maxX, out _, out _) &&
             minX >= 150 &&
@@ -1121,17 +1429,47 @@ internal static class Program
         var finalColoredOutlines = finalColoredUnions
             .SelectMany(union => GraphicReadGraph.From(union.outlineWitness).ReadsOf<ClosedSharedFrameBoundaryRead>())
             .ToArray();
+        var finalColoredPositiveBounds = finalColoredAreas
+            .Where(area => !area.IsAntiArea)
+            .Select(area =>
+            {
+                TryReadSharedFrameBoundaryBounds(area.Boundary, out var minX, out var maxX, out var minY, out var maxY);
+                return $"{minX}:{maxX}:{minY}:{maxY}";
+            })
+            .Distinct()
+            .ToArray();
+        var finalColoredHoleOutlineBounds = finalColoredOutlines
+            .Select(boundary =>
+            {
+                TryReadSharedFrameBoundaryBounds(boundary, out var minX, out var maxX, out var minY, out var maxY);
+                return $"{minX}:{maxX}:{minY}:{maxY}";
+            })
+            .Where(bounds => !finalColoredPositiveBounds.Contains(bounds))
+            .Distinct()
+            .ToArray();
+        var finalColoredExteriorOutlineBounds = finalColoredOutlines
+            .Select(boundary =>
+            {
+                TryReadSharedFrameBoundaryBounds(boundary, out var minX, out var maxX, out var minY, out var maxY);
+                return $"{minX}:{maxX}:{minY}:{maxY}";
+            })
+            .Where(finalColoredPositiveBounds.Contains)
+            .Distinct()
+            .ToArray();
         if (finalColoredUnions.Length < expectedUnionLanes ||
             finalColoredAreas.Count(area => !area.IsAntiArea) < expectedUnionLanes ||
             finalColoredAreas.Any(area => area.IsAntiArea) ||
-            finalColoredOutlines.Length < expectedUnionLanes + 8)
+            finalColoredExteriorOutlineBounds.Length < expectedUnionLanes ||
+            finalColoredHoleOutlineBounds.Length < 8)
         {
             throw new InvalidOperationException(
                 $"Sketch scene '{scene.Label}' ({scene.Caption}) did not keep the final holes as unfilled area cuts. " +
                 $"unions={finalColoredUnions.Length}/{expectedUnionLanes}, " +
                 $"positive={finalColoredAreas.Count(area => !area.IsAntiArea)}/{expectedUnionLanes}, " +
                 $"anti={finalColoredAreas.Count(area => area.IsAntiArea)}, " +
-                $"outlines={finalColoredOutlines.Length}/{expectedUnionLanes + 8}.");
+                $"exteriorOutlines={finalColoredExteriorOutlineBounds.Length}/{expectedUnionLanes}, " +
+                $"holes={finalColoredHoleOutlineBounds.Length}/8, " +
+                $"outlines={finalColoredOutlines.Length}.");
         }
     }
 
@@ -1217,6 +1555,11 @@ internal static class Program
     private static ulong ReadSourceId(IElement source) =>
         source is Relation relation ? relation.Id : 0UL;
 
+    private static string PointSignature(SharedFramePointRead point) =>
+        point.Coordinates.Count >= 2
+            ? $"{point.Coordinates[0].Ticks}:{point.Coordinates[1].Ticks}"
+            : ReadSourceId(point.Source).ToString();
+
     private static bool TryReadSharedFrameBoundaryBounds(
         ClosedSharedFrameBoundaryRead boundary,
         out long minX,
@@ -1267,6 +1610,11 @@ internal static class Program
             IncludeArc(arc);
         }
 
+        foreach (var circle in boundary.Circles ?? [])
+        {
+            IncludeCircle(circle);
+        }
+
         minX = readMinX;
         maxX = readMaxX;
         minY = readMinY;
@@ -1301,6 +1649,23 @@ internal static class Program
             }
         }
 
+        void IncludeCircle(SharedFrameCircleRead circle)
+        {
+            if (circle.Center.Coordinates.Count < 2 ||
+                circle.RadiusPoint.Coordinates.Count < 2)
+            {
+                return;
+            }
+
+            var centerX = circle.Center.Coordinates[0].Ticks;
+            var centerY = circle.Center.Coordinates[1].Ticks;
+            var radiusX = circle.RadiusPoint.Coordinates[0].Ticks;
+            var radiusY = circle.RadiusPoint.Coordinates[1].Ticks;
+            var radius = Math.Sqrt(Math.Pow(radiusX - centerX, 2) + Math.Pow(radiusY - centerY, 2));
+            Include((long)Math.Round(centerX - radius), (long)Math.Round(centerY - radius));
+            Include((long)Math.Round(centerX + radius), (long)Math.Round(centerY + radius));
+        }
+
         static double ShortestSweep(double startAngle, double endAngle)
         {
             var sweep = endAngle - startAngle;
@@ -1324,6 +1689,20 @@ internal static class Program
         out long centerY,
         out long radius)
     {
+        if (boundary.Circles is { Count: > 0 } circles &&
+            circles[0].Center.Coordinates.Count >= 2 &&
+            circles[0].RadiusPoint.Coordinates.Count >= 2)
+        {
+            centerX = circles[0].Center.Coordinates[0].Ticks;
+            centerY = circles[0].Center.Coordinates[1].Ticks;
+            var radiusX = circles[0].RadiusPoint.Coordinates[0].Ticks;
+            var radiusY = circles[0].RadiusPoint.Coordinates[1].Ticks;
+            radius = (long)Math.Round(Math.Sqrt(
+                Math.Pow(radiusX - centerX, 2) +
+                Math.Pow(radiusY - centerY, 2)));
+            return radius > 0;
+        }
+
         var arcs = boundary.Arcs ?? [];
         if (arcs.Count < 4 ||
             arcs[0].Center.Coordinates.Count < 2 ||
@@ -1362,9 +1741,13 @@ internal static class Program
         var arcSpanIds = graph.ReadsOf<SharedFrameArcRead>()
             .Select(arc => ReadSourceId(arc.Span.Source))
             .ToHashSet();
+        var circleRadiusSpanIds = graph.ReadsOf<SharedFrameCircleRead>()
+            .Select(circle => ReadSourceId(circle.RadiusSpan.Source))
+            .ToHashSet();
         foreach (var segment in graph.ReadsOf<SharedFrameSegmentRead>())
         {
             if (arcSpanIds.Contains(ReadSourceId(segment.Source)) ||
+                circleRadiusSpanIds.Contains(ReadSourceId(segment.Source)) ||
                 segment.Start.Coordinates.Count < 2 ||
                 segment.End.Coordinates.Count < 2)
             {

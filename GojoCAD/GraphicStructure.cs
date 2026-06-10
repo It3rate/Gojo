@@ -81,6 +81,14 @@ public static class GraphicStructure
     public static Relation FrameArc(Relation center, Relation start, Relation end) =>
         new(center, FrameSegment(start, end));
 
+    /// <summary>Creates a full circle from a shared-frame center and one radius endpoint.</summary>
+    public static Relation FrameCircle(Relation center, Relation radiusPoint) =>
+        new(center, FrameSegment(center, radiusPoint));
+
+    /// <summary>Creates an arc section whose through point selects the intended sweep.</summary>
+    public static Relation FrameArcSection(Relation center, Relation start, Relation through, Relation end) =>
+        new(FrameArc(center, start, end), through);
+
     /// <summary>Creates a quadratic curve from a shared-frame chord and control point.</summary>
     public static Relation FrameQuadraticCurve(Relation start, Relation control, Relation end) =>
         new(FrameSegment(start, end), control);

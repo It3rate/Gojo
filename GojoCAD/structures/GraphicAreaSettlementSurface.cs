@@ -154,8 +154,10 @@ public static class GraphicAreaSettlementSurface
             return EmptySettlement();
         }
 
-        var edges = participants
+        var participantBoundaries = participants
             .SelectMany(participant => participant.Positive.Concat(participant.Negative))
+            .ToArray();
+        var edges = participantBoundaries
             .SelectMany(boundary => boundary.Edges)
             .ToArray();
         if (edges.Length == 0)
@@ -215,9 +217,6 @@ public static class GraphicAreaSettlementSurface
         var frontierFragments = settledFragments
             .DistinctBy(FragmentKey)
             .ToArray();
-        var partitionFragments = frontierFragments
-            .Select(fragment => fragment.ToElement())
-            .ToArray();
         var loops = BuildOneSidedBoundaryLoops(frontierFragments).ToList();
         var loopKeys = loops.Select(LoopKey).ToHashSet();
         foreach (var noFillLoop in BuildBoundaryFaceLoops(frontierFragments))
@@ -257,8 +256,9 @@ public static class GraphicAreaSettlementSurface
             }
 
             var orientedLoop = OrientLoop(loop, isPositive, signedArea);
-            var elements = orientedLoop.Select(fragment => fragment.ToElement()).ToArray();
-            if (elements.Length < 3)
+            var elements = FragmentElements(orientedLoop);
+            if (elements.Length < 3 &&
+                !orientedLoop.Any(fragment => fragment.IsCircle))
             {
                 continue;
             }
@@ -304,6 +304,14 @@ public static class GraphicAreaSettlementSurface
             !TryReadFirstAreaBounds(source, out var sourceBounds) ||
             !emittedBounds.Any(bounds => bounds.Contains(sourceBounds));
 
+        static bool IsOccupiedBySettledFlow(IElement source, IReadOnlyList<ParticipantRead> participants) =>
+            TryReadFirstAreaBounds(source, out var sourceBounds) &&
+            Contains(
+                participants,
+                new Point2(
+                    (sourceBounds.MinX + sourceBounds.MaxX) * 0.5d,
+                    (sourceBounds.MinY + sourceBounds.MaxY) * 0.5d));
+
         var residue = new List<IElement>();
         var positiveResidueFills = new List<IElement>();
         var antiResidueFills = new List<IElement>();
@@ -314,7 +322,7 @@ public static class GraphicAreaSettlementSurface
                 .DistinctBy(SourceId)
                 .ToArray();
             var antiResidue = participant.NegativeSources
-                .Where(source => IsUncovered(source, emittedAntiBounds))
+                .Where(source => IsUncovered(source, emittedAntiBounds) && !IsOccupiedBySettledFlow(source, participants))
                 .DistinctBy(SourceId)
                 .ToArray();
             if (antiResidue.Length > 0 &&
@@ -352,22 +360,34 @@ public static class GraphicAreaSettlementSurface
             .ToArray();
         if (distinctAntiResidue.Length > 0)
         {
+            fills.InsertRange(0, distinctAntiResidue);
             antiFills.InsertRange(0, distinctAntiResidue);
-            foreach (var outline in distinctAntiResidue
-                .SelectMany(AntiAreaBoundaryOutlines)
-                .DistinctBy(SourceId))
-            {
-                if (!ContainsSource(outlines, outline))
-                {
-                    outlines.Add(outline);
-                }
+        }
 
-                if (!ContainsSource(antiOutlines, outline))
-                {
-                    antiOutlines.Add(outline);
-                }
+        var outlineGeometryKeys = outlines
+            .SelectMany(ClosedBoundaryGeometryKeys)
+            .ToHashSet();
+        foreach (var outline in AntiAreaBoundaryOutlinesFromFrame(fills))
+        {
+            var geometryKeys = ClosedBoundaryGeometryKeys(outline).ToArray();
+            if (geometryKeys.Length > 0 &&
+                geometryKeys.All(outlineGeometryKeys.Contains))
+            {
+                continue;
+            }
+
+            outlines.Add(outline);
+            antiOutlines.Add(outline);
+            foreach (var geometryKey in geometryKeys)
+            {
+                outlineGeometryKeys.Add(geometryKey);
             }
         }
+
+        var partitionFragments = CreatePartitionElements(
+            participantBoundaries,
+            participants,
+            FullCirclePartitionCurves(antiFills).ToArray());
 
         return new SettlementRead(
             [.. fills],
@@ -465,7 +485,12 @@ public static class GraphicAreaSettlementSurface
             }
         }
 
-        return new ParticipantRead(participant, [.. positive], [.. negative], [.. positiveSources], [.. negativeSources]);
+        return new ParticipantRead(
+            participant,
+            [.. positive],
+            [.. negative],
+            [.. positiveSources],
+            [.. negativeSources]);
     }
 
     private static bool HasPositiveAreaRead(IElement element) =>
@@ -478,34 +503,55 @@ public static class GraphicAreaSettlementSurface
             .ReadsOf<SharedFrameAreaRead>()
             .Any(area => area.IsAntiArea);
 
-    private static IEnumerable<IElement> AntiAreaBoundaryOutlines(IElement element)
+    private static IEnumerable<IElement> AntiAreaBoundaryOutlinesFromFrame(IReadOnlyList<IElement> areaFills)
     {
-        foreach (var area in GraphicReadGraph.From(element)
+        var areaFrame = GraphicAreaParticipationSurface.AreaFrame(new Carrier(), [.. areaFills]);
+        foreach (var area in GraphicReadGraph.From(areaFrame)
             .ReadsOf<SharedFrameAreaRead>()
             .Where(area => area.IsAntiArea)
             .DistinctBy(area => SourceId(area.Source)))
         {
-            yield return ReadableBoundaryOutline(area);
+            yield return BoundaryStructure(area.Boundary);
         }
     }
 
-    private static IElement ReadableBoundaryOutline(SharedFrameAreaRead area)
+    private static IEnumerable<string> ClosedBoundaryGeometryKeys(IElement element) =>
+        GraphicReadGraph.From(element)
+            .ReadsOf<ClosedSharedFrameBoundaryRead>()
+            .Select(BoundaryGeometryKey)
+            .Distinct();
+
+    private static string BoundaryGeometryKey(ClosedSharedFrameBoundaryRead boundary)
     {
-        if (GraphicReadGraph.From(area.Source).ReadsOf<ClosedSharedFrameBoundaryRead>().Any())
-        {
-            return area.Source;
-        }
+        var arcBySpanSource = (boundary.Arcs ?? [])
+            .GroupBy(arc => SourceId(arc.Span.Source))
+            .ToDictionary(group => group.Key, group => group.First());
+        var segmentKeys = boundary.Segments
+            .Select(segment =>
+            {
+                var start = FramePointGeometryKey(segment.Start);
+                var end = FramePointGeometryKey(segment.End);
+                var orderedStart = string.CompareOrdinal(start, end) <= 0
+                    ? start
+                    : end;
+                var orderedEnd = string.CompareOrdinal(start, end) <= 0
+                    ? end
+                    : start;
+                return arcBySpanSource.TryGetValue(SourceId(segment.Source), out var arc)
+                    ? $"a:{FramePointGeometryKey(arc.Center)}:{orderedStart}:{orderedEnd}"
+                    : $"l:{orderedStart}:{orderedEnd}";
+            })
+            .Concat((boundary.Circles ?? []).Select(circle =>
+                $"c:{FramePointGeometryKey(circle.Center)}:{FramePointGeometryKey(circle.RadiusPoint)}"))
+            .Order(StringComparer.Ordinal);
 
-        if (GraphicReadGraph.From(area.Boundary.Source).ReadsOf<ClosedSharedFrameBoundaryRead>().Any())
-        {
-            return area.Boundary.Source;
-        }
-
-        return BoundaryStructure(area.Boundary);
+        return string.Join("|", segmentKeys);
     }
 
-    private static bool ContainsSource(IReadOnlyList<IElement> elements, IElement source) =>
-        elements.Any(element => SourceId(element) == SourceId(source));
+    private static string FramePointGeometryKey(SharedFramePointRead point) =>
+        point.Coordinates.Count >= 2
+            ? $"{point.Coordinates[0].Ticks}:{point.Coordinates[1].Ticks}"
+            : SourceId(point.Source).ToString();
 
     private static IEnumerable<BoundsRead> ReadAreaBounds(IElement element)
     {
@@ -561,21 +607,31 @@ public static class GraphicAreaSettlementSurface
         out BoundaryRead read)
     {
         read = default!;
-        var oriented = TryReadOrientedBoundaryEdges(boundary, out var walked)
-            ? walked
-            : TryReadCoordinateBoundaryEdges(boundary, out var coordinateWalked)
-                ? coordinateWalked
-            : boundary.Segments
-                .Select(segment => new OrientedBoundaryEdge(
-                    segment,
-                    new SharedFrameSegmentEndpointRead(segment, segment.Start, IsStart: true),
-                    new SharedFrameSegmentEndpointRead(segment, segment.End, IsStart: false)))
-                .ToArray();
+        var oriented = boundary.Segments.Count == 0
+            ? []
+            : TryReadOrientedBoundaryEdges(boundary, out var walked)
+                ? walked
+                : TryReadCoordinateBoundaryEdges(boundary, out var coordinateWalked)
+                    ? coordinateWalked
+                : boundary.Segments
+                    .Select(segment => new OrientedBoundaryEdge(
+                        segment,
+                        new SharedFrameSegmentEndpointRead(segment, segment.Start, IsStart: true),
+                        new SharedFrameSegmentEndpointRead(segment, segment.End, IsStart: false)))
+                    .ToArray();
 
         var arcBySpanSource = (boundary.Arcs ?? [])
             .GroupBy(arc => SourceId(arc.Span.Source))
             .ToDictionary(group => group.Key, group => group.First());
         var edges = new List<BoundaryEdge>();
+        foreach (var circle in boundary.Circles ?? [])
+        {
+            if (TryCreateCircleEdge(circle, out var circleEdge))
+            {
+                edges.Add(circleEdge);
+            }
+        }
+
         foreach (var edge in oriented)
         {
             if (arcBySpanSource.TryGetValue(SourceId(edge.Segment.Source), out var arc))
@@ -598,7 +654,8 @@ public static class GraphicAreaSettlementSurface
             }
         }
 
-        if (edges.Count < 3)
+        if (edges.Count < 3 &&
+            !edges.Any(edge => edge.IsCircle))
         {
             return false;
         }
@@ -609,21 +666,430 @@ public static class GraphicAreaSettlementSurface
 
     private static IElement BoundaryStructure(ClosedSharedFrameBoundaryRead boundary)
     {
-        var arcBySpanSource = (boundary.Arcs ?? [])
-            .GroupBy(arc => SourceId(arc.Span.Source))
-            .ToDictionary(group => group.Key, group => group.First());
-        var elements = TryReadOrientedBoundaryEdges(boundary, out var oriented)
-            ? oriented
-                .Select(edge => arcBySpanSource.TryGetValue(SourceId(edge.Segment.Source), out var arc)
-                    ? arc.Source
-                    : edge.Segment.Source)
-                .ToArray()
+        var elements = TryReadBoundary(boundary, isAnti: false, out var read)
+            ? BoundaryElements(read.Edges)
             : boundary.Segments
-                .Select(segment => arcBySpanSource.TryGetValue(SourceId(segment.Source), out var arc)
-                    ? arc.Source
-                    : segment.Source)
+                .Select(segment => GraphicStructure.FrameSegment(
+                    (Relation)segment.Start.Source,
+                    (Relation)segment.End.Source))
+                .Cast<IElement>()
                 .ToArray();
         return Chain(elements);
+    }
+
+    private static IElement[] BoundaryElements(IReadOnlyList<BoundaryEdge> edges)
+    {
+        var points = new Dictionary<string, Relation>();
+        Relation Point(SharedFramePointRead template, Point2 point)
+        {
+            var key = BoundaryPointKey(template, point);
+            if (!points.TryGetValue(key, out var relation))
+            {
+                relation = CreateFramePoint(template, point);
+                points.Add(key, relation);
+            }
+
+            return relation;
+        }
+
+        return [.. edges.Select(edge => BoundaryEdgeElement(edge, Point))];
+    }
+
+    private static IElement[] FragmentElements(IReadOnlyList<FragmentRead> fragments)
+    {
+        var points = new Dictionary<string, Relation>();
+        Relation Point(SharedFramePointRead template, Point2 point)
+        {
+            var key = BoundaryPointKey(template, point);
+            if (!points.TryGetValue(key, out var relation))
+            {
+                relation = CreateFramePoint(template, point);
+                points.Add(key, relation);
+            }
+
+            return relation;
+        }
+
+        return [.. fragments.Select(fragment => FragmentElement(fragment, Point))];
+    }
+
+    private static IElement FragmentElement(
+        FragmentRead fragment,
+        Func<SharedFramePointRead, Point2, Relation> pointAt)
+    {
+        var start = pointAt(fragment.Template, fragment.Start);
+        var end = pointAt(fragment.Template, fragment.End);
+        if (!fragment.IsArc)
+        {
+            return GraphicStructure.FrameSegment(start, end);
+        }
+
+        var center = pointAt(fragment.Template, fragment.Center);
+        return fragment.IsCircle
+            ? GraphicStructure.FrameCircle(center, start)
+            : GraphicStructure.FrameArc(center, start, end);
+    }
+
+    private static IElement BoundaryEdgeElement(
+        BoundaryEdge edge,
+        Func<SharedFramePointRead, Point2, Relation> pointAt)
+    {
+        var start = pointAt(edge.Template, edge.Start);
+        var end = pointAt(edge.Template, edge.End);
+        if (!edge.IsArc)
+        {
+            return GraphicStructure.FrameSegment(start, end);
+        }
+
+        var center = pointAt(edge.Template, edge.Center);
+        return edge.IsCircle
+            ? GraphicStructure.FrameCircle(center, start)
+            : GraphicStructure.FrameArc(center, start, end);
+    }
+
+    private static IElement[] CreatePartitionElements(
+        IReadOnlyList<BoundaryRead> boundaries,
+        IReadOnlyList<ParticipantRead> participants,
+        IReadOnlyList<PartitionCurve> forcedFullCircles)
+    {
+        var curves = boundaries
+            .SelectMany(PartitionCurves)
+            .ToArray();
+        if (curves.Length == 0 && forcedFullCircles.Count == 0)
+        {
+            return [];
+        }
+        var forcedCircleKeys = forcedFullCircles
+            .Select(curve => curve.FullCircleKey())
+            .ToHashSet();
+
+        var splitParameters = curves.ToDictionary(curve => curve, curve =>
+            curve.IsCircle
+                ? new List<double>()
+                : new List<double> { 0d, 1d });
+        for (var leftIndex = 0; leftIndex < curves.Length; leftIndex++)
+        for (var rightIndex = leftIndex + 1; rightIndex < curves.Length; rightIndex++)
+        {
+            foreach (var intersection in PartitionIntersections(curves[leftIndex], curves[rightIndex]))
+            {
+                if (curves[leftIndex].TryParameterOf(intersection, out var leftT))
+                {
+                    splitParameters[curves[leftIndex]].Add(leftT);
+                }
+
+                if (curves[rightIndex].TryParameterOf(intersection, out var rightT))
+                {
+                    splitParameters[curves[rightIndex]].Add(rightT);
+                }
+            }
+        }
+
+        var points = new Dictionary<string, Relation>();
+        Relation Point(SharedFramePointRead template, Point2 point)
+        {
+            var key = BoundaryPointKey(template, point);
+            if (!points.TryGetValue(key, out var relation))
+            {
+                relation = CreateFramePoint(template, point);
+                points.Add(key, relation);
+            }
+
+            return relation;
+        }
+
+        var elements = new List<IElement>();
+        var seen = new HashSet<string>();
+        foreach (var curve in curves)
+        {
+            var parameters = splitParameters[curve]
+                .Where(t => t >= -Epsilon && t <= 1d + Epsilon)
+                .Select(t => Math.Clamp(t, 0d, 1d))
+                .DistinctBy(t => Math.Round(t, 6))
+                .Order()
+                .ToArray();
+            if (curve.IsCircle)
+            {
+                if (parameters.Length < 2)
+                {
+                    if (!forcedCircleKeys.Contains(curve.FullCircleKey()) &&
+                        curve.SeparatesParticipation(participants, startT: 0d, endT: 1d))
+                    {
+                        AddPartitionElement(curve.FullCircleElement(Point), curve.FullCircleKey(), elements, seen);
+                    }
+
+                    continue;
+                }
+
+                for (var index = 0; index < parameters.Length; index++)
+                {
+                    var startT = parameters[index];
+                    var endT = index + 1 < parameters.Length
+                        ? parameters[index + 1]
+                        : parameters[0] + 1d;
+                    if (endT - startT < Epsilon)
+                    {
+                        continue;
+                    }
+
+                    if (!forcedCircleKeys.Contains(curve.FullCircleKey()) &&
+                        curve.SeparatesParticipation(participants, startT, endT))
+                    {
+                        AddPartitionElement(curve.SectionElement(startT, endT, Point), curve.SectionKey(startT, endT), elements, seen);
+                    }
+                }
+
+                continue;
+            }
+
+            for (var index = 0; index + 1 < parameters.Length; index++)
+            {
+                var startT = parameters[index];
+                var endT = parameters[index + 1];
+                if (endT - startT < Epsilon)
+                {
+                    continue;
+                }
+
+                if ((!curve.IsArc || !forcedCircleKeys.Contains(curve.FullCircleKey())) &&
+                    curve.SeparatesParticipation(participants, startT, endT))
+                {
+                    AddPartitionElement(curve.SectionElement(startT, endT, Point), curve.SectionKey(startT, endT), elements, seen);
+                }
+            }
+        }
+
+        foreach (var circle in forcedFullCircles)
+        {
+            AddPartitionElement(circle.FullCircleElement(Point), circle.FullCircleKey(), elements, seen);
+        }
+
+        return [.. elements];
+    }
+
+    private static void AddPartitionElement(
+        IElement element,
+        string key,
+        ICollection<IElement> elements,
+        ISet<string> seen)
+    {
+        if (seen.Add(key))
+        {
+            elements.Add(element);
+        }
+    }
+
+    private static IEnumerable<PartitionCurve> PartitionCurves(BoundaryRead boundary)
+    {
+        if (TryCreateCirclePartitionCurve(boundary, out var circle))
+        {
+            yield return circle;
+            yield break;
+        }
+
+        foreach (var edge in boundary.Edges)
+        {
+            yield return PartitionCurve.FromEdge(edge);
+        }
+    }
+
+    private static IEnumerable<PartitionCurve> FullCirclePartitionCurves(IEnumerable<IElement> areaFills)
+    {
+        foreach (var area in areaFills
+            .SelectMany(fill => GraphicReadGraph.From(fill).ReadsOf<SharedFrameAreaRead>())
+            .Where(area => area.IsAntiArea)
+            .DistinctBy(area => SourceId(area.Source)))
+        {
+            if (TryReadBoundary(area.Boundary, isAnti: true, out var boundary) &&
+                TryCreateCirclePartitionCurve(boundary, out var circle))
+            {
+                yield return circle;
+            }
+        }
+    }
+
+    private static bool TryCreateCirclePartitionCurve(BoundaryRead boundary, out PartitionCurve curve)
+    {
+        var edges = boundary.Edges;
+        if (edges.Count == 1 && edges[0].IsCircle)
+        {
+            curve = PartitionCurve.Circle(edges[0].Template, edges[0].Center, edges[0].Radius, edges[0].Start);
+            return true;
+        }
+
+        if (edges.Count < 3 ||
+            edges.Any(edge => !edge.IsArc))
+        {
+            curve = default!;
+            return false;
+        }
+
+        var center = edges[0].Center;
+        var radius = edges[0].Radius;
+        if (radius < Epsilon ||
+            edges.Any(edge => Length(edge.Center - center) > 0.85d || Math.Abs(edge.Radius - radius) > 0.85d))
+        {
+            curve = default!;
+            return false;
+        }
+
+        var totalSweep = edges.Sum(edge => Math.Abs(edge.Sweep));
+        if (Math.Abs(totalSweep - Math.PI * 2d) > 0.05d)
+        {
+            curve = default!;
+            return false;
+        }
+
+        curve = PartitionCurve.Circle(edges[0].Template, center, radius, edges[0].Start);
+        return true;
+    }
+
+    private static IEnumerable<Point2> PartitionIntersections(PartitionCurve left, PartitionCurve right)
+    {
+        if (!left.IsArc && !right.IsArc)
+        {
+            return PartitionLineLineIntersections(left, right);
+        }
+
+        if (!left.IsArc && right.IsArc)
+        {
+            return PartitionLineArcIntersections(left, right);
+        }
+
+        if (left.IsArc && !right.IsArc)
+        {
+            return PartitionLineArcIntersections(right, left);
+        }
+
+        return PartitionArcArcIntersections(left, right);
+    }
+
+    private static IEnumerable<Point2> PartitionLineLineIntersections(PartitionCurve left, PartitionCurve right)
+    {
+        var p = left.Start;
+        var r = left.End - left.Start;
+        var q = right.Start;
+        var s = right.End - right.Start;
+        var cross = Cross(r, s);
+        if (Math.Abs(cross) < Epsilon)
+        {
+            if (Math.Abs(Cross(q - p, r)) >= Epsilon)
+            {
+                yield break;
+            }
+
+            var lengthSquared = Dot(r, r);
+            if (lengthSquared < Epsilon)
+            {
+                yield break;
+            }
+
+            var t0 = Dot(q - p, r) / lengthSquared;
+            var t1 = Dot(q + s - p, r) / lengthSquared;
+            var overlapStart = Math.Max(0d, Math.Min(t0, t1));
+            var overlapEnd = Math.Min(1d, Math.Max(t0, t1));
+            if (overlapEnd < overlapStart - Epsilon)
+            {
+                yield break;
+            }
+
+            if (WithinUnit(overlapStart))
+            {
+                yield return left.PointAt(Math.Clamp(overlapStart, 0d, 1d));
+            }
+
+            if (WithinUnit(overlapEnd) &&
+                Math.Abs(overlapEnd - overlapStart) > Epsilon)
+            {
+                yield return left.PointAt(Math.Clamp(overlapEnd, 0d, 1d));
+            }
+
+            yield break;
+        }
+
+        var t = Cross(q - p, s) / cross;
+        var u = Cross(q - p, r) / cross;
+        if (WithinUnit(t) && WithinUnit(u))
+        {
+            yield return p + r * t;
+        }
+    }
+
+    private static IEnumerable<Point2> PartitionLineArcIntersections(PartitionCurve line, PartitionCurve arc)
+    {
+        var d = line.End - line.Start;
+        var f = line.Start - arc.Center;
+        var a = Dot(d, d);
+        var b = 2d * Dot(f, d);
+        var c = Dot(f, f) - arc.Radius * arc.Radius;
+        var discriminant = b * b - 4d * a * c;
+        if (discriminant < -Epsilon ||
+            Math.Abs(a) < Epsilon)
+        {
+            yield break;
+        }
+
+        var root = Math.Sqrt(Math.Max(0d, discriminant));
+        foreach (var t in new[] { (-b - root) / (2d * a), (-b + root) / (2d * a) })
+        {
+            var point = line.Start + d * t;
+            if (WithinUnit(t) &&
+                arc.TryParameterOf(point, out _))
+            {
+                yield return point;
+            }
+        }
+    }
+
+    private static IEnumerable<Point2> PartitionArcArcIntersections(PartitionCurve left, PartitionCurve right)
+    {
+        var delta = right.Center - left.Center;
+        var distance = Length(delta);
+        if (distance < Epsilon &&
+            Math.Abs(left.Radius - right.Radius) < Epsilon)
+        {
+            if (left.IsCircle || right.IsCircle)
+            {
+                yield break;
+            }
+
+            foreach (var point in new[] { left.Start, left.End, right.Start, right.End })
+            {
+                if (left.TryParameterOf(point, out _) &&
+                    right.TryParameterOf(point, out _))
+                {
+                    yield return point;
+                }
+            }
+
+            yield break;
+        }
+
+        if (distance < Epsilon ||
+            distance > left.Radius + right.Radius + Epsilon ||
+            distance < Math.Abs(left.Radius - right.Radius) - Epsilon)
+        {
+            yield break;
+        }
+
+        var a = (left.Radius * left.Radius - right.Radius * right.Radius + distance * distance) / (2d * distance);
+        var hSquared = left.Radius * left.Radius - a * a;
+        if (hSquared < -Epsilon)
+        {
+            yield break;
+        }
+
+        var h = Math.Sqrt(Math.Max(0d, hSquared));
+        var direction = delta / distance;
+        var basePoint = left.Center + direction * a;
+        var normal = new Point2(-direction.Y, direction.X);
+        foreach (var point in new[] { basePoint + normal * h, basePoint - normal * h })
+        {
+            if (left.TryParameterOf(point, out _) &&
+                right.TryParameterOf(point, out _))
+            {
+                yield return point;
+            }
+        }
     }
 
     private static bool TryCreateLineEdge(OrientedBoundaryEdge source, out BoundaryEdge edge)
@@ -655,6 +1121,20 @@ public static class GraphicAreaSettlementSurface
         }
 
         edge = BoundaryEdge.Arc(start.Template, center.Point, start.Point, end.Point);
+        return true;
+    }
+
+    private static bool TryCreateCircleEdge(SharedFrameCircleRead source, out BoundaryEdge edge)
+    {
+        edge = default!;
+        if (!TryReadPoint(source.Center, out var center) ||
+            !TryReadPoint(source.RadiusPoint, out var radiusPoint) ||
+            NearlySame(center.Point, radiusPoint.Point))
+        {
+            return false;
+        }
+
+        edge = BoundaryEdge.Circle(center.Template, center.Point, radiusPoint.Point);
         return true;
     }
 
@@ -864,7 +1344,8 @@ public static class GraphicAreaSettlementSurface
                 used.Add(edge.DirectedIndex);
             }
 
-            if (isClosed && loop.Count >= 3)
+            if (isClosed &&
+                (loop.Count >= 3 || loop.Any(edge => edge.Fragment.IsCircle)))
             {
                 loops.Add(loop.Select(edge => edge.Fragment).ToArray());
             }
@@ -938,7 +1419,8 @@ public static class GraphicAreaSettlementSurface
                 used.Add(edge.DirectedIndex);
             }
 
-            if (isClosed && loop.Count >= 3)
+            if (isClosed &&
+                (loop.Count >= 3 || loop.Any(edge => edge.Fragment.IsCircle)))
             {
                 var loopFragments = loop.Select(edge => edge.Fragment).ToArray();
                 if (loopKeys.Add(LoopKey(loopFragments)))
@@ -956,6 +1438,11 @@ public static class GraphicAreaSettlementSurface
 
     private static string UndirectedFragmentKey(FragmentRead fragment)
     {
+        if (fragment.IsCircle)
+        {
+            return $"c:{PointKey(fragment.Center)}:{Rounded(fragment.Radius)}";
+        }
+
         var start = PointKey(fragment.Start);
         var end = PointKey(fragment.End);
         var orderedStart = string.CompareOrdinal(start, end) <= 0 ? start : end;
@@ -1128,6 +1615,12 @@ public static class GraphicAreaSettlementSurface
         ClosedSharedFrameBoundaryRead boundary,
         out IReadOnlyList<OrientedBoundaryEdge> edges)
     {
+        if (boundary.Segments.Count == 0)
+        {
+            edges = [];
+            return false;
+        }
+
         var siteByEndpoint = boundary.Sites
             .SelectMany(site => site.Select(endpoint => (endpoint, site)))
             .ToDictionary(pair => EndpointSignature(pair.endpoint), pair => pair.site);
@@ -1289,8 +1782,31 @@ public static class GraphicAreaSettlementSurface
     private static string PointKey(Point2 point) =>
         $"{Rounded(point.X)}:{Rounded(point.Y)}";
 
+    private static string BoundaryPointKey(SharedFramePointRead template, Point2 point)
+    {
+        var roundedX = Rounded(point.X);
+        var roundedY = Rounded(point.Y);
+        if (template.Coordinates.Count >= 2)
+        {
+            return string.Join(
+                ":",
+                RuntimeHelpers.GetHashCode(template.Holder),
+                RuntimeHelpers.GetHashCode(template.Coordinates[0].Carrier),
+                roundedX,
+                RuntimeHelpers.GetHashCode(template.Coordinates[1].Carrier),
+                roundedY);
+        }
+
+        return $"{RuntimeHelpers.GetHashCode(template.Holder)}:{roundedX}:{roundedY}";
+    }
+
     private static string FragmentKey(FragmentRead fragment)
     {
+        if (fragment.IsCircle)
+        {
+            return $"c:{PointKey(fragment.Center)}:{Rounded(fragment.Radius)}";
+        }
+
         var key = $"{(fragment.IsArc ? "a" : "l")}:{PointKey(fragment.Start)}:{PointKey(fragment.End)}";
         return fragment.IsArc
             ? $"{key}:{PointKey(fragment.Center)}:{Rounded(fragment.Radius)}:{Rounded(fragment.Sweep * 1000000d)}"
@@ -1377,6 +1893,21 @@ public static class GraphicAreaSettlementSurface
         return sweep;
     }
 
+    private static double NormalizePositiveRadians(double angle)
+    {
+        while (angle < 0d)
+        {
+            angle += Math.PI * 2d;
+        }
+
+        while (angle >= Math.PI * 2d)
+        {
+            angle -= Math.PI * 2d;
+        }
+
+        return angle;
+    }
+
     private static Carrier RootOrNew(Carrier root) => root ?? new Carrier();
 
     private sealed record SettlementRead(
@@ -1403,6 +1934,11 @@ public static class GraphicAreaSettlementSurface
     {
         public bool Contains(Point2 point)
         {
+            if (Edges.Count == 1 && Edges[0].IsCircle)
+            {
+                return Length(point - Edges[0].Center) <= Edges[0].Radius + Epsilon;
+            }
+
             if (Edges.Count < 3)
             {
                 return false;
@@ -1428,31 +1964,64 @@ public static class GraphicAreaSettlementSurface
         }
     }
 
-    private sealed record BoundaryEdge(
-        SharedFramePointRead Template,
-        bool IsArc,
-        Point2 Start,
-        Point2 End,
-        Point2 Center,
-        double Radius,
-        double StartAngle,
-        double Sweep)
+    private sealed class PartitionCurve(
+        SharedFramePointRead template,
+        bool isArc,
+        bool isCircle,
+        Point2 start,
+        Point2 end,
+        Point2 center,
+        double radius,
+        double startAngle,
+        double sweep)
     {
-        public static BoundaryEdge Line(SharedFramePointRead template, Point2 start, Point2 end) =>
-            new(template, IsArc: false, start, end, default, 0d, 0d, 0d);
+        public SharedFramePointRead Template { get; } = template;
 
-        public static BoundaryEdge Arc(SharedFramePointRead template, Point2 center, Point2 start, Point2 end)
+        public bool IsArc { get; } = isArc;
+
+        public bool IsCircle { get; } = isCircle;
+
+        public Point2 Start { get; } = start;
+
+        public Point2 End { get; } = end;
+
+        public Point2 Center { get; } = center;
+
+        public double Radius { get; } = radius;
+
+        public double StartAngle { get; } = startAngle;
+
+        public double Sweep { get; } = sweep;
+
+        public static PartitionCurve FromEdge(BoundaryEdge edge) =>
+            new(
+                edge.Template,
+                edge.IsArc,
+                edge.IsCircle,
+                edge.Start,
+                edge.End,
+                edge.Center,
+                edge.Radius,
+                edge.StartAngle,
+                edge.Sweep);
+
+        public static PartitionCurve Circle(
+            SharedFramePointRead template,
+            Point2 center,
+            double radius,
+            Point2 start)
         {
             var startAngle = Angle(center, start);
             return new(
                 template,
-                IsArc: true,
+                isArc: true,
+                isCircle: true,
                 start,
-                end,
+                start,
                 center,
-                (Length(start - center) + Length(end - center)) * 0.5d,
+                radius,
                 startAngle,
-                ShortestSweep(startAngle, Angle(center, end)));
+                Math.PI * 2d);
         }
 
         public bool TryParameterOf(Point2 point, out double t)
@@ -1480,6 +2049,200 @@ public static class GraphicAreaSettlementSurface
             }
 
             var angle = Angle(Center, point);
+            if (IsCircle)
+            {
+                t = NormalizePositiveRadians(angle - StartAngle) / (Math.PI * 2d);
+                if (Math.Abs(t - 1d) < Epsilon)
+                {
+                    t = 0d;
+                }
+
+                return true;
+            }
+
+            var deltaAngle = ShortestSweep(StartAngle, angle);
+            t = Math.Abs(Sweep) < Epsilon ? 0d : deltaAngle / Sweep;
+            return WithinUnit(t);
+        }
+
+        public Point2 PointAt(double t)
+        {
+            if (!IsArc)
+            {
+                return Start + (End - Start) * t;
+            }
+
+            var normalizedT = IsCircle
+                ? t - Math.Floor(t)
+                : t;
+            var angle = StartAngle + Sweep * normalizedT;
+            return new Point2(
+                Center.X + Math.Cos(angle) * Radius,
+                Center.Y + Math.Sin(angle) * Radius);
+        }
+
+        public IElement FullCircleElement(Func<SharedFramePointRead, Point2, Relation> pointAt) =>
+            GraphicStructure.FrameCircle(pointAt(Template, Center), pointAt(Template, Start));
+
+        public bool SeparatesParticipation(IReadOnlyList<ParticipantRead> participants, double startT, double endT)
+        {
+            var normal = LeftNormal((startT + endT) * 0.5d);
+            var sample = PointAt((startT + endT) * 0.5d);
+            return Contains(participants, sample + normal * SampleDistance) !=
+                Contains(participants, sample - normal * SampleDistance);
+        }
+
+        public IElement SectionElement(
+            double startT,
+            double endT,
+            Func<SharedFramePointRead, Point2, Relation> pointAt)
+        {
+            var start = pointAt(Template, PointAt(startT));
+            var end = pointAt(Template, PointAt(endT));
+            if (!IsArc)
+            {
+                return GraphicStructure.FrameSegment(start, end);
+            }
+
+            var center = pointAt(Template, Center);
+            var through = pointAt(Template, PointAt((startT + endT) * 0.5d));
+            return GraphicStructure.FrameArcSection(center, start, through, end);
+        }
+
+        public string FullCircleKey() =>
+            $"c:{PointKey(Center)}:{Rounded(Radius)}";
+
+        public string SectionKey(double startT, double endT)
+        {
+            var start = PointKey(PointAt(startT));
+            var end = PointKey(PointAt(endT));
+            if (!IsArc)
+            {
+                return string.CompareOrdinal(start, end) <= 0
+                    ? $"l:{start}:{end}"
+                    : $"l:{end}:{start}";
+            }
+
+            var normalizedStart = NormalizeCircleParameter(startT);
+            var normalizedEnd = NormalizeCircleParameter(endT);
+            return $"a:{PointKey(Center)}:{Rounded(Radius)}:{Rounded(normalizedStart * 1000000d)}:{Rounded(normalizedEnd * 1000000d)}";
+        }
+
+        private static double NormalizeCircleParameter(double t)
+        {
+            var normalized = t - Math.Floor(t);
+            return Math.Abs(normalized - 1d) < Epsilon ? 0d : normalized;
+        }
+
+        private Point2 TangentAt(double t)
+        {
+            if (!IsArc)
+            {
+                return End - Start;
+            }
+
+            var normalizedT = IsCircle
+                ? t - Math.Floor(t)
+                : t;
+            var angle = StartAngle + Sweep * normalizedT;
+            var sign = Math.Sign(Sweep == 0d ? 1d : Sweep);
+            return new Point2(-Math.Sin(angle) * sign, Math.Cos(angle) * sign);
+        }
+
+        private Point2 LeftNormal(double t)
+        {
+            var tangent = TangentAt(t);
+            var length = Length(tangent);
+            if (length < Epsilon)
+            {
+                return new Point2(0d, 0d);
+            }
+
+            tangent /= length;
+            return new Point2(-tangent.Y, tangent.X);
+        }
+    }
+
+    private sealed record BoundaryEdge(
+        SharedFramePointRead Template,
+        bool IsArc,
+        bool IsCircle,
+        Point2 Start,
+        Point2 End,
+        Point2 Center,
+        double Radius,
+        double StartAngle,
+        double Sweep)
+    {
+        public static BoundaryEdge Line(SharedFramePointRead template, Point2 start, Point2 end) =>
+            new(template, IsArc: false, IsCircle: false, start, end, default, 0d, 0d, 0d);
+
+        public static BoundaryEdge Arc(SharedFramePointRead template, Point2 center, Point2 start, Point2 end)
+        {
+            var startAngle = Angle(center, start);
+            return new(
+                template,
+                IsArc: true,
+                IsCircle: false,
+                start,
+                end,
+                center,
+                (Length(start - center) + Length(end - center)) * 0.5d,
+                startAngle,
+                ShortestSweep(startAngle, Angle(center, end)));
+        }
+
+        public static BoundaryEdge Circle(SharedFramePointRead template, Point2 center, Point2 radiusPoint)
+        {
+            var radius = Length(radiusPoint - center);
+            return new(
+                template,
+                IsArc: true,
+                IsCircle: true,
+                radiusPoint,
+                radiusPoint,
+                center,
+                radius,
+                Angle(center, radiusPoint),
+                Math.PI * 2d);
+        }
+
+        public bool TryParameterOf(Point2 point, out double t)
+        {
+            if (!IsArc)
+            {
+                var delta = End - Start;
+                var lengthSquared = Dot(delta, delta);
+                if (lengthSquared < Epsilon)
+                {
+                    t = 0d;
+                    return false;
+                }
+
+                t = Dot(point - Start, delta) / lengthSquared;
+                var projected = Start + delta * t;
+                return WithinUnit(t) && Length(projected - point) <= 0.75d;
+            }
+
+            if (Math.Abs(Radius) < Epsilon ||
+                Math.Abs(Length(point - Center) - Radius) > 0.85d)
+            {
+                t = 0d;
+                return false;
+            }
+
+            var angle = Angle(Center, point);
+            if (IsCircle)
+            {
+                t = NormalizePositiveRadians(angle - StartAngle) / (Math.PI * 2d);
+                if (Math.Abs(t - 1d) < Epsilon)
+                {
+                    t = 0d;
+                }
+
+                return true;
+            }
+
             var deltaAngle = ShortestSweep(StartAngle, angle);
             t = Math.Abs(Sweep) < Epsilon ? 0d : deltaAngle / Sweep;
             return WithinUnit(t);
@@ -1489,6 +2252,7 @@ public static class GraphicAreaSettlementSurface
             new(
                 Template,
                 IsArc,
+                IsCircle && Math.Abs(endT - startT - 1d) < Epsilon,
                 PointAt(startT),
                 PointAt(endT),
                 Center,
@@ -1532,6 +2296,7 @@ public static class GraphicAreaSettlementSurface
     private sealed record FragmentRead(
         SharedFramePointRead Template,
         bool IsArc,
+        bool IsCircle,
         Point2 Start,
         Point2 End,
         Point2 Center,
@@ -1549,6 +2314,11 @@ public static class GraphicAreaSettlementSurface
             if (!IsArc)
             {
                 return this with { Start = start, End = end };
+            }
+
+            if (IsCircle)
+            {
+                return this;
             }
 
             var startAngle = Angle(Center, start);
@@ -1569,7 +2339,7 @@ public static class GraphicAreaSettlementSurface
         }
 
         public FragmentRead Reversed() =>
-            new(Template, IsArc, End, Start, Center, Radius, StartAngle + Sweep, -Sweep, RightInside, LeftInside);
+            new(Template, IsArc, IsCircle, End, Start, Center, Radius, StartAngle + Sweep, -Sweep, RightInside, LeftInside);
 
         public Point2 MidPoint() =>
             IsArc
@@ -1597,7 +2367,10 @@ public static class GraphicAreaSettlementSurface
                 return GraphicStructure.FrameSegment(start, end);
             }
 
-            return GraphicStructure.FrameArc(CreateFramePoint(Template, Center), start, end);
+            var center = CreateFramePoint(Template, Center);
+            return IsCircle
+                ? GraphicStructure.FrameCircle(center, start)
+                : GraphicStructure.FrameArc(center, start, end);
         }
 
         public IEnumerable<Point2> Flatten()

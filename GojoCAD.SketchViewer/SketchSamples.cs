@@ -684,14 +684,7 @@ internal static partial class SketchSamples
         {
             var center = P(centerX, centerY);
             var right = P(centerX + radius, centerY);
-            var top = P(centerX, centerY + radius);
-            var left = P(centerX - radius, centerY);
-            var bottom = P(centerX, centerY - radius);
-            return Chain(
-                GraphicStructure.FrameArc(center, right, top),
-                GraphicStructure.FrameArc(center, top, left),
-                GraphicStructure.FrameArc(center, left, bottom),
-                GraphicStructure.FrameArc(center, bottom, right));
+            return GraphicStructure.FrameCircle(center, right);
         }
 
         Relation AreaPolygon(params Relation[] points)

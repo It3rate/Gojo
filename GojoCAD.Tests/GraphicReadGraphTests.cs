@@ -563,6 +563,57 @@ public sealed class GraphicReadGraphTests
     }
 
     [Fact]
+    public void ReadsSharedFrameCircleFromCenterRadiusSpan()
+    {
+        var frame = new Carrier();
+        var x = new Carrier();
+        var y = new Carrier();
+        var center = GraphicStructure.FramePoint(frame, new CarrierLocation(x, 5), new CarrierLocation(y, 6));
+        var radiusPoint = GraphicStructure.FramePoint(frame, new CarrierLocation(x, 9), new CarrierLocation(y, 6));
+        var circleElement = GraphicStructure.FrameCircle(center, radiusPoint);
+
+        var graph = GraphicReadGraph.From(circleElement);
+
+        var circle = Assert.Single(graph.ReadsOf<SharedFrameCircleRead>());
+        Assert.Equal(center, circle.Center.Source);
+        Assert.Equal(radiusPoint, circle.RadiusPoint.Source);
+        Assert.Contains(graph.ReadsOf<SharedFrameSegmentRead>(), segment => segment.Source == circle.RadiusSpan.Source);
+        Assert.Empty(graph.ReadsOf<SharedFrameArcRead>());
+
+        var boundary = Assert.Single(graph.ReadsOf<ClosedSharedFrameBoundaryRead>());
+        Assert.Empty(boundary.Segments);
+        var boundaryCircle = Assert.Single(boundary.Circles ?? []);
+        Assert.Equal(circle.Source, boundaryCircle.Source);
+
+        var area = Assert.Single(GraphicReadGraph.From(GraphicStructure.AreaFill(circleElement))
+            .ReadsOf<SharedFrameAreaRead>());
+        var areaCircle = Assert.Single(area.Boundary.Circles ?? []);
+        Assert.Equal(circle.Source, areaCircle.Source);
+    }
+
+    [Fact]
+    public void ReadsSharedFrameArcSectionWithThroughPoint()
+    {
+        var frame = new Carrier();
+        var x = new Carrier();
+        var y = new Carrier();
+        var center = GraphicStructure.FramePoint(frame, new CarrierLocation(x, 0), new CarrierLocation(y, 0));
+        var start = GraphicStructure.FramePoint(frame, new CarrierLocation(x, 10), new CarrierLocation(y, 0));
+        var through = GraphicStructure.FramePoint(frame, new CarrierLocation(x, 0), new CarrierLocation(y, 10));
+        var end = GraphicStructure.FramePoint(frame, new CarrierLocation(x, -10), new CarrierLocation(y, 0));
+        var sectionElement = GraphicStructure.FrameArcSection(center, start, through, end);
+
+        var graph = GraphicReadGraph.From(sectionElement);
+
+        var section = Assert.Single(graph.ReadsOf<SharedFrameArcSectionRead>());
+        Assert.Equal(center, section.Center.Source);
+        Assert.Equal(start, section.Start.Source);
+        Assert.Equal(through, section.Through.Source);
+        Assert.Equal(end, section.End.Source);
+        Assert.Single(graph.ReadsOf<SharedFrameArcRead>());
+    }
+
+    [Fact]
     public void ReadsSharedFrameBezierCurvesFromCoordinateControls()
     {
         var frame = new Carrier();
@@ -1021,6 +1072,40 @@ public sealed class GraphicReadGraphTests
     }
 
     [Fact]
+    public void ReadsMixedStrictAndCoordinateClosedSharedFrameBoundaries()
+    {
+        var frame = new Carrier();
+        var x = new Carrier();
+        var y = new Carrier();
+        Relation Point(long xTicks, long yTicks) =>
+            GraphicStructure.FramePoint(frame, new CarrierLocation(x, xTicks), new CarrierLocation(y, yTicks));
+
+        var strictLowerLeft = Point(0, 0);
+        var strictLowerRight = Point(10, 0);
+        var strictUpperRight = Point(10, 8);
+        var strictUpperLeft = Point(0, 8);
+        var strict = Chain(
+            GraphicStructure.FrameSegment(strictLowerLeft, strictLowerRight),
+            GraphicStructure.FrameSegment(strictLowerRight, strictUpperRight),
+            GraphicStructure.FrameSegment(strictUpperRight, strictUpperLeft),
+            GraphicStructure.FrameSegment(strictUpperLeft, strictLowerLeft));
+        var coordinateClosed = Chain(
+            GraphicStructure.FrameSegment(Point(20, 0), Point(30, 0)),
+            GraphicStructure.FrameSegment(Point(30, 0), Point(30, 8)),
+            GraphicStructure.FrameSegment(Point(30, 8), Point(20, 8)),
+            GraphicStructure.FrameSegment(Point(20, 8), Point(20, 0)));
+
+        var graph = GraphicReadGraph.From(Chain(strict, coordinateClosed));
+
+        var bounds = graph.ReadsOf<ClosedSharedFrameBoundaryRead>()
+            .Select(BoundsText)
+            .Distinct()
+            .ToArray();
+        Assert.Contains("0:10:0:8", bounds);
+        Assert.Contains("20:30:0:8", bounds);
+    }
+
+    [Fact]
     public void ReadsSharedFrameAreaArcBoundaryWithoutDiscardingCurveEdges()
     {
         var frame = new Carrier();
@@ -1205,5 +1290,16 @@ public sealed class GraphicReadGraphTests
         }
 
         return structure;
+    }
+
+    private static string BoundsText(ClosedSharedFrameBoundaryRead boundary)
+    {
+        var points = boundary.Segments
+            .SelectMany(segment => new[] { segment.Start, segment.End })
+            .Where(point => point.Coordinates.Count >= 2)
+            .Select(point => (X: point.Coordinates[0].Ticks, Y: point.Coordinates[1].Ticks))
+            .ToArray();
+
+        return $"{points.Min(point => point.X)}:{points.Max(point => point.X)}:{points.Min(point => point.Y)}:{points.Max(point => point.Y)}";
     }
 }
