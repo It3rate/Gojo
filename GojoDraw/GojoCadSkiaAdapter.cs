@@ -24,11 +24,27 @@ public sealed class GojoCadSkiaAdapter
             return AreaUnionProjectionSource(directUnion);
         }
 
+        if (element is Relation directOutline &&
+            GraphicOutlineSurface.TryReadFromArea(directOutline, out var outlineArea, out var outline, out var outlineSettlement, out _))
+        {
+            return OutlineProjectionSource(outlineArea, outline, outlineSettlement);
+        }
+
         if (TryReadAreaUnionFrame(element, out var directUnions))
         {
             return Relation.OrderedGroup(
                 new Carrier(),
                 [.. directUnions.Select(AreaUnionProjectionSource)]);
+        }
+
+        if (TryReadOutlineFromAreaFrame(element, out var directOutlines))
+        {
+            return Relation.OrderedGroup(
+                new Carrier(),
+                [.. directOutlines.Select(outlineRead => OutlineProjectionSource(
+                    outlineRead.AreaOrUnion,
+                    outlineRead.Outline,
+                    outlineRead.SettlementEvidence))]);
         }
 
         if (element is Relation directSelection &&
@@ -71,12 +87,53 @@ public sealed class GojoCadSkiaAdapter
             return DrawAreaUnion(canvas, directUnion, projection, paints, hitAreas);
         }
 
+        if (element is Relation directOutline &&
+            GraphicOutlineSurface.TryReadFromArea(directOutline, out var directOutlineArea, out var directOutlineWitness, out _, out _))
+        {
+            if (paints.DrawAreaUnionFromSharedFrameAreaPartitions &&
+                paints.DrawAreaUnionAsOutline &&
+                directOutlineArea is Relation directOutlineUnion &&
+                GraphicAreaParticipationSurface.TryReadAreaUnion(directOutlineUnion, out _, out _, out _, out _))
+            {
+                return DrawAreaUnion(canvas, directOutlineUnion, projection, paints, hitAreas);
+            }
+
+            return DrawAreaUnionOutlineWitness(canvas, directOutlineWitness, projection, paints, hitAreas, fill: false);
+        }
+
         if (TryReadAreaUnionFrame(element, out var directUnions))
         {
             var drawn = 0;
             foreach (var framedUnion in directUnions)
             {
                 drawn += DrawAreaUnion(canvas, framedUnion, projection, paints, hitAreas);
+            }
+
+            return drawn;
+        }
+
+        if (TryReadOutlineFromAreaFrame(element, out var directOutlines))
+        {
+            var drawn = 0;
+            foreach (var outlineRead in directOutlines)
+            {
+                if (paints.DrawAreaUnionFromSharedFrameAreaPartitions &&
+                    paints.DrawAreaUnionAsOutline &&
+                    outlineRead.AreaOrUnion is Relation outlineUnion &&
+                    GraphicAreaParticipationSurface.TryReadAreaUnion(outlineUnion, out _, out _, out _, out _))
+                {
+                    drawn += DrawAreaUnion(canvas, outlineUnion, projection, paints, hitAreas);
+                }
+                else
+                {
+                    drawn += DrawAreaUnionOutlineWitness(
+                        canvas,
+                        outlineRead.Outline,
+                        projection,
+                        paints,
+                        hitAreas,
+                        fill: false);
+                }
             }
 
             return drawn;
@@ -99,11 +156,40 @@ public sealed class GojoCadSkiaAdapter
             return drawn;
         }
 
+        if (paints.DrawAreaUnionAsOutline || paints.DrawAreaUnionOutline)
+        {
+            var directOutlineWitnessDrawn = DrawAreaUnionOutlineWitness(
+                canvas,
+                element,
+                projection,
+                paints,
+                hitAreas,
+                fill: false);
+            if (directOutlineWitnessDrawn > 0)
+            {
+                return directOutlineWitnessDrawn;
+            }
+        }
+
         var renderable = SelectCurrentRenderableRungs(element);
         if (renderable is Relation union &&
             GraphicAreaParticipationSurface.TryReadAreaUnion(union, out _, out _, out _, out _))
         {
             return DrawAreaUnion(canvas, union, projection, paints, hitAreas);
+        }
+
+        if (renderable is Relation outlineResult &&
+            GraphicOutlineSurface.TryReadFromArea(outlineResult, out var renderableOutlineArea, out var renderableOutlineWitness, out _, out _))
+        {
+            if (paints.DrawAreaUnionFromSharedFrameAreaPartitions &&
+                paints.DrawAreaUnionAsOutline &&
+                renderableOutlineArea is Relation renderableOutlineUnion &&
+                GraphicAreaParticipationSurface.TryReadAreaUnion(renderableOutlineUnion, out _, out _, out _, out _))
+            {
+                return DrawAreaUnion(canvas, renderableOutlineUnion, projection, paints, hitAreas);
+            }
+
+            return DrawAreaUnionOutlineWitness(canvas, renderableOutlineWitness, projection, paints, hitAreas, fill: false);
         }
 
         if (TryReadAreaUnionFrame(renderable, out var unions))
@@ -115,6 +201,48 @@ public sealed class GojoCadSkiaAdapter
             }
 
             return drawn;
+        }
+
+        if (TryReadOutlineFromAreaFrame(renderable, out var outlines))
+        {
+            var drawn = 0;
+            foreach (var outlineRead in outlines)
+            {
+                if (paints.DrawAreaUnionFromSharedFrameAreaPartitions &&
+                    paints.DrawAreaUnionAsOutline &&
+                    outlineRead.AreaOrUnion is Relation outlineUnion &&
+                    GraphicAreaParticipationSurface.TryReadAreaUnion(outlineUnion, out _, out _, out _, out _))
+                {
+                    drawn += DrawAreaUnion(canvas, outlineUnion, projection, paints, hitAreas);
+                }
+                else
+                {
+                    drawn += DrawAreaUnionOutlineWitness(
+                        canvas,
+                        outlineRead.Outline,
+                        projection,
+                        paints,
+                        hitAreas,
+                        fill: false);
+                }
+            }
+
+            return drawn;
+        }
+
+        if (paints.DrawAreaUnionAsOutline || paints.DrawAreaUnionOutline)
+        {
+            var outlineWitnessDrawn = DrawAreaUnionOutlineWitness(
+                canvas,
+                renderable,
+                projection,
+                paints,
+                hitAreas,
+                fill: false);
+            if (outlineWitnessDrawn > 0)
+            {
+                return outlineWitnessDrawn;
+            }
         }
 
         var graph = GraphicReadGraph.From(renderable);
@@ -173,6 +301,18 @@ public sealed class GojoCadSkiaAdapter
         }
 
         return Relation.OrderedGroup(new Carrier(), [.. sources]);
+    }
+
+    private static IElement OutlineProjectionSource(
+        IElement areaOrUnion,
+        IElement outline,
+        IElement settlementEvidence)
+    {
+        // The outline read is the projection source for an area-to-outline
+        // relation. The source area and settlement evidence remain connected
+        // through the relation, but projecting through them recursively makes
+        // earlier ladder residue look current and can explode graph traversal.
+        return outline;
     }
 
     private static IElement SelectionProjectionSource(Relation selection)
@@ -284,6 +424,41 @@ public sealed class GojoCadSkiaAdapter
         }
 
         unions = [];
+        return false;
+    }
+
+    private static bool TryReadOutlineFromAreaFrame(
+        IElement element,
+        out OutlineFromAreaRead[] outlines)
+    {
+        if (element is Relation relation &&
+            relation.Right is Carrier holder &&
+            relation.TryReadOrderedElementsOn(holder, out var elements) &&
+            elements.Length > 0)
+        {
+            var reads = new List<OutlineFromAreaRead>();
+            foreach (var elementInFrame in elements)
+            {
+                if (elementInFrame is not Relation outlineDerivation ||
+                    !GraphicOutlineSurface.TryReadFromArea(
+                        outlineDerivation,
+                        out var areaOrUnion,
+                        out var outline,
+                        out var settlementEvidence,
+                        out var residueOrTension))
+                {
+                    outlines = [];
+                    return false;
+                }
+
+                reads.Add(new OutlineFromAreaRead(areaOrUnion, outline, settlementEvidence, residueOrTension));
+            }
+
+            outlines = [.. reads];
+            return true;
+        }
+
+        outlines = [];
         return false;
     }
 
@@ -859,6 +1034,27 @@ public sealed class GojoCadSkiaAdapter
         ICollection<GojoCadSkiaHitArea>? hitAreas,
         bool fill)
     {
+        var directDrawn = DrawDirectAreaUnionOutlineWitness(canvas, outline, projection, paints, hitAreas, fill);
+        if (directDrawn > 0)
+        {
+            return directDrawn;
+        }
+
+        if (outline is Relation frame &&
+            TryReadOrderedElements(frame, out var elements))
+        {
+            var framedDrawn = 0;
+            foreach (var element in elements)
+            {
+                framedDrawn += DrawAreaUnionOutlineWitness(canvas, element, projection, paints, hitAreas, fill);
+            }
+
+            if (framedDrawn > 0)
+            {
+                return framedDrawn;
+            }
+        }
+
         var graph = GraphicReadGraph.From(outline);
         var drawn = 0;
         foreach (var boundary in graph.ReadsOf<ClosedSharedFrameBoundaryRead>())
@@ -875,6 +1071,97 @@ public sealed class GojoCadSkiaAdapter
         }
 
         foreach (var boundary in graph.ReadsOf<ClosedSegmentBoundaryRead>())
+        {
+            using var path = BuildClosedSegmentBoundaryPath(boundary, projection);
+            if (path is null)
+            {
+                continue;
+            }
+
+            canvas.DrawPath(path, fill ? paints.AntiAreaFill : paints.AreaBoundary);
+            AddHit(hitAreas, path.Bounds, fill ? "area union opening" : "area union outline", priority: 2, boundary.Source);
+            drawn++;
+        }
+
+        return drawn;
+    }
+
+    private static int DrawDirectAreaUnionOutlineWitness(
+        SKCanvas canvas,
+        IElement outline,
+        IGojoCadSkiaProjection projection,
+        GojoCadSkiaPaints paints,
+        ICollection<GojoCadSkiaHitArea>? hitAreas,
+        bool fill)
+    {
+        var outlineSourceId = ReadSourceId(outline);
+        if (outlineSourceId == 0)
+        {
+            return 0;
+        }
+
+        var graph = GraphicReadGraph.From(outline);
+        var drawn = 0;
+        foreach (var boundary in graph.ReadsOf<ClosedSharedFrameBoundaryRead>()
+            .Where(boundary => ReadSourceId(boundary.Source) == outlineSourceId)
+            .DistinctBy(boundary => ReadSourceId(boundary.Source)))
+        {
+            using var path = BuildClosedSharedFrameBoundaryPath(boundary, projection);
+            if (path is null)
+            {
+                continue;
+            }
+
+            canvas.DrawPath(path, fill ? paints.AntiAreaFill : paints.AreaBoundary);
+            AddHit(hitAreas, path.Bounds, fill ? "area union opening" : "area union outline", priority: 2, boundary.Source);
+            drawn++;
+        }
+
+        foreach (var boundary in graph.ReadsOf<ClosedSegmentBoundaryRead>()
+            .Where(boundary => ReadSourceId(boundary.Source) == outlineSourceId)
+            .DistinctBy(boundary => ReadSourceId(boundary.Source)))
+        {
+            using var path = BuildClosedSegmentBoundaryPath(boundary, projection);
+            if (path is null)
+            {
+                continue;
+            }
+
+            canvas.DrawPath(path, fill ? paints.AntiAreaFill : paints.AreaBoundary);
+            AddHit(hitAreas, path.Bounds, fill ? "area union opening" : "area union outline", priority: 2, boundary.Source);
+            drawn++;
+        }
+
+        if (drawn > 0)
+        {
+            return drawn;
+        }
+
+        var sharedBoundaries = graph.ReadsOf<ClosedSharedFrameBoundaryRead>()
+            .DistinctBy(boundary => ReadSourceId(boundary.Source))
+            .ToArray();
+        var segmentBoundaries = graph.ReadsOf<ClosedSegmentBoundaryRead>()
+            .DistinctBy(boundary => ReadSourceId(boundary.Source))
+            .ToArray();
+        if (sharedBoundaries.Length + segmentBoundaries.Length != 1)
+        {
+            return 0;
+        }
+
+        foreach (var boundary in sharedBoundaries)
+        {
+            using var path = BuildClosedSharedFrameBoundaryPath(boundary, projection);
+            if (path is null)
+            {
+                continue;
+            }
+
+            canvas.DrawPath(path, fill ? paints.AntiAreaFill : paints.AreaBoundary);
+            AddHit(hitAreas, path.Bounds, fill ? "area union opening" : "area union outline", priority: 2, boundary.Source);
+            drawn++;
+        }
+
+        foreach (var boundary in segmentBoundaries)
         {
             using var path = BuildClosedSegmentBoundaryPath(boundary, projection);
             if (path is null)
@@ -3714,6 +4001,12 @@ public sealed class GojoCadSkiaAdapter
         carrier.TryReadCircularOrigin(out var origin)
             ? origin
             : new CarrierLocation(Carrier.Unknown, 0);
+
+    private readonly record struct OutlineFromAreaRead(
+        IElement AreaOrUnion,
+        IElement Outline,
+        IElement SettlementEvidence,
+        IElement ResidueOrTension);
 
     private readonly record struct LocatedSource(CarrierLocation Location, IElement Source);
 

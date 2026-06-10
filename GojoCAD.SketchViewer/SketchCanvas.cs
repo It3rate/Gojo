@@ -382,9 +382,10 @@ internal sealed class SketchDrawOperation : ICustomDrawOperation
             strokeWidth,
             hidePoints,
             antiAreaFillColor: RadialAntiAreaFill,
-            drawAreaUnionOutline: true,
+            drawAreaUnionOutline: false,
             drawAreaUnionAsOutline: true,
-            drawAreaUnionAntiAreas: true);
+            drawAreaUnionFromSharedFrameAreaPartitions: rungIndex == 6,
+            drawAreaUnionAntiAreas: false);
         Renderer.Draw(canvas, outline, viewport, scene.ProjectionSeed, scene.ModelBounds, outlinePaints);
 
         using var markerPaints = CreateSketchPaints(
@@ -530,8 +531,8 @@ internal sealed class SketchDrawOperation : ICustomDrawOperation
         }
 
         antiAreaFillColor = RadialAntiAreaFill;
-        drawAreaUnionAntiAreas = rungIndex >= 4 && rungIndex < 10;
-        drawAreaUnionSettlementPartitions = rungIndex >= 4 && rungIndex < 10;
+        drawAreaUnionAntiAreas = rungIndex >= 4 && rungIndex < 10 && rungIndex != 5 && rungIndex != 7 && rungIndex != 9;
+        drawAreaUnionSettlementPartitions = rungIndex >= 4 && rungIndex < 10 && rungIndex != 5 && rungIndex != 7 && rungIndex != 9;
         if (rungIndex == 3)
         {
             areaPalette = RadialSeparateFillPalette;
@@ -550,14 +551,13 @@ internal sealed class SketchDrawOperation : ICustomDrawOperation
         }
         else if (rungIndex == 5)
         {
+            drawAreaUnionFromSharedFrameAreaPartitions = true;
             drawAreaUnionAsOutline = true;
-            drawAreaUnionOutline = true;
         }
         else if (rungIndex == 7 ||
             rungIndex == 9)
         {
             drawAreaUnionAsOutline = true;
-            drawAreaUnionOutline = true;
         }
         else if (rungIndex == 10)
         {

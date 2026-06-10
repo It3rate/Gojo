@@ -72,6 +72,35 @@ public sealed class GraphicAreaParticipationSurfaceTests
     }
 
     [Fact]
+    public void AreaUnionReadRejectsAreaToOutlineDerivationFrames()
+    {
+        var frame = new Carrier();
+        var x = new Carrier();
+        var y = new Carrier();
+        Relation Point(long xTicks, long yTicks) =>
+            GraphicStructure.FramePoint(frame, new CarrierLocation(x, xTicks), new CarrierLocation(y, yTicks));
+
+        var fill = RectangleFill(Point, 0, 0, 20, 20);
+        var outline = RectangleOutline(Point, 0, 0, 20, 20);
+        var areaFrame = GraphicAreaParticipationSurface.AreaFrame(new Carrier(), fill);
+        var union = GraphicAreaParticipationSurface.AreaUnion(new Carrier(), areaFrame, outline);
+        var outlineFromArea = GraphicOutlineSurface.FromArea(new Carrier(), union, outline);
+
+        Assert.True(GraphicOutlineSurface.TryReadFromArea(
+            outlineFromArea,
+            out _,
+            out _,
+            out _,
+            out _));
+        Assert.False(GraphicAreaParticipationSurface.TryReadAreaUnion(
+            outlineFromArea,
+            out _,
+            out _,
+            out _,
+            out _));
+    }
+
+    [Fact]
     public void BoundaryCancellationEvidenceCarriesDualAreaAndLineCancellationSlots()
     {
         var settlement = GraphicAreaParticipationSurface.BoundaryCancellationEvidence(new Carrier());

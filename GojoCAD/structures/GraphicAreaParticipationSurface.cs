@@ -74,7 +74,7 @@ public static class GraphicAreaParticipationSurface
         if (TryReadFrameElements(union, out var elements) &&
             elements.Length == 4 &&
             elements[0] is Relation areas &&
-            TryReadFrameElements(areas, out _) &&
+            TryReadAreaParticipantFrame(areas, out _) &&
             CarriesSettlementEvidence(elements[2]))
         {
             areaFrame = elements[0];
@@ -109,6 +109,24 @@ public static class GraphicAreaParticipationSurface
     /// <summary>Reads an area frame created by <see cref="AreaFrame"/>.</summary>
     public static bool TryReadAreaFrame(Relation areaFrame, out IElement[] areas) =>
         TryReadFrameElements(areaFrame, out areas);
+
+    private static bool TryReadAreaParticipantFrame(Relation areaFrame, out IElement[] areas)
+    {
+        if (!TryReadFrameElements(areaFrame, out areas))
+        {
+            return false;
+        }
+
+        return areas.Length == 0 ||
+            areas.All(DirectlyReadsAreaParticipant);
+    }
+
+    private static bool DirectlyReadsAreaParticipant(IElement element)
+    {
+        var graph = GraphicReadGraph.From(element);
+        return graph.ReadsOf<SharedFrameAreaRead>().Any() ||
+            graph.ReadsOf<AreaRead>().Any();
+    }
 
     /// <summary>Reads shared-boundary cancellation evidence.</summary>
     public static bool TryReadBoundaryCancellationEvidence(

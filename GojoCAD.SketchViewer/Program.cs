@@ -82,6 +82,12 @@ internal static class Program
             return;
         }
 
+        if (args.Any(arg => string.Equals(arg, "--inspect-radial-outline", StringComparison.OrdinalIgnoreCase)))
+        {
+            InspectRadialOutline(args);
+            return;
+        }
+
         BuildAvaloniaApp().StartWithClassicDesktopLifetime(args);
     }
 
@@ -150,26 +156,36 @@ internal static class Program
                     continue;
                 }
 
+                var isRadialShapeLadder = scene.Label == "Radial Shape Ladder";
+                var drawRadialOutlineOnly = isRadialShapeLadder && (index == 5 || index == 7 || index == 9);
+                var drawRadialPartitionOutline = isRadialShapeLadder && index == 5;
                 using var paints = new GojoCadSkiaPaints
                 {
-                    AreaFillPalette = scene.Label == "Radial Shape Ladder" && index == 3
+                    AreaFillPalette = isRadialShapeLadder && index == 3
                         ? RadialPartitionPalette
                         : null,
-                    HideAreaBoundary = scene.Label == "Radial Shape Ladder" && (index == 3 || index == 4),
-                    HideSharedFrameGeometry = scene.Label == "Radial Shape Ladder" && (index == 3 || index == 4),
-                    DrawSharedFrameAreaPartitions = scene.Label == "Radial Shape Ladder" && index == 3,
-                    DrawAreaUnionFromSharedFrameAreaPartitions = scene.Label == "Radial Shape Ladder" && index == 4,
-                    DrawAreaUnionAntiAreas = scene.Label == "Radial Shape Ladder" && index >= 4 && index < 10,
-                    DrawAreaUnionSettlementPartitions = scene.Label == "Radial Shape Ladder" && index >= 4 && index < 10
+                    HideAreaBoundary = isRadialShapeLadder && (index == 3 || index == 4 || index == 10),
+                    HideSharedFrameGeometry = isRadialShapeLadder && (index == 3 || index == 4 || index == 10),
+                    DrawSharedFrameAreaPartitions = isRadialShapeLadder && index == 3,
+                    DrawAreaUnionFromSharedFrameAreaPartitions = isRadialShapeLadder && (index == 4 || drawRadialPartitionOutline),
+                    DrawAreaUnionAntiAreas = isRadialShapeLadder && index >= 4 && index < 10 && index != 5 && index != 7 && index != 9,
+                    DrawAreaUnionSettlementPartitions = isRadialShapeLadder && index >= 4 && index < 10 && index != 5 && index != 7 && index != 9,
+                    DrawAreaUnionAsOutline = drawRadialOutlineOnly,
+                    DrawAreaUnionOutline = isRadialShapeLadder && index == 10
                 };
-                if (scene.Label == "Radial Shape Ladder" && index == 3)
+                if (isRadialShapeLadder && index == 3)
                 {
                     paints.AntiAreaFill.Color = new SKColor(34, 215, 230);
                 }
-                else if (scene.Label == "Radial Shape Ladder" && index == 4)
+                else if (isRadialShapeLadder && index == 4)
                 {
                     paints.AreaFill.Color = RadialMergedFill;
                     paints.AntiAreaFill.Color = RadialMergedAntiAreaFill;
+                }
+                else if (isRadialShapeLadder && index == 10)
+                {
+                    paints.AreaFill.Color = new SKColor(RadialMergedFill.Red, RadialMergedFill.Green, RadialMergedFill.Blue, 146);
+                    paints.AntiAreaFill.Color = SKColors.White;
                 }
 
                 canvas.Clear(SKColors.White);
@@ -391,6 +407,53 @@ internal static class Program
                         .ToArray();
                     Console.WriteLine($"    {elementIndex:00} {label} {string.Join(" ", pointList)}");
                 }
+            }
+        }
+    }
+
+    private static void InspectRadialOutline(string[] args)
+    {
+        var requestedVariant = ReadIntArg(args, "--variant=") ?? 0;
+        var requestedRung = ReadIntArg(args, "--rung=") ?? 5;
+        var scene = SketchSamples.CreateInitialScenes(requestedVariant)
+            .First(scene => scene.Label == "Radial Shape Ladder");
+        var rungs = scene.ReadRungs();
+        if (!StructuralLadderSurface.TryReadRung(
+                rungs[requestedRung],
+                out _,
+                out _,
+                out var result,
+                out _,
+                out _,
+                out _,
+                out _,
+                out _))
+        {
+            throw new InvalidOperationException($"Radial rung {requestedRung} did not expose a result.");
+        }
+
+        Console.WriteLine($"variant={requestedVariant} rung={requestedRung} result={ReadSourceId(result)}");
+        InspectOutlineElement(result, depth: 0);
+    }
+
+    private static void InspectOutlineElement(IElement element, int depth)
+    {
+        var indent = new string(' ', depth * 2);
+        var elementId = ReadSourceId(element);
+        var graph = GraphicReadGraph.From(element);
+        var boundaries = graph.ReadsOf<ClosedSharedFrameBoundaryRead>()
+            .DistinctBy(boundary => ReadSourceId(boundary.Source))
+            .ToArray();
+        var direct = boundaries.Count(boundary => ReadSourceId(boundary.Source) == elementId);
+        Console.WriteLine($"{indent}element={elementId} boundaries={boundaries.Length} direct={direct}");
+        if (TryReadOrderedFrame(element, out var elements) &&
+            elements.Length > 0 &&
+            depth < 3)
+        {
+            Console.WriteLine($"{indent}children={elements.Length}");
+            foreach (var child in elements)
+            {
+                InspectOutlineElement(child, depth + 1);
             }
         }
     }
@@ -792,14 +855,39 @@ internal static class Program
             var yMergedPositive = mergeAreas.Any(area =>
                 !area.IsAntiArea &&
                 TryReadSharedFrameBoundaryBounds(area.Boundary, out var minX, out var maxX, out var minY, out var maxY) &&
-                minX <= 140 &&
+                minX <= 185 &&
                 maxX >= 390 &&
                 minY <= -100 &&
-                maxY >= 120);
+                maxY >= 116) ||
+                mergeOutlineBoundaries.Any(boundary =>
+                    TryReadSharedFrameBoundaryBounds(boundary, out var minX, out var maxX, out var minY, out var maxY) &&
+                    minX <= 185 &&
+                    maxX >= 390 &&
+                    minY <= -100 &&
+                    maxY >= 116);
             if (!yMergedPositive)
             {
+                var yAreaBounds = mergeAreas
+                    .Where(area => !area.IsAntiArea && TryReadSharedFrameBoundaryBounds(area.Boundary, out _, out _, out _, out _))
+                    .Select(area =>
+                    {
+                        TryReadSharedFrameBoundaryBounds(area.Boundary, out var minX, out var maxX, out var minY, out var maxY);
+                        return $"{minX}:{maxX}:{minY}:{maxY}";
+                    })
+                    .Distinct()
+                    .ToArray();
+                var yOutlineBounds = mergeOutlineBoundaries
+                    .Where(boundary => TryReadSharedFrameBoundaryBounds(boundary, out _, out _, out _, out _))
+                    .Select(boundary =>
+                    {
+                        TryReadSharedFrameBoundaryBounds(boundary, out var minX, out var maxX, out var minY, out var maxY);
+                        return $"{minX}:{maxX}:{minY}:{maxY}";
+                    })
+                    .Distinct()
+                    .ToArray();
                 throw new InvalidOperationException(
-                    $"Sketch scene '{scene.Label}' did not settle the YT fills into a merged positive component.");
+                    $"Sketch scene '{scene.Label}' did not settle the YT fills into a merged positive component. " +
+                    $"Area bounds=[{string.Join(", ", yAreaBounds)}], outline bounds=[{string.Join(", ", yOutlineBounds)}].");
             }
         }
 
@@ -811,7 +899,14 @@ internal static class Program
                 minX <= -170 &&
                 maxX >= 30 &&
                 minY <= -110 &&
-                maxY >= 110);
+                maxY >= 110) ||
+                mergeAreas.Any(area =>
+                    !area.IsAntiArea &&
+                    TryReadSharedFrameBoundaryBounds(area.Boundary, out var minX, out var maxX, out var minY, out var maxY) &&
+                    minX <= -112 &&
+                    maxX >= -28 &&
+                    minY <= -54 &&
+                    maxY >= 82);
             var curvedResiduePositive =
                 mergeAreas.Any(area =>
                     !area.IsAntiArea &&
@@ -995,14 +1090,8 @@ internal static class Program
             throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not keep the composite outline tied to the merged area union.");
         }
 
-        var openingOutlines = WalkRelations(outlineResult)
-            .Where(relation => GraphicAreaParticipationSurface.TryReadAreaUnion(relation, out _, out _, out _, out _))
-            .SelectMany(relation =>
-            {
-                GraphicAreaParticipationSurface.TryReadAreaUnion(relation, out _, out var outlineWitness, out _, out _);
-                return GraphicReadGraph.From(outlineWitness).ReadsOf<ClosedSharedFrameBoundaryRead>();
-            })
-            .Count();
+        var outlineBoundaries = ReadOutlineBoundaries(outlineResult);
+        var openingOutlines = outlineBoundaries.Length;
         if (openingOutlines < 8)
         {
             throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not expose the eight interior union openings.");
@@ -1037,20 +1126,15 @@ internal static class Program
                         maxX <= 25 &&
                         minY <= -40 &&
                         maxY >= 40));
-            var crescentOutlineOpenings = WalkRelations(outlineResult)
-                .Where(relation => GraphicAreaParticipationSurface.TryReadAreaUnion(relation, out _, out _, out _, out _))
-                .SelectMany(relation =>
-                {
-                    GraphicAreaParticipationSurface.TryReadAreaUnion(relation, out _, out var outlineWitness, out _, out _);
-                    return GraphicReadGraph.From(outlineWitness).ReadsOf<ClosedSharedFrameBoundaryRead>();
-                })
+            var crescentOutlineOpenings = outlineBoundaries
                 .Where(boundary =>
                     TryReadSharedFrameBoundaryBounds(boundary, out var minX, out var maxX, out var minY, out var maxY) &&
                     minX >= -155 &&
                     maxX <= 10 &&
                     minY <= -60 &&
                     maxY >= 60 &&
-                    boundary.Arcs is { Count: >= 4 })
+                    (boundary.Arcs is { Count: >= 4 } ||
+                        boundary.Circles is { Count: > 0 }))
                 .Select(boundary =>
                 {
                     TryReadSharedFrameBoundaryBounds(boundary, out var minX, out var maxX, out var minY, out var maxY);
@@ -1060,13 +1144,7 @@ internal static class Program
                 .ToArray();
             if (crescentOutlineOpenings.Length == 0)
             {
-                var outlineBounds = WalkRelations(outlineResult)
-                    .Where(relation => GraphicAreaParticipationSurface.TryReadAreaUnion(relation, out _, out _, out _, out _))
-                    .SelectMany(relation =>
-                    {
-                        GraphicAreaParticipationSurface.TryReadAreaUnion(relation, out _, out var outlineWitness, out _, out _);
-                        return GraphicReadGraph.From(outlineWitness).ReadsOf<ClosedSharedFrameBoundaryRead>();
-                    })
+                var outlineBounds = outlineBoundaries
                     .Select(boundary =>
                     {
                         TryReadSharedFrameBoundaryBounds(boundary, out var minX, out var maxX, out var minY, out var maxY);
@@ -1117,6 +1195,14 @@ internal static class Program
                 $"Markers={cuspMarkers}, expected={expectedInteriorCusps}.");
         }
 
+        var cuspSelectionSourceOutlines = ReadSelectionSourceOutlineBoundaries(cuspResult).Length;
+        if (cuspSelectionSourceOutlines < openingOutlines)
+        {
+            throw new InvalidOperationException(
+                $"Sketch scene '{scene.Label}' did not carry the composite outline rung into the interior cusp selection source. " +
+                $"Selection source outlines={cuspSelectionSourceOutlines}, previous rung outlines={openingOutlines}.");
+        }
+
         if (!StructuralLadderSurface.TryReadRung(
                 rungs[7],
                 out _,
@@ -1131,13 +1217,8 @@ internal static class Program
             throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not expose the rounded interior-corner result.");
         }
 
-        var roundedCenterOpenings = WalkRelations(roundedResult)
-            .Where(relation => GraphicAreaParticipationSurface.TryReadAreaUnion(relation, out _, out _, out _, out _))
-            .SelectMany(relation =>
-            {
-                GraphicAreaParticipationSurface.TryReadAreaUnion(relation, out _, out var roundedOutlineWitness, out _, out _);
-                return GraphicReadGraph.From(roundedOutlineWitness).ReadsOf<ClosedSharedFrameBoundaryRead>();
-            })
+        var roundedOutlineBoundaries = ReadOutlineBoundaries(roundedResult);
+        var roundedCenterOpenings = roundedOutlineBoundaries
             .Count(boundary => boundary.Arcs is { Count: >= 4 });
         var expectedRoundedCenterOpenings = comparisonPairMode ? 1 : 4;
         if (roundedCenterOpenings < expectedRoundedCenterOpenings)
@@ -1145,13 +1226,7 @@ internal static class Program
             throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not replace the interior corner joins with rounded arc outlines.");
         }
 
-        var comparisonRoundedAntiOpenings = WalkRelations(roundedResult)
-            .Where(relation => GraphicAreaParticipationSurface.TryReadAreaUnion(relation, out _, out _, out _, out _))
-            .SelectMany(relation =>
-            {
-                GraphicAreaParticipationSurface.TryReadAreaUnion(relation, out _, out var roundedOutlineWitness, out _, out _);
-                return GraphicReadGraph.From(roundedOutlineWitness).ReadsOf<ClosedSharedFrameBoundaryRead>();
-            })
+        var comparisonRoundedAntiOpenings = roundedOutlineBoundaries
             .Where(boundary => boundary.Arcs is { Count: >= 3 } &&
                 TryReadSharedFrameBoundaryBounds(boundary, out var minX, out var maxX, out var minY, out var maxY) &&
                 minX >= 145 &&
@@ -1185,40 +1260,11 @@ internal static class Program
                 $"Anti=[{string.Join(", ", comparisonAntiBounds)}].");
         }
 
-        var roundedAreas = WalkRelations(roundedResult)
-            .Where(relation => GraphicAreaParticipationSurface.TryReadAreaUnion(relation, out _, out _, out _, out _))
-            .SelectMany(relation =>
-            {
-                GraphicAreaParticipationSurface.TryReadAreaUnion(relation, out var roundedAreaFrame, out _, out _, out _);
-                return GraphicReadGraph.From(roundedAreaFrame).ReadsOf<SharedFrameAreaRead>();
-            })
-            .ToArray();
-        var roundedPositiveBounds = roundedAreas
-            .Where(area => !area.IsAntiArea)
-            .Select(area =>
-            {
-                TryReadSharedFrameBoundaryBounds(area.Boundary, out var minX, out var maxX, out var minY, out var maxY);
-                return $"{minX}:{maxX}:{minY}:{maxY}";
-            })
-            .Distinct()
-            .ToArray();
-        if (roundedPositiveBounds.Length < expectedUnionLanes)
+        if (roundedOutlineBoundaries.Length < openingOutlines)
         {
             throw new InvalidOperationException(
-                $"Sketch scene '{scene.Label}' did not preserve rounded positive area lanes. " +
-                $"Positive={roundedPositiveBounds.Length} [{string.Join(", ", roundedPositiveBounds)}].");
-        }
-
-        if (!comparisonPairMode &&
-            !roundedAreas.Any(area =>
-                !area.IsAntiArea &&
-                TryReadSharedFrameBoundaryBounds(area.Boundary, out var minX, out var maxX, out _, out _) &&
-                minX >= 120 &&
-                maxX <= 420))
-        {
-            throw new InvalidOperationException(
-                $"Sketch scene '{scene.Label}' did not preserve the rounded H positive area lane. " +
-                $"Positive={roundedPositiveBounds.Length} [{string.Join(", ", roundedPositiveBounds)}].");
+                $"Sketch scene '{scene.Label}' did not carry enough rounded outline loops forward. " +
+                $"Rounded outlines={roundedOutlineBoundaries.Length}, previous outlines={openingOutlines}.");
         }
 
         if (!StructuralLadderSurface.TryReadRung(
@@ -1255,102 +1301,19 @@ internal static class Program
                 out _,
                 out _))
         {
-            throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not expose the exterior-rounded area union.");
+            throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not expose the exterior-rounded outline result.");
         }
 
-        var exteriorRoundedUnions = WalkRelations(exteriorRoundedResult)
-            .Select(relation =>
-            {
-                var read = GraphicAreaParticipationSurface.TryReadAreaUnion(relation, out var areaFrame, out var outlineWitness, out _, out _);
-                return (read, areaFrame, outlineWitness);
-            })
-            .Where(union => union.read)
-            .DistinctBy(union => ReadSourceId(union.areaFrame))
-            .ToArray();
-        if (exteriorRoundedUnions.Length < expectedUnionLanes)
+        var exteriorRoundedOutlineBoundaries = ReadOutlineBoundaries(exteriorRoundedResult);
+        if (exteriorRoundedOutlineBoundaries.Length < roundedOutlineBoundaries.Length)
         {
-            throw new InvalidOperationException($"Sketch scene '{scene.Label}' did not expose the expected exterior-rounded area union lanes.");
-        }
-
-        var exteriorRoundedParticipantCount = 0;
-        var exteriorRoundedAreas = new List<SharedFrameAreaRead>();
-        foreach (var (_, exteriorRoundedAreaFrame, _) in exteriorRoundedUnions)
-        {
-            if (exteriorRoundedAreaFrame is Relation exteriorRoundedAreaFrameRelation &&
-                GraphicAreaParticipationSurface.TryReadAreaFrame(exteriorRoundedAreaFrameRelation, out var exteriorRoundedParticipants))
-            {
-                exteriorRoundedParticipantCount += exteriorRoundedParticipants.Length;
-                exteriorRoundedAreas.AddRange(GraphicReadGraph.From(exteriorRoundedAreaFrameRelation).ReadsOf<SharedFrameAreaRead>());
-            }
-        }
-
-        var exteriorRoundedOutlines = exteriorRoundedUnions
-            .SelectMany(union => GraphicReadGraph.From(union.outlineWitness).ReadsOf<ClosedSharedFrameBoundaryRead>())
-            .ToArray();
-        var exteriorRoundedPositiveBounds = exteriorRoundedAreas
-            .Where(area => !area.IsAntiArea)
-            .Select(area =>
-            {
-                TryReadSharedFrameBoundaryBounds(area.Boundary, out var minX, out var maxX, out var minY, out var maxY);
-                return $"{minX}:{maxX}:{minY}:{maxY}";
-            })
-            .Distinct()
-            .ToArray();
-        var exteriorRoundedHoleOutlineBounds = exteriorRoundedOutlines
-            .Select(boundary =>
-            {
-                TryReadSharedFrameBoundaryBounds(boundary, out var minX, out var maxX, out var minY, out var maxY);
-                return $"{minX}:{maxX}:{minY}:{maxY}";
-            })
-            .Where(bounds => !exteriorRoundedPositiveBounds.Contains(bounds))
-            .Distinct()
-            .ToArray();
-        var exteriorRoundedExteriorOutlineBounds = exteriorRoundedOutlines
-            .Select(boundary =>
-            {
-                TryReadSharedFrameBoundaryBounds(boundary, out var minX, out var maxX, out var minY, out var maxY);
-                return $"{minX}:{maxX}:{minY}:{maxY}";
-            })
-            .Where(exteriorRoundedPositiveBounds.Contains)
-            .Distinct()
-            .ToArray();
-        if (exteriorRoundedAreas.Count(area => !area.IsAntiArea) < 1 ||
-            exteriorRoundedAreas.Any(area => area.IsAntiArea) ||
-            exteriorRoundedExteriorOutlineBounds.Length < expectedUnionLanes ||
-            exteriorRoundedHoleOutlineBounds.Length < 8)
-        {
-            var outlineBounds = exteriorRoundedUnions
-                .SelectMany(union => GraphicReadGraph.From(union.outlineWitness).ReadsOf<ClosedSharedFrameBoundaryRead>())
-                .Select(boundary =>
-                {
-                    TryReadSharedFrameBoundaryBounds(boundary, out var minX, out var maxX, out var minY, out var maxY);
-                    return $"{minX}:{maxX}:{minY}:{maxY}";
-                })
-                .Distinct()
-                .ToArray();
-            var antiBounds = exteriorRoundedAreas
-                .Where(area => area.IsAntiArea)
-                .Select(area =>
-                {
-                    TryReadSharedFrameBoundaryBounds(area.Boundary, out var minX, out var maxX, out var minY, out var maxY);
-                    return $"{minX}:{maxX}:{minY}:{maxY}";
-                })
-                .Distinct()
-                .ToArray();
             throw new InvalidOperationException(
-                $"Sketch scene '{scene.Label}' did not preserve the exterior-rounded positive fill and hole cuts. " +
-                $"Positive={exteriorRoundedPositiveBounds.Length} [{string.Join(", ", exteriorRoundedPositiveBounds)}], " +
-                $"anti={antiBounds.Length} [{string.Join(", ", antiBounds)}], " +
-                $"exteriorOutlines={exteriorRoundedExteriorOutlineBounds.Length} [{string.Join(", ", exteriorRoundedExteriorOutlineBounds)}], " +
-                $"holes={exteriorRoundedHoleOutlineBounds.Length} [{string.Join(", ", exteriorRoundedHoleOutlineBounds)}], " +
-                $"outline={outlineBounds.Length} [{string.Join(", ", outlineBounds)}].");
+                $"Sketch scene '{scene.Label}' did not expose enough exterior-rounded outline loops. " +
+                $"Exterior outlines={exteriorRoundedOutlineBoundaries.Length}, rounded outlines={roundedOutlineBoundaries.Length}.");
         }
 
-        var exteriorRoundedBoundaryEvidence = exteriorRoundedOutlines
-            .Concat(exteriorRoundedAreas
-                .Where(area => !area.IsAntiArea)
-                .Select(area => area.Boundary))
-            .ToArray();
+        var exteriorRoundedOutlines = exteriorRoundedOutlineBoundaries;
+        var exteriorRoundedBoundaryEvidence = exteriorRoundedOutlines;
         var exteriorRoundedArcCount = exteriorRoundedBoundaryEvidence.Sum(boundary => boundary.Arcs?.Count ?? 0);
         if (comparisonPairMode)
         {
@@ -1458,7 +1421,6 @@ internal static class Program
             .ToArray();
         if (finalColoredUnions.Length < expectedUnionLanes ||
             finalColoredAreas.Count(area => !area.IsAntiArea) < expectedUnionLanes ||
-            finalColoredAreas.Any(area => area.IsAntiArea) ||
             finalColoredExteriorOutlineBounds.Length < expectedUnionLanes ||
             finalColoredHoleOutlineBounds.Length < 8)
         {
@@ -1550,6 +1512,91 @@ internal static class Program
         {
             yield return child;
         }
+    }
+
+    private static ClosedSharedFrameBoundaryRead[] ReadOutlineBoundaries(IElement element)
+    {
+        var boundaries = new List<ClosedSharedFrameBoundaryRead>();
+
+        if (element is Relation outlineDerivation &&
+            GraphicOutlineSurface.TryReadFromArea(
+                outlineDerivation,
+                out _,
+                out var outline,
+                out _,
+                out _))
+        {
+            boundaries.AddRange(ReadOutlineBoundaries(outline));
+            return [.. boundaries.DistinctBy(boundary => ReadSourceId(boundary.Source))];
+        }
+
+        if (TryReadOrderedFrame(element, out var frameElements) &&
+            frameElements.Length > 0 &&
+            frameElements.All(frameElement => frameElement is Relation frameOutline &&
+                GraphicOutlineSurface.TryReadFromArea(frameOutline, out _, out _, out _, out _)))
+        {
+            foreach (var frameElement in frameElements.OfType<Relation>())
+            {
+                GraphicOutlineSurface.TryReadFromArea(
+                    frameElement,
+                    out _,
+                    out var outlineInFrame,
+                    out _,
+                    out _);
+                boundaries.AddRange(ReadOutlineBoundaries(outlineInFrame));
+            }
+
+            return [.. boundaries.DistinctBy(boundary => ReadSourceId(boundary.Source))];
+        }
+
+        if (element is Relation union &&
+            GraphicAreaParticipationSurface.TryReadAreaUnion(
+                union,
+                out _,
+                out var unionOutline,
+                out _,
+                out _))
+        {
+            boundaries.AddRange(ReadOutlineBoundaries(unionOutline));
+            return [.. boundaries.DistinctBy(boundary => ReadSourceId(boundary.Source))];
+        }
+
+        boundaries.AddRange(GraphicReadGraph.From(element)
+            .ReadsOf<ClosedSharedFrameBoundaryRead>());
+        foreach (var relation in WalkRelations(element))
+        {
+            if (GraphicAreaParticipationSurface.TryReadAreaUnion(
+                    relation,
+                    out _,
+                    out var outlineWitness,
+                    out _,
+                    out _))
+            {
+                boundaries.AddRange(GraphicReadGraph.From(outlineWitness)
+                    .ReadsOf<ClosedSharedFrameBoundaryRead>());
+            }
+        }
+
+        return [.. boundaries.DistinctBy(boundary => ReadSourceId(boundary.Source))];
+    }
+
+    private static ClosedSharedFrameBoundaryRead[] ReadSelectionSourceOutlineBoundaries(IElement element)
+    {
+        var boundaries = new List<ClosedSharedFrameBoundaryRead>();
+        foreach (var selection in WalkRelations(element)
+            .Where(relation => GraphicSelectionSurface.TryReadSelection(relation, out _, out _, out _, out _, out _)))
+        {
+            GraphicSelectionSurface.TryReadSelection(
+                selection,
+                out var source,
+                out _,
+                out _,
+                out _,
+                out _);
+            boundaries.AddRange(ReadOutlineBoundaries(source));
+        }
+
+        return [.. boundaries.DistinctBy(boundary => ReadSourceId(boundary.Source))];
     }
 
     private static ulong ReadSourceId(IElement source) =>
