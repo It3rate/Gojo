@@ -4,7 +4,7 @@ using SkiaSharp;
 
 namespace Gojo.Blocks;
 
-internal sealed record BlocksDocument(IReadOnlyList<BlocksPage> Pages, int PageIndex)
+internal sealed record BlocksDocument(IReadOnlyList<BlocksPage> Pages, int PageIndex, bool NotesVisible = false)
 {
     public BlocksPage CurrentPage => Pages[Math.Clamp(PageIndex, 0, Math.Max(0, Pages.Count - 1))];
 
@@ -17,13 +17,25 @@ internal sealed record BlocksDocument(IReadOnlyList<BlocksPage> Pages, int PageI
     public BlocksDocument SelectPage(int index) =>
         this with { PageIndex = Math.Clamp(index, 0, Math.Max(0, Pages.Count - 1)) };
 
+    public BlocksDocument FirstPage() =>
+        this with { PageIndex = 0 };
+
+    public BlocksDocument LastPage() =>
+        this with { PageIndex = Math.Max(0, Pages.Count - 1) };
+
+    public BlocksDocument ToggleNotes() =>
+        this with { NotesVisible = !NotesVisible };
+
+    public BlocksDocument HideNotes() =>
+        this with { NotesVisible = false };
+
     public static BlocksDocument CreateDefault() =>
         new(
             [
                 new BlocksPage(
                     "Blocks Surface",
                     "A clean page shell for rebuilding Gojo graphic experiments.",
-                    "This page is intentionally quiet. The left rail is reserved for controls; the lower rail is page navigation.",
+                    "This page is intentionally quiet. The interaction surface is the primary object; narration stays available as notes.",
                     CreateStarterStructure(),
                     new SKRect(-40, -34, 96, 60),
                     11),

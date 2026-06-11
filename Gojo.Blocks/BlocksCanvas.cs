@@ -91,6 +91,7 @@ internal sealed class BlocksCanvas : Control
             BlocksHitKind.PreviousPage => Document.PreviousPage(),
             BlocksHitKind.NextPage => Document.NextPage(),
             BlocksHitKind.PageDot => Document.SelectPage(hit.PageIndex),
+            BlocksHitKind.ToggleNotes => Document.ToggleNotes(),
             _ => Document
         };
         if (hit.Kind != BlocksHitKind.None)
@@ -108,18 +109,77 @@ internal sealed class BlocksCanvas : Control
             return;
         }
 
-        if (e.Key == Key.Left)
+        var command = GojoDrawKeyboard.ReadCommand(ToGojoDrawKeyInput(e));
+        var next = command switch
         {
-            Document = Document.PreviousPage();
-            animationClock.Restart();
+            GojoDrawKeyCommand.Previous => Document.PreviousPage(),
+            GojoDrawKeyCommand.Next => Document.NextPage(),
+            GojoDrawKeyCommand.First => Document.FirstPage(),
+            GojoDrawKeyCommand.Last => Document.LastPage(),
+            GojoDrawKeyCommand.ToggleNotes => Document.ToggleNotes(),
+            GojoDrawKeyCommand.Close => Document.HideNotes(),
+            GojoDrawKeyCommand.Reset => Document,
+            _ => Document
+        };
+
+        if (!ReferenceEquals(next, Document) || command != GojoDrawKeyCommand.None)
+        {
+            var pageChanged = next.PageIndex != Document.PageIndex;
+            Document = next;
+            if (pageChanged || command == GojoDrawKeyCommand.Reset)
+            {
+                animationClock.Restart();
+            }
             e.Handled = true;
         }
-        else if (e.Key == Key.Right)
+    }
+
+    private static GojoDrawKeyInput ToGojoDrawKeyInput(KeyEventArgs e) =>
+        new(ToGojoDrawKey(e.Key), ToGojoDrawModifiers(e.KeyModifiers));
+
+    private static GojoDrawKey ToGojoDrawKey(Key key) =>
+        key switch
         {
-            Document = Document.NextPage();
-            animationClock.Restart();
-            e.Handled = true;
+            Key.Left => GojoDrawKey.Left,
+            Key.Right => GojoDrawKey.Right,
+            Key.Up => GojoDrawKey.Up,
+            Key.Down => GojoDrawKey.Down,
+            Key.PageUp => GojoDrawKey.PageUp,
+            Key.PageDown => GojoDrawKey.PageDown,
+            Key.Home => GojoDrawKey.Home,
+            Key.End => GojoDrawKey.End,
+            Key.Space => GojoDrawKey.Space,
+            Key.Enter => GojoDrawKey.Enter,
+            Key.Escape => GojoDrawKey.Escape,
+            Key.N => GojoDrawKey.N,
+            Key.R => GojoDrawKey.R,
+            _ => GojoDrawKey.Unknown
+        };
+
+    private static GojoDrawKeyModifiers ToGojoDrawModifiers(KeyModifiers modifiers)
+    {
+        var result = GojoDrawKeyModifiers.None;
+        if (modifiers.HasFlag(KeyModifiers.Shift))
+        {
+            result |= GojoDrawKeyModifiers.Shift;
         }
+
+        if (modifiers.HasFlag(KeyModifiers.Control))
+        {
+            result |= GojoDrawKeyModifiers.Control;
+        }
+
+        if (modifiers.HasFlag(KeyModifiers.Alt))
+        {
+            result |= GojoDrawKeyModifiers.Alt;
+        }
+
+        if (modifiers.HasFlag(KeyModifiers.Meta))
+        {
+            result |= GojoDrawKeyModifiers.Meta;
+        }
+
+        return result;
     }
 
     private void PublishHitAreas(IReadOnlyList<BlocksHitArea> next)
@@ -132,7 +192,6 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
 {
     private static readonly GojoCadSkiaSceneRenderer GojoRenderer = new();
     private static readonly SKColor Background = new(248, 247, 243);
-    private static readonly SKColor RailFill = new(236, 235, 229);
     private static readonly SKColor Ink = new(47, 55, 65);
     private static readonly SKColor Muted = new(105, 112, 120);
     private static readonly SKColor Accent = new(66, 122, 153);
@@ -181,6 +240,7 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
         DrawShell(canvas, size);
         DrawPage(canvas, size);
         DrawBottomNavigation(canvas, size, hitAreas);
+        DrawNotes(canvas, size, hitAreas);
         canvas.Restore();
 
         publishHitAreas(hitAreas);
@@ -188,66 +248,33 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
 
     private void DrawShell(SKCanvas canvas, SKSize size)
     {
-        var leftRail = new SKRect(0, 0, 218, size.Height);
-        var bottomRail = new SKRect(218, Math.Max(0, size.Height - 72), size.Width, size.Height);
+        var topRail = new SKRect(0, 0, size.Width, 58);
+        var bottomRail = new SKRect(0, Math.Max(0, size.Height - 66), size.Width, size.Height);
 
-        using var railPaint = new SKPaint { Color = RailFill, Style = SKPaintStyle.Fill, IsAntialias = true };
+        using var railPaint = new SKPaint { Color = new SKColor(236, 235, 229), Style = SKPaintStyle.Fill, IsAntialias = true };
         using var divider = new SKPaint { Color = SoftLine, Style = SKPaintStyle.Stroke, StrokeWidth = 1, IsAntialias = true };
-        canvas.DrawRect(leftRail, railPaint);
-        canvas.DrawLine(leftRail.Right, 0, leftRail.Right, size.Height, divider);
-        canvas.DrawLine(leftRail.Right, bottomRail.Top, size.Width, bottomRail.Top, divider);
+        canvas.DrawRect(topRail, railPaint);
+        canvas.DrawRect(bottomRail, railPaint);
+        canvas.DrawLine(0, topRail.Bottom, size.Width, topRail.Bottom, divider);
+        canvas.DrawLine(0, bottomRail.Top, size.Width, bottomRail.Top, divider);
 
-        DrawLeftRail(canvas, leftRail);
-    }
-
-    private void DrawLeftRail(SKCanvas canvas, SKRect rail)
-    {
         var page = document.CurrentPage;
-        using var title = TextPaint(22, Ink, bold: true);
+        using var title = TextPaint(18, Ink, bold: true);
         using var subtitle = TextPaint(12.5f, Muted);
-        using var label = TextPaint(11.5f, Muted, bold: true);
-        using var buttonFill = new SKPaint { Color = new SKColor(248, 247, 243), Style = SKPaintStyle.Fill, IsAntialias = true };
-        using var stroke = new SKPaint { Color = new SKColor(184, 188, 184), Style = SKPaintStyle.Stroke, StrokeWidth = 1.1f, IsAntialias = true };
-
-        canvas.DrawText("Gojo Blocks", rail.Left + 24, rail.Top + 40, title);
-        canvas.DrawText($"{document.PageIndex + 1}/{document.Pages.Count}", rail.Left + 24, rail.Top + 64, subtitle);
-
-        DrawWrappedText(canvas, page.Title, rail.Left + 24, rail.Top + 104, 164, title, 27);
-        DrawWrappedText(canvas, page.Subtitle, rail.Left + 24, rail.Top + 150, 158, subtitle, 18);
-
-        var y = rail.Top + 250;
-        canvas.DrawText("Controls", rail.Left + 24, y, label);
-        for (var index = 0; index < 3; index++)
-        {
-            var button = new SKRect(rail.Left + 24, y + 18 + index * 42, rail.Right - 24, y + 48 + index * 42);
-            canvas.DrawRoundRect(button, 6, 6, buttonFill);
-            canvas.DrawRoundRect(button, 6, 6, stroke);
-        }
-
-        canvas.DrawText("Sliders", rail.Left + 24, y + 172, label);
-        for (var index = 0; index < 2; index++)
-        {
-            var cy = y + 198 + index * 36;
-            canvas.DrawLine(rail.Left + 28, cy, rail.Right - 34, cy, stroke);
-            using var knob = new SKPaint { Color = Accent, Style = SKPaintStyle.Fill, IsAntialias = true };
-            canvas.DrawCircle(rail.Left + 74 + index * 42, cy, 5.5f, knob);
-        }
+        canvas.DrawText(page.Title, 28, 33, title);
+        canvas.DrawText($"{document.PageIndex + 1}/{document.Pages.Count}  {page.Subtitle}", 28, 51, subtitle);
     }
 
     private void DrawPage(SKCanvas canvas, SKSize size)
     {
         var page = document.CurrentPage;
-        var pageArea = new SKRect(250, 42, Math.Max(251, size.Width - 44), Math.Max(43, size.Height - 104));
+        var notesReserve = document.NotesVisible ? Math.Min(190, Math.Max(120, size.Height * 0.24f)) : 0;
+        var pageArea = new SKRect(28, 82, Math.Max(29, size.Width - 28), Math.Max(83, size.Height - 88 - notesReserve));
 
         using var pageFill = new SKPaint { Color = new SKColor(255, 255, 252), Style = SKPaintStyle.Fill, IsAntialias = true };
         using var pageStroke = new SKPaint { Color = new SKColor(215, 217, 210), Style = SKPaintStyle.Stroke, StrokeWidth = 1.2f, IsAntialias = true };
         canvas.DrawRoundRect(pageArea, 8, 8, pageFill);
         canvas.DrawRoundRect(pageArea, 8, 8, pageStroke);
-
-        using var title = TextPaint(25, Ink, bold: true);
-        using var body = TextPaint(13.5f, Muted);
-        canvas.DrawText(page.Title, pageArea.Left + 28, pageArea.Top + 42, title);
-        DrawWrappedText(canvas, page.Body, pageArea.Left + 28, pageArea.Top + 72, pageArea.Width - 56, body, 19);
 
         if (page.Structure is { } structure)
         {
@@ -256,10 +283,10 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
             paints.AreaBoundary.StrokeWidth = 2.2f;
             paints.SharedFramePoint.Color = new SKColor(64, 76, 88, 180);
             var structureArea = new SKRect(
-                pageArea.Left + 40,
-                pageArea.Top + 130,
-                pageArea.Right - 40,
-                pageArea.Bottom - 38);
+                pageArea.Left + 34,
+                pageArea.Top + 30,
+                pageArea.Right - 34,
+                pageArea.Bottom - 30);
             GojoRenderer.Draw(canvas, structure, structureArea, page.ProjectionSeed, page.ModelBounds, paints);
             DrawTutorialAnimationHint(canvas, structureArea);
         }
@@ -308,7 +335,7 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
 
     private void DrawBottomNavigation(SKCanvas canvas, SKSize size, List<BlocksHitArea> hitAreas)
     {
-        var centerX = (218 + size.Width) * 0.5f;
+        var centerX = size.Width * 0.5f;
         var y = size.Height - 36;
         var dotSpacing = 20f;
         var dotStart = centerX - (document.Pages.Count - 1) * dotSpacing * 0.5f;
@@ -339,6 +366,39 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
             canvas.DrawCircle(x, y, radius, index == document.PageIndex ? activeDotPaint : dotPaint);
             hitAreas.Add(new BlocksHitArea(new SKRect(x - 9, y - 9, x + 9, y + 9), BlocksHitKind.PageDot, index));
         }
+
+        var notes = new SKRect(size.Width - 112, y - 18, size.Width - 28, y + 18);
+        using var noteText = TextPaint(12.5f, document.NotesVisible ? Accent : Muted, bold: true);
+        using var noteStroke = new SKPaint
+        {
+            Color = document.NotesVisible ? Accent : new SKColor(172, 176, 174),
+            Style = SKPaintStyle.Stroke,
+            StrokeWidth = 1.1f,
+            IsAntialias = true
+        };
+        canvas.DrawRoundRect(notes, 6, 6, noteStroke);
+        canvas.DrawText("Notes", notes.Left + 20, notes.MidY + 4.5f, noteText);
+        hitAreas.Add(new BlocksHitArea(notes, BlocksHitKind.ToggleNotes, -1));
+    }
+
+    private void DrawNotes(SKCanvas canvas, SKSize size, List<BlocksHitArea> hitAreas)
+    {
+        if (!document.NotesVisible)
+        {
+            return;
+        }
+
+        var height = Math.Min(190, Math.Max(120, size.Height * 0.24f));
+        var drawer = new SKRect(28, size.Height - 80 - height, size.Width - 28, size.Height - 88);
+        using var fill = new SKPaint { Color = new SKColor(255, 255, 252, 246), Style = SKPaintStyle.Fill, IsAntialias = true };
+        using var stroke = new SKPaint { Color = new SKColor(191, 195, 190), Style = SKPaintStyle.Stroke, StrokeWidth = 1.1f, IsAntialias = true };
+        using var title = TextPaint(11.5f, Muted, bold: true);
+        using var body = TextPaint(13.5f, Ink);
+
+        canvas.DrawRoundRect(drawer, 8, 8, fill);
+        canvas.DrawRoundRect(drawer, 8, 8, stroke);
+        canvas.DrawText("Narration notes", drawer.Left + 18, drawer.Top + 24, title);
+        DrawWrappedText(canvas, document.CurrentPage.Body, drawer.Left + 18, drawer.Top + 50, drawer.Width - 36, body, 19);
     }
 
     private static void DrawArrow(SKCanvas canvas, SKRect bounds, bool left, SKPaint paint)
@@ -395,5 +455,6 @@ internal enum BlocksHitKind
     None,
     PreviousPage,
     NextPage,
-    PageDot
+    PageDot,
+    ToggleNotes
 }
