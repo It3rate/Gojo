@@ -1,8 +1,9 @@
-# Gojo Blocks Interactive Tutorial
+# Gojo Interactive Tutorial
 
-This file synthesizes the two current tutorial drafts into one app-oriented
+This file synthesizes the current tutorial drafts into one app-oriented
 tutorial plan. The target is not a cinematic video. The target is an
-interactive tutorial page system:
+interactive sandbox where every concept becomes physically necessary and
+manipulatable by the user:
 
 ```text
 tutorial page
@@ -73,6 +74,31 @@ Cons:
 - It does not distinguish enough between "guided animation" and "sandbox state"
   after the narration completes.
 
+### `tutorial_gem.md`
+
+Pros:
+
+- Very clear app framing. It names the tutorial as an interactive sandbox where
+  each concept must become physically necessary and manipulatable.
+- Strong MVP pacing. It moves directly into a first-build cut rather than
+  asking the implementer to digest the whole long tutorial first.
+- It sensibly combines site/point and emitted flow for the first build, which
+  keeps early interaction tight: drag a point, inject tension, switch grade,
+  and watch the same source emit different outlets.
+- It is concise enough to function as an implementation brief.
+
+Cons:
+
+- It is a partial cut, not a complete tutorial. It stops after the second point
+  and does not cover unit shape, calibration, crystallization, ladders,
+  equations, or concepts.
+- It has little new Gojo theory beyond what is already in the other drafts.
+- Its compactness removes some important distinctions that the full tutorial
+  needs, especially duality before minus, contour traversal, boundary versus
+  flow, and the 3D orthogonal clarification.
+- It does not add much AI-query or GojoCAD/GojoDraw implementation detail
+  beyond the shared page contract.
+
 ## Synthesis
 
 The best version should keep:
@@ -81,6 +107,8 @@ The best version should keep:
 - `tutorial_cur.md`'s act-level pacing, but without cinematic framing.
 - `tutorial_cod.md`'s cleaner screen structure and Gojo structure mapping.
 - `tutorial_cod.md`'s dimensional / orthogonal clarification.
+- `tutorial_gem.md`'s MVP-first pacing and "physically necessary and
+  manipulatable" app framing.
 - Both drafts' insistence that incomplete reads, residue, and tension remain
   visible.
 
@@ -92,6 +120,8 @@ The final app tutorial should change:
 - AI query context should be explicit: page goal, current structures, selected
   source, read surface, result, residue/tension, and relevant code references.
 - The first pass should be about 20 to 24 pages, not 30 plus appendix.
+- The implementation path should start with the short interactive arc before
+  trying to build the complete tutorial.
 
 ## Page Contract
 
@@ -113,6 +143,26 @@ Page
 The guided animation is the first explanation. The interactive controls let the
 user test the concept. The completion cue is not a quiz; it is a small
 structural event that tells the page it has done its job.
+
+## Pacing Recommendation
+
+The full tutorial is a 24-page learning path, but the app should not be built
+or introduced that way at first. Start with a compact first-run arc that proves
+the interaction model:
+
+```text
+physical structure
+  -> resolution
+  -> tension
+  -> site with emitted flow
+  -> second point as direction or extent
+```
+
+This short arc should feel like one coherent sandbox: inject participation,
+watch what settles, preserve what does not, drag a point, switch grade, and see
+the same evidence support different reads. Once that feels good, add the later
+pages for duality, contour traversal, unit shape, calibration, crystallization,
+ladders, equations, and concepts.
 
 ## Drawing Requirements
 
