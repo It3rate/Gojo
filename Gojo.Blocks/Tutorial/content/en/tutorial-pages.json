@@ -1,0 +1,196 @@
+{
+  "pages": [
+    {
+      "id": "physical-structure",
+      "title": "Physical Structure, Not Scalars",
+      "subtitle": "A draggable point on a line radiates local flow.",
+      "notesFile": "notes/01_physical-structure.md",
+      "voiceFile": "audio/01_physical-structure.mp3",
+      "concepts": ["carrier", "location", "point", "line", "radial flow", "interactive read"]
+    },
+    {
+      "id": "resolution",
+      "title": "Resolution Comes Before Precision",
+      "subtitle": "A read exposes the distinctions its surface can actually make.",
+      "notesFile": "notes/02_resolution.md",
+      "voiceFile": "audio/02_resolution.mp3",
+      "concepts": ["resolution", "read surface", "partition", "residue", "valid low-resolution read"]
+    },
+    {
+      "id": "tension",
+      "title": "Tension Is Unresolved Participation",
+      "subtitle": "Mismatch remains visible instead of disappearing into failure.",
+      "notesFile": "notes/03_tension.md",
+      "voiceFile": "audio/03_tension.mp3",
+      "concepts": ["tension", "capacity", "settlement", "unresolved input", "overflow route"]
+    },
+    {
+      "id": "duality",
+      "title": "Duality Before Minus",
+      "subtitle": "Opposition is structural before it becomes a sign.",
+      "notesFile": "notes/04_duality.md",
+      "voiceFile": "audio/04_duality.mp3",
+      "concepts": ["dual", "opposed face", "inverse", "orientation", "local sign"]
+    },
+    {
+      "id": "site-point",
+      "title": "Site / Point",
+      "subtitle": "A point is a grounded location, not a coordinate bag.",
+      "notesFile": "notes/05_site-point.md",
+      "voiceFile": "audio/05_site-point.mp3",
+      "concepts": ["carrier", "carrier location", "point relation", "site", "grounding"]
+    },
+    {
+      "id": "point-flow",
+      "title": "A Point Emits Flow",
+      "subtitle": "Unsettled participation at a site can radiate through the surrounding grade.",
+      "notesFile": "notes/06_point-flow.md",
+      "voiceFile": "audio/06_point-flow.mp3",
+      "concepts": ["radial flow", "orthogonal outlet", "source", "sink", "grade"]
+    },
+    {
+      "id": "grade",
+      "title": "Grade Shapes Settlement",
+      "subtitle": "The same source settles differently in line, plane, and volume-like environments.",
+      "notesFile": "notes/07_grade.md",
+      "voiceFile": "audio/07_grade.mp3",
+      "concepts": ["grade", "environment", "basis", "line", "plane", "volume projection"]
+    },
+    {
+      "id": "second-point",
+      "title": "Second Point: Direction Or Extent",
+      "subtitle": "Two points can support either an ordered direction or an extent read.",
+      "notesFile": "notes/08_second-point.md",
+      "voiceFile": "audio/08_second-point.mp3",
+      "concepts": ["second point", "direction", "extent", "segment", "radius"]
+    },
+    {
+      "id": "segment-orientation",
+      "title": "Segment Orientation And Local Sign",
+      "subtitle": "A segment is a frame with a selected read direction.",
+      "notesFile": "notes/09_segment-orientation.md",
+      "voiceFile": "audio/09_segment-orientation.mp3",
+      "concepts": ["segment", "start", "end", "orientation", "signed read"]
+    },
+    {
+      "id": "contour",
+      "title": "Contour: Extent Is Not Traversal",
+      "subtitle": "A boundary can have size before it has a traversal origin.",
+      "notesFile": "notes/10_contour.md",
+      "voiceFile": "audio/10_contour.mp3",
+      "concepts": ["contour", "radius", "origin marker", "clockwise", "counterclockwise"]
+    },
+    {
+      "id": "boundary-flow",
+      "title": "Boundary And Flow Are Separate",
+      "subtitle": "A fixed boundary can support multiple flow reads.",
+      "notesFile": "notes/11_boundary-flow.md",
+      "voiceFile": "audio/11_boundary-flow.mp3",
+      "concepts": ["boundary", "flow", "interior", "exterior", "lane"]
+    },
+    {
+      "id": "orthogonal-dimensions",
+      "title": "Orthogonal Outlet And Dimensions",
+      "subtitle": "Orthogonal means not accounted for in the current order.",
+      "notesFile": "notes/12_orthogonal-dimensions.md",
+      "voiceFile": "audio/12_orthogonal-dimensions.mp3",
+      "concepts": ["orthogonal", "dimension", "axis", "cylinder-like outlet", "plane-like outlet"]
+    },
+    {
+      "id": "partition-tick",
+      "title": "Partition And Tick",
+      "subtitle": "Counting requires exposed distinctions.",
+      "notesFile": "notes/13_partition-tick.md",
+      "voiceFile": "audio/13_partition-tick.mp3",
+      "concepts": ["partition", "tick", "surface", "count", "cell"]
+    },
+    {
+      "id": "unit-shape",
+      "title": "Unit Shape",
+      "subtitle": "Unit shape says what one tick scales as.",
+      "notesFile": "notes/14_unit-shape.md",
+      "voiceFile": "audio/14_unit-shape.mp3",
+      "concepts": ["unit shape", "carrier", "tick scale", "descriptor", "stable unit"]
+    },
+    {
+      "id": "calibration-number",
+      "title": "Calibration And Number",
+      "subtitle": "Number is a read through unit and partition structure.",
+      "notesFile": "notes/15_calibration-number.md",
+      "voiceFile": "audio/15_calibration-number.mp3",
+      "concepts": ["calibration", "unit ruler", "fraction", "comparison", "number read"]
+    },
+    {
+      "id": "crystallization",
+      "title": "Crystallization",
+      "subtitle": "A stable structure can become a new unit shape.",
+      "notesFile": "notes/16_crystallization.md",
+      "voiceFile": "audio/16_crystallization.mp3",
+      "concepts": ["crystal", "unit stamp", "provenance", "reuse", "independent value"]
+    },
+    {
+      "id": "resolution-ladder",
+      "title": "Resolution Ladder",
+      "subtitle": "A value can be carried by linked levels of resolution.",
+      "notesFile": "notes/17_resolution-ladder.md",
+      "voiceFile": "audio/17_resolution-ladder.mp3",
+      "concepts": ["ladder", "ones", "carry", "settlement route", "level read"]
+    },
+    {
+      "id": "routes-lanes",
+      "title": "Settlement Routes And Lanes",
+      "subtitle": "Settlement follows local relation structure.",
+      "notesFile": "notes/18_routes-lanes.md",
+      "voiceFile": "audio/18_routes-lanes.mp3",
+      "concepts": ["route", "lane", "boundary-flow basis", "transition", "blocked flow"]
+    },
+    {
+      "id": "support-occupancy",
+      "title": "Support And Occupancy",
+      "subtitle": "Boolean-like operations are support reads through a basis.",
+      "notesFile": "notes/19_support-occupancy.md",
+      "voiceFile": "audio/19_support-occupancy.mp3",
+      "concepts": ["support", "occupancy", "scope", "union", "intersection"]
+    },
+    {
+      "id": "branch-merge",
+      "title": "Branch And Merge",
+      "subtitle": "Branching is routed participation, not a hidden if statement.",
+      "notesFile": "notes/20_branch-merge.md",
+      "voiceFile": "audio/20_branch-merge.mp3",
+      "concepts": ["branch", "merge", "candidate route", "support", "near-tie tension"]
+    },
+    {
+      "id": "structural-ladders",
+      "title": "Structural Ladders",
+      "subtitle": "Refinement adds detail without deleting lower-resolution structure.",
+      "notesFile": "notes/21_structural-ladders.md",
+      "voiceFile": "audio/21_structural-ladders.mp3",
+      "concepts": ["refinement", "focus", "rung", "carry-forward", "residue"]
+    },
+    {
+      "id": "equations",
+      "title": "Equations As Reads",
+      "subtitle": "An equation predicts through relation-shaped structure and exposes error.",
+      "notesFile": "notes/22_equations.md",
+      "voiceFile": "audio/22_equations.mp3",
+      "concepts": ["equation", "prediction", "observed output", "residual", "witness"]
+    },
+    {
+      "id": "concept-surface",
+      "title": "Concept Surface",
+      "subtitle": "A concept is a stable read over evidence, not a pasted label.",
+      "notesFile": "notes/23_concept-surface.md",
+      "voiceFile": "audio/23_concept-surface.mp3",
+      "concepts": ["concept", "evidence", "capacity", "timeline", "read resolution"]
+    },
+    {
+      "id": "playground",
+      "title": "Playground And Recap",
+      "subtitle": "The same read shape returns across geometry, number, equations, and concepts.",
+      "notesFile": "notes/24_playground.md",
+      "voiceFile": "audio/24_playground.mp3",
+      "concepts": ["selected source", "read surface", "result", "residue", "provenance"]
+    }
+  ]
+}

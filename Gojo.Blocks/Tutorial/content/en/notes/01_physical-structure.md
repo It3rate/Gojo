@@ -1,0 +1,1 @@
+Most math libraries start with numbers and operations. Gojo starts with participation in local structure. Here the point is not a detached coordinate. It is a location on a carrier-like line, and the flow around it is unresolved participation made visible.

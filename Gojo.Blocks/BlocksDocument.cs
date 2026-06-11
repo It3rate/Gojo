@@ -10,9 +10,18 @@ internal sealed record BlocksDocument(
     int PageIndex,
     bool NotesVisible = false,
     bool SidePanelVisible = true,
-    bool AudioEnabled = false)
+    bool AudioEnabled = false,
+    bool PhysicalPointInteractive = false,
+    double PhysicalPointT = 0.5d)
 {
+    public const string PhysicalStructurePageId = "physical-structure";
+
     public BlocksPage CurrentPage => Pages[Math.Clamp(PageIndex, 0, Math.Max(0, Pages.Count - 1))];
+
+    public IElement? CurrentStructure =>
+        CurrentPage.Id == PhysicalStructurePageId
+            ? CreatePhysicalPointLineStructure(PhysicalPointT)
+            : CurrentPage.Structure;
 
     public BlocksDocument NextPage() =>
         this with { PageIndex = Pages.Count == 0 ? 0 : (PageIndex + 1) % Pages.Count };
@@ -41,66 +50,25 @@ internal sealed record BlocksDocument(
     public BlocksDocument HideNotes() =>
         this with { NotesVisible = false };
 
+    public BlocksDocument StartPhysicalPointInteraction(double pointT) =>
+        CurrentPage.Id == PhysicalStructurePageId
+            ? this with { PhysicalPointInteractive = true, PhysicalPointT = ClampPointT(pointT) }
+            : this;
+
+    public BlocksDocument DragPhysicalPoint(double pointT) =>
+        CurrentPage.Id == PhysicalStructurePageId && PhysicalPointInteractive
+            ? this with { PhysicalPointT = ClampPointT(pointT) }
+            : this;
+
+    public BlocksDocument ResetCurrentPage() =>
+        CurrentPage.Id == PhysicalStructurePageId
+            ? this with { PhysicalPointInteractive = false, PhysicalPointT = 0.5d }
+            : this;
+
     public static BlocksDocument CreateDefault() =>
-        new(
-            [
-                CreatePhysicalStructureTutorialPage(),
-                new BlocksPage(
-                    "Structure Notes",
-                    "Use this page for the next small Gojo-native drawing ladder.",
-                    "Page state stays tiny: page index, optional GojoCAD structure, and render bounds.",
-                    null,
-                    null,
-                    17),
-                new BlocksPage(
-                    "Boolean Workbench",
-                    "Placeholder for the next offset/fill/outline synthesis pass.",
-                    "The old visualizers taught us what to avoid: hidden area fallback and stale rung residue.",
-                    null,
-                    null,
-                    23)
-            ],
-            0);
+        new(BlocksTutorialContent.LoadPages(), 0);
 
-    private static BlocksPage CreatePhysicalStructureTutorialPage()
-    {
-        var structure = CreatePhysicalStructurePage();
-        var bounds = new SKRect(-70, -42, 96, 48);
-        return new BlocksPage(
-            "Physical Structure",
-            "Values as inspectable participation.",
-            "Most math libraries start with numbers and operations. Gojo starts with participation in local structure. A value can settle, route, or remain unresolved. The unresolved part stays visible because it may be the next piece of structure.",
-            structure,
-            bounds,
-            11,
-            new BlocksTutorialScene(
-                structure,
-                bounds,
-                11,
-                TimeSpan.FromSeconds(4),
-                [
-                    new GojoDrawVisualCue(
-                        "incoming-pulse",
-                        GojoDrawVisualCueKind.Pulse,
-                        "incoming participation",
-                        Track: new GojoDrawVisualTrack(
-                            new GojoDrawScenePoint(0.08f, 0.52f),
-                            new GojoDrawScenePoint(0.66f, 0.52f),
-                            TimeSpan.Zero,
-                            TimeSpan.FromSeconds(2.6))),
-                    new GojoDrawVisualCue(
-                        "unsettled-pressure",
-                        GojoDrawVisualCueKind.TensionGlow,
-                        "unresolved tension",
-                        Track: new GojoDrawVisualTrack(
-                            new GojoDrawScenePoint(0.66f, 0.52f),
-                            new GojoDrawScenePoint(0.82f, 0.34f),
-                            TimeSpan.FromSeconds(2.2),
-                            TimeSpan.FromSeconds(1.4)))
-                ]));
-    }
-
-    private static IElement CreatePhysicalStructurePage()
+    private static IElement CreatePhysicalPointLineStructure(double pointT)
     {
         var frame = new Carrier();
         var x = new Carrier();
@@ -109,33 +77,34 @@ internal sealed record BlocksDocument(
         Relation Point(long px, long py) =>
             GraphicStructure.FramePoint(frame, new CarrierLocation(x, px), new CarrierLocation(y, py));
 
-        var source = Point(-58, 0);
-        var junction = Point(-20, 0);
-        var settled = Point(24, 0);
-        var boundary = Point(58, 0);
-        var tension = Point(48, 24);
-        var returnSink = Point(24, -24);
-        var center = Point(-20, 0);
-        var radius = Point(-2, 0);
+        var start = Point(-50, 0);
+        var end = Point(50, 0);
+        var active = Point(PointTicks(pointT), 0);
 
         return Relation.OrderedGroup(
             new Carrier(),
-            GraphicStructure.FrameSegment(source, junction),
-            GraphicStructure.FrameSegment(junction, settled),
-            GraphicStructure.FrameSegment(settled, boundary),
-            GraphicStructure.FrameSegment(boundary, tension),
-            GraphicStructure.FrameSegment(junction, returnSink),
-            GraphicStructure.FrameCircle(center, radius));
+            GraphicStructure.FrameSegment(start, end),
+            active,
+            GraphicStructure.RadialFlow(active));
     }
+
+    private static long PointTicks(double pointT) =>
+        (long)Math.Round(-50 + ClampPointT(pointT) * 100);
+
+    private static double ClampPointT(double pointT) =>
+        Math.Clamp(pointT, 0d, 1d);
 }
 
 internal sealed record BlocksPage(
+    string Id,
     string Title,
     string Subtitle,
     string Body,
     IElement? Structure,
     SKRect? ModelBounds,
     int ProjectionSeed,
+    IReadOnlyList<string> Concepts,
+    GojoDrawAudioCue? NarrationAudio = null,
     BlocksTutorialScene? TutorialScene = null)
 {
     public bool HasAnimation => TutorialScene?.HasAnimation == true;

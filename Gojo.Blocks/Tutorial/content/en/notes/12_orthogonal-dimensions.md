@@ -1,0 +1,1 @@
+In 1D, two points make a line and the orthogonal can be drawn perpendicular to it. In 3D, two distant points define an axis whose orthogonal can be cylinder-like, while touching points can expose a plane-like outlet.

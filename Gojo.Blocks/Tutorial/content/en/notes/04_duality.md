@@ -1,0 +1,1 @@
+A negative location, an opposed carrier face, a reversed segment, inward radial flow, and counter-traversal around a contour are related, but they are not the same thing collapsed into one minus symbol.

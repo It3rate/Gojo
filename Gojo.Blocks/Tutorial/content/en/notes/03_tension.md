@@ -1,0 +1,1 @@
+When incoming participation cannot settle through the available structure, the remainder stays inspectable as tension. Later structure can route it, compare it, or use it as the next source of meaning.

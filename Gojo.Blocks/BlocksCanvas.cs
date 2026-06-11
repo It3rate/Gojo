@@ -18,6 +18,9 @@ internal sealed class BlocksCanvas : Control
     private readonly DispatcherTimer animationTimer;
     private BlocksDocument? document;
     private BlocksHitArea[] hitAreas = [];
+    private bool draggingPhysicalPoint;
+
+    public event EventHandler<BlocksDocument?>? DocumentChanged;
 
     public BlocksCanvas()
     {
@@ -29,7 +32,7 @@ internal sealed class BlocksCanvas : Control
         };
         animationTimer.Tick += (_, _) =>
         {
-            if (Document?.CurrentPage.HasAnimation == true)
+            if (ShouldAnimate())
             {
                 InvalidateVisual();
             }
@@ -41,9 +44,17 @@ internal sealed class BlocksCanvas : Control
         get => document;
         set
         {
+            var shouldRestart = document is null ||
+                value is null ||
+                document.PageIndex != value.PageIndex;
             document = value;
-            animationClock.Restart();
+            if (shouldRestart)
+            {
+                animationClock.Restart();
+            }
+
             InvalidateVisual();
+            DocumentChanged?.Invoke(this, document);
         }
     }
 
@@ -86,6 +97,15 @@ internal sealed class BlocksCanvas : Control
 
         var point = e.GetPosition(this);
         var hit = hitAreas.FirstOrDefault(area => area.Bounds.Contains((float)point.X, (float)point.Y));
+        if (hit.Kind == BlocksHitKind.DragPhysicalPoint)
+        {
+            Document = Document.StartPhysicalPointInteraction(PhysicalPointTFromPosition(point));
+            draggingPhysicalPoint = true;
+            e.Pointer.Capture(this);
+            e.Handled = true;
+            return;
+        }
+
         Document = hit.Kind switch
         {
             BlocksHitKind.PreviousPage => Document.PreviousPage(),
@@ -94,6 +114,7 @@ internal sealed class BlocksCanvas : Control
             BlocksHitKind.ToggleNotes => Document.ToggleNotes(),
             BlocksHitKind.ToggleSidePanel => Document.ToggleSidePanel(),
             BlocksHitKind.ToggleAudio => Document.ToggleAudio(),
+            BlocksHitKind.ResetPresentation => Document.ResetCurrentPage(),
             _ => Document
         };
         if (hit.Kind != BlocksHitKind.None)
@@ -101,6 +122,31 @@ internal sealed class BlocksCanvas : Control
             animationClock.Restart();
         }
         e.Handled = hit.Kind != BlocksHitKind.None;
+    }
+
+    protected override void OnPointerMoved(PointerEventArgs e)
+    {
+        base.OnPointerMoved(e);
+        if (!draggingPhysicalPoint || Document is null)
+        {
+            return;
+        }
+
+        Document = Document.DragPhysicalPoint(PhysicalPointTFromPosition(e.GetPosition(this)));
+        e.Handled = true;
+    }
+
+    protected override void OnPointerReleased(PointerReleasedEventArgs e)
+    {
+        base.OnPointerReleased(e);
+        if (!draggingPhysicalPoint)
+        {
+            return;
+        }
+
+        draggingPhysicalPoint = false;
+        e.Pointer.Capture(null);
+        e.Handled = true;
     }
 
     protected override void OnKeyDown(KeyEventArgs e)
@@ -122,7 +168,7 @@ internal sealed class BlocksCanvas : Control
             GojoDrawKeyCommand.TogglePanel => Document.ToggleSidePanel(),
             GojoDrawKeyCommand.ToggleAudio => Document.ToggleAudio(),
             GojoDrawKeyCommand.Close => Document.HideNotes(),
-            GojoDrawKeyCommand.Reset => Document,
+            GojoDrawKeyCommand.Reset => Document.ResetCurrentPage(),
             _ => Document
         };
 
@@ -192,14 +238,66 @@ internal sealed class BlocksCanvas : Control
     {
         hitAreas = [.. next];
     }
+
+    private bool ShouldAnimate()
+    {
+        if (Document is not { } current ||
+            current.PhysicalPointInteractive ||
+            current.CurrentPage.TutorialScene is not { } scene)
+        {
+            return false;
+        }
+
+        return scene.Loops || animationClock.Elapsed <= scene.Duration;
+    }
+
+    private double PhysicalPointTFromPosition(Point point)
+    {
+        if (Document is null)
+        {
+            return 0.5d;
+        }
+
+        var size = new SKSize((float)Bounds.Width, (float)Bounds.Height);
+        var pageArea = BlocksLayout.PageArea(size, Document);
+        var structureArea = BlocksLayout.StructureArea(pageArea);
+        var (start, end) = BlocksLayout.PhysicalLine(structureArea);
+        var width = Math.Max(1f, end.X - start.X);
+        return Math.Clamp(((float)point.X - start.X) / width, 0f, 1f);
+    }
+}
+
+internal static class BlocksLayout
+{
+    public const float TopRailHeight = 58;
+    public const float BottomRailHeight = 66;
+    public const float SidePanelWidth = 196;
+    public const float PageMargin = 28;
+
+    public static float ContentLeft(bool sidePanelVisible) =>
+        sidePanelVisible ? SidePanelWidth + PageMargin : PageMargin;
+
+    public static SKRect PageArea(SKSize size, BlocksDocument document)
+    {
+        var notesReserve = document.NotesVisible ? Math.Min(190, Math.Max(120, size.Height * 0.24f)) : 0;
+        var left = ContentLeft(document.SidePanelVisible);
+        return new SKRect(left, 82, Math.Max(left + 1, size.Width - PageMargin), Math.Max(83, size.Height - 88 - notesReserve));
+    }
+
+    public static SKRect StructureArea(SKRect pageArea) =>
+        new(pageArea.Left + 34, pageArea.Top + 30, pageArea.Right - 34, pageArea.Bottom - 30);
+
+    public static (SKPoint Start, SKPoint End) PhysicalLine(SKRect structureArea)
+    {
+        var y = structureArea.MidY;
+        return (
+            new SKPoint(structureArea.Left + structureArea.Width * 0.16f, y),
+            new SKPoint(structureArea.Right - structureArea.Width * 0.16f, y));
+    }
 }
 
 internal sealed class BlocksDrawOperation : ICustomDrawOperation
 {
-    private const float TopRailHeight = 58;
-    private const float BottomRailHeight = 66;
-    private const float SidePanelWidth = 196;
-    private const float PageMargin = 28;
     private static readonly GojoCadSkiaSceneRenderer GojoRenderer = new();
     private static readonly SKColor Background = new(248, 247, 243);
     private static readonly SKColor Ink = new(47, 55, 65);
@@ -248,9 +346,8 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
         canvas.Clear(Background);
         canvas.ClipRect(new SKRect(0, 0, size.Width, size.Height));
         DrawShell(canvas, size, hitAreas);
-        DrawPage(canvas, size);
+        DrawPage(canvas, size, hitAreas);
         DrawBottomNavigation(canvas, size, hitAreas);
-        DrawNotes(canvas, size, hitAreas);
         canvas.Restore();
 
         publishHitAreas(hitAreas);
@@ -258,8 +355,8 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
 
     private void DrawShell(SKCanvas canvas, SKSize size, List<BlocksHitArea> hitAreas)
     {
-        var topRail = new SKRect(0, 0, size.Width, TopRailHeight);
-        var bottomRail = new SKRect(0, Math.Max(0, size.Height - BottomRailHeight), size.Width, size.Height);
+        var topRail = new SKRect(0, 0, size.Width, BlocksLayout.TopRailHeight);
+        var bottomRail = new SKRect(0, Math.Max(0, size.Height - BlocksLayout.BottomRailHeight), size.Width, size.Height);
 
         using var railPaint = new SKPaint { Color = new SKColor(236, 235, 229), Style = SKPaintStyle.Fill, IsAntialias = true };
         using var divider = new SKPaint { Color = SoftLine, Style = SKPaintStyle.Stroke, StrokeWidth = 1, IsAntialias = true };
@@ -280,6 +377,10 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
         DrawIconButton(canvas, notesButton, document.NotesVisible, DrawNotesIcon);
         hitAreas.Add(new BlocksHitArea(notesButton, BlocksHitKind.ToggleNotes, -1));
 
+        var resetButton = new SKRect(size.Width - 124, 13, size.Width - 96, 41);
+        DrawIconButton(canvas, resetButton, false, DrawResetIcon);
+        hitAreas.Add(new BlocksHitArea(resetButton, BlocksHitKind.ResetPresentation, -1));
+
         if (document.SidePanelVisible)
         {
             DrawSidePanel(canvas, size);
@@ -295,57 +396,55 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
 
     private void DrawSidePanel(SKCanvas canvas, SKSize size)
     {
-        var panel = new SKRect(0, TopRailHeight, SidePanelWidth, Math.Max(TopRailHeight, size.Height - BottomRailHeight));
+        var panel = new SKRect(0, BlocksLayout.TopRailHeight, BlocksLayout.SidePanelWidth, Math.Max(BlocksLayout.TopRailHeight, size.Height - BlocksLayout.BottomRailHeight));
         using var fill = new SKPaint { Color = new SKColor(241, 240, 234), Style = SKPaintStyle.Fill, IsAntialias = true };
         using var divider = new SKPaint { Color = SoftLine, Style = SKPaintStyle.Stroke, StrokeWidth = 1, IsAntialias = true };
         using var label = TextPaint(11.5f, Muted, bold: true);
         using var text = TextPaint(12.5f, Ink);
-        using var active = TextPaint(12.5f, Accent, bold: true);
 
         canvas.DrawRect(panel, fill);
         canvas.DrawLine(panel.Right, panel.Top, panel.Right, panel.Bottom, divider);
-        canvas.DrawText("Tutorial", panel.Left + 20, panel.Top + 32, label);
+        canvas.DrawText("Concepts", panel.Left + 20, panel.Top + 32, label);
 
         var y = panel.Top + 64;
-        for (var index = 0; index < document.Pages.Count; index++)
+        foreach (var concept in document.CurrentPage.Concepts)
         {
-            var pageText = $"{index + 1}. {document.Pages[index].Title}";
-            DrawClippedText(canvas, pageText, panel.Left + 20, y, panel.Width - 34, index == document.PageIndex ? active : text);
-            y += 26;
+            using var marker = new SKPaint { Color = Accent, Style = SKPaintStyle.Fill, IsAntialias = true };
+            canvas.DrawCircle(panel.Left + 23, y - 4, 2.8f, marker);
+            DrawClippedText(canvas, concept, panel.Left + 34, y, panel.Width - 50, text);
+            y += 24;
         }
 
         using var hint = TextPaint(11.5f, Muted);
         var hintY = panel.Bottom - 82;
         canvas.DrawText("Keys", panel.Left + 20, hintY, label);
         canvas.DrawText("Left / Right: pages", panel.Left + 20, hintY + 22, hint);
-        canvas.DrawText("N: notes   B: panel   M: audio", panel.Left + 20, hintY + 42, hint);
+        canvas.DrawText("R: reset   N/B/M: toggles", panel.Left + 20, hintY + 42, hint);
     }
 
-    private void DrawPage(SKCanvas canvas, SKSize size)
+    private void DrawPage(SKCanvas canvas, SKSize size, List<BlocksHitArea> hitAreas)
     {
         var page = document.CurrentPage;
-        var notesReserve = document.NotesVisible ? Math.Min(190, Math.Max(120, size.Height * 0.24f)) : 0;
-        var pageArea = new SKRect(ContentLeft(), 82, Math.Max(ContentLeft() + 1, size.Width - PageMargin), Math.Max(83, size.Height - 88 - notesReserve));
+        var pageArea = BlocksLayout.PageArea(size, document);
 
         using var pageFill = new SKPaint { Color = new SKColor(255, 255, 252), Style = SKPaintStyle.Fill, IsAntialias = true };
         using var pageStroke = new SKPaint { Color = new SKColor(215, 217, 210), Style = SKPaintStyle.Stroke, StrokeWidth = 1.2f, IsAntialias = true };
         canvas.DrawRoundRect(pageArea, 8, 8, pageFill);
         canvas.DrawRoundRect(pageArea, 8, 8, pageStroke);
 
-        if (page.Structure is { } structure)
+        var structureArea = BlocksLayout.StructureArea(pageArea);
+        if (page.Id == BlocksDocument.PhysicalStructurePageId)
+        {
+            DrawPhysicalStructurePage(canvas, structureArea, hitAreas);
+        }
+        else if (document.CurrentStructure is { } structure)
         {
             using var paints = GojoCadSkiaTheme.Tutorial.CreatePaints();
             paints.AreaBoundary.Color = new SKColor(64, 76, 88, 226);
             paints.AreaBoundary.StrokeWidth = 2.2f;
             paints.SharedFramePoint.Color = new SKColor(64, 76, 88, 180);
-            var structureArea = new SKRect(
-                pageArea.Left + 34,
-                pageArea.Top + 30,
-                pageArea.Right - 34,
-                pageArea.Bottom - 30);
             GojoRenderer.Draw(canvas, structure, structureArea, page.ProjectionSeed, page.ModelBounds, paints);
             DrawVisualCues(canvas, page.TutorialScene, structureArea);
-            DrawTutorialAnimationHint(canvas, structureArea);
         }
         else
         {
@@ -353,26 +452,108 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
         }
     }
 
-    private void DrawTutorialAnimationHint(SKCanvas canvas, SKRect structureArea)
+    private void DrawPhysicalStructurePage(SKCanvas canvas, SKRect structureArea, List<BlocksHitArea> hitAreas)
     {
-        if (document.CurrentPage.TutorialScene?.HasAnimation != true)
-        {
-            return;
-        }
+        var pointT = document.PhysicalPointInteractive
+            ? document.PhysicalPointT
+            : AnimatedPhysicalPointT();
+        var (start, end) = BlocksLayout.PhysicalLine(structureArea);
+        var point = Lerp(start, end, (float)pointT);
+        var loop = document.PhysicalPointInteractive ? 1f : (float)animationFrame.LoopProgress;
 
-        using var paint = new SKPaint
+        using var railShadow = new SKPaint
         {
-            Color = new SKColor(66, 122, 153, 150),
-            StrokeWidth = 2,
+            Color = new SKColor(197, 200, 196, 130),
+            StrokeWidth = 10,
             StrokeCap = SKStrokeCap.Round,
             Style = SKPaintStyle.Stroke,
             IsAntialias = true
         };
-        var y = structureArea.Bottom + 14;
-        var x0 = structureArea.Left;
-        var x1 = structureArea.Right;
-        canvas.DrawLine(x0, y, x1, y, paint);
-        canvas.DrawCircle(x0 + (x1 - x0) * (float)animationFrame.LoopProgress, y, 4.5f, paint);
+        using var rail = new SKPaint
+        {
+            Color = new SKColor(64, 76, 88, 226),
+            StrokeWidth = 3,
+            StrokeCap = SKStrokeCap.Round,
+            Style = SKPaintStyle.Stroke,
+            IsAntialias = true
+        };
+        using var endpoint = new SKPaint { Color = new SKColor(64, 76, 88, 190), Style = SKPaintStyle.Fill, IsAntialias = true };
+        canvas.DrawLine(start, end, railShadow);
+        canvas.DrawLine(start, end, rail);
+        canvas.DrawCircle(start, 5, endpoint);
+        canvas.DrawCircle(end, 5, endpoint);
+
+        DrawRadiatingFlow(canvas, point, loop);
+
+        using var pointFill = new SKPaint
+        {
+            Color = document.PhysicalPointInteractive ? Accent : new SKColor(49, 132, 104),
+            Style = SKPaintStyle.Fill,
+            IsAntialias = true
+        };
+        using var pointStroke = new SKPaint
+        {
+            Color = new SKColor(255, 255, 252),
+            Style = SKPaintStyle.Stroke,
+            StrokeWidth = 3,
+            IsAntialias = true
+        };
+        canvas.DrawCircle(point, 11, pointFill);
+        canvas.DrawCircle(point, 11, pointStroke);
+
+        using var tick = new SKPaint
+        {
+            Color = new SKColor(66, 122, 153, 120),
+            Style = SKPaintStyle.Stroke,
+            StrokeWidth = 1.4f,
+            StrokeCap = SKStrokeCap.Round,
+            IsAntialias = true
+        };
+        canvas.DrawLine(point.X, point.Y - 34, point.X, point.Y + 34, tick);
+
+        hitAreas.Add(new BlocksHitArea(new SKRect(point.X - 22, point.Y - 22, point.X + 22, point.Y + 22), BlocksHitKind.DragPhysicalPoint, -1));
+    }
+
+    private double AnimatedPhysicalPointT() =>
+        0.5d + Math.Sin(animationFrame.LoopProgress * Math.PI * 2d) * 0.34d;
+
+    private static void DrawRadiatingFlow(SKCanvas canvas, SKPoint point, float loop)
+    {
+        for (var index = 0; index < 3; index++)
+        {
+            var phase = (loop + index / 3f) % 1f;
+            var radius = 20f + phase * 48f;
+            var alpha = (byte)(92 * (1f - phase));
+            using var ring = new SKPaint
+            {
+                Color = new SKColor(49, 132, 104, alpha),
+                Style = SKPaintStyle.Stroke,
+                StrokeWidth = 2f,
+                IsAntialias = true
+            };
+            canvas.DrawCircle(point, radius, ring);
+        }
+
+        using var spoke = new SKPaint
+        {
+            Color = new SKColor(49, 132, 104, 96),
+            Style = SKPaintStyle.Stroke,
+            StrokeWidth = 1.4f,
+            StrokeCap = SKStrokeCap.Round,
+            IsAntialias = true
+        };
+        for (var index = 0; index < 8; index++)
+        {
+            var angle = index * MathF.PI * 0.25f;
+            var inner = 18f;
+            var outer = 34f + 8f * MathF.Sin(loop * MathF.PI * 2f + index);
+            canvas.DrawLine(
+                point.X + MathF.Cos(angle) * inner,
+                point.Y + MathF.Sin(angle) * inner,
+                point.X + MathF.Cos(angle) * outer,
+                point.Y + MathF.Sin(angle) * outer,
+                spoke);
+        }
     }
 
     private void DrawVisualCues(SKCanvas canvas, BlocksTutorialScene? scene, SKRect structureArea)
@@ -436,7 +617,10 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
     {
         var centerX = (ContentLeft() + size.Width) * 0.5f;
         var y = size.Height - 36;
-        var dotSpacing = 20f;
+        var available = Math.Max(120f, size.Width - ContentLeft() - 160f);
+        var dotSpacing = document.Pages.Count <= 1
+            ? 0f
+            : Math.Clamp(available / (document.Pages.Count - 1), 8f, 18f);
         var dotStart = centerX - (document.Pages.Count - 1) * dotSpacing * 0.5f;
 
         using var dotPaint = new SKPaint { Color = new SKColor(147, 153, 154), Style = SKPaintStyle.Fill, IsAntialias = true };
@@ -461,7 +645,7 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
         for (var index = 0; index < document.Pages.Count; index++)
         {
             var x = dotStart + index * dotSpacing;
-            var radius = index == document.PageIndex ? 5.4f : 3.8f;
+            var radius = index == document.PageIndex ? 4.9f : 3.2f;
             canvas.DrawCircle(x, y, radius, index == document.PageIndex ? activeDotPaint : dotPaint);
             hitAreas.Add(new BlocksHitArea(new SKRect(x - 9, y - 9, x + 9, y + 9), BlocksHitKind.PageDot, index));
         }
@@ -475,7 +659,7 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
         }
 
         var height = Math.Min(190, Math.Max(120, size.Height * 0.24f));
-        var drawer = new SKRect(ContentLeft(), size.Height - 80 - height, size.Width - PageMargin, size.Height - 88);
+        var drawer = new SKRect(ContentLeft(), size.Height - 80 - height, size.Width - BlocksLayout.PageMargin, size.Height - 88);
         using var fill = new SKPaint { Color = new SKColor(255, 255, 252, 246), Style = SKPaintStyle.Fill, IsAntialias = true };
         using var stroke = new SKPaint { Color = new SKColor(191, 195, 190), Style = SKPaintStyle.Stroke, StrokeWidth = 1.1f, IsAntialias = true };
         using var title = TextPaint(11.5f, Muted, bold: true);
@@ -488,7 +672,7 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
     }
 
     private float ContentLeft() =>
-        document.SidePanelVisible ? SidePanelWidth + PageMargin : PageMargin;
+        BlocksLayout.ContentLeft(document.SidePanelVisible);
 
     private static void DrawIconButton(SKCanvas canvas, SKRect bounds, bool active, Action<SKCanvas, SKRect, SKPaint> drawIcon)
     {
@@ -548,6 +732,17 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
             canvas.DrawLine(bounds.Right - 10, midY - 8, bounds.Right - 4, midY + 8, paint);
             canvas.DrawLine(bounds.Right - 4, midY - 8, bounds.Right - 10, midY + 8, paint);
         }
+    }
+
+    private static void DrawResetIcon(SKCanvas canvas, SKRect bounds, SKPaint paint)
+    {
+        var arcBounds = new SKRect(bounds.Left + 7, bounds.Top + 7, bounds.Right - 7, bounds.Bottom - 7);
+        canvas.DrawArc(arcBounds, 35, 285, false, paint);
+        using var path = new SKPath();
+        path.MoveTo(bounds.Left + 10, bounds.Top + 9);
+        path.LineTo(bounds.Left + 10, bounds.Top + 16);
+        path.LineTo(bounds.Left + 17, bounds.Top + 13);
+        canvas.DrawPath(path, paint);
     }
 
     private static void DrawPulse(SKCanvas canvas, SKPoint point, float strength, float progress)
@@ -680,5 +875,7 @@ internal enum BlocksHitKind
     PageDot,
     ToggleNotes,
     ToggleSidePanel,
-    ToggleAudio
+    ToggleAudio,
+    ResetPresentation,
+    DragPhysicalPoint
 }

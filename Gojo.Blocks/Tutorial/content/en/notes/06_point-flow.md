@@ -1,0 +1,1 @@
+A source point can press outward, inward, or through an outlet made available by the environment. At first this is not a measured circle; it is a local tendency for unresolved participation to leave or enter the site.
