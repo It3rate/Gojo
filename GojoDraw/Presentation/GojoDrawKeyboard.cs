@@ -19,6 +19,8 @@ public static class GojoDrawKeyboard
             GojoDrawKey.Home => GojoDrawKeyCommand.First,
             GojoDrawKey.End => GojoDrawKeyCommand.Last,
             GojoDrawKey.N => GojoDrawKeyCommand.ToggleNotes,
+            GojoDrawKey.B => GojoDrawKeyCommand.TogglePanel,
+            GojoDrawKey.M => GojoDrawKeyCommand.ToggleAudio,
             GojoDrawKey.Escape => GojoDrawKeyCommand.Close,
             GojoDrawKey.R => GojoDrawKeyCommand.Reset,
             _ => GojoDrawKeyCommand.None
@@ -39,6 +41,8 @@ public enum GojoDrawKey
     Space,
     Enter,
     Escape,
+    B,
+    M,
     N,
     R
 }
@@ -61,6 +65,8 @@ public enum GojoDrawKeyCommand
     First,
     Last,
     ToggleNotes,
+    TogglePanel,
+    ToggleAudio,
     Close,
     Reset
 }
