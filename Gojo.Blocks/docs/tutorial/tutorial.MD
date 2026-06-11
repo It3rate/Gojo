@@ -193,6 +193,48 @@ GojoDraw should be able to render:
 
 These are render and interaction affordances. They should not own Gojo meaning.
 
+## Implementation Readiness Snapshot
+
+What exists now:
+
+- Gojo Core has carriers, carrier locations, relations, unit shapes, tension,
+  residue-oriented reads, resolution ladders, focus/refinement surfaces,
+  transforms, repeat surfaces, and equation reads.
+- GojoCAD has construction helpers for shared sites, points, segments, frame
+  points, frame segments, circles, arcs, radial flow, area fill, anti-fill, and
+  early read-graph discovery for joins, partitions, branches, merges, and
+  closed boundaries.
+- GojoDraw has a Skia adapter that walks GojoCAD read graphs and renders dots,
+  spans, directed segments, radial seeds, line/sheet seeds, circumference
+  evidence, partitions, areas, topology nodes, and hit areas.
+- GojoDraw also has generic presentation pieces: theme factory, visual cues,
+  controls/components, animation clock/timeline helpers, hit-area behavior, and
+  audio cue abstraction.
+- Gojo Blocks now has a tutorial page contract and AI/query/tutorial-specific
+  content records that consume those generic GojoDraw presentation pieces.
+
+What is still missing or thin:
+
+- General interaction: drag handles and hit behavior can be described, but
+  there is not yet a reusable hit-test-to-Gojo-edit command layer.
+- Animation application: GojoDraw has a generic clock/timeline model, but visual cues still
+  need a renderer that turns `Pulse`, `FlowArrow`, `TensionGlow`, and
+  `ResidueChip` into Skia overlays.
+- Tutorial scenes: the pages are specified in docs, but not yet instantiated
+  as `BlocksTutorialPage` records.
+- GojoCAD style surfaces: render style is still a boundary concern. There is
+  no Gojo-native style participation surface yet, which is fine for tutorial
+  display but should not become concept meaning.
+- Projected 3D: the tutorial can fake 3D with 2D projected diagrams, but there
+  is no general 3D GojoCAD projection surface.
+- Audio playback: GojoDraw audio cue metadata exists, but the current desktop
+  project has no real audio backend package. The web version should map the
+  same cue model to browser audio.
+
+Core probably does not need tutorial-specific primitives yet. Most missing work
+belongs in GojoCAD reads/builders, GojoDraw overlays, and Gojo Blocks
+interaction state.
+
 ## Tutorial Pages
 
 ### Page 01 - Physical Structure, Not Scalars

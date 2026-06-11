@@ -4,14 +4,18 @@ using Avalonia.Input;
 using Avalonia.Media;
 using Avalonia.Rendering.SceneGraph;
 using Avalonia.Skia;
+using Avalonia.Threading;
 using Avalonia.VisualTree;
 using GojoDraw;
 using SkiaSharp;
+using System.Diagnostics;
 
 namespace Gojo.Blocks;
 
 internal sealed class BlocksCanvas : Control
 {
+    private readonly Stopwatch animationClock = Stopwatch.StartNew();
+    private readonly DispatcherTimer animationTimer;
     private BlocksDocument? document;
     private BlocksHitArea[] hitAreas = [];
 
@@ -19,6 +23,17 @@ internal sealed class BlocksCanvas : Control
     {
         ClipToBounds = true;
         Focusable = true;
+        animationTimer = new DispatcherTimer
+        {
+            Interval = TimeSpan.FromMilliseconds(1000.0 / 60)
+        };
+        animationTimer.Tick += (_, _) =>
+        {
+            if (Document?.CurrentPage.HasAnimation == true)
+            {
+                InvalidateVisual();
+            }
+        };
     }
 
     public BlocksDocument? Document
@@ -27,6 +42,7 @@ internal sealed class BlocksCanvas : Control
         set
         {
             document = value;
+            animationClock.Restart();
             InvalidateVisual();
         }
     }
@@ -42,13 +58,21 @@ internal sealed class BlocksCanvas : Control
         context.Custom(new BlocksDrawOperation(
             new Rect(Bounds.Size),
             current,
+            GojoDrawAnimationClock.FrameFor(animationClock.Elapsed, current.CurrentPage.TutorialScene),
             PublishHitAreas));
     }
 
     protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)
     {
         base.OnAttachedToVisualTree(e);
+        animationTimer.Start();
         InvalidateVisual();
+    }
+
+    protected override void OnDetachedFromVisualTree(VisualTreeAttachmentEventArgs e)
+    {
+        animationTimer.Stop();
+        base.OnDetachedFromVisualTree(e);
     }
 
     protected override void OnPointerPressed(PointerPressedEventArgs e)
@@ -69,6 +93,10 @@ internal sealed class BlocksCanvas : Control
             BlocksHitKind.PageDot => Document.SelectPage(hit.PageIndex),
             _ => Document
         };
+        if (hit.Kind != BlocksHitKind.None)
+        {
+            animationClock.Restart();
+        }
         e.Handled = hit.Kind != BlocksHitKind.None;
     }
 
@@ -83,11 +111,13 @@ internal sealed class BlocksCanvas : Control
         if (e.Key == Key.Left)
         {
             Document = Document.PreviousPage();
+            animationClock.Restart();
             e.Handled = true;
         }
         else if (e.Key == Key.Right)
         {
             Document = Document.NextPage();
+            animationClock.Restart();
             e.Handled = true;
         }
     }
@@ -108,12 +138,18 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
     private static readonly SKColor Accent = new(66, 122, 153);
     private static readonly SKColor SoftLine = new(197, 200, 196);
     private readonly BlocksDocument document;
+    private readonly GojoDrawAnimationFrame animationFrame;
     private readonly Action<IReadOnlyList<BlocksHitArea>> publishHitAreas;
 
-    public BlocksDrawOperation(Rect bounds, BlocksDocument document, Action<IReadOnlyList<BlocksHitArea>> publishHitAreas)
+    public BlocksDrawOperation(
+        Rect bounds,
+        BlocksDocument document,
+        GojoDrawAnimationFrame animationFrame,
+        Action<IReadOnlyList<BlocksHitArea>> publishHitAreas)
     {
         Bounds = bounds;
         this.document = document;
+        this.animationFrame = animationFrame;
         this.publishHitAreas = publishHitAreas;
     }
 
@@ -215,7 +251,7 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
 
         if (page.Structure is { } structure)
         {
-            using var paints = new GojoCadSkiaPaints();
+            using var paints = GojoCadSkiaTheme.Tutorial.CreatePaints();
             paints.AreaBoundary.Color = new SKColor(64, 76, 88, 226);
             paints.AreaBoundary.StrokeWidth = 2.2f;
             paints.SharedFramePoint.Color = new SKColor(64, 76, 88, 180);
@@ -225,11 +261,34 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
                 pageArea.Right - 40,
                 pageArea.Bottom - 38);
             GojoRenderer.Draw(canvas, structure, structureArea, page.ProjectionSeed, page.ModelBounds, paints);
+            DrawTutorialAnimationHint(canvas, structureArea);
         }
         else
         {
             DrawEmptyPageMark(canvas, pageArea);
         }
+    }
+
+    private void DrawTutorialAnimationHint(SKCanvas canvas, SKRect structureArea)
+    {
+        if (document.CurrentPage.TutorialScene?.HasAnimation != true)
+        {
+            return;
+        }
+
+        using var paint = new SKPaint
+        {
+            Color = new SKColor(66, 122, 153, 150),
+            StrokeWidth = 2,
+            StrokeCap = SKStrokeCap.Round,
+            Style = SKPaintStyle.Stroke,
+            IsAntialias = true
+        };
+        var y = structureArea.Bottom + 14;
+        var x0 = structureArea.Left;
+        var x1 = structureArea.Right;
+        canvas.DrawLine(x0, y, x1, y, paint);
+        canvas.DrawCircle(x0 + (x1 - x0) * (float)animationFrame.LoopProgress, y, 4.5f, paint);
     }
 
     private void DrawEmptyPageMark(SKCanvas canvas, SKRect pageArea)

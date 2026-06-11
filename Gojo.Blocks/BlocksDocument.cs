@@ -74,4 +74,8 @@ internal sealed record BlocksPage(
     string Body,
     IElement? Structure,
     SKRect? ModelBounds,
-    int ProjectionSeed);
+    int ProjectionSeed,
+    BlocksTutorialScene? TutorialScene = null)
+{
+    public bool HasAnimation => TutorialScene?.HasAnimation == true;
+}
