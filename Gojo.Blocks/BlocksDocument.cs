@@ -126,11 +126,13 @@ internal sealed record BlocksPage(
     IReadOnlyList<string> Concepts,
     GojoDrawAudioCue? NarrationAudio = null,
     BlocksTutorialScene? TutorialScene = null,
-    IReadOnlyList<BlocksGlossaryItem>? GlossaryItems = null)
+    IReadOnlyList<BlocksGlossaryItem>? GlossaryItems = null,
+    BlocksGlossarySheetKind GlossarySheet = BlocksGlossarySheetKind.None)
 {
     public bool HasAnimation => TutorialScene?.HasAnimation == true;
 
-    public bool IsGlossary => GlossaryItems is { Count: > 0 };
+    public bool IsGlossary => GlossaryItems is { Count: > 0 } ||
+        GlossarySheet != BlocksGlossarySheetKind.None;
 }
 
 internal sealed record BlocksGlossaryItem(
@@ -139,3 +141,10 @@ internal sealed record BlocksGlossaryItem(
     IElement Structure,
     SKRect? ModelBounds,
     int ProjectionSeed = 0);
+
+internal enum BlocksGlossarySheetKind
+{
+    None,
+    SourceToSupport,
+    DirectionToArea
+}

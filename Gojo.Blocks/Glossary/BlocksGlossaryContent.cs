@@ -12,18 +12,42 @@ internal static class BlocksGlossaryContent
     public static IReadOnlyList<BlocksPage> CreatePages()
     {
         var items = CreateItems();
-        return [.. items
+        var samplePages = items
             .Chunk(ItemsPerPage)
             .Select((sheet, index) => new BlocksPage(
-                $"glossary-{index + 1:00}",
-                "Display Primitive Glossary",
+                $"glossary-samples-{index + 1:00}",
+                "Renderer Primitive Samples",
                 $"Already present primitives, sheet {index + 1}",
                 string.Empty,
                 null,
                 null,
                 0,
                 ["display primitive", "GojoCAD read", "GojoDraw render", "theme sample"],
-                GlossaryItems: sheet))];
+                GlossaryItems: sheet));
+        return
+        [
+            new BlocksPage(
+                "glossary-source-support",
+                "Boundary / Support Ladder",
+                "Source, flow, boundary, support, and early resolution.",
+                string.Empty,
+                null,
+                null,
+                0,
+                ["site", "flow", "boundary", "support", "partition"],
+                GlossarySheet: BlocksGlossarySheetKind.SourceToSupport),
+            new BlocksPage(
+                "glossary-direction-area",
+                "Directed Support Ladder",
+                "Direction, directed boundary, directed support, and area face.",
+                string.Empty,
+                null,
+                null,
+                0,
+                ["direction", "directed boundary", "directed support", "area", "face"],
+                GlossarySheet: BlocksGlossarySheetKind.DirectionToArea),
+            .. samplePages
+        ];
     }
 
     private static IReadOnlyList<BlocksGlossaryItem> CreateItems() =>
