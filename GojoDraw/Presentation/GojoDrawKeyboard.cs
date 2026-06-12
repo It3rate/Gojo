@@ -20,7 +20,9 @@ public static class GojoDrawKeyboard
             GojoDrawKey.End => GojoDrawKeyCommand.Last,
             GojoDrawKey.N => GojoDrawKeyCommand.ToggleNotes,
             GojoDrawKey.B => GojoDrawKeyCommand.TogglePanel,
+            GojoDrawKey.G => GojoDrawKeyCommand.ToggleGlossary,
             GojoDrawKey.M => GojoDrawKeyCommand.ToggleAudio,
+            GojoDrawKey.T => GojoDrawKeyCommand.ToggleTheme,
             GojoDrawKey.Escape => GojoDrawKeyCommand.Close,
             GojoDrawKey.R => GojoDrawKeyCommand.Reset,
             _ => GojoDrawKeyCommand.None
@@ -42,9 +44,11 @@ public enum GojoDrawKey
     Enter,
     Escape,
     B,
+    G,
     M,
     N,
-    R
+    R,
+    T
 }
 
 [Flags]
@@ -67,6 +71,8 @@ public enum GojoDrawKeyCommand
     ToggleNotes,
     TogglePanel,
     ToggleAudio,
+    ToggleGlossary,
+    ToggleTheme,
     Close,
     Reset
 }

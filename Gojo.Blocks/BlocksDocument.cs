@@ -6,8 +6,11 @@ using SkiaSharp;
 namespace Gojo.Blocks;
 
 internal sealed record BlocksDocument(
-    IReadOnlyList<BlocksPage> Pages,
+    IReadOnlyList<BlocksPage> TutorialPages,
+    IReadOnlyList<BlocksPage> GlossaryPages,
     int PageIndex,
+    bool GlossaryVisible = false,
+    int ThemeIndex = 0,
     bool NotesVisible = false,
     bool SidePanelVisible = true,
     bool AudioEnabled = false,
@@ -16,10 +19,14 @@ internal sealed record BlocksDocument(
 {
     public const string PhysicalStructurePageId = "physical-structure";
 
+    public IReadOnlyList<BlocksPage> Pages => GlossaryVisible ? GlossaryPages : TutorialPages;
+
     public BlocksPage CurrentPage => Pages[Math.Clamp(PageIndex, 0, Math.Max(0, Pages.Count - 1))];
 
+    public BlocksTheme CurrentTheme => BlocksTheme.At(ThemeIndex);
+
     public IElement? CurrentStructure =>
-        CurrentPage.Id == PhysicalStructurePageId
+        !GlossaryVisible && CurrentPage.Id == PhysicalStructurePageId
             ? CreatePhysicalPointLineStructure(PhysicalPointT)
             : CurrentPage.Structure;
 
@@ -47,26 +54,39 @@ internal sealed record BlocksDocument(
     public BlocksDocument ToggleAudio() =>
         this with { AudioEnabled = !AudioEnabled };
 
+    public BlocksDocument ToggleGlossary() =>
+        this with
+        {
+            GlossaryVisible = !GlossaryVisible,
+            PageIndex = 0,
+            NotesVisible = false,
+            PhysicalPointInteractive = false,
+            PhysicalPointT = 0.5d
+        };
+
+    public BlocksDocument ToggleTheme() =>
+        this with { ThemeIndex = BlocksTheme.NextIndex(ThemeIndex) };
+
     public BlocksDocument HideNotes() =>
         this with { NotesVisible = false };
 
     public BlocksDocument StartPhysicalPointInteraction(double pointT) =>
-        CurrentPage.Id == PhysicalStructurePageId
+        !GlossaryVisible && CurrentPage.Id == PhysicalStructurePageId
             ? this with { PhysicalPointInteractive = true, PhysicalPointT = ClampPointT(pointT) }
             : this;
 
     public BlocksDocument DragPhysicalPoint(double pointT) =>
-        CurrentPage.Id == PhysicalStructurePageId && PhysicalPointInteractive
+        !GlossaryVisible && CurrentPage.Id == PhysicalStructurePageId && PhysicalPointInteractive
             ? this with { PhysicalPointT = ClampPointT(pointT) }
             : this;
 
     public BlocksDocument ResetCurrentPage() =>
-        CurrentPage.Id == PhysicalStructurePageId
+        !GlossaryVisible && CurrentPage.Id == PhysicalStructurePageId
             ? this with { PhysicalPointInteractive = false, PhysicalPointT = 0.5d }
             : this;
 
     public static BlocksDocument CreateDefault() =>
-        new(BlocksTutorialContent.LoadPages(), 0);
+        new(BlocksTutorialContent.LoadPages(), BlocksGlossaryContent.CreatePages(), 0);
 
     private static IElement CreatePhysicalPointLineStructure(double pointT)
     {
@@ -105,7 +125,17 @@ internal sealed record BlocksPage(
     int ProjectionSeed,
     IReadOnlyList<string> Concepts,
     GojoDrawAudioCue? NarrationAudio = null,
-    BlocksTutorialScene? TutorialScene = null)
+    BlocksTutorialScene? TutorialScene = null,
+    IReadOnlyList<BlocksGlossaryItem>? GlossaryItems = null)
 {
     public bool HasAnimation => TutorialScene?.HasAnimation == true;
+
+    public bool IsGlossary => GlossaryItems is { Count: > 0 };
 }
+
+internal sealed record BlocksGlossaryItem(
+    string Id,
+    string Title,
+    IElement Structure,
+    SKRect? ModelBounds,
+    int ProjectionSeed = 0);

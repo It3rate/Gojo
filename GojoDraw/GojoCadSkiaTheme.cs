@@ -42,6 +42,18 @@ public sealed record GojoCadSkiaTheme(
         Residue: new SKColor(183, 111, 57),
         HoverFill: new SKColor(255, 255, 252, 238));
 
+    public static GojoCadSkiaTheme Graphite { get; } = new(
+        Ink: new SKColor(230, 233, 229),
+        Muted: new SKColor(154, 164, 172, 170),
+        Structure: new SKColor(118, 174, 194),
+        Flow: new SKColor(106, 184, 145),
+        Tension: new SKColor(222, 104, 101),
+        Fill: new SKColor(106, 184, 145, 54),
+        AntiFill: new SKColor(222, 104, 101, 68),
+        Selection: new SKColor(183, 145, 220),
+        Residue: new SKColor(226, 165, 94),
+        HoverFill: new SKColor(39, 44, 49, 240));
+
     public GojoCadSkiaPaints CreatePaints()
     {
         var paints = new GojoCadSkiaPaints

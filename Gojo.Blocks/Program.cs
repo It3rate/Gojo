@@ -35,6 +35,7 @@ internal sealed class MainWindow : Window
     private readonly BlocksCanvas canvas;
     private readonly Border notesDrawer;
     private readonly TextBox notesText;
+    private readonly TextBlock notesTitle;
 
     public MainWindow()
     {
@@ -64,7 +65,7 @@ internal sealed class MainWindow : Window
             RowDefinitions = new RowDefinitions("Auto,*"),
             Margin = new Thickness(18, 12, 18, 12)
         };
-        notesPanel.Children.Add(new TextBlock
+        notesTitle = new TextBlock
         {
             Text = "Narration notes",
             FontFamily = new FontFamily("Segoe UI"),
@@ -72,7 +73,8 @@ internal sealed class MainWindow : Window
             FontWeight = FontWeight.Bold,
             Foreground = new SolidColorBrush(Color.FromRgb(105, 112, 120)),
             Margin = new Thickness(0, 0, 0, 8)
-        });
+        };
+        notesPanel.Children.Add(notesTitle);
         Grid.SetRow(notesText, 1);
         notesPanel.Children.Add(notesText);
 
@@ -108,10 +110,18 @@ internal sealed class MainWindow : Window
 
         notesDrawer.IsVisible = document.NotesVisible;
         notesText.Text = document.CurrentPage.Body;
+        var theme = document.CurrentTheme;
+        notesDrawer.Background = new SolidColorBrush(ToAvalonia(theme.PageFill, 246));
+        notesDrawer.BorderBrush = new SolidColorBrush(ToAvalonia(theme.PageStroke));
+        notesTitle.Foreground = new SolidColorBrush(ToAvalonia(theme.Muted));
+        notesText.Foreground = new SolidColorBrush(ToAvalonia(theme.Ink));
         notesDrawer.Margin = new Thickness(
             BlocksLayout.ContentLeft(document.SidePanelVisible),
             0,
             BlocksLayout.PageMargin,
             88);
     }
+
+    private static Color ToAvalonia(SkiaSharp.SKColor color, byte? alpha = null) =>
+        Color.FromArgb(alpha ?? color.Alpha, color.Red, color.Green, color.Blue);
 }
