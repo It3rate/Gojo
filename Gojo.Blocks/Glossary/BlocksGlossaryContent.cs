@@ -2,15 +2,19 @@ using Gojo.Core;
 using GojoCAD;
 using GojoCAD.Structures;
 using SkiaSharp;
+using System.Text.Json;
 
 namespace Gojo.Blocks;
 
 internal static class BlocksGlossaryContent
 {
+    private const string DefaultLocale = "en";
+    private const string DescriptionFileName = "glossary-descriptions.json";
     private const int ItemsPerPage = 8;
 
-    public static IReadOnlyList<BlocksPage> CreatePages()
+    public static IReadOnlyList<BlocksPage> CreatePages(string locale = DefaultLocale)
     {
+        var descriptions = LoadDescriptions(locale);
         var items = CreateItems();
         var samplePages = items
             .Chunk(ItemsPerPage)
@@ -23,7 +27,8 @@ internal static class BlocksGlossaryContent
                 null,
                 0,
                 ["display primitive", "GojoCAD read", "GojoDraw render", "theme sample"],
-                GlossaryItems: sheet));
+                GlossaryItems: sheet,
+                GlossaryDescriptions: descriptions));
         return
         [
             new BlocksPage(
@@ -35,7 +40,8 @@ internal static class BlocksGlossaryContent
                 null,
                 0,
                 ["site", "flow", "boundary", "support", "partition"],
-                GlossarySheet: BlocksGlossarySheetKind.SourceToSupport),
+                GlossarySheet: BlocksGlossarySheetKind.SourceToSupport,
+                GlossaryDescriptions: descriptions),
             new BlocksPage(
                 "glossary-direction-area",
                 "Directed Support Ladder",
@@ -45,9 +51,43 @@ internal static class BlocksGlossaryContent
                 null,
                 0,
                 ["direction", "directed boundary", "directed support", "area", "face"],
-                GlossarySheet: BlocksGlossarySheetKind.DirectionToArea),
+                GlossarySheet: BlocksGlossarySheetKind.DirectionToArea,
+                GlossaryDescriptions: descriptions),
             .. samplePages
         ];
+    }
+
+    private static IReadOnlyDictionary<string, string> LoadDescriptions(string locale)
+    {
+        var contentRoot = ResolveContentRoot(locale);
+        var path = Path.Combine(contentRoot, DescriptionFileName);
+        var json = File.ReadAllText(path);
+        return JsonSerializer.Deserialize<Dictionary<string, string>>(
+            json,
+            new JsonSerializerOptions { PropertyNameCaseInsensitive = true }) ??
+            new Dictionary<string, string>();
+    }
+
+    private static string ResolveContentRoot(string locale)
+    {
+        var relative = Path.Combine("Glossary", "content", locale);
+        var candidates = new[]
+        {
+            Path.Combine(AppContext.BaseDirectory, relative),
+            Path.Combine(Environment.CurrentDirectory, "Gojo.Blocks", relative),
+            Path.Combine(Environment.CurrentDirectory, relative)
+        };
+
+        foreach (var candidate in candidates)
+        {
+            if (File.Exists(Path.Combine(candidate, DescriptionFileName)))
+            {
+                return candidate;
+            }
+        }
+
+        throw new DirectoryNotFoundException(
+            $"Could not find glossary content for locale '{locale}'. Looked under: {string.Join("; ", candidates)}");
     }
 
     private static IReadOnlyList<BlocksGlossaryItem> CreateItems() =>

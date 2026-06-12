@@ -86,7 +86,7 @@ internal sealed record BlocksDocument(
             : this;
 
     public static BlocksDocument CreateDefault() =>
-        new(BlocksTutorialContent.LoadPages(), BlocksGlossaryContent.CreatePages(), 0);
+        new(BlocksTutorialContent.LoadPages(), BlocksGlossaryContent.CreatePages(), 0, GlossaryVisible: true);
 
     private static IElement CreatePhysicalPointLineStructure(double pointT)
     {
@@ -127,12 +127,19 @@ internal sealed record BlocksPage(
     GojoDrawAudioCue? NarrationAudio = null,
     BlocksTutorialScene? TutorialScene = null,
     IReadOnlyList<BlocksGlossaryItem>? GlossaryItems = null,
-    BlocksGlossarySheetKind GlossarySheet = BlocksGlossarySheetKind.None)
+    BlocksGlossarySheetKind GlossarySheet = BlocksGlossarySheetKind.None,
+    IReadOnlyDictionary<string, string>? GlossaryDescriptions = null)
 {
     public bool HasAnimation => TutorialScene?.HasAnimation == true;
 
     public bool IsGlossary => GlossaryItems is { Count: > 0 } ||
         GlossarySheet != BlocksGlossarySheetKind.None;
+
+    public string? GlossaryDescriptionFor(string id) =>
+        GlossaryDescriptions is not null &&
+        GlossaryDescriptions.TryGetValue(id, out var description)
+            ? description
+            : null;
 }
 
 internal sealed record BlocksGlossaryItem(

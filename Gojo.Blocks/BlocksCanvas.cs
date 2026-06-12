@@ -14,10 +14,15 @@ namespace Gojo.Blocks;
 
 internal sealed class BlocksCanvas : Control
 {
+    private static readonly TimeSpan HoverDelay = TimeSpan.FromMilliseconds(420);
     private readonly Stopwatch animationClock = Stopwatch.StartNew();
     private readonly DispatcherTimer animationTimer;
+    private readonly DispatcherTimer hoverTimer;
     private BlocksDocument? document;
     private BlocksHitArea[] hitAreas = [];
+    private BlocksHitArea? hoverCandidate;
+    private bool hoverReady;
+    private Point hoverPoint;
     private bool draggingPhysicalPoint;
 
     public event EventHandler<BlocksDocument?>? DocumentChanged;
@@ -37,6 +42,19 @@ internal sealed class BlocksCanvas : Control
                 InvalidateVisual();
             }
         };
+        hoverTimer = new DispatcherTimer
+        {
+            Interval = HoverDelay
+        };
+        hoverTimer.Tick += (_, _) =>
+        {
+            hoverTimer.Stop();
+            if (hoverCandidate is not null)
+            {
+                hoverReady = true;
+                InvalidateVisual();
+            }
+        };
     }
 
     public BlocksDocument? Document
@@ -51,6 +69,7 @@ internal sealed class BlocksCanvas : Control
             if (shouldRestart)
             {
                 animationClock.Restart();
+                ClearHover();
             }
 
             InvalidateVisual();
@@ -70,6 +89,7 @@ internal sealed class BlocksCanvas : Control
             new Rect(Bounds.Size),
             current,
             GojoDrawAnimationClock.FrameFor(animationClock.Elapsed, current.CurrentPage.TutorialScene),
+            CurrentHoverTip(),
             PublishHitAreas));
     }
 
@@ -83,6 +103,7 @@ internal sealed class BlocksCanvas : Control
     protected override void OnDetachedFromVisualTree(VisualTreeAttachmentEventArgs e)
     {
         animationTimer.Stop();
+        hoverTimer.Stop();
         base.OnDetachedFromVisualTree(e);
     }
 
@@ -119,22 +140,27 @@ internal sealed class BlocksCanvas : Control
             BlocksHitKind.ResetPresentation => Document.ResetCurrentPage(),
             _ => Document
         };
-        if (hit.Kind != BlocksHitKind.None)
+        if (hit.Kind != BlocksHitKind.None &&
+            hit.Kind != BlocksHitKind.GlossaryTooltip)
         {
             animationClock.Restart();
         }
-        e.Handled = hit.Kind != BlocksHitKind.None;
+        e.Handled = hit.Kind != BlocksHitKind.None &&
+            hit.Kind != BlocksHitKind.GlossaryTooltip;
     }
 
     protected override void OnPointerMoved(PointerEventArgs e)
     {
         base.OnPointerMoved(e);
+        var point = e.GetPosition(this);
         if (!draggingPhysicalPoint || Document is null)
         {
+            UpdateHover(point);
             return;
         }
 
-        Document = Document.DragPhysicalPoint(PhysicalPointTFromPosition(e.GetPosition(this)));
+        ClearHover();
+        Document = Document.DragPhysicalPoint(PhysicalPointTFromPosition(point));
         e.Handled = true;
     }
 
@@ -149,6 +175,12 @@ internal sealed class BlocksCanvas : Control
         draggingPhysicalPoint = false;
         e.Pointer.Capture(null);
         e.Handled = true;
+    }
+
+    protected override void OnPointerExited(PointerEventArgs e)
+    {
+        base.OnPointerExited(e);
+        ClearHover();
     }
 
     protected override void OnKeyDown(KeyEventArgs e)
@@ -245,6 +277,56 @@ internal sealed class BlocksCanvas : Control
         hitAreas = [.. next];
     }
 
+    private void UpdateHover(Point point)
+    {
+        hoverPoint = point;
+        var hit = hitAreas.FirstOrDefault(area =>
+            area.Kind == BlocksHitKind.GlossaryTooltip &&
+            area.Bounds.Contains((float)point.X, (float)point.Y));
+        if (hit.Kind != BlocksHitKind.GlossaryTooltip ||
+            string.IsNullOrWhiteSpace(hit.TooltipBody))
+        {
+            ClearHover();
+            return;
+        }
+
+        if (hoverCandidate is { } current &&
+            current.TooltipTitle == hit.TooltipTitle &&
+            current.TooltipBody == hit.TooltipBody)
+        {
+            if (hoverReady)
+            {
+                InvalidateVisual();
+            }
+            return;
+        }
+
+        hoverCandidate = hit;
+        hoverReady = false;
+        hoverTimer.Stop();
+        hoverTimer.Start();
+    }
+
+    private void ClearHover()
+    {
+        if (hoverCandidate is null && !hoverReady)
+        {
+            return;
+        }
+
+        hoverCandidate = null;
+        hoverReady = false;
+        hoverTimer.Stop();
+        InvalidateVisual();
+    }
+
+    private BlocksHoverTip? CurrentHoverTip() =>
+        hoverReady &&
+        hoverCandidate is { TooltipTitle: { } title, TooltipBody: { } body } &&
+        !string.IsNullOrWhiteSpace(body)
+            ? new BlocksHoverTip(new SKPoint((float)hoverPoint.X, (float)hoverPoint.Y), title, body)
+            : null;
+
     private bool ShouldAnimate()
     {
         if (Document is not { } current ||
@@ -318,6 +400,7 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
     private readonly BlocksDocument document;
     private readonly BlocksTheme theme;
     private readonly GojoDrawAnimationFrame animationFrame;
+    private readonly BlocksHoverTip? hoverTip;
     private readonly Action<IReadOnlyList<BlocksHitArea>> publishHitAreas;
 
     private enum GlossaryLadderRow
@@ -331,12 +414,14 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
         Rect bounds,
         BlocksDocument document,
         GojoDrawAnimationFrame animationFrame,
+        BlocksHoverTip? hoverTip,
         Action<IReadOnlyList<BlocksHitArea>> publishHitAreas)
     {
         Bounds = bounds;
         this.document = document;
         theme = document.CurrentTheme;
         this.animationFrame = animationFrame;
+        this.hoverTip = hoverTip;
         this.publishHitAreas = publishHitAreas;
     }
 
@@ -368,6 +453,7 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
         DrawShell(canvas, size, hitAreas);
         DrawPage(canvas, size, hitAreas);
         DrawBottomNavigation(canvas, size, hitAreas);
+        DrawHoverTip(canvas, size);
         canvas.Restore();
 
         publishHitAreas(hitAreas);
@@ -464,7 +550,7 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
         var structureArea = BlocksLayout.StructureArea(pageArea);
         if (page.IsGlossary)
         {
-            DrawGlossaryPage(canvas, page, structureArea);
+            DrawGlossaryPage(canvas, page, structureArea, hitAreas);
         }
         else if (page.Id == BlocksDocument.PhysicalStructurePageId)
         {
@@ -550,11 +636,11 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
     private double AnimatedPhysicalPointT() =>
         0.5d + Math.Sin(animationFrame.LoopProgress * Math.PI * 2d) * 0.34d;
 
-    private void DrawGlossaryPage(SKCanvas canvas, BlocksPage page, SKRect area)
+    private void DrawGlossaryPage(SKCanvas canvas, BlocksPage page, SKRect area, List<BlocksHitArea> hitAreas)
     {
         if (page.GlossarySheet != BlocksGlossarySheetKind.None)
         {
-            DrawGlossaryLadder(canvas, page.GlossarySheet, area);
+            DrawGlossaryLadder(canvas, page, area, hitAreas);
             return;
         }
 
@@ -589,15 +675,21 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
             var diagram = new SKRect(cell.Left + 12, cell.Top + 34, cell.Right - 12, cell.Bottom - 10);
             using var paints = theme.CadTheme.CreatePaints();
             GojoRenderer.Draw(canvas, item.Structure, diagram, item.ProjectionSeed, item.ModelBounds, paints);
+            AddGlossaryTooltipHit(hitAreas, Inset(diagram, 2), item.Id, item.Title, page);
         }
     }
 
-    private void DrawGlossaryLadder(SKCanvas canvas, BlocksGlossarySheetKind sheet, SKRect area)
+    private void DrawGlossaryLadder(SKCanvas canvas, BlocksPage page, SKRect area, List<BlocksHitArea> hitAreas)
     {
+        var sheet = page.GlossarySheet;
         string[] columns = sheet == BlocksGlossarySheetKind.SourceToSupport
             ? ["site", "flow", "boundary", "bounded support", "partitioned"]
             : ["direction", "directed boundary", "directed support", "area", "area face / spin"];
+        string[] columnKeys = sheet == BlocksGlossarySheetKind.SourceToSupport
+            ? ["site", "flow", "boundary", "bounded-support", "partitioned"]
+            : ["direction", "directed-boundary", "directed-support", "area", "area-face-spin"];
         string[] rows = ["radial positive", "radial inverse", "linear"];
+        string[] rowKeys = ["radial-positive", "radial-inverse", "linear"];
         var labelWidth = Math.Clamp(area.Width * 0.16f, 98f, 138f);
         var headerHeight = 38f;
         var gap = 12f;
@@ -624,9 +716,39 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
                 var cell = new SKRect(x, y, x + cellWidth, y + cellHeight);
                 canvas.DrawRoundRect(cell, 6, 6, gridPaint);
                 DrawGlossaryLadderCell(canvas, sheet, (GlossaryLadderRow)row, column, cell);
+                var title = $"{TitleCase(rows[row])} {TitleCase(columns[column])}";
+                var id = $"{GlossarySheetKey(sheet)}-{rowKeys[row]}-{columnKeys[column]}";
+                AddGlossaryTooltipHit(hitAreas, Inset(cell, 8), id, title, page);
             }
         }
     }
+
+    private static void AddGlossaryTooltipHit(
+        List<BlocksHitArea> hitAreas,
+        SKRect bounds,
+        string id,
+        string title,
+        BlocksPage page)
+    {
+        var body = page.GlossaryDescriptionFor(id);
+        if (string.IsNullOrWhiteSpace(body))
+        {
+            return;
+        }
+
+        hitAreas.Add(new BlocksHitArea(bounds, BlocksHitKind.GlossaryTooltip, -1, title, body));
+    }
+
+    private static string GlossarySheetKey(BlocksGlossarySheetKind sheet) =>
+        sheet == BlocksGlossarySheetKind.SourceToSupport
+            ? "source-support"
+            : "direction-area";
+
+    private static string TitleCase(string value) =>
+        string.Join(
+            ' ',
+            value.Split(' ', StringSplitOptions.RemoveEmptyEntries)
+                .Select(word => char.ToUpperInvariant(word[0]) + word[1..]));
 
     private void DrawGlossaryLadderCell(
         SKCanvas canvas,
@@ -1228,6 +1350,67 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
         canvas.DrawLine(center.X, center.Y - 58, center.X, center.Y + 58, stroke);
     }
 
+    private void DrawHoverTip(SKCanvas canvas, SKSize size)
+    {
+        if (hoverTip is not { } tip)
+        {
+            return;
+        }
+
+        using var titlePaint = TextPaint(12.5f, theme.Ink, bold: true);
+        using var bodyPaint = TextPaint(12f, theme.Ink);
+        var panelWidth = Math.Min(340f, Math.Max(190f, size.Width - 48f));
+        var textWidth = panelWidth - 26f;
+        var lines = WrapTextLines(tip.Body, bodyPaint, textWidth);
+        var lineHeight = 16.2f;
+        var panelHeight = 44f + lines.Count * lineHeight;
+        var x = tip.Anchor.X + 18f;
+        var y = tip.Anchor.Y + 18f;
+        if (x + panelWidth > size.Width - 18f)
+        {
+            x = tip.Anchor.X - panelWidth - 18f;
+        }
+
+        if (y + panelHeight > size.Height - 18f)
+        {
+            y = tip.Anchor.Y - panelHeight - 18f;
+        }
+
+        x = Math.Clamp(x, 14f, Math.Max(14f, size.Width - panelWidth - 14f));
+        y = Math.Clamp(y, 14f, Math.Max(14f, size.Height - panelHeight - 14f));
+        var panel = new SKRect(x, y, x + panelWidth, y + panelHeight);
+        using var shadow = new SKPaint
+        {
+            Color = new SKColor(0, 0, 0, 34),
+            Style = SKPaintStyle.Fill,
+            IsAntialias = true
+        };
+        using var fill = new SKPaint
+        {
+            Color = WithAlpha(theme.PageFill, 247),
+            Style = SKPaintStyle.Fill,
+            IsAntialias = true
+        };
+        using var stroke = new SKPaint
+        {
+            Color = WithAlpha(theme.PageStroke, 230),
+            Style = SKPaintStyle.Stroke,
+            StrokeWidth = 1f,
+            IsAntialias = true
+        };
+
+        canvas.DrawRoundRect(panel.Left + 2, panel.Top + 3, panel.Width, panel.Height, 8, 8, shadow);
+        canvas.DrawRoundRect(panel, 8, 8, fill);
+        canvas.DrawRoundRect(panel, 8, 8, stroke);
+        DrawClippedText(canvas, tip.Title, panel.Left + 13, panel.Top + 22, textWidth, titlePaint);
+        var textY = panel.Top + 43;
+        foreach (var line in lines)
+        {
+            canvas.DrawText(line, panel.Left + 13, textY, bodyPaint);
+            textY += lineHeight;
+        }
+    }
+
     private void DrawBottomNavigation(SKCanvas canvas, SKSize size, List<BlocksHitArea> hitAreas)
     {
         var centerX = (ContentLeft() + size.Width) * 0.5f;
@@ -1308,10 +1491,12 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
 
     private static void DrawGlossaryIcon(SKCanvas canvas, SKRect bounds, SKPaint paint)
     {
-        var left = bounds.Left + 7;
-        var top = bounds.Top + 7;
-        var size = 5.5f;
-        var gap = 4.2f;
+        var size = 4.6f;
+        var gap = 3.4f;
+        var width = size * 3 + gap * 2;
+        var height = size * 2 + gap;
+        var left = bounds.MidX - width * 0.5f;
+        var top = bounds.MidY - height * 0.5f;
         for (var row = 0; row < 2; row++)
         for (var column = 0; column < 3; column++)
         {
@@ -1488,9 +1673,42 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
             canvas.DrawText(line, x, y, paint);
         }
     }
+
+    private static IReadOnlyList<string> WrapTextLines(string text, SKPaint paint, float width)
+    {
+        var lines = new List<string>();
+        var words = text.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        var line = string.Empty;
+        foreach (var word in words)
+        {
+            var candidate = string.IsNullOrEmpty(line) ? word : $"{line} {word}";
+            if (paint.MeasureText(candidate) <= width || string.IsNullOrEmpty(line))
+            {
+                line = candidate;
+                continue;
+            }
+
+            lines.Add(line);
+            line = word;
+        }
+
+        if (!string.IsNullOrEmpty(line))
+        {
+            lines.Add(line);
+        }
+
+        return lines;
+    }
 }
 
-internal readonly record struct BlocksHitArea(SKRect Bounds, BlocksHitKind Kind, int PageIndex);
+internal readonly record struct BlocksHoverTip(SKPoint Anchor, string Title, string Body);
+
+internal readonly record struct BlocksHitArea(
+    SKRect Bounds,
+    BlocksHitKind Kind,
+    int PageIndex,
+    string? TooltipTitle = null,
+    string? TooltipBody = null);
 
 internal enum BlocksHitKind
 {
@@ -1504,5 +1722,6 @@ internal enum BlocksHitKind
     ToggleGlossary,
     ToggleTheme,
     ResetPresentation,
+    GlossaryTooltip,
     DragPhysicalPoint
 }
