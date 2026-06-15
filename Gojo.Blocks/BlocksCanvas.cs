@@ -375,6 +375,9 @@ internal static class BlocksLayout
     public static SKRect StructureArea(SKRect pageArea) =>
         new(pageArea.Left + 34, pageArea.Top + 30, pageArea.Right - 34, pageArea.Bottom - 30);
 
+    public static SKRect GlossaryArea(SKRect pageArea) =>
+        new(pageArea.Left + 12, pageArea.Top + 22, pageArea.Right - 14, pageArea.Bottom - 24);
+
     public static (SKPoint Start, SKPoint End) PhysicalLine(SKRect structureArea)
     {
         var y = structureArea.MidY;
@@ -547,17 +550,18 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
         canvas.DrawRoundRect(pageArea, 8, 8, pageFill);
         canvas.DrawRoundRect(pageArea, 8, 8, pageStroke);
 
-        var structureArea = BlocksLayout.StructureArea(pageArea);
         if (page.IsGlossary)
         {
-            DrawGlossaryPage(canvas, page, structureArea, hitAreas);
+            DrawGlossaryPage(canvas, page, BlocksLayout.GlossaryArea(pageArea), hitAreas);
         }
         else if (page.Id == BlocksDocument.PhysicalStructurePageId)
         {
+            var structureArea = BlocksLayout.StructureArea(pageArea);
             DrawPhysicalStructurePage(canvas, structureArea, hitAreas);
         }
         else if (document.CurrentStructure is { } structure)
         {
+            var structureArea = BlocksLayout.StructureArea(pageArea);
             using var paints = theme.CadTheme.CreatePaints();
             paints.AreaBoundary.Color = WithAlpha(theme.Ink, 226);
             paints.AreaBoundary.StrokeWidth = 2.2f;
@@ -684,14 +688,14 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
         var sheet = page.GlossarySheet;
         string[] columns = sheet == BlocksGlossarySheetKind.SourceToSupport
             ? ["site", "flow", "boundary", "partitioned", "orientation", "direction"]
-            : ["directed boundary", "boundary support", "directed support", "area", "spin", "bounded area"];
+            : ["directed boundary", "boundary support", "directed support", "area", "directed area", "bounded area"];
         string[] columnKeys = sheet == BlocksGlossarySheetKind.SourceToSupport
             ? ["site", "flow", "boundary", "partitioned", "orientation", "direction"]
-            : ["directed-boundary", "boundary-support", "directed-support", "area", "spin", "bounded-area"];
+            : ["directed-boundary", "boundary-support", "directed-support", "area", "directed-area", "bounded-area"];
         string[] rows = ["radial\npositive", "radial\ninverse", "linear"];
         string[] rowTitles = ["radial positive", "radial inverse", "linear"];
         string[] rowKeys = ["radial-positive", "radial-inverse", "linear"];
-        var labelWidth = Math.Clamp(area.Width * 0.15f, 94f, 130f);
+        var labelWidth = Math.Clamp(area.Width * 0.07f, 48f, 60f);
         var headerHeight = 46f;
         var gap = 10f;
         var cellWidth = (area.Width - labelWidth - gap * (columns.Length - 1)) / columns.Length;
@@ -710,7 +714,7 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
         for (var row = 0; row < rows.Length; row++)
         {
             var y = area.Top + headerHeight + row * (cellHeight + gap);
-            DrawRightAlignedMultilineText(canvas, rows[row], new SKRect(area.Left, y, area.Left + labelWidth - 16, y + cellHeight), rowPaint, 15f);
+            DrawRightAlignedMultilineText(canvas, rows[row], new SKRect(area.Left, y, area.Left + labelWidth - 5, y + cellHeight), rowPaint, 15f);
             for (var column = 0; column < columns.Length; column++)
             {
                 var x = area.Left + labelWidth + column * (cellWidth + gap);
@@ -1028,8 +1032,11 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
         using var fill = FillPaint(inverse ? InverseColor : PositiveColor, 185);
         canvas.DrawCircle(center, radius, fill);
         DrawCircleBoundary(canvas, center, radius, width: 1.8f, color: inverse ? InverseStroke : PositiveStroke);
+        DrawRadialTicks(canvas, center, radius);
+        var radiusEnd = new SKPoint(center.X + radius, center.Y);
         DrawPoint(canvas, center, SiteColor, 7.5f);
-        DrawRadiusEvidence(canvas, center, new SKPoint(center.X + radius * 0.86f, center.Y));
+        DrawRadiusEvidence(canvas, center, radiusEnd);
+        DrawPoint(canvas, radiusEnd, BoundaryMarkerColor, 3.2f);
         DrawSpinArrow(canvas, center, radius * 0.78f, inverse);
     }
 
@@ -1159,8 +1166,9 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
     {
         var center = Center(bounds);
         var halfHeight = bounds.Height * 0.33f;
-        var start = new SKPoint(bounds.Left + bounds.Width * 0.28f, center.Y);
-        var end = new SKPoint(bounds.Right - bounds.Width * 0.28f, center.Y);
+        var halfSpan = Math.Clamp(bounds.Width * 0.13f, 13f, 17f);
+        var start = new SKPoint(center.X - halfSpan, center.Y);
+        var end = new SKPoint(center.X + halfSpan, center.Y);
         using var positiveGlow = StrokePaint(PositiveColor, 13, 48);
         using var inverseGlow = StrokePaint(InverseColor, 13, 48);
         canvas.DrawLine(center.X, center.Y - 2, center.X, center.Y - halfHeight, positiveGlow);
@@ -1273,44 +1281,71 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
 
     private static void DrawLinearDirection(SKCanvas canvas, SKRect bounds)
     {
-        var y = bounds.MidY;
-        var left = bounds.Left + bounds.Width * 0.16f;
-        var right = bounds.Right - bounds.Width * 0.16f;
-        var zero = new SKPoint((left + right) * 0.5f, y);
-        DrawLine(canvas, new SKPoint(left, y), new SKPoint(right, y), BoundaryColor, 1.4f, 165);
-        DrawPoint(canvas, zero, EndpointColor, 5.5f);
-        DrawLine(canvas, new SKPoint(zero.X, y - 24), new SKPoint(zero.X, y + 24), TickColor, 1.2f);
+        var left = bounds.Left + bounds.Width * 0.14f;
+        var right = bounds.Right - bounds.Width * 0.14f;
+        var topY = bounds.MidY - bounds.Height * 0.18f;
+        var bottomY = bounds.MidY + bounds.Height * 0.18f;
+        var zeroX = (left + right) * 0.5f;
+        DrawLinearDirectionGuide(canvas, left, right, topY);
+        DrawLinearDirectionGuide(canvas, left, right, bottomY);
 
         DrawVectorArrow(
             canvas,
-            new SKPoint(zero.X + 2, y - 14),
-            new SKPoint(right, y - 14),
+            new SKPoint(left + 10, topY),
+            new SKPoint(right - 2, topY),
             PositiveStroke,
-            1.8f);
+            2.2f);
+        DrawOriginRing(canvas, new SKPoint(left + 8, topY), PositiveStroke);
+        DrawPoint(canvas, new SKPoint(zeroX, topY), BoundaryColor, 4.8f);
+        DrawSign(canvas, "-", new SKPoint(left + 7, topY - 20), PositiveStroke, 18f);
+        DrawSign(canvas, "+", new SKPoint(right - 1, topY - 20), PositiveStroke, 18f);
+
         DrawVectorArrow(
             canvas,
-            new SKPoint(left, y + 14),
-            new SKPoint(zero.X - 2, y + 14),
+            new SKPoint(right - 10, bottomY),
+            new SKPoint(left + 2, bottomY),
             InverseStroke,
-            1.8f);
-        DrawSign(canvas, "+", new SKPoint(right + 8, y - 11), PositiveStroke, 16f);
-        DrawSign(canvas, "-", new SKPoint(left - 15, y + 17), InverseStroke, 16f);
+            2.2f);
+        DrawOriginRing(canvas, new SKPoint(right - 8, bottomY), InverseStroke);
+        DrawPoint(canvas, new SKPoint(zeroX, bottomY), BoundaryColor, 4.8f);
+        DrawSign(canvas, "+", new SKPoint(left + 6, bottomY + 21), InverseStroke, 18f);
+        DrawSign(canvas, "-", new SKPoint(right - 4, bottomY + 21), InverseStroke, 18f);
+    }
+
+    private static void DrawLinearDirectionGuide(SKCanvas canvas, float left, float right, float y)
+    {
+        DrawLine(canvas, new SKPoint(left, y), new SKPoint(right, y), BoundaryColor, 1.1f, 165);
+        DrawLine(canvas, new SKPoint(left, y), new SKPoint(left, y - 10), BoundaryColor, 1.1f, 150);
+        DrawLine(canvas, new SKPoint(right, y), new SKPoint(right, y - 10), BoundaryColor, 1.1f, 150);
+        for (var index = 1; index < 5; index++)
+        {
+            var x = left + (right - left) * index / 5f;
+            DrawLine(canvas, new SKPoint(x, y - 8), new SKPoint(x, y + 8), TickColor, 1.1f);
+        }
+    }
+
+    private static void DrawOriginRing(SKCanvas canvas, SKPoint center, SKColor color)
+    {
+        using var fill = FillPaint(new SKColor(255, 190, 190), 210);
+        using var stroke = StrokePaint(color, 2.8f);
+        canvas.DrawCircle(center, 5.8f, fill);
+        canvas.DrawCircle(center, 5.8f, stroke);
     }
 
     private static void DrawRadialSignedDirection(SKCanvas canvas, SKRect bounds, bool inverse)
     {
         var center = Center(bounds);
         var radius = Math.Min(bounds.Width, bounds.Height) * 0.34f;
-        var boundaryColor = inverse ? WithAlpha(InverseStroke, 115) : WithAlpha(PositiveStroke, 135);
-        DrawCircleBoundary(canvas, center, radius, width: 1.8f, color: boundaryColor);
+        DrawCircleBoundary(canvas, center, radius, width: 1.7f);
         DrawRadialTicks(canvas, center, radius);
         DrawPoint(canvas, center, SiteColor, 8);
         var zero = new SKPoint(center.X + radius, center.Y);
         DrawRadiusEvidence(canvas, center, zero);
-        DrawPoint(canvas, zero, EndpointColor, 4.8f);
+        DrawPoint(canvas, zero, BoundaryColor, 3.3f);
 
-        var positiveEndAngle = inverse ? 34f : -34f;
-        var negativeStartAngle = inverse ? -34f : 34f;
+        var directionAngle = 42f;
+        var positiveEndAngle = inverse ? directionAngle : -directionAngle;
+        var negativeStartAngle = inverse ? -directionAngle : directionAngle;
         var positiveLabel = PointOnCircle(center, radius * 1.23f, positiveEndAngle);
         var negativeLabel = PointOnCircle(center, radius * 1.23f, negativeStartAngle);
 
@@ -1455,6 +1490,11 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
         canvas.DrawRect(top, positive);
         canvas.DrawRect(bottom, inverse);
         DrawLine(canvas, new SKPoint(rect.Left, rect.MidY), new SKPoint(rect.Right, rect.MidY), BoundaryColor, 1.6f);
+        for (var index = 1; index < 5; index++)
+        {
+            var x = rect.Left + rect.Width * index / 5f;
+            DrawLine(canvas, new SKPoint(x, rect.MidY - 7), new SKPoint(x, rect.MidY + 7), TickColor, 1f);
+        }
         DrawLine(canvas, new SKPoint(rect.Left, rect.Top), new SKPoint(rect.Right, rect.Top), BoundaryColor, 1f, 175);
         DrawLine(canvas, new SKPoint(rect.Right, rect.Top), new SKPoint(rect.Right, rect.Bottom), BoundaryColor, 1f, 175);
         DrawLine(canvas, new SKPoint(rect.Right, rect.Bottom), new SKPoint(rect.Left, rect.Bottom), BoundaryColor, 1f, 175);

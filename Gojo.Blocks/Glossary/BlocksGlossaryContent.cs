@@ -30,12 +30,12 @@ internal static class BlocksGlossaryContent
             new BlocksPage(
                 "glossary-direction-area",
                 "Support / Area Ladder",
-                "Directed boundary, support, area, spin, and bounded area.",
+                "Directed boundary, support, area, directed area, and bounded area.",
                 string.Empty,
                 null,
                 null,
                 0,
-                ["directed boundary", "boundary support", "directed support", "area", "spin", "bounded area"],
+                ["directed boundary", "boundary support", "directed support", "area", "directed area", "bounded area"],
                 GlossarySheet: BlocksGlossarySheetKind.DirectionToArea,
                 GlossaryDescriptions: descriptions)
         ];
