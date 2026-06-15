@@ -509,7 +509,7 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
         var textX = ContentLeft() + 2;
         canvas.DrawText(page.Title, textX, 33, title);
         var mode = document.GlossaryVisible ? "Glossary" : "Tutorial";
-        canvas.DrawText($"{mode} {document.PageIndex + 1}/{document.Pages.Count}  {page.Subtitle}  -  {theme.Label}", textX, 51, subtitle);
+        canvas.DrawText($"{mode} {document.PageIndex + 1}/{document.Pages.Count}  {page.Subtitle}", textX, 51, subtitle);
     }
 
     private void DrawSidePanel(SKCanvas canvas, SKSize size)
@@ -730,6 +730,7 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
             BlocksGlossarySheetKind.SourceToSupport => ["site", "flow", "boundary", "partitioned", "orientation", "direction"],
             BlocksGlossarySheetKind.DirectionToArea => ["directed boundary", "boundary support", "directed support", "area", "directed area", "bounded area"],
             BlocksGlossarySheetKind.Curves => ["corner / cusp", "arc blend", "Bezier", "clothoid", "involute", "plotted path"],
+            BlocksGlossarySheetKind.Branches => ["branch", "merge", "orthogonal joint", "area / no join"],
             _ => []
         };
 
@@ -739,23 +740,33 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
             BlocksGlossarySheetKind.SourceToSupport => ["site", "flow", "boundary", "partitioned", "orientation", "direction"],
             BlocksGlossarySheetKind.DirectionToArea => ["directed-boundary", "boundary-support", "directed-support", "area", "directed-area", "bounded-area"],
             BlocksGlossarySheetKind.Curves => ["corner", "arc-blend", "bezier", "clothoid", "involute", "plotted"],
+            BlocksGlossarySheetKind.Branches => ["branch", "merge", "orthogonal-joint", "area-no-join"],
             _ => []
         };
 
     private static string[] GlossaryRows(BlocksGlossarySheetKind sheet) =>
-        sheet == BlocksGlossarySheetKind.Curves
-            ? ["line\nto line", "line\nto arc", "arc\nto arc"]
-            : ["radial\npositive", "radial\ninverse", "linear"];
+        sheet switch
+        {
+            BlocksGlossarySheetKind.Curves => ["line\nto line", "line\nto arc", "arc\nto arc"],
+            BlocksGlossarySheetKind.Branches => ["tip", "middle", "structure"],
+            _ => ["radial\npositive", "radial\ninverse", "linear"]
+        };
 
     private static string[] GlossaryRowTitles(BlocksGlossarySheetKind sheet) =>
-        sheet == BlocksGlossarySheetKind.Curves
-            ? ["line to line", "line to arc", "arc to arc"]
-            : ["radial positive", "radial inverse", "linear"];
+        sheet switch
+        {
+            BlocksGlossarySheetKind.Curves => ["line to line", "line to arc", "arc to arc"],
+            BlocksGlossarySheetKind.Branches => ["tip", "middle", "structure"],
+            _ => ["radial positive", "radial inverse", "linear"]
+        };
 
     private static string[] GlossaryRowKeys(BlocksGlossarySheetKind sheet) =>
-        sheet == BlocksGlossarySheetKind.Curves
-            ? ["line-line", "line-arc", "arc-arc"]
-            : ["radial-positive", "radial-inverse", "linear"];
+        sheet switch
+        {
+            BlocksGlossarySheetKind.Curves => ["line-line", "line-arc", "arc-arc"],
+            BlocksGlossarySheetKind.Branches => ["tip", "middle", "structure"],
+            _ => ["radial-positive", "radial-inverse", "linear"]
+        };
 
     private static void AddGlossaryTooltipHit(
         List<BlocksHitArea> hitAreas,
@@ -779,6 +790,7 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
             BlocksGlossarySheetKind.SourceToSupport => "source-support",
             BlocksGlossarySheetKind.DirectionToArea => "direction-area",
             BlocksGlossarySheetKind.Curves => "curves",
+            BlocksGlossarySheetKind.Branches => "branches",
             _ => "glossary"
         };
 
@@ -829,6 +841,12 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
             return;
         }
 
+        if (sheet == BlocksGlossarySheetKind.Branches)
+        {
+            DrawBranchJoinCell(canvas, row, column, inner);
+            return;
+        }
+
         var supportRow = (GlossaryLadderRow)row;
         switch (column)
         {
@@ -851,6 +869,213 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
                 DrawLadderBoundedArea(canvas, supportRow, inner);
                 break;
         }
+    }
+
+    private static void DrawBranchJoinCell(SKCanvas canvas, int row, int column, SKRect bounds)
+    {
+        switch ((row, column))
+        {
+            case (0, 0):
+                DrawTipBranch(canvas, bounds);
+                break;
+            case (0, 1):
+                DrawTipMerge(canvas, bounds);
+                break;
+            case (0, 2):
+                DrawButtAndCorner(canvas, bounds);
+                break;
+            case (0, 3):
+                DrawArcTipJoin(canvas, bounds);
+                break;
+            case (1, 0):
+                DrawMiddleBranch(canvas, bounds);
+                break;
+            case (1, 1):
+                DrawMiddleMerge(canvas, bounds);
+                break;
+            case (1, 2):
+                DrawOrthogonalArcMiddle(canvas, bounds);
+                break;
+            case (1, 3):
+                DrawCrossingNoJoin(canvas, bounds);
+                break;
+            case (2, 0):
+                DrawMultiBranch(canvas, bounds);
+                break;
+            case (2, 1):
+                DrawBranchMergeNetwork(canvas, bounds);
+                break;
+            case (2, 2):
+                DrawEnclosureArea(canvas, bounds);
+                break;
+            case (2, 3):
+                DrawPartialUArea(canvas, bounds);
+                break;
+        }
+    }
+
+    private static void DrawTipBranch(SKCanvas canvas, SKRect bounds)
+    {
+        var hub = Center(bounds);
+        var left = new SKPoint(bounds.Left + 8, hub.Y);
+        var up = new SKPoint(bounds.Right - 10, bounds.Top + bounds.Height * 0.28f);
+        var down = new SKPoint(bounds.Right - 10, bounds.Bottom - bounds.Height * 0.28f);
+        DrawCarrierLine(canvas, left, hub);
+        DrawVectorArrow(canvas, hub, up, PositiveStroke, 2.1f);
+        DrawVectorArrow(canvas, hub, down, PositiveStroke, 2.1f);
+        DrawOrthogonalForce(canvas, new SKPoint(hub.X, bounds.Bottom - 8), hub);
+        DrawPoint(canvas, hub, EndpointColor, 4.8f);
+    }
+
+    private static void DrawTipMerge(SKCanvas canvas, SKRect bounds)
+    {
+        var hub = Center(bounds);
+        var leftUp = new SKPoint(bounds.Left + 10, bounds.Top + bounds.Height * 0.28f);
+        var leftDown = new SKPoint(bounds.Left + 10, bounds.Bottom - bounds.Height * 0.28f);
+        var right = new SKPoint(bounds.Right - 8, hub.Y);
+        DrawVectorArrow(canvas, leftUp, hub, PositiveStroke, 2f);
+        DrawVectorArrow(canvas, leftDown, hub, PositiveStroke, 2f);
+        DrawVectorArrow(canvas, hub, right, PositiveStroke, 2.2f);
+        DrawOrthogonalForce(canvas, new SKPoint(hub.X, bounds.Top + 8), hub);
+        DrawPoint(canvas, hub, EndpointColor, 4.8f);
+    }
+
+    private static void DrawButtAndCorner(SKCanvas canvas, SKRect bounds)
+    {
+        var leftCell = new SKRect(bounds.Left, bounds.Top, bounds.MidX - 3, bounds.Bottom);
+        var rightCell = new SKRect(bounds.MidX + 3, bounds.Top, bounds.Right, bounds.Bottom);
+        var butt = Center(leftCell);
+        DrawCarrierLine(canvas, new SKPoint(leftCell.Left + 4, butt.Y), new SKPoint(leftCell.Right - 4, butt.Y));
+        DrawVectorArrow(canvas, new SKPoint(butt.X, leftCell.Top + 8), butt, InverseStroke, 1.8f);
+        DrawPoint(canvas, butt, EndpointColor, 4.2f);
+
+        var corner = new SKPoint(rightCell.Left + rightCell.Width * 0.42f, rightCell.Bottom - rightCell.Height * 0.30f);
+        DrawCarrierLine(canvas, new SKPoint(rightCell.Left + 4, corner.Y), corner);
+        DrawVectorArrow(canvas, corner, new SKPoint(rightCell.Right - 5, rightCell.Top + rightCell.Height * 0.25f), PositiveStroke, 1.9f);
+        DrawPoint(canvas, corner, EndpointColor, 4.2f);
+    }
+
+    private static void DrawArcTipJoin(SKCanvas canvas, SKRect bounds)
+    {
+        var hub = new SKPoint(bounds.Left + bounds.Width * 0.34f, bounds.MidY + bounds.Height * 0.08f);
+        DrawCarrierLine(canvas, new SKPoint(bounds.Left + 8, hub.Y), hub);
+        using var path = new SKPath();
+        path.MoveTo(hub);
+        path.QuadTo(bounds.MidX + 5, bounds.Top + 8, bounds.Right - 8, bounds.Top + bounds.Height * 0.35f);
+        DrawBridgePath(canvas, path, PositiveStroke, 2.2f, glow: true);
+        DrawOrthogonalForce(canvas, new SKPoint(hub.X, bounds.Bottom - 9), hub);
+        DrawPoint(canvas, hub, EndpointColor, 4.6f);
+    }
+
+    private static void DrawMiddleBranch(SKCanvas canvas, SKRect bounds)
+    {
+        var hub = Center(bounds);
+        DrawCarrierLine(canvas, new SKPoint(bounds.Left + 8, hub.Y), new SKPoint(bounds.Right - 8, hub.Y));
+        DrawVectorArrow(canvas, hub, new SKPoint(hub.X, bounds.Top + 8), PositiveStroke, 2.2f);
+        DrawPoint(canvas, hub, EndpointColor, 4.8f);
+        DrawOrthogonalForce(canvas, new SKPoint(hub.X, bounds.Bottom - 9), hub);
+    }
+
+    private static void DrawMiddleMerge(SKCanvas canvas, SKRect bounds)
+    {
+        var hub = Center(bounds);
+        DrawCarrierLine(canvas, new SKPoint(bounds.Left + 8, hub.Y), new SKPoint(bounds.Right - 8, hub.Y));
+        DrawVectorArrow(canvas, new SKPoint(hub.X, bounds.Top + 8), hub, InverseStroke, 1.9f);
+        DrawVectorArrow(canvas, new SKPoint(hub.X, bounds.Bottom - 8), hub, InverseStroke, 1.9f);
+        DrawVectorArrow(canvas, hub, new SKPoint(bounds.Right - 8, hub.Y), PositiveStroke, 1.8f);
+        DrawPoint(canvas, hub, EndpointColor, 4.8f);
+    }
+
+    private static void DrawOrthogonalArcMiddle(SKCanvas canvas, SKRect bounds)
+    {
+        var hub = Center(bounds);
+        DrawCarrierLine(canvas, new SKPoint(bounds.Left + 8, hub.Y), new SKPoint(bounds.Right - 8, hub.Y));
+        using var arc = new SKPath();
+        arc.MoveTo(new SKPoint(bounds.Left + bounds.Width * 0.33f, bounds.Top + 8));
+        arc.QuadTo(new SKPoint(bounds.MidX, bounds.Top + bounds.Height * 0.24f), hub);
+        DrawBridgePath(canvas, arc, PositiveStroke, 2.1f, glow: true);
+        DrawPoint(canvas, hub, EndpointColor, 4.6f);
+        DrawLine(canvas, new SKPoint(hub.X, hub.Y - 10), new SKPoint(hub.X, hub.Y + 10), TickColor, 1f, 150);
+    }
+
+    private static void DrawCrossingNoJoin(SKCanvas canvas, SKRect bounds)
+    {
+        var hub = Center(bounds);
+        DrawCarrierLine(canvas, new SKPoint(bounds.Left + 8, hub.Y), new SKPoint(bounds.Right - 8, hub.Y));
+        DrawLine(canvas, new SKPoint(hub.X, bounds.Top + 8), new SKPoint(hub.X, hub.Y - 8), InverseStroke, 1.8f, 190);
+        DrawLine(canvas, new SKPoint(hub.X, hub.Y + 8), new SKPoint(hub.X, bounds.Bottom - 8), InverseStroke, 1.8f, 190);
+        using var gap = FillPaint(new SKColor(255, 255, 255), 210);
+        canvas.DrawCircle(hub, 6.5f, gap);
+        DrawLine(canvas, new SKPoint(bounds.Left + 8, hub.Y), new SKPoint(bounds.Right - 8, hub.Y), BoundaryColor, 1.7f, 180);
+    }
+
+    private static void DrawMultiBranch(SKCanvas canvas, SKRect bounds)
+    {
+        var hub = Center(bounds);
+        DrawCarrierLine(canvas, new SKPoint(bounds.Left + 8, hub.Y), hub);
+        for (var index = 0; index < 4; index++)
+        {
+            var angle = -50f + index * 33f;
+            var end = PointOnCircle(hub, Math.Min(bounds.Width, bounds.Height) * 0.40f, angle);
+            DrawVectorArrow(canvas, hub, end, PositiveStroke, 1.8f);
+        }
+        DrawPoint(canvas, hub, EndpointColor, 5f);
+    }
+
+    private static void DrawBranchMergeNetwork(SKCanvas canvas, SKRect bounds)
+    {
+        var a = new SKPoint(bounds.Left + 8, bounds.MidY);
+        var b = new SKPoint(bounds.Left + bounds.Width * 0.36f, bounds.MidY);
+        var c = new SKPoint(bounds.Left + bounds.Width * 0.66f, bounds.MidY);
+        var d = new SKPoint(bounds.Right - 8, bounds.MidY);
+        DrawVectorArrow(canvas, a, b, PositiveStroke, 1.6f);
+        DrawVectorArrow(canvas, b, new SKPoint(c.X, bounds.Top + 10), PositiveStroke, 1.4f);
+        DrawVectorArrow(canvas, b, new SKPoint(c.X, bounds.Bottom - 10), PositiveStroke, 1.4f);
+        DrawVectorArrow(canvas, new SKPoint(c.X, bounds.Top + 10), d, InverseStroke, 1.4f);
+        DrawVectorArrow(canvas, new SKPoint(c.X, bounds.Bottom - 10), d, InverseStroke, 1.4f);
+        DrawPoint(canvas, b, EndpointColor, 4.5f);
+        DrawPoint(canvas, d, EndpointColor, 4.5f);
+    }
+
+    private static void DrawEnclosureArea(SKCanvas canvas, SKRect bounds)
+    {
+        var rect = Inset(bounds, 12);
+        using var fill = FillPaint(PositiveColor, 90);
+        canvas.DrawRoundRect(rect, 3, 3, fill);
+        DrawLine(canvas, new SKPoint(rect.Left, rect.Top), new SKPoint(rect.Right, rect.Top), PositiveStroke, 1.8f);
+        DrawLine(canvas, new SKPoint(rect.Right, rect.Top), new SKPoint(rect.Right, rect.Bottom), PositiveStroke, 1.8f);
+        DrawLine(canvas, new SKPoint(rect.Right, rect.Bottom), new SKPoint(rect.Left, rect.Bottom), PositiveStroke, 1.8f);
+        DrawLine(canvas, new SKPoint(rect.Left, rect.Bottom), new SKPoint(rect.Left, rect.Top), PositiveStroke, 1.8f);
+        DrawPoint(canvas, rect.Location, EndpointColor, 3.8f);
+    }
+
+    private static void DrawPartialUArea(SKCanvas canvas, SKRect bounds)
+    {
+        var rect = Inset(bounds, 13);
+        using var area = FillPaint(PositiveColor, 62);
+        using var shape = new SKPath();
+        shape.MoveTo(rect.Left, rect.Top);
+        shape.LineTo(rect.Left, rect.Bottom);
+        shape.LineTo(rect.Right, rect.Bottom);
+        shape.LineTo(rect.Right, rect.Top + rect.Height * 0.35f);
+        shape.LineTo(rect.Right, rect.Top);
+        shape.LineTo(rect.Left, rect.Top);
+        canvas.DrawPath(shape, area);
+        DrawLine(canvas, new SKPoint(rect.Left, rect.Top), new SKPoint(rect.Left, rect.Bottom), PositiveStroke, 2f);
+        DrawLine(canvas, new SKPoint(rect.Left, rect.Bottom), new SKPoint(rect.Right, rect.Bottom), PositiveStroke, 2f);
+        DrawLine(canvas, new SKPoint(rect.Right, rect.Bottom), new SKPoint(rect.Right, rect.Top + rect.Height * 0.35f), PositiveStroke, 2f);
+        using var dash = StrokePaint(TickColor, 1.2f, 160);
+        using var pathEffect = SKPathEffect.CreateDash([4f, 4f], 0);
+        dash.PathEffect = pathEffect;
+        canvas.DrawLine(rect.Right, rect.Top + rect.Height * 0.35f, rect.Right, rect.Top, dash);
+        canvas.DrawLine(rect.Right, rect.Top, rect.Left, rect.Top, dash);
+    }
+
+    private static void DrawOrthogonalForce(SKCanvas canvas, SKPoint start, SKPoint end)
+    {
+        using var soft = StrokePaint(PositiveColor, 8f, 35);
+        canvas.DrawLine(start, end, soft);
+        DrawVectorArrow(canvas, start, end, PositiveStroke, 1.15f, 170);
     }
 
     private static void DrawCurveJoinCell(SKCanvas canvas, int row, int column, SKRect bounds)

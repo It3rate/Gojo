@@ -48,6 +48,17 @@ internal static class BlocksGlossaryContent
                 0,
                 ["tangency", "corner", "arc", "Bezier", "clothoid", "involute", "plot"],
                 GlossarySheet: BlocksGlossarySheetKind.Curves,
+                GlossaryDescriptions: descriptions),
+            new BlocksPage(
+                "glossary-branches",
+                "Branch / Merge Structures",
+                "Tip joins, middle joins, crossings, enclosures, and larger branch networks.",
+                string.Empty,
+                null,
+                null,
+                0,
+                ["branch", "merge", "butt joint", "corner", "crossing", "enclosure", "partial area"],
+                GlossarySheet: BlocksGlossarySheetKind.Branches,
                 GlossaryDescriptions: descriptions)
         ];
     }

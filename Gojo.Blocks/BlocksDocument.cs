@@ -154,5 +154,6 @@ internal enum BlocksGlossarySheetKind
     None,
     SourceToSupport,
     DirectionToArea,
-    Curves
+    Curves,
+    Branches
 }
