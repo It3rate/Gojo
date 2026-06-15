@@ -1,5 +1,7 @@
 using Gojo.Core;
+using Gojo.ConceptSurface;
 using GojoCAD;
+using GojoCAD.Structures;
 using SkiaSharp;
 
 namespace Gojo.Blocks;
@@ -13,6 +15,7 @@ internal static class BlocksGlossaryStructureCatalog
         AddDirectionArea(structures);
         AddCurves(structures);
         AddBranches(structures);
+        AddBooleanParticipation(structures);
         return structures;
     }
 
@@ -91,6 +94,17 @@ internal static class BlocksGlossaryStructureCatalog
         }
     }
 
+    private static void AddBooleanParticipation(Dictionary<string, BlocksGlossaryStructure> structures)
+    {
+        var rows = new[] { "point", "segment", "area" };
+        var columns = new[] { "participants", "touch", "overlap", "union", "intersection", "difference" };
+        foreach (var row in rows)
+        foreach (var column in columns)
+        {
+            structures[$"boolean-participation-{row}-{column}"] = BooleanParticipation(row, column);
+        }
+    }
+
     private static BlocksGlossaryStructure SourceSupport(GlossaryRow row, string column)
     {
         var inverse = row == GlossaryRow.RadialInverse;
@@ -105,11 +119,14 @@ internal static class BlocksGlossaryStructureCatalog
                 "P(O)"),
             "flow" when linear => Spec(
                 LinearFlow(),
-                "S(C,0,0) + flow_perp(S(C,0,0))"),
+                "S(C,0,0) + flow_perp(S(C,0,0))",
+                "This is intentionally a collapsed pair, not a drawn-length segment. The two coincident points expose a linear potential before distance is chosen; the visible vertical escape is a renderer read of the segment's orthogonal flow."),
             "flow" => Spec(
                 RadialFlow(),
                 "P(O) + flow_radial(P(O))",
-                inverse ? "The current Gojo outlet structure records an unbounded orthogonal flow from the site. The inward/outward face is still represented as tutorial sense rather than a separate settled radial-flow relation." : null),
+                inverse
+                    ? "Radial inverse flow is the point-grade version of negative orthogonal support: the flow is read as moving into the site from every side. A signed read can pass through the origin, just as opposite side support passes through a segment."
+                    : "Radial positive flow is the point-grade version of positive orthogonal support: with only one site, the normal has no preferred linear side, so outward support appears in every direction."),
             "boundary" when linear => Spec(
                 LineSegment(),
                 "P(A) + P(B) -> S(A,B)"),
@@ -121,15 +138,16 @@ internal static class BlocksGlossaryStructureCatalog
                 "S(A,B) + P(t1) + P(t2) + ..."),
             "partitioned" => Spec(
                 PartitionedCircle(),
-                "Circle(O,R) + P(theta1) + P(theta2) + ..."),
+                "Circle(O,R) + P(theta1) + P(theta2) + ...",
+                "The backing structure uses points on a circular carrier for the boundary ticks. The rendered diagram still chooses a friendly geometric circle for legibility, and the exact radius-to-contour partition witness is still provisional."),
             "orientation" when linear => Spec(
                 DirectedLine(inverse),
                 inverse ? "orientation: left is positive; D(S(C,+u,-u))" : "orientation: right is positive; D(S(C,-u,+u))",
-                "This is a local stand-in for orientation. A canonical orientation surface should eventually say which direction is positive without requiring a directed segment to carry that whole meaning."),
+                "The current encoding intends orientation through ordered carrier evidence: the directed span says which side of zero is positive. A crystallized orientation should preserve that evidence rather than add an unrelated tag."),
             "orientation" => Spec(
                 DirectedCircle(inverse),
                 inverse ? "orientation: clockwise is positive; D(Circle(O,R), +theta -> -theta)" : "orientation: counterclockwise is positive; D(Circle(O,R), -theta -> +theta)",
-                "This uses a directed span on a circular carrier as orientation evidence. A dedicated orientation carrier/surface would make this cleaner."),
+                "This uses a directed span on a circular carrier as orientation evidence. A later crystallized orientation can carry the same ordered-read component on the boundary."),
             "direction" when linear => Spec(
                 DirectionOnLine(inverse),
                 inverse ? "P(0) + P(-u), read under left-positive orientation" : "P(0) + P(+u), read under right-positive orientation"),
@@ -154,17 +172,19 @@ internal static class BlocksGlossaryStructureCatalog
                 inverse ? "D(Circle(O,R), +theta -> -theta)" : "D(Circle(O,R), -theta -> +theta)"),
             "boundary-support" when linear => Spec(
                 LinearFlow(),
-                "S(C,0,0) + flow_perp(S(C,0,0))"),
+                "S(C,0,0) + flow_perp(S(C,0,0))",
+                "The structural seed is still a collapsed segment. The visible band is the renderer's interpretation of support emerging from that linear potential."),
             "boundary-support" => Spec(
                 CircleArea(inverse),
                 inverse ? "Area*(Circle(O,R))" : "Area(Circle(O,R))"),
             "directed-support" when linear => Spec(
                 DirectedLinearArea(inverse),
                 "Area(S(A,B) + side support) + D(S(A,B))",
-                "Linear side support is represented as filled boundary plus a directed edge. A direct side-face support carrier would be a better eventual encoding."),
+                "Linear side support is represented as filled boundary plus a directed edge. The side should remain locally discoverable from the carrier, its orthogonal support, and the chosen orientation."),
             "directed-support" => Spec(
                 DirectedCircleArea(inverse),
-                "Area(Circle(O,R)) + D(Circle edge)"),
+                "Area(Circle(O,R)) + D(Circle edge)",
+                "Directed radial support is encoded as fill plus directed boundary evidence. The inward/outward side should be read from orthogonal support through the site, not duplicated as an unrelated primitive."),
             "area" when linear => Spec(
                 RectangleArea(inverse),
                 inverse ? "Area*(closed S-boundary)" : "Area(closed S-boundary)"),
@@ -174,17 +194,19 @@ internal static class BlocksGlossaryStructureCatalog
             "directed-area" when linear => Spec(
                 DirectedLinearArea(inverse),
                 "Area(closed S-boundary) + face D(edge...)",
-                "Face circulation is currently expressed by pairing area fill with directed boundary evidence. It is not yet its own settled face-spin surface."),
+                "Face circulation is expressed by pairing area fill with directed boundary evidence. When an area crystallizes, this same orientation/spin component should be available on the face."),
             "directed-area" => Spec(
                 DirectedCircleArea(inverse),
                 "Area(Circle(O,R)) + face D(Circle edge)",
-                "Face spin is currently represented as an area plus directed boundary evidence. A dedicated directed-area/face-circulation read would be cleaner."),
+                "Face spin is represented as an area plus directed boundary evidence. The face can later carry that spin independently, whether it was inherited from an aligned boundary or chosen during a read."),
             "bounded-area" when linear => Spec(
                 BoundedRectangleArea(inverse),
-                "Area(boundary) + S-boundary + P(tick...)"),
+                "Area(boundary) + S-boundary + P(tick...)",
+                "Ticks are carried as points on boundary spans. Later this should become partition evidence that knows which side or face of the boundary it belongs to."),
             "bounded-area" => Spec(
                 BoundedCircleArea(inverse),
-                "Area(Circle(O,R)) + P(O) + S(O,R) + P(theta...)"),
+                "Area(Circle(O,R)) + P(O) + S(O,R) + P(theta...)",
+                "The area fill is closed-boundary structure, the radius is explicit, and the tick marks are circular-carrier points. A future encoding should settle these as one contour with partition witnesses instead of parallel evidence."),
             _ => Spec(Site(), "P(O)")
         };
     }
@@ -305,6 +327,209 @@ internal static class BlocksGlossaryStructureCatalog
         };
     }
 
+    private static BlocksGlossaryStructure BooleanParticipation(string row, string column) =>
+        row switch
+        {
+            "point" => BooleanPoint(column),
+            "segment" => BooleanSegment(column),
+            "area" => BooleanArea(column),
+            _ => Spec(Site(), "P(O)")
+        };
+
+    private static BlocksGlossaryStructure BooleanPoint(string column)
+    {
+        var structure = PointSettlement(column);
+        return column switch
+        {
+            "participants" => Spec(
+                structure,
+                "selected{P(A), P(B)} + scope(P-lane)",
+                "The points are selected participants. They do not become a boolean value until a scope and occupancy basis read them."),
+            "touch" => Spec(
+                structure,
+                "P(A@x) + P(B@x), no shared-support read yet",
+                "Equal position is only coordinate evidence. Shared support appears only when the participants are read through a common occupancy basis."),
+            "overlap" => Spec(
+                structure,
+                "settle(selected{P(A), P(B)}, scope=P(x)) -> shared/tension support",
+                "At point resolution, two occupied values on the same scoped site become shared support or tension depending on the lane read."),
+            "union" => Spec(
+                structure,
+                "settle(...) -> support(P(A) + P(B))",
+                "Union is the support read of all selected point participation inside the scope, not a primitive true/false operation."),
+            "intersection" => Spec(
+                structure,
+                "settle(...) -> shared support at P(x)",
+                "Intersection keeps only the support that both selected point participations occupy under the same basis."),
+            "difference" => Spec(
+                structure,
+                "settle(...) -> exclusive(P(A)) + residue(P(B))",
+                "Difference is read as exclusive support from A under the selected scope, with B left visible as excluded or residue evidence."),
+            _ => Spec(structure, "selected{P(A), P(B)}")
+        };
+    }
+
+    private static BlocksGlossaryStructure BooleanSegment(string column)
+    {
+        var structure = SegmentSettlement(column);
+        return column switch
+        {
+            "participants" => Spec(
+                structure,
+                "selected{S(A0,A1), S(B0,B1)} + scope S(0,n)",
+                "The selected spans are ordinary segment participation. The scope carrier and partition read determine whether any boolean-like support exists."),
+            "touch" => Spec(
+                structure,
+                "S(A,0,m) + S(B,m,n)",
+                "Touching endpoints share boundary evidence, but there is no occupied length overlap unless the read asks for endpoint support."),
+            "overlap" => Spec(
+                structure,
+                "S(A,0,k) + S(B,j,n) -> partitions {0,j,k,n}",
+                "The overlap is discovered by splitting the carrier at local participation changes. Nothing global classifies the spans first."),
+            "union" => Spec(
+                structure,
+                "support(A or B) over partitioned scope",
+                "Union is the support projection of all selected span participation inside the scope."),
+            "intersection" => Spec(
+                structure,
+                "shared/tension support(A and B) over partitioned scope",
+                "Intersection comes from cells where both selected spans occupy the same support."),
+            "difference" => Spec(
+                structure,
+                "exclusive(A not B) + residue(B)",
+                "Difference is exclusive support from one selected span after the overlapping participation has been accounted for."),
+            _ => Spec(structure, "segment settlement")
+        };
+    }
+
+    private static BlocksGlossaryStructure BooleanArea(string column)
+    {
+        var structure = AreaParticipation(column);
+        return column switch
+        {
+            "participants" => Spec(
+                structure,
+                "selected{Area(A), Area(B)} + scope",
+                "Areas enter the read as occupied support. The later operation is a settlement over those participants."),
+            "touch" => Spec(
+                structure,
+                "Area(A) + Area(B) with boundary contact",
+                "Boundary contact is evidence, but it is not automatically shared occupied area."),
+            "overlap" => Spec(
+                structure,
+                "Area(A) + Area(B) -> partitioned support cells",
+                "Overlap is read by partitioning the participating faces into occupied cells."),
+            "union" => Spec(
+                structure,
+                "AreaUnion(AreaFrame(A,B), outline, settlement, residue)",
+                "The existing GojoCAD area union surface already carries selected areas, result outline, settlement evidence, and residue."),
+            "intersection" => Spec(
+                structure,
+                "shared occupied cells from Area(A) and Area(B)",
+                "Area intersection is the shared occupied support read. This example keeps the shared patch explicit while richer area reads continue to evolve."),
+            "difference" => Spec(
+                structure,
+                "Area(A) + AntiArea(B) -> exclusive support + residue",
+                "Area difference is represented as positive participation opposed by anti participation, with any unresolved mismatch kept as residue."),
+            _ => Spec(structure, "area settlement")
+        };
+    }
+
+    private static IElement PointSettlement(string column)
+    {
+        var carrier = new Carrier();
+        var sameSite = column is "touch" or "overlap" or "intersection";
+        var a = GraphicStructure.Point(carrier, sameSite ? 0 : -24);
+        var b = GraphicStructure.Point(carrier, sameSite ? 0 : 24);
+        var scope = sameSite
+            ? GraphicStructure.Point(carrier, 0)
+            : GraphicStructure.Segment(carrier, -48, 48);
+        var selected = Group(a, b);
+        var basis = BoundaryFlowLaneBasis.Create(
+            new Carrier(),
+            BoundaryExposure.BoundedWhole,
+            FlowExposure.None,
+            scope);
+        var result = column switch
+        {
+            "participants" => Group(),
+            "touch" => Group(),
+            "difference" => a,
+            "intersection" => sameSite ? Group(a, b) : Group(),
+            _ => selected
+        };
+        var tension = column is "overlap" or "intersection" ? selected : Group();
+        var exclusive = column == "difference" ? a : Group();
+        var uncovered = column is "participants" or "touch" ? scope : Group();
+        var residue = column == "difference" ? b : Group();
+
+        return ParticipationSettlementSurface.Create(
+            new Carrier(),
+            selected,
+            scope,
+            scope,
+            basis,
+            Group(scope),
+            selected,
+            result,
+            tension,
+            exclusive,
+            uncovered,
+            result,
+            residue,
+            selected);
+    }
+
+    private static IElement SegmentSettlement(string column)
+    {
+        var carrier = new Carrier();
+        var scope = GraphicStructure.Segment(carrier, 0, 100);
+        var (a0, a1, b0, b1) = column switch
+        {
+            "participants" => (12L, 36L, 64L, 88L),
+            "touch" => (10L, 50L, 50L, 90L),
+            _ => (12L, 64L, 44L, 90L)
+        };
+        var a = GraphicStructure.Segment(carrier, a0, a1);
+        var b = GraphicStructure.Segment(carrier, b0, b1);
+        return ParticipationSettlementSurface.CreateSegmentSupport(
+            new Carrier(),
+            carrier,
+            scope,
+            a,
+            b);
+    }
+
+    private static IElement AreaParticipation(string column)
+    {
+        var frame = new FrameBasis();
+        var aBounds = (-42L, -22L, 8L, 24L);
+        var bBounds = column switch
+        {
+            "participants" => (18L, -18L, 56L, 20L),
+            "touch" => (8L, -22L, 52L, 24L),
+            _ => (-8L, -26L, 42L, 18L)
+        };
+        var aBoundary = RectangleSegments(frame, aBounds.Item1, aBounds.Item2, aBounds.Item3, aBounds.Item4);
+        var bBoundary = RectangleSegments(frame, bBounds.Item1, bBounds.Item2, bBounds.Item3, bBounds.Item4);
+        var a = GraphicStructure.AreaFill(aBoundary);
+        var b = GraphicStructure.AreaFill(bBoundary);
+        var areaFrame = GraphicAreaParticipationSurface.AreaFrame(new Carrier(), a, b);
+
+        return column switch
+        {
+            "union" => GraphicAreaSettlementSurface.SettledPositiveAreaUnion(new Carrier(), areaFrame),
+            "intersection" => Group(
+                areaFrame,
+                GraphicStructure.AreaFill(RectangleSegments(frame, -8, -22, 8, 18))),
+            "difference" => Group(
+                a,
+                GraphicStructure.AntiAreaFill(bBoundary),
+                TensionSlot()),
+            _ => areaFrame
+        };
+    }
+
     private static IElement Site()
     {
         var frame = new FrameBasis();
@@ -380,17 +605,21 @@ internal static class BlocksGlossaryStructureCatalog
 
     private static IElement PartitionedCircle()
     {
-        var frame = new FrameBasis();
-        var center = frame.Point(0, 0);
+        var carrier = new Carrier();
+        var origin = GraphicStructure.Point(carrier, 0);
+        var circle = GraphicStructure.CircularCarrierAt(origin);
         return Group(
-            GraphicStructure.FrameCircle(center, frame.Point(34, 0)),
-            frame.Point(0, 34),
-            frame.Point(-34, 0),
-            frame.Point(0, -34),
-            frame.Point(24, 24),
-            frame.Point(-24, 24),
-            frame.Point(-24, -24),
-            frame.Point(24, -24));
+            origin,
+            circle,
+            GraphicStructure.Point(circle, 0),
+            GraphicStructure.Point(circle, 15),
+            GraphicStructure.Point(circle, 30),
+            GraphicStructure.Point(circle, 45),
+            GraphicStructure.Point(circle, 60),
+            GraphicStructure.Point(circle, 75),
+            GraphicStructure.Point(circle, 90),
+            GraphicStructure.Point(circle, 105),
+            GraphicStructure.Point(circle, 120));
     }
 
     private static IElement DirectedCircle(bool inverse)

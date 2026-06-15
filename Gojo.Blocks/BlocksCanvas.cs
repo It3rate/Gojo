@@ -694,8 +694,13 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
         var labelWidth = Math.Clamp(area.Width * 0.07f, 48f, 60f);
         var headerHeight = 46f;
         var gap = 10f;
+        var rowWeights = GlossaryRowWeights(sheet, rows.Length);
+        var availableHeight = area.Height - headerHeight - gap * (rows.Length - 1);
+        var totalWeight = rowWeights.Sum();
+        var rowHeights = rowWeights
+            .Select(weight => availableHeight * weight / totalWeight)
+            .ToArray();
         var cellWidth = (area.Width - labelWidth - gap * (columns.Length - 1)) / columns.Length;
-        var cellHeight = (area.Height - headerHeight - gap * (rows.Length - 1)) / rows.Length;
 
         using var headerPaint = TextPaint(11.8f, theme.Ink, bold: true);
         using var rowPaint = TextPaint(12.5f, theme.Ink);
@@ -707,9 +712,10 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
             DrawCenteredMultilineText(canvas, columns[column], new SKRect(x, area.Top + 4, x + cellWidth, area.Top + headerHeight), headerPaint, 13f);
         }
 
+        var y = area.Top + headerHeight;
         for (var row = 0; row < rows.Length; row++)
         {
-            var y = area.Top + headerHeight + row * (cellHeight + gap);
+            var cellHeight = rowHeights[row];
             DrawRightAlignedMultilineText(canvas, rows[row], new SKRect(area.Left, y, area.Left + labelWidth - 5, y + cellHeight), rowPaint, 15f);
             for (var column = 0; column < columns.Length; column++)
             {
@@ -721,7 +727,20 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
                 DrawGlossaryLadderCell(canvas, sheet, row, column, cell);
                 AddGlossaryTooltipHit(hitAreas, Inset(cell, 8), id, title, page);
             }
+
+            y += cellHeight + gap;
         }
+    }
+
+    private static float[] GlossaryRowWeights(BlocksGlossarySheetKind sheet, int rowCount)
+    {
+        if (sheet == BlocksGlossarySheetKind.BooleanParticipation &&
+            rowCount == 3)
+        {
+            return [0.72f, 1.14f, 1.14f];
+        }
+
+        return Enumerable.Repeat(1f, rowCount).ToArray();
     }
 
     private static string[] GlossaryColumns(BlocksGlossarySheetKind sheet) =>
@@ -731,6 +750,7 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
             BlocksGlossarySheetKind.DirectionToArea => ["directed boundary", "boundary support", "directed support", "area", "directed area", "bounded area"],
             BlocksGlossarySheetKind.Curves => ["corner / cusp", "arc blend", "Bezier", "clothoid", "involute", "plotted path"],
             BlocksGlossarySheetKind.Branches => ["branch", "merge", "orthogonal joint", "other"],
+            BlocksGlossarySheetKind.BooleanParticipation => ["participants", "touch / cross", "overlap", "union", "intersection", "difference"],
             _ => []
         };
 
@@ -741,6 +761,7 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
             BlocksGlossarySheetKind.DirectionToArea => ["directed-boundary", "boundary-support", "directed-support", "area", "directed-area", "bounded-area"],
             BlocksGlossarySheetKind.Curves => ["corner", "arc-blend", "bezier", "clothoid", "involute", "plotted"],
             BlocksGlossarySheetKind.Branches => ["branch", "merge", "orthogonal-joint", "other"],
+            BlocksGlossarySheetKind.BooleanParticipation => ["participants", "touch", "overlap", "union", "intersection", "difference"],
             _ => []
         };
 
@@ -749,6 +770,7 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
         {
             BlocksGlossarySheetKind.Curves => ["line\nto line", "line\nto arc", "arc\nto arc"],
             BlocksGlossarySheetKind.Branches => ["tip", "middle", "structure"],
+            BlocksGlossarySheetKind.BooleanParticipation => ["point", "segment", "area"],
             _ => ["radial\npositive", "radial\ninverse", "linear"]
         };
 
@@ -757,6 +779,7 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
         {
             BlocksGlossarySheetKind.Curves => ["line to line", "line to arc", "arc to arc"],
             BlocksGlossarySheetKind.Branches => ["tip", "middle", "structure"],
+            BlocksGlossarySheetKind.BooleanParticipation => ["point", "segment", "area"],
             _ => ["radial positive", "radial inverse", "linear"]
         };
 
@@ -765,6 +788,7 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
         {
             BlocksGlossarySheetKind.Curves => ["line-line", "line-arc", "arc-arc"],
             BlocksGlossarySheetKind.Branches => ["tip", "middle", "structure"],
+            BlocksGlossarySheetKind.BooleanParticipation => ["point", "segment", "area"],
             _ => ["radial-positive", "radial-inverse", "linear"]
         };
 
@@ -794,7 +818,7 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
 
         if (structure is not null)
         {
-            var structureText = $"Gojo construction\n{structure.Expression}";
+            var structureText = $"Gojo construction (P=point, S=segment)\n{structure.Expression}";
             if (!string.IsNullOrWhiteSpace(structure.EncodingNote))
             {
                 structureText += $"\n\nEncoding note\n{structure.EncodingNote.Trim()}";
@@ -813,6 +837,7 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
             BlocksGlossarySheetKind.DirectionToArea => "direction-area",
             BlocksGlossarySheetKind.Curves => "curves",
             BlocksGlossarySheetKind.Branches => "branches",
+            BlocksGlossarySheetKind.BooleanParticipation => "boolean-participation",
             _ => "glossary"
         };
 
@@ -866,6 +891,12 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
         if (sheet == BlocksGlossarySheetKind.Branches)
         {
             DrawBranchJoinCell(canvas, row, column, inner);
+            return;
+        }
+
+        if (sheet == BlocksGlossarySheetKind.BooleanParticipation)
+        {
+            DrawBooleanParticipationCell(canvas, row, column, inner);
             return;
         }
 
@@ -934,6 +965,275 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
                 DrawPartialUArea(canvas, bounds);
                 break;
         }
+    }
+
+    private void DrawBooleanParticipationCell(SKCanvas canvas, int row, int column, SKRect bounds)
+    {
+        switch (row)
+        {
+            case 0:
+                DrawBooleanPointCell(canvas, column, bounds);
+                break;
+            case 1:
+                DrawBooleanSegmentCell(canvas, column, bounds);
+                break;
+            case 2:
+                DrawBooleanAreaCell(canvas, column, bounds);
+                break;
+        }
+    }
+
+    private static void DrawBooleanPointCell(SKCanvas canvas, int column, SKRect bounds)
+    {
+        var center = Center(bounds);
+        var left = new SKPoint(bounds.Left + bounds.Width * 0.34f, center.Y);
+        var right = new SKPoint(bounds.Right - bounds.Width * 0.34f, center.Y);
+        var shared = center;
+        DrawBooleanScopeLine(canvas, bounds);
+
+        switch (column)
+        {
+            case 0:
+                DrawPoint(canvas, left, PositiveStroke, 5.4f);
+                DrawPoint(canvas, right, InverseStroke, 5.4f);
+                break;
+            case 1:
+                DrawCoincidentPoints(canvas, shared, sharedSupport: false);
+                DrawLine(canvas, new SKPoint(shared.X - 10, shared.Y - 12), new SKPoint(shared.X + 10, shared.Y + 12), TickColor, 1.2f, 155);
+                break;
+            case 2:
+                DrawCoincidentPoints(canvas, shared, sharedSupport: true);
+                break;
+            case 3:
+                DrawPoint(canvas, left, PositiveStroke, 5.4f);
+                DrawPoint(canvas, right, InverseStroke, 5.4f);
+                DrawLine(canvas, left, right, BoundaryColor, 1.1f, 115);
+                break;
+            case 4:
+                DrawCoincidentPoints(canvas, shared, sharedSupport: true);
+                DrawPoint(canvas, shared, EndpointColor, 3.1f);
+                break;
+            case 5:
+                DrawPoint(canvas, left, PositiveStroke, 5.6f);
+                DrawExcludedPoint(canvas, right);
+                break;
+        }
+    }
+
+    private static void DrawBooleanSegmentCell(SKCanvas canvas, int column, SKRect bounds)
+    {
+        var lanes = DrawBooleanSegmentLanes(canvas, bounds);
+        var separatedA = (Start: 0.14f, End: 0.38f);
+        var separatedB = (Start: 0.60f, End: 0.86f);
+        var touchA = (Start: 0.14f, End: 0.50f);
+        var touchB = (Start: 0.50f, End: 0.86f);
+        var a = (Start: 0.16f, End: 0.66f);
+        var b = (Start: 0.42f, End: 0.86f);
+        var overlapStart = Math.Max(a.Start, b.Start);
+        var overlapEnd = Math.Min(a.End, b.End);
+
+        switch (column)
+        {
+            case 0:
+                DrawVerticalSupport(canvas, lanes.A, lanes.Top, lanes.Bottom, separatedA.Start, separatedA.End, PositiveStroke, 7.6f);
+                DrawVerticalSupport(canvas, lanes.B, lanes.Top, lanes.Bottom, separatedB.Start, separatedB.End, InverseStroke, 7.6f);
+                break;
+            case 1:
+                DrawVerticalSupport(canvas, lanes.A, lanes.Top, lanes.Bottom, touchA.Start, touchA.End, PositiveStroke, 7.4f);
+                DrawVerticalSupport(canvas, lanes.B, lanes.Top, lanes.Bottom, touchB.Start, touchB.End, InverseStroke, 7.4f);
+                DrawPoint(canvas, new SKPoint(lanes.R, YOnLane(lanes.Top, lanes.Bottom, 0.50f)), EndpointColor, 4.5f);
+                break;
+            case 2:
+                DrawVerticalSupport(canvas, lanes.A, lanes.Top, lanes.Bottom, a.Start, a.End, PositiveStroke, 7.4f);
+                DrawVerticalSupport(canvas, lanes.B, lanes.Top, lanes.Bottom, b.Start, b.End, InverseStroke, 7.4f);
+                DrawVerticalSupport(canvas, lanes.R, lanes.Top, lanes.Bottom, overlapStart, overlapEnd, EndpointColor, 7.8f, alpha: 210);
+                break;
+            case 3:
+                DrawVerticalSupport(canvas, lanes.A, lanes.Top, lanes.Bottom, a.Start, a.End, PositiveStroke, 5.4f, alpha: 150);
+                DrawVerticalSupport(canvas, lanes.B, lanes.Top, lanes.Bottom, b.Start, b.End, InverseStroke, 5.4f, alpha: 150);
+                DrawVerticalSupport(canvas, lanes.R, lanes.Top, lanes.Bottom, a.Start, b.End, PositiveStroke, 8.4f, alpha: 225);
+                DrawVerticalSupport(canvas, lanes.R, lanes.Top, lanes.Bottom, overlapStart, overlapEnd, EndpointColor, 4.1f, alpha: 230);
+                break;
+            case 4:
+                DrawVerticalSupport(canvas, lanes.A, lanes.Top, lanes.Bottom, a.Start, a.End, PositiveStroke, 5.8f, alpha: 145);
+                DrawVerticalSupport(canvas, lanes.B, lanes.Top, lanes.Bottom, b.Start, b.End, InverseStroke, 5.8f, alpha: 145);
+                DrawVerticalSupport(canvas, lanes.R, lanes.Top, lanes.Bottom, overlapStart, overlapEnd, EndpointColor, 8.8f, alpha: 230);
+                break;
+            case 5:
+                DrawVerticalSupport(canvas, lanes.A, lanes.Top, lanes.Bottom, a.Start, a.End, PositiveStroke, 5.8f, alpha: 160);
+                DrawVerticalSupport(canvas, lanes.B, lanes.Top, lanes.Bottom, b.Start, b.End, InverseStroke, 5.8f, alpha: 125);
+                DrawVerticalSupport(canvas, lanes.R, lanes.Top, lanes.Bottom, a.Start, overlapStart, PositiveStroke, 8.4f, alpha: 230);
+                DrawResidueMark(canvas, new SKPoint(lanes.B + 6, YOnLane(lanes.Top, lanes.Bottom, (overlapStart + overlapEnd) * 0.5f)));
+                break;
+        }
+    }
+
+    private void DrawBooleanAreaCell(SKCanvas canvas, int column, SKRect bounds)
+    {
+        var a = new SKRect(bounds.Left + bounds.Width * 0.16f, bounds.Top + bounds.Height * 0.27f, bounds.Left + bounds.Width * 0.58f, bounds.Bottom - bounds.Height * 0.20f);
+        var b = new SKRect(bounds.Right - bounds.Width * 0.58f, bounds.Top + bounds.Height * 0.20f, bounds.Right - bounds.Width * 0.16f, bounds.Bottom - bounds.Height * 0.27f);
+        var shared = SKRect.Intersect(a, b);
+
+        switch (column)
+        {
+            case 0:
+                DrawAreaParticipant(canvas, a, PositiveColor, PositiveStroke);
+                DrawAreaParticipant(canvas, OffsetRect(b, bounds.Width * 0.15f, 0), InverseColor, InverseStroke);
+                break;
+            case 1:
+                DrawAreaParticipant(canvas, a, PositiveColor, PositiveStroke);
+                DrawAreaParticipant(canvas, OffsetRect(a, a.Width, 0), InverseColor, InverseStroke);
+                DrawPoint(canvas, new SKPoint(a.Right, a.MidY), EndpointColor, 3.8f);
+                break;
+            case 2:
+                DrawAreaParticipant(canvas, a, PositiveColor, PositiveStroke);
+                DrawAreaParticipant(canvas, b, InverseColor, InverseStroke);
+                DrawRectFill(canvas, shared, EndpointColor, 92);
+                break;
+            case 3:
+                DrawAreaParticipant(canvas, a, PositiveColor, PositiveStroke);
+                DrawAreaParticipant(canvas, b, PositiveColor, PositiveStroke);
+                DrawAreaUnionOutline(canvas, a, b);
+                break;
+            case 4:
+                DrawRectFill(canvas, shared, EndpointColor, 190);
+                DrawRectStroke(canvas, shared, EndpointColor, 1.8f);
+                break;
+            case 5:
+                DrawAreaParticipant(canvas, a, PositiveColor, PositiveStroke);
+                DrawRectFill(canvas, shared, theme.Background, 235);
+                DrawRectStroke(canvas, shared, InverseStroke, 1.6f);
+                DrawResidueMark(canvas, new SKPoint(b.Right - 4, b.Top + 4));
+                break;
+        }
+    }
+
+    private static void DrawBooleanScopeLine(SKCanvas canvas, SKRect bounds)
+    {
+        DrawLine(
+            canvas,
+            new SKPoint(bounds.Left + bounds.Width * 0.18f, bounds.MidY),
+            new SKPoint(bounds.Right - bounds.Width * 0.18f, bounds.MidY),
+            BoundaryColor,
+            1.1f,
+            90);
+    }
+
+    private static void DrawCoincidentPoints(SKCanvas canvas, SKPoint point, bool sharedSupport)
+    {
+        using var positive = FillPaint(PositiveColor, sharedSupport ? (byte)116 : (byte)74);
+        using var inverse = StrokePaint(InverseStroke, 2.2f, sharedSupport ? (byte)235 : (byte)175);
+        canvas.DrawCircle(point, sharedSupport ? 8.4f : 7.2f, positive);
+        canvas.DrawCircle(point, 7.2f, inverse);
+        DrawPoint(canvas, point, SiteColor, 3.2f);
+    }
+
+    private static void DrawExcludedPoint(SKCanvas canvas, SKPoint point)
+    {
+        using var stroke = StrokePaint(InverseStroke, 1.8f, 150);
+        canvas.DrawCircle(point, 5.8f, stroke);
+        DrawLine(canvas, new SKPoint(point.X - 7, point.Y + 7), new SKPoint(point.X + 7, point.Y - 7), InverseStroke, 1.7f, 170);
+    }
+
+    private static (float A, float B, float R, float Top, float Bottom) DrawBooleanSegmentLanes(SKCanvas canvas, SKRect bounds)
+    {
+        var top = bounds.Top + 21f;
+        var bottom = bounds.Bottom - 10f;
+        var a = bounds.Left + bounds.Width * 0.24f;
+        var b = bounds.Left + bounds.Width * 0.50f;
+        var r = bounds.Left + bounds.Width * 0.76f;
+        DrawVerticalCarrier(canvas, a, top, bottom);
+        DrawVerticalCarrier(canvas, b, top, bottom);
+        DrawVerticalCarrier(canvas, r, top, bottom);
+        DrawLaneMarker(canvas, "A", new SKPoint(a, bounds.Top + 10f), PositiveStroke);
+        DrawLaneMarker(canvas, "B", new SKPoint(b, bounds.Top + 10f), InverseStroke);
+        DrawLaneMarker(canvas, "R", new SKPoint(r, bounds.Top + 10f), EndpointColor);
+        return (a, b, r, top, bottom);
+    }
+
+    private static void DrawVerticalCarrier(SKCanvas canvas, float x, float top, float bottom)
+    {
+        DrawLine(canvas, new SKPoint(x, top), new SKPoint(x, bottom), BoundaryColor, 1.1f, 125);
+        for (var index = 1; index < 5; index++)
+        {
+            var y = top + (bottom - top) * index / 5f;
+            DrawLine(canvas, new SKPoint(x - 5, y), new SKPoint(x + 5, y), TickColor, 0.9f, 120);
+        }
+    }
+
+    private static void DrawLaneMarker(SKCanvas canvas, string label, SKPoint point, SKColor color)
+    {
+        DrawPoint(canvas, point, color, 4.1f);
+        using var paint = TextPaint(8.5f, color, bold: true);
+        var width = paint.MeasureText(label);
+        canvas.DrawText(label, point.X - width * 0.5f, point.Y - 7.5f, paint);
+    }
+
+    private static void DrawVerticalSupport(
+        SKCanvas canvas,
+        float x,
+        float top,
+        float bottom,
+        float start,
+        float end,
+        SKColor color,
+        float width,
+        byte alpha = 235)
+    {
+        DrawLine(
+            canvas,
+            new SKPoint(x, YOnLane(top, bottom, start)),
+            new SKPoint(x, YOnLane(top, bottom, end)),
+            color,
+            width,
+            alpha);
+    }
+
+    private static float YOnLane(float top, float bottom, float fraction) =>
+        top + (bottom - top) * Math.Clamp(fraction, 0f, 1f);
+
+    private static void DrawAreaParticipant(SKCanvas canvas, SKRect rect, SKColor fill, SKColor stroke)
+    {
+        DrawRectFill(canvas, rect, fill, 125);
+        DrawRectStroke(canvas, rect, stroke, 1.4f);
+    }
+
+    private static void DrawAreaUnionOutline(SKCanvas canvas, SKRect a, SKRect b)
+    {
+        var outline = new SKRect(Math.Min(a.Left, b.Left), Math.Min(a.Top, b.Top), Math.Max(a.Right, b.Right), Math.Max(a.Bottom, b.Bottom));
+        DrawRectStroke(canvas, outline, PositiveStroke, 1.9f);
+    }
+
+    private static void DrawRectFill(SKCanvas canvas, SKRect rect, SKColor color, byte alpha)
+    {
+        if (rect.Width <= 0 || rect.Height <= 0)
+        {
+            return;
+        }
+
+        using var fill = FillPaint(color, alpha);
+        canvas.DrawRect(rect, fill);
+    }
+
+    private static void DrawRectStroke(SKCanvas canvas, SKRect rect, SKColor color, float width)
+    {
+        if (rect.Width <= 0 || rect.Height <= 0)
+        {
+            return;
+        }
+
+        using var stroke = StrokePaint(color, width);
+        canvas.DrawRect(rect, stroke);
+    }
+
+    private static SKRect OffsetRect(SKRect rect, float dx, float dy) =>
+        new(rect.Left + dx, rect.Top + dy, rect.Right + dx, rect.Bottom + dy);
+
+    private static void DrawResidueMark(SKCanvas canvas, SKPoint point)
+    {
+        using var stroke = StrokePaint(InverseStroke, 1.5f, 165);
+        canvas.DrawLine(point.X - 5, point.Y - 5, point.X + 5, point.Y + 5, stroke);
+        canvas.DrawLine(point.X + 5, point.Y - 5, point.X - 5, point.Y + 5, stroke);
     }
 
     private static void DrawTipBranch(SKCanvas canvas, SKRect bounds)

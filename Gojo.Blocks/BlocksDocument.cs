@@ -169,5 +169,6 @@ internal enum BlocksGlossarySheetKind
     SourceToSupport,
     DirectionToArea,
     Curves,
-    Branches
+    Branches,
+    BooleanParticipation
 }

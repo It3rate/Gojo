@@ -64,6 +64,18 @@ internal static class BlocksGlossaryContent
                 ["branch", "merge", "butt joint", "corner", "crossing", "enclosure", "partial area"],
                 GlossarySheet: BlocksGlossarySheetKind.Branches,
                 GlossaryDescriptions: descriptions,
+                GlossaryStructures: structures),
+            new BlocksPage(
+                "glossary-boolean-participation",
+                "Boolean Participation",
+                "Occupied support reads for points, segments, and areas.",
+                string.Empty,
+                null,
+                null,
+                0,
+                ["participants", "touch", "overlap", "union", "intersection", "difference"],
+                GlossarySheet: BlocksGlossarySheetKind.BooleanParticipation,
+                GlossaryDescriptions: descriptions,
                 GlossaryStructures: structures)
         ];
     }
