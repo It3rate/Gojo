@@ -686,15 +686,11 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
     private void DrawGlossaryLadder(SKCanvas canvas, BlocksPage page, SKRect area, List<BlocksHitArea> hitAreas)
     {
         var sheet = page.GlossarySheet;
-        string[] columns = sheet == BlocksGlossarySheetKind.SourceToSupport
-            ? ["site", "flow", "boundary", "partitioned", "orientation", "direction"]
-            : ["directed boundary", "boundary support", "directed support", "area", "directed area", "bounded area"];
-        string[] columnKeys = sheet == BlocksGlossarySheetKind.SourceToSupport
-            ? ["site", "flow", "boundary", "partitioned", "orientation", "direction"]
-            : ["directed-boundary", "boundary-support", "directed-support", "area", "directed-area", "bounded-area"];
-        string[] rows = ["radial\npositive", "radial\ninverse", "linear"];
-        string[] rowTitles = ["radial positive", "radial inverse", "linear"];
-        string[] rowKeys = ["radial-positive", "radial-inverse", "linear"];
+        var columns = GlossaryColumns(sheet);
+        var columnKeys = GlossaryColumnKeys(sheet);
+        var rows = GlossaryRows(sheet);
+        var rowTitles = GlossaryRowTitles(sheet);
+        var rowKeys = GlossaryRowKeys(sheet);
         var labelWidth = Math.Clamp(area.Width * 0.07f, 48f, 60f);
         var headerHeight = 46f;
         var gap = 10f;
@@ -720,13 +716,46 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
                 var x = area.Left + labelWidth + column * (cellWidth + gap);
                 var cell = new SKRect(x, y, x + cellWidth, y + cellHeight);
                 canvas.DrawRoundRect(cell, 6, 6, gridPaint);
-                DrawGlossaryLadderCell(canvas, sheet, (GlossaryLadderRow)row, column, cell);
+                DrawGlossaryLadderCell(canvas, sheet, row, column, cell);
                 var title = $"{TitleCase(rowTitles[row])} {TitleCase(columns[column])}";
                 var id = $"{GlossarySheetKey(sheet)}-{rowKeys[row]}-{columnKeys[column]}";
                 AddGlossaryTooltipHit(hitAreas, Inset(cell, 8), id, title, page);
             }
         }
     }
+
+    private static string[] GlossaryColumns(BlocksGlossarySheetKind sheet) =>
+        sheet switch
+        {
+            BlocksGlossarySheetKind.SourceToSupport => ["site", "flow", "boundary", "partitioned", "orientation", "direction"],
+            BlocksGlossarySheetKind.DirectionToArea => ["directed boundary", "boundary support", "directed support", "area", "directed area", "bounded area"],
+            BlocksGlossarySheetKind.Curves => ["corner / cusp", "arc blend", "Bezier", "clothoid", "involute", "plotted path"],
+            _ => []
+        };
+
+    private static string[] GlossaryColumnKeys(BlocksGlossarySheetKind sheet) =>
+        sheet switch
+        {
+            BlocksGlossarySheetKind.SourceToSupport => ["site", "flow", "boundary", "partitioned", "orientation", "direction"],
+            BlocksGlossarySheetKind.DirectionToArea => ["directed-boundary", "boundary-support", "directed-support", "area", "directed-area", "bounded-area"],
+            BlocksGlossarySheetKind.Curves => ["corner", "arc-blend", "bezier", "clothoid", "involute", "plotted"],
+            _ => []
+        };
+
+    private static string[] GlossaryRows(BlocksGlossarySheetKind sheet) =>
+        sheet == BlocksGlossarySheetKind.Curves
+            ? ["line\nto line", "line\nto arc", "arc\nto arc"]
+            : ["radial\npositive", "radial\ninverse", "linear"];
+
+    private static string[] GlossaryRowTitles(BlocksGlossarySheetKind sheet) =>
+        sheet == BlocksGlossarySheetKind.Curves
+            ? ["line to line", "line to arc", "arc to arc"]
+            : ["radial positive", "radial inverse", "linear"];
+
+    private static string[] GlossaryRowKeys(BlocksGlossarySheetKind sheet) =>
+        sheet == BlocksGlossarySheetKind.Curves
+            ? ["line-line", "line-arc", "arc-arc"]
+            : ["radial-positive", "radial-inverse", "linear"];
 
     private static void AddGlossaryTooltipHit(
         List<BlocksHitArea> hitAreas,
@@ -745,9 +774,13 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
     }
 
     private static string GlossarySheetKey(BlocksGlossarySheetKind sheet) =>
-        sheet == BlocksGlossarySheetKind.SourceToSupport
-            ? "source-support"
-            : "direction-area";
+        sheet switch
+        {
+            BlocksGlossarySheetKind.SourceToSupport => "source-support",
+            BlocksGlossarySheetKind.DirectionToArea => "direction-area",
+            BlocksGlossarySheetKind.Curves => "curves",
+            _ => "glossary"
+        };
 
     private static string TitleCase(string value) =>
         string.Join(
@@ -758,57 +791,374 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
     private void DrawGlossaryLadderCell(
         SKCanvas canvas,
         BlocksGlossarySheetKind sheet,
-        GlossaryLadderRow row,
+        int row,
         int column,
         SKRect cell)
     {
         var inner = Inset(cell, 10);
         if (sheet == BlocksGlossarySheetKind.SourceToSupport)
         {
+            var ladderRow = (GlossaryLadderRow)row;
             switch (column)
             {
                 case 0:
-                    DrawLadderSite(canvas, row, inner);
+                    DrawLadderSite(canvas, ladderRow, inner);
                     break;
                 case 1:
-                    DrawLadderFlow(canvas, row, inner);
+                    DrawLadderFlow(canvas, ladderRow, inner);
                     break;
                 case 2:
-                    DrawLadderBoundary(canvas, row, inner);
+                    DrawLadderBoundary(canvas, ladderRow, inner);
                     break;
                 case 3:
-                    DrawLadderPartitioned(canvas, row, inner);
+                    DrawLadderPartitioned(canvas, ladderRow, inner);
                     break;
                 case 4:
-                    DrawLadderOrientation(canvas, row, inner);
+                    DrawLadderOrientation(canvas, ladderRow, inner);
                     break;
                 case 5:
-                    DrawLadderDirection(canvas, row, inner);
+                    DrawLadderDirection(canvas, ladderRow, inner);
                     break;
             }
             return;
         }
 
+        if (sheet == BlocksGlossarySheetKind.Curves)
+        {
+            DrawCurveJoinCell(canvas, row, column, inner);
+            return;
+        }
+
+        var supportRow = (GlossaryLadderRow)row;
         switch (column)
         {
             case 0:
-                DrawLadderDirectedBoundary(canvas, row, inner);
+                DrawLadderDirectedBoundary(canvas, supportRow, inner);
                 break;
             case 1:
-                DrawLadderBoundedSupport(canvas, row, inner);
+                DrawLadderBoundedSupport(canvas, supportRow, inner);
                 break;
             case 2:
-                DrawLadderDirectedSupport(canvas, row, inner);
+                DrawLadderDirectedSupport(canvas, supportRow, inner);
                 break;
             case 3:
-                DrawLadderArea(canvas, row, inner);
+                DrawLadderArea(canvas, supportRow, inner);
                 break;
             case 4:
-                DrawLadderAreaFace(canvas, row, inner);
+                DrawLadderAreaFace(canvas, supportRow, inner);
                 break;
             case 5:
-                DrawLadderBoundedArea(canvas, row, inner);
+                DrawLadderBoundedArea(canvas, supportRow, inner);
                 break;
+        }
+    }
+
+    private static void DrawCurveJoinCell(SKCanvas canvas, int row, int column, SKRect bounds)
+    {
+        var geometry = CurveJoinGeometry.For(row, bounds);
+        if (column == 5)
+        {
+            DrawPlottedCurveContrast(canvas, bounds, geometry);
+            return;
+        }
+
+        DrawCurveCarriers(canvas, geometry);
+        switch (column)
+        {
+            case 0:
+                DrawCornerJoin(canvas, geometry);
+                break;
+            case 1:
+                DrawArcBlendJoin(canvas, geometry);
+                break;
+            case 2:
+                DrawBezierJoin(canvas, geometry);
+                break;
+            case 3:
+                DrawClothoidJoin(canvas, geometry);
+                break;
+            case 4:
+                DrawInvoluteJoin(canvas, geometry);
+                break;
+        }
+    }
+
+    private static void DrawCurveCarriers(SKCanvas canvas, CurveJoinGeometry geometry)
+    {
+        if (geometry.FirstArc is { } firstArc)
+        {
+            DrawCarrierArc(canvas, firstArc);
+        }
+        else
+        {
+            DrawCarrierLine(canvas, geometry.FirstStart, geometry.Start);
+        }
+
+        if (geometry.SecondArc is { } secondArc)
+        {
+            DrawCarrierArc(canvas, secondArc);
+        }
+        else
+        {
+            DrawCarrierLine(canvas, geometry.End, geometry.SecondEnd);
+        }
+
+        DrawPoint(canvas, geometry.Start, SiteColor, 4.2f);
+        DrawPoint(canvas, geometry.End, SiteColor, 4.2f);
+        DrawVectorArrow(canvas, geometry.Start, OffsetPoint(geometry.Start, geometry.StartTangent, 14f), BoundaryColor, 1.05f, 150);
+        DrawVectorArrow(canvas, OffsetPoint(geometry.End, geometry.EndTangent, -14f), geometry.End, BoundaryColor, 1.05f, 150);
+    }
+
+    private static void DrawCarrierLine(SKCanvas canvas, SKPoint start, SKPoint end)
+    {
+        DrawLine(canvas, start, end, BoundaryColor, 1.7f, 180);
+    }
+
+    private static void DrawCarrierArc(SKCanvas canvas, CurveArc arc)
+    {
+        var oval = new SKRect(
+            arc.Center.X - arc.Radius,
+            arc.Center.Y - arc.Radius,
+            arc.Center.X + arc.Radius,
+            arc.Center.Y + arc.Radius);
+        using var paint = StrokePaint(BoundaryColor, 1.7f, 180);
+        canvas.DrawArc(oval, arc.StartAngle, arc.Sweep, false, paint);
+    }
+
+    private static void DrawCornerJoin(SKCanvas canvas, CurveJoinGeometry geometry)
+    {
+        var corner = new SKPoint(
+            (geometry.Start.X + geometry.End.X) * 0.5f,
+            (geometry.Start.Y + geometry.End.Y) * 0.5f);
+        using var path = new SKPath();
+        path.MoveTo(geometry.Start);
+        path.LineTo(corner);
+        path.LineTo(geometry.End);
+        DrawBridgePath(canvas, path, InverseStroke, 2.1f, glow: false);
+        DrawPoint(canvas, corner, EndpointColor, 4.6f);
+    }
+
+    private static void DrawArcBlendJoin(SKCanvas canvas, CurveJoinGeometry geometry)
+    {
+        using var path = new SKPath();
+        var control = OffsetPoint(
+            OffsetPoint(geometry.Start, geometry.StartTangent, geometry.ControlScale * 0.45f),
+            geometry.EndTangent,
+            geometry.ControlScale * 0.28f);
+        path.MoveTo(geometry.Start);
+        path.QuadTo(control, geometry.End);
+        DrawBridgePath(canvas, path, PositiveStroke, 2.2f, glow: true);
+    }
+
+    private static void DrawBezierJoin(SKCanvas canvas, CurveJoinGeometry geometry)
+    {
+        var c1 = OffsetPoint(geometry.Start, geometry.StartTangent, geometry.ControlScale);
+        var c2 = OffsetPoint(geometry.End, geometry.EndTangent, -geometry.ControlScale);
+        DrawLine(canvas, geometry.Start, c1, TickColor, 1f, 135);
+        DrawLine(canvas, geometry.End, c2, TickColor, 1f, 135);
+        DrawPoint(canvas, c1, TickColor, 2.4f);
+        DrawPoint(canvas, c2, TickColor, 2.4f);
+
+        using var path = new SKPath();
+        path.MoveTo(geometry.Start);
+        path.CubicTo(c1, c2, geometry.End);
+        DrawBridgePath(canvas, path, PositiveStroke, 2.3f, glow: true);
+    }
+
+    private static void DrawClothoidJoin(SKCanvas canvas, CurveJoinGeometry geometry)
+    {
+        var c1 = OffsetPoint(geometry.Start, geometry.StartTangent, geometry.ControlScale * 0.35f);
+        var c2 = OffsetPoint(geometry.End, geometry.EndTangent, -geometry.ControlScale * 1.2f);
+        using var path = new SKPath();
+        path.MoveTo(geometry.Start);
+        path.CubicTo(c1, c2, geometry.End);
+        DrawBridgePath(canvas, path, new SKColor(49, 132, 153), 2.3f, glow: true);
+
+        for (var index = 1; index <= 3; index++)
+        {
+            var t = index / 4f;
+            var point = CubicPoint(geometry.Start, c1, c2, geometry.End, t);
+            var tangent = Normalize(CubicTangent(geometry.Start, c1, c2, geometry.End, t));
+            var normal = new SKPoint(-tangent.Y, tangent.X);
+            var length = 4f + index * 2.2f;
+            DrawLine(canvas, OffsetPoint(point, normal, -length), OffsetPoint(point, normal, length), TickColor, 1f, 145);
+        }
+    }
+
+    private static void DrawInvoluteJoin(SKCanvas canvas, CurveJoinGeometry geometry)
+    {
+        var baseCenter = new SKPoint(
+            (geometry.Start.X + geometry.End.X) * 0.5f,
+            (geometry.Start.Y + geometry.End.Y) * 0.5f + 7f);
+        var baseRadius = Math.Min(18f, Math.Max(11f, geometry.ControlScale * 0.30f));
+        DrawCircleBoundary(canvas, baseCenter, baseRadius, 1f, WithAlpha(BoundaryColor, 150));
+
+        using var path = new SKPath();
+        path.MoveTo(geometry.Start);
+        var turns = 5;
+        for (var index = 1; index <= turns; index++)
+        {
+            var t = index / (float)turns;
+            var angle = -145f + t * 230f;
+            var unwind = baseRadius + t * geometry.ControlScale * 0.60f;
+            var spiral = PointOnCircle(baseCenter, unwind, angle);
+            var blend = Lerp(spiral, Lerp(geometry.Start, geometry.End, t), 0.48f);
+            path.LineTo(blend);
+        }
+        path.LineTo(geometry.End);
+        DrawBridgePath(canvas, path, PositiveStroke, 2.2f, glow: true);
+        DrawLine(canvas, baseCenter, geometry.Start, TickColor, 1f, 115);
+    }
+
+    private static void DrawPlottedCurveContrast(SKCanvas canvas, SKRect bounds, CurveJoinGeometry geometry)
+    {
+        var plot = Inset(bounds, 9);
+        using var axis = StrokePaint(TickColor, 1f, 135);
+        canvas.DrawLine(plot.Left, plot.Bottom - 10, plot.Right, plot.Bottom - 10, axis);
+        canvas.DrawLine(plot.Left + 8, plot.Top, plot.Left + 8, plot.Bottom, axis);
+
+        var c1 = OffsetPoint(geometry.Start, geometry.StartTangent, geometry.ControlScale);
+        var c2 = OffsetPoint(geometry.End, geometry.EndTangent, -geometry.ControlScale);
+        using var path = new SKPath();
+        path.MoveTo(geometry.Start);
+        path.CubicTo(c1, c2, geometry.End);
+        DrawBridgePath(canvas, path, new SKColor(66, 122, 153), 1.8f, glow: false);
+        for (var index = 0; index <= 6; index++)
+        {
+            var point = CubicPoint(geometry.Start, c1, c2, geometry.End, index / 6f);
+            DrawPoint(canvas, point, BoundaryMarkerColor, 2f);
+        }
+    }
+
+    private static void DrawBridgePath(SKCanvas canvas, SKPath path, SKColor color, float width, bool glow)
+    {
+        if (glow)
+        {
+            using var soft = StrokePaint(color, width + 6f, 42);
+            canvas.DrawPath(path, soft);
+        }
+
+        using var paint = StrokePaint(color, width);
+        canvas.DrawPath(path, paint);
+    }
+
+    private static SKPoint CubicPoint(SKPoint a, SKPoint b, SKPoint c, SKPoint d, float t)
+    {
+        var u = 1f - t;
+        var aw = u * u * u;
+        var bw = 3f * u * u * t;
+        var cw = 3f * u * t * t;
+        var dw = t * t * t;
+        return new SKPoint(
+            a.X * aw + b.X * bw + c.X * cw + d.X * dw,
+            a.Y * aw + b.Y * bw + c.Y * cw + d.Y * dw);
+    }
+
+    private static SKPoint CubicTangent(SKPoint a, SKPoint b, SKPoint c, SKPoint d, float t)
+    {
+        var u = 1f - t;
+        var ab = 3f * u * u;
+        var bc = 6f * u * t;
+        var cd = 3f * t * t;
+        return new SKPoint(
+            (b.X - a.X) * ab + (c.X - b.X) * bc + (d.X - c.X) * cd,
+            (b.Y - a.Y) * ab + (c.Y - b.Y) * bc + (d.Y - c.Y) * cd);
+    }
+
+    private static SKPoint OffsetPoint(SKPoint point, SKPoint direction, float distance) =>
+        new(point.X + direction.X * distance, point.Y + direction.Y * distance);
+
+    private static SKPoint Normalize(SKPoint point)
+    {
+        var length = MathF.Sqrt(point.X * point.X + point.Y * point.Y);
+        return length <= 0.001f ? new SKPoint(1, 0) : new SKPoint(point.X / length, point.Y / length);
+    }
+
+    private readonly record struct CurveArc(SKPoint Center, float Radius, float StartAngle, float Sweep);
+
+    private readonly record struct CurveJoinGeometry(
+        SKPoint FirstStart,
+        SKPoint Start,
+        SKPoint End,
+        SKPoint SecondEnd,
+        SKPoint StartTangent,
+        SKPoint EndTangent,
+        float ControlScale,
+        CurveArc? FirstArc,
+        CurveArc? SecondArc)
+    {
+        public static CurveJoinGeometry For(int row, SKRect bounds) =>
+            row switch
+            {
+                1 => LineToArc(bounds),
+                2 => ArcToArc(bounds),
+                _ => LineToLine(bounds)
+            };
+
+        private static CurveJoinGeometry LineToLine(SKRect bounds)
+        {
+            var y = bounds.MidY + bounds.Height * 0.10f;
+            var start = new SKPoint(bounds.Left + bounds.Width * 0.34f, y);
+            var end = new SKPoint(bounds.Right - bounds.Width * 0.32f, bounds.MidY - bounds.Height * 0.18f);
+            return new CurveJoinGeometry(
+                new SKPoint(bounds.Left + 8, y),
+                start,
+                end,
+                new SKPoint(bounds.Right - 8, bounds.MidY - bounds.Height * 0.30f),
+                Normalize(new SKPoint(1f, -0.06f)),
+                Normalize(new SKPoint(1f, -0.18f)),
+                bounds.Width * 0.22f,
+                null,
+                null);
+        }
+
+        private static CurveJoinGeometry LineToArc(SKRect bounds)
+        {
+            var start = new SKPoint(bounds.Left + bounds.Width * 0.32f, bounds.MidY + bounds.Height * 0.15f);
+            var center = new SKPoint(bounds.Right - bounds.Width * 0.25f, bounds.MidY + bounds.Height * 0.03f);
+            var radius = Math.Min(bounds.Width, bounds.Height) * 0.26f;
+            var arcStartAngle = 190f;
+            var end = PointOnCircle(center, radius, arcStartAngle);
+            return new CurveJoinGeometry(
+                new SKPoint(bounds.Left + 8, start.Y),
+                start,
+                end,
+                PointOnCircle(center, radius, 95f),
+                new SKPoint(1f, 0f),
+                TangentForAngle(arcStartAngle, clockwise: false),
+                bounds.Width * 0.24f,
+                null,
+                new CurveArc(center, radius, arcStartAngle, -95f));
+        }
+
+        private static CurveJoinGeometry ArcToArc(SKRect bounds)
+        {
+            var radius = Math.Min(bounds.Width, bounds.Height) * 0.24f;
+            var leftCenter = new SKPoint(bounds.Left + bounds.Width * 0.30f, bounds.MidY + bounds.Height * 0.06f);
+            var rightCenter = new SKPoint(bounds.Right - bounds.Width * 0.28f, bounds.MidY - bounds.Height * 0.04f);
+            var startAngle = -20f;
+            var endAngle = 200f;
+            var start = PointOnCircle(leftCenter, radius, startAngle);
+            var end = PointOnCircle(rightCenter, radius, endAngle);
+            return new CurveJoinGeometry(
+                PointOnCircle(leftCenter, radius, -105f),
+                start,
+                end,
+                PointOnCircle(rightCenter, radius, 105f),
+                TangentForAngle(startAngle, clockwise: true),
+                TangentForAngle(endAngle, clockwise: false),
+                bounds.Width * 0.25f,
+                new CurveArc(leftCenter, radius, -105f, 85f),
+                new CurveArc(rightCenter, radius, endAngle, -95f));
+        }
+
+        private static SKPoint TangentForAngle(float degrees, bool clockwise)
+        {
+            var radians = degrees * MathF.PI / 180f;
+            var radial = new SKPoint(MathF.Cos(radians), MathF.Sin(radians));
+            return clockwise
+                ? new SKPoint(radial.Y, -radial.X)
+                : new SKPoint(-radial.Y, radial.X);
         }
     }
 

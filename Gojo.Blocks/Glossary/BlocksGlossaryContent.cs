@@ -37,6 +37,17 @@ internal static class BlocksGlossaryContent
                 0,
                 ["directed boundary", "boundary support", "directed support", "area", "directed area", "bounded area"],
                 GlossarySheet: BlocksGlossarySheetKind.DirectionToArea,
+                GlossaryDescriptions: descriptions),
+            new BlocksPage(
+                "glossary-curves",
+                "Carrier Curve Joins",
+                "Corners, smooth joins, changing curvature, involutes, and plotted contrast.",
+                string.Empty,
+                null,
+                null,
+                0,
+                ["tangency", "corner", "arc", "Bezier", "clothoid", "involute", "plot"],
+                GlossarySheet: BlocksGlossarySheetKind.Curves,
                 GlossaryDescriptions: descriptions)
         ];
     }
