@@ -10,50 +10,34 @@ internal static class BlocksGlossaryContent
 {
     private const string DefaultLocale = "en";
     private const string DescriptionFileName = "glossary-descriptions.json";
-    private const int ItemsPerPage = 8;
 
     public static IReadOnlyList<BlocksPage> CreatePages(string locale = DefaultLocale)
     {
         var descriptions = LoadDescriptions(locale);
-        var items = CreateItems();
-        var samplePages = items
-            .Chunk(ItemsPerPage)
-            .Select((sheet, index) => new BlocksPage(
-                $"glossary-samples-{index + 1:00}",
-                "Renderer Primitive Samples",
-                $"Already present primitives, sheet {index + 1}",
-                string.Empty,
-                null,
-                null,
-                0,
-                ["display primitive", "GojoCAD read", "GojoDraw render", "theme sample"],
-                GlossaryItems: sheet,
-                GlossaryDescriptions: descriptions));
         return
         [
             new BlocksPage(
                 "glossary-source-support",
-                "Boundary / Support Ladder",
-                "Source, flow, boundary, support, and early resolution.",
+                "Source / Direction Ladder",
+                "Source, flow, boundary, partition, orientation, and direction.",
                 string.Empty,
                 null,
                 null,
                 0,
-                ["site", "flow", "boundary", "support", "partition"],
+                ["site", "flow", "boundary", "partition", "orientation", "direction"],
                 GlossarySheet: BlocksGlossarySheetKind.SourceToSupport,
                 GlossaryDescriptions: descriptions),
             new BlocksPage(
                 "glossary-direction-area",
-                "Directed Support Ladder",
-                "Direction, directed boundary, directed support, and area face.",
+                "Support / Area Ladder",
+                "Directed boundary, support, area, spin, and bounded area.",
                 string.Empty,
                 null,
                 null,
                 0,
-                ["direction", "directed boundary", "directed support", "area", "face"],
+                ["directed boundary", "boundary support", "directed support", "area", "spin", "bounded area"],
                 GlossarySheet: BlocksGlossarySheetKind.DirectionToArea,
-                GlossaryDescriptions: descriptions),
-            .. samplePages
+                GlossaryDescriptions: descriptions)
         ];
     }
 

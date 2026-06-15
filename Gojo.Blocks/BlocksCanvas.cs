@@ -683,40 +683,41 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
     {
         var sheet = page.GlossarySheet;
         string[] columns = sheet == BlocksGlossarySheetKind.SourceToSupport
-            ? ["site", "flow", "boundary", "bounded support", "partitioned"]
-            : ["direction", "directed boundary", "directed support", "area", "area face / spin"];
+            ? ["site", "flow", "boundary", "partitioned", "orientation", "direction"]
+            : ["directed boundary", "boundary support", "directed support", "area", "spin", "bounded area"];
         string[] columnKeys = sheet == BlocksGlossarySheetKind.SourceToSupport
-            ? ["site", "flow", "boundary", "bounded-support", "partitioned"]
-            : ["direction", "directed-boundary", "directed-support", "area", "area-face-spin"];
-        string[] rows = ["radial positive", "radial inverse", "linear"];
+            ? ["site", "flow", "boundary", "partitioned", "orientation", "direction"]
+            : ["directed-boundary", "boundary-support", "directed-support", "area", "spin", "bounded-area"];
+        string[] rows = ["radial\npositive", "radial\ninverse", "linear"];
+        string[] rowTitles = ["radial positive", "radial inverse", "linear"];
         string[] rowKeys = ["radial-positive", "radial-inverse", "linear"];
-        var labelWidth = Math.Clamp(area.Width * 0.16f, 98f, 138f);
-        var headerHeight = 38f;
-        var gap = 12f;
+        var labelWidth = Math.Clamp(area.Width * 0.15f, 94f, 130f);
+        var headerHeight = 46f;
+        var gap = 10f;
         var cellWidth = (area.Width - labelWidth - gap * (columns.Length - 1)) / columns.Length;
         var cellHeight = (area.Height - headerHeight - gap * (rows.Length - 1)) / rows.Length;
 
-        using var headerPaint = TextPaint(12.5f, theme.Ink, bold: true);
+        using var headerPaint = TextPaint(11.8f, theme.Ink, bold: true);
         using var rowPaint = TextPaint(12.5f, theme.Ink);
         using var gridPaint = new SKPaint { Color = WithAlpha(theme.SoftLine, 95), Style = SKPaintStyle.Stroke, StrokeWidth = 1, IsAntialias = true };
 
         for (var column = 0; column < columns.Length; column++)
         {
             var x = area.Left + labelWidth + column * (cellWidth + gap);
-            DrawCenteredText(canvas, columns[column], new SKRect(x, area.Top + 4, x + cellWidth, area.Top + headerHeight), headerPaint);
+            DrawCenteredMultilineText(canvas, columns[column], new SKRect(x, area.Top + 4, x + cellWidth, area.Top + headerHeight), headerPaint, 13f);
         }
 
         for (var row = 0; row < rows.Length; row++)
         {
             var y = area.Top + headerHeight + row * (cellHeight + gap);
-            DrawRightAlignedText(canvas, rows[row], new SKRect(area.Left, y, area.Left + labelWidth - 16, y + cellHeight), rowPaint);
+            DrawRightAlignedMultilineText(canvas, rows[row], new SKRect(area.Left, y, area.Left + labelWidth - 16, y + cellHeight), rowPaint, 15f);
             for (var column = 0; column < columns.Length; column++)
             {
                 var x = area.Left + labelWidth + column * (cellWidth + gap);
                 var cell = new SKRect(x, y, x + cellWidth, y + cellHeight);
                 canvas.DrawRoundRect(cell, 6, 6, gridPaint);
                 DrawGlossaryLadderCell(canvas, sheet, (GlossaryLadderRow)row, column, cell);
-                var title = $"{TitleCase(rows[row])} {TitleCase(columns[column])}";
+                var title = $"{TitleCase(rowTitles[row])} {TitleCase(columns[column])}";
                 var id = $"{GlossarySheetKey(sheet)}-{rowKeys[row]}-{columnKeys[column]}";
                 AddGlossaryTooltipHit(hitAreas, Inset(cell, 8), id, title, page);
             }
@@ -772,10 +773,13 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
                     DrawLadderBoundary(canvas, row, inner);
                     break;
                 case 3:
-                    DrawLadderBoundedSupport(canvas, row, inner);
+                    DrawLadderPartitioned(canvas, row, inner);
                     break;
                 case 4:
-                    DrawLadderPartitioned(canvas, row, inner);
+                    DrawLadderOrientation(canvas, row, inner);
+                    break;
+                case 5:
+                    DrawLadderDirection(canvas, row, inner);
                     break;
             }
             return;
@@ -784,10 +788,10 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
         switch (column)
         {
             case 0:
-                DrawLadderDirection(canvas, row, inner);
+                DrawLadderDirectedBoundary(canvas, row, inner);
                 break;
             case 1:
-                DrawLadderDirectedBoundary(canvas, row, inner);
+                DrawLadderBoundedSupport(canvas, row, inner);
                 break;
             case 2:
                 DrawLadderDirectedSupport(canvas, row, inner);
@@ -797,6 +801,9 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
                 break;
             case 4:
                 DrawLadderAreaFace(canvas, row, inner);
+                break;
+            case 5:
+                DrawLadderBoundedArea(canvas, row, inner);
                 break;
         }
     }
@@ -890,21 +897,46 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
         DrawRadiusEvidence(canvas, center, new SKPoint(center.X + radius * 0.86f, center.Y));
     }
 
-    private void DrawLadderDirection(SKCanvas canvas, GlossaryLadderRow row, SKRect bounds)
+    private void DrawLadderOrientation(SKCanvas canvas, GlossaryLadderRow row, SKRect bounds)
     {
         if (row == GlossaryLadderRow.Linear)
         {
-            var y = bounds.MidY;
-            var start = new SKPoint(bounds.Left + bounds.Width * 0.20f, y);
-            var end = new SKPoint(bounds.Right - bounds.Width * 0.20f, y);
-            DrawLine(canvas, start, end, BoundaryColor, 1.5f);
-            DrawVectorArrow(canvas, start, end, PositiveStroke, 1.7f);
-            DrawPoint(canvas, start, SiteColor, 5);
+            DrawLinearOrientation(canvas, bounds);
             return;
         }
 
         var inverse = row == GlossaryLadderRow.RadialInverse;
-        DrawRadialDirection(canvas, bounds, inverse, fullArc: false);
+        var center = Center(bounds);
+        var radius = Math.Min(bounds.Width, bounds.Height) * 0.34f;
+        DrawCircleBoundary(canvas, center, radius, width: 1.9f, color: inverse ? WithAlpha(InverseStroke, 120) : WithAlpha(PositiveStroke, 145));
+        DrawPoint(canvas, center, SiteColor, 8);
+        DrawRadiusEvidence(canvas, center, new SKPoint(center.X + radius * 0.86f, center.Y));
+        DrawRadialTicks(canvas, center, radius);
+
+        var arcRadius = radius * 1.12f;
+        var start = inverse ? -145f : -35f;
+        var sweep = inverse ? 105f : -105f;
+        var color = inverse ? InverseStroke : PositiveStroke;
+        using var paint = StrokePaint(color, 4.2f);
+        paint.StrokeCap = SKStrokeCap.Butt;
+        var oval = new SKRect(center.X - arcRadius, center.Y - arcRadius, center.X + arcRadius, center.Y + arcRadius);
+        canvas.DrawArc(oval, start, sweep, false, paint);
+        var arrowStart = PointOnCircle(center, arcRadius, start + sweep * 0.84f);
+        var arrowEnd = PointOnCircle(center, arcRadius, start + sweep);
+        using var arrow = StrokePaint(color, 3.2f);
+        DrawArrowHead(canvas, arrowStart, arrowEnd, arrow);
+    }
+
+    private void DrawLadderDirection(SKCanvas canvas, GlossaryLadderRow row, SKRect bounds)
+    {
+        if (row == GlossaryLadderRow.Linear)
+        {
+            DrawLinearDirection(canvas, bounds);
+            return;
+        }
+
+        var inverse = row == GlossaryLadderRow.RadialInverse;
+        DrawRadialSignedDirection(canvas, bounds, inverse);
     }
 
     private void DrawLadderDirectedBoundary(SKCanvas canvas, GlossaryLadderRow row, SKRect bounds)
@@ -982,6 +1014,25 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
         DrawSpinArrow(canvas, center, radius * 0.80f, inverse);
     }
 
+    private void DrawLadderBoundedArea(SKCanvas canvas, GlossaryLadderRow row, SKRect bounds)
+    {
+        if (row == GlossaryLadderRow.Linear)
+        {
+            DrawBoundedLinearArea(canvas, bounds);
+            return;
+        }
+
+        var inverse = row == GlossaryLadderRow.RadialInverse;
+        var center = Center(bounds);
+        var radius = Math.Min(bounds.Width, bounds.Height) * 0.33f;
+        using var fill = FillPaint(inverse ? InverseColor : PositiveColor, 185);
+        canvas.DrawCircle(center, radius, fill);
+        DrawCircleBoundary(canvas, center, radius, width: 1.8f, color: inverse ? InverseStroke : PositiveStroke);
+        DrawPoint(canvas, center, SiteColor, 7.5f);
+        DrawRadiusEvidence(canvas, center, new SKPoint(center.X + radius * 0.86f, center.Y));
+        DrawSpinArrow(canvas, center, radius * 0.78f, inverse);
+    }
+
     private static SKPoint Center(SKRect bounds) =>
         new(bounds.MidX, bounds.MidY);
 
@@ -1019,6 +1070,35 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
         canvas.DrawText(text, bounds.Right - width, bounds.MidY + paint.TextSize * 0.34f, paint);
     }
 
+    private static void DrawCenteredMultilineText(SKCanvas canvas, string text, SKRect bounds, SKPaint paint, float lineHeight)
+    {
+        var lines = LabelLines(text);
+        var firstBaseline = bounds.MidY - (lines.Count - 1) * lineHeight * 0.5f + paint.TextSize * 0.34f;
+        for (var index = 0; index < lines.Count; index++)
+        {
+            var line = lines[index];
+            var width = paint.MeasureText(line);
+            canvas.DrawText(line, bounds.MidX - width * 0.5f, firstBaseline + index * lineHeight, paint);
+        }
+    }
+
+    private static void DrawRightAlignedMultilineText(SKCanvas canvas, string text, SKRect bounds, SKPaint paint, float lineHeight)
+    {
+        var lines = LabelLines(text);
+        var firstBaseline = bounds.MidY - (lines.Count - 1) * lineHeight * 0.5f + paint.TextSize * 0.34f;
+        for (var index = 0; index < lines.Count; index++)
+        {
+            var line = lines[index];
+            var width = paint.MeasureText(line);
+            canvas.DrawText(line, bounds.Right - width, firstBaseline + index * lineHeight, paint);
+        }
+    }
+
+    private static IReadOnlyList<string> LabelLines(string text) =>
+        text.Contains('\n')
+            ? text.Split('\n', StringSplitOptions.RemoveEmptyEntries)
+            : text.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
     private static void DrawPoint(SKCanvas canvas, SKPoint point, SKColor color, float radius)
     {
         using var fill = FillPaint(color);
@@ -1036,6 +1116,25 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
         using var paint = StrokePaint(color, width, alpha);
         canvas.DrawLine(start, end, paint);
         DrawArrowHead(canvas, start, end, paint);
+    }
+
+    private static void DrawArcArrow(SKCanvas canvas, SKPoint center, float radius, float startAngle, float endAngle, SKColor color, float width)
+    {
+        var sweep = endAngle - startAngle;
+        using var paint = StrokePaint(color, width);
+        var oval = new SKRect(center.X - radius, center.Y - radius, center.X + radius, center.Y + radius);
+        canvas.DrawArc(oval, startAngle, sweep, false, paint);
+        var arrowStep = Math.Sign(sweep) * Math.Min(18f, Math.Abs(sweep) * 0.35f);
+        var arrowStart = PointOnCircle(center, radius, endAngle - arrowStep);
+        var arrowEnd = PointOnCircle(center, radius, endAngle);
+        DrawArrowHead(canvas, arrowStart, arrowEnd, paint);
+    }
+
+    private static void DrawSign(SKCanvas canvas, string text, SKPoint point, SKColor color, float size)
+    {
+        using var paint = TextPaint(size, color, bold: true);
+        var width = paint.MeasureText(text);
+        canvas.DrawText(text, point.X - width * 0.5f, point.Y + size * 0.34f, paint);
     }
 
     private static SKPoint PointOnCircle(SKPoint center, float radius, float degrees)
@@ -1106,10 +1205,21 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
         DrawRadiusEvidence(canvas, start, end);
     }
 
-    private static void DrawCircleBoundary(SKCanvas canvas, SKPoint center, float radius, float width = 1.25f)
+    private static void DrawCircleBoundary(SKCanvas canvas, SKPoint center, float radius, float width = 1.25f, SKColor? color = null)
     {
-        using var stroke = StrokePaint(BoundaryColor, width);
+        using var stroke = StrokePaint(color ?? BoundaryColor, width);
         canvas.DrawCircle(center, radius, stroke);
+    }
+
+    private static void DrawRadialTicks(SKCanvas canvas, SKPoint center, float radius)
+    {
+        for (var index = 0; index < 8; index++)
+        {
+            var angle = index * 45f;
+            var a = PointOnCircle(center, radius - 4, angle);
+            var b = PointOnCircle(center, radius + 5, angle);
+            DrawLine(canvas, a, b, TickColor, 1.1f);
+        }
     }
 
     private static void DrawRadiusEvidence(SKCanvas canvas, SKPoint start, SKPoint end)
@@ -1134,6 +1244,94 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
         DrawLine(canvas, new SKPoint(left, y), new SKPoint(right, y), BoundaryColor, 2f);
         DrawPoint(canvas, new SKPoint(left, y), SiteColor, 8);
         DrawPoint(canvas, new SKPoint(right, y), SiteColor, 8);
+    }
+
+    private static void DrawLinearOrientation(SKCanvas canvas, SKRect bounds)
+    {
+        var y = bounds.MidY;
+        var left = bounds.Left + bounds.Width * 0.16f;
+        var right = bounds.Right - bounds.Width * 0.16f;
+        var zero = new SKPoint((left + right) * 0.5f, y);
+        DrawLine(canvas, new SKPoint(left, y), new SKPoint(right, y), BoundaryColor, 1.4f, 165);
+        DrawPoint(canvas, zero, SiteColor, 7.5f);
+
+        DrawVectorArrow(
+            canvas,
+            new SKPoint(zero.X - 4, y - 14),
+            new SKPoint(right, y - 14),
+            PositiveStroke,
+            2.4f);
+        DrawVectorArrow(
+            canvas,
+            new SKPoint(zero.X + 4, y + 14),
+            new SKPoint(left, y + 14),
+            InverseStroke,
+            2.4f);
+        DrawSign(canvas, "+", new SKPoint(right + 8, y - 11), PositiveStroke, 16f);
+        DrawSign(canvas, "+", new SKPoint(left - 18, y + 17), InverseStroke, 16f);
+    }
+
+    private static void DrawLinearDirection(SKCanvas canvas, SKRect bounds)
+    {
+        var y = bounds.MidY;
+        var left = bounds.Left + bounds.Width * 0.16f;
+        var right = bounds.Right - bounds.Width * 0.16f;
+        var zero = new SKPoint((left + right) * 0.5f, y);
+        DrawLine(canvas, new SKPoint(left, y), new SKPoint(right, y), BoundaryColor, 1.4f, 165);
+        DrawPoint(canvas, zero, EndpointColor, 5.5f);
+        DrawLine(canvas, new SKPoint(zero.X, y - 24), new SKPoint(zero.X, y + 24), TickColor, 1.2f);
+
+        DrawVectorArrow(
+            canvas,
+            new SKPoint(zero.X + 2, y - 14),
+            new SKPoint(right, y - 14),
+            PositiveStroke,
+            1.8f);
+        DrawVectorArrow(
+            canvas,
+            new SKPoint(left, y + 14),
+            new SKPoint(zero.X - 2, y + 14),
+            InverseStroke,
+            1.8f);
+        DrawSign(canvas, "+", new SKPoint(right + 8, y - 11), PositiveStroke, 16f);
+        DrawSign(canvas, "-", new SKPoint(left - 15, y + 17), InverseStroke, 16f);
+    }
+
+    private static void DrawRadialSignedDirection(SKCanvas canvas, SKRect bounds, bool inverse)
+    {
+        var center = Center(bounds);
+        var radius = Math.Min(bounds.Width, bounds.Height) * 0.34f;
+        var boundaryColor = inverse ? WithAlpha(InverseStroke, 115) : WithAlpha(PositiveStroke, 135);
+        DrawCircleBoundary(canvas, center, radius, width: 1.8f, color: boundaryColor);
+        DrawRadialTicks(canvas, center, radius);
+        DrawPoint(canvas, center, SiteColor, 8);
+        var zero = new SKPoint(center.X + radius, center.Y);
+        DrawRadiusEvidence(canvas, center, zero);
+        DrawPoint(canvas, zero, EndpointColor, 4.8f);
+
+        var positiveEndAngle = inverse ? 34f : -34f;
+        var negativeStartAngle = inverse ? -34f : 34f;
+        var positiveLabel = PointOnCircle(center, radius * 1.23f, positiveEndAngle);
+        var negativeLabel = PointOnCircle(center, radius * 1.23f, negativeStartAngle);
+
+        DrawArcArrow(
+            canvas,
+            center,
+            radius * 1.02f,
+            0f,
+            positiveEndAngle,
+            PositiveStroke,
+            2.2f);
+        DrawArcArrow(
+            canvas,
+            center,
+            radius * 1.02f,
+            negativeStartAngle,
+            0f,
+            InverseStroke,
+            2.2f);
+        DrawSign(canvas, "+", positiveLabel, PositiveStroke, 18f);
+        DrawSign(canvas, "-", negativeLabel, InverseStroke, 18f);
     }
 
     private static void DrawRadialDirection(SKCanvas canvas, SKRect bounds, bool inverse, bool fullArc)
@@ -1239,6 +1437,40 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
             centerY + height * 0.5f);
         using var fill = FillPaint(color, 220);
         canvas.DrawRect(rect, fill);
+    }
+
+    private static void DrawBoundedLinearArea(SKCanvas canvas, SKRect bounds)
+    {
+        var width = bounds.Width * 0.58f;
+        var height = bounds.Height * 0.58f;
+        var rect = new SKRect(
+            bounds.MidX - width * 0.5f,
+            bounds.MidY - height * 0.5f,
+            bounds.MidX + width * 0.5f,
+            bounds.MidY + height * 0.5f);
+        var top = new SKRect(rect.Left, rect.Top, rect.Right, rect.MidY);
+        var bottom = new SKRect(rect.Left, rect.MidY, rect.Right, rect.Bottom);
+        using var positive = FillPaint(PositiveColor, 205);
+        using var inverse = FillPaint(InverseColor, 165);
+        canvas.DrawRect(top, positive);
+        canvas.DrawRect(bottom, inverse);
+        DrawLine(canvas, new SKPoint(rect.Left, rect.MidY), new SKPoint(rect.Right, rect.MidY), BoundaryColor, 1.6f);
+        DrawLine(canvas, new SKPoint(rect.Left, rect.Top), new SKPoint(rect.Right, rect.Top), BoundaryColor, 1f, 175);
+        DrawLine(canvas, new SKPoint(rect.Right, rect.Top), new SKPoint(rect.Right, rect.Bottom), BoundaryColor, 1f, 175);
+        DrawLine(canvas, new SKPoint(rect.Right, rect.Bottom), new SKPoint(rect.Left, rect.Bottom), BoundaryColor, 1f, 175);
+        DrawLine(canvas, new SKPoint(rect.Left, rect.Bottom), new SKPoint(rect.Left, rect.Top), BoundaryColor, 1f, 175);
+        DrawVectorArrow(
+            canvas,
+            new SKPoint(rect.Left + 8, rect.MidY - 12),
+            new SKPoint(rect.Right - 8, rect.MidY - 12),
+            PositiveStroke,
+            1.45f);
+        DrawVectorArrow(
+            canvas,
+            new SKPoint(rect.Right - 8, rect.MidY + 12),
+            new SKPoint(rect.Left + 8, rect.MidY + 12),
+            InverseStroke,
+            1.45f);
     }
 
     private static void DrawSpinArrow(SKCanvas canvas, SKPoint center, float radius, bool inverse)
