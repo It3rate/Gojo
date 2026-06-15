@@ -14,6 +14,7 @@ internal static class BlocksGlossaryContent
     public static IReadOnlyList<BlocksPage> CreatePages(string locale = DefaultLocale)
     {
         var descriptions = LoadDescriptions(locale);
+        var structures = BlocksGlossaryStructureCatalog.Create();
         return
         [
             new BlocksPage(
@@ -26,7 +27,8 @@ internal static class BlocksGlossaryContent
                 0,
                 ["site", "flow", "boundary", "partition", "orientation", "direction"],
                 GlossarySheet: BlocksGlossarySheetKind.SourceToSupport,
-                GlossaryDescriptions: descriptions),
+                GlossaryDescriptions: descriptions,
+                GlossaryStructures: structures),
             new BlocksPage(
                 "glossary-direction-area",
                 "Support / Area Ladder",
@@ -37,7 +39,8 @@ internal static class BlocksGlossaryContent
                 0,
                 ["directed boundary", "boundary support", "directed support", "area", "directed area", "bounded area"],
                 GlossarySheet: BlocksGlossarySheetKind.DirectionToArea,
-                GlossaryDescriptions: descriptions),
+                GlossaryDescriptions: descriptions,
+                GlossaryStructures: structures),
             new BlocksPage(
                 "glossary-curves",
                 "Carrier Curve Joins",
@@ -48,7 +51,8 @@ internal static class BlocksGlossaryContent
                 0,
                 ["tangency", "corner", "arc", "Bezier", "clothoid", "involute", "plot"],
                 GlossarySheet: BlocksGlossarySheetKind.Curves,
-                GlossaryDescriptions: descriptions),
+                GlossaryDescriptions: descriptions,
+                GlossaryStructures: structures),
             new BlocksPage(
                 "glossary-branches",
                 "Branch / Merge Structures",
@@ -59,7 +63,8 @@ internal static class BlocksGlossaryContent
                 0,
                 ["branch", "merge", "butt joint", "corner", "crossing", "enclosure", "partial area"],
                 GlossarySheet: BlocksGlossarySheetKind.Branches,
-                GlossaryDescriptions: descriptions)
+                GlossaryDescriptions: descriptions,
+                GlossaryStructures: structures)
         ];
     }
 

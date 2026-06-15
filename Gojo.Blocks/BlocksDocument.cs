@@ -128,7 +128,8 @@ internal sealed record BlocksPage(
     BlocksTutorialScene? TutorialScene = null,
     IReadOnlyList<BlocksGlossaryItem>? GlossaryItems = null,
     BlocksGlossarySheetKind GlossarySheet = BlocksGlossarySheetKind.None,
-    IReadOnlyDictionary<string, string>? GlossaryDescriptions = null)
+    IReadOnlyDictionary<string, string>? GlossaryDescriptions = null,
+    IReadOnlyDictionary<string, BlocksGlossaryStructure>? GlossaryStructures = null)
 {
     public bool HasAnimation => TutorialScene?.HasAnimation == true;
 
@@ -140,6 +141,12 @@ internal sealed record BlocksPage(
         GlossaryDescriptions.TryGetValue(id, out var description)
             ? description
             : null;
+
+    public BlocksGlossaryStructure? GlossaryStructureFor(string id) =>
+        GlossaryStructures is not null &&
+        GlossaryStructures.TryGetValue(id, out var structure)
+            ? structure
+            : null;
 }
 
 internal sealed record BlocksGlossaryItem(
@@ -148,6 +155,13 @@ internal sealed record BlocksGlossaryItem(
     IElement Structure,
     SKRect? ModelBounds,
     int ProjectionSeed = 0);
+
+internal sealed record BlocksGlossaryStructure(
+    IElement Structure,
+    SKRect? ModelBounds,
+    int ProjectionSeed,
+    string Expression,
+    string? EncodingNote = null);
 
 internal enum BlocksGlossarySheetKind
 {

@@ -715,10 +715,10 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
             {
                 var x = area.Left + labelWidth + column * (cellWidth + gap);
                 var cell = new SKRect(x, y, x + cellWidth, y + cellHeight);
-                canvas.DrawRoundRect(cell, 6, 6, gridPaint);
-                DrawGlossaryLadderCell(canvas, sheet, row, column, cell);
                 var title = $"{TitleCase(rowTitles[row])} {TitleCase(columns[column])}";
                 var id = $"{GlossarySheetKey(sheet)}-{rowKeys[row]}-{columnKeys[column]}";
+                canvas.DrawRoundRect(cell, 6, 6, gridPaint);
+                DrawGlossaryLadderCell(canvas, sheet, row, column, cell);
                 AddGlossaryTooltipHit(hitAreas, Inset(cell, 8), id, title, page);
             }
         }
@@ -775,13 +775,35 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
         string title,
         BlocksPage page)
     {
-        var body = page.GlossaryDescriptionFor(id);
+        var body = TooltipBody(page.GlossaryDescriptionFor(id), page.GlossaryStructureFor(id));
         if (string.IsNullOrWhiteSpace(body))
         {
             return;
         }
 
         hitAreas.Add(new BlocksHitArea(bounds, BlocksHitKind.GlossaryTooltip, -1, title, body));
+    }
+
+    private static string TooltipBody(string? description, BlocksGlossaryStructure? structure)
+    {
+        var sections = new List<string>();
+        if (!string.IsNullOrWhiteSpace(description))
+        {
+            sections.Add(description.Trim());
+        }
+
+        if (structure is not null)
+        {
+            var structureText = $"Gojo construction\n{structure.Expression}";
+            if (!string.IsNullOrWhiteSpace(structure.EncodingNote))
+            {
+                structureText += $"\n\nEncoding note\n{structure.EncodingNote.Trim()}";
+            }
+
+            sections.Add(structureText);
+        }
+
+        return string.Join("\n\n", sections);
     }
 
     private static string GlossarySheetKey(BlocksGlossarySheetKind sheet) =>
@@ -2230,7 +2252,7 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
 
         using var titlePaint = TextPaint(12.5f, theme.Ink, bold: true);
         using var bodyPaint = TextPaint(12f, theme.Ink);
-        var panelWidth = Math.Min(340f, Math.Max(190f, size.Width - 48f));
+        var panelWidth = Math.Min(430f, Math.Max(220f, size.Width - 48f));
         var textWidth = panelWidth - 26f;
         var lines = WrapTextLines(tip.Body, bodyPaint, textWidth);
         var lineHeight = 16.2f;
@@ -2548,24 +2570,34 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
     private static IReadOnlyList<string> WrapTextLines(string text, SKPaint paint, float width)
     {
         var lines = new List<string>();
-        var words = text.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-        var line = string.Empty;
-        foreach (var word in words)
+        var paragraphs = text.Replace("\r\n", "\n").Split('\n');
+        foreach (var paragraph in paragraphs)
         {
-            var candidate = string.IsNullOrEmpty(line) ? word : $"{line} {word}";
-            if (paint.MeasureText(candidate) <= width || string.IsNullOrEmpty(line))
+            if (string.IsNullOrWhiteSpace(paragraph))
             {
-                line = candidate;
+                lines.Add(string.Empty);
                 continue;
             }
 
-            lines.Add(line);
-            line = word;
-        }
+            var words = paragraph.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+            var line = string.Empty;
+            foreach (var word in words)
+            {
+                var candidate = string.IsNullOrEmpty(line) ? word : $"{line} {word}";
+                if (paint.MeasureText(candidate) <= width || string.IsNullOrEmpty(line))
+                {
+                    line = candidate;
+                    continue;
+                }
 
-        if (!string.IsNullOrEmpty(line))
-        {
-            lines.Add(line);
+                lines.Add(line);
+                line = word;
+            }
+
+            if (!string.IsNullOrEmpty(line))
+            {
+                lines.Add(line);
+            }
         }
 
         return lines;
