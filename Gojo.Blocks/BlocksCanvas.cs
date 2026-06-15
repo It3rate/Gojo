@@ -730,7 +730,7 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
             BlocksGlossarySheetKind.SourceToSupport => ["site", "flow", "boundary", "partitioned", "orientation", "direction"],
             BlocksGlossarySheetKind.DirectionToArea => ["directed boundary", "boundary support", "directed support", "area", "directed area", "bounded area"],
             BlocksGlossarySheetKind.Curves => ["corner / cusp", "arc blend", "Bezier", "clothoid", "involute", "plotted path"],
-            BlocksGlossarySheetKind.Branches => ["branch", "merge", "orthogonal joint", "area / no join"],
+            BlocksGlossarySheetKind.Branches => ["branch", "merge", "orthogonal joint", "other"],
             _ => []
         };
 
@@ -740,7 +740,7 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
             BlocksGlossarySheetKind.SourceToSupport => ["site", "flow", "boundary", "partitioned", "orientation", "direction"],
             BlocksGlossarySheetKind.DirectionToArea => ["directed-boundary", "boundary-support", "directed-support", "area", "directed-area", "bounded-area"],
             BlocksGlossarySheetKind.Curves => ["corner", "arc-blend", "bezier", "clothoid", "involute", "plotted"],
-            BlocksGlossarySheetKind.Branches => ["branch", "merge", "orthogonal-joint", "area-no-join"],
+            BlocksGlossarySheetKind.Branches => ["branch", "merge", "orthogonal-joint", "other"],
             _ => []
         };
 
@@ -1040,35 +1040,59 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
     private static void DrawEnclosureArea(SKCanvas canvas, SKRect bounds)
     {
         var rect = Inset(bounds, 12);
-        using var fill = FillPaint(PositiveColor, 90);
-        canvas.DrawRoundRect(rect, 3, 3, fill);
-        DrawLine(canvas, new SKPoint(rect.Left, rect.Top), new SKPoint(rect.Right, rect.Top), PositiveStroke, 1.8f);
-        DrawLine(canvas, new SKPoint(rect.Right, rect.Top), new SKPoint(rect.Right, rect.Bottom), PositiveStroke, 1.8f);
-        DrawLine(canvas, new SKPoint(rect.Right, rect.Bottom), new SKPoint(rect.Left, rect.Bottom), PositiveStroke, 1.8f);
-        DrawLine(canvas, new SKPoint(rect.Left, rect.Bottom), new SKPoint(rect.Left, rect.Top), PositiveStroke, 1.8f);
-        DrawPoint(canvas, rect.Location, EndpointColor, 3.8f);
+        var start = new SKPoint(rect.Left, rect.Top + 4);
+        using var area = new SKPath();
+        area.MoveTo(start);
+        area.LineTo(rect.Left, rect.Bottom - 4);
+        area.LineTo(rect.Right - 11, rect.Bottom - 6);
+        area.QuadTo(rect.Right + 7, rect.MidY, rect.Right - 11, rect.Top + 6);
+        area.Close();
+
+        using var fill = FillPaint(PositiveColor, 84);
+        using var stroke = StrokePaint(PositiveStroke, 1.9f);
+        canvas.DrawPath(area, fill);
+        canvas.DrawPath(area, stroke);
+        DrawPoint(canvas, start, EndpointColor, 3.8f);
+        DrawUnrelatedBranchLine(canvas, bounds);
     }
 
     private static void DrawPartialUArea(SKCanvas canvas, SKRect bounds)
     {
         var rect = Inset(bounds, 13);
+        var openY = rect.Top + rect.Height * 0.34f;
         using var area = FillPaint(PositiveColor, 62);
         using var shape = new SKPath();
-        shape.MoveTo(rect.Left, rect.Top);
+        shape.MoveTo(rect.Left, rect.Top + 4);
         shape.LineTo(rect.Left, rect.Bottom);
-        shape.LineTo(rect.Right, rect.Bottom);
-        shape.LineTo(rect.Right, rect.Top + rect.Height * 0.35f);
-        shape.LineTo(rect.Right, rect.Top);
-        shape.LineTo(rect.Left, rect.Top);
+        shape.LineTo(rect.Right - 10, rect.Bottom);
+        shape.QuadTo(rect.Right + 8, rect.MidY + 4, rect.Right - 8, openY);
+        shape.LineTo(rect.Left, rect.Top + 4);
         canvas.DrawPath(shape, area);
-        DrawLine(canvas, new SKPoint(rect.Left, rect.Top), new SKPoint(rect.Left, rect.Bottom), PositiveStroke, 2f);
-        DrawLine(canvas, new SKPoint(rect.Left, rect.Bottom), new SKPoint(rect.Right, rect.Bottom), PositiveStroke, 2f);
-        DrawLine(canvas, new SKPoint(rect.Right, rect.Bottom), new SKPoint(rect.Right, rect.Top + rect.Height * 0.35f), PositiveStroke, 2f);
+
+        using var settled = new SKPath();
+        settled.MoveTo(rect.Left, rect.Top + 4);
+        settled.LineTo(rect.Left, rect.Bottom);
+        settled.LineTo(rect.Right - 10, rect.Bottom);
+        settled.QuadTo(rect.Right + 8, rect.MidY + 4, rect.Right - 8, openY);
+        using var stroke = StrokePaint(PositiveStroke, 2f);
+        canvas.DrawPath(settled, stroke);
+
         using var dash = StrokePaint(TickColor, 1.2f, 160);
         using var pathEffect = SKPathEffect.CreateDash([4f, 4f], 0);
         dash.PathEffect = pathEffect;
-        canvas.DrawLine(rect.Right, rect.Top + rect.Height * 0.35f, rect.Right, rect.Top, dash);
-        canvas.DrawLine(rect.Right, rect.Top, rect.Left, rect.Top, dash);
+        using var unsettled = new SKPath();
+        unsettled.MoveTo(rect.Right - 8, openY);
+        unsettled.QuadTo(rect.Right + 1, rect.Top + 5, rect.Right - 12, rect.Top + 4);
+        unsettled.LineTo(rect.Left, rect.Top + 4);
+        canvas.DrawPath(unsettled, dash);
+        DrawUnrelatedBranchLine(canvas, bounds);
+    }
+
+    private static void DrawUnrelatedBranchLine(SKCanvas canvas, SKRect bounds)
+    {
+        var start = new SKPoint(bounds.Left + 8, bounds.Top + bounds.Height * 0.26f);
+        var end = new SKPoint(bounds.Right - 8, bounds.Top + bounds.Height * 0.14f);
+        DrawVectorArrow(canvas, start, end, BoundaryColor, 1.25f, 150);
     }
 
     private static void DrawOrthogonalForce(SKCanvas canvas, SKPoint start, SKPoint end)
