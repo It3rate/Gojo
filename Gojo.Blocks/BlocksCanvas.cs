@@ -448,6 +448,29 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
         using var lease = leaseFeature.Lease();
         var canvas = lease.SkCanvas;
         var size = new SKSize((float)Bounds.Width, (float)Bounds.Height);
+        DrawToCanvas(canvas, size);
+    }
+
+    public static IReadOnlyList<BlocksHitArea> DrawToCanvas(
+        SKCanvas canvas,
+        SKSize size,
+        BlocksDocument document,
+        GojoDrawAnimationFrame animationFrame,
+        BlocksHoverTip? hoverTip = null)
+    {
+        IReadOnlyList<BlocksHitArea> hitAreas = [];
+        var operation = new BlocksDrawOperation(
+            new Rect(0, 0, size.Width, size.Height),
+            document,
+            animationFrame,
+            hoverTip,
+            next => hitAreas = [.. next]);
+        operation.DrawToCanvas(canvas, size);
+        return hitAreas;
+    }
+
+    private void DrawToCanvas(SKCanvas canvas, SKSize size)
+    {
         var hitAreas = new List<BlocksHitArea>();
 
         canvas.Save();
@@ -660,6 +683,12 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
             return;
         }
 
+        if (page.GlossarySheet == BlocksGlossarySheetKind.BooleanOffsetReads)
+        {
+            DrawBooleanOffsetReadsGlossary(canvas, page, area, hitAreas);
+            return;
+        }
+
         if (page.GlossarySheet != BlocksGlossarySheetKind.None)
         {
             DrawGlossaryLadder(canvas, page, area, hitAreas);
@@ -741,6 +770,20 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
             new GlossarySpecimenDescriptor("derived-path-offset-residue", "Offset residue")
         };
         DrawSpecimenGrid(canvas, page, area, hitAreas, specimens, DrawDerivedPathSpecimen);
+    }
+
+    private void DrawBooleanOffsetReadsGlossary(SKCanvas canvas, BlocksPage page, SKRect area, List<BlocksHitArea> hitAreas)
+    {
+        var specimens = new[]
+        {
+            new GlossarySpecimenDescriptor("boolean-offset-source-carriers", "Source carriers"),
+            new GlossarySpecimenDescriptor("boolean-offset-offset-reads", "Offset reads"),
+            new GlossarySpecimenDescriptor("boolean-offset-split-intersections", "Split intersections"),
+            new GlossarySpecimenDescriptor("boolean-offset-union-hole", "Union + hole"),
+            new GlossarySpecimenDescriptor("boolean-offset-intersection-read", "Intersection read"),
+            new GlossarySpecimenDescriptor("boolean-offset-rounded-ladder", "Rounded ladder")
+        };
+        DrawSpecimenGrid(canvas, page, area, hitAreas, specimens, DrawBooleanOffsetSpecimen);
     }
 
     private void DrawSpecimenGrid(
@@ -933,6 +976,7 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
             BlocksGlossarySheetKind.Curves => "curves",
             BlocksGlossarySheetKind.Branches => "branches",
             BlocksGlossarySheetKind.BooleanParticipation => "boolean-participation",
+            BlocksGlossarySheetKind.BooleanOffsetReads => "boolean-offset",
             _ => "glossary"
         };
 
@@ -1090,6 +1134,31 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
                 break;
             case 5:
                 DrawOffsetResidueRead(canvas, bounds);
+                break;
+        }
+    }
+
+    private void DrawBooleanOffsetSpecimen(SKCanvas canvas, int index, SKRect bounds)
+    {
+        switch (index)
+        {
+            case 0:
+                DrawBooleanSourceCarriers(canvas, bounds);
+                break;
+            case 1:
+                DrawBooleanOffsetReads(canvas, bounds);
+                break;
+            case 2:
+                DrawBooleanSplitIntersections(canvas, bounds);
+                break;
+            case 3:
+                DrawBooleanUnionHole(canvas, bounds);
+                break;
+            case 4:
+                DrawBooleanIntersectionRead(canvas, bounds);
+                break;
+            case 5:
+                DrawBooleanRoundedLadder(canvas, bounds);
                 break;
         }
     }
@@ -1460,6 +1529,240 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
         DrawBridgePath(canvas, clean, PositiveStroke, 1.6f, glow: false);
         DrawBridgePath(canvas, miss, InverseStroke, 2f, glow: true);
         DrawTensionSpot(canvas, new SKPoint(b.X + 10, b.Y - 13), 13f);
+    }
+
+    private static void DrawBooleanSourceCarriers(SKCanvas canvas, SKRect bounds)
+    {
+        var rect = BooleanFrameRect(bounds, 0.64f, 0.48f);
+        var gap = Math.Min(rect.Width, rect.Height) * 0.12f;
+        var segments = BooleanFrameSegments(rect, gap);
+        foreach (var (start, end) in segments)
+        {
+            DrawCarrierLine(canvas, start, end);
+            DrawPoint(canvas, start, SiteColor, 3.4f);
+            DrawPoint(canvas, end, SiteColor, 3.4f);
+        }
+    }
+
+    private static void DrawBooleanOffsetReads(SKCanvas canvas, SKRect bounds)
+    {
+        var rect = BooleanFrameRect(bounds, 0.62f, 0.46f);
+        var gap = Math.Min(rect.Width, rect.Height) * 0.10f;
+        foreach (var (start, end) in BooleanFrameSegments(rect, gap))
+        {
+            DrawOffsetCarrierBand(canvas, start, end, 15f);
+            DrawCarrierLine(canvas, start, end);
+        }
+    }
+
+    private static void DrawBooleanSplitIntersections(SKCanvas canvas, SKRect bounds)
+    {
+        var outer = BooleanFrameRect(bounds, 0.68f, 0.52f);
+        var inner = BooleanFrameRect(bounds, 0.36f, 0.22f);
+        using var outerStroke = StrokePaint(PositiveStroke, 2f, 220);
+        using var innerStroke = StrokePaint(InverseStroke, 1.8f, 200);
+        canvas.DrawRect(outer, outerStroke);
+        canvas.DrawRect(inner, innerStroke);
+        DrawRectPartitions(canvas, outer, 2, PositiveStroke);
+        DrawRectPartitions(canvas, inner, 1, InverseStroke);
+        foreach (var point in RectCorners(outer).Concat(RectCorners(inner)))
+        {
+            DrawPoint(canvas, point, EndpointColor, 4.3f);
+            DrawTensionSpot(canvas, point, 8f, EndpointColor);
+        }
+    }
+
+    private static void DrawBooleanUnionHole(SKCanvas canvas, SKRect bounds)
+    {
+        var outer = BooleanFrameRect(bounds, 0.68f, 0.52f);
+        var inner = BooleanFrameRect(bounds, 0.36f, 0.22f);
+        using var ring = RectRingPath(outer, inner);
+        using var fill = FillPaint(PositiveColor, 104);
+        canvas.DrawPath(ring, fill);
+        DrawRectOutline(canvas, outer, PositiveStroke, 2.1f);
+        DrawRectOutline(canvas, inner, InverseStroke, 1.9f);
+        DrawArcArrow(canvas, new SKPoint(outer.MidX, outer.Top + 1), outer.Width * 0.18f, 190f, 305f, PositiveStroke, 1.25f);
+        DrawArcArrow(canvas, new SKPoint(inner.MidX, inner.Bottom - 1), inner.Width * 0.18f, 12f, -118f, InverseStroke, 1.15f);
+    }
+
+    private static void DrawBooleanIntersectionRead(SKCanvas canvas, SKRect bounds)
+    {
+        var center = Center(bounds);
+        var horizontal = new SKRect(bounds.Left + bounds.Width * 0.15f, center.Y - bounds.Height * 0.12f, bounds.Right - bounds.Width * 0.15f, center.Y + bounds.Height * 0.12f);
+        var vertical = new SKRect(center.X - bounds.Width * 0.12f, bounds.Top + bounds.Height * 0.16f, center.X + bounds.Width * 0.12f, bounds.Bottom - bounds.Height * 0.16f);
+        var overlap = SKRect.Intersect(horizontal, vertical);
+        using var input = FillPaint(PositiveColor, 56);
+        canvas.DrawRect(horizontal, input);
+        canvas.DrawRect(vertical, input);
+        DrawRectOutline(canvas, horizontal, BoundaryColor, 1.3f, 170);
+        DrawRectOutline(canvas, vertical, BoundaryColor, 1.3f, 170);
+        using var shared = FillPaint(PositiveColor, 150);
+        canvas.DrawRect(overlap, shared);
+        DrawRectOutline(canvas, overlap, PositiveStroke, 2.2f);
+        DrawCarrierLine(canvas, new SKPoint(horizontal.Left, horizontal.MidY), new SKPoint(horizontal.Right, horizontal.MidY));
+        DrawCarrierLine(canvas, new SKPoint(vertical.MidX, vertical.Top), new SKPoint(vertical.MidX, vertical.Bottom));
+        foreach (var point in RectCorners(overlap))
+        {
+            DrawPoint(canvas, point, EndpointColor, 3.8f);
+        }
+    }
+
+    private static void DrawBooleanRoundedLadder(SKCanvas canvas, SKRect bounds)
+    {
+        var gap = Math.Max(8f, bounds.Width * 0.035f);
+        var stageWidth = (bounds.Width - gap * 2f) / 3f;
+        var stages = new[]
+        {
+            new SKRect(bounds.Left, bounds.Top + 4, bounds.Left + stageWidth, bounds.Bottom - 4),
+            new SKRect(bounds.Left + stageWidth + gap, bounds.Top + 4, bounds.Left + stageWidth * 2f + gap, bounds.Bottom - 4),
+            new SKRect(bounds.Left + stageWidth * 2f + gap * 2f, bounds.Top + 4, bounds.Right, bounds.Bottom - 4)
+        };
+
+        var source = BooleanFrameRect(stages[0], 0.70f, 0.48f);
+        DrawRectOutline(canvas, source, BoundaryColor, 1.8f, 190);
+        foreach (var point in RectCorners(source))
+        {
+            DrawPoint(canvas, point, EndpointColor, 3.1f);
+        }
+
+        var rounded = BooleanFrameRect(stages[1], 0.72f, 0.50f);
+        using (var roundedPath = RoundedRectPath(rounded, Math.Min(rounded.Width, rounded.Height) * 0.18f))
+        {
+            DrawBridgePath(canvas, roundedPath, PositiveStroke, 2.2f, glow: true);
+        }
+        DrawCornerReplacementMarks(canvas, rounded);
+
+        var outer = BooleanFrameRect(stages[2], 0.76f, 0.56f);
+        var inner = BooleanFrameRect(stages[2], 0.36f, 0.22f);
+        using (var ring = RoundedRingPath(outer, inner, 9f, 5f))
+        using (var fill = FillPaint(PositiveColor, 110))
+        {
+            canvas.DrawPath(ring, fill);
+        }
+        DrawRoundRectOutline(canvas, outer, 9f, PositiveStroke, 1.9f);
+        DrawRoundRectOutline(canvas, inner, 5f, InverseStroke, 1.6f);
+
+        DrawVectorArrow(canvas, new SKPoint(stages[0].Right + 2, stages[0].MidY), new SKPoint(stages[1].Left - 2, stages[1].MidY), BoundaryColor, 1.1f, 160);
+        DrawVectorArrow(canvas, new SKPoint(stages[1].Right + 2, stages[1].MidY), new SKPoint(stages[2].Left - 2, stages[2].MidY), BoundaryColor, 1.1f, 160);
+    }
+
+    private static SKRect BooleanFrameRect(SKRect bounds, float widthFactor, float heightFactor)
+    {
+        var width = bounds.Width * widthFactor;
+        var height = bounds.Height * heightFactor;
+        return new SKRect(
+            bounds.MidX - width * 0.5f,
+            bounds.MidY - height * 0.5f,
+            bounds.MidX + width * 0.5f,
+            bounds.MidY + height * 0.5f);
+    }
+
+    private static IReadOnlyList<(SKPoint Start, SKPoint End)> BooleanFrameSegments(SKRect rect, float gap) =>
+    [
+        (new SKPoint(rect.Left + gap, rect.Top), new SKPoint(rect.Right - gap, rect.Top)),
+        (new SKPoint(rect.Right, rect.Top + gap), new SKPoint(rect.Right, rect.Bottom - gap)),
+        (new SKPoint(rect.Right - gap, rect.Bottom), new SKPoint(rect.Left + gap, rect.Bottom)),
+        (new SKPoint(rect.Left, rect.Bottom - gap), new SKPoint(rect.Left, rect.Top + gap))
+    ];
+
+    private static void DrawOffsetCarrierBand(SKCanvas canvas, SKPoint start, SKPoint end, float width)
+    {
+        using var soft = StrokePaint(PositiveColor, width + 6f, 45);
+        canvas.DrawLine(start, end, soft);
+        using var band = StrokePaint(PositiveColor, width, 62);
+        canvas.DrawLine(start, end, band);
+        using var edge = StrokePaint(PositiveStroke, 1.45f, 190);
+        var direction = Normalize(new SKPoint(end.X - start.X, end.Y - start.Y));
+        var normal = new SKPoint(-direction.Y, direction.X);
+        var half = width * 0.5f;
+        canvas.DrawLine(
+            start.X + normal.X * half,
+            start.Y + normal.Y * half,
+            end.X + normal.X * half,
+            end.Y + normal.Y * half,
+            edge);
+        canvas.DrawLine(
+            start.X - normal.X * half,
+            start.Y - normal.Y * half,
+            end.X - normal.X * half,
+            end.Y - normal.Y * half,
+            edge);
+    }
+
+    private static void DrawRectPartitions(SKCanvas canvas, SKRect rect, int perSide, SKColor color)
+    {
+        using var paint = StrokePaint(color, 1.15f, 150);
+        for (var side = 0; side < 4; side++)
+        for (var index = 1; index <= perSide; index++)
+        {
+            var t = index / (float)(perSide + 1);
+            var point = side switch
+            {
+                0 => new SKPoint(rect.Left + rect.Width * t, rect.Top),
+                1 => new SKPoint(rect.Right, rect.Top + rect.Height * t),
+                2 => new SKPoint(rect.Right - rect.Width * t, rect.Bottom),
+                _ => new SKPoint(rect.Left, rect.Bottom - rect.Height * t)
+            };
+            var vertical = side is 0 or 2;
+            canvas.DrawLine(
+                point.X + (vertical ? 0 : -4f),
+                point.Y + (vertical ? -4f : 0),
+                point.X + (vertical ? 0 : 4f),
+                point.Y + (vertical ? 4f : 0),
+                paint);
+        }
+    }
+
+    private static SKPoint[] RectCorners(SKRect rect) =>
+    [
+        new(rect.Left, rect.Top),
+        new(rect.Right, rect.Top),
+        new(rect.Right, rect.Bottom),
+        new(rect.Left, rect.Bottom)
+    ];
+
+    private static SKPath RectRingPath(SKRect outer, SKRect inner)
+    {
+        var path = new SKPath { FillType = SKPathFillType.EvenOdd };
+        path.AddRect(outer);
+        path.AddRect(inner);
+        return path;
+    }
+
+    private static SKPath RoundedRingPath(SKRect outer, SKRect inner, float outerRadius, float innerRadius)
+    {
+        var path = new SKPath { FillType = SKPathFillType.EvenOdd };
+        path.AddRoundRect(outer, outerRadius, outerRadius);
+        path.AddRoundRect(inner, innerRadius, innerRadius);
+        return path;
+    }
+
+    private static void DrawRectOutline(SKCanvas canvas, SKRect rect, SKColor color, float width, byte alpha = 255)
+    {
+        using var stroke = StrokePaint(color, width, alpha);
+        canvas.DrawRect(rect, stroke);
+    }
+
+    private static void DrawRoundRectOutline(SKCanvas canvas, SKRect rect, float radius, SKColor color, float width, byte alpha = 255)
+    {
+        using var stroke = StrokePaint(color, width, alpha);
+        canvas.DrawRoundRect(rect, radius, radius, stroke);
+    }
+
+    private static void DrawCornerReplacementMarks(SKCanvas canvas, SKRect rect)
+    {
+        var radius = Math.Min(rect.Width, rect.Height) * 0.18f;
+        var corners = new[]
+        {
+            new SKPoint(rect.Right - radius, rect.Top + radius),
+            new SKPoint(rect.Right - radius, rect.Bottom - radius),
+            new SKPoint(rect.Left + radius, rect.Bottom - radius),
+            new SKPoint(rect.Left + radius, rect.Top + radius)
+        };
+        foreach (var corner in corners)
+        {
+            DrawPoint(canvas, corner, EndpointColor, 2.9f);
+        }
     }
 
     private static SKPath PolyPath(params SKPoint[] points)

@@ -112,6 +112,18 @@ internal static class BlocksGlossaryContent
                 ["offset", "inset", "outset", "fill", "branch", "merge", "residue"],
                 GlossarySheet: BlocksGlossarySheetKind.DerivedPathStructures,
                 GlossaryDescriptions: descriptions,
+                GlossaryStructures: structures),
+            new BlocksPage(
+                "glossary-boolean-offset-reads",
+                "Boolean Offset Reads",
+                "Union, intersection, holes, and rounded-corner ladder steps from offset path reads.",
+                string.Empty,
+                null,
+                null,
+                0,
+                ["source carriers", "offset reads", "intersections", "split sections", "loops", "holes", "ladder"],
+                GlossarySheet: BlocksGlossarySheetKind.BooleanOffsetReads,
+                GlossaryDescriptions: descriptions,
                 GlossaryStructures: structures)
         ];
     }

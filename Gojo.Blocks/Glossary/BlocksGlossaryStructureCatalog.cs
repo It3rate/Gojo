@@ -19,6 +19,7 @@ internal static class BlocksGlossaryStructureCatalog
         AddConnectedPaths(structures);
         AddPathReadBases(structures);
         AddDerivedPathStructures(structures);
+        AddBooleanOffsetReads(structures);
         return structures;
     }
 
@@ -156,6 +157,23 @@ internal static class BlocksGlossaryStructureCatalog
         foreach (var id in ids)
         {
             structures[$"derived-path-{id}"] = DerivedPathStructure(id);
+        }
+    }
+
+    private static void AddBooleanOffsetReads(Dictionary<string, BlocksGlossaryStructure> structures)
+    {
+        var ids = new[]
+        {
+            "source-carriers",
+            "offset-reads",
+            "split-intersections",
+            "union-hole",
+            "intersection-read",
+            "rounded-ladder"
+        };
+        foreach (var id in ids)
+        {
+            structures[$"boolean-offset-{id}"] = BooleanOffsetRead(id);
         }
     }
 
@@ -637,6 +655,21 @@ internal static class BlocksGlossaryStructureCatalog
         };
     }
 
+    private static BlocksGlossaryStructure BooleanOffsetRead(string id)
+    {
+        var frame = new FrameBasis();
+        return id switch
+        {
+            "source-carriers" => BooleanOffsetSourceCarriers(frame),
+            "offset-reads" => BooleanOffsetReadStage(frame),
+            "split-intersections" => BooleanOffsetSplitIntersections(frame),
+            "union-hole" => BooleanOffsetUnionHole(frame),
+            "intersection-read" => BooleanOffsetIntersectionRead(frame),
+            "rounded-ladder" => BooleanOffsetRoundedLadder(frame),
+            _ => Spec(Site(), "P(O)")
+        };
+    }
+
     private static BlocksGlossaryStructure ConnectedSharedPoint(FrameBasis frame)
     {
         var joint = frame.Point(0, 0);
@@ -996,6 +1029,204 @@ internal static class BlocksGlossaryStructureCatalog
         return new Relation(
             GraphicStructure.Segment(sourceCarrier, 0, ticks),
             GraphicStructure.Point(resolutionCarrier, 1));
+    }
+
+    private static BlocksGlossaryStructure BooleanOffsetSourceCarriers(FrameBasis frame)
+    {
+        var sources = BooleanOffsetBoxSources(frame);
+        var pathReads = sources
+            .Select(section => PathRead([section], 80, 4).Read)
+            .ToArray();
+        return Spec(
+            Group(pathReads),
+            "S0..S3 -> PathRead(Si)",
+            "The starting lines are individual path reads. They may later settle into one outline, but the source carriers remain independent evidence at this rung.");
+    }
+
+    private static BlocksGlossaryStructure BooleanOffsetReadStage(FrameBasis frame)
+    {
+        var sources = BooleanOffsetBoxSources(frame);
+        var offsets = BooleanOffsetPairReads(sources, frame);
+        return Spec(
+            Group(offsets),
+            "PathRead(Si) + OffsetRead(+d,-d,resolution) for each carrier",
+            "Each source carrier creates positive and inverse offset reads. The bands shown by the renderer are support from these paired derived paths, not edits to the source carriers.");
+    }
+
+    private static BlocksGlossaryStructure BooleanOffsetSplitIntersections(FrameBasis frame)
+    {
+        var sources = BooleanOffsetBoxSources(frame);
+        var offsets = BooleanOffsetPairReads(sources, frame);
+        var intersections = BooleanOffsetCornerIntersections(frame, offsets);
+        var splits = offsets
+            .Take(4)
+            .Select(offset => SplitRead(offset, intersections))
+            .ToArray();
+        return Spec(
+            Group([.. offsets, .. intersections, .. splits]),
+            "Intersect(offset_i,offset_j) -> Pij; Split(offset_i,Pij)",
+            "Intersection points are derived locations where offset paths participate together. Split reads use those points to divide offset carriers into selectable sections.");
+    }
+
+    private static BlocksGlossaryStructure BooleanOffsetUnionHole(FrameBasis frame)
+    {
+        var sources = BooleanOffsetBoxSources(frame);
+        var offsets = BooleanOffsetPairReads(sources, frame);
+        var outer = RectangleSegments(frame, -48, -34, 48, 34);
+        var inner = RectangleSegments(frame, -24, -13, 24, 13);
+        var outerLoop = LoopRead(outer, 160, clockwise: false);
+        var innerLoop = LoopRead(inner, 96, clockwise: true);
+        return Spec(
+            Group(
+                Group(offsets),
+                outerLoop,
+                innerLoop,
+                GraphicStructure.AreaFill(outer),
+                GraphicStructure.AntiAreaFill(inner)),
+            "Split sections -> LoopOuter + LoopInner; AreaFill(LoopOuter) + AntiFill(LoopInner)",
+            "The union read selects offset sections into an outer loop and an opposing inner loop. The negative space is represented as anti-fill participation, not as a visual eraser.");
+    }
+
+    private static BlocksGlossaryStructure BooleanOffsetIntersectionRead(FrameBasis frame)
+    {
+        var horizontal = RectangleSegments(frame, -48, -11, 48, 11);
+        var vertical = RectangleSegments(frame, -12, -40, 12, 40);
+        var overlap = RectangleSegments(frame, -12, -11, 12, 11);
+        var horizontalLoop = LoopRead(horizontal, 120, clockwise: false);
+        var verticalLoop = LoopRead(vertical, 110, clockwise: false);
+        var overlapLoop = LoopRead(overlap, 60, clockwise: false);
+        var intersection = new Relation(
+            Group(horizontalLoop, verticalLoop, BooleanAreaIntersectionWitness(horizontalLoop, verticalLoop, overlapLoop)),
+            Group(overlapLoop, GraphicStructure.AreaFill(overlap)));
+        return Spec(
+            intersection,
+            "LoopA + LoopB + Intersect(A,B) -> LoopShared + AreaFill(shared)",
+            "Intersection keeps only the support occupied by both derived areas. The two input loops remain inspectable, while the shared loop becomes its own fillable area.");
+    }
+
+    private static BlocksGlossaryStructure BooleanOffsetRoundedLadder(FrameBasis frame)
+    {
+        var source = RectangleSegments(frame, -42, -30, 42, 30);
+        var sourceLoop = LoopRead(source, 144, clockwise: false);
+        var rounded = RoundedRectangleSections(frame, -45, -33, 45, 33, 12);
+        var roundedLoop = LoopRead(rounded, 144, clockwise: false);
+        var inner = RoundedRectangleSections(frame, -21, -11, 21, 11, 8);
+        var innerLoop = LoopRead(inner, 72, clockwise: true);
+        var cornerRead = new Relation(sourceLoop, roundedLoop);
+        var mergeRead = new Relation(
+            Group(cornerRead, innerLoop),
+            Group(GraphicStructure.AreaFill(rounded), GraphicStructure.AntiAreaFill(inner)));
+        return Spec(
+            mergeRead,
+            "LoopSquare -> CornerRoundRead -> LoopRounded; merge with LoopInner -> AreaFill + AntiFill",
+            "This ladder replaces corner sections with rounded transition carriers before the boolean merge. The rounded result is a new rung with provenance back to the square loop.");
+    }
+
+    private static IElement[] BooleanOffsetBoxSources(FrameBasis frame)
+    {
+        var a = frame.Point(-36, -20);
+        var b = frame.Point(36, -20);
+        var c = frame.Point(36, 20);
+        var d = frame.Point(-36, 20);
+        return
+        [
+            GraphicStructure.FrameSegment(a, b),
+            GraphicStructure.FrameSegment(b, c),
+            GraphicStructure.FrameSegment(c, d),
+            GraphicStructure.FrameSegment(d, a)
+        ];
+    }
+
+    private static IElement[] BooleanOffsetPairReads(IReadOnlyList<IElement> sources, FrameBasis frame)
+    {
+        var reads = new List<IElement>();
+        var positive = RectangleSegments(frame, -48, -34, 48, 34);
+        var inverse = RectangleSegments(frame, -24, -13, 24, 13);
+        for (var index = 0; index < sources.Count; index++)
+        {
+            var source = PathRead([sources[index]], 80, 4);
+            reads.Add(source.Read);
+            reads.Add(OffsetRead(source.Read, source.Carrier, source.Span, [positive[index % positive.Length]], 12, 2, 80, 4));
+            reads.Add(OffsetRead(source.Read, source.Carrier, source.Span, [inverse[index % inverse.Length]], -12, 2, 80, 4));
+        }
+
+        return [.. reads];
+    }
+
+    private static IElement[] BooleanOffsetCornerIntersections(FrameBasis frame, IReadOnlyList<IElement> offsets)
+    {
+        var intersectionCarrier = new Carrier(UnitShape.DescribedAtom(Group([.. offsets])));
+        var sites = new[]
+        {
+            frame.Point(-48, -34),
+            frame.Point(48, -34),
+            frame.Point(48, 34),
+            frame.Point(-48, 34),
+            frame.Point(-24, -13),
+            frame.Point(24, -13),
+            frame.Point(24, 13),
+            frame.Point(-24, 13)
+        };
+        var intersections = new List<IElement>();
+        for (var index = 0; index < sites.Length; index++)
+        {
+            var carrierPoint = GraphicStructure.Point(intersectionCarrier, index + 1);
+            intersections.Add(new Relation(sites[index], carrierPoint));
+        }
+
+        return [.. intersections];
+    }
+
+    private static Relation SplitRead(IElement source, IReadOnlyList<IElement> intersections)
+    {
+        var splitCarrier = new Carrier(UnitShape.DescribedAtom(new Relation(source, Group([.. intersections]))));
+        return new Relation(
+            Group(source, Group([.. intersections])),
+            Group(
+                GraphicStructure.Segment(splitCarrier, 0, 1),
+                GraphicStructure.Segment(splitCarrier, 1, 2),
+                GraphicStructure.Segment(splitCarrier, 2, 3)));
+    }
+
+    private static Relation LoopRead(IReadOnlyList<IElement> sections, long lengthTicks, bool clockwise)
+    {
+        var path = PathRead(sections, lengthTicks, Math.Max(4, sections.Count));
+        var loopCarrier = new Carrier(UnitShape.DescribedAtom(path.Read));
+        var loopSpan = clockwise
+            ? GraphicStructure.DirectedSegment(loopCarrier, lengthTicks, 0)
+            : GraphicStructure.DirectedSegment(loopCarrier, 0, lengthTicks);
+        return new Relation(
+            path.Read,
+            Group(
+                loopSpan,
+                GraphicStructure.Point(loopCarrier, 0),
+                GraphicStructure.Point(loopCarrier, lengthTicks)));
+    }
+
+    private static Relation BooleanAreaIntersectionWitness(IElement first, IElement second, IElement shared) =>
+        new(Group(first, second), shared);
+
+    private static IElement[] RoundedRectangleSections(FrameBasis frame, long left, long top, long right, long bottom, long radius)
+    {
+        var topLeftStart = frame.Point(left + radius, top);
+        var topRightStart = frame.Point(right - radius, top);
+        var topRightEnd = frame.Point(right, top + radius);
+        var bottomRightStart = frame.Point(right, bottom - radius);
+        var bottomRightEnd = frame.Point(right - radius, bottom);
+        var bottomLeftStart = frame.Point(left + radius, bottom);
+        var bottomLeftEnd = frame.Point(left, bottom - radius);
+        var topLeftEnd = frame.Point(left, top + radius);
+        return
+        [
+            GraphicStructure.FrameSegment(topLeftStart, topRightStart),
+            GraphicStructure.FrameQuadraticCurve(topRightStart, frame.Point(right, top), topRightEnd),
+            GraphicStructure.FrameSegment(topRightEnd, bottomRightStart),
+            GraphicStructure.FrameQuadraticCurve(bottomRightStart, frame.Point(right, bottom), bottomRightEnd),
+            GraphicStructure.FrameSegment(bottomRightEnd, bottomLeftStart),
+            GraphicStructure.FrameQuadraticCurve(bottomLeftStart, frame.Point(left, bottom), bottomLeftEnd),
+            GraphicStructure.FrameSegment(bottomLeftEnd, topLeftEnd),
+            GraphicStructure.FrameQuadraticCurve(topLeftEnd, frame.Point(left, top), topLeftStart)
+        ];
     }
 
     private static IElement Site()

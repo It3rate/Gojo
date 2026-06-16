@@ -173,5 +173,6 @@ internal enum BlocksGlossarySheetKind
     BooleanParticipation,
     ConnectedPaths,
     PathReadBases,
-    DerivedPathStructures
+    DerivedPathStructures,
+    BooleanOffsetReads
 }

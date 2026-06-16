@@ -2,6 +2,8 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Layout;
 using Avalonia.Media;
+using GojoDraw;
+using SkiaSharp;
 
 namespace Gojo.Blocks;
 
@@ -10,11 +12,73 @@ internal static class Program
     [STAThread]
     public static void Main(string[] args)
     {
+        if (TryExportGlossaryPage(args))
+        {
+            return;
+        }
+
         BuildAvaloniaApp().StartWithClassicDesktopLifetime(args);
     }
 
     public static AppBuilder BuildAvaloniaApp() =>
         AppBuilder.Configure<App>().UsePlatformDetect();
+
+    private static bool TryExportGlossaryPage(string[] args)
+    {
+        var pageId = ValueAfter(args, "--export-glossary-page");
+        if (string.IsNullOrWhiteSpace(pageId))
+        {
+            return false;
+        }
+
+        var output = ValueAfter(args, "--output") ??
+            Path.Combine(Environment.CurrentDirectory, $"{pageId}.png");
+        var width = IntValueAfter(args, "--width") ?? 1180;
+        var height = IntValueAfter(args, "--height") ?? 760;
+        var themeIndex = IntValueAfter(args, "--theme") ?? 0;
+        var document = BlocksDocument.CreateDefault();
+        var pageIndex = document.GlossaryPages
+            .Select((page, index) => (page, index))
+            .FirstOrDefault(candidate => candidate.page.Id.Equals(pageId, StringComparison.OrdinalIgnoreCase))
+            .index;
+        if (!document.GlossaryPages.Any(page => page.Id.Equals(pageId, StringComparison.OrdinalIgnoreCase)))
+        {
+            throw new ArgumentException($"Unknown glossary page '{pageId}'.", nameof(args));
+        }
+
+        document = document.SelectPage(pageIndex) with { GlossaryVisible = true, ThemeIndex = themeIndex };
+        using var bitmap = new SKBitmap(width, height);
+        using var canvas = new SKCanvas(bitmap);
+        BlocksDrawOperation.DrawToCanvas(
+            canvas,
+            new SKSize(width, height),
+            document,
+            GojoDrawAnimationClock.FrameFor(TimeSpan.Zero, document.CurrentPage.TutorialScene));
+        using var image = SKImage.FromBitmap(bitmap);
+        using var data = image.Encode(SKEncodedImageFormat.Png, 95);
+        Directory.CreateDirectory(Path.GetDirectoryName(Path.GetFullPath(output)) ?? Environment.CurrentDirectory);
+        using var stream = File.Open(output, FileMode.Create, FileAccess.Write);
+        data.SaveTo(stream);
+        return true;
+    }
+
+    private static string? ValueAfter(IReadOnlyList<string> args, string name)
+    {
+        for (var index = 0; index < args.Count - 1; index++)
+        {
+            if (args[index].Equals(name, StringComparison.OrdinalIgnoreCase))
+            {
+                return args[index + 1];
+            }
+        }
+
+        return null;
+    }
+
+    private static int? IntValueAfter(IReadOnlyList<string> args, string name) =>
+        int.TryParse(ValueAfter(args, name), out var value) && value > 0
+            ? value
+            : null;
 }
 
 internal sealed class App : Application
