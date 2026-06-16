@@ -170,5 +170,7 @@ internal enum BlocksGlossarySheetKind
     DirectionToArea,
     Curves,
     Branches,
-    BooleanParticipation
+    BooleanParticipation,
+    ConnectedPaths,
+    PathReadBases
 }

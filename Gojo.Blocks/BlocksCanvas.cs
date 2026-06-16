@@ -642,6 +642,18 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
 
     private void DrawGlossaryPage(SKCanvas canvas, BlocksPage page, SKRect area, List<BlocksHitArea> hitAreas)
     {
+        if (page.GlossarySheet == BlocksGlossarySheetKind.ConnectedPaths)
+        {
+            DrawConnectedPathsGlossary(canvas, page, area, hitAreas);
+            return;
+        }
+
+        if (page.GlossarySheet == BlocksGlossarySheetKind.PathReadBases)
+        {
+            DrawPathReadBasesGlossary(canvas, page, area, hitAreas);
+            return;
+        }
+
         if (page.GlossarySheet != BlocksGlossarySheetKind.None)
         {
             DrawGlossaryLadder(canvas, page, area, hitAreas);
@@ -680,6 +692,69 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
             using var paints = theme.CadTheme.CreatePaints();
             GojoRenderer.Draw(canvas, item.Structure, diagram, item.ProjectionSeed, item.ModelBounds, paints);
             AddGlossaryTooltipHit(hitAreas, Inset(diagram, 2), item.Id, item.Title, page);
+        }
+    }
+
+    private void DrawConnectedPathsGlossary(SKCanvas canvas, BlocksPage page, SKRect area, List<BlocksHitArea> hitAreas)
+    {
+        var specimens = new[]
+        {
+            new GlossarySpecimenDescriptor("connected-paths-separate-sections", "Separate sections"),
+            new GlossarySpecimenDescriptor("connected-paths-shared-point", "Shared point"),
+            new GlossarySpecimenDescriptor("connected-paths-bonded-point", "Bonded point"),
+            new GlossarySpecimenDescriptor("connected-paths-orthogonal-endpoint", "Orthogonal endpoint"),
+            new GlossarySpecimenDescriptor("connected-paths-higher-bridge", "Higher bridge"),
+            new GlossarySpecimenDescriptor("connected-paths-closure-tension", "Closure tension")
+        };
+        DrawSpecimenGrid(canvas, page, area, hitAreas, specimens, DrawConnectedPathSpecimen);
+    }
+
+    private void DrawPathReadBasesGlossary(SKCanvas canvas, BlocksPage page, SKRect area, List<BlocksHitArea> hitAreas)
+    {
+        var specimens = new[]
+        {
+            new GlossarySpecimenDescriptor("path-basis-xy", "XY basis"),
+            new GlossarySpecimenDescriptor("path-basis-circular", "Circular basis"),
+            new GlossarySpecimenDescriptor("path-basis-orthogonal", "Orthogonal basis"),
+            new GlossarySpecimenDescriptor("path-basis-mixed", "Mixed basis"),
+            new GlossarySpecimenDescriptor("path-basis-composite-read", "Composite read"),
+            new GlossarySpecimenDescriptor("path-basis-residue-error", "Residue / error")
+        };
+        DrawSpecimenGrid(canvas, page, area, hitAreas, specimens, DrawPathBasisSpecimen);
+    }
+
+    private void DrawSpecimenGrid(
+        SKCanvas canvas,
+        BlocksPage page,
+        SKRect area,
+        List<BlocksHitArea> hitAreas,
+        IReadOnlyList<GlossarySpecimenDescriptor> specimens,
+        Action<SKCanvas, int, SKRect> drawSpecimen)
+    {
+        var columns = area.Width >= 760 ? 3 : 2;
+        var rows = (int)Math.Ceiling(specimens.Count / (double)columns);
+        var gap = 13f;
+        var cellWidth = (area.Width - gap * (columns - 1)) / columns;
+        var cellHeight = (area.Height - gap * (rows - 1)) / rows;
+        using var cardFill = new SKPaint { Color = WithAlpha(theme.RailFill, 138), Style = SKPaintStyle.Fill, IsAntialias = true };
+        using var cardStroke = new SKPaint { Color = theme.PageStroke, Style = SKPaintStyle.Stroke, StrokeWidth = 1f, IsAntialias = true };
+        using var title = TextPaint(12.2f, theme.Ink, bold: true);
+
+        for (var index = 0; index < specimens.Count; index++)
+        {
+            var column = index % columns;
+            var row = index / columns;
+            var left = area.Left + column * (cellWidth + gap);
+            var top = area.Top + row * (cellHeight + gap);
+            var cell = new SKRect(left, top, left + cellWidth, top + cellHeight);
+            canvas.DrawRoundRect(cell, 7, 7, cardFill);
+            canvas.DrawRoundRect(cell, 7, 7, cardStroke);
+
+            var specimen = specimens[index];
+            DrawClippedText(canvas, specimen.Title, cell.Left + 11, cell.Top + 21, cell.Width - 22, title);
+            var diagram = new SKRect(cell.Left + 11, cell.Top + 31, cell.Right - 11, cell.Bottom - 9);
+            drawSpecimen(canvas, index, diagram);
+            AddGlossaryTooltipHit(hitAreas, Inset(cell, 7), specimen.Id, specimen.Title, page);
         }
     }
 
@@ -921,6 +996,320 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
             case 5:
                 DrawLadderBoundedArea(canvas, supportRow, inner);
                 break;
+        }
+    }
+
+    private static void DrawConnectedPathSpecimen(SKCanvas canvas, int index, SKRect bounds)
+    {
+        switch (index)
+        {
+            case 0:
+                DrawSeparatePathSections(canvas, bounds);
+                break;
+            case 1:
+                DrawSharedPointPath(canvas, bounds);
+                break;
+            case 2:
+                DrawBondedPointPath(canvas, bounds);
+                break;
+            case 3:
+                DrawOrthogonalEndpointPath(canvas, bounds);
+                break;
+            case 4:
+                DrawHigherBridgePath(canvas, bounds);
+                break;
+            case 5:
+                DrawClosureTensionPath(canvas, bounds);
+                break;
+        }
+    }
+
+    private void DrawPathBasisSpecimen(SKCanvas canvas, int index, SKRect bounds)
+    {
+        switch (index)
+        {
+            case 0:
+                DrawXyBasisPath(canvas, bounds);
+                break;
+            case 1:
+                DrawCircularBasisPath(canvas, bounds);
+                break;
+            case 2:
+                DrawOrthogonalBasisPath(canvas, bounds);
+                break;
+            case 3:
+                DrawMixedBasisPath(canvas, bounds);
+                break;
+            case 4:
+                DrawCompositePathRead(canvas, bounds);
+                break;
+            case 5:
+                DrawPathResidueError(canvas, bounds);
+                break;
+        }
+    }
+
+    private static void DrawSeparatePathSections(SKCanvas canvas, SKRect bounds)
+    {
+        var leftY = bounds.MidY + bounds.Height * 0.08f;
+        DrawCarrierLine(canvas, new SKPoint(bounds.Left + 12, leftY), new SKPoint(bounds.MidX - 10, leftY - 12));
+        using var path = new SKPath();
+        path.MoveTo(bounds.MidX + 18, bounds.MidY + 18);
+        path.QuadTo(bounds.Right - 26, bounds.Top + 4, bounds.Right - 10, bounds.MidY - 12);
+        DrawBridgePath(canvas, path, BoundaryColor, 1.8f, glow: false);
+        DrawPoint(canvas, new SKPoint(bounds.MidX - 10, leftY - 12), SiteColor, 4.2f);
+        DrawPoint(canvas, new SKPoint(bounds.MidX + 18, bounds.MidY + 18), SiteColor, 4.2f);
+    }
+
+    private static void DrawSharedPointPath(SKCanvas canvas, SKRect bounds)
+    {
+        var joint = Center(bounds);
+        DrawCarrierLine(canvas, new SKPoint(bounds.Left + 12, bounds.Bottom - 18), joint);
+        using var path = new SKPath();
+        path.MoveTo(joint);
+        path.QuadTo(bounds.MidX + bounds.Width * 0.18f, bounds.Top + 2, bounds.Right - 12, bounds.Top + bounds.Height * 0.34f);
+        DrawBridgePath(canvas, path, BoundaryColor, 1.9f, glow: false);
+        DrawPoint(canvas, joint, EndpointColor, 5.4f);
+    }
+
+    private static void DrawBondedPointPath(SKCanvas canvas, SKRect bounds)
+    {
+        var a = new SKPoint(bounds.MidX - 8, bounds.MidY + 2);
+        var b = new SKPoint(bounds.MidX + 9, bounds.MidY - 4);
+        DrawCarrierLine(canvas, new SKPoint(bounds.Left + 12, bounds.Bottom - 15), a);
+        using var path = new SKPath();
+        path.MoveTo(b);
+        path.CubicTo(bounds.MidX + 28, bounds.Top + 4, bounds.Right - 26, bounds.Top + 4, bounds.Right - 10, bounds.MidY - 8);
+        DrawBridgePath(canvas, path, BoundaryColor, 1.8f, glow: false);
+        DrawBond(canvas, a, b);
+        DrawPoint(canvas, a, EndpointColor, 4.4f);
+        DrawPoint(canvas, b, EndpointColor, 4.4f);
+    }
+
+    private static void DrawOrthogonalEndpointPath(SKCanvas canvas, SKRect bounds)
+    {
+        var center = new SKPoint(bounds.Left + bounds.Width * 0.42f, bounds.Bottom - bounds.Height * 0.18f);
+        var radius = Math.Min(bounds.Width, bounds.Height) * 0.35f;
+        var start = PointOnCircle(center, radius, -165f);
+        var end = PointOnCircle(center, radius, -32f);
+        using var arc = new SKPath();
+        arc.MoveTo(start);
+        arc.QuadTo(bounds.Left + bounds.Width * 0.34f, bounds.Top + 5, end.X, end.Y);
+        DrawBridgePath(canvas, arc, BoundaryColor, 1.9f, glow: false);
+        var branchEnd = new SKPoint(end.X + 22, end.Y - 32);
+        DrawVectorArrow(canvas, end, branchEnd, PositiveStroke, 2.1f);
+        DrawPoint(canvas, end, EndpointColor, 5f);
+    }
+
+    private static void DrawHigherBridgePath(SKCanvas canvas, SKRect bounds)
+    {
+        var a0 = new SKPoint(bounds.Left + 12, bounds.MidY + 15);
+        var a1 = new SKPoint(bounds.Left + bounds.Width * 0.34f, bounds.MidY + 4);
+        var b0 = new SKPoint(bounds.Right - bounds.Width * 0.34f, bounds.MidY - 10);
+        var b1 = new SKPoint(bounds.Right - 12, bounds.MidY - 20);
+        DrawCarrierLine(canvas, a0, a1);
+        DrawCarrierLine(canvas, b0, b1);
+        using var bridge = new SKPath();
+        bridge.MoveTo(a1);
+        bridge.CubicTo(bounds.MidX - 12, bounds.Top + 8, bounds.MidX + 12, bounds.Bottom - 8, b0.X, b0.Y);
+        DrawBridgePath(canvas, bridge, PositiveStroke, 2.4f, glow: true);
+        DrawPoint(canvas, a1, EndpointColor, 4.6f);
+        DrawPoint(canvas, b0, EndpointColor, 4.6f);
+    }
+
+    private static void DrawClosureTensionPath(SKCanvas canvas, SKRect bounds)
+    {
+        var center = Center(bounds);
+        var radius = Math.Min(bounds.Width, bounds.Height) * 0.36f;
+        var points = new[]
+        {
+            PointOnCircle(center, radius, -90f),
+            PointOnCircle(center, radius, -18f),
+            PointOnCircle(center, radius, 54f),
+            PointOnCircle(center, radius, 126f),
+            PointOnCircle(center, radius, 198f)
+        };
+        var miss = new SKPoint(points[0].X - 12, points[0].Y + 7);
+        for (var index = 0; index < points.Length - 1; index++)
+        {
+            DrawCarrierLine(canvas, points[index], points[index + 1]);
+        }
+        DrawCarrierLine(canvas, points[^1], miss);
+        DrawDashedLine(canvas, miss, points[0], InverseStroke, 1.4f);
+        DrawTensionSpot(canvas, new SKPoint((miss.X + points[0].X) * 0.5f, (miss.Y + points[0].Y) * 0.5f), 15f);
+        DrawPoint(canvas, points[0], EndpointColor, 4.2f);
+        DrawPoint(canvas, miss, InverseStroke, 4.2f);
+    }
+
+    private static void DrawXyBasisPath(SKCanvas canvas, SKRect bounds)
+    {
+        DrawTinyAxes(canvas, bounds);
+        var a = new SKPoint(bounds.Left + bounds.Width * 0.24f, bounds.Bottom - bounds.Height * 0.28f);
+        var b = new SKPoint(bounds.Right - bounds.Width * 0.20f, bounds.Top + bounds.Height * 0.30f);
+        DrawVectorArrow(canvas, a, b, PositiveStroke, 2.2f);
+        DrawPoint(canvas, a, SiteColor, 4.8f);
+        DrawPoint(canvas, b, EndpointColor, 4.8f);
+    }
+
+    private static void DrawCircularBasisPath(SKCanvas canvas, SKRect bounds)
+    {
+        var origin = new SKPoint(bounds.Left + bounds.Width * 0.30f, bounds.Bottom - bounds.Height * 0.28f);
+        var radius = Math.Min(bounds.Width, bounds.Height) * 0.23f;
+        DrawProtractor(canvas, origin, radius, -32f);
+        var end = PointOnCircle(origin, bounds.Width * 0.48f, -32f);
+        DrawVectorArrow(canvas, origin, end, PositiveStroke, 2.2f);
+        DrawPoint(canvas, origin, SiteColor, 4.8f);
+        DrawPoint(canvas, end, EndpointColor, 4.6f);
+    }
+
+    private static void DrawOrthogonalBasisPath(SKCanvas canvas, SKRect bounds)
+    {
+        var y = bounds.MidY + bounds.Height * 0.10f;
+        var start = new SKPoint(bounds.Left + 13, y);
+        var end = new SKPoint(bounds.Right - 14, y);
+        DrawCarrierLine(canvas, start, end);
+        var joint = new SKPoint(bounds.Left + bounds.Width * 0.45f, y);
+        DrawVectorArrow(canvas, joint, new SKPoint(joint.X, bounds.Top + 8), PositiveStroke, 2.3f);
+        DrawTensionSpot(canvas, new SKPoint(joint.X, joint.Y - 18), 9f, PositiveColor);
+        DrawPoint(canvas, joint, EndpointColor, 4.8f);
+    }
+
+    private static void DrawMixedBasisPath(SKCanvas canvas, SKRect bounds)
+    {
+        DrawTinyAxes(canvas, bounds);
+        var origin = new SKPoint(bounds.Left + bounds.Width * 0.35f, bounds.Bottom - bounds.Height * 0.30f);
+        var radius = Math.Min(bounds.Width, bounds.Height) * 0.20f;
+        DrawProtractor(canvas, origin, radius, -48f);
+        var end = PointOnCircle(origin, bounds.Width * 0.44f, -48f);
+        DrawVectorArrow(canvas, origin, end, PositiveStroke, 2.2f);
+        DrawDashedLine(canvas, new SKPoint(end.X, bounds.Bottom - 10), end, EvidenceColor, 1.1f);
+        DrawPoint(canvas, origin, SiteColor, 4.8f);
+        DrawPoint(canvas, end, EndpointColor, 4.8f);
+    }
+
+    private static void DrawCompositePathRead(SKCanvas canvas, SKRect bounds)
+    {
+        var a = new SKPoint(bounds.Left + 12, bounds.Bottom - 18);
+        var b = new SKPoint(bounds.Left + bounds.Width * 0.35f, bounds.MidY + 5);
+        var c = new SKPoint(bounds.Left + bounds.Width * 0.58f, bounds.MidY - 12);
+        var d = new SKPoint(bounds.Right - 12, bounds.Top + bounds.Height * 0.34f);
+        DrawCarrierLine(canvas, a, b);
+        using var arc = new SKPath();
+        arc.MoveTo(b);
+        arc.QuadTo(bounds.MidX, bounds.Top + 2, c.X, c.Y);
+        DrawBridgePath(canvas, arc, BoundaryColor, 1.7f, glow: false);
+        using var curve = new SKPath();
+        curve.MoveTo(c);
+        curve.CubicTo(bounds.MidX + 24, bounds.Bottom - 6, bounds.Right - 34, bounds.Top + 2, d.X, d.Y);
+        DrawBridgePath(canvas, curve, BoundaryColor, 1.7f, glow: false);
+        using var read = new SKPath();
+        read.MoveTo(a);
+        read.LineTo(b);
+        read.QuadTo(bounds.MidX, bounds.Top + 2, c.X, c.Y);
+        read.CubicTo(bounds.MidX + 24, bounds.Bottom - 6, bounds.Right - 34, bounds.Top + 2, d.X, d.Y);
+        DrawBridgePath(canvas, read, PositiveStroke, 2.4f, glow: true);
+        DrawPathPartitions(canvas, read, 8);
+    }
+
+    private void DrawPathResidueError(SKCanvas canvas, SKRect bounds)
+    {
+        var center = Center(bounds);
+        var radius = Math.Min(bounds.Width, bounds.Height) * 0.31f;
+        var points = new[]
+        {
+            PointOnCircle(center, radius, -110f),
+            PointOnCircle(center, radius, -12f),
+            PointOnCircle(center, radius, 82f),
+            PointOnCircle(center, radius, 176f)
+        };
+        DrawProtractor(canvas, points[0], radius * 0.62f, -22f);
+        DrawCarrierLine(canvas, points[0], points[1]);
+        DrawCarrierLine(canvas, points[1], points[2]);
+        DrawCarrierLine(canvas, points[2], points[3]);
+        var target = new SKPoint(points[0].X + 4, points[0].Y - 2);
+        DrawDashedLine(canvas, points[3], target, InverseStroke, 1.5f);
+        DrawTensionSpot(canvas, new SKPoint((points[3].X + target.X) * 0.5f, (points[3].Y + target.Y) * 0.5f), 16f);
+        DrawPoint(canvas, target, EndpointColor, 4.4f);
+        DrawPoint(canvas, points[3], InverseStroke, 4.4f);
+    }
+
+    private static void DrawBond(SKCanvas canvas, SKPoint a, SKPoint b)
+    {
+        DrawDashedLine(canvas, a, b, EndpointColor, 1.4f);
+        using var ring = StrokePaint(EndpointColor, 1.2f, 175);
+        canvas.DrawCircle(new SKPoint((a.X + b.X) * 0.5f, (a.Y + b.Y) * 0.5f), 7f, ring);
+    }
+
+    private static void DrawDashedLine(SKCanvas canvas, SKPoint start, SKPoint end, SKColor color, float width)
+    {
+        using var paint = StrokePaint(color, width, 175);
+        using var dash = SKPathEffect.CreateDash([4f, 3.2f], 0);
+        paint.PathEffect = dash;
+        canvas.DrawLine(start, end, paint);
+    }
+
+    private static void DrawTensionSpot(SKCanvas canvas, SKPoint point, float radius, SKColor? color = null)
+    {
+        using var glow = FillPaint(color ?? InverseColor, 70);
+        canvas.DrawCircle(point, radius, glow);
+    }
+
+    private static void DrawTinyAxes(SKCanvas canvas, SKRect bounds)
+    {
+        var origin = new SKPoint(bounds.Left + bounds.Width * 0.23f, bounds.Bottom - bounds.Height * 0.24f);
+        using var axis = StrokePaint(TickColor, 1f, 115);
+        canvas.DrawLine(origin.X, bounds.Top + 10, origin.X, bounds.Bottom - 8, axis);
+        canvas.DrawLine(bounds.Left + 8, origin.Y, bounds.Right - 8, origin.Y, axis);
+        for (var index = 1; index < 4; index++)
+        {
+            var x = origin.X + index * bounds.Width * 0.17f;
+            canvas.DrawLine(x, origin.Y - 4, x, origin.Y + 4, axis);
+            var y = origin.Y - index * bounds.Height * 0.16f;
+            canvas.DrawLine(origin.X - 4, y, origin.X + 4, y, axis);
+        }
+    }
+
+    private static void DrawProtractor(SKCanvas canvas, SKPoint center, float radius, float rotation)
+    {
+        using var stroke = StrokePaint(TickColor, 1.1f, 126);
+        canvas.DrawCircle(center, radius, stroke);
+        for (var index = 0; index < 12; index++)
+        {
+            var angle = rotation + index * 30f;
+            var inner = PointOnCircle(center, radius - 4, angle);
+            var outer = PointOnCircle(center, radius + 2, angle);
+            DrawLine(canvas, inner, outer, TickColor, index % 3 == 0 ? 1.25f : 0.9f, 126);
+        }
+        var direction = PointOnCircle(center, radius + 8, rotation);
+        DrawVectorArrow(canvas, center, direction, TickColor, 1f, 132);
+    }
+
+    private static void DrawPathPartitions(SKCanvas canvas, SKPath path, int count)
+    {
+        using var measure = new SKPathMeasure(path, false);
+        var length = measure.Length;
+        if (length <= 0.001f)
+        {
+            return;
+        }
+
+        using var paint = StrokePaint(BoundaryColor, 1.75f, 215);
+        for (var index = 1; index <= count; index++)
+        {
+            var distance = length * index / (count + 1);
+            if (!measure.GetPositionAndTangent(distance, out var point, out var tangent))
+            {
+                continue;
+            }
+
+            var normal = Normalize(new SKPoint(-tangent.Y, tangent.X));
+            var half = index % 2 == 0 ? 6.5f : 5.5f;
+            canvas.DrawLine(
+                point.X - normal.X * half,
+                point.Y - normal.Y * half,
+                point.X + normal.X * half,
+                point.Y + normal.Y * half,
+                paint);
         }
     }
 
@@ -2905,6 +3294,8 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
 }
 
 internal readonly record struct BlocksHoverTip(SKPoint Anchor, string Title, string Body);
+
+internal readonly record struct GlossarySpecimenDescriptor(string Id, string Title);
 
 internal readonly record struct BlocksHitArea(
     SKRect Bounds,

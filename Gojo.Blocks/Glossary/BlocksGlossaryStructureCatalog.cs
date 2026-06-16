@@ -16,6 +16,8 @@ internal static class BlocksGlossaryStructureCatalog
         AddCurves(structures);
         AddBranches(structures);
         AddBooleanParticipation(structures);
+        AddConnectedPaths(structures);
+        AddPathReadBases(structures);
         return structures;
     }
 
@@ -102,6 +104,40 @@ internal static class BlocksGlossaryStructureCatalog
         foreach (var column in columns)
         {
             structures[$"boolean-participation-{row}-{column}"] = BooleanParticipation(row, column);
+        }
+    }
+
+    private static void AddConnectedPaths(Dictionary<string, BlocksGlossaryStructure> structures)
+    {
+        var ids = new[]
+        {
+            "separate-sections",
+            "shared-point",
+            "bonded-point",
+            "orthogonal-endpoint",
+            "higher-bridge",
+            "closure-tension"
+        };
+        foreach (var id in ids)
+        {
+            structures[$"connected-paths-{id}"] = ConnectedPath(id);
+        }
+    }
+
+    private static void AddPathReadBases(Dictionary<string, BlocksGlossaryStructure> structures)
+    {
+        var ids = new[]
+        {
+            "xy",
+            "circular",
+            "orthogonal",
+            "mixed",
+            "composite-read",
+            "residue-error"
+        };
+        foreach (var id in ids)
+        {
+            structures[$"path-basis-{id}"] = PathReadBasis(id);
         }
     }
 
@@ -528,6 +564,197 @@ internal static class BlocksGlossaryStructureCatalog
                 TensionSlot()),
             _ => areaFrame
         };
+    }
+
+    private static BlocksGlossaryStructure ConnectedPath(string id)
+    {
+        var frame = new FrameBasis();
+        return id switch
+        {
+            "separate-sections" => Spec(
+                Group(
+                    GraphicStructure.FrameSegment(frame.Point(-52, 18), frame.Point(-12, 4)),
+                    GraphicStructure.FrameArc(frame.Point(18, 6), frame.Point(8, 22), frame.Point(50, -12))),
+                "S(A,B) + Arc(C,D), no shared P or bond",
+                "The sections can be visually near each other without becoming one path. No shared point, bond, or higher-rung bridge has settled them together."),
+            "shared-point" => ConnectedSharedPoint(frame),
+            "bonded-point" => ConnectedBondedPoint(frame),
+            "orthogonal-endpoint" => ConnectedOrthogonalEndpoint(frame),
+            "higher-bridge" => ConnectedHigherBridge(frame),
+            "closure-tension" => ConnectedClosureTension(frame),
+            _ => Spec(Site(), "P(O)")
+        };
+    }
+
+    private static BlocksGlossaryStructure PathReadBasis(string id)
+    {
+        var frame = new FrameBasis();
+        return id switch
+        {
+            "xy" => Spec(
+                GraphicStructure.FrameSegment(frame.Point(-44, 26), frame.Point(46, -24)),
+                "FrameXY(P0) + FrameXY(P1) -> S(P0,P1)",
+                "This is the familiar coordinate construction. It is only one way to create section evidence."),
+            "circular" => PathCircularBasis(),
+            "orthogonal" => PathOrthogonalBasis(frame),
+            "mixed" => PathMixedBasis(frame),
+            "composite-read" => PathCompositeRead(frame),
+            "residue-error" => PathResidueError(frame),
+            _ => Spec(Site(), "P(O)")
+        };
+    }
+
+    private static BlocksGlossaryStructure ConnectedSharedPoint(FrameBasis frame)
+    {
+        var joint = frame.Point(0, 0);
+        return Spec(
+            Group(
+                GraphicStructure.FrameSegment(frame.Point(-50, 30), joint),
+                GraphicStructure.FrameArc(frame.Point(20, 10), joint, frame.Point(50, -16))),
+            "S(A,J) + Arc(J,B), same P(J)",
+            "The sections are connected because they reuse the same endpoint relation. The fact that one section is curved is incidental.");
+    }
+
+    private static BlocksGlossaryStructure ConnectedBondedPoint(FrameBasis frame)
+    {
+        var leftEnd = frame.Point(-4, 2);
+        var rightStart = frame.Point(6, -3);
+        return Spec(
+            Group(
+                GraphicStructure.FrameSegment(frame.Point(-52, 28), leftEnd),
+                GraphicStructure.FrameArc(frame.Point(22, 8), rightStart, frame.Point(50, -12)),
+                GraphicStructure.Pin(leftEnd, rightStart)),
+            "S(A,J1) + Arc(J2,B) + bond(J1,J2)",
+            "The endpoints stay distinct as evidence, but a bond relation makes them participate as one connected path point.");
+    }
+
+    private static BlocksGlossaryStructure ConnectedOrthogonalEndpoint(FrameBasis frame)
+    {
+        var end = frame.Point(18, -10);
+        var arc = GraphicStructure.FrameArc(frame.Point(-16, 16), frame.Point(-48, 12), end);
+        var branch = GraphicStructure.FrameSegment(end, frame.Point(42, -42));
+        return Spec(
+            Group(arc, branch, GraphicStructure.RadialFlow(end)),
+            "Arc(A,J) + S(J,O) + orthogonal_outlet(P(J))",
+            "A path section can grow from orthogonal support at the endpoint of an arc. The connection still comes from local relation evidence at J.");
+    }
+
+    private static BlocksGlossaryStructure ConnectedHigherBridge(FrameBasis frame)
+    {
+        var leftEnd = frame.Point(-16, 2);
+        var rightStart = frame.Point(18, -8);
+        var left = GraphicStructure.FrameSegment(frame.Point(-52, 18), leftEnd);
+        var right = GraphicStructure.FrameSegment(rightStart, frame.Point(52, -24));
+        var bridge = GraphicStructure.FrameCubicCurve(leftEnd, frame.Point(-2, -28), frame.Point(4, 28), rightStart);
+        return Spec(
+            Group(left, right, bridge, GraphicStructure.FrameCurveTransition(left, right)),
+            "S(A,J1) + S(J2,B) + Bridge(J1,J2)",
+            "A higher rung can join sections that were not directly connected, for example by adding a curve or transition surface.");
+    }
+
+    private static BlocksGlossaryStructure ConnectedClosureTension(FrameBasis frame)
+    {
+        var a = frame.Point(0, -42);
+        var b = frame.Point(42, -10);
+        var c = frame.Point(28, 34);
+        var d = frame.Point(-28, 34);
+        var e = frame.Point(-42, -8);
+        var miss = frame.Point(-10, -34);
+        return Spec(
+            Group(
+                GraphicStructure.FrameSegment(a, b),
+                GraphicStructure.FrameSegment(b, c),
+                GraphicStructure.FrameSegment(c, d),
+                GraphicStructure.FrameSegment(d, e),
+                GraphicStructure.FrameSegment(e, miss),
+                GraphicStructure.Pin(miss, a),
+                TensionSlot()),
+            "S(P0,P1)+...+S(P4,Pn) + topology(Pn~P0) + tension",
+            "The topology says the path should close even when the geometric evidence misses. The mismatch remains visible as tension instead of being hidden.");
+    }
+
+    private static BlocksGlossaryStructure PathCircularBasis()
+    {
+        var carrier = new Carrier();
+        var origin = GraphicStructure.Point(carrier, 0);
+        var circle = GraphicStructure.CircularCarrierAt(origin);
+        var direction = GraphicStructure.Point(circle, 42);
+        var length = GraphicStructure.Segment(new Carrier(), 0, 58);
+        return Spec(
+            Group(origin, circle, direction, length, new Relation(direction, length)),
+            "P(O) + CircleBasis(O) + P(theta) + S(length)",
+            "The circular template is reusable direction evidence, like a light protractor at an endpoint. It can be moved or rotated without becoming a permanent part of every segment.");
+    }
+
+    private static BlocksGlossaryStructure PathOrthogonalBasis(FrameBasis frame)
+    {
+        var joint = frame.Point(-6, 8);
+        var primary = GraphicStructure.FrameSegment(frame.Point(-52, 8), frame.Point(50, 8));
+        var branch = GraphicStructure.FrameSegment(joint, frame.Point(-6, -38));
+        return Spec(
+            Group(primary, branch, GraphicStructure.RadialFlow(primary)),
+            "S(A,B) + orthogonal_outlet(S(A,B)) + S(J,O)",
+            "The section can be defined from support normal to another carrier rather than from XY position alone.");
+    }
+
+    private static BlocksGlossaryStructure PathMixedBasis(FrameBasis frame)
+    {
+        var origin = frame.Point(-34, 28);
+        var endpoint = frame.Point(34, -22);
+        var baseCarrier = new Carrier();
+        var basePoint = GraphicStructure.Point(baseCarrier, 0);
+        var circular = GraphicStructure.CircularCarrierAt(basePoint);
+        var segment = GraphicStructure.FrameSegment(origin, endpoint);
+        return Spec(
+            Group(
+                segment,
+                basePoint,
+                circular,
+                GraphicStructure.Point(circular, 38),
+                GraphicStructure.RadialFlow(segment)),
+            "FrameXY(P0,P1) + CircleBasis(P0,theta) + orthogonal evidence",
+            "Multiple bases can constrain the same section at once. A later read can reconcile or expose disagreement as residue.");
+    }
+
+    private static BlocksGlossaryStructure PathCompositeRead(FrameBasis frame)
+    {
+        var a = frame.Point(-54, 30);
+        var b = frame.Point(-18, 6);
+        var c = frame.Point(14, -10);
+        var d = frame.Point(52, -24);
+        var line = GraphicStructure.FrameSegment(a, b);
+        var arc = GraphicStructure.FrameArc(frame.Point(-2, 18), b, c);
+        var curve = GraphicStructure.FrameCubicCurve(c, frame.Point(24, 30), frame.Point(32, -42), d);
+        var pathCarrier = new Carrier();
+        var pathRead = Group(
+            GraphicStructure.Segment(pathCarrier, 0, 120),
+            GraphicStructure.Point(pathCarrier, 20),
+            GraphicStructure.Point(pathCarrier, 40),
+            GraphicStructure.Point(pathCarrier, 60),
+            GraphicStructure.Point(pathCarrier, 80),
+            GraphicStructure.Point(pathCarrier, 100));
+        return Spec(
+            Group(line, arc, curve, pathRead),
+            "sections{S,Arc,Curve} -> PathCarrier(0,n) + P(t...)",
+            "The path read is derived from the sections but gets its own carrier, partitions, flow, and measurement basis.");
+    }
+
+    private static BlocksGlossaryStructure PathResidueError(FrameBasis frame)
+    {
+        var a = frame.Point(-42, 28);
+        var b = frame.Point(28, 24);
+        var c = frame.Point(42, -26);
+        var d = frame.Point(-18, -36);
+        var target = frame.Point(-38, 22);
+        return Spec(
+            Group(
+                GraphicStructure.FrameSegment(a, b),
+                GraphicStructure.FrameSegment(b, c),
+                GraphicStructure.FrameSegment(c, d),
+                GraphicStructure.Pin(d, target),
+                TensionSlot()),
+            "loose sections + intended_join(Pn~P0) + residue/tension",
+            "Conflicting basis and topology evidence can negotiate later. Until then the attempted join and its error remain inspectable.");
     }
 
     private static IElement Site()

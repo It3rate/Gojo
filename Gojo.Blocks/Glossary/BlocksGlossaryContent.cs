@@ -76,6 +76,30 @@ internal static class BlocksGlossaryContent
                 ["participants", "touch", "overlap", "union", "intersection", "difference"],
                 GlossarySheet: BlocksGlossarySheetKind.BooleanParticipation,
                 GlossaryDescriptions: descriptions,
+                GlossaryStructures: structures),
+            new BlocksPage(
+                "glossary-connected-paths",
+                "Connected Paths",
+                "Shared points, bonded endpoints, orthogonal joins, bridges, and closure tension.",
+                string.Empty,
+                null,
+                null,
+                0,
+                ["sections", "shared point", "bonded point", "orthogonal join", "bridge", "closure tension"],
+                GlossarySheet: BlocksGlossarySheetKind.ConnectedPaths,
+                GlossaryDescriptions: descriptions,
+                GlossaryStructures: structures),
+            new BlocksPage(
+                "glossary-path-read-bases",
+                "Path Reads / Bases",
+                "XY, circular, orthogonal, mixed, composite, and residue-bearing path reads.",
+                string.Empty,
+                null,
+                null,
+                0,
+                ["XY basis", "circular basis", "orthogonal basis", "mixed basis", "path read", "residue"],
+                GlossarySheet: BlocksGlossarySheetKind.PathReadBases,
+                GlossaryDescriptions: descriptions,
                 GlossaryStructures: structures)
         ];
     }
