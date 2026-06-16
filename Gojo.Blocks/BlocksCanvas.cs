@@ -1380,7 +1380,7 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
         using var offset = OffsetCubicPath(18f, p0, p1, p2, p3);
         DrawBridgePath(canvas, source, BoundaryColor, 1.7f, glow: false);
         DrawBridgePath(canvas, offset, PositiveStroke, 2.25f, glow: true);
-        DrawOffsetWitnesses(canvas, source, offset, 4);
+        DrawCubicOffsetWitnesses(canvas, p0, p1, p2, p3, 18f, 4);
         DrawPathPartitions(canvas, offset, 5);
     }
 
@@ -1598,6 +1598,19 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
             {
                 DrawOffsetWitness(canvas, sourcePoint, offsetPoint);
             }
+        }
+    }
+
+    private static void DrawCubicOffsetWitnesses(SKCanvas canvas, SKPoint p0, SKPoint p1, SKPoint p2, SKPoint p3, float distance, int count)
+    {
+        for (var index = 1; index <= count; index++)
+        {
+            var t = index / (float)(count + 1);
+            var sourcePoint = CubicPoint(p0, p1, p2, p3, t);
+            var tangent = Normalize(CubicTangent(p0, p1, p2, p3, t));
+            var normal = new SKPoint(-tangent.Y, tangent.X);
+            var offsetPoint = new SKPoint(sourcePoint.X + normal.X * distance, sourcePoint.Y + normal.Y * distance);
+            DrawOffsetWitness(canvas, sourcePoint, offsetPoint);
         }
     }
 
