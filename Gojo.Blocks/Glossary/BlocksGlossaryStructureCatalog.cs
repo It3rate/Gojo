@@ -21,6 +21,7 @@ internal static class BlocksGlossaryStructureCatalog
         AddDerivedPathStructures(structures);
         AddBooleanOffsetReads(structures);
         AddDroneClipOffsetLadder(structures);
+        AddRadialCrescentLadder(structures);
         return structures;
     }
 
@@ -196,6 +197,23 @@ internal static class BlocksGlossaryStructureCatalog
         foreach (var id in ids)
         {
             structures[$"drone-clip-{id}"] = DroneClipOffsetLadder(id);
+        }
+    }
+
+    private static void AddRadialCrescentLadder(Dictionary<string, BlocksGlossaryStructure> structures)
+    {
+        var ids = new[]
+        {
+            "source-seeds",
+            "endpoint-caps",
+            "trimmed-carriers",
+            "offset-boundaries",
+            "fill-participants",
+            "merged-areas"
+        };
+        foreach (var id in ids)
+        {
+            structures[$"radial-crescent-{id}"] = RadialCrescentLadder(id);
         }
     }
 
@@ -707,6 +725,25 @@ internal static class BlocksGlossaryStructureCatalog
             "merged-loops" => DroneClipMergedLoops(frame),
             "negative-spaces" => DroneClipNegativeSpaces(frame),
             "settled-read" => DroneClipSettledRead(frame),
+            _ => Spec(Site(), "P(O)")
+        };
+    }
+
+    private static BlocksGlossaryStructure RadialCrescentLadder(string id)
+    {
+        var frame = new FrameBasis();
+        return id switch
+        {
+            "source-seeds" => RadialCrescentSourceSeeds(frame),
+            "endpoint-caps" => RadialCrescentEndpointCaps(frame),
+            "trimmed-carriers" => RadialCrescentTrimmedCarriers(frame),
+            "offset-boundaries" => RadialCrescentOffsetBoundaries(frame),
+            "fill-participants" => RadialCrescentFillParticipants(frame),
+            "merged-areas" => RadialCrescentMergedAreas(frame),
+            "outline-read" => RadialCrescentOutlineRead(frame),
+            "interior-round" => RadialCrescentInteriorRound(frame),
+            "exterior-round" => RadialCrescentExteriorRound(frame),
+            "settled-area" => RadialCrescentSettledArea(frame),
             _ => Spec(Site(), "P(O)")
         };
     }
@@ -1390,6 +1427,364 @@ internal static class BlocksGlossaryStructureCatalog
             "source + ladder residue -> settled clip read",
             "The final rung is an inspectable settled read: source provenance, rounded positive boundary, structural negative spaces, and residue for whatever the simplified read did not express.");
     }
+
+    private static BlocksGlossaryStructure RadialCrescentSourceSeeds(FrameBasis frame)
+    {
+        var centerStrokes = RadialCrescentCenterStrokes(frame);
+        var body = RadialCrescentBodyBoundaries(frame);
+        return Spec(
+            Group(Group(centerStrokes), Group(body)),
+            "SketchViewer crescent+bent seed -> center carriers + body boundaries",
+            "This rebuilds the Crescent radial ladder source as carrier evidence: two curved crescent strokes, two bent-arm polylines, a circle body, and a diamond body. It does not depend on the old Sketch Viewer render completing.",
+            RadialCrescentBounds());
+    }
+
+    private static BlocksGlossaryStructure RadialCrescentEndpointCaps(FrameBasis frame)
+    {
+        var source = Group(Group(RadialCrescentCenterStrokes(frame)), Group(RadialCrescentBodyBoundaries(frame)));
+        var caps = RadialCrescentEndpointCaps(frame, outerRadius: 28);
+        var holes = RadialCrescentEndpointCaps(frame, outerRadius: 8);
+        return Spec(
+            new Relation(source, Group(Group(caps), Group(holes))),
+            "LineTipSelection(source) -> endpoint CircleCaps(r=28) + endpoint holes(r=8)",
+            "The endpoint rings are generated from selected open tips. The hole circles are paired anti-support for those same cap centers, not decorative marks.",
+            RadialCrescentBounds());
+    }
+
+    private static BlocksGlossaryStructure RadialCrescentTrimmedCarriers(FrameBasis frame)
+    {
+        var source = RadialCrescentCenterStrokes(frame);
+        var caps = RadialCrescentEndpointCaps(frame, outerRadius: 28);
+        var trimmed = RadialCrescentTrimmedCenterStrokes(frame);
+        return Spec(
+            new Relation(Group(Group(source), Group(caps)), Group(trimmed)),
+            "center carriers + endpoint caps -> trimmed carriers",
+            "The open carriers are shortened against the cap boundaries. The original strokes remain provenance, while the trimmed strokes are the source for later offset reads.",
+            RadialCrescentBounds());
+    }
+
+    private static BlocksGlossaryStructure RadialCrescentOffsetBoundaries(FrameBasis frame)
+    {
+        var trimmed = RadialCrescentTrimmedCenterStrokes(frame);
+        var path = PathRead(trimmed, 360, 18);
+        var offsets = OffsetRead(
+            path.Read,
+            path.Carrier,
+            path.Span,
+            RadialCrescentExteriorSharpBoundaries(frame),
+            10,
+            2,
+            360,
+            18);
+        return Spec(
+            offsets,
+            "PathRead(trimmed carriers) + OffsetRead(normal-distance=10,resolution=2)",
+            "The offset boundary rung carries signed normal distance and resolution evidence. The rendered bands can be calculated geometrically, but the meaning is the normal-distance read from the path carrier.",
+            RadialCrescentBounds());
+    }
+
+    private static BlocksGlossaryStructure RadialCrescentFillParticipants(FrameBasis frame)
+    {
+        var exterior = RadialCrescentExteriorSharpBoundaries(frame);
+        var holes = RadialCrescentInteriorHoles(frame, rounded: false);
+        var participants = Group(
+            GraphicStructure.AreaFill(exterior),
+            GraphicStructure.AntiAreaFill(holes));
+        return Spec(
+            participants,
+            "Offset boundaries -> AreaFill(participants) + AntiFill(endpoint/body holes)",
+            "The early fill rung creates separate positive and inverse participants. They have not yet been forced into one settled outline.",
+            RadialCrescentBounds());
+    }
+
+    private static BlocksGlossaryStructure RadialCrescentMergedAreas(FrameBasis frame)
+    {
+        var exterior = RadialCrescentExteriorSharpBoundaries(frame);
+        var holes = RadialCrescentInteriorHoles(frame, rounded: false);
+        var areaFrame = GraphicAreaParticipationSurface.AreaFrame(
+            new Carrier(),
+            GraphicStructure.AreaFill(exterior),
+            GraphicStructure.AntiAreaFill(holes));
+        var exteriorOutline = LoopRead(exterior, 420, clockwise: false);
+        var holeOutline = LoopRead(holes, 220, clockwise: true);
+        var outlineFrame = GraphicOutlineSurface.OutlineFrame(new Carrier(), exteriorOutline, holeOutline);
+        var areaUnion = GraphicAreaParticipationSurface.AreaUnion(new Carrier(), areaFrame, outlineFrame);
+        var outlineRead = GraphicOutlineSurface.FromArea(new Carrier(), areaUnion, outlineFrame);
+        return Spec(
+            Group(areaUnion, outlineRead),
+            "AreaUnion(positive support, inverse holes) -> OutlineRead(exterior cw + interior ccw)",
+            "The merge gathers positive support and then reads exterior and interior perimeters as separate outline carriers. Overlapping positive support stays solid; inverse holes remain separately readable for later corner operations.",
+            RadialCrescentBounds());
+    }
+
+    private static BlocksGlossaryStructure RadialCrescentOutlineRead(FrameBasis frame)
+    {
+        var exterior = RadialCrescentExteriorSharpBoundaries(frame);
+        var holes = RadialCrescentInteriorHoles(frame, rounded: false);
+        var outlineCarrier = new Carrier(UnitShape.DescribedAtom(Group([.. exterior, .. holes])));
+        var outline = Group(
+            LoopRead(exterior, 420, clockwise: false),
+            LoopRead(holes, 220, clockwise: true),
+            GraphicStructure.Segment(outlineCarrier, 0, 420),
+            ResolutionEvidence(outlineCarrier, 12));
+        return Spec(
+            new Relation(Group(GraphicStructure.AreaFill(exterior), GraphicStructure.AntiAreaFill(holes)), outline),
+            "AreaFrame -> outline witness + partitioned outline carrier",
+            "The outline read is independent but related to the area frame, much like a path read over several source sections.",
+            RadialCrescentBounds());
+    }
+
+    private static BlocksGlossaryStructure RadialCrescentInteriorRound(FrameBasis frame)
+    {
+        var holes = RadialCrescentInteriorHoles(frame, rounded: false);
+        var rounded = RadialCrescentInteriorHoles(frame, rounded: true);
+        var cuspDomain = RadialCrescentInteriorCusps(frame, Group(holes));
+        return Spec(
+            new Relation(Group(Group(holes), Group(cuspDomain)), Group(rounded)),
+            "InteriorCuspSelection -> RoundedBoundary(inner holes)",
+            "Interior cusp rounding is its own rung. It replaces selected inverse-boundary corners while preserving anti-fill participation.",
+            RadialCrescentBounds());
+    }
+
+    private static BlocksGlossaryStructure RadialCrescentExteriorRound(FrameBasis frame)
+    {
+        var exterior = RadialCrescentExteriorSharpBoundaries(frame);
+        var rounded = RadialCrescentExteriorRoundedBoundaries(frame);
+        var cuspDomain = RadialCrescentExteriorCusps(frame, Group(exterior));
+        return Spec(
+            new Relation(Group(Group(exterior), Group(cuspDomain)), Group(rounded)),
+            "ExteriorCuspSelection -> RoundedBoundary(outer support)",
+            "The exterior rounding rung selects outside cusps and replaces them with curve transitions. It is separate from the earlier interior rounding rung.",
+            RadialCrescentBounds());
+    }
+
+    private static BlocksGlossaryStructure RadialCrescentSettledArea(FrameBasis frame)
+    {
+        var source = Group(Group(RadialCrescentCenterStrokes(frame)), Group(RadialCrescentBodyBoundaries(frame)));
+        var exterior = RadialCrescentExteriorRoundedBoundaries(frame);
+        var holes = RadialCrescentInteriorHoles(frame, rounded: true);
+        var settled = Group(
+            GraphicStructure.AreaFill(exterior),
+            GraphicStructure.AntiAreaFill(holes),
+            LoopRead(exterior, 420, clockwise: false),
+            LoopRead(holes, 220, clockwise: true));
+        return Spec(
+            new Relation(Group(source, TensionSlot()), settled),
+            "source + endpoint/offset/fill/rounding rungs -> settled crescent radial area",
+            "The final read keeps provenance and residue attached to the settled area. The broken old render is treated as tension, while the rebuilt structure remains inspectable.",
+            RadialCrescentBounds());
+    }
+
+    private static IElement[] RadialCrescentCenterStrokes(FrameBasis frame)
+    {
+        var leftArc = GraphicStructure.FrameArc(frame.Point(-240, 0), frame.Point(-165, 108), frame.Point(-165, -108));
+        var rightArc = GraphicStructure.FrameArc(frame.Point(100, 0), frame.Point(25, -108), frame.Point(25, 108));
+        var leftTop = frame.Point(173, 122);
+        var leftKnee = frame.Point(247, -6);
+        var leftLower = frame.Point(133, -88);
+        var rightTop = frame.Point(357, 122);
+        var rightKnee = frame.Point(283, -6);
+        var rightLower = frame.Point(397, -88);
+        return
+        [
+            leftArc,
+            rightArc,
+            GraphicStructure.FrameSegment(leftTop, leftKnee),
+            GraphicStructure.FrameSegment(leftKnee, leftLower),
+            GraphicStructure.FrameSegment(rightTop, rightKnee),
+            GraphicStructure.FrameSegment(rightKnee, rightLower)
+        ];
+    }
+
+    private static IElement[] RadialCrescentTrimmedCenterStrokes(FrameBasis frame)
+    {
+        var leftArc = GraphicStructure.FrameArc(frame.Point(-240, 0), frame.Point(-155, 92), frame.Point(-155, -92));
+        var rightArc = GraphicStructure.FrameArc(frame.Point(100, 0), frame.Point(15, -92), frame.Point(15, 92));
+        var leftTop = frame.Point(182, 106);
+        var leftKnee = frame.Point(247, -6);
+        var leftLower = frame.Point(148, -77);
+        var rightTop = frame.Point(348, 106);
+        var rightKnee = frame.Point(283, -6);
+        var rightLower = frame.Point(382, -77);
+        return
+        [
+            leftArc,
+            rightArc,
+            GraphicStructure.FrameSegment(leftTop, leftKnee),
+            GraphicStructure.FrameSegment(leftKnee, leftLower),
+            GraphicStructure.FrameSegment(rightTop, rightKnee),
+            GraphicStructure.FrameSegment(rightKnee, rightLower)
+        ];
+    }
+
+    private static IElement[] RadialCrescentBodyBoundaries(FrameBasis frame) =>
+    [
+        FrameCircle(frame, -70, 0, 78),
+        .. DiamondSections(frame, 265, 0, 76, 88)
+    ];
+
+    private static IElement[] RadialCrescentEndpointCaps(FrameBasis frame, long outerRadius) =>
+    [
+        FrameCircle(frame, -165, 108, outerRadius),
+        FrameCircle(frame, -165, -108, outerRadius),
+        FrameCircle(frame, 25, -108, outerRadius),
+        FrameCircle(frame, 25, 108, outerRadius),
+        FrameCircle(frame, 173, 122, outerRadius),
+        FrameCircle(frame, 133, -88, outerRadius),
+        FrameCircle(frame, 357, 122, outerRadius),
+        FrameCircle(frame, 397, -88, outerRadius)
+    ];
+
+    private static IElement[] RadialCrescentExteriorSharpBoundaries(FrameBasis frame) =>
+    [
+        FrameCircle(frame, -70, 0, 88),
+        .. RadialCrescentArcBandSections(frame, -240, 0, -159, 116, -159, -116, -171, -100, -171, 100),
+        .. RadialCrescentArcBandSections(frame, 100, 0, 19, -116, 19, 116, 31, 100, 31, -100),
+        .. PolylineBandSections(frame, [(165, 117), (239, -11), (126, -93), (140, -83), (256, -1), (181, 127)]),
+        .. PolylineBandSections(frame, [(349, 127), (274, -1), (390, -83), (404, -93), (291, -11), (365, 117)]),
+        .. DiamondSections(frame, 265, 0, 86, 98),
+        .. RadialCrescentEndpointCaps(frame, 28)
+    ];
+
+    private static IElement[] RadialCrescentExteriorRoundedBoundaries(FrameBasis frame) =>
+    [
+        FrameCircle(frame, -70, 0, 88),
+        .. RadialCrescentArcBandSections(frame, -240, 0, -157, 116, -157, -116, -173, -100, -173, 100),
+        .. RadialCrescentArcBandSections(frame, 100, 0, 17, -116, 17, 116, 33, 100, 33, -100),
+        .. RoundedPolylineBandSections(frame, [(165, 117), (239, -11), (126, -93), (140, -83), (256, -1), (181, 127)]),
+        .. RoundedPolylineBandSections(frame, [(349, 127), (274, -1), (390, -83), (404, -93), (291, -11), (365, 117)]),
+        .. RoundedDiamondSections(frame, 265, 0, 89, 101, 14),
+        .. RadialCrescentEndpointCaps(frame, 28)
+    ];
+
+    private static IElement[] RadialCrescentInteriorHoles(FrameBasis frame, bool rounded) =>
+    [
+        FrameCircle(frame, -70, 0, 68),
+        .. (rounded ? RoundedDiamondSections(frame, 265, 0, 56, 68, 12) : DiamondSections(frame, 265, 0, 56, 68)),
+        .. RadialCrescentEndpointCaps(frame, 8)
+    ];
+
+    private static IElement[] RadialCrescentInteriorCusps(FrameBasis frame, IElement source) =>
+        CuspRelations(frame, source, [(265, 68), (321, 0), (265, -68), (209, 0)]);
+
+    private static IElement[] RadialCrescentExteriorCusps(FrameBasis frame, IElement source) =>
+        CuspRelations(frame, source, [(-165, 108), (-165, -108), (25, -108), (25, 108), (173, 122), (133, -88), (357, 122), (397, -88)]);
+
+    private static IElement[] CuspRelations(FrameBasis frame, IElement source, IReadOnlyList<(long X, long Y)> points)
+    {
+        var carrier = new Carrier(UnitShape.DescribedAtom(source));
+        var result = new List<IElement>();
+        for (var index = 0; index < points.Count; index++)
+        {
+            result.Add(new Relation(frame.Point(points[index].X, points[index].Y), GraphicStructure.Point(carrier, index + 1)));
+        }
+
+        return [.. result];
+    }
+
+    private static IElement[] RadialCrescentArcBandSections(
+        FrameBasis frame,
+        long centerX,
+        long centerY,
+        long outerStartX,
+        long outerStartY,
+        long outerEndX,
+        long outerEndY,
+        long innerStartX,
+        long innerStartY,
+        long innerEndX,
+        long innerEndY)
+    {
+        var outerStart = frame.Point(outerStartX, outerStartY);
+        var outerEnd = frame.Point(outerEndX, outerEndY);
+        var innerStart = frame.Point(innerStartX, innerStartY);
+        var innerEnd = frame.Point(innerEndX, innerEndY);
+        var center = frame.Point(centerX, centerY);
+        return
+        [
+            GraphicStructure.FrameArc(center, outerStart, outerEnd),
+            GraphicStructure.FrameSegment(outerEnd, innerStart),
+            GraphicStructure.FrameArc(center, innerStart, innerEnd),
+            GraphicStructure.FrameSegment(innerEnd, outerStart)
+        ];
+    }
+
+    private static IElement[] PolylineBandSections(FrameBasis frame, IReadOnlyList<(long X, long Y)> points)
+    {
+        var relations = points.Select(point => frame.Point(point.X, point.Y)).ToArray();
+        return ClosedSegments(relations);
+    }
+
+    private static IElement[] RoundedPolylineBandSections(FrameBasis frame, IReadOnlyList<(long X, long Y)> points)
+    {
+        if (points.Count < 3)
+        {
+            return PolylineBandSections(frame, points);
+        }
+
+        var sections = new List<IElement>();
+        for (var index = 0; index < points.Count; index++)
+        {
+            var current = points[index];
+            var next = points[(index + 1) % points.Count];
+            var after = points[(index + 2) % points.Count];
+            var a = frame.Point(current.X, current.Y);
+            var b = frame.Point(
+                next.X + (after.X - next.X) / 5,
+                next.Y + (after.Y - next.Y) / 5);
+            var c = frame.Point(next.X, next.Y);
+            sections.Add(GraphicStructure.FrameSegment(a, b));
+            sections.Add(GraphicStructure.FrameQuadraticCurve(b, c, frame.Point(
+                next.X + (current.X - next.X) / 5,
+                next.Y + (current.Y - next.Y) / 5)));
+        }
+
+        return [.. sections];
+    }
+
+    private static IElement[] DiamondSections(FrameBasis frame, long centerX, long centerY, long halfWidth, long halfHeight)
+    {
+        var top = frame.Point(centerX, centerY + halfHeight);
+        var right = frame.Point(centerX + halfWidth, centerY);
+        var bottom = frame.Point(centerX, centerY - halfHeight);
+        var left = frame.Point(centerX - halfWidth, centerY);
+        return
+        [
+            GraphicStructure.FrameSegment(top, right),
+            GraphicStructure.FrameSegment(right, bottom),
+            GraphicStructure.FrameSegment(bottom, left),
+            GraphicStructure.FrameSegment(left, top)
+        ];
+    }
+
+    private static IElement[] RoundedDiamondSections(FrameBasis frame, long centerX, long centerY, long halfWidth, long halfHeight, long radius)
+    {
+        var topA = frame.Point(centerX + radius, centerY + halfHeight - radius);
+        var topB = frame.Point(centerX - radius, centerY + halfHeight - radius);
+        var rightA = frame.Point(centerX + halfWidth - radius, centerY - radius);
+        var rightB = frame.Point(centerX + halfWidth - radius, centerY + radius);
+        var bottomA = frame.Point(centerX - radius, centerY - halfHeight + radius);
+        var bottomB = frame.Point(centerX + radius, centerY - halfHeight + radius);
+        var leftA = frame.Point(centerX - halfWidth + radius, centerY + radius);
+        var leftB = frame.Point(centerX - halfWidth + radius, centerY - radius);
+        return
+        [
+            GraphicStructure.FrameSegment(topA, rightB),
+            GraphicStructure.FrameQuadraticCurve(rightB, frame.Point(centerX + halfWidth, centerY), rightA),
+            GraphicStructure.FrameSegment(rightA, bottomB),
+            GraphicStructure.FrameQuadraticCurve(bottomB, frame.Point(centerX, centerY - halfHeight), bottomA),
+            GraphicStructure.FrameSegment(bottomA, leftB),
+            GraphicStructure.FrameQuadraticCurve(leftB, frame.Point(centerX - halfWidth, centerY), leftA),
+            GraphicStructure.FrameSegment(leftA, topB),
+            GraphicStructure.FrameQuadraticCurve(topB, frame.Point(centerX, centerY + halfHeight), topA)
+        ];
+    }
+
+    private static IElement FrameCircle(FrameBasis frame, long centerX, long centerY, long radius) =>
+        GraphicStructure.FrameCircle(frame.Point(centerX, centerY), frame.Point(centerX + radius, centerY));
+
+    private static SKRect RadialCrescentBounds() =>
+        Bounds(-270, -150, 430, 150);
 
     private static IElement[] DroneClipOuterSections(FrameBasis frame)
     {

@@ -136,6 +136,18 @@ internal static class BlocksGlossaryContent
                 ["source", "path read", "offset", "intersections", "split sections", "outside rounding", "inside rounding", "loop merge", "negative spaces", "settled read"],
                 GlossarySheet: BlocksGlossarySheetKind.DroneClipOffsetLadder,
                 GlossaryDescriptions: descriptions,
+                GlossaryStructures: structures),
+            new BlocksPage(
+                "glossary-radial-crescent-ladder",
+                "Crescent Radial Ladder",
+                "A six-rung read of the Sketch Viewer crescent + bent-arms radial ladder through merged areas.",
+                string.Empty,
+                null,
+                null,
+                0,
+                ["seed arms", "body", "motor caps", "trimmed arms", "offset boundaries", "fill participants", "merged areas"],
+                GlossarySheet: BlocksGlossarySheetKind.RadialCrescentLadder,
+                GlossaryDescriptions: descriptions,
                 GlossaryStructures: structures)
         ];
     }

@@ -695,6 +695,12 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
             return;
         }
 
+        if (page.GlossarySheet == BlocksGlossarySheetKind.RadialCrescentLadder)
+        {
+            DrawRadialCrescentLadderGlossary(canvas, page, area, hitAreas);
+            return;
+        }
+
         if (page.GlossarySheet != BlocksGlossarySheetKind.None)
         {
             DrawGlossaryLadder(canvas, page, area, hitAreas);
@@ -808,6 +814,20 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
             new GlossarySpecimenDescriptor("drone-clip-settled-read", "Settled read")
         };
         DrawSpecimenGrid(canvas, page, area, hitAreas, specimens, DrawDroneClipSpecimen);
+    }
+
+    private void DrawRadialCrescentLadderGlossary(SKCanvas canvas, BlocksPage page, SKRect area, List<BlocksHitArea> hitAreas)
+    {
+        var specimens = new[]
+        {
+            new GlossarySpecimenDescriptor("radial-crescent-source-seeds", "Seed arms / body"),
+            new GlossarySpecimenDescriptor("radial-crescent-endpoint-caps", "Motor caps"),
+            new GlossarySpecimenDescriptor("radial-crescent-trimmed-carriers", "Trimmed arms"),
+            new GlossarySpecimenDescriptor("radial-crescent-offset-boundaries", "Offset boundaries"),
+            new GlossarySpecimenDescriptor("radial-crescent-fill-participants", "Fill participants"),
+            new GlossarySpecimenDescriptor("radial-crescent-merged-areas", "Merged areas")
+        };
+        DrawSpecimenGrid(canvas, page, area, hitAreas, specimens, DrawRadialCrescentSpecimen);
     }
 
     private void DrawSpecimenGrid(
@@ -1002,6 +1022,7 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
             BlocksGlossarySheetKind.BooleanParticipation => "boolean-participation",
             BlocksGlossarySheetKind.BooleanOffsetReads => "boolean-offset",
             BlocksGlossarySheetKind.DroneClipOffsetLadder => "drone-clip",
+            BlocksGlossarySheetKind.RadialCrescentLadder => "radial-crescent",
             _ => "glossary"
         };
 
@@ -1221,6 +1242,43 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
                 break;
             case 9:
                 DrawDroneClipSettledRead(canvas, bounds);
+                break;
+        }
+    }
+
+    private void DrawRadialCrescentSpecimen(SKCanvas canvas, int index, SKRect bounds)
+    {
+        switch (index)
+        {
+            case 0:
+                DrawRadialCrescentSourceSeeds(canvas, bounds);
+                break;
+            case 1:
+                DrawRadialCrescentEndpointCaps(canvas, bounds);
+                break;
+            case 2:
+                DrawRadialCrescentTrimmedCarriers(canvas, bounds);
+                break;
+            case 3:
+                DrawRadialCrescentOffsetBoundaries(canvas, bounds);
+                break;
+            case 4:
+                DrawRadialCrescentFillParticipants(canvas, bounds);
+                break;
+            case 5:
+                DrawRadialCrescentMergedAreas(canvas, bounds);
+                break;
+            case 6:
+                DrawRadialCrescentOutlineRead(canvas, bounds);
+                break;
+            case 7:
+                DrawRadialCrescentInteriorRound(canvas, bounds);
+                break;
+            case 8:
+                DrawRadialCrescentExteriorRound(canvas, bounds);
+                break;
+            case 9:
+                DrawRadialCrescentSettledArea(canvas, bounds);
                 break;
         }
     }
@@ -2085,6 +2143,851 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
 
     private static float DroneClipScale(SKRect bounds) =>
         Math.Min(bounds.Width / 124f, bounds.Height / 72f);
+
+    private static void DrawRadialCrescentSourceSeeds(SKCanvas canvas, SKRect bounds)
+    {
+        DrawRadialCrescentBodies(canvas, bounds, BoundaryColor, 1.1f, 145);
+        DrawRadialCrescentCenterStrokes(canvas, bounds, BoundaryColor, 1.8f, 220);
+        foreach (var point in RadialCrescentSourceSites(bounds))
+        {
+            DrawPoint(canvas, point, SiteColor, 2.6f);
+        }
+    }
+
+    private static void DrawRadialCrescentEndpointCaps(SKCanvas canvas, SKRect bounds)
+    {
+        DrawRadialCrescentBodies(canvas, bounds, BoundaryColor, 0.9f, 95);
+        DrawRadialCrescentCenterStrokes(canvas, bounds, BoundaryColor, 1.2f, 115);
+        DrawRadialCrescentEndpointCircles(canvas, bounds, PositiveStroke, 1.75f, 210, outer: true);
+        DrawRadialCrescentEndpointCircles(canvas, bounds, InverseStroke, 1.15f, 175, outer: false);
+        foreach (var point in RadialCrescentEndpointCenters(bounds))
+        {
+            DrawPoint(canvas, point, EndpointColor, 2.8f);
+        }
+    }
+
+    private static void DrawRadialCrescentTrimmedCarriers(SKCanvas canvas, SKRect bounds)
+    {
+        DrawRadialCrescentBodies(canvas, bounds, BoundaryColor, 0.9f, 88);
+        DrawRadialCrescentBodyHollows(canvas, bounds, BoundaryColor, 0.85f, 76);
+        DrawRadialCrescentEndpointCircles(canvas, bounds, BoundaryColor, 0.9f, 95, outer: true);
+        DrawRadialCrescentCenterStrokes(canvas, bounds, BoundaryColor, 1f, 85);
+        DrawRadialCrescentCenterStrokes(canvas, bounds, PositiveStroke, 2.35f, 230, trimmed: true, glow: true);
+        foreach (var point in RadialCrescentEndpointCenters(bounds))
+        {
+            DrawPoint(canvas, point, EndpointColor, 2.5f);
+        }
+    }
+
+    private static void DrawRadialCrescentOffsetBoundaries(SKCanvas canvas, SKRect bounds)
+    {
+        DrawRadialCrescentBodies(canvas, bounds, BoundaryColor, 0.85f, 75);
+        DrawRadialCrescentCenterStrokes(canvas, bounds, BoundaryColor, 0.95f, 80, trimmed: true);
+        DrawRadialCrescentArcOffsets(canvas, bounds);
+        DrawRadialCrescentBentOffsets(canvas, bounds);
+        DrawRadialCrescentBodyOffsets(canvas, bounds);
+        DrawRadialCrescentEndpointCircles(canvas, bounds, PositiveStroke, 1.35f, 190, outer: true);
+        DrawRadialCrescentEndpointCircles(canvas, bounds, InverseStroke, 1.05f, 165, outer: false);
+        DrawRadialCrescentOffsetWitnesses(canvas, bounds);
+    }
+
+    private static void DrawRadialCrescentFillParticipants(SKCanvas canvas, SKRect bounds)
+    {
+        using var inverse = FillPaint(InverseColor, 52);
+        DrawRadialCrescentPositiveParticipants(canvas, bounds, 68);
+        DrawRadialCrescentAreaOutlines(canvas, bounds, roundedExterior: false, PositiveStroke, 1.25f, 170);
+        using var holes = RadialCrescentInteriorVoidsPath(bounds, rounded: false);
+        canvas.DrawPath(holes, inverse);
+        DrawRadialCrescentInteriorVoids(canvas, bounds, InverseStroke, 1.15f, 190, rounded: false);
+    }
+
+    private void DrawRadialCrescentMergedAreas(SKCanvas canvas, SKRect bounds)
+    {
+        using var positive = RadialCrescentPositiveOuterUnionPath(bounds);
+        using var openings = RadialCrescentMergedOpeningPath(bounds);
+        using var merged = PathOp(positive, openings, SKPathOp.Difference);
+        using (var fill = FillPaint(PositiveColor, 118))
+        {
+            canvas.DrawPath(merged, fill);
+        }
+
+        using var exteriorRead = StrokePaint(theme.Ink, 1.45f, 225);
+        canvas.DrawPath(positive, exteriorRead);
+        using var interiorRead = StrokePaint(InverseStroke, 1.45f, 225);
+        canvas.DrawPath(openings, interiorRead);
+    }
+
+    private static void DrawRadialCrescentOutlineRead(SKCanvas canvas, SKRect bounds)
+    {
+        DrawRadialCrescentAreaOutlines(canvas, bounds, roundedExterior: false, PositiveStroke, 2.05f, 230);
+        DrawRadialCrescentInteriorVoids(canvas, bounds, InverseStroke, 1.5f, 220, rounded: false);
+        DrawRadialCrescentOutlinePartitions(canvas, bounds);
+    }
+
+    private static void DrawRadialCrescentInteriorRound(SKCanvas canvas, SKRect bounds)
+    {
+        using var area = RadialCrescentSettledAreaPath(bounds, roundedExterior: false, roundedInterior: true);
+        using var fill = FillPaint(PositiveColor, 76);
+        canvas.DrawPath(area, fill);
+        DrawRadialCrescentAreaOutlines(canvas, bounds, roundedExterior: false, BoundaryColor, 1.1f, 120);
+        DrawRadialCrescentInteriorVoids(canvas, bounds, InverseStroke, 1.8f, 235, rounded: true);
+        foreach (var point in RadialCrescentInteriorCuspSites(bounds))
+        {
+            DrawTensionSpot(canvas, point, 5.2f, EndpointColor);
+            DrawPoint(canvas, point, EndpointColor, 2.5f);
+        }
+    }
+
+    private static void DrawRadialCrescentExteriorRound(SKCanvas canvas, SKRect bounds)
+    {
+        DrawRadialCrescentAreaOutlines(canvas, bounds, roundedExterior: false, BoundaryColor, 0.9f, 95);
+        DrawRadialCrescentAreaOutlines(canvas, bounds, roundedExterior: true, PositiveStroke, 2.1f, 235);
+        DrawRadialCrescentInteriorVoids(canvas, bounds, InverseStroke, 1.25f, 195, rounded: true);
+        foreach (var point in RadialCrescentExteriorCuspSites(bounds))
+        {
+            DrawPoint(canvas, point, EndpointColor, 2.4f);
+        }
+    }
+
+    private static void DrawRadialCrescentSettledArea(SKCanvas canvas, SKRect bounds)
+    {
+        using var area = RadialCrescentSettledAreaPath(bounds, roundedExterior: true, roundedInterior: true);
+        using var fill = FillPaint(PositiveColor, 124);
+        canvas.DrawPath(area, fill);
+        DrawRadialCrescentAreaOutlines(canvas, bounds, roundedExterior: true, PositiveStroke, 1.85f, 230);
+        DrawRadialCrescentInteriorVoids(canvas, bounds, InverseStroke, 1.35f, 230, rounded: true);
+        DrawRadialCrescentOutlinePartitions(canvas, bounds);
+        DrawDashedLine(canvas, RadialCrescentPoint(bounds, -182, 88), RadialCrescentPoint(bounds, -166, 104), EvidenceColor, 0.85f);
+        DrawDashedLine(canvas, RadialCrescentPoint(bounds, 338, 108), RadialCrescentPoint(bounds, 354, 121), EvidenceColor, 0.85f);
+    }
+
+    private static void DrawRadialCrescentBodies(SKCanvas canvas, SKRect bounds, SKColor color, float width, byte alpha)
+    {
+        DrawModelCircle(canvas, bounds, -70, 0, 78, color, width, alpha);
+        using var diamond = RadialCrescentDiamondPath(bounds, 265, 0, 76, 88, rounded: false);
+        DrawBridgePath(canvas, diamond, color, width, glow: false);
+    }
+
+    private static void DrawRadialCrescentBodyHollows(SKCanvas canvas, SKRect bounds, SKColor color, float width, byte alpha)
+    {
+        DrawModelCircle(canvas, bounds, -70, 0, 68, color, width, alpha);
+        using var diamond = RadialCrescentDiamondPath(bounds, 265, 0, 56, 68, rounded: false);
+        DrawBridgePath(canvas, diamond, color, width, glow: false);
+    }
+
+    private static void DrawRadialCrescentCenterStrokes(
+        SKCanvas canvas,
+        SKRect bounds,
+        SKColor color,
+        float width,
+        byte alpha = 255,
+        bool trimmed = false,
+        bool glow = false)
+    {
+        foreach (var arc in RadialCrescentArcSeeds())
+        {
+            using var path = RadialCrescentArcPath(bounds, arc.Cx, arc.Cy, arc.Sx, arc.Sy, arc.Ex, arc.Ey, trimDegrees: trimmed ? 8f : 0f);
+            DrawBridgePath(canvas, path, color, width, glow);
+        }
+
+        foreach (var polyline in RadialCrescentBentPolylines())
+        {
+            for (var index = 0; index + 1 < polyline.Length; index++)
+            {
+                var trimStart = trimmed && index == 0 ? 18f : 0f;
+                var trimEnd = trimmed && index == polyline.Length - 2 ? 18f : 0f;
+                DrawModelSegment(canvas, bounds, polyline[index], polyline[index + 1], color, width, alpha, trimStart, trimEnd);
+            }
+        }
+    }
+
+    private static void DrawRadialCrescentEndpointCircles(SKCanvas canvas, SKRect bounds, SKColor color, float width, byte alpha, bool outer)
+    {
+        var radius = outer ? 28f : 8f;
+        foreach (var (x, y) in RadialCrescentEndpointModelCenters())
+        {
+            DrawModelCircle(canvas, bounds, x, y, radius, color, width, alpha);
+        }
+    }
+
+    private static void DrawRadialCrescentPositiveParticipants(SKCanvas canvas, SKRect bounds, byte alpha)
+    {
+        using var fill = FillPaint(PositiveColor, alpha);
+        foreach (var arc in RadialCrescentArcSeeds())
+        {
+            using var band = RadialCrescentArcBandPath(bounds, arc.Cx, arc.Cy, arc.Sx, arc.Sy, arc.Ex, arc.Ey, 10f);
+            canvas.DrawPath(band, fill);
+        }
+
+        foreach (var polyline in RadialCrescentBentPolylines())
+        {
+            using var band = RadialCrescentPolylineBandPath(bounds, 10f, polyline);
+            canvas.DrawPath(band, fill);
+        }
+
+        using (var circleBody = RadialCrescentCircleRingPath(bounds, -70, 0, 88, 68))
+        using (var diamondBody = RadialCrescentDiamondRingPath(bounds, 265, 0, 86, 98, 56, 68, rounded: false))
+        {
+            canvas.DrawPath(circleBody, fill);
+            canvas.DrawPath(diamondBody, fill);
+        }
+
+        foreach (var (x, y) in RadialCrescentEndpointModelCenters())
+        {
+            using var motor = RadialCrescentCircleRingPath(bounds, x, y, 28, 8);
+            canvas.DrawPath(motor, fill);
+        }
+    }
+
+    private static SKPath RadialCrescentPositiveOuterUnionPath(SKRect bounds)
+    {
+        var composite = new SKPath();
+        var hasPath = false;
+        void Add(SKPath path)
+        {
+            if (!hasPath)
+            {
+                composite.AddPath(path);
+                hasPath = true;
+                return;
+            }
+
+            using var result = PathOp(composite, path, SKPathOp.Union);
+            composite.Reset();
+            composite.AddPath(result);
+        }
+
+        foreach (var arc in RadialCrescentArcSeeds())
+        {
+            using var band = RadialCrescentArcBandPath(bounds, arc.Cx, arc.Cy, arc.Sx, arc.Sy, arc.Ex, arc.Ey, 10f);
+            Add(band);
+        }
+
+        foreach (var polyline in RadialCrescentBentPolylines())
+        {
+            using var band = RadialCrescentPolylineBandPath(bounds, 10f, polyline);
+            Add(band);
+        }
+
+        using (var circleBody = RadialCrescentModelCirclePath(bounds, -70, 0, 88))
+        using (var diamondBody = RadialCrescentDiamondPath(bounds, 265, 0, 86, 98, rounded: false))
+        {
+            Add(circleBody);
+            Add(diamondBody);
+        }
+
+        foreach (var (x, y) in RadialCrescentEndpointModelCenters())
+        {
+            using var motor = RadialCrescentModelCirclePath(bounds, x, y, 28);
+            Add(motor);
+        }
+
+        return composite;
+    }
+
+    private static SKPath RadialCrescentArmSupportUnionPath(SKRect bounds)
+    {
+        var composite = new SKPath();
+        var hasPath = false;
+        void Add(SKPath path)
+        {
+            if (!hasPath)
+            {
+                composite.AddPath(path);
+                hasPath = true;
+                return;
+            }
+
+            using var result = PathOp(composite, path, SKPathOp.Union);
+            composite.Reset();
+            composite.AddPath(result);
+        }
+
+        foreach (var arc in RadialCrescentArcSeeds())
+        {
+            using var band = RadialCrescentArcBandPath(bounds, arc.Cx, arc.Cy, arc.Sx, arc.Sy, arc.Ex, arc.Ey, 10f);
+            Add(band);
+        }
+
+        foreach (var polyline in RadialCrescentBentPolylines())
+        {
+            using var band = RadialCrescentPolylineBandPath(bounds, 10f, polyline);
+            Add(band);
+        }
+
+        return composite;
+    }
+
+    private static SKPath RadialCrescentMergedOpeningPath(SKRect bounds)
+    {
+        using var arms = RadialCrescentArmSupportUnionPath(bounds);
+        using var circleBodyOpening = RadialCrescentModelCirclePath(bounds, -70, 0, 68);
+        using var diamondBodyOpening = RadialCrescentDiamondPath(bounds, 265, 0, 56, 68, rounded: false);
+        using var circleVisibleOpening = PathOp(circleBodyOpening, arms, SKPathOp.Difference);
+        using var diamondVisibleOpening = PathOp(diamondBodyOpening, arms, SKPathOp.Difference);
+        var openings = PathOp(circleVisibleOpening, diamondVisibleOpening, SKPathOp.Union);
+        foreach (var (x, y) in RadialCrescentEndpointModelCenters())
+        {
+            using var motorOpening = RadialCrescentModelCirclePath(bounds, x, y, 8);
+            using var result = PathOp(openings, motorOpening, SKPathOp.Union);
+            openings.Reset();
+            openings.AddPath(result);
+        }
+
+        return openings;
+    }
+
+    private static void DrawRadialCrescentArcOffsets(SKCanvas canvas, SKRect bounds)
+    {
+        foreach (var arc in RadialCrescentArcSeeds())
+        {
+            using var positive = RadialCrescentArcPath(bounds, arc.Cx, arc.Cy, arc.Sx, arc.Sy, arc.Ex, arc.Ey, radiusAdjust: 10f, trimDegrees: 3f);
+            using var inverse = RadialCrescentArcPath(bounds, arc.Cx, arc.Cy, arc.Sx, arc.Sy, arc.Ex, arc.Ey, radiusAdjust: -10f, trimDegrees: 3f);
+            DrawBridgePath(canvas, positive, PositiveStroke, 1.85f, glow: true);
+            DrawBridgePath(canvas, inverse, InverseStroke, 1.35f, glow: false);
+        }
+    }
+
+    private static void DrawRadialCrescentBentOffsets(SKCanvas canvas, SKRect bounds)
+    {
+        foreach (var polyline in RadialCrescentBentPolylines())
+        {
+            var positive = RadialCrescentOffsetModelPolyline(10f, polyline);
+            var inverse = RadialCrescentOffsetModelPolyline(-10f, polyline);
+            DrawModelPolyline(canvas, bounds, positive, PositiveStroke, 1.85f, 225, glow: true);
+            DrawModelPolyline(canvas, bounds, inverse, InverseStroke, 1.35f, 195);
+        }
+    }
+
+    private static void DrawRadialCrescentBodyOffsets(SKCanvas canvas, SKRect bounds)
+    {
+        DrawModelCircle(canvas, bounds, -70, 0, 88, PositiveStroke, 1.35f, 185);
+        DrawModelCircle(canvas, bounds, -70, 0, 68, InverseStroke, 1.1f, 150);
+        using var outerDiamond = RadialCrescentDiamondPath(bounds, 265, 0, 86, 98, rounded: false);
+        using var innerDiamond = RadialCrescentDiamondPath(bounds, 265, 0, 56, 68, rounded: false);
+        DrawBridgePath(canvas, outerDiamond, PositiveStroke, 1.35f, glow: false);
+        DrawBridgePath(canvas, innerDiamond, InverseStroke, 1.1f, glow: false);
+    }
+
+    private static void DrawRadialCrescentOffsetWitnesses(SKCanvas canvas, SKRect bounds)
+    {
+        foreach (var (source, offset) in new[]
+        {
+            (RadialCrescentPoint(bounds, -165, 0), RadialCrescentPoint(bounds, -155, 0)),
+            (RadialCrescentPoint(bounds, 25, 0), RadialCrescentPoint(bounds, 15, 0)),
+            (RadialCrescentPoint(bounds, 210, 58), RadialCrescentPoint(bounds, 202, 64)),
+            (RadialCrescentPoint(bounds, 320, 58), RadialCrescentPoint(bounds, 328, 64))
+        })
+        {
+            DrawOffsetWitness(canvas, source, offset);
+        }
+    }
+
+    private static void DrawRadialCrescentAreaOutlines(SKCanvas canvas, SKRect bounds, bool roundedExterior, SKColor color, float width, byte alpha)
+    {
+        if (roundedExterior)
+        {
+            using var crescent = RadialCrescentCrescentAreaPath(bounds, roundedExterior: true);
+            using var bent = RadialCrescentBentAreaPath(bounds, roundedExterior: true);
+            DrawBridgePath(canvas, crescent, color, width, glow: false);
+            DrawBridgePath(canvas, bent, color, width, glow: false);
+            return;
+        }
+
+        DrawModelCircle(canvas, bounds, -70, 0, 88, color, width, alpha);
+        foreach (var arc in RadialCrescentArcSeeds())
+        {
+            using var band = RadialCrescentArcBandPath(bounds, arc.Cx, arc.Cy, arc.Sx, arc.Sy, arc.Ex, arc.Ey, 10f);
+            DrawBridgePath(canvas, band, color, width, glow: false);
+        }
+
+        foreach (var polyline in RadialCrescentBentPolylines())
+        {
+            using var band = RadialCrescentPolylineBandPath(bounds, 10f, polyline);
+            DrawBridgePath(canvas, band, color, width, glow: false);
+        }
+
+        using var diamond = RadialCrescentDiamondPath(bounds, 265, 0, 86, 98, rounded: false);
+        DrawBridgePath(canvas, diamond, color, width, glow: false);
+        DrawRadialCrescentEndpointCircles(canvas, bounds, color, width, alpha, outer: true);
+    }
+
+    private static void DrawRadialCrescentInteriorVoids(SKCanvas canvas, SKRect bounds, SKColor color, float width, byte alpha, bool rounded)
+    {
+        DrawModelCircle(canvas, bounds, -70, 0, 68, color, width, alpha);
+        foreach (var (x, y) in RadialCrescentEndpointModelCenters())
+        {
+            DrawModelCircle(canvas, bounds, x, y, 8, color, width, alpha);
+        }
+
+        using var diamond = RadialCrescentDiamondPath(bounds, 265, 0, 56, 68, rounded);
+        DrawBridgePath(canvas, diamond, color, width, glow: false);
+    }
+
+    private static void DrawRadialCrescentOutlinePartitions(SKCanvas canvas, SKRect bounds)
+    {
+        using var measurePath = RadialCrescentArcPath(bounds, -240, 0, -165, 108, -165, -108, radiusAdjust: 10f);
+        DrawPathPartitions(canvas, measurePath, 4);
+        using var rightPath = RadialCrescentArcPath(bounds, 100, 0, 25, -108, 25, 108, radiusAdjust: 10f);
+        DrawPathPartitions(canvas, rightPath, 4);
+
+        foreach (var polyline in RadialCrescentBentPolylines())
+        {
+            using var bandCenter = ModelPolylinePath(bounds, polyline);
+            DrawPathPartitions(canvas, bandCenter, 3);
+        }
+    }
+
+    private static SKPath RadialCrescentSettledAreaPath(SKRect bounds, bool roundedExterior, bool roundedInterior)
+    {
+        var path = new SKPath { FillType = SKPathFillType.EvenOdd };
+        using (var crescent = RadialCrescentCrescentAreaPath(bounds, roundedExterior))
+        using (var bent = RadialCrescentBentAreaPath(bounds, roundedExterior))
+        using (var holes = RadialCrescentInteriorVoidsPath(bounds, roundedInterior))
+        {
+            path.AddPath(crescent);
+            path.AddPath(bent);
+            path.AddPath(holes);
+        }
+
+        return path;
+    }
+
+    private static SKPath RadialCrescentCrescentAreaPath(SKRect bounds, bool roundedExterior)
+    {
+        var path = new SKPath();
+        path.AddCircle(RadialCrescentPoint(bounds, -70, 0).X, RadialCrescentPoint(bounds, -70, 0).Y, RadialCrescentScale(bounds) * 88f);
+        foreach (var arc in RadialCrescentArcSeeds())
+        {
+            using var band = RadialCrescentArcBandPath(bounds, arc.Cx, arc.Cy, arc.Sx, arc.Sy, arc.Ex, arc.Ey, roundedExterior ? 13f : 10f);
+            path.AddPath(band);
+        }
+
+        foreach (var (x, y) in RadialCrescentEndpointModelCenters().Take(4))
+        {
+            path.AddCircle(RadialCrescentPoint(bounds, x, y).X, RadialCrescentPoint(bounds, x, y).Y, RadialCrescentScale(bounds) * 28f);
+        }
+
+        return path;
+    }
+
+    private static SKPath RadialCrescentBentAreaPath(SKRect bounds, bool roundedExterior)
+    {
+        var path = new SKPath();
+        foreach (var polyline in RadialCrescentBentPolylines())
+        {
+            using var band = RadialCrescentPolylineBandPath(bounds, roundedExterior ? 13f : 10f, polyline);
+            path.AddPath(band);
+        }
+
+        using (var diamond = RadialCrescentDiamondPath(bounds, 265, 0, roundedExterior ? 89 : 86, roundedExterior ? 101 : 98, roundedExterior))
+        {
+            path.AddPath(diamond);
+        }
+
+        foreach (var (x, y) in RadialCrescentEndpointModelCenters().Skip(4))
+        {
+            path.AddCircle(RadialCrescentPoint(bounds, x, y).X, RadialCrescentPoint(bounds, x, y).Y, RadialCrescentScale(bounds) * 28f);
+        }
+
+        return path;
+    }
+
+    private static SKPath RadialCrescentInteriorVoidsPath(SKRect bounds, bool rounded)
+    {
+        var path = new SKPath();
+        path.AddCircle(RadialCrescentPoint(bounds, -70, 0).X, RadialCrescentPoint(bounds, -70, 0).Y, RadialCrescentScale(bounds) * 68f);
+        foreach (var (x, y) in RadialCrescentEndpointModelCenters())
+        {
+            path.AddCircle(RadialCrescentPoint(bounds, x, y).X, RadialCrescentPoint(bounds, x, y).Y, RadialCrescentScale(bounds) * 8f);
+        }
+
+        using (var diamond = RadialCrescentDiamondPath(bounds, 265, 0, 56, 68, rounded))
+        {
+            path.AddPath(diamond);
+        }
+
+        return path;
+    }
+
+    private static SKPath RadialCrescentCircleRingPath(SKRect bounds, float x, float y, float outerRadius, float innerRadius)
+    {
+        var center = RadialCrescentPoint(bounds, x, y);
+        var scale = RadialCrescentScale(bounds);
+        var path = new SKPath { FillType = SKPathFillType.EvenOdd };
+        path.AddCircle(center.X, center.Y, outerRadius * scale);
+        path.AddCircle(center.X, center.Y, innerRadius * scale);
+        return path;
+    }
+
+    private static SKPath RadialCrescentModelCirclePath(SKRect bounds, float x, float y, float radius)
+    {
+        var center = RadialCrescentPoint(bounds, x, y);
+        var path = new SKPath();
+        path.AddCircle(center.X, center.Y, radius * RadialCrescentScale(bounds));
+        return path;
+    }
+
+    private static SKPath RadialCrescentDiamondRingPath(
+        SKRect bounds,
+        float centerX,
+        float centerY,
+        float outerHalfWidth,
+        float outerHalfHeight,
+        float innerHalfWidth,
+        float innerHalfHeight,
+        bool rounded)
+    {
+        var path = new SKPath { FillType = SKPathFillType.EvenOdd };
+        using var outer = RadialCrescentDiamondPath(bounds, centerX, centerY, outerHalfWidth, outerHalfHeight, rounded);
+        using var inner = RadialCrescentDiamondPath(bounds, centerX, centerY, innerHalfWidth, innerHalfHeight, rounded);
+        path.AddPath(outer);
+        path.AddPath(inner);
+        return path;
+    }
+
+    private static SKPath PathOp(SKPath left, SKPath right, SKPathOp operation)
+    {
+        var result = new SKPath();
+        if (left.Op(right, operation, result))
+        {
+            return result;
+        }
+
+        result.Dispose();
+        var fallback = new SKPath();
+        fallback.AddPath(left);
+        if (operation == SKPathOp.Union)
+        {
+            fallback.AddPath(right);
+        }
+
+        return fallback;
+    }
+
+    private static SKPath RadialCrescentArcBandPath(
+        SKRect bounds,
+        float cx,
+        float cy,
+        float sx,
+        float sy,
+        float ex,
+        float ey,
+        float distance)
+    {
+        var outer = RadialCrescentArcModelPoints(cx, cy, sx, sy, ex, ey, distance, 0, 24);
+        var inner = RadialCrescentArcModelPoints(cx, cy, sx, sy, ex, ey, -distance, 0, 24).Reverse().ToArray();
+        var path = new SKPath();
+        var first = RadialCrescentPoint(bounds, outer[0].X, outer[0].Y);
+        path.MoveTo(first);
+        foreach (var point in outer.Skip(1).Concat(inner))
+        {
+            path.LineTo(RadialCrescentPoint(bounds, point.X, point.Y));
+        }
+
+        path.Close();
+        return path;
+    }
+
+    private static SKPath RadialCrescentPolylineBandPath(SKRect bounds, float distance, IReadOnlyList<(float X, float Y)> points)
+    {
+        var positive = RadialCrescentOffsetModelPolyline(distance, points);
+        var inverse = RadialCrescentOffsetModelPolyline(-distance, points).Reverse().ToArray();
+        var path = new SKPath();
+        path.MoveTo(RadialCrescentPoint(bounds, positive[0].X, positive[0].Y));
+        foreach (var point in positive.Skip(1).Concat(inverse))
+        {
+            path.LineTo(RadialCrescentPoint(bounds, point.X, point.Y));
+        }
+
+        path.Close();
+        return path;
+    }
+
+    private static SKPath RadialCrescentArcPath(
+        SKRect bounds,
+        float cx,
+        float cy,
+        float sx,
+        float sy,
+        float ex,
+        float ey,
+        float radiusAdjust = 0,
+        float trimDegrees = 0)
+    {
+        var points = RadialCrescentArcModelPoints(cx, cy, sx, sy, ex, ey, radiusAdjust, trimDegrees, 28);
+        var path = new SKPath();
+        path.MoveTo(RadialCrescentPoint(bounds, points[0].X, points[0].Y));
+        foreach (var point in points.Skip(1))
+        {
+            path.LineTo(RadialCrescentPoint(bounds, point.X, point.Y));
+        }
+
+        return path;
+    }
+
+    private static (float X, float Y)[] RadialCrescentArcModelPoints(
+        float cx,
+        float cy,
+        float sx,
+        float sy,
+        float ex,
+        float ey,
+        float radiusAdjust,
+        float trimDegrees,
+        int samples)
+    {
+        var startAngle = MathF.Atan2(sy - cy, sx - cx) * 180f / MathF.PI;
+        var endAngle = MathF.Atan2(ey - cy, ex - cx) * 180f / MathF.PI;
+        var sweep = ShortestSweepDegrees(startAngle, endAngle);
+        if (trimDegrees > 0 &&
+            MathF.Abs(sweep) > trimDegrees * 2f)
+        {
+            var direction = MathF.Sign(sweep);
+            startAngle += direction * trimDegrees;
+            sweep -= direction * trimDegrees * 2f;
+        }
+
+        var radius = MathF.Sqrt((sx - cx) * (sx - cx) + (sy - cy) * (sy - cy)) + radiusAdjust;
+        var result = new (float X, float Y)[samples + 1];
+        for (var index = 0; index <= samples; index++)
+        {
+            var angle = (startAngle + sweep * index / samples) * MathF.PI / 180f;
+            result[index] = (cx + MathF.Cos(angle) * radius, cy + MathF.Sin(angle) * radius);
+        }
+
+        return result;
+    }
+
+    private static SKPath RadialCrescentDiamondPath(SKRect bounds, float centerX, float centerY, float halfWidth, float halfHeight, bool rounded)
+    {
+        var top = RadialCrescentPoint(bounds, centerX, centerY + halfHeight);
+        var right = RadialCrescentPoint(bounds, centerX + halfWidth, centerY);
+        var bottom = RadialCrescentPoint(bounds, centerX, centerY - halfHeight);
+        var left = RadialCrescentPoint(bounds, centerX - halfWidth, centerY);
+        var path = new SKPath();
+        path.MoveTo(top);
+        if (!rounded)
+        {
+            path.LineTo(right);
+            path.LineTo(bottom);
+            path.LineTo(left);
+            path.Close();
+            return path;
+        }
+
+        var scale = RadialCrescentScale(bounds);
+        var pull = 10f * scale;
+        path.QuadTo(new SKPoint(right.X - pull, right.Y - pull), right);
+        path.QuadTo(new SKPoint(right.X - pull, right.Y + pull), bottom);
+        path.QuadTo(new SKPoint(left.X + pull, left.Y + pull), left);
+        path.QuadTo(new SKPoint(left.X + pull, left.Y - pull), top);
+        path.Close();
+        return path;
+    }
+
+    private static SKPath ModelPolylinePath(SKRect bounds, IReadOnlyList<(float X, float Y)> points)
+    {
+        var path = new SKPath();
+        path.MoveTo(RadialCrescentPoint(bounds, points[0].X, points[0].Y));
+        foreach (var point in points.Skip(1))
+        {
+            path.LineTo(RadialCrescentPoint(bounds, point.X, point.Y));
+        }
+
+        return path;
+    }
+
+    private static void DrawModelPolyline(SKCanvas canvas, SKRect bounds, IReadOnlyList<(float X, float Y)> points, SKColor color, float width, byte alpha, bool glow = false)
+    {
+        using var path = ModelPolylinePath(bounds, points);
+        DrawBridgePath(canvas, path, color, width, glow);
+    }
+
+    private static void DrawModelSegment(
+        SKCanvas canvas,
+        SKRect bounds,
+        (float X, float Y) start,
+        (float X, float Y) end,
+        SKColor color,
+        float width,
+        byte alpha,
+        float trimStart = 0,
+        float trimEnd = 0)
+    {
+        var dx = end.X - start.X;
+        var dy = end.Y - start.Y;
+        var length = MathF.Sqrt(dx * dx + dy * dy);
+        if (length <= 0.001f)
+        {
+            return;
+        }
+
+        var sx = start.X + dx / length * trimStart;
+        var sy = start.Y + dy / length * trimStart;
+        var ex = end.X - dx / length * trimEnd;
+        var ey = end.Y - dy / length * trimEnd;
+        DrawLine(canvas, RadialCrescentPoint(bounds, sx, sy), RadialCrescentPoint(bounds, ex, ey), color, width, alpha);
+    }
+
+    private static void DrawModelCircle(SKCanvas canvas, SKRect bounds, float x, float y, float radius, SKColor color, float width, byte alpha)
+    {
+        using var stroke = StrokePaint(color, width, alpha);
+        canvas.DrawCircle(RadialCrescentPoint(bounds, x, y), radius * RadialCrescentScale(bounds), stroke);
+    }
+
+    private static (float X, float Y)[] RadialCrescentOffsetModelPolyline(float distance, IReadOnlyList<(float X, float Y)> points)
+    {
+        var result = new (float X, float Y)[points.Count];
+        for (var index = 0; index < points.Count; index++)
+        {
+            if (index == 0)
+            {
+                var normal = SegmentNormal(points[0], points[1], distance);
+                result[index] = (points[index].X + normal.X, points[index].Y + normal.Y);
+                continue;
+            }
+
+            if (index == points.Count - 1)
+            {
+                var normal = SegmentNormal(points[index - 1], points[index], distance);
+                result[index] = (points[index].X + normal.X, points[index].Y + normal.Y);
+                continue;
+            }
+
+            var previousNormal = SegmentNormal(points[index - 1], points[index], distance);
+            var nextNormal = SegmentNormal(points[index], points[index + 1], distance);
+            var previousA = (points[index - 1].X + previousNormal.X, points[index - 1].Y + previousNormal.Y);
+            var previousB = (points[index].X + previousNormal.X, points[index].Y + previousNormal.Y);
+            var nextA = (points[index].X + nextNormal.X, points[index].Y + nextNormal.Y);
+            var nextB = (points[index + 1].X + nextNormal.X, points[index + 1].Y + nextNormal.Y);
+            result[index] = TryModelLineIntersection(previousA, previousB, nextA, nextB, out var intersection)
+                ? intersection
+                : (points[index].X + (previousNormal.X + nextNormal.X) * 0.5f, points[index].Y + (previousNormal.Y + nextNormal.Y) * 0.5f);
+        }
+
+        return result;
+    }
+
+    private static (float X, float Y) SegmentNormal((float X, float Y) start, (float X, float Y) end, float distance)
+    {
+        var dx = end.X - start.X;
+        var dy = end.Y - start.Y;
+        var length = MathF.Sqrt(dx * dx + dy * dy);
+        return length <= 0.001f
+            ? (0, 0)
+            : (-dy / length * distance, dx / length * distance);
+    }
+
+    private static bool TryModelLineIntersection(
+        (float X, float Y) a0,
+        (float X, float Y) a1,
+        (float X, float Y) b0,
+        (float X, float Y) b1,
+        out (float X, float Y) intersection)
+    {
+        var ax = a1.X - a0.X;
+        var ay = a1.Y - a0.Y;
+        var bx = b1.X - b0.X;
+        var by = b1.Y - b0.Y;
+        var denominator = ax * by - ay * bx;
+        if (MathF.Abs(denominator) <= 0.001f)
+        {
+            intersection = default;
+            return false;
+        }
+
+        var cx = b0.X - a0.X;
+        var cy = b0.Y - a0.Y;
+        var t = (cx * by - cy * bx) / denominator;
+        intersection = (a0.X + ax * t, a0.Y + ay * t);
+        return true;
+    }
+
+    private static float ShortestSweepDegrees(float start, float end)
+    {
+        var sweep = end - start;
+        while (sweep <= -180f)
+        {
+            sweep += 360f;
+        }
+
+        while (sweep > 180f)
+        {
+            sweep -= 360f;
+        }
+
+        return sweep;
+    }
+
+    private static IEnumerable<SKPoint> RadialCrescentSourceSites(SKRect bounds)
+    {
+        foreach (var (x, y) in RadialCrescentEndpointModelCenters())
+        {
+            yield return RadialCrescentPoint(bounds, x, y);
+        }
+
+        foreach (var (x, y) in new[] { (247f, -6f), (283f, -6f), (-70f, 0f), (265f, 0f) })
+        {
+            yield return RadialCrescentPoint(bounds, x, y);
+        }
+    }
+
+    private static IEnumerable<SKPoint> RadialCrescentEndpointCenters(SKRect bounds) =>
+        RadialCrescentEndpointModelCenters().Select(point => RadialCrescentPoint(bounds, point.X, point.Y));
+
+    private static IReadOnlyList<(float X, float Y)> RadialCrescentEndpointModelCenters() =>
+    [
+        (-165, 108),
+        (-165, -108),
+        (25, -108),
+        (25, 108),
+        (173, 122),
+        (133, -88),
+        (357, 122),
+        (397, -88)
+    ];
+
+    private static IReadOnlyList<(float Cx, float Cy, float Sx, float Sy, float Ex, float Ey)> RadialCrescentArcSeeds() =>
+    [
+        (-240, 0, -165, 108, -165, -108),
+        (100, 0, 25, -108, 25, 108)
+    ];
+
+    private static IReadOnlyList<(float X, float Y)[]> RadialCrescentBentPolylines() =>
+    [
+        [(173, 122), (247, -6), (133, -88)],
+        [(357, 122), (283, -6), (397, -88)]
+    ];
+
+    private static IEnumerable<SKPoint> RadialCrescentInteriorCuspSites(SKRect bounds) =>
+    [
+        RadialCrescentPoint(bounds, 265, 68),
+        RadialCrescentPoint(bounds, 321, 0),
+        RadialCrescentPoint(bounds, 265, -68),
+        RadialCrescentPoint(bounds, 209, 0)
+    ];
+
+    private static IEnumerable<SKPoint> RadialCrescentExteriorCuspSites(SKRect bounds) =>
+    [
+        RadialCrescentPoint(bounds, -165, 108),
+        RadialCrescentPoint(bounds, -165, -108),
+        RadialCrescentPoint(bounds, 25, -108),
+        RadialCrescentPoint(bounds, 25, 108),
+        RadialCrescentPoint(bounds, 173, 122),
+        RadialCrescentPoint(bounds, 133, -88),
+        RadialCrescentPoint(bounds, 357, 122),
+        RadialCrescentPoint(bounds, 397, -88)
+    ];
+
+    private static SKPoint RadialCrescentPoint(SKRect bounds, float x, float y)
+    {
+        var scale = RadialCrescentScale(bounds);
+        return new SKPoint(bounds.MidX + (x - 80f) * scale, bounds.MidY - y * scale);
+    }
+
+    private static float RadialCrescentScale(SKRect bounds) =>
+        Math.Min(bounds.Width / 720f, bounds.Height / 330f) * 0.96f;
 
     private static SKPath PolyPath(params SKPoint[] points)
     {

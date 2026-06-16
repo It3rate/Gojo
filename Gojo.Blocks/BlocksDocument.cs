@@ -175,5 +175,6 @@ internal enum BlocksGlossarySheetKind
     PathReadBases,
     DerivedPathStructures,
     BooleanOffsetReads,
-    DroneClipOffsetLadder
+    DroneClipOffsetLadder,
+    RadialCrescentLadder
 }
