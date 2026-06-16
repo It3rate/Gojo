@@ -148,6 +148,18 @@ internal static class BlocksGlossaryContent
                 ["seed arms", "body", "motor caps", "trimmed arms", "offset boundaries", "fill participants", "merged areas"],
                 GlossarySheet: BlocksGlossarySheetKind.RadialCrescentLadder,
                 GlossaryDescriptions: descriptions,
+                GlossaryStructures: structures),
+            new BlocksPage(
+                "glossary-diamond-cusp-rounding",
+                "Diamond Cusp Rounding",
+                "A Gojo-native four-section outline, cusp selection, rounded-corner rung, and final rounded shape.",
+                string.Empty,
+                null,
+                null,
+                0,
+                ["shared endpoints", "cusp selection", "rounding rung", "rounded outline"],
+                GlossarySheet: BlocksGlossarySheetKind.DiamondCuspRounding,
+                GlossaryDescriptions: descriptions,
                 GlossaryStructures: structures)
         ];
     }

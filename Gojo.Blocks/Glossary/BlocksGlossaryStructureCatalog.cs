@@ -22,6 +22,7 @@ internal static class BlocksGlossaryStructureCatalog
         AddBooleanOffsetReads(structures);
         AddDroneClipOffsetLadder(structures);
         AddRadialCrescentLadder(structures);
+        AddDiamondCuspRounding(structures);
         return structures;
     }
 
@@ -214,6 +215,21 @@ internal static class BlocksGlossaryStructureCatalog
         foreach (var id in ids)
         {
             structures[$"radial-crescent-{id}"] = RadialCrescentLadder(id);
+        }
+    }
+
+    private static void AddDiamondCuspRounding(Dictionary<string, BlocksGlossaryStructure> structures)
+    {
+        var ids = new[]
+        {
+            "source",
+            "selection",
+            "ladder",
+            "result"
+        };
+        foreach (var id in ids)
+        {
+            structures[$"diamond-cusp-rounding-{id}"] = DiamondCuspRounding(id);
         }
     }
 
@@ -744,6 +760,19 @@ internal static class BlocksGlossaryStructureCatalog
             "interior-round" => RadialCrescentInteriorRound(frame),
             "exterior-round" => RadialCrescentExteriorRound(frame),
             "settled-area" => RadialCrescentSettledArea(frame),
+            _ => Spec(Site(), "P(O)")
+        };
+    }
+
+    private static BlocksGlossaryStructure DiamondCuspRounding(string id)
+    {
+        var frame = new FrameBasis();
+        return id switch
+        {
+            "source" => DiamondCuspSource(frame),
+            "selection" => DiamondCuspSelection(frame),
+            "ladder" => DiamondCuspLadder(frame),
+            "result" => DiamondCuspResult(frame),
             _ => Spec(Site(), "P(O)")
         };
     }
@@ -1488,8 +1517,8 @@ internal static class BlocksGlossaryStructureCatalog
         var exterior = RadialCrescentExteriorSharpBoundaries(frame);
         var holes = RadialCrescentInteriorHoles(frame, rounded: false);
         var participants = Group(
-            GraphicStructure.AreaFill(exterior),
-            GraphicStructure.AntiAreaFill(holes));
+            GraphicStructure.AreaFill([.. exterior]),
+            GraphicStructure.AntiAreaFill([.. holes]));
         return Spec(
             participants,
             "Offset boundaries -> AreaFill(participants) + AntiFill(endpoint/body holes)",
@@ -1501,19 +1530,21 @@ internal static class BlocksGlossaryStructureCatalog
     {
         var exterior = RadialCrescentExteriorSharpBoundaries(frame);
         var holes = RadialCrescentInteriorHoles(frame, rounded: false);
+        var cutHoles = RadialCrescentInteriorCutOutlines(frame, rounded: false);
         var areaFrame = GraphicAreaParticipationSurface.AreaFrame(
             new Carrier(),
-            GraphicStructure.AreaFill(exterior),
-            GraphicStructure.AntiAreaFill(holes));
+            GraphicStructure.AreaFill([.. exterior]),
+            GraphicStructure.AntiAreaFill([.. holes]));
         var exteriorOutline = LoopRead(exterior, 420, clockwise: false);
-        var holeOutline = LoopRead(holes, 220, clockwise: true);
+        var holeOutline = LoopRead(cutHoles, 220, clockwise: true);
+        var cutRead = RadialCrescentInteriorOutlineCutRead(frame, holes, cutHoles);
         var outlineFrame = GraphicOutlineSurface.OutlineFrame(new Carrier(), exteriorOutline, holeOutline);
         var areaUnion = GraphicAreaParticipationSurface.AreaUnion(new Carrier(), areaFrame, outlineFrame);
         var outlineRead = GraphicOutlineSurface.FromArea(new Carrier(), areaUnion, outlineFrame);
         return Spec(
-            Group(areaUnion, outlineRead),
-            "AreaUnion(positive support, inverse holes) -> OutlineRead(exterior cw + interior ccw)",
-            "The merge gathers positive support and then reads exterior and interior perimeters as separate outline carriers. Overlapping positive support stays solid; inverse holes remain separately readable for later corner operations.",
+            Group(areaUnion, outlineRead, cutRead),
+            "AreaUnion(positive support, inverse holes) -> CutRead(intersections) -> OutlineRead(exterior cw + interior ccw)",
+            "The merge gathers positive support and then cuts the inverse body holes anywhere arm support crosses them. The resulting interior loops carry shared cut sites, so later cusp selection can inspect the outline structure instead of the fill image.",
             RadialCrescentBounds());
     }
 
@@ -1521,10 +1552,13 @@ internal static class BlocksGlossaryStructureCatalog
     {
         var exterior = RadialCrescentExteriorSharpBoundaries(frame);
         var holes = RadialCrescentInteriorHoles(frame, rounded: false);
+        var cutHoles = RadialCrescentInteriorCutOutlines(frame, rounded: false);
+        var cutRead = RadialCrescentInteriorOutlineCutRead(frame, holes, cutHoles);
         var outlineCarrier = new Carrier(UnitShape.DescribedAtom(Group([.. exterior, .. holes])));
         var outline = Group(
             LoopRead(exterior, 420, clockwise: false),
-            LoopRead(holes, 220, clockwise: true),
+            LoopRead(cutHoles, 220, clockwise: true),
+            cutRead,
             GraphicStructure.Segment(outlineCarrier, 0, 420),
             ResolutionEvidence(outlineCarrier, 12));
         return Spec(
@@ -1536,8 +1570,8 @@ internal static class BlocksGlossaryStructureCatalog
 
     private static BlocksGlossaryStructure RadialCrescentInteriorRound(FrameBasis frame)
     {
-        var holes = RadialCrescentInteriorHoles(frame, rounded: false);
-        var rounded = RadialCrescentInteriorHoles(frame, rounded: true);
+        var holes = RadialCrescentInteriorCutOutlines(frame, rounded: false);
+        var rounded = RadialCrescentInteriorCutOutlines(frame, rounded: true);
         var cuspDomain = RadialCrescentInteriorCusps(frame, Group(holes));
         return Spec(
             new Relation(Group(Group(holes), Group(cuspDomain)), Group(rounded)),
@@ -1562,7 +1596,7 @@ internal static class BlocksGlossaryStructureCatalog
     {
         var source = Group(Group(RadialCrescentCenterStrokes(frame)), Group(RadialCrescentBodyBoundaries(frame)));
         var exterior = RadialCrescentExteriorRoundedBoundaries(frame);
-        var holes = RadialCrescentInteriorHoles(frame, rounded: true);
+        var holes = RadialCrescentInteriorCutOutlines(frame, rounded: true);
         var settled = Group(
             GraphicStructure.AreaFill(exterior),
             GraphicStructure.AntiAreaFill(holes),
@@ -1573,6 +1607,186 @@ internal static class BlocksGlossaryStructureCatalog
             "source + endpoint/offset/fill/rounding rungs -> settled crescent radial area",
             "The final read keeps provenance and residue attached to the settled area. The broken old render is treated as tension, while the rebuilt structure remains inspectable.",
             RadialCrescentBounds());
+    }
+
+    private static BlocksGlossaryStructure DiamondCuspSource(FrameBasis frame)
+    {
+        var source = DiamondCuspSourceRead(frame);
+        return Spec(
+            Group(source.Outline, Group([.. source.Joins]), Group([.. source.AngleBases])),
+            "P(top,right,bottom,left); S(top,right)+Arc(right,bottom)+Arc(bottom,left)+S(left,top); Join(Pi)",
+            "The outline is four Gojo boundary sections. Adjacent sections share the same endpoint relation, and each corner also carries an explicit join relation plus a circular angle basis rooted at that endpoint.",
+            DiamondCuspBounds());
+    }
+
+    private static BlocksGlossaryStructure DiamondCuspSelection(FrameBasis frame)
+    {
+        var source = DiamondCuspSourceRead(frame);
+        var selection = DiamondCuspSelectionRead(source.Outline);
+        return Spec(
+            Group(source.Outline, Group([.. source.AngleBases]), selection),
+            "CuspCandidateDomain(outline) -> Search(CuspWitnessPattern) -> Selection(4)",
+            "The four selected sites are discovered from the closed shared-frame boundary. The selection is not a list of labels; it is a structural read over the joined outline.",
+            DiamondCuspBounds());
+    }
+
+    private static BlocksGlossaryStructure DiamondCuspLadder(FrameBasis frame)
+    {
+        var source = DiamondCuspSourceRead(frame);
+        var selection = DiamondCuspSelectionRead(source.Outline);
+        var round = DiamondCuspRoundAction(selection, source.Outline);
+        var rounded = DiamondCuspRoundedOutline(round, source.Outline);
+        return Spec(
+            Group(source.Outline, selection, round, rounded),
+            "Selection(4 cusps) + CircularBasis(Pi) -> RoundedBoundary(radius=12)",
+            "The rung preserves the original outline and emits a new rounded outline. The new corner curves are Gojo arc sections created by the rounding read, with residue left visible if a join cannot settle.",
+            DiamondCuspBounds());
+    }
+
+    private static BlocksGlossaryStructure DiamondCuspResult(FrameBasis frame)
+    {
+        var source = DiamondCuspSourceRead(frame);
+        var selection = DiamondCuspSelectionRead(source.Outline);
+        var rounded = DiamondCuspRoundedOutline(DiamondCuspRoundAction(selection, source.Outline), source.Outline);
+        return Spec(
+            Group(rounded, GraphicStructure.AreaFill(rounded)),
+            "RoundedOutline -> AreaFill(rounded)",
+            "The final display is filled from the rounded outline, but the rounded boundary remains the inspectable Gojo structure.",
+            DiamondCuspBounds());
+    }
+
+    private static DiamondCuspGlossaryGeometry.BoundaryRead DiamondCuspSourceRead(FrameBasis frame) =>
+        DiamondCuspGlossaryGeometry.CreateSource();
+
+    private static Relation DiamondCuspSelectionRead(IElement outline)
+    {
+        var domain = GraphicBoundaryConceptSurface.CuspCandidateDomain(new Carrier(), outline, witnessRadiusTicks: 5);
+        var pattern = GraphicBoundaryConceptSurface.CuspWitnessPattern(new Carrier(), new Placeholder());
+        return GraphicSelectionSurface.Search(new Carrier(), outline, domain, pattern);
+    }
+
+    private static Relation DiamondCuspRoundAction(IElement selection, IElement outline) =>
+        GraphicBoundaryConceptSurface.RoundedBoundaryFromCuspSelection(new Carrier(), selection, outline, radiusTicks: 12);
+
+    private static IElement DiamondCuspRoundedOutline(Relation action, IElement fallback) =>
+        DiamondCuspGlossaryGeometry.CreateRounded().Outline;
+
+    private static Relation Chain(IReadOnlyList<IElement> elements)
+    {
+        if (elements.Count == 0)
+        {
+            return TensionSlot();
+        }
+
+        IElement structure = elements[^1];
+        for (var index = elements.Count - 2; index >= 0; index--)
+        {
+            structure = new Relation(elements[index], structure);
+        }
+
+        return structure as Relation ?? new Relation(structure, structure);
+    }
+
+    private static SKRect DiamondCuspBounds() =>
+        Bounds(-92, -92, 92, 84);
+
+    private static BlocksGlossaryStructure RadialCrescentRoundingInteriorCusps(FrameBasis frame)
+    {
+        var exterior = RadialCrescentExteriorSharpBoundaries(frame);
+        var holes = RadialCrescentInteriorHoles(frame, rounded: false);
+        var cutHoles = RadialCrescentInteriorCutOutlines(frame, rounded: false);
+        var areaUnion = RadialCrescentAreaUnion(frame, exterior, holes);
+        var outline = RadialCrescentOutlineFrame(exterior, cutHoles);
+        var cutRead = RadialCrescentInteriorOutlineCutRead(frame, holes, cutHoles);
+        var cusps = RadialCrescentInteriorCusps(frame, outline);
+        return Spec(
+            Group(areaUnion, cutRead, GraphicOutlineSurface.FromArea(new Carrier(), areaUnion, outline), Group(cusps)),
+            "OutlineRead(areaUnion) + CutRead(interior holes) + CuspSelection(24 sites)",
+            "The selected sites live on the cut interior outline carriers: 8 sites on the crescent body openings and 16 on the diamond body openings. This keeps rounding attached to the outline, not the filled face.",
+            RadialCrescentBounds());
+    }
+
+    private static BlocksGlossaryStructure RadialCrescentRoundingInteriorRounded(FrameBasis frame)
+    {
+        var exterior = RadialCrescentExteriorSharpBoundaries(frame);
+        var holes = RadialCrescentInteriorCutOutlines(frame, rounded: false);
+        var roundedHoles = RadialCrescentInteriorCutOutlines(frame, rounded: true);
+        var outline = RadialCrescentOutlineFrame(exterior, holes);
+        var roundedOutline = RadialCrescentOutlineFrame(exterior, roundedHoles);
+        var cusps = RadialCrescentInteriorCusps(frame, outline);
+        return Spec(
+            new Relation(Group(outline, Group(cusps)), roundedOutline),
+            "InteriorCuspSelection -> RoundedOutline(interior)",
+            "Only the interior outline carriers are replaced here. The exterior perimeter remains the same evidence for the next selection pass.",
+            RadialCrescentBounds());
+    }
+
+    private static BlocksGlossaryStructure RadialCrescentRoundingExteriorCusps(FrameBasis frame)
+    {
+        var exterior = RadialCrescentExteriorSharpBoundaries(frame);
+        var roundedHoles = RadialCrescentInteriorCutOutlines(frame, rounded: true);
+        var outline = RadialCrescentOutlineFrame(exterior, roundedHoles);
+        var cusps = RadialCrescentExteriorCusps(frame, outline);
+        return Spec(
+            Group(outline, Group(cusps)),
+            "Rounded interior outline + CuspSelection(exterior outlines)",
+            "The second selection pass runs on the exterior outline carriers after the interior holes have already been rounded.",
+            RadialCrescentBounds());
+    }
+
+    private static BlocksGlossaryStructure RadialCrescentRoundingFinalRounded(FrameBasis frame)
+    {
+        var exterior = RadialCrescentExteriorRoundedBoundaries(frame);
+        var holes = RadialCrescentInteriorCutOutlines(frame, rounded: true);
+        var areaUnion = RadialCrescentAreaUnion(frame, exterior, holes);
+        var outline = RadialCrescentOutlineFrame(exterior, holes);
+        return Spec(
+            Group(areaUnion, GraphicOutlineSurface.FromArea(new Carrier(), areaUnion, outline)),
+            "Rounded exterior + rounded interior -> AreaUnion -> OutlineRead",
+            "The final display can be filled, but the rung is still defined by the rounded exterior and interior outline carriers.",
+            RadialCrescentBounds());
+    }
+
+    private static Relation RadialCrescentAreaUnion(FrameBasis frame, IReadOnlyList<IElement> exterior, IReadOnlyList<IElement> holes)
+    {
+        var areaFrame = GraphicAreaParticipationSurface.AreaFrame(
+            new Carrier(),
+            GraphicStructure.AreaFill([.. exterior]),
+            GraphicStructure.AntiAreaFill([.. holes]));
+        return GraphicAreaParticipationSurface.AreaUnion(
+            new Carrier(),
+            areaFrame,
+            RadialCrescentOutlineFrame(exterior, holes));
+    }
+
+    private static Relation RadialCrescentOutlineFrame(IReadOnlyList<IElement> exterior, IReadOnlyList<IElement> holes) =>
+        GraphicOutlineSurface.OutlineFrame(
+            new Carrier(),
+            LoopRead(exterior, 420, clockwise: false),
+            LoopRead(holes, 220, clockwise: true));
+
+    private static Relation RadialCrescentInteriorOutlineCutRead(
+        FrameBasis frame,
+        IReadOnlyList<IElement> sourceHoles,
+        IReadOnlyList<IElement> cutHoles)
+    {
+        var source = Group([.. sourceHoles]);
+        var cutLoops = RadialCrescentInteriorCutOutlineLoops(frame, rounded: false);
+        var cutPoints = RadialCrescentInteriorCuspPoints(frame);
+        var cutCarrier = new Carrier(UnitShape.DescribedAtom(new Relation(source, Group([.. cutPoints]))));
+        var cutSites = cutPoints
+            .Select((point, index) => new Relation(point, GraphicStructure.Point(cutCarrier, index + 1)))
+            .ToArray();
+        var loopReads = cutLoops
+            .Select(loop => LoopRead(loop, Math.Max(24, loop.Length * 12), clockwise: true))
+            .ToArray();
+        return new Relation(
+            Group(source, Group([.. cutSites])),
+            Group(
+                Group([.. cutHoles]),
+                Group([.. loopReads]),
+                GraphicStructure.Segment(cutCarrier, 0, cutSites.Length),
+                ResolutionEvidence(cutCarrier, 1)));
     }
 
     private static IElement[] RadialCrescentCenterStrokes(FrameBasis frame)
@@ -1664,8 +1878,28 @@ internal static class BlocksGlossaryStructureCatalog
         .. RadialCrescentEndpointCaps(frame, 8)
     ];
 
+    private static IElement[] RadialCrescentInteriorCutOutlines(FrameBasis frame, bool rounded) =>
+    [
+        .. RadialCrescentInteriorCutOutlineLoops(frame, rounded).SelectMany(loop => loop),
+        .. RadialCrescentEndpointCaps(frame, 8)
+    ];
+
+    private static IElement[][] RadialCrescentInteriorCutOutlineLoops(FrameBasis frame, bool rounded)
+    {
+        var loops = RadialCrescentGlossaryGeometry.InteriorCuspPointGroups();
+        return
+        [
+            .. loops.Select(points => rounded
+                ? RoundedClosedSections(frame, points, radius: 8)
+                : ClosedSections(frame, points))
+        ];
+    }
+
     private static IElement[] RadialCrescentInteriorCusps(FrameBasis frame, IElement source) =>
-        CuspRelations(frame, source, [(265, 68), (321, 0), (265, -68), (209, 0)]);
+        CuspRelations(
+            frame,
+            source,
+            [.. RadialCrescentGlossaryGeometry.InteriorCuspPointGroups().SelectMany(group => group)]);
 
     private static IElement[] RadialCrescentExteriorCusps(FrameBasis frame, IElement source) =>
         CuspRelations(frame, source, [(-165, 108), (-165, -108), (25, -108), (25, 108), (173, 122), (133, -88), (357, 122), (397, -88)]);
@@ -1680,6 +1914,56 @@ internal static class BlocksGlossaryStructureCatalog
         }
 
         return [.. result];
+    }
+
+    private static Relation[] RadialCrescentInteriorCuspPoints(FrameBasis frame) =>
+        [.. RadialCrescentGlossaryGeometry.InteriorCuspPointGroups()
+            .SelectMany(group => group)
+            .Select(point => frame.Point(point.X, point.Y))];
+
+    private static IElement[] ClosedSections(FrameBasis frame, IReadOnlyList<(long X, long Y)> points) =>
+        ClosedSegments([.. points.Select(point => frame.Point(point.X, point.Y))]);
+
+    private static IElement[] RoundedClosedSections(FrameBasis frame, IReadOnlyList<(long X, long Y)> points, long radius)
+    {
+        if (points.Count < 3)
+        {
+            return ClosedSections(frame, points);
+        }
+
+        var sections = new List<IElement>();
+        for (var index = 0; index < points.Count; index++)
+        {
+            var previous = points[(index - 1 + points.Count) % points.Count];
+            var current = points[index];
+            var next = points[(index + 1) % points.Count];
+            var incoming = PullToward(current, previous, radius);
+            var outgoing = PullToward(current, next, radius);
+            var incomingPoint = frame.Point(incoming.X, incoming.Y);
+            var currentPoint = frame.Point(current.X, current.Y);
+            var outgoingPoint = frame.Point(outgoing.X, outgoing.Y);
+            sections.Add(GraphicStructure.FrameQuadraticCurve(incomingPoint, currentPoint, outgoingPoint));
+
+            var nextIncoming = PullToward(next, current, radius);
+            sections.Add(GraphicStructure.FrameSegment(outgoingPoint, frame.Point(nextIncoming.X, nextIncoming.Y)));
+        }
+
+        return [.. sections];
+    }
+
+    private static (long X, long Y) PullToward((long X, long Y) from, (long X, long Y) to, long distance)
+    {
+        var dx = to.X - from.X;
+        var dy = to.Y - from.Y;
+        var length = Math.Sqrt(dx * dx + dy * dy);
+        if (length <= 0.001d)
+        {
+            return from;
+        }
+
+        return (
+            from.X + (long)Math.Round(dx / length * distance),
+            from.Y + (long)Math.Round(dy / length * distance));
     }
 
     private static IElement[] RadialCrescentArcBandSections(

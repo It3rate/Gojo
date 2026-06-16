@@ -6,6 +6,8 @@ using Avalonia.Rendering.SceneGraph;
 using Avalonia.Skia;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
+using Gojo.Core;
+using GojoCAD;
 using GojoDraw;
 using SkiaSharp;
 using System.Diagnostics;
@@ -701,6 +703,12 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
             return;
         }
 
+        if (page.GlossarySheet == BlocksGlossarySheetKind.DiamondCuspRounding)
+        {
+            DrawDiamondCuspRoundingGlossary(canvas, page, area, hitAreas);
+            return;
+        }
+
         if (page.GlossarySheet != BlocksGlossarySheetKind.None)
         {
             DrawGlossaryLadder(canvas, page, area, hitAreas);
@@ -830,15 +838,40 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
         DrawSpecimenGrid(canvas, page, area, hitAreas, specimens, DrawRadialCrescentSpecimen);
     }
 
+    private void DrawRadialCrescentRoundingGlossary(SKCanvas canvas, BlocksPage page, SKRect area, List<BlocksHitArea> hitAreas)
+    {
+        var specimens = new[]
+        {
+            new GlossarySpecimenDescriptor("radial-crescent-rounding-interior-cusps", "Interior cusp selection"),
+            new GlossarySpecimenDescriptor("radial-crescent-rounding-interior-rounded", "Rounded interior outlines"),
+            new GlossarySpecimenDescriptor("radial-crescent-rounding-exterior-cusps", "Exterior cusp selection"),
+            new GlossarySpecimenDescriptor("radial-crescent-rounding-final-rounded", "Final rounded outline")
+        };
+        DrawSpecimenGrid(canvas, page, area, hitAreas, specimens, DrawRadialCrescentRoundingSpecimen, columnsOverride: 2);
+    }
+
+    private void DrawDiamondCuspRoundingGlossary(SKCanvas canvas, BlocksPage page, SKRect area, List<BlocksHitArea> hitAreas)
+    {
+        var specimens = new[]
+        {
+            new GlossarySpecimenDescriptor("diamond-cusp-rounding-source", "Gojo outline"),
+            new GlossarySpecimenDescriptor("diamond-cusp-rounding-selection", "Select four cusps"),
+            new GlossarySpecimenDescriptor("diamond-cusp-rounding-ladder", "Rounded rung"),
+            new GlossarySpecimenDescriptor("diamond-cusp-rounding-result", "Resulting shape")
+        };
+        DrawSpecimenGrid(canvas, page, area, hitAreas, specimens, DrawDiamondCuspRoundingSpecimen, columnsOverride: 2);
+    }
+
     private void DrawSpecimenGrid(
         SKCanvas canvas,
         BlocksPage page,
         SKRect area,
         List<BlocksHitArea> hitAreas,
         IReadOnlyList<GlossarySpecimenDescriptor> specimens,
-        Action<SKCanvas, int, SKRect> drawSpecimen)
+        Action<SKCanvas, int, SKRect> drawSpecimen,
+        int? columnsOverride = null)
     {
-        var columns = area.Width >= 760 ? 3 : 2;
+        var columns = columnsOverride ?? (area.Width >= 760 ? 3 : 2);
         var rows = (int)Math.Ceiling(specimens.Count / (double)columns);
         var gap = 13f;
         var cellWidth = (area.Width - gap * (columns - 1)) / columns;
@@ -1023,6 +1056,7 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
             BlocksGlossarySheetKind.BooleanOffsetReads => "boolean-offset",
             BlocksGlossarySheetKind.DroneClipOffsetLadder => "drone-clip",
             BlocksGlossarySheetKind.RadialCrescentLadder => "radial-crescent",
+            BlocksGlossarySheetKind.DiamondCuspRounding => "diamond-cusp-rounding",
             _ => "glossary"
         };
 
@@ -1279,6 +1313,44 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
                 break;
             case 9:
                 DrawRadialCrescentSettledArea(canvas, bounds);
+                break;
+        }
+    }
+
+    private void DrawRadialCrescentRoundingSpecimen(SKCanvas canvas, int index, SKRect bounds)
+    {
+        switch (index)
+        {
+            case 0:
+                DrawRadialCrescentInteriorCuspSelection(canvas, bounds);
+                break;
+            case 1:
+                DrawRadialCrescentRoundedInteriorOutlines(canvas, bounds);
+                break;
+            case 2:
+                DrawRadialCrescentExteriorCuspSelection(canvas, bounds);
+                break;
+            case 3:
+                DrawRadialCrescentFinalRoundedOutline(canvas, bounds);
+                break;
+        }
+    }
+
+    private void DrawDiamondCuspRoundingSpecimen(SKCanvas canvas, int index, SKRect bounds)
+    {
+        switch (index)
+        {
+            case 0:
+                DrawDiamondCuspSource(canvas, bounds);
+                break;
+            case 1:
+                DrawDiamondCuspSelection(canvas, bounds);
+                break;
+            case 2:
+                DrawDiamondCuspLadder(canvas, bounds);
+                break;
+            case 3:
+                DrawDiamondCuspResult(canvas, bounds);
                 break;
         }
     }
@@ -2217,6 +2289,102 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
         canvas.DrawPath(openings, interiorRead);
     }
 
+    private static void DrawDiamondCuspSource(SKCanvas canvas, SKRect bounds)
+    {
+        using var outline = DiamondCuspSourcePath(bounds);
+        DrawBridgePath(canvas, outline, BoundaryColor, 2.15f, glow: false);
+        DrawDiamondSharedPoints(canvas, bounds, SiteColor, 4.3f, 210);
+        DrawDiamondAngleBasis(canvas, bounds, alpha: 80);
+    }
+
+    private static void DrawDiamondCuspSelection(SKCanvas canvas, SKRect bounds)
+    {
+        using var outline = DiamondCuspSourcePath(bounds);
+        DrawBridgePath(canvas, outline, BoundaryColor, 1.9f, glow: false);
+        DrawDiamondAngleBasis(canvas, bounds, alpha: 105);
+        foreach (var point in DiamondCuspPoints(bounds))
+        {
+            DrawDiamondSelectionPoint(canvas, point);
+        }
+    }
+
+    private static void DrawDiamondCuspLadder(SKCanvas canvas, SKRect bounds)
+    {
+        using var source = DiamondCuspSourcePath(bounds);
+        using var rounded = DiamondCuspRoundedPath(bounds);
+        using var sourceStroke = StrokePaint(BoundaryColor, 1.3f, 112);
+        canvas.DrawPath(source, sourceStroke);
+        DrawBridgePath(canvas, rounded, PositiveStroke, 2.35f, glow: true);
+        foreach (var corner in DiamondCuspRoundedCornerPaths(bounds))
+        {
+            using (corner)
+            {
+                DrawBridgePath(canvas, corner, EndpointColor, 2.6f, glow: false);
+            }
+        }
+    }
+
+    private static void DrawDiamondCuspResult(SKCanvas canvas, SKRect bounds)
+    {
+        using var rounded = DiamondCuspRoundedPath(bounds);
+        using var fill = FillPaint(PositiveColor, 82);
+        canvas.DrawPath(rounded, fill);
+        DrawBridgePath(canvas, rounded, PositiveStroke, 2.1f, glow: false);
+    }
+
+    private void DrawRadialCrescentInteriorCuspSelection(SKCanvas canvas, SKRect bounds)
+    {
+        DrawRadialCrescentOutlineReadSet(canvas, bounds, roundedInterior: false, roundedExterior: false, fill: false);
+        DrawRadialCrescentInteriorCuspMarks(canvas, bounds);
+    }
+
+    private void DrawRadialCrescentRoundedInteriorOutlines(SKCanvas canvas, SKRect bounds)
+    {
+        DrawRadialCrescentOutlineReadSet(canvas, bounds, roundedInterior: true, roundedExterior: false, fill: false);
+    }
+
+    private void DrawRadialCrescentExteriorCuspSelection(SKCanvas canvas, SKRect bounds)
+    {
+        DrawRadialCrescentOutlineReadSet(canvas, bounds, roundedInterior: true, roundedExterior: false, fill: false);
+        DrawRadialCrescentExteriorCuspMarks(canvas, bounds);
+    }
+
+    private void DrawRadialCrescentFinalRoundedOutline(SKCanvas canvas, SKRect bounds)
+    {
+        DrawRadialCrescentOutlineReadSet(canvas, bounds, roundedInterior: true, roundedExterior: true, fill: true);
+    }
+
+    private void DrawRadialCrescentOutlineReadSet(SKCanvas canvas, SKRect bounds, bool roundedInterior, bool roundedExterior, bool fill)
+    {
+        using var positive = roundedExterior
+            ? RadialCrescentRoundedPositiveOuterUnionPath(bounds)
+            : RadialCrescentPositiveOuterUnionPath(bounds);
+        using var openings = roundedInterior
+            ? RadialCrescentRoundedMergedOpeningPath(bounds)
+            : RadialCrescentMergedOpeningPath(bounds);
+
+        if (fill)
+        {
+            using var merged = PathOp(positive, openings, SKPathOp.Difference);
+            using var fillPaint = FillPaint(PositiveColor, 118);
+            canvas.DrawPath(merged, fillPaint);
+        }
+
+        using var exteriorRead = StrokePaint(theme.Ink, fill ? 1.55f : 1.9f, 225);
+        using var exteriorCorner = roundedExterior
+            ? SKPathEffect.CreateCorner(Math.Max(4f, RadialCrescentScale(bounds) * 16f))
+            : null;
+        exteriorRead.PathEffect = exteriorCorner;
+        canvas.DrawPath(positive, exteriorRead);
+
+        using var interiorRead = StrokePaint(InverseStroke, fill ? 1.45f : 1.85f, 230);
+        using var interiorCorner = roundedInterior
+            ? SKPathEffect.CreateCorner(Math.Max(4f, RadialCrescentScale(bounds) * 14f))
+            : null;
+        interiorRead.PathEffect = interiorCorner;
+        canvas.DrawPath(openings, interiorRead);
+    }
+
     private static void DrawRadialCrescentOutlineRead(SKCanvas canvas, SKRect bounds)
     {
         DrawRadialCrescentAreaOutlines(canvas, bounds, roundedExterior: false, PositiveStroke, 2.05f, 230);
@@ -2385,6 +2553,34 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
         return composite;
     }
 
+    private static SKPath RadialCrescentRoundedPositiveOuterUnionPath(SKRect bounds)
+    {
+        var composite = new SKPath();
+        var hasPath = false;
+        void Add(SKPath path)
+        {
+            if (!hasPath)
+            {
+                composite.AddPath(path);
+                hasPath = true;
+                return;
+            }
+
+            using var result = PathOp(composite, path, SKPathOp.Union);
+            composite.Reset();
+            composite.AddPath(result);
+        }
+
+        using (var crescent = RadialCrescentCrescentAreaPath(bounds, roundedExterior: true))
+        using (var bent = RadialCrescentBentAreaPath(bounds, roundedExterior: true))
+        {
+            Add(crescent);
+            Add(bent);
+        }
+
+        return composite;
+    }
+
     private static SKPath RadialCrescentArmSupportUnionPath(SKRect bounds)
     {
         var composite = new SKPath();
@@ -2436,6 +2632,73 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
 
         return openings;
     }
+
+    private static SKPath RadialCrescentRoundedMergedOpeningPath(SKRect bounds)
+    {
+        using var arms = RadialCrescentArmSupportUnionPath(bounds);
+        using var circleBodyOpening = RadialCrescentModelCirclePath(bounds, -70, 0, 68);
+        using var diamondBodyOpening = RadialCrescentDiamondPath(bounds, 265, 0, 56, 68, rounded: true);
+        using var circleVisibleOpening = PathOp(circleBodyOpening, arms, SKPathOp.Difference);
+        using var diamondVisibleOpening = PathOp(diamondBodyOpening, arms, SKPathOp.Difference);
+        var openings = PathOp(circleVisibleOpening, diamondVisibleOpening, SKPathOp.Union);
+        foreach (var (x, y) in RadialCrescentEndpointModelCenters())
+        {
+            using var motorOpening = RadialCrescentModelCirclePath(bounds, x, y, 8);
+            using var result = PathOp(openings, motorOpening, SKPathOp.Union);
+            openings.Reset();
+            openings.AddPath(result);
+        }
+
+        return openings;
+    }
+
+    private static void DrawRadialCrescentInteriorCuspMarks(SKCanvas canvas, SKRect bounds)
+    {
+        foreach (var point in RadialCrescentInteriorRoundingSites(bounds))
+        {
+            DrawSelectedCusp(canvas, point);
+        }
+    }
+
+    private static void DrawRadialCrescentExteriorCuspMarks(SKCanvas canvas, SKRect bounds)
+    {
+        foreach (var point in RadialCrescentExteriorRoundingSites(bounds))
+        {
+            DrawSelectedCusp(canvas, point);
+        }
+    }
+
+    private static void DrawSelectedCusp(SKCanvas canvas, SKPoint point)
+    {
+        var selectionColor = new SKColor(245, 22, 18);
+        using var glow = FillPaint(selectionColor, 44);
+        canvas.DrawCircle(point, 8.8f, glow);
+        using var dot = FillPaint(selectionColor, 250);
+        canvas.DrawCircle(point, 6.2f, dot);
+    }
+
+    private static IEnumerable<SKPoint> RadialCrescentInteriorRoundingSites(SKRect bounds) =>
+        RadialCrescentGlossaryGeometry.InteriorCuspPointGroups()
+            .SelectMany(group => group)
+            .Select(point => RadialCrescentPoint(bounds, point.X, point.Y));
+
+    private static IEnumerable<SKPoint> RadialCrescentExteriorRoundingSites(SKRect bounds) =>
+    [
+        RadialCrescentPoint(bounds, -165, 108),
+        RadialCrescentPoint(bounds, -165, -108),
+        RadialCrescentPoint(bounds, 25, -108),
+        RadialCrescentPoint(bounds, 25, 108),
+        RadialCrescentPoint(bounds, 173, 122),
+        RadialCrescentPoint(bounds, 133, -88),
+        RadialCrescentPoint(bounds, 357, 122),
+        RadialCrescentPoint(bounds, 397, -88),
+        RadialCrescentPoint(bounds, -70, 88),
+        RadialCrescentPoint(bounds, -70, -88),
+        RadialCrescentPoint(bounds, 265, 98),
+        RadialCrescentPoint(bounds, 351, 0),
+        RadialCrescentPoint(bounds, 265, -98),
+        RadialCrescentPoint(bounds, 179, 0)
+    ];
 
     private static void DrawRadialCrescentArcOffsets(SKCanvas canvas, SKRect bounds)
     {
@@ -2979,6 +3242,196 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
         RadialCrescentPoint(bounds, 357, 122),
         RadialCrescentPoint(bounds, 397, -88)
     ];
+
+    private static SKPath DiamondCuspSourcePath(SKRect bounds)
+        => DiamondCuspPathFromSections(bounds, DiamondCuspGlossaryGeometry.CreateSource().Sections);
+
+    private static SKPath DiamondCuspRoundedPath(SKRect bounds)
+        => DiamondCuspPathFromSections(bounds, DiamondCuspGlossaryGeometry.CreateRounded().Sections);
+
+    private static IEnumerable<SKPath> DiamondCuspRoundedCornerPaths(SKRect bounds)
+    {
+        foreach (var section in DiamondCuspGlossaryGeometry.CreateRounded().Sections)
+        {
+            var curve = GraphicReadGraph.From(section)
+                .ReadsOf<SharedFrameQuadraticCurveRead>()
+                .FirstOrDefault();
+            if (curve is null)
+            {
+                continue;
+            }
+
+            var path = new SKPath();
+            path.MoveTo(DiamondPoint(bounds, curve.Start));
+            path.QuadTo(DiamondPoint(bounds, curve.Control), DiamondPoint(bounds, curve.End));
+            yield return path;
+        }
+    }
+
+    private static SKPath DiamondCuspPathFromSections(SKRect bounds, IReadOnlyList<IElement> sections)
+    {
+        var path = new SKPath();
+        var hasStarted = false;
+        foreach (var section in sections)
+        {
+            AppendDiamondCuspSection(path, bounds, section, ref hasStarted);
+        }
+
+        if (hasStarted)
+        {
+            path.Close();
+        }
+
+        return path;
+    }
+
+    private static void AppendDiamondCuspSection(SKPath path, SKRect bounds, IElement section, ref bool hasStarted)
+    {
+        var graph = GraphicReadGraph.From(section);
+        var curve = graph.ReadsOf<SharedFrameQuadraticCurveRead>().FirstOrDefault();
+        if (curve is not null)
+        {
+            MoveOrLineTo(path, DiamondPoint(bounds, curve.Start), ref hasStarted);
+            path.QuadTo(DiamondPoint(bounds, curve.Control), DiamondPoint(bounds, curve.End));
+            return;
+        }
+
+        var arc = graph.ReadsOf<SharedFrameArcRead>().FirstOrDefault();
+        if (arc is not null)
+        {
+            MoveOrLineTo(path, DiamondPoint(bounds, arc.Start), ref hasStarted);
+            AddDiamondArc(path, bounds, arc);
+            return;
+        }
+
+        var segment = graph.ReadsOf<SharedFrameSegmentRead>().FirstOrDefault();
+        if (segment is not null)
+        {
+            MoveOrLineTo(path, DiamondPoint(bounds, segment.Start), ref hasStarted);
+            path.LineTo(DiamondPoint(bounds, segment.End));
+        }
+    }
+
+    private static void MoveOrLineTo(SKPath path, SKPoint point, ref bool hasStarted)
+    {
+        if (!hasStarted)
+        {
+            path.MoveTo(point);
+            hasStarted = true;
+            return;
+        }
+
+        path.LineTo(point);
+    }
+
+    private static void DrawDiamondSharedPoints(SKCanvas canvas, SKRect bounds, SKColor color, float radius, byte alpha)
+    {
+        using var fill = FillPaint(color, alpha);
+        foreach (var point in DiamondCuspPoints(bounds))
+        {
+            canvas.DrawCircle(point, radius, fill);
+        }
+    }
+
+    private static void DrawDiamondAngleBasis(SKCanvas canvas, SKRect bounds, byte alpha)
+    {
+        using var stroke = StrokePaint(BoundaryMarkerColor, 0.9f, alpha);
+        foreach (var point in DiamondCuspPoints(bounds))
+        {
+            canvas.DrawCircle(point, 12.5f, stroke);
+            DrawLine(canvas, point, new SKPoint(point.X + 11.8f, point.Y), BoundaryMarkerColor, 0.65f, alpha);
+            DrawLine(canvas, point, new SKPoint(point.X, point.Y - 11.8f), BoundaryMarkerColor, 0.65f, alpha);
+        }
+    }
+
+    private static void DrawDiamondSelectionPoint(SKCanvas canvas, SKPoint point)
+    {
+        using var glow = FillPaint(EndpointColor, 54);
+        canvas.DrawCircle(point, 8.5f, glow);
+        using var fill = FillPaint(EndpointColor, 245);
+        canvas.DrawCircle(point, 5.5f, fill);
+    }
+
+    private static IEnumerable<SKPoint> DiamondCuspPoints(SKRect bounds) =>
+        DiamondCuspGlossaryGeometry.CreateSource().Cusps.Select(point => DiamondPoint(bounds, point));
+
+    private static SKPoint DiamondPoint(SKRect bounds, DiamondCuspGlossaryGeometry.ModelPoint point) =>
+        DiamondPoint(bounds, point.X, point.Y);
+
+    private static SKPoint DiamondPoint(SKRect bounds, Relation point)
+    {
+        var framePoint = GraphicReadGraph.From(point)
+            .ReadsOf<SharedFramePointRead>()
+            .FirstOrDefault();
+        return framePoint is null
+            ? DiamondPoint(bounds, 0, 0)
+            : DiamondPoint(bounds, framePoint);
+    }
+
+    private static SKPoint DiamondPoint(SKRect bounds, SharedFramePointRead point) =>
+        DiamondPoint(bounds, DiamondModelPoint(point));
+
+    private static SKPoint DiamondPoint(SKRect bounds, long x, long y)
+    {
+        var scale = Math.Min(bounds.Width / 210f, bounds.Height / 210f) * 0.9f;
+        return new SKPoint(bounds.MidX + x * scale, bounds.MidY - y * scale);
+    }
+
+    private static DiamondCuspGlossaryGeometry.ModelPoint DiamondModelPoint(SharedFramePointRead point)
+    {
+        var x = point.Coordinates.Count > 0 ? point.Coordinates[0].Ticks : 0;
+        var y = point.Coordinates.Count > 1 ? point.Coordinates[1].Ticks : 0;
+        return new DiamondCuspGlossaryGeometry.ModelPoint(x, y);
+    }
+
+    private static DiamondCuspGlossaryGeometry.ModelPoint DiamondArcModelPoint(
+        DiamondCuspGlossaryGeometry.ModelPoint center,
+        DiamondCuspGlossaryGeometry.ModelPoint start,
+        DiamondCuspGlossaryGeometry.ModelPoint end,
+        float t)
+    {
+        var startAngle = MathF.Atan2(start.Y - center.Y, start.X - center.X);
+        var endAngle = MathF.Atan2(end.Y - center.Y, end.X - center.X);
+        var sweep = ShortestSweepRadians(startAngle, endAngle);
+        var radius = MathF.Sqrt(
+            (start.X - center.X) * (start.X - center.X) +
+            (start.Y - center.Y) * (start.Y - center.Y));
+        var angle = startAngle + sweep * t;
+        return new DiamondCuspGlossaryGeometry.ModelPoint(
+            (long)Math.Round(center.X + MathF.Cos(angle) * radius),
+            (long)Math.Round(center.Y + MathF.Sin(angle) * radius));
+    }
+
+    private static void AddDiamondArc(
+        SKPath path,
+        SKRect bounds,
+        SharedFrameArcRead arc)
+    {
+        var center = DiamondModelPoint(arc.Center);
+        var start = DiamondModelPoint(arc.Start);
+        var end = DiamondModelPoint(arc.End);
+        for (var index = 1; index <= 16; index++)
+        {
+            var point = DiamondArcModelPoint(center, start, end, index / 16f);
+            path.LineTo(DiamondPoint(bounds, point));
+        }
+    }
+
+    private static float ShortestSweepRadians(float start, float end)
+    {
+        var sweep = end - start;
+        while (sweep <= -MathF.PI)
+        {
+            sweep += MathF.PI * 2f;
+        }
+
+        while (sweep > MathF.PI)
+        {
+            sweep -= MathF.PI * 2f;
+        }
+
+        return sweep;
+    }
 
     private static SKPoint RadialCrescentPoint(SKRect bounds, float x, float y)
     {
