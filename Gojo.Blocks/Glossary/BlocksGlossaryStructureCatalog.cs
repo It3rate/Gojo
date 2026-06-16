@@ -18,6 +18,7 @@ internal static class BlocksGlossaryStructureCatalog
         AddBooleanParticipation(structures);
         AddConnectedPaths(structures);
         AddPathReadBases(structures);
+        AddDerivedPathStructures(structures);
         return structures;
     }
 
@@ -138,6 +139,23 @@ internal static class BlocksGlossaryStructureCatalog
         foreach (var id in ids)
         {
             structures[$"path-basis-{id}"] = PathReadBasis(id);
+        }
+    }
+
+    private static void AddDerivedPathStructures(Dictionary<string, BlocksGlossaryStructure> structures)
+    {
+        var ids = new[]
+        {
+            "open-offset",
+            "curved-offset",
+            "inset-outset",
+            "branch-merge-fill",
+            "outline-fill",
+            "offset-residue"
+        };
+        foreach (var id in ids)
+        {
+            structures[$"derived-path-{id}"] = DerivedPathStructure(id);
         }
     }
 
@@ -604,6 +622,21 @@ internal static class BlocksGlossaryStructureCatalog
         };
     }
 
+    private static BlocksGlossaryStructure DerivedPathStructure(string id)
+    {
+        var frame = new FrameBasis();
+        return id switch
+        {
+            "open-offset" => DerivedOpenOffset(frame),
+            "curved-offset" => DerivedCurvedOffset(frame),
+            "inset-outset" => DerivedInsetOutset(frame),
+            "branch-merge-fill" => DerivedBranchMergeFill(frame),
+            "outline-fill" => DerivedOutlineFill(frame),
+            "offset-residue" => DerivedOffsetResidue(frame),
+            _ => Spec(Site(), "P(O)")
+        };
+    }
+
     private static BlocksGlossaryStructure ConnectedSharedPoint(FrameBasis frame)
     {
         var joint = frame.Point(0, 0);
@@ -755,6 +788,98 @@ internal static class BlocksGlossaryStructureCatalog
                 TensionSlot()),
             "loose sections + intended_join(Pn~P0) + residue/tension",
             "Conflicting basis and topology evidence can negotiate later. Until then the attempted join and its error remain inspectable.");
+    }
+
+    private static BlocksGlossaryStructure DerivedOpenOffset(FrameBasis frame)
+    {
+        var source = Group(
+            GraphicStructure.FrameSegment(frame.Point(-52, 30), frame.Point(-12, 6)),
+            GraphicStructure.FrameSegment(frame.Point(-12, 6), frame.Point(52, -24)));
+        var offset = Group(
+            GraphicStructure.FrameSegment(frame.Point(-50, 14), frame.Point(-8, -10)),
+            GraphicStructure.FrameSegment(frame.Point(-8, -10), frame.Point(54, -40)));
+        return Spec(
+            Group(source, offset, new Relation(source, offset)),
+            "PathRead(source) + OffsetRead(source,+d) -> derived PathCarrier",
+            "The offset is a separate derived path read connected to the source path. It should remain inspectable as related but independent structure.");
+    }
+
+    private static BlocksGlossaryStructure DerivedCurvedOffset(FrameBasis frame)
+    {
+        var source = GraphicStructure.FrameCubicCurve(
+            frame.Point(-52, 28),
+            frame.Point(-18, -40),
+            frame.Point(18, 42),
+            frame.Point(52, -20));
+        var offset = GraphicStructure.FrameCubicCurve(
+            frame.Point(-48, 10),
+            frame.Point(-16, -48),
+            frame.Point(28, 22),
+            frame.Point(56, -34));
+        return Spec(
+            Group(source, offset, new Relation(source, offset)),
+            "CurvePath(source) + OffsetRead(source,+d)",
+            "Curves can be offset as path reads too. The backing keeps source curve evidence and derived offset evidence side by side.");
+    }
+
+    private static BlocksGlossaryStructure DerivedInsetOutset(FrameBasis frame)
+    {
+        var source = RectangleSegments(frame, -34, -24, 34, 24);
+        var outset1 = RectangleSegments(frame, -42, -32, 42, 32);
+        var outset2 = RectangleSegments(frame, -50, -40, 50, 40);
+        var inset1 = RectangleSegments(frame, -24, -16, 24, 16);
+        var inset2 = RectangleSegments(frame, -14, -8, 14, 8);
+        return Spec(
+            Group(
+                Group(source),
+                Group(outset1),
+                Group(outset2),
+                Group(inset1),
+                Group(inset2)),
+            "Outline + Outset(+d1,+d2) + Inset(-d1,-d2)",
+            "Inset and outset layers are repeated derived reads from the same connected outline. They are not edits to the original boundary.");
+    }
+
+    private static BlocksGlossaryStructure DerivedBranchMergeFill(FrameBasis frame)
+    {
+        var split = frame.Point(-28, 0);
+        var merge = frame.Point(28, 0);
+        var upper = GraphicStructure.FrameQuadraticCurve(split, frame.Point(0, -34), merge);
+        var lower = GraphicStructure.FrameQuadraticCurve(split, frame.Point(0, 34), merge);
+        var trunkLeft = GraphicStructure.FrameSegment(frame.Point(-54, 0), split);
+        var trunkRight = GraphicStructure.FrameSegment(merge, frame.Point(54, 0));
+        var fill = GraphicStructure.AreaFill(upper, lower);
+        return Spec(
+            Group(trunkLeft, upper, lower, trunkRight, fill),
+            "S(A,J) + branch{upper,lower} + merge(K) -> AreaFill(enclosure)",
+            "The branch and merge produce an enclosing path region. The fill is a derived area read over that enclosure, related to but distinct from the branch carriers.");
+    }
+
+    private static BlocksGlossaryStructure DerivedOutlineFill(FrameBasis frame)
+    {
+        var boundary = RectangleSegments(frame, -36, -26, 36, 26);
+        var fill = GraphicStructure.AreaFill(boundary);
+        return Spec(
+            Group(Group(boundary), fill),
+            "ClosedPath(ordered outline) -> AreaFill(face)",
+            "This is the same family of read as a path or offset: the fill is derived from the outline, then can be inspected independently.");
+    }
+
+    private static BlocksGlossaryStructure DerivedOffsetResidue(FrameBasis frame)
+    {
+        var source = Group(
+            GraphicStructure.FrameSegment(frame.Point(-52, 30), frame.Point(-10, 4)),
+            GraphicStructure.FrameSegment(frame.Point(-10, 4), frame.Point(52, -26)));
+        var intended = Group(
+            GraphicStructure.FrameSegment(frame.Point(-48, 14), frame.Point(-6, -12)),
+            GraphicStructure.FrameSegment(frame.Point(-6, -12), frame.Point(56, -42)));
+        var observed = Group(
+            GraphicStructure.FrameSegment(frame.Point(-48, 14), frame.Point(2, -4)),
+            GraphicStructure.FrameSegment(frame.Point(2, -4), frame.Point(56, -42)));
+        return Spec(
+            Group(source, intended, observed, TensionSlot()),
+            "OffsetRead(source,+d) + observed offset + residue/tension",
+            "If an offset read cannot settle cleanly, the intended derived path and mismatching evidence should both remain available.");
     }
 
     private static IElement Site()

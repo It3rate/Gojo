@@ -100,6 +100,18 @@ internal static class BlocksGlossaryContent
                 ["XY basis", "circular basis", "orthogonal basis", "mixed basis", "path read", "residue"],
                 GlossarySheet: BlocksGlossarySheetKind.PathReadBases,
                 GlossaryDescriptions: descriptions,
+                GlossaryStructures: structures),
+            new BlocksPage(
+                "glossary-derived-path-structures",
+                "Derived Path Structures",
+                "Offsets, insets, fills, and branch/merge area reads from connected paths.",
+                string.Empty,
+                null,
+                null,
+                0,
+                ["offset", "inset", "outset", "fill", "branch", "merge", "residue"],
+                GlossarySheet: BlocksGlossarySheetKind.DerivedPathStructures,
+                GlossaryDescriptions: descriptions,
                 GlossaryStructures: structures)
         ];
     }

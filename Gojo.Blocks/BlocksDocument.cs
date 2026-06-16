@@ -172,5 +172,6 @@ internal enum BlocksGlossarySheetKind
     Branches,
     BooleanParticipation,
     ConnectedPaths,
-    PathReadBases
+    PathReadBases,
+    DerivedPathStructures
 }

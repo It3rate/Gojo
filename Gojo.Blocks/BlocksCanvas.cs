@@ -654,6 +654,12 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
             return;
         }
 
+        if (page.GlossarySheet == BlocksGlossarySheetKind.DerivedPathStructures)
+        {
+            DrawDerivedPathStructuresGlossary(canvas, page, area, hitAreas);
+            return;
+        }
+
         if (page.GlossarySheet != BlocksGlossarySheetKind.None)
         {
             DrawGlossaryLadder(canvas, page, area, hitAreas);
@@ -721,6 +727,20 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
             new GlossarySpecimenDescriptor("path-basis-residue-error", "Residue / error")
         };
         DrawSpecimenGrid(canvas, page, area, hitAreas, specimens, DrawPathBasisSpecimen);
+    }
+
+    private void DrawDerivedPathStructuresGlossary(SKCanvas canvas, BlocksPage page, SKRect area, List<BlocksHitArea> hitAreas)
+    {
+        var specimens = new[]
+        {
+            new GlossarySpecimenDescriptor("derived-path-open-offset", "Open offset"),
+            new GlossarySpecimenDescriptor("derived-path-curved-offset", "Curved offset"),
+            new GlossarySpecimenDescriptor("derived-path-inset-outset", "Inset / outset"),
+            new GlossarySpecimenDescriptor("derived-path-branch-merge-fill", "Branch fill"),
+            new GlossarySpecimenDescriptor("derived-path-outline-fill", "Outline fill"),
+            new GlossarySpecimenDescriptor("derived-path-offset-residue", "Offset residue")
+        };
+        DrawSpecimenGrid(canvas, page, area, hitAreas, specimens, DrawDerivedPathSpecimen);
     }
 
     private void DrawSpecimenGrid(
@@ -1049,6 +1069,31 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
         }
     }
 
+    private void DrawDerivedPathSpecimen(SKCanvas canvas, int index, SKRect bounds)
+    {
+        switch (index)
+        {
+            case 0:
+                DrawOpenOffsetRead(canvas, bounds);
+                break;
+            case 1:
+                DrawCurvedOffsetRead(canvas, bounds);
+                break;
+            case 2:
+                DrawInsetOutsetLayers(canvas, bounds);
+                break;
+            case 3:
+                DrawBranchMergeFillRead(canvas, bounds);
+                break;
+            case 4:
+                DrawOutlineFillRead(canvas, bounds);
+                break;
+            case 5:
+                DrawOffsetResidueRead(canvas, bounds);
+                break;
+        }
+    }
+
     private static void DrawSeparatePathSections(SKCanvas canvas, SKRect bounds)
     {
         var leftY = bounds.MidY + bounds.Height * 0.08f;
@@ -1311,6 +1356,261 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
                 point.Y + normal.Y * half,
                 paint);
         }
+    }
+
+    private static void DrawOpenOffsetRead(SKCanvas canvas, SKRect bounds)
+    {
+        var a = new SKPoint(bounds.Left + 16, bounds.Bottom - 20);
+        var b = new SKPoint(bounds.Left + bounds.Width * 0.42f, bounds.MidY + 6);
+        var c = new SKPoint(bounds.Right - 18, bounds.Top + bounds.Height * 0.34f);
+        using var source = PolyPath(a, b, c);
+        using var offset = OffsetPolyline(18f, a, b, c);
+        DrawBridgePath(canvas, source, BoundaryColor, 1.8f, glow: false);
+        DrawBridgePath(canvas, offset, PositiveStroke, 2.3f, glow: true);
+        DrawOffsetWitnesses(canvas, source, offset, 3);
+    }
+
+    private static void DrawCurvedOffsetRead(SKCanvas canvas, SKRect bounds)
+    {
+        var p0 = new SKPoint(bounds.Left + 14, bounds.Bottom - 20);
+        var p1 = new SKPoint(bounds.Left + bounds.Width * 0.34f, bounds.Top + 6);
+        var p2 = new SKPoint(bounds.Left + bounds.Width * 0.55f, bounds.Bottom - 10);
+        var p3 = new SKPoint(bounds.Right - 16, bounds.Top + bounds.Height * 0.35f);
+        using var source = CubicPath(p0, p1, p2, p3);
+        using var offset = OffsetCubicPath(18f, p0, p1, p2, p3);
+        DrawBridgePath(canvas, source, BoundaryColor, 1.7f, glow: false);
+        DrawBridgePath(canvas, offset, PositiveStroke, 2.25f, glow: true);
+        DrawOffsetWitnesses(canvas, source, offset, 4);
+        DrawPathPartitions(canvas, offset, 5);
+    }
+
+    private static void DrawInsetOutsetLayers(SKCanvas canvas, SKRect bounds)
+    {
+        var center = Center(bounds);
+        var width = bounds.Width * 0.48f;
+        var height = bounds.Height * 0.42f;
+        using var source = RoundedRectPath(new SKRect(center.X - width * 0.5f, center.Y - height * 0.5f, center.X + width * 0.5f, center.Y + height * 0.5f), 10f);
+        using var outset1 = RoundedRectPath(new SKRect(center.X - width * 0.62f, center.Y - height * 0.64f, center.X + width * 0.62f, center.Y + height * 0.64f), 13f);
+        using var outset2 = RoundedRectPath(new SKRect(center.X - width * 0.76f, center.Y - height * 0.80f, center.X + width * 0.76f, center.Y + height * 0.80f), 16f);
+        using var inset1 = RoundedRectPath(new SKRect(center.X - width * 0.36f, center.Y - height * 0.34f, center.X + width * 0.36f, center.Y + height * 0.34f), 7f);
+        using var inset2 = RoundedRectPath(new SKRect(center.X - width * 0.20f, center.Y - height * 0.17f, center.X + width * 0.20f, center.Y + height * 0.17f), 4f);
+        DrawBridgePath(canvas, outset2, PositiveStroke, 1.7f, glow: false);
+        DrawBridgePath(canvas, outset1, PositiveStroke, 2.1f, glow: false);
+        DrawBridgePath(canvas, source, BoundaryColor, 2.3f, glow: false);
+        DrawBridgePath(canvas, inset1, InverseStroke, 2.1f, glow: false);
+        DrawBridgePath(canvas, inset2, InverseStroke, 1.7f, glow: false);
+    }
+
+    private static void DrawBranchMergeFillRead(SKCanvas canvas, SKRect bounds)
+    {
+        var left = new SKPoint(bounds.Left + 16, bounds.MidY);
+        var split = new SKPoint(bounds.Left + bounds.Width * 0.30f, bounds.MidY);
+        var merge = new SKPoint(bounds.Right - bounds.Width * 0.30f, bounds.MidY);
+        var right = new SKPoint(bounds.Right - 16, bounds.MidY);
+        var upper = new SKPoint(bounds.MidX, bounds.Top + bounds.Height * 0.24f);
+        var lower = new SKPoint(bounds.MidX, bounds.Bottom - bounds.Height * 0.24f);
+
+        using var fillPath = new SKPath();
+        fillPath.MoveTo(split);
+        fillPath.QuadTo(upper.X, upper.Y, merge.X, merge.Y);
+        fillPath.QuadTo(lower.X, lower.Y, split.X, split.Y);
+        fillPath.Close();
+        using var fill = FillPaint(PositiveColor, 88);
+        canvas.DrawPath(fillPath, fill);
+
+        DrawCarrierLine(canvas, left, split);
+        DrawCarrierLine(canvas, merge, right);
+        using var top = new SKPath();
+        top.MoveTo(split);
+        top.QuadTo(upper.X, upper.Y, merge.X, merge.Y);
+        using var bottom = new SKPath();
+        bottom.MoveTo(split);
+        bottom.QuadTo(lower.X, lower.Y, merge.X, merge.Y);
+        DrawBridgePath(canvas, top, PositiveStroke, 2.2f, glow: true);
+        DrawBridgePath(canvas, bottom, PositiveStroke, 2.2f, glow: true);
+        DrawPoint(canvas, split, EndpointColor, 4.8f);
+        DrawPoint(canvas, merge, EndpointColor, 4.8f);
+    }
+
+    private static void DrawOutlineFillRead(SKCanvas canvas, SKRect bounds)
+    {
+        var rect = new SKRect(bounds.Left + bounds.Width * 0.22f, bounds.Top + bounds.Height * 0.18f, bounds.Right - bounds.Width * 0.20f, bounds.Bottom - bounds.Height * 0.18f);
+        using var outline = RoundedRectPath(rect, 14f);
+        using var fill = FillPaint(PositiveColor, 95);
+        canvas.DrawPath(outline, fill);
+        DrawBridgePath(canvas, outline, BoundaryColor, 2f, glow: false);
+        DrawSpinArrow(canvas, Center(rect), Math.Min(rect.Width, rect.Height) * 0.34f, inverse: false);
+    }
+
+    private static void DrawOffsetResidueRead(SKCanvas canvas, SKRect bounds)
+    {
+        var a = new SKPoint(bounds.Left + 18, bounds.Bottom - 18);
+        var b = new SKPoint(bounds.Left + bounds.Width * 0.44f, bounds.MidY - 2);
+        var c = new SKPoint(bounds.Right - 18, bounds.Top + bounds.Height * 0.32f);
+        using var source = PolyPath(a, b, c);
+        using var clean = PolyPath(
+            new SKPoint(a.X + 4, a.Y - 17),
+            new SKPoint(b.X + 5, b.Y - 18),
+            new SKPoint(c.X + 4, c.Y - 17));
+        using var miss = PolyPath(
+            new SKPoint(a.X + 5, a.Y - 17),
+            new SKPoint(b.X + 14, b.Y - 10),
+            new SKPoint(c.X + 4, c.Y - 17));
+        DrawBridgePath(canvas, source, BoundaryColor, 1.7f, glow: false);
+        DrawBridgePath(canvas, clean, PositiveStroke, 1.6f, glow: false);
+        DrawBridgePath(canvas, miss, InverseStroke, 2f, glow: true);
+        DrawTensionSpot(canvas, new SKPoint(b.X + 10, b.Y - 13), 13f);
+    }
+
+    private static SKPath PolyPath(params SKPoint[] points)
+    {
+        var path = new SKPath();
+        if (points.Length == 0)
+        {
+            return path;
+        }
+
+        path.MoveTo(points[0]);
+        for (var index = 1; index < points.Length; index++)
+        {
+            path.LineTo(points[index]);
+        }
+
+        return path;
+    }
+
+    private static SKPath CubicPath(SKPoint p0, SKPoint p1, SKPoint p2, SKPoint p3)
+    {
+        var path = new SKPath();
+        path.MoveTo(p0);
+        path.CubicTo(p1.X, p1.Y, p2.X, p2.Y, p3.X, p3.Y);
+        return path;
+    }
+
+    private static SKPath OffsetPolyline(float distance, params SKPoint[] points)
+    {
+        var path = new SKPath();
+        if (points.Length == 0)
+        {
+            return path;
+        }
+
+        var offsetPoints = new SKPoint[points.Length];
+        if (points.Length == 1)
+        {
+            offsetPoints[0] = points[0];
+        }
+        else
+        {
+            offsetPoints[0] = OffsetLinePoint(points[0], points[1], distance);
+            offsetPoints[^1] = OffsetLinePoint(points[^2], points[^1], distance, endPoint: true);
+            for (var index = 1; index < points.Length - 1; index++)
+            {
+                var prevA = OffsetLinePoint(points[index - 1], points[index], distance);
+                var prevB = OffsetLinePoint(points[index - 1], points[index], distance, endPoint: true);
+                var nextA = OffsetLinePoint(points[index], points[index + 1], distance);
+                var nextB = OffsetLinePoint(points[index], points[index + 1], distance, endPoint: true);
+                offsetPoints[index] = TryLineIntersection(prevA, prevB, nextA, nextB, out var intersection)
+                    ? intersection
+                    : OffsetLinePoint(points[index - 1], points[index + 1], distance);
+            }
+        }
+
+        return PolyPath(offsetPoints);
+    }
+
+    private static SKPath OffsetCubicPath(float distance, SKPoint p0, SKPoint p1, SKPoint p2, SKPoint p3)
+    {
+        const int Samples = 28;
+        var offsetPoints = new SKPoint[Samples + 1];
+        for (var index = 0; index <= Samples; index++)
+        {
+            var t = index / (float)Samples;
+            var point = CubicPoint(p0, p1, p2, p3, t);
+            var tangent = Normalize(CubicTangent(p0, p1, p2, p3, t));
+            var normal = new SKPoint(-tangent.Y, tangent.X);
+            offsetPoints[index] = new SKPoint(point.X + normal.X * distance, point.Y + normal.Y * distance);
+        }
+
+        return SmoothPathThrough(offsetPoints);
+    }
+
+    private static SKPath SmoothPathThrough(IReadOnlyList<SKPoint> points)
+    {
+        var path = new SKPath();
+        if (points.Count == 0)
+        {
+            return path;
+        }
+
+        path.MoveTo(points[0]);
+        for (var index = 1; index < points.Count; index++)
+        {
+            path.LineTo(points[index]);
+        }
+
+        return path;
+    }
+
+    private static SKPoint OffsetLinePoint(SKPoint start, SKPoint end, float distance, bool endPoint = false)
+    {
+        var direction = Normalize(new SKPoint(end.X - start.X, end.Y - start.Y));
+        var normal = new SKPoint(-direction.Y, direction.X);
+        var point = endPoint ? end : start;
+        return new SKPoint(point.X + normal.X * distance, point.Y + normal.Y * distance);
+    }
+
+    private static bool TryLineIntersection(SKPoint a, SKPoint b, SKPoint c, SKPoint d, out SKPoint intersection)
+    {
+        var abx = b.X - a.X;
+        var aby = b.Y - a.Y;
+        var cdx = d.X - c.X;
+        var cdy = d.Y - c.Y;
+        var denominator = abx * cdy - aby * cdx;
+        if (MathF.Abs(denominator) <= 0.001f)
+        {
+            intersection = default;
+            return false;
+        }
+
+        var acx = c.X - a.X;
+        var acy = c.Y - a.Y;
+        var t = (acx * cdy - acy * cdx) / denominator;
+        intersection = new SKPoint(a.X + abx * t, a.Y + aby * t);
+        return true;
+    }
+
+    private static void DrawOffsetWitnesses(SKCanvas canvas, SKPath source, SKPath offset, int count)
+    {
+        using var sourceMeasure = new SKPathMeasure(source, false);
+        using var offsetMeasure = new SKPathMeasure(offset, false);
+        if (sourceMeasure.Length <= 0.001f ||
+            offsetMeasure.Length <= 0.001f)
+        {
+            return;
+        }
+
+        for (var index = 1; index <= count; index++)
+        {
+            var fraction = index / (float)(count + 1);
+            if (sourceMeasure.GetPositionAndTangent(sourceMeasure.Length * fraction, out var sourcePoint, out _) &&
+                offsetMeasure.GetPositionAndTangent(offsetMeasure.Length * fraction, out var offsetPoint, out _))
+            {
+                DrawOffsetWitness(canvas, sourcePoint, offsetPoint);
+            }
+        }
+    }
+
+    private static SKPath RoundedRectPath(SKRect rect, float radius)
+    {
+        var path = new SKPath();
+        path.AddRoundRect(rect, radius, radius);
+        return path;
+    }
+
+    private static void DrawOffsetWitness(SKCanvas canvas, SKPoint source, SKPoint derived)
+    {
+        DrawDashedLine(canvas, source, derived, EvidenceColor, 1f);
     }
 
     private static void DrawBranchJoinCell(SKCanvas canvas, int row, int column, SKRect bounds)
