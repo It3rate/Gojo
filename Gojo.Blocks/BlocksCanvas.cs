@@ -689,6 +689,12 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
             return;
         }
 
+        if (page.GlossarySheet == BlocksGlossarySheetKind.DroneClipOffsetLadder)
+        {
+            DrawDroneClipOffsetLadderGlossary(canvas, page, area, hitAreas);
+            return;
+        }
+
         if (page.GlossarySheet != BlocksGlossarySheetKind.None)
         {
             DrawGlossaryLadder(canvas, page, area, hitAreas);
@@ -784,6 +790,24 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
             new GlossarySpecimenDescriptor("boolean-offset-rounded-ladder", "Rounded ladder")
         };
         DrawSpecimenGrid(canvas, page, area, hitAreas, specimens, DrawBooleanOffsetSpecimen);
+    }
+
+    private void DrawDroneClipOffsetLadderGlossary(SKCanvas canvas, BlocksPage page, SKRect area, List<BlocksHitArea> hitAreas)
+    {
+        var specimens = new[]
+        {
+            new GlossarySpecimenDescriptor("drone-clip-source", "Source"),
+            new GlossarySpecimenDescriptor("drone-clip-path-read", "Path read"),
+            new GlossarySpecimenDescriptor("drone-clip-offset-reads", "Offset reads"),
+            new GlossarySpecimenDescriptor("drone-clip-intersections", "Intersections"),
+            new GlossarySpecimenDescriptor("drone-clip-split-sections", "Split sections"),
+            new GlossarySpecimenDescriptor("drone-clip-outside-round", "Outside round"),
+            new GlossarySpecimenDescriptor("drone-clip-inside-round", "Inside round"),
+            new GlossarySpecimenDescriptor("drone-clip-merged-loops", "Merged loops"),
+            new GlossarySpecimenDescriptor("drone-clip-negative-spaces", "Negative spaces"),
+            new GlossarySpecimenDescriptor("drone-clip-settled-read", "Settled read")
+        };
+        DrawSpecimenGrid(canvas, page, area, hitAreas, specimens, DrawDroneClipSpecimen);
     }
 
     private void DrawSpecimenGrid(
@@ -977,6 +1001,7 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
             BlocksGlossarySheetKind.Branches => "branches",
             BlocksGlossarySheetKind.BooleanParticipation => "boolean-participation",
             BlocksGlossarySheetKind.BooleanOffsetReads => "boolean-offset",
+            BlocksGlossarySheetKind.DroneClipOffsetLadder => "drone-clip",
             _ => "glossary"
         };
 
@@ -1159,6 +1184,43 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
                 break;
             case 5:
                 DrawBooleanRoundedLadder(canvas, bounds);
+                break;
+        }
+    }
+
+    private void DrawDroneClipSpecimen(SKCanvas canvas, int index, SKRect bounds)
+    {
+        switch (index)
+        {
+            case 0:
+                DrawDroneClipSource(canvas, bounds);
+                break;
+            case 1:
+                DrawDroneClipPathRead(canvas, bounds);
+                break;
+            case 2:
+                DrawDroneClipOffsetReads(canvas, bounds);
+                break;
+            case 3:
+                DrawDroneClipIntersections(canvas, bounds);
+                break;
+            case 4:
+                DrawDroneClipSplitSections(canvas, bounds);
+                break;
+            case 5:
+                DrawDroneClipOutsideRound(canvas, bounds);
+                break;
+            case 6:
+                DrawDroneClipInsideRound(canvas, bounds);
+                break;
+            case 7:
+                DrawDroneClipMergedLoops(canvas, bounds);
+                break;
+            case 8:
+                DrawDroneClipNegativeSpaces(canvas, bounds);
+                break;
+            case 9:
+                DrawDroneClipSettledRead(canvas, bounds);
                 break;
         }
     }
@@ -1582,7 +1644,7 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
         DrawRectOutline(canvas, outer, PositiveStroke, 2.1f);
         DrawRectOutline(canvas, inner, InverseStroke, 1.9f);
         DrawArcArrow(canvas, new SKPoint(outer.MidX, outer.Top + 1), outer.Width * 0.18f, 190f, 305f, PositiveStroke, 1.25f);
-        DrawArcArrow(canvas, new SKPoint(inner.MidX, inner.Bottom - 1), inner.Width * 0.18f, 12f, -118f, InverseStroke, 1.15f);
+        DrawArcArrow(canvas, new SKPoint(inner.MidX, inner.Top + inner.Height * 0.24f), inner.Width * 0.15f, 202f, 64f, InverseStroke, 1.15f);
     }
 
     private static void DrawBooleanIntersectionRead(SKCanvas canvas, SKRect bounds)
@@ -1764,6 +1826,265 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
             DrawPoint(canvas, corner, EndpointColor, 2.9f);
         }
     }
+
+    private static void DrawDroneClipSource(SKCanvas canvas, SKRect bounds)
+    {
+        using var outer = DroneClipOuterPath(bounds, rounded: false);
+        DrawBridgePath(canvas, outer, BoundaryColor, 1.5f, glow: false);
+        DrawDroneClipSlot(canvas, bounds, BoundaryColor, 1.2f, 160, rounded: false);
+        DrawDroneClipHoles(canvas, bounds, BoundaryColor, 1.1f, 150);
+        foreach (var point in DroneClipRawPoints(bounds).Where((_, index) => index % 2 == 0))
+        {
+            DrawPoint(canvas, point, SiteColor, 2.6f);
+        }
+    }
+
+    private static void DrawDroneClipPathRead(SKCanvas canvas, SKRect bounds)
+    {
+        using var outer = DroneClipOuterPath(bounds, rounded: false);
+        DrawBridgePath(canvas, outer, PositiveStroke, 2.05f, glow: true);
+        DrawPathPartitions(canvas, outer, 10);
+        DrawDroneClipSlot(canvas, bounds, InverseStroke, 1.55f, 190, rounded: false);
+        DrawDroneClipHoles(canvas, bounds, InverseStroke, 1.35f, 180);
+    }
+
+    private static void DrawDroneClipOffsetReads(SKCanvas canvas, SKRect bounds)
+    {
+        using var source = DroneClipOuterPath(bounds, rounded: false);
+        DrawBridgePath(canvas, source, BoundaryColor, 1f, glow: false);
+        using var outer = DroneClipOuterPath(bounds, rounded: true, inflate: 4.2f);
+        DrawBridgePath(canvas, outer, PositiveStroke, 2.3f, glow: true);
+        using var slotFill = FillPaint(InverseColor, 42);
+        var slot = DroneClipSlotRect(bounds, inflate: 3.4f);
+        canvas.DrawRoundRect(slot, 5f, 5f, slotFill);
+        DrawRoundRectOutline(canvas, slot, 5f, InverseStroke, 1.5f, 175);
+        DrawDroneClipHoles(canvas, bounds, InverseStroke, 1.4f, 170, inflate: 1.6f);
+    }
+
+    private static void DrawDroneClipIntersections(SKCanvas canvas, SKRect bounds)
+    {
+        using var outer = DroneClipOuterPath(bounds, rounded: false, inflate: 3.6f);
+        DrawBridgePath(canvas, outer, PositiveStroke, 1.8f, glow: false);
+        DrawDroneClipSlot(canvas, bounds, InverseStroke, 1.5f, 170, rounded: false, inflate: 2.8f);
+        foreach (var point in DroneClipIntersectionPoints(bounds))
+        {
+            DrawTensionSpot(canvas, point, 6.2f, EndpointColor);
+            DrawPoint(canvas, point, EndpointColor, 3.2f);
+        }
+    }
+
+    private static void DrawDroneClipSplitSections(SKCanvas canvas, SKRect bounds)
+    {
+        var points = DroneClipRawPoints(bounds);
+        for (var index = 0; index < points.Length; index++)
+        {
+            var start = points[index];
+            var end = points[(index + 1) % points.Length];
+            var color = index is 2 or 3 or 10 or 11 ? BoundaryColor : PositiveStroke;
+            var alpha = color == BoundaryColor ? (byte)120 : (byte)220;
+            DrawLine(canvas, start, end, color, color == BoundaryColor ? 1.1f : 2.1f, alpha);
+        }
+        var slot = DroneClipSlotRect(bounds);
+        DrawRectOutline(canvas, slot, InverseStroke, 1.7f, 190);
+        DrawRectPartitions(canvas, slot, 1, InverseStroke);
+        foreach (var point in DroneClipIntersectionPoints(bounds))
+        {
+            DrawPoint(canvas, point, EndpointColor, 2.9f);
+        }
+    }
+
+    private static void DrawDroneClipOutsideRound(SKCanvas canvas, SKRect bounds)
+    {
+        using var source = DroneClipOuterPath(bounds, rounded: false);
+        DrawBridgePath(canvas, source, BoundaryColor, 1.05f, glow: false);
+        using var rounded = DroneClipOuterPath(bounds, rounded: true);
+        DrawBridgePath(canvas, rounded, PositiveStroke, 2.35f, glow: true);
+        DrawDroneOutsideRoundMarks(canvas, bounds);
+    }
+
+    private static void DrawDroneClipInsideRound(SKCanvas canvas, SKRect bounds)
+    {
+        using var outer = DroneClipOuterPath(bounds, rounded: true);
+        DrawBridgePath(canvas, outer, PositiveStroke, 1.5f, glow: false);
+        DrawDroneClipSlot(canvas, bounds, BoundaryColor, 1f, 120, rounded: false);
+        DrawDroneClipSlot(canvas, bounds, InverseStroke, 1.8f, 220, rounded: true, inflate: 2.6f);
+        DrawDroneClipHoles(canvas, bounds, InverseStroke, 1.6f, 200, inflate: 1.1f);
+    }
+
+    private static void DrawDroneClipMergedLoops(SKCanvas canvas, SKRect bounds)
+    {
+        using var outer = DroneClipOuterPath(bounds, rounded: true);
+        DrawBridgePath(canvas, outer, PositiveStroke, 2.1f, glow: true);
+        DrawDroneClipSlot(canvas, bounds, InverseStroke, 1.7f, 220, rounded: true, inflate: 2.4f);
+        DrawDroneClipHoles(canvas, bounds, InverseStroke, 1.45f, 210, inflate: 1.1f);
+        DrawArcArrow(canvas, DroneClipPoint(bounds, 0, -27), DroneClipScale(bounds) * 15f, 195f, 325f, PositiveStroke, 1.1f);
+        DrawArcArrow(canvas, DroneClipPoint(bounds, 0, -2.5f), DroneClipScale(bounds) * 9f, 185f, 45f, InverseStroke, 1.05f);
+    }
+
+    private static void DrawDroneClipNegativeSpaces(SKCanvas canvas, SKRect bounds)
+    {
+        using var path = DroneClipFillPath(bounds);
+        using var fill = FillPaint(PositiveColor, 118);
+        canvas.DrawPath(path, fill);
+        using var outer = DroneClipOuterPath(bounds, rounded: true);
+        DrawBridgePath(canvas, outer, PositiveStroke, 1.9f, glow: false);
+        DrawDroneClipSlot(canvas, bounds, InverseStroke, 1.55f, 230, rounded: true, inflate: 2.4f);
+        DrawDroneClipHoles(canvas, bounds, InverseStroke, 1.25f, 210, inflate: 1.1f);
+    }
+
+    private static void DrawDroneClipSettledRead(SKCanvas canvas, SKRect bounds)
+    {
+        using var path = DroneClipFillPath(bounds);
+        using var fill = FillPaint(PositiveColor, 132);
+        canvas.DrawPath(path, fill);
+        using var outer = DroneClipOuterPath(bounds, rounded: true);
+        DrawBridgePath(canvas, outer, PositiveStroke, 2.05f, glow: false);
+        DrawPathPartitions(canvas, outer, 12);
+        DrawDroneClipSlot(canvas, bounds, InverseStroke, 1.55f, 235, rounded: true, inflate: 2.4f);
+        DrawDroneClipHoles(canvas, bounds, InverseStroke, 1.3f, 220, inflate: 1.1f);
+        DrawDashedLine(canvas, DroneClipPoint(bounds, -52, -12), DroneClipPoint(bounds, -44, -18), EvidenceColor, 0.9f);
+        DrawDashedLine(canvas, DroneClipPoint(bounds, 52, 12), DroneClipPoint(bounds, 44, 18), EvidenceColor, 0.9f);
+    }
+
+    private static SKPath DroneClipOuterPath(SKRect bounds, bool rounded, float inflate = 0)
+    {
+        var path = new SKPath();
+        if (!rounded)
+        {
+            var points = DroneClipRawPoints(bounds, inflate);
+            path.MoveTo(points[0]);
+            for (var index = 1; index < points.Length; index++)
+            {
+                path.LineTo(points[index]);
+            }
+            path.Close();
+            return path;
+        }
+
+        path.MoveTo(DroneClipPoint(bounds, -44 - inflate, -14 - inflate * 0.25f));
+        path.LineTo(DroneClipPoint(bounds, -37 - inflate * 0.6f, -20 - inflate));
+        path.LineTo(DroneClipPoint(bounds, -13 - inflate * 0.25f, -20 - inflate));
+        path.QuadTo(DroneClipPoint(bounds, -9, -26 - inflate), DroneClipPoint(bounds, -4, -25 - inflate));
+        path.LineTo(DroneClipPoint(bounds, 4, -25 - inflate));
+        path.QuadTo(DroneClipPoint(bounds, 9, -26 - inflate), DroneClipPoint(bounds, 13 + inflate * 0.25f, -20 - inflate));
+        path.LineTo(DroneClipPoint(bounds, 37 + inflate * 0.6f, -20 - inflate));
+        path.QuadTo(DroneClipPoint(bounds, 52 + inflate, -20 - inflate * 0.35f), DroneClipPoint(bounds, 52 + inflate, -12));
+        path.LineTo(DroneClipPoint(bounds, 52 + inflate, 12));
+        path.QuadTo(DroneClipPoint(bounds, 52 + inflate, 20 + inflate * 0.35f), DroneClipPoint(bounds, 37 + inflate * 0.6f, 20 + inflate));
+        path.LineTo(DroneClipPoint(bounds, 13 + inflate * 0.25f, 20 + inflate));
+        path.QuadTo(DroneClipPoint(bounds, 9, 26 + inflate), DroneClipPoint(bounds, 4, 25 + inflate));
+        path.LineTo(DroneClipPoint(bounds, -4, 25 + inflate));
+        path.QuadTo(DroneClipPoint(bounds, -9, 26 + inflate), DroneClipPoint(bounds, -13 - inflate * 0.25f, 20 + inflate));
+        path.LineTo(DroneClipPoint(bounds, -37 - inflate * 0.6f, 20 + inflate));
+        path.QuadTo(DroneClipPoint(bounds, -52 - inflate, 20 + inflate * 0.35f), DroneClipPoint(bounds, -52 - inflate, 12));
+        path.LineTo(DroneClipPoint(bounds, -52 - inflate, -12));
+        path.QuadTo(DroneClipPoint(bounds, -52 - inflate, -20 - inflate * 0.35f), DroneClipPoint(bounds, -44 - inflate, -14 - inflate * 0.25f));
+        path.Close();
+        return path;
+    }
+
+    private static SKPath DroneClipFillPath(SKRect bounds)
+    {
+        var path = DroneClipOuterPath(bounds, rounded: true);
+        path.FillType = SKPathFillType.EvenOdd;
+        var slot = DroneClipSlotRect(bounds, inflate: 2.4f);
+        path.AddRoundRect(slot, 5f, 5f);
+        foreach (var (center, radius) in DroneClipHoleCircles(bounds, inflate: 1.1f))
+        {
+            path.AddCircle(center.X, center.Y, radius);
+        }
+        return path;
+    }
+
+    private static SKPoint[] DroneClipRawPoints(SKRect bounds, float inflate = 0) =>
+    [
+        DroneClipPoint(bounds, -52 - inflate, -12),
+        DroneClipPoint(bounds, -39 - inflate * 0.5f, -20 - inflate),
+        DroneClipPoint(bounds, -12, -20 - inflate),
+        DroneClipPoint(bounds, -7, -26 - inflate),
+        DroneClipPoint(bounds, 7, -26 - inflate),
+        DroneClipPoint(bounds, 12, -20 - inflate),
+        DroneClipPoint(bounds, 39 + inflate * 0.5f, -20 - inflate),
+        DroneClipPoint(bounds, 52 + inflate, -12),
+        DroneClipPoint(bounds, 52 + inflate, 12),
+        DroneClipPoint(bounds, 39 + inflate * 0.5f, 20 + inflate),
+        DroneClipPoint(bounds, 12, 20 + inflate),
+        DroneClipPoint(bounds, 7, 26 + inflate),
+        DroneClipPoint(bounds, -7, 26 + inflate),
+        DroneClipPoint(bounds, -12, 20 + inflate),
+        DroneClipPoint(bounds, -39 - inflate * 0.5f, 20 + inflate),
+        DroneClipPoint(bounds, -52 - inflate, 12)
+    ];
+
+    private static IEnumerable<SKPoint> DroneClipIntersectionPoints(SKRect bounds)
+    {
+        foreach (var index in new[] { 0, 3, 4, 7, 8, 11, 12, 15 })
+        {
+            yield return DroneClipRawPoints(bounds, 3.6f)[index];
+        }
+
+        var slot = DroneClipSlotRect(bounds, inflate: 2.8f);
+        foreach (var point in RectCorners(slot))
+        {
+            yield return point;
+        }
+    }
+
+    private static void DrawDroneClipSlot(SKCanvas canvas, SKRect bounds, SKColor color, float width, byte alpha, bool rounded, float inflate = 0)
+    {
+        var slot = DroneClipSlotRect(bounds, inflate);
+        if (rounded)
+        {
+            DrawRoundRectOutline(canvas, slot, 5f, color, width, alpha);
+        }
+        else
+        {
+            DrawRectOutline(canvas, slot, color, width, alpha);
+        }
+    }
+
+    private static SKRect DroneClipSlotRect(SKRect bounds, float inflate = 0)
+    {
+        var topLeft = DroneClipPoint(bounds, -26 - inflate, -7 - inflate);
+        var bottomRight = DroneClipPoint(bounds, 26 + inflate, 7 + inflate);
+        return new SKRect(topLeft.X, topLeft.Y, bottomRight.X, bottomRight.Y);
+    }
+
+    private static void DrawDroneClipHoles(SKCanvas canvas, SKRect bounds, SKColor color, float width, byte alpha, float inflate = 0)
+    {
+        using var stroke = StrokePaint(color, width, alpha);
+        foreach (var (center, radius) in DroneClipHoleCircles(bounds, inflate))
+        {
+            canvas.DrawCircle(center, radius, stroke);
+        }
+    }
+
+    private static IReadOnlyList<(SKPoint Center, float Radius)> DroneClipHoleCircles(SKRect bounds, float inflate = 0)
+    {
+        var scale = DroneClipScale(bounds);
+        return
+        [
+            (DroneClipPoint(bounds, -37, 0), scale * (3.4f + inflate)),
+            (DroneClipPoint(bounds, 37, 0), scale * (3.4f + inflate))
+        ];
+    }
+
+    private static void DrawDroneOutsideRoundMarks(SKCanvas canvas, SKRect bounds)
+    {
+        foreach (var point in DroneClipIntersectionPoints(bounds).Take(8))
+        {
+            DrawPoint(canvas, point, EndpointColor, 2.8f);
+        }
+    }
+
+    private static SKPoint DroneClipPoint(SKRect bounds, float x, float y)
+    {
+        var scale = DroneClipScale(bounds);
+        return new SKPoint(bounds.MidX + x * scale, bounds.MidY + y * scale);
+    }
+
+    private static float DroneClipScale(SKRect bounds) =>
+        Math.Min(bounds.Width / 124f, bounds.Height / 72f);
 
     private static SKPath PolyPath(params SKPoint[] points)
     {

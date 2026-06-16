@@ -124,6 +124,18 @@ internal static class BlocksGlossaryContent
                 ["source carriers", "offset reads", "intersections", "split sections", "loops", "holes", "ladder"],
                 GlossarySheet: BlocksGlossarySheetKind.BooleanOffsetReads,
                 GlossaryDescriptions: descriptions,
+                GlossaryStructures: structures),
+            new BlocksPage(
+                "glossary-drone-clip-offset-ladder",
+                "Drone Clip Offset Ladder",
+                "A ten-rung progression from a drone arm clip source outline through offsets, intersections, rounding, loops, and filled negative spaces.",
+                string.Empty,
+                null,
+                null,
+                0,
+                ["source", "path read", "offset", "intersections", "split sections", "outside rounding", "inside rounding", "loop merge", "negative spaces", "settled read"],
+                GlossarySheet: BlocksGlossarySheetKind.DroneClipOffsetLadder,
+                GlossaryDescriptions: descriptions,
                 GlossaryStructures: structures)
         ];
     }

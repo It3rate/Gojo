@@ -20,6 +20,7 @@ internal static class BlocksGlossaryStructureCatalog
         AddPathReadBases(structures);
         AddDerivedPathStructures(structures);
         AddBooleanOffsetReads(structures);
+        AddDroneClipOffsetLadder(structures);
         return structures;
     }
 
@@ -174,6 +175,27 @@ internal static class BlocksGlossaryStructureCatalog
         foreach (var id in ids)
         {
             structures[$"boolean-offset-{id}"] = BooleanOffsetRead(id);
+        }
+    }
+
+    private static void AddDroneClipOffsetLadder(Dictionary<string, BlocksGlossaryStructure> structures)
+    {
+        var ids = new[]
+        {
+            "source",
+            "path-read",
+            "offset-reads",
+            "intersections",
+            "split-sections",
+            "outside-round",
+            "inside-round",
+            "merged-loops",
+            "negative-spaces",
+            "settled-read"
+        };
+        foreach (var id in ids)
+        {
+            structures[$"drone-clip-{id}"] = DroneClipOffsetLadder(id);
         }
     }
 
@@ -666,6 +688,25 @@ internal static class BlocksGlossaryStructureCatalog
             "union-hole" => BooleanOffsetUnionHole(frame),
             "intersection-read" => BooleanOffsetIntersectionRead(frame),
             "rounded-ladder" => BooleanOffsetRoundedLadder(frame),
+            _ => Spec(Site(), "P(O)")
+        };
+    }
+
+    private static BlocksGlossaryStructure DroneClipOffsetLadder(string id)
+    {
+        var frame = new FrameBasis();
+        return id switch
+        {
+            "source" => DroneClipSource(frame),
+            "path-read" => DroneClipPathRead(frame),
+            "offset-reads" => DroneClipOffsetReads(frame),
+            "intersections" => DroneClipIntersections(frame),
+            "split-sections" => DroneClipSplitSections(frame),
+            "outside-round" => DroneClipOutsideRound(frame),
+            "inside-round" => DroneClipInsideRound(frame),
+            "merged-loops" => DroneClipMergedLoops(frame),
+            "negative-spaces" => DroneClipNegativeSpaces(frame),
+            "settled-read" => DroneClipSettledRead(frame),
             _ => Spec(Site(), "P(O)")
         };
     }
@@ -1227,6 +1268,217 @@ internal static class BlocksGlossaryStructureCatalog
             GraphicStructure.FrameSegment(bottomLeftEnd, topLeftEnd),
             GraphicStructure.FrameQuadraticCurve(topLeftEnd, frame.Point(left, top), topLeftStart)
         ];
+    }
+
+    private static BlocksGlossaryStructure DroneClipSource(FrameBasis frame)
+    {
+        var outer = DroneClipOuterSections(frame);
+        var slot = RectangleSegments(frame, -26, -7, 26, 7);
+        var holes = DroneClipHoleBoundaries(frame);
+        return Spec(
+            Group(Group(outer), Group(slot), Group(holes)),
+            "STEP footprint evidence -> source sections{outer, slot, voids}",
+            "This source is a simplified read of the old droneArmClip-Body footprint: independent carriers for the outer clip, arm slot, and internal voids.");
+    }
+
+    private static BlocksGlossaryStructure DroneClipPathRead(FrameBasis frame)
+    {
+        var outer = PathRead(DroneClipOuterSections(frame), 220, 12);
+        var slot = PathRead(RectangleSegments(frame, -26, -7, 26, 7), 96, 8);
+        return Spec(
+            Group(outer.Read, slot.Read),
+            "source sections -> PathCarrier(outer) + PathCarrier(slot)",
+            "The first rung crystallizes connected sections into path carriers. The new carriers can be partitioned without directly correlating every tick to the source unless requested.");
+    }
+
+    private static BlocksGlossaryStructure DroneClipOffsetReads(FrameBasis frame)
+    {
+        var outer = PathRead(DroneClipOuterSections(frame), 220, 12);
+        var slot = PathRead(RectangleSegments(frame, -26, -7, 26, 7), 96, 8);
+        var outerOffset = OffsetRead(outer.Read, outer.Carrier, outer.Span, DroneClipOuterSections(frame), 5, 1, 220, 12);
+        var slotOffset = OffsetRead(slot.Read, slot.Carrier, slot.Span, RectangleSegments(frame, -29, -10, 29, 10), -3, 1, 96, 8);
+        return Spec(
+            Group(outerOffset, slotOffset),
+            "PathCarrier + OffsetRead(outside,+d); SlotCarrier + OffsetRead(inside,-d)",
+            "Offset reads are normal-distance rungs from the source carriers. The outer support grows outward while the slot support reads inward as negative space.");
+    }
+
+    private static BlocksGlossaryStructure DroneClipIntersections(FrameBasis frame)
+    {
+        var outer = PathRead(DroneClipOuterSections(frame), 220, 12);
+        var slot = PathRead(RectangleSegments(frame, -26, -7, 26, 7), 96, 8);
+        var intersections = DroneClipCuspIntersections(frame, Group(outer.Read, slot.Read));
+        return Spec(
+            Group(outer.Read, slot.Read, Group(intersections)),
+            "OffsetRead edges -> Intersect(cusp_i,cusp_j) -> Pij",
+            "Offset and slot boundaries produce derived intersection/cusp locations. These locations are later used to split and select path sections.");
+    }
+
+    private static BlocksGlossaryStructure DroneClipSplitSections(FrameBasis frame)
+    {
+        var outer = PathRead(DroneClipOuterSections(frame), 220, 12);
+        var slot = PathRead(RectangleSegments(frame, -26, -7, 26, 7), 96, 8);
+        var intersections = DroneClipCuspIntersections(frame, Group(outer.Read, slot.Read));
+        return Spec(
+            Group(
+                outer.Read,
+                slot.Read,
+                SplitRead(outer.Read, intersections),
+                SplitRead(slot.Read, intersections)),
+            "Pij + PathCarrier -> split sections + selected support",
+            "The split rung turns intersection points into selectable path sections. Some sections become the final loops; others remain residue/provenance.");
+    }
+
+    private static BlocksGlossaryStructure DroneClipOutsideRound(FrameBasis frame)
+    {
+        var square = LoopRead(DroneClipOuterSections(frame), 220, clockwise: false);
+        var rounded = LoopRead(DroneClipRoundedOuterSections(frame), 220, clockwise: false);
+        return Spec(
+            new Relation(square, rounded),
+            "outer split sections -> CornerRoundRead(outside cusps) -> rounded outer loop",
+            "The outside cusp rounding rung replaces selected corner sections with curved transition carriers while preserving the earlier outer-loop provenance.");
+    }
+
+    private static BlocksGlossaryStructure DroneClipInsideRound(FrameBasis frame)
+    {
+        var slot = LoopRead(RectangleSegments(frame, -26, -7, 26, 7), 96, clockwise: true);
+        var roundedSlot = LoopRead(RoundedRectangleSections(frame, -29, -10, 29, 10, 5), 96, clockwise: true);
+        var holes = DroneClipHoleBoundaries(frame);
+        return Spec(
+            Group(new Relation(slot, roundedSlot), Group(holes)),
+            "slot loop -> CornerRoundRead(inside cusps) -> rounded inner loop",
+            "Inside cusp rounding is a separate rung from outside rounding. The slot and void carriers keep inverse participation and can later become anti-fill.");
+    }
+
+    private static BlocksGlossaryStructure DroneClipMergedLoops(FrameBasis frame)
+    {
+        var outer = LoopRead(DroneClipRoundedOuterSections(frame), 220, clockwise: false);
+        var slot = LoopRead(RoundedRectangleSections(frame, -29, -10, 29, 10, 5), 96, clockwise: true);
+        var holes = DroneClipHoleBoundaries(frame);
+        return Spec(
+            Group(outer, slot, Group(holes), new Relation(Group(outer, slot, Group(holes)), TensionSlot())),
+            "LoopOuter + LoopSlot + LoopVoids -> merged loop set",
+            "The merge rung groups positive and inverse loops without losing their separate orientation. Any disagreement can remain as tension.");
+    }
+
+    private static BlocksGlossaryStructure DroneClipNegativeSpaces(FrameBasis frame)
+    {
+        var outer = DroneClipRoundedOuterSections(frame);
+        var slot = RoundedRectangleSections(frame, -29, -10, 29, 10, 5);
+        var holes = DroneClipHoleBoundaries(frame);
+        return Spec(
+            Group(
+                GraphicStructure.AreaFill(outer),
+                GraphicStructure.AntiAreaFill(slot),
+                GraphicStructure.AntiAreaFill(holes)),
+            "AreaFill(outer) + AntiFill(slot) + AntiFill(voids)",
+            "The filled part is positive support. The slot and holes are anti-fill participation, so the negative spaces are structural holes.");
+    }
+
+    private static BlocksGlossaryStructure DroneClipSettledRead(FrameBasis frame)
+    {
+        var source = DroneClipOuterSections(frame);
+        var outer = DroneClipRoundedOuterSections(frame);
+        var slot = RoundedRectangleSections(frame, -29, -10, 29, 10, 5);
+        var holes = DroneClipHoleBoundaries(frame);
+        var settled = Group(
+            GraphicStructure.AreaFill(outer),
+            GraphicStructure.AntiAreaFill(slot),
+            GraphicStructure.AntiAreaFill(holes));
+        return Spec(
+            new Relation(Group(Group(source), TensionSlot()), settled),
+            "source + ladder residue -> settled clip read",
+            "The final rung is an inspectable settled read: source provenance, rounded positive boundary, structural negative spaces, and residue for whatever the simplified read did not express.");
+    }
+
+    private static IElement[] DroneClipOuterSections(FrameBasis frame)
+    {
+        var points = new[]
+        {
+            frame.Point(-52, -12),
+            frame.Point(-39, -20),
+            frame.Point(-12, -20),
+            frame.Point(-7, -26),
+            frame.Point(7, -26),
+            frame.Point(12, -20),
+            frame.Point(39, -20),
+            frame.Point(52, -12),
+            frame.Point(52, 12),
+            frame.Point(39, 20),
+            frame.Point(12, 20),
+            frame.Point(7, 26),
+            frame.Point(-7, 26),
+            frame.Point(-12, 20),
+            frame.Point(-39, 20),
+            frame.Point(-52, 12)
+        };
+        return ClosedSegments(points);
+    }
+
+    private static IElement[] DroneClipRoundedOuterSections(FrameBasis frame) =>
+    [
+        GraphicStructure.FrameSegment(frame.Point(-44, -14), frame.Point(-37, -20)),
+        GraphicStructure.FrameSegment(frame.Point(-37, -20), frame.Point(-13, -20)),
+        GraphicStructure.FrameQuadraticCurve(frame.Point(-13, -20), frame.Point(-9, -25), frame.Point(-4, -25)),
+        GraphicStructure.FrameSegment(frame.Point(-4, -25), frame.Point(4, -25)),
+        GraphicStructure.FrameQuadraticCurve(frame.Point(4, -25), frame.Point(9, -25), frame.Point(13, -20)),
+        GraphicStructure.FrameSegment(frame.Point(13, -20), frame.Point(37, -20)),
+        GraphicStructure.FrameQuadraticCurve(frame.Point(37, -20), frame.Point(52, -20), frame.Point(52, -12)),
+        GraphicStructure.FrameSegment(frame.Point(52, -12), frame.Point(52, 12)),
+        GraphicStructure.FrameQuadraticCurve(frame.Point(52, 12), frame.Point(52, 20), frame.Point(37, 20)),
+        GraphicStructure.FrameSegment(frame.Point(37, 20), frame.Point(13, 20)),
+        GraphicStructure.FrameQuadraticCurve(frame.Point(13, 20), frame.Point(9, 25), frame.Point(4, 25)),
+        GraphicStructure.FrameSegment(frame.Point(4, 25), frame.Point(-4, 25)),
+        GraphicStructure.FrameQuadraticCurve(frame.Point(-4, 25), frame.Point(-9, 25), frame.Point(-13, 20)),
+        GraphicStructure.FrameSegment(frame.Point(-13, 20), frame.Point(-37, 20)),
+        GraphicStructure.FrameQuadraticCurve(frame.Point(-37, 20), frame.Point(-52, 20), frame.Point(-52, 12)),
+        GraphicStructure.FrameSegment(frame.Point(-52, 12), frame.Point(-52, -12)),
+        GraphicStructure.FrameQuadraticCurve(frame.Point(-52, -12), frame.Point(-52, -20), frame.Point(-44, -14))
+    ];
+
+    private static IElement[] DroneClipHoleBoundaries(FrameBasis frame)
+    {
+        var left = GraphicStructure.FrameCircle(frame.Point(-37, 0), frame.Point(-34, 0));
+        var right = GraphicStructure.FrameCircle(frame.Point(37, 0), frame.Point(40, 0));
+        return [left, right];
+    }
+
+    private static IElement[] DroneClipCuspIntersections(FrameBasis frame, IElement source)
+    {
+        var points = new[]
+        {
+            frame.Point(-52, -12),
+            frame.Point(-7, -26),
+            frame.Point(7, -26),
+            frame.Point(52, -12),
+            frame.Point(52, 12),
+            frame.Point(7, 26),
+            frame.Point(-7, 26),
+            frame.Point(-52, 12),
+            frame.Point(-29, -10),
+            frame.Point(29, -10),
+            frame.Point(29, 10),
+            frame.Point(-29, 10)
+        };
+        var carrier = new Carrier(UnitShape.DescribedAtom(source));
+        var result = new List<IElement>();
+        for (var index = 0; index < points.Length; index++)
+        {
+            result.Add(new Relation(points[index], GraphicStructure.Point(carrier, index + 1)));
+        }
+
+        return [.. result];
+    }
+
+    private static IElement[] ClosedSegments(IReadOnlyList<Relation> points)
+    {
+        var sections = new List<IElement>();
+        for (var index = 0; index < points.Count; index++)
+        {
+            sections.Add(GraphicStructure.FrameSegment(points[index], points[(index + 1) % points.Count]));
+        }
+
+        return [.. sections];
     }
 
     private static IElement Site()
