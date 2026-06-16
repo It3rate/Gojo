@@ -1367,7 +1367,7 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
         using var offset = OffsetPolyline(18f, a, b, c);
         DrawBridgePath(canvas, source, BoundaryColor, 1.8f, glow: false);
         DrawBridgePath(canvas, offset, PositiveStroke, 2.3f, glow: true);
-        DrawOffsetWitnesses(canvas, source, offset, 3);
+        DrawPolylineOffsetWitnesses(canvas, 18f, a, b, c);
     }
 
     private static void DrawCurvedOffsetRead(SKCanvas canvas, SKRect bounds)
@@ -1598,6 +1598,25 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
             {
                 DrawOffsetWitness(canvas, sourcePoint, offsetPoint);
             }
+        }
+    }
+
+    private static void DrawPolylineOffsetWitnesses(SKCanvas canvas, float distance, params SKPoint[] points)
+    {
+        for (var index = 0; index < points.Length - 1; index++)
+        {
+            var start = points[index];
+            var end = points[index + 1];
+            var fraction = index == 0 ? 0.58f : 0.42f;
+            var sourcePoint = new SKPoint(
+                start.X + (end.X - start.X) * fraction,
+                start.Y + (end.Y - start.Y) * fraction);
+            var direction = Normalize(new SKPoint(end.X - start.X, end.Y - start.Y));
+            var normal = new SKPoint(-direction.Y, direction.X);
+            var offsetPoint = new SKPoint(
+                sourcePoint.X + normal.X * distance,
+                sourcePoint.Y + normal.Y * distance);
+            DrawOffsetWitness(canvas, sourcePoint, offsetPoint);
         }
     }
 

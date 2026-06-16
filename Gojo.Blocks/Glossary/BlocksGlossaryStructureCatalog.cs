@@ -758,18 +758,11 @@ internal static class BlocksGlossaryStructureCatalog
         var line = GraphicStructure.FrameSegment(a, b);
         var arc = GraphicStructure.FrameArc(frame.Point(-2, 18), b, c);
         var curve = GraphicStructure.FrameCubicCurve(c, frame.Point(24, 30), frame.Point(32, -42), d);
-        var pathCarrier = new Carrier();
-        var pathRead = Group(
-            GraphicStructure.Segment(pathCarrier, 0, 120),
-            GraphicStructure.Point(pathCarrier, 20),
-            GraphicStructure.Point(pathCarrier, 40),
-            GraphicStructure.Point(pathCarrier, 60),
-            GraphicStructure.Point(pathCarrier, 80),
-            GraphicStructure.Point(pathCarrier, 100));
+        var pathRead = PathRead([line, arc, curve], 120, 10);
         return Spec(
-            Group(line, arc, curve, pathRead),
-            "sections{S,Arc,Curve} -> PathCarrier(0,n) + P(t...)",
-            "The path read is derived from the sections but gets its own carrier, partitions, flow, and measurement basis.");
+            pathRead.Read,
+            "PathRead(sections{S,Arc,Curve}, resolution=12) -> PathCarrier(0,120) + P(12..108)",
+            "The new path carrier is the crystallized read. The original sections remain as provenance and range-meld evidence, but the partitions belong to the path carrier itself.");
     }
 
     private static BlocksGlossaryStructure PathResidueError(FrameBasis frame)
@@ -792,34 +785,42 @@ internal static class BlocksGlossaryStructureCatalog
 
     private static BlocksGlossaryStructure DerivedOpenOffset(FrameBasis frame)
     {
-        var source = Group(
+        var sourceSections = new IElement[]
+        {
             GraphicStructure.FrameSegment(frame.Point(-52, 30), frame.Point(-12, 6)),
-            GraphicStructure.FrameSegment(frame.Point(-12, 6), frame.Point(52, -24)));
-        var offset = Group(
+            GraphicStructure.FrameSegment(frame.Point(-12, 6), frame.Point(52, -24))
+        };
+        var offsetSections = new IElement[]
+        {
             GraphicStructure.FrameSegment(frame.Point(-50, 14), frame.Point(-8, -10)),
-            GraphicStructure.FrameSegment(frame.Point(-8, -10), frame.Point(54, -40)));
+            GraphicStructure.FrameSegment(frame.Point(-8, -10), frame.Point(54, -40))
+        };
+        var source = PathRead(sourceSections, 120, 10);
+        var offset = OffsetRead(source.Read, source.Carrier, source.Span, offsetSections, 18, 3, 120, 10);
         return Spec(
-            Group(source, offset, new Relation(source, offset)),
-            "PathRead(source) + OffsetRead(source,+d) -> derived PathCarrier",
-            "The offset is a separate derived path read connected to the source path. It should remain inspectable as related but independent structure.");
+            offset,
+            "PathRead(source) + OffsetRead(normal-distance=18, resolution=3) -> OffsetPathCarrier(0,120)",
+            "The offset read carries a signed distance on the source path normal, resolution evidence for that normal measure, witness normals, and a separate derived path carrier.");
     }
 
     private static BlocksGlossaryStructure DerivedCurvedOffset(FrameBasis frame)
     {
-        var source = GraphicStructure.FrameCubicCurve(
+        var sourceCurve = GraphicStructure.FrameCubicCurve(
             frame.Point(-52, 28),
             frame.Point(-18, -40),
             frame.Point(18, 42),
             frame.Point(52, -20));
-        var offset = GraphicStructure.FrameCubicCurve(
+        var offsetCurve = GraphicStructure.FrameCubicCurve(
             frame.Point(-48, 10),
             frame.Point(-16, -48),
             frame.Point(28, 22),
             frame.Point(56, -34));
+        var source = PathRead([sourceCurve], 120, 10);
+        var offset = OffsetRead(source.Read, source.Carrier, source.Span, [offsetCurve], 18, 3, 120, 10);
         return Spec(
-            Group(source, offset, new Relation(source, offset)),
-            "CurvePath(source) + OffsetRead(source,+d)",
-            "Curves can be offset as path reads too. The backing keeps source curve evidence and derived offset evidence side by side.");
+            offset,
+            "CurvePathRead(source) + OffsetRead(normal-distance=18, resolution=3)",
+            "The curve offset uses the same structural read as the open offset: source path carrier, normal-distance carrier, resolution evidence, witness normals, and a derived path carrier.");
     }
 
     private static BlocksGlossaryStructure DerivedInsetOutset(FrameBasis frame)
@@ -829,15 +830,16 @@ internal static class BlocksGlossaryStructureCatalog
         var outset2 = RectangleSegments(frame, -50, -40, 50, 40);
         var inset1 = RectangleSegments(frame, -24, -16, 24, 16);
         var inset2 = RectangleSegments(frame, -14, -8, 14, 8);
+        var sourcePath = PathRead(source, 160, 16);
         return Spec(
             Group(
-                Group(source),
-                Group(outset1),
-                Group(outset2),
-                Group(inset1),
-                Group(inset2)),
-            "Outline + Outset(+d1,+d2) + Inset(-d1,-d2)",
-            "Inset and outset layers are repeated derived reads from the same connected outline. They are not edits to the original boundary.");
+                sourcePath.Read,
+                OffsetRead(sourcePath.Read, sourcePath.Carrier, sourcePath.Span, outset1, 8, 2, 160, 16),
+                OffsetRead(sourcePath.Read, sourcePath.Carrier, sourcePath.Span, outset2, 16, 2, 160, 16),
+                OffsetRead(sourcePath.Read, sourcePath.Carrier, sourcePath.Span, inset1, -8, 2, 160, 16),
+                OffsetRead(sourcePath.Read, sourcePath.Carrier, sourcePath.Span, inset2, -16, 2, 160, 16)),
+            "OutlinePathRead + OffsetRead(+d1,+d2,-d1,-d2)",
+            "Inset and outset layers are repeated offset reads from one path carrier. Each layer has its own carrier and partitions, so it is related to the outline without replacing it.");
     }
 
     private static BlocksGlossaryStructure DerivedBranchMergeFill(FrameBasis frame)
@@ -867,19 +869,133 @@ internal static class BlocksGlossaryStructureCatalog
 
     private static BlocksGlossaryStructure DerivedOffsetResidue(FrameBasis frame)
     {
-        var source = Group(
+        var sourceSections = new IElement[]
+        {
             GraphicStructure.FrameSegment(frame.Point(-52, 30), frame.Point(-10, 4)),
-            GraphicStructure.FrameSegment(frame.Point(-10, 4), frame.Point(52, -26)));
-        var intended = Group(
+            GraphicStructure.FrameSegment(frame.Point(-10, 4), frame.Point(52, -26))
+        };
+        var intendedSections = new IElement[]
+        {
             GraphicStructure.FrameSegment(frame.Point(-48, 14), frame.Point(-6, -12)),
-            GraphicStructure.FrameSegment(frame.Point(-6, -12), frame.Point(56, -42)));
-        var observed = Group(
+            GraphicStructure.FrameSegment(frame.Point(-6, -12), frame.Point(56, -42))
+        };
+        var observedSections = new IElement[]
+        {
             GraphicStructure.FrameSegment(frame.Point(-48, 14), frame.Point(2, -4)),
-            GraphicStructure.FrameSegment(frame.Point(2, -4), frame.Point(56, -42)));
+            GraphicStructure.FrameSegment(frame.Point(2, -4), frame.Point(56, -42))
+        };
+        var source = PathRead(sourceSections, 120, 10);
+        var observed = PathRead(observedSections, 120, 10);
+        var residue = Group(observed.Read, TensionSlot());
+        var intended = OffsetRead(source.Read, source.Carrier, source.Span, intendedSections, 18, 3, 120, 10, residue);
         return Spec(
-            Group(source, intended, observed, TensionSlot()),
-            "OffsetRead(source,+d) + observed offset + residue/tension",
-            "If an offset read cannot settle cleanly, the intended derived path and mismatching evidence should both remain available.");
+            intended,
+            "OffsetRead(source,+d,resolution) + observed PathRead + residue/tension",
+            "The intended offset carrier and the mismatching observed carrier are both preserved. The difference is tension attached to the read rather than a hidden failure.");
+    }
+
+    private static (Relation Read, Carrier Carrier, Relation Span) PathRead(IReadOnlyList<IElement> sections, long lengthTicks, int partitionCount)
+    {
+        var source = Group([.. sections]);
+        var descriptor = new Relation(source, Relation.Segment(Carrier.Unknown, 0, Math.Max(1, lengthTicks)));
+        var pathCarrier = new Carrier(UnitShape.DescribedAtom(descriptor));
+        var span = GraphicStructure.Segment(pathCarrier, 0, lengthTicks);
+        var crystal = Relation.OrderedGroup(
+            pathCarrier,
+            [span, .. PathPartitionPoints(pathCarrier, lengthTicks, partitionCount), ResolutionEvidence(pathCarrier, Math.Max(1, lengthTicks / Math.Max(1, partitionCount)))]);
+        var provenance = PathRangeMelds(sections, pathCarrier, lengthTicks);
+        return (new Relation(source, Group(crystal, provenance)), pathCarrier, span);
+    }
+
+    private static Relation OffsetRead(
+        Relation sourcePathRead,
+        Carrier sourcePathCarrier,
+        Relation sourcePathSpan,
+        IReadOnlyList<IElement> offsetSections,
+        long distanceTicks,
+        long resolutionTicks,
+        long lengthTicks,
+        int partitionCount,
+        IElement? residueOrTension = null)
+    {
+        var normalCarrier = new Carrier(UnitShape.OrthogonalOf(sourcePathSpan));
+        var normalDistance = GraphicStructure.Segment(normalCarrier, 0, distanceTicks);
+        var normalBasis = Group(
+            normalDistance,
+            ResolutionEvidence(normalCarrier, Math.Max(1, Math.Abs(resolutionTicks))));
+        var offsetPath = PathRead(offsetSections, lengthTicks, partitionCount);
+        var witnesses = OffsetWitnesses(
+            sourcePathCarrier,
+            offsetPath.Carrier,
+            normalCarrier,
+            distanceTicks,
+            lengthTicks,
+            Math.Min(4, Math.Max(1, partitionCount - 1)));
+        var readBasis = residueOrTension is null
+            ? Group(sourcePathRead, normalBasis, witnesses)
+            : Group(sourcePathRead, normalBasis, witnesses, residueOrTension);
+        var read = new Relation(readBasis, offsetPath.Read);
+        return read;
+    }
+
+    private static IElement[] PathPartitionPoints(Carrier pathCarrier, long lengthTicks, int partitionCount)
+    {
+        var count = Math.Max(1, partitionCount);
+        var points = new List<IElement>();
+        for (var index = 1; index < count; index++)
+        {
+            points.Add(GraphicStructure.Point(pathCarrier, lengthTicks * index / count));
+        }
+
+        return [.. points];
+    }
+
+    private static Relation PathRangeMelds(IReadOnlyList<IElement> sections, Carrier pathCarrier, long lengthTicks)
+    {
+        var elements = new List<IElement>();
+        var count = Math.Max(1, sections.Count);
+        for (var index = 0; index < sections.Count; index++)
+        {
+            var start = lengthTicks * index / count;
+            var end = lengthTicks * (index + 1) / count;
+            elements.Add(new Relation(sections[index], GraphicStructure.Segment(pathCarrier, start, end)));
+            if (index > 0)
+            {
+                elements.Add(new Relation(sections[index - 1], sections[index]));
+            }
+        }
+
+        return Group([.. elements]);
+    }
+
+    private static Relation OffsetWitnesses(
+        Carrier sourcePathCarrier,
+        Carrier offsetPathCarrier,
+        Carrier normalCarrier,
+        long distanceTicks,
+        long lengthTicks,
+        int witnessCount)
+    {
+        var witnesses = new List<IElement>();
+        for (var index = 1; index <= witnessCount; index++)
+        {
+            var ticks = lengthTicks * index / (witnessCount + 1);
+            var sourcePoint = GraphicStructure.Point(sourcePathCarrier, ticks);
+            var offsetPoint = GraphicStructure.Point(offsetPathCarrier, ticks);
+            var normalDistance = GraphicStructure.Segment(normalCarrier, 0, distanceTicks);
+            witnesses.Add(new Relation(sourcePoint, new Relation(normalDistance, offsetPoint)));
+        }
+
+        return Group([.. witnesses]);
+    }
+
+    private static Relation ResolutionEvidence(Carrier sourceCarrier, long sourceTicksPerTick)
+    {
+        var ticks = Math.Max(1, sourceTicksPerTick);
+        var resolutionCarrier = new Carrier(UnitShape.ResolutionOf(sourceCarrier.UnitShape, ticks));
+        return new Relation(
+            GraphicStructure.Segment(sourceCarrier, 0, ticks),
+            GraphicStructure.Point(resolutionCarrier, 1));
     }
 
     private static IElement Site()
