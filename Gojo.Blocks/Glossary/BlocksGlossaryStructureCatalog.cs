@@ -65,8 +65,8 @@ internal static class BlocksGlossaryStructureCatalog
         [
             ("addition", SharedPolyline(), "S(A,B) + S(B,C) -> accumulated span", "Addition is shown as attaching compatible spans in sequence."),
             ("stretch", DirectedLine(inverse: false), "S(A,B) + action_stretch(k) -> S(A,B')", "Stretch changes a relation while preserving its readable endpoints."),
-            ("repeat", PartitionedSegment(), "Repeat(action, n) over S(A,B)", "Repeat is first-class structure: selected source, action, count or stopping rule."),
-            ("multiply", RectangleArea(inverse: false), "Repeat(add unit row, n) -> array support", "Multiplication is accumulated repeat, not only a symbolic operator."),
+            ("repeat", PartitionedSegment(), "Repeat(action, n) over S(A,B)", "Repeat is first-class structure: selected source, action, count or stopping rule. Repeated addition is closer to a power-like action ladder than ordinary stretch multiplication."),
+            ("multiply", RectangleArea(inverse: false), "S(A,B) + stretch(k); also Repeat(add unit, n)", "Gojo multiplication includes both stretch and accumulated repeat, with stretch as the direct multiplicative read."),
             ("compare", PartitionedSegment(), "Read(target by unit U) -> quotient + residue", "Unit comparison asks how many repeated unit reads fit in a target."),
             ("action-residue", Group(PartitionedSegment(), TensionSlot()), "Repeat(action, until target) -> result + residue", "A repeated action can leave leftover structure when it does not divide cleanly.")
         ]);
@@ -77,9 +77,9 @@ internal static class BlocksGlossaryStructureCatalog
             ("internal-partition", PartitionedSegment(), "S(A,B) + partition(n) -> P(t1..tn)", null),
             ("unit-comparison", Group(LineSegment(), PartitionedSegment()), "S(target) read by Unit(S(u0,u1))", "External comparison produces count and residue against a reusable unit."),
             ("tick-reference", PartitionedSegment(), "TickRef(S(A,B), t5)", "A tick reference names a readable location without copying the point."),
-            ("segment-ruler", PartitionedSegment(), "UnitShape(segment) + repeated ticks", null),
-            ("circular-ruler", PartitionedCircle(), "UnitShape(circle) + P(theta_i)", "A circular unit can act as a protractor basis."),
-            ("unit-shape", RectangleArea(inverse: false), "UnitShape(source read) -> crystallized basis", "A unit shape is stable structure that other reads can compare against.")
+            ("segment-ruler", PartitionedSegment(), "P(A)+P(B) -> S(A,B) + partition(n)", "The ruler comes from a bounded segment, then adds repeated readable ticks."),
+            ("circular-ruler", PartitionedCircle(), "P(O)+flow_radial+P(R) -> Circle(O,R)+partition(theta_i)", "A circular unit starts from radial flow, gains a circumference boundary, then partitions that circumference."),
+            ("unit-shape", Group(PartitionedSegment(), PartitionedCircle(), RectangleArea(inverse: false)), "UnitShape(line | circle | area | curve read)", "A unit shape is stable structure that other reads can compare against; it can be linear, circular, area-like, curved, composite, or otherwise crystallized.")
         ]);
 
     private static void AddBasisFrames(Dictionary<string, BlocksGlossaryStructure> structures) =>
@@ -87,7 +87,7 @@ internal static class BlocksGlossaryStructureCatalog
         [
             ("xy-frame", LineSegment(), "Frame(X,Y) + P(x,y) + S(P0,P1)", "XY is one basis, not the only way to make a carrier."),
             ("local-carrier", LineSegment(), "Basis(S(A,B)) = tangent + normal", "A carrier can carry its own local basis for later reads."),
-            ("circular-basis", CircleBoundary(includeRadius: true), "Basis(Circle(O,R)) + P(theta)", "The circular basis can be moved and reused as angle evidence."),
+            ("circular-basis", CircleBoundary(includeRadius: true), "Basis(Circle(O,R)) + P(theta)", "The circular basis inherits the radial origin and circumference provenance, then uses boundary partitions as angle evidence."),
             ("orthogonal-basis", LinearFlow(), "S(A,B) + normal support -> P(normal distance)", null),
             ("rotated-frame", Group(LineSegment(), DirectedLine(inverse: false)), "Frame' = rotate(Frame, theta)", "A frame transform should remain an inspectable relation."),
             ("read-surface", RectangleArea(inverse: false), "ReadSurface(source, basis, resolution)", "The surface is the context through which structure is interpreted.")

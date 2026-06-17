@@ -855,10 +855,10 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
         var specimens = new[]
         {
             new GlossarySpecimenDescriptor("actions-repeat-addition", "Addition"),
-            new GlossarySpecimenDescriptor("actions-repeat-stretch", "Stretch"),
-            new GlossarySpecimenDescriptor("actions-repeat-repeat", "Repeat"),
-            new GlossarySpecimenDescriptor("actions-repeat-multiply", "Multiply"),
-            new GlossarySpecimenDescriptor("actions-repeat-compare", "Compare"),
+            new GlossarySpecimenDescriptor("actions-repeat-stretch", "Stretch (multiply)"),
+            new GlossarySpecimenDescriptor("actions-repeat-repeat", "Repeat (powers)"),
+            new GlossarySpecimenDescriptor("actions-repeat-multiply", "Additive Repeat (multiply)"),
+            new GlossarySpecimenDescriptor("actions-repeat-compare", "Compare (divide)"),
             new GlossarySpecimenDescriptor("actions-repeat-action-residue", "Action residue")
         };
         DrawSpecimenGrid(canvas, page, area, hitAreas, specimens, DrawActionsRepeatSpecimen);
@@ -1148,9 +1148,10 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
         var rows = GlossaryRows(sheet);
         var rowTitles = GlossaryRowTitles(sheet);
         var rowKeys = GlossaryRowKeys(sheet);
-        var labelWidth = Math.Clamp(area.Width * 0.07f, 48f, 60f);
-        var headerHeight = 46f;
-        var gap = 10f;
+        var isCurveSheet = sheet == BlocksGlossarySheetKind.Curves;
+        var labelWidth = isCurveSheet ? Math.Clamp(area.Width * 0.052f, 38f, 48f) : Math.Clamp(area.Width * 0.07f, 48f, 60f);
+        var headerHeight = isCurveSheet ? 36f : 46f;
+        var gap = isCurveSheet ? 7f : 10f;
         var rowWeights = GlossaryRowWeights(sheet, rows.Length);
         var availableHeight = area.Height - headerHeight - gap * (rows.Length - 1);
         var totalWeight = rowWeights.Sum();
@@ -1316,7 +1317,7 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
         int column,
         SKRect cell)
     {
-        var inner = Inset(cell, 10);
+        var inner = Inset(cell, sheet == BlocksGlossarySheetKind.Curves ? 4f : 10f);
         if (sheet == BlocksGlossarySheetKind.SourceToSupport)
         {
             var ladderRow = (GlossaryLadderRow)row;
@@ -2635,17 +2636,53 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
     private static void DrawUnitShape(SKCanvas canvas, SKRect bounds)
     {
         var center = Center(bounds);
-        var size = Math.Min(bounds.Width, bounds.Height) * 0.42f;
-        using var fill = FillPaint(PositiveColor, 78);
-        using var stroke = StrokePaint(PositiveStroke, 1.7f, 210);
-        var rect = new SKRect(center.X - size, center.Y - size * 0.55f, center.X + size, center.Y + size * 0.55f);
-        canvas.DrawRoundRect(rect, 5, 5, fill);
-        canvas.DrawRoundRect(rect, 5, 5, stroke);
-        for (var index = 1; index < 4; index++)
+        var spacing = Math.Min(bounds.Width, bounds.Height) * 0.30f;
+        var yTop = center.Y - spacing * 0.45f;
+        var yBottom = center.Y + spacing * 0.50f;
+
+        var segmentLeft = new SKPoint(center.X - spacing * 1.35f, yTop);
+        var segmentRight = new SKPoint(center.X - spacing * 0.25f, yTop);
+        DrawLine(canvas, segmentLeft, segmentRight, PositiveStroke, 2.3f, 210);
+        for (var index = 0; index <= 3; index++)
         {
-            var x = rect.Left + rect.Width * index / 4f;
-            DrawLine(canvas, new SKPoint(x, rect.Top), new SKPoint(x, rect.Bottom), PositiveStroke, 1f, 130);
+            var x = Lerp(segmentLeft, segmentRight, index / 3f).X;
+            DrawLine(canvas, new SKPoint(x, yTop - 6), new SKPoint(x, yTop + 6), TickColor, 1f, 150);
         }
+
+        var circleCenter = new SKPoint(center.X + spacing * 0.78f, yTop);
+        var radius = spacing * 0.40f;
+        DrawCircleBoundary(canvas, circleCenter, radius, 1.6f, PositiveStroke);
+        DrawPoint(canvas, circleCenter, SiteColor, 3.6f);
+        for (var index = 0; index < 6; index++)
+        {
+            var tick = PointOnCircle(circleCenter, radius, index * 60f);
+            var outer = PointOnCircle(circleCenter, radius + 4, index * 60f);
+            DrawLine(canvas, tick, outer, TickColor, 0.9f, 150);
+        }
+
+        using var fill = FillPaint(PositiveColor, 58);
+        using var stroke = StrokePaint(PositiveStroke, 1.5f, 205);
+        var tile = new SKRect(
+            center.X - spacing * 1.14f,
+            yBottom - spacing * 0.32f,
+            center.X - spacing * 0.30f,
+            yBottom + spacing * 0.32f);
+        canvas.DrawRoundRect(tile, 3, 3, fill);
+        canvas.DrawRoundRect(tile, 3, 3, stroke);
+        DrawLine(canvas, new SKPoint(tile.MidX, tile.Top), new SKPoint(tile.MidX, tile.Bottom), PositiveStroke, 0.9f, 130);
+
+        using var composite = new SKPath();
+        composite.MoveTo(center.X + spacing * 0.20f, yBottom + spacing * 0.22f);
+        composite.CubicTo(
+            center.X + spacing * 0.38f,
+            yBottom - spacing * 0.48f,
+            center.X + spacing * 1.16f,
+            yBottom - spacing * 0.45f,
+            center.X + spacing * 1.30f,
+            yBottom + spacing * 0.20f);
+        DrawBridgePath(canvas, composite, PositiveStroke, 1.9f, glow: true);
+        DrawPoint(canvas, new SKPoint(center.X + spacing * 0.20f, yBottom + spacing * 0.22f), SiteColor, 3.2f);
+        DrawPoint(canvas, new SKPoint(center.X + spacing * 1.30f, yBottom + spacing * 0.20f), SiteColor, 3.2f);
     }
 
     private static void DrawLocalCarrierBasis(SKCanvas canvas, SKRect bounds)
@@ -5920,10 +5957,10 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
 
         using var path = new SKPath();
         path.MoveTo(geometry.Start);
-        var turns = 5;
-        for (var index = 1; index <= turns; index++)
+        var steps = 24;
+        for (var index = 1; index <= steps; index++)
         {
-            var t = index / (float)turns;
+            var t = index / (float)steps;
             var angle = -145f + t * 230f;
             var unwind = baseRadius + t * geometry.ControlScale * 0.60f;
             var spiral = PointOnCircle(baseCenter, unwind, angle);
