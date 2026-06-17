@@ -166,8 +166,15 @@ internal sealed record BlocksGlossaryStructure(
 internal enum BlocksGlossarySheetKind
 {
     None,
+    ResolutionTension,
+    SiteFlowBoundary,
+    ActionsRepeat,
+    UnitsTicks,
+    BasisFrames,
     SourceToSupport,
+    GradesDimensions,
     DirectionToArea,
+    FaceNormalSupport,
     Curves,
     Branches,
     BooleanParticipation,
@@ -175,8 +182,12 @@ internal enum BlocksGlossarySheetKind
     PathReadBases,
     DerivedPathStructures,
     BooleanOffsetReads,
+    CrystallizationProvenance,
     DroneClipOffsetLadder,
     RadialCrescentLadder,
     DiamondCuspRounding,
+    ConstraintsSettlement,
+    TopologyParticipation,
+    RepetitionTimeline,
     PcbDataAttachment
 }

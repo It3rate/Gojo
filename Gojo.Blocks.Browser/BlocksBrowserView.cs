@@ -12,7 +12,7 @@ internal sealed class BlocksBrowserView : Grid
     private readonly TextBox notesText;
     private readonly TextBlock notesTitle;
 
-    public BlocksBrowserView()
+    public BlocksBrowserView(string? initialHref = null)
     {
         canvas = new BlocksCanvas();
         canvas.DocumentChanged += (_, document) => UpdateNotesDrawer(document);
@@ -64,7 +64,7 @@ internal sealed class BlocksBrowserView : Grid
         Children.Add(notesDrawer);
 
         SizeChanged += (_, _) => UpdateNotesDrawer(canvas.Document);
-        canvas.Document = BlocksDocument.CreateDefault();
+        canvas.Document = ApplyInitialPage(BlocksDocument.CreateDefault(), initialHref);
     }
 
     private void UpdateNotesDrawer(BlocksDocument? document)
@@ -91,4 +91,38 @@ internal sealed class BlocksBrowserView : Grid
 
     private static Color ToAvalonia(SkiaSharp.SKColor color, byte? alpha = null) =>
         Color.FromArgb(alpha ?? color.Alpha, color.Red, color.Green, color.Blue);
+
+    private static BlocksDocument ApplyInitialPage(BlocksDocument document, string? initialHref)
+    {
+        if (string.IsNullOrWhiteSpace(initialHref) ||
+            !Uri.TryCreate(initialHref, UriKind.Absolute, out var uri))
+        {
+            return document;
+        }
+
+        var pageValue = uri.Query
+            .TrimStart('?')
+            .Split('&', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+            .Select(part => part.Split('=', 2))
+            .Where(parts => parts.Length == 2)
+            .FirstOrDefault(parts => string.Equals(Uri.UnescapeDataString(parts[0]), "page", StringComparison.OrdinalIgnoreCase))?[1];
+
+        if (string.IsNullOrWhiteSpace(pageValue))
+        {
+            return document;
+        }
+
+        pageValue = Uri.UnescapeDataString(pageValue);
+        if (int.TryParse(pageValue, out var pageNumber))
+        {
+            return document.SelectPage(pageNumber - 1);
+        }
+
+        var index = document.Pages
+            .Select((page, pageIndex) => new { page.Id, Index = pageIndex })
+            .FirstOrDefault(page => string.Equals(page.Id, pageValue, StringComparison.OrdinalIgnoreCase))
+            ?.Index;
+
+        return index is { } pageIndex ? document.SelectPage(pageIndex) : document;
+    }
 }

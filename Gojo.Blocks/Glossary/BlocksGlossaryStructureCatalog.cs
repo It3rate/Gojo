@@ -11,8 +11,15 @@ internal static class BlocksGlossaryStructureCatalog
     public static IReadOnlyDictionary<string, BlocksGlossaryStructure> Create()
     {
         var structures = new Dictionary<string, BlocksGlossaryStructure>();
+        AddResolutionTension(structures);
+        AddSiteFlowBoundary(structures);
+        AddActionsRepeat(structures);
+        AddUnitsTicks(structures);
+        AddBasisFrames(structures);
         AddSourceSupport(structures);
+        AddGradesDimensions(structures);
         AddDirectionArea(structures);
+        AddFaceNormalSupport(structures);
         AddCurves(structures);
         AddBranches(structures);
         AddBooleanParticipation(structures);
@@ -20,12 +27,71 @@ internal static class BlocksGlossaryStructureCatalog
         AddPathReadBases(structures);
         AddDerivedPathStructures(structures);
         AddBooleanOffsetReads(structures);
+        AddCrystallizationProvenance(structures);
         AddDroneClipOffsetLadder(structures);
         AddRadialCrescentLadder(structures);
         AddDiamondCuspRounding(structures);
+        AddConstraintsSettlement(structures);
+        AddTopologyParticipation(structures);
+        AddRepetitionTimeline(structures);
         AddPcbDataAttachment(structures);
         return structures;
     }
+
+    private static void AddResolutionTension(Dictionary<string, BlocksGlossaryStructure> structures) =>
+        AddSpecimens(structures, "resolution-tension",
+        [
+            ("resolution-read", PartitionedSegment(), "S(A,B) read at coarse and fine resolution", "Resolution belongs to the read. A low-resolution read is still a valid read, not a failed value."),
+            ("unspecified-site", Group(Site(), TensionSlot()), "P(?) + Tension(location)", "The unresolved position remains inspectable instead of becoming a null or exception."),
+            ("closure-tension", Group(SharedPolyline(), TensionSlot()), "S(A,B)+S(B,C)+S(C,A') + close(A',A) -> Tension(delta)", "The topology can ask for closure even while geometry still misses."),
+            ("failed-read", Group(LineSegment(), TensionSlot()), "Read(S(A,B), requested basis) -> residue", "A failed read leaves a witness of the requested interpretation."),
+            ("residue-witness", Group(LineSegment(), TensionSlot()), "Read(source, basis) = result + residue", "Residue is the part that did not settle under the requested basis."),
+            ("settled-read", SharedPolyline(), "source + basis + resolution -> settled read", "Settlement is a new inspectable structure, not just a return value.")
+        ]);
+
+    private static void AddSiteFlowBoundary(Dictionary<string, BlocksGlossaryStructure> structures) =>
+        AddSpecimens(structures, "site-flow-boundary",
+        [
+            ("site", Site(), "P(O)", null),
+            ("radial-flow", RadialFlow(), "P(O) + flow_radial(P(O))", "With one site there is no preferred direction, so the normal reads as radial."),
+            ("linear-potential", LinearFlow(), "P(A)+P(B coincident) -> S-potential + flow_perp", "Two points can make a linear potential even before they have visible length."),
+            ("measured-boundary", CircleBoundary(includeRadius: true), "P(O)+P(R) -> Circle(O,R)", null),
+            ("open-exterior", LineSegment(), "P(A)+P(B) -> S(A,B) + exterior(open)", "The segment bounds a span without closing all surrounding support."),
+            ("boundary-support", CircleArea(inverse: false), "Circle(O,R) -> Area(Circle)", "A boundary can be read as support when the inside or outside participates.")
+        ]);
+
+    private static void AddActionsRepeat(Dictionary<string, BlocksGlossaryStructure> structures) =>
+        AddSpecimens(structures, "actions-repeat",
+        [
+            ("addition", SharedPolyline(), "S(A,B) + S(B,C) -> accumulated span", "Addition is shown as attaching compatible spans in sequence."),
+            ("stretch", DirectedLine(inverse: false), "S(A,B) + action_stretch(k) -> S(A,B')", "Stretch changes a relation while preserving its readable endpoints."),
+            ("repeat", PartitionedSegment(), "Repeat(action, n) over S(A,B)", "Repeat is first-class structure: selected source, action, count or stopping rule."),
+            ("multiply", RectangleArea(inverse: false), "Repeat(add unit row, n) -> array support", "Multiplication is accumulated repeat, not only a symbolic operator."),
+            ("compare", PartitionedSegment(), "Read(target by unit U) -> quotient + residue", "Unit comparison asks how many repeated unit reads fit in a target."),
+            ("action-residue", Group(PartitionedSegment(), TensionSlot()), "Repeat(action, until target) -> result + residue", "A repeated action can leave leftover structure when it does not divide cleanly.")
+        ]);
+
+    private static void AddUnitsTicks(Dictionary<string, BlocksGlossaryStructure> structures) =>
+        AddSpecimens(structures, "units-ticks",
+        [
+            ("internal-partition", PartitionedSegment(), "S(A,B) + partition(n) -> P(t1..tn)", null),
+            ("unit-comparison", Group(LineSegment(), PartitionedSegment()), "S(target) read by Unit(S(u0,u1))", "External comparison produces count and residue against a reusable unit."),
+            ("tick-reference", PartitionedSegment(), "TickRef(S(A,B), t5)", "A tick reference names a readable location without copying the point."),
+            ("segment-ruler", PartitionedSegment(), "UnitShape(segment) + repeated ticks", null),
+            ("circular-ruler", PartitionedCircle(), "UnitShape(circle) + P(theta_i)", "A circular unit can act as a protractor basis."),
+            ("unit-shape", RectangleArea(inverse: false), "UnitShape(source read) -> crystallized basis", "A unit shape is stable structure that other reads can compare against.")
+        ]);
+
+    private static void AddBasisFrames(Dictionary<string, BlocksGlossaryStructure> structures) =>
+        AddSpecimens(structures, "basis-frames",
+        [
+            ("xy-frame", LineSegment(), "Frame(X,Y) + P(x,y) + S(P0,P1)", "XY is one basis, not the only way to make a carrier."),
+            ("local-carrier", LineSegment(), "Basis(S(A,B)) = tangent + normal", "A carrier can carry its own local basis for later reads."),
+            ("circular-basis", CircleBoundary(includeRadius: true), "Basis(Circle(O,R)) + P(theta)", "The circular basis can be moved and reused as angle evidence."),
+            ("orthogonal-basis", LinearFlow(), "S(A,B) + normal support -> P(normal distance)", null),
+            ("rotated-frame", Group(LineSegment(), DirectedLine(inverse: false)), "Frame' = rotate(Frame, theta)", "A frame transform should remain an inspectable relation."),
+            ("read-surface", RectangleArea(inverse: false), "ReadSurface(source, basis, resolution)", "The surface is the context through which structure is interpreted.")
+        ]);
 
     private static void AddSourceSupport(Dictionary<string, BlocksGlossaryStructure> structures)
     {
@@ -66,6 +132,28 @@ internal static class BlocksGlossaryStructureCatalog
             structures[$"direction-area-{rowKey}-{columnKey}"] = DirectionArea(row, column);
         }
     }
+
+    private static void AddGradesDimensions(Dictionary<string, BlocksGlossaryStructure> structures) =>
+        AddSpecimens(structures, "grades-dimensions",
+        [
+            ("site", Site(), "grade 0: P(O)", null),
+            ("span", LineSegment(), "grade 1: S(A,B)", null),
+            ("area", CircleArea(inverse: false), "grade 2: Area(boundary)", null),
+            ("volume-hint", RectangleArea(inverse: false), "grade 3: Volume(surface shell)", "The current glossary renders this as a 2D projection while the expression names the grade shift."),
+            ("segment-normal", LinearFlow(), "S(A,B) + orthogonal normal -> grade+1 support", "A 1D carrier's normal in 2D is perpendicular line support."),
+            ("point-pair-normal", Group(LinearSites(), LinearFlow()), "P(A)+P(B) in 3D -> cylindrical normal; A=B -> plane normal", "This records the 3D distinction: distant point-pair normals sweep a cylinder, while touching points collapse to plane support.")
+        ]);
+
+    private static void AddFaceNormalSupport(Dictionary<string, BlocksGlossaryStructure> structures) =>
+        AddSpecimens(structures, "face-normal",
+        [
+            ("point-radial", RadialFlow(), "normal(P) = radial support", null),
+            ("segment-sides", LinearFlow(), "normal(S) = side+ + side-", "The sides are discovered from the carrier and orientation, not separate symbolic fields."),
+            ("arc-normal", DirectedCircle(inverse: false), "normal(Arc) = radial side support along arc", null),
+            ("area-face", DirectedCircleArea(inverse: false), "Area(boundary) + face spin+", null),
+            ("inverse-face", DirectedCircleArea(inverse: true), "Area(boundary) + face spin-", null),
+            ("face-relation", DirectedLinearArea(inverse: false), "Boundary + support side + face read", "A face relation connects a boundary to the support it divides.")
+        ]);
 
     private static void AddCurves(Dictionary<string, BlocksGlossaryStructure> structures)
     {
@@ -181,6 +269,17 @@ internal static class BlocksGlossaryStructureCatalog
         }
     }
 
+    private static void AddCrystallizationProvenance(Dictionary<string, BlocksGlossaryStructure> structures) =>
+        AddSpecimens(structures, "crystallization-provenance",
+        [
+            ("source-carriers", SharedPolyline(), "source carriers: S/Arc/Curve sections", null),
+            ("read-path", SharedPolyline(), "Read(source sections) -> PathRead", "The read creates one path relation over many source sections."),
+            ("crystallized-element", SharedPolyline(), "Crystallize(PathRead) -> Element(Path)", "The new path can be used directly after crystallization."),
+            ("provenance-links", Group(SharedPolyline(), TensionSlot()), "Element(Path) + provenance(source read)", "Provenance remains inspectable but does not have to be the active rendering source."),
+            ("independent-read", SharedPolyline(), "Read(Element(Path), new basis)", "A crystallized element can be partitioned or styled independently of its source."),
+            ("residue-retained", Group(SharedPolyline(), TensionSlot()), "Element(Path) + residue(source mismatch)", "Crystallization should not erase unresolved evidence.")
+        ]);
+
     private static void AddDroneClipOffsetLadder(Dictionary<string, BlocksGlossaryStructure> structures)
     {
         var ids = new[]
@@ -235,6 +334,39 @@ internal static class BlocksGlossaryStructureCatalog
             structures[$"diamond-cusp-rounding-{id}"] = DiamondCuspRounding(id);
         }
     }
+
+    private static void AddConstraintsSettlement(Dictionary<string, BlocksGlossaryStructure> structures) =>
+        AddSpecimens(structures, "constraints-settlement",
+        [
+            ("equal-length", Group(LineSegment(), LineSegment()), "S(A,B) == S(C,D)", "Equality is a relation that can settle or leave tension."),
+            ("tangency", Curve(CurveJoinKind.LineArc, CurveColumn.ArcBlend).Structure, "tangent(carrier A, carrier B, J)", "Tangency is local evidence at a join, not a global curve type."),
+            ("radius", CircleBoundary(includeRadius: true), "P(O)+P(R) + constraint distance(O,R)", null),
+            ("closure", Group(SharedPolyline(), TensionSlot()), "closed topology + geometric miss -> tension", null),
+            ("settled", SharedPolyline(), "constraints + source -> settled read", null),
+            ("residue", Group(LineSegment(), TensionSlot()), "settlement remainder -> residue", null)
+        ]);
+
+    private static void AddTopologyParticipation(Dictionary<string, BlocksGlossaryStructure> structures) =>
+        AddSpecimens(structures, "topology-participation",
+        [
+            ("crossing", Group(LineSegment(), DirectedLine(inverse: true)), "S(A,B) crosses S(C,D) without join", "A crossing is detectable proximity, not automatic participation."),
+            ("over-under", Group(LineSegment(), TensionSlot()), "S(over) + relation_over(S(under))", "The relation records ordering without merging the carriers."),
+            ("containment", CircleArea(inverse: false), "P(x) inside Area(boundary)", null),
+            ("adjacency", Group(RectangleArea(inverse: false), TranslatedAreaFill(18, 0, inverse: true)), "Area(A) adjacent Area(B) through shared boundary", null),
+            ("near-far", Group(Site(), TensionSlot()), "proximity(P(A), P(B), resolution)", "Near and far depend on the read basis and resolution."),
+            ("bonded-distinct", Group(TwoPointBond(), TensionSlot()), "P(A) + P(B) + bond(A,B)", "Bonded endpoints can remain distinct while participating topologically.")
+        ]);
+
+    private static void AddRepetitionTimeline(Dictionary<string, BlocksGlossaryStructure> structures) =>
+        AddSpecimens(structures, "repetition-timeline",
+        [
+            ("controller", SelectionEvidence(), "controller + selected source", null),
+            ("transition", DirectedLine(inverse: false), "Repeat(transition, source, n)", null),
+            ("feedback", Group(DirectedCircle(inverse: false), TensionSlot()), "transition result -> feedback -> next read", null),
+            ("timeline", PartitionedSegment(), "P(t0)..P(tn) + state read at each tick", null),
+            ("accumulated-residue", Group(PartitionedSegment(), TensionSlot()), "residue(t0)+residue(t1)+...", null),
+            ("stable-pattern", PartitionedCircle(), "repeat until stable pattern", "A pattern is a settled repetition structure that can itself be read.")
+        ]);
 
     private static void AddPcbDataAttachment(Dictionary<string, BlocksGlossaryStructure> structures)
     {
@@ -2442,6 +2574,42 @@ internal static class BlocksGlossaryStructureCatalog
             frame.Point(12, 22));
     }
 
+    private static IElement TranslatedAreaFill(long dx, long dy, bool inverse)
+    {
+        var frame = new FrameBasis();
+        var boundary = RectangleSegments(frame, -34 + dx, -22 + dy, 34 + dx, 22 + dy);
+        return inverse
+            ? GraphicStructure.AntiAreaFill(boundary)
+            : GraphicStructure.AreaFill(boundary);
+    }
+
+    private static IElement TwoPointBond()
+    {
+        var frame = new FrameBasis();
+        var a = frame.Point(-10, 0);
+        var b = frame.Point(10, 0);
+        return Group(a, b, GraphicStructure.Pin(a, b));
+    }
+
+    private static IElement SharedPolyline()
+    {
+        var frame = new FrameBasis();
+        var a = frame.Point(-44, 18);
+        var b = frame.Point(-16, -16);
+        var c = frame.Point(14, 16);
+        var d = frame.Point(44, -18);
+        return Group(
+            GraphicStructure.FrameSegment(a, b),
+            GraphicStructure.FrameSegment(b, c),
+            GraphicStructure.FrameSegment(c, d));
+    }
+
+    private static IElement SelectionEvidence()
+    {
+        var source = LineSegment();
+        return Group(source, TensionSlot());
+    }
+
     private static IElement PlottedPath(FrameBasis frame)
     {
         var a = frame.Point(-44, 24);
@@ -2539,6 +2707,17 @@ internal static class BlocksGlossaryStructureCatalog
         SKRect? bounds = null,
         int seed = 0) =>
         new(structure, bounds ?? Bounds(-62, -48, 62, 48), seed, expression, encodingNote);
+
+    private static void AddSpecimens(
+        Dictionary<string, BlocksGlossaryStructure> structures,
+        string prefix,
+        IReadOnlyList<(string Id, IElement Structure, string Expression, string? Note)> entries)
+    {
+        foreach (var (id, structure, expression, note) in entries)
+        {
+            structures[$"{prefix}-{id}"] = Spec(structure, expression, note);
+        }
+    }
 
     private static SKRect Bounds(float left, float top, float right, float bottom) =>
         new(left, top, right, bottom);
