@@ -854,12 +854,14 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
     {
         var specimens = new[]
         {
-            new GlossarySpecimenDescriptor("diamond-cusp-rounding-source", "Gojo outline"),
-            new GlossarySpecimenDescriptor("diamond-cusp-rounding-selection", "Select four cusps"),
-            new GlossarySpecimenDescriptor("diamond-cusp-rounding-ladder", "Rounded rung"),
-            new GlossarySpecimenDescriptor("diamond-cusp-rounding-result", "Resulting shape")
+            new GlossarySpecimenDescriptor("diamond-cusp-rounding-source", "Source shape"),
+            new GlossarySpecimenDescriptor("diamond-cusp-rounding-outer-selection", "Select outer cusps"),
+            new GlossarySpecimenDescriptor("diamond-cusp-rounding-outer-rounded", "Round outer"),
+            new GlossarySpecimenDescriptor("diamond-cusp-rounding-inner-selection", "Select inner cusps"),
+            new GlossarySpecimenDescriptor("diamond-cusp-rounding-inner-rounded", "Round inner"),
+            new GlossarySpecimenDescriptor("diamond-cusp-rounding-result", "Final cutout")
         };
-        DrawSpecimenGrid(canvas, page, area, hitAreas, specimens, DrawDiamondCuspRoundingSpecimen, columnsOverride: 2);
+        DrawSpecimenGrid(canvas, page, area, hitAreas, specimens, DrawDiamondCuspRoundingSpecimen, columnsOverride: 3);
     }
 
     private void DrawSpecimenGrid(
@@ -1344,12 +1346,18 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
                 DrawDiamondCuspSource(canvas, bounds);
                 break;
             case 1:
-                DrawDiamondCuspSelection(canvas, bounds);
+                DrawDiamondOuterSelection(canvas, bounds);
                 break;
             case 2:
-                DrawDiamondCuspLadder(canvas, bounds);
+                DrawDiamondOuterRounded(canvas, bounds);
                 break;
             case 3:
+                DrawDiamondInnerSelection(canvas, bounds);
+                break;
+            case 4:
+                DrawDiamondInnerRounded(canvas, bounds);
+                break;
+            case 5:
                 DrawDiamondCuspResult(canvas, bounds);
                 break;
         }
@@ -2292,15 +2300,19 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
     private static void DrawDiamondCuspSource(SKCanvas canvas, SKRect bounds)
     {
         using var outline = DiamondCuspSourcePath(bounds);
+        using var inner = DiamondInnerSourcePath(bounds);
         DrawBridgePath(canvas, outline, BoundaryColor, 2.15f, glow: false);
+        DrawBridgePath(canvas, inner, BoundaryColor, 1.75f, glow: false);
         DrawDiamondSharedPoints(canvas, bounds, SiteColor, 4.3f, 210);
         DrawDiamondAngleBasis(canvas, bounds, alpha: 80);
     }
 
-    private static void DrawDiamondCuspSelection(SKCanvas canvas, SKRect bounds)
+    private static void DrawDiamondOuterSelection(SKCanvas canvas, SKRect bounds)
     {
         using var outline = DiamondCuspSourcePath(bounds);
+        using var inner = DiamondInnerSourcePath(bounds);
         DrawBridgePath(canvas, outline, BoundaryColor, 1.9f, glow: false);
+        DrawBridgePath(canvas, inner, BoundaryColor, 1.65f, glow: false);
         DrawDiamondAngleBasis(canvas, bounds, alpha: 105);
         foreach (var point in DiamondCuspPoints(bounds))
         {
@@ -2308,13 +2320,15 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
         }
     }
 
-    private static void DrawDiamondCuspLadder(SKCanvas canvas, SKRect bounds)
+    private static void DrawDiamondOuterRounded(SKCanvas canvas, SKRect bounds)
     {
         using var source = DiamondCuspSourcePath(bounds);
         using var rounded = DiamondCuspRoundedPath(bounds);
+        using var inner = DiamondInnerSourcePath(bounds);
         using var sourceStroke = StrokePaint(BoundaryColor, 1.3f, 112);
         canvas.DrawPath(source, sourceStroke);
         DrawBridgePath(canvas, rounded, PositiveStroke, 2.35f, glow: true);
+        DrawBridgePath(canvas, inner, BoundaryColor, 1.6f, glow: false);
         foreach (var corner in DiamondCuspRoundedCornerPaths(bounds))
         {
             using (corner)
@@ -2324,12 +2338,45 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
         }
     }
 
+    private static void DrawDiamondInnerSelection(SKCanvas canvas, SKRect bounds)
+    {
+        using var outer = DiamondCuspRoundedPath(bounds);
+        using var inner = DiamondInnerSourcePath(bounds);
+        DrawBridgePath(canvas, outer, PositiveStroke, 2.05f, glow: false);
+        DrawBridgePath(canvas, inner, BoundaryColor, 1.8f, glow: false);
+        foreach (var point in DiamondInnerCuspPoints(bounds))
+        {
+            DrawDiamondSelectionPoint(canvas, point);
+        }
+    }
+
+    private static void DrawDiamondInnerRounded(SKCanvas canvas, SKRect bounds)
+    {
+        using var outer = DiamondCuspRoundedPath(bounds);
+        using var innerSource = DiamondInnerSourcePath(bounds);
+        using var innerRounded = DiamondInnerRoundedPath(bounds);
+        DrawBridgePath(canvas, outer, PositiveStroke, 2.05f, glow: false);
+        using var sourceStroke = StrokePaint(BoundaryColor, 1.25f, 100);
+        canvas.DrawPath(innerSource, sourceStroke);
+        DrawBridgePath(canvas, innerRounded, InverseStroke, 2.25f, glow: false);
+        foreach (var corner in DiamondInnerRoundedCornerPaths(bounds))
+        {
+            using (corner)
+            {
+                DrawBridgePath(canvas, corner, EndpointColor, 2.5f, glow: false);
+            }
+        }
+    }
+
     private static void DrawDiamondCuspResult(SKCanvas canvas, SKRect bounds)
     {
-        using var rounded = DiamondCuspRoundedPath(bounds);
+        using var outer = DiamondCuspRoundedPath(bounds);
+        using var inner = DiamondInnerRoundedPath(bounds);
+        using var rounded = PathOp(outer, inner, SKPathOp.Difference);
         using var fill = FillPaint(PositiveColor, 82);
         canvas.DrawPath(rounded, fill);
-        DrawBridgePath(canvas, rounded, PositiveStroke, 2.1f, glow: false);
+        DrawBridgePath(canvas, outer, PositiveStroke, 2.1f, glow: false);
+        DrawBridgePath(canvas, inner, InverseStroke, 1.95f, glow: false);
     }
 
     private void DrawRadialCrescentInteriorCuspSelection(SKCanvas canvas, SKRect bounds)
@@ -3249,9 +3296,21 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
     private static SKPath DiamondCuspRoundedPath(SKRect bounds)
         => DiamondCuspPathFromSections(bounds, DiamondCuspGlossaryGeometry.CreateRounded().Sections);
 
+    private static SKPath DiamondInnerSourcePath(SKRect bounds)
+        => DiamondCuspPathFromSections(bounds, DiamondCuspGlossaryGeometry.CreateInnerSource().Sections);
+
+    private static SKPath DiamondInnerRoundedPath(SKRect bounds)
+        => DiamondCuspPathFromSections(bounds, DiamondCuspGlossaryGeometry.CreateInnerRounded().Sections);
+
     private static IEnumerable<SKPath> DiamondCuspRoundedCornerPaths(SKRect bounds)
+        => DiamondRoundedCornerPaths(bounds, DiamondCuspGlossaryGeometry.CreateRounded().Sections);
+
+    private static IEnumerable<SKPath> DiamondInnerRoundedCornerPaths(SKRect bounds)
+        => DiamondRoundedCornerPaths(bounds, DiamondCuspGlossaryGeometry.CreateInnerRounded().Sections);
+
+    private static IEnumerable<SKPath> DiamondRoundedCornerPaths(SKRect bounds, IReadOnlyList<IElement> sections)
     {
-        foreach (var section in DiamondCuspGlossaryGeometry.CreateRounded().Sections)
+        foreach (var section in sections)
         {
             var curve = GraphicReadGraph.From(section)
                 .ReadsOf<SharedFrameQuadraticCurveRead>()
@@ -3354,6 +3413,9 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
 
     private static IEnumerable<SKPoint> DiamondCuspPoints(SKRect bounds) =>
         DiamondCuspGlossaryGeometry.CreateSource().Cusps.Select(point => DiamondPoint(bounds, point));
+
+    private static IEnumerable<SKPoint> DiamondInnerCuspPoints(SKRect bounds) =>
+        DiamondCuspGlossaryGeometry.CreateInnerSource().Cusps.Select(point => DiamondPoint(bounds, point));
 
     private static SKPoint DiamondPoint(SKRect bounds, DiamondCuspGlossaryGeometry.ModelPoint point) =>
         DiamondPoint(bounds, point.X, point.Y);

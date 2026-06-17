@@ -152,12 +152,12 @@ internal static class BlocksGlossaryContent
             new BlocksPage(
                 "glossary-diamond-cusp-rounding",
                 "Diamond Cusp Rounding",
-                "A Gojo-native four-section outline, cusp selection, rounded-corner rung, and final rounded shape.",
+                "Outer and inner Gojo boundaries, two cusp-selection passes, tangent rounding, and a final cutout fill.",
                 string.Empty,
                 null,
                 null,
                 0,
-                ["shared endpoints", "cusp selection", "rounding rung", "rounded outline"],
+                ["shared endpoints", "outer cusps", "inner cusps", "cutout fill"],
                 GlossarySheet: BlocksGlossarySheetKind.DiamondCuspRounding,
                 GlossaryDescriptions: descriptions,
                 GlossaryStructures: structures)

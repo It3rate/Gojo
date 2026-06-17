@@ -25,6 +25,8 @@ internal static class DiamondCuspGlossaryGeometry
         IReadOnlyList<IElement> Joins,
         IReadOnlyList<IElement> AngleBases);
 
+    public sealed record StageRead(BoundaryRead Outer, BoundaryRead Inner);
+
     public static ModelPoint Top => new(0, 70);
 
     public static ModelPoint Right => new(54, 2);
@@ -36,6 +38,12 @@ internal static class DiamondCuspGlossaryGeometry
     public static ModelPoint RightArcCenter => new(75, -70);
 
     public static ModelPoint LeftArcCenter => new(-75, -70);
+
+    public static ModelPoint InnerLeft => new(-24, 8);
+
+    public static ModelPoint InnerRight => new(24, 8);
+
+    public static ModelPoint InnerArcCenter => new(0, 8);
 
     public static IReadOnlyList<ModelPoint> Cusps =>
     [
@@ -56,6 +64,37 @@ internal static class DiamondCuspGlossaryGeometry
     public static BoundaryRead CreateSource()
     {
         var frame = new FrameBasis();
+        return CreateSource(frame);
+    }
+
+    public static BoundaryRead CreateRounded()
+    {
+        var frame = new FrameBasis();
+        return CreateRounded(frame);
+    }
+
+    public static BoundaryRead CreateInnerSource()
+    {
+        var frame = new FrameBasis();
+        return CreateInnerSource(frame);
+    }
+
+    public static BoundaryRead CreateInnerRounded()
+    {
+        var frame = new FrameBasis();
+        return CreateInnerRounded(frame);
+    }
+
+    public static StageRead CreateStage(bool roundOuter, bool roundInner)
+    {
+        var frame = new FrameBasis();
+        var outer = roundOuter ? CreateRounded(frame) : CreateSource(frame);
+        var inner = roundInner ? CreateInnerRounded(frame) : CreateInnerSource(frame);
+        return new StageRead(outer, inner);
+    }
+
+    private static BoundaryRead CreateSource(FrameBasis frame)
+    {
         var top = frame.Point(Top);
         var right = frame.Point(Right);
         var bottom = frame.Point(Bottom);
@@ -86,9 +125,8 @@ internal static class DiamondCuspGlossaryGeometry
         return new BoundaryRead(Chain(sections), sections, [top, right, bottom, left], joins, angleBases);
     }
 
-    public static BoundaryRead CreateRounded()
+    private static BoundaryRead CreateRounded(FrameBasis frame)
     {
-        var frame = new FrameBasis();
         var top = frame.Point(Top);
         var right = frame.Point(Right);
         var bottom = frame.Point(Bottom);
@@ -163,6 +201,73 @@ internal static class DiamondCuspGlossaryGeometry
         };
 
         return new BoundaryRead(Chain(sections), sections, [top, right, bottom, left], joins, angleBases);
+    }
+
+    private static BoundaryRead CreateInnerSource(FrameBasis frame)
+    {
+        var left = frame.Point(InnerLeft);
+        var right = frame.Point(InnerRight);
+        var center = frame.Point(InnerArcCenter);
+        var arc = GraphicStructure.FrameArc(center, right, left);
+        var flat = GraphicStructure.FrameSegment(left, right);
+        var sections = new IElement[] { arc, flat };
+        var joins = new IElement[]
+        {
+            JoinAt(left, arc, flat),
+            JoinAt(right, flat, arc)
+        };
+        var angleBases = new IElement[]
+        {
+            AngleBasis(right, 92, 180),
+            AngleBasis(left, 0, 88)
+        };
+
+        return new BoundaryRead(Chain(sections), sections, [left, right], joins, angleBases);
+    }
+
+    private static BoundaryRead CreateInnerRounded(FrameBasis frame)
+    {
+        var left = frame.Point(InnerLeft);
+        var right = frame.Point(InnerRight);
+        var center = frame.Point(InnerArcCenter);
+        var rightArcTrimModel = ArcPoint(InnerArcCenter, InnerRight, InnerLeft, 0.13f);
+        var leftArcTrimModel = ArcPoint(InnerArcCenter, InnerRight, InnerLeft, 0.87f);
+        var leftFlatTrimModel = Lerp(InnerLeft, InnerRight, 0.22f);
+        var rightFlatTrimModel = Lerp(InnerRight, InnerLeft, 0.22f);
+        var leftArcTrim = frame.Point(leftArcTrimModel);
+        var rightArcTrim = frame.Point(rightArcTrimModel);
+        var rightFlatTrim = frame.Point(rightFlatTrimModel);
+        var leftFlatTrim = frame.Point(leftFlatTrimModel);
+        var leftControl = frame.Point(TangentIntersection(
+            leftArcTrimModel,
+            ArcTangent(InnerArcCenter, InnerRight, InnerLeft, 0.87f),
+            leftFlatTrimModel,
+            Vector(InnerLeft, InnerRight)));
+        var rightControl = frame.Point(TangentIntersection(
+            rightFlatTrimModel,
+            Vector(InnerLeft, InnerRight),
+            rightArcTrimModel,
+            ArcTangent(InnerArcCenter, InnerRight, InnerLeft, 0.13f)));
+
+        var retainedArc = GraphicStructure.FrameArc(center, rightArcTrim, leftArcTrim);
+        var leftCorner = GraphicStructure.FrameQuadraticCurve(leftArcTrim, leftControl, leftFlatTrim);
+        var flat = GraphicStructure.FrameSegment(leftFlatTrim, rightFlatTrim);
+        var rightCorner = GraphicStructure.FrameQuadraticCurve(rightFlatTrim, rightControl, rightArcTrim);
+        var sections = new IElement[] { retainedArc, leftCorner, flat, rightCorner };
+        var joins = new IElement[]
+        {
+            JoinAt(leftArcTrim, retainedArc, leftCorner),
+            JoinAt(leftFlatTrim, leftCorner, flat),
+            JoinAt(rightFlatTrim, flat, rightCorner),
+            JoinAt(rightArcTrim, rightCorner, retainedArc)
+        };
+        var angleBases = new IElement[]
+        {
+            AngleBasis(right, 92, 180),
+            AngleBasis(left, 0, 88)
+        };
+
+        return new BoundaryRead(Chain(sections), sections, [left, right], joins, angleBases);
     }
 
     private static ModelPoint Lerp(ModelPoint start, ModelPoint end, float progress) =>

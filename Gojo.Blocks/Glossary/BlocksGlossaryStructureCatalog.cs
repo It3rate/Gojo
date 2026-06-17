@@ -223,8 +223,10 @@ internal static class BlocksGlossaryStructureCatalog
         var ids = new[]
         {
             "source",
-            "selection",
-            "ladder",
+            "outer-selection",
+            "outer-rounded",
+            "inner-selection",
+            "inner-rounded",
             "result"
         };
         foreach (var id in ids)
@@ -770,8 +772,10 @@ internal static class BlocksGlossaryStructureCatalog
         return id switch
         {
             "source" => DiamondCuspSource(frame),
-            "selection" => DiamondCuspSelection(frame),
-            "ladder" => DiamondCuspLadder(frame),
+            "outer-selection" => DiamondCuspOuterSelection(frame),
+            "outer-rounded" => DiamondCuspOuterRounded(frame),
+            "inner-selection" => DiamondCuspInnerSelection(frame),
+            "inner-rounded" => DiamondCuspInnerRounded(frame),
             "result" => DiamondCuspResult(frame),
             _ => Spec(Site(), "P(O)")
         };
@@ -1611,52 +1615,81 @@ internal static class BlocksGlossaryStructureCatalog
 
     private static BlocksGlossaryStructure DiamondCuspSource(FrameBasis frame)
     {
-        var source = DiamondCuspSourceRead(frame);
+        var stage = DiamondCuspGlossaryGeometry.CreateStage(roundOuter: false, roundInner: false);
         return Spec(
-            Group(source.Outline, Group([.. source.Joins]), Group([.. source.AngleBases])),
-            "P(top,right,bottom,left); S(top,right)+Arc(right,bottom)+Arc(bottom,left)+S(left,top); Join(Pi)",
-            "The outline is four Gojo boundary sections. Adjacent sections share the same endpoint relation, and each corner also carries an explicit join relation plus a circular angle basis rooted at that endpoint.",
+            Group(
+                stage.Outer.Outline,
+                stage.Inner.Outline,
+                Group([.. stage.Outer.Joins]),
+                Group([.. stage.Inner.Joins]),
+                Group([.. stage.Outer.AngleBases]),
+                Group([.. stage.Inner.AngleBases])),
+            "OuterBoundary + InnerBoundary; Join(Pi) for each shared endpoint",
+            "The source has two inspectable closed boundaries: the outer diamond-like support and an inner flat-bottom arc boundary. Both are built from Gojo sections and shared endpoint joins.",
             DiamondCuspBounds());
     }
 
-    private static BlocksGlossaryStructure DiamondCuspSelection(FrameBasis frame)
+    private static BlocksGlossaryStructure DiamondCuspOuterSelection(FrameBasis frame)
     {
-        var source = DiamondCuspSourceRead(frame);
-        var selection = DiamondCuspSelectionRead(source.Outline);
+        var stage = DiamondCuspGlossaryGeometry.CreateStage(roundOuter: false, roundInner: false);
+        var selection = DiamondCuspSelectionRead(stage.Outer.Outline);
         return Spec(
-            Group(source.Outline, Group([.. source.AngleBases]), selection),
-            "CuspCandidateDomain(outline) -> Search(CuspWitnessPattern) -> Selection(4)",
-            "The four selected sites are discovered from the closed shared-frame boundary. The selection is not a list of labels; it is a structural read over the joined outline.",
+            Group(stage.Outer.Outline, stage.Inner.Outline, Group([.. stage.Outer.AngleBases]), selection),
+            "CuspCandidateDomain(outer) -> Selection(4)",
+            "The first selection pass reads the four outer cusp sites from the outer closed boundary. The inner boundary remains present, but it is not part of this selection.",
             DiamondCuspBounds());
     }
 
-    private static BlocksGlossaryStructure DiamondCuspLadder(FrameBasis frame)
+    private static BlocksGlossaryStructure DiamondCuspOuterRounded(FrameBasis frame)
     {
-        var source = DiamondCuspSourceRead(frame);
-        var selection = DiamondCuspSelectionRead(source.Outline);
-        var round = DiamondCuspRoundAction(selection, source.Outline);
-        var rounded = DiamondCuspRoundedOutline(round, source.Outline);
+        var source = DiamondCuspGlossaryGeometry.CreateStage(roundOuter: false, roundInner: false);
+        var roundedStage = DiamondCuspGlossaryGeometry.CreateStage(roundOuter: true, roundInner: false);
+        var selection = DiamondCuspSelectionRead(source.Outer.Outline);
+        var round = DiamondCuspRoundAction(selection, source.Outer.Outline);
         return Spec(
-            Group(source.Outline, selection, round, rounded),
-            "Selection(4 cusps) + carrier tangents -> RoundedBoundary",
-            "The rung preserves the original outline and emits a new rounded outline. Retained arc pieces stay arcs, and each new corner curve uses a Gojo control site solved from the adjacent carrier tangents.",
+            Group(source.Outer.Outline, source.Inner.Outline, selection, round, roundedStage.Outer.Outline),
+            "OuterSelection + carrier tangents -> RoundedOuterBoundary",
+            "The first rounding rung preserves the inner boundary and emits a new outer boundary. Retained arc pieces stay arcs, and each new outer corner curve is solved from adjacent carrier tangents.",
+            DiamondCuspBounds());
+    }
+
+    private static BlocksGlossaryStructure DiamondCuspInnerSelection(FrameBasis frame)
+    {
+        var stage = DiamondCuspGlossaryGeometry.CreateStage(roundOuter: true, roundInner: false);
+        var selection = DiamondCuspSelectionRead(stage.Inner.Outline);
+        return Spec(
+            Group(stage.Outer.Outline, stage.Inner.Outline, Group([.. stage.Inner.AngleBases]), selection),
+            "CuspCandidateDomain(inner) -> Selection(2)",
+            "The second selection pass runs on the inner flat-bottom arc boundary. Its two selected sites are the shared endpoints where the arc carrier meets the flat segment.",
+            DiamondCuspBounds());
+    }
+
+    private static BlocksGlossaryStructure DiamondCuspInnerRounded(FrameBasis frame)
+    {
+        var source = DiamondCuspGlossaryGeometry.CreateStage(roundOuter: true, roundInner: false);
+        var roundedStage = DiamondCuspGlossaryGeometry.CreateStage(roundOuter: true, roundInner: true);
+        var selection = DiamondCuspSelectionRead(source.Inner.Outline);
+        var round = DiamondCuspRoundAction(selection, source.Inner.Outline);
+        return Spec(
+            Group(source.Outer.Outline, source.Inner.Outline, selection, round, roundedStage.Inner.Outline),
+            "InnerSelection + carrier tangents -> RoundedInnerBoundary",
+            "The inner rounding rung trims the flat segment and arc carrier, then connects the retained pieces with tangent-derived curve sections. The retained upper section remains a Gojo arc.",
             DiamondCuspBounds());
     }
 
     private static BlocksGlossaryStructure DiamondCuspResult(FrameBasis frame)
     {
-        var source = DiamondCuspSourceRead(frame);
-        var selection = DiamondCuspSelectionRead(source.Outline);
-        var rounded = DiamondCuspRoundedOutline(DiamondCuspRoundAction(selection, source.Outline), source.Outline);
+        var stage = DiamondCuspGlossaryGeometry.CreateStage(roundOuter: true, roundInner: true);
         return Spec(
-            Group(rounded, GraphicStructure.AreaFill(rounded)),
-            "RoundedOutline -> AreaFill(rounded)",
-            "The final display is filled from the rounded outline, but the rounded boundary remains inspectable arc and tangent-curve structure.",
+            Group(
+                stage.Outer.Outline,
+                stage.Inner.Outline,
+                GraphicStructure.AreaFill(stage.Outer.Outline),
+                GraphicStructure.AntiAreaFill(stage.Inner.Outline)),
+            "RoundedOuterBoundary + AntiAreaFill(RoundedInnerBoundary)",
+            "The final face is a positive fill from the rounded outer boundary with the rounded inner boundary participating as a cutout. Both boundaries remain inspectable Gojo structure.",
             DiamondCuspBounds());
     }
-
-    private static DiamondCuspGlossaryGeometry.BoundaryRead DiamondCuspSourceRead(FrameBasis frame) =>
-        DiamondCuspGlossaryGeometry.CreateSource();
 
     private static Relation DiamondCuspSelectionRead(IElement outline)
     {
@@ -1667,9 +1700,6 @@ internal static class BlocksGlossaryStructureCatalog
 
     private static Relation DiamondCuspRoundAction(IElement selection, IElement outline) =>
         GraphicBoundaryConceptSurface.RoundedBoundaryFromCuspSelection(new Carrier(), selection, outline, radiusTicks: 12);
-
-    private static IElement DiamondCuspRoundedOutline(Relation action, IElement fallback) =>
-        DiamondCuspGlossaryGeometry.CreateRounded().Outline;
 
     private static Relation Chain(IReadOnlyList<IElement> elements)
     {
