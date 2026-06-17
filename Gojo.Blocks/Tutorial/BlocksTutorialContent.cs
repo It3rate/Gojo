@@ -1,5 +1,6 @@
 using GojoDraw;
 using SkiaSharp;
+using System.Reflection;
 using System.Text.Json;
 
 namespace Gojo.Blocks;
@@ -12,20 +13,18 @@ internal static class BlocksTutorialContent
     public static IReadOnlyList<BlocksPage> LoadPages(string locale = DefaultLocale)
     {
         var contentRoot = ResolveContentRoot(locale);
-        var catalogPath = Path.Combine(contentRoot, CatalogFileName);
-        var json = File.ReadAllText(catalogPath);
+        var json = contentRoot.ReadAllText(CatalogFileName);
         var catalog = JsonSerializer.Deserialize<BlocksTutorialCatalog>(
             json,
             new JsonSerializerOptions { PropertyNameCaseInsensitive = true }) ??
-            throw new InvalidOperationException($"Tutorial catalog is empty: {catalogPath}");
+            throw new InvalidOperationException($"Tutorial catalog is empty: {CatalogFileName}");
 
         return [.. catalog.Pages.Select(page => CreatePage(page, contentRoot))];
     }
 
-    private static BlocksPage CreatePage(BlocksTutorialCatalogPage page, string contentRoot)
+    private static BlocksPage CreatePage(BlocksTutorialCatalogPage page, BlocksContentRoot contentRoot)
     {
-        var notesPath = Path.Combine(contentRoot, page.NotesFile);
-        var body = File.ReadAllText(notesPath).Trim();
+        var body = contentRoot.ReadAllText(page.NotesFile).Trim();
         var isPhysicalPage = page.Id == BlocksDocument.PhysicalStructurePageId;
         SKRect? bounds = isPhysicalPage ? new SKRect(-60, -30, 60, 30) : null;
         var seed = isPhysicalPage ? 11 : 0;
@@ -42,7 +41,7 @@ internal static class BlocksTutorialContent
             ? null
             : new GojoDrawAudioCue(
                 $"{page.Id}:narration",
-                Path.Combine(contentRoot, page.VoiceFile),
+                contentRoot.AssetPath(page.VoiceFile),
                 GojoDrawAudioCueKind.Narration);
 
         return new BlocksPage(
@@ -58,27 +57,12 @@ internal static class BlocksTutorialContent
             scene);
     }
 
-    private static string ResolveContentRoot(string locale)
-    {
-        var relative = Path.Combine("Tutorial", "content", locale);
-        var candidates = new[]
-        {
-            Path.Combine(AppContext.BaseDirectory, relative),
-            Path.Combine(Environment.CurrentDirectory, "Gojo.Blocks", relative),
-            Path.Combine(Environment.CurrentDirectory, relative)
-        };
-
-        foreach (var candidate in candidates)
-        {
-            if (File.Exists(Path.Combine(candidate, CatalogFileName)))
-            {
-                return candidate;
-            }
-        }
-
-        throw new DirectoryNotFoundException(
-            $"Could not find tutorial content for locale '{locale}'. Looked under: {string.Join("; ", candidates)}");
-    }
+    private static BlocksContentRoot ResolveContentRoot(string locale) =>
+        BlocksContentRoot.Resolve(
+            Path.Combine("Tutorial", "content", locale),
+            CatalogFileName,
+            typeof(BlocksTutorialContent).GetTypeInfo().Assembly,
+            $"Could not find tutorial content for locale '{locale}'.");
 
     private sealed record BlocksTutorialCatalog(IReadOnlyList<BlocksTutorialCatalogPage> Pages);
 

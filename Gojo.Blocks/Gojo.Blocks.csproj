@@ -26,6 +26,8 @@
     <Content Include="Glossary\content\**\*">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <EmbeddedResource Include="Tutorial\content\**\*" />
+    <EmbeddedResource Include="Glossary\content\**\*" />
   </ItemGroup>
 
 </Project>
