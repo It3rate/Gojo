@@ -1638,8 +1638,8 @@ internal static class BlocksGlossaryStructureCatalog
         var rounded = DiamondCuspRoundedOutline(round, source.Outline);
         return Spec(
             Group(source.Outline, selection, round, rounded),
-            "Selection(4 cusps) + CircularBasis(Pi) -> RoundedBoundary(radius=12)",
-            "The rung preserves the original outline and emits a new rounded outline. The new corner curves are Gojo arc sections created by the rounding read, with residue left visible if a join cannot settle.",
+            "Selection(4 cusps) + carrier tangents -> RoundedBoundary",
+            "The rung preserves the original outline and emits a new rounded outline. Retained arc pieces stay arcs, and each new corner curve uses a Gojo control site solved from the adjacent carrier tangents.",
             DiamondCuspBounds());
     }
 
@@ -1651,7 +1651,7 @@ internal static class BlocksGlossaryStructureCatalog
         return Spec(
             Group(rounded, GraphicStructure.AreaFill(rounded)),
             "RoundedOutline -> AreaFill(rounded)",
-            "The final display is filled from the rounded outline, but the rounded boundary remains the inspectable Gojo structure.",
+            "The final display is filled from the rounded outline, but the rounded boundary remains inspectable arc and tangent-curve structure.",
             DiamondCuspBounds());
     }
 

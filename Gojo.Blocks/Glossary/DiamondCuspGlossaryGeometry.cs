@@ -7,6 +7,8 @@ internal static class DiamondCuspGlossaryGeometry
 {
     public readonly record struct ModelPoint(long X, long Y);
 
+    private readonly record struct ModelVector(double X, double Y);
+
     public enum EdgeKind
     {
         Segment,
@@ -23,17 +25,17 @@ internal static class DiamondCuspGlossaryGeometry
         IReadOnlyList<IElement> Joins,
         IReadOnlyList<IElement> AngleBases);
 
-    public static ModelPoint Top => new(0, 68);
+    public static ModelPoint Top => new(0, 70);
 
-    public static ModelPoint Right => new(54, 0);
+    public static ModelPoint Right => new(54, 2);
 
     public static ModelPoint Bottom => new(0, -70);
 
-    public static ModelPoint Left => new(-54, 0);
+    public static ModelPoint Left => new(-54, 2);
 
-    public static ModelPoint RightArcCenter => new(72, -70);
+    public static ModelPoint RightArcCenter => new(75, -70);
 
-    public static ModelPoint LeftArcCenter => new(-72, -70);
+    public static ModelPoint LeftArcCenter => new(-75, -70);
 
     public static IReadOnlyList<ModelPoint> Cusps =>
     [
@@ -101,15 +103,35 @@ internal static class DiamondCuspGlossaryGeometry
         var leftArcEnd = frame.Point(ArcPoint(LeftArcCenter, Bottom, Left, 0.84f));
         var leftTopA = frame.Point(Lerp(Left, Top, 0.20f));
         var leftTopB = frame.Point(Lerp(Top, Left, 0.18f));
+        var rightControl = frame.Point(TangentIntersection(
+            Lerp(Top, Right, 0.80f),
+            Vector(Top, Right),
+            ArcPoint(RightArcCenter, Right, Bottom, 0.16f),
+            ArcTangent(RightArcCenter, Right, Bottom, 0.16f)));
+        var bottomControl = frame.Point(TangentIntersection(
+            ArcPoint(RightArcCenter, Right, Bottom, 0.72f),
+            ArcTangent(RightArcCenter, Right, Bottom, 0.72f),
+            ArcPoint(LeftArcCenter, Bottom, Left, 0.28f),
+            ArcTangent(LeftArcCenter, Bottom, Left, 0.28f)));
+        var leftControl = frame.Point(TangentIntersection(
+            ArcPoint(LeftArcCenter, Bottom, Left, 0.84f),
+            ArcTangent(LeftArcCenter, Bottom, Left, 0.84f),
+            Lerp(Left, Top, 0.20f),
+            Vector(Left, Top)));
+        var topControl = frame.Point(TangentIntersection(
+            Lerp(Top, Left, 0.18f),
+            Vector(Left, Top),
+            Lerp(Top, Right, 0.18f),
+            Vector(Top, Right)));
 
         var topRightSegment = GraphicStructure.FrameSegment(topRightA, topRightB);
-        var rightCorner = GraphicStructure.FrameQuadraticCurve(topRightB, right, rightArcStart);
+        var rightCorner = GraphicStructure.FrameQuadraticCurve(topRightB, rightControl, rightArcStart);
         var rightArc = GraphicStructure.FrameArc(rightCenter, rightArcStart, bottomRightTrim);
-        var bottomCorner = GraphicStructure.FrameQuadraticCurve(bottomRightTrim, bottom, bottomLeftTrim);
+        var bottomCorner = GraphicStructure.FrameQuadraticCurve(bottomRightTrim, bottomControl, bottomLeftTrim);
         var leftArc = GraphicStructure.FrameArc(leftCenter, bottomLeftTrim, leftArcEnd);
-        var leftCorner = GraphicStructure.FrameQuadraticCurve(leftArcEnd, left, leftTopA);
+        var leftCorner = GraphicStructure.FrameQuadraticCurve(leftArcEnd, leftControl, leftTopA);
         var leftTopSegment = GraphicStructure.FrameSegment(leftTopA, leftTopB);
-        var topCorner = GraphicStructure.FrameQuadraticCurve(leftTopB, top, topRightA);
+        var topCorner = GraphicStructure.FrameQuadraticCurve(leftTopB, topControl, topRightA);
         var sections = new IElement[]
         {
             topRightSegment,
@@ -159,6 +181,37 @@ internal static class DiamondCuspGlossaryGeometry
             (long)Math.Round(center.X + Math.Cos(angle) * radius),
             (long)Math.Round(center.Y + Math.Sin(angle) * radius));
     }
+
+    private static ModelVector ArcTangent(ModelPoint center, ModelPoint start, ModelPoint end, float progress)
+    {
+        var startAngle = Math.Atan2(start.Y - center.Y, start.X - center.X);
+        var endAngle = Math.Atan2(end.Y - center.Y, end.X - center.X);
+        var sweep = ShortestSweep(startAngle, endAngle);
+        var angle = startAngle + sweep * progress;
+        var direction = sweep < 0 ? -1d : 1d;
+        return new ModelVector(-Math.Sin(angle) * direction, Math.Cos(angle) * direction);
+    }
+
+    private static ModelVector Vector(ModelPoint start, ModelPoint end) =>
+        new(end.X - start.X, end.Y - start.Y);
+
+    private static ModelPoint TangentIntersection(ModelPoint start, ModelVector startTangent, ModelPoint end, ModelVector endTangent)
+    {
+        var cross = Cross(startTangent, endTangent);
+        if (Math.Abs(cross) < 0.0001d)
+        {
+            return new ModelPoint((start.X + end.X) / 2, (start.Y + end.Y) / 2);
+        }
+
+        var delta = new ModelVector(end.X - start.X, end.Y - start.Y);
+        var t = Cross(delta, endTangent) / cross;
+        return new ModelPoint(
+            (long)Math.Round(start.X + startTangent.X * t),
+            (long)Math.Round(start.Y + startTangent.Y * t));
+    }
+
+    private static double Cross(ModelVector left, ModelVector right) =>
+        left.X * right.Y - left.Y * right.X;
 
     private static double ShortestSweep(double start, double end)
     {

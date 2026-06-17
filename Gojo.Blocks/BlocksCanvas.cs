@@ -3373,33 +3373,18 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
 
     private static SKPoint DiamondPoint(SKRect bounds, long x, long y)
     {
-        var scale = Math.Min(bounds.Width / 210f, bounds.Height / 210f) * 0.9f;
+        var scale = DiamondScale(bounds);
         return new SKPoint(bounds.MidX + x * scale, bounds.MidY - y * scale);
     }
+
+    private static float DiamondScale(SKRect bounds) =>
+        Math.Min(bounds.Width / 210f, bounds.Height / 210f) * 0.9f;
 
     private static DiamondCuspGlossaryGeometry.ModelPoint DiamondModelPoint(SharedFramePointRead point)
     {
         var x = point.Coordinates.Count > 0 ? point.Coordinates[0].Ticks : 0;
         var y = point.Coordinates.Count > 1 ? point.Coordinates[1].Ticks : 0;
         return new DiamondCuspGlossaryGeometry.ModelPoint(x, y);
-    }
-
-    private static DiamondCuspGlossaryGeometry.ModelPoint DiamondArcModelPoint(
-        DiamondCuspGlossaryGeometry.ModelPoint center,
-        DiamondCuspGlossaryGeometry.ModelPoint start,
-        DiamondCuspGlossaryGeometry.ModelPoint end,
-        float t)
-    {
-        var startAngle = MathF.Atan2(start.Y - center.Y, start.X - center.X);
-        var endAngle = MathF.Atan2(end.Y - center.Y, end.X - center.X);
-        var sweep = ShortestSweepRadians(startAngle, endAngle);
-        var radius = MathF.Sqrt(
-            (start.X - center.X) * (start.X - center.X) +
-            (start.Y - center.Y) * (start.Y - center.Y));
-        var angle = startAngle + sweep * t;
-        return new DiamondCuspGlossaryGeometry.ModelPoint(
-            (long)Math.Round(center.X + MathF.Cos(angle) * radius),
-            (long)Math.Round(center.Y + MathF.Sin(angle) * radius));
     }
 
     private static void AddDiamondArc(
@@ -3410,11 +3395,22 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
         var center = DiamondModelPoint(arc.Center);
         var start = DiamondModelPoint(arc.Start);
         var end = DiamondModelPoint(arc.End);
-        for (var index = 1; index <= 16; index++)
-        {
-            var point = DiamondArcModelPoint(center, start, end, index / 16f);
-            path.LineTo(DiamondPoint(bounds, point));
-        }
+        var scale = DiamondScale(bounds);
+        var centerPoint = DiamondPoint(bounds, center);
+        var radius = MathF.Sqrt(
+            (start.X - center.X) * (start.X - center.X) +
+            (start.Y - center.Y) * (start.Y - center.Y)) * scale;
+        var startAngle = MathF.Atan2(start.Y - center.Y, start.X - center.X);
+        var endAngle = MathF.Atan2(end.Y - center.Y, end.X - center.X);
+        var sweep = ShortestSweepRadians(startAngle, endAngle);
+        var screenStartDegrees = -startAngle * 180f / MathF.PI;
+        var screenSweepDegrees = -sweep * 180f / MathF.PI;
+        var oval = new SKRect(
+            centerPoint.X - radius,
+            centerPoint.Y - radius,
+            centerPoint.X + radius,
+            centerPoint.Y + radius);
+        path.ArcTo(oval, screenStartDegrees, screenSweepDegrees, forceMoveTo: false);
     }
 
     private static float ShortestSweepRadians(float start, float end)
