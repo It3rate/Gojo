@@ -856,10 +856,10 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
         {
             new GlossarySpecimenDescriptor("actions-repeat-addition", "Addition"),
             new GlossarySpecimenDescriptor("actions-repeat-stretch", "Stretch (multiply)"),
-            new GlossarySpecimenDescriptor("actions-repeat-repeat", "Repeat (powers)"),
+            new GlossarySpecimenDescriptor("actions-repeat-repeat", "Action repeat"),
             new GlossarySpecimenDescriptor("actions-repeat-multiply", "Additive Repeat (multiply)"),
-            new GlossarySpecimenDescriptor("actions-repeat-compare", "Compare (divide)"),
-            new GlossarySpecimenDescriptor("actions-repeat-action-residue", "Action residue")
+            new GlossarySpecimenDescriptor("actions-repeat-stretch-repeat", "Stretch Repeat (exponents)"),
+            new GlossarySpecimenDescriptor("actions-repeat-compare", "Compare (divide)")
         };
         DrawSpecimenGrid(canvas, page, area, hitAreas, specimens, DrawActionsRepeatSpecimen);
     }
@@ -1454,10 +1454,10 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
                 DrawMultiplyAction(canvas, bounds);
                 break;
             case 4:
-                DrawCompareAction(canvas, bounds);
+                DrawStretchRepeatAction(canvas, bounds);
                 break;
             case 5:
-                DrawActionResidue(canvas, bounds);
+                DrawCompareAction(canvas, bounds);
                 break;
         }
     }
@@ -2522,13 +2522,37 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
 
     private static void DrawStretchAction(SKCanvas canvas, SKRect bounds)
     {
-        var y = bounds.MidY;
-        var center = Center(bounds);
-        DrawLine(canvas, new SKPoint(center.X - 18, y), new SKPoint(center.X + 18, y), BoundaryColor, 2f, 150);
-        DrawVectorArrow(canvas, new SKPoint(center.X - 18, y - 16), new SKPoint(bounds.Left + 14, y - 16), PositiveStroke, 1.8f);
-        DrawVectorArrow(canvas, new SKPoint(center.X + 18, y - 16), new SKPoint(bounds.Right - 14, y - 16), PositiveStroke, 1.8f);
-        DrawLine(canvas, new SKPoint(bounds.Left + 18, y + 14), new SKPoint(bounds.Right - 18, y + 14), PositiveStroke, 3f, 210);
-        DrawPoint(canvas, center, SiteColor, 5f);
+        var startX = bounds.Left + bounds.Width * 0.16f;
+        var sourceLength = bounds.Width * 0.22f;
+        var stretchedLength = sourceLength * 3f;
+        var sourceY = bounds.MidY - bounds.Height * 0.12f;
+        var stretchedY = bounds.MidY + bounds.Height * 0.14f;
+        var sourceStart = new SKPoint(startX, sourceY);
+        var sourceEnd = new SKPoint(startX + sourceLength, sourceY);
+        var stretchedStart = new SKPoint(startX, stretchedY);
+        var stretchedEnd = new SKPoint(startX + stretchedLength, stretchedY);
+
+        DrawLine(canvas, sourceStart, sourceEnd, BoundaryColor, 2f, 170);
+        DrawPoint(canvas, sourceStart, SiteColor, 4.2f);
+        DrawPoint(canvas, sourceEnd, EndpointColor, 4.2f);
+
+        DrawLine(canvas, stretchedStart, stretchedEnd, PositiveStroke, 3f, 215);
+        for (var index = 0; index <= 3; index++)
+        {
+            var x = startX + sourceLength * index;
+            DrawLine(canvas, new SKPoint(x, stretchedY - 8), new SKPoint(x, stretchedY + 8), TickColor, 1.1f, 150);
+            DrawPoint(canvas, new SKPoint(x, stretchedY), index == 0 ? SiteColor : EndpointColor, index == 0 ? 3.8f : 3.4f);
+        }
+
+        DrawDashedLine(canvas, sourceStart, stretchedStart, EvidenceColor, 0.9f);
+        DrawDashedLine(canvas, sourceEnd, new SKPoint(startX + sourceLength, stretchedY), EvidenceColor, 0.9f);
+        DrawVectorArrow(
+            canvas,
+            new SKPoint(startX + sourceLength, sourceY - 11),
+            new SKPoint(startX + stretchedLength, sourceY - 11),
+            PositiveStroke,
+            1.35f,
+            150);
     }
 
     private static void DrawRepeatAction(SKCanvas canvas, SKRect bounds)
@@ -2561,6 +2585,38 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
             var rect = new SKRect(x - unit * 0.38f, y - unit * 0.28f, x + unit * 0.38f, y + unit * 0.28f);
             canvas.DrawRoundRect(rect, 3, 3, fill);
             canvas.DrawRoundRect(rect, 3, 3, stroke);
+        }
+    }
+
+    private static void DrawStretchRepeatAction(SKCanvas canvas, SKRect bounds)
+    {
+        var left = bounds.Left + bounds.Width * 0.18f;
+        var top = bounds.Top + bounds.Height * 0.24f;
+        var rowGap = bounds.Height * 0.105f;
+        var baseLength = bounds.Width * 0.14f;
+        const float growthRate = 1.38f;
+
+        using var axis = StrokePaint(TickColor, 1f, 120);
+        canvas.DrawLine(left, top - 9, left, top + rowGap * 5f + 9, axis);
+
+        for (var index = 0; index < 6; index++)
+        {
+            var y = top + rowGap * index;
+            var length = baseLength * MathF.Pow(growthRate, index);
+            var start = new SKPoint(left, y);
+            var end = new SKPoint(left + length, y);
+            var alpha = (byte)(112 + index * 20);
+
+            DrawVectorArrow(canvas, start, end, PositiveStroke, 1.35f + index * 0.15f, alpha);
+            DrawPoint(canvas, start, SiteColor, 2.7f);
+            DrawPoint(canvas, end, EndpointColor, 2.9f);
+
+            if (index > 0)
+            {
+                var previousLength = baseLength * MathF.Pow(growthRate, index - 1);
+                using var relation = StrokePaint(EvidenceColor, 0.8f, 82);
+                canvas.DrawLine(left + previousLength, y - rowGap, end.X, end.Y, relation);
+            }
         }
     }
 

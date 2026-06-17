@@ -64,11 +64,11 @@ internal static class BlocksGlossaryStructureCatalog
         AddSpecimens(structures, "actions-repeat",
         [
             ("addition", SharedPolyline(), "S(A,B) + S(B,C) -> accumulated span", "Addition is shown as attaching compatible spans in sequence."),
-            ("stretch", DirectedLine(inverse: false), "S(A,B) + action_stretch(k) -> S(A,B')", "Stretch changes a relation while preserving its readable endpoints."),
-            ("repeat", PartitionedSegment(), "Repeat(action, n) over S(A,B)", "Repeat is first-class structure: selected source, action, count or stopping rule. Repeated addition is closer to a power-like action ladder than ordinary stretch multiplication."),
+            ("stretch", DirectedLine(inverse: false), "S(A,B) + action_stretch(3) -> S(A,B')", "Stretch reads the same segment relation at a fixed ratio. The source span remains inspectable while the multiplied read grows from it."),
+            ("repeat", PartitionedSegment(), "Repeat(action, n) over S(A,B)", "Repeat is first-class structure: selected source, action, count or stopping rule."),
             ("multiply", RectangleArea(inverse: false), "S(A,B) + stretch(k); also Repeat(add unit, n)", "Gojo multiplication includes both stretch and accumulated repeat, with stretch as the direct multiplicative read."),
-            ("compare", PartitionedSegment(), "Read(target by unit U) -> quotient + residue", "Unit comparison asks how many repeated unit reads fit in a target."),
-            ("action-residue", Group(PartitionedSegment(), TensionSlot()), "Repeat(action, until target) -> result + residue", "A repeated action can leave leftover structure when it does not divide cleanly.")
+            ("stretch-repeat", Group(DirectedLine(inverse: false), PartitionedSegment()), "Repeat(action_stretch(k), n) -> S0,S1,S2...", "Stretch repeat grows the result by applying the stretch action again to its own output; this is the exponent-style read."),
+            ("compare", PartitionedSegment(), "Read(target by unit U) -> quotient + residue", "Unit comparison asks how many repeated unit reads fit in a target.")
         ]);
 
     private static void AddUnitsTicks(Dictionary<string, BlocksGlossaryStructure> structures) =>
