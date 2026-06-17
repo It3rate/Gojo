@@ -23,6 +23,7 @@ internal static class BlocksGlossaryStructureCatalog
         AddDroneClipOffsetLadder(structures);
         AddRadialCrescentLadder(structures);
         AddDiamondCuspRounding(structures);
+        AddPcbDataAttachment(structures);
         return structures;
     }
 
@@ -232,6 +233,23 @@ internal static class BlocksGlossaryStructureCatalog
         foreach (var id in ids)
         {
             structures[$"diamond-cusp-rounding-{id}"] = DiamondCuspRounding(id);
+        }
+    }
+
+    private static void AddPcbDataAttachment(Dictionary<string, BlocksGlossaryStructure> structures)
+    {
+        var ids = new[]
+        {
+            "schematic-intent",
+            "layout-carriers",
+            "data-attachment",
+            "render-read",
+            "rule-check",
+            "physical-read"
+        };
+        foreach (var id in ids)
+        {
+            structures[$"pcb-data-{id}"] = PcbDataAttachment(id);
         }
     }
 
@@ -777,6 +795,51 @@ internal static class BlocksGlossaryStructureCatalog
             "inner-selection" => DiamondCuspInnerSelection(frame),
             "inner-rounded" => DiamondCuspInnerRounded(frame),
             "result" => DiamondCuspResult(frame),
+            _ => Spec(Site(), "P(O)")
+        };
+    }
+
+    private static BlocksGlossaryStructure PcbDataAttachment(string id)
+    {
+        var stage = PcbDataGlossaryGeometry.CreateStage();
+        return id switch
+        {
+            "schematic-intent" => Spec(
+                stage.Schematic,
+                "Schematic ports + net-basis P(VCC/SIG/GND/LED)",
+                "The schematic read groups component ports by net carriers before any physical route is chosen.",
+                PcbDataBounds(),
+                4),
+            "layout-carriers" => Spec(
+                stage.LayoutCarriers,
+                "Board + footprints + pads + Path(trace sections)",
+                "The layout rung adds frame carriers, shared pad sites, and routed path sections, but the copper meaning is still not just geometry.",
+                PcbDataBounds(),
+                5),
+            "data-attachment" => Spec(
+                stage.DataAttachments,
+                "Trace(path) + attach(net, layer, width, cost)",
+                "Each trace carrier locally holds attribute relations on a net basis, layer basis, width basis, and cost/check basis.",
+                PcbDataBounds(),
+                6),
+            "render-read" => Spec(
+                stage.RenderRead,
+                "Read(layout + data, style basis) -> visible copper",
+                "Color and stroke width are adapter reads from layer and width relations; they are not the source of PCB meaning.",
+                PcbDataBounds(),
+                7),
+            "rule-check" => Spec(
+                stage.RuleCheck,
+                "Read(layout + rules) -> pass evidence + tension",
+                "ERC/DRC checks read the same carriers through continuity, width, and clearance constraints, leaving unresolved evidence as tension.",
+                PcbDataBounds(),
+                8),
+            "physical-read" => Spec(
+                stage.PhysicalRead,
+                "Read(render + fab basis) -> mask + copper + drill",
+                "The manufactured board is another interpretation of the same data-bearing structure, not a separate geometry copy.",
+                PcbDataBounds(),
+                9),
             _ => Spec(Site(), "P(O)")
         };
     }
@@ -1719,6 +1782,9 @@ internal static class BlocksGlossaryStructureCatalog
 
     private static SKRect DiamondCuspBounds() =>
         Bounds(-92, -92, 92, 84);
+
+    private static SKRect PcbDataBounds() =>
+        Bounds(-116, -76, 116, 76);
 
     private static BlocksGlossaryStructure RadialCrescentRoundingInteriorCusps(FrameBasis frame)
     {

@@ -160,6 +160,18 @@ internal static class BlocksGlossaryContent
                 ["shared endpoints", "outer cusps", "inner cusps", "cutout fill"],
                 GlossarySheet: BlocksGlossarySheetKind.DiamondCuspRounding,
                 GlossaryDescriptions: descriptions,
+                GlossaryStructures: structures),
+            new BlocksPage(
+                "glossary-pcb-data-attachment",
+                "PCB Data Attachment",
+                "Schematic intent, layout carriers, local attributes, rule reads, and physical board interpretation from one inspectable structure.",
+                string.Empty,
+                null,
+                null,
+                0,
+                ["schematic", "layout", "net data", "render read", "rule check", "physical read"],
+                GlossarySheet: BlocksGlossarySheetKind.PcbDataAttachment,
+                GlossaryDescriptions: descriptions,
                 GlossaryStructures: structures)
         ];
     }

@@ -709,6 +709,12 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
             return;
         }
 
+        if (page.GlossarySheet == BlocksGlossarySheetKind.PcbDataAttachment)
+        {
+            DrawPcbDataAttachmentGlossary(canvas, page, area, hitAreas);
+            return;
+        }
+
         if (page.GlossarySheet != BlocksGlossarySheetKind.None)
         {
             DrawGlossaryLadder(canvas, page, area, hitAreas);
@@ -862,6 +868,20 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
             new GlossarySpecimenDescriptor("diamond-cusp-rounding-result", "Final cutout")
         };
         DrawSpecimenGrid(canvas, page, area, hitAreas, specimens, DrawDiamondCuspRoundingSpecimen, columnsOverride: 3);
+    }
+
+    private void DrawPcbDataAttachmentGlossary(SKCanvas canvas, BlocksPage page, SKRect area, List<BlocksHitArea> hitAreas)
+    {
+        var specimens = new[]
+        {
+            new GlossarySpecimenDescriptor("pcb-data-schematic-intent", "Schematic intent"),
+            new GlossarySpecimenDescriptor("pcb-data-layout-carriers", "Layout carriers"),
+            new GlossarySpecimenDescriptor("pcb-data-data-attachment", "Data attachment"),
+            new GlossarySpecimenDescriptor("pcb-data-render-read", "Render read"),
+            new GlossarySpecimenDescriptor("pcb-data-rule-check", "Rule check"),
+            new GlossarySpecimenDescriptor("pcb-data-physical-read", "Physical board")
+        };
+        DrawSpecimenGrid(canvas, page, area, hitAreas, specimens, DrawPcbDataAttachmentSpecimen, columnsOverride: 3);
     }
 
     private void DrawSpecimenGrid(
@@ -1059,6 +1079,7 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
             BlocksGlossarySheetKind.DroneClipOffsetLadder => "drone-clip",
             BlocksGlossarySheetKind.RadialCrescentLadder => "radial-crescent",
             BlocksGlossarySheetKind.DiamondCuspRounding => "diamond-cusp-rounding",
+            BlocksGlossarySheetKind.PcbDataAttachment => "pcb-data",
             _ => "glossary"
         };
 
@@ -1362,6 +1383,563 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
                 break;
         }
     }
+
+    private void DrawPcbDataAttachmentSpecimen(SKCanvas canvas, int index, SKRect bounds)
+    {
+        var stage = PcbDataGlossaryGeometry.CreateStage();
+        switch (index)
+        {
+            case 0:
+                DrawPcbSchematicIntent(canvas, bounds, stage);
+                break;
+            case 1:
+                DrawPcbLayoutCarriers(canvas, bounds, stage);
+                break;
+            case 2:
+                DrawPcbDataAttachments(canvas, bounds, stage);
+                break;
+            case 3:
+                DrawPcbRenderRead(canvas, bounds, stage);
+                break;
+            case 4:
+                DrawPcbRuleCheck(canvas, bounds, stage);
+                break;
+            case 5:
+                DrawPcbPhysicalRead(canvas, bounds, stage);
+                break;
+        }
+    }
+
+    private static void DrawPcbSchematicIntent(SKCanvas canvas, SKRect bounds, PcbDataGlossaryGeometry.StageRead stage)
+    {
+        _ = stage.Schematic;
+        var j1 = new SKRect(bounds.Left + bounds.Width * 0.07f, bounds.Top + bounds.Height * 0.27f, bounds.Left + bounds.Width * 0.25f, bounds.Bottom - bounds.Height * 0.20f);
+        var u1 = new SKRect(bounds.Left + bounds.Width * 0.42f, bounds.Top + bounds.Height * 0.21f, bounds.Left + bounds.Width * 0.62f, bounds.Bottom - bounds.Height * 0.18f);
+        var led = new SKRect(bounds.Left + bounds.Width * 0.78f, bounds.Top + bounds.Height * 0.30f, bounds.Right - bounds.Width * 0.07f, bounds.Bottom - bounds.Height * 0.27f);
+
+        DrawPcbSchematicBlock(canvas, j1, "J1", PcbConnectorColor);
+        DrawPcbSchematicBlock(canvas, u1, "U1", PcbChipColor);
+        DrawPcbSchematicBlock(canvas, led, "D1", PcbLedColor);
+
+        var jPins = new[]
+        {
+            new SKPoint(j1.Right, j1.Top + j1.Height * 0.22f),
+            new SKPoint(j1.Right, j1.MidY),
+            new SKPoint(j1.Right, j1.Bottom - j1.Height * 0.22f)
+        };
+        var uLeft = new[]
+        {
+            new SKPoint(u1.Left, u1.Top + u1.Height * 0.22f),
+            new SKPoint(u1.Left, u1.MidY),
+            new SKPoint(u1.Left, u1.Bottom - u1.Height * 0.22f)
+        };
+        var uRight = new[]
+        {
+            new SKPoint(u1.Right, u1.Top + u1.Height * 0.25f),
+            new SKPoint(u1.Right, u1.Bottom - u1.Height * 0.25f)
+        };
+        var ledPins = new[]
+        {
+            new SKPoint(led.Left, led.Top + led.Height * 0.30f),
+            new SKPoint(led.Left, led.Bottom - led.Height * 0.30f)
+        };
+
+        DrawPcbNetWire(canvas, jPins[0], uLeft[0], PcbPowerColor, "VCC");
+        DrawPcbNetWire(canvas, jPins[1], uLeft[1], PcbSignalColor, "SIG");
+        DrawPcbNetWire(canvas, jPins[2], uLeft[2], PcbGroundColor, "GND");
+        DrawPcbNetWire(canvas, uRight[0], ledPins[0], PcbLedColor, "LED");
+        DrawPcbNetWire(canvas, uRight[1], ledPins[1], PcbGroundColor, "GND");
+        DrawPcbSmallCaption(canvas, "nets before geometry", new SKPoint(bounds.MidX, bounds.Bottom - 9), themeColor: PcbTextColor);
+    }
+
+    private static void DrawPcbLayoutCarriers(SKCanvas canvas, SKRect bounds, PcbDataGlossaryGeometry.StageRead stage)
+    {
+        DrawPcbBoard(canvas, bounds, physical: false, alpha: 32);
+        DrawPcbFootprints(canvas, bounds, physical: false);
+        DrawPcbPads(canvas, bounds, stage, filled: false, alpha: 210);
+        foreach (var trace in stage.Traces)
+        {
+            DrawPcbTrace(canvas, bounds, trace, PcbCarrierColor, 1.45f, 178, centerSites: true);
+        }
+
+        DrawPcbRouteTicks(canvas, bounds, stage.Traces[1], 4, PcbMarkerColor);
+        DrawPcbSmallCaption(canvas, "frame carriers + shared pad sites", new SKPoint(bounds.MidX, bounds.Bottom - 9), PcbTextColor);
+    }
+
+    private static void DrawPcbDataAttachments(SKCanvas canvas, SKRect bounds, PcbDataGlossaryGeometry.StageRead stage)
+    {
+        DrawPcbBoard(canvas, bounds, physical: false, alpha: 24);
+        DrawPcbFootprints(canvas, bounds, physical: false);
+        DrawPcbPads(canvas, bounds, stage, filled: false, alpha: 165);
+        foreach (var trace in stage.Traces)
+        {
+            DrawPcbTrace(canvas, bounds, trace, PcbCarrierColor, 1.15f, 96, centerSites: false);
+        }
+
+        DrawPcbTraceBadge(canvas, bounds, stage.Traces[0], new PcbDataGlossaryGeometry.ModelPoint(-58, 58));
+        DrawPcbTraceBadge(canvas, bounds, stage.Traces[1], new PcbDataGlossaryGeometry.ModelPoint(-58, 18));
+        DrawPcbTraceBadge(canvas, bounds, stage.Traces[2], new PcbDataGlossaryGeometry.ModelPoint(-58, -60));
+        DrawPcbTraceBadge(canvas, bounds, stage.Traces[3], new PcbDataGlossaryGeometry.ModelPoint(62, 44));
+        DrawPcbTraceBadge(canvas, bounds, stage.Traces[4], new PcbDataGlossaryGeometry.ModelPoint(62, -54));
+    }
+
+    private static void DrawPcbRenderRead(SKCanvas canvas, SKRect bounds, PcbDataGlossaryGeometry.StageRead stage)
+    {
+        DrawPcbBoard(canvas, bounds, physical: true, alpha: 210);
+        DrawPcbBottomLayerHint(canvas, bounds, stage);
+        foreach (var trace in stage.Traces)
+        {
+            DrawPcbCopperTrace(canvas, bounds, trace, trace.Layer == "BOT" ? (byte)172 : (byte)230);
+        }
+
+        DrawPcbPads(canvas, bounds, stage, filled: true, alpha: 242);
+        DrawPcbFootprints(canvas, bounds, physical: true);
+        DrawPcbLayerLegend(canvas, bounds);
+    }
+
+    private static void DrawPcbRuleCheck(SKCanvas canvas, SKRect bounds, PcbDataGlossaryGeometry.StageRead stage)
+    {
+        DrawPcbBoard(canvas, bounds, physical: false, alpha: 28);
+        foreach (var trace in stage.Traces)
+        {
+            DrawPcbCopperTrace(canvas, bounds, trace, 92);
+        }
+
+        DrawPcbPads(canvas, bounds, stage, filled: true, alpha: 165);
+        DrawPcbCheckBadge(canvas, new SKPoint(bounds.Left + 18, bounds.Top + 18), "continuity", true);
+        DrawPcbCheckBadge(canvas, new SKPoint(bounds.Left + 18, bounds.Top + 42), "width basis", true);
+        DrawPcbCheckBadge(canvas, new SKPoint(bounds.Left + 18, bounds.Top + 66), "clearance", false);
+
+        var tension = PcbPoint(bounds, -37, -16);
+        using var glow = FillPaint(PcbWarningColor, 46);
+        canvas.DrawCircle(tension, 18, glow);
+        using var ring = StrokePaint(PcbWarningColor, 2.2f, 232);
+        canvas.DrawCircle(tension, 11, ring);
+        DrawVectorArrow(canvas, new SKPoint(tension.X + 22, tension.Y + 18), tension, PcbWarningColor, 1.35f, 220);
+        DrawPcbSmallCaption(canvas, "unresolved proximity stays inspectable", new SKPoint(bounds.MidX + 8, bounds.Bottom - 9), PcbTextColor);
+    }
+
+    private static void DrawPcbPhysicalRead(SKCanvas canvas, SKRect bounds, PcbDataGlossaryGeometry.StageRead stage)
+    {
+        DrawPcbBoard(canvas, bounds, physical: true, alpha: 242);
+        DrawPcbMountHoles(canvas, bounds);
+        DrawPcbBottomLayerHint(canvas, bounds, stage);
+        foreach (var trace in stage.Traces)
+        {
+            DrawPcbCopperTrace(canvas, bounds, trace, trace.Layer == "BOT" ? (byte)150 : (byte)224);
+        }
+
+        DrawPcbPads(canvas, bounds, stage, filled: true, alpha: 248);
+        DrawPcbFootprints(canvas, bounds, physical: true);
+        DrawPcbSilkscreen(canvas, bounds);
+    }
+
+    private static void DrawPcbSchematicBlock(SKCanvas canvas, SKRect rect, string label, SKColor color)
+    {
+        using var fill = FillPaint(color, 42);
+        using var stroke = StrokePaint(color, 1.45f, 218);
+        canvas.DrawRoundRect(rect, 5, 5, fill);
+        canvas.DrawRoundRect(rect, 5, 5, stroke);
+        DrawPcbLabelPill(canvas, Center(rect), label, 9.5f, PcbTextColor);
+    }
+
+    private static void DrawPcbNetWire(SKCanvas canvas, SKPoint start, SKPoint end, SKColor color, string label)
+    {
+        var midX = (start.X + end.X) * 0.5f;
+        using var paint = StrokePaint(color, 2.0f, 214);
+        using var path = new SKPath();
+        path.MoveTo(start);
+        path.LineTo(midX, start.Y);
+        path.LineTo(midX, end.Y);
+        path.LineTo(end);
+        canvas.DrawPath(path, paint);
+        DrawPoint(canvas, start, color, 3.1f);
+        DrawPoint(canvas, end, color, 3.1f);
+        using var text = TextPaint(7.6f, color, bold: true);
+        var labelWidth = text.MeasureText(label);
+        canvas.DrawText(label, midX - labelWidth * 0.5f, Math.Min(start.Y, end.Y) - 3f, text);
+    }
+
+    private static void DrawPcbBoard(SKCanvas canvas, SKRect bounds, bool physical, byte alpha)
+    {
+        var board = PcbRect(bounds, -110, 68, 110, -68);
+        using var fill = FillPaint(physical ? PcbBoardColor : PcbBoardGhostColor, alpha);
+        using var stroke = StrokePaint(physical ? PcbBoardEdgeColor : PcbCarrierColor, physical ? 1.8f : 1.15f, physical ? (byte)226 : (byte)130);
+        canvas.DrawRoundRect(board, 10, 10, fill);
+        canvas.DrawRoundRect(board, 10, 10, stroke);
+
+        if (!physical)
+        {
+            using var dot = FillPaint(PcbCarrierColor, 38);
+            for (var x = -80; x <= 80; x += 40)
+            for (var y = -40; y <= 40; y += 40)
+            {
+                canvas.DrawCircle(PcbPoint(bounds, x, y), 1.3f, dot);
+            }
+        }
+    }
+
+    private static void DrawPcbFootprints(SKCanvas canvas, SKRect bounds, bool physical)
+    {
+        var chip = PcbRect(bounds, -22, 32, 42, -32);
+        if (physical)
+        {
+            using var body = FillPaint(PcbChipColor, 238);
+            using var bodyStroke = StrokePaint(new SKColor(17, 25, 28), 1.2f, 235);
+            canvas.DrawRoundRect(chip, 4, 4, body);
+            canvas.DrawRoundRect(chip, 4, 4, bodyStroke);
+            using var text = TextPaint(8.6f, new SKColor(226, 232, 226), bold: true);
+            DrawCenteredText(canvas, "U1", chip, text);
+        }
+        else
+        {
+            using var stroke = StrokePaint(PcbFootprintColor, 1.15f, 152);
+            canvas.DrawRoundRect(chip, 4, 4, stroke);
+        }
+
+        var connector = PcbRect(bounds, -102, 54, -82, -54);
+        using (var stroke = StrokePaint(physical ? PcbSilkColor : PcbFootprintColor, 1.1f, physical ? (byte)190 : (byte)125))
+        {
+            canvas.DrawRoundRect(connector, 3, 3, stroke);
+        }
+
+        if (physical)
+        {
+            using var ledStroke = StrokePaint(PcbSilkColor, 1.15f, 205);
+            using var ledFill = FillPaint(PcbLedColor, 48);
+            var ledRect = PcbRect(bounds, 62, 37, 94, -37);
+            canvas.DrawRoundRect(ledRect, 8, 8, ledFill);
+            canvas.DrawRoundRect(ledRect, 8, 8, ledStroke);
+        }
+    }
+
+    private static void DrawPcbPads(SKCanvas canvas, SKRect bounds, PcbDataGlossaryGeometry.StageRead stage, bool filled, byte alpha)
+    {
+        foreach (var pad in stage.Pads)
+        {
+            var center = PcbPoint(bounds, pad.Center);
+            var radius = PcbRadius(bounds, pad.Circle);
+            var color = PcbNetColor(pad.Net);
+            if (filled)
+            {
+                using var copper = FillPaint(PcbCopperPadColor, alpha);
+                using var ring = StrokePaint(color, 1.25f, 228);
+                using var drill = FillPaint(PcbDrillColor, 230);
+                canvas.DrawCircle(center, radius, copper);
+                canvas.DrawCircle(center, radius, ring);
+                canvas.DrawCircle(center, Math.Max(2.5f, radius * 0.42f), drill);
+            }
+            else
+            {
+                using var ring = StrokePaint(color, 1.25f, alpha);
+                canvas.DrawCircle(center, radius, ring);
+                DrawPoint(canvas, center, PcbCarrierColor, 2.4f);
+            }
+        }
+    }
+
+    private static void DrawPcbTrace(SKCanvas canvas, SKRect bounds, PcbDataGlossaryGeometry.TraceRead trace, SKColor color, float width, byte alpha, bool centerSites)
+    {
+        using var path = PcbPathFromSections(bounds, trace.Sections);
+        using var paint = StrokePaint(color, width, alpha);
+        canvas.DrawPath(path, paint);
+        if (!centerSites)
+        {
+            return;
+        }
+
+        foreach (var point in PcbTraceSites(bounds, trace))
+        {
+            DrawPoint(canvas, point, color, 2.4f);
+        }
+    }
+
+    private static void DrawPcbCopperTrace(SKCanvas canvas, SKRect bounds, PcbDataGlossaryGeometry.TraceRead trace, byte alpha)
+    {
+        using var path = PcbPathFromSections(bounds, trace.Sections);
+        var width = Math.Max(2.6f, trace.WidthTicks * PcbScale(bounds) * 0.85f);
+        var color = PcbNetColor(trace.Net);
+        if (trace.Layer == "BOT")
+        {
+            using var underlay = StrokePaint(PcbBottomShadowColor, width + 2.4f, (byte)Math.Min(120, (int)alpha));
+            using var dash = SKPathEffect.CreateDash([5f, 3.2f], 0);
+            underlay.PathEffect = dash;
+            canvas.DrawPath(path, underlay);
+        }
+
+        using var paint = StrokePaint(color, width, alpha);
+        canvas.DrawPath(path, paint);
+    }
+
+    private static void DrawPcbBottomLayerHint(SKCanvas canvas, SKRect bounds, PcbDataGlossaryGeometry.StageRead stage)
+    {
+        foreach (var trace in stage.Traces.Where(trace => trace.Layer == "BOT"))
+        {
+            using var path = PcbPathFromSections(bounds, trace.Sections);
+            using var shadow = StrokePaint(PcbBottomShadowColor, Math.Max(2.6f, trace.WidthTicks * PcbScale(bounds) * 1.05f), 86);
+            using var dash = SKPathEffect.CreateDash([6f, 4f], 1.4f);
+            shadow.PathEffect = dash;
+            canvas.DrawPath(path, shadow);
+        }
+    }
+
+    private static void DrawPcbTraceBadge(SKCanvas canvas, SKRect bounds, PcbDataGlossaryGeometry.TraceRead trace, PcbDataGlossaryGeometry.ModelPoint modelPoint)
+    {
+        var anchor = PcbPoint(bounds, modelPoint);
+        var target = PcbTraceSites(bounds, trace).Skip(1).FirstOrDefault();
+        DrawDashedLine(canvas, anchor, target, PcbMarkerColor, 0.95f);
+        var lines = new[] { $"net {trace.Net}", trace.Layer, $"w{trace.WidthTicks} c{trace.CostTicks}" };
+        DrawPcbBadge(canvas, anchor, lines, PcbNetColor(trace.Net));
+    }
+
+    private static void DrawPcbBadge(SKCanvas canvas, SKPoint center, IReadOnlyList<string> lines, SKColor color)
+    {
+        using var text = TextPaint(7.3f, PcbTextColor, bold: true);
+        var width = Math.Max(38f, lines.Max(line => text.MeasureText(line)) + 10f);
+        var height = lines.Count * 8.2f + 7f;
+        var rect = new SKRect(center.X - width * 0.5f, center.Y - height * 0.5f, center.X + width * 0.5f, center.Y + height * 0.5f);
+        using var fill = FillPaint(new SKColor(248, 250, 247), 238);
+        using var stroke = StrokePaint(color, 1.1f, 220);
+        canvas.DrawRoundRect(rect, 4.5f, 4.5f, fill);
+        canvas.DrawRoundRect(rect, 4.5f, 4.5f, stroke);
+        for (var index = 0; index < lines.Count; index++)
+        {
+            var line = lines[index];
+            canvas.DrawText(line, rect.Left + 5f, rect.Top + 9.8f + index * 8.2f, text);
+        }
+    }
+
+    private static void DrawPcbCheckBadge(SKCanvas canvas, SKPoint origin, string label, bool pass)
+    {
+        using var text = TextPaint(7.4f, PcbTextColor, bold: true);
+        var width = text.MeasureText(label) + 24;
+        var rect = new SKRect(origin.X, origin.Y, origin.X + width, origin.Y + 16);
+        using var fill = FillPaint(new SKColor(249, 250, 247), 232);
+        using var stroke = StrokePaint(pass ? PcbPassColor : PcbWarningColor, 1.1f, 230);
+        canvas.DrawRoundRect(rect, 4, 4, fill);
+        canvas.DrawRoundRect(rect, 4, 4, stroke);
+        using var mark = TextPaint(8.3f, pass ? PcbPassColor : PcbWarningColor, bold: true);
+        canvas.DrawText(pass ? "ok" : "!", rect.Left + 4, rect.Top + 10.7f, mark);
+        canvas.DrawText(label, rect.Left + 18, rect.Top + 10.6f, text);
+    }
+
+    private static void DrawPcbLayerLegend(SKCanvas canvas, SKRect bounds)
+    {
+        DrawPcbSmallCaption(canvas, "TOP copper", new SKPoint(bounds.Right - 38, bounds.Top + 17), PcbPowerColor);
+        DrawPcbSmallCaption(canvas, "BOT copper", new SKPoint(bounds.Right - 38, bounds.Top + 31), PcbBottomShadowColor);
+    }
+
+    private static void DrawPcbRouteTicks(SKCanvas canvas, SKRect bounds, PcbDataGlossaryGeometry.TraceRead trace, int count, SKColor color)
+    {
+        using var path = PcbPathFromSections(bounds, trace.Sections);
+        using var measure = new SKPathMeasure(path, false);
+        using var tick = StrokePaint(color, 1.1f, 135);
+        for (var index = 1; index <= count; index++)
+        {
+            if (!measure.GetPositionAndTangent(measure.Length * index / (count + 1), out var position, out var tangent))
+            {
+                continue;
+            }
+
+            var normal = Normalize(new SKPoint(-tangent.Y, tangent.X));
+            canvas.DrawLine(
+                position.X - normal.X * 5,
+                position.Y - normal.Y * 5,
+                position.X + normal.X * 5,
+                position.Y + normal.Y * 5,
+                tick);
+        }
+    }
+
+    private static void DrawPcbMountHoles(SKCanvas canvas, SKRect bounds)
+    {
+        using var ring = StrokePaint(PcbSilkColor, 0.9f, 160);
+        using var drill = FillPaint(PcbDrillColor, 240);
+        foreach (var (x, y) in new[] { (-98L, 58L), (98L, 58L), (-98L, -58L), (98L, -58L) })
+        {
+            var p = PcbPoint(bounds, x, y);
+            canvas.DrawCircle(p, 4.8f, drill);
+            canvas.DrawCircle(p, 8.2f, ring);
+        }
+    }
+
+    private static void DrawPcbSilkscreen(SKCanvas canvas, SKRect bounds)
+    {
+        using var text = TextPaint(7.4f, PcbSilkColor, bold: true);
+        canvas.DrawText("GOJO-01", PcbPoint(bounds, -70, 59).X, PcbPoint(bounds, -70, 59).Y, text);
+        canvas.DrawText("J1", PcbPoint(bounds, -105, -61).X, PcbPoint(bounds, -105, -61).Y, text);
+        canvas.DrawText("D1", PcbPoint(bounds, 61, 44).X, PcbPoint(bounds, 61, 44).Y, text);
+    }
+
+    private static void DrawPcbSmallCaption(SKCanvas canvas, string text, SKPoint center, SKColor themeColor)
+    {
+        DrawPcbLabelPill(canvas, center, text, 7.2f, themeColor);
+    }
+
+    private static void DrawPcbLabelPill(SKCanvas canvas, SKPoint center, string text, float size, SKColor textColor)
+    {
+        using var paint = TextPaint(size, textColor, bold: true);
+        var width = paint.MeasureText(text);
+        var rect = new SKRect(
+            center.X - width * 0.5f - 4.2f,
+            center.Y - size * 0.72f - 2.2f,
+            center.X + width * 0.5f + 4.2f,
+            center.Y + size * 0.28f + 2.2f);
+        using var fill = FillPaint(new SKColor(248, 250, 247), 218);
+        using var stroke = StrokePaint(textColor, 0.55f, 92);
+        canvas.DrawRoundRect(rect, 3.5f, 3.5f, fill);
+        canvas.DrawRoundRect(rect, 3.5f, 3.5f, stroke);
+        canvas.DrawText(text, center.X - width * 0.5f, center.Y, paint);
+    }
+
+    private static IEnumerable<SKPoint> PcbTraceSites(SKRect bounds, PcbDataGlossaryGeometry.TraceRead trace)
+    {
+        foreach (var section in trace.Sections)
+        {
+            var graph = GraphicReadGraph.From(section);
+            var curve = graph.ReadsOf<SharedFrameQuadraticCurveRead>().FirstOrDefault();
+            if (curve is not null)
+            {
+                yield return PcbPoint(bounds, curve.Start);
+                yield return PcbPoint(bounds, curve.Control);
+                yield return PcbPoint(bounds, curve.End);
+                continue;
+            }
+
+            var segment = graph.ReadsOf<SharedFrameSegmentRead>().FirstOrDefault();
+            if (segment is not null)
+            {
+                yield return PcbPoint(bounds, segment.Start);
+                yield return PcbPoint(bounds, segment.End);
+            }
+        }
+    }
+
+    private static SKPath PcbPathFromSections(SKRect bounds, IReadOnlyList<IElement> sections)
+    {
+        var path = new SKPath();
+        var hasStarted = false;
+        foreach (var section in sections)
+        {
+            var graph = GraphicReadGraph.From(section);
+            var curve = graph.ReadsOf<SharedFrameQuadraticCurveRead>().FirstOrDefault();
+            if (curve is not null)
+            {
+                MoveOrLineTo(path, PcbPoint(bounds, curve.Start), ref hasStarted);
+                path.QuadTo(PcbPoint(bounds, curve.Control), PcbPoint(bounds, curve.End));
+                continue;
+            }
+
+            var segment = graph.ReadsOf<SharedFrameSegmentRead>().FirstOrDefault();
+            if (segment is not null)
+            {
+                MoveOrLineTo(path, PcbPoint(bounds, segment.Start), ref hasStarted);
+                path.LineTo(PcbPoint(bounds, segment.End));
+            }
+        }
+
+        return path;
+    }
+
+    private static SKPoint PcbPoint(SKRect bounds, Relation point)
+    {
+        var framePoint = GraphicReadGraph.From(point)
+            .ReadsOf<SharedFramePointRead>()
+            .FirstOrDefault();
+        return framePoint is null ? PcbPoint(bounds, 0, 0) : PcbPoint(bounds, framePoint);
+    }
+
+    private static SKPoint PcbPoint(SKRect bounds, SharedFramePointRead point) =>
+        PcbPoint(bounds, PcbModelPoint(point));
+
+    private static SKPoint PcbPoint(SKRect bounds, PcbDataGlossaryGeometry.ModelPoint point) =>
+        PcbPoint(bounds, point.X, point.Y);
+
+    private static SKPoint PcbPoint(SKRect bounds, long x, long y)
+    {
+        var scale = PcbScale(bounds);
+        return new SKPoint(bounds.MidX + x * scale, bounds.MidY - y * scale);
+    }
+
+    private static SKRect PcbRect(SKRect bounds, long left, long top, long right, long bottom)
+    {
+        var a = PcbPoint(bounds, left, top);
+        var b = PcbPoint(bounds, right, bottom);
+        return new SKRect(Math.Min(a.X, b.X), Math.Min(a.Y, b.Y), Math.Max(a.X, b.X), Math.Max(a.Y, b.Y));
+    }
+
+    private static float PcbScale(SKRect bounds) =>
+        Math.Min(bounds.Width / 240f, bounds.Height / 162f) * 0.94f;
+
+    private static float PcbRadius(SKRect bounds, Relation circle)
+    {
+        var read = GraphicReadGraph.From(circle)
+            .ReadsOf<SharedFrameCircleRead>()
+            .FirstOrDefault();
+        if (read is null)
+        {
+            return PcbScale(bounds) * 6f;
+        }
+
+        var center = PcbModelPoint(read.Center);
+        var radius = PcbModelPoint(read.RadiusPoint);
+        return MathF.Sqrt((radius.X - center.X) * (radius.X - center.X) + (radius.Y - center.Y) * (radius.Y - center.Y)) * PcbScale(bounds);
+    }
+
+    private static PcbDataGlossaryGeometry.ModelPoint PcbModelPoint(SharedFramePointRead point)
+    {
+        var x = point.Coordinates.Count > 0 ? point.Coordinates[0].Ticks : 0;
+        var y = point.Coordinates.Count > 1 ? point.Coordinates[1].Ticks : 0;
+        return new PcbDataGlossaryGeometry.ModelPoint(x, y);
+    }
+
+    private static SKColor PcbNetColor(string net) =>
+        net switch
+        {
+            "VCC" => PcbPowerColor,
+            "SIG" => PcbSignalColor,
+            "GND" => PcbGroundColor,
+            "LED" => PcbLedColor,
+            _ => PcbCarrierColor
+        };
+
+    private static SKColor PcbBoardColor => new(30, 112, 84);
+
+    private static SKColor PcbBoardGhostColor => new(38, 116, 96);
+
+    private static SKColor PcbBoardEdgeColor => new(13, 70, 54);
+
+    private static SKColor PcbCopperPadColor => new(229, 184, 89);
+
+    private static SKColor PcbDrillColor => new(239, 244, 240);
+
+    private static SKColor PcbPowerColor => new(222, 91, 54);
+
+    private static SKColor PcbSignalColor => new(25, 154, 168);
+
+    private static SKColor PcbGroundColor => new(91, 120, 214);
+
+    private static SKColor PcbLedColor => new(215, 141, 42);
+
+    private static SKColor PcbBottomShadowColor => new(98, 88, 180);
+
+    private static SKColor PcbCarrierColor => new(99, 108, 109);
+
+    private static SKColor PcbFootprintColor => new(109, 132, 126);
+
+    private static SKColor PcbChipColor => new(38, 46, 47);
+
+    private static SKColor PcbConnectorColor => new(98, 121, 128);
+
+    private static SKColor PcbMarkerColor => new(126, 134, 142);
+
+    private static SKColor PcbWarningColor => new(214, 61, 50);
+
+    private static SKColor PcbPassColor => new(27, 142, 92);
+
+    private static SKColor PcbSilkColor => new(226, 238, 224);
+
+    private static SKColor PcbTextColor => new(39, 49, 49);
 
     private static void DrawSeparatePathSections(SKCanvas canvas, SKRect bounds)
     {

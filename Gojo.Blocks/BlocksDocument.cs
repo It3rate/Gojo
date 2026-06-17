@@ -177,5 +177,6 @@ internal enum BlocksGlossarySheetKind
     BooleanOffsetReads,
     DroneClipOffsetLadder,
     RadialCrescentLadder,
-    DiamondCuspRounding
+    DiamondCuspRounding,
+    PcbDataAttachment
 }
