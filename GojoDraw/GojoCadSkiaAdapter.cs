@@ -47,6 +47,18 @@ public sealed class GojoCadSkiaAdapter
                     outlineRead.SettlementEvidence))]);
         }
 
+        if (element is Relation directRoundedAction &&
+            GraphicBoundaryConceptSurface.TryReadRoundedBoundaryFromCuspSelection(
+                directRoundedAction,
+                out _,
+                out _,
+                out _,
+                out var directRoundedOutlineFrame,
+                out _))
+        {
+            return SelectProjectionSource(directRoundedOutlineFrame);
+        }
+
         if (element is Relation directSelection &&
             GraphicSelectionSurface.TryReadSelection(directSelection, out _, out _, out _, out _, out _))
         {
@@ -137,6 +149,18 @@ public sealed class GojoCadSkiaAdapter
             }
 
             return drawn;
+        }
+
+        if (element is Relation directRoundedAction &&
+            GraphicBoundaryConceptSurface.TryReadRoundedBoundaryFromCuspSelection(
+                directRoundedAction,
+                out _,
+                out _,
+                out _,
+                out var directRoundedOutlineFrame,
+                out _))
+        {
+            return DrawElement(canvas, directRoundedOutlineFrame, projection, paints, hitAreas);
         }
 
         if (element is Relation directSelection &&
@@ -506,6 +530,19 @@ public sealed class GojoCadSkiaAdapter
         }
 
         visited[relation.Id] = relation;
+        if (GraphicBoundaryConceptSurface.TryReadRoundedBoundaryFromCuspSelection(
+                relation,
+                out _,
+                out _,
+                out _,
+                out var roundedOutlineFrame,
+                out _))
+        {
+            var current = SelectCurrentRenderableRungs(roundedOutlineFrame, visited);
+            visited[relation.Id] = current;
+            return current;
+        }
+
         if (StructuralLadderSurface.TryReadCurrentRung(relation, out var currentRung) &&
             StructuralLadderSurface.TryReadRung(
                 currentRung,

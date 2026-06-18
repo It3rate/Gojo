@@ -329,6 +329,10 @@ internal static class BlocksGlossaryStructureCatalog
             RadialCrescentCircularBodyWalkedOutlineExperiment(new FrameBasis());
         structures["radial-crescent-outline-experiment-exploded"] =
             RadialCrescentCircularBodyExplodedOutlineExperiment(new FrameBasis());
+        structures["radial-crescent-outline-experiment-replacements"] =
+            RadialCrescentCircularBodyReplacementAreasExperiment(new FrameBasis());
+        structures["radial-crescent-outline-experiment-rounded"] =
+            RadialCrescentCircularBodyRoundedOutlineExperiment(new FrameBasis());
     }
 
     private static void AddDiamondCuspRounding(Dictionary<string, BlocksGlossaryStructure> structures)
@@ -1867,12 +1871,133 @@ internal static class BlocksGlossaryStructureCatalog
             7);
     }
 
+    private static BlocksGlossaryStructure RadialCrescentCircularBodyRoundedOutlineExperiment(FrameBasis frame)
+    {
+        var walkedOutline = RadialCrescentCircularBodyWalkedOutline(frame);
+        var selection = RadialCrescentCircularBodyCuspSelection(walkedOutline);
+        var roundAction = GraphicBoundaryConceptSurface.RoundedBoundaryFromCuspSelection(
+            new Carrier(),
+            selection,
+            walkedOutline,
+            radiusTicks: 18);
+        if (!GraphicBoundaryConceptSurface.TryReadRoundedBoundaryFromCuspSelection(
+                roundAction,
+                out _,
+                out _,
+                out _,
+                out _,
+                out _))
+        {
+            return Spec(
+                roundAction,
+                "Exterior cusp selection -> unresolved rounding",
+                "The rounding read did not settle; the unresolved action remains visible as Gojo structure.",
+                RadialCrescentCircularBodyBounds(),
+                7);
+        }
+
+        return Spec(
+            roundAction,
+            "Walked outline + CuspSelection(16) -> rounded arc-section splice",
+            "The final frame rejoins the walked sections and rounds every exterior cusp. Each cusp trims the incoming and outgoing source sections and inserts a new Gojo arc section, while retained circular pieces stay partial-circle arc sections.",
+            RadialCrescentCircularBodyBounds(),
+            7);
+    }
+
+    private static BlocksGlossaryStructure RadialCrescentCircularBodyReplacementAreasExperiment(FrameBasis frame)
+    {
+        var walkedOutline = RadialCrescentCircularBodyWalkedOutline(frame);
+        var selection = RadialCrescentCircularBodyCuspSelection(walkedOutline);
+        var roundAction = GraphicBoundaryConceptSurface.RoundedBoundaryFromCuspSelection(
+            new Carrier(),
+            selection,
+            walkedOutline,
+            radiusTicks: 18);
+        if (!GraphicBoundaryConceptSurface.TryReadRoundedBoundaryFromCuspSelection(
+                roundAction,
+                out _,
+                out _,
+                out _,
+                out var roundedFrame,
+                out _))
+        {
+            return Spec(
+                roundAction,
+                "Exterior cusp selection -> unresolved replacement groups",
+                "The replacement grouping did not settle; the unresolved rounding action remains visible as Gojo structure.",
+                RadialCrescentCircularBodyBounds(),
+                7);
+        }
+
+        var replacementGroups = RadialCrescentRoundedReplacementGroups(walkedOutline, roundedFrame);
+        return Spec(
+            replacementGroups,
+            "RoundedBoundary -> [new arcs | retained lines | retained circle arcs]",
+            "This frame separates the rounded result into three Gojo groups: newly inserted cusp arcs, retained straight line sections, and retained circular arc sections from the body and motor caps.",
+            RadialCrescentCircularBodyBounds(),
+            7);
+    }
+
     private static Relation RadialCrescentCircularBodyWalkedOutline(FrameBasis frame)
     {
         var areaFrame = RadialCrescentCircularBodyPositiveAreaFrame(frame);
         return GraphicAreaSettlementSurface.SettledPositiveBoundarySectionOutlinesFromAreas(
             new Carrier(),
             areaFrame);
+    }
+
+    private static Relation RadialCrescentCircularBodyCuspSelection(IElement walkedOutline)
+    {
+        var domain = GraphicBoundaryConceptSurface.CuspCandidateDomain(
+            new Carrier(),
+            walkedOutline,
+            witnessRadiusTicks: 7);
+        var pattern = GraphicBoundaryConceptSurface.CuspWitnessPattern(new Carrier(), new Placeholder());
+        return GraphicSelectionSurface.Search(new Carrier(), walkedOutline, domain, pattern);
+    }
+
+    private static Relation RadialCrescentRoundedReplacementGroups(IElement walkedOutline, IElement roundedFrame)
+    {
+        var sourceCircleCenters = GraphicReadGraph.From(walkedOutline)
+            .ReadsOf<SharedFrameArcRead>()
+            .Where(arc => TryPointKey(arc.Center, out _))
+            .Select(arc =>
+            {
+                _ = TryPointKey(arc.Center, out var key);
+                return key;
+            })
+            .ToHashSet();
+        var roundedGraph = GraphicReadGraph.From(roundedFrame);
+        var arcSpanIds = roundedGraph.ReadsOf<SharedFrameArcRead>()
+            .Select(arc => SourceId(arc.Span.Source))
+            .ToHashSet();
+        var newCurves = new List<IElement>();
+        var circleRemainders = new List<IElement>();
+        foreach (var section in roundedGraph.ReadsOf<SharedFrameArcSectionRead>()
+                     .DistinctBy(section => SourceId(section.Source)))
+        {
+            if (TryPointKey(section.Center, out var centerKey) &&
+                sourceCircleCenters.Contains(centerKey))
+            {
+                circleRemainders.Add(section.Source);
+            }
+            else
+            {
+                newCurves.Add(section.Source);
+            }
+        }
+
+        var straightRemainders = roundedGraph.ReadsOf<SharedFrameSegmentRead>()
+            .DistinctBy(segment => SourceId(segment.Source))
+            .Where(segment => !arcSpanIds.Contains(SourceId(segment.Source)))
+            .Select(segment => segment.Source)
+            .Cast<IElement>()
+            .ToArray();
+
+        return Group(
+            Group([.. newCurves]),
+            Group(straightRemainders),
+            Group([.. circleRemainders]));
     }
 
     private static Relation RadialCrescentCircularBodySourceOutline(FrameBasis frame) =>

@@ -818,11 +818,20 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
             var item = items[index];
             DrawClippedText(canvas, item.Title, cell.Left + 12, cell.Top + 23, cell.Width - 24, title);
             var diagram = new SKRect(cell.Left + 12, cell.Top + 34, cell.Right - 12, cell.Bottom - 10);
+            if (page.Id == "glossary-radial-crescent-outline-experiment" &&
+                item.Id == "radial-crescent-outline-experiment-replacements" &&
+                TryDrawRadialCrescentReplacementAreas(canvas, item, diagram, theme))
+            {
+                AddGlossaryTooltipHit(hitAreas, Inset(diagram, 2), item.Id, item.Title, page);
+                continue;
+            }
+
             using var paints = theme.CadTheme.CreatePaints();
             if (page.Id == "glossary-radial-crescent-outline-experiment")
             {
                 paints.DrawSharedFramePointMarkers = false;
-                if (item.Id == "radial-crescent-outline-experiment-exploded")
+                if (item.Id is "radial-crescent-outline-experiment-exploded" or
+                    "radial-crescent-outline-experiment-rounded")
                 {
                     paints.SharedFrameCurve.Color = theme.Accent;
                 }
@@ -831,6 +840,56 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
             GojoRenderer.Draw(canvas, item.Structure, diagram, item.ProjectionSeed, item.ModelBounds, paints);
             AddGlossaryTooltipHit(hitAreas, Inset(diagram, 2), item.Id, item.Title, page);
         }
+    }
+
+    private static bool TryDrawRadialCrescentReplacementAreas(
+        SKCanvas canvas,
+        BlocksGlossaryItem item,
+        SKRect diagram,
+        BlocksTheme theme)
+    {
+        if (!TryReadOrderedElements(item.Structure, out var groups) ||
+            groups.Length < 3)
+        {
+            return false;
+        }
+
+        var newCurves = groups[0];
+        var straightRemainders = groups[1];
+        var circleRemainders = groups[2];
+        DrawRadialCrescentReplacementGroup(canvas, circleRemainders, diagram, item, theme, theme.Accent);
+        DrawRadialCrescentReplacementGroup(canvas, straightRemainders, diagram, item, theme, new SKColor(115, 76, 155));
+        DrawRadialCrescentReplacementGroup(canvas, newCurves, diagram, item, theme, new SKColor(205, 61, 67));
+        return true;
+    }
+
+    private static void DrawRadialCrescentReplacementGroup(
+        SKCanvas canvas,
+        IElement structure,
+        SKRect diagram,
+        BlocksGlossaryItem item,
+        BlocksTheme theme,
+        SKColor color)
+    {
+        using var paints = theme.CadTheme.CreatePaints();
+        paints.DrawSharedFramePointMarkers = false;
+        paints.SharedFrameSegment.Color = color;
+        paints.SharedFrameCurve.Color = color;
+        paints.SharedFrameCurveTension.Color = WithAlpha(color, 210);
+        GojoRenderer.Draw(canvas, structure, diagram, item.ProjectionSeed, item.ModelBounds, paints);
+    }
+
+    private static bool TryReadOrderedElements(IElement structure, out IElement[] elements)
+    {
+        if (structure is Relation relation &&
+            relation.Right is Carrier holder &&
+            relation.TryReadOrderedElementsOn(holder, out elements))
+        {
+            return true;
+        }
+
+        elements = [];
+        return false;
     }
 
     private void DrawResolutionTensionGlossary(SKCanvas canvas, BlocksPage page, SKRect area, List<BlocksHitArea> hitAreas)

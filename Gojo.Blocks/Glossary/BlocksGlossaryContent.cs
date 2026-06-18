@@ -261,8 +261,8 @@ internal static class BlocksGlossaryContent
                     ItemFromStructure(structures, "radial-crescent-outline-experiment-sites", "Exterior sites"),
                     ItemFromStructure(structures, "radial-crescent-outline-experiment-walked", "Exterior outline"),
                     ItemFromStructure(structures, "radial-crescent-outline-experiment-exploded", "Exploded outline"),
-                    EmptyItem("radial-crescent-outline-experiment-spare-b", "-"),
-                    EmptyItem("radial-crescent-outline-experiment-spare-c", "-")
+                    ItemFromStructure(structures, "radial-crescent-outline-experiment-replacements", "Replacement areas"),
+                    ItemFromStructure(structures, "radial-crescent-outline-experiment-rounded", "Rounded outline")
                 ],
                 GlossaryDescriptions: descriptions,
                 GlossaryStructures: structures),

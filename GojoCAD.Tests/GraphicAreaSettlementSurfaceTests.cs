@@ -594,6 +594,74 @@ public sealed class GraphicAreaSettlementSurfaceTests
     }
 
     [Fact]
+    public void RoundedBoundaryFromCuspSelectionRoundsCircularBodyOutlineCuspsWithArcSections()
+    {
+        var basis = new TestBasis();
+        var areaFrame = GraphicAreaParticipationSurface.AreaFrame(
+            new Carrier(),
+            GraphicStructure.AreaFill(SingleCircle(basis, 0, 0, 92)),
+            GraphicStructure.AreaFill(ArmRectangle(basis, -132, 108, 0, 0, 30)),
+            GraphicStructure.AreaFill(ArmRectangle(basis, 132, 108, 0, 0, 30)),
+            GraphicStructure.AreaFill(ArmRectangle(basis, 132, -108, 0, 0, 30)),
+            GraphicStructure.AreaFill(ArmRectangle(basis, -132, -108, 0, 0, 30)),
+            GraphicStructure.AreaFill(SingleCircle(basis, -132, 108, 34)),
+            GraphicStructure.AreaFill(SingleCircle(basis, 132, 108, 34)),
+            GraphicStructure.AreaFill(SingleCircle(basis, 132, -108, 34)),
+            GraphicStructure.AreaFill(SingleCircle(basis, -132, -108, 34)));
+        var outline = GraphicAreaSettlementSurface.SettledPositiveBoundarySectionOutlinesFromAreas(
+            new Carrier(),
+            areaFrame);
+        var pattern = GraphicBoundaryConceptSurface.CuspWitnessPattern(new Carrier(), new Placeholder());
+        var domain = GraphicBoundaryConceptSurface.CuspCandidateDomain(new Carrier(), outline);
+        var selection = GraphicSelectionSurface.Search(new Carrier(), outline, domain, pattern);
+
+        Assert.True(GraphicSelectionSurface.TryReadSelection(
+            selection,
+            out _,
+            out _,
+            out _,
+            out var readMatches,
+            out _));
+        Assert.True(GraphicSelectionSurface.TryReadMatchFrame(Assert.IsType<Relation>(readMatches), out var matches));
+        Assert.Equal(16, matches.Length);
+
+        var rounded = GraphicBoundaryConceptSurface.RoundedBoundaryFromCuspSelection(
+            new Carrier(),
+            selection,
+            outline,
+            radiusTicks: 18);
+
+        Assert.True(GraphicBoundaryConceptSurface.TryReadRoundedBoundaryFromCuspSelection(
+            rounded,
+            out _,
+            out _,
+            out _,
+            out var roundedFrame,
+            out var residueOrTension));
+        if (residueOrTension is Relation residueFrame &&
+            residueFrame.Right is Carrier residueHolder &&
+            residueFrame.TryReadOrderedElementsOn(residueHolder, out var residueElements))
+        {
+            Assert.Empty(residueElements);
+        }
+
+        var graph = GraphicReadGraph.From(roundedFrame);
+        var roundedBoundary = Assert.Single(graph.ReadsOf<ClosedSharedFrameBoundaryRead>()
+            .DistinctBy(boundary => ReadSourceId(boundary.Source))
+            .ToArray());
+        Assert.True(roundedBoundary.Segments.Count >= 32);
+        Assert.True(graph.ReadsOf<SharedFrameArcSectionRead>()
+            .DistinctBy(section => ReadSourceId(section.Source))
+            .Count() >= 24);
+        Assert.Empty(graph.ReadsOf<SharedFrameAreaRead>());
+
+        var tangentDots = SmoothJoinTangentDots(roundedBoundary, graph)
+            .ToArray();
+        Assert.True(tangentDots.Length >= 32);
+        Assert.DoesNotContain(tangentDots, dot => dot < 0.985d);
+    }
+
+    [Fact]
     public void SettledAreaFrameSynthesizesCompositeLoopAcrossColinearOverlap()
     {
         var basis = new TestBasis();
@@ -1104,6 +1172,194 @@ public sealed class GraphicAreaSettlementSurfaceTests
 
             return sweep;
         }
+    }
+
+    private static IEnumerable<double> SmoothJoinTangentDots(
+        ClosedSharedFrameBoundaryRead boundary,
+        GraphicReadGraph graph)
+    {
+        var arcBySpanSource = (boundary.Arcs ?? [])
+            .GroupBy(arc => ReadSourceId(arc.Span.Source))
+            .ToDictionary(group => group.Key, group => group.First());
+        var sectionBySpanSource = graph.ReadsOf<SharedFrameArcSectionRead>()
+            .GroupBy(section => ReadSourceId(section.BaseArc.Span.Source))
+            .ToDictionary(group => group.Key, group => group.First());
+
+        foreach (var site in boundary.Sites)
+        {
+            if (site.Count != 2 ||
+                !TryTangentAwayFromSite(site[0], arcBySpanSource, sectionBySpanSource, out var firstX, out var firstY) ||
+                !TryTangentAwayFromSite(site[1], arcBySpanSource, sectionBySpanSource, out var secondX, out var secondY))
+            {
+                continue;
+            }
+
+            yield return Math.Abs(firstX * secondX + firstY * secondY);
+        }
+    }
+
+    private static bool TryTangentAwayFromSite(
+        SharedFrameSegmentEndpointRead endpoint,
+        IReadOnlyDictionary<ulong, SharedFrameArcRead> arcBySpanSource,
+        IReadOnlyDictionary<ulong, SharedFrameArcSectionRead> sectionBySpanSource,
+        out double unitX,
+        out double unitY)
+    {
+        unitX = 0d;
+        unitY = 0d;
+        if (!TryReadPoint(endpoint.Point, out var pointX, out var pointY))
+        {
+            return false;
+        }
+
+        var spanId = ReadSourceId(endpoint.Segment.Source);
+        if (arcBySpanSource.TryGetValue(spanId, out var arc) &&
+            TryReadPoint(arc.Center, out var centerX, out var centerY) &&
+            TryReadArcSweep(arc, sectionBySpanSource, out var sweep))
+        {
+            var radiusX = pointX - centerX;
+            var radiusY = pointY - centerY;
+            var radius = Math.Sqrt(radiusX * radiusX + radiusY * radiusY);
+            if (radius <= 0d ||
+                sweep == 0d)
+            {
+                return false;
+            }
+
+            var direction = endpoint.IsStart
+                ? Math.Sign(sweep)
+                : -Math.Sign(sweep);
+            unitX = -radiusY / radius * direction;
+            unitY = radiusX / radius * direction;
+            return true;
+        }
+
+        var other = endpoint.IsStart ? endpoint.Segment.End : endpoint.Segment.Start;
+        return TryReadPoint(other, out var otherX, out var otherY) &&
+            TryUnit(pointX, pointY, otherX, otherY, out unitX, out unitY);
+    }
+
+    private static bool TryReadArcSweep(
+        SharedFrameArcRead arc,
+        IReadOnlyDictionary<ulong, SharedFrameArcSectionRead> sectionBySpanSource,
+        out double sweep)
+    {
+        sweep = 0d;
+        if (!TryReadPoint(arc.Center, out var centerX, out var centerY) ||
+            !TryReadPoint(arc.Start, out var startX, out var startY) ||
+            !TryReadPoint(arc.End, out var endX, out var endY))
+        {
+            return false;
+        }
+
+        var startAngle = Math.Atan2(startY - centerY, startX - centerX);
+        var endAngle = Math.Atan2(endY - centerY, endX - centerX);
+        if (sectionBySpanSource.TryGetValue(ReadSourceId(arc.Span.Source), out var section) &&
+            TryReadPoint(section.Through, out var throughX, out var throughY))
+        {
+            sweep = SweepThrough(
+                startAngle,
+                Math.Atan2(throughY - centerY, throughX - centerX),
+                endAngle);
+            return true;
+        }
+
+        sweep = ShortestSweep(startAngle, endAngle);
+        return true;
+    }
+
+    private static bool TryReadPoint(SharedFramePointRead point, out double x, out double y)
+    {
+        if (point.Coordinates.Count >= 2)
+        {
+            x = point.Coordinates[0].Ticks;
+            y = point.Coordinates[1].Ticks;
+            return true;
+        }
+
+        x = 0d;
+        y = 0d;
+        return false;
+    }
+
+    private static bool TryUnit(
+        double fromX,
+        double fromY,
+        double toX,
+        double toY,
+        out double unitX,
+        out double unitY)
+    {
+        var deltaX = toX - fromX;
+        var deltaY = toY - fromY;
+        var length = Math.Sqrt(deltaX * deltaX + deltaY * deltaY);
+        if (length <= 0d)
+        {
+            unitX = 0d;
+            unitY = 0d;
+            return false;
+        }
+
+        unitX = deltaX / length;
+        unitY = deltaY / length;
+        return true;
+    }
+
+    private static double ShortestSweep(double startAngle, double endAngle)
+    {
+        var sweep = endAngle - startAngle;
+        while (sweep <= -Math.PI)
+        {
+            sweep += Math.PI * 2d;
+        }
+
+        while (sweep > Math.PI)
+        {
+            sweep -= Math.PI * 2d;
+        }
+
+        return sweep;
+    }
+
+    private static double SweepThrough(double startAngle, double throughAngle, double endAngle)
+    {
+        var positiveThrough = PositiveSweep(startAngle, throughAngle);
+        var positiveEnd = PositiveSweep(startAngle, endAngle);
+        if (positiveThrough <= positiveEnd + 0.000001d)
+        {
+            return positiveEnd;
+        }
+
+        var negativeThrough = NegativeSweep(startAngle, throughAngle);
+        var negativeEnd = NegativeSweep(startAngle, endAngle);
+        if (negativeThrough >= negativeEnd - 0.000001d)
+        {
+            return negativeEnd;
+        }
+
+        return ShortestSweep(startAngle, endAngle);
+    }
+
+    private static double PositiveSweep(double startAngle, double endAngle)
+    {
+        var sweep = endAngle - startAngle;
+        while (sweep < 0d)
+        {
+            sweep += Math.PI * 2d;
+        }
+
+        return sweep;
+    }
+
+    private static double NegativeSweep(double startAngle, double endAngle)
+    {
+        var sweep = endAngle - startAngle;
+        while (sweep > 0d)
+        {
+            sweep -= Math.PI * 2d;
+        }
+
+        return sweep;
     }
 
     private static ulong ReadSourceId(IElement source) =>
