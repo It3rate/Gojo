@@ -794,7 +794,9 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
             return;
         }
 
-        var columns = area.Width >= 760 ? 4 : area.Width >= 540 ? 3 : 2;
+        var columns = page.Id == "glossary-radial-crescent-outline-experiment"
+            ? Math.Min(3, Math.Max(1, items.Count))
+            : area.Width >= 760 ? 4 : area.Width >= 540 ? 3 : 2;
         var rows = (int)Math.Ceiling(items.Count / (double)columns);
         var gap = 14f;
         var cellWidth = (area.Width - gap * (columns - 1)) / columns;
@@ -817,6 +819,11 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
             DrawClippedText(canvas, item.Title, cell.Left + 12, cell.Top + 23, cell.Width - 24, title);
             var diagram = new SKRect(cell.Left + 12, cell.Top + 34, cell.Right - 12, cell.Bottom - 10);
             using var paints = theme.CadTheme.CreatePaints();
+            if (page.Id == "glossary-radial-crescent-outline-experiment")
+            {
+                paints.DrawSharedFramePointMarkers = false;
+            }
+
             GojoRenderer.Draw(canvas, item.Structure, diagram, item.ProjectionSeed, item.ModelBounds, paints);
             AddGlossaryTooltipHit(hitAreas, Inset(diagram, 2), item.Id, item.Title, page);
         }

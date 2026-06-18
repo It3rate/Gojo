@@ -247,6 +247,26 @@ internal static class BlocksGlossaryContent
                 GlossaryDescriptions: descriptions,
                 GlossaryStructures: structures),
             new BlocksPage(
+                "glossary-radial-crescent-outline-experiment",
+                "Crescent Outline Experiment",
+                "Experimental Gojo-side outline reads for the circular-body quadcopter.",
+                string.Empty,
+                null,
+                null,
+                0,
+                ["circle body", "rectangular arms", "motor caps", "split intersections", "outline read"],
+                GlossaryItems:
+                [
+                    ItemFromStructure(structures, "radial-crescent-outline-experiment-full", "Full outline"),
+                    ItemFromStructure(structures, "radial-crescent-outline-experiment-sites", "Exterior sites"),
+                    ItemFromStructure(structures, "radial-crescent-outline-experiment-walked", "Exterior outline"),
+                    ItemFromStructure(structures, "radial-crescent-outline-experiment-exploded", "Exploded outline"),
+                    EmptyItem("radial-crescent-outline-experiment-spare-b", "-"),
+                    EmptyItem("radial-crescent-outline-experiment-spare-c", "-")
+                ],
+                GlossaryDescriptions: descriptions,
+                GlossaryStructures: structures),
+            new BlocksPage(
                 "glossary-drone-clip-offset-ladder",
                 "Drone Clip Offset Ladder",
                 "A ten-rung progression from a drone arm clip source outline through offsets, intersections, rounding, loops, and filled negative spaces.",
@@ -308,6 +328,17 @@ internal static class BlocksGlossaryContent
                 GlossaryStructures: structures)
         ];
     }
+
+    private static BlocksGlossaryItem ItemFromStructure(
+        IReadOnlyDictionary<string, BlocksGlossaryStructure> structures,
+        string id,
+        string title) =>
+        structures.TryGetValue(id, out var structure)
+            ? new BlocksGlossaryItem(id, title, structure.Structure, structure.ModelBounds, structure.ProjectionSeed)
+            : EmptyItem(id, title);
+
+    private static BlocksGlossaryItem EmptyItem(string id, string title) =>
+        new(id, title, new Carrier(), null);
 
     private static IReadOnlyDictionary<string, string> LoadDescriptions(string locale)
     {

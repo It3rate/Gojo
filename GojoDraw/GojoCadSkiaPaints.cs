@@ -139,6 +139,8 @@ public sealed class GojoCadSkiaPaints : IDisposable
 
     public bool HideSharedFrameGeometry { get; init; }
 
+    public bool DrawSharedFramePointMarkers { get; set; } = true;
+
     public bool DrawSharedFrameAreaPartitions { get; init; }
 
     public bool DrawAreaUnionOutline { get; init; }

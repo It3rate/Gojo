@@ -855,8 +855,15 @@ public sealed class GraphicReadGraph
                     Circles: [circle]);
             }
 
-            var segments = reads.OfType<SharedFrameSegmentRead>().ToArray();
-            var arcs = reads.OfType<SharedFrameArcRead>().ToArray();
+            var arcSections = reads.OfType<SharedFrameArcSectionRead>().ToArray();
+            var segments = reads.OfType<SharedFrameSegmentRead>()
+                .Concat(arcSections.Select(section => section.BaseArc.Span))
+                .DistinctBy(segment => ReadSourceId(segment.Source))
+                .ToArray();
+            var arcs = reads.OfType<SharedFrameArcRead>()
+                .Concat(arcSections.Select(section => section.BaseArc))
+                .DistinctBy(arc => ReadSourceId(arc.Source))
+                .ToArray();
             if (segments.Length < 3)
             {
                 yield break;

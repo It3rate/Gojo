@@ -51,6 +51,38 @@ public static class GraphicAreaSettlementSurface
     }
 
     /// <summary>
+    /// Settles positive area participants and emits the resulting exterior
+    /// boundary as an area-to-outline read. The outline witness carries the
+    /// split segment/arc/circle fragments produced by settlement.
+    /// </summary>
+    public static Relation SettledPositiveOutlineReadFromAreas(Carrier root, IElement areaFrame)
+    {
+        var union = SettledPositiveAreaUnion(new Carrier(), areaFrame);
+        if (!GraphicAreaParticipationSurface.TryReadAreaUnion(
+                union,
+                out var settledAreaFrame,
+                out var outline,
+                out var settlementEvidence,
+                out var residueOrTension))
+        {
+            return GraphicOutlineSurface.FromArea(
+                RootOrNew(root),
+                areaFrame,
+                GraphicOutlineSurface.OutlineFrame(new Carrier()));
+        }
+
+        var settledBoundaryOutline = GraphicOutlineSurface.PositiveBoundaryOutlinesFromAreas(
+            new Carrier(),
+            settledAreaFrame);
+        return GraphicOutlineSurface.FromArea(
+            RootOrNew(root),
+            union,
+            HasReadableBoundaryOutline(settledBoundaryOutline) ? settledBoundaryOutline : outline,
+            settlementEvidence,
+            residueOrTension);
+    }
+
+    /// <summary>
     /// Creates an area union with a participation-settlement witness while
     /// preserving a caller-supplied result area frame and outline witness.
     /// </summary>
@@ -125,6 +157,25 @@ public static class GraphicAreaSettlementSurface
         return GraphicOutlineSurface.OutlineFrame(RootOrNew(root), [.. settlement.PositiveOutlines]);
     }
 
+    /// <summary>
+    /// Reads only the settled positive boundary loops, preserving arc fragments
+    /// as arc sections with through points from the walked interval.
+    /// </summary>
+    public static Relation SettledPositiveBoundarySectionOutlinesFromAreas(Carrier root, IElement areaFrame)
+    {
+        var settlement = CreateSettlement(areaFrame);
+        if (settlement.PositiveSectionOutlines.Count > 0)
+        {
+            return GraphicOutlineSurface.OutlineFrame(RootOrNew(root), [.. settlement.PositiveSectionOutlines]);
+        }
+
+        var settledAreaFrame = GraphicAreaParticipationSurface.AreaFrame(new Carrier(), [.. settlement.AreaFills]);
+        var settledBoundaryOutline = GraphicOutlineSurface.PositiveBoundaryOutlinesFromAreas(
+            new Carrier(),
+            settledAreaFrame);
+        return BoundarySectionOutlineFrame(RootOrNew(root), settledBoundaryOutline);
+    }
+
     /// <summary>Reads only the settled unfilled boundary loops from an area frame.</summary>
     public static Relation SettledAntiBoundaryOutlinesFromAreas(Carrier root, IElement areaFrame)
     {
@@ -165,7 +216,8 @@ public static class GraphicAreaSettlementSurface
             return EmptySettlement();
         }
 
-        var splitParameters = edges.ToDictionary(edge => edge, _ => new List<double> { 0d, 1d });
+        var splitParameters = edges.ToDictionary(edge => edge, edge =>
+            edge.IsCircle ? new List<double>() : new List<double> { 0d, 1d });
         for (var leftIndex = 0; leftIndex < edges.Length; leftIndex++)
         for (var rightIndex = leftIndex + 1; rightIndex < edges.Length; rightIndex++)
         {
@@ -192,6 +244,46 @@ public static class GraphicAreaSettlementSurface
                 .DistinctBy(t => Math.Round(t, 6))
                 .Order()
                 .ToArray();
+            if (edge.IsCircle)
+            {
+                if (parameters.Length < 2)
+                {
+                    var fragment = edge.Fragment(0d, 1d);
+                    var leftInside = Contains(participants, fragment.LeftSample());
+                    var rightInside = Contains(participants, fragment.RightSample());
+                    if (leftInside != rightInside)
+                    {
+                        fragments.Add(fragment.WithSides(leftInside, rightInside));
+                    }
+
+                    continue;
+                }
+
+                for (var index = 0; index < parameters.Length; index++)
+                {
+                    var startT = parameters[index];
+                    var endT = index + 1 < parameters.Length
+                        ? parameters[index + 1]
+                        : parameters[0] + 1d;
+                    if (endT - startT < Epsilon)
+                    {
+                        continue;
+                    }
+
+                    var fragment = edge.Fragment(startT, endT);
+                    var leftInside = Contains(participants, fragment.LeftSample());
+                    var rightInside = Contains(participants, fragment.RightSample());
+                    if (leftInside == rightInside)
+                    {
+                        continue;
+                    }
+
+                    fragments.Add(fragment.WithSides(leftInside, rightInside));
+                }
+
+                continue;
+            }
+
             for (var index = 0; index + 1 < parameters.Length; index++)
             {
                 var startT = parameters[index];
@@ -234,6 +326,9 @@ public static class GraphicAreaSettlementSurface
         var outlines = new List<IElement>();
         var positiveOutlines = new List<IElement>();
         var antiOutlines = new List<IElement>();
+        var sectionOutlines = new List<IElement>();
+        var positiveSectionOutlines = new List<IElement>();
+        var antiSectionOutlines = new List<IElement>();
         var fills = new List<IElement>();
         var positiveFills = new List<IElement>();
         var antiFills = new List<IElement>();
@@ -257,6 +352,7 @@ public static class GraphicAreaSettlementSurface
 
             var orientedLoop = OrientLoop(loop, isPositive, signedArea);
             var elements = FragmentElements(orientedLoop);
+            var sectionElements = FragmentSectionElements(orientedLoop);
             if (elements.Length < 3 &&
                 !orientedLoop.Any(fragment => fragment.IsCircle))
             {
@@ -264,10 +360,13 @@ public static class GraphicAreaSettlementSurface
             }
 
             var outline = Chain(elements);
+            var sectionOutline = Chain(sectionElements);
             outlines.Add(outline);
+            sectionOutlines.Add(sectionOutline);
             if (isPositive)
             {
                 positiveOutlines.Add(outline);
+                positiveSectionOutlines.Add(sectionOutline);
                 var fill = GraphicStructure.AreaFill(outline);
                 fills.Add(fill);
                 positiveFills.Add(fill);
@@ -275,6 +374,7 @@ public static class GraphicAreaSettlementSurface
             else
             {
                 antiOutlines.Add(outline);
+                antiSectionOutlines.Add(sectionOutline);
                 var fill = GraphicStructure.AntiAreaFill(outline);
                 fills.Add(fill);
                 antiFills.Add(fill);
@@ -396,6 +496,9 @@ public static class GraphicAreaSettlementSurface
             [.. outlines],
             [.. positiveOutlines],
             [.. antiOutlines],
+            [.. sectionOutlines],
+            [.. positiveSectionOutlines],
+            [.. antiSectionOutlines],
             partitionFragments,
             distinctResidue,
             resolvedAreaFills,
@@ -404,7 +507,7 @@ public static class GraphicAreaSettlementSurface
     }
 
     private static SettlementRead EmptySettlement() =>
-        new([], [], [], [], [], [], [], [], [], [], []);
+        new([], [], [], [], [], [], [], [], [], [], [], [], [], []);
 
     private static Relation CreateParticipationSettlement(
         Carrier root,
@@ -457,6 +560,10 @@ public static class GraphicAreaSettlementSurface
 
         return GraphicAreaParticipationSurface.Frame(RootOrNew(root), values);
     }
+
+    private static bool HasReadableBoundaryOutline(IElement outline) =>
+        GraphicReadGraph.From(outline).ReadsOf<ClosedSharedFrameBoundaryRead>().Any() ||
+        GraphicReadGraph.From(outline).ReadsOf<ClosedSegmentBoundaryRead>().Any();
 
     private static ParticipantRead ReadParticipant(IElement participant)
     {
@@ -677,6 +784,84 @@ public static class GraphicAreaSettlementSurface
         return Chain(elements);
     }
 
+    private static Relation BoundarySectionOutlineFrame(Carrier root, IElement outlineFrame)
+    {
+        var outlines = GraphicReadGraph.From(outlineFrame)
+            .ReadsOf<ClosedSharedFrameBoundaryRead>()
+            .DistinctBy(boundary => SourceId(boundary.Source))
+            .Select(BoundarySectionStructure)
+            .ToArray();
+        return GraphicOutlineSurface.OutlineFrame(root, outlines);
+    }
+
+    private static IElement BoundarySectionStructure(ClosedSharedFrameBoundaryRead boundary)
+    {
+        if (boundary.Circles is { Count: > 0 })
+        {
+            return Chain([.. boundary.Circles.Select(circle => circle.Source)]);
+        }
+
+        var arcBySpanSource = (boundary.Arcs ?? [])
+            .GroupBy(arc => SourceId(arc.Span.Source))
+            .ToDictionary(group => group.Key, group => group.First());
+        var elements = TryReadCoordinateBoundaryEdges(boundary, out var oriented)
+            ? oriented
+                .Select(edge => BoundarySectionElement(edge, arcBySpanSource))
+                .ToArray()
+            : boundary.Segments
+                .Select(segment => arcBySpanSource.TryGetValue(SourceId(segment.Source), out var arc)
+                    ? BoundaryArcSectionElement(
+                        arc,
+                        (Relation)segment.Start.Source,
+                        (Relation)segment.End.Source)
+                    : GraphicStructure.FrameSegment(
+                        (Relation)segment.Start.Source,
+                        (Relation)segment.End.Source))
+                .Cast<IElement>()
+                .ToArray();
+        return Chain(elements);
+    }
+
+    private static IElement BoundarySectionElement(
+        OrientedBoundaryEdge edge,
+        IReadOnlyDictionary<ulong, SharedFrameArcRead> arcBySpanSource)
+    {
+        var start = (Relation)edge.StartEndpoint.Point.Source;
+        var end = (Relation)edge.EndEndpoint.Point.Source;
+        return arcBySpanSource.TryGetValue(SourceId(edge.Segment.Source), out var arc)
+            ? BoundaryArcSectionElement(arc, start, end)
+            : GraphicStructure.FrameSegment(start, end);
+    }
+
+    private static IElement BoundaryArcSectionElement(SharedFrameArcRead arc, Relation start, Relation end)
+    {
+        if (!TryReadPoint(arc.Center, out var centerPoint) ||
+            !TryReadFramePoint(start, out var startPoint) ||
+            !TryReadFramePoint(end, out var endPoint))
+        {
+            return GraphicStructure.FrameArc((Relation)arc.Center.Source, start, end);
+        }
+
+        var through = CreateFramePoint(
+            startPoint.Template,
+            ArcMidPoint(centerPoint.Point, startPoint.Point, endPoint.Point));
+        return GraphicStructure.FrameArcSection((Relation)arc.Center.Source, start, through, end);
+    }
+
+    private static bool TryReadFramePoint(Relation source, out FramePointTicks ticks)
+    {
+        var point = GraphicReadGraph.From(source)
+            .ReadsOf<SharedFramePointRead>()
+            .FirstOrDefault();
+        if (point is not null)
+        {
+            return TryReadPoint(point, out ticks);
+        }
+
+        ticks = default;
+        return false;
+    }
+
     private static IElement[] BoundaryElements(IReadOnlyList<BoundaryEdge> edges)
     {
         var points = new Dictionary<string, Relation>();
@@ -713,6 +898,24 @@ public static class GraphicAreaSettlementSurface
         return [.. fragments.Select(fragment => FragmentElement(fragment, Point))];
     }
 
+    private static IElement[] FragmentSectionElements(IReadOnlyList<FragmentRead> fragments)
+    {
+        var points = new Dictionary<string, Relation>();
+        Relation Point(SharedFramePointRead template, Point2 point)
+        {
+            var key = BoundaryPointKey(template, point);
+            if (!points.TryGetValue(key, out var relation))
+            {
+                relation = CreateFramePoint(template, point);
+                points.Add(key, relation);
+            }
+
+            return relation;
+        }
+
+        return [.. fragments.Select(fragment => FragmentSectionElement(fragment, Point))];
+    }
+
     private static IElement FragmentElement(
         FragmentRead fragment,
         Func<SharedFramePointRead, Point2, Relation> pointAt)
@@ -728,6 +931,27 @@ public static class GraphicAreaSettlementSurface
         return fragment.IsCircle
             ? GraphicStructure.FrameCircle(center, start)
             : GraphicStructure.FrameArc(center, start, end);
+    }
+
+    private static IElement FragmentSectionElement(
+        FragmentRead fragment,
+        Func<SharedFramePointRead, Point2, Relation> pointAt)
+    {
+        var start = pointAt(fragment.Template, fragment.Start);
+        var end = pointAt(fragment.Template, fragment.End);
+        if (!fragment.IsArc)
+        {
+            return GraphicStructure.FrameSegment(start, end);
+        }
+
+        var center = pointAt(fragment.Template, fragment.Center);
+        if (fragment.IsCircle)
+        {
+            return GraphicStructure.FrameCircle(center, start);
+        }
+
+        var through = pointAt(fragment.Template, fragment.MidPoint());
+        return GraphicStructure.FrameArcSection(center, start, through, end);
     }
 
     private static IElement BoundaryEdgeElement(
@@ -1893,6 +2117,17 @@ public static class GraphicAreaSettlementSurface
         return sweep;
     }
 
+    private static Point2 ArcMidPoint(Point2 center, Point2 start, Point2 end)
+    {
+        var startAngle = Angle(center, start);
+        var sweep = ShortestSweep(startAngle, Angle(center, end));
+        var radius = (Length(start - center) + Length(end - center)) * 0.5d;
+        var midAngle = startAngle + sweep * 0.5d;
+        return new Point2(
+            center.X + Math.Cos(midAngle) * radius,
+            center.Y + Math.Sin(midAngle) * radius);
+    }
+
     private static double NormalizePositiveRadians(double angle)
     {
         while (angle < 0d)
@@ -1917,6 +2152,9 @@ public static class GraphicAreaSettlementSurface
         IReadOnlyList<IElement> Outlines,
         IReadOnlyList<IElement> PositiveOutlines,
         IReadOnlyList<IElement> AntiOutlines,
+        IReadOnlyList<IElement> SectionOutlines,
+        IReadOnlyList<IElement> PositiveSectionOutlines,
+        IReadOnlyList<IElement> AntiSectionOutlines,
         IReadOnlyList<IElement> FragmentPartitions,
         IReadOnlyList<IElement> Residue,
         IReadOnlyList<IElement> ResolvedAreaFills,

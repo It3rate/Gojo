@@ -538,6 +538,62 @@ public sealed class GraphicAreaSettlementSurfaceTests
     }
 
     [Fact]
+    public void SettledPositiveOutlineReadFromAreasSplitsCircularBodyArmAndCapBoundaries()
+    {
+        var basis = new TestBasis();
+        var areaFrame = GraphicAreaParticipationSurface.AreaFrame(
+            new Carrier(),
+            GraphicStructure.AreaFill(SingleCircle(basis, 0, 0, 92)),
+            GraphicStructure.AreaFill(ArmRectangle(basis, -132, 108, 0, 0, 30)),
+            GraphicStructure.AreaFill(ArmRectangle(basis, 132, 108, 0, 0, 30)),
+            GraphicStructure.AreaFill(ArmRectangle(basis, 132, -108, 0, 0, 30)),
+            GraphicStructure.AreaFill(ArmRectangle(basis, -132, -108, 0, 0, 30)),
+            GraphicStructure.AreaFill(SingleCircle(basis, -132, 108, 34)),
+            GraphicStructure.AreaFill(SingleCircle(basis, 132, 108, 34)),
+            GraphicStructure.AreaFill(SingleCircle(basis, 132, -108, 34)),
+            GraphicStructure.AreaFill(SingleCircle(basis, -132, -108, 34)));
+
+        var outlineRead = GraphicAreaSettlementSurface.SettledPositiveOutlineReadFromAreas(new Carrier(), areaFrame);
+
+        Assert.True(GraphicOutlineSurface.TryReadFromArea(
+            outlineRead,
+            out var areaOrUnion,
+            out var outline,
+            out var settlementEvidence,
+            out _));
+        Assert.True(GraphicAreaParticipationSurface.TryReadAreaUnion(
+            Assert.IsType<Relation>(areaOrUnion),
+            out _,
+            out _,
+            out _,
+            out _));
+        Assert.True(ParticipationSettlementSurface.TryRead(Assert.IsType<Relation>(settlementEvidence), out _));
+
+        var outlines = GraphicReadGraph.From(outline)
+            .ReadsOf<ClosedSharedFrameBoundaryRead>()
+            .DistinctBy(boundary => ReadSourceId(boundary.Source))
+            .ToArray();
+        Assert.NotEmpty(outlines);
+        Assert.Contains(outlines, boundary => boundary.Arcs is { Count: > 0 });
+        Assert.Contains(outlines, boundary => boundary.Segments is { Count: > 0 });
+        Assert.Empty(GraphicReadGraph.From(outline).ReadsOf<SharedFrameAreaRead>());
+
+        var sectionOutline = GraphicAreaSettlementSurface.SettledPositiveBoundarySectionOutlinesFromAreas(
+            new Carrier(),
+            areaFrame);
+        var sectionGraph = GraphicReadGraph.From(sectionOutline);
+        var exteriorBoundaries = sectionGraph.ReadsOf<ClosedSharedFrameBoundaryRead>()
+            .DistinctBy(boundary => ReadSourceId(boundary.Source))
+            .ToArray();
+        var exterior = Assert.Single(exteriorBoundaries);
+        Assert.True(exterior.Segments.Count >= 16);
+        Assert.NotEmpty(sectionGraph.ReadsOf<SharedFrameArcSectionRead>());
+        Assert.Empty(sectionGraph.ReadsOf<SharedFrameAreaRead>());
+        Assert.DoesNotContain(ExteriorEndpointKeys(exterior), key =>
+            key is "92:0" or "0:92" or "-92:0" or "0:-92");
+    }
+
+    [Fact]
     public void SettledAreaFrameSynthesizesCompositeLoopAcrossColinearOverlap()
     {
         var basis = new TestBasis();
@@ -732,6 +788,33 @@ public sealed class GraphicAreaSettlementSurfaceTests
             Segment(basis, maxX, maxY, minX, maxY),
             Segment(basis, minX, maxY, minX, minY));
 
+    private static Relation ArmRectangle(
+        TestBasis basis,
+        double startX,
+        double startY,
+        double endX,
+        double endY,
+        double width)
+    {
+        var dx = endX - startX;
+        var dy = endY - startY;
+        var length = Math.Sqrt(dx * dx + dy * dy);
+        var normalX = -dy / length;
+        var normalY = dx / length;
+        var half = width * 0.5d;
+        (long X, long Y) Point(double x, double y) =>
+            ((long)Math.Round(x, MidpointRounding.AwayFromZero), (long)Math.Round(y, MidpointRounding.AwayFromZero));
+        var a = Point(startX + normalX * half, startY + normalY * half);
+        var b = Point(endX + normalX * half, endY + normalY * half);
+        var c = Point(endX - normalX * half, endY - normalY * half);
+        var d = Point(startX - normalX * half, startY - normalY * half);
+        return Chain(
+            Segment(basis, a.X, a.Y, b.X, b.Y),
+            Segment(basis, b.X, b.Y, c.X, c.Y),
+            Segment(basis, c.X, c.Y, d.X, d.Y),
+            Segment(basis, d.X, d.Y, a.X, a.Y));
+    }
+
     private static Relation Segment(TestBasis basis, long startX, long startY, long endX, long endY) =>
         GraphicStructure.FrameSegment(basis.P(startX, startY), basis.P(endX, endY));
 
@@ -741,6 +824,9 @@ public sealed class GraphicAreaSettlementSurfaceTests
             GraphicStructure.FrameArc(basis.P(centerX, centerY), basis.P(centerX, centerY + radius), basis.P(centerX - radius, centerY)),
             GraphicStructure.FrameArc(basis.P(centerX, centerY), basis.P(centerX - radius, centerY), basis.P(centerX, centerY - radius)),
             GraphicStructure.FrameArc(basis.P(centerX, centerY), basis.P(centerX, centerY - radius), basis.P(centerX + radius, centerY)));
+
+    private static Relation SingleCircle(TestBasis basis, long centerX, long centerY, long radius) =>
+        GraphicStructure.FrameCircle(basis.P(centerX, centerY), basis.P(centerX + radius, centerY));
 
     private static Relation ArcBand(
         TestBasis basis,
@@ -1022,6 +1108,19 @@ public sealed class GraphicAreaSettlementSurfaceTests
 
     private static ulong ReadSourceId(IElement source) =>
         source is Relation relation ? relation.Id : 0UL;
+
+    private static IEnumerable<string> ExteriorEndpointKeys(ClosedSharedFrameBoundaryRead boundary)
+    {
+        foreach (var point in boundary.Segments.SelectMany(segment => new[] { segment.Start, segment.End }))
+        {
+            yield return EndpointKey(point);
+        }
+    }
+
+    private static string EndpointKey(SharedFramePointRead point) =>
+        point.Coordinates.Count >= 2
+            ? $"{point.Coordinates[0].Ticks}:{point.Coordinates[1].Ticks}"
+            : "?";
 
     private static IElement[] Elements(Relation frame)
     {

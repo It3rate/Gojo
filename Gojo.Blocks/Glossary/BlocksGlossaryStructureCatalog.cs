@@ -30,6 +30,7 @@ internal static class BlocksGlossaryStructureCatalog
         AddCrystallizationProvenance(structures);
         AddDroneClipOffsetLadder(structures);
         AddRadialCrescentLadder(structures);
+        AddRadialCrescentOutlineExperiment(structures);
         AddDiamondCuspRounding(structures);
         AddConstraintsSettlement(structures);
         AddTopologyParticipation(structures);
@@ -316,6 +317,18 @@ internal static class BlocksGlossaryStructureCatalog
         {
             structures[$"radial-crescent-{id}"] = RadialCrescentLadder(id);
         }
+    }
+
+    private static void AddRadialCrescentOutlineExperiment(Dictionary<string, BlocksGlossaryStructure> structures)
+    {
+        structures["radial-crescent-outline-experiment-full"] =
+            RadialCrescentCircularBodyOutlineExperiment(new FrameBasis());
+        structures["radial-crescent-outline-experiment-sites"] =
+            RadialCrescentCircularBodyExteriorSitesExperiment(new FrameBasis());
+        structures["radial-crescent-outline-experiment-walked"] =
+            RadialCrescentCircularBodyWalkedOutlineExperiment(new FrameBasis());
+        structures["radial-crescent-outline-experiment-exploded"] =
+            RadialCrescentCircularBodyExplodedOutlineExperiment(new FrameBasis());
     }
 
     private static void AddDiamondCuspRounding(Dictionary<string, BlocksGlossaryStructure> structures)
@@ -1808,6 +1821,361 @@ internal static class BlocksGlossaryStructureCatalog
             RadialCrescentBounds());
     }
 
+    private static BlocksGlossaryStructure RadialCrescentCircularBodyOutlineExperiment(FrameBasis frame)
+    {
+        var sourceOutline = RadialCrescentCircularBodySourceOutline(frame);
+        return Spec(
+            sourceOutline,
+            "Circle body + rectangular arms + motor caps",
+            "The first frame shows only the source boundaries used by the experimental read: one body circle, four diagonal rectangular arm carriers, and four motor cap circles.",
+            RadialCrescentCircularBodyBounds(),
+            7);
+    }
+
+    private static BlocksGlossaryStructure RadialCrescentCircularBodyExteriorSitesExperiment(FrameBasis frame)
+    {
+        var walkedOutline = RadialCrescentCircularBodyWalkedOutline(frame);
+        var endpointMarkers = RadialCrescentExteriorEndpointMarkers(walkedOutline);
+        return Spec(
+            Group(walkedOutline, endpointMarkers),
+            "BoundarySectionWalk -> exterior endpoint witnesses",
+            "This intermediate frame marks the exterior perimeter endpoints after the intersection split. The small circles are Gojo circle elements around the walked outline sites.",
+            RadialCrescentCircularBodyBounds(),
+            7);
+    }
+
+    private static BlocksGlossaryStructure RadialCrescentCircularBodyWalkedOutlineExperiment(FrameBasis frame)
+    {
+        var walkedOutline = RadialCrescentCircularBodyWalkedOutline(frame);
+        return Spec(
+            walkedOutline,
+            "AreaFrame(...) -> exterior boundary-section walk",
+            "The exterior frame keeps only the union perimeter. Interior overlap fragments are removed; each remaining line or arc section is emitted as its own Gojo element with shared endpoint relations.",
+            RadialCrescentCircularBodyBounds(),
+            7);
+    }
+
+    private static BlocksGlossaryStructure RadialCrescentCircularBodyExplodedOutlineExperiment(FrameBasis frame)
+    {
+        var walkedOutline = RadialCrescentCircularBodyWalkedOutline(frame);
+        var explodedOutline = RadialCrescentExplodedOutlineSections(walkedOutline);
+        return Spec(
+            explodedOutline,
+            "BoundarySectionWalk -> exploded edge sections",
+            "The third frame reads the walked outline sections and moves each section away from the body center. The sections are no longer visually joined, but each remains a Gojo line or arc section derived from the walked outline.",
+            RadialCrescentCircularBodyExplodedBounds(),
+            7);
+    }
+
+    private static Relation RadialCrescentCircularBodyWalkedOutline(FrameBasis frame)
+    {
+        var areaFrame = RadialCrescentCircularBodyPositiveAreaFrame(frame);
+        return GraphicAreaSettlementSurface.SettledPositiveBoundarySectionOutlinesFromAreas(
+            new Carrier(),
+            areaFrame);
+    }
+
+    private static Relation RadialCrescentCircularBodySourceOutline(FrameBasis frame) =>
+        Group(
+            [
+                FrameCircle(frame, 0, 0, 92),
+                .. RadialCrescentCircularBodyArmSections(frame),
+                .. RadialCrescentCircularBodyCapCircles(frame)
+            ]);
+
+    private static Relation RadialCrescentCircularBodyPositiveAreaFrame(FrameBasis frame)
+    {
+        IElement[] participants =
+        [
+            GraphicStructure.AreaFill(FrameCircle(frame, 0, 0, 92)),
+            .. RadialCrescentCircularBodyArmFills(frame),
+            .. RadialCrescentCircularBodyEndpointCapFills(frame)
+        ];
+        return GraphicAreaParticipationSurface.AreaFrame(new Carrier(), participants);
+    }
+
+    private static Relation RadialCrescentExteriorEndpointMarkers(IElement walkedOutline)
+    {
+        var elements = GraphicReadGraph.From(walkedOutline)
+            .ReadsOf<ClosedSharedFrameBoundaryRead>()
+            .DistinctBy(boundary => SourceId(boundary.Source))
+            .SelectMany(boundary => boundary.Segments.SelectMany(segment => new[] { segment.Start, segment.End }))
+            .DistinctBy(FramePointKey)
+            .Select(point => ExteriorEndpointMarker(point, 7))
+            .Cast<IElement>()
+            .ToArray();
+        return elements.Length == 0 ? TensionSlot() : Group(elements);
+    }
+
+    private static IElement ExteriorEndpointMarker(SharedFramePointRead point, long radius)
+    {
+        if (!TryReadFramePoint(point, out var read))
+        {
+            return point.Source;
+        }
+
+        return GraphicStructure.FrameCircle(
+            (Relation)point.Source,
+            CreateFramePoint(read.Template, read.Point + new Point2(radius, 0)));
+    }
+
+    private static Relation RadialCrescentExplodedOutlineSections(IElement walkedOutline)
+    {
+        var graph = GraphicReadGraph.From(walkedOutline);
+        var sectionBySpanSource = graph.ReadsOf<SharedFrameArcSectionRead>()
+            .GroupBy(section => SourceId(section.BaseArc.Span.Source))
+            .ToDictionary(group => group.Key, group => group.First());
+        var arcBySpanSource = graph.ReadsOf<SharedFrameArcRead>()
+            .GroupBy(arc => SourceId(arc.Span.Source))
+            .ToDictionary(group => group.Key, group => group.First());
+        var elements = new List<IElement>();
+        foreach (var boundary in graph.ReadsOf<ClosedSharedFrameBoundaryRead>()
+                     .DistinctBy(boundary => SourceId(boundary.Source)))
+        {
+            if (boundary.Segments.Count == 0 &&
+                boundary.Circles is { Count: > 0 })
+            {
+                elements.AddRange(boundary.Circles
+                    .DistinctBy(circle => SourceId(circle.Source))
+                    .Select(ExplodedCircle));
+                continue;
+            }
+
+            foreach (var edge in WalkedBoundaryEdges(boundary))
+            {
+                var spanSourceId = SourceId(edge.Segment.Source);
+                if (sectionBySpanSource.TryGetValue(spanSourceId, out var section))
+                {
+                    elements.Add(ExplodedArcSection(edge, section));
+                    continue;
+                }
+
+                if (arcBySpanSource.TryGetValue(spanSourceId, out var arc))
+                {
+                    elements.Add(ExplodedArc(edge, arc));
+                    continue;
+                }
+
+                elements.Add(ExplodedSegment(edge));
+            }
+        }
+
+        return elements.Count == 0
+            ? TensionSlot()
+            : Group([.. elements]);
+    }
+
+    private static IReadOnlyList<WalkedFrameEdge> WalkedBoundaryEdges(ClosedSharedFrameBoundaryRead boundary)
+    {
+        if (TryReadCoordinateBoundaryEdges(boundary, out var edges))
+        {
+            return edges;
+        }
+
+        return [.. boundary.Segments.Select(segment => new WalkedFrameEdge(segment, segment.Start, segment.End))];
+    }
+
+    private static bool TryReadCoordinateBoundaryEdges(
+        ClosedSharedFrameBoundaryRead boundary,
+        out IReadOnlyList<WalkedFrameEdge> edges)
+    {
+        edges = [];
+        if (boundary.Segments.Count == 0 ||
+            !TryPointKey(boundary.Segments[0].Start, out var startKey) ||
+            !TryPointKey(boundary.Segments[0].End, out var currentKey))
+        {
+            return false;
+        }
+
+        var unused = boundary.Segments.Skip(1).ToList();
+        var ordered = new List<WalkedFrameEdge>
+        {
+            new(boundary.Segments[0], boundary.Segments[0].Start, boundary.Segments[0].End)
+        };
+
+        while (unused.Count > 0)
+        {
+            var nextIndex = unused.FindIndex(segment =>
+                TryPointKey(segment.Start, out var segmentStartKey) && segmentStartKey == currentKey ||
+                TryPointKey(segment.End, out var segmentEndKey) && segmentEndKey == currentKey);
+            if (nextIndex < 0)
+            {
+                return false;
+            }
+
+            var next = unused[nextIndex];
+            unused.RemoveAt(nextIndex);
+            if (TryPointKey(next.Start, out var nextStartKey) &&
+                nextStartKey == currentKey &&
+                TryPointKey(next.End, out var nextEndKey))
+            {
+                ordered.Add(new WalkedFrameEdge(next, next.Start, next.End));
+                currentKey = nextEndKey;
+                continue;
+            }
+
+            if (TryPointKey(next.Start, out var reverseEndKey))
+            {
+                ordered.Add(new WalkedFrameEdge(next, next.End, next.Start));
+                currentKey = reverseEndKey;
+            }
+        }
+
+        if (currentKey != startKey)
+        {
+            return false;
+        }
+
+        edges = ordered;
+        return true;
+    }
+
+    private static IElement ExplodedSegment(WalkedFrameEdge edge)
+    {
+        if (!TryReadFramePoint(edge.Start, out var start) ||
+            !TryReadFramePoint(edge.End, out var end))
+        {
+            return edge.Segment.Source;
+        }
+
+        var shift = RadialCrescentExplosionShift((start.Point + end.Point) * 0.5d);
+        return GraphicStructure.FrameSegment(
+            CreateFramePoint(start.Template, start.Point + shift),
+            CreateFramePoint(end.Template, end.Point + shift));
+    }
+
+    private static IElement ExplodedArcSection(WalkedFrameEdge edge, SharedFrameArcSectionRead section)
+    {
+        if (!TryReadFramePoint(edge.Start, out var start) ||
+            !TryReadFramePoint(edge.End, out var end) ||
+            !TryReadFramePoint(section.Center, out var center) ||
+            !TryReadFramePoint(section.Through, out var through))
+        {
+            return ExplodedSegment(edge);
+        }
+
+        var shift = RadialCrescentExplosionShift(through.Point);
+        return GraphicStructure.FrameArcSection(
+            CreateFramePoint(center.Template, center.Point + shift),
+            CreateFramePoint(start.Template, start.Point + shift),
+            CreateFramePoint(through.Template, through.Point + shift),
+            CreateFramePoint(end.Template, end.Point + shift));
+    }
+
+    private static IElement ExplodedArc(WalkedFrameEdge edge, SharedFrameArcRead arc)
+    {
+        if (!TryReadFramePoint(edge.Start, out var start) ||
+            !TryReadFramePoint(edge.End, out var end) ||
+            !TryReadFramePoint(arc.Center, out var center))
+        {
+            return ExplodedSegment(edge);
+        }
+
+        var throughPoint = ArcMidPoint(center.Point, start.Point, end.Point);
+        var shift = RadialCrescentExplosionShift(throughPoint);
+        return GraphicStructure.FrameArcSection(
+            CreateFramePoint(center.Template, center.Point + shift),
+            CreateFramePoint(start.Template, start.Point + shift),
+            CreateFramePoint(start.Template, throughPoint + shift),
+            CreateFramePoint(end.Template, end.Point + shift));
+    }
+
+    private static IElement ExplodedCircle(SharedFrameCircleRead circle)
+    {
+        if (!TryReadFramePoint(circle.Center, out var center) ||
+            !TryReadFramePoint(circle.RadiusPoint, out var radiusPoint))
+        {
+            return circle.Source;
+        }
+
+        var shift = RadialCrescentExplosionShift(center.Point);
+        return GraphicStructure.FrameCircle(
+            CreateFramePoint(center.Template, center.Point + shift),
+            CreateFramePoint(radiusPoint.Template, radiusPoint.Point + shift));
+    }
+
+    private static Point2 RadialCrescentExplosionShift(Point2 midPoint)
+    {
+        const double distance = 12d;
+        var fromCenter = midPoint - new Point2(0d, 0d);
+        var length = Math.Sqrt(fromCenter.X * fromCenter.X + fromCenter.Y * fromCenter.Y);
+        if (length < 0.001d)
+        {
+            return new Point2(0d, distance);
+        }
+
+        return fromCenter * (distance / length);
+    }
+
+    private static Point2 ArcMidPoint(Point2 center, Point2 start, Point2 end)
+    {
+        var startAngle = Math.Atan2(start.Y - center.Y, start.X - center.X);
+        var endAngle = Math.Atan2(end.Y - center.Y, end.X - center.X);
+        var sweep = endAngle - startAngle;
+        while (sweep <= -Math.PI)
+        {
+            sweep += Math.PI * 2d;
+        }
+
+        while (sweep > Math.PI)
+        {
+            sweep -= Math.PI * 2d;
+        }
+
+        var radius = Math.Sqrt(Math.Pow(start.X - center.X, 2d) + Math.Pow(start.Y - center.Y, 2d));
+        var midAngle = startAngle + sweep * 0.5d;
+        return new Point2(
+            center.X + Math.Cos(midAngle) * radius,
+            center.Y + Math.Sin(midAngle) * radius);
+    }
+
+    private static bool TryReadFramePoint(SharedFramePointRead point, out WalkedFramePoint read)
+    {
+        if (point.Coordinates.Count >= 2)
+        {
+            read = new WalkedFramePoint(
+                point,
+                new Point2(point.Coordinates[0].Ticks, point.Coordinates[1].Ticks));
+            return true;
+        }
+
+        read = default;
+        return false;
+    }
+
+    private static Relation CreateFramePoint(SharedFramePointRead template, Point2 point)
+    {
+        var coordinates = template.Coordinates
+            .Select((coordinate, index) => new CarrierLocation(
+                coordinate.Carrier,
+                index == 0 ? Rounded(point.X) : index == 1 ? Rounded(point.Y) : coordinate.Ticks))
+            .ToArray();
+        return GraphicStructure.FramePoint(template.Holder, coordinates);
+    }
+
+    private static bool TryPointKey(SharedFramePointRead point, out string key)
+    {
+        if (point.Coordinates.Count >= 2)
+        {
+            key = $"{point.Coordinates[0].Ticks}:{point.Coordinates[1].Ticks}";
+            return true;
+        }
+
+        key = "";
+        return false;
+    }
+
+    private static string FramePointKey(SharedFramePointRead point) =>
+        point.Coordinates.Count >= 2
+            ? $"{point.Coordinates[0].Ticks}:{point.Coordinates[1].Ticks}"
+            : SourceId(point.Source).ToString();
+
+    private static long Rounded(double value) =>
+        (long)Math.Round(value, MidpointRounding.AwayFromZero);
+
+    private static ulong SourceId(IElement source) =>
+        source is Relation relation ? relation.Id : 0UL;
+
     private static BlocksGlossaryStructure DiamondCuspSource(FrameBasis frame)
     {
         var stage = DiamondCuspGlossaryGeometry.CreateStage(roundOuter: false, roundInner: false);
@@ -2077,6 +2445,83 @@ internal static class BlocksGlossaryStructureCatalog
         FrameCircle(frame, 397, -88, outerRadius)
     ];
 
+    private static Relation[] RadialCrescentCircularBodyEndpointCapFills(FrameBasis frame) =>
+    [
+        .. RadialCrescentCircularBodyCapCircles(frame)
+            .Select(circle => GraphicStructure.AreaFill(circle))
+    ];
+
+    private static Relation[] RadialCrescentCircularBodyArmFills(FrameBasis frame) =>
+    [
+        .. RadialCrescentCircularBodyArmSections(frame)
+            .Chunk(4)
+            .Select(sections => GraphicStructure.AreaFill(sections))
+    ];
+
+    private static IElement[] RadialCrescentCircularBodyArmSections(FrameBasis frame) =>
+    [
+        .. RadialCrescentArmRectangleSections(frame, -132, 108, 0, 0, 30),
+        .. RadialCrescentArmRectangleSections(frame, 132, 108, 0, 0, 30),
+        .. RadialCrescentArmRectangleSections(frame, 132, -108, 0, 0, 30),
+        .. RadialCrescentArmRectangleSections(frame, -132, -108, 0, 0, 30)
+    ];
+
+    private static IElement[] RadialCrescentCircularBodyCapCircles(FrameBasis frame) =>
+    [
+        FrameCircle(frame, -132, 108, 34),
+        FrameCircle(frame, 132, 108, 34),
+        FrameCircle(frame, 132, -108, 34),
+        FrameCircle(frame, -132, -108, 34)
+    ];
+
+    private static IElement[] RadialCrescentArmRectangleSections(
+        FrameBasis frame,
+        double startX,
+        double startY,
+        double endX,
+        double endY,
+        double width)
+    {
+        var dx = endX - startX;
+        var dy = endY - startY;
+        var length = Math.Sqrt(dx * dx + dy * dy);
+        if (length <= 0.001d)
+        {
+            return [];
+        }
+
+        var normalX = -dy / length;
+        var normalY = dx / length;
+        var half = width * 0.5d;
+        var a = frame.Point(Rounded(startX + normalX * half), Rounded(startY + normalY * half));
+        var b = frame.Point(Rounded(endX + normalX * half), Rounded(endY + normalY * half));
+        var c = frame.Point(Rounded(endX - normalX * half), Rounded(endY - normalY * half));
+        var d = frame.Point(Rounded(startX - normalX * half), Rounded(startY - normalY * half));
+        return
+        [
+            GraphicStructure.FrameSegment(a, b),
+            GraphicStructure.FrameSegment(b, c),
+            GraphicStructure.FrameSegment(c, d),
+            GraphicStructure.FrameSegment(d, a)
+        ];
+    }
+
+    private static IElement[] RadialCrescentCircleSections(FrameBasis frame, long centerX, long centerY, long radius)
+    {
+        var center = frame.Point(centerX, centerY);
+        var right = frame.Point(centerX + radius, centerY);
+        var top = frame.Point(centerX, centerY + radius);
+        var left = frame.Point(centerX - radius, centerY);
+        var bottom = frame.Point(centerX, centerY - radius);
+        return
+        [
+            GraphicStructure.FrameArc(center, right, top),
+            GraphicStructure.FrameArc(center, top, left),
+            GraphicStructure.FrameArc(center, left, bottom),
+            GraphicStructure.FrameArc(center, bottom, right)
+        ];
+    }
+
     private static IElement[] RadialCrescentExteriorSharpBoundaries(FrameBasis frame) =>
     [
         FrameCircle(frame, -70, 0, 88),
@@ -2297,6 +2742,12 @@ internal static class BlocksGlossaryStructureCatalog
 
     private static SKRect RadialCrescentBounds() =>
         Bounds(-270, -150, 430, 150);
+
+    private static SKRect RadialCrescentCircularBodyBounds() =>
+        Bounds(-190, -160, 190, 160);
+
+    private static SKRect RadialCrescentCircularBodyExplodedBounds() =>
+        Bounds(-210, -180, 210, 180);
 
     private static IElement[] DroneClipOuterSections(FrameBasis frame)
     {
@@ -2744,6 +3195,27 @@ internal static class BlocksGlossaryStructureCatalog
         Clothoid,
         Involute,
         Plotted
+    }
+
+    private readonly record struct WalkedFrameEdge(
+        SharedFrameSegmentRead Segment,
+        SharedFramePointRead Start,
+        SharedFramePointRead End);
+
+    private readonly record struct WalkedFramePoint(
+        SharedFramePointRead Template,
+        Point2 Point);
+
+    private readonly record struct Point2(double X, double Y)
+    {
+        public static Point2 operator +(Point2 left, Point2 right) =>
+            new(left.X + right.X, left.Y + right.Y);
+
+        public static Point2 operator -(Point2 left, Point2 right) =>
+            new(left.X - right.X, left.Y - right.Y);
+
+        public static Point2 operator *(Point2 point, double scale) =>
+            new(point.X * scale, point.Y * scale);
     }
 
     private sealed class FrameBasis

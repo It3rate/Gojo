@@ -1631,6 +1631,7 @@ public sealed class GojoCadSkiaAdapter
 
         var angleControlledPathSegments = ReadAngleControlledPathSegmentSources(graph);
         var frameCurveSupportSources = ReadFrameCurveSupportSources(graph);
+        var frameArcSectionBaseSources = ReadFrameArcSectionBaseSources(graph);
         var carrierClothoidTransitionSources = ReadCarrierClothoidTransitionSources(graph);
         var carrierInvoluteTransitionSources = ReadCarrierInvoluteTransitionSources(graph);
         var carrierClothoidLengthSources = ReadCarrierClothoidLengthSources(graph);
@@ -1704,8 +1705,16 @@ public sealed class GojoCadSkiaAdapter
                 drawn++;
             }
 
-            foreach (var arc in graph.ReadsOf<SharedFrameArcRead>()
+            foreach (var section in graph.ReadsOf<SharedFrameArcSectionRead>()
                 .Where(read => !IsRepeatControlSource(read.Source, repeatControlSources)))
+            {
+                DrawSharedFrameArcSection(canvas, section, projection, paints, hitAreas);
+                drawn++;
+            }
+
+            foreach (var arc in graph.ReadsOf<SharedFrameArcRead>()
+                .Where(read => !IsRepeatControlSource(read.Source, repeatControlSources))
+                .Where(read => !IsFrameArcSectionBaseSource(read.Source, frameArcSectionBaseSources)))
             {
                 DrawSharedFrameArc(canvas, arc, projection, paints, hitAreas);
                 drawn++;
@@ -1840,21 +1849,24 @@ public sealed class GojoCadSkiaAdapter
             }
         }
 
-        foreach (var branch in graph.ReadsOf<BranchRead>())
+        if (paints.DrawSharedFramePointMarkers)
         {
-            DrawBranchMergeNode(canvas, branch.Junction, projection, paints.BranchNode, "branch", paints, hitAreas, pointRoles, branch.Source);
-            drawn++;
-        }
+            foreach (var branch in graph.ReadsOf<BranchRead>())
+            {
+                DrawBranchMergeNode(canvas, branch.Junction, projection, paints.BranchNode, "branch", paints, hitAreas, pointRoles, branch.Source);
+                drawn++;
+            }
 
-        foreach (var merge in graph.ReadsOf<MergeRead>())
-        {
-            DrawBranchMergeNode(canvas, merge.Junction, projection, paints.MergeNode, "merge", paints, hitAreas, pointRoles, merge.Source);
-            drawn++;
-        }
+            foreach (var merge in graph.ReadsOf<MergeRead>())
+            {
+                DrawBranchMergeNode(canvas, merge.Junction, projection, paints.MergeNode, "merge", paints, hitAreas, pointRoles, merge.Source);
+                drawn++;
+            }
 
-        foreach (var pathGraph in graph.ReadsOf<PathGraphRead>())
-        {
-            drawn += DrawPathGraphNodes(canvas, pathGraph, projection, paints, hitAreas, pointRoles, repeatControlSources);
+            foreach (var pathGraph in graph.ReadsOf<PathGraphRead>())
+            {
+                drawn += DrawPathGraphNodes(canvas, pathGraph, projection, paints, hitAreas, pointRoles, repeatControlSources);
+            }
         }
 
         foreach (var segment in graph.ReadsOf<PositiveSegmentRead>()
@@ -1866,6 +1878,7 @@ public sealed class GojoCadSkiaAdapter
         }
 
         foreach (var point in graph.ReadsOf<PointRead>()
+            .Where(_ => paints.DrawSharedFramePointMarkers)
             .Where(point => !IsRepeatControlSource(point.Source, repeatControlSources))
             .Where(point => !point.Location.Carrier.IsUnknown))
         {
@@ -1981,6 +1994,24 @@ public sealed class GojoCadSkiaAdapter
 
         return sources;
     }
+
+    private static HashSet<ulong> ReadFrameArcSectionBaseSources(GraphicReadGraph graph)
+    {
+        var sources = new HashSet<ulong>();
+        foreach (var section in graph.ReadsOf<SharedFrameArcSectionRead>())
+        {
+            if (section.BaseArc.Source is Relation relation)
+            {
+                sources.Add(relation.Id);
+            }
+        }
+
+        return sources;
+    }
+
+    private static bool IsFrameArcSectionBaseSource(IElement source, IReadOnlySet<ulong> frameArcSectionBaseSources) =>
+        source is Relation relation &&
+        frameArcSectionBaseSources.Contains(relation.Id);
 
     private static bool IsFrameCurveSupportSource(IElement source, IReadOnlySet<ulong> frameCurveSupportSources) =>
         source is Relation relation &&
@@ -2411,8 +2442,12 @@ public sealed class GojoCadSkiaAdapter
         var end = projection.ProjectFrame(segment.End);
 
         canvas.DrawLine(start, end, paints.SharedFrameSegment);
-        canvas.DrawCircle(start, paints.DotRadius * 0.62f, paints.SharedFramePoint);
-        canvas.DrawCircle(end, paints.DotRadius * 0.62f, paints.SharedFramePoint);
+        if (paints.DrawSharedFramePointMarkers)
+        {
+            canvas.DrawCircle(start, paints.DotRadius * 0.62f, paints.SharedFramePoint);
+            canvas.DrawCircle(end, paints.DotRadius * 0.62f, paints.SharedFramePoint);
+        }
+
         AddHit(hitAreas, LineBounds(start, end, 9f), "shared-frame segment", priority: 3, segment.Source);
     }
 
@@ -2433,10 +2468,43 @@ public sealed class GojoCadSkiaAdapter
         var sweep = ShortestSweep(startAngle, endAngle);
 
         canvas.DrawArc(bounds, startAngle, sweep, false, paints.SharedFrameCurve);
-        canvas.DrawCircle(start, paints.DotRadius * 0.52f, paints.SharedFramePoint);
-        canvas.DrawCircle(end, paints.DotRadius * 0.52f, paints.SharedFramePoint);
-        DrawFramePointBox(canvas, center, paints, 0.72f);
+        if (paints.DrawSharedFramePointMarkers)
+        {
+            canvas.DrawCircle(start, paints.DotRadius * 0.52f, paints.SharedFramePoint);
+            canvas.DrawCircle(end, paints.DotRadius * 0.52f, paints.SharedFramePoint);
+            DrawFramePointBox(canvas, center, paints, 0.72f);
+        }
+
         AddHit(hitAreas, bounds, "shared-frame arc", priority: 3, arc.Source);
+    }
+
+    private static void DrawSharedFrameArcSection(
+        SKCanvas canvas,
+        SharedFrameArcSectionRead section,
+        IGojoCadSkiaProjection projection,
+        GojoCadSkiaPaints paints,
+        ICollection<GojoCadSkiaHitArea>? hitAreas)
+    {
+        var center = projection.ProjectFrame(section.Center);
+        var start = projection.ProjectFrame(section.Start);
+        var through = projection.ProjectFrame(section.Through);
+        var end = projection.ProjectFrame(section.End);
+        var radius = MathF.Max(0.1f, (Distance(center, start) + Distance(center, through) + Distance(center, end)) / 3f);
+        var bounds = CircleBounds(center, radius);
+        var startAngle = AngleDegrees(center, start);
+        var throughAngle = AngleDegrees(center, through);
+        var endAngle = AngleDegrees(center, end);
+        var sweep = SweepThrough(startAngle, throughAngle, endAngle);
+
+        canvas.DrawArc(bounds, startAngle, sweep, false, paints.SharedFrameCurve);
+        if (paints.DrawSharedFramePointMarkers)
+        {
+            canvas.DrawCircle(start, paints.DotRadius * 0.52f, paints.SharedFramePoint);
+            canvas.DrawCircle(end, paints.DotRadius * 0.52f, paints.SharedFramePoint);
+            DrawFramePointBox(canvas, center, paints, 0.72f);
+        }
+
+        AddHit(hitAreas, bounds, "shared-frame arc section", priority: 3, section.Source);
     }
 
     private static void DrawSharedFrameCircle(
@@ -2452,8 +2520,12 @@ public sealed class GojoCadSkiaAdapter
         var bounds = CircleBounds(center, radius);
 
         canvas.DrawCircle(center, radius, paints.SharedFrameCurve);
-        DrawFramePointBox(canvas, center, paints, 0.72f);
-        canvas.DrawCircle(radiusPoint, paints.DotRadius * 0.52f, paints.SharedFramePoint);
+        if (paints.DrawSharedFramePointMarkers)
+        {
+            DrawFramePointBox(canvas, center, paints, 0.72f);
+            canvas.DrawCircle(radiusPoint, paints.DotRadius * 0.52f, paints.SharedFramePoint);
+        }
+
         AddHit(hitAreas, bounds, "shared-frame circle", priority: 3, circle.Source);
     }
 
