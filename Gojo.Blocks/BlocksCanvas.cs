@@ -822,6 +822,10 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
             if (page.Id == "glossary-radial-crescent-outline-experiment")
             {
                 paints.DrawSharedFramePointMarkers = false;
+                if (item.Id == "radial-crescent-outline-experiment-exploded")
+                {
+                    paints.SharedFrameCurve.Color = theme.Accent;
+                }
             }
 
             GojoRenderer.Draw(canvas, item.Structure, diagram, item.ProjectionSeed, item.ModelBounds, paints);

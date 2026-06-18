@@ -2096,7 +2096,7 @@ internal static class BlocksGlossaryStructureCatalog
 
     private static Point2 RadialCrescentExplosionShift(Point2 midPoint)
     {
-        const double distance = 12d;
+        const double distance = 22d;
         var fromCenter = midPoint - new Point2(0d, 0d);
         var length = Math.Sqrt(fromCenter.X * fromCenter.X + fromCenter.Y * fromCenter.Y);
         if (length < 0.001d)
