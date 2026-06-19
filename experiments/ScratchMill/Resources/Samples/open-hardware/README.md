@@ -14,6 +14,10 @@ intent evidence to build conceptual Gojo ladders.
 | `adafruit-bq24074` | Adafruit BQ24074 USB/DC/Solar LiPo charger | Eagle | Charger/power-path board with jumpers, input limits, battery/system rails, and documentation-heavy design intent. |
 | `ultra-compact-pmic-bq24074-kicad` | Ultra-compact BQ24074 PMIC board | KiCad | Native KiCad sample with schematic, PCB, production outputs, BOM-style files, and explicit layout/thermal/power rationale. |
 | `dual-sensor-breakout-kicad` | BME280 + MPU6050 dual sensor board | KiCad | Very small KiCad sensor board with shared I2C bus, address configuration, regulator, decoupling, and Gerbers. |
+| `easyeda-avr-zif-programming-socket` | AVR ZIF programming socket | EasyEDA Standard JSON | Complete EasyEDA schematic and PCB source pair, plus Gerber and schematic PDF. Useful for connector/pin-family mapping. |
+| `easyeda-salty-spoon` | Salty spoon tongue-current stimulator | EasyEDA Standard JSON | Compact experimental board with schematic variants and PCB source. Useful for odd product-goal and safety/tension mapping. |
+| `easyeda-shoc-keyboard` | SHOC keyboard | EasyEDA Standard JSON | Larger repeated-footprint board with schematic and PCB source. Useful for repeated switches, diode matrix, and orientation stress. |
+| `easyeda-tsdz2-esp32-pcb` | TSDZ2 ESP32 BT/WiFi add-on | EasyEDA Standard JSON | ESP32 control board with schematic and PCB JSON, Gerber, firmware context, and motor-controller interface assumptions. |
 
 ## Candidate Matrix
 
@@ -29,6 +33,10 @@ intent evidence to build conceptual Gojo ladders.
 | Medium | Adafruit MAX17048 fuel gauge | Analog MAX17048 | Not downloaded; Eagle source, guide, 3D model, datasheet | Battery-state concept ladder: cell voltage -> model gauge -> SOC estimate -> alert tension. |
 | Medium | SparkFun LiPo Fuel Gauge | MAX17043/MAX17048 family | Not downloaded; Eagle source, firmware, docs, guide | Good board/code pair for ECAD plus firmware behavior. |
 | Wildcard | mikoto nRF52840 | Nordic nRF52840, charger/power support | Not downloaded; KiCad 6 files, PDFs, bootloader/software notes | Strong wireless/power/antenna/manufacturing rationale; larger than a simple breakout but valuable for concept ladders. |
+| High | AVR ZIF programming socket | AVR ISP headers, ZIF socket | Downloaded; EasyEDA Standard schematic and PCB JSON | Complete parse target with many connector/pin compatibility rungs. |
+| Medium | Salty spoon | Current-control/stimulation circuit | Downloaded; EasyEDA Standard schematic variants and PCB JSON | Good weird sample for product-goal, safety, body-contact, and unresolved design evidence. |
+| Medium | SHOC keyboard | Keyboard matrix | Downloaded; EasyEDA Standard schematic and PCB JSON | Repeated structure, switch footprints, diode matrix, row/column nets, and board orientation. |
+| Medium | TSDZ2 ESP32 PCB | ESP32, motor-controller interface | Downloaded; EasyEDA Standard schematic and PCB JSON | Firmware-to-board association, connector semantics, and controller-interface assumptions. |
 
 ## Datasheet Links
 
@@ -40,6 +48,13 @@ intent evidence to build conceptual Gojo ladders.
 - MAX17048/MAX17049: https://www.analog.com/media/en/technical-documentation/data-sheets/max17048-max17049.pdf
 - nRF52840: https://docs.nordicsemi.com/bundle/ps_nrf52840/page/keyfeatures_html5.html
 
+## EasyEDA Source Links
+
+- AVR ZIF programming socket: https://github.com/julianschuler/AVR-ZIF-programming-socket
+- Salty spoon: https://github.com/philosopheroffood/salty-spoon
+- SHOC keyboard: https://github.com/JannikB5825/Shoc
+- TSDZ2 ESP32 PCB: https://github.com/TSDZ2-ESP32/TSDZ2-ESP32-PCB
+
 ## Gojo Import Notes
 
 - Treat downloaded ECAD files as source witnesses, not as canonical meaning.
@@ -47,3 +62,5 @@ intent evidence to build conceptual Gojo ladders.
 - Reusable basis candidates: I2C bus, Qwiic/STEMMA connector, 3.3 V rail, pull-up basis, decoupling basis, address-select basis, battery-cell basis, charge-current basis, trace-width/current basis, layer/side orientation basis.
 - Concept ladders to extract first: environmental reading, address selection, power path, battery state, connector ecosystem, sensor orientation, manufacturing settlement.
 - Good tension examples: I2C address conflicts, missing schematic evidence, unsupported Eagle files, unfilled KiCad source links, charger current-selection jumpers, thermal/current-width assumptions, antenna/stackup assumptions.
+- EasyEDA Standard PCB JSON appears as `docType=3` with top-level `shape` arrays. EasyEDA schematic/project JSON in these samples appears as `docType=5` with schematic containers rather than the same flat shape array.
+- EasyEDA parser pressure points: tilde-delimited shape strings, shape ordering, schematic container structure, repeated footprints, connector aliases, and source files that pair schematic/PCB by naming convention rather than project metadata.
