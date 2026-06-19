@@ -92,3 +92,5 @@ GojoCAD structure.
 See [docs/FormatPlan.md](docs/FormatPlan.md) for the current roadmap.
 See [docs/ReadAlgebra.md](docs/ReadAlgebra.md) for the initial relation-read
 algebra and read graph direction.
+See [docs/EcadDocumentaryBundle.md](docs/EcadDocumentaryBundle.md) for the
+current direction on PCB projects as Gojo-encoded documentary bundles.
