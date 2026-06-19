@@ -1,10 +1,10 @@
-using Gojo.Core;
-using System.Globalization;
 using Gojo.ConceptSurface;
+using Gojo.Core;
 using Gojo.Structures;
 using GojoCAD;
 using GojoCAD.Structures;
 using SkiaSharp;
+using System.Globalization;
 
 namespace GojoDraw;
 
@@ -1394,10 +1394,10 @@ public sealed class GojoCadSkiaAdapter
             TryReadOrderedElements(frame, out var elements))
         {
             foreach (var element in elements)
-            foreach (var fragment in SettlementPartitionFragments(element))
-            {
-                yield return fragment;
-            }
+                foreach (var fragment in SettlementPartitionFragments(element))
+                {
+                    yield return fragment;
+                }
         }
     }
 
@@ -3111,10 +3111,10 @@ public sealed class GojoCadSkiaAdapter
         }
 
         foreach (var area in partitions.Areas)
-        foreach (var point in area.Participation.Points)
-        {
-            pointRoles.Add(LocationKey.Of(point.Location));
-        }
+            foreach (var point in area.Participation.Points)
+            {
+                pointRoles.Add(LocationKey.Of(point.Location));
+            }
 
         return drawn;
     }

@@ -1,5 +1,5 @@
-using Gojo.Core;
 using Gojo.ConceptSurface;
+using Gojo.Core;
 
 namespace GojoCAD.Structures;
 

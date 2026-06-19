@@ -44,23 +44,23 @@ public static class GraphicBoundaryConceptSurface
         var graph = GraphicReadGraph.From(outline ?? GraphicConceptShape.TensionSlot());
         var candidates = new List<IElement>();
         foreach (var boundary in graph.ReadsOf<ClosedSharedFrameBoundaryRead>())
-        foreach (var site in boundary.Sites)
-        {
-            if (site.Count != 2 ||
-                IsSmoothArcContinuation(site, boundary.Arcs ?? []))
+            foreach (var site in boundary.Sites)
             {
-                continue;
-            }
+                if (site.Count != 2 ||
+                    IsSmoothArcContinuation(site, boundary.Arcs ?? []))
+                {
+                    continue;
+                }
 
-            var witness = CreateWitness(site[0].Point, witnessRadiusTicks);
-            candidates.Add(GraphicSelectionSurface.Frame(
-                new Carrier(),
-                GraphicConceptShape.CuspJoinEvidenceSurface(new Carrier()),
-                witness,
-                site[0].Point.Source,
-                site[0].Segment.Source,
-                site[1].Segment.Source));
-        }
+                var witness = CreateWitness(site[0].Point, witnessRadiusTicks);
+                candidates.Add(GraphicSelectionSurface.Frame(
+                    new Carrier(),
+                    GraphicConceptShape.CuspJoinEvidenceSurface(new Carrier()),
+                    witness,
+                    site[0].Point.Source,
+                    site[0].Segment.Source,
+                    site[1].Segment.Source));
+            }
 
         return GraphicSelectionSurface.Frame(RootOrNew(root), [.. candidates]);
     }
@@ -110,17 +110,17 @@ public static class GraphicBoundaryConceptSurface
         }
 
         foreach (var pathGraph in graph.ReadsOf<PathGraphRead>())
-        foreach (var node in pathGraph.Nodes.Where(node => node.Valence == 1))
-        {
-            var endpoint = node.Endpoints[0];
-            if (endpoint.SharedFramePoint is not { } framePoint ||
-                IsSupportOrClosedSegment(endpoint.Segment.Source))
+            foreach (var node in pathGraph.Nodes.Where(node => node.Valence == 1))
             {
-                continue;
-            }
+                var endpoint = node.Endpoints[0];
+                if (endpoint.SharedFramePoint is not { } framePoint ||
+                    IsSupportOrClosedSegment(endpoint.Segment.Source))
+                {
+                    continue;
+                }
 
-            AddCandidate(framePoint, endpoint.Segment.Source);
-        }
+                AddCandidate(framePoint, endpoint.Segment.Source);
+            }
 
         foreach (var arc in graph.ReadsOf<SharedFrameArcRead>())
         {
@@ -747,32 +747,32 @@ public static class GraphicBoundaryConceptSurface
             }
 
             foreach (var normalSign in new[] { -1d, 1d })
-            foreach (var tangentSide in new[] { -1d, 1d })
-            {
-                if (!TryLineArcRoundCandidate(
-                        lineGeometry,
-                        arcGeometry,
-                        lineFromStart,
-                        arcFromStart,
-                        cusp,
-                        lineAwayX,
-                        lineAwayY,
-                        normalSign,
-                        tangentSide,
-                        radius,
-                        maxLineDistance,
-                        maxArcDistance,
-                        approximateCenter,
-                        out var candidate))
+                foreach (var tangentSide in new[] { -1d, 1d })
                 {
-                    continue;
-                }
+                    if (!TryLineArcRoundCandidate(
+                            lineGeometry,
+                            arcGeometry,
+                            lineFromStart,
+                            arcFromStart,
+                            cusp,
+                            lineAwayX,
+                            lineAwayY,
+                            normalSign,
+                            tangentSide,
+                            radius,
+                            maxLineDistance,
+                            maxArcDistance,
+                            approximateCenter,
+                            out var candidate))
+                    {
+                        continue;
+                    }
 
-                if (best is null || candidate.Score < best.Value.Score)
-                {
-                    best = candidate;
+                    if (best is null || candidate.Score < best.Value.Score)
+                    {
+                        best = candidate;
+                    }
                 }
-            }
 
             if (best is not null)
             {

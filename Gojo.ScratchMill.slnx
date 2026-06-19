@@ -1,0 +1,10 @@
+<Solution>
+  <Project Path="Gojo/Gojo.csproj" />
+  <Project Path="Gojo.Tests/Gojo.Tests.csproj" />
+  <Project Path="GojoCAD/GojoCAD.csproj" />
+  <Project Path="GojoCAD.Tests/GojoCAD.Tests.csproj" />
+  <Project Path="Gojo.Blocks/Gojo.Blocks.csproj" />
+  <Project Path="Gojo.Blocks.Browser/Gojo.Blocks.Browser.csproj" />
+  <Project Path="GojoDraw/GojoDraw.csproj" />
+  <Project Path="experiments/ScratchMill/ScratchMill.csproj" />
+</Solution>

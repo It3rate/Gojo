@@ -1,5 +1,5 @@
-using System.Globalization;
 using Gojo.Core;
+using System.Globalization;
 
 namespace GojoCAD.GCode;
 

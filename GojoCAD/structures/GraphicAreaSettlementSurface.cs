@@ -1,5 +1,5 @@
-using Gojo.Core;
 using Gojo.ConceptSurface;
+using Gojo.Core;
 using System.Runtime.CompilerServices;
 
 namespace GojoCAD.Structures;
@@ -219,21 +219,21 @@ public static class GraphicAreaSettlementSurface
         var splitParameters = edges.ToDictionary(edge => edge, edge =>
             edge.IsCircle ? new List<double>() : new List<double> { 0d, 1d });
         for (var leftIndex = 0; leftIndex < edges.Length; leftIndex++)
-        for (var rightIndex = leftIndex + 1; rightIndex < edges.Length; rightIndex++)
-        {
-            foreach (var intersection in Intersections(edges[leftIndex], edges[rightIndex]))
+            for (var rightIndex = leftIndex + 1; rightIndex < edges.Length; rightIndex++)
             {
-                if (edges[leftIndex].TryParameterOf(intersection, out var leftT))
+                foreach (var intersection in Intersections(edges[leftIndex], edges[rightIndex]))
                 {
-                    splitParameters[edges[leftIndex]].Add(leftT);
-                }
+                    if (edges[leftIndex].TryParameterOf(intersection, out var leftT))
+                    {
+                        splitParameters[edges[leftIndex]].Add(leftT);
+                    }
 
-                if (edges[rightIndex].TryParameterOf(intersection, out var rightT))
-                {
-                    splitParameters[edges[rightIndex]].Add(rightT);
+                    if (edges[rightIndex].TryParameterOf(intersection, out var rightT))
+                    {
+                        splitParameters[edges[rightIndex]].Add(rightT);
+                    }
                 }
             }
-        }
 
         var fragments = new List<FragmentRead>();
         foreach (var edge in edges)
@@ -992,21 +992,21 @@ public static class GraphicAreaSettlementSurface
                 ? new List<double>()
                 : new List<double> { 0d, 1d });
         for (var leftIndex = 0; leftIndex < curves.Length; leftIndex++)
-        for (var rightIndex = leftIndex + 1; rightIndex < curves.Length; rightIndex++)
-        {
-            foreach (var intersection in PartitionIntersections(curves[leftIndex], curves[rightIndex]))
+            for (var rightIndex = leftIndex + 1; rightIndex < curves.Length; rightIndex++)
             {
-                if (curves[leftIndex].TryParameterOf(intersection, out var leftT))
+                foreach (var intersection in PartitionIntersections(curves[leftIndex], curves[rightIndex]))
                 {
-                    splitParameters[curves[leftIndex]].Add(leftT);
-                }
+                    if (curves[leftIndex].TryParameterOf(intersection, out var leftT))
+                    {
+                        splitParameters[curves[leftIndex]].Add(leftT);
+                    }
 
-                if (curves[rightIndex].TryParameterOf(intersection, out var rightT))
-                {
-                    splitParameters[curves[rightIndex]].Add(rightT);
+                    if (curves[rightIndex].TryParameterOf(intersection, out var rightT))
+                    {
+                        splitParameters[curves[rightIndex]].Add(rightT);
+                    }
                 }
             }
-        }
 
         var points = new Dictionary<string, Relation>();
         Relation Point(SharedFramePointRead template, Point2 point)

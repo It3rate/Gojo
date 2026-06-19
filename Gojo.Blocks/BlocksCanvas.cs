@@ -5,7 +5,6 @@ using Avalonia.Media;
 using Avalonia.Rendering.SceneGraph;
 using Avalonia.Skia;
 using Avalonia.Threading;
-using Avalonia.VisualTree;
 using Gojo.Core;
 using GojoCAD;
 using GojoDraw;
@@ -2138,10 +2137,10 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
         {
             using var dot = FillPaint(PcbCarrierColor, 38);
             for (var x = -80; x <= 80; x += 40)
-            for (var y = -40; y <= 40; y += 40)
-            {
-                canvas.DrawCircle(PcbPoint(bounds, x, y), 1.3f, dot);
-            }
+                for (var y = -40; y <= 40; y += 40)
+                {
+                    canvas.DrawCircle(PcbPoint(bounds, x, y), 1.3f, dot);
+                }
         }
     }
 
@@ -2646,16 +2645,16 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
     {
         var unit = Math.Min(bounds.Width, bounds.Height) * 0.17f;
         for (var row = 0; row < 3; row++)
-        for (var column = 0; column < 4; column++)
-        {
-            var x = bounds.MidX + (column - 1.5f) * unit * 1.18f;
-            var y = bounds.MidY + (row - 1f) * unit * 0.95f;
-            using var fill = FillPaint(PositiveColor, (byte)(row == 0 ? 95 : 52));
-            using var stroke = StrokePaint(PositiveStroke, 1f, 150);
-            var rect = new SKRect(x - unit * 0.38f, y - unit * 0.28f, x + unit * 0.38f, y + unit * 0.28f);
-            canvas.DrawRoundRect(rect, 3, 3, fill);
-            canvas.DrawRoundRect(rect, 3, 3, stroke);
-        }
+            for (var column = 0; column < 4; column++)
+            {
+                var x = bounds.MidX + (column - 1.5f) * unit * 1.18f;
+                var y = bounds.MidY + (row - 1f) * unit * 0.95f;
+                using var fill = FillPaint(PositiveColor, (byte)(row == 0 ? 95 : 52));
+                using var stroke = StrokePaint(PositiveStroke, 1f, 150);
+                var rect = new SKRect(x - unit * 0.38f, y - unit * 0.28f, x + unit * 0.38f, y + unit * 0.28f);
+                canvas.DrawRoundRect(rect, 3, 3, fill);
+                canvas.DrawRoundRect(rect, 3, 3, stroke);
+            }
     }
 
     private static void DrawStretchRepeatAction(SKCanvas canvas, SKRect bounds)
@@ -3651,24 +3650,24 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
     {
         using var paint = StrokePaint(color, 1.15f, 150);
         for (var side = 0; side < 4; side++)
-        for (var index = 1; index <= perSide; index++)
-        {
-            var t = index / (float)(perSide + 1);
-            var point = side switch
+            for (var index = 1; index <= perSide; index++)
             {
-                0 => new SKPoint(rect.Left + rect.Width * t, rect.Top),
-                1 => new SKPoint(rect.Right, rect.Top + rect.Height * t),
-                2 => new SKPoint(rect.Right - rect.Width * t, rect.Bottom),
-                _ => new SKPoint(rect.Left, rect.Bottom - rect.Height * t)
-            };
-            var vertical = side is 0 or 2;
-            canvas.DrawLine(
-                point.X + (vertical ? 0 : -4f),
-                point.Y + (vertical ? -4f : 0),
-                point.X + (vertical ? 0 : 4f),
-                point.Y + (vertical ? 4f : 0),
-                paint);
-        }
+                var t = index / (float)(perSide + 1);
+                var point = side switch
+                {
+                    0 => new SKPoint(rect.Left + rect.Width * t, rect.Top),
+                    1 => new SKPoint(rect.Right, rect.Top + rect.Height * t),
+                    2 => new SKPoint(rect.Right - rect.Width * t, rect.Bottom),
+                    _ => new SKPoint(rect.Left, rect.Bottom - rect.Height * t)
+                };
+                var vertical = side is 0 or 2;
+                canvas.DrawLine(
+                    point.X + (vertical ? 0 : -4f),
+                    point.Y + (vertical ? -4f : 0),
+                    point.X + (vertical ? 0 : 4f),
+                    point.Y + (vertical ? 4f : 0),
+                    paint);
+            }
     }
 
     private static SKPoint[] RectCorners(SKRect rect) =>
@@ -7208,15 +7207,15 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
         var left = bounds.MidX - width * 0.5f;
         var top = bounds.MidY - height * 0.5f;
         for (var row = 0; row < 2; row++)
-        for (var column = 0; column < 3; column++)
-        {
-            var cell = new SKRect(
-                left + column * (size + gap),
-                top + row * (size + gap),
-                left + column * (size + gap) + size,
-                top + row * (size + gap) + size);
-            canvas.DrawRect(cell, paint);
-        }
+            for (var column = 0; column < 3; column++)
+            {
+                var cell = new SKRect(
+                    left + column * (size + gap),
+                    top + row * (size + gap),
+                    left + column * (size + gap) + size,
+                    top + row * (size + gap) + size);
+                canvas.DrawRect(cell, paint);
+            }
     }
 
     private static void DrawThemeIcon(SKCanvas canvas, SKRect bounds, SKPaint paint)

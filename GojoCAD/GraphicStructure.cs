@@ -197,18 +197,18 @@ public static class GraphicStructure
             .SelectMany(ReadBoundaryEndpoints)
             .ToArray();
         for (var leftIndex = 0; leftIndex < endpoints.Length; leftIndex++)
-        for (var rightIndex = leftIndex + 1; rightIndex < endpoints.Length; rightIndex++)
-        {
-            var left = endpoints[leftIndex];
-            var right = endpoints[rightIndex];
-            if (ReferenceEquals(left.Segment, right.Segment) ||
-                !EndpointLocationsMeet(left.Location, right.Location))
+            for (var rightIndex = leftIndex + 1; rightIndex < endpoints.Length; rightIndex++)
             {
-                continue;
-            }
+                var left = endpoints[leftIndex];
+                var right = endpoints[rightIndex];
+                if (ReferenceEquals(left.Segment, right.Segment) ||
+                    !EndpointLocationsMeet(left.Location, right.Location))
+                {
+                    continue;
+                }
 
-            preserved.Add(Pin(left.Point, right.Point));
-        }
+                preserved.Add(Pin(left.Point, right.Point));
+            }
 
         return preserved;
     }

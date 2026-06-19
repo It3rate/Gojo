@@ -1,6 +1,5 @@
 using Gojo.Core;
 using Gojo.Structures;
-using GojoCAD;
 
 namespace GojoCAD.Tests;
 

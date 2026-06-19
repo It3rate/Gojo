@@ -52,10 +52,10 @@ public static class GraphicOrthogonalFillSurface
             group.TryReadOrderedElementsOn(holder, out var elements))
         {
             foreach (var element in elements)
-            foreach (var nestedWitnessSource in OffsetWitnessSources(element))
-            {
-                yield return nestedWitnessSource;
-            }
+                foreach (var nestedWitnessSource in OffsetWitnessSources(element))
+                {
+                    yield return nestedWitnessSource;
+                }
         }
     }
 
@@ -147,20 +147,20 @@ public static class GraphicOrthogonalFillSurface
             .ToHashSet();
         var seen = new HashSet<ulong>();
         foreach (var pathGraph in graph.ReadsOf<PathGraphRead>())
-        foreach (var edge in pathGraph.Edges)
-        {
-            if (edge.Segment is not SharedFrameSegmentRead segment ||
-                !edge.IsSharedFrame ||
-                arcSpanIds.Contains(SourceId(segment.Source)) ||
-                circleRadiusSpanIds.Contains(SourceId(segment.Source)) ||
-                closedBoundarySegmentIds.Contains(SourceId(segment.Source)) ||
-                !seen.Add(SourceId(segment.Source)))
+            foreach (var edge in pathGraph.Edges)
             {
-                continue;
-            }
+                if (edge.Segment is not SharedFrameSegmentRead segment ||
+                    !edge.IsSharedFrame ||
+                    arcSpanIds.Contains(SourceId(segment.Source)) ||
+                    circleRadiusSpanIds.Contains(SourceId(segment.Source)) ||
+                    closedBoundarySegmentIds.Contains(SourceId(segment.Source)) ||
+                    !seen.Add(SourceId(segment.Source)))
+                {
+                    continue;
+                }
 
-            yield return segment;
-        }
+                yield return segment;
+            }
     }
 
     private static IEnumerable<SharedFrameArcRead> OpenSharedFrameArcs(IElement source)
@@ -237,13 +237,13 @@ public static class GraphicOrthogonalFillSurface
                     component.Add(currentId);
                     var currentEdge = edgeById[currentId];
                     foreach (var nodeKey in new[] { PathNodeKey(currentEdge.Start), PathNodeKey(currentEdge.End) })
-                    foreach (var nextId in nodeEdges[nodeKey])
-                    {
-                        if (unused.Remove(nextId))
+                        foreach (var nextId in nodeEdges[nodeKey])
                         {
-                            queue.Enqueue(nextId);
+                            if (unused.Remove(nextId))
+                            {
+                                queue.Enqueue(nextId);
+                            }
                         }
-                    }
                 }
 
                 if (component.Count < 2)

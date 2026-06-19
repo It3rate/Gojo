@@ -1,5 +1,5 @@
-using Gojo.Core;
 using Gojo.ConceptSurface;
+using Gojo.Core;
 using GojoCAD;
 using GojoCAD.Structures;
 using SkiaSharp;
@@ -104,10 +104,10 @@ internal static class BlocksGlossaryStructureCatalog
         };
         var columns = new[] { "site", "flow", "boundary", "partitioned", "orientation", "direction" };
         foreach (var (rowKey, row) in rows)
-        foreach (var column in columns)
-        {
-            structures[$"source-support-{rowKey}-{column}"] = SourceSupport(row, column);
-        }
+            foreach (var column in columns)
+            {
+                structures[$"source-support-{rowKey}-{column}"] = SourceSupport(row, column);
+            }
     }
 
     private static void AddDirectionArea(Dictionary<string, BlocksGlossaryStructure> structures)
@@ -128,10 +128,10 @@ internal static class BlocksGlossaryStructureCatalog
             ("bounded-area", "bounded-area")
         };
         foreach (var (rowKey, row) in rows)
-        foreach (var (columnKey, column) in columns)
-        {
-            structures[$"direction-area-{rowKey}-{columnKey}"] = DirectionArea(row, column);
-        }
+            foreach (var (columnKey, column) in columns)
+            {
+                structures[$"direction-area-{rowKey}-{columnKey}"] = DirectionArea(row, column);
+            }
     }
 
     private static void AddGradesDimensions(Dictionary<string, BlocksGlossaryStructure> structures) =>
@@ -174,10 +174,10 @@ internal static class BlocksGlossaryStructureCatalog
             ("plotted", CurveColumn.Plotted)
         };
         foreach (var (rowKey, row) in rows)
-        foreach (var (columnKey, column) in columns)
-        {
-            structures[$"curves-{rowKey}-{columnKey}"] = Curve(row, column);
-        }
+            foreach (var (columnKey, column) in columns)
+            {
+                structures[$"curves-{rowKey}-{columnKey}"] = Curve(row, column);
+            }
     }
 
     private static void AddBranches(Dictionary<string, BlocksGlossaryStructure> structures)
@@ -185,10 +185,10 @@ internal static class BlocksGlossaryStructureCatalog
         var rows = new[] { "tip", "middle", "structure" };
         var columns = new[] { "branch", "merge", "orthogonal-joint", "other" };
         foreach (var row in rows)
-        foreach (var column in columns)
-        {
-            structures[$"branches-{row}-{column}"] = Branch(row, column);
-        }
+            foreach (var column in columns)
+            {
+                structures[$"branches-{row}-{column}"] = Branch(row, column);
+            }
     }
 
     private static void AddBooleanParticipation(Dictionary<string, BlocksGlossaryStructure> structures)
@@ -196,10 +196,10 @@ internal static class BlocksGlossaryStructureCatalog
         var rows = new[] { "point", "segment", "area" };
         var columns = new[] { "participants", "touch", "overlap", "union", "intersection", "difference" };
         foreach (var row in rows)
-        foreach (var column in columns)
-        {
-            structures[$"boolean-participation-{row}-{column}"] = BooleanParticipation(row, column);
-        }
+            foreach (var column in columns)
+            {
+                structures[$"boolean-participation-{row}-{column}"] = BooleanParticipation(row, column);
+            }
     }
 
     private static void AddConnectedPaths(Dictionary<string, BlocksGlossaryStructure> structures)

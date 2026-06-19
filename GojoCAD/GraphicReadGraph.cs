@@ -179,144 +179,144 @@ public sealed class GraphicReadGraph
             }
 
             foreach (var leftPoint in left.LocalReads.OfType<PointRead>())
-            foreach (var rightPoint in right.LocalReads.OfType<PointRead>())
-            {
-                var pair = new PointPairRead(relation, leftPoint, rightPoint);
-                reads.Add(pair);
-                AddPointPairReads(reads, pair);
-            }
+                foreach (var rightPoint in right.LocalReads.OfType<PointRead>())
+                {
+                    var pair = new PointPairRead(relation, leftPoint, rightPoint);
+                    reads.Add(pair);
+                    AddPointPairReads(reads, pair);
+                }
 
             foreach (var leftFramePoint in left.LocalReads.OfType<SharedFramePointRead>())
-            foreach (var rightFramePoint in right.LocalReads.OfType<SharedFramePointRead>())
-            {
-                if (ReferenceEquals(leftFramePoint.Source, relation.Left) &&
-                    ReferenceEquals(rightFramePoint.Source, relation.Right) &&
-                    HaveSameFrameBasis(leftFramePoint, rightFramePoint) &&
-                    !SameFramePoint(leftFramePoint, rightFramePoint))
+                foreach (var rightFramePoint in right.LocalReads.OfType<SharedFramePointRead>())
                 {
-                    reads.Add(new SharedFrameSegmentRead(relation, leftFramePoint, rightFramePoint));
+                    if (ReferenceEquals(leftFramePoint.Source, relation.Left) &&
+                        ReferenceEquals(rightFramePoint.Source, relation.Right) &&
+                        HaveSameFrameBasis(leftFramePoint, rightFramePoint) &&
+                        !SameFramePoint(leftFramePoint, rightFramePoint))
+                    {
+                        reads.Add(new SharedFrameSegmentRead(relation, leftFramePoint, rightFramePoint));
+                    }
                 }
-            }
 
             foreach (var center in left.LocalReads.OfType<SharedFramePointRead>())
-            foreach (var span in right.LocalReads.OfType<SharedFrameSegmentRead>())
-            {
-                if (ReferenceEquals(center.Source, relation.Left) &&
-                    ReferenceEquals(span.Source, relation.Right) &&
-                    HaveSameFrameBasis(center, span.Start) &&
-                    HaveSameFrameBasis(center, span.End) &&
-                    !SameFramePoint(center, span.Start) &&
-                    !SameFramePoint(center, span.End))
+                foreach (var span in right.LocalReads.OfType<SharedFrameSegmentRead>())
                 {
-                    reads.Add(new SharedFrameArcRead(relation, center, span.Start, span.End, span));
+                    if (ReferenceEquals(center.Source, relation.Left) &&
+                        ReferenceEquals(span.Source, relation.Right) &&
+                        HaveSameFrameBasis(center, span.Start) &&
+                        HaveSameFrameBasis(center, span.End) &&
+                        !SameFramePoint(center, span.Start) &&
+                        !SameFramePoint(center, span.End))
+                    {
+                        reads.Add(new SharedFrameArcRead(relation, center, span.Start, span.End, span));
+                    }
                 }
-            }
 
             foreach (var chord in left.LocalReads.OfType<SharedFrameSegmentRead>())
-            foreach (var control in right.LocalReads.OfType<SharedFramePointRead>())
-            {
-                if (ReferenceEquals(chord.Source, relation.Left) &&
-                    ReferenceEquals(control.Source, relation.Right) &&
-                    HaveSameFrameBasis(chord.Start, control) &&
-                    !SameFramePoint(chord.Start, control) &&
-                    !SameFramePoint(chord.End, control))
+                foreach (var control in right.LocalReads.OfType<SharedFramePointRead>())
                 {
-                    reads.Add(new SharedFrameQuadraticCurveRead(relation, chord.Start, control, chord.End, chord));
+                    if (ReferenceEquals(chord.Source, relation.Left) &&
+                        ReferenceEquals(control.Source, relation.Right) &&
+                        HaveSameFrameBasis(chord.Start, control) &&
+                        !SameFramePoint(chord.Start, control) &&
+                        !SameFramePoint(chord.End, control))
+                    {
+                        reads.Add(new SharedFrameQuadraticCurveRead(relation, chord.Start, control, chord.End, chord));
+                    }
                 }
-            }
 
             foreach (var chord in left.LocalReads.OfType<SharedFrameSegmentRead>())
-            foreach (var controlSpan in right.LocalReads.OfType<SharedFrameSegmentRead>())
-            {
-                if (!ReferenceEquals(chord.Source, relation.Left) ||
-                    !ReferenceEquals(controlSpan.Source, relation.Right))
+                foreach (var controlSpan in right.LocalReads.OfType<SharedFrameSegmentRead>())
                 {
-                    continue;
-                }
+                    if (!ReferenceEquals(chord.Source, relation.Left) ||
+                        !ReferenceEquals(controlSpan.Source, relation.Right))
+                    {
+                        continue;
+                    }
 
-                if (!HaveSameFrameBasis(chord.Start, controlSpan.Start) ||
-                    !HaveSameFrameBasis(chord.Start, controlSpan.End))
-                {
-                    continue;
-                }
+                    if (!HaveSameFrameBasis(chord.Start, controlSpan.Start) ||
+                        !HaveSameFrameBasis(chord.Start, controlSpan.End))
+                    {
+                        continue;
+                    }
 
-                if (TryReadSharedFrameTransition(chord, controlSpan, out var transition))
-                {
-                    reads.Add(new SharedFrameCurveTransitionRead(
-                        relation,
-                        transition.Incoming,
-                        transition.Outgoing,
-                        transition.Junction));
+                    if (TryReadSharedFrameTransition(chord, controlSpan, out var transition))
+                    {
+                        reads.Add(new SharedFrameCurveTransitionRead(
+                            relation,
+                            transition.Incoming,
+                            transition.Outgoing,
+                            transition.Junction));
+                    }
+                    else
+                    {
+                        reads.Add(new SharedFrameCubicCurveRead(
+                            relation,
+                            chord.Start,
+                            controlSpan.Start,
+                            controlSpan.End,
+                            chord.End,
+                            chord,
+                            controlSpan));
+                    }
                 }
-                else
-                {
-                    reads.Add(new SharedFrameCubicCurveRead(
-                        relation,
-                        chord.Start,
-                        controlSpan.Start,
-                        controlSpan.End,
-                        chord.End,
-                        chord,
-                        controlSpan));
-                }
-            }
 
             foreach (var transition in left.LocalReads.OfType<SharedFrameCurveTransitionRead>())
-            foreach (var length in right.LocalReads.OfType<SharedFrameSegmentRead>())
-            {
-                if (HaveSameFrameBasis(transition.Incoming.Start, length.Start))
+                foreach (var length in right.LocalReads.OfType<SharedFrameSegmentRead>())
                 {
-                    reads.Add(new SharedFrameClothoidTransitionRead(relation, transition, length));
+                    if (HaveSameFrameBasis(transition.Incoming.Start, length.Start))
+                    {
+                        reads.Add(new SharedFrameClothoidTransitionRead(relation, transition, length));
+                    }
                 }
-            }
 
             foreach (var arc in left.LocalReads.OfType<SharedFrameArcRead>())
-            foreach (var length in right.LocalReads.OfType<SharedFrameSegmentRead>())
-            {
-                if (HaveSameFrameBasis(arc.Center, length.Start))
+                foreach (var length in right.LocalReads.OfType<SharedFrameSegmentRead>())
                 {
-                    reads.Add(new SharedFrameInvoluteCircleRead(relation, arc, length));
+                    if (HaveSameFrameBasis(arc.Center, length.Start))
+                    {
+                        reads.Add(new SharedFrameInvoluteCircleRead(relation, arc, length));
+                    }
                 }
-            }
 
             foreach (var leftFramePoint in left.LocalReads.OfType<SharedFramePointRead>())
-            foreach (var rightPoint in right.LocalReads.OfType<PointRead>())
-            {
-                reads.Add(new SharedFramePointAttachmentRead(relation, leftFramePoint, rightPoint));
-            }
+                foreach (var rightPoint in right.LocalReads.OfType<PointRead>())
+                {
+                    reads.Add(new SharedFramePointAttachmentRead(relation, leftFramePoint, rightPoint));
+                }
 
             foreach (var leftPoint in left.LocalReads.OfType<PointRead>())
-            foreach (var rightFramePoint in right.LocalReads.OfType<SharedFramePointRead>())
-            {
-                reads.Add(new SharedFramePointAttachmentRead(relation, rightFramePoint, leftPoint));
-            }
+                foreach (var rightFramePoint in right.LocalReads.OfType<SharedFramePointRead>())
+                {
+                    reads.Add(new SharedFramePointAttachmentRead(relation, rightFramePoint, leftPoint));
+                }
 
             foreach (var incoming in left.LocalReads.OfType<PathSegmentRead>())
-            foreach (var outgoing in right.LocalReads.OfType<PathSegmentRead>())
-            {
-                if (TryReadCarrierTransition(incoming, outgoing, out var transition))
+                foreach (var outgoing in right.LocalReads.OfType<PathSegmentRead>())
                 {
-                    reads.Add(new CarrierCurveTransitionRead(
-                        relation,
-                        transition.Incoming,
-                        transition.Outgoing,
-                        transition.Entry,
-                        transition.Exit,
-                        transition.Junction));
+                    if (TryReadCarrierTransition(incoming, outgoing, out var transition))
+                    {
+                        reads.Add(new CarrierCurveTransitionRead(
+                            relation,
+                            transition.Incoming,
+                            transition.Outgoing,
+                            transition.Entry,
+                            transition.Exit,
+                            transition.Junction));
+                    }
                 }
-            }
 
             foreach (var transition in left.LocalReads.OfType<CarrierCurveTransitionRead>())
-            foreach (var length in right.LocalReads.OfType<PathSegmentRead>())
-            {
-                reads.Add(new CarrierClothoidTransitionRead(relation, transition, length));
-            }
+                foreach (var length in right.LocalReads.OfType<PathSegmentRead>())
+                {
+                    reads.Add(new CarrierClothoidTransitionRead(relation, transition, length));
+                }
 
             foreach (var arc in left.LocalReads.OfType<CircularSpanRead>())
-            foreach (var length in right.LocalReads.OfType<PathSegmentRead>())
-            {
-                reads.Add(new CarrierInvoluteCircleRead(relation, arc, length));
-            }
+                foreach (var length in right.LocalReads.OfType<PathSegmentRead>())
+                {
+                    reads.Add(new CarrierInvoluteCircleRead(relation, arc, length));
+                }
 
             foreach (var outlet in right.LocalReads.OfType<ZeroSpanRead>().Where(IsUnknownZeroSpan))
             {
@@ -522,18 +522,18 @@ public sealed class GraphicReadGraph
             foreach (var group in ReadAllSegmentEndpointGroups(endpoints, reads))
             {
                 for (var leftIndex = 0; leftIndex < group.Count; leftIndex++)
-                for (var rightIndex = leftIndex + 1; rightIndex < group.Count; rightIndex++)
-                {
-                    var left = group[leftIndex];
-                    var right = group[rightIndex];
-                    if (!ReferenceEquals(left.Segment, right.Segment))
+                    for (var rightIndex = leftIndex + 1; rightIndex < group.Count; rightIndex++)
                     {
-                        yield return new SegmentConnectionRead(
-                            left.Segment.Source,
-                            left,
-                            right);
+                        var left = group[leftIndex];
+                        var right = group[rightIndex];
+                        if (!ReferenceEquals(left.Segment, right.Segment))
+                        {
+                            yield return new SegmentConnectionRead(
+                                left.Segment.Source,
+                                left,
+                                right);
+                        }
                     }
-                }
             }
         }
 
@@ -1887,10 +1887,10 @@ public sealed class GraphicReadGraph
                 }
 
                 foreach (var leftIndex in leftIndexes)
-                foreach (var rightIndex in rightIndexes)
-                {
-                    Union(leftIndex, rightIndex);
-                }
+                    foreach (var rightIndex in rightIndexes)
+                    {
+                        Union(leftIndex, rightIndex);
+                    }
             }
 
             return [.. points
@@ -1973,10 +1973,10 @@ public sealed class GraphicReadGraph
                 }
 
                 foreach (var leftIndex in leftIndexes)
-                foreach (var rightIndex in rightIndexes)
-                {
-                    Union(leftIndex, rightIndex);
-                }
+                    foreach (var rightIndex in rightIndexes)
+                    {
+                        Union(leftIndex, rightIndex);
+                    }
             }
 
             return [.. endpoints
@@ -2058,10 +2058,10 @@ public sealed class GraphicReadGraph
                 }
 
                 foreach (var leftIndex in leftIndexes)
-                foreach (var rightIndex in rightIndexes)
-                {
-                    Union(leftIndex, rightIndex);
-                }
+                    foreach (var rightIndex in rightIndexes)
+                    {
+                        Union(leftIndex, rightIndex);
+                    }
             }
 
             return [.. endpoints
@@ -2241,11 +2241,11 @@ public sealed class GraphicReadGraph
                     .Distinct(ReadReferenceComparer<PositiveSegmentRead>())
                     .ToArray();
                 for (var leftIndex = 0; leftIndex < groupSegments.Length; leftIndex++)
-                for (var rightIndex = leftIndex + 1; rightIndex < groupSegments.Length; rightIndex++)
-                {
-                    adjacent[groupSegments[leftIndex]].Add(groupSegments[rightIndex]);
-                    adjacent[groupSegments[rightIndex]].Add(groupSegments[leftIndex]);
-                }
+                    for (var rightIndex = leftIndex + 1; rightIndex < groupSegments.Length; rightIndex++)
+                    {
+                        adjacent[groupSegments[leftIndex]].Add(groupSegments[rightIndex]);
+                        adjacent[groupSegments[rightIndex]].Add(groupSegments[leftIndex]);
+                    }
             }
 
             return adjacent;
@@ -2268,11 +2268,11 @@ public sealed class GraphicReadGraph
                     .Distinct(ReadReferenceComparer<PathSegmentRead>())
                     .ToArray();
                 for (var leftIndex = 0; leftIndex < groupSegments.Length; leftIndex++)
-                for (var rightIndex = leftIndex + 1; rightIndex < groupSegments.Length; rightIndex++)
-                {
-                    adjacent[groupSegments[leftIndex]].Add(groupSegments[rightIndex]);
-                    adjacent[groupSegments[rightIndex]].Add(groupSegments[leftIndex]);
-                }
+                    for (var rightIndex = leftIndex + 1; rightIndex < groupSegments.Length; rightIndex++)
+                    {
+                        adjacent[groupSegments[leftIndex]].Add(groupSegments[rightIndex]);
+                        adjacent[groupSegments[rightIndex]].Add(groupSegments[leftIndex]);
+                    }
             }
 
             return adjacent;
@@ -2498,11 +2498,11 @@ public sealed class GraphicReadGraph
                     .Distinct(ReadReferenceComparer<SharedFrameSegmentRead>())
                     .ToArray();
                 for (var leftIndex = 0; leftIndex < groupSegments.Length; leftIndex++)
-                for (var rightIndex = leftIndex + 1; rightIndex < groupSegments.Length; rightIndex++)
-                {
-                    adjacent[groupSegments[leftIndex]].Add(groupSegments[rightIndex]);
-                    adjacent[groupSegments[rightIndex]].Add(groupSegments[leftIndex]);
-                }
+                    for (var rightIndex = leftIndex + 1; rightIndex < groupSegments.Length; rightIndex++)
+                    {
+                        adjacent[groupSegments[leftIndex]].Add(groupSegments[rightIndex]);
+                        adjacent[groupSegments[rightIndex]].Add(groupSegments[leftIndex]);
+                    }
             }
 
             return adjacent;

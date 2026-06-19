@@ -1,6 +1,5 @@
 using Gojo.ConceptSurface;
 using Gojo.Core;
-using Gojo.Structures;
 
 namespace Gojo.Tests.ConceptSurface;
 
