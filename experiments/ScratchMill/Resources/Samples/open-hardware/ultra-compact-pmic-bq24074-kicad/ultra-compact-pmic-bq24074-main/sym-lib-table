@@ -1,0 +1,6 @@
+(sym_lib_table
+	(version 7)
+	(lib (name "ul_USB4135-GF-A") (type "KiCad") (uri "/home/abra/Downloads/ul_USB4135-GF-A/KiCADv6/ul_USB4135-GF-A.kicad_sym") (options "") (descr ""))
+	(lib (name "ul_BQ24074RGTR") (type "KiCad") (uri "/home/abra/Downloads/ul_BQ24074RGTR/KiCADv6/ul_BQ24074RGTR.kicad_sym") (options "") (descr ""))
+	(lib (name "SKRTLAE010") (type "KiCad") (uri "${KIPRJMOD}/lib/SKRTLAE010/SKRTLAE010.kicad_sym") (options "") (descr ""))
+)
