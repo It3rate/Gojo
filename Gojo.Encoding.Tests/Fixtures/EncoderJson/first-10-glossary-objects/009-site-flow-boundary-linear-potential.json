@@ -1,0 +1,217 @@
+{
+  "represents": "Coincident points can carry a potential span and perpendicular flow before visible length appears.",
+  "entryId": "site-flow-boundary-linear-potential",
+  "expression": "P(A)+P(B coincident) -> S-potential + flow_perp",
+  "encodingNote": "Two points can make a linear potential even before they have visible length.",
+  "structure": {
+    "sourceId": "site-flow-boundary-linear-potential",
+    "counts": {
+      "roots": 1,
+      "carriers": 3,
+      "tickRefs": 9,
+      "carrierLocations": 9,
+      "relations": 16,
+      "unitShapes": 3
+    },
+    "roots": [
+      {
+        "kind": "relation"
+      }
+    ],
+    "carriers": [
+      {
+        "id": 1,
+        "unitShape": 1
+      }
+    ],
+    "tickRefs": [
+      {
+        "id": 1,
+        "ticks": 1
+      }
+    ],
+    "carrierLocations": [
+      {
+        "id": 1,
+        "carrier": 1,
+        "tickRef": 1
+      }
+    ],
+    "relations": [
+      {
+        "id": 1,
+        "left": {
+          "kind": "relation",
+          "index": 1
+        },
+        "right": {
+          "kind": "carrier"
+        }
+      }
+    ],
+    "unitShapes": [
+      {
+        "id": 1,
+        "surface": {
+          "kind": "relation",
+          "index": 4
+        }
+      }
+    ],
+    "openedStructure": {
+      "kind": "relation"
+    },
+    "residueOrTension": {
+      "kind": "unknown-point",
+      "isUnknown": true
+    }
+  },
+  "observerPaths": [
+    {
+      "selectedSource": {
+        "kind": "structure-encoding",
+        "sourceId": "site-flow-boundary-linear-potential",
+        "counts": {
+          "roots": 1,
+          "carriers": 3,
+          "tickRefs": 9,
+          "carrierLocations": 9,
+          "relations": 16,
+          "unitShapes": 3
+        }
+      },
+      "observerSurface": {
+        "basis": {
+          "kind": "text",
+          "text": "opened glossary block"
+        }
+      },
+      "steps": [
+        {
+          "from": {
+            "kind": "structure-encoding",
+            "sourceId": "site-flow-boundary-linear-potential",
+            "counts": {
+              "roots": 1,
+              "carriers": 3,
+              "tickRefs": 9,
+              "carrierLocations": 9,
+              "relations": 16,
+              "unitShapes": 3
+            }
+          },
+          "through": {
+            "kind": "text",
+            "text": "opened structure"
+          },
+          "to": {
+            "kind": "relation"
+          },
+          "evidence": {
+            "kind": "relation"
+          },
+          "residueOrTension": {
+            "kind": "unknown-point",
+            "isUnknown": true
+          }
+        }
+      ],
+      "result": {
+        "kind": "relation"
+      },
+      "residueOrTension": {
+        "kind": "unknown-point",
+        "isUnknown": true
+      },
+      "provenance": {
+        "kind": "text",
+        "text": "P(A)+P(B coincident) -> S-potential + flow_perp"
+      }
+    },
+    {
+      "selectedSource": {
+        "kind": "structure-encoding",
+        "sourceId": "site-flow-boundary-linear-potential",
+        "counts": {
+          "roots": 1,
+          "carriers": 3,
+          "tickRefs": 9,
+          "carrierLocations": 9,
+          "relations": 16,
+          "unitShapes": 3
+        }
+      },
+      "observerSurface": {
+        "basis": {
+          "kind": "text",
+          "text": "relation table scan"
+        }
+      },
+      "steps": [
+        {
+          "from": {
+            "kind": "structure-encoding",
+            "sourceId": "site-flow-boundary-linear-potential",
+            "counts": {
+              "roots": 1,
+              "carriers": 3,
+              "tickRefs": 9,
+              "carrierLocations": 9,
+              "relations": 16,
+              "unitShapes": 3
+            }
+          },
+          "through": {
+            "kind": "text",
+            "text": "first relation row"
+          },
+          "to": {
+            "kind": "relation-row",
+            "relationRow": {
+              "id": 1,
+              "left": {
+                "kind": "relation",
+                "index": 1
+              },
+              "right": {
+                "kind": "carrier"
+              }
+            }
+          },
+          "evidence": {
+            "kind": "relation"
+          },
+          "residueOrTension": {
+            "kind": "unknown-point",
+            "isUnknown": true
+          }
+        }
+      ],
+      "result": {
+        "kind": "relation-row",
+        "relationRow": {
+          "id": 1,
+          "left": {
+            "kind": "relation",
+            "index": 1
+          },
+          "right": {
+            "kind": "carrier"
+          }
+        }
+      },
+      "residueOrTension": {
+        "kind": "unknown-point",
+        "isUnknown": true
+      },
+      "provenance": {
+        "kind": "text",
+        "text": "site-flow-boundary-linear-potential"
+      }
+    }
+  ],
+  "residueOrTension": {
+    "kind": "unknown-point",
+    "isUnknown": true
+  }
+}

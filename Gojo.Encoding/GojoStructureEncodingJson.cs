@@ -1,3 +1,4 @@
+using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Gojo.Core;
@@ -14,7 +15,8 @@ public static class GojoStructureEncodingJson
     private static readonly JsonSerializerOptions JsonOptions = new(JsonSerializerDefaults.Web)
     {
         WriteIndented = true,
-        DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+        Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
+        DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault
     };
 
     public static GojoEncodingJsonBundle BundleFromSurface(IElement bundle)
@@ -58,9 +60,23 @@ public static class GojoStructureEncodingJson
     public static string Serialize(GojoEncodingJsonBundle bundle) =>
         JsonSerializer.Serialize(bundle, JsonOptions);
 
+    public static string SerializeEntry(GojoEncodingJsonBundleEntry entry) =>
+        JsonSerializer.Serialize(entry, JsonOptions);
+
+    public static string SerializeEntries(IReadOnlyList<GojoEncodingJsonBundleEntry> entries) =>
+        JsonSerializer.Serialize(entries, JsonOptions);
+
     public static GojoEncodingJsonBundle DeserializeBundle(string json) =>
         JsonSerializer.Deserialize<GojoEncodingJsonBundle>(json, JsonOptions) ??
         throw new InvalidOperationException("Could not deserialize Gojo encoding JSON bundle.");
+
+    public static GojoEncodingJsonBundleEntry DeserializeEntry(string json) =>
+        JsonSerializer.Deserialize<GojoEncodingJsonBundleEntry>(json, JsonOptions) ??
+        throw new InvalidOperationException("Could not deserialize Gojo encoding JSON bundle entry.");
+
+    public static List<GojoEncodingJsonBundleEntry> DeserializeEntries(string json) =>
+        JsonSerializer.Deserialize<List<GojoEncodingJsonBundleEntry>>(json, JsonOptions) ??
+        throw new InvalidOperationException("Could not deserialize Gojo encoding JSON bundle entries.");
 
     public static string SerializeStructure(GojoEncodingJsonStructure structure) =>
         JsonSerializer.Serialize(structure, JsonOptions);
@@ -69,7 +85,7 @@ public static class GojoStructureEncodingJson
         JsonSerializer.Deserialize<GojoEncodingJsonStructure>(json, JsonOptions) ??
         throw new InvalidOperationException("Could not deserialize Gojo encoding JSON structure.");
 
-    private static GojoEncodingJsonBundleEntry EntryFromSurface(IElement entry)
+    public static GojoEncodingJsonBundleEntry EntryFromSurface(IElement entry)
     {
         if (!GojoStructureEncodingBundleSurface.TryReadEntry(entry, out var read))
         {
@@ -80,7 +96,7 @@ public static class GojoStructureEncodingJson
         {
             EntryId = read.EntryId,
             Expression = read.Expression,
-            EncodingNote = read.EncodingNote,
+            EncodingNote = string.IsNullOrEmpty(read.EncodingNote) ? null : read.EncodingNote,
             Structure = StructureFromSurface(read.StructureEncoding),
             ObserverPaths = [.. read.ObserverPaths.Select(ObserverPathFromSurface)],
             ResidueOrTension = DescribeElement(read.ResidueOrTension)
@@ -124,19 +140,15 @@ public static class GojoStructureEncodingJson
 
     private static GojoEncodingJsonObserverSurface ObserverSurfaceFromElement(IElement surface)
     {
-        var observer = new GojoEncodingJsonObserverSurface
-        {
-            Surface = DescribeElement(surface)
-        };
+        var observer = new GojoEncodingJsonObserverSurface();
 
         if (surface is Relation relation &&
             EncodedTextSurface.TryReadRootElements(relation, out var elements) &&
             elements.Length >= 4)
         {
-            observer.Anchor = DescribeElement(elements[0]);
             observer.Basis = DescribeElement(elements[1]);
-            observer.Resolution = DescribeElement(elements[2]);
-            observer.Intent = DescribeElement(elements[3]);
+            observer.Resolution = IsUnknown(elements[2]) ? null : DescribeElement(elements[2]);
+            observer.Intent = IsUnknown(elements[3]) ? null : DescribeElement(elements[3]);
         }
 
         return observer;
@@ -146,7 +158,7 @@ public static class GojoStructureEncodingJson
     {
         if (EncodedTextSurface.IsUnknownPoint(element))
         {
-            return new GojoEncodingJsonElement { Kind = "unknown-point", Type = element.GetType().Name, IsUnknown = true };
+            return new GojoEncodingJsonElement { Kind = "unknown-point", IsUnknown = true };
         }
 
         if (EncodedTextSurface.TryRead(element, out var text))
@@ -216,33 +228,24 @@ public static class GojoStructureEncodingJson
             Carrier carrier => new GojoEncodingJsonElement
             {
                 Kind = "carrier",
-                Type = nameof(Carrier),
-                IsUnknown = carrier.IsUnknown
+                IsUnknown = TrueOrNull(carrier.IsUnknown)
             },
             CarrierLocation location => new GojoEncodingJsonElement
             {
                 Kind = "carrier-location",
-                Type = nameof(CarrierLocation),
-                Ticks = location.Ticks,
-                IsUnknown = location.Carrier.IsUnknown
+                Ticks = NonZero(location.Ticks),
+                IsUnknown = TrueOrNull(location.Carrier.IsUnknown)
             },
             TickRef tick => new GojoEncodingJsonElement
             {
                 Kind = "tick-ref",
-                Type = nameof(TickRef),
-                Ticks = tick.Ticks
+                Ticks = NonZero(tick.Ticks)
             },
             Relation relation => new GojoEncodingJsonElement
             {
-                Kind = "relation",
-                Type = nameof(Relation),
-                Counts = new GojoEncodingJsonStructureCounts
-                {
-                    Carriers = relation.Carriers().Length,
-                    CarrierLocations = relation.CarrierLocations().Length
-                }
+                Kind = "relation"
             },
-            _ => new GojoEncodingJsonElement { Kind = "element", Type = element.GetType().Name }
+            _ => new GojoEncodingJsonElement { Kind = "element" }
         };
     }
 
@@ -309,35 +312,38 @@ public static class GojoStructureEncodingJson
     private static GojoEncodingJsonElementRef ToJson(GojoStructureEncodingSurface.EncodedStructureRef reference) =>
         new()
         {
-            Kind = reference.Kind,
-            KindName = KindName(reference.Kind),
-            Index = reference.Index
+            Kind = RefKindName(reference.Kind),
+            Index = PositiveIndexOrNull(reference.Index)
         };
 
     private static GojoEncodingJsonCarrierRow ToJson(GojoStructureEncodingSurface.EncodedCarrierRow row) =>
         new()
         {
-            Index = row.Index,
-            Id = row.Id,
+            Id = LocalId(row.Index),
             IsInverse = row.IsInverse,
             IsUnknown = row.IsUnknown,
-            Value = row.Value,
-            Tension = row.Tension,
-            UnitShapeIndex = row.UnitShapeIndex,
-            InverseCarrierIndex = row.InverseCarrierIndex
+            Value = NonZero(row.Value),
+            Tension = NonZero(row.Tension),
+            UnitShape = PositiveLocalRefOrNull(row.UnitShapeIndex),
+            InverseCarrier = PositiveLocalRefOrNull(row.InverseCarrierIndex)
         };
 
     private static GojoEncodingJsonTickRefRow ToJson(GojoStructureEncodingSurface.EncodedTickRefRow row) =>
-        new() { Index = row.Index, Id = row.Id, Ticks = row.Ticks };
+        new() { Id = LocalId(row.Index), Ticks = NonZero(row.Ticks) };
 
     private static GojoEncodingJsonCarrierLocationRow ToJson(GojoStructureEncodingSurface.EncodedCarrierLocationRow row) =>
-        new() { Index = row.Index, CarrierIndex = row.CarrierIndex, TickRefIndex = row.TickRefIndex };
+        new()
+        {
+            Id = LocalId(row.Index),
+            Carrier = PositiveLocalRefOrNull(row.CarrierIndex),
+            TickRef = PositiveLocalRefOrNull(row.TickRefIndex)
+        };
 
     private static GojoEncodingJsonRelationRow ToJson(GojoStructureEncodingSurface.EncodedRelationRow row) =>
-        new() { Index = row.Index, Id = row.Id, Left = ToJson(row.Left), Right = ToJson(row.Right) };
+        new() { Id = LocalId(row.Index), Left = ToJson(row.Left), Right = ToJson(row.Right) };
 
     private static GojoEncodingJsonUnitShapeRow ToJson(GojoStructureEncodingSurface.EncodedUnitShapeRow row) =>
-        new() { Index = row.Index, Id = row.Id, Surface = ToJson(row.Surface) };
+        new() { Id = LocalId(row.Index), Surface = ToJson(row.Surface) };
 
     private static GojoEncodingJsonStructureCounts CountsOf(GojoEncodingJsonStructure structure) =>
         new()
@@ -350,12 +356,45 @@ public static class GojoStructureEncodingJson
             UnitShapes = structure.UnitShapes.Count
         };
 
-    private static string KindName(long kind) =>
+    private static bool? TrueOrNull(bool value) =>
+        value ? true : null;
+
+    private static bool IsUnknown(IElement element) =>
+        EncodedTextSurface.IsUnknownPoint(element);
+
+    private static long? NonZero(long value) =>
+        value == 0 ? null : value;
+
+    private static long? NonZero(ulong value) =>
+        value == 0 ? null : checked((long)value);
+
+    private static long LocalId(long index) =>
+        index + 1;
+
+    private static long? PositiveLocalRefOrNull(long index) =>
+        index < 0 ? null : index + 1;
+
+    private static long? PositiveIndexOrNull(long index) =>
+        index <= 0 ? null : index;
+
+    private static string RefKindName(long kind) =>
         kind >= byte.MinValue &&
         kind <= byte.MaxValue &&
         Enum.IsDefined(typeof(GojoEncodedElementKind), (GojoEncodedElementKind)kind)
-            ? ((GojoEncodedElementKind)kind).ToString()
-            : $"Kind{kind}";
+            ? RefKindName((GojoEncodedElementKind)kind)
+            : $"kind-{kind}";
+
+    private static string RefKindName(GojoEncodedElementKind kind) =>
+        kind switch
+        {
+            GojoEncodedElementKind.None => "none",
+            GojoEncodedElementKind.Carrier => "carrier",
+            GojoEncodedElementKind.TickRef => "tick-ref",
+            GojoEncodedElementKind.CarrierLocation => "carrier-location",
+            GojoEncodedElementKind.Relation => "relation",
+            GojoEncodedElementKind.UnitShape => "unit-shape",
+            _ => $"kind-{(long)kind}"
+        };
 }
 
 public sealed record GojoEncodingJsonBundle
@@ -369,11 +408,13 @@ public sealed record GojoEncodingJsonBundle
 
 public sealed record GojoEncodingJsonBundleEntry
 {
+    public string? Represents { get; init; }
+
     public string EntryId { get; init; } = string.Empty;
 
     public string Expression { get; init; } = string.Empty;
 
-    public string EncodingNote { get; init; } = string.Empty;
+    public string? EncodingNote { get; init; }
 
     public GojoEncodingJsonStructure Structure { get; init; } = new();
 
@@ -422,8 +463,6 @@ public sealed record GojoEncodingJsonObserverPath
 
 public sealed record GojoEncodingJsonObserverSurface
 {
-    public GojoEncodingJsonElement Surface { get; init; } = new();
-
     public GojoEncodingJsonElement? Anchor { get; set; }
 
     public GojoEncodingJsonElement? Basis { get; set; }
@@ -451,8 +490,6 @@ public sealed record GojoEncodingJsonElement
     public string Kind { get; init; } = string.Empty;
 
     public string? Text { get; init; }
-
-    public string? Type { get; init; }
 
     public string? SourceId { get; init; }
 
@@ -492,54 +529,46 @@ public sealed record GojoEncodingJsonStructureCounts
 
 public sealed record GojoEncodingJsonElementRef
 {
-    public long Kind { get; init; }
+    public string Kind { get; init; } = string.Empty;
 
-    public string KindName { get; init; } = string.Empty;
-
-    public long Index { get; init; }
+    public long? Index { get; init; }
 }
 
 public sealed record GojoEncodingJsonCarrierRow
 {
-    public long Index { get; init; }
-
     public long Id { get; init; }
 
     public bool IsInverse { get; init; }
 
     public bool IsUnknown { get; init; }
 
-    public long Value { get; init; }
+    public long? Value { get; init; }
 
-    public long Tension { get; init; }
+    public long? Tension { get; init; }
 
-    public long UnitShapeIndex { get; init; }
+    public long? UnitShape { get; init; }
 
-    public long InverseCarrierIndex { get; init; }
+    public long? InverseCarrier { get; init; }
 }
 
 public sealed record GojoEncodingJsonTickRefRow
 {
-    public long Index { get; init; }
-
     public long Id { get; init; }
 
-    public long Ticks { get; init; }
+    public long? Ticks { get; init; }
 }
 
 public sealed record GojoEncodingJsonCarrierLocationRow
 {
-    public long Index { get; init; }
+    public long Id { get; init; }
 
-    public long CarrierIndex { get; init; }
+    public long? Carrier { get; init; }
 
-    public long TickRefIndex { get; init; }
+    public long? TickRef { get; init; }
 }
 
 public sealed record GojoEncodingJsonRelationRow
 {
-    public long Index { get; init; }
-
     public long Id { get; init; }
 
     public GojoEncodingJsonElementRef Left { get; init; } = new();
@@ -549,8 +578,6 @@ public sealed record GojoEncodingJsonRelationRow
 
 public sealed record GojoEncodingJsonUnitShapeRow
 {
-    public long Index { get; init; }
-
     public long Id { get; init; }
 
     public GojoEncodingJsonElementRef Surface { get; init; } = new();

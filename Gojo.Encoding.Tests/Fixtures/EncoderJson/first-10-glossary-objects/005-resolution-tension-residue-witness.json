@@ -1,0 +1,217 @@
+{
+  "represents": "A read result can keep the unsettled remainder visible as residue.",
+  "entryId": "resolution-tension-residue-witness",
+  "expression": "Read(source, basis) = result + residue",
+  "encodingNote": "Residue is the part that did not settle under the requested basis.",
+  "structure": {
+    "sourceId": "resolution-tension-residue-witness",
+    "counts": {
+      "roots": 1,
+      "carriers": 4,
+      "tickRefs": 14,
+      "carrierLocations": 14,
+      "relations": 24,
+      "unitShapes": 4
+    },
+    "roots": [
+      {
+        "kind": "relation"
+      }
+    ],
+    "carriers": [
+      {
+        "id": 1,
+        "unitShape": 1
+      }
+    ],
+    "tickRefs": [
+      {
+        "id": 1,
+        "ticks": 1
+      }
+    ],
+    "carrierLocations": [
+      {
+        "id": 1,
+        "carrier": 1,
+        "tickRef": 1
+      }
+    ],
+    "relations": [
+      {
+        "id": 1,
+        "left": {
+          "kind": "relation",
+          "index": 1
+        },
+        "right": {
+          "kind": "carrier"
+        }
+      }
+    ],
+    "unitShapes": [
+      {
+        "id": 1,
+        "surface": {
+          "kind": "relation",
+          "index": 4
+        }
+      }
+    ],
+    "openedStructure": {
+      "kind": "relation"
+    },
+    "residueOrTension": {
+      "kind": "unknown-point",
+      "isUnknown": true
+    }
+  },
+  "observerPaths": [
+    {
+      "selectedSource": {
+        "kind": "structure-encoding",
+        "sourceId": "resolution-tension-residue-witness",
+        "counts": {
+          "roots": 1,
+          "carriers": 4,
+          "tickRefs": 14,
+          "carrierLocations": 14,
+          "relations": 24,
+          "unitShapes": 4
+        }
+      },
+      "observerSurface": {
+        "basis": {
+          "kind": "text",
+          "text": "opened glossary block"
+        }
+      },
+      "steps": [
+        {
+          "from": {
+            "kind": "structure-encoding",
+            "sourceId": "resolution-tension-residue-witness",
+            "counts": {
+              "roots": 1,
+              "carriers": 4,
+              "tickRefs": 14,
+              "carrierLocations": 14,
+              "relations": 24,
+              "unitShapes": 4
+            }
+          },
+          "through": {
+            "kind": "text",
+            "text": "opened structure"
+          },
+          "to": {
+            "kind": "relation"
+          },
+          "evidence": {
+            "kind": "relation"
+          },
+          "residueOrTension": {
+            "kind": "unknown-point",
+            "isUnknown": true
+          }
+        }
+      ],
+      "result": {
+        "kind": "relation"
+      },
+      "residueOrTension": {
+        "kind": "unknown-point",
+        "isUnknown": true
+      },
+      "provenance": {
+        "kind": "text",
+        "text": "Read(source, basis) = result + residue"
+      }
+    },
+    {
+      "selectedSource": {
+        "kind": "structure-encoding",
+        "sourceId": "resolution-tension-residue-witness",
+        "counts": {
+          "roots": 1,
+          "carriers": 4,
+          "tickRefs": 14,
+          "carrierLocations": 14,
+          "relations": 24,
+          "unitShapes": 4
+        }
+      },
+      "observerSurface": {
+        "basis": {
+          "kind": "text",
+          "text": "relation table scan"
+        }
+      },
+      "steps": [
+        {
+          "from": {
+            "kind": "structure-encoding",
+            "sourceId": "resolution-tension-residue-witness",
+            "counts": {
+              "roots": 1,
+              "carriers": 4,
+              "tickRefs": 14,
+              "carrierLocations": 14,
+              "relations": 24,
+              "unitShapes": 4
+            }
+          },
+          "through": {
+            "kind": "text",
+            "text": "first relation row"
+          },
+          "to": {
+            "kind": "relation-row",
+            "relationRow": {
+              "id": 1,
+              "left": {
+                "kind": "relation",
+                "index": 1
+              },
+              "right": {
+                "kind": "carrier"
+              }
+            }
+          },
+          "evidence": {
+            "kind": "relation"
+          },
+          "residueOrTension": {
+            "kind": "unknown-point",
+            "isUnknown": true
+          }
+        }
+      ],
+      "result": {
+        "kind": "relation-row",
+        "relationRow": {
+          "id": 1,
+          "left": {
+            "kind": "relation",
+            "index": 1
+          },
+          "right": {
+            "kind": "carrier"
+          }
+        }
+      },
+      "residueOrTension": {
+        "kind": "unknown-point",
+        "isUnknown": true
+      },
+      "provenance": {
+        "kind": "text",
+        "text": "resolution-tension-residue-witness"
+      }
+    }
+  ],
+  "residueOrTension": {
+    "kind": "unknown-point",
+    "isUnknown": true
+  }
+}

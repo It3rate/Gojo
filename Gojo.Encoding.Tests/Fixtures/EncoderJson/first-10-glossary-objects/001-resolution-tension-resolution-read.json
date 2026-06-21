@@ -1,0 +1,217 @@
+{
+  "represents": "A span can be read at more than one resolution without treating the lower-resolution read as failed.",
+  "entryId": "resolution-tension-resolution-read",
+  "expression": "S(A,B) read at coarse and fine resolution",
+  "encodingNote": "Resolution belongs to the read. A low-resolution read is still a valid read, not a failed value.",
+  "structure": {
+    "sourceId": "resolution-tension-resolution-read",
+    "counts": {
+      "roots": 1,
+      "carriers": 4,
+      "tickRefs": 28,
+      "carrierLocations": 28,
+      "relations": 47,
+      "unitShapes": 4
+    },
+    "roots": [
+      {
+        "kind": "relation"
+      }
+    ],
+    "carriers": [
+      {
+        "id": 1,
+        "unitShape": 1
+      }
+    ],
+    "tickRefs": [
+      {
+        "id": 1,
+        "ticks": 1
+      }
+    ],
+    "carrierLocations": [
+      {
+        "id": 1,
+        "carrier": 1,
+        "tickRef": 1
+      }
+    ],
+    "relations": [
+      {
+        "id": 1,
+        "left": {
+          "kind": "relation",
+          "index": 1
+        },
+        "right": {
+          "kind": "carrier"
+        }
+      }
+    ],
+    "unitShapes": [
+      {
+        "id": 1,
+        "surface": {
+          "kind": "relation",
+          "index": 6
+        }
+      }
+    ],
+    "openedStructure": {
+      "kind": "relation"
+    },
+    "residueOrTension": {
+      "kind": "unknown-point",
+      "isUnknown": true
+    }
+  },
+  "observerPaths": [
+    {
+      "selectedSource": {
+        "kind": "structure-encoding",
+        "sourceId": "resolution-tension-resolution-read",
+        "counts": {
+          "roots": 1,
+          "carriers": 4,
+          "tickRefs": 28,
+          "carrierLocations": 28,
+          "relations": 47,
+          "unitShapes": 4
+        }
+      },
+      "observerSurface": {
+        "basis": {
+          "kind": "text",
+          "text": "opened glossary block"
+        }
+      },
+      "steps": [
+        {
+          "from": {
+            "kind": "structure-encoding",
+            "sourceId": "resolution-tension-resolution-read",
+            "counts": {
+              "roots": 1,
+              "carriers": 4,
+              "tickRefs": 28,
+              "carrierLocations": 28,
+              "relations": 47,
+              "unitShapes": 4
+            }
+          },
+          "through": {
+            "kind": "text",
+            "text": "opened structure"
+          },
+          "to": {
+            "kind": "relation"
+          },
+          "evidence": {
+            "kind": "relation"
+          },
+          "residueOrTension": {
+            "kind": "unknown-point",
+            "isUnknown": true
+          }
+        }
+      ],
+      "result": {
+        "kind": "relation"
+      },
+      "residueOrTension": {
+        "kind": "unknown-point",
+        "isUnknown": true
+      },
+      "provenance": {
+        "kind": "text",
+        "text": "S(A,B) read at coarse and fine resolution"
+      }
+    },
+    {
+      "selectedSource": {
+        "kind": "structure-encoding",
+        "sourceId": "resolution-tension-resolution-read",
+        "counts": {
+          "roots": 1,
+          "carriers": 4,
+          "tickRefs": 28,
+          "carrierLocations": 28,
+          "relations": 47,
+          "unitShapes": 4
+        }
+      },
+      "observerSurface": {
+        "basis": {
+          "kind": "text",
+          "text": "relation table scan"
+        }
+      },
+      "steps": [
+        {
+          "from": {
+            "kind": "structure-encoding",
+            "sourceId": "resolution-tension-resolution-read",
+            "counts": {
+              "roots": 1,
+              "carriers": 4,
+              "tickRefs": 28,
+              "carrierLocations": 28,
+              "relations": 47,
+              "unitShapes": 4
+            }
+          },
+          "through": {
+            "kind": "text",
+            "text": "first relation row"
+          },
+          "to": {
+            "kind": "relation-row",
+            "relationRow": {
+              "id": 1,
+              "left": {
+                "kind": "relation",
+                "index": 1
+              },
+              "right": {
+                "kind": "carrier"
+              }
+            }
+          },
+          "evidence": {
+            "kind": "relation"
+          },
+          "residueOrTension": {
+            "kind": "unknown-point",
+            "isUnknown": true
+          }
+        }
+      ],
+      "result": {
+        "kind": "relation-row",
+        "relationRow": {
+          "id": 1,
+          "left": {
+            "kind": "relation",
+            "index": 1
+          },
+          "right": {
+            "kind": "carrier"
+          }
+        }
+      },
+      "residueOrTension": {
+        "kind": "unknown-point",
+        "isUnknown": true
+      },
+      "provenance": {
+        "kind": "text",
+        "text": "resolution-tension-resolution-read"
+      }
+    }
+  ],
+  "residueOrTension": {
+    "kind": "unknown-point",
+    "isUnknown": true
+  }
+}

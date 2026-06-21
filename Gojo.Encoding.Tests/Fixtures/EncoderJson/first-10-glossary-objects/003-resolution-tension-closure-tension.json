@@ -1,0 +1,217 @@
+{
+  "represents": "A near-closed path can carry the remaining closure delta as tension.",
+  "entryId": "resolution-tension-closure-tension",
+  "expression": "S(A,B)+S(B,C)+S(C,A') + close(A',A) -> Tension(delta)",
+  "encodingNote": "The topology can ask for closure even while geometry still misses.",
+  "structure": {
+    "sourceId": "resolution-tension-closure-tension",
+    "counts": {
+      "roots": 1,
+      "carriers": 5,
+      "tickRefs": 26,
+      "carrierLocations": 26,
+      "relations": 48,
+      "unitShapes": 5
+    },
+    "roots": [
+      {
+        "kind": "relation"
+      }
+    ],
+    "carriers": [
+      {
+        "id": 1,
+        "unitShape": 1
+      }
+    ],
+    "tickRefs": [
+      {
+        "id": 1,
+        "ticks": 1
+      }
+    ],
+    "carrierLocations": [
+      {
+        "id": 1,
+        "carrier": 1,
+        "tickRef": 1
+      }
+    ],
+    "relations": [
+      {
+        "id": 1,
+        "left": {
+          "kind": "relation",
+          "index": 1
+        },
+        "right": {
+          "kind": "carrier"
+        }
+      }
+    ],
+    "unitShapes": [
+      {
+        "id": 1,
+        "surface": {
+          "kind": "relation",
+          "index": 4
+        }
+      }
+    ],
+    "openedStructure": {
+      "kind": "relation"
+    },
+    "residueOrTension": {
+      "kind": "unknown-point",
+      "isUnknown": true
+    }
+  },
+  "observerPaths": [
+    {
+      "selectedSource": {
+        "kind": "structure-encoding",
+        "sourceId": "resolution-tension-closure-tension",
+        "counts": {
+          "roots": 1,
+          "carriers": 5,
+          "tickRefs": 26,
+          "carrierLocations": 26,
+          "relations": 48,
+          "unitShapes": 5
+        }
+      },
+      "observerSurface": {
+        "basis": {
+          "kind": "text",
+          "text": "opened glossary block"
+        }
+      },
+      "steps": [
+        {
+          "from": {
+            "kind": "structure-encoding",
+            "sourceId": "resolution-tension-closure-tension",
+            "counts": {
+              "roots": 1,
+              "carriers": 5,
+              "tickRefs": 26,
+              "carrierLocations": 26,
+              "relations": 48,
+              "unitShapes": 5
+            }
+          },
+          "through": {
+            "kind": "text",
+            "text": "opened structure"
+          },
+          "to": {
+            "kind": "relation"
+          },
+          "evidence": {
+            "kind": "relation"
+          },
+          "residueOrTension": {
+            "kind": "unknown-point",
+            "isUnknown": true
+          }
+        }
+      ],
+      "result": {
+        "kind": "relation"
+      },
+      "residueOrTension": {
+        "kind": "unknown-point",
+        "isUnknown": true
+      },
+      "provenance": {
+        "kind": "text",
+        "text": "S(A,B)+S(B,C)+S(C,A') + close(A',A) -> Tension(delta)"
+      }
+    },
+    {
+      "selectedSource": {
+        "kind": "structure-encoding",
+        "sourceId": "resolution-tension-closure-tension",
+        "counts": {
+          "roots": 1,
+          "carriers": 5,
+          "tickRefs": 26,
+          "carrierLocations": 26,
+          "relations": 48,
+          "unitShapes": 5
+        }
+      },
+      "observerSurface": {
+        "basis": {
+          "kind": "text",
+          "text": "relation table scan"
+        }
+      },
+      "steps": [
+        {
+          "from": {
+            "kind": "structure-encoding",
+            "sourceId": "resolution-tension-closure-tension",
+            "counts": {
+              "roots": 1,
+              "carriers": 5,
+              "tickRefs": 26,
+              "carrierLocations": 26,
+              "relations": 48,
+              "unitShapes": 5
+            }
+          },
+          "through": {
+            "kind": "text",
+            "text": "first relation row"
+          },
+          "to": {
+            "kind": "relation-row",
+            "relationRow": {
+              "id": 1,
+              "left": {
+                "kind": "relation",
+                "index": 1
+              },
+              "right": {
+                "kind": "carrier"
+              }
+            }
+          },
+          "evidence": {
+            "kind": "relation"
+          },
+          "residueOrTension": {
+            "kind": "unknown-point",
+            "isUnknown": true
+          }
+        }
+      ],
+      "result": {
+        "kind": "relation-row",
+        "relationRow": {
+          "id": 1,
+          "left": {
+            "kind": "relation",
+            "index": 1
+          },
+          "right": {
+            "kind": "carrier"
+          }
+        }
+      },
+      "residueOrTension": {
+        "kind": "unknown-point",
+        "isUnknown": true
+      },
+      "provenance": {
+        "kind": "text",
+        "text": "resolution-tension-closure-tension"
+      }
+    }
+  ],
+  "residueOrTension": {
+    "kind": "unknown-point",
+    "isUnknown": true
+  }
+}

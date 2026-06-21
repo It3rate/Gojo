@@ -30,4 +30,9 @@
     <Using Include="Xunit" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="Fixtures\EncoderJson\**\*.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="Fixtures\EncoderJson\**\*.md" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
 </Project>

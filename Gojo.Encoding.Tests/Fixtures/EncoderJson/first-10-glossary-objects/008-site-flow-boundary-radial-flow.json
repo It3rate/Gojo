@@ -1,0 +1,217 @@
+{
+  "represents": "A single site can support radial flow because no direction is preferred.",
+  "entryId": "site-flow-boundary-radial-flow",
+  "expression": "P(O) + flow_radial(P(O))",
+  "encodingNote": "With one site there is no preferred direction, so the normal reads as radial.",
+  "structure": {
+    "sourceId": "site-flow-boundary-radial-flow",
+    "counts": {
+      "roots": 1,
+      "carriers": 3,
+      "tickRefs": 8,
+      "carrierLocations": 8,
+      "relations": 14,
+      "unitShapes": 3
+    },
+    "roots": [
+      {
+        "kind": "relation"
+      }
+    ],
+    "carriers": [
+      {
+        "id": 1,
+        "unitShape": 1
+      }
+    ],
+    "tickRefs": [
+      {
+        "id": 1,
+        "ticks": 1
+      }
+    ],
+    "carrierLocations": [
+      {
+        "id": 1,
+        "carrier": 1,
+        "tickRef": 1
+      }
+    ],
+    "relations": [
+      {
+        "id": 1,
+        "left": {
+          "kind": "relation",
+          "index": 1
+        },
+        "right": {
+          "kind": "carrier"
+        }
+      }
+    ],
+    "unitShapes": [
+      {
+        "id": 1,
+        "surface": {
+          "kind": "relation",
+          "index": 4
+        }
+      }
+    ],
+    "openedStructure": {
+      "kind": "relation"
+    },
+    "residueOrTension": {
+      "kind": "unknown-point",
+      "isUnknown": true
+    }
+  },
+  "observerPaths": [
+    {
+      "selectedSource": {
+        "kind": "structure-encoding",
+        "sourceId": "site-flow-boundary-radial-flow",
+        "counts": {
+          "roots": 1,
+          "carriers": 3,
+          "tickRefs": 8,
+          "carrierLocations": 8,
+          "relations": 14,
+          "unitShapes": 3
+        }
+      },
+      "observerSurface": {
+        "basis": {
+          "kind": "text",
+          "text": "opened glossary block"
+        }
+      },
+      "steps": [
+        {
+          "from": {
+            "kind": "structure-encoding",
+            "sourceId": "site-flow-boundary-radial-flow",
+            "counts": {
+              "roots": 1,
+              "carriers": 3,
+              "tickRefs": 8,
+              "carrierLocations": 8,
+              "relations": 14,
+              "unitShapes": 3
+            }
+          },
+          "through": {
+            "kind": "text",
+            "text": "opened structure"
+          },
+          "to": {
+            "kind": "relation"
+          },
+          "evidence": {
+            "kind": "relation"
+          },
+          "residueOrTension": {
+            "kind": "unknown-point",
+            "isUnknown": true
+          }
+        }
+      ],
+      "result": {
+        "kind": "relation"
+      },
+      "residueOrTension": {
+        "kind": "unknown-point",
+        "isUnknown": true
+      },
+      "provenance": {
+        "kind": "text",
+        "text": "P(O) + flow_radial(P(O))"
+      }
+    },
+    {
+      "selectedSource": {
+        "kind": "structure-encoding",
+        "sourceId": "site-flow-boundary-radial-flow",
+        "counts": {
+          "roots": 1,
+          "carriers": 3,
+          "tickRefs": 8,
+          "carrierLocations": 8,
+          "relations": 14,
+          "unitShapes": 3
+        }
+      },
+      "observerSurface": {
+        "basis": {
+          "kind": "text",
+          "text": "relation table scan"
+        }
+      },
+      "steps": [
+        {
+          "from": {
+            "kind": "structure-encoding",
+            "sourceId": "site-flow-boundary-radial-flow",
+            "counts": {
+              "roots": 1,
+              "carriers": 3,
+              "tickRefs": 8,
+              "carrierLocations": 8,
+              "relations": 14,
+              "unitShapes": 3
+            }
+          },
+          "through": {
+            "kind": "text",
+            "text": "first relation row"
+          },
+          "to": {
+            "kind": "relation-row",
+            "relationRow": {
+              "id": 1,
+              "left": {
+                "kind": "relation",
+                "index": 1
+              },
+              "right": {
+                "kind": "carrier"
+              }
+            }
+          },
+          "evidence": {
+            "kind": "relation"
+          },
+          "residueOrTension": {
+            "kind": "unknown-point",
+            "isUnknown": true
+          }
+        }
+      ],
+      "result": {
+        "kind": "relation-row",
+        "relationRow": {
+          "id": 1,
+          "left": {
+            "kind": "relation",
+            "index": 1
+          },
+          "right": {
+            "kind": "carrier"
+          }
+        }
+      },
+      "residueOrTension": {
+        "kind": "unknown-point",
+        "isUnknown": true
+      },
+      "provenance": {
+        "kind": "text",
+        "text": "site-flow-boundary-radial-flow"
+      }
+    }
+  ],
+  "residueOrTension": {
+    "kind": "unknown-point",
+    "isUnknown": true
+  }
+}

@@ -26,7 +26,7 @@ public sealed class GojoStructureEncodingJsonTests
         Assert.Single(deserialized.TickRefs, row => row.Ticks == 7);
         Assert.True(deserialized.CarrierLocations.Count >= 2);
         Assert.Contains("\"tickRefs\"", json);
-        Assert.Contains("\"kindName\": \"Relation\"", json);
+        Assert.Contains("\"kind\": \"relation\"", json);
     }
 
     [Fact]

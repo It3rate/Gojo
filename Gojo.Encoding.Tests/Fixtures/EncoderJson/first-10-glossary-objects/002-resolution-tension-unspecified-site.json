@@ -1,0 +1,217 @@
+{
+  "represents": "An unspecified site remains present as readable location tension.",
+  "entryId": "resolution-tension-unspecified-site",
+  "expression": "P(?) + Tension(location)",
+  "encodingNote": "The unresolved position remains inspectable instead of becoming a null or exception.",
+  "structure": {
+    "sourceId": "resolution-tension-unspecified-site",
+    "counts": {
+      "roots": 1,
+      "carriers": 4,
+      "tickRefs": 10,
+      "carrierLocations": 10,
+      "relations": 17,
+      "unitShapes": 4
+    },
+    "roots": [
+      {
+        "kind": "relation"
+      }
+    ],
+    "carriers": [
+      {
+        "id": 1,
+        "unitShape": 1
+      }
+    ],
+    "tickRefs": [
+      {
+        "id": 1,
+        "ticks": 1
+      }
+    ],
+    "carrierLocations": [
+      {
+        "id": 1,
+        "carrier": 1,
+        "tickRef": 1
+      }
+    ],
+    "relations": [
+      {
+        "id": 1,
+        "left": {
+          "kind": "relation",
+          "index": 1
+        },
+        "right": {
+          "kind": "carrier"
+        }
+      }
+    ],
+    "unitShapes": [
+      {
+        "id": 1,
+        "surface": {
+          "kind": "relation",
+          "index": 4
+        }
+      }
+    ],
+    "openedStructure": {
+      "kind": "relation"
+    },
+    "residueOrTension": {
+      "kind": "unknown-point",
+      "isUnknown": true
+    }
+  },
+  "observerPaths": [
+    {
+      "selectedSource": {
+        "kind": "structure-encoding",
+        "sourceId": "resolution-tension-unspecified-site",
+        "counts": {
+          "roots": 1,
+          "carriers": 4,
+          "tickRefs": 10,
+          "carrierLocations": 10,
+          "relations": 17,
+          "unitShapes": 4
+        }
+      },
+      "observerSurface": {
+        "basis": {
+          "kind": "text",
+          "text": "opened glossary block"
+        }
+      },
+      "steps": [
+        {
+          "from": {
+            "kind": "structure-encoding",
+            "sourceId": "resolution-tension-unspecified-site",
+            "counts": {
+              "roots": 1,
+              "carriers": 4,
+              "tickRefs": 10,
+              "carrierLocations": 10,
+              "relations": 17,
+              "unitShapes": 4
+            }
+          },
+          "through": {
+            "kind": "text",
+            "text": "opened structure"
+          },
+          "to": {
+            "kind": "relation"
+          },
+          "evidence": {
+            "kind": "relation"
+          },
+          "residueOrTension": {
+            "kind": "unknown-point",
+            "isUnknown": true
+          }
+        }
+      ],
+      "result": {
+        "kind": "relation"
+      },
+      "residueOrTension": {
+        "kind": "unknown-point",
+        "isUnknown": true
+      },
+      "provenance": {
+        "kind": "text",
+        "text": "P(?) + Tension(location)"
+      }
+    },
+    {
+      "selectedSource": {
+        "kind": "structure-encoding",
+        "sourceId": "resolution-tension-unspecified-site",
+        "counts": {
+          "roots": 1,
+          "carriers": 4,
+          "tickRefs": 10,
+          "carrierLocations": 10,
+          "relations": 17,
+          "unitShapes": 4
+        }
+      },
+      "observerSurface": {
+        "basis": {
+          "kind": "text",
+          "text": "relation table scan"
+        }
+      },
+      "steps": [
+        {
+          "from": {
+            "kind": "structure-encoding",
+            "sourceId": "resolution-tension-unspecified-site",
+            "counts": {
+              "roots": 1,
+              "carriers": 4,
+              "tickRefs": 10,
+              "carrierLocations": 10,
+              "relations": 17,
+              "unitShapes": 4
+            }
+          },
+          "through": {
+            "kind": "text",
+            "text": "first relation row"
+          },
+          "to": {
+            "kind": "relation-row",
+            "relationRow": {
+              "id": 1,
+              "left": {
+                "kind": "relation",
+                "index": 1
+              },
+              "right": {
+                "kind": "carrier"
+              }
+            }
+          },
+          "evidence": {
+            "kind": "relation"
+          },
+          "residueOrTension": {
+            "kind": "unknown-point",
+            "isUnknown": true
+          }
+        }
+      ],
+      "result": {
+        "kind": "relation-row",
+        "relationRow": {
+          "id": 1,
+          "left": {
+            "kind": "relation",
+            "index": 1
+          },
+          "right": {
+            "kind": "carrier"
+          }
+        }
+      },
+      "residueOrTension": {
+        "kind": "unknown-point",
+        "isUnknown": true
+      },
+      "provenance": {
+        "kind": "text",
+        "text": "resolution-tension-unspecified-site"
+      }
+    }
+  ],
+  "residueOrTension": {
+    "kind": "unknown-point",
+    "isUnknown": true
+  }
+}
