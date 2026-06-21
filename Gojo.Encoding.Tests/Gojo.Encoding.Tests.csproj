@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Gojo.Blocks\Gojo.Blocks.csproj" />
     <ProjectReference Include="..\Gojo.Encoding\Gojo.Encoding.csproj" />
     <ProjectReference Include="..\Gojo\Gojo.csproj" />
   </ItemGroup>
