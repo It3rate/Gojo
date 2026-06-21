@@ -1,5 +1,6 @@
 using Gojo.Core;
 using GojoCAD;
+using GojoCAD.Structures;
 using ScratchMill.KiCad;
 using ScratchMill.KiCad.Design;
 using ScratchMill.KiCad.Graphics;
@@ -77,9 +78,7 @@ public static class KiCadGojoImporter
                 Relation.Point(IndexAxis, layer.Index));
 
         public Relation Net(KcNet net) =>
-            Relation.OrderedGroup(
-                new Carrier(),
-                Relation.Point(NetAxis, net.Id));
+            EcadNetSurface.Create(new Carrier(), NetAxis, net.Id, net.Name);
 
         public Relation Segment(KcSegment segment) =>
             WithCopperEvidence(
