@@ -151,6 +151,293 @@ speed(computation,time;context=software)
 The shared word is evidence. The address structure decides what that evidence is
 being used for in this local bundle.
 
+### Cross-Context Echoes
+
+Many seeds are not isolated to one category. More importantly, many different
+contexts reuse the same smaller primitive tendencies.
+
+This does not mean a temporal word should be treated as a spatial word. It means
+that temporal order, spatial order, logical order, social order, and procedural
+order can all carry a tiny shared hint: "this talks about order relative to a
+reference."
+
+For example, `in front of` and `before` are different local concepts, but they
+both often use:
+
+```text
+reference object
+  treated like local zero
+
+ordered side
+  one side of that reference rather than the other
+
+context
+  temporal, spatial, procedural, logical, social, or another local basis
+```
+
+The side may be only a bit or a very small signed value: before/after,
+front/back, upstream/downstream, prior/later, above/below in rank. The local
+meaning still comes from the surrounding structure.
+
+The same pattern appears outside position words. `Sharp` can be literal
+sharpness, but related hints show up in phrases such as "you have a point",
+"a sharp distinction", "a cutting remark", or "cut in line." Those uses are not
+all the same concept. They may simply echo smaller hints such as:
+
+```text
+boundary
+edge
+narrow focus
+high contrast
+separation
+intrusion
+forceful transition
+```
+
+The hint layer should capture those faint echoes without expanding them into a
+full parse. A model or database can use the hints to find analogies, candidate
+translations, or low-resolution neighbors. It should not conclude that all
+echoing concepts are interchangeable.
+
+So the address should be able to say:
+
+```text
+this local use is before-as-time
+hint: order
+hint: reference-relative
+hint: negative-or-prior side
+```
+
+or:
+
+```text
+this local use is cut-in-line
+hint: order
+hint: boundary crossing
+hint: intrusion
+hint: social/procedural context
+```
+
+The hints are deliberately small. They are low-resolution handles, not the
+complete concept.
+
+### Concept Address Hint Encoding
+
+The conceptual address should have a tiny scan surface and an optional opened
+structure.
+
+The current preferred shape is:
+
+```text
+concept address
+  lexical text surface or text reference
+  compact hint signature
+  optional local sense discriminator
+  optional opened Gojo structure
+  residue or tension
+```
+
+The compact hint signature is the part meant for quick lookup. It should be much
+smaller than a parsed concept object. A hint may be a single bit, a tiny signed
+value, or a small packed token.
+
+```text
+primitive hint
+  primitive axis
+  optional polarity or side
+  optional strength
+```
+
+Examples of primitive axes:
+
+```text
+order
+boundary
+containment
+support
+source
+target
+path
+opposition
+similarity
+separation
+intensity
+rate
+attention
+agency
+uncertainty
+```
+
+Examples of tiny modifiers:
+
+```text
+polarity
+  negative / zero / positive
+
+side
+  before / at / after
+  inside / boundary / outside
+  source / path / target
+  lower / equal / higher
+
+strength
+  weak / ordinary / strong
+
+context lane
+  spatial / temporal / logical / social / procedural / perceptual / domain-local
+```
+
+Those modifiers do not need to be full integers in the conceptual sense. Many
+can be bit fields. The Gojo relation surface can still expose the same hints as
+structure when opened, but the fast query form should stay compact.
+
+Example:
+
+```text
+before
+  axis: order
+  side: negative/prior relative to reference
+  context: temporal
+
+in-front-of
+  axis: order
+  side: forward relative to reference orientation
+  context: spatial
+
+cut-in-line
+  axis: order
+  axis: boundary
+  side: intrusive crossing
+  context: social/procedural
+```
+
+The exact axes and bit placements are not frozen. The important decision is that
+the hint is not the whole address and not a full semantic parse. It is a compact
+surface that makes near concepts easier to find.
+
+#### How Many Values?
+
+For a useful first implementation:
+
+```text
+tiny seed hint
+  1 to 4 bytes, or a few bit flags
+
+simple common concept
+  2 to 8 compact hint tokens
+
+polysemous common word
+  several small sense hints, usually 2 to 8 tokens each
+
+domain concept with provenance
+  compact hints plus an optional opened structure
+
+large documentary concept
+  query through compact hints; inspect opened structure only when needed
+```
+
+In other words, the scan surface should often fit in a few bytes, and commonly
+fit inside one or two machine words. If we need dozens of integers to understand
+the hint, we have probably stopped making a hint and started encoding a parsed
+object.
+
+```text
+query signature
+  1 to 8 packed hint tokens
+```
+
+The opened Gojo structure can be larger. That is where provenance, role frames,
+residue, examples, documentation links, and learned reads can live. The query
+signature should remain small enough that a database can index it cheaply.
+
+#### Byte Stream Or Something Else?
+
+Use compact tokens for hints, and lower those tokens to bytes for storage.
+
+```text
+canonical conceptual form
+  Gojo relation structure
+
+hint scan form
+  one or more packed integers or bitsets
+
+database query form
+  indexed packed hint tokens
+
+binary packet form
+  bytes containing those packed tokens
+```
+
+Bytes are good for files. Packed integers or bitsets are better for scanning and
+database indexing. The Gojo structure is better for inspection and manipulation.
+They should be different views over the same address, not competing meanings.
+
+One practical packed token shape:
+
+```text
+UInt16 or UInt32 hint token
+  primitive axis id
+  small context lane
+  side/polarity bits
+  strength bits
+```
+
+Another practical shape is a fixed bitset for the most common primitive axes,
+plus a few small side/polarity fields. That may be enough for a surprising
+amount of lookup work:
+
+```text
+axis bitset
+  order + reference-relative + boundary + intrusion
+
+modifier bits
+  negative/prior side
+  social/procedural context
+```
+
+The full opened structure keeps the richer roles, text, residue, examples, and
+provenance. The hint only gets us into the right neighborhood.
+
+#### Learned Neighborhoods
+
+Training should help tune these hints. The goal is not necessarily to copy a
+word2vec architecture or store large learned vectors in every address.
+
+The useful idea is that many examples can adjust which primitive hints belong
+near each other and how strongly they should be expressed. A trained process
+might discover that `sharp`, `point`, `cut`, `edge`, `precise`, and
+`interruption` share a faint primitive neighborhood even when their surface
+contexts differ.
+
+The encoded result can stay small:
+
+```text
+learned hint adjustment
+  add weak edge hint
+  strengthen boundary hint
+  weaken literal-cut hint in social context
+```
+
+A trained model can still use embeddings internally. The persistent conceptual
+address should store the small hint result, plus enough residue/provenance to
+explain that the hint is learned or uncertain.
+
+If a learned codebook is useful later, it should be optional:
+
+```text
+hand-readable hint bits
+  always available
+
+optional learned code
+  compact neighborhood id or adjustment id
+
+residue
+  where learned hint and local structure disagree
+```
+
+That keeps the training-derived hints useful without making them opaque or
+oversized.
+
 ## Partial Files And Missing Structure
 
 The format should remain viable when only part of it is present.
