@@ -48,6 +48,9 @@ The first implementation is intentionally tiny.
 - `ConceptSeedSurface` packages readable text, a hint signature, optional opened
   Gojo structure, and residue/tension. It is read by field shape rather than by
   a marker tag.
+- `GojoStructureEncodingSurface` stores ordinary Gojo element structure as
+  relation-shaped integer rows. This is the path for encoding a block as a
+  block, even when it has no conceptual address yet.
 - `ConceptAddressSurface` builds variable-length semantic addresses from atoms,
   compound parts, context, and residue/tension.
 
@@ -71,6 +74,158 @@ The packet id may be a small integer. The semantic address should not be only a
 small integer. It should be inspectable enough that a model, a merge tool, or a
 human can ask why one address was chosen and what lower-level ideas it is leaning
 on.
+
+## Raw Gojo Structure Encoding
+
+Concept addresses are not the whole job. The format also needs to encode
+ordinary Gojo structure: carriers, locations, tick references, relations, unit
+shapes, opened structure, and unresolved residue.
+
+The first raw structure surface is intentionally close to the existing core
+snapshot read:
+
+```text
+structure encoding
+  source text
+  root refs
+  carrier rows
+  tick-ref rows
+  carrier-location rows
+  relation rows
+  unit-shape rows
+  opened Gojo structure
+  residue or tension
+```
+
+Each table is an ordered frame. Each row is an ordered frame of integer points.
+A relation row, for example, stores its local row index, relation id, left ref,
+and right ref. The refs are just table-kind/index pairs. If a relation points to
+something that the current snapshot cannot encode, such as an unresolved
+placeholder slot, the ref can be the none row instead of throwing the structure
+away.
+
+This is a low-level structural surface, not a concept surface:
+
+```text
+glossary block
+  encoded as carrier/relation/unit-shape rows
+  may have no concept address
+  may later receive hints, documentation, reads, or provenance
+```
+
+That distinction matters for Gojo.Blocks. The glossary has many small visual
+blocks whose first useful encoding is simply "here is the Gojo structure that
+backs this block." Only after that do we need to ask whether the block also
+participates in concepts such as resolution, tension, closure, residue,
+orientation, or settlement.
+
+The first exercise is the resolution/tension glossary page:
+
+```text
+resolution-read
+unspecified-site
+closure-tension
+failed-read
+residue-witness
+settled-read
+```
+
+Those can all be encoded independently. The unresolved rows are still viable
+structure. They do not need to be forced into a concept address first.
+
+## Observer Paths
+
+The row surface is intentionally flat. A model can learn from it, but it should
+not be the only training view. The next layer is an observer path: a saved local
+read over encoded or live Gojo structure.
+
+```text
+observer path
+  selected source
+  observer surface
+  ordered step frame
+  result
+  residue or tension
+  provenance
+```
+
+A step is also ordinary relation structure:
+
+```text
+path step
+  from
+  through
+  to
+  evidence
+  residue or tension
+```
+
+The path does not pretend that the whole graph has become a tree. It says:
+
+```text
+place an observer here
+use this basis or intent
+follow these local transitions
+read this result
+preserve this residue
+```
+
+That gives people and models a sequence to read while keeping the graph
+available underneath it. For example, a flat row encoding can be read through a
+short path:
+
+```text
+encoded segment block
+  -> relation table scan
+  -> relation row 0
+  -> row reads as relation(left-ref,right-ref)
+```
+
+The path can then project into the common `ReadWitness` shape:
+
+```text
+selected source
+read surface = observer path
+result
+residue or tension
+provenance
+```
+
+This makes paths usable as training examples, debugging traces, and eventually
+stored reads that can become structure themselves.
+
+### Stored Tension Versus Calculated Tension
+
+Tension should usually be encoded when it is evidence from a particular read.
+
+```text
+read source through observer path
+  result: observed sample
+  residue/tension: sample delta at this phase and resolution
+```
+
+That does not mean the stored tension is the canonical dynamic state of the
+decoded structure forever. It means "this observer, at this resolution, with
+this expectation, saw this unresolved difference."
+
+This distinction matters for waves, oscillators, approximations, tolerances,
+and other structures where a mismatch is expected behavior rather than an
+error. A sine wave compared to one fixed value should not permanently carry
+"wrongness" as its identity. The read can store:
+
+```text
+source wave
+expected sample surface
+observed sample result
+delta/residue over this phase window
+provenance for the comparison
+```
+
+A different observer can later recalculate a different residue, or read the
+same source as a valid periodic structure with no meaningful error at all.
+Encoding the observed tension preserves training/debug evidence; recalculating
+tension preserves dynamic correctness. Both are Gojo-readable because each
+tension is attached to the read surface that produced it.
 
 ## Integer Encoding Direction
 
@@ -1639,14 +1794,18 @@ Several decisions should remain loose until there is more code and sample data.
 
 The next useful steps are small.
 
-1. Build a tiny primitive seed fixture using `ConceptSeedSurface` for concepts
+1. Keep walking the Gojo.Blocks glossary and encode each block first as raw
+   Gojo structure using `GojoStructureEncodingSurface`.
+2. Save observer paths over those block encodings so row/table structures gain
+   readable local traces without becoming trees.
+3. Build a tiny primitive seed fixture using `ConceptSeedSurface` for concepts
    such as `distance`, `time`, `motion`, `rate`, `boundary`, `orientation`,
    `resolution`, and `tension`.
-2. Encode one or two saved read witnesses so derived reads can become structure.
-3. Add a small packet/document surface that can hold a root, local ids, strings,
+4. Encode one or two saved read witnesses so derived reads can become structure.
+5. Add a small packet/document surface that can hold a root, local ids, strings,
    hint tokens, and relation records without pretending to be the final binary
    format.
-4. Revisit the small KiCad import slice and attach concept seeds to nets,
+6. Revisit the small KiCad import slice and attach concept seeds to nets,
    pads, text, and board-side/orientation evidence.
-5. Keep every helper honest: if deleting the helper would delete the meaning,
+7. Keep every helper honest: if deleting the helper would delete the meaning,
    the structure is not Gojo-native enough yet.
