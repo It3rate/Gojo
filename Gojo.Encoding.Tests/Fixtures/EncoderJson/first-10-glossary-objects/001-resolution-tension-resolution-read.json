@@ -210,6 +210,42 @@
       }
     }
   ],
+  "readPaths": [
+    {
+      "basis": "opened glossary block",
+      "path": "structure(resolution-tension-resolution-read) --opened structure--> relation",
+      "steps": [
+        {
+          "from": "structure(resolution-tension-resolution-read)",
+          "through": "opened structure",
+          "to": "relation",
+          "path": "structure(resolution-tension-resolution-read) --opened structure--> relation",
+          "evidence": "relation",
+          "residueOrTension": "unknown"
+        }
+      ],
+      "result": "relation",
+      "residueOrTension": "unknown",
+      "provenance": "S(A,B) read at coarse and fine resolution"
+    },
+    {
+      "basis": "relation table scan",
+      "path": "structure(resolution-tension-resolution-read) --first relation row--> relation#1(relation#2 -> carrier#1)",
+      "steps": [
+        {
+          "from": "structure(resolution-tension-resolution-read)",
+          "through": "first relation row",
+          "to": "relation#1(relation#2 -> carrier#1)",
+          "path": "structure(resolution-tension-resolution-read) --first relation row--> relation#1(relation#2 -> carrier#1)",
+          "evidence": "relation",
+          "residueOrTension": "unknown"
+        }
+      ],
+      "result": "relation#1(relation#2 -> carrier#1)",
+      "residueOrTension": "unknown",
+      "provenance": "resolution-tension-resolution-read"
+    }
+  ],
   "residueOrTension": {
     "kind": "unknown-point",
     "isUnknown": true

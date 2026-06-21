@@ -209,6 +209,42 @@
       }
     }
   ],
+  "readPaths": [
+    {
+      "basis": "opened glossary block",
+      "path": "structure(site-flow-boundary-measured-boundary) --opened structure--> relation",
+      "steps": [
+        {
+          "from": "structure(site-flow-boundary-measured-boundary)",
+          "through": "opened structure",
+          "to": "relation",
+          "path": "structure(site-flow-boundary-measured-boundary) --opened structure--> relation",
+          "evidence": "relation",
+          "residueOrTension": "unknown"
+        }
+      ],
+      "result": "relation",
+      "residueOrTension": "unknown",
+      "provenance": "P(O)+P(R) -> Circle(O,R)"
+    },
+    {
+      "basis": "relation table scan",
+      "path": "structure(site-flow-boundary-measured-boundary) --first relation row--> relation#1(relation#2 -> carrier#1)",
+      "steps": [
+        {
+          "from": "structure(site-flow-boundary-measured-boundary)",
+          "through": "first relation row",
+          "to": "relation#1(relation#2 -> carrier#1)",
+          "path": "structure(site-flow-boundary-measured-boundary) --first relation row--> relation#1(relation#2 -> carrier#1)",
+          "evidence": "relation",
+          "residueOrTension": "unknown"
+        }
+      ],
+      "result": "relation#1(relation#2 -> carrier#1)",
+      "residueOrTension": "unknown",
+      "provenance": "site-flow-boundary-measured-boundary"
+    }
+  ],
   "residueOrTension": {
     "kind": "unknown-point",
     "isUnknown": true

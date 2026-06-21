@@ -210,6 +210,42 @@
       }
     }
   ],
+  "readPaths": [
+    {
+      "basis": "opened glossary block",
+      "path": "structure(site-flow-boundary-radial-flow) --opened structure--> relation",
+      "steps": [
+        {
+          "from": "structure(site-flow-boundary-radial-flow)",
+          "through": "opened structure",
+          "to": "relation",
+          "path": "structure(site-flow-boundary-radial-flow) --opened structure--> relation",
+          "evidence": "relation",
+          "residueOrTension": "unknown"
+        }
+      ],
+      "result": "relation",
+      "residueOrTension": "unknown",
+      "provenance": "P(O) + flow_radial(P(O))"
+    },
+    {
+      "basis": "relation table scan",
+      "path": "structure(site-flow-boundary-radial-flow) --first relation row--> relation#1(relation#2 -> carrier#1)",
+      "steps": [
+        {
+          "from": "structure(site-flow-boundary-radial-flow)",
+          "through": "first relation row",
+          "to": "relation#1(relation#2 -> carrier#1)",
+          "path": "structure(site-flow-boundary-radial-flow) --first relation row--> relation#1(relation#2 -> carrier#1)",
+          "evidence": "relation",
+          "residueOrTension": "unknown"
+        }
+      ],
+      "result": "relation#1(relation#2 -> carrier#1)",
+      "residueOrTension": "unknown",
+      "provenance": "site-flow-boundary-radial-flow"
+    }
+  ],
   "residueOrTension": {
     "kind": "unknown-point",
     "isUnknown": true

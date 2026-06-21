@@ -32,6 +32,7 @@ public sealed class EncoderJsonFixtureTests
             Assert.False(string.IsNullOrWhiteSpace(entry.Represents));
             Assert.Equal(entry.EntryId, entry.Structure.SourceId);
             Assert.NotEmpty(entry.ObserverPaths);
+            Assert.NotEmpty(entry.ReadPaths);
             Assert.Contains(
                 entry.ObserverPaths,
                 path => !string.IsNullOrWhiteSpace(path.ObserverSurface.Basis?.Text));
@@ -80,6 +81,9 @@ public sealed class EncoderJsonFixtureTests
             Assert.Equal(
                 generated.ObserverPaths.Select(path => path.Result.Kind).ToArray(),
                 fixture.ObserverPaths.Select(path => path.Result.Kind).ToArray());
+            Assert.Equal(
+                generated.ReadPaths.Select(path => path.Path).ToArray(),
+                fixture.ReadPaths.Select(path => path.Path).ToArray());
         }
     }
 
@@ -186,6 +190,23 @@ public sealed class EncoderJsonFixtureTests
             Assert.DoesNotContain("\"unitShapeIndex\"", json);
             Assert.DoesNotContain("\"carrierIndex\"", json);
             Assert.DoesNotContain("\"tickRefIndex\"", json);
+        }
+    }
+
+    [Fact]
+    public void FixtureFilesCarryCompactReadPathProjection()
+    {
+        foreach (var entry in ReadFixtureEntries())
+        {
+            Assert.Equal(entry.ObserverPaths.Count, entry.ReadPaths.Count);
+            Assert.Contains(entry.ReadPaths, path =>
+                path.Basis == "opened glossary block" &&
+                path.Path == $"structure({entry.EntryId}) --opened structure--> relation" &&
+                path.Result == "relation" &&
+                path.ResidueOrTension == "unknown");
+            Assert.Contains(entry.ReadPaths, path =>
+                path.Basis == "relation table scan" &&
+                path.Path.StartsWith($"structure({entry.EntryId}) --first relation row--> relation#1(", StringComparison.Ordinal));
         }
     }
 

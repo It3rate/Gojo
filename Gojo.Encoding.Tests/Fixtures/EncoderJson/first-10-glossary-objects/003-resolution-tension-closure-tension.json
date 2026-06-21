@@ -210,6 +210,42 @@
       }
     }
   ],
+  "readPaths": [
+    {
+      "basis": "opened glossary block",
+      "path": "structure(resolution-tension-closure-tension) --opened structure--> relation",
+      "steps": [
+        {
+          "from": "structure(resolution-tension-closure-tension)",
+          "through": "opened structure",
+          "to": "relation",
+          "path": "structure(resolution-tension-closure-tension) --opened structure--> relation",
+          "evidence": "relation",
+          "residueOrTension": "unknown"
+        }
+      ],
+      "result": "relation",
+      "residueOrTension": "unknown",
+      "provenance": "S(A,B)+S(B,C)+S(C,A') + close(A',A) -> Tension(delta)"
+    },
+    {
+      "basis": "relation table scan",
+      "path": "structure(resolution-tension-closure-tension) --first relation row--> relation#1(relation#2 -> carrier#1)",
+      "steps": [
+        {
+          "from": "structure(resolution-tension-closure-tension)",
+          "through": "first relation row",
+          "to": "relation#1(relation#2 -> carrier#1)",
+          "path": "structure(resolution-tension-closure-tension) --first relation row--> relation#1(relation#2 -> carrier#1)",
+          "evidence": "relation",
+          "residueOrTension": "unknown"
+        }
+      ],
+      "result": "relation#1(relation#2 -> carrier#1)",
+      "residueOrTension": "unknown",
+      "provenance": "resolution-tension-closure-tension"
+    }
+  ],
   "residueOrTension": {
     "kind": "unknown-point",
     "isUnknown": true

@@ -210,6 +210,42 @@
       }
     }
   ],
+  "readPaths": [
+    {
+      "basis": "opened glossary block",
+      "path": "structure(resolution-tension-failed-read) --opened structure--> relation",
+      "steps": [
+        {
+          "from": "structure(resolution-tension-failed-read)",
+          "through": "opened structure",
+          "to": "relation",
+          "path": "structure(resolution-tension-failed-read) --opened structure--> relation",
+          "evidence": "relation",
+          "residueOrTension": "unknown"
+        }
+      ],
+      "result": "relation",
+      "residueOrTension": "unknown",
+      "provenance": "Read(S(A,B), requested basis) -> residue"
+    },
+    {
+      "basis": "relation table scan",
+      "path": "structure(resolution-tension-failed-read) --first relation row--> relation#1(relation#2 -> carrier#1)",
+      "steps": [
+        {
+          "from": "structure(resolution-tension-failed-read)",
+          "through": "first relation row",
+          "to": "relation#1(relation#2 -> carrier#1)",
+          "path": "structure(resolution-tension-failed-read) --first relation row--> relation#1(relation#2 -> carrier#1)",
+          "evidence": "relation",
+          "residueOrTension": "unknown"
+        }
+      ],
+      "result": "relation#1(relation#2 -> carrier#1)",
+      "residueOrTension": "unknown",
+      "provenance": "resolution-tension-failed-read"
+    }
+  ],
   "residueOrTension": {
     "kind": "unknown-point",
     "isUnknown": true

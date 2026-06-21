@@ -99,7 +99,51 @@ public static class GojoStructureEncodingJson
             EncodingNote = string.IsNullOrEmpty(read.EncodingNote) ? null : read.EncodingNote,
             Structure = StructureFromSurface(read.StructureEncoding),
             ObserverPaths = [.. read.ObserverPaths.Select(ObserverPathFromSurface)],
+            ReadPaths = [.. read.ObserverPaths.Select(ReadPathFromSurface)],
             ResidueOrTension = DescribeElement(read.ResidueOrTension)
+        };
+    }
+
+    private static GojoEncodingJsonReadPath ReadPathFromSurface(Relation path)
+    {
+        if (!GojoObserverPathSurface.TryRead(path, out var read))
+        {
+            throw new InvalidOperationException("The supplied relation is not an observer path.");
+        }
+
+        var surface = ObserverSurfaceFromElement(read.ObserverSurface);
+        var steps = read.Steps.Select(ReadStepFromSurface).ToList();
+
+        return new GojoEncodingJsonReadPath
+        {
+            Basis = surface.Basis?.Text,
+            Path = string.Join(" | ", steps.Select(step => step.Path)),
+            Steps = steps,
+            Result = CompactElement(read.Result),
+            ResidueOrTension = CompactElement(read.ResidueOrTension),
+            Provenance = CompactElement(read.Provenance)
+        };
+    }
+
+    private static GojoEncodingJsonReadStep ReadStepFromSurface(Relation step)
+    {
+        if (!GojoObserverPathSurface.TryReadStep(step, out var read))
+        {
+            throw new InvalidOperationException("The supplied relation is not an observer path step.");
+        }
+
+        var from = CompactElement(read.From);
+        var through = CompactElement(read.Through);
+        var to = CompactElement(read.To);
+
+        return new GojoEncodingJsonReadStep
+        {
+            From = from,
+            Through = through,
+            To = to,
+            Path = $"{from} --{through}--> {to}",
+            Evidence = CompactElement(read.Evidence),
+            ResidueOrTension = CompactElement(read.ResidueOrTension)
         };
     }
 
@@ -120,6 +164,101 @@ public static class GojoStructureEncodingJson
             Provenance = DescribeElement(read.Provenance)
         };
     }
+
+    private static string CompactElement(IElement element)
+    {
+        if (EncodedTextSurface.IsUnknownPoint(element))
+        {
+            return "unknown";
+        }
+
+        if (EncodedTextSurface.TryRead(element, out var text))
+        {
+            return text;
+        }
+
+        if (GojoStructureEncodingSurface.TryRead(element, out var structure))
+        {
+            return $"structure({structure.SourceId})";
+        }
+
+        if (GojoStructureEncodingSurface.TryReadRelationRow(element, out var relationRow))
+        {
+            return $"relation#{LocalId(relationRow.Index)}({CompactRef(relationRow.Left)} -> {CompactRef(relationRow.Right)})";
+        }
+
+        if (GojoStructureEncodingSurface.TryReadCarrierRow(element, out var carrierRow))
+        {
+            var flags = new List<string>();
+            if (carrierRow.IsInverse)
+            {
+                flags.Add("inverse");
+            }
+
+            if (carrierRow.IsUnknown)
+            {
+                flags.Add("unknown");
+            }
+
+            if (carrierRow.Value != 0)
+            {
+                flags.Add($"value={carrierRow.Value}");
+            }
+
+            if (carrierRow.Tension != 0)
+            {
+                flags.Add($"tension={carrierRow.Tension}");
+            }
+
+            if (carrierRow.UnitShapeIndex >= 0)
+            {
+                flags.Add($"unitShape#{LocalId(carrierRow.UnitShapeIndex)}");
+            }
+
+            if (carrierRow.InverseCarrierIndex >= 0)
+            {
+                flags.Add($"inverseCarrier#{LocalId(carrierRow.InverseCarrierIndex)}");
+            }
+
+            return flags.Count == 0
+                ? $"carrier#{LocalId(carrierRow.Index)}"
+                : $"carrier#{LocalId(carrierRow.Index)}({string.Join(",", flags)})";
+        }
+
+        if (GojoStructureEncodingSurface.TryReadTickRefRow(element, out var tickRefRow))
+        {
+            return tickRefRow.Ticks == 0
+                ? $"tick#{LocalId(tickRefRow.Index)}"
+                : $"tick#{LocalId(tickRefRow.Index)}({tickRefRow.Ticks})";
+        }
+
+        if (GojoStructureEncodingSurface.TryReadCarrierLocationRow(element, out var carrierLocationRow))
+        {
+            return $"location#{LocalId(carrierLocationRow.Index)}(carrier#{LocalId(carrierLocationRow.CarrierIndex)},tick#{LocalId(carrierLocationRow.TickRefIndex)})";
+        }
+
+        if (GojoStructureEncodingSurface.TryReadUnitShapeRow(element, out var unitShapeRow))
+        {
+            return $"unitShape#{LocalId(unitShapeRow.Index)}({CompactRef(unitShapeRow.Surface)})";
+        }
+
+        if (GojoStructureEncodingSurface.TryReadRef(element, out var reference))
+        {
+            return CompactRef(reference);
+        }
+
+        return element switch
+        {
+            Carrier carrier => carrier.IsUnknown ? "carrier(unknown)" : "carrier",
+            CarrierLocation location => location.Ticks == 0 ? "location" : $"location({location.Ticks})",
+            TickRef tick => tick.Ticks == 0 ? "tick" : $"tick({tick.Ticks})",
+            Relation => "relation",
+            _ => "element"
+        };
+    }
+
+    private static string CompactRef(GojoStructureEncodingSurface.EncodedStructureRef reference) =>
+        reference.IsNone ? "none" : $"{RefKindName(reference.Kind)}#{LocalId(reference.Index)}";
 
     private static GojoEncodingJsonObserverStep ObserverStepFromSurface(Relation step)
     {
@@ -420,6 +559,8 @@ public sealed record GojoEncodingJsonBundleEntry
 
     public List<GojoEncodingJsonObserverPath> ObserverPaths { get; init; } = [];
 
+    public List<GojoEncodingJsonReadPath> ReadPaths { get; init; } = [];
+
     public GojoEncodingJsonElement ResidueOrTension { get; init; } = new();
 }
 
@@ -459,6 +600,36 @@ public sealed record GojoEncodingJsonObserverPath
     public GojoEncodingJsonElement ResidueOrTension { get; init; } = new();
 
     public GojoEncodingJsonElement Provenance { get; init; } = new();
+}
+
+public sealed record GojoEncodingJsonReadPath
+{
+    public string? Basis { get; init; }
+
+    public string Path { get; init; } = string.Empty;
+
+    public List<GojoEncodingJsonReadStep> Steps { get; init; } = [];
+
+    public string Result { get; init; } = string.Empty;
+
+    public string ResidueOrTension { get; init; } = string.Empty;
+
+    public string Provenance { get; init; } = string.Empty;
+}
+
+public sealed record GojoEncodingJsonReadStep
+{
+    public string From { get; init; } = string.Empty;
+
+    public string Through { get; init; } = string.Empty;
+
+    public string To { get; init; } = string.Empty;
+
+    public string Path { get; init; } = string.Empty;
+
+    public string Evidence { get; init; } = string.Empty;
+
+    public string ResidueOrTension { get; init; } = string.Empty;
 }
 
 public sealed record GojoEncodingJsonObserverSurface
