@@ -42,6 +42,12 @@ The first implementation is intentionally tiny.
 - `EncodedTextSurface` stores text as ordered Unicode scalar values in Gojo
   relation structure. It also exposes UTF-8 integer helpers for compact packet
   layers.
+- `ConceptHintSurface` stores tiny query hints as carrier positions over small
+  numeric bases. Packed query tokens are derived reads over those positions,
+  not the source of hint meaning.
+- `ConceptSeedSurface` packages readable text, a hint signature, optional opened
+  Gojo structure, and residue/tension. It is read by field shape rather than by
+  a marker tag.
 - `ConceptAddressSurface` builds variable-length semantic addresses from atoms,
   compound parts, context, and residue/tension.
 
@@ -314,6 +320,98 @@ cut-in-line
 The exact axes and bit placements are not frozen. The important decision is that
 the hint is not the whole address and not a full semantic parse. It is a compact
 surface that makes near concepts easier to find.
+
+The first executable foothold is `ConceptHintSurface`. It represents a hint as
+Gojo relation structure:
+
+```text
+hint
+  axis point on primitive-axis carrier
+  side/polarity point on signed side carrier
+  context point on context carrier
+  strength point on strength carrier
+  optional opened Gojo structure
+  residue or tension
+```
+
+The bases are also Gojo structures:
+
+```text
+axis basis
+  segment from 0 to the current primitive-axis partition count
+
+side basis
+  signed segment around the reference point
+
+context basis
+  segment over context lanes
+
+strength basis
+  segment over weak/ordinary/strong read support
+```
+
+This keeps the hint compatible with ordinary Gojo reads. A prior/before hint is
+not only a symbolic flag; its side is literally a negative position on the side
+carrier. A spatial/front hint can use the same order axis with a different
+context lane. A sharpness hint can carry a compact edge axis while opening into
+a relation structure that contains a vertex and two rays.
+
+The packed token is only a query read:
+
+```text
+hint relation
+  -> packed UInt32 or UInt64 query token
+```
+
+The token exists so a database can scan quickly. If the token and opened
+structure disagree, the disagreement should be preserved as residue/tension
+rather than hidden.
+
+### Concept Seed Surface
+
+`ConceptSeedSurface` is the first small concept-shaped package over the hint
+surface.
+
+```text
+concept seed
+  readable text
+  compact hint signature
+  optional opened Gojo structure
+  residue or tension
+```
+
+It deliberately does not use a marker string. A reader recognizes it by field
+shape:
+
+```text
+text surface
+hint signature
+opened structure
+residue/tension
+```
+
+This lets simple seeds stay small while preserving a route into richer
+structure. For example:
+
+```text
+before
+  hint: order axis, negative side, temporal context
+
+in-front-of
+  hint: order axis, negative/front side, spatial context
+
+sharp
+  hint: edge axis, reference side, perceptual context
+  opened structure: vertex with two diverging rays
+```
+
+The point is not that `before` and `in-front-of` are the same. The point is that
+they can share a small order/reference hint while keeping their local sense and
+opened structures separate.
+
+Seed residue remains visible. A phrase such as `cutting-remark` may carry a weak
+edge hint in a social context while preserving residue that says the metaphor is
+not literally a cutting edge.
 
 #### How Many Values?
 
@@ -1541,13 +1639,14 @@ Several decisions should remain loose until there is more code and sample data.
 
 The next useful steps are small.
 
-1. Add a packet/document surface that can hold a root, local ids, strings, and
-   relation records without pretending to be the final binary format.
-2. Add a small primitive seed fixture using `ConceptAddressSurface` so tests can
-   build addresses such as `distance`, `time`, `motion`, `rate`, `boundary`,
-   `orientation`, `resolution`, and `tension`.
-3. Encode one or two saved read witnesses so derived reads can become structure.
-4. Revisit the small KiCad import slice and attach concept addresses to nets,
+1. Build a tiny primitive seed fixture using `ConceptSeedSurface` for concepts
+   such as `distance`, `time`, `motion`, `rate`, `boundary`, `orientation`,
+   `resolution`, and `tension`.
+2. Encode one or two saved read witnesses so derived reads can become structure.
+3. Add a small packet/document surface that can hold a root, local ids, strings,
+   hint tokens, and relation records without pretending to be the final binary
+   format.
+4. Revisit the small KiCad import slice and attach concept seeds to nets,
    pads, text, and board-side/orientation evidence.
 5. Keep every helper honest: if deleting the helper would delete the meaning,
    the structure is not Gojo-native enough yet.
