@@ -1,0 +1,13 @@
+{
+  "represents": "Color and stroke width are adapter reads from layer and width relations; they are not the source of PCB meaning.",
+  "entryId": "pcb-data-render-read",
+  "expression": "Read(layout + data, style basis) -> visible copper",
+  "encodingNote": "Color and stroke width are adapter reads from layer and width relations; they are not the source of PCB meaning.",
+  "gojo": {
+    "known": [
+      "basis",
+      "ecad-documentary-structure",
+      "span"
+    ]
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "represents": "The final rung is an inspectable settled read: source provenance, rounded positive boundary, structural negative spaces, and residue for whatever the simplified read did not express.",
+  "entryId": "drone-clip-settled-read",
+  "expression": "source + ladder residue -> settled clip read",
+  "encodingNote": "The final rung is an inspectable settled read: source provenance, rounded positive boundary, structural negative spaces, and residue for whatever the simplified read did not express.",
+  "gojo": {
+    "known": [
+      "boundary",
+      "constraint-or-settlement",
+      "inverse-or-opposed-participation",
+      "source"
+    ],
+    "paths": [
+      "participation --sign read--> positive",
+      "source --requested read--> result + residue"
+    ],
+    "tension": [
+      "read residue preserved"
+    ]
+  }
+}

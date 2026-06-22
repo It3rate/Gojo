@@ -1,0 +1,17 @@
+{
+  "represents": "Sparse read of normal(P) = radial support.",
+  "entryId": "face-normal-point-radial",
+  "expression": "normal(P) = radial support",
+  "gojo": {
+    "known": [
+      "flow",
+      "position"
+    ],
+    "paths": [
+      "position --open flow--> flow"
+    ],
+    "tension": [
+      "flow shape depends on available dimension"
+    ]
+  }
+}

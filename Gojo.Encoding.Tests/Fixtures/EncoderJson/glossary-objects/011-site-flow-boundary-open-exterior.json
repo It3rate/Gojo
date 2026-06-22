@@ -1,0 +1,12 @@
+{
+  "represents": "The segment bounds a span without closing all surrounding support.",
+  "entryId": "site-flow-boundary-open-exterior",
+  "expression": "P(A)+P(B) -> S(A,B) + exterior(open)",
+  "encodingNote": "The segment bounds a span without closing all surrounding support.",
+  "gojo": {
+    "known": [
+      "position",
+      "span"
+    ]
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "represents": "Sparse read of grade 2: Area(boundary).",
+  "entryId": "grades-dimensions-area",
+  "expression": "grade 2: Area(boundary)",
+  "gojo": {
+    "known": [
+      "area-support",
+      "boundary"
+    ]
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "represents": "Sparse read of P(O).",
+  "entryId": "source-support-radial-positive-site",
+  "expression": "P(O)",
+  "gojo": {
+    "known": [
+      "position"
+    ]
+  }
+}

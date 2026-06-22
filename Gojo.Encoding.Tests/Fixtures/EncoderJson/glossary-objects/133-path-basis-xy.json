@@ -1,0 +1,12 @@
+{
+  "represents": "This is the familiar coordinate construction.",
+  "entryId": "path-basis-xy",
+  "expression": "FrameXY(P0) + FrameXY(P1) -> S(P0,P1)",
+  "encodingNote": "This is the familiar coordinate construction. It is only one way to create section evidence.",
+  "gojo": {
+    "known": [
+      "basis",
+      "span"
+    ]
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "represents": "The merge rung groups positive and inverse loops without losing their separate orientation.",
+  "entryId": "drone-clip-merged-loops",
+  "expression": "LoopOuter + LoopSlot + LoopVoids -> merged loop set",
+  "encodingNote": "The merge rung groups positive and inverse loops without losing their separate orientation. Any disagreement can remain as tension.",
+  "gojo": {
+    "known": [
+      "boundary",
+      "inverse-or-opposed-participation",
+      "orientation",
+      "span"
+    ],
+    "paths": [
+      "orientation --signed direction read--> positive"
+    ]
+  }
+}

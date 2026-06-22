@@ -1,0 +1,12 @@
+{
+  "represents": "External comparison produces count and residue against a reusable unit.",
+  "entryId": "units-ticks-unit-comparison",
+  "expression": "S(target) read by Unit(S(u0,u1))",
+  "encodingNote": "External comparison produces count and residue against a reusable unit.",
+  "gojo": {
+    "known": [
+      "span",
+      "unit"
+    ]
+  }
+}

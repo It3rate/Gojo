@@ -1,0 +1,11 @@
+{
+  "represents": "The read creates one path relation over many source sections.",
+  "entryId": "crystallization-provenance-read-path",
+  "expression": "Read(source sections) -> PathRead",
+  "encodingNote": "The read creates one path relation over many source sections.",
+  "gojo": {
+    "known": [
+      "source"
+    ]
+  }
+}

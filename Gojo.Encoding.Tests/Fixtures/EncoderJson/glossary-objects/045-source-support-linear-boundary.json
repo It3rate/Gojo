@@ -1,0 +1,11 @@
+{
+  "represents": "Sparse read of P(A) + P(B) -> S(A,B).",
+  "entryId": "source-support-linear-boundary",
+  "expression": "P(A) + P(B) -> S(A,B)",
+  "gojo": {
+    "known": [
+      "position",
+      "span"
+    ]
+  }
+}

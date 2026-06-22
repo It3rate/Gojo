@@ -1,0 +1,11 @@
+{
+  "represents": "Provenance remains inspectable but does not have to be the active rendering source.",
+  "entryId": "crystallization-provenance-provenance-links",
+  "expression": "Element(Path) + provenance(source read)",
+  "encodingNote": "Provenance remains inspectable but does not have to be the active rendering source.",
+  "gojo": {
+    "known": [
+      "source"
+    ]
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "represents": "Offset and slot boundaries produce derived intersection/cusp locations.",
+  "entryId": "drone-clip-intersections",
+  "expression": "OffsetRead edges -> Intersect(cusp_i,cusp_j) -> Pij",
+  "encodingNote": "Offset and slot boundaries produce derived intersection/cusp locations. These locations are later used to split and select path sections.",
+  "gojo": {
+    "known": [
+      "offset-read",
+      "selection",
+      "span"
+    ]
+  }
+}

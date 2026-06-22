@@ -1,0 +1,12 @@
+{
+  "represents": "Bonded endpoints can remain distinct while participating topologically.",
+  "entryId": "topology-participation-bonded-distinct",
+  "expression": "P(A) + P(B) + bond(A,B)",
+  "encodingNote": "Bonded endpoints can remain distinct while participating topologically.",
+  "gojo": {
+    "known": [
+      "position",
+      "topological-participation"
+    ]
+  }
+}

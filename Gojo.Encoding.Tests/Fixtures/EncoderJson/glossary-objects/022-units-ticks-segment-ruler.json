@@ -1,0 +1,14 @@
+{
+  "represents": "The ruler comes from a bounded segment, then adds repeated readable ticks.",
+  "entryId": "units-ticks-segment-ruler",
+  "expression": "P(A)+P(B) -> S(A,B) + partition(n)",
+  "encodingNote": "The ruler comes from a bounded segment, then adds repeated readable ticks.",
+  "gojo": {
+    "known": [
+      "partition",
+      "position",
+      "repeat",
+      "span"
+    ]
+  }
+}

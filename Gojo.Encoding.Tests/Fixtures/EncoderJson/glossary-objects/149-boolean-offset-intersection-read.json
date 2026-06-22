@@ -1,0 +1,13 @@
+{
+  "represents": "Intersection keeps only the support occupied by both derived areas.",
+  "entryId": "boolean-offset-intersection-read",
+  "expression": "LoopA + LoopB + Intersect(A,B) -> LoopShared + AreaFill(shared)",
+  "encodingNote": "Intersection keeps only the support occupied by both derived areas. The two input loops remain inspectable, while the shared loop becomes its own fillable area.",
+  "gojo": {
+    "known": [
+      "area-support",
+      "boundary",
+      "span"
+    ]
+  }
+}

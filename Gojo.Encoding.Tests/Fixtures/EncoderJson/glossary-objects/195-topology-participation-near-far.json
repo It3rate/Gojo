@@ -1,0 +1,12 @@
+{
+  "represents": "Near and far depend on the read basis and resolution.",
+  "entryId": "topology-participation-near-far",
+  "expression": "proximity(P(A), P(B), resolution)",
+  "encodingNote": "Near and far depend on the read basis and resolution.",
+  "gojo": {
+    "known": [
+      "basis",
+      "position"
+    ]
+  }
+}

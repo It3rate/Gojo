@@ -1,0 +1,20 @@
+{
+  "represents": "Multiple bases can constrain the same section at once.",
+  "entryId": "path-basis-mixed",
+  "expression": "FrameXY(P0,P1) + CircleBasis(P0,theta) + orthogonal evidence",
+  "encodingNote": "Multiple bases can constrain the same section at once. A later read can reconcile or expose disagreement as residue.",
+  "gojo": {
+    "known": [
+      "basis",
+      "circle-boundary",
+      "flow"
+    ],
+    "paths": [
+      "position + radius-position --> circle-boundary",
+      "source --open flow--> flow"
+    ],
+    "tension": [
+      "flow source unresolved"
+    ]
+  }
+}

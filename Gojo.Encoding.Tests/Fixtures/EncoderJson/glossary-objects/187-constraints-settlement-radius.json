@@ -1,0 +1,11 @@
+{
+  "represents": "Sparse read of P(O)+P(R) + constraint distance(O,R).",
+  "entryId": "constraints-settlement-radius",
+  "expression": "P(O)+P(R) + constraint distance(O,R)",
+  "gojo": {
+    "known": [
+      "constraint-or-settlement",
+      "position"
+    ]
+  }
+}

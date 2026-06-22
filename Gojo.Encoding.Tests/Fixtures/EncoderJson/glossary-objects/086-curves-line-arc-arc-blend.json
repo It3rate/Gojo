@@ -1,0 +1,12 @@
+{
+  "represents": "The current bridge is explicit arc evidence.",
+  "entryId": "curves-line-arc-arc-blend",
+  "expression": "carrier A + carrier B + Arc(P0,P1) as tangent bridge",
+  "encodingNote": "The current bridge is explicit arc evidence. The future read should derive the smoothing relation from carrier tangency and requested settlement.",
+  "gojo": {
+    "known": [
+      "constraint-or-settlement",
+      "curve"
+    ]
+  }
+}

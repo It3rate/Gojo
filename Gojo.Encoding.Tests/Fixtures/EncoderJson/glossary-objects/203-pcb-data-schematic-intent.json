@@ -1,0 +1,14 @@
+{
+  "represents": "The schematic read groups component ports by net carriers before any physical route is chosen.",
+  "entryId": "pcb-data-schematic-intent",
+  "expression": "Schematic ports + net-basis P(VCC/SIG/GND/LED)",
+  "encodingNote": "The schematic read groups component ports by net carriers before any physical route is chosen.",
+  "gojo": {
+    "known": [
+      "basis",
+      "ecad-documentary-structure",
+      "position",
+      "span"
+    ]
+  }
+}

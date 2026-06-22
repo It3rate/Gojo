@@ -1,0 +1,23 @@
+{
+  "represents": "The existing GojoCAD area union surface already carries selected areas, result outline, settlement evidence, and residue.",
+  "entryId": "boolean-participation-area-union",
+  "expression": "AreaUnion(AreaFrame(A,B), outline, settlement, residue)",
+  "encodingNote": "The existing GojoCAD area union surface already carries selected areas, result outline, settlement evidence, and residue.",
+  "gojo": {
+    "known": [
+      "area-support",
+      "basis",
+      "boundary",
+      "coincident-span",
+      "constraint-or-settlement",
+      "selection",
+      "span"
+    ],
+    "paths": [
+      "source --requested read--> result + residue"
+    ],
+    "tension": [
+      "read residue preserved"
+    ]
+  }
+}

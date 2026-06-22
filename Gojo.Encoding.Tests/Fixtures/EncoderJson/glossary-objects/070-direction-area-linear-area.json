@@ -1,0 +1,11 @@
+{
+  "represents": "Sparse read of Area(closed S-boundary).",
+  "entryId": "direction-area-linear-area",
+  "expression": "Area(closed S-boundary)",
+  "gojo": {
+    "known": [
+      "area-support",
+      "boundary"
+    ]
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "represents": "Touching endpoints share boundary evidence, but there is no occupied length overlap unless the read asks for endpoint support.",
+  "entryId": "boolean-participation-segment-touch",
+  "expression": "S(A,0,m) + S(B,m,n)",
+  "encodingNote": "Touching endpoints share boundary evidence, but there is no occupied length overlap unless the read asks for endpoint support.",
+  "gojo": {
+    "known": [
+      "boundary",
+      "coincident-span",
+      "span"
+    ]
+  }
+}

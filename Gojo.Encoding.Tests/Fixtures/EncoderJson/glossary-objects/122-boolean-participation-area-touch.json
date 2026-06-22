@@ -1,0 +1,12 @@
+{
+  "represents": "Boundary contact is evidence, but it is not automatically shared occupied area.",
+  "entryId": "boolean-participation-area-touch",
+  "expression": "Area(A) + Area(B) with boundary contact",
+  "encodingNote": "Boundary contact is evidence, but it is not automatically shared occupied area.",
+  "gojo": {
+    "known": [
+      "area-support",
+      "boundary"
+    ]
+  }
+}

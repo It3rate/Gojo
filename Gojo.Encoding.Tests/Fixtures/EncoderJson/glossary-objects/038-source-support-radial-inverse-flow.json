@@ -1,0 +1,20 @@
+{
+  "represents": "Radial inverse flow is the point-grade version of negative orthogonal support: the flow is read as moving into the site from every side.",
+  "entryId": "source-support-radial-inverse-flow",
+  "expression": "P(O) + flow_radial(P(O))",
+  "encodingNote": "Radial inverse flow is the point-grade version of negative orthogonal support: the flow is read as moving into the site from every side. A signed read can pass through the origin, just as opposite side support passes through a segment.",
+  "gojo": {
+    "known": [
+      "flow",
+      "inverse-or-opposed-participation",
+      "position"
+    ],
+    "paths": [
+      "flow --direction read--> inward-or-inverse",
+      "position --open flow--> flow"
+    ],
+    "tension": [
+      "flow shape depends on available dimension"
+    ]
+  }
+}

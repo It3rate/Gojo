@@ -1,0 +1,14 @@
+{
+  "represents": "Sparse read of D(Circle(O,R), +theta -> -theta).",
+  "entryId": "direction-area-radial-inverse-directed-boundary",
+  "expression": "D(Circle(O,R), +theta -> -theta)",
+  "gojo": {
+    "known": [
+      "circle-boundary",
+      "orientation"
+    ],
+    "paths": [
+      "position + radius-position --> circle-boundary"
+    ]
+  }
+}

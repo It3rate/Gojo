@@ -1,0 +1,14 @@
+{
+  "represents": "The sections are connected because they reuse the same endpoint relation.",
+  "entryId": "connected-paths-shared-point",
+  "expression": "S(A,J) + Arc(J,B), same P(J)",
+  "encodingNote": "The sections are connected because they reuse the same endpoint relation. The fact that one section is curved is incidental.",
+  "gojo": {
+    "known": [
+      "curve",
+      "position",
+      "span",
+      "topological-participation"
+    ]
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "represents": "Sparse read of Repeat(transition, source, n).",
+  "entryId": "repetition-timeline-transition",
+  "expression": "Repeat(transition, source, n)",
+  "gojo": {
+    "known": [
+      "repeat",
+      "source"
+    ]
+  }
+}

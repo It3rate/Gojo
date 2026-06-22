@@ -1,0 +1,13 @@
+{
+  "represents": "Intersection points are derived locations where offset paths participate together.",
+  "entryId": "boolean-offset-split-intersections",
+  "expression": "Intersect(offset_i,offset_j) -> Pij; Split(offset_i,Pij)",
+  "encodingNote": "Intersection points are derived locations where offset paths participate together. Split reads use those points to divide offset carriers into selectable sections.",
+  "gojo": {
+    "known": [
+      "offset-read",
+      "selection",
+      "span"
+    ]
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "represents": "XY is one basis, not the only way to make a carrier.",
+  "entryId": "basis-frames-xy-frame",
+  "expression": "Frame(X,Y) + P(x,y) + S(P0,P1)",
+  "encodingNote": "XY is one basis, not the only way to make a carrier.",
+  "gojo": {
+    "known": [
+      "basis",
+      "position",
+      "span"
+    ]
+  }
+}

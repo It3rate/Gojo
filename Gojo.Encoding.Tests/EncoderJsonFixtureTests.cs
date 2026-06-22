@@ -7,11 +7,12 @@ namespace Gojo.Encoding.Tests;
 public sealed class EncoderJsonFixtureTests
 {
     [Fact]
-    public void FirstGlossaryFixtureFilesAreStrictJsonAndRoundTripThroughEncodingDtos()
+    public void GlossaryFixtureFilesAreStrictJsonAndRoundTripThroughEncodingDtos()
     {
         var files = FixturePaths();
+        var expected = ExpectedExports();
 
-        Assert.Equal(10, files.Length);
+        Assert.Equal(expected.Length, files.Length);
         foreach (var file in files)
         {
             var json = File.ReadAllText(file);
@@ -35,7 +36,7 @@ public sealed class EncoderJsonFixtureTests
     }
 
     [Fact]
-    public void FirstGlossaryFixtureFilesMatchLiveGlossaryExport()
+    public void GlossaryFixtureFilesMatchLiveGlossaryExport()
     {
         var entries = ReadFixtureEntries();
         var expected = ExpectedExports();
@@ -50,7 +51,7 @@ public sealed class EncoderJsonFixtureTests
     }
 
     [Fact]
-    public void FirstGlossaryFixtureFilesMatchGeneratedLiveGojoProjection()
+    public void GlossaryFixtureFilesMatchGeneratedLiveGojoProjection()
     {
         var fixtures = ReadFixtureEntries();
         var expected = ExpectedExports().ToDictionary(item => item.Id, StringComparer.Ordinal);
@@ -112,21 +113,17 @@ public sealed class EncoderJsonFixtureTests
     }
 
     [Fact]
-    public void FirstGlossaryExportsUseDistinctSourceStructures()
+    public void GlossaryFixtureIdsAreUniqueAndComplete()
     {
-        var exports = ExpectedExports();
+        var entries = ReadFixtureEntries();
+        var expected = ExpectedExports();
 
-        for (var left = 0; left < exports.Length; left++)
-        {
-            for (var right = left + 1; right < exports.Length; right++)
-            {
-                Assert.NotSame(exports[left].Structure, exports[right].Structure);
-            }
-        }
+        Assert.Equal(expected.Length, entries.Select(entry => entry.EntryId).Distinct(StringComparer.Ordinal).Count());
+        Assert.Equal(expected.Select(item => item.Id), entries.Select(entry => entry.EntryId));
     }
 
     [Fact]
-    public void FirstGlossaryFixtureFilesKeepUnresolvedInformationVisibleWherePresent()
+    public void GlossaryFixtureFilesKeepUnresolvedInformationVisibleWherePresent()
     {
         var entries = ReadFixtureEntries();
 
@@ -181,9 +178,41 @@ public sealed class EncoderJsonFixtureTests
         var entry = GojoStructureEncodingJson.DeserializeFixtureEntry(json);
 
         Assert.True(File.ReadAllLines(file).Length <= 24, json);
-        Assert.Equal(["position"], entry.Gojo.Known ?? []);
-        Assert.Contains("position --open normal--> radial-flow", entry.Gojo.Paths ?? []);
+        Assert.Equal(["flow", "position"], entry.Gojo.Known ?? []);
+        Assert.Contains("position --open flow--> flow", entry.Gojo.Paths ?? []);
+        Assert.DoesNotContain("radial-flow", entry.Gojo.Paths ?? []);
         Assert.Contains("no preferred direction", entry.Gojo.Tension ?? []);
+        Assert.Contains("flow shape depends on available dimension", entry.Gojo.Tension ?? []);
+    }
+
+    [Fact]
+    public void FlowShapeIsNotEncodedAsAPrimitivePathMarker()
+    {
+        foreach (var entry in ReadFixtureEntries())
+        {
+            var paths = entry.Gojo.Paths ?? [];
+
+            Assert.DoesNotContain(paths, path => path.Contains("radial-flow", StringComparison.Ordinal));
+            Assert.DoesNotContain(paths, path => path.Contains("linear-potential", StringComparison.Ordinal));
+        }
+    }
+
+    [Fact]
+    public void FlowDirectionPathsRequireLocalFlowKnowledge()
+    {
+        foreach (var entry in ReadFixtureEntries())
+        {
+            var paths = entry.Gojo.Paths ?? [];
+            var hasFlowDirectionPath = paths.Any(path =>
+                path.StartsWith("flow --direction read-->", StringComparison.Ordinal));
+
+            if (!hasFlowDirectionPath)
+            {
+                continue;
+            }
+
+            Assert.Contains("flow", entry.Gojo.Known ?? []);
+        }
     }
 
     private static GojoEncodingJsonFixtureEntry[] ReadFixtureEntries() =>
@@ -196,11 +225,10 @@ public sealed class EncoderJsonFixtureTests
             .Order(StringComparer.Ordinal)];
 
     private static string FixtureDirectory() =>
-        Path.Combine(AppContext.BaseDirectory, "Fixtures", "EncoderJson", "first-10-glossary-objects");
+        Path.Combine(AppContext.BaseDirectory, "Fixtures", "EncoderJson", "glossary-objects");
 
     private static BlocksGlossaryStructureExport[] ExpectedExports() =>
-        [.. BlocksGlossaryExport.ResolutionTension()
-            .Concat(BlocksGlossaryExport.Structures("site-flow-boundary").Take(4))];
+        [.. BlocksGlossaryExport.Structures()];
 
     private static void AssertJsonEquivalent(string expected, string actual)
     {

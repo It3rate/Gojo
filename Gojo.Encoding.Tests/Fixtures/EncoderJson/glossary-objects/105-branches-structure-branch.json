@@ -1,0 +1,10 @@
+{
+  "represents": "Sparse read of S(J,A) + S(J,B) + S(J,C) + ....",
+  "entryId": "branches-structure-branch",
+  "expression": "S(J,A) + S(J,B) + S(J,C) + ...",
+  "gojo": {
+    "known": [
+      "span"
+    ]
+  }
+}

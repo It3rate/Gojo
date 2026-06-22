@@ -1,0 +1,12 @@
+{
+  "represents": "This is intentionally a coordinate-sampled contrast case.",
+  "entryId": "curves-line-arc-plotted",
+  "expression": "P0 + P1 + P2 + ... with S(Pi,Pi+1) samples",
+  "encodingNote": "This is intentionally a coordinate-sampled contrast case. It is Gojo structure, but it is not a carrier-tangency join.",
+  "gojo": {
+    "known": [
+      "span",
+      "topological-participation"
+    ]
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "represents": "Sparse read of S(A,J) + Arc(J,B).",
+  "entryId": "branches-tip-other",
+  "expression": "S(A,J) + Arc(J,B)",
+  "gojo": {
+    "known": [
+      "curve",
+      "span"
+    ]
+  }
+}

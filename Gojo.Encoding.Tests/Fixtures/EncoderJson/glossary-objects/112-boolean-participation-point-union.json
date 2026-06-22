@@ -1,0 +1,15 @@
+{
+  "represents": "Union is the support read of all selected point participation inside the scope, not a primitive true/false operation.",
+  "entryId": "boolean-participation-point-union",
+  "expression": "settle(...) -> support(P(A) + P(B))",
+  "encodingNote": "Union is the support read of all selected point participation inside the scope, not a primitive true/false operation.",
+  "gojo": {
+    "known": [
+      "coincident-span",
+      "constraint-or-settlement",
+      "position",
+      "selection",
+      "span"
+    ]
+  }
+}

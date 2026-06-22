@@ -1,0 +1,10 @@
+{
+  "represents": "Sparse read of grade 1: S(A,B).",
+  "entryId": "grades-dimensions-span",
+  "expression": "grade 1: S(A,B)",
+  "gojo": {
+    "known": [
+      "span"
+    ]
+  }
+}

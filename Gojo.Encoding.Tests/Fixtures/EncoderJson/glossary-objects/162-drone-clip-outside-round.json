@@ -1,0 +1,14 @@
+{
+  "represents": "The outside cusp rounding rung replaces selected corner sections with curved transition carriers while preserving the earlier outer-loop provenance.",
+  "entryId": "drone-clip-outside-round",
+  "expression": "outer split sections -> CornerRoundRead(outside cusps) -> rounded outer loop",
+  "encodingNote": "The outside cusp rounding rung replaces selected corner sections with curved transition carriers while preserving the earlier outer-loop provenance.",
+  "gojo": {
+    "known": [
+      "boundary",
+      "curve",
+      "selection",
+      "span"
+    ]
+  }
+}

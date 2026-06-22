@@ -1,0 +1,13 @@
+{
+  "represents": "This is the same family of read as a path or offset: the fill is derived from the outline, then can be inspected independently.",
+  "entryId": "derived-path-outline-fill",
+  "expression": "ClosedPath(ordered outline) -> AreaFill(face)",
+  "encodingNote": "This is the same family of read as a path or offset: the fill is derived from the outline, then can be inspected independently.",
+  "gojo": {
+    "known": [
+      "area-support",
+      "boundary",
+      "offset-read"
+    ]
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "represents": "A face relation connects a boundary to the support it divides.",
+  "entryId": "face-normal-face-relation",
+  "expression": "Boundary + support side + face read",
+  "encodingNote": "A face relation connects a boundary to the support it divides.",
+  "gojo": {
+    "known": [
+      "boundary"
+    ]
+  }
+}

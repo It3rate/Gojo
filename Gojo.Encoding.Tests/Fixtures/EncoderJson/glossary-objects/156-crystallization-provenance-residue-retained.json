@@ -1,0 +1,18 @@
+{
+  "represents": "Crystallization should not erase unresolved evidence.",
+  "entryId": "crystallization-provenance-residue-retained",
+  "expression": "Element(Path) + residue(source mismatch)",
+  "encodingNote": "Crystallization should not erase unresolved evidence.",
+  "gojo": {
+    "known": [
+      "crystallized-read",
+      "source"
+    ],
+    "paths": [
+      "source --requested read--> result + residue"
+    ],
+    "tension": [
+      "read residue preserved"
+    ]
+  }
+}

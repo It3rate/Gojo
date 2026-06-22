@@ -1,0 +1,13 @@
+{
+  "represents": "A higher rung can join sections that were not directly connected, for example by adding a curve or transition surface.",
+  "entryId": "connected-paths-higher-bridge",
+  "expression": "S(A,J1) + S(J2,B) + Bridge(J1,J2)",
+  "encodingNote": "A higher rung can join sections that were not directly connected, for example by adding a curve or transition surface.",
+  "gojo": {
+    "known": [
+      "curve",
+      "span",
+      "topological-participation"
+    ]
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "represents": "The current glossary renders this as a 2D projection while the expression names the grade shift.",
+  "entryId": "grades-dimensions-volume-hint",
+  "expression": "grade 3: Volume(surface shell)",
+  "encodingNote": "The current glossary renders this as a 2D projection while the expression names the grade shift.",
+  "gojo": {
+    "known": [
+      "structure"
+    ]
+  }
+}

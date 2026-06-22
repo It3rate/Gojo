@@ -198,8 +198,9 @@ public static class GojoStructureEncodingFixtureProjection
             if (TryReadFramePoint(source, out _) || TryReadPoint(source, out _))
             {
                 known.Add("position");
-                paths.Add("position --open normal--> radial-flow");
-                tension.Add("direction unspecified");
+                known.Add("flow");
+                paths.Add("position --open flow--> flow");
+                tension.Add("flow shape depends on available dimension");
                 return;
             }
 
@@ -208,22 +209,27 @@ public static class GojoStructureEncodingFixtureProjection
                 if (start.Carrier.SameIdentityAs(end.Carrier) && start.Ticks == end.Ticks)
                 {
                     known.Add("coincident-span");
-                    paths.Add("coincident-span --open normal--> linear-potential");
+                    known.Add("flow");
+                    paths.Add("coincident-span --open flow--> flow");
                     tension.Add("length unresolved");
                     return;
                 }
 
                 known.Add("span");
-                paths.Add("span --open normal--> boundary-support");
+                known.Add("flow");
+                paths.Add("span --open flow--> flow");
                 return;
             }
 
-            paths.Add("source --open normal--> orthogonal-potential");
-            tension.Add("normal basis unresolved");
+            known.Add("flow");
+            paths.Add("source --open flow--> flow");
+            tension.Add("flow source unresolved");
         }
 
         private void ReadExpressionHints(string expression, string? note)
         {
+            var text = $"{expression} {note}".ToLowerInvariant();
+
             if (expression.Contains("P(", StringComparison.Ordinal))
             {
                 known.Add("position");
@@ -245,16 +251,35 @@ public static class GojoStructureEncodingFixtureProjection
                 known.Add("source");
             }
 
-            if (expression.Contains("flow_radial", StringComparison.Ordinal))
+            if (text.Contains("flow_radial") || text.Contains("flow_perp") || text.Contains("normal"))
             {
-                paths.Add("position --open normal--> radial-flow");
-                tension.Add("direction unspecified");
+                known.Add("flow");
+                if (known.Contains("coincident-span"))
+                {
+                    paths.Add("coincident-span --open flow--> flow");
+                    tension.Add("length unresolved");
+                }
+                else if (known.Contains("span"))
+                {
+                    paths.Add("span --open flow--> flow");
+                }
+                else if (known.Contains("position"))
+                {
+                    paths.Add("position --open flow--> flow");
+                    tension.Add("flow shape depends on available dimension");
+                }
+                else
+                {
+                    paths.Add("source --open flow--> flow");
+                    tension.Add("flow source unresolved");
+                }
             }
 
             if (expression.Contains("coincident", StringComparison.Ordinal))
             {
                 known.Add("coincident-span");
-                paths.Add("coincident-span --open normal--> linear-potential");
+                known.Add("flow");
+                paths.Add("coincident-span --open flow--> flow");
                 tension.Add("length unresolved");
             }
 
@@ -289,6 +314,119 @@ public static class GojoStructureEncodingFixtureProjection
             if (note?.Contains("preferred direction", StringComparison.OrdinalIgnoreCase) == true)
             {
                 tension.Add("no preferred direction");
+            }
+
+            AddGeneralExpressionHints(
+                text,
+                expression.Contains("D(", StringComparison.Ordinal));
+        }
+
+        private void AddGeneralExpressionHints(string text, bool hasDirectedSpan)
+        {
+            if (text.Contains("area"))
+            {
+                known.Add("area-support");
+            }
+
+            if (text.Contains("anti") || text.Contains("inverse") || text.Contains("negative"))
+            {
+                known.Add("inverse-or-opposed-participation");
+            }
+
+            if (text.Contains("boundary") || text.Contains("outline") || text.Contains("loop"))
+            {
+                known.Add("boundary");
+            }
+
+            if (text.Contains("arc") || text.Contains("curve") || text.Contains("bezier") || text.Contains("clothoid"))
+            {
+                known.Add("curve");
+            }
+
+            if (text.Contains("frame") || text.Contains("basis"))
+            {
+                known.Add("basis");
+            }
+
+            if (text.Contains("orientation") ||
+                text.Contains("clockwise") ||
+                text.Contains("counterclockwise") ||
+                hasDirectedSpan)
+            {
+                known.Add("orientation");
+            }
+
+            if (text.Contains("outward"))
+            {
+                known.Add("flow");
+                paths.Add("flow --direction read--> outward-or-positive");
+            }
+
+            if (text.Contains("inward") || text.Contains("moving into"))
+            {
+                known.Add("flow");
+                paths.Add("flow --direction read--> inward-or-inverse");
+            }
+
+            if (text.Contains("positive"))
+            {
+                if (known.Contains("flow"))
+                {
+                    paths.Add("flow --direction read--> outward-or-positive");
+                }
+                else if (known.Contains("orientation"))
+                {
+                    paths.Add("orientation --signed direction read--> positive");
+                }
+                else if (known.Contains("area-support") || known.Contains("inverse-or-opposed-participation"))
+                {
+                    paths.Add("participation --sign read--> positive");
+                }
+            }
+
+            if (text.Contains("partition") || text.Contains("tick"))
+            {
+                known.Add("partition");
+            }
+
+            if (text.Contains("unit"))
+            {
+                known.Add("unit");
+            }
+
+            if (text.Contains("repeat"))
+            {
+                known.Add("repeat");
+            }
+
+            if (text.Contains("constraint") || text.Contains("settle"))
+            {
+                known.Add("constraint-or-settlement");
+            }
+
+            if (text.Contains("topology") || text.Contains("bond") || text.Contains("join") || text.Contains("connected"))
+            {
+                known.Add("topological-participation");
+            }
+
+            if (text.Contains("select"))
+            {
+                known.Add("selection");
+            }
+
+            if (text.Contains("offset"))
+            {
+                known.Add("offset-read");
+            }
+
+            if (text.Contains("crystall"))
+            {
+                known.Add("crystallized-read");
+            }
+
+            if (text.Contains("schematic") || text.Contains("net") || text.Contains("trace") || text.Contains("layout") || text.Contains("pcb"))
+            {
+                known.Add("ecad-documentary-structure");
             }
         }
 

@@ -1,0 +1,12 @@
+{
+  "represents": "Tangency is local evidence at a join, not a global curve type.",
+  "entryId": "constraints-settlement-tangency",
+  "expression": "tangent(carrier A, carrier B, J)",
+  "encodingNote": "Tangency is local evidence at a join, not a global curve type.",
+  "gojo": {
+    "known": [
+      "curve",
+      "topological-participation"
+    ]
+  }
+}

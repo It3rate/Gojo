@@ -1,0 +1,19 @@
+{
+  "represents": "Offset reads are normal-distance rungs from the source carriers.",
+  "entryId": "drone-clip-offset-reads",
+  "expression": "PathCarrier + OffsetRead(outside,+d); SlotCarrier + OffsetRead(inside,-d)",
+  "encodingNote": "Offset reads are normal-distance rungs from the source carriers. The outer support grows outward while the slot support reads inward as negative space.",
+  "gojo": {
+    "known": [
+      "flow",
+      "inverse-or-opposed-participation",
+      "offset-read",
+      "span"
+    ],
+    "paths": [
+      "flow --direction read--> inward-or-inverse",
+      "flow --direction read--> outward-or-positive",
+      "span --open flow--> flow"
+    ]
+  }
+}

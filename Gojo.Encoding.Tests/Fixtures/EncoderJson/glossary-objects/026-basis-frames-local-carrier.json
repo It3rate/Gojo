@@ -1,0 +1,16 @@
+{
+  "represents": "A carrier can carry its own local basis for later reads.",
+  "entryId": "basis-frames-local-carrier",
+  "expression": "Basis(S(A,B)) = tangent + normal",
+  "encodingNote": "A carrier can carry its own local basis for later reads.",
+  "gojo": {
+    "known": [
+      "basis",
+      "flow",
+      "span"
+    ],
+    "paths": [
+      "span --open flow--> flow"
+    ]
+  }
+}

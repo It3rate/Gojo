@@ -1,0 +1,14 @@
+{
+  "represents": "Face circulation is expressed by pairing area fill with directed boundary evidence.",
+  "entryId": "direction-area-linear-directed-area",
+  "expression": "Area(closed S-boundary) + face D(edge...)",
+  "encodingNote": "Face circulation is expressed by pairing area fill with directed boundary evidence. When an area crystallizes, this same orientation/spin component should be available on the face.",
+  "gojo": {
+    "known": [
+      "area-support",
+      "boundary",
+      "crystallized-read",
+      "orientation"
+    ]
+  }
+}

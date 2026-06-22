@@ -1,0 +1,10 @@
+{
+  "represents": "A single point site is the smallest spatial anchor for later flow or boundary reads.",
+  "entryId": "site-flow-boundary-site",
+  "expression": "P(O)",
+  "gojo": {
+    "known": [
+      "position"
+    ]
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "represents": "The crossing is just two carriers in the same visual region.",
+  "entryId": "branches-middle-other",
+  "expression": "S(A,B) + S(C,D), with no shared P(J)",
+  "encodingNote": "The crossing is just two carriers in the same visual region. There is no Pin/Junction relation, so the structure does not settle into a join.",
+  "gojo": {
+    "known": [
+      "constraint-or-settlement",
+      "position",
+      "span",
+      "topological-participation"
+    ]
+  }
+}

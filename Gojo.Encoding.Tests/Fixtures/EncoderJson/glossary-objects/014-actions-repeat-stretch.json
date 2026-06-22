@@ -1,0 +1,11 @@
+{
+  "represents": "Stretch reads the same segment relation at a fixed ratio.",
+  "entryId": "actions-repeat-stretch",
+  "expression": "S(A,B) + action_stretch(3) -> S(A,B')",
+  "encodingNote": "Stretch reads the same segment relation at a fixed ratio. The source span remains inspectable while the multiplied read grows from it.",
+  "gojo": {
+    "known": [
+      "span"
+    ]
+  }
+}

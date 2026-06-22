@@ -1,0 +1,19 @@
+{
+  "represents": "Coincident points can carry a potential span and perpendicular flow before visible length appears.",
+  "entryId": "site-flow-boundary-linear-potential",
+  "expression": "P(A)+P(B coincident) -> S-potential + flow_perp",
+  "encodingNote": "Two points can make a linear potential even before they have visible length.",
+  "gojo": {
+    "known": [
+      "coincident-span",
+      "flow",
+      "position"
+    ],
+    "paths": [
+      "coincident-span --open flow--> flow"
+    ],
+    "tension": [
+      "length unresolved"
+    ]
+  }
+}

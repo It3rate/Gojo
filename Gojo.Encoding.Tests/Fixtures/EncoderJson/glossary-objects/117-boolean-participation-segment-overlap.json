@@ -1,0 +1,13 @@
+{
+  "represents": "The overlap is discovered by splitting the carrier at local participation changes.",
+  "entryId": "boolean-participation-segment-overlap",
+  "expression": "S(A,0,k) + S(B,j,n) -> partitions {0,j,k,n}",
+  "encodingNote": "The overlap is discovered by splitting the carrier at local participation changes. Nothing global classifies the spans first.",
+  "gojo": {
+    "known": [
+      "coincident-span",
+      "partition",
+      "span"
+    ]
+  }
+}

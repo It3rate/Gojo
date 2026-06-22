@@ -1,0 +1,15 @@
+{
+  "represents": "The first frame shows only the source boundaries used by the experimental read: one body circle, four diagonal rectangular arm carriers, and four motor cap circles.",
+  "entryId": "radial-crescent-outline-experiment-full",
+  "expression": "Circle body + rectangular arms + motor caps",
+  "encodingNote": "The first frame shows only the source boundaries used by the experimental read: one body circle, four diagonal rectangular arm carriers, and four motor cap circles.",
+  "gojo": {
+    "known": [
+      "basis",
+      "circle-boundary"
+    ],
+    "paths": [
+      "position + radius-position --> circle-boundary"
+    ]
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "represents": "The open carriers are shortened against the cap boundaries.",
+  "entryId": "radial-crescent-trimmed-carriers",
+  "expression": "center carriers + endpoint caps -> trimmed carriers",
+  "encodingNote": "The open carriers are shortened against the cap boundaries. The original strokes remain provenance, while the trimmed strokes are the source for later offset reads.",
+  "gojo": {
+    "known": [
+      "offset-read"
+    ]
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "represents": "Union is the support projection of all selected span participation inside the scope.",
+  "entryId": "boolean-participation-segment-union",
+  "expression": "support(A or B) over partitioned scope",
+  "encodingNote": "Union is the support projection of all selected span participation inside the scope.",
+  "gojo": {
+    "known": [
+      "coincident-span",
+      "partition",
+      "selection",
+      "span"
+    ]
+  }
+}

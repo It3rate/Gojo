@@ -1,0 +1,19 @@
+{
+  "represents": "This is intentionally a collapsed pair, not a drawn-length segment.",
+  "entryId": "source-support-linear-flow",
+  "expression": "S(C,0,0) + flow_perp(S(C,0,0))",
+  "encodingNote": "This is intentionally a collapsed pair, not a drawn-length segment. The two coincident points expose a linear potential before distance is chosen; the visible vertical escape is a renderer read of the segment's orthogonal flow.",
+  "gojo": {
+    "known": [
+      "coincident-span",
+      "flow",
+      "span"
+    ],
+    "paths": [
+      "coincident-span --open flow--> flow"
+    ],
+    "tension": [
+      "length unresolved"
+    ]
+  }
+}

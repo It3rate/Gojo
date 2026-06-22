@@ -1,0 +1,19 @@
+{
+  "represents": "The intended offset carrier and the mismatching observed carrier are both preserved.",
+  "entryId": "derived-path-offset-residue",
+  "expression": "OffsetRead(source,+d,resolution) + observed PathRead + residue/tension",
+  "encodingNote": "The intended offset carrier and the mismatching observed carrier are both preserved. The difference is tension attached to the read rather than a hidden failure.",
+  "gojo": {
+    "known": [
+      "offset-read",
+      "source",
+      "span"
+    ],
+    "paths": [
+      "source --requested read--> result + residue"
+    ],
+    "tension": [
+      "read residue preserved"
+    ]
+  }
+}

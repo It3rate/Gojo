@@ -1,0 +1,11 @@
+{
+  "represents": "This source is a simplified read of the old droneArmClip-Body footprint: independent carriers for the outer clip, arm slot, and internal voids.",
+  "entryId": "drone-clip-source",
+  "expression": "STEP footprint evidence -> source sections{outer, slot, voids}",
+  "encodingNote": "This source is a simplified read of the old droneArmClip-Body footprint: independent carriers for the outer clip, arm slot, and internal voids.",
+  "gojo": {
+    "known": [
+      "source"
+    ]
+  }
+}

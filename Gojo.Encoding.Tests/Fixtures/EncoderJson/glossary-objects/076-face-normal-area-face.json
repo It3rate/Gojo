@@ -1,0 +1,11 @@
+{
+  "represents": "Sparse read of Area(boundary) + face spin+.",
+  "entryId": "face-normal-area-face",
+  "expression": "Area(boundary) + face spin+",
+  "gojo": {
+    "known": [
+      "area-support",
+      "boundary"
+    ]
+  }
+}

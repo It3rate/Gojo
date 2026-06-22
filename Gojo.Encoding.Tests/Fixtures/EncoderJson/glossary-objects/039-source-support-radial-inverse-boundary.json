@@ -1,0 +1,14 @@
+{
+  "represents": "Sparse read of P(O) + P(R) -> Circle(O,R).",
+  "entryId": "source-support-radial-inverse-boundary",
+  "expression": "P(O) + P(R) -> Circle(O,R)",
+  "gojo": {
+    "known": [
+      "circle-boundary",
+      "position"
+    ],
+    "paths": [
+      "position + radius-position --> circle-boundary"
+    ]
+  }
+}

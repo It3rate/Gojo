@@ -1,0 +1,13 @@
+{
+  "represents": "Gojo multiplication includes both stretch and accumulated repeat, with stretch as the direct multiplicative read.",
+  "entryId": "actions-repeat-multiply",
+  "expression": "S(A,B) + stretch(k); also Repeat(add unit, n)",
+  "encodingNote": "Gojo multiplication includes both stretch and accumulated repeat, with stretch as the direct multiplicative read.",
+  "gojo": {
+    "known": [
+      "repeat",
+      "span",
+      "unit"
+    ]
+  }
+}

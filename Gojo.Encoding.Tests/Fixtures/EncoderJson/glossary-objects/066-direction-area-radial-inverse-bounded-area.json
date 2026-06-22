@@ -1,0 +1,20 @@
+{
+  "represents": "The area fill is closed-boundary structure, the radius is explicit, and the tick marks are circular-carrier points.",
+  "entryId": "direction-area-radial-inverse-bounded-area",
+  "expression": "Area(Circle(O,R)) + P(O) + S(O,R) + P(theta...)",
+  "encodingNote": "The area fill is closed-boundary structure, the radius is explicit, and the tick marks are circular-carrier points. A future encoding should settle these as one contour with partition witnesses instead of parallel evidence.",
+  "gojo": {
+    "known": [
+      "area-support",
+      "boundary",
+      "circle-boundary",
+      "constraint-or-settlement",
+      "partition",
+      "position",
+      "span"
+    ],
+    "paths": [
+      "position + radius-position --> circle-boundary"
+    ]
+  }
+}

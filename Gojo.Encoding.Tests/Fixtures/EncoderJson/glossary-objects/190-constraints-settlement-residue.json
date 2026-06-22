@@ -1,0 +1,16 @@
+{
+  "represents": "Sparse read of settlement remainder -> residue.",
+  "entryId": "constraints-settlement-residue",
+  "expression": "settlement remainder -> residue",
+  "gojo": {
+    "known": [
+      "constraint-or-settlement"
+    ],
+    "paths": [
+      "source --requested read--> result + residue"
+    ],
+    "tension": [
+      "read residue preserved"
+    ]
+  }
+}

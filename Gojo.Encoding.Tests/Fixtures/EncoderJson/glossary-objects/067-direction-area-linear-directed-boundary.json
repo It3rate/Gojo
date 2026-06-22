@@ -1,0 +1,11 @@
+{
+  "represents": "Sparse read of D(S(C,-u,+u)).",
+  "entryId": "direction-area-linear-directed-boundary",
+  "expression": "D(S(C,-u,+u))",
+  "gojo": {
+    "known": [
+      "orientation",
+      "span"
+    ]
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "represents": "Sparse read of source carriers: S/Arc/Curve sections.",
+  "entryId": "crystallization-provenance-source-carriers",
+  "expression": "source carriers: S/Arc/Curve sections",
+  "gojo": {
+    "known": [
+      "curve",
+      "source"
+    ]
+  }
+}

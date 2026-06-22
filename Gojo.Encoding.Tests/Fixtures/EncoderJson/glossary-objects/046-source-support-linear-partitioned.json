@@ -1,0 +1,11 @@
+{
+  "represents": "Sparse read of S(A,B) + P(t1) + P(t2) + ....",
+  "entryId": "source-support-linear-partitioned",
+  "expression": "S(A,B) + P(t1) + P(t2) + ...",
+  "gojo": {
+    "known": [
+      "position",
+      "span"
+    ]
+  }
+}

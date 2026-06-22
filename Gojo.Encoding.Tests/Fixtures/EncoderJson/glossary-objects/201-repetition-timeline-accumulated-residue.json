@@ -1,0 +1,16 @@
+{
+  "represents": "Sparse read of residue(t0)+residue(t1)+....",
+  "entryId": "repetition-timeline-accumulated-residue",
+  "expression": "residue(t0)+residue(t1)+...",
+  "gojo": {
+    "known": [
+      "structure"
+    ],
+    "paths": [
+      "source --requested read--> result + residue"
+    ],
+    "tension": [
+      "read residue preserved"
+    ]
+  }
+}

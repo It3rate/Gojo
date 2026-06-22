@@ -1,0 +1,19 @@
+{
+  "represents": "A read result can keep the unsettled remainder visible as residue.",
+  "entryId": "resolution-tension-residue-witness",
+  "expression": "Read(source, basis) = result + residue",
+  "encodingNote": "Residue is the part that did not settle under the requested basis.",
+  "gojo": {
+    "known": [
+      "basis",
+      "constraint-or-settlement",
+      "source"
+    ],
+    "paths": [
+      "source --requested read--> result + residue"
+    ],
+    "tension": [
+      "read residue preserved"
+    ]
+  }
+}

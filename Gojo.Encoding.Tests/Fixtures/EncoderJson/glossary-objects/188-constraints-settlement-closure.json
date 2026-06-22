@@ -1,0 +1,10 @@
+{
+  "represents": "Sparse read of closed topology + geometric miss -> tension.",
+  "entryId": "constraints-settlement-closure",
+  "expression": "closed topology + geometric miss -> tension",
+  "gojo": {
+    "known": [
+      "topological-participation"
+    ]
+  }
+}

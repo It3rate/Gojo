@@ -1,0 +1,12 @@
+{
+  "represents": "A tick reference names a readable location without copying the point.",
+  "entryId": "units-ticks-tick-reference",
+  "expression": "TickRef(S(A,B), t5)",
+  "encodingNote": "A tick reference names a readable location without copying the point.",
+  "gojo": {
+    "known": [
+      "partition",
+      "span"
+    ]
+  }
+}

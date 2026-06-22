@@ -1,0 +1,13 @@
+{
+  "represents": "The endpoints stay distinct as evidence, but a bond relation makes them participate as one connected path point.",
+  "entryId": "connected-paths-bonded-point",
+  "expression": "S(A,J1) + Arc(J2,B) + bond(J1,J2)",
+  "encodingNote": "The endpoints stay distinct as evidence, but a bond relation makes them participate as one connected path point.",
+  "gojo": {
+    "known": [
+      "curve",
+      "span",
+      "topological-participation"
+    ]
+  }
+}

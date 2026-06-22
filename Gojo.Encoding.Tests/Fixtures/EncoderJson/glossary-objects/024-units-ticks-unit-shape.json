@@ -1,0 +1,14 @@
+{
+  "represents": "A unit shape is stable structure that other reads can compare against; it can be linear, circular, area-like, curved, composite, or otherwise crystallized.",
+  "entryId": "units-ticks-unit-shape",
+  "expression": "UnitShape(line | circle | area | curve read)",
+  "encodingNote": "A unit shape is stable structure that other reads can compare against; it can be linear, circular, area-like, curved, composite, or otherwise crystallized.",
+  "gojo": {
+    "known": [
+      "area-support",
+      "crystallized-read",
+      "curve",
+      "unit"
+    ]
+  }
+}

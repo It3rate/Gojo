@@ -1,0 +1,17 @@
+{
+  "represents": "The offset boundary rung carries signed normal distance and resolution evidence.",
+  "entryId": "radial-crescent-offset-boundaries",
+  "expression": "PathRead(trimmed carriers) + OffsetRead(normal-distance=10,resolution=2)",
+  "encodingNote": "The offset boundary rung carries signed normal distance and resolution evidence. The rendered bands can be calculated geometrically, but the meaning is the normal-distance read from the path carrier.",
+  "gojo": {
+    "known": [
+      "boundary",
+      "flow",
+      "offset-read",
+      "span"
+    ],
+    "paths": [
+      "span --open flow--> flow"
+    ]
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "represents": "This rebuilds the Crescent radial ladder source as carrier evidence: two curved crescent strokes, two bent-arm polylines, a circle body, and a diamond body.",
+  "entryId": "radial-crescent-source-seeds",
+  "expression": "SketchViewer crescent+bent seed -> center carriers + body boundaries",
+  "encodingNote": "This rebuilds the Crescent radial ladder source as carrier evidence: two curved crescent strokes, two bent-arm polylines, a circle body, and a diamond body. It does not depend on the old Sketch Viewer render completing.",
+  "gojo": {
+    "known": [
+      "curve"
+    ]
+  }
+}

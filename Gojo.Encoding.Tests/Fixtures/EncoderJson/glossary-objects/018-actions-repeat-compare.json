@@ -1,0 +1,18 @@
+{
+  "represents": "Unit comparison asks how many repeated unit reads fit in a target.",
+  "entryId": "actions-repeat-compare",
+  "expression": "Read(target by unit U) -> quotient + residue",
+  "encodingNote": "Unit comparison asks how many repeated unit reads fit in a target.",
+  "gojo": {
+    "known": [
+      "repeat",
+      "unit"
+    ],
+    "paths": [
+      "source --requested read--> result + residue"
+    ],
+    "tension": [
+      "read residue preserved"
+    ]
+  }
+}

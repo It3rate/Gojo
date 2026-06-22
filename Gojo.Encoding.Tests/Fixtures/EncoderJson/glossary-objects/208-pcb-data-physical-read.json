@@ -1,0 +1,12 @@
+{
+  "represents": "The manufactured board is another interpretation of the same data-bearing structure, not a separate geometry copy.",
+  "entryId": "pcb-data-physical-read",
+  "expression": "Read(render + fab basis) -> mask + copper + drill",
+  "encodingNote": "The manufactured board is another interpretation of the same data-bearing structure, not a separate geometry copy.",
+  "gojo": {
+    "known": [
+      "basis",
+      "span"
+    ]
+  }
+}

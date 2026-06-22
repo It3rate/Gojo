@@ -1,0 +1,21 @@
+{
+  "represents": "Difference is read as exclusive support from A under the selected scope, with B left visible as excluded or residue evidence.",
+  "entryId": "boolean-participation-point-difference",
+  "expression": "settle(...) -> exclusive(P(A)) + residue(P(B))",
+  "encodingNote": "Difference is read as exclusive support from A under the selected scope, with B left visible as excluded or residue evidence.",
+  "gojo": {
+    "known": [
+      "coincident-span",
+      "constraint-or-settlement",
+      "position",
+      "selection",
+      "span"
+    ],
+    "paths": [
+      "source --requested read--> result + residue"
+    ],
+    "tension": [
+      "read residue preserved"
+    ]
+  }
+}

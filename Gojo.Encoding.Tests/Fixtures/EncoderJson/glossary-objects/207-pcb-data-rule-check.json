@@ -1,0 +1,13 @@
+{
+  "represents": "ERC/DRC checks read the same carriers through continuity, width, and clearance constraints, leaving unresolved evidence as tension.",
+  "entryId": "pcb-data-rule-check",
+  "expression": "Read(layout + rules) -> pass evidence + tension",
+  "encodingNote": "ERC/DRC checks read the same carriers through continuity, width, and clearance constraints, leaving unresolved evidence as tension.",
+  "gojo": {
+    "known": [
+      "constraint-or-settlement",
+      "ecad-documentary-structure",
+      "span"
+    ]
+  }
+}

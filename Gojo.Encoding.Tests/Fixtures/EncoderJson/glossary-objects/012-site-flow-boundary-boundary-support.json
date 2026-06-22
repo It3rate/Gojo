@@ -1,0 +1,16 @@
+{
+  "represents": "A boundary can be read as support when the inside or outside participates.",
+  "entryId": "site-flow-boundary-boundary-support",
+  "expression": "Circle(O,R) -> Area(Circle)",
+  "encodingNote": "A boundary can be read as support when the inside or outside participates.",
+  "gojo": {
+    "known": [
+      "area-support",
+      "boundary",
+      "circle-boundary"
+    ],
+    "paths": [
+      "position + radius-position --> circle-boundary"
+    ]
+  }
+}

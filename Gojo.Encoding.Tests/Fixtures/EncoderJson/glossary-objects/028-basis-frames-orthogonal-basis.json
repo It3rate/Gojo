@@ -1,0 +1,19 @@
+{
+  "represents": "Sparse read of S(A,B) + normal support -> P(normal distance).",
+  "entryId": "basis-frames-orthogonal-basis",
+  "expression": "S(A,B) + normal support -> P(normal distance)",
+  "gojo": {
+    "known": [
+      "coincident-span",
+      "flow",
+      "position",
+      "span"
+    ],
+    "paths": [
+      "coincident-span --open flow--> flow"
+    ],
+    "tension": [
+      "length unresolved"
+    ]
+  }
+}

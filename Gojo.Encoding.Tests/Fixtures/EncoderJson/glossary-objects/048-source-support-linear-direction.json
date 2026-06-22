@@ -1,0 +1,14 @@
+{
+  "represents": "Sparse read of P(0) + P(+u), read under right-positive orientation.",
+  "entryId": "source-support-linear-direction",
+  "expression": "P(0) + P(+u), read under right-positive orientation",
+  "gojo": {
+    "known": [
+      "orientation",
+      "position"
+    ],
+    "paths": [
+      "orientation --signed direction read--> positive"
+    ]
+  }
+}

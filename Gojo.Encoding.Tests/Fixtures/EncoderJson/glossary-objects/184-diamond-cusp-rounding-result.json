@@ -1,0 +1,16 @@
+{
+  "represents": "The final face is a positive fill from the rounded outer boundary with the rounded inner boundary participating as a cutout.",
+  "entryId": "diamond-cusp-rounding-result",
+  "expression": "RoundedOuterBoundary + AntiAreaFill(RoundedInnerBoundary)",
+  "encodingNote": "The final face is a positive fill from the rounded outer boundary with the rounded inner boundary participating as a cutout. Both boundaries remain inspectable Gojo structure.",
+  "gojo": {
+    "known": [
+      "area-support",
+      "boundary",
+      "inverse-or-opposed-participation"
+    ],
+    "paths": [
+      "participation --sign read--> positive"
+    ]
+  }
+}

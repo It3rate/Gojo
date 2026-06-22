@@ -1,0 +1,16 @@
+{
+  "represents": "The current encoding intends orientation through ordered carrier evidence: the directed span says which side of zero is positive.",
+  "entryId": "source-support-linear-orientation",
+  "expression": "orientation: right is positive; D(S(C,-u,+u))",
+  "encodingNote": "The current encoding intends orientation through ordered carrier evidence: the directed span says which side of zero is positive. A crystallized orientation should preserve that evidence rather than add an unrelated tag.",
+  "gojo": {
+    "known": [
+      "crystallized-read",
+      "orientation",
+      "span"
+    ],
+    "paths": [
+      "orientation --signed direction read--> positive"
+    ]
+  }
+}

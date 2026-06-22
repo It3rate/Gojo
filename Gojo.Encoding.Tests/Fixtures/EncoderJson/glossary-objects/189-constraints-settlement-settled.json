@@ -1,0 +1,14 @@
+{
+  "represents": "Sparse read of constraints + source -> settled read.",
+  "entryId": "constraints-settlement-settled",
+  "expression": "constraints + source -> settled read",
+  "gojo": {
+    "known": [
+      "constraint-or-settlement",
+      "source"
+    ],
+    "paths": [
+      "source + basis + resolution --> settled read"
+    ]
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "represents": "Sparse read of Area(A) adjacent Area(B) through shared boundary.",
+  "entryId": "topology-participation-adjacency",
+  "expression": "Area(A) adjacent Area(B) through shared boundary",
+  "gojo": {
+    "known": [
+      "area-support",
+      "boundary"
+    ]
+  }
+}

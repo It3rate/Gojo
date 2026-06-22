@@ -1,0 +1,19 @@
+{
+  "represents": "Area difference is represented as positive participation opposed by anti participation, with any unresolved mismatch kept as residue.",
+  "entryId": "boolean-participation-area-difference",
+  "expression": "Area(A) + AntiArea(B) -> exclusive support + residue",
+  "encodingNote": "Area difference is represented as positive participation opposed by anti participation, with any unresolved mismatch kept as residue.",
+  "gojo": {
+    "known": [
+      "area-support",
+      "inverse-or-opposed-participation"
+    ],
+    "paths": [
+      "participation --sign read--> positive",
+      "source --requested read--> result + residue"
+    ],
+    "tension": [
+      "read residue preserved"
+    ]
+  }
+}

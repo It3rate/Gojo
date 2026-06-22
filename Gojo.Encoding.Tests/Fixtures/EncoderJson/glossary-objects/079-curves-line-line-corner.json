@@ -1,0 +1,10 @@
+{
+  "represents": "Sparse read of carrier A + carrier B + shared P(J).",
+  "entryId": "curves-line-line-corner",
+  "expression": "carrier A + carrier B + shared P(J)",
+  "gojo": {
+    "known": [
+      "position"
+    ]
+  }
+}

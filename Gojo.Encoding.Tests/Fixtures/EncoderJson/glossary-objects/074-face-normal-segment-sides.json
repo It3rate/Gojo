@@ -1,0 +1,19 @@
+{
+  "represents": "The sides are discovered from the carrier and orientation, not separate symbolic fields.",
+  "entryId": "face-normal-segment-sides",
+  "expression": "normal(S) = side+ + side-",
+  "encodingNote": "The sides are discovered from the carrier and orientation, not separate symbolic fields.",
+  "gojo": {
+    "known": [
+      "coincident-span",
+      "flow",
+      "orientation"
+    ],
+    "paths": [
+      "coincident-span --open flow--> flow"
+    ],
+    "tension": [
+      "length unresolved"
+    ]
+  }
+}

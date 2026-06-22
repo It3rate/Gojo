@@ -1,0 +1,17 @@
+{
+  "represents": "The offset read carries a signed distance on the source path normal, resolution evidence for that normal measure, witness normals, and a separate derived path carrier.",
+  "entryId": "derived-path-open-offset",
+  "expression": "PathRead(source) + OffsetRead(normal-distance=18, resolution=3) -> OffsetPathCarrier(0,120)",
+  "encodingNote": "The offset read carries a signed distance on the source path normal, resolution evidence for that normal measure, witness normals, and a separate derived path carrier.",
+  "gojo": {
+    "known": [
+      "flow",
+      "offset-read",
+      "source",
+      "span"
+    ],
+    "paths": [
+      "span --open flow--> flow"
+    ]
+  }
+}

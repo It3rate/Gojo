@@ -1,0 +1,12 @@
+{
+  "represents": "A crossing is detectable proximity, not automatic participation.",
+  "entryId": "topology-participation-crossing",
+  "expression": "S(A,B) crosses S(C,D) without join",
+  "encodingNote": "A crossing is detectable proximity, not automatic participation.",
+  "gojo": {
+    "known": [
+      "span",
+      "topological-participation"
+    ]
+  }
+}

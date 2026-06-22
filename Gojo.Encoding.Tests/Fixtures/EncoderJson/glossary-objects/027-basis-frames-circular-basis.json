@@ -1,0 +1,18 @@
+{
+  "represents": "The circular basis inherits the radial origin and circumference provenance, then uses boundary partitions as angle evidence.",
+  "entryId": "basis-frames-circular-basis",
+  "expression": "Basis(Circle(O,R)) + P(theta)",
+  "encodingNote": "The circular basis inherits the radial origin and circumference provenance, then uses boundary partitions as angle evidence.",
+  "gojo": {
+    "known": [
+      "basis",
+      "boundary",
+      "circle-boundary",
+      "partition",
+      "position"
+    ],
+    "paths": [
+      "position + radius-position --> circle-boundary"
+    ]
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "represents": "Sparse read of S(A,J) + S(B,J) + S(J,C).",
+  "entryId": "branches-tip-merge",
+  "expression": "S(A,J) + S(B,J) + S(J,C)",
+  "gojo": {
+    "known": [
+      "span"
+    ]
+  }
+}

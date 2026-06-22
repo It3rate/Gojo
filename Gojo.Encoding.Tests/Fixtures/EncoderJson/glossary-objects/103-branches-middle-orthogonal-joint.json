@@ -1,0 +1,11 @@
+{
+  "represents": "Sparse read of S(A,B) + Arc(C,M), where M lies on S(A,B).",
+  "entryId": "branches-middle-orthogonal-joint",
+  "expression": "S(A,B) + Arc(C,M), where M lies on S(A,B)",
+  "gojo": {
+    "known": [
+      "curve",
+      "span"
+    ]
+  }
+}

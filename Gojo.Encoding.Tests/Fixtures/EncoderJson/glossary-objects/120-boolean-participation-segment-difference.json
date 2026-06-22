@@ -1,0 +1,19 @@
+{
+  "represents": "Difference is exclusive support from one selected span after the overlapping participation has been accounted for.",
+  "entryId": "boolean-participation-segment-difference",
+  "expression": "exclusive(A not B) + residue(B)",
+  "encodingNote": "Difference is exclusive support from one selected span after the overlapping participation has been accounted for.",
+  "gojo": {
+    "known": [
+      "coincident-span",
+      "selection",
+      "span"
+    ],
+    "paths": [
+      "source --requested read--> result + residue"
+    ],
+    "tension": [
+      "read residue preserved"
+    ]
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "represents": "At point resolution, two occupied values on the same scoped site become shared support or tension depending on the lane read.",
+  "entryId": "boolean-participation-point-overlap",
+  "expression": "settle(selected{P(A), P(B)}, scope=P(x)) -> shared/tension support",
+  "encodingNote": "At point resolution, two occupied values on the same scoped site become shared support or tension depending on the lane read.",
+  "gojo": {
+    "known": [
+      "coincident-span",
+      "constraint-or-settlement",
+      "position",
+      "selection"
+    ]
+  }
+}

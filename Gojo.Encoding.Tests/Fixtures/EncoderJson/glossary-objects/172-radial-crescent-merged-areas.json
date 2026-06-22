@@ -1,0 +1,23 @@
+{
+  "represents": "The merge gathers positive support and then cuts the inverse body holes anywhere arm support crosses them.",
+  "entryId": "radial-crescent-merged-areas",
+  "expression": "AreaUnion(positive support, inverse holes) -> CutRead(intersections) -> OutlineRead(exterior cw + interior ccw)",
+  "encodingNote": "The merge gathers positive support and then cuts the inverse body holes anywhere arm support crosses them. The resulting interior loops carry shared cut sites, so later cusp selection can inspect the outline structure instead of the fill image.",
+  "gojo": {
+    "known": [
+      "area-support",
+      "boundary",
+      "flow",
+      "inverse-or-opposed-participation",
+      "selection",
+      "span"
+    ],
+    "paths": [
+      "flow --direction read--> outward-or-positive",
+      "source --open flow--> flow"
+    ],
+    "tension": [
+      "flow source unresolved"
+    ]
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "represents": "Sparse read of P(x) inside Area(boundary).",
+  "entryId": "topology-participation-containment",
+  "expression": "P(x) inside Area(boundary)",
+  "gojo": {
+    "known": [
+      "area-support",
+      "boundary",
+      "position"
+    ]
+  }
+}

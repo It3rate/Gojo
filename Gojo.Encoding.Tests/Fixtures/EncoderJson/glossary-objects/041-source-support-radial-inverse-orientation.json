@@ -1,0 +1,18 @@
+{
+  "represents": "This uses a directed span on a circular carrier as orientation evidence.",
+  "entryId": "source-support-radial-inverse-orientation",
+  "expression": "orientation: clockwise is positive; D(Circle(O,R), +theta -> -theta)",
+  "encodingNote": "This uses a directed span on a circular carrier as orientation evidence. A later crystallized orientation can carry the same ordered-read component on the boundary.",
+  "gojo": {
+    "known": [
+      "boundary",
+      "circle-boundary",
+      "crystallized-read",
+      "orientation"
+    ],
+    "paths": [
+      "orientation --signed direction read--> positive",
+      "position + radius-position --> circle-boundary"
+    ]
+  }
+}

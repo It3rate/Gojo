@@ -1,0 +1,16 @@
+{
+  "represents": "A settled read becomes inspectable structure, not just a returned value.",
+  "entryId": "resolution-tension-settled-read",
+  "expression": "source + basis + resolution -> settled read",
+  "encodingNote": "Settlement is a new inspectable structure, not just a return value.",
+  "gojo": {
+    "known": [
+      "basis",
+      "constraint-or-settlement",
+      "source"
+    ],
+    "paths": [
+      "source + basis + resolution --> settled read"
+    ]
+  }
+}

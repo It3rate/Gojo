@@ -1,0 +1,10 @@
+{
+  "represents": "Sparse read of carrier A + carrier B + Bezier(P0,H0,H1,P1).",
+  "entryId": "curves-line-line-bezier",
+  "expression": "carrier A + carrier B + Bezier(P0,H0,H1,P1)",
+  "gojo": {
+    "known": [
+      "curve"
+    ]
+  }
+}

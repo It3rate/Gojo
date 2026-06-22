@@ -1,0 +1,24 @@
+{
+  "represents": "The first rounding rung preserves the inner boundary and emits a new outer boundary.",
+  "entryId": "diamond-cusp-rounding-outer-rounded",
+  "expression": "OuterSelection + carrier tangents -> RoundedOuterBoundary",
+  "encodingNote": "The first rounding rung preserves the inner boundary and emits a new outer boundary. Retained arc pieces stay arcs, and each new outer corner curve is solved from adjacent carrier tangents.",
+  "gojo": {
+    "known": [
+      "boundary",
+      "coincident-span",
+      "curve",
+      "flow",
+      "selection",
+      "span"
+    ],
+    "paths": [
+      "coincident-span --open flow--> flow",
+      "source --open flow--> flow"
+    ],
+    "tension": [
+      "flow source unresolved",
+      "length unresolved"
+    ]
+  }
+}

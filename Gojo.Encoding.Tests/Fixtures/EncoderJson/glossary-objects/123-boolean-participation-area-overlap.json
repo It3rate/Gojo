@@ -1,0 +1,12 @@
+{
+  "represents": "Overlap is read by partitioning the participating faces into occupied cells.",
+  "entryId": "boolean-participation-area-overlap",
+  "expression": "Area(A) + Area(B) -> partitioned support cells",
+  "encodingNote": "Overlap is read by partitioning the participating faces into occupied cells.",
+  "gojo": {
+    "known": [
+      "area-support",
+      "partition"
+    ]
+  }
+}

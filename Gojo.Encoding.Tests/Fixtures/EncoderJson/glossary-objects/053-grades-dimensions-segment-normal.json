@@ -1,0 +1,19 @@
+{
+  "represents": "A 1D carrier's normal in 2D is perpendicular line support.",
+  "entryId": "grades-dimensions-segment-normal",
+  "expression": "S(A,B) + orthogonal normal -> grade+1 support",
+  "encodingNote": "A 1D carrier's normal in 2D is perpendicular line support.",
+  "gojo": {
+    "known": [
+      "coincident-span",
+      "flow",
+      "span"
+    ],
+    "paths": [
+      "coincident-span --open flow--> flow"
+    ],
+    "tension": [
+      "length unresolved"
+    ]
+  }
+}

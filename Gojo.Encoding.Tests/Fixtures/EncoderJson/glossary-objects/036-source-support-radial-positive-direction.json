@@ -1,0 +1,11 @@
+{
+  "represents": "Sparse read of P(theta0) + P(+theta), read under counterclockwise orientation.",
+  "entryId": "source-support-radial-positive-direction",
+  "expression": "P(theta0) + P(+theta), read under counterclockwise orientation",
+  "gojo": {
+    "known": [
+      "orientation",
+      "position"
+    ]
+  }
+}

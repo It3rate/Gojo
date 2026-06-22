@@ -1,0 +1,18 @@
+{
+  "represents": "The curve offset uses the same structural read as the open offset: source path carrier, normal-distance carrier, resolution evidence, witness normals, and a derived path carrier.",
+  "entryId": "derived-path-curved-offset",
+  "expression": "CurvePathRead(source) + OffsetRead(normal-distance=18, resolution=3)",
+  "encodingNote": "The curve offset uses the same structural read as the open offset: source path carrier, normal-distance carrier, resolution evidence, witness normals, and a derived path carrier.",
+  "gojo": {
+    "known": [
+      "curve",
+      "flow",
+      "offset-read",
+      "source",
+      "span"
+    ],
+    "paths": [
+      "span --open flow--> flow"
+    ]
+  }
+}

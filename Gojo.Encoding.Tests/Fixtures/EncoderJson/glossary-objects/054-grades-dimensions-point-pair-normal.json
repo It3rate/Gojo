@@ -1,0 +1,19 @@
+{
+  "represents": "This records the 3D distinction: distant point-pair normals sweep a cylinder, while touching points collapse to plane support.",
+  "entryId": "grades-dimensions-point-pair-normal",
+  "expression": "P(A)+P(B) in 3D -> cylindrical normal; A=B -> plane normal",
+  "encodingNote": "This records the 3D distinction: distant point-pair normals sweep a cylinder, while touching points collapse to plane support.",
+  "gojo": {
+    "known": [
+      "coincident-span",
+      "flow",
+      "position"
+    ],
+    "paths": [
+      "coincident-span --open flow--> flow"
+    ],
+    "tension": [
+      "length unresolved"
+    ]
+  }
+}

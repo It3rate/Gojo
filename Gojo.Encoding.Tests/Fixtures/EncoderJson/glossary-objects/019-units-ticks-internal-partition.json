@@ -1,0 +1,12 @@
+{
+  "represents": "Sparse read of S(A,B) + partition(n) -> P(t1..tn).",
+  "entryId": "units-ticks-internal-partition",
+  "expression": "S(A,B) + partition(n) -> P(t1..tn)",
+  "gojo": {
+    "known": [
+      "partition",
+      "position",
+      "span"
+    ]
+  }
+}

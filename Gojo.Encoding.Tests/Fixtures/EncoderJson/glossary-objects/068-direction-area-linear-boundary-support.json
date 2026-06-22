@@ -1,0 +1,19 @@
+{
+  "represents": "The structural seed is still a collapsed segment.",
+  "entryId": "direction-area-linear-boundary-support",
+  "expression": "S(C,0,0) + flow_perp(S(C,0,0))",
+  "encodingNote": "The structural seed is still a collapsed segment. The visible band is the renderer's interpretation of support emerging from that linear potential.",
+  "gojo": {
+    "known": [
+      "coincident-span",
+      "flow",
+      "span"
+    ],
+    "paths": [
+      "coincident-span --open flow--> flow"
+    ],
+    "tension": [
+      "length unresolved"
+    ]
+  }
+}

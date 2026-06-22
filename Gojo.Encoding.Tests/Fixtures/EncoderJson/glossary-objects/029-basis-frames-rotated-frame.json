@@ -1,0 +1,11 @@
+{
+  "represents": "A frame transform should remain an inspectable relation.",
+  "entryId": "basis-frames-rotated-frame",
+  "expression": "Frame' = rotate(Frame, theta)",
+  "encodingNote": "A frame transform should remain an inspectable relation.",
+  "gojo": {
+    "known": [
+      "basis"
+    ]
+  }
+}

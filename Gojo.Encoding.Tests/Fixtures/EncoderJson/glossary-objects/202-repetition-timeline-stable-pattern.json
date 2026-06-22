@@ -1,0 +1,12 @@
+{
+  "represents": "A pattern is a settled repetition structure that can itself be read.",
+  "entryId": "repetition-timeline-stable-pattern",
+  "expression": "repeat until stable pattern",
+  "encodingNote": "A pattern is a settled repetition structure that can itself be read.",
+  "gojo": {
+    "known": [
+      "constraint-or-settlement",
+      "repeat"
+    ]
+  }
+}

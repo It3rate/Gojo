@@ -1,0 +1,19 @@
+{
+  "represents": "The section can be defined from support normal to another carrier rather than from XY position alone.",
+  "entryId": "path-basis-orthogonal",
+  "expression": "S(A,B) + orthogonal_outlet(S(A,B)) + S(J,O)",
+  "encodingNote": "The section can be defined from support normal to another carrier rather than from XY position alone.",
+  "gojo": {
+    "known": [
+      "flow",
+      "span"
+    ],
+    "paths": [
+      "source --open flow--> flow",
+      "span --open flow--> flow"
+    ],
+    "tension": [
+      "flow source unresolved"
+    ]
+  }
+}

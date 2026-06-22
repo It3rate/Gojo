@@ -1,0 +1,21 @@
+{
+  "represents": "The inner rounding rung trims the flat segment and arc carrier, then connects the retained pieces with tangent-derived curve sections.",
+  "entryId": "diamond-cusp-rounding-inner-rounded",
+  "expression": "InnerSelection + carrier tangents -> RoundedInnerBoundary",
+  "encodingNote": "The inner rounding rung trims the flat segment and arc carrier, then connects the retained pieces with tangent-derived curve sections. The retained upper section remains a Gojo arc.",
+  "gojo": {
+    "known": [
+      "boundary",
+      "curve",
+      "flow",
+      "selection",
+      "span"
+    ],
+    "paths": [
+      "source --open flow--> flow"
+    ],
+    "tension": [
+      "flow source unresolved"
+    ]
+  }
+}

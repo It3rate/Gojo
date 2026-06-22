@@ -1,0 +1,11 @@
+{
+  "represents": "Sparse read of P(t0)..P(tn) + state read at each tick.",
+  "entryId": "repetition-timeline-timeline",
+  "expression": "P(t0)..P(tn) + state read at each tick",
+  "gojo": {
+    "known": [
+      "partition",
+      "position"
+    ]
+  }
+}

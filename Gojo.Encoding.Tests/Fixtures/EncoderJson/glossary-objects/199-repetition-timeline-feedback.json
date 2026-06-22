@@ -1,0 +1,10 @@
+{
+  "represents": "Sparse read of transition result -> feedback -> next read.",
+  "entryId": "repetition-timeline-feedback",
+  "expression": "transition result -> feedback -> next read",
+  "gojo": {
+    "known": [
+      "structure"
+    ]
+  }
+}

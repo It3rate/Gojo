@@ -1,0 +1,12 @@
+{
+  "represents": "Involute generation has a structural foothold, but the exact unwrap relationship still needs richer inspection vocabulary.",
+  "entryId": "curves-line-line-involute",
+  "expression": "Arc(base) + unwound tangent S(T,0,n)",
+  "encodingNote": "Involute generation has a structural foothold, but the exact unwrap relationship still needs richer inspection vocabulary.",
+  "gojo": {
+    "known": [
+      "curve",
+      "span"
+    ]
+  }
+}

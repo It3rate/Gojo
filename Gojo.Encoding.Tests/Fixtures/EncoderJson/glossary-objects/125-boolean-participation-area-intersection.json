@@ -1,0 +1,11 @@
+{
+  "represents": "Area intersection is the shared occupied support read.",
+  "entryId": "boolean-participation-area-intersection",
+  "expression": "shared occupied cells from Area(A) and Area(B)",
+  "encodingNote": "Area intersection is the shared occupied support read. This example keeps the shared patch explicit while richer area reads continue to evolve.",
+  "gojo": {
+    "known": [
+      "area-support"
+    ]
+  }
+}

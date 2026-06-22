@@ -1,0 +1,11 @@
+{
+  "represents": "Addition is shown as attaching compatible spans in sequence.",
+  "entryId": "actions-repeat-addition",
+  "expression": "S(A,B) + S(B,C) -> accumulated span",
+  "encodingNote": "Addition is shown as attaching compatible spans in sequence.",
+  "gojo": {
+    "known": [
+      "span"
+    ]
+  }
+}

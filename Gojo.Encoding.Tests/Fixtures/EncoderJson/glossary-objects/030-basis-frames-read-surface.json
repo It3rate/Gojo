@@ -1,0 +1,12 @@
+{
+  "represents": "The surface is the context through which structure is interpreted.",
+  "entryId": "basis-frames-read-surface",
+  "expression": "ReadSurface(source, basis, resolution)",
+  "encodingNote": "The surface is the context through which structure is interpreted.",
+  "gojo": {
+    "known": [
+      "basis",
+      "source"
+    ]
+  }
+}

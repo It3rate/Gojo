@@ -1,0 +1,19 @@
+{
+  "represents": "A near-closed path can carry the remaining closure delta as tension.",
+  "entryId": "resolution-tension-closure-tension",
+  "expression": "S(A,B)+S(B,C)+S(C,A') + close(A',A) -> Tension(delta)",
+  "encodingNote": "The topology can ask for closure even while geometry still misses.",
+  "gojo": {
+    "known": [
+      "span",
+      "topological-participation"
+    ],
+    "paths": [
+      "open path --closure read--> closure tension"
+    ],
+    "tension": [
+      "closure unresolved",
+      "unresolved change remains inspectable"
+    ]
+  }
+}

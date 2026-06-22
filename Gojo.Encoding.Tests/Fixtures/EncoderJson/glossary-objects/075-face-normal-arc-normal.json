@@ -1,0 +1,17 @@
+{
+  "represents": "Sparse read of normal(Arc) = radial side support along arc.",
+  "entryId": "face-normal-arc-normal",
+  "expression": "normal(Arc) = radial side support along arc",
+  "gojo": {
+    "known": [
+      "curve",
+      "flow"
+    ],
+    "paths": [
+      "source --open flow--> flow"
+    ],
+    "tension": [
+      "flow source unresolved"
+    ]
+  }
+}

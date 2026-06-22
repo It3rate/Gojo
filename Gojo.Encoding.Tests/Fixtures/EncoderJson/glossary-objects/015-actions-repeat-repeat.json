@@ -1,0 +1,13 @@
+{
+  "represents": "Repeat is first-class structure: selected source, action, count or stopping rule.",
+  "entryId": "actions-repeat-repeat",
+  "expression": "Repeat(action, n) over S(A,B)",
+  "encodingNote": "Repeat is first-class structure: selected source, action, count or stopping rule.",
+  "gojo": {
+    "known": [
+      "repeat",
+      "selection",
+      "span"
+    ]
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "represents": "The layout rung adds frame carriers, shared pad sites, and routed path sections, but the copper meaning is still not just geometry.",
+  "entryId": "pcb-data-layout-carriers",
+  "expression": "Board + footprints + pads + Path(trace sections)",
+  "encodingNote": "The layout rung adds frame carriers, shared pad sites, and routed path sections, but the copper meaning is still not just geometry.",
+  "gojo": {
+    "known": [
+      "basis",
+      "ecad-documentary-structure"
+    ]
+  }
+}

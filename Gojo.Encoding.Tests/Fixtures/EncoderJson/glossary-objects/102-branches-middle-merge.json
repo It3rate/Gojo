@@ -1,0 +1,10 @@
+{
+  "represents": "Sparse read of S(A,B) + S(C,M) + S(D,M), where M lies on S(A,B).",
+  "entryId": "branches-middle-merge",
+  "expression": "S(A,B) + S(C,M) + S(D,M), where M lies on S(A,B)",
+  "gojo": {
+    "known": [
+      "span"
+    ]
+  }
+}

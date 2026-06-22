@@ -1,0 +1,10 @@
+{
+  "represents": "Sparse read of grade 0: P(O).",
+  "entryId": "grades-dimensions-site",
+  "expression": "grade 0: P(O)",
+  "gojo": {
+    "known": [
+      "position"
+    ]
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "represents": "The relation records ordering without merging the carriers.",
+  "entryId": "topology-participation-over-under",
+  "expression": "S(over) + relation_over(S(under))",
+  "encodingNote": "The relation records ordering without merging the carriers.",
+  "gojo": {
+    "known": [
+      "span"
+    ]
+  }
+}

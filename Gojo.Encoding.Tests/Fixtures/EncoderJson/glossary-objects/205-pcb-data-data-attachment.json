@@ -1,0 +1,13 @@
+{
+  "represents": "Each trace carrier locally holds attribute relations on a net basis, layer basis, width basis, and cost/check basis.",
+  "entryId": "pcb-data-data-attachment",
+  "expression": "Trace(path) + attach(net, layer, width, cost)",
+  "encodingNote": "Each trace carrier locally holds attribute relations on a net basis, layer basis, width basis, and cost/check basis.",
+  "gojo": {
+    "known": [
+      "basis",
+      "ecad-documentary-structure",
+      "span"
+    ]
+  }
+}

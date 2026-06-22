@@ -1,0 +1,14 @@
+{
+  "represents": "The third frame reads the walked outline sections and moves each section away from the body center.",
+  "entryId": "radial-crescent-outline-experiment-exploded",
+  "expression": "BoundarySectionWalk -> exploded edge sections",
+  "encodingNote": "The third frame reads the walked outline sections and moves each section away from the body center. The sections are no longer visually joined, but each remains a Gojo line or arc section derived from the walked outline.",
+  "gojo": {
+    "known": [
+      "basis",
+      "boundary",
+      "curve",
+      "topological-participation"
+    ]
+  }
+}

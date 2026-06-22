@@ -1,0 +1,18 @@
+{
+  "represents": "The endpoint rings are generated from selected open tips.",
+  "entryId": "radial-crescent-endpoint-caps",
+  "expression": "LineTipSelection(source) -> endpoint CircleCaps(r=28) + endpoint holes(r=8)",
+  "encodingNote": "The endpoint rings are generated from selected open tips. The hole circles are paired anti-support for those same cap centers, not decorative marks.",
+  "gojo": {
+    "known": [
+      "circle-boundary",
+      "ecad-documentary-structure",
+      "inverse-or-opposed-participation",
+      "selection",
+      "source"
+    ],
+    "paths": [
+      "position + radius-position --> circle-boundary"
+    ]
+  }
+}

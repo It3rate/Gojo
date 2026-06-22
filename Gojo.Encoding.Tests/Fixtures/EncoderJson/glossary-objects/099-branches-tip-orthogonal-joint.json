@@ -1,0 +1,10 @@
+{
+  "represents": "Sparse read of S(A,J) + S(J,O) + S(J,C).",
+  "entryId": "branches-tip-orthogonal-joint",
+  "expression": "S(A,J) + S(J,O) + S(J,C)",
+  "gojo": {
+    "known": [
+      "span"
+    ]
+  }
+}

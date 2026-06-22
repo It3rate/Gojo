@@ -1,0 +1,13 @@
+{
+  "represents": "This frame separates the rounded result into three Gojo groups: newly inserted cusp arcs, retained straight line sections, and retained circular arc sections from the body and motor caps.",
+  "entryId": "radial-crescent-outline-experiment-replacements",
+  "expression": "RoundedBoundary -> [new arcs | retained lines | retained circle arcs]",
+  "encodingNote": "This frame separates the rounded result into three Gojo groups: newly inserted cusp arcs, retained straight line sections, and retained circular arc sections from the body and motor caps.",
+  "gojo": {
+    "known": [
+      "basis",
+      "boundary",
+      "curve"
+    ]
+  }
+}

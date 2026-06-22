@@ -1,0 +1,23 @@
+{
+  "represents": "The first selection pass reads the four outer cusp sites from the outer closed boundary.",
+  "entryId": "diamond-cusp-rounding-outer-selection",
+  "expression": "CuspCandidateDomain(outer) -> Selection(4)",
+  "encodingNote": "The first selection pass reads the four outer cusp sites from the outer closed boundary. The inner boundary remains present, but it is not part of this selection.",
+  "gojo": {
+    "known": [
+      "boundary",
+      "coincident-span",
+      "flow",
+      "selection",
+      "span"
+    ],
+    "paths": [
+      "coincident-span --open flow--> flow",
+      "source --open flow--> flow"
+    ],
+    "tension": [
+      "flow source unresolved",
+      "length unresolved"
+    ]
+  }
+}

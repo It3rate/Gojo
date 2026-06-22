@@ -1,0 +1,14 @@
+{
+  "represents": "Sparse read of Area*(Circle(O,R)).",
+  "entryId": "direction-area-radial-inverse-boundary-support",
+  "expression": "Area*(Circle(O,R))",
+  "gojo": {
+    "known": [
+      "area-support",
+      "circle-boundary"
+    ],
+    "paths": [
+      "position + radius-position --> circle-boundary"
+    ]
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "represents": "Sparse read of controller + selected source.",
+  "entryId": "repetition-timeline-controller",
+  "expression": "controller + selected source",
+  "gojo": {
+    "known": [
+      "selection",
+      "source"
+    ]
+  }
+}

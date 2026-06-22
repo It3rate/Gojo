@@ -1,0 +1,10 @@
+{
+  "represents": "Sparse read of P(A) + P(B), with A and B allowed to coincide.",
+  "entryId": "source-support-linear-site",
+  "expression": "P(A) + P(B), with A and B allowed to coincide",
+  "gojo": {
+    "known": [
+      "position"
+    ]
+  }
+}

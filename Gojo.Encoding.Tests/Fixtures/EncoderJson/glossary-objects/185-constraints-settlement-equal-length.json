@@ -1,0 +1,12 @@
+{
+  "represents": "Equality is a relation that can settle or leave tension.",
+  "entryId": "constraints-settlement-equal-length",
+  "expression": "S(A,B) == S(C,D)",
+  "encodingNote": "Equality is a relation that can settle or leave tension.",
+  "gojo": {
+    "known": [
+      "constraint-or-settlement",
+      "span"
+    ]
+  }
+}

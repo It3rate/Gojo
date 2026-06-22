@@ -1,0 +1,11 @@
+{
+  "represents": "The new path can be used directly after crystallization.",
+  "entryId": "crystallization-provenance-crystallized-element",
+  "expression": "Crystallize(PathRead) -> Element(Path)",
+  "encodingNote": "The new path can be used directly after crystallization.",
+  "gojo": {
+    "known": [
+      "crystallized-read"
+    ]
+  }
+}

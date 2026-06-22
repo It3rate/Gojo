@@ -1,0 +1,13 @@
+{
+  "represents": "A crystallized element can be partitioned or styled independently of its source.",
+  "entryId": "crystallization-provenance-independent-read",
+  "expression": "Read(Element(Path), new basis)",
+  "encodingNote": "A crystallized element can be partitioned or styled independently of its source.",
+  "gojo": {
+    "known": [
+      "basis",
+      "crystallized-read",
+      "partition"
+    ]
+  }
+}

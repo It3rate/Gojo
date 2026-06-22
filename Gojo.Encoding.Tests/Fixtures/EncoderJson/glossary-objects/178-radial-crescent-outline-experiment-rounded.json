@@ -1,0 +1,26 @@
+{
+  "represents": "The final frame rejoins the walked sections and rounds every exterior cusp.",
+  "entryId": "radial-crescent-outline-experiment-rounded",
+  "expression": "Walked outline + CuspSelection(16) -> rounded arc-section splice",
+  "encodingNote": "The final frame rejoins the walked sections and rounds every exterior cusp. Each cusp trims the incoming and outgoing source sections and inserts a new Gojo arc section, while retained circular pieces stay partial-circle arc sections.",
+  "gojo": {
+    "known": [
+      "basis",
+      "boundary",
+      "coincident-span",
+      "curve",
+      "flow",
+      "selection",
+      "span",
+      "topological-participation"
+    ],
+    "paths": [
+      "coincident-span --open flow--> flow",
+      "source --open flow--> flow"
+    ],
+    "tension": [
+      "flow source unresolved",
+      "length unresolved"
+    ]
+  }
+}

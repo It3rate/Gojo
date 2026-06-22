@@ -1,0 +1,13 @@
+{
+  "represents": "The split rung turns intersection points into selectable path sections.",
+  "entryId": "drone-clip-split-sections",
+  "expression": "Pij + PathCarrier -> split sections + selected support",
+  "encodingNote": "The split rung turns intersection points into selectable path sections. Some sections become the final loops; others remain residue/provenance.",
+  "gojo": {
+    "known": [
+      "boundary",
+      "selection",
+      "span"
+    ]
+  }
+}

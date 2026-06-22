@@ -1,0 +1,14 @@
+{
+  "represents": "Intersection comes from cells where both selected spans occupy the same support.",
+  "entryId": "boolean-participation-segment-intersection",
+  "expression": "shared/tension support(A and B) over partitioned scope",
+  "encodingNote": "Intersection comes from cells where both selected spans occupy the same support.",
+  "gojo": {
+    "known": [
+      "coincident-span",
+      "partition",
+      "selection",
+      "span"
+    ]
+  }
+}

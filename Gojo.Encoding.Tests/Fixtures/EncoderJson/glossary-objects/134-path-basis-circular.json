@@ -1,0 +1,17 @@
+{
+  "represents": "The circular template is reusable direction evidence, like a light protractor at an endpoint.",
+  "entryId": "path-basis-circular",
+  "expression": "P(O) + CircleBasis(O) + P(theta) + S(length)",
+  "encodingNote": "The circular template is reusable direction evidence, like a light protractor at an endpoint. It can be moved or rotated without becoming a permanent part of every segment.",
+  "gojo": {
+    "known": [
+      "basis",
+      "circle-boundary",
+      "position",
+      "span"
+    ],
+    "paths": [
+      "position + radius-position --> circle-boundary"
+    ]
+  }
+}

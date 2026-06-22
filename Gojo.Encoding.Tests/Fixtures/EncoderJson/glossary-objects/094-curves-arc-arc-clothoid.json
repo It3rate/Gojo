@@ -1,0 +1,12 @@
+{
+  "represents": "The current clothoid surface is transition plus length/grade evidence; it does not yet solve a true curvature-continuity path from the carrier pair.",
+  "entryId": "curves-arc-arc-clothoid",
+  "expression": "carrier A -> carrier B with curvature ramp over S(L,0,n)",
+  "encodingNote": "The current clothoid surface is transition plus length/grade evidence; it does not yet solve a true curvature-continuity path from the carrier pair.",
+  "gojo": {
+    "known": [
+      "curve",
+      "span"
+    ]
+  }
+}

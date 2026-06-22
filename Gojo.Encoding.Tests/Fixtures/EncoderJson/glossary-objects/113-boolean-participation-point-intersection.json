@@ -1,0 +1,15 @@
+{
+  "represents": "Intersection keeps only the support that both selected point participations occupy under the same basis.",
+  "entryId": "boolean-participation-point-intersection",
+  "expression": "settle(...) -> shared support at P(x)",
+  "encodingNote": "Intersection keeps only the support that both selected point participations occupy under the same basis.",
+  "gojo": {
+    "known": [
+      "basis",
+      "coincident-span",
+      "constraint-or-settlement",
+      "position",
+      "selection"
+    ]
+  }
+}
