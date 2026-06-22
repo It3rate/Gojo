@@ -114,10 +114,10 @@ public sealed class GojoObserverPathSurfaceTests
     }
 
     [Fact]
-    public void PathCanWalkFromFlatStructureEncodingToSpecificRow()
+    public void PathCanWalkFromDiagnosticSnapshotToSpecificRow()
     {
         var source = Relation.Segment(new Carrier(), 0, 4);
-        var encoded = GojoStructureEncodingSurface.Create(new Carrier(), "segment block", source);
+        var encoded = GojoStructureEncodingSurface.CreateDiagnosticSnapshot(new Carrier(), "segment block", source);
 
         Assert.True(GojoStructureEncodingSurface.TryRead(encoded, out var encodedRead));
         var relationRow = encodedRead.Relations[0];

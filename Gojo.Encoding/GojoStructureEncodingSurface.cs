@@ -3,9 +3,10 @@ using Gojo.Core;
 namespace Gojo.Encoding;
 
 /// <summary>
-/// Encodes ordinary Gojo element structure as relation-shaped integer rows.
-/// This surface is deliberately about structure, not concept identity: a block
-/// can be encoded without having any semantic address attached to it.
+/// Encodes an observed Gojo element tree as relation-shaped integer rows for
+/// diagnostics and executable transport experiments. This is not a canonical
+/// object encoding: rows describe what this snapshot reached, not everything
+/// the object may be or all relations it may have.
 /// </summary>
 public static class GojoStructureEncodingSurface
 {
@@ -55,7 +56,7 @@ public static class GojoStructureEncodingSurface
         long Id,
         EncodedStructureRef Surface);
 
-    public static Relation Create(
+    public static Relation CreateDiagnosticSnapshot(
         Carrier root,
         string sourceId,
         IElement structure,
@@ -70,7 +71,7 @@ public static class GojoStructureEncodingSurface
             residueOrTension);
     }
 
-    public static Relation CreateWorld(
+    public static Relation CreateDiagnosticWorldSnapshot(
         Carrier root,
         string sourceId,
         Carrier anchor,
@@ -84,6 +85,22 @@ public static class GojoStructureEncodingSurface
             openedStructure,
             residueOrTension);
     }
+
+    [Obsolete("Creates a diagnostic snapshot, not a canonical object encoding. Use CreateDiagnosticSnapshot to make that intent explicit.")]
+    public static Relation Create(
+        Carrier root,
+        string sourceId,
+        IElement structure,
+        IElement? residueOrTension = null) =>
+        CreateDiagnosticSnapshot(root, sourceId, structure, residueOrTension);
+
+    [Obsolete("Creates a diagnostic world snapshot, not a canonical object encoding. Use CreateDiagnosticWorldSnapshot to make that intent explicit.")]
+    public static Relation CreateWorld(
+        Carrier root,
+        string sourceId,
+        Carrier anchor,
+        IElement? residueOrTension = null) =>
+        CreateDiagnosticWorldSnapshot(root, sourceId, anchor, residueOrTension);
 
     public static bool TryRead(IElement element, out StructureRead read)
     {

@@ -3,9 +3,9 @@ using Gojo.Core;
 namespace Gojo.Encoding;
 
 /// <summary>
-/// Small relation-shaped bundle for encoded structures plus observer paths.
-/// It is a packaging surface: the raw structure encodings and paths remain the
-/// inspectable source of meaning.
+/// Small relation-shaped bundle for diagnostic snapshots plus observer paths.
+/// It is a packaging surface for inspection; sparse Gojo structure, residue,
+/// and locally readable paths remain the conceptual source of meaning.
 /// </summary>
 public static class GojoStructureEncodingBundleSurface
 {

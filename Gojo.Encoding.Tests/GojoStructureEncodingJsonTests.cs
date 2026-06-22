@@ -8,13 +8,13 @@ namespace Gojo.Encoding.Tests;
 public sealed class GojoStructureEncodingJsonTests
 {
     [Fact]
-    public void StructureEncodingJsonRoundTripsThroughText()
+    public void DiagnosticSnapshotJsonRoundTripsThroughText()
     {
         var x = new Carrier();
         var y = new Carrier();
         var sharedTick = new TickRef(7);
         var structure = new Relation(new CarrierLocation(x, sharedTick), new CarrierLocation(y, sharedTick));
-        var encoded = GojoStructureEncodingSurface.Create(new Carrier(), "json/shared-tick", structure);
+        var encoded = GojoStructureEncodingSurface.CreateDiagnosticSnapshot(new Carrier(), "json/shared-tick", structure);
 
         var document = GojoStructureEncodingJson.StructureFromSurface(encoded);
         var json = GojoStructureEncodingJson.SerializeStructure(document);
@@ -30,7 +30,7 @@ public sealed class GojoStructureEncodingJsonTests
     }
 
     [Fact]
-    public void GlossaryBundleJsonRoundTripsThroughText()
+    public void DiagnosticGlossaryBundleJsonRoundTripsThroughText()
     {
         var bundle = CreateResolutionTensionBundle();
         var document = GojoStructureEncodingJson.BundleFromSurface(bundle);
@@ -57,7 +57,7 @@ public sealed class GojoStructureEncodingJsonTests
     }
 
     [Fact]
-    public void DeserializedGlossaryJsonRetainsReadableObserverPathShape()
+    public void DeserializedDiagnosticGlossaryJsonRetainsReadableObserverPathShape()
     {
         var bundle = CreateResolutionTensionBundle();
         var document = GojoStructureEncodingJson.BundleFromSurface(bundle);
@@ -94,7 +94,7 @@ public sealed class GojoStructureEncodingJsonTests
 
     private static Relation EncodeEntry(BlocksGlossaryStructureExport export)
     {
-        var raw = GojoStructureEncodingSurface.Create(new Carrier(), export.Id, export.Structure);
+        var raw = GojoStructureEncodingSurface.CreateDiagnosticSnapshot(new Carrier(), export.Id, export.Structure);
         Assert.True(GojoStructureEncodingSurface.TryRead(raw, out var rawRead));
 
         return GojoStructureEncodingBundleSurface.Entry(

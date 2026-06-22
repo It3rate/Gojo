@@ -23,7 +23,7 @@ public static class GojoStructureEncodingJson
     {
         if (!GojoStructureEncodingBundleSurface.TryRead(bundle, out var read))
         {
-            throw new InvalidOperationException("The supplied element is not a structure encoding bundle.");
+            throw new InvalidOperationException("The supplied element is not a diagnostic structure bundle.");
         }
 
         return new GojoEncodingJsonBundle
@@ -38,7 +38,7 @@ public static class GojoStructureEncodingJson
     {
         if (!GojoStructureEncodingSurface.TryRead(structureEncoding, out var read))
         {
-            throw new InvalidOperationException("The supplied element is not a structure encoding surface.");
+            throw new InvalidOperationException("The supplied element is not a diagnostic structure snapshot surface.");
         }
 
         var structure = new GojoEncodingJsonStructure
@@ -63,6 +63,9 @@ public static class GojoStructureEncodingJson
     public static string SerializeEntry(GojoEncodingJsonBundleEntry entry) =>
         JsonSerializer.Serialize(entry, JsonOptions);
 
+    public static string SerializeFixtureEntry(GojoEncodingJsonFixtureEntry entry) =>
+        JsonSerializer.Serialize(entry, JsonOptions);
+
     public static string SerializeEntries(IReadOnlyList<GojoEncodingJsonBundleEntry> entries) =>
         JsonSerializer.Serialize(entries, JsonOptions);
 
@@ -73,6 +76,10 @@ public static class GojoStructureEncodingJson
     public static GojoEncodingJsonBundleEntry DeserializeEntry(string json) =>
         JsonSerializer.Deserialize<GojoEncodingJsonBundleEntry>(json, JsonOptions) ??
         throw new InvalidOperationException("Could not deserialize Gojo encoding JSON bundle entry.");
+
+    public static GojoEncodingJsonFixtureEntry DeserializeFixtureEntry(string json) =>
+        JsonSerializer.Deserialize<GojoEncodingJsonFixtureEntry>(json, JsonOptions) ??
+        throw new InvalidOperationException("Could not deserialize Gojo encoding JSON fixture entry.");
 
     public static List<GojoEncodingJsonBundleEntry> DeserializeEntries(string json) =>
         JsonSerializer.Deserialize<List<GojoEncodingJsonBundleEntry>>(json, JsonOptions) ??
@@ -89,7 +96,7 @@ public static class GojoStructureEncodingJson
     {
         if (!GojoStructureEncodingBundleSurface.TryReadEntry(entry, out var read))
         {
-            throw new InvalidOperationException("The supplied element is not a structure encoding bundle entry.");
+            throw new InvalidOperationException("The supplied element is not a diagnostic structure bundle entry.");
         }
 
         return new GojoEncodingJsonBundleEntry
@@ -562,6 +569,28 @@ public sealed record GojoEncodingJsonBundleEntry
     public List<GojoEncodingJsonReadPath> ReadPaths { get; init; } = [];
 
     public GojoEncodingJsonElement ResidueOrTension { get; init; } = new();
+}
+
+public sealed record GojoEncodingJsonFixtureEntry
+{
+    public string? Represents { get; init; }
+
+    public string EntryId { get; init; } = string.Empty;
+
+    public string Expression { get; init; } = string.Empty;
+
+    public string? EncodingNote { get; init; }
+
+    public GojoEncodingJsonFixtureGojo Gojo { get; init; } = new();
+}
+
+public sealed record GojoEncodingJsonFixtureGojo
+{
+    public List<string>? Known { get; init; }
+
+    public List<string>? Paths { get; init; }
+
+    public List<string>? Tension { get; init; }
 }
 
 public sealed record GojoEncodingJsonStructure

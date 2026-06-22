@@ -33,7 +33,7 @@ public sealed class GojoBlocksGlossaryEncodingTests
     }
 
     [Fact]
-    public void ResolutionTensionGlossaryCanBeEncodedAsBundleWithObserverPaths()
+    public void ResolutionTensionGlossaryCanBeCapturedAsDiagnosticBundleWithObserverPaths()
     {
         var exports = BlocksGlossaryExport.ResolutionTension();
         var entries = exports
@@ -69,7 +69,7 @@ public sealed class GojoBlocksGlossaryEncodingTests
     }
 
     [Fact]
-    public void EncodedGlossaryEntryCanTraceBackToOpenedBlockStructure()
+    public void DiagnosticGlossaryEntryCanTraceBackToOpenedBlockStructure()
     {
         var export = BlocksGlossaryExport.ResolutionTension()
             .Single(item => item.Id == "resolution-tension-closure-tension");
@@ -88,7 +88,7 @@ public sealed class GojoBlocksGlossaryEncodingTests
 
     private static Relation EncodeEntry(BlocksGlossaryStructureExport export)
     {
-        var raw = GojoStructureEncodingSurface.Create(new Carrier(), export.Id, export.Structure);
+        var raw = GojoStructureEncodingSurface.CreateDiagnosticSnapshot(new Carrier(), export.Id, export.Structure);
         Assert.True(GojoStructureEncodingSurface.TryRead(raw, out var rawRead));
 
         return GojoStructureEncodingBundleSurface.Entry(

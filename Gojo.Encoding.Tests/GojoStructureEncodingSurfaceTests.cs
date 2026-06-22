@@ -6,10 +6,10 @@ namespace Gojo.Encoding.Tests;
 public sealed class GojoStructureEncodingSurfaceTests
 {
     [Fact]
-    public void EncodesPlainGojoRelationWithoutConceptHints()
+    public void DiagnosticSnapshotCapturesPlainGojoRelationWithoutConceptHints()
     {
         var block = Relation.Segment(new Carrier(), 0, 10);
-        var encoded = GojoStructureEncodingSurface.Create(
+        var encoded = GojoStructureEncodingSurface.CreateDiagnosticSnapshot(
             new Carrier(),
             "glossary/resolution-tension/resolution-read",
             block);
@@ -29,13 +29,13 @@ public sealed class GojoStructureEncodingSurfaceTests
     }
 
     [Fact]
-    public void SharedTickReferenceIsVisibleInEncodedLocationRows()
+    public void SharedTickReferenceIsVisibleInDiagnosticLocationRows()
     {
         var x = new Carrier();
         var y = new Carrier();
         var sharedTick = new TickRef(7);
         var block = new Relation(new CarrierLocation(x, sharedTick), new CarrierLocation(y, sharedTick));
-        var encoded = GojoStructureEncodingSurface.Create(new Carrier(), "shared-tick", block);
+        var encoded = GojoStructureEncodingSurface.CreateDiagnosticSnapshot(new Carrier(), "shared-tick", block);
 
         Assert.True(GojoStructureEncodingSurface.TryRead(encoded, out var read));
 
@@ -49,10 +49,10 @@ public sealed class GojoStructureEncodingSurfaceTests
     }
 
     [Fact]
-    public void PlaceholderTensionRemainsAsUnresolvedRelationResidue()
+    public void PlaceholderTensionRemainsAsUnresolvedDiagnosticResidue()
     {
         var tension = TensionSlot();
-        var encoded = GojoStructureEncodingSurface.Create(new Carrier(), "tension-slot", tension);
+        var encoded = GojoStructureEncodingSurface.CreateDiagnosticSnapshot(new Carrier(), "tension-slot", tension);
 
         Assert.True(GojoStructureEncodingSurface.TryRead(encoded, out var read));
 
@@ -61,7 +61,23 @@ public sealed class GojoStructureEncodingSurfaceTests
     }
 
     [Fact]
-    public void FirstResolutionTensionPageLikeBlocksEncodeAsIndependentStructure()
+    public void DiagnosticSnapshotRowsDoNotMeanCompleteRelationKnowledge()
+    {
+        var point = Relation.Point(new Carrier(), 0);
+        var encoded = GojoStructureEncodingSurface.CreateDiagnosticSnapshot(
+            new Carrier(),
+            "diagnostic/point-glimpse",
+            point);
+
+        Assert.True(GojoStructureEncodingSurface.TryRead(encoded, out var read));
+
+        Assert.Same(point, read.OpenedStructure);
+        Assert.NotEmpty(read.Relations);
+        Assert.NotEmpty(read.Carriers);
+    }
+
+    [Fact]
+    public void FirstResolutionTensionPageLikeBlocksProduceIndependentDiagnosticSnapshots()
     {
         var blocks = new Dictionary<string, IElement>
         {
@@ -75,7 +91,7 @@ public sealed class GojoStructureEncodingSurfaceTests
 
         foreach (var (id, block) in blocks)
         {
-            var encoded = GojoStructureEncodingSurface.Create(
+            var encoded = GojoStructureEncodingSurface.CreateDiagnosticSnapshot(
                 new Carrier(),
                 $"glossary/resolution-tension/{id}",
                 block);

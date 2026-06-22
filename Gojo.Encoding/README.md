@@ -48,9 +48,10 @@ The first implementation is intentionally tiny.
 - `ConceptSeedSurface` packages readable text, a hint signature, optional opened
   Gojo structure, and residue/tension. It is read by field shape rather than by
   a marker tag.
-- `GojoStructureEncodingSurface` stores ordinary Gojo element structure as
-  relation-shaped integer rows. This is the path for encoding a block as a
-  block, even when it has no conceptual address yet.
+- `GojoStructureEncodingSurface` stores a diagnostic snapshot of a currently
+  visible Gojo element tree as relation-shaped integer rows. It is useful for
+  debugging and transport experiments, but it is not the canonical conceptual
+  object.
 - `ConceptAddressSurface` builds variable-length semantic addresses from atoms,
   compound parts, context, and residue/tension.
 
@@ -75,17 +76,26 @@ small integer. It should be inspectable enough that a model, a merge tool, or a
 human can ask why one address was chosen and what lower-level ideas it is leaning
 on.
 
-## Raw Gojo Structure Encoding
+## Diagnostic Gojo Structure Snapshot
 
-Concept addresses are not the whole job. The format also needs to encode
-ordinary Gojo structure: carriers, locations, tick references, relations, unit
-shapes, opened structure, and unresolved residue.
+Concept addresses and sparse documentary reads are not the whole job. Sometimes
+we also need a low-level diagnostic snapshot of a concrete Gojo element tree:
+the carriers, locations, tick references, relations, unit shapes, opened
+structure, and unresolved residue that were actually reached by that snapshot.
 
-The first raw structure surface is intentionally close to the existing core
+This is deliberately weaker than saying "the object has these relations." It
+says only "this observer reached these rows through this representation." A
+snapshot with zero relation rows would not mean the object has no relations; it
+would mean this particular diagnostic read saw none. Likewise a point snapshot
+can contain many row relations because carrier unit-shape surfaces and helper
+structure had to be represented. Those rows are implementation inventory, not
+speculation about the unseen object.
+
+The diagnostic structure surface is intentionally close to the existing core
 snapshot read:
 
 ```text
-structure encoding
+diagnostic structure snapshot
   source text
   root refs
   carrier rows
@@ -104,20 +114,22 @@ something that the current snapshot cannot encode, such as an unresolved
 placeholder slot, the ref can be the none row instead of throwing the structure
 away.
 
-This is a low-level structural surface, not a concept surface:
+This is a low-level diagnostic surface, not a concept surface:
 
 ```text
 glossary block
-  encoded as carrier/relation/unit-shape rows
-  may have no concept address
+  may have a diagnostic snapshot with carrier/relation/unit-shape rows
+  may have a sparse documentary read
   may later receive hints, documentation, reads, or provenance
 ```
 
 That distinction matters for Gojo.Blocks. The glossary has many small visual
-blocks whose first useful encoding is simply "here is the Gojo structure that
-backs this block." Only after that do we need to ask whether the block also
-participates in concepts such as resolution, tension, closure, residue,
-orientation, or settlement.
+blocks whose first useful documentary encoding may be only "position" or
+"source". The diagnostic snapshot can still be used when we need to inspect how
+the current helper structure is built, but it should not become the canonical
+meaning of the block. Only after a sparse read exists do we need to ask whether
+the block also participates in concepts such as resolution, tension, closure,
+residue, orientation, or settlement.
 
 The first exercise is the resolution/tension glossary page:
 
@@ -130,14 +142,16 @@ residue-witness
 settled-read
 ```
 
-Those can all be encoded independently. The unresolved rows are still viable
-structure. They do not need to be forced into a concept address first.
+Those can all be read independently. Unresolved structure and tension are still
+viable information. They do not need to be forced into a concept address first.
 
 ## Observer Paths
 
-The row surface is intentionally flat. A model can learn from it, but it should
-not be the only training view. The next layer is an observer path: a saved local
-read over encoded or live Gojo structure.
+The diagnostic row surface is intentionally flat and should not be the default
+training view for a concept. A model may learn from it when the task is to
+inspect implementation structure, but a conceptual sample should prefer sparse
+knowns, paths, and tension. Observer paths are still useful as saved local reads
+over either sparse conceptual structure or a diagnostic snapshot.
 
 ```text
 observer path
@@ -1794,10 +1808,11 @@ Several decisions should remain loose until there is more code and sample data.
 
 The next useful steps are small.
 
-1. Keep walking the Gojo.Blocks glossary and encode each block first as raw
-   Gojo structure using `GojoStructureEncodingSurface`.
-2. Save observer paths over those block encodings so row/table structures gain
-   readable local traces without becoming trees.
+1. Keep walking the Gojo.Blocks glossary and give each block a sparse
+   documentary read first: knowns, local paths, and unresolved tension.
+2. Use `GojoStructureEncodingSurface.CreateDiagnosticSnapshot` only when we
+   need to inspect the current helper/rendering structure or build an
+   executable transport experiment.
 3. Build a tiny primitive seed fixture using `ConceptSeedSurface` for concepts
    such as `distance`, `time`, `motion`, `rate`, `boundary`, `orientation`,
    `resolution`, and `tension`.

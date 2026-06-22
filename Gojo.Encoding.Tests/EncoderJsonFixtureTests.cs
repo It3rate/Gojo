@@ -16,10 +16,10 @@ public sealed class EncoderJsonFixtureTests
         {
             var json = File.ReadAllText(file);
             var originalNode = JsonNode.Parse(json);
-            var entry = GojoStructureEncodingJson.DeserializeEntry(json);
-            var rewritten = GojoStructureEncodingJson.SerializeEntry(entry);
-            var reread = GojoStructureEncodingJson.DeserializeEntry(rewritten);
-            var rewrittenAgain = GojoStructureEncodingJson.SerializeEntry(reread);
+            var entry = GojoStructureEncodingJson.DeserializeFixtureEntry(json);
+            var rewritten = GojoStructureEncodingJson.SerializeFixtureEntry(entry);
+            var reread = GojoStructureEncodingJson.DeserializeFixtureEntry(rewritten);
+            var rewrittenAgain = GojoStructureEncodingJson.SerializeFixtureEntry(reread);
 
             Assert.NotNull(originalNode);
             Assert.IsType<JsonObject>(originalNode);
@@ -30,12 +30,7 @@ public sealed class EncoderJsonFixtureTests
         Assert.All(entries, entry =>
         {
             Assert.False(string.IsNullOrWhiteSpace(entry.Represents));
-            Assert.Equal(entry.EntryId, entry.Structure.SourceId);
-            Assert.NotEmpty(entry.ObserverPaths);
-            Assert.NotEmpty(entry.ReadPaths);
-            Assert.Contains(
-                entry.ObserverPaths,
-                path => !string.IsNullOrWhiteSpace(path.ObserverSurface.Basis?.Text));
+            Assert.NotEmpty(entry.Gojo.Known ?? []);
         });
     }
 
@@ -71,19 +66,9 @@ public sealed class EncoderJsonFixtureTests
                     export.EncodingNote,
                     export.Structure));
 
-            Assert.Equal(generated.Structure.Counts, fixture.Structure.Counts);
-            Assert.Equal(
-                generated.ObserverPaths.Select(path => path.ObserverSurface.Basis?.Text).ToArray(),
-                fixture.ObserverPaths.Select(path => path.ObserverSurface.Basis?.Text).ToArray());
-            Assert.Equal(
-                generated.ObserverPaths.Select(path => path.Steps.Single().Through.Text).ToArray(),
-                fixture.ObserverPaths.Select(path => path.Steps.Single().Through.Text).ToArray());
-            Assert.Equal(
-                generated.ObserverPaths.Select(path => path.Result.Kind).ToArray(),
-                fixture.ObserverPaths.Select(path => path.Result.Kind).ToArray());
-            Assert.Equal(
-                generated.ReadPaths.Select(path => path.Path).ToArray(),
-                fixture.ReadPaths.Select(path => path.Path).ToArray());
+            Assert.Equal(generated.Gojo.Known ?? [], fixture.Gojo.Known ?? []);
+            Assert.Equal(generated.Gojo.Paths ?? [], fixture.Gojo.Paths ?? []);
+            Assert.Equal(generated.Gojo.Tension ?? [], fixture.Gojo.Tension ?? []);
         }
     }
 
@@ -92,7 +77,7 @@ public sealed class EncoderJsonFixtureTests
     {
         foreach (var export in ExpectedExports())
         {
-            var surface = GojoStructureEncodingFixtureProjection.EntrySurfaceFromStructure(
+            var surface = GojoStructureEncodingFixtureProjection.DiagnosticEntrySurfaceFromStructure(
                 new GojoStructureEncodingFixtureProjection.Source(
                     export.Id,
                     string.Empty,
@@ -115,13 +100,14 @@ public sealed class EncoderJsonFixtureTests
         {
             var root = Assert.IsType<JsonObject>(JsonNode.Parse(File.ReadAllText(file)));
             Assert.True(root.ContainsKey("entryId"), file);
-            Assert.True(root.ContainsKey("structure"), file);
+            Assert.True(root.ContainsKey("gojo"), file);
+            Assert.False(root.ContainsKey("structure"), file);
+            Assert.False(root.ContainsKey("observerPaths"), file);
+            Assert.False(root.ContainsKey("readPaths"), file);
             Assert.False(root.ContainsKey("entries"), file);
 
             var entryId = root["entryId"]?.GetValue<string>();
-            var structureId = root["structure"]?["sourceId"]?.GetValue<string>();
             Assert.False(string.IsNullOrWhiteSpace(entryId), file);
-            Assert.Equal(entryId, structureId);
         }
     }
 
@@ -140,45 +126,39 @@ public sealed class EncoderJsonFixtureTests
     }
 
     [Fact]
-    public void FirstGlossaryFixtureFilesKeepTensionVisibleInEveryEntry()
+    public void FirstGlossaryFixtureFilesKeepUnresolvedInformationVisibleWherePresent()
     {
         var entries = ReadFixtureEntries();
 
-        Assert.All(entries, entry =>
-        {
-            Assert.Equal("unknown-point", entry.ResidueOrTension.Kind);
-            Assert.True(entry.ResidueOrTension.IsUnknown);
-            Assert.Equal("unknown-point", entry.Structure.ResidueOrTension.Kind);
-            Assert.All(entry.ObserverPaths, path =>
-            {
-                Assert.Equal("unknown-point", path.ResidueOrTension.Kind);
-                Assert.True(path.ResidueOrTension.IsUnknown);
-            });
-        });
+        Assert.Contains(entries, entry =>
+            entry.EntryId == "resolution-tension-unspecified-site" &&
+            (entry.Gojo.Tension ?? []).Contains("unresolved change remains inspectable"));
+        Assert.Contains(entries, entry =>
+            entry.EntryId == "resolution-tension-failed-read" &&
+            (entry.Gojo.Tension ?? []).Contains("read residue preserved"));
+        Assert.Contains(entries, entry =>
+            entry.EntryId == "site-flow-boundary-radial-flow" &&
+            (entry.Gojo.Tension ?? []).Contains("no preferred direction"));
     }
 
     [Fact]
-    public void FixtureRelationDescriptionsDoNotExposeRecursiveCarrierCounts()
-    {
-        foreach (var file in FixturePaths())
-        {
-            var root = JsonNode.Parse(File.ReadAllText(file));
-            Assert.NotNull(root);
-
-            foreach (var relation in RelationDescriptions(root))
-            {
-                Assert.False(relation.ContainsKey("counts"), file);
-            }
-        }
-    }
-
-    [Fact]
-    public void FixtureFilesOmitDefaultAndRawStorageNoise()
+    public void FixtureFilesDoNotExposeStorageInventory()
     {
         foreach (var file in FixturePaths())
         {
             var json = File.ReadAllText(file);
 
+            Assert.DoesNotContain("\"observerPaths\"", json);
+            Assert.DoesNotContain("\"readPaths\"", json);
+            Assert.DoesNotContain("\"counts\"", json);
+            Assert.DoesNotContain("\"roots\"", json);
+            Assert.DoesNotContain("\"carriers\"", json);
+            Assert.DoesNotContain("\"tickRefs\"", json);
+            Assert.DoesNotContain("\"carrierLocations\"", json);
+            Assert.DoesNotContain("\"relations\"", json);
+            Assert.DoesNotContain("\"unitShapes\"", json);
+            Assert.DoesNotContain("\"relationRow\"", json);
+            Assert.DoesNotContain("\"carrierRow\"", json);
             Assert.DoesNotContain("\"kindName\"", json);
             Assert.DoesNotContain("\"type\"", json);
             Assert.DoesNotContain("\"index\": 0", json);
@@ -194,55 +174,21 @@ public sealed class EncoderJsonFixtureTests
     }
 
     [Fact]
-    public void FixtureFilesCarryCompactReadPathProjection()
+    public void RadialFlowFixtureStaysSparseAndConceptual()
     {
-        foreach (var entry in ReadFixtureEntries())
-        {
-            Assert.Equal(entry.ObserverPaths.Count, entry.ReadPaths.Count);
-            Assert.Contains(entry.ReadPaths, path =>
-                path.Basis == "opened glossary block" &&
-                path.Path == $"structure({entry.EntryId}) --opened structure--> relation" &&
-                path.Result == "relation" &&
-                path.ResidueOrTension == "unknown");
-            Assert.Contains(entry.ReadPaths, path =>
-                path.Basis == "relation table scan" &&
-                path.Path.StartsWith($"structure({entry.EntryId}) --first relation row--> relation#1(", StringComparison.Ordinal));
-        }
+        var file = Path.Combine(FixtureDirectory(), "008-site-flow-boundary-radial-flow.json");
+        var json = File.ReadAllText(file);
+        var entry = GojoStructureEncodingJson.DeserializeFixtureEntry(json);
+
+        Assert.True(File.ReadAllLines(file).Length <= 24, json);
+        Assert.Equal(["position"], entry.Gojo.Known ?? []);
+        Assert.Contains("position --open normal--> radial-flow", entry.Gojo.Paths ?? []);
+        Assert.Contains("no preferred direction", entry.Gojo.Tension ?? []);
     }
 
-    private static IEnumerable<JsonObject> RelationDescriptions(JsonNode? node)
-    {
-        if (node is JsonObject obj)
-        {
-            if (obj.TryGetPropertyValue("kind", out var kind) &&
-                kind?.ToJsonString() == "\"relation\"")
-            {
-                yield return obj;
-            }
-
-            foreach (var child in obj.Select(pair => pair.Value))
-            {
-                foreach (var relation in RelationDescriptions(child))
-                {
-                    yield return relation;
-                }
-            }
-        }
-        else if (node is JsonArray array)
-        {
-            foreach (var child in array)
-            {
-                foreach (var relation in RelationDescriptions(child))
-                {
-                    yield return relation;
-                }
-            }
-        }
-    }
-
-    private static GojoEncodingJsonBundleEntry[] ReadFixtureEntries() =>
+    private static GojoEncodingJsonFixtureEntry[] ReadFixtureEntries() =>
         [.. FixturePaths()
-            .Select(file => GojoStructureEncodingJson.DeserializeEntry(File.ReadAllText(file)))];
+            .Select(file => GojoStructureEncodingJson.DeserializeFixtureEntry(File.ReadAllText(file)))];
 
     private static string[] FixturePaths() =>
         [.. Directory

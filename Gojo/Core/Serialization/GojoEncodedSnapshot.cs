@@ -59,7 +59,8 @@ public readonly record struct GojoEncodedUnitShape(
 /// <summary>
 /// Read-only packed view of a Gojo structure. This is deliberately a derived
 /// inspection product; carriers, tick refs, unit shapes, and relation surfaces
-/// remain the source of meaning.
+/// remain the source of meaning. Empty or non-empty row tables describe what
+/// this snapshot reached, not what the underlying object cannot contain.
 /// </summary>
 public sealed record GojoEncodedSnapshot(
     GojoEncodedElementRef[] Roots,
