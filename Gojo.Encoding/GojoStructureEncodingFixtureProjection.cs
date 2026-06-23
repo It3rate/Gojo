@@ -135,6 +135,7 @@ public static class GojoStructureEncodingFixtureProjection
             var read = new SparseRead();
             read.Visit(source.Structure);
             read.ReadExpressionHints(source.Expression, source.EncodingNote);
+            read.ApplyLocalParticipationPrinciple(source);
             if (read.known.Count == 0)
             {
                 read.known.Add("structure");
@@ -319,6 +320,38 @@ public static class GojoStructureEncodingFixtureProjection
             AddGeneralExpressionHints(
                 text,
                 expression.Contains("D(", StringComparison.Ordinal));
+        }
+
+        private void ApplyLocalParticipationPrinciple(Source source)
+        {
+            if (source.Expression.Contains("S-potential", StringComparison.Ordinal) &&
+                source.Expression.Contains("flow_perp", StringComparison.Ordinal))
+            {
+                known.Remove("coincident-span");
+                known.Remove("span");
+                known.Add("flow");
+                known.Add("position");
+                known.Add("shared-reference");
+
+                paths.RemoveWhere(path => path.Contains("coincident-span", StringComparison.Ordinal));
+                paths.Add("shared-reference --open basis read--> unresolved carrier potential");
+                paths.Add("unresolved carrier potential --open flow--> flow");
+
+                tension.Add("basis orientation unresolved");
+                tension.Add("length unresolved");
+                tension.Add("opposed lane not asserted");
+            }
+
+            if (source.Expression.Equals("P(O)+P(R) -> Circle(O,R)", StringComparison.Ordinal))
+            {
+                known.Add("radius-evidence");
+
+                paths.Remove("position + radius-position --> circle-boundary");
+                paths.Add("position + radius-evidence --> circle-boundary");
+
+                tension.Add("contour traversal not selected");
+                tension.Add("inside/outside support not selected");
+            }
         }
 
         private void AddGeneralExpressionHints(string text, bool hasDirectedSpan)

@@ -5,15 +5,18 @@
   "encodingNote": "Two points can make a linear potential even before they have visible length.",
   "gojo": {
     "known": [
-      "coincident-span",
       "flow",
-      "position"
+      "position",
+      "shared-reference"
     ],
     "paths": [
-      "coincident-span --open flow--> flow"
+      "shared-reference --open basis read--> unresolved carrier potential",
+      "unresolved carrier potential --open flow--> flow"
     ],
     "tension": [
-      "length unresolved"
+      "basis orientation unresolved",
+      "length unresolved",
+      "opposed lane not asserted"
     ]
   }
 }

@@ -186,6 +186,37 @@ public sealed class EncoderJsonFixtureTests
     }
 
     [Fact]
+    public void LinearPotentialFixtureKeepsSharedReferenceSeparateFromSpan()
+    {
+        var file = Path.Combine(FixtureDirectory(), "009-site-flow-boundary-linear-potential.json");
+        var json = File.ReadAllText(file);
+        var entry = GojoStructureEncodingJson.DeserializeFixtureEntry(json);
+
+        Assert.Equal(["flow", "position", "shared-reference"], entry.Gojo.Known ?? []);
+        Assert.DoesNotContain("span", entry.Gojo.Known ?? []);
+        Assert.DoesNotContain("coincident-span", entry.Gojo.Known ?? []);
+        Assert.Contains("shared-reference --open basis read--> unresolved carrier potential", entry.Gojo.Paths ?? []);
+        Assert.Contains("unresolved carrier potential --open flow--> flow", entry.Gojo.Paths ?? []);
+        Assert.Contains("basis orientation unresolved", entry.Gojo.Tension ?? []);
+        Assert.Contains("length unresolved", entry.Gojo.Tension ?? []);
+        Assert.Contains("opposed lane not asserted", entry.Gojo.Tension ?? []);
+    }
+
+    [Fact]
+    public void MeasuredBoundaryFixtureKeepsRadiusEvidenceSeparateFromContourReads()
+    {
+        var file = Path.Combine(FixtureDirectory(), "010-site-flow-boundary-measured-boundary.json");
+        var json = File.ReadAllText(file);
+        var entry = GojoStructureEncodingJson.DeserializeFixtureEntry(json);
+
+        Assert.Equal(["circle-boundary", "position", "radius-evidence"], entry.Gojo.Known ?? []);
+        Assert.Contains("position + radius-evidence --> circle-boundary", entry.Gojo.Paths ?? []);
+        Assert.DoesNotContain("position + radius-position --> circle-boundary", entry.Gojo.Paths ?? []);
+        Assert.Contains("contour traversal not selected", entry.Gojo.Tension ?? []);
+        Assert.Contains("inside/outside support not selected", entry.Gojo.Tension ?? []);
+    }
+
+    [Fact]
     public void FlowShapeIsNotEncodedAsAPrimitivePathMarker()
     {
         foreach (var entry in ReadFixtureEntries())
