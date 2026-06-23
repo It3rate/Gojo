@@ -1,5 +1,5 @@
 {
-  "represents": "Directed radial support is encoded as fill plus directed boundary evidence.",
+  "represents": "Directed radial support is encoded as fill plus directed boundary evidence. The inward/outward side should be read from orthogonal support through the site, not duplicated as an unrelated primitive.",
   "entryId": "direction-area-radial-positive-directed-support",
   "expression": "Area(Circle(O,R)) + D(Circle edge)",
   "encodingNote": "Directed radial support is encoded as fill plus directed boundary evidence. The inward/outward side should be read from orthogonal support through the site, not duplicated as an unrelated primitive.",
@@ -9,12 +9,13 @@
       "boundary",
       "circle-boundary",
       "flow",
-      "orientation"
+      "orientation",
+      "radius-evidence"
     ],
     "paths": [
       "flow --direction read--> inward-or-inverse",
       "flow --direction read--> outward-or-positive",
-      "position + radius-position --> circle-boundary"
+      "position + radius-evidence --> circle-boundary"
     ]
   }
 }

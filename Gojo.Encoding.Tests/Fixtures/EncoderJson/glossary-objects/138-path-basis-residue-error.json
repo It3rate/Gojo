@@ -1,5 +1,5 @@
 {
-  "represents": "Conflicting basis and topology evidence can negotiate later.",
+  "represents": "Conflicting basis and topology evidence can negotiate later. Until then the attempted join and its error remain inspectable.",
   "entryId": "path-basis-residue-error",
   "expression": "loose sections + intended_join(Pn~P0) + residue/tension",
   "encodingNote": "Conflicting basis and topology evidence can negotiate later. Until then the attempted join and its error remain inspectable.",

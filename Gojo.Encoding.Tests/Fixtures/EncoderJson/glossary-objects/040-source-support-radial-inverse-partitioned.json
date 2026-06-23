@@ -1,5 +1,5 @@
 {
-  "represents": "The backing structure uses points on a circular carrier for the boundary ticks.",
+  "represents": "The backing structure uses points on a circular carrier for the boundary ticks. The rendered diagram still chooses a friendly geometric circle for legibility, and the exact radius-to-contour partition witness is still provisional.",
   "entryId": "source-support-radial-inverse-partitioned",
   "expression": "Circle(O,R) + P(theta1) + P(theta2) + ...",
   "encodingNote": "The backing structure uses points on a circular carrier for the boundary ticks. The rendered diagram still chooses a friendly geometric circle for legibility, and the exact radius-to-contour partition witness is still provisional.",
@@ -8,10 +8,11 @@
       "boundary",
       "circle-boundary",
       "partition",
-      "position"
+      "position",
+      "radius-evidence"
     ],
     "paths": [
-      "position + radius-position --> circle-boundary"
+      "position + radius-evidence --> circle-boundary"
     ]
   }
 }

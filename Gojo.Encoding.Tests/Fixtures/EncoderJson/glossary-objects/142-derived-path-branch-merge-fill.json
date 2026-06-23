@@ -1,5 +1,5 @@
 {
-  "represents": "The branch and merge produce an enclosing path region.",
+  "represents": "The branch and merge produce an enclosing path region. The fill is a derived area read over that enclosure, related to but distinct from the branch carriers.",
   "entryId": "derived-path-branch-merge-fill",
   "expression": "S(A,J) + branch{upper,lower} + merge(K) -> AreaFill(enclosure)",
   "encodingNote": "The branch and merge produce an enclosing path region. The fill is a derived area read over that enclosure, related to but distinct from the branch carriers.",

@@ -1,5 +1,5 @@
 {
-  "represents": "The points are selected participants.",
+  "represents": "The points are selected participants. They do not become a boolean value until a scope and occupancy basis read them.",
   "entryId": "boolean-participation-point-participants",
   "expression": "selected{P(A), P(B)} + scope(P-lane)",
   "encodingNote": "The points are selected participants. They do not become a boolean value until a scope and occupancy basis read them.",

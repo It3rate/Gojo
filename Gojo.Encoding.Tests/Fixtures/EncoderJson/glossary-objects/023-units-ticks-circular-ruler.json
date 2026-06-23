@@ -1,8 +1,8 @@
 {
-  "represents": "A circular unit starts from radial flow, gains a circumference boundary, then partitions that circumference.",
+  "represents": "A circular unit starts from a point orthogonal outlet, gains a circumference boundary, then partitions that circumference.",
   "entryId": "units-ticks-circular-ruler",
-  "expression": "P(O)+flow_radial+P(R) -> Circle(O,R)+partition(theta_i)",
-  "encodingNote": "A circular unit starts from radial flow, gains a circumference boundary, then partitions that circumference.",
+  "expression": "P(O)+orthogonal-outlet(P(O))+radius-evidence(R) -> Circle(O,R)+partition(theta_i)",
+  "encodingNote": "A circular unit starts from a point orthogonal outlet, gains a circumference boundary, then partitions that circumference.",
   "gojo": {
     "known": [
       "boundary",
@@ -10,11 +10,12 @@
       "flow",
       "partition",
       "position",
+      "radius-evidence",
       "unit"
     ],
     "paths": [
-      "position + radius-position --> circle-boundary",
-      "position --open flow--> flow"
+      "position + radius-evidence --> circle-boundary",
+      "position --orthogonal outlet--> flow"
     ],
     "tension": [
       "flow shape depends on available dimension"

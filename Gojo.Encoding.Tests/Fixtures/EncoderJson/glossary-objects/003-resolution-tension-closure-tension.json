@@ -1,5 +1,5 @@
 {
-  "represents": "A near-closed path can carry the remaining closure delta as tension.",
+  "represents": "The topology can ask for closure even while geometry still misses.",
   "entryId": "resolution-tension-closure-tension",
   "expression": "S(A,B)+S(B,C)+S(C,A') + close(A',A) -> Tension(delta)",
   "encodingNote": "The topology can ask for closure even while geometry still misses.",

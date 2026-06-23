@@ -1,5 +1,5 @@
 {
-  "represents": "A read result can keep the unsettled remainder visible as residue.",
+  "represents": "Residue is the part that did not settle under the requested basis.",
   "entryId": "resolution-tension-residue-witness",
   "expression": "Read(source, basis) = result + residue",
   "encodingNote": "Residue is the part that did not settle under the requested basis.",

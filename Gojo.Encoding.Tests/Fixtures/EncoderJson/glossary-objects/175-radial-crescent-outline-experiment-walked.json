@@ -1,5 +1,5 @@
 {
-  "represents": "The exterior frame keeps only the union perimeter.",
+  "represents": "The exterior frame keeps only the union perimeter. Interior overlap fragments are removed; each remaining line or arc section is emitted as its own Gojo element with shared endpoint relations.",
   "entryId": "radial-crescent-outline-experiment-walked",
   "expression": "AreaFrame(...) -> exterior boundary-section walk",
   "encodingNote": "The exterior frame keeps only the union perimeter. Interior overlap fragments are removed; each remaining line or arc section is emitted as its own Gojo element with shared endpoint relations.",

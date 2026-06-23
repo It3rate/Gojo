@@ -9,7 +9,7 @@
       "span"
     ],
     "paths": [
-      "source --open flow--> flow",
+      "source --orthogonal outlet--> flow",
       "span --orthogonal outlet--> flow"
     ],
     "tension": [

@@ -1,5 +1,5 @@
 {
-  "represents": "The first selection pass reads the four outer cusp sites from the outer closed boundary.",
+  "represents": "The first selection pass reads the four outer cusp sites from the outer closed boundary. The inner boundary remains present, but it is not part of this selection.",
   "entryId": "diamond-cusp-rounding-outer-selection",
   "expression": "CuspCandidateDomain(outer) -> Selection(4)",
   "encodingNote": "The first selection pass reads the four outer cusp sites from the outer closed boundary. The inner boundary remains present, but it is not part of this selection.",
@@ -13,7 +13,7 @@
     ],
     "paths": [
       "collapsed-basis --orthogonal outlet--> flow",
-      "source --open flow--> flow"
+      "source --orthogonal outlet--> flow"
     ],
     "tension": [
       "flow source unresolved",

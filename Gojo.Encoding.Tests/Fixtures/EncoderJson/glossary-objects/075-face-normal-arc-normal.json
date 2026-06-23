@@ -8,7 +8,7 @@
       "flow"
     ],
     "paths": [
-      "source --open flow--> flow"
+      "source --orthogonal outlet--> flow"
     ],
     "tension": [
       "flow source unresolved"

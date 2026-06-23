@@ -1,5 +1,5 @@
 {
-  "represents": "The starting lines are individual path reads.",
+  "represents": "The starting lines are individual path reads. They may later settle into one outline, but the source carriers remain independent evidence at this rung.",
   "entryId": "boolean-offset-source-carriers",
   "expression": "S0..S3 -> PathRead(Si)",
   "encodingNote": "The starting lines are individual path reads. They may later settle into one outline, but the source carriers remain independent evidence at this rung.",

@@ -1,5 +1,5 @@
 {
-  "represents": "Equal position is only coordinate evidence.",
+  "represents": "Equal position is only coordinate evidence. Shared support appears only when the participants are read through a common occupancy basis.",
   "entryId": "boolean-participation-point-touch",
   "expression": "P(A@x) + P(B@x), no shared-support read yet",
   "encodingNote": "Equal position is only coordinate evidence. Shared support appears only when the participants are read through a common occupancy basis.",

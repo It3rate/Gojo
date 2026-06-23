@@ -1,5 +1,5 @@
 {
-  "represents": "Offset reads are normal-distance rungs from the source carriers.",
+  "represents": "Offset reads are normal-distance rungs from the source carriers. The outer support grows outward while the slot support reads inward as negative space.",
   "entryId": "drone-clip-offset-reads",
   "expression": "PathCarrier + OffsetRead(outside,+d); SlotCarrier + OffsetRead(inside,-d)",
   "encodingNote": "Offset reads are normal-distance rungs from the source carriers. The outer support grows outward while the slot support reads inward as negative space.",

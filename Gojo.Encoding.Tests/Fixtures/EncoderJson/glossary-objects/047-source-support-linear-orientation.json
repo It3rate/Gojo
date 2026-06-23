@@ -1,5 +1,5 @@
 {
-  "represents": "The current encoding intends orientation through ordered carrier evidence: the directed span says which side of zero is positive.",
+  "represents": "The current encoding intends orientation through ordered carrier evidence: the directed span says which side of zero is positive. A crystallized orientation should preserve that evidence rather than add an unrelated tag.",
   "entryId": "source-support-linear-orientation",
   "expression": "orientation: right is positive; D(S(C,-u,+u))",
   "encodingNote": "The current encoding intends orientation through ordered carrier evidence: the directed span says which side of zero is positive. A crystallized orientation should preserve that evidence rather than add an unrelated tag.",

@@ -1,5 +1,5 @@
 {
-  "represents": "The topology says the path should close even when the geometric evidence misses.",
+  "represents": "The topology says the path should close even when the geometric evidence misses. The mismatch remains visible as tension instead of being hidden.",
   "entryId": "connected-paths-closure-tension",
   "expression": "S(P0,P1)+...+S(P4,Pn) + topology(Pn~P0) + tension",
   "encodingNote": "The topology says the path should close even when the geometric evidence misses. The mismatch remains visible as tension instead of being hidden.",

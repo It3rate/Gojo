@@ -1,5 +1,5 @@
 {
-  "represents": "Each source carrier creates positive and inverse offset reads.",
+  "represents": "Each source carrier creates positive and inverse offset reads. The bands shown by the renderer are support from these paired derived paths, not edits to the source carriers.",
   "entryId": "boolean-offset-offset-reads",
   "expression": "PathRead(Si) + OffsetRead(+d,-d,resolution) for each carrier",
   "encodingNote": "Each source carrier creates positive and inverse offset reads. The bands shown by the renderer are support from these paired derived paths, not edits to the source carriers.",

@@ -1,5 +1,5 @@
 {
-  "represents": "A requested read can fail while preserving the source span and the read residue.",
+  "represents": "A failed read leaves a witness of the requested interpretation.",
   "entryId": "resolution-tension-failed-read",
   "expression": "Read(S(A,B), requested basis) -> residue",
   "encodingNote": "A failed read leaves a witness of the requested interpretation.",

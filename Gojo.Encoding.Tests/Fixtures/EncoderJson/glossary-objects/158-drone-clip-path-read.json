@@ -1,5 +1,5 @@
 {
-  "represents": "The first rung crystallizes connected sections into path carriers.",
+  "represents": "The first rung crystallizes connected sections into path carriers. The new carriers can be partitioned without directly correlating every tick to the source unless requested.",
   "entryId": "drone-clip-path-read",
   "expression": "source sections -> PathCarrier(outer) + PathCarrier(slot)",
   "encodingNote": "The first rung crystallizes connected sections into path carriers. The new carriers can be partitioned without directly correlating every tick to the source unless requested.",

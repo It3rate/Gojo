@@ -1,5 +1,5 @@
 {
-  "represents": "Ticks are carried as points on boundary spans.",
+  "represents": "Ticks are carried as points on boundary spans. Later this should become partition evidence that knows which side or face of the boundary it belongs to.",
   "entryId": "direction-area-linear-bounded-area",
   "expression": "Area(boundary) + S-boundary + P(tick...)",
   "encodingNote": "Ticks are carried as points on boundary spans. Later this should become partition evidence that knows which side or face of the boundary it belongs to.",

@@ -485,6 +485,8 @@ When this ledger grows large enough, it should become a full ordered table:
 term, first fixture that needs it, lower-level footing, allowed debug syntax,
 and unresolved tension it leaves behind.
 
+The current ordered table lives in `GlossaryEncodingVocabulary.md`.
+
 ## Text And International Characters
 
 Debuggability matters. Names, labels, source comments, documentation titles, and

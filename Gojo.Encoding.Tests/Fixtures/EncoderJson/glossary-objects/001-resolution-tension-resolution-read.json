@@ -1,5 +1,5 @@
 {
-  "represents": "A span can be read at more than one resolution without treating the lower-resolution read as failed.",
+  "represents": "Resolution belongs to the read. A low-resolution read is still a valid read, not a failed value.",
   "entryId": "resolution-tension-resolution-read",
   "expression": "S(A,B) read at coarse and fine resolution",
   "encodingNote": "Resolution belongs to the read. A low-resolution read is still a valid read, not a failed value.",

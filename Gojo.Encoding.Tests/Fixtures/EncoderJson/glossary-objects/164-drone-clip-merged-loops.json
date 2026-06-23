@@ -1,5 +1,5 @@
 {
-  "represents": "The merge rung groups positive and inverse loops without losing their separate orientation.",
+  "represents": "The merge rung groups positive and inverse loops without losing their separate orientation. Any disagreement can remain as tension.",
   "entryId": "drone-clip-merged-loops",
   "expression": "LoopOuter + LoopSlot + LoopVoids -> merged loop set",
   "encodingNote": "The merge rung groups positive and inverse loops without losing their separate orientation. Any disagreement can remain as tension.",

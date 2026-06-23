@@ -1,5 +1,5 @@
 {
-  "represents": "A curved closed area is expressible.",
+  "represents": "A curved closed area is expressible. The unrelated branch line is expressible as separate structure, but the tutorial still uses wording to emphasize non-participation.",
   "entryId": "branches-structure-orthogonal-joint",
   "expression": "Area(S + S + Arc + S) + loose S(U,V)",
   "encodingNote": "A curved closed area is expressible. The unrelated branch line is expressible as separate structure, but the tutorial still uses wording to emphasize non-participation.",

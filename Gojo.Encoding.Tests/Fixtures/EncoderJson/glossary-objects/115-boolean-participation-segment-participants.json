@@ -1,5 +1,5 @@
 {
-  "represents": "The selected spans are ordinary segment participation.",
+  "represents": "The selected spans are ordinary segment participation. The scope carrier and partition read determine whether any boolean-like support exists.",
   "entryId": "boolean-participation-segment-participants",
   "expression": "selected{S(A0,A1), S(B0,B1)} + scope S(0,n)",
   "encodingNote": "The selected spans are ordinary segment participation. The scope carrier and partition read determine whether any boolean-like support exists.",

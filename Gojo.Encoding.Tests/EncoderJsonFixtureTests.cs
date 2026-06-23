@@ -179,7 +179,7 @@ public sealed class EncoderJsonFixtureTests
 
         Assert.True(File.ReadAllLines(file).Length <= 24, json);
         Assert.Equal(["flow", "position"], entry.Gojo.Known ?? []);
-        Assert.Contains("position --open flow--> flow", entry.Gojo.Paths ?? []);
+        Assert.Contains("position --orthogonal outlet--> flow", entry.Gojo.Paths ?? []);
         Assert.DoesNotContain("radial-flow", entry.Gojo.Paths ?? []);
         Assert.Contains("no preferred direction", entry.Gojo.Tension ?? []);
         Assert.Contains("flow shape depends on available dimension", entry.Gojo.Tension ?? []);
@@ -197,7 +197,7 @@ public sealed class EncoderJsonFixtureTests
         Assert.DoesNotContain("span", entry.Gojo.Known ?? []);
         Assert.DoesNotContain("coincident-span", entry.Gojo.Known ?? []);
         Assert.Contains("shared-reference --open basis read--> unresolved carrier potential", entry.Gojo.Paths ?? []);
-        Assert.Contains("unresolved carrier potential --open flow--> flow", entry.Gojo.Paths ?? []);
+        Assert.Contains("unresolved carrier potential --orthogonal outlet--> flow", entry.Gojo.Paths ?? []);
         Assert.Contains("basis orientation unresolved", entry.Gojo.Tension ?? []);
         Assert.Contains("length unresolved", entry.Gojo.Tension ?? []);
         Assert.Contains("opposed lane not asserted", entry.Gojo.Tension ?? []);
@@ -218,11 +218,17 @@ public sealed class EncoderJsonFixtureTests
     }
 
     [Fact]
-    public void FixtureVocabularyDoesNotKeepCoincidentSpanAlias()
+    public void FixtureVocabularyDoesNotKeepOutdatedDebugTerms()
     {
         foreach (var file in FixturePaths())
         {
-            Assert.DoesNotContain("coincident-span", File.ReadAllText(file));
+            var json = File.ReadAllText(file);
+
+            Assert.DoesNotContain("coincident-span", json);
+            Assert.DoesNotContain("flow_radial", json);
+            Assert.DoesNotContain("flow_perp", json);
+            Assert.DoesNotContain("radius-position", json);
+            Assert.DoesNotContain("--open flow-->", json);
         }
     }
 

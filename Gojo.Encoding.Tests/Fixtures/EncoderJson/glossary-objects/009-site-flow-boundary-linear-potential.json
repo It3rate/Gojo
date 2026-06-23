@@ -1,7 +1,7 @@
 {
-  "represents": "Coincident points can carry a potential span and perpendicular flow before visible length appears.",
+  "represents": "Two points can make a linear potential even before they have visible length.",
   "entryId": "site-flow-boundary-linear-potential",
-  "expression": "P(A)+P(B coincident) -> S-potential + flow_perp",
+  "expression": "P(A@x)+P(B@x) -> unresolved carrier potential + orthogonal-outlet(potential)",
   "encodingNote": "Two points can make a linear potential even before they have visible length.",
   "gojo": {
     "known": [
@@ -11,7 +11,7 @@
     ],
     "paths": [
       "shared-reference --open basis read--> unresolved carrier potential",
-      "unresolved carrier potential --open flow--> flow"
+      "unresolved carrier potential --orthogonal outlet--> flow"
     ],
     "tension": [
       "basis orientation unresolved",

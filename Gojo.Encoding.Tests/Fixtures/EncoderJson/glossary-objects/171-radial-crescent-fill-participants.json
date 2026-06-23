@@ -1,5 +1,5 @@
 {
-  "represents": "The early fill rung creates separate positive and inverse participants.",
+  "represents": "The early fill rung creates separate positive and inverse participants. They have not yet been forced into one settled outline.",
   "entryId": "radial-crescent-fill-participants",
   "expression": "Offset boundaries -> AreaFill(participants) + AntiFill(endpoint/body holes)",
   "encodingNote": "The early fill rung creates separate positive and inverse participants. They have not yet been forced into one settled outline.",

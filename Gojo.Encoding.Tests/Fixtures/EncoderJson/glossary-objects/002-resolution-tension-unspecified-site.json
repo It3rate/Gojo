@@ -1,5 +1,5 @@
 {
-  "represents": "An unspecified site remains present as readable location tension.",
+  "represents": "The unresolved position remains inspectable instead of becoming a null or exception.",
   "entryId": "resolution-tension-unspecified-site",
   "expression": "P(?) + Tension(location)",
   "encodingNote": "The unresolved position remains inspectable instead of becoming a null or exception.",

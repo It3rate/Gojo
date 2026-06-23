@@ -1,5 +1,5 @@
 {
-  "represents": "The final frame rejoins the walked sections and rounds every exterior cusp.",
+  "represents": "The final frame rejoins the walked sections and rounds every exterior cusp. Each cusp trims the incoming and outgoing source sections and inserts a new Gojo arc section, while retained circular pieces stay partial-circle arc sections.",
   "entryId": "radial-crescent-outline-experiment-rounded",
   "expression": "Walked outline + CuspSelection(16) -> rounded arc-section splice",
   "encodingNote": "The final frame rejoins the walked sections and rounds every exterior cusp. Each cusp trims the incoming and outgoing source sections and inserts a new Gojo arc section, while retained circular pieces stay partial-circle arc sections.",
@@ -16,7 +16,7 @@
     ],
     "paths": [
       "collapsed-basis --orthogonal outlet--> flow",
-      "source --open flow--> flow"
+      "source --orthogonal outlet--> flow"
     ],
     "tension": [
       "flow source unresolved",

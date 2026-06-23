@@ -1,5 +1,5 @@
 {
-  "represents": "The filled part is positive support.",
+  "represents": "The filled part is positive support. The slot and holes are anti-fill participation, so the negative spaces are structural holes.",
   "entryId": "drone-clip-negative-spaces",
   "expression": "AreaFill(outer) + AntiFill(slot) + AntiFill(voids)",
   "encodingNote": "The filled part is positive support. The slot and holes are anti-fill participation, so the negative spaces are structural holes.",

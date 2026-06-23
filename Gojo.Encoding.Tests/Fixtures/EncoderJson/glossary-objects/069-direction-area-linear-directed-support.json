@@ -1,5 +1,5 @@
 {
-  "represents": "Linear side support is represented as filled boundary plus a directed edge.",
+  "represents": "Linear side support is represented as filled boundary plus a directed edge. The side should remain locally discoverable from the carrier, its orthogonal support, and the chosen orientation.",
   "entryId": "direction-area-linear-directed-support",
   "expression": "Area(S(A,B) + side support) + D(S(A,B))",
   "encodingNote": "Linear side support is represented as filled boundary plus a directed edge. The side should remain locally discoverable from the carrier, its orthogonal support, and the chosen orientation.",

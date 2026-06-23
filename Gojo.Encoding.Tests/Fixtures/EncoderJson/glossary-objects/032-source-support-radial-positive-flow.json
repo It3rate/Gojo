@@ -1,7 +1,7 @@
 {
   "represents": "Radial positive flow is the point-grade version of positive orthogonal support: with only one site, the normal has no preferred linear side, so outward support appears in every direction.",
   "entryId": "source-support-radial-positive-flow",
-  "expression": "P(O) + flow_radial(P(O))",
+  "expression": "P(O) + orthogonal-outlet(P(O))",
   "encodingNote": "Radial positive flow is the point-grade version of positive orthogonal support: with only one site, the normal has no preferred linear side, so outward support appears in every direction.",
   "gojo": {
     "known": [
@@ -10,7 +10,7 @@
     ],
     "paths": [
       "flow --direction read--> outward-or-positive",
-      "position --open flow--> flow"
+      "position --orthogonal outlet--> flow"
     ],
     "tension": [
       "flow shape depends on available dimension"

@@ -200,7 +200,7 @@ public static class GojoStructureEncodingFixtureProjection
             {
                 known.Add("position");
                 known.Add("flow");
-                paths.Add("position --open flow--> flow");
+                paths.Add("position --orthogonal outlet--> flow");
                 tension.Add("flow shape depends on available dimension");
                 return;
             }
@@ -223,7 +223,7 @@ public static class GojoStructureEncodingFixtureProjection
             }
 
             known.Add("flow");
-            paths.Add("source --open flow--> flow");
+            paths.Add("source --orthogonal outlet--> flow");
             tension.Add("flow source unresolved");
         }
 
@@ -244,7 +244,8 @@ public static class GojoStructureEncodingFixtureProjection
             if (expression.Contains("Circle", StringComparison.Ordinal))
             {
                 known.Add("circle-boundary");
-                paths.Add("position + radius-position --> circle-boundary");
+                known.Add("radius-evidence");
+                paths.Add("position + radius-evidence --> circle-boundary");
             }
 
             if (expression.Contains("source", StringComparison.OrdinalIgnoreCase))
@@ -252,7 +253,8 @@ public static class GojoStructureEncodingFixtureProjection
                 known.Add("source");
             }
 
-            if (text.Contains("flow_radial") || text.Contains("flow_perp") || text.Contains("normal"))
+            if (text.Contains("orthogonal-outlet") ||
+                text.Contains("normal"))
             {
                 known.Add("flow");
                 if (known.Contains("collapsed-basis"))
@@ -266,17 +268,19 @@ public static class GojoStructureEncodingFixtureProjection
                 }
                 else if (known.Contains("position"))
                 {
-                    paths.Add("position --open flow--> flow");
+                    paths.Add("position --orthogonal outlet--> flow");
                     tension.Add("flow shape depends on available dimension");
                 }
                 else
                 {
-                    paths.Add("source --open flow--> flow");
+                    paths.Add("source --orthogonal outlet--> flow");
                     tension.Add("flow source unresolved");
                 }
             }
 
-            if (text.Contains("coincident") || text.Contains("a=b"))
+            if (text.Contains("shared-reference") ||
+                text.Contains("coincident") ||
+                text.Contains("a=b"))
             {
                 known.Add("shared-reference");
             }
@@ -321,8 +325,7 @@ public static class GojoStructureEncodingFixtureProjection
 
         private void ApplyLocalParticipationPrinciple(Source source)
         {
-            if (source.Expression.Contains("S-potential", StringComparison.Ordinal) &&
-                source.Expression.Contains("flow_perp", StringComparison.Ordinal))
+            if (source.Expression.Contains("unresolved carrier potential", StringComparison.Ordinal))
             {
                 known.Remove("collapsed-basis");
                 known.Remove("span");
@@ -332,7 +335,7 @@ public static class GojoStructureEncodingFixtureProjection
 
                 paths.RemoveWhere(path => path.Contains("collapsed-basis", StringComparison.Ordinal));
                 paths.Add("shared-reference --open basis read--> unresolved carrier potential");
-                paths.Add("unresolved carrier potential --open flow--> flow");
+                paths.Add("unresolved carrier potential --orthogonal outlet--> flow");
 
                 tension.Add("basis orientation unresolved");
                 tension.Add("length unresolved");
@@ -344,11 +347,10 @@ public static class GojoStructureEncodingFixtureProjection
                 known.Remove("span");
             }
 
-            if (source.Expression.Equals("P(O)+P(R) -> Circle(O,R)", StringComparison.Ordinal))
+            if (source.Expression.Equals("P(O)+radius-evidence(R) -> Circle(O,R)", StringComparison.Ordinal))
             {
                 known.Add("radius-evidence");
 
-                paths.Remove("position + radius-position --> circle-boundary");
                 paths.Add("position + radius-evidence --> circle-boundary");
 
                 tension.Add("contour traversal not selected");

@@ -1,5 +1,5 @@
 {
-  "represents": "The second selection pass runs on the inner flat-bottom arc boundary.",
+  "represents": "The second selection pass runs on the inner flat-bottom arc boundary. Its two selected sites are the shared endpoints where the arc carrier meets the flat segment.",
   "entryId": "diamond-cusp-rounding-inner-selection",
   "expression": "CuspCandidateDomain(inner) -> Selection(2)",
   "encodingNote": "The second selection pass runs on the inner flat-bottom arc boundary. Its two selected sites are the shared endpoints where the arc carrier meets the flat segment.",
@@ -12,7 +12,7 @@
       "span"
     ],
     "paths": [
-      "source --open flow--> flow"
+      "source --orthogonal outlet--> flow"
     ],
     "tension": [
       "flow source unresolved"

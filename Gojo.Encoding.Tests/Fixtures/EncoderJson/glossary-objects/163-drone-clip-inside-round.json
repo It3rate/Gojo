@@ -1,5 +1,5 @@
 {
-  "represents": "Inside cusp rounding is a separate rung from outside rounding.",
+  "represents": "Inside cusp rounding is a separate rung from outside rounding. The slot and void carriers keep inverse participation and can later become anti-fill.",
   "entryId": "drone-clip-inside-round",
   "expression": "slot loop -> CornerRoundRead(inside cusps) -> rounded inner loop",
   "encodingNote": "Inside cusp rounding is a separate rung from outside rounding. The slot and void carriers keep inverse participation and can later become anti-fill.",

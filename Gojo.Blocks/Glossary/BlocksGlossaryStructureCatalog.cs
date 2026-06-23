@@ -54,9 +54,9 @@ internal static class BlocksGlossaryStructureCatalog
         AddSpecimens(structures, "site-flow-boundary",
         [
             ("site", Site(), "P(O)", null),
-            ("radial-flow", RadialFlow(), "P(O) + flow_radial(P(O))", "With one site there is no preferred direction, so the normal reads as radial."),
-            ("linear-potential", LinearFlow(), "P(A)+P(B coincident) -> S-potential + flow_perp", "Two points can make a linear potential even before they have visible length."),
-            ("measured-boundary", CircleBoundary(includeRadius: true), "P(O)+P(R) -> Circle(O,R)", null),
+            ("radial-flow", RadialFlow(), "P(O) + orthogonal-outlet(P(O))", "With one site there is no preferred direction, so the normal reads as radial."),
+            ("linear-potential", LinearFlow(), "P(A@x)+P(B@x) -> unresolved carrier potential + orthogonal-outlet(potential)", "Two points can make a linear potential even before they have visible length."),
+            ("measured-boundary", CircleBoundary(includeRadius: true), "P(O)+radius-evidence(R) -> Circle(O,R)", null),
             ("open-exterior", LineSegment(), "P(A)+P(B) -> S(A,B) + exterior(open)", "The segment bounds a span without closing all surrounding support."),
             ("boundary-support", CircleArea(inverse: false), "Circle(O,R) -> Area(Circle)", "A boundary can be read as support when the inside or outside participates.")
         ]);
@@ -79,7 +79,7 @@ internal static class BlocksGlossaryStructureCatalog
             ("unit-comparison", Group(LineSegment(), PartitionedSegment()), "S(target) read by Unit(S(u0,u1))", "External comparison produces count and residue against a reusable unit."),
             ("tick-reference", PartitionedSegment(), "TickRef(S(A,B), t5)", "A tick reference names a readable location without copying the point."),
             ("segment-ruler", PartitionedSegment(), "P(A)+P(B) -> S(A,B) + partition(n)", "The ruler comes from a bounded segment, then adds repeated readable ticks."),
-            ("circular-ruler", PartitionedCircle(), "P(O)+flow_radial+P(R) -> Circle(O,R)+partition(theta_i)", "A circular unit starts from radial flow, gains a circumference boundary, then partitions that circumference."),
+            ("circular-ruler", PartitionedCircle(), "P(O)+orthogonal-outlet(P(O))+radius-evidence(R) -> Circle(O,R)+partition(theta_i)", "A circular unit starts from a point orthogonal outlet, gains a circumference boundary, then partitions that circumference."),
             ("unit-shape", Group(PartitionedSegment(), PartitionedCircle(), RectangleArea(inverse: false)), "UnitShape(line | circle | area | curve read)", "A unit shape is stable structure that other reads can compare against; it can be linear, circular, area-like, curved, composite, or otherwise crystallized.")
         ]);
 
@@ -416,11 +416,11 @@ internal static class BlocksGlossaryStructureCatalog
                 "P(O)"),
             "flow" when linear => Spec(
                 LinearFlow(),
-                "S(C,0,0) + flow_perp(S(C,0,0))",
-                "This is intentionally a collapsed pair, not a drawn-length segment. The two coincident points expose a linear potential before distance is chosen; the visible vertical escape is a renderer read of the segment's orthogonal flow."),
+                "S(C,0,0) + orthogonal-outlet(S(C,0,0))",
+                "This is intentionally a collapsed pair, not a drawn-length segment. The shared-reference roles expose linear potential before distance is chosen; the visible vertical escape is a renderer read of the segment's orthogonal outlet."),
             "flow" => Spec(
                 RadialFlow(),
-                "P(O) + flow_radial(P(O))",
+                "P(O) + orthogonal-outlet(P(O))",
                 inverse
                     ? "Radial inverse flow is the point-grade version of negative orthogonal support: the flow is read as moving into the site from every side. A signed read can pass through the origin, just as opposite side support passes through a segment."
                     : "Radial positive flow is the point-grade version of positive orthogonal support: with only one site, the normal has no preferred linear side, so outward support appears in every direction."),
@@ -429,7 +429,7 @@ internal static class BlocksGlossaryStructureCatalog
                 "P(A) + P(B) -> S(A,B)"),
             "boundary" => Spec(
                 CircleBoundary(includeRadius: true),
-                "P(O) + P(R) -> Circle(O,R)"),
+                "P(O) + radius-evidence(R) -> Circle(O,R)"),
             "partitioned" when linear => Spec(
                 PartitionedSegment(),
                 "S(A,B) + P(t1) + P(t2) + ..."),
@@ -469,7 +469,7 @@ internal static class BlocksGlossaryStructureCatalog
                 inverse ? "D(Circle(O,R), +theta -> -theta)" : "D(Circle(O,R), -theta -> +theta)"),
             "boundary-support" when linear => Spec(
                 LinearFlow(),
-                "S(C,0,0) + flow_perp(S(C,0,0))",
+                "S(C,0,0) + orthogonal-outlet(S(C,0,0))",
                 "The structural seed is still a collapsed segment. The visible band is the renderer's interpretation of support emerging from that linear potential."),
             "boundary-support" => Spec(
                 CircleArea(inverse),

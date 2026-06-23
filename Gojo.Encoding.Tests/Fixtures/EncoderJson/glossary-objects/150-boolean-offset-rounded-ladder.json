@@ -1,5 +1,5 @@
 {
-  "represents": "This ladder replaces corner sections with rounded transition carriers before the boolean merge.",
+  "represents": "This ladder replaces corner sections with rounded transition carriers before the boolean merge. The rounded result is a new rung with provenance back to the square loop.",
   "entryId": "boolean-offset-rounded-ladder",
   "expression": "LoopSquare -> CornerRoundRead -> LoopRounded; merge with LoopInner -> AreaFill + AntiFill",
   "encodingNote": "This ladder replaces corner sections with rounded transition carriers before the boolean merge. The rounded result is a new rung with provenance back to the square loop.",

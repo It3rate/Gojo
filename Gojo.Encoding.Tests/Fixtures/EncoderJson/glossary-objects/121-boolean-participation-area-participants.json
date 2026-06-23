@@ -1,5 +1,5 @@
 {
-  "represents": "Areas enter the read as occupied support.",
+  "represents": "Areas enter the read as occupied support. The later operation is a settlement over those participants.",
   "entryId": "boolean-participation-area-participants",
   "expression": "selected{Area(A), Area(B)} + scope",
   "encodingNote": "Areas enter the read as occupied support. The later operation is a settlement over those participants.",

@@ -8,7 +8,7 @@
       "position"
     ],
     "paths": [
-      "position --open flow--> flow"
+      "position --orthogonal outlet--> flow"
     ],
     "tension": [
       "flow shape depends on available dimension"

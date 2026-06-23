@@ -1,5 +1,5 @@
 {
-  "represents": "The source has two inspectable closed boundaries: the outer diamond-like support and an inner flat-bottom arc boundary.",
+  "represents": "The source has two inspectable closed boundaries: the outer diamond-like support and an inner flat-bottom arc boundary. Both are built from Gojo sections and shared endpoint joins.",
   "entryId": "diamond-cusp-rounding-source",
   "expression": "OuterBoundary + InnerBoundary; Join(Pi) for each shared endpoint",
   "encodingNote": "The source has two inspectable closed boundaries: the outer diamond-like support and an inner flat-bottom arc boundary. Both are built from Gojo sections and shared endpoint joins.",

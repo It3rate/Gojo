@@ -1,5 +1,5 @@
 {
-  "represents": "Face spin is represented as an area plus directed boundary evidence.",
+  "represents": "Face spin is represented as an area plus directed boundary evidence. The face can later carry that spin independently, whether it was inherited from an aligned boundary or chosen during a read.",
   "entryId": "direction-area-radial-inverse-directed-area",
   "expression": "Area(Circle(O,R)) + face D(Circle edge)",
   "encodingNote": "Face spin is represented as an area plus directed boundary evidence. The face can later carry that spin independently, whether it was inherited from an aligned boundary or chosen during a read.",
@@ -8,10 +8,11 @@
       "area-support",
       "boundary",
       "circle-boundary",
-      "orientation"
+      "orientation",
+      "radius-evidence"
     ],
     "paths": [
-      "position + radius-position --> circle-boundary"
+      "position + radius-evidence --> circle-boundary"
     ]
   }
 }

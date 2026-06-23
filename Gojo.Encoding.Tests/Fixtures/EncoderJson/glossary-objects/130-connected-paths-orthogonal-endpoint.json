@@ -1,5 +1,5 @@
 {
-  "represents": "A path section can grow from orthogonal support at the endpoint of an arc.",
+  "represents": "A path section can grow from orthogonal support at the endpoint of an arc. The connection still comes from local relation evidence at J.",
   "entryId": "connected-paths-orthogonal-endpoint",
   "expression": "Arc(A,J) + S(J,O) + orthogonal_outlet(P(J))",
   "encodingNote": "A path section can grow from orthogonal support at the endpoint of an arc. The connection still comes from local relation evidence at J.",
@@ -11,7 +11,7 @@
       "span"
     ],
     "paths": [
-      "position --open flow--> flow"
+      "position --orthogonal outlet--> flow"
     ],
     "tension": [
       "flow shape depends on available dimension"

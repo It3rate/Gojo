@@ -1,5 +1,5 @@
 {
-  "represents": "A poorly bounded U-area is not yet a settled Gojo area.",
+  "represents": "A poorly bounded U-area is not yet a settled Gojo area. This example keeps the open side as tension-like residue while the renderer sketches the intended partial support.",
   "entryId": "branches-structure-other",
   "expression": "partial Area(S + S + Arc + ?open) + loose S(U,V)",
   "encodingNote": "A poorly bounded U-area is not yet a settled Gojo area. This example keeps the open side as tension-like residue while the renderer sketches the intended partial support.",

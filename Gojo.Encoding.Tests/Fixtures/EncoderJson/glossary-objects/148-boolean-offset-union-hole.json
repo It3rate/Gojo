@@ -1,5 +1,5 @@
 {
-  "represents": "The union read selects offset sections into an outer loop and an opposing inner loop.",
+  "represents": "The union read selects offset sections into an outer loop and an opposing inner loop. The negative space is represented as anti-fill participation, not as a visual eraser.",
   "entryId": "boolean-offset-union-hole",
   "expression": "Split sections -> LoopOuter + LoopInner; AreaFill(LoopOuter) + AntiFill(LoopInner)",
   "encodingNote": "The union read selects offset sections into an outer loop and an opposing inner loop. The negative space is represented as anti-fill participation, not as a visual eraser.",

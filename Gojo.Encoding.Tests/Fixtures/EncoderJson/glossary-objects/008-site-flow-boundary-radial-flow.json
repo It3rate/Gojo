@@ -1,7 +1,7 @@
 {
-  "represents": "A single site can support radial flow because no direction is preferred.",
+  "represents": "With one site there is no preferred direction, so the normal reads as radial.",
   "entryId": "site-flow-boundary-radial-flow",
-  "expression": "P(O) + flow_radial(P(O))",
+  "expression": "P(O) + orthogonal-outlet(P(O))",
   "encodingNote": "With one site there is no preferred direction, so the normal reads as radial.",
   "gojo": {
     "known": [
@@ -9,7 +9,7 @@
       "position"
     ],
     "paths": [
-      "position --open flow--> flow"
+      "position --orthogonal outlet--> flow"
     ],
     "tension": [
       "flow shape depends on available dimension",

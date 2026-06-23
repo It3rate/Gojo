@@ -5,10 +5,11 @@
   "gojo": {
     "known": [
       "circle-boundary",
-      "orientation"
+      "orientation",
+      "radius-evidence"
     ],
     "paths": [
-      "position + radius-position --> circle-boundary"
+      "position + radius-evidence --> circle-boundary"
     ]
   }
 }

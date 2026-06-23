@@ -1,5 +1,5 @@
 {
-  "represents": "Inset and outset layers are repeated offset reads from one path carrier.",
+  "represents": "Inset and outset layers are repeated offset reads from one path carrier. Each layer has its own carrier and partitions, so it is related to the outline without replacing it.",
   "entryId": "derived-path-inset-outset",
   "expression": "OutlinePathRead + OffsetRead(+d1,+d2,-d1,-d2)",
   "encodingNote": "Inset and outset layers are repeated offset reads from one path carrier. Each layer has its own carrier and partitions, so it is related to the outline without replacing it.",

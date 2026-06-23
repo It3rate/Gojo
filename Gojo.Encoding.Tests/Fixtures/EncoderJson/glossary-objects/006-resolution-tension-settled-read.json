@@ -1,5 +1,5 @@
 {
-  "represents": "A settled read becomes inspectable structure, not just a returned value.",
+  "represents": "Settlement is a new inspectable structure, not just a return value.",
   "entryId": "resolution-tension-settled-read",
   "expression": "source + basis + resolution -> settled read",
   "encodingNote": "Settlement is a new inspectable structure, not just a return value.",

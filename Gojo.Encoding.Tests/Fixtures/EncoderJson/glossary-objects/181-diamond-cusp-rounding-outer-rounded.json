@@ -1,5 +1,5 @@
 {
-  "represents": "The first rounding rung preserves the inner boundary and emits a new outer boundary.",
+  "represents": "The first rounding rung preserves the inner boundary and emits a new outer boundary. Retained arc pieces stay arcs, and each new outer corner curve is solved from adjacent carrier tangents.",
   "entryId": "diamond-cusp-rounding-outer-rounded",
   "expression": "OuterSelection + carrier tangents -> RoundedOuterBoundary",
   "encodingNote": "The first rounding rung preserves the inner boundary and emits a new outer boundary. Retained arc pieces stay arcs, and each new outer corner curve is solved from adjacent carrier tangents.",
@@ -14,7 +14,7 @@
     ],
     "paths": [
       "collapsed-basis --orthogonal outlet--> flow",
-      "source --open flow--> flow"
+      "source --orthogonal outlet--> flow"
     ],
     "tension": [
       "flow source unresolved",

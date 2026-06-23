@@ -1,5 +1,5 @@
 {
-  "represents": "The sections can be visually near each other without becoming one path.",
+  "represents": "The sections can be visually near each other without becoming one path. No shared point, bond, or higher-rung bridge has settled them together.",
   "entryId": "connected-paths-separate-sections",
   "expression": "S(A,B) + Arc(C,D), no shared P or bond",
   "encodingNote": "The sections can be visually near each other without becoming one path. No shared point, bond, or higher-rung bridge has settled them together.",

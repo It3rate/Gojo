@@ -1,5 +1,5 @@
 {
-  "represents": "Multiple bases can constrain the same section at once.",
+  "represents": "Multiple bases can constrain the same section at once. A later read can reconcile or expose disagreement as residue.",
   "entryId": "path-basis-mixed",
   "expression": "FrameXY(P0,P1) + CircleBasis(P0,theta) + orthogonal evidence",
   "encodingNote": "Multiple bases can constrain the same section at once. A later read can reconcile or expose disagreement as residue.",
@@ -7,11 +7,12 @@
     "known": [
       "basis",
       "circle-boundary",
-      "flow"
+      "flow",
+      "radius-evidence"
     ],
     "paths": [
-      "position + radius-position --> circle-boundary",
-      "source --open flow--> flow"
+      "position + radius-evidence --> circle-boundary",
+      "source --orthogonal outlet--> flow"
     ],
     "tension": [
       "flow source unresolved"

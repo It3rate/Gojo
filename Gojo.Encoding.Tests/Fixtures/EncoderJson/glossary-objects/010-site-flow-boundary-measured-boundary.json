@@ -1,7 +1,7 @@
 {
-  "represents": "A boundary can be measured from an origin site and radius evidence.",
+  "represents": "Sparse read of P(O)+radius-evidence(R) -> Circle(O,R).",
   "entryId": "site-flow-boundary-measured-boundary",
-  "expression": "P(O)+P(R) -> Circle(O,R)",
+  "expression": "P(O)+radius-evidence(R) -> Circle(O,R)",
   "gojo": {
     "known": [
       "circle-boundary",

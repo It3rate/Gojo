@@ -1,5 +1,5 @@
 {
-  "represents": "This intermediate frame marks the exterior perimeter endpoints after the intersection split.",
+  "represents": "This intermediate frame marks the exterior perimeter endpoints after the intersection split. The small circles are Gojo circle elements around the walked outline sites.",
   "entryId": "radial-crescent-outline-experiment-sites",
   "expression": "BoundarySectionWalk -> exterior endpoint witnesses",
   "encodingNote": "This intermediate frame marks the exterior perimeter endpoints after the intersection split. The small circles are Gojo circle elements around the walked outline sites.",

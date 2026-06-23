@@ -6,10 +6,11 @@
   "gojo": {
     "known": [
       "basis",
-      "circle-boundary"
+      "circle-boundary",
+      "radius-evidence"
     ],
     "paths": [
-      "position + radius-position --> circle-boundary"
+      "position + radius-evidence --> circle-boundary"
     ]
   }
 }
