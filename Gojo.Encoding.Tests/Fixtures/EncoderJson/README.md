@@ -33,6 +33,15 @@ as volumetric. Directional readings such as inward, outward, positive, inverse,
 or opposed participation belong in local paths or tension rather than in a
 global flow class.
 
+The current glossary principle is local participation first. A fixture should
+not infer extent, direction, relation closure, or a collapsed basis just because
+two marks share a visual place. Same-reference roles such as `A@x, B@x` remain
+point multiplicity until a shared substrate, opposed lane participation,
+collapsed unit shape, or read residue makes a stronger structure visible.
+Known lane/sign information can be shown with debug values such as `[+2f]` or
+`[+2i]`; unmarked values stay lower-resolution rather than defaulting to a
+forward positive lane.
+
 These fixtures also keep physical source structure separable from field,
 runtime, and observer interpretations. A later read may encode how a structure
 behaves in a field or under an observer limit, but that joint behavior should

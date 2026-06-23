@@ -260,6 +260,193 @@ This matches the larger Gojo direction: resolution is part of the read. A
 coarse value is not a failed fine value. It is a valid read at the available
 resolution, with lower detail absent, unresolved, or represented as tension.
 
+## Glossary Encoding Principle: Local Participation
+
+The next glossary pass should encode the smallest locally known participation,
+not the full shape a renderer, familiar diagram, or later read might infer.
+This is especially important at the low end of the glossary, where a dot, span,
+flow mark, or boundary mark can be a source structure, a read surface, a
+rendering convenience, or a speculation about missing structure.
+
+The default rule is:
+
+```text
+encode what the local Gojo structure actually asserts
+preserve unresolved or incompatible participation as tension
+avoid manufacturing extent, direction, or relation closure from appearance alone
+```
+
+For example, a single point-like sample should not become "radial flow" as its
+canonical object. It may be only:
+
+```text
+point-like participation
+  known site or unknown site
+  optional source/read path
+  optional flow read
+  unresolved basis, dimension, carrier, or field
+```
+
+Flow is still just flow. A flow read from a point in a plane can look radial; a
+flow read from a segment can look sheet-like; a flow read in volume can look
+volumetric. Those are consequences of the source participation and observer
+surface. They are not separate primitive flow kinds unless a local structure
+actually distinguishes them.
+
+### Lane Values
+
+When orientation and sign are known, the text-facing debug notation should make
+both visible. The current provisional lane letters are:
+
+```text
+f  forward or normal lane face
+i  inverse lane face
+```
+
+The sign remains the value direction within the selected lane basis. The lane
+letter is not a symbolic enum; it is a short text read over carrier-face
+structure that should eventually be backed by ordinary Gojo carriers,
+relations, and unit shapes.
+
+```text
+[+2f]  known positive value on the forward lane face
+[-2f]  known negative value on the forward lane face
+[+2i]  known positive value on the inverse lane face
+[-2i]  known negative value on the inverse lane face
+[2]    known magnitude only; no sign or lane asserted
+```
+
+Unknown orientation, sign, or lane should be absent rather than silently
+defaulted. A bare `2` is not secretly `+2f`. It is lower-resolution information.
+
+Compatible participation on the same lane can be read as additive settlement:
+
+```text
+[+3f, +2f]  -> compatible same-lane read, may settle as [+5f]
+```
+
+Opposed or incompatible participation sharing a substrate should be preserved
+as structure and tension rather than collapsed into one scalar:
+
+```text
+[+3i, +2f]  -> opposed-lane participation over a shared substrate
+```
+
+That second sample can support a segment, interior, flow, or settlement read,
+but only because the lanes are not the same simple additive lane. The encoding
+should let a later observer read the unresolved interior instead of hiding it as
+`+5`.
+
+### Shared References
+
+The text-facing `@` notation is a compact way to say that roles participate at
+a reference without claiming full identity.
+
+```text
+A@x, B@x  two distinguishable roles sharing reference x
+A@x, B@y  two distinguishable roles with distinguishable references
+A@?       role A participates at an unknown reference
+```
+
+Same reference is not automatically same object. It is also not automatically a
+segment. `A@x, B@x` says there are two locally distinguishable participations at
+one reference. A collapsed basis or zero-length segment requires visible basis
+evidence: opposed endpoint roles over a shared carrier, a segment unit shape
+collapsed to one reference, a read path whose residue is unresolved
+orientation, or equivalent local Gojo structure.
+
+This keeps coincident points, point multiplicity, zero-span segments, and
+collapsed bases separable:
+
+```text
+point multiplicity
+  A@x, B@x
+
+collapsed basis seed
+  A@x and B@x participate through opposed or incompatible basis evidence
+
+zero-span segment read
+  collapsed basis read with endpoint roles, unresolved orientation, or residue
+```
+
+Two roles at different unknown references are still not enough by themselves to
+create an extent. They need a shared substrate, carrier, relation, or read basis
+before they can carry segment tension. Without that shared substrate, they are a
+frame of point participations.
+
+### Extent, Direction, And Tension
+
+Extent is not "two values in a list." For glossary encoding, an extent-like
+structure needs at least:
+
+```text
+shared substrate or carrier evidence
+two or more participations that cannot settle as one simple point
+residue, opposed lanes, collapsed basis, or other unresolved interior evidence
+```
+
+A directed extent is a refinement, not the default. It adds a selected
+traversal, face, or settlement orientation. An unoriented extent can still be a
+real read when the opposed participation and substrate are visible but the
+direction is not. The text notation should omit direction when direction is not
+known; it should not invent a default direction to make the sample prettier.
+
+This gives low-level examples a useful hierarchy:
+
+```text
+A@x
+  one role at a reference
+
+A@x, B@x
+  two roles at a shared reference
+
+[+3f, +2f]
+  compatible same-lane participation; additive read available
+
+[+3i, +2f]
+  opposed-lane participation; unresolved interior/flow read available
+
+collapsed(A@x, B@x)
+  shorthand debug read for visible collapsed-basis evidence, not a primitive tag
+```
+
+The last line is only a human-sized debug spelling. The canonical encoding must
+still expose the shared substrate, opposed participation, or unit-shape evidence
+that makes the collapsed basis real.
+
+### Contours And Partitions
+
+Contour orientation should also be encoded in layers. A contour can support a
+partition without a known zero marker or traversal direction:
+
+```text
+closed participation
+partition support
+inside/outside or filled/empty read
+optional contour-forward/contour-inverse traversal
+optional zero marker
+```
+
+This matters for area and anti-area. The partition is the first useful
+structure. Direction, zero, winding, and measurement are refinements that should
+appear only when the local source or read actually supplies them.
+
+### Local Primitive Aliases
+
+It is acceptable for a document, fixture, or read to define short local aliases
+for repeated low-level shapes:
+
+```text
+def z = shared-substrate opposed participation with no selected traversal
+def d = directed read over z
+def c = collapsed-basis read at one reference
+```
+
+Those aliases are not global classes. They are local crystallizations. If a
+later bundle, corpus, or trained model stabilizes one of them into a reusable
+concept seed, it should still point back to the Gojo structure that made it
+meaningful.
+
 ## Text And International Characters
 
 Debuggability matters. Names, labels, source comments, documentation titles, and
@@ -1808,8 +1995,9 @@ Several decisions should remain loose until there is more code and sample data.
 
 The next useful steps are small.
 
-1. Keep walking the Gojo.Blocks glossary and give each block a sparse
-   documentary read first: knowns, local paths, and unresolved tension.
+1. Keep walking the Gojo.Blocks glossary with the local participation principle:
+   knowns, local paths, unresolved tension, and no inferred extent or direction
+   without substrate evidence.
 2. Use `GojoStructureEncodingSurface.CreateDiagnosticSnapshot` only when we
    need to inspect the current helper/rendering structure or build an
    executable transport experiment.
