@@ -182,7 +182,7 @@ public static class GojoStructureEncodingFixtureProjection
             if (TryReadSegment(element, out var start, out var end))
             {
                 known.Add(start.Carrier.SameIdentityAs(end.Carrier) && start.Ticks == end.Ticks
-                    ? "coincident-span"
+                    ? "collapsed-basis"
                     : "span");
                 return;
             }
@@ -209,16 +209,16 @@ public static class GojoStructureEncodingFixtureProjection
             {
                 if (start.Carrier.SameIdentityAs(end.Carrier) && start.Ticks == end.Ticks)
                 {
-                    known.Add("coincident-span");
+                    known.Add("collapsed-basis");
                     known.Add("flow");
-                    paths.Add("coincident-span --open flow--> flow");
+                    paths.Add("collapsed-basis --orthogonal outlet--> flow");
                     tension.Add("length unresolved");
                     return;
                 }
 
                 known.Add("span");
                 known.Add("flow");
-                paths.Add("span --open flow--> flow");
+                paths.Add("span --orthogonal outlet--> flow");
                 return;
             }
 
@@ -255,14 +255,14 @@ public static class GojoStructureEncodingFixtureProjection
             if (text.Contains("flow_radial") || text.Contains("flow_perp") || text.Contains("normal"))
             {
                 known.Add("flow");
-                if (known.Contains("coincident-span"))
+                if (known.Contains("collapsed-basis"))
                 {
-                    paths.Add("coincident-span --open flow--> flow");
+                    paths.Add("collapsed-basis --orthogonal outlet--> flow");
                     tension.Add("length unresolved");
                 }
                 else if (known.Contains("span"))
                 {
-                    paths.Add("span --open flow--> flow");
+                    paths.Add("span --orthogonal outlet--> flow");
                 }
                 else if (known.Contains("position"))
                 {
@@ -276,12 +276,9 @@ public static class GojoStructureEncodingFixtureProjection
                 }
             }
 
-            if (expression.Contains("coincident", StringComparison.Ordinal))
+            if (text.Contains("coincident") || text.Contains("a=b"))
             {
-                known.Add("coincident-span");
-                known.Add("flow");
-                paths.Add("coincident-span --open flow--> flow");
-                tension.Add("length unresolved");
+                known.Add("shared-reference");
             }
 
             if (expression.Contains("Tension", StringComparison.Ordinal))
@@ -327,19 +324,24 @@ public static class GojoStructureEncodingFixtureProjection
             if (source.Expression.Contains("S-potential", StringComparison.Ordinal) &&
                 source.Expression.Contains("flow_perp", StringComparison.Ordinal))
             {
-                known.Remove("coincident-span");
+                known.Remove("collapsed-basis");
                 known.Remove("span");
                 known.Add("flow");
                 known.Add("position");
                 known.Add("shared-reference");
 
-                paths.RemoveWhere(path => path.Contains("coincident-span", StringComparison.Ordinal));
+                paths.RemoveWhere(path => path.Contains("collapsed-basis", StringComparison.Ordinal));
                 paths.Add("shared-reference --open basis read--> unresolved carrier potential");
                 paths.Add("unresolved carrier potential --open flow--> flow");
 
                 tension.Add("basis orientation unresolved");
                 tension.Add("length unresolved");
                 tension.Add("opposed lane not asserted");
+            }
+
+            if (source.Expression.Contains("S(C,0,0)", StringComparison.Ordinal))
+            {
+                known.Remove("span");
             }
 
             if (source.Expression.Equals("P(O)+P(R) -> Circle(O,R)", StringComparison.Ordinal))

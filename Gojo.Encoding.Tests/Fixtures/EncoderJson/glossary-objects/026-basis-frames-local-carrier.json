@@ -10,7 +10,7 @@
       "span"
     ],
     "paths": [
-      "span --open flow--> flow"
+      "span --orthogonal outlet--> flow"
     ]
   }
 }

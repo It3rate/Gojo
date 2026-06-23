@@ -5,7 +5,7 @@
   "encodingNote": "Difference is read as exclusive support from A under the selected scope, with B left visible as excluded or residue evidence.",
   "gojo": {
     "known": [
-      "coincident-span",
+      "collapsed-basis",
       "constraint-or-settlement",
       "position",
       "selection",

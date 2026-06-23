@@ -10,7 +10,7 @@
     ],
     "paths": [
       "source --open flow--> flow",
-      "span --open flow--> flow"
+      "span --orthogonal outlet--> flow"
     ],
     "tension": [
       "flow source unresolved"

@@ -5,7 +5,7 @@
   "encodingNote": "The overlap is discovered by splitting the carrier at local participation changes. Nothing global classifies the spans first.",
   "gojo": {
     "known": [
-      "coincident-span",
+      "collapsed-basis",
       "partition",
       "span"
     ]

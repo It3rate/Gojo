@@ -5,7 +5,7 @@
   "encodingNote": "Intersection comes from cells where both selected spans occupy the same support.",
   "gojo": {
     "known": [
-      "coincident-span",
+      "collapsed-basis",
       "partition",
       "selection",
       "span"

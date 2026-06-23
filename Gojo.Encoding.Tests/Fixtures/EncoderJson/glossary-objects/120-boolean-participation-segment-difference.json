@@ -5,7 +5,7 @@
   "encodingNote": "Difference is exclusive support from one selected span after the overlapping participation has been accounted for.",
   "gojo": {
     "known": [
-      "coincident-span",
+      "collapsed-basis",
       "selection",
       "span"
     ],

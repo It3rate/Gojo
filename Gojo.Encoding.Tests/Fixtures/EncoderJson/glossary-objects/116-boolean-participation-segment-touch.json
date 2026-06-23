@@ -6,7 +6,7 @@
   "gojo": {
     "known": [
       "boundary",
-      "coincident-span",
+      "collapsed-basis",
       "span"
     ]
   }

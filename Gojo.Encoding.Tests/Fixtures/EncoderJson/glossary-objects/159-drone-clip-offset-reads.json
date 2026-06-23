@@ -13,7 +13,7 @@
     "paths": [
       "flow --direction read--> inward-or-inverse",
       "flow --direction read--> outward-or-positive",
-      "span --open flow--> flow"
+      "span --orthogonal outlet--> flow"
     ]
   }
 }

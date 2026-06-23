@@ -447,6 +447,44 @@ later bundle, corpus, or trained model stabilizes one of them into a reusable
 concept seed, it should still point back to the Gojo structure that made it
 meaningful.
 
+### Vocabulary Ordering Rule
+
+Glossary encoding syntax should be introduced in creation order. A term can be
+reused once its lower-level Gojo footing has been stated, but it should not
+appear as a free-standing name before that footing exists. If a term turns out
+to be wrong, delete it and replace it with the sharper structure; there is no
+need to preserve outdated aliases for legacy compatibility while the format is
+still exploratory.
+
+The first table is intentionally incomplete. It is a scratch ledger for the
+terms currently appearing in the JSON fixtures:
+
+```text
+position
+  grounded carrier location; place participation without selected orientation
+
+shared-reference
+  two or more distinguishable roles read at the same reference, without
+  claiming identity, extent, or a settled carrier
+
+collapsed-basis
+  segment-like basis evidence whose endpoint roles currently meet at one
+  reference; not a drawn length and not merely point multiplicity
+
+flow
+  open orthogonal outlet read from the source participation; radial, sheet-like,
+  perpendicular, or volumetric shape belongs to the observer/source context
+
+orthogonal outlet
+  relation from source participation to an unresolved orthogonal support basis;
+  this is the current Gojo footing under fixture phrases such as perpendicular
+  flow, normal support, or radial support
+```
+
+When this ledger grows large enough, it should become a full ordered table:
+term, first fixture that needs it, lower-level footing, allowed debug syntax,
+and unresolved tension it leaves behind.
+
 ## Text And International Characters
 
 Debuggability matters. Names, labels, source comments, documentation titles, and

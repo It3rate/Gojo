@@ -5,7 +5,7 @@
   "encodingNote": "Union is the support projection of all selected span participation inside the scope.",
   "gojo": {
     "known": [
-      "coincident-span",
+      "collapsed-basis",
       "partition",
       "selection",
       "span"

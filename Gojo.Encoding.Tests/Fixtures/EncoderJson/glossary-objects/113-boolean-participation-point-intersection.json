@@ -6,7 +6,7 @@
   "gojo": {
     "known": [
       "basis",
-      "coincident-span",
+      "collapsed-basis",
       "constraint-or-settlement",
       "position",
       "selection"

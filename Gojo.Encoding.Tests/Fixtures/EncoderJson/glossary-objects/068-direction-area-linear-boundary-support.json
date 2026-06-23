@@ -5,12 +5,11 @@
   "encodingNote": "The structural seed is still a collapsed segment. The visible band is the renderer's interpretation of support emerging from that linear potential.",
   "gojo": {
     "known": [
-      "coincident-span",
-      "flow",
-      "span"
+      "collapsed-basis",
+      "flow"
     ],
     "paths": [
-      "coincident-span --open flow--> flow"
+      "collapsed-basis --orthogonal outlet--> flow"
     ],
     "tension": [
       "length unresolved"

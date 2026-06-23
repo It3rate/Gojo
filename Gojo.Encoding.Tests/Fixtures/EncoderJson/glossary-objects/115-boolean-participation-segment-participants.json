@@ -5,7 +5,7 @@
   "encodingNote": "The selected spans are ordinary segment participation. The scope carrier and partition read determine whether any boolean-like support exists.",
   "gojo": {
     "known": [
-      "coincident-span",
+      "collapsed-basis",
       "partition",
       "selection",
       "span"

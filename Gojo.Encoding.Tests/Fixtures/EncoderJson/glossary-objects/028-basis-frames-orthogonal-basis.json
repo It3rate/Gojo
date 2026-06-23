@@ -4,13 +4,13 @@
   "expression": "S(A,B) + normal support -> P(normal distance)",
   "gojo": {
     "known": [
-      "coincident-span",
+      "collapsed-basis",
       "flow",
       "position",
       "span"
     ],
     "paths": [
-      "coincident-span --open flow--> flow"
+      "collapsed-basis --orthogonal outlet--> flow"
     ],
     "tension": [
       "length unresolved"

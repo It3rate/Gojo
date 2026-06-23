@@ -5,12 +5,13 @@
   "encodingNote": "This records the 3D distinction: distant point-pair normals sweep a cylinder, while touching points collapse to plane support.",
   "gojo": {
     "known": [
-      "coincident-span",
+      "collapsed-basis",
       "flow",
-      "position"
+      "position",
+      "shared-reference"
     ],
     "paths": [
-      "coincident-span --open flow--> flow"
+      "collapsed-basis --orthogonal outlet--> flow"
     ],
     "tension": [
       "length unresolved"

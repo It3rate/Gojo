@@ -5,12 +5,12 @@
   "encodingNote": "The sides are discovered from the carrier and orientation, not separate symbolic fields.",
   "gojo": {
     "known": [
-      "coincident-span",
+      "collapsed-basis",
       "flow",
       "orientation"
     ],
     "paths": [
-      "coincident-span --open flow--> flow"
+      "collapsed-basis --orthogonal outlet--> flow"
     ],
     "tension": [
       "length unresolved"

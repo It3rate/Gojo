@@ -5,12 +5,12 @@
   "encodingNote": "This is intentionally a collapsed pair, not a drawn-length segment. The two coincident points expose a linear potential before distance is chosen; the visible vertical escape is a renderer read of the segment's orthogonal flow.",
   "gojo": {
     "known": [
-      "coincident-span",
+      "collapsed-basis",
       "flow",
-      "span"
+      "shared-reference"
     ],
     "paths": [
-      "coincident-span --open flow--> flow"
+      "collapsed-basis --orthogonal outlet--> flow"
     ],
     "tension": [
       "length unresolved"

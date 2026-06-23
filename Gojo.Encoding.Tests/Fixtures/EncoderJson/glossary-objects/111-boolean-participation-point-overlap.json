@@ -5,7 +5,7 @@
   "encodingNote": "At point resolution, two occupied values on the same scoped site become shared support or tension depending on the lane read.",
   "gojo": {
     "known": [
-      "coincident-span",
+      "collapsed-basis",
       "constraint-or-settlement",
       "position",
       "selection"

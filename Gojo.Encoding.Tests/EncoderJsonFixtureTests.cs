@@ -193,6 +193,7 @@ public sealed class EncoderJsonFixtureTests
         var entry = GojoStructureEncodingJson.DeserializeFixtureEntry(json);
 
         Assert.Equal(["flow", "position", "shared-reference"], entry.Gojo.Known ?? []);
+        Assert.DoesNotContain("collapsed-basis", entry.Gojo.Known ?? []);
         Assert.DoesNotContain("span", entry.Gojo.Known ?? []);
         Assert.DoesNotContain("coincident-span", entry.Gojo.Known ?? []);
         Assert.Contains("shared-reference --open basis read--> unresolved carrier potential", entry.Gojo.Paths ?? []);
@@ -214,6 +215,33 @@ public sealed class EncoderJsonFixtureTests
         Assert.DoesNotContain("position + radius-position --> circle-boundary", entry.Gojo.Paths ?? []);
         Assert.Contains("contour traversal not selected", entry.Gojo.Tension ?? []);
         Assert.Contains("inside/outside support not selected", entry.Gojo.Tension ?? []);
+    }
+
+    [Fact]
+    public void FixtureVocabularyDoesNotKeepCoincidentSpanAlias()
+    {
+        foreach (var file in FixturePaths())
+        {
+            Assert.DoesNotContain("coincident-span", File.ReadAllText(file));
+        }
+    }
+
+    [Theory]
+    [InlineData("028-basis-frames-orthogonal-basis.json")]
+    [InlineData("044-source-support-linear-flow.json")]
+    [InlineData("053-grades-dimensions-segment-normal.json")]
+    [InlineData("054-grades-dimensions-point-pair-normal.json")]
+    [InlineData("068-direction-area-linear-boundary-support.json")]
+    [InlineData("074-face-normal-segment-sides.json")]
+    public void CollapsedBasisNormalFixturesUseOrthogonalOutletRead(string fixtureName)
+    {
+        var file = Path.Combine(FixtureDirectory(), fixtureName);
+        var entry = GojoStructureEncodingJson.DeserializeFixtureEntry(File.ReadAllText(file));
+
+        Assert.Contains("collapsed-basis", entry.Gojo.Known ?? []);
+        Assert.Contains("flow", entry.Gojo.Known ?? []);
+        Assert.Contains("collapsed-basis --orthogonal outlet--> flow", entry.Gojo.Paths ?? []);
+        Assert.Contains("length unresolved", entry.Gojo.Tension ?? []);
     }
 
     [Fact]

@@ -5,12 +5,12 @@
   "encodingNote": "A 1D carrier's normal in 2D is perpendicular line support.",
   "gojo": {
     "known": [
-      "coincident-span",
+      "collapsed-basis",
       "flow",
       "span"
     ],
     "paths": [
-      "coincident-span --open flow--> flow"
+      "collapsed-basis --orthogonal outlet--> flow"
     ],
     "tension": [
       "length unresolved"

@@ -6,14 +6,14 @@
   "gojo": {
     "known": [
       "boundary",
-      "coincident-span",
+      "collapsed-basis",
       "curve",
       "flow",
       "selection",
       "span"
     ],
     "paths": [
-      "coincident-span --open flow--> flow",
+      "collapsed-basis --orthogonal outlet--> flow",
       "source --open flow--> flow"
     ],
     "tension": [
