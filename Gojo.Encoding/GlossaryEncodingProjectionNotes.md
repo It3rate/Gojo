@@ -15,7 +15,7 @@ tension strings, not yet as first-class Gojo structures.
 | Offset read | `source + orthogonal outlet + extent --> offset-read`, `paired offset reads --lane compatibility read--> area or tension` | Offset reads now show their derivation from source support, outlet, extent, and lane compatibility. |
 | Curve | `curve --acceleration footing--> unresolved`, plus arc, Bezier, clothoid, and tangency placeholders | Curve samples now state that the current encoding is a placeholder until interpolation, acceleration/following, curvature, and transition concepts are grounded. |
 | Selection | `selection --local focus read--> selected structure + residue` | Selection is visible as a local focus read that preserves residue, not as a global picked-list. |
-| Crystallization | `read --crystallize--> reusable structure` | Reuse is explicit while provenance is kept as tension. |
+| Crystallization | `read --crystallize--> reusable structure`; `ConceptDefinitionSurface` exists for `Def/Prov/Cr` footing | Reuse is explicit while provenance is kept as structure or tension. |
 | Runtime and settlement | `unresolved structure --settlement read--> settled structure + residue`, `runtime pass --records--> residue + tension`, `runtime trace --crystallize--> behavior witness` | Static settlement, runtime use, and recorded runtime behavior are separated in the fixture surface. |
 
 ## Remaining Gaps
@@ -104,10 +104,11 @@ The next fixture pass should distinguish:
 
 ### Crystallization
 
-Crystallization is visible but shallow. The current fixtures say that a read
-became reusable, and they preserve provenance as tension. They do not yet encode
-the full relationship among source, read, crystallized output, provenance, and
-residue.
+Crystallization is now partially implemented. The current fixtures say that a
+read became reusable, and they preserve provenance as text/tension. The
+`ConceptDefinitionSurface` adds a first executable relation-shaped form for
+name/address, body, provenance, dependency frame, and residue/tension. The
+fixture projection does not yet emit those definition records.
 
 The needed form is:
 
@@ -167,5 +168,6 @@ the static structure alone.
 6. Postpone stronger curve encoding until interpolation, acceleration,
    following, curvature, and second-derivative primitives have at least one
    small canonical sample.
-7. Define crystallization provenance as a reusable local pattern before using
-   crystallized names heavily in PCB/ECAD samples.
+7. Update the glossary projection to emit `ConceptDefinitionSurface` records
+   for a few primitive and compound definitions before using crystallized names
+   heavily in PCB/ECAD samples.

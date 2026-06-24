@@ -186,6 +186,22 @@ definition can be reused without carrying the whole origin structure into every
 new context, but it should keep a provenance link back to the construction that
 gave it meaning.
 
+The executable foothold for this is `ConceptDefinitionSurface`:
+
+```text
+Def(N,E)
+  name/address N
+  body E
+  provenance Prov(E) unless a sharper provenance read is supplied
+  dependency frame built from earlier definitions or aspirational addresses
+  residue/tension
+```
+
+The companion reference surface is the current compact `Cr(Def(...))` reuse
+shape: it points at a definition or address, gives the local reuse context, and
+keeps residue/tension visible. The ordered ledger is an inspection surface over
+definitions, not a claim that the final binary form must be a lookup table.
+
 | Form | Encoding | Notes |
 | --- | --- | --- |
 | Primitive definition | `Def(N0,E_primitive)+Prov(E_primitive)` | Early definitions can name useful shapes that language may not already name. |
@@ -266,9 +282,9 @@ shape beside it.
 - `area-support` now emits positive area and anti-area contextual paths, but the
   projection still infers lane compatibility from expressions such as
   `AreaFill`, `AntiFill`, and `Area*`.
-- `crystallized-read` needs stronger definition/provenance rules so reused
-  concepts can stay compact while still tracing back to primitive and earlier
-  crystallized construction.
+- `crystallized-read` now has an executable definition/provenance surface, but
+  the glossary fixture projection still emits mostly text paths instead of
+  first-class `ConceptDefinitionSurface` records.
 - `ecad-documentary-structure` is deliberately loose until the KiCad/EasyEDA
   importer starts producing real Gojo documentary structure.
 

@@ -48,6 +48,11 @@ The first implementation is intentionally tiny.
 - `ConceptSeedSurface` packages readable text, a hint signature, optional opened
   Gojo structure, and residue/tension. It is read by field shape rather than by
   a marker tag.
+- `ConceptDefinitionSurface` stores a named or addressed definition as ordinary
+  relation structure: name/address, body, provenance, dependency frame, and
+  residue/tension. It also gives a small ordered ledger and reference surface so
+  later encodings can reuse a crystallized definition without expanding its full
+  construction every time.
 - `GojoStructureEncodingSurface` stores a diagnostic snapshot of a currently
   visible Gojo element tree as relation-shaped integer rows. It is useful for
   debugging and transport experiments, but it is not the canonical conceptual
@@ -810,6 +815,51 @@ opened structures separate.
 Seed residue remains visible. A phrase such as `cutting-remark` may carry a weak
 edge hint in a social context while preserving residue that says the metaphor is
 not literally a cutting edge.
+
+### Definition And Crystallization Surface
+
+`ConceptDefinitionSurface` is the first executable version of the `Def`,
+`Prov`, and `Cr` notation from the glossary vocabulary. It treats naming as a
+local crystallizing read:
+
+```text
+definition
+  name or concept address
+  body structure
+  provenance structure or read
+  dependency frame
+  residue or tension
+```
+
+If no separate provenance is supplied, the body is used as its own provenance.
+That keeps primitive definitions honest: `Def(position,P(X))` still points back
+to the actual position participation that gave the name meaning. Later
+definitions can depend on earlier definition relations, or on aspirational
+addresses that are not present yet. A missing dependency remains readable
+structure; it is not forced to become an exception or a fake unknown object.
+
+The surface also provides:
+
+```text
+definition ledger
+  ordered definitions, useful as an inspection/read surface
+
+definition reference
+  crystallized definition or address
+  local reuse context
+  residue or tension
+
+definition witness
+  body selected as source
+  definition as read surface
+  name/address as result
+  residue/tension and provenance preserved
+```
+
+This does not make a named definition the source of meaning. The name is a
+handle on body/provenance structure. The useful property is that a later sample
+can say "reuse area here" while still being able to reopen the width/height or
+boundary/lane construction that originally made `area` meaningful.
 
 #### How Many Values?
 
@@ -2043,10 +2093,11 @@ The next useful steps are small.
 2. Use `GojoStructureEncodingSurface.CreateDiagnosticSnapshot` only when we
    need to inspect the current helper/rendering structure or build an
    executable transport experiment.
-3. Build a tiny primitive seed fixture using `ConceptSeedSurface` for concepts
-   such as `distance`, `time`, `motion`, `rate`, `boundary`, `orientation`,
-   `resolution`, and `tension`.
-4. Encode one or two saved read witnesses so derived reads can become structure.
+3. Build a tiny primitive seed fixture using `ConceptSeedSurface` and
+   `ConceptDefinitionSurface` for concepts such as `distance`, `time`,
+   `motion`, `rate`, `boundary`, `orientation`, `resolution`, and `tension`.
+4. Encode one or two saved definition/read witnesses so derived reads can become
+   reusable structure without losing provenance.
 5. Add a small packet/document surface that can hold a root, local ids, strings,
    hint tokens, and relation records without pretending to be the final binary
    format.
