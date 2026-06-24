@@ -44,6 +44,37 @@ public sealed class BoundaryAreaDefinitionSurfaceTests
     }
 
     [Fact]
+    public void BandAreaReadDiscoversSettledAndUnsettledAreaFromLocalDefinitions()
+    {
+        var ledger = BoundaryAreaDefinitionSurface.CreateBandVariantLedger(new Carrier());
+
+        Assert.True(BoundaryAreaReadSurface.TryReadBandArea(ledger, out var read));
+        Assert.Contains(read.Boundaries, boundary => boundary.Role == "source");
+        Assert.Contains(read.Boundaries, boundary => boundary.Role == "terminal" && boundary.Extent == "+d");
+        Assert.Contains(read.Boundaries, boundary => boundary.Role == "terminal" && boundary.Extent == "-d");
+        Assert.Equal(2, read.BoundaryPairs.Length);
+        Assert.Equal(3, read.LaneEvidence.Length);
+        Assert.Contains(read.Areas, area => area.Settlement == "positive" && area.LaneEvidence.Lanes.All(lane => lane.Mark == "+f"));
+        Assert.Contains(read.Areas, area => area.Settlement == "anti" && area.LaneEvidence.Lanes.All(lane => lane.Mark == "+i"));
+        Assert.Contains(read.Areas, area => area.Settlement == "unsettled" && area.LaneEvidence.Lanes.Select(lane => lane.Mark).SequenceEqual(["+f", "-i"]));
+        Assert.Contains(read.Residues, residue =>
+            residue.Source.Settlement == "unsettled" &&
+            residue.ResidueOrTension == "mixed lane leaves directional residue, not geometric diagonal area");
+    }
+
+    [Fact]
+    public void BandAreaReadUsesStructureInsteadOfSpecificDefinitionNames()
+    {
+        var ledger = RenamedBandLedger();
+
+        Assert.True(BoundaryAreaReadSurface.TryReadBandArea(ledger, out var read));
+        Assert.Contains(read.Areas, area => area.Settlement == "positive");
+        Assert.Contains(read.Areas, area => area.Settlement == "anti");
+        Assert.Contains(read.Areas, area => area.Settlement == "unsettled");
+        Assert.DoesNotContain(read.Areas.Select(area => area.Definition.Name), name => name is "positive-area" or "anti-area" or "unsettled-area-read");
+    }
+
+    [Fact]
     public void BandVariantLedgerMatchesInspectableJsonFixture()
     {
         var generated = BandVariantFixtureEntry();
@@ -109,6 +140,73 @@ public sealed class BoundaryAreaDefinitionSurfaceTests
             "EncoderJson",
             "concept-definitions",
             "boundary-area-band-variants.json");
+
+    private static Relation RenamedBandLedger()
+    {
+        var definitions = new List<Relation>();
+
+        Relation Add(
+            string name,
+            IElement body,
+            IReadOnlyList<IElement>? dependencies = null,
+            IElement? residueOrTension = null)
+        {
+            var definition = ConceptDefinitionSurface.Create(
+                new Carrier(),
+                name,
+                body,
+                dependencies,
+                residueOrTension: residueOrTension);
+            definitions.Add(definition);
+            return definition;
+        }
+
+        var span = Add("seed", Relation.Segment(new Carrier(), 0, 1));
+        var start = Add("first edge", Address("Bd0", Atom("seed")), [span]);
+        var outlet = Add("escape", Relation.OrthogonalOutlet(Relation.Segment(new Carrier(), 0, 1)), [span]);
+
+        var outward = Add("outward amount", Atom("+d"));
+        var outwardOffset = Add("outward read", Address("Off", Atom("seed"), Atom("escape"), Atom("outward amount")), [span, outlet, outward]);
+        var outwardEdge = Add("outer edge", Address("Bd1", Atom("outward read")), [outwardOffset]);
+        var outwardPair = Add("outer pair", Relation.OrderedGroup(new Carrier(), start, outwardEdge), [start, outwardEdge]);
+        var startForward = Add("start forward", Address("Dir", Atom("first edge"), Atom("+f")), [start]);
+        var outerForward = Add("outer forward", Address("Dir", Atom("outer edge"), Atom("+f")), [outwardEdge]);
+        var forwardEvidence = Add("forward evidence", Relation.OrderedGroup(new Carrier(), startForward, outerForward), [startForward, outerForward]);
+        Add("filled result", Address("Area+", Atom("outer pair"), Atom("forward evidence")), [outwardPair, forwardEvidence]);
+
+        var inward = Add("inward amount", Atom("-d"));
+        var inwardOffset = Add("inward read", Address("Off", Atom("seed"), Atom("escape"), Atom("inward amount")), [span, outlet, inward]);
+        var inwardEdge = Add("inner edge", Address("Bd1", Atom("inward read")), [inwardOffset]);
+        var inwardPair = Add("inner pair", Relation.OrderedGroup(new Carrier(), start, inwardEdge), [start, inwardEdge]);
+        var startInverse = Add("start inverse", Address("Dir", Atom("first edge"), Atom("+i")), [start]);
+        var innerInverse = Add("inner inverse", Address("Dir", Atom("inner edge"), Atom("+i")), [inwardEdge]);
+        var inverseEvidence = Add("inverse evidence", Relation.OrderedGroup(new Carrier(), startInverse, innerInverse), [startInverse, innerInverse]);
+        Add("void result", Address("Area-", Atom("inner pair"), Atom("inverse evidence")), [inwardPair, inverseEvidence]);
+
+        var outerAgainst = Add("outer against", Address("Dir", Atom("outer edge"), Atom("-i")), [outwardEdge]);
+        var mixedEvidence = Add("cross evidence", Relation.OrderedGroup(new Carrier(), startForward, outerAgainst), [startForward, outerAgainst]);
+        var unsettled = Add(
+            "not area result",
+            Address("Area?", Atom("outer pair"), Atom("cross evidence")),
+            [outwardPair, mixedEvidence],
+            Text("mixed lane read does not settle as area"));
+        Add(
+            "leftover read",
+            Address("Residue", Atom("not area result")),
+            [unsettled],
+            Text("mixed lane leaves directional residue, not geometric diagonal area"));
+
+        return ConceptDefinitionSurface.Ledger(new Carrier(), definitions);
+    }
+
+    private static Relation Address(string lexical, params IElement[] parts) =>
+        ConceptAddressSurface.Compound(new Carrier(), lexical, parts);
+
+    private static Relation Atom(string name) =>
+        ConceptAddressSurface.Atom(new Carrier(), name);
+
+    private static Relation Text(string text) =>
+        EncodedTextSurface.Create(new Carrier(), text);
 
     private static void AssertJsonEquivalent(string expected, string actual)
     {

@@ -137,6 +137,15 @@ This shows that positive area, anti-area, and non-area residue can be built as
 neighboring local definitions. The next problem is discovery: reading these
 forms from ordinary Gojo structure rather than constructing them directly.
 
+That discovery now has a first executable foothold. `ConceptDefinitionDiscoverySurface`
+reads any definition ledger as a local graph of names, dependency edges,
+compound bodies, crystallized references, and ordered groups. It is not an
+area-specific classifier. `BoundaryAreaReadSurface` is a small consumer of that
+generic graph: it discovers `Bd0`, `Bd1`, boundary pairs, lane evidence,
+positive area, anti-area, and mixed-lane residue from the local definition
+structure. The tests include a deliberately renamed band ledger so this read
+does not depend on row names such as `positive-area`.
+
 ### Curve
 
 Curve remains the least grounded area. The samples now admit that arc, Bezier,
@@ -237,9 +246,10 @@ the static structure alone.
 
 ## Suggested Next Steps
 
-1. Add a local discovery/read surface for the band sample so `Bd0`, `Bd1`,
-   positive area, anti-area, and mixed-lane residue can be read from structure
-   rather than hand-assembled as definitions.
+1. Push the boundary/area read below definition names into more primitive Gojo
+   evidence where possible: source/terminal roles should eventually be read
+   from carrier, outlet, extent, and local boundary structure rather than from
+   compact `Bd0`/`Bd1` address bodies.
 2. Add a separate fixture for the mixed-lane/non-area read in the glossary
    projection only after the primitive sample is discoverable without relying
    on prose.

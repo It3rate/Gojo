@@ -138,6 +138,12 @@ say only `area-support`. That is enough to know the sample is about support over
 a boundary, but not enough to recover whether it is positive area, anti-area,
 mixed-lane residue, fill, void, or merely a low-resolution area read.
 
+`ConceptDefinitionDiscoverySurface` is the generic read layer for this kind of
+ledger. `BoundaryAreaReadSurface` uses it to discover boundary pairs and lane
+settlement without relying on the definition names in the sample. The remaining
+work is to lower `Bd0`, `Bd1`, `Dir`, and `Area?` bodies into more primitive
+Gojo structure as those footings become stable.
+
 ### Curve
 
 Curve is intentionally behind boundary and area. The likely canonical route is
