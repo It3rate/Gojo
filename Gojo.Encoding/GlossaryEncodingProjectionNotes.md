@@ -16,7 +16,7 @@ glossary-specific help.
 | Radial boundary | `position + orthogonal outlet + radius-evidence --> radial terminal boundary` | Circumference is represented as a bounded point outlet, while `circle-boundary` remains reusable. |
 | Area and anti-area | `compatible positive boundaries --> Area+`, `compatible inverse boundaries --> Area-`, `positive area + anti-area --> support with holes` | Positive support, anti support, and holes are visible without adding a symbolic area enum. |
 | Resolution facets | `Part`, `U(Comp)`, `Read(...,Res)`, `Slot(?)`, `Approx`, `Read(...,B?)`, `Refine`, `Run(...,Res)` | Partition, unit, observer/coarse, omission, approximation, ambiguity, ladder, and runtime resolution stay distinct instead of collapsing into generic unknown. |
-| Offset read | `source + orthogonal outlet + extent --> offset-read`, `paired offset reads --lane compatibility read--> area or tension` | Offset reads now show their derivation from source support, outlet, extent, and lane compatibility. |
+| Offset read | `Off(source,outlet,face,d,Res)`, `Bd1(Off)`, `BdSelf(Off)`, `Band(source,terminal)`, `Residue(Off?)`, `Cr(Off;context=...)` | Offset is now represented as a local read with source support, outlet/normal evidence, facing, signed distance, resolution, terminal boundary, mismatch residue, and crystallized reuse. |
 | Curve | `curve --acceleration footing--> unresolved`, plus arc, Bezier, clothoid, and tangency placeholders | Curve samples now state that the current encoding is a placeholder until interpolation, acceleration/following, curvature, and transition concepts are grounded. |
 | Selection | `selection --local focus read--> selected structure + residue` | Selection is visible as a local focus read that preserves residue, not as a global picked-list. |
 | Crystallization | `read --crystallize--> reusable structure`; `ConceptDefinitionSurface` exists for `Def/Prov/Cr` footing | Reuse is explicit while provenance is kept as structure or tension. |
@@ -235,19 +235,31 @@ residue rules to become first-class.
 
 ### Offset Read
 
-Offset read is now represented as derived context, but the projection does not
-read signed distance, normal witnesses, resolution, cap/join policy, or source
-carrier provenance from the structure. It mostly knows that an offset read
-exists and that it can terminate bounded flow.
+Offset read now has a primitive definition sample at
+`Gojo.Encoding.Tests/Fixtures/EncoderJson/concept-definitions/offset-variants.json`.
+The sample keeps the neighboring offset nouns visible together:
 
-The next fixture pass should distinguish:
+```text
+segment + left facing + +d -> left terminal boundary
+segment + right facing + -d -> right terminal boundary
+circumference + exterior facing + clockwise evidence -> exterior offset boundary
+circumference + interior facing + counterclockwise evidence -> interior offset boundary
+closed loop + offset read -> self boundary
+incompatible source/outlet evidence -> unresolved offset residue
+crystallized exterior circle offset -> reusable offset read
+```
 
-- open offset
-- paired offset band
-- closed offset loop
-- inset/outset ladder
-- offset residue/mismatch
-- offset read after crystallization
+`OffsetDefinitionSurface` builds those as an ordered definition ledger and
+`OffsetReadSurface` discovers offsets, facings, orientations, offset
+boundaries, bands, residues, and crystallized offset references from local
+definition structure. The renamed-ledger test checks that the reader is not
+depending on row names such as `segment-left-offset`.
+
+The remaining offset gap is that this is still definition-ledger discovery, not
+full arbitrary Gojo source discovery. It also does not solve actual geometric
+cap, join, miter, intersection, or self-overlap behavior. Those should remain
+runtime/calculation reads over the offset noun structure, with residues recorded
+when the geometry cannot settle cleanly.
 
 ### Crystallization
 
@@ -321,6 +333,10 @@ the static structure alone.
 7. Expand `ConceptDefinitionSurface` fixture emission from the ten current
    samples into a small ordered primitive ledger, then use that ledger as the
    dependency source for PCB/ECAD samples.
-8. Replace remaining compact address bodies such as `BdSelf(...)`, `Area+(...)`,
+8. Push offset discovery below the definition ledger, following the resolution
+   facet pattern: a reader should eventually recover offset source, outlet,
+   facing, signed distance, resolution, terminal boundary, orientation evidence,
+   and mismatch residue from ordinary local Gojo source structure.
+9. Replace remaining compact address bodies such as `BdSelf(...)`, `Area+(...)`,
    `Off(...)`, and `Settle(...)` with native Gojo structure where the lower
-   footing is clear enough, following the resolution-facet pattern.
+   footing is clear enough.

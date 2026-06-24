@@ -525,7 +525,11 @@ should be expressible from the primitive ladder.
 | corner | `two edge reads + shared site + angle residue` | corner, cusp, joint |
 | face | `Area?(Bd...,side)` | face, surface, region |
 | contour loop | `Path(E*) + Closure` | loop, outline, perimeter |
-| offset curve | `Off(E,O(E),d,Res(n))` | offset, inset, outset, parallel |
+| offset read | `Off(E,O(E),Face,d,Res(n))` | offset, inset, outset, parallel |
+| terminal offset boundary | `Bd1(Off(...))` or `BdSelf(Off(...))` | offset-boundary, parallel-boundary, offset-contour |
+| offset band | `Band(Bd0(E),Bd1(Off(...)))` | band, margin, stroke-width, shell |
+| circumference offset | `Off(BdSelf(Circle),O(BdSelf),Face,d,Res(n))` | expanded-circle, contracted-circle, ring |
+| offset residue | `Off?(source,outlet,d)+Residue` | failed-offset, mismatched-offset, unresolved-parallel |
 | fillet | `Settle(corner, radius/continuity)` | fillet, rounded-corner |
 | chamfer | `Replace(corner, span)` | chamfer, bevel, cut-corner |
 | hole | `Area- inside Area+` | hole, cutout, void |
@@ -548,7 +552,11 @@ edge/face/loop/hole
   medium to high with boundary and area evidence.
 
 fillet/chamfer/tangent
-  currently medium to weak until curve and interpolation footings improve.
+  currently medium to weak until curve, interpolation, cap, and join footings improve.
+
+offset/band/circumference offset
+  medium to high in definition-ledger samples; weaker for arbitrary source
+  structure until offset source/outlet/facing discovery is native.
 
 clearance/snap/grid
   high if partition, unit, and comparison basis are visible.
@@ -592,6 +600,7 @@ span when carrier evidence is present
 lane-marked orientation
 boundary with source/terminal/self context
 area/anti-area when lane evidence is present
+offset with source/outlet/facing/distance/resolution context
 partition/unit/comparison
 residue/tension attached to a read
 definition/provenance/reuse
@@ -604,6 +613,7 @@ approximation without known target
 inside/outside without side convention
 selection with conditional stop/continue
 curve, smoothing, interpolation, and acceleration
+offset cap/join/intersection behavior after calculation
 category/type without example frame
 social/intentional words such as ownership, permission, promise, trust
 ```

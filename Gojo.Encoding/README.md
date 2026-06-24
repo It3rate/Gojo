@@ -62,6 +62,11 @@ The first implementation is intentionally tiny.
   remain distinct from inferred compatible reads, and inferred reads keep their
   evidence as residue/tension. The compact strings remain debug reads, not the
   source of meaning.
+- `OffsetDefinitionSurface` and `OffsetReadSurface` give the first offset noun
+  sample: segment-side offsets, circumference offsets, interior/exterior facing,
+  clockwise/counterclockwise orientation evidence, open and closed offsets,
+  mismatch residue, and crystallized offset reuse. The reader discovers those
+  forms from local definition structure rather than from row names.
 - `GojoStructureEncodingSurface` stores a diagnostic snapshot of a currently
   visible Gojo element tree as relation-shaped integer rows. It is useful for
   debugging and transport experiments, but it is not the canonical conceptual

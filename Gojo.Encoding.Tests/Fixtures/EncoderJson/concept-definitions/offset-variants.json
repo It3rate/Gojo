@@ -1,0 +1,359 @@
+{
+  "represents": "A tiny offset sample covering segment-side offsets, circumference offsets, interior and exterior facing, clockwise and counterclockwise orientation evidence, open and closed offsets, mismatch residue, and crystallized offset reuse.",
+  "entryId": "offset-variants",
+  "expression": "Off(source,outlet,face,d,Res) + Bd1/BdSelf + Band + Residue",
+  "encodingNote": "This is a primitive definition sample, not a geometry solver. Offset is represented as a local read from source support through outlet, facing, distance, and resolution evidence.",
+  "gojo": {
+    "known": [
+      "circumference-boundary",
+      "circle-offset",
+      "closed-offset",
+      "crystallized-offset-read",
+      "offset-residue",
+      "segment-offset"
+    ],
+    "paths": [
+      "segment + left facing + +d --> left offset boundary",
+      "segment + right facing + -d --> right offset boundary",
+      "circumference + exterior facing + clockwise evidence --> exterior offset boundary",
+      "circumference + interior facing + counterclockwise evidence --> interior offset boundary",
+      "closed source loop + offset read --> self boundary",
+      "incompatible source and outlet evidence --> unresolved offset residue"
+    ],
+    "tension": [
+      "cap and join policy not present",
+      "open offset has no closure boundary yet",
+      "source and normal evidence do not share local support",
+      "offset read remains unresolved until source and outlet are locally compatible"
+    ],
+    "definitions": [
+      {
+        "name": "segment-source",
+        "encoding": "Def(segment-source,S(P(A@X),P(B@Y)))+Prov(S(P(A@X),P(B@Y)))",
+        "body": "S(P(A@X),P(B@Y))"
+      },
+      {
+        "name": "segment-source-boundary",
+        "encoding": "Def(segment-source-boundary,Bd0(segment-source); deps=segment-source)+Prov(Bd0(segment-source))",
+        "body": "Bd0(segment-source)",
+        "dependsOn": [
+          "segment-source"
+        ]
+      },
+      {
+        "name": "segment-orthogonal-outlet",
+        "encoding": "Def(segment-orthogonal-outlet,F(O(S(P(A@X),P(B@Y)))); deps=segment-source)+Prov(F(O(S(P(A@X),P(B@Y)))))",
+        "body": "F(O(S(P(A@X),P(B@Y))))",
+        "dependsOn": [
+          "segment-source"
+        ]
+      },
+      {
+        "name": "segment-offset-resolution",
+        "encoding": "Def(segment-offset-resolution,Res(normal-distance))+Prov(Res(normal-distance))",
+        "body": "Res(normal-distance)"
+      },
+      {
+        "name": "segment-left-facing",
+        "encoding": "Def(segment-left-facing,Face(segment-source,left); deps=segment-source)+Prov(Face(segment-source,left))",
+        "body": "Face(segment-source,left)",
+        "dependsOn": [
+          "segment-source"
+        ]
+      },
+      {
+        "name": "segment-right-facing",
+        "encoding": "Def(segment-right-facing,Face(segment-source,right); deps=segment-source)+Prov(Face(segment-source,right))",
+        "body": "Face(segment-source,right)",
+        "dependsOn": [
+          "segment-source"
+        ]
+      },
+      {
+        "name": "left-distance",
+        "encoding": "Def(left-distance,+d)+Prov(+d)",
+        "body": "+d"
+      },
+      {
+        "name": "right-distance",
+        "encoding": "Def(right-distance,-d)+Prov(-d)",
+        "body": "-d"
+      },
+      {
+        "name": "segment-left-offset",
+        "encoding": "Def(segment-left-offset,Off(segment-source,segment-orthogonal-outlet,segment-left-facing,left-distance,segment-offset-resolution); deps=segment-source,segment-orthogonal-outlet,segment-left-facing,left-distance,segment-offset-resolution)+Prov(Off(segment-source,segment-orthogonal-outlet,segment-left-facing,left-distance,segment-offset-resolution))",
+        "body": "Off(segment-source,segment-orthogonal-outlet,segment-left-facing,left-distance,segment-offset-resolution)",
+        "dependsOn": [
+          "segment-source",
+          "segment-orthogonal-outlet",
+          "segment-left-facing",
+          "left-distance",
+          "segment-offset-resolution"
+        ]
+      },
+      {
+        "name": "segment-right-offset",
+        "encoding": "Def(segment-right-offset,Off(segment-source,segment-orthogonal-outlet,segment-right-facing,right-distance,segment-offset-resolution); deps=segment-source,segment-orthogonal-outlet,segment-right-facing,right-distance,segment-offset-resolution)+Prov(Off(segment-source,segment-orthogonal-outlet,segment-right-facing,right-distance,segment-offset-resolution))",
+        "body": "Off(segment-source,segment-orthogonal-outlet,segment-right-facing,right-distance,segment-offset-resolution)",
+        "dependsOn": [
+          "segment-source",
+          "segment-orthogonal-outlet",
+          "segment-right-facing",
+          "right-distance",
+          "segment-offset-resolution"
+        ]
+      },
+      {
+        "name": "segment-left-terminal-boundary",
+        "encoding": "Def(segment-left-terminal-boundary,Bd1(segment-left-offset); deps=segment-left-offset)+Prov(Bd1(segment-left-offset))",
+        "body": "Bd1(segment-left-offset)",
+        "dependsOn": [
+          "segment-left-offset"
+        ]
+      },
+      {
+        "name": "segment-right-terminal-boundary",
+        "encoding": "Def(segment-right-terminal-boundary,Bd1(segment-right-offset); deps=segment-right-offset)+Prov(Bd1(segment-right-offset))",
+        "body": "Bd1(segment-right-offset)",
+        "dependsOn": [
+          "segment-right-offset"
+        ]
+      },
+      {
+        "name": "segment-left-band",
+        "encoding": "Def(segment-left-band,Band(segment-source-boundary,segment-left-terminal-boundary); deps=segment-source-boundary,segment-left-terminal-boundary)+Prov(Band(segment-source-boundary,segment-left-terminal-boundary))",
+        "body": "Band(segment-source-boundary,segment-left-terminal-boundary)",
+        "dependsOn": [
+          "segment-source-boundary",
+          "segment-left-terminal-boundary"
+        ]
+      },
+      {
+        "name": "segment-right-band",
+        "encoding": "Def(segment-right-band,Band(segment-source-boundary,segment-right-terminal-boundary); deps=segment-source-boundary,segment-right-terminal-boundary)+Prov(Band(segment-source-boundary,segment-right-terminal-boundary))",
+        "body": "Band(segment-source-boundary,segment-right-terminal-boundary)",
+        "dependsOn": [
+          "segment-source-boundary",
+          "segment-right-terminal-boundary"
+        ]
+      },
+      {
+        "name": "open-segment-offset",
+        "encoding": "Def(open-segment-offset,OffOpen(segment-left-offset); deps=segment-left-offset)+Prov(OffOpen(segment-left-offset)); residue=cap and join policy not present",
+        "body": "OffOpen(segment-left-offset)",
+        "dependsOn": [
+          "segment-left-offset"
+        ],
+        "residueOrTension": "cap and join policy not present"
+      },
+      {
+        "name": "offset-cap-residue",
+        "encoding": "Def(offset-cap-residue,Residue(open-segment-offset); deps=open-segment-offset)+Prov(Residue(open-segment-offset)); residue=open offset has no closure boundary yet",
+        "body": "Residue(open-segment-offset)",
+        "dependsOn": [
+          "open-segment-offset"
+        ],
+        "residueOrTension": "open offset has no closure boundary yet"
+      },
+      {
+        "name": "circle-center",
+        "encoding": "Def(circle-center,P(X))+Prov(P(X))",
+        "body": "P(X)"
+      },
+      {
+        "name": "circle-radius",
+        "encoding": "Def(circle-radius,+r)+Prov(+r)",
+        "body": "+r"
+      },
+      {
+        "name": "circle-source",
+        "encoding": "Def(circle-source,Circle(circle-center,circle-radius); deps=circle-center,circle-radius)+Prov(Circle(circle-center,circle-radius))",
+        "body": "Circle(circle-center,circle-radius)",
+        "dependsOn": [
+          "circle-center",
+          "circle-radius"
+        ]
+      },
+      {
+        "name": "circumference-boundary",
+        "encoding": "Def(circumference-boundary,BdSelf(circle-source); deps=circle-source)+Prov(BdSelf(circle-source))",
+        "body": "BdSelf(circle-source)",
+        "dependsOn": [
+          "circle-source"
+        ]
+      },
+      {
+        "name": "circle-normal-outlet",
+        "encoding": "Def(circle-normal-outlet,O(circumference-boundary); deps=circumference-boundary)+Prov(O(circumference-boundary))",
+        "body": "O(circumference-boundary)",
+        "dependsOn": [
+          "circumference-boundary"
+        ]
+      },
+      {
+        "name": "clockwise-orientation",
+        "encoding": "Def(clockwise-orientation,Orient(circumference-boundary,cw); deps=circumference-boundary)+Prov(Orient(circumference-boundary,cw))",
+        "body": "Orient(circumference-boundary,cw)",
+        "dependsOn": [
+          "circumference-boundary"
+        ]
+      },
+      {
+        "name": "counterclockwise-orientation",
+        "encoding": "Def(counterclockwise-orientation,Orient(circumference-boundary,ccw); deps=circumference-boundary)+Prov(Orient(circumference-boundary,ccw))",
+        "body": "Orient(circumference-boundary,ccw)",
+        "dependsOn": [
+          "circumference-boundary"
+        ]
+      },
+      {
+        "name": "circle-exterior-facing",
+        "encoding": "Def(circle-exterior-facing,Face(circumference-boundary,exterior); deps=circumference-boundary)+Prov(Face(circumference-boundary,exterior))",
+        "body": "Face(circumference-boundary,exterior)",
+        "dependsOn": [
+          "circumference-boundary"
+        ]
+      },
+      {
+        "name": "circle-interior-facing",
+        "encoding": "Def(circle-interior-facing,Face(circumference-boundary,interior); deps=circumference-boundary)+Prov(Face(circumference-boundary,interior))",
+        "body": "Face(circumference-boundary,interior)",
+        "dependsOn": [
+          "circumference-boundary"
+        ]
+      },
+      {
+        "name": "outward-distance",
+        "encoding": "Def(outward-distance,+d)+Prov(+d)",
+        "body": "+d"
+      },
+      {
+        "name": "inward-distance",
+        "encoding": "Def(inward-distance,-d)+Prov(-d)",
+        "body": "-d"
+      },
+      {
+        "name": "circle-offset-resolution",
+        "encoding": "Def(circle-offset-resolution,Res(radial-distance))+Prov(Res(radial-distance))",
+        "body": "Res(radial-distance)"
+      },
+      {
+        "name": "circle-exterior-offset",
+        "encoding": "Def(circle-exterior-offset,Off(circumference-boundary,circle-normal-outlet,circle-exterior-facing,outward-distance,circle-offset-resolution); deps=circumference-boundary,circle-normal-outlet,circle-exterior-facing,outward-distance,circle-offset-resolution)+Prov(Off(circumference-boundary,circle-normal-outlet,circle-exterior-facing,outward-distance,circle-offset-resolution))",
+        "body": "Off(circumference-boundary,circle-normal-outlet,circle-exterior-facing,outward-distance,circle-offset-resolution)",
+        "dependsOn": [
+          "circumference-boundary",
+          "circle-normal-outlet",
+          "circle-exterior-facing",
+          "outward-distance",
+          "circle-offset-resolution"
+        ]
+      },
+      {
+        "name": "circle-exterior-offset-boundary",
+        "encoding": "Def(circle-exterior-offset-boundary,BdSelf(circle-exterior-offset); deps=circle-exterior-offset,clockwise-orientation)+Prov(BdSelf(circle-exterior-offset))",
+        "body": "BdSelf(circle-exterior-offset)",
+        "dependsOn": [
+          "circle-exterior-offset",
+          "clockwise-orientation"
+        ]
+      },
+      {
+        "name": "circle-exterior-ring-band",
+        "encoding": "Def(circle-exterior-ring-band,Band(circumference-boundary,circle-exterior-offset-boundary); deps=circumference-boundary,circle-exterior-offset-boundary)+Prov(Band(circumference-boundary,circle-exterior-offset-boundary))",
+        "body": "Band(circumference-boundary,circle-exterior-offset-boundary)",
+        "dependsOn": [
+          "circumference-boundary",
+          "circle-exterior-offset-boundary"
+        ]
+      },
+      {
+        "name": "circle-interior-offset",
+        "encoding": "Def(circle-interior-offset,Off(circumference-boundary,circle-normal-outlet,circle-interior-facing,inward-distance,circle-offset-resolution); deps=circumference-boundary,circle-normal-outlet,circle-interior-facing,inward-distance,circle-offset-resolution)+Prov(Off(circumference-boundary,circle-normal-outlet,circle-interior-facing,inward-distance,circle-offset-resolution))",
+        "body": "Off(circumference-boundary,circle-normal-outlet,circle-interior-facing,inward-distance,circle-offset-resolution)",
+        "dependsOn": [
+          "circumference-boundary",
+          "circle-normal-outlet",
+          "circle-interior-facing",
+          "inward-distance",
+          "circle-offset-resolution"
+        ]
+      },
+      {
+        "name": "circle-interior-offset-boundary",
+        "encoding": "Def(circle-interior-offset-boundary,BdSelf(circle-interior-offset); deps=circle-interior-offset,counterclockwise-orientation)+Prov(BdSelf(circle-interior-offset))",
+        "body": "BdSelf(circle-interior-offset)",
+        "dependsOn": [
+          "circle-interior-offset",
+          "counterclockwise-orientation"
+        ]
+      },
+      {
+        "name": "circle-interior-ring-band",
+        "encoding": "Def(circle-interior-ring-band,Band(circle-interior-offset-boundary,circumference-boundary); deps=circle-interior-offset-boundary,circumference-boundary)+Prov(Band(circle-interior-offset-boundary,circumference-boundary))",
+        "body": "Band(circle-interior-offset-boundary,circumference-boundary)",
+        "dependsOn": [
+          "circle-interior-offset-boundary",
+          "circumference-boundary"
+        ]
+      },
+      {
+        "name": "closed-segment-loop",
+        "encoding": "Def(closed-segment-loop,Loop(segment-source); deps=segment-source)+Prov(Loop(segment-source))",
+        "body": "Loop(segment-source)",
+        "dependsOn": [
+          "segment-source"
+        ]
+      },
+      {
+        "name": "closed-loop-offset",
+        "encoding": "Def(closed-loop-offset,OffClosed(closed-segment-loop,segment-orthogonal-outlet,segment-left-facing,left-distance,segment-offset-resolution); deps=closed-segment-loop,segment-orthogonal-outlet,segment-left-facing,left-distance,segment-offset-resolution)+Prov(OffClosed(closed-segment-loop,segment-orthogonal-outlet,segment-left-facing,left-distance,segment-offset-resolution))",
+        "body": "OffClosed(closed-segment-loop,segment-orthogonal-outlet,segment-left-facing,left-distance,segment-offset-resolution)",
+        "dependsOn": [
+          "closed-segment-loop",
+          "segment-orthogonal-outlet",
+          "segment-left-facing",
+          "left-distance",
+          "segment-offset-resolution"
+        ]
+      },
+      {
+        "name": "closed-loop-offset-boundary",
+        "encoding": "Def(closed-loop-offset-boundary,BdSelf(closed-loop-offset); deps=closed-loop-offset)+Prov(BdSelf(closed-loop-offset))",
+        "body": "BdSelf(closed-loop-offset)",
+        "dependsOn": [
+          "closed-loop-offset"
+        ]
+      },
+      {
+        "name": "offset-mismatch",
+        "encoding": "Def(offset-mismatch,Off?(segment-source,circle-normal-outlet,left-distance); deps=segment-source,circle-normal-outlet,left-distance)+Prov(Off?(segment-source,circle-normal-outlet,left-distance)); residue=source and normal evidence do not share local support",
+        "body": "Off?(segment-source,circle-normal-outlet,left-distance)",
+        "dependsOn": [
+          "segment-source",
+          "circle-normal-outlet",
+          "left-distance"
+        ],
+        "residueOrTension": "source and normal evidence do not share local support"
+      },
+      {
+        "name": "offset-mismatch-residue",
+        "encoding": "Def(offset-mismatch-residue,Residue(offset-mismatch); deps=offset-mismatch)+Prov(Residue(offset-mismatch)); residue=offset read remains unresolved until source and outlet are locally compatible",
+        "body": "Residue(offset-mismatch)",
+        "dependsOn": [
+          "offset-mismatch"
+        ],
+        "residueOrTension": "offset read remains unresolved until source and outlet are locally compatible"
+      },
+      {
+        "name": "crystallized-offset-read",
+        "encoding": "Def(crystallized-offset-read,Cr(circle-exterior-offset;context=circumference-boundary); deps=circle-exterior-offset,circumference-boundary)+Prov(Cr(circle-exterior-offset;context=circumference-boundary))",
+        "body": "Cr(circle-exterior-offset;context=circumference-boundary)",
+        "dependsOn": [
+          "circle-exterior-offset",
+          "circumference-boundary"
+        ]
+      }
+    ]
+  }
+}
