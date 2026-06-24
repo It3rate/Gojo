@@ -5,9 +5,19 @@
   "encodingNote": "Intersection points are derived locations where offset paths participate together. Split reads use those points to divide offset carriers into selectable sections.",
   "gojo": {
     "known": [
+      "boundary",
       "offset-read",
       "selection",
       "span"
+    ],
+    "paths": [
+      "offset-read --terminal boundary read--> Bd1(Off)",
+      "selection --local focus read--> selected structure + residue",
+      "source + orthogonal outlet + extent --> offset-read",
+      "span --source boundary read--> Bd0(S)"
+    ],
+    "tension": [
+      "selection stop rule not encoded"
     ]
   }
 }

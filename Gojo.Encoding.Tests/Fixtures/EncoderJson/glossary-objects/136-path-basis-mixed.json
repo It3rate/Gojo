@@ -6,13 +6,18 @@
   "gojo": {
     "known": [
       "basis",
+      "boundary",
       "circle-boundary",
+      "constraint-or-settlement",
       "flow",
       "radius-evidence"
     ],
     "paths": [
+      "circle-boundary --self boundary read--> BdSelf(C)",
+      "position + orthogonal outlet + radius-evidence --> radial terminal boundary",
       "position + radius-evidence --> circle-boundary",
-      "source --orthogonal outlet--> flow"
+      "source --orthogonal outlet--> flow",
+      "unresolved structure --settlement read--> settled structure + residue"
     ],
     "tension": [
       "flow source unresolved"

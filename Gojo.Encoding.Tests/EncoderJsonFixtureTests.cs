@@ -210,11 +210,64 @@ public sealed class EncoderJsonFixtureTests
         var json = File.ReadAllText(file);
         var entry = GojoStructureEncodingJson.DeserializeFixtureEntry(json);
 
-        Assert.Equal(["circle-boundary", "position", "radius-evidence"], entry.Gojo.Known ?? []);
+        Assert.Equal(["boundary", "circle-boundary", "position", "radius-evidence"], entry.Gojo.Known ?? []);
+        Assert.Contains("circle-boundary --self boundary read--> BdSelf(C)", entry.Gojo.Paths ?? []);
+        Assert.Contains("position + orthogonal outlet + radius-evidence --> radial terminal boundary", entry.Gojo.Paths ?? []);
         Assert.Contains("position + radius-evidence --> circle-boundary", entry.Gojo.Paths ?? []);
         Assert.DoesNotContain("position + radius-position --> circle-boundary", entry.Gojo.Paths ?? []);
         Assert.Contains("contour traversal not selected", entry.Gojo.Tension ?? []);
         Assert.Contains("inside/outside support not selected", entry.Gojo.Tension ?? []);
+    }
+
+    [Fact]
+    public void ContextualBoundaryAreaAndOffsetFormsArePhysicallyRepresented()
+    {
+        var offset = ReadFixtureEntry("146-boolean-offset-offset-reads.json");
+
+        Assert.Contains("span --source boundary read--> Bd0(S)", offset.Gojo.Paths ?? []);
+        Assert.Contains("source + orthogonal outlet + extent --> offset-read", offset.Gojo.Paths ?? []);
+        Assert.Contains("offset-read --terminal boundary read--> Bd1(Off)", offset.Gojo.Paths ?? []);
+        Assert.Contains("paired offset reads --lane compatibility read--> area or tension", offset.Gojo.Paths ?? []);
+        Assert.Contains("offset lane compatibility unresolved", offset.Gojo.Tension ?? []);
+
+        var unionHole = ReadFixtureEntry("148-boolean-offset-union-hole.json");
+
+        Assert.Contains("compatible positive boundaries --> Area+", unionHole.Gojo.Paths ?? []);
+        Assert.Contains("compatible inverse boundaries --> Area-", unionHole.Gojo.Paths ?? []);
+        Assert.Contains("positive area + anti-area --> support with holes", unionHole.Gojo.Paths ?? []);
+        Assert.Contains("closed path --boundary read--> Bd(Path)", unionHole.Gojo.Paths ?? []);
+        Assert.Contains("selection --local focus read--> selected structure + residue", unionHole.Gojo.Paths ?? []);
+    }
+
+    [Fact]
+    public void CurveSelectionCrystallizationAndRuntimeGapsStayVisible()
+    {
+        var curve = ReadFixtureEntry("080-curves-line-line-arc-blend.json");
+
+        Assert.Contains("arc evidence --curve read--> constant curvature placeholder", curve.Gojo.Paths ?? []);
+        Assert.Contains("curve --acceleration footing--> unresolved", curve.Gojo.Paths ?? []);
+        Assert.Contains("tangency evidence --settlement read--> smoothing bridge", curve.Gojo.Paths ?? []);
+        Assert.Contains("curve acceleration footing unresolved", curve.Gojo.Tension ?? []);
+
+        var crystallized = ReadFixtureEntry("153-crystallization-provenance-crystallized-element.json");
+
+        Assert.Contains("read --crystallize--> reusable structure", crystallized.Gojo.Paths ?? []);
+        Assert.Contains("crystallization provenance must remain inspectable", crystallized.Gojo.Tension ?? []);
+
+        var runtime = ReadFixtureEntry("199-repetition-timeline-feedback.json");
+
+        Assert.Contains("runtime pass --records--> residue + tension", runtime.Gojo.Paths ?? []);
+        Assert.Contains("runtime trace --crystallize--> behavior witness", runtime.Gojo.Paths ?? []);
+        Assert.Contains("runtime/static distinction must remain explicit", runtime.Gojo.Tension ?? []);
+    }
+
+    [Fact]
+    public void MixedLaneDiagonalRequiresExplicitMixedLaneEvidence()
+    {
+        var diagonalGeometry = ReadFixtureEntry("173-radial-crescent-outline-experiment-full.json");
+
+        Assert.DoesNotContain("mixed lane boundaries --> diagonal tension", diagonalGeometry.Gojo.Paths ?? []);
+        Assert.DoesNotContain("area mixed-lane read does not settle as area", diagonalGeometry.Gojo.Tension ?? []);
     }
 
     [Fact]
@@ -283,6 +336,9 @@ public sealed class EncoderJsonFixtureTests
     private static GojoEncodingJsonFixtureEntry[] ReadFixtureEntries() =>
         [.. FixturePaths()
             .Select(file => GojoStructureEncodingJson.DeserializeFixtureEntry(File.ReadAllText(file)))];
+
+    private static GojoEncodingJsonFixtureEntry ReadFixtureEntry(string fixtureName) =>
+        GojoStructureEncodingJson.DeserializeFixtureEntry(File.ReadAllText(Path.Combine(FixtureDirectory(), fixtureName)));
 
     private static string[] FixturePaths() =>
         [.. Directory

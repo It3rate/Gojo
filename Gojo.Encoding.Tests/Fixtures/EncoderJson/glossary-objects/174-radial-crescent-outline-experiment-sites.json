@@ -7,6 +7,9 @@
     "known": [
       "basis",
       "boundary"
+    ],
+    "paths": [
+      "closed path --boundary read--> Bd(Path)"
     ]
   }
 }

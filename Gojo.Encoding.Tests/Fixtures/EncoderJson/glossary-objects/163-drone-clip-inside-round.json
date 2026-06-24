@@ -8,6 +8,10 @@
       "boundary",
       "inverse-or-opposed-participation",
       "span"
+    ],
+    "paths": [
+      "closed path --boundary read--> Bd(Path)",
+      "span --source boundary read--> Bd0(S)"
     ]
   }
 }

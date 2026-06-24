@@ -4,11 +4,13 @@
   "expression": "D(Circle(O,R), +theta -> -theta)",
   "gojo": {
     "known": [
+      "boundary",
       "circle-boundary",
       "orientation",
       "radius-evidence"
     ],
     "paths": [
+      "circle-boundary --self boundary read--> BdSelf(C)",
       "position + radius-evidence --> circle-boundary"
     ]
   }

@@ -321,6 +321,7 @@ public static class GojoStructureEncodingFixtureProjection
             AddGeneralExpressionHints(
                 text,
                 expression.Contains("D(", StringComparison.Ordinal));
+            AddContextualExpressionForms(expression, text);
         }
 
         private void ApplyLocalParticipationPrinciple(Source source)
@@ -352,9 +353,195 @@ public static class GojoStructureEncodingFixtureProjection
                 known.Add("radius-evidence");
 
                 paths.Add("position + radius-evidence --> circle-boundary");
+                paths.Add("position + orthogonal outlet + radius-evidence --> radial terminal boundary");
 
                 tension.Add("contour traversal not selected");
                 tension.Add("inside/outside support not selected");
+            }
+        }
+
+        private void AddContextualExpressionForms(string expression, string text)
+        {
+            var hasSpan = known.Contains("span") || expression.Contains("S(", StringComparison.Ordinal);
+            var hasCircle = known.Contains("circle-boundary") || expression.Contains("Circle", StringComparison.Ordinal);
+            var hasArea = known.Contains("area-support") ||
+                text.Contains("areafill") ||
+                text.Contains("antifill") ||
+                text.Contains("area*");
+            var hasAntiArea = text.Contains("anti") ||
+                text.Contains("inverse") ||
+                text.Contains("negative") ||
+                expression.Contains("Area*", StringComparison.Ordinal);
+            var hasPositiveArea = text.Contains("areafill") ||
+                expression.Contains("Area(", StringComparison.Ordinal) ||
+                text.Contains("positive support");
+            var hasOffset = known.Contains("offset-read") || text.Contains("offsetread");
+            var hasSelection = known.Contains("selection");
+            var hasCurve = known.Contains("curve");
+            var hasSettlement = known.Contains("constraint-or-settlement") ||
+                text.Contains("settled") ||
+                text.Contains("settlement") ||
+                text.Contains("constraint") ||
+                text.Contains("residue");
+            var hasRuntimeTrace = text.Contains("feedback") ||
+                text.Contains("timeline") ||
+                text.Contains("at each tick") ||
+                text.Contains("repeat until");
+            var hasClosedOrLoopRead = text.Contains("loop") ||
+                text.Contains("outline") ||
+                text.Contains("closedpath") ||
+                text.Contains("closed path") ||
+                text.Contains("closed topology");
+
+            if (hasSpan &&
+                (known.Contains("boundary") ||
+                 hasArea ||
+                 hasOffset ||
+                 text.Contains("pathread") ||
+                 text.Contains("path carrier") ||
+                 text.Contains("source carrier")))
+            {
+                known.Add("boundary");
+                paths.Add("span --source boundary read--> Bd0(S)");
+            }
+
+            if (hasCircle)
+            {
+                known.Add("boundary");
+                paths.Add("circle-boundary --self boundary read--> BdSelf(C)");
+
+                if (known.Contains("flow") ||
+                    text.Contains("orthogonal-outlet") ||
+                    text.Contains("radial") ||
+                    text.Contains("radius-evidence"))
+                {
+                    paths.Add("position + orthogonal outlet + radius-evidence --> radial terminal boundary");
+                }
+            }
+
+            if (hasClosedOrLoopRead)
+            {
+                known.Add("boundary");
+                paths.Add("closed path --boundary read--> Bd(Path)");
+            }
+
+            if (hasArea)
+            {
+                known.Add("area-support");
+
+                if (known.Contains("boundary") || hasCircle)
+                {
+                    paths.Add("area-support --separator boundary read--> BdArea");
+                }
+
+                if (hasPositiveArea)
+                {
+                    paths.Add("compatible positive boundaries --> Area+");
+                }
+
+                if (hasAntiArea)
+                {
+                    known.Add("inverse-or-opposed-participation");
+                    paths.Add("compatible inverse boundaries --> Area-");
+                }
+
+                if (hasPositiveArea && hasAntiArea)
+                {
+                    paths.Add("positive area + anti-area --> support with holes");
+                }
+
+                if (!hasPositiveArea && !hasAntiArea)
+                {
+                    tension.Add("area side/lane not fully selected");
+                }
+            }
+
+            if (text.Contains("mixed lane") || text.Contains("mixed-lane"))
+            {
+                paths.Add("mixed lane boundaries --> diagonal tension");
+                tension.Add("area mixed-lane read does not settle as area");
+            }
+
+            if (hasOffset)
+            {
+                known.Add("offset-read");
+                paths.Add("source + orthogonal outlet + extent --> offset-read");
+
+                if (hasSpan || text.Contains("pathread") || text.Contains("pathcarrier"))
+                {
+                    paths.Add("offset-read --terminal boundary read--> Bd1(Off)");
+                }
+
+                if (text.Contains("+d,-d") ||
+                    text.Contains("+d, +d") ||
+                    text.Contains("paired") ||
+                    text.Contains("positive and inverse"))
+                {
+                    paths.Add("paired offset reads --lane compatibility read--> area or tension");
+                    tension.Add("offset lane compatibility unresolved");
+                }
+
+                if (text.Contains("residue") || text.Contains("mismatch"))
+                {
+                    tension.Add("offset residue preserved");
+                }
+            }
+
+            if (hasSelection)
+            {
+                paths.Add("selection --local focus read--> selected structure + residue");
+                tension.Add("selection stop rule not encoded");
+
+                if (text.Contains("cusp") || text.Contains("rounding"))
+                {
+                    paths.Add("selection --crystallize--> reusable selection read");
+                }
+            }
+
+            if (known.Contains("crystallized-read"))
+            {
+                paths.Add("read --crystallize--> reusable structure");
+                tension.Add("crystallization provenance must remain inspectable");
+            }
+
+            if (hasSettlement)
+            {
+                known.Add("constraint-or-settlement");
+                paths.Add("unresolved structure --settlement read--> settled structure + residue");
+
+            }
+
+            if (hasRuntimeTrace)
+            {
+                paths.Add("runtime pass --records--> residue + tension");
+                paths.Add("runtime trace --crystallize--> behavior witness");
+                tension.Add("runtime/static distinction must remain explicit");
+            }
+
+            if (hasCurve)
+            {
+                paths.Add("curve --acceleration footing--> unresolved");
+                tension.Add("curve acceleration footing unresolved");
+
+                if (text.Contains("arc"))
+                {
+                    paths.Add("arc evidence --curve read--> constant curvature placeholder");
+                }
+
+                if (text.Contains("bezier"))
+                {
+                    paths.Add("bezier evidence --curve read--> control-handle placeholder");
+                }
+
+                if (text.Contains("clothoid"))
+                {
+                    paths.Add("clothoid evidence --curve read--> curvature-ramp placeholder");
+                }
+
+                if (text.Contains("tangent") || text.Contains("tangency"))
+                {
+                    paths.Add("tangency evidence --settlement read--> smoothing bridge");
+                }
             }
         }
 

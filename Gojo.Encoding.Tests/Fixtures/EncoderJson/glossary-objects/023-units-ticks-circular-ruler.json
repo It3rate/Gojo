@@ -14,6 +14,8 @@
       "unit"
     ],
     "paths": [
+      "circle-boundary --self boundary read--> BdSelf(C)",
+      "position + orthogonal outlet + radius-evidence --> radial terminal boundary",
       "position + radius-evidence --> circle-boundary",
       "position --orthogonal outlet--> flow"
     ],

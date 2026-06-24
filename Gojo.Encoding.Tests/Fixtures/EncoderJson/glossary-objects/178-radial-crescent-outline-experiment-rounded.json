@@ -15,12 +15,20 @@
       "topological-participation"
     ],
     "paths": [
+      "arc evidence --curve read--> constant curvature placeholder",
+      "closed path --boundary read--> Bd(Path)",
       "collapsed-basis --orthogonal outlet--> flow",
-      "source --orthogonal outlet--> flow"
+      "curve --acceleration footing--> unresolved",
+      "selection --crystallize--> reusable selection read",
+      "selection --local focus read--> selected structure + residue",
+      "source --orthogonal outlet--> flow",
+      "span --source boundary read--> Bd0(S)"
     ],
     "tension": [
+      "curve acceleration footing unresolved",
       "flow source unresolved",
-      "length unresolved"
+      "length unresolved",
+      "selection stop rule not encoded"
     ]
   }
 }

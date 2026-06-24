@@ -8,6 +8,13 @@
       "curve",
       "span",
       "topological-participation"
+    ],
+    "paths": [
+      "arc evidence --curve read--> constant curvature placeholder",
+      "curve --acceleration footing--> unresolved"
+    ],
+    "tension": [
+      "curve acceleration footing unresolved"
     ]
   }
 }

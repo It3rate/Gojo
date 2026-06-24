@@ -5,12 +5,20 @@
   "encodingNote": "Each source carrier creates positive and inverse offset reads. The bands shown by the renderer are support from these paired derived paths, not edits to the source carriers.",
   "gojo": {
     "known": [
+      "boundary",
       "inverse-or-opposed-participation",
       "offset-read",
       "span"
     ],
     "paths": [
-      "participation --sign read--> positive"
+      "offset-read --terminal boundary read--> Bd1(Off)",
+      "paired offset reads --lane compatibility read--> area or tension",
+      "participation --sign read--> positive",
+      "source + orthogonal outlet + extent --> offset-read",
+      "span --source boundary read--> Bd0(S)"
+    ],
+    "tension": [
+      "offset lane compatibility unresolved"
     ]
   }
 }

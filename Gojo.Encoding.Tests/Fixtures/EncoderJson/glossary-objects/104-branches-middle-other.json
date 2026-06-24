@@ -9,6 +9,9 @@
       "position",
       "span",
       "topological-participation"
+    ],
+    "paths": [
+      "unresolved structure --settlement read--> settled structure + residue"
     ]
   }
 }

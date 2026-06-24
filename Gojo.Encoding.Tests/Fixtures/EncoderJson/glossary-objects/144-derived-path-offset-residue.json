@@ -5,14 +5,21 @@
   "encodingNote": "The intended offset carrier and the mismatching observed carrier are both preserved. The difference is tension attached to the read rather than a hidden failure.",
   "gojo": {
     "known": [
+      "boundary",
+      "constraint-or-settlement",
       "offset-read",
       "source",
       "span"
     ],
     "paths": [
-      "source --requested read--> result + residue"
+      "offset-read --terminal boundary read--> Bd1(Off)",
+      "source + orthogonal outlet + extent --> offset-read",
+      "source --requested read--> result + residue",
+      "span --source boundary read--> Bd0(S)",
+      "unresolved structure --settlement read--> settled structure + residue"
     ],
     "tension": [
+      "offset residue preserved",
       "read residue preserved"
     ]
   }

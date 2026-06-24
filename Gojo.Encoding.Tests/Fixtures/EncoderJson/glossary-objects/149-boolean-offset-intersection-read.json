@@ -8,6 +8,12 @@
       "area-support",
       "boundary",
       "span"
+    ],
+    "paths": [
+      "area-support --separator boundary read--> BdArea",
+      "closed path --boundary read--> Bd(Path)",
+      "compatible positive boundaries --> Area+",
+      "span --source boundary read--> Bd0(S)"
     ]
   }
 }

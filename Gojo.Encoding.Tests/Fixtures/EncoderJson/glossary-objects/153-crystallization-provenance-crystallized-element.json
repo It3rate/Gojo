@@ -6,6 +6,12 @@
   "gojo": {
     "known": [
       "crystallized-read"
+    ],
+    "paths": [
+      "read --crystallize--> reusable structure"
+    ],
+    "tension": [
+      "crystallization provenance must remain inspectable"
     ]
   }
 }

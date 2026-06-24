@@ -7,6 +7,9 @@
     "known": [
       "constraint-or-settlement",
       "span"
+    ],
+    "paths": [
+      "unresolved structure --settlement read--> settled structure + residue"
     ]
   }
 }

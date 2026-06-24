@@ -15,7 +15,12 @@
       "span"
     ],
     "paths": [
-      "position + radius-evidence --> circle-boundary"
+      "area-support --separator boundary read--> BdArea",
+      "circle-boundary --self boundary read--> BdSelf(C)",
+      "compatible positive boundaries --> Area+",
+      "position + radius-evidence --> circle-boundary",
+      "span --source boundary read--> Bd0(S)",
+      "unresolved structure --settlement read--> settled structure + residue"
     ]
   }
 }

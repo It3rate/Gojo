@@ -9,6 +9,14 @@
       "boundary",
       "curve",
       "topological-participation"
+    ],
+    "paths": [
+      "arc evidence --curve read--> constant curvature placeholder",
+      "closed path --boundary read--> Bd(Path)",
+      "curve --acceleration footing--> unresolved"
+    ],
+    "tension": [
+      "curve acceleration footing unresolved"
     ]
   }
 }

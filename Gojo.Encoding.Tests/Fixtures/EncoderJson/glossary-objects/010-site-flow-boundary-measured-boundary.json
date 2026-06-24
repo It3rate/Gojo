@@ -4,11 +4,14 @@
   "expression": "P(O)+radius-evidence(R) -> Circle(O,R)",
   "gojo": {
     "known": [
+      "boundary",
       "circle-boundary",
       "position",
       "radius-evidence"
     ],
     "paths": [
+      "circle-boundary --self boundary read--> BdSelf(C)",
+      "position + orthogonal outlet + radius-evidence --> radial terminal boundary",
       "position + radius-evidence --> circle-boundary"
     ],
     "tension": [

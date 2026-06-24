@@ -8,6 +8,11 @@
       "boundary",
       "constraint-or-settlement",
       "span"
+    ],
+    "paths": [
+      "closed path --boundary read--> Bd(Path)",
+      "span --source boundary read--> Bd0(S)",
+      "unresolved structure --settlement read--> settled structure + residue"
     ]
   }
 }

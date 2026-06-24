@@ -7,6 +7,10 @@
       "area-support",
       "boundary",
       "position"
+    ],
+    "paths": [
+      "area-support --separator boundary read--> BdArea",
+      "compatible positive boundaries --> Area+"
     ]
   }
 }

@@ -10,7 +10,11 @@
       "inverse-or-opposed-participation"
     ],
     "paths": [
-      "participation --sign read--> positive"
+      "area-support --separator boundary read--> BdArea",
+      "compatible inverse boundaries --> Area-",
+      "compatible positive boundaries --> Area+",
+      "participation --sign read--> positive",
+      "positive area + anti-area --> support with holes"
     ]
   }
 }

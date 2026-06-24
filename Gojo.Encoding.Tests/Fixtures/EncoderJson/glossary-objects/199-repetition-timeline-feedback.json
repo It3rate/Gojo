@@ -5,6 +5,13 @@
   "gojo": {
     "known": [
       "structure"
+    ],
+    "paths": [
+      "runtime pass --records--> residue + tension",
+      "runtime trace --crystallize--> behavior witness"
+    ],
+    "tension": [
+      "runtime/static distinction must remain explicit"
     ]
   }
 }

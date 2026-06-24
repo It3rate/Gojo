@@ -6,6 +6,12 @@
   "gojo": {
     "known": [
       "curve"
+    ],
+    "paths": [
+      "curve --acceleration footing--> unresolved"
+    ],
+    "tension": [
+      "curve acceleration footing unresolved"
     ]
   }
 }

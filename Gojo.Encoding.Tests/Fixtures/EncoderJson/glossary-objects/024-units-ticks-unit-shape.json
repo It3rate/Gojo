@@ -9,6 +9,15 @@
       "crystallized-read",
       "curve",
       "unit"
+    ],
+    "paths": [
+      "curve --acceleration footing--> unresolved",
+      "read --crystallize--> reusable structure"
+    ],
+    "tension": [
+      "area side/lane not fully selected",
+      "crystallization provenance must remain inspectable",
+      "curve acceleration footing unresolved"
     ]
   }
 }

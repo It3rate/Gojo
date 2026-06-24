@@ -5,8 +5,12 @@
   "encodingNote": "External comparison produces count and residue against a reusable unit.",
   "gojo": {
     "known": [
+      "constraint-or-settlement",
       "span",
       "unit"
+    ],
+    "paths": [
+      "unresolved structure --settlement read--> settled structure + residue"
     ]
   }
 }

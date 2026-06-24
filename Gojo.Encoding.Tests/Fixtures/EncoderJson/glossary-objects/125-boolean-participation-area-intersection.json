@@ -6,6 +6,9 @@
   "gojo": {
     "known": [
       "area-support"
+    ],
+    "paths": [
+      "compatible positive boundaries --> Area+"
     ]
   }
 }

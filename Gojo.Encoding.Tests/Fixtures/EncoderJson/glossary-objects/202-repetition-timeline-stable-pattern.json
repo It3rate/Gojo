@@ -7,6 +7,14 @@
     "known": [
       "constraint-or-settlement",
       "repeat"
+    ],
+    "paths": [
+      "runtime pass --records--> residue + tension",
+      "runtime trace --crystallize--> behavior witness",
+      "unresolved structure --settlement read--> settled structure + residue"
+    ],
+    "tension": [
+      "runtime/static distinction must remain explicit"
     ]
   }
 }

@@ -5,6 +5,13 @@
   "gojo": {
     "known": [
       "curve"
+    ],
+    "paths": [
+      "bezier evidence --curve read--> control-handle placeholder",
+      "curve --acceleration footing--> unresolved"
+    ],
+    "tension": [
+      "curve acceleration footing unresolved"
     ]
   }
 }

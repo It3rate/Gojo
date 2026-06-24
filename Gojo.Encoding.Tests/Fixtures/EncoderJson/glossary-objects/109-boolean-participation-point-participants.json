@@ -10,6 +10,12 @@
       "position",
       "selection",
       "span"
+    ],
+    "paths": [
+      "selection --local focus read--> selected structure + residue"
+    ],
+    "tension": [
+      "selection stop rule not encoded"
     ]
   }
 }

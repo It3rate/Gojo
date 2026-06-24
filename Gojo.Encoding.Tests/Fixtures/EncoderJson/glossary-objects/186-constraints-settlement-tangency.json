@@ -7,6 +7,13 @@
     "known": [
       "curve",
       "topological-participation"
+    ],
+    "paths": [
+      "curve --acceleration footing--> unresolved",
+      "tangency evidence --settlement read--> smoothing bridge"
+    ],
+    "tension": [
+      "curve acceleration footing unresolved"
     ]
   }
 }

@@ -6,14 +6,18 @@
   "gojo": {
     "known": [
       "collapsed-basis",
+      "constraint-or-settlement",
       "selection",
       "span"
     ],
     "paths": [
-      "source --requested read--> result + residue"
+      "selection --local focus read--> selected structure + residue",
+      "source --requested read--> result + residue",
+      "unresolved structure --settlement read--> settled structure + residue"
     ],
     "tension": [
-      "read residue preserved"
+      "read residue preserved",
+      "selection stop rule not encoded"
     ]
   }
 }

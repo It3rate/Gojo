@@ -6,6 +6,9 @@
   "gojo": {
     "known": [
       "offset-read"
+    ],
+    "paths": [
+      "source + orthogonal outlet + extent --> offset-read"
     ]
   }
 }

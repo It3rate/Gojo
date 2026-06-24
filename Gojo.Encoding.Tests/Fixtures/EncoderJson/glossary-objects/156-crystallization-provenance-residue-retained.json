@@ -5,13 +5,17 @@
   "encodingNote": "Crystallization should not erase unresolved evidence.",
   "gojo": {
     "known": [
+      "constraint-or-settlement",
       "crystallized-read",
       "source"
     ],
     "paths": [
-      "source --requested read--> result + residue"
+      "read --crystallize--> reusable structure",
+      "source --requested read--> result + residue",
+      "unresolved structure --settlement read--> settled structure + residue"
     ],
     "tension": [
+      "crystallization provenance must remain inspectable",
       "read residue preserved"
     ]
   }

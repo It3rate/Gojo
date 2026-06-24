@@ -12,7 +12,8 @@
     ],
     "paths": [
       "participation --sign read--> positive",
-      "source --requested read--> result + residue"
+      "source --requested read--> result + residue",
+      "unresolved structure --settlement read--> settled structure + residue"
     ],
     "tension": [
       "read residue preserved"

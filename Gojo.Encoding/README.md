@@ -485,7 +485,9 @@ When this ledger grows large enough, it should become a full ordered table:
 term, first fixture that needs it, lower-level footing, allowed debug syntax,
 and unresolved tension it leaves behind.
 
-The current ordered table lives in `GlossaryEncodingVocabulary.md`.
+The current ordered table lives in `GlossaryEncodingVocabulary.md`. The current
+fixture projection notes, including unresolved overlaps and next-step
+recommendations, live in `GlossaryEncodingProjectionNotes.md`.
 
 ## Text And International Characters
 

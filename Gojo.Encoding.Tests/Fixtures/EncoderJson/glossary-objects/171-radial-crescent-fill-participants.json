@@ -12,7 +12,18 @@
       "offset-read"
     ],
     "paths": [
-      "participation --sign read--> positive"
+      "area-support --separator boundary read--> BdArea",
+      "closed path --boundary read--> Bd(Path)",
+      "compatible inverse boundaries --> Area-",
+      "compatible positive boundaries --> Area+",
+      "paired offset reads --lane compatibility read--> area or tension",
+      "participation --sign read--> positive",
+      "positive area + anti-area --> support with holes",
+      "source + orthogonal outlet + extent --> offset-read",
+      "unresolved structure --settlement read--> settled structure + residue"
+    ],
+    "tension": [
+      "offset lane compatibility unresolved"
     ]
   }
 }

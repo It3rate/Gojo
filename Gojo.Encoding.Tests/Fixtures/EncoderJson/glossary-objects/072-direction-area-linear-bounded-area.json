@@ -9,6 +9,10 @@
       "boundary",
       "partition",
       "position"
+    ],
+    "paths": [
+      "area-support --separator boundary read--> BdArea",
+      "compatible positive boundaries --> Area+"
     ]
   }
 }

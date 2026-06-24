@@ -11,7 +11,9 @@
       "span"
     ],
     "paths": [
-      "orientation --signed direction read--> positive"
+      "closed path --boundary read--> Bd(Path)",
+      "orientation --signed direction read--> positive",
+      "span --source boundary read--> Bd0(S)"
     ]
   }
 }

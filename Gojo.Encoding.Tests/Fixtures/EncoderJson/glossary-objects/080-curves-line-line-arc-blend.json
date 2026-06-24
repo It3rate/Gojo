@@ -7,6 +7,15 @@
     "known": [
       "constraint-or-settlement",
       "curve"
+    ],
+    "paths": [
+      "arc evidence --curve read--> constant curvature placeholder",
+      "curve --acceleration footing--> unresolved",
+      "tangency evidence --settlement read--> smoothing bridge",
+      "unresolved structure --settlement read--> settled structure + residue"
+    ],
+    "tension": [
+      "curve acceleration footing unresolved"
     ]
   }
 }

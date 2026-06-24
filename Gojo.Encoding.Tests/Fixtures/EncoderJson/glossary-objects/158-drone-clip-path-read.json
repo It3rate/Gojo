@@ -5,11 +5,19 @@
   "encodingNote": "The first rung crystallizes connected sections into path carriers. The new carriers can be partitioned without directly correlating every tick to the source unless requested.",
   "gojo": {
     "known": [
+      "boundary",
       "crystallized-read",
       "partition",
       "source",
       "span",
       "topological-participation"
+    ],
+    "paths": [
+      "read --crystallize--> reusable structure",
+      "span --source boundary read--> Bd0(S)"
+    ],
+    "tension": [
+      "crystallization provenance must remain inspectable"
     ]
   }
 }

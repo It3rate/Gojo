@@ -8,6 +8,12 @@
       "curve",
       "span",
       "topological-participation"
+    ],
+    "paths": [
+      "curve --acceleration footing--> unresolved"
+    ],
+    "tension": [
+      "curve acceleration footing unresolved"
     ]
   }
 }

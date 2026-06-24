@@ -7,6 +7,14 @@
     "known": [
       "curve",
       "span"
+    ],
+    "paths": [
+      "arc evidence --curve read--> constant curvature placeholder",
+      "curve --acceleration footing--> unresolved",
+      "tangency evidence --settlement read--> smoothing bridge"
+    ],
+    "tension": [
+      "curve acceleration footing unresolved"
     ]
   }
 }

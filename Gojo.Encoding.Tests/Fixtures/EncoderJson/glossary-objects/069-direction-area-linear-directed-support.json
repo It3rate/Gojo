@@ -9,6 +9,11 @@
       "boundary",
       "orientation",
       "span"
+    ],
+    "paths": [
+      "area-support --separator boundary read--> BdArea",
+      "compatible positive boundaries --> Area+",
+      "span --source boundary read--> Bd0(S)"
     ]
   }
 }

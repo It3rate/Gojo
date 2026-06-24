@@ -5,6 +5,7 @@
   "encodingNote": "The endpoint rings are generated from selected open tips. The hole circles are paired anti-support for those same cap centers, not decorative marks.",
   "gojo": {
     "known": [
+      "boundary",
       "circle-boundary",
       "ecad-documentary-structure",
       "inverse-or-opposed-participation",
@@ -13,7 +14,12 @@
       "source"
     ],
     "paths": [
-      "position + radius-evidence --> circle-boundary"
+      "circle-boundary --self boundary read--> BdSelf(C)",
+      "position + radius-evidence --> circle-boundary",
+      "selection --local focus read--> selected structure + residue"
+    ],
+    "tension": [
+      "selection stop rule not encoded"
     ]
   }
 }

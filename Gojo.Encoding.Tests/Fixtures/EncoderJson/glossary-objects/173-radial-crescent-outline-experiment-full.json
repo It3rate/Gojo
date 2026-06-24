@@ -6,10 +6,12 @@
   "gojo": {
     "known": [
       "basis",
+      "boundary",
       "circle-boundary",
       "radius-evidence"
     ],
     "paths": [
+      "circle-boundary --self boundary read--> BdSelf(C)",
       "position + radius-evidence --> circle-boundary"
     ]
   }

@@ -5,11 +5,22 @@
   "encodingNote": "The new path carrier is the crystallized read. The original sections remain as provenance and range-meld evidence, but the partitions belong to the path carrier itself.",
   "gojo": {
     "known": [
+      "boundary",
       "crystallized-read",
       "curve",
       "partition",
       "position",
       "span"
+    ],
+    "paths": [
+      "arc evidence --curve read--> constant curvature placeholder",
+      "curve --acceleration footing--> unresolved",
+      "read --crystallize--> reusable structure",
+      "span --source boundary read--> Bd0(S)"
+    ],
+    "tension": [
+      "crystallization provenance must remain inspectable",
+      "curve acceleration footing unresolved"
     ]
   }
 }

@@ -6,11 +6,16 @@
   "gojo": {
     "known": [
       "area-support",
+      "constraint-or-settlement",
       "inverse-or-opposed-participation"
     ],
     "paths": [
+      "compatible inverse boundaries --> Area-",
+      "compatible positive boundaries --> Area+",
       "participation --sign read--> positive",
-      "source --requested read--> result + residue"
+      "positive area + anti-area --> support with holes",
+      "source --requested read--> result + residue",
+      "unresolved structure --settlement read--> settled structure + residue"
     ],
     "tension": [
       "read residue preserved"

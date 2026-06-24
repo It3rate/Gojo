@@ -10,7 +10,11 @@
       "span"
     ],
     "paths": [
-      "orientation --signed direction read--> positive"
+      "orientation --signed direction read--> positive",
+      "read --crystallize--> reusable structure"
+    ],
+    "tension": [
+      "crystallization provenance must remain inspectable"
     ]
   }
 }

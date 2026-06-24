@@ -9,6 +9,14 @@
       "boundary",
       "crystallized-read",
       "orientation"
+    ],
+    "paths": [
+      "area-support --separator boundary read--> BdArea",
+      "compatible positive boundaries --> Area+",
+      "read --crystallize--> reusable structure"
+    ],
+    "tension": [
+      "crystallization provenance must remain inspectable"
     ]
   }
 }

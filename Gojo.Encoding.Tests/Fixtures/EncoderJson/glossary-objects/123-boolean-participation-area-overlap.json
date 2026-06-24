@@ -7,6 +7,9 @@
     "known": [
       "area-support",
       "partition"
+    ],
+    "paths": [
+      "compatible positive boundaries --> Area+"
     ]
   }
 }

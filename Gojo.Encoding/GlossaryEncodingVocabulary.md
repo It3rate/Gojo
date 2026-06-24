@@ -240,12 +240,15 @@ shape beside it.
   grounded in direction change, acceleration/following, curvature, and
   settlement evidence.
 - `boundary` now has source, terminal, self-contained, contour, and separator
-  canonical forms in this document, but the fixture projection does not yet emit
-  those distinctions.
-- `area-support` now has positive area, anti-area, and mixed-lane diagonal
-  construction forms here, but the fixture projection still emits mostly broad
-  `area-support`.
+  contextual fixture paths, but many are still inferred from expressions and
+  notes instead of discovered directly from Gojo-native boundary structure.
+- `area-support` now emits positive area and anti-area contextual paths, but the
+  projection still infers lane compatibility from expressions such as
+  `AreaFill`, `AntiFill`, and `Area*`.
 - `crystallized-read` needs stronger provenance rules so reused concepts can
   stay compact while still pointing back to their construction and residue.
 - `ecad-documentary-structure` is deliberately loose until the KiCad/EasyEDA
   importer starts producing real Gojo documentary structure.
+
+See `GlossaryEncodingProjectionNotes.md` for the current fixture projection
+state, unresolved overlaps, and suggested next steps.

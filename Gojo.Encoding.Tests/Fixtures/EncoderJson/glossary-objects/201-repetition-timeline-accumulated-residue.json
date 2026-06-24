@@ -4,10 +4,11 @@
   "expression": "residue(t0)+residue(t1)+...",
   "gojo": {
     "known": [
-      "structure"
+      "constraint-or-settlement"
     ],
     "paths": [
-      "source --requested read--> result + residue"
+      "source --requested read--> result + residue",
+      "unresolved structure --settlement read--> settled structure + residue"
     ],
     "tension": [
       "read residue preserved"

@@ -12,10 +12,17 @@
       "span"
     ],
     "paths": [
-      "source --orthogonal outlet--> flow"
+      "arc evidence --curve read--> constant curvature placeholder",
+      "curve --acceleration footing--> unresolved",
+      "selection --crystallize--> reusable selection read",
+      "selection --local focus read--> selected structure + residue",
+      "source --orthogonal outlet--> flow",
+      "span --source boundary read--> Bd0(S)"
     ],
     "tension": [
-      "flow source unresolved"
+      "curve acceleration footing unresolved",
+      "flow source unresolved",
+      "selection stop rule not encoded"
     ]
   }
 }

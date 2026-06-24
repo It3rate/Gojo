@@ -5,13 +5,17 @@
   "encodingNote": "The offset read carries a signed distance on the source path normal, resolution evidence for that normal measure, witness normals, and a separate derived path carrier.",
   "gojo": {
     "known": [
+      "boundary",
       "flow",
       "offset-read",
       "source",
       "span"
     ],
     "paths": [
-      "span --orthogonal outlet--> flow"
+      "offset-read --terminal boundary read--> Bd1(Off)",
+      "source + orthogonal outlet + extent --> offset-read",
+      "span --orthogonal outlet--> flow",
+      "span --source boundary read--> Bd0(S)"
     ]
   }
 }

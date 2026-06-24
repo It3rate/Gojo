@@ -9,6 +9,15 @@
       "basis",
       "boundary",
       "curve"
+    ],
+    "paths": [
+      "arc evidence --curve read--> constant curvature placeholder",
+      "area-support --separator boundary read--> BdArea",
+      "curve --acceleration footing--> unresolved"
+    ],
+    "tension": [
+      "area side/lane not fully selected",
+      "curve acceleration footing unresolved"
     ]
   }
 }

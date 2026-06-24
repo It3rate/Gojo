@@ -8,6 +8,12 @@
       "area-support",
       "boundary",
       "offset-read"
+    ],
+    "paths": [
+      "area-support --separator boundary read--> BdArea",
+      "closed path --boundary read--> Bd(Path)",
+      "compatible positive boundaries --> Area+",
+      "source + orthogonal outlet + extent --> offset-read"
     ]
   }
 }

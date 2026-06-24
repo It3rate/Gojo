@@ -8,6 +8,9 @@
       "boundary",
       "collapsed-basis",
       "span"
+    ],
+    "paths": [
+      "span --source boundary read--> Bd0(S)"
     ]
   }
 }

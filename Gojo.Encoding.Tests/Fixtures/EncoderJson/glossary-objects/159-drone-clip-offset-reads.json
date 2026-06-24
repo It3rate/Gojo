@@ -5,6 +5,7 @@
   "encodingNote": "Offset reads are normal-distance rungs from the source carriers. The outer support grows outward while the slot support reads inward as negative space.",
   "gojo": {
     "known": [
+      "boundary",
       "flow",
       "inverse-or-opposed-participation",
       "offset-read",
@@ -13,7 +14,10 @@
     "paths": [
       "flow --direction read--> inward-or-inverse",
       "flow --direction read--> outward-or-positive",
-      "span --orthogonal outlet--> flow"
+      "offset-read --terminal boundary read--> Bd1(Off)",
+      "source + orthogonal outlet + extent --> offset-read",
+      "span --orthogonal outlet--> flow",
+      "span --source boundary read--> Bd0(S)"
     ]
   }
 }

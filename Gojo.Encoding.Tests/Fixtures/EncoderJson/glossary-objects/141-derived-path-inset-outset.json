@@ -10,6 +10,12 @@
       "partition",
       "repeat",
       "span"
+    ],
+    "paths": [
+      "closed path --boundary read--> Bd(Path)",
+      "offset-read --terminal boundary read--> Bd1(Off)",
+      "source + orthogonal outlet + extent --> offset-read",
+      "span --source boundary read--> Bd0(S)"
     ]
   }
 }

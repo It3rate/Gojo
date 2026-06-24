@@ -12,8 +12,13 @@
       "radius-evidence"
     ],
     "paths": [
+      "circle-boundary --self boundary read--> BdSelf(C)",
       "orientation --signed direction read--> positive",
-      "position + radius-evidence --> circle-boundary"
+      "position + radius-evidence --> circle-boundary",
+      "read --crystallize--> reusable structure"
+    ],
+    "tension": [
+      "crystallization provenance must remain inspectable"
     ]
   }
 }

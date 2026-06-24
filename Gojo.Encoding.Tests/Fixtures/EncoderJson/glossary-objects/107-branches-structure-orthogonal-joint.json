@@ -6,8 +6,19 @@
   "gojo": {
     "known": [
       "area-support",
+      "boundary",
       "curve",
       "span"
+    ],
+    "paths": [
+      "arc evidence --curve read--> constant curvature placeholder",
+      "area-support --separator boundary read--> BdArea",
+      "compatible positive boundaries --> Area+",
+      "curve --acceleration footing--> unresolved",
+      "span --source boundary read--> Bd0(S)"
+    ],
+    "tension": [
+      "curve acceleration footing unresolved"
     ]
   }
 }

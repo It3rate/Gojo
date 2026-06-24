@@ -8,9 +8,12 @@
       "flow"
     ],
     "paths": [
+      "arc evidence --curve read--> constant curvature placeholder",
+      "curve --acceleration footing--> unresolved",
       "source --orthogonal outlet--> flow"
     ],
     "tension": [
+      "curve acceleration footing unresolved",
       "flow source unresolved"
     ]
   }

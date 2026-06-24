@@ -5,11 +5,13 @@
   "encodingNote": "Unit comparison asks how many repeated unit reads fit in a target.",
   "gojo": {
     "known": [
+      "constraint-or-settlement",
       "repeat",
       "unit"
     ],
     "paths": [
-      "source --requested read--> result + residue"
+      "source --requested read--> result + residue",
+      "unresolved structure --settlement read--> settled structure + residue"
     ],
     "tension": [
       "read residue preserved"

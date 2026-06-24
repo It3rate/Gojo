@@ -4,7 +4,11 @@
   "expression": "closed topology + geometric miss -> tension",
   "gojo": {
     "known": [
+      "boundary",
       "topological-participation"
+    ],
+    "paths": [
+      "closed path --boundary read--> Bd(Path)"
     ]
   }
 }

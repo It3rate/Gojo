@@ -6,6 +6,9 @@
     "known": [
       "constraint-or-settlement",
       "position"
+    ],
+    "paths": [
+      "unresolved structure --settlement read--> settled structure + residue"
     ]
   }
 }

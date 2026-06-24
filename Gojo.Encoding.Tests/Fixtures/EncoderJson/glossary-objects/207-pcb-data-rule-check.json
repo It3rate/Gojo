@@ -8,6 +8,9 @@
       "constraint-or-settlement",
       "ecad-documentary-structure",
       "span"
+    ],
+    "paths": [
+      "unresolved structure --settlement read--> settled structure + residue"
     ]
   }
 }

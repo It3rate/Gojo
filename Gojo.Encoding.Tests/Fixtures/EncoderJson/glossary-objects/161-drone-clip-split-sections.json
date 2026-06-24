@@ -6,8 +6,18 @@
   "gojo": {
     "known": [
       "boundary",
+      "constraint-or-settlement",
       "selection",
       "span"
+    ],
+    "paths": [
+      "closed path --boundary read--> Bd(Path)",
+      "selection --local focus read--> selected structure + residue",
+      "span --source boundary read--> Bd0(S)",
+      "unresolved structure --settlement read--> settled structure + residue"
+    ],
+    "tension": [
+      "selection stop rule not encoded"
     ]
   }
 }
