@@ -1,0 +1,351 @@
+{
+  "represents": "A tiny composition sample where common nouns crystallize from earlier structures: margin from offset band and area, ring from circumference offset and hole support, and clearance from offset boundary, resolution, and keepout residue.",
+  "entryId": "noun-composition-cad-seeds",
+  "expression": "Band + Area + Support + Clearance + Cr",
+  "encodingNote": "This is not a permutation catalog. It checks that useful CAD/language nouns can emerge from reusable local structures and become crystallized only where the combined read is useful.",
+  "gojo": {
+    "known": [
+      "annulus-support",
+      "clearance",
+      "keepout",
+      "margin",
+      "offset-band",
+      "ring"
+    ],
+    "paths": [
+      "segment boundary + offset boundary --> margin band",
+      "margin band + lane evidence --> margin area",
+      "circumference + exterior offset boundary --> ring band",
+      "ring area + circle anti-area --> annulus support",
+      "offset boundary + distance + resolution --> clearance rule",
+      "clearance rule + band --> keepout anti-area",
+      "useful composed reads --> crystallized reusable nouns"
+    ],
+    "tension": [
+      "inner boundary participates as a hole, not an eraser",
+      "clearance is a constraint read over an offset boundary",
+      "keepout anti-area is a rule surface, not a visual deletion"
+    ],
+    "definitions": [
+      {
+        "name": "segment-source",
+        "encoding": "Def(segment-source,S(P(A@X),P(B@Y)))+Prov(S(P(A@X),P(B@Y)))",
+        "body": "S(P(A@X),P(B@Y))"
+      },
+      {
+        "name": "segment-source-boundary",
+        "encoding": "Def(segment-source-boundary,Bd0(segment-source); deps=segment-source)+Prov(Bd0(segment-source))",
+        "body": "Bd0(segment-source)",
+        "dependsOn": [
+          "segment-source"
+        ]
+      },
+      {
+        "name": "segment-normal-outlet",
+        "encoding": "Def(segment-normal-outlet,F(O(S(P(A@X),P(B@Y)))); deps=segment-source)+Prov(F(O(S(P(A@X),P(B@Y)))))",
+        "body": "F(O(S(P(A@X),P(B@Y))))",
+        "dependsOn": [
+          "segment-source"
+        ]
+      },
+      {
+        "name": "segment-margin-facing",
+        "encoding": "Def(segment-margin-facing,Face(segment-source,left); deps=segment-source)+Prov(Face(segment-source,left))",
+        "body": "Face(segment-source,left)",
+        "dependsOn": [
+          "segment-source"
+        ]
+      },
+      {
+        "name": "margin-distance",
+        "encoding": "Def(margin-distance,+d)+Prov(+d)",
+        "body": "+d"
+      },
+      {
+        "name": "margin-resolution",
+        "encoding": "Def(margin-resolution,Res(normal-distance))+Prov(Res(normal-distance))",
+        "body": "Res(normal-distance)"
+      },
+      {
+        "name": "margin-offset",
+        "encoding": "Def(margin-offset,Off(segment-source,segment-normal-outlet,segment-margin-facing,margin-distance,margin-resolution); deps=segment-source,segment-normal-outlet,segment-margin-facing,margin-distance,margin-resolution)+Prov(Off(segment-source,segment-normal-outlet,segment-margin-facing,margin-distance,margin-resolution))",
+        "body": "Off(segment-source,segment-normal-outlet,segment-margin-facing,margin-distance,margin-resolution)",
+        "dependsOn": [
+          "segment-source",
+          "segment-normal-outlet",
+          "segment-margin-facing",
+          "margin-distance",
+          "margin-resolution"
+        ]
+      },
+      {
+        "name": "margin-terminal-boundary",
+        "encoding": "Def(margin-terminal-boundary,Bd1(margin-offset); deps=margin-offset)+Prov(Bd1(margin-offset))",
+        "body": "Bd1(margin-offset)",
+        "dependsOn": [
+          "margin-offset"
+        ]
+      },
+      {
+        "name": "margin-band",
+        "encoding": "Def(margin-band,Band(segment-source-boundary,margin-terminal-boundary); deps=segment-source-boundary,margin-terminal-boundary)+Prov(Band(segment-source-boundary,margin-terminal-boundary))",
+        "body": "Band(segment-source-boundary,margin-terminal-boundary)",
+        "dependsOn": [
+          "segment-source-boundary",
+          "margin-terminal-boundary"
+        ]
+      },
+      {
+        "name": "margin-source-lane",
+        "encoding": "Def(margin-source-lane,Dir(segment-source-boundary,+f); deps=segment-source-boundary)+Prov(Dir(segment-source-boundary,+f))",
+        "body": "Dir(segment-source-boundary,+f)",
+        "dependsOn": [
+          "segment-source-boundary"
+        ]
+      },
+      {
+        "name": "margin-terminal-lane",
+        "encoding": "Def(margin-terminal-lane,Dir(margin-terminal-boundary,+f); deps=margin-terminal-boundary)+Prov(Dir(margin-terminal-boundary,+f))",
+        "body": "Dir(margin-terminal-boundary,+f)",
+        "dependsOn": [
+          "margin-terminal-boundary"
+        ]
+      },
+      {
+        "name": "margin-lane-evidence",
+        "encoding": "Def(margin-lane-evidence,margin-source-lane + margin-terminal-lane; deps=margin-source-lane,margin-terminal-lane)+Prov(margin-source-lane + margin-terminal-lane)",
+        "body": "margin-source-lane + margin-terminal-lane",
+        "dependsOn": [
+          "margin-source-lane",
+          "margin-terminal-lane"
+        ]
+      },
+      {
+        "name": "margin-area",
+        "encoding": "Def(margin-area,Area+(margin-band,margin-lane-evidence); deps=margin-band,margin-lane-evidence)+Prov(Area+(margin-band,margin-lane-evidence))",
+        "body": "Area+(margin-band,margin-lane-evidence)",
+        "dependsOn": [
+          "margin-band",
+          "margin-lane-evidence"
+        ]
+      },
+      {
+        "name": "margin",
+        "encoding": "Def(margin,Cr(margin-area;context=margin-band); deps=margin-area,margin-band)+Prov(Cr(margin-area;context=margin-band))",
+        "body": "Cr(margin-area;context=margin-band)",
+        "dependsOn": [
+          "margin-area",
+          "margin-band"
+        ]
+      },
+      {
+        "name": "circle-center",
+        "encoding": "Def(circle-center,P(X))+Prov(P(X))",
+        "body": "P(X)"
+      },
+      {
+        "name": "circle-radius",
+        "encoding": "Def(circle-radius,+r)+Prov(+r)",
+        "body": "+r"
+      },
+      {
+        "name": "circle-source",
+        "encoding": "Def(circle-source,Circle(circle-center,circle-radius); deps=circle-center,circle-radius)+Prov(Circle(circle-center,circle-radius))",
+        "body": "Circle(circle-center,circle-radius)",
+        "dependsOn": [
+          "circle-center",
+          "circle-radius"
+        ]
+      },
+      {
+        "name": "circumference-boundary",
+        "encoding": "Def(circumference-boundary,BdSelf(circle-source); deps=circle-source)+Prov(BdSelf(circle-source))",
+        "body": "BdSelf(circle-source)",
+        "dependsOn": [
+          "circle-source"
+        ]
+      },
+      {
+        "name": "circle-normal-outlet",
+        "encoding": "Def(circle-normal-outlet,O(circumference-boundary); deps=circumference-boundary)+Prov(O(circumference-boundary))",
+        "body": "O(circumference-boundary)",
+        "dependsOn": [
+          "circumference-boundary"
+        ]
+      },
+      {
+        "name": "circle-exterior-facing",
+        "encoding": "Def(circle-exterior-facing,Face(circumference-boundary,exterior); deps=circumference-boundary)+Prov(Face(circumference-boundary,exterior))",
+        "body": "Face(circumference-boundary,exterior)",
+        "dependsOn": [
+          "circumference-boundary"
+        ]
+      },
+      {
+        "name": "circle-interior-facing",
+        "encoding": "Def(circle-interior-facing,Face(circumference-boundary,interior); deps=circumference-boundary)+Prov(Face(circumference-boundary,interior))",
+        "body": "Face(circumference-boundary,interior)",
+        "dependsOn": [
+          "circumference-boundary"
+        ]
+      },
+      {
+        "name": "clockwise-orientation",
+        "encoding": "Def(clockwise-orientation,Orient(circumference-boundary,cw); deps=circumference-boundary)+Prov(Orient(circumference-boundary,cw))",
+        "body": "Orient(circumference-boundary,cw)",
+        "dependsOn": [
+          "circumference-boundary"
+        ]
+      },
+      {
+        "name": "ring-distance",
+        "encoding": "Def(ring-distance,+d)+Prov(+d)",
+        "body": "+d"
+      },
+      {
+        "name": "ring-resolution",
+        "encoding": "Def(ring-resolution,Res(radial-distance))+Prov(Res(radial-distance))",
+        "body": "Res(radial-distance)"
+      },
+      {
+        "name": "ring-offset",
+        "encoding": "Def(ring-offset,Off(circumference-boundary,circle-normal-outlet,circle-exterior-facing,ring-distance,ring-resolution); deps=circumference-boundary,circle-normal-outlet,circle-exterior-facing,ring-distance,ring-resolution)+Prov(Off(circumference-boundary,circle-normal-outlet,circle-exterior-facing,ring-distance,ring-resolution))",
+        "body": "Off(circumference-boundary,circle-normal-outlet,circle-exterior-facing,ring-distance,ring-resolution)",
+        "dependsOn": [
+          "circumference-boundary",
+          "circle-normal-outlet",
+          "circle-exterior-facing",
+          "ring-distance",
+          "ring-resolution"
+        ]
+      },
+      {
+        "name": "outer-ring-boundary",
+        "encoding": "Def(outer-ring-boundary,BdSelf(ring-offset); deps=ring-offset,clockwise-orientation)+Prov(BdSelf(ring-offset))",
+        "body": "BdSelf(ring-offset)",
+        "dependsOn": [
+          "ring-offset",
+          "clockwise-orientation"
+        ]
+      },
+      {
+        "name": "ring-band",
+        "encoding": "Def(ring-band,Band(circumference-boundary,outer-ring-boundary); deps=circumference-boundary,outer-ring-boundary)+Prov(Band(circumference-boundary,outer-ring-boundary))",
+        "body": "Band(circumference-boundary,outer-ring-boundary)",
+        "dependsOn": [
+          "circumference-boundary",
+          "outer-ring-boundary"
+        ]
+      },
+      {
+        "name": "ring-inner-lane",
+        "encoding": "Def(ring-inner-lane,Dir(circumference-boundary,+f); deps=circumference-boundary)+Prov(Dir(circumference-boundary,+f))",
+        "body": "Dir(circumference-boundary,+f)",
+        "dependsOn": [
+          "circumference-boundary"
+        ]
+      },
+      {
+        "name": "ring-outer-lane",
+        "encoding": "Def(ring-outer-lane,Dir(outer-ring-boundary,+f); deps=outer-ring-boundary)+Prov(Dir(outer-ring-boundary,+f))",
+        "body": "Dir(outer-ring-boundary,+f)",
+        "dependsOn": [
+          "outer-ring-boundary"
+        ]
+      },
+      {
+        "name": "ring-lane-evidence",
+        "encoding": "Def(ring-lane-evidence,ring-inner-lane + ring-outer-lane; deps=ring-inner-lane,ring-outer-lane)+Prov(ring-inner-lane + ring-outer-lane)",
+        "body": "ring-inner-lane + ring-outer-lane",
+        "dependsOn": [
+          "ring-inner-lane",
+          "ring-outer-lane"
+        ]
+      },
+      {
+        "name": "ring-area",
+        "encoding": "Def(ring-area,Area+(ring-band,ring-lane-evidence); deps=ring-band,ring-lane-evidence)+Prov(Area+(ring-band,ring-lane-evidence))",
+        "body": "Area+(ring-band,ring-lane-evidence)",
+        "dependsOn": [
+          "ring-band",
+          "ring-lane-evidence"
+        ]
+      },
+      {
+        "name": "circle-hole-lane",
+        "encoding": "Def(circle-hole-lane,Dir(circumference-boundary,+i); deps=circumference-boundary)+Prov(Dir(circumference-boundary,+i))",
+        "body": "Dir(circumference-boundary,+i)",
+        "dependsOn": [
+          "circumference-boundary"
+        ]
+      },
+      {
+        "name": "circle-hole-evidence",
+        "encoding": "Def(circle-hole-evidence,circle-hole-lane; deps=circle-hole-lane)+Prov(circle-hole-lane)",
+        "body": "circle-hole-lane",
+        "dependsOn": [
+          "circle-hole-lane"
+        ]
+      },
+      {
+        "name": "circle-hole",
+        "encoding": "Def(circle-hole,Area-(circumference-boundary,circle-hole-evidence); deps=circumference-boundary,circle-hole-evidence)+Prov(Area-(circumference-boundary,circle-hole-evidence))",
+        "body": "Area-(circumference-boundary,circle-hole-evidence)",
+        "dependsOn": [
+          "circumference-boundary",
+          "circle-hole-evidence"
+        ]
+      },
+      {
+        "name": "annulus-support",
+        "encoding": "Def(annulus-support,Support(ring-area,circle-hole); deps=ring-area,circle-hole)+Prov(Support(ring-area,circle-hole)); residue=inner boundary participates as a hole, not an eraser",
+        "body": "Support(ring-area,circle-hole)",
+        "dependsOn": [
+          "ring-area",
+          "circle-hole"
+        ],
+        "residueOrTension": "inner boundary participates as a hole, not an eraser"
+      },
+      {
+        "name": "ring",
+        "encoding": "Def(ring,Cr(annulus-support;context=ring-band); deps=annulus-support,ring-band)+Prov(Cr(annulus-support;context=ring-band))",
+        "body": "Cr(annulus-support;context=ring-band)",
+        "dependsOn": [
+          "annulus-support",
+          "ring-band"
+        ]
+      },
+      {
+        "name": "clearance-rule",
+        "encoding": "Def(clearance-rule,Clearance(segment-source,margin-terminal-boundary,margin-distance,margin-resolution); deps=segment-source,margin-terminal-boundary,margin-distance,margin-resolution)+Prov(Clearance(segment-source,margin-terminal-boundary,margin-distance,margin-resolution)); residue=clearance is a constraint read over an offset boundary",
+        "body": "Clearance(segment-source,margin-terminal-boundary,margin-distance,margin-resolution)",
+        "dependsOn": [
+          "segment-source",
+          "margin-terminal-boundary",
+          "margin-distance",
+          "margin-resolution"
+        ],
+        "residueOrTension": "clearance is a constraint read over an offset boundary"
+      },
+      {
+        "name": "clearance-keepout",
+        "encoding": "Def(clearance-keepout,Area-(margin-band,clearance-rule); deps=margin-band,clearance-rule)+Prov(Area-(margin-band,clearance-rule)); residue=keepout anti-area is a rule surface, not a visual deletion",
+        "body": "Area-(margin-band,clearance-rule)",
+        "dependsOn": [
+          "margin-band",
+          "clearance-rule"
+        ],
+        "residueOrTension": "keepout anti-area is a rule surface, not a visual deletion"
+      },
+      {
+        "name": "clearance",
+        "encoding": "Def(clearance,Cr(clearance-rule;context=clearance-keepout); deps=clearance-rule,clearance-keepout)+Prov(Cr(clearance-rule;context=clearance-keepout))",
+        "body": "Cr(clearance-rule;context=clearance-keepout)",
+        "dependsOn": [
+          "clearance-rule",
+          "clearance-keepout"
+        ]
+      }
+    ]
+  }
+}

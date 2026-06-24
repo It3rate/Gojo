@@ -67,6 +67,12 @@ The first implementation is intentionally tiny.
   clockwise/counterclockwise orientation evidence, open and closed offsets,
   mismatch residue, and crystallized offset reuse. The reader discovers those
   forms from local definition structure rather than from row names.
+- `ConceptCompositionDefinitionSurface` and `ConceptCompositionReadSurface`
+  combine nearby noun footholds into useful CAD/language nouns: margin from an
+  offset band plus area evidence, ring from circumference offset plus hole
+  support, and clearance from an offset boundary, distance, resolution, and
+  keepout anti-area. This is deliberately a composition fixture, not a
+  permutation catalog.
 - `GojoStructureEncodingSurface` stores a diagnostic snapshot of a currently
   visible Gojo element tree as relation-shaped integer rows. It is useful for
   debugging and transport experiments, but it is not the canonical conceptual

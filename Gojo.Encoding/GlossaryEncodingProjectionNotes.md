@@ -17,6 +17,7 @@ glossary-specific help.
 | Area and anti-area | `compatible positive boundaries --> Area+`, `compatible inverse boundaries --> Area-`, `positive area + anti-area --> support with holes` | Positive support, anti support, and holes are visible without adding a symbolic area enum. |
 | Resolution facets | `Part`, `U(Comp)`, `Read(...,Res)`, `Slot(?)`, `Approx`, `Read(...,B?)`, `Refine`, `Run(...,Res)` | Partition, unit, observer/coarse, omission, approximation, ambiguity, ladder, and runtime resolution stay distinct instead of collapsing into generic unknown. |
 | Offset read | `Off(source,outlet,face,d,Res)`, `Bd1(Off)`, `BdSelf(Off)`, `Band(source,terminal)`, `Residue(Off?)`, `Cr(Off;context=...)` | Offset is now represented as a local read with source support, outlet/normal evidence, facing, signed distance, resolution, terminal boundary, mismatch residue, and crystallized reuse. |
+| Noun composition | `Band + Area + Support + Clearance + Cr` | Common CAD/language nouns can now be composed from earlier structures: margin, ring/annulus, clearance, and keepout. The reader discovers the composition from local definition shape, not from the specific row names. |
 | Curve | `curve --acceleration footing--> unresolved`, plus arc, Bezier, clothoid, and tangency placeholders | Curve samples now state that the current encoding is a placeholder until interpolation, acceleration/following, curvature, and transition concepts are grounded. |
 | Selection | `selection --local focus read--> selected structure + residue` | Selection is visible as a local focus read that preserves residue, not as a global picked-list. |
 | Crystallization | `read --crystallize--> reusable structure`; `ConceptDefinitionSurface` exists for `Def/Prov/Cr` footing | Reuse is explicit while provenance is kept as structure or tension. |
@@ -260,6 +261,42 @@ full arbitrary Gojo source discovery. It also does not solve actual geometric
 cap, join, miter, intersection, or self-overlap behavior. Those should remain
 runtime/calculation reads over the offset noun structure, with residues recorded
 when the geometry cannot settle cleanly.
+
+### Noun Composition
+
+The first composition sample now lives at
+`Gojo.Encoding.Tests/Fixtures/EncoderJson/concept-definitions/noun-composition-cad-seeds.json`.
+It asks whether the lower noun pieces can combine into common ideas without
+enumerating every permutation:
+
+```text
+segment boundary + offset boundary -> margin band
+margin band + lane evidence -> margin area
+circumference + exterior offset boundary -> ring band
+ring area + circle anti-area -> annulus support
+offset boundary + distance + resolution -> clearance rule
+clearance rule + band -> keepout anti-area
+useful composed reads -> crystallized reusable nouns
+```
+
+`ConceptCompositionDefinitionSurface` builds those as ordinary definition
+rows, and `ConceptCompositionReadSurface` discovers `offset-band`, `band-area`,
+`support-with-hole`, `clearance-rule`, `keepout-area`, and crystallized forms
+from local structure. The renamed-ledger test changes the words to rail,
+filled strip, spacing promise, and usable strip; the reader still recovers the
+same composition kinds.
+
+The most useful implementation fix was in crystallized references. A `Cr(...)`
+read now follows the definition it explicitly references first, and only then
+uses the remaining dependency as context. Without that, a crystallized margin
+could accidentally read as a crystallized band because the band happened to be
+one of the supporting dependencies.
+
+The current gap is the same as offset and boundary/area: this is still a
+definition-ledger read. It proves that the composed shape can be represented
+and inspected, but not yet that arbitrary Gojo source structure can recover
+the same composition without the compact `Band`, `Area+`, `Support`,
+`Clearance`, or `Cr` address bodies.
 
 ### Crystallization
 

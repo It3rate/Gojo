@@ -16,7 +16,10 @@ example, the boundary/area band sample keeps positive area, anti-area, and
 mixed-lane residue side by side so the differences are inspectable in the
 encoding itself. The offset variant sample does the same for segment-side
 offsets, circumference offsets, interior/exterior facing, orientation evidence,
-open/closed offsets, mismatch residue, and crystallized offset reuse.
+open/closed offsets, mismatch residue, and crystallized offset reuse. The noun
+composition sample then checks a few useful combinations: margin, ring/annulus,
+clearance, and keepout, while still leaving them as locally discoverable
+definition structure rather than a global CAD noun catalog.
 
 The glossary fixtures are generated from the live Gojo structures through
 `GojoStructureEncodingFixtureProjection`. The concept-definition fixtures are
