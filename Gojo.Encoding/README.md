@@ -76,6 +76,9 @@ The companion notes for this experiment are:
   projection emits and what is still unresolved.
 - `PrimitiveConceptLadder.md` for primitive footings, resolution categories,
   and higher-level words that can be crystallized from those structures.
+- `ConceptGrammarContinuum.md` for the continuity between numeric structure,
+  primitive footings, word concepts, sentence grammar, and executable equation
+  order.
 
 The split underneath those helpers is:
 
