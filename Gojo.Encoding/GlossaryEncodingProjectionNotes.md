@@ -13,6 +13,7 @@ Gojo structure can discover the same forms without glossary-specific help.
 | Boundary | `span --source boundary read--> Bd0(S)`, `offset-read --terminal boundary read--> Bd1(Off)`, `circle-boundary --self boundary read--> BdSelf(C)`, `closed path --boundary read--> Bd(Path)` | Boundary is no longer only a broad tag. Samples can now distinguish source boundary, terminal boundary, self-contained circle boundary, and closed-path boundary. |
 | Radial boundary | `position + orthogonal outlet + radius-evidence --> radial terminal boundary` | Circumference is represented as a bounded point outlet, while `circle-boundary` remains reusable. |
 | Area and anti-area | `compatible positive boundaries --> Area+`, `compatible inverse boundaries --> Area-`, `positive area + anti-area --> support with holes` | Positive support, anti support, and holes are visible without adding a symbolic area enum. |
+| Resolution facets | `Part`, `U(Comp)`, `Read(...,Res)`, `Slot(?)`, `Approx`, `Read(...,B?)`, `Refine`, `Run(...,Res)` | Partition, unit, observer/coarse, omission, approximation, ambiguity, ladder, and runtime resolution stay distinct instead of collapsing into generic unknown. |
 | Offset read | `source + orthogonal outlet + extent --> offset-read`, `paired offset reads --lane compatibility read--> area or tension` | Offset reads now show their derivation from source support, outlet, extent, and lane compatibility. |
 | Curve | `curve --acceleration footing--> unresolved`, plus arc, Bezier, clothoid, and tangency placeholders | Curve samples now state that the current encoding is a placeholder until interpolation, acceleration/following, curvature, and transition concepts are grounded. |
 | Selection | `selection --local focus read--> selected structure + residue` | Selection is visible as a local focus read that preserves residue, not as a global picked-list. |
@@ -145,6 +146,28 @@ generic graph: it discovers `Bd0`, `Bd1`, boundary pairs, lane evidence,
 positive area, anti-area, and mixed-lane residue from the local definition
 structure. The tests include a deliberately renamed band ledger so this read
 does not depend on row names such as `positive-area`.
+
+### Resolution
+
+The first resolution-facet sample now lives at
+`Gojo.Encoding.Tests/Fixtures/EncoderJson/concept-definitions/resolution-facets.json`.
+It keeps eight closely related states separate:
+
+```text
+partition-resolution       Part(E,n)
+unit-resolution            U(Comp(E,F))
+observer-resolution        Read(E,B,Res(n))
+omission-resolution        Slot(role,?)
+approximation-resolution   Approx(Comp(E,target?,Res(n)),Res(n))
+ambiguous-resolution       Read(E,B?)
+ladder-resolution          Refine(rough-rung,fine-rung,correspondence)
+runtime-resolution         Run(E,input,t,Res(n))
+```
+
+`ResolutionReadSurface` discovers these from compound bodies and dependency
+structure rather than from definition names. This is still a compact definition
+surface. The next refinement is to lower `Part`, `Read`, `Approx`, `Refine`,
+and `Run` into more native carrier/relation/unit-shape surfaces where possible.
 
 ### Curve
 

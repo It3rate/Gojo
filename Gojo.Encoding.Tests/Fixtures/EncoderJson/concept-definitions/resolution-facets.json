@@ -1,0 +1,238 @@
+{
+  "represents": "A tiny resolution sample that keeps partition, unit, observer, omission, approximation, ambiguity, ladder, and runtime resolution separate while showing their shared read/compare/residue footing.",
+  "entryId": "resolution-facets",
+  "expression": "Part | U(Comp) | Read(...,Res) | Slot(?) | Approx | Read(...,B?) | Refine | Run(...,Res)",
+  "encodingNote": "This is a primitive definition sample, not a glossary page. It prevents coarse, omitted, approximate, ambiguous, and runtime-local resolution from collapsing into generic unknown.",
+  "gojo": {
+    "known": [
+      "ambiguity",
+      "approximation",
+      "ladder-resolution",
+      "observer-resolution",
+      "omission",
+      "partition-resolution",
+      "runtime-resolution",
+      "unit-resolution"
+    ],
+    "paths": [
+      "span + partition count --> partition-resolution",
+      "span + unit span --> unit-resolution",
+      "span + observer basis + coarse rung --> observer-resolution",
+      "input slot left open --> omission-resolution",
+      "span + aspirational target + coarse rung --> approximation-resolution",
+      "span + unresolved basis --> ambiguous-resolution",
+      "rough rung + fine rung + correspondence --> ladder-resolution",
+      "span + input + time + coarse rung --> runtime-resolution"
+    ],
+    "tension": [
+      "input role is intentionally open, not invalid",
+      "near enough at this rung while sharper difference remains residue",
+      "read surface is unresolved rather than absent",
+      "runtime residue belongs to this run, not permanently to the source"
+    ],
+    "definitions": [
+      {
+        "name": "span",
+        "encoding": "Def(span,S(P(A@X),P(B@Y)))+Prov(S(P(A@X),P(B@Y)))",
+        "body": "S(P(A@X),P(B@Y))"
+      },
+      {
+        "name": "partition-count",
+        "encoding": "Def(partition-count,5)+Prov(5)",
+        "body": "5"
+      },
+      {
+        "name": "partition-resolution",
+        "encoding": "Def(partition-resolution,Part(span,partition-count); deps=span,partition-count)+Prov(Part(span,partition-count))",
+        "body": "Part(span,partition-count)",
+        "dependsOn": [
+          "span",
+          "partition-count"
+        ]
+      },
+      {
+        "name": "partition-site",
+        "encoding": "Def(partition-site,Site(partition-resolution,tick); deps=partition-resolution)+Prov(Site(partition-resolution,tick)); residue=partition sites are readable but not all listed at this resolution",
+        "body": "Site(partition-resolution,tick)",
+        "dependsOn": [
+          "partition-resolution"
+        ],
+        "residueOrTension": "partition sites are readable but not all listed at this resolution"
+      },
+      {
+        "name": "unit-span",
+        "encoding": "Def(unit-span,S(P(A@X),P(B@Y)))+Prov(S(P(A@X),P(B@Y)))",
+        "body": "S(P(A@X),P(B@Y))"
+      },
+      {
+        "name": "unit-comparison",
+        "encoding": "Def(unit-comparison,Comp(span,unit-span); deps=span,unit-span)+Prov(Comp(span,unit-span)); residue=comparison residue preserves calibration mismatch",
+        "body": "Comp(span,unit-span)",
+        "dependsOn": [
+          "span",
+          "unit-span"
+        ],
+        "residueOrTension": "comparison residue preserves calibration mismatch"
+      },
+      {
+        "name": "unit-resolution",
+        "encoding": "Def(unit-resolution,U(unit-comparison); deps=unit-comparison)+Prov(U(unit-comparison))",
+        "body": "U(unit-comparison)",
+        "dependsOn": [
+          "unit-comparison"
+        ]
+      },
+      {
+        "name": "observer-basis",
+        "encoding": "Def(observer-basis,B(span); deps=span)+Prov(B(span))",
+        "body": "B(span)",
+        "dependsOn": [
+          "span"
+        ]
+      },
+      {
+        "name": "coarse-rung",
+        "encoding": "Def(coarse-rung,Res(rough))+Prov(Res(rough))",
+        "body": "Res(rough)"
+      },
+      {
+        "name": "observer-resolution",
+        "encoding": "Def(observer-resolution,Read(span,observer-basis,coarse-rung); deps=span,observer-basis,coarse-rung)+Prov(Read(span,observer-basis,coarse-rung)); residue=lower detail remains open at selected observer resolution",
+        "body": "Read(span,observer-basis,coarse-rung)",
+        "dependsOn": [
+          "span",
+          "observer-basis",
+          "coarse-rung"
+        ],
+        "residueOrTension": "lower detail remains open at selected observer resolution"
+      },
+      {
+        "name": "coarse-read-result",
+        "encoding": "Def(coarse-read-result,Cr(observer-resolution;context=coarse-rung); deps=observer-resolution,coarse-rung)+Prov(Cr(observer-resolution;context=coarse-rung))",
+        "body": "Cr(observer-resolution;context=coarse-rung)",
+        "dependsOn": [
+          "observer-resolution",
+          "coarse-rung"
+        ]
+      },
+      {
+        "name": "omitted-input-slot",
+        "encoding": "Def(omitted-input-slot,Slot(input,?))+Prov(Slot(input,?)); residue=input role is intentionally open, not invalid",
+        "body": "Slot(input,?)",
+        "residueOrTension": "input role is intentionally open, not invalid"
+      },
+      {
+        "name": "target",
+        "encoding": "Def(target,Target(?))+Prov(Target(?)); residue=sharper target is aspirational or unavailable",
+        "body": "Target(?)",
+        "residueOrTension": "sharper target is aspirational or unavailable"
+      },
+      {
+        "name": "approximate-comparison",
+        "encoding": "Def(approximate-comparison,Comp(span,target,coarse-rung); deps=span,target,coarse-rung)+Prov(Comp(span,target,coarse-rung)); residue=compatible at selected resolution with delta unresolved",
+        "body": "Comp(span,target,coarse-rung)",
+        "dependsOn": [
+          "span",
+          "target",
+          "coarse-rung"
+        ],
+        "residueOrTension": "compatible at selected resolution with delta unresolved"
+      },
+      {
+        "name": "approximation-resolution",
+        "encoding": "Def(approximation-resolution,Approx(approximate-comparison,coarse-rung); deps=approximate-comparison,coarse-rung)+Prov(Approx(approximate-comparison,coarse-rung)); residue=near enough at this rung while sharper difference remains residue",
+        "body": "Approx(approximate-comparison,coarse-rung)",
+        "dependsOn": [
+          "approximate-comparison",
+          "coarse-rung"
+        ],
+        "residueOrTension": "near enough at this rung while sharper difference remains residue"
+      },
+      {
+        "name": "ambiguous-basis",
+        "encoding": "Def(ambiguous-basis,B?(span); deps=span)+Prov(B?(span)); residue=multiple read bases remain possible",
+        "body": "B?(span)",
+        "dependsOn": [
+          "span"
+        ],
+        "residueOrTension": "multiple read bases remain possible"
+      },
+      {
+        "name": "ambiguous-resolution",
+        "encoding": "Def(ambiguous-resolution,Read(span,ambiguous-basis); deps=span,ambiguous-basis)+Prov(Read(span,ambiguous-basis)); residue=read surface is unresolved rather than absent",
+        "body": "Read(span,ambiguous-basis)",
+        "dependsOn": [
+          "span",
+          "ambiguous-basis"
+        ],
+        "residueOrTension": "read surface is unresolved rather than absent"
+      },
+      {
+        "name": "fine-rung",
+        "encoding": "Def(fine-rung,Res(fine))+Prov(Res(fine))",
+        "body": "Res(fine)"
+      },
+      {
+        "name": "rough-rung",
+        "encoding": "Def(rough-rung,Rung(span,coarse-rung); deps=span,coarse-rung)+Prov(Rung(span,coarse-rung))",
+        "body": "Rung(span,coarse-rung)",
+        "dependsOn": [
+          "span",
+          "coarse-rung"
+        ]
+      },
+      {
+        "name": "fine-rung-read",
+        "encoding": "Def(fine-rung-read,Rung(span,fine-rung); deps=span,fine-rung)+Prov(Rung(span,fine-rung))",
+        "body": "Rung(span,fine-rung)",
+        "dependsOn": [
+          "span",
+          "fine-rung"
+        ]
+      },
+      {
+        "name": "rung-correspondence",
+        "encoding": "Def(rung-correspondence,Corr(rough-rung,fine-rung-read); deps=rough-rung,fine-rung-read)+Prov(Corr(rough-rung,fine-rung-read))",
+        "body": "Corr(rough-rung,fine-rung-read)",
+        "dependsOn": [
+          "rough-rung",
+          "fine-rung-read"
+        ]
+      },
+      {
+        "name": "ladder-resolution",
+        "encoding": "Def(ladder-resolution,Refine(rough-rung,fine-rung-read,rung-correspondence); deps=rough-rung,fine-rung-read,rung-correspondence)+Prov(Refine(rough-rung,fine-rung-read,rung-correspondence)); residue=fine rung refines the coarse rung without deleting coarse evidence",
+        "body": "Refine(rough-rung,fine-rung-read,rung-correspondence)",
+        "dependsOn": [
+          "rough-rung",
+          "fine-rung-read",
+          "rung-correspondence"
+        ],
+        "residueOrTension": "fine rung refines the coarse rung without deleting coarse evidence"
+      },
+      {
+        "name": "runtime-input",
+        "encoding": "Def(runtime-input,Input(?))+Prov(Input(?)); residue=runtime input is variable at this read",
+        "body": "Input(?)",
+        "residueOrTension": "runtime input is variable at this read"
+      },
+      {
+        "name": "runtime-step",
+        "encoding": "Def(runtime-step,t(0))+Prov(t(0))",
+        "body": "t(0)"
+      },
+      {
+        "name": "runtime-resolution",
+        "encoding": "Def(runtime-resolution,Run(span,runtime-input,runtime-step,coarse-rung); deps=span,runtime-input,runtime-step,coarse-rung)+Prov(Run(span,runtime-input,runtime-step,coarse-rung)); residue=runtime residue belongs to this run, not permanently to the source",
+        "body": "Run(span,runtime-input,runtime-step,coarse-rung)",
+        "dependsOn": [
+          "span",
+          "runtime-input",
+          "runtime-step",
+          "coarse-rung"
+        ],
+        "residueOrTension": "runtime residue belongs to this run, not permanently to the source"
+      }
+    ]
+  }
+}

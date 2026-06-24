@@ -1,0 +1,235 @@
+using System.Text.Json.Nodes;
+using Gojo.Core;
+using Gojo.Encoding;
+
+namespace Gojo.Encoding.Tests;
+
+public sealed class ResolutionDefinitionSurfaceTests
+{
+    [Fact]
+    public void ResolutionFacetLedgerBuildsAllResolutionFacetDefinitions()
+    {
+        var ledger = ResolutionDefinitionSurface.CreateFacetLedger(new Carrier());
+
+        Assert.True(ConceptDefinitionSurface.TryReadLedger(ledger, out var definitions));
+        var rows = definitions
+            .Select(ConceptDefinitionInspection.DefinitionJson)
+            .ToDictionary(row => row.Name, StringComparer.Ordinal);
+
+        Assert.Contains("partition-resolution", rows.Keys);
+        Assert.Contains("unit-resolution", rows.Keys);
+        Assert.Contains("observer-resolution", rows.Keys);
+        Assert.Contains("omitted-input-slot", rows.Keys);
+        Assert.Contains("approximation-resolution", rows.Keys);
+        Assert.Contains("ambiguous-resolution", rows.Keys);
+        Assert.Contains("ladder-resolution", rows.Keys);
+        Assert.Contains("runtime-resolution", rows.Keys);
+
+        AssertRow(rows["partition-resolution"], "Part(span,partition-count)", "span", "partition-count");
+        AssertRow(rows["unit-resolution"], "U(unit-comparison)", "unit-comparison");
+        AssertRow(rows["observer-resolution"], "Read(span,observer-basis,coarse-rung)", "span", "observer-basis", "coarse-rung");
+        AssertRow(rows["omitted-input-slot"], "Slot(input,?)");
+        AssertRow(rows["approximation-resolution"], "Approx(approximate-comparison,coarse-rung)", "approximate-comparison", "coarse-rung");
+        AssertRow(rows["ambiguous-resolution"], "Read(span,ambiguous-basis)", "span", "ambiguous-basis");
+        AssertRow(rows["ladder-resolution"], "Refine(rough-rung,fine-rung-read,rung-correspondence)", "rough-rung", "fine-rung-read", "rung-correspondence");
+        AssertRow(rows["runtime-resolution"], "Run(span,runtime-input,runtime-step,coarse-rung)", "span", "runtime-input", "runtime-step", "coarse-rung");
+
+        Assert.Equal("input role is intentionally open, not invalid", rows["omitted-input-slot"].ResidueOrTension);
+        Assert.Equal("near enough at this rung while sharper difference remains residue", rows["approximation-resolution"].ResidueOrTension);
+        Assert.Equal("read surface is unresolved rather than absent", rows["ambiguous-resolution"].ResidueOrTension);
+        Assert.Equal("runtime residue belongs to this run, not permanently to the source", rows["runtime-resolution"].ResidueOrTension);
+    }
+
+    [Fact]
+    public void ResolutionFacetReadDiscoversEveryFacetFromLocalDefinitions()
+    {
+        var ledger = ResolutionDefinitionSurface.CreateFacetLedger(new Carrier());
+
+        Assert.True(ResolutionReadSurface.TryReadResolutionFacets(ledger, out var read));
+
+        AssertFacet(read, "partition", "Part(span,partition-count)");
+        AssertFacet(read, "unit", "U(unit-comparison)");
+        AssertFacet(read, "observer", "Read(span,observer-basis,coarse-rung)");
+        AssertFacet(read, "omission", "Slot(input,?)");
+        AssertFacet(read, "approximation", "Approx(approximate-comparison,coarse-rung)");
+        AssertFacet(read, "ambiguity", "Read(span,ambiguous-basis)");
+        AssertFacet(read, "ladder", "Refine(rough-rung,fine-rung-read,rung-correspondence)");
+        AssertFacet(read, "runtime", "Run(span,runtime-input,runtime-step,coarse-rung)");
+
+        Assert.Contains(read.Of("approximation"), facet =>
+            facet.ResidueOrTension == "near enough at this rung while sharper difference remains residue");
+        Assert.Contains(read.Of("ambiguity"), facet =>
+            facet.ResidueOrTension == "read surface is unresolved rather than absent");
+    }
+
+    [Fact]
+    public void ResolutionFacetReadUsesStructureInsteadOfSpecificDefinitionNames()
+    {
+        var ledger = RenamedResolutionLedger();
+
+        Assert.True(ResolutionReadSurface.TryReadResolutionFacets(ledger, out var read));
+
+        Assert.True(read.Has("partition"));
+        Assert.True(read.Has("unit"));
+        Assert.True(read.Has("observer"));
+        Assert.True(read.Has("omission"));
+        Assert.True(read.Has("approximation"));
+        Assert.True(read.Has("ambiguity"));
+        Assert.True(read.Has("ladder"));
+        Assert.True(read.Has("runtime"));
+        Assert.DoesNotContain(read.Facets.Select(facet => facet.Definition.Name), name =>
+            name is "partition-resolution" or "unit-resolution" or "observer-resolution" or "runtime-resolution");
+    }
+
+    [Fact]
+    public void ResolutionFacetLedgerMatchesInspectableJsonFixture()
+    {
+        var generated = ResolutionFacetFixtureEntry();
+        var rewritten = GojoStructureEncodingJson.SerializeFixtureEntry(generated);
+        var fixture = File.ReadAllText(ResolutionFacetFixturePath());
+        var reread = GojoStructureEncodingJson.DeserializeFixtureEntry(fixture);
+        var rewrittenAgain = GojoStructureEncodingJson.SerializeFixtureEntry(reread);
+
+        AssertJsonEquivalent(fixture, rewritten);
+        AssertJsonEquivalent(rewritten, rewrittenAgain);
+    }
+
+    private static GojoEncodingJsonFixtureEntry ResolutionFacetFixtureEntry()
+    {
+        var ledger = ResolutionDefinitionSurface.CreateFacetLedger(new Carrier());
+        Assert.True(ConceptDefinitionSurface.TryReadLedger(ledger, out var definitions));
+
+        return new GojoEncodingJsonFixtureEntry
+        {
+            Represents = "A tiny resolution sample that keeps partition, unit, observer, omission, approximation, ambiguity, ladder, and runtime resolution separate while showing their shared read/compare/residue footing.",
+            EntryId = "resolution-facets",
+            Expression = "Part | U(Comp) | Read(...,Res) | Slot(?) | Approx | Read(...,B?) | Refine | Run(...,Res)",
+            EncodingNote = "This is a primitive definition sample, not a glossary page. It prevents coarse, omitted, approximate, ambiguous, and runtime-local resolution from collapsing into generic unknown.",
+            Gojo = new GojoEncodingJsonFixtureGojo
+            {
+                Known =
+                [
+                    "ambiguity",
+                    "approximation",
+                    "ladder-resolution",
+                    "observer-resolution",
+                    "omission",
+                    "partition-resolution",
+                    "runtime-resolution",
+                    "unit-resolution"
+                ],
+                Paths =
+                [
+                    "span + partition count --> partition-resolution",
+                    "span + unit span --> unit-resolution",
+                    "span + observer basis + coarse rung --> observer-resolution",
+                    "input slot left open --> omission-resolution",
+                    "span + aspirational target + coarse rung --> approximation-resolution",
+                    "span + unresolved basis --> ambiguous-resolution",
+                    "rough rung + fine rung + correspondence --> ladder-resolution",
+                    "span + input + time + coarse rung --> runtime-resolution"
+                ],
+                Tension =
+                [
+                    "input role is intentionally open, not invalid",
+                    "near enough at this rung while sharper difference remains residue",
+                    "read surface is unresolved rather than absent",
+                    "runtime residue belongs to this run, not permanently to the source"
+                ],
+                Definitions = [.. definitions.Select(ConceptDefinitionInspection.DefinitionJson)]
+            }
+        };
+    }
+
+    private static Relation RenamedResolutionLedger()
+    {
+        var definitions = new List<Relation>();
+
+        Relation Add(
+            string name,
+            IElement body,
+            IReadOnlyList<IElement>? dependencies = null,
+            IElement? residueOrTension = null)
+        {
+            var definition = ConceptDefinitionSurface.Create(
+                new Carrier(),
+                name,
+                body,
+                dependencies,
+                residueOrTension: residueOrTension);
+            definitions.Add(definition);
+            return definition;
+        }
+
+        var baseSpan = Add("measured thing", Relation.Segment(new Carrier(), 0, 12));
+        var count = Add("five-ish", Atom("5"));
+        Add("divided read", Address("Part", Atom("measured thing"), Atom("five-ish")), [baseSpan, count]);
+
+        var calibrator = Add("little stick", Relation.Segment(new Carrier(), 0, 1));
+        var comparison = Add("against stick", Address("Comp", Atom("measured thing"), Atom("little stick")), [baseSpan, calibrator]);
+        Add("measuring handle", Address("U", Atom("against stick")), [comparison]);
+
+        var basis = Add("view frame", Address("B", Atom("measured thing")), [baseSpan]);
+        var rough = Add("rough view", Address("Res", Atom("rough")));
+        Add("view result", Address("Read", Atom("measured thing"), Atom("view frame"), Atom("rough view")), [baseSpan, basis, rough]);
+
+        Add("empty socket", Address("Slot", Atom("input"), Atom("?")));
+
+        var unknownTarget = Add("maybe target", Address("Target", Atom("?")));
+        var looseComparison = Add("close enough comparison", Address("Comp", Atom("measured thing"), Atom("maybe target"), Atom("rough view")), [baseSpan, unknownTarget, rough]);
+        Add("about result", Address("Approx", Atom("close enough comparison"), Atom("rough view")), [looseComparison, rough]);
+
+        var unresolvedBasis = Add("several possible frames", Address("B?", Atom("measured thing")), [baseSpan]);
+        Add("unsettled view", Address("Read", Atom("measured thing"), Atom("several possible frames")), [baseSpan, unresolvedBasis]);
+
+        var fine = Add("sharp view", Address("Res", Atom("fine")));
+        var lowRung = Add("low rung", Address("Rung", Atom("measured thing"), Atom("rough view")), [baseSpan, rough]);
+        var highRung = Add("high rung", Address("Rung", Atom("measured thing"), Atom("sharp view")), [baseSpan, fine]);
+        var mapping = Add("rung map", Address("Corr", Atom("low rung"), Atom("high rung")), [lowRung, highRung]);
+        Add("sharpened read", Address("Refine", Atom("low rung"), Atom("high rung"), Atom("rung map")), [lowRung, highRung, mapping]);
+
+        var input = Add("changing input", Address("Input", Atom("?")));
+        var time = Add("time now", Address("t", Atom("0")));
+        Add("live read", Address("Run", Atom("measured thing"), Atom("changing input"), Atom("time now"), Atom("rough view")), [baseSpan, input, time, rough]);
+
+        return ConceptDefinitionSurface.Ledger(new Carrier(), definitions);
+    }
+
+    private static void AssertRow(
+        GojoEncodingJsonFixtureDefinition row,
+        string body,
+        params string[] dependencies)
+    {
+        Assert.Equal(body, row.Body);
+        Assert.Equal(dependencies, row.DependsOn ?? []);
+    }
+
+    private static void AssertFacet(
+        ResolutionReadSurface.ResolutionFacetRead read,
+        string facet,
+        string body)
+    {
+        Assert.Contains(read.Of(facet), item => item.Body == body);
+    }
+
+    private static string ResolutionFacetFixturePath() =>
+        Path.Combine(
+            AppContext.BaseDirectory,
+            "Fixtures",
+            "EncoderJson",
+            "concept-definitions",
+            "resolution-facets.json");
+
+    private static Relation Address(string lexical, params IElement[] parts) =>
+        ConceptAddressSurface.Compound(new Carrier(), lexical, parts);
+
+    private static Relation Atom(string name) =>
+        ConceptAddressSurface.Atom(new Carrier(), name);
+
+    private static void AssertJsonEquivalent(string expected, string actual)
+    {
+        var expectedNode = JsonNode.Parse(expected);
+        var actualNode = JsonNode.Parse(actual);
+        Assert.True(JsonNode.DeepEquals(expectedNode, actualNode), actual);
+    }
+}

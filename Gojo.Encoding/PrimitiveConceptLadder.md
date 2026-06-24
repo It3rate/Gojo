@@ -608,10 +608,12 @@ category/type without example frame
 social/intentional words such as ownership, permission, promise, trust
 ```
 
-## Next Implementation Shape
+## First Implementation Shape
 
-The next small executable surface should be resolution-centered and should avoid
-becoming a word classifier. A useful sample set:
+The first small executable surface is resolution-centered and avoids becoming a
+word classifier. `ResolutionDefinitionSurface` builds the sample ledger, and
+`ResolutionReadSurface` discovers the facets from compound bodies and dependency
+structure rather than from definition names. The sample set:
 
 ```text
 partitioned span
@@ -636,8 +638,8 @@ ladder refinement
   Rung(E_rough) -> Rung(E_fine) + correspondence + residue
 ```
 
-Blind reconstruction for those samples should hide the text handles and ask
-whether a generic reader can recover:
+Blind reconstruction for those samples hides the text handles and asks whether a
+generic reader can recover:
 
 ```text
 partition
@@ -652,3 +654,8 @@ refinement ladder
 If this works, words such as `about`, `near`, `rough`, `exact`, `missing`,
 `optional`, `default`, `detail`, `sample`, and `refine` can be built with much
 less ambiguity.
+
+The first pass works at the compact definition level. The next deepening step is
+to lower compact bodies such as `Part(...)`, `Read(...)`, `Approx(...)`,
+`Refine(...)`, and `Run(...)` into more native carrier/relation/unit-shape
+surfaces where the footing is clear enough.
