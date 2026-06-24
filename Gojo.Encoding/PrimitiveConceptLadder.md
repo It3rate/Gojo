@@ -611,9 +611,11 @@ social/intentional words such as ownership, permission, promise, trust
 ## First Implementation Shape
 
 The first small executable surface is resolution-centered and avoids becoming a
-word classifier. `ResolutionDefinitionSurface` builds the sample ledger, and
-`ResolutionReadSurface` discovers the facets from compound bodies and dependency
-structure rather than from definition names. The sample set:
+word classifier. `ResolutionFacetStructureSurface` builds native relation
+footholds for the sample bodies, `ResolutionDefinitionSurface` places those
+bodies in an ordered definition ledger, and `ResolutionReadSurface` discovers
+the facets from the bodies and dependency structure rather than from definition
+names. The sample set:
 
 ```text
 partitioned span
@@ -655,7 +657,11 @@ If this works, words such as `about`, `near`, `rough`, `exact`, `missing`,
 `optional`, `default`, `detail`, `sample`, and `refine` can be built with much
 less ambiguity.
 
-The first pass works at the compact definition level. The next deepening step is
-to lower compact bodies such as `Part(...)`, `Read(...)`, `Approx(...)`,
-`Refine(...)`, and `Run(...)` into more native carrier/relation/unit-shape
-surfaces where the footing is clear enough.
+The current pass lowers the major resolution bodies into native structures:
+partition site frames, read witnesses, basis reads, placeholders, refinement
+reads, focus-bound ambiguous bases, and time-step/runtime witnesses. The compact
+forms such as `Part(...)`, `Read(...)`, `Approx(...)`, `Refine(...)`, and
+`Run(...)` are now inspection reads over that structure. The next deepening step
+is to discover the same facets from arbitrary Gojo source structure, then lower
+the remaining helper rows that are still compact because their primitive footing
+is not settled enough yet.

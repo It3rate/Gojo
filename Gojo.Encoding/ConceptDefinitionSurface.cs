@@ -75,6 +75,7 @@ public static class ConceptDefinitionSurface
         if (element is Relation definition &&
             EncodedTextSurface.TryReadRootElements(definition, out var elements) &&
             elements.Length == 5 &&
+            IsDefinitionName(elements[0]) &&
             TryReadDependencyFrame(elements[3], out var dependencies))
         {
             read = new DefinitionRead(
@@ -89,6 +90,11 @@ public static class ConceptDefinitionSurface
         read = default;
         return false;
     }
+
+    private static bool IsDefinitionName(IElement element) =>
+        ConceptAddressSurface.TryReadAtom(element, out _, out _) ||
+        ConceptAddressSurface.TryReadCompound(element, out _, out _, out _, out _) ||
+        (EncodedTextSurface.TryRead(element, out var text) && text.Length > 0);
 
     public static bool TryReadDependencyFrame(IElement element, out IElement[] dependencies)
     {

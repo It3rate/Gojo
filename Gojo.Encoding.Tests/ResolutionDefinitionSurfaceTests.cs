@@ -38,6 +38,16 @@ public sealed class ResolutionDefinitionSurfaceTests
         Assert.Equal("near enough at this rung while sharper difference remains residue", rows["approximation-resolution"].ResidueOrTension);
         Assert.Equal("read surface is unresolved rather than absent", rows["ambiguous-resolution"].ResidueOrTension);
         Assert.Equal("runtime residue belongs to this run, not permanently to the source", rows["runtime-resolution"].ResidueOrTension);
+
+        var nativeRows = definitions.ToDictionary(NameOf, StringComparer.Ordinal);
+        AssertNativeBody(nativeRows["partition-resolution"], body => ResolutionFacetStructureSurface.TryReadPartition(body, out _));
+        AssertNativeBody(nativeRows["unit-resolution"], body => ResolutionFacetStructureSurface.TryReadUnitResolution(body, out _));
+        AssertNativeBody(nativeRows["observer-resolution"], body => ResolutionFacetStructureSurface.TryReadObserverResolution(body, out _));
+        AssertNativeBody(nativeRows["omitted-input-slot"], body => ResolutionFacetStructureSurface.TryReadSlot(body, out _));
+        AssertNativeBody(nativeRows["approximation-resolution"], body => ResolutionFacetStructureSurface.TryReadApproximation(body, out _));
+        AssertNativeBody(nativeRows["ambiguous-resolution"], body => ResolutionFacetStructureSurface.TryReadAmbiguousResolution(body, out _));
+        AssertNativeBody(nativeRows["ladder-resolution"], body => ResolutionFacetStructureSurface.TryReadLadderResolution(body, out _));
+        AssertNativeBody(nativeRows["runtime-resolution"], body => ResolutionFacetStructureSurface.TryReadRuntimeResolution(body, out _));
     }
 
     [Fact]
@@ -144,6 +154,8 @@ public sealed class ResolutionDefinitionSurfaceTests
     private static Relation RenamedResolutionLedger()
     {
         var definitions = new List<Relation>();
+        var resolutionCarrier = new Carrier();
+        var runtimeClock = new Carrier();
 
         Relation Add(
             string name,
@@ -161,36 +173,99 @@ public sealed class ResolutionDefinitionSurfaceTests
             return definition;
         }
 
-        var baseSpan = Add("measured thing", Relation.Segment(new Carrier(), 0, 12));
+        var baseSpanBody = Relation.Segment(new Carrier(), 0, 12);
+        var baseSpan = Add("measured thing", baseSpanBody);
         var count = Add("five-ish", Atom("5"));
-        Add("divided read", Address("Part", Atom("measured thing"), Atom("five-ish")), [baseSpan, count]);
+        Add(
+            "divided read",
+            ResolutionFacetStructureSurface.Partition(
+                new Carrier(),
+                baseSpan,
+                count,
+                ResolutionFacetStructureSurface.PartitionSites(baseSpanBody, 4)),
+            [baseSpan, count]);
 
         var calibrator = Add("little stick", Relation.Segment(new Carrier(), 0, 1));
-        var comparison = Add("against stick", Address("Comp", Atom("measured thing"), Atom("little stick")), [baseSpan, calibrator]);
-        Add("measuring handle", Address("U", Atom("against stick")), [comparison]);
+        var comparison = Add(
+            "against stick",
+            ResolutionFacetStructureSurface.Comparison(new Carrier(), baseSpan, calibrator),
+            [baseSpan, calibrator]);
+        Add(
+            "measuring handle",
+            ResolutionFacetStructureSurface.UnitResolution(new Carrier(), comparison),
+            [comparison]);
 
-        var basis = Add("view frame", Address("B", Atom("measured thing")), [baseSpan]);
-        var rough = Add("rough view", Address("Res", Atom("rough")));
-        Add("view result", Address("Read", Atom("measured thing"), Atom("view frame"), Atom("rough view")), [baseSpan, basis, rough]);
+        var basis = Add(
+            "view frame",
+            ResolutionFacetStructureSurface.ObserverBasis(new Carrier(), baseSpan),
+            [baseSpan]);
+        var rough = Add(
+            "rough view",
+            ResolutionFacetStructureSurface.ResolutionRung(new Carrier(), resolutionCarrier, "rough", 1));
+        Add(
+            "view result",
+            ResolutionFacetStructureSurface.ObserverResolution(new Carrier(), baseSpan, basis, rough),
+            [baseSpan, basis, rough]);
 
-        Add("empty socket", Address("Slot", Atom("input"), Atom("?")));
+        Add(
+            "empty socket",
+            ResolutionFacetStructureSurface.Slot(new Carrier(), Atom("input")));
 
-        var unknownTarget = Add("maybe target", Address("Target", Atom("?")));
-        var looseComparison = Add("close enough comparison", Address("Comp", Atom("measured thing"), Atom("maybe target"), Atom("rough view")), [baseSpan, unknownTarget, rough]);
-        Add("about result", Address("Approx", Atom("close enough comparison"), Atom("rough view")), [looseComparison, rough]);
+        var unknownTarget = Add(
+            "maybe target",
+            ResolutionFacetStructureSurface.Target(new Carrier()));
+        var looseComparison = Add(
+            "close enough comparison",
+            ResolutionFacetStructureSurface.Comparison(new Carrier(), baseSpan, unknownTarget, rough),
+            [baseSpan, unknownTarget, rough]);
+        Add(
+            "about result",
+            ResolutionFacetStructureSurface.Approximation(new Carrier(), looseComparison, rough),
+            [looseComparison, rough]);
 
-        var unresolvedBasis = Add("several possible frames", Address("B?", Atom("measured thing")), [baseSpan]);
-        Add("unsettled view", Address("Read", Atom("measured thing"), Atom("several possible frames")), [baseSpan, unresolvedBasis]);
+        var unresolvedBasis = Add(
+            "several possible frames",
+            ResolutionFacetStructureSurface.AmbiguousBasis(new Carrier(), baseSpan),
+            [baseSpan]);
+        Add(
+            "unsettled view",
+            ResolutionFacetStructureSurface.ObserverResolution(
+                new Carrier(),
+                baseSpan,
+                unresolvedBasis,
+                Relation.Point(Carrier.Unknown, 0)),
+            [baseSpan, unresolvedBasis]);
 
-        var fine = Add("sharp view", Address("Res", Atom("fine")));
-        var lowRung = Add("low rung", Address("Rung", Atom("measured thing"), Atom("rough view")), [baseSpan, rough]);
-        var highRung = Add("high rung", Address("Rung", Atom("measured thing"), Atom("sharp view")), [baseSpan, fine]);
-        var mapping = Add("rung map", Address("Corr", Atom("low rung"), Atom("high rung")), [lowRung, highRung]);
-        Add("sharpened read", Address("Refine", Atom("low rung"), Atom("high rung"), Atom("rung map")), [lowRung, highRung, mapping]);
+        var fine = Add(
+            "sharp view",
+            ResolutionFacetStructureSurface.ResolutionRung(new Carrier(), resolutionCarrier, "fine", 10));
+        var lowRung = Add(
+            "low rung",
+            ResolutionFacetStructureSurface.Rung(new Carrier(), baseSpan, rough),
+            [baseSpan, rough]);
+        var highRung = Add(
+            "high rung",
+            ResolutionFacetStructureSurface.Rung(new Carrier(), baseSpan, fine),
+            [baseSpan, fine]);
+        var mapping = Add(
+            "rung map",
+            ResolutionFacetStructureSurface.Correspondence(new Carrier(), lowRung, highRung),
+            [lowRung, highRung]);
+        Add(
+            "sharpened read",
+            ResolutionFacetStructureSurface.LadderResolution(new Carrier(), lowRung, highRung, mapping),
+            [lowRung, highRung, mapping]);
 
-        var input = Add("changing input", Address("Input", Atom("?")));
-        var time = Add("time now", Address("t", Atom("0")));
-        Add("live read", Address("Run", Atom("measured thing"), Atom("changing input"), Atom("time now"), Atom("rough view")), [baseSpan, input, time, rough]);
+        var input = Add(
+            "changing input",
+            ResolutionFacetStructureSurface.RuntimeInput(new Carrier()));
+        var time = Add(
+            "time now",
+            ResolutionFacetStructureSurface.RuntimeStep(new Carrier(), runtimeClock, "0", 0));
+        Add(
+            "live read",
+            ResolutionFacetStructureSurface.RuntimeResolution(new Carrier(), runtimeClock, baseSpan, input, time, rough),
+            [baseSpan, input, time, rough]);
 
         return ConceptDefinitionSurface.Ledger(new Carrier(), definitions);
     }
@@ -202,6 +277,19 @@ public sealed class ResolutionDefinitionSurfaceTests
     {
         Assert.Equal(body, row.Body);
         Assert.Equal(dependencies, row.DependsOn ?? []);
+    }
+
+    private static void AssertNativeBody(Relation definition, Func<IElement, bool> read)
+    {
+        Assert.True(ConceptDefinitionSurface.TryRead(definition, out var definitionRead));
+        Assert.False(ConceptAddressSurface.TryReadCompound(definitionRead.Body, out _, out _, out _, out _));
+        Assert.True(read(definitionRead.Body));
+    }
+
+    private static string NameOf(Relation definition)
+    {
+        Assert.True(ConceptDefinitionSurface.TryRead(definition, out var read));
+        return ConceptDefinitionInspection.ElementDebug(read.Name);
     }
 
     private static void AssertFacet(
@@ -219,9 +307,6 @@ public sealed class ResolutionDefinitionSurfaceTests
             "EncoderJson",
             "concept-definitions",
             "resolution-facets.json");
-
-    private static Relation Address(string lexical, params IElement[] parts) =>
-        ConceptAddressSurface.Compound(new Carrier(), lexical, parts);
 
     private static Relation Atom(string name) =>
         ConceptAddressSurface.Atom(new Carrier(), name);

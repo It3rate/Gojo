@@ -43,12 +43,7 @@ public static class ResolutionReadSurface
 
         foreach (var node in graph.Nodes)
         {
-            if (!graph.TryReadCompoundBody(node, out var body))
-            {
-                continue;
-            }
-
-            var facet = FacetOf(graph, node, body);
+            var facet = FacetOf(node);
             if (facet is null)
             {
                 continue;
@@ -65,65 +60,50 @@ public static class ResolutionReadSurface
         return facets.Count > 0;
     }
 
-    private static string? FacetOf(
-        ConceptDefinitionDiscoverySurface.DefinitionGraph graph,
-        ConceptDefinitionDiscoverySurface.DefinitionNode node,
-        ConceptDefinitionDiscoverySurface.CompoundBodyRead body)
+    private static string? FacetOf(ConceptDefinitionDiscoverySurface.DefinitionNode node)
     {
-        if (body.Lexical == "Part")
+        if (ResolutionFacetStructureSurface.TryReadPartition(node.Read.Body, out _))
         {
             return "partition";
         }
 
-        if (body.Lexical == "U")
+        if (ResolutionFacetStructureSurface.TryReadUnitResolution(node.Read.Body, out _))
         {
             return "unit";
         }
 
-        if (body.Lexical == "Slot" || body.Lexical == "Open")
+        if (ResolutionFacetStructureSurface.TryReadObserverResolution(node.Read.Body, out _))
+        {
+            return "observer";
+        }
+
+        if (ResolutionFacetStructureSurface.TryReadSlot(node.Read.Body, out _))
         {
             return "omission";
         }
 
-        if (body.Lexical == "Approx")
+        if (ResolutionFacetStructureSurface.TryReadApproximation(node.Read.Body, out _))
         {
             return "approximation";
         }
 
-        if (body.Lexical == "Refine")
+        if (ResolutionFacetStructureSurface.TryReadAmbiguousResolution(node.Read.Body, out _))
+        {
+            return "ambiguity";
+        }
+
+        if (ResolutionFacetStructureSurface.TryReadLadderResolution(node.Read.Body, out _))
         {
             return "ladder";
         }
 
-        if (body.Lexical == "Run")
+        if (ResolutionFacetStructureSurface.TryReadRuntimeResolution(node.Read.Body, out _))
         {
             return "runtime";
         }
 
-        if (body.Lexical == "Read")
-        {
-            if (HasDependencyCompound(graph, node, "B?"))
-            {
-                return "ambiguity";
-            }
-
-            if (HasDependencyCompound(graph, node, "B") &&
-                HasDependencyCompound(graph, node, "Res"))
-            {
-                return "observer";
-            }
-        }
-
         return null;
     }
-
-    private static bool HasDependencyCompound(
-        ConceptDefinitionDiscoverySurface.DefinitionGraph graph,
-        ConceptDefinitionDiscoverySurface.DefinitionNode node,
-        string lexical) =>
-        graph.DependenciesOf(node).Any(dependency =>
-            graph.TryReadCompoundBody(dependency, out var body) &&
-            body.Lexical == lexical);
 
     private static string ResidueText(IElement element) =>
         EncodedTextSurface.IsUnknownPoint(element)

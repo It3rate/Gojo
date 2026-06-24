@@ -67,13 +67,15 @@ read policy. The blind test now also returns the definition evidence used for
 the reconstruction, not only the primary recovered label.
 
 The ten-sample pass makes the building-up approach look promising, but it also
-shows where the compact body strings are still too crystallized. Bodies such as
-`Read(span,resolution)`, `Settle(source,basis,resolution)`,
-`Part(span,partition-count)`, `BdSelf(circle-boundary)`,
+shows where compact body strings can become too crystallized if they remain the
+body itself. The resolution sample has now moved its major forms below the
+debug strings: `Part(...)`, `Read(...)`, `Approx(...)`, `Refine(...)`, and
+`Run(...)` are inspection reads over native relation bodies. Other bodies such
+as `Settle(source,basis,resolution)`, `BdSelf(circle-boundary)`,
 `Dir(boundary,+f)`, `Area+(boundary,boundary-side)`, and
-`Off(span,O(span),d,Res(n))` are readable and dependency-bearing, but several of
-their ingredients should become actual Gojo structure instead of compact
-address bodies.
+`Off(span,O(span),d,Res(n))` are still readable and dependency-bearing compact
+forms. Their ingredients should become actual Gojo structure where the lower
+footing is clear enough.
 
 ## Remaining Gaps
 
@@ -164,10 +166,16 @@ ladder-resolution          Refine(rough-rung,fine-rung,correspondence)
 runtime-resolution         Run(E,input,t,Res(n))
 ```
 
-`ResolutionReadSurface` discovers these from compound bodies and dependency
-structure rather than from definition names. This is still a compact definition
-surface. The next refinement is to lower `Part`, `Read`, `Approx`, `Refine`,
-and `Run` into more native carrier/relation/unit-shape surfaces where possible.
+`ResolutionFacetStructureSurface` now builds native relation bodies for those
+facets. `ResolutionReadSurface` discovers them from the bodies and dependency
+structure rather than from definition names. The compact expressions above are
+debug projections over the body, not the body itself.
+
+The remaining resolution work is discovery breadth. The current sample still
+starts from an ordered definition ledger, so it proves the facets can survive a
+rename and a serialize/deserialize pass, but it does not yet prove that the same
+facets can always be read out of arbitrary Gojo source structure without the
+sample ledger scaffolding.
 
 ### Curve
 
@@ -292,4 +300,4 @@ the static structure alone.
    dependency source for PCB/ECAD samples.
 8. Replace remaining compact address bodies such as `BdSelf(...)`, `Area+(...)`,
    `Off(...)`, and `Settle(...)` with native Gojo structure where the lower
-   footing is clear enough.
+   footing is clear enough, following the resolution-facet pattern.

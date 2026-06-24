@@ -33,10 +33,17 @@ public static class ResolutionDefinitionSurface
         var spanBody = Relation.Segment(new Carrier(), 0, 10);
         var span = Add("span", spanBody);
 
+        var resolutionCarrier = new Carrier();
+        var runtimeClock = new Carrier();
+
         var partitionCount = Add("partition-count", Atom("5"));
         var partitionResolution = Add(
             "partition-resolution",
-            Address("Part", Atom("span"), Atom("partition-count")),
+            ResolutionFacetStructureSurface.Partition(
+                new Carrier(),
+                span,
+                partitionCount,
+                ResolutionFacetStructureSurface.PartitionSites(spanBody, 5)),
             [span, partitionCount]);
         Add(
             "partition-site",
@@ -47,24 +54,33 @@ public static class ResolutionDefinitionSurface
         var unitSpan = Add("unit-span", Relation.Segment(new Carrier(), 0, 1));
         var unitComparison = Add(
             "unit-comparison",
-            Address("Comp", Atom("span"), Atom("unit-span")),
+            ResolutionFacetStructureSurface.Comparison(
+                new Carrier(),
+                span,
+                unitSpan,
+                residueOrTension: Text("comparison residue preserves calibration mismatch")),
             [span, unitSpan],
             Text("comparison residue preserves calibration mismatch"));
         Add(
             "unit-resolution",
-            Address("U", Atom("unit-comparison")),
+            ResolutionFacetStructureSurface.UnitResolution(new Carrier(), unitComparison),
             [unitComparison]);
 
         var observerBasis = Add(
             "observer-basis",
-            Address("B", Atom("span")),
+            ResolutionFacetStructureSurface.ObserverBasis(new Carrier(), span),
             [span]);
         var coarseRung = Add(
             "coarse-rung",
-            Address("Res", Atom("rough")));
+            ResolutionFacetStructureSurface.ResolutionRung(new Carrier(), resolutionCarrier, "rough", 1));
         var observerRead = Add(
             "observer-resolution",
-            Address("Read", Atom("span"), Atom("observer-basis"), Atom("coarse-rung")),
+            ResolutionFacetStructureSurface.ObserverResolution(
+                new Carrier(),
+                span,
+                observerBasis,
+                coarseRung,
+                Text("lower detail remains open at selected observer resolution")),
             [span, observerBasis, coarseRung],
             Text("lower detail remains open at selected observer resolution"));
         Add(
@@ -74,64 +90,99 @@ public static class ResolutionDefinitionSurface
 
         Add(
             "omitted-input-slot",
-            Address("Slot", Atom("input"), Atom("?")),
+            ResolutionFacetStructureSurface.Slot(new Carrier(), Atom("input")),
             residueOrTension: Text("input role is intentionally open, not invalid"));
 
         var target = Add(
             "target",
-            Address("Target", Atom("?")),
+            ResolutionFacetStructureSurface.Target(
+                new Carrier(),
+                Text("sharper target is aspirational or unavailable")),
             residueOrTension: Text("sharper target is aspirational or unavailable"));
         var approximateComparison = Add(
             "approximate-comparison",
-            Address("Comp", Atom("span"), Atom("target"), Atom("coarse-rung")),
+            ResolutionFacetStructureSurface.Comparison(
+                new Carrier(),
+                span,
+                target,
+                coarseRung,
+                Text("compatible at selected resolution with delta unresolved")),
             [span, target, coarseRung],
             Text("compatible at selected resolution with delta unresolved"));
         Add(
             "approximation-resolution",
-            Address("Approx", Atom("approximate-comparison"), Atom("coarse-rung")),
+            ResolutionFacetStructureSurface.Approximation(
+                new Carrier(),
+                approximateComparison,
+                coarseRung,
+                Text("near enough at this rung while sharper difference remains residue")),
             [approximateComparison, coarseRung],
             Text("near enough at this rung while sharper difference remains residue"));
 
         var ambiguousBasis = Add(
             "ambiguous-basis",
-            Address("B?", Atom("span")),
+            ResolutionFacetStructureSurface.AmbiguousBasis(
+                new Carrier(),
+                span,
+                Text("multiple read bases remain possible")),
             [span],
             Text("multiple read bases remain possible"));
         Add(
             "ambiguous-resolution",
-            Address("Read", Atom("span"), Atom("ambiguous-basis")),
+            ResolutionFacetStructureSurface.ObserverResolution(
+                new Carrier(),
+                span,
+                ambiguousBasis,
+                EncodedTextSurface.UnknownPoint(),
+                Text("read surface is unresolved rather than absent")),
             [span, ambiguousBasis],
             Text("read surface is unresolved rather than absent"));
 
         var fineRung = Add(
             "fine-rung",
-            Address("Res", Atom("fine")));
+            ResolutionFacetStructureSurface.ResolutionRung(new Carrier(), resolutionCarrier, "fine", 10));
         var roughRung = Add(
             "rough-rung",
-            Address("Rung", Atom("span"), Atom("coarse-rung")),
+            ResolutionFacetStructureSurface.Rung(new Carrier(), span, coarseRung),
             [span, coarseRung]);
         var sharperRung = Add(
             "fine-rung-read",
-            Address("Rung", Atom("span"), Atom("fine-rung")),
+            ResolutionFacetStructureSurface.Rung(new Carrier(), span, fineRung),
             [span, fineRung]);
         var correspondence = Add(
             "rung-correspondence",
-            Address("Corr", Atom("rough-rung"), Atom("fine-rung-read")),
+            ResolutionFacetStructureSurface.Correspondence(new Carrier(), roughRung, sharperRung),
             [roughRung, sharperRung]);
         Add(
             "ladder-resolution",
-            Address("Refine", Atom("rough-rung"), Atom("fine-rung-read"), Atom("rung-correspondence")),
+            ResolutionFacetStructureSurface.LadderResolution(
+                new Carrier(),
+                roughRung,
+                sharperRung,
+                correspondence,
+                Text("fine rung refines the coarse rung without deleting coarse evidence")),
             [roughRung, sharperRung, correspondence],
             Text("fine rung refines the coarse rung without deleting coarse evidence"));
 
         var runtimeInput = Add(
             "runtime-input",
-            Address("Input", Atom("?")),
+            ResolutionFacetStructureSurface.RuntimeInput(
+                new Carrier(),
+                Text("runtime input is variable at this read")),
             residueOrTension: Text("runtime input is variable at this read"));
-        var runtimeStep = Add("runtime-step", Address("t", Atom("0")));
+        var runtimeStep = Add(
+            "runtime-step",
+            ResolutionFacetStructureSurface.RuntimeStep(new Carrier(), runtimeClock, "0", 0));
         Add(
             "runtime-resolution",
-            Address("Run", Atom("span"), Atom("runtime-input"), Atom("runtime-step"), Atom("coarse-rung")),
+            ResolutionFacetStructureSurface.RuntimeResolution(
+                new Carrier(),
+                runtimeClock,
+                span,
+                runtimeInput,
+                runtimeStep,
+                coarseRung,
+                Text("runtime residue belongs to this run, not permanently to the source")),
             [span, runtimeInput, runtimeStep, coarseRung],
             Text("runtime residue belongs to this run, not permanently to the source"));
 

@@ -53,10 +53,13 @@ The first implementation is intentionally tiny.
   residue/tension. It also gives a small ordered ledger and reference surface so
   later encodings can reuse a crystallized definition without expanding its full
   construction every time.
-- `ResolutionDefinitionSurface` and `ResolutionReadSurface` build and discover
-  the first resolution-facet ledger: partition, unit comparison, observer read,
-  omission, approximation, ambiguous basis, ladder refinement, and runtime-local
-  resolution.
+- `ResolutionFacetStructureSurface` gives the first native relation footholds
+  for resolution facets: partition, unit comparison, observer read, omission,
+  approximation, ambiguous basis, ladder refinement, and runtime-local
+  resolution. `ResolutionDefinitionSurface` uses those structures in the sample
+  ledger, and `ResolutionReadSurface` discovers the facets from the native
+  bodies rather than from definition names. The compact strings remain debug
+  reads, not the source of meaning.
 - `GojoStructureEncodingSurface` stores a diagnostic snapshot of a currently
   visible Gojo element tree as relation-shaped integer rows. It is useful for
   debugging and transport experiments, but it is not the canonical conceptual
