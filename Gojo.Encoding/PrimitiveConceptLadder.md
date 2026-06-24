@@ -663,7 +663,14 @@ reads, focus-bound ambiguous bases, and time-step/runtime witnesses. The compact
 forms such as `Part(...)`, `Read(...)`, `Approx(...)`, `Refine(...)`, and
 `Run(...)` are now inspection reads over that structure. The current arbitrary
 source pass walks local relation structure and reports exact native resolution
-facet surfaces without requiring a ledger. The next deepening step is to make
-the discovered reads more structural themselves, then lower the remaining helper
-rows that are still compact because their primitive footing is not settled
-enough yet.
+facet surfaces without requiring a ledger. It also infers compatible non-native
+facets when the local evidence is strong enough: a source/count/site frame can
+read as a possible partition, a unit comparison can read as a possible unit
+resolution, a read witness ending at a resolution rung can read as a possible
+observer read, and a raw time step ending at a resolution rung can read as
+runtime-local resolution. Those inferred reads are marked as inferred and carry
+the evidence text as residue/tension.
+
+The next deepening step is to make these discovered reads more structural
+themselves, then lower the remaining helper rows that are still compact because
+their primitive footing is not settled enough yet.

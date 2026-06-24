@@ -1,6 +1,7 @@
 using System.Text.Json.Nodes;
 using Gojo.Core;
 using Gojo.Encoding;
+using Gojo.Structures;
 
 namespace Gojo.Encoding.Tests;
 
@@ -110,7 +111,32 @@ public sealed class ResolutionDefinitionSurfaceTests
         AssertSourceFacet(read, "ladder");
         AssertSourceFacet(read, "runtime");
         Assert.All(read.Facets, facet => Assert.StartsWith("root", facet.Path, StringComparison.Ordinal));
+        Assert.All(read.Facets, facet => Assert.False(facet.IsInferred));
+        Assert.All(read.Facets, facet => Assert.Equal("native resolution facet surface", facet.Evidence));
         Assert.DoesNotContain(read.Facets.Select(facet => facet.Body), body => body == "?");
+    }
+
+    [Fact]
+    public void ResolutionFacetDiscoveryInfersCompatibleNonCanonicalSourceStructure()
+    {
+        var source = LooseResolutionSource();
+
+        Assert.True(ResolutionReadSurface.TryDiscoverResolutionFacets(source, out var read));
+
+        Assert.True(
+            read.Facets.Length == 8,
+            string.Join(Environment.NewLine, read.Facets.Select(facet => $"{facet.Facet}: {facet.Body} @ {facet.Path}")));
+        AssertSourceFacet(read, "partition");
+        AssertSourceFacet(read, "unit");
+        AssertSourceFacet(read, "observer");
+        AssertSourceFacet(read, "omission");
+        AssertSourceFacet(read, "approximation");
+        AssertSourceFacet(read, "ambiguity");
+        AssertSourceFacet(read, "ladder");
+        AssertSourceFacet(read, "runtime");
+        Assert.All(read.Facets, facet => Assert.True(facet.IsInferred));
+        Assert.All(read.Facets, facet => Assert.Contains("inferred", facet.Evidence, StringComparison.Ordinal));
+        Assert.All(read.Facets, facet => Assert.Contains(facet.Evidence, facet.ResidueOrTension, StringComparison.Ordinal));
     }
 
     [Fact]
@@ -136,6 +162,7 @@ public sealed class ResolutionDefinitionSurfaceTests
         var observer = Assert.Single(read.Of("observer"));
         Assert.Equal("Read(S(P(A@X),P(B@Y)),B(S(P(A@X),P(B@Y))),Res(rough))", observer.Body);
         Assert.Equal("definition residue remains visible", observer.ResidueOrTension);
+        Assert.False(observer.IsInferred);
     }
 
     [Fact]
@@ -375,6 +402,92 @@ public sealed class ResolutionDefinitionSurfaceTests
             slot,
             approximation,
             ambiguousResolution,
+            ladder,
+            runtime);
+    }
+
+    private static Relation LooseResolutionSource()
+    {
+        var span = Relation.Segment(new Carrier(), 0, 12);
+        var resolutionCarrier = new Carrier();
+        var runtimeClock = new Carrier();
+        var rough = ResolutionFacetStructureSurface.ResolutionRung(new Carrier(), resolutionCarrier, "rough", 1);
+
+        var partition = Relation.OrderedGroup(
+            new Carrier(),
+            span,
+            Atom("4"),
+            Relation.OrderedGroup(new Carrier(), ResolutionFacetStructureSurface.PartitionSites(span, 4)));
+
+        var unitComparison = ResolutionFacetStructureSurface.UnitComparison(
+            new Carrier(),
+            span,
+            Relation.Segment(new Carrier(), 0, 1),
+            Text("unit is only present as a comparison"));
+
+        var observer = ReadWitness.Create(
+            new Carrier(),
+            span,
+            Atom("loose-basis"),
+            rough,
+            Text("observer basis is compatible but not canonical"),
+            rough);
+
+        var omission = Relation.OrderedGroup(
+            new Carrier(),
+            Atom("optional-input"),
+            new Placeholder(),
+            Text("open role remains intentionally unresolved"));
+
+        var approximation = ReadWitness.Create(
+            new Carrier(),
+            span,
+            ResolutionFacetStructureSurface.Target(new Carrier()),
+            rough,
+            Text("placeholder target leaves approximate compatibility only"),
+            rough);
+
+        var ambiguity = ResolutionFacetStructureSurface.AmbiguousBasis(
+            new Carrier(),
+            span,
+            Text("basis is open without a wrapping observer read"));
+
+        var roughState = Relation.OrderedGroup(new Carrier(), span, Atom("rough-state"));
+        var fineState = Relation.OrderedGroup(new Carrier(), span, Atom("fine-state"));
+        var looseCorrespondence = new Relation(roughState, fineState);
+        var ladderWitness = ReadWitness.Create(
+            new Carrier(),
+            roughState,
+            looseCorrespondence,
+            fineState,
+            Text("loose refinement has no canonical rung bodies"),
+            looseCorrespondence);
+        var ladder = RefinementRead.Create(
+            new Carrier(),
+            roughState,
+            fineState,
+            ladderWitness,
+            Text("loose refinement has no canonical rung bodies"),
+            looseCorrespondence);
+
+        var runtime = TimeStepSequence.Step(
+            new Carrier(),
+            runtimeClock,
+            0,
+            1,
+            span,
+            Atom("input"),
+            rough,
+            Text("runtime is only a time-step witness"));
+
+        return Relation.OrderedGroup(
+            new Carrier(),
+            partition,
+            unitComparison,
+            observer,
+            omission,
+            approximation,
+            ambiguity,
             ladder,
             runtime);
     }

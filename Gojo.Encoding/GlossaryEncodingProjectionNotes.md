@@ -177,9 +177,28 @@ the body itself.
 The remaining resolution work is no longer basic breadth. The reader can now
 walk arbitrary source structure and find exact native facet surfaces, while
 guarding against primitive text/address surfaces that happen to share a broad
-relation shape. The next problem is richer source inference: recognizing when a
-non-canonical but compatible structure should count as a resolution facet, while
-leaving uncertainty as residue instead of silently classifying it.
+relation shape. It also has a first richer source inference pass:
+
+```text
+span + count + same-carrier site frame       -> inferred partition
+unit comparison witness                      -> inferred unit resolution
+read witness ending at resolution rung       -> inferred observer resolution
+role + open placeholder                      -> inferred omission
+read witness with placeholder target + rung  -> inferred approximation
+ambiguous basis without wrapper              -> inferred ambiguity
+compatible refinement read                   -> inferred ladder resolution
+time-step witness ending at resolution rung  -> inferred runtime resolution
+```
+
+These inferred reads are not promoted to native facts. The read result marks
+them as inferred and repeats the local evidence in residue/tension. The false
+positive guard is important: encoded text is also point-like structure, so
+partition inference now requires candidate sites to sit on the same carrier as
+the source span.
+
+The next problem is to turn the inference evidence itself into a more native
+read surface, so a model can inspect why a candidate was considered compatible
+without relying on English evidence strings.
 
 ### Curve
 
