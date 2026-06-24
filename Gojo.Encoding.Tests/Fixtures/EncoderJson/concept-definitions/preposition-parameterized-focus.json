@@ -1,0 +1,321 @@
+{
+  "represents": "A first preposition sample where near, far, halfway, and arrived are crystallized focus reads over one role-bearing comparison scale, then near is applied to store/house and trace/pad contexts.",
+  "entryId": "preposition-parameterized-focus",
+  "expression": "RoleFrame + Comp + Scale + Zone + Focus + Cr + BindRoles + Apply",
+  "encodingNote": "This checks that a preposition can be an open role-bearing read shape. Near is not a distance value or a naked label; it is a crystallized focus over a parameterized comparison scale.",
+  "gojo": {
+    "known": [
+      "applied-preposition-read",
+      "comparison-template",
+      "crystallized-focus-read",
+      "focus-read",
+      "parameter-scale",
+      "role-frame"
+    ],
+    "paths": [
+      "figure/ground/basis/resolution slots --> preposition role frame",
+      "figure slot + ground slot + resolution slot --> comparison template",
+      "comparison template --> scale with salient regions",
+      "comparison scale + near zone --> near focus",
+      "near focus + role frame --> crystallized near concept",
+      "store + house + ordinary distance basis --> bound near read",
+      "trace + pad + board clearance basis --> bound near read with CAD residue"
+    ],
+    "tension": [
+      "basis and resolution remain open until binding",
+      "scale landmarks are salient regions, not necessarily equal partitions",
+      "place context supplies the rough distance basis; exact distance remains absent",
+      "near can be descriptive or a clearance-rule warning in this context"
+    ],
+    "definitions": [
+      {
+        "name": "figure-slot",
+        "encoding": "Def(figure-slot,Slot(figure,?))+Prov(Slot(figure,?)); residue=figure role remains open until a phrase or context binds it",
+        "body": "Slot(figure,?)",
+        "residueOrTension": "figure role remains open until a phrase or context binds it"
+      },
+      {
+        "name": "ground-slot",
+        "encoding": "Def(ground-slot,Slot(ground,?))+Prov(Slot(ground,?)); residue=ground role remains open until a phrase or context binds it",
+        "body": "Slot(ground,?)",
+        "residueOrTension": "ground role remains open until a phrase or context binds it"
+      },
+      {
+        "name": "basis-slot",
+        "encoding": "Def(basis-slot,Slot(basis,?))+Prov(Slot(basis,?)); residue=metric or comparison basis is contextual",
+        "body": "Slot(basis,?)",
+        "residueOrTension": "metric or comparison basis is contextual"
+      },
+      {
+        "name": "resolution-slot",
+        "encoding": "Def(resolution-slot,Slot(resolution,?))+Prov(Slot(resolution,?)); residue=qualification resolution is contextual",
+        "body": "Slot(resolution,?)",
+        "residueOrTension": "qualification resolution is contextual"
+      },
+      {
+        "name": "preposition-role-frame",
+        "encoding": "Def(preposition-role-frame,RoleFrame(figure-slot,ground-slot,basis-slot,resolution-slot); deps=figure-slot,ground-slot,basis-slot,resolution-slot)+Prov(RoleFrame(figure-slot,ground-slot,basis-slot,resolution-slot))",
+        "body": "RoleFrame(figure-slot,ground-slot,basis-slot,resolution-slot)",
+        "dependsOn": [
+          "figure-slot",
+          "ground-slot",
+          "basis-slot",
+          "resolution-slot"
+        ]
+      },
+      {
+        "name": "comparison-template",
+        "encoding": "Def(comparison-template,Comp(figure-slot,ground-slot,resolution-slot); deps=figure-slot,ground-slot,basis-slot,resolution-slot)+Prov(Comp(figure-slot,ground-slot,resolution-slot)); residue=basis and resolution remain open until binding",
+        "body": "Comp(figure-slot,ground-slot,resolution-slot)",
+        "dependsOn": [
+          "figure-slot",
+          "ground-slot",
+          "basis-slot",
+          "resolution-slot"
+        ],
+        "residueOrTension": "basis and resolution remain open until binding"
+      },
+      {
+        "name": "comparison-scale",
+        "encoding": "Def(comparison-scale,Scale(comparison-template,salient-landmarks); deps=comparison-template)+Prov(Scale(comparison-template,salient-landmarks)); residue=scale landmarks are salient regions, not necessarily equal partitions",
+        "body": "Scale(comparison-template,salient-landmarks)",
+        "dependsOn": [
+          "comparison-template"
+        ],
+        "residueOrTension": "scale landmarks are salient regions, not necessarily equal partitions"
+      },
+      {
+        "name": "beginning-zone",
+        "encoding": "Def(beginning-zone,Zone(comparison-scale,source-site); deps=comparison-scale)+Prov(Zone(comparison-scale,source-site))",
+        "body": "Zone(comparison-scale,source-site)",
+        "dependsOn": [
+          "comparison-scale"
+        ]
+      },
+      {
+        "name": "far-zone",
+        "encoding": "Def(far-zone,Zone(comparison-scale,high-separation); deps=comparison-scale)+Prov(Zone(comparison-scale,high-separation))",
+        "body": "Zone(comparison-scale,high-separation)",
+        "dependsOn": [
+          "comparison-scale"
+        ]
+      },
+      {
+        "name": "halfway-zone",
+        "encoding": "Def(halfway-zone,Zone(comparison-scale,middle-salience); deps=comparison-scale)+Prov(Zone(comparison-scale,middle-salience))",
+        "body": "Zone(comparison-scale,middle-salience)",
+        "dependsOn": [
+          "comparison-scale"
+        ]
+      },
+      {
+        "name": "near-zone",
+        "encoding": "Def(near-zone,Zone(comparison-scale,low-separation); deps=comparison-scale)+Prov(Zone(comparison-scale,low-separation))",
+        "body": "Zone(comparison-scale,low-separation)",
+        "dependsOn": [
+          "comparison-scale"
+        ]
+      },
+      {
+        "name": "arrived-zone",
+        "encoding": "Def(arrived-zone,Zone(comparison-scale,goal-settlement); deps=comparison-scale)+Prov(Zone(comparison-scale,goal-settlement))",
+        "body": "Zone(comparison-scale,goal-settlement)",
+        "dependsOn": [
+          "comparison-scale"
+        ]
+      },
+      {
+        "name": "beginning-focus",
+        "encoding": "Def(beginning-focus,Focus(comparison-scale,beginning-zone); deps=comparison-scale,beginning-zone)+Prov(Focus(comparison-scale,beginning-zone))",
+        "body": "Focus(comparison-scale,beginning-zone)",
+        "dependsOn": [
+          "comparison-scale",
+          "beginning-zone"
+        ]
+      },
+      {
+        "name": "far-focus",
+        "encoding": "Def(far-focus,Focus(comparison-scale,far-zone); deps=comparison-scale,far-zone)+Prov(Focus(comparison-scale,far-zone))",
+        "body": "Focus(comparison-scale,far-zone)",
+        "dependsOn": [
+          "comparison-scale",
+          "far-zone"
+        ]
+      },
+      {
+        "name": "halfway-focus",
+        "encoding": "Def(halfway-focus,Focus(comparison-scale,halfway-zone); deps=comparison-scale,halfway-zone)+Prov(Focus(comparison-scale,halfway-zone))",
+        "body": "Focus(comparison-scale,halfway-zone)",
+        "dependsOn": [
+          "comparison-scale",
+          "halfway-zone"
+        ]
+      },
+      {
+        "name": "near-focus",
+        "encoding": "Def(near-focus,Focus(comparison-scale,near-zone); deps=comparison-scale,near-zone)+Prov(Focus(comparison-scale,near-zone))",
+        "body": "Focus(comparison-scale,near-zone)",
+        "dependsOn": [
+          "comparison-scale",
+          "near-zone"
+        ]
+      },
+      {
+        "name": "arrived-focus",
+        "encoding": "Def(arrived-focus,Focus(comparison-scale,arrived-zone); deps=comparison-scale,arrived-zone)+Prov(Focus(comparison-scale,arrived-zone))",
+        "body": "Focus(comparison-scale,arrived-zone)",
+        "dependsOn": [
+          "comparison-scale",
+          "arrived-zone"
+        ]
+      },
+      {
+        "name": "near",
+        "encoding": "Def(near,Cr(near-focus;context=preposition-role-frame); deps=near-focus,preposition-role-frame)+Prov(Cr(near-focus;context=preposition-role-frame)); residue=near is a crystallized focus read, not the whole comparison scale",
+        "body": "Cr(near-focus;context=preposition-role-frame)",
+        "dependsOn": [
+          "near-focus",
+          "preposition-role-frame"
+        ],
+        "residueOrTension": "near is a crystallized focus read, not the whole comparison scale"
+      },
+      {
+        "name": "far",
+        "encoding": "Def(far,Cr(far-focus;context=preposition-role-frame); deps=far-focus,preposition-role-frame)+Prov(Cr(far-focus;context=preposition-role-frame))",
+        "body": "Cr(far-focus;context=preposition-role-frame)",
+        "dependsOn": [
+          "far-focus",
+          "preposition-role-frame"
+        ]
+      },
+      {
+        "name": "halfway",
+        "encoding": "Def(halfway,Cr(halfway-focus;context=preposition-role-frame); deps=halfway-focus,preposition-role-frame)+Prov(Cr(halfway-focus;context=preposition-role-frame))",
+        "body": "Cr(halfway-focus;context=preposition-role-frame)",
+        "dependsOn": [
+          "halfway-focus",
+          "preposition-role-frame"
+        ]
+      },
+      {
+        "name": "arrived",
+        "encoding": "Def(arrived,Cr(arrived-focus;context=preposition-role-frame); deps=arrived-focus,preposition-role-frame)+Prov(Cr(arrived-focus;context=preposition-role-frame))",
+        "body": "Cr(arrived-focus;context=preposition-role-frame)",
+        "dependsOn": [
+          "arrived-focus",
+          "preposition-role-frame"
+        ]
+      },
+      {
+        "name": "store",
+        "encoding": "Def(store,store)+Prov(store)",
+        "body": "store"
+      },
+      {
+        "name": "my-house",
+        "encoding": "Def(my-house,my-house)+Prov(my-house)",
+        "body": "my-house"
+      },
+      {
+        "name": "ordinary-distance-basis",
+        "encoding": "Def(ordinary-distance-basis,Basis(physical-or-travel-distance))+Prov(Basis(physical-or-travel-distance))",
+        "body": "Basis(physical-or-travel-distance)"
+      },
+      {
+        "name": "ordinary-distance-resolution",
+        "encoding": "Def(ordinary-distance-resolution,Res(ordinary-language-distance))+Prov(Res(ordinary-language-distance))",
+        "body": "Res(ordinary-language-distance)"
+      },
+      {
+        "name": "store-house-near-binding",
+        "encoding": "Def(store-house-near-binding,BindRoles(preposition-role-frame,store,my-house,ordinary-distance-basis,ordinary-distance-resolution); deps=preposition-role-frame,store,my-house,ordinary-distance-basis,ordinary-distance-resolution)+Prov(BindRoles(preposition-role-frame,store,my-house,ordinary-distance-basis,ordinary-distance-resolution))",
+        "body": "BindRoles(preposition-role-frame,store,my-house,ordinary-distance-basis,ordinary-distance-resolution)",
+        "dependsOn": [
+          "preposition-role-frame",
+          "store",
+          "my-house",
+          "ordinary-distance-basis",
+          "ordinary-distance-resolution"
+        ]
+      },
+      {
+        "name": "store-house-comparison",
+        "encoding": "Def(store-house-comparison,Comp(store,my-house,ordinary-distance-resolution); deps=store,my-house,ordinary-distance-basis,ordinary-distance-resolution)+Prov(Comp(store,my-house,ordinary-distance-resolution)); residue=place context supplies the rough distance basis; exact distance remains absent",
+        "body": "Comp(store,my-house,ordinary-distance-resolution)",
+        "dependsOn": [
+          "store",
+          "my-house",
+          "ordinary-distance-basis",
+          "ordinary-distance-resolution"
+        ],
+        "residueOrTension": "place context supplies the rough distance basis; exact distance remains absent"
+      },
+      {
+        "name": "store-house-near-read",
+        "encoding": "Def(store-house-near-read,Apply(near,store-house-near-binding,store-house-comparison); deps=near,store-house-near-binding,store-house-comparison)+Prov(Apply(near,store-house-near-binding,store-house-comparison)); residue=store and house bind the open roles while the distance value remains low resolution",
+        "body": "Apply(near,store-house-near-binding,store-house-comparison)",
+        "dependsOn": [
+          "near",
+          "store-house-near-binding",
+          "store-house-comparison"
+        ],
+        "residueOrTension": "store and house bind the open roles while the distance value remains low resolution"
+      },
+      {
+        "name": "trace",
+        "encoding": "Def(trace,trace)+Prov(trace)",
+        "body": "trace"
+      },
+      {
+        "name": "pad",
+        "encoding": "Def(pad,pad)+Prov(pad)",
+        "body": "pad"
+      },
+      {
+        "name": "board-clearance-basis",
+        "encoding": "Def(board-clearance-basis,Basis(pcb-clearance-distance))+Prov(Basis(pcb-clearance-distance))",
+        "body": "Basis(pcb-clearance-distance)"
+      },
+      {
+        "name": "board-clearance-resolution",
+        "encoding": "Def(board-clearance-resolution,Res(manufacturing-clearance))+Prov(Res(manufacturing-clearance))",
+        "body": "Res(manufacturing-clearance)"
+      },
+      {
+        "name": "trace-pad-near-binding",
+        "encoding": "Def(trace-pad-near-binding,BindRoles(preposition-role-frame,trace,pad,board-clearance-basis,board-clearance-resolution); deps=preposition-role-frame,trace,pad,board-clearance-basis,board-clearance-resolution)+Prov(BindRoles(preposition-role-frame,trace,pad,board-clearance-basis,board-clearance-resolution))",
+        "body": "BindRoles(preposition-role-frame,trace,pad,board-clearance-basis,board-clearance-resolution)",
+        "dependsOn": [
+          "preposition-role-frame",
+          "trace",
+          "pad",
+          "board-clearance-basis",
+          "board-clearance-resolution"
+        ]
+      },
+      {
+        "name": "trace-pad-comparison",
+        "encoding": "Def(trace-pad-comparison,Comp(trace,pad,board-clearance-resolution); deps=trace,pad,board-clearance-basis,board-clearance-resolution)+Prov(Comp(trace,pad,board-clearance-resolution)); residue=near can be descriptive or a clearance-rule warning in this context",
+        "body": "Comp(trace,pad,board-clearance-resolution)",
+        "dependsOn": [
+          "trace",
+          "pad",
+          "board-clearance-basis",
+          "board-clearance-resolution"
+        ],
+        "residueOrTension": "near can be descriptive or a clearance-rule warning in this context"
+      },
+      {
+        "name": "trace-pad-near-read",
+        "encoding": "Def(trace-pad-near-read,Apply(near,trace-pad-near-binding,trace-pad-comparison); deps=near,trace-pad-near-binding,trace-pad-comparison)+Prov(Apply(near,trace-pad-near-binding,trace-pad-comparison)); residue=same focus shape, but the CAD basis changes the meaning of near",
+        "body": "Apply(near,trace-pad-near-binding,trace-pad-comparison)",
+        "dependsOn": [
+          "near",
+          "trace-pad-near-binding",
+          "trace-pad-comparison"
+        ],
+        "residueOrTension": "same focus shape, but the CAD basis changes the meaning of near"
+      }
+    ]
+  }
+}

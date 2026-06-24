@@ -19,7 +19,10 @@ offsets, circumference offsets, interior/exterior facing, orientation evidence,
 open/closed offsets, mismatch residue, and crystallized offset reuse. The noun
 composition sample then checks a few useful combinations: margin, ring/annulus,
 clearance, and keepout, while still leaving them as locally discoverable
-definition structure rather than a global CAD noun catalog.
+definition structure rather than a global CAD noun catalog. The preposition
+sample makes the first step beyond nouns: open role slots, a comparison
+template, salient focus zones, crystallized focus words such as `near`, and
+applied bindings such as store/house or trace/pad.
 
 The glossary fixtures are generated from the live Gojo structures through
 `GojoStructureEncodingFixtureProjection`. The concept-definition fixtures are

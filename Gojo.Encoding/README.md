@@ -73,6 +73,12 @@ The first implementation is intentionally tiny.
   support, and clearance from an offset boundary, distance, resolution, and
   keepout anti-area. This is deliberately a composition fixture, not a
   permutation catalog.
+- `ConceptPrepositionDefinitionSurface` and `ConceptPrepositionReadSurface`
+  make the first step beyond noun-like structures. Prepositions are represented
+  as open role frames, comparison templates, parameter scales, focus zones,
+  crystallized focus reads, and applied role bindings. In the first sample,
+  `near`, `far`, `halfway`, and `arrived` are sibling focus reads over one
+  shared comparison scale.
 - `GojoStructureEncodingSurface` stores a diagnostic snapshot of a currently
   visible Gojo element tree as relation-shaped integer rows. It is useful for
   debugging and transport experiments, but it is not the canonical conceptual
@@ -90,6 +96,8 @@ The companion notes for this experiment are:
 - `ConceptGrammarContinuum.md` for the continuity between numeric structure,
   primitive footings, word concepts, sentence grammar, and executable equation
   order.
+- `PrepositionEncodingNotes.md` for role-bearing comparison/focus reads and
+  the first approach to parameterized preposition concepts.
 
 The split underneath those helpers is:
 
