@@ -60,6 +60,14 @@ The first implementation is intentionally tiny.
 - `ConceptAddressSurface` builds variable-length semantic addresses from atoms,
   compound parts, context, and residue/tension.
 
+The companion notes for this experiment are:
+
+- `GlossaryEncodingVocabulary.md` for the ordered compact notation ledger.
+- `GlossaryEncodingProjectionNotes.md` for what the current glossary fixture
+  projection emits and what is still unresolved.
+- `PrimitiveConceptLadder.md` for primitive footings, resolution categories,
+  and higher-level words that can be crystallized from those structures.
+
 The split underneath those helpers is:
 
 ```text
