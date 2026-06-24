@@ -3,8 +3,10 @@
 This note records what the current glossary fixture projection physically emits
 and what is still unresolved. The JSON fixtures are still sparse inspection
 objects: the contextual forms are represented as local read paths, compact
-definition rows, and tension strings. They are not yet proof that arbitrary
-Gojo structure can discover the same forms without glossary-specific help.
+definition rows, and tension strings. Resolution facets now have a first
+arbitrary-source discovery pass, but most other contextual forms are not yet
+proof that arbitrary Gojo structure can discover the same forms without
+glossary-specific help.
 
 ## Now Represented In Samples
 
@@ -167,15 +169,17 @@ runtime-resolution         Run(E,input,t,Res(n))
 ```
 
 `ResolutionFacetStructureSurface` now builds native relation bodies for those
-facets. `ResolutionReadSurface` discovers them from the bodies and dependency
-structure rather than from definition names. The compact expressions above are
-debug projections over the body, not the body itself.
+facets. `ResolutionReadSurface` discovers them from definition-ledger bodies,
+renamed ledgers, single definition surfaces, or arbitrary local Gojo source
+groups. The compact expressions above are debug projections over the body, not
+the body itself.
 
-The remaining resolution work is discovery breadth. The current sample still
-starts from an ordered definition ledger, so it proves the facets can survive a
-rename and a serialize/deserialize pass, but it does not yet prove that the same
-facets can always be read out of arbitrary Gojo source structure without the
-sample ledger scaffolding.
+The remaining resolution work is no longer basic breadth. The reader can now
+walk arbitrary source structure and find exact native facet surfaces, while
+guarding against primitive text/address surfaces that happen to share a broad
+relation shape. The next problem is richer source inference: recognizing when a
+non-canonical but compatible structure should count as a resolution facet, while
+leaving uncertainty as residue instead of silently classifying it.
 
 ### Curve
 

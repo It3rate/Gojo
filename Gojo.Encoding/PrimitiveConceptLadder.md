@@ -614,8 +614,8 @@ The first small executable surface is resolution-centered and avoids becoming a
 word classifier. `ResolutionFacetStructureSurface` builds native relation
 footholds for the sample bodies, `ResolutionDefinitionSurface` places those
 bodies in an ordered definition ledger, and `ResolutionReadSurface` discovers
-the facets from the bodies and dependency structure rather than from definition
-names. The sample set:
+the facets from either ledger bodies or arbitrary local source structure rather
+than from definition names. The sample set:
 
 ```text
 partitioned span
@@ -661,7 +661,9 @@ The current pass lowers the major resolution bodies into native structures:
 partition site frames, read witnesses, basis reads, placeholders, refinement
 reads, focus-bound ambiguous bases, and time-step/runtime witnesses. The compact
 forms such as `Part(...)`, `Read(...)`, `Approx(...)`, `Refine(...)`, and
-`Run(...)` are now inspection reads over that structure. The next deepening step
-is to discover the same facets from arbitrary Gojo source structure, then lower
-the remaining helper rows that are still compact because their primitive footing
-is not settled enough yet.
+`Run(...)` are now inspection reads over that structure. The current arbitrary
+source pass walks local relation structure and reports exact native resolution
+facet surfaces without requiring a ledger. The next deepening step is to make
+the discovered reads more structural themselves, then lower the remaining helper
+rows that are still compact because their primitive footing is not settled
+enough yet.

@@ -92,6 +92,53 @@ public sealed class ResolutionDefinitionSurfaceTests
     }
 
     [Fact]
+    public void ResolutionFacetDiscoveryReadsArbitrarySourceStructureWithoutDefinitionLedger()
+    {
+        var source = RawResolutionSource();
+
+        Assert.True(ResolutionReadSurface.TryDiscoverResolutionFacets(source, out var read));
+
+        Assert.True(
+            read.Facets.Length == 8,
+            string.Join(Environment.NewLine, read.Facets.Select(facet => $"{facet.Facet}: {facet.Body} @ {facet.Path}")));
+        AssertSourceFacet(read, "partition");
+        AssertSourceFacet(read, "unit");
+        AssertSourceFacet(read, "observer");
+        AssertSourceFacet(read, "omission");
+        AssertSourceFacet(read, "approximation");
+        AssertSourceFacet(read, "ambiguity");
+        AssertSourceFacet(read, "ladder");
+        AssertSourceFacet(read, "runtime");
+        Assert.All(read.Facets, facet => Assert.StartsWith("root", facet.Path, StringComparison.Ordinal));
+        Assert.DoesNotContain(read.Facets.Select(facet => facet.Body), body => body == "?");
+    }
+
+    [Fact]
+    public void ResolutionFacetDiscoveryCanUseSingleDefinitionAsLocalContext()
+    {
+        var span = Relation.Segment(new Carrier(), 0, 8);
+        var basis = ResolutionFacetStructureSurface.ObserverBasis(new Carrier(), span);
+        var rung = ResolutionFacetStructureSurface.ResolutionRung(new Carrier(), new Carrier(), "rough", 1);
+        var body = ResolutionFacetStructureSurface.ObserverResolution(
+            new Carrier(),
+            span,
+            basis,
+            rung,
+            Text("inner read residue"));
+        var definition = ConceptDefinitionSurface.Create(
+            new Carrier(),
+            "local-observer",
+            body,
+            residueOrTension: Text("definition residue remains visible"));
+
+        Assert.True(ResolutionReadSurface.TryDiscoverResolutionFacets(definition, out var read));
+
+        var observer = Assert.Single(read.Of("observer"));
+        Assert.Equal("Read(S(P(A@X),P(B@Y)),B(S(P(A@X),P(B@Y))),Res(rough))", observer.Body);
+        Assert.Equal("definition residue remains visible", observer.ResidueOrTension);
+    }
+
+    [Fact]
     public void ResolutionFacetLedgerMatchesInspectableJsonFixture()
     {
         var generated = ResolutionFacetFixtureEntry();
@@ -270,6 +317,68 @@ public sealed class ResolutionDefinitionSurfaceTests
         return ConceptDefinitionSurface.Ledger(new Carrier(), definitions);
     }
 
+    private static Relation RawResolutionSource()
+    {
+        var span = Relation.Segment(new Carrier(), 0, 12);
+        var resolutionCarrier = new Carrier();
+        var runtimeClock = new Carrier();
+        var count = Atom("5");
+
+        var partition = ResolutionFacetStructureSurface.Partition(
+            new Carrier(),
+            span,
+            count,
+            ResolutionFacetStructureSurface.PartitionSites(span, 4));
+
+        var unitSpan = Relation.Segment(new Carrier(), 0, 1);
+        var unitComparison = ResolutionFacetStructureSurface.Comparison(new Carrier(), span, unitSpan);
+        var unitResolution = ResolutionFacetStructureSurface.UnitResolution(new Carrier(), unitComparison);
+
+        var observerBasis = ResolutionFacetStructureSurface.ObserverBasis(new Carrier(), span);
+        var rough = ResolutionFacetStructureSurface.ResolutionRung(new Carrier(), resolutionCarrier, "rough", 1);
+        var observerResolution = ResolutionFacetStructureSurface.ObserverResolution(new Carrier(), span, observerBasis, rough);
+
+        var slot = ResolutionFacetStructureSurface.Slot(new Carrier(), Atom("input"));
+
+        var target = ResolutionFacetStructureSurface.Target(new Carrier());
+        var approximateComparison = ResolutionFacetStructureSurface.Comparison(new Carrier(), span, target, rough);
+        var approximation = ResolutionFacetStructureSurface.Approximation(new Carrier(), approximateComparison, rough);
+
+        var ambiguousBasis = ResolutionFacetStructureSurface.AmbiguousBasis(new Carrier(), span);
+        var ambiguousResolution = ResolutionFacetStructureSurface.ObserverResolution(
+            new Carrier(),
+            span,
+            ambiguousBasis,
+            Relation.Point(Carrier.Unknown, 0));
+
+        var fine = ResolutionFacetStructureSurface.ResolutionRung(new Carrier(), resolutionCarrier, "fine", 10);
+        var roughRung = ResolutionFacetStructureSurface.Rung(new Carrier(), span, rough);
+        var fineRung = ResolutionFacetStructureSurface.Rung(new Carrier(), span, fine);
+        var correspondence = ResolutionFacetStructureSurface.Correspondence(new Carrier(), roughRung, fineRung);
+        var ladder = ResolutionFacetStructureSurface.LadderResolution(new Carrier(), roughRung, fineRung, correspondence);
+
+        var input = ResolutionFacetStructureSurface.RuntimeInput(new Carrier());
+        var step = ResolutionFacetStructureSurface.RuntimeStep(new Carrier(), runtimeClock, "0", 0);
+        var runtime = ResolutionFacetStructureSurface.RuntimeResolution(
+            new Carrier(),
+            runtimeClock,
+            span,
+            input,
+            step,
+            rough);
+
+        return Relation.OrderedGroup(
+            new Carrier(),
+            partition,
+            unitResolution,
+            observerResolution,
+            slot,
+            approximation,
+            ambiguousResolution,
+            ladder,
+            runtime);
+    }
+
     private static void AssertRow(
         GojoEncodingJsonFixtureDefinition row,
         string body,
@@ -277,6 +386,13 @@ public sealed class ResolutionDefinitionSurfaceTests
     {
         Assert.Equal(body, row.Body);
         Assert.Equal(dependencies, row.DependsOn ?? []);
+    }
+
+    private static void AssertSourceFacet(
+        ResolutionReadSurface.ResolutionSourceRead read,
+        string facet)
+    {
+        Assert.Contains(read.Facets, item => item.Facet == facet);
     }
 
     private static void AssertNativeBody(Relation definition, Func<IElement, bool> read)
@@ -310,6 +426,9 @@ public sealed class ResolutionDefinitionSurfaceTests
 
     private static Relation Atom(string name) =>
         ConceptAddressSurface.Atom(new Carrier(), name);
+
+    private static Relation Text(string text) =>
+        EncodedTextSurface.Create(new Carrier(), text);
 
     private static void AssertJsonEquivalent(string expected, string actual)
     {
