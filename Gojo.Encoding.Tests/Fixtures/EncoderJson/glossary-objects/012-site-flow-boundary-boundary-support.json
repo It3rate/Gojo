@@ -40,8 +40,8 @@
         ]
       },
       {
-        "name": "boundary",
-        "encoding": "Def(boundary,BdSelf(circle-boundary); deps=circle-boundary)+Prov(BdSelf(circle-boundary)); residue=inside/outside support not selected",
+        "name": "self-boundary",
+        "encoding": "Def(self-boundary,BdSelf(circle-boundary); deps=circle-boundary)+Prov(BdSelf(circle-boundary)); residue=inside/outside support not selected",
         "body": "BdSelf(circle-boundary)",
         "dependsOn": [
           "circle-boundary"
@@ -49,10 +49,40 @@
         "residueOrTension": "inside/outside support not selected"
       },
       {
-        "name": "area-support",
-        "encoding": "Def(area-support,Area+(boundary,side?); deps=boundary)+Prov(Area+(boundary,side?)); residue=area side/lane not fully selected",
-        "body": "Area+(boundary,side?)",
+        "name": "boundary",
+        "encoding": "Def(boundary,Cr(self-boundary;context=circle-boundary); deps=self-boundary,circle-boundary)+Prov(Cr(self-boundary;context=circle-boundary)); residue=inside/outside support not selected",
+        "body": "Cr(self-boundary;context=circle-boundary)",
         "dependsOn": [
+          "self-boundary",
+          "circle-boundary"
+        ],
+        "residueOrTension": "inside/outside support not selected"
+      },
+      {
+        "name": "boundary-side",
+        "encoding": "Def(boundary-side,Side(boundary,?); deps=boundary)+Prov(Side(boundary,?)); residue=area side/lane not fully selected",
+        "body": "Side(boundary,?)",
+        "dependsOn": [
+          "boundary"
+        ],
+        "residueOrTension": "area side/lane not fully selected"
+      },
+      {
+        "name": "positive-area",
+        "encoding": "Def(positive-area,Area+(boundary,boundary-side); deps=boundary,boundary-side)+Prov(Area+(boundary,boundary-side)); residue=area side/lane not fully selected",
+        "body": "Area+(boundary,boundary-side)",
+        "dependsOn": [
+          "boundary",
+          "boundary-side"
+        ],
+        "residueOrTension": "area side/lane not fully selected"
+      },
+      {
+        "name": "area-support",
+        "encoding": "Def(area-support,Cr(positive-area;context=boundary); deps=positive-area,boundary)+Prov(Cr(positive-area;context=boundary)); residue=area side/lane not fully selected",
+        "body": "Cr(positive-area;context=boundary)",
+        "dependsOn": [
+          "positive-area",
           "boundary"
         ],
         "residueOrTension": "area side/lane not fully selected"

@@ -2,8 +2,9 @@
 
 This note records what the current glossary fixture projection physically emits
 and what is still unresolved. The JSON fixtures are still sparse inspection
-objects: the new contextual forms are represented as local read paths and
-tension strings, not yet as first-class Gojo structures.
+objects: the contextual forms are represented as local read paths, compact
+definition rows, and tension strings. They are not yet proof that arbitrary
+Gojo structure can discover the same forms without glossary-specific help.
 
 ## Now Represented In Samples
 
@@ -27,11 +28,11 @@ Ten glossary fixtures now carry compact definition rows under `gojo.definitions`
 - `site-flow-boundary-site`: `Def(position,P(X))`
 - `site-flow-boundary-radial-flow`: `Def(flow,F(O(P(X))))` with flow-shape residue
 - `site-flow-boundary-linear-potential`: shared-reference, unresolved carrier potential, and flow from that potential
-- `site-flow-boundary-boundary-support`: position, radius evidence, circle boundary, self boundary, and area-support ladder
+- `site-flow-boundary-boundary-support`: position, radius evidence, circle boundary, self-boundary, boundary-side, positive-area, and area-support reuse
 - `units-ticks-internal-partition`: span, partition-count, partition, and produced partition-site definitions
 - `units-ticks-unit-comparison`: span, unit-span, comparison, unit, and unit-comparison with preserved comparison residue
 - `boolean-offset-offset-reads`: span, source boundary, and offset-read with unresolved lane compatibility
-- `boolean-offset-union-hole`: span, closed-path boundary, offset-read, selection, area-support, and anti-area-support
+- `boolean-offset-union-hole`: span, source boundary, closed boundary, offset-read, selection, positive lane evidence, positive area, inverse boundary, inverse lane evidence, anti-area, anti-area-support, and support-with-hole
 
 The blind reconstruction test reads only the fixture `gojo` payload, not the
 entry id, expression, or description. It currently recovers:
@@ -67,20 +68,23 @@ the reconstruction, not only the primary recovered label.
 The ten-sample pass makes the building-up approach look promising, but it also
 shows where the compact body strings are still too crystallized. Bodies such as
 `Read(span,resolution)`, `Settle(source,basis,resolution)`,
-`Part(span,partition-count)`, `BdSelf(circle-boundary)`, `Area+(boundary)`, and
-`Off(span,O(span),d,Res(n))` are readable and dependency-bearing, but several
-of their ingredients should become actual Gojo structure instead of compact
+`Part(span,partition-count)`, `BdSelf(circle-boundary)`,
+`Dir(boundary,+f)`, `Area+(boundary,boundary-side)`, and
+`Off(span,O(span),d,Res(n))` are readable and dependency-bearing, but several of
+their ingredients should become actual Gojo structure instead of compact
 address bodies.
 
 ## Remaining Gaps
 
 ### Boundary
 
-The fixture projection now distinguishes contextual boundary roles, but it does
-so mostly from expressions and notes. It does not yet discover `Bd0`, `Bd1`, or
-`BdSelf` by traversing Gojo-native boundary structure. This means the samples
-are more inspectable, but they are not yet proof that the underlying structures
-carry those distinctions without the glossary text.
+The fixture projection now distinguishes contextual boundary roles and, in the
+definition samples, splits broad `boundary` reuse from rows such as
+`source-boundary`, `closed-boundary`, and `self-boundary`. It still does this
+mostly from expressions and notes. It does not yet discover `Bd0`, `Bd1`,
+`BdSelf`, or `Bd(Path(...))` by traversing Gojo-native boundary structure. This
+means the samples are more inspectable, but they are not yet proof that the
+underlying structures carry those distinctions without the glossary text.
 
 The source/terminal distinction also needs a dedicated small fixture where both
 boundaries are present in one band:
@@ -89,10 +93,14 @@ boundaries are present in one band:
 
 ### Area And Anti-Area
 
-`Area+` and `Area-` are now visible, but the projection still infers them from
-phrases such as `AreaFill`, `AntiFill`, `Area*`, `positive`, `inverse`, and
-`negative`. It does not yet read compatible forward/inverse lane construction
-from the actual Gojo structure.
+`Area+` and `Area-` are now split into lower rows in the two definition
+samples. Circle support goes through `boundary-side -> positive-area ->
+area-support`; the hole sample goes through `positive-lane-evidence ->
+positive-area -> area-support` and `inverse-lane-evidence -> anti-area ->
+anti-area-support -> support-with-hole`. That is a better training shape than a
+single `Area+(boundary)` body, but the projection still infers the lane evidence
+from fixture context. It does not yet read compatible forward/inverse lane
+construction from arbitrary Gojo structure.
 
 There is no strong sample yet for the mixed-lane case:
 
@@ -106,6 +114,20 @@ The mixed-lane residue may look diagonal in a renderer, but it is not a
 diagonal line concept. It is a residue from opposed or canceling lane forces
 that leaves directional evidence without settling as area. The encoding should
 not over-unify those just because both can be drawn with a slanted mark.
+
+The next area step should be a tiny native band sample where both boundaries are
+present at once:
+
+```text
+source-boundary = Bd0(S)
+terminal-boundary = Bd1(Off(S,O(S),+d))
+positive-lane-evidence = Dir(source-boundary,+f) + Dir(terminal-boundary,+f)
+positive-area = Area+(source-boundary,terminal-boundary,positive-lane-evidence)
+```
+
+Then make the inverse and mixed-lane variants beside it. That should show
+whether positive area, anti-area, and non-area residue can be read from local
+boundary/lane structure rather than from glossary wording.
 
 ### Curve
 

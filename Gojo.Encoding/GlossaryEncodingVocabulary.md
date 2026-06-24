@@ -126,12 +126,15 @@ construction is no longer the point of the sample.
 | Positive band area | `Area+(Bd0(S),Bd1(Off(S,O(S),+d)),Dir(Bd0(S),+f),Dir(Bd1(Off(...)),+f))` | Compatible positive lane evidence settles as positive area/support. |
 | Anti-area band | `Area-(Bd0(S),Bd1(Off(S,O(S),-d)),Dir(Bd0(S),+i),Dir(Bd1(Off(...)),+i))` | Compatible inverse/opposed lane evidence settles as anti-area/support. |
 | Mixed-lane diagonal | `Dir(Bd0(S),+f)+Dir(Bd1(Off(...)),-i) -> Diag(Bd0,Bd1)+Tension(Area?)` | Mixed forward/inverse evidence does not settle as area; it leaves a diagonal or unresolved mixed-dimensional read. |
-| Circle area reuse | `Cr(Area+(BdSelf(C(...)),side)) -> Area+(C(...))` | Once area has been constructed, the inside or outside of a circle can reuse the crystallized area read directly. |
-| Circle anti-area reuse | `Cr(Area-(BdSelf(C(...)),side)) -> Area-(C(...))` | Anti-area can also be crystallized and reused without reconstructing the original paired-line proof. |
+| Circle area reuse | `self-boundary = BdSelf(C(...)); boundary = Cr(self-boundary; context=C(...)); boundary-side = Side(boundary,?); positive-area = Area+(boundary,boundary-side); area-support = Cr(positive-area; context=boundary)` | Once area has been constructed, the inside or outside of a circle can reuse the crystallized area read directly while preserving the unresolved side/lane. |
+| Circle anti-area reuse | `anti-area = Area-(inverse-boundary,inverse-lane-evidence); anti-area-support = Cr(anti-area; context=area-support)` | Anti-area can also be crystallized and reused without reconstructing the original paired-line proof. |
 
-The current JSON fixtures often say only `area-support`. That is enough to know
-the sample is about support over a boundary, but not enough to recover whether
-it is positive area, anti-area, mixed diagonal/tension, fill, void, or merely a
+The strongest current JSON fixtures now split `area-support` into local
+ingredients such as boundary-side, positive-lane evidence, positive-area,
+inverse-boundary, inverse-lane evidence, anti-area, and support-with-hole. Many
+other fixtures still say only `area-support`. That is enough to know the sample
+is about support over a boundary, but not enough to recover whether it is
+positive area, anti-area, mixed diagonal/tension, fill, void, or merely a
 low-resolution area read.
 
 ### Curve
@@ -206,8 +209,8 @@ definitions, not a claim that the final binary form must be a lookup table.
 | --- | --- | --- |
 | Primitive definition | `Def(N0,E_primitive)+Prov(E_primitive)` | Early definitions can name useful shapes that language may not already name. |
 | Built definition | `Def(N1, E_primitive + Def(N0,...))+Prov(...)` | Later definitions may combine primitives and earlier crystallized definitions. |
-| Area definition | `Def(area, Area+(Bd0(S),Bd1(Off(...)),Dir(...)))` | Width/height-like construction can crystallize into an `area` concept shape. |
-| Context-free reuse | `Cr(Def(area,...)) -> Area+` | A definition may be used in a context with no explicit width or height if the read only needs the crystallized area concept. |
+| Area definition | `Def(positive-area, Area+(Bd0(S),Bd1(Off(...)),Dir(...)))` | Width/height-like construction can crystallize into an area concept shape. |
+| Context-free reuse | `Cr(positive-area; context=boundary)` | A definition may be used in a context with no explicit width or height if the read only needs the crystallized area concept. |
 | Definition ledger | `N0 < N1 < N2 ...` | Forward entries should be inspectably constructed from previous entries, even if the ledger is not the final binary/canonical form. |
 
 ### Constraint, Settlement, And Runtime

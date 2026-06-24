@@ -33,20 +33,38 @@
         "body": "S(P(A@X),P(B@Y))"
       },
       {
-        "name": "boundary",
-        "encoding": "Def(boundary,Bd(closed-path); deps=span)+Prov(Bd(closed-path))",
-        "body": "Bd(closed-path)",
+        "name": "source-boundary",
+        "encoding": "Def(source-boundary,Bd0(span); deps=span)+Prov(Bd0(span))",
+        "body": "Bd0(span)",
         "dependsOn": [
           "span"
         ]
       },
       {
+        "name": "closed-boundary",
+        "encoding": "Def(closed-boundary,Bd(Path(selection)); deps=span)+Prov(Bd(Path(selection))); residue=closed traversal proof simplified",
+        "body": "Bd(Path(selection))",
+        "dependsOn": [
+          "span"
+        ],
+        "residueOrTension": "closed traversal proof simplified"
+      },
+      {
+        "name": "boundary",
+        "encoding": "Def(boundary,Cr(closed-boundary;context=source-boundary); deps=closed-boundary,source-boundary)+Prov(Cr(closed-boundary;context=source-boundary))",
+        "body": "Cr(closed-boundary;context=source-boundary)",
+        "dependsOn": [
+          "closed-boundary",
+          "source-boundary"
+        ]
+      },
+      {
         "name": "offset-read",
-        "encoding": "Def(offset-read,Off(span,O(span),d,Res(n)); deps=span,boundary)+Prov(Off(span,O(span),d,Res(n)))",
+        "encoding": "Def(offset-read,Off(span,O(span),d,Res(n)); deps=span,source-boundary)+Prov(Off(span,O(span),d,Res(n)))",
         "body": "Off(span,O(span),d,Res(n))",
         "dependsOn": [
           "span",
-          "boundary"
+          "source-boundary"
         ]
       },
       {
@@ -59,20 +77,73 @@
         "residueOrTension": "selection stop rule not encoded"
       },
       {
-        "name": "area-support",
-        "encoding": "Def(area-support,Area+(boundary); deps=boundary,selection)+Prov(Area+(boundary))",
-        "body": "Area+(boundary)",
+        "name": "positive-lane-evidence",
+        "encoding": "Def(positive-lane-evidence,Dir(boundary,+f); deps=boundary)+Prov(Dir(boundary,+f))",
+        "body": "Dir(boundary,+f)",
+        "dependsOn": [
+          "boundary"
+        ]
+      },
+      {
+        "name": "positive-area",
+        "encoding": "Def(positive-area,Area+(boundary,positive-lane-evidence); deps=boundary,positive-lane-evidence)+Prov(Area+(boundary,positive-lane-evidence))",
+        "body": "Area+(boundary,positive-lane-evidence)",
         "dependsOn": [
           "boundary",
+          "positive-lane-evidence"
+        ]
+      },
+      {
+        "name": "area-support",
+        "encoding": "Def(area-support,Cr(positive-area;context=selection); deps=positive-area,selection)+Prov(Cr(positive-area;context=selection))",
+        "body": "Cr(positive-area;context=selection)",
+        "dependsOn": [
+          "positive-area",
           "selection"
         ]
       },
       {
-        "name": "anti-area-support",
-        "encoding": "Def(anti-area-support,Area-(boundary,inverse-or-opposed-participation); deps=area-support)+Prov(Area-(boundary,inverse-or-opposed-participation)); residue=anti-area participates as a hole, not an eraser",
-        "body": "Area-(boundary,inverse-or-opposed-participation)",
+        "name": "inverse-boundary",
+        "encoding": "Def(inverse-boundary,Bd(Path-(selection)); deps=selection)+Prov(Bd(Path-(selection)))",
+        "body": "Bd(Path-(selection))",
         "dependsOn": [
+          "selection"
+        ]
+      },
+      {
+        "name": "inverse-lane-evidence",
+        "encoding": "Def(inverse-lane-evidence,Dir(inverse-boundary,+i); deps=inverse-boundary)+Prov(Dir(inverse-boundary,+i))",
+        "body": "Dir(inverse-boundary,+i)",
+        "dependsOn": [
+          "inverse-boundary"
+        ]
+      },
+      {
+        "name": "anti-area",
+        "encoding": "Def(anti-area,Area-(inverse-boundary,inverse-lane-evidence); deps=inverse-boundary,inverse-lane-evidence)+Prov(Area-(inverse-boundary,inverse-lane-evidence))",
+        "body": "Area-(inverse-boundary,inverse-lane-evidence)",
+        "dependsOn": [
+          "inverse-boundary",
+          "inverse-lane-evidence"
+        ]
+      },
+      {
+        "name": "anti-area-support",
+        "encoding": "Def(anti-area-support,Cr(anti-area;context=area-support); deps=anti-area,area-support)+Prov(Cr(anti-area;context=area-support)); residue=anti-area participates as a hole, not an eraser",
+        "body": "Cr(anti-area;context=area-support)",
+        "dependsOn": [
+          "anti-area",
           "area-support"
+        ],
+        "residueOrTension": "anti-area participates as a hole, not an eraser"
+      },
+      {
+        "name": "support-with-hole",
+        "encoding": "Def(support-with-hole,Support(area-support,anti-area-support); deps=area-support,anti-area-support)+Prov(Support(area-support,anti-area-support)); residue=anti-area participates as a hole, not an eraser",
+        "body": "Support(area-support,anti-area-support)",
+        "dependsOn": [
+          "area-support",
+          "anti-area-support"
         ],
         "residueOrTension": "anti-area participates as a hole, not an eraser"
       }

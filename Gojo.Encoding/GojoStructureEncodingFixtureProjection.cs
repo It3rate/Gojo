@@ -290,20 +290,38 @@ public static class GojoStructureEncodingFixtureProjection
                         ConceptDefinitionInspection.Atom("position"),
                         ConceptDefinitionInspection.Atom("radius-evidence")),
                     [position ?? ConceptAddressSurface.Atom(new Carrier(), "position"), radius]);
-                boundary = AddDefinition(
-                    "boundary",
+                var selfBoundary = AddDefinition(
+                    "self-boundary",
                     ConceptDefinitionInspection.Address(
                         "BdSelf",
                         ConceptDefinitionInspection.Atom("circle-boundary")),
                     [circle],
                     residueOrTension: ConceptDefinitionInspection.Text("inside/outside support not selected"));
-                AddDefinition(
-                    "area-support",
+                boundary = AddDefinition(
+                    "boundary",
+                    ConceptDefinitionSurface.Reference(new Carrier(), selfBoundary, circle),
+                    [selfBoundary, circle],
+                    residueOrTension: ConceptDefinitionInspection.Text("inside/outside support not selected"));
+                var boundarySide = AddDefinition(
+                    "boundary-side",
+                    ConceptDefinitionInspection.Address(
+                        "Side",
+                        ConceptDefinitionInspection.Atom("boundary"),
+                        ConceptDefinitionInspection.Atom("?")),
+                    [boundary],
+                    residueOrTension: ConceptDefinitionInspection.Text("area side/lane not fully selected"));
+                var positiveArea = AddDefinition(
+                    "positive-area",
                     ConceptDefinitionInspection.Address(
                         "Area+",
                         ConceptDefinitionInspection.Atom("boundary"),
-                        ConceptDefinitionInspection.Atom("side?")),
-                    [boundary],
+                        ConceptDefinitionInspection.Atom("boundary-side")),
+                    [boundary, boundarySide],
+                    residueOrTension: ConceptDefinitionInspection.Text("area side/lane not fully selected"));
+                AddDefinition(
+                    "area-support",
+                    ConceptDefinitionSurface.Reference(new Carrier(), positiveArea, boundary),
+                    [positiveArea, boundary],
                     residueOrTension: ConceptDefinitionInspection.Text("area side/lane not fully selected"));
             }
 
@@ -375,12 +393,23 @@ public static class GojoStructureEncodingFixtureProjection
 
             if (source.EntryId == "boolean-offset-union-hole")
             {
-                boundary = AddDefinition(
-                    "boundary",
+                var sourceBoundary = AddDefinition(
+                    "source-boundary",
+                    ConceptDefinitionInspection.Address(
+                        "Bd0",
+                        ConceptDefinitionInspection.Atom("span")),
+                    span is null ? [] : [span]);
+                var closedBoundary = AddDefinition(
+                    "closed-boundary",
                     ConceptDefinitionInspection.Address(
                         "Bd",
-                        ConceptDefinitionInspection.Atom("closed-path")),
-                    span is null ? [] : [span]);
+                        ConceptDefinitionInspection.Atom("Path(selection)")),
+                    span is null ? [] : [span],
+                    residueOrTension: ConceptDefinitionInspection.Text("closed traversal proof simplified"));
+                boundary = AddDefinition(
+                    "boundary",
+                    ConceptDefinitionSurface.Reference(new Carrier(), closedBoundary, sourceBoundary),
+                    [closedBoundary, sourceBoundary]);
                 offset = AddDefinition(
                     "offset-read",
                     ConceptDefinitionInspection.Address(
@@ -389,7 +418,7 @@ public static class GojoStructureEncodingFixtureProjection
                         ConceptDefinitionInspection.Atom("O(span)"),
                         ConceptDefinitionInspection.Atom("d"),
                         ConceptDefinitionInspection.Atom("Res(n)")),
-                    [span ?? ConceptAddressSurface.Atom(new Carrier(), "span"), boundary]);
+                    [span ?? ConceptAddressSurface.Atom(new Carrier(), "span"), sourceBoundary]);
                 selection = AddDefinition(
                     "selection",
                     ConceptDefinitionInspection.Address(
@@ -398,19 +427,56 @@ public static class GojoStructureEncodingFixtureProjection
                         ConceptDefinitionInspection.Atom("Focus(boundary)")),
                     [offset],
                     residueOrTension: ConceptDefinitionInspection.Text("selection stop rule not encoded"));
-                var area = AddDefinition(
-                    "area-support",
+                var positiveLane = AddDefinition(
+                    "positive-lane-evidence",
+                    ConceptDefinitionInspection.Address(
+                        "Dir",
+                        ConceptDefinitionInspection.Atom("boundary"),
+                        ConceptDefinitionInspection.Atom("+f")),
+                    [boundary]);
+                var positiveArea = AddDefinition(
+                    "positive-area",
                     ConceptDefinitionInspection.Address(
                         "Area+",
-                        ConceptDefinitionInspection.Atom("boundary")),
-                    [boundary, selection]);
-                AddDefinition(
-                    "anti-area-support",
+                        ConceptDefinitionInspection.Atom("boundary"),
+                        ConceptDefinitionInspection.Atom("positive-lane-evidence")),
+                    [boundary, positiveLane]);
+                var area = AddDefinition(
+                    "area-support",
+                    ConceptDefinitionSurface.Reference(new Carrier(), positiveArea, selection),
+                    [positiveArea, selection]);
+                var inverseBoundary = AddDefinition(
+                    "inverse-boundary",
+                    ConceptDefinitionInspection.Address(
+                        "Bd",
+                        ConceptDefinitionInspection.Atom("Path-(selection)")),
+                    [selection]);
+                var inverseLane = AddDefinition(
+                    "inverse-lane-evidence",
+                    ConceptDefinitionInspection.Address(
+                        "Dir",
+                        ConceptDefinitionInspection.Atom("inverse-boundary"),
+                        ConceptDefinitionInspection.Atom("+i")),
+                    [inverseBoundary]);
+                var antiArea = AddDefinition(
+                    "anti-area",
                     ConceptDefinitionInspection.Address(
                         "Area-",
-                        ConceptDefinitionInspection.Atom("boundary"),
-                        ConceptDefinitionInspection.Atom("inverse-or-opposed-participation")),
-                    [area],
+                        ConceptDefinitionInspection.Atom("inverse-boundary"),
+                        ConceptDefinitionInspection.Atom("inverse-lane-evidence")),
+                    [inverseBoundary, inverseLane]);
+                var antiAreaSupport = AddDefinition(
+                    "anti-area-support",
+                    ConceptDefinitionSurface.Reference(new Carrier(), antiArea, area),
+                    [antiArea, area],
+                    residueOrTension: ConceptDefinitionInspection.Text("anti-area participates as a hole, not an eraser"));
+                AddDefinition(
+                    "support-with-hole",
+                    ConceptDefinitionInspection.Address(
+                        "Support",
+                        ConceptDefinitionInspection.Atom("area-support"),
+                        ConceptDefinitionInspection.Atom("anti-area-support")),
+                    [area, antiAreaSupport],
                     residueOrTension: ConceptDefinitionInspection.Text("anti-area participates as a hole, not an eraser"));
             }
         }

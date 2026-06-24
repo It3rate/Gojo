@@ -231,13 +231,29 @@ public sealed class EncoderJsonFixtureTests
         Assert.Contains("paired offset reads --lane compatibility read--> area or tension", offset.Gojo.Paths ?? []);
         Assert.Contains("offset lane compatibility unresolved", offset.Gojo.Tension ?? []);
 
+        var circleSupport = ReadFixtureEntry("012-site-flow-boundary-boundary-support.json");
+        var circleDefinitions = DefinitionNames(circleSupport.Gojo);
+
+        Assert.Contains("self-boundary", circleDefinitions);
+        Assert.Contains("boundary-side", circleDefinitions);
+        Assert.Contains("positive-area", circleDefinitions);
+
         var unionHole = ReadFixtureEntry("148-boolean-offset-union-hole.json");
+        var unionDefinitions = DefinitionNames(unionHole.Gojo);
 
         Assert.Contains("compatible positive boundaries --> Area+", unionHole.Gojo.Paths ?? []);
         Assert.Contains("compatible inverse boundaries --> Area-", unionHole.Gojo.Paths ?? []);
         Assert.Contains("positive area + anti-area --> support with holes", unionHole.Gojo.Paths ?? []);
         Assert.Contains("closed path --boundary read--> Bd(Path)", unionHole.Gojo.Paths ?? []);
         Assert.Contains("selection --local focus read--> selected structure + residue", unionHole.Gojo.Paths ?? []);
+        Assert.Contains("source-boundary", unionDefinitions);
+        Assert.Contains("closed-boundary", unionDefinitions);
+        Assert.Contains("positive-lane-evidence", unionDefinitions);
+        Assert.Contains("positive-area", unionDefinitions);
+        Assert.Contains("inverse-boundary", unionDefinitions);
+        Assert.Contains("inverse-lane-evidence", unionDefinitions);
+        Assert.Contains("anti-area", unionDefinitions);
+        Assert.Contains("support-with-hole", unionDefinitions);
     }
 
     [Fact]
@@ -380,6 +396,11 @@ public sealed class EncoderJsonFixtureTests
                     definition.Provenance ?? string.Empty,
                     definition.ResidueOrTension ?? string.Empty))];
 
+    private static HashSet<string> DefinitionNames(GojoEncodingJsonFixtureGojo gojo) =>
+        (gojo.Definitions ?? [])
+            .Select(definition => definition.Name)
+            .ToHashSet(StringComparer.Ordinal);
+
     private readonly record struct BlindShapeRead(string Primary, string[] Evidence);
 
     private static BlindShapeRead BlindShapeFrom(GojoEncodingJsonFixtureGojo gojo)
@@ -392,7 +413,21 @@ public sealed class EncoderJsonFixtureTests
 
         if (definitions.Contains("anti-area-support"))
         {
-            return Shape("positive area with anti-area hole support", definitions, "area-support", "anti-area-support", "selection");
+            return Shape(
+                "positive area with anti-area hole support",
+                definitions,
+                "source-boundary",
+                "closed-boundary",
+                "boundary",
+                "selection",
+                "positive-lane-evidence",
+                "positive-area",
+                "area-support",
+                "inverse-boundary",
+                "inverse-lane-evidence",
+                "anti-area",
+                "anti-area-support",
+                "support-with-hole");
         }
 
         if (definitions.Contains("unit-comparison"))
@@ -409,7 +444,17 @@ public sealed class EncoderJsonFixtureTests
         if (definitions.Contains("circle-boundary") &&
             definitions.Contains("area-support"))
         {
-            return Shape("circle boundary with area support", definitions, "position", "radius-evidence", "circle-boundary", "boundary", "area-support");
+            return Shape(
+                "circle boundary with area support",
+                definitions,
+                "position",
+                "radius-evidence",
+                "circle-boundary",
+                "self-boundary",
+                "boundary",
+                "boundary-side",
+                "positive-area",
+                "area-support");
         }
 
         if (definitions.Contains("partition-site"))
