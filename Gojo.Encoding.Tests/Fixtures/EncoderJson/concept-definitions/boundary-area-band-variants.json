@@ -1,0 +1,233 @@
+{
+  "represents": "A tiny band sample with source and terminal boundaries present together. Positive lanes settle as area, inverse lanes settle as anti-area, and mixed lanes remain residue instead of becoming a diagonal shape.",
+  "entryId": "boundary-area-band-variants",
+  "expression": "Bd0(S)+Bd1(Off(S,O(S),d))+Dir(...) -> Area+ | Area- | Area?",
+  "encodingNote": "This is a primitive definition sample, not a glossary page. It keeps the band construction local so area and anti-area can crystallize from boundary/lane evidence.",
+  "gojo": {
+    "known": [
+      "anti-area-support",
+      "area-support",
+      "boundary",
+      "mixed-lane-residue",
+      "span"
+    ],
+    "paths": [
+      "source-boundary + positive-terminal-boundary + positive lanes --> positive-area",
+      "source-boundary + inverse-terminal-boundary + inverse lanes --> anti-area",
+      "source-boundary + positive-terminal-boundary + mixed lanes --> unresolved area residue"
+    ],
+    "tension": [
+      "mixed lane read does not settle as area",
+      "mixed lane leaves directional residue, not geometric diagonal area"
+    ],
+    "definitions": [
+      {
+        "name": "span",
+        "encoding": "Def(span,S(P(A@X),P(B@Y)))+Prov(S(P(A@X),P(B@Y)))",
+        "body": "S(P(A@X),P(B@Y))"
+      },
+      {
+        "name": "source-boundary",
+        "encoding": "Def(source-boundary,Bd0(span); deps=span)+Prov(Bd0(span))",
+        "body": "Bd0(span)",
+        "dependsOn": [
+          "span"
+        ]
+      },
+      {
+        "name": "orthogonal-outlet",
+        "encoding": "Def(orthogonal-outlet,F(O(S(P(A@X),P(B@Y)))); deps=span)+Prov(F(O(S(P(A@X),P(B@Y)))))",
+        "body": "F(O(S(P(A@X),P(B@Y))))",
+        "dependsOn": [
+          "span"
+        ]
+      },
+      {
+        "name": "positive-extent",
+        "encoding": "Def(positive-extent,+d)+Prov(+d)",
+        "body": "+d"
+      },
+      {
+        "name": "positive-offset-read",
+        "encoding": "Def(positive-offset-read,Off(span,orthogonal-outlet,positive-extent); deps=span,orthogonal-outlet,positive-extent)+Prov(Off(span,orthogonal-outlet,positive-extent))",
+        "body": "Off(span,orthogonal-outlet,positive-extent)",
+        "dependsOn": [
+          "span",
+          "orthogonal-outlet",
+          "positive-extent"
+        ]
+      },
+      {
+        "name": "positive-terminal-boundary",
+        "encoding": "Def(positive-terminal-boundary,Bd1(positive-offset-read); deps=positive-offset-read)+Prov(Bd1(positive-offset-read))",
+        "body": "Bd1(positive-offset-read)",
+        "dependsOn": [
+          "positive-offset-read"
+        ]
+      },
+      {
+        "name": "positive-boundary-pair",
+        "encoding": "Def(positive-boundary-pair,source-boundary + positive-terminal-boundary; deps=source-boundary,positive-terminal-boundary)+Prov(source-boundary + positive-terminal-boundary)",
+        "body": "source-boundary + positive-terminal-boundary",
+        "dependsOn": [
+          "source-boundary",
+          "positive-terminal-boundary"
+        ]
+      },
+      {
+        "name": "source-positive-lane",
+        "encoding": "Def(source-positive-lane,Dir(source-boundary,+f); deps=source-boundary)+Prov(Dir(source-boundary,+f))",
+        "body": "Dir(source-boundary,+f)",
+        "dependsOn": [
+          "source-boundary"
+        ]
+      },
+      {
+        "name": "terminal-positive-lane",
+        "encoding": "Def(terminal-positive-lane,Dir(positive-terminal-boundary,+f); deps=positive-terminal-boundary)+Prov(Dir(positive-terminal-boundary,+f))",
+        "body": "Dir(positive-terminal-boundary,+f)",
+        "dependsOn": [
+          "positive-terminal-boundary"
+        ]
+      },
+      {
+        "name": "positive-lane-evidence",
+        "encoding": "Def(positive-lane-evidence,source-positive-lane + terminal-positive-lane; deps=source-positive-lane,terminal-positive-lane)+Prov(source-positive-lane + terminal-positive-lane)",
+        "body": "source-positive-lane + terminal-positive-lane",
+        "dependsOn": [
+          "source-positive-lane",
+          "terminal-positive-lane"
+        ]
+      },
+      {
+        "name": "positive-area",
+        "encoding": "Def(positive-area,Area+(positive-boundary-pair,positive-lane-evidence); deps=positive-boundary-pair,positive-lane-evidence)+Prov(Area+(positive-boundary-pair,positive-lane-evidence))",
+        "body": "Area+(positive-boundary-pair,positive-lane-evidence)",
+        "dependsOn": [
+          "positive-boundary-pair",
+          "positive-lane-evidence"
+        ]
+      },
+      {
+        "name": "area-support",
+        "encoding": "Def(area-support,Cr(positive-area;context=positive-boundary-pair); deps=positive-area,positive-boundary-pair)+Prov(Cr(positive-area;context=positive-boundary-pair))",
+        "body": "Cr(positive-area;context=positive-boundary-pair)",
+        "dependsOn": [
+          "positive-area",
+          "positive-boundary-pair"
+        ]
+      },
+      {
+        "name": "inverse-extent",
+        "encoding": "Def(inverse-extent,-d)+Prov(-d)",
+        "body": "-d"
+      },
+      {
+        "name": "inverse-offset-read",
+        "encoding": "Def(inverse-offset-read,Off(span,orthogonal-outlet,inverse-extent); deps=span,orthogonal-outlet,inverse-extent)+Prov(Off(span,orthogonal-outlet,inverse-extent))",
+        "body": "Off(span,orthogonal-outlet,inverse-extent)",
+        "dependsOn": [
+          "span",
+          "orthogonal-outlet",
+          "inverse-extent"
+        ]
+      },
+      {
+        "name": "inverse-terminal-boundary",
+        "encoding": "Def(inverse-terminal-boundary,Bd1(inverse-offset-read); deps=inverse-offset-read)+Prov(Bd1(inverse-offset-read))",
+        "body": "Bd1(inverse-offset-read)",
+        "dependsOn": [
+          "inverse-offset-read"
+        ]
+      },
+      {
+        "name": "inverse-boundary-pair",
+        "encoding": "Def(inverse-boundary-pair,source-boundary + inverse-terminal-boundary; deps=source-boundary,inverse-terminal-boundary)+Prov(source-boundary + inverse-terminal-boundary)",
+        "body": "source-boundary + inverse-terminal-boundary",
+        "dependsOn": [
+          "source-boundary",
+          "inverse-terminal-boundary"
+        ]
+      },
+      {
+        "name": "source-inverse-lane",
+        "encoding": "Def(source-inverse-lane,Dir(source-boundary,+i); deps=source-boundary)+Prov(Dir(source-boundary,+i))",
+        "body": "Dir(source-boundary,+i)",
+        "dependsOn": [
+          "source-boundary"
+        ]
+      },
+      {
+        "name": "terminal-inverse-lane",
+        "encoding": "Def(terminal-inverse-lane,Dir(inverse-terminal-boundary,+i); deps=inverse-terminal-boundary)+Prov(Dir(inverse-terminal-boundary,+i))",
+        "body": "Dir(inverse-terminal-boundary,+i)",
+        "dependsOn": [
+          "inverse-terminal-boundary"
+        ]
+      },
+      {
+        "name": "inverse-lane-evidence",
+        "encoding": "Def(inverse-lane-evidence,source-inverse-lane + terminal-inverse-lane; deps=source-inverse-lane,terminal-inverse-lane)+Prov(source-inverse-lane + terminal-inverse-lane)",
+        "body": "source-inverse-lane + terminal-inverse-lane",
+        "dependsOn": [
+          "source-inverse-lane",
+          "terminal-inverse-lane"
+        ]
+      },
+      {
+        "name": "anti-area",
+        "encoding": "Def(anti-area,Area-(inverse-boundary-pair,inverse-lane-evidence); deps=inverse-boundary-pair,inverse-lane-evidence)+Prov(Area-(inverse-boundary-pair,inverse-lane-evidence))",
+        "body": "Area-(inverse-boundary-pair,inverse-lane-evidence)",
+        "dependsOn": [
+          "inverse-boundary-pair",
+          "inverse-lane-evidence"
+        ]
+      },
+      {
+        "name": "anti-area-support",
+        "encoding": "Def(anti-area-support,Cr(anti-area;context=inverse-boundary-pair); deps=anti-area,inverse-boundary-pair)+Prov(Cr(anti-area;context=inverse-boundary-pair))",
+        "body": "Cr(anti-area;context=inverse-boundary-pair)",
+        "dependsOn": [
+          "anti-area",
+          "inverse-boundary-pair"
+        ]
+      },
+      {
+        "name": "terminal-negative-inverse-lane",
+        "encoding": "Def(terminal-negative-inverse-lane,Dir(positive-terminal-boundary,-i); deps=positive-terminal-boundary)+Prov(Dir(positive-terminal-boundary,-i))",
+        "body": "Dir(positive-terminal-boundary,-i)",
+        "dependsOn": [
+          "positive-terminal-boundary"
+        ]
+      },
+      {
+        "name": "mixed-lane-evidence",
+        "encoding": "Def(mixed-lane-evidence,source-positive-lane + terminal-negative-inverse-lane; deps=source-positive-lane,terminal-negative-inverse-lane)+Prov(source-positive-lane + terminal-negative-inverse-lane)",
+        "body": "source-positive-lane + terminal-negative-inverse-lane",
+        "dependsOn": [
+          "source-positive-lane",
+          "terminal-negative-inverse-lane"
+        ]
+      },
+      {
+        "name": "unsettled-area-read",
+        "encoding": "Def(unsettled-area-read,Area?(positive-boundary-pair,mixed-lane-evidence); deps=positive-boundary-pair,mixed-lane-evidence)+Prov(Area?(positive-boundary-pair,mixed-lane-evidence)); residue=mixed lane read does not settle as area",
+        "body": "Area?(positive-boundary-pair,mixed-lane-evidence)",
+        "dependsOn": [
+          "positive-boundary-pair",
+          "mixed-lane-evidence"
+        ],
+        "residueOrTension": "mixed lane read does not settle as area"
+      },
+      {
+        "name": "mixed-lane-residue",
+        "encoding": "Def(mixed-lane-residue,Residue(unsettled-area-read); deps=unsettled-area-read)+Prov(Residue(unsettled-area-read)); residue=mixed lane leaves directional residue, not geometric diagonal area",
+        "body": "Residue(unsettled-area-read)",
+        "dependsOn": [
+          "unsettled-area-read"
+        ],
+        "residueOrTension": "mixed lane leaves directional residue, not geometric diagonal area"
+      }
+    ]
+  }
+}

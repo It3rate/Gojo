@@ -86,8 +86,8 @@ mostly from expressions and notes. It does not yet discover `Bd0`, `Bd1`,
 means the samples are more inspectable, but they are not yet proof that the
 underlying structures carry those distinctions without the glossary text.
 
-The source/terminal distinction also needs a dedicated small fixture where both
-boundaries are present in one band:
+The source/terminal distinction now has a dedicated primitive definition sample
+where both boundaries are present in one band:
 
 `Bd0(S) + F(O(S)) + d -> Bd1(Off(S,O(S),d)) -> Area?(Bd0,Bd1)`
 
@@ -102,12 +102,12 @@ single `Area+(boundary)` body, but the projection still infers the lane evidence
 from fixture context. It does not yet read compatible forward/inverse lane
 construction from arbitrary Gojo structure.
 
-There is no strong sample yet for the mixed-lane case:
+There is now a primitive mixed-lane sample:
 
-`Dir(Bd0(S),+f)+Dir(Bd1(Off(...)),-i) -> Diag(Bd0,Bd1)+Tension(Area?)`
+`Dir(Bd0(S),+f)+Dir(Bd1(Off(...)),-i) -> Area?(Bd0,Bd1)+Residue`
 
-The projection deliberately requires explicit mixed-lane wording before it
-emits that form, because ordinary geometric diagonal lines are not the same
+The projection still deliberately requires explicit mixed-lane wording before
+it emits that form, because ordinary geometric diagonal lines are not the same
 concept.
 
 The mixed-lane residue may look diagonal in a renderer, but it is not a
@@ -115,19 +115,27 @@ diagonal line concept. It is a residue from opposed or canceling lane forces
 that leaves directional evidence without settling as area. The encoding should
 not over-unify those just because both can be drawn with a slanted mark.
 
-The next area step should be a tiny native band sample where both boundaries are
-present at once:
+The new `BoundaryAreaDefinitionSurface` builds a tiny native band sample where
+both boundaries are present at once:
 
 ```text
 source-boundary = Bd0(S)
-terminal-boundary = Bd1(Off(S,O(S),+d))
-positive-lane-evidence = Dir(source-boundary,+f) + Dir(terminal-boundary,+f)
-positive-area = Area+(source-boundary,terminal-boundary,positive-lane-evidence)
+positive-terminal-boundary = Bd1(Off(S,O(S),+d))
+positive-lane-evidence = Dir(source-boundary,+f) + Dir(positive-terminal-boundary,+f)
+positive-area = Area+(positive-boundary-pair,positive-lane-evidence)
+inverse-terminal-boundary = Bd1(Off(S,O(S),-d))
+inverse-lane-evidence = Dir(source-boundary,+i) + Dir(inverse-terminal-boundary,+i)
+anti-area = Area-(inverse-boundary-pair,inverse-lane-evidence)
+mixed-lane-evidence = Dir(source-boundary,+f) + Dir(positive-terminal-boundary,-i)
+unsettled-area-read = Area?(positive-boundary-pair,mixed-lane-evidence)
+mixed-lane-residue = Residue(unsettled-area-read)
 ```
 
-Then make the inverse and mixed-lane variants beside it. That should show
-whether positive area, anti-area, and non-area residue can be read from local
-boundary/lane structure rather than from glossary wording.
+The inspectable JSON sample lives at
+`Gojo.Encoding.Tests/Fixtures/EncoderJson/concept-definitions/boundary-area-band-variants.json`.
+This shows that positive area, anti-area, and non-area residue can be built as
+neighboring local definitions. The next problem is discovery: reading these
+forms from ordinary Gojo structure rather than constructing them directly.
 
 ### Curve
 
@@ -229,10 +237,12 @@ the static structure alone.
 
 ## Suggested Next Steps
 
-1. Build tiny Gojo-native samples for `Bd0`, `Bd1`, `BdSelf`, `Area+`, `Area-`,
-   and `Cr` before expanding the high-level glossary again.
-2. Add explicit mixed-lane area/non-area samples so diagonal/non-area tension is
-   grounded without confusing it with ordinary diagonal geometry.
+1. Add a local discovery/read surface for the band sample so `Bd0`, `Bd1`,
+   positive area, anti-area, and mixed-lane residue can be read from structure
+   rather than hand-assembled as definitions.
+2. Add a separate fixture for the mixed-lane/non-area read in the glossary
+   projection only after the primitive sample is discoverable without relying
+   on prose.
 3. Update the fixture projection to read boundary and area forms from local
    Gojo structure where possible, using expression text only as fallback.
 4. Keep expanding blind reconstruction tests. The current test hides `entryId`,

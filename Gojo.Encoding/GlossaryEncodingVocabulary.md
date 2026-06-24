@@ -125,17 +125,18 @@ construction is no longer the point of the sample.
 | --- | --- | --- |
 | Positive band area | `Area+(Bd0(S),Bd1(Off(S,O(S),+d)),Dir(Bd0(S),+f),Dir(Bd1(Off(...)),+f))` | Compatible positive lane evidence settles as positive area/support. |
 | Anti-area band | `Area-(Bd0(S),Bd1(Off(S,O(S),-d)),Dir(Bd0(S),+i),Dir(Bd1(Off(...)),+i))` | Compatible inverse/opposed lane evidence settles as anti-area/support. |
-| Mixed-lane diagonal | `Dir(Bd0(S),+f)+Dir(Bd1(Off(...)),-i) -> Diag(Bd0,Bd1)+Tension(Area?)` | Mixed forward/inverse evidence does not settle as area; it leaves a diagonal or unresolved mixed-dimensional read. |
+| Mixed-lane residue | `Dir(Bd0(S),+f)+Dir(Bd1(Off(...)),-i) -> Area?(Bd0,Bd1)+Residue` | Mixed forward/inverse evidence does not settle as area; it leaves directional residue without becoming a geometric diagonal concept. |
 | Circle area reuse | `self-boundary = BdSelf(C(...)); boundary = Cr(self-boundary; context=C(...)); boundary-side = Side(boundary,?); positive-area = Area+(boundary,boundary-side); area-support = Cr(positive-area; context=boundary)` | Once area has been constructed, the inside or outside of a circle can reuse the crystallized area read directly while preserving the unresolved side/lane. |
 | Circle anti-area reuse | `anti-area = Area-(inverse-boundary,inverse-lane-evidence); anti-area-support = Cr(anti-area; context=area-support)` | Anti-area can also be crystallized and reused without reconstructing the original paired-line proof. |
 
 The strongest current JSON fixtures now split `area-support` into local
 ingredients such as boundary-side, positive-lane evidence, positive-area,
-inverse-boundary, inverse-lane evidence, anti-area, and support-with-hole. Many
-other fixtures still say only `area-support`. That is enough to know the sample
-is about support over a boundary, but not enough to recover whether it is
-positive area, anti-area, mixed diagonal/tension, fill, void, or merely a
-low-resolution area read.
+inverse-boundary, inverse-lane evidence, anti-area, and support-with-hole. The
+primitive band sample also places positive area, anti-area, and mixed-lane
+residue next to each other in one definition ledger. Many other fixtures still
+say only `area-support`. That is enough to know the sample is about support over
+a boundary, but not enough to recover whether it is positive area, anti-area,
+mixed-lane residue, fill, void, or merely a low-resolution area read.
 
 ### Curve
 

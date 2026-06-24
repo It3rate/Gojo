@@ -9,10 +9,18 @@ by `BlocksGlossaryExport.Structures()`, with one object per file. Each file is
 generated from one `BlocksGlossaryStructureExport` and one source `IElement`.
 There is intentionally no page-level structure that contains sibling examples.
 
-The fixtures are generated from the live Gojo structures through
-`GojoStructureEncodingFixtureProjection`. They are intentionally sparse
-documentary reads over the source structures, not storage inventories. Each file
-keeps only a few local `gojo` observations:
+`concept-definitions/` contains small definition-ledger samples that are not
+Gojo.Blocks pages. These are used when a lower-level concept needs to be built
+beside several nearby variants before it is ready to become glossary text. For
+example, the boundary/area band sample keeps positive area, anti-area, and
+mixed-lane residue side by side so the differences are inspectable in the
+encoding itself.
+
+The glossary fixtures are generated from the live Gojo structures through
+`GojoStructureEncodingFixtureProjection`. The concept-definition fixtures are
+generated from their own relation ledgers. In both cases, the JSON is an
+intentionally sparse documentary read over Gojo structure, not a storage
+inventory. Each file keeps only a few local `gojo` observations:
 
 - `known`: the minimal structure the sample appears to assert.
 - `paths`: compact read paths that can be inspected without expanding the whole
