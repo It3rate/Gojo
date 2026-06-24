@@ -47,6 +47,8 @@ These roots are intentionally small and temporary:
 | `Area?(...)` | Area/support requested or suspected but not yet settled as positive area, anti-area, or non-area residue. |
 | `Diag(...)` | Mixed-lane result that does not settle as area. |
 | `Cr(E)` | Crystallized structure: a read durable enough to be reused without expanding its full construction. |
+| `Def(N,E)` | Named definition `N` crystallized from `E`; the name is reusable but must retain provenance to its construction. |
+| `Prov(E)` | Provenance link back to the structure or read that gave a crystallized definition its meaning. |
 | `Run(E,input,t)` | Runtime use of a structure as a conduit for values over time. |
 | `Trace(Run(...))` | Recorded runtime witness, feedback, residue, or tension over time. |
 | `d`, `n`, `k`, `side`, `input`, `t` | Local scalar placeholders for distance, count/resolution, curvature, side evidence, input, or time. |
@@ -82,8 +84,8 @@ should remain: a compound encoding must be built from already introduced marks.
 | 20 | `Rep(Control, Sel(E,...), Step, Residue?)` | `repeat` | row 19 plus controller, transition, optional residue | Inspectable repetition: controller, selected source, transition, feedback, and residue. |
 | 21 | `Off(E, O(E), d?)` | `offset-read` | source plus orthogonal outlet plus optional distance evidence | A derived read displaced from the source support. |
 | 22 | `Settle(E, B(E), Residue?)` | `constraint-or-settlement` | unresolved structure plus basis/constraint evidence | A read or process attempts to make incompatible participation locally stable. |
-| 23 | `Cr(Read(E))` | `crystallized-read` | a successful local read result | A read has become durable enough to be a source for later reads. |
-| 24 | `Curve(Bd(...), k?)` | `curve` | boundary evidence plus curvature/transition evidence | Current fixtures mostly detect this weakly; sharper arc, circle, Bezier, transition, and clothoid footings are still needed. |
+| 23 | `Cr(Read(E))`, `Def(N,E)`, or `Cr(Def(N,E)+Prov(E))` | `crystallized-read` | a successful local read or named definition built from prior encodings | A read or definition has become durable enough to be a source for later reads while retaining provenance. |
+| 24 | `Curve(Bd(...), k?)` or `Curve(Interp(E0,E1,t))` | `curve` | boundary evidence plus curvature, transition, acceleration, or interpolation evidence | Current fixtures mostly detect this weakly; sharper arc, circle, Bezier, interpolation, transition, and clothoid footings are still needed. |
 | 25 | `Doc(E, Link*) + Ecad(Net|Trace|Pad|Footprint|Layout)` | `ecad-documentary-structure` | prior Gojo structure plus documentary references | Board-project structure attached to Gojo reads for KiCad/EasyEDA/PCB bundle experiments. |
 
 ## Canonical Contextual Forms
@@ -135,19 +137,21 @@ low-resolution area read.
 ### Curve
 
 Curve is intentionally behind boundary and area. The likely canonical route is
-through acceleration or changing direction, but the primitive acceleration
-encoding is not ready yet.
+through changing direction, acceleration/following, interpolation, or some
+combination of those. The primitive acceleration and interpolation encodings are
+not ready yet.
 
 | Form | Encoding | Notes |
 | --- | --- | --- |
 | Arc placeholder | `Curve(Bd(C(...)), k=constant)` | Constant curvature/radial acceleration can eventually ground arc. |
 | Bezier placeholder | `Curve(Path(P0,H0,H1,P1), Control(H0,H1))` | Handle/control evidence should later be reduced to local carrier influence. |
+| Interpolation placeholder | `Curve(Interp(E_horizontal,E_vertical,t))` | Some curves are read as a transition/interpolation between basis states, such as horizontal support becoming vertical support. |
 | Clothoid placeholder | `Curve(Path(...), k0 -> k1 over Res(n))` | A curvature ramp likely depends on second-derivative/acceleration concepts. |
 | Smoothing bridge | `Settle(S1+S2, Need(tangent-continuity)) -> E_bridge + Residue(k?)` | Useful for CAD now, but should eventually derive from tangency, curvature, and settlement evidence. |
 
 For now `curve` can remain a high-level read in fixtures, but it should be
-treated as weak until acceleration, following, and curvature-change encodings
-exist.
+treated as weak until interpolation, acceleration, following, and
+curvature-change encodings exist.
 
 ### Selection
 
@@ -172,6 +176,23 @@ source, an orthogonal outlet, an extent, and a selected resolution.
 | Parallel line from segment | `Bd0(S) + Off(S,O(S),d) -> Bd1(S')` | A parallel boundary is the termination of bounded orthogonal flow from the source segment. |
 | Paired offset band | `Off(S,O(S),+d) + Off(S,O(S),-d) -> Area?/Tension?` | Positive/inverse paired offsets need lane evidence before area or anti-area can be read. |
 | Crystallized offset | `Cr(Off(E,O(E),d,Res(n))) -> Cr(E_off)` | Once defined, offset can be reused without expanding the full outlet construction every time. |
+
+### Definition Crystallization
+
+Naming a structure is itself a kind of crystallization. A name should not invent
+meaning from nothing; it should crystallize primitive structure or a definition
+that was already built from earlier primitive structure. Once crystallized, the
+definition can be reused without carrying the whole origin structure into every
+new context, but it should keep a provenance link back to the construction that
+gave it meaning.
+
+| Form | Encoding | Notes |
+| --- | --- | --- |
+| Primitive definition | `Def(N0,E_primitive)+Prov(E_primitive)` | Early definitions can name useful shapes that language may not already name. |
+| Built definition | `Def(N1, E_primitive + Def(N0,...))+Prov(...)` | Later definitions may combine primitives and earlier crystallized definitions. |
+| Area definition | `Def(area, Area+(Bd0(S),Bd1(Off(...)),Dir(...)))` | Width/height-like construction can crystallize into an `area` concept shape. |
+| Context-free reuse | `Cr(Def(area,...)) -> Area+` | A definition may be used in a context with no explicit width or height if the read only needs the crystallized area concept. |
+| Definition ledger | `N0 < N1 < N2 ...` | Forward entries should be inspectably constructed from previous entries, even if the ledger is not the final binary/canonical form. |
 
 ### Constraint, Settlement, And Runtime
 
@@ -237,16 +258,17 @@ shape beside it.
 ## Current Weak Spots
 
 - `curve` is still mostly lexical in the fixture projection. It should later be
-  grounded in direction change, acceleration/following, curvature, and
-  settlement evidence.
+  grounded in interpolation, direction change, acceleration/following,
+  curvature, and settlement evidence.
 - `boundary` now has source, terminal, self-contained, contour, and separator
   contextual fixture paths, but many are still inferred from expressions and
   notes instead of discovered directly from Gojo-native boundary structure.
 - `area-support` now emits positive area and anti-area contextual paths, but the
   projection still infers lane compatibility from expressions such as
   `AreaFill`, `AntiFill`, and `Area*`.
-- `crystallized-read` needs stronger provenance rules so reused concepts can
-  stay compact while still pointing back to their construction and residue.
+- `crystallized-read` needs stronger definition/provenance rules so reused
+  concepts can stay compact while still tracing back to primitive and earlier
+  crystallized construction.
 - `ecad-documentary-structure` is deliberately loose until the KiCad/EasyEDA
   importer starts producing real Gojo documentary structure.
 

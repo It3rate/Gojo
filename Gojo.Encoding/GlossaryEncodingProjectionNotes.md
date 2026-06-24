@@ -13,7 +13,7 @@ tension strings, not yet as first-class Gojo structures.
 | Radial boundary | `position + orthogonal outlet + radius-evidence --> radial terminal boundary` | Circumference is represented as a bounded point outlet, while `circle-boundary` remains reusable. |
 | Area and anti-area | `compatible positive boundaries --> Area+`, `compatible inverse boundaries --> Area-`, `positive area + anti-area --> support with holes` | Positive support, anti support, and holes are visible without adding a symbolic area enum. |
 | Offset read | `source + orthogonal outlet + extent --> offset-read`, `paired offset reads --lane compatibility read--> area or tension` | Offset reads now show their derivation from source support, outlet, extent, and lane compatibility. |
-| Curve | `curve --acceleration footing--> unresolved`, plus arc, Bezier, clothoid, and tangency placeholders | Curve samples now state that the current encoding is a placeholder until acceleration/following/curvature concepts are grounded. |
+| Curve | `curve --acceleration footing--> unresolved`, plus arc, Bezier, clothoid, and tangency placeholders | Curve samples now state that the current encoding is a placeholder until interpolation, acceleration/following, curvature, and transition concepts are grounded. |
 | Selection | `selection --local focus read--> selected structure + residue` | Selection is visible as a local focus read that preserves residue, not as a global picked-list. |
 | Crystallization | `read --crystallize--> reusable structure` | Reuse is explicit while provenance is kept as tension. |
 | Runtime and settlement | `unresolved structure --settlement read--> settled structure + residue`, `runtime pass --records--> residue + tension`, `runtime trace --crystallize--> behavior witness` | Static settlement, runtime use, and recorded runtime behavior are separated in the fixture surface. |
@@ -48,14 +48,22 @@ The projection deliberately requires explicit mixed-lane wording before it
 emits that form, because ordinary geometric diagonal lines are not the same
 concept.
 
+The mixed-lane residue may look diagonal in a renderer, but it is not a
+diagonal line concept. It is a residue from opposed or canceling lane forces
+that leaves directional evidence without settling as area. The encoding should
+not over-unify those just because both can be drawn with a slanted mark.
+
 ### Curve
 
 Curve remains the least grounded area. The samples now admit that arc, Bezier,
 clothoid, involute, plotted curve, and smoothing bridge encodings are
-placeholders. The missing layer is acceleration/following:
+placeholders. The missing layer is not only acceleration/following; it also
+includes interpolation between basis states, such as a horizontal support
+transitioning into a vertical support.
 
 - one-dimensional acceleration along a carrier
 - following/attraction-like acceleration
+- interpolation between carrier, basis, or direction states
 - constant curvature for arcs
 - curvature ramp and second-derivative evidence for clothoids
 - control influence for Bezier-like reads
@@ -109,6 +117,24 @@ and then later:
 
 `Read(Cr(E_read),B2,Res(m))`.
 
+Naming should be treated as crystallization too. A name or concept address
+should crystallize something already built from primitive structure, or from
+earlier crystallized definitions plus primitive structure. For example, a
+width/height-like construction can define `area`; after that, `area` can be
+used as a basis concept in contexts where no explicit width or height is
+present. That reuse should not drag the whole origin construction into every
+new context, but it must retain provenance to the construction that made the
+name meaningful.
+
+This creates an ordered definition discipline:
+
+`primitive structure -> named primitive definition -> compound definition -> higher definition`
+
+Forward entries should always be inspectably built from previous entries. A
+lookup-table view of those entries would be useful for debugging and training
+data audits, but it should remain an inspection/read surface rather than being
+assumed to be the canonical binary form.
+
 ### Settlement And Runtime
 
 Settlement and runtime are now separated at the text fixture level. The
@@ -135,7 +161,11 @@ the static structure alone.
 4. Add blind reconstruction tests: hide `entryId`, `expression`, and
    `represents`, then check whether the encoded `known`, `paths`, and `tension`
    recover the intended glossary class.
-5. Postpone stronger curve encoding until acceleration, following, curvature,
-   and second-derivative primitives have at least one small canonical sample.
-6. Define crystallization provenance as a reusable local pattern before using
+5. Maintain an ordered definition ledger/read surface where each forward entry
+   is built from primitive structure or earlier entries. This can act like a
+   lookup table for inspection without becoming the canonical storage form.
+6. Postpone stronger curve encoding until interpolation, acceleration,
+   following, curvature, and second-derivative primitives have at least one
+   small canonical sample.
+7. Define crystallization provenance as a reusable local pattern before using
    crystallized names heavily in PCB/ECAD samples.
