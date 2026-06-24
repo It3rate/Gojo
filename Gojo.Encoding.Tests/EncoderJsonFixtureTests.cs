@@ -70,6 +70,7 @@ public sealed class EncoderJsonFixtureTests
             Assert.Equal(generated.Gojo.Known ?? [], fixture.Gojo.Known ?? []);
             Assert.Equal(generated.Gojo.Paths ?? [], fixture.Gojo.Paths ?? []);
             Assert.Equal(generated.Gojo.Tension ?? [], fixture.Gojo.Tension ?? []);
+            Assert.Equal(DefinitionRows(generated.Gojo), DefinitionRows(fixture.Gojo));
         }
     }
 
@@ -177,7 +178,7 @@ public sealed class EncoderJsonFixtureTests
         var json = File.ReadAllText(file);
         var entry = GojoStructureEncodingJson.DeserializeFixtureEntry(json);
 
-        Assert.True(File.ReadAllLines(file).Length <= 24, json);
+        Assert.True(File.ReadAllLines(file).Length <= 42, json);
         Assert.Equal(["flow", "position"], entry.Gojo.Known ?? []);
         Assert.Contains("position --orthogonal outlet--> flow", entry.Gojo.Paths ?? []);
         Assert.DoesNotContain("radial-flow", entry.Gojo.Paths ?? []);
@@ -237,6 +238,26 @@ public sealed class EncoderJsonFixtureTests
         Assert.Contains("positive area + anti-area --> support with holes", unionHole.Gojo.Paths ?? []);
         Assert.Contains("closed path --boundary read--> Bd(Path)", unionHole.Gojo.Paths ?? []);
         Assert.Contains("selection --local focus read--> selected structure + residue", unionHole.Gojo.Paths ?? []);
+    }
+
+    [Fact]
+    public void DefinitionSamplesSupportBlindShapeReconstruction()
+    {
+        var cases = new Dictionary<string, string>(StringComparer.Ordinal)
+        {
+            ["007-site-flow-boundary-site.json"] = "single position participation",
+            ["008-site-flow-boundary-radial-flow.json"] = "point-sourced flow with unresolved dimension or direction",
+            ["012-site-flow-boundary-boundary-support.json"] = "circle boundary with area support",
+            ["146-boolean-offset-offset-reads.json"] = "paired offset boundary read with unresolved lane compatibility",
+            ["148-boolean-offset-union-hole.json"] = "positive area with anti-area hole support"
+        };
+
+        foreach (var (fixtureName, expected) in cases)
+        {
+            var entry = ReadFixtureEntry(fixtureName);
+
+            Assert.Equal(expected, BlindShapeFrom(entry.Gojo));
+        }
     }
 
     [Fact]
@@ -339,6 +360,58 @@ public sealed class EncoderJsonFixtureTests
 
     private static GojoEncodingJsonFixtureEntry ReadFixtureEntry(string fixtureName) =>
         GojoStructureEncodingJson.DeserializeFixtureEntry(File.ReadAllText(Path.Combine(FixtureDirectory(), fixtureName)));
+
+    private static string[] DefinitionRows(GojoEncodingJsonFixtureGojo gojo) =>
+        [.. (gojo.Definitions ?? [])
+            .Select(definition =>
+                string.Join(
+                    "|",
+                    definition.Name,
+                    definition.Encoding,
+                    definition.Body,
+                    string.Join(",", definition.DependsOn ?? []),
+                    definition.Provenance ?? string.Empty,
+                    definition.ResidueOrTension ?? string.Empty))];
+
+    private static string BlindShapeFrom(GojoEncodingJsonFixtureGojo gojo)
+    {
+        var definitions = (gojo.Definitions ?? [])
+            .Select(definition => definition.Name)
+            .ToHashSet(StringComparer.Ordinal);
+        var paths = (gojo.Paths ?? []).ToHashSet(StringComparer.Ordinal);
+        var tension = (gojo.Tension ?? []).ToHashSet(StringComparer.Ordinal);
+
+        if (definitions.Contains("anti-area-support"))
+        {
+            return "positive area with anti-area hole support";
+        }
+
+        if (definitions.Contains("offset-read") &&
+            tension.Contains("offset lane compatibility unresolved"))
+        {
+            return "paired offset boundary read with unresolved lane compatibility";
+        }
+
+        if (definitions.Contains("circle-boundary") &&
+            definitions.Contains("area-support"))
+        {
+            return "circle boundary with area support";
+        }
+
+        if (definitions.Contains("flow") &&
+            definitions.Contains("position") &&
+            paths.Contains("position --orthogonal outlet--> flow"))
+        {
+            return "point-sourced flow with unresolved dimension or direction";
+        }
+
+        if (definitions.SetEquals(["position"]))
+        {
+            return "single position participation";
+        }
+
+        return "unreconstructed";
+    }
 
     private static string[] FixturePaths() =>
         [.. Directory

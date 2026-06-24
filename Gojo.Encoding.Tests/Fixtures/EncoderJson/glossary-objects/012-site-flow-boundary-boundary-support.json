@@ -15,6 +15,48 @@
       "circle-boundary --self boundary read--> BdSelf(C)",
       "compatible positive boundaries --> Area+",
       "position + radius-evidence --> circle-boundary"
+    ],
+    "definitions": [
+      {
+        "name": "position",
+        "encoding": "Def(position,P(X))+Prov(P(X))",
+        "body": "P(X)"
+      },
+      {
+        "name": "radius-evidence",
+        "encoding": "Def(radius-evidence,R(position,radius-participant); deps=position)+Prov(R(position,radius-participant))",
+        "body": "R(position,radius-participant)",
+        "dependsOn": [
+          "position"
+        ]
+      },
+      {
+        "name": "circle-boundary",
+        "encoding": "Def(circle-boundary,C(position,radius-evidence); deps=position,radius-evidence)+Prov(C(position,radius-evidence))",
+        "body": "C(position,radius-evidence)",
+        "dependsOn": [
+          "position",
+          "radius-evidence"
+        ]
+      },
+      {
+        "name": "boundary",
+        "encoding": "Def(boundary,BdSelf(circle-boundary); deps=circle-boundary)+Prov(BdSelf(circle-boundary)); residue=inside/outside support not selected",
+        "body": "BdSelf(circle-boundary)",
+        "dependsOn": [
+          "circle-boundary"
+        ],
+        "residueOrTension": "inside/outside support not selected"
+      },
+      {
+        "name": "area-support",
+        "encoding": "Def(area-support,Area+(boundary,side?); deps=boundary)+Prov(Area+(boundary,side?)); residue=area side/lane not fully selected",
+        "body": "Area+(boundary,side?)",
+        "dependsOn": [
+          "boundary"
+        ],
+        "residueOrTension": "area side/lane not fully selected"
+      }
     ]
   }
 }

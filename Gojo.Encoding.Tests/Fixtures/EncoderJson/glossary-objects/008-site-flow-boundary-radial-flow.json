@@ -14,6 +14,22 @@
     "tension": [
       "flow shape depends on available dimension",
       "no preferred direction"
+    ],
+    "definitions": [
+      {
+        "name": "position",
+        "encoding": "Def(position,P(X))+Prov(P(X))",
+        "body": "P(X)"
+      },
+      {
+        "name": "flow",
+        "encoding": "Def(flow,F(O(P(X))); deps=position)+Prov(F(O(P(X)))); residue=flow shape depends on available dimension",
+        "body": "F(O(P(X)))",
+        "dependsOn": [
+          "position"
+        ],
+        "residueOrTension": "flow shape depends on available dimension"
+      }
     ]
   }
 }

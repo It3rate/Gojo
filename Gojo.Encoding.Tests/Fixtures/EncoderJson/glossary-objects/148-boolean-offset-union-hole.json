@@ -25,6 +25,57 @@
     ],
     "tension": [
       "selection stop rule not encoded"
+    ],
+    "definitions": [
+      {
+        "name": "span",
+        "encoding": "Def(span,S(P(A@X),P(B@Y)))+Prov(S(P(A@X),P(B@Y)))",
+        "body": "S(P(A@X),P(B@Y))"
+      },
+      {
+        "name": "boundary",
+        "encoding": "Def(boundary,Bd(closed-path); deps=span)+Prov(Bd(closed-path))",
+        "body": "Bd(closed-path)",
+        "dependsOn": [
+          "span"
+        ]
+      },
+      {
+        "name": "offset-read",
+        "encoding": "Def(offset-read,Off(span,O(span),d,Res(n)); deps=span,boundary)+Prov(Off(span,O(span),d,Res(n)))",
+        "body": "Off(span,O(span),d,Res(n))",
+        "dependsOn": [
+          "span",
+          "boundary"
+        ]
+      },
+      {
+        "name": "selection",
+        "encoding": "Def(selection,Sel(offset-read,Focus(boundary)); deps=offset-read)+Prov(Sel(offset-read,Focus(boundary))); residue=selection stop rule not encoded",
+        "body": "Sel(offset-read,Focus(boundary))",
+        "dependsOn": [
+          "offset-read"
+        ],
+        "residueOrTension": "selection stop rule not encoded"
+      },
+      {
+        "name": "area-support",
+        "encoding": "Def(area-support,Area+(boundary); deps=boundary,selection)+Prov(Area+(boundary))",
+        "body": "Area+(boundary)",
+        "dependsOn": [
+          "boundary",
+          "selection"
+        ]
+      },
+      {
+        "name": "anti-area-support",
+        "encoding": "Def(anti-area-support,Area-(boundary,inverse-or-opposed-participation); deps=area-support)+Prov(Area-(boundary,inverse-or-opposed-participation)); residue=anti-area participates as a hole, not an eraser",
+        "body": "Area-(boundary,inverse-or-opposed-participation)",
+        "dependsOn": [
+          "area-support"
+        ],
+        "residueOrTension": "anti-area participates as a hole, not an eraser"
+      }
     ]
   }
 }

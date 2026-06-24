@@ -19,6 +19,31 @@
     ],
     "tension": [
       "offset lane compatibility unresolved"
+    ],
+    "definitions": [
+      {
+        "name": "span",
+        "encoding": "Def(span,S(P(A@X),P(B@Y)))+Prov(S(P(A@X),P(B@Y)))",
+        "body": "S(P(A@X),P(B@Y))"
+      },
+      {
+        "name": "boundary",
+        "encoding": "Def(boundary,Bd0(span); deps=span)+Prov(Bd0(span))",
+        "body": "Bd0(span)",
+        "dependsOn": [
+          "span"
+        ]
+      },
+      {
+        "name": "offset-read",
+        "encoding": "Def(offset-read,Off(span,O(span),+d|-d,Res(n)); deps=span,boundary)+Prov(Off(span,O(span),+d|-d,Res(n))); residue=offset lane compatibility unresolved",
+        "body": "Off(span,O(span),+d|-d,Res(n))",
+        "dependsOn": [
+          "span",
+          "boundary"
+        ],
+        "residueOrTension": "offset lane compatibility unresolved"
+      }
     ]
   }
 }

@@ -57,7 +57,8 @@ public static class GojoStructureEncodingFixtureProjection
         {
             Known = NullIfEmpty(read.Known),
             Paths = NullIfEmpty(read.Paths),
-            Tension = NullIfEmpty(read.Tension)
+            Tension = NullIfEmpty(read.Tension),
+            Definitions = NullIfEmpty(read.Definitions)
         };
     }
 
@@ -114,7 +115,7 @@ public static class GojoStructureEncodingFixtureProjection
     private static Relation Label(string text) =>
         EncodedTextSurface.Create(new Carrier(), text);
 
-    private static List<string>? NullIfEmpty(IReadOnlyCollection<string> values) =>
+    private static List<T>? NullIfEmpty<T>(IReadOnlyCollection<T> values) =>
         values.Count == 0 ? null : [.. values];
 
     private sealed class SparseRead
@@ -123,12 +124,25 @@ public static class GojoStructureEncodingFixtureProjection
         private readonly SortedSet<string> known = new(StringComparer.Ordinal);
         private readonly SortedSet<string> paths = new(StringComparer.Ordinal);
         private readonly SortedSet<string> tension = new(StringComparer.Ordinal);
+        private readonly List<GojoEncodingJsonFixtureDefinition> definitions = [];
+        private readonly HashSet<string> definitionNames = new(StringComparer.Ordinal);
 
         public IReadOnlyCollection<string> Known => known;
 
         public IReadOnlyCollection<string> Paths => paths;
 
         public IReadOnlyCollection<string> Tension => tension;
+
+        public IReadOnlyCollection<GojoEncodingJsonFixtureDefinition> Definitions => definitions;
+
+        private static readonly HashSet<string> DefinitionSampleIds = new(StringComparer.Ordinal)
+        {
+            "site-flow-boundary-site",
+            "site-flow-boundary-radial-flow",
+            "site-flow-boundary-boundary-support",
+            "boolean-offset-offset-reads",
+            "boolean-offset-union-hole"
+        };
 
         public static SparseRead From(Source source)
         {
@@ -141,7 +155,234 @@ public static class GojoStructureEncodingFixtureProjection
                 read.known.Add("structure");
             }
 
+            read.AddDefinitionSamples(source);
             return read;
+        }
+
+        private void AddDefinitionSamples(Source source)
+        {
+            if (!DefinitionSampleIds.Contains(source.EntryId))
+            {
+                return;
+            }
+
+            var positionBody = Relation.Point(new Carrier(), 0);
+            var spanBody = Relation.Segment(new Carrier(), 0, 1);
+
+            Relation? position = null;
+            Relation? span = null;
+            Relation? circle = null;
+            Relation? boundary = null;
+            Relation? offset = null;
+            Relation? selection = null;
+
+            if (known.Contains("position") ||
+                known.Contains("circle-boundary") ||
+                source.EntryId is "site-flow-boundary-site" or "site-flow-boundary-radial-flow" or "site-flow-boundary-boundary-support")
+            {
+                position = AddDefinition("position", positionBody);
+            }
+
+            if (known.Contains("span") ||
+                source.EntryId is "boolean-offset-offset-reads" or "boolean-offset-union-hole")
+            {
+                span = AddDefinition("span", spanBody);
+            }
+
+            if (known.Contains("flow") ||
+                source.EntryId == "site-flow-boundary-radial-flow")
+            {
+                AddDefinition(
+                    "flow",
+                    Relation.OrthogonalOutlet(positionBody),
+                    position is null ? [] : [position],
+                    residueOrTension: Text("flow shape depends on available dimension"));
+            }
+
+            if (source.EntryId == "site-flow-boundary-boundary-support")
+            {
+                var radius = AddDefinition(
+                    "radius-evidence",
+                    Address("R", Atom("position"), Atom("radius-participant")),
+                    position is null ? [] : [position]);
+                circle = AddDefinition(
+                    "circle-boundary",
+                    Address("C", Atom("position"), Atom("radius-evidence")),
+                    [position ?? ConceptAddressSurface.Atom(new Carrier(), "position"), radius]);
+                boundary = AddDefinition(
+                    "boundary",
+                    Address("BdSelf", Atom("circle-boundary")),
+                    [circle],
+                    residueOrTension: Text("inside/outside support not selected"));
+                AddDefinition(
+                    "area-support",
+                    Address("Area+", Atom("boundary"), Atom("side?")),
+                    [boundary],
+                    residueOrTension: Text("area side/lane not fully selected"));
+            }
+
+            if (source.EntryId == "boolean-offset-offset-reads")
+            {
+                boundary = AddDefinition(
+                    "boundary",
+                    Address("Bd0", Atom("span")),
+                    span is null ? [] : [span]);
+                AddDefinition(
+                    "offset-read",
+                    Address("Off", Atom("span"), Atom("O(span)"), Atom("+d|-d"), Atom("Res(n)")),
+                    [span ?? ConceptAddressSurface.Atom(new Carrier(), "span"), boundary],
+                    residueOrTension: Text("offset lane compatibility unresolved"));
+            }
+
+            if (source.EntryId == "boolean-offset-union-hole")
+            {
+                boundary = AddDefinition(
+                    "boundary",
+                    Address("Bd", Atom("closed-path")),
+                    span is null ? [] : [span]);
+                offset = AddDefinition(
+                    "offset-read",
+                    Address("Off", Atom("span"), Atom("O(span)"), Atom("d"), Atom("Res(n)")),
+                    [span ?? ConceptAddressSurface.Atom(new Carrier(), "span"), boundary]);
+                selection = AddDefinition(
+                    "selection",
+                    Address("Sel", Atom("offset-read"), Atom("Focus(boundary)")),
+                    [offset],
+                    residueOrTension: Text("selection stop rule not encoded"));
+                var area = AddDefinition(
+                    "area-support",
+                    Address("Area+", Atom("boundary")),
+                    [boundary, selection]);
+                AddDefinition(
+                    "anti-area-support",
+                    Address("Area-", Atom("boundary"), Atom("inverse-or-opposed-participation")),
+                    [area],
+                    residueOrTension: Text("anti-area participates as a hole, not an eraser"));
+            }
+        }
+
+        private Relation AddDefinition(
+            string name,
+            IElement body,
+            IReadOnlyList<IElement>? dependencies = null,
+            IElement? provenance = null,
+            IElement? residueOrTension = null)
+        {
+            var definition = ConceptDefinitionSurface.Create(
+                new Carrier(),
+                name,
+                body,
+                dependencies,
+                provenance,
+                residueOrTension);
+
+            if (definitionNames.Add(name))
+            {
+                definitions.Add(DefinitionJson(definition));
+            }
+
+            return definition;
+        }
+
+        private static GojoEncodingJsonFixtureDefinition DefinitionJson(Relation definition)
+        {
+            if (!ConceptDefinitionSurface.TryRead(definition, out var read))
+            {
+                throw new InvalidOperationException("Could not read generated concept definition.");
+            }
+
+            var name = ElementDebug(read.Name);
+            var body = ElementDebug(read.Body);
+            var provenance = ElementDebug(read.Provenance);
+            var dependencies = read.Dependencies.Select(ElementDebug).ToList();
+            var residue = EncodedTextSurface.IsUnknownPoint(read.ResidueOrTension)
+                ? null
+                : ElementDebug(read.ResidueOrTension);
+            var dependencyText = dependencies.Count == 0
+                ? string.Empty
+                : $"; deps={string.Join(",", dependencies)}";
+            var residueText = residue is null
+                ? string.Empty
+                : $"; residue={residue}";
+
+            return new GojoEncodingJsonFixtureDefinition
+            {
+                Name = name,
+                Body = body,
+                DependsOn = dependencies.Count == 0 ? null : dependencies,
+                Provenance = provenance == body ? null : provenance,
+                ResidueOrTension = residue,
+                Encoding = $"Def({name},{body}{dependencyText})+Prov({provenance}){residueText}"
+            };
+        }
+
+        private static Relation Address(string lexical, params IElement[] parts) =>
+            ConceptAddressSurface.Compound(new Carrier(), lexical, parts);
+
+        private static Relation Atom(string name) =>
+            ConceptAddressSurface.Atom(new Carrier(), name);
+
+        private static Relation Text(string text) =>
+            EncodedTextSurface.Create(new Carrier(), text);
+
+        private static string ElementDebug(IElement element)
+        {
+            if (EncodedTextSurface.IsUnknownPoint(element))
+            {
+                return "?";
+            }
+
+            if (ConceptAddressSurface.TryReadAtom(element, out _, out _) ||
+                ConceptAddressSurface.TryReadCompound(element, out _, out _, out _, out _))
+            {
+                return ConceptAddressSurface.ToDebugString(element);
+            }
+
+            if (ConceptDefinitionSurface.TryRead(element, out var definition))
+            {
+                return ElementDebug(definition.Name);
+            }
+
+            if (ConceptDefinitionSurface.TryReadReference(element, out var reference))
+            {
+                var context = EncodedTextSurface.IsUnknownPoint(reference.Context)
+                    ? string.Empty
+                    : $";context={ElementDebug(reference.Context)}";
+                var residue = EncodedTextSurface.IsUnknownPoint(reference.ResidueOrTension)
+                    ? string.Empty
+                    : $";residue={ElementDebug(reference.ResidueOrTension)}";
+
+                return $"Cr({ElementDebug(reference.DefinitionOrAddress)}{context}{residue})";
+            }
+
+            if (UnitShape.TryReadOrthogonalSource(element, out var orthogonalSource))
+            {
+                return $"F(O({ElementDebug(orthogonalSource)}))";
+            }
+
+            if (TryReadPoint(element, out _))
+            {
+                return "P(X)";
+            }
+
+            if (TryReadSegment(element, out var start, out var end))
+            {
+                return start.Ticks == end.Ticks
+                    ? "S0(P(A@X),P(B@X))"
+                    : "S(P(A@X),P(B@Y))";
+            }
+
+            if (EncodedTextSurface.TryRead(element, out var text))
+            {
+                return text;
+            }
+
+            if (TryReadGroup(element, out var participants))
+            {
+                return string.Join(" + ", participants.Select(ElementDebug));
+            }
+
+            return "E?";
         }
 
         private void Visit(IElement element)

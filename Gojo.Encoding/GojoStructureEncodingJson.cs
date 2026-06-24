@@ -591,6 +591,23 @@ public sealed record GojoEncodingJsonFixtureGojo
     public List<string>? Paths { get; init; }
 
     public List<string>? Tension { get; init; }
+
+    public List<GojoEncodingJsonFixtureDefinition>? Definitions { get; init; }
+}
+
+public sealed record GojoEncodingJsonFixtureDefinition
+{
+    public string Name { get; init; } = string.Empty;
+
+    public string Encoding { get; init; } = string.Empty;
+
+    public string Body { get; init; } = string.Empty;
+
+    public List<string>? DependsOn { get; init; }
+
+    public string? Provenance { get; init; }
+
+    public string? ResidueOrTension { get; init; }
 }
 
 public sealed record GojoEncodingJsonStructure

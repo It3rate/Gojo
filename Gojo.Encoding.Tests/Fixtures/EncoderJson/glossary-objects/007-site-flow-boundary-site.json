@@ -5,6 +5,13 @@
   "gojo": {
     "known": [
       "position"
+    ],
+    "definitions": [
+      {
+        "name": "position",
+        "encoding": "Def(position,P(X))+Prov(P(X))",
+        "body": "P(X)"
+      }
     ]
   }
 }

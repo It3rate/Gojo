@@ -18,6 +18,40 @@ tension strings, not yet as first-class Gojo structures.
 | Crystallization | `read --crystallize--> reusable structure`; `ConceptDefinitionSurface` exists for `Def/Prov/Cr` footing | Reuse is explicit while provenance is kept as structure or tension. |
 | Runtime and settlement | `unresolved structure --settlement read--> settled structure + residue`, `runtime pass --records--> residue + tension`, `runtime trace --crystallize--> behavior witness` | Static settlement, runtime use, and recorded runtime behavior are separated in the fixture surface. |
 
+## Definition Sample Pass
+
+Five glossary fixtures now carry compact definition rows under `gojo.definitions`:
+
+- `site-flow-boundary-site`: `Def(position,P(X))`
+- `site-flow-boundary-radial-flow`: `Def(flow,F(O(P(X))))` with flow-shape residue
+- `site-flow-boundary-boundary-support`: position, radius evidence, circle boundary, self boundary, and area-support ladder
+- `boolean-offset-offset-reads`: span, source boundary, and offset-read with unresolved lane compatibility
+- `boolean-offset-union-hole`: span, closed-path boundary, offset-read, selection, area-support, and anti-area-support
+
+The blind reconstruction test reads only the fixture `gojo` payload, not the
+entry id, expression, or description. It currently recovers:
+
+```text
+single position participation
+point-sourced flow with unresolved dimension or direction
+circle boundary with area support
+paired offset boundary read with unresolved lane compatibility
+positive area with anti-area hole support
+```
+
+Two reader-order fixes came out of this immediately:
+
+- marked concept addresses must be recognized before generic three-field
+  references, because an address atom and a compact reference can both be
+  relation-shaped triples.
+- point and segment reads must be attempted before text reads in this debug
+  projection, because a point relation can otherwise look like an empty text
+  surface.
+
+This suggests the definition/debug layer needs explicit local read precedence
+as more surfaces overlap. That precedence is not a global classifier; it is a
+small ordered read policy for a specific inspection surface.
+
 ## Remaining Gaps
 
 ### Boundary
@@ -168,6 +202,9 @@ the static structure alone.
 6. Postpone stronger curve encoding until interpolation, acceleration,
    following, curvature, and second-derivative primitives have at least one
    small canonical sample.
-7. Update the glossary projection to emit `ConceptDefinitionSurface` records
-   for a few primitive and compound definitions before using crystallized names
-   heavily in PCB/ECAD samples.
+7. Expand `ConceptDefinitionSurface` fixture emission from the five current
+   samples to a small ordered primitive ledger, then use that ledger as the
+   dependency source for PCB/ECAD samples.
+8. Factor the current definition debug reader into a reusable inspection helper
+   with documented read precedence, so address/reference and point/text overlap
+   do not become hidden ambiguity as the format grows.
