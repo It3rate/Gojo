@@ -20,19 +20,26 @@
         "body": "S(P(A@X),P(B@Y))"
       },
       {
+        "name": "partition-count",
+        "encoding": "Def(partition-count,n)+Prov(n)",
+        "body": "n"
+      },
+      {
         "name": "partition",
-        "encoding": "Def(partition,Part(span,n); deps=span)+Prov(Part(span,n))",
-        "body": "Part(span,n)",
+        "encoding": "Def(partition,Part(span,partition-count); deps=span,partition-count)+Prov(Part(span,partition-count))",
+        "body": "Part(span,partition-count)",
         "dependsOn": [
-          "span"
+          "span",
+          "partition-count"
         ]
       },
       {
         "name": "partition-site",
-        "encoding": "Def(partition-site,P(t1..tn); deps=partition)+Prov(P(t1..tn))",
+        "encoding": "Def(partition-site,P(t1..tn); deps=partition,position)+Prov(P(t1..tn))",
         "body": "P(t1..tn)",
         "dependsOn": [
-          "partition"
+          "partition",
+          "position"
         ]
       }
     ]

@@ -260,8 +260,10 @@ public sealed class EncoderJsonFixtureTests
         foreach (var (fixtureName, expected) in cases)
         {
             var entry = ReadFixtureEntry(fixtureName);
+            var read = BlindShapeFrom(entry.Gojo);
 
-            Assert.Equal(expected, BlindShapeFrom(entry.Gojo));
+            Assert.Equal(expected, read.Primary);
+            Assert.NotEmpty(read.Evidence);
         }
     }
 
@@ -378,7 +380,9 @@ public sealed class EncoderJsonFixtureTests
                     definition.Provenance ?? string.Empty,
                     definition.ResidueOrTension ?? string.Empty))];
 
-    private static string BlindShapeFrom(GojoEncodingJsonFixtureGojo gojo)
+    private readonly record struct BlindShapeRead(string Primary, string[] Evidence);
+
+    private static BlindShapeRead BlindShapeFrom(GojoEncodingJsonFixtureGojo gojo)
     {
         var definitions = (gojo.Definitions ?? [])
             .Select(definition => definition.Name)
@@ -388,59 +392,71 @@ public sealed class EncoderJsonFixtureTests
 
         if (definitions.Contains("anti-area-support"))
         {
-            return "positive area with anti-area hole support";
+            return Shape("positive area with anti-area hole support", definitions, "area-support", "anti-area-support", "selection");
         }
 
         if (definitions.Contains("unit-comparison"))
         {
-            return "unit comparison read with preserved residue";
+            return Shape("unit comparison read with preserved residue", definitions, "span", "unit-span", "comparison", "unit", "unit-comparison");
         }
 
         if (definitions.Contains("offset-read") &&
             tension.Contains("offset lane compatibility unresolved"))
         {
-            return "paired offset boundary read with unresolved lane compatibility";
+            return Shape("paired offset boundary read with unresolved lane compatibility", definitions, "span", "boundary", "offset-read");
         }
 
         if (definitions.Contains("circle-boundary") &&
             definitions.Contains("area-support"))
         {
-            return "circle boundary with area support";
+            return Shape("circle boundary with area support", definitions, "position", "radius-evidence", "circle-boundary", "boundary", "area-support");
         }
 
         if (definitions.Contains("partition-site"))
         {
-            return "partitioned span producing readable sites";
+            return Shape("partitioned span producing readable sites", definitions, "span", "partition-count", "partition", "partition-site");
         }
 
         if (definitions.Contains("unresolved-carrier-potential"))
         {
-            return "shared-reference carrier potential with unresolved flow";
+            return Shape("shared-reference carrier potential with unresolved flow", definitions, "position", "shared-reference", "unresolved-carrier-potential", "flow");
         }
 
         if (definitions.Contains("settled-read"))
         {
-            return "settled read from source through basis and resolution";
+            return Shape("settled read from source through basis and resolution", definitions, "source", "basis", "resolution", "settled-read");
         }
 
         if (definitions.Contains("resolution-read"))
         {
-            return "resolution read over a span with lower detail open";
+            return Shape("resolution read over a span with lower detail open", definitions, "span", "resolution", "resolution-read");
         }
 
         if (definitions.Contains("flow") &&
             definitions.Contains("position") &&
             paths.Contains("position --orthogonal outlet--> flow"))
         {
-            return "point-sourced flow with unresolved dimension or direction";
+            return Shape("point-sourced flow with unresolved dimension or direction", definitions, "position", "flow");
         }
 
         if (definitions.SetEquals(["position"]))
         {
-            return "single position participation";
+            return Shape("single position participation", definitions, "position");
         }
 
-        return "unreconstructed";
+        return Shape("unreconstructed", definitions);
+    }
+
+    private static BlindShapeRead Shape(
+        string primary,
+        IReadOnlySet<string> availableDefinitions,
+        params string[] expectedEvidence)
+    {
+        var evidence = expectedEvidence.Length == 0
+            ? availableDefinitions.Order(StringComparer.Ordinal).ToArray()
+            : [.. expectedEvidence.Where(availableDefinitions.Contains)];
+
+        return new BlindShapeRead(primary, evidence);
     }
 
     private static string[] FixturePaths() =>

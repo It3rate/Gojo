@@ -28,12 +28,18 @@
         ]
       },
       {
+        "name": "resolution",
+        "encoding": "Def(resolution,Res(n))+Prov(Res(n))",
+        "body": "Res(n)"
+      },
+      {
         "name": "settled-read",
-        "encoding": "Def(settled-read,Settle(source,basis,Res(n)); deps=source,basis)+Prov(Settle(source,basis,Res(n)))",
-        "body": "Settle(source,basis,Res(n))",
+        "encoding": "Def(settled-read,Settle(source,basis,resolution); deps=source,basis,resolution)+Prov(Settle(source,basis,resolution))",
+        "body": "Settle(source,basis,resolution)",
         "dependsOn": [
           "source",
-          "basis"
+          "basis",
+          "resolution"
         ]
       }
     ]

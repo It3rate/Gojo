@@ -200,13 +200,18 @@ public static class GojoStructureEncodingFixtureProjection
 
             if (source.EntryId == "resolution-tension-resolution-read")
             {
+                var resolution = AddDefinition(
+                    "resolution",
+                    ConceptDefinitionInspection.Address(
+                        "Res",
+                        ConceptDefinitionInspection.Atom("n")));
                 AddDefinition(
                     "resolution-read",
                     ConceptDefinitionInspection.Address(
                         "Read",
                         ConceptDefinitionInspection.Atom("span"),
-                        ConceptDefinitionInspection.Atom("Res(n)")),
-                    span is null ? [] : [span],
+                        ConceptDefinitionInspection.Atom("resolution")),
+                    [span ?? ConceptAddressSurface.Atom(new Carrier(), "span"), resolution],
                     residueOrTension: ConceptDefinitionInspection.Text("detail below selected resolution remains open"));
             }
 
@@ -221,14 +226,19 @@ public static class GojoStructureEncodingFixtureProjection
                         "B",
                         ConceptDefinitionInspection.Atom("source")),
                     [sourceDefinition]);
+                var resolution = AddDefinition(
+                    "resolution",
+                    ConceptDefinitionInspection.Address(
+                        "Res",
+                        ConceptDefinitionInspection.Atom("n")));
                 AddDefinition(
                     "settled-read",
                     ConceptDefinitionInspection.Address(
                         "Settle",
                         ConceptDefinitionInspection.Atom("source"),
                         ConceptDefinitionInspection.Atom("basis"),
-                        ConceptDefinitionInspection.Atom("Res(n)")),
-                    [sourceDefinition, basis]);
+                        ConceptDefinitionInspection.Atom("resolution")),
+                    [sourceDefinition, basis, resolution]);
             }
 
             if ((known.Contains("flow") &&
@@ -299,27 +309,40 @@ public static class GojoStructureEncodingFixtureProjection
 
             if (source.EntryId == "units-ticks-internal-partition")
             {
+                var count = AddDefinition(
+                    "partition-count",
+                    ConceptDefinitionInspection.Atom("n"));
                 var partition = AddDefinition(
                     "partition",
                     ConceptDefinitionInspection.Address(
                         "Part",
                         ConceptDefinitionInspection.Atom("span"),
-                        ConceptDefinitionInspection.Atom("n")),
-                    span is null ? [] : [span]);
+                        ConceptDefinitionInspection.Atom("partition-count")),
+                    [span ?? ConceptAddressSurface.Atom(new Carrier(), "span"), count]);
                 AddDefinition(
                     "partition-site",
                     ConceptDefinitionInspection.Atom("P(t1..tn)"),
-                    [partition]);
+                    position is null ? [partition] : [partition, position]);
             }
 
             if (source.EntryId == "units-ticks-unit-comparison")
             {
+                var unitSpan = AddDefinition(
+                    "unit-span",
+                    spanBody);
+                var comparison = AddDefinition(
+                    "comparison",
+                    ConceptDefinitionInspection.Address(
+                        "Comp",
+                        ConceptDefinitionInspection.Atom("span"),
+                        ConceptDefinitionInspection.Atom("unit-span")),
+                    [span ?? ConceptAddressSurface.Atom(new Carrier(), "span"), unitSpan]);
                 var unit = AddDefinition(
                     "unit",
                     ConceptDefinitionInspection.Address(
                         "U",
-                        ConceptDefinitionInspection.Atom("Comp(span,unit-span)")),
-                    span is null ? [] : [span]);
+                        ConceptDefinitionInspection.Atom("comparison")),
+                    [comparison]);
                 AddDefinition(
                     "unit-comparison",
                     ConceptDefinitionInspection.Address(

@@ -19,11 +19,25 @@
         "body": "S(P(A@X),P(B@Y))"
       },
       {
-        "name": "unit",
-        "encoding": "Def(unit,U(Comp(span,unit-span)); deps=span)+Prov(U(Comp(span,unit-span)))",
-        "body": "U(Comp(span,unit-span))",
+        "name": "unit-span",
+        "encoding": "Def(unit-span,S(P(A@X),P(B@Y)))+Prov(S(P(A@X),P(B@Y)))",
+        "body": "S(P(A@X),P(B@Y))"
+      },
+      {
+        "name": "comparison",
+        "encoding": "Def(comparison,Comp(span,unit-span); deps=span,unit-span)+Prov(Comp(span,unit-span))",
+        "body": "Comp(span,unit-span)",
         "dependsOn": [
-          "span"
+          "span",
+          "unit-span"
+        ]
+      },
+      {
+        "name": "unit",
+        "encoding": "Def(unit,U(comparison); deps=comparison)+Prov(U(comparison))",
+        "body": "U(comparison)",
+        "dependsOn": [
+          "comparison"
         ]
       },
       {

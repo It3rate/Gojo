@@ -22,14 +22,14 @@ tension strings, not yet as first-class Gojo structures.
 
 Ten glossary fixtures now carry compact definition rows under `gojo.definitions`:
 
-- `resolution-tension-resolution-read`: span plus `Read(span,Res(n))` with lower-detail residue
-- `resolution-tension-settled-read`: source, basis, and `Settle(source,basis,Res(n))`
+- `resolution-tension-resolution-read`: span, resolution, and `Read(span,resolution)` with lower-detail residue
+- `resolution-tension-settled-read`: source, basis, resolution, and `Settle(source,basis,resolution)`
 - `site-flow-boundary-site`: `Def(position,P(X))`
 - `site-flow-boundary-radial-flow`: `Def(flow,F(O(P(X))))` with flow-shape residue
 - `site-flow-boundary-linear-potential`: shared-reference, unresolved carrier potential, and flow from that potential
 - `site-flow-boundary-boundary-support`: position, radius evidence, circle boundary, self boundary, and area-support ladder
-- `units-ticks-internal-partition`: span, partition, and produced partition-site definitions
-- `units-ticks-unit-comparison`: span, unit, and unit-comparison with preserved comparison residue
+- `units-ticks-internal-partition`: span, partition-count, partition, and produced partition-site definitions
+- `units-ticks-unit-comparison`: span, unit-span, comparison, unit, and unit-comparison with preserved comparison residue
 - `boolean-offset-offset-reads`: span, source boundary, and offset-read with unresolved lane compatibility
 - `boolean-offset-union-hole`: span, closed-path boundary, offset-read, selection, area-support, and anti-area-support
 
@@ -61,15 +61,16 @@ Two reader-order fixes came out of this immediately:
 That precedence is now factored into `ConceptDefinitionInspection` rather than
 being hidden inside the fixture projection. The helper is still only an
 inspection surface, but it gives the definition rows and blind tests one shared
-read policy.
+read policy. The blind test now also returns the definition evidence used for
+the reconstruction, not only the primary recovered label.
 
 The ten-sample pass makes the building-up approach look promising, but it also
 shows where the compact body strings are still too crystallized. Bodies such as
-`Read(span,Res(n))`, `Settle(source,basis,Res(n))`, `Part(span,n)`,
-`U(Comp(span,unit-span))`, `BdSelf(circle-boundary)`, `Area+(boundary)`, and
-`Off(span,O(span),d,Res(n))` are readable and dependency-bearing, but several of
-their ingredients should become earlier definitions or actual Gojo structure
-instead of compact address bodies.
+`Read(span,resolution)`, `Settle(source,basis,resolution)`,
+`Part(span,partition-count)`, `BdSelf(circle-boundary)`, `Area+(boundary)`, and
+`Off(span,O(span),d,Res(n))` are readable and dependency-bearing, but several
+of their ingredients should become actual Gojo structure instead of compact
+address bodies.
 
 ## Remaining Gaps
 
@@ -224,6 +225,6 @@ the static structure alone.
 7. Expand `ConceptDefinitionSurface` fixture emission from the ten current
    samples into a small ordered primitive ledger, then use that ledger as the
    dependency source for PCB/ECAD samples.
-8. Replace compact address bodies such as `Part(span,n)`, `Read(span,Res(n))`,
-   and `Settle(source,basis,Res(n))` with earlier definition rows or native
-   Gojo structure where the lower footing is clear enough.
+8. Replace remaining compact address bodies such as `BdSelf(...)`, `Area+(...)`,
+   `Off(...)`, and `Settle(...)` with native Gojo structure where the lower
+   footing is clear enough.
