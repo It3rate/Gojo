@@ -245,9 +245,14 @@ public sealed class EncoderJsonFixtureTests
     {
         var cases = new Dictionary<string, string>(StringComparer.Ordinal)
         {
+            ["001-resolution-tension-resolution-read.json"] = "resolution read over a span with lower detail open",
+            ["006-resolution-tension-settled-read.json"] = "settled read from source through basis and resolution",
             ["007-site-flow-boundary-site.json"] = "single position participation",
             ["008-site-flow-boundary-radial-flow.json"] = "point-sourced flow with unresolved dimension or direction",
+            ["009-site-flow-boundary-linear-potential.json"] = "shared-reference carrier potential with unresolved flow",
             ["012-site-flow-boundary-boundary-support.json"] = "circle boundary with area support",
+            ["019-units-ticks-internal-partition.json"] = "partitioned span producing readable sites",
+            ["020-units-ticks-unit-comparison.json"] = "unit comparison read with preserved residue",
             ["146-boolean-offset-offset-reads.json"] = "paired offset boundary read with unresolved lane compatibility",
             ["148-boolean-offset-union-hole.json"] = "positive area with anti-area hole support"
         };
@@ -386,6 +391,11 @@ public sealed class EncoderJsonFixtureTests
             return "positive area with anti-area hole support";
         }
 
+        if (definitions.Contains("unit-comparison"))
+        {
+            return "unit comparison read with preserved residue";
+        }
+
         if (definitions.Contains("offset-read") &&
             tension.Contains("offset lane compatibility unresolved"))
         {
@@ -396,6 +406,26 @@ public sealed class EncoderJsonFixtureTests
             definitions.Contains("area-support"))
         {
             return "circle boundary with area support";
+        }
+
+        if (definitions.Contains("partition-site"))
+        {
+            return "partitioned span producing readable sites";
+        }
+
+        if (definitions.Contains("unresolved-carrier-potential"))
+        {
+            return "shared-reference carrier potential with unresolved flow";
+        }
+
+        if (definitions.Contains("settled-read"))
+        {
+            return "settled read from source through basis and resolution";
+        }
+
+        if (definitions.Contains("resolution-read"))
+        {
+            return "resolution read over a span with lower detail open";
         }
 
         if (definitions.Contains("flow") &&

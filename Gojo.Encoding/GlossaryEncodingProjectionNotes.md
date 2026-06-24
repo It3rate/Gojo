@@ -20,11 +20,16 @@ tension strings, not yet as first-class Gojo structures.
 
 ## Definition Sample Pass
 
-Five glossary fixtures now carry compact definition rows under `gojo.definitions`:
+Ten glossary fixtures now carry compact definition rows under `gojo.definitions`:
 
+- `resolution-tension-resolution-read`: span plus `Read(span,Res(n))` with lower-detail residue
+- `resolution-tension-settled-read`: source, basis, and `Settle(source,basis,Res(n))`
 - `site-flow-boundary-site`: `Def(position,P(X))`
 - `site-flow-boundary-radial-flow`: `Def(flow,F(O(P(X))))` with flow-shape residue
+- `site-flow-boundary-linear-potential`: shared-reference, unresolved carrier potential, and flow from that potential
 - `site-flow-boundary-boundary-support`: position, radius evidence, circle boundary, self boundary, and area-support ladder
+- `units-ticks-internal-partition`: span, partition, and produced partition-site definitions
+- `units-ticks-unit-comparison`: span, unit, and unit-comparison with preserved comparison residue
 - `boolean-offset-offset-reads`: span, source boundary, and offset-read with unresolved lane compatibility
 - `boolean-offset-union-hole`: span, closed-path boundary, offset-read, selection, area-support, and anti-area-support
 
@@ -32,9 +37,14 @@ The blind reconstruction test reads only the fixture `gojo` payload, not the
 entry id, expression, or description. It currently recovers:
 
 ```text
+resolution read over a span with lower detail open
+settled read from source through basis and resolution
 single position participation
 point-sourced flow with unresolved dimension or direction
+shared-reference carrier potential with unresolved flow
 circle boundary with area support
+partitioned span producing readable sites
+unit comparison read with preserved residue
 paired offset boundary read with unresolved lane compatibility
 positive area with anti-area hole support
 ```
@@ -48,9 +58,18 @@ Two reader-order fixes came out of this immediately:
   projection, because a point relation can otherwise look like an empty text
   surface.
 
-This suggests the definition/debug layer needs explicit local read precedence
-as more surfaces overlap. That precedence is not a global classifier; it is a
-small ordered read policy for a specific inspection surface.
+That precedence is now factored into `ConceptDefinitionInspection` rather than
+being hidden inside the fixture projection. The helper is still only an
+inspection surface, but it gives the definition rows and blind tests one shared
+read policy.
+
+The ten-sample pass makes the building-up approach look promising, but it also
+shows where the compact body strings are still too crystallized. Bodies such as
+`Read(span,Res(n))`, `Settle(source,basis,Res(n))`, `Part(span,n)`,
+`U(Comp(span,unit-span))`, `BdSelf(circle-boundary)`, `Area+(boundary)`, and
+`Off(span,O(span),d,Res(n))` are readable and dependency-bearing, but several of
+their ingredients should become earlier definitions or actual Gojo structure
+instead of compact address bodies.
 
 ## Remaining Gaps
 
@@ -193,18 +212,18 @@ the static structure alone.
    grounded without confusing it with ordinary diagonal geometry.
 3. Update the fixture projection to read boundary and area forms from local
    Gojo structure where possible, using expression text only as fallback.
-4. Add blind reconstruction tests: hide `entryId`, `expression`, and
-   `represents`, then check whether the encoded `known`, `paths`, and `tension`
-   recover the intended glossary class.
+4. Keep expanding blind reconstruction tests. The current test hides `entryId`,
+   `expression`, and `represents`; the next version should also report partial
+   or ambiguous reconstructions instead of returning one fixed class.
 5. Maintain an ordered definition ledger/read surface where each forward entry
    is built from primitive structure or earlier entries. This can act like a
    lookup table for inspection without becoming the canonical storage form.
 6. Postpone stronger curve encoding until interpolation, acceleration,
    following, curvature, and second-derivative primitives have at least one
    small canonical sample.
-7. Expand `ConceptDefinitionSurface` fixture emission from the five current
-   samples to a small ordered primitive ledger, then use that ledger as the
+7. Expand `ConceptDefinitionSurface` fixture emission from the ten current
+   samples into a small ordered primitive ledger, then use that ledger as the
    dependency source for PCB/ECAD samples.
-8. Factor the current definition debug reader into a reusable inspection helper
-   with documented read precedence, so address/reference and point/text overlap
-   do not become hidden ambiguity as the format grows.
+8. Replace compact address bodies such as `Part(span,n)`, `Read(span,Res(n))`,
+   and `Settle(source,basis,Res(n))` with earlier definition rows or native
+   Gojo structure where the lower footing is clear enough.

@@ -12,6 +12,22 @@
     ],
     "tension": [
       "detail below selected resolution remains open"
+    ],
+    "definitions": [
+      {
+        "name": "span",
+        "encoding": "Def(span,S(P(A@X),P(B@Y)))+Prov(S(P(A@X),P(B@Y)))",
+        "body": "S(P(A@X),P(B@Y))"
+      },
+      {
+        "name": "resolution-read",
+        "encoding": "Def(resolution-read,Read(span,Res(n)); deps=span)+Prov(Read(span,Res(n))); residue=detail below selected resolution remains open",
+        "body": "Read(span,Res(n))",
+        "dependsOn": [
+          "span"
+        ],
+        "residueOrTension": "detail below selected resolution remains open"
+      }
     ]
   }
 }

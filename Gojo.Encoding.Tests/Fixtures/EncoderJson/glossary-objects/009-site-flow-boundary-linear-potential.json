@@ -17,6 +17,39 @@
       "basis orientation unresolved",
       "length unresolved",
       "opposed lane not asserted"
+    ],
+    "definitions": [
+      {
+        "name": "position",
+        "encoding": "Def(position,P(X))+Prov(P(X))",
+        "body": "P(X)"
+      },
+      {
+        "name": "shared-reference",
+        "encoding": "Def(shared-reference,P(A@X)+P(B@X); deps=position)+Prov(P(A@X)+P(B@X))",
+        "body": "P(A@X)+P(B@X)",
+        "dependsOn": [
+          "position"
+        ]
+      },
+      {
+        "name": "unresolved-carrier-potential",
+        "encoding": "Def(unresolved-carrier-potential,Pot(shared-reference); deps=shared-reference)+Prov(Pot(shared-reference)); residue=basis orientation unresolved",
+        "body": "Pot(shared-reference)",
+        "dependsOn": [
+          "shared-reference"
+        ],
+        "residueOrTension": "basis orientation unresolved"
+      },
+      {
+        "name": "flow",
+        "encoding": "Def(flow,F(O)(unresolved-carrier-potential); deps=unresolved-carrier-potential)+Prov(F(O)(unresolved-carrier-potential)); residue=length unresolved",
+        "body": "F(O)(unresolved-carrier-potential)",
+        "dependsOn": [
+          "unresolved-carrier-potential"
+        ],
+        "residueOrTension": "length unresolved"
+      }
     ]
   }
 }

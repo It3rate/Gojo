@@ -12,6 +12,30 @@
     "paths": [
       "source + basis + resolution --> settled read",
       "unresolved structure --settlement read--> settled structure + residue"
+    ],
+    "definitions": [
+      {
+        "name": "source",
+        "encoding": "Def(source,Src(E))+Prov(Src(E))",
+        "body": "Src(E)"
+      },
+      {
+        "name": "basis",
+        "encoding": "Def(basis,B(source); deps=source)+Prov(B(source))",
+        "body": "B(source)",
+        "dependsOn": [
+          "source"
+        ]
+      },
+      {
+        "name": "settled-read",
+        "encoding": "Def(settled-read,Settle(source,basis,Res(n)); deps=source,basis)+Prov(Settle(source,basis,Res(n)))",
+        "body": "Settle(source,basis,Res(n))",
+        "dependsOn": [
+          "source",
+          "basis"
+        ]
+      }
     ]
   }
 }

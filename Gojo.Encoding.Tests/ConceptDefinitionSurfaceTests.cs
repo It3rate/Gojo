@@ -111,4 +111,45 @@ public sealed class ConceptDefinitionSurfaceTests
         Assert.Same(residue, witnessResidue);
         Assert.Same(source, provenance);
     }
+
+    [Fact]
+    public void InspectionReadsAddressBeforeGenericReference()
+    {
+        var atom = ConceptAddressSurface.Atom(new Carrier(), "position");
+
+        Assert.Equal("position", ConceptDefinitionInspection.ElementDebug(atom));
+    }
+
+    [Fact]
+    public void InspectionReadsPointBeforeEmptyTextSurface()
+    {
+        var point = Relation.Point(new Carrier(), 0);
+
+        Assert.Equal("P(X)", ConceptDefinitionInspection.ElementDebug(point));
+    }
+
+    [Fact]
+    public void InspectionSerializesDefinitionWithDependenciesAndResidue()
+    {
+        var span = ConceptDefinitionSurface.Create(
+            new Carrier(),
+            "span",
+            Relation.Segment(new Carrier(), 0, 1));
+        var offset = ConceptDefinitionSurface.Create(
+            new Carrier(),
+            "offset-read",
+            ConceptDefinitionInspection.Address(
+                "Off",
+                ConceptDefinitionInspection.Atom("span"),
+                ConceptDefinitionInspection.Atom("d")),
+            [span],
+            residueOrTension: ConceptDefinitionInspection.Text("distance unresolved"));
+
+        var row = ConceptDefinitionInspection.DefinitionJson(offset);
+
+        Assert.Equal("offset-read", row.Name);
+        Assert.Equal("Off(span,d)", row.Body);
+        Assert.Equal(["span"], row.DependsOn);
+        Assert.Equal("distance unresolved", row.ResidueOrTension);
+    }
 }

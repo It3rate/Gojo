@@ -11,6 +11,31 @@
     ],
     "paths": [
       "unresolved structure --settlement read--> settled structure + residue"
+    ],
+    "definitions": [
+      {
+        "name": "span",
+        "encoding": "Def(span,S(P(A@X),P(B@Y)))+Prov(S(P(A@X),P(B@Y)))",
+        "body": "S(P(A@X),P(B@Y))"
+      },
+      {
+        "name": "unit",
+        "encoding": "Def(unit,U(Comp(span,unit-span)); deps=span)+Prov(U(Comp(span,unit-span)))",
+        "body": "U(Comp(span,unit-span))",
+        "dependsOn": [
+          "span"
+        ]
+      },
+      {
+        "name": "unit-comparison",
+        "encoding": "Def(unit-comparison,Read(span,unit); deps=span,unit)+Prov(Read(span,unit)); residue=comparison residue preserved",
+        "body": "Read(span,unit)",
+        "dependsOn": [
+          "span",
+          "unit"
+        ],
+        "residueOrTension": "comparison residue preserved"
+      }
     ]
   }
 }

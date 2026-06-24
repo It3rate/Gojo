@@ -7,6 +7,34 @@
       "partition",
       "position",
       "span"
+    ],
+    "definitions": [
+      {
+        "name": "position",
+        "encoding": "Def(position,P(X))+Prov(P(X))",
+        "body": "P(X)"
+      },
+      {
+        "name": "span",
+        "encoding": "Def(span,S(P(A@X),P(B@Y)))+Prov(S(P(A@X),P(B@Y)))",
+        "body": "S(P(A@X),P(B@Y))"
+      },
+      {
+        "name": "partition",
+        "encoding": "Def(partition,Part(span,n); deps=span)+Prov(Part(span,n))",
+        "body": "Part(span,n)",
+        "dependsOn": [
+          "span"
+        ]
+      },
+      {
+        "name": "partition-site",
+        "encoding": "Def(partition-site,P(t1..tn); deps=partition)+Prov(P(t1..tn))",
+        "body": "P(t1..tn)",
+        "dependsOn": [
+          "partition"
+        ]
+      }
     ]
   }
 }
