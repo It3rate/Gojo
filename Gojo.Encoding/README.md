@@ -73,18 +73,22 @@ The first implementation is intentionally tiny.
   support, and clearance from an offset boundary, distance, resolution, and
   keepout anti-area. This is deliberately a composition fixture, not a
   permutation catalog.
-- Sentence-like grammar work is currently fixture-only in
-  `Gojo.Encoding.Tests`. The sample `red trace near pin` is encoded as token
-  order, lexical candidates, a modifier candidate, a low-resolution position
-  witness between trace and pin, two phrase candidates, a selected coarse read,
-  an interpretation bundle, and a grammar trace. The token `near` is provenance
-  for the position read; the meaning comes from the low-resolution position on a
-  ground, not from a stored preposition concept tree. The same fixture area now
-  includes generic interval reads over carrier structure: start, center, end,
-  and coarse bands are discovered from points, segments, and dependencies. A
-  later context read can project the same structural role as spatial words such
-  as `near`/`far` or temporal words such as `before`/`after`, while an
-  unprojected context still leaves the lower structural role readable.
+- Sentence-like grammar work is still fixture-only in `Gojo.Encoding.Tests`.
+  The sample `red trace near pin` is encoded as token order, lexical candidates,
+  a modifier candidate, a low-resolution position witness between trace and pin,
+  two phrase candidates, a selected coarse read, an interpretation bundle, and a
+  grammar trace. The token `near` is provenance for the position read; the
+  meaning comes from the low-resolution position on a ground, not from a stored
+  preposition concept tree.
+- The generic support underneath that grammar experiment now lives in
+  `Gojo.Encoding`. `IntervalBasisReadSurface` reads start, center, end, and
+  coarse bands from carrier points, segments, and dependencies.
+  `ContextualProjectionReadSurface` reads ordinary `ReadWitness` projections
+  from selected structure through a context surface. A later context read can
+  project the same structural role as spatial words such as `near`/`far` or
+  temporal words such as `before`/`after`, while an unprojected context still
+  leaves the lower structural role readable. Multiple projections can remain
+  visible through the `TryReadAll` forms instead of being collapsed early.
 - `GojoStructureEncodingSurface` stores a diagnostic snapshot of a currently
   visible Gojo element tree as relation-shaped integer rows. It is useful for
   debugging and transport experiments, but it is not the canonical conceptual

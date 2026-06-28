@@ -539,10 +539,11 @@ A practical path forward:
 
 ## Current Test Foothold
 
-The first executable slice is intentionally fixture-only in
-`Gojo.Encoding.Tests`. That keeps sentence-like experiments out of the kernel
-and out of production encoding architecture while still requiring them to be
-relation-shaped and inspectable.
+The first sentence-like slice is intentionally fixture-only in
+`Gojo.Encoding.Tests`. That keeps language experiments out of the kernel while
+still requiring them to be relation-shaped and inspectable. The smaller
+interval and contextual projection reads have been extracted into
+`Gojo.Encoding` because they are generic structural reads, not sentence grammar.
 
 Current fixture:
 
@@ -550,8 +551,8 @@ Current fixture:
 RedTraceNearPinGrammarFixture.CreateLedger
 RedTraceNearPinGrammarFixture.CreatePerspectiveRelativeLedger
 GrammarFixtureReadSurface.TryReadGrammar
-CommonIntervalReadSurface.TryRead / TryLocate
-ContextualIntervalProjectionReadSurface.TryProject
+IntervalBasisReadSurface.TryRead / TryLocate
+ContextualProjectionReadSurface.TryRead / TryReadAt
 ```
 
 The fixture encodes:
@@ -567,13 +568,15 @@ unresolved color basis, exact position, and alternate attachment. The token
 `near` is provenance for that read; the near-like meaning comes from the
 low-resolution position on a ground, not from a stored preposition concept tree.
 
-The next test foothold reads a generic interval from structure alone. A carrier
-span has start, center, and end landmarks plus coarse bands. Those are not
-English words yet; they are low-resolution positions against a basis. A spatial
-context can project the start band as `near` and the end band as `far`; a
-temporal context can project the same start and end bands as `before` and
+The extracted generic foothold reads an interval from structure alone. A
+carrier span has start, center, and end landmarks plus coarse bands. Those are
+not English words yet; they are low-resolution positions against a basis. A
+spatial context can project the start band as `near` and the end band as `far`;
+a temporal context can project the same start and end bands as `before` and
 `after`. If a context has no projection witness, the interval role still reads
-and the context-specific word simply remains unresolved.
+and the context-specific word simply remains unresolved. If several projection
+witnesses fit, the read surface can return them together so alternatives remain
+available for later settlement.
 
 This is enough to begin the CAD-first grammar vertical slice. It is not enough
 to freeze the packet format or claim a general language parser. The next lower

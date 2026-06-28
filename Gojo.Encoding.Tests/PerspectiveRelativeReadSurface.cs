@@ -52,7 +52,7 @@ internal static class PerspectiveRelativeReadSurface
 
             var sourceDeltaTicks = Math.Abs(selectedSite.Ticks - origin.Ticks);
             var relativeTicks = CeilingDivide(sourceDeltaTicks, sourceTicksPerReadTick);
-            var intervalLocation = CommonIntervalReadSurface.TryLocate(
+            var intervalLocation = IntervalBasisReadSurface.TryLocate(
                     graph,
                     coarseCarrier,
                     relativeTicks,

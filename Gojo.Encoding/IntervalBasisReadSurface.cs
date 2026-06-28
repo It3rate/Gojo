@@ -1,13 +1,14 @@
 using Gojo.Core;
 
-namespace Gojo.Encoding.Tests;
+namespace Gojo.Encoding;
 
 /// <summary>
-/// Test-only reader for generic one-dimensional interval utilities. It reads
-/// start, center, end, and adjacent bands from carrier points/segments and
-/// dependency structure, without depending on the readable names of the bands.
+/// Reads a simple one-dimensional interval basis from local definition
+/// structure. Start, center, end, and coarse bands are read outcomes over
+/// carrier points/segments and dependency edges; the labels are not stored
+/// grammar concepts.
 /// </summary>
-internal static class CommonIntervalReadSurface
+public static class IntervalBasisReadSurface
 {
     public readonly record struct IntervalBandRead(
         string DefinitionName,

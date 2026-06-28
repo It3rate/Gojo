@@ -180,7 +180,7 @@ public sealed class RedTraceNearPinGrammarFixtureTests
         Assert.Equal("far", perspectiveB.Qualifier);
 
         Assert.True(ConceptDefinitionDiscoverySurface.TryReadLedger(ledger, out var graph));
-        Assert.True(CommonIntervalReadSurface.TryRead(graph, out var intervals));
+        Assert.True(IntervalBasisReadSurface.TryRead(graph, out var intervals));
         var interval = Assert.Single(intervals);
         Assert.Equal("relative-interval", interval.DefinitionName);
         Assert.Equal("interval-start", interval.StartLandmark);

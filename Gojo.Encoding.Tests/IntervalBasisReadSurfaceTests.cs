@@ -1,10 +1,9 @@
 using Gojo.Core;
 using Gojo.Encoding;
-using Gojo.Structures;
 
 namespace Gojo.Encoding.Tests;
 
-public sealed class CommonIntervalReadSurfaceTests
+public sealed class IntervalBasisReadSurfaceTests
 {
     [Fact]
     public void IntervalReaderUsesStructureRatherThanBandNames()
@@ -38,7 +37,7 @@ public sealed class CommonIntervalReadSurfaceTests
         var ledger = ConceptDefinitionSurface.Ledger(new Carrier(), definitions);
 
         Assert.True(ConceptDefinitionDiscoverySurface.TryReadLedger(ledger, out var graph));
-        Assert.True(CommonIntervalReadSurface.TryRead(graph, out var intervals));
+        Assert.True(IntervalBasisReadSurface.TryRead(graph, out var intervals));
 
         var read = Assert.Single(intervals);
         Assert.Equal("useful span", read.DefinitionName);
@@ -59,15 +58,15 @@ public sealed class CommonIntervalReadSurfaceTests
             band.DefinitionName == "exit window" &&
             band.Role == "end");
 
-        Assert.True(CommonIntervalReadSurface.TryLocate(graph, axis, 0, out var startLocation));
+        Assert.True(IntervalBasisReadSurface.TryLocate(graph, axis, 0, out var startLocation));
         Assert.Equal("entry window", startLocation.BandName);
         Assert.Equal("start", startLocation.Role);
 
-        Assert.True(CommonIntervalReadSurface.TryLocate(graph, axis, 4, out var centerLocation));
+        Assert.True(IntervalBasisReadSurface.TryLocate(graph, axis, 4, out var centerLocation));
         Assert.Equal("balance window", centerLocation.BandName);
         Assert.Equal("center", centerLocation.Role);
 
-        Assert.True(CommonIntervalReadSurface.TryLocate(graph, axis, 9, out var endLocation));
+        Assert.True(IntervalBasisReadSurface.TryLocate(graph, axis, 9, out var endLocation));
         Assert.Equal("exit window", endLocation.BandName);
         Assert.Equal("end", endLocation.Role);
     }
@@ -105,6 +104,7 @@ public sealed class CommonIntervalReadSurfaceTests
         var temporalContext = Add("temporal context", ConceptAddressSurface.Atom(new Carrier(), "temporal"));
 
         AddProjection("spatial entry projection", entry, spatialContext, "near");
+        AddProjection("spatial entry alternate projection", entry, spatialContext, "close-ish");
         AddProjection("spatial middle projection", middle, spatialContext, "middle");
         AddProjection("spatial exit projection", exit, spatialContext, "far");
         AddProjection("temporal entry projection", entry, temporalContext, "before");
@@ -114,33 +114,49 @@ public sealed class CommonIntervalReadSurfaceTests
         var ledger = ConceptDefinitionSurface.Ledger(new Carrier(), definitions);
 
         Assert.True(ConceptDefinitionDiscoverySurface.TryReadLedger(ledger, out var graph));
-        Assert.True(ContextualIntervalProjectionReadSurface.TryProject(graph, spatialContext, axis, 1, out var spatialStart));
-        Assert.True(ContextualIntervalProjectionReadSurface.TryProject(graph, temporalContext, axis, 1, out var temporalStart));
-        Assert.True(ContextualIntervalProjectionReadSurface.TryProject(graph, spatialContext, axis, 10, out var spatialEnd));
-        Assert.True(ContextualIntervalProjectionReadSurface.TryProject(graph, temporalContext, axis, 10, out var temporalEnd));
+        Assert.True(ContextualProjectionReadSurface.TryReadAt(graph, spatialContext, axis, 1, out var spatialStart));
+        Assert.True(ContextualProjectionReadSurface.TryReadAt(graph, temporalContext, axis, 1, out var temporalStart));
+        Assert.True(ContextualProjectionReadSurface.TryReadAt(graph, spatialContext, axis, 10, out var spatialEnd));
+        Assert.True(ContextualProjectionReadSurface.TryReadAt(graph, temporalContext, axis, 10, out var temporalEnd));
 
-        Assert.Equal("start", spatialStart.Role);
-        Assert.Equal(spatialStart.Role, temporalStart.Role);
-        Assert.Equal("near", spatialStart.Projection);
-        Assert.Equal("before", temporalStart.Projection);
-        Assert.Equal("end", spatialEnd.Role);
-        Assert.Equal(spatialEnd.Role, temporalEnd.Role);
-        Assert.Equal("far", spatialEnd.Projection);
-        Assert.Equal("after", temporalEnd.Projection);
+        Assert.Equal("start", spatialStart.Location.Role);
+        Assert.Equal(spatialStart.Location.Role, temporalStart.Location.Role);
+        Assert.Equal("near", spatialStart.Projection.ResultDebug);
+        Assert.Equal("before", temporalStart.Projection.ResultDebug);
+        Assert.Equal("end", spatialEnd.Location.Role);
+        Assert.Equal(spatialEnd.Location.Role, temporalEnd.Location.Role);
+        Assert.Equal("far", spatialEnd.Projection.ResultDebug);
+        Assert.Equal("after", temporalEnd.Projection.ResultDebug);
+        Assert.True(ContextualProjectionReadSurface.TryReadAtAll(graph, spatialContext, axis, 1, out var spatialStartReads));
+        Assert.Equal(["near", "close-ish"], spatialStartReads.Select(item => item.Projection.ResultDebug).ToArray());
 
         var unresolvedContext = Add("unresolved context", ConceptAddressSurface.Atom(new Carrier(), "unresolved"));
         var unresolvedLedger = ConceptDefinitionSurface.Ledger(new Carrier(), definitions);
 
         Assert.True(ConceptDefinitionDiscoverySurface.TryReadLedger(unresolvedLedger, out var unresolvedGraph));
-        Assert.True(CommonIntervalReadSurface.TryLocate(unresolvedGraph, axis, 1, out var unresolvedLocation));
+        Assert.True(IntervalBasisReadSurface.TryLocate(unresolvedGraph, axis, 1, out var unresolvedLocation));
         Assert.Equal("start", unresolvedLocation.Role);
-        Assert.False(ContextualIntervalProjectionReadSurface.TryProject(unresolvedGraph, unresolvedContext, axis, 1, out _));
+        Assert.False(ContextualProjectionReadSurface.TryReadAt(unresolvedGraph, unresolvedContext, axis, 1, out _));
+
+        var snapshot = GojoStructureEncodingSurface.CreateDiagnosticSnapshot(
+            new Carrier(),
+            "grammar/contextual-interval-projection",
+            unresolvedLedger);
+        var document = GojoStructureEncodingJson.StructureFromSurface(snapshot);
+        var json = GojoStructureEncodingJson.SerializeStructure(document);
+        var deserialized = GojoStructureEncodingJson.DeserializeStructure(json);
+        var rewritten = GojoStructureEncodingJson.SerializeStructure(deserialized);
+
+        Assert.Equal(json, rewritten);
+        Assert.Equal("grammar/contextual-interval-projection", deserialized.SourceId);
+        Assert.NotEmpty(deserialized.Relations);
+        Assert.NotEmpty(deserialized.CarrierLocations);
 
         void AddProjection(string name, Relation band, Relation context, string projection)
         {
             Add(
                 name,
-                ReadWitness.Create(
+                ContextualProjectionReadSurface.Create(
                     new Carrier(),
                     band,
                     context,
