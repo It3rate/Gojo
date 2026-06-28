@@ -170,12 +170,35 @@ public sealed class RedTraceNearPinGrammarFixtureTests
         Assert.Equal(80, perspectiveB.SourceDeltaTicks);
         Assert.Equal(1, perspectiveA.RelativeTicks);
         Assert.Equal(8, perspectiveB.RelativeTicks);
+        Assert.Equal("relative-interval", perspectiveA.IntervalName);
+        Assert.Equal("relative-interval", perspectiveB.IntervalName);
         Assert.Equal("origin-band", perspectiveA.IntervalBand);
         Assert.Equal("end-band", perspectiveB.IntervalBand);
+        Assert.Equal("start", perspectiveA.IntervalRole);
+        Assert.Equal("end", perspectiveB.IntervalRole);
         Assert.Equal("near", perspectiveA.Qualifier);
         Assert.Equal("far", perspectiveB.Qualifier);
 
         Assert.True(ConceptDefinitionDiscoverySurface.TryReadLedger(ledger, out var graph));
+        Assert.True(CommonIntervalReadSurface.TryRead(graph, out var intervals));
+        var interval = Assert.Single(intervals);
+        Assert.Equal("relative-interval", interval.DefinitionName);
+        Assert.Equal("interval-start", interval.StartLandmark);
+        Assert.Equal("interval-center", interval.CenterLandmark);
+        Assert.Equal("interval-end", interval.EndLandmark);
+        Assert.Contains(interval.Bands, band =>
+            band.DefinitionName == "origin-band" &&
+            band.Role == "start" &&
+            band.Qualifier == "near");
+        Assert.Contains(interval.Bands, band =>
+            band.DefinitionName == "center-band" &&
+            band.Role == "center" &&
+            band.Qualifier == "middle");
+        Assert.Contains(interval.Bands, band =>
+            band.DefinitionName == "end-band" &&
+            band.Role == "end" &&
+            band.Qualifier == "far");
+
         foreach (var name in new[] { "perspective-a", "perspective-b" })
         {
             Assert.True(graph.TryFindByName(name, out var perspective));

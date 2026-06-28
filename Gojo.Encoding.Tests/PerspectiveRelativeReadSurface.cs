@@ -16,7 +16,9 @@ internal static class PerspectiveRelativeReadSurface
         string Perspective,
         long SourceDeltaTicks,
         long RelativeTicks,
+        string IntervalName,
         string IntervalBand,
+        string IntervalRole,
         string Qualifier,
         string ResidueOrTension);
 
@@ -50,9 +52,13 @@ internal static class PerspectiveRelativeReadSurface
 
             var sourceDeltaTicks = Math.Abs(selectedSite.Ticks - origin.Ticks);
             var relativeTicks = CeilingDivide(sourceDeltaTicks, sourceTicksPerReadTick);
-            var qualifier = TryReadIntervalQualifier(graph, coarseCarrier, relativeTicks, out var intervalBand, out var bandQualifier)
-                ? bandQualifier
-                : "unsettled";
+            var intervalLocation = CommonIntervalReadSurface.TryLocate(
+                    graph,
+                    coarseCarrier,
+                    relativeTicks,
+                    out var located)
+                ? located
+                : default;
 
             reads.Add(new PerspectiveRelativeRead(
                 node.Name,
@@ -60,8 +66,10 @@ internal static class PerspectiveRelativeReadSurface
                 BodyNameOrDebug(graph, focus),
                 sourceDeltaTicks,
                 relativeTicks,
-                intervalBand,
-                qualifier,
+                intervalLocation.IntervalName,
+                intervalLocation.BandName,
+                intervalLocation.Role,
+                string.IsNullOrEmpty(intervalLocation.Qualifier) ? "unsettled" : intervalLocation.Qualifier,
                 ResidueText(residueOrTension)));
         }
 
@@ -126,65 +134,6 @@ internal static class PerspectiveRelativeReadSurface
             selectedSite.Carrier.SameIdentityAs(origin.Carrier);
     }
 
-    private static bool TryReadIntervalQualifier(
-        ConceptDefinitionDiscoverySurface.DefinitionGraph graph,
-        Carrier coarseCarrier,
-        long ticks,
-        out string intervalBand,
-        out string qualifier)
-    {
-        if (!TryReadIntervalEnd(graph, coarseCarrier, out var intervalEnd))
-        {
-            intervalBand = string.Empty;
-            qualifier = string.Empty;
-            return false;
-        }
-
-        foreach (var band in graph.Nodes)
-        {
-            if (!TryReadSegment(band.Read.Body, out var carrier, out var start, out var end) ||
-                !carrier.SameIdentityAs(coarseCarrier) ||
-                start == 0 && end == intervalEnd ||
-                ticks < start ||
-                ticks > end)
-            {
-                continue;
-            }
-
-            intervalBand = band.Name;
-            qualifier = start == 0
-                ? "near"
-                : end == intervalEnd
-                    ? "far"
-                    : "middle";
-            return true;
-        }
-
-        intervalBand = string.Empty;
-        qualifier = string.Empty;
-        return false;
-    }
-
-    private static bool TryReadIntervalEnd(
-        ConceptDefinitionDiscoverySurface.DefinitionGraph graph,
-        Carrier coarseCarrier,
-        out long intervalEnd)
-    {
-        intervalEnd = 0;
-        foreach (var node in graph.Nodes)
-        {
-            if (TryReadSegment(node.Read.Body, out var carrier, out var start, out var end) &&
-                carrier.SameIdentityAs(coarseCarrier) &&
-                start == 0 &&
-                end > intervalEnd)
-            {
-                intervalEnd = end;
-            }
-        }
-
-        return intervalEnd > 0;
-    }
-
     private static long CeilingDivide(long numerator, long denominator) =>
         numerator == 0
             ? 0
@@ -224,25 +173,6 @@ internal static class PerspectiveRelativeReadSurface
         }
 
         location = default;
-        return false;
-    }
-
-    private static bool TryReadSegment(IElement element, out Carrier carrier, out long start, out long end)
-    {
-        if (element is Relation segment &&
-            TryReadPoint(segment.Left, out var left) &&
-            TryReadPoint(segment.Right, out var right) &&
-            left.Carrier.SameIdentityAs(right.Carrier))
-        {
-            carrier = left.Carrier;
-            start = Math.Min(left.Ticks, right.Ticks);
-            end = Math.Max(left.Ticks, right.Ticks);
-            return true;
-        }
-
-        carrier = Carrier.Unknown;
-        start = 0;
-        end = 0;
         return false;
     }
 
