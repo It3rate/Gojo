@@ -158,18 +158,20 @@ public sealed class RedTraceNearPinGrammarFixtureTests
     [Fact]
     public void SameElementCanReadNearOrFarFromDifferentPerspective()
     {
-        var ledger = RedTraceNearPinGrammarFixture.CreatePerspectiveDistanceLedger(new Carrier());
+        var ledger = RedTraceNearPinGrammarFixture.CreatePerspectiveRelativeLedger(new Carrier());
 
-        Assert.True(PerspectiveDistanceReadSurface.TryRead(ledger, out var read));
+        Assert.True(PerspectiveRelativeReadSurface.TryRead(ledger, out var read));
 
-        var local = Assert.Single(read.Reads, item => item.DefinitionName == "same-element-local-perspective-read");
-        var remote = Assert.Single(read.Reads, item => item.DefinitionName == "same-element-remote-perspective-read");
-        Assert.Equal("same-element", local.Selected);
-        Assert.Equal(local.Selected, remote.Selected);
-        Assert.Equal(1, local.DistanceTicks);
-        Assert.Equal(8, remote.DistanceTicks);
-        Assert.Equal("near", local.Qualifier);
-        Assert.Equal("far", remote.Qualifier);
+        var perspectiveA = Assert.Single(read.Reads, item => item.DefinitionName == "same-element-perspective-a-read");
+        var perspectiveB = Assert.Single(read.Reads, item => item.DefinitionName == "same-element-perspective-b-read");
+        Assert.Equal("same-element", perspectiveA.Selected);
+        Assert.Equal(perspectiveA.Selected, perspectiveB.Selected);
+        Assert.Equal(2, perspectiveA.SourceDeltaTicks);
+        Assert.Equal(80, perspectiveB.SourceDeltaTicks);
+        Assert.Equal(1, perspectiveA.RelativeTicks);
+        Assert.Equal(8, perspectiveB.RelativeTicks);
+        Assert.Equal("near", perspectiveA.Qualifier);
+        Assert.Equal("far", perspectiveB.Qualifier);
 
         Assert.True(ConceptDefinitionSurface.TryReadLedger(ledger, out var definitions));
         var storedText = string.Join(

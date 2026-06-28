@@ -289,7 +289,7 @@ internal static class RedTraceNearPinGrammarFixture
         return ConceptDefinitionSurface.Ledger(root, definitions);
     }
 
-    public static Relation CreatePerspectiveDistanceLedger(Carrier root)
+    public static Relation CreatePerspectiveRelativeLedger(Carrier root)
     {
         var definitions = new List<Relation>();
 
@@ -309,55 +309,57 @@ internal static class RedTraceNearPinGrammarFixture
             return definition;
         }
 
-        var boardGround = new Carrier();
-        var relativeGround = new Carrier(UnitShape.ResolutionOf(boardGround.UnitShape, 10));
-        var element = Add("same-element", Address("Object", Atom("component"), Atom("board-site")));
-        var boardPosition = Add(
-            "same-element-board-position",
-            Relation.Point(boardGround, 50),
+        var sharedCarrier = new Carrier();
+        var coarseCarrier = new Carrier(UnitShape.ResolutionOf(sharedCarrier.UnitShape, 10));
+        var element = Add("same-element", Address("Participant", Atom("selected")));
+        var elementSite = Add(
+            "same-element-site",
+            Relation.Point(sharedCarrier, 80),
             [element],
-            Text("same underlying board position"));
-        var localPerspective = Add(
-            "local-read-perspective",
-            Address("Perspective", Atom("reader-at-48"), Atom("board-ground")),
-            [boardPosition],
-            Text("read origin is at board tick 48"));
-        var remotePerspective = Add(
-            "remote-read-perspective",
-            Address("Perspective", Atom("reader-at-0"), Atom("board-ground")),
-            [boardPosition],
-            Text("read origin is at board tick 0"));
-        var localRelativePosition = Add(
-            "same-element-local-relative-position",
-            Relation.Point(relativeGround, 1),
-            [element, boardPosition, localPerspective],
-            Text("relative position under local perspective"));
-        var remoteRelativePosition = Add(
-            "same-element-remote-relative-position",
-            Relation.Point(relativeGround, 8),
-            [element, boardPosition, remotePerspective],
-            Text("relative position under remote perspective"));
+            Text("same underlying site on the shared carrier"));
+        var originA = Add(
+            "read-origin-a",
+            Relation.Point(sharedCarrier, 78),
+            residueOrTension: Text("one read origin on the same carrier"));
+        var originB = Add(
+            "read-origin-b",
+            Relation.Point(sharedCarrier, 0),
+            residueOrTension: Text("another read origin on the same carrier"));
+        var coarseBasis = Add(
+            "coarse-read-basis",
+            Relation.Point(coarseCarrier, 0),
+            residueOrTension: Text("one coarse read tick spans ten source ticks"));
+        var perspectiveA = Add(
+            "perspective-a",
+            Address("Perspective", Atom("read-origin-a"), Atom("coarse-read-basis")),
+            [originA, coarseBasis],
+            Text("read perspective supplied by origin and coarse basis"));
+        var perspectiveB = Add(
+            "perspective-b",
+            Address("Perspective", Atom("read-origin-b"), Atom("coarse-read-basis")),
+            [originB, coarseBasis],
+            Text("read perspective supplied by origin and coarse basis"));
 
         Add(
-            "same-element-local-perspective-read",
+            "same-element-perspective-a-read",
             ReadWitness.Create(
                 new Carrier(),
                 element,
-                localPerspective,
-                Relation.Point(relativeGround, 1),
-                Text("distance qualifier is produced by the read, not stored on the element"),
-                localPerspective),
-            [element, boardPosition, localPerspective, localRelativePosition]);
+                perspectiveA,
+                Relation.Point(Carrier.Unknown, 0),
+                Text("relative qualifier remains open until the read compares site and origin"),
+                perspectiveA),
+            [element, elementSite, perspectiveA]);
         Add(
-            "same-element-remote-perspective-read",
+            "same-element-perspective-b-read",
             ReadWitness.Create(
                 new Carrier(),
                 element,
-                remotePerspective,
-                Relation.Point(relativeGround, 8),
-                Text("distance qualifier is produced by the read, not stored on the element"),
-                remotePerspective),
-            [element, boardPosition, remotePerspective, remoteRelativePosition]);
+                perspectiveB,
+                Relation.Point(Carrier.Unknown, 0),
+                Text("relative qualifier remains open until the read compares site and origin"),
+                perspectiveB),
+            [element, elementSite, perspectiveB]);
 
         return ConceptDefinitionSurface.Ledger(root, definitions);
     }
