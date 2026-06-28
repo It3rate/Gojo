@@ -312,32 +312,108 @@ internal static class RedTraceNearPinGrammarFixture
         var sharedCarrier = new Carrier();
         var coarseCarrier = new Carrier(UnitShape.ResolutionOf(sharedCarrier.UnitShape, 10));
         var element = Add("same-element", Address("Participant", Atom("selected")));
+        var elementSiteBody = Relation.Point(sharedCarrier, 80);
         var elementSite = Add(
             "same-element-site",
-            Relation.Point(sharedCarrier, 80),
+            elementSiteBody,
             [element],
             Text("same underlying site on the shared carrier"));
+        var originABody = Relation.Point(sharedCarrier, 78);
         var originA = Add(
             "read-origin-a",
-            Relation.Point(sharedCarrier, 78),
+            originABody,
             residueOrTension: Text("one read origin on the same carrier"));
+        var originBBody = Relation.Point(sharedCarrier, 0);
         var originB = Add(
             "read-origin-b",
-            Relation.Point(sharedCarrier, 0),
+            originBBody,
             residueOrTension: Text("another read origin on the same carrier"));
+        var coarseBasisBody = Relation.Point(coarseCarrier, 0);
         var coarseBasis = Add(
             "coarse-read-basis",
-            Relation.Point(coarseCarrier, 0),
+            coarseBasisBody,
             residueOrTension: Text("one coarse read tick spans ten source ticks"));
+        var relativeIntervalBody = Relation.Segment(coarseCarrier, 0, 8);
+        var relativeInterval = Add(
+            "relative-interval",
+            relativeIntervalBody,
+            [coarseBasis],
+            Text("generic relative read interval"));
+        var intervalStart = Add(
+            "interval-start",
+            Relation.Point(coarseCarrier, 0),
+            [relativeInterval],
+            Text("start landmark for the relative interval"));
+        var intervalCenter = Add(
+            "interval-center",
+            Relation.Point(coarseCarrier, 4),
+            [relativeInterval],
+            Text("center landmark for the relative interval"));
+        var intervalEnd = Add(
+            "interval-end",
+            Relation.Point(coarseCarrier, 8),
+            [relativeInterval],
+            Text("end landmark for the relative interval"));
+        var originBand = Add(
+            "origin-band",
+            Relation.Segment(coarseCarrier, 0, 1),
+            [relativeInterval, intervalStart],
+            Text("band adjacent to the read origin"));
+        var centerBand = Add(
+            "center-band",
+            Relation.Segment(coarseCarrier, 3, 5),
+            [relativeInterval, intervalCenter],
+            Text("band around the interval center"));
+        var endBand = Add(
+            "end-band",
+            Relation.Segment(coarseCarrier, 5, 8),
+            [relativeInterval, intervalEnd],
+            Text("band adjacent to the interval end"));
+        var focusBasisA = FocusSurface.Frame(
+            new Carrier(),
+            originABody,
+            coarseBasisBody,
+            relativeIntervalBody,
+            originBand,
+            centerBand,
+            endBand);
+        var focusBasisB = FocusSurface.Frame(
+            new Carrier(),
+            originBBody,
+            coarseBasisBody,
+            relativeIntervalBody,
+            originBand,
+            centerBand,
+            endBand);
+        var focusA = FocusSurface.Create(
+            new Carrier(),
+            element,
+            focusBasisA,
+            elementSiteBody,
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0),
+            Text("relative qualifier remains open until the read compares site and origin"),
+            originA);
+        var focusB = FocusSurface.Create(
+            new Carrier(),
+            element,
+            focusBasisB,
+            elementSiteBody,
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0),
+            Relation.Point(Carrier.Unknown, 0),
+            Text("relative qualifier remains open until the read compares site and origin"),
+            originB);
         var perspectiveA = Add(
             "perspective-a",
-            Address("Perspective", Atom("read-origin-a"), Atom("coarse-read-basis")),
-            [originA, coarseBasis],
+            focusA,
+            [element, elementSite, originA, coarseBasis, relativeInterval, originBand, centerBand, endBand],
             Text("read perspective supplied by origin and coarse basis"));
         var perspectiveB = Add(
             "perspective-b",
-            Address("Perspective", Atom("read-origin-b"), Atom("coarse-read-basis")),
-            [originB, coarseBasis],
+            focusB,
+            [element, elementSite, originB, coarseBasis, relativeInterval, originBand, centerBand, endBand],
             Text("read perspective supplied by origin and coarse basis"));
 
         Add(
@@ -345,7 +421,7 @@ internal static class RedTraceNearPinGrammarFixture
             ReadWitness.Create(
                 new Carrier(),
                 element,
-                perspectiveA,
+                focusA,
                 Relation.Point(Carrier.Unknown, 0),
                 Text("relative qualifier remains open until the read compares site and origin"),
                 perspectiveA),
@@ -355,7 +431,7 @@ internal static class RedTraceNearPinGrammarFixture
             ReadWitness.Create(
                 new Carrier(),
                 element,
-                perspectiveB,
+                focusB,
                 Relation.Point(Carrier.Unknown, 0),
                 Text("relative qualifier remains open until the read compares site and origin"),
                 perspectiveB),

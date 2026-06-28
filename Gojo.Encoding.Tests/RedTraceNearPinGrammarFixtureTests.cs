@@ -170,8 +170,18 @@ public sealed class RedTraceNearPinGrammarFixtureTests
         Assert.Equal(80, perspectiveB.SourceDeltaTicks);
         Assert.Equal(1, perspectiveA.RelativeTicks);
         Assert.Equal(8, perspectiveB.RelativeTicks);
+        Assert.Equal("origin-band", perspectiveA.IntervalBand);
+        Assert.Equal("end-band", perspectiveB.IntervalBand);
         Assert.Equal("near", perspectiveA.Qualifier);
         Assert.Equal("far", perspectiveB.Qualifier);
+
+        Assert.True(ConceptDefinitionDiscoverySurface.TryReadLedger(ledger, out var graph));
+        foreach (var name in new[] { "perspective-a", "perspective-b" })
+        {
+            Assert.True(graph.TryFindByName(name, out var perspective));
+            var focus = Assert.IsType<Relation>(perspective.Read.Body);
+            Assert.True(FocusSurface.TryRead(focus, out _, out _, out _, out _, out _, out _, out _, out _));
+        }
 
         Assert.True(ConceptDefinitionSurface.TryReadLedger(ledger, out var definitions));
         var storedText = string.Join(
@@ -179,6 +189,7 @@ public sealed class RedTraceNearPinGrammarFixtureTests
             definitions
                 .Select(ConceptDefinitionInspection.DefinitionJson)
                 .Select(row => $"{row.Name} {row.Body} {row.ResidueOrTension}"));
+        Assert.DoesNotContain("Perspective(", storedText, StringComparison.OrdinalIgnoreCase);
         Assert.DoesNotContain("near", storedText, StringComparison.OrdinalIgnoreCase);
         Assert.DoesNotContain("far", storedText, StringComparison.OrdinalIgnoreCase);
     }

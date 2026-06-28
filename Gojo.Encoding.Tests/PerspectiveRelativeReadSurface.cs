@@ -16,6 +16,7 @@ internal static class PerspectiveRelativeReadSurface
         string Perspective,
         long SourceDeltaTicks,
         long RelativeTicks,
+        string IntervalBand,
         string Qualifier,
         string ResidueOrTension);
 
@@ -36,28 +37,31 @@ internal static class PerspectiveRelativeReadSurface
                 !ReadWitness.TryRead(
                     witness,
                     out var selected,
-                    out var perspective,
+                    out var focusSurface,
                     out _,
                     out var residueOrTension,
                     out _) ||
                 !graph.TryFind(selected, out var selectedNode) ||
-                !graph.TryFind(perspective, out var perspectiveNode) ||
-                !TryReadPerspective(graph, perspectiveNode, out var origin, out var sourceTicksPerReadTick) ||
-                !TryReadSelectedSite(graph, node, selectedNode, origin.Carrier, out var selectedSite))
+                focusSurface is not Relation focus ||
+                !TryReadFocusPerspective(focus, selectedNode, out var selectedSite, out var origin, out var coarseCarrier, out var sourceTicksPerReadTick))
             {
                 continue;
             }
 
             var sourceDeltaTicks = Math.Abs(selectedSite.Ticks - origin.Ticks);
             var relativeTicks = CeilingDivide(sourceDeltaTicks, sourceTicksPerReadTick);
+            var qualifier = TryReadIntervalQualifier(graph, coarseCarrier, relativeTicks, out var intervalBand, out var bandQualifier)
+                ? bandQualifier
+                : "unsettled";
 
             reads.Add(new PerspectiveRelativeRead(
                 node.Name,
                 ConceptDefinitionInspection.ElementDebug(selected),
-                ConceptDefinitionInspection.ElementDebug(perspective),
+                BodyNameOrDebug(graph, focus),
                 sourceDeltaTicks,
                 relativeTicks,
-                Qualify(relativeTicks),
+                intervalBand,
+                qualifier,
                 ResidueText(residueOrTension)));
         }
 
@@ -65,25 +69,41 @@ internal static class PerspectiveRelativeReadSurface
         return reads.Count > 0;
     }
 
-    private static bool TryReadPerspective(
-        ConceptDefinitionDiscoverySurface.DefinitionGraph graph,
-        ConceptDefinitionDiscoverySurface.DefinitionNode perspective,
+    private static bool TryReadFocusPerspective(
+        Relation focus,
+        ConceptDefinitionDiscoverySurface.DefinitionNode selected,
+        out CarrierLocation selectedSite,
         out CarrierLocation origin,
+        out Carrier coarseCarrier,
         out long sourceTicksPerReadTick)
     {
-        if (!graph.TryReadCompoundBody(perspective, out var body) ||
-            body.Lexical != "Perspective")
+        if (!FocusSurface.TryRead(
+                focus,
+                out var source,
+                out var focusBasis,
+                out var participation,
+                out _,
+                out _,
+                out _,
+                out _,
+                out _) ||
+            !ReferenceEquals(source, selected.Definition) ||
+            !TryReadPoint(participation, out selectedSite) ||
+            !FocusSurface.TryReadFrame(focusBasis, out var focusBasisElements))
         {
+            selectedSite = default;
             origin = default;
+            coarseCarrier = Carrier.Unknown;
             sourceTicksPerReadTick = 0;
             return false;
         }
 
         origin = default;
+        coarseCarrier = Carrier.Unknown;
         sourceTicksPerReadTick = 0;
-        foreach (var dependency in graph.DependenciesOf(perspective))
+        foreach (var element in focusBasisElements)
         {
-            if (!TryReadPoint(dependency.Read.Body, out var point))
+            if (!TryReadPoint(element, out var point))
             {
                 continue;
             }
@@ -91,6 +111,7 @@ internal static class PerspectiveRelativeReadSurface
             if (point.Carrier.UnitShape.TryReadResolution(out _, out var sourceTicks) &&
                 sourceTicks > 0)
             {
+                coarseCarrier = point.Carrier;
                 sourceTicksPerReadTick = sourceTicks;
             }
             else
@@ -99,42 +120,90 @@ internal static class PerspectiveRelativeReadSurface
             }
         }
 
-        return sourceTicksPerReadTick > 0 && !origin.Carrier.IsUnknown;
+        return sourceTicksPerReadTick > 0 &&
+            !origin.Carrier.IsUnknown &&
+            !coarseCarrier.IsUnknown &&
+            selectedSite.Carrier.SameIdentityAs(origin.Carrier);
     }
 
-    private static bool TryReadSelectedSite(
+    private static bool TryReadIntervalQualifier(
         ConceptDefinitionDiscoverySurface.DefinitionGraph graph,
-        ConceptDefinitionDiscoverySurface.DefinitionNode read,
-        ConceptDefinitionDiscoverySurface.DefinitionNode selected,
-        Carrier sourceCarrier,
-        out CarrierLocation site)
+        Carrier coarseCarrier,
+        long ticks,
+        out string intervalBand,
+        out string qualifier)
     {
-        foreach (var dependency in graph.DependenciesOf(read))
+        if (!TryReadIntervalEnd(graph, coarseCarrier, out var intervalEnd))
         {
-            if (graph.DependsOn(dependency, selected) &&
-                TryReadPoint(dependency.Read.Body, out var point) &&
-                point.Carrier.SameIdentityAs(sourceCarrier))
-            {
-                site = point;
-                return true;
-            }
+            intervalBand = string.Empty;
+            qualifier = string.Empty;
+            return false;
         }
 
-        site = default;
+        foreach (var band in graph.Nodes)
+        {
+            if (!TryReadSegment(band.Read.Body, out var carrier, out var start, out var end) ||
+                !carrier.SameIdentityAs(coarseCarrier) ||
+                start == 0 && end == intervalEnd ||
+                ticks < start ||
+                ticks > end)
+            {
+                continue;
+            }
+
+            intervalBand = band.Name;
+            qualifier = start == 0
+                ? "near"
+                : end == intervalEnd
+                    ? "far"
+                    : "middle";
+            return true;
+        }
+
+        intervalBand = string.Empty;
+        qualifier = string.Empty;
         return false;
     }
 
-    private static string Qualify(long ticks) =>
-        ticks <= 1
-            ? "near"
-            : ticks >= 5
-                ? "far"
-                : "middle";
+    private static bool TryReadIntervalEnd(
+        ConceptDefinitionDiscoverySurface.DefinitionGraph graph,
+        Carrier coarseCarrier,
+        out long intervalEnd)
+    {
+        intervalEnd = 0;
+        foreach (var node in graph.Nodes)
+        {
+            if (TryReadSegment(node.Read.Body, out var carrier, out var start, out var end) &&
+                carrier.SameIdentityAs(coarseCarrier) &&
+                start == 0 &&
+                end > intervalEnd)
+            {
+                intervalEnd = end;
+            }
+        }
+
+        return intervalEnd > 0;
+    }
 
     private static long CeilingDivide(long numerator, long denominator) =>
         numerator == 0
             ? 0
             : checked(((numerator - 1) / denominator) + 1);
+
+    private static string BodyNameOrDebug(
+        ConceptDefinitionDiscoverySurface.DefinitionGraph graph,
+        IElement body)
+    {
+        foreach (var node in graph.Nodes)
+        {
+            if (ReferenceEquals(node.Read.Body, body))
+            {
+                return node.Name;
+            }
+        }
+
+        return ConceptDefinitionInspection.ElementDebug(body);
+    }
 
     private static string ResidueText(IElement element) =>
         IsUnknownPoint(element)
@@ -155,6 +224,25 @@ internal static class PerspectiveRelativeReadSurface
         }
 
         location = default;
+        return false;
+    }
+
+    private static bool TryReadSegment(IElement element, out Carrier carrier, out long start, out long end)
+    {
+        if (element is Relation segment &&
+            TryReadPoint(segment.Left, out var left) &&
+            TryReadPoint(segment.Right, out var right) &&
+            left.Carrier.SameIdentityAs(right.Carrier))
+        {
+            carrier = left.Carrier;
+            start = Math.Min(left.Ticks, right.Ticks);
+            end = Math.Max(left.Ticks, right.Ticks);
+            return true;
+        }
+
+        carrier = Carrier.Unknown;
+        start = 0;
+        end = 0;
         return false;
     }
 
