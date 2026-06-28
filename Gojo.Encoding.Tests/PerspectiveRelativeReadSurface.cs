@@ -69,7 +69,7 @@ internal static class PerspectiveRelativeReadSurface
                 intervalLocation.IntervalName,
                 intervalLocation.BandName,
                 intervalLocation.Role,
-                string.IsNullOrEmpty(intervalLocation.Qualifier) ? "unsettled" : intervalLocation.Qualifier,
+                QualifierFor(intervalLocation.Role),
                 ResidueText(residueOrTension)));
         }
 
@@ -138,6 +138,15 @@ internal static class PerspectiveRelativeReadSurface
         numerator == 0
             ? 0
             : checked(((numerator - 1) / denominator) + 1);
+
+    private static string QualifierFor(string role) =>
+        role switch
+        {
+            "start" => "near",
+            "center" => "middle",
+            "end" => "far",
+            _ => "unsettled"
+        };
 
     private static string BodyNameOrDebug(
         ConceptDefinitionDiscoverySurface.DefinitionGraph graph,

@@ -188,16 +188,13 @@ public sealed class RedTraceNearPinGrammarFixtureTests
         Assert.Equal("interval-end", interval.EndLandmark);
         Assert.Contains(interval.Bands, band =>
             band.DefinitionName == "origin-band" &&
-            band.Role == "start" &&
-            band.Qualifier == "near");
+            band.Role == "start");
         Assert.Contains(interval.Bands, band =>
             band.DefinitionName == "center-band" &&
-            band.Role == "center" &&
-            band.Qualifier == "middle");
+            band.Role == "center");
         Assert.Contains(interval.Bands, band =>
             band.DefinitionName == "end-band" &&
-            band.Role == "end" &&
-            band.Qualifier == "far");
+            band.Role == "end");
 
         foreach (var name in new[] { "perspective-a", "perspective-b" })
         {

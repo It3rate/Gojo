@@ -50,16 +50,13 @@ public sealed class CommonIntervalReadSurfaceTests
 
         Assert.Contains(read.Bands, band =>
             band.DefinitionName == "entry window" &&
-            band.Role == "start" &&
-            band.Qualifier == "near");
+            band.Role == "start");
         Assert.Contains(read.Bands, band =>
             band.DefinitionName == "balance window" &&
-            band.Role == "center" &&
-            band.Qualifier == "middle");
+            band.Role == "center");
         Assert.Contains(read.Bands, band =>
             band.DefinitionName == "exit window" &&
-            band.Role == "end" &&
-            band.Qualifier == "far");
+            band.Role == "end");
 
         Assert.True(CommonIntervalReadSurface.TryLocate(graph, axis, 0, out var startLocation));
         Assert.Equal("entry window", startLocation.BandName);

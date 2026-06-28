@@ -13,8 +13,7 @@ internal static class CommonIntervalReadSurface
         string DefinitionName,
         long StartTicks,
         long EndTicks,
-        string Role,
-        string Qualifier);
+        string Role);
 
     public readonly record struct IntervalRead(
         string DefinitionName,
@@ -31,8 +30,7 @@ internal static class CommonIntervalReadSurface
         string IntervalName,
         long Ticks,
         string BandName,
-        string Role,
-        string Qualifier);
+        string Role);
 
     public static bool TryRead(
         ConceptDefinitionDiscoverySurface.DefinitionGraph graph,
@@ -105,8 +103,7 @@ internal static class CommonIntervalReadSurface
                         interval.DefinitionName,
                         ticks,
                         band.DefinitionName,
-                        band.Role,
-                        band.Qualifier);
+                        band.Role);
                     return true;
                 }
             }
@@ -140,8 +137,7 @@ internal static class CommonIntervalReadSurface
                 node.Name,
                 start,
                 end,
-                role,
-                QualifierFor(role)));
+                role));
         }
 
         return [.. bands];
@@ -171,15 +167,6 @@ internal static class CommonIntervalReadSurface
 
         return "interior";
     }
-
-    private static string QualifierFor(string role) =>
-        role switch
-        {
-            "start" => "near",
-            "center" => "middle",
-            "end" => "far",
-            _ => "unsettled"
-        };
 
     private static bool TryFindLandmark(
         ConceptDefinitionDiscoverySurface.DefinitionGraph graph,
