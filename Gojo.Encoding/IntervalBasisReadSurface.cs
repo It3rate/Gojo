@@ -1,12 +1,13 @@
 using Gojo.Core;
+using Gojo.Structures;
 
 namespace Gojo.Encoding;
 
 /// <summary>
 /// Reads a simple one-dimensional interval basis from local definition
-/// structure. Start, center, end, and coarse bands are read outcomes over
-/// carrier points/segments and dependency edges; the labels are not stored
-/// grammar concepts.
+/// structure. Start, center, end, and coarse bands are read outcomes over a
+/// carrier segment plus optional landmark/band evidence or derived read
+/// witnesses; the labels are not stored grammar concepts.
 /// </summary>
 public static class IntervalBasisReadSurface
 {
@@ -51,12 +52,15 @@ public static class IntervalBasisReadSurface
             }
 
             var center = start + ((end - start) / 2);
-            if (!TryFindLandmark(graph, node, carrier, start, out var startLandmark) ||
-                !TryFindLandmark(graph, node, carrier, center, out var centerLandmark) ||
-                !TryFindLandmark(graph, node, carrier, end, out var endLandmark))
-            {
-                continue;
-            }
+            var startLandmarkName = TryFindLandmark(graph, node, carrier, start, out var startLandmark)
+                ? startLandmark.Name
+                : "derived-startpoint";
+            var centerLandmarkName = TryFindLandmark(graph, node, carrier, center, out var centerLandmark)
+                ? centerLandmark.Name
+                : "derived-centerpoint";
+            var endLandmarkName = TryFindLandmark(graph, node, carrier, end, out var endLandmark)
+                ? endLandmark.Name
+                : "derived-endpoint";
 
             var bands = ReadBands(graph, node, carrier, start, center, end);
             if (bands.Length == 0)
@@ -71,9 +75,9 @@ public static class IntervalBasisReadSurface
                 start,
                 center,
                 end,
-                startLandmark.Name,
-                centerLandmark.Name,
-                endLandmark.Name,
+                startLandmarkName,
+                centerLandmarkName,
+                endLandmarkName,
                 bands));
         }
 
@@ -132,8 +136,25 @@ public static class IntervalBasisReadSurface
         var bands = new List<IntervalBandRead>();
         foreach (var node in graph.Nodes)
         {
-            if (node.Index == interval.Index ||
-                !graph.DependsOn(node, interval) ||
+            if (node.Index == interval.Index)
+            {
+                continue;
+            }
+
+            if (TryReadDerivedBand(
+                node,
+                interval,
+                carrier,
+                intervalStart,
+                intervalCenter,
+                intervalEnd,
+                out var derivedBand))
+            {
+                bands.Add(derivedBand);
+                continue;
+            }
+
+            if (!graph.DependsOn(node, interval) ||
                 !TryReadSegment(node.Read.Body, out var bandCarrier, out var start, out var end) ||
                 !bandCarrier.SameIdentityAs(carrier))
             {
@@ -150,6 +171,40 @@ public static class IntervalBasisReadSurface
         }
 
         return [.. bands];
+    }
+
+    private static bool TryReadDerivedBand(
+        ConceptDefinitionDiscoverySurface.DefinitionNode node,
+        ConceptDefinitionDiscoverySurface.DefinitionNode interval,
+        Carrier carrier,
+        long intervalStart,
+        long intervalCenter,
+        long intervalEnd,
+        out IntervalBandRead band)
+    {
+        if (node.Read.Body is Relation witness &&
+            ReadWitness.TryRead(
+                witness,
+                out var selected,
+                out _,
+                out var result,
+                out _,
+                out _) &&
+            ReferenceEquals(selected, interval.Definition) &&
+            TryReadSegment(result, out var bandCarrier, out var start, out var end) &&
+            bandCarrier.SameIdentityAs(carrier))
+        {
+            band = new IntervalBandRead(
+                node.Name,
+                node.Definition,
+                start,
+                end,
+                BandRole(start, end, intervalStart, intervalCenter, intervalEnd));
+            return true;
+        }
+
+        band = default;
+        return false;
     }
 
     private static string BandRole(

@@ -92,7 +92,27 @@ The first implementation is intentionally tiny.
 - `GojoStructureEncodingSurface` stores a diagnostic snapshot of a currently
   visible Gojo element tree as relation-shaped integer rows. It is useful for
   debugging and transport experiments, but it is not the canonical conceptual
-  object.
+  object, and it is deliberately not used as the persisted grammar fixture
+  format.
+- `GojoStructureCompactJson` is the folded structure view used by grammar
+  fixtures. It writes ordered groups as one frame with an `elements` list,
+  writes points and segments as single nodes, and keeps repeated structure as
+  references instead of expanding every holder-origin point and attachment row.
+  Fixture writers may provide carrier role labels, so inspection files can say
+  `interval-axis`, `definition-frame`, or `projection-witness-frame` instead of
+  anonymous carrier ids. Those names are for interchange inspection; the Gojo
+  structure still carries meaning through connected carriers, points, segments,
+  ordered groups, and read witnesses.
+- `ConceptDefinitionInterchangeJson` is the compact counterpart for definition
+  ledgers. It stores human labels plus point/segment/text/witness/projection
+  bodies, dependency references, projection result labels, and residue labels. On
+  reload, definition names, projection results, and residue markers become
+  local structural points; the words remain outside the Gojo structure as
+  interchange labels. Duplicate labels remain inspectable as multiple matches,
+  and ambiguous references settle to unresolved structure instead of becoming a
+  global classifier. The grammar fixture has both forms: a compact interchange
+  file for human inspection, and a folded compact structure file generated from
+  the compact reload's label-free Gojo structure for reload coverage.
 - `ConceptAddressSurface` builds variable-length semantic addresses from atoms,
   compound parts, context, and residue/tension.
 

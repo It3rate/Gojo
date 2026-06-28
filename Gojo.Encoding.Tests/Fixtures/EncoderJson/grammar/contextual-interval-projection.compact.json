@@ -1,0 +1,231 @@
+{
+  "sourceId": "grammar/contextual-interval-projection",
+  "carriers": [
+    "interval-axis",
+    "context-axis",
+    "interval-role-axis"
+  ],
+  "definitions": [
+    {
+      "id": "shared span",
+      "body": {
+        "kind": "segment",
+        "carrier": "interval-axis",
+        "start": 0,
+        "end": 12
+      },
+      "dependsOn": []
+    },
+    {
+      "id": "spatial context",
+      "body": {
+        "kind": "point",
+        "carrier": "context-axis",
+        "ticks": 1
+      },
+      "dependsOn": []
+    },
+    {
+      "id": "temporal context",
+      "body": {
+        "kind": "point",
+        "carrier": "context-axis",
+        "ticks": 2
+      },
+      "dependsOn": []
+    },
+    {
+      "id": "unresolved context",
+      "body": {
+        "kind": "point",
+        "carrier": "context-axis",
+        "ticks": 3
+      },
+      "dependsOn": []
+    },
+    {
+      "id": "start read",
+      "body": {
+        "kind": "witness",
+        "selected": "shared span",
+        "readSurface": {
+          "kind": "point",
+          "carrier": "interval-role-axis",
+          "ticks": 1
+        },
+        "result": {
+          "kind": "segment",
+          "carrier": "interval-axis",
+          "start": 0,
+          "end": 2
+        },
+        "residueOrTension": "interval role read",
+        "provenance": "shared span"
+      },
+      "dependsOn": [
+        "shared span"
+      ],
+      "residueOrTension": "derived interval role"
+    },
+    {
+      "id": "center read",
+      "body": {
+        "kind": "witness",
+        "selected": "shared span",
+        "readSurface": {
+          "kind": "point",
+          "carrier": "interval-role-axis",
+          "ticks": 2
+        },
+        "result": {
+          "kind": "segment",
+          "carrier": "interval-axis",
+          "start": 5,
+          "end": 7
+        },
+        "residueOrTension": "interval role read",
+        "provenance": "shared span"
+      },
+      "dependsOn": [
+        "shared span"
+      ],
+      "residueOrTension": "derived interval role"
+    },
+    {
+      "id": "end read",
+      "body": {
+        "kind": "witness",
+        "selected": "shared span",
+        "readSurface": {
+          "kind": "point",
+          "carrier": "interval-role-axis",
+          "ticks": 3
+        },
+        "result": {
+          "kind": "segment",
+          "carrier": "interval-axis",
+          "start": 9,
+          "end": 12
+        },
+        "residueOrTension": "interval role read",
+        "provenance": "shared span"
+      },
+      "dependsOn": [
+        "shared span"
+      ],
+      "residueOrTension": "derived interval role"
+    },
+    {
+      "id": "spatial entry projection",
+      "body": {
+        "kind": "projection",
+        "selected": "start read",
+        "context": "spatial context",
+        "resultText": "near",
+        "residueOrTension": "context projection",
+        "provenance": "spatial context"
+      },
+      "dependsOn": [
+        "start read",
+        "spatial context"
+      ],
+      "residueOrTension": "local projection"
+    },
+    {
+      "id": "spatial entry alternate projection",
+      "body": {
+        "kind": "projection",
+        "selected": "start read",
+        "context": "spatial context",
+        "resultText": "close-ish",
+        "residueOrTension": "context projection",
+        "provenance": "spatial context"
+      },
+      "dependsOn": [
+        "start read",
+        "spatial context"
+      ],
+      "residueOrTension": "local projection"
+    },
+    {
+      "id": "spatial middle projection",
+      "body": {
+        "kind": "projection",
+        "selected": "center read",
+        "context": "spatial context",
+        "resultText": "middle",
+        "residueOrTension": "context projection",
+        "provenance": "spatial context"
+      },
+      "dependsOn": [
+        "center read",
+        "spatial context"
+      ],
+      "residueOrTension": "local projection"
+    },
+    {
+      "id": "spatial exit projection",
+      "body": {
+        "kind": "projection",
+        "selected": "end read",
+        "context": "spatial context",
+        "resultText": "far",
+        "residueOrTension": "context projection",
+        "provenance": "spatial context"
+      },
+      "dependsOn": [
+        "end read",
+        "spatial context"
+      ],
+      "residueOrTension": "local projection"
+    },
+    {
+      "id": "temporal entry projection",
+      "body": {
+        "kind": "projection",
+        "selected": "start read",
+        "context": "temporal context",
+        "resultText": "before",
+        "residueOrTension": "context projection",
+        "provenance": "temporal context"
+      },
+      "dependsOn": [
+        "start read",
+        "temporal context"
+      ],
+      "residueOrTension": "local projection"
+    },
+    {
+      "id": "temporal middle projection",
+      "body": {
+        "kind": "projection",
+        "selected": "center read",
+        "context": "temporal context",
+        "resultText": "during",
+        "residueOrTension": "context projection",
+        "provenance": "temporal context"
+      },
+      "dependsOn": [
+        "center read",
+        "temporal context"
+      ],
+      "residueOrTension": "local projection"
+    },
+    {
+      "id": "temporal exit projection",
+      "body": {
+        "kind": "projection",
+        "selected": "end read",
+        "context": "temporal context",
+        "resultText": "after",
+        "residueOrTension": "context projection",
+        "provenance": "temporal context"
+      },
+      "dependsOn": [
+        "end read",
+        "temporal context"
+      ],
+      "residueOrTension": "local projection"
+    }
+  ]
+}

@@ -1,3 +1,4 @@
+using System.Text.Json.Nodes;
 using Gojo.Core;
 using Gojo.Encoding;
 
@@ -74,44 +75,12 @@ public sealed class IntervalBasisReadSurfaceTests
     [Fact]
     public void ContextProjectionMapsSameIntervalRolesDifferently()
     {
-        var axis = new Carrier();
-        var definitions = new List<Relation>();
-
-        Relation Add(
-            string name,
-            IElement body,
-            IReadOnlyList<IElement>? dependencies = null,
-            IElement? residueOrTension = null)
-        {
-            var definition = ConceptDefinitionSurface.Create(
-                new Carrier(),
-                name,
-                body,
-                dependencies,
-                residueOrTension: residueOrTension);
-            definitions.Add(definition);
-            return definition;
-        }
-
-        var interval = Add("shared span", Relation.Segment(axis, 0, 12));
-        var start = Add("alpha", Relation.Point(axis, 0), [interval]);
-        var center = Add("balance", Relation.Point(axis, 6), [interval]);
-        var end = Add("omega", Relation.Point(axis, 12), [interval]);
-        var entry = Add("entry", Relation.Segment(axis, 0, 2), [interval, start]);
-        var middle = Add("middle", Relation.Segment(axis, 5, 7), [interval, center]);
-        var exit = Add("exit", Relation.Segment(axis, 9, 12), [interval, end]);
-        var spatialContext = Add("spatial context", ConceptAddressSurface.Atom(new Carrier(), "spatial"));
-        var temporalContext = Add("temporal context", ConceptAddressSurface.Atom(new Carrier(), "temporal"));
-
-        AddProjection("spatial entry projection", entry, spatialContext, "near");
-        AddProjection("spatial entry alternate projection", entry, spatialContext, "close-ish");
-        AddProjection("spatial middle projection", middle, spatialContext, "middle");
-        AddProjection("spatial exit projection", exit, spatialContext, "far");
-        AddProjection("temporal entry projection", entry, temporalContext, "before");
-        AddProjection("temporal middle projection", middle, temporalContext, "during");
-        AddProjection("temporal exit projection", exit, temporalContext, "after");
-
-        var ledger = ConceptDefinitionSurface.Ledger(new Carrier(), definitions);
+        var sample = CreateContextualIntervalProjectionSample();
+        var axis = sample.Axis;
+        var spatialContext = sample.SpatialContext;
+        var temporalContext = sample.TemporalContext;
+        var unresolvedContext = sample.UnresolvedContext;
+        var ledger = sample.Ledger;
 
         Assert.True(ConceptDefinitionDiscoverySurface.TryReadLedger(ledger, out var graph));
         Assert.True(ContextualProjectionReadSurface.TryReadAt(graph, spatialContext, axis, 1, out var spatialStart));
@@ -121,50 +90,327 @@ public sealed class IntervalBasisReadSurfaceTests
 
         Assert.Equal("start", spatialStart.Location.Role);
         Assert.Equal(spatialStart.Location.Role, temporalStart.Location.Role);
-        Assert.Equal("near", spatialStart.Projection.ResultDebug);
-        Assert.Equal("before", temporalStart.Projection.ResultDebug);
+        Assert.Equal("near", sample.LabeledLedger.ProjectionResultLabel(spatialStart.Projection));
+        Assert.Equal("before", sample.LabeledLedger.ProjectionResultLabel(temporalStart.Projection));
         Assert.Equal("end", spatialEnd.Location.Role);
         Assert.Equal(spatialEnd.Location.Role, temporalEnd.Location.Role);
-        Assert.Equal("far", spatialEnd.Projection.ResultDebug);
-        Assert.Equal("after", temporalEnd.Projection.ResultDebug);
+        Assert.Equal("far", sample.LabeledLedger.ProjectionResultLabel(spatialEnd.Projection));
+        Assert.Equal("after", sample.LabeledLedger.ProjectionResultLabel(temporalEnd.Projection));
         Assert.True(ContextualProjectionReadSurface.TryReadAtAll(graph, spatialContext, axis, 1, out var spatialStartReads));
-        Assert.Equal(["near", "close-ish"], spatialStartReads.Select(item => item.Projection.ResultDebug).ToArray());
+        Assert.Equal(
+            ["near", "close-ish"],
+            spatialStartReads.Select(item => sample.LabeledLedger.ProjectionResultLabel(item.Projection)).ToArray());
 
-        var unresolvedContext = Add("unresolved context", ConceptAddressSurface.Atom(new Carrier(), "unresolved"));
-        var unresolvedLedger = ConceptDefinitionSurface.Ledger(new Carrier(), definitions);
-
-        Assert.True(ConceptDefinitionDiscoverySurface.TryReadLedger(unresolvedLedger, out var unresolvedGraph));
+        Assert.True(ConceptDefinitionDiscoverySurface.TryReadLedger(ledger, out var unresolvedGraph));
         Assert.True(IntervalBasisReadSurface.TryLocate(unresolvedGraph, axis, 1, out var unresolvedLocation));
         Assert.Equal("start", unresolvedLocation.Role);
         Assert.False(ContextualProjectionReadSurface.TryReadAt(unresolvedGraph, unresolvedContext, axis, 1, out _));
 
-        var snapshot = GojoStructureEncodingSurface.CreateDiagnosticSnapshot(
-            new Carrier(),
-            "grammar/contextual-interval-projection",
-            unresolvedLedger);
-        var document = GojoStructureEncodingJson.StructureFromSurface(snapshot);
-        var json = GojoStructureEncodingJson.SerializeStructure(document);
-        var deserialized = GojoStructureEncodingJson.DeserializeStructure(json);
-        var rewritten = GojoStructureEncodingJson.SerializeStructure(deserialized);
+        var document = CompactStructureDocumentFrom(sample);
+        var json = GojoStructureCompactJson.Serialize(document);
+        var deserialized = GojoStructureCompactJson.Deserialize(json);
+        var rewritten = GojoStructureCompactJson.Serialize(deserialized);
 
         Assert.Equal(json, rewritten);
         Assert.Equal("grammar/contextual-interval-projection", deserialized.SourceId);
-        Assert.NotEmpty(deserialized.Relations);
-        Assert.NotEmpty(deserialized.CarrierLocations);
+        Assert.NotEmpty(deserialized.Nodes);
+        AssertReloadedSpatialStartAlternatives(deserialized);
+    }
 
-        void AddProjection(string name, Relation band, Relation context, string projection)
+    [Fact]
+    public void ContextProjectionDiagnosticJsonFixtureReloadsBackIntoReadableObjects()
+    {
+        var sample = CreateContextualIntervalProjectionSample();
+        var generated = GojoStructureCompactJson.Serialize(CompactStructureDocumentFrom(sample));
+        var fixture = File.ReadAllText(ContextProjectionFixturePath());
+        var reread = GojoStructureCompactJson.Deserialize(fixture);
+        var rewritten = GojoStructureCompactJson.Serialize(reread);
+
+        AssertJsonEquivalent(fixture, generated);
+        AssertJsonEquivalent(generated, rewritten);
+        Assert.InRange(reread.Counts.Carriers, 1, 11);
+        Assert.InRange(reread.Counts.Nodes, 1, 90);
+        Assert.Equal(39, reread.Counts.Groups);
+        Assert.Equal(4, reread.Counts.Segments);
+        Assert.Equal(0, reread.Counts.Relations);
+        AssertReloadedSpatialStartAlternatives(reread);
+    }
+
+    [Fact]
+    public void ContextProjectionCompactInterchangeJsonReloadsBackIntoReadableObjects()
+    {
+        var generated = ConceptDefinitionInterchangeJson.Serialize(CompactDocument());
+        var fixture = File.ReadAllText(ContextProjectionCompactFixturePath());
+        var reread = ConceptDefinitionInterchangeJson.Deserialize(fixture);
+        var rewritten = ConceptDefinitionInterchangeJson.Serialize(reread);
+
+        AssertJsonEquivalent(fixture, generated);
+        AssertJsonEquivalent(generated, rewritten);
+        Assert.Equal(
+            "witness",
+            Assert.Single(reread.Definitions, definition => definition.Id == "start read").Body.Kind);
+        AssertCompactReloadedSpatialStartAlternatives(reread);
+    }
+
+    private static GojoCompactStructureDocument CompactStructureDocumentFrom(ContextualIntervalProjectionSample sample) =>
+        GojoStructureCompactJson.FromElement(
+            "grammar/contextual-interval-projection",
+            sample.Ledger,
+            sample.LabeledLedger.CarrierLabels);
+
+    private static ContextualIntervalProjectionSample CreateContextualIntervalProjectionSample()
+    {
+        var loaded = ConceptDefinitionInterchangeJson.ToLabeledLedger(CompactDocument());
+        Assert.True(ConceptDefinitionDiscoverySurface.TryReadLedger(loaded.Ledger, out var graph));
+        Assert.True(IntervalBasisReadSurface.TryRead(graph, out var intervals));
+
+        return new ContextualIntervalProjectionSample(
+            loaded.Ledger,
+            Assert.Single(intervals).Carrier,
+            loaded.SingleDefinition("spatial context"),
+            loaded.SingleDefinition("temporal context"),
+            loaded.SingleDefinition("unresolved context"),
+            loaded);
+    }
+
+    private static ConceptDefinitionInterchangeDocument CompactDocument() =>
+        new()
         {
-            Add(
-                name,
-                ContextualProjectionReadSurface.Create(
-                    new Carrier(),
-                    band,
-                    context,
-                    EncodedTextSurface.Create(new Carrier(), projection),
-                    EncodedTextSurface.Create(new Carrier(), "context projection, not interval structure"),
-                    context),
-                [band, context],
-                EncodedTextSurface.Create(new Carrier(), "projection remains local to this context"));
+            SourceId = "grammar/contextual-interval-projection",
+            Carriers = ["interval-axis", "context-axis", "interval-role-axis"],
+            Definitions =
+            [
+                new()
+                {
+                    Id = "shared span",
+                    Body = new() { Kind = "segment", Carrier = "interval-axis", Start = 0, End = 12 },
+                    DependsOn = []
+                },
+                new()
+                {
+                    Id = "spatial context",
+                    Body = new() { Kind = "point", Carrier = "context-axis", Ticks = 1 },
+                    DependsOn = []
+                },
+                new()
+                {
+                    Id = "temporal context",
+                    Body = new() { Kind = "point", Carrier = "context-axis", Ticks = 2 },
+                    DependsOn = []
+                },
+                new()
+                {
+                    Id = "unresolved context",
+                    Body = new() { Kind = "point", Carrier = "context-axis", Ticks = 3 },
+                    DependsOn = []
+                },
+                IntervalRoleRead("start read", roleTicks: 1, start: 0, end: 2),
+                IntervalRoleRead("center read", roleTicks: 2, start: 5, end: 7),
+                IntervalRoleRead("end read", roleTicks: 3, start: 9, end: 12),
+                Projection("spatial entry projection", "start read", "spatial context", "near"),
+                Projection("spatial entry alternate projection", "start read", "spatial context", "close-ish"),
+                Projection("spatial middle projection", "center read", "spatial context", "middle"),
+                Projection("spatial exit projection", "end read", "spatial context", "far"),
+                Projection("temporal entry projection", "start read", "temporal context", "before"),
+                Projection("temporal middle projection", "center read", "temporal context", "during"),
+                Projection("temporal exit projection", "end read", "temporal context", "after")
+            ]
+        };
+
+    private static ConceptDefinitionInterchangeDefinition IntervalRoleRead(
+        string id,
+        long roleTicks,
+        long start,
+        long end) =>
+        new()
+        {
+            Id = id,
+            Body = new()
+            {
+                Kind = "witness",
+                Selected = "shared span",
+                ReadSurface = new() { Kind = "point", Carrier = "interval-role-axis", Ticks = roleTicks },
+                Result = new() { Kind = "segment", Carrier = "interval-axis", Start = start, End = end },
+                ResidueOrTension = "interval role read",
+                Provenance = "shared span"
+            },
+            DependsOn = ["shared span"],
+            ResidueOrTension = "derived interval role"
+        };
+
+    private static ConceptDefinitionInterchangeDefinition Projection(
+        string id,
+        string selected,
+        string context,
+        string result) =>
+        new()
+        {
+            Id = id,
+            Body = new()
+            {
+                Kind = "projection",
+                Selected = selected,
+                Context = context,
+                ResultText = result,
+                ResidueOrTension = "context projection",
+                Provenance = context
+            },
+            DependsOn = [selected, context],
+            ResidueOrTension = "local projection"
+        };
+
+    private static void AssertReloadedSpatialStartAlternatives(GojoCompactStructureDocument document)
+    {
+        var rehydrated = GojoStructureCompactJson.ToElement(document);
+        Assert.True(ConceptDefinitionDiscoverySurface.TryReadLedger(rehydrated.Root, out var graph));
+        Assert.True(TryFindPointBody(graph, ticks: 1, dependencyCount: 0, out var spatialContext));
+        Assert.True(IntervalBasisReadSurface.TryRead(graph, out var intervals));
+
+        var interval = Assert.Single(intervals);
+        Assert.True(ContextualProjectionReadSurface.TryReadAtAll(
+            graph,
+            spatialContext.Definition,
+            interval.Carrier,
+            1,
+            out var spatialStartReads));
+        Assert.Equal(
+            [1, 2],
+            spatialStartReads.Select(item => PointTicks(item.Projection.Result)).ToArray());
+    }
+
+    private static bool TryFindPointBody(
+        ConceptDefinitionDiscoverySurface.DefinitionGraph graph,
+        long ticks,
+        int dependencyCount,
+        out ConceptDefinitionDiscoverySurface.DefinitionNode node)
+    {
+        foreach (var candidate in graph.Nodes)
+        {
+            if (candidate.Read.Dependencies.Length == dependencyCount &&
+                TryReadPoint(candidate.Read.Body, out var point) &&
+                point.Ticks == ticks)
+            {
+                node = candidate;
+                return true;
+            }
+        }
+
+        node = default;
+        return false;
+    }
+
+    private static long PointTicks(IElement element)
+    {
+        Assert.True(TryReadPoint(element, out var point));
+        return point.Ticks;
+    }
+
+    private static bool TryReadPoint(IElement element, out CarrierLocation location)
+    {
+        if (element is Relation point &&
+            point.Left is CarrierLocation pointLocation &&
+            point.Right is Carrier pointCarrier &&
+            pointLocation.Carrier.SameIdentityAs(pointCarrier))
+        {
+            location = pointLocation;
+            return true;
+        }
+
+        location = default;
+        return false;
+    }
+
+    private static void AssertCompactReloadedSpatialStartAlternatives(
+        ConceptDefinitionInterchangeDocument document)
+    {
+        var loaded = ConceptDefinitionInterchangeJson.ToLabeledLedger(document);
+        Assert.True(ConceptDefinitionDiscoverySurface.TryReadLedger(loaded.Ledger, out var graph));
+        var spatialContext = loaded.SingleDefinition("spatial context");
+        Assert.True(IntervalBasisReadSurface.TryRead(graph, out var intervals));
+
+        var interval = Assert.Single(intervals);
+        Assert.True(ContextualProjectionReadSurface.TryReadAtAll(
+            graph,
+            spatialContext,
+            interval.Carrier,
+            1,
+            out var spatialStartReads));
+        Assert.Equal(
+            ["near", "close-ish"],
+            spatialStartReads.Select(item => loaded.ProjectionResultLabel(item.Projection)).ToArray());
+
+        AssertContainsNoEncodedLabelWords(loaded.Ledger, document);
+    }
+
+    private static void AssertContainsNoEncodedLabelWords(
+        IElement element,
+        ConceptDefinitionInterchangeDocument document)
+    {
+        var labels = document.Definitions
+            .SelectMany(definition => new[]
+            {
+                definition.Id,
+                definition.ResidueOrTension,
+                definition.Body.Text,
+                definition.Body.Selected,
+                definition.Body.Context,
+                definition.Body.ResultText,
+                definition.Body.ResidueOrTension,
+                definition.Body.Provenance
+            })
+            .Where(label => !string.IsNullOrEmpty(label))
+            .ToHashSet(StringComparer.Ordinal);
+        var visited = new HashSet<IElement>(ReferenceEqualityComparer.Instance);
+        Visit(element);
+
+        void Visit(IElement item)
+        {
+            if (!visited.Add(item))
+            {
+                return;
+            }
+
+            if (EncodedTextSurface.TryRead(item, out var text) && labels.Contains(text))
+            {
+                Assert.Fail($"Compact reload should keep label word '{text}' outside Gojo structure.");
+            }
+
+            if (item is Relation relation)
+            {
+                Visit(relation.Left);
+                Visit(relation.Right);
+            }
         }
     }
+
+    private static string ContextProjectionFixturePath() =>
+        Path.Combine(
+            AppContext.BaseDirectory,
+            "Fixtures",
+            "EncoderJson",
+            "grammar",
+            "contextual-interval-projection.json");
+
+    private static string ContextProjectionCompactFixturePath() =>
+        Path.Combine(
+            AppContext.BaseDirectory,
+            "Fixtures",
+            "EncoderJson",
+            "grammar",
+            "contextual-interval-projection.compact.json");
+
+    private static void AssertJsonEquivalent(string expected, string actual)
+    {
+        var expectedNode = JsonNode.Parse(expected);
+        var actualNode = JsonNode.Parse(actual);
+        Assert.True(JsonNode.DeepEquals(expectedNode, actualNode), actual);
+    }
+
+    private readonly record struct ContextualIntervalProjectionSample(
+        Relation Ledger,
+        Carrier Axis,
+        Relation SpatialContext,
+        Relation TemporalContext,
+        Relation UnresolvedContext,
+        ConceptDefinitionInterchangeLedger LabeledLedger);
 }

@@ -569,14 +569,54 @@ unresolved color basis, exact position, and alternate attachment. The token
 low-resolution position on a ground, not from a stored preposition concept tree.
 
 The extracted generic foothold reads an interval from structure alone. A
-carrier span has start, center, and end landmarks plus coarse bands. Those are
-not English words yet; they are low-resolution positions against a basis. A
-spatial context can project the start band as `near` and the end band as `far`;
-a temporal context can project the same start and end bands as `before` and
-`after`. If a context has no projection witness, the interval role still reads
-and the context-specific word simply remains unresolved. If several projection
-witnesses fit, the read surface can return them together so alternatives remain
-available for later settlement.
+carrier span can produce local start, center, and end reads without separate
+landmark or band definitions. Those reads are ordinary `ReadWitness` structures:
+selected interval, interval-role read surface, result segment, residue, and
+provenance. They are not English words yet; they are low-resolution positions
+against a basis. A spatial context can project the start read as `near` and the
+end read as `far`; a temporal context can project the same start and end reads
+as `before` and `after`. If a context has no projection witness, the interval
+role still reads and the context-specific word simply remains unresolved. If
+several projection witnesses fit, the read surface can return them together so
+alternatives remain available for later settlement.
+
+This slice now has a saved diagnostic JSON fixture:
+
+```text
+Gojo.Encoding.Tests/Fixtures/EncoderJson/grammar/contextual-interval-projection.json
+```
+
+The fixture is not just a display artifact. It is generated from the compact
+interchange reload after labels have been moved out to local structural points.
+Tests reload it through `GojoStructureCompactJson`, rebuild live Gojo relation
+objects, and then read the same interval/context projections from the rebuilt
+graph. The persisted structure is folded: ordered groups are one node with an
+`elements` list, points and segments are single nodes, and repeated structure is
+kept as references. The current fixture is 11 carriers, 78 structure nodes, and
+39 folded groups, not a row for every holder-origin attachment.
+
+The carrier names in that structure file are inspection labels for carrier
+roles, not stored word meaning. `interval-axis` is the span being read,
+`interval-role-axis` is the basis used by the derived role reads, `context-axis`
+is the loose context selector, `definition-frame` and `dependency-list-frame`
+are the current definition-ledger scaffolding, `projection-witness-frame` holds
+selected/read-surface/result/residue/provenance read witnesses, and
+`projection-result-axis`/`residue-marker-axis` hold local points for values
+whose words live outside the Gojo structure.
+
+It also has a compact interchange fixture:
+
+```text
+Gojo.Encoding.Tests/Fixtures/EncoderJson/grammar/contextual-interval-projection.compact.json
+```
+
+The compact form stores the same usable grammar evidence as human labels,
+point/segment/witness/projection bodies, dependency references, projection
+result labels, and residue labels. When it reloads to Gojo, those words are not
+embedded as the meaning structure: definition names, projection results, and
+residue markers are rebuilt as local structural points, with the labels held by
+the interchange helper for inspection. It is the inspectable form; the larger
+structure JSON is the label-free reload proof.
 
 This is enough to begin the CAD-first grammar vertical slice. It is not enough
 to freeze the packet format or claim a general language parser. The next lower

@@ -44,13 +44,14 @@ public static class ConceptDefinitionSurface
         IElement body,
         IReadOnlyList<IElement>? dependencies = null,
         IElement? provenance = null,
-        IElement? residueOrTension = null) =>
+        IElement? residueOrTension = null,
+        Carrier? dependencyFrameRoot = null) =>
         Relation.OrderedGroup(
             EncodedTextSurface.RootOrNew(root),
             name ?? EncodedTextSurface.UnknownPoint(),
             body ?? EncodedTextSurface.UnknownPoint(),
             provenance ?? body ?? EncodedTextSurface.UnknownPoint(),
-            DependencyFrame(new Carrier(), dependencies ?? []),
+            DependencyFrame(dependencyFrameRoot ?? new Carrier(), dependencies ?? []),
             residueOrTension ?? EncodedTextSurface.UnknownPoint());
 
     public static Relation DependencyFrame(Carrier root, IReadOnlyList<IElement> dependencies) =>
@@ -94,7 +95,8 @@ public static class ConceptDefinitionSurface
     private static bool IsDefinitionName(IElement element) =>
         ConceptAddressSurface.TryReadAtom(element, out _, out _) ||
         ConceptAddressSurface.TryReadCompound(element, out _, out _, out _, out _) ||
-        (EncodedTextSurface.TryRead(element, out var text) && text.Length > 0);
+        (EncodedTextSurface.TryRead(element, out var text) && text.Length > 0) ||
+        EncodedTextSurface.TryReadPoint(element, out _);
 
     public static bool TryReadDependencyFrame(IElement element, out IElement[] dependencies)
     {

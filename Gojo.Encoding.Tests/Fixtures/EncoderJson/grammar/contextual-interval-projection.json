@@ -1,0 +1,707 @@
+{
+  "sourceId": "grammar/contextual-interval-projection",
+  "counts": {
+    "carriers": 11,
+    "nodes": 78,
+    "points": 35,
+    "segments": 4,
+    "groups": 39
+  },
+  "root": "node-1",
+  "carriers": [
+    {
+      "id": "definition-ledger-frame"
+    },
+    {
+      "id": "definition-frame"
+    },
+    {
+      "id": "definition-identity-axis"
+    },
+    {
+      "id": "interval-axis"
+    },
+    {
+      "id": "dependency-list-frame"
+    },
+    {
+      "id": "open-residue-carrier",
+      "isUnknown": true
+    },
+    {
+      "id": "context-axis"
+    },
+    {
+      "id": "projection-witness-frame"
+    },
+    {
+      "id": "interval-role-axis"
+    },
+    {
+      "id": "residue-marker-axis"
+    },
+    {
+      "id": "projection-result-axis"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "node-3",
+      "kind": "point",
+      "carrier": "definition-identity-axis",
+      "ticks": 1
+    },
+    {
+      "id": "node-4",
+      "kind": "segment",
+      "carrier": "interval-axis",
+      "start": 0,
+      "end": 12
+    },
+    {
+      "id": "node-5",
+      "kind": "group",
+      "carrier": "dependency-list-frame",
+      "elements": []
+    },
+    {
+      "id": "node-6",
+      "kind": "point",
+      "carrier": "open-residue-carrier",
+      "ticks": 0
+    },
+    {
+      "id": "node-2",
+      "kind": "group",
+      "carrier": "definition-frame",
+      "elements": [
+        "node-3",
+        "node-4",
+        "node-4",
+        "node-5",
+        "node-6"
+      ]
+    },
+    {
+      "id": "node-8",
+      "kind": "point",
+      "carrier": "definition-identity-axis",
+      "ticks": 2
+    },
+    {
+      "id": "node-9",
+      "kind": "point",
+      "carrier": "context-axis",
+      "ticks": 1
+    },
+    {
+      "id": "node-10",
+      "kind": "group",
+      "carrier": "dependency-list-frame",
+      "elements": []
+    },
+    {
+      "id": "node-11",
+      "kind": "point",
+      "carrier": "open-residue-carrier",
+      "ticks": 0
+    },
+    {
+      "id": "node-7",
+      "kind": "group",
+      "carrier": "definition-frame",
+      "elements": [
+        "node-8",
+        "node-9",
+        "node-9",
+        "node-10",
+        "node-11"
+      ]
+    },
+    {
+      "id": "node-13",
+      "kind": "point",
+      "carrier": "definition-identity-axis",
+      "ticks": 3
+    },
+    {
+      "id": "node-14",
+      "kind": "point",
+      "carrier": "context-axis",
+      "ticks": 2
+    },
+    {
+      "id": "node-15",
+      "kind": "group",
+      "carrier": "dependency-list-frame",
+      "elements": []
+    },
+    {
+      "id": "node-16",
+      "kind": "point",
+      "carrier": "open-residue-carrier",
+      "ticks": 0
+    },
+    {
+      "id": "node-12",
+      "kind": "group",
+      "carrier": "definition-frame",
+      "elements": [
+        "node-13",
+        "node-14",
+        "node-14",
+        "node-15",
+        "node-16"
+      ]
+    },
+    {
+      "id": "node-18",
+      "kind": "point",
+      "carrier": "definition-identity-axis",
+      "ticks": 4
+    },
+    {
+      "id": "node-19",
+      "kind": "point",
+      "carrier": "context-axis",
+      "ticks": 3
+    },
+    {
+      "id": "node-20",
+      "kind": "group",
+      "carrier": "dependency-list-frame",
+      "elements": []
+    },
+    {
+      "id": "node-21",
+      "kind": "point",
+      "carrier": "open-residue-carrier",
+      "ticks": 0
+    },
+    {
+      "id": "node-17",
+      "kind": "group",
+      "carrier": "definition-frame",
+      "elements": [
+        "node-18",
+        "node-19",
+        "node-19",
+        "node-20",
+        "node-21"
+      ]
+    },
+    {
+      "id": "node-23",
+      "kind": "point",
+      "carrier": "definition-identity-axis",
+      "ticks": 5
+    },
+    {
+      "id": "node-25",
+      "kind": "point",
+      "carrier": "interval-role-axis",
+      "ticks": 1
+    },
+    {
+      "id": "node-26",
+      "kind": "segment",
+      "carrier": "interval-axis",
+      "start": 0,
+      "end": 2
+    },
+    {
+      "id": "node-27",
+      "kind": "point",
+      "carrier": "residue-marker-axis",
+      "ticks": 1
+    },
+    {
+      "id": "node-24",
+      "kind": "group",
+      "carrier": "projection-witness-frame",
+      "elements": [
+        "node-2",
+        "node-25",
+        "node-26",
+        "node-27",
+        "node-2"
+      ]
+    },
+    {
+      "id": "node-28",
+      "kind": "group",
+      "carrier": "dependency-list-frame",
+      "elements": [
+        "node-2"
+      ]
+    },
+    {
+      "id": "node-29",
+      "kind": "point",
+      "carrier": "residue-marker-axis",
+      "ticks": 2
+    },
+    {
+      "id": "node-22",
+      "kind": "group",
+      "carrier": "definition-frame",
+      "elements": [
+        "node-23",
+        "node-24",
+        "node-24",
+        "node-28",
+        "node-29"
+      ]
+    },
+    {
+      "id": "node-31",
+      "kind": "point",
+      "carrier": "definition-identity-axis",
+      "ticks": 6
+    },
+    {
+      "id": "node-33",
+      "kind": "point",
+      "carrier": "interval-role-axis",
+      "ticks": 2
+    },
+    {
+      "id": "node-34",
+      "kind": "segment",
+      "carrier": "interval-axis",
+      "start": 5,
+      "end": 7
+    },
+    {
+      "id": "node-32",
+      "kind": "group",
+      "carrier": "projection-witness-frame",
+      "elements": [
+        "node-2",
+        "node-33",
+        "node-34",
+        "node-27",
+        "node-2"
+      ]
+    },
+    {
+      "id": "node-35",
+      "kind": "group",
+      "carrier": "dependency-list-frame",
+      "elements": [
+        "node-2"
+      ]
+    },
+    {
+      "id": "node-30",
+      "kind": "group",
+      "carrier": "definition-frame",
+      "elements": [
+        "node-31",
+        "node-32",
+        "node-32",
+        "node-35",
+        "node-29"
+      ]
+    },
+    {
+      "id": "node-37",
+      "kind": "point",
+      "carrier": "definition-identity-axis",
+      "ticks": 7
+    },
+    {
+      "id": "node-39",
+      "kind": "point",
+      "carrier": "interval-role-axis",
+      "ticks": 3
+    },
+    {
+      "id": "node-40",
+      "kind": "segment",
+      "carrier": "interval-axis",
+      "start": 9,
+      "end": 12
+    },
+    {
+      "id": "node-38",
+      "kind": "group",
+      "carrier": "projection-witness-frame",
+      "elements": [
+        "node-2",
+        "node-39",
+        "node-40",
+        "node-27",
+        "node-2"
+      ]
+    },
+    {
+      "id": "node-41",
+      "kind": "group",
+      "carrier": "dependency-list-frame",
+      "elements": [
+        "node-2"
+      ]
+    },
+    {
+      "id": "node-36",
+      "kind": "group",
+      "carrier": "definition-frame",
+      "elements": [
+        "node-37",
+        "node-38",
+        "node-38",
+        "node-41",
+        "node-29"
+      ]
+    },
+    {
+      "id": "node-43",
+      "kind": "point",
+      "carrier": "definition-identity-axis",
+      "ticks": 8
+    },
+    {
+      "id": "node-45",
+      "kind": "point",
+      "carrier": "projection-result-axis",
+      "ticks": 1
+    },
+    {
+      "id": "node-46",
+      "kind": "point",
+      "carrier": "residue-marker-axis",
+      "ticks": 3
+    },
+    {
+      "id": "node-44",
+      "kind": "group",
+      "carrier": "projection-witness-frame",
+      "elements": [
+        "node-22",
+        "node-7",
+        "node-45",
+        "node-46",
+        "node-7"
+      ]
+    },
+    {
+      "id": "node-47",
+      "kind": "group",
+      "carrier": "dependency-list-frame",
+      "elements": [
+        "node-22",
+        "node-7"
+      ]
+    },
+    {
+      "id": "node-48",
+      "kind": "point",
+      "carrier": "residue-marker-axis",
+      "ticks": 4
+    },
+    {
+      "id": "node-42",
+      "kind": "group",
+      "carrier": "definition-frame",
+      "elements": [
+        "node-43",
+        "node-44",
+        "node-44",
+        "node-47",
+        "node-48"
+      ]
+    },
+    {
+      "id": "node-50",
+      "kind": "point",
+      "carrier": "definition-identity-axis",
+      "ticks": 9
+    },
+    {
+      "id": "node-52",
+      "kind": "point",
+      "carrier": "projection-result-axis",
+      "ticks": 2
+    },
+    {
+      "id": "node-51",
+      "kind": "group",
+      "carrier": "projection-witness-frame",
+      "elements": [
+        "node-22",
+        "node-7",
+        "node-52",
+        "node-46",
+        "node-7"
+      ]
+    },
+    {
+      "id": "node-53",
+      "kind": "group",
+      "carrier": "dependency-list-frame",
+      "elements": [
+        "node-22",
+        "node-7"
+      ]
+    },
+    {
+      "id": "node-49",
+      "kind": "group",
+      "carrier": "definition-frame",
+      "elements": [
+        "node-50",
+        "node-51",
+        "node-51",
+        "node-53",
+        "node-48"
+      ]
+    },
+    {
+      "id": "node-55",
+      "kind": "point",
+      "carrier": "definition-identity-axis",
+      "ticks": 10
+    },
+    {
+      "id": "node-57",
+      "kind": "point",
+      "carrier": "projection-result-axis",
+      "ticks": 3
+    },
+    {
+      "id": "node-56",
+      "kind": "group",
+      "carrier": "projection-witness-frame",
+      "elements": [
+        "node-30",
+        "node-7",
+        "node-57",
+        "node-46",
+        "node-7"
+      ]
+    },
+    {
+      "id": "node-58",
+      "kind": "group",
+      "carrier": "dependency-list-frame",
+      "elements": [
+        "node-30",
+        "node-7"
+      ]
+    },
+    {
+      "id": "node-54",
+      "kind": "group",
+      "carrier": "definition-frame",
+      "elements": [
+        "node-55",
+        "node-56",
+        "node-56",
+        "node-58",
+        "node-48"
+      ]
+    },
+    {
+      "id": "node-60",
+      "kind": "point",
+      "carrier": "definition-identity-axis",
+      "ticks": 11
+    },
+    {
+      "id": "node-62",
+      "kind": "point",
+      "carrier": "projection-result-axis",
+      "ticks": 4
+    },
+    {
+      "id": "node-61",
+      "kind": "group",
+      "carrier": "projection-witness-frame",
+      "elements": [
+        "node-36",
+        "node-7",
+        "node-62",
+        "node-46",
+        "node-7"
+      ]
+    },
+    {
+      "id": "node-63",
+      "kind": "group",
+      "carrier": "dependency-list-frame",
+      "elements": [
+        "node-36",
+        "node-7"
+      ]
+    },
+    {
+      "id": "node-59",
+      "kind": "group",
+      "carrier": "definition-frame",
+      "elements": [
+        "node-60",
+        "node-61",
+        "node-61",
+        "node-63",
+        "node-48"
+      ]
+    },
+    {
+      "id": "node-65",
+      "kind": "point",
+      "carrier": "definition-identity-axis",
+      "ticks": 12
+    },
+    {
+      "id": "node-67",
+      "kind": "point",
+      "carrier": "projection-result-axis",
+      "ticks": 5
+    },
+    {
+      "id": "node-66",
+      "kind": "group",
+      "carrier": "projection-witness-frame",
+      "elements": [
+        "node-22",
+        "node-12",
+        "node-67",
+        "node-46",
+        "node-12"
+      ]
+    },
+    {
+      "id": "node-68",
+      "kind": "group",
+      "carrier": "dependency-list-frame",
+      "elements": [
+        "node-22",
+        "node-12"
+      ]
+    },
+    {
+      "id": "node-64",
+      "kind": "group",
+      "carrier": "definition-frame",
+      "elements": [
+        "node-65",
+        "node-66",
+        "node-66",
+        "node-68",
+        "node-48"
+      ]
+    },
+    {
+      "id": "node-70",
+      "kind": "point",
+      "carrier": "definition-identity-axis",
+      "ticks": 13
+    },
+    {
+      "id": "node-72",
+      "kind": "point",
+      "carrier": "projection-result-axis",
+      "ticks": 6
+    },
+    {
+      "id": "node-71",
+      "kind": "group",
+      "carrier": "projection-witness-frame",
+      "elements": [
+        "node-30",
+        "node-12",
+        "node-72",
+        "node-46",
+        "node-12"
+      ]
+    },
+    {
+      "id": "node-73",
+      "kind": "group",
+      "carrier": "dependency-list-frame",
+      "elements": [
+        "node-30",
+        "node-12"
+      ]
+    },
+    {
+      "id": "node-69",
+      "kind": "group",
+      "carrier": "definition-frame",
+      "elements": [
+        "node-70",
+        "node-71",
+        "node-71",
+        "node-73",
+        "node-48"
+      ]
+    },
+    {
+      "id": "node-75",
+      "kind": "point",
+      "carrier": "definition-identity-axis",
+      "ticks": 14
+    },
+    {
+      "id": "node-77",
+      "kind": "point",
+      "carrier": "projection-result-axis",
+      "ticks": 7
+    },
+    {
+      "id": "node-76",
+      "kind": "group",
+      "carrier": "projection-witness-frame",
+      "elements": [
+        "node-36",
+        "node-12",
+        "node-77",
+        "node-46",
+        "node-12"
+      ]
+    },
+    {
+      "id": "node-78",
+      "kind": "group",
+      "carrier": "dependency-list-frame",
+      "elements": [
+        "node-36",
+        "node-12"
+      ]
+    },
+    {
+      "id": "node-74",
+      "kind": "group",
+      "carrier": "definition-frame",
+      "elements": [
+        "node-75",
+        "node-76",
+        "node-76",
+        "node-78",
+        "node-48"
+      ]
+    },
+    {
+      "id": "node-1",
+      "kind": "group",
+      "carrier": "definition-ledger-frame",
+      "elements": [
+        "node-2",
+        "node-7",
+        "node-12",
+        "node-17",
+        "node-22",
+        "node-30",
+        "node-36",
+        "node-42",
+        "node-49",
+        "node-54",
+        "node-59",
+        "node-64",
+        "node-69",
+        "node-74"
+      ]
+    }
+  ]
+}
