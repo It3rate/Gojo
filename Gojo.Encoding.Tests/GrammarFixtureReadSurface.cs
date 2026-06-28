@@ -53,6 +53,9 @@ internal static class GrammarFixtureReadSurface
         AddCompounds("PositionPhrase", "position-phrase-candidate");
         AddCompounds("SelectedRead", "selected-read");
         AddCompounds("InterpretationBundle", "interpretation-bundle");
+        AddCompounds("ContextFrame", "context-frame");
+        AddCompounds("ContextSettlement", "context-settlement");
+        AddCompounds("MergedInterpretation", "merged-interpretation");
         AddCompounds("GrammarTrace", "grammar-trace");
 
         read = new GrammarSurfaceRead([.. reads]);

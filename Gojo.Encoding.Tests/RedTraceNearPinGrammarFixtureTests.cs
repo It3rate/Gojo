@@ -89,6 +89,96 @@ public sealed class RedTraceNearPinGrammarFixtureTests
             item.Kind == "grammar-trace" &&
             item.Definition.Name == "red-trace-near-pin-grammar-trace" &&
             item.ResidueOrTension == "original order and unselected read remain available");
+        Assert.DoesNotContain(read.Reads, item => item.Kind == "context-settlement");
+    }
+
+    [Fact]
+    public void GrammarWriterCreatesReadableBundleFromCompactInput()
+    {
+        var input = new RedTraceNearPinGrammarFixture.RedTraceNearPinGrammarInput(
+            "red",
+            "trace",
+            "near",
+            "pin",
+            LowResolutionTicks: 1,
+            SourceTicksPerReadTick: 10);
+        var ledger = RedTraceNearPinGrammarFixture.WriteLedger(new Carrier(), input);
+
+        Assert.True(GrammarFixtureReadSurface.TryReadGrammar(ledger, out var read));
+
+        Assert.Contains(read.Reads, item =>
+            item.Kind == "token-sequence" &&
+            item.Ingredients.SequenceEqual(["token-red", "token-trace", "token-near", "token-pin"]));
+        Assert.Contains(read.Reads, item =>
+            item.Kind == "low-resolution-position-read" &&
+            item.Definition.Name == "trace-pin-position-read" &&
+            item.ResidueOrTension == "exact trace-to-pin position remains unresolved");
+        Assert.Contains(read.Reads, item =>
+            item.Kind == "interpretation-bundle" &&
+            item.Definition.Name == "red-trace-near-pin-interpretation");
+    }
+
+    [Fact]
+    public void ContextMergeAddsSettlementWithoutDeletingAlternatives()
+    {
+        var baseLedger = RedTraceNearPinGrammarFixture.CreateLedger(new Carrier());
+        var merged = RedTraceNearPinGrammarFixture.CreateCadContextMergedLedger(new Carrier(), baseLedger);
+
+        Assert.True(GrammarFixtureReadSurface.TryReadGrammar(merged, out var read));
+
+        Assert.Contains(read.Reads, item =>
+            item.Kind == "context-frame" &&
+            item.Definition.Name == "cad-layer-context" &&
+            item.ResidueOrTension == "context narrows red toward copper layer color evidence");
+        Assert.Contains(read.Reads, item =>
+            item.Kind == "context-frame" &&
+            item.Definition.Name == "board-clearance-context" &&
+            item.ResidueOrTension == "context narrows the position read toward board clearance");
+        Assert.Contains(read.Reads, item =>
+            item.Kind == "low-resolution-position-read" &&
+            item.Definition.Name == "trace-pin-clearance-read" &&
+            item.Ingredients.SequenceEqual(["trace-pin-position-read", "token-near", "trace-pin-clearance-basis", "trace-pin-low-resolution-position"]) &&
+            item.ResidueOrTension == "clearance basis supplied; exact metric distance is still below this read resolution");
+        Assert.Contains(read.Reads, item =>
+            item.Kind == "context-settlement" &&
+            item.Definition.Name == "red-trace-near-pin-context-settlement" &&
+            item.ResidueOrTension == "context supports selected read while alternate attachment remains trace residue");
+        Assert.Contains(read.Reads, item =>
+            item.Kind == "merged-interpretation" &&
+            item.Definition.Name == "red-trace-near-pin-merged-interpretation" &&
+            item.ResidueOrTension == "merge lowers red and clearance residue without deleting alternate attachment");
+        Assert.Contains(read.Reads, item =>
+            item.Kind == "position-phrase-candidate" &&
+            item.Definition.Name == "trace-near-pin-phrase");
+        Assert.Contains(read.Reads, item =>
+            item.Kind == "grammar-trace" &&
+            item.Definition.Name == "red-trace-near-pin-grammar-trace");
+    }
+
+    [Fact]
+    public void SameElementCanReadNearOrFarFromDifferentPerspective()
+    {
+        var ledger = RedTraceNearPinGrammarFixture.CreatePerspectiveDistanceLedger(new Carrier());
+
+        Assert.True(PerspectiveDistanceReadSurface.TryRead(ledger, out var read));
+
+        var local = Assert.Single(read.Reads, item => item.DefinitionName == "same-element-local-perspective-read");
+        var remote = Assert.Single(read.Reads, item => item.DefinitionName == "same-element-remote-perspective-read");
+        Assert.Equal("same-element", local.Selected);
+        Assert.Equal(local.Selected, remote.Selected);
+        Assert.Equal(1, local.DistanceTicks);
+        Assert.Equal(8, remote.DistanceTicks);
+        Assert.Equal("near", local.Qualifier);
+        Assert.Equal("far", remote.Qualifier);
+
+        Assert.True(ConceptDefinitionSurface.TryReadLedger(ledger, out var definitions));
+        var storedText = string.Join(
+            "\n",
+            definitions
+                .Select(ConceptDefinitionInspection.DefinitionJson)
+                .Select(row => $"{row.Name} {row.Body} {row.ResidueOrTension}"));
+        Assert.DoesNotContain("near", storedText, StringComparison.OrdinalIgnoreCase);
+        Assert.DoesNotContain("far", storedText, StringComparison.OrdinalIgnoreCase);
     }
 
     [Fact]
