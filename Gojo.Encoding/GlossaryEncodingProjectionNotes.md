@@ -18,7 +18,7 @@ glossary-specific help.
 | Resolution facets | `Part`, `U(Comp)`, `Read(...,Res)`, `Slot(?)`, `Approx`, `Read(...,B?)`, `Refine`, `Run(...,Res)` | Partition, unit, observer/coarse, omission, approximation, ambiguity, ladder, and runtime resolution stay distinct instead of collapsing into generic unknown. |
 | Offset read | `Off(source,outlet,face,d,Res)`, `Bd1(Off)`, `BdSelf(Off)`, `Band(source,terminal)`, `Residue(Off?)`, `Cr(Off;context=...)` | Offset is now represented as a local read with source support, outlet/normal evidence, facing, signed distance, resolution, terminal boundary, mismatch residue, and crystallized reuse. |
 | Noun composition | `Band + Area + Support + Clearance + Cr` | Common CAD/language nouns can now be composed from earlier structures: margin, ring/annulus, clearance, and keepout. The reader discovers the composition from local definition shape, not from the specific row names. |
-| Preposition focus | `RoleFrame + Comp + Scale + Zone + Focus + Cr + BindRoles + Apply` | Prepositions now have a first role-bearing encoding. `near`, `far`, `halfway`, and `arrived` are crystallized focus reads over one comparison scale, then `near` is bound into ordinary-language and CAD contexts. |
+| Legacy preposition focus | `RoleFrame + Comp + Scale + Zone + Focus + Cr + BindRoles + Apply` | Superseded contrast fixture. The active direction is to read words like `near` from low-resolution structure, residue, and provenance rather than from a stored preposition concept tree. |
 | Curve | `curve --acceleration footing--> unresolved`, plus arc, Bezier, clothoid, and tangency placeholders | Curve samples now state that the current encoding is a placeholder until interpolation, acceleration/following, curvature, and transition concepts are grounded. |
 | Selection | `selection --local focus read--> selected structure + residue` | Selection is visible as a local focus read that preserves residue, not as a global picked-list. |
 | Crystallization | `read --crystallize--> reusable structure`; `ConceptDefinitionSurface` exists for `Def/Prov/Cr` footing | Reuse is explicit while provenance is kept as structure or tension. |
@@ -299,12 +299,12 @@ and inspected, but not yet that arbitrary Gojo source structure can recover
 the same composition without the compact `Band`, `Area+`, `Support`,
 `Clearance`, or `Cr` address bodies.
 
-### Preposition Focus
+### Legacy Preposition Focus
 
-The first preposition sample now lives at
-`Gojo.Encoding.Tests/Fixtures/EncoderJson/concept-definitions/preposition-parameterized-focus.json`.
-It tests the idea that prepositions are not labels over regions and not fully
-applied predicates. They are open role-bearing read shapes:
+The old preposition sample lives at
+`Gojo.Encoding.Tests/Fixtures/EncoderJson/concept-definitions/legacy-preposition-parameterized-focus.json`.
+It is retained as a legacy contrast, not as the active grammar architecture. The
+old shape was:
 
 ```text
 figure/ground/basis/resolution slots -> preposition role frame
@@ -316,16 +316,14 @@ store + house + ordinary distance basis -> bound near read
 trace + pad + board clearance basis -> bound near read with CAD residue
 ```
 
-`near`, `far`, `halfway`, and `arrived` are separate crystallized focus reads,
-but they share the same lower comparison scale. This preserves the sibling
-relationship without reducing the words to naked labels on one interval. The
-renamed-ledger test changes the preposition word to `close-ish` and still
-recovers the same focus/application shape.
-
-The current sample is intentionally scalar. The next preposition work should
-extend this pattern to boundary and region forms such as `inside`, `outside`,
-`within`, `around`, `through`, and `against`, using boundary, area/anti-area,
-offset, contour, and flow evidence rather than a new symbolic grammar.
+That approach is too ontology-like for the current direction. The active grammar
+rule is flatter: a word such as `near` should usually be provenance for a
+low-resolution read over actual Gojo structure. For example, `near` can be read
+from a selected trace, a pin ground, a low-resolution position on that ground,
+and residue for the missing exact distance. Boundary and region words such as
+`inside`, `through`, or `against` should likewise emerge from boundary, area,
+offset, contact, flow, residue, and settlement evidence rather than from a
+stored word-definition tree.
 
 ### Crystallization
 

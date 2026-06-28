@@ -4,12 +4,12 @@ using Gojo.Encoding;
 
 namespace Gojo.Encoding.Tests;
 
-public sealed class ConceptPrepositionDefinitionSurfaceTests
+public sealed class LegacyConceptPrepositionFixtureTests
 {
     [Fact]
     public void PrepositionLedgerBuildsParameterizedFocusWords()
     {
-        var ledger = ConceptPrepositionDefinitionSurface.CreatePrepositionLedger(new Carrier());
+        var ledger = LegacyConceptPrepositionDefinitionSurface.CreatePrepositionLedger(new Carrier());
 
         Assert.True(ConceptDefinitionSurface.TryReadLedger(ledger, out var definitions));
         var rows = definitions
@@ -43,9 +43,9 @@ public sealed class ConceptPrepositionDefinitionSurfaceTests
     [Fact]
     public void PrepositionReadDiscoversFocusWordsAndAppliedBindings()
     {
-        var ledger = ConceptPrepositionDefinitionSurface.CreatePrepositionLedger(new Carrier());
+        var ledger = LegacyConceptPrepositionDefinitionSurface.CreatePrepositionLedger(new Carrier());
 
-        Assert.True(ConceptPrepositionReadSurface.TryReadPrepositions(ledger, out var read));
+        Assert.True(LegacyConceptPrepositionReadSurface.TryReadPrepositions(ledger, out var read));
 
         Assert.Contains(read.Reads, item =>
             item.Kind == "role-frame" &&
@@ -92,7 +92,7 @@ public sealed class ConceptPrepositionDefinitionSurfaceTests
     {
         var ledger = RenamedPrepositionLedger();
 
-        Assert.True(ConceptPrepositionReadSurface.TryReadPrepositions(ledger, out var read));
+        Assert.True(LegacyConceptPrepositionReadSurface.TryReadPrepositions(ledger, out var read));
 
         Assert.Contains(read.Reads, item =>
             item.Kind == "focus-read" &&
@@ -121,15 +121,15 @@ public sealed class ConceptPrepositionDefinitionSurfaceTests
 
     private static GojoEncodingJsonFixtureEntry PrepositionFixtureEntry()
     {
-        var ledger = ConceptPrepositionDefinitionSurface.CreatePrepositionLedger(new Carrier());
+        var ledger = LegacyConceptPrepositionDefinitionSurface.CreatePrepositionLedger(new Carrier());
         Assert.True(ConceptDefinitionSurface.TryReadLedger(ledger, out var definitions));
 
         return new GojoEncodingJsonFixtureEntry
         {
-            Represents = "A first preposition sample where near, far, halfway, and arrived are crystallized focus reads over one role-bearing comparison scale, then near is applied to store/house and trace/pad contexts.",
-            EntryId = "preposition-parameterized-focus",
+            Represents = "A legacy contrast sample where near, far, halfway, and arrived are crystallized focus reads over one role-bearing comparison scale, then near is applied to store/house and trace/pad contexts.",
+            EntryId = "legacy-preposition-parameterized-focus",
             Expression = "RoleFrame + Comp + Scale + Zone + Focus + Cr + BindRoles + Apply",
-            EncodingNote = "This checks that a preposition can be an open role-bearing read shape. Near is not a distance value or a naked label; it is a crystallized focus over a parameterized comparison scale.",
+            EncodingNote = "This preserves the older role-frame approach as a contrast fixture. It is intentionally not the active grammar direction.",
             Gojo = new GojoEncodingJsonFixtureGojo
             {
                 Known =
@@ -222,7 +222,7 @@ public sealed class ConceptPrepositionDefinitionSurfaceTests
             "Fixtures",
             "EncoderJson",
             "concept-definitions",
-            "preposition-parameterized-focus.json");
+            "legacy-preposition-parameterized-focus.json");
 
     private static Relation Address(string lexical, params IElement[] parts) =>
         ConceptAddressSurface.Compound(new Carrier(), lexical, parts);

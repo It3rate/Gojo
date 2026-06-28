@@ -73,12 +73,13 @@ The first implementation is intentionally tiny.
   support, and clearance from an offset boundary, distance, resolution, and
   keepout anti-area. This is deliberately a composition fixture, not a
   permutation catalog.
-- `ConceptPrepositionDefinitionSurface` and `ConceptPrepositionReadSurface`
-  make the first step beyond noun-like structures. Prepositions are represented
-  as open role frames, comparison templates, parameter scales, focus zones,
-  crystallized focus reads, and applied role bindings. In the first sample,
-  `near`, `far`, `halfway`, and `arrived` are sibling focus reads over one
-  shared comparison scale.
+- Sentence-like grammar work is currently fixture-only in
+  `Gojo.Encoding.Tests`. The sample `red trace near pin` is encoded as token
+  order, lexical candidates, a modifier candidate, a low-resolution position
+  witness between trace and pin, two phrase candidates, a selected coarse read,
+  an interpretation bundle, and a grammar trace. The token `near` is provenance
+  for the position read; the meaning comes from the low-resolution position on a
+  ground, not from a stored preposition concept tree.
 - `GojoStructureEncodingSurface` stores a diagnostic snapshot of a currently
   visible Gojo element tree as relation-shaped integer rows. It is useful for
   debugging and transport experiments, but it is not the canonical conceptual
@@ -96,8 +97,8 @@ The companion notes for this experiment are:
 - `ConceptGrammarContinuum.md` for the continuity between numeric structure,
   primitive footings, word concepts, sentence grammar, and executable equation
   order.
-- `PrepositionEncodingNotes.md` for role-bearing comparison/focus reads and
-  the first approach to parameterized preposition concepts.
+- `PrepositionEncodingNotes.md` is a superseded comparison/focus experiment. It
+  remains as historical contrast, not current grammar architecture.
 
 The split underneath those helpers is:
 
@@ -2121,6 +2122,37 @@ Several decisions should remain loose until there is more code and sample data.
 - Whether a string table should be mandatory or only a compression/readability
   layer.
 - How aggressive merge correspondence should be when addresses partially match.
+
+## Structural Encoding Checkpoint
+
+The encoding layer has enough Gojo structure to start the grammar slice:
+
+- text and address surfaces for readable local names and concept parts
+- definition ledgers with dependencies, provenance, and residue/tension
+- resolution, offset, boundary/area, and composition fixtures
+- diagnostic structure snapshots for current carrier/relation/unit-shape graphs
+- a first grammar fixture that keeps token order, candidates, selected read,
+  alternate read, low-resolution position witness, and trace inspectable
+
+The main remaining gaps are not blockers for the first grammar work, but they
+will matter as examples become less toy-like:
+
+- saved read witnesses need a reusable encoding/document surface, not only local
+  helper-created relations
+- domain basis surfaces for CAD, ECAD, temporal, social, visual, and speech
+  should become small Gojo-readable structures instead of enum-like labels
+- alternate reads need settlement/update examples where later context lowers one
+  residue without deleting the other trace
+- boundary, area, offset, contact, and flow examples need the same flattening:
+  the relation/read should imply words such as `inside`, `through`, or `against`
+  rather than routing through stored word-definition trees
+- the physical packet/bundle format should remain unfrozen until several read
+  witnesses and grammar traces have been saved and re-read
+
+The practical rule is: continue upward while a sample can preserve its evidence
+as relation structure. Step back down only when a helper has to invent meaning
+that cannot be traversed through carriers, relations, unit shapes, witnesses, or
+residue.
 
 ## Near-Term Work
 

@@ -465,7 +465,7 @@ Examples:
 ```text
 subject verb object
 object focus + subject verb
-preposition phrase attachment
+low-resolution position phrase attachment
 noun modifier phrase
 comparison phrase
 condition phrase
@@ -691,7 +691,7 @@ Do not try to parse full language yet. Start with tiny native fixtures.
 1. Encode an utterance token sequence as ordered text tokens.
 2. Attach two lexical candidates to one token.
 3. Encode a simple noun phrase with a modifier and head candidate.
-4. Encode a preposition phrase with two possible attachments.
+4. Encode a low-resolution position phrase with two possible attachments.
 5. Encode a sentence with one coarse selected read and one unresolved
    alternative.
 6. Encode a context frame that settles the alternative differently.
@@ -717,6 +717,48 @@ unknown exact nearness basis
 
 That gives us color/quality, object, spatial relation, phrase attachment, and
 residue without pretending we have a full language parser.
+
+## Current Executable Slice
+
+`RedTraceNearPinGrammarFixture.CreateLedger` in `Gojo.Encoding.Tests` encodes
+that first test sentence as a small grammar fixture:
+
+```text
+red trace near pin
+```
+
+The fixture contains:
+
+```text
+token order
+lexical candidates
+modifier candidate
+low-resolution position witness between trace and pin
+two position phrase candidates
+selected coarse read
+interpretation bundle
+grammar trace
+residue for exact red basis, exact nearness basis, and alternate attachment
+```
+
+This is intentionally not a parser. It is a relation-shaped proof that grammar
+order can remain evidence while lower concept reads still do the meaning work.
+The token `near` is only provenance for the position read. The near-like meaning
+comes from a low-resolution point on the pin ground with exact position left as
+residue. This keeps the sentence-like layer from becoming a separate tag system
+or a giant tree of word-owned meanings.
+
+The next grammar fixture should add one piece of context that changes the
+settlement pressure:
+
+```text
+red trace near pin
+context: red is copper layer color
+context: near is board-clearance warning
+```
+
+That would test whether later context can lower one residue while preserving the
+original grammar trace and unselected alternative.
 
 ## Guiding Rule
 
