@@ -548,7 +548,10 @@ Current fixture:
 
 ```text
 RedTraceNearPinGrammarFixture.CreateLedger
+RedTraceNearPinGrammarFixture.CreatePerspectiveRelativeLedger
 GrammarFixtureReadSurface.TryReadGrammar
+CommonIntervalReadSurface.TryRead / TryLocate
+ContextualIntervalProjectionReadSurface.TryProject
 ```
 
 The fixture encodes:
@@ -563,6 +566,14 @@ coarse read, an interpretation bundle, a grammar trace, and residue for
 unresolved color basis, exact position, and alternate attachment. The token
 `near` is provenance for that read; the near-like meaning comes from the
 low-resolution position on a ground, not from a stored preposition concept tree.
+
+The next test foothold reads a generic interval from structure alone. A carrier
+span has start, center, and end landmarks plus coarse bands. Those are not
+English words yet; they are low-resolution positions against a basis. A spatial
+context can project the start band as `near` and the end band as `far`; a
+temporal context can project the same start and end bands as `before` and
+`after`. If a context has no projection witness, the interval role still reads
+and the context-specific word simply remains unresolved.
 
 This is enough to begin the CAD-first grammar vertical slice. It is not enough
 to freeze the packet format or claim a general language parser. The next lower

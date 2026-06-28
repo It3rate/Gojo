@@ -11,12 +11,14 @@ internal static class CommonIntervalReadSurface
 {
     public readonly record struct IntervalBandRead(
         string DefinitionName,
+        Relation Definition,
         long StartTicks,
         long EndTicks,
         string Role);
 
     public readonly record struct IntervalRead(
         string DefinitionName,
+        Relation Definition,
         Carrier Carrier,
         long StartTicks,
         long CenterTicks,
@@ -28,8 +30,10 @@ internal static class CommonIntervalReadSurface
 
     public readonly record struct IntervalLocationRead(
         string IntervalName,
+        Relation IntervalDefinition,
         long Ticks,
         string BandName,
+        Relation BandDefinition,
         string Role);
 
     public static bool TryRead(
@@ -61,6 +65,7 @@ internal static class CommonIntervalReadSurface
 
             reads.Add(new IntervalRead(
                 node.Name,
+                node.Definition,
                 carrier,
                 start,
                 center,
@@ -101,8 +106,10 @@ internal static class CommonIntervalReadSurface
 
                     location = new IntervalLocationRead(
                         interval.DefinitionName,
+                        interval.Definition,
                         ticks,
                         band.DefinitionName,
+                        band.Definition,
                         band.Role);
                     return true;
                 }
@@ -135,6 +142,7 @@ internal static class CommonIntervalReadSurface
             var role = BandRole(start, end, intervalStart, intervalCenter, intervalEnd);
             bands.Add(new IntervalBandRead(
                 node.Name,
+                node.Definition,
                 start,
                 end,
                 role));

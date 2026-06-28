@@ -79,7 +79,12 @@ The first implementation is intentionally tiny.
   witness between trace and pin, two phrase candidates, a selected coarse read,
   an interpretation bundle, and a grammar trace. The token `near` is provenance
   for the position read; the meaning comes from the low-resolution position on a
-  ground, not from a stored preposition concept tree.
+  ground, not from a stored preposition concept tree. The same fixture area now
+  includes generic interval reads over carrier structure: start, center, end,
+  and coarse bands are discovered from points, segments, and dependencies. A
+  later context read can project the same structural role as spatial words such
+  as `near`/`far` or temporal words such as `before`/`after`, while an
+  unprojected context still leaves the lower structural role readable.
 - `GojoStructureEncodingSurface` stores a diagnostic snapshot of a currently
   visible Gojo element tree as relation-shaped integer rows. It is useful for
   debugging and transport experiments, but it is not the canonical conceptual

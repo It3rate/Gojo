@@ -1,5 +1,6 @@
 using Gojo.Core;
 using Gojo.Encoding;
+using Gojo.Structures;
 
 namespace Gojo.Encoding.Tests;
 
@@ -69,5 +70,85 @@ public sealed class CommonIntervalReadSurfaceTests
         Assert.True(CommonIntervalReadSurface.TryLocate(graph, axis, 9, out var endLocation));
         Assert.Equal("exit window", endLocation.BandName);
         Assert.Equal("end", endLocation.Role);
+    }
+
+    [Fact]
+    public void ContextProjectionMapsSameIntervalRolesDifferently()
+    {
+        var axis = new Carrier();
+        var definitions = new List<Relation>();
+
+        Relation Add(
+            string name,
+            IElement body,
+            IReadOnlyList<IElement>? dependencies = null,
+            IElement? residueOrTension = null)
+        {
+            var definition = ConceptDefinitionSurface.Create(
+                new Carrier(),
+                name,
+                body,
+                dependencies,
+                residueOrTension: residueOrTension);
+            definitions.Add(definition);
+            return definition;
+        }
+
+        var interval = Add("shared span", Relation.Segment(axis, 0, 12));
+        var start = Add("alpha", Relation.Point(axis, 0), [interval]);
+        var center = Add("balance", Relation.Point(axis, 6), [interval]);
+        var end = Add("omega", Relation.Point(axis, 12), [interval]);
+        var entry = Add("entry", Relation.Segment(axis, 0, 2), [interval, start]);
+        var middle = Add("middle", Relation.Segment(axis, 5, 7), [interval, center]);
+        var exit = Add("exit", Relation.Segment(axis, 9, 12), [interval, end]);
+        var spatialContext = Add("spatial context", ConceptAddressSurface.Atom(new Carrier(), "spatial"));
+        var temporalContext = Add("temporal context", ConceptAddressSurface.Atom(new Carrier(), "temporal"));
+
+        AddProjection("spatial entry projection", entry, spatialContext, "near");
+        AddProjection("spatial middle projection", middle, spatialContext, "middle");
+        AddProjection("spatial exit projection", exit, spatialContext, "far");
+        AddProjection("temporal entry projection", entry, temporalContext, "before");
+        AddProjection("temporal middle projection", middle, temporalContext, "during");
+        AddProjection("temporal exit projection", exit, temporalContext, "after");
+
+        var ledger = ConceptDefinitionSurface.Ledger(new Carrier(), definitions);
+
+        Assert.True(ConceptDefinitionDiscoverySurface.TryReadLedger(ledger, out var graph));
+        Assert.True(ContextualIntervalProjectionReadSurface.TryProject(graph, spatialContext, axis, 1, out var spatialStart));
+        Assert.True(ContextualIntervalProjectionReadSurface.TryProject(graph, temporalContext, axis, 1, out var temporalStart));
+        Assert.True(ContextualIntervalProjectionReadSurface.TryProject(graph, spatialContext, axis, 10, out var spatialEnd));
+        Assert.True(ContextualIntervalProjectionReadSurface.TryProject(graph, temporalContext, axis, 10, out var temporalEnd));
+
+        Assert.Equal("start", spatialStart.Role);
+        Assert.Equal(spatialStart.Role, temporalStart.Role);
+        Assert.Equal("near", spatialStart.Projection);
+        Assert.Equal("before", temporalStart.Projection);
+        Assert.Equal("end", spatialEnd.Role);
+        Assert.Equal(spatialEnd.Role, temporalEnd.Role);
+        Assert.Equal("far", spatialEnd.Projection);
+        Assert.Equal("after", temporalEnd.Projection);
+
+        var unresolvedContext = Add("unresolved context", ConceptAddressSurface.Atom(new Carrier(), "unresolved"));
+        var unresolvedLedger = ConceptDefinitionSurface.Ledger(new Carrier(), definitions);
+
+        Assert.True(ConceptDefinitionDiscoverySurface.TryReadLedger(unresolvedLedger, out var unresolvedGraph));
+        Assert.True(CommonIntervalReadSurface.TryLocate(unresolvedGraph, axis, 1, out var unresolvedLocation));
+        Assert.Equal("start", unresolvedLocation.Role);
+        Assert.False(ContextualIntervalProjectionReadSurface.TryProject(unresolvedGraph, unresolvedContext, axis, 1, out _));
+
+        void AddProjection(string name, Relation band, Relation context, string projection)
+        {
+            Add(
+                name,
+                ReadWitness.Create(
+                    new Carrier(),
+                    band,
+                    context,
+                    EncodedTextSurface.Create(new Carrier(), projection),
+                    EncodedTextSurface.Create(new Carrier(), "context projection, not interval structure"),
+                    context),
+                [band, context],
+                EncodedTextSurface.Create(new Carrier(), "projection remains local to this context"));
+        }
     }
 }
