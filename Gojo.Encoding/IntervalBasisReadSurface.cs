@@ -125,6 +125,23 @@ public static class IntervalBasisReadSurface
         return false;
     }
 
+    public static bool TryReadInterior(
+        IElement intervalOrBand,
+        Carrier carrier,
+        long ticks,
+        out bool inside)
+    {
+        if (TryReadSegment(intervalOrBand, out var segmentCarrier, out var start, out var end) &&
+            segmentCarrier.SameIdentityAs(carrier))
+        {
+            inside = ticks > start && ticks < end;
+            return true;
+        }
+
+        inside = false;
+        return false;
+    }
+
     private static IntervalBandRead[] ReadBands(
         ConceptDefinitionDiscoverySurface.DefinitionGraph graph,
         ConceptDefinitionDiscoverySurface.DefinitionNode interval,
