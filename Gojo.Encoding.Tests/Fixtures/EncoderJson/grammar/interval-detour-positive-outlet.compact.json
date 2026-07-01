@@ -1,0 +1,87 @@
+{
+  "sourceId": "grammar/interval-detour-positive-outlet",
+  "carriers": [
+    "primary-route",
+    "detour-branch"
+  ],
+  "definitions": [
+    {
+      "id": "positive outlet route context",
+      "body": {
+        "kind": "group",
+        "elements": [
+          {
+            "kind": "point",
+            "carrier": "primary-route",
+            "ticks": 12
+          },
+          {
+            "kind": "segment",
+            "carrier": "primary-route",
+            "start": 5,
+            "end": 7
+          },
+          {
+            "kind": "group",
+            "elements": [
+              {
+                "kind": "relation",
+                "left": {
+                  "kind": "point",
+                  "carrier": "primary-route",
+                  "ticks": 4
+                },
+                "right": {
+                  "kind": "point",
+                  "carrier": "detour-branch",
+                  "face": "inverse",
+                  "ticks": 0
+                }
+              },
+              {
+                "kind": "relation",
+                "left": {
+                  "kind": "segment",
+                  "carrier": "primary-route",
+                  "start": 4,
+                  "end": 8
+                },
+                "right": {
+                  "kind": "directedSegment",
+                  "carrier": "detour-branch",
+                  "start": 0,
+                  "end": 10
+                }
+              },
+              {
+                "kind": "relation",
+                "left": {
+                  "kind": "point",
+                  "carrier": "detour-branch",
+                  "ticks": 10
+                },
+                "right": {
+                  "kind": "point",
+                  "carrier": "primary-route",
+                  "ticks": 8
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "dependsOn": []
+    },
+    {
+      "id": "focus",
+      "body": {
+        "kind": "point",
+        "carrier": "primary-route",
+        "ticks": 0
+      },
+      "dependsOn": [
+        "positive outlet route context"
+      ]
+    }
+  ]
+}

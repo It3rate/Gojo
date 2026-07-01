@@ -1,0 +1,77 @@
+{
+  "sourceId": "grammar/interval-detour-settlement",
+  "carriers": [
+    "primary-route",
+    "detour-branch"
+  ],
+  "definitions": [
+    {
+      "id": "blocked route context",
+      "body": {
+        "kind": "group",
+        "elements": [
+          {
+            "kind": "point",
+            "carrier": "primary-route",
+            "ticks": 12
+          },
+          {
+            "kind": "segment",
+            "carrier": "primary-route",
+            "start": 5,
+            "end": 7
+          },
+          {
+            "kind": "group",
+            "elements": [
+              {
+                "kind": "relation",
+                "left": {
+                  "kind": "point",
+                  "carrier": "primary-route",
+                  "ticks": 4
+                },
+                "right": {
+                  "kind": "point",
+                  "carrier": "detour-branch",
+                  "ticks": 0
+                }
+              },
+              {
+                "kind": "segment",
+                "carrier": "detour-branch",
+                "start": 0,
+                "end": 10
+              },
+              {
+                "kind": "relation",
+                "left": {
+                  "kind": "point",
+                  "carrier": "detour-branch",
+                  "ticks": 10
+                },
+                "right": {
+                  "kind": "point",
+                  "carrier": "primary-route",
+                  "ticks": 8
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "dependsOn": []
+    },
+    {
+      "id": "focus",
+      "body": {
+        "kind": "point",
+        "carrier": "primary-route",
+        "ticks": 0
+      },
+      "dependsOn": [
+        "blocked route context"
+      ]
+    }
+  ]
+}

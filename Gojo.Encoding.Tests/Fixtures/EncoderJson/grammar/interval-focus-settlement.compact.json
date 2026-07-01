@@ -1,0 +1,62 @@
+{
+  "sourceId": "grammar/interval-focus-settlement",
+  "carriers": [
+    "interval-axis",
+    "unrelated-axis"
+  ],
+  "definitions": [
+    {
+      "id": "shared span",
+      "body": {
+        "kind": "segment",
+        "carrier": "interval-axis",
+        "start": 0,
+        "end": 12
+      },
+      "dependsOn": []
+    },
+    {
+      "id": "salient interval values",
+      "body": {
+        "kind": "group",
+        "elements": [
+          {
+            "kind": "point",
+            "carrier": "interval-axis",
+            "ticks": 0
+          },
+          {
+            "kind": "segment",
+            "carrier": "interval-axis",
+            "start": 5,
+            "end": 7
+          },
+          {
+            "kind": "point",
+            "carrier": "interval-axis",
+            "ticks": 12
+          },
+          {
+            "kind": "point",
+            "carrier": "unrelated-axis",
+            "ticks": 4
+          }
+        ]
+      },
+      "dependsOn": [
+        "shared span"
+      ]
+    },
+    {
+      "id": "focus",
+      "body": {
+        "kind": "point",
+        "carrier": "interval-axis",
+        "ticks": 4
+      },
+      "dependsOn": [
+        "shared span"
+      ]
+    }
+  ]
+}

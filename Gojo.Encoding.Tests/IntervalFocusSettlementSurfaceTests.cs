@@ -1,3 +1,4 @@
+using System.Text.Json.Nodes;
 using Gojo.Core;
 using Gojo.Encoding;
 using Gojo.Structures;
@@ -123,6 +124,42 @@ public sealed class IntervalFocusSettlementSurfaceTests
     }
 
     [Fact]
+    public void SalientSettlementCanReloadFromCompactJson()
+    {
+        var generated = ConceptDefinitionInterchangeJson.Serialize(CompactSettlementDocument());
+        var fixture = File.ReadAllText(IntervalFocusSettlementCompactFixturePath());
+        var reread = ConceptDefinitionInterchangeJson.Deserialize(fixture);
+        var rewritten = ConceptDefinitionInterchangeJson.Serialize(reread);
+
+        AssertJsonEquivalent(fixture, generated);
+        AssertJsonEquivalent(generated, rewritten);
+
+        var loaded = ConceptDefinitionInterchangeJson.ToLabeledLedger(reread);
+
+        Assert.True(ConceptDefinitionDiscoverySurface.TryReadLedger(loaded.Ledger, out var graph));
+        Assert.True(IntervalFocusSettlementSurface.TryCreateSalientSettlement(
+            graph,
+            loaded.SingleDefinition("focus"),
+            loaded.SingleDefinition("salient interval values"),
+            new Carrier(),
+            out var settlement));
+        Assert.True(IntervalFocusSettlementSurface.TryReadSalient(settlement, out var read));
+
+        Assert.Equal(4, read.CurrentTicks);
+        Assert.Equal(5, read.ProposedTicks);
+        Assert.True(IntervalFocusSettlementSurface.TryReadContinuousCorrection(
+            read.Correction,
+            out var carrier,
+            out var currentTicks,
+            out var proposedTicks,
+            out _));
+        Assert.True(carrier.SameIdentityAs(read.Carrier));
+        Assert.Equal(4, currentTicks);
+        Assert.Equal(5, proposedTicks);
+        AssertContainsNoEncodedLabelWords(loaded.Ledger, reread);
+    }
+
+    [Fact]
     public void InteriorReadExcludesEndpoints()
     {
         var axis = new Carrier();
@@ -226,6 +263,76 @@ public sealed class IntervalFocusSettlementSurfaceTests
             endPoint);
     }
 
+    private static ConceptDefinitionInterchangeDocument CompactSettlementDocument() =>
+        new()
+        {
+            SourceId = "grammar/interval-focus-settlement",
+            Carriers = ["interval-axis", "unrelated-axis"],
+            Definitions =
+            [
+                new()
+                {
+                    Id = "shared span",
+                    Body = new()
+                    {
+                        Kind = "segment",
+                        Carrier = "interval-axis",
+                        Start = 0,
+                        End = 12
+                    },
+                    DependsOn = []
+                },
+                new()
+                {
+                    Id = "salient interval values",
+                    Body = new()
+                    {
+                        Kind = "group",
+                        Elements =
+                        [
+                            new()
+                            {
+                                Kind = "point",
+                                Carrier = "interval-axis",
+                                Ticks = 0
+                            },
+                            new()
+                            {
+                                Kind = "segment",
+                                Carrier = "interval-axis",
+                                Start = 5,
+                                End = 7
+                            },
+                            new()
+                            {
+                                Kind = "point",
+                                Carrier = "interval-axis",
+                                Ticks = 12
+                            },
+                            new()
+                            {
+                                Kind = "point",
+                                Carrier = "unrelated-axis",
+                                Ticks = 4
+                            }
+                        ]
+                    },
+                    DependsOn = ["shared span"]
+                },
+                new()
+                {
+                    Id = "focus",
+                    Body = new()
+                    {
+                        Kind = "point",
+                        Carrier = "interval-axis",
+                        Ticks = 4
+                    },
+                    DependsOn = ["shared span"]
+                }
+            ]
+        };
+
     private static void AssertPoint(IElement element, Carrier carrier, long ticks)
     {
         Assert.True(TryReadPoint(element, out var point));
@@ -289,6 +396,95 @@ public sealed class IntervalFocusSettlementSurfaceTests
         start = 0;
         end = 0;
         return false;
+    }
+
+    private static void AssertContainsNoEncodedLabelWords(
+        IElement element,
+        ConceptDefinitionInterchangeDocument document)
+    {
+        var labels = document.Definitions
+            .SelectMany(definition => CollectLabels(definition))
+            .Where(label => !string.IsNullOrEmpty(label))
+            .ToHashSet(StringComparer.Ordinal);
+        var visited = new HashSet<IElement>(ReferenceEqualityComparer.Instance);
+        Visit(element);
+
+        void Visit(IElement item)
+        {
+            if (!visited.Add(item))
+            {
+                return;
+            }
+
+            if (EncodedTextSurface.TryRead(item, out var text) && labels.Contains(text))
+            {
+                Assert.Fail($"Compact reload should keep label word '{text}' outside Gojo structure.");
+            }
+
+            if (item is Relation relation)
+            {
+                Visit(relation.Left);
+                Visit(relation.Right);
+            }
+        }
+    }
+
+    private static IEnumerable<string?> CollectLabels(ConceptDefinitionInterchangeDefinition definition)
+    {
+        yield return definition.Id;
+        yield return definition.ResidueOrTension;
+        foreach (var label in CollectLabels(definition.Body))
+        {
+            yield return label;
+        }
+    }
+
+    private static IEnumerable<string?> CollectLabels(ConceptDefinitionInterchangeBody body)
+    {
+        yield return body.Text;
+        yield return body.Selected;
+        yield return body.Context;
+        yield return body.ResultText;
+        yield return body.ResidueOrTension;
+        yield return body.Provenance;
+        foreach (var element in body.Elements ?? [])
+        {
+            foreach (var label in CollectLabels(element))
+            {
+                yield return label;
+            }
+        }
+
+        if (body.ReadSurface is not null)
+        {
+            foreach (var label in CollectLabels(body.ReadSurface))
+            {
+                yield return label;
+            }
+        }
+
+        if (body.Result is not null)
+        {
+            foreach (var label in CollectLabels(body.Result))
+            {
+                yield return label;
+            }
+        }
+    }
+
+    private static string IntervalFocusSettlementCompactFixturePath() =>
+        Path.Combine(
+            AppContext.BaseDirectory,
+            "Fixtures",
+            "EncoderJson",
+            "grammar",
+            "interval-focus-settlement.compact.json");
+
+    private static void AssertJsonEquivalent(string expected, string actual)
+    {
+        var expectedNode = JsonNode.Parse(expected);
+        var actualNode = JsonNode.Parse(actual);
+        Assert.True(JsonNode.DeepEquals(expectedNode, actualNode), actual);
     }
 
     private readonly record struct SettlementSample(

@@ -2,6 +2,7 @@ using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Gojo.Core;
+using Gojo.Reads;
 using Gojo.Structures;
 
 namespace Gojo.Encoding;
@@ -169,13 +170,20 @@ public static class ConceptDefinitionInterchangeJson
     {
         if (TryReadPoint(element, out var point))
         {
-            Add(point.Carrier);
+            Add(CanonicalCarrier(point.Carrier));
             return;
         }
 
         if (TryReadSegment(element, out var carrier, out _, out _))
         {
-            Add(carrier);
+            Add(CanonicalCarrier(carrier));
+            return;
+        }
+
+        if (element is Relation directedSegment &&
+            directedSegment.TryReadDirectedSegment(out _, out var positiveEnd))
+        {
+            Add(positiveEnd.Carrier);
             return;
         }
 
@@ -199,6 +207,23 @@ public static class ConceptDefinitionInterchangeJson
             AddStructuralCarriers(residueOrTension, carriers);
             AddStructuralCarriers(provenance, carriers);
             return;
+        }
+
+        if (element is Relation group &&
+            EncodedTextSurface.TryReadRootElements(group, out var elements))
+        {
+            foreach (var item in elements)
+            {
+                AddStructuralCarriers(item, carriers);
+            }
+
+            return;
+        }
+
+        if (element is Relation fallbackRelation)
+        {
+            AddStructuralCarriers(fallbackRelation.Left, carriers);
+            AddStructuralCarriers(fallbackRelation.Right, carriers);
         }
 
         void Add(Carrier carrier)
@@ -289,9 +314,22 @@ public static class ConceptDefinitionInterchangeJson
             return new ConceptDefinitionInterchangeBody
             {
                 Kind = "segment",
-                Carrier = carriers[carrier],
+                Carrier = carriers[CanonicalCarrier(carrier)],
+                Face = carrier.IsInverse ? "inverse" : null,
                 Start = start,
                 End = end
+            };
+        }
+
+        if (element is Relation directedSegment &&
+            directedSegment.TryReadDirectedSegment(out var inverseStart, out var positiveEnd))
+        {
+            return new ConceptDefinitionInterchangeBody
+            {
+                Kind = "directedSegment",
+                Carrier = carriers[positiveEnd.Carrier],
+                Start = inverseStart.Ticks,
+                End = positiveEnd.Ticks
             };
         }
 
@@ -300,7 +338,8 @@ public static class ConceptDefinitionInterchangeJson
             return new ConceptDefinitionInterchangeBody
             {
                 Kind = "point",
-                Carrier = carriers[point.Carrier],
+                Carrier = carriers[CanonicalCarrier(point.Carrier)],
+                Face = point.Carrier.IsInverse ? "inverse" : null,
                 Ticks = point.Ticks
             };
         }
@@ -308,6 +347,26 @@ public static class ConceptDefinitionInterchangeJson
         if (EncodedTextSurface.TryRead(element, out var text))
         {
             return new ConceptDefinitionInterchangeBody { Kind = "text", Text = text };
+        }
+
+        if (element is Relation group &&
+            EncodedTextSurface.TryReadRootElements(group, out var elements))
+        {
+            return new ConceptDefinitionInterchangeBody
+            {
+                Kind = "group",
+                Elements = [.. elements.Select(item => BodyFromElement(ids, carriers, item))]
+            };
+        }
+
+        if (element is Relation relation)
+        {
+            return new ConceptDefinitionInterchangeBody
+            {
+                Kind = "relation",
+                Left = BodyFromElement(ids, carriers, relation.Left),
+                Right = BodyFromElement(ids, carriers, relation.Right)
+            };
         }
 
         throw new NotSupportedException(
@@ -333,12 +392,66 @@ public static class ConceptDefinitionInterchangeJson
             case "text":
                 return EncodedTextSurface.Create(new Carrier(), body.Text);
             case "point":
-                return Relation.Point(CarrierFor(carriers, body.Carrier), body.Ticks ?? 0);
+                return Relation.Point(CarrierFor(carriers, body.Carrier, body.Face), body.Ticks ?? 0);
             case "segment":
                 return Relation.Segment(
+                    CarrierFor(carriers, body.Carrier, body.Face),
+                    body.Start ?? 0,
+                    body.End ?? 0);
+            case "directedSegment":
+                return Relation.DirectedSegment(
                     CarrierFor(carriers, body.Carrier),
                     body.Start ?? 0,
                     body.End ?? 0);
+            case "group":
+                var groupElements = new List<IElement>();
+                foreach (var element in body.Elements ?? [])
+                {
+                    groupElements.Add(BodyToElement(
+                        element,
+                        carriers,
+                        definitions,
+                        resultCarrier,
+                        resultLabels,
+                        residueCarrier,
+                        residueLabels,
+                        unresolvedReferenceCarrier,
+                        ref unresolvedReferenceTicks,
+                        witnessFrameCarrier,
+                        out _));
+                }
+
+                return Relation.OrderedGroup(new Carrier(), [.. groupElements]);
+            case "relation":
+                return new Relation(
+                    body.Left is null
+                        ? EncodedTextSurface.UnknownPoint()
+                        : BodyToElement(
+                            body.Left,
+                            carriers,
+                            definitions,
+                            resultCarrier,
+                            resultLabels,
+                            residueCarrier,
+                            residueLabels,
+                            unresolvedReferenceCarrier,
+                            ref unresolvedReferenceTicks,
+                            witnessFrameCarrier,
+                            out _),
+                    body.Right is null
+                        ? EncodedTextSurface.UnknownPoint()
+                        : BodyToElement(
+                            body.Right,
+                            carriers,
+                            definitions,
+                            resultCarrier,
+                            resultLabels,
+                            residueCarrier,
+                            residueLabels,
+                            unresolvedReferenceCarrier,
+                            ref unresolvedReferenceTicks,
+                            witnessFrameCarrier,
+                            out _));
             case "witness":
                 var witnessSelected = DefinitionOrTensionFor(
                     definitions,
@@ -416,7 +529,7 @@ public static class ConceptDefinitionInterchangeJson
         }
     }
 
-    private static Carrier CarrierFor(Dictionary<string, Carrier> carriers, string? id)
+    private static Carrier CarrierFor(Dictionary<string, Carrier> carriers, string? id, string? face = null)
     {
         if (string.IsNullOrWhiteSpace(id))
         {
@@ -429,8 +542,13 @@ public static class ConceptDefinitionInterchangeJson
             carriers.Add(id, carrier);
         }
 
-        return carrier;
+        return string.Equals(face, "inverse", StringComparison.OrdinalIgnoreCase)
+            ? carrier.Inverse()
+            : carrier;
     }
+
+    private static Carrier CanonicalCarrier(Carrier carrier) =>
+        carrier.IsInverse ? carrier.Inverse() : carrier;
 
     private static IElement DefinitionOrTensionFor(
         IReadOnlyDictionary<string, List<Relation>> definitions,
@@ -564,7 +682,15 @@ public sealed record ConceptDefinitionInterchangeBody
 {
     public string Kind { get; init; } = string.Empty;
 
+    public List<ConceptDefinitionInterchangeBody>? Elements { get; init; }
+
+    public ConceptDefinitionInterchangeBody? Left { get; init; }
+
+    public ConceptDefinitionInterchangeBody? Right { get; init; }
+
     public string? Carrier { get; init; }
+
+    public string? Face { get; init; }
 
     public long? Ticks { get; init; }
 
