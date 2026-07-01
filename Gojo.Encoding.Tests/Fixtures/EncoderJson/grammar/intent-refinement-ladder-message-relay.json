@@ -1,0 +1,276 @@
+{
+  "sourceId": "grammar/intent-refinement-ladder/message-relay",
+  "encodingNote": "Different-domain ladder for a payload moving from a sender to a recipient through a relay when the direct channel is blocked.",
+  "languageHints": {
+    "nouns": [
+      "alice",
+      "message",
+      "bob",
+      "relay"
+    ],
+    "verbs": [
+      "send",
+      "deliver",
+      "transmit",
+      "move"
+    ],
+    "prepositions": [
+      "from",
+      "to",
+      "through",
+      "around"
+    ]
+  },
+  "carriers": [
+    {
+      "id": "direct-channel",
+      "domain": "communication"
+    },
+    {
+      "id": "relay-channel",
+      "domain": "communication",
+      "relationToPrimary": "orthogonal-conveyance"
+    },
+    {
+      "id": "payload-state",
+      "domain": "message-presence"
+    }
+  ],
+  "sections": [
+    {
+      "id": "base-intent",
+      "rung": 0,
+      "role": "base-intent",
+      "structure": {
+        "kind": "group",
+        "elements": [
+          {
+            "id": "message-at-alice",
+            "kind": "relation",
+            "left": {
+              "kind": "point",
+              "carrier": "payload-state",
+              "ticks": 1
+            },
+            "right": {
+              "kind": "point",
+              "carrier": "direct-channel",
+              "ticks": 0
+            }
+          },
+          {
+            "id": "alice-to-bob-intent",
+            "kind": "segment",
+            "carrier": "direct-channel",
+            "start": 0,
+            "end": 12
+          }
+        ]
+      },
+      "reads": [
+        "send message from alice to bob"
+      ]
+    },
+    {
+      "id": "unavailable-channel-elaboration",
+      "rung": 1,
+      "role": "constraint-elaboration",
+      "basis": "base-intent",
+      "focus": {
+        "source": {
+          "use": "base-intent"
+        },
+        "basis": {
+          "kind": "segment",
+          "carrier": "direct-channel",
+          "start": 5,
+          "end": 7
+        },
+        "participation": {
+          "use": "base-intent"
+        },
+        "replacement": {
+          "kind": "group",
+          "elements": [
+            {
+              "use": "base-intent"
+            },
+            {
+              "kind": "segment",
+              "carrier": "direct-channel",
+              "start": 5,
+              "end": 7
+            }
+          ]
+        },
+        "correspondence": [
+          {
+            "from": "base-intent",
+            "to": "unavailable-channel-elaboration"
+          }
+        ]
+      },
+      "residueOrTension": [
+        {
+          "kind": "blocked-channel",
+          "carrier": "direct-channel",
+          "start": 5,
+          "end": 7
+        }
+      ],
+      "reads": [
+        "message cannot travel directly through the unavailable middle channel"
+      ]
+    },
+    {
+      "id": "relay-refinement",
+      "rung": 2,
+      "role": "settlement-refinement",
+      "basis": "unavailable-channel-elaboration",
+      "focus": {
+        "source": {
+          "use": "unavailable-channel-elaboration"
+        },
+        "basis": {
+          "use": "relay-path"
+        },
+        "participation": {
+          "use": "unavailable-channel-elaboration"
+        },
+        "replacement": {
+          "use": "relay-path"
+        },
+        "correspondence": [
+          {
+            "from": "unavailable-channel-elaboration",
+            "to": "relay-path"
+          }
+        ]
+      },
+      "supportingStructures": [
+        {
+          "id": "relay-path",
+          "kind": "path",
+          "elements": [
+            {
+              "kind": "segment",
+              "carrier": "direct-channel",
+              "start": 0,
+              "end": 4
+            },
+            {
+              "kind": "relation",
+              "left": {
+                "kind": "point",
+                "carrier": "direct-channel",
+                "ticks": 4
+              },
+              "right": {
+                "kind": "point",
+                "carrier": "relay-channel",
+                "face": "inverse",
+                "ticks": 0
+              }
+            },
+            {
+              "kind": "directedSegment",
+              "carrier": "relay-channel",
+              "start": 0,
+              "end": 10
+            },
+            {
+              "kind": "relation",
+              "left": {
+                "kind": "point",
+                "carrier": "relay-channel",
+                "ticks": 10
+              },
+              "right": {
+                "kind": "point",
+                "carrier": "direct-channel",
+                "ticks": 8
+              }
+            },
+            {
+              "kind": "segment",
+              "carrier": "direct-channel",
+              "start": 8,
+              "end": 12
+            }
+          ]
+        }
+      ],
+      "residueOrTension": [
+        {
+          "kind": "cost",
+          "value": "relay-latency"
+        },
+        {
+          "kind": "blocked-direct-channel",
+          "basis": "unavailable-channel-elaboration"
+        }
+      ],
+      "reads": [
+        "message moves from alice to bob through relay around unavailable channel"
+      ]
+    }
+  ],
+  "mappingFits": [
+    {
+      "wordHint": "deliver",
+      "fit": "exact-structure-with-context",
+      "requires": [
+        "payload",
+        "source boundary",
+        "target boundary",
+        "arrival settlement"
+      ],
+      "mapsTo": [
+        "message-at-alice",
+        "alice-to-bob-intent",
+        "relay-path"
+      ]
+    },
+    {
+      "wordHint": "send",
+      "fit": "partial-source-and-conveyance",
+      "requires": [
+        "payload",
+        "source boundary",
+        "outbound motion"
+      ],
+      "mapsTo": [
+        "message-at-alice",
+        "relay-path"
+      ],
+      "unmatched": [
+        "arrival settlement may remain open"
+      ]
+    },
+    {
+      "wordHint": "move",
+      "fit": "partial-transform-only",
+      "requires": [
+        "change of location or state"
+      ],
+      "mapsTo": [
+        "relay-path"
+      ],
+      "unmatched": [
+        "sender, recipient, and payload role labels are context only"
+      ]
+    },
+    {
+      "wordHint": "through",
+      "fit": "preposition-carrier-fit",
+      "requires": [
+        "entry into carrier",
+        "flow on carrier",
+        "exit from carrier"
+      ],
+      "mapsTo": [
+        "relay-path"
+      ]
+    }
+  ]
+}

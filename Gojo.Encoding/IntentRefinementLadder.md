@@ -148,6 +148,56 @@ The refined result may contain the previous result as a participant. This is not
 semantic duplication. It is the physical sign that the new rung is an
 elaboration of the prior rung.
 
+## JSON Sketches
+
+The current JSON sketches live in:
+
+```text
+Gojo.Encoding.Tests/Fixtures/EncoderJson/grammar/intent-refinement-ladder-pcb-route.json
+Gojo.Encoding.Tests/Fixtures/EncoderJson/grammar/intent-refinement-ladder-message-relay.json
+```
+
+These are not the final low-level compact relation interchange. They are a
+human-readable ladder interchange for inspecting sectioning, basis elaboration,
+and cross-domain mapping fits.
+
+Each file keeps the same top-level shape:
+
+```text
+sourceId
+encodingNote
+languageHints
+carriers
+sections
+```
+
+The `sections` array carries the ladder:
+
+```text
+base-intent
+constraint-elaboration
+settlement-refinement
+```
+
+The `basis` field connects a lower section to the section it elaborates. Inside
+section bodies, `use` means the previous structure is shared forward into the
+new section. It is an interchange convenience for basis sharing, not a claim
+that the Gojo meaning is a detached text pointer.
+
+The message relay example also includes `mappingFits` to show the high-level
+language behavior:
+
+```text
+deliver = exact structure with context
+send    = partial source/conveyance fit
+move    = partial transform-only fit
+through = preposition carrier fit
+```
+
+This is intentionally tolerant of imperfect metaphorical mappings. A perfect
+structural fit should map cleanly; a metaphorical or partial fit should preserve
+which pieces matched and which pieces remained open.
+
 ## Open Questions
 
 The current detour experiment treats an obstacle as a blocked segment. That is
