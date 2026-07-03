@@ -33,6 +33,7 @@
   <ItemGroup>
     <None Include="Fixtures\EncoderJson\**\*.json" CopyToOutputDirectory="PreserveNewest" />
     <None Include="Fixtures\EncoderJson\**\*.md" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\Gojo.Encoding\Fixtures\EncoderJson\**\*.json" Link="Fixtures\EncoderJson\%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
 </Project>

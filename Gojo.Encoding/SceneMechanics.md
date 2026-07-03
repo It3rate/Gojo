@@ -501,7 +501,7 @@ focus surfaces, timeline, residue, and settlement witnesses.
 This suggests the next encoding milestone:
 
 1. Keep the first pure-structure fixture set in
-   `Gojo.Encoding.Tests/Fixtures/EncoderJson/scene-mechanics/`.
+   `Gojo.Encoding/Fixtures/EncoderJson/scene-mechanics/`.
 2. Choose one scene mechanic, probably directed transfer, and build the first
    read layer over its existing structure.
 3. Add several read surfaces over the same fixture: `move`, `send`, `deliver`,

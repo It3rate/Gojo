@@ -1,4 +1,6 @@
 using Gojo.Encoding;
+using System.Collections;
+using System.Reflection;
 
 namespace Gojo.Encoding.Tests;
 
@@ -63,6 +65,41 @@ public sealed class SceneMechanicStructureFixtureTests
         Assert.Empty(graph.DependenciesOf(node));
     }
 
+    [Fact]
+    public void BlocksGlossarySceneMechanicsPageLoadsAllPureStructures()
+    {
+        var glossaryContent = typeof(Gojo.Blocks.BlocksGlossaryExport)
+            .Assembly
+            .GetType("Gojo.Blocks.BlocksGlossaryContent");
+        var createPages = glossaryContent?.GetMethod(
+            "CreatePages",
+            BindingFlags.Public | BindingFlags.Static);
+
+        Assert.NotNull(createPages);
+
+        var pages = Assert.IsAssignableFrom<IEnumerable>(createPages.Invoke(null, ["en"]));
+        var sceneMechanicsPage = pages
+            .Cast<object>()
+            .Single(page => StringProperty(page, "Id") == "glossary-scene-mechanics");
+        var items = Assert.IsAssignableFrom<IEnumerable>(
+                sceneMechanicsPage.GetType().GetProperty("GlossaryItems")?.GetValue(sceneMechanicsPage))
+            .Cast<object>()
+            .ToArray();
+
+        Assert.Equal(16, items.Length);
+        Assert.Equal(
+            ExpectedFixtureNames.Select(ExpectedItemId).ToArray(),
+            items.Select(item => StringProperty(item, "Id")).ToArray());
+        Assert.All(items, item =>
+        {
+            Assert.NotNull(item.GetType().GetProperty("Structure")?.GetValue(item));
+            var carrierLabels = Assert.IsAssignableFrom<IReadOnlyDictionary<Gojo.Core.Carrier, string>?>(
+                item.GetType().GetProperty("CarrierLabels")?.GetValue(item));
+            Assert.NotNull(carrierLabels);
+            Assert.NotEmpty(carrierLabels);
+        });
+    }
+
     public static IEnumerable<object[]> FixtureNames() =>
         ExpectedFixtureNames.Select(name => new object[] { name });
 
@@ -118,6 +155,12 @@ public sealed class SceneMechanicStructureFixtureTests
         var slug = fileStem[(fileStem.IndexOf('-', StringComparison.Ordinal) + 1)..];
         return $"scene-mechanics/{slug}";
     }
+
+    private static string ExpectedItemId(string fixtureName) =>
+        $"scene-mechanics-{Path.GetFileNameWithoutExtension(fixtureName)[4..]}";
+
+    private static string StringProperty(object source, string name) =>
+        source.GetType().GetProperty(name)?.GetValue(source) as string ?? string.Empty;
 
     private static string FixturePath(string fixtureName) =>
         Path.Combine(FixtureDirectory(), fixtureName);

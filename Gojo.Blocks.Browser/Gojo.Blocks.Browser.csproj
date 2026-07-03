@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Gojo\Gojo.csproj" />
+    <ProjectReference Include="..\Gojo.Encoding\Gojo.Encoding.csproj" />
     <ProjectReference Include="..\GojoCAD\GojoCAD.csproj" />
     <ProjectReference Include="..\GojoDraw\GojoDraw.csproj" />
   </ItemGroup>
@@ -42,11 +43,19 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
+    <Content Include="..\Gojo.Encoding\Fixtures\EncoderJson\scene-mechanics\*.json">
+      <Link>Glossary\content\en\scene-mechanics\%(Filename)%(Extension)</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
     <EmbeddedResource Include="..\Gojo.Blocks\Tutorial\content\**\*">
       <Link>Tutorial\content\%(RecursiveDir)%(Filename)%(Extension)</Link>
     </EmbeddedResource>
     <EmbeddedResource Include="..\Gojo.Blocks\Glossary\content\**\*">
       <Link>Glossary\content\%(RecursiveDir)%(Filename)%(Extension)</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Gojo.Encoding\Fixtures\EncoderJson\scene-mechanics\*.json">
+      <Link>Glossary\content\en\scene-mechanics\%(Filename)%(Extension)</Link>
     </EmbeddedResource>
   </ItemGroup>
 
