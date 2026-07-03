@@ -1,0 +1,55 @@
+{
+  "sourceId": "scene-mechanics/obstruction",
+  "carriers": [
+    "intended-route",
+    "obstacle-carrier",
+    "pressure-carrier"
+  ],
+  "definitions": [
+    {
+      "id": "obstruction structure",
+      "body": {
+        "kind": "group",
+        "elements": [
+          {
+            "kind": "directedSegment",
+            "carrier": "intended-route",
+            "start": 0,
+            "end": 10
+          },
+          {
+            "kind": "relation",
+            "left": {
+              "kind": "segment",
+              "carrier": "obstacle-carrier",
+              "start": 4,
+              "end": 6
+            },
+            "right": {
+              "kind": "segment",
+              "carrier": "intended-route",
+              "start": 4,
+              "end": 6
+            }
+          },
+          {
+            "kind": "relation",
+            "left": {
+              "kind": "directedSegment",
+              "carrier": "pressure-carrier",
+              "start": 0,
+              "end": 4
+            },
+            "right": {
+              "kind": "segment",
+              "carrier": "intended-route",
+              "start": 0,
+              "end": 4
+            }
+          }
+        ]
+      },
+      "dependsOn": []
+    }
+  ]
+}

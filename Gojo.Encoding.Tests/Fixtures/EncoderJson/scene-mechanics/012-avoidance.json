@@ -1,0 +1,72 @@
+{
+  "sourceId": "scene-mechanics/avoidance",
+  "carriers": [
+    "primary-route",
+    "obstacle-carrier",
+    "branch-carrier"
+  ],
+  "definitions": [
+    {
+      "id": "avoidance structure",
+      "body": {
+        "kind": "group",
+        "elements": [
+          {
+            "kind": "directedSegment",
+            "carrier": "primary-route",
+            "start": 0,
+            "end": 10
+          },
+          {
+            "kind": "relation",
+            "left": {
+              "kind": "segment",
+              "carrier": "obstacle-carrier",
+              "start": 4,
+              "end": 6
+            },
+            "right": {
+              "kind": "segment",
+              "carrier": "primary-route",
+              "start": 4,
+              "end": 6
+            }
+          },
+          {
+            "kind": "relation",
+            "left": {
+              "kind": "point",
+              "carrier": "primary-route",
+              "ticks": 3
+            },
+            "right": {
+              "kind": "point",
+              "carrier": "branch-carrier",
+              "ticks": 0
+            }
+          },
+          {
+            "kind": "segment",
+            "carrier": "branch-carrier",
+            "start": 0,
+            "end": 10
+          },
+          {
+            "kind": "relation",
+            "left": {
+              "kind": "point",
+              "carrier": "branch-carrier",
+              "ticks": 10
+            },
+            "right": {
+              "kind": "point",
+              "carrier": "primary-route",
+              "ticks": 7
+            }
+          }
+        ]
+      },
+      "dependsOn": []
+    }
+  ]
+}

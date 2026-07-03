@@ -1,0 +1,67 @@
+{
+  "sourceId": "scene-mechanics/conduit",
+  "carriers": [
+    "route-carrier",
+    "conduit-wall",
+    "flow-carrier"
+  ],
+  "definitions": [
+    {
+      "id": "conduit structure",
+      "body": {
+        "kind": "group",
+        "elements": [
+          {
+            "kind": "segment",
+            "carrier": "route-carrier",
+            "start": 0,
+            "end": 10
+          },
+          {
+            "kind": "segment",
+            "carrier": "conduit-wall",
+            "start": 0,
+            "end": 10
+          },
+          {
+            "kind": "directedSegment",
+            "carrier": "flow-carrier",
+            "start": 0,
+            "end": 10
+          },
+          {
+            "kind": "relation",
+            "left": {
+              "kind": "directedSegment",
+              "carrier": "flow-carrier",
+              "start": 0,
+              "end": 10
+            },
+            "right": {
+              "kind": "segment",
+              "carrier": "route-carrier",
+              "start": 0,
+              "end": 10
+            }
+          },
+          {
+            "kind": "relation",
+            "left": {
+              "kind": "segment",
+              "carrier": "route-carrier",
+              "start": 0,
+              "end": 10
+            },
+            "right": {
+              "kind": "segment",
+              "carrier": "conduit-wall",
+              "start": 0,
+              "end": 10
+            }
+          }
+        ]
+      },
+      "dependsOn": []
+    }
+  ]
+}

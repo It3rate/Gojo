@@ -24,6 +24,13 @@ sample makes the first step beyond nouns: open role slots, a comparison
 template, salient focus zones, crystallized focus words such as `near`, and
 applied bindings such as store/house or trace/pad.
 
+`scene-mechanics/` contains one compact pure-structure fixture per scene
+mechanic from `Gojo.Encoding/SceneMechanics.md`. These files intentionally keep
+only points, segments, directed segments, relations, and groups in the fixture
+body. The file names, source ids, definition ids, and carrier ids are inspection
+labels; the bodies do not include focus surfaces, read witnesses, projections,
+or lexical text.
+
 The glossary fixtures are generated from the live Gojo structures through
 `GojoStructureEncodingFixtureProjection`. The concept-definition fixtures are
 generated from their own relation ledgers. In both cases, the JSON is an

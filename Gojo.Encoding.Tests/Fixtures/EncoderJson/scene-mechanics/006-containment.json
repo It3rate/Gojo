@@ -1,0 +1,67 @@
+{
+  "sourceId": "scene-mechanics/containment",
+  "carriers": [
+    "container-boundary",
+    "interior-capacity",
+    "occupant-axis"
+  ],
+  "definitions": [
+    {
+      "id": "containment structure",
+      "body": {
+        "kind": "group",
+        "elements": [
+          {
+            "kind": "segment",
+            "carrier": "container-boundary",
+            "start": 0,
+            "end": 10
+          },
+          {
+            "kind": "segment",
+            "carrier": "interior-capacity",
+            "start": 1,
+            "end": 9
+          },
+          {
+            "kind": "segment",
+            "carrier": "occupant-axis",
+            "start": 2,
+            "end": 8
+          },
+          {
+            "kind": "relation",
+            "left": {
+              "kind": "segment",
+              "carrier": "occupant-axis",
+              "start": 2,
+              "end": 8
+            },
+            "right": {
+              "kind": "segment",
+              "carrier": "interior-capacity",
+              "start": 1,
+              "end": 9
+            }
+          },
+          {
+            "kind": "relation",
+            "left": {
+              "kind": "segment",
+              "carrier": "interior-capacity",
+              "start": 1,
+              "end": 9
+            },
+            "right": {
+              "kind": "segment",
+              "carrier": "container-boundary",
+              "start": 0,
+              "end": 10
+            }
+          }
+        ]
+      },
+      "dependsOn": []
+    }
+  ]
+}

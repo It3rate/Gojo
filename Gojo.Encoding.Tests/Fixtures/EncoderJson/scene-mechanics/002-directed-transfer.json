@@ -1,0 +1,87 @@
+{
+  "sourceId": "scene-mechanics/directed-transfer",
+  "carriers": [
+    "source-target-axis",
+    "route-axis",
+    "carried-axis"
+  ],
+  "definitions": [
+    {
+      "id": "directed transfer structure",
+      "body": {
+        "kind": "group",
+        "elements": [
+          {
+            "kind": "point",
+            "carrier": "source-target-axis",
+            "ticks": 0
+          },
+          {
+            "kind": "point",
+            "carrier": "source-target-axis",
+            "ticks": 10
+          },
+          {
+            "kind": "directedSegment",
+            "carrier": "route-axis",
+            "start": 0,
+            "end": 10
+          },
+          {
+            "kind": "relation",
+            "left": {
+              "kind": "point",
+              "carrier": "route-axis",
+              "ticks": 0
+            },
+            "right": {
+              "kind": "point",
+              "carrier": "source-target-axis",
+              "ticks": 0
+            }
+          },
+          {
+            "kind": "relation",
+            "left": {
+              "kind": "point",
+              "carrier": "route-axis",
+              "ticks": 10
+            },
+            "right": {
+              "kind": "point",
+              "carrier": "source-target-axis",
+              "ticks": 10
+            }
+          },
+          {
+            "kind": "relation",
+            "left": {
+              "kind": "point",
+              "carrier": "carried-axis",
+              "ticks": 0
+            },
+            "right": {
+              "kind": "point",
+              "carrier": "route-axis",
+              "ticks": 0
+            }
+          },
+          {
+            "kind": "relation",
+            "left": {
+              "kind": "point",
+              "carrier": "carried-axis",
+              "ticks": 10
+            },
+            "right": {
+              "kind": "point",
+              "carrier": "route-axis",
+              "ticks": 10
+            }
+          }
+        ]
+      },
+      "dependsOn": []
+    }
+  ]
+}

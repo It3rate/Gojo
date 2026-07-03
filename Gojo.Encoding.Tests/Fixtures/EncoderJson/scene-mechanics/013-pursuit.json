@@ -1,0 +1,63 @@
+{
+  "sourceId": "scene-mechanics/pursuit",
+  "carriers": [
+    "pursuer-path",
+    "target-path",
+    "gap-axis"
+  ],
+  "definitions": [
+    {
+      "id": "pursuit structure",
+      "body": {
+        "kind": "group",
+        "elements": [
+          {
+            "kind": "directedSegment",
+            "carrier": "target-path",
+            "start": 2,
+            "end": 10
+          },
+          {
+            "kind": "directedSegment",
+            "carrier": "pursuer-path",
+            "start": 0,
+            "end": 8
+          },
+          {
+            "kind": "directedSegment",
+            "carrier": "gap-axis",
+            "start": 6,
+            "end": 1
+          },
+          {
+            "kind": "relation",
+            "left": {
+              "kind": "point",
+              "carrier": "gap-axis",
+              "ticks": 6
+            },
+            "right": {
+              "kind": "point",
+              "carrier": "target-path",
+              "ticks": 2
+            }
+          },
+          {
+            "kind": "relation",
+            "left": {
+              "kind": "point",
+              "carrier": "gap-axis",
+              "ticks": 1
+            },
+            "right": {
+              "kind": "point",
+              "carrier": "target-path",
+              "ticks": 10
+            }
+          }
+        ]
+      },
+      "dependsOn": []
+    }
+  ]
+}

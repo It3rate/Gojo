@@ -1,0 +1,85 @@
+{
+  "sourceId": "scene-mechanics/joining",
+  "carriers": [
+    "part-a-axis",
+    "part-b-axis",
+    "bridge-carrier",
+    "joined-support"
+  ],
+  "definitions": [
+    {
+      "id": "joining structure",
+      "body": {
+        "kind": "group",
+        "elements": [
+          {
+            "kind": "segment",
+            "carrier": "part-a-axis",
+            "start": 0,
+            "end": 5
+          },
+          {
+            "kind": "segment",
+            "carrier": "part-b-axis",
+            "start": 5,
+            "end": 10
+          },
+          {
+            "kind": "segment",
+            "carrier": "bridge-carrier",
+            "start": 4,
+            "end": 6
+          },
+          {
+            "kind": "segment",
+            "carrier": "joined-support",
+            "start": 0,
+            "end": 10
+          },
+          {
+            "kind": "relation",
+            "left": {
+              "kind": "point",
+              "carrier": "part-a-axis",
+              "ticks": 5
+            },
+            "right": {
+              "kind": "point",
+              "carrier": "bridge-carrier",
+              "ticks": 4
+            }
+          },
+          {
+            "kind": "relation",
+            "left": {
+              "kind": "point",
+              "carrier": "bridge-carrier",
+              "ticks": 6
+            },
+            "right": {
+              "kind": "point",
+              "carrier": "part-b-axis",
+              "ticks": 5
+            }
+          },
+          {
+            "kind": "relation",
+            "left": {
+              "kind": "segment",
+              "carrier": "bridge-carrier",
+              "start": 4,
+              "end": 6
+            },
+            "right": {
+              "kind": "segment",
+              "carrier": "joined-support",
+              "start": 4,
+              "end": 6
+            }
+          }
+        ]
+      },
+      "dependsOn": []
+    }
+  ]
+}

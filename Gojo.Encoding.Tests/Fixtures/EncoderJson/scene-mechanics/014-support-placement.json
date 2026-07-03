@@ -1,0 +1,70 @@
+{
+  "sourceId": "scene-mechanics/support-placement",
+  "carriers": [
+    "support-ground",
+    "placed-participation",
+    "settlement-axis"
+  ],
+  "definitions": [
+    {
+      "id": "support placement structure",
+      "body": {
+        "kind": "group",
+        "elements": [
+          {
+            "kind": "segment",
+            "carrier": "support-ground",
+            "start": 0,
+            "end": 10
+          },
+          {
+            "kind": "directedSegment",
+            "carrier": "settlement-axis",
+            "start": 0,
+            "end": 5
+          },
+          {
+            "kind": "relation",
+            "left": {
+              "kind": "point",
+              "carrier": "settlement-axis",
+              "ticks": 0
+            },
+            "right": {
+              "kind": "point",
+              "carrier": "placed-participation",
+              "ticks": 0
+            }
+          },
+          {
+            "kind": "relation",
+            "left": {
+              "kind": "point",
+              "carrier": "settlement-axis",
+              "ticks": 5
+            },
+            "right": {
+              "kind": "point",
+              "carrier": "support-ground",
+              "ticks": 5
+            }
+          },
+          {
+            "kind": "relation",
+            "left": {
+              "kind": "point",
+              "carrier": "placed-participation",
+              "ticks": 5
+            },
+            "right": {
+              "kind": "point",
+              "carrier": "support-ground",
+              "ticks": 5
+            }
+          }
+        ]
+      },
+      "dependsOn": []
+    }
+  ]
+}

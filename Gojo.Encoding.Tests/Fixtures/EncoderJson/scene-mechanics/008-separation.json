@@ -1,0 +1,74 @@
+{
+  "sourceId": "scene-mechanics/separation",
+  "carriers": [
+    "whole-support",
+    "partition-carrier",
+    "part-a-axis",
+    "part-b-axis"
+  ],
+  "definitions": [
+    {
+      "id": "separation structure",
+      "body": {
+        "kind": "group",
+        "elements": [
+          {
+            "kind": "segment",
+            "carrier": "whole-support",
+            "start": 0,
+            "end": 10
+          },
+          {
+            "kind": "point",
+            "carrier": "partition-carrier",
+            "ticks": 5
+          },
+          {
+            "kind": "relation",
+            "left": {
+              "kind": "point",
+              "carrier": "partition-carrier",
+              "ticks": 5
+            },
+            "right": {
+              "kind": "point",
+              "carrier": "whole-support",
+              "ticks": 5
+            }
+          },
+          {
+            "kind": "relation",
+            "left": {
+              "kind": "segment",
+              "carrier": "part-a-axis",
+              "start": 0,
+              "end": 5
+            },
+            "right": {
+              "kind": "segment",
+              "carrier": "whole-support",
+              "start": 0,
+              "end": 5
+            }
+          },
+          {
+            "kind": "relation",
+            "left": {
+              "kind": "segment",
+              "carrier": "part-b-axis",
+              "start": 5,
+              "end": 10
+            },
+            "right": {
+              "kind": "segment",
+              "carrier": "whole-support",
+              "start": 5,
+              "end": 10
+            }
+          }
+        ]
+      },
+      "dependsOn": []
+    }
+  ]
+}

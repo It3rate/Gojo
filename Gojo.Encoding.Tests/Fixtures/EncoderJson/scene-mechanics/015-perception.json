@@ -1,0 +1,61 @@
+{
+  "sourceId": "scene-mechanics/perception",
+  "carriers": [
+    "observer-axis",
+    "target-axis",
+    "sensing-carrier"
+  ],
+  "definitions": [
+    {
+      "id": "perception structure",
+      "body": {
+        "kind": "group",
+        "elements": [
+          {
+            "kind": "point",
+            "carrier": "observer-axis",
+            "ticks": 0
+          },
+          {
+            "kind": "point",
+            "carrier": "target-axis",
+            "ticks": 10
+          },
+          {
+            "kind": "directedSegment",
+            "carrier": "sensing-carrier",
+            "start": 0,
+            "end": 10
+          },
+          {
+            "kind": "relation",
+            "left": {
+              "kind": "point",
+              "carrier": "sensing-carrier",
+              "ticks": 0
+            },
+            "right": {
+              "kind": "point",
+              "carrier": "observer-axis",
+              "ticks": 0
+            }
+          },
+          {
+            "kind": "relation",
+            "left": {
+              "kind": "point",
+              "carrier": "sensing-carrier",
+              "ticks": 10
+            },
+            "right": {
+              "kind": "point",
+              "carrier": "target-axis",
+              "ticks": 10
+            }
+          }
+        ]
+      },
+      "dependsOn": []
+    }
+  ]
+}
