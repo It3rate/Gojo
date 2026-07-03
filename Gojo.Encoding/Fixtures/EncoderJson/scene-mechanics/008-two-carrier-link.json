@@ -1,0 +1,41 @@
+{
+  "sourceId": "scene-mechanics/two-carrier-link",
+  "carriers": [
+    "observer",
+    "target"
+  ],
+  "definitions": [
+    {
+      "id": "two carrier link structure",
+      "body": {
+        "kind": "group",
+        "elements": [
+          {
+            "kind": "point",
+            "carrier": "observer",
+            "ticks": 0
+          },
+          {
+            "kind": "point",
+            "carrier": "target",
+            "ticks": 10
+          },
+          {
+            "kind": "relation",
+            "left": {
+              "kind": "point",
+              "carrier": "observer",
+              "ticks": 0
+            },
+            "right": {
+              "kind": "point",
+              "carrier": "target",
+              "ticks": 10
+            }
+          }
+        ]
+      },
+      "dependsOn": []
+    }
+  ]
+}

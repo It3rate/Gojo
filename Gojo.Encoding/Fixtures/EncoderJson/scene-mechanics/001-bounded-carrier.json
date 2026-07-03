@@ -1,0 +1,33 @@
+{
+  "sourceId": "scene-mechanics/bounded-carrier",
+  "carriers": [
+    "carrier"
+  ],
+  "definitions": [
+    {
+      "id": "bounded carrier structure",
+      "body": {
+        "kind": "group",
+        "elements": [
+          {
+            "kind": "point",
+            "carrier": "carrier",
+            "ticks": 0
+          },
+          {
+            "kind": "segment",
+            "carrier": "carrier",
+            "start": 0,
+            "end": 10
+          },
+          {
+            "kind": "point",
+            "carrier": "carrier",
+            "ticks": 10
+          }
+        ]
+      },
+      "dependsOn": []
+    }
+  ]
+}

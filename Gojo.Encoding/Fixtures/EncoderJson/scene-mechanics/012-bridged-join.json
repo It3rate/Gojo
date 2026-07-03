@@ -1,34 +1,31 @@
 {
-  "sourceId": "scene-mechanics/transform",
+  "sourceId": "scene-mechanics/bridged-join",
   "carriers": [
-    "state-axis",
-    "change-axis"
+    "first",
+    "second",
+    "bridge"
   ],
   "definitions": [
     {
-      "id": "transform structure",
+      "id": "bridged join structure",
       "body": {
         "kind": "group",
         "elements": [
           {
-            "kind": "point",
-            "carrier": "state-axis",
-            "ticks": 0
-          },
-          {
-            "kind": "directedSegment",
-            "carrier": "state-axis",
+            "kind": "segment",
+            "carrier": "first",
             "start": 0,
-            "end": 10
-          },
-          {
-            "kind": "point",
-            "carrier": "state-axis",
-            "ticks": 10
+            "end": 4
           },
           {
             "kind": "segment",
-            "carrier": "change-axis",
+            "carrier": "second",
+            "start": 6,
+            "end": 10
+          },
+          {
+            "kind": "segment",
+            "carrier": "bridge",
             "start": 0,
             "end": 10
           },
@@ -36,12 +33,12 @@
             "kind": "relation",
             "left": {
               "kind": "point",
-              "carrier": "change-axis",
-              "ticks": 0
+              "carrier": "first",
+              "ticks": 4
             },
             "right": {
               "kind": "point",
-              "carrier": "state-axis",
+              "carrier": "bridge",
               "ticks": 0
             }
           },
@@ -49,13 +46,13 @@
             "kind": "relation",
             "left": {
               "kind": "point",
-              "carrier": "change-axis",
+              "carrier": "bridge",
               "ticks": 10
             },
             "right": {
               "kind": "point",
-              "carrier": "state-axis",
-              "ticks": 10
+              "carrier": "second",
+              "ticks": 6
             }
           }
         ]

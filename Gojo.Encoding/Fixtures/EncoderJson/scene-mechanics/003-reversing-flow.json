@@ -1,0 +1,35 @@
+{
+  "sourceId": "scene-mechanics/reversing-flow",
+  "carriers": [
+    "carrier"
+  ],
+  "definitions": [
+    {
+      "id": "reversing flow structure",
+      "body": {
+        "kind": "group",
+        "elements": [
+          {
+            "kind": "segment",
+            "carrier": "carrier",
+            "start": 0,
+            "end": 10
+          },
+          {
+            "kind": "directedSegment",
+            "carrier": "carrier",
+            "start": 0,
+            "end": 10
+          },
+          {
+            "kind": "directedSegment",
+            "carrier": "carrier",
+            "start": 10,
+            "end": 0
+          }
+        ]
+      },
+      "dependsOn": []
+    }
+  ]
+}

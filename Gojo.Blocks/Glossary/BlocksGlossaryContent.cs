@@ -321,12 +321,12 @@ internal static class BlocksGlossaryContent
             new BlocksPage(
                 "glossary-scene-mechanics",
                 "Scene Mechanics",
-                "Reusable mechanics under verb and preposition reads, drawn from pure structure fixtures.",
+                "Primitive supports, flows, links, branches, and bridges under later verb and preposition reads.",
                 string.Empty,
                 null,
                 null,
                 0,
-                ["transfer", "contact", "boundary", "containment", "obstruction", "avoidance", "exchange"],
+                ["support", "flow", "partition", "link", "branch", "bridge"],
                 GlossaryItems: sceneMechanicItems,
                 GlossarySheet: BlocksGlossarySheetKind.SceneMechanics,
                 GlossaryDescriptions: descriptions,
@@ -400,22 +400,18 @@ internal static class BlocksGlossaryContent
 
     private static readonly SceneMechanicSpec[] SceneMechanicSpecs =
     [
-        new("001-transform.json", "scene-mechanics-transform", "Transform"),
-        new("002-directed-transfer.json", "scene-mechanics-directed-transfer", "Directed transfer"),
-        new("003-contact.json", "scene-mechanics-contact", "Contact"),
-        new("004-pressure-along-carrier.json", "scene-mechanics-pressure-along-carrier", "Pressure along carrier"),
-        new("005-boundary-crossing.json", "scene-mechanics-boundary-crossing", "Boundary crossing"),
-        new("006-containment.json", "scene-mechanics-containment", "Containment"),
-        new("007-surface-coverage.json", "scene-mechanics-surface-coverage", "Surface coverage"),
-        new("008-separation.json", "scene-mechanics-separation", "Separation"),
-        new("009-joining.json", "scene-mechanics-joining", "Joining"),
-        new("010-obstruction.json", "scene-mechanics-obstruction", "Obstruction"),
-        new("011-conduit.json", "scene-mechanics-conduit", "Conduit"),
-        new("012-avoidance.json", "scene-mechanics-avoidance", "Avoidance"),
-        new("013-pursuit.json", "scene-mechanics-pursuit", "Pursuit"),
-        new("014-support-placement.json", "scene-mechanics-support-placement", "Support placement"),
-        new("015-perception.json", "scene-mechanics-perception", "Perception"),
-        new("016-social-exchange.json", "scene-mechanics-social-exchange", "Social exchange")
+        new("001-bounded-carrier.json", "scene-mechanics-bounded-carrier", "Bounded carrier"),
+        new("002-directed-flow.json", "scene-mechanics-directed-flow", "Directed flow"),
+        new("003-reversing-flow.json", "scene-mechanics-reversing-flow", "Reversing flow"),
+        new("004-partitioned-carrier.json", "scene-mechanics-partitioned-carrier", "Partitioned carrier"),
+        new("005-nested-span.json", "scene-mechanics-nested-span", "Nested span"),
+        new("006-boundary-crossing.json", "scene-mechanics-boundary-crossing", "Boundary crossing"),
+        new("007-two-carrier-contact.json", "scene-mechanics-two-carrier-contact", "Two-carrier contact"),
+        new("008-two-carrier-link.json", "scene-mechanics-two-carrier-link", "Two-carrier link"),
+        new("009-obstructed-carrier.json", "scene-mechanics-obstructed-carrier", "Obstructed carrier"),
+        new("010-outlet-branch.json", "scene-mechanics-outlet-branch", "Outlet branch"),
+        new("011-branch-merge.json", "scene-mechanics-branch-merge", "Branch / merge"),
+        new("012-bridged-join.json", "scene-mechanics-bridged-join", "Bridged join")
     ];
 
     private static BlocksContentRoot ResolveContentRoot(string locale) =>

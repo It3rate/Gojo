@@ -1256,6 +1256,7 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
 
         using var lanePaint = StrokePaint(TickColor, 0.8f, 92);
         using var labelPaint = TextPaint(diagram.Carriers.Count > 4 ? 6.3f : 6.9f, theme.Muted, bold: true);
+        var segmentOffsets = SceneMechanicSegmentOffsets();
 
         for (var index = 0; index < diagram.Carriers.Count; index++)
         {
@@ -1284,8 +1285,8 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
         {
             DrawLine(
                 canvas,
-                AnchorPoint(new SceneMechanicAnchor(segment.Carrier, segment.StartTicks)),
-                AnchorPoint(new SceneMechanicAnchor(segment.Carrier, segment.EndTicks)),
+                AnchorPoint(new SceneMechanicAnchor(segment.Carrier, segment.StartTicks), SegmentYOffset(segment)),
+                AnchorPoint(new SceneMechanicAnchor(segment.Carrier, segment.EndTicks), SegmentYOffset(segment)),
                 BoundaryColor,
                 2.0f,
                 205);
@@ -1295,8 +1296,8 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
         {
             DrawVectorArrow(
                 canvas,
-                AnchorPoint(new SceneMechanicAnchor(segment.Carrier, segment.StartTicks)),
-                AnchorPoint(new SceneMechanicAnchor(segment.Carrier, segment.EndTicks)),
+                AnchorPoint(new SceneMechanicAnchor(segment.Carrier, segment.StartTicks), SegmentYOffset(segment)),
+                AnchorPoint(new SceneMechanicAnchor(segment.Carrier, segment.EndTicks), SegmentYOffset(segment)),
                 PositiveStroke,
                 2.0f,
                 220);
@@ -1317,13 +1318,13 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
                 ? (laneTop + laneBottom) * 0.5f
                 : laneTop + carrierIndex * laneGap;
 
-        SKPoint AnchorPoint(SceneMechanicAnchor anchor)
+        SKPoint AnchorPoint(SceneMechanicAnchor anchor, float yOffset = 0f)
         {
             var carrierIndex = CarrierIndex(anchor.Carrier);
             var range = diagram.Ranges[carrierIndex];
             var span = Math.Max(1, range.EndTicks - range.StartTicks);
             var x = laneLeft + (anchor.Ticks - range.StartTicks) * (laneRight - laneLeft) / span;
-            return new SKPoint(x, LaneY(carrierIndex));
+            return new SKPoint(x, LaneY(carrierIndex) + yOffset);
         }
 
         int CarrierIndex(Carrier carrier)
@@ -1338,6 +1339,36 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
 
             return 0;
         }
+
+        Dictionary<SceneMechanicSegment, float> SceneMechanicSegmentOffsets()
+        {
+            var offsets = new Dictionary<SceneMechanicSegment, float>();
+            foreach (var group in diagram.Segments.GroupBy(segment => CarrierIndex(segment.Carrier)))
+            {
+                var ordered = group
+                    .OrderBy(segment => segment.StartTicks)
+                    .ThenBy(segment => segment.EndTicks)
+                    .ThenBy(segment => segment.Directed ? 1 : 0)
+                    .ToArray();
+                if (ordered.Length <= 1)
+                {
+                    offsets[ordered[0]] = 0f;
+                    continue;
+                }
+
+                var spacing = diagram.Carriers.Count == 1 ? 4.3f : 3.2f;
+                var center = (ordered.Length - 1) / 2f;
+                for (var order = 0; order < ordered.Length; order++)
+                {
+                    offsets[ordered[order]] = (order - center) * spacing;
+                }
+            }
+
+            return offsets;
+        }
+
+        float SegmentYOffset(SceneMechanicSegment segment) =>
+            segmentOffsets.TryGetValue(segment, out var offset) ? offset : 0f;
     }
 
     private static SceneMechanicDiagram ReadSceneMechanicDiagram(

@@ -26,7 +26,7 @@ applied bindings such as store/house or trace/pad.
 
 `scene-mechanics/` is linked from
 `Gojo.Encoding/Fixtures/EncoderJson/scene-mechanics/` and contains one compact
-pure-structure fixture per scene mechanic from
+pure-structure fixture per primitive scene mechanic from
 `Gojo.Encoding/SceneMechanics.md`. These files intentionally keep only points,
 segments, directed segments, relations, and groups in the fixture body. The file
 names, source ids, definition ids, and carrier ids are inspection labels; the

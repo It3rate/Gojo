@@ -2,534 +2,247 @@
 
 Design status: pre-code working note.
 
-This note names the layer just below verb-like and preposition-like language
-reads. A scene mechanic is a small, reusable, inspectable Gojo structure that
-can be selected, focused, run through a basis, refined, reversed, or combined
-with another mechanic.
+This note names the layer below verb-like and preposition-like reads. A scene
+mechanic is not a word category. It is a small inspectable Gojo structure that
+can later be selected, focused, animated, bound to context, or combined with
+other structures.
 
-The goal is not to make a verb ontology. The goal is to build a compact set of
-mechanical shapes that can later read as many words depending on focus,
-resolution, scale, perspective, domain, and residue.
+The goal is a compact mechanical alphabet, not a giant ontology.
 
 ```text
-scene mechanic
-  connected Gojo structure
-  local transform or settlement behavior
-  focus/read surfaces over the structure
-  residue/tension when the read does not fully settle
-  lexical words only as later read labels or provenance
+scene mechanic primitive
+  connected carriers, points, spans, and relations
+  optional flow or energy evidence over that support
+  later selection/focus/read surfaces
+  residue/tension when a read or settlement does not fit
+  lexical labels only as later read names or provenance
 ```
 
-The same lower mechanic may read as physical motion, time order, social
-transfer, CAD editing, electrical routing, or argument structure after it is
-bound to a context.
+## Three Layers
 
-## Core Rule
-
-Durable meaning is created by multiplying a simple mechanic through several
-read dimensions:
+Keep these layers separate whenever possible.
 
 ```text
-mechanic
-  * selected participation
-  * focus basis
-  * perspective or entry point
-  * domain context
-  * scale and resolution
-  * result/residue pressure
-  = stable concept read
+support structure
+  the carrier, sites, spans, partitions, branches, links, and relations
+
+flow or energy
+  directed participation, repeated movement, pressure, animation, or timeline
+  evidence that runs over support
+
+read
+  the focus and context that make a structure read as move, send, contact,
+  perceive, join, avoid, before, near, inside, or another word-like concept
 ```
 
-Changing one of those dimensions should often change the word-like read without
-changing the lower mechanic.
+For example, `back and forth` should not require a special back-and-forth
+object. The lower structure can be a bounded carrier. The flow layer can carry
+one direction and then the reverse. A later read can call that oscillation,
+return, reciprocal motion, undo, or conversational exchange depending on
+context.
 
-For example, a directed transfer mechanic can read as:
+## Carrier Economy
+
+Do not create one carrier for every noun in the English explanation. A carrier
+should represent independently readable support.
+
+Use one carrier when the evidence lives on one support:
 
 ```text
-move      focus on change of position
-send      focus on source and outbound path
-deliver   focus on arrival and settled recipient
-bring     focus from the target side
-take      focus from the source side
-return    reverse the prior transfer basis
-transmit  same transfer shape through an informational or electrical medium
+bounded carrier:
+  site A on carrier C
+  site B on carrier C
+  span A-B on carrier C
+
+directed flow:
+  same carrier C
+  directed participation from A to B
 ```
 
-This is why broad verbs such as `move` feel weak. They read a very low
-resolution part of the scene. Richer verbs usually focus a more specific part:
-contact, route, result, obstacle, capacity, boundary, recipient, residue, or
-repair.
+That base shape can later read as `transform`, `move`, `transfer`, `from`,
+`to`, `before`, `after`, `near`, `far`, or `toward`, depending on selection,
+focus, perspective, scale, and context.
 
-## Selection, Focus, Context
-
-Selection, focus, and context should remain separate enough to inspect.
+Use another carrier when there is another independently readable participant or
+support:
 
 ```text
-selection
-  which connected participation is being used by this read
+contact:
+  carrier A has its own approach/support
+  carrier B has its own approach/support
+  relation links the contact sites
 
-focus
-  which part of the selected participation carries the read pressure
+perception/link:
+  observer support and target support remain distinct
+  relation connects them without forcing a transfer carrier
 
-context
-  which basis/domain calibrates the same mechanic
+branch:
+  primary support exists
+  alternate support is attached to it at one or more sites
 ```
 
-A selected span can be the whole route, the contact region, the entering
-boundary, the carried object, the residue, or the final settled result. A focus
-can then ask for motion, contact, completion, source, target, obstruction,
-repair, or leftover tension.
+A relation between carriers is often enough. A third carrier is only needed
+when the connector is itself readable support, such as a bridge, route, glue
+line, wire, via, or conduit.
 
-The context should not be a giant meaning tree. It is a basis that tells the
-read what kind of carriers, endpoints, supports, flows, or capacities are
-available.
+## Primitive Fixture Set
+
+The compact JSON fixtures in
+`Gojo.Encoding/Fixtures/EncoderJson/scene-mechanics/` are meant to be primitive
+mechanical structures. They intentionally do not include read/focus labels.
+
+| Fixture | Carrier count | Primitive shape | Later reads it can support |
+| --- | ---: | --- | --- |
+| `001-bounded-carrier` | 1 | two sites and a span | interval, source/target, before/after, transform basis |
+| `002-directed-flow` | 1 | support span plus one directed flow witness | move, transfer, send, toward, push |
+| `003-reversing-flow` | 1 | support span plus forward and reverse flow | return, back-and-forth, oscillate, reciprocal |
+| `004-partitioned-carrier` | 1 | whole span, middle site, subspans | split, midpoint, start/end, before/after |
+| `005-nested-span` | 1 | spans nested inside one support | contain, cover, overlap, inside, capacity |
+| `006-boundary-crossing` | 1 | flow passes a boundary site | enter, exit, pass, threshold |
+| `007-two-carrier-contact` | 2 | two supports meet at a relation | touch, hit, bump, meet, collide |
+| `008-two-carrier-link` | 2 | two supports linked by relation | perceive, refer, attend, depend, contact socially |
+| `009-obstructed-carrier` | 2 | path support conflicts with obstacle support | block, resist, prevent, tension, avoid |
+| `010-outlet-branch` | 2 | second support leaves one site | branch, emit, escape, layer hop, outlet |
+| `011-branch-merge` | 2 | alternate support leaves and rejoins | around, bypass, over, via, repair |
+| `012-bridged-join` | 3 | two supports connected by readable bridge support | join, attach, glue, repair, conduct |
+
+These are not final categories. They are low-resolution seeds. A useful next
+pass may merge, split, or remove some of them once the read layer becomes more
+capable.
+
+## Word-Like Reads Are Later
+
+Several earlier examples were too word-shaped. They are better treated as reads
+over the primitive set.
 
 ```text
-physical context
-  carriers are surfaces, paths, objects, supports
+transform
+  bounded carrier + optional directed flow
+  focus: source site becomes result site
 
-temporal context
-  carriers are ordered intervals and event spans
+directed transfer
+  bounded carrier + directed flow
+  focus: outbound path, incoming settlement, carried marker, or route
 
-social context
-  carriers are people, roles, permissions, obligations, ownership
+contact
+  two-carrier contact
+  focus: shared relation, pressure at relation, residue after relation
 
-informational context
-  carriers are messages, symbols, channels, readers
+perception
+  two-carrier link
+  focus: observer side, target side, missing evidence, resolution
 
-CAD context
-  carriers are sketch geometry, constraints, parameters, tool operations
+joining
+  contact, branch/merge, or bridged join
+  focus: local relation, resulting continuity, connector support
 
-electrical context
-  carriers are nets, traces, layers, conductors, components
+avoidance
+  obstructed carrier + branch/merge
+  focus: rejected span, alternate support, retained goal
 ```
 
-The same scene mechanic can be bound to any of these when enough structure fits.
-Unfit pieces remain as residue instead of forcing a false exact match.
+This lets multiple words share one lower structure, and it lets one lower
+structure produce different words under different focus.
 
-## Basic Mechanic Families
+## Structure And Energy
 
-These are candidate scene mechanics, not final categories.
-
-| Mechanic | Simple shape | Common reads | Reverse or dual |
-| --- | --- | --- | --- |
-| transform | source state becomes result state | move, change, become, shift | restore, undo |
-| directed transfer | source, route, carried participation, target | send, deliver, bring, take, transmit | return, receive |
-| contact | two participations reach a shared boundary | touch, hit, bump, tap, meet | separate, miss |
-| pressure along carrier | force/flow changes participation against support | push, pull, drag, steer, guide | resist, yield |
-| boundary crossing | route passes an edge with inside/outside reads | enter, exit, pass, penetrate | leave, exclude |
-| containment | occupant settles against capacity/boundary | fill, contain, hold, store | empty, release |
-| surface coverage | selected material occupies a face or visible band | cover, coat, paint, hide | uncover, reveal |
-| separation | one connected whole becomes distinct parts | split, cut, divide, break | join, merge, attach |
-| joining | distinct parts gain shared support or link | join, attach, combine, assemble | separate, detach |
-| obstruction | intended flow accumulates tension at a boundary | block, obstruct, stop, prevent | open, permit, conduct |
-| conduit | support allows flow through a route | carry, conduct, channel, route | block, leak |
-| avoidance | preserve goal while refusing a region | avoid, bypass, route around | pursue, seek |
-| pursuit | reduce gap to selected moving or missing target | chase, follow, seek, search | avoid, flee |
-| support placement | participation settles on/against stable basis | put, set, place, hang, lean | remove, fall |
-| perception/read | focus resolves structure through a sensing basis | see, hear, feel, notice, inspect | miss, ignore |
-| social exchange | transfer shape over ownership/permission/obligation | give, lend, pay, trade, ask, tell | receive, owe |
-
-Many of these are reverse-readable. Separation and joining are the clearest
-pair. Fill and empty, cover and uncover, enter and exit, send and return, attach
-and detach, reveal and hide, block and conduct are also the same or neighboring
-mechanics under a reversed basis or changed focus.
-
-Some are not simple opposites. `avoid` and `pursue` both use a gap and route
-relation, but their tension gradients differ. `avoid` keeps distance from an
-unwanted region while preserving some other goal. `pursue` reduces distance to a
-wanted moving or missing target.
-
-## Worked Mechanic: Directed Transfer
-
-A directed transfer is one of the most reusable mechanics. It can be physical,
-informational, electrical, social, temporal, or CAD-like.
-
-### Lower Gojo Shape
+Static support and moving energy should not be collapsed.
 
 ```text
-scene:
-  source site A
-  target site B
-  route carrier R
-  carried participation P
-  start witness P at A
-  end witness P at B
-  time or refinement carrier T
-  residue/tension E
+support:
+  carrier C from 0 to 10
 
-route:
-  start point on R
-  end point on R
-  optional middle span
-  optional capacity or blockage
+flow:
+  directed witness 0 -> 10
 
-timeline:
-  before: P participates at A
-  during: P participates along R or in an unresolved route
-  after: P participates at B
+reverse flow:
+  directed witness 10 -> 0
+
+animation:
+  a later timeline samples or settles these witnesses over time
 ```
 
-In Gojo terms, this should be built from ordinary carriers, points, segments,
-relations, read witnesses, focus surfaces, and timeline/refinement evidence. It
-should not require a `Transfer` enum or a verb-owned object.
+The current JSON fixtures can represent flow witnesses with `directedSegment`.
+That is enough for the glossary and early tests. It is not yet a mature
+animation/timeline encoding. A fuller version should probably use repeated
+state, transition, controller, feedback, and residue structures from the Gojo
+repetition/timeline direction.
 
-One possible focus surface:
+## Context Binding
 
-```text
-source structure:
-  A, B, R, P, route span, before/after participation
-
-focus basis:
-  route span, endpoint basis, or arrival settlement
-
-selected participation:
-  P at A
-  P moving or mapped through R
-  P at B
-
-carry-forward complement:
-  the parts of the scene not being changed by this read
-
-replacement or result:
-  P settled at B
-
-correspondence:
-  source site maps to prior participation
-  target site maps to result participation
-  route sites map to intermediate participation
-
-residue/tension:
-  missing route
-  blocked middle
-  unresolved target
-  capacity mismatch
-  ambiguous carried participation
-```
-
-### Word Reads From Focus
-
-| Read | Focus | Required settlement |
-| --- | --- | --- |
-| move | P changes position or state through any compatible basis | result differs from source |
-| send | A/source and outbound route are salient | route begins, target may remain unresolved |
-| deliver | B/target and completion are salient | P settles at B with low arrival residue |
-| bring | target-side perspective is salient | route resolves toward observer or goal side |
-| take | source-side removal is salient | P leaves A and source loses participation |
-| transmit | route medium is salient | P is signal/information and carrier continuity matters |
-| return | previous source becomes current target | transfer reverses or closes a prior path |
-
-The mechanic is the same. The read changes by focus and perspective.
-
-### Context Examples
+The same primitive can bind into several domains.
 
 ```text
 physical:
-  deliver package from shelf to desk
+  carrier is a path, surface, object support, or contact region
 
-informational:
-  send message from Alice to Bob through a channel
-
-electrical:
-  transmit signal from pad A to pad B through a net
-
-CAD:
-  move sketch point from old constraint site to new constraint site
+temporal:
+  carrier is an ordered interval or event span
 
 social:
-  give ownership from person A to person B
+  carrier is a role, obligation, permission, ownership, or attention relation
+
+informational:
+  carrier is a message path, reference, channel, or reader-target link
+
+CAD:
+  carrier is sketch geometry, constraint support, operation path, or ladder
+
+electrical:
+  carrier is net, trace, layer, conductor, pad, bridge, via, or obstacle
 ```
 
-In each case, the domain supplies what counts as source, route, target, carried
-participation, capacity, and residue. A perfect structural fit can map exactly.
-A metaphorical fit can leave extra residue.
+The primitive should not need to know which domain it is in. The context
+supplies calibration. Unfit pieces remain as residue or tension.
 
-## Worked Mechanic: Boundary Change
+## Combining Primitives
 
-Boundary change covers separation, joining, coverage, filling, and many
-result-focused verbs. It is not one verb. It is a family of reads over support,
-boundary, participation, and result settlement.
-
-### Separation And Joining
+Complex concepts should combine lower structures rather than become new root
+types.
 
 ```text
-before separation:
-  whole support W
-  connected participation across W
-  possible boundary or cut path C
+send
+  bounded carrier + directed flow
 
-focus basis:
-  selected boundary C
-  partition or contact path
-  tension where continuity fails or is forced to fail
+deliver
+  directed flow + target-side settlement read
 
-after separation:
-  part W0
-  part W1
-  boundary residue between them
-  optional tool/contact provenance
+hide
+  nested span + perception link with blocked or missing target read
+
+avoid
+  obstructed carrier + branch/merge
+
+PCB via detour
+  obstructed carrier + outlet branch + layer/context binding + branch/merge
+
+glue two materials
+  two-carrier contact + bridged join + material/context binding
 ```
 
-This can read several ways:
+The read should preserve which primitive supplied each piece of evidence. A
+solver can then change the lower rung without losing the higher intent.
 
-| Read | Focus |
-| --- | --- |
-| split | result parts and partition are salient |
-| cut | tool/contact path C is salient |
-| divide | partition basis is salient, often cleaner and less violent |
-| break | excessive tension/failure is salient |
-| separate | loss of shared support is salient |
+## Glossary Rendering
 
-Run backward or through a reverse basis:
+The Gojo Blocks glossary page reads these JSON structures and draws a small
+diagram from carriers, points, spans, directed spans, and relations. The final
+Skia drawing takes liberties for clarity, such as offsetting overlapping spans
+on the same carrier, but it is still a rendering of the structure rather than a
+separate hand-authored icon set.
 
-```text
-before joining:
-  W0 and W1 are distinct
-  compatible endpoints, faces, or supports are visible
+## Next Milestone
 
-after joining:
-  shared support or bridge exists
-  continuity settles across the prior boundary
-```
+1. Keep this primitive fixture set small.
+2. Add a read layer that selects and focuses the same primitive several ways.
+3. Add a tiny animation/timeline sample for directed and reversing flow.
+4. Compose `obstructed carrier + branch/merge` into an avoidance repair.
+5. Bind that repair into a PCB routing context and inspect whether via, bridge,
+   and around-style solutions can be read as refinements of the same intent.
 
-| Read | Focus |
-| --- | --- |
-| join | resulting continuity is salient |
-| attach | stable contact/link is salient |
-| merge | flows or identities combine into shared support |
-| assemble | multiple joins under an intended structure |
-| repair | joining reduces prior damage or residue |
-
-### Coverage And Filling
-
-Coverage uses a boundary or face as the support. Filling uses capacity or
-interior support.
-
-```text
-coverage:
-  support face F
-  applied participation M
-  occupied band over F
-  visible/unvisible read from observer basis
-
-filling:
-  boundary B
-  interior capacity C
-  occupant M
-  fullness read = occupied capacity / available capacity
-```
-
-| Read | Focus |
-| --- | --- |
-| cover | occupied face or occluded target is salient |
-| coat | thin surface layer is salient |
-| paint | applied material plus color/read surface is salient |
-| hide | observer read fails because coverage blocks it |
-| fill | interior capacity settlement is salient |
-| empty | reverse capacity settlement is salient |
-| overflow | occupant exceeds capacity and leaves residue outside |
-
-These should also be parameterized. A low-resolution coverage read may only
-know that "enough of the face is occupied." A high-resolution CAD read may need
-exact area, boundary, tolerance, and material thickness.
-
-## Prepositions
-
-Prepositions are usually read-framing mechanics rather than standalone objects.
-They steer basis, entry point, route, support, or boundary.
-
-| Preposition | Mechanical read |
-| --- | --- |
-| from | source endpoint or prior participation |
-| to | target endpoint or intended settlement |
-| into | boundary crossing with target interior |
-| out of | boundary crossing with source interior |
-| on | support/contact against a ground or face |
-| in | interior participation within a boundary |
-| through | route with entry, interior traversal, and exit |
-| around | preserved goal plus rejected obstacle region plus alternate carrier |
-| over | crossing through orthogonal or layer basis |
-| under | crossing/support through inverse layer or ground-relative basis |
-| with | co-participation, carried support, or instrument participation |
-| against | contact plus opposed pressure or blocked flow |
-| before | earlier site on ordered carrier |
-| after | later site on ordered carrier |
-| between | selected participation inside a bounded interval |
-
-The same lower interval can read spatially or temporally. A start region can
-read as `near`, `before`, `source`, or `entry` depending on context.
-
-## Adjectives And Adverbs
-
-Adjectives often read stable qualities, result states, or low-motion focus over
-a noun-like participation.
-
-```text
-wide      extent read through across-basis
-full      capacity read with low missing residue
-empty     capacity read with low occupied participation
-blocked   intended flow with unresolved obstacle tension
-open      possible flow or available support
-sharp     high contrast, small transition radius, or fast change
-near      low-resolution distance read against a local basis
-red       color/signal read through a visual/material basis
-```
-
-Adverbs often read the transform itself:
-
-```text
-quickly     high change per time basis
-slowly      low change per time basis
-carefully   high requested resolution and low allowed damage/collision residue
-directly    route with low branch/repair residue
-almost      small remaining residue under the requested result
-completely  result settlement with low residue at current resolution
-gently      low contact impulse or low damage tension
-roughly     intentionally low-resolution result
-```
-
-This is where numeric units become important. `mph` is not a separate deep
-meaning. It is a strict calibrated basis for a transfer/motion read:
-
-```text
-distance participation / time participation
-  under mile and hour unit bases
-  read as speed
-```
-
-The same generic rate shape can become words like `fast`, `slow`, `rapid`,
-`late`, `early`, or a precise engineering value depending on scale, threshold,
-and context.
-
-## Parameterization And Scale
-
-Parameterization is one reason the primitive set can stay compact.
-
-Useful knobs include:
-
-```text
-resolution
-  coarse, exact, approximate, omitted, ambiguous
-
-scale
-  local, far, large, small, fast, slow
-
-orientation
-  forward, inverse, orthogonal, ambiguous
-
-continuity
-  continuous flow, discrete jump, teleport-like mapping
-
-completion
-  attempted, partial, settled, overfilled, failed
-
-pressure
-  weak, strong, blocked, opposed, released
-
-perspective
-  source-side, target-side, observer-side, route-side
-```
-
-`near` and `far` are a clean example: shared comparison structure, different
-focus/scale thresholds. Many verbs appear to work the same way. `tap`, `hit`,
-`strike`, `bump`, and `crash` can share a contact mechanic while differing in
-speed, pressure, intent, result damage, and residue.
-
-## Combining Mechanics
-
-More complex concepts can be assembled from smaller mechanics without becoming
-a giant tree of definitions.
-
-```text
-send + obstruction + avoidance
-  route around an obstacle
-
-transfer + joining
-  attach delivered component to target
-
-separation + transfer
-  distribute parts from one source to many targets
-
-coverage + perception
-  hide or reveal
-
-contact + pressure
-  push, hit, press, rub, scrape
-
-boundary crossing + containment
-  enter, exit, store, release
-
-pursuit + failed perception
-  search
-```
-
-The combination should preserve the lower pieces. A solver or reader should be
-able to inspect which mechanic created which pressure, where the settlement
-failed, and which repair reduced residue.
-
-## Inspectable Geometry
-
-These mechanics should have diagrammatic forms, but the diagram should be a
-read over Gojo structure, not the source of meaning.
-
-An inspectable diagram for transfer might show:
-
-```text
-A --- route --- B
-P at A  ->  P along route  ->  P at B
-```
-
-An inspectable diagram for obstruction and avoidance might show:
-
-```text
-A --- blocked span --- B
-      [obstacle]
-
-A --- entry
-        |
-        branch carrier
-        |
-      exit --- B
-```
-
-The drawn object is useful because humans and models can inspect it, but the
-important object is still the underlying carriers, points, segments, relations,
-focus surfaces, timeline, residue, and settlement witnesses.
-
-## Encoding Consequences
-
-This suggests the next encoding milestone:
-
-1. Keep the first pure-structure fixture set in
-   `Gojo.Encoding/Fixtures/EncoderJson/scene-mechanics/`.
-2. Choose one scene mechanic, probably directed transfer, and build the first
-   read layer over its existing structure.
-3. Add several read surfaces over the same fixture: `move`, `send`, `deliver`,
-   `return`, and `transmit` as lexical/provenance labels only.
-4. Bind the same mechanic into at least two contexts, such as physical package
-   transfer and message relay.
-5. Preserve exact matches, partial matches, and missing pieces as residue.
-6. Add a small visual or folded JSON inspection artifact that shows the same
-   mechanic before and after focus/context changes.
-
-If that works, the next candidate should be boundary change, because it tests
-reverse reads, result focus, tool/contact focus, and capacity/coverage reads in
-one compact family.
-
-## Open Risks
-
-The main risk is accidentally rebuilding an ontology with nicer words. The
-guardrail is:
+The main risk is still rebuilding an ontology with nicer words. The guardrail
+is simple:
 
 ```text
 if the label disappears, the Gojo structure should still carry the mechanic
 ```
-
-Another risk is overfitting to literal geometry. The mechanic should be
-geometric enough to inspect, animate, and settle, but abstract enough to bind to
-time, social relation, information, CAD, and electrical contexts.
-
-The third risk is pretending every read is computable by static rules. Some
-matching, especially metaphorical fitting, may need learned attention. That is
-acceptable as long as the learned layer proposes bindings and residue over
-inspectable structure instead of replacing the structure.

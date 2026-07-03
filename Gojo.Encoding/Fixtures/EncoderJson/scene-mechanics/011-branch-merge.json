@@ -1,53 +1,37 @@
 {
-  "sourceId": "scene-mechanics/avoidance",
+  "sourceId": "scene-mechanics/branch-merge",
   "carriers": [
-    "primary-route",
-    "obstacle-carrier",
-    "branch-carrier"
+    "primary",
+    "branch"
   ],
   "definitions": [
     {
-      "id": "avoidance structure",
+      "id": "branch merge structure",
       "body": {
         "kind": "group",
         "elements": [
           {
             "kind": "directedSegment",
-            "carrier": "primary-route",
+            "carrier": "primary",
             "start": 0,
             "end": 10
           },
           {
             "kind": "relation",
             "left": {
-              "kind": "segment",
-              "carrier": "obstacle-carrier",
-              "start": 4,
-              "end": 6
-            },
-            "right": {
-              "kind": "segment",
-              "carrier": "primary-route",
-              "start": 4,
-              "end": 6
-            }
-          },
-          {
-            "kind": "relation",
-            "left": {
               "kind": "point",
-              "carrier": "primary-route",
+              "carrier": "primary",
               "ticks": 3
             },
             "right": {
               "kind": "point",
-              "carrier": "branch-carrier",
+              "carrier": "branch",
               "ticks": 0
             }
           },
           {
-            "kind": "segment",
-            "carrier": "branch-carrier",
+            "kind": "directedSegment",
+            "carrier": "branch",
             "start": 0,
             "end": 10
           },
@@ -55,12 +39,12 @@
             "kind": "relation",
             "left": {
               "kind": "point",
-              "carrier": "branch-carrier",
+              "carrier": "branch",
               "ticks": 10
             },
             "right": {
               "kind": "point",
-              "carrier": "primary-route",
+              "carrier": "primary",
               "ticks": 7
             }
           }

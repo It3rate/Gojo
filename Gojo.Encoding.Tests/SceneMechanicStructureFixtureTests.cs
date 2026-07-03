@@ -8,22 +8,18 @@ public sealed class SceneMechanicStructureFixtureTests
 {
     private static readonly string[] ExpectedFixtureNames =
     [
-        "001-transform.json",
-        "002-directed-transfer.json",
-        "003-contact.json",
-        "004-pressure-along-carrier.json",
-        "005-boundary-crossing.json",
-        "006-containment.json",
-        "007-surface-coverage.json",
-        "008-separation.json",
-        "009-joining.json",
-        "010-obstruction.json",
-        "011-conduit.json",
-        "012-avoidance.json",
-        "013-pursuit.json",
-        "014-support-placement.json",
-        "015-perception.json",
-        "016-social-exchange.json"
+        "001-bounded-carrier.json",
+        "002-directed-flow.json",
+        "003-reversing-flow.json",
+        "004-partitioned-carrier.json",
+        "005-nested-span.json",
+        "006-boundary-crossing.json",
+        "007-two-carrier-contact.json",
+        "008-two-carrier-link.json",
+        "009-obstructed-carrier.json",
+        "010-outlet-branch.json",
+        "011-branch-merge.json",
+        "012-bridged-join.json"
     ];
 
     [Fact]
@@ -50,6 +46,7 @@ public sealed class SceneMechanicStructureFixtureTests
 
         Assert.Equal(sourceId, document.SourceId);
         Assert.NotEmpty(document.Carriers);
+        Assert.Equal(ExpectedCarrierCount(fixtureName), document.Carriers.Count);
         Assert.EndsWith(" structure", definition.Id, StringComparison.Ordinal);
         Assert.NotNull(definition.DependsOn);
         Assert.Empty(definition.DependsOn);
@@ -86,7 +83,7 @@ public sealed class SceneMechanicStructureFixtureTests
             .Cast<object>()
             .ToArray();
 
-        Assert.Equal(16, items.Length);
+        Assert.Equal(ExpectedFixtureNames.Length, items.Length);
         Assert.Equal(
             ExpectedFixtureNames.Select(ExpectedItemId).ToArray(),
             items.Select(item => StringProperty(item, "Id")).ToArray());
@@ -158,6 +155,18 @@ public sealed class SceneMechanicStructureFixtureTests
 
     private static string ExpectedItemId(string fixtureName) =>
         $"scene-mechanics-{Path.GetFileNameWithoutExtension(fixtureName)[4..]}";
+
+    private static int ExpectedCarrierCount(string fixtureName) =>
+        fixtureName switch
+        {
+            "007-two-carrier-contact.json" => 2,
+            "008-two-carrier-link.json" => 2,
+            "009-obstructed-carrier.json" => 2,
+            "010-outlet-branch.json" => 2,
+            "011-branch-merge.json" => 2,
+            "012-bridged-join.json" => 3,
+            _ => 1
+        };
 
     private static string StringProperty(object source, string name) =>
         source.GetType().GetProperty(name)?.GetValue(source) as string ?? string.Empty;
