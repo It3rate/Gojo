@@ -70,9 +70,10 @@ support:
 
 ```text
 contact:
-  carrier A has its own approach/support
-  carrier B has its own approach/support
-  relation links the contact sites
+  carrier A has its own support
+  carrier B has its own support
+  relation links one site on A to one site on B
+  an orthogonal read may render those linked sites as an intersection
 
 perception/link:
   observer support and target support remain distinct
@@ -101,16 +102,31 @@ mechanical structures. They intentionally do not include read/focus labels.
 | `004-partitioned-carrier` | 1 | whole span, middle site, subspans | split, midpoint, start/end, before/after |
 | `005-nested-span` | 1 | spans nested inside one support | contain, cover, overlap, inside, capacity |
 | `006-boundary-crossing` | 1 | flow passes a boundary site | enter, exit, pass, threshold |
-| `007-two-carrier-contact` | 2 | two supports meet at a relation | touch, hit, bump, meet, collide |
+| `007-two-carrier-contact` | 2 | two supports share a relation site | touch, cross, intersect, meet, collide, corner |
 | `008-two-carrier-link` | 2 | two supports linked by relation | perceive, refer, attend, depend, contact socially |
 | `009-obstructed-carrier` | 2 | path support conflicts with obstacle support | block, resist, prevent, tension, avoid |
 | `010-outlet-branch` | 2 | second support leaves one site | branch, emit, escape, layer hop, outlet |
 | `011-branch-merge` | 2 | alternate support leaves and rejoins | around, bypass, over, via, repair |
-| `012-bridged-join` | 3 | two supports connected by readable bridge support | join, attach, glue, repair, conduct |
+| `012-bridged-join` | 3 | two supports connected by a readable bridge flow | join, attach, glue, repair, conduct, transmit |
 
 These are not final categories. They are low-resolution seeds. A useful next
 pass may merge, split, or remove some of them once the read layer becomes more
 capable.
+
+`007-two-carrier-contact` is the two-support version of contact. The relation
+site can attach at any readable tick on either carrier. Middle/middle gives a
+plain crossing. Middle/end can read as a T contact. Start/start or end/end can
+read as a corner. A later flow or pressure read can turn the same lower support
+into bump, hit, collide, continue, stop, turn left, or turn right. The
+one-dimensional forms still exist as boundary, endpoint, or before/after reads
+on a single carrier, but they are not the same primitive as an independently
+readable intersection between two supports.
+
+`012-bridged-join` is the three-support H-like version. Two independent support
+carriers provide the attachment sites. A third carrier is the bridge itself, and
+in the current fixture that bridge carries the directed flow. Later reads can
+focus the supports, the attachment relation, the bridge material/support, or the
+flow through the bridge.
 
 ## Word-Like Reads Are Later
 
@@ -128,7 +144,7 @@ directed transfer
 
 contact
   two-carrier contact
-  focus: shared relation, pressure at relation, residue after relation
+  focus: shared relation, crossing, corner, pressure at relation, residue after relation
 
 perception
   two-carrier link
@@ -136,7 +152,7 @@ perception
 
 joining
   contact, branch/merge, or bridged join
-  focus: local relation, resulting continuity, connector support
+  focus: local relation, resulting continuity, connector support, flow through bridge
 
 avoidance
   obstructed carrier + branch/merge

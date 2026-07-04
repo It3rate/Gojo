@@ -1,8 +1,8 @@
 {
   "sourceId": "scene-mechanics/two-carrier-contact",
   "carriers": [
-    "first",
-    "second"
+    "horizontal-contact",
+    "vertical-contact"
   ],
   "definitions": [
     {
@@ -11,27 +11,27 @@
         "kind": "group",
         "elements": [
           {
-            "kind": "directedSegment",
-            "carrier": "first",
+            "kind": "segment",
+            "carrier": "horizontal-contact",
             "start": 0,
-            "end": 5
+            "end": 10
           },
           {
-            "kind": "directedSegment",
-            "carrier": "second",
-            "start": 10,
-            "end": 5
+            "kind": "segment",
+            "carrier": "vertical-contact",
+            "start": 0,
+            "end": 10
           },
           {
             "kind": "relation",
             "left": {
               "kind": "point",
-              "carrier": "first",
+              "carrier": "horizontal-contact",
               "ticks": 5
             },
             "right": {
               "kind": "point",
-              "carrier": "second",
+              "carrier": "vertical-contact",
               "ticks": 5
             }
           }

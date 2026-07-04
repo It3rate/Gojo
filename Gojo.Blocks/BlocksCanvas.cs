@@ -1253,22 +1253,47 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
         var laneGap = diagram.Carriers.Count == 1
             ? 0f
             : laneHeight / (diagram.Carriers.Count - 1);
+        var orthogonalContact = IsOrthogonalContactSpecimen(diagram);
+        var orthogonalLink = orthogonalContact ? diagram.Links[0] : default;
+        var horizontalCarrier = orthogonalContact ? diagram.Carriers[0].Carrier : Carrier.Unknown;
+        var verticalCarrier = orthogonalContact ? diagram.Carriers[1].Carrier : Carrier.Unknown;
+        var horizontalAnchor = orthogonalContact ? AnchorForCarrier(orthogonalLink, horizontalCarrier) : default;
+        var verticalAnchor = orthogonalContact ? AnchorForCarrier(orthogonalLink, verticalCarrier) : default;
+        var intersectionX = orthogonalContact ? TickToX(horizontalAnchor) : 0f;
+        var intersectionY = orthogonalContact ? TickToY(verticalAnchor) : 0f;
+        var bridgeProjection = TryReadBridgeProjection(diagram, out var bridge);
+        var bridgeLeftX = bridgeProjection ? laneLeft + (laneRight - laneLeft) * 0.18f : 0f;
+        var bridgeRightX = bridgeProjection ? laneLeft + (laneRight - laneLeft) * 0.82f : 0f;
+        var bridgeY = bridgeProjection
+            ? (TickToY(bridge.LeftSupportAnchor) + TickToY(bridge.RightSupportAnchor)) * 0.5f
+            : 0f;
 
         using var lanePaint = StrokePaint(TickColor, 0.8f, 92);
         using var labelPaint = TextPaint(diagram.Carriers.Count > 4 ? 6.3f : 6.9f, theme.Muted, bold: true);
         var segmentOffsets = SceneMechanicSegmentOffsets();
 
-        for (var index = 0; index < diagram.Carriers.Count; index++)
+        if (orthogonalContact)
         {
-            var y = LaneY(index);
-            canvas.DrawLine(laneLeft, y, laneRight, y, lanePaint);
-            DrawClippedText(
-                canvas,
-                ShortCarrierLabel(diagram.Carriers[index].Label),
-                drawing.Left,
-                y + 2.4f,
-                Math.Max(1f, labelWidth - 5f),
-                labelPaint);
+            DrawOrthogonalContactGuides();
+        }
+        else if (bridgeProjection)
+        {
+            DrawBridgeGuides();
+        }
+        else
+        {
+            for (var index = 0; index < diagram.Carriers.Count; index++)
+            {
+                var y = LaneY(index);
+                canvas.DrawLine(laneLeft, y, laneRight, y, lanePaint);
+                DrawClippedText(
+                    canvas,
+                    ShortCarrierLabel(diagram.Carriers[index].Label),
+                    drawing.Left,
+                    y + 2.4f,
+                    Math.Max(1f, labelWidth - 5f),
+                    labelPaint);
+            }
         }
 
         foreach (var link in diagram.Links)
@@ -1321,10 +1346,131 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
         SKPoint AnchorPoint(SceneMechanicAnchor anchor, float yOffset = 0f)
         {
             var carrierIndex = CarrierIndex(anchor.Carrier);
+            if (orthogonalContact)
+            {
+                if (carrierIndex == 0)
+                {
+                    return new SKPoint(TickToX(anchor), intersectionY + yOffset);
+                }
+
+                if (carrierIndex == 1)
+                {
+                    return new SKPoint(intersectionX + yOffset, TickToY(anchor));
+                }
+            }
+
+            if (bridgeProjection)
+            {
+                if (SameLane(anchor.Carrier, bridge.Bridge))
+                {
+                    return new SKPoint(BridgeTickToX(anchor), bridgeY + yOffset);
+                }
+
+                if (SameLane(anchor.Carrier, bridge.LeftSupport))
+                {
+                    return new SKPoint(bridgeLeftX + yOffset, TickToY(anchor));
+                }
+
+                if (SameLane(anchor.Carrier, bridge.RightSupport))
+                {
+                    return new SKPoint(bridgeRightX + yOffset, TickToY(anchor));
+                }
+            }
+
             var range = diagram.Ranges[carrierIndex];
             var span = Math.Max(1, range.EndTicks - range.StartTicks);
             var x = laneLeft + (anchor.Ticks - range.StartTicks) * (laneRight - laneLeft) / span;
             return new SKPoint(x, LaneY(carrierIndex) + yOffset);
+        }
+
+        float TickToX(SceneMechanicAnchor anchor)
+        {
+            var range = diagram.Ranges[CarrierIndex(anchor.Carrier)];
+            var span = Math.Max(1, range.EndTicks - range.StartTicks);
+            return laneLeft + (anchor.Ticks - range.StartTicks) * (laneRight - laneLeft) / span;
+        }
+
+        float TickToY(SceneMechanicAnchor anchor)
+        {
+            var range = diagram.Ranges[CarrierIndex(anchor.Carrier)];
+            var span = Math.Max(1, range.EndTicks - range.StartTicks);
+            return laneTop + (anchor.Ticks - range.StartTicks) * laneHeight / span;
+        }
+
+        float BridgeTickToX(SceneMechanicAnchor anchor)
+        {
+            var range = diagram.Ranges[CarrierIndex(anchor.Carrier)];
+            var span = Math.Max(1, range.EndTicks - range.StartTicks);
+            return bridgeLeftX + (anchor.Ticks - range.StartTicks) * (bridgeRightX - bridgeLeftX) / span;
+        }
+
+        SceneMechanicAnchor AnchorForCarrier(SceneMechanicLink link, Carrier carrier) =>
+            SameLane(link.Left.Carrier, carrier) ? link.Left : link.Right;
+
+        void DrawOrthogonalContactGuides()
+        {
+            canvas.DrawLine(laneLeft, intersectionY, laneRight, intersectionY, lanePaint);
+            DrawClippedText(
+                canvas,
+                ShortCarrierLabel(diagram.Carriers[0].Label),
+                drawing.Left,
+                intersectionY + 2.4f,
+                Math.Max(1f, labelWidth - 5f),
+                labelPaint);
+
+            canvas.DrawLine(intersectionX, laneTop, intersectionX, laneBottom, lanePaint);
+            var verticalLabelX = Math.Min(intersectionX + 4f, drawing.Right - labelWidth + 3f);
+            DrawClippedText(
+                canvas,
+                ShortCarrierLabel(diagram.Carriers[1].Label),
+                verticalLabelX,
+                laneTop + 7f,
+                Math.Max(1f, drawing.Right - verticalLabelX),
+                labelPaint);
+        }
+
+        void DrawBridgeGuides()
+        {
+            canvas.DrawLine(bridgeLeftX, laneTop, bridgeLeftX, laneBottom, lanePaint);
+            DrawClippedText(
+                canvas,
+                ShortCarrierLabel(CarrierLabel(bridge.LeftSupport)),
+                drawing.Left,
+                laneTop + 7f,
+                Math.Max(1f, labelWidth - 5f),
+                labelPaint);
+
+            canvas.DrawLine(bridgeRightX, laneTop, bridgeRightX, laneBottom, lanePaint);
+            var rightLabelX = Math.Min(bridgeRightX + 4f, drawing.Right - labelWidth + 3f);
+            DrawClippedText(
+                canvas,
+                ShortCarrierLabel(CarrierLabel(bridge.RightSupport)),
+                rightLabelX,
+                laneTop + 7f,
+                Math.Max(1f, drawing.Right - rightLabelX),
+                labelPaint);
+
+            canvas.DrawLine(bridgeLeftX, bridgeY, bridgeRightX, bridgeY, lanePaint);
+            DrawClippedText(
+                canvas,
+                ShortCarrierLabel(CarrierLabel(bridge.Bridge)),
+                bridgeLeftX + 4f,
+                bridgeY - 4f,
+                Math.Max(1f, bridgeRightX - bridgeLeftX - 8f),
+                labelPaint);
+        }
+
+        string CarrierLabel(Carrier carrier)
+        {
+            for (var index = 0; index < diagram.Carriers.Count; index++)
+            {
+                if (SameLane(diagram.Carriers[index].Carrier, carrier))
+                {
+                    return diagram.Carriers[index].Label;
+                }
+            }
+
+            return "carrier";
         }
 
         int CarrierIndex(Carrier carrier)
@@ -1369,6 +1515,65 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
 
         float SegmentYOffset(SceneMechanicSegment segment) =>
             segmentOffsets.TryGetValue(segment, out var offset) ? offset : 0f;
+    }
+
+    private static bool IsOrthogonalContactSpecimen(SceneMechanicDiagram diagram) =>
+        diagram.Carriers.Count == 2 &&
+        diagram.Links.Count == 1 &&
+        !diagram.Segments.Any(segment => segment.Directed) &&
+        diagram.Carriers.All(carrier =>
+            diagram.Segments.Any(segment => SameLane(segment.Carrier, carrier.Carrier)));
+
+    private static bool TryReadBridgeProjection(
+        SceneMechanicDiagram diagram,
+        out SceneMechanicBridgeProjection projection)
+    {
+        projection = default;
+        if (diagram.Carriers.Count != 3 || diagram.Links.Count != 2)
+        {
+            return false;
+        }
+
+        var directedSegments = diagram.Segments.Where(segment => segment.Directed).ToArray();
+        if (directedSegments.Length != 1)
+        {
+            return false;
+        }
+
+        var bridgeCarrier = directedSegments[0].Carrier;
+        var pairs = new List<(SceneMechanicAnchor BridgeAnchor, SceneMechanicAnchor SupportAnchor)>();
+        foreach (var link in diagram.Links)
+        {
+            var leftIsBridge = SameLane(link.Left.Carrier, bridgeCarrier);
+            var rightIsBridge = SameLane(link.Right.Carrier, bridgeCarrier);
+            if (leftIsBridge == rightIsBridge)
+            {
+                return false;
+            }
+
+            pairs.Add(leftIsBridge
+                ? (link.Left, link.Right)
+                : (link.Right, link.Left));
+        }
+
+        if (SameLane(pairs[0].SupportAnchor.Carrier, pairs[1].SupportAnchor.Carrier) ||
+            !HasStaticSupport(pairs[0].SupportAnchor.Carrier) ||
+            !HasStaticSupport(pairs[1].SupportAnchor.Carrier))
+        {
+            return false;
+        }
+
+        var ordered = pairs.OrderBy(pair => pair.BridgeAnchor.Ticks).ToArray();
+        projection = new SceneMechanicBridgeProjection(
+            ordered[0].SupportAnchor.Carrier,
+            ordered[1].SupportAnchor.Carrier,
+            bridgeCarrier,
+            ordered[0].SupportAnchor,
+            ordered[1].SupportAnchor);
+        return true;
+
+        bool HasStaticSupport(Carrier carrier) =>
+            diagram.Segments.Any(segment => !segment.Directed && SameLane(segment.Carrier, carrier));
     }
 
     private static SceneMechanicDiagram ReadSceneMechanicDiagram(
@@ -7836,6 +8041,13 @@ internal readonly record struct SceneMechanicSegment(Carrier Carrier, long Start
 internal readonly record struct SceneMechanicAnchor(Carrier Carrier, long Ticks);
 
 internal readonly record struct SceneMechanicLink(SceneMechanicAnchor Left, SceneMechanicAnchor Right);
+
+internal readonly record struct SceneMechanicBridgeProjection(
+    Carrier LeftSupport,
+    Carrier RightSupport,
+    Carrier Bridge,
+    SceneMechanicAnchor LeftSupportAnchor,
+    SceneMechanicAnchor RightSupportAnchor);
 
 internal readonly record struct SceneMechanicRange(long StartTicks, long EndTicks);
 

@@ -1,9 +1,9 @@
 {
   "sourceId": "scene-mechanics/bridged-join",
   "carriers": [
-    "first",
-    "second",
-    "bridge"
+    "left-support",
+    "right-support",
+    "bridge-flow"
   ],
   "definitions": [
     {
@@ -13,19 +13,19 @@
         "elements": [
           {
             "kind": "segment",
-            "carrier": "first",
+            "carrier": "left-support",
             "start": 0,
-            "end": 4
-          },
-          {
-            "kind": "segment",
-            "carrier": "second",
-            "start": 6,
             "end": 10
           },
           {
             "kind": "segment",
-            "carrier": "bridge",
+            "carrier": "right-support",
+            "start": 0,
+            "end": 10
+          },
+          {
+            "kind": "directedSegment",
+            "carrier": "bridge-flow",
             "start": 0,
             "end": 10
           },
@@ -33,12 +33,12 @@
             "kind": "relation",
             "left": {
               "kind": "point",
-              "carrier": "first",
-              "ticks": 4
+              "carrier": "left-support",
+              "ticks": 5
             },
             "right": {
               "kind": "point",
-              "carrier": "bridge",
+              "carrier": "bridge-flow",
               "ticks": 0
             }
           },
@@ -46,13 +46,13 @@
             "kind": "relation",
             "left": {
               "kind": "point",
-              "carrier": "bridge",
+              "carrier": "bridge-flow",
               "ticks": 10
             },
             "right": {
               "kind": "point",
-              "carrier": "second",
-              "ticks": 6
+              "carrier": "right-support",
+              "ticks": 5
             }
           }
         ]
