@@ -59,9 +59,11 @@ directed flow:
   directed participation from A to B
 ```
 
-That base shape can later read as `transform`, `move`, `transfer`, `from`,
-`to`, `before`, `after`, `near`, `far`, or `toward`, depending on selection,
-focus, perspective, scale, and context.
+That base shape can later read as `interval`, `start`, `end`, `middle`,
+`between`, `before`, `after`, `near`, `far`, or `endpoint`, depending on
+selection, focus, perspective, scale, and context. Motion-like reads such as
+`move`, `transform`, or `transfer` need additional flow, energy, or animation
+evidence over the carrier.
 
 Use another carrier when there is another independently readable participant or
 support:
@@ -93,7 +95,7 @@ mechanical structures. They intentionally do not include read/focus labels.
 
 | Fixture | Carrier count | Primitive shape | Later reads it can support |
 | --- | ---: | --- | --- |
-| `001-bounded-carrier` | 1 | two sites and a span | interval, source/target, before/after, transform basis |
+| `001-bounded-carrier` | 1 | two sites and a span | interval, endpoints, middle, between, near/far, before/after |
 | `002-directed-flow` | 1 | support span plus one directed flow witness | move, transfer, send, toward, push |
 | `003-reversing-flow` | 1 | support span plus forward and reverse flow | return, back-and-forth, oscillate, reciprocal |
 | `004-partitioned-carrier` | 1 | whole span, middle site, subspans | split, midpoint, start/end, before/after |
