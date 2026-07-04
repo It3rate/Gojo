@@ -126,6 +126,9 @@ The companion notes for this experiment are:
 - `SceneMechanics.md` for the pre-code layer of reusable verb/preposition
   mechanics: transfer, contact, boundary change, obstruction, coverage,
   selection/focus, context binding, and metaphorical fit.
+- `SceneMechanicReadControls.md` for the provisional read controls that turn
+  those mechanics into word-like reads through selection, focus, basis,
+  transform, and goal/residue.
 - `ConceptGrammarContinuum.md` for the continuity between numeric structure,
   primitive footings, word concepts, sentence grammar, and executable equation
   order.

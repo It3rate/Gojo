@@ -1,0 +1,162 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 920" role="img" aria-labelledby="title desc">
+  <title id="title">Scene mechanic overview</title>
+  <desc id="desc">Twelve low-level scene mechanics shown as simple documentary diagrams.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#277da1"/>
+    </marker>
+    <marker id="arrow-green" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#3a8f5b"/>
+    </marker>
+    <style>
+      .bg { fill: #f8faf7; }
+      .card { fill: #ffffff; stroke: #d7ddd2; stroke-width: 1.5; rx: 12; }
+      .title { font: 700 17px system-ui, sans-serif; fill: #21302b; }
+      .hint { font: 12px system-ui, sans-serif; fill: #66736d; }
+      .carrier { stroke: #45524c; stroke-width: 3; stroke-linecap: round; fill: none; }
+      .support { stroke: #92a09a; stroke-width: 2; stroke-linecap: round; fill: none; }
+      .flow { stroke: #277da1; stroke-width: 4; stroke-linecap: round; fill: none; marker-end: url(#arrow); }
+      .flow2 { stroke: #3a8f5b; stroke-width: 4; stroke-linecap: round; fill: none; marker-end: url(#arrow-green); }
+      .relation { stroke: #d08c2f; stroke-width: 2.5; stroke-dasharray: 6 5; fill: none; }
+      .obstacle { stroke: #b84040; stroke-width: 7; stroke-linecap: round; fill: none; }
+      .site { fill: #ffffff; stroke: #45524c; stroke-width: 3; }
+      .focus { fill: #f5c66a; stroke: #b77a18; stroke-width: 2; }
+      .soft { fill: #e8f0ed; stroke: #b9c5bf; stroke-width: 1.5; }
+    </style>
+  </defs>
+  <rect class="bg" width="1200" height="920"/>
+  <text class="title" x="34" y="38">Scene mechanic structures</text>
+  <text class="hint" x="34" y="60">Documentary projections of the current primitive mechanics. The readable meaning comes later from read controls.</text>
+
+  <g transform="translate(30 82)">
+    <rect class="card" width="350" height="170"/>
+    <text class="title" x="18" y="30">1. Bounded carrier</text>
+    <text class="hint" x="18" y="50">two sites and one span</text>
+    <line class="carrier" x1="64" y1="104" x2="286" y2="104"/>
+    <circle class="site" cx="64" cy="104" r="8"/>
+    <circle class="site" cx="286" cy="104" r="8"/>
+    <circle class="focus" cx="175" cy="104" r="6"/>
+    <text class="hint" x="50" y="136">start</text>
+    <text class="hint" x="158" y="136">middle</text>
+    <text class="hint" x="270" y="136">end</text>
+  </g>
+
+  <g transform="translate(425 82)">
+    <rect class="card" width="350" height="170"/>
+    <text class="title" x="18" y="30">2. Directed flow</text>
+    <text class="hint" x="18" y="50">support plus one flow witness</text>
+    <line class="support" x1="64" y1="104" x2="286" y2="104"/>
+    <path class="flow" d="M78,104 L270,104"/>
+    <circle class="site" cx="64" cy="104" r="7"/>
+    <circle class="site" cx="286" cy="104" r="7"/>
+  </g>
+
+  <g transform="translate(820 82)">
+    <rect class="card" width="350" height="170"/>
+    <text class="title" x="18" y="30">3. Reversing flow</text>
+    <text class="hint" x="18" y="50">forward and reverse capability</text>
+    <line class="support" x1="64" y1="104" x2="286" y2="104"/>
+    <path class="flow" d="M80,94 L268,94"/>
+    <path class="flow2" d="M270,116 L82,116"/>
+    <circle class="site" cx="64" cy="104" r="7"/>
+    <circle class="site" cx="286" cy="104" r="7"/>
+  </g>
+
+  <g transform="translate(30 285)">
+    <rect class="card" width="350" height="170"/>
+    <text class="title" x="18" y="30">4. Partitioned carrier</text>
+    <text class="hint" x="18" y="50">whole span, middle site, subspans</text>
+    <line class="carrier" x1="64" y1="104" x2="286" y2="104"/>
+    <line class="relation" x1="175" y1="70" x2="175" y2="132"/>
+    <circle class="site" cx="64" cy="104" r="7"/>
+    <circle class="focus" cx="175" cy="104" r="8"/>
+    <circle class="site" cx="286" cy="104" r="7"/>
+    <text class="hint" x="110" y="136">left subspan</text>
+    <text class="hint" x="190" y="136">right subspan</text>
+  </g>
+
+  <g transform="translate(425 285)">
+    <rect class="card" width="350" height="170"/>
+    <text class="title" x="18" y="30">5. Nested span</text>
+    <text class="hint" x="18" y="50">spans inside a larger support</text>
+    <rect class="soft" x="58" y="78" width="230" height="56" rx="6"/>
+    <rect class="soft" x="94" y="92" width="154" height="30" rx="5"/>
+    <rect class="focus" x="132" y="100" width="72" height="14" rx="4"/>
+    <text class="hint" x="76" y="146">outer</text>
+    <text class="hint" x="155" y="146">inner</text>
+  </g>
+
+  <g transform="translate(820 285)">
+    <rect class="card" width="350" height="170"/>
+    <text class="title" x="18" y="30">6. Boundary crossing</text>
+    <text class="hint" x="18" y="50">flow passes a boundary site</text>
+    <line class="support" x1="64" y1="104" x2="286" y2="104"/>
+    <line class="obstacle" x1="175" y1="72" x2="175" y2="136"/>
+    <path class="flow" d="M76,104 L270,104"/>
+    <circle class="focus" cx="175" cy="104" r="8"/>
+  </g>
+
+  <g transform="translate(30 488)">
+    <rect class="card" width="350" height="170"/>
+    <text class="title" x="18" y="30">7. Two-carrier contact</text>
+    <text class="hint" x="18" y="50">two supports share a relation site</text>
+    <line class="carrier" x1="64" y1="104" x2="286" y2="104"/>
+    <line class="carrier" x1="175" y1="64" x2="175" y2="144"/>
+    <circle class="focus" cx="175" cy="104" r="9"/>
+    <text class="hint" x="204" y="84">relation</text>
+  </g>
+
+  <g transform="translate(425 488)">
+    <rect class="card" width="350" height="170"/>
+    <text class="title" x="18" y="30">8. Two-carrier link</text>
+    <text class="hint" x="18" y="50">relation without required transfer</text>
+    <line class="carrier" x1="70" y1="84" x2="282" y2="84"/>
+    <line class="carrier" x1="70" y1="124" x2="282" y2="124"/>
+    <circle class="site" cx="112" cy="84" r="7"/>
+    <circle class="site" cx="238" cy="124" r="7"/>
+    <path class="relation" d="M112,84 C150,112 200,98 238,124"/>
+  </g>
+
+  <g transform="translate(820 488)">
+    <rect class="card" width="350" height="170"/>
+    <text class="title" x="18" y="30">9. Obstructed carrier</text>
+    <text class="hint" x="18" y="50">path support conflicts with obstacle</text>
+    <line class="support" x1="64" y1="104" x2="286" y2="104"/>
+    <path class="flow" d="M76,104 L160,104"/>
+    <line class="obstacle" x1="182" y1="76" x2="182" y2="132"/>
+    <path class="relation" d="M182,76 L224,104"/>
+    <circle class="focus" cx="182" cy="104" r="8"/>
+  </g>
+
+  <g transform="translate(30 691)">
+    <rect class="card" width="350" height="170"/>
+    <text class="title" x="18" y="30">10. Outlet branch</text>
+    <text class="hint" x="18" y="50">second support leaves one site</text>
+    <line class="carrier" x1="64" y1="112" x2="286" y2="112"/>
+    <circle class="focus" cx="175" cy="112" r="8"/>
+    <path class="flow" d="M175,112 L175,70"/>
+    <text class="hint" x="190" y="86">outlet</text>
+  </g>
+
+  <g transform="translate(425 691)">
+    <rect class="card" width="350" height="170"/>
+    <text class="title" x="18" y="30">11. Branch / merge</text>
+    <text class="hint" x="18" y="50">alternate support leaves and rejoins</text>
+    <line class="carrier" x1="64" y1="104" x2="286" y2="104"/>
+    <path class="flow" d="M76,104 L120,104"/>
+    <path class="flow2" d="M120,104 C142,148 210,148 232,104"/>
+    <circle class="focus" cx="120" cy="104" r="7"/>
+    <circle class="focus" cx="232" cy="104" r="7"/>
+  </g>
+
+  <g transform="translate(820 691)">
+    <rect class="card" width="350" height="170"/>
+    <text class="title" x="18" y="30">12. Bridged join</text>
+    <text class="hint" x="18" y="50">two supports joined by bridge flow</text>
+    <line class="carrier" x1="108" y1="70" x2="108" y2="140"/>
+    <line class="carrier" x1="244" y1="70" x2="244" y2="140"/>
+    <path class="flow" d="M112,104 L240,104"/>
+    <circle class="focus" cx="108" cy="104" r="7"/>
+    <circle class="focus" cx="244" cy="104" r="7"/>
+  </g>
+</svg>

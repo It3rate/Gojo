@@ -162,6 +162,10 @@ avoidance
 This lets multiple words share one lower structure, and it lets one lower
 structure produce different words under different focus.
 
+`SceneMechanicReadControls.md` expands this layer into a provisional table of
+selection, focus, basis, transform, and goal/residue controls for the current
+glossary word set.
+
 ## Structure And Energy
 
 Static support and moving energy should not be collapsed.
