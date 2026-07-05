@@ -101,17 +101,23 @@ public static class SceneMechanicReadFrameSurface
             return ReadLexicalDebugLabels(definition.Body);
         }
 
-        if (EncodedTextSurface.TryRead(lexicalDebugAttachments, out var single))
-        {
-            return [single];
-        }
-
         if (lexicalDebugAttachments is Relation frame &&
             EncodedTextSurface.TryReadRootElements(frame, out var elements))
         {
-            return [.. elements
+            var labels = elements
                 .Select(element => EncodedTextSurface.TryRead(element, out var label) ? label : string.Empty)
-                .Where(label => label.Length > 0)];
+                .Where(label => label.Length > 0)
+                .ToArray();
+
+            if (labels.Length > 0)
+            {
+                return labels;
+            }
+        }
+
+        if (EncodedTextSurface.TryRead(lexicalDebugAttachments, out var single))
+        {
+            return [single];
         }
 
         return [];

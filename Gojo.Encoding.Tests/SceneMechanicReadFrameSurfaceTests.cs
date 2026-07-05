@@ -17,6 +17,8 @@ public sealed class SceneMechanicReadFrameSurfaceTests
             [
                 "near-read",
                 "cross-read",
+                "stop-read",
+                "turn-left-read",
                 "deliver-read",
                 "avoid-read",
                 "conduct-read",
@@ -35,6 +37,8 @@ public sealed class SceneMechanicReadFrameSurfaceTests
 
         Assert.Contains("word:near", Labels(reads, "near-read"));
         Assert.Contains("word:cross", Labels(reads, "cross-read"));
+        Assert.Contains("word:stop", Labels(reads, "stop-read"));
+        Assert.Contains("word:left", Labels(reads, "turn-left-read"));
         Assert.Contains("word:deliver", Labels(reads, "deliver-read"));
         Assert.Contains("word:avoid", Labels(reads, "avoid-read"));
         Assert.Contains("word:conduct", Labels(reads, "conduct-read"));
@@ -81,6 +85,30 @@ public sealed class SceneMechanicReadFrameSurfaceTests
         Assert.Same(sample.BridgeFlow, conductOperation);
         Assert.True(ReadWitness.TryRead(Assert.IsType<Relation>(conduct.GoalOrResidueWitness), out _, out _, out var conductResult, out _, out _));
         Assert.Equal("signal reaches right support", Text(conductResult));
+    }
+
+    [Fact]
+    public void ContactMechanicSupportsMultipleReadsByChangingFrameWitnesses()
+    {
+        var sample = CreateSample();
+
+        Assert.True(SceneMechanicReadFrameSurface.TryReadFrames(sample.Ledger, out var reads));
+        var cross = Frame(reads, "cross-read");
+        var stop = Frame(reads, "stop-read");
+        var turnLeft = Frame(reads, "turn-left-read");
+
+        Assert.Same(cross.SelectedSourceFrame, stop.SelectedSourceFrame);
+        Assert.Same(cross.SelectedSourceFrame, turnLeft.SelectedSourceFrame);
+        Assert.Same(cross.FocusWitness, stop.FocusWitness);
+        Assert.Same(cross.FocusWitness, turnLeft.FocusWitness);
+        Assert.NotSame(cross.TransformWitness, stop.TransformWitness);
+        Assert.NotSame(cross.TransformWitness, turnLeft.TransformWitness);
+        Assert.NotSame(cross.GoalOrResidueWitness, stop.GoalOrResidueWitness);
+        Assert.NotSame(cross.GoalOrResidueWitness, turnLeft.GoalOrResidueWitness);
+
+        AssertReadWitnessResultPoint(cross.GoalOrResidueWitness, sample.Horizontal, 10);
+        AssertReadWitnessResultPoint(stop.GoalOrResidueWitness, sample.Horizontal, 5);
+        AssertReadWitnessResultPoint(turnLeft.GoalOrResidueWitness, sample.Vertical, 10);
     }
 
     [Fact]
@@ -228,6 +256,66 @@ public sealed class SceneMechanicReadFrameSurfaceTests
             crossGoal,
             Labels("word:cross", "language:en", "part:verb/preposition", "hint:intersection"));
         Add("cross-read", crossFrameBody);
+
+        var stopFlow = Relation.DirectedSegment(horizontal, 0, 5);
+        var stopTransform = TransformSurface.Create(
+            new Carrier(),
+            TransformSurface.Ports(new Carrier(), Relation.Point(horizontal, 0)),
+            stopFlow,
+            TransformSurface.Ports(new Carrier(), Relation.Point(horizontal, 5)),
+            Text("terminate flow at contact"),
+            contact);
+        var stopGoal = ReadWitness.Create(
+            new Carrier(),
+            crossSelected,
+            stopTransform,
+            Relation.Point(horizontal, 5),
+            Text("flow terminates at the contact relation"),
+            crossFocus);
+        Add(
+            "stop-read",
+            SceneMechanicReadFrameSurface.Create(
+                new Carrier(),
+                crossSelected,
+                crossFocus,
+                crossBasis,
+                stopTransform,
+                stopGoal,
+                Labels("word:stop", "language:en", "part:verb", "hint:contact-termination")));
+
+        var turnBasis = BasisReadSurface.Create(
+            new Carrier(),
+            crossSelected,
+            horizontalSpan,
+            Frame(verticalSpan, Text("orthogonal outlet chosen from contact")),
+            contact);
+        var turnPath = Frame(
+            Relation.DirectedSegment(horizontal, 0, 5),
+            Relation.DirectedSegment(vertical, 5, 10));
+        var turnTransform = TransformSurface.Create(
+            new Carrier(),
+            TransformSurface.Ports(new Carrier(), Relation.Point(horizontal, 0)),
+            turnPath,
+            TransformSurface.Ports(new Carrier(), Relation.Point(vertical, 10)),
+            Text("continue through orthogonal outlet after contact"),
+            contact);
+        var turnGoal = ReadWitness.Create(
+            new Carrier(),
+            crossSelected,
+            turnTransform,
+            Relation.Point(vertical, 10),
+            UnknownPoint(),
+            turnBasis);
+        Add(
+            "turn-left-read",
+            SceneMechanicReadFrameSurface.Create(
+                new Carrier(),
+                crossSelected,
+                crossFocus,
+                turnBasis,
+                turnTransform,
+                turnGoal,
+                Labels("word:turn-left", "word:left", "language:en", "part:verb/adverb", "hint:orthogonal-route-choice")));
 
         var route = new Carrier();
         var cargo = new Carrier();
@@ -379,7 +467,7 @@ public sealed class SceneMechanicReadFrameSurfaceTests
                 Labels("surface:red trace", "modifier:adjective", "quality:red", "attachment:trace")));
 
         var ledger = ConceptDefinitionSurface.Ledger(new Carrier(), definitions);
-        return new Sample(ledger, nearBand, deliveryFlow, deliveryTarget, detourPath, bridgeFlow, crossFrameBody);
+        return new Sample(ledger, nearBand, deliveryFlow, deliveryTarget, detourPath, bridgeFlow, crossFrameBody, horizontal, vertical);
     }
 
     private static SceneMechanicReadFrameSurface.ReadFrameRead Frame(
@@ -423,6 +511,29 @@ public sealed class SceneMechanicReadFrameSurfaceTests
         carrier.IsUnknown &&
         location.Carrier.IsUnknown &&
         location.Ticks == 0;
+
+    private static void AssertReadWitnessResultPoint(IElement witness, Carrier expectedCarrier, long expectedTicks)
+    {
+        Assert.True(ReadWitness.TryRead(Assert.IsType<Relation>(witness), out _, out _, out var result, out _, out _));
+        Assert.True(TryReadPoint(result, out var point));
+        Assert.True(point.Carrier.SameIdentityAs(expectedCarrier));
+        Assert.Equal(expectedTicks, point.Ticks);
+    }
+
+    private static bool TryReadPoint(IElement element, out CarrierLocation location)
+    {
+        if (element is Relation relation &&
+            relation.Left is CarrierLocation pointLocation &&
+            relation.Right is Carrier pointCarrier &&
+            pointLocation.Carrier.SameIdentityAs(pointCarrier))
+        {
+            location = pointLocation;
+            return true;
+        }
+
+        location = default;
+        return false;
+    }
 
     private static ConceptDefinitionInterchangeDocument CompactReadFrameDocument() =>
         new()
@@ -574,5 +685,7 @@ public sealed class SceneMechanicReadFrameSurfaceTests
         Relation DeliveryTarget,
         Relation DetourPath,
         Relation BridgeFlow,
-        Relation CrossFrameBody);
+        Relation CrossFrameBody,
+        Carrier Horizontal,
+        Carrier Vertical);
 }

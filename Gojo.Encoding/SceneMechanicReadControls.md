@@ -694,10 +694,23 @@ entry is a local slot binding on a shared read-frame slot carrier. That lets the
 surface distinguish a read frame from some other six-element structure, such as
 a basis read.
 
-The initial proof tests cover `near`, `cross`, `deliver`, `avoid`, and
-`conduct`. They also include a question-like read and an adjective/modifier-like
-read. The question and modifier information stays in lexical/debug attachments
-as hints; the primary frame still has the same six slots.
+That slot carrier is still a compact scaffold, not the final story for grammar
+attachment. A later read frame should be able to discover its parts from local
+witness shape, shared source structure, attachment tension, and missing-but-
+requested evidence rather than from slot order alone. This matters because
+language can introduce focus, goal, mode, modifier, and residue at different
+times, omit some of them entirely, or make one of them salient only through a
+small word, pause, stress, or repeated surface. The current proof keeps the
+slots explicit so the shape is testable; the expected direction is to let those
+slot roles become locally derivable.
+
+The initial proof tests cover `near`, `deliver`, `avoid`, and `conduct`, plus
+three reads over the same two-carrier contact mechanic: `cross`, `stop`, and
+`turn-left`. In that contact proof the selected source frame and focus witness
+stay shared, while the transform, basis, and goal witnesses change. The tests
+also include a question-like read and an adjective/modifier-like read. The
+question and modifier information stays in lexical/debug attachments as hints;
+the primary frame still has the same six slots.
 
 The compact JSON fixture
 `Gojo.Encoding.Tests/Fixtures/EncoderJson/grammar/scene-mechanic-read-frames.compact.json`

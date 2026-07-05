@@ -92,8 +92,9 @@ The first implementation is intentionally tiny.
 - `SceneMechanicReadFrameSurface` stores a compact six-slot read frame over
   scene mechanics: selected source frame, focus witness, basis witness,
   transform witness, goal/residue witness, and lexical/debug attachments. The
-  proof tests cover `near`, `cross`, `deliver`, `avoid`, `conduct`, plus
-  question and modifier hints without adding new primary frame slots.
+  proof tests cover `near`, multiple reads over one contact mechanic (`cross`,
+  `stop`, `turn-left`), `deliver`, `avoid`, `conduct`, plus question and
+  modifier hints without adding new primary frame slots.
 - `GojoStructureEncodingSurface` stores a diagnostic snapshot of a currently
   visible Gojo element tree as relation-shaped integer rows. It is useful for
   debugging and transport experiments, but it is not the canonical conceptual
