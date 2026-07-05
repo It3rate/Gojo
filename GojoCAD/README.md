@@ -94,3 +94,5 @@ See [docs/ReadAlgebra.md](docs/ReadAlgebra.md) for the initial relation-read
 algebra and read graph direction.
 See [docs/EcadDocumentaryBundle.md](docs/EcadDocumentaryBundle.md) for the
 current direction on PCB projects as Gojo-encoded documentary bundles.
+See [electronics/components/README.md](electronics/components/README.md) for
+the first experimental electronics component-encoding notes.
