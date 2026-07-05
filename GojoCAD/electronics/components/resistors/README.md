@@ -240,3 +240,48 @@ The solver might expand `22 E6 steps` into an internal carrier position, a
 rational approximation, a logarithmic coordinate, or a sampled value. None of
 those projections replaces the source structure. They are purpose-specific
 readouts from the repeated E6 transform and its resolution surfaces.
+
+## Current Executable Foothold
+
+`ResistanceValueSurface` is the first small helper for this note. It can build:
+
+```text
+E6 nominal value
+  repeated E6 transform position
+  radix-6 carry read witness
+  phase and decade carry as Gojo carrier state
+
+relative tolerance
+  one-in-N relative resolution over the selected nominal read
+  no endpoint ohm values
+
+zero-ohm bridge
+  collapsed-route read separate from the positive E-series ladder
+```
+
+The phase/carry read uses `ResolutionLadder.AttachCarry(..., stepTicks: 6)`.
+For `22 E6 steps`, the ladder settles level 0 to `4` and level 1 to `3`. The
+human label `4.7K` is only an inspection read over that settled Gojo structure.
+
+## JSON Fixture Shape
+
+The first saved fixture is:
+
+```text
+GojoCAD.Tests/Fixtures/Electronics/resistors/4k7-5-percent.resistor-value.json
+```
+
+It keeps the durable encoding small:
+
+```text
+encoded.nominalResistance.stepsFromReference = 22
+encoded.tolerance.partsPerNominal = 20
+encoded.tolerance.selectedGrain = 1
+encoded.actualResistance.state = unresolved
+```
+
+The `readHints` section is for inspection. It records that the current human
+read is `4.7K 5%`, with E6 phase `4` and decade carry `3`, but those are
+verified by reloading the JSON into `ResistanceValueSurface` and re-reading the
+Gojo structure. The fixture deliberately does not store lower or upper endpoint
+ohm values.

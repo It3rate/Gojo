@@ -1,0 +1,52 @@
+{
+  "schema": "gojocad.electronics.resistor-value.v0",
+  "id": "R1",
+  "component": {
+    "kind": "resistor",
+    "terminals": [
+      "A",
+      "B"
+    ],
+    "resistanceParameter": {
+      "between": [
+        "A",
+        "B"
+      ]
+    }
+  },
+  "encoded": {
+    "nominalResistance": {
+      "basis": "e6-repeated-transform",
+      "referenceRung": "1R-phase-0",
+      "stepsFromReference": 22
+    },
+    "tolerance": {
+      "basis": "relative-resolution",
+      "selectedNominal": "nominalResistance",
+      "partsPerNominal": 20,
+      "selectedGrain": 1
+    },
+    "actualResistance": {
+      "state": "unresolved",
+      "reason": "the source label gives nominal E6 position plus tolerance resolution, not a measured value"
+    }
+  },
+  "readHints": {
+    "humanLabel": "4.7K 5%",
+    "nominalRead": {
+      "phase": 4,
+      "decadeCarry": 3,
+      "phaseLabel": "4.7",
+      "prefixLabel": "K"
+    },
+    "toleranceRead": {
+      "label": "5%",
+      "meaning": "one selected grain in a 20-part relative resolution"
+    }
+  },
+  "residue": [
+    "human labels are inspection reads over the repeated E6 transform",
+    "no lower or upper endpoint ohm values are stored",
+    "actual resistance remains unresolved until a measurement or stronger source supplies it"
+  ]
+}
