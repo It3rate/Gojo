@@ -265,23 +265,58 @@ human label `4.7K` is only an inspection read over that settled Gojo structure.
 
 ## JSON Fixture Shape
 
-The first saved fixture is:
+There are now two fixture layers.
+
+The documentary fixture is:
 
 ```text
 GojoCAD.Tests/Fixtures/Electronics/resistors/4k7-5-percent.resistor-value.json
 ```
 
-It keeps the durable encoding small:
+It is intentionally readable and uses names such as `nominalResistance`,
+`partsPerNominal`, and `actualResistance`. Those keys are a bridge for humans
+and fixture loading. They are not the pure Gojo meaning.
+
+The stricter reusable basis fixture is:
 
 ```text
-encoded.nominalResistance.stepsFromReference = 22
-encoded.tolerance.partsPerNominal = 20
-encoded.tolerance.selectedGrain = 1
-encoded.actualResistance.state = unresolved
+GojoCAD.Tests/Fixtures/Electronics/bases/resistor-value-bases.gojo.json
 ```
 
-The `readHints` section is for inspection. It records that the current human
-read is `4.7K 5%`, with E6 phase `4` and decade carry `3`, but those are
-verified by reloading the JSON into `ResistanceValueSurface` and re-reading the
-Gojo structure. The fixture deliberately does not store lower or upper endpoint
-ohm values.
+It defines reusable numeric surfaces:
+
+```text
+surface 6006
+  ordered slot 0: one E6 step span
+  ordered slot 1: six E6 steps carry one decade
+  ordered slot 2: reference rung
+
+surface 5005
+  ordered slot 0: relative tolerance span 0..20
+  ordered slot 1: selected grain 1
+```
+
+Only those reusable surface ids are retained in this fixture. Local carrier axes
+inside a point, span, or segment are implicit unless some other structure needs
+to reference the axis later. That keeps values like `6101` or `6102` from
+becoming fake concepts; they were just local serialization handles, not resistor
+meaning.
+
+The stricter resistor fixture is:
+
+```text
+GojoCAD.Tests/Fixtures/Electronics/resistors/4k7-5-percent.resistor-value.gojo.json
+```
+
+Its `gojo.ordered` section is the durable part:
+
+```text
+slot 0: terminal relation
+slot 1: repeat surface 6006 with count span 0..22
+slot 2: use surface 5005
+slot 3: unresolved actual-value residue
+```
+
+The `inspect` sections name those slots for people. The loader test uses the
+numeric surface ids, ordered slots, point ticks, and segment ticks to rebuild
+the Gojo surfaces, then verifies that the human read is still `4.7K 5%`.

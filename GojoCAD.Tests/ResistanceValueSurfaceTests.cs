@@ -180,15 +180,125 @@ public sealed class ResistanceValueSurfaceTests
         Assert.Equal("unresolved", fixture["encoded"]?["actualResistance"]?["state"]?.GetValue<string>());
     }
 
+    [Fact]
+    public void PhysicalResistorValueJsonFixtureReusesBasisSurfacesAndLoadsIntoGojo()
+    {
+        var bases = ReadElectronicsFixture("bases", "resistor-value-bases.gojo.json");
+        var fixture = ReadElectronicsFixture("resistors", "4k7-5-percent.resistor-value.gojo.json");
+        var e6Basis = FindSurface(bases, 6006);
+        var toleranceBasis = FindSurface(bases, 5005);
+
+        var e6Ordered = RequiredArray(e6Basis["ordered"]);
+        var oneStep = RequiredArray(RequiredObject(e6Ordered[0])["segment"]);
+        Assert.Equal(2, oneStep.Count);
+        Assert.Equal(1, ReadSegmentEnd(oneStep));
+        var carryRelation = RequiredArray(RequiredObject(e6Ordered[1])["relation"]);
+        var carrySource = RequiredArray(RequiredObject(carryRelation[0])["segment"]);
+        var carryTarget = RequiredArray(RequiredObject(carryRelation[1])["point"]);
+        Assert.Equal(2, carrySource.Count);
+        Assert.Single(carryTarget);
+        Assert.Equal(6, ReadSegmentEnd(carrySource));
+        Assert.Equal(1, ReadPointTicks(carryTarget));
+        Assert.Equal(1, RequiredObject(e6Ordered[3])["residue"]!.GetValue<long>());
+
+        var toleranceOrdered = RequiredArray(toleranceBasis["ordered"]);
+        var toleranceSpan = RequiredArray(RequiredObject(toleranceOrdered[0])["segment"]);
+        var toleranceGrain = RequiredArray(RequiredObject(toleranceOrdered[1])["point"]);
+        Assert.Equal(2, toleranceSpan.Count);
+        Assert.Single(toleranceGrain);
+        Assert.Equal(20, ReadSegmentEnd(toleranceSpan));
+        Assert.Equal(1, ReadPointTicks(toleranceGrain));
+        Assert.Equal(1, RequiredObject(toleranceOrdered[2])["residue"]!.GetValue<long>());
+
+        var ordered = RequiredArray(fixture["gojo"]?["ordered"]);
+        var terminalRelation = RequiredArray(RequiredObject(ordered[0])["relation"]);
+        var terminalA = RequiredArray(RequiredObject(terminalRelation[0])["point"]);
+        var terminalB = RequiredArray(RequiredObject(terminalRelation[1])["point"]);
+        Assert.Single(terminalA);
+        Assert.Single(terminalB);
+        var terminalAxis = new Carrier();
+        var terminalAPoint = Relation.Point(terminalAxis, ReadPointTicks(terminalA));
+        var terminalBPoint = Relation.Point(terminalAxis, ReadPointTicks(terminalB));
+        var resistanceParameter = new Relation(terminalAPoint, terminalBPoint);
+
+        var nominalRepeat = RequiredObject(RequiredObject(ordered[1])["repeat"]);
+        Assert.Equal(6006, nominalRepeat["surface"]!.GetValue<long>());
+        var countSpan = RequiredArray(RequiredObject(nominalRepeat["count"])["span"]);
+        Assert.Equal(2, countSpan.Count);
+        var e6Steps = ReadSegmentEnd(countSpan);
+
+        var nominal = ResistanceValueSurface.E6Nominal(
+            new Carrier(),
+            resistanceParameter,
+            e6Steps);
+
+        Assert.True(ResistanceValueSurface.TryReadE6Position(
+            nominal,
+            out var steps,
+            out var phase,
+            out var decadeCarry));
+        Assert.Equal(22, steps);
+        Assert.Equal(fixture["inspect"]?["nominalRead"]?["phase"]?.GetValue<long>(), phase);
+        Assert.Equal(fixture["inspect"]?["nominalRead"]?["decadeCarry"]?.GetValue<long>(), decadeCarry);
+
+        var toleranceUse = RequiredObject(RequiredObject(ordered[2])["use"]);
+        Assert.Equal(5005, toleranceUse["surface"]!.GetValue<long>());
+        var tolerance = ResistanceValueSurface.RelativeTolerance(
+            new Carrier(),
+            nominal,
+            ReadSegmentEnd(toleranceSpan));
+
+        Assert.True(ResistanceValueSurface.TryReadRelativeTolerance(
+            tolerance,
+            out var selectedNominal,
+            out var relativeResolution,
+            out var selectedGrain,
+            out _,
+            out _));
+        Assert.Same(nominal, selectedNominal);
+        Assert.Equal(ReadPointTicks(toleranceGrain), selectedGrain.Ticks);
+        Assert.Equal(20, Assert.IsType<Relation>(relativeResolution.Right).LeftLocation.Ticks);
+
+        Assert.Equal(1, RequiredObject(ordered[3])["residue"]!.GetValue<long>());
+        Assert.False(fixture["gojo"]!.ToJsonString().Contains("4.7", StringComparison.OrdinalIgnoreCase));
+        Assert.False(fixture["gojo"]!.ToJsonString().Contains("5%", StringComparison.OrdinalIgnoreCase));
+    }
+
     private static JsonObject ReadFixture(string fixtureName)
     {
-        var path = Path.Combine(
-            AppContext.BaseDirectory,
-            "Fixtures",
-            "Electronics",
-            "resistors",
-            fixtureName);
+        return ReadElectronicsFixture("resistors", fixtureName);
+    }
 
+    private static JsonObject ReadElectronicsFixture(params string[] pathParts)
+    {
+        var path = Path.Combine([AppContext.BaseDirectory, "Fixtures", "Electronics", .. pathParts]);
         return Assert.IsType<JsonObject>(JsonNode.Parse(File.ReadAllText(path)));
     }
+
+    private static JsonObject FindSurface(JsonObject document, long surfaceId)
+    {
+        var surfaces = RequiredArray(document["gojo"]?["surfaces"]);
+        foreach (var surfaceNode in surfaces)
+        {
+            var surface = RequiredObject(surfaceNode);
+            if (surface["id"]?.GetValue<long>() == surfaceId)
+            {
+                return surface;
+            }
+        }
+
+        throw new InvalidOperationException($"Surface {surfaceId} was not found.");
+    }
+
+    private static JsonObject RequiredObject(JsonNode? node) =>
+        Assert.IsType<JsonObject>(node);
+
+    private static JsonArray RequiredArray(JsonNode? node) =>
+        Assert.IsType<JsonArray>(node);
+
+    private static long ReadPointTicks(JsonArray point) =>
+        point[point.Count - 1]!.GetValue<long>();
+
+    private static long ReadSegmentEnd(JsonArray segment) =>
+        segment[segment.Count - 1]!.GetValue<long>();
 }

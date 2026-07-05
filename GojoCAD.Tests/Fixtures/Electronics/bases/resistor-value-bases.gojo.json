@@ -1,0 +1,81 @@
+{
+  "schema": "gojocad.electronics.resistor-bases.physical.v0",
+  "gojo": {
+    "surfaces": [
+      {
+        "id": 6006,
+        "ordered": [
+          {
+            "segment": [
+              0,
+              1
+            ]
+          },
+          {
+            "relation": [
+              {
+                "segment": [
+                  0,
+                  6
+                ]
+              },
+              {
+                "point": [
+                  1
+                ]
+              }
+            ]
+          },
+          {
+            "point": [
+              0
+            ]
+          },
+          {
+            "residue": 1
+          }
+        ],
+        "inspect": {
+          "name": "E6 positive resistance basis",
+          "slot0": "one E6 step",
+          "slot1": "six E6 steps carry one decade",
+          "slot2": "reference rung",
+          "phaseLabels": [
+            "1.0",
+            "1.5",
+            "2.2",
+            "3.3",
+            "4.7",
+            "6.8"
+          ],
+          "note": "The labels are inspection reads. Local axes are implicit inside each ordered slot; only reusable surfaces keep ids."
+        }
+      },
+      {
+        "id": 5005,
+        "ordered": [
+          {
+            "segment": [
+              0,
+              20
+            ]
+          },
+          {
+            "point": [
+              1
+            ]
+          },
+          {
+            "residue": 1
+          }
+        ],
+        "inspect": {
+          "name": "5 percent relative tolerance basis",
+          "slot0": "relative tolerance span with 20 grains per nominal",
+          "slot1": "selected one-grain tolerance",
+          "note": "This basis does not store nominal-specific endpoint values; local axes are implicit."
+        }
+      }
+    ]
+  }
+}

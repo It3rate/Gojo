@@ -1,0 +1,63 @@
+{
+  "schema": "gojocad.electronics.resistor-value.physical.v0",
+  "imports": [
+    {
+      "path": "../bases/resistor-value-bases.gojo.json",
+      "surfaceIds": [
+        6006,
+        5005
+      ]
+    }
+  ],
+  "gojo": {
+    "ordered": [
+      {
+        "relation": [
+          {
+            "point": [
+              0
+            ]
+          },
+          {
+            "point": [
+              1
+            ]
+          }
+        ]
+      },
+      {
+        "repeat": {
+          "surface": 6006,
+          "count": {
+            "span": [
+              0,
+              22
+            ]
+          }
+        }
+      },
+      {
+        "use": {
+          "surface": 5005
+        }
+      },
+      {
+        "residue": 1
+      }
+    ]
+  },
+  "inspect": {
+    "component": "resistor",
+    "humanLabel": "4.7K 5%",
+    "ordered0": "terminal relation A/B",
+    "ordered1": "nominal value as repeated E6 step count",
+    "ordered2": "reused 5 percent relative tolerance basis",
+    "ordered3": "actual resistance unresolved residue",
+    "nominalRead": {
+      "phase": 4,
+      "decadeCarry": 3,
+      "phaseLabel": "4.7",
+      "prefixLabel": "K"
+    }
+  }
+}
