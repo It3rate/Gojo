@@ -89,6 +89,11 @@ The first implementation is intentionally tiny.
   temporal words such as `before`/`after`, while an unprojected context still
   leaves the lower structural role readable. Multiple projections can remain
   visible through the `TryReadAll` forms instead of being collapsed early.
+- `SceneMechanicReadFrameSurface` stores a compact six-slot read frame over
+  scene mechanics: selected source frame, focus witness, basis witness,
+  transform witness, goal/residue witness, and lexical/debug attachments. The
+  proof tests cover `near`, `cross`, `deliver`, `avoid`, `conduct`, plus
+  question and modifier hints without adding new primary frame slots.
 - `GojoStructureEncodingSurface` stores a diagnostic snapshot of a currently
   visible Gojo element tree as relation-shaped integer rows. It is useful for
   debugging and transport experiments, but it is not the canonical conceptual

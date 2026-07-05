@@ -620,10 +620,64 @@ This is a good example of one word using several possible mechanics. The stable
 part is not the mechanic alone. It is the goal-oriented read: damaged support is
 settled toward continuity.
 
-## What This Suggests For Code Later
+## Loose Language Mapping
 
-A future implementation probably needs a compact read-frame surface rather than
-one class per word. It might be shaped like:
+The six-slot read frame is not meant to mirror traditional grammar one-to-one.
+It is a structural layer that language can point at with word order, small
+function words, stress, punctuation, morphology, and context. Still, the mapping
+is useful for finding missing pieces.
+
+| Read-frame piece | Loose language role | Typical examples |
+| --- | --- | --- |
+| `selected-source-frame` | noun phrase, participant frame, argument material | `the trace`, `a pin`, `Mary`, `the bridge`, `the obstacle` |
+| `focus-witness` | subject, topic, figure, emphasized part | what the sentence foregrounds or asks about |
+| `basis-witness` | preposition, case, comparison frame, observer/domain context | `near`, `in`, `through`, `before`, `on the PCB`, `from here` |
+| `transform-witness` | verb, event, process, action profile | `move`, `send`, `cross`, `split`, `cover`, `join` |
+| `goal-or-residue-witness` | object, complement, result, modal tension, completion state | `to B`, `into the box`, `blocked`, `can`, `must`, `done` |
+| `lexical/debug attachments` | actual language surface and inspection labels | token order, spelling, language, stress, debug name |
+
+Adjectives and adverbs often look like parameterized reads rather than separate
+mechanics. An adjective usually parameterizes a selected participant or its
+basis: `red trace`, `large pad`, `near pin`, `blocked route`. An adverb usually
+parameterizes a transform or whole read frame: `quickly`, `partly`, `again`,
+`carefully`, `almost`, `not yet`.
+
+Prepositions are mostly basis/relation reads. Verbs are mostly transform reads
+with selected roles. Nouns are often stable selected structures or crystallized
+participant shapes. Determiners and pronouns mostly affect selection
+resolution: known/unknown, one/many, generic/specific, current-context handle.
+Conjunctions compose frames, sequence frames, or preserve alternatives.
+Tense/aspect is a timeline basis over the transform. Negation is often absence,
+blocked participation, or an opposed read over an expected frame. Questions are
+reads with a missing or unresolved slot made salient. Commands are reads whose
+goal state is requested rather than merely described.
+
+Some grammar-like information is probably not a seventh primary slot. It is
+often hinted by language surface and may later become separate witness structure
+when needed:
+
+- role-binding hints: which selected part behaves as figure, ground, source,
+  target, agent, patient, instrument, route, or obstacle
+- frame-mode hints: assertion, question, command, hypothesis, definition,
+  wish, instruction
+- composition and attachment hints: which modifier or phrase attaches to which
+  lower frame
+- scope and quantification hints: `all`, `some`, `none`, `any`, `each`, `a`,
+  `the`, many, one
+- surface-evidence hints: token order, stress, pause, punctuation, prosody,
+  contraction, repetition, language, spelling
+
+These upcoming hints are important, but they should not force the first
+read-frame surface to become a full grammar object. They can begin as lexical
+or debug attachments, residue, or tiny adjacent witnesses. When one of them
+starts carrying durable structure, it can be promoted into a readable Gojo
+witness without changing the six-slot frame.
+
+## First Code Proof
+
+The first implementation is intentionally small: `SceneMechanicReadFrameSurface`
+stores the six-slot read frame as ordinary ordered Gojo relation structure
+rather than as one class per word. Its shape is:
 
 ```text
 read-frame
@@ -635,8 +689,12 @@ read-frame
   lexical/debug attachments
 ```
 
-The first coding test should not try to encode every row above. A better next
-step would be:
+The initial proof tests cover `near`, `cross`, `deliver`, `avoid`, and
+`conduct`. They also include a question-like read and an adjective/modifier-like
+read. The question and modifier information stays in lexical/debug attachments
+as hints; the primary frame still has the same six slots.
+
+The next coding step should still stay small:
 
 1. Choose three mechanics: bounded carrier, two-carrier contact, bridged join.
 2. Encode two or three read frames over each mechanic.
