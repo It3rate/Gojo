@@ -1,3 +1,4 @@
+using System.Text.Json.Nodes;
 using Gojo.Core;
 using Gojo.Encoding;
 using Gojo.Structures;
@@ -106,6 +107,55 @@ public sealed class SceneMechanicReadFrameSurfaceTests
         Assert.True(BasisReadSurface.TryRead(Assert.IsType<Relation>(modifier.BasisWitness), out _, out _, out _, out _, out _, out _));
         Assert.True(ReadWitness.TryRead(Assert.IsType<Relation>(modifier.GoalOrResidueWitness), out _, out _, out var modifierResult, out _, out _));
         Assert.Equal("trace selected with red quality unresolved as surface evidence", Text(modifierResult));
+    }
+
+    [Fact]
+    public void ReadFrameShapeDoesNotMistakeEverySixSlotSurfaceForAFrame()
+    {
+        var axis = new Carrier();
+        var basis = BasisReadSurface.Create(
+            new Carrier(),
+            Relation.Segment(axis, 0, 10),
+            Relation.Point(axis, 0),
+            Relation.Point(axis, 10),
+            Relation.Segment(axis, 0, 10));
+        var transform = TransformSurface.Create(
+            new Carrier(),
+            TransformSurface.Ports(new Carrier(), Relation.Point(axis, 0)),
+            Relation.DirectedSegment(axis, 0, 10),
+            TransformSurface.Ports(new Carrier(), Relation.Point(axis, 10)),
+            UnknownPoint(),
+            Relation.Segment(axis, 0, 10));
+
+        Assert.False(SceneMechanicReadFrameSurface.TryRead(basis, out _));
+        Assert.False(SceneMechanicReadFrameSurface.TryRead(transform, out _));
+    }
+
+    [Fact]
+    public void DefinitionBackedReadFrameReloadsFromCompactJson()
+    {
+        var generated = ConceptDefinitionInterchangeJson.Serialize(CompactReadFrameDocument());
+        var fixture = File.ReadAllText(ReadFrameCompactFixturePath());
+        var reread = ConceptDefinitionInterchangeJson.Deserialize(fixture);
+        var rewritten = ConceptDefinitionInterchangeJson.Serialize(reread);
+
+        AssertJsonEquivalent(fixture, generated);
+        AssertJsonEquivalent(generated, rewritten);
+
+        var loaded = ConceptDefinitionInterchangeJson.ToLabeledLedger(reread);
+
+        Assert.True(SceneMechanicReadFrameSurface.TryReadFrames(loaded.Ledger, out var reads));
+        var read = Assert.Single(reads);
+
+        Assert.Same(loaded.SingleDefinition("near-read"), read.Definition.Definition);
+        Assert.Contains("word:near", read.LexicalDebugLabels);
+        Assert.Contains("part:preposition/adjective", read.LexicalDebugLabels);
+        Assert.Same(loaded.SingleDefinition("near-source"), read.Frame.SelectedSourceFrame);
+        Assert.Same(loaded.SingleDefinition("near-focus"), read.Frame.FocusWitness);
+        Assert.Same(loaded.SingleDefinition("near-basis"), read.Frame.BasisWitness);
+        Assert.Same(loaded.SingleDefinition("near-transform-open"), read.Frame.TransformWitness);
+        Assert.Same(loaded.SingleDefinition("near-goal"), read.Frame.GoalOrResidueWitness);
+        Assert.Same(loaded.SingleDefinition("near-lexical"), read.Frame.LexicalDebugAttachments);
     }
 
     private static Sample CreateSample()
@@ -373,6 +423,149 @@ public sealed class SceneMechanicReadFrameSurfaceTests
         carrier.IsUnknown &&
         location.Carrier.IsUnknown &&
         location.Ticks == 0;
+
+    private static ConceptDefinitionInterchangeDocument CompactReadFrameDocument() =>
+        new()
+        {
+            SourceId = "grammar/scene-mechanic-read-frames",
+            Carriers = ["distance-axis", "read-frame-slot-axis"],
+            Definitions =
+            [
+                new()
+                {
+                    Id = "near-source",
+                    Body = new()
+                    {
+                        Kind = "group",
+                        Elements =
+                        [
+                            new() { Kind = "segment", Carrier = "distance-axis", Start = 0, End = 10 },
+                            new() { Kind = "point", Carrier = "distance-axis", Ticks = 2 },
+                            new() { Kind = "point", Carrier = "distance-axis", Ticks = 0 }
+                        ]
+                    },
+                    DependsOn = []
+                },
+                new()
+                {
+                    Id = "near-focus",
+                    Body = new()
+                    {
+                        Kind = "witness",
+                        Selected = "near-source",
+                        ReadSurface = new() { Kind = "segment", Carrier = "distance-axis", Start = 0, End = 3 },
+                        Result = new() { Kind = "point", Carrier = "distance-axis", Ticks = 2 },
+                        ResidueOrTension = "focus on low-distance band",
+                        Provenance = "near-source"
+                    },
+                    DependsOn = ["near-source"],
+                    ResidueOrTension = "focus is a read over source structure"
+                },
+                new()
+                {
+                    Id = "near-basis",
+                    Body = new()
+                    {
+                        Kind = "group",
+                        Elements =
+                        [
+                            new() { Kind = "segment", Carrier = "distance-axis", Start = 0, End = 10 },
+                            new() { Kind = "segment", Carrier = "distance-axis", Start = 0, End = 3 },
+                            new() { Kind = "text", Text = "comparison basis" }
+                        ]
+                    },
+                    DependsOn = ["near-source"],
+                    ResidueOrTension = "basis stays separate from lexical near"
+                },
+                new()
+                {
+                    Id = "near-transform-open",
+                    Body = new() { Kind = "point", Carrier = "read-frame-slot-axis", Ticks = 0 },
+                    DependsOn = [],
+                    ResidueOrTension = "static read has no transform witness yet"
+                },
+                new()
+                {
+                    Id = "near-goal",
+                    Body = new()
+                    {
+                        Kind = "witness",
+                        Selected = "near-source",
+                        ReadSurface = new() { Kind = "definitionRef", Selected = "near-basis" },
+                        Result = new() { Kind = "text", Text = "settled inside near band" },
+                        ResidueOrTension = "low resolution comparison result",
+                        Provenance = "near-focus"
+                    },
+                    DependsOn = ["near-source", "near-basis", "near-focus"],
+                    ResidueOrTension = "goal/result is a read witness"
+                },
+                new()
+                {
+                    Id = "near-lexical",
+                    Body = new()
+                    {
+                        Kind = "group",
+                        Elements =
+                        [
+                            new() { Kind = "text", Text = "word:near" },
+                            new() { Kind = "text", Text = "language:en" },
+                            new() { Kind = "text", Text = "part:preposition/adjective" },
+                            new() { Kind = "text", Text = "hint:comparison" }
+                        ]
+                    },
+                    DependsOn = [],
+                    ResidueOrTension = "lexical surface is an attachment, not the lower meaning"
+                },
+                new()
+                {
+                    Id = "near-read",
+                    Body = new()
+                    {
+                        Kind = "group",
+                        Elements =
+                        [
+                            ReadFrameSlot(1, "near-source"),
+                            ReadFrameSlot(2, "near-focus"),
+                            ReadFrameSlot(3, "near-basis"),
+                            ReadFrameSlot(4, "near-transform-open"),
+                            ReadFrameSlot(5, "near-goal"),
+                            ReadFrameSlot(6, "near-lexical")
+                        ]
+                    },
+                    DependsOn =
+                    [
+                        "near-source",
+                        "near-focus",
+                        "near-basis",
+                        "near-transform-open",
+                        "near-goal",
+                        "near-lexical"
+                    ],
+                    ResidueOrTension = "six-slot read frame over a bounded carrier mechanic"
+                }
+            ]
+        };
+
+    private static ConceptDefinitionInterchangeBody ReadFrameSlot(long slot, string definition) =>
+        new()
+        {
+            Kind = "relation",
+            Left = new() { Kind = "point", Carrier = "read-frame-slot-axis", Ticks = slot },
+            Right = new() { Kind = "definitionRef", Selected = definition }
+        };
+
+    private static void AssertJsonEquivalent(string expected, string actual) =>
+        Assert.True(
+            JsonNode.DeepEquals(JsonNode.Parse(expected), JsonNode.Parse(actual)),
+            $"Expected JSON equivalent to:\n{expected}\nActual:\n{actual}");
+
+    private static string ReadFrameCompactFixturePath() =>
+        Path.Combine(
+            AppContext.BaseDirectory,
+            "Fixtures",
+            "EncoderJson",
+            "grammar",
+            "scene-mechanic-read-frames.compact.json");
 
     private sealed record Sample(
         Relation Ledger,

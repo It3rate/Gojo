@@ -689,10 +689,22 @@ read-frame
   lexical/debug attachments
 ```
 
+In code, those six entries are not just six anonymous ordered elements. Each
+entry is a local slot binding on a shared read-frame slot carrier. That lets the
+surface distinguish a read frame from some other six-element structure, such as
+a basis read.
+
 The initial proof tests cover `near`, `cross`, `deliver`, `avoid`, and
 `conduct`. They also include a question-like read and an adjective/modifier-like
 read. The question and modifier information stays in lexical/debug attachments
 as hints; the primary frame still has the same six slots.
+
+The compact JSON fixture
+`Gojo.Encoding.Tests/Fixtures/EncoderJson/grammar/scene-mechanic-read-frames.compact.json`
+proves a definition-backed `near` read can reload through the interchange
+format. The read frame references reusable definitions for source, focus,
+basis, open transform, goal, and lexical attachments instead of expanding each
+slot body repeatedly.
 
 The next coding step should still stay small:
 

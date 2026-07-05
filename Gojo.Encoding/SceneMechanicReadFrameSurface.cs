@@ -29,15 +29,18 @@ public static class SceneMechanicReadFrameSurface
         IElement basisWitness,
         IElement transformWitness,
         IElement goalOrResidueWitness,
-        IElement lexicalDebugAttachments) =>
-        Relation.OrderedGroup(
+        IElement lexicalDebugAttachments)
+    {
+        var slotCarrier = new Carrier();
+        return Relation.OrderedGroup(
             EncodedTextSurface.RootOrNew(root),
-            selectedSourceFrame ?? UnknownPoint(),
-            focusWitness ?? UnknownPoint(),
-            basisWitness ?? UnknownPoint(),
-            transformWitness ?? UnknownPoint(),
-            goalOrResidueWitness ?? UnknownPoint(),
-            lexicalDebugAttachments ?? UnknownPoint());
+            Slot(slotCarrier, 1, selectedSourceFrame),
+            Slot(slotCarrier, 2, focusWitness),
+            Slot(slotCarrier, 3, basisWitness),
+            Slot(slotCarrier, 4, transformWitness),
+            Slot(slotCarrier, 5, goalOrResidueWitness),
+            Slot(slotCarrier, 6, lexicalDebugAttachments));
+    }
 
     public static Relation LexicalDebugFrame(Carrier root, params string[] labels) =>
         Relation.OrderedGroup(
@@ -48,15 +51,16 @@ public static class SceneMechanicReadFrameSurface
     {
         if (element is Relation frame &&
             EncodedTextSurface.TryReadRootElements(frame, out var elements) &&
-            elements.Length == 6)
+            elements.Length == 6 &&
+            TryReadSlots(elements, out var slots))
         {
             read = new ReadFrameRead(
-                elements[0],
-                elements[1],
-                elements[2],
-                elements[3],
-                elements[4],
-                elements[5]);
+                slots[0],
+                slots[1],
+                slots[2],
+                slots[3],
+                slots[4],
+                slots[5]);
             return true;
         }
 
@@ -92,6 +96,11 @@ public static class SceneMechanicReadFrameSurface
 
     public static string[] ReadLexicalDebugLabels(IElement lexicalDebugAttachments)
     {
+        if (ConceptDefinitionSurface.TryRead(lexicalDebugAttachments, out var definition))
+        {
+            return ReadLexicalDebugLabels(definition.Body);
+        }
+
         if (EncodedTextSurface.TryRead(lexicalDebugAttachments, out var single))
         {
             return [single];
@@ -110,4 +119,42 @@ public static class SceneMechanicReadFrameSurface
 
     private static Relation UnknownPoint() =>
         Relation.Point(Carrier.Unknown, 0);
+
+    private static Relation Slot(Carrier slotCarrier, long ticks, IElement value) =>
+        new(Relation.Point(slotCarrier, ticks), value ?? UnknownPoint());
+
+    private static bool TryReadSlots(IElement[] elements, out IElement[] slots)
+    {
+        slots = new IElement[6];
+        Carrier? slotCarrier = null;
+        foreach (var element in elements)
+        {
+            if (element is not Relation binding ||
+                !EncodedTextSurface.TryReadPoint(binding.Left, out var slot) ||
+                slot.Ticks is < 1 or > 6)
+            {
+                slots = [];
+                return false;
+            }
+
+            slotCarrier ??= slot.Carrier;
+            var slotIndex = (int)slot.Ticks - 1;
+            if (!slot.Carrier.SameIdentityAs(slotCarrier) ||
+                slots[slotIndex] is not null)
+            {
+                slots = [];
+                return false;
+            }
+
+            slots[slotIndex] = binding.Right;
+        }
+
+        if (slots.Any(slot => slot is null))
+        {
+            slots = [];
+            return false;
+        }
+
+        return true;
+    }
 }

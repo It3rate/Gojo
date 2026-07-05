@@ -110,14 +110,15 @@ The first implementation is intentionally tiny.
   ordered groups, and read witnesses.
 - `ConceptDefinitionInterchangeJson` is the compact counterpart for definition
   ledgers. It stores human labels plus point/segment/text/witness/projection
-  bodies, dependency references, projection result labels, and residue labels. On
-  reload, definition names, projection results, and residue markers become
-  local structural points; the words remain outside the Gojo structure as
-  interchange labels. Duplicate labels remain inspectable as multiple matches,
-  and ambiguous references settle to unresolved structure instead of becoming a
-  global classifier. The grammar fixture has both forms: a compact interchange
-  file for human inspection, and a folded compact structure file generated from
-  the compact reload's label-free Gojo structure for reload coverage.
+  bodies, definition references, dependency references, projection result
+  labels, and residue labels. On reload, definition names, projection results,
+  and residue markers become local structural points; the words remain outside
+  the Gojo structure as interchange labels. Duplicate labels remain inspectable
+  as multiple matches, and ambiguous references settle to unresolved structure
+  instead of becoming a global classifier. The grammar fixture has both forms:
+  a compact interchange file for human inspection, and a folded compact
+  structure file generated from the compact reload's label-free Gojo structure
+  for reload coverage.
 - `ConceptAddressSurface` builds variable-length semantic addresses from atoms,
   compound parts, context, and residue/tension.
 

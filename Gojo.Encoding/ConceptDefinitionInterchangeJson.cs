@@ -255,6 +255,16 @@ public static class ConceptDefinitionInterchangeJson
         IReadOnlyDictionary<Carrier, string> carriers,
         IElement element)
     {
+        if (element is Relation definitionReference &&
+            ids.TryGetValue(definitionReference, out var definitionId))
+        {
+            return new ConceptDefinitionInterchangeBody
+            {
+                Kind = "definitionRef",
+                Selected = definitionId
+            };
+        }
+
         if (element is Relation witness &&
             ReadWitness.TryRead(
                 witness,
@@ -389,6 +399,12 @@ public static class ConceptDefinitionInterchangeJson
         projectionResultLabel = null;
         switch (body.Kind)
         {
+            case "definitionRef":
+                return DefinitionOrTensionFor(
+                    definitions,
+                    body.Selected,
+                    unresolvedReferenceCarrier,
+                    ref unresolvedReferenceTicks);
             case "text":
                 return EncodedTextSurface.Create(new Carrier(), body.Text);
             case "point":
