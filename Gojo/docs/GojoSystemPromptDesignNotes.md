@@ -145,3 +145,8 @@ Both files should be committed with the repository. Any machine that clones or
 pulls the repository then receives the prompt and its automatic bootstrap
 without a per-machine copy or configuration step. Changes to foundational
 rules should update this design note in the same commit as the prompt.
+
+`GojoChatGPTPersonalization.md` is a compact, globally scoped companion for the
+ChatGPT Personalization field. It omits repository operations and is not an
+alternative authority for repository work; the canonical prompt remains
+`GojoSystemPrompt.md`.
