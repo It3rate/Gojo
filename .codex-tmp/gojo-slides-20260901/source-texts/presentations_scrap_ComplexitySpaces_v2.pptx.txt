@@ -1,0 +1,143 @@
+[Slide ]
+COMPLEXITY
+SPACES
+A Framework for Understanding
+Quantities, Perspectives,
+and Distributed Intelligence
+[Slide ]
+Introduction
+Quantities Drive Everything
+Every thought, perception, and meaning we have comes from comparing and manipulating quantities — not just in math, but in all cognition
+Tradition, Not Inquiry
+"What is a number?" and "How can things be measured?" — these foundational questions are answered by tradition, never revisited
+AI Demands a New Framework
+Machines have no tradition. We need a framework of related perspectives, each with micro-intelligence, rather than flat lists for some higher intelligence to digest
+2
+[Slide ]
+What is a Quantity?
+If existence is the transition from 0 to 1, comprehension begins at 2.
+Change can be over time, place, scale — or fully abstract and imagined
+The most abstract math exists only by exploring unequal things
+3
+[Slide ]
+Reality Gets a Vote
+Rules of a space are substrate-independent, and not optional.
+Values can be ordered, and the interpretation is unambiguous — 4,5,7,6 is never valid
+The mechanics of addition must hold for areas and oscillations just as for plain numbers
+4
+[Slide ]
+Limits and Resolution
+A: "They go on forever"
+Infinite-precision real numbers
+A useful simplification — but hides deeper truths
+B: "Unknown if they end"
+Bounded math with uncertainty as first-class
+Reflects how quantities actually behave
+Every measure exists inside a framework with resolution rules and information limits.
+5
+[Slide ]
+First-Class Unknowns
+Limits and Resolution — the aha moment
+?
+Unknown Values
+Something unknowable, unexamined, random, or not yet understood. Unknown is a first-class element — not an edge case.
+⟷
+Bounds
+A dog can be many weights, but 500 tons is not a dog. The boundary is unspecified but its existence is part of the definition.
+⊡
+Resolution
+1/2 is lower resolution than 1000/2000. A 7/16" button hole demands more precision than ½ cup of flour.
+Precision and bounds aren't metadata — they are first-class elements of every measure.
+6
+[Slide ]
+Complexity Spaces
+Every value has a context that calibrates it. Seven means 'seven ones'.
+A complexity space is defined by its types and how elements interact within them.
+7
+[Slide ]
+Multiple Perspectives
+Complexity Spaces — coexisting views on the same elements
+Spaces are just perspectives
+Many can coexist on the same elements at the same time
+Each has its own math
+Position math doesn't need to know about color math — but both contribute to the truth
+8
+[Slide ]
+Dimensionality Reduction
+Complexity Spaces — how complexity collapses to simple math
+The Apple Analogy
+Apples are overwhelmingly complex — atoms, skin blemishes, aroma, color. But when adding weights of two apples, reduce to one dimension: weight. Simple addition works like all other addition.
+The aroma still matters in some other perspective — maybe a blemish prevents it from reaching the scale. That matters, but to a different perspective running in parallel.
+9
+[Slide ]
+Error and Opportunity
+10
+[Slide ]
+The Opportunity in Error
+Error and Opportunity — why this changes everything
+Current ML
+Absorb all knowledge each pass
+Correct errors globally
+One-shot best guess at inference
+Football-stadium computers, nuclear-reactor power, months of grinding
+Distributed Intelligence
+Each perspective detects its own error
+Local correction, no global backprop needed
+Every layer gains agency
+Scales with far less compute — like biology vs brute-force calculation
+Our math can never be 'wrong'.
+No point is incorrect, no area is invalid. There is only measurement error — but it's invisible. If error is detectable within the system, every perspective gains agency to correct it. Each level can negotiate its own goals and contribute to outcomes it can't even perceive directly.
+11
+[Slide ]
+Communication
+Communication between perspectives is automatic. No message-passing required.
+12
+[Slide ]
+Same Space = Same Math
+Communication — the force-voltage duality
+Car Suspension
+Spring force
+Damper resistance
+Mass inertia
+Analog Circuit
+Capacitor voltage
+Resistor current
+Inductor energy
+≡
+Engineers have used this duality to design F1-dominating cars.
+A discovery in one domain transfers directly to the other — because they are the same space.
+It would be more surprising if that weren't true.
+It would mean math was environment-dependent — which would be its undoing.
+13
+[Slide ]
+Level of Focus
+Start at the level of focus that matters. Reduce everything else to minimum resolution.
+14
+[Notes ]
+1
+[Notes ]
+2
+[Notes ]
+3
+[Notes ]
+4
+[Notes ]
+5
+[Notes ]
+6
+[Notes ]
+7
+[Notes ]
+8
+[Notes ]
+9
+[Notes ]
+10
+[Notes ]
+11
+[Notes ]
+12
+[Notes ]
+13
+[Notes ]
+14

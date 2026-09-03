@@ -1,0 +1,7 @@
+[Slide ]
+Error is Information
+Global vs. Distributed Learning
+Current ML absorbs all knowledge globally and corrects from the top down — remarkable that it works, unsurprising that it requires stadium-sized computers and months of grinding. Distributed, simpler intelligence has the potential to scale with far less compute.
+Detectable Error
+Traditional math has no concept of "wrong" — every point is valid, every segment is correct. Measurement error exists but is invisible to the system. If error becomes detectable within the system, every perspective gains the ability to sense and correct it locally.
+[Notes ]

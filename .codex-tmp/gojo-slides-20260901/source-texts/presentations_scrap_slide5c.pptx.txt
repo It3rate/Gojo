@@ -1,0 +1,10 @@
+[Slide ]
+Number Spaces and Segment Math
+Standard numbering rules—like addition, multiplication, and closure—aren't inherent “laws of lengths,” but simply the behavior of any system constrained by a zero pivot.
+Summary: Standard arithmetic emerges from constraining a length to a zero anchor. Removing that anchor constraint, while maintaining unit measurements, naturally generates complex number mathematics based on line segments rather than rotations.
+Allowing a segment's start and end points to vary independently produces the exact same math as traditional complex numbers, proving that identical constraints yield identical math across domains.
+Zero-Anchored Systems
+Complex Numbers from
+Free
+Segments
+[Notes ]

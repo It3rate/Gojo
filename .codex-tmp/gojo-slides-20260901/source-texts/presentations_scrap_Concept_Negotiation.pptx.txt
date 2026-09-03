@@ -1,0 +1,8 @@
+[Slide ]
+Concept Negotiation
+In a system where error is detectable, it becomes a form of pressure. Local geometric components can "negotiate" towards valid configurations by reacting to and creating tensions in the system.
+• Error Pressure:
+Spaces "know" the local forces needed to move toward validity.
+• Shared Substrate:
+Negotiation happens through environmental tension between complexity spaces, not explicit communication.
+[Notes ]

@@ -1,0 +1,8 @@
+[Slide ]
+A space dictates baseline possibilities, but applying explicit constraints reduces an object's degrees of freedom. Ultimately, the governing mathematics follows these imposed constraints rather than the inherent nature of the object itself.
+Baseline Possibilities
+Containers and Constraints
+A line inherently has varying degrees of freedom depending on its container, ranging from 0 inside a point up to 6 inside a 3D volume.
+The Power of Constraints
+Locking a line's length on a 1D axis reduces its degrees of freedom to 1, causing it to behave mathematically exactly like a single moving point.
+[Notes ]

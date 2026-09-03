@@ -1,0 +1,10 @@
+[Slide ]
+Unknown vs. Infinity
+How we define the limits of numbers isn't a technicality
+–
+it's a philosophical choice with deep consequences. Treating limits as unknown rather than infinite produces a more honest, more powerful system for representing how quantities actually behave.
+Two valid systems, one better mirror
+Infinite-precision real numbers are a useful abstraction, but they hide the truth that most real quantities are partly known and partly not â€” unknown is not an edge case, it's a first-class element.
+Unknown is a primitive, not a gap
+Whether something is unknowable, unexamined, random, or simply out of range, the framework must treat unknown values as legitimate residents of the number system, not failures of measurement.
+[Notes ]

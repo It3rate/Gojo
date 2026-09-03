@@ -1,0 +1,14 @@
+{
+  "navigationFallback": {
+    "rewrite": "/index.html",
+    "exclude": [
+      "/_framework/*",
+      "/Tutorial/*",
+      "/Glossary/*",
+      "/*.{css,js,wasm,json,dat,br,gz,png,ico}"
+    ]
+  },
+  "mimeTypes": {
+    ".wasm": "application/wasm"
+  }
+}
