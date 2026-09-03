@@ -1,0 +1,34 @@
+{
+  "sourceId": "scene-mechanics/boundary-crossing",
+  "carriers": [
+    "carrier"
+  ],
+  "definitions": [
+    {
+      "id": "boundary crossing structure",
+      "body": {
+        "kind": "group",
+        "elements": [
+          {
+            "kind": "segment",
+            "carrier": "carrier",
+            "start": 0,
+            "end": 10
+          },
+          {
+            "kind": "point",
+            "carrier": "carrier",
+            "ticks": 5
+          },
+          {
+            "kind": "directedSegment",
+            "carrier": "carrier",
+            "start": 2,
+            "end": 8
+          }
+        ]
+      },
+      "dependsOn": []
+    }
+  ]
+}

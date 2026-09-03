@@ -199,6 +199,11 @@ public static class ConceptDefinitionDiscoverySurface
             return text;
         }
 
+        if (EncodedTextSurface.TryReadPoint(element, out var location))
+        {
+            return $"local-{location.Ticks}";
+        }
+
         return "?";
     }
 
@@ -211,5 +216,7 @@ public static class ConceptDefinitionDiscoverySurface
                     ? NameOf(definition.Name)
                     : EncodedTextSurface.TryRead(element, out var text)
                         ? text
-                        : "?";
+                        : EncodedTextSurface.TryReadPoint(element, out var location)
+                            ? $"local-{location.Ticks}"
+                            : "?";
 }

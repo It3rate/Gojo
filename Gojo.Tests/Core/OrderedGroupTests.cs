@@ -33,6 +33,22 @@ public sealed class OrderedGroupTests
     }
 
     [Fact]
+    public void OrderedGroupReusesOneHolderOriginAcrossSlots()
+    {
+        var holder = new Carrier();
+
+        var group = Relation.OrderedGroup(
+            holder,
+            new Carrier(),
+            new Carrier(),
+            new Carrier());
+
+        Assert.True(group.TryReadOrderedElementsOn(holder, out var elements));
+        Assert.Equal(3, elements.Length);
+        Assert.Single(HolderOriginPoints(group, holder));
+    }
+
+    [Fact]
     public void SameOrderedPositionGroupCanAttachToMultipleBases()
     {
         var position = new Carrier();
@@ -205,5 +221,33 @@ public sealed class OrderedGroupTests
         Assert.True(polyline.TryReadOrderedElementsOn(path, out var points));
         Assert.Same(p0, points[0]);
         Assert.Same(p1, points[1]);
+    }
+
+    private static Relation[] HolderOriginPoints(Relation relation, Carrier holder)
+    {
+        var found = new List<Relation>();
+        var visited = new HashSet<Relation>(ReferenceEqualityComparer.Instance);
+        Visit(relation);
+        return [.. found];
+
+        void Visit(IElement element)
+        {
+            if (element is not Relation current || !visited.Add(current))
+            {
+                return;
+            }
+
+            if (current.Left is CarrierLocation location &&
+                current.Right is Carrier carrier &&
+                carrier.SameIdentityAs(holder) &&
+                location.Carrier.SameIdentityAs(holder) &&
+                location.Ticks == 0)
+            {
+                found.Add(current);
+            }
+
+            Visit(current.Left);
+            Visit(current.Right);
+        }
     }
 }

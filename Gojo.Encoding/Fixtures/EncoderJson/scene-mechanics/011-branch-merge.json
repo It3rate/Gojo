@@ -1,0 +1,56 @@
+{
+  "sourceId": "scene-mechanics/branch-merge",
+  "carriers": [
+    "primary",
+    "branch"
+  ],
+  "definitions": [
+    {
+      "id": "branch merge structure",
+      "body": {
+        "kind": "group",
+        "elements": [
+          {
+            "kind": "directedSegment",
+            "carrier": "primary",
+            "start": 0,
+            "end": 10
+          },
+          {
+            "kind": "relation",
+            "left": {
+              "kind": "point",
+              "carrier": "primary",
+              "ticks": 3
+            },
+            "right": {
+              "kind": "point",
+              "carrier": "branch",
+              "ticks": 0
+            }
+          },
+          {
+            "kind": "directedSegment",
+            "carrier": "branch",
+            "start": 0,
+            "end": 10
+          },
+          {
+            "kind": "relation",
+            "left": {
+              "kind": "point",
+              "carrier": "branch",
+              "ticks": 10
+            },
+            "right": {
+              "kind": "point",
+              "carrier": "primary",
+              "ticks": 7
+            }
+          }
+        ]
+      },
+      "dependsOn": []
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "sourceId": "scene-mechanics/outlet-branch",
+  "carriers": [
+    "primary",
+    "outlet"
+  ],
+  "definitions": [
+    {
+      "id": "outlet branch structure",
+      "body": {
+        "kind": "group",
+        "elements": [
+          {
+            "kind": "segment",
+            "carrier": "primary",
+            "start": 0,
+            "end": 10
+          },
+          {
+            "kind": "relation",
+            "left": {
+              "kind": "point",
+              "carrier": "primary",
+              "ticks": 5
+            },
+            "right": {
+              "kind": "point",
+              "carrier": "outlet",
+              "ticks": 0
+            }
+          },
+          {
+            "kind": "directedSegment",
+            "carrier": "outlet",
+            "start": 0,
+            "end": 5
+          }
+        ]
+      },
+      "dependsOn": []
+    }
+  ]
+}

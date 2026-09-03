@@ -1,0 +1,45 @@
+{
+  "sourceId": "scene-mechanics/obstructed-carrier",
+  "carriers": [
+    "path",
+    "obstacle"
+  ],
+  "definitions": [
+    {
+      "id": "obstructed carrier structure",
+      "body": {
+        "kind": "group",
+        "elements": [
+          {
+            "kind": "segment",
+            "carrier": "path",
+            "start": 0,
+            "end": 10
+          },
+          {
+            "kind": "directedSegment",
+            "carrier": "path",
+            "start": 0,
+            "end": 4
+          },
+          {
+            "kind": "relation",
+            "left": {
+              "kind": "segment",
+              "carrier": "obstacle",
+              "start": 0,
+              "end": 2
+            },
+            "right": {
+              "kind": "segment",
+              "carrier": "path",
+              "start": 4,
+              "end": 6
+            }
+          }
+        ]
+      },
+      "dependsOn": []
+    }
+  ]
+}

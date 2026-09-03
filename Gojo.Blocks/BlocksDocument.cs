@@ -154,7 +154,8 @@ internal sealed record BlocksGlossaryItem(
     string Title,
     IElement Structure,
     SKRect? ModelBounds,
-    int ProjectionSeed = 0);
+    int ProjectionSeed = 0,
+    IReadOnlyDictionary<Carrier, string>? CarrierLabels = null);
 
 internal sealed record BlocksGlossaryStructure(
     IElement Structure,
@@ -189,5 +190,6 @@ internal enum BlocksGlossarySheetKind
     ConstraintsSettlement,
     TopologyParticipation,
     RepetitionTimeline,
+    SceneMechanics,
     PcbDataAttachment
 }

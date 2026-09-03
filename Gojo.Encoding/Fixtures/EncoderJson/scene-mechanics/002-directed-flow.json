@@ -1,0 +1,29 @@
+{
+  "sourceId": "scene-mechanics/directed-flow",
+  "carriers": [
+    "carrier"
+  ],
+  "definitions": [
+    {
+      "id": "directed flow structure",
+      "body": {
+        "kind": "group",
+        "elements": [
+          {
+            "kind": "segment",
+            "carrier": "carrier",
+            "start": 0,
+            "end": 10
+          },
+          {
+            "kind": "directedSegment",
+            "carrier": "carrier",
+            "start": 0,
+            "end": 10
+          }
+        ]
+      },
+      "dependsOn": []
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "sourceId": "scene-mechanics/nested-span",
+  "carriers": [
+    "support"
+  ],
+  "definitions": [
+    {
+      "id": "nested span structure",
+      "body": {
+        "kind": "group",
+        "elements": [
+          {
+            "kind": "segment",
+            "carrier": "support",
+            "start": 0,
+            "end": 12
+          },
+          {
+            "kind": "segment",
+            "carrier": "support",
+            "start": 2,
+            "end": 10
+          },
+          {
+            "kind": "segment",
+            "carrier": "support",
+            "start": 4,
+            "end": 8
+          }
+        ]
+      },
+      "dependsOn": []
+    }
+  ]
+}

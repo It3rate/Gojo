@@ -189,10 +189,11 @@ public sealed partial class Relation
             return Point(holder, 1);
         }
 
-        IElement chain = AdditiveAttachment(holder, participants[0]);
+        var origin = Point(holder, 0);
+        IElement chain = new Relation(origin, participants[0]);
         for (var index = 1; index < participants.Count; index++)
         {
-            chain = new Relation(chain, AdditiveAttachment(holder, participants[index]));
+            chain = new Relation(chain, new Relation(origin, participants[index]));
         }
 
         return chain;

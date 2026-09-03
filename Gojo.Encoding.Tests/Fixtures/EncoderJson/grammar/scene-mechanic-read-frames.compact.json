@@ -1,0 +1,234 @@
+{
+  "sourceId": "grammar/scene-mechanic-read-frames",
+  "carriers": [
+    "distance-axis",
+    "read-frame-slot-axis"
+  ],
+  "definitions": [
+    {
+      "id": "near-source",
+      "body": {
+        "kind": "group",
+        "elements": [
+          {
+            "kind": "segment",
+            "carrier": "distance-axis",
+            "start": 0,
+            "end": 10
+          },
+          {
+            "kind": "point",
+            "carrier": "distance-axis",
+            "ticks": 2
+          },
+          {
+            "kind": "point",
+            "carrier": "distance-axis",
+            "ticks": 0
+          }
+        ]
+      },
+      "dependsOn": []
+    },
+    {
+      "id": "near-focus",
+      "body": {
+        "kind": "witness",
+        "selected": "near-source",
+        "readSurface": {
+          "kind": "segment",
+          "carrier": "distance-axis",
+          "start": 0,
+          "end": 3
+        },
+        "result": {
+          "kind": "point",
+          "carrier": "distance-axis",
+          "ticks": 2
+        },
+        "residueOrTension": "focus on low-distance band",
+        "provenance": "near-source"
+      },
+      "dependsOn": [
+        "near-source"
+      ],
+      "residueOrTension": "focus is a read over source structure"
+    },
+    {
+      "id": "near-basis",
+      "body": {
+        "kind": "group",
+        "elements": [
+          {
+            "kind": "segment",
+            "carrier": "distance-axis",
+            "start": 0,
+            "end": 10
+          },
+          {
+            "kind": "segment",
+            "carrier": "distance-axis",
+            "start": 0,
+            "end": 3
+          },
+          {
+            "kind": "text",
+            "text": "comparison basis"
+          }
+        ]
+      },
+      "dependsOn": [
+        "near-source"
+      ],
+      "residueOrTension": "basis stays separate from lexical near"
+    },
+    {
+      "id": "near-transform-open",
+      "body": {
+        "kind": "point",
+        "carrier": "read-frame-slot-axis",
+        "ticks": 0
+      },
+      "dependsOn": [],
+      "residueOrTension": "static read has no transform witness yet"
+    },
+    {
+      "id": "near-goal",
+      "body": {
+        "kind": "witness",
+        "selected": "near-source",
+        "readSurface": {
+          "kind": "definitionRef",
+          "selected": "near-basis"
+        },
+        "result": {
+          "kind": "text",
+          "text": "settled inside near band"
+        },
+        "residueOrTension": "low resolution comparison result",
+        "provenance": "near-focus"
+      },
+      "dependsOn": [
+        "near-source",
+        "near-basis",
+        "near-focus"
+      ],
+      "residueOrTension": "goal/result is a read witness"
+    },
+    {
+      "id": "near-lexical",
+      "body": {
+        "kind": "group",
+        "elements": [
+          {
+            "kind": "text",
+            "text": "word:near"
+          },
+          {
+            "kind": "text",
+            "text": "language:en"
+          },
+          {
+            "kind": "text",
+            "text": "part:preposition/adjective"
+          },
+          {
+            "kind": "text",
+            "text": "hint:comparison"
+          }
+        ]
+      },
+      "dependsOn": [],
+      "residueOrTension": "lexical surface is an attachment, not the lower meaning"
+    },
+    {
+      "id": "near-read",
+      "body": {
+        "kind": "group",
+        "elements": [
+          {
+            "kind": "relation",
+            "left": {
+              "kind": "point",
+              "carrier": "read-frame-slot-axis",
+              "ticks": 1
+            },
+            "right": {
+              "kind": "definitionRef",
+              "selected": "near-source"
+            }
+          },
+          {
+            "kind": "relation",
+            "left": {
+              "kind": "point",
+              "carrier": "read-frame-slot-axis",
+              "ticks": 2
+            },
+            "right": {
+              "kind": "definitionRef",
+              "selected": "near-focus"
+            }
+          },
+          {
+            "kind": "relation",
+            "left": {
+              "kind": "point",
+              "carrier": "read-frame-slot-axis",
+              "ticks": 3
+            },
+            "right": {
+              "kind": "definitionRef",
+              "selected": "near-basis"
+            }
+          },
+          {
+            "kind": "relation",
+            "left": {
+              "kind": "point",
+              "carrier": "read-frame-slot-axis",
+              "ticks": 4
+            },
+            "right": {
+              "kind": "definitionRef",
+              "selected": "near-transform-open"
+            }
+          },
+          {
+            "kind": "relation",
+            "left": {
+              "kind": "point",
+              "carrier": "read-frame-slot-axis",
+              "ticks": 5
+            },
+            "right": {
+              "kind": "definitionRef",
+              "selected": "near-goal"
+            }
+          },
+          {
+            "kind": "relation",
+            "left": {
+              "kind": "point",
+              "carrier": "read-frame-slot-axis",
+              "ticks": 6
+            },
+            "right": {
+              "kind": "definitionRef",
+              "selected": "near-lexical"
+            }
+          }
+        ]
+      },
+      "dependsOn": [
+        "near-source",
+        "near-focus",
+        "near-basis",
+        "near-transform-open",
+        "near-goal",
+        "near-lexical"
+      ],
+      "residueOrTension": "six-slot read frame over a bounded carrier mechanic"
+    }
+  ]
+}

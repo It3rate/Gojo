@@ -1,8 +1,8 @@
 {
-  "represents": "A first preposition sample where near, far, halfway, and arrived are crystallized focus reads over one role-bearing comparison scale, then near is applied to store/house and trace/pad contexts.",
-  "entryId": "preposition-parameterized-focus",
+  "represents": "A legacy contrast sample where near, far, halfway, and arrived are crystallized focus reads over one role-bearing comparison scale, then near is applied to store/house and trace/pad contexts.",
+  "entryId": "legacy-preposition-parameterized-focus",
   "expression": "RoleFrame + Comp + Scale + Zone + Focus + Cr + BindRoles + Apply",
-  "encodingNote": "This checks that a preposition can be an open role-bearing read shape. Near is not a distance value or a naked label; it is a crystallized focus over a parameterized comparison scale.",
+  "encodingNote": "This preserves the older role-frame approach as a contrast fixture. It is intentionally not the active grammar direction.",
   "gojo": {
     "known": [
       "applied-preposition-read",

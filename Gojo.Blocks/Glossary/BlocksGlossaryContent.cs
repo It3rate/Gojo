@@ -1,4 +1,5 @@
 using Gojo.Core;
+using Gojo.Encoding;
 using GojoCAD;
 using GojoCAD.Structures;
 using SkiaSharp;
@@ -11,10 +12,13 @@ internal static class BlocksGlossaryContent
 {
     private const string DefaultLocale = "en";
     private const string DescriptionFileName = "glossary-descriptions.json";
+    private const string SceneMechanicFolderName = "scene-mechanics";
 
     public static IReadOnlyList<BlocksPage> CreatePages(string locale = DefaultLocale)
     {
-        var descriptions = LoadDescriptions(locale);
+        var contentRoot = ResolveContentRoot(locale);
+        var descriptions = LoadDescriptions(contentRoot);
+        var sceneMechanicItems = CreateSceneMechanicItems(contentRoot);
         var structures = BlocksGlossaryStructureCatalog.Create();
         return
         [
@@ -315,6 +319,19 @@ internal static class BlocksGlossaryContent
                 GlossaryDescriptions: descriptions,
                 GlossaryStructures: structures),
             new BlocksPage(
+                "glossary-scene-mechanics",
+                "Scene Mechanics",
+                "Primitive supports, flows, links, branches, and bridges under later verb and preposition reads.",
+                string.Empty,
+                null,
+                null,
+                0,
+                ["support", "flow", "partition", "link", "branch", "bridge"],
+                GlossaryItems: sceneMechanicItems,
+                GlossarySheet: BlocksGlossarySheetKind.SceneMechanics,
+                GlossaryDescriptions: descriptions,
+                GlossaryStructures: structures),
+            new BlocksPage(
                 "glossary-pcb-data-attachment",
                 "PCB Data Attachment",
                 "Schematic intent, layout carriers, local attributes, rule reads, and physical board interpretation from one inspectable structure.",
@@ -340,15 +357,62 @@ internal static class BlocksGlossaryContent
     private static BlocksGlossaryItem EmptyItem(string id, string title) =>
         new(id, title, new Carrier(), null);
 
-    private static IReadOnlyDictionary<string, string> LoadDescriptions(string locale)
+    private static IReadOnlyDictionary<string, string> LoadDescriptions(BlocksContentRoot contentRoot)
     {
-        var contentRoot = ResolveContentRoot(locale);
         var json = contentRoot.ReadAllText(DescriptionFileName);
         return JsonSerializer.Deserialize<Dictionary<string, string>>(
             json,
             new JsonSerializerOptions { PropertyNameCaseInsensitive = true }) ??
             new Dictionary<string, string>();
     }
+
+    private static IReadOnlyList<BlocksGlossaryItem> CreateSceneMechanicItems(BlocksContentRoot contentRoot) =>
+        [.. SceneMechanicSpecs.Select(spec => CreateSceneMechanicItem(contentRoot, spec))];
+
+    private static BlocksGlossaryItem CreateSceneMechanicItem(
+        BlocksContentRoot contentRoot,
+        SceneMechanicSpec spec)
+    {
+        var json = contentRoot.ReadAllText(Path.Combine(SceneMechanicFolderName, spec.FileName));
+        var document = ConceptDefinitionInterchangeJson.Deserialize(json);
+        var labeled = ConceptDefinitionInterchangeJson.ToLabeledLedger(document);
+
+        if (!ConceptDefinitionDiscoverySurface.TryReadLedger(labeled.Ledger, out var graph))
+        {
+            return EmptyItem(spec.Id, spec.Title);
+        }
+
+        var definition = document.Definitions.SingleOrDefault();
+        if (definition is null ||
+            !graph.TryFind(labeled.SingleDefinition(definition.Id), out var node))
+        {
+            return EmptyItem(spec.Id, spec.Title);
+        }
+
+        return new BlocksGlossaryItem(
+            spec.Id,
+            spec.Title,
+            node.Read.Body,
+            ModelBounds: null,
+            ProjectionSeed: 0,
+            CarrierLabels: labeled.CarrierLabels);
+    }
+
+    private static readonly SceneMechanicSpec[] SceneMechanicSpecs =
+    [
+        new("001-bounded-carrier.json", "scene-mechanics-bounded-carrier", "Bounded carrier"),
+        new("002-directed-flow.json", "scene-mechanics-directed-flow", "Directed flow"),
+        new("003-reversing-flow.json", "scene-mechanics-reversing-flow", "Reversing flow"),
+        new("004-partitioned-carrier.json", "scene-mechanics-partitioned-carrier", "Partitioned carrier"),
+        new("005-nested-span.json", "scene-mechanics-nested-span", "Nested span"),
+        new("006-boundary-crossing.json", "scene-mechanics-boundary-crossing", "Boundary crossing"),
+        new("007-two-carrier-contact.json", "scene-mechanics-two-carrier-contact", "Two-carrier contact"),
+        new("008-two-carrier-link.json", "scene-mechanics-two-carrier-link", "Two-carrier link"),
+        new("009-obstructed-carrier.json", "scene-mechanics-obstructed-carrier", "Obstructed carrier"),
+        new("010-outlet-branch.json", "scene-mechanics-outlet-branch", "Outlet branch"),
+        new("011-branch-merge.json", "scene-mechanics-branch-merge", "Branch / merge"),
+        new("012-bridged-join.json", "scene-mechanics-bridged-join", "Bridged join")
+    ];
 
     private static BlocksContentRoot ResolveContentRoot(string locale) =>
         BlocksContentRoot.Resolve(
@@ -386,6 +450,8 @@ internal static class BlocksGlossaryContent
 
     private static BlocksGlossaryItem Item(string id, string title, IElement structure, SKRect? bounds, int seed = 0) =>
         new(id, title, structure, bounds, seed);
+
+    private sealed record SceneMechanicSpec(string FileName, string Id, string Title);
 
     private static SKRect Bounds(float left, float top, float right, float bottom) =>
         new(left, top, right, bottom);

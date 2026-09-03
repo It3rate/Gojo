@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 500" role="img" aria-labelledby="title desc">
+  <title id="title">Read controls around a scene mechanic</title>
+  <desc id="desc">Five read controls select and focus a lower scene mechanic through basis, transform, and goal or residue.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#65736d"/>
+    </marker>
+    <style>
+      .bg { fill: #f8faf7; }
+      .panel { fill: #ffffff; stroke: #d7ddd2; stroke-width: 1.5; rx: 16; }
+      .core { fill: #edf4f0; stroke: #9cafaa; stroke-width: 2; rx: 14; }
+      .control { fill: #fff9ec; stroke: #d9a64a; stroke-width: 2; rx: 12; }
+      .goal { fill: #f9eeee; stroke: #c56a6a; stroke-width: 2; rx: 12; }
+      .basis { fill: #eef4fb; stroke: #6f9fc5; stroke-width: 2; rx: 12; }
+      .line { stroke: #65736d; stroke-width: 2; stroke-dasharray: 6 5; fill: none; marker-end: url(#arrow); }
+      .carrier { stroke: #45524c; stroke-width: 4; stroke-linecap: round; fill: none; }
+      .flow { stroke: #277da1; stroke-width: 4; stroke-linecap: round; fill: none; marker-end: url(#arrow); }
+      .site { fill: #ffffff; stroke: #45524c; stroke-width: 3; }
+      .focus { fill: #f5c66a; stroke: #b77a18; stroke-width: 2; }
+      .title { font: 700 21px system-ui, sans-serif; fill: #21302b; }
+      .label { font: 700 16px system-ui, sans-serif; fill: #21302b; }
+      .small { font: 12px system-ui, sans-serif; fill: #66736d; }
+      .mono { font: 13px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #4b5a54; }
+    </style>
+  </defs>
+  <rect class="bg" width="980" height="500"/>
+  <rect class="panel" x="24" y="24" width="932" height="452"/>
+  <text class="title" x="52" y="62">A word-like read is a frame over a lower mechanic</text>
+  <text class="small" x="52" y="84">The mechanic remains the substrate. Controls decide what is selected, focused, oriented, animated, and settled.</text>
+
+  <rect class="core" x="352" y="178" width="276" height="128"/>
+  <text class="label" x="386" y="208">scene mechanic</text>
+  <text class="small" x="386" y="228">connected carriers, sites, spans, relations</text>
+  <line class="carrier" x1="396" y1="260" x2="584" y2="260"/>
+  <circle class="site" cx="396" cy="260" r="8"/>
+  <circle class="focus" cx="490" cy="260" r="8"/>
+  <circle class="site" cx="584" cy="260" r="8"/>
+
+  <rect class="control" x="72" y="142" width="214" height="82"/>
+  <text class="label" x="94" y="172">S selection</text>
+  <text class="small" x="94" y="194">which lower subset participates</text>
+
+  <rect class="control" x="382" y="108" width="216" height="78"/>
+  <text class="label" x="406" y="138">F focus</text>
+  <text class="small" x="406" y="160">what becomes figure/salient</text>
+
+  <rect class="basis" x="694" y="142" width="214" height="82"/>
+  <text class="label" x="716" y="172">B basis</text>
+  <text class="small" x="716" y="194">orientation, scale, observer, context</text>
+
+  <rect class="control" x="166" y="346" width="238" height="82"/>
+  <text class="label" x="188" y="376">T transform</text>
+  <text class="small" x="188" y="398">flow, pressure, animation, change</text>
+
+  <rect class="goal" x="588" y="346" width="254" height="82"/>
+  <text class="label" x="610" y="376">G goal / residue</text>
+  <text class="small" x="610" y="398">target, result, tension, mismatch</text>
+
+  <path class="line" d="M286,184 C316,190 330,210 352,230"/>
+  <path class="line" d="M490,186 L490,178"/>
+  <path class="line" d="M694,184 C664,190 650,210 628,230"/>
+  <path class="line" d="M404,370 C430,340 446,318 468,306"/>
+  <path class="line" d="M626,306 C652,320 674,344 700,346"/>
+
+  <text class="mono" x="244" y="464">read = mechanic + S + F + B + optional T + optional G</text>
+</svg>

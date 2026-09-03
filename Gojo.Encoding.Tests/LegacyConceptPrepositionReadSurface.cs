@@ -3,11 +3,11 @@ using Gojo.Core;
 namespace Gojo.Encoding;
 
 /// <summary>
-/// Local inspection surface for preposition-like structures. It recognizes
-/// open role frames, comparison reads, parameter scales, focus regions,
-/// crystallized focus words, role bindings, and applied preposition reads.
+/// Legacy inspection surface for the old preposition fixture. It remains in the
+/// test project so the historical JSON fixture can round-trip, but it is not an
+/// active grammar architecture.
 /// </summary>
-public static class ConceptPrepositionReadSurface
+internal static class LegacyConceptPrepositionReadSurface
 {
     public readonly record struct PrepositionRead(
         ConceptDefinitionDiscoverySurface.DefinitionNode Definition,
@@ -202,9 +202,17 @@ public static class ConceptPrepositionReadSurface
         ResolutionFacetStructureSurface.TryReadSlot(node.Read.Body, out _);
 
     private static string ResidueText(IElement element) =>
-        EncodedTextSurface.IsUnknownPoint(element)
+        IsUnknownPoint(element)
             ? string.Empty
             : EncodedTextSurface.TryRead(element, out var text)
                 ? text
                 : ConceptDefinitionInspection.ElementDebug(element);
+
+    private static bool IsUnknownPoint(IElement element) =>
+        element is Relation relation &&
+        relation.Left is CarrierLocation location &&
+        relation.Right is Carrier carrier &&
+        carrier.IsUnknown &&
+        location.Carrier.IsUnknown &&
+        location.Ticks == 0;
 }

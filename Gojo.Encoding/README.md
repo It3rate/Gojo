@@ -73,16 +73,53 @@ The first implementation is intentionally tiny.
   support, and clearance from an offset boundary, distance, resolution, and
   keepout anti-area. This is deliberately a composition fixture, not a
   permutation catalog.
-- `ConceptPrepositionDefinitionSurface` and `ConceptPrepositionReadSurface`
-  make the first step beyond noun-like structures. Prepositions are represented
-  as open role frames, comparison templates, parameter scales, focus zones,
-  crystallized focus reads, and applied role bindings. In the first sample,
-  `near`, `far`, `halfway`, and `arrived` are sibling focus reads over one
-  shared comparison scale.
+- Sentence-like grammar work is still fixture-only in `Gojo.Encoding.Tests`.
+  The sample `red trace near pin` is encoded as token order, lexical candidates,
+  a modifier candidate, a low-resolution position witness between trace and pin,
+  two phrase candidates, a selected coarse read, an interpretation bundle, and a
+  grammar trace. The token `near` is provenance for the position read; the
+  meaning comes from the low-resolution position on a ground, not from a stored
+  preposition concept tree.
+- The generic support underneath that grammar experiment now lives in
+  `Gojo.Encoding`. `IntervalBasisReadSurface` reads start, center, end, and
+  coarse bands from carrier points, segments, and dependencies.
+  `ContextualProjectionReadSurface` reads ordinary `ReadWitness` projections
+  from selected structure through a context surface. A later context read can
+  project the same structural role as spatial words such as `near`/`far` or
+  temporal words such as `before`/`after`, while an unprojected context still
+  leaves the lower structural role readable. Multiple projections can remain
+  visible through the `TryReadAll` forms instead of being collapsed early.
+- `SceneMechanicReadFrameSurface` stores a compact six-slot read frame over
+  scene mechanics: selected source frame, focus witness, basis witness,
+  transform witness, goal/residue witness, and lexical/debug attachments. The
+  proof tests cover `near`, multiple reads over one contact mechanic (`cross`,
+  `stop`, `turn-left`), `deliver`, `avoid`, `conduct`, plus question and
+  modifier hints without adding new primary frame slots.
 - `GojoStructureEncodingSurface` stores a diagnostic snapshot of a currently
   visible Gojo element tree as relation-shaped integer rows. It is useful for
   debugging and transport experiments, but it is not the canonical conceptual
-  object.
+  object, and it is deliberately not used as the persisted grammar fixture
+  format.
+- `GojoStructureCompactJson` is the folded structure view used by grammar
+  fixtures. It writes ordered groups as one frame with an `elements` list,
+  writes points and segments as single nodes, and keeps repeated structure as
+  references instead of expanding every holder-origin point and attachment row.
+  Fixture writers may provide carrier role labels, so inspection files can say
+  `interval-axis`, `definition-frame`, or `projection-witness-frame` instead of
+  anonymous carrier ids. Those names are for interchange inspection; the Gojo
+  structure still carries meaning through connected carriers, points, segments,
+  ordered groups, and read witnesses.
+- `ConceptDefinitionInterchangeJson` is the compact counterpart for definition
+  ledgers. It stores human labels plus point/segment/text/witness/projection
+  bodies, definition references, dependency references, projection result
+  labels, and residue labels. On reload, definition names, projection results,
+  and residue markers become local structural points; the words remain outside
+  the Gojo structure as interchange labels. Duplicate labels remain inspectable
+  as multiple matches, and ambiguous references settle to unresolved structure
+  instead of becoming a global classifier. The grammar fixture has both forms:
+  a compact interchange file for human inspection, and a folded compact
+  structure file generated from the compact reload's label-free Gojo structure
+  for reload coverage.
 - `ConceptAddressSurface` builds variable-length semantic addresses from atoms,
   compound parts, context, and residue/tension.
 
@@ -93,11 +130,17 @@ The companion notes for this experiment are:
   projection emits and what is still unresolved.
 - `PrimitiveConceptLadder.md` for primitive footings, resolution categories,
   and higher-level words that can be crystallized from those structures.
+- `SceneMechanics.md` for the pre-code layer of reusable verb/preposition
+  mechanics: transfer, contact, boundary change, obstruction, coverage,
+  selection/focus, context binding, and metaphorical fit.
+- `SceneMechanicReadControls.md` for the provisional read controls that turn
+  those mechanics into word-like reads through selection, focus, basis,
+  transform, and goal/residue.
 - `ConceptGrammarContinuum.md` for the continuity between numeric structure,
   primitive footings, word concepts, sentence grammar, and executable equation
   order.
-- `PrepositionEncodingNotes.md` for role-bearing comparison/focus reads and
-  the first approach to parameterized preposition concepts.
+- `PrepositionEncodingNotes.md` is a superseded comparison/focus experiment. It
+  remains as historical contrast, not current grammar architecture.
 
 The split underneath those helpers is:
 
@@ -2121,6 +2164,37 @@ Several decisions should remain loose until there is more code and sample data.
 - Whether a string table should be mandatory or only a compression/readability
   layer.
 - How aggressive merge correspondence should be when addresses partially match.
+
+## Structural Encoding Checkpoint
+
+The encoding layer has enough Gojo structure to start the grammar slice:
+
+- text and address surfaces for readable local names and concept parts
+- definition ledgers with dependencies, provenance, and residue/tension
+- resolution, offset, boundary/area, and composition fixtures
+- diagnostic structure snapshots for current carrier/relation/unit-shape graphs
+- a first grammar fixture that keeps token order, candidates, selected read,
+  alternate read, low-resolution position witness, and trace inspectable
+
+The main remaining gaps are not blockers for the first grammar work, but they
+will matter as examples become less toy-like:
+
+- saved read witnesses need a reusable encoding/document surface, not only local
+  helper-created relations
+- domain basis surfaces for CAD, ECAD, temporal, social, visual, and speech
+  should become small Gojo-readable structures instead of enum-like labels
+- alternate reads need settlement/update examples where later context lowers one
+  residue without deleting the other trace
+- boundary, area, offset, contact, and flow examples need the same flattening:
+  the relation/read should imply words such as `inside`, `through`, or `against`
+  rather than routing through stored word-definition trees
+- the physical packet/bundle format should remain unfrozen until several read
+  witnesses and grammar traces have been saved and re-read
+
+The practical rule is: continue upward while a sample can preserve its evidence
+as relation structure. Step back down only when a helper has to invent meaning
+that cannot be traversed through carriers, relations, unit shapes, witnesses, or
+residue.
 
 ## Near-Term Work
 

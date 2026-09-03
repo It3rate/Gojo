@@ -1,0 +1,267 @@
+{
+  "sourceId": "grammar/intent-refinement-ladder/pcb-route",
+  "encodingNote": "Three-section intent ladder: base A-to-B intent, obstacle/clearance elaboration, and positive-outlet via repair refinement.",
+  "languageHints": {
+    "nouns": [
+      "pad-a",
+      "pad-b",
+      "trace",
+      "obstacle-trace",
+      "via"
+    ],
+    "verbs": [
+      "connect",
+      "route",
+      "bridge"
+    ],
+    "prepositions": [
+      "from",
+      "to",
+      "around",
+      "through",
+      "over"
+    ]
+  },
+  "carriers": [
+    {
+      "id": "top-layer-route",
+      "domain": "pcb-layer"
+    },
+    {
+      "id": "bottom-layer-route",
+      "domain": "pcb-layer",
+      "relationToPrimary": "orthogonal-outlet"
+    }
+  ],
+  "sections": [
+    {
+      "id": "base-intent",
+      "rung": 0,
+      "role": "base-intent",
+      "structure": {
+        "kind": "segment",
+        "carrier": "top-layer-route",
+        "start": 0,
+        "end": 12
+      },
+      "reads": [
+        "connect pad-a to pad-b"
+      ]
+    },
+    {
+      "id": "clearance-elaboration",
+      "rung": 1,
+      "role": "constraint-elaboration",
+      "basis": "base-intent",
+      "focus": {
+        "source": {
+          "use": "base-intent"
+        },
+        "basis": {
+          "kind": "segment",
+          "carrier": "top-layer-route",
+          "start": 5,
+          "end": 7
+        },
+        "participation": {
+          "use": "base-intent"
+        },
+        "replacement": {
+          "kind": "group",
+          "elements": [
+            {
+              "use": "base-intent"
+            },
+            {
+              "kind": "segment",
+              "carrier": "top-layer-route",
+              "start": 5,
+              "end": 7
+            }
+          ]
+        },
+        "correspondence": [
+          {
+            "from": "base-intent",
+            "to": "clearance-elaboration"
+          }
+        ]
+      },
+      "residueOrTension": [
+        {
+          "kind": "blocked-span",
+          "carrier": "top-layer-route",
+          "start": 5,
+          "end": 7
+        }
+      ],
+      "reads": [
+        "connect pad-a to pad-b while avoiding obstacle-trace"
+      ]
+    },
+    {
+      "id": "positive-outlet-repair",
+      "rung": 2,
+      "role": "settlement-refinement",
+      "basis": "clearance-elaboration",
+      "focus": {
+        "source": {
+          "use": "clearance-elaboration"
+        },
+        "basis": {
+          "use": "positive-outlet-repair-attempt"
+        },
+        "participation": {
+          "use": "clearance-elaboration"
+        },
+        "replacement": {
+          "use": "positive-outlet-path"
+        },
+        "correspondence": [
+          {
+            "from": "clearance-elaboration",
+            "to": "positive-outlet-path"
+          }
+        ]
+      },
+      "supportingStructures": [
+        {
+          "id": "positive-outlet-repair-attempt",
+          "kind": "branch-candidate",
+          "elements": [
+            {
+              "kind": "relation",
+              "left": {
+                "kind": "point",
+                "carrier": "top-layer-route",
+                "ticks": 4
+              },
+              "right": {
+                "kind": "point",
+                "carrier": "bottom-layer-route",
+                "face": "inverse",
+                "ticks": 0
+              }
+            },
+            {
+              "kind": "relation",
+              "left": {
+                "kind": "segment",
+                "carrier": "top-layer-route",
+                "start": 4,
+                "end": 8
+              },
+              "right": {
+                "kind": "directedSegment",
+                "carrier": "bottom-layer-route",
+                "start": 0,
+                "end": 10
+              }
+            },
+            {
+              "kind": "relation",
+              "left": {
+                "kind": "point",
+                "carrier": "bottom-layer-route",
+                "ticks": 10
+              },
+              "right": {
+                "kind": "point",
+                "carrier": "top-layer-route",
+                "ticks": 8
+              }
+            }
+          ]
+        },
+        {
+          "id": "positive-outlet-path",
+          "kind": "path",
+          "elements": [
+            {
+              "kind": "segment",
+              "carrier": "top-layer-route",
+              "start": 0,
+              "end": 4
+            },
+            {
+              "kind": "relation",
+              "left": {
+                "kind": "point",
+                "carrier": "top-layer-route",
+                "ticks": 4
+              },
+              "right": {
+                "kind": "point",
+                "carrier": "bottom-layer-route",
+                "face": "inverse",
+                "ticks": 0
+              }
+            },
+            {
+              "kind": "relation",
+              "left": {
+                "kind": "segment",
+                "carrier": "top-layer-route",
+                "start": 4,
+                "end": 8
+              },
+              "right": {
+                "kind": "directedSegment",
+                "carrier": "bottom-layer-route",
+                "start": 0,
+                "end": 10
+              }
+            },
+            {
+              "kind": "relation",
+              "left": {
+                "kind": "point",
+                "carrier": "bottom-layer-route",
+                "ticks": 10
+              },
+              "right": {
+                "kind": "point",
+                "carrier": "top-layer-route",
+                "ticks": 8
+              }
+            },
+            {
+              "kind": "segment",
+              "carrier": "top-layer-route",
+              "start": 8,
+              "end": 12
+            }
+          ]
+        }
+      ],
+      "residueOrTension": [
+        {
+          "kind": "cost",
+          "value": "two-vias"
+        },
+        {
+          "kind": "blocked-direct-path",
+          "basis": "clearance-elaboration"
+        }
+      ],
+      "reads": [
+        "route from pad-a to pad-b through bottom-layer-route around obstacle-trace"
+      ]
+    }
+  ],
+  "stalenessRules": [
+    {
+      "when": "blocked-span disappears",
+      "staleBelow": "clearance-elaboration",
+      "expectedRead": "base-intent can settle directly"
+    },
+    {
+      "when": "lower-cost same-layer path appears",
+      "replaceBelow": "clearance-elaboration",
+      "preserve": [
+        "base-intent",
+        "clearance-elaboration"
+      ]
+    }
+  ]
+}

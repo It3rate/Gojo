@@ -1,0 +1,40 @@
+{
+  "sourceId": "scene-mechanics/partitioned-carrier",
+  "carriers": [
+    "carrier"
+  ],
+  "definitions": [
+    {
+      "id": "partitioned carrier structure",
+      "body": {
+        "kind": "group",
+        "elements": [
+          {
+            "kind": "segment",
+            "carrier": "carrier",
+            "start": 0,
+            "end": 12
+          },
+          {
+            "kind": "point",
+            "carrier": "carrier",
+            "ticks": 6
+          },
+          {
+            "kind": "segment",
+            "carrier": "carrier",
+            "start": 0,
+            "end": 6
+          },
+          {
+            "kind": "segment",
+            "carrier": "carrier",
+            "start": 6,
+            "end": 12
+          }
+        ]
+      },
+      "dependsOn": []
+    }
+  ]
+}

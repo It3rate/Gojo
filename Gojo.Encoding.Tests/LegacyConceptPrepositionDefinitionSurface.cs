@@ -3,11 +3,11 @@ using Gojo.Core;
 namespace Gojo.Encoding;
 
 /// <summary>
-/// First preposition samples built as open role-bearing comparison structure.
-/// The useful concepts here are focus reads over one parameterized scale:
-/// near, far, halfway, and arrived are siblings, not isolated predicates.
+/// Legacy preposition sample kept in tests as a contrast case. This shape is
+/// intentionally not exported from Gojo.Encoding because RoleFrame/Scale/Zone
+/// ledgers are too ontology-like for the active grammar direction.
 /// </summary>
-public static class ConceptPrepositionDefinitionSurface
+internal static class LegacyConceptPrepositionDefinitionSurface
 {
     public static Relation CreatePrepositionLedger(Carrier root)
     {

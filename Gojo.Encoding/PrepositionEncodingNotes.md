@@ -1,9 +1,16 @@
 # Preposition Encoding Notes
 
-Prepositions should be encoded as crystallized read shapes, not as symbolic
-relation labels.
+> Superseded experiment. This note records the older
+> `RoleFrame + Comp + Scale + Zone + Focus + Cr + Apply` approach. It is useful
+> as a contrast case, but it is not the active grammar direction. The current
+> direction is to let words such as `near` be read from low-resolution Gojo
+> structure, residue, and provenance rather than from a stored preposition
+> concept tree.
 
-The current working rule is:
+The old premise was that prepositions should be encoded as crystallized read
+shapes rather than symbolic relation labels.
+
+The old working rule was:
 
 ```text
 preposition concept =
@@ -148,7 +155,7 @@ Also bad:
 near, far, halfway, and arrived each rebuild their own comparison machinery
 ```
 
-Preferred:
+The old preferred structure was:
 
 ```text
 shared comparison scale
@@ -158,25 +165,28 @@ shared comparison scale
   -> applied read
 ```
 
-This gives models useful redundancy: `near` is an independent concept seed, but
-it still shares lower structure with `far`, `halfway`, and `arrived`.
+This gave the model useful redundancy, but it still made `near` a named focus
+node in a definition tree. The current direction is flatter: the word should
+usually be provenance for a low-resolution Gojo read, with residue preserving
+what remains unresolved.
 
-## Current Fixture
+## Legacy Fixture
 
-The first executable sample is:
+The retained legacy sample is:
 
 ```text
-Gojo.Encoding.Tests/Fixtures/EncoderJson/concept-definitions/preposition-parameterized-focus.json
+Gojo.Encoding.Tests/Fixtures/EncoderJson/concept-definitions/legacy-preposition-parameterized-focus.json
 ```
 
-It currently covers scalar comparison prepositions only:
+It covered scalar comparison prepositions only:
 
 ```text
 RoleFrame + Comp + Scale + Zone + Focus + Cr + BindRoles + Apply
 ```
 
-The next likely fixture should extend the same idea to boundary/region
-prepositions:
+This should not be extended as the active grammar path. Boundary and region
+words should instead be rebuilt from boundary, area, offset, contact, flow,
+residue, and settlement evidence:
 
 ```text
 inside
