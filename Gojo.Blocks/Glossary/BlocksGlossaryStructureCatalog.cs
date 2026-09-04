@@ -2900,7 +2900,6 @@ internal static class BlocksGlossaryStructureCatalog
 
     private static IElement[] DroneClipRoundedOuterSections(FrameBasis frame) =>
     [
-        GraphicStructure.FrameSegment(frame.Point(-44, -14), frame.Point(-37, -20)),
         GraphicStructure.FrameSegment(frame.Point(-37, -20), frame.Point(-13, -20)),
         GraphicStructure.FrameQuadraticCurve(frame.Point(-13, -20), frame.Point(-9, -25), frame.Point(-4, -25)),
         GraphicStructure.FrameSegment(frame.Point(-4, -25), frame.Point(4, -25)),
@@ -2916,7 +2915,7 @@ internal static class BlocksGlossaryStructureCatalog
         GraphicStructure.FrameSegment(frame.Point(-13, 20), frame.Point(-37, 20)),
         GraphicStructure.FrameQuadraticCurve(frame.Point(-37, 20), frame.Point(-52, 20), frame.Point(-52, 12)),
         GraphicStructure.FrameSegment(frame.Point(-52, 12), frame.Point(-52, -12)),
-        GraphicStructure.FrameQuadraticCurve(frame.Point(-52, -12), frame.Point(-52, -20), frame.Point(-44, -14))
+        GraphicStructure.FrameQuadraticCurve(frame.Point(-52, -12), frame.Point(-52, -20), frame.Point(-37, -20))
     ];
 
     private static IElement[] DroneClipHoleBoundaries(FrameBasis frame)
