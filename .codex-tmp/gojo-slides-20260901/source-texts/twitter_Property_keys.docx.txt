@@ -1,0 +1,40 @@
+[normal] In this first set of experiments from a few years ago, I wanted *everything* to be values on gradients that could combine, link and interpolate with each other. We did this a little at Pixate, this was the ‘all in’ version.
+[normal] Samplers
+[normal] All properties can be based on gradients (ranges) with samplers. In this example, all the properties for the middle elements are calculated rather than stored - only the end points have actual values. Eg. Shapes have [3,12] points.
+[normal] These ranges are sampled over t, and t itself is sampled from a range. The number of sides is discrete samples from 3 to 12. These will never ‘fail’ though - if the range of sides is 3 to 6 it will just adjust based on a rounding rule.
+[normal] This is more like GPU/shader programming than CPU, but it works well on both. The properties that can be set are based on universal enums. Upcoming iterations use “typed numbers”.
+[normal] Slider Input
+[normal] Here hue and saturation are based on the x,y ranges of the mouse. The scale and pointiness are set by sliders, and number of points on the ‘clicked range’. All properties of all things can be defined on these types of ‘trait gradients’, but first there needs to be a way of combining for new traits.
+[normal] The shapes, color and location - all calculated here. The property ranges cross the entire sequence of 56 elements even though it is arranged into a 8x7 grid. This uses a grid sampler, where horizontal overflow increments the vertical. The shape pointiness is an additive combo of two ranges.
+[normal] The location is set by layout samplers (rings, grids, random). These animations are all just a single blend from 0 to 150 (as in, a segment defined with 0, and 150). They are sampled differently over time. Because all values work with each other on gradients, all properties can be interpolated or linked with each other.
+[normal] Disjointed layouts with exceptions
+[normal] The layout can also nest, here the range is a ring layout to nested flower layouts with the same elements. Also the properties can be completely calculated (layout) or have stored values per instance (the colors of the flower patterns are stored). Stored patterns allow simple overrides (thus the red pentagon)
+[normal] Spherical effects with mouse input
+[normal] These gradient numbers can also be applied to input. Here the x and y inputs of the mouse are converted to gradients, and the gradients are combined in a circular sampler. This is applied to the rotation, size and location of stars in the grid. This combining of values is key to creating higher order traits.
+[normal] Gravity simulation to layout and back:
+[normal] A purely calculated layout can also be instanced into other layout engines - at the extreme a 2D physics engine interpolates with grid layouts. This allows interesting transitions from one UI to another, regardless of the underlying engine.
+[normal] Bezier - The layout samplers aren’t limited to simple shapes, they can be any ‘equation’. Here the placement is based on a Bézier curve sampler.
+[normal] The most basic information required for a magnitude are its value, its max/min range, its resolution, and its repetition properties. Later we’ll add direction.
+[normal] The maximum and minimum ranges of a value can be expressed as the endpoints of a gradient. There are many ways to compare two ranges, boolean overlap tests being the simplest. The bezier above bounces off the limits of its ranges.
+[normal] Repetition is usually handled by calculating repeatedly along a gradient until some condition is met - a test condition. Each step can apply some equation that modifies a result, but test conditions can adjust the equation itself as it steps. The simplest action is a halt condition, where the cycle ends.
+[normal] Level of detail hex compression
+[normal] Resolution is set here by looking for certain conditions (looking at the amount of change and centeredness in the image iirc?). The resolution of a number (LoD) always matters, this is ‘significant figures’ in science. Unfortunately ‘real numbers’ throw this information under a bus.
+[normal] Hex automata with evolving conditions
+[normal] There are a lot of experiments with test conditions. This is hexagonal automata, where conditions that change equations are triggered by changes in the local environment. I have wasted a lot of time with these, and it has been fun.
+[normal] Hex automata
+[normal] A similar type of automata, but this time preloaded with images. The changes in the images are based on the local information of the picture – hue, saturation, lightness, location, sample distance etc. Many interesting things happen with these, and they are easy to explore as any properties can be linked to any other properties. For example the size of the color hexagon here is related to color/size information nearby.
+[normal] Histogram sort
+[normal] Here images are sorted in a histogram by color, and then recreated. When transitioning from one image to another, the pixels migrate based on their histogram sorting. A pixel in image A will migrate to its nearest pixel in mage B, while interpolating the minor color shift required.
+[normal] Ultimately the problem with this approach was it didn’t have a good understanding of discrete vs continuous, making it changing between them somewhat forced.  It stored values as real numbers, and then sampled integers, floats, while clamping ranges and calculating step sizes. The right way to look at this is to have the number itself hold these properties, and more.
+[normal] Crazy math up next :)
+[normal] Rectangle moves
+[normal] (Skelometry)
+[normal] Glyph general workspace
+[normal] Constraints on segments
+[normal] (MLTest)
+[normal] Color guesser
+[normal] Missing color
+[normal] TYLOX
+[normal] Writing glyphs
+[normal] GPU Experiments
+[normal] hexGrid

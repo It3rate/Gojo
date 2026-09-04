@@ -1,0 +1,35 @@
+[Slide ]
+The Taxonomy of a Guess
+Error is not a monolith. To build better complexity spaces, we must distinguish between a value that is simply inaccurate within a valid frame, and a value that exists in the wrong dimension entirely.
+[Slide ]
+Two Types of Error
+Measurement Error
+A specific guess that is factually off the mark (e.g., guessing 150 pounds when the reality is 300).
+Category Error
+A structural failure using the wrong frame of reference, resolution, or bounds (e.g., measuring in tons, milligrams, or guessing her weight in slot machine icons).
+[Slide ]
+Measurement Error
+A specific guess that is factually off the mark.
+The value exists in the correct dimension
+You're using the right unit of measure (pounds), but the number is wrong.
+The error is quantifiable
+The gap between guess and reality can be measured: 150 lbs off.
+Correctable by calibration
+Better data or methods can reduce the error within the same framework.
+[Slide ]
+Category Error
+A structural failure using the wrong frame of reference entirely.
+The value exists in the wrong dimension
+You're not even measuring in pounds — you're using slot machine icons.
+The error is not quantifiable
+There's no meaningful distance between a cherry symbol and 300 lbs.
+Requires reframing, not recalibrating
+The entire approach must change — better precision won't help.
+[Notes ]
+1
+[Notes ]
+2
+[Notes ]
+3
+[Notes ]
+4

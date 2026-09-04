@@ -1,0 +1,22 @@
+[normal] ChatGpt
+[normal] List 20 design techniques that help create a hierarchy of elements, in order of importance.
+[normal] Size: Using larger elements to draw the viewer's attention and convey importance.
+[normal] Font: Using bold, italic, or larger font sizes to emphasize key information.
+[normal] Color: Using contrasting colors or bold shades to draw the viewer's attention.
+[normal] Position: Placing important information at the top or center of the design to create a hierarchy.
+[normal] White space: Using empty space around key elements to draw the viewer's attention and create emphasis.
+[normal] Headings: Using clear headings and subheadings to organize information and create hierarchy.
+[normal] Images: Using images or graphics that are larger or more prominent to draw the viewer's attention.
+[normal] Alignment: Aligning important information with other elements or the margins to create a sense of organization.
+[normal] Typography: Using different font styles or sizes to create hierarchy and emphasize key information.
+[normal] Borders: Using borders around key elements to create emphasis and draw the viewer's attention.
+[normal] Icons: Using icons or symbols to represent key information or actions.
+[normal] Contrast: Using high contrast between design elements to create emphasis and draw the viewer's attention.
+[normal] Repetition: Repeating design elements such as color or font to create a cohesive visual identity and emphasis.
+[normal] Proximity: Grouping related elements together to create a hierarchy and convey relationships.
+[normal] Texture: Using physical or visual texture to add depth and emphasis to key elements.
+[normal] Shape: Using geometric or organic shapes to create visual interest and emphasis.
+[normal] Line: Using straight, curved, or diagonal lines to create emphasis and guide the viewer's eye.
+[normal] Form: Using three-dimensional elements such as lighting and shading to create depth and emphasis.
+[normal] Value: Using light and dark tones to create visual contrast and emphasis.
+[normal] Orientation: Using the position and angle of elements to create emphasis and guide the viewer's eye.

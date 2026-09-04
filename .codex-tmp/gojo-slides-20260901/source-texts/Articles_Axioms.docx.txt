@@ -1,0 +1,697 @@
+[Heading 1] Core 2 Prompt Axioms
+[normal] This file is the living consolidated specification for Core 2.
+[normal] Parts I through VIII are general Core 2 system axioms.
+Part IX is a directed-segment appendix aligned to the current geometry and boolean implementation.
+Part X integrates the current pinning redesign as host-relative attachment, encountered local structure, and later folding.
+[Heading 2] Part I. Foundations
+[Heading 3] F1. Fundamental duality
+[normal] The system is built from opposed pairs such as same/opposite, dominant/recessive, left/right, observer/opposite-observer, and encode/act. Each such pair appears in two linked forms:
+[normal] an encoding that names a state or relation
+[normal] a transform that enacts that relation
+[Heading 3] F2. Encoding and action are paired but distinct
+[normal] Examples:
+[normal] 3 encodes triple scale; S_3 applies triple scale
+[normal] i encodes the opposite-unit state; J applies the opposite-unit action
+[normal] -1 encodes negation; N applies negation
+[normal] The encoding and the transform are two formal appearances of the same underlying relation.
+[Heading 3] F3. Primitive object
+[normal] The primitive object is an ordered interval I = (p0, p1). By itself it is not yet a number.
+[Heading 3] F4. No intrinsic measurement
+[normal] The interval has order but no intrinsic sign, size, or direction until it is placed in a frame.
+[Heading 3] F5. Frame
+[normal] A frame F provides:
+[normal] a zero point 0
+[normal] a positive-left unit uL
+[normal] a positive-right unit uR
+[Heading 3] F6. Perspective
+[normal] Perspective is binary in 1D:
+[normal] eps = +1 is dominant perspective
+[normal] eps = -1 is opposite perspective
+[normal] Changing perspective changes the reading convention, not the interval itself.
+[Heading 3] F7. Endpoint-unit rule
+[normal] The first endpoint is always measured by the left unit.
+The second endpoint is always measured by the right unit.
+The interval's asymmetry comes from endpoint order plus unit attachment.
+[Heading 3] F8. Reading map
+[normal] A reading of the interval in frame F and perspective eps is:
+[normal] rho(F, eps, I) = ai + b
+[normal] where:
+[normal] a measures p0 in the left unit
+[normal] b measures p1 in the right unit
+[normal] Here i is initially an encoding, not yet an operator.
+[Heading 3] F9. Observer conversion
+[normal] Opposite perspective negates the reading:
+[normal] rho(F, -eps, I) = -rho(F, eps, I)
+[normal] So:
+[normal] ai + b -> -ai - b
+[Heading 3] F10. State and transform are asymmetric in multiplication
+[normal] In x * t:
+[normal] x is the current state or readout
+[normal] t is transform data
+[normal] So i * i means "take state i, then apply J once."
+It does not mean "there are two swaps in the expression."
+[Heading 3] F11. Scalar transform
+[normal] For real k, let S_k be the scale transform. Then:
+[normal] S_1 = Id
+[normal] S_-1 = N
+[normal] S_a o S_b = S_(ab)
+[normal] Any real scalar factor in operator position transforms the interval itself.
+[Heading 3] F12. Opposition transform
+[normal] J is the opposition transform.
+It does not merely relabel a symbol.
+It changes which unit is attached to each endpoint.
+[normal] Multiplying by i in operator position means "apply J":
+[normal] x * i := J(x)
+[Heading 3] F13. Canonical opposition cycle
+[normal] Under dominant notation:
+[normal] J(1) = i
+[normal] J(i) = -1
+[normal] J(-1) = -i
+[normal] J(-i) = 1
+[normal] So J generates the four-state cycle:
+[normal] 1 -> i -> -1 -> -i -> 1
+[Heading 3] F14. Operator-level law
+[normal] At the transform level:
+[normal] J o J = N
+[normal] Therefore:
+[normal] J^4 = Id
+[Heading 3] F15. Addition
+[normal] Addition is defined only after common frame and common perspective are fixed. Then:
+[normal] (ai + b) + (ci + d) = (a + c)i + (b + d)
+[Heading 3] F16. Dominant/recessive convention
+[normal] Dominant and recessive are not extra geometry added to the bare interval. They are naming conventions under the dominant perspective, where dominant direction is encoded to the right.
+[Heading 3] F17. Derived products
+[normal] The familiar state cycle follows from the state/transform rule:
+[normal] 1 * i = i
+[normal] i * i = -1
+[normal] -1 * i = -i
+[normal] -i * i = 1
+[normal] The familiar i^2 = -1 is therefore derived shorthand, not a primitive statement about two operators.
+[Heading 3] F18. Scalar and opposition can compose
+[normal] If 3i appears in transform position, it means "scale by 3 and apply opposition." So one may write:
+[normal] T_(3i) = S_3 o J
+[normal] or
+[normal] T_(3i) = J o S_3
+[normal] depending on the chosen operator ordering convention.
+[Heading 3] F19. Core ontology
+[normal] A directed value is not fundamentally a number. It is an ordered interval placed into a frame and then read from a perspective.
+[Heading 3] F20. Local description and later placement differ
+[normal] A structured object may carry an intrinsic local frame before later placement in another host frame. Local description and embedded reading should not be collapsed prematurely.
+[Heading 2] Part II. Repetition and Inverse Continuation
+[Heading 3] R1. Repetition is general
+[normal] Repetition is not limited to exponentiation. A repetition is any indexed family generated by a continuation law.
+[Heading 3] R2. Every repetition has three parts
+[normal] Every repetition has:
+[normal] a carrier: what is being repeated
+[normal] an index: how repetition advances
+[normal] a continuation law: how one instance produces the next
+[Heading 3] R3. Carriers may vary
+[normal] A carrier may be:
+[normal] a value
+[normal] a transform
+[normal] a frame
+[normal] a pattern
+[normal] a relation
+[normal] a recursive state
+[Heading 3] R4. Indices may vary
+[normal] An index may be:
+[normal] discrete step
+[normal] continuous phase
+[normal] spatial displacement
+[normal] dimensional degree
+[normal] event count
+[normal] recursion depth
+[Heading 3] R5. Continuation law determines what "again" means
+[normal] Examples include:
+[normal] identical repeat
+[normal] translated repeat
+[normal] reflected repeat
+[normal] wrapped repeat
+[normal] alternating repeat
+[normal] scaled repeat
+[normal] damped repeat
+[normal] tension-preserving continuation
+[Heading 3] R6. Exponentiation is a special case
+[normal] Exponentiation is repeated transform application under a fixed continuation law. Examples:
+[normal] repeated addition
+[normal] repeated multiplication
+[Heading 3] R7. Boundary behavior is repetition
+[normal] When a value reaches a frame boundary, its further behavior is determined by a continuation law. Examples:
+[normal] wrap: periodic repetition
+[normal] reverse: reflective repetition
+[normal] oscillate: smooth alternation
+[normal] continue beyond the frame: tension-preserving continuation
+[normal] clamp: hold at the boundary
+[normal] In the current pinning direction, these law names are compatibility summaries of encountered endpoint-pin behavior rather than the deepest source of continuation meaning.
+[Heading 3] R8. Patterns are repetitions
+[normal] Tilings, waves, alternating signs, recurring quadrant structures, and path motifs are repetitions of local rules across a space.
+[Heading 3] R9. Recursion is repetition
+[normal] A recursive system is a repetition whose next state is generated from earlier states rather than from one fixed transform alone.
+[Heading 3] R10. Repetition may preserve or transform
+[normal] A repetition may return the same motif exactly, or modify it on each return.
+[Heading 3] R11. Repetition acts on more than values
+[normal] Repetition may act on:
+[normal] values
+[normal] transforms
+[normal] frames
+[normal] operations
+[normal] recursive constructions
+[normal] display patterns
+[Heading 3] R12. Tension is a valid repetition outcome
+[normal] If repetition reaches a limit that is not resolved by the current frame, the system may preserve the result as tension rather than forcing a collapse.
+[Heading 3] R13. Inverse continuation
+[normal] An inverse continuation is the attempt to reverse a repetition. Examples:
+[normal] roots as inverse of repeated multiplication
+[normal] logarithms as inverse of repeated exponentiation
+[normal] unwrapping as inverse of periodic continuation
+[Heading 3] R14. Inverse continuation is generally non-unique
+[normal] Forward repetition may map multiple inputs to the same result. Therefore reverse continuation often yields multiple valid candidates.
+[Heading 3] R15. Candidate set first
+[normal] For an inverse continuation problem, the full set of valid candidates should be determined before selection unless the governing law yields only one candidate.
+[Heading 3] R16. Shared selection priority
+[normal] When choosing among inverse or branch candidates, the system should prefer:
+[normal] structural validity
+[normal] continuity from the prior state, if present
+[normal] preservation of degree-specific roles
+[normal] preservation of current perspective for display, if relevant
+[normal] minimal added tension
+[Heading 3] R17. Tension preservation in inversion
+[normal] If no unique inverse candidate is justified, ambiguity may remain as tension instead of being collapsed prematurely.
+[Heading 3] R18. Principal branch and all-candidates mode
+[normal] A principal branch is the default selected reverse continuation when one representative is required.
+An all-candidates mode preserves every valid reverse continuation explicitly.
+[Heading 3] R19. Degree-sensitive inverse continuation
+[normal] At degree 0, inverse continuation often collapses to ordinary arithmetic ambiguity.
+At degree 1, inverse continuation acts on dominant amount and recessive support.
+At degree 2, inverse continuation acts on oriented values and may depend on perspective, orbit continuity, and role preservation.
+At degree 3, inverse continuation splits between fold-first and structure-preserving modes.
+At higher degrees, inverse continuation generally becomes more ambiguous because more structure can vary while preserving the same folded result.
+[Heading 3] R20. Preferred inverse-continuation behavior by degree
+[normal] For Proportion:
+[normal] preserve the full lawful candidate set, including negative or zero recessive support when generated
+[normal] allow principal display to prefer positive recessive support when a single representative is required
+[normal] do not silently move a recessive sign into the dominant side merely to relieve tension
+[normal] rise to a higher degree if proportion alone cannot support the continuation
+[normal] For Axis:
+[normal] default to the continuation that best preserves the current oriented reading when no other rule is supplied
+[normal] For Area:
+[normal] prefer structure-preserving inversion when the expanded structure is present
+[normal] accept fold-first inversion when only the folded result is available
+[Heading 3] R21. Inverse continuation is reverse path selection
+[normal] Inverse continuation is not merely the reversal of a number. It is the selection of a valid reverse path through a repetition law.
+[Heading 2] Part III. Structure, Quantities, and Units
+[Heading 3] U1. Structure and units are separate
+[normal] Structural degree and unit-kind are distinct. Examples:
+[normal] Axis, Area, and Volume describe structure
+[normal] distance, time, mass, and charge describe unit-kind
+[Heading 3] U2. A quantity has layered structure
+[normal] A quantity consists of:
+[normal] a structural element
+[normal] a unit signature
+[normal] and may also carry:
+[normal] a chosen named unit
+[normal] a physical referent
+[normal] tensions
+[Heading 3] U3. Unit signatures form a free abelian group
+[normal] A unit signature is a product of abstract generators with integer exponents.
+[Heading 3] U4. Unit operations
+[normal] Unit-signature operations are:
+[normal] multiply: add exponents
+[normal] divide: subtract exponents
+[normal] reciprocal: negate exponents
+[normal] power: multiply exponents by the power
+[Heading 3] U5. Addition requires matching signature
+[normal] Two quantities may be added or subtracted only when their signatures match, unless the mismatch is intentionally preserved as tension.
+[Heading 3] U6. Named units are presentation choices
+[normal] Meters, feet, seconds, and similar named units are expression choices for a signature. They do not change the signature itself.
+[Heading 3] U7. Scale and signature differ
+[normal] Two units may share a signature while differing in scale.
+[Heading 3] U8. Physical meaning may be attached later
+[normal] A unit generator may begin abstract and later be associated with a physical meaning.
+[Heading 3] U9. Referent and signature differ
+[normal] Different physical domains may share the same algebraic signature while differing in meaning, constraints, and interpretation.
+[Heading 3] U10. Physical reality constrains unit use
+[normal] Although unit algebra is abstract, it can carry:
+[normal] semantic meaning
+[normal] empirical limits
+[normal] allowed ranges
+[normal] compatibility rules
+[Heading 3] U11. Structural and unit algebras compose
+[normal] Operations on quantities act separately on:
+[normal] structure
+[normal] unit signature
+[normal] and are reconciled afterward.
+[Heading 3] U12. Unit tension is informative
+[normal] Examples:
+[normal] signature mismatch
+[normal] scale mismatch
+[normal] unresolved referent
+[normal] incompatible physical meaning
+[normal] constraint violation
+[Heading 3] U13. Combined principle
+[normal] A mathematical object in this system may carry:
+[normal] structure
+[normal] interpretation
+[normal] repetition law
+[normal] unit signature
+[normal] physical referent
+[normal] tension
+[Heading 3] U14. System aim
+[normal] The framework distinguishes:
+[normal] what an object is
+[normal] how it repeats
+[normal] how it is inverted
+[normal] how it is measured
+[normal] what it means physically
+[normal] where unresolved information remains
+[Heading 2] Part IV. Multiscale Resolution and Layered Readings
+[Heading 3] M1. Resolution frame
+[normal] A resolution frame defines a grain at which a quantity may be read. The frame carries:
+[normal] a signature
+[normal] a grain
+[normal] an optional named unit or symbol
+[Heading 3] M2. Resolution ladder
+[normal] A resolution ladder is an ordered family of resolution frames sharing one signature and descending from coarser grain to finer grain.
+[Heading 3] M3. Layered quantity
+[normal] A layered quantity is an exact quantity represented as a sum of signed counts across one or more resolution frames.
+[Heading 3] M4. Signed digits are allowed
+[normal] Resolution counts need not be only nonnegative digits. A layered quantity may use signed counts when that representation is structurally useful.
+[Heading 3] M5. Exact fold
+[normal] Folding a layered quantity means summing all frame-count contributions into one exact quantity in the shared signature.
+[Heading 3] M6. Exact decomposition
+[normal] A quantity may be decomposed across a resolution ladder into frame counts. This creates a place-value-like representation at several grains.
+[Heading 3] M7. Coarse reading
+[normal] Reading at a chosen frame does not require discarding exact structure. The system may compute:
+[normal] the raw tick count at that grain
+[normal] the quantized tick count
+[normal] the representative quantity at that grain
+[normal] the residual detail not captured by that reading
+[Heading 3] M8. Quantization rule
+[normal] A coarse reading depends on a quantization rule such as nearest, floor, ceiling, toward-zero, or away-from-zero.
+[Heading 3] M9. Fine detail may collapse to zero
+[normal] When a quantity is read in a coarse frame, contributions from finer frames may collapse to zero at that grain even though they remain present in the exact folded quantity.
+[Heading 3] M10. Refinement and collapse
+[normal] Refinement introduces or preserves finer-frame detail. Collapse re-expresses the same quantity at a coarser frame, possibly with residual detail omitted from the representative reading.
+[Heading 3] M11. Representative and residual differ
+[normal] A representative reading is the quantity expressed at the chosen grain. A residual is the remaining exact detail not captured by that representative.
+[Heading 3] M12. Current Core 2 scope
+[normal] The current implementation begins with scalar quantities paired with unit signatures. Higher-structure multiscale readings may be added later.
+[Heading 2] Part V. General Branching
+[Heading 3] B1. Branching is general
+[normal] A lawful process is not required to remain single-track. Whenever a continuation, inversion, decomposition, or constraint system yields more than one valid outcome, the system forms a branch family.
+[Heading 3] B2. Linear path
+[normal] A linear path is a continuation in which each present state has at most one valid next state and at most one valid reverse continuation within the fixed frame, perspective, degree, and repetition law.
+[Heading 3] B3. Branch family
+[normal] For a law L and state x, the branch family B_L(x) is the full set of valid candidates generated by L acting on x, forward, reverse, or structurally.
+[Heading 3] B4. Branch metadata
+[normal] A branch family should retain:
+[normal] generating law
+[normal] direction of generation
+[normal] branch type or semantics
+[normal] candidate set
+[normal] tensions
+[normal] selection state
+[normal] annotations or notes
+[Heading 3] B5. Preimage branching
+[normal] Preimage branching arises when distinct states are sent by a law to the same displayed result, so reverse continuation yields several valid antecedents.
+[Heading 3] B6. Component branching
+[normal] Component branching arises when one structured object yields several connected components under an operation. These branches are co-present, not mutually exclusive.
+[Heading 3] B7. Continuation branching
+[normal] Continuation branching arises when one present state admits several lawful next states.
+[Heading 3] B8. Extension branching
+[normal] Extension branching arises when the current frame, degree, or continuation law cannot carry all active distinctions on a single represented path. The system may then lift to a richer representation rather than force collapse.
+[Heading 3] B9. Observer multiplicity is not structural branching by itself
+[normal] Different observer readings of the same structure are not, by themselves, structural branches. Perspective changes display unless the system is explicitly branching over perspectives.
+[Heading 3] B10. Branch valence
+[normal] Branch valence is the number of immediate candidates in a branch family.
+[Heading 3] B11. Branch depth
+[normal] Branch depth is the number of successive branch events along a continuation.
+[Heading 3] B12. Lift
+[normal] A lift is an added coordinate, phase, sheet, index, time offset, or structural degree introduced so previously collapsed distinctions can be represented without loss.
+[Heading 3] B13. Lift principle
+[normal] When a valid distinction cannot be carried on the current linear path, the system may lift the path before forcing a selection.
+[Heading 3] B14. Rejoin law
+[normal] A rejoin law is a law under which distinct branches later map to a common state or displayed result.
+[Heading 3] B15. Branching and repetition
+[normal] Repetition does not itself require branching. Branching appears when repetition is inverted, folded, wrapped, phase-shifted, or constrained so that several valid continuations or antecedents arise.
+[Heading 3] B16. Alternation
+[normal] Alternation is periodic continuation with phase. It is not automatically a true split into independent branches. It becomes branch-relevant when phase is hidden, when inverse continuation must recover phase, or when different phases are treated as separate candidates.
+[Heading 3] B17. Contradiction and tension
+[normal] If active requirements cannot be simultaneously realized in the current representation, the system should not force premature collapse. It may preserve the contradiction as tension, lift to a richer representation, produce a branch family, or select a representative by rule if justified.
+[Heading 3] B18. Selection
+[normal] Selection is the act of choosing one candidate from a branch family when a single continuation is required for display, action, or further computation. Selection should not erase the existence of the full family.
+[Heading 3] B19. Principal branch
+[normal] A principal branch is the default selected representative when one candidate must stand in for the whole family.
+[Heading 3] B20. All-candidates mode
+[normal] In all-candidates mode, the branch family is preserved explicitly and no candidate is erased merely because one is selected for display.
+[Heading 3] B21. Branch tension
+[normal] If no unique selection is justified, unresolved multiplicity may remain as branch tension. Branch tension is informative structure, not failure.
+[Heading 3] B22. Alternative and co-present branches differ
+[normal] Alternative branches compete for the same role and may require selection. Co-present branches jointly constitute the result and should not be collapsed unless a later law explicitly folds them.
+[Heading 3] B23. Computational principle
+[normal] A computational system requires explicit handling of:
+[normal] selection
+[normal] preservation of alternatives
+[normal] lifting
+[normal] rejoining
+[normal] tension
+[normal] Branching therefore belongs to execution as well as description.
+[Heading 2] Part VI. Branch Families and Branch Graphs
+[Heading 3] G1. Branch families are local multiplicity events
+[normal] A branch family records the valid multiplicity produced by one lawful event. It does not by itself encode the whole long-range graph.
+[Heading 3] G2. Branch members carry provenance
+[normal] Each branch member may retain parent identifiers from the prior multiplicity event. This allows later continuations to preserve how candidates were produced and where rejoining occurred.
+[Heading 3] G3. Projection preserves branch identity when possible
+[normal] When a branch family is mapped into another domain, member identity, parent links, selection state, and annotations should be preserved unless the law explicitly merges or discards them.
+[Heading 3] G4. Merging requires explicit rejoin
+[normal] If distinct parents yield the same projected result, the projected member may rejoin them into one value while retaining all contributing parent identifiers.
+[Heading 3] G5. Inverse continuation uses alternative reverse families
+[normal] Roots are the basic example.
+[Heading 3] G6. Directed segment boolean splitting uses co-present structural families
+[normal] The resulting pieces are jointly the result, not competing alternatives.
+[Heading 3] G7. Fractional powers may carry preimage provenance forward
+[normal] When a fractional power depends on inverse continuation, the later forward family may preserve the parent roots that generated each candidate.
+[Heading 3] G8. A branch graph is ordered history, not only multiplicity
+[normal] A branch graph records how branch families unfold under continuation across events.
+[Heading 3] G9. Frontier marks current activity
+[normal] The frontier is the set of currently active branch nodes after an event. Selection may mark one frontier node without deleting the others.
+[Heading 3] G10. Events and nodes are distinct
+[normal] An event is a branching moment. A node is a concrete member produced at some event.
+[Heading 3] G11. Edges preserve structural relation
+[normal] Parent-child edges record how later nodes arise from earlier ones. Edge kinds distinguish continuation, split, rejoin, merge, and lift.
+[Heading 3] G12. Rejoin preserves provenance
+[normal] When several parents lead to one child, the graph preserves all parents even if display later shows one node.
+[Heading 3] G13. Selection may itself be a graph event
+[normal] Selection may update the active continuation without creating a new structural node.
+[Heading 3] G14. Crossing does not imply joining
+[normal] Two paths may cross in display without forming a branch node. A join must be explicit in the graph.
+[Heading 3] G15. Standalone graph attachment is allowed
+[normal] When a result is displayed without full prior history, its graph may attach to an explicit source frontier for standalone use.
+[Heading 2] Part VII. Dynamic Execution
+[Heading 3] D1. Dynamic context has two layers
+[normal] A dynamic context consists of:
+[normal] a state
+[normal] an environment
+[normal] The environment is not identical to the state. It is the framing or surrounding condition within which the state gains executable meaning.
+[Heading 3] D2. Strands generate proposals
+[normal] A dynamic strand does not directly determine the next state. It generates one or more proposals for what might happen next.
+[Heading 3] D3. A proposal may be partial
+[normal] A proposal need not solve the whole step by itself. It may contribute only part of the next action, transform, or computation.
+[Heading 3] D4. Resolution is required
+[normal] When several strands act in parallel, the system must resolve their proposals before committing the next context.
+[Heading 3] D5. Resolution may return a branch family
+[normal] Dynamic resolution is not limited to a single next state. It may return:
+[normal] one committed next context
+[normal] several co-present next contexts
+[normal] several alternative next contexts
+[normal] preserved tension without commitment
+[normal] a lifted continuation
+[Heading 3] D6. Tension is executable information
+[normal] Dynamic tension may arise from:
+[normal] conflict between proposals
+[normal] conflict with the environment
+[normal] structural invalidity
+[normal] aesthetic pressure
+[normal] unresolved multiplicity
+[normal] Tension is part of execution, not merely a report after the fact.
+[Heading 3] D7. Environment feeds back
+[normal] The committed result of one step may alter the environment, and the altered environment may change what later strands propose or what the resolver prefers.
+[Heading 3] D8. A dynamic trace records becoming
+[normal] A dynamic trace is the ordered history of proposal, tension, resolution, and commitment.
+[Heading 3] D9. The branch graph records structural multiplicity, not the dynamic law itself
+[normal] The branch graph is the structural history of how dynamic resolution split, continued, selected, or rejoined.
+[Heading 3] D10. Convergence is a lawful stop condition
+[normal] A dynamic system may stop by:
+[normal] fixed step bound
+[normal] empty frontier
+[normal] stable orbit
+[normal] repeated frontier
+[normal] sufficiently resolved tension
+[normal] The stop condition is part of the dynamic law.
+[Heading 2] Part VIII. Traversal and Stateful Carriers
+[Heading 3] T1. Traversal is stateful
+[normal] A traversal is not memoryless. It retains current value, continuation law, and facing or phase between firings.
+[Heading 3] T2. Traversal definition
+[normal] A traversal definition may include:
+[normal] a frame, if bounded continuation is desired
+[normal] a step
+[normal] a continuation law
+[normal] a seed or initial value
+[Heading 3] T3. Seed is part of lawful state
+[normal] A nonzero seed is not merely display setup. It changes the lawful path of later firings.
+[Heading 3] T4. Boundary law persists across firings
+[normal] Reflect, wrap, clamp, and tension-preserving continuation are not one-time adjustments. They govern every later firing unless an explicit law-change occurs.
+[Heading 3] T5. Facing persists in reflective traversal
+[normal] Under reflective continuation, a traversal keeps its current facing until it reaches a boundary and reverses. Later firings therefore depend on where and how earlier firings ended.
+[Heading 3] T6. Bounded and unbounded traversals differ
+[normal] A traversal may use its carrier as a frame, or it may continue without a local frame. This is part of the carrier definition.
+[Heading 3] T7. Step scale is part of the carrier
+[normal] A traversal may advance by unit step, span step, or another lawful step size. The amount advanced on each firing is part of the carrier.
+[Heading 3] T8. Equation identity is stateful
+[normal] Two firings of the same named equation need not produce the same result. The equation name identifies the carrier law, but the actual outcome depends on current internal state.
+[Heading 3] T9. Offset carrier rule
+[normal] When a carrier begins away from zero, that offset belongs to the traversal itself. It is not merely a one-time pre-roll before the real behavior begins.
+[Heading 3] T10. Hidden lead under path interpretation
+[normal] Under a path interpretation, the route from zero to the carrier start may be treated as a hidden lead. A hidden lead repositions the cursor without drawing.
+[Heading 3] T11. Visible span under path interpretation
+[normal] Under the same interpretation, the route from carrier start to carrier end is the visible span unless another law says otherwise.
+[Heading 3] T12. Hidden lead repeats with the carrier
+[normal] If a carrier has a hidden lead, that hidden lead is part of every lawful firing. It is not consumed after first use.
+[Heading 3] T13. Commit materializes visible accumulation
+[normal] A commit closes the currently visible accumulation into a path result, but it does not reset the internal state of the traversals that produced it.
+[Heading 3] T14. Multiple fires may share one commit
+[normal] Several equations may fire before one commit. Their combined visible effect then constitutes one grouped step or tick.
+[Heading 3] T15. Stateful carriers make repetition executable
+[normal] The same carrier may reflect, wrap, continue, delay, or leave gaps without changing identity, because its current state is part of what the carrier is.
+[Heading 3] T16. Traversal may encounter pins before boundaries
+[normal] A traversal is not limited to reacting only at the outer frame. Interior landmarks and endpoint pins may be encountered before a boundary is exceeded, and those encountered pins may absorb, redirect, branch, or reframe the continuation.
+[Heading 3] T17. Boundary-law labels are traversal summaries
+[normal] Named boundary laws such as reflect, wrap, clamp, and tension-preserving continuation remain useful summaries for display and authoring. They should increasingly be understood as shorthand for encountered endpoint-pin configurations rather than as the primitive source of traversal behavior.
+[Heading 3] T18. Encountered pin behavior is host-relative
+[normal] When traversal encounters a placed operand on a carrier, meanings such as same-carrier and orthogonal-carrier are read relative to the host carrier of that encounter rather than by absolute carrier labels.
+[Heading 3] T19. Approach and continuation may differ
+[normal] An encountered placed operand may support or oppose the approach side and may independently support or block continuation beyond the encounter. Traversal should preserve that distinction rather than flattening the whole event into one reaction.
+[Heading 2] Part IX. Directed Segment Boolean Rules
+[Heading 3] S1. Boolean segment results require a frame
+[normal] Boolean occupancy on directed segments is evaluated inside a common frame. If no explicit frame is supplied, the system uses the convex envelope of the compared segments.
+[Heading 3] S2. Complement is frame-relative
+[normal] NOT A is not defined as a standalone segment transform. It means the complement of A within the active frame.
+[Heading 3] S3. Boolean results are piece families
+[normal] A boolean segment result is not required to collapse to a single segment. It is a co-present family of directed pieces generated by the truth pattern across the frame.
+[Heading 3] S4. Truth is evaluated on constant partitions
+[normal] The frame is partitioned by all relevant boundaries. Within each partition, truth is constant, so each partition can be evaluated once and either kept or discarded.
+[Heading 3] S5. Direction carrier rule
+[normal] Each surviving boolean piece inherits direction and support from a carrier:
+[normal] if only A occupies the partition, use A
+[normal] if only B occupies the partition, use B
+[normal] if both occupy the partition, use dominant A
+[normal] if neither occupies the partition but the boolean rule is still true, use the frame
+[Heading 3] S6. Frame carrier rule
+[normal] When truth is produced only by negation or exclusion, the frame carries the direction of the resulting piece.
+[Heading 3] S7. Compatibility-preserving merge rule
+[normal] Adjacent true partitions may merge into one piece only when their carriers are structurally compatible. Compatibility requires matching direction, basis, and supports. Otherwise the result remains segmented.
+[Heading 3] S8. Envelope is not boolean union
+[normal] The convex envelope of two directed segments is not the same as boolean OR. Envelope fills gaps; boolean OR preserves them.
+[Heading 3] S9. Primary-direction intersection rule
+[normal] When a single overlap segment is requested, the overlap is expressed in the direction and support frame of the primary segment.
+[Heading 3] S10. Co-present multiplicity must be preserved
+[normal] When boolean evaluation yields multiple surviving pieces, those pieces jointly constitute the result and should not be collapsed unless a later law explicitly folds them.
+[Heading 2] Part X. Pinning, Placement, and Folding
+[Heading 3] P1. Pinning is fundamental
+[normal] Pinning is not merely a side feature of units or a display convenience. It is a foundational local mechanism by which structure is attached, placed, redirected, interrupted, lifted, folded, branched, or rejoined.
+[Heading 3] P2. Pinning and folding differ
+[normal] Pinning creates structural relation. Folding is a later interpretation or enactment of that relation. A pinned structure may remain lawful and informative before any one folded result is chosen.
+[Heading 3] P3. One pin mechanism is preferred
+[normal] There should not be many primitive named pin types. Wrap, reflect, continue, clamp, branch, corner, loop, and join are best understood as contextual readings of one pinning mechanism.
+[Heading 3] P4. Pinning remains locally binary
+[normal] A point pinning event joins two structural roles at one site:
+[normal] a host role
+[normal] an applied role
+[normal] Richer structures arise by nesting, sequencing, or distributing such events rather than by introducing many-way primitive pins.
+[Heading 3] P5. A * B @ P is the canonical positioned pinning form
+[normal] The expression A * B @ P should be read first as a pinning event:
+[normal] A is the host
+[normal] B is the applied element
+[normal] P is the host-relative pin position
+[Heading 3] P6. Host is canonically recessive
+[normal] The host role is canonically recessive. It supplies the local substrate, carrier, and attachment site of the event.
+[Heading 3] P7. Applied is canonically dominant
+[normal] The applied role is canonically dominant. It supplies the local directive brought to the host at the pinning site.
+[Heading 3] P8. Pinning aligns dominant with dominant
+[normal] When host and applied are pinned, dominant direction is aligned with dominant direction at the attachment site. Negative and orthogonal consequences are then read relative to that alignment.
+[Heading 3] P9. Intrinsic local frames belong to the operands
+[normal] Both host and applied operands may already be straight, bent, inverted, or unresolved before pinning. Those properties belong to the operands themselves, not to the pin as an added bend-generator.
+[Heading 3] P10. Axis is the current canonical intrinsic descriptor
+[normal] The existing Axis remains the current canonical descriptor carried by a pinned operand. It need not be treated as a separate extra object owned by the pin.
+[Heading 3] P11. The four descriptor slots remain distinct
+[normal] The current descriptor carries:
+[normal] a recessive unit
+[normal] a recessive value
+[normal] a dominant unit
+[normal] a dominant value
+[normal] In shorthand these may be read as i, iV, u, and uV.
+[Heading 3] P12. Unit and value must remain distinct
+[normal] The unit slots describe carrier preference, contradiction, or unresolved carrier assignment. The value slots describe realized extent, travel, or enactment on the chosen carrier. Taken together they express local structural desire, not guaranteed final realization.
+[Heading 3] P13. Unit sign gives coarse structural type
+[normal] For a pin-side descriptor:
+[normal] positive unit prefers the current carrier
+[normal] negative unit prefers orthogonal breakout relative to the current carrier
+[normal] zero unit preserves unresolved carrier choice
+[normal] Negative unit does not mean globally vertical by itself. It means orthogonal relative to the hosted carrier being read.
+[Heading 3] P14. Value sign acts within the chosen carrier
+[normal] Once a carrier has been preserved, lifted, or otherwise selected:
+[normal] positive value realizes with that carrier's orientation
+[normal] negative value realizes against it
+[normal] zero value preserves unrealized travel
+[Heading 3] P15. Magnitude is weighted participation
+[normal] Values beyond -1, 0, and 1 should not be treated as meaningless extras. Their magnitude is best read as weighted participation, strength, or local transport pressure rather than as a different primitive kind of pin.
+[Heading 3] P16. Pins require location
+[normal] A pinning event must be locatable in some frame, carrier, sheet, or relation. Location is part of what makes the event interpretable.
+[Heading 3] P17. Location and attachment differ
+[normal] A pin may be locatable without yet being structurally attached. Attachment is join; location is situatedness.
+[Heading 3] P18. Line-like hosts use proportional pin position
+[normal] For line-like hosts, the pin position P is normally represented by Proportion. It is measured in the host's frame and support rather than in a detached neutral frame.
+[Heading 3] P19. Local coordinates and host embedding differ
+[normal] The host-relative position of a pin, the local zero of the applied element, and the later embedded reading are distinct layers. They should not be collapsed prematurely.
+[Heading 3] P20. Point pinning and distributed pinning are one mechanism at different extents
+[normal] Point pinning is one local attachment event. Distributed pinning is a family of such local events enacted across a support, span, or piece family.
+[Heading 3] P21. Distributed pinning belongs to folding
+[normal] Point pinning gives local structural potential. Distributed pinning is often the enacted form of a later fold, such as support-wide comparison, continuation, span formation, or similar combination.
+[Heading 3] P22. Opposed same-carrier resolution yields directed-segment structure
+[normal] If the resolved sides occupy one carrier and point against each other, the local result is directed-segment structure.
+[Heading 3] P23. Same-direction same-carrier resolution yields reinforcement
+[normal] If the resolved sides occupy one carrier and point in the same direction, the local result is reinforcement, acceleration-like continuation, or layered same-direction passage.
+[Heading 3] P24. Orthogonal resolution yields corner-like or area-like structure
+[normal] If the resolved sides occupy perpendicular carriers, the local result is corner-like, branch-like, or area-like structure.
+[Heading 3] P25. Zero or partial resolution is lawful
+[normal] One side may resolve while the other remains noisy, latent, or unresolved. If both sides remain unresolved, the pin may remain as held tension or ambiguous potential rather than forcing false structure.
+[Heading 3] P26. Preferred geometric breakout is the smallest lawful orthogonal lift
+[normal] When a carrier contradiction is resolved geometrically, the preferred first response is the smallest lawful orthogonal lift available at the current structural grade.
+[Heading 3] P27. Meaning depends on location
+[normal] The same applied descriptor may read differently at:
+[normal] an endpoint
+[normal] an interior landmark
+[normal] an off-carrier location
+[normal] a relation between carriers
+[normal] a relation between sheets
+[Heading 3] P28. Open endpoint is not clamp
+[normal] If a carrier reaches its end with no explicit resolving pin, this is not a stop. It is open termination, and it raises tension.
+[Heading 3] P29. Endpoint law names are contextual readings
+[normal] Clamp, reflection, continuation, wrap, and loop are best understood as contextual readings of encountered endpoint or landmark structure rather than as the deepest primitive laws.
+[Heading 3] P30. Pins may attach, emit, or seek attachment
+[normal] A pin may attach to an existing carrier, emit a new carrier, or do both. Growth and join are therefore not fully separate.
+[Heading 3] P31. A pin may have zero, one, or two local outputs
+[normal] Locally, a pin may:
+[normal] absorb with zero outputs
+[normal] continue or redirect with one output
+[normal] branch with two outputs
+[normal] Richer multiplicity should generally be represented by several pins or a branch family.
+[Heading 3] P32. Sheets differ from observer perspective
+[normal] The places in which pins and carriers interact should be distinguished from the binary observer +/- perspective. Sheets or fields are the better layer for multi-place interaction.
+[Heading 3] P33. Host-relative carrier meaning must be preserved
+[normal] Carrier interpretations such as same-carrier and orthogonal-carrier are relative to the host carrier of the encounter. They should not be treated as permanent absolute labels such as "carrier 0" and "carrier 1".
+[Heading 3] P34. Boundary labels remain compatibility shells
+[normal] Named boundary laws remain useful for display, editing, and compatibility. They should increasingly be understood as shorthand for explicit endpoint-pin configurations.
+[Heading 3] P35. Boundary-relative pins preserve intent under reframing
+[normal] When a boundary-relative pin is moved onto a new carrier or route frame, its left/right intent should be preserved if that meaning can be translated lawfully onto the new boundaries.
+[Heading 3] P36. Tension must not be normalized away prematurely
+[normal] Negative or zero unit information, ambiguous attachment, unresolved continuation, or competing pin goals should not be silently normalized away merely to recover a simpler display. Such tension may later drive rupture, branching, curvature, phase offset, compromise, or higher-dimensional lift.
+[Heading 3] P37. Pinned structure and folded result should preserve provenance
+[normal] Whenever possible, a folded result should preserve:
+[normal] where the pin occurred
+[normal] which operand acted as host
+[normal] which operand acted as applied
+[normal] which intrinsic descriptors were involved
+[normal] what unresolved tensions remained
+[Heading 2] Key Examples
+[Heading 3] E1. Core opposition cycle
+[normal] 1 * i = i
+i * i = -1
+-1 * i = -i
+-i * i = 1
+[Heading 3] E2. Observer flip
+[normal] If one observer reads an interval as 2i + 3, the opposite observer reads it as -2i - 3. The interval is the same; only the perspective changed.
+[Heading 3] E3. Inverse continuation
+[normal] x^2 = 4 yields the reverse candidates 2 and -2.
+[Heading 3] E4. Component branching
+[normal] Removing a middle segment from a longer segment yields two co-present remaining pieces.
+[Heading 3] E5. Directed segment boolean split
+[normal] If A = [0, 10] and B = [3, 5], then A XOR B yields [0, 3] and [5, 10].
+[Heading 3] E6. Reflective carrier
+[normal] A reflective carrier on [0, 1] with unit step alternates direction on every firing.
+A reflective carrier on [0, 2] with unit step advances across two ticks before reversing.
+[Heading 3] E7. Offset carrier under path interpretation
+[normal] A carrier on [-1, 1] may first reposition silently to -1 and then draw to 1. On later firings, that silent-plus-visible structure remains part of the same equation.
+[Heading 3] E8. Multiscale decomposition
+[normal] 109 miles may be decomposed as 1 x 100-mile + 9 x 1-mile.
+[Heading 3] E9. Signed digits
+[normal] The signed-digit form 1, 0, -2 in base 10 folds to 98.
+[Heading 3] E10. Coarse reading
+[normal] Reading 101 miles at the 100-mile frame may yield the representative 100 miles with residual 1 mile.
+[Heading 3] E11. Pinning default
+[normal] A positive recessive unit and positive dominant unit produce the current straight directed-segment unit.
+[Heading 3] E12. Pinning contradiction
+[normal] A negative pin-side unit may contradict its native line-carrier and prefer orthogonal lift rather than silent sign normalization.
+[Heading 3] E13. Positioned pinning
+[normal] A * B @ 1/2 means:
+[normal] pin B onto A
+[normal] at the midpoint of A
+[normal] by aligning dominant direction with dominant direction
+[normal] then interpret the resulting placed structure
+[Heading 3] E14. Distributed pinning as fold
+[normal] A support-wide comparison or multiplication-like construction may be read as a later fold that enacts many local pinning relations across a shared support rather than as one isolated point event.
+[Heading 3] E15. Same-direction reinforcement
+[normal] Two resolved pin sides pointing in the same direction may act like sequential reinforcement or acceleration.
+[Heading 3] E16. Zero-unit hold
+[normal] A zero unit may preserve unresolved or noisy carrier information without committing to one orientation.
+[Heading 3] E17. Open endpoint
+[normal] A carrier that reaches an end without an explicit resolving pin does not thereby clamp. It produces open termination tension.
+[Heading 3] E18. Explicit endpoint pin
+[normal] A clamp, reflect, or wrap boundary may be represented by explicit endpoint pins rather than only by a named continuation-law enum.
+[Heading 3] E19. Interior landmark pin
+[normal] A traversal may encounter an interior landmark before the frame edge and reverse, absorb, or jump from that landmark without changing the identity of the carrier that encountered it.
+[Heading 2] Key Glossary
+[normal] Branch family
+The full set of valid outcomes produced by one lawful event.
+[normal] Alternative branch
+One of several candidates competing for the same role.
+[normal] Co-present branch
+One of several pieces that jointly constitute the result.
+[normal] Branch tension
+Unresolved multiplicity preserved without premature collapse.
+[normal] Lift
+An added coordinate, phase, sheet, translation, time offset, or structural degree used to carry otherwise-collapsed distinctions.
+[normal] Rejoin law
+A law under which distinct branches later meet again in one displayed result.
+[normal] Frontier
+The set of currently active branch nodes after an event.
+[normal] Dynamic context
+A paired state and environment used for execution.
+[normal] Traversal
+A stateful carrier driven by a step, a continuation law, and possibly a frame and seed.
+[normal] Hidden lead
+Under path interpretation, the non-drawing portion of a carrier that repositions the cursor before the visible span.
+[normal] Resolution frame
+A grain-bearing reading frame for a shared unit signature.
+[normal] Resolution ladder
+An ordered family of coarser-to-finer resolution frames.
+[normal] Layered quantity
+An exact quantity represented across more than one resolution frame.
+[normal] Representative reading
+The quantity reported at the active grain after quantization.
+[normal] Residual
+The exact detail not captured by the representative reading at that grain.
+[normal] Pin descriptor
+An Axis read as a four-slot intrinsic descriptor carried into a pinning event.
+[normal] Carrier contradiction
+Unit-level information that conflicts with the native carrier assignment of a pin side.
+[normal] Orthogonal lift
+The preferred smallest geometric breakout used when a carrier contradiction cannot remain on the current carrier.
+[normal] Open termination
+An unresolved endpoint encounter with no explicit resolving pin; it raises tension rather than acting as clamp.
+[normal] Located pin
+A pin interpreted together with its location in a frame, carrier, sheet, or relation.
+[normal] Endpoint pin
+A located pin encountered at a boundary or end of a carrier.
+[normal] Landmark pin
+A located pin encountered at an interior or off-carrier landmark whose behavior is determined by descriptor plus context.

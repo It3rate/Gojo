@@ -1,0 +1,24 @@
+[normal] Universals
+[normal] 0
+[normal] Gradient ranges
+[normal] One measure, has range
+[normal] Start and end, gradient
+[normal] Segments (1, 2 or more)
+[normal] Unit segment
+[normal] Negative unit
+[normal] Motion, numbers, hyperbolic
+[normal] Shifting vs stretching (phase, magnitude)
+[normal] Complex math
+[normal] Squares, powers are repeats
+[normal] Select and evaluate are part of equation
+[normal] Relations of two segments is a dot product+
+[normal] Equations show recorded value, recipe to create, and motion of transform
+[normal] Motion curves can be multi dimension, or t dimension (acceleration etc), built with repeats
+[normal] Objects are defined with gradient ranges
+[normal] Objects can be counted, but all objects need definition
+[normal] Objects can have very many range defs, but only a few matter at a time
+[normal] Context is the defs that matter
+[normal] Defs that affect us are more important
+[normal] Defs can be transferred to other objects (metaphor)
+[normal] Def ranges of an object are narrowed in contexts, so one object affects the other
+[normal] ML is the ranges, and how the ranges affect each other as values change.

@@ -1,0 +1,62 @@
+[normal] Universal Parts
+[normal] Energy cant be created or destroyed
+[normal] Same with mass(->energy), charge, momentum, angular momentum
+[normal] Everything is relative
+[normal] Information is from comparison
+[normal] Nothing is infinite
+[normal] Everything is a segment of some sort
+[normal] Nothing is exact
+[normal] Behavior at the edges is part of math
+[normal] Nothing is ever still/unchanging
+[normal] Things diffuse from high to low
+[normal] Time, cause/effect, back refs only
+[normal] Future steps can only depend on previous steps
+[normal] Traits are primitives, objects are composite trait ranges and relations
+[normal] Primitive ops
+[normal] Select
+[normal] add/sub append/merge
+[normal] Stretch (including flip)
+[normal] Change unit
+[normal] Repeat (n times)
+[normal] 1D straight line, 2D triangle (not square) 3D tetrahedron
+[normal] Line is a segment with two directions (1 and i)
+[normal] A unit is the way to calibrate a measure
+[normal] A selection can have gaps
+[normal] Logic is universal
+[normal] Probability is universal (and thus predictability)
+[normal] Nearby states are more likely than far ones
+[normal] There are more ‘disordered’ states than ordered ones
+[normal] 2D/3D etc can represent higher dimensions or acceleration in 1D
+[normal] Feedback exists, positive and negative
+[normal] Selection can be thought driven or just physics (eg bumping)
+[normal] Impossible equations can be solved in a higher dimension
+[normal] Human
+[normal] Base 10
+[normal] Squares due to gravity
+[normal] Circles and angles due to the greeks?
+[normal] We ignore traits not relevant to context
+[normal] Ops are +-*/
+[normal] We magnify/lie about differences (mentally) to increase resolution
+[normal] Objects are primitives, not traits
+[normal] Predict and justify/explain with stories
+[normal] Poor exponential intuition
+[normal] Desire clouds logic
+[normal] Infinity expects perfect truth where there is only ranges
+[normal] Lack of perfect truth leads to claims that everything is a mental construction lol
+[normal] Life is anti-entropy (or at least organizer fuels by entropy)
+[normal] Understanding through metaphor
+[normal] Association of true things with related things
+[normal] We separate things into artificial 2D representations for closer inspection
+[normal] time/speed graph, vs animated
+[normal] Map, photo, blueprints, text
+[normal] Mistakes
+[normal] Infinity
+[normal] Complex numbers do not rotate (unot)
+[normal] Focus on result/goal/total vs process
+[normal] Repeat is not = scale
+[normal] Object are not the primitives
+[normal] We can hold all traits in one thought
+[normal] Perpendicular is not rotation
+[normal] Categories are statistical not truths
+[normal] Reality is bounded
+[normal] All acceleration, rotations and curves are 2D+

@@ -1,0 +1,2267 @@
+[
+  {
+    "id": 1,
+    "hash": "017CEDB90260F589909A7F7E1EBF248EF7077E5B29C153EB892B3E508BACF041",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\001-image1.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\presentations-scrap-Concept_Negotiation.pptx\\image1.png",
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\presentations-scrap-slide1.pptx\\image1.png"
+    ],
+    "copies": 2
+  },
+  {
+    "id": 2,
+    "hash": "029F8B15A260EFCC6D5F516BF6F59A4D44D31B9075A95F33D8481A9D2F8602F4",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\002-image27.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Math-5.docx\\image27.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 3,
+    "hash": "02ABA9D64163197BECE7DE5D6B6D08F3B482FEE2AD0E7990EEDD5B7527BD9E59",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\003-image21.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\twitter-Property-keys.docx\\image21.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 4,
+    "hash": "04181087D2A0691FF7E3BFA728FD84D4E5FCEFFB6FBC15821E07B85F9A4EE65F",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\004-image4.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-Mathematics-Without-Infinity.docx\\image4.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 5,
+    "hash": "044EC22EF03D577D7C342259782D13F91A44A1E781EAB26900C3A5DB902417EF",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\005-image7.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\2D-symmetry.docx\\image7.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 6,
+    "hash": "05D8C2CB2F1A8B526E895088D7DEDA848685812DF1433B565222B50256EE734B",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\006-image9.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-Segment-Math-and-Symmetry.docx\\image9.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 7,
+    "hash": "06D786C0420A1B36E8BF6518295D7EDB4F2AB0C897F1CADB0ECAB82DE114731D",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\007-image25.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Math-5.docx\\image25.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 8,
+    "hash": "087B5F8A549638A12FEB209189B4C020556CDBE06532D818C307D7627426CCCF",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\008-image21.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Math-5.docx\\image21.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 9,
+    "hash": "08805E3EF6EF8BDD584C00F2E04CA6ECB2A99410740E4FF263B7A9E2CC647210",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\009-image12.jpg",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\twitter-Tweet-threads.docx\\image12.jpg"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 10,
+    "hash": "09A851A55F25844E4AB582C42053D17E9CC7E3B240E40E6CC05634D340B7E137",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\010-image3.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-Pin-Accumulate-and-Merge.docx\\image3.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 11,
+    "hash": "0A300700E96DE10CBA5243FC313DBE4549EE2C08ED2AF246E91AB0993A384AEE",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\011-image7.jpg",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\twitter-Tweet-threads.docx\\image7.jpg"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 12,
+    "hash": "0AD104EA1622831D4264A6C081BB21965AE5CA06E55EA07571C72350F89559A3",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\012-image24.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\twitter-Property-keys.docx\\image24.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 13,
+    "hash": "0CF5A13CCA6CBB95788557B117E801C0FB42927A3872CA98925EA919C8A2D0E0",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\013-image6.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-Boolean-Arithmetic-with-Segments.docx\\image6.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 14,
+    "hash": "0F8BA9D2DCFCA689CA48169B5C414CBDF9CBE448DA51C07F22DE7AB319628A42",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\014-image5.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\twitter-Property-keys.docx\\image5.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 15,
+    "hash": "1266AD9E7B01A317D312A1A918A0DF72958BCABEFAAC8A2F3C019FB7908641A9",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\015-image14.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\2D-symmetry.docx\\image14.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 16,
+    "hash": "1297E60B8F966D0129DAEBF824622FFDF566E0B6F57C633D4B01907C0804C0AE",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\016-image4.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-The-Mathematical-Interpretation-of-Symmetric-Numbers.docx\\image4.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 17,
+    "hash": "136E86BBB4D0D18C52E7996764743E6EC0C6EEB8E52C78CEEDC3121D376B60BF",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\017-image9.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\2D-symmetry.docx\\image9.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 18,
+    "hash": "13F457857452B99A906EF31108F907466614387A6DCC03E1A504A1BD5D4FD29F",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\018-image13.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\2D-symmetry.docx\\image13.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 19,
+    "hash": "156F705B11EBF4F77E9C860A0A2D48AD00443ED6529BF3544652B26ADBBE9171",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\019-image7.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-Boolean-Arithmetic-with-Segments.docx\\image7.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 20,
+    "hash": "169F2B5F269E36C7D54EB9AC9077B4DD85B52E40450F9154EA615DE795B5AE46",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\020-image8.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\twitter-Property-keys.docx\\image8.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 21,
+    "hash": "16FC7E13502D0E3ECA10D5CF1EE54093864B67ADCCB76034D66AA8F599D800DA",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\021-image16.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\twitter-Property-keys.docx\\image16.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 22,
+    "hash": "17324E07E61AFF8ED762B52A4D1850A95601E80C5A44DBFABE49231B99CB9F26",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\022-image4.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-Pin-Accumulate-and-Merge.docx\\image4.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 23,
+    "hash": "1755892CD2E3F89DAFE38E5208F40E0B849E2A53D115535F64D72837FDD747BE",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\023-image13.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\presentations-ComplexitySpaces.pptx\\image13.png",
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\presentations-scrap-slide7b0.pptx\\image1.png"
+    ],
+    "copies": 2
+  },
+  {
+    "id": 24,
+    "hash": "1801ECE7610559DA62AFCE26CC293AB745D4B4539B8BA9F97E4CFD7D327A0A0E",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\024-image3.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\twitter-Property-keys.docx\\image3.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 25,
+    "hash": "184A53785D7656BBAF127D7F2602757D723BE589CD10BD6711915472F5B56555",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\025-image34.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\2D-symmetry.docx\\image34.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 26,
+    "hash": "18963D699B87DC203186B268BE1D2D49510D70E387F82243452E74CA26FAB574",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\026-image22.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\twitter-Tweet-threads.docx\\image22.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 27,
+    "hash": "18B5A455E4EDFC35A62E8A1116AF9FEAA371B4BE585D4C52E530882B96CBFCEF",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\027-image22.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-Segment-Math-and-Symmetry.docx\\image22.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 28,
+    "hash": "18D840AF2C50EFF9A5241D4B50833A596E6B71AF0CEE87CF2B3435345F2F7ABA",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\028-image2.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\twitter-Tweet-threads.docx\\image2.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 29,
+    "hash": "1AE19E496C85DFC99AC414AC7FAF4F79E6C79E570C1729775662D2CBBC8A4979",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\029-image1.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-Multiplying-AI-Segments.docx\\image1.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 30,
+    "hash": "1B1A5860BD62C4E7B78EF425C3AA577C88EBF7972EBDB340F6F8899BC9D43C29",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\030-image6.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-Segment-Math-and-Symmetry.docx\\image6.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 31,
+    "hash": "1C45641E472B4C02EEE9961EE913408BCCA5D3EAFA7D885BF13800C1F3FAF13E",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\031-image8.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\presentations-ComplexitySpaces.pptx\\image8.png",
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\presentations-scrap-slide7b1.pptx\\image1.png"
+    ],
+    "copies": 2
+  },
+  {
+    "id": 32,
+    "hash": "1C9E58502F730D8121D48333FB801DF339A2B75EB0EB7EFEB5E5A142E1A138F3",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\032-image-4-1.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\presentations-scrap-ComplexitySpaces_v2.pptx\\image-4-1.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 33,
+    "hash": "1CB4520F178B29794F545CFAEAD7F966672638F482E68CDCDCBBADA65F237A63",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\033-image3.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\presentations-ComplexitySpaces.pptx\\image3.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 34,
+    "hash": "1E068EF702FBBC1D160B737555A3FDAB5E89EEB089D506378B1B7D2F7ADFBB87",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\034-image9.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-Multiplying-AI-Segments.docx\\image9.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 35,
+    "hash": "2005E786D9A54BF81616A754EBA4D5153CFE59F81F718D90DE7B5FBF1F005F1A",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\035-image3.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-Multiplying-AI-Segments.docx\\image3.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 36,
+    "hash": "21A1DBCF4BB684BE0D67C40713319C96C03FA9931FBB8E98A8809882D8A5D738",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\036-image4.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-Segment-Math-and-Symmetry.docx\\image4.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 37,
+    "hash": "235176BC74D35D95418376E0B2296242FDD4BF3C83B10AF9F10CC38F42604314",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\037-image5.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-Thinking-in-Directed-Segments.docx\\image5.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 38,
+    "hash": "23872B0EA8B6707BF46623C8D6E6A4E423F2C87F2F7BB89DAC88FB52C2378688",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\038-image12.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-Segment-Math-and-Symmetry.docx\\image12.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 39,
+    "hash": "2438E6AE3E8DEADF012DFEEC93AC4D2B0A4794BD9B8198A177033F4A228A2967",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\039-image1.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-Boolean-Arithmetic-with-Segments.docx\\image1.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 40,
+    "hash": "2519BA907E2DFB5F36CCB7F934111B08B8A99833C51FE58864F0E5226CF0DD4B",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\040-image5.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-Boolean-Arithmetic-with-Segments.docx\\image5.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 41,
+    "hash": "25E9640DDA926B006F2BE4EB8DCF9CECC9C4555CB37A2B93360AD6E5494EE7C8",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\041-image-1-1.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\presentations-scrap-ComplexitySpaces_v2.pptx\\image-1-1.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 42,
+    "hash": "278EAF26B98B4C54E227E8A4ACEE42BE2DF0877911BA381C073F45B3BDDB00C2",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\042-image-2-1.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\presentations-scrap-taxonomy_of_a_guess.pptx\\image-2-1.png",
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\presentations-scrap-taxonomy_of_a_guess.pptx\\image-3-1.png",
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\presentations-scrap-taxonomy_of_a_guessClaudeGen.pptx\\image-2-1.png",
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\presentations-scrap-taxonomy_of_a_guessClaudeGen.pptx\\image-3-1.png"
+    ],
+    "copies": 4
+  },
+  {
+    "id": 43,
+    "hash": "28AC90154515D961EE32CBFFEF32B8E155F63F90AB9B3C70887DF4647873D763",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\043-image11.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-Segment-Math-and-Symmetry.docx\\image11.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 44,
+    "hash": "28BD95B0B7BC5556F18FF83B9BD253B5786ADF84212587637681CC9D3FCE6DE7",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\044-image1.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-The-Mathematical-Interpretation-of-Symmetric-Numbers.docx\\image1.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 45,
+    "hash": "299120AEE63085200D82ABF48E4B0C400CF64C932448D4A45F897055AA6E608A",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\045-image21.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\twitter-Tweet-threads.docx\\image21.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 46,
+    "hash": "2C4A9FB3006439B6514E95DA498C749C2EAF2C8B4B6577FC7D1FF2F3F80174DF",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\046-image5.jpg",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Math-bool-to-multiplication.docx\\image5.jpg"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 47,
+    "hash": "2CDBEAEC64E577B9CD92C7BF9B7F08199A033FB2180865660B9336BF56D8B38D",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\047-image11.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-Pin-Accumulate-and-Merge.docx\\image11.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 48,
+    "hash": "300CD199F0632B16F81AC3649CC033DDE5C99829CE7C516796C068CF030C036F",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\048-image10.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-The-Mathematical-Interpretation-of-Symmetric-Numbers.docx\\image10.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 49,
+    "hash": "326AD38C397283CB57AAF4B98CF29518B26A16D09CAFAA9487F49B65C586A9B2",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\049-image11.jpg",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\twitter-Tweet-threads.docx\\image11.jpg"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 50,
+    "hash": "341F66439226B5FB376222D95C3595582BFF1600AD543D5D66109DAF274601B9",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\050-image21.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\presentations-ComplexitySpaces.pptx\\image21.png",
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\presentations-scrap-slide5d.pptx\\image1.png"
+    ],
+    "copies": 2
+  },
+  {
+    "id": 51,
+    "hash": "3539180AB8528B7F61A6497EFB745A91C84FF8E4B1BC8DED238EB7DFA434799D",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\051-image3.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-Boolean-Arithmetic-with-Segments.docx\\image3.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 52,
+    "hash": "3656D83D129F04F22A5B69D8D1EE4893BCB342D16FC8AED2E4F8BE4A95D9D56C",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\052-image7.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-Segment-Math-and-Symmetry.docx\\image7.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 53,
+    "hash": "36962FA150A229FF07F574CD3C61F643241F0BA681789CF4A6DB6E91FB171900",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\053-image2.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-The-Mathematical-Interpretation-of-Symmetric-Numbers.docx\\image2.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 54,
+    "hash": "36AD4A2A9DECD5DCB467B6BA1B4DB1503F89139B6F13E65EF039916AB53F62F5",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\054-image8.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-Pin-Accumulate-and-Merge.docx\\image8.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 55,
+    "hash": "36F5861543B0C7672277BE3B4864AC79E275E3C5925766EB53B3726E05755CD8",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\055-image5.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-Pin-Accumulate-and-Merge.docx\\image5.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 56,
+    "hash": "379AC473028251AD9AFD20118474665939DAB56F359B78746B9A9BB6C118B508",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\056-image4.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-Emergent-Properties.docx\\image4.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 57,
+    "hash": "38155CFE95DB20BCB596B2237938DBD3F4F9B630FAD2CDA14348D6C002536D08",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\057-image2.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\presentations-ComplexitySpaces.pptx\\image2.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 58,
+    "hash": "384449AE32D681DD3BFF116F981D25ED638CA5C9413839A3DC4FA50D71CF36B6",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\058-image23.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-Segment-Math-and-Symmetry.docx\\image23.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 59,
+    "hash": "39EB75294237B7814D6A9033B52DBA0748C4E8EAC77E950E732D6FA2ECE97C81",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\059-image17.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\2D-symmetry.docx\\image17.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 60,
+    "hash": "3ABEDFD758E43E8120A4D3C232782356D4A1E11DA5ACF053427E9CA470C1B9A9",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\060-image1.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-Thinking-in-Directed-Segments.docx\\image1.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 61,
+    "hash": "3AF4B7E4A970B57C1C580D4FD878F286825F72772A9E20591040BB0F40A24FE4",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\061-image3.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-Segment-Math-and-Symmetry.docx\\image3.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 62,
+    "hash": "3D6831713B14B021638BE203E6D14F8EFFB83A76E83DD527333287141729E2EF",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\062-image6.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\presentations-ComplexitySpaces.pptx\\image6.png",
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\presentations-scrap-slide5c.pptx\\image1.png"
+    ],
+    "copies": 2
+  },
+  {
+    "id": 63,
+    "hash": "3DA1106243EE2C3806C9BB72FB33BDE5B5EE610161DC85CA30E1E8429A0D6522",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\063-image21.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\2D-symmetry.docx\\image21.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 64,
+    "hash": "3E2A94C1F98B23A0EBF1CB12E7893560CA96AB39E8608EEC0575F3A1AE298483",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\064-image7.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Math-5.docx\\image7.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 65,
+    "hash": "3F830BC8BBE5511B446272CB7DB84CC7422B8602E7FDD7369624B263930C1855",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\065-image-8-1.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\presentations-scrap-ComplexitySpaces_v2.pptx\\image-8-1.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 66,
+    "hash": "400587C312D56943E00E10E102AF4631A3290A77B64B521A822BD3A329A50521",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\066-image13.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-Segment-Math-and-Symmetry.docx\\image13.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 67,
+    "hash": "4398659D0FC099219E125406B680EEAABB5861A3980F423CC366A1E5C1F90BFC",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\067-image8.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Math-5.docx\\image8.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 68,
+    "hash": "43BB25EEA6AB5DF1CB4070740512B68614788AC9116FB8C24D6AD856227F7C0B",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\068-image13.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Math-5.docx\\image13.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 69,
+    "hash": "4433150F20A99B536DB703302909A8758DA31D6E209DD6DA40897ABA17C6E655",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\069-image-2-2.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\presentations-scrap-taxonomy_of_a_guess.pptx\\image-2-2.png",
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\presentations-scrap-taxonomy_of_a_guess.pptx\\image-4-1.png",
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\presentations-scrap-taxonomy_of_a_guessClaudeGen.pptx\\image-2-2.png",
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\presentations-scrap-taxonomy_of_a_guessClaudeGen.pptx\\image-4-1.png"
+    ],
+    "copies": 4
+  },
+  {
+    "id": 70,
+    "hash": "454EE1CB95785BEA512062204C4702F4CCDF552A82E630F030F8E5F4A5A68A11",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\070-image15.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\presentations-ComplexitySpaces.pptx\\image15.png",
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\presentations-scrap-slide3.pptx\\image1.png"
+    ],
+    "copies": 2
+  },
+  {
+    "id": 71,
+    "hash": "46F1F1D86E96B1DCA0676AEB29CCB0E023A619BDB1A54B1480DCC89195FFB463",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\071-image3.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-Sequential-Math-Parallel-Math.docx\\image3.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 72,
+    "hash": "47617213160340DB94A27300E7760EF5FFF694765022CB9E053D581E978AAD69",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\072-image6.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\twitter-Property-keys.docx\\image6.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 73,
+    "hash": "4762567391D75508AA7437FD60D634115473E37F123BF3F0E9BF1F58801D10F6",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\073-image-3-1.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\presentations-scrap-ComplexitySpaces_v2.pptx\\image-3-1.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 74,
+    "hash": "48A75C875F31921FAF2DA16B1355A8D2FFCB0A5EB0C651616690C0C778152781",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\074-image1.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\twitter-Property-keys.docx\\image1.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 75,
+    "hash": "48A86F3B7AAA7BF1DA6EF6FE51830BC9E9D9492DDCAE71EB28A2B6789052969A",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\075-image2.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-Mathematics-Without-Infinity.docx\\image2.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 76,
+    "hash": "48C9EFFAFB9E0D9AAB5A5C32C4CC591F4F556FE457A01AD133D93B23995FA426",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\076-image17.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\twitter-Property-keys.docx\\image17.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 77,
+    "hash": "4A6A83A21D614F3BFB11BA40F055092050313FA2DDCC242D7292DB9293627F5B",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\077-image8.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\2D-symmetry.docx\\image8.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 78,
+    "hash": "4B5FEEB35DF77D7CB955A2469F9406AB7ED161A2E9E9EDE3A6E69F33D2E76BD0",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\078-image11.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-The-Mathematical-Interpretation-of-Symmetric-Numbers.docx\\image11.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 79,
+    "hash": "4BA7A4A845EAC9378E8B062FC52E7E13D4925169B04B6151AE8CE086992A41A0",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\079-image13.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-Multiplying-AI-Segments.docx\\image13.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 80,
+    "hash": "4C8052E5E212A7063B510E3916A124341FC4EB9AECB3C309B00D67C523E5EEDD",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\080-image1.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Math-5.docx\\image1.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 81,
+    "hash": "4DDB08E94C7BADA28ADA139602D3F7225282DEE1772C27819FA578A3BD00831E",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\081-image19.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\twitter-Tweet-threads.docx\\image19.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 82,
+    "hash": "4F8DF9932DE1331437FF91569BC5CB3A182CD91FAC78F62404E531EFDDD0B597",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\082-image12.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\presentations-ComplexitySpaces.pptx\\image12.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 83,
+    "hash": "509FBBE4A22A881C9CEC5ED0A55974F440272F393DEE35DA87F69788288D6D99",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\083-image10.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Math-5.docx\\image10.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 84,
+    "hash": "51DAB14649FED33F1498B3D06019F7AB3599493B6D3A49326B5D10045EFB82F2",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\084-image20.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-Segment-Math-and-Symmetry.docx\\image20.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 85,
+    "hash": "526A327CEC7C75D1F79FEA6A49514208B67941CDA5C6EE52DCBB7C404E635C28",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\085-image1.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Math-bool-to-multiplication.docx\\image1.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 86,
+    "hash": "5441A4CA6E9619381CD3D75EBC91810149269A932BDD943C397B3A9E281F5321",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\086-image20.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\2D-symmetry.docx\\image20.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 87,
+    "hash": "544C10D2286447E7E8FF0AD3D4EA60D22F7351048A6C575470F5CEFEC3B3569A",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\087-image1.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\presentations-ComplexitySpaces.pptx\\image1.png",
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\presentations-scrap-slide4.pptx\\image1.png"
+    ],
+    "copies": 2
+  },
+  {
+    "id": 88,
+    "hash": "551C87E24FD9BF87BCA4BC437763EAB2CF0D2CE76F536914A76D8F371FC0EE30",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\088-image2.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Math-5.docx\\image2.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 89,
+    "hash": "55332B8A4DB4F6990488E1B6D3971A65AFE0E90B654FF43B3E272CAEE6F63D59",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\089-image24.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Math-5.docx\\image24.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 90,
+    "hash": "5535EAE616FECFB3310205AFE2B0ADF8415225F1752D20A7906FBA947321E881",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\090-image11.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-Multiplying-AI-Segments.docx\\image11.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 91,
+    "hash": "55810BC9D6FEC822E48B4E9211A6F466B9A39F1C31254450C9B58B7BD67C2CA9",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\091-image30.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\2D-symmetry.docx\\image30.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 92,
+    "hash": "55AEE7B0406E5E3EDE09302AEB06B3D5D110937FBED63B9A1D1E12437B37CA36",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\092-image2.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-Segment-Math-and-Symmetry.docx\\image2.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 93,
+    "hash": "55D00A1ADE587DF95F5EEA3F002831DD7CB2FBAD593D38F2C959E7F7EA7218B8",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\093-image6.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-Thinking-in-Directed-Segments.docx\\image6.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 94,
+    "hash": "56BC9D91613AA8ACC7B504159213ED4D06230FA4D247649E61CA4E475D199330",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\094-image6.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Math-bool-to-multiplication.docx\\image6.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 95,
+    "hash": "572F4F924FA71CBEDD9C098322CFAA1AAA2976DE9ED420EB5C112144B3082A52",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\095-image5.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-Segment-Math-and-Symmetry.docx\\image5.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 96,
+    "hash": "5962F1EFF98A5A5B64626DF87E50C6229FBEABC9E9C0AFBDABE6C335C3EA8766",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\096-image2.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\twitter-Property-keys.docx\\image2.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 97,
+    "hash": "59AD45239CD5425A8B8178831FF397EA63E10FCB264634370D61A399BF2BCBFE",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\097-image18.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Math-5.docx\\image18.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 98,
+    "hash": "5B0936F499AE68F26F0E874A80025AF716D1D1E0056B40A2047DB6E569529601",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\098-image3.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Math-5.docx\\image3.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 99,
+    "hash": "5B957F955918C9ECA86549EF3E53FA326EA3BE1C242766A0C29A0B0D2CA93711",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\099-image14.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-Pin-Accumulate-and-Merge.docx\\image14.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 100,
+    "hash": "5C5C6818A2F727742511BF76E237AE62372894AB0B6FCBBA16184495D00FAFA3",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\100-image10.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\2D-symmetry.docx\\image10.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 101,
+    "hash": "5E20CD4DEF9E6D45CE1ABE7438D01001035D34DE004BA958E7D7E77EA2B647EC",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\101-image23.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\2D-symmetry.docx\\image23.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 102,
+    "hash": "5E707140B139BDE1E1E9B3F8274280144E72F3249FF975BBEA4C5DDFF26721C9",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\102-image17.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Math-5.docx\\image17.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 103,
+    "hash": "5F352BE57EFF8456972E3647307B3537959429757D006D12D843F254AD075180",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\103-image8.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-Segment-Math-and-Symmetry.docx\\image8.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 104,
+    "hash": "5FD6845B39BFA736431408C7A729A7645A543E7B5274EBEB1C888C58CB6E091A",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\104-image6.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-Multiplying-AI-Segments.docx\\image6.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 105,
+    "hash": "60059D1E0C3D3CCA7441B61BB4D28700C1263025093DC48F39E8B6691710273F",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\105-image7.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Math-bool-to-multiplication.docx\\image7.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 106,
+    "hash": "602B9FCF2A580F33B828199F446BBCB079470C9647860484A03D53CBB529CC76",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\106-image13.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-Pin-Accumulate-and-Merge.docx\\image13.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 107,
+    "hash": "60A5922B957D18FDEC5617C4FD2AEA42E8005A9225B418EEE2AD80ABD8CB9ECB",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\107-image1.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-Emergent-Properties.docx\\image1.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 108,
+    "hash": "61F6A55732794498C157B84CA5CBCE1044AE6B70B0723837CF28F3E239CCAFA0",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\108-image5.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-Emergent-Properties.docx\\image5.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 109,
+    "hash": "63A7E331517EDFB1AB445E2650BB78D627F801B4D1196504DC0A60E2571EDFF4",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\109-image10.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-Multiplying-AI-Segments.docx\\image10.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 110,
+    "hash": "65E120C1E5544027FEC1E76ACB66A9102894681F4F4AA648447889C80EBFB820",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\110-image-10-1.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\presentations-scrap-ComplexitySpaces_v2.pptx\\image-10-1.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 111,
+    "hash": "66C4BF18661D84EAB7EF61E17BEC76243416FE32E0211273FD307A88274D5D10",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\111-image10.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-Pin-Accumulate-and-Merge.docx\\image10.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 112,
+    "hash": "68C83C3746778948D6559F65E3742AB59DA58B362482D10DB1EEFE6991BDF499",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\112-image8.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-Multiplying-AI-Segments.docx\\image8.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 113,
+    "hash": "69052B8542C97A496BF41A129107694E673CE4EE25B294327F3DDCC6043C31DB",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\113-image12.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\2D-symmetry.docx\\image12.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 114,
+    "hash": "6AE96EA4D468EA9633E72F2957257F34CAA3D7E7456483F1A31BA8B84B9BD603",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\114-image3.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Math-bool-to-multiplication.docx\\image3.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 115,
+    "hash": "6C790A24BC585CEBC37A518C9DD652A6DF3949D34E4484BB011E805BBBE835CE",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\115-image10.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\presentations-ComplexitySpaces.pptx\\image10.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 116,
+    "hash": "6C8BE172DD546D8A9CDF7AD88996FC26F19886AE17F292AF78F5B5ABAD2CADED",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\116-image21.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-Segment-Math-and-Symmetry.docx\\image21.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 117,
+    "hash": "6D359C18A5A195C78B11F560FDC6282D9EB24AFBC763EFBCDA72C49C3F18C6B8",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\117-image30.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Math-5.docx\\image30.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 118,
+    "hash": "6D697D151225BC2B402860534AAA812C699900F6C24AC801E38562BDA8D6D82B",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\118-image1.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-Pin-Accumulate-and-Merge.docx\\image1.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 119,
+    "hash": "6DC1337E3A0591B096DBA02CDBD9E448E89D910CC9F6EEE312CE84A103D19E32",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\119-image-5-1.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\presentations-scrap-ComplexitySpaces_v2.pptx\\image-5-1.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 120,
+    "hash": "6E5C94042B1ED8C8A90B5E23D3661A75FDB10475698E5A0EACD85094E9578C41",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\120-image19.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\twitter-Property-keys.docx\\image19.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 121,
+    "hash": "6F3E37DEBB5F77840E5730F900576B1C06216EC7017A0A8FB644DBA0A7DA2412",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\121-image26.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Math-5.docx\\image26.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 122,
+    "hash": "7083F77AA77DD8F688808766D5366A163D2D0DE2C98BF53AE90C5C31C623CDA0",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\122-image7.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-Pin-Accumulate-and-Merge.docx\\image7.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 123,
+    "hash": "70A6EF22DA92A95C5BD9E84E07338FA93D0F34B82370E38F5DB5E789E405AB51",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\123-image14.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-Segment-Math-and-Symmetry.docx\\image14.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 124,
+    "hash": "7196EA74F8684E85B3A1858AE2978A8973BE1D2C40F98A7092F0E5C6D551414F",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\124-image6.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Math-5.docx\\image6.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 125,
+    "hash": "74503844145578DD08C8AEBA4E687683AA0E332624AB85F0A76459723D9327DA",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\125-image2.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-Multiplying-AI-Segments.docx\\image2.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 126,
+    "hash": "754DD9060E51B1214EC62554EB4E3DACAF2E48F11A54D81C826921E74C902DEC",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\126-image3.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-Emergent-Properties.docx\\image3.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 127,
+    "hash": "7788105C47B62EE224C3BD24033260E6B3BDE3BA7BA38176F72A0E8A012DDBFB",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\127-image17.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-Segment-Math-and-Symmetry.docx\\image17.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 128,
+    "hash": "77F9202C1CF7D59A2BD2C8CC62081CA36BE41700450F5E278854F4E463F7A5B3",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\128-image4.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-Boolean-Arithmetic-with-Segments.docx\\image4.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 129,
+    "hash": "77FFDD4306D74EDB863FC1B32596B0AED71F2125AD91144F77E58D60FD8B46C3",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\129-image15.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-Multiplying-AI-Segments.docx\\image15.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 130,
+    "hash": "78347FCD125F6F57BC32F29A2EC1947D84ECFAB207EA34937422E93521599F16",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\130-image15.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-Pin-Accumulate-and-Merge.docx\\image15.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 131,
+    "hash": "7C515DD4253B65E36DC02BD32950331A129AA438C0271A09A1D645394A6A48B2",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\131-image22.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\presentations-ComplexitySpaces.pptx\\image22.png",
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\presentations-scrap-slide9.pptx\\image1.png"
+    ],
+    "copies": 2
+  },
+  {
+    "id": 132,
+    "hash": "7C7AD6E5343032A937BB31518D9C6C04B4F758A79851C84D890C3F2642A22351",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\132-image23.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\twitter-Property-keys.docx\\image23.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 133,
+    "hash": "7D51FDE3102969DE1B924B0F579DA9CCCCEB430C4AF62A89EC37E6E69A24C9F8",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\133-image-12-1.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\presentations-scrap-ComplexitySpaces_v2.pptx\\image-12-1.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 134,
+    "hash": "7F2B9D21D7666E7B2F8BC2C1A035902EE8061A5B40B9147148F5A7E87D23C2F2",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\134-image3.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-The-Mathematical-Interpretation-of-Symmetric-Numbers.docx\\image3.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 135,
+    "hash": "7FD49C7EAC4A93D051AF2F3461DF25DD5D55AB43FEDF8EB8BCF959699BDA358B",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\135-image15.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\twitter-Tweet-threads.docx\\image15.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 136,
+    "hash": "82319C8FF3F7A1B2AEA4C1A8A10A6DD7E0DD006AE291BFB01938B99CBE06838D",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\136-image5.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-The-Mathematical-Interpretation-of-Symmetric-Numbers.docx\\image5.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 137,
+    "hash": "824166DF642AD2880CDF57ABAD69FB1E13BE1D53A13C0AECA65C739316716529",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\137-image3.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-Mathematics-Without-Infinity.docx\\image3.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 138,
+    "hash": "82F4104F5553B874C77469F8AD1629A95D233DCBF99116672906398210521CB2",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\138-image19.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\2D-symmetry.docx\\image19.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 139,
+    "hash": "8402080B6A707875D5D0EE65389CA118D3995B86E45002008AA4D04B5852919A",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\139-image5.jpg",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\twitter-Tweet-threads.docx\\image5.jpg"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 140,
+    "hash": "85794150E0AB73FB28607B56CF64260E4A746F995F16E4AB01335C0639AF794C",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\140-image11.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\twitter-Property-keys.docx\\image11.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 141,
+    "hash": "865DF449AC01F22A7E6E1B9AA2EBBA559E36D484B941926101D7CE59854F549D",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\141-image14.jpg",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\twitter-Tweet-threads.docx\\image14.jpg"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 142,
+    "hash": "87E633EA7EB5ACD78EE4D6404374E9DD29317AB9E7D8891196A7009B2B9AC42E",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\142-image9.jpg",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\twitter-Tweet-threads.docx\\image9.jpg"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 143,
+    "hash": "8881255CE9E55F48C8DC384E0B3F99964E4C96B9A9702DB231B89B6414C14423",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\143-image7.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-Multiplying-AI-Segments.docx\\image7.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 144,
+    "hash": "8A3A612AA8C08BAF5559157DF485385D6A36654956EC08A144290E046D6B233E",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\144-image33.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\2D-symmetry.docx\\image33.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 145,
+    "hash": "8B276B24054EAE0658394DBF4E308DEDDB719984FE703BD5AB4635F7C84D564E",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\145-image16.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\2D-symmetry.docx\\image16.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 146,
+    "hash": "8C6184EAB5B20F90AB7AAB3CEFBE29C5E514E494A5ECC1EBC1674EA3E6E87941",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\146-image5.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\2D-symmetry.docx\\image5.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 147,
+    "hash": "8D734C27752AB28BDC80F7F4B26933D4C486931561C4042B6F76CF3EBE1307AC",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\147-image28.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Math-5.docx\\image28.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 148,
+    "hash": "8DABB21DA96FC7158B511F53FAF7DEC84B6562D3010DCDAA58DCCE9ACB0B2858",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\148-image15.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\2D-symmetry.docx\\image15.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 149,
+    "hash": "8E2A22F2DEC06DDE08B519DABB07D7D2EEBBF758F7D8B22ADCC4F878F094DD11",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\149-image7.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-The-Mathematical-Interpretation-of-Symmetric-Numbers.docx\\image7.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 150,
+    "hash": "8E6497BDC433C365645CCE79362A683E41DD78AD5ADC459C464B7EF3C348E52B",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\150-image7.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-Thinking-in-Directed-Segments.docx\\image7.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 151,
+    "hash": "8ECA90D1BB3270161ACC7D642BD0DB33C15F7272E8D51E71FBF87725CE31BFC6",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\151-image6.jpg",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\twitter-Tweet-threads.docx\\image6.jpg"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 152,
+    "hash": "8EF5A04434FDFE6115DEAA157A3B98711027A1642809BDBD545032ED235263E8",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\152-image1.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\2D-symmetry.docx\\image1.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 153,
+    "hash": "91C948E8AA440C905F186E2A65CEFDFF51CAADBA2BC9739AF29BC7F9F6A56262",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\153-image13.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\twitter-Tweet-threads.docx\\image13.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 154,
+    "hash": "924740B30F6EA340855B570F875D821610F03E1661810B362BC7B7A2AB1E21C5",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\154-image19.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Math-5.docx\\image19.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 155,
+    "hash": "940325C07FDD4D63075E3FEE3E794BB20D02CDB8EC5A2697240B5E047B2B2335",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\155-image9.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\twitter-Property-keys.docx\\image9.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 156,
+    "hash": "9408A0F074152DE8FFB65B319C58F72B7698D1413701EA3265F76CAAE3C4AD35",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\156-image27.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\2D-symmetry.docx\\image27.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 157,
+    "hash": "94575908F2087909518B77F66E3C84B6BA333EE54347B809DB455E2B634E94D0",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\157-image6.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\2D-symmetry.docx\\image6.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 158,
+    "hash": "972FEE40021FB5F88F8D745A33103983CF9AFF85F7CC08DF138DDA57F72F6D91",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\158-image12.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-Multiplying-AI-Segments.docx\\image12.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 159,
+    "hash": "98C0E1EA1EE3774D4CD4BF5B54A8C2835FD8F7A203D2CF10B86FE4C70BB384FC",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\159-image9.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\presentations-ComplexitySpaces.pptx\\image9.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 160,
+    "hash": "9A8D36A3148537B87CA966F2504F9584FD30861451F66CB7D21D0E838EAC7D8C",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\160-image4.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Math-5.docx\\image4.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 161,
+    "hash": "9BC5BCD7E9980D275A92E730955D24ACC01F7E725ED06D595787A0F5254F2224",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\161-image16.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-Pin-Accumulate-and-Merge.docx\\image16.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 162,
+    "hash": "9C8822C1240FAF3F60E3571FC1563DB6A1EB8B2831ED3B578A1D5F9D648F7BAA",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\162-image11.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\presentations-ComplexitySpaces.pptx\\image11.png",
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\presentations-scrap-slide0.pptx\\image1.png"
+    ],
+    "copies": 2
+  },
+  {
+    "id": 163,
+    "hash": "9DA9FB07420EA031B47AC1192647BDD5985F6EBB37F44A2E9EDA0407948D393D",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\163-image1.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-Segment-Math-and-Symmetry.docx\\image1.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 164,
+    "hash": "9EEBC3D372DD95C0C5A5A49469654A3F115BC1657CFE33D3948D6FC5A8FB0940",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\164-image18.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\2D-symmetry.docx\\image18.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 165,
+    "hash": "9EF79308C52DB16CD2089D47EC7C127B2064EC77A5890806DC649F0F5E795881",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\165-image4.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\2D-symmetry.docx\\image4.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 166,
+    "hash": "A0CCB3F801CE94A15F21E78AAB6DE6056B442270CCA813115BCA7B486186B064",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\166-image2.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-Emergent-Properties.docx\\image2.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 167,
+    "hash": "A276F006EBE63A53E493BA93BF897D50D739346D0E84A187921C3B1782ED93AE",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\167-image7.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\presentations-ComplexitySpaces.pptx\\image7.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 168,
+    "hash": "A2ED5E75F6A96783E862F20C9E0E05B5BC4DF7CCFA1BFF4FAAF084B30838937B",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\168-image2.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-Thinking-in-Directed-Segments.docx\\image2.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 169,
+    "hash": "A30D843A612BADD8520F60919157362C2904D8D8B6796147798515F6331B8E22",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\169-image4.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\presentations-ComplexitySpaces.pptx\\image4.png",
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\presentations-scrap-slide2.pptx\\image1.png"
+    ],
+    "copies": 2
+  },
+  {
+    "id": 170,
+    "hash": "A3800FA41E693DD06A0144E04F1F4201AD59E6339FF69D98AFAD0B9750BBB16B",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\170-image8.jpg",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\twitter-Tweet-threads.docx\\image8.jpg"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 171,
+    "hash": "A459D9B8E2B6BD992D18911ADAA1535BF18DBA1181F7B031CBD32CDCBBB2CE8C",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\171-image5.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\presentations-ComplexitySpaces.pptx\\image5.png",
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\presentations-scrap-slide7b2.pptx\\image1.png"
+    ],
+    "copies": 2
+  },
+  {
+    "id": 172,
+    "hash": "A71CAFBD4BD7EA34583F7EE86EEF7255331E761D6B1F18996F2113EEE906AF56",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\172-image5.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Math-5.docx\\image5.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 173,
+    "hash": "A877AF27D7CB51C229B041DB5B095E3ECE6200DC587A573E6CC59C41DEF5F9BA",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\173-image14.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\twitter-Property-keys.docx\\image14.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 174,
+    "hash": "A89D8F68CDFBDDD2AC97CA2932D953A24AE4A6985032DACAE65E3DCB619EEA88",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\174-image6.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-Pin-Accumulate-and-Merge.docx\\image6.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 175,
+    "hash": "A9302A662B4842753918E4660EA64AFA72772C4EFAE145190FA348F81F08A843",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\175-image14.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\presentations-ComplexitySpaces.pptx\\image14.png",
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\presentations-scrap-slide5a.pptx\\image1.png"
+    ],
+    "copies": 2
+  },
+  {
+    "id": 176,
+    "hash": "A931B8CCC8931C8C07963EE3134AE42598A97C58632EDA92FA7A68F151E1FFF5",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\176-image11.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\2D-symmetry.docx\\image11.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 177,
+    "hash": "A94F86CC511DF9383A4C6AABE40A7DF949EB2B71EA521FF7A1991EB791ED41E7",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\177-image5.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-Multiplying-AI-Segments.docx\\image5.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 178,
+    "hash": "AA3F33255DBFA40368E358F5984ED9FB6B439C0D6CB1545906C1C86B4728F81F",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\178-image2.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-Pin-Accumulate-and-Merge.docx\\image2.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 179,
+    "hash": "AA62AC6FF46ACBD6A513DD408435EA56E0C5BBE5A79F49B7F592F1DD2823A574",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\179-image1.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-Numbers.docx\\image1.png",
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Numbers.odt\\1000000000000232000002501A2697AEF200170F.png"
+    ],
+    "copies": 2
+  },
+  {
+    "id": 180,
+    "hash": "ABD4421D8C0E31322B799756E01F2740E09E570C89B1AD1CA754D3CC3E79679D",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\180-image12.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Math-5.docx\\image12.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 181,
+    "hash": "AC8735CF391C0EA4540F975416A6BA345E5CD50A96E02024C2C2DBC0EC867AF4",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\181-image1.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-Mathematics-Without-Infinity.docx\\image1.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 182,
+    "hash": "AD0A3F49B9FD35D6FCA7B84FEC027EDED2167D62CD7D196A7EE73D0F6DEC1053",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\182-image23.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Math-5.docx\\image23.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 183,
+    "hash": "AD6BB35CBC6255A8D35E3EF4BD069215489AD29BD5EB1D52426DAE2AC179B286",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\183-image6.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-The-Mathematical-Interpretation-of-Symmetric-Numbers.docx\\image6.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 184,
+    "hash": "AF7B0B16A984451A0BDC75E498CAC94E979884061B8357216C381E875574A8FF",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\184-image18.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\twitter-Tweet-threads.docx\\image18.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 185,
+    "hash": "AFCFDB118EAAF01D9A9E1009D6B3C32E9C21F9DA855A83BCD4A0A1AA98ED5248",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\185-image1.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\presentations-scrap-slide5b.pptx\\image1.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 186,
+    "hash": "B02B77C00C04398AABAF389A315C62D5A5FCC5386591F4BCA283FDB6FF5FB6C2",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\186-image16.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-Segment-Math-and-Symmetry.docx\\image16.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 187,
+    "hash": "B23726355954463AE09DF713E5598EB5A2182A8A0037EC84270F586E9E2066C2",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\187-image19.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\presentations-ComplexitySpaces.pptx\\image19.png",
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\presentations-scrap-slide5e.pptx\\image2.png"
+    ],
+    "copies": 2
+  },
+  {
+    "id": 188,
+    "hash": "B3A4553508987852F935D62194AFE51F5EB2FFB1647CE975584D4A28669B85B0",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\188-image-9-1.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\presentations-scrap-ComplexitySpaces_v2.pptx\\image-9-1.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 189,
+    "hash": "B419582827D34711FB55B2C955D2B72B2DC874C12186F1D2963D96BFBA84BD92",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\189-image28.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\2D-symmetry.docx\\image28.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 190,
+    "hash": "B4646FD310417E1E8A5E6CD77F5E49F60EB099AA3483CF638A7103A93F02332A",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\190-image2.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-Boolean-Arithmetic-with-Segments.docx\\image2.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 191,
+    "hash": "B49B901EA911AE09F1CB029DF9DD16F14CF540DB5B5E908C8B158EE6DBEBA9D3",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\191-image2.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-Numbers.docx\\image2.png",
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Numbers.odt\\10000000000002E80000038475753311AAEB00D7.png"
+    ],
+    "copies": 2
+  },
+  {
+    "id": 192,
+    "hash": "B4B4225F4B420B8E78B3416D2993CDA37DC8D969A9C768D41333F8C7E9774CAF",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\192-image4.jpg",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\twitter-Tweet-threads.docx\\image4.jpg"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 193,
+    "hash": "B56892F828C9DB346F24F2FF5754D2331B62C0A832805BE9EB8A50FDCF62C7F1",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\193-image18.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\presentations-ComplexitySpaces.pptx\\image18.png",
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\presentations-scrap-slide5e.pptx\\image1.png"
+    ],
+    "copies": 2
+  },
+  {
+    "id": 194,
+    "hash": "B5FEBE3DB9EF3A46D3E268F72D6F1D52742D8FAC3F0DC3E6B907F01111F87AEA",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\194-image14.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Math-5.docx\\image14.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 195,
+    "hash": "B64BB77CE3300D35D23AB277F2CAD0BB6E6D2E963ACC4E8C7636283E66DA1114",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\195-image12.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-Pin-Accumulate-and-Merge.docx\\image12.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 196,
+    "hash": "B7CB1461B704E580C86EAA79C8EA75EC7BD93F63ADF35DA4848BCC3B750AC222",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\196-image8.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-The-Mathematical-Interpretation-of-Symmetric-Numbers.docx\\image8.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 197,
+    "hash": "B7FF0283BA3C7EBD73FB07709DCE930982FADE1454E06AD59D8E848A8DBE9561",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\197-image10.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-Segment-Math-and-Symmetry.docx\\image10.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 198,
+    "hash": "B933017F65D1362E67AD2EA460E28714086F426EA0160D1F215A143FDB64BAAB",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\198-image15.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Math-5.docx\\image15.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 199,
+    "hash": "BAE2B00C5281335D69A326C02300A70DE8482607107128E8DD0572D16DCDEC28",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\199-image3.jpg",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\2D-symmetry.docx\\image3.jpg"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 200,
+    "hash": "BBC9DA397DD79E47CB42DD627D4C692299A728CBA7C69C6564BB3B6B9D754C5A",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\200-image2.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Math-bool-to-multiplication.docx\\image2.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 201,
+    "hash": "BD6F377767782CB8839663FCAA54C453658201DDC503EC13AF6F754CF819C496",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\201-image2.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\2D-symmetry.docx\\image2.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 202,
+    "hash": "BFA3CD446D75FD5798E60BDF55018A49E8D3A17136141872A642EA424BF0F632",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\202-image19.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-Segment-Math-and-Symmetry.docx\\image19.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 203,
+    "hash": "C01800B133749A82457703AE3784CCEC399070172AC11B59A81F2E4BF69FF187",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\203-image-7-1.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\presentations-scrap-ComplexitySpaces_v2.pptx\\image-7-1.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 204,
+    "hash": "C38CA7362AFB13B45CB4550C3CA48B924A852896170A381B81E7DE1C562BAE2F",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\204-image10.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\twitter-Property-keys.docx\\image10.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 205,
+    "hash": "C447B0B25951800F8ED0FC4CE36923EA293C62EE1F37600F7156E1BB3F65E0DF",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\205-image16.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\twitter-Tweet-threads.docx\\image16.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 206,
+    "hash": "C565799CD2C2F5B6D62F4B797C5F77F5369F98BB5B53A76829BC7867339F4CDA",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\206-image3.jpg",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\twitter-Tweet-threads.docx\\image3.jpg"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 207,
+    "hash": "C61E7B282D9E8D060EC1190D18ACB9E6B55BE4DFC8326FA3BFB665CE382E8B4E",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\207-image22.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\twitter-Property-keys.docx\\image22.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 208,
+    "hash": "C929846E206A380E0CB3F0A3363259863ADFE43B262D48F2D5507A206FE838B5",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\208-image20.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\presentations-ComplexitySpaces.pptx\\image20.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 209,
+    "hash": "CA5A2B2EF7881649A8963EA389C2DA08034D6979E73302C0E18466F19DDD4E02",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\209-image11.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Math-5.docx\\image11.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 210,
+    "hash": "CBAD5F05826D7CAFD3637D3C8DB343742F84EC8A8A6B2B377BA57044862BDDAB",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\210-image25.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\2D-symmetry.docx\\image25.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 211,
+    "hash": "CE1DB0728349DC02AD3C29972B1B93CD8E38B773E7BE91710D484FCCF27424D0",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\211-image20.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\twitter-Property-keys.docx\\image20.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 212,
+    "hash": "CED1955F6E1F8CFE8A9284B89E5D14E53FD7F2A17A6CD63CF9D6C763330CC925",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\212-image18.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\twitter-Property-keys.docx\\image18.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 213,
+    "hash": "D09D883A51A34A001A863173D35C6FF4F3400C0E7783D590AF23C721639017EA",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\213-image2.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-Sequential-Math-Parallel-Math.docx\\image2.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 214,
+    "hash": "D172F49B5BC17423E71045643258B22F035BA672491122E0B8ED034D696276B0",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\214-image4.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\twitter-Property-keys.docx\\image4.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 215,
+    "hash": "D20A3D8D0C2C6AE0A4C19F68FA96577031EB1E495DE200FD4764015953CE53A3",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\215-image4.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-Thinking-in-Directed-Segments.docx\\image4.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 216,
+    "hash": "D2278E0A8548E413F134F719B02854F53F6957E5C85A5CF927B8D9D955E30F4F",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\216-image4.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-Multiplying-AI-Segments.docx\\image4.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 217,
+    "hash": "D22A6048FA3C48D3C49516AFDB99FA1C1242A2186EF36D4CAF95577B398D2087",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\217-image22.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Math-5.docx\\image22.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 218,
+    "hash": "D2AF09F159D4E1BD7D3E3CC15DF91D0434BD4D734491EB6E49401C040BDF42FB",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\218-image9.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-Pin-Accumulate-and-Merge.docx\\image9.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 219,
+    "hash": "D2F90E90A357CE0E4E9736530B76BA176CCE5EB5BD8A7DEE084C4D73AAC31C16",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\219-image22.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\2D-symmetry.docx\\image22.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 220,
+    "hash": "D387DA9A8F4212443CC3B717F2463ED16977AE302F65C22EDF979E92E1727F48",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\220-image9.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Math-5.docx\\image9.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 221,
+    "hash": "D47AB5563C31953F12BA16AC436260C5E060DBD84F19D8B11492E3FAF2570E24",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\221-image17.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\twitter-Tweet-threads.docx\\image17.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 222,
+    "hash": "D4992054F065230316CAA918ED77CB212494FF259328AAA4B47A005BAF96B891",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\222-image29.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Math-5.docx\\image29.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 223,
+    "hash": "D62EC8F60BD4805E350347348FA493BAEF8108431614750A0FF28E22F96570A5",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\223-image26.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\2D-symmetry.docx\\image26.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 224,
+    "hash": "D7C14048CCD7F6309260A075055E73F486174FCB9AE99EA8DBB76770CA1C2DD3",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\224-image15.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-Segment-Math-and-Symmetry.docx\\image15.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 225,
+    "hash": "D93FC751F7F0A610BBA3AC4E7A1940182EBD14118057D0EFB3A6E81707E6E7F0",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\225-image7.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\twitter-Property-keys.docx\\image7.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 226,
+    "hash": "D9914685A9C710997C69EF32D396674050EA05AF73D017FC92F0BEC75C3703B1",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\226-image16.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\presentations-ComplexitySpaces.pptx\\image16.png",
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\presentations-scrap-slide4.pptx\\image2.png"
+    ],
+    "copies": 2
+  },
+  {
+    "id": 227,
+    "hash": "DE30FBDEDEA9F21B930DBB28FB359584F22DA488A052B5F87F89EB6709D2669D",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\227-image18.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-Segment-Math-and-Symmetry.docx\\image18.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 228,
+    "hash": "E0A913B826F627BEE92BF71F5FC925D21FEB3F95B260489D8586154DBD5E112D",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\228-image29.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\2D-symmetry.docx\\image29.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 229,
+    "hash": "E2DB751B303560D415D5A00699A0AA6CA1FC7F28B60EE2EAB00F18413332A10F",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\229-image8.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-Thinking-in-Directed-Segments.docx\\image8.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 230,
+    "hash": "E4A7468AD564F192D9384B81E99EFC4C46831F1A2317705F5A0A6356ACCCDB49",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\230-image17.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\presentations-ComplexitySpaces.pptx\\image17.png",
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\presentations-scrap-slide8.pptx\\image1.png"
+    ],
+    "copies": 2
+  },
+  {
+    "id": 231,
+    "hash": "E534BAB06C5E8E3ED422A370599694AAC147D06FAF37F328826A6CAE469D1FDB",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\231-image4.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Math-bool-to-multiplication.docx\\image4.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 232,
+    "hash": "E7DA2D97DFA38F501A4DB1031BE1A5F4F95CE22FD856945097711EE9931D5A75",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\232-image15.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\twitter-Property-keys.docx\\image15.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 233,
+    "hash": "E99C35F07729E9DCE85C11884CE4D4E185060DAB61CBAFDCB94579327AFADBDD",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\233-image14.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-Multiplying-AI-Segments.docx\\image14.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 234,
+    "hash": "EDAEF2B28D6D6DBB9A1D09D51AAC0514C67B02AB7602F230433536D7B635664E",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\234-image17.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-Pin-Accumulate-and-Merge.docx\\image17.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 235,
+    "hash": "EF6F8B26111592C3655A0B8D2C4BC88E88527C7A9A4372364A7B4ABF028BC536",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\235-image10.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\twitter-Tweet-threads.docx\\image10.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 236,
+    "hash": "F0536C810C34DB262ABBD854B96EE87FA6FD02BDC624C825DBD7280A63DD2ACD",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\236-image16.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Math-5.docx\\image16.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 237,
+    "hash": "F0AE8B1C760FC0B2193DEE8AFE88EB11C89F96702C3F36C3A87317AFA39B413F",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\237-image20.jpg",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\twitter-Tweet-threads.docx\\image20.jpg"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 238,
+    "hash": "F3079DF3E83810EB194E27837FD567248291C02F2580651BF51866F0DFBB346D",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\238-image9.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-The-Mathematical-Interpretation-of-Symmetric-Numbers.docx\\image9.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 239,
+    "hash": "F47C9CB88C4DDFA04CD5BAC5B5591AF0E4AA1CAF20E44D000F84154878A450BA",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\239-image13.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\twitter-Property-keys.docx\\image13.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 240,
+    "hash": "F90467E82611479C902B2568FD48241E9BB402BA26A6579C997DD69B6A91C13D",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\240-image24.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\2D-symmetry.docx\\image24.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 241,
+    "hash": "F9F4BEC927DC0A0541236D302EEB52301B7D24AE8DE890C9E0D06E5B3FCB5F44",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\241-image31.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Math-5.docx\\image31.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 242,
+    "hash": "FA10C345AFC9F50E1904D113929E179151093BFFA29701922E231E785AE28BF0",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\242-image-14-1.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\presentations-scrap-ComplexitySpaces_v2.pptx\\image-14-1.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 243,
+    "hash": "FA62885C3382D16C7D31DCE2DFBFC2CBE69B642250D6515EE02E98DD2C89BF91",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\243-image32.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\2D-symmetry.docx\\image32.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 244,
+    "hash": "FBF57CC1674A2EC2804BD07FD0F9FE3BD8851F78369762522C57BC3D1A493393",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\244-image3.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-Thinking-in-Directed-Segments.docx\\image3.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 245,
+    "hash": "FC6B57C9C87492D40A5FE2A2A7C03924DD4CD8293205395ED9F64799E6EF001C",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\245-image35.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\2D-symmetry.docx\\image35.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 246,
+    "hash": "FC815AC712D7219D8D973B6F204F8A7489E138670AE4A18D18C63321D1BE59C7",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\246-image1.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Articles-Sequential-Math-Parallel-Math.docx\\image1.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 247,
+    "hash": "FEBF1533CCA1F063B96A95189D6A2ACEDF57916EB407E54800035EFEB76CD943",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\247-image31.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\2D-symmetry.docx\\image31.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 248,
+    "hash": "FFE1CD4907AD4F8666F7CB0C00E5B4584F89FDF9E999744228FC2C51864EBE17",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\248-image12.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\twitter-Property-keys.docx\\image12.png"
+    ],
+    "copies": 1
+  },
+  {
+    "id": 249,
+    "hash": "FFEDD48B6614145B2D5E129B13A802C5D65B5BA0198B2A48D86BA6017E0B9981",
+    "representative": "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\unique_media\\249-image20.png",
+    "sources": [
+      "C:\\Users\\Robin\\source\\repos\\Gojo\\.codex-tmp\\gojo-slides-20260901\\extracted_media\\Math-5.docx\\image20.png"
+    ],
+    "copies": 1
+  }
+]

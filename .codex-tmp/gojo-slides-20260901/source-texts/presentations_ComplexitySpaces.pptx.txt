@@ -1,0 +1,313 @@
+[Slide ]
+Complexity Spaces: A New
+Math for AI
+We've always understood the world through
+order
+. AI forces us to make the implicit explicit, demanding a rigorous foundation for what it means to measure, compare, and know.
+Tradition isn't enough.
+Our most basic assumptions – what a number is, what addition means, how comparison works –
+are  matters of tradition
+. Machines
+require
+a more precise framework than this
+.
+Intelligence is distributed.
+Complexity Spaces represent
+concepts
+as webs of related perspectives, each
+with
+micro-intelligence and agency
+.
+These form networks where understanding
+is dynamically negotiated,
+rather than
+calculated globally
+.
+[Slide ]
+Comprehension Begins at Two
+Quantity doesn't exist in isolation
+–
+it emerges from difference. Without something to compare against, there is no measurement, no perception, and no meaning. Change is the seed of all understanding.
+Zero to one is existence; one to two is comprehension
+A single thing in a void cannot be measured, perceived, or even conceived
+. Q
+uantity only becomes possible the moment there is something different to compare it to.
+Comparison is the primitive operation
+Whether across time, space, scale, or pure abstraction, all quantities
+,
+even the most esoteric mathematics
+,
+are born from noticing that two things are not the same.
+[Slide ]
+Reality Gets a Vote: Rules Are Non-Negotiable
+Quantities can represent anything
+–
+real, abstract, or imagined
+–
+but they are never lawless.
+The universe is interpretable precisely because the rules governing quantities are universal, consistent, and indifferent to context.
+Rules are substrate-independent
+2+2=4 whether you're counting unicorns or measuring temperature - commutativity, ordering, and operational logic hold everywhere they apply, not by convention but by necessity.
+Rigor is the foundation
+For a framework of quantities to be
+universal
+, its rules must be exhaustively defined and their implications fully explored
+. C
+lean for plain numbers, and equally clean for populations, oscillations,
+or
+rotations.
+[Slide ]
+Unknown vs. Infinity
+How we define the limits of numbers isn't a technicality
+–
+it's a philosophical choice with deep consequences. Treating limits as un
+examined
+rather than infinite produces a more honest, more powerful system for representing how quantities actually behave.
+Two valid systems, one denies imperf
+ection,
+one
+quantifies it
+Infinite-precision real numbers are a useful abstraction, but they hide the truth that
+real
+quantities have limits,
+that they
+are partly known and partly
+not known
+.
+Unexplored is not an edge case,
+it's a first-class element.
+Unknown is a primitive, not a gap
+Whether something is unknowable, unexamined, random, or simply out of range, the framework must treat unknown values as legitimate residents of the number system
+in order to understand them
+.
+[Slide ]
+Bounds and Resolution:
+Without infinity as a crutch, every measure must declare its range and resolution explicitly. Far from being a limitation, this reveals a richer structure
+–
+one where what you can't express is just as meaningful as what you can.
+Resolution encodes reality
+We can encode resolution with fractions.
+1/2 and 1000/2000
+may be
+the same value
+when reduced
+, but they
+initially
+carry different information
+. T
+he denominator signals how carefully something was measured, and operations must respect that difference.
+Bounds aren't metadata, they're meaning
+A dog can't weigh five hundred tons. The approximate weight boundary is part of what the word
+‘
+dog
+’
+means. Precision and bounds belong in the measure itself, it should not be something just written in the margins.
+Precision as a First-Class Element
+[Slide ]
+Degrees of Freedom
+in
+Complexity Spaces
+Every measurable or transformable value is calibrated against a "complexity space." By analyzing the degrees of freedom of simple objects within various spaces, we can understand the fundamental limits and rules governing those spaces.
+Universal Calibration
+From geometry to social interactions, all values exist within a framing space that defines how elements interact.
+The Geometry of Freedom
+A point's degrees of freedom depend on
+itself and
+its container:
+0 in a point, 1 on a line, 2 in an area, and 3 in a volume.
+[Slide ]
+Consider a line in each of these containers, rather than a point. A line has two degrees of freedom (each end can move), but the container can restrict that.
+Twice the
+Possibilities
+Containers
+and Contents
+A line
+will have more possible motion than a point, but if it is inside a point container it will be as restricted as a point. Both the container and the contents determine the baseline degrees of freedom of a system.
+[Slide ]
+A space dictates baseline possibilities, but applying explicit constraints reduces an object's degrees of freedom. Ultimately, the governing mathematics follows these imposed constraints rather than the inherent nature of the object itself.
+Baseline Possibilities
+Dimension Reduction
+A line inherently has varying degrees of freedom depending on its container, ranging from 0 inside a point up to 6 inside a 3D volume.
+The Power of Constraints
+Locking a line's length on a 1D axis reduces its degrees of freedom to 1, causing it to behave mathematically exactly like a single moving point.
+[Slide ]
+Number Spaces and Segment Math
+Standard numbering rules—like addition, multiplication, and closure—aren't inherent “laws of lengths,” but simply the behavior of any system constrained by a zero pivot.
+Summary: Standard arithmetic emerges from constraining a length to a zero anchor. Removing that anchor constraint, while maintaining unit measurements, naturally generates complex number mathematics based on line segments rather than rotations.
+Allowing a segment's start and end points to vary independently produces the exact same math as traditional complex numbers, proving that identical constraints yield identical math across domains.
+Zero-Anchored Systems
+Complex Numbers from
+Free
+Segments
+[Slide ]
+Dimensionality Reduction
+Area feels 2D but is actually a single value (1D) — multiplying X and Y merges them, collapsing dimensionality. This isn't a bug; it's what makes complex systems computable.
+Simplifying Complexity
+Apples are overwhelmingly complex, but we reduce them to one dimension (weight) for addition.
+Other attributes — aroma, blemishes — matter to parallel perspectives.
+Computable Heuristics
+Our minds decompose reality into separate computable heuristics, hallucinating the truth.
+[Slide ]
+Concept Negotiation
+In a system where error is detectable, it becomes a form of pressure. Local geometric components can "negotiate" towards valid configurations by reacting to and creating tensions in the system.
+Error Pressure
+Shared Substrate
+Spaces "know" the local forces needed to move toward validity.
+Negotiation happens through environmental tension between complexity spaces, not explicit communication.
+[Slide ]
+Recognizing Perspectives
+Separating the signals from the noise.
+Coexisting Perspectives
+Multiple perspectives can coexist on the same elements simultaneously — a square sliding across a plane (2 DOF for position) while another view sees only an edge growing and shrinking (1 DOF for size).
+Identifying Signals
+The world is full of competing and cooperating actions that negotiate outcomes. The skill is identifying which perspectives carry signal and knowing how to interpret them.
+[Slide ]
+The Taxonomy of a Guess
+Error is not a monolith. To build better complexity spaces, we must distinguish between a value that is simply inaccurate within a valid frame, and a value that exists in the wrong dimension entirely.
+• Measurement Error
+• Category Error
+A structural failure using the wrong frame of reference, resolution, or bounds (e.g., measuring in tons, milligrams, or guessing her weight in slot machine icons).
+A specific guess that is factually off the mark (e.g., guessing 150 pounds when the reality is 300).
+[Slide ]
+Biological Architecture
+This is how biology works: cells, organs, and systems each operate within their own complexity space, correcting locally, unaware of the larger picture — yet collectively producing coherent outcomes.
+It is a more powerful architecture than centralized error correction from final outputs. Each space gains agency, negotiates its own goals, and contributes to outcomes it isn't even equipped to perceive directly.
+Biological Intelligence
+Distributed Error Correction
+[Slide ]
+Error is Information
+Global vs. Distributed Learning
+Current ML absorbs all knowledge globally and corrects from the top down — remarkable that it works, unsurprising that it requires stadium-sized computers and months of grinding. Distributed, simpler intelligence has the potential to scale with far less compute.
+Detectable Error
+Traditional math has no concept of "wrong" — every point is valid, every segment is correct. Measurement error exists but is invisible to the system. If error becomes detectable within the system, every perspective gains the ability to sense and correct it locally.
+[Slide ]
+Local Error, Local Correction
+A segment on a number line creates a boundary — points outside it know which direction to move to fall inside. Add a second axis and the intersection tightens. Add perpendicular planes and projections may not intersect at all. Each added dimension increases constraint and error signal.
+Each complexity space can negotiate toward a preferred configuration using only local information. No perspective needs to understand any other — only the tensions they create. Negotiation happens through shared substrate, not explicit coordination.
+[Slide ]
+Communication Without Coordination
+Parallel perspectives communicate automatically through shared substrate — no message-passing or coordination layer required. A square
+can have one point
+"want" to move right while
+area and edges have other ideas.
+T
+hese local pressures act on each other because they share the same space.
+C
+ontradictions self-resolve
+when
+each perspective pushes its preference, reacts to outcomes
+. I
+ncorrect adjustments increase tensions that self-correct. Each system
+creates a complexity space.
+C
+ar suspensions and analog circuits share the same math: the force-voltage duality works because they are the same complexity space. Same elements, same transforms, same results. A discovery in one transfers directly to the other — not by analogy, but by identity.
+Tension is the Messenger
+Complexity Spaces are Transferable
+[Slide ]
+Level of Focu
+s
+Start at the resolution that matters and reduce everything else to the minimum needed. Complexity space reasoning means choosing which truth is load-bearing for the problem at hand.
+Reduce, Then Recombine
+If the problem is a bear, reduce it to what matters — size: very large; speed: very fast.
+Combine
+those w
+ith direction and distance
+to
+get a
+‘danger calculator’
+.
+The
+“AHHH”
+result
+of this converts all your leg
+directives
+to “RUN”
+. Other attributes are now ignored.
+Dimensionality Reduction Isn’t Loss
+Precision is not the point of perception — fitting each element to the right complexity level is. The bear’s fur density still exists in its own perspective; it just isn’t load-bearing
+here. Trust that
+different
+perspectives will have their say through other channels in the shared substrate, if they are
+important
+.
+Deciding What Matters
+[Notes ]
+Complexity Spaces
+Everything we understand in the universe is derived from understanding quantities. Not just by way of math and numbers either, our thoughts, our perceptions and all meaning comes from comparing and manipulating things we quantify.
+Surprisingly we don’t spend much time trying to understand how exactly this all works at a fundamental level. As in the ‘pre-elementary school’ level of understanding, “how can things be measured?”, “what is a number?”, “what is addition?”, “how can you compare things?”. This level of questions are answered with tradition, not inquiry. With the advent of AI, we face machines that have no tradition other than what we give them. It is becoming necessary to revisit our traditions, clarify them, and come up with a more complete framework for understanding quantities. This new framework quantifies concepts using webs of related perspectives, each with an inherent micro-intelligence. In this way, intelligence is distributed throughout the network in spaces of varying complexity.
+[Notes ]
+What is a Quantity
+All quantities derive from a measure of change. This may not seem intuitive because it is hard to isolate a single measure from its context. It’s like a deep sea fish has no idea of air, and therefore has no idea of water. Imagine living in a void - it isn’t black, it is the absence of the concept of light. You can’t be ‘here’ because there is no concept of ‘there’. There can’t be quantity, because there is no change.
+It's only once there is a second thing to compare to — something different from the first — that the concept of quantity begins to emerge. It was cold, now it's hot. This is bigger, that is smaller. Two samples may not be able to fully calibrate and manipulate quantities, but it is a giant phase change in perception. The change allows us to notice a difference, and therefore notice the concept at all. This change can be over perceptible things like time, place, or scale, but it can also be fully abstract or imagined things. The most abstract ideas in math may never touch the real world, but they are only able to exist as ideas by exploring unequal things.
+If existence is the transition from 0 to 1, comprehension begins at 2.
+[Notes ]
+Reality Gets a Vote
+While quantities can be extended to represent anything knowable, real or imagined, this doesn’t imply that they are free of worldly rules. In fact the reason the world is interpretable at all is that these rules are very strict, and apply universally and consistently. Values can be ordered by some rule, and the interpretation of that ordering is unambiguous. Smallest to largest does not permit 4,5,7,6 as a possible order. Operations have their own logic, and it is consistent wherever applied. 2+2=4 in arithmetic, in temperature, or in imaginary unicorns. Math can be pure or applied, but the rules are indifferent to the environment that spawns them. The commutativity of addition will hold whether you're adding temperatures or debts or rotations. This is fundamental.
+Rules of a space are substrate-independent, and not optional.
+All this to say, the rules are paramount. They need to be extremely well defined and their implications fully explored. The mechanics of simple things like addition or multiplication should hold just as cleanly for areas, population growth, oscillations, and plain old numbers.
+[Notes ]
+Unknown vs. Infinity
+When thinking of number limits, you could say either:
+They go on forever
+It is unknown when or even if they end
+This may seem pedantic, but the implications split into very different systems. The first gives you infinite-precision real numbers. The second gives you bounded math with uncertainty as a first-class element. Both are mathematically valid, both are useful, but only B reflects how quantities actually behave outside the abstraction. Not defining and exploring this is at least an oversight. Real numbers are a simplification of quantities, a useful subset, but they hide deeper truths needed to fully encode concepts with numeric tools. The limits of many important things large and small are in fact unknown, and this matters. We will be emphasizing the latter definition in this framework, treating real numbers as a valid subset.
+The first implication of this choice is the concept of an unknown value. This can be because something is unknowable, unexamined, not yet understood, or simply random. It can also be outside a known range, like something too heavy for your scale. We tend to focus on the knowable in cognition and math, but in reality most things are partly known and partly unknown. Unknown is a first-class element when dealing with quantities (and reality!), not an edge case.
+[Notes ]
+Bounds and Resolution
+The second implication of unknown limits is that all measures need some ‘known’ bounds and a resolution. Infinity allows us to ignore the ranges we are operating in. Without it, we need to specify what limits exist on numbers we are using, at both the large and small ends. Everything beyond these limits can’t be expressed without changing the resolution.
+We can express resolution using fractions with a slight twist. We can say 1/2 is lower resolution than 2/4, which is lower resolution than 1000/2000. The denominator matters here, as it signifies resolution. A button hole that needs to be 7/16 of an inch should be measured more carefully than a recipe that needs 1/2 a cup of flour. The value 1001/2000 would still round to 1/2 at low resolution, but they are different values in reality. The extra information is lost to the 'unknown' part of a measure at lower precision. Operations are affected by this too, for example a definition of addition needs to include rules for how 1/2 + 2/4 is handled.
+Resolution matters at the high end in the same way. When you choose a precision cutoff, you implicitly choose a maximum and minimum bounds as well. If you choose not to define these, they become unspecified, which is very different than unbounded. A dog can be many weights, but outside certain ranges it is no longer a dog. Five hundred tons is not a dog. The exact boundary is unspecified, but the fact that there is an approximate boundary is part of what the word 'dog' means.
+We use precision and bounds constantly in practice, whenever we estimate, whenever we choose a time step, whenever we chunk a task. But we treat these things as metadata, something written in the margins or assumed rules of thumb. This framework proposes precision and bounds are treated as first class elements of measures.
+Together these two implications mean that every measure exists inside some framework that has resolution rules and information limits. There is a real separation between what is measured and what complexity space it is measured from. The space holds to rules, and the rules c
+alibrate the measures.
+[Notes ]
+Degrees of Freedom
+Every value has a context that calibrates it. The number seven means ‘seven ones’. Seven miles is calibrated with one mile. Simple versions of these spaces appear everywhere. Perhaps most obviously in geometry - points, lines, areas, volumes, but the ideas extend much further: color, sound, social interactions or biological niches are all calibrated within some kind of framing space. Everything measurable is measured against some complexity space. Everything transformed is transformed within the rules of one. Mathematically they are akin to vector spaces, but with a wider net cast.
+A complexity space is defined by the number of types it contains and how the elements created within them interact. A single space is by definition limited in scope — it cannot fully describe things more complex than itself. In practice we operate with many spaces simultaneously, each containing a mix of elements from the thing we are examining. A geometric example may help clarify this, though keep in mind that geometry is a narrow, restricted subset of this larger system.
+Think of the degrees of freedom a point has within the complexity space of each: a point, a line, an area, a volume. That’s 0 degrees of freedom for a point (fully bounded), 1 for a line, 2 for an area, and 3 in a volume.
+[Notes ]
+Containers and Constraints
+Now consider a line in each of these spaces. A line in a point: 0. In a line: 2. In an area: 4. In a volume: 6. A line in a point can’t move either end, so still 0. A line in a line allows each of its endpoints to slide, so 2 degrees of freedom there. In an area, a line can move each point vertically and horizontally, so 4. And 6 degrees of freedom in a volume. The space constrains what is possible before any other rules apply.
+Now add explicit constraints. A line on a line has two degrees of freedom, both endpoints can move changing the location and size. Lock the length though, and there is only one degree of freedom. No matter which point you adjust, the effect is the same: the whole line moves in unison, like a point. It is one degree of freedom living inside a two-degree space. The math for this constrained line is the same as the math for a point. Not because lines and points are secretly the same thing, but because we have imposed the same constraints on both. The math follows from the degrees of freedom and rules of the space, not from anything inherent in a line or point.
+[Notes ]
+Dimension Reduction
+This dimension reduction works the same way if you lock a pivot point and allow only the length to change, only the far endpoint moves. Add a unit length anchored at the pivot point, and this works exactly our standard numbering system. For these zero-anchored lengths, we know how to add, multiply, and raise to powers, and we know how transforms behave: commutative laws, distributive laws, closure. None of that is some kind of ‘law of lengths’. It is how any system behaves under these particular constraints, which is why it holds equally for areas in 2D, volumes in 3D, and any other similarity-constrained system of zero-anchored magnitudes.
+What happens if you don’t constrain the start point and keep the unit? You end up with two unit lengths, one for the start and another for the end direction. This allows the start point to be based on an inverted unit that is positive left (i) and the end point in our normal positive right system. The math that falls out is exactly complex number math, but applied to segments instead of lengths and rotations. I’ve covered this extensively in other documents, and it is one of the most interesting things this system has revealed so far. This doesn't make complex numbers based on rotations wrong. Other than the rotation modulus (circles can return to zero degrees every rotation), this is just another way into the same complexity space. Because the defining characteristics of the space are the same, the math has to be the same. There are many ways to arrive at this space across many domains – in physics, electronics, algebra, and everywhere else you see complex numbers or free segments along a path.
+[Notes ]
+Number Spaces
+This dimension reduction works the same way if you lock a pivot point and allow only the length to change, only the far endpoint moves. Add a unit length anchored at the pivot point, and this works exactly our standard numbering system. For these zero-anchored lengths, we know how to add, multiply, and raise to powers, and we know how transforms behave: commutative laws, distributive laws, closure. None of that is some kind of ‘law of lengths’. It is how any system behaves under these particular constraints, which is why it holds equally for areas in 2D, volumes in 3D, and any other similarity-constrained system of zero-anchored magnitudes.
+What happens if you don’t constrain the start point and keep the unit? You end up with two unit lengths, one for the start and another for the end direction. This allows the start point to be based on an inverted unit that is positive left (i) and the end point in our normal positive right system. The math that falls out is exactly complex number math, but applied to segments instead of lengths and rotations. I’ve covered this extensively in other documents, and it is one of the most interesting things this system has revealed so far. This doesn't make complex numbers based on rotations wrong. Other than the rotation modulus (circles can return to zero degrees every rotation), this is just another way into the same complexity space. Because the defining characteristics of the space are the same, the math has to be the same. There are many ways to arrive at this space across many domains – in physics, electronics, algebra, and everywhere else you see complex numbers or free segments along a path.
+[Notes ]
+Number Spaces
+This dimension reduction works the same way if you lock a pivot point and allow only the length to change, only the far endpoint moves. Add a unit length anchored at the pivot point, and this works exactly our standard numbering system. For these zero-anchored lengths, we know how to add, multiply, and raise to powers, and we know how transforms behave: commutative laws, distributive laws, closure. None of that is some kind of ‘law of lengths’. It is how any system behaves under these particular constraints, which is why it holds equally for areas in 2D, volumes in 3D, and any other similarity-constrained system of zero-anchored magnitudes.
+What happens if you don’t constrain the start point and keep the unit? You end up with two unit lengths, one for the start and another for the end direction. This allows the start point to be based on an inverted unit that is positive left (i) and the end point in our normal positive right system. The math that falls out is exactly complex number math, but applied to segments instead of lengths and rotations. I’ve covered this extensively in other documents, and it is one of the most interesting things this system has revealed so far. This doesn't make complex numbers based on rotations wrong. Other than the rotation modulus (circles can return to zero degrees every rotation), this is just another way into the same complexity space. Because the defining characteristics of the space are the same, the math has to be the same. There are many ways to arrive at this space across many domains – in physics, electronics, algebra, and everywhere else you see complex numbers or free segments along a path.
+[Notes ]
+The important thing is to understand that these ‘spaces’ are simply perspectives, and multiple perspectives can all coexist on the same elements at the same time.  A square of fixed size moving around a plane has two degrees of freedom: vertical and horizontal. As it moves, every point on it moves too. It is *entirely possible* that there is another perspective that only sees the left edge as a line that grows and shrinks. Two perspectives are now running in parallel — one governing position, one governing size. This is not unusual. The world is full of competing and cooperating actions that ‘negotiate’ outcomes. The key to useful perception is identifying which perspectives have a signal and knowing how to interpret and manipulate them.
+[Notes ]
+Recognizing Perspectives
+The important thing is to understand that these ‘spaces’ are simply perspectives, and multiple perspectives can all coexist on the same elements at the same time.  A square of fixed size moving around a plane has two degrees of freedom: vertical and horizontal. As it moves, every point on it moves too. It is *entirely possible* that there is another perspective that only sees the left edge as a line that grows and shrinks. Two perspectives are now running in parallel — one governing position, one governing size. This is not unusual. The world is full of competing and cooperating actions that ‘negotiate’ outcomes. The key to useful perception is identifying which perspectives have a signal and knowing how to interpret and manipulate them.
+Applying these dimensionality tests methodically can reveal errors in our assumptions. For example we often think of area as two-dimensional, but area is a single value (e.g. 6cm
+²
+) that grows or shrinks, thus it is 1D. An X and Y axis is 2D because they haven’t been merged together, only grouped. So we create points such as (3x, 2y), and multiple points to get more complex paths. Once we multiply we get a merged area of 6, the 3x and the 2y are gone leaving only the 6. This is not a bug. Reducing dimensionality is what allows us to reduce any level of complexity down to the simple math that is relevant.
+Apples are actually very complex objects, with an overwhelming number of inter-related attributes. True as that is, when adding the weights of two apples we don't have to account for atoms or skin blemishes. We have reduced the apples to one dimension, the weight, and can now use simple addition that works just like all other addition. This doesn’t mean the aroma isn’t important in some other perspective - maybe the skin blemish prevents one from ending up on the scale. This matters, but it matters to a different perspective running in parallel. In the physical world these attributes are all running and interacting continuously. It is our minds that have managed to reduce this to separate computable heuristics, allowing us to hallucinate the truth. Our minds, and perhaps soon our machines.
+[Notes ]
+If I was to guess the weight of your mother, sight unseen, how many ways could I be wrong? Leaving aside the question itself being a mistake, the errors fall into two categories. First is the guess itself is simply off - I guess 150 pounds and she’s a solid 300. This is measurement error. The second type of error is not using the right frame of reference to start with, category error. That could be wrong resolution (measuring in tons or picograms), or being out of frame bounds (9000 pounds, or 2 pounds). And just to be complete, guessing your mother’s weight to be reddish-blue is also a category error.
+This separation is category vs measurement, the frame vs the contents. This is what is meant by the complexity space, and the measures calibrated within it. When we think about error, we almost always focus on the value and assume the frame. Even in math and science, the frame is usually taken for granted. When building a complexity space, though, we must specify not just the parameters and their transforms, but also the resolution and bounds. This  doesn't mean the frame is fixed — all its parameters are mutable, just like any other values. If I find out your mother is in fact 500 pounds, I simply have to update my weight range of plausible values for mothers.
+[Notes ]
+The opportunity in this is that error becomes quantifiable and correctable at every level. In current machine learning training, all the knowledge in the world is absorbed in each pass, and correction happens globally. At inference time, the model one-shots its best guess, from a top down whole world perspective. That this works at all is remarkable. That the whole endeavor requires computers the size of football stadiums, powered by nuclear reactors, grinding month after month, is equally unsurprising. Simpler intelligence distributed throughout the system has a chance to scale with much less compute with better heuristics, akin to machine calculation vs biological.
+[Notes ]
+The reason we have one-shot error resolution is that our math can never be ‘wrong’. If I say pick a point on a numberline, there is no wrong answer. No segment is incorrect, no area is invalid, no volume is ever ‘not a volume’. There is only measurement error, but it is invisible in the system. If our measurement error is detectable within the system, every perspective will understand error pressure, and every complexity space can help correct it. Each space gains agency, each can negotiate its own goals, and each can contribute to outcomes it isn't even equipped to perceive directly. This is how biology works, because it is a more powerful architecture, compared to having some external intelligence correcting errors based on final outputs.
+[Notes ]
+A geometric intuition helps here. Imagine a segment on a number line. Many points will fall outside it, but each one knows which direction they would need to move to end up inside it, or which direction the segment would need to move. Put segments on both an X and Y axis, and a random point is even less likely to fall inside their intersection. And if you have two areas on perpendicular planes, there is a good chance their projections will not intersect at all (more on this later). Each of these complexity spaces can negotiate with the others towards a preferred configuration, and each can do so using only local information. No perspective needs to understand any other, or even be aware of them, other than the tensions they create. The negotiation happens through shared substrate, not through explicit coordination.
+[Notes ]
+Communication
+The beauty of multiple parallel perspectives is that communication between them is automatic. It requires no message-passing, no coordination layer. It happens because all the independent perspectives operate on the same substrate.
+Think again of the square moving around a plane. The bottom-left point knows nothing of the square, but it still can ‘want’ to move to the right. The area knows nothing about position, but it can ‘want’ to remain the same size. These pressures are local, but act on each other, causing all points on the square to move rightwards together. The communication happens because they are all perspectives in the same space.  Even when there is a contradiction — say the top-right point is anchored — the system resolves it by having each perspective push its preference with some level of confidence and then react to whatever the resulting state is. An incorrect adjustment will increase the tension in the system, and self-correct. This type of error is also a feature, which can be used intentionally to explore beyond local minima. No perspective needs to understand a contradiction to participate in resolving it.
+This is the key. There is no need for explicit cross-level communication. The resolution mechanism is how the system responds to forces, which is inherent in the complexity space itself. And it doesn’t mean everything needs to be deterministic, as there are plenty of unknowns and ranges of uncertainty.
+This is exactly why car suspension systems and analog electronic circuits can be modeled with the same math. Engineers have explicitly used this analogy (the force-voltage duality) to design F1 dominating cars.  A discovery in one transfers directly to the other because they are the same space: the same elements transform in the same ways and produce the same results. It would be more surprising if that weren't true. It would mean math and logic were somehow environment-dependent, which would be their undoing.
+[Notes ]
+Level of Focus
+A practical heuristic for problem-solving with distributed intelligence: start at the level of focus that matters, and reduce everything else to the minimum resolution needed.
+If the problem is your chances against a bear, reduce the bear to a point, then add back only what seems relevant. The bear's weight can be estimated from its apparent size, which incorporates distance, rough fur density, and… oh my, saliva is flying. Nevermind, there is no need to focus on all that – at the resolution that matters, the size is very large. That is a one-dimensional, low-resolution estimate, and it converts immediately to 'much larger than you'. Do the same with speed: it is based on time and distance, which could be expressed in seconds or minutes, feet or inches, but again reduce it — very fast, especially relative to you. Now those two estimates can be multiplied in the complexity space of size and speed to give an estimated time of contact. Perhaps add in the flinging saliva, as a very low resolution “AHHH!”. The point of all this reduction is simplicity of calculation, and removal of distraction. Your legs will know they need to approximately “RUN!!” as soon as possible.
+The point of perception and cognition is not precision. The point is for each element to be reduced to the right complexity level for the question at hand. And to have the math that applies at that level to be as straightforward as possible. This is the same principle for all levels of focus – dimensionality reduction isn't a loss of truth, it is a choice about which truth is load-bearing for this particular problem. The bear’s fur density still exists in its own perspective. It just isn't useful here.
+This is complexity space reasoning in practice: reduce to the relevant dimensions, use the math inherent in those dimensions, and trust that important perspectives you've left out will have their say through other channels.

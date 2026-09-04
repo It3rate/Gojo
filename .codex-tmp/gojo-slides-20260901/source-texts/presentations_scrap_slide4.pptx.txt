@@ -1,0 +1,12 @@
+[Slide ]
+Bounds and Resolution
+Without infinity as a crutch, every measure must declare its range and resolution explicitly. Far from being a limitation, this reveals a richer structure
+–
+one where what you can't express is just as meaningful as what you can.
+Resolution encodes reality
+1/2 and 1000/2000 are the same value at low precision, but carry different information
+. T
+he denominator signals how carefully something was measured, and operations must respect that difference.
+Bounds aren't metadata, they're meaning
+A dog can't weigh five hundred tons. The approximate boundary is part of what the word dog means. Precision and bounds belong inside the measure itself, not written in the margins.
+[Notes ]

@@ -1,0 +1,19 @@
+focal to sense, maybe single value?
+exist, diff - equal/difference, direction, half/double/key, low res (not very, very), measures
+two focal values for single unit (four possible signed units, aka properties)
+two focal values for magnitude (four focals together are numbers)
+your postition, limits
+resolution, confidence of source, importance
+randomness
+selection, references
+two ops, stretch and append
+repetition, meaning time is involved, can be new values or persistance of object
+patterns for repetion, meaning equations (samples -> equations)
+combining numbers
+	- determine relevant properties (filter)
+	- weighting
+	- normalize
+	- path with gradient
+	- reject, accept, enhance, erase
+	- memory of how they contribute to past equations, priors
+reorder, reinterpret (at new resolution or emergent resolution)
