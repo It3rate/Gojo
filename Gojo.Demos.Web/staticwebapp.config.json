@@ -1,0 +1,15 @@
+{
+  "navigationFallback": {
+    "rewrite": "/index.html",
+    "exclude": [
+      "/blocks/*",
+      "/gears/*",
+      "/gearLadder/*",
+      "/sketch/*",
+      "/*.{css,js,wasm,json,dat,br,gz,png,ico}"
+    ]
+  },
+  "mimeTypes": {
+    ".wasm": "application/wasm"
+  }
+}

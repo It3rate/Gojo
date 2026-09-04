@@ -91,6 +91,16 @@ internal static partial class SketchSamples
 
     private static string ReadGCodeSample(string fileName)
     {
+#if SKETCHVIEWER_BROWSER
+        var resourceName = $"GojoCAD.SketchViewer.GCode.{fileName}";
+        using var resource = typeof(SketchSamples).Assembly.GetManifestResourceStream(resourceName);
+        if (resource is not null)
+        {
+            using var reader = new StreamReader(resource);
+            return reader.ReadToEnd();
+        }
+#endif
+
         var candidates = new[]
         {
             Path.Combine(AppContext.BaseDirectory, "G code", "samples", fileName),

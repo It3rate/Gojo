@@ -19,7 +19,7 @@ internal static class Program
     private static readonly SKColor RadialMergedFill = new(48, 88, 142, 158);
     private static readonly SKColor RadialMergedAntiAreaFill = new(246, 199, 199);
 
-    private static readonly SKColor[] RadialPartitionPalette =
+    private static readonly SKColor[] RadialPartitionPalette = MutedPartitionPalette(
     [
         new(229, 95, 91),
         new(79, 142, 210),
@@ -54,8 +54,9 @@ internal static class Program
         new(91, 154, 176),
         new(201, 118, 157),
         new(167, 164, 86)
-    ];
+    ]);
 
+#if SKETCHVIEWER_DESKTOP
     [STAThread]
     public static void Main(string[] args)
     {
@@ -90,9 +91,14 @@ internal static class Program
 
         BuildAvaloniaApp().StartWithClassicDesktopLifetime(args);
     }
+#endif
 
     public static AppBuilder BuildAvaloniaApp() =>
+#if SKETCHVIEWER_DESKTOP
         AppBuilder.Configure<App>().UsePlatformDetect();
+#else
+        AppBuilder.Configure<App>();
+#endif
 
     private static void SmokeRenderGeneratedScenes(string[] args)
     {
@@ -175,7 +181,7 @@ internal static class Program
                 };
                 if (isRadialShapeLadder && index == 3)
                 {
-                    paints.AntiAreaFill.Color = new SKColor(34, 215, 230);
+                    paints.AntiAreaFill.Color = new SKColor(34, 215, 230, 145);
                 }
                 else if (isRadialShapeLadder && index == 4)
                 {
@@ -222,6 +228,9 @@ internal static class Program
         using var stream = File.Open(path, FileMode.Create, FileAccess.Write);
         data.SaveTo(stream);
     }
+
+    private static SKColor[] MutedPartitionPalette(IEnumerable<SKColor> colors) =>
+        [.. colors.Select(color => new SKColor(color.Red, color.Green, color.Blue, 145))];
 
     private static string RadialPartitionReport(
         IReadOnlyCollection<GojoCadSkiaHitArea> hitAreas,
@@ -1963,6 +1972,10 @@ internal sealed class App : Application
         {
             desktop.MainWindow = new MainWindow();
         }
+        else if (ApplicationLifetime is ISingleViewApplicationLifetime singleView)
+        {
+            singleView.MainView = MainWindow.CreateContent();
+        }
 
         base.OnFrameworkInitializationCompleted();
     }
@@ -1978,6 +1991,11 @@ internal sealed class MainWindow : Window
         MinWidth = 860;
         MinHeight = 560;
 
+        Content = CreateContent();
+    }
+
+    internal static Control CreateContent()
+    {
         var document = SketchDocument.CreateInitial();
         var canvas = new SketchCanvas
         {
@@ -2030,7 +2048,6 @@ internal sealed class MainWindow : Window
         {
             document = next;
             canvas.Document = next;
-            canvas.InvalidateVisual();
             pointsButton.Content = next.ShowConstructionPoints ? "Points On" : "Points Off";
             ghostButton.Content = next.ShowPreviousRungs ? "Ghost On" : "Ghost Off";
             UpdateRungControls(next);
@@ -2153,7 +2170,7 @@ internal sealed class MainWindow : Window
         root.Children.Add(side);
         Grid.SetColumn(canvas, 1);
         root.Children.Add(canvas);
-        Content = root;
+        return root;
     }
 
     private static Button CreateButton(string text) =>

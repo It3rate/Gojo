@@ -895,7 +895,7 @@ public static class GraphicAreaSettlementSurface
             return relation;
         }
 
-        return [.. fragments.Select(fragment => FragmentElement(fragment, Point))];
+        return [.. fragments.SelectMany(fragment => FragmentElements(fragment, Point))];
     }
 
     private static IElement[] FragmentSectionElements(IReadOnlyList<FragmentRead> fragments)
@@ -916,7 +916,7 @@ public static class GraphicAreaSettlementSurface
         return [.. fragments.Select(fragment => FragmentSectionElement(fragment, Point))];
     }
 
-    private static IElement FragmentElement(
+    private static IEnumerable<IElement> FragmentElements(
         FragmentRead fragment,
         Func<SharedFramePointRead, Point2, Relation> pointAt)
     {
@@ -924,13 +924,31 @@ public static class GraphicAreaSettlementSurface
         var end = pointAt(fragment.Template, fragment.End);
         if (!fragment.IsArc)
         {
-            return GraphicStructure.FrameSegment(start, end);
+            yield return GraphicStructure.FrameSegment(start, end);
+            yield break;
         }
 
         var center = pointAt(fragment.Template, fragment.Center);
-        return fragment.IsCircle
-            ? GraphicStructure.FrameCircle(center, start)
-            : GraphicStructure.FrameArc(center, start, end);
+        if (fragment.IsCircle)
+        {
+            yield return GraphicStructure.FrameCircle(center, start);
+            yield break;
+        }
+
+        // A frame arc is intentionally the shortest ordered sweep between its
+        // endpoints. Settlement can expose the complementary side of a circle,
+        // whose sweep is greater than or equal to half a turn. Keep that side
+        // readable as two connected arcs instead of collapsing it to the short
+        // side and losing occupied participation from the settled boundary.
+        if (Math.Abs(fragment.Sweep) >= Math.PI - Epsilon)
+        {
+            var middle = pointAt(fragment.Template, fragment.MidPoint());
+            yield return GraphicStructure.FrameArc(center, start, middle);
+            yield return GraphicStructure.FrameArc(center, middle, end);
+            yield break;
+        }
+
+        yield return GraphicStructure.FrameArc(center, start, end);
     }
 
     private static IElement FragmentSectionElement(

@@ -60,11 +60,11 @@ internal sealed class SketchDrawOperation : ICustomDrawOperation
     private static readonly SKColor RadialMergedFill = new(48, 88, 142, 158);
     private static readonly SKColor RadialAntiAreaFill = new(226, 50, 55, 58);
     private static readonly SKColor RadialMergedAntiAreaFill = new(246, 199, 199);
-    private static readonly SKColor RadialPartitionEmptyFill = new(34, 215, 230);
+    private static readonly SKColor RadialPartitionEmptyFill = new(34, 215, 230, 145);
     private static readonly SKColor RadialCuspMarker = new(226, 18, 34, 245);
     private static readonly SKColor RadialPositiveSide = new(78, 158, 210, 228);
     private static readonly SKColor RadialInverseSide = new(226, 92, 96, 222);
-    private static readonly SKColor[] RadialSeparateFillPalette =
+    private static readonly SKColor[] RadialSeparateFillPalette = MutedPartitionPalette(
     [
         new(229, 95, 91),
         new(79, 142, 210),
@@ -99,7 +99,7 @@ internal sealed class SketchDrawOperation : ICustomDrawOperation
         new(91, 154, 176),
         new(201, 118, 157),
         new(167, 164, 86)
-    ];
+    ]);
     private readonly SketchScene scene;
     private readonly int selectedRungIndex;
     private readonly bool showConstructionPoints;
@@ -122,7 +122,13 @@ internal sealed class SketchDrawOperation : ICustomDrawOperation
 
     public bool HitTest(Point p) => Bounds.Contains(p);
 
-    public bool Equals(ICustomDrawOperation? other) => ReferenceEquals(this, other);
+    public bool Equals(ICustomDrawOperation? other) =>
+        other is SketchDrawOperation operation &&
+        operation.Bounds == Bounds &&
+        ReferenceEquals(operation.scene, scene) &&
+        operation.selectedRungIndex == selectedRungIndex &&
+        operation.showConstructionPoints == showConstructionPoints &&
+        operation.showPreviousRungs == showPreviousRungs;
 
     public void Render(ImmediateDrawingContext context)
     {
@@ -569,6 +575,9 @@ internal sealed class SketchDrawOperation : ICustomDrawOperation
             hideSharedFrameGeometry = true;
         }
     }
+
+    private static SKColor[] MutedPartitionPalette(IEnumerable<SKColor> colors) =>
+        [.. colors.Select(color => new SKColor(color.Red, color.Green, color.Blue, 145))];
 
     private static GojoCadSkiaPaints CreateSketchPaints(
         SKColor color,

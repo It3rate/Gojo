@@ -594,6 +594,33 @@ public sealed class GraphicAreaSettlementSurfaceTests
     }
 
     [Fact]
+    public void SettledPositiveAreaFramePreservesLongCircularSweepJoinedToNarrowStem()
+    {
+        var basis = new TestBasis();
+        var capRing = Chain(
+            GraphicStructure.AreaFill(SingleCircle(basis, 0, 0, 20)),
+            GraphicStructure.AntiAreaFill(SingleCircle(basis, 0, 0, 6)));
+        var areaFrame = GraphicAreaParticipationSurface.AreaFrame(
+            new Carrier(),
+            GraphicStructure.AreaFill(Rectangle(basis, -40, 0, -5, 5)),
+            capRing);
+
+        var settled = GraphicAreaSettlementSurface.SettledPositiveAreaFrame(new Carrier(), areaFrame);
+
+        var positiveAreas = GraphicReadGraph.From(settled)
+            .ReadsOf<SharedFrameAreaRead>()
+            .Where(area => !area.IsAntiArea)
+            .DistinctBy(area => ReadSourceId(area.Source))
+            .ToArray();
+        Assert.Contains(positiveAreas, area =>
+            TryReadBounds(area.Boundary, out var minX, out var maxX, out var minY, out var maxY) &&
+            minX <= -40 &&
+            maxX >= 20 &&
+            minY <= -20 &&
+            maxY >= 20);
+    }
+
+    [Fact]
     public void RoundedBoundaryFromCuspSelectionRoundsCircularBodyOutlineCuspsWithArcSections()
     {
         var basis = new TestBasis();

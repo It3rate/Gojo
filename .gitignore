@@ -17,6 +17,7 @@
 mono_crash.*
 
 publish-browser/
+publish-deploy/
 publish-deploy-root/
 
 # Build results

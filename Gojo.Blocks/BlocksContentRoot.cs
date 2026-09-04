@@ -57,29 +57,49 @@ internal sealed class BlocksContentRoot
             }
         }
 
-        var suffix = ResourceSuffix(relativeRoot, sentinelFile);
+        var suffixes = ResourceSuffixes(relativeRoot, sentinelFile);
         if (assembly.GetManifestResourceNames().Any(name =>
-                name.EndsWith(suffix, StringComparison.OrdinalIgnoreCase)))
+                suffixes.Any(suffix => name.EndsWith(suffix, StringComparison.OrdinalIgnoreCase))))
         {
             return new BlocksContentRoot(relativeRoot, null, assembly);
         }
 
         throw new DirectoryNotFoundException(
             $"{failureDescription} Looked under: {string.Join("; ", candidates)}; " +
-            $"embedded suffix: {suffix}");
+            $"embedded suffixes: {string.Join("; ", suffixes)}");
     }
 
     private string FindResourceName(string relativeFile)
     {
-        var suffix = ResourceSuffix(RelativeRoot, relativeFile);
+        var suffixes = ResourceSuffixes(RelativeRoot, relativeFile);
         return assembly.GetManifestResourceNames()
-            .FirstOrDefault(name => name.EndsWith(suffix, StringComparison.OrdinalIgnoreCase)) ??
+            .FirstOrDefault(name => suffixes.Any(suffix =>
+                name.EndsWith(suffix, StringComparison.OrdinalIgnoreCase))) ??
             throw new FileNotFoundException(
-                $"Could not find embedded content resource ending with '{suffix}'.");
+                $"Could not find embedded content resource ending with one of: {string.Join("; ", suffixes)}.");
     }
 
     private static string ResourceSuffix(string relativeRoot, string relativeFile) =>
         Path.Combine(relativeRoot, relativeFile)
             .Replace('\\', '.')
             .Replace('/', '.');
+
+    private static string[] ResourceSuffixes(string relativeRoot, string relativeFile)
+    {
+        var literal = ResourceSuffix(relativeRoot, relativeFile);
+        var relativeDirectory = Path.GetDirectoryName(relativeFile);
+        var directory = string.IsNullOrEmpty(relativeDirectory)
+            ? relativeRoot
+            : Path.Combine(relativeRoot, relativeDirectory);
+        var normalizedDirectory = string.Join(
+            ".",
+            directory
+                .Split(['\\', '/'], StringSplitOptions.RemoveEmptyEntries)
+                .Select(segment => segment.Replace('-', '_')));
+        var normalized = $"{normalizedDirectory}.{Path.GetFileName(relativeFile)}";
+
+        return string.Equals(literal, normalized, StringComparison.Ordinal)
+            ? [literal]
+            : [literal, normalized];
+    }
 }

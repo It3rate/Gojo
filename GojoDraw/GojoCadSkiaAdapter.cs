@@ -1036,6 +1036,9 @@ public sealed class GojoCadSkiaAdapter
         if (ApplyPathOpInto(target, operand, operation, result))
         {
             target.Reset();
+            // Path ops can return EvenOdd contours; AddPath copies the
+            // contours but not the fill rule that makes every loop readable.
+            target.FillType = result.FillType;
             target.AddPath(result);
             return true;
         }
@@ -3495,17 +3498,16 @@ public sealed class GojoCadSkiaAdapter
     {
         if (paletteIndex < palette.Count)
         {
-            var color = palette[paletteIndex];
-            return new SKColor(color.Red, color.Green, color.Blue);
+            return palette[paletteIndex];
         }
 
         var hue = (paletteIndex * 137.508f) % 360f;
         var saturation = 58f + paletteIndex % 5 * 7f;
         var value = 72f + paletteIndex % 4 * 5f;
-        return HsvColor(hue, Math.Min(saturation, 86f), Math.Min(value, 92f));
+        return HsvColor(hue, Math.Min(saturation, 86f), Math.Min(value, 92f), palette[0].Alpha);
     }
 
-    private static SKColor HsvColor(float hue, float saturation, float value)
+    private static SKColor HsvColor(float hue, float saturation, float value, byte alpha)
     {
         var c = value / 100f * saturation / 100f;
         var x = c * (1f - Math.Abs(hue / 60f % 2f - 1f));
@@ -3523,7 +3525,8 @@ public sealed class GojoCadSkiaAdapter
         return new SKColor(
             ToColorByte((r + m) * 255f),
             ToColorByte((g + m) * 255f),
-            ToColorByte((b + m) * 255f));
+            ToColorByte((b + m) * 255f),
+            alpha);
     }
 
     private static byte ToColorByte(float value) =>
