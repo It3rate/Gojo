@@ -1,12 +1,13 @@
 <Solution>
-  <Project Path="Gojo/Gojo.csproj" />
-  <Project Path="Gojo.Tests/Gojo.Tests.csproj" />
-  <Project Path="Gojo.Encoding/Gojo.Encoding.csproj" />
-  <Project Path="Gojo.Encoding.Tests/Gojo.Encoding.Tests.csproj" />
-  <Project Path="GojoCAD/GojoCAD.csproj" />
-  <Project Path="GojoCAD.Tests/GojoCAD.Tests.csproj" />
-  <Project Path="Gojo.Blocks/Gojo.Blocks.csproj" />
+  <Project Path="C:/Users/Robin/source/repos/Gojo/Gojo.GearShapeLadder/Gojo.GearShapeLadder.csproj" />
   <Project Path="C:/Users/Robin/source/repos/Gojo/GojoCAD.SketchViewer/GojoCAD.SketchViewer.csproj" />
   <Project Path="Gojo.Blocks.Browser/Gojo.Blocks.Browser.csproj" />
+  <Project Path="Gojo.Blocks/Gojo.Blocks.csproj" />
+  <Project Path="Gojo.Encoding.Tests/Gojo.Encoding.Tests.csproj" />
+  <Project Path="Gojo.Encoding/Gojo.Encoding.csproj" />
+  <Project Path="Gojo.Tests/Gojo.Tests.csproj" />
+  <Project Path="Gojo/Gojo.csproj" />
+  <Project Path="GojoCAD.Tests/GojoCAD.Tests.csproj" />
+  <Project Path="GojoCAD/GojoCAD.csproj" />
   <Project Path="GojoDraw/GojoDraw.csproj" />
 </Solution>
