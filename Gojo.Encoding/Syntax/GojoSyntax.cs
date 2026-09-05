@@ -1,6 +1,7 @@
 using System.Globalization;
 using Gojo.ConceptSurface;
 using Gojo.Core;
+using Gojo.Encoding.Structures;
 using Gojo.Structures;
 
 namespace Gojo.Encoding.Syntax;
@@ -321,6 +322,17 @@ public static class GojoSyntax
                         RequireElement(arguments[3], "action(...) requires a residue policy or open slot"),
                         RequireElement(arguments[4], "action(...) requires provenance or an open slot")));
 
+                case "access":
+                    RequireCount(name, arguments, 6);
+                    return SyntaxValue.FromElement(AccessCapabilitySurface.Create(
+                        new Carrier(),
+                        RequireElement(arguments[0], "access(ambient,exposed,capabilities,blocked,residue,provenance) requires an ambient basis"),
+                        RequirePorts(arguments[1], "access(...) requires exposed ports"),
+                        RequirePorts(arguments[2], "access(...) requires action capability ports"),
+                        RequirePorts(arguments[3], "access(...) requires blocked-attempt ports"),
+                        RequireElement(arguments[4], "access(...) requires residue/tension or an open slot"),
+                        RequireElement(arguments[5], "access(...) requires provenance or an open slot")));
+
                 case "count":
                     RequireCount(name, arguments, 2);
                     return SyntaxValue.FromElement(RepeatSurface.Count(
@@ -339,6 +351,27 @@ public static class GojoSyntax
                         arguments.Count == 6
                             ? RequireElement(arguments[5], "repeat(...) timeline must be a Gojo element")
                             : new Placeholder()));
+
+                case "step":
+                    RequireCount(name, arguments, 7);
+                    return SyntaxValue.FromElement(TimeStepSequence.Step(
+                        new Carrier(),
+                        RequireCarrier(arguments[0], "step(time,start,end,before,transition,after,residue) requires a time carrier"),
+                        RequireInteger(arguments[1], "step(...) start requires an integer tick"),
+                        RequireInteger(arguments[2], "step(...) end requires an integer tick"),
+                        RequireElement(arguments[3], "step(...) requires before evidence"),
+                        RequireElement(arguments[4], "step(...) requires transition evidence"),
+                        RequireElement(arguments[5], "step(...) requires after evidence"),
+                        RequireElement(arguments[6], "step(...) requires residue or an open slot")));
+
+                case "timeline":
+                    RequireAtLeast(name, arguments, 2);
+                    return SyntaxValue.FromElement(TimeStepSequence.Create(
+                        new Carrier(),
+                        RequireCarrier(arguments[0], "timeline(time,initial[,steps...]) requires a time carrier"),
+                        RequireElement(arguments[1], "timeline(...) requires initial evidence"),
+                        [.. arguments.Skip(2).Select(argument =>
+                            RequireRelation(argument, "timeline(...) accepts relation-shaped steps"))]));
 
                 default:
                     Error($"Unknown syntax constructor '{name}'");
@@ -417,6 +450,17 @@ public static class GojoSyntax
             RequireElement(value, message) is Relation relation
                 ? relation
                 : throw SyntaxError(message);
+
+        private IElement RequirePorts(SyntaxValue value, string message)
+        {
+            var ports = RequireElement(value, message);
+            if (TransformSurface.TryReadPorts(ports, out _))
+            {
+                return ports;
+            }
+
+            throw SyntaxError(message);
+        }
 
         private UnitShape RequireUnit(SyntaxValue value, string message) =>
             value.Kind == SyntaxValueKind.Unit && value.Unit is not null

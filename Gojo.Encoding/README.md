@@ -53,6 +53,10 @@ The first implementation is intentionally tiny.
   structure. See `Syntax/README.md` for the compact entry point and
   `Gojo/docs/GojoTextSyntax.md` for the exploratory grammar and its non-decimal
   ladder examples.
+- `AccessCapabilitySurface` relates an ambient basis to the value and action
+  ports exposed by one local tool. Missing capabilities remain inaccessible
+  through that surface without being promoted into proof that the ambient lane
+  or mathematics does not exist. Blocked attempts and residue remain visible.
 - `EncodedTextSurface` stores text as ordered Unicode scalar values in Gojo
   relation structure. It also exposes UTF-8 integer helpers for compact packet
   layers.

@@ -214,6 +214,64 @@ Most importantly, this basis says what is exposed or legal. It does not by
 itself say that an inverse action may be performed. Presenting only the `PF`
 lane and exposing no action is a structurally positive-only numeric surface.
 
+## Ambient possibility and local access
+
+An omitted lane is not proof that the corresponding mathematics does not
+exist. Version 1 now separates a known ambient basis from the smaller ports and
+actions exposed by one local tool:
+
+```text
+access(ambient, exposed_ports, capability_ports,
+       blocked_attempt_ports, residue, provenance)
+```
+
+The expanded structure begins with the relation:
+
+```text
+ambient basis -> exposed ports
+```
+
+and keeps capability ports, blocked attempts, residue, and provenance beside
+it. `AccessCapabilitySurface.TryReadOutwardPorts` returns only the two outward
+surfaces; it does not hand the ambient basis to a consumer merely because the
+owning structure retains it.
+
+```gojo
+let $axis = carrier();
+let $ambient = basis($axis, PN, FI);
+let $pf = lane(PF);
+let $pi = lane(PI);
+let $inverse_recipe = $pf -> $pi;
+
+let $blocked_attempt = act(
+    $pf,
+    $inverse_recipe,
+    ?unreached_inverse,
+    $pi,
+    ?capability_not_exposed
+);
+
+let $restricted_tool = access(
+    $ambient,
+    ports($pf),
+    ports(),
+    ports($blocked_attempt),
+    $pi,
+    ?tool_provenance
+);
+```
+
+Here `PI` remains possible in the ambient basis. The empty capability port says
+only that this tool exposes no action to it. The attempted target remains in
+residue rather than being declared nonexistent. `ports()` is explicit empty
+access; a placeholder such as `?capabilities` would instead mean the capability
+surface is unresolved.
+
+A wider tool may expose `lane_action($pf,$pi,...)`. That action references an
+already possible lane; it does not create the lane universe. The executable
+example is
+[`ambient-access.gojo`](../../Gojo.Encoding.Tests/Fixtures/Syntax/ambient-access.gojo).
+
 ## Actions are scoped relations
 
 The clarification motivating this syntax is that a lane transition is an
@@ -408,6 +466,56 @@ compositions: a repeat mechanism selecting an additive or multiplicative action.
 They need not become primitive tokens. Feedback, stopping, residue, and timeline
 remain inspectable even when a familiar arithmetic read can be derived.
 
+## Preservation, history, and rollback
+
+An action witness does not decide whether its input was preserved, consumed,
+changed in place, or copied. Those are different structural outcomes:
+
+- an observation leaves its selected source available and records a result;
+- a same-identity change has distinct before and after evidence on one carrier;
+- a fork result explicitly contains the retained source and a new identity;
+- a material duplication additionally needs accounting for introduced
+  participation;
+- a rollback uses historical evidence and is not automatically the mathematical
+  inverse of the earlier operation.
+
+Version 1 exposes the existing time structures as:
+
+```text
+step(time, start, end, before, transition, after, residue)
+timeline(time, initial[, step...])
+```
+
+For a same-identity change claim:
+
+```gojo
+let $number = carrier();
+let $clock = carrier();
+let $before = point($number, 5);
+let $after = point($number, 10);
+let $change = act($before, $scale_action, $after, ?residue, ?provenance);
+let $change_step = step($clock, 0, 1, $before, $change, $after, ?residue);
+root timeline($clock, $before, $change_step);
+```
+
+The literal before and after points remain stable when the carrier's live value
+later changes. That is stronger than retaining only the mutable carrier identity.
+It is not yet a general immutability guarantee: `TickRef` is intentionally
+retargetable, and a timeline can still be given mutable structures. Durable
+history needs an explicit snapshot or crystallization boundary, and a corrected
+memory should normally append a new interpretation rather than rewrite the old
+witness.
+
+An explicit fork can return `group($source,$new_identity)`. Merely referencing
+the source in two places is not material duplication; conservation and source
+cost remain open until an accounting surface settles them.
+
+For a lossy erasure, a rollback recipe can read `history -> restored`. This is
+structurally different from `reverse(erasure_recipe)`: the history is required
+to recover information the operation did not preserve. The executable cases
+are in
+[`preservation.gojo`](../../Gojo.Encoding.Tests/Fixtures/Syntax/preservation.gojo).
+
 ## Partition ladders and relative digits
 
 Suppose one fine carrier is partitioned into twentieths of a millimetre and a
@@ -479,8 +587,8 @@ The version-1 parser currently accepts:
 | structural views | `dual`, `reverse`, `orthogonal` |
 | unit shapes | `unit_of`, `resolution`, `product_units`, `additive_units`, `crystal` |
 | boundary/flow | `basis`, `lane`, `value`, `lane_action` |
-| change | `action`, `act` |
-| repetition | `count`, `repeat` |
+| access and change | `access`, `action`, `act` |
+| repetition and history | `count`, `repeat`, `step`, `timeline` |
 
 The small vocabulary is a first pass, not a promise that each constructor
 deserves permanent syntax. A constructor should survive only when it makes a
@@ -513,6 +621,10 @@ This pass intentionally leaves several questions open:
    using integer-oriented records. It must remain a reversible projection of
    Gojo structure, not a floating-point collapse, text hash, or second semantic
    enum model.
+8. **Historical stability.** Timelines preserve distinct before/after evidence,
+   but current elements can still contain mutable carriers or retargetable tick
+   references. A durable-history boundary must say what is snapshotted,
+   crystallized, merely referenced, or later reinterpreted.
 
 These are findings for continued Gojo validation, not permission for the syntax
 layer to patch around missing kernel laws. If one becomes a required primitive,
