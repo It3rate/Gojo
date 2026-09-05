@@ -39,6 +39,13 @@ The boundary is porous in the useful direction:
 
 The first implementation is intentionally tiny.
 
+- `GojoSyntax` is the first executable text foothold. It parses integer ticks,
+  carriers, shared sites, points, segments, units, boundary/flow lanes, scoped
+  actions, repetition, and explicit ladder relations directly into ordinary
+  Gojo elements. Local `$aliases` disappear after parsing; named `?slots`,
+  shared identities, operation evidence, residue, and provenance remain in the
+  structure. See `Gojo/docs/GojoTextSyntax.md` for the exploratory grammar and
+  its non-decimal ladder examples.
 - `EncodedTextSurface` stores text as ordered Unicode scalar values in Gojo
   relation structure. It also exposes UTF-8 integer helpers for compact packet
   layers.
@@ -125,6 +132,8 @@ The first implementation is intentionally tiny.
 
 The companion notes for this experiment are:
 
+- `../Gojo/docs/GojoTextSyntax.md` for the exploratory executable syntax,
+  scoped action semantics, structural repetition, and place-like ladder digits.
 - `GlossaryEncodingVocabulary.md` for the ordered compact notation ledger.
 - `GlossaryEncodingProjectionNotes.md` for what the current glossary fixture
   projection emits and what is still unresolved.

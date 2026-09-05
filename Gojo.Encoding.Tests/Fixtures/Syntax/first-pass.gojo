@@ -1,0 +1,38 @@
+gojo 1;
+
+// A legal lane basis does not silently grant an action.
+let $magnitude = carrier();
+let $positive_forward_only = basis($magnitude, P, F);
+let $positive_lanes = basis($magnitude, P, FI);
+
+// This action is connected separately and can be discovered when the basis
+// and action are presented together.
+let $pf = lane(PF);
+let $pi = lane(PI);
+let $inverse_pf_recipe = $pf -> $pi;
+let $inverse_pf = lane_action(
+    $pf,
+    $pi,
+    $inverse_pf_recipe,
+    ?inverse_basis_witness
+);
+let $pf_inverse_algebra = group($positive_lanes, $inverse_pf);
+
+// A value may remain as raw fine ticks or be read as place-like ladder digits.
+let $fine = carrier();
+let $whole = carrier(unit_of($fine));
+let $twentieths_to_whole = point($fine, 20) -> point($whole, 1);
+let $raw = point($fine, 32);
+let $relative = group(
+    point($whole, 1),
+    point($fine, 12),
+    $twentieths_to_whole
+);
+
+root $positive_forward_only;
+root $positive_lanes;
+root $pf_inverse_algebra;
+root act($pf, $inverse_pf, $pi, ?action_residue, ?action_provenance);
+root $raw;
+root $relative;
+root $twentieths_to_whole;

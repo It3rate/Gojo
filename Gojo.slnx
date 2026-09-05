@@ -1,4 +1,9 @@
 <Solution>
+  <Folder Name="/Documentation/">
+    <File Path="Gojo/docs/GojoSystemPrompt.md" />
+    <File Path="Gojo/docs/Grammar.md" />
+    <File Path="Gojo/docs/GojoTextSyntax.md" />
+  </Folder>
   <Project Path="Gojo/Gojo.csproj" />
   <Project Path="Gojo.Tests/Gojo.Tests.csproj" />
   <Project Path="Gojo.Encoding/Gojo.Encoding.csproj" />
