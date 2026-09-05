@@ -1,6 +1,6 @@
 using Gojo.Core;
 
-namespace Gojo.Encoding;
+namespace Gojo.Encoding.Structures;
 
 /// <summary>
 /// Small relation-shaped bundle for diagnostic snapshots plus observer paths.

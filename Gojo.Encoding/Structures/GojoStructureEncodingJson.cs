@@ -3,7 +3,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using Gojo.Core;
 
-namespace Gojo.Encoding;
+namespace Gojo.Encoding.Structures;
 
 /// <summary>
 /// Text adapter for encoded Gojo structure bundles. The JSON document is a

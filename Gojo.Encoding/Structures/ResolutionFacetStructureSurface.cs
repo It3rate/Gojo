@@ -1,7 +1,7 @@
 using Gojo.Core;
 using Gojo.Structures;
 
-namespace Gojo.Encoding;
+namespace Gojo.Encoding.Structures;
 
 /// <summary>
 /// Native relation footholds for the resolution facet samples. These helpers

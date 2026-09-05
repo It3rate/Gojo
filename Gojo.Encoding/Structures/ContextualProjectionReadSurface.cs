@@ -1,7 +1,7 @@
 using Gojo.Core;
 using Gojo.Structures;
 
-namespace Gojo.Encoding;
+namespace Gojo.Encoding.Structures;
 
 /// <summary>
 /// Reads context-local projections from ordinary read witnesses. The selected

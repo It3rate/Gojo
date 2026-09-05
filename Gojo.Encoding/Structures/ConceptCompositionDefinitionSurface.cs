@@ -1,6 +1,6 @@
 using Gojo.Core;
 
-namespace Gojo.Encoding;
+namespace Gojo.Encoding.Structures;
 
 /// <summary>
 /// Tiny composition samples for nouns that become useful after several earlier

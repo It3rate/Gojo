@@ -1,7 +1,7 @@
 using Gojo.Core;
 using Gojo.Structures;
 
-namespace Gojo.Encoding;
+namespace Gojo.Encoding.Structures;
 
 /// <summary>
 /// Reads a simple one-dimensional interval basis from local definition

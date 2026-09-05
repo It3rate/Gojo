@@ -1,7 +1,7 @@
 using Gojo.Core;
 using Gojo.Structures;
 
-namespace Gojo.Encoding;
+namespace Gojo.Encoding.Structures;
 
 /// <summary>
 /// Relation-shaped definition and crystallization surface. A definition is an

@@ -1,6 +1,6 @@
 using Gojo.Core;
 
-namespace Gojo.Encoding;
+namespace Gojo.Encoding.Structures;
 
 /// <summary>
 /// Compact relation-shaped read frame for scene mechanic reads. The helper

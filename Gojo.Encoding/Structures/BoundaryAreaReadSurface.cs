@@ -1,6 +1,6 @@
 using Gojo.Core;
 
-namespace Gojo.Encoding;
+namespace Gojo.Encoding.Structures;
 
 /// <summary>
 /// Local boundary/area discovery over a concept definition graph. It consumes

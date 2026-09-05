@@ -5,7 +5,7 @@ using Gojo.Core;
 using Gojo.Reads;
 using Gojo.Structures;
 
-namespace Gojo.Encoding;
+namespace Gojo.Encoding.Structures;
 
 /// <summary>
 /// Compact JSON adapter for a concept-definition ledger. This is an interchange

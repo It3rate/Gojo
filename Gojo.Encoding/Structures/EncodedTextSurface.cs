@@ -1,7 +1,7 @@
 using System.Text;
 using Gojo.Core;
 
-namespace Gojo.Encoding;
+namespace Gojo.Encoding.Structures;
 
 /// <summary>
 /// Relation-shaped text surface for encoding names, debug labels, and source

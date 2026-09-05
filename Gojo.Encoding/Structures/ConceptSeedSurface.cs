@@ -1,6 +1,6 @@
 using Gojo.Core;
 
-namespace Gojo.Encoding;
+namespace Gojo.Encoding.Structures;
 
 /// <summary>
 /// A small concept seed surface: readable text, compact hint signature,

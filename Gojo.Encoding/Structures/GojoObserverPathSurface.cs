@@ -1,7 +1,7 @@
 using Gojo.Core;
 using Gojo.Structures;
 
-namespace Gojo.Encoding;
+namespace Gojo.Encoding.Structures;
 
 /// <summary>
 /// Relation-shaped observer path over encoded or live Gojo structure. The path

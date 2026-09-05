@@ -507,6 +507,12 @@ This pass intentionally leaves several questions open:
 6. **Text round-trip.** Version 1 parses text into structure. A canonical
    serializer is deliberately deferred until enough structures show which
    aliases improve readability without masquerading as crystallizations.
+7. **Numeric encoding.** A later storage and transport surface should encode
+   the same element identities, signed locations, ordered relations, unit
+   shapes, shared tick references, open slots, residue, tension, and provenance
+   using integer-oriented records. It must remain a reversible projection of
+   Gojo structure, not a floating-point collapse, text hash, or second semantic
+   enum model.
 
 These are findings for continued Gojo validation, not permission for the syntax
 layer to patch around missing kernel laws. If one becomes a required primitive,

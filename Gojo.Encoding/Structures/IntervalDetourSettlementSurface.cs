@@ -2,7 +2,7 @@ using Gojo.Core;
 using Gojo.Reads;
 using Gojo.Structures;
 
-namespace Gojo.Encoding;
+namespace Gojo.Encoding.Structures;
 
 /// <summary>
 /// Reads a one-carrier motion goal through local obstacle and branch structure.
