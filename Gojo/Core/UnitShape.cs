@@ -9,8 +9,8 @@ public sealed partial class UnitShape : IEquatable<UnitShape>
 {
     private static ulong idCounter;
 
-    private readonly IElement surface;
-    private readonly IElement[] descriptors;
+    private IElement surface;
+    private IElement[] descriptors;
 
     private UnitShape(IElement surface, IReadOnlyList<IElement>? descriptors = null)
     {
@@ -87,6 +87,14 @@ public sealed partial class UnitShape : IEquatable<UnitShape>
         if (sourceTicksPerTick == 1)
         {
             return sourceShape;
+        }
+        if (sourceShape.TryReadOpposedFace(out var forward))
+            return OpposedFaceOf(ResolutionOf(forward, sourceTicksPerTick));
+
+        if (sourceShape.TryReadSubdivision(out var parent, out var parts))
+        {
+            if (sourceTicksPerTick % parts == 0) return ResolutionOf(parent, sourceTicksPerTick / parts);
+            if (parts % sourceTicksPerTick == 0) return SubdivisionOf(parent, parts / sourceTicksPerTick);
         }
 
         if (sourceShape.TryReadResolution(out var innerSource, out var innerTicks))
@@ -426,6 +434,7 @@ public sealed partial class UnitShape : IEquatable<UnitShape>
     /// <summary>Copies relation/location structure so a read cannot mutate the basis.</summary>
     private static IElement SnapshotOf(IElement element) => element switch
     {
+        TickRef => throw new ArgumentException("Ground a mutable tick reference in a carrier location before capturing a stable unit shape."),
         CarrierLocation location => new CarrierLocation(location.Carrier, location.Ticks),
         Relation relation => new Relation(SnapshotOf(relation.Left), SnapshotOf(relation.Right)),
         _ => element
@@ -539,6 +548,11 @@ public sealed partial class UnitShape : IEquatable<UnitShape>
     /// <summary>Reads additive operands from the additive-surface encoding.</summary>
     private static bool TryReadAdditiveOperands(IElement surface, out IElement[] operands)
     {
+        if (TryReadSubdivisionSurface(surface, out _, out _))
+        {
+            operands = [];
+            return false;
+        }
         if (TryReadOpposedFaceCore(surface, out var opposedSource))
         {
             return TryReadAdditiveOperands(opposedSource, out operands);
@@ -563,6 +577,7 @@ public sealed partial class UnitShape : IEquatable<UnitShape>
             IsUnitSegment(relation) ||
             IsDescriptorSlotSurface(relation) ||
             IsResolutionSurface(relation) ||
+            TryReadSubdivisionSurface(relation, out _, out _) ||
             TryReadQuotientSurface(relation, out _, out _, out _) ||
             TryReadOrthogonalSourceCore(relation, out _) ||
             TryReadOpposedFaceCore(relation, out _) ||
@@ -584,7 +599,7 @@ public sealed partial class UnitShape : IEquatable<UnitShape>
             return [element];
         }
 
-        if (IsAdditiveMarker(relation.Right))
+        if (IsAdditiveMarker(relation.Right) && !TryReadSubdivisionSurface(relation, out _, out _))
         {
             return FlattenAdditive(relation.Left);
         }
@@ -593,6 +608,7 @@ public sealed partial class UnitShape : IEquatable<UnitShape>
             IsUnitSegment(relation) ||
             IsDescriptorSlotSurface(relation) ||
             IsResolutionSurface(relation) ||
+            TryReadSubdivisionSurface(relation, out _, out _) ||
             IsProductSurface(relation) ||
             TryReadQuotientSurface(relation, out _, out _, out _) ||
             TryReadOpposedFaceCore(relation, out _) ||

@@ -12,7 +12,8 @@ public enum GojoEncodedElementKind : byte
     TickRef = 2,
     CarrierLocation = 3,
     Relation = 4,
-    UnitShape = 5
+    UnitShape = 5,
+    Placeholder = 6
 }
 
 /// <summary>Pointer into one table of a packed Gojo snapshot.</summary>
@@ -32,7 +33,11 @@ public readonly record struct GojoEncodedCarrier(
     ulong Value,
     long Tension,
     int UnitShapeIndex,
-    int InverseCarrierIndex);
+    int InverseCarrierIndex)
+{
+    public int ValueTickRefIndex { get; init; } = -1;
+    public int[] AttachedRelationIndexes { get; init; } = [];
+}
 
 /// <summary>Packed shared coordinate row.</summary>
 public readonly record struct GojoEncodedTickRef(int Index, ulong Id, long Ticks);
@@ -54,7 +59,13 @@ public readonly record struct GojoEncodedRelation(
 public readonly record struct GojoEncodedUnitShape(
     int Index,
     ulong Id,
-    GojoEncodedElementRef Surface);
+    GojoEncodedElementRef Surface)
+{
+    public GojoEncodedElementRef[] Descriptors { get; init; } = [];
+}
+
+/// <summary>Packet-local abstract slot and its face; equal slots may have two faces.</summary>
+public readonly record struct GojoEncodedPlaceholder(int Index, int SlotIndex, bool IsInverse);
 
 /// <summary>
 /// Read-only packed view of a Gojo structure. This is deliberately a derived
@@ -70,6 +81,11 @@ public sealed record GojoEncodedSnapshot(
     GojoEncodedRelation[] Relations,
     GojoEncodedUnitShape[] UnitShapes)
 {
+    public GojoEncodedPlaceholder[] Placeholders { get; init; } = [];
+
+    /// <summary>Whether attachment ownership and all reachable state were explicitly captured.</summary>
+    public bool IsCompleteGraph { get; init; }
+
     public GojoEncodedElementRef Root =>
         Roots.Length == 0 ? GojoEncodedElementRef.None : Roots[0];
 
@@ -84,6 +100,13 @@ public sealed record GojoEncodedSnapshot(
     public static GojoEncodedSnapshot CaptureWorld(Carrier anchor) =>
         new Encoder().CaptureWorld(anchor);
 
+    /// <summary>
+    /// Captures ordered roots (including repetitions) and their full reachable
+    /// carrier attachment worlds. Call while the local world is not mutating.
+    /// </summary>
+    public static GojoEncodedSnapshot CaptureGraph(params IElement[] roots) =>
+        new Encoder().CaptureGraph(roots);
+
     private sealed class Encoder
     {
         private readonly Dictionary<Carrier, int> carrierIndexes = new(ReferenceComparer<Carrier>.Instance);
@@ -91,6 +114,8 @@ public sealed record GojoEncodedSnapshot(
         private readonly Dictionary<LocationKey, int> locationIndexes = [];
         private readonly Dictionary<Relation, int> relationIndexes = new(ReferenceComparer<Relation>.Instance);
         private readonly Dictionary<UnitShape, int> unitShapeIndexes = new(ReferenceComparer<UnitShape>.Instance);
+        private readonly Dictionary<(ulong Slot, bool Face), int> placeholderIndexes = [];
+        private readonly Dictionary<ulong, int> slotIndexes = [];
 
         private readonly List<Carrier> carrierObjects = [];
         private readonly List<GojoEncodedElementRef> roots = [];
@@ -99,16 +124,36 @@ public sealed record GojoEncodedSnapshot(
         private readonly List<GojoEncodedCarrierLocation> carrierLocations = [];
         private readonly List<GojoEncodedRelation> relations = [];
         private readonly List<GojoEncodedUnitShape> unitShapes = [];
+        private readonly List<GojoEncodedPlaceholder> placeholders = [];
+        private readonly Queue<Action> pendingRows = new();
+
+        public GojoEncodedSnapshot CaptureGraph(IElement[] selected)
+        {
+            foreach (var root in selected) roots.Add(Encode(root));
+            DrainRows();
+            for (var index = 0; index < carrierObjects.Count; index++)
+            {
+                var carrier = carrierObjects[index];
+                if (carrier.IsUnknown) continue;
+                var attached = carrier.AttachedRelations.Select(relation => EncodeRelation(relation).Index).ToArray();
+                carriers[index] = carriers[index] with { AttachedRelationIndexes = attached };
+                DrainRows();
+            }
+            var snapshot = Build() with { IsCompleteGraph = true };
+            return snapshot;
+        }
 
         public GojoEncodedSnapshot Capture(IElement root)
         {
             AddRoot(Encode(root));
+            DrainRows();
             return Build();
         }
 
         public GojoEncodedSnapshot CaptureWorld(Carrier anchor)
         {
             AddRoot(EncodeCarrier(anchor));
+            DrainRows();
 
             for (var index = 0; index < carrierObjects.Count; index++)
             {
@@ -122,6 +167,7 @@ public sealed record GojoEncodedSnapshot(
                 {
                     AddRoot(EncodeRelation(relation));
                 }
+                DrainRows();
             }
 
             return Build();
@@ -134,6 +180,7 @@ public sealed record GojoEncodedSnapshot(
                 TickRef tickRef => EncodeTickRef(tickRef),
                 CarrierLocation location => EncodeLocation(location),
                 Relation relation => EncodeRelation(relation),
+                Placeholder placeholder => EncodePlaceholder(placeholder),
                 _ => GojoEncodedElementRef.None
             };
 
@@ -157,20 +204,24 @@ public sealed record GojoEncodedSnapshot(
                 UnitShapeIndex: -1,
                 InverseCarrierIndex: -1));
 
-            var unitShape = EncodeUnitShape(carrier.UnitShape);
-            var inverseCarrier = carrier.ExistingInverse is null
-                ? GojoEncodedElementRef.None
-                : EncodeCarrier(carrier.ExistingInverse);
+            pendingRows.Enqueue(() =>
+            {
+                var valueTick = EncodeTickRef(carrier.ValueSlot.Tick);
+                var unitShape = EncodeUnitShape(carrier.UnitShape);
+                var inverseCarrier = carrier.ExistingInverse is null
+                    ? GojoEncodedElementRef.None
+                    : EncodeCarrier(carrier.ExistingInverse);
 
-            carriers[index] = new GojoEncodedCarrier(
-                index,
-                carrier.Id,
-                carrier.IsInverse,
-                carrier.IsUnknown,
-                carrier.Value,
-                carrier.Tension,
-                unitShape.Index,
-                inverseCarrier.IsNone ? -1 : inverseCarrier.Index);
+                carriers[index] = new GojoEncodedCarrier(
+                    index,
+                    carrier.Id,
+                    carrier.IsInverse,
+                    carrier.IsUnknown,
+                    carrier.Value,
+                    carrier.Tension,
+                    unitShape.Index,
+                    inverseCarrier.IsNone ? -1 : inverseCarrier.Index) { ValueTickRefIndex = valueTick.Index };
+            });
 
             return new GojoEncodedElementRef(GojoEncodedElementKind.Carrier, index);
         }
@@ -229,9 +280,12 @@ public sealed record GojoEncodedSnapshot(
                 GojoEncodedElementRef.None,
                 GojoEncodedElementRef.None));
 
-            var left = Encode(relation.Left);
-            var right = Encode(relation.Right);
-            relations[index] = new GojoEncodedRelation(index, relation.Id, left, right);
+            pendingRows.Enqueue(() =>
+            {
+                var left = Encode(relation.Left);
+                var right = Encode(relation.Right);
+                relations[index] = new GojoEncodedRelation(index, relation.Id, left, right);
+            });
             return new GojoEncodedElementRef(GojoEncodedElementKind.Relation, index);
         }
 
@@ -246,9 +300,27 @@ public sealed record GojoEncodedSnapshot(
             unitShapeIndexes.Add(unitShape, index);
             unitShapes.Add(new GojoEncodedUnitShape(index, unitShape.Id, GojoEncodedElementRef.None));
 
-            var surface = Encode(unitShape.SurfaceRoot);
-            unitShapes[index] = new GojoEncodedUnitShape(index, unitShape.Id, surface);
+            pendingRows.Enqueue(() =>
+            {
+                var surface = Encode(unitShape.SurfaceRoot);
+                var descriptors = unitShape.DescriptorRoots.Select(Encode).ToArray();
+                unitShapes[index] = new GojoEncodedUnitShape(index, unitShape.Id, surface) { Descriptors = descriptors };
+            });
             return new GojoEncodedElementRef(GojoEncodedElementKind.UnitShape, index);
+        }
+
+        private GojoEncodedElementRef EncodePlaceholder(Placeholder placeholder)
+        {
+            var key = (placeholder.Id, placeholder.IsInverse);
+            if (!placeholderIndexes.TryGetValue(key, out var index))
+            {
+                index = placeholders.Count;
+                placeholderIndexes.Add(key, index);
+                if (!slotIndexes.TryGetValue(placeholder.Id, out var slot))
+                    slotIndexes.Add(placeholder.Id, slot = slotIndexes.Count);
+                placeholders.Add(new GojoEncodedPlaceholder(index, slot, placeholder.IsInverse));
+            }
+            return new GojoEncodedElementRef(GojoEncodedElementKind.Placeholder, index);
         }
 
         private void AddRoot(GojoEncodedElementRef root)
@@ -259,6 +331,11 @@ public sealed record GojoEncodedSnapshot(
             }
         }
 
+        private void DrainRows()
+        {
+            while (pendingRows.TryDequeue(out var completeRow)) completeRow();
+        }
+
         private GojoEncodedSnapshot Build() =>
             new(
                 [.. roots],
@@ -266,7 +343,7 @@ public sealed record GojoEncodedSnapshot(
                 [.. tickRefs],
                 [.. carrierLocations],
                 [.. relations],
-                [.. unitShapes]);
+                [.. unitShapes]) { Placeholders = [.. placeholders] };
     }
 
     private readonly record struct LocationKey(int CarrierIndex, int TickRefIndex);

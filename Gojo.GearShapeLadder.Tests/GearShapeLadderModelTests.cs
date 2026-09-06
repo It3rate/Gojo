@@ -7,6 +7,29 @@ namespace Gojo.GearShapeLadder.Tests;
 public sealed class GearShapeLadderModelTests
 {
     [Fact]
+    public void NumericRestorationRetainsEveryRungContourAndSharedPitchIdentity()
+    {
+        var model = new GearShapeLadderModel(24, 16);
+        var restored = Assert.IsType<Relation>(Assert.Single(GojoNumericFormat.Decode(GojoNumericFormat.Encode(model.Ladder))));
+        Assert.True(StructuralLadderSurface.TryReadRungPath(restored, out var rungs));
+        Assert.Equal(model.Rungs.Count, rungs.Length);
+        var stages = rungs.Select(rung =>
+        {
+            Assert.True(StructuralLadderSurface.TryReadRung(rung, out _, out _, out var result, out _, out _, out _, out _, out _));
+            Assert.True(GearShapeLadderSurface.TryReadStage(result, out var stage));
+            return stage;
+        }).ToArray();
+        for (var i = 0; i < stages.Length; i++)
+        {
+            Assert.Equal(GearShapeGeometry.SegmentCount(model.ReadStage(i).Driver.Contour),
+                GearShapeGeometry.SegmentCount(stages[i].Driver.Contour));
+            Assert.Same(stages[0].Driver.Perimeter, stages[i].Driver.Perimeter);
+            Assert.Same(stages[0].Driver.PitchCircle, stages[i].Driver.PitchCircle);
+        }
+        Assert.NotSame(model.DriverPerimeter, stages[0].Driver.Perimeter);
+    }
+
+    [Fact]
     public void BuildsSixReadableTimedRefinementRungs()
     {
         var model = new GearShapeLadderModel();

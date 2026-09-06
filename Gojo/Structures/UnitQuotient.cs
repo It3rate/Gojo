@@ -9,7 +9,7 @@ namespace Gojo.Structures;
 /// carriers; open or unsupported factors remain visible. This is not numeric
 /// division, a material operation, or an implicit rewrite of UnitShape compatibility.
 /// </summary>
-public static class UnitQuotient
+public static partial class UnitQuotient
 {
     /// <summary>Connects ordered numerator factors, denominator factors, and the selected standard.</summary>
     public static Relation Create(Carrier root, Relation numerator, Relation denominator, IElement standard) =>

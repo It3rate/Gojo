@@ -309,8 +309,8 @@ public static class OperationFollow
                 residual);
         }
 
-        var next = new CarrierLocation(follower, SaturatingAdd(current.Ticks, applied.Ticks));
-        var remaining = new CarrierLocation(residualCarrier, SaturatingSubtract(residualLocation.Ticks, applied.Ticks));
+        var next = new CarrierLocation(follower, checked(current.Ticks + applied.Ticks));
+        var remaining = new CarrierLocation(residualCarrier, checked(residualLocation.Ticks - applied.Ticks));
         return new FollowRead(applied, next, remaining, routeResidue);
     }
 
@@ -364,14 +364,7 @@ public static class OperationFollow
             return;
         }
 
-        if (adjustment.Ticks == long.MinValue)
-        {
-            adjustment.Carrier.Remove((ulong)long.MaxValue);
-            adjustment.Carrier.Remove(1);
-            return;
-        }
-
-        adjustment.Carrier.Remove(checked((ulong)-adjustment.Ticks));
+        adjustment.Carrier.Remove(checked((ulong)-(Int128)adjustment.Ticks));
     }
 
     private static bool TryReadRootElements(Relation structure, out IElement[] elements)
@@ -384,28 +377,6 @@ public static class OperationFollow
 
         elements = [];
         return false;
-    }
-
-    private static long SaturatingAdd(long left, long right)
-    {
-        var sum = (Int128)left + right;
-        return ClampToLong(sum);
-    }
-
-    private static long SaturatingSubtract(long left, long right)
-    {
-        var difference = (Int128)left - right;
-        return ClampToLong(difference);
-    }
-
-    private static long ClampToLong(Int128 value)
-    {
-        if (value > long.MaxValue)
-        {
-            return long.MaxValue;
-        }
-
-        return value < long.MinValue ? long.MinValue : (long)value;
     }
 
     private readonly record struct FollowRead(

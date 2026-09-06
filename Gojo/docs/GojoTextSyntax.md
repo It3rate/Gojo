@@ -655,7 +655,7 @@ The version-1 parser currently accepts:
 | carriers and sites | `carrier`, `tick`, `at`, `point`, `span` |
 | primitive structure | `A -> B`, `group`, `ports`, `frame`, `bind` |
 | structural views | `dual`, `reverse`, `orthogonal` |
-| unit shapes | `unit_of`, `resolution`, `product_units`, `additive_units`, `crystal` |
+| unit shapes | `unit_of`, `resolution`, `subdivision`, `product_units`, `additive_units`, `quotient_unit`, `crystal` |
 | boundary/flow | `basis`, `lane`, `value`, `lane_action` |
 | access and change | `access`, `action`, `act` |
 | repetition and history | `count`, `repeat`, `step`, `timeline` |
@@ -679,19 +679,19 @@ This pass intentionally leaves several questions open:
 3. **Action closure.** An algebra should expose which actions are admitted,
    their composition, identities, inverses, blocked applications, and residue.
    A list of legal lanes is insufficient.
-4. **Ladder settlement.** Carry relations exist, but importing and normalizing
-   arbitrary fine-rung values should leave a complete conservation witness.
+4. **Ladder settlement.** Explicit [material refinement and borrow](GojoMaterialRefinement.md)
+   now retain packet conservation, unavailable demand and remainder. General
+   automatic ladder admission and fractional tension settlement remain open.
 5. **Fractional repetition.** Treating reciprocal power as inverse repetition
    needs a controller basis and settlement law, not a special spelling.
 6. **Text round-trip.** Version 1 parses text into structure. A canonical
    serializer is deliberately deferred until enough structures show which
    aliases improve readability without masquerading as crystallizations.
-7. **Numeric encoding.** A later storage and transport surface should encode
-   the same element identities, signed locations, ordered relations, unit
-   shapes, shared tick references, open slots, residue, tension, and provenance
-   using integer-oriented records. It must remain a reversible projection of
-   Gojo structure, not a floating-point collapse, text hash, or second semantic
-   enum model.
+7. **Numeric encoding.** [Version 1 graph transport](GojoNumericFormat.md) now
+   preserves these structures, slot sharing, unit descriptors and attachment
+   ownership. Restoration creates an independent local world without settling
+   it. All current syntax fixtures round-trip; this does not supply a canonical
+   text writer or persistent identity across independent packets.
 8. **Historical stability.** Timelines preserve distinct before/after evidence,
    but current elements can still contain mutable carriers or retargetable tick
    references. A durable-history boundary must say what is snapshotted,
@@ -700,3 +700,19 @@ This pass intentionally leaves several questions open:
 These are findings for continued Gojo validation, not permission for the syntax
 layer to patch around missing kernel laws. If one becomes a required primitive,
 it should be proposed and appraised at the Gojo level.
+
+## September 6: composition and finer material bases
+
+`subdivision(unit,n)` captures a finer tick, `n` of which correspond to one
+source tick. Like `resolution`, it requires a positive integer, preserves flow
+face/provenance and checks combined factor overflow. Its relation surface
+records scale correspondence; it is not a denominator dimension.
+
+The [composition fixture](../../Gojo.Encoding.Tests/Fixtures/Syntax/quotient-composition.gojo)
+authors nested quotient units and requests in ordinary groups. Explicit kernel
+expansion/cancellation witnesses select equivalent output units; the parser
+does not silently simplify units or execute division. The
+[material fixture](../../Gojo.Encoding.Tests/Fixtures/Syntax/material-refinement.gojo)
+authors coarse/fine calibration spans, transfer requests and an open request.
+Its tests execute refinement, coarsening and borrowing both before and after
+numeric restoration. Syntax and these new kernel mechanisms are in step.

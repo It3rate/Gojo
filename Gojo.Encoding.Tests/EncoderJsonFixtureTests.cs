@@ -59,7 +59,7 @@ public sealed class EncoderJsonFixtureTests
         foreach (var fixture in fixtures)
         {
             var export = expected[fixture.EntryId];
-            var generated = GojoStructureEncodingFixtureProjection.EntryFromStructure(
+            var generated = GojoStructureEncodingFixtureProjection.EntryFromTeachingExample(
                 new GojoStructureEncodingFixtureProjection.Source(
                     export.Id,
                     fixture.Represents ?? string.Empty,

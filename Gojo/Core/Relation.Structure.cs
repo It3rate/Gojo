@@ -25,11 +25,11 @@ public sealed partial class Relation
     /// <summary>Returns all carrier locations contained by this relation.</summary>
     public CarrierLocation[] CarrierLocations()
     {
-        return [.. LeftCarrierLocations(), .. RightCarrierLocations()];
+        return CarrierLocationsOf(this);
     }
 
     /// <summary>Returns all carriers referenced by this relation or nested elements.</summary>
-    public Carrier[] Carriers() => [.. CarriersOf(Left), .. CarriersOf(Right)];
+    public Carrier[] Carriers() => CarriersOf(this);
 
     /// <summary>Returns carrier locations from the left element.</summary>
     public CarrierLocation[] LeftCarrierLocations() => CarrierLocationsOf(Left);
@@ -162,21 +162,34 @@ public sealed partial class Relation
     #region Element Traversal Helpers
 
     /// <summary>Collects carrier locations from an element tree.</summary>
-    private static CarrierLocation[] CarrierLocationsOf(IElement element) => element switch
-    {
-        CarrierLocation location => [location],
-        Relation relation => relation.CarrierLocations(),
-        _ => []
-    };
+    private static CarrierLocation[] CarrierLocationsOf(IElement element) =>
+        [.. PrimitiveLeavesOf(element).OfType<CarrierLocation>()];
 
     /// <summary>Collects carriers from an element tree.</summary>
-    private static Carrier[] CarriersOf(IElement element) => element switch
+    private static Carrier[] CarriersOf(IElement element) => [.. PrimitiveLeavesOf(element).SelectMany(leaf => leaf switch
     {
         Carrier carrier => [carrier],
         CarrierLocation location => [location.Carrier],
-        Relation relation => relation.Carriers(),
-        _ => []
-    };
+        _ => Array.Empty<Carrier>()
+    })];
+
+    // Visit each incidence in order, stopping only active relation cycles.
+    // A repeated acyclic branch still contributes each time it is connected.
+    private static IEnumerable<IElement> PrimitiveLeavesOf(IElement element)
+    {
+        var active = new HashSet<Relation>(ReferenceEqualityComparer.Instance);
+        var pending = new Stack<(IElement Element, bool Leaving)>();
+        pending.Push((element, false));
+        while (pending.TryPop(out var next))
+        {
+            if (next.Element is not Relation relation) { yield return next.Element; continue; }
+            if (next.Leaving) { active.Remove(relation); continue; }
+            if (!active.Add(relation)) continue;
+            pending.Push((relation, true));
+            pending.Push((relation.Right, false));
+            pending.Push((relation.Left, false));
+        }
+    }
 
     /// <summary>Builds an ordered chain of additive holder attachments.</summary>
     private static IElement ChainAdditiveAttachments(
@@ -205,16 +218,21 @@ public sealed partial class Relation
         Carrier holder,
         List<IElement> participants)
     {
-        if (TryReadAdditiveAttachment(element, holder, out var participant))
+        var active = new HashSet<Relation>(ReferenceEqualityComparer.Instance);
+        var pending = new Stack<(IElement Element, bool Leaving)>();
+        pending.Push((element, false));
+        while (pending.TryPop(out var next))
         {
-            participants.Add(participant);
-            return;
-        }
-
-        if (element is Relation relation)
-        {
-            CollectAdditiveParticipants(relation.Left, holder, participants);
-            CollectAdditiveParticipants(relation.Right, holder, participants);
+            if (next.Element is not Relation relation) continue;
+            if (next.Leaving) { active.Remove(relation); continue; }
+            if (!active.Add(relation)) continue;
+            pending.Push((relation, true));
+            if (TryReadAdditiveAttachment(relation, holder, out var participant)) participants.Add(participant);
+            else
+            {
+                pending.Push((relation.Right, false));
+                pending.Push((relation.Left, false));
+            }
         }
     }
 

@@ -34,7 +34,12 @@ bodies do not include focus surfaces, read witnesses, projections, or lexical
 text.
 
 The glossary fixtures are generated from the live Gojo structures through
-`GojoStructureEncodingFixtureProjection`. The concept-definition fixtures are
+`GojoStructureEncodingFixtureProjection.EntryFromTeachingExample`. This legacy
+teaching projection mixes backing reads with caption keywords and illustrative
+definitions; its `known` field is not proof that the backing implements those
+concepts. `EntryFromStructure` now excludes those hints and is invariant under
+renaming or changing the prose. For restorable numeric graphs use
+`GojoNumericFormat`, not either sparse summary. The concept-definition fixtures are
 generated from their own relation ledgers. In both cases, the JSON is an
 intentionally sparse documentary read over Gojo structure, not a storage
 inventory. Each file keeps only a few local `gojo` observations:

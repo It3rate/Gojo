@@ -232,6 +232,41 @@ division residue in numerator ticks. Syntax tests exercise that reconstruction
 and partial binding as well as fully constructed reads. See
 [the implementation and boundaries](GojoUnitQuotientReads.md).
 
+## Numeric Structure Milestone, September 6, 2026
+
+The next checkpoint makes three earlier boundaries executable without changing
+the distinction between dimensional reads, calibration and material movement.
+Nested quotient expansion retains a decomposition witness for each source
+factor and its standard. Reduced numeric observation separately checks the
+division domain before selecting an exactly equivalent output basis.
+
+Subdivision uses `S(Unknown,0,n) -> source-unit-surface`, opposite the placement
+of a coarse resolution frame. This expresses a scale correspondence using the
+existing primitive relation. Positive packets through two zero-origin frames
+permit explicit refinement, coarsening and borrowing with exact conservation
+and visible shortage. It does not specify automatic route choice, fairness or
+distributed confidence. Resolution had dropped opposed faces; preserving them
+is a correction to the earlier promise, not a new sign convention.
+
+`GojoNumericFormat` restores complete integer-table graphs, including partial
+patterns and live attachment ownership. Construction hooks link frozen units
+and cyclic references before roots become visible; loading never calls public
+settlement entry points. New runtime identities isolate the restored world,
+while their relative source ordering preserves current settlement tie-breaks.
+This is an explicit independent-world contract, not persistent identity across
+separately loaded packets. The byte format is versioned but not a canonical
+text writer, compressed memory, runtime closure serializer or global history.
+
+Raw `TickRef` unit descriptors previously allowed a stable promise to drift.
+They now require grounding in a location before capture. Validation also
+rejects writable aliases into frozen unit internals and inconsistent cached
+opposite-unit pairs. Exact claim, fit and follow scalars now check overflow;
+unreadable comparison residuals no longer appear as zero error. These changes
+protect the mathematical premise without assigning global fault to a participant.
+
+See [the full review](GojoNumericMilestoneReview-2026-09.md),
+[refinement](GojoMaterialRefinement.md) and [numeric format](GojoNumericFormat.md).
+
 ## Prompt Shape
 
 The final prompt deliberately has four scales:

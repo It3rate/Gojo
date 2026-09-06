@@ -75,4 +75,43 @@ public static class QuantityQuotient
             new Placeholder(), new Relation(numerator, denominator), evidence);
         return false;
     }
+
+    /// <summary>
+    /// Explicitly selects dimensional expansion/cancellation for the output.
+    /// Numeric domain conditions and source remainder still come from the
+    /// native quotient read; the dimensional witness cannot make division by
+    /// zero valid or recover residue discarded by an earlier caller.
+    /// </summary>
+    public static bool TryObserveReduced(Relation request, out Relation witness)
+    {
+        if (TryRead(request, out var numerator, out var denominator, out var output, out var standard) &&
+            numerator is CarrierLocation n && denominator is CarrierLocation d)
+        {
+            var expression = UnitQuotient.Create(new Carrier(),
+                Relation.OrderedGroup(new Carrier(), Relation.Point(n.Carrier, 1)),
+                Relation.OrderedGroup(new Carrier(), Relation.Point(d.Carrier, 1)), standard);
+            if (UnitQuotient.TryReadUnit(expression, out var nativeUnit))
+            {
+                var nativeRequest = Create(new Carrier(), numerator, denominator, new Carrier(nativeUnit), standard);
+                if (TryObserve(nativeRequest, out var nativeWitness) &&
+                    ReadWitness.TryRead(nativeWitness, out _, out _, out var result, out var residue, out _) &&
+                    result is CarrierLocation value &&
+                    UnitQuotient.TryProjectEquivalent(value, output, standard, out var equivalence) &&
+                    ReadWitness.TryRead(equivalence, out _, out _, out var converted, out _, out _))
+                {
+                    witness = ReadWitness.Create(new Carrier(), request, nativeWitness, converted, residue, equivalence);
+                    return true;
+                }
+            }
+        }
+        // Keep the usual unresolved witness even when native reading would
+        // succeed: this specifically requested reduced-basis read did not.
+        if (TryRead(request, out var sourceN, out var sourceD, out _, out var sourceStandard))
+        {
+            witness = ReadWitness.Create(new Carrier(), request, request, new Placeholder(),
+                new Relation(sourceN, sourceD), sourceStandard);
+        }
+        else witness = null!;
+        return false;
+    }
 }

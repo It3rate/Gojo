@@ -1,11 +1,19 @@
 {
-  "represents": "Stretch repeat grows the result by applying the stretch action again to its own output; this is the exponent-style read.",
+  "represents": "The backing combines line and partition geometry. The intended repeated stretch still needs an explicit controller, feedback and transition history.",
   "entryId": "actions-repeat-stretch-repeat",
   "expression": "Repeat(action_stretch(k), n) -> S0,S1,S2...",
-  "encodingNote": "Stretch repeat grows the result by applying the stretch action again to its own output; this is the exponent-style read.",
+  "encodingNote": "The backing combines line and partition geometry. The intended repeated stretch still needs an explicit controller, feedback and transition history.",
   "gojo": {
     "known": [
+      "partition",
       "repeat"
+    ],
+    "paths": [
+      "runtime pass --records--> residue + tension",
+      "runtime trace --crystallize--> behavior witness"
+    ],
+    "tension": [
+      "runtime/static distinction must remain explicit"
     ]
   }
 }

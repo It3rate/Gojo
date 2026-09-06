@@ -8,6 +8,9 @@
     <File Path="Gojo/docs/GojoLowLevelMathStatus-2026-09.md" />
     <File Path="Gojo/docs/GojoMathConformance.md" />
     <File Path="Gojo/docs/GojoUnitQuotientReads.md" />
+    <File Path="Gojo/docs/GojoNumericMilestoneReview-2026-09.md" />
+    <File Path="Gojo/docs/GojoNumericFormat.md" />
+    <File Path="Gojo/docs/GojoMaterialRefinement.md" />
   </Folder>
   <Project Path="Gojo/Gojo.csproj" />
   <Project Path="Gojo.Tests/Gojo.Tests.csproj" />

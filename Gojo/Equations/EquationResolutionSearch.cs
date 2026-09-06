@@ -645,7 +645,7 @@ public static class EquationResolutionSearch
     private static long CandidateTicks(long startTicks, long span, int sampleCount, int index) =>
         sampleCount <= 1
             ? startTicks
-            : SaturatingAdd(startTicks, checked(span * index / checked(sampleCount - 1)));
+            : checked((long)((Int128)startTicks + (Int128)span * index / (sampleCount - 1)));
 
     private static bool TryReadRootElements(Relation structure, out IElement[] elements)
     {

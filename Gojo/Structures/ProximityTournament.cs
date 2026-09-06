@@ -229,14 +229,13 @@ public static class ProximityTournament
             maxDistance = Math.Max(maxDistance, distance.Ticks);
         }
 
-        var penaltyStep = SaturatingAdd(maxDistance, 1);
+        var penaltyStep = (Int128)maxDistance + 1;
         var entries = new Relation[count];
         for (var index = 0; index < count; index++)
         {
             var read = reads[index];
-            var selectionTicks = SaturatingAdd(
-                read.Distance.Ticks,
-                SaturatingMultiply(read.BoundaryViolation.Ticks, penaltyStep));
+            var selectionTicks = checked((long)(read.Distance.Ticks +
+                read.BoundaryViolation.Ticks * penaltyStep));
             var selectionMeasure = new CarrierLocation(measureCarrier, selectionTicks);
             choices[index] = Choice(
                 read.Value,
@@ -313,28 +312,6 @@ public static class ProximityTournament
 
         elements = [];
         return false;
-    }
-
-    private static long SaturatingAdd(long left, long right)
-    {
-        var sum = (Int128)left + right;
-        return ClampToLong(sum);
-    }
-
-    private static long SaturatingMultiply(long left, long right)
-    {
-        var product = (Int128)left * right;
-        return ClampToLong(product);
-    }
-
-    private static long ClampToLong(Int128 value)
-    {
-        if (value > long.MaxValue)
-        {
-            return long.MaxValue;
-        }
-
-        return value < long.MinValue ? long.MinValue : (long)value;
     }
 
     private readonly record struct ChoiceRead(

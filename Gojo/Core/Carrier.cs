@@ -11,7 +11,7 @@ public sealed partial class Carrier : IElement
 
     private Carrier? inverse;
     private readonly List<Relation> relations = [];
-    private readonly TickRef valueTick = new(0);
+    private TickRef valueTick = new(0);
     private bool settling;
 
     #region Construction and Identity
@@ -59,7 +59,7 @@ public sealed partial class Carrier : IElement
     public bool IsUnknown => Id == 0;
 
     /// <summary>Stable tick meaning for this carrier; value remains mutable.</summary>
-    public UnitShape UnitShape { get; }
+    public UnitShape UnitShape { get; private set; }
 
     /// <summary>Existing opposed face, when it has already been materialized.</summary>
     internal Carrier? ExistingInverse => inverse;
@@ -143,7 +143,7 @@ public sealed partial class Carrier : IElement
     /// <summary>Adds positive tick tension and settles the connected world.</summary>
     public void Add(ulong ticks)
     {
-        Receive(checked((long)ticks));
+        ReceiveCore((Int128)ticks);
         // TODO: Replace immediate quiet settlement with a time-step scheduler
         // so several perturbations can enter the same connected world before
         // relations lower tension. Sequential settlement should remain an
@@ -154,7 +154,7 @@ public sealed partial class Carrier : IElement
     /// <summary>Adds negative tick tension and settles the connected world.</summary>
     public void Remove(ulong ticks)
     {
-        Receive(checked(-checked((long)ticks)));
+        ReceiveCore(-(Int128)ticks);
         // TODO: See Add. Public perturbations settle synchronously for the
         // current executable foothold, but the dynamic model wants batched
         // per-step settlement across independent structures.
@@ -164,7 +164,7 @@ public sealed partial class Carrier : IElement
     /// <summary>Feeds the delta required to make visible value approach ticks.</summary>
     public void Set(long ticks)
     {
-        Receive(checked(ticks - checked((long)Value)));
+        ReceiveCore((Int128)ticks - Value);
         // TODO: See Add. This is slot-style delta input, not direct value
         // assignment; a future time-step scheduler should batch it with other
         // same-frame perturbations before settlement.
@@ -206,15 +206,22 @@ public sealed partial class Carrier : IElement
     #region Settlement State Mutation
 
     /// <summary>Receives signed tension and absorbs what fits in this carrier value.</summary>
-    internal void Receive(long ticks)
-    {
-        if (ticks == 0)
-        {
-            return;
-        }
+    internal void Receive(long ticks) => ReceiveCore(ticks);
 
-        Tension = checked(Tension + ticks);
-        AbsorbTension();
+    private void ReceiveCore(Int128 ticks)
+    {
+        if (ticks == 0) return;
+        var (value, tension) = ReadReceivedState(ticks);
+        SetValue(value);
+        Tension = tension;
+    }
+
+    // Compute introduced tension and its local absorption before changing
+    // either field. Intermediate deltas may be wide; stored state may not.
+    private (ulong Value, long Tension) ReadReceivedState(Int128 ticks)
+    {
+        var total = (Int128)Value + Tension + ticks;
+        return total >= 0 ? (checked((ulong)checked((long)total)), 0) : (0, checked((long)total));
     }
 
     /// <summary>Feeds the delta required to make visible value approach ticks without starting another settlement pass.</summary>
@@ -222,7 +229,7 @@ public sealed partial class Carrier : IElement
     {
         var beforeValue = Value;
         var beforeTension = Tension;
-        Receive(checked(ticks - checked((long)Value)));
+        ReceiveCore((Int128)ticks - Value);
         return Value != beforeValue || Tension != beforeTension;
     }
 
@@ -369,33 +376,6 @@ public sealed partial class Carrier : IElement
 
     /// <summary>Allocates the next non-wildcard carrier identity.</summary>
     private static ulong NextId() => Interlocked.Increment(ref idCounter);
-
-    /// <summary>Moves currently absorbable tension into value and leaves underflow.</summary>
-    private void AbsorbTension()
-    {
-        if (Tension > 0)
-        {
-            SetValue(checked(Value + checked((ulong)Tension)));
-            Tension = 0;
-            return;
-        }
-
-        if (Tension == 0)
-        {
-            return;
-        }
-
-        var draw = checked((ulong)-Tension);
-        if (Value >= draw)
-        {
-            SetValue(Value - draw);
-            Tension = 0;
-            return;
-        }
-
-        Tension = -checked((long)(draw - Value));
-        SetValue(0);
-    }
 
     private void SetValue(ulong value) => valueTick.Set(checked((long)value));
 

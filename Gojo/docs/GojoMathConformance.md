@@ -4,6 +4,11 @@ Status: implemented corrections and executable conformance fixtures, September
 5, 2026. This follows the [low-level audit](GojoLowLevelMathStatus-2026-09.md).
 It strengthens exact local mathematics before broader feedback discovery.
 
+Follow-up: the [September 6 milestone review](GojoNumericMilestoneReview-2026-09.md)
+records explicit nested quotient composition, material refinement/borrow,
+complete numeric transport and additional exact-range corrections. Counts below
+remain evidence for this earlier checkpoint, not current solution totals.
+
 ## Corrected projection accounting
 
 For source frame `[a,b]`, target frame `[c,d]`, and input `x`, write
@@ -149,11 +154,12 @@ low-level work should address:
    expresses ordered denominator factors and witnesses local cancellation for
    `distance/time * time -> distance`. Its follow-up captures stable ordered
    reciprocal `UnitShape` promises and observes native-basis numeric quotients
-   through authored syntax. Nested quotient composition and automatic operation
-   integration remain incomplete. Carrier dual is not a reciprocal.
-2. **Material refinement and borrow.** Fractional residue is readable, but
-   general fractional settlement, automatic finer-basis admission, and
-   bidirectional borrowing across ladders remain incomplete.
+   through authored syntax. Explicit nested composition and reduced output reads
+   now work; automatic operation integration remains incomplete. Carrier dual
+   is not a reciprocal.
+2. **Material refinement and borrow.** Explicit calibrated packet transfer,
+   coarsening and local borrowing now work. General fractional settlement and
+   automatic finer-basis admission remain incomplete.
 3. **Uncertainty propagation.** Exact remainder is not a measured interval or
    correlated uncertainty. Bounds, approximate products and inequalities need
    connected claims, premises, and refinement tests.
@@ -163,8 +169,9 @@ low-level work should address:
 5. **Authoring and persistence.** No new constructor was needed here, but the
    parser lacks a direct unbound carrier-basis form and arbitrary unit descriptor
    construction. Open element slots work; unknown integer or unit arguments
-   remain partial patterns around concrete constructors. Lossless placeholder,
-   cycle and history serialization remains a separate unfinished contract.
+   remain partial patterns around concrete constructors. Numeric graph transport
+   now preserves placeholders, shared references, attachments and retained
+   history. Canonical text writing and distributed identity remain separate.
 
 Keep these mathematical boundaries ahead of a general feedback allocator or
 learning policy. Local uncertainty needs reliable accounting underneath it.

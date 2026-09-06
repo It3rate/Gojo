@@ -1,5 +1,12 @@
 # Gojo Blocks Bootstrap
 
+Status: teaching sequence and experimental inventory, not a conformance
+specification. Some glossary specimens contain illustrative backing geometry
+and open placeholders without the complete operation, claim, or witness named
+by their caption. Animation cues can also live in the presentation timeline.
+Use the [numeric milestone review](../Gojo/docs/GojoNumericMilestoneReview-2026-09.md)
+for the current distinction between executable mechanisms and teaching intent.
+
 Gojo Blocks is a visual workbench for explaining and experimenting with Gojo's
 physical math. The goal is not to draw decorative diagrams beside the model.
 The goal is to show the actual kinds of Gojo structure that make a concept

@@ -37,7 +37,7 @@ public static class OperationClaim
         TryRead(upperClaim, out _, out _, out _, out _, out var upperViolation, out _);
         var totalViolation = new CarrierLocation(
             residualCarrier,
-            SaturatingAdd(lowerViolation.Ticks, upperViolation.Ticks));
+            checked(lowerViolation.Ticks + upperViolation.Ticks));
 
         return Relation.OrderedGroup(
             holder,
@@ -298,32 +298,16 @@ public static class OperationClaim
 
     private static long PositivePart(long ticks) => ticks > 0 ? ticks : 0;
 
-    private static long SaturatingAdd(long left, long right)
-    {
-        var sum = (Int128)left + right;
-        return ClampToLong(sum);
-    }
-
     private static long MagnitudeOf(long ticks)
     {
         var magnitude = ticks < 0 ? -(Int128)ticks : (Int128)ticks;
-        return magnitude > long.MaxValue ? long.MaxValue : (long)magnitude;
-    }
-
-    private static long ClampToLong(Int128 value)
-    {
-        if (value > long.MaxValue)
-        {
-            return long.MaxValue;
-        }
-
-        return value < long.MinValue ? long.MinValue : (long)value;
+        return checked((long)magnitude);
     }
 
     private static long SupportMagnitude(long left, long right)
     {
         var magnitude = (Int128)MagnitudeOf(left) + MagnitudeOf(right);
-        return magnitude > long.MaxValue ? long.MaxValue : (long)magnitude;
+        return checked((long)magnitude);
     }
 
     private readonly record struct ClaimRead(

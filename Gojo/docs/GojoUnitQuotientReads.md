@@ -260,14 +260,12 @@ kernel read, and there is no infix division or automatic expression evaluator.
 The captured unit does not preserve source text aliases; the selected expression
 and witnesses retain source participation separately from the stable tick shape.
 
-Nested quotient arithmetic, numeric reads into explicitly canceled output units,
-automatic operation crystallization through denominator units, and fractional
-quantity settlement remain unfinished. A standalone reciprocal promise does not
-yet imply a generic scalar-one numerator evaluator. A composite factor stays
-whole until a caller explicitly exposes another factorization. The original
-[mathematical checkpoint](GojoMathConformance.md) still applies to exact
-quantities, material refinement and measured uncertainty. Lossless text/numeric
-round-trip and durable live-history encoding are also still separate work.
+The September 6 follow-up below completes explicit nested composition and
+reduced output reads. Automatic operation crystallization through denominator
+units and general fractional quantity settlement remain unfinished. A
+standalone reciprocal promise does not imply a generic scalar-one numerator
+evaluator. [Numeric graph transport](GojoNumericFormat.md) now preserves the
+graphs and retained history; canonical text writing remains separate work.
 
 Initial unit-expression checkpoint: `dotnet test Gojo.slnx --nologo` passed **1,038 tests**, none failed
 or skipped (687 kernel, 183 encoding, 20 gear-ladder, 148 CAD). There are 17 new
@@ -286,7 +284,31 @@ unit-shape allocation now use atomic increments; the
 checks all five families. This fixes identity allocation, not general concurrent
 mutation or settlement of one shared local system.
 
-The diagnostic packed snapshot currently omits unit descriptor tables as well
-as placeholder identity. Its quotient standard is therefore not a lossless
-capture either. This step does not claim numeric persistence parity with the
-authored structure or native unit promise.
+At that checkpoint the diagnostic snapshot omitted unit descriptors and
+placeholder identity. The September 6 transport below closes those omissions;
+legacy diagnostics remain distinct from complete restorable graph capture.
+
+## Explicit nested composition, September 6
+
+`UnitQuotient.TryExpand` exposes ordered product and quotient factors only when
+explicitly selected. For `(a/b)/(c/d)` it yields numerator `[a,d]`, denominator
+`[b,c]`. Each source factor remains connected to its decomposition, including
+its local standard. Additive factors, opposed faces and calibration wrappers
+remain atomic. Open factors remain present.
+
+`TryNormalize` connects both expansion and cancellation witnesses. It does not
+rewrite the native input promise. `TryProjectEquivalent` then admits a 1:1
+observational projection into an exactly matching reduced unit; no calibration
+conversion is inferred. For example, a speed tick multiplied by an hour tick
+can be explicitly read in miles while its original product remains inspectable.
+
+`QuantityQuotient.TryObserveReduced` first performs native-basis division, so
+zero/open denominators remain unresolved before any dimensional simplification.
+It then selects the explicit equivalent output read. Dividing 7 speed ticks by
+2 inverse-hour ticks produces 3 mile ticks and 1 speed tick of numerator residue.
+Both witnesses and the original request remain connected.
+
+[Composition tests](../../Gojo.Tests/Core/QuotientCompositionTests.cs) cover
+denominator inversion, products, partial factors, nested standards and refusal
+of incompatible calibration or faces. The [authored composition fixture](../../Gojo.Encoding.Tests/Fixtures/Syntax/quotient-composition.gojo)
+exercises the same laws before and after [numeric graph restoration](GojoNumericFormat.md).

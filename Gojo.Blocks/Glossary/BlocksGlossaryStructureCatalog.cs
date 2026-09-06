@@ -43,11 +43,11 @@ internal static class BlocksGlossaryStructureCatalog
         AddSpecimens(structures, "resolution-tension",
         [
             ("resolution-read", PartitionedSegment(), "S(A,B) read at coarse and fine resolution", "Resolution belongs to the read. A low-resolution read is still a valid read, not a failed value."),
-            ("unspecified-site", Group(Site(), TensionSlot()), "P(?) + Tension(location)", "The unresolved position remains inspectable instead of becoming a null or exception."),
+            ("unspecified-site", Group(Site(), TensionSlot()), "P(?) + Tension(location)", "Illustrative backing: a concrete site beside an open slot. A constraint connecting that slot to the site's unknown coordinate remains to be constructed."),
             ("closure-tension", Group(SharedPolyline(), TensionSlot()), "S(A,B)+S(B,C)+S(C,A') + close(A',A) -> Tension(delta)", "The topology can ask for closure even while geometry still misses."),
-            ("failed-read", Group(LineSegment(), TensionSlot()), "Read(S(A,B), requested basis) -> residue", "A failed read leaves a witness of the requested interpretation."),
-            ("residue-witness", Group(LineSegment(), TensionSlot()), "Read(source, basis) = result + residue", "Residue is the part that did not settle under the requested basis."),
-            ("settled-read", SharedPolyline(), "source + basis + resolution -> settled read", "Settlement is a new inspectable structure, not just a return value.")
+            ("failed-read", Group(LineSegment(), TensionSlot()), "Read(S(A,B), requested basis) -> residue", "Illustrative line and open slot; the complete selected-source, basis, result and failed-read witness are not yet connected here."),
+            ("residue-witness", Group(LineSegment(), TensionSlot()), "Read(source, basis) = result + residue", "Illustrative line and open slot; a full read witness must connect its source, basis, result and remainder separately from unsettled material tension."),
+            ("settled-read", SharedPolyline(), "source + basis + resolution -> settled read", "This backing is a shared polyline. The caption describes intended settlement evidence; this specimen does not record convergence.")
         ]);
 
     private static void AddSiteFlowBoundary(Dictionary<string, BlocksGlossaryStructure> structures) =>
@@ -66,9 +66,9 @@ internal static class BlocksGlossaryStructureCatalog
         [
             ("addition", SharedPolyline(), "S(A,B) + S(B,C) -> accumulated span", "Addition is shown as attaching compatible spans in sequence."),
             ("stretch", DirectedLine(inverse: false), "S(A,B) + action_stretch(3) -> S(A,B')", "Stretch reads the same segment relation at a fixed ratio. The source span remains inspectable while the multiplied read grows from it."),
-            ("repeat", PartitionedSegment(), "Repeat(action, n) over S(A,B)", "Repeat is first-class structure: selected source, action, count or stopping rule."),
+            ("repeat", PartitionedSegment(), "Repeat(action, n) over S(A,B)", "The partition illustrates repetition. An executable repeat additionally needs its selected source, transition, controller and feedback evidence."),
             ("multiply", RectangleArea(inverse: false), "S(A,B) + stretch(k); also Repeat(add unit, n)", "Gojo multiplication includes both stretch and accumulated repeat, with stretch as the direct multiplicative read."),
-            ("stretch-repeat", Group(DirectedLine(inverse: false), PartitionedSegment()), "Repeat(action_stretch(k), n) -> S0,S1,S2...", "Stretch repeat grows the result by applying the stretch action again to its own output; this is the exponent-style read."),
+            ("stretch-repeat", Group(DirectedLine(inverse: false), PartitionedSegment()), "Repeat(action_stretch(k), n) -> S0,S1,S2...", "The backing combines line and partition geometry. The intended repeated stretch still needs an explicit controller, feedback and transition history."),
             ("compare", PartitionedSegment(), "Read(target by unit U) -> quotient + residue", "Unit comparison asks how many repeated unit reads fit in a target.")
         ]);
 
@@ -140,9 +140,9 @@ internal static class BlocksGlossaryStructureCatalog
             ("site", Site(), "grade 0: P(O)", null),
             ("span", LineSegment(), "grade 1: S(A,B)", null),
             ("area", CircleArea(inverse: false), "grade 2: Area(boundary)", null),
-            ("volume-hint", RectangleArea(inverse: false), "grade 3: Volume(surface shell)", "The current glossary renders this as a 2D projection while the expression names the grade shift."),
+            ("volume-hint", RectangleArea(inverse: false), "grade 3: Volume(surface shell)", "A 2D rectangle-area teaching placeholder. A connected volume shell and its 3D laws are not encoded by this specimen."),
             ("segment-normal", LinearFlow(), "S(A,B) + orthogonal normal -> grade+1 support", "A 1D carrier's normal in 2D is perpendicular line support."),
-            ("point-pair-normal", Group(LinearSites(), LinearFlow()), "P(A)+P(B) in 3D -> cylindrical normal; A=B -> plane normal", "This records the 3D distinction: distant point-pair normals sweep a cylinder, while touching points collapse to plane support.")
+            ("point-pair-normal", Group(LinearSites(), LinearFlow()), "P(A)+P(B) in 3D -> cylindrical normal; A=B -> plane normal", "This linear-site/flow backing illustrates a proposed 3D distinction. It does not yet encode or verify a general cylindrical/plane normal law.")
         ]);
 
     private static void AddFaceNormalSupport(Dictionary<string, BlocksGlossaryStructure> structures) =>

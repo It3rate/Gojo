@@ -251,6 +251,14 @@ public static class GojoSyntax
                     return SyntaxValue.FromUnit(UnitShape.Product(
                         [.. arguments.Select(argument => RequireUnit(argument, "product_units(...) accepts unit shapes"))]));
 
+                case "subdivision":
+                    RequireCount(name, arguments, 2);
+                    var subdivisionUnit = RequireUnit(arguments[0], "subdivision(unit,parts) requires a unit shape");
+                    var subdivisionParts = RequireInteger(arguments[1], "subdivision(unit,parts) requires an integer");
+                    if (subdivisionParts <= 0) Error("subdivision(unit,parts) requires positive parts");
+                    try { return SyntaxValue.FromUnit(UnitShape.SubdivisionOf(subdivisionUnit, subdivisionParts)); }
+                    catch (OverflowException) { throw SyntaxError("The combined subdivision exceeds the supported tick range"); }
+
                 case "quotient_unit":
                     RequireCount(name, arguments, 1);
                     var quotientExpression = RequireRelation(arguments[0], "quotient_unit(expression) requires a unit quotient relation");

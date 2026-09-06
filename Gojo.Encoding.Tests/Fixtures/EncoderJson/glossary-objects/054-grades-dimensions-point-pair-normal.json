@@ -1,8 +1,8 @@
 {
-  "represents": "This records the 3D distinction: distant point-pair normals sweep a cylinder, while touching points collapse to plane support.",
+  "represents": "This linear-site/flow backing illustrates a proposed 3D distinction. It does not yet encode or verify a general cylindrical/plane normal law.",
   "entryId": "grades-dimensions-point-pair-normal",
   "expression": "P(A)+P(B) in 3D -> cylindrical normal; A=B -> plane normal",
-  "encodingNote": "This records the 3D distinction: distant point-pair normals sweep a cylinder, while touching points collapse to plane support.",
+  "encodingNote": "This linear-site/flow backing illustrates a proposed 3D distinction. It does not yet encode or verify a general cylindrical/plane normal law.",
   "gojo": {
     "known": [
       "collapsed-basis",

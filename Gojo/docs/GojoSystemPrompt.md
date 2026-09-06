@@ -356,6 +356,15 @@ Factor 1 preserves the source unit; nested factors multiply exactly within
 their stored range. Zero, negative, or overflowing factors must not silently
 produce an unchanged or saturated unit promise.
 
+`SubdivisionOf(source,n)` makes a finer tick: `n` returned ticks correspond to
+one source tick. Resolution and subdivision preserve opposed flow and captured
+unit provenance. Their scale correspondence is not a reciprocal dimension.
+Material refinement requires an explicitly selected calibration and transfer;
+move whole representable packets, keep unavailable demand and remainder, and
+leave any unpaid receiver draw as tension. A finer observation alone moves no
+material. Existing borrowing is an explicit local operation, not a general
+automatic ladder allocator.
+
 ### Axiom 10: Unit Algebra Remains Structural
 
 Repeated unit participation is visible relation structure:
@@ -390,6 +399,13 @@ projection basis. In an exact native quotient basis, integer ticks obey
 A zero or open denominator cannot supply a numeric answer. Preserve the
 participants and an open result; neither dimensional cancellation nor a retained
 standard supplies missing domain conditions or an implicit unit conversion.
+
+Nested product/quotient expansion is another explicit read. A denominator's
+denominator contributes to the numerator, with each decomposition and its
+standard retained as evidence. Calibration, additive structure and opposed
+faces stay atomic unless a separate law accounts for them. Selecting an exactly
+equivalent output unit does not authorize changing its scale or the original
+ordered promise.
 
 Transfer or calibration does not multiply source and target units. The target
 unit shape governs accepted target value while source-unit residue remains
@@ -679,6 +695,20 @@ or forget detail. Useful history may crystallize into an algorithm. A lossy
 transformation should expose its correspondence, retained promise, and loss at
 the promised resolution; it cannot also claim exact reconstruction of forgotten
 detail. Incidental live-reference drift is different from deliberate revision.
+
+For exact numeric transport, capture ordered roots and all reachable attachment
+ownership, shared sites, placeholder slots/faces, native unit descriptors,
+carrier state and retained history. Restore an independently identified local
+world without injecting new tension or activating detached relations during
+loading. Preserve within-world aliases and relative identity order used by
+settlement; process-global IDs are not durable external identities. A diagnostic
+snapshot is not automatically a complete restorable graph. Store an explicit
+correspondence when connecting a restored world back to another space.
+
+Stable unit snapshots ground ticks in carrier locations before capturing their
+coordinates. A raw mutable tick reference must not expose a path for altering
+an already stabilized unit. Transport preserves currently retained evidence;
+it cannot recover an earlier value that an unfrozen live reference has lost.
 
 ## 7. Focus, Transforms, And Structural Ladders
 

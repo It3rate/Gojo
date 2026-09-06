@@ -4,8 +4,9 @@ namespace Gojo.Encoding.Structures;
 
 /// <summary>
 /// Builds small, human-facing JSON fixture entries from one live Gojo structure.
-/// The fixture projection is intentionally lossy: it keeps only local reads
-/// that help us understand what the structure claims to know. The full
+/// The default projection keeps only reads of backing structure. The explicitly
+/// selected teaching projection also retains historical caption-derived hints
+/// and definition examples; those are not evidence of implemented meaning. The full
 /// diagnostic relation-shaped snapshot surface is still available from
 /// DiagnosticEntrySurfaceFromStructure.
 /// Each call reads exactly one source structure, not a glossary page or bundle
@@ -21,13 +22,23 @@ public static class GojoStructureEncodingFixtureProjection
         IElement Structure);
 
     public static GojoEncodingJsonFixtureEntry EntryFromStructure(Source source) =>
+        Entry(source, teachingHints: false);
+
+    /// <summary>
+    /// Historical teaching export. Its summaries mix backing reads with caption
+    /// keywords and authored definition examples; do not use them as conformance.
+    /// </summary>
+    public static GojoEncodingJsonFixtureEntry EntryFromTeachingExample(Source source) =>
+        Entry(source, teachingHints: true);
+
+    private static GojoEncodingJsonFixtureEntry Entry(Source source, bool teachingHints) =>
         new()
         {
             Represents = source.Represents,
             EntryId = source.EntryId,
             Expression = source.Expression,
             EncodingNote = string.IsNullOrEmpty(source.EncodingNote) ? null : source.EncodingNote,
-            Gojo = SparseGojoProjection(source)
+            Gojo = SparseGojoProjection(source, teachingHints)
         };
 
     public static Relation DiagnosticEntrySurfaceFromStructure(Source source)
@@ -50,9 +61,9 @@ public static class GojoStructureEncodingFixtureProjection
             ]);
     }
 
-    private static GojoEncodingJsonFixtureGojo SparseGojoProjection(Source source)
+    private static GojoEncodingJsonFixtureGojo SparseGojoProjection(Source source, bool teachingHints)
     {
-        var read = SparseRead.From(source);
+        var read = SparseRead.From(source, teachingHints);
         return new GojoEncodingJsonFixtureGojo
         {
             Known = NullIfEmpty(read.Known),
@@ -149,18 +160,21 @@ public static class GojoStructureEncodingFixtureProjection
             "boolean-offset-union-hole"
         };
 
-        public static SparseRead From(Source source)
+        public static SparseRead From(Source source, bool teachingHints)
         {
             var read = new SparseRead();
             read.Visit(source.Structure);
-            read.ReadExpressionHints(source.Expression, source.EncodingNote);
-            read.ApplyLocalParticipationPrinciple(source);
+            if (teachingHints)
+            {
+                read.ReadExpressionHints(source.Expression, source.EncodingNote);
+                read.ApplyLocalParticipationPrinciple(source);
+            }
             if (read.known.Count == 0)
             {
                 read.known.Add("structure");
             }
 
-            read.AddDefinitionSamples(source);
+            if (teachingHints) read.AddDefinitionSamples(source);
             return read;
         }
 

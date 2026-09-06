@@ -50,6 +50,7 @@ public static class GojoStructureEncodingJson
             CarrierLocations = [.. read.CarrierLocations.Select(ReadCarrierLocationRow)],
             Relations = [.. read.Relations.Select(ReadRelationRow)],
             UnitShapes = [.. read.UnitShapes.Select(ReadUnitShapeRow)],
+            Placeholders = [.. read.Placeholders.Select(ReadPlaceholderRow)],
             OpenedStructure = DescribeElement(read.OpenedStructure),
             ResidueOrTension = DescribeElement(read.ResidueOrTension)
         };
@@ -455,6 +456,13 @@ public static class GojoStructureEncodingJson
         return ToJson(row);
     }
 
+    private static GojoEncodingJsonPlaceholderRow ReadPlaceholderRow(IElement element)
+    {
+        if (!GojoStructureEncodingSurface.TryReadPlaceholderRow(element, out var row))
+            throw new InvalidOperationException("Could not read encoded placeholder row.");
+        return new() { Id = LocalId(row.Index), Slot = LocalId(row.SlotIndex), IsInverse = row.IsInverse };
+    }
+
     private static GojoEncodingJsonElementRef ToJson(GojoStructureEncodingSurface.EncodedStructureRef reference) =>
         new()
         {
@@ -489,7 +497,7 @@ public static class GojoStructureEncodingJson
         new() { Id = LocalId(row.Index), Left = ToJson(row.Left), Right = ToJson(row.Right) };
 
     private static GojoEncodingJsonUnitShapeRow ToJson(GojoStructureEncodingSurface.EncodedUnitShapeRow row) =>
-        new() { Id = LocalId(row.Index), Surface = ToJson(row.Surface) };
+        new() { Id = LocalId(row.Index), Surface = ToJson(row.Surface), Descriptors = [.. row.Descriptors.Select(ReadRef)] };
 
     private static GojoEncodingJsonStructureCounts CountsOf(GojoEncodingJsonStructure structure) =>
         new()
@@ -499,7 +507,8 @@ public static class GojoStructureEncodingJson
             TickRefs = structure.TickRefs.Count,
             CarrierLocations = structure.CarrierLocations.Count,
             Relations = structure.Relations.Count,
-            UnitShapes = structure.UnitShapes.Count
+            UnitShapes = structure.UnitShapes.Count,
+            Placeholders = structure.Placeholders.Count
         };
 
     private static bool? TrueOrNull(bool value) =>
@@ -539,6 +548,7 @@ public static class GojoStructureEncodingJson
             GojoEncodedElementKind.CarrierLocation => "carrier-location",
             GojoEncodedElementKind.Relation => "relation",
             GojoEncodedElementKind.UnitShape => "unit-shape",
+            GojoEncodedElementKind.Placeholder => "placeholder",
             _ => $"kind-{(long)kind}"
         };
 }
@@ -627,6 +637,8 @@ public sealed record GojoEncodingJsonStructure
     public List<GojoEncodingJsonRelationRow> Relations { get; init; } = [];
 
     public List<GojoEncodingJsonUnitShapeRow> UnitShapes { get; init; } = [];
+
+    public List<GojoEncodingJsonPlaceholderRow> Placeholders { get; init; } = [];
 
     public GojoEncodingJsonElement OpenedStructure { get; init; } = new();
 
@@ -742,6 +754,7 @@ public sealed record GojoEncodingJsonStructureCounts
     public int Relations { get; init; }
 
     public int UnitShapes { get; init; }
+    public int Placeholders { get; init; }
 }
 
 public sealed record GojoEncodingJsonElementRef
@@ -798,4 +811,13 @@ public sealed record GojoEncodingJsonUnitShapeRow
     public long Id { get; init; }
 
     public GojoEncodingJsonElementRef Surface { get; init; } = new();
+
+    public List<GojoEncodingJsonElementRef> Descriptors { get; init; } = [];
+}
+
+public sealed record GojoEncodingJsonPlaceholderRow
+{
+    public long Id { get; init; }
+    public long Slot { get; init; }
+    public bool IsInverse { get; init; }
 }

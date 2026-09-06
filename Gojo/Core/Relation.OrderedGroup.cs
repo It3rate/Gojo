@@ -31,15 +31,23 @@ public sealed partial class Relation
 
     private static bool TryCollectGroupAttachments(IElement element, Carrier holder, List<IElement> elements)
     {
-        if (element is not Relation relation) return false;
-        if (IsGroupPoint(relation.Left, holder, 0))
+        var active = new HashSet<Relation>(ReferenceEqualityComparer.Instance);
+        var pending = new Stack<(IElement Element, bool Leaving)>();
+        pending.Push((element, false));
+        while (pending.TryPop(out var next))
         {
-            elements.Add(relation.Right);
-            return true;
+            if (next.Element is not Relation relation) return false;
+            if (next.Leaving) { active.Remove(relation); continue; }
+            if (!active.Add(relation)) return false;
+            pending.Push((relation, true));
+            if (IsGroupPoint(relation.Left, holder, 0)) elements.Add(relation.Right);
+            else
+            {
+                pending.Push((relation.Right, false));
+                pending.Push((relation.Left, false));
+            }
         }
-
-        return TryCollectGroupAttachments(relation.Left, holder, elements) &&
-            TryCollectGroupAttachments(relation.Right, holder, elements);
+        return true;
     }
 
     private static bool IsGroupPoint(IElement element, Carrier holder, long ticks) =>
