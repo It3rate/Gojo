@@ -301,6 +301,45 @@ observation identity, normative versus evidential bounds and domain refusal,
 so dependence is present from the start. Selection of experiments, confidence
 updates and distribution of response remain policies to develop separately.
 
+## Bounded Quantity Fixture And Opaque Sources
+
+The user's follow-up clarifies that approximation can actively direct attention
+away from detail, even when finer information is known. The fixture uses an
+explicit coarse focus with a retained fine complement; it does not infer
+importance from decimal places or define one universal meaning for "about."
+The same known discrepancy can be acceptable under one tolerance and exposed
+again by a stricter question.
+
+External sources can remain black boxes. Shared variation and historical
+utility may eventually support learned weighting, coalescence and atrophy.
+The prompt does not demand unlimited ancestry research or require external
+sources to expose all their dependencies. Exact slot identity and a learned
+similarity claim must still support different calculations. An external
+dependency service could supply correspondence through the same port model.
+No such learning or source-tracing mechanism is implemented by this fixture.
+
+The first arithmetic foothold uses a local sample slot connected to a support
+span and evidence, then calibrated through ordinary source/target frames.
+Repeated slots combine before bounding. All their domain constraints are
+checked, including those whose final gain becomes zero. Temporary rational
+coefficients are a derived backend; the reader emits shared slots, intersected
+supports and frame calibrations as a new ordinary affine surface with its
+source attached. This is not a tagged symbolic expression tree or hidden
+dependency registry.
+
+Combination uses additive port topology. Product and quotient retain their
+inputs and produce conservative bounds, with a selected same-function square
+and a nonzero-domain quotient identity. General nonlinear dependency refinement
+is deliberately not inferred from those enclosures. Conformance calculates
+nonnegative distance to a permitted span, leaving acceptability separate from
+quantity truth and causal fault. Exact endpoints and outward rounding excesses
+remain visible; no observation introduces carrier tension.
+
+The [fixture document](GojoBoundedQuantityFixture.md) describes these laws and
+their syntax. The authored goal example separately invokes existing material
+transfer and records its witness on a timeline. This demonstrates a chosen
+response, not automatic allocation or a convergence guarantee.
+
 ## Prompt Shape
 
 The final prompt deliberately has four scales:

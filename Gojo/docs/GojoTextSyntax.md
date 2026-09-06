@@ -716,3 +716,18 @@ does not silently simplify units or execute division. The
 authors coarse/fine calibration spans, transfer requests and an open request.
 Its tests execute refinement, coarsening and borrowing both before and after
 numeric restoration. Syntax and these new kernel mechanisms are in step.
+
+## Bounded quantities and communication focus
+
+The [bounded-quantity fixture](../../Gojo.Encoding.Tests/Fixtures/Syntax/bounded-quantities.gojo)
+uses existing `group`, `ports`, placeholders, spans and affine calibrations.
+A bounded sample connects its slot, support and evidence; affine reads connect
+an offset and calibrated contributions. Shared slots remain shared after
+restoration. No uncertainty tag, probability field or new parser constructor
+supplies the semantics.
+
+Explicit kernel reads perform combination, product/quotient enclosure and
+conformance. The fixture also retains known fine mileage outside a coarse
+communication focus, and records an actual material transfer separately from
+the goal and before/after observations. See the
+[structural contract and limits](GojoBoundedQuantityFixture.md).

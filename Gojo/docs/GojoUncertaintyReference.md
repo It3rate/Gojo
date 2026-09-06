@@ -3,11 +3,14 @@
 September 6, 2026. Design analysis following the
 [numeric structure milestone](GojoNumericMilestoneReview-2026-09.md).
 
-**Status:** this is a working inventory and a proposal for subsequent fixtures.
+**Status:** this is a working inventory and a guide for subsequent fixtures.
 The implementation survey below distinguishes existing mechanisms from missing
 laws. The inventory is not a closed ontology, an `UncertaintyKind` enum, a new
-syntax grammar, or a claim that uncertainty propagation is already implemented.
+syntax grammar, or a claim that every listed mechanism is implemented.
 The [canonical prompt](GojoSystemPrompt.md) remains the repository authority.
+The subsequent [bounded-quantity fixture](GojoBoundedQuantityFixture.md) now
+implements the first conditional affine and conservative nonlinear bound reads;
+broader propagation and adaptive policies remain open.
 
 ## 1. The Main Distinction
 
@@ -314,6 +317,15 @@ The structure can retain the source, a carried complement, or a potential
 route for another space to inspect. Deliberately discarding detail is also
 valid when the retained promise acknowledges that loss.
 
+Approximation can also deliberately communicate this selection: "my hometown
+is about 100 miles away" may direct attention away from exact mileage while
+still contributing distance implications to the larger meaning. The speaker
+might know the finer value. More precise wording may invite finer attention,
+but digit count alone does not prove either importance or accuracy. A concept
+read should preserve the communication context and distinguish the published
+focus from available detail. This offers an exploratory heuristic for
+attention, not a requirement to resolve every approximate phrase.
+
 There are two different situations:
 
 1. All admissible finer completions give the same answer to the selected
@@ -390,6 +402,15 @@ projection or transfer with a basis and retained promise. Heat, sound and other
 sources do not become interchangeable merely because each has a scalar read.
 The local view may legitimately discard some distinctions, but should retain
 source correspondence when later interpretation depends on them.
+
+This does not require access to every source's internal history. Treat external
+inputs through exposed contracts; local reliability, timing, processing and
+variation evidence can remain useful even when ancestry is opaque. Similar
+variation and predictive utility may eventually support learned weighting,
+grouping and pruning. Such a group is a revisable approximation, not proof that
+the sources are identical or causally dependent. Another mechanism may supply
+stronger correspondence when available. The bounded fixture exercises known
+sharing and unknown overlap without implementing that adaptive mechanism.
 
 There are two separate duplication hazards:
 
@@ -502,6 +523,7 @@ when justified. None is a universal replacement for the source structure.
 | Carrier, site and tick-reference identity | Distinguishes shared participation from merely equal coordinates. | Sharing a category or a unit does not establish shared sample uncertainty. The graph must connect the appropriate instance, event and cause. |
 | [`ProjectionResidue`](../Core/ProjectionResidue.cs) | Retains exact rational participation left by a selected projection. | A retained remainder is not a probability or a generic measurement error bar. |
 | [`BoundedWholeSurface`](../ConceptSurface/BoundaryFlowPrimitives.cs) | Connects a selected whole, two boundaries and a partition/resolution witness; tests exercise those reads. | A bounded whole does not by itself mean an unknown sample drawn from the whole or supply a law for propagating its uncertainty. |
+| [`BoundedQuantity`](../Structures/BoundedQuantity.cs) | Conditional closed bounds, shared-slot affine combination, exact fractional endpoints, conservative products/quotients and conformance-distance reads. | Does not establish source truth, statistical independence, probability, learned similarity, general nonlinear refinement or autonomous exploration. |
 | [`ReadWitness`](../Structures/ReadWitness.cs) and [`FocusSurface`](../Structures/FocusSurface.cs) | Connect source, selected read, result, complement and provenance where supplied. | A placeholder for missing evidence is not proof that no complement or uncertainty exists. |
 | [`OperationClaim`](../Structures/OperationClaim.cs) | Compares readable participants and exposes residual structure under selected premises. | Does not identify fault or globally verify the model. Unresolved reads retain participants; their sentinel scalars are not uncertainty measures or verdicts in isolation. |
 | [`ResistanceValueSurface`](../../GojoCAD/electronics/components/resistors/ResistanceValueSurface.cs) | A concrete nominal series and a separately connected relative tolerance surface. | `RelativeTolerance` does not encode exact ohm endpoints, a probability distribution or a demonstrated conformance bound on a physical sample. |
@@ -525,6 +547,12 @@ basis is an output-basis heuristic, not a guaranteed uncertainty bound. This
 documentation change does not add propagation behavior to the kernel.
 
 ## 10. Recommended Next Fixture
+
+The first [bounded-quantity fixture](GojoBoundedQuantityFixture.md) now exercises
+the cases below in kernel and authored syntax tests, including numeric
+restoration. Its nonlinear reads are conservative enclosures; general tighter
+propagation, arbitrary constraint solving and learned external dependence remain
+future work. The list remains the rationale for that first implementation.
 
 Start with **two bounded quantities and explicitly shared causes**, not an
 independent-interval wrapper around every scalar. The first fixture should

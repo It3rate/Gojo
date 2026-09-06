@@ -11,6 +11,8 @@
     <File Path="Gojo/docs/GojoNumericMilestoneReview-2026-09.md" />
     <File Path="Gojo/docs/GojoNumericFormat.md" />
     <File Path="Gojo/docs/GojoMaterialRefinement.md" />
+    <File Path="Gojo/docs/GojoUncertaintyReference.md" />
+    <File Path="Gojo/docs/GojoBoundedQuantityFixture.md" />
   </Folder>
   <Project Path="Gojo/Gojo.csproj" />
   <Project Path="Gojo.Tests/Gojo.Tests.csproj" />

@@ -645,11 +645,32 @@ quantity without losing its witness, and preserve operation-domain conditions.
 Returning one observation through several routes does not make it independent
 evidence. Lossy compression must not claim dependencies it no longer retains.
 
+External sources may remain opaque. Use their exposed contracts and locally
+available evidence; do not require traversing private ancestry to obtain a
+useful read. Reliability history and shared variation may guide learned
+weighting, grouping or pruning. Such similarity is a revisable hypothesis,
+not exact sample identity; a separate mechanism may supply correspondence.
+
+Approximation can also communicate which detail deserves less attention.
+A coarse expression may deliberately retain a fine known value outside its
+published focus. Interpret that cue in context rather than assuming digit
+count establishes importance or accuracy. A discrepancy accepted within a
+tolerance can cease to demand correction while remaining available to a
+stricter read.
+
 Guaranteed bounds, statistical dispersion, confidence and chosen output
 resolution are different reads with different laws. Do not infer one from
 another without supporting structure. See the working
 [uncertainty reference](GojoUncertaintyReference.md) for examples and the boundary
 between existing mechanisms and proposed quantity-propagation laws.
+
+The first [bounded-quantity fixture](GojoBoundedQuantityFixture.md) implements
+closed support reads, exact affine combination of shared slots, conservative
+product/quotient enclosures and distance-to-specification reads. Bounds are
+conditional on their connected premises, not proof of a physical source's
+truth. Keep rounding outward for enclosures and retain exact endpoints and
+rounding excesses. Nonlinear bounds do not automatically supply an affine
+representation, a probability model or an autonomous uncertainty solver.
 
 When several interpretations remain plausible, keep candidate structures
 connected to the same evidence through their own bases, witnesses, residue,

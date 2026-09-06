@@ -242,6 +242,11 @@ stops, tolerance, selected detail and goals. It is a documentation/design
 follow-up; the runtime and verification counts below describe this numeric
 checkpoint, not an implemented uncertainty-propagation engine.
 
+The next [bounded-quantity fixture](GojoBoundedQuantityFixture.md) adds the
+first conditional shared-slot affine reads, conservative nonlinear enclosures,
+conformance and authored focus/goal examples. Its verification and remaining
+limits are recorded separately from this earlier checkpoint.
+
 ## Verification
 
 `dotnet test Gojo.slnx --nologo` passes **1,101 tests**, with no failures or
