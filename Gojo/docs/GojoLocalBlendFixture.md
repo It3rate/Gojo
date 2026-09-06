@@ -187,6 +187,11 @@ encoder's `None` fallback.
 
 ## What should follow
 
+First complete the [low-level mathematics checkpoint](GojoLowLevelMathStatus-2026-09.md).
+The blend's tested unit-numerator and exact reads do not settle general ratio
+remainder accounting, dimensional inversion, or complete syntax coverage. The
+connection work below remains a later experiment.
+
 The next mechanism should expose participation and utility of a connection,
 along with the local observations and response routes that alter it. A useful
 experiment would let an outward signal receive feedback from two neighboring

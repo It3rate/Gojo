@@ -12,6 +12,12 @@ executable with existing syntax and kernel mechanisms. The implementation
 observations below still refer to the original review baseline unless stated
 otherwise.
 
+The subsequent [low-level math audit](GojoLowLevelMathStatus-2026-09.md) takes
+priority over expanding feedback discovery. It identifies a confirmed
+general-ratio remainder-basis mismatch and separates expressible structures
+from mathematically established reads. The earlier successful fixtures do not
+establish complete arithmetic coverage.
+
 ## Assessment
 
 Keep the current direction. The first syntax is a useful construction notation:

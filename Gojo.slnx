@@ -5,6 +5,7 @@
     <File Path="Gojo/docs/GojoTextSyntax.md" />
     <File Path="Gojo/docs/GojoSyntaxReview-2026-09.md" />
     <File Path="Gojo/docs/GojoLocalBlendFixture.md" />
+    <File Path="Gojo/docs/GojoLowLevelMathStatus-2026-09.md" />
   </Folder>
   <Project Path="Gojo/Gojo.csproj" />
   <Project Path="Gojo.Tests/Gojo.Tests.csproj" />

@@ -133,6 +133,13 @@ false, and `timeline` does not execute its transition.
 
 ## Next design priorities
 
+The immediate checkpoint is now
+[low-level mathematical conformance](../../Gojo/docs/GojoLowLevelMathStatus-2026-09.md),
+before broader feedback discovery. That audit found a general-ratio remainder
+basis mismatch, numeric range edges, and gaps between kernel capability and
+tested text coverage. Resolve those basic guarantees before treating the blend
+example as evidence of a complete structural arithmetic surface.
+
 1. **Multi-component value surfaces.** Let one value expose several connected
    components or open components without flattening them into a scalar or enum.
    Begin with slot-bound common structures while preserving the difference
