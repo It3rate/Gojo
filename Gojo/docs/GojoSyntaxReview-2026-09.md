@@ -559,6 +559,11 @@ component ontology.
 
 ## 14. Evidence and scope of this review
 
+The subsequent [mathematical conformance work](GojoMathConformance.md) fixes
+concrete kernel arithmetic and resolution-validation bugs and adds a text
+fixture. Consult that checkpoint for current guarantees; the verification
+counts and implementation scope below describe the earlier review stages.
+
 Inspected the version-1 parser and fixtures, access surface, carrier/tick/
 placeholder/relations, packed snapshot encoder, structural pattern helpers,
 witness/basis/focus/refinement/transform/timeline mechanisms, focused tests,

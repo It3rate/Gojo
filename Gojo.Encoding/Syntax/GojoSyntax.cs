@@ -230,9 +230,21 @@ public static class GojoSyntax
 
                 case "resolution":
                     RequireCount(name, arguments, 2);
-                    return SyntaxValue.FromUnit(UnitShape.ResolutionOf(
-                        RequireUnit(arguments[0], "resolution(unit,ticks) requires a unit shape"),
-                        RequireInteger(arguments[1], "resolution(unit,ticks) requires an integer tick ratio")));
+                    var resolutionUnit = RequireUnit(arguments[0], "resolution(unit,ticks) requires a unit shape");
+                    var resolutionTicks = RequireInteger(arguments[1], "resolution(unit,ticks) requires an integer tick ratio");
+                    if (resolutionTicks <= 0)
+                    {
+                        Error("resolution(unit,ticks) requires a positive tick ratio");
+                    }
+
+                    try
+                    {
+                        return SyntaxValue.FromUnit(UnitShape.ResolutionOf(resolutionUnit, resolutionTicks));
+                    }
+                    catch (OverflowException)
+                    {
+                        throw SyntaxError("The combined resolution exceeds the supported tick range");
+                    }
 
                 case "product_units":
                     RequireAtLeast(name, arguments, 1);

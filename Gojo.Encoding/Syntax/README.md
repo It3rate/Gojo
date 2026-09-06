@@ -133,12 +133,16 @@ false, and `timeline` does not execute its transition.
 
 ## Next design priorities
 
-The immediate checkpoint is now
-[low-level mathematical conformance](../../Gojo/docs/GojoLowLevelMathStatus-2026-09.md),
-before broader feedback discovery. That audit found a general-ratio remainder
-basis mismatch, numeric range edges, and gaps between kernel capability and
-tested text coverage. Resolve those basic guarantees before treating the blend
-example as evidence of a complete structural arithmetic surface.
+The [mathematical conformance checkpoint](../../Gojo/docs/GojoMathConformance.md)
+corrects the audited general-ratio remainder and range bugs, validates positive
+resolution factors, and adds an executable
+[`math-conformance.gojo`](../../Gojo.Encoding.Tests/Fixtures/Syntax/math-conformance.gojo)
+fixture. It covers signed arithmetic, source residue, inversions, repeated units,
+coarse reads, partial patterns and explicit carry activation. It adds no syntax
+constructors. Fractional source remainder is expressible with existing
+`at($source,n) -> point($source,d)` structure; whole-tick imports refuse it
+before mutation. Reciprocal-unit cancellation, material refinement/borrow and
+measurement uncertainty remain low-level priorities before broader discovery.
 
 1. **Multi-component value surfaces.** Let one value expose several connected
    components or open components without flattening them into a scalar or enum.

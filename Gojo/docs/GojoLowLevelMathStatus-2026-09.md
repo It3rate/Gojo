@@ -4,6 +4,13 @@ Status: coverage review and measured limitations, September 5, 2026, against
 `40c31ee`. This audit pauses the move toward broader feedback discovery. It
 does not change arithmetic, parser behavior, or settlement laws.
 
+**Follow-up:** the [mathematical conformance checkpoint](GojoMathConformance.md)
+now corrects the ratio-residue bug, fractional-import accounting, numeric range
+cases and resolution validation described below, and adds kernel and authored
+conformance tests. This audit remains a record of the earlier implementation;
+its bug examples and verification counts are historical. The follow-up records
+the current guarantees and remaining laws.
+
 The kernel has substantial executable mathematics. The text notation can
 construct many of those structures through its small vocabulary, but it has
 not demonstrated comprehensive mathematical coverage. Three different claims

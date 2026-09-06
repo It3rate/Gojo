@@ -31,9 +31,9 @@ public sealed class EquationHelperTests
 
         var prediction = Equation.Predict(equation, input.ValueSlot, output);
 
-        Assert.True(prediction.TryGetCarrierLocations(out var predicted, out var residue));
+        Assert.True(prediction.TryReadProjection(out var predicted, out var residue));
         Assert.Equal(new CarrierLocation(output, 2), predicted);
-        Assert.Equal(new CarrierLocation(input, 1), residue);
+        Assert.Equal(ProjectionResidue.Create(input, 1, 3), residue);
     }
 
     [Fact]

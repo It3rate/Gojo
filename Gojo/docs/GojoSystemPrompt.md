@@ -325,6 +325,19 @@ Integer reads keep any unreduced source-basis remainder as explicit residue.
 Projection does not mutate either carrier. Mutation happens only through an
 explicit import, live output, transfer, or settlement path.
 
+For nonzero source and target extents `A = b-a` and `B = d-c`, the current
+integer read takes `q = truncate_toward_zero((x-a)*B/A)` and returns `c+q`.
+Its source remainder is `(x-a)-q*A/B`, not the scaled division numerator.
+Whole residue is `L(source,n)`; a reduced fractional source residue is
+`L(source,n) -> P(source,d)` with positive subdivision `d`. This contextual
+read means `n/d` source ticks, with its basis present in the relation. It does
+not introduce fractional carrier state or a general reciprocal-unit law.
+Whole-tick imports refuse fractional source residue before applying collected
+slot updates; they must not silently round it or hold its numerator as tension.
+
+A zero source span has no affine read. A zero target span reads its constant
+start coordinate and retains the original input as residue.
+
 A failed or invisible perspective may produce zero plus residue or fail to
 accept a concrete port. Do not let an observational fallback accidentally
 write a target.
@@ -337,6 +350,11 @@ not be treated as an error merely because another reader could ask for more.
 Resolution may be represented by frame extent, partition, `ResolutionOf`, a
 resolution ladder, or other connected basis structure. Coarse and fine reads
 can coexist. Preserve the residue that would allow later refinement.
+
+`ResolutionOf(source,n)` uses a positive source-ticks-per-target-tick factor.
+Factor 1 preserves the source unit; nested factors multiply exactly within
+their stored range. Zero, negative, or overflowing factors must not silently
+produce an unchanged or saturated unit promise.
 
 ### Axiom 10: Unit Algebra Remains Structural
 
@@ -706,6 +724,12 @@ does not revise arithmetic laws: it concerns incomplete operands, bounds,
 resolution, applicability, or competing connected interpretations. A correct
 local calculation does not establish that its premises describe the wider
 situation, and local agreement alone does not establish general usefulness.
+
+Conformance includes signed frames, source-basis reconstruction, compatible
+units, retained remainders and numeric range. Exact intermediate arithmetic
+must not silently wrap or saturate; check the range of each stored structural
+result. A rounded read may differ when operations are reordered across a
+coarsening step, provided its full retained evidence accounts for that change.
 
 Do not create a symbolic expression tree as the canonical equation. A compiled
 or optimized form may exist as a derived backend if it can be traced back to

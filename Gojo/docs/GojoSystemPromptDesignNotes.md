@@ -151,6 +151,35 @@ point relation, shared TickRef, and coordinate equality.
 See [the updated syntax review](GojoSyntaxReview-2026-09.md) and
 [the executable local blend fixture](GojoLocalBlendFixture.md).
 
+## September 2026 Mathematical Conformance
+
+The low-level audit found that ratio projection placed a scaled division
+remainder on the source carrier without converting its basis. The correction
+requires fractional source remainders even though the target read is integer.
+The canonical projection axiom now states the reconstruction law explicitly.
+
+`L(source,n) -> P(source,d)` supplies the subdivision numerically in ordinary
+Gojo structure. Its residue reader is contextual and narrow. It does not add a
+fraction tag, change carrier storage, or pretend general denominator-unit
+cancellation has been implemented. Whole-tick imports reject these fractions
+before applying collected slot changes. Observation, including follow and
+boundary projection, keeps the exact structure. A later material refinement
+mechanism can extend admission without changing arithmetic.
+
+The positive-resolution rule prevents invalid authoring and saturated products
+from altering a stable tick promise. Wide temporary arithmetic in projection,
+structural ratio scaling, and operation accumulation fixes avoidable host
+overflow while retaining checked limits for stored coordinates and fractions.
+The prompt requires accounting and range discipline without claiming every
+experimental reader supports arbitrary-precision inputs.
+
+The conformance fixture exercises exact mathematics independently of a live
+learning network, then checks composition through syntax, resolution and
+material boundaries. This preserves the user's distinction between correct
+local mathematics and uncertain applicability of connected premises. See
+[mathematical conformance](GojoMathConformance.md) for coverage and remaining
+low-level laws; general feedback discovery remains later work.
+
 ## Prompt Shape
 
 The final prompt deliberately has four scales:

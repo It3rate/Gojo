@@ -54,7 +54,7 @@ public sealed class StructuralPortTests
     }
 
     [Fact]
-    public void StructuralPortPreservesProjectionResidueAsSourceTension()
+    public void StructuralPortRejectsFractionalSourceTensionBeforeRetargeting()
     {
         var input = new Carrier();
         var carrier = new Carrier();
@@ -62,10 +62,10 @@ public sealed class StructuralPortTests
         var point = Point(carrier, tick);
         var port = new Relation(Point(input, 3), point);
 
-        Assert.True(port.TrySetStructureFrom(new CarrierLocation(input, 1)));
+        Assert.False(port.TrySetStructureFrom(new CarrierLocation(input, 1)));
 
-        Assert.Equal(new CarrierLocation(carrier, 3), point.Left);
-        Assert.Equal(new CarrierLocation(input, 1), input.TensionSlot);
+        Assert.Equal(new CarrierLocation(carrier, 10), point.Left);
+        Assert.Equal(new CarrierLocation(input, 0), input.TensionSlot);
     }
 
     [Fact]
@@ -122,7 +122,7 @@ public sealed class StructuralPortTests
     }
 
     [Fact]
-    public void MultiSlotStructuralPortImportsAtomicBasisValuesThroughReferencedSurfaces()
+    public void MultiSlotStructuralPortRejectsFractionalRemainderWithoutPartialRetarget()
     {
         var q4 = new Carrier();
         var q5 = new Carrier();
@@ -134,13 +134,13 @@ public sealed class StructuralPortTests
         var targetSurface = new Relation(xBasis, yBasis);
         var port = new Relation(sourceSurface, targetSurface);
 
-        Assert.True(port.TrySetStructureFrom(new Relation(
+        Assert.False(port.TrySetStructureFrom(new Relation(
             Segment(q4, 0, 7),
             Segment(q5, 0, 14))));
 
-        Assert.Equal(new CarrierLocation(x, 17), PointLocation((Relation)xBasis.Right));
-        Assert.Equal(new CarrierLocation(q4, 2), q4.TensionSlot);
-        Assert.Equal(new CarrierLocation(y, 28), PointLocation((Relation)yBasis.Right));
+        Assert.Equal(new CarrierLocation(x, 10), PointLocation((Relation)xBasis.Right));
+        Assert.Equal(new CarrierLocation(q4, 0), q4.TensionSlot);
+        Assert.Equal(new CarrierLocation(y, 10), PointLocation((Relation)yBasis.Right));
         Assert.Equal(new CarrierLocation(q5, 0), q5.TensionSlot);
     }
 

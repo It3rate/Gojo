@@ -150,7 +150,7 @@ public sealed class OrdinaryMathFlowTests
         Assert.Equal(
             new Relation(
                 new CarrierLocation(source, 6),
-                new CarrierLocation(target, 2)),
+                new CarrierLocation(target, 1)),
             projected);
     }
 

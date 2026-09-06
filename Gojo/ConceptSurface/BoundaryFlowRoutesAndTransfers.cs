@@ -62,7 +62,7 @@ public static class BoundaryFlowValueRoute
             targetCarrier is null ||
             targetCarrier.IsUnknown ||
             !projectionRoute.TryProject(ProjectedSourceLocation(sourceRead), targetCarrier, out var projected) ||
-            !projected.TryGetCarrierLocations(out var targetLocation, out var projectionResidue))
+            !projected.TryReadProjection(out var targetLocation, out var projectionResidue))
         {
             routeSurface = null!;
             return false;
@@ -70,9 +70,14 @@ public static class BoundaryFlowValueRoute
 
         var targetLane = ProjectedTargetLane(sourceRead, targetLocation, targetBasis);
         var isAllowed = BoundaryFlowLaneBasis.Allows(targetBasis, targetLane);
+        IElement sourceResidue = projectionResidue is CarrierLocation whole
+            ? Relation.Point(whole.Carrier, whole.Ticks)
+            : projectionResidue;
         var residueOrTension = isAllowed
-            ? Relation.Point(projectionResidue.Carrier, projectionResidue.Ticks)
-            : Relation.Point(targetLocation.Carrier, targetLocation.Ticks);
+            ? sourceResidue
+            : ProjectionResidue.TryRead(projectionResidue, out _, out var remainder, out _) && remainder != 0
+                ? Relation.OrderedGroup(new Carrier(), Relation.Point(targetLocation.Carrier, targetLocation.Ticks), sourceResidue)
+                : Relation.Point(targetLocation.Carrier, targetLocation.Ticks);
         var targetValue = BoundaryFlowValueSurface.Create(
             new Carrier(),
             Relation.Point(targetLocation.Carrier, AbsAsLong(targetLocation.Ticks)),

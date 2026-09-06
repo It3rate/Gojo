@@ -299,7 +299,7 @@ public static class OperationFollow
             responseNumerator == 0 ||
             responseDenominator == 0 ||
             !responseRoute.TryProject(residualLocation, follower, out var projected) ||
-            !projected.TryGetCarrierLocations(out var applied, out var routeResidue) ||
+            !projected.TryReadProjection(out var applied, out var routeResidue) ||
             !applied.Carrier.SameIdentityAs(follower))
         {
             return new FollowRead(

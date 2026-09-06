@@ -1,5 +1,7 @@
 namespace Gojo.Core;
 
+using System.Numerics;
+
 public sealed partial class Relation
 {
     #region Operation Surfaces and Crystallization
@@ -88,7 +90,7 @@ public sealed partial class Relation
         bool scaleByTargetFrame,
         out Relation read)
     {
-        if (targetFrame.Extent == 0 ||
+        if (targetFrame.Start == targetFrame.End ||
             !TryCollectOperationSignalFlow(Left, input, reader, out var flow))
         {
             read = default!;
@@ -531,7 +533,7 @@ public sealed partial class Relation
             return false;
         }
 
-        if (FrameAcceptsProjectionSource(sourceFrame, input.Carrier))
+        if (FrameAcceptsProjectionSource(sourceFrame, input.Carrier) && sourceFrame.Start != sourceFrame.End)
         {
             projection = ProjectOperationSignalBetween(
                 input,
@@ -542,7 +544,7 @@ public sealed partial class Relation
         }
 
         if (!targetFrame.Carrier.IsUnknown &&
-            FrameAcceptsProjectionSource(targetFrame, input.Carrier))
+            FrameAcceptsProjectionSource(targetFrame, input.Carrier) && targetFrame.Start != targetFrame.End)
         {
             projection = ProjectOperationSignalBetween(
                 input,
@@ -568,7 +570,7 @@ public sealed partial class Relation
             reader,
             source,
             new CarrierFrame(reader, target.Start, target.End));
-        return projected.TryGetCarrierLocations(out var targetLocation, out var residue)
+        return projected.TryReadProjection(out var targetLocation, out var residue)
             ? new SurfaceProjection(targetLocation, residue)
             : default;
     }
@@ -599,7 +601,7 @@ public sealed partial class Relation
         out SurfaceProjection projection)
     {
         if (!TryProjectBetweenSurfaces(sourceSurface, targetSurface, input, reader, out var projected) ||
-            !projected.TryGetCarrierLocations(out var target, out var residue) ||
+            !projected.TryReadProjection(out var target, out var residue) ||
             !target.Carrier.SameIdentityAs(reader))
         {
             projection = default;
@@ -792,7 +794,7 @@ public sealed partial class Relation
     /// <summary>Builds operation read output with target value and residue chain.</summary>
     private static Relation OperationResult(
         CarrierFrame targetFrame,
-        long value,
+        BigInteger value,
         List<OperationSignal> signals,
         bool scaleByTargetFrame = true,
         bool invertTargetFace = false)
@@ -803,7 +805,7 @@ public sealed partial class Relation
         return new Relation(
             new CarrierLocation(
                 targetCarrier,
-                checked(targetFrame.Start + (scaleByTargetFrame ? checked(value * targetFrame.Extent) : value))),
+                OperationTicks(targetFrame, value, scaleByTargetFrame)),
             OperationResidue(signals));
     }
 
@@ -817,17 +819,17 @@ public sealed partial class Relation
         {
             return OperationResult(
                 targetFrame,
-                signals.Aggregate(0L, (ticks, signal) => checked(ticks + signal.Ticks)),
+                signals.Aggregate(BigInteger.Zero, (ticks, signal) => ticks + signal.Ticks),
                 [.. signals],
                 scaleByTargetFrame);
         }
 
         var positive = signals
             .Where(signal => !signal.InvertsFlow)
-            .Aggregate(0L, (ticks, signal) => checked(ticks + signal.Ticks));
+            .Aggregate(BigInteger.Zero, (ticks, signal) => ticks + signal.Ticks);
         var inverse = signals
             .Where(signal => signal.InvertsFlow)
-            .Aggregate(0L, (ticks, signal) => checked(ticks + signal.Ticks));
+            .Aggregate(BigInteger.Zero, (ticks, signal) => ticks + signal.Ticks);
 
         IElement target = positive != 0
             ? new Relation(
@@ -841,7 +843,7 @@ public sealed partial class Relation
     /// <summary>Projects one face of an aligned operation result into the target frame.</summary>
     private static CarrierLocation OperationFaceLocation(
         CarrierFrame targetFrame,
-        long value,
+        BigInteger value,
         bool invertTargetFace,
         bool scaleByTargetFrame)
     {
@@ -850,8 +852,14 @@ public sealed partial class Relation
             : targetFrame.Carrier;
         return new CarrierLocation(
             targetCarrier,
-            checked(targetFrame.Start + (scaleByTargetFrame ? checked(value * targetFrame.Extent) : value)));
+            OperationTicks(targetFrame, value, scaleByTargetFrame));
     }
+
+    /// <summary>Checks the final stored coordinate after exact accumulation and basis scaling.</summary>
+    private static long OperationTicks(CarrierFrame targetFrame, BigInteger value, bool scaleByTargetFrame) =>
+        checked((long)(targetFrame.Start + (scaleByTargetFrame
+            ? value * ((BigInteger)targetFrame.End - targetFrame.Start)
+            : value)));
 
     /// <summary>Builds visible product terms for fused carrier-face factors.</summary>
     private static Relation OperationProductExpansion(
@@ -889,11 +897,11 @@ public sealed partial class Relation
         if (factorIndex == factors.Count)
         {
             var termSignals = combination.ToArray();
-            var value = termSignals.Aggregate(1L, (ticks, signal) => checked(ticks * signal.Ticks));
+            var value = termSignals.Aggregate(BigInteger.One, (ticks, signal) => ticks * signal.Ticks);
             var targetCarrier = ProductTermInvertsFlow(termSignals) && !targetFrame.Carrier.IsUnknown
                 ? targetFrame.Carrier.Inverse()
                 : targetFrame.Carrier;
-            var targetTicks = checked(targetFrame.Start + (scaleByTargetFrame ? checked(value * targetFrame.Extent) : value));
+            var targetTicks = OperationTicks(targetFrame, value, scaleByTargetFrame);
             terms.Add(new Relation(
                 new CarrierLocation(targetCarrier, targetTicks),
                 OperationSource(termSignals)));
@@ -932,11 +940,11 @@ public sealed partial class Relation
         signals.Count(signal => signal.InvertsFlow) % 2 != 0;
 
     /// <summary>Multiplies signal values while preserving inverse-flow pair negation.</summary>
-    private static long ProductValue(IReadOnlyList<OperationSignal> signals)
+    private static BigInteger ProductValue(IReadOnlyList<OperationSignal> signals)
     {
-        var result = signals.Aggregate(1L, (ticks, signal) => checked(ticks * signal.Ticks));
+        var result = signals.Aggregate(BigInteger.One, (ticks, signal) => ticks * signal.Ticks);
         var inversePairs = signals.Count(signal => signal.InvertsFlow) / 2;
-        return inversePairs % 2 == 0 ? result : checked(-result);
+        return inversePairs % 2 == 0 ? result : -result;
     }
 
     /// <summary>Chains signal source locations in operation signal order.</summary>

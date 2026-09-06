@@ -171,6 +171,18 @@ a coarsening surface, not notation for “n partitions per source tick.” Value
 that use several place-like rungs are better made with explicit carriers and
 carry or ratio relations, as below.
 
+The factor must be positive. Factor 1 preserves the source unit; nested factors
+multiply and must fit the supported signed tick range. Zero, negative and
+overflowing factors are located syntax errors.
+
+Exact projection can leave a fractional **source** remainder even with integer
+output ticks. In that residue context, `at($source,n) -> point($source,d)`
+expresses `n/d` source ticks, with positive, reduced subdivision `d`; whole
+remainders remain locations. This uses existing constructors and does not add
+decimal literals or fractional carrier tension. See the
+[mathematical conformance checkpoint](GojoMathConformance.md) and its
+[executable fixture](../../Gojo.Encoding.Tests/Fixtures/Syntax/math-conformance.gojo).
+
 `crystal(relation)` is available only when the supplied relation already exposes
 a crystallizable unit shape. Crystallization stabilizes an already readable
 promise. It must not be used merely to give an arbitrary fragment a shorter

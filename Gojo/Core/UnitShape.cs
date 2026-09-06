@@ -83,14 +83,15 @@ public sealed class UnitShape : IEquatable<UnitShape>
     public static UnitShape ResolutionOf(UnitShape source, long sourceTicksPerTick)
     {
         var sourceShape = source ?? Atom(Carrier.Unknown);
-        if (sourceTicksPerTick <= 1)
+        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(sourceTicksPerTick);
+        if (sourceTicksPerTick == 1)
         {
             return sourceShape;
         }
 
         if (sourceShape.TryReadResolution(out var innerSource, out var innerTicks))
         {
-            return ResolutionOf(innerSource, SaturatingMultiply(innerTicks, sourceTicksPerTick));
+            return ResolutionOf(innerSource, checked(innerTicks * sourceTicksPerTick));
         }
 
         return new UnitShape(
@@ -772,17 +773,6 @@ public sealed class UnitShape : IEquatable<UnitShape>
     }
 
     #endregion
-
-    private static long SaturatingMultiply(long left, long right)
-    {
-        var product = (Int128)left * right;
-        if (product > long.MaxValue)
-        {
-            return long.MaxValue;
-        }
-
-        return product < long.MinValue ? long.MinValue : (long)product;
-    }
 
     private static ulong NextId() => idCounter++;
 }
