@@ -7,7 +7,7 @@ namespace Gojo.Core;
 /// </summary>
 public sealed class Placeholder : IElement, IEquatable<Placeholder>
 {
-    private static ulong idCounter = 1;
+    private static ulong idCounter;
 
     public Placeholder()
         : this(NextId(), isInverse: false)
@@ -45,5 +45,5 @@ public sealed class Placeholder : IElement, IEquatable<Placeholder>
     /// <summary>Returns the structural dual of this placeholder.</summary>
     IElement IElement.Dual() => Dual();
 
-    private static ulong NextId() => idCounter++;
+    private static ulong NextId() => Interlocked.Increment(ref idCounter);
 }

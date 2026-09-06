@@ -67,7 +67,7 @@ public sealed partial class Relation
     }
 
     /// <summary>Allocates the next physical relation identity.</summary>
-    private static ulong NextId() => idCounter++;
+    private static ulong NextId() => Interlocked.Increment(ref idCounter);
 
     #endregion
 }

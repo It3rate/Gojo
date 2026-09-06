@@ -7,7 +7,7 @@ namespace Gojo.Core;
 /// </summary>
 public sealed partial class Carrier : IElement
 {
-    private static ulong idCounter = 1;
+    private static ulong idCounter;
 
     private Carrier? inverse;
     private readonly List<Relation> relations = [];
@@ -368,7 +368,7 @@ public sealed partial class Carrier : IElement
         .Order()];
 
     /// <summary>Allocates the next non-wildcard carrier identity.</summary>
-    private static ulong NextId() => idCounter++;
+    private static ulong NextId() => Interlocked.Increment(ref idCounter);
 
     /// <summary>Moves currently absorbable tension into value and leaves underflow.</summary>
     private void AbsorbTension()

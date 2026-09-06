@@ -423,8 +423,11 @@ multi-component crystal value surface.
 
 September 2026 follow-up: [explicit unit quotient reads](../docs/GojoUnitQuotientReads.md)
 now retain numerator/denominator factors and standards and witness cancellation
-of matching native units. This is a separate selected dimensional read; it does
-not add general reciprocal UnitShape construction or change ordered compatibility.
+of matching native units. The follow-up adds `UnitQuotient.TryReadUnit` for
+stable ordered quotient/reciprocal promises with captured standard provenance,
+and `QuantityQuotient.TryObserve` for exact native-basis numeric division.
+Neither changes ordered compatibility or silently cancels factors. Nested
+quotient composition and automatic operation-level cancellation remain open.
 Product-factor inspection also now excludes framing and preserves additive and
 opposed factors as whole participation.
 

@@ -200,6 +200,38 @@ The prerequisite product reader correction removes framing from factor
 inventories while keeping additive and opposed factors whole. It changes a
 faulty read, not the original stored product order or nesting.
 
+## Quotient Tick Promises And Numeric Observation
+
+The next step keeps syntax and kernel together. `quotient_unit(expression)`
+selects the checked `UnitQuotient.TryReadUnit` read. It captures the ordered
+native factor surfaces and standard provenance into an immutable `UnitShape`.
+Its algebra is an ordinary three-field ordered group on the neutral holder:
+numerator unit surfaces, denominator unit surfaces, and a descriptor slot for
+the standard. No inverse flag or operation opcode is added. Standard provenance
+uses the existing descriptor mechanism; names and runtime carrier values do
+not define conversion. Empty groups supply explicit absence of dimensional
+participation instead of borrowing the wildcard atom as a multiplicative one.
+
+The capture preserves unreduced order. A caller can separately select a
+cancellation witness's result for another stable promise. Composite quotient
+factors remain whole in product and additive inventories. The same check exposed
+an additive-inventory bug that split an opposed factor; that reader now also
+preserves the opposed wrapper and its source together.
+
+`QuantityQuotient` connects two samples, output basis, and standard, then uses
+the existing affine projection law with the denominator attached as evidence.
+This is a local observational read, not a material divider or general equation
+dispatcher. Known zero, open samples, and mismatched native output promises
+retain an open result and their participants. The constructor spelling is gone
+after parsing; the selected context and connected fields remain.
+
+The native quotient basis deliberately does not infer calibration conversions
+or flatten nested quotient expressions. Refinement remains an explicit next
+projection, with its residue in quotient ticks retained alongside the earlier
+division residue in numerator ticks. Syntax tests exercise that reconstruction
+and partial binding as well as fully constructed reads. See
+[the implementation and boundaries](GojoUnitQuotientReads.md).
+
 ## Prompt Shape
 
 The final prompt deliberately has four scales:

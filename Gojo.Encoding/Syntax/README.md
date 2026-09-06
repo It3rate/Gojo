@@ -140,6 +140,14 @@ uses the existing `group`, `ports`, `point`, `resolution` and binding forms.
 Cancellation is an explicit witnessed read; neither parsing nor ordinary unit
 compatibility silently reorders the expression.
 
+The next [quantity fixture](../../Gojo.Encoding.Tests/Fixtures/Syntax/quantity-quotients.gojo)
+adds `quotient_unit(expression)` for complete stable reciprocal/quotient units.
+Ordinary groups express numeric division requests with samples, output and
+standard; tests invoke the kernel reader. Signed division, unresolved domains,
+calibration refusal and staged resolution retain their accounting. Capturing a
+unit performs no implicit cancellation. This extends the syntax alongside the
+kernel; it does not introduce a parser execution loop.
+
 The [mathematical conformance checkpoint](../../Gojo/docs/GojoMathConformance.md)
 corrects the audited general-ratio remainder and range bugs, validates positive
 resolution factors, and adds an executable
@@ -148,7 +156,7 @@ fixture. It covers signed arithmetic, source residue, inversions, repeated units
 coarse reads, partial patterns and explicit carry activation. It adds no syntax
 constructors. Fractional source remainder is expressible with existing
 `at($source,n) -> point($source,d)` structure; whole-tick imports refuse it
-before mutation. Reciprocal-unit cancellation, material refinement/borrow and
+before mutation. Nested quotient composition, material refinement/borrow and
 measurement uncertainty remain low-level priorities before broader discovery.
 
 1. **Multi-component value surfaces.** Let one value expose several connected
@@ -183,7 +191,8 @@ second source of meaning.
 
 Define the preservation contract during these fixtures even while the binary
 layout remains deferred. The current diagnostic snapshot loses placeholder
-identity; it is not yet a lossless numeric counterpart to this text surface.
+identity and unit descriptor tables, including captured quotient standards;
+it is not yet a lossless numeric counterpart to this text surface.
 
 ## Most useful feedback now
 

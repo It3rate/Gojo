@@ -1,4 +1,5 @@
 using Gojo.Core;
+using Gojo.Patterns;
 
 namespace Gojo.Structures;
 
@@ -112,6 +113,38 @@ public static class UnitQuotient
         TryReadGroup(numerator, out var n) && n.Length == 0 &&
         TryReadGroup(denominator, out var d) && d.Length == 0;
 
+    /// <summary>
+    /// Reads a stable tick promise from complete, ordered unit participation.
+    /// No factor is canceled implicitly; an explicit cancellation result may be
+    /// selected instead. The standard and factor units are captured as snapshots.
+    /// </summary>
+    public static bool TryReadUnit(Relation expression, out UnitShape unit)
+    {
+        if (TryRead(expression, out var numerator, out var denominator, out var standard) &&
+            StructuralPattern.IsComplete(standard) &&
+            TryReadGroup(numerator, out var n) && TryReadGroup(denominator, out var d))
+        {
+            var numeratorUnits = new List<UnitShape>();
+            var denominatorUnits = new List<UnitShape>();
+            foreach (var factor in n)
+            {
+                if (!TryReadFactor(factor, out var shape)) { unit = null!; return false; }
+                numeratorUnits.Add(shape);
+            }
+            foreach (var factor in d)
+            {
+                if (!TryReadFactor(factor, out var shape)) { unit = null!; return false; }
+                denominatorUnits.Add(shape);
+            }
+
+            unit = UnitShape.Quotient(numeratorUnits, denominatorUnits, standard);
+            return true;
+        }
+
+        unit = null!;
+        return false;
+    }
+
     private static bool TryReadFactor(IElement factor, out UnitShape unit)
     {
         if (factor is Relation { Left: CarrierLocation amount, Right: Carrier basis } &&
@@ -128,44 +161,6 @@ public static class UnitQuotient
 
     private static Relation Group(IEnumerable<IElement> factors) => Relation.OrderedGroup(new Carrier(), [.. factors]);
 
-    private static bool TryReadGroup(Relation group, out IElement[] elements)
-    {
-        if (group.Right is Carrier holder)
-        {
-            if (IsPointOn(group.Left, holder, 1))
-            {
-                elements = [];
-                return true;
-            }
-
-            var collected = new List<IElement>();
-            if (TryCollectAttachments(group.Left, holder, collected))
-            {
-                elements = [.. collected];
-                return true;
-            }
-        }
-
-        elements = [];
-        return false;
-    }
-
-    // Unlike a discovery traversal, every branch must belong to the group.
-    // A bare point or a skipped malformed branch is not an empty factor list.
-    private static bool TryCollectAttachments(IElement element, Carrier holder, List<IElement> elements)
-    {
-        if (element is not Relation relation) return false;
-        if (IsPointOn(relation.Left, holder, 0))
-        {
-            elements.Add(relation.Right);
-            return true;
-        }
-
-        return TryCollectAttachments(relation.Left, holder, elements) &&
-            TryCollectAttachments(relation.Right, holder, elements);
-    }
-
-    private static bool IsPointOn(IElement element, Carrier holder, long ticks) =>
-        element is Relation { Left: CarrierLocation location, Right: Carrier carrier } &&
-        carrier.SameIdentityAs(holder) && location.Carrier.SameIdentityAs(holder) && location.Ticks == ticks;
+    private static bool TryReadGroup(Relation group, out IElement[] elements) =>
+        group.TryReadOrderedGroup(out elements);
 }

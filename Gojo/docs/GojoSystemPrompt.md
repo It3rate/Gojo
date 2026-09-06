@@ -378,6 +378,19 @@ Retain a correspondence for each canceled occurrence and leave unmatched or
 open factors visible. A unit cancellation does not establish numeric division's
 domain, convert unequal native tick calibrations, or erase opposed-flow evidence.
 
+A complete selected quotient can stabilize ordered numerator and denominator
+unit surfaces with captured standard provenance. This capture does not cancel
+factors. An empty numerator exposes reciprocal participation; both groups empty
+expose a dimensionless promise under that standard, distinct from an unknown
+unit. Open expressions remain valid structure without a complete tick promise.
+
+Numeric quotient observation keeps its denominator sample connected to the
+projection basis. In an exact native quotient basis, integer ticks obey
+`n = q*d + r`, with `q` truncated toward zero and `r` in numerator ticks.
+A zero or open denominator cannot supply a numeric answer. Preserve the
+participants and an open result; neither dimensional cancellation nor a retained
+standard supplies missing domain conditions or an implicit unit conversion.
+
 Transfer or calibration does not multiply source and target units. The target
 unit shape governs accepted target value while source-unit residue remains
 visible.

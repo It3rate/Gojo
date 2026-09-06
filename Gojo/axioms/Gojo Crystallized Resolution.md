@@ -181,7 +181,12 @@ Current Gojo already has the basic split:
 - `UnitShape.ResolutionOf(source, ticksPerTick)` creates a stable coarse unit
   shape, and `TryReadResolution(...)` exposes its source and span.
 
+The [explicit quotient reads](../docs/GojoUnitQuotientReads.md) now connect
+ordered cancellation witnesses, stable reciprocal/quotient units, and native
+numeric division. An authored fixture composes division with a coarser read
+while retaining numerator residue and quotient-basis residue separately.
+
 The next code step is to keep coarse unit shapes connected to workspace
-supplied-slot witnesses, then make inverse unit participation and cancellation
-explicit so per-style products can derive both their dominant basis and their
-surviving result kind.
+supplied-slot witnesses and compose these explicit reads across per-style
+products, deriving both their dominant basis and surviving result kind without
+silently erasing order, standards or calibration.

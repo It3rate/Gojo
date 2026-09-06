@@ -188,6 +188,33 @@ a crystallizable unit shape. Crystallization stabilizes an already readable
 promise. It must not be used merely to give an arbitrary fragment a shorter
 letter.
 
+`quotient_unit(expression)` explicitly captures a complete unit quotient:
+
+```gojo
+let $standard = point($distance, 1) -> point($time, 1);
+let $rate_units = group(
+    ports(point($distance, 1)), ports(point($time, 1)), $standard);
+let $rate = carrier(quotient_unit($rate_units));
+root group(at($distance, 7), at($time, 2), $rate, $standard);
+```
+
+The last group supplies a selected `QuantityQuotient` read with numerator,
+denominator, output basis and standard. Parsing constructs the request; calling
+the reader produces the witness. It reads 3 rate ticks plus 1 distance tick of
+source residue. The output carrier remains unchanged.
+
+The unit expression preserves both ordered factor groups and captures the
+standard as provenance. It does not perform cancellation or conversions.
+`ports()` in the numerator expresses reciprocal participation; empty groups in
+both roles express a dimensionless promise under the selected standard.
+Repeated denominator points remain repeated participation. A placeholder factor
+or standard is valid in the expression, but cannot yet supply `quotient_unit`;
+premature capture is a located syntax error. Keep the partial expression as a
+root and apply explicit bindings before requesting that read.
+
+See [quotient reads and limits](GojoUnitQuotientReads.md) and the executable
+[quantity fixture](../../Gojo.Encoding.Tests/Fixtures/Syntax/quantity-quotients.gojo).
+
 ## Boundary and flow lanes
 
 The first surface uses two independent summaries:

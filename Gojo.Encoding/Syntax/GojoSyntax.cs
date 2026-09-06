@@ -251,6 +251,15 @@ public static class GojoSyntax
                     return SyntaxValue.FromUnit(UnitShape.Product(
                         [.. arguments.Select(argument => RequireUnit(argument, "product_units(...) accepts unit shapes"))]));
 
+                case "quotient_unit":
+                    RequireCount(name, arguments, 1);
+                    var quotientExpression = RequireRelation(arguments[0], "quotient_unit(expression) requires a unit quotient relation");
+                    if (!UnitQuotient.TryReadUnit(quotientExpression, out var quotientUnit))
+                    {
+                        Error("quotient_unit(expression) requires complete one-tick factors and a complete standard");
+                    }
+                    return SyntaxValue.FromUnit(quotientUnit);
+
                 case "additive_units":
                     RequireAtLeast(name, arguments, 1);
                     return SyntaxValue.FromUnit(UnitShape.Additive(

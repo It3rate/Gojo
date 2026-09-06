@@ -5,9 +5,9 @@ namespace Gojo.Core;
 /// shape is immutable by construction; Surface exposes snapshots so callers
 /// can inspect without mutating a crystallized basis.
 /// </summary>
-public sealed class UnitShape : IEquatable<UnitShape>
+public sealed partial class UnitShape : IEquatable<UnitShape>
 {
-    private static ulong idCounter = 1;
+    private static ulong idCounter;
 
     private readonly IElement surface;
     private readonly IElement[] descriptors;
@@ -563,6 +563,7 @@ public sealed class UnitShape : IEquatable<UnitShape>
             IsUnitSegment(relation) ||
             IsDescriptorSlotSurface(relation) ||
             IsResolutionSurface(relation) ||
+            TryReadQuotientSurface(relation, out _, out _, out _) ||
             TryReadOrthogonalSourceCore(relation, out _) ||
             TryReadOpposedFaceCore(relation, out _) ||
             IsAdditiveMarker(relation.Right))
@@ -593,6 +594,8 @@ public sealed class UnitShape : IEquatable<UnitShape>
             IsDescriptorSlotSurface(relation) ||
             IsResolutionSurface(relation) ||
             IsProductSurface(relation) ||
+            TryReadQuotientSurface(relation, out _, out _, out _) ||
+            TryReadOpposedFaceCore(relation, out _) ||
             TryReadOrthogonalSourceCore(relation, out _))
         {
             return [element];
@@ -783,5 +786,5 @@ public sealed class UnitShape : IEquatable<UnitShape>
 
     #endregion
 
-    private static ulong NextId() => idCounter++;
+    private static ulong NextId() => Interlocked.Increment(ref idCounter);
 }
