@@ -267,6 +267,40 @@ protect the mathematical premise without assigning global fault to a participant
 See [the full review](GojoNumericMilestoneReview-2026-09.md),
 [refinement](GojoMaterialRefinement.md) and [numeric format](GojoNumericFormat.md).
 
+## Uncertainty Reference, September 6, 2026
+
+The user's nominal-bolt, planned-clearance, ignored-detail, desired-goal and
+same-cup examples expose several distinctions that a single uncertainty field
+would erase. The prompt now separates evidence about possible states, selected
+perspective, and permitted or desired conditions. A tolerance alone does not
+prove a part conforms, and a desired gap need not be an equality violation.
+Known residue or unsettled change can be numerically exact.
+
+Dependency belongs to the connected source, state, observation and shared
+causes. Reusing a category does not identify its instances. Conversely,
+distinct observations can share a calibration cause, while two observations
+of one object can still have separate event-specific errors. The same finite
+quantity can cancel against itself under valid domain conditions; losing that
+relation in two independent error bars would weaken a justified read. Feedback
+routes also need enough provenance to avoid treating echoes as independent
+evidence. Deliberate compression can weaken the promise, but cannot retain an
+unsupported stronger claim.
+
+These are design guardrails, not a newly implemented uncertainty evaluator.
+`StructuralPattern.IsComplete` concerns binding; a completely constructed model
+can remain uncertain. Existing nominal resistor/tolerance surfaces provide a
+useful precedent but no general interval-propagation or conformance law. The
+older crystallized-resolution note now identifies coarsest-basis selection as
+a granularity heuristic and distinguishes first-order product sensitivity from
+a guaranteed error bound. No runtime arithmetic was changed for this review.
+
+The [uncertainty reference](GojoUncertaintyReference.md) is an open inventory of
+overlapping circumstances, not a primitive taxonomy or an alternative prompt.
+It recommends beginning the next bounded-quantity fixture with shared causes,
+observation identity, normative versus evidential bounds and domain refusal,
+so dependence is present from the start. Selection of experiments, confidence
+updates and distribution of response remain policies to develop separately.
+
 ## Prompt Shape
 
 The final prompt deliberately has four scales:

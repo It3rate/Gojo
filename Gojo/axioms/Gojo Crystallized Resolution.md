@@ -59,20 +59,26 @@ height measured to feet
 area   measured from width * height
 ```
 
-The best area resolution is not simply inches, feet, or inches squared. It is a
-combined uncertainty that depends on both operand bases and current operand
-values:
+Choosing an area display basis and calculating area uncertainty are separate
+questions. Neither input's tick size alone establishes the uncertainty of the
+product. If the input values have justified absolute error bounds `a` and `b`
+around `w0` and `h0`, ordinary multiplication gives:
 
 ```text
-area uncertainty ~= height * width uncertainty
-                  + width  * height uncertainty
+width = w0 + dw,  |dw| <= a
+height = h0 + dh, |dh| <= b
+|width * height - w0 * h0| <= |h0| * a + |w0| * b + a * b
 ```
 
-So a large coarsely measured dimension can dominate the uncertainty, while a
-small finely measured dimension still participates. The accurate read needs
-the original parameterized structure. A flat crystallized area carrier no
-longer knows enough by itself to recover that full provenance unless the
-provenance was preserved in attached relation structure.
+Dropping `a * b` is a first-order sensitivity approximation, not this guaranteed
+bound. A statistical uncertainty read needs its own assumptions and dependence
+information. Input resolution is not automatically either an error bound or a
+standard deviation.
+
+Each input uncertainty is scaled by the other operand's magnitude; shared
+dependencies can also constrain the result. The accurate read needs the
+original parameterized structure. A flat crystallized area carrier cannot
+recover this evidence unless it remains connected through attached relations.
 
 This is similar to circular/perimeter resolution. A degree-like tick may have a
 stable angular meaning, but its linear spacing changes with radius. The
@@ -92,7 +98,7 @@ mean the rectangle was measured and then rounded away. A measured area read is
 a separate relation:
 
 ```text
-width value, height value, output basis -> product ticks + residue/tension
+width value, height value, output basis -> product ticks + read residue
 ```
 
 The output basis decides whether the visible value is square feet, square
@@ -101,7 +107,7 @@ inches, one interior marker, a thumbnail fill, or another calibrated read.
 ## 4. Current Default Policy
 
 Until Gojo has full scientific-resolution propagation, the practical default
-policy is conservative and inspectable.
+is an inspectable output-basis heuristic.
 
 For orthogonal products where both operands participate as independent
 dimensions, derive an expected output basis from the coarsest participating
@@ -112,10 +118,12 @@ tick-size terms, this means the largest tick size.
 fine length basis * coarse width basis -> coarse expected product basis
 ```
 
-This is not the mathematically complete uncertainty. It is a safe default that
-does not pretend the product is more precise than its weakest ordinary input.
-If a caller wants higher precision, it should attach an explicit output basis
-or keep the uncrystallized source structure available.
+This chooses a representational granularity. It does not guarantee an
+uncertainty bound or establish the product's justified precision: operand
+magnitudes, actual uncertainty and shared causes still matter. A finer explicit
+output basis can preserve more calculational detail without supplying new
+measurement information. Keep the source structure available when later reads
+need that distinction.
 
 For "per" or ratio-style units, the surviving/target participation should
 dominate the output basis:
@@ -124,9 +132,11 @@ dominate the output basis:
 miles per hour * hours -> miles
 ```
 
-The time basis affects residue/tension in the read, but it should not become
-the mile carrier's tick kind. A poor time clock can make distance values jump
-or leave residue; it does not redefine what one mile tick means.
+The time basis affects read residue, but it should not become the mile
+carrier's tick kind. Time uncertainty can still affect the distance result.
+Dimensional cancellation alone does not cancel uncertain quantities; that
+requires the relevant shared quantity and dependency. Neither numerical effect
+redefines what one mile tick means, and neither automatically injects tension.
 
 The current code has a first foothold for this: when an operation output frame
 is unbound, concrete target frames exposed by operand ports are treated as
@@ -134,32 +144,36 @@ dominant basis candidates. This lets a relation surface say "read this operand
 through miles" and have the crystallized output basis preserve that mile
 calibration. Because that operand has already been projected through the
 dominant basis, the output read does not multiply by that basis a second time.
-Full unit cancellation for `miles/hour * hour -> miles` still needs explicit
-inverse unit participation.
+The later [unit quotient reads](../docs/GojoUnitQuotientReads.md) supply explicit
+denominator groups, stable reciprocal/quotient tick promises, cancellation
+witnesses and equivalent output reads. Automatic operation crystallization
+through denominator units remains future work; explicit reads retain the
+selected standard and native calibration.
 
-The later [unit quotient read](../docs/GojoUnitQuotientReads.md) supplies explicit
-denominator groups and a cancellation witness at the expression level. General
-reciprocal unit tick promises and automatic operation crystallization remain
-future work; the selected standard and native calibration are retained.
-
-For count products such as man-hours, the coarsest ordinary participant is
-usually acceptable as the default. If people are whole-count only, the
-man-hour read should not invent partial-person precision unless an explicit
-basis says how to do that.
+For count products such as person-hours, an integral count of people does not
+by itself imply integral person-hours: one person participating for half an
+hour contributes half a person-hour. A chosen coarse basis may retain that
+fraction as residue. Product granularity needs its own calibration and read
+contract, rather than a claim that one discrete factor makes the product
+discrete at the same scale.
 
 ## 5. Future Specialized Capability
 
 Gojo should eventually support a specialized scientific-resolution mode that:
 
 - preserves operand bases and current operand values through the read
-- routes measurement residue/tension instead of hiding it in rounded output
+- preserves explicit quantity bounds, dependencies and measurement evidence
+- retains read residue instead of hiding it in rounded output; converts it to
+  tension only through an explicit material operation that must preserve change
 - distinguishes addressable source cells from crystallized product shells
 - supports scale-dependent resolution such as radius-dependent perimeter ticks
 - lets callers choose between coarse basis handles and precise measured reads
 
 This should be ordinary relation structure, not a side table of uncertainty
-metadata. The important principle is that precision is itself physical
-information in the structure.
+metadata. The important principle is that the source, calibration, uncertainty
+and retained resolution of a read remain inspectable. The
+[uncertainty reference](../docs/GojoUncertaintyReference.md) separates nominal
+stops, tolerance, measurement uncertainty, relevance and shared dependencies.
 
 ## 6. Current Code Foothold
 
@@ -186,7 +200,8 @@ ordered cancellation witnesses, stable reciprocal/quotient units, and native
 numeric division. An authored fixture composes division with a coarser read
 while retaining numerator residue and quotient-basis residue separately.
 
-The next code step is to keep coarse unit shapes connected to workspace
-supplied-slot witnesses and compose these explicit reads across per-style
-products, deriving both their dominant basis and surviving result kind without
-silently erasing order, standards or calibration.
+The [numeric milestone](../docs/GojoNumericMilestoneReview-2026-09.md) now includes
+explicit nested quotient composition, supplied-slot reads, material refinement
+and graph restoration. The next uncertainty step needs jointly constrained
+quantities and dependency-preserving reads; basis selection alone does not
+provide that behavior.

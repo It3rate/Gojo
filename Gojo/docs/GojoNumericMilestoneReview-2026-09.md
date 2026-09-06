@@ -235,6 +235,13 @@ guaranteed-bound read, with confidence and learned applicability held as separat
 connected evidence. This keeps mathematical tests unambiguous while leaving
 the adaptive model open.
 
+The subsequent [uncertainty reference](GojoUncertaintyReference.md) develops
+that recommendation: begin guaranteed-bound reads with shared unknowns and
+observation dependencies, and distinguish actual-value evidence from nominal
+stops, tolerance, selected detail and goals. It is a documentation/design
+follow-up; the runtime and verification counts below describe this numeric
+checkpoint, not an implemented uncertainty-propagation engine.
+
 ## Verification
 
 `dotnet test Gojo.slnx --nologo` passes **1,101 tests**, with no failures or

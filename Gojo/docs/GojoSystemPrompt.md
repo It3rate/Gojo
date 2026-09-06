@@ -624,6 +624,33 @@ read is unsettled:
   settles after upstream change;
 - carrier tension: transferred change has not found a compatible settlement.
 
+These explain different kinds of unresolved participation; not every item is
+numerically uncertain. Known residue, blocked amounts and exact mismatch can
+be fully determined. A pattern with every slot bound may still describe an
+uncertain quantity, while a partial pattern may already settle a coarser read.
+
+When constructing uncertain reads, distinguish evidence about possible states,
+the perspective's selected detail, and a permitted or desired condition.
+A nominal series is not measurement resolution. A tolerance specifies allowed
+variation; using it as an actual-value bound requires a conformance premise.
+Intentional clearance is assessed against its desired relation, not automatic
+equality. Omitted detail is not implicitly zero. A goal does not establish
+current truth, and uncertainty alone does not introduce carrier tension.
+
+Keep the source instance, state or observation event, and shared unresolved
+causes connected wherever calculations depend on them. Reusing a category or
+unit does not make two samples the same quantity; distinct identities do not
+prove statistical independence. Preserve valid cancellation of the same
+quantity without losing its witness, and preserve operation-domain conditions.
+Returning one observation through several routes does not make it independent
+evidence. Lossy compression must not claim dependencies it no longer retains.
+
+Guaranteed bounds, statistical dispersion, confidence and chosen output
+resolution are different reads with different laws. Do not infer one from
+another without supporting structure. See the working
+[uncertainty reference](GojoUncertaintyReference.md) for examples and the boundary
+between existing mechanisms and proposed quantity-propagation laws.
+
 When several interpretations remain plausible, keep candidate structures
 connected to the same evidence through their own bases, witnesses, residue,
 and provenance. Resolution need not select one winner: a useful local result
