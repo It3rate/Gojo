@@ -217,6 +217,12 @@ public static class GojoSyntax
                         new Carrier(),
                         [.. arguments.Select(argument => RequireElement(argument, $"{name}(...) accepts Gojo elements"))]));
 
+                case "group_on":
+                    RequireAtLeast(name, arguments, 1);
+                    return SyntaxValue.FromElement(Relation.OrderedGroup(
+                        RequireCarrier(arguments[0], "group_on(holder,...) requires a carrier holder"),
+                        [.. arguments.Skip(1).Select(argument => RequireElement(argument, "group_on(holder,...) accepts Gojo elements"))]));
+
                 case "bind":
                     RequireCount(name, arguments, 2);
                     return SyntaxValue.FromElement(new Relation(

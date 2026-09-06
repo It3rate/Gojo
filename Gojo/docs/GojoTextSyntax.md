@@ -140,6 +140,12 @@ root group($inputs, $bindings);
 group shape. Their different spellings are reading cues in the source, not
 stored tags. `bind(A,B)` is the ordinary relation `A -> B`.
 
+`group_on(holder, ...)` creates that same group shape on an explicitly supplied
+carrier, including an empty group. It is useful when several coordinate tuples
+or other surfaces must preserve a shared authored holder. The first argument
+must be a carrier; all remaining arguments must be Gojo elements. It does not
+infer coordinate compatibility or turn the holder into a geometry tag.
+
 This is a useful test of the source-of-meaning rule. A reader that needs to know
 whether an ordered group is acting as a frame or a port surface must establish
 that from its connected use, not from the constructor spelling, because the
@@ -731,3 +737,16 @@ conformance. The fixture also retains known fine mileage outside a coarse
 communication focus, and records an actual material transfer separately from
 the goal and before/after observations. See the
 [structural contract and limits](GojoBoundedQuantityFixture.md).
+
+## Graphic structure exercise
+
+The [geometry review](GojoSyntaxGeometryReview-2026-09.md) compares authored
+parameters, directed segments, native line/circle carriers, partial sections,
+Bézier construction and frieze generators with current Blocks and CAD reads.
+Its three fixtures preserve shared sites, holders, control dependencies and
+open transformation obligations through numeric restoration. `group_on` is
+the only parser addition; no curve or pattern opcodes are introduced.
+
+The review distinguishes representing a construction from evaluating it, and
+records ambiguities in compact curve recognition rather than presenting those
+heuristics as complete geometry laws.

@@ -1,0 +1,47 @@
+gojo 1;
+
+let $space = carrier();
+let $x = carrier();
+let $y = carrier(unit_of($x));
+let $index = carrier();
+let $cells = group($index, ?cell_support);
+let $a = group_on($space, at($x, 1), at($y, 1));
+let $b = group_on($space, at($x, 4), at($y, 1));
+let $c = group_on($space, at($x, 2), at($y, 3));
+let $motif = group($a -> $b, $b -> $c, $c -> $a);
+
+// The two coordinate calibrations remain separate and explicitly ordered.
+// T(x,y) = (x+12,y); G(x,y) = (x+6,-y). Hence G followed by G is T.
+let $period_tick = tick(12);
+let $period = span($x, 0, $period_tick);
+let $translate_x = $period -> span($x, $period_tick, 24);
+let $preserve_y = span($y, 0, 1) -> span($y, 0, 1);
+let $glide_x = span($x, 0, 6) -> span($x, 6, $period_tick);
+let $reflect_y = span($y, 0, 1) -> span($y, 0, -1);
+let $coordinate_basis = ports(span($x, 0, 1), span($y, 0, 1));
+
+// A pointwise extension to the whole motif is an exposed, still-open obligation.
+// This pass represents the instruction and its missing correspondence; no expander runs.
+let $translation = action(ports(?current_motif),
+    group($coordinate_basis, ports($translate_x, $preserve_y), ?translation_correspondence),
+    ports(?next_motif), ?translation_residue, $period);
+let $glide = action(ports(?current_motif),
+    group($coordinate_basis, ports($glide_x, $reflect_y), ?glide_correspondence),
+    ports(?next_motif), ?glide_residue, $period);
+let $feedback = frame(?next_motif -> ?current_motif);
+let $translates = repeat($motif, $cells, $translation,
+    $feedback, ?repeat_boundary, ?translation_history);
+let $glides = repeat($motif, $cells, $glide,
+    $feedback, ?repeat_boundary, ?glide_history);
+
+// A finite observation window is not the support of the entire pattern.
+let $window = span($index, -2, 2);
+root group($translates, $glides, $window, $period, $translate_x,
+    $preserve_y, $glide_x, $reflect_y, $motif, $coordinate_basis);
+
+// A selected period may be partial without introducing a zero-length transform.
+let $open_step = action(ports(?current_motif),
+    group($coordinate_basis, ports(?x_calibration, $reflect_y), ?open_correspondence),
+    ports(?next_motif), ?open_residue, ?period_evidence);
+root group(repeat($motif, $cells, $open_step, $feedback,
+    ?repeat_boundary, ?open_history), bind(?x_calibration, $glide_x));

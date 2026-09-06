@@ -1,0 +1,49 @@
+gojo 1;
+
+let $space = carrier();
+let $x = carrier();
+let $y = carrier(unit_of($x));
+let $p0 = group_on($space, at($x, 0), at($y, 0));
+let $p1 = group_on($space, at($x, 4), at($y, 8));
+let $p2 = group_on($space, at($x, 8), at($y, 0));
+let $p3 = group_on($space, at($x, 12), at($y, 4));
+
+// 0. Existing GojoCAD recipes: chord -> control; chord -> control span.
+let $quadratic = ($p0 -> $p2) -> $p1;
+let $cubic = ($p0 -> $p3) -> ($p1 -> $p2);
+root group($quadratic, $cubic, $p0, $p1, $p2, $p3);
+
+// 1. A construction carries the shared parameter and every interpolation edge.
+// These are TransformSurface.Interpolate shapes, not executed curve samples.
+let $t = carrier();
+let $domain = span($t, 0, 1000);
+let $grade = group(?sample, $domain);
+let $ab = ports(?start, ?control_a, $grade) -> ?q0;
+let $bc = ports(?control_a, ?control_b, $grade) -> ?q1;
+let $cd = ports(?control_b, ?end, $grade) -> ?q2;
+let $abc = ports(?q0, ?q1, $grade) -> ?r0;
+let $bcd = ports(?q1, ?q2, $grade) -> ?r1;
+let $result = ports(?r0, ?r1, $grade) -> ?curve_point;
+let $construction = action(
+    ports(?start, ?control_a, ?control_b, ?end, $grade),
+    frame($ab, $bc, $cd, $abc, $bcd, $result),
+    ports(?curve_point), ?interpolation_residue_policy, $domain);
+let $partial = frame(bind(?start, $p0), bind(?control_a, $p1), bind(?end, $p3));
+let $complete = frame(bind(?start, $p0), bind(?control_a, $p1),
+    bind(?control_b, $p2), bind(?end, $p3), bind(?sample, at($t, 500)));
+root group($construction, $partial, $complete, $grade);
+
+// 2. Legal degeneracies expose ambiguity in the old pair-of-spans recipe.
+let $closed_pair = ($p0 -> $p0) -> ($p1 -> $p2);
+let $joined_pair = ($p0 -> $p3) -> ($p3 -> $p2);
+let $closed_bindings = frame(bind(?start, $p0), bind(?control_a, $p1),
+    bind(?control_b, $p2), bind(?end, $p0));
+let $repeated_bindings = frame(bind(?start, $p0), bind(?control_a, $p0),
+    bind(?control_b, $p0), bind(?end, $p0));
+root group($closed_pair, $joined_pair, $construction, $closed_bindings,
+    $repeated_bindings);
+
+// 3. Reversing a curve requires reversing control order, not swapping chord/control roles.
+let $reversed_controls = frame(bind(?start, $p3), bind(?control_a, $p2),
+    bind(?control_b, $p1), bind(?end, $p0));
+root group($construction, $reversed_controls, reverse($cubic));

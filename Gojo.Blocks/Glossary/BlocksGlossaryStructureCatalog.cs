@@ -511,10 +511,14 @@ internal static class BlocksGlossaryStructureCatalog
     private static BlocksGlossaryStructure Curve(CurveJoinKind row, CurveColumn column)
     {
         var frame = new FrameBasis();
-        var lineA = GraphicStructure.FrameSegment(frame.Point(-48, 12), frame.Point(-8, 12));
-        var lineB = GraphicStructure.FrameSegment(frame.Point(8, -10), frame.Point(48, -10));
-        var arcA = GraphicStructure.FrameArc(frame.Point(-18, 8), frame.Point(-48, 8), frame.Point(-10, -24));
-        var arcB = GraphicStructure.FrameArc(frame.Point(22, -2), frame.Point(8, 22), frame.Point(50, 0));
+        var lineAEnd = frame.Point(-8, 12);
+        var lineBStart = frame.Point(8, -10);
+        var arcAEnd = frame.Point(-10, -24);
+        var arcBStart = frame.Point(8, 22);
+        var lineA = GraphicStructure.FrameSegment(frame.Point(-48, 12), lineAEnd);
+        var lineB = GraphicStructure.FrameSegment(lineBStart, frame.Point(48, -10));
+        var arcA = GraphicStructure.FrameArc(frame.Point(-18, 8), frame.Point(-48, 8), arcAEnd);
+        var arcB = GraphicStructure.FrameArc(frame.Point(22, -2), arcBStart, frame.Point(50, 0));
         var incoming = row switch
         {
             CurveJoinKind.LineArc => lineA,
@@ -527,6 +531,8 @@ internal static class BlocksGlossaryStructureCatalog
             CurveJoinKind.LineArc => arcB,
             _ => arcB
         };
+        var incomingEnd = row == CurveJoinKind.ArcArc ? arcAEnd : lineAEnd;
+        var outgoingStart = row == CurveJoinKind.LineLine ? lineBStart : arcBStart;
 
         return column switch
         {
@@ -538,8 +544,9 @@ internal static class BlocksGlossaryStructureCatalog
                 "carrier A + carrier B + Arc(P0,P1) as tangent bridge",
                 "The current bridge is explicit arc evidence. The future read should derive the smoothing relation from carrier tangency and requested settlement."),
             CurveColumn.Bezier => Spec(
-                Group(incoming, outgoing, GraphicStructure.FrameCubicCurve(frame.Point(-8, 12), frame.Point(0, 24), frame.Point(10, -22), frame.Point(26, -10))),
-                "carrier A + carrier B + Bezier(P0,H0,H1,P1)"),
+                Group(incoming, outgoing, GraphicStructure.FrameCubicCurve(incomingEnd, frame.Point(0, 24), frame.Point(10, -22), outgoingStart)),
+                "carrier A + carrier B + Bezier(P0,H0,H1,P1)",
+                "The bridge shares the actual incoming end and outgoing start sites. Control points are illustrative; shared endpoints alone do not establish smooth continuation."),
             CurveColumn.Clothoid => Spec(
                 Group(incoming, outgoing, GraphicStructure.FrameClothoidTransition(GraphicStructure.FrameCurveTransition(incoming, outgoing), GraphicStructure.FrameSegment(frame.Point(-18, -34), frame.Point(28, -34)))),
                 "carrier A -> carrier B with curvature ramp over S(L,0,n)",

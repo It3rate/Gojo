@@ -16,6 +16,11 @@ exercises partial components, mixed contributions, local mismatch, explicit
 feedback, and stale evidence. It adds no syntax constructors or general
 learning policy.
 
+The [graphic structure review](../../Gojo/docs/GojoSyntaxGeometryReview-2026-09.md)
+exercises parameters, directed segments, partial sections, Bézier construction
+and frieze generators. `group_on(holder, ...)` supplies an explicit group holder
+when shared authored frame identity matters; it is ordinary group structure.
+
 ## What the parser does
 
 `GojoSyntax.Parse(...)` accepts a versioned text document and expands it

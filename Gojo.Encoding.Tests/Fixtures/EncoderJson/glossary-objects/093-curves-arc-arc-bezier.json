@@ -2,6 +2,7 @@
   "represents": "Sparse read of carrier A + carrier B + Bezier(P0,H0,H1,P1).",
   "entryId": "curves-arc-arc-bezier",
   "expression": "carrier A + carrier B + Bezier(P0,H0,H1,P1)",
+  "encodingNote": "The bridge shares the actual incoming end and outgoing start sites. Control points are illustrative; shared endpoints alone do not establish smooth continuation.",
   "gojo": {
     "known": [
       "curve"
