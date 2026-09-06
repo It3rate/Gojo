@@ -133,6 +133,13 @@ false, and `timeline` does not execute its transition.
 
 ## Next design priorities
 
+The [explicit unit quotient read](../../Gojo/docs/GojoUnitQuotientReads.md)
+adds an authored denominator/cancellation experiment with retained standards.
+[`unit-quotients.gojo`](../../Gojo.Encoding.Tests/Fixtures/Syntax/unit-quotients.gojo)
+uses the existing `group`, `ports`, `point`, `resolution` and binding forms.
+Cancellation is an explicit witnessed read; neither parsing nor ordinary unit
+compatibility silently reorders the expression.
+
 The [mathematical conformance checkpoint](../../Gojo/docs/GojoMathConformance.md)
 corrects the audited general-ratio remainder and range bugs, validates positive
 resolution factors, and adds an executable

@@ -555,16 +555,25 @@ public sealed class UnitShape : IEquatable<UnitShape>
         return false;
     }
 
-    /// <summary>Flattens nested product operands while preserving point atoms.</summary>
-    private static IElement[] Flatten(IElement element) =>
-        element is Relation relation &&
-            !IsUnitPoint(relation) &&
-            !IsUnitSegment(relation) &&
-            !IsDescriptorSlotSurface(relation) &&
-            !IsResolutionSurface(relation) &&
-            !TryReadOrthogonalSourceCore(relation, out _)
-            ? [.. Flatten(relation.Left), .. Flatten(relation.Right)]
-            : [element];
+    /// <summary>Reads ordered product factors without mistaking their framing for participation.</summary>
+    private static IElement[] Flatten(IElement element)
+    {
+        if (element is not Relation relation ||
+            IsUnitPoint(relation) ||
+            IsUnitSegment(relation) ||
+            IsDescriptorSlotSurface(relation) ||
+            IsResolutionSurface(relation) ||
+            TryReadOrthogonalSourceCore(relation, out _) ||
+            TryReadOpposedFaceCore(relation, out _) ||
+            IsAdditiveMarker(relation.Right))
+        {
+            return [element];
+        }
+
+        return IsProductSurface(relation)
+            ? Flatten(relation.Left)
+            : [.. Flatten(relation.Left), .. Flatten(relation.Right)];
+    }
 
     /// <summary>Flattens additive chains while preserving product and orthogonal operands.</summary>
     private static IElement[] FlattenAdditive(IElement element)

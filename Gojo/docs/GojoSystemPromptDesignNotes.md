@@ -180,6 +180,26 @@ local mathematics and uncertain applicability of connected premises. See
 [mathematical conformance](GojoMathConformance.md) for coverage and remaining
 low-level laws; general feedback discovery remains later work.
 
+## Explicit Dimensional Reads And Standards
+
+The user confirmed that ordinary dimensional products can admit commutative
+reads while preserving the authored order and history. Their examples, mph and
+litres/100 km, also require preserving the selected calibration. The canonical
+unit axiom now records this distinction; it does not make primitive relations
+or default unit compatibility commutative.
+
+The first [unit quotient surface](GojoUnitQuotientReads.md) connects ordered
+numerator/denominator factor groups with the selected standard. Its explicit
+cancellation witness pairs equal native tick shapes once per occurrence and
+preserves unmatched and open factors. This is a bounded dimensional read, not
+a new general reciprocal UnitShape or numeric division engine. Keeping the
+known mathematical law separate from material conversion and domain conditions
+lets the next implementation step remain concrete and reviewable.
+
+The prerequisite product reader correction removes framing from factor
+inventories while keeping additive and opposed factors whole. It changes a
+faulty read, not the original stored product order or nesting.
+
 ## Prompt Shape
 
 The final prompt deliberately has four scales:

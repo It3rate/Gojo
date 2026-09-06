@@ -370,6 +370,14 @@ multi-participation structure rather than being forced into one scalar.
 Products preserve repeated and orthogonal operands. Opposed-flow product terms
 remain visible until an explicit fold or read settles them.
 
+Dimensional commutativity belongs to an explicit local read. Preserve the
+authored numerator order, denominator order, and selected standard or
+calibration, even when matching dimensional factors can cancel. Standards such
+as miles/hour or litres/100 km do not make arbitrary relation order irrelevant.
+Retain a correspondence for each canceled occurrence and leave unmatched or
+open factors visible. A unit cancellation does not establish numeric division's
+domain, convert unequal native tick calibrations, or erase opposed-flow evidence.
+
 Transfer or calibration does not multiply source and target units. The target
 unit shape governs accepted target value while source-unit residue remains
 visible.

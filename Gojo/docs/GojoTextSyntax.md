@@ -587,6 +587,11 @@ making the valid coarse read false.
 
 ## Unknown, absent, zero, and forbidden
 
+The [unit quotient fixture](GojoUnitQuotientReads.md) applies these distinctions
+to ordered numerator and denominator groups. An open factor remains in its
+role, and an explicit dimensional cancellation read retains the chosen standard
+and every pairing. It does not add an implicit commutative rewrite to parsing.
+
 The syntax makes `?slot` available because these states must not collapse:
 
 - `point(C,0)` is known zero on carrier `C`;

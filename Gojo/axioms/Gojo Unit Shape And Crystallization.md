@@ -421,6 +421,13 @@ multi-component crystal value surface.
 
 ## 10. Open Questions
 
+September 2026 follow-up: [explicit unit quotient reads](../docs/GojoUnitQuotientReads.md)
+now retain numerator/denominator factors and standards and witness cancellation
+of matching native units. This is a separate selected dimensional read; it does
+not add general reciprocal UnitShape construction or change ordered compatibility.
+Product-factor inspection also now excludes framing and preserves additive and
+opposed factors as whole participation.
+
 The initial implementation can stay simple:
 
 - multi-component crystal value surfaces for unreduced additive shapes

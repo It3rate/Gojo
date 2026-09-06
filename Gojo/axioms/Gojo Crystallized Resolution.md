@@ -137,6 +137,11 @@ dominant basis, the output read does not multiply by that basis a second time.
 Full unit cancellation for `miles/hour * hour -> miles` still needs explicit
 inverse unit participation.
 
+The later [unit quotient read](../docs/GojoUnitQuotientReads.md) supplies explicit
+denominator groups and a cancellation witness at the expression level. General
+reciprocal unit tick promises and automatic operation crystallization remain
+future work; the selected standard and native calibration are retained.
+
 For count products such as man-hours, the coarsest ordinary participant is
 usually acceptable as the default. If people are whole-count only, the
 man-hour read should not invent partial-person precision unless an explicit

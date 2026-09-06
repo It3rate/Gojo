@@ -145,8 +145,11 @@ of conformance for every experimental structure in Blocks or Gojo. The next
 low-level work should address:
 
 1. **Reciprocal unit participation and cancellation.** Repeated numerator units
-   work; `distance/time * time -> distance` still needs denominator structure
-   and a local cancellation law. Carrier dual is not a reciprocal.
+   work. The subsequent [explicit quotient read](GojoUnitQuotientReads.md) now
+   expresses ordered denominator factors and witnesses local cancellation for
+   `distance/time * time -> distance`. General reciprocal `UnitShape` promises
+   and automatic numeric-operation integration remain incomplete. Carrier dual
+   is not a reciprocal.
 2. **Material refinement and borrow.** Fractional residue is readable, but
    general fractional settlement, automatic finer-basis admission, and
    bidirectional borrowing across ladders remain incomplete.

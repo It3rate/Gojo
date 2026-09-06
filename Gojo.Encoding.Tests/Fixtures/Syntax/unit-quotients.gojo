@@ -1,0 +1,32 @@
+gojo 1;
+
+// Named standards are local aliases. Ordered factors and calibration are structure.
+let $mile = carrier();
+let $hour = carrier();
+let $other_clock = carrier(unit_of($hour));
+let $mph_standard = point($mile, 1) -> point($hour, 1);
+let $mile_factor = point($mile, 1);
+let $hour_denominator = point($hour, 1);
+let $elapsed = point($other_clock, 1);
+
+// Explicit quotient layout: ordered numerator, ordered denominator, standard.
+// This is dimensional participation, not division of current carrier values.
+root group(ports($mile_factor), ports($hour_denominator), $mph_standard);
+root group(ports($mile_factor, $elapsed), ports($hour_denominator), $mph_standard);
+root group(ports($elapsed, $mile_factor), ports($hour_denominator), $mph_standard);
+
+let $litre = carrier();
+let $km = carrier();
+let $hundred_km = carrier(resolution(unit_of($km), 100));
+let $consumption_standard = point($litre, 1) -> point($km, 100);
+root group(ports(point($litre, 1), point($km, 1)),
+    ports(point($hundred_km, 1)), $consumption_standard);
+// Matching native coarse ticks can cancel. Converting a quantity into this basis
+// is a separate projection with its own remainder, never an invisible unit rewrite.
+root group(ports(point($litre, 1), point($hundred_km, 1)),
+    ports(point($hundred_km, 1)), $consumption_standard);
+root group(ports(), ports($hour_denominator), $mph_standard);
+
+root group(ports($mile_factor, $elapsed), ports(?denominator), $mph_standard);
+root bind(?denominator, $hour_denominator);
+root group($mile, $hour, $litre, $km, $hundred_km);

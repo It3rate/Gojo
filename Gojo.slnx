@@ -7,6 +7,7 @@
     <File Path="Gojo/docs/GojoLocalBlendFixture.md" />
     <File Path="Gojo/docs/GojoLowLevelMathStatus-2026-09.md" />
     <File Path="Gojo/docs/GojoMathConformance.md" />
+    <File Path="Gojo/docs/GojoUnitQuotientReads.md" />
   </Folder>
   <Project Path="Gojo/Gojo.csproj" />
   <Project Path="Gojo.Tests/Gojo.Tests.csproj" />
