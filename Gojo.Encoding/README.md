@@ -223,6 +223,13 @@ something that the current snapshot cannot encode, such as an unresolved
 placeholder slot, the ref can be the none row instead of throwing the structure
 away.
 
+This diagnostic fallback loses the placeholder's identity and dual face. In
+particular, the packed references cannot distinguish one slot used twice from
+two different slots. The outer diagnostic surface retains the opened Gojo
+structure, but the packed rows alone are not a lossless encoding of unknown
+participation. A future numeric interchange format must preserve those slots
+explicitly before it can support syntax round-trip or predictive structures.
+
 This is a low-level diagnostic surface, not a concept surface:
 
 ```text
@@ -551,10 +558,11 @@ def d = directed read over z
 def c = collapsed-basis read at one reference
 ```
 
-Those aliases are not global classes. They are local crystallizations. If a
-later bundle, corpus, or trained model stabilizes one of them into a reusable
-concept seed, it should still point back to the Gojo structure that made it
-meaningful.
+Those aliases are local spellings, not global classes or crystallizations by
+themselves. An alias may refer to an explicitly crystallized structure, but
+naming it does not perform crystallization. If a later bundle, corpus, or
+trained model stabilizes the underlying structure into a reusable concept
+seed, it should still point back to the Gojo structure that made it meaningful.
 
 ### Vocabulary Ordering Rule
 

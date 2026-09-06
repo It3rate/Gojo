@@ -14,6 +14,13 @@ Your job is to extend that model without moving its meaning into ordinary code
 artifacts. Code may construct, traverse, read, schedule, render, encode, or
 optimize Gojo structure. The Gojo structure must remain the source of meaning.
 
+Locality belongs to a selected set of relations and a chosen resolution, not
+to physical size or a fixed level of a hierarchy. A local space may combine
+inputs into useful signals without representing the larger concepts those
+signals help other spaces understand. Composed local intelligence is the
+thesis to investigate; global convergence or intelligence is not an established
+kernel guarantee.
+
 ## 1. Authority And Epistemic Discipline
 
 Use this precedence when repository sources disagree:
@@ -136,6 +143,12 @@ slot -> element
 
 Partial binding is valid. Unbound slots remain inspectable; incompleteness is a
 read, not automatically an exception.
+
+Partial construction patterns are first-class participation, as legitimate as
+fully constructed patterns. Connect known parts, open roles, constraints, and
+exposed binding surfaces without manufacturing a concrete zero or invalid
+carrier. Unknowns, errors, and incompatible reads can motivate exploration;
+a connected goal, claim, or focus records why this exploration is being tried.
 
 ### 2.6 Unit Shape
 
@@ -532,6 +545,14 @@ BasisReadSurface
 Helpers may package and inspect these ordered surfaces. They must not own the
 only interpretation of the result.
 
+A witness is not a global verdict. A mismatch concerns the connected statement
+under its selected premises: input, relation, transform, calibration, or
+expected result may need revision. A claim residual does not identify which
+participant is wrong and does not itself introduce carrier tension. Any route
+that uses this read to introduce change must be explicit. History of utility,
+predictive feedback, and wider connected support may influence resistance to
+change; a general law for distributing that response is still open.
+
 ### 5.2 Route Uncertainty As Structure
 
 Uncertainty is not one magic scalar. Choose the structure that explains why a
@@ -550,10 +571,13 @@ read is unsettled:
 
 When several interpretations remain plausible, keep candidate structures
 connected to the same evidence through their own bases, witnesses, residue,
-and provenance. Compare or refine them with explicit claims, tournaments,
-resolution ladders, support/cost carriers, or timelines. Do not destroy losing
-candidates merely to obtain one answer; carry them as residue or history when
-they remain relevant.
+and provenance. Resolution need not select one winner: a useful local result
+may combine several inputs through calibrated contributions and filters.
+Mixtures, alternative structures, and a chosen experiment are different reads.
+Compare, combine, or refine them through explicit ports, claims, resolution
+ladders, support/cost carriers, and timelines. First-binding-wins is a current
+binding-helper convention, not a discovery or settlement law. Preserve
+alternatives while useful; eventual pruning needs its own local evidence.
 
 Confidence, salience, support, cost, and attention may be modeled as calibrated
 carrier or ladder structure. Do not add an unexplained confidence field when
@@ -603,6 +627,19 @@ Step
 
 A timeline is evidence, not merely a log. Preserve it when later reads need to
 explain causality, replay, refinement, or stale state.
+
+Participation and utility of connections are also dynamic structure. Exploratory
+connections may strengthen, weaken, redirect, or disappear through feedback.
+These are intended mechanisms to develop, not a universal decay rule already
+implemented. Their observations, response routes, and remaining uncertainty
+must be inspectable rather than hidden in connection metadata.
+
+History need not be an eternal archive. Distinguish evidence captured for an
+exact replay contract from adaptive memory that may compress, abstract, revise,
+or forget detail. Useful history may crystallize into an algorithm. A lossy
+transformation should expose its correspondence, retained promise, and loss at
+the promised resolution; it cannot also claim exact reconstruction of forgotten
+detail. Incidental live-reference drift is different from deliberate revision.
 
 ## 7. Focus, Transforms, And Structural Ladders
 
@@ -662,6 +699,13 @@ An equation admits input participation, predicts output participation, and
 exposes residue or error as structure. Affine frames, weighted sums, products,
 sequences, fanout, polynomials, claims, comparisons, and searches must remain
 inspectable through their ports, factors, witnesses, and timelines.
+
+Exact mathematical reads stand on their own within their declared basis and
+can be tested against known results without a larger live network. Uncertainty
+does not revise arithmetic laws: it concerns incomplete operands, bounds,
+resolution, applicability, or competing connected interpretations. A correct
+local calculation does not establish that its premises describe the wider
+situation, and local agreement alone does not establish general usefulness.
 
 Do not create a symbolic expression tree as the canonical equation. A compiled
 or optimized form may exist as a derived backend if it can be traced back to
@@ -867,6 +911,8 @@ the current code and tests prove them:
 - complete structural denominator/unit-inverse semantics;
 - the core carrier axis/flow-face split now prototyped in ConceptSurface;
 - general confidence, attention, and candidate-lifetime mechanics;
+- discovery of mixtures, connection growth/decay, and utility-directed memory
+  compression or revision;
 - full transform solving, multi-parent histories, and complete abstraction reads.
 
 These gaps are invitations to extend Gojo structure, not invitations to hide

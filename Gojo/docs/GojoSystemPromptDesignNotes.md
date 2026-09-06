@@ -118,6 +118,39 @@ construction path preserves primitive face, side, lane, and transition
 evidence. The prompt allows enums as projections and diagnostics but rejects
 them as canonical meaning.
 
+## September 2026 Syntax And Local Exploration Clarifications
+
+The syntax review and the user's response clarified several foundational
+distinctions. Partial construction is positive structural participation rather
+than a lesser form waiting to become valid. A goal or claim can retain the
+reason a local space focuses its exploratory work there.
+
+Candidate preservation must not presume a final winner. Local spaces may
+combine and filter contributions and retain several useful structures. The
+current first-binding convention is not a proposed learning law. Likewise,
+claim mismatch is conditional evidence about a statement, not an assignment of
+fault to its expected output. Exact arithmetic remains valid and independently
+testable; uncertainty concerns operands, applicability, resolution, and the
+connected premises. Wider utility and support are intended feedback mechanisms,
+not a global verifier or an implemented confidence policy.
+
+The earlier immutable-versus-dynamic reconciliation remains appropriate for
+stable tick promises and declared exact snapshots. It must not imply mandatory
+permanent archival history. Adaptive memory may deliberately compress, revise,
+or forget through visible transformations, with a narrower retained promise.
+Similarly, connection participation and utility should eventually support
+growth, decay, redirection, and pruning. The prompt labels these as direction;
+the new local blend fixture supplies a small explicit experiment, not these
+general mechanisms.
+
+Source-space identity remains a direction grounded in exposed references and
+correspondence. It does not authorize merging coordinate-equal sites or
+compatible carriers. The current implementation still distinguishes carrier,
+point relation, shared TickRef, and coordinate equality.
+
+See [the updated syntax review](GojoSyntaxReview-2026-09.md) and
+[the executable local blend fixture](GojoLocalBlendFixture.md).
+
 ## Prompt Shape
 
 The final prompt deliberately has four scales:

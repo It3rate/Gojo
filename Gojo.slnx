@@ -3,6 +3,8 @@
     <File Path="Gojo/docs/GojoSystemPrompt.md" />
     <File Path="Gojo/docs/Grammar.md" />
     <File Path="Gojo/docs/GojoTextSyntax.md" />
+    <File Path="Gojo/docs/GojoSyntaxReview-2026-09.md" />
+    <File Path="Gojo/docs/GojoLocalBlendFixture.md" />
   </Folder>
   <Project Path="Gojo/Gojo.csproj" />
   <Project Path="Gojo.Tests/Gojo.Tests.csproj" />

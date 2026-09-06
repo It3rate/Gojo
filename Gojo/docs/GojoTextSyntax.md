@@ -13,6 +13,10 @@ After parsing, meaning must remain discoverable from carrier identity, signed
 locations, ordered relations, unit shapes, selected structure, action
 structure, results, residue, and provenance.
 
+For a review of the current guarantees, measured limitations, and proposed
+next experiments, see [Gojo Syntax Review](GojoSyntaxReview-2026-09.md).
+That review is design analysis, not an extension of the version-1 grammar.
+
 This syntax is consequently a blend:
 
 - near the bottom it resembles numeric notation;
@@ -264,8 +268,12 @@ let $restricted_tool = access(
 Here `PI` remains possible in the ambient basis. The empty capability port says
 only that this tool exposes no action to it. The attempted target remains in
 residue rather than being declared nonexistent. `ports()` is explicit empty
-access; a placeholder such as `?capabilities` would instead mean the capability
-surface is unresolved.
+access. An unresolved capability surface is conceptually different, but version
+1 requires a concrete ordered port group in this argument: passing
+`?capabilities` directly is currently rejected. `ports(?capability)` preserves
+one open capability slot; it does not mean an unknown number of capabilities or
+an entirely unknown interface. General open interface patterns remain a design
+question.
 
 A wider tool may expose `lane_action($pf,$pi,...)`. That action references an
 already possible lane; it does not create the lane universe. The executable
@@ -297,6 +305,12 @@ selected/action/result claim as a `ReadWitness`. A material application still
 needs explicit transfer, settlement, output, patch, or tension-flow evidence.
 After parsing, a reader recognizes the action from the connected lane-action or
 transform surface, not from the vanished spelling `act`.
+
+The supplied result is a claim, not a result calculated or validated by the
+parser. For example, the preservation fixture explicitly supplies its points
+for five, two, and ten. Recognition as a `ReadWitness` alone does not prove
+multiplication, capability admission, conservation, or execution. A later local
+read must connect the operation's actual output and any mismatch to that claim.
 
 ### One-lane scope
 
@@ -547,10 +561,12 @@ ladder. But the relative form is `(whole:1, fine:12)`, not the redundant tuple
 `(1,16,32)`. It behaves like place value: the higher digit records carried
 participation and the lower digit records local residue.
 
-The parser deliberately leaves `32` as `32`. Normalizing it to `1` plus `12`
-would be a material action with selected input, carry route, accepted
-participation, remainder, result, and provenance. A future normalization helper
-should record that witness rather than silently rewriting the source.
+The parser deliberately leaves `32` as `32`. A non-mutating normalization read
+can expose `1` plus `12` with its basis, correspondence, and residue while the
+source remains unchanged. Material carry instead redistributes participation
+through settlement and needs selected input, carry route, accepted
+participation, remainder, result, and provenance. A future helper must expose
+which of these occurred rather than silently rewriting the source.
 
 The same structure allows a finer rung to be added later without rewriting the
 older value. A lower-resolution read can ignore the new rung; a high-resolution
@@ -578,6 +594,16 @@ net.
 
 ## Constructor reference
 
+The [local blend fixture](GojoLocalBlendFixture.md) exercises the existing
+vocabulary with partial construction, calibrated contributions, a retained
+alternative, conditional claim mismatch, explicit gain feedback, and history.
+Its test driver performs the local reads and perturbations; parsing the
+document does not execute that schedule or establish a general learning law.
+
+In particular, a partial target frame can be written as
+`point($signal, 0) -> ?endpoint`. Binding a grounded point to `?endpoint`
+completes that frame without accepting an unknown as an integer coordinate.
+
 The version-1 parser currently accepts:
 
 | Category | Constructors |
@@ -604,7 +630,8 @@ This pass intentionally leaves several questions open:
    appropriate inverse recipe from arbitrary selected structure.
 2. **Multi-component values.** Boundary/flow occupancy is readable, but a
    general crystallizable value spanning several lane or dimensional components
-   needs more exercise.
+   needs more exercise. The local blend fixture is a generic partial-component
+   example, not yet a general crystallizable multi-component value.
 3. **Action closure.** An algebra should expose which actions are admitted,
    their composition, identities, inverses, blocked applications, and residue.
    A list of legal lanes is insufficient.
