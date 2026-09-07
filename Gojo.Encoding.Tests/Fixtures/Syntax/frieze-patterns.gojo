@@ -45,3 +45,13 @@ let $open_step = action(ports(?current_motif),
     ports(?next_motif), ?open_residue, ?period_evidence);
 root group(repeat($motif, $cells, $open_step, $feedback,
     ?repeat_boundary, ?open_history), bind(?x_calibration, $glide_x));
+
+// A selected pointwise read fills the correspondence obligation above. All
+// triangle sites are explicitly exposed; the repeat's support remains open.
+let $target_basis = group_on($space, span($x, 0, 1), span($y, 0, 1));
+let $exposure = ports($a, $b, $c);
+let $map_glide = group($motif, $exposure, ports($glide_x, $reflect_y), $target_basis);
+let $map_translate = group($motif, $exposure, ports($translate_x, $preserve_y), $target_basis);
+let $inverse_x = span($x, 6, 12) -> span($x, 0, 6);
+root group($map_glide, $map_translate, ports($inverse_x, $reflect_y),
+    $glide, $translation, $window, $cells);

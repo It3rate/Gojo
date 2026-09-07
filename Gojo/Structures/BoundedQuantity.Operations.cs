@@ -1,4 +1,5 @@
 using Gojo.Core;
+using Scalar = Gojo.Core.ExactScalar;
 
 namespace Gojo.Structures;
 

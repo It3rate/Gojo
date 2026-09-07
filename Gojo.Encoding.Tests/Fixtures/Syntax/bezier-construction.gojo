@@ -14,10 +14,11 @@ let $cubic = ($p0 -> $p3) -> ($p1 -> $p2);
 root group($quadratic, $cubic, $p0, $p1, $p2, $p3);
 
 // 1. A construction carries the shared parameter and every interpolation edge.
-// These are TransformSurface.Interpolate shapes, not executed curve samples.
+// Parsing retains requests. AffineFrame selects their explicit local contract.
 let $t = carrier();
 let $domain = span($t, 0, 1000);
-let $grade = group(?sample, $domain);
+let $basis = group_on($space, span($x, 0, 1), span($y, 0, 1));
+let $grade = group(?sample, $domain, $domain, $basis);
 let $ab = ports(?start, ?control_a, $grade) -> ?q0;
 let $bc = ports(?control_a, ?control_b, $grade) -> ?q1;
 let $cd = ports(?control_b, ?end, $grade) -> ?q2;

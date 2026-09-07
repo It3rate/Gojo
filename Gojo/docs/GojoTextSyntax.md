@@ -750,3 +750,10 @@ the only parser addition; no curve or pattern opcodes are introduced.
 The review distinguishes representing a construction from evaluating it, and
 records ambiguities in compact curve recognition rather than presenting those
 heuristics as complete geometry laws.
+
+The follow-up [affine construction fixture](GojoAffineConstructionFixture.md)
+supplies the explicit interpolation contract: sample, ordered parameter frame,
+allowed support and ordered coordinate basis. It also exercises derivative
+constraints and exposed motif correspondence using existing syntax. Exact
+fractional results, partial coordinates and computed witness chains survive
+numeric restoration; the parser gains no evaluation or geometry constructor.

@@ -14,6 +14,7 @@
     <File Path="Gojo/docs/GojoUncertaintyReference.md" />
     <File Path="Gojo/docs/GojoBoundedQuantityFixture.md" />
     <File Path="Gojo/docs/GojoSyntaxGeometryReview-2026-09.md" />
+    <File Path="Gojo/docs/GojoAffineConstructionFixture.md" />
   </Folder>
   <Project Path="Gojo/Gojo.csproj" />
   <Project Path="Gojo.Tests/Gojo.Tests.csproj" />

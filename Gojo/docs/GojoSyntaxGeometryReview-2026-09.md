@@ -2,6 +2,12 @@
 
 Status: representation review and executable fixtures, September 2026.
 
+Follow-up: the [selected affine construction fixture](GojoAffineConstructionFixture.md)
+now implements exact interpolation, derivative-displacement checks and exposed
+motif correspondence. The review below records the original pass and the gaps
+it identified. The linked follow-up is authoritative for the current status
+of those three contracts; the Bézier and frieze fixtures have been extended.
+
 The syntax can express the selected graphic structures with one small
 authoring addition: `group_on(holder, ...)`. The more significant gaps concern
 how much a selected reader may conclude from a compact shape. Transporting a
@@ -255,7 +261,7 @@ from observed copies is a separate inference. Changing a period must update or
 invalidate its dependent calibrations; sharing one period tick alone does not
 maintain an entire affine relation automatically.
 
-## Remaining representation work
+## Remaining representation work at this checkpoint
 
 1. **Selected curve construction reads.** Establish affine interpolation over
    exposed spatial bases, including degeneracies and partial controls. The

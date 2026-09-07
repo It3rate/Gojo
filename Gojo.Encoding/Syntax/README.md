@@ -21,6 +21,12 @@ exercises parameters, directed segments, partial sections, Bézier construction
 and frieze generators. `group_on(holder, ...)` supplies an explicit group holder
 when shared authored frame identity matters; it is ordinary group structure.
 
+The [affine construction follow-up](../../Gojo/docs/GojoAffineConstructionFixture.md)
+adds selected exact interpolation, displacement and coordinate-map reads in
+the kernel. Its syntax fixtures exercise curves, continuity claims and motif
+correspondence with partial inputs and numeric restoration. No new parser
+constructors or execution loop are required.
+
 ## What the parser does
 
 `GojoSyntax.Parse(...)` accepts a versioned text document and expands it

@@ -64,12 +64,19 @@ report the local reads that need to be reconsidered.
 - no rendering
 - no path flattening
 - no pixel output
-- no Bezier, clothoid, or involute calculation
+- no built-in curve sampler or clothoid/involute calculation
 - no global shape classifier
 - no metadata bag that owns graphic meaning
 
 Output systems can come later as lenses over settled or partially settled
 GojoCAD structure.
+
+The kernel's [selected affine construction reads](../Gojo/docs/GojoAffineConstructionFixture.md)
+now exercise Bézier interpolation and local derivative constraints over exposed
+coordinates. These are exact, non-mutating reads of authored construction
+graphs; they do not add a general curve sampler or change the compact CAD
+recognition heuristics. Rational coordinate results require that selected
+reader; existing CAD point recognition still reads integral locations.
 
 ## Important Reads To Preserve
 

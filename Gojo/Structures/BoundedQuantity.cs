@@ -1,5 +1,6 @@
 using System.Numerics;
 using Gojo.Core;
+using Scalar = Gojo.Core.ExactScalar;
 
 namespace Gojo.Structures;
 
@@ -130,43 +131,5 @@ public static partial class BoundedQuantity
         }
         source = target = null!; slope = offset = Scalar.Zero;
         return false;
-    }
-
-    // Exact arithmetic is a derived backend. Its values are emitted as grounded
-    // rational participation and frame calibrations, never persisted in a side table.
-    private readonly record struct Scalar : IComparable<Scalar>
-    {
-        internal Scalar(BigInteger numerator) : this(numerator, BigInteger.One) { }
-
-        internal Scalar(BigInteger numerator, BigInteger denominator)
-        {
-            if (denominator.IsZero) throw new DivideByZeroException();
-            if (denominator.Sign < 0) { numerator = -numerator; denominator = -denominator; }
-            var gcd = BigInteger.GreatestCommonDivisor(numerator, denominator);
-            Numerator = numerator / gcd; Denominator = denominator / gcd;
-        }
-
-        internal BigInteger Numerator { get; }
-        internal BigInteger Denominator { get; }
-        internal static Scalar Zero => new(0);
-        internal static Scalar One => new(1);
-        internal bool IsZero => Numerator.IsZero;
-        internal BigInteger Floor() => Numerator.Sign < 0
-            ? -((-Numerator + Denominator - 1) / Denominator) : Numerator / Denominator;
-        internal BigInteger Ceiling() => -(-this).Floor();
-        internal IElement Encode(Carrier basis) => ProjectionResidue.Create(basis, Numerator, Denominator);
-        internal static Scalar Min(Scalar a, Scalar b) => a <= b ? a : b;
-        internal static Scalar Max(Scalar a, Scalar b) => a >= b ? a : b;
-        public int CompareTo(Scalar other) => (Numerator * other.Denominator).CompareTo(other.Numerator * Denominator);
-        public static Scalar operator +(Scalar a, Scalar b) =>
-            new(a.Numerator * b.Denominator + b.Numerator * a.Denominator, a.Denominator * b.Denominator);
-        public static Scalar operator -(Scalar a, Scalar b) => a + -b;
-        public static Scalar operator -(Scalar a) => new(-a.Numerator, a.Denominator);
-        public static Scalar operator *(Scalar a, Scalar b) => new(a.Numerator * b.Numerator, a.Denominator * b.Denominator);
-        public static Scalar operator /(Scalar a, Scalar b) => new(a.Numerator * b.Denominator, a.Denominator * b.Numerator);
-        public static bool operator <(Scalar a, Scalar b) => a.CompareTo(b) < 0;
-        public static bool operator >(Scalar a, Scalar b) => a.CompareTo(b) > 0;
-        public static bool operator <=(Scalar a, Scalar b) => a.CompareTo(b) <= 0;
-        public static bool operator >=(Scalar a, Scalar b) => a.CompareTo(b) >= 0;
     }
 }
