@@ -5,6 +5,11 @@ syntax and kernel; it does not establish a general learning or blame-allocation
 law. The companion [review](GojoSyntaxReview-2026-09.md) explains the design
 questions that led here.
 
+This document records the initial experiment and its scoped capture. The later
+[syntax and dynamics checkpoint](GojoSyntaxDynamicCheckpoint-2026-09.md)
+summarizes completed numeric transport, uncertainty and replay work, and the
+adaptive mechanisms still to be tested.
+
 Source: [local-blend.gojo](../../Gojo.Encoding.Tests/Fixtures/Syntax/local-blend.gojo).
 Execution: [GojoSyntaxLocalBlendTests](../../Gojo.Encoding.Tests/GojoSyntaxLocalBlendTests.cs).
 
@@ -174,29 +179,33 @@ This is a scoped capture for two distinct inputs, the expected value, and the
 gain-driven refinement. It is not an arbitrary graph snapshot or a general
 invalidation service. Shared topology in a more general capture needs a
 memoized correspondence policy. Retargeting other shared calibration sites
-is outside this fixture's historical stability guarantee. Active attachment
-state, external reference revival, event deduplication, and transport identity
-also remain open format work.
+is outside this fixture's historical stability guarantee.
 
-The diagnostic packed snapshot still cannot preserve placeholders. This fixture
-does not conceal that gap with a purported persistence round-trip. Numeric
-interchange must first distinguish same versus distinct unknowns and preserve
-their connected expectations. Deliberate lossy memory should have a separate
-retained-information contract; it must not accidentally inherit the diagnostic
-encoder's `None` fallback.
+Subsequent [numeric graph transport](GojoNumericFormat.md) now preserves active
+attachment ownership, shared unknowns and their connected expectations. The
+inventory tests round-trip this fixture's authored graph. That coverage is
+distinct from automatically capturing every later execution state; live
+references that already drifted cannot recreate an earlier observation.
+External reference revival, event deduplication and identity across independent
+packets still need explicit connection contracts. Legacy diagnostic snapshots
+remain unsuitable for restoration. Deliberate lossy memory also needs its own
+retained-information contract.
 
 ## What should follow
 
 The [mathematical conformance checkpoint](GojoMathConformance.md) now corrects
 general-ratio accounting and range bugs and exercises more kernel and authored
-arithmetic. Its remaining dimensional inversion, material refinement and
-uncertainty laws stay ahead of the connection work below. The blend alone is
-not evidence of a complete structural arithmetic surface.
+arithmetic. Later fixtures add explicit unit quotient composition, material
+refinement/borrow and conditional bounded uncertainty. See the current
+[checkpoint](GojoSyntaxDynamicCheckpoint-2026-09.md) for their limits and the
+recommended sequence into local adaptation. The blend alone is not evidence
+of a complete structural arithmetic surface.
 
-The next mechanism should expose participation and utility of a connection,
-along with the local observations and response routes that alter it. A useful
-experiment would let an outward signal receive feedback from two neighboring
-spaces, with different support histories and incompatible demands. Retain
+Beyond the initial calibration experiment, connection work should expose
+participation and utility, along with the local observations and response
+routes that alter it. A useful experiment would let an outward signal receive
+feedback from two neighboring spaces, with different support histories and
+incompatible demands. Retain
 competing response routes and measure what each locally changes before adding
 any automatic strengthening or pruning.
 

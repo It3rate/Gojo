@@ -102,7 +102,7 @@ equality is not its round-trip criterion.
 partial patterns, descriptors, malformed packets, deep groups, cycles, pending
 tension and restored live output/carry behavior. [Inventory tests](../../Gojo.Encoding.Tests/NumericMilestoneInventoryTests.cs)
 compare every table reference and state field, except intentionally replaced
-runtime IDs, across two round trips for all nine authored syntax fixtures and
+runtime IDs, across two round trips for all current authored syntax fixtures and
 every exported Blocks specimen. Quotient and material syntax tests also execute
 after restoration. The gear tests reread every restored rung, contour and shared
 pitch identity. These tests establish fidelity of those graphs and behaviors,

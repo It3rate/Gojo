@@ -9,6 +9,11 @@ The complete working specification is
 the structural commitments, every currently implemented constructor, the
 action-scope examples, ladder digits, and the questions that remain open.
 
+The current [syntax and dynamics checkpoint](../../Gojo/docs/GojoSyntaxDynamicCheckpoint-2026-09.md)
+separates implemented structure and reads from the adaptive policies still to
+be explored. It also proposes a source-calibration fixture for approximate
+landmarks whose interpretation and spread are not yet known.
+
 The [September 2026 design review](../../Gojo/docs/GojoSyntaxReview-2026-09.md)
 checks these commitments against the parser, kernel, and Blocks examples. It
 led to the [local blend fixture](../../Gojo/docs/GojoLocalBlendFixture.md), which
@@ -142,7 +147,7 @@ timeline(time, initial[, step...])
 These are structure constructors. `access` does not make absent mathematics
 false, and `timeline` does not execute its transition.
 
-## Next design priorities
+## Current implementation and next design priorities
 
 The [explicit unit quotient read](../../Gojo/docs/GojoUnitQuotientReads.md)
 adds an authored denominator/cancellation experiment with retained standards.
@@ -151,7 +156,7 @@ uses the existing `group`, `ports`, `point`, `resolution` and binding forms.
 Cancellation is an explicit witnessed read; neither parsing nor ordinary unit
 compatibility silently reorders the expression.
 
-The next [quantity fixture](../../Gojo.Encoding.Tests/Fixtures/Syntax/quantity-quotients.gojo)
+The [quantity fixture](../../Gojo.Encoding.Tests/Fixtures/Syntax/quantity-quotients.gojo)
 adds `quotient_unit(expression)` for complete stable reciprocal/quotient units.
 Ordinary groups express numeric division requests with samples, output and
 standard; tests invoke the kernel reader. Signed division, unresolved domains,
@@ -167,47 +172,56 @@ fixture. It covers signed arithmetic, source residue, inversions, repeated units
 coarse reads, partial patterns and explicit carry activation. It adds no syntax
 constructors. Fractional source remainder is expressible with existing
 `at($source,n) -> point($source,d)` structure; whole-tick imports refuse it
-before mutation. Nested quotient composition, material refinement/borrow and
-measurement uncertainty remain low-level priorities before broader discovery.
+before mutation.
 
-1. **Multi-component value surfaces.** Let one value expose several connected
-   components or open components without flattening them into a scalar or enum.
-   Begin with slot-bound common structures while preserving the difference
-   between open, absent, hidden, and blocked components.
-   The local blend fixture now exercises this with explicit local refinement.
-   Extend it toward connected utility feedback and changing participation,
-   without assuming a single winning binding or a universal response law.
-2. **Ladder observation and settlement witnesses.** Make raw fine ticks,
-   relative digits, carry, borrow, lower-resolution reads, and introduced finer
-   rungs coexist without replacement. Keep a non-mutating projection separate
-   from actual redistribution through carrier tension.
-3. **Action composition and small algebras.** Extend the new access fixture with
-   identity, composition, lossy action, mathematical inverse, and historical
-   rollback reads at several scopes.
-4. **History and adaptive memory.** Distinguish exact captured evidence from a
-   live reference, a crystallized promise, or memory deliberately compressed
-   and revised with a narrower retained-information contract.
-5. **A readable writer.** Generate stable, comprehensible source aliases from
-   existing Gojo structure while keeping aliases outside the source of meaning.
-6. **Numeric encoding.** Once the structural surfaces have survived these
-   examples, encode the same graph in an integer-oriented representation for
-   storage and transport.
+Subsequent fixtures now cover
+[nested quotient composition](../../Gojo.Encoding.Tests/Fixtures/Syntax/quotient-composition.gojo),
+[explicit material refinement and borrow](../../Gojo/docs/GojoMaterialRefinement.md),
+and [conditional bounded-quantity arithmetic](../../Gojo/docs/GojoBoundedQuantityFixture.md).
+They retain standards, conservation, shared causes, unresolved domains and
+read residue. The bounds are supplied premises, not the universal meaning of
+an approximate number.
 
-The numeric form is intentionally deferred, not forgotten. It should preserve
-element identity, signed locations, `long`/`ulong` carrier data, ordered
-relations, unit shapes, shared tick references, open slots, residue, tension,
-and provenance. It must be a compact encoding of the same Gojo structure—not a
-hash of the text, a floating-point projection, or an enum table that becomes a
-second source of meaning.
+[Version-1 numeric graph transport](../../Gojo/docs/GojoNumericFormat.md) is
+implemented. It preserves the retained graph, including shared placeholders,
+unit descriptors, attachment ownership, carrier state, witnesses and timelines.
+All current authored fixtures and exported Blocks specimens pass two numeric
+restorations in the inventory suite. The format captures a quiescent local
+world; it does not serialize external processes or provide distributed identity.
+Legacy diagnostic snapshots remain distinct and are refused for restoration.
 
-Define the preservation contract during these fixtures even while the binary
-layout remains deferred. The current diagnostic snapshot loses placeholder
-identity and unit descriptor tables, including captured quotient standards;
-it is not yet a lossless numeric counterpart to this text surface.
+The [curve replay fixture](../../Gojo/docs/GojoCurveReplayWalkthrough.md) also
+exercises versioned premises, application dependencies, pending work and resume
+after restoration. This supports controlled dynamic experiments, while the
+driver still chooses actions and execution order.
+
+The next priorities are:
+
+1. **Contextual interpretation.** Preserve a reported landmark, open actual
+   quantity, candidate calibrations and later feedback. Let interpretation
+   become more useful without inventing a tolerance or rewriting the report.
+2. **A selected local response law.** Connect prediction and feedback to an
+   explicit parameter perturbation. Compare later predictions, retain
+   alternatives and expose stalls and ambiguous explanations.
+3. **Connected feedback.** Exercise a few local spaces with delayed, repeated
+   and conflicting evidence, visible execution budgets and pending states.
+   General convergence and credit assignment remain open.
+4. **Changing participation and memory.** Test route admission, utility,
+   weakening and recovery before promoting a pruning or compression policy.
+   Deliberate loss must have an explicit retained-information contract.
+5. **Further mathematical reads.** Develop soft expectations or distribution
+   shapes, broader component/inverse laws and cyclic behavior when a concrete
+   experiment needs them; existing exact mathematics remains conditional on
+   its declared basis and domain.
+6. **Authoring improvements.** Introduce reusable definitions, shorthand and a
+   readable writer as repeated structures show what improves inspection.
+   Aliases remain outside the source of meaning. Compact transport and a
+   general executor are separate projects.
 
 ## Most useful feedback now
 
-The first generic component fixture is now executable. The next questions are:
+The foundational arithmetic is constrained by mathematics. Adaptive policy is
+not uniquely determined by it. Useful feedback now concerns:
 
 - How should feedback from neighboring spaces change connection participation
   and responsiveness while keeping their separate evidence visible?
@@ -215,10 +229,11 @@ The first generic component fixture is now executable. The next questions are:
   agreement between correlated sources as independent evidence?
 - Which partial-pattern and focus forms deserve shorter notation after more
   than one experiment has exercised them?
-- When a ladder value has both raw and relative reads, which structure owns the
-  carry action and which residue must remain visible?
+- What should make a local space revise an interpretation, request a different
+  observation, retain several candidates, or decide that finer detail is
+  irrelevant to its question?
 - Which historical promises require exact capture, and which can be preserved
   more usefully by deliberate lossy compression into a structure or algorithm?
 
-Spelling, alias aesthetics, a canonical writer, and the compact numeric packet
-layout are lower priority until those structural questions settle.
+The checkpoint proposes small fixtures for these questions. They do not require
+freezing the language or choosing a universal learning policy first.

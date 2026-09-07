@@ -11,6 +11,9 @@ The [canonical prompt](GojoSystemPrompt.md) remains the repository authority.
 The subsequent [bounded-quantity fixture](GojoBoundedQuantityFixture.md) now
 implements the first conditional affine and conservative nonlinear bound reads;
 broader propagation and adaptive policies remain open.
+The later [syntax and dynamics checkpoint](GojoSyntaxDynamicCheckpoint-2026-09.md)
+develops approximation as a landmark with an open, source-dependent
+interpretation and proposes a calibration experiment without assumed bounds.
 
 ## 1. The Main Distinction
 

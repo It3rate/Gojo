@@ -13,9 +13,11 @@ After parsing, meaning must remain discoverable from carrier identity, signed
 locations, ordered relations, unit shapes, selected structure, action
 structure, results, residue, and provenance.
 
-For a review of the current guarantees, measured limitations, and proposed
-next experiments, see [Gojo Syntax Review](GojoSyntaxReview-2026-09.md).
-That review is design analysis, not an extension of the version-1 grammar.
+For current readiness and proposed experiments, see the
+[syntax and dynamics checkpoint](GojoSyntaxDynamicCheckpoint-2026-09.md).
+The earlier [Gojo Syntax Review](GojoSyntaxReview-2026-09.md) records the initial
+assessment that led to the blend and mathematical fixtures. Both are design
+analysis, not extensions of the version-1 grammar.
 
 For concrete, illustrated examples, visit the
 [syntax notebook](https://gojo.inklingai.ca/syntax/). Its twelve initial
@@ -667,7 +669,7 @@ The version-1 parser currently accepts:
 | Category | Constructors |
 | --- | --- |
 | carriers and sites | `carrier`, `tick`, `at`, `point`, `span` |
-| primitive structure | `A -> B`, `group`, `ports`, `frame`, `bind` |
+| primitive structure | `A -> B`, `group`, `group_on`, `ports`, `frame`, `bind` |
 | structural views | `dual`, `reverse`, `orthogonal` |
 | unit shapes | `unit_of`, `resolution`, `subdivision`, `product_units`, `additive_units`, `quotient_unit`, `crystal` |
 | boundary/flow | `basis`, `lane`, `value`, `lane_action` |
