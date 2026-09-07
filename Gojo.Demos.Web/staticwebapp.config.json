@@ -6,10 +6,13 @@
       "/gears/*",
       "/gearLadder/*",
       "/sketch/*",
-      "/*.{css,js,wasm,json,dat,br,gz,png,ico}"
+      "/syntax/*",
+      "/*.{css,js,wasm,json,dat,br,gz,png,ico,svg,gojo}"
     ]
   },
   "mimeTypes": {
-    ".wasm": "application/wasm"
+    ".wasm": "application/wasm",
+    ".gojo": "text/plain; charset=utf-8",
+    ".svg": "image/svg+xml"
   }
 }

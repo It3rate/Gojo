@@ -17,6 +17,14 @@ For a review of the current guarantees, measured limitations, and proposed
 next experiments, see [Gojo Syntax Review](GojoSyntaxReview-2026-09.md).
 That review is design analysis, not an extension of the version-1 grammar.
 
+For concrete, illustrated examples, visit the
+[syntax notebook](https://gojo.inklingai.ca/syntax/). Its twelve initial
+experiments explain everyday contexts, selected reads, actions and unresolved
+states, with the actual fixture source available in each page. The browser
+illustrates checked scenarios; it does not execute the kernel. See the
+[authoring and validation workflow](../../Gojo.Demos.Web/syntax/README.md) when
+adding explanations for future fixtures.
+
 This syntax is consequently a blend:
 
 - near the bottom it resembles numeric notation;

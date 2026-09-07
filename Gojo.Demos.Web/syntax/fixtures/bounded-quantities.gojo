@@ -1,0 +1,111 @@
+gojo 1;
+
+// Explicit closed-bound reads. The test driver selects observation and action;
+// parsing never infers a probability law or executes an experiment.
+let $cup = carrier();
+let $fine_cup = carrier(subdivision(unit_of($cup), 100));
+let $cup_identity = span($fine_cup, 0, 1) -> span($fine_cup, 0, 1);
+let $cup_negative = span($fine_cup, 0, 1) -> span($fine_cup, 0, -1);
+let $opaque_sources = group(?external_source_a, ?external_source_b, ?relationship_history);
+let $sample_a = group(?cup_a, span($fine_cup, 90, 110), $opaque_sources);
+let $sample_b = group(?cup_b, span($fine_cup, 90, 110), $opaque_sources);
+let $volume_a = group(at($fine_cup, 0), ports($sample_a -> $cup_identity), $opaque_sources);
+let $same_difference = group(at($fine_cup, 0),
+    ports($sample_a -> $cup_identity, $sample_a -> $cup_negative), $opaque_sources);
+let $different_difference = group(at($fine_cup, 0),
+    ports($sample_a -> $cup_identity, $sample_b -> $cup_negative), $opaque_sources);
+let $doubled = group(at($fine_cup, 0),
+    ports($sample_a -> $cup_identity, $sample_a -> $cup_identity), $opaque_sources);
+
+// Root 0: description reuse, shared unknown, separate instance, repeated participation.
+root group($volume_a, $same_difference, $different_difference, $doubled,
+    $fine_cup, $sample_a, $sample_b, bind(?cup_a, at($fine_cup, 100)));
+
+let $quantity = group(?quantity, span($fine_cup, -10, 10), ?quantity_source);
+let $bias = group(?bias, span($fine_cup, -5, 5), ?calibration_source);
+let $noise_a = group(?noise_a, span($fine_cup, -1, 1), ?observation_event_a);
+let $noise_b = group(?noise_b, span($fine_cup, -1, 1), ?observation_event_b);
+let $observation_a = group(at($fine_cup, 100), ports(
+    $quantity -> $cup_identity, $bias -> $cup_identity, $noise_a -> $cup_identity), $opaque_sources);
+let $observation_b = group(at($fine_cup, 100), ports(
+    $quantity -> $cup_identity, $bias -> $cup_identity, $noise_b -> $cup_identity), $opaque_sources);
+let $observation_difference = ports(
+    $observation_a -> $cup_identity, $observation_b -> $cup_negative) -> point($fine_cup, 1);
+let $same_event_difference = ports(
+    $observation_a -> $cup_identity, $observation_a -> $cup_negative) -> point($fine_cup, 1);
+
+// Root 1: shared quantity and calibration; distinct event-specific contributions.
+root group($observation_a, $observation_b, $observation_difference, $same_event_difference);
+
+let $open_projection = group(at($fine_cup, 0), ports($sample_a -> ?calibration), $opaque_sources);
+let $contradicting = group(?cup_a, span($fine_cup, 120, 130), ?competing_evidence);
+let $contradiction = group(at($fine_cup, 0), ports(
+    $sample_a -> $cup_identity, $contradicting -> $cup_negative), $opaque_sources);
+let $zero_sample = group(?crossing, span($fine_cup, -1, 1), ?zero_domain_evidence);
+let $crossing = group(at($fine_cup, 0), ports($zero_sample -> $cup_identity), $opaque_sources);
+let $ratio_standard = point($fine_cup, 1) -> point($fine_cup, 1);
+let $ratio = carrier(quotient_unit(group(
+    ports(point($fine_cup, 1)), ports(point($fine_cup, 1)), $ratio_standard)));
+let $area = carrier(product_units(unit_of($fine_cup), unit_of($fine_cup)));
+
+// Root 2: open calibration, contradiction, zero division, valid cancellation, square.
+root group($open_projection, bind(?calibration, $cup_identity), $contradiction,
+    group($crossing, $crossing, $ratio, $ratio_standard),
+    group($volume_a, $volume_a, $ratio, $ratio_standard),
+    ports($crossing, $crossing) -> span($area, 0, 1));
+
+let $mm = carrier();
+let $fine_mm = carrier(subdivision(unit_of($mm), 100));
+let $mm_identity = span($fine_mm, 0, 1) -> span($fine_mm, 0, 1);
+let $mm_negative = span($fine_mm, 0, 1) -> span($fine_mm, 0, -1);
+let $bolt = group(?bolt, span($fine_mm, 990, 1000), ?bolt_measurement_premise);
+let $hole = group(?hole, span($fine_mm, 1010, 1020), ?hole_measurement_premise);
+let $clearance = group(at($fine_mm, 0), ports(
+    $hole -> $mm_identity, $bolt -> $mm_negative), group($hole, $bolt));
+let $nominal_stops = ports(point($mm, 10), point($mm, 11), point($mm, 12));
+
+// Root 3: actual-value evidence, permitted clearance and nominal catalogue stay separate.
+// These are illustrative dimensions, not a fastener standard.
+root group($clearance, span($fine_mm, 10, 30), span($fine_mm, 15, 25),
+    $nominal_stops, $fine_mm, $mm,
+    span($fine_mm, 0, 100) -> span($mm, 0, 1));
+
+let $mile = carrier();
+let $hundred_miles = carrier(resolution(unit_of($mile), 100));
+let $distance = at($mile, 113);
+let $distance_lens = span($mile, 0, 100) -> span($hundred_miles, 0, 1);
+let $distance_focus = group(
+    $distance, $distance_lens, ?published_distance, ports($distance),
+    ports(), frame(), ?distance_remainder, group(?utterance_context, $distance_lens));
+
+// Root 4: a coarse communication focus can retain a known fine complement.
+// The chosen hundred-tick lens does not define a universal meaning for "about".
+root group($distance_focus, $distance_lens, $distance, $hundred_miles,
+    ?published_distance, ?distance_remainder);
+
+let $count = carrier();
+let $a = carrier(unit_of($count));
+let $b = carrier(unit_of($count));
+let $reserve = carrier(unit_of($count));
+let $time = carrier();
+let $a_sample = group(?a_value, span($a, 0, 10), ?a_observation);
+let $b_sample = group(?b_value, span($b, 0, 10), ?b_observation);
+let $sum = group(at($count, 0), ports(
+    $a_sample -> (span($a, 0, 1) -> span($count, 0, 1)),
+    $b_sample -> (span($b, 0, 1) -> span($count, 0, 1))), group($a, $b));
+let $goal = span($count, 5, 5);
+let $transfer = group(span($reserve, 0, 1) -> span($a, 0, 1), at($reserve, 1));
+let $goal_step = step($time, 0, 1, ?before, group($transfer, ?transfer_witness), ?after, ?remaining);
+let $goal_timeline = timeline($time, ?before, $goal_step);
+
+// Root 5: a chosen one-unit material transfer can satisfy a goal while conserving stock.
+root group($a, $b, $reserve, $count, $sum, $goal, $transfer, $goal_timeline,
+    ?a_value, ?b_value, ?before, ?after, ?remaining, ?transfer_witness);
+
+let $half = span($fine_cup, 0, 2) -> span($fine_cup, 0, 1);
+let $echo_average = ports(
+    $observation_a -> $half, $observation_a -> $half) -> point($fine_cup, 1);
+
+// Root 6: two exposed routes retaining one observation remain dependent.
+// Opaque routes with unknown overlap instead retain separate slots and open evidence.
+root group($echo_average, $observation_a, $cup_identity, $cup_negative);

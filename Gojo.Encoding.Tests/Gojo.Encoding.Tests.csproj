@@ -32,6 +32,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="..\Gojo.Demos.Web\tools\syntax-catalog.json" Link="Gallery\catalog.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\Gojo.Demos.Web\syntax\fixtures\*.gojo" Link="Gallery\fixtures\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
     <None Include="Fixtures\EncoderJson\**\*.json" CopyToOutputDirectory="PreserveNewest" />
     <None Include="Fixtures\EncoderJson\**\*.md" CopyToOutputDirectory="PreserveNewest" />
     <None Include="Fixtures\Syntax\**\*.gojo" CopyToOutputDirectory="PreserveNewest" />
