@@ -34,6 +34,9 @@ dotnet test Gojo.slnx
 The builder has no package dependencies. Serve Gojo.Demos.Web as a static
 directory to preview /syntax/; pages use ordinary directory index routes.
 Each step can be linked directly using ?step=0, ?step=1, and so on.
+Assets and internal gallery links use explicit /syntax/ paths because Azure
+can serve a directory index without redirecting a URL to add its trailing slash.
+Browser checks cover both forms and explicit index.html URLs for every page.
 
 [GojoSyntaxGalleryTests](../../Gojo.Encoding.Tests/GojoSyntaxGalleryTests.cs)
 compares published numeric data against the selected reads, before and after

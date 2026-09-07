@@ -35,6 +35,41 @@ const types={'.html':'text/html','.js':'text/javascript','.css':'text/css','.svg
     const page=await context.newPage(),errors=[];
     page.on('pageerror',e=>errors.push(e.message));
     page.on('response',r=>{if(r.status()>=400&&r.url().startsWith(base))errors.push(r.status()+' '+r.url());});
+    // Azure also serves directory indexes without adding a trailing slash.
+    // Exercise the URL the browser actually uses to resolve every asset/link.
+    for(const demo of [null,...catalogue.demos]){
+      const route='/syntax'+(demo?'/'+demo.id:'');
+      for(const suffix of ['', '/', '/index.html']){
+        await page.goto(base+route+suffix+(demo?'?step=1':''));
+        assert.equal(await page.evaluate(()=>getComputedStyle(document.body).margin),'0px',route+suffix+' CSS');
+        const assets=await page.locator('link[rel=stylesheet], script[src], img[src]').evaluateAll(elements=>elements.map(e=>e.href||e.src));
+        assert.ok(assets.length>0);
+        for(const asset of assets)assert.ok(new URL(asset).pathname.startsWith('/syntax/'),asset);
+        const links=await page.locator('a[href]').evaluateAll(elements=>elements.map(e=>({raw:e.getAttribute('href'),url:e.href})));
+        for(const link of links){
+          if(link.raw.startsWith('#')||new URL(link.url).origin!==base)continue;
+          const pathname=new URL(link.url).pathname;
+          assert.ok(pathname==='/'||pathname.startsWith('/syntax/'),link.url);
+        }
+        if(demo){
+          assert.equal(await page.locator('#step-result').textContent(),demo.steps[1].result);
+          await page.locator('#open-syntax').click();
+          assert.match(await page.locator('#syntax-code').textContent(),/^gojo 1;/);
+          const download=await page.request.get(await page.locator('.syntax-actions a[download]').evaluate(e=>e.href));
+          assert.equal(download.status(),200);
+          assert.match(await download.text(),/^gojo 1;/);
+          await page.keyboard.press('Escape');
+        }else{
+          const loaded=await page.locator('.thumbnail img').evaluateAll(async images=>{
+            images.forEach(image=>{image.loading='eager';});
+            return Promise.all(images.map(async image=>{await image.decode();return image.naturalWidth>0;}));
+          });
+          assert.equal(loaded.length,catalogue.demos.length);assert.ok(loaded.every(Boolean));
+          await page.locator('.demo-card').first().click();
+          assert.equal(new URL(page.url()).pathname,'/syntax/'+catalogue.demos[0].id+'/');
+        }
+      }
+    }
     await page.goto(base+'/syntax/');
     assert.equal(await page.locator('.demo-card').count(),12);
     await page.screenshot({path:path.join(output,'gallery-desktop.png'),fullPage:true});
@@ -100,7 +135,7 @@ const types={'.html':'text/html','.js':'text/javascript','.css':'text/css','.svg
     await page.goto(base+'/syntax/curve-replay/?step=999');
     assert.equal(await page.locator('[data-step="0"]').getAttribute('aria-pressed'),'true');
     assert.deepEqual(errors,[]);
-    console.log('Browser QA passed: '+catalogue.demos.length+' demos, '+states+' steps, desktop/mobile layouts, history, filters, syntax, clipboard and keyboard focus. Screenshots: '+output);
+    console.log('Browser QA passed: '+catalogue.demos.length+' demos, '+states+' steps, 39 directory/index URL variants, loaded assets, desktop/mobile layouts, history, filters, syntax, clipboard and keyboard focus. Screenshots: '+output);
   }finally{
     if(browser)await browser.close();
     await new Promise(resolve=>server.close(resolve));
