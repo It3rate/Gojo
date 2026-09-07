@@ -24,7 +24,14 @@ const types={'.html':'text/html','.js':'text/javascript','.css':'text/css','.svg
     await fs.mkdir(output,{recursive:true});
     browser=await chromium.launch({headless:true,executablePath:process.env.GOJO_BROWSER});
     const context=await browser.newContext({viewport:{width:1440,height:1100},reducedMotion:'reduce'});
-    await context.grantPermissions(['clipboard-read','clipboard-write'],{origin:base});
+    // Keep copy checks inside the test page so they do not overwrite the
+    // person's operating-system clipboard while the suite runs.
+    await context.addInitScript(()=>{
+      let copied='';
+      Object.defineProperty(navigator,'clipboard',{configurable:true,value:{
+        writeText:async text=>{copied=text;},readText:async()=>copied
+      }});
+    });
     const page=await context.newPage(),errors=[];
     page.on('pageerror',e=>errors.push(e.message));
     page.on('response',r=>{if(r.status()>=400&&r.url().startsWith(base))errors.push(r.status()+' '+r.url());});
