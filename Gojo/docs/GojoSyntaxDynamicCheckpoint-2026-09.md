@@ -10,6 +10,10 @@ now implements the first two experiments below and a bounded conflicting-demand
 probe. The remainder of this document preserves the original checkpoint;
 its proposed-status statements and test counts describe September 6.
 
+The [two-space follow-up](GojoTwoSpaceFeedbackFixture.md) now exercises the
+third stage with a selected sequential publication/receipt contract. Policy
+selection, learned responsiveness and structural adaptation remain open.
+
 **Assessment:** the syntax and selected kernel mechanisms are ready for small
 dynamic experiments. We have enough structure to express the participants,
 unknowns, requests, changes and evidence. Choosing useful changes, learning

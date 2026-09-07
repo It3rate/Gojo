@@ -4,6 +4,11 @@ Status: exploratory selected contracts, September 7, 2026. This extends the
 [syntax checkpoint](GojoSyntaxDynamicCheckpoint-2026-09.md). The response law
 below is an experiment, not a general truth, confidence or negotiation law.
 
+The subsequent [two-space fixture](GojoTwoSpaceFeedbackFixture.md) now connects
+two such adapting calibrations through published observations, versioned
+receipts and per-space histories. Its stepped demo exercises agreement,
+oscillation, delayed delivery and separate local evidence.
+
 Authored experiment: [landmark-calibration.gojo](../../Gojo.Encoding.Tests/Fixtures/Syntax/landmark-calibration.gojo).
 Execution: [syntax tests](../../Gojo.Encoding.Tests/GojoSyntaxCalibrationTests.cs),
 [mathematical conformance](../../Gojo.Tests/Core/LocalCalibrationTests.cs), and

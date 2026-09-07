@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Two adapting spaces · Gojo</title>
+<style>
+:root{color-scheme:light;--ink:#22333b;--muted:#58686d;--paper:#f5f2e9;--blue:#246479;--rust:#a34c35;--line:#d8d8cd}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.55 system-ui,sans-serif}main{max-width:1060px;margin:auto;padding:36px 28px 48px}a{color:var(--blue)}.eyebrow{font-size:.76rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}h1{font:clamp(2.1rem,5vw,3.5rem)/1.1 Georgia,serif;margin:12px 0}header p{max-width:710px;color:var(--muted);margin:16px 0 24px}nav{display:flex;flex-wrap:wrap;gap:8px;margin:24px 0}button{font:inherit;border:1px solid var(--line);border-radius:8px;background:#fffdf7;color:var(--ink);padding:9px 15px;cursor:pointer}button[aria-pressed=true]{background:var(--ink);border-color:var(--ink);color:white}button:hover:enabled{border-color:var(--blue)}button:disabled{opacity:.45;cursor:default}button:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid #deab39;outline-offset:4px}.scene{display:grid;grid-template-columns:1fr 1fr;gap:22px}.space{background:#fffdf8;border:1px solid var(--line);border-top:4px solid var(--blue);border-radius:12px;padding:23px 25px}.space.b{border-top-color:var(--rust)}.space h2{font-size:1.05rem;margin:0}.reading{font:3.5rem/1.2 Georgia,serif;margin:13px 0 0;color:var(--blue)}.b .reading{color:var(--rust)}.native{font-size:.85rem;color:var(--muted);min-height:2.8em;margin:8px 0}.scale{height:9px;background:#e7e9e2;border-radius:8px;overflow:hidden}.fill{height:100%;width:0;background:var(--blue);transition:width .15s}.b .fill{background:var(--rust)}.messages{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:16px}.message{padding:13px 18px;border:1px dashed #9faeb0;border-radius:10px;background:#ecf0ea}.message h3{margin:0 0 4px;font-size:.8rem;letter-spacing:.025em;font-weight:600;color:var(--muted)}.message p{margin:0}.later{font-size:.83rem;color:var(--rust)}.explanation{margin-top:25px;min-height:135px}.explanation h2{font:1.55rem/1.25 Georgia,serif;margin:0 0 9px}.explanation p{max-width:850px;margin:0}.controls{display:flex;align-items:center;gap:16px;border-top:1px solid var(--line);padding-top:20px}input[type=range]{flex:1;min-width:70px;accent-color:var(--blue)}#position{font-variant-numeric:tabular-nums;white-space:nowrap;color:var(--muted);font-size:.9rem}.notes{font-size:.86rem;color:var(--muted);margin-top:23px}details{border-top:1px solid var(--line);margin-top:22px;padding-top:15px}summary{cursor:pointer}pre{overflow:auto;padding:18px;background:#eaece4;border-radius:8px;font:13px/1.6 ui-monospace,monospace}footer{font-size:.82rem;margin-top:25px;color:var(--muted)}@media(max-width:580px){main{padding:24px 17px}.scene{gap:12px}.space{padding:16px}.reading{font-size:2.7rem}.messages{grid-template-columns:1fr;gap:9px}.controls{gap:9px}button{padding:8px 11px}.explanation{min-height:185px}.native{font-size:.78rem}#position{font-size:.8rem}}@media(prefers-reduced-motion:reduce){.fill{transition:none}}
+</style>
+</head>
+<body>
+<main>
+<header><div class="eyebrow">Gojo · local feedback experiment</div><h1>Two spaces, changing views.</h1><p>Each space can change its own interpretation. It receives a published observation from its neighbour, not access to the neighbour’s private model. Step through what happens when those observations arrive.</p></header>
+<nav aria-label="Choose an experiment"><button data-scene="half" aria-pressed="true">Meet halfway</button><button data-scene="full" aria-pressed="false">Follow fully</button><button data-scene="delay" aria-pressed="false">Arrive late</button><button data-scene="anchors" aria-pressed="false">Local evidence</button></nav>
+<section class="scene" aria-label="Current views and captured publications">
+<article class="space"><h2>Space A</h2><div class="reading" id="a">5</div><p class="native" id="an">5 in A’s native basis</p><div class="scale" aria-hidden="true"><div class="fill" id="af"></div></div></article>
+<article class="space b"><h2>Space B</h2><div class="reading" id="b">9</div><p class="native" id="bn">18 in B’s native basis</p><div class="scale" aria-hidden="true"><div class="fill" id="bf"></div></div></article>
+<div class="messages"><article class="message"><h3>Captured publication · A → B</h3><p id="ma">No publication yet</p></article><article class="message"><h3>Captured publication · B → A</h3><p id="mb">No publication yet</p><div class="later" id="later"></div></article></div>
+</section>
+<section class="explanation" aria-live="polite" aria-atomic="true"><h2 id="heading"></h2><p id="explanation"></p></section>
+<div class="controls"><button id="prev" aria-label="Previous step">← Back</button><input id="step" type="range" min="0" max="6" value="0" aria-label="Experiment step"><span id="position"></span><button id="next" aria-label="Next step">Next →</button></div>
+<p class="notes">The large numbers share A’s comparison unit. B’s native basis has two ticks for each A tick: a publication of 14 from B reads as 7 in A. The connecting calibration supplies that conversion.</p>
+<details><summary>A little of the authored syntax</summary><pre>// B's publication is interpreted in A's own basis.
+let $a_link = group($b_out, $a_in,
+    ?b_subject -&gt; ?a_subject, ?b_context -&gt; ?a_context,
+    span($bq,0,2) -&gt; span($aq,0,1));
+
+// A newer message may still contain an unknown value.
+let $receive_request = group(?message, ?inbox, ?arrival);
+
+// A response needs both the local version and the selected receipt.
+let $respond_request = group(?plan, ?state, ?history,
+    ?controller, ?receipt, ?inbox);</pre><p><a href="../../../Gojo.Encoding.Tests/Fixtures/Syntax/two-space-feedback.gojo">Full authored fixture</a> · <a href="../GojoTwoSpaceFeedbackFixture.md">Walkthrough and limits</a></p></details>
+<footer>These are checked stages from the Gojo tests, not a browser execution of the kernel. The response strength and delivery order are chosen experimental premises. Agreement does not establish that either source is correct.</footer>
+</main>
+<script type="application/json" id="traces">
+{
+ "half":[
+  {"a":50,"b":180,"ma":null,"mb":null,"laterB":null,"title":"Different starting views","text":"A predicts five. B predicts eighteen in its own basis, equivalent to nine for A. Neither can see the other’s private calibration."},
+  {"a":50,"b":180,"ma":5,"mb":18,"laterB":null,"title":"Publish before changing","text":"Both spaces publish their current observations. These messages keep the published values even when the senders later change."},
+  {"a":50,"b":180,"ma":5,"mb":18,"laterB":null,"title":"Receive, compare, propose","text":"A reads B’s message as nine; B reads A’s as ten in B’s basis. Each proposes closing half its own mismatch. Planning has changed neither actuator."},
+  {"a":70,"b":180,"ma":5,"mb":18,"laterB":null,"title":"A applies its response","text":"A moves from five to seven through its own actuator. Its earlier message still says five. B’s already prepared response still concerns that publication."},
+  {"a":70,"b":140,"ma":5,"mb":18,"laterB":null,"title":"B applies its response","text":"B moves from eighteen to fourteen in its native basis. The two current views now both read as seven in A’s unit."},
+  {"a":70,"b":140,"ma":7,"mb":14,"laterB":null,"title":"Publish the changed views","text":"New versions carry A’s seven and B’s fourteen. Each also exposes an immediate reference to the peer observation it used, without exporting its private model."},
+  {"a":70,"b":140,"ma":7,"mb":14,"laterB":null,"title":"Agreement, with questions still open","text":"The new messages create zero peer mismatch. Neither source has learned an uncertainty spread, and agreement at seven has not established correctness. Try Local evidence next."}
+ ],
+ "full":[
+  {"a":50,"b":180,"ma":5,"mb":18,"laterB":null,"title":"The same starting messages","text":"This time both spaces choose the full correction toward the received value. They still act on captured publications."},
+  {"a":90,"b":180,"ma":5,"mb":18,"laterB":null,"title":"A adopts B’s published view","text":"A moves to nine. B’s pending proposal is based on A’s earlier five, not on this new value."},
+  {"a":90,"b":100,"ma":5,"mb":18,"laterB":null,"title":"B adopts A’s earlier view","text":"B moves to ten in its own basis: five in A’s unit. The views have swapped. Neither response violated its selected arithmetic."},
+  {"a":90,"b":100,"ma":9,"mb":10,"laterB":null,"title":"Publish the swapped views","text":"The next pair of messages carries nine from A and ten from B. Each space again proposes following the other completely."},
+  {"a":50,"b":100,"ma":9,"mb":10,"laterB":null,"title":"A follows the next message","text":"A returns to five. Its current value and its retained publication of nine are different, valid observations of different moments."},
+  {"a":50,"b":180,"ma":9,"mb":10,"laterB":null,"title":"Back where they started","text":"B returns to eighteen: nine in A’s unit. This swap repeats under the chosen schedule. The tests stop it at each local attempt budget; full correction is not a convergence law."}
+ ],
+ "delay":[
+  {"a":50,"b":180,"ma":5,"mb":18,"laterB":null,"title":"Two messages take different routes","text":"Both spaces publish. A’s message reaches B first; B’s original message is delayed."},
+  {"a":50,"b":140,"ma":5,"mb":18,"laterB":null,"title":"B has already changed","text":"B receives A’s five and applies a half response, moving to fourteen. Its old publication of eighteen remains in transit."},
+  {"a":50,"b":140,"ma":5,"mb":18,"laterB":14,"title":"Another B publication is in transit","text":"B publishes fourteen in a newer version. A has received neither B publication yet. There is no shared clock or access to B’s current actuator."},
+  {"a":70,"b":140,"ma":5,"mb":18,"laterB":14,"title":"A acts on the older publication","text":"The eighteen arrives first. A reads it as nine and moves halfway, from five to seven. This was the latest publication A had received, even though B had already changed."},
+  {"a":70,"b":140,"ma":5,"mb":14,"laterB":null,"title":"The newer publication arrives","text":"A now receives fourteen, equivalent to seven. The newer receipt supersedes the old one for current responses. Its peer mismatch is zero."},
+  {"a":70,"b":140,"ma":5,"mb":14,"laterB":null,"title":"A repeated old message is refused","text":"If the eighteen arrives again, its older sequence cannot replace the current receipt or cause another adjustment. The old observation remains available in history."}
+ ],
+ "anchors":[
+  {"a":70,"b":140,"ma":7,"mb":14,"laterB":null,"title":"Start from peer agreement","text":"The half-response experiment reached seven. Each space also retains separate local reference evidence, not yet used to adjust these views."},
+  {"a":20,"b":140,"ma":7,"mb":14,"laterB":null,"title":"A responds to its own reference","text":"A’s local reference says two. With an explicitly selected full response to that observation, A changes its calibration to predict two. B has not received this change."},
+  {"a":20,"b":40,"ma":7,"mb":14,"laterB":null,"title":"B responds to its own reference","text":"B’s local reference says four in B’s basis. Its own response now predicts four, equivalent to two for A. No central element supplied either response from a hidden answer."},
+  {"a":20,"b":40,"ma":2,"mb":4,"laterB":null,"title":"New agreement has different support","text":"New messages agree at two, now matching the separately supplied local references. Those references remain premises. The tests also use incompatible local references, which repeatedly disturb peer agreement."}
+ ]
+}
+</script>
+<script>
+'use strict';
+const traces=JSON.parse(document.querySelector('#traces').textContent);
+const el=id=>document.getElementById(id);let scene='half',step=0;
+function render(){
+ const rows=traces[scene],r=rows[step];
+ el('a').textContent=r.a/10;el('b').textContent=r.b/20;
+ el('an').textContent=`${r.a/10} in A’s native basis`;
+ el('bn').textContent=`${r.b/10} in B’s native basis`;
+ el('af').style.width=`${r.a/100*100}%`;el('bf').style.width=`${r.b/200*100}%`;
+ el('ma').textContent=r.ma===null?'No publication yet':`${r.ma} from A → ${r.ma*2} in B’s basis`;
+ el('mb').textContent=r.mb===null?'No publication yet':`${r.mb} from B → ${r.mb/2} in A’s basis`;
+ el('later').textContent=r.laterB===null?'':`Also in transit: a newer publication of ${r.laterB}`;
+ el('heading').textContent=r.title;el('explanation').textContent=r.text;
+ el('step').max=rows.length-1;el('step').value=step;
+ el('step').setAttribute('aria-valuetext',`${step+1} of ${rows.length}: ${r.title}`);
+ el('position').textContent=`${step+1} / ${rows.length}`;
+ el('prev').disabled=step===0;el('next').disabled=step===rows.length-1;
+ document.querySelectorAll('[data-scene]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.scene===scene)));
+}
+document.querySelectorAll('[data-scene]').forEach(b=>b.addEventListener('click',()=>{scene=b.dataset.scene;step=0;render();}));
+el('prev').addEventListener('click',()=>{if(step>0){step--;render();}});
+el('next').addEventListener('click',()=>{if(step<traces[scene].length-1){step++;render();}});
+el('step').addEventListener('input',e=>{step=Number(e.target.value);render();});
+render();
+</script>
+</body>
+</html>

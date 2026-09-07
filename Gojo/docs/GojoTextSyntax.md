@@ -794,3 +794,11 @@ new relations. Existing `Apply` remains an instantiation operation. This is a
 kernel execution choice over the existing binding syntax, not a new keyword.
 The distinction and the selected laws would need to remain explicit in a
 future execution/compilation contract. No general compiler is added here.
+
+The [two-space feedback fixture](GojoTwoSpaceFeedbackFixture.md) extends these
+existing forms to distinct publication ports, calibrated links, inbox versions,
+current and consumed receipts, and separate local response controllers. The
+same authored request patterns drive the tests before and after restoration.
+An open publication remains valid structure and installs a pending current
+read. Port, subject/context correspondence and sequence checks are selected
+kernel reads; names and equal-looking numbers do not supply the connection.

@@ -136,6 +136,12 @@ executor:
   response; current-version checks, attempt budgets and numeric restoration
   keep the failures inspectable. The [walkthrough](../../Gojo/docs/GojoLandmarkCalibrationFixture.md)
   includes later-event predictions and a conflicting-demand counterexample.
+- [`two-space-feedback.gojo`](../../Gojo.Encoding.Tests/Fixtures/Syntax/two-space-feedback.gojo)
+  connects two adapting calibrations through published observations, explicit
+  basis/subject/context correspondence, local inboxes and response budgets.
+  Its [walkthrough and demo](../../Gojo/docs/GojoTwoSpaceFeedbackFixture.md)
+  exercise agreement, oscillation, delayed and pending messages, separate local
+  evidence, and restoration with one response applied and another in transit.
 
 The access form is:
 
