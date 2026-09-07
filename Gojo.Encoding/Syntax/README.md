@@ -11,8 +11,9 @@ action-scope examples, ladder digits, and the questions that remain open.
 
 The current [syntax and dynamics checkpoint](../../Gojo/docs/GojoSyntaxDynamicCheckpoint-2026-09.md)
 separates implemented structure and reads from the adaptive policies still to
-be explored. It also proposes a source-calibration fixture for approximate
-landmarks whose interpretation and spread are not yet known.
+be explored. Its [landmark calibration follow-up](../../Gojo/docs/GojoLandmarkCalibrationFixture.md)
+now exercises open interpretation, competing candidates and a selected local
+response with retained versions, stalls, debt and conflicting feedback.
 
 The [September 2026 design review](../../Gojo/docs/GojoSyntaxReview-2026-09.md)
 checks these commitments against the parser, kernel, and Blocks examples. It
@@ -129,6 +130,12 @@ executor:
   prediction and signed gain perturbations, retain a stalled step and history,
   and demonstrate equal outputs that remain different structures. See the
   [execution and limits](../../Gojo/docs/GojoLocalBlendFixture.md).
+- [`landmark-calibration.gojo`](../../Gojo.Encoding.Tests/Fixtures/Syntax/landmark-calibration.gojo)
+  separates a reported landmark from its candidate calibration and open
+  expectation. Its authored request templates drive one selected parameter
+  response; current-version checks, attempt budgets and numeric restoration
+  keep the failures inspectable. The [walkthrough](../../Gojo/docs/GojoLandmarkCalibrationFixture.md)
+  includes later-event predictions and a conflicting-demand counterexample.
 
 The access form is:
 

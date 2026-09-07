@@ -773,3 +773,24 @@ requests to versioned input publication, application dependencies, pending
 replay and a timeline. The new `bezier-replay.gojo` fixture uses the existing
 syntax throughout, including the interval in which the current sample is
 unavailable while its historical value remains readable.
+
+## Landmark interpretation and selected response
+
+The [landmark calibration fixture](GojoLandmarkCalibrationFixture.md) uses
+ordinary groups, calibrated frames, unknown slots, actions, focus and repeat
+surfaces. A report, a candidate interpretation and the candidate's unknown
+expectation remain distinct. Exact fractional predictions do not invent a
+spread or a tolerance around a reported landmark.
+
+The kernel now reads those selected requests and can plan and apply a change
+to one explicitly focused calibration endpoint. Policy, current version,
+comparison evidence, history and attempt controller are authored operands.
+The driver binds the request templates and selects the calls; the parser does
+not dispatch actions or choose which source is correct.
+
+`StructuralPattern.Refine` supplies reference-preserving binding for this
+versioned experiment: untouched sources stay shared, and changed paths obtain
+new relations. Existing `Apply` remains an instantiation operation. This is a
+kernel execution choice over the existing binding syntax, not a new keyword.
+The distinction and the selected laws would need to remain explicit in a
+future execution/compilation contract. No general compiler is added here.

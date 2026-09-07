@@ -5,6 +5,11 @@ the checkpoint and proposes experiments. It adds no syntax, execution policy
 or foundational law. Current code and tests govern implemented behavior;
 the [canonical prompt](GojoSystemPrompt.md) governs the model.
 
+**September 7 follow-up:** the [landmark calibration fixture](GojoLandmarkCalibrationFixture.md)
+now implements the first two experiments below and a bounded conflicting-demand
+probe. The remainder of this document preserves the original checkpoint;
+its proposed-status statements and test counts describe September 6.
+
 **Assessment:** the syntax and selected kernel mechanisms are ready for small
 dynamic experiments. We have enough structure to express the participants,
 unknowns, requests, changes and evidence. Choosing useful changes, learning
