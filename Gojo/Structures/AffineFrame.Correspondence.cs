@@ -38,29 +38,27 @@ public static partial class AffineFrame
         var reads = new List<IElement>();
         var clauses = new List<IElement>();
         var remainder = new List<IElement>();
+        var allComputed = true;
         foreach (var point in unique)
         {
             var complete = TryProject(Group(point, fields[2], fields[3]), shared, out var read);
-            var result = ReadResult(read);
+            read.TryReadOrderedGroup(out var readFields);
+            var result = readFields[2];
             // An invalid calibration/basis has no partial point result. Do not
             // replace source structure with a fabricated successful point.
             if (result is not Relation) return Unresolved(request, out witness);
             reads.Add(read);
             replacements.Add(point, result);
             clauses.Add(new Relation(point, result));
-            if (!complete) remainder.Add(read);
+            allComputed &= complete;
+            if (!complete || readFields[3] is Relation residue && residue.TryReadOrderedGroup(out var parts) && parts.Length != 0)
+                remainder.Add(read);
         }
         var mapped = Replace(fields[0], replacements,
             new Dictionary<Relation, IElement>(ReferenceEqualityComparer.Instance));
         witness = Observe(request, Group(fields[1], fields[2], fields[3]), mapped, remainder,
             Group(Group([.. clauses]), Group([.. reads])));
-        return remainder.Count == 0;
-    }
-
-    private static IElement ReadResult(Relation witness)
-    {
-        witness.TryReadOrderedGroup(out var fields);
-        return fields[2];
+        return allComputed;
     }
 
     private static void Collect(IElement element, HashSet<IElement> visited)

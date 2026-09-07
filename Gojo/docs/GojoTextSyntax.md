@@ -757,3 +757,9 @@ allowed support and ordered coordinate basis. It also exercises derivative
 constraints and exposed motif correspondence using existing syntax. Exact
 fractional results, partial coordinates and computed witness chains survive
 numeric restoration; the parser gains no evaluation or geometry constructor.
+
+The [curve replay walkthrough](GojoCurveReplayWalkthrough.md) connects those
+requests to versioned input publication, application dependencies, pending
+replay and a timeline. The new `bezier-replay.gojo` fixture uses the existing
+syntax throughout, including the interval in which the current sample is
+unavailable while its historical value remains readable.

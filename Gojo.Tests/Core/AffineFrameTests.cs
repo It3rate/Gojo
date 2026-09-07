@@ -179,6 +179,23 @@ public class AffineFrameTests
         Scalar(result[0], 1, 1); Scalar(result[1], -2, 1); Scalar(result[2], 3, 1);
     }
 
+    [Fact]
+    public void ConstantProjectionRetainsItsSourceEvenWhenEveryOutputIsKnown()
+    {
+        var source = new Carrier(); var target = new Carrier();
+        var coordinate = L(source, 4); var point = Group(coordinate); var other = Group(L(source, 8));
+        var map = new Relation(Relation.Segment(source, 0, 1), Relation.Segment(target, 5, 5));
+        var basis = Group(Relation.Segment(target, 0, 1));
+        Assert.True(AffineFrame.TryProject(Group(point, Group(map), basis), out var read));
+        Scalar(F(F(read)[2])[0], 5, 1);
+        Assert.Same(coordinate, Assert.IsType<Relation>(Assert.Single(F(F(read)[3]))).Left);
+        Assert.True(AffineFrame.TryMapExposed(Group(new Relation(point, other), Group(point, other), Group(map), basis), out var mapping));
+        Assert.Equal(2, F(F(mapping)[3]).Length);
+        var result = Assert.IsType<Relation>(F(mapping)[2]);
+        Scalar(F(result.Left)[0], 5, 1); Scalar(F(result.Right)[0], 5, 1);
+        Assert.NotSame(result.Left, result.Right);
+    }
+
     private static Relation Group(params IElement[] elements) => Relation.OrderedGroup(new Carrier(), elements);
     private static IElement L(Carrier carrier, long ticks) => new CarrierLocation(carrier, ticks);
     private static IElement[] F(IElement element)

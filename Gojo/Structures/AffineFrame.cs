@@ -139,13 +139,16 @@ public static partial class AffineFrame
                     else result[i] = new Placeholder();
                     shared?[i].Add(identity, result[i]);
                 }
-                if (result[i] is Placeholder)
+                // A constant target cannot account for its incoming coordinate.
+                // Keep that source participation even though the result is known.
+                if (slopes[i].IsZero) remainder.Add(new Relation(coordinates[i], maps[i]));
+                else if (result[i] is Placeholder)
                     remainder.Add(new Relation(new Relation(coordinates[i], maps[i]), result[i]));
             }
         }
         catch (OverflowException) { return Unresolved(request, out witness); }
         witness = Observe(request, Group(fields[1], fields[2]), Relation.OrderedGroup(holder, result), remainder, request);
-        return remainder.Count == 0;
+        return result.All(coordinate => coordinate is not Placeholder);
     }
 
     private static object CoordinateIdentity(IElement coordinate) => coordinate switch

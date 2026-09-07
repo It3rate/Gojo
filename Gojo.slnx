@@ -15,6 +15,8 @@
     <File Path="Gojo/docs/GojoBoundedQuantityFixture.md" />
     <File Path="Gojo/docs/GojoSyntaxGeometryReview-2026-09.md" />
     <File Path="Gojo/docs/GojoAffineConstructionFixture.md" />
+    <File Path="Gojo/docs/GojoCurveReplayWalkthrough.md" />
+    <File Path="Gojo/docs/examples/curve-replay.html" />
   </Folder>
   <Project Path="Gojo/Gojo.csproj" />
   <Project Path="Gojo.Tests/Gojo.Tests.csproj" />

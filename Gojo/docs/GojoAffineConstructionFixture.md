@@ -82,18 +82,19 @@ coordinate or whole point against itself, but does not cancel separate slots
 merely because both are unknown.
 
 All operations return ordinary five-part `ReadWitness` structure:
-source, selected surface, result, remainder, provenance. An exact successful
-read has an empty ordered remainder group. A partial read has known/open
+source, selected surface, result, remainder, provenance. An exact interpolation
+or displacement has an empty ordered remainder group. A partial read has known/open
 coordinates and dependency-to-result relations in the remainder. A malformed
 or unsupported request has an open result and retains the entire request.
 `false` can therefore accompany a useful partial result; it is not a verdict
 that the source structure is meaningless.
 
-Empty remainder means every requested coordinate was computed under the
-selected function. It does not assert that a map is invertible or conserves
-material: a constant map can discard distinctions while remaining exactly
-computable. The source remains in the witness. Material transfer still needs
-its own accepted, blocked and remaining participation witnesses.
+Successful computation does not require empty residue: a constant projection
+retains its original coordinate as residue, following the kernel's zero-target
+projection law, even though its result is known. Mapping a motif carries that
+residue through the per-point witnesses. Success does not assert invertibility
+or material conservation. Material transfer still needs its own accepted,
+blocked and remaining participation witnesses.
 
 For interpolation, provenance connects the requested output with the observed
 point. A supplied output of `999` is retained even if the local calculation
@@ -196,6 +197,11 @@ The next useful exercise is a control-point or period change followed through
 existing dependency/replay surfaces: keep the earlier sample, expose why it is
 stale, and build the new sample without losing correspondence. That stays close
 to the live-system thesis while keeping the mathematical contract fixed.
+
+That exercise is now implemented in the
+[curve replay walkthrough](GojoCurveReplayWalkthrough.md), with a
+[visual example](examples/curve-replay.html). It also records the dependency
+discovery and replay-residue bugs the longer construction exposed.
 
 ## Verification
 
