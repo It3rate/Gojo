@@ -107,3 +107,7 @@ every exported Blocks specimen. Quotient and material syntax tests also execute
 after restoration. The gear tests reread every restored rung, contour and shared
 pitch identity. These tests establish fidelity of those graphs and behaviors,
 not mathematical completeness of every depicted concept.
+
+The [prospective fixture](GojoProspectiveCalibrationFixture.md) also restores a
+pending issued forecast, admits a later observation through the restored port,
+and retains the assessment's consumed-issue identity on another round trip.

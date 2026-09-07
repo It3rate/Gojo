@@ -802,3 +802,11 @@ same authored request patterns drive the tests before and after restoration.
 An open publication remains valid structure and installs a pending current
 read. Port, subject/context correspondence and sequence checks are selected
 kernel reads; names and equal-looking numbers do not supply the connection.
+
+The [prospective calibration fixture](GojoProspectiveCalibrationFixture.md)
+adds source-time targets, local availability/issue order, sample-derived affine
+frames, copied forecasts, and once-per-issue assessment. Its existing `group`,
+`span`, `action`, binding and timeline forms also preserve an inverse internal
+encoding with an inverse readout. Request patterns execute before and after
+numeric restoration; no new token or compiler is introduced. A future forecast
+is distinct from a conditional current-value read and from a reward request.

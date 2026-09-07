@@ -14,6 +14,12 @@ The [two-space follow-up](GojoTwoSpaceFeedbackFixture.md) now exercises the
 third stage with a selected sequential publication/receipt contract. Policy
 selection, learned responsiveness and structural adaptation remain open.
 
+The [prospective calibration prerequisite](GojoProspectiveCalibrationFixture.md)
+now separates communication balance from testing a future prediction. It derives
+an affine continuation from available samples, records the future target before
+feedback, and retains later mismatch and equivalent internal encodings. Learned
+reward/response policies remain open; the proposed stages below are historical.
+
 **Assessment:** the syntax and selected kernel mechanisms are ready for small
 dynamic experiments. We have enough structure to express the participants,
 unknowns, requests, changes and evidence. Choosing useful changes, learning

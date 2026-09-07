@@ -239,3 +239,11 @@ could retain two response policies, measure their subsequent local effects
 and costs, then explicitly revise participation. That would test a proposed
 utility law. The present work establishes the exchange and failure boundaries
 on which that experiment can depend; it has not learned trust or blame.
+
+**Subsequent clarification:** agreement alone does not supply a predictive or
+reward objective. The next implemented prerequisite is the
+[prospective calibration fixture](GojoProspectiveCalibrationFixture.md): an
+explicit future target, a forecast recorded before feedback is available, and
+later assessment against that target. It begins with sample-derived affine
+continuations. Learning responsiveness should use subsequent consequences,
+not treat a quiet exchange as sufficient evidence of usefulness.
