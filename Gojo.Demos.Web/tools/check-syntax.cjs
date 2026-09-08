@@ -7,6 +7,10 @@ const output=process.env.GOJO_SCREENSHOTS || path.join(require('node:os').tmpdir
 const types={'.html':'text/html','.js':'text/javascript','.css':'text/css','.svg':'image/svg+xml','.gojo':'text/plain'};
 (async()=>{
   const catalogue=JSON.parse(await fs.readFile(path.join(__dirname,'syntax-catalog.json'),'utf8'));
+  const collection=JSON.parse(await fs.readFile(path.join(__dirname,'syntax-walkthroughs.json'),'utf8'));
+  const entries=new Map(catalogue.demos.map(d=>[d.id,d]));
+  for(const d of collection.walkthroughs)entries.set(d.id,d);
+  const demoRoute=d=>'/syntax/'+(d.route||d.id)+'/';
   const server=http.createServer(async(req,res)=>{
     try{
       const requested=decodeURIComponent(new URL(req.url,'http://localhost').pathname);
@@ -18,7 +22,7 @@ const types={'.html':'text/html','.js':'text/javascript','.css':'text/css','.svg
     }catch{res.writeHead(404);res.end('Not found');}
   });
   await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));
-  const base='http://127.0.0.1:'+server.address().port;
+  const base=process.env.GOJO_BASE_URL||'http://127.0.0.1:'+server.address().port;
   let browser;
   try{
     await fs.mkdir(output,{recursive:true});
@@ -64,18 +68,24 @@ const types={'.html':'text/html','.js':'text/javascript','.css':'text/css','.svg
             images.forEach(image=>{image.loading='eager';});
             return Promise.all(images.map(async image=>{await image.decode();return image.naturalWidth>0;}));
           });
-          assert.equal(loaded.length,catalogue.demos.length);assert.ok(loaded.every(Boolean));
+          assert.equal(loaded.length,entries.size);assert.ok(loaded.every(Boolean));
           await page.locator('.demo-card').first().click();
-          assert.equal(new URL(page.url()).pathname,'/syntax/'+catalogue.demos[0].id+'/');
+          assert.equal(new URL(page.url()).pathname,demoRoute(entries.get(collection.featured[0])));
         }
       }
     }
     await page.goto(base+'/syntax/');
-    assert.equal(await page.locator('.demo-card').count(),12);
+    assert.equal(await page.locator('.demo-card').count(),entries.size);
+    assert.deepEqual(await page.locator('.featured .demo-card').evaluateAll(cards=>cards.map(c=>c.getAttribute('href'))),collection.featured.map(id=>demoRoute(entries.get(id))));
+    const featuredBottom=await page.locator('.featured').evaluate(el=>el.getBoundingClientRect().bottom);
+    assert.ok(featuredBottom<900,'Featured collection should fit above the fold on a 1440 × 900 desktop: '+featuredBottom);
+    const imageWidths=await page.locator('.thumbnail img').evaluateAll(images=>images.map(i=>i.getBoundingClientRect().width));
+    assert.ok(imageWidths[6]<imageWidths[0]/2,'Extras need smaller thumbnails');
     await page.screenshot({path:path.join(output,'gallery-desktop.png'),fullPage:true});
     for(const category of ['Structure','Uncertainty','Change','All']){
       await page.locator('[data-filter="'+category+'"]').click();
-      assert.equal(await page.locator('.demo-card:visible').count(),category==='All'?12:catalogue.demos.filter(d=>d.category===category).length);
+      assert.equal(await page.locator('.demo-card:visible').count(),category==='All'?entries.size:[...entries.values()].filter(d=>d.category===category).length);
+      assert.equal(await page.locator('.featured').isVisible(),category!=='Uncertainty');
     }
     let states=0;
     for(const d of catalogue.demos){
@@ -122,10 +132,57 @@ const types={'.html':'text/html','.js':'text/javascript','.css':'text/css','.svg
       await page.keyboard.press('Escape');
       await page.setViewportSize({width:1440,height:1100});
     }
+    for(const d of collection.walkthroughs){
+      for(const suffix of ['', '/', '/index.html']){
+        await page.goto(base+demoRoute(d).slice(0,-1)+suffix+'?step=1');
+        assert.equal(await page.locator('.notebook-nav a').first().getAttribute('href'),'/syntax/');
+        assert.ok(await page.locator('svg').innerHTML());
+        for(const link of await page.locator('a[href]').evaluateAll(nodes=>nodes.map(n=>n.href))){
+          if(new URL(link).origin!==base)continue;
+          const response=await page.request.get(link);
+          assert.equal(response.status(),200,link);
+          if(new URL(link).pathname.endsWith('.gojo'))assert.match(await response.text(),/^gojo 1;/);
+        }
+      }
+      for(const [name,width,height] of [['desktop',1440,900],['phone',390,844]]){
+        await page.setViewportSize({width,height});
+        await page.goto(base+demoRoute(d));
+        for(let step=0;step<d.stepCount;step++){
+          if(d.id==='curve-replay')await page.locator('[data-step="'+step+'"]').click();
+          else{
+            await page.locator('#step').fill(String(step));
+            assert.equal(await page.locator('#position').innerText(),(step+1)+' / '+d.stepCount);
+          }
+          assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true,d.id+' '+name+' step '+step+' width');
+        }
+        const syntax=page.locator('details').filter({has:page.locator('#syntax')});
+        await syntax.locator('summary').click();
+        assert.ok(await page.locator('#syntax').isVisible(),d.id+' syntax');
+        assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true,d.id+' expanded syntax width');
+        await syntax.locator('summary').click();
+        if(d.id==='grounded-affine-basis'){
+          await page.locator('#step').fill('7');
+          for(let turn=0;turn<4;turn++){
+            const points=()=>page.locator('#scene circle').evaluateAll(nodes=>nodes.map(n=>[+n.getAttribute('cx'),+n.getAttribute('cy')]));
+            const front=await points(),numeric=await page.locator('#numeric').innerText();
+            await page.locator('#mirror').click();
+            const back=await points();
+            assert.deepEqual(back,front.map(([x,y])=>[440-x,y]),'Back view preserves the viewer horizon');
+            assert.equal(await page.locator('#numeric').innerText(),numeric);
+            await page.locator('#mirror').click();await page.locator('#rotate').click();
+          }
+        }
+        await page.screenshot({path:path.join(output,d.id+'-walkthrough-'+name+'.png'),fullPage:true});
+      }
+    }
     await page.setViewportSize({width:390,height:844});
     await page.goto(base+'/syntax/');
     assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth),true);
     await page.screenshot({path:path.join(output,'gallery-mobile.png'),fullPage:true});
+    await page.goto(base+'/');
+    assert.ok(await page.locator('.syntax-entry').isVisible());
+    await page.locator('.syntax-entry').click();
+    assert.equal(new URL(page.url()).pathname,'/syntax/');
     // All copied syntax and every page/thumbnail are actual local resources.
     for(const d of catalogue.demos){
       for(const suffix of [d.id+'/','thumbnails/'+d.id+'.svg','fixtures/'+d.fixture]){
@@ -135,7 +192,7 @@ const types={'.html':'text/html','.js':'text/javascript','.css':'text/css','.svg
     await page.goto(base+'/syntax/curve-replay/?step=999');
     assert.equal(await page.locator('[data-step="0"]').getAttribute('aria-pressed'),'true');
     assert.deepEqual(errors,[]);
-    console.log('Browser QA passed: '+catalogue.demos.length+' demos, '+states+' steps, 39 directory/index URL variants, loaded assets, desktop/mobile layouts, history, filters, syntax, clipboard and keyboard focus. Screenshots: '+output);
+    console.log('Browser QA passed: '+entries.size+' indexed examples, '+collection.walkthroughs.length+' full walkthroughs, '+states+' overview steps; directory/index variants, featured order, compact extras, loaded assets, desktop/mobile layouts, view invariance, filters, syntax and home link. Screenshots: '+output);
   }finally{
     if(browser)await browser.close();
     await new Promise(resolve=>server.close(resolve));

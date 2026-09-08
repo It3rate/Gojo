@@ -70,6 +70,21 @@ h1 {
     font-style: italic;
 }
 
+.syntax-entry {
+    display: inline-block;
+    margin-top: 12px;
+    padding: 15px 20px;
+    border: 1px solid var(--accent);
+    border-radius: 6px;
+    background: var(--accent);
+    color: #fffdf7;
+    font: 17px/1.5 "Trebuchet MS", sans-serif;
+    text-decoration: none;
+}
+.syntax-entry small { display: block; margin-top: 3px; font-size: 12px; }
+.syntax-entry:hover { background: #125b56; }
+.syntax-entry:focus-visible { outline: 3px solid var(--warm); outline-offset: 4px; }
+
 .section-heading {
     display: flex;
     align-items: baseline;

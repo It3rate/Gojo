@@ -2,11 +2,16 @@
 
 Public entry point: [gojo.inklingai.ca/syntax/](https://gojo.inklingai.ca/syntax/).
 
-Twelve small illustrated experiments cover shared sites, parameter frames,
-partial coordinates, Bézier construction and replay, join continuity, frieze
-maps, bounded quantities, clearance, material refinement, local response and
-unit standards. Each has a thumbnail, everyday context, selectable steps, a
-syntax dialog and links to the exact fixture tests and supporting documentation.
+Fifteen illustrated experiments have selectable steps, syntax panels and links
+to their source fixtures and documentation. Six featured examples lead from
+contour construction through calibrated rotation, a grounded affine basis,
+Bézier construction, frieze patterns and curve replay. Nine smaller studies in
+identity, uncertainty, units and response remain in the compact Extras section.
+
+Four complete walkthroughs are published from the original pages in
+[Gojo/docs/examples](../../Gojo/docs/examples). The original compact curve-replay
+overview stays at `/syntax/curve-replay/`; its full walkthrough is at
+`/syntax/curve-replay/walkthrough/`. The featured card opens the full walkthrough.
 
 The browser presents selected, recorded scenarios. It does **not** execute the
 Gojo kernel or interpret the syntax. SVG coordinates, decimal display values,
@@ -17,6 +22,11 @@ fixture's Gojo structure and selected kernel readers retain the meaning.
 
 - Edit [the catalogue](../tools/syntax-catalog.json) for explanations, selected
   display values and source references.
+- Edit [the collection](../tools/syntax-walkthroughs.json) for featured order,
+  walkthrough titles, source pages and thumbnail stages. Edit the original
+  walkthrough HTML for its behavior. Publishing rewrites repository links,
+  adds notebook navigation and supplies a syntax panel when one is absent;
+  it does not fork the original renderer or numeric trace.
 - Edit [illustrations.js](illustrations.js), [gallery.js](gallery.js) or
   [gallery.css](gallery.css) for presentation and interactions.
 - Edit canonical syntax under
@@ -29,6 +39,15 @@ fixture's Gojo structure and selected kernel readers retain the meaning.
 node Gojo.Demos.Web/tools/build-syntax.mjs
 node Gojo.Demos.Web/tools/build-syntax.mjs --check
 dotnet test Gojo.slnx
+~~~
+
+When a walkthrough illustration changes, refresh its committed SVG thumbnail
+from the actual renderer before rebuilding (requires Playwright, with the same
+environment options as the browser check below):
+
+~~~powershell
+node Gojo.Demos.Web/tools/capture-walkthrough-thumbnails.cjs
+node Gojo.Demos.Web/tools/build-syntax.mjs
 ~~~
 
 The builder has no package dependencies. Serve Gojo.Demos.Web as a static
@@ -55,7 +74,9 @@ not locally resolvable, and GOJO_BROWSER to an installed Edge/Chromium binary
 if needed. GOJO_SCREENSHOTS selects an output directory; the default is
 GojoSyntaxGalleryQA in the OS temporary directory. Checks cover every step,
 desktop and phone layouts, filters, URL history, dialog focus, source text,
-copying and asset availability. Visually inspect representative screenshots
+copying, the featured order, compact extras, walkthrough controls, the main-page
+link and asset availability. Set `GOJO_BASE_URL=https://gojo.inklingai.ca` to run
+the same checks against production after deployment. Visually inspect representative screenshots
 as well; overflow checks alone cannot assess the illustrations.
 
 ## Selecting future examples
@@ -67,11 +88,10 @@ versus failed equality, or historical versus current evidence. Explain which
 action is chosen by the driver and which response the kernel actually supplies.
 Preserve useful partial states instead of only showing the completed scalar.
 
-For this initial collection, carrier-native circle/line promises, 3D bases,
-lane access, conserved capacity sharing, denominator domains and deliberate
-history compression were considered for later pages. Some have existing tests;
-others need a tighter fixture or additional laws. The twelve selected pages
-give a compact introduction without representing this inventory as exhaustive.
+Further candidates include 3D bases, lane access, conserved capacity sharing,
+denominator domains and deliberate history compression. Some have existing
+tests; others need a tighter fixture or additional laws. The collection is an
+introduction rather than an exhaustive inventory.
 
 Deployment is described in [the site README](../README.md). Keep the existing
 browser applications in the deployment bundle when adding or updating /syntax/.

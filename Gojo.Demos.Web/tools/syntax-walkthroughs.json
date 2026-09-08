@@ -1,0 +1,47 @@
+{
+  "featured": ["contour-rotation", "calibrated-contour-rotation", "grounded-affine-basis", "bezier-construction", "frieze-patterns", "curve-replay"],
+  "walkthroughs": [
+    {
+      "id": "contour-rotation",
+      "title": "A circle before coordinates",
+      "category": "Structure",
+      "blurb": "Start with a point, attach a radius, and partition a return into landmarks.",
+      "source": "contour-rotation.html",
+      "fixture": "circle-construction.gojo",
+      "stepCount": 12,
+      "thumbnailStep": 8
+    },
+    {
+      "id": "calibrated-contour-rotation",
+      "title": "Turn an attached plate",
+      "category": "Structure",
+      "blurb": "Use a supplied basis and radial landmarks to turn a shape with its contour.",
+      "source": "calibrated-contour-rotation.html",
+      "fixture": "contour-rotation.gojo",
+      "stepCount": 9,
+      "thumbnailStep": 2
+    },
+    {
+      "id": "grounded-affine-basis",
+      "title": "A basis, then a curve",
+      "category": "Structure",
+      "blurb": "Build and calibrate a coordinate space, then keep even a partial curve readable.",
+      "source": "grounded-affine-basis.html",
+      "fixture": "grounded-affine-basis.gojo",
+      "stepCount": 10,
+      "thumbnailStep": 7,
+      "thumbnailViewBox": "200 55 200 195"
+    },
+    {
+      "id": "curve-replay",
+      "title": "A control moves. A curve remembers.",
+      "category": "Change",
+      "blurb": "Move a control, expose stale answers, and follow the local calculations to a new sample.",
+      "source": "curve-replay.html",
+      "fixture": "bezier-replay.gojo",
+      "route": "curve-replay/walkthrough",
+      "stepCount": 4,
+      "thumbnailStep": 3
+    }
+  ]
+}

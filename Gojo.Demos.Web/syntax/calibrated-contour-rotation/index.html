@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Turning from a contour · Gojo</title>
+<style>
+:root{color-scheme:light;--paper:#f6f3eb;--ink:#22372f;--muted:#617269;--line:#d8ded2;--green:#24694d;--orange:#aa4e28}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.6 system-ui,sans-serif}main{max-width:1050px;margin:auto;padding:36px 28px 24px}a{color:var(--green);text-underline-offset:4px}.eyebrow{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--green)}h1{font:clamp(32px,5vw,52px)/1.1 Georgia,serif;margin:12px 0 18px;letter-spacing:-.025em}.intro{max-width:760px;color:var(--muted);margin:0 0 24px}.stage{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(240px,1fr);border:1px solid var(--line);background:#fffdf7;border-radius:18px;overflow:hidden}.scene{padding:12px;min-width:0}svg{display:block;width:100%;height:auto}svg text{font:13px system-ui,sans-serif;fill:var(--muted)}.legend{display:flex;gap:16px;flex-wrap:wrap;padding:0 14px 12px;font-size:12px;color:var(--muted)}.legend span:before{content:"";display:inline-block;width:14px;height:3px;background:var(--green);margin:0 6px 3px 0}.legend span+span:before{background:#9daa9e}.readout{padding:28px;background:#eff2e9;display:flex;flex-direction:column;justify-content:center;gap:18px}.label{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}.value{font:26px/1.3 Georgia,serif;margin-top:3px}.detail{font-size:13px;color:var(--muted)}.explanation{min-height:180px;padding:22px 2px 0}h2{font:25px/1.3 Georgia,serif;margin:0 0 10px}.explanation p{margin:0;max-width:850px}.controls{display:flex;align-items:center;gap:16px;padding:16px 0 24px}button{border:1px solid var(--line);border-radius:8px;background:#fffdf7;color:var(--ink);font:inherit;padding:8px 16px;cursor:pointer;white-space:nowrap}button:hover:enabled{border-color:var(--green)}button:disabled{opacity:.4;cursor:default}input{min-width:30px;flex:1;accent-color:var(--green)}#position{font-size:13px;white-space:nowrap;color:var(--muted)}:focus-visible{outline:3px solid #ba6f36;outline-offset:4px}details{border-top:1px solid var(--line);padding:18px 0}summary{cursor:pointer;font-weight:600}pre{white-space:pre;overflow-x:auto;border-radius:10px;background:#e9eee4;padding:20px;font:13px/1.6 ui-monospace,Consolas,monospace}details p,.notes,footer{font-size:13px;color:var(--muted)}footer{display:flex;flex-wrap:wrap;gap:24px;border-top:1px solid var(--line);padding-top:16px;margin-top:24px}.open{color:var(--orange)}
+@media(max-width:650px){main{padding:22px 16px}.stage{grid-template-columns:1fr}.readout{padding:18px;display:grid;grid-template-columns:1fr 1fr;gap:14px}.readout>div:last-child{grid-column:1/-1}.value{font-size:23px}.controls{gap:9px}button{padding:8px 10px}.explanation{min-height:230px}h2{font-size:23px}}
+</style>
+</head>
+<body><main><style>.notebook-nav{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;margin:0 0 24px;padding:0 0 14px;border-bottom:1px solid #d6dbd0;font:13px/1.5 system-ui,sans-serif}.notebook-nav a,.notebook-next a,.notebook-source a{color:#16776c;text-underline-offset:4px}.notebook-next{margin-top:28px;padding-top:20px;border-top:1px solid #d6dbd0;font:16px/1.5 system-ui,sans-serif}.notebook-source{margin-top:24px;border-top:1px solid #d6dbd0;padding:18px 0}.notebook-source summary{cursor:pointer;font-weight:600}.notebook-source pre{max-height:65vh;overflow:auto;white-space:pre;background:#e9eee4;padding:18px;border-radius:8px;font:13px/1.6 Consolas,monospace}</style><nav class="notebook-nav" aria-label="Syntax notebook"><a href="/syntax/">← Syntax notebook</a><a href="/">All Gojo demos</a></nav>
+<div class="eyebrow">Gojo · A small structural experiment</div>
+<h1>Turning with supplied coordinates.</h1>
+<p class="intro">This later experiment supplies an X/Y basis, a metric and radial landmarks, then checks how an attached plate turns. It does not construct those landmarks. <a href="/syntax/contour-rotation/">Start with the circle construction</a> to see the earlier stages. Each example below starts from the same original plate.</p>
+<div class="stage">
+<div class="scene"><svg id="scene" viewBox="0 0 440 400" role="img" aria-label="A marked contour and an attached plate"><title>Rotation from radial landmarks</title></svg><div class="legend"><span>Resulting radial and plate</span><span>Original plate</span></div></div>
+<div class="readout" aria-live="polite" aria-atomic="true">
+<div><div class="label">Ordered traversal</div><div class="value" id="walk"></div><div class="detail" id="history"></div></div>
+<div><div class="label">Radial endpoint</div><div class="value" id="rim"></div><div class="detail">Centre: (10, 20) · reach: 5</div></div>
+<div><div class="label">Plate corner A</div><div class="value" id="corner"></div><div class="detail" id="status"></div></div>
+</div></div>
+<section class="explanation" aria-live="polite" aria-atomic="true"><h2 id="heading"></h2><p id="explanation"></p></section>
+<div class="controls"><button id="prev">← Back</button><input id="step" type="range" min="0" max="8" value="0" aria-label="Experiment step"><span id="position"></span><button id="next">Next →</button></div>
+<details><summary>Look at the actual syntax</summary>
+<p>Selected lines from the authored fixture. The full fixture connects the basis, metric, shared markers and points. A caller selects a reader and binds its request; these declarations describe the inputs.</p>
+<pre id="syntax">let $contour = crystal(orthogonal($origin));
+let $centre_representation = $origin -&gt; $centre;
+let $rims = frame($m0 -&gt; ($centre -&gt; $p0), $m1 -&gt; ($centre -&gt; $p1),
+    $m2 -&gt; ($centre -&gt; $p2), $m3 -&gt; ($centre -&gt; $p3));
+let $cycle = frame($m0 -&gt; $m1, $m1 -&gt; $m2, $m2 -&gt; $m3, $m3 -&gt; $m0);
+let $surface = group($centre_representation, $contour, $metric, $rims, $cycle);
+let $walk = group($surface, $m0, span($steps, 0, 1));
+root group(?traversal, $points);</pre>
+<p><a href="/syntax/fixtures/contour-rotation.gojo">Read the full authored fixture</a></p>
+</details>
+<p class="notes">A recorded replay checked against the Gojo readers. The browser draws the checked coordinates; it does not execute the kernel. This experiment selects an exact planar distance rule and discrete landmarks. Smooth motion, physical torque and uncertain radial geometry remain later work. No angle parameter defines these turns.</p>
+<footer><a href="https://github.com/It3rate/Gojo/blob/main/Gojo/docs/GojoContourRotationFixture.md">Construction, procedures and boundaries</a><a href="https://github.com/It3rate/Gojo/blob/main/Gojo/docs/GojoContourRotationAndLocalInterfaces-2026-09.md">Why rotation needs an internal basis</a></footer>
+<div class="notebook-next"><a href="/syntax/grounded-affine-basis/">Next: A basis, then a curve →</a></div></main>
+<script id="trace" type="application/json">
+[
+ {"surface":"coarse","steps":0,"marker":0,"crossings":0,"rim":[15,20],"points":[[12,20,1],[12,21,1],[13,21,1],[13,20,1]],"title":"A centre, a reach, and connected landmarks.","text":"The contour has four exposed markers, each attached to the same centre through a radius of five local length units. The selected distance rule makes this a circle. The original plate sits beside the starting radius. The marker names identify sites; their tick values are not angles."},
+ {"surface":"coarse","steps":1,"marker":4,"crossings":0,"rim":[10,25],"points":[[10,22,1],[9,22,1],[9,23,1],[10,23,1]],"title":"One edge gives a new radial relation.","text":"Follow m0 → m1. The two connected radii determine a turn that carries the attached plate with them while preserving distances. Corner A moves from (12, 20) to (10, 22). A familiar quarter-turn is the result of this geometry; no quarter-turn number supplied the movement."},
+ {"surface":"coarse","steps":2,"marker":8,"crossings":0,"rim":[5,20],"points":[[8,20,1],[8,19,1],[7,19,1],[7,20,1]],"title":"Opposite landmarks still define a valid turn.","text":"Two edges carry the starting radius to the opposite side. The plate now faces the other way and retains its size and handedness. This changes the point frame without changing a carrier to its dual or treating a negative coordinate as an inverse unit."},
+ {"surface":"coarse","steps":4,"marker":0,"crossings":1,"rim":[15,20],"points":[[12,20,1],[12,21,1],[13,21,1],[13,20,1]],"title":"The same pose can have a different history.","text":"Four edges return to m0 and the original plate coordinates. The traversal still records four steps and one positive crossing of the cycle’s closing edge. Its endpoint action is identity, but its traversal evidence differs from taking no steps."},
+ {"surface":"coarse","steps":-1,"marker":12,"crossings":-1,"rim":[10,15],"points":[[10,18,1],[11,18,1],[11,17,1],[10,17,1]],"title":"A negative walk follows the cycle backwards.","text":"From m0, one backward edge reaches m3. The traversal records a negative crossing of the closing edge. The declared connections determine this direction; the operation does not flip a carrier face or silently reverse the basis."},
+ {"surface":"refined","steps":1,"marker":2,"crossings":0,"rim":[13,24],"points":[[56,108,5],[52,111,5],[55,115,5],[59,112,5]],"title":"An extra landmark does not invent equal sectors.","text":"Insert a radial endpoint at (13, 24). Its displacement (3, 4) has the same reach of five. One refined edge now ends here, and A becomes exactly (56/5, 108/5). Five landmarks do not imply five equally sized turns. The extra relation carries the geometry."},
+ {"surface":"refined","steps":2,"marker":4,"crossings":0,"rim":[10,25],"points":[[10,22,1],[9,22,1],[9,23,1],[10,23,1]],"title":"Refinement preserves the old landmark.","text":"Two edges in the refined cycle reach the original m1. The resulting plate matches the earlier one-edge result. The finer path adds an intermediate distinction while preserving the older endpoint and its valid geometric read."},
+ {"surface":"partial","steps":1,"marker":4,"crossings":0,"rim":null,"points":null,"title":"A known connection can lead to unknown geometry.","text":"The cycle still contains m0 → m1, but m1’s radial endpoint is an open slot. Traversal succeeds: the next site is known. The stronger geometric read stays unresolved. The faded original plate is only a reference; it is not a predicted position or a claim that the plate stayed still."},
+ {"surface":"resolved","steps":1,"marker":4,"crossings":0,"rim":[10,25],"points":[[10,22,1],[9,22,1],[9,23,1],[10,23,1]],"title":"Bind the missing attachment, then make a new read.","text":"Supply (10, 25) for the missing radial endpoint. The refined structure now supports the same turn as the complete first example. The earlier unresolved witness remains unchanged. New evidence enables a new result without rewriting what was previously known."}
+]
+</script>
+<script>
+'use strict';
+const el=id=>document.getElementById(id), trace=JSON.parse(el('trace').textContent);
+const original=[[12,20,1],[12,21,1],[13,21,1],[13,20,1]];
+let index=0;
+const x=v=>220+(v-10)*28, y=v=>195-(v-20)*28;
+const polygon=points=>points.map(p=>`${x(p[0]/p[2])},${y(p[1]/p[2])}`).join(' ');
+function fraction(n,d){return n%d===0?String(n/d):`${n}/${d}`;}
+function show(i){
+ index=Math.max(0,Math.min(trace.length-1,Number.isFinite(i)?i:0)); const s=trace[index];
+ el('step').value=index; el('position').textContent=`${index+1} / ${trace.length}`;
+ el('prev').disabled=index===0; el('next').disabled=index===trace.length-1;
+ el('heading').textContent=s.title; el('explanation').textContent=s.text;
+ const names={0:'m0',2:'extra',4:'m1',8:'m2',12:'m3'};
+ el('walk').textContent=`${s.steps} ${Math.abs(s.steps)===1?'edge':'edges'} → ${names[s.marker]}`;
+ el('history').textContent=`${s.crossings>0?'+':''}${s.crossings} signed closing-edge crossings`;
+ el('rim').textContent=s.rim?`(${s.rim.join(', ')})`:'Open attachment';
+ el('rim').classList.toggle('open',!s.rim);
+ el('corner').textContent=s.points?`(${fraction(s.points[0][0],s.points[0][2])}, ${fraction(s.points[0][1],s.points[0][2])})`:'Unresolved';
+ el('status').textContent=s.points?'Exact result on the selected basis':'The topology is known; this pose is not.';
+ let svg='<title>Marked contour with the original plate and the resulting pose</title>';
+ svg+='<circle cx="220" cy="195" r="140" fill="none" stroke="#c4d0bf" stroke-width="2"/>';
+ svg+='<line x1="220" y1="195" x2="360" y2="195" stroke="#b0bcae" stroke-dasharray="4 5"/>';
+ const markers=[['m0',15,20],['m1',10,25],['m2',5,20],['m3',10,15]];
+ if(s.surface==='refined')markers.splice(1,0,['extra',13,24]);
+ for(const [name,px,py] of markers){
+   if(s.surface==='partial'&&name==='m1')continue;
+   svg+=`<circle cx="${x(px)}" cy="${y(py)}" r="5" fill="#fffdf7" stroke="#7a927e" stroke-width="2"/>`;
+   svg+=`<text x="${x(px)+(px>10?18:px<10?-18:0)}" y="${y(py)+(py>20?-14:py<20?26:-12)}" text-anchor="${px>10?'start':px<10?'end':'middle'}">${name}</text>`;
+ }
+ svg+=`<polygon points="${polygon(original)}" fill="#9daa9e" fill-opacity=".08" stroke="#9daa9e" stroke-dasharray="3 4"/>`;
+ if(s.rim)svg+=`<line x1="220" y1="195" x2="${x(s.rim[0])}" y2="${y(s.rim[1])}" stroke="#24694d" stroke-width="3"/>`;
+ if(s.points){svg+=`<polygon points="${polygon(s.points)}" fill="#24694d" fill-opacity=".2" stroke="#24694d" stroke-width="2"/>`;
+   svg+=`<circle cx="${x(s.points[0][0]/s.points[0][2])}" cy="${y(s.points[0][1]/s.points[0][2])}" r="4" fill="#24694d"/>`;
+   svg+=`<text x="${x(s.points[0][0]/s.points[0][2])+10}" y="${y(s.points[0][1]/s.points[0][2])+16}">A</text>`;
+ }else{svg+='<rect x="153" y="12" width="134" height="34" rx="7" fill="#fff2e3"/><text x="220" y="34" text-anchor="middle">m1 → ?missing_rim</text>';}
+ svg+='<circle cx="220" cy="195" r="5" fill="#22372f"/><text x="210" y="220" text-anchor="end">centre</text>';
+ el('scene').innerHTML=svg;
+ const url=new URL(location.href);url.searchParams.set('step',index);history.replaceState(null,'',url);
+}
+el('prev').addEventListener('click',()=>show(index-1));el('next').addEventListener('click',()=>show(index+1));
+el('step').addEventListener('input',e=>show(Number(e.target.value)));
+show(Number.parseInt(new URL(location.href).searchParams.get('step')||'0',10));
+</script>
+</body></html>

@@ -11,6 +11,9 @@
         card.hidden=category!=='All'&&card.dataset.category!==category;
         if(!card.hidden)count++;
       });
+      document.querySelectorAll('[data-gallery-group]').forEach(section=>{
+        section.hidden=![...section.querySelectorAll('[data-category]')].some(card=>!card.hidden);
+      });
       byId('filter-status').textContent=count+' examples';
     }));
     return;
