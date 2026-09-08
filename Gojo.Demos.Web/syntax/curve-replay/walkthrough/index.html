@@ -2,7 +2,7 @@
 <html lang="en">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>A control moves. What happens to the old answer?</title>
+<title>Bézier curve replay · Gojo</title>
 <style>
   :root { color-scheme: light; font: 16px/1.55 system-ui,sans-serif; color:#17303b; background:#f4f6f4; }
   * { box-sizing:border-box; }
@@ -36,7 +36,7 @@
 </style>
 <main><style>.notebook-nav{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;margin:0 0 24px;padding:0 0 14px;border-bottom:1px solid #d6dbd0;font:13px/1.5 system-ui,sans-serif}.notebook-nav a,.notebook-next a,.notebook-source a{color:#16776c;text-underline-offset:4px}.notebook-next{margin-top:28px;padding-top:20px;border-top:1px solid #d6dbd0;font:16px/1.5 system-ui,sans-serif}.notebook-source{margin-top:24px;border-top:1px solid #d6dbd0;padding:18px 0}.notebook-source summary{cursor:pointer;font-weight:600}.notebook-source pre{max-height:65vh;overflow:auto;white-space:pre;background:#e9eee4;padding:18px;border-radius:8px;font:13px/1.6 Consolas,monospace}</style><nav class="notebook-nav" aria-label="Syntax notebook"><a href="/syntax/">← Syntax notebook</a><a href="/">All Gojo demos</a></nav>
   <div class="eyebrow">Gojo · a live construction, one edit</div>
-  <h1>A control moves.<br>What happens to the old answer?</h1>
+  <h1>Bézier curve replay</h1>
   <p class="intro">Imagine shaping a curved handle in a drawing tool. Four controls define its curve.
     We have calculated one point at parameter <b>t = ½</b>. Now we raise the first inner control.</p>
   <nav aria-label="Walk through the edit">
@@ -110,7 +110,7 @@ root group(frame($publish,$ab,$bc,$independent,$cd,$abc,$bcd,$sample),
 root group(?old_applications, ?focus_change, ?dependencies, ?affected_slice,
     ?pending_replay, ?current_replay, ?timeline,
     group(?current_curve_read, ?current_parameter, ?current_sample_claim));
-</pre><p><a href="/syntax/fixtures/bezier-replay.gojo" download>Download fixture</a> · <a href="https://github.com/It3rate/Gojo/blob/main/Gojo.Encoding.Tests/GojoSyntaxReplayTests.cs">Read the validations</a></p></details><div class="notebook-next"><a href="/syntax/contour-rotation/">Next: A circle before coordinates →</a><p><a href="/syntax/curve-replay/">Compact replay overview and validation notes</a></p></div></main>
+</pre><p><a href="/syntax/fixtures/bezier-replay.gojo" download>Download fixture</a> · <a href="https://github.com/It3rate/Gojo/blob/main/Gojo.Encoding.Tests/GojoSyntaxReplayTests.cs">Read the validations</a></p></details><div class="notebook-next"><a href="/syntax/contour-rotation/">Next: Circle construction →</a><p><a href="/syntax/curve-replay/">Compact replay overview and validation notes</a></p></div></main>
 <script>
   const original = [[0,0],[4,8],[8,0],[12,4]];
   const changed = [[0,0],[4,16],[8,0],[12,4]];

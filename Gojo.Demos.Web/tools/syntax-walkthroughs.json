@@ -3,7 +3,7 @@
   "walkthroughs": [
     {
       "id": "contour-rotation",
-      "title": "A circle before coordinates",
+      "title": "Circle construction",
       "category": "Structure",
       "blurb": "Start with a point, attach a radius, and partition a return into landmarks.",
       "source": "contour-rotation.html",
@@ -13,7 +13,7 @@
     },
     {
       "id": "calibrated-contour-rotation",
-      "title": "Turn an attached plate",
+      "title": "Calibrated contour rotation",
       "category": "Structure",
       "blurb": "Use a supplied basis and radial landmarks to turn a shape with its contour.",
       "source": "calibrated-contour-rotation.html",
@@ -23,7 +23,7 @@
     },
     {
       "id": "grounded-affine-basis",
-      "title": "A basis, then a curve",
+      "title": "Affine basis construction",
       "category": "Structure",
       "blurb": "Build and calibrate a coordinate space, then keep even a partial curve readable.",
       "source": "grounded-affine-basis.html",
@@ -34,7 +34,7 @@
     },
     {
       "id": "curve-replay",
-      "title": "A control moves. A curve remembers.",
+      "title": "Bézier curve replay",
       "category": "Change",
       "blurb": "Move a control, expose stale answers, and follow the local calculations to a new sample.",
       "source": "curve-replay.html",

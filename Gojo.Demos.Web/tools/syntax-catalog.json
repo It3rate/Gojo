@@ -3,7 +3,7 @@
   "demos": [
     {
       "id": "shared-sites",
-      "title": "One joint, two connections",
+      "title": "Shared sites and connections",
       "category": "Structure",
       "blurb": "Move a shared joint and see why a point at the same coordinate can stay behind.",
       "context": "Imagine two pieces of a linkage meeting at a pin. Sharing the pin is a structural relationship. Merely drawing their ends at the same position does not create it.",
@@ -46,7 +46,7 @@
     },
     {
       "id": "parameter-frames",
-      "title": "A position needs a frame",
+      "title": "Parameter frames and resolution",
       "category": "Structure",
       "blurb": "Read 40% and 47% along a span, keeping the detail a coarser parameter leaves out.",
       "context": "A slider controls a position along a rail from 10 to 210. Its local parameter runs from 0 to 100. The parameter and the rail use different scales.",
@@ -102,7 +102,7 @@
     },
     {
       "id": "partial-construction",
-      "title": "Knowing x before knowing y",
+      "title": "Partial coordinates",
       "category": "Uncertainty",
       "blurb": "An unfinished point can already yield a useful coordinate, without filling its unknowns with zero.",
       "context": "You are locating a point one third of the way between two controls. One control’s vertical coordinate is still unknown. The horizontal calculation can nevertheless be complete.",
@@ -163,7 +163,7 @@
     },
     {
       "id": "bezier-construction",
-      "title": "A curve from six local steps",
+      "title": "Bézier curve construction",
       "category": "Structure",
       "blurb": "Build a Bézier sample by repeatedly taking a point between two points.",
       "context": "Four controls shape a curved handle. To locate its point at t = 1/2, each little calculation only needs two inputs and the same parameter frame.",
@@ -258,7 +258,7 @@
     },
     {
       "id": "curve-replay",
-      "title": "A control moves. What stays true?",
+      "title": "Bézier curve replay",
       "category": "Change",
       "blurb": "Follow an edit through local dependencies, pending work and preserved history.",
       "context": "We have sampled a curved handle at t = 1/2. Now its first inner control rises from (4, 8) to (4, 16). The old answer still explains the old handle.",
@@ -393,7 +393,7 @@
     },
     {
       "id": "curve-joins",
-      "title": "Touching is only the first promise",
+      "title": "Curve joins and continuity",
       "category": "Structure",
       "blurb": "Check position, tangent and second derivative separately at a curve join.",
       "context": "Two drawn sections meet at one shared endpoint. A smooth-looking join can hide a stronger mismatch, especially when the path will guide motion or further construction.",
@@ -491,7 +491,7 @@
     },
     {
       "id": "frieze-patterns",
-      "title": "A pattern with an open horizon",
+      "title": "Frieze patterns",
       "category": "Structure",
       "blurb": "Translate and reflect a motif while preserving its joints and the rule that repeats it.",
       "context": "A triangular motif repeats along a decorative border. Instead of storing an endless row of copies, retain the motif, a transformation and the connection from one result to the next input.",
@@ -580,7 +580,7 @@
     },
     {
       "id": "uncertain-cups",
-      "title": "The same cup is not another cup",
+      "title": "Shared and separate uncertainty",
       "category": "Uncertainty",
       "blurb": "See why shared uncertainty cancels, while a repeated description does not.",
       "context": "Two quantities are each described as “about one cup.” The description alone does not say they have the same volume. Subtracting one quantity from itself is a different operation.",
@@ -642,7 +642,7 @@
     },
     {
       "id": "clearance",
-      "title": "A useful gap is not an error",
+      "title": "Clearance and tolerances",
       "category": "Uncertainty",
       "blurb": "Keep nominal size, measured variation and desired clearance as different structures.",
       "context": "A bolt must fit through a hole. We want a little room between them. Equality of their diameters would be the wrong target for this example.",
@@ -705,7 +705,7 @@
     },
     {
       "id": "material-refinement",
-      "title": "Open a pack. Account for every unit.",
+      "title": "Material refinement",
       "category": "Change",
       "blurb": "Split, regroup and borrow whole packets while keeping unpaid demand visible.",
       "context": "A store has three packs, with ten small units in each. Opening a pack changes how stock is represented and available. Merely looking at it in smaller units would not move anything.",
@@ -797,7 +797,7 @@
     },
     {
       "id": "local-blend",
-      "title": "Try a response, keep the alternative",
+      "title": "Local input blending",
       "category": "Change",
       "blurb": "Blend two inputs, expose a mismatch, and watch one chosen response stall at its resolution.",
       "context": "A local space receives light and heat. It can combine these into a signal without needing to name the larger situation. A requested signal gives one experiment a reason to adjust its mixture.",
@@ -864,7 +864,7 @@
     },
     {
       "id": "unit-standards",
-      "title": "Cancel units without erasing the standard",
+      "title": "Unit standards and cancellation",
       "category": "Structure",
       "blurb": "Read miles per hour and litres per hundred kilometres with their authored scales intact.",
       "context": "A journey combines speed with elapsed time. A fuel calculation uses litres per 100 km. Both invite cancellation, but a matching dimension is not permission to ignore its tick scale.",

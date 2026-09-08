@@ -20,6 +20,10 @@ fixture's Gojo structure and selected kernel readers retain the meaning.
 
 ## Authoring and rebuilding
 
+Use short, descriptive titles that name the subject or operation, such as
+"Circle construction" or "Bézier curve replay". Keep headings factual and avoid
+promotional slogans, rhetorical questions and attempts to draw the reader in.
+
 - Edit [the catalogue](../tools/syntax-catalog.json) for explanations, selected
   display values and source references.
 - Edit [the collection](../tools/syntax-walkthroughs.json) for featured order,
