@@ -1,0 +1,66 @@
+gojo 1;
+
+// A local plane: metric pairings are explicit squared-length participation.
+let $space = carrier();
+let $x = carrier();
+let $y = carrier(unit_of($x));
+let $squared = carrier(product_units(unit_of($x), unit_of($x)));
+let $ux = span($x, 0, 1);
+let $uy = span($y, 0, 1);
+let $basis = group_on($space, $ux, $uy);
+let $metric = group($basis, frame(
+    ($ux -> $ux) -> at($squared, 1),
+    ($ux -> $uy) -> at($squared, 0),
+    ($uy -> $uy) -> at($squared, 1)));
+
+// Unit provenance and the exposed centre are related explicitly.
+let $origin = point(carrier(), 0);
+let $contour = crystal(orthogonal($origin));
+let $centre = group_on($space, at($x, 10), at($y, 20));
+let $anchor = $origin -> $centre;
+let $p0 = group_on($space, at($x, 15), at($y, 20));
+let $p1 = group_on($space, at($x, 10), at($y, 25));
+let $p2 = group_on($space, at($x, 5), at($y, 20));
+let $p3 = group_on($space, at($x, 10), at($y, 15));
+let $m0 = point($contour, 0);
+let $m1 = point($contour, 4);
+let $m2 = point($contour, 8);
+let $m3 = point($contour, 12);
+let $rims = frame($m0 -> ($centre -> $p0), $m1 -> ($centre -> $p1),
+    $m2 -> ($centre -> $p2), $m3 -> ($centre -> $p3));
+let $cycle = frame($m0 -> $m1, $m1 -> $m2, $m2 -> $m3, $m3 -> $m0);
+let $surface = group($anchor, $contour, $metric, $rims, $cycle);
+root $surface;
+
+// Steps count exposed edges. Marker tick differences are not angular units.
+let $steps = carrier();
+let $walk = group($surface, $m0, span($steps, 0, 1));
+root $walk;
+
+// An attached small frame, a repeated point, and an independent lookalike.
+let $a = group_on($space, at($x, 12), at($y, 20));
+let $b = group_on($space, at($x, 12), at($y, 21));
+let $c = group_on($space, at($x, 13), at($y, 21));
+let $d = group_on($space, at($x, 13), at($y, 20));
+let $lookalike = group_on($space, at($x, 12), at($y, 20));
+let $points = group($a, $b, $c, $d, $a, $lookalike);
+root $points;
+
+// Refine one interval with a known equal-reach landmark. Its two resulting
+// steps have different geometric sizes: no equal-angle promise is invented.
+let $extra = point($contour, 2);
+let $extra_rim = group_on($space, at($x, 13), at($y, 24));
+let $refined = group($anchor, $contour, $metric,
+    frame($m0 -> ($centre -> $p0), $extra -> ($centre -> $extra_rim),
+        $m1 -> ($centre -> $p1), $m2 -> ($centre -> $p2), $m3 -> ($centre -> $p3)),
+    frame($m0 -> $extra, $extra -> $m1, $m1 -> $m2, $m2 -> $m3, $m3 -> $m0));
+root $refined;
+
+// Closure remains known when a radial attachment is not yet known.
+let $partial = group($anchor, $contour, $metric,
+    frame($m0 -> ($centre -> $p0), $m1 -> ($centre -> ?missing_rim),
+        $m2 -> ($centre -> $p2), $m3 -> ($centre -> $p3)), $cycle);
+root $partial;
+
+// The driver binds an actual traversal witness before applying this request.
+root group(?traversal, $points);

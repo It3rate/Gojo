@@ -220,6 +220,12 @@ equation or an identical update policy.
 
 ## Revised experiment order and stopping points
 
+Implementation follow-up: [the first rotation fixture](GojoContourRotationFixture.md)
+now exercises a discrete planar instance of R1–R4 with syntax, exact selected
+reads and a small demo. Continuous, uncertain and three-dimensional rotation
+remain open. The verification section below records the earlier documentation
+review; the fixture document records the new implementation checks.
+
 | Experiment | Required observation | Refuse or retain as open |
 | --- | --- | --- |
 | R1: contour grounding | Point-derived seed, selected container, radial attachment, marker and closure can be discovered from their connections after syntax restoration. | A seed alone cannot be read as a complete circle; an unrelated radius or equal coordinates cannot supply attachment. |

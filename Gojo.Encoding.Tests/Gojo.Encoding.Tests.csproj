@@ -35,6 +35,7 @@
     <None Include="..\Gojo.Demos.Web\tools\syntax-catalog.json" Link="Gallery\catalog.json" CopyToOutputDirectory="PreserveNewest" />
     <None Include="..\Gojo\docs\examples\two-space-feedback.html" Link="Gallery\two-space-feedback.html" CopyToOutputDirectory="PreserveNewest" />
     <None Include="..\Gojo\docs\examples\prospective-calibration.html" Link="Gallery\prospective-calibration.html" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\Gojo\docs\examples\contour-rotation.html" Link="Gallery\contour-rotation.html" CopyToOutputDirectory="PreserveNewest" />
     <None Include="..\Gojo.Demos.Web\syntax\fixtures\*.gojo" Link="Gallery\fixtures\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
     <None Include="Fixtures\EncoderJson\**\*.json" CopyToOutputDirectory="PreserveNewest" />
     <None Include="Fixtures\EncoderJson\**\*.md" CopyToOutputDirectory="PreserveNewest" />

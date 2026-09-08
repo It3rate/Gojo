@@ -26,6 +26,12 @@ compares current structure with GojoCAD, GojoEcad, KiCad, boundary geometry and
 circuit models. These are documentation checkpoints; their proposed readers
 and authoring extensions are not additions to the implemented grammar.
 
+The first [contour rotation fixture](GojoContourRotationFixture.md) now
+implements discrete planar traversal, radial turning and exposed point-frame
+application using existing syntax. Its [small dial demo](examples/contour-rotation.html)
+shows exact, refined and open cases. The metric and radial connections supply
+the turning rule; no angle literal or rotation opcode supplies it.
+
 For concrete, illustrated examples, visit the
 [syntax notebook](https://gojo.inklingai.ca/syntax/). Its twelve initial
 experiments explain everyday contexts, selected reads, actions and unresolved

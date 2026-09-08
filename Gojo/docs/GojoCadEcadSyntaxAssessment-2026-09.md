@@ -10,6 +10,8 @@ refines the rotation plan after the user's clarification. Begin with connected
 contour/radial/traversal construction; treat angle units and matrices as derived
 reads. It also records the existing implementation more fully and treats
 GojoEcad constructions as experiments rather than compatibility requirements.
+The subsequent [rotation fixture](GojoContourRotationFixture.md) implements
+the first discrete planar construction and an illustrated example.
 
 ## Assessment
 
