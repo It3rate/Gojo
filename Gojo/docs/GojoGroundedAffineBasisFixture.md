@@ -176,6 +176,8 @@ metric, calibration and applicability evidence.
 
 The walkthrough keeps its view controls separate from the coordinate convention.
 Turn the view or view it from the back: coordinate readouts remain unchanged.
+The back view mirrors horizontally in the observer's frame, preserving top and
+bottom at every view turn.
 Choose the opposite convention: the second coordinate changes sign through its
 calibration while the represented sample stays in place. The drawing chooses
 equal screen sizes for the two coordinate units solely for legibility.
