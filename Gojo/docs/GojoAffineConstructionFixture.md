@@ -14,6 +14,10 @@ The later [primitive construction audit](GojoPrimitiveConstructionAudit-2026-09.
 distinguishes these coordinate-based reads from native creation of their input
 geometry. Its new fixture constructs a parallelogram corner and uses that
 actual result as a Bézier control, with independent conformance checks.
+The [grounded affine basis fixture](GojoGroundedAffineBasisFixture.md) now
+establishes native spans, origin connections and stable calibrations before
+using these same interpolation requests. `AffineFrame` accepts that complete
+constructed basis while retaining its provenance.
 
 ## Structure before helper names
 

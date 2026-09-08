@@ -390,6 +390,32 @@ coordinate representation. It was not a pre-existing contour site. Renaming it
 to `$centre_representation` and showing the earlier construction prevents its
 role from being mistaken for a primitive anchor in the world.
 
+## Justified Affine Bases And Observer Orientation
+
+The user clarified that Cartesian-like coordinates are a useful possible
+outcome of Gojo construction, not an approach to avoid. The requirement is to
+justify and stabilize the basis. Partial coordinates, omitted points and
+different signed conventions can then share ordinary affine constructions.
+The earlier three-point parallelogram fixture used an existing coordinate
+basis; it did not establish one from three arbitrary observed points.
+
+Axiom 11 now separates basis construction, selected model applicability and
+observer orientation. A direction and its opposite need no universal up/down
+meaning. Rotating a drawing or viewing it from the back changes its observer
+read. It does not swap carrier faces, reverse a relation or retarget a site.
+Orthogonal remains unaccounted participation in the current order, including
+the remainder of a partly accounted signal; a rendered right angle is only
+one useful illustration.
+
+The [grounded affine fixture](GojoGroundedAffineBasisFixture.md) selects a
+linear participation through a native segment's orthogonal outlet, attaches
+their origins, captures both ordered spans and exposes explicit native-to-unit
+calibrations. The affine product law is the selected construction context;
+this is not a discovered physical independence or metric proof. The existing
+six-edge Bézier procedure consumes the established basis without new curve
+opcodes. Kernel checks and a view-changing demo keep arithmetic, uncertainty,
+opposite conventions and presentation as separate concerns.
+
 ## Prompt Shape
 
 The final prompt deliberately has four scales:

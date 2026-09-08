@@ -8,6 +8,8 @@ The follow-up [primitive construction audit](GojoPrimitiveConstructionAudit-2026
 checks this standard against parallel segments, Béziers and other graphic
 elements. It includes a constructed-parallelogram-to-Bézier syntax fixture
 and records where native construction is still missing.
+The next [basis-to-Bézier walkthrough](examples/grounded-affine-basis.html)
+shows a justified affine basis, partial points and independent viewing choices.
 
 The first rotation example supplied a plane, metric and radial endpoint
 coordinates. It tested a later turning operation but skipped how a contour,

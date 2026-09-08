@@ -15,6 +15,8 @@
     <File Path="Gojo/docs/GojoContourRotationFixture.md" />
     <File Path="Gojo/docs/GojoCircleConstructionFixture.md" />
     <File Path="Gojo/docs/GojoPrimitiveConstructionAudit-2026-09.md" />
+    <File Path="Gojo/docs/GojoGroundedAffineBasisFixture.md" />
+    <File Path="Gojo/docs/examples/grounded-affine-basis.html" />
     <File Path="Gojo/docs/examples/contour-rotation.html" />
     <File Path="Gojo/docs/examples/calibrated-contour-rotation.html" />
     <File Path="Gojo/docs/examples/prospective-calibration.html" />

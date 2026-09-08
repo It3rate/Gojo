@@ -1,8 +1,10 @@
 # Primitive construction audit: parallels, curves and their prerequisites
 
-Status: September 2026. Audit of current implementation, with an executable
-composition fixture. The proposed native offset and interpolation contracts
-below are remaining work, not implemented behavior.
+Status: September 2026. Audit checkpoint with an executable composition fixture.
+The follow-up [grounded affine basis fixture](GojoGroundedAffineBasisFixture.md)
+now constructs and crystallizes a justified local basis, then reuses the
+existing Bézier procedure within it. Cartesian-like coordinates are a valid
+outcome of this process; the requirement is justification of the basis.
 
 The [circle construction](GojoCircleConstructionFixture.md) exposed a useful
 question for every graphic example: **which parts did the structure actually
@@ -183,13 +185,17 @@ The structural-only export and executable readers remain separate evidence.
 
 ## Next native contracts
 
-To bring parallel offsets to the circle's level of creation, the next fixture
-should begin with an actual native ordered segment and its orthogonal outlet:
+The [follow-up fixture](GojoGroundedAffineBasisFixture.md) addresses basis
+justification with a segment, its orthogonal outlet, a selected second span,
+connected origins and explicit native calibrations. Its affine product is a
+selected local law. It does not infer a physical metric or assign up/down meaning.
+The following broader offset sequence remains a useful direction beyond it:
 
 1. Retain the source segment and its site identities. Select a local planar,
    affine/flat interpretation; orthogonal potential alone does not impose it.
-2. Select a side/direction and common reach. An uncalibrated reach can remain
-   open. Reversing the source frame and changing sides must stay distinct.
+2. Select relative participation and common reach where the read needs them.
+   An uncalibrated reach can remain open. Opposite participation and reversed
+   frame order remain distinct; choosing screen-up or screen-down is a view choice.
 3. Construct a transported site corresponding to each selected source site,
    retaining the reach and a law of consistent transport along the source.
    Merely asserting that two endpoints have equal distance is insufficient:
@@ -200,13 +206,11 @@ should begin with an actual native ordered segment and its orthogonal outlet:
    and metric checks. The embedding should read a native construction that
    already exists, rather than author its answer.
 
-For Béziers, establish native interpolation on connected endpoint relations
-with an explicit shared affine context and parameter correspondence. A fraction
-on an unrelated newly created carrier does not by itself locate the result
-between those endpoints. First test endpoints, midpoint consistency,
-parallelogram completion, reversal, repeated sites and partial inputs. Then
-reuse the existing six-edge construction with that stronger input/read surface.
-There is no need to add a special Bézier primitive to achieve this.
+For Béziers, a justified and crystallized affine context can directly support
+the six-edge construction, including partial points. The follow-up now does
+this; coordinate-free interpolation over other connected native contexts is
+an additional possible route, not a mandatory replacement. A fraction on an
+unrelated carrier still cannot by itself locate a point between two endpoints.
 
 Finite line offsets then need separate endpoint/cap policies; joined segments
 need corner policies; curve offsets need tangent/normal evolution and a chosen

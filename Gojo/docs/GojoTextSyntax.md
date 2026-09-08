@@ -33,6 +33,12 @@ The later [coordinate rotation fixture](GojoContourRotationFixture.md) supplies
 an X/Y basis and landmarks, then tests exact turning and point-frame application.
 Both use existing syntax. Their integration remains a further step.
 
+The [grounded affine basis fixture](GojoGroundedAffineBasisFixture.md) constructs
+connected native spans and crystallizes their coordinate calibrations before
+using the existing Bézier procedure. Its [walkthrough](examples/grounded-affine-basis.html)
+separates opposite coordinate conventions from changing the view, and retains
+partial or omitted control points. This also uses the current grammar.
+
 For concrete, illustrated examples, visit the
 [syntax notebook](https://gojo.inklingai.ca/syntax/). Its twelve initial
 experiments explain everyday contexts, selected reads, actions and unresolved

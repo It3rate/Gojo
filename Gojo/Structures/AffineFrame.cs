@@ -176,6 +176,10 @@ public static partial class AffineFrame
 
     private static bool TryBasis(IElement element, out Carrier holder, out Carrier[] axes)
     {
+        // A justified, captured construction exposes the same ordinary coordinate
+        // basis. Keep that full construction in the request/witness and validate
+        // its native calibrations before consuming the normalized coordinates.
+        if (AffineBasisConstruction.TryRead(element, out var grounded, out _)) element = grounded;
         if (element is Relation { Right: Carrier candidate } basis && Concrete(candidate) &&
             basis.TryReadOrderedGroup(out var spans) && spans.Length > 0)
         {

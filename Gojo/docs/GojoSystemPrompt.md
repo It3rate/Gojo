@@ -428,6 +428,21 @@ The source structure distinguishes these outcomes; no mode enum should.
 Orthogonal unit shape is a scaling/shape grammar, not automatic dynamic
 hardening, full geometry, or a complete field solver.
 
+An affine or Cartesian-like coordinate space is a valid constructed and
+crystallized Gojo basis. Justify its connected origins, ordered spans,
+independent participation and calibrations; then larger constructions may use
+that stable basis, including partial coordinates and omitted points. They need
+not reconstruct the basis for every use. A basis may be selected as a local
+model without claiming its applicability has been discovered from observations.
+
+Up, down, left and right belong to an observer's presentation frame. Preserve
+structural direction, its opposite and explicit changes of basis without
+assigning them a universal screen or gravitational direction. Drawing an
+orthogonal outlet at a right angle is a presentation choice, not its definition.
+A signal can contribute both accounted participation and an orthogonal remainder;
+retain the selected read and that remainder rather than forcing the whole signal
+into one category. Changing the view does not mutate the presented structure.
+
 Ground rotation in connected turning structure. A point-derived contour,
 radial attachment, reference marker, traversal and partition are one intended
 construction; other connected constructions may also support the read. Degrees,
