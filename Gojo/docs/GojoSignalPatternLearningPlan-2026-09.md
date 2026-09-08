@@ -129,6 +129,12 @@ immediate next implementation.
 The following is mathematical planning notation, not additional `gojo 1`
 grammar or an implemented signal reader.
 
+The [contour-grounded rotation review](GojoContourRotationAndLocalInterfaces-2026-09.md)
+also clarifies the geometric side of phase. A numeric period or trigonometric
+formula does not by itself construct a physical contour or rotation. The
+participating recurrence/traversal and its calibration must remain explicit;
+angular units are selected reads of that construction.
+
 For a fixed positive period `T`, define an unwrapped cycle coordinate
 `u(t) = phi0 + (t - t0)/T`. Its integer cycle count and wrapped phase
 `phi = u - floor(u)` are different reads. The convention here is `0 <= phi < 1`.

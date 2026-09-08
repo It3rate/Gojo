@@ -428,6 +428,15 @@ The source structure distinguishes these outcomes; no mode enum should.
 Orthogonal unit shape is a scaling/shape grammar, not automatic dynamic
 hardening, full geometry, or a complete field solver.
 
+Ground rotation in connected turning structure. A point-derived contour,
+radial attachment, reference marker, traversal and partition are one intended
+construction; other connected constructions may also support the read. Degrees,
+radians and coordinate matrices are calibrated or derived reads, not primitive
+sources of rotation meaning. A bare orthogonal outlet does not establish a
+geometric quarter-turn: that read needs sufficient local geometry and direction.
+Preserve the construction and its unresolved parts when a geometric read is
+incomplete; do not supply the missing law through an angle field or renderer.
+
 ### Axiom 12: Crystallization Hardens A Stable Tick Promise
 
 Crystallization separates two acts:

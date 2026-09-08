@@ -5,6 +5,12 @@ pass, not a new CAD kernel, circuit simulator, importer or grammar revision.
 The companion [signal learning plan](GojoSignalPatternLearningPlan-2026-09.md)
 covers future observations, changing models and reward.
 
+The [contour and local-interface follow-up](GojoContourRotationAndLocalInterfaces-2026-09.md)
+refines the rotation plan after the user's clarification. Begin with connected
+contour/radial/traversal construction; treat angle units and matrices as derived
+reads. It also records the existing implementation more fully and treats
+GojoEcad constructions as experiments rather than compatibility requirements.
+
 ## Assessment
 
 The existing syntax is a credible structural substrate for these domains.
@@ -38,6 +44,11 @@ local history. Those files were left untouched. Its
 Gojo assembly from `7045a7e29b72c689e3ba7536a3d51e96feb19fcd`, captured August 27.
 Current Gojo features must not be attributed automatically to that assembly.
 Sibling links below assume the repositories are checked out beside one another.
+
+That version boundary is evidence for interpreting the experiments, not a
+requirement to preserve their implementation. We can replace the exploratory
+ECAD shapes while taking the encountered problems and proposed solutions
+seriously.
 
 | Evidence | Implemented foundation | Boundary |
 | --- | --- | --- |
@@ -133,18 +144,26 @@ must leave the actual relationships present without requiring a name such as
 
 ### Frames, affine objects and metrics
 
+The structural starting point for rotation is already present: point-derived
+contour potential, radial attachment, calibration and ordered traversal. The
+[follow-up review](GojoContourRotationAndLocalInterfaces-2026-09.md) distinguishes
+the tested ingredients from the remaining contour-to-pose contract. That
+construction should establish the turn before it is read through coordinates.
+
 The current `AffineFrame.TryProject` reads each target coordinate from one
 source coordinate. This supports explicit calibration and per-coordinate scale
-and offset, but does not provide a general matrix mixing coordinates. A rotated
-footprint normally needs terms such as `x' = a*x + b*y + tx` and
-`y' = c*x + d*y + ty`. The next contract should make these participating axes,
-coefficients and offsets explicit, with domain/range and inversion conditions.
+and offset, but does not provide a general matrix mixing coordinates. A Cartesian
+read of a rotated footprint includes terms such as `x' = a*x + b*y + tx` and
+`y' = c*x + d*y + ty`. A derived coordinate reader should make these participating
+axes, coefficients and offsets explicit, with domain/range and inversion
+conditions and correspondence to the turning construction.
 
-For a concrete proposed test, choose a Euclidean frame and the rotation matrix
+For a later coordinate conformance check, choose a Euclidean frame and the matrix
 `[[3/5, -4/5], [4/5, 3/5]]`. Placing a local pad point `(2, 1) mm` at an origin
 of `(10, 20) mm` gives `(52/5, 111/5) mm`, exactly. This rotation mixes axes,
-yet needs no transcendental evaluation. It isolates the composition gap before
-arbitrary-angle approximation is introduced. A displacement `(2, 1) mm` under
+yet needs no transcendental evaluation. The test should derive this read from
+the participating turning structure; merely authoring the matrix does not
+establish the Gojo construction. A displacement `(2, 1) mm` under
 the same rotation becomes `(2/5, 11/5) mm`; it does not acquire the origin.
 
 Preserve the distinction between a point, a displacement and a direction.
@@ -384,7 +403,7 @@ negative cases and a plain-language explanation before wider abstraction.
 | Order | Fixture | What it should establish |
 | --- | --- | --- |
 | C1 | Import one exact board measure and one fused via family | Source spelling versus value versus nominal choice; physical projection remainder; unsupported source retained; an explicit bridge into common syntax. |
-| C2 | Place a pad in a translated and rotated footprint | Point/displacement distinction, coupled axes, exact rational transform cases first, inverse/degenerate cases, source-to-board correspondence. |
+| C2 | Place a pad in a translated and rotated footprint | Ground the turn in connected contour/radial or equivalent structure, then check its coordinate read; preserve point/displacement, inverse/degenerate cases and source-to-board correspondence. |
 | C3 | Same XY on different layers, then add a plated connection | Distinguish intended net, geometric coincidence, layer membership, physical contact and selected ideal-node equivalence. An unknown layer must not imply connection. |
 | C4 | Bolt/hole or lead/plated-hole fit | Nominal family, tolerance evidence, desired clearance, shared uncertainty and unresolved pose; recompute affected claims after a design or evidence change. |
 | C5 | A trimmed curve boundary with shared and merely coincident endpoints | Parameter-to-geometry correspondence, orientation, boundary closure and partial construction; retain ambiguity instead of silently welding sites. |
@@ -392,8 +411,10 @@ negative cases and a plain-language explanation before wider abstraction.
 | C7 | A resistor divider, then an RC transient | First exact static equations and gauge/sign/unit checks; then retained physical state, charge accounting, integration refinement and separate prediction assessment. |
 | C8 | Revise a footprint or split a face, then export | Definition/instance identity, multiple successor correspondence, stale evidence, bounded history and version-specific source/export preservation. |
 
-Start with C1–C4 when this domain work resumes. They exercise the largest shared
-gaps without requiring a full solid model or nonlinear simulator. C5–C8 can
+For rotation, start with R1–R3 in the
+[follow-up construction plan](GojoContourRotationAndLocalInterfaces-2026-09.md#revised-experiment-order-and-stopping-points).
+Retain C1–C4 as concrete application checks that exercise shared gaps without
+requiring a full solid model or nonlinear simulator. C5–C8 can
 then justify broader contracts from concrete examples. A viewer is worthwhile
 for rotation, contact, fit and changing topology; pure unit arithmetic already
 has sufficient numerical fixtures.

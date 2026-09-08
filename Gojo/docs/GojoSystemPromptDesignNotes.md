@@ -340,6 +340,33 @@ their syntax. The authored goal example separately invokes existing material
 transfer and records its witness on a timeline. This demonstrates a chosen
 response, not automatic allocation or a convergence guarantee.
 
+## Contour-Grounded Rotation And Local Interfaces, September 8, 2026
+
+The CAD/ECAD assessment initially gave matrix composition too prominent a role
+in the proposed rotation work. The user clarified that rotation must arise
+from internal connected construction, including the existing point-orthogonal,
+contour, radius and calibration direction. Axiom 11 now makes the distinction
+explicit: angle units and matrices can read or implement a grounded turn, but
+cannot become its sole source of meaning. This clarification follows the
+potential-shape and structure-through-tension notes; it does not establish a
+new geometric law or claim the complete rotation mechanism already works.
+
+The source review found executable circular provenance, attachments, cycle
+accounting, perimeter projections and syntax restoration. It also found that
+these do not yet establish a general contour-to-pose or rigid-turn executor.
+The ordinary orthogonal outlet must remain broader than a metric right angle.
+Live pivot correspondence is separate from frozen unit provenance. The
+[follow-up review](GojoContourRotationAndLocalInterfaces-2026-09.md) records the
+evidence, unfinished Blocks examples and proposed construction sequence.
+
+The user's layer and mating examples reinforce the existing composition rules:
+local spaces can expose only the interfaces relevant to their neighbours, and
+another local space can select their combined relation. A stricter request can
+expose uncertainty or response shortfall without assigning global fault.
+Any material response still uses explicit tension/settlement or structural
+retargeting. GojoEcad remains exploratory evidence; its specific representations
+need not constrain a better Gojo construction.
+
 ## Prompt Shape
 
 The final prompt deliberately has four scales:
