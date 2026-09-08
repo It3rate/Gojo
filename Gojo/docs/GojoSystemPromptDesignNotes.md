@@ -367,6 +367,29 @@ Any material response still uses explicit tension/settlement or structural
 retargeting. GojoEcad remains exploratory evidence; its specific representations
 need not constrain a better Gojo construction.
 
+## Circle Construction Before Coordinate Landmarks
+
+The first rotation fixture still began too late: it supplied X/Y coordinates,
+a metric and radial landmarks, then derived a valid turn between them. Passing
+those tests did not establish the earlier circle or landmark construction.
+The user's correction specifies point -> orthogonal possibility -> common
+offset path -> attached radius/reference -> closed whole -> partition.
+Axiom 11 now makes that ordering explicit. It also separates radius measure,
+native circumference fractions and a later arc-length/radius calibration.
+
+The [native circle fixture](GojoCircleConstructionFixture.md) records the
+offset's open common reach, binds a native radius, connects closure to the
+actual start site and applies explicit subdivision to the whole. Markers and
+equal-reach radial attachments can then be derived without an X/Y grid. The
+selected homogeneous planar offset and equal subdivision are construction
+contracts, not discovered field behaviour or an automatic metric solver.
+The earlier coordinate fixture remains a later, supplied-geometry experiment.
+
+In that earlier fixture `$anchor` named a newly created relation to an exposed
+coordinate representation. It was not a pre-existing contour site. Renaming it
+to `$centre_representation` and showing the earlier construction prevents its
+role from being mistaken for a primitive anchor in the world.
+
 ## Prompt Shape
 
 The final prompt deliberately has four scales:

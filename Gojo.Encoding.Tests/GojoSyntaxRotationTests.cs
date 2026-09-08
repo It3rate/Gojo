@@ -312,7 +312,7 @@ public sealed class GojoSyntaxRotationTests
     [Fact]
     public void DemoStatesAndDisplayedSyntaxAreCheckedAgainstTheActualFixture()
     {
-        var html = File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "Gallery", "contour-rotation.html"));
+        var html = File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "Gallery", "calibrated-contour-rotation.html"));
         using var trace = JsonDocument.Parse(Regex.Match(html,
             "<script id=\"trace\" type=\"application/json\">([\\s\\S]*?)</script>").Groups[1].Value);
         Assert.Equal(9, trace.RootElement.GetArrayLength());

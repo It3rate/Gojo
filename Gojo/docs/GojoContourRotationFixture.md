@@ -1,9 +1,15 @@
-# Rotation through connected radial attachments
+# Rotation with supplied radial coordinates
 
 Status: implemented exploratory selected contract, September 2026. This develops the
 [contour-grounded plan](GojoContourRotationAndLocalInterfaces-2026-09.md).
 
-[Open the nine-step dial and plate example](examples/contour-rotation.html).
+[Open the nine-step dial and plate example](examples/calibrated-contour-rotation.html).
+
+This is a later turning fixture: it **supplies** an X/Y basis, metric and
+radial landmarks. It did not establish how the circle or those landmarks came
+into being. Start with [circle construction before coordinates](GojoCircleConstructionFixture.md)
+and its [revised first demo](examples/contour-rotation.html) for that earlier work.
+The two fixtures do not yet have an executable intrinsic-to-Cartesian bridge.
 
 The first experiment uses a finite ordered set of marked radial attachments
 on a planar constant-reach contour. A turn selects a walk between markers.
@@ -115,7 +121,8 @@ surface, result, remainder and provenance.
 | `TryTurn` | Metric, first radial relation, final radial relation | Successful traversal and exact squared reach |
 | `TryApply` | New ordered point frame, possibly partial | Geometric witness, source-to-result relations and per-point reflection evidence |
 
-The native circular origin is linked to the exposed centre through the anchor.
+The native circular origin is linked to the exposed centre through the
+`$centre_representation` relation, formerly named `$anchor`.
 The reader checks that the anchor's source carrier and tick match the frozen
 circular-origin promise. This is an explicit calibration relation, not a claim
 that two independently exposed coordinate-equal points are the same site.
@@ -175,7 +182,10 @@ fine-grained conflict diagnosis. Uncertainty in radial distance, metric or
 pose needs a subsequent conditional interpretation; `approximately five`
 must not become an invented hard tolerance or an exact radius.
 
-This implements a discrete planar instance of planned R1–R4. Remaining work
+This validates later discrete planar turning with supplied geometry. Its
+earlier description as an implementation of R1–R4 overstated the construction
+coverage: the source of the contour and its landmarks was still missing.
+The native construction fixture now addresses those earlier stages. Remaining work
 includes continuous contour parameterization, conditional turns under uncertain
 geometry, native calibration between different resolutions and units, frame
 transport between local spaces, and three-dimensional composition. A 3D turn

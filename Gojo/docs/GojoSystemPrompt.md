@@ -437,6 +437,16 @@ geometric quarter-turn: that read needs sufficient local geometry and direction.
 Preserve the construction and its unresolved parts when a geometric read is
 incomplete; do not supply the missing law through an angle field or renderer.
 
+For that point-derived construction, begin before Cartesian landmarks: select
+an offset path through the point's orthogonal possibility, retain its common
+reach even while uncalibrated, then attach a radius to establish a radial
+measure and contour reference. Connect the traversal's end back to that actual
+reference site, preserving the nonzero whole traversal. Equal subdivision of
+this whole can create landmarks and later angle conventions; counting unrelated
+markers cannot supply that equality. A radial measure, an intrinsic fraction
+of the circumference, and arc length in radius units are distinct reads.
+Do not introduce X/Y endpoints to fill these missing construction steps.
+
 ### Axiom 12: Crystallization Hardens A Stable Tick Promise
 
 Crystallization separates two acts:

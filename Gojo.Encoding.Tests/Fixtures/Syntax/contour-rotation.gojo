@@ -13,11 +13,12 @@ let $metric = group($basis, frame(
     ($ux -> $uy) -> at($squared, 0),
     ($uy -> $uy) -> at($squared, 1)));
 
-// Unit provenance and the exposed centre are related explicitly.
+// This later fixture supplies an X/Y representation. It does not generate a
+// circle or its landmarks; see circle-construction.gojo for the native stages.
 let $origin = point(carrier(), 0);
 let $contour = crystal(orthogonal($origin));
 let $centre = group_on($space, at($x, 10), at($y, 20));
-let $anchor = $origin -> $centre;
+let $centre_representation = $origin -> $centre;
 let $p0 = group_on($space, at($x, 15), at($y, 20));
 let $p1 = group_on($space, at($x, 10), at($y, 25));
 let $p2 = group_on($space, at($x, 5), at($y, 20));
@@ -29,7 +30,7 @@ let $m3 = point($contour, 12);
 let $rims = frame($m0 -> ($centre -> $p0), $m1 -> ($centre -> $p1),
     $m2 -> ($centre -> $p2), $m3 -> ($centre -> $p3));
 let $cycle = frame($m0 -> $m1, $m1 -> $m2, $m2 -> $m3, $m3 -> $m0);
-let $surface = group($anchor, $contour, $metric, $rims, $cycle);
+let $surface = group($centre_representation, $contour, $metric, $rims, $cycle);
 root $surface;
 
 // Steps count exposed edges. Marker tick differences are not angular units.
@@ -50,14 +51,14 @@ root $points;
 // steps have different geometric sizes: no equal-angle promise is invented.
 let $extra = point($contour, 2);
 let $extra_rim = group_on($space, at($x, 13), at($y, 24));
-let $refined = group($anchor, $contour, $metric,
+let $refined = group($centre_representation, $contour, $metric,
     frame($m0 -> ($centre -> $p0), $extra -> ($centre -> $extra_rim),
         $m1 -> ($centre -> $p1), $m2 -> ($centre -> $p2), $m3 -> ($centre -> $p3)),
     frame($m0 -> $extra, $extra -> $m1, $m1 -> $m2, $m2 -> $m3, $m3 -> $m0));
 root $refined;
 
 // Closure remains known when a radial attachment is not yet known.
-let $partial = group($anchor, $contour, $metric,
+let $partial = group($centre_representation, $contour, $metric,
     frame($m0 -> ($centre -> $p0), $m1 -> ($centre -> ?missing_rim),
         $m2 -> ($centre -> $p2), $m3 -> ($centre -> $p3)), $cycle);
 root $partial;

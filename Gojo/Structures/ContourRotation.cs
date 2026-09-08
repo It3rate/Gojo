@@ -8,6 +8,8 @@ namespace Gojo.Structures;
 /// Selected planar rotation reads grounded in a marked contour, shared radial
 /// attachments and explicit metric pairings. No angle or rotation opcode is
 /// stored. Traversal, geometric validation and point application stay separate.
+/// These coordinates and landmarks are supplied inputs; this reader does not
+/// construct the underlying circle. See ContourConstruction for the earlier stages.
 /// </summary>
 public static class ContourRotation
 {
@@ -92,7 +94,7 @@ public static class ContourRotation
         var reads = new List<IElement>();
         var remainder = new List<IElement>();
         var memo = new Dictionary<IElement, IElement>(ReferenceEqualityComparer.Instance);
-        var captures = new CaptureState();
+        var captures = new ExposedStructureSnapshot();
         try
         {
             foreach (var item in items)
@@ -301,22 +303,5 @@ public static class ContourRotation
         ReadWitness.Create(new Carrier(), source, surface, result, Group([.. remainder]), provenance);
     private static bool Unresolved(Relation request, out Relation witness)
     { witness = Observe(request, request, new Placeholder(), [request], request); return false; }
-    private static IElement Capture(IElement element) => new CaptureState().Copy(element);
-    private sealed class CaptureState
-    {
-        private readonly Dictionary<Relation, IElement> relations = new(ReferenceEqualityComparer.Instance);
-        private readonly Dictionary<TickRef, TickRef> ticks = new(ReferenceEqualityComparer.Instance);
-        internal IElement Copy(IElement element)
-        {
-            if (element is CarrierLocation location)
-            {
-                if (!ticks.TryGetValue(location.Tick, out var tick)) ticks.Add(location.Tick, tick = new TickRef(location.Ticks));
-                return new CarrierLocation(location.Carrier, tick);
-            }
-            if (element is not Relation relation) return element;
-            if (relations.TryGetValue(relation, out var previous)) return previous;
-            var result = new Relation(Copy(relation.Left), Copy(relation.Right));
-            relations.Add(relation, result); return result;
-        }
-    }
+    private static IElement Capture(IElement element) => new ExposedStructureSnapshot().Copy(element);
 }

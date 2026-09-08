@@ -220,11 +220,13 @@ equation or an identical update policy.
 
 ## Revised experiment order and stopping points
 
-Implementation follow-up: [the first rotation fixture](GojoContourRotationFixture.md)
-now exercises a discrete planar instance of R1–R4 with syntax, exact selected
-reads and a small demo. Continuous, uncertain and three-dimensional rotation
-remain open. The verification section below records the earlier documentation
-review; the fixture document records the new implementation checks.
+Implementation follow-up: [the coordinate rotation fixture](GojoContourRotationFixture.md)
+validates later turning with supplied landmarks; its initial R1–R4 coverage
+claim was too broad. [Circle construction before coordinates](GojoCircleConstructionFixture.md)
+now starts with the point, offset, radius, closure and native whole subdivision.
+Continuous, uncertain and three-dimensional rotation remain open. The
+verification section below records the earlier documentation review; each
+fixture document records its implementation checks.
 
 | Experiment | Required observation | Refuse or retain as open |
 | --- | --- | --- |

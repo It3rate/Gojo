@@ -12,6 +12,9 @@ reads. It also records the existing implementation more fully and treats
 GojoEcad constructions as experiments rather than compatibility requirements.
 The subsequent [rotation fixture](GojoContourRotationFixture.md) implements
 the first discrete planar construction and an illustrated example.
+That fixture supplies coordinates and landmarks; the later correction,
+[circle construction before coordinates](GojoCircleConstructionFixture.md),
+addresses the missing point/offset/radius/closure/partition sequence.
 
 ## Assessment
 
