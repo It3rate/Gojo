@@ -19,6 +19,13 @@ The earlier [Gojo Syntax Review](GojoSyntaxReview-2026-09.md) records the initia
 assessment that led to the blend and mathematical fixtures. Both are design
 analysis, not extensions of the version-1 grammar.
 
+The [signal learning plan](GojoSignalPatternLearningPlan-2026-09.md) records
+the proposed path from prospective testing to repeating and combined signals.
+The [CAD and electronics assessment](GojoCadEcadSyntaxAssessment-2026-09.md)
+compares current structure with GojoCAD, GojoEcad, KiCad, boundary geometry and
+circuit models. These are documentation checkpoints; their proposed readers
+and authoring extensions are not additions to the implemented grammar.
+
 For concrete, illustrated examples, visit the
 [syntax notebook](https://gojo.inklingai.ca/syntax/). Its twelve initial
 experiments explain everyday contexts, selected reads, actions and unresolved

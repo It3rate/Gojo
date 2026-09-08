@@ -130,6 +130,12 @@ interventions need explicit targets and correspondence of their own.
 
 ## Next boundary
 
+The [signal pattern learning plan](GojoSignalPatternLearningPlan-2026-09.md)
+now records the existing Core4/Gojo evidence, candidate heuristics and staged
+experiments, including repeating and combined signals. It is a planning
+checkpoint; this fixture's implemented contract remains the bounded affine
+experiment described above.
+
 After this prerequisite, compare candidate continuations by predictions made
 before later samples arrive. Preserve alternatives and their applicability;
 test growth, reversal, repetition and changed conditions. Then let an explicit

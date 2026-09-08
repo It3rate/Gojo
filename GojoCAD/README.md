@@ -15,6 +15,11 @@ A helper may make structure easier to build or read, but the helper must not
 become the source of meaning. If a helper disappeared, the structure should
 still expose the concept through local Gojo reads.
 
+The September 2026 [syntax assessment for CAD and electronics](../Gojo/docs/GojoCadEcadSyntaxAssessment-2026-09.md)
+compares this inventory with current kernel constructions, the sibling GojoEcad
+importer and external formats. It distinguishes implemented reads from proposed
+geometry, uncertainty, circuit and interchange contracts.
+
 ## Format Direction
 
 A graphical definition should be readable as a connected surface:
