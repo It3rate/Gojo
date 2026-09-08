@@ -1,0 +1,42 @@
+gojo 1;
+
+// These three observations already have a local affine coordinate read.
+// This fixture does not construct that chart from a native orthogonal outlet.
+let $space = carrier();
+let $u = carrier();
+let $v = carrier(unit_of($u));
+let $basis = group_on($space, span($u,0,1), span($v,0,1));
+let $a = group_on($space, at($u,-3), at($v,2));
+let $b = group_on($space, at($u,5), at($v,7));
+let $d = group_on($space, at($u,-1), at($v,8));
+let $parameter = carrier();
+let $domain = span($parameter,0,1000);
+let $half = group(at($parameter,500), $domain, $domain, $basis);
+let $twice = group(at($parameter,2000), $domain, span($parameter,0,2000), $basis);
+
+// M = midpoint(B,D); C = A + 2(M-A).
+// Thus C-D = B-A and C-B = D-A. No output corner is supplied.
+// This is an affine parallelogram; no right angle or normal distance is asserted.
+let $midpoint = ports(?b, ?d, $half) -> ?m;
+let $corner = ports(?a, ?m, ?completion_grade) -> ?c;
+
+// A cubic uses A,D,C,B, with the actual constructed C as its second control.
+// Three, then two, then one interpolation, all sharing a sample and domain.
+let $grade = group(?sample, $domain, $domain, $basis);
+let $ad = ports(?a, ?d, $grade) -> ?q0;
+let $dc = ports(?d, ?c, $grade) -> ?q1;
+let $cb = ports(?c, ?b, $grade) -> ?q2;
+let $left = ports(?q0, ?q1, $grade) -> ?r0;
+let $right = ports(?q1, ?q2, $grade) -> ?r1;
+let $curve = ports(?r0, ?r1, $grade) -> ?curve_point;
+let $construction = action(
+    ports(?a, ?b, ?d, ?completion_grade, $grade),
+    frame($midpoint, $corner, $ad, $dc, $cb, $left, $right, $curve),
+    ports(?c, ?curve_point), ?construction_residue_policy, $domain);
+let $inputs = frame(bind(?a,$a), bind(?b,$b), bind(?d,$d),
+    bind(?completion_grade,$twice), bind(?sample,at($parameter,500)));
+
+// The two ordered edges and compact curve recipe reuse the same sites.
+// The compact recipe alone does not contain the interpolation procedure.
+let $outputs = group(?a -> ?b, ?d -> ?c, (?a -> ?b) -> (?d -> ?c), ?curve_point);
+root group($construction, $inputs, $outputs, $basis);

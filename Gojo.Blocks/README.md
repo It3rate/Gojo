@@ -6,6 +6,9 @@ and open placeholders without the complete operation, claim, or witness named
 by their caption. Animation cues can also live in the presentation timeline.
 Use the [numeric milestone review](../Gojo/docs/GojoNumericMilestoneReview-2026-09.md)
 for the current distinction between executable mechanisms and teaching intent.
+The [primitive construction audit](../Gojo/docs/GojoPrimitiveConstructionAudit-2026-09.md)
+also records concrete offset counterexamples and distinguishes supplied
+geometry from calculated construction results.
 
 Gojo Blocks is a visual workbench for explaining and experimenting with Gojo's
 physical math. The goal is not to draw decorative diagrams beside the model.

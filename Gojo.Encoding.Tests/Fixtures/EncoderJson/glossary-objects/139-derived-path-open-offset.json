@@ -1,8 +1,8 @@
 {
-  "represents": "The offset read carries a signed distance on the source path normal, resolution evidence for that normal measure, witness normals, and a separate derived path carrier.",
+  "represents": "The source and candidate geometry are supplied. Distance 18 is a requested extent on an orthogonal carrier; no calibration to the drawing establishes that distance. The attached correspondences do not verify normals or parallelism: the first candidate edge is not parallel to its source. The traversal scale is supplied; it does not measure geometric length.",
   "entryId": "derived-path-open-offset",
-  "expression": "PathRead(source) + OffsetRead(normal-distance=18, resolution=3) -> OffsetPathCarrier(0,120)",
-  "encodingNote": "The offset read carries a signed distance on the source path normal, resolution evidence for that normal measure, witness normals, and a separate derived path carrier.",
+  "expression": "PathRead(source) + requested OffsetRead(distance=18, resolution=3) -> supplied candidate PathRead(0,120)",
+  "encodingNote": "The source and candidate geometry are supplied. Distance 18 is a requested extent on an orthogonal carrier; no calibration to the drawing establishes that distance. The attached correspondences do not verify normals or parallelism: the first candidate edge is not parallel to its source. The traversal scale is supplied; it does not measure geometric length.",
   "gojo": {
     "known": [
       "boundary",

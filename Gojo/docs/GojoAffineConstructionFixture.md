@@ -10,6 +10,11 @@ relations. The parser still only constructs a graph. The fixtures apply each
 local read and bind its witnessed result into the next request; there is no
 new general execution loop, sampler or settlement policy.
 
+The later [primitive construction audit](GojoPrimitiveConstructionAudit-2026-09.md)
+distinguishes these coordinate-based reads from native creation of their input
+geometry. Its new fixture constructs a parallelogram corner and uses that
+actual result as a Bézier control, with independent conformance checks.
+
 ## Structure before helper names
 
 ```text

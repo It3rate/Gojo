@@ -4,6 +4,11 @@ Status: implemented exploratory construction contract, September 2026.
 
 [Open the twelve construction stages](examples/contour-rotation.html).
 
+The follow-up [primitive construction audit](GojoPrimitiveConstructionAudit-2026-09.md)
+checks this standard against parallel segments, Béziers and other graphic
+elements. It includes a constructed-parallelogram-to-Bézier syntax fixture
+and records where native construction is still missing.
+
 The first rotation example supplied a plane, metric and radial endpoint
 coordinates. It tested a later turning operation but skipped how a contour,
 radius and landmarks come into being. This fixture starts before that basis.

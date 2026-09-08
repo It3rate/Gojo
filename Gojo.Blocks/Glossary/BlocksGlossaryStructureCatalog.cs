@@ -1162,8 +1162,8 @@ internal static class BlocksGlossaryStructureCatalog
         var offset = OffsetRead(source.Read, source.Carrier, source.Span, offsetSections, 18, 3, 120, 10);
         return Spec(
             offset,
-            "PathRead(source) + OffsetRead(normal-distance=18, resolution=3) -> OffsetPathCarrier(0,120)",
-            "The offset read carries a signed distance on the source path normal, resolution evidence for that normal measure, witness normals, and a separate derived path carrier.");
+            "PathRead(source) + requested OffsetRead(distance=18, resolution=3) -> supplied candidate PathRead(0,120)",
+            "The source and candidate geometry are supplied. Distance 18 is a requested extent on an orthogonal carrier; no calibration to the drawing establishes that distance. The attached correspondences do not verify normals or parallelism: the first candidate edge is not parallel to its source. The traversal scale is supplied; it does not measure geometric length.");
     }
 
     private static BlocksGlossaryStructure DerivedCurvedOffset(FrameBasis frame)
@@ -1182,8 +1182,8 @@ internal static class BlocksGlossaryStructureCatalog
         var offset = OffsetRead(source.Read, source.Carrier, source.Span, [offsetCurve], 18, 3, 120, 10);
         return Spec(
             offset,
-            "CurvePathRead(source) + OffsetRead(normal-distance=18, resolution=3)",
-            "The curve offset uses the same structural read as the open offset: source path carrier, normal-distance carrier, resolution evidence, witness normals, and a derived path carrier.");
+            "CurvePathRead(source) + requested OffsetRead(distance=18, resolution=3) -> supplied candidate curve",
+            "Both cubic control polygons are supplied. The offset request retains a distance carrier, resolution and proposed correspondences, but no reader computes or verifies a constant normal offset. The starting displacement already fails a normal check in the drawing's identity metric. The traversal scale is supplied.");
     }
 
     private static BlocksGlossaryStructure DerivedInsetOutset(FrameBasis frame)
@@ -1201,8 +1201,8 @@ internal static class BlocksGlossaryStructureCatalog
                 OffsetRead(sourcePath.Read, sourcePath.Carrier, sourcePath.Span, outset2, 16, 2, 160, 16),
                 OffsetRead(sourcePath.Read, sourcePath.Carrier, sourcePath.Span, inset1, -8, 2, 160, 16),
                 OffsetRead(sourcePath.Read, sourcePath.Carrier, sourcePath.Span, inset2, -16, 2, 160, 16)),
-            "OutlinePathRead + OffsetRead(+d1,+d2,-d1,-d2)",
-            "Inset and outset layers are repeated offset reads from one path carrier. Each layer has its own carrier and partitions, so it is related to the outline without replacing it.");
+            "OutlinePathRead + supplied inset/outset candidates + requested extents",
+            "The nested rectangles are supplied candidates, each with its own carrier and partitions. Their attached extents do not calculate the geometry, verify distance calibration, or settle corner joins. In particular, the inset drawing gaps are 10 and 20 while the requested extents are -8 and -16.");
     }
 
     private static BlocksGlossaryStructure DerivedBranchMergeFill(FrameBasis frame)
@@ -1253,12 +1253,13 @@ internal static class BlocksGlossaryStructureCatalog
         var intended = OffsetRead(source.Read, source.Carrier, source.Span, intendedSections, 18, 3, 120, 10, residue);
         return Spec(
             intended,
-            "OffsetRead(source,+d,resolution) + observed PathRead + residue/tension",
-            "The intended offset carrier and the mismatching observed carrier are both preserved. The difference is tension attached to the read rather than a hidden failure.");
+            "requested OffsetRead(source,+d,resolution) + supplied intended/observed paths + open tension slot",
+            "Both intended and observed geometry are supplied and preserved. An open tension slot marks an unresolved obligation; this builder does not calculate their discrepancy or import it as signed tension, and does not verify that the intended path is a normal offset.");
     }
 
     private static (Relation Read, Carrier Carrier, Relation Span) PathRead(IReadOnlyList<IElement> sections, long lengthTicks, int partitionCount)
     {
+        // The caller supplies this parameterization; lengthTicks is not measured arc length.
         var source = Group([.. sections]);
         var descriptor = new Relation(source, Relation.Segment(Carrier.Unknown, 0, Math.Max(1, lengthTicks)));
         var pathCarrier = new Carrier(UnitShape.DescribedAtom(descriptor));
@@ -1287,7 +1288,9 @@ internal static class BlocksGlossaryStructureCatalog
             normalDistance,
             ResolutionEvidence(normalCarrier, Math.Max(1, Math.Abs(resolutionTicks))));
         var offsetPath = PathRead(offsetSections, lengthTicks, partitionCount);
-        var witnesses = OffsetWitnesses(
+        // These are proposed correspondences, not geometric verification witnesses.
+        // The supplied offsetSections are never calculated from sourcePathRead here.
+        var correspondences = OffsetCorrespondences(
             sourcePathCarrier,
             offsetPath.Carrier,
             normalCarrier,
@@ -1295,8 +1298,8 @@ internal static class BlocksGlossaryStructureCatalog
             lengthTicks,
             Math.Min(4, Math.Max(1, partitionCount - 1)));
         var readBasis = residueOrTension is null
-            ? Group(sourcePathRead, normalBasis, witnesses)
-            : Group(sourcePathRead, normalBasis, witnesses, residueOrTension);
+            ? Group(sourcePathRead, normalBasis, correspondences)
+            : Group(sourcePathRead, normalBasis, correspondences, residueOrTension);
         var read = new Relation(readBasis, offsetPath.Read);
         return read;
     }
@@ -1331,7 +1334,7 @@ internal static class BlocksGlossaryStructureCatalog
         return Group([.. elements]);
     }
 
-    private static Relation OffsetWitnesses(
+    private static Relation OffsetCorrespondences(
         Carrier sourcePathCarrier,
         Carrier offsetPathCarrier,
         Carrier normalCarrier,

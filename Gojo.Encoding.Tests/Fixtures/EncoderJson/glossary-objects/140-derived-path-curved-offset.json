@@ -1,8 +1,8 @@
 {
-  "represents": "The curve offset uses the same structural read as the open offset: source path carrier, normal-distance carrier, resolution evidence, witness normals, and a derived path carrier.",
+  "represents": "Both cubic control polygons are supplied. The offset request retains a distance carrier, resolution and proposed correspondences, but no reader computes or verifies a constant normal offset. The starting displacement already fails a normal check in the drawing's identity metric. The traversal scale is supplied.",
   "entryId": "derived-path-curved-offset",
-  "expression": "CurvePathRead(source) + OffsetRead(normal-distance=18, resolution=3)",
-  "encodingNote": "The curve offset uses the same structural read as the open offset: source path carrier, normal-distance carrier, resolution evidence, witness normals, and a derived path carrier.",
+  "expression": "CurvePathRead(source) + requested OffsetRead(distance=18, resolution=3) -> supplied candidate curve",
+  "encodingNote": "Both cubic control polygons are supplied. The offset request retains a distance carrier, resolution and proposed correspondences, but no reader computes or verifies a constant normal offset. The starting displacement already fails a normal check in the drawing's identity metric. The traversal scale is supplied.",
   "gojo": {
     "known": [
       "boundary",

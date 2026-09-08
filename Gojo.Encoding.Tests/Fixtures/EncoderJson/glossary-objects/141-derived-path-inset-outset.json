@@ -1,21 +1,20 @@
 {
-  "represents": "Inset and outset layers are repeated offset reads from one path carrier. Each layer has its own carrier and partitions, so it is related to the outline without replacing it.",
+  "represents": "The nested rectangles are supplied candidates, each with its own carrier and partitions. Their attached extents do not calculate the geometry, verify distance calibration, or settle corner joins. In particular, the inset drawing gaps are 10 and 20 while the requested extents are -8 and -16.",
   "entryId": "derived-path-inset-outset",
-  "expression": "OutlinePathRead + OffsetRead(+d1,+d2,-d1,-d2)",
-  "encodingNote": "Inset and outset layers are repeated offset reads from one path carrier. Each layer has its own carrier and partitions, so it is related to the outline without replacing it.",
+  "expression": "OutlinePathRead + supplied inset/outset candidates + requested extents",
+  "encodingNote": "The nested rectangles are supplied candidates, each with its own carrier and partitions. Their attached extents do not calculate the geometry, verify distance calibration, or settle corner joins. In particular, the inset drawing gaps are 10 and 20 while the requested extents are -8 and -16.",
   "gojo": {
     "known": [
       "boundary",
-      "offset-read",
+      "constraint-or-settlement",
       "partition",
-      "repeat",
-      "span"
+      "span",
+      "topological-participation"
     ],
     "paths": [
       "closed path --boundary read--> Bd(Path)",
-      "offset-read --terminal boundary read--> Bd1(Off)",
-      "source + orthogonal outlet + extent --> offset-read",
-      "span --source boundary read--> Bd0(S)"
+      "span --source boundary read--> Bd0(S)",
+      "unresolved structure --settlement read--> settled structure + residue"
     ]
   }
 }
