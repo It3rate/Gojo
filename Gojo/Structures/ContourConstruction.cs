@@ -9,7 +9,7 @@ namespace Gojo.Structures;
 /// radial reference, closure and equal subdivision. No coordinate grid, angle
 /// constant or trigonometric sample participates in the construction.
 /// </summary>
-public static class ContourConstruction
+public static partial class ContourConstruction
 {
     /// <summary>
     /// Reads O(point) -> (common reach -> contour carrier). An open reach is a
@@ -63,6 +63,13 @@ public static class ContourConstruction
             !Point(live[1], out var selected) || !selected.Carrier.SameIdentityAs(liveAxis))
             return Unresolved(request, out witness);
         var captured = Capture(request);
+        return LocateCaptured(request, captured, out witness);
+    }
+
+    // Composition inside one snapshot must retain the actual native seam site.
+    // The caller has already validated the partition and selected carrier.
+    internal static bool LocateCaptured(Relation source, Relation captured, out Relation witness)
+    {
         Fields(captured, 2, out var fields);
         Partition(fields[0], out var circle, out var axis, out var parts);
         Point(fields[1], out var point);
@@ -89,7 +96,7 @@ public static class ContourConstruction
         // Whole participation is exact, and is deliberately not arc length.
         var result = Group(marker, radial, new Scalar(remainder, parts).Encode(circle.Contour),
             new Scalar(cycles).Encode(circle.Contour));
-        witness = Observe(request, fields[0], result, [], Group(captured, reachCorrespondence));
+        witness = Observe(source, fields[0], result, [], Group(captured, reachCorrespondence));
         return true;
     }
 
@@ -122,7 +129,7 @@ public static class ContourConstruction
         return true;
     }
 
-    private static bool Partition(IElement element, out CircleRead circle, out Carrier axis, out long parts)
+    internal static bool Partition(IElement element, out CircleRead circle, out Carrier axis, out long parts)
     {
         circle = null!; axis = null!; parts = 0;
         if (!Fields(element, 2, out var fields) || !Circle(fields[0], out circle) ||
@@ -133,7 +140,7 @@ public static class ContourConstruction
         return true;
     }
 
-    private sealed record CircleRead(Relation Source, Carrier Contour, Relation Radius, Relation Radial, IElement Start, Relation Whole);
+    internal sealed record CircleRead(Relation Source, Carrier Contour, Relation Radius, Relation Radial, IElement Start, Relation Whole);
     private static bool SameOrigin(CarrierLocation a, CarrierLocation b) => a.Carrier.SameIdentityAs(b.Carrier) && a.Ticks == b.Ticks;
     private static bool SameSite(IElement a, IElement b) => Point(a, out var x) && Point(b, out var y) &&
         x.Carrier.SameIdentityAs(y.Carrier) && x.SameTickRefAs(y);

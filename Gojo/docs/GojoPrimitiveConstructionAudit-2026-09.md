@@ -1,6 +1,10 @@
 # Primitive construction audit: parallels, curves and their prerequisites
 
-Status: September 2026. Audit checkpoint with an executable composition fixture.
+Status: September 2026. Updated after the
+[metric construction fixtures](GojoMetricConstructionFixtures.md): native
+circle quarters now feed rotation; measured straight offsets and a bounded
+two-edge miter are calculated from their inputs. The broader geometric gaps
+below remain distinct from those bounded contracts.
 The follow-up [grounded affine basis fixture](GojoGroundedAffineBasisFixture.md)
 now constructs and crystallizes a justified local basis, then reuses the
 existing Bézier procedure within it. Cartesian-like coordinates are a valid
@@ -45,13 +49,15 @@ orthogonal outlet does not by itself establish a calibrated Euclidean normal.
 | --- | --- | --- |
 | Native points and ordered segments | Carrier locations, shared tick sites, point relations and endpoint order; syntax tests preserve these distinctions | Coordinate equality, contact, displacement and shared identity remain different reads |
 | Native line/circle carrier promises | `LinearAt` and `CircularFrom` retain structural unit origins | A carrier promise alone does not supply a realized path, metric, radius or complete embedding |
-| Point-derived circle | Point outlet, common reach, radial attachment, actual seam, whole correspondence and subdivision; selected native reader | The homogeneous planar construction law is selected; a bridge to an arbitrary coordinate chart and arc-length calibration are still absent |
+| Point-derived circle | Point outlet, common reach, radial attachment, actual seam, whole correspondence and subdivision; now four native quarters feed calculated radial observations in a selected metric chart | General fraction embedding and arc-length calibration remain open; the metric and homogeneous planar law are selected inputs |
 | Parallel segment pair | New fixture constructs the second endpoint by two affine interpolations, preserving ordered displacement | Its three inputs already have a selected affine coordinate read. It does not derive a native normal flow from the source segment |
 | Bézier samples | Six connected de Casteljau interpolations, exact fractions, shared parameter and explicit support | Earlier controls are supplied. The new fixture constructs one control from earlier inputs; coordinate-free interpolation remains unimplemented |
 | Curve joins | Shared endpoints and selected endpoint/first-/second-derivative comparisons | Shared endpoints alone do not establish tangency; parameter calibration, a metric and regularity are needed for stronger geometric claims |
-| Rotation in a coordinate chart | Ordered contour traversal and two radial reflections under a supplied positive-definite metric | The older calibrated fixture supplies its radial coordinates; native-to-coordinate correspondence is separate |
+| Rotation in a coordinate chart | Ordered contour traversal and two radial reflections; the new quarter bridge constructs its rim coordinates and retains native radial correspondence | The older calibrated fixture still supplies its rim coordinates; neither fixture discovers a physical metric |
 | Repeated motifs/friezes | Exposed point correspondence, composition of glide/reflection/translation, identity preservation | Seed motif and generator calibration are supplied; neither generator discovery nor all frieze classes are implemented |
 | Blocks path offsets/insets | Source and candidate carriers, proposed correspondences, requested extents and resolution evidence | Geometry is supplied; no general normal-offset, corner-join, cap or arc-length construction is executed |
+| Measured straight offset | Actual edge outlet, calibrated reach and side guide; one calculated metric-normal displacement applied to both endpoints | Exact rational normalization only; irrational coordinates retain an unresolved request, and uncertain metric/normal decomposition is not yet staged |
+| Two-edge miter | Two computed offsets, actual shared source corner, explicit straight-support windows, calculated intersection and shared output site | One local corner policy; parallel/collinear cases, caps, curved offsets, global self-intersections and region topology remain open |
 | Clothoids, involutes and fills in the inventory | Connected recipes such as transition plus length, base arc plus unwound length, or selected enclosing boundaries | These recipes are not evidence of solved curvature evolution, complete unwrap geometry or general region/Boolean settlement |
 
 The primary implementation sources are
@@ -212,10 +218,20 @@ this; coordinate-free interpolation over other connected native contexts is
 an additional possible route, not a mandatory replacement. A fraction on an
 unrelated carrier still cannot by itself locate a point between two endpoints.
 
-Finite line offsets then need separate endpoint/cap policies; joined segments
-need corner policies; curve offsets need tangent/normal evolution and a chosen
-resolution for unresolved geometry. These should follow the single-segment
-contract. None is supplied by a generic name such as `OffsetRead`.
+The [metric follow-up](GojoMetricConstructionFixtures.md) now supplies the
+selected straight-segment measurement contract and a first corner policy.
+It connects the actual source edge to its outlet, calibrated reach and side,
+calculates the two transported endpoint observations, and records their
+correspondence. It is a construction in an explicitly supplied metric chart;
+it does not yet create an independent coordinate-free native transport carrier.
+The two-edge miter consumes these calculated offsets and permits intersection
+only inside both authored parameter supports. An out-of-support candidate
+remains evidence, with the join unresolved.
+
+Finite line offsets still need endpoint/cap policies. Curve offsets need
+tangent/normal evolution and a chosen resolution for unresolved geometry.
+Further corner policies and whole-region topology remain separate contracts.
+None is supplied by a generic name such as `OffsetRead`.
 
 ## Verification
 
@@ -226,6 +242,11 @@ degenerate sources and identity through restoration. The
 [Blocks audit tests](../../Gojo.Encoding.Tests/BlocksOffsetConstructionAuditTests.cs)
 read the actual exported candidate graphs. Existing affine, rotation, circle,
 graphic primitive and replay suites cover the earlier mechanisms.
+
+The [metric construction tests](../../Gojo.Encoding.Tests/GojoSyntaxMetricConstructionTests.cs)
+add native-quarter rotation, measured offsets and bounded joins, including
+exact fractions, sheared charts, opposed guides, failed premises, shared
+identity, captured history and trace-checked walkthrough syntax.
 
 ```powershell
 dotnet test Gojo.Encoding.Tests/Gojo.Encoding.Tests.csproj --filter 'FullyQualifiedName~GojoSyntaxPrimitiveConstructionTests|FullyQualifiedName~BlocksOffsetConstructionAuditTests'

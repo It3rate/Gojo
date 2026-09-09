@@ -136,6 +136,12 @@ calibrated read; no such correspondence is invented here.
 
 ## Degrees, radians and scale
 
+The later [metric construction fixture](GojoMetricConstructionFixtures.md)
+now supplies a bounded native-to-coordinate bridge. It calculates four quarter
+rim observations from this circle, an explicit metric and radius calibration,
+then passes them to the existing rotation reader. General fractions such as
+`637/3600` and an arc-length/radius correspondence remain outside that bridge.
+
 A 360-way equal division can establish the degree convention with provenance
 back to the whole. A degree is therefore not an unexplained scalar inserted
 before construction. An arbitrary count of 360 marks would not suffice.

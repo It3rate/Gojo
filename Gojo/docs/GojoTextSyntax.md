@@ -794,7 +794,16 @@ replay and a timeline. The new `bezier-replay.gojo` fixture uses the existing
 syntax throughout, including the interval in which the current sample is
 unavailable while its historical value remains readable.
 
+The [metric construction fixtures](GojoMetricConstructionFixtures.md) connect
+native circle quarters to an explicit metric chart and the existing rotation
+reader, then construct measured straight offsets and a bounded miter corner.
+The requests retain the actual radius/whole, source edge outlet, relative side,
+length calibration and allowed parameter supports. Calculated geometry and
+endpoint correspondence survive numeric restoration. These are selected reads
+over existing syntax; the parser gains no geometry opcode or automatic dispatch.
+
 ## Landmark interpretation and selected response
+
 
 The [landmark calibration fixture](GojoLandmarkCalibrationFixture.md) uses
 ordinary groups, calibrated frames, unknown slots, actions, focus and repeat

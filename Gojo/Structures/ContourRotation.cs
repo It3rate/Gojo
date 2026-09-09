@@ -1,5 +1,6 @@
 using System.Numerics;
 using Gojo.Core;
+using static Gojo.Structures.PlanarMetric;
 using Scalar = Gojo.Core.ExactScalar;
 
 namespace Gojo.Structures;
@@ -8,14 +9,15 @@ namespace Gojo.Structures;
 /// Selected planar rotation reads grounded in a marked contour, shared radial
 /// attachments and explicit metric pairings. No angle or rotation opcode is
 /// stored. Traversal, geometric validation and point application stay separate.
-/// These coordinates and landmarks are supplied inputs; this reader does not
-/// construct the underlying circle. See ContourConstruction for the earlier stages.
+/// Radial coordinates can be supplied observations or calculated by
+/// ContourConstruction.TryCalibrateQuarters from an intrinsic circle.
 /// </summary>
 public static class ContourRotation
 {
     /// <summary>
     /// Reads group(surface, start marker, signed step span). The surface is
-    /// group(origin-to-centre, circular carrier, metric, radial bindings, cycle).
+    /// group(origin-to-centre, circular carrier or native partition, metric,
+    /// radial bindings, cycle).
     /// Counts ordered edges; it does not claim equal angular spacing. Captures
     /// exposed numeric sites without traversing private carrier attachments.
     /// </summary>
@@ -163,20 +165,34 @@ public static class ContourRotation
     {
         markers = [];
         if (!Fields(element, 5, out var fields) || fields[0] is not Relation anchor ||
-            fields[1] is not Carrier perimeter || !Concrete(perimeter) ||
-            !perimeter.TryReadCircularOrigin(out var source) || !Point(anchor.Left, out var origin) ||
-            !origin.Carrier.SameIdentityAs(source.Carrier) || origin.Ticks != source.Ticks ||
+            !Point(anchor.Left, out var origin) ||
             !GroupFields(fields[3], out var bindings) || bindings.Length < 3 ||
             !GroupFields(fields[4], out var edges) || edges.Length != bindings.Length) return false;
+        Carrier perimeter;
+        ContourConstruction.CircleRead? circle = null;
+        long parts = 0;
+        if (fields[1] is Carrier supplied && Concrete(supplied) && supplied.TryReadCircularOrigin(out var source) &&
+            origin.Carrier.SameIdentityAs(source.Carrier) && origin.Ticks == source.Ticks) perimeter = supplied;
+        else if (ContourConstruction.Partition(fields[1], out var native, out var fine, out parts) &&
+            SiteEqual(anchor.Left, native.Source)) { perimeter = fine; circle = native; }
+        else return false;
         var sites = new List<IElement>();
         var coordinates = new HashSet<long>();
+        var orderedTicks = new List<long>();
         foreach (var elementBinding in bindings)
         {
             if (elementBinding is not Relation binding || !Point(binding.Left, out var marker) ||
-                !marker.Carrier.SameIdentityAs(perimeter) || !coordinates.Add(marker.Ticks) ||
                 binding.Right is not Relation radial || !ReferenceEquals(radial.Left, anchor.Right)) return false;
+            var tick = marker.Ticks;
+            if (circle is not null && SiteEqual(binding.Left, circle.Start)) tick = 0;
+            else if (!marker.Carrier.SameIdentityAs(perimeter) || circle is not null && (tick <= 0 || tick >= parts)) return false;
+            if (!coordinates.Add(tick)) return false;
+            orderedTicks.Add(tick);
             sites.Add(binding.Left);
         }
+        // A native positive whole supplies order as well as marker locations.
+        if (circle is not null && Enumerable.Range(0, sites.Count)
+            .Count(i => orderedTicks[(i + 1) % sites.Count] < orderedTicks[i]) != 1) return false;
         for (var i = 0; i < sites.Count; i++)
             if (edges[i] is not Relation edge || !SiteEqual(edge.Left, sites[i]) ||
                 !SiteEqual(edge.Right, sites[(i + 1) % sites.Count])) return false;
@@ -219,85 +235,10 @@ public static class ContourRotation
         geometry = new GeometryRead(reach, metric.Square); return true;
     }
 
-    private static bool Metric(IElement element, out MetricRead metric)
-    {
-        metric = null!;
-        if (!Fields(element, 2, out var fields) || fields[0] is not Relation basis ||
-            basis.Right is not Carrier holder || !Concrete(holder) ||
-            !Fields(basis, 2, out var units) || !Span(units[0], out var x, out var x0, out var x1) ||
-            !Span(units[1], out var y, out var y0, out var y1) ||
-            x0 != 0 || x1 != 1 || y0 != 0 || y1 != 1 || x.SameIdentityAs(y) ||
-            !x.UnitShape.CompatibleWith(y.UnitShape) || !Fields(fields[1], 3, out var pairings)) return false;
-        var values = new Scalar[3];
-        Carrier square = null!;
-        for (var i = 0; i < 3; i++)
-        {
-            if (pairings[i] is not Relation pairing || pairing.Left is not Relation pair ||
-                !ReferenceEquals(pair.Left, units[i == 2 ? 1 : 0]) ||
-                !ReferenceEquals(pair.Right, units[i == 0 ? 0 : 1]) ||
-                !Number(pairing.Right, out var valueAxis, out values[i]) ||
-                !valueAxis.UnitShape.CompatibleWith(UnitShape.Product(x.UnitShape, x.UnitShape))) return false;
-            if (i == 0) square = valueAxis;
-            else if (!square.SameIdentityAs(valueAxis)) return false;
-        }
-        if (values[0] <= Scalar.Zero || values[0] * values[2] - values[1] * values[1] <= Scalar.Zero) return false;
-        metric = new MetricRead(holder, [x, y], square, values); return true;
-    }
-
-    private static bool Coordinates(IElement point, MetricRead metric, out Scalar?[] values)
-    {
-        values = new Scalar?[2];
-        if (point is Placeholder { IsInverse: false }) return true;
-        if (point is not Relation relation || !ReferenceEquals(relation.Right, metric.Holder) ||
-            !Fields(point, 2, out var coordinates)) return false;
-        for (var i = 0; i < 2; i++)
-        {
-            if (coordinates[i] is Placeholder { IsInverse: false }) continue;
-            if (!Number(coordinates[i], out var axis, out var value) || !axis.SameIdentityAs(metric.Axes[i])) return false;
-            values[i] = value;
-        }
-        return true;
-    }
-
-    private static Scalar Dot(Scalar[] a, Scalar[] b, MetricRead metric) =>
-        metric.Values[0] * a[0] * b[0] + metric.Values[1] * (a[0] * b[1] + a[1] * b[0]) + metric.Values[2] * a[1] * b[1];
-    private static Scalar[] Subtract(Scalar[] a, Scalar[] b) => [a[0] - b[0], a[1] - b[1]];
-    private static Scalar[] Scale(Scalar[] value, Scalar factor) => [value[0] * factor, value[1] * factor];
-    private static Relation Vector(Scalar[] value, MetricRead metric) =>
-        Relation.OrderedGroup(metric.Holder, value[0].Encode(metric.Axes[0]), value[1].Encode(metric.Axes[1]));
-    private sealed record MetricRead(Carrier Holder, Carrier[] Axes, Carrier Square, Scalar[] Values);
     private sealed record GeometryRead(Scalar Reach, Carrier Square);
 
-    private static bool Number(IElement element, out Carrier axis, out Scalar value)
-    {
-        if (Point(element, out var point)) element = point;
-        if (ProjectionResidue.TryRead(element, out axis, out var n, out var d) && Concrete(axis))
-        { value = new Scalar(n, d); return true; }
-        value = Scalar.Zero; axis = null!; return false;
-    }
-    private static bool Point(IElement element, out CarrierLocation location)
-    {
-        if (element is Relation { Left: CarrierLocation p, Right: Carrier c } && p.Carrier.SameIdentityAs(c) && Concrete(c))
-        { location = p; return true; }
-        location = default; return false;
-    }
-    private static bool Span(IElement element, out Carrier axis, out long a, out long b)
-    {
-        if (element is Relation span && Point(span.Left, out var left) && Point(span.Right, out var right) &&
-            left.Carrier.SameIdentityAs(right.Carrier))
-        { axis = left.Carrier; a = left.Ticks; b = right.Ticks; return true; }
-        axis = null!; a = b = 0; return false;
-    }
     private static bool SiteEqual(IElement a, IElement b) =>
         Point(a, out var x) && Point(b, out var y) && x.Carrier.SameIdentityAs(y.Carrier) && x.SameTickRefAs(y);
-    private static bool Concrete(Carrier carrier) => !carrier.IsUnknown && !carrier.IsInverse;
-    private static bool GroupFields(IElement element, out IElement[] fields)
-    {
-        if (element is Relation relation && relation.TryReadOrderedGroup(out fields)) return true;
-        fields = []; return false;
-    }
-    private static bool Fields(IElement element, int count, out IElement[] fields) =>
-        GroupFields(element, out fields) && fields.Length == count;
     private static Relation Group(params IElement[] fields) => Relation.OrderedGroup(new Carrier(), fields);
     private static Relation Observe(IElement source, IElement surface, IElement result, IEnumerable<IElement> remainder, IElement provenance) =>
         ReadWitness.Create(new Carrier(), source, surface, result, Group([.. remainder]), provenance);
