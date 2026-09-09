@@ -23,13 +23,22 @@ internal static class PlanarMetric
         MetricRead metric, out Scalar[] normal)
     {
         normal = [];
-        if (Dot(direction, direction, metric) <= Scalar.Zero || distance < Scalar.Zero) return false;
+        if (distance < Scalar.Zero || !NormalDirection(direction, guide, metric, out var candidate)) return false;
+        if (!(distance * distance / Dot(candidate, candidate, metric)).TrySquareRoot(out var scale)) return false;
+        normal = Scale(candidate, scale); return true;
+    }
+
+    // Keep this readable before normalization: a metric-normal direction may
+    // be exact even when its requested length needs an irrational scale.
+    internal static bool NormalDirection(Scalar[] direction, Scalar[] guide, MetricRead metric, out Scalar[] normal)
+    {
+        normal = [];
+        if (Dot(direction, direction, metric) <= Scalar.Zero) return false;
         Scalar[] candidate = [-(metric.Values[1] * direction[0] + metric.Values[2] * direction[1]),
             metric.Values[0] * direction[0] + metric.Values[1] * direction[1]];
         var side = Dot(candidate, guide, metric);
         if (side.IsZero) return false;
-        if (!(distance * distance / Dot(candidate, candidate, metric)).TrySquareRoot(out var scale)) return false;
-        normal = Scale(candidate, side < Scalar.Zero ? -scale : scale); return true;
+        normal = side < Scalar.Zero ? Scale(candidate, new Scalar(-1)) : candidate; return true;
     }
 
     // The chosen native reach is mapped explicitly to a nonnegative magnitude

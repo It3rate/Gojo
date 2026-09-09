@@ -802,6 +802,13 @@ length calibration and allowed parameter supports. Calculated geometry and
 endpoint correspondence survive numeric restoration. These are selected reads
 over existing syntax; the parser gains no geometry opcode or automatic dispatch.
 
+The [measured-offset refinement](GojoMeasuredOffsetRefinement.md) retains a
+shared open scale, its repeated square participation, ordinary endpoint
+interpolation requests and actual output slots. Explicit subdivision reads
+expose bounded affine endpoint expressions over one shared sample. The syntax
+continues to express partial construction and correlation without a new
+square-root token or independent per-coordinate error fields.
+
 ## Landmark interpretation and selected response
 
 

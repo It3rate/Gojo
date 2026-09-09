@@ -9,7 +9,7 @@ namespace Gojo.Structures;
 /// Requests retain the source, outlet, reach calibration and relative side.
 /// These are geometric observations, not material movement or a CAD dispatcher.
 /// </summary>
-public static class SegmentOffset
+public static partial class SegmentOffset
 {
     /// <summary>
     /// Reads group(edge, metric, O(edge) -> (native reach -> length span),
@@ -21,16 +21,12 @@ public static class SegmentOffset
     public static bool TryConstruct(Relation request, out Relation witness)
     {
         var captured = Capture(request);
-        if (!Fields(captured, 4, out var f) || f[0] is not Relation edge || !Metric(f[1], out var metric) ||
-            !Complete(edge.Left, metric, out var a) || !Complete(edge.Right, metric, out var b) ||
-            f[2] is not Relation { Left: Relation outlet } selection ||
-            !UnitShape.TryReadOrthogonalSource(outlet, out _) || !ReferenceEquals(outlet.Left, edge) ||
-            !Distance(selection.Right, metric, out _, out var distance) ||
-            f[3] is not Relation side || !ReferenceEquals(side.Left, edge.Left) ||
-            !Complete(side.Right, metric, out var sidePoint)) return Unresolved(request, out witness);
-        var direction = Subtract(b, a);
-        if (!Normal(direction, Subtract(sidePoint, a), distance, metric, out var displacement))
-            return Unresolved(request, out witness);
+        if (!Context(captured, out var context) ||
+            !(context.Distance * context.Distance / Dot(context.Normal, context.Normal, context.Metric))
+                .TrySquareRoot(out var scale)) return Unresolved(request, out witness);
+        var edge = context.Edge; var metric = context.Metric; var distance = context.Distance;
+        var a = context.A; var b = context.B; var direction = Subtract(b, a);
+        var displacement = Scale(context.Normal, scale);
         try
         {
             IElement first = distance.IsZero ? edge.Left : Vector(Add(a, displacement), metric);

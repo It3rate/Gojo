@@ -56,7 +56,7 @@ orthogonal outlet does not by itself establish a calibrated Euclidean normal.
 | Rotation in a coordinate chart | Ordered contour traversal and two radial reflections; the new quarter bridge constructs its rim coordinates and retains native radial correspondence | The older calibrated fixture still supplies its rim coordinates; neither fixture discovers a physical metric |
 | Repeated motifs/friezes | Exposed point correspondence, composition of glide/reflection/translation, identity preservation | Seed motif and generator calibration are supplied; neither generator discovery nor all frieze classes are implemented |
 | Blocks path offsets/insets | Source and candidate carriers, proposed correspondences, requested extents and resolution evidence | Geometry is supplied; no general normal-offset, corner-join, cap or arc-length construction is executed |
-| Measured straight offset | Actual edge outlet, calibrated reach and side guide; one calculated metric-normal displacement applied to both endpoints | Exact rational normalization only; irrational coordinates retain an unresolved request, and uncertain metric/normal decomposition is not yet staged |
+| Measured straight offset | Actual edge outlet, calibrated reach and side guide; exact displacement when rational; staged normal, open squared-scale equation and shared endpoint recipes with guaranteed resolution bounds | Physical distance/metric uncertainty and side discovery remain open; marginal endpoint bounds must not erase their common scale |
 | Two-edge miter | Two computed offsets, actual shared source corner, explicit straight-support windows, calculated intersection and shared output site | One local corner policy; parallel/collinear cases, caps, curved offsets, global self-intersections and region topology remain open |
 | Clothoids, involutes and fills in the inventory | Connected recipes such as transition plus length, base arc plus unwound length, or selected enclosing boundaries | These recipes are not evidence of solved curvature evolution, complete unwrap geometry or general region/Boolean settlement |
 
@@ -224,6 +224,11 @@ It connects the actual source edge to its outlet, calibrated reach and side,
 calculates the two transported endpoint observations, and records their
 correspondence. It is a construction in an explicitly supplied metric chart;
 it does not yet create an independent coordinate-free native transport carrier.
+The [measured-offset refinement](GojoMeasuredOffsetRefinement.md) now preserves
+the normal and shared square-constrained scale before a rational endpoint can
+be supplied. Its selected subdivision reads use the existing bounded-affine
+machinery; a shared offset cancels exactly between the two endpoints even when
+their individual positions are bounded.
 The two-edge miter consumes these calculated offsets and permits intersection
 only inside both authored parameter supports. An out-of-support candidate
 remains evidence, with the join unresolved.

@@ -31,20 +31,27 @@ internal readonly record struct ExactScalar : IComparable<ExactScalar>
     {
         root = Zero;
         if (Numerator.Sign < 0) return false;
-        static BigInteger FloorRoot(BigInteger value)
-        {
-            if (value <= 1) return value;
-            var estimate = BigInteger.One << checked((int)((value.GetBitLength() + 1) / 2));
-            while (true)
-            {
-                var next = (estimate + value / estimate) / 2;
-                if (next >= estimate) return estimate;
-                estimate = next;
-            }
-        }
         var n = FloorRoot(Numerator); var d = FloorRoot(Denominator);
         if (n * n != Numerator || d * d != Denominator) return false;
         root = new ExactScalar(n, d); return true;
+    }
+    // floor(sqrt(n/d)) = floor(sqrt(floor(n/d))) for nonnegative n/d.
+    // This supplies an enclosure endpoint, never a rounded exact root.
+    internal BigInteger SquareRootFloor()
+    {
+        if (Numerator.Sign < 0) throw new InvalidOperationException("A real root requires nonnegative participation.");
+        return FloorRoot(Numerator / Denominator);
+    }
+    private static BigInteger FloorRoot(BigInteger value)
+    {
+        if (value <= 1) return value;
+        var estimate = BigInteger.One << checked((int)((value.GetBitLength() + 1) / 2));
+        while (true)
+        {
+            var next = (estimate + value / estimate) / 2;
+            if (next >= estimate) return estimate;
+            estimate = next;
+        }
     }
     internal static ExactScalar Min(ExactScalar a, ExactScalar b) => a <= b ? a : b;
     internal static ExactScalar Max(ExactScalar a, ExactScalar b) => a >= b ? a : b;

@@ -173,9 +173,11 @@ All normalization arithmetic is rational and uses exact integer square-root
 checks. If a required coordinate is irrational, the read returns a placeholder
 and retains the request as remainder. That is an implementation boundary, not
 measurement uncertainty or evidence that the geometric answer does not exist.
-No guessed floating-point tolerance is attached. An open algebraic normalization
-or an explicitly requested resolution read is a worthwhile later extension;
-the current result does not yet expose a separate solved normal-direction stage.
+No guessed floating-point tolerance is attached. The later
+[measured-offset refinement](GojoMeasuredOffsetRefinement.md) now adds explicit
+preparation and observation stages: retain the normal, its open square equation
+and shared endpoint recipes, then observe guaranteed correlated bounds at a
+chosen subdivision. The exact `TryConstruct` contract remains unchanged.
 
 ## A shared corner with bounded straight supports
 
