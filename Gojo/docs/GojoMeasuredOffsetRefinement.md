@@ -121,6 +121,11 @@ correspondence between the exact constraint, coarse sample and output slots.
 
 ## Verification
 
+The [joined-path follow-up](GojoJoinedOffsetPath.md) now retains these
+preparations while composing neighbouring offsets and checking their remaining
+spans. It uses exact rational miters where available. Correlated bounded joint
+coordinates remain a further step; no independent endpoint-box picks are used.
+
 The [focused tests](../../Gojo.Encoding.Tests/GojoSyntaxMeasuredOffsetTests.cs)
 cover shared-scale cancellation, native and numeric-restored requests, exact
 grid sites, zero distance, a skew chart, opposite guides, rejected negative

@@ -1,0 +1,51 @@
+gojo 1;
+
+// A selected metric chart; all three source edges use its actual basis.
+let $space = carrier();
+let $x = carrier();
+let $y = carrier(unit_of($x));
+let $length = carrier(unit_of($x));
+let $squared = carrier(product_units(unit_of($x), unit_of($x)));
+let $ux = span($x, 0, 1);
+let $uy = span($y, 0, 1);
+let $metric = group(group_on($space, $ux, $uy), frame(
+    ($ux -> $ux) -> at($squared, 1), ($ux -> $uy) -> at($squared, 0),
+    ($uy -> $uy) -> at($squared, 1)));
+
+// Source observations, with actual shared corners B and C.
+let $a = group_on($space, at($x, 0), at($y, 0));
+let $b = group_on($space, at($x, 8), at($y, 0));
+let $c = group_on($space, at($x, 8), at($y, 6));
+let $d = group_on($space, at($x, 0), at($y, 6));
+let $ab = $a -> $b;
+let $bc = $b -> $c;
+let $cd = $c -> $d;
+
+// Relative guides select the inward side; screen orientation is a view choice.
+let $side_ab = $a -> group_on($space, at($x, 0), at($y, 1));
+let $side_bc = $b -> group_on($space, at($x, 7), at($y, 0));
+let $side_cd = $c -> group_on($space, at($x, 8), at($y, 5));
+let $offset_ab = group($ab, $metric, orthogonal($ab) -> ?calibration, $side_ab);
+let $offset_bc = group($bc, $metric, orthogonal($bc) -> ?calibration, $side_bc);
+let $offset_cd = group($cd, $metric, orthogonal($cd) -> ?calibration, $side_cd);
+let $scale_ab = span(carrier(), 0, 1);
+let $scale_bc = span(carrier(), 0, 1);
+let $scale_cd = span(carrier(), 0, 1);
+let $whole_ab = span(carrier(), 0, 1);
+let $whole_bc = span(carrier(), 0, 1);
+let $whole_cd = span(carrier(), 0, 1);
+
+// One support per source edge. Both corners consume the same middle support.
+// The reader must also check the order between the two middle-edge trims.
+root group(
+    group(group($offset_ab, $scale_ab), group($offset_bc, $scale_bc),
+          group($offset_cd, $scale_cd)),
+    group($whole_ab -> $whole_ab, $whole_bc -> $whole_bc,
+          $whole_cd -> $whole_cd));
+
+// The driver refines the same request with one actual shared calibration.
+// These are three separate reads; they do not overwrite earlier witnesses.
+let $reach = span(carrier(), 0, 1);
+root bind(?calibration, $reach -> span($length, 0, 2));
+root bind(?calibration, $reach -> span($length, 0, 3));
+root bind(?calibration, $reach -> span($length, 0, 4));

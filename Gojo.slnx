@@ -18,6 +18,8 @@
     <File Path="Gojo/docs/GojoGroundedAffineBasisFixture.md" />
     <File Path="Gojo/docs/GojoMetricConstructionFixtures.md" />
     <File Path="Gojo/docs/GojoMeasuredOffsetRefinement.md" />
+    <File Path="Gojo/docs/GojoJoinedOffsetPath.md" />
+    <File Path="Gojo/docs/examples/joined-offsets.html" />
     <File Path="Gojo/docs/examples/measured-offsets.html" />
     <File Path="Gojo/docs/examples/metric-construction.html" />
     <File Path="Gojo/docs/examples/grounded-affine-basis.html" />

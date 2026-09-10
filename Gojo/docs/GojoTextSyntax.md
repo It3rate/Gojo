@@ -809,6 +809,14 @@ expose bounded affine endpoint expressions over one shared sample. The syntax
 continues to express partial construction and correlation without a new
 square-root token or independent per-coordinate error fields.
 
+The [joined-offset path fixture](GojoJoinedOffsetPath.md) composes these
+preparation requests and bounded miters into an ordered open path. Per-edge
+witnesses distinguish accepted spans from open results, retaining the candidate
+topology and its shared joints. A collapsed or reversed middle span remains
+unresolved even when both incident corners pass their own support checks.
+Ordinary groups, bindings, parameter frames and correspondences carry the
+construction without new parser tokens.
+
 ## Landmark interpretation and selected response
 
 

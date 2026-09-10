@@ -224,6 +224,11 @@ in each edge's own calibrated frame; they are not a conventional dimensionless
 miter-length limit. Caps, bevel/round policies, whole-path self-intersections,
 curve-normal evolution and region topology remain separate work.
 
+The [joined open-path follow-up](GojoJoinedOffsetPath.md) now composes several
+of these corner reads and checks the remaining span between adjacent trims.
+Both corners can pass while the middle span collapses or reverses; that span
+remains unresolved with its two useful corner results retained.
+
 ## Syntax, execution and verification
 
 The parser gains no tokens or geometry opcodes. These fixtures use ordinary

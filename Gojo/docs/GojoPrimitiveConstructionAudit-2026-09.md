@@ -3,8 +3,10 @@
 Status: September 2026. Updated after the
 [metric construction fixtures](GojoMetricConstructionFixtures.md): native
 circle quarters now feed rotation; measured straight offsets and a bounded
-two-edge miter are calculated from their inputs. The broader geometric gaps
-below remain distinct from those bounded contracts.
+two-edge miter are calculated from their inputs. The
+[joined-path follow-up](GojoJoinedOffsetPath.md) now composes multiple miters,
+checks remaining traversal in source order and retains partial path evidence.
+The broader geometric gaps below remain distinct from those bounded contracts.
 The follow-up [grounded affine basis fixture](GojoGroundedAffineBasisFixture.md)
 now constructs and crystallizes a justified local basis, then reuses the
 existing Bézier procedure within it. Cartesian-like coordinates are a valid
@@ -58,6 +60,7 @@ orthogonal outlet does not by itself establish a calibrated Euclidean normal.
 | Blocks path offsets/insets | Source and candidate carriers, proposed correspondences, requested extents and resolution evidence | Geometry is supplied; no general normal-offset, corner-join, cap or arc-length construction is executed |
 | Measured straight offset | Actual edge outlet, calibrated reach and side guide; exact displacement when rational; staged normal, open squared-scale equation and shared endpoint recipes with guaranteed resolution bounds | Physical distance/metric uncertainty and side discovery remain open; marginal endpoint bounds must not erase their common scale |
 | Two-edge miter | Two computed offsets, actual shared source corner, explicit straight-support windows, calculated intersection and shared output site | One local corner policy; parallel/collinear cases, caps, curved offsets, global self-intersections and region topology remain open |
+| Joined open offset path | Existing preparations and bounded miters compose in source order; shared joints, per-edge admission, collapsed/reversed-span rejection and retained candidate topology | Exact rational joint coordinates only; correlated bounded joins, topology repair, closed paths and non-neighbour intersections remain open |
 | Clothoids, involutes and fills in the inventory | Connected recipes such as transition plus length, base arc plus unwound length, or selected enclosing boundaries | These recipes are not evidence of solved curvature evolution, complete unwrap geometry or general region/Boolean settlement |
 
 The primary implementation sources are
@@ -232,6 +235,11 @@ their individual positions are bounded.
 The two-edge miter consumes these calculated offsets and permits intersection
 only inside both authored parameter supports. An out-of-support candidate
 remains evidence, with the join unresolved.
+The [joined-path reader](GojoJoinedOffsetPath.md) adds the check between those
+corners: their trims must leave each edge with strictly positive traversal in
+its source order. Individually accepted corners do not establish this. Failed
+spans retain their candidate topology, while useful neighbouring spans and
+unfinished offset preparations remain available.
 
 Finite line offsets still need endpoint/cap policies. Curve offsets need
 tangent/normal evolution and a chosen resolution for unresolved geometry.
