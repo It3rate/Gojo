@@ -1,5 +1,6 @@
 // Reconcile the cached browser bundle with the current public deployment,
-// then overlay only the syntax website and its landing-page/config changes.
+// retain the frozen Core4 archive, then overlay the tracked static websites
+// and landing-page/config changes.
 // This does not deploy. A complete cached bundle must already be present.
 import fs from 'node:fs/promises';
 import path from 'node:path';
@@ -23,22 +24,26 @@ async function walk(dir){
   }
   return result;
 }
-const applications=['blocks','gears','gearLadder','sketch'];
+const applications=['blocks','gears','gearLadder','sketch','core4'];
 // Cached experimental variants can outlive their public deployment. Do not
 // publish them merely because a root navigation fallback answers their URL.
 const cachedLoaders=(await walk(cache)).filter(f=>f.endsWith(path.join('_framework','dotnet.js')));
 for(const loader of cachedLoaders){
   const relative=path.relative(cache,loader);
-  if(applications.includes(path.dirname(path.dirname(relative))))continue;
+  if(applications.includes(relative.split(path.sep)[0]))continue;
   const response=await fetch(new URL(relative.replaceAll(path.sep,'/'),origin),{signal:AbortSignal.timeout(45000)});
   await response.body?.cancel();
   if(response.status!==404)throw new Error('Additional live route requires inclusion before deployment: '+relative);
 }
 await fs.mkdir(stage,{recursive:true});
-for(const app of applications)await fs.cp(path.join(cache,app),path.join(stage,app),{recursive:true});
+for(const app of applications){
+  const source=path.join(cache,app);
+  try{await fs.access(source);}catch{throw new Error('Required cached application is missing: '+app);}
+  await fs.cp(source,path.join(stage,app),{recursive:true});
+}
 const originalFiles=await walk(stage);
 const loaders=originalFiles.filter(f=>f.endsWith(path.join('_framework','dotnet.js')));
-if(loaders.length<4)throw new Error('A complete existing browser deployment is required');
+if(loaders.length<7)throw new Error('A complete browser deployment including the Core4 archive is required');
 function target(relative){
   const file=path.resolve(stage,relative);
   if(!file.startsWith(stage+path.sep))throw new Error('Path leaves deployment root: '+relative);
@@ -67,11 +72,11 @@ async function write(relative,bytes){
   await fs.mkdir(path.dirname(file),{recursive:true});await fs.writeFile(file,bytes);
   return true;
 }
-async function preserve(relative,expected){
+async function preserve(relative,expected,preferCache=false){
   let bytes;
-  if(expected){
+  if(expected||preferCache){
     try{bytes=await fs.readFile(target(relative));}catch(e){if(e.code!=='ENOENT')throw e;}
-    if(bytes&&hash(bytes)!==expected)bytes=undefined;
+    if(bytes&&expected&&hash(bytes)!==expected)bytes=undefined;
   }
   if(!bytes)bytes=await readLive(relative);
   if(expected&&hash(bytes)!==expected)throw new Error('Live manifest integrity mismatch: '+relative);
@@ -85,7 +90,8 @@ async function preserve(relative,expected){
 }
 for(const loader of loaders){
   const relative=path.relative(stage,loader);
-  const bytes=await preserve(relative);
+  const frozenCore4=relative.split(path.sep)[0]==='core4';
+  const bytes=await preserve(relative,undefined,frozenCore4);
   const source=bytes.toString('utf8'),start=source.indexOf('/*json-start*/'),end=source.indexOf('/*json-end*/');
   if(start<0||end<start)throw new Error('Unrecognized runtime manifest: '+relative);
   const config=JSON.parse(source.slice(start+14,end)),resources=new Map();
@@ -97,10 +103,10 @@ for(const loader of loaders){
   collect(config.resources);
   const entries=[...resources.entries()];
   for(let i=0;i<entries.length;i+=6)
-    await Promise.all(entries.slice(i,i+6).map(([name,integrity])=>preserve(path.join(path.dirname(relative),name),integrity)));
+    await Promise.all(entries.slice(i,i+6).map(([name,integrity])=>preserve(path.join(path.dirname(relative),name),integrity,frozenCore4)));
   const app=path.dirname(path.dirname(relative));
-  for(const name of ['index.html','main.js','app.css'])await preserve(path.join(app,name));
-  console.log('Preserved live '+app+': '+entries.length+' runtime resources.');
+  for(const name of ['index.html','main.js','app.css'])await preserve(path.join(app,name),undefined,frozenCore4);
+  console.log('Preserved '+(frozenCore4?'frozen ':'live ')+app+': '+entries.length+' runtime resources.');
 }
 await fs.writeFile(path.join(backup,'live-baseline.json'),JSON.stringify(Object.fromEntries(baseline),null,2));
 for(const file of originalFiles){
@@ -119,6 +125,8 @@ for(const name of ['index.html','app.css','staticwebapp.config.json'])
   await write(name,await fs.readFile(path.join(web,name)));
 for(const file of await walk(path.join(web,'syntax')))
   await write(path.relative(web,file),await fs.readFile(file));
-console.log('Prepared syntax overlay. Preserved '+baseline.size+' existing public assets.');
+for(const file of await walk(path.join(web,'core4')))
+  await write(path.relative(web,file),await fs.readFile(file));
+console.log('Prepared static overlays. Preserved '+baseline.size+' existing public assets.');
 console.log('Deployment directory: '+stage);
 console.log('Backup and public-asset manifest: '+backup);

@@ -6,6 +6,7 @@
       "/gears/*",
       "/gearLadder/*",
       "/sketch/*",
+      "/core4/*",
       "/syntax/*",
       "/*.{css,js,wasm,json,dat,br,gz,png,ico,svg,gojo}"
     ]

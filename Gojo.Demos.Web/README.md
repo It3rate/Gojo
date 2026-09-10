@@ -10,9 +10,12 @@ The production bundle mounts the browser applications beneath this page:
 - `/gears/` — Gojo Gear Demo
 - `/gearLadder/` — Gojo Gear Shape Ladder
 - `/sketch/` — GojoCAD SketchViewer
+- `/core4/` — frozen archive of the earlier Core4, Core2 Patterns and Foom
+  Numbers browser demos
 
-Deploy this landing page and the four application directories as one Static
-Web Apps bundle using `GOJO_SWA_CLI_DEPLOYMENT_TOKEN`.
+Deploy this landing page, the four current application directories and the
+Core4 archive as one Static Web Apps bundle using
+`GOJO_SWA_CLI_DEPLOYMENT_TOKEN`.
 
 The [syntax notebook](syntax/README.md) is a static website. Rebuild it using
 the script below; no browser-application build is needed for an editorial
@@ -22,11 +25,14 @@ change. Run the fixture and browser checks documented there before publication.
 node Gojo.Demos.Web/tools/build-syntax.mjs
 ~~~
 
-Production deployment must include all four current browser applications.
-Publishing the syntax directory alone would remove other routes. The ignored
-publish-deploy-root directory is a cached bundle, not a reproducible source
-checkout. Its runtime manifests can differ from the live deployment even when
-the entry-page HTML matches.
+Production deployment must include all four current browser applications and
+the Core4 archive. Publishing any one directory alone would remove other
+routes. The ignored publish-deploy-root directory is a cached bundle, not a
+reproducible source checkout. Its runtime manifests can differ from the live
+deployment even when the entry-page HTML matches. The Core4 runtime payloads
+are intentionally kept frozen in that cache; the tracked `/core4/` index is
+overlaid during preparation and the preparation step fails if the archive is
+missing.
 
 Prepare the syntax addition from the current public application manifests:
 
