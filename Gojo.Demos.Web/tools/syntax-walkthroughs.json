@@ -2,6 +2,36 @@
   "featured": ["contour-rotation", "calibrated-contour-rotation", "grounded-affine-basis", "bezier-construction", "frieze-patterns", "curve-replay"],
   "walkthroughs": [
     {
+      "id": "metric-construction",
+      "title": "Metric construction",
+      "category": "Structure",
+      "blurb": "Calibrate a circle, construct measured offsets, and join two straight supports.",
+      "source": "metric-construction.html",
+      "fixture": "measured-segment-offset.gojo",
+      "stepCount": 8,
+      "thumbnailStep": 6
+    },
+    {
+      "id": "measured-offsets",
+      "title": "Measured offsets",
+      "category": "Uncertainty",
+      "blurb": "Keep a shared unfinished scale, refine its bounds, and cancel the common displacement.",
+      "source": "measured-offsets.html",
+      "fixture": "measured-offset-refinement.gojo",
+      "stepCount": 5,
+      "thumbnailStep": 3
+    },
+    {
+      "id": "joined-offsets",
+      "title": "Joined offsets",
+      "category": "Structure",
+      "blurb": "Join several measured offsets and check whether their connecting spans remain valid.",
+      "source": "joined-offsets.html",
+      "fixture": "joined-offset-path.gojo",
+      "stepCount": 6,
+      "thumbnailStep": 3
+    },
+    {
       "id": "contour-rotation",
       "title": "Circle construction",
       "category": "Structure",

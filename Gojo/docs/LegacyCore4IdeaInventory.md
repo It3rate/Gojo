@@ -2,6 +2,11 @@
 
 This note records the old Core4 ideas that looked worth keeping as design memory while extracting Gojo into a lean repo. These are not instructions to port old code directly. Most old code used model objects that Gojo should now express through carriers, relations, unit shapes, tension, residue, slots, timelines, and local reads.
 
+The September 2026 [Core2/Core4 continuity review](GojoCore2Core4ContinuityReview-2026-09.md)
+now compares actual demo families and historical tests with current Gojo,
+including capabilities that remain only in the old projects and current CAD
+helpers that still need the newer construction contracts.
+
 ## Keep As Design Memory
 
 ### Boundary Overflow Routing

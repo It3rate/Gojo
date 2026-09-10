@@ -136,7 +136,7 @@ const types={'.html':'text/html','.js':'text/javascript','.css':'text/css','.svg
       for(const suffix of ['', '/', '/index.html']){
         await page.goto(base+demoRoute(d).slice(0,-1)+suffix+'?step=1');
         assert.equal(await page.locator('.notebook-nav a').first().getAttribute('href'),'/syntax/');
-        assert.ok(await page.locator('svg').innerHTML());
+        assert.ok(await page.locator('svg').first().innerHTML());
         for(const link of await page.locator('a[href]').evaluateAll(nodes=>nodes.map(n=>n.href))){
           if(new URL(link).origin!==base)continue;
           const response=await page.request.get(link);

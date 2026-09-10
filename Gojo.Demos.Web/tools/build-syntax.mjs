@@ -2,7 +2,7 @@
 // No dependencies. Run: node Gojo.Demos.Web/tools/build-syntax.mjs
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 import '../syntax/illustrations.js';
 const web = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const repo = path.resolve(web, '..');
@@ -78,21 +78,23 @@ for(const d of walkthroughs){
   let html=(await fs.readFile(sourcePath,'utf8')).replace(/\r\n/g,'\n');
   html=html.replace(/href="([^"]+)"/g,(attribute,href)=>{
     if(/^(?:[a-z]+:|\/|#)/i.test(href))return attribute;
-    const linked=path.resolve(path.dirname(sourcePath),href);
+    const link=new URL(href,pathToFileURL(sourcePath));
+    const linked=fileURLToPath(link), suffix=link.search+link.hash;
     const local=walkthroughs.find(w=>path.join(repo,'Gojo/docs/examples',w.source)===linked);
-    if(local)return 'href="'+route(local)+'"';
+    if(local)return 'href="'+route(local)+suffix+'"';
     const relative=path.relative(repo,linked).replaceAll(path.sep,'/');
     if(relative.startsWith('../'))throw new Error('Walkthrough link leaves repository: '+href);
     const fixture=relative.startsWith('Gojo.Encoding.Tests/Fixtures/Syntax/');
-    return 'href="'+(fixture?'/syntax/fixtures/'+path.basename(linked):git+relative)+'"';
+    return 'href="'+(fixture?'/syntax/fixtures/'+path.basename(linked):git+relative)+suffix+'"';
   });
-  const selected=collection.featured.indexOf(d.id);
-  const next=featured[(selected+1)%featured.length];
+  const order=collection.featured.includes(d.id)?featured:extras;
+  const selected=order.findIndex(entry=>entry.id===d.id);
+  const next=order[(selected+1)%order.length];
   const navigation='<nav class="notebook-nav" aria-label="Syntax notebook"><a href="/syntax/">← Syntax notebook</a><a href="/">All Gojo demos</a></nav>';
   const navigationStyle='<style>.notebook-nav{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;margin:0 0 24px;padding:0 0 14px;border-bottom:1px solid #d6dbd0;font:13px/1.5 system-ui,sans-serif}.notebook-nav a,.notebook-next a,.notebook-source a{color:#16776c;text-underline-offset:4px}.notebook-next{margin-top:28px;padding-top:20px;border-top:1px solid #d6dbd0;font:16px/1.5 system-ui,sans-serif}.notebook-source{margin-top:24px;border-top:1px solid #d6dbd0;padding:18px 0}.notebook-source summary{cursor:pointer;font-weight:600}.notebook-source pre{max-height:65vh;overflow:auto;white-space:pre;background:#e9eee4;padding:18px;border-radius:8px;font:13px/1.6 Consolas,monospace}</style>';
   html=html.replace('<main>','<main>'+navigationStyle+navigation);
   const original=demos.find(example=>example.id===d.id);
-  const syntax=html.includes('id="syntax"')?'':'<details class="notebook-source"><summary>View syntax · '+escape(d.fixture)+'</summary><p>The fixture defines the construction; the validation driver selects the edit and replay steps.</p><pre id="syntax">'+escape(sources[d.fixture])+'</pre><p><a href="/syntax/fixtures/'+d.fixture+'" download>Download fixture</a> · <a href="'+git+'Gojo.Encoding.Tests/'+original.test+'">Read the validations</a></p></details>';
+  const syntax=html.includes('id="syntax"')?'':'<details class="notebook-source"><summary>View syntax · '+escape(d.fixture)+'</summary><p>The fixture defines the construction; the validation driver selects the reads and actions.</p><pre id="syntax">'+escape(sources[d.fixture])+'</pre><p><a href="/syntax/fixtures/'+d.fixture+'" download>Download fixture</a>'+(original?' · <a href="'+git+'Gojo.Encoding.Tests/'+original.test+'">Read the validations</a>':'')+'</p></details>';
   html=html.replace('</main>',syntax+'<div class="notebook-next"><a href="'+route(next)+'">Next: '+escape(next.title)+' →</a>'+(original?'<p><a href="/syntax/'+d.id+'/">Compact replay overview and validation notes</a></p>':'')+'</div></main>');
   const dir=path.join(output,d.route||d.id);
   await fs.mkdir(dir,{recursive:true});

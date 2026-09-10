@@ -14,7 +14,7 @@ const {pathToFileURL}=require('node:url');
       const url=pathToFileURL(path.resolve(__dirname,'../../Gojo/docs/examples',d.source));
       url.searchParams.set('step',d.thumbnailStep);
       await page.goto(url.href);
-      const svg=await page.locator('svg').evaluate((source,viewBox)=>{
+      const svg=await page.locator('svg').first().evaluate((source,viewBox)=>{
         const copy=source.cloneNode(true);
         copy.setAttribute('xmlns','http://www.w3.org/2000/svg');
         copy.removeAttribute('id');

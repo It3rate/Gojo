@@ -63,6 +63,14 @@ orthogonal outlet does not by itself establish a calibrated Euclidean normal.
 | Joined open offset path | Existing preparations and bounded miters compose in source order; shared joints, per-edge admission, collapsed/reversed-span rejection and retained candidate topology | Exact rational joint coordinates only; correlated bounded joins, topology repair, closed paths and non-neighbour intersections remain open |
 | Clothoids, involutes and fills in the inventory | Connected recipes such as transition plus length, base arc plus unwound length, or selected enclosing boundaries | These recipes are not evidence of solved curvature evolution, complete unwrap geometry or general region/Boolean settlement |
 
+The [Core2/Core4 continuity review](GojoCore2Core4ContinuityReview-2026-09.md)
+also records existing GojoCAD area-settlement, cusp-rounding and tip-cap
+implementations. These have executable tests but use floating-point geometry,
+rounded coordinates and fixed thresholds. Statements below about missing caps,
+round joins or region laws concern the new exact construction contracts; they
+do not mean those broader CAD helpers are absent. Their numerical choices and
+construction evidence still need to be reconciled with these contracts.
+
 The primary implementation sources are
 [`GraphicStructure`](../../GojoCAD/GraphicStructure.cs),
 [`ContourConstruction`](../Structures/ContourConstruction.cs),

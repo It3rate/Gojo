@@ -2,13 +2,13 @@
 
 Public entry point: [gojo.inklingai.ca/syntax/](https://gojo.inklingai.ca/syntax/).
 
-Fifteen illustrated experiments have selectable steps, syntax panels and links
+Eighteen illustrated experiments have selectable steps, syntax panels and links
 to their source fixtures and documentation. Six featured examples lead from
 contour construction through calibrated rotation, a grounded affine basis,
-Bézier construction, frieze patterns and curve replay. Nine smaller studies in
-identity, uncertainty, units and response remain in the compact Extras section.
+Bézier construction, frieze patterns and curve replay. Twelve further examples
+in geometry, identity, uncertainty, units and response are in the compact Extras section.
 
-Four complete walkthroughs are published from the original pages in
+Seven complete walkthroughs are published from the original pages in
 [Gojo/docs/examples](../../Gojo/docs/examples). The original compact curve-replay
 overview stays at `/syntax/curve-replay/`; its full walkthrough is at
 `/syntax/curve-replay/walkthrough/`. The featured card opens the full walkthrough.
