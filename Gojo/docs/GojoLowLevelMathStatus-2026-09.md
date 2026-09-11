@@ -11,6 +11,12 @@ conformance tests. This audit remains a record of the earlier implementation;
 its bug examples and verification counts are historical. The follow-up records
 the current guarantees and remaining laws.
 
+**September 11 follow-up:** [complex coefficient interpretations](GojoComplexInterpretations-2026-09.md)
+now supply opposed-face and contour constructions, exact rational arithmetic,
+square-root alternatives and retained partial root equations. The earlier
+absence of a demonstrated complex algebra is no longer current; broader
+algebraic and analytic branch coverage remains incomplete.
+
 The kernel has substantial executable mathematics. The text notation can
 construct many of those structures through its small vocabulary, but it has
 not demonstrated comprehensive mathematical coverage. Three different claims

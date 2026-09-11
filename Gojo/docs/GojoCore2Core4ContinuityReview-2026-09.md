@@ -9,6 +9,13 @@ are not treated as changes to the historical mathematical implementations.
 Historical source links assume Core4 and ResoEngine remain beside the Gojo
 checkout; they are reference material, not current project dependencies.
 
+**September 11 follow-up:** the [complex interpretation work](GojoComplexInterpretations-2026-09.md)
+now restores selected complex coefficient arithmetic through opposed-face and
+contour constructions, exact square-root alternatives and partial fractional-
+power equations. The gap descriptions below record the September 10 baseline;
+general complex root families, analytic branch tracking and split-complex
+arithmetic remain outside the new implementation.
+
 ## Main assessment
 
 Gojo retains much of the early primitive intent, but it is not a feature-complete

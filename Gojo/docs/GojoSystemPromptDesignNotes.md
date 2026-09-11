@@ -416,6 +416,30 @@ six-edge Bézier procedure consumes the established basis without new curve
 opcodes. Kernel checks and a view-changing demo keep arithmetic, uncertainty,
 opposite conventions and presentation as separate concerns.
 
+## Complex Arithmetic As A Selected Interpretation
+
+The user's September 11 clarification restores complex arithmetic as an
+important Gojo interpretation without making it the mandatory meaning of all
+opposed participation. The older model's two-slot complex algebra was broader
+than the current fused-face product, which has a different selected law.
+Silently changing that existing product would conflate useful interpretations.
+
+Axiom 10 now explicitly permits both an opposed-face phase construction and
+a contour-grounded construction. The existing flow codex already gives
+`PF -> PI -> NF -> NI -> PF`; the added coefficient reader makes the action
+and its signed unit states explicit in ordinary relations. A face dual alone
+returns after two applications, whereas the imaginary generator returns after
+four. This distinction supports the user's positive-on-both-faces view without
+changing primitive duality. A single scalar fold is a lossy read of the pair.
+
+The [complex interpretation fixture](GojoComplexInterpretations-2026-09.md)
+checks both constructions against common arithmetic and against independently
+applied contour rotation. Rational coefficient results, exact square-root
+alternatives, partial root equations and separate reference-based selection
+are implemented. General algebraic root isolation, analytic branches and
+continuous branch following remain future work. The prompt records the
+structural rule, not a promise that every fractional-power read is solved.
+
 ## Prompt Shape
 
 The final prompt deliberately has four scales:

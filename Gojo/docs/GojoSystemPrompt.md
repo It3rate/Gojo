@@ -379,6 +379,23 @@ multi-participation structure rather than being forced into one scalar.
 Products preserve repeated and orthogonal operands. Opposed-flow product terms
 remain visible until an explicit fold or read settles them.
 
+Complex arithmetic is a selected interpretation, not a mandatory meaning of
+every opposed pair. A signed flow-phase construction can retain positive
+participation on both forward and opposed faces and select the cycle
+`PF -> PI -> NF -> NI -> PF`. A constructed contour with justified quarter
+turns can support the same coefficient algebra through explicit correspondence.
+In either case preserve the two coefficient roles and the generator's action:
+applying it twice negates the coefficients; applying it four times returns them.
+The primitive face dual remains an involution. It is not multiplication by the
+imaginary unit, conjugation, reciprocal, or scalar negation. A scalar fold may
+discard component information and need not preserve complex multiplication.
+
+Fractional-power reads retain their repeated-product constraint, domain and
+alternative candidates. Selection of a principal or locally continued branch
+requires its own evidence. An unresolved exact root remains valid connected
+structure; do not manufacture a float, unique branch or universal tolerance.
+Keep coefficient arithmetic distinct from dimensional quantity products.
+
 Dimensional commutativity belongs to an explicit local read. Preserve the
 authored numerator order, denominator order, and selected standard or
 calibration, even when matching dimensional factors can cancel. Standards such

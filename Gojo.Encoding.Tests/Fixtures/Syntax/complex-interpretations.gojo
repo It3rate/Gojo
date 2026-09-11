@@ -1,0 +1,48 @@
+gojo 1;
+
+// A selected coefficient read on the forward and opposed faces of one carrier.
+// Positive participation on the opposed face is the generator component here.
+let $forward = carrier();
+let $opposed = dual($forward);
+let $pair = carrier();
+let $coordinates = group_on($pair, span($forward, 0, 1), span($opposed, 0, 1));
+let $one = group_on($pair, at($forward, 1), at($opposed, 0));
+let $i = group_on($pair, at($forward, 0), at($opposed, 1));
+let $minus_one = group_on($pair, at($forward, -1), at($opposed, 0));
+let $minus_i = group_on($pair, at($forward, 0), at($opposed, -1));
+// This action, rather than the face dual alone, supplies i*i = -1.
+let $phase = group($one -> $i, $i -> $minus_one,
+                   $minus_one -> $minus_i, $minus_i -> $one);
+let $basis = group($coordinates, $phase, $forward -> $opposed);
+let $a = group_on($pair, at($forward, 3), at($opposed, 2));
+let $b = group_on($pair, at($forward, 5), at($opposed, 4));
+let $count = carrier();
+
+root $basis;
+root $a;
+root $b;
+// Selected multiplication read: 7 + 22i, with four contributions retained.
+root group($basis, $a, $b);
+// Fractional-power requests: basis, source, numerator count, denominator count.
+root group($basis, $minus_one, span($count, 0, 1), span($count, 0, 2));
+root group($basis, group_on($pair, at($forward, 3), at($opposed, 4)),
+    span($count, 0, 1), span($count, 0, 2));
+root group($basis, group_on($pair, at($forward, 2), at($opposed, 0)),
+    span($count, 0, 1), span($count, 0, 2));
+root $count;
+
+// A second coefficient chart can be justified by the existing constructed
+// circle fixture. Its native radial geometry is bound into this request.
+let $chart = carrier();
+let $real_axis = carrier();
+let $imaginary_axis = carrier(unit_of($real_axis));
+let $contour_coordinates = group_on($chart,
+    span($real_axis, 0, 1), span($imaginary_axis, 0, 1));
+root $contour_coordinates;
+root group(?constructed_contour, $contour_coordinates);
+
+// Partial components are valid; repeated ?unknown keeps its identity.
+root group_on($pair, at($forward, 3), ?unknown);
+root group_on($pair, at($forward, 7), ?unknown);
+// Selecting a branch is separate from computing the alternatives.
+root group(group($basis, $minus_one, span($count, 0, 1), span($count, 0, 2)), $minus_i);

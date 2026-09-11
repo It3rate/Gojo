@@ -33,6 +33,12 @@ the kernel. Its syntax fixtures exercise curves, continuity claims and motif
 correspondence with partial inputs and numeric restoration. No new parser
 constructors or execution loop are required.
 
+The [complex interpretation fixture](../../Gojo/docs/GojoComplexInterpretations-2026-09.md)
+adds selected coefficient arithmetic, opposed-face and contour foundations,
+and fractional-power constraints with separate branch selection. Existing
+groups, shared sites, signed locations and count spans express all of this;
+no imaginary literal or implicit read dispatch is introduced.
+
 ## What the parser does
 
 `GojoSyntax.Parse(...)` accepts a versioned text document and expands it

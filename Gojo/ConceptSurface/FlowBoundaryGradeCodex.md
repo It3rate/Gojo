@@ -494,6 +494,13 @@ BoundaryFlowLaneTransitionSurface.FlowPhaseStepTransitions
 is a read/build convenience for that four-step pattern. The physical meaning is
 the transition surfaces.
 
+The [complex coefficient interpretation](../docs/GojoComplexInterpretations-2026-09.md)
+now grounds a selected bilinear algebra in the corresponding signed numeric
+cycle. It retains separate forward/opposed coefficients and checks the action's
+negative square. A constructed contour can justify the same algebra through
+radial correspondence. Neither makes every phase step a geometric turn or the
+primitive face dual an imaginary multiplication.
+
 ## Axis And Face Split
 
 The likely core-adjacent shape is:

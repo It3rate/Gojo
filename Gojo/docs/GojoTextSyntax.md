@@ -817,6 +817,24 @@ unresolved even when both incident corners pass their own support checks.
 Ordinary groups, bindings, parameter frames and correspondences carry the
 construction without new parser tokens.
 
+## Complex coefficient interpretations
+
+The [complex interpretation fixture](GojoComplexInterpretations-2026-09.md)
+uses `group_on`, signed `at` coordinates, `dual`, unit `span` calibrations and
+shared action edges to establish a two-component algebra. An opposed carrier
+face can supply the generator role; a constructed contour can justify the same
+action through its radial quarters. The generator is not the primitive dual.
+
+The authored [fixture](../../Gojo.Encoding.Tests/Fixtures/Syntax/complex-interpretations.gojo)
+contains multiplication and fractional-power requests, partial components,
+an open contour binding and an independent reference-selection request.
+Integer count spans specify p and q; the selected reader retains `w^q=z^p`
+after reducing p/q. Exact alternatives remain separate from branch choice.
+Unsupported roots retain their defining equation and available component
+information. Requests, constructed bases and result witnesses survive numeric
+restoration. There is no new imaginary literal, hidden opcode or parser
+execution loop; the validation driver still selects each mathematical read.
+
 ## Landmark interpretation and selected response
 
 
