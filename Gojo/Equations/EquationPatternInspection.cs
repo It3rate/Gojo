@@ -72,17 +72,33 @@ public static class EquationPatternInspection
         out IElement residue,
         out IElement[] unboundSlots)
     {
+        if (TryReadPatternSampleElement(sample, out index, out bindings, out var result, out residue, out unboundSlots) &&
+            result is CarrierLocation location && !location.Carrier.IsUnknown)
+        { predicted = location; return true; }
+        predicted = default;
+        return false;
+    }
+
+    /// <summary>Inspects a sample including an unresolved result. Unlike the
+    /// scalar reader, this does not establish that a numeric prediction exists.</summary>
+    public static bool TryReadPatternSampleElement(
+        Relation sample,
+        out CarrierLocation index,
+        out Relation[] bindings,
+        out IElement predicted,
+        out IElement residue,
+        out IElement[] unboundSlots)
+    {
         if (TryReadRootElements(sample, out var elements) &&
             elements.Length == 5 &&
             elements[0] is Relation indexPoint &&
             indexPoint.Left is CarrierLocation indexLocation &&
             elements[1] is Relation bindingGroup &&
-            elements[2] is CarrierLocation predictedLocation &&
             elements[4] is Relation unboundGroup)
         {
             index = indexLocation;
             bindings = ReadRelationGroup(bindingGroup);
-            predicted = predictedLocation;
+            predicted = elements[2];
             residue = elements[3];
             unboundSlots = ReadElementGroup(unboundGroup);
             return true;
@@ -90,7 +106,7 @@ public static class EquationPatternInspection
 
         index = default;
         bindings = [];
-        predicted = default;
+        predicted = default!;
         residue = default!;
         unboundSlots = [];
         return false;
@@ -103,19 +119,12 @@ public static class EquationPatternInspection
         Relation prediction,
         IReadOnlyList<IElement> unboundSlots)
     {
-        var predicted = prediction.Left is CarrierLocation location
-            ? location
-            : new CarrierLocation(Carrier.Unknown, 0);
-        var residue = prediction.Left is CarrierLocation
-            ? prediction.Right
-            : prediction;
-
         return Relation.OrderedGroup(
             new Carrier(),
             Relation.Point(index, sampleIndex),
             BindingGroup(bindings),
-            predicted,
-            residue,
+            prediction.Left,
+            prediction.Right,
             ElementGroup(unboundSlots));
     }
 

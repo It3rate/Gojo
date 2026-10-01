@@ -28,13 +28,10 @@ public static class ConceptDefinitionInterchangeJson
             throw new InvalidOperationException("The supplied element is not a concept definition ledger.");
         }
 
-        var labels = ReadDefinitionLabels(graph);
-        var carriers = ReadStructuralCarriers(graph);
         return new ConceptDefinitionInterchangeDocument
         {
-            SourceId = sourceId,
-            Carriers = [.. carriers.Values],
-            Definitions = [.. graph.Nodes.Select(node => DefinitionFromNode(graph, labels, carriers, node))]
+            Version = 2, SourceId = sourceId,
+            Structure = GojoStructureCompactJson.FromElement(sourceId, ledger)
         };
     }
 
@@ -46,6 +43,19 @@ public static class ConceptDefinitionInterchangeJson
     public static ConceptDefinitionInterchangeLedger ToLabeledLedger(ConceptDefinitionInterchangeDocument document)
     {
         ArgumentNullException.ThrowIfNull(document);
+
+        if (document.Version == 2 && document.Structure is not null)
+        {
+            var restored = GojoStructureCompactJson.ToElement(document.Structure);
+            if (restored.Root is not Relation ledger || !ConceptDefinitionDiscoverySurface.TryReadLedger(ledger, out var graph))
+                throw new InvalidOperationException("Archived structure is not a definition ledger.");
+            return new ConceptDefinitionInterchangeLedger(ledger,
+                graph.Nodes.GroupBy(node => node.Name).ToDictionary(group => group.Key,
+                    group => (IReadOnlyList<Relation>)group.Select(node => node.Definition).ToArray(), StringComparer.Ordinal),
+                new Dictionary<Relation, string>(ReferenceEqualityComparer.Instance),
+                ReadStructuralCarriers(graph));
+        }
+        if (document.Version != 0) throw new NotSupportedException($"Unknown definition archive version {document.Version}.");
 
         var carriers = document.Carriers.ToDictionary(name => name, _ => new Carrier(), StringComparer.Ordinal);
         var nameCarrier = new Carrier();
@@ -140,18 +150,6 @@ public static class ConceptDefinitionInterchangeJson
         JsonSerializer.Deserialize<ConceptDefinitionInterchangeDocument>(json, JsonOptions) ??
         throw new InvalidOperationException("Could not deserialize concept definition interchange JSON.");
 
-    private static Dictionary<Relation, string> ReadDefinitionLabels(
-        ConceptDefinitionDiscoverySurface.DefinitionGraph graph)
-    {
-        var labels = new Dictionary<Relation, string>(ReferenceEqualityComparer.Instance);
-        foreach (var node in graph.Nodes)
-        {
-            labels.Add(node.Definition, node.Name);
-        }
-
-        return labels;
-    }
-
     private static Dictionary<Carrier, string> ReadStructuralCarriers(
         ConceptDefinitionDiscoverySurface.DefinitionGraph graph)
     {
@@ -235,152 +233,6 @@ public static class ConceptDefinitionInterchangeJson
 
             carriers.Add(carrier, carriers.Count == 0 ? "axis" : $"carrier-{carriers.Count + 1}");
         }
-    }
-
-    private static ConceptDefinitionInterchangeDefinition DefinitionFromNode(
-        ConceptDefinitionDiscoverySurface.DefinitionGraph graph,
-        IReadOnlyDictionary<Relation, string> ids,
-        IReadOnlyDictionary<Carrier, string> carriers,
-        ConceptDefinitionDiscoverySurface.DefinitionNode node) =>
-        new()
-        {
-            Id = ids[node.Definition],
-            Body = BodyFromElement(ids, carriers, node.Read.Body),
-            DependsOn = [.. graph.DependenciesOf(node).Select(dependency => ids[dependency.Definition])],
-            ResidueOrTension = ResidueText(node.Read.ResidueOrTension)
-        };
-
-    private static ConceptDefinitionInterchangeBody BodyFromElement(
-        IReadOnlyDictionary<Relation, string> ids,
-        IReadOnlyDictionary<Carrier, string> carriers,
-        IElement element)
-    {
-        if (element is Relation definitionReference &&
-            ids.TryGetValue(definitionReference, out var definitionId))
-        {
-            return new ConceptDefinitionInterchangeBody
-            {
-                Kind = "definitionRef",
-                Selected = definitionId
-            };
-        }
-
-        if (element is Relation witness &&
-            ReadWitness.TryRead(
-                witness,
-                out var selected,
-                out var readSurface,
-                out var result,
-                out var residueOrTension,
-                out var provenance) &&
-            selected is Relation selectedDefinition &&
-            readSurface is Relation contextDefinition &&
-            ids.TryGetValue(selectedDefinition, out var selectedId) &&
-            ids.TryGetValue(contextDefinition, out var contextId))
-        {
-            var provenanceId = provenance is Relation provenanceDefinition &&
-                ids.TryGetValue(provenanceDefinition, out var foundProvenance)
-                    ? foundProvenance
-                    : null;
-            return new ConceptDefinitionInterchangeBody
-            {
-                Kind = "projection",
-                Selected = selectedId,
-                Context = contextId,
-                ResultText = TextOrDebug(result),
-                ResidueOrTension = ResidueText(residueOrTension),
-                Provenance = provenanceId
-            };
-        }
-
-        if (element is Relation generalWitness &&
-            ReadWitness.TryRead(
-                generalWitness,
-                out var witnessSelected,
-                out var witnessReadSurface,
-                out var witnessResult,
-                out var witnessResidueOrTension,
-                out var witnessProvenance) &&
-            witnessSelected is Relation witnessSelectedDefinition &&
-            ids.TryGetValue(witnessSelectedDefinition, out var witnessSelectedId))
-        {
-            var provenanceId = witnessProvenance is Relation provenanceDefinition &&
-                ids.TryGetValue(provenanceDefinition, out var foundProvenance)
-                    ? foundProvenance
-                    : null;
-            return new ConceptDefinitionInterchangeBody
-            {
-                Kind = "witness",
-                Selected = witnessSelectedId,
-                ReadSurface = BodyFromElement(ids, carriers, witnessReadSurface),
-                Result = BodyFromElement(ids, carriers, witnessResult),
-                ResidueOrTension = ResidueText(witnessResidueOrTension),
-                Provenance = provenanceId
-            };
-        }
-
-        if (TryReadSegment(element, out var carrier, out var start, out var end))
-        {
-            return new ConceptDefinitionInterchangeBody
-            {
-                Kind = "segment",
-                Carrier = carriers[CanonicalCarrier(carrier)],
-                Face = carrier.IsInverse ? "inverse" : null,
-                Start = start,
-                End = end
-            };
-        }
-
-        if (element is Relation directedSegment &&
-            directedSegment.TryReadDirectedSegment(out var inverseStart, out var positiveEnd))
-        {
-            return new ConceptDefinitionInterchangeBody
-            {
-                Kind = "directedSegment",
-                Carrier = carriers[positiveEnd.Carrier],
-                Start = inverseStart.Ticks,
-                End = positiveEnd.Ticks
-            };
-        }
-
-        if (TryReadPoint(element, out var point))
-        {
-            return new ConceptDefinitionInterchangeBody
-            {
-                Kind = "point",
-                Carrier = carriers[CanonicalCarrier(point.Carrier)],
-                Face = point.Carrier.IsInverse ? "inverse" : null,
-                Ticks = point.Ticks
-            };
-        }
-
-        if (EncodedTextSurface.TryRead(element, out var text))
-        {
-            return new ConceptDefinitionInterchangeBody { Kind = "text", Text = text };
-        }
-
-        if (element is Relation group &&
-            EncodedTextSurface.TryReadRootElements(group, out var elements))
-        {
-            return new ConceptDefinitionInterchangeBody
-            {
-                Kind = "group",
-                Elements = [.. elements.Select(item => BodyFromElement(ids, carriers, item))]
-            };
-        }
-
-        if (element is Relation relation)
-        {
-            return new ConceptDefinitionInterchangeBody
-            {
-                Kind = "relation",
-                Left = BodyFromElement(ids, carriers, relation.Left),
-                Right = BodyFromElement(ids, carriers, relation.Right)
-            };
-        }
-
-        throw new NotSupportedException(
-            $"Compact concept definition interchange does not yet support body: {ConceptDefinitionInspection.ElementDebug(element)}");
     }
 
     private static IElement BodyToElement(
@@ -601,16 +453,6 @@ public static class ConceptDefinitionInterchangeJson
         return point;
     }
 
-    private static string? ResidueText(IElement element) =>
-        EncodedTextSurface.IsUnknownPoint(element)
-            ? null
-            : TextOrDebug(element);
-
-    private static string TextOrDebug(IElement element) =>
-        EncodedTextSurface.TryRead(element, out var text)
-            ? text
-            : ConceptDefinitionInspection.ElementDebug(element);
-
     private static bool TryReadPoint(IElement element, out CarrierLocation location)
     {
         if (element is Relation point &&
@@ -634,8 +476,8 @@ public static class ConceptDefinitionInterchangeJson
             left.Carrier.SameIdentityAs(right.Carrier))
         {
             carrier = left.Carrier;
-            start = Math.Min(left.Ticks, right.Ticks);
-            end = Math.Max(left.Ticks, right.Ticks);
+            start = left.Ticks;
+            end = right.Ticks;
             return true;
         }
 
@@ -648,6 +490,10 @@ public static class ConceptDefinitionInterchangeJson
 
 public sealed record ConceptDefinitionInterchangeDocument
 {
+    public int Version { get; init; }
+    /// <summary>Version 2 preserves the actual graph. Legacy definition rows
+    /// remain an authoring/import syntax, not an executable archive.</summary>
+    public GojoCompactStructureDocument? Structure { get; init; }
     public string SourceId { get; init; } = string.Empty;
 
     public List<string> Carriers { get; init; } = [];

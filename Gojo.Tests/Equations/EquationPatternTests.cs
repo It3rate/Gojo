@@ -69,9 +69,8 @@ public sealed class EquationPatternTests
 
         Assert.False(complete);
         Assert.Equal([yInput], unbound);
-        Assert.True(Equation.TryReadPrediction(prediction, out var predicted, out var residue));
-        Assert.Equal(new CarrierLocation(result, 0), predicted);
-        Assert.Contains(yInput, StructuralPattern.ReadSlots(residue));
+        Assert.False(Equation.TryReadPrediction(prediction, out _, out _));
+        Assert.Contains(yInput, StructuralPattern.ReadSlots(prediction.Right));
     }
 
     [Fact]
@@ -129,7 +128,8 @@ public sealed class EquationPatternTests
         Assert.Equal(5, firstBindings.Length);
         Assert.Empty(firstUnbound);
 
-        Assert.True(EquationPatternInspection.TryReadPatternSample(
+        Assert.False(EquationPatternInspection.TryReadPatternSample(samples[1], out _, out _, out _, out _, out _));
+        Assert.True(EquationPatternInspection.TryReadPatternSampleElement(
             samples[1],
             out var secondIndex,
             out var secondBindings,
@@ -137,7 +137,7 @@ public sealed class EquationPatternTests
             out var secondResidue,
             out var secondUnbound));
         Assert.Equal(1, secondIndex.Ticks);
-        Assert.Equal(new CarrierLocation(result, 0), secondPredicted);
+        Assert.IsNotType<CarrierLocation>(secondPredicted);
         Assert.Equal(4, secondBindings.Length);
         Assert.Equal([yInput], secondUnbound);
         Assert.Contains(yInput, StructuralPattern.ReadSlots(secondResidue));

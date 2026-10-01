@@ -518,7 +518,8 @@ public sealed class BoundaryFlowSurfaceTests
         Assert.True(Assert.IsType<Relation>(provenance).TryReadOrderedElementsOn(
             Assert.IsType<Carrier>(((Relation)provenance).Right),
             out var evidence));
-        Assert.Equal(2, evidence.Length);
+        Assert.Equal(3, evidence.Length);
+        Assert.True(BasisReadSurface.TryRead(evidence[0], out _));
     }
 
     [Fact]

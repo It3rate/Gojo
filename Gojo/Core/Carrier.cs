@@ -11,7 +11,7 @@ public sealed partial class Carrier : IElement
 
     private Carrier? inverse;
     private readonly List<Relation> relations = [];
-    private readonly TickRef valueTick = new(0);
+    private TickRef valueTick = new(0);
     private bool settling;
 
     #region Construction and Identity
@@ -59,13 +59,27 @@ public sealed partial class Carrier : IElement
     public bool IsUnknown => Id == 0;
 
     /// <summary>Stable tick meaning for this carrier; value remains mutable.</summary>
-    public UnitShape UnitShape { get; }
+    public UnitShape UnitShape { get; private set; }
 
     /// <summary>Existing opposed face, when it has already been materialized.</summary>
     internal Carrier? ExistingInverse => inverse;
 
     /// <summary>Relations attached to this carrier's local settlement world.</summary>
     internal IReadOnlyList<Relation> AttachedRelations => relations;
+
+    // Used only while reconstructing an unpublished archive graph. Restoring
+    // settled state must not replay input or run settlement a second time.
+    internal void RestoreArchiveState(UnitShape unit, TickRef tick, long tension,
+        Carrier? opposed, IEnumerable<Relation> attachments)
+    {
+        if (IsUnknown) return;
+        UnitShape = unit;
+        valueTick = tick;
+        Tension = tension;
+        inverse = opposed;
+        relations.Clear();
+        relations.AddRange(attachments);
+    }
 
     #endregion
 

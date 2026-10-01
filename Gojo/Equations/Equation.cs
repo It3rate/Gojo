@@ -72,41 +72,8 @@ public static class Equation
     /// <summary>Reads one scalar or relation-shaped input sample through an equation.</summary>
     public static Relation Predict(Relation equation, IElement input, Carrier output)
     {
-        var supplied = input ?? Relation.Point(Carrier.Unknown, 0);
-        var target = RootOrUnknown(output);
-        if (equation is null)
-        {
-            return new Relation(new CarrierLocation(target, 0), supplied);
-        }
-
-        if (EquationPower.TryPredict(equation, supplied, target, out var powerRead))
-        {
-            return powerRead;
-        }
-
-        if (EquationSequence.TryReadSteps(equation, out var steps) && steps.Length != 0)
-        {
-            return EquationSequence.Predict(equation, supplied, target, out _);
-        }
-
-        if (EquationFanout.TryReadBranches(equation, out var branches) && branches.Length != 0)
-        {
-            return EquationFanout.Predict(equation, supplied, out _);
-        }
-
-        if (TryReadConstant(equation, target, supplied, out var constantRead))
-        {
-            return constantRead;
-        }
-
-        if (equation.TryReadOperationFrom(supplied, target, out var operationRead))
-        {
-            return operationRead;
-        }
-
-        return supplied is CarrierLocation location
-            ? ProjectScalar(equation, location, target)
-            : new Relation(new CarrierLocation(target, 0), supplied);
+        TryPredict(equation, input, output, out var prediction);
+        return prediction;
     }
 
     /// <summary>Projects one input sample only when the equation surface accepts it.</summary>
@@ -124,12 +91,12 @@ public static class Equation
         Carrier output,
         out Relation prediction)
     {
-        var supplied = input ?? Relation.Point(Carrier.Unknown, 0);
+        var supplied = input ?? new Placeholder();
         var target = RootOrUnknown(output);
         if (equation is not null &&
             EquationPower.TryPredict(equation, supplied, target, out prediction))
         {
-            return true;
+            return TryReadPrediction(prediction, out _, out _);
         }
 
         if (equation is not null &&
@@ -137,7 +104,7 @@ public static class Equation
             steps.Length != 0)
         {
             prediction = EquationSequence.Predict(equation, supplied, target, out _);
-            return true;
+            return TryReadPrediction(prediction, out _, out _);
         }
 
         if (equation is not null &&
@@ -156,7 +123,7 @@ public static class Equation
             return true;
         }
 
-        prediction = new Relation(new CarrierLocation(target, 0), supplied);
+        prediction = Relation.UnresolvedRead(supplied, (IElement?)equation ?? new Placeholder(), target);
         return false;
     }
 
@@ -185,7 +152,7 @@ public static class Equation
         IElement input,
         Carrier output)
     {
-        var supplied = input ?? Relation.Point(Carrier.Unknown, 0);
+        var supplied = input ?? new Placeholder();
         var prediction = Predict(equation, supplied, output);
         return TryCreatePredictionWitness(root, equation, supplied, prediction, out var witness)
             ? witness
@@ -281,11 +248,6 @@ public static class Equation
 
     private static Carrier RootOrNew(Carrier carrier) =>
         carrier ?? new Carrier();
-
-    private static Relation ProjectScalar(Relation equation, CarrierLocation input, Carrier output) =>
-        equation is null
-            ? new Relation(new CarrierLocation(output, 0), input)
-            : equation.Project(input, output);
 
     private static bool TryReadConstant(
         Relation equation,

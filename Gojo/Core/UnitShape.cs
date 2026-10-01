@@ -42,6 +42,18 @@ public sealed class UnitShape : IEquatable<UnitShape>
     /// <summary>Returns immutable descriptor roots for packed inspection.</summary>
     internal IElement[] DescriptorRoots => descriptors;
 
+    // Archive elements are already isolated from the original world. Copying
+    // them again would sever shared coordinates and descriptor identity.
+    internal static UnitShape FromArchive(IElement surface, IElement[] descriptors) =>
+        new(surface, descriptors, preserveArchiveReferences: true);
+
+    private UnitShape(IElement surface, IElement[] descriptors, bool preserveArchiveReferences)
+    {
+        this.surface = surface;
+        this.descriptors = descriptors;
+        Id = NextId();
+    }
+
     /// <summary>Creates a fresh linear unit atom grounded on a carrier.</summary>
     public static UnitShape Atom(Carrier carrier) =>
         new(Point(carrier, 1));

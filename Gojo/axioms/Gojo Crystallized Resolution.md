@@ -180,3 +180,102 @@ The next code step is to keep coarse unit shapes connected to workspace
 supplied-slot witnesses, then make inverse unit participation and cancellation
 explicit so per-style products can derive both their dominant basis and their
 surviving result kind.
+
+## 7. Exact Local Arithmetic Is Conditional
+
+Exactness belongs to a read under an agreed category, basis, operating scope,
+and supplied evidence. Zero arithmetic remainder does not establish that the
+source has no finer structure, uncertainty, or excluded participation. Counting
+ordinary apples relies on the selected category; adding nominal resistor values
+relies on their operating conditions and tolerances. Those restrictions should
+be traversable relations when they matter, not invisible metadata assumptions.
+
+Reading 100/200 as 1/2 preserves its proportional amount but reduces the visible
+resolution. A later read relying on that finer evidence needs the source basis
+and evidence, or must remain unresolved. A deliberately coarse read need not
+retain or propagate every discarded distinction. Enlarging a display basis cannot manufacture
+the evidence for 100/200, much less 1000/2000. Recovering a recorded finer source
+is different from guessing at a finer source that was never supplied.
+
+Separate connected reads can express:
+
+- the amount and its acquisition/display bases;
+- a variation interval or uncertainty amount with its own basis and calibration;
+- interpreted versus uninterpreted coverage of a selected source;
+- the operating scope under which the local arithmetic applies;
+- excluded participation, read residue, and unsettled transfer.
+
+Tension is excluded from a particular local settlement/read, not permission to
+erase it. Other connected readers may interpret or settle that participation.
+Known overflow is not automatically epistemic uncertainty; the relation to the
+source and the receiving basis determines its role. A sensor read of 20/100
+understood packets and a 3000/4000 light measurement on that selection cannot
+be collapsed to a fraction of total emitted energy without further calibration.
+
+`QualifiedReadSurface` now supplies a small executable foothold using ordinary
+read witnesses. Basis changes retain the source structure, scope, coverage and
+excluded participation. Bounds round outward at a coarser display grid.
+Addition/subtraction require an explicitly shared basis, propagate declared
+intervals, and retain both inputs. Reusing the same observation preserves that
+dependency, so its subtraction from itself has a zero local interval while
+its source conditions remain attached. Separate reads with correlated lower
+sources are conservatively enclosed; general dependency inference is not yet
+implemented. Statistical calibration, nonlinear uncertainty propagation, and
+automatic inference of category/operating limits remain separate work.
+
+Empty bases and missing inputs remain structure. They must not become measured
+zero or a guessed operand. A claim's scalar violation is usable as a resolved
+comparison only when its local face alignment and residual support that read.
+
+## 8. Preservation Through Saving
+
+Version 2 graph archives preserve endpoint order, inverse-pair identity, shared
+tick references, value-slot identity, unit descriptors, placeholders, accounting
+state, carrier-local attachment order, and relative creation order used to
+allocate competing settlement routes. Reload wires the graph without
+replaying input or settling it again. Session-local numeric ids are remapped;
+their relationships and identities inside the restored graph are retained.
+
+Definition-ledger export uses that graph representation as its authoritative
+body. Legacy hand-authored definition rows remain an import syntax. Legacy
+folded graph files remain readable, but missing source evidence is exposed by
+the reload result's unresolved residue. Already sorted endpoints and severed
+identities cannot be reconstructed without an earlier source or remeasurement.
+
+The broader representation costs more than the old lossy shorthand. Any later
+compression must preserve the same executable and relational distinctions.
+
+Required archive state and graph fields cannot default to zero when absent.
+`TryToElement` returns an unresolved import witness containing the supplied
+archive and its gaps; it does not activate a guessed settlement world. Legacy
+files remain a partial import, even when their recorded values can be read.
+
+## 9. Calculation Before Retention
+
+The default is structure responding to current input. Memory is an explicit
+optimization or a modeled dynamic effect, not the source of an answer obtained
+by looking up a previously computed value. Retained structure can be activated
+again by new input; the resulting participation is a new read.
+
+Qualified addition, subtraction, reframing and separation retain their input
+connections and calculation surfaces, including when the inputs are currently
+unresolved. No derived numeric answer is installed in these circuits. Their
+local readers calculate from the current connected inputs and declared bounds.
+Ordinary inspection sees the open result slot and calculation, not a cached
+answer. `TryReadSeparation` evaluates a separation circuit in the same way.
+Returned numeric values and proof structures are observations of that call;
+they must not be treated as live output after inputs change. Explicit archives
+preserve the circuit and its input state so it can respond again after reload.
+
+This implementation is evaluation on demand. It does not yet implement a
+continuous simulation, temporal decay, coherent concurrent sampling, adaptive
+retention, or pressure-driven refinement. Scope and coverage stay connected;
+their operating restrictions are not automatically inferred or enforced.
+
+A coarse on/off read can be sufficient under its threshold and operating scope.
+Finer brightness or heat distinctions need not travel with that local result as
+uncertainty. If a later demand needs unavailable detail, it must remain unmet
+until further evidence or calculation supports it. That unmet demand may later
+drive retention, routing, or renewed measurement; the current implementation
+does not yet decide those policies. New measurement cannot establish discarded
+detail about a past event.

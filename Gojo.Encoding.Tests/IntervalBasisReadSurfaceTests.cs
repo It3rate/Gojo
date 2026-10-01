@@ -126,8 +126,12 @@ public sealed class IntervalBasisReadSurfaceTests
         var reread = GojoStructureCompactJson.Deserialize(fixture);
         var rewritten = GojoStructureCompactJson.Serialize(reread);
 
-        AssertJsonEquivalent(fixture, generated);
-        AssertJsonEquivalent(generated, rewritten);
+        // The checked-in fixture exercises the legacy folded format. New
+        // archives retain graph identities that format could not represent.
+        AssertJsonEquivalent(fixture, rewritten);
+        var archive = GojoStructureCompactJson.Deserialize(generated);
+        Assert.Equal(2, archive.Version);
+        AssertReloadedSpatialStartAlternatives(archive);
         Assert.InRange(reread.Counts.Carriers, 1, 11);
         Assert.InRange(reread.Counts.Nodes, 1, 90);
         Assert.Equal(39, reread.Counts.Groups);

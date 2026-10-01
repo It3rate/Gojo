@@ -4,12 +4,18 @@ public sealed partial class Relation
 {
     #region Projection and Ports
 
-    /// <summary>Projects a location through this relation, falling back to zero plus residue.</summary>
+    /// <summary>Retains an unfulfilled read, its input, requested surface and
+    /// output connection without supplying a scalar answer.</summary>
+    public static Relation UnresolvedRead(IElement input, IElement surface, Carrier reader) =>
+        new(new Relation(new Placeholder(), reader), new Relation(surface, input));
+
+    /// <summary>Projects a location through this relation; an incompatible
+    /// projection remains an unresolved read rather than numeric zero.</summary>
     public Relation Project(CarrierLocation location, Carrier reader)
     {
         return TryProject(location, reader, out var projected)
             ? projected
-            : ProjectionResult(new CarrierLocation(reader, 0), location);
+            : UnresolvedRead(location, this, reader);
     }
 
     /// <summary>Projects only when this relation surface accepts source and reader frames.</summary>
@@ -20,7 +26,7 @@ public sealed partial class Relation
             return true;
         }
 
-        projected = ProjectionResult(new CarrierLocation(reader, 0), location);
+        projected = UnresolvedRead(location, this, reader);
         return false;
     }
 
@@ -266,7 +272,12 @@ public sealed partial class Relation
         var targetBasis = target.Extent;
         if (sourceBasis == 0 || targetBasis == 0)
         {
-            return ProjectionResult(new CarrierLocation(reader, 0), location);
+            // Keep the absent calibration even for zero input. A zero residue
+            // alone cannot distinguish an empty basis from measured zero.
+            return new Relation(new CarrierLocation(reader, 0),
+                Relation.OrderedGroup(new Carrier(), location,
+                    Segment(source.Carrier, source.Start, source.End),
+                    Segment(target.Carrier, target.Start, target.End)));
         }
 
         var relativeTicks = checked(location.Ticks - source.Start);

@@ -56,7 +56,7 @@ public static class EquationSequence
         if (!TryReadSteps(sequence, out var steps) || steps.Length == 0)
         {
             stepReads = [];
-            return new Relation(new CarrierLocation(RootOrUnknown(output), 0), input ?? Relation.Point(Carrier.Unknown, 0));
+            return Relation.UnresolvedRead(input ?? new Placeholder(), sequence, RootOrUnknown(output));
         }
 
         var current = input ?? Relation.Point(Carrier.Unknown, 0);
@@ -82,7 +82,7 @@ public static class EquationSequence
 
         return Equation.TryReadPrediction(stepReads[^1], out var final, out _)
             ? new Relation(final, ReadResidueGroup(stepReads))
-            : new Relation(new CarrierLocation(RootOrUnknown(output), 0), ReadResidueGroup(stepReads));
+            : Relation.UnresolvedRead(ReadResidueGroup(stepReads), sequence, RootOrUnknown(output));
     }
 
     /// <summary>

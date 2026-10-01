@@ -404,6 +404,7 @@ public static class IntervalFocusSettlementSurface
             TryReadSegment(elements[2], out var flowCarrier, out var flowStart, out var flowEnd) &&
             current.Carrier.SameIdentityAs(proposed.Carrier) &&
             flowCarrier.SameIdentityAs(current.Carrier) &&
+            ((Relation)elements[2]).FlowOn(current.Carrier).Ticks == proposed.Ticks - current.Ticks &&
             flowStart == Math.Min(current.Ticks, proposed.Ticks) &&
             flowEnd == Math.Max(current.Ticks, proposed.Ticks))
         {

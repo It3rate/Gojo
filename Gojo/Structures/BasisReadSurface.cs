@@ -118,7 +118,7 @@ public static class BasisReadSurface
                 out var selected,
                 out var axisOrFaceSurface,
                 out var laneBasis,
-                out _,
+                out var metricEvidence,
                 out var residueOrTension,
                 out var provenance))
         {
@@ -128,7 +128,7 @@ public static class BasisReadSurface
                 axisOrFaceSurface,
                 laneBasis,
                 residueOrTension,
-                provenance);
+                Relation.OrderedGroup(new Carrier(), basisRead, metricEvidence, provenance));
             return true;
         }
 

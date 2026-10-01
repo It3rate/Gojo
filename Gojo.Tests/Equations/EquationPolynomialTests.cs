@@ -120,8 +120,7 @@ public sealed class EquationPolynomialTests
         Assert.Equal(2, stepReads.Length);
         Assert.True(EquationFanout.TryReadPrediction(stepReads[0], out var terms, out _));
         Assert.Equal(new[] { 1L, 2L, 4L, 8L }, terms.Cast<CarrierLocation>().Select(term => term.Ticks).ToArray());
-        Assert.True(Equation.TryReadPrediction(prediction, out var predicted, out var residue));
-        Assert.Equal(new CarrierLocation(output, 0), predicted);
-        Assert.IsType<Relation>(residue);
+        Assert.False(Equation.TryReadPrediction(prediction, out _, out _));
+        Assert.IsType<Relation>(prediction.Right);
     }
 }

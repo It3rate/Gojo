@@ -9,6 +9,19 @@ namespace Gojo.Structures;
 /// </summary>
 public static class OperationClaim
 {
+    /// <summary>Reads a scalar violation only after the local comparison has
+    /// settled on an aligned face. A quiet magnitude on an unresolved claim
+    /// is not evidence for truth.</summary>
+    public static bool TryReadResolvedViolation(Relation claim, out CarrierLocation magnitude)
+    {
+        if (TryRead(claim, out var surface, out var residual, out var violation, out _, out var value, out var residue) &&
+            TryReadFaceLocation(surface.Left, out var left) && !left.Carrier.IsUnknown &&
+            TryReadFaceLocation(surface.Right, out var right) && !right.Carrier.IsUnknown &&
+            residual is CarrierLocation && violation is CarrierLocation &&
+            residue is CarrierLocation remainder && remainder.Ticks == 0)
+        { magnitude = value; return true; }
+        magnitude = default; return false;
+    }
     /// <summary>Claims that an actual value equals an expected value.</summary>
     public static Relation Equality(Carrier root, IElement actual, IElement expected, Carrier residual) =>
         Build(root, actual, expected, residual, EqualityViolation, preserveOpposedViolation: true);

@@ -35,13 +35,18 @@ public static class EquationPattern
 
         unboundSlots = DistinctSlots(equationUnbound, inputUnbound);
 
-        if (equationElement is Relation equation)
+        if (equationComplete && inputComplete && equationElement is Relation equation)
         {
-            prediction = Equation.Predict(equation, input, output);
-            return equationComplete && inputComplete;
+            return Equation.TryPredict(equation, input, output, out prediction);
         }
 
-        prediction = new Relation(new CarrierLocation(output ?? Carrier.Unknown, 0), input);
+        // An unbound descriptor is source structure, not an operand magnitude.
+        // Keep the target connection and complete pending calculation together;
+        // the result side remains non-scalar until the needed roles are bound.
+        prediction = new Relation(
+            new Relation(UnitShape.DescriptorSlot(0), output ?? Carrier.Unknown),
+            Relation.OrderedGroup(new Carrier(), equationElement, input,
+                Relation.OrderedGroup(new Carrier(), unboundSlots)));
         return false;
     }
 

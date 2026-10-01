@@ -12,6 +12,13 @@ public sealed partial class Relation
     /// <summary>Swaps traversal order without changing either side's duality.</summary>
     public Relation Reverse() => new(Right, Left);
 
+    // Wire unpublished archive shells after every graph identity exists.
+    internal void RestoreArchiveSides(IElement left, IElement right)
+    {
+        Left = left;
+        Right = right;
+    }
+
     /// <summary>Returns the structural dual as an element.</summary>
     IElement IElement.Dual() => Dual();
 
@@ -205,16 +212,20 @@ public sealed partial class Relation
         Carrier holder,
         List<IElement> participants)
     {
-        if (TryReadAdditiveAttachment(element, holder, out var participant))
+        var pending = new Stack<(IElement Element, bool Leaving)>();
+        var active = new HashSet<Relation>(ReferenceEqualityComparer.Instance);
+        pending.Push((element, false));
+        while (pending.TryPop(out var next))
         {
-            participants.Add(participant);
-            return;
-        }
-
-        if (element is Relation relation)
-        {
-            CollectAdditiveParticipants(relation.Left, holder, participants);
-            CollectAdditiveParticipants(relation.Right, holder, participants);
+            if (next.Leaving) { active.Remove((Relation)next.Element); continue; }
+            if (TryReadAdditiveAttachment(next.Element, holder, out var participant))
+            { participants.Add(participant); continue; }
+            if (next.Element is not Relation relation) continue;
+            if (!active.Add(relation))
+            { participants.Add(relation); continue; } // Retain an unexpanded cycle.
+            pending.Push((relation, true));
+            pending.Push((relation.Right, false));
+            pending.Push((relation.Left, false));
         }
     }
 

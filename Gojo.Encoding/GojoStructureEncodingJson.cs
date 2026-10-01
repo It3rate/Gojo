@@ -50,6 +50,12 @@ public static class GojoStructureEncodingJson
             CarrierLocations = [.. read.CarrierLocations.Select(ReadCarrierLocationRow)],
             Relations = [.. read.Relations.Select(ReadRelationRow)],
             UnitShapes = [.. read.UnitShapes.Select(ReadUnitShapeRow)],
+            Placeholders = read.Placeholders.Length == 0 ? null : read.Placeholders.Select(element =>
+            {
+                if (!GojoStructureEncodingSurface.TryReadPlaceholderRow(element, out var p))
+                    throw new InvalidOperationException("Invalid placeholder row.");
+                return new GojoEncodingJsonPlaceholderRow { Id = LocalId(p.Index), Slot = LocalId(p.SlotIndex), IsInverse = TrueOrNull(p.IsInverse) };
+            }).ToList(),
             OpenedStructure = DescribeElement(read.OpenedStructure),
             ResidueOrTension = DescribeElement(read.ResidueOrTension)
         };
@@ -489,7 +495,8 @@ public static class GojoStructureEncodingJson
         new() { Id = LocalId(row.Index), Left = ToJson(row.Left), Right = ToJson(row.Right) };
 
     private static GojoEncodingJsonUnitShapeRow ToJson(GojoStructureEncodingSurface.EncodedUnitShapeRow row) =>
-        new() { Id = LocalId(row.Index), Surface = ToJson(row.Surface) };
+        new() { Id = LocalId(row.Index), Surface = ToJson(row.Surface),
+            Descriptors = row.Descriptors.Length == 0 ? null : row.Descriptors.Select(ToJson).ToList() };
 
     private static GojoEncodingJsonStructureCounts CountsOf(GojoEncodingJsonStructure structure) =>
         new()
@@ -612,6 +619,7 @@ public sealed record GojoEncodingJsonFixtureDefinition
 
 public sealed record GojoEncodingJsonStructure
 {
+    public List<GojoEncodingJsonPlaceholderRow>? Placeholders { get; init; }
     public string SourceId { get; init; } = string.Empty;
 
     public GojoEncodingJsonStructureCounts Counts { get; set; } = new();
@@ -795,7 +803,15 @@ public sealed record GojoEncodingJsonRelationRow
 
 public sealed record GojoEncodingJsonUnitShapeRow
 {
+    public List<GojoEncodingJsonElementRef>? Descriptors { get; init; }
     public long Id { get; init; }
 
     public GojoEncodingJsonElementRef Surface { get; init; } = new();
+}
+
+public sealed record GojoEncodingJsonPlaceholderRow
+{
+    public long Id { get; init; }
+    public long Slot { get; init; }
+    public bool? IsInverse { get; init; }
 }

@@ -64,9 +64,10 @@ public sealed class EquationSequenceTests
         var prediction = EquationSequence.Predict(sequence, supplied, output, out var stepReads);
 
         Assert.Empty(stepReads);
-        Assert.True(Equation.TryReadPrediction(prediction, out var final, out var residue));
-        Assert.Equal(new CarrierLocation(output, 0), final);
-        Assert.Equal(supplied, residue);
+        Assert.False(Equation.TryReadPrediction(prediction, out _, out _));
+        var residue = Assert.IsType<Relation>(prediction.Right);
+        Assert.Same(sequence, residue.Left);
+        Assert.Equal(supplied, residue.Right);
     }
 
     [Fact]

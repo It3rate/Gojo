@@ -21,7 +21,10 @@ public static class GojoStructureEncodingSurface
         IElement[] Relations,
         IElement[] UnitShapes,
         IElement OpenedStructure,
-        IElement ResidueOrTension);
+        IElement ResidueOrTension)
+    {
+        public IElement[] Placeholders { get; init; } = [];
+    }
 
     public readonly record struct EncodedStructureRef(long Kind, long Index)
     {
@@ -54,7 +57,12 @@ public static class GojoStructureEncodingSurface
     public readonly record struct EncodedUnitShapeRow(
         long Index,
         long Id,
-        EncodedStructureRef Surface);
+        EncodedStructureRef Surface)
+    {
+        public EncodedStructureRef[] Descriptors { get; init; } = [];
+    }
+
+    public readonly record struct EncodedPlaceholderRow(long Index, long SlotIndex, bool IsInverse);
 
     public static Relation CreateDiagnosticSnapshot(
         Carrier root,
@@ -124,7 +132,8 @@ public static class GojoStructureEncodingSurface
                 relations,
                 unitShapes,
                 elements[7],
-                elements[8]);
+                elements[8])
+            { Placeholders = elements.Length > 9 && TryReadFrame(elements[9], out var slots) ? slots : [] };
             return true;
         }
 
@@ -235,12 +244,24 @@ public static class GojoStructureEncodingSurface
             TryReadNumber(row[1], out var id) &&
             TryReadRef(row[2], out var surface))
         {
-            unitShape = new EncodedUnitShapeRow(index, id, surface);
+            var descriptors = new List<EncodedStructureRef>();
+            if (row.Length > 3 && TryReadFrame(row[3], out var references))
+                foreach (var reference in references)
+                    if (TryReadRef(reference, out var descriptor)) descriptors.Add(descriptor);
+            unitShape = new EncodedUnitShapeRow(index, id, surface) { Descriptors = [.. descriptors] };
             return true;
         }
 
         unitShape = default;
         return false;
+    }
+
+    public static bool TryReadPlaceholderRow(IElement element, out EncodedPlaceholderRow placeholder)
+    {
+        if (TryReadRow(element, out var row) && row.Length == 3 &&
+            TryReadNumber(row[0], out var index) && TryReadNumber(row[1], out var slot) && TryReadNumber(row[2], out var inverse))
+        { placeholder = new(index, slot, inverse != 0); return true; }
+        placeholder = default; return false;
     }
 
     private static Relation CreateFromSnapshot(
@@ -259,7 +280,8 @@ public static class GojoStructureEncodingSurface
             Frame(snapshot.Relations.Select(EncodeRelationRow)),
             Frame(snapshot.UnitShapes.Select(EncodeUnitShapeRow)),
             openedStructure,
-            residueOrTension ?? EncodedTextSurface.UnknownPoint());
+            residueOrTension ?? EncodedTextSurface.UnknownPoint(),
+            Frame(snapshot.Placeholders.Select(p => Row(Number(p.Index), Number(p.SlotIndex), Number(p.IsInverse ? 1 : 0)))));
 
     private static Relation EncodeRef(GojoEncodedElementRef reference) =>
         Row(Number((long)reference.Kind), Number(reference.Index));
@@ -298,7 +320,8 @@ public static class GojoStructureEncodingSurface
         Row(
             Number(unitShape.Index),
             Number(ToSigned(unitShape.Id)),
-            EncodeRef(unitShape.Surface));
+            EncodeRef(unitShape.Surface),
+            Frame(unitShape.Descriptors.Select(EncodeRef)));
 
     private static Relation Frame(IEnumerable<IElement> elements) =>
         Relation.OrderedGroup(new Carrier(), [.. elements]);

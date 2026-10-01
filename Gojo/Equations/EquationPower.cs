@@ -57,14 +57,14 @@ public static class EquationPower
                 out var surfaceOutput))
         {
             repeatRead = power ?? Relation.Point(Carrier.Unknown, 0);
-            return new Relation(new CarrierLocation(RootOrUnknown(output), 0), input);
+            return Relation.UnresolvedRead(input, (IElement?)power ?? new Placeholder(), RootOrUnknown(output));
         }
 
         var outputCarrier = surfaceOutput.IsUnknown ? RootOrUnknown(output) : surfaceOutput;
         if (!TryReadResolvedExponent(controller, input, out var exponent, out var controllerEvidence))
         {
             repeatRead = power;
-            return new Relation(new CarrierLocation(outputCarrier, 0), input);
+            return Relation.UnresolvedRead(input, power, outputCarrier);
         }
 
         var inputCarrier = input.Carrier;
@@ -150,7 +150,7 @@ public static class EquationPower
 
         var target = surfaceOutput.IsUnknown ? RootOrUnknown(output) : surfaceOutput;
         repeatRead = power;
-        prediction = new Relation(new CarrierLocation(target, 0), input ?? Relation.Point(Carrier.Unknown, 0));
+        prediction = Relation.UnresolvedRead(input ?? new Placeholder(), power, target);
         return true;
     }
 

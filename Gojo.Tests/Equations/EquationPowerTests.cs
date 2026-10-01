@@ -309,9 +309,10 @@ public sealed class EquationPowerTests
             output,
             out var repeatRead);
 
-        Assert.True(Equation.TryReadPrediction(prediction, out var predicted, out var residue));
-        Assert.Equal(new CarrierLocation(output, 0), predicted);
-        Assert.Equal(new CarrierLocation(x, 3), residue);
+        Assert.False(Equation.TryReadPrediction(prediction, out _, out _));
+        var residue = Assert.IsType<Relation>(prediction.Right);
+        Assert.Same(power, residue.Left);
+        Assert.Equal(new CarrierLocation(x, 3), residue.Right);
         Assert.Equal(power, repeatRead);
     }
 

@@ -69,7 +69,11 @@ public sealed class BasisReadSurfaceTests
         Assert.Equal(axis, readSurface);
         Assert.Equal(laneBasis, result);
         Assert.Equal(residue, residueOrTension);
-        Assert.Equal(provenance, witnessedProvenance);
+        var retained = Assert.IsType<Relation>(witnessedProvenance);
+        Assert.True(retained.TryReadOrderedElementsOn((Carrier)retained.Right, out var evidence));
+        Assert.Same(read, evidence[0]);
+        Assert.Equal(Relation.Point(selected, 4), evidence[1]);
+        Assert.Same(provenance, evidence[2]);
     }
 
     [Fact]

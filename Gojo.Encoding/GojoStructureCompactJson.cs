@@ -1,4 +1,3 @@
-using System.Text;
 using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -7,9 +6,9 @@ using Gojo.Core;
 namespace Gojo.Encoding;
 
 /// <summary>
-/// Folded JSON view of a Gojo element graph. Unlike the diagnostic row table,
-/// this keeps common structural forms compact: ordered groups carry a single
-/// frame plus element refs, and points/segments are single nodes.
+/// Versioned reference graph transport. Version 2 preserves ordered relations,
+/// shared coordinates, unit descriptors, inverse pairing and live attachments.
+/// The legacy folded syntax is readable with explicit missing-evidence residue.
 /// </summary>
 public static class GojoStructureCompactJson
 {
@@ -25,14 +24,24 @@ public static class GojoStructureCompactJson
         IElement root,
         IReadOnlyDictionary<Carrier, string>? carrierLabels = null)
     {
-        var writer = new Writer(sourceId, carrierLabels);
-        return writer.Write(root);
+        return GojoCompactArchive.Capture(sourceId, root, carrierLabels);
     }
 
     public static RehydratedCompactStructure ToElement(GojoCompactStructureDocument document)
     {
-        var reader = new Reader(document);
-        return reader.Read();
+        if (document.Version == 2) return GojoCompactArchive.Restore(document);
+        if (document.Version != 0) throw new NotSupportedException($"Unknown compact graph version {document.Version}.");
+        return new Reader(document).Read() with { ResidueOrTension = UnitShape.DescriptorSlot(0) };
+    }
+
+    /// <summary>Returns true only for a complete executable archive. A failed
+    /// version-2 import returns an unresolved witness containing the supplied
+    /// document and its gaps, never an executable carrier with default state.</summary>
+    public static bool TryToElement(GojoCompactStructureDocument document, out RehydratedCompactStructure restored)
+    {
+        if (document.Version == 2) return GojoCompactArchive.TryRestore(document, out restored);
+        restored = ToElement(document);
+        return false; // Legacy syntax does not contain complete archive evidence.
     }
 
     public static string Serialize(GojoCompactStructureDocument document) =>
@@ -41,186 +50,6 @@ public static class GojoStructureCompactJson
     public static GojoCompactStructureDocument Deserialize(string json) =>
         JsonSerializer.Deserialize<GojoCompactStructureDocument>(json, JsonOptions) ??
         throw new InvalidOperationException("Could not deserialize compact Gojo structure JSON.");
-
-    private sealed class Writer
-    {
-        private readonly string sourceId;
-        private readonly IReadOnlyDictionary<Carrier, string> carrierLabels;
-        private readonly Dictionary<Carrier, string> carriers = new(ReferenceEqualityComparer.Instance);
-        private readonly Dictionary<Relation, string> relations = new(ReferenceEqualityComparer.Instance);
-        private readonly HashSet<string> usedCarrierIds = new(StringComparer.Ordinal);
-        private readonly List<GojoCompactCarrierNode> carrierNodes = [];
-        private readonly List<GojoCompactStructureNode> nodes = [];
-        private int nextNodeIndex;
-
-        public Writer(string sourceId, IReadOnlyDictionary<Carrier, string>? carrierLabels)
-        {
-            this.sourceId = sourceId;
-            this.carrierLabels = carrierLabels ??
-                new Dictionary<Carrier, string>(ReferenceEqualityComparer.Instance);
-        }
-
-        public GojoCompactStructureDocument Write(IElement root)
-        {
-            var rootRef = WriteElement(root);
-            var document = new GojoCompactStructureDocument
-            {
-                SourceId = sourceId,
-                Root = rootRef,
-                Carriers = carrierNodes,
-                Nodes = nodes
-            };
-            document.Counts = CountsOf(document);
-            return document;
-        }
-
-        private string WriteElement(IElement element) =>
-            element switch
-            {
-                Carrier carrier => WriteCarrier(carrier),
-                CarrierLocation location => WriteLocation(location),
-                Relation relation => WriteRelation(relation),
-                _ => throw new NotSupportedException(
-                    $"Compact Gojo structure JSON does not support element {element.GetType().Name}.")
-            };
-
-        private string WriteCarrier(Carrier carrier)
-        {
-            if (carriers.TryGetValue(carrier, out var existing))
-            {
-                return existing;
-            }
-
-            var id = UniqueCarrierId(carrierLabels.TryGetValue(carrier, out var label)
-                ? SlugOf(label)
-                : $"carrier-{carrierNodes.Count + 1}");
-            carriers.Add(carrier, id);
-            carrierNodes.Add(new GojoCompactCarrierNode
-            {
-                Id = id,
-                IsUnknown = carrier.IsUnknown,
-                IsInverse = carrier.IsInverse,
-                Value = NonZero(carrier.Value),
-                Tension = NonZero(carrier.Tension)
-            });
-            return id;
-        }
-
-        private string WriteLocation(CarrierLocation location)
-        {
-            var id = NextNodeId();
-            nodes.Add(new GojoCompactStructureNode
-            {
-                Id = id,
-                Kind = "location",
-                Carrier = WriteCarrier(location.Carrier),
-                Ticks = location.Ticks
-            });
-            return id;
-        }
-
-        private string WriteRelation(Relation relation)
-        {
-            if (relations.TryGetValue(relation, out var existing))
-            {
-                return existing;
-            }
-
-            var id = NextNodeId();
-            relations.Add(relation, id);
-
-            if (TryReadPoint(relation, out var point))
-            {
-                nodes.Add(new GojoCompactStructureNode
-                {
-                    Id = id,
-                    Kind = "point",
-                    Carrier = WriteCarrier(point.Carrier),
-                    Ticks = point.Ticks
-                });
-                return id;
-            }
-
-            if (TryReadSegment(relation, out var carrier, out var start, out var end))
-            {
-                nodes.Add(new GojoCompactStructureNode
-                {
-                    Id = id,
-                    Kind = "segment",
-                    Carrier = WriteCarrier(carrier),
-                    Start = start,
-                    End = end
-                });
-                return id;
-            }
-
-            if (relation.Right is Carrier holder &&
-                relation.TryReadOrderedElementsOn(holder, out var elements))
-            {
-                nodes.Add(new GojoCompactStructureNode
-                {
-                    Id = id,
-                    Kind = "group",
-                    Carrier = WriteCarrier(holder),
-                    Elements = [.. elements.Select(WriteElement)]
-                });
-                return id;
-            }
-
-            nodes.Add(new GojoCompactStructureNode
-            {
-                Id = id,
-                Kind = "relation",
-                Left = WriteElement(relation.Left),
-                Right = WriteElement(relation.Right)
-            });
-            return id;
-        }
-
-        private string UniqueCarrierId(string requested)
-        {
-            if (usedCarrierIds.Add(requested))
-            {
-                return requested;
-            }
-
-            for (var index = 2; ; index++)
-            {
-                var candidate = $"{requested}-{index}";
-                if (usedCarrierIds.Add(candidate))
-                {
-                    return candidate;
-                }
-            }
-        }
-
-        private static string SlugOf(string label)
-        {
-            var builder = new StringBuilder(label.Length);
-            var pendingSeparator = false;
-            foreach (var character in label.Trim())
-            {
-                if (char.IsLetterOrDigit(character))
-                {
-                    if (pendingSeparator && builder.Length > 0)
-                    {
-                        builder.Append('-');
-                    }
-
-                    builder.Append(char.ToLowerInvariant(character));
-                    pendingSeparator = false;
-                }
-                else if (character is '-' or '_' || char.IsWhiteSpace(character))
-                {
-                    pendingSeparator = builder.Length > 0;
-                }
-            }
-
-            return builder.Length == 0 ? "carrier" : builder.ToString();
-        }
-
-        private string NextNodeId() => $"node-{++nextNodeIndex}";
-    }
 
     private sealed class Reader
     {
@@ -237,9 +66,15 @@ public static class GojoStructureCompactJson
 
         public RehydratedCompactStructure Read()
         {
-            foreach (var carrier in document.Carriers)
+            // Legacy files contain state but no inverse links, unit shapes or
+            // shared-coordinate evidence. Restore only what is present.
+            var rows = document.Carriers.Select((c, i) => new GojoEncodedCarrier(i, 0,
+                c.IsInverse, c.IsUnknown, checked((ulong)(c.Value ?? 0)), c.Tension ?? 0, -1, -1)).ToArray();
+            var roots = rows.Select(row => new GojoEncodedElementRef(GojoEncodedElementKind.Carrier, row.Index)).ToArray();
+            var restored = new GojoEncodedSnapshot(roots, rows, [], [], [], []).RestoreRoots();
+            for (var index = 0; index < document.Carriers.Count; index++)
             {
-                carriers.Add(carrier.Id, carrier.IsUnknown ? Carrier.Unknown : new Carrier(carrier.IsInverse));
+                carriers.Add(document.Carriers[index].Id, (Carrier)restored[index]);
             }
 
             return new RehydratedCompactStructure(
@@ -301,61 +136,18 @@ public static class GojoStructureCompactJson
         }
     }
 
-    private static bool TryReadPoint(IElement element, out CarrierLocation location)
-    {
-        if (element is Relation point &&
-            point.Left is CarrierLocation pointLocation &&
-            point.Right is Carrier pointCarrier &&
-            pointLocation.Carrier.SameIdentityAs(pointCarrier))
-        {
-            location = pointLocation;
-            return true;
-        }
-
-        location = default;
-        return false;
-    }
-
-    private static bool TryReadSegment(IElement element, out Carrier carrier, out long start, out long end)
-    {
-        if (element is Relation segment &&
-            TryReadPoint(segment.Left, out var left) &&
-            TryReadPoint(segment.Right, out var right) &&
-            left.Carrier.SameIdentityAs(right.Carrier))
-        {
-            carrier = left.Carrier;
-            start = Math.Min(left.Ticks, right.Ticks);
-            end = Math.Max(left.Ticks, right.Ticks);
-            return true;
-        }
-
-        carrier = Carrier.Unknown;
-        start = 0;
-        end = 0;
-        return false;
-    }
-
-    private static GojoCompactStructureCounts CountsOf(GojoCompactStructureDocument document) =>
-        new()
-        {
-            Carriers = document.Carriers.Count,
-            Nodes = document.Nodes.Count,
-            Points = document.Nodes.Count(node => node.Kind == "point"),
-            Segments = document.Nodes.Count(node => node.Kind == "segment"),
-            Groups = document.Nodes.Count(node => node.Kind == "group"),
-            Relations = document.Nodes.Count(node => node.Kind == "relation"),
-            Locations = document.Nodes.Count(node => node.Kind == "location")
-        };
-
-    private static long? NonZero(long value) => value == 0 ? null : value;
-
-    private static long? NonZero(ulong value) => value == 0 ? null : checked((long)value);
 }
 
-public sealed record RehydratedCompactStructure(string SourceId, IElement Root);
+public sealed record RehydratedCompactStructure(string SourceId, IElement Root)
+{
+    /// <summary>Legacy files cannot establish the identities and qualifications
+    /// discarded by their writer. That missing evidence remains an open slot.</summary>
+    public IElement ResidueOrTension { get; init; } = Relation.Point(Carrier.Unknown, 0);
+}
 
 public sealed record GojoCompactStructureDocument
 {
+    public int Version { get; init; }
     public string SourceId { get; init; } = string.Empty;
 
     public GojoCompactStructureCounts Counts { get; set; } = new();
@@ -378,6 +170,11 @@ public sealed record GojoCompactCarrierNode
     public long? Value { get; init; }
 
     public long? Tension { get; init; }
+
+    public string? UnitShape { get; init; }
+    public string? Inverse { get; init; }
+    public string? ValueTick { get; init; }
+    public List<string>? Attachments { get; init; }
 }
 
 public sealed record GojoCompactStructureCounts
@@ -399,6 +196,7 @@ public sealed record GojoCompactStructureCounts
 
 public sealed record GojoCompactStructureNode
 {
+    public bool IsInverse { get; init; }
     public string Id { get; init; } = string.Empty;
 
     public string Kind { get; init; } = string.Empty;
@@ -416,4 +214,8 @@ public sealed record GojoCompactStructureNode
     public string? Right { get; init; }
 
     public List<string>? Elements { get; init; }
+
+    public string? TickRef { get; init; }
+    public string? Surface { get; init; }
+    public List<string>? Descriptors { get; init; }
 }

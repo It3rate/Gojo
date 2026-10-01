@@ -51,7 +51,7 @@ public sealed class EquationPatternStressTests
         Assert.Equal(expected.Count, samples.Length);
         for (var index = 0; index < samples.Length; index++)
         {
-            Assert.True(EquationPatternInspection.TryReadPatternSample(
+            Assert.True(EquationPatternInspection.TryReadPatternSampleElement(
                 samples[index],
                 out var sampleIndex,
                 out var bindings,
@@ -100,7 +100,8 @@ public sealed class EquationPatternStressTests
         Assert.Equal(frameCount, samples.Length);
         for (var index = 0; index < frameCount; index++)
         {
-            Assert.True(EquationPatternInspection.TryReadPatternSample(
+            Assert.Equal(index % 4 == 0, EquationPatternInspection.TryReadPatternSample(samples[index], out _, out _, out _, out _, out _));
+            Assert.True(EquationPatternInspection.TryReadPatternSampleElement(
                 samples[index],
                 out var sampleIndex,
                 out var bindings,
@@ -119,18 +120,18 @@ public sealed class EquationPatternStressTests
                 case 1:
                     Assert.Equal(6, bindings.Length);
                     Assert.Equal([yInput], unbound);
-                    Assert.Equal(new CarrierLocation(score, 0), predicted);
+                    Assert.IsNotType<CarrierLocation>(predicted);
                     Assert.Contains(yInput, StructuralPattern.ReadSlots(residue));
                     break;
                 case 2:
                     Assert.Equal(6, bindings.Length);
                     Assert.Equal([yPort], unbound);
-                    Assert.Equal(new CarrierLocation(score, 0), predicted);
+                    Assert.IsNotType<CarrierLocation>(predicted);
                     break;
                 case 3:
                     Assert.Equal(6, bindings.Length);
                     Assert.Equal([outputSlot], unbound);
-                    Assert.Equal(new CarrierLocation(score, 0), predicted);
+                    Assert.IsNotType<CarrierLocation>(predicted);
                     break;
             }
         }

@@ -57,7 +57,8 @@ public sealed class GojoStructureEncodingSurfaceTests
         Assert.True(GojoStructureEncodingSurface.TryRead(encoded, out var read));
 
         var relationRows = ReadRelations(read);
-        Assert.Contains(relationRows, row => row.Left.IsNone && row.Right.IsNone);
+        Assert.Contains(relationRows, row => row.Left.Kind == (long)GojoEncodedElementKind.Placeholder && row.Right.Kind == (long)GojoEncodedElementKind.Placeholder);
+        Assert.Equal(2, read.Placeholders.Length);
     }
 
     [Fact]
