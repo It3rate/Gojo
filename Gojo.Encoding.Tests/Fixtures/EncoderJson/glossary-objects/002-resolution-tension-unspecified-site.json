@@ -1,11 +1,15 @@
 {
-  "represents": "The unresolved position remains inspectable instead of becoming a null or exception.",
+  "represents": "Illustrative backing: a concrete site beside an open slot. A constraint connecting that slot to the site's unknown coordinate remains to be constructed.",
   "entryId": "resolution-tension-unspecified-site",
   "expression": "P(?) + Tension(location)",
-  "encodingNote": "The unresolved position remains inspectable instead of becoming a null or exception.",
+  "encodingNote": "Illustrative backing: a concrete site beside an open slot. A constraint connecting that slot to the site's unknown coordinate remains to be constructed.",
   "gojo": {
     "known": [
+      "constraint-or-settlement",
       "position"
+    ],
+    "paths": [
+      "unresolved structure --settlement read--> settled structure + residue"
     ],
     "tension": [
       "unresolved change remains inspectable"

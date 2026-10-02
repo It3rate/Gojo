@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Circle calibration and path offsets · Gojo</title>
+<style>
+:root{color-scheme:light;--paper:#f6f3eb;--ink:#22372f;--muted:#617269;--line:#d8ded2;--green:#24694d;--rust:#aa4e28}*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.6 system-ui,sans-serif}main{max-width:1080px;margin:auto;padding:32px 28px}a{color:var(--green);text-underline-offset:4px}.eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--green)}h1{font:clamp(32px,5vw,46px)/1.15 Georgia,serif;margin:12px 0 18px}.intro{max-width:850px;color:var(--muted)}.stage{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(260px,1fr);border:1px solid var(--line);border-radius:16px;overflow:hidden;background:#fffdf7}.scene{padding:12px;min-width:0}svg{width:100%;height:auto;display:block}svg text{font:13px system-ui,sans-serif;fill:var(--ink)}.caption{font-size:12px;color:var(--muted);padding:4px 12px 10px;min-height:62px}.readout{background:#eff2e9;padding:24px;display:flex;flex-direction:column;justify-content:center;gap:18px}.label{font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:var(--muted)}.value{font:24px/1.4 Georgia,serif;margin-top:5px}.detail,.view-note{font-size:13px;color:var(--muted)}h2{font:25px/1.3 Georgia,serif;margin:0 0 12px}.explanation{padding-top:22px;min-height:170px}.explanation p{max-width:950px;margin:0}.controls,.views{display:flex;align-items:center;gap:12px;margin:18px 0}.views{flex-wrap:wrap}button{background:#fffdf7;border:1px solid var(--line);border-radius:8px;color:var(--ink);font:inherit;padding:8px 14px;cursor:pointer}button:hover:enabled{border-color:var(--green)}button:disabled{opacity:.4;cursor:default}input[type=range]{accent-color:var(--green);flex:1;min-width:30px}.views label{font-size:14px}#position{white-space:nowrap;font-size:13px;color:var(--muted)}details{border-top:1px solid var(--line);padding:16px 0}summary{font-weight:600;cursor:pointer}pre{overflow:auto;max-height:520px;background:#e9eee4;border-radius:10px;padding:18px;font:13px/1.6 ui-monospace,Consolas,monospace}details p,footer{font-size:13px;color:var(--muted)}footer{border-top:1px solid var(--line);padding-top:20px;margin-top:18px;display:flex;flex-wrap:wrap;gap:20px}:focus-visible{outline:3px solid #ba6f36;outline-offset:3px}[hidden]{display:none!important}@media(max-width:650px){main{padding:22px 16px}.stage{grid-template-columns:1fr}.readout{padding:18px;gap:12px}.explanation{min-height:240px}.controls{gap:8px}button{padding:8px 10px}}
+</style>
+</head>
+<body><main>
+<div class="eyebrow">Gojo · Construction examples</div>
+<h1>Circle calibration and path offsets</h1>
+<p class="intro">Three small constructions: calculate a circle’s quarter landmarks, offset a straight segment by a measured distance, and join two offsets within explicit limits.</p>
+<div class="stage"><div class="scene"><svg id="scene" viewBox="0 0 480 380" role="img" aria-label="Circle and offset construction"></svg><div class="caption" id="caption"></div></div>
+<div class="readout" aria-live="polite" aria-atomic="true"><div><div class="label">Supplied</div><div class="detail" id="inputs"></div></div><div><div class="label">Calculated</div><div class="value" id="result"></div></div><div><div class="label">Current boundary</div><div class="detail" id="boundary"></div></div></div></div>
+<div class="views"><button id="mirror" aria-pressed="false">View from the back</button><label id="extensionControl" hidden><input id="extension" type="checkbox"> Allow parameter extension from −1 to 2</label></div>
+<p class="view-note">The drawing uses a chosen view. Viewing from the back mirrors left and right, keeping the viewer’s top and bottom. It changes no construction or measurement.</p>
+<section class="explanation" aria-live="polite" aria-atomic="true"><h2 id="heading"></h2><p id="explanation"></p></section>
+<div class="controls"><button id="prev">← Back</button><input id="step" type="range" min="0" max="7" value="0" aria-label="Construction step"><span id="position"></span><button id="next">Next →</button></div>
+<details><summary>Circle construction syntax</summary><p>The full executable fixture. The host applies the selected reader and binds its calculated surface into the traversal request.</p><pre id="circle-syntax">gojo 1;
+
+// First construct a native circle: point, common offset, radius and actual seam.
+let $origin = point(carrier(), 0);
+let $outward = orthogonal($origin);
+let $contour = crystal($outward);
+let $ray = crystal(orthogonal($origin -&gt; $origin));
+let $start = point($contour, 0);
+let $end = point($contour, 1);
+// Bind actual radius endpoints, rather than separately equal tick values.
+let $radius_start = point($ray, 0);
+let $radius_end = point($ray, 1);
+let $reach = $radius_start -&gt; $radius_end;
+let $attachment = group($origin -&gt; $radius_start, $reach, $radius_end -&gt; $start);
+let $whole = $start -&gt; $end;
+let $circle = group($outward -&gt; ($reach -&gt; $contour), $attachment, $whole, $end -&gt; $start);
+let $fine = carrier(subdivision(unit_of($contour), 360));
+let $partition = group($circle, span($fine, 0, 360) -&gt; $whole);
+
+// A selected local chart and metric, with a common linear measurement unit.
+// This is supplied calibration evidence. The intrinsic circle already exists.
+let $space = carrier();
+let $x = carrier();
+let $y = carrier(unit_of($x));
+let $length = carrier(unit_of($x));
+let $squared = carrier(product_units(unit_of($x), unit_of($x)));
+let $ux = span($x, 0, 1);
+let $uy = span($y, 0, 1);
+let $basis = group_on($space, $ux, $uy);
+let $metric = group($basis, frame(($ux -&gt; $ux) -&gt; at($squared, 1),
+    ($ux -&gt; $uy) -&gt; at($squared, 0), ($uy -&gt; $uy) -&gt; at($squared, 1)));
+let $centre = group_on($space, at($x, 10), at($y, 20));
+let $direction = group_on($space, at($x, 16), at($y, 28));
+let $side = group_on($space, at($x, 10), at($y, 21));
+let $calibration = $reach -&gt; span($length, 0, 5);
+
+// The selected read calculates four rim points. None is authored here.
+// Positive native traversal follows the side relative to the reference ray.
+root group($partition, $metric, $origin -&gt; $centre, $calibration,
+    $centre -&gt; $direction, $centre -&gt; $side);
+
+let $p = group_on($space, at($x, 12), at($y, 20));
+root group_on($space, $p, group_on($space, at($x, 12), at($y, 21)), $p);
+root group(?constructed_surface, ?actual_start_marker, span(carrier(), 0, 1));
+root group(?traversal_witness, ?exposed_points);</pre></details>
+<details><summary>Offset and corner syntax</summary><p>The same two offset requests feed the joined construction. The parameter supports express the selected corner policy.</p><pre id="offset-syntax">gojo 1;
+
+// Inputs in a selected local chart. No world-up direction is implied.
+let $space = carrier();
+let $x = carrier();
+let $y = carrier(unit_of($x));
+let $length = carrier(unit_of($x));
+let $squared = carrier(product_units(unit_of($x), unit_of($x)));
+let $ux = span($x, 0, 1);
+let $uy = span($y, 0, 1);
+let $metric = group(group_on($space, $ux, $uy), frame(
+    ($ux -&gt; $ux) -&gt; at($squared, 1), ($ux -&gt; $uy) -&gt; at($squared, 0),
+    ($uy -&gt; $uy) -&gt; at($squared, 1)));
+let $a = group_on($space, at($x, 0), at($y, 0));
+let $b = group_on($space, at($x, 6), at($y, 0));
+let $c = group_on($space, at($x, 6), at($y, 6));
+let $first = $a -&gt; $b;
+let $second = $b -&gt; $c;
+let $reach = span(carrier(), 0, 1);
+let $calibration = $reach -&gt; span($length, 0, 2);
+let $first_side = $a -&gt; group_on($space, at($x, 0), at($y, 1));
+let $second_side = $b -&gt; group_on($space, at($x, 5), at($y, 0));
+let $offset_a = group($first, $metric, orthogonal($first) -&gt; $calibration, $first_side);
+let $offset_b = group($second, $metric, orthogonal($second) -&gt; $calibration, $second_side);
+root $offset_a;
+root $offset_b;
+
+// A miter is the intersection of the two calculated straight supports.
+// Each source whole has an explicit parameter frame and allowed support.
+// This policy allows trimming inside these segments, but no extrapolation.
+let $t = carrier();
+let $u = carrier();
+let $first_whole = span($t, 0, 1);
+let $second_whole = span($u, 0, 1);
+let $supports = group($first_whole -&gt; $first_whole, $second_whole -&gt; $second_whole);
+root group($offset_a, $offset_b, $supports);
+
+// A distinct policy permits limited extension. It is not an unbounded miter.
+root group($offset_a, $offset_b, group($first_whole -&gt; span($t, -1, 2),
+    $second_whole -&gt; span($u, -1, 2)));</pre></details>
+<details><summary>What is checked, and what is still open?</summary><p>The kernel calculates these results using exact rational arithmetic. Tests check the displayed traces, metric lengths, perpendicularity, native marker connections, shared corner identity, bounded failures and numeric restoration. This page displays those checked traces; it is not a second geometry engine.</p><p>The chart and metric are supplied calibration evidence. The circle bridge currently constructs four quarters. Exact irrational coordinate representation, arbitrary circle fractions, curved offsets, caps and other corner policies remain open. The measured-offset follow-up retains the unfinished square equation and supplies bounds at an explicit resolution. That representation limit is distinct from measurement uncertainty.</p></details>
+<footer><a href="../GojoMetricConstructionFixtures.md">Construction contracts and tests</a><a href="measured-offsets.html">Measured offset refinement</a><a href="contour-rotation.html">Circle before coordinates</a><a href="../GojoPrimitiveConstructionAudit-2026-09.md">Construction audit</a></footer>
+</main>
+<script id="trace" type="application/json">
+{"circle":{"centre":[10,20],"direction":[16,28],"side":[10,21],"rims":[[13,24],[6,23],[7,16],[14,17]],"sourcePoints":[[12,20],[12,21]],"turnedPoints":[[10,22],[9,22]],"squaredRadius":25},"offset":{"source":[[0,0],[6,0],[6,6]],"first":[[0,2],[6,2]],"second":[[4,0],[4,6]],"joint":[4,2],"parameters":[[2,3],[1,3]],"squaredDistance":4,"outerFirst":[[0,-2],[6,-2]],"outerSecond":[[8,0],[8,6]],"outerJoint":[8,-2],"outerParameters":[[4,3],[-1,3]],"outerWholeAccepted":false,"outerExtendedAccepted":true}}
+</script>
+<script>
+'use strict';
+const el=id=>document.getElementById(id),trace=JSON.parse(el('trace').textContent);
+const stages=[
+ ['Start with the native circle','A point, its outward potential, a common reach, a radius attachment and an actual return site form the native circle. Its whole has been partitioned into 360 parts. There is still no coordinate grid or measured circumference in that construction.','Source point, reach and whole subdivision.','Native circle and quarter sites','The picture is an illustration of the native structure, not its source.'],
+ ['Calibrate the radius and reference direction','Attach the source point to a centre observation at (10,20). A reference toward (16,28) selects direction (6,8). The chosen radius maps to five length ticks. The reader scales that direction to (3,4), producing the first rim point.','Centre, metric, reference ray, relative side and radius calibration.','First rim: (13,24)','The reference point selects a direction; it is not a pre-existing rim landmark.'],
+ ['Construct the other quarter landmarks','The selected flat metric gives a perpendicular displacement of the same length: (−4,3). The relative side guide chooses its sign. These two radial displacements and their opposites supply four native quarter observations; every squared radius is 25.','The earlier native circle and calibrated first radial direction.','(13,24), (6,23), (7,16), (14,17)','This bridge constructs quarters. Other fractions need their own embedding procedure.'],
+ ['Use the constructed contour to turn a segment','The existing rotation reader now consumes those calculated radial observations. Walking one quarter of this four-edge cycle turns the attached segment. Its endpoint (12,20) becomes (10,22). The original segment remains available as the source observation.','Constructed contour, one traversal step and exposed segment endpoints.','(12,20) → (10,22)','This is a new geometric observation. Moving material is a separate operation.'],
+ ['Offset one straight segment','For the edge (0,0) → (6,0), choose a reach of two length ticks and a guide on the displayed upper side. The metric-normal displacement is (0,2). Applying the same displacement to both endpoints preserves the ordered edge direction.','Ordered edge, metric, reach calibration and relative side guide.','(0,2) → (6,2)','The displacement is calculated: its dot product is zero and its squared length is four.'],
+ ['Calculate both offsets before joining them','The source edges share the actual point B. Their offsets produce two different copies of that corner: (6,2) and (4,0). Each offset is valid, but they are not yet connected. A corner policy must account for the gap.','Two connected source edges with one metric and reach calibration.','Two valid, separate offset edges','Two displaced copies of B do not automatically become the same site.'],
+ ['Construct a corner inside the allowed supports','Intersect the two calculated straight supports. They meet at (4,2), at parameters 2/3 and 1/3. Both are inside the permitted wholes. The resulting edges share one newly constructed joint, while the trimmed parts remain visible in their source correspondence.','The two offset requests and whole-only parameter supports.','Shared joint: (4,2)','This is a local miter. It does not solve region topology, curved corners or caps.'],
+ ['Check an outer corner against its extension limits','On the opposite side, the calculated intersection lies beyond both offset endpoints: (8,−2), at parameters 4/3 and −1/3. Whole-only supports refuse that join. Allowing the explicit range −1 to 2 admits this bounded extension.','Opposite relative side and a selected support window.','Join unresolved','The dashed candidate is retained as evidence. It is not an accepted connection.']
+];
+let step=0,mirrored=false;
+const pointText=p=>`(${p.join(', ')})`;
+function draw(){
+ const svg=el('scene'),c=trace.circle,o=trace.offset,inner=step<4,extended=el('extension').checked;
+ let shapes='';
+ const map=p=>{const x=inner?240+(p[0]-10)*20:90+p[0]*34,y=inner?240-(p[1]-20)*20:280-p[1]*34;return [mirrored?480-x:x,y];};
+ const line=(a,b,color='#9aa99a',width=2,dash='')=>{const p=map(a),q=map(b);shapes+=`<line x1="${p[0]}" y1="${p[1]}" x2="${q[0]}" y2="${q[1]}" stroke="${color}" stroke-width="${width}" ${dash?`stroke-dasharray="${dash}"`:''}/>`;};
+ const dot=(p,label,color='#24694d',dy=-12)=>{const q=map(p);shapes+=`<circle cx="${q[0]}" cy="${q[1]}" r="4.5" fill="${color}"/><text x="${q[0]+(mirrored?-10:10)}" y="${q[1]+dy}" text-anchor="${mirrored?'end':'start'}">${label}</text>`;};
+ const grid=()=>{if(inner){for(let i=4;i<=18;i+=2)line([i,14],[i,29],'#e6e9df',1);for(let j=14;j<=28;j+=2)line([4,j],[18,j],'#e6e9df',1);}else{for(let i=-1;i<=9;i++)line([i,-2.5],[i,7],'#e6e9df',1);for(let j=-2;j<=7;j++)line([-1,j],[9,j],'#e6e9df',1);}};
+ if(step>0)grid();
+ if(inner){
+  const centre=map(c.centre);shapes+=`<circle cx="${centre[0]}" cy="${centre[1]}" r="100" fill="none" stroke="#a5b59e" stroke-width="2" ${step===0?'stroke-dasharray="5 6"':''}/>`;
+  if(step===0){line(c.centre,c.rims[0],'#24694d',3);dot(c.centre,'Source');dot(c.rims[0],'Start / return');}
+  if(step===1){line(c.centre,c.direction,'#aa4e28',2,'5 5');dot(c.direction,'Reference', '#aa4e28');line(c.centre,c.rims[0],'#24694d',4);dot(c.rims[0],'First rim');dot(c.centre,'Centre', '#22372f',24);}
+  if(step>=2){c.rims.forEach((p,i)=>{line(c.centre,p,'#82a487',2);dot(p,['Start','Quarter','Half','Three quarters'][i]);});dot(c.centre,step===3?'C':'Centre','#22372f',24);}
+  if(step===3){line(...c.sourcePoints,'#aa4e28',5);line(...c.turnedPoints,'#24694d',5);dot(c.sourcePoints[0],'Source segment','#aa4e28',26);dot(c.turnedPoints[1],'Turned segment','#24694d',-20);}
+ }else{
+  line(o.source[0],o.source[1],'#9aa99a',3);dot(o.source[0],'A','#617269',23);dot(o.source[1],'B','#617269',23);
+  if(step>=5){line(o.source[1],o.source[2],'#9aa99a',3);dot(o.source[2],'C','#617269');}
+  if(step<=5){line(...o.first,'#24694d',4);dot(o.first[0],"A′");dot(o.first[1],"B′");line(o.source[0],o.first[0],'#aa4e28',2,'3 3');
+   if(step===5){line(...o.second,'#24694d',4);dot(o.second[0],'B″','#aa4e28',-12);dot(o.second[1],"C′");}}
+  if(step===6){line(...o.first,'#82a487',2,'4 4');line(...o.second,'#82a487',2,'4 4');line(o.first[0],o.joint,'#24694d',4);line(o.joint,o.second[1],'#24694d',4);dot(o.joint,pointText(o.joint),'#aa4e28',-14);}
+  if(step===7){line(...o.outerFirst,'#82a487',3);line(...o.outerSecond,'#82a487',3);line(o.outerFirst[extended?0:1],o.outerJoint,extended?'#24694d':'#aa4e28',extended?4:2,extended?'':'5 5');line(o.outerJoint,o.outerSecond[extended?1:0],extended?'#24694d':'#aa4e28',extended?4:2,extended?'':'5 5');dot(o.outerJoint,extended?'Shared joint':'Candidate','#aa4e28',25);}
+ }
+ svg.innerHTML=shapes;
+ el('caption').textContent=inner?'Rim points are calculated by the kernel. The continuous outline is a rendering guide.':'Grey: source. Green: calculated offset or accepted join. Rust dashes: unaccepted candidate.';
+}
+function render(){
+ const stage=stages[step];el('heading').textContent=stage[0];el('explanation').textContent=stage[1];el('inputs').textContent=stage[2];el('result').textContent=stage[3];el('boundary').textContent=stage[4];
+ if(step===7&&el('extension').checked){el('result').textContent='Accepted joint: (8,−2)';el('boundary').textContent='Both calculated parameters lie inside the explicitly selected support [−1,2].';}
+ el('extensionControl').hidden=step!==7;el('step').value=step;el('position').textContent=`${step+1} / ${stages.length}`;el('prev').disabled=step===0;el('next').disabled=step===stages.length-1;draw();
+}
+function move(n){step=Math.max(0,Math.min(stages.length-1,n));const url=new URL(location.href);url.searchParams.set('step',String(step));history.replaceState(null,'',url);render();}
+el('prev').onclick=()=>move(step-1);el('next').onclick=()=>move(step+1);el('step').oninput=e=>move(Number(e.target.value));el('extension').onchange=render;
+el('mirror').onclick=()=>{mirrored=!mirrored;el('mirror').setAttribute('aria-pressed',String(mirrored));draw();};
+const initial=Number(new URL(location.href).searchParams.get('step'));step=Number.isFinite(initial)?Math.max(0,Math.min(stages.length-1,Math.trunc(initial))):0;render();
+</script>
+</body>
+</html>

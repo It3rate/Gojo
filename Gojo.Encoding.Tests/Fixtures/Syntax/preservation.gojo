@@ -1,0 +1,116 @@
+gojo 1;
+
+// A product observation derives a result without changing or materially
+// duplicating either input.
+let $number = carrier();
+let $factor = carrier();
+let $clock = carrier();
+let $five = point($number, 5);
+let $two = point($factor, 2);
+let $ten = point($number, 10);
+let $scale_recipe = group($five, $two) -> $ten;
+let $scale_action = action(
+    ports(?scale_value, ?scale_factor),
+    $scale_recipe,
+    ports(?scale_result),
+    ?scale_residue_policy,
+    ?scale_provenance
+);
+let $observed_product = act(
+    group($five, $two),
+    $scale_action,
+    $ten,
+    ?observation_residue,
+    ?observation_provenance
+);
+
+// A same-identity change claim keeps distinct before and after evidence on a
+// timeline. The claim still does not mutate the carrier by itself.
+let $same_identity_change = act(
+    $five,
+    $scale_action,
+    $ten,
+    ?change_residue,
+    ?change_provenance
+);
+let $change_step = step(
+    $clock,
+    0,
+    1,
+    $five,
+    $same_identity_change,
+    $ten,
+    ?change_residue
+);
+let $change_history = timeline($clock, $five, $change_step);
+
+// Duplication is explicit topology: the result retains the original point and
+// introduces a point on a new, unit-compatible carrier identity.
+let $copy_axis = carrier(unit_of($number));
+let $copied_five = point($copy_axis, 5);
+let $fork_result = group($five, $copied_five);
+let $fork_recipe = $five -> $fork_result;
+let $fork_action = action(
+    ports(?fork_source),
+    $fork_recipe,
+    ports(?retained_source, ?new_identity),
+    ?fork_accounting,
+    ?fork_provenance
+);
+let $fork = act(
+    $five,
+    $fork_action,
+    $fork_result,
+    ?fork_residue,
+    ?fork_provenance
+);
+
+// Erasure has no asserted mathematical inverse. A later restoration can still
+// use retained history; that makes it rollback, not inversion of the erasure.
+let $zero = point($number, 0);
+let $erase_recipe = $five -> $zero;
+let $erase_action = action(
+    ports(?erase_input),
+    $erase_recipe,
+    ports(?erase_output),
+    ?erase_residue_policy,
+    ?erase_provenance
+);
+let $erased = act(
+    $five,
+    $erase_action,
+    $zero,
+    ?erase_residue,
+    ?erase_application_provenance
+);
+let $erase_step = step(
+    $clock,
+    1,
+    2,
+    $five,
+    $erased,
+    $zero,
+    ?erase_residue
+);
+let $erase_history = timeline($clock, $five, $erase_step);
+let $rollback_recipe = $erase_history -> $five;
+let $rollback_action = action(
+    ports(?rollback_history),
+    $rollback_recipe,
+    ports(?restored_value),
+    ?rollback_policy,
+    $erase_history
+);
+let $rollback = act(
+    $zero,
+    $rollback_action,
+    $five,
+    ?rollback_residue,
+    $erase_history
+);
+
+root $observed_product;
+root $change_history;
+root $fork;
+root $erase_history;
+root $rollback;

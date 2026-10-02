@@ -170,6 +170,19 @@ public static class StructuralPattern
         return ApplyCore(pattern, slotBindings);
     }
 
+    /// <summary>
+    /// Refines an acyclic relation pattern while retaining unaffected references.
+    /// Changed paths are rebuilt, and shared changed relations remain shared within
+    /// this refinement. Unlike Apply's instantiation, an untouched source surface
+    /// remains the same surface. Neither operation freezes mutable premises.
+    /// </summary>
+    public static IElement Refine(IElement pattern, params Relation[] bindings) =>
+        Refine(pattern, (IReadOnlyList<Relation>)bindings);
+
+    /// <summary>Refines a pattern with the supplied frame, preserving reference correspondence.</summary>
+    public static IElement Refine(IElement pattern, IReadOnlyList<Relation> bindings) =>
+        RefineCore(pattern, ReadSlotBindings(bindings), new(ReferenceEqualityComparer.Instance));
+
     /// <summary>Instantiates one pattern once per binding frame.</summary>
     public static IElement[] Repeat(IElement pattern, params Relation[][] frames) =>
         Repeat(pattern, (IReadOnlyList<IReadOnlyList<Relation>>)frames);
@@ -269,6 +282,21 @@ public static class StructuralPattern
             CarrierLocation location => new CarrierLocation(location.Carrier, location.Tick),
             _ => element
         };
+    }
+
+    private static IElement RefineCore(IElement element, IReadOnlyList<Relation> bindings,
+        Dictionary<Relation, Relation> refined)
+    {
+        if (TryReadSlot(element, out var slot) && TryReadBoundSlotCore(slot, bindings, out var bound))
+            return bound;
+        if (element is not Relation relation) return element;
+        if (refined.TryGetValue(relation, out var cached)) return cached;
+        var left = RefineCore(relation.Left, bindings, refined);
+        var right = RefineCore(relation.Right, bindings, refined);
+        var result = ReferenceEquals(left, relation.Left) && ReferenceEquals(right, relation.Right)
+            ? relation : new Relation(left, right);
+        refined.Add(relation, result);
+        return result;
     }
 
     private static bool TryReadBoundSlotCore(

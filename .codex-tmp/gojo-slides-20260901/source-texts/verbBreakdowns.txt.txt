@@ -1,0 +1,650 @@
+- what does 'really' modify in these verbs? 'silently'? 'hastily'?
+- body sizes are relative (source size to target size). Eg body picks up box, fingers pick up marble.
+- body=mind arm=idea hand=thought finger=primitive
+- sentances and documents just build up a set of contexts that are like new 'words' with various annotations
+
+
+pack - order, container target, multiple source, tight fit, arm/hand task, repeat task, intent to move or store, temp until unpack. first order directness
+paddle - cause movement of self, liquid, flat object, arm task, repeat task. second order directness
+paint - cover, liquid esp paint, arm task, art as finger task, use tool that absorbs liquid and releases some on touch, continous
+park - cause object esp vehicle to move to resting place, off path, intend to leave object, body+ task
+part - move from same 'path' to separate paths, cut connection (opposite POV from line cut circle), permanant
+pass (throw) - cause object to move (esp through air) to a target (esp person), arm task, no touch. second order directness
+pass (hand) - cause object to move from one actor (esp hand) to another's (esp hand), hand task. first order directness
+pass (overtake) - source object moves further along path than target (moving or stationary), body task, no touch
+paste - cause source object to attach to (esp larger) target esp using sticky substance, covers, finger task, permanant short term
+pat - touch with open palm, hand task, positive communication esp without speech, repeat task. first order directness
+pause - cause a stop to moving along a path, temporary
+peck - sudden sharp motion to target by esp bird, esp beak, medium strong, may repeat, mild violence or food
+pedal - exert leg level force on circular machine to turn wheel, esp bike, esp for motion, esp using leg, continous and repeated. arm size task. second order directness
+peel - cause outer layer of object to be removed, esp skin. makes ready. Goal task, continous is parts. hand task, finger at part level, permenant. Touch.
+peep - cause a small high noise. esp vocal but can be visual. Low energy, single, non communication.
+perform - do planned actions for a target group. simulation or represenation designed to move groups state to the message's intent. esp entertainment. Sensory action. continous for duration. Near-primitive action. 
+permit - allow object on path to continue, maybe after stopping or testing it. removal of force. source controls impedance.
+phone - communicate over distance beyond shouting, esp with voice. esp contact state, but can be whole action. vocal, for communication. second order directness
+pick - select and esp move to picking source, one object of many or continous blob, due to most appropriate attributes. Finger task, mental task. first order directness
+pinch - cause target to compress between two sources, esp fingers. May be high force, pain level - or amount if target has part separated. Finger task, single time, short duration. first order directness
+pine - desire to move closer to a previous location on a one way forward path. Thought of other location. mental, continous, low energy, additive, global
+place - cause source to be moved into target group due to most appropriate attributes. finger task + mental. single action. first order directness
+plan - construct future actions as thoughts that can be saved and latered enacted. mental. Near-primitive mental action.
+plant - cause target to move below a semi solid surface. arm level force based on surface. hand/finger task. single action. first order directness.
+play - simulate actions esp for pleasure and unconcious training. intentional, undirected, continous, mental/physical
+please - cause other actor to move up emotional state, esp pleasure. single act, hand level force. second level directness. no touch.
+plug - cause body sized contained flowable substance to stop escaping through a break in the container using hand sized object. single act, goal dirven.
+point - implied action to cause target actor to change focus to desired area. state with potential duration. first level directness. physical source, mental goal. communication.
+poke - cause thin narrow finger sized object to push slightly inwards/into body sized object with hand sized force. goal to generate awareness or movement in target, or for testing attributes of it. single action, first level directness. touch
+polish - cause hand size friction on target with arm level force to cause smooth target to be clean and reflective.
+pop - sudden release of container blockage esp with air pressure diff. hand force, sound word (compare hiss) single action, short duration, surprise
+possess - body size contains and speaks for object. state, permenant, static, touch
+post - cause information to be trasmitted to other actor(s) by indirect means esp written. single, hand level, push
+pour - cause granular or liquid substance to exit a container by gravity, esp by tipping. continous, hand level, no receiver or goal, second level directness
+practice - continously simulate an action esp parts to move ability closer to ideal attributes. Slow path to goal, repeated durations over time, unscaled
+pray - request from abstract force to adjust world attributes in source's favor. conversation, esp silent vocal, finger level source, world level target
+preach - to communicate with force in order to move actor(s) to a specific fixed mental location. continous, leg force, fixed point (vs area) goal
+precede - source is before target on directional path esp of sequence events. prepositonal only, comparison
+prefer - to value source set of attributes higher that other targets. comparison, suggests (future) move toward force, mental.
+prepare - adjust world (or mind/body) attributes to closer map to expected task (actions toward goal), before task begins. 
+present - unhide object before moving from source to target by hand, hand level emotional increase, mental vs give, reveal with intent to give in near future
+preserve - move object (esp food) to a state that does not decay over time, esp by surrounding it with protection. single action, long term, slow movement on timeline, limit natural decay rate (a constant tiny force)
+press - cause force on solid target surface of finger intensity. Intend to limit or change state of target to acheive goal. touch, coninous with duration, intention.
+pretend - simulate, mental even if physical. low level word. forced context change of mind not mapping to current situation. more physical version of imagine.
+prevent - cause blockage for second object's movement along path esp towards goal. often second level directness. caused, intention, compare pause
+prick - go into a solid container filled with liquid or gas with very sharp point, esp skin. compare poke. touch, pain, bleed
+print (hand) - copy information into a useable encoding for transmission, esp letters. continous, finger level, communication.
+print (mech) - commit a information template to a permenant medium. single event, suggests iteration. arm force,
+process - act of changing attributes of target(s) to move it from natural state to being suitable for desired usage, esp not final state. compare prepare, produce. Suggest repeated application of template. continous. modification. hand level task.
+produce - bring forth an object who's attributes are in a final goal form, esp by having changed them. Esp with intent to move object to other actor(s) for exchange. continuous, repeating, reproducible action. hand level action. 
+program - create and preserve commands for actions (esp sequences of actions) that can be later enacted by a target. esp machines or grouped ideas that happen over time. continous, hand level with finger tuning. Future, intention, mental.
+promise - move idea of future action (esp from source) being enacted, with certainty by risking reputation, to target actor. current talking of future. communication, signaling, mental, used in exchange, single item (finger thought).
+protect - cause a barrier (esp self/source) to block access of forces (with bad intent) to a target that can block by itself. arrows pointing towards circle, with a line cutting access. continous, permenant, passive requiring strong force to move. prevent harm.
+provide - move (esp hard to obtain) objects with desired attributes to actor(s). Esp for sustinance. single action, benevolent
+pull - source causes target to move it. arm level force, hand level attachment, primitive prepositional, touch, continous
+pump - cause a liquid/gas to move through a path by applying indirect compressing push force (not touching liquid). physics model. third level directness.
+punch - fast strong force of hand size and arm strength on target of body size. Bruise level harm. Esp fist, if not usually leaves mark or puncture. body primitive.
+puncture - cause finger size hole in containment body object. esp using second tool object. permenant, single action. Liquid/gas contents of container will escape.
+punish - 
+push - 
+question - 
+queue - 
+race - 
+radiate - 
+rain - 
+raise - 
+reach - 
+realise - 
+receive - 
+recognise - 
+record - 
+reduce - 
+reflect - 
+refuse - 
+regret - 
+reign - 
+reject - 
+rejoice - 
+relax - 
+release - 
+rely - 
+remain - 
+remember - 
+remind - 
+remove - 
+repair - 
+repeat - 
+replace - 
+reply - 
+report - 
+reproduce - 
+request - 
+rescue - 
+retire - 
+return - 
+rhyme - 
+rinse - 
+risk - 
+rob - 
+rock - 
+roll - 
+rot - 
+rub - 
+ruin - 
+rule - 
+rush - 
+sack - 
+sail - 
+satisfy - 
+save - 
+saw - 
+scare - 
+scatter - 
+scold - 
+scorch - 
+scrape - 
+scratch - 
+scream - 
+screw - 
+scribble - 
+scrub - 
+seal - 
+search - 
+separate - 
+serve - 
+settle - 
+shade - 
+share - 
+shave - 
+shelter - 
+shiver - 
+shock - 
+shop - 
+shrug - 
+sigh - 
+sign - 
+signal - 
+sin - 
+sip - 
+ski - 
+skip - 
+slap - 
+slip - 
+slow - 
+smash - 
+smell - 
+smile - 
+smoke - 
+snatch - 
+sneeze - 
+sniff - 
+snore - 
+snow - 
+soak - 
+soothe - 
+sound - 
+spare - 
+spark - 
+sparkle - 
+spell - 
+spill - 
+spoil - 
+spot - 
+spray - 
+sprout - 
+squash - 
+squeak - 
+squeal - 
+squeeze - 
+stain - 
+stamp - 
+stare - 
+start - 
+stay - 
+steer - 
+step - 
+stir - 
+stitch - 
+stop - 
+store - 
+strap - 
+strengthen - 
+stretch - 
+strip - 
+stroke - 
+stuff - 
+subtract - 
+succeed - 
+suck - 
+suffer - 
+suggest - 
+suit - 
+supply - 
+support - 
+suppose - 
+surprise - 
+surround - 
+suspect - 
+suspend - 
+switch - 
+talk - 
+tame - 
+tap - 
+taste - 
+tease - 
+telephone - 
+tempt - 
+terrify - 
+test - 
+thank - 
+thaw - 
+tick - 
+tickle - 
+tie - 
+time - 
+tip - 
+tire - 
+touch - 
+tour - 
+tow - 
+trace - 
+trade - 
+train - 
+transport - 
+trap - 
+travel - 
+treat - 
+tremble - 
+trick - 
+trip - 
+trot - 
+trouble - 
+trust - 
+try - 
+tug - 
+tumble - 
+turn - 
+twist - 
+type - 
+undress - 
+unfasten - 
+unite - 
+unlock - 
+unpack - 
+untidy - 
+use - 
+vanish - 
+visit - 
+wail - 
+wait - 
+walk - 
+wander - 
+want - 
+warm - 
+warn - 
+wash - 
+waste - 
+watch - 
+water - 
+wave - 
+weigh - 
+welcome - 
+whine - 
+whip - 
+whirl - 
+whisper - 
+whistle - 
+wink - 
+wipe - 
+wish - 
+wobble - 
+wonder - 
+work - 
+worry - 
+wrap - 
+wreck - 
+wrestle - 
+wriggle - 
+x-ray - 
+yawn - 
+yell - 
+zip - 
+zoom - 
+
+
+
+
+
+accept - 
+add - 
+admire - 
+admit - 
+advise - 
+afford - 
+agree - 
+alert - 
+allow - 
+amuse - 
+analyse (BrE) - 
+analyze (AmE) - 
+announce - 
+annoy - 
+answer - 
+apologise - 
+appear - 
+applaud - 
+appreciate - 
+approve - 
+argue - 
+arrange - 
+arrest - 
+arrive - 
+ask - 
+attach - 
+attack - 
+attempt - 
+attend - 
+attract - 
+avoid - 
+back - 
+bake - 
+balance - 
+ban - 
+bang - 
+bare - 
+bat - 
+bathe - 
+battle - 
+beam - 
+beg - 
+behave - 
+belong - 
+bleach - 
+bless - 
+blind - 
+blink - 
+blot - 
+blush - 
+boast - 
+boil - 
+bolt - 
+bomb - 
+book - 
+bore - 
+borrow - 
+bounce - 
+bow - 
+box - 
+brake - 
+branch - 
+breathe - 
+bruise - 
+brush - 
+bubble - 
+bump - 
+burn - 
+bury - 
+buzz - 
+calculate - 
+call - 
+camp - 
+care - 
+carry - 
+carve - 
+cause - 
+challenge - 
+change - 
+charge - 
+chase - 
+cheat - 
+check - 
+cheer - 
+chew - 
+choke - 
+chop - 
+claim - 
+clap - 
+clean - 
+clear - 
+clip - 
+close - 
+coach - 
+coil - 
+collect - 
+colour - 
+comb - 
+command - 
+communicate - 
+compare - 
+compete - 
+complain - 
+complete - 
+concentrate - 
+concern - 
+confess - 
+confuse - 
+connect - 
+consider - 
+consist - 
+contain - 
+continue - 
+copy - 
+correct - 
+cough - 
+count - 
+cover - 
+crack - 
+crash - 
+crawl - 
+cross - 
+crush - 
+cry - 
+cure - 
+curl - 
+curve - 
+cycle - 
+dam - 
+damage - 
+dance - 
+dare - 
+decay - 
+deceive - 
+decide - 
+decorate - 
+delay - 
+delight - 
+deliver - 
+depend - 
+describe - 
+desert - 
+deserve - 
+destroy - 
+detect - 
+develop - 
+disagree - 
+disappear - 
+disapprove - 
+disarm - 
+discover - 
+dislike - 
+divide - 
+double - 
+doubt - 
+drag - 
+drain - 
+dream - 
+dress - 
+drip - 
+drop - 
+drown - 
+drum - 
+dry - 
+dust - 
+earn - 
+educate - 
+embarrass - 
+employ - 
+empty - 
+encourage - 
+end - 
+enjoy - 
+enter - 
+entertain - 
+escape - 
+examine - 
+excite - 
+excuse - 
+exercise - 
+exist - 
+expand - 
+expect - 
+explain - 
+explode - 
+extend - 
+face - 
+fade - 
+fail - 
+fancy - 
+fasten - 
+fax - 
+fear - 
+fence - 
+fetch - 
+file - 
+fill - 
+film - 
+fire - 
+fit - 
+fix - 
+flap - 
+flash - 
+float - 
+flood - 
+flow - 
+flower - 
+fold - 
+follow - 
+fool - 
+force - 
+form - 
+found - 
+frame - 
+frighten - 
+fry - 
+gather - 
+gaze - 
+glow - 
+glue - 
+grab - 
+grate - 
+grease - 
+greet - 
+grin - 
+grip - 
+groan - 
+guarantee - 
+guard - 
+guess - 
+guide - 
+hammer - 
+hand - 
+handle - 
+hang - 
+happen - 
+harass - 
+harm - 
+hate - 
+haunt - 
+head - 
+heal - 
+heap - 
+heat - 
+help - 
+hook - 
+hop - 
+hope - 
+hover - 
+hug - 
+hum - 
+hunt - 
+hurry - 
+identify - 
+ignore - 
+imagine - 
+impress - 
+improve - 
+include - 
+increase - 
+influence - 
+inform - 
+inject - 
+injure - 
+instruct - 
+intend - 
+interest - 
+interfere - 
+interrupt - 
+introduce - 
+invent - 
+invite - 
+irritate - 
+itch - 
+jail - 
+jam - 
+jog - 
+join - 
+joke - 
+judge - 
+juggle - 
+jump - 
+kick - 
+kill - 
+kiss - 
+kneel - 
+knit - 
+knock - 
+knot - 
+label - 
+land - 
+last - 
+laugh - 
+launch - 
+learn - 
+level - 
+license - 
+lick - 
+lie - 
+lighten - 
+like - 
+list - 
+listen - 
+live - 
+load - 
+lock - 
+long - 
+look - 
+love - 
+man - 
+manage - 
+march - 
+mark - 
+marry - 
+match - 
+mate - 
+matter - 
+measure - 
+meddle - 
+melt - 
+memorise - 
+mend - 
+mess up - 
+milk - 
+mine - 
+miss - 
+mix - 
+moan - 
+moor - 
+mourn - 
+move - 
+muddle - 
+mug - 
+multiply - 
+murder - 
+nail - 
+name - 
+need - 
+nest - 
+nod - 
+note - 
+notice - 
+number - 
+obey - 
+object - 
+observe - 
+obtain - 
+occur - 
+offend - 
+offer - 
+open - 
+order - 
+overflow - 
+owe - 
+own - 
+ -

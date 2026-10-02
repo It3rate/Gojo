@@ -8,7 +8,7 @@
 /// </summary>
 public sealed partial class Relation : IElement, IEquatable<Relation>
 {
-    private static ulong idCounter = 1;
+    private static ulong idCounter;
 
     /// <summary>Creates an ordered relation from left element to right element.</summary>
     public Relation(IElement left, IElement right)

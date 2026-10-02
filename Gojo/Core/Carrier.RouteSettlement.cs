@@ -444,7 +444,7 @@ public sealed partial class Carrier
     private static ulong RuntimePositiveClampCapacity(Carrier carrier, ulong limit)
     {
         var tensionDebt = carrier.Tension < 0
-            ? checked((ulong)-carrier.Tension)
+            ? checked((ulong)-(Int128)carrier.Tension)
             : 0UL;
 
         if (carrier.Tension > 0 || carrier.Value >= limit)

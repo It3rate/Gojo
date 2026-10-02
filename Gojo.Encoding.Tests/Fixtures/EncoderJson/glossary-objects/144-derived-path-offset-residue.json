@@ -1,12 +1,12 @@
 {
-  "represents": "The intended offset carrier and the mismatching observed carrier are both preserved. The difference is tension attached to the read rather than a hidden failure.",
+  "represents": "Both intended and observed geometry are supplied and preserved. An open tension slot marks an unresolved obligation; this builder does not calculate their discrepancy or import it as signed tension, and does not verify that the intended path is a normal offset.",
   "entryId": "derived-path-offset-residue",
-  "expression": "OffsetRead(source,+d,resolution) + observed PathRead + residue/tension",
-  "encodingNote": "The intended offset carrier and the mismatching observed carrier are both preserved. The difference is tension attached to the read rather than a hidden failure.",
+  "expression": "requested OffsetRead(source,+d,resolution) + supplied intended/observed paths + open tension slot",
+  "encodingNote": "Both intended and observed geometry are supplied and preserved. An open tension slot marks an unresolved obligation; this builder does not calculate their discrepancy or import it as signed tension, and does not verify that the intended path is a normal offset.",
   "gojo": {
     "known": [
       "boundary",
-      "constraint-or-settlement",
+      "flow",
       "offset-read",
       "source",
       "span"
@@ -14,13 +14,8 @@
     "paths": [
       "offset-read --terminal boundary read--> Bd1(Off)",
       "source + orthogonal outlet + extent --> offset-read",
-      "source --requested read--> result + residue",
-      "span --source boundary read--> Bd0(S)",
-      "unresolved structure --settlement read--> settled structure + residue"
-    ],
-    "tension": [
-      "offset residue preserved",
-      "read residue preserved"
+      "span --orthogonal outlet--> flow",
+      "span --source boundary read--> Bd0(S)"
     ]
   }
 }

@@ -1,0 +1,8 @@
+[Slide ]
+Recognizing Perspectives
+Separating the signals from the noise.
+Coexisting Perspectives
+Multiple perspectives can coexist on the same elements simultaneously — a square sliding across a plane (2 DOF for position) while another view sees only an edge growing and shrinking (1 DOF for size).
+Identifying Signals
+The world is full of competing and cooperating actions that negotiate outcomes. The skill is identifying which perspectives carry signal and knowing how to interpret them.
+[Notes ]

@@ -1,0 +1,45 @@
+gojo 1;
+
+// First construct a native circle: point, common offset, radius and actual seam.
+let $origin = point(carrier(), 0);
+let $outward = orthogonal($origin);
+let $contour = crystal($outward);
+let $ray = crystal(orthogonal($origin -> $origin));
+let $start = point($contour, 0);
+let $end = point($contour, 1);
+// Bind actual radius endpoints, rather than separately equal tick values.
+let $radius_start = point($ray, 0);
+let $radius_end = point($ray, 1);
+let $reach = $radius_start -> $radius_end;
+let $attachment = group($origin -> $radius_start, $reach, $radius_end -> $start);
+let $whole = $start -> $end;
+let $circle = group($outward -> ($reach -> $contour), $attachment, $whole, $end -> $start);
+let $fine = carrier(subdivision(unit_of($contour), 360));
+let $partition = group($circle, span($fine, 0, 360) -> $whole);
+
+// A selected local chart and metric, with a common linear measurement unit.
+// This is supplied calibration evidence. The intrinsic circle already exists.
+let $space = carrier();
+let $x = carrier();
+let $y = carrier(unit_of($x));
+let $length = carrier(unit_of($x));
+let $squared = carrier(product_units(unit_of($x), unit_of($x)));
+let $ux = span($x, 0, 1);
+let $uy = span($y, 0, 1);
+let $basis = group_on($space, $ux, $uy);
+let $metric = group($basis, frame(($ux -> $ux) -> at($squared, 1),
+    ($ux -> $uy) -> at($squared, 0), ($uy -> $uy) -> at($squared, 1)));
+let $centre = group_on($space, at($x, 10), at($y, 20));
+let $direction = group_on($space, at($x, 16), at($y, 28));
+let $side = group_on($space, at($x, 10), at($y, 21));
+let $calibration = $reach -> span($length, 0, 5);
+
+// The selected read calculates four rim points. None is authored here.
+// Positive native traversal follows the side relative to the reference ray.
+root group($partition, $metric, $origin -> $centre, $calibration,
+    $centre -> $direction, $centre -> $side);
+
+let $p = group_on($space, at($x, 12), at($y, 20));
+root group_on($space, $p, group_on($space, at($x, 12), at($y, 21)), $p);
+root group(?constructed_surface, ?actual_start_marker, span(carrier(), 0, 1));
+root group(?traversal_witness, ?exposed_points);

@@ -7,7 +7,7 @@ namespace Gojo.Core;
 /// </summary>
 public sealed partial class Carrier : IElement
 {
-    private static ulong idCounter = 1;
+    private static ulong idCounter;
 
     private Carrier? inverse;
     private readonly List<Relation> relations = [];
@@ -166,7 +166,7 @@ public sealed partial class Carrier : IElement
     /// <summary>Adds positive tick tension and settles the connected world.</summary>
     public void Add(ulong ticks)
     {
-        Receive(checked((long)ticks));
+        ReceiveCore((Int128)ticks);
         // Use ReceiveTogether when several arrivals belong to one input frame.
         SettleWorld();
     }
@@ -174,7 +174,7 @@ public sealed partial class Carrier : IElement
     /// <summary>Adds negative tick tension and settles the connected world.</summary>
     public void Remove(ulong ticks)
     {
-        Receive(checked(-checked((long)ticks)));
+        ReceiveCore(-(Int128)ticks);
         // This entry point intentionally represents a separate arrival.
         SettleWorld();
     }
@@ -182,7 +182,7 @@ public sealed partial class Carrier : IElement
     /// <summary>Feeds the delta required to make visible value approach ticks.</summary>
     public void Set(long ticks)
     {
-        Receive(checked(ticks - checked((long)Value)));
+        ReceiveCore((Int128)ticks - Value);
         // This is a visible-value delta request, not direct assignment.
         SettleWorld();
     }
@@ -226,15 +226,22 @@ public sealed partial class Carrier : IElement
     #region Settlement State Mutation
 
     /// <summary>Receives signed tension and absorbs what fits in this carrier value.</summary>
-    internal void Receive(long ticks)
-    {
-        if (ticks == 0)
-        {
-            return;
-        }
+    internal void Receive(long ticks) => ReceiveCore(ticks);
 
-        Tension = checked(Tension + ticks);
-        AbsorbTension();
+    private void ReceiveCore(Int128 ticks)
+    {
+        if (ticks == 0) return;
+        var (value, tension) = ReadReceivedState(ticks);
+        SetValue(value);
+        Tension = tension;
+    }
+
+    // Compute introduced tension and its local absorption before changing
+    // either field. Intermediate deltas may be wide; stored state may not.
+    private (ulong Value, long Tension) ReadReceivedState(Int128 ticks)
+    {
+        var total = (Int128)Value + Tension + ticks;
+        return total >= 0 ? (checked((ulong)checked((long)total)), 0) : (0, checked((long)total));
     }
 
     /// <summary>
@@ -247,7 +254,7 @@ public sealed partial class Carrier : IElement
     {
         var beforeValue = Value;
         var beforeTension = Tension;
-        Receive(checked((long)((Int128)ticks - Value - Tension)));
+        ReceiveCore((Int128)ticks - Value - Tension);
         return Value != beforeValue || Tension != beforeTension;
     }
 
@@ -322,34 +329,7 @@ public sealed partial class Carrier : IElement
     private void SettleWorld() => RunSettlement([this], this, this, 256, observe: false);
 
     /// <summary>Allocates the next non-wildcard carrier identity.</summary>
-    private static ulong NextId() => idCounter++;
-
-    /// <summary>Moves currently absorbable tension into value and leaves underflow.</summary>
-    private void AbsorbTension()
-    {
-        if (Tension > 0)
-        {
-            SetValue(checked(Value + checked((ulong)Tension)));
-            Tension = 0;
-            return;
-        }
-
-        if (Tension == 0)
-        {
-            return;
-        }
-
-        var draw = checked((ulong)-Tension);
-        if (Value >= draw)
-        {
-            SetValue(Value - draw);
-            Tension = 0;
-            return;
-        }
-
-        Tension = -checked((long)(draw - Value));
-        SetValue(0);
-    }
+    private static ulong NextId() => Interlocked.Increment(ref idCounter);
 
     private void SetValue(ulong value) => valueTick.Set(checked((long)value));
 

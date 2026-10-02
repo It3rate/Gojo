@@ -1,18 +1,22 @@
 {
-  "represents": "Repeat is first-class structure: selected source, action, count or stopping rule.",
+  "represents": "The partition illustrates repetition. An executable repeat additionally needs its selected source, transition, controller and feedback evidence.",
   "entryId": "actions-repeat-repeat",
   "expression": "Repeat(action, n) over S(A,B)",
-  "encodingNote": "Repeat is first-class structure: selected source, action, count or stopping rule.",
+  "encodingNote": "The partition illustrates repetition. An executable repeat additionally needs its selected source, transition, controller and feedback evidence.",
   "gojo": {
     "known": [
+      "partition",
       "repeat",
       "selection",
       "span"
     ],
     "paths": [
+      "runtime pass --records--> residue + tension",
+      "runtime trace --crystallize--> behavior witness",
       "selection --local focus read--> selected structure + residue"
     ],
     "tension": [
+      "runtime/static distinction must remain explicit",
       "selection stop rule not encoded"
     ]
   }

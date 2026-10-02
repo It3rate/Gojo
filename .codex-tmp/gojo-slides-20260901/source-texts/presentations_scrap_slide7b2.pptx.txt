@@ -1,0 +1,5 @@
+[Slide ]
+Biological Architecture
+This is how biology works: cells, organs, and systems each operate within their own complexity space, correcting locally, unaware of the larger picture — yet collectively producing coherent outcomes.
+It is a more powerful architecture than centralized error correction from final outputs. Each space gains agency, negotiates its own goals, and contributes to outcomes it isn't even equipped to perceive directly.
+[Notes ]

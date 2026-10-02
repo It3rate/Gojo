@@ -408,12 +408,13 @@ public sealed class TransformSurfaceTests
         var resultCarrier = new Carrier();
         var xPort = new Relation(Relation.Point(x, 1), Relation.Point(Carrier.Unknown, 1));
         var yPort = new Relation(Relation.Point(y, 1), Relation.Point(Carrier.Unknown, 1));
-        var operation = new Relation(new Relation(xPort, yPort), Relation.Segment(resultCarrier, 0, 1));
+        var outputSurface = Relation.Segment(resultCarrier, 0, 1);
+        var operation = new Relation(new Relation(xPort, yPort), outputSurface);
         var producerTransform = TransformSurface.Create(
             new Carrier(),
             TransformSurface.Ports(new Carrier(), xPort, yPort),
             operation,
-            TransformSurface.Ports(new Carrier(), Relation.Segment(resultCarrier, 0, 1)),
+            TransformSurface.Ports(new Carrier(), outputSurface),
             Relation.Point(Carrier.Unknown, 0),
             Relation.Point(Carrier.Unknown, 0));
         var xInput = Relation.Point(x, 3);
@@ -449,6 +450,16 @@ public sealed class TransformSurfaceTests
                 FocusSurface.Bind(output, consumerReplacement)),
             FocusSurface.Bind(ReadInputPort(consumerTransform), output),
             FocusSurface.Frame(new Carrier(), output, consumerReplacement));
+
+        // Matching a calculated numeric target inside a result does not identify
+        // the consumed observation. Publish that observation through the output.
+        Assert.False(TransformSurface.TryCreateApplicationDependency(new Carrier(), producerApplication,
+            consumerApplication, Relation.Point(Carrier.Unknown, 0), Relation.Point(Carrier.Unknown, 0), out _));
+        Assert.True(TransformSurface.TryReadApplication(producerApplication, out _, out var producerFocus,
+            out _, out _, out _, out _, out _, out _));
+        producerApplication = CreateApplication(producerTransform, producerFocus,
+            FocusSurface.BindingFrame(new Carrier(), FocusSurface.Bind(xPort, xInput),
+                FocusSurface.Bind(yPort, yInput), FocusSurface.Bind(outputSurface, output)), producerResult);
 
         Assert.True(TransformSurface.TryCreateApplicationDependency(
             new Carrier(),
@@ -508,7 +519,8 @@ public sealed class TransformSurfaceTests
             FocusSurface.BindingFrame(
                 new Carrier(),
                 FocusSurface.Bind(xPort, xFused),
-                FocusSurface.Bind(yPort, yFused)),
+                FocusSurface.Bind(yPort, yFused),
+                FocusSurface.Bind(outputSurface, consumedOutput)),
             FocusSurface.Frame(new Carrier(), source, consumedOutput));
 
         var consumerReplacement = Relation.Point(new Carrier(), 1);
@@ -2096,7 +2108,8 @@ public sealed class TransformSurfaceTests
             FocusSurface.BindingFrame(
                 new Carrier(),
                 FocusSurface.Bind(xPort, xFused),
-                FocusSurface.Bind(yPort, yFused)),
+                FocusSurface.Bind(yPort, yFused),
+                FocusSurface.Bind(outputSurface, consumedOutput)),
             FocusSurface.Frame(new Carrier(), producerSource, consumedOutput));
         Assert.True(TransformSurface.TryReadApplication(
             producerApplication,
@@ -2799,6 +2812,31 @@ public sealed class TransformSurfaceTests
                 FocusSurface.Bind(ReadInputPort(transform), selected),
                 FocusSurface.Bind(ReadOutputPort(transform), replacement)),
             FocusSurface.Frame(new Carrier(), source, replacement));
+    }
+
+    [Fact]
+    public void DependencyCanFollowASharedGroundedTickButNotAnEqualIndependentTick()
+    {
+        var axis = new Carrier(); var tick = new TickRef(12);
+        var published = new Relation(new CarrierLocation(axis, tick), axis);
+        var sharedSite = new Relation(new CarrierLocation(axis, tick), axis);
+        var lookalike = Relation.Point(axis, 12);
+        var producer = ObserveMap(Relation.Point(new Carrier(), 1), published);
+        var sharedConsumer = ObserveMap(sharedSite, Relation.Point(new Carrier(), 2));
+        var independentConsumer = ObserveMap(lookalike, Relation.Point(new Carrier(), 2));
+        Assert.True(TransformSurface.TryCreateApplicationDependency(new Carrier(), producer, sharedConsumer,
+            Relation.Point(Carrier.Unknown, 0), Relation.Point(Carrier.Unknown, 0), out _));
+        Assert.False(TransformSurface.TryCreateApplicationDependency(new Carrier(), producer, independentConsumer,
+            Relation.Point(Carrier.Unknown, 0), Relation.Point(Carrier.Unknown, 0), out _));
+
+        static Relation ObserveMap(IElement input, IElement output)
+        {
+            var inputSlot = new Placeholder(); var outputSlot = new Placeholder();
+            var transform = CreateMapTransform(inputSlot, outputSlot);
+            return CreateApplication(transform,
+                CreateFocus(input, input, input, Relation.Point(Carrier.Unknown, 0), output, Relation.Point(Carrier.Unknown, 0)),
+                FocusSurface.BindingFrame(new Carrier(), FocusSurface.Bind(inputSlot, input), FocusSurface.Bind(outputSlot, output)), output);
+        }
     }
 
     private static Relation CreateMapTransform(IElement inputPort, IElement outputPort) =>

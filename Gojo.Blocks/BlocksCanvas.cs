@@ -4457,8 +4457,11 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
             return path;
         }
 
-        path.MoveTo(DroneClipPoint(bounds, -44 - inflate, -14 - inflate * 0.25f));
-        path.LineTo(DroneClipPoint(bounds, -37 - inflate * 0.6f, -20 - inflate));
+        // Start on the top tangent of the upper-left round.  The old endpoint
+        // (-44,-14) sat inside the diagonal source chamfer, so the closing
+        // quadratic doubled back before reaching the top edge and rendered as
+        // a hook.  This mirrors the upper-right round exactly.
+        path.MoveTo(DroneClipPoint(bounds, -37 - inflate * 0.6f, -20 - inflate));
         path.LineTo(DroneClipPoint(bounds, -13 - inflate * 0.25f, -20 - inflate));
         path.QuadTo(DroneClipPoint(bounds, -9, -26 - inflate), DroneClipPoint(bounds, -4, -25 - inflate));
         path.LineTo(DroneClipPoint(bounds, 4, -25 - inflate));
@@ -4474,7 +4477,9 @@ internal sealed class BlocksDrawOperation : ICustomDrawOperation
         path.LineTo(DroneClipPoint(bounds, -37 - inflate * 0.6f, 20 + inflate));
         path.QuadTo(DroneClipPoint(bounds, -52 - inflate, 20 + inflate * 0.35f), DroneClipPoint(bounds, -52 - inflate, 12));
         path.LineTo(DroneClipPoint(bounds, -52 - inflate, -12));
-        path.QuadTo(DroneClipPoint(bounds, -52 - inflate, -20 - inflate * 0.35f), DroneClipPoint(bounds, -44 - inflate, -14 - inflate * 0.25f));
+        path.QuadTo(
+            DroneClipPoint(bounds, -52 - inflate, -20 - inflate * 0.35f),
+            DroneClipPoint(bounds, -37 - inflate * 0.6f, -20 - inflate));
         path.Close();
         return path;
     }

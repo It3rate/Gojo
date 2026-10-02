@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Measured offset refinement · Gojo</title>
+<style>
+:root{color-scheme:light;--paper:#f6f3eb;--ink:#22372f;--muted:#617269;--line:#d8ded2;--green:#24694d;--rust:#aa4e28}*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.6 system-ui,sans-serif}main{max-width:1080px;margin:auto;padding:32px 28px}a{color:var(--green);text-underline-offset:4px}.eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--green)}h1{font:clamp(32px,5vw,46px)/1.15 Georgia,serif;margin:12px 0 18px}.intro{max-width:860px;color:var(--muted)}.stage{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(270px,1fr);border:1px solid var(--line);border-radius:16px;overflow:hidden;background:#fffdf7}.scene{padding:12px;min-width:0}svg{width:100%;height:auto;display:block}svg text{font:13px system-ui,sans-serif;fill:var(--ink)}.caption{font-size:12px;color:var(--muted);padding:4px 12px 12px;min-height:66px}.readout{background:#eff2e9;padding:24px;display:flex;flex-direction:column;justify-content:center;gap:18px}.label{font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:var(--muted)}.value{font:24px/1.4 Georgia,serif;margin-top:5px}.detail,.view-note{font-size:13px;color:var(--muted)}h2{font:25px/1.3 Georgia,serif;margin:0 0 12px}.explanation{padding-top:22px;min-height:175px}.explanation p{max-width:950px;margin:0}.controls,.views{display:flex;align-items:center;gap:12px;margin:18px 0}.views{flex-wrap:wrap}button,select{background:#fffdf7;border:1px solid var(--line);border-radius:8px;color:var(--ink);font:inherit;padding:8px 14px;cursor:pointer}button:hover:enabled{border-color:var(--green)}button:disabled{opacity:.4;cursor:default}input[type=range]{accent-color:var(--green);flex:1;min-width:30px}.views label{font-size:14px}#position{white-space:nowrap;font-size:13px;color:var(--muted)}details{border-top:1px solid var(--line);padding:16px 0}summary{font-weight:600;cursor:pointer}pre{overflow:auto;max-height:520px;background:#e9eee4;border-radius:10px;padding:18px;font:13px/1.6 ui-monospace,Consolas,monospace}details p,footer{font-size:13px;color:var(--muted)}footer{border-top:1px solid var(--line);padding-top:20px;margin-top:18px;display:flex;flex-wrap:wrap;gap:20px}:focus-visible{outline:3px solid #ba6f36;outline-offset:3px}[hidden]{display:none!important}@media(max-width:650px){main{padding:22px 16px}.stage{grid-template-columns:1fr}.readout{padding:18px;gap:12px}.explanation{min-height:245px}.controls{gap:8px}button{padding:8px 10px}}
+</style>
+</head>
+<body><main>
+<div class="eyebrow">Gojo · Measured offsets</div>
+<h1>Measured offset refinement</h1>
+<p class="intro">An offset can have a known direction and an exact distance before its endpoints have rational coordinates. Keep the unfinished construction, then read it at a chosen resolution.</p>
+<div class="stage"><div class="scene"><svg id="scene" viewBox="0 0 480 380" role="img" aria-label="A diagonal segment and its dependent offset endpoints"></svg><div class="caption" id="caption"></div></div>
+<div class="readout" aria-live="polite" aria-atomic="true"><div><div class="label">Known structure</div><div class="detail" id="known"></div></div><div><div class="label">Current read</div><div class="value" id="result"></div></div><div><div class="label">Still retained</div><div class="detail" id="retained"></div></div></div></div>
+<div class="views"><button id="mirror" aria-pressed="false">View from the back</button><label id="resolutionControl" hidden>Scale partitions <select id="resolution"><option value="1">1</option><option value="10" selected>10</option><option value="100">100</option><option value="1000">1000</option></select></label></div>
+<p class="view-note">The selected subdivision changes observation detail. It does not change the requested distance, create measurement noise or choose a tolerance. The back view changes only the picture.</p>
+<section class="explanation" aria-live="polite" aria-atomic="true"><h2 id="heading"></h2><p id="explanation"></p></section>
+<div class="controls"><button id="prev">← Back</button><input id="step" type="range" min="0" max="4" value="0" aria-label="Construction step"><span id="position"></span><button id="next">Next →</button></div>
+<details><summary>Look at the syntax</summary><p>The authored fixture. Preparation constructs a shared scale slot and its two interpolation requests. The driver binds the actual preparation and its captured whole into each observation request.</p><pre id="syntax">gojo 1;
+
+let $space = carrier();
+let $x = carrier();
+let $y = carrier(unit_of($x));
+let $length = carrier(unit_of($x));
+let $squared = carrier(product_units(unit_of($x), unit_of($x)));
+let $ux = span($x, 0, 1);
+let $uy = span($y, 0, 1);
+let $metric = group(group_on($space, $ux, $uy), frame(
+    ($ux -&gt; $ux) -&gt; at($squared, 1), ($ux -&gt; $uy) -&gt; at($squared, 0),
+    ($uy -&gt; $uy) -&gt; at($squared, 1)));
+
+// Source geometry and chosen side. No offset endpoint is supplied.
+let $a = group_on($space, at($x, 0), at($y, 0));
+let $b = group_on($space, at($x, 1), at($y, 1));
+let $edge = $a -&gt; $b;
+let $reach = span(carrier(), 0, 1);
+let $calibration = $reach -&gt; span($length, 0, 2);
+let $side = $a -&gt; group_on($space, at($x, -1), at($y, 0));
+let $offset = group($edge, $metric, orthogonal($edge) -&gt; $calibration, $side);
+
+// One parameter whole scales the calculated unnormalized normal once.
+// Preparation retains the shared open scale, its square equation and two
+// ordinary interpolation requests. It does not force a rational endpoint.
+let $scale = carrier();
+let $scale_whole = span($scale, 0, 1);
+root group($offset, $scale_whole);
+
+// Bind ?prepared to the actual preparation witness, and ?prepared_whole to
+// its captured scale whole. These are references, not equal-looking copies.
+let $ones = carrier(unit_of($scale));
+let $tenths = carrier(subdivision(unit_of($scale), 10));
+let $hundredths = carrier(subdivision(unit_of($scale), 100));
+let $thousandths = carrier(subdivision(unit_of($scale), 1000));
+root group(?prepared, span($ones, 0, 1) -&gt; ?prepared_whole);
+root group(?prepared, span($tenths, 0, 10) -&gt; ?prepared_whole);
+root group(?prepared, span($hundredths, 0, 100) -&gt; ?prepared_whole);
+root group(?prepared, span($thousandths, 0, 1000) -&gt; ?prepared_whole);</pre></details>
+<details><summary>The connected partial construction</summary><pre>normal = (−1, 1)
+2 × s² = 4, with s ≥ 0
+
+A′ = interpolate(A, A + normal, s)
+B′ = interpolate(B, B + normal, s)
+
+Both requests use the same s.
+B′ − A′ = B − A = (1, 1)</pre><p>This is a readable summary of the prepared structure. The stored graph contains the actual repeated scale slot, metric square relation, parameter whole, output slots and ordinary affine interpolation requests. No square-root opcode or approximate point is added to the syntax.</p></details>
+<details><summary>What is checked?</summary><p>The displayed interval traces are checked against the kernel. Both endpoint expressions use the same bounded sample, so their difference cancels exactly even at the coarsest displayed resolution. Numeric restoration preserves those references. Altered equations, endpoint probes, output slots and subdivision correspondences are rejected.</p><p>The browser draws a band from the checked interval bounds. Its two edges show the permitted enclosure extremes, not two exact offset solutions. The attached equation further constrains the actual offset. This example does not discover the metric or model a distribution of physical distances.</p></details>
+<footer><a href="joined-offsets.html">Joined offsets</a><a href="../GojoMeasuredOffsetRefinement.md">Structural contract and tests</a><a href="metric-construction.html?step=4">Exact offset and joined corner</a><a href="../GojoPrimitiveConstructionAudit-2026-09.md">Construction audit</a></footer>
+</main>
+<script id="trace" type="application/json">
+{"source":[[0,0],[1,1]],"normal":[-1,1],"normalSquared":2,"distanceSquared":4,"reads":[{"parts":1,"count":[1,2],"a":[[[-2,1],[-1,1]],[[1,1],[2,1]]],"b":[[[-1,1],[0,1]],[[2,1],[3,1]]],"difference":[1,1]},{"parts":10,"count":[14,15],"a":[[[-15,10],[-14,10]],[[14,10],[15,10]]],"b":[[[-5,10],[-4,10]],[[24,10],[25,10]]],"difference":[1,1]},{"parts":100,"count":[141,142],"a":[[[-142,100],[-141,100]],[[141,100],[142,100]]],"b":[[[-42,100],[-41,100]],[[241,100],[242,100]]],"difference":[1,1]},{"parts":1000,"count":[1414,1415],"a":[[[-1415,1000],[-1414,1000]],[[1414,1000],[1415,1000]]],"b":[[[-415,1000],[-414,1000]],[[2414,1000],[2415,1000]]],"difference":[1,1]}]}
+</script>
+<script>
+'use strict';
+const el=id=>document.getElementById(id),trace=JSON.parse(el('trace').textContent);
+const stages=[
+ ['Start with the measured offset request','The source segment runs from (0,0) to (1,1) in this selected metric chart. A relative side guide chooses the displayed upper-left side. The native reach is explicitly calibrated to two length units. No output endpoints are supplied.','Source segment, metric, side and distance calibration.','Requested distance: 2','The chart and the side guide are inputs to this local construction.'],
+ ['Keep the normal before scaling it','The kernel calculates a normal direction (−1,1). Its pairing with the source direction is zero, and its squared length is two. This is useful known structure even before the requested displacement can be represented as rational coordinates.','Normal (−1,1); squared length 2.','Direction is known','The normal has not yet been scaled to the requested distance.'],
+ ['Retain the equation and shared scale','To make the squared distance four, the scale must satisfy 2 × s² = 4 with s nonnegative. Both endpoint interpolation requests use that same open s. The preparation is valid even though the exact rational reader cannot supply √2.','Two endpoint recipes share one scale slot.','2 × s² = 4','The equation is exact. A missing rational representation does not turn it into measurement uncertainty.'],
+ ['Read a guaranteed enclosure','Choose a subdivision of the prepared scale whole. Exact integer square comparisons enclose its fine count. The resulting endpoint expressions retain the shared cause; the band shows the range permitted by this coarse read. More partitions refine the same constrained construction.','The exact square equation and a selected scale subdivision.','','The original equation remains stronger than the displayed band. Neither band edge is asserted as the exact answer.'],
+ ['Cancel the shared offset','Although each endpoint has a range, both use the same unknown displacement. Subtracting their affine expressions cancels it and returns the original direction (1,1) exactly. Choosing unrelated points from two endpoint boxes would lose that relationship.','One bounded sample drives both endpoint expressions.','B′ − A′ = (1,1)','Endpoint positions are still bounded. Their relative displacement is already exact.']
+];
+let step=0,mirrored=false;
+const rational=p=>p[0]/p[1];
+function current(){return trace.reads.find(r=>r.parts===Number(el('resolution').value));}
+function draw(){
+ let shapes='';const map=p=>{const x=280+70*p[0],y=290-70*p[1];return[mirrored?480-x:x,y];};
+ const line=(a,b,color='#b6c2b0',width=2,dash='')=>{const p=map(a),q=map(b);shapes+=`<line x1="${p[0]}" y1="${p[1]}" x2="${q[0]}" y2="${q[1]}" stroke="${color}" stroke-width="${width}" ${dash?`stroke-dasharray="${dash}"`:''}/>`;};
+ const dot=(p,label,color='#24694d',dy=-12)=>{const q=map(p);shapes+=`<circle cx="${q[0]}" cy="${q[1]}" r="4.5" fill="${color}"/><text x="${q[0]+(mirrored?-10:10)}" y="${q[1]+dy}" text-anchor="${mirrored?'end':'start'}">${label}</text>`;};
+ for(let i=-3;i<=2;i++)line([i,-.5],[i,3.5],'#e6e9df',1);for(let j=0;j<=3;j++)line([-3,j],[2,j],'#e6e9df',1);
+ line(...trace.source,'#617269',3);dot(trace.source[0],'A','#617269',22);dot(trace.source[1],'B','#617269');
+ if(step===1||step===2){line(trace.source[0],trace.normal,'#aa4e28',3,'5 4');dot(trace.normal,'One normal step','#aa4e28');
+  if(step===2){line(trace.source[1],[0,2],'#aa4e28',2,'5 4');dot([0,2],'Same scale','#aa4e28');}}
+ if(step>=3){const r=current();
+  // Both coordinates use the same scale extreme. These are not independently
+  // chosen corners of marginal boxes, and no midpoint is invented.
+  const aLo=[rational(r.a[0][1]),rational(r.a[1][0])],aHi=[rational(r.a[0][0]),rational(r.a[1][1])];
+  const bLo=[rational(r.b[0][1]),rational(r.b[1][0])],bHi=[rational(r.b[0][0]),rational(r.b[1][1])];
+  shapes+=`<polygon points="${[aLo,bLo,bHi,aHi].map(p=>map(p).join(',')).join(' ')}" fill="#c7d9b8" fill-opacity=".75"/>`;
+  line(aLo,bLo,'#24694d',2);line(aHi,bHi,'#24694d',2);line(aLo,aHi,'#aa4e28',3);line(bLo,bHi,'#aa4e28',3);
+  dot(aLo,'A′ range','#24694d',24);dot(bHi,'B′ range','#24694d');
+  if(step===4){line(trace.source[0],aLo,'#a6b59e',1,'3 5');line(trace.source[1],bLo,'#a6b59e',1,'3 5');}
+ }
+ el('scene').innerHTML=shapes;
+ el('caption').textContent=step>=3?'Green: the offset enclosure. Rust: linked endpoint ranges. The exact equation remains attached.':'Grey: source geometry. Rust: the calculated unnormalized direction, drawn in this presentation frame.';
+}
+function render(){const s=stages[step];el('heading').textContent=s[0];el('explanation').textContent=s[1];el('known').textContent=s[2];el('result').textContent=s[3];el('retained').textContent=s[4];
+ if(step===3){const r=current();el('result').textContent=`${r.count[0]}/${r.parts} ≤ s ≤ ${r.count[1]}/${r.parts}`;}
+ el('resolutionControl').hidden=step<3;el('step').value=step;el('position').textContent=`${step+1} / ${stages.length}`;el('prev').disabled=step===0;el('next').disabled=step===stages.length-1;draw();}
+function move(n){step=Math.max(0,Math.min(stages.length-1,n));const url=new URL(location.href);url.searchParams.set('step',String(step));history.replaceState(null,'',url);render();}
+el('prev').onclick=()=>move(step-1);el('next').onclick=()=>move(step+1);el('step').oninput=e=>move(Number(e.target.value));el('resolution').onchange=render;
+el('mirror').onclick=()=>{mirrored=!mirrored;el('mirror').setAttribute('aria-pressed',String(mirrored));draw();};
+const initial=Number(new URL(location.href).searchParams.get('step'));step=Number.isFinite(initial)?Math.max(0,Math.min(stages.length-1,Math.trunc(initial))):0;render();
+</script>
+</body>
+</html>

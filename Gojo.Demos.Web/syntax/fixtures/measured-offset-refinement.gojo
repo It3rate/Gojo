@@ -1,0 +1,39 @@
+gojo 1;
+
+let $space = carrier();
+let $x = carrier();
+let $y = carrier(unit_of($x));
+let $length = carrier(unit_of($x));
+let $squared = carrier(product_units(unit_of($x), unit_of($x)));
+let $ux = span($x, 0, 1);
+let $uy = span($y, 0, 1);
+let $metric = group(group_on($space, $ux, $uy), frame(
+    ($ux -> $ux) -> at($squared, 1), ($ux -> $uy) -> at($squared, 0),
+    ($uy -> $uy) -> at($squared, 1)));
+
+// Source geometry and chosen side. No offset endpoint is supplied.
+let $a = group_on($space, at($x, 0), at($y, 0));
+let $b = group_on($space, at($x, 1), at($y, 1));
+let $edge = $a -> $b;
+let $reach = span(carrier(), 0, 1);
+let $calibration = $reach -> span($length, 0, 2);
+let $side = $a -> group_on($space, at($x, -1), at($y, 0));
+let $offset = group($edge, $metric, orthogonal($edge) -> $calibration, $side);
+
+// One parameter whole scales the calculated unnormalized normal once.
+// Preparation retains the shared open scale, its square equation and two
+// ordinary interpolation requests. It does not force a rational endpoint.
+let $scale = carrier();
+let $scale_whole = span($scale, 0, 1);
+root group($offset, $scale_whole);
+
+// Bind ?prepared to the actual preparation witness, and ?prepared_whole to
+// its captured scale whole. These are references, not equal-looking copies.
+let $ones = carrier(unit_of($scale));
+let $tenths = carrier(subdivision(unit_of($scale), 10));
+let $hundredths = carrier(subdivision(unit_of($scale), 100));
+let $thousandths = carrier(subdivision(unit_of($scale), 1000));
+root group(?prepared, span($ones, 0, 1) -> ?prepared_whole);
+root group(?prepared, span($tenths, 0, 10) -> ?prepared_whole);
+root group(?prepared, span($hundredths, 0, 100) -> ?prepared_whole);
+root group(?prepared, span($thousandths, 0, 1000) -> ?prepared_whole);

@@ -1,0 +1,54 @@
+gojo 1;
+
+// A point gives place, without a grid or a world direction.
+let $origin = point(carrier(), 0);
+let $outward = orthogonal($origin);
+root $origin;
+root $outward;
+
+// The unit promise is contour potential. Selecting a shared offset level
+// supplies a path whose radial distance is still uncalibrated.
+let $contour = crystal($outward);
+let $offset_pattern = $outward -> (?reach -> $contour);
+root $offset_pattern;
+
+// Choose a radial segment and attach its ends. One tick here names the chosen
+// radius; it is not one metre and does not create a circumference length.
+let $ray = crystal(orthogonal($origin -> $origin));
+let $radial_start = point($ray, 0);
+let $radial_end = point($ray, 1);
+let $radius = $radial_start -> $radial_end;
+let $start = point($contour, 0);
+let $radial = group($origin -> $radial_start, $radius, $radial_end -> $start);
+root bind(?reach, $radius);
+
+// One complete native traversal returns to the actual same starting site.
+let $end = point($contour, 1);
+let $whole = $start -> $end;
+let $closure = $end -> $start;
+let $circle_pattern = group($offset_pattern, $radial, $whole, $closure);
+root $circle_pattern;
+
+// Divide the whole. These are equal native contour parts, not X/Y samples.
+let $fourths = carrier(subdivision(unit_of($contour), 4));
+let $tenths = carrier(subdivision(unit_of($contour), 10));
+let $degree_ticks = carrier(subdivision(unit_of($contour), 360));
+let $fine_ticks = carrier(subdivision(unit_of($contour), 3600));
+let $four = group($circle_pattern, span($fourths, 0, 4) -> $whole);
+let $ten = group($circle_pattern, span($tenths, 0, 10) -> $whole);
+let $degrees = group($circle_pattern, span($degree_ticks, 0, 360) -> $whole);
+let $fine = group($circle_pattern, span($fine_ticks, 0, 3600) -> $whole);
+root $four;
+root $ten;
+root $degrees;
+root $fine;
+
+// A landmark is selected on the constructed subdivision. The selected read
+// attaches a new equal-reach radial segment and retains its derivation.
+root group($four, point($fourths, 1));
+root group($ten, point($tenths, 1));
+root group($degrees, point($degree_ticks, 90));
+root group($fine, point($fine_ticks, 900));
+root group($fine, point($fine_ticks, 637));
+root group($four, point($fourths, 4));
+root group($four, point($fourths, -1));

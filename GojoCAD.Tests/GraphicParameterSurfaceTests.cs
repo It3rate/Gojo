@@ -6,6 +6,39 @@ namespace GojoCAD.Tests;
 
 public sealed class GraphicParameterSurfaceTests
 {
+    [Theory]
+    [InlineData(0)]
+    [InlineData(1)]
+    [InlineData(2)]
+    [InlineData(3)]
+    [InlineData(4)]
+    [InlineData(5)]
+    [InlineData(6)]
+    public void NormalizedValueDoesNotReadAnUnrelatedOrMissingParameterFrame(int malformed)
+    {
+        var parameter = new Carrier();
+        var other = new Carrier(parameter.UnitShape);
+        IElement domain = malformed switch
+        {
+            0 => new Relation(new Placeholder(), new Placeholder()),
+            1 => Relation.Segment(parameter, 0, 0),
+            2 => Relation.Segment(parameter, 100, 0),
+            3 => Relation.Segment(parameter, 10, 100),
+            4 => new Relation(Relation.Point(parameter, 0), Relation.Point(other, 100)),
+            _ => Relation.Segment(parameter, 0, 100)
+        };
+        var surface = Relation.OrderedGroup(new Carrier(),
+            Relation.Segment(new Carrier(), 10, 210), domain,
+            Relation.Point(malformed == 5 ? other : parameter, 40),
+            Relation.Point(malformed == 6 ? other : parameter, 47),
+            new Placeholder(), new Placeholder(), new Placeholder(), new Placeholder());
+
+        Assert.False(GraphicParameterSurface.TryReadNormalizedValue(surface,
+            out _, out _, out _, out _, out _, out _, out _, out _));
+        Assert.True(surface.TryReadOrderedGroup(out var retained));
+        Assert.Same(domain, retained[1]);
+    }
+
     [Fact]
     public void NormalizedValueCarriesCoarseRefinedResultsAndResolutionLadder()
     {

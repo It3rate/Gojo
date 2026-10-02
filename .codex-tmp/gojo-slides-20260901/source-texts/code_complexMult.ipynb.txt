@@ -1,0 +1,97 @@
+<head>
+ <link rel="stylesheet" type="text/css" href="https://jsxgraph.org/distrib/jsxgraph.css" />
+ <script type="text/javascript" src="https://jsxgraph.org/distrib/jsxgraphcore.js"></script>
+ <div id="box" class="jxgbox" style="width:500px; height:500px;"></div>
+
+<script type="text/javascript">
+
+function plotHiddenPt(x, y, name=" ", attractor){
+	return box.create('point', [x, y], {size:0,attractors:[attractor], attractorDistance:99, snatchDistance:99,name:name});
+}
+function plotPoint(x, y, col, name=" "){
+	return box.create('point', [x,y],{style:7, color:col, name:name});
+}
+function plotiPoint(x, y, col, name=" "){
+	return box.create('point', [x,"-"+y],{style:7, color:col, name:name});
+}
+function plotLine(x, y, col, name=" "){
+	return box.create('line', [x,y],{lastArrow:true, color:col, name:name,style:4,straightFirst:false, straightLast:false, strokeWidth:2});
+}
+function plotPoly(pts, col, name=" "){
+	return box.create('polygon', pts,{ fillColor:col,strokeColor:'black',name:name});
+}
+var box = JXG.JSXGraph.initBoard('box', {showcopyright: false, boundingbox: [-4, 8, 8, -8], axis: true});
+var org = box.create('point', [0,0], {style:10,size:0,visible:false,fixed:true,name:'org'});
+
+var asp = plotHiddenPt(3,0,"asp",box.defaultAxes.x);
+var aep = plotHiddenPt(1.5,0,"aep",box.defaultAxes.x);
+var bsp = plotHiddenPt(0,0.5,"bsp",box.defaultAxes.y);
+var bep = plotHiddenPt(0, -1.5,"bep",box.defaultAxes.y);
+var a="X(aep)"; var ai="-X(asp)"; var b="Y(bep)"; var bi="-Y(bsp)";
+var ab = a+"*"+b; var abi = a+"*"+bi;
+var aibi = ai+"*-"+bi; var aib = ai+"*"+b;
+
+var segA = plotLine('asp','aep', 'red', 'segA');
+var segB = plotLine('bsp','bep', 'blue', 'segB');
+
+var rAB = plotHiddenPt(a, ab,'rAB');
+var rAIBI = plotHiddenPt("-"+ai, aibi,'rAIBI');
+var rABI = plotHiddenPt(a,"-"+abi,'rABI');
+var rAIB = plotHiddenPt("-"+ai,"-"+aib,'rAIB');
+
+// var Ar = plotLine("rAIB","rAIBI", 'orange', 'Ar');
+// var Br = plotLine("rABI","rAB", 'cyan', 'Br');
+// var poly = plotPoly(["rAB","rABI","rAIB","rAIBI"],'pink','poly')
+var Ar = plotLine("rABI","rAIBI", 'orange', 'Ar');
+var Br = plotLine("rAIB","rAB", 'cyan', 'Br');
+var poly = plotPoly(["rAIB","rAB","rABI","rAIBI"],'pink','poly')
+
+var aip="X(asp)";var bip="Y(bsp)";
+var _a = a;var _b=ai;var _c=b; var _d=bi; var _pb="-"+ai; var _pd="-"+bi;
+// var axb = box.create('point', 
+// 	 [_a+"*"+_c+'-'+_b+'*'+_d, _a+'*'+_d+'+'+_b+'*'+_c],
+// 	 {style:7, color:'green', name:'axb'});
+var axbp = plotPoint(
+	_a+"*"+_c+'-'+_pb+'*'+_pd, _a+'*'+_pd+'+'+_pb+'*'+_c,'brown', 'axbp');
+
+var txEq = box.create('text',[2,7, 
+	function(){return "("+aep.XEval().toFixed(2) + ","+-asp.XEval().toFixed(2)+"i )* "+
+				"("+bep.YEval().toFixed(2) + ","+-bsp.YEval().toFixed(2)+"i )"}], {color:'blue',fontSize:15});
+
+// var axb = box.create('point', 
+// 	 [ab+'-'+aip+'*'+bip, aip+'*'+b+'+'+a+'*'+bip],
+// 	 {style:7, fillColor:'green', strokeColor:'green', name:'axb'});
+
+// var a0 = box.create('point',["-Y(a)",0], {style:4,visible:false,color:'blue',name:'a0'});
+// var a1 = box.create('point',["X(a)",0], {style:4,visible:false,color:'blue',name:'a1'});
+// var b0 = box.create('point',[0, "-Y(b)"], {style:4,visible:false,color:'red',name:'b0'});
+// var b1 = box.create('point',[0,"X(b)"], {style:4,visible:false,color:'red',name:'b1'});
+
+// var resp0 = box.create('point',[0,"-Y(ab)"], {name:'resp0',visible:false});
+// var resp1 = box.create('point',[0,"X(ab)"], {name:'resp1',visible:false});
+
+// var a0b0 = box.create('point',[0,"-X(a0)*Y(b0)"], {color:'orange',name:'a0b0',style:4,visible:true});
+// var a1b1 = box.create('point',[0,"X(a1)*Y(b1)"], {color:'orange',name:'a1b1',style:4,visible:true});
+// var a0b1 = box.create('point',["-X(a0)*Y(b1)",0], {color:'orange',name:'a0b1',style:4,visible:true});
+// var a1b0 = box.create('point',["X(a1)*-Y(b0)",0], {color:'orange',name:'a1b0',style:4,visible:true});
+// var poly1 = box.create('polygon',["a0b1","a1b1","org"], { fillColor:'pink',strokeColor:'black'})
+// var poly0 = box.create('polygon',["a1b0","a0b0","org"], {fillColor:'cyan', strokeColor:'black'})
+// var segA = box.create('line', ["a0","a1"],{lastArrow:true, color:'blue',name:'segA',style:4,straightFirst:false, straightLast:false, strokeWidth:2, });
+// var segB = box.create('line', ["b0","b1"],{lastArrow:true, color:'red', name:'segB',style:4,straightFirst:false, straightLast:false, strokeWidth:2, });
+// var resA = box.create('line', ["a0b1","a1b1"],{lastArrow:true, color:'red',name:'segA',style:4,straightFirst:false, straightLast:false, strokeWidth:2, });
+// var resB = box.create('line', ["a1b0","a0b0"],{lastArrow:true, color:'blue', name:'segB',style:4,straightFirst:false, straightLast:false, strokeWidth:2, });
+
+
+// var resOrg = box.create('line', ["resp0","resp1"],{lastArrow:true, color:'magenta', name:'resOrg',style:4,straightFirst:false, straightLast:false, strokeWidth:2, });
+
+var alen = ()=>aep.X()-asp.X();
+var blen = ()=>bep.X()-bsp.X();
+var txt0 = box.create('text',[5,6, function(){return "area:" + poly.Area().toFixed(2)}], {color:'blue',fontSize:15});
+var txt1 = box.create('text',[5,5, function(){return Math.sqrt(alen()*alen()+blen()*blen()).toFixed(2)}], {color:'green',fontSize:15});
+var txt2 = box.create('text',[5,4, function(){return "axbpLen: "+org.Dist(axbp).toFixed(2)}], {color:'brown',fontSize:15});
+//var txtx = box.create('text',[1,-5, aibi+'-'+ab+','+aib+'+'+abi], {color:'red',fontSize:15});
+// var txt3 = box.create('text',[5,3, function(){return xy.XEval() * xy.YEval()}], {color:'green',fontSize:15});
+
+</script>
+
+</head>

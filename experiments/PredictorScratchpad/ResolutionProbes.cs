@@ -1,5 +1,6 @@
 using Gojo.Core;
 using Gojo.Encoding;
+using Gojo.Encoding.Structures;
 using Gojo.Equations;
 using N = PredictorScratchpad.NativeCircuit;
 

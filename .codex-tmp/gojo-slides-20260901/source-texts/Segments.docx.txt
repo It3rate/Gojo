@@ -1,0 +1,14 @@
+[normal] number is 0 based segment, we only change the endpoint
+[normal] Adding is just merging two values bit by bit (+3 always adds 3)
+[normal] multiply is stretching by an input ratio bit by bit (*3 adds a larger value based on original size)
+[normal] segment is number with a startpoint and endpoint.
+[normal] start point is an opposite number, not a subtraction (handicap/head start)
+[normal] the length shows the total distance, so has a direction
+[normal] both sides move in the dominant direction, i is ->| and 1 is |-> numberline is positive right ->
+[normal] inverting the numberline flips those arrows, but only because it changes the dominant direction to <-
+[normal] Adding is still shifting by the values
+[normal] multiply is stretching by the input ratio
+[normal] - total minus head start, and then proportions to account for where that force is on the line.
+[normal] The start can be 'positive', where i would be -i. This is a mirror, as it heads to zero on the right. |<-
+[normal] A mirror is literally a mirror, so zero can start with +i,-1 and end with +-
+[normal] An equal length is not an equal number (2->5 vs 12->15) force, proportions

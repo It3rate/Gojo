@@ -172,7 +172,11 @@ public static class GraphicParameterSurface
         return coarse;
     }
 
-    /// <summary>Reads a normalized value surface.</summary>
+    /// <summary>
+    /// Reads a normalized value surface with a concrete 0..positive-scale frame
+    /// shared by its coarse and refined parameter points. Results and provenance
+    /// remain supplied evidence; this read does not verify their calculation.
+    /// </summary>
     public static bool TryReadNormalizedValue(
         Relation value,
         out IElement basis,
@@ -187,8 +191,15 @@ public static class GraphicParameterSurface
         if (TryReadRootElements(value, out var elements) &&
             elements.Length == 8 &&
             elements[1] is Relation span &&
+            TryReadParameterPoint(span.Left, out var start) &&
+            TryReadParameterPoint(span.Right, out var end) &&
+            !start.Carrier.IsUnknown &&
+            start.Carrier.SameIdentityAs(end.Carrier) &&
+            start.Ticks == 0 && end.Ticks > 0 &&
             TryReadParameterPoint(elements[2], out var coarse) &&
-            TryReadParameterPoint(elements[3], out var refined))
+            TryReadParameterPoint(elements[3], out var refined) &&
+            start.Carrier.SameIdentityAs(coarse.Carrier) &&
+            start.Carrier.SameIdentityAs(refined.Carrier))
         {
             basis = elements[0];
             parameterSpan = span;

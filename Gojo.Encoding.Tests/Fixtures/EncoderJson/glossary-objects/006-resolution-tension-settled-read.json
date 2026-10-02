@@ -1,8 +1,8 @@
 {
-  "represents": "Settlement is a new inspectable structure, not just a return value.",
+  "represents": "This backing is a shared polyline. The caption describes intended settlement evidence; this specimen does not record convergence.",
   "entryId": "resolution-tension-settled-read",
   "expression": "source + basis + resolution -> settled read",
-  "encodingNote": "Settlement is a new inspectable structure, not just a return value.",
+  "encodingNote": "This backing is a shared polyline. The caption describes intended settlement evidence; this specimen does not record convergence.",
   "gojo": {
     "known": [
       "basis",

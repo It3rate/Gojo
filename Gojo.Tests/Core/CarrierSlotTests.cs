@@ -167,16 +167,16 @@ public sealed class CarrierSlotTests
     }
 
     [Fact]
-    public void InputPortCarriesUnrepresentedResidueAsTension()
+    public void InputPortRejectsFractionalSourceTensionBeforeMutation()
     {
         var carrier = new Carrier();
         var unit = new Carrier();
         var inputPort = new Relation(Point(unit, 3), Segment(carrier, 0, 10));
 
-        Assert.True(carrier.TrySetFrom(inputPort, new CarrierLocation(unit, 1)));
+        Assert.False(carrier.TrySetFrom(inputPort, new CarrierLocation(unit, 1)));
 
-        Assert.Equal(new CarrierLocation(carrier, 3), carrier.ValueSlot);
-        Assert.Equal(new CarrierLocation(unit, 1), unit.TensionSlot);
+        Assert.Equal(new CarrierLocation(carrier, 0), carrier.ValueSlot);
+        Assert.Equal(new CarrierLocation(unit, 0), unit.TensionSlot);
     }
 
     [Fact]
@@ -194,18 +194,18 @@ public sealed class CarrierSlotTests
     }
 
     [Fact]
-    public void CarrierImportPreservesUnrepresentedSourceResidueAsTension()
+    public void CarrierImportKeepsSourceValueWhenFractionalTensionCannotBeStored()
     {
         var source = new Carrier();
         var target = new Carrier();
         var inputPort = new Relation(Point(source, 3), Segment(target, 0, 10));
         source.Set(1);
 
-        Assert.True(target.TrySetFrom(inputPort, source));
+        Assert.False(target.TrySetFrom(inputPort, source));
 
         Assert.Equal(new CarrierLocation(source, 1), source.ValueSlot);
-        Assert.Equal(new CarrierLocation(source, 1), source.TensionSlot);
-        Assert.Equal(new CarrierLocation(target, 3), target.ValueSlot);
+        Assert.Equal(new CarrierLocation(source, 0), source.TensionSlot);
+        Assert.Equal(new CarrierLocation(target, 0), target.ValueSlot);
     }
 
     [Fact]
@@ -221,16 +221,16 @@ public sealed class CarrierSlotTests
     }
 
     [Fact]
-    public void UnknownSourceInputPortPreservesResidueOnActualIncomingCarrier()
+    public void UnknownSourceInputPortAlsoRejectsFractionalSourceTension()
     {
         var light = new Carrier();
         var heat = new Carrier();
         var inputPort = new Relation(Point(Carrier.Unknown, 3), Segment(heat, 0, 10));
 
-        Assert.True(heat.TrySetFrom(inputPort, new CarrierLocation(light, 1)));
+        Assert.False(heat.TrySetFrom(inputPort, new CarrierLocation(light, 1)));
 
-        Assert.Equal(new CarrierLocation(heat, 3), heat.ValueSlot);
-        Assert.Equal(new CarrierLocation(light, 1), light.TensionSlot);
+        Assert.Equal(new CarrierLocation(heat, 0), heat.ValueSlot);
+        Assert.Equal(new CarrierLocation(light, 0), light.TensionSlot);
     }
 
     [Fact]
@@ -283,7 +283,7 @@ public sealed class CarrierSlotTests
     }
 
     [Fact]
-    public void MultiSlotPortPreservesResiduePerImportedSlot()
+    public void MultiSlotPortRejectsFractionalResidueBeforeCommittingAnySlot()
     {
         var sourceX = new Carrier();
         var sourceY = new Carrier();
@@ -295,11 +295,11 @@ public sealed class CarrierSlotTests
         sourceX.Set(1);
         sourceY.Set(2);
 
-        Assert.True(port.TrySetFrom(new Relation(sourceX.ValueSlot, sourceY.ValueSlot)));
+        Assert.False(port.TrySetFrom(new Relation(sourceX.ValueSlot, sourceY.ValueSlot)));
 
-        Assert.Equal(new CarrierLocation(targetX, 3), targetX.ValueSlot);
-        Assert.Equal(new CarrierLocation(sourceX, 1), sourceX.TensionSlot);
-        Assert.Equal(new CarrierLocation(targetY, 2), targetY.ValueSlot);
+        Assert.Equal(new CarrierLocation(targetX, 0), targetX.ValueSlot);
+        Assert.Equal(new CarrierLocation(sourceX, 0), sourceX.TensionSlot);
+        Assert.Equal(new CarrierLocation(targetY, 0), targetY.ValueSlot);
         Assert.Equal(new CarrierLocation(sourceY, 0), sourceY.TensionSlot);
     }
 

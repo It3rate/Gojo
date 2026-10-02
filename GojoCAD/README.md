@@ -15,6 +15,11 @@ A helper may make structure easier to build or read, but the helper must not
 become the source of meaning. If a helper disappeared, the structure should
 still expose the concept through local Gojo reads.
 
+The September 2026 [syntax assessment for CAD and electronics](../Gojo/docs/GojoCadEcadSyntaxAssessment-2026-09.md)
+compares this inventory with current kernel constructions, the sibling GojoEcad
+importer and external formats. It distinguishes implemented reads from proposed
+geometry, uncertainty, circuit and interchange contracts.
+
 ## Format Direction
 
 A graphical definition should be readable as a connected surface:
@@ -64,12 +69,19 @@ report the local reads that need to be reconsidered.
 - no rendering
 - no path flattening
 - no pixel output
-- no Bezier, clothoid, or involute calculation
+- no built-in curve sampler or clothoid/involute calculation
 - no global shape classifier
 - no metadata bag that owns graphic meaning
 
 Output systems can come later as lenses over settled or partially settled
 GojoCAD structure.
+
+The kernel's [selected affine construction reads](../Gojo/docs/GojoAffineConstructionFixture.md)
+now exercise Bézier interpolation and local derivative constraints over exposed
+coordinates. These are exact, non-mutating reads of authored construction
+graphs; they do not add a general curve sampler or change the compact CAD
+recognition heuristics. Rational coordinate results require that selected
+reader; existing CAD point recognition still reads integral locations.
 
 ## Important Reads To Preserve
 

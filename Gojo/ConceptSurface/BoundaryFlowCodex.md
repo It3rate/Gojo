@@ -620,6 +620,11 @@ claim that inverse flow is the same thing as imaginary number structure,
 although they may rhyme structurally because both are opposed to an ordinary
 forward scalar read.
 
+A [selected complex interpretation](../docs/GojoComplexInterpretations-2026-09.md)
+can now connect these signed roles to an explicit four-step generator action.
+That additional structure supplies the complex multiplication law. An isolated
+inverse-flow lane or a face dual alone still does not establish it.
+
 The legal lanes are the cross product of the exposed boundary sides and the
 exposed flow faces:
 

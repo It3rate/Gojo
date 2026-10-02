@@ -1,0 +1,9 @@
+[Slide ]
+Dimensionality Reduction
+Area feels 2D but is actually a single value (1D) — multiplying X and Y merges them, collapsing dimensionality. This isn't a bug; it's what makes complex systems computable.
+Simplifying Complexity
+Apples are overwhelmingly complex, but we reduce them to one dimension (weight) for addition.
+Other attributes — aroma, blemishes — matter to parallel perspectives.
+Computable Heuristics
+Our minds decompose reality into separate computable heuristics, hallucinating the truth.
+[Notes ]

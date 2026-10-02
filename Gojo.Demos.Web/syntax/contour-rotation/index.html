@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Circle construction · Gojo</title>
+<style>
+:root{color-scheme:light;--paper:#f6f3eb;--ink:#22372f;--muted:#617269;--line:#d8ded2;--green:#24694d;--orange:#aa4e28}*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.6 system-ui,sans-serif}main{max-width:1050px;margin:auto;padding:36px 28px 24px}a{color:var(--green);text-underline-offset:4px}.eyebrow{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--green)}h1{font:clamp(32px,5vw,52px)/1.1 Georgia,serif;margin:12px 0 18px;letter-spacing:-.025em}.intro{max-width:780px;color:var(--muted);margin:0 0 24px}.stage{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(240px,1fr);border:1px solid var(--line);background:#fffdf7;border-radius:18px;overflow:hidden}.scene{padding:12px;min-width:0}svg{display:block;width:100%;height:auto}svg text{font:13px system-ui,sans-serif;fill:var(--muted)}.caption{min-height:48px;font-size:12px;color:var(--muted);padding:0 14px 12px}.readout{padding:28px;background:#eff2e9;display:flex;flex-direction:column;justify-content:center;gap:18px}.label{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}.value{font:25px/1.3 Georgia,serif;margin-top:3px}.detail{font-size:13px;color:var(--muted)}.explanation{min-height:205px;padding:22px 2px 0}h2{font:25px/1.3 Georgia,serif;margin:0 0 10px}.explanation p{margin:0;max-width:880px}.controls{display:flex;align-items:center;gap:16px;padding:16px 0 24px}button{border:1px solid var(--line);border-radius:8px;background:#fffdf7;color:var(--ink);font:inherit;padding:8px 16px;cursor:pointer;white-space:nowrap}button:hover:enabled{border-color:var(--green)}button:disabled{opacity:.4;cursor:default}input{min-width:30px;flex:1;accent-color:var(--green)}#position{font-size:13px;white-space:nowrap;color:var(--muted)}:focus-visible{outline:3px solid #ba6f36;outline-offset:4px}details{border-top:1px solid var(--line);padding:18px 0}summary{cursor:pointer;font-weight:600}pre{overflow-x:auto;border-radius:10px;background:#e9eee4;padding:20px;font:13px/1.6 ui-monospace,Consolas,monospace}details p,.notes,footer{font-size:13px;color:var(--muted)}footer{display:flex;flex-wrap:wrap;gap:24px;border-top:1px solid var(--line);padding-top:16px;margin-top:24px}@media(max-width:650px){main{padding:22px 16px}.stage{grid-template-columns:1fr}.readout{padding:18px;gap:14px}.value{font-size:23px}.controls{gap:9px}button{padding:8px 10px}.explanation{min-height:260px}h2{font-size:23px}}
+</style>
+</head>
+<body><main><style>.notebook-nav{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;margin:0 0 24px;padding:0 0 14px;border-bottom:1px solid #d6dbd0;font:13px/1.5 system-ui,sans-serif}.notebook-nav a,.notebook-next a,.notebook-source a{color:#16776c;text-underline-offset:4px}.notebook-next{margin-top:28px;padding-top:20px;border-top:1px solid #d6dbd0;font:16px/1.5 system-ui,sans-serif}.notebook-source{margin-top:24px;border-top:1px solid #d6dbd0;padding:18px 0}.notebook-source summary{cursor:pointer;font-weight:600}.notebook-source pre{max-height:65vh;overflow:auto;white-space:pre;background:#e9eee4;padding:18px;border-radius:8px;font:13px/1.6 Consolas,monospace}</style><nav class="notebook-nav" aria-label="Syntax notebook"><a href="/syntax/">← Syntax notebook</a><a href="/">All Gojo demos</a></nav>
+<div class="eyebrow">Gojo · Construction before calibration</div>
+<h1>Circle construction</h1>
+<p class="intro">Begin with a point. Select an offset through its outward possibility. Attach a radius, establish a return, and divide the circumference. Landmarks come from this construction; no X/Y grid is needed.</p>
+<div class="stage"><div class="scene"><svg id="scene" viewBox="0 0 440 380" role="img" aria-label="Stages of intrinsic circle construction"></svg><div class="caption" id="caption"></div></div>
+<div class="readout" aria-live="polite" aria-atomic="true">
+<div><div class="label">Available structure</div><div class="value" id="available"></div></div>
+<div><div class="label">Native contour position</div><div class="value" id="positionRead"></div><div class="detail" id="partitionRead"></div></div>
+<div><div class="label">Still uncalibrated</div><div class="detail" id="openRead"></div></div>
+</div></div>
+<section class="explanation" aria-live="polite" aria-atomic="true"><h2 id="heading"></h2><p id="explanation"></p></section>
+<div class="controls"><button id="prev">← Back</button><input id="step" type="range" min="0" max="11" value="0" aria-label="Construction step"><span id="position"></span><button id="next">Next →</button></div>
+<details><summary>Look at the actual syntax</summary>
+<p>Selected lines from the native construction fixture. The caller binds the common reach to the radius, then selects the circle, partition or landmark reader.</p>
+<pre id="syntax">let $origin = point(carrier(), 0);
+let $outward = orthogonal($origin);
+let $contour = crystal($outward);
+let $offset_pattern = $outward -&gt; (?reach -&gt; $contour);
+let $ray = crystal(orthogonal($origin -&gt; $origin));
+let $radial_start = point($ray, 0);
+let $radial_end = point($ray, 1);
+let $radius = $radial_start -&gt; $radial_end;
+let $start = point($contour, 0);
+let $radial = group($origin -&gt; $radial_start, $radius, $radial_end -&gt; $start);
+root bind(?reach, $radius);
+let $end = point($contour, 1);
+let $whole = $start -&gt; $end;
+let $closure = $end -&gt; $start;
+let $circle_pattern = group($offset_pattern, $radial, $whole, $closure);
+let $fourths = carrier(subdivision(unit_of($contour), 4));
+let $four = group($circle_pattern, span($fourths, 0, 4) -&gt; $whole);
+root group($four, point($fourths, 1));</pre>
+<p><a href="/syntax/fixtures/circle-construction.gojo">Full authored fixture</a></p>
+</details>
+<details><summary>What happened to “anchor = origin → centre”?</summary>
+<p>In the earlier example, <code>let $anchor = $origin -&gt; $centre;</code> created a relation from the original point to its supplied X/Y representation, then gave that relation a local name. It was neither an alias for the point nor a pre-existing circumference marker. That later example now calls it <code>$centre_representation</code>. This construction has one source point and needs no such coordinate representation.</p>
+</details>
+<p class="notes">The page illustrates structures and exact native positions checked against Gojo. The browser chooses a screen centre, scale and orientation to draw them; those choices supply no geometry to the kernel. Equal subdivision is the selected construction rule on the closed whole. Physical field discovery, arc-length measurement and radian calibration remain further work.</p>
+<footer><a href="https://github.com/It3rate/Gojo/blob/main/Gojo/docs/GojoCircleConstructionFixture.md">Construction and current boundaries</a><a href="/syntax/calibrated-contour-rotation/">Later: turning a plate with supplied coordinates</a></footer>
+<div class="notebook-next"><a href="/syntax/calibrated-contour-rotation/">Next: Calibrated contour rotation →</a></div></main>
+<script id="trace" type="application/json">
+[
+ {"read":"point","parts":0,"tick":null,"n":null,"d":null,"cycles":null,"available":"One point","title":"A point supplies place, without a direction.","text":"There is no horizontal or vertical axis here. The point is a shared source site. The page must draw it somewhere, but that screen position is not part of its Gojo structure."},
+ {"read":"outlet","parts":0,"tick":null,"n":null,"d":null,"cycles":null,"available":"Outward possibility","title":"Its orthogonal possibility is not linearly bound.","text":"The point can participate outwards in the directions available to its local space. We are considering a planar construction here. The faint spokes illustrate that possibility; they are not a pre-existing set of rays or a twelve-part circle."},
+ {"read":"offset","parts":0,"tick":null,"n":null,"d":null,"cycles":null,"available":"A selected offset path","title":"Select one common outward reach.","text":"An offset path through this point-centred possibility gives a contour at one common reach. That reach is still an open slot: we have not measured it or attached a reference radius. For a segment source, an analogous side-offset path could be parallel; the source structure makes the difference."},
+ {"read":"radius","parts":0,"tick":null,"n":null,"d":null,"cycles":null,"available":"Radius and reference site","title":"Attach a radius, and a start comes with it.","text":"Connect a radial segment from the source to the contour. Its direction is chosen by that attachment, not by a world axis. We use this selected radius as one native radial tick and bind it as the common reach. Its contour endpoint supplies our first reference site. Its size in metres is still unknown."},
+ {"read":"circle","parts":0,"tick":null,"n":null,"d":null,"cycles":null,"available":"One closed circumference","title":"A complete traversal returns to that same site.","text":"The unwrapped traversal runs from 0 to 1. Its end is explicitly connected back to the actual reference site. This establishes a whole to divide. The end and the start occupy the same contour site through that closure, while completing the path remains different from staying still."},
+ {"read":"locate","parts":4,"tick":1,"n":1,"d":4,"cycles":0,"available":"Four equal contour parts","title":"Landmarks now arise from dividing the whole.","text":"Subdivide the complete circumference into four equal native parts. Select the first subdivision and attach a new radius with the same reach. Its landmark is one fourth of the way around the contour. No coordinate pair was supplied to place it."},
+ {"read":"locate","parts":10,"tick":1,"n":1,"d":10,"cycles":0,"available":"Ten equal contour parts","title":"The same construction can make ten parts.","text":"Divide the same whole into ten parts and select the first. Its native position is 1/10. This is an explicit division of a known whole; simply drawing ten arbitrary marks would not give the same promise."},
+ {"read":"locate","parts":360,"tick":90,"n":1,"d":4,"cycles":0,"available":"A 360-part convention","title":"Degrees can be built from this division.","text":"Select 360 equal circumference parts. One such part supplies the degree convention on this circle, and 90 parts reach the same quarter position as before. The name is optional; the whole, subdivision and correspondence carry its meaning and provenance."},
+ {"read":"locate","parts":3600,"tick":900,"n":1,"d":4,"cycles":0,"available":"A finer subdivision","title":"Refine the partition without losing the earlier read.","text":"At 3,600 parts, tick 900 still reads as one fourth of the same whole. The fine and coarse markers have corresponding positions, with their separate basis and construction retained. A finer tick does not claim greater measurement accuracy."},
+ {"read":"locate","parts":3600,"tick":637,"n":637,"d":3600,"cycles":0,"available":"A selected fine landmark","title":"Choose a landmark within that constructed partition.","text":"Tick 637 is exactly 637/3600 of this selected whole. The new radial attachment points to that native site. This is the earlier missing step: its position comes from the circumference and partition, instead of an imported endpoint such as (13, 24)."},
+ {"read":"locate","parts":4,"tick":4,"n":0,"d":1,"cycles":1,"available":"Return with retained travel","title":"Four parts return to the actual reference site.","text":"The selected site is the starting site through closure. Its wrapped position is zero, while its completed-traversal count is one. The original reference radius can be reused. The read keeps both the return and the journey."},
+ {"read":"locate","parts":4,"tick":-1,"n":3,"d":4,"cycles":-1,"available":"Reverse native traversal","title":"The contour can be followed in reverse.","text":"One part backwards reaches the same native position as three parts forwards. The signed traversal evidence distinguishes those paths. The page draws one screen orientation; clockwise and counterclockwise still require an observer frame."}
+]
+</script>
+<script>
+'use strict';
+const el=id=>document.getElementById(id), trace=JSON.parse(el('trace').textContent);let index=0;
+function show(i){
+ index=Math.max(0,Math.min(trace.length-1,Number.isFinite(i)?Math.trunc(i):0));const s=trace[index];
+ el('step').value=index;el('position').textContent=`${index+1} / ${trace.length}`;el('prev').disabled=index===0;el('next').disabled=index===trace.length-1;
+ el('heading').textContent=s.title;el('explanation').textContent=s.text;el('available').textContent=s.available;
+ el('positionRead').textContent=s.n===null?(index<3?'No reference yet':index===3?'Reference site':'A whole to divide'):`${s.n}/${s.d} of the whole`;
+ el('partitionRead').textContent=s.parts?`${s.tick} / ${s.parts} selected parts · ${s.cycles} signed completed traversals`:index===4?'Closure links the traversal end back to its start.':'No circumference partition has been selected.';
+ el('openRead').textContent=index<3?'Radius measure, reference, traversal and partitions.':'External size, arc length in radius units, and world orientation.';
+ el('caption').textContent=index===1?'Spokes illustrate available directions, not constructed landmarks.':s.parts>60?`Only 60 guide ticks are drawn for legibility; the selected ${s.tick}/${s.parts} position is shown.`:'Screen scale and orientation are chosen only for this illustration.';
+ let svg='<title>'+s.title+'</title>';
+ if(index===1){for(let j=0;j<16;j++)svg+=`<line x1="237" y1="175" x2="350" y2="175" transform="rotate(${j*360/16} 220 175)" stroke="#b9cdb7" stroke-width="2" stroke-dasharray="3 6"/>`;}
+ if(index>=2)svg+=`<circle cx="220" cy="175" r="120" fill="none" stroke="${index===2?'#b9cdb7':'#8aa584'}" stroke-width="2" ${index===2?'stroke-dasharray="5 5"':''}/>`;
+ if(index>=3){svg+='<line x1="220" y1="175" x2="340" y2="175" stroke="#a4b3a1" stroke-dasharray="4 5"/><circle cx="340" cy="175" r="5" fill="#fffdf7" stroke="#24694d" stroke-width="2"/><text x="353" y="170">start</text>';}
+ if(index===3)svg+='<line x1="220" y1="175" x2="340" y2="175" stroke="#24694d" stroke-width="3"/><text x="265" y="202">one radius</text>';
+ if(index>=4&&index!==11){svg+='<text x="220" y="334" text-anchor="middle">one unwrapped whole</text><line x1="126" y1="356" x2="314" y2="356" stroke="#8aa584"/><circle cx="126" cy="356" r="3" fill="#24694d"/><circle cx="314" cy="356" r="3" fill="#24694d"/><text x="112" y="360" text-anchor="end">0</text><text x="328" y="360">1 ↦ start</text>';}
+ if(s.parts){const guides=Math.min(s.parts,60);for(let j=0;j<guides;j++)svg+=`<line x1="337" y1="175" x2="343" y2="175" transform="rotate(${-360*j/guides} 220 175)" stroke="#8aa584" stroke-width="1.5"/>`;
+ const displayTurn=-360*s.n/s.d;svg+=`<g transform="rotate(${displayTurn} 220 175)"><line x1="220" y1="175" x2="340" y2="175" stroke="#24694d" stroke-width="3"/><circle cx="340" cy="175" r="6" fill="#24694d"/></g>`;
+ if(index===11)svg+='<text x="220" y="334" text-anchor="middle">−1/4 travel → 3/4 position</text>';
+ }
+ svg+='<circle cx="220" cy="175" r="5" fill="#22372f"/><text x="209" y="196" text-anchor="end">source</text>';
+ if(index===2)svg+='<text x="220" y="332" text-anchor="middle">common reach: open</text>';
+ el('scene').innerHTML=svg;const url=new URL(location.href);url.searchParams.set('step',index);history.replaceState(null,'',url);
+}
+el('prev').addEventListener('click',()=>show(index-1));el('next').addEventListener('click',()=>show(index+1));el('step').addEventListener('input',e=>show(Number(e.target.value)));
+show(Number.parseInt(new URL(location.href).searchParams.get('step')||'0',10));
+</script>
+</body></html>

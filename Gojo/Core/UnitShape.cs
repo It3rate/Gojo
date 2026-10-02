@@ -5,12 +5,12 @@ namespace Gojo.Core;
 /// shape is immutable by construction; Surface exposes snapshots so callers
 /// can inspect without mutating a crystallized basis.
 /// </summary>
-public sealed class UnitShape : IEquatable<UnitShape>
+public sealed partial class UnitShape : IEquatable<UnitShape>
 {
-    private static ulong idCounter = 1;
+    private static ulong idCounter;
 
-    private readonly IElement surface;
-    private readonly IElement[] descriptors;
+    private IElement surface;
+    private IElement[] descriptors;
 
     private UnitShape(IElement surface, IReadOnlyList<IElement>? descriptors = null)
     {
@@ -95,14 +95,23 @@ public sealed class UnitShape : IEquatable<UnitShape>
     public static UnitShape ResolutionOf(UnitShape source, long sourceTicksPerTick)
     {
         var sourceShape = source ?? Atom(Carrier.Unknown);
-        if (sourceTicksPerTick <= 1)
+        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(sourceTicksPerTick);
+        if (sourceTicksPerTick == 1)
         {
             return sourceShape;
+        }
+        if (sourceShape.TryReadOpposedFace(out var forward))
+            return OpposedFaceOf(ResolutionOf(forward, sourceTicksPerTick));
+
+        if (sourceShape.TryReadSubdivision(out var parent, out var parts))
+        {
+            if (sourceTicksPerTick % parts == 0) return ResolutionOf(parent, sourceTicksPerTick / parts);
+            if (parts % sourceTicksPerTick == 0) return SubdivisionOf(parent, parts / sourceTicksPerTick);
         }
 
         if (sourceShape.TryReadResolution(out var innerSource, out var innerTicks))
         {
-            return ResolutionOf(innerSource, SaturatingMultiply(innerTicks, sourceTicksPerTick));
+            return ResolutionOf(innerSource, checked(innerTicks * sourceTicksPerTick));
         }
 
         return new UnitShape(
@@ -437,6 +446,7 @@ public sealed class UnitShape : IEquatable<UnitShape>
     /// <summary>Copies relation/location structure so a read cannot mutate the basis.</summary>
     private static IElement SnapshotOf(IElement element) => element switch
     {
+        TickRef => throw new ArgumentException("Ground a mutable tick reference in a carrier location before capturing a stable unit shape."),
         CarrierLocation location => new CarrierLocation(location.Carrier, location.Ticks),
         Relation relation => new Relation(SnapshotOf(relation.Left), SnapshotOf(relation.Right)),
         _ => element
@@ -550,6 +560,11 @@ public sealed class UnitShape : IEquatable<UnitShape>
     /// <summary>Reads additive operands from the additive-surface encoding.</summary>
     private static bool TryReadAdditiveOperands(IElement surface, out IElement[] operands)
     {
+        if (TryReadSubdivisionSurface(surface, out _, out _))
+        {
+            operands = [];
+            return false;
+        }
         if (TryReadOpposedFaceCore(surface, out var opposedSource))
         {
             return TryReadAdditiveOperands(opposedSource, out operands);
@@ -566,16 +581,27 @@ public sealed class UnitShape : IEquatable<UnitShape>
         return false;
     }
 
-    /// <summary>Flattens nested product operands while preserving point atoms.</summary>
-    private static IElement[] Flatten(IElement element) =>
-        element is Relation relation &&
-            !IsUnitPoint(relation) &&
-            !IsUnitSegment(relation) &&
-            !IsDescriptorSlotSurface(relation) &&
-            !IsResolutionSurface(relation) &&
-            !TryReadOrthogonalSourceCore(relation, out _)
-            ? [.. Flatten(relation.Left), .. Flatten(relation.Right)]
-            : [element];
+    /// <summary>Reads ordered product factors without mistaking their framing for participation.</summary>
+    private static IElement[] Flatten(IElement element)
+    {
+        if (element is not Relation relation ||
+            IsUnitPoint(relation) ||
+            IsUnitSegment(relation) ||
+            IsDescriptorSlotSurface(relation) ||
+            IsResolutionSurface(relation) ||
+            TryReadSubdivisionSurface(relation, out _, out _) ||
+            TryReadQuotientSurface(relation, out _, out _, out _) ||
+            TryReadOrthogonalSourceCore(relation, out _) ||
+            TryReadOpposedFaceCore(relation, out _) ||
+            IsAdditiveMarker(relation.Right))
+        {
+            return [element];
+        }
+
+        return IsProductSurface(relation)
+            ? Flatten(relation.Left)
+            : [.. Flatten(relation.Left), .. Flatten(relation.Right)];
+    }
 
     /// <summary>Flattens additive chains while preserving product and orthogonal operands.</summary>
     private static IElement[] FlattenAdditive(IElement element)
@@ -585,7 +611,7 @@ public sealed class UnitShape : IEquatable<UnitShape>
             return [element];
         }
 
-        if (IsAdditiveMarker(relation.Right))
+        if (IsAdditiveMarker(relation.Right) && !TryReadSubdivisionSurface(relation, out _, out _))
         {
             return FlattenAdditive(relation.Left);
         }
@@ -594,7 +620,10 @@ public sealed class UnitShape : IEquatable<UnitShape>
             IsUnitSegment(relation) ||
             IsDescriptorSlotSurface(relation) ||
             IsResolutionSurface(relation) ||
+            TryReadSubdivisionSurface(relation, out _, out _) ||
             IsProductSurface(relation) ||
+            TryReadQuotientSurface(relation, out _, out _, out _) ||
+            TryReadOpposedFaceCore(relation, out _) ||
             TryReadOrthogonalSourceCore(relation, out _))
         {
             return [element];
@@ -785,16 +814,5 @@ public sealed class UnitShape : IEquatable<UnitShape>
 
     #endregion
 
-    private static long SaturatingMultiply(long left, long right)
-    {
-        var product = (Int128)left * right;
-        if (product > long.MaxValue)
-        {
-            return long.MaxValue;
-        }
-
-        return product < long.MinValue ? long.MinValue : (long)product;
-    }
-
-    private static ulong NextId() => idCounter++;
+    private static ulong NextId() => Interlocked.Increment(ref idCounter);
 }

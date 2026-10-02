@@ -32,20 +32,18 @@ public sealed partial class Carrier
         var samples = elements.Cast<CarrierLocation>()
             .Select(location => new CarrierLocation(location.Carrier, location.Ticks)).ToArray();
         var frozen = Relation.OrderedGroup(new Carrier(), samples.Cast<IElement>().ToArray());
-        (Carrier Carrier, long Delta)[] totals;
+        (Carrier Carrier, Int128 Delta)[] totals;
         try
         {
             totals = samples.GroupBy(location => location.Carrier)
-                .Select(group => (group.Key, checked((long)group.Aggregate((Int128)0, (sum, item) => sum + item.Ticks))))
+                .Select(group => (group.Key, group.Aggregate((Int128)0, (sum, item) => checked(sum + item.Ticks))))
                 .ToArray();
             // Check primitive reception, not future equation arithmetic. Runtime
             // overflow inside an arbitrary attached equation is not transactional.
             foreach (var (carrier, delta) in totals)
             {
                 if (delta == 0) continue;
-                var pressure = checked(carrier.Tension + delta);
-                if (pressure > 0) _ = checked((long)carrier.Value + pressure);
-                else if (pressure < 0) _ = checked(-pressure);
+                _ = carrier.ReadReceivedState(delta);
             }
         }
         catch (OverflowException)
@@ -57,7 +55,7 @@ public sealed partial class Carrier
         if (ConnectedCarriers(anchors).Any(carrier => carrier.settling))
             return Unreceived(arrivals, maxPasses, frozen);
 
-        foreach (var (carrier, delta) in totals) carrier.Receive(delta);
+        foreach (var (carrier, delta) in totals) carrier.ReceiveCore(delta);
         return RunSettlement(anchors, arrivals, frozen, maxPasses, observe: true)!;
     }
 

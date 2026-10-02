@@ -1,0 +1,52 @@
+gojo 1;
+
+// Root indexes are the test fixture's layout, not semantic tags in Gojo.
+let $x = carrier();
+let $y = carrier(unit_of($x));
+let $out = carrier();
+let $xp = point($x, 1) -> point(carrier(unit_of($x)), 1);
+let $yp = point($y, 1) -> point(carrier(unit_of($y)), 1);
+let $sum = ($xp -> $yp) -> point($out, 1);
+let $product = ($xp -> $yp) -> span($out, 0, 1);
+root group($x, $y, $out);                                      // 0
+root $sum;                                                    // 1
+root $product;                                                // 2
+
+// Coarse integer output plus exact source remainder, read without mutation.
+root point($x, 3) -> point($out, 2);                           // 3
+root point($x, 3) -> point($out, 10);                          // 4
+root at($x, 1) -> point($x, 10);                              // 5: 1/10 source tick in residue context
+
+// Coordinate negation, opposed flow and frame reversal remain different.
+root group(dual(at($x, 5)), at(dual($x), 5),
+    dual(span($x, 2, 5)), reverse(span($x, 2, 5)));             // 6
+root group(carrier(product_units(unit_of($x), unit_of($x))),
+    carrier(product_units(unit_of($x), unit_of($x), unit_of($x))),
+    crystal($product));                                       // 7
+
+let $tens = carrier(resolution(unit_of($x), 10));
+let $hundreds = carrier(resolution(unit_of($tens), 10));
+root group($tens, $hundreds,
+    point($x, 10) -> point($tens, 1),
+    point($tens, 10) -> point($hundreds, 1));                   // 8
+
+let $partial = (($xp -> ?second_port) -> point($out, 1));
+root group($partial, bind(?second_port, $yp));                 // 9
+
+let $ones = carrier();
+let $whole = carrier();
+root group($ones, $whole, point($ones, 10) -> point($whole, 0)); // 10
+root group(crystal(orthogonal(point($x, 0))),
+    crystal(orthogonal(span($x, 0, 0))),
+    crystal(orthogonal(span($x, 0, 5))));                      // 11
+
+// An incompatible additive unit may be preserved, but is not a scalar sum unit.
+let $heat = carrier();
+let $hp = point($heat, 1) -> point(carrier(unit_of($heat)), 1);
+let $mixed = ($xp -> $hp) -> point($out, 1);
+root group($heat, $mixed, crystal($mixed));                    // 12
+
+// Independent components and sites remain connected without inventing a metric.
+let $z = carrier(unit_of($x));
+let $shared = tick(7);
+root group(at($x, $shared), at($y, $shared), at($z, -4));       // 13

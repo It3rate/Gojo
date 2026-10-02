@@ -208,6 +208,13 @@ plus a `ResolutionLadder` so the read can distinguish rough placement from
 later detail. The scale does not need to be decimal; the ladder levels carry
 whatever ratios the structure supplies.
 
+The exact normalized-value reader requires a concrete 0..positive-scale span
+and coarse/refined parameter points on that same carrier face. A malformed or
+unbound domain remains structure without supplying this stronger read. The
+reader recognizes supplied evidence; it does not verify the result calculation.
+The [syntax geometry exercise](../../Gojo/docs/GojoSyntaxGeometryReview-2026-09.md)
+tests this distinction along with partial templates and curve constructions.
+
 The helper can now build that resolution evidence directly from a refined tick
 and supplied level scales. This keeps sample code from owning the tick
 decomposition model. Sketch samples still compute concrete points for display,

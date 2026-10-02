@@ -7,7 +7,7 @@ namespace Gojo.Structures;
 /// The transform is the reusable instruction; an application records the
 /// focus it was bound to, the result, and the patch witness that settled.
 /// </summary>
-public static class TransformSurface
+public static partial class TransformSurface
 {
     /// <summary>Creates an ordered port set. Ports are ordinary Gojo elements.</summary>
     public static Relation Ports(Carrier root, params IElement[] ports) =>
@@ -962,6 +962,8 @@ public static class TransformSurface
     /// <summary>
     /// Resumes a partial replay from stale dependency residue. Existing replay
     /// records are preserved; new replay records must replace stale consumers.
+    /// This residue-only read cannot discover further downstream dependencies;
+    /// use TryResumeDependencyReplay with the retained affected slice for that.
     /// </summary>
     public static bool TryCreatePartialReplayFromStaleDependencyResidue(
         Carrier root,
@@ -995,7 +997,7 @@ public static class TransformSurface
             previousApplications,
             carriedApplications,
             [.. existingReplays, .. replays],
-            CombineEvidence(residueOrTension, remainingStaleResidue),
+            CombineEvidence(WithoutStaleDependencies(partialResidue), residueOrTension, remainingStaleResidue),
             EffectiveEvidence(provenance, partialProvenance),
             out resumedReplay);
     }
@@ -2503,13 +2505,17 @@ public static class TransformSurface
                     out _,
                     out _,
                     out _) ||
-                !TryFindStaleDependencyForConsumer(staleDependencies, matched, replayPreviousApplication, out var matchIndex))
+                !TryFindStaleDependencyForConsumer(staleDependencies, matched, replayPreviousApplication, out _))
             {
                 remainingStaleDependencies = [];
                 return false;
             }
 
-            matched[matchIndex] = true;
+            // One consumer may have several changed producers. Replaying the
+            // consumer discharges every stale edge to that application.
+            for (var index = 0; index < staleDependencies.Count; index++)
+                if (TryReadStaleDependency(staleDependencies[index], out _, out _, out var consumer, out _, out _) &&
+                    Equals(consumer, replayPreviousApplication)) matched[index] = true;
         }
 
         var remaining = new List<Relation>();
@@ -2772,8 +2778,8 @@ public static class TransformSurface
         {
             foreach (var input in inputCandidates)
             {
-                if (Equals(output, input) &&
-                    !bindings.Any(binding => Equals(binding.Left, output) && Equals(binding.Right, input)))
+                if (SameDependencyParticipant(output, input) &&
+                    !bindings.Any(binding => SameDependencyParticipant(binding.Left, output) && SameDependencyParticipant(binding.Right, input)))
                 {
                     bindings.Add(FocusSurface.Bind(output, input));
                 }
@@ -2855,7 +2861,11 @@ public static class TransformSurface
         {
             AddCandidateTree(candidates, replacement);
             AddCandidate(candidates, patchResult);
-            AddBindingTargets(candidates, correspondence);
+            // Application bindings also contain consumed inputs. Only bindings
+            // from declared output roles establish additional produced values.
+            if (TryRead(transform, out _, out _, out var declaredOutputs, out _, out _) &&
+                TryReadPorts(declaredOutputs, out var declaredOutputElements))
+                AddBindingTargetsForSources(candidates, correspondence, declaredOutputElements);
         }
 
         if (TryCreateOperationOutputRead(
@@ -3074,7 +3084,7 @@ public static class TransformSurface
     {
         if (element is null ||
             element is Carrier ||
-            element is CarrierLocation ||
+            element is CarrierLocation location && (location.Carrier is null || location.Carrier.IsUnknown || location.Tick is null) ||
             IsUnknownPoint(element) ||
             ContainsElement(candidates, element))
         {
@@ -3085,7 +3095,12 @@ public static class TransformSurface
     }
 
     private static bool ContainsElement(IEnumerable<IElement> candidates, IElement element) =>
-        candidates.Any(candidate => Equals(candidate, element));
+        candidates.Any(candidate => SameDependencyParticipant(candidate, element));
+
+    private static bool SameDependencyParticipant(IElement first, IElement second) =>
+        ReferenceEquals(first, second) ||
+        first is CarrierLocation a && second is CarrierLocation b && a.Carrier is not null &&
+        a.Carrier.SameIdentityAs(b.Carrier) && a.Tick is not null && a.SameTickRefAs(b);
 
     private static IElement EffectiveEvidence(IElement primary, IElement fallback)
     {

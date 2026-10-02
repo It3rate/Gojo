@@ -13,16 +13,16 @@ public sealed partial class Relation
 
     private readonly record struct CarrierFrame(Carrier Carrier, long Start, long End)
     {
-        public long Extent => End - Start;
+        public long Extent => checked(End - Start);
     }
 
-    private readonly record struct SurfaceProjection(CarrierLocation Target, CarrierLocation Residue);
+    private readonly record struct SurfaceProjection(CarrierLocation Target, IElement Residue);
 
     private readonly record struct LiveOutputTarget(Carrier Carrier, long Ticks);
 
     private readonly record struct OperationSignal(
         long Ticks,
-        CarrierLocation Residue,
+        IElement Residue,
         bool InvertsFlow,
         CarrierLocation Source);
 
@@ -67,7 +67,7 @@ public sealed partial class Relation
     }
 
     /// <summary>Allocates the next physical relation identity.</summary>
-    private static ulong NextId() => idCounter++;
+    private static ulong NextId() => Interlocked.Increment(ref idCounter);
 
     #endregion
 }

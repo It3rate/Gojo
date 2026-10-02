@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Affine basis construction · Gojo</title>
+<style>
+:root{color-scheme:light;--paper:#f6f3eb;--ink:#22372f;--muted:#617269;--line:#d8ded2;--green:#24694d;--rust:#aa4e28}*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.6 system-ui,sans-serif}main{max-width:1080px;margin:auto;padding:32px 28px}a{color:var(--green);text-underline-offset:4px}.eyebrow{font-size:12px;letter-spacing:.15em;text-transform:uppercase;color:var(--green)}h1{font:clamp(34px,5vw,52px)/1.1 Georgia,serif;letter-spacing:-.025em;margin:12px 0 18px}.intro{max-width:820px;color:var(--muted);margin-bottom:24px}.stage{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(250px,1fr);border:1px solid var(--line);border-radius:18px;overflow:hidden;background:#fffdf7}.scene{padding:12px;min-width:0}svg{width:100%;height:auto;display:block}svg text{font:13px system-ui,sans-serif;fill:var(--ink)}.caption{font-size:12px;color:var(--muted);padding:0 12px 12px;min-height:55px}.readout{background:#eff2e9;padding:26px;display:flex;flex-direction:column;justify-content:center;gap:18px}.label{font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:var(--muted)}.value{font:25px/1.35 Georgia,serif;margin-top:4px}.detail,.view-note{font-size:13px;color:var(--muted)}.explanation{padding:22px 2px 0;min-height:200px}h2{font:25px/1.3 Georgia,serif;margin:0 0 10px}.explanation p{margin:0;max-width:910px}.controls,.views,.experiment{display:flex;align-items:center;flex-wrap:wrap;gap:12px;margin:16px 0}.controls{flex-wrap:nowrap;margin:16px 0 22px}button{background:#fffdf7;border:1px solid var(--line);border-radius:8px;color:var(--ink);font:inherit;padding:8px 14px;cursor:pointer;white-space:nowrap}button:hover:enabled{border-color:var(--green)}button:disabled{opacity:.4;cursor:default}input[type=range]{accent-color:var(--green);min-width:30px;flex:1}#position{font-size:13px;color:var(--muted);white-space:nowrap}.views label{font-size:14px}.experiment{padding:12px 0;border-top:1px solid var(--line)}.experiment label{font-size:14px;min-width:140px}.experiment output{font-size:13px;min-width:55px}.view-note{margin:0 0 20px}:focus-visible{outline:3px solid #ba6f36;outline-offset:3px}details{border-top:1px solid var(--line);padding:18px 0}summary{font-weight:600;cursor:pointer}details p,footer,.notes{font-size:13px;color:var(--muted)}pre{overflow:auto;background:#e9eee4;border-radius:10px;padding:18px;font:13px/1.6 ui-monospace,Consolas,monospace}footer{display:flex;flex-wrap:wrap;gap:20px;border-top:1px solid var(--line);padding-top:18px;margin-top:20px}[hidden]{display:none!important}@media(max-width:650px){main{padding:22px 16px}.stage{grid-template-columns:1fr}.readout{padding:18px;gap:12px}.explanation{min-height:265px}.controls{gap:8px}button{padding:8px 10px}.views{gap:8px}.experiment label{min-width:120px}}
+</style>
+</head>
+<body><main>
+<div class="eyebrow">Gojo · A justified local space</div>
+<h1>Affine basis construction</h1>
+<p class="intro">Connect two spans, establish their coordinate roles, and keep the calibration when the basis crystallizes. A Bézier can then use that space—even when some of its points are only partly known.</p>
+<div class="stage"><div class="scene"><svg id="scene" viewBox="0 0 440 440" role="img" aria-label="Construction of a local affine basis and Bézier curve"></svg><div class="caption" id="caption"></div></div>
+<div class="readout" aria-live="polite" aria-atomic="true">
+<div><div class="label">Available structure</div><div class="value" id="available"></div></div>
+<div><div class="label">Read in the selected basis</div><div class="value" id="numeric"></div><div class="detail" id="calibration"></div></div>
+<div><div class="label">Still open</div><div class="detail" id="uncertainty"></div></div>
+</div></div>
+<div class="views"><button id="rotate">Turn the view ↻</button><button id="mirror" aria-pressed="false">View from the back</button><label><input type="checkbox" id="opposite"> Opposite v convention</label></div>
+<p class="view-note">Turning or reflecting the view changes only the picture. Viewing from the back mirrors left and right while keeping the viewer’s top and bottom. The opposite convention changes a coordinate read through its retained calibration; it does not move the represented point.</p>
+<div class="experiment" id="signalControls" hidden><label for="signal">Second native input</label><input id="signal" type="range" min="-4" max="4" value="2"><output id="signalValue" for="signal">2 ticks</output></div>
+<div class="experiment" id="curveControls" hidden><label for="sample">Curve parameter</label><input id="sample" type="range" min="0" max="4" value="2"><output id="sampleValue" for="sample">1/2</output></div>
+<section class="explanation" aria-live="polite" aria-atomic="true"><h2 id="heading"></h2><p id="explanation"></p></section>
+<div class="controls"><button id="prev">← Back</button><input id="step" type="range" min="0" max="9" value="0" aria-label="Construction step"><span id="position"></span><button id="next">Next →</button></div>
+<details><summary>Look at the actual syntax</summary>
+<p>Excerpts from the executable fixture. The selected reader crystallizes the foundation and binds its result to <code>?basis</code>. The same six interpolation requests then consume that basis.</p>
+<pre id="syntax">let $origin = point(carrier(),0);
+let $line = crystal(orthogonal($origin -&gt; $origin));
+let $a = point($line,0);
+let $b = point($line,6);
+let $edge = $a -&gt; $b;
+let $outlet = orthogonal($edge);
+let $cross = crystal(orthogonal($a -&gt; $a));
+let $cross_start = point($cross,0);
+let $d = point($cross,4);
+let $cross_span = $cross_start -&gt; $d;
+let $selection = $outlet -&gt; $cross_span;
+let $common_origin = $a -&gt; $cross_start;
+let $foundation = group($edge, $selection, $common_origin);
+
+root group(?basis, group(at($line,3), ?unobserved_cross));
+
+let $grade = group(?sample, $domain, $domain, ?basis);
+let $ab = ports(?start, ?control_a, $grade) -&gt; ?q0;
+let $bc = ports(?control_a, ?control_b, $grade) -&gt; ?q1;
+let $cd = ports(?control_b, ?end, $grade) -&gt; ?q2;
+let $abc = ports(?q0, ?q1, $grade) -&gt; ?r0;
+let $bcd = ports(?q1, ?q2, $grade) -&gt; ?r1;
+let $result = ports(?r0, ?r1, $grade) -&gt; ?curve_point;</pre>
+<p><a href="../../../Gojo.Encoding.Tests/Fixtures/Syntax/grounded-affine-basis.gojo">Full authored fixture</a></p>
+</details>
+<details><summary>What has this experiment established?</summary>
+<p>The kernel checks the span connections, native line provenance and calibrations, captures the basis, and evaluates each interpolation. The numeric traces on this page are checked against those readers. The browser draws an illustration of those results.</p>
+<p>The affine product interpretation is selected as a local construction rule. This does not discover physical independence, measure a right angle, or infer a metric from two carriers. The two units are drawn at equal screen lengths for clarity; that does not make their physical lengths equal. Partial signals can contain both first-axis and orthogonal participation; automatic discovery of that decomposition is separate work.</p>
+</details>
+<footer><a href="../GojoGroundedAffineBasisFixture.md">Construction, tests and boundaries</a><a href="contour-rotation.html">Earlier: a circle before coordinates</a><a href="../GojoPrimitiveConstructionAudit-2026-09.md">Primitive construction audit</a></footer>
+</main>
+<script id="trace" type="application/json">
+{"samples":[{"native":-4,"opposite":false,"point":[[1,2],[-1,1]]},{"native":-4,"opposite":true,"point":[[1,2],[1,1]]},{"native":-3,"opposite":false,"point":[[1,2],[-3,4]]},{"native":-3,"opposite":true,"point":[[1,2],[3,4]]},{"native":-2,"opposite":false,"point":[[1,2],[-1,2]]},{"native":-2,"opposite":true,"point":[[1,2],[1,2]]},{"native":-1,"opposite":false,"point":[[1,2],[-1,4]]},{"native":-1,"opposite":true,"point":[[1,2],[1,4]]},{"native":0,"opposite":false,"point":[[1,2],[0,1]]},{"native":0,"opposite":true,"point":[[1,2],[0,1]]},{"native":1,"opposite":false,"point":[[1,2],[1,4]]},{"native":1,"opposite":true,"point":[[1,2],[-1,4]]},{"native":2,"opposite":false,"point":[[1,2],[1,2]]},{"native":2,"opposite":true,"point":[[1,2],[-1,2]]},{"native":3,"opposite":false,"point":[[1,2],[3,4]]},{"native":3,"opposite":true,"point":[[1,2],[-3,4]]},{"native":4,"opposite":false,"point":[[1,2],[1,1]]},{"native":4,"opposite":true,"point":[[1,2],[-1,1]]}],"curves":[{"tick":0,"opposite":false,"mode":"complete","nodes":[[[0,1],[0,1]],[[0,1],[1,1]],[[1,1],[1,1]],[[0,1],[0,1]],[[0,1],[1,1]],[[0,1],[0,1]]]},{"tick":0,"opposite":false,"mode":"partial","nodes":[[[0,1],[0,1]],[[0,1],[1,1]],[[1,1],null],[[0,1],[0,1]],[[0,1],[1,1]],[[0,1],[0,1]]]},{"tick":0,"opposite":false,"mode":"missing","nodes":[[[0,1],[0,1]],[[0,1],[1,1]],[null,null],[[0,1],[0,1]],[[0,1],[1,1]],[[0,1],[0,1]]]},{"tick":0,"opposite":true,"mode":"complete","nodes":[[[0,1],[0,1]],[[0,1],[-1,1]],[[1,1],[-1,1]],[[0,1],[0,1]],[[0,1],[-1,1]],[[0,1],[0,1]]]},{"tick":0,"opposite":true,"mode":"partial","nodes":[[[0,1],[0,1]],[[0,1],[-1,1]],[[1,1],null],[[0,1],[0,1]],[[0,1],[-1,1]],[[0,1],[0,1]]]},{"tick":0,"opposite":true,"mode":"missing","nodes":[[[0,1],[0,1]],[[0,1],[-1,1]],[null,null],[[0,1],[0,1]],[[0,1],[-1,1]],[[0,1],[0,1]]]},{"tick":250,"opposite":false,"mode":"complete","nodes":[[[0,1],[1,4]],[[1,4],[1,1]],[[1,1],[3,4]],[[1,16],[7,16]],[[7,16],[15,16]],[[5,32],[9,16]]]},{"tick":250,"opposite":false,"mode":"partial","nodes":[[[0,1],[1,4]],[[1,4],null],[[1,1],null],[[1,16],null],[[7,16],null],[[5,32],null]]},{"tick":250,"opposite":false,"mode":"missing","nodes":[[[0,1],[1,4]],[null,null],[null,null],[null,null],[null,null],[null,null]]},{"tick":250,"opposite":true,"mode":"complete","nodes":[[[0,1],[-1,4]],[[1,4],[-1,1]],[[1,1],[-3,4]],[[1,16],[-7,16]],[[7,16],[-15,16]],[[5,32],[-9,16]]]},{"tick":250,"opposite":true,"mode":"partial","nodes":[[[0,1],[-1,4]],[[1,4],null],[[1,1],null],[[1,16],null],[[7,16],null],[[5,32],null]]},{"tick":250,"opposite":true,"mode":"missing","nodes":[[[0,1],[-1,4]],[null,null],[null,null],[null,null],[null,null],[null,null]]},{"tick":500,"opposite":false,"mode":"complete","nodes":[[[0,1],[1,2]],[[1,2],[1,1]],[[1,1],[1,2]],[[1,4],[3,4]],[[3,4],[3,4]],[[1,2],[3,4]]]},{"tick":500,"opposite":false,"mode":"partial","nodes":[[[0,1],[1,2]],[[1,2],null],[[1,1],null],[[1,4],null],[[3,4],null],[[1,2],null]]},{"tick":500,"opposite":false,"mode":"missing","nodes":[[[0,1],[1,2]],[null,null],[null,null],[null,null],[null,null],[null,null]]},{"tick":500,"opposite":true,"mode":"complete","nodes":[[[0,1],[-1,2]],[[1,2],[-1,1]],[[1,1],[-1,2]],[[1,4],[-3,4]],[[3,4],[-3,4]],[[1,2],[-3,4]]]},{"tick":500,"opposite":true,"mode":"partial","nodes":[[[0,1],[-1,2]],[[1,2],null],[[1,1],null],[[1,4],null],[[3,4],null],[[1,2],null]]},{"tick":500,"opposite":true,"mode":"missing","nodes":[[[0,1],[-1,2]],[null,null],[null,null],[null,null],[null,null],[null,null]]},{"tick":750,"opposite":false,"mode":"complete","nodes":[[[0,1],[3,4]],[[3,4],[1,1]],[[1,1],[1,4]],[[9,16],[15,16]],[[15,16],[7,16]],[[27,32],[9,16]]]},{"tick":750,"opposite":false,"mode":"partial","nodes":[[[0,1],[3,4]],[[3,4],null],[[1,1],null],[[9,16],null],[[15,16],null],[[27,32],null]]},{"tick":750,"opposite":false,"mode":"missing","nodes":[[[0,1],[3,4]],[null,null],[null,null],[null,null],[null,null],[null,null]]},{"tick":750,"opposite":true,"mode":"complete","nodes":[[[0,1],[-3,4]],[[3,4],[-1,1]],[[1,1],[-1,4]],[[9,16],[-15,16]],[[15,16],[-7,16]],[[27,32],[-9,16]]]},{"tick":750,"opposite":true,"mode":"partial","nodes":[[[0,1],[-3,4]],[[3,4],null],[[1,1],null],[[9,16],null],[[15,16],null],[[27,32],null]]},{"tick":750,"opposite":true,"mode":"missing","nodes":[[[0,1],[-3,4]],[null,null],[null,null],[null,null],[null,null],[null,null]]},{"tick":1000,"opposite":false,"mode":"complete","nodes":[[[0,1],[1,1]],[[1,1],[1,1]],[[1,1],[0,1]],[[1,1],[1,1]],[[1,1],[0,1]],[[1,1],[0,1]]]},{"tick":1000,"opposite":false,"mode":"partial","nodes":[[[0,1],[1,1]],[[1,1],null],[[1,1],[0,1]],[[1,1],null],[[1,1],[0,1]],[[1,1],[0,1]]]},{"tick":1000,"opposite":false,"mode":"missing","nodes":[[[0,1],[1,1]],[null,null],[[1,1],[0,1]],[null,null],[[1,1],[0,1]],[[1,1],[0,1]]]},{"tick":1000,"opposite":true,"mode":"complete","nodes":[[[0,1],[-1,1]],[[1,1],[-1,1]],[[1,1],[0,1]],[[1,1],[-1,1]],[[1,1],[0,1]],[[1,1],[0,1]]]},{"tick":1000,"opposite":true,"mode":"partial","nodes":[[[0,1],[-1,1]],[[1,1],null],[[1,1],[0,1]],[[1,1],null],[[1,1],[0,1]],[[1,1],[0,1]]]},{"tick":1000,"opposite":true,"mode":"missing","nodes":[[[0,1],[-1,1]],[null,null],[[1,1],[0,1]],[null,null],[[1,1],[0,1]],[[1,1],[0,1]]]}]}
+</script>
+<script>
+'use strict';
+const el=id=>document.getElementById(id),trace=JSON.parse(el('trace').textContent);
+const stages=[
+ ['One source point','Begin with a site, without a page direction.','A point establishes a place in the structure. The page puts it at its centre, but that screen position has no role in the construction.'],
+ ['An ordered native segment','Connect a start and an end.','The native line retains its point origin. Choose a segment whose end is six native ticks from its start. This supplies an ordered span and its opposite, without naming either direction right or left.'],
+ ['An orthogonal outlet','Keep participation outside the current order available.','The first span does not account for everything. Its orthogonal outlet leaves room for participation outside that order. The faint crosswise lines illustrate this possibility; they do not establish a physical ninety-degree angle.'],
+ ['Two spans with connected origins','Select a second linear participation.','Choose a four-tick span through that outlet and explicitly connect its start to the first span’s start. This fixture selects an affine product interpretation of their two coordinate roles. It does not infer physical independence from two unrelated carrier names.'],
+ ['A crystallized affine basis','Make the calibration part of each unit.','One u unit now represents the whole six-tick first span. One v unit represents the whole four-tick second span. Their ordered frames, source connections and calibrations remain in the crystallized structure. The opposite convention uses the span ending at −4 instead.'],
+ ['An independent second-coordinate read','Change what the first coordinate does not account for.','The first input stays at three native ticks, so u remains one half. Move the second input: v changes through its own calibration. Now turn the view. The point may move across both screen directions, while its structural u read still stays fixed.'],
+ ['A parallel pair and four connected roles','Combine the two established coordinate roles.','The product basis locates the corner at the end of both selected spans. It gives A→B and D→C equal ordered displacement. This formal affine translation follows from the chosen basis; it is not a measured normal-distance verdict.'],
+ ['Six connected interpolation steps','Reuse the ordinary Bézier construction.','Use A, D, C and B as the four controls. Three interpolations feed two, then one final point. The coloured intermediates are results of those requests. Moving the parameter selects another checked sample; turning the view leaves all their coordinate reads unchanged.'],
+ ['A partial control and a partial curve','An unknown coordinate is still useful structure.','The second control retains its u coordinate while v is unobserved. The curve can still calculate u at every sample. Its unresolved v remains connected to that missing input. The dashed guide shows one known coordinate, not a finite tolerance or a guessed curve. At a parameter endpoint, the unneeded unknown can drop out of the read.'],
+ ['An omitted control with retained dependencies','A missing point does not erase the construction.','Leave the second control point entirely unbound. Its coordinate roles remain separate unknowns. Interior samples are open, while the start and end remain readable when the parameter selects them. Use the parameter slider to compare these cases; absence is never filled with zero.']
+];
+let index=0,turn=0,back=false;
+const scalar=q=>q===null?'?':q[1]===1?String(q[0]):q[0]+'/'+q[1];
+const number=q=>q===null?null:q[0]/q[1];
+function screen(p){
+ let x=p[0]*130,y=-p[1]*130;
+ for(let i=0;i<turn;i++){const z=x;x=-y;y=z;}
+ // Reflect in the viewer's frame after rotation, preserving screen top and bottom.
+ if(back)x=-x;
+ return[220+x,220+y];
+}
+function line(a,b,color='#8aa584',width=2,dash=''){const p=screen(a),q=screen(b);return '<line x1="'+p[0]+'" y1="'+p[1]+'" x2="'+q[0]+'" y2="'+q[1]+'" stroke="'+color+'" stroke-width="'+width+'" '+(dash?'stroke-dasharray="'+dash+'"':'')+'/>';}
+function dot(p,label,color='#24694d',radius=5){const q=screen(p);return '<circle cx="'+q[0]+'" cy="'+q[1]+'" r="'+radius+'" fill="'+color+'"/>'+(label?'<text x="'+(q[0]+10)+'" y="'+(q[1]-10)+'">'+label+'</text>':'');}
+function show(i){
+ index=Math.max(0,Math.min(9,Number.isFinite(i)?Math.trunc(i):0));const s=stages[index],opposite=el('opposite').checked,sign=opposite?-1:1;
+ el('step').value=index;el('position').textContent=(index+1)+' / 10';el('prev').disabled=index===0;el('next').disabled=index===9;
+ el('opposite').disabled=index<4;el('heading').textContent=s[1];el('explanation').textContent=s[2];el('available').textContent=s[0];
+ el('signalControls').hidden=index!==5;el('curveControls').hidden=index<7;
+ el('calibration').textContent=index<4?'No normalized coordinate basis yet.':'1 u = 6 first-span ticks · 1 v = '+(opposite?'−4':'4')+' second-span ticks';
+ el('uncertainty').textContent=index<3?'Second coordinate role and its calibration.':index<8?'External scale, metric and physical applicability.':index===8?'The second control’s v coordinate.':'The second control point; u and v are separate open roles.';
+ el('caption').textContent='Screen orientation and scale are viewing choices. '+(back?'This view is reflected. ':'')+'View turn: '+(turn*90)+'°.';
+ let svg='<title>'+s[1]+'</title>',numeric=index<4?'No coordinate read yet':'Origin: (0, 0)';
+ if(index>=4){for(let j=-4;j<=4;j++){svg+=line([j/4,-1.1],[j/4,1.1],'#e1e5da',1);svg+=line([-1.1,j/4],[1.1,j/4],'#e1e5da',1);}}
+ if(index>=1){svg+=line([-.25,0],[1.1,0],'#b9c8b2',1,'4 5');svg+=line([0,0],[1,0],'#24694d',3);svg+=dot([1,0],index>=4?'B · u=1':'6 ticks');}
+ if(index===2){for(let j=0;j<=5;j++)svg+=line([j/5,-.8],[j/5,.8],'#b9c8b2',1.5,'3 6');}
+ if(index>=3){svg+=line([0,-1.1],[0,1.1],'#b9c8b2',1,'4 5');svg+=line([0,0],[0,1],'#aa4e28',3);svg+=dot([0,1],index>=4?'D · v='+(opposite?'−1':'1'):'4 ticks','#aa4e28');}
+ if(index>=4&&opposite){svg+=line([0,0],[0,-1],'#aa4e28',2,'5 4');svg+=dot([0,-1],'v=1','#aa4e28',3);}
+ if(index>=6&&index<8){svg+=line([0,1],[1,1],'#8aa584',2);svg+=line([1,0],[1,1],'#b9c8b2',1,'4 5');svg+=dot([1,1],'C','#24694d');}
+ if(index===5){const input=Number(el('signal').value),row=trace.samples.find(r=>r.native===input&&r.opposite===opposite);numeric='('+row.point.map(scalar).join(', ')+')';svg+=dot([.5,input/4],'sample','#aa4e28',6);el('signalValue').textContent=input+' ticks';}
+ if(index>=7){
+  const tick=[0,250,500,750,1000][Number(el('sample').value)],mode=index===7?'complete':index===8?'partial':'missing';
+  const row=trace.curves.find(r=>r.tick===tick&&r.mode===mode&&r.opposite===opposite),last=row.nodes[5];
+  el('sampleValue').textContent=['0','1/4','1/2','3/4','1'][Number(el('sample').value)];numeric='('+last.map(scalar).join(', ')+')';
+  const points=row.nodes.map(p=>[number(p[0]),number(p[1])===null?null:sign*number(p[1])]);
+  if(mode==='complete'){
+   const path=[[0,0],[0,1],[1,1],[1,0]].map(screen);svg+='<path d="M'+path[0].join(',')+' C'+path[1].join(',')+' '+path[2].join(',')+' '+path[3].join(',')+'" fill="none" stroke="#24694d" stroke-width="2.5"/>';
+  }
+  for(const [a,b] of [[0,1],[1,2],[3,4]])if(points[a].every(n=>n!==null)&&points[b].every(n=>n!==null))svg+=line(points[a],points[b],'#aa4e28',1.5);
+  for(let j=0;j<points.length;j++)if(points[j].every(n=>n!==null))svg+=dot(points[j],j===5?'sample':'','#aa4e28',j===5?6:3);
+  if(points[5][0]!==null&&points[5][1]===null)svg+=line([points[5][0],-1.1],[points[5][0],1.1],'#aa4e28',2,'5 5');
+  if(mode==='partial')svg+=line([1,-1.1],[1,1.1],'#b9c8b2',1.5,'3 5');
+ }
+ svg+=dot([0,0],index>=4?'A · (0,0)':'source','#22372f');
+ el('numeric').textContent=numeric;el('scene').innerHTML=svg;
+ const url=new URL(location.href);url.searchParams.set('step',index);history.replaceState(null,'',url);
+}
+el('prev').addEventListener('click',()=>show(index-1));el('next').addEventListener('click',()=>show(index+1));el('step').addEventListener('input',e=>show(Number(e.target.value)));
+el('rotate').addEventListener('click',()=>{turn=(turn+1)%4;show(index);});el('mirror').addEventListener('click',()=>{back=!back;el('mirror').setAttribute('aria-pressed',String(back));show(index);});
+for(const id of ['opposite','signal','sample'])el(id).addEventListener('input',()=>show(index));
+show(Number.parseInt(new URL(location.href).searchParams.get('step')||'0',10));
+</script>
+</body></html>

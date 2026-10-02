@@ -1,0 +1,5 @@
+[Slide ]
+Communication Without Coordination
+Parallel perspectives communicate automatically through shared substrate — no message-passing or coordination layer required. A square's bottom-left point can "want" to move right while its area "wants" to stay fixed; these local pressures act on each other because they share the same space. Even contradictions self-resolve — each perspective pushes its preference, reacts to the outcome, and incorrect adjustments increase tension that self-corrects.
+This is why car suspensions and analog circuits share the same math: the force-voltage duality works because they are the same complexity space. Same elements, same transforms, same results. A discovery in one transfers directly to the other — not by analogy, but by identity.
+[Notes ]

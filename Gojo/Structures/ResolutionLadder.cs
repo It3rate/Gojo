@@ -1,4 +1,5 @@
 using Gojo.Core;
+using System.Numerics;
 
 namespace Gojo.Structures;
 
@@ -203,7 +204,7 @@ public static class ResolutionLadder
     {
         if (TryReadLevel(levels, levelIndex, out var level))
         {
-            level.Add(Math.Min(ticks, (ulong)long.MaxValue));
+            level.Add(ticks);
         }
     }
 
@@ -253,7 +254,7 @@ public static class ResolutionLadder
     /// <summary>Reads a composite value using an explicit scale per level.</summary>
     public static long ReadComposite(IReadOnlyList<Carrier> levels, IReadOnlyList<long> levelScales)
     {
-        var value = 0L;
+        var value = BigInteger.Zero;
         for (var index = 0; index < CountOf(levels); index++)
         {
             if (!TryReadLevel(levels, index, out var level))
@@ -261,12 +262,10 @@ public static class ResolutionLadder
                 continue;
             }
 
-            value = SaturatingAdd(
-                value,
-                SaturatingMultiply(SaturatingToLong(level.Value), RepeatLast(levelScales, index)));
+            value += (BigInteger)level.Value * RepeatLast(levelScales, index);
         }
 
-        return value;
+        return checked((long)value);
     }
 
     /// <summary>Reads a composite value from a repeated radix scale.</summary>
@@ -303,7 +302,7 @@ public static class ResolutionLadder
 
         return new CarrierLocation(
             holder,
-            SaturatingMultiply(SaturatingToLong(level.Value), RepeatLast(levelScales, levelIndex)));
+            checked((long)((BigInteger)level.Value * RepeatLast(levelScales, levelIndex))));
     }
 
     /// <summary>Reads a repeated-radix level as a root-grounded contribution.</summary>
@@ -335,7 +334,7 @@ public static class ResolutionLadder
         for (var index = 0; index < levelCount; index++)
         {
             scales[index] = scale;
-            scale = SaturatingMultiply(scale, radix);
+            if (index + 1 < levelCount) scale = checked(scale * radix);
         }
 
         return scales;
@@ -352,7 +351,7 @@ public static class ResolutionLadder
         var span = 1L;
         for (var index = 0; index < levelCount; index++)
         {
-            span = SaturatingMultiply(span, radix);
+            span = checked(span * radix);
         }
 
         return span;
@@ -419,33 +418,4 @@ public static class ResolutionLadder
     private static Carrier RootOrUnknown(Carrier carrier) =>
         carrier ?? Carrier.Unknown;
 
-    private static long SaturatingAdd(long left, long right)
-    {
-        var sum = (Int128)left + right;
-        return ClampToLong(sum);
-    }
-
-    private static long SaturatingMultiply(long left, long right)
-    {
-        var product = (Int128)left * right;
-        return ClampToLong(product);
-    }
-
-    private static long SaturatingToLong(ulong value) =>
-        value > long.MaxValue ? long.MaxValue : (long)value;
-
-    private static long ClampToLong(Int128 value)
-    {
-        if (value > long.MaxValue)
-        {
-            return long.MaxValue;
-        }
-
-        if (value < long.MinValue)
-        {
-            return long.MinValue;
-        }
-
-        return (long)value;
-    }
 }

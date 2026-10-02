@@ -1,0 +1,40 @@
+gojo 1;
+
+// Inputs in a selected local chart. No world-up direction is implied.
+let $space = carrier();
+let $x = carrier();
+let $y = carrier(unit_of($x));
+let $length = carrier(unit_of($x));
+let $squared = carrier(product_units(unit_of($x), unit_of($x)));
+let $ux = span($x, 0, 1);
+let $uy = span($y, 0, 1);
+let $metric = group(group_on($space, $ux, $uy), frame(
+    ($ux -> $ux) -> at($squared, 1), ($ux -> $uy) -> at($squared, 0),
+    ($uy -> $uy) -> at($squared, 1)));
+let $a = group_on($space, at($x, 0), at($y, 0));
+let $b = group_on($space, at($x, 6), at($y, 0));
+let $c = group_on($space, at($x, 6), at($y, 6));
+let $first = $a -> $b;
+let $second = $b -> $c;
+let $reach = span(carrier(), 0, 1);
+let $calibration = $reach -> span($length, 0, 2);
+let $first_side = $a -> group_on($space, at($x, 0), at($y, 1));
+let $second_side = $b -> group_on($space, at($x, 5), at($y, 0));
+let $offset_a = group($first, $metric, orthogonal($first) -> $calibration, $first_side);
+let $offset_b = group($second, $metric, orthogonal($second) -> $calibration, $second_side);
+root $offset_a;
+root $offset_b;
+
+// A miter is the intersection of the two calculated straight supports.
+// Each source whole has an explicit parameter frame and allowed support.
+// This policy allows trimming inside these segments, but no extrapolation.
+let $t = carrier();
+let $u = carrier();
+let $first_whole = span($t, 0, 1);
+let $second_whole = span($u, 0, 1);
+let $supports = group($first_whole -> $first_whole, $second_whole -> $second_whole);
+root group($offset_a, $offset_b, $supports);
+
+// A distinct policy permits limited extension. It is not an unbounded miter.
+root group($offset_a, $offset_b, group($first_whole -> span($t, -1, 2),
+    $second_whole -> span($u, -1, 2)));

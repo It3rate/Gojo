@@ -112,6 +112,32 @@ public sealed class CoherentArrivalTests
     }
 
     [Fact]
+    public void MinimumSignedArrivalIsRepresentablePressure()
+    {
+        var source = new Carrier();
+        var observed = Carrier.ReceiveTogether(Frame(new CarrierLocation(source, long.MinValue)));
+
+        Assert.Equal(0UL, source.Value);
+        Assert.Equal(long.MinValue, source.Tension);
+        Assert.True(SettlementObservation.ObservedQuiet(observed));
+    }
+
+    [Theory]
+    [InlineData(long.MinValue, long.MaxValue, long.MaxValue, long.MaxValue - 1, 0)]
+    [InlineData(long.MaxValue, long.MinValue, -1, 0, -2)]
+    public void WideArrivalTotalsAreJudgedAfterExistingParticipationCancels(
+        long initial, long first, long second, long value, long tension)
+    {
+        var source = new Carrier();
+        source.Set(initial);
+        var observed = Carrier.ReceiveTogether(Frame(new CarrierLocation(source, first), new CarrierLocation(source, second)));
+
+        Assert.Equal((ulong)value, source.Value);
+        Assert.Equal(tension, source.Tension);
+        Assert.True(SettlementObservation.ObservedQuiet(observed));
+    }
+
+    [Fact]
     public void PositiveCapacityRouteCannotDiscardUnrepresentedNegativePressure()
     {
         var source = new Carrier();

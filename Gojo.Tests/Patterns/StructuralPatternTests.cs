@@ -6,6 +6,58 @@ namespace Gojo.Tests.Patterns;
 public sealed class StructuralPatternTests
 {
     [Fact]
+    public void RefinementRetainsUnchangedSurfacesAndSharedChangedRelations()
+    {
+        var basis = new Carrier();
+        var source = new Relation(Relation.Point(basis, 10), new Placeholder());
+        var slot = new Placeholder();
+        var partial = new Relation(source, slot);
+        var pattern = new Relation(partial, partial);
+        var value = new CarrierLocation(basis, 2);
+
+        var result = Assert.IsType<Relation>(StructuralPattern.Refine(pattern, new Relation(slot, value)));
+        var changed = Assert.IsType<Relation>(result.Left);
+        Assert.Same(result.Left, result.Right);
+        Assert.NotSame(partial, changed);
+        Assert.Same(source, changed.Left);
+        Assert.Equal(value, changed.Right);
+        Assert.Same(slot, partial.Right);
+        Assert.Same(pattern, StructuralPattern.Refine(pattern, new Relation(new Placeholder(), value)));
+        Assert.Same(pattern, StructuralPattern.Refine(pattern));
+    }
+
+    [Fact]
+    public void SeparateRefinementsKeepDistinctChangedVersionsAndDoNotMergeLookalikes()
+    {
+        var slot = new Placeholder();
+        var site = Relation.Point(new Carrier(), 3);
+        var one = new Relation(site, slot);
+        var two = new Relation(site, slot);
+        var pattern = new Relation(one, two);
+        var binding = new Relation(slot, site);
+        var first = Assert.IsType<Relation>(StructuralPattern.Refine(pattern, binding));
+        var second = Assert.IsType<Relation>(StructuralPattern.Refine(pattern, binding));
+        Assert.NotSame(first, second);
+        Assert.NotSame(first.Left, first.Right);
+        Assert.Same(site, Assert.IsType<Relation>(first.Left).Left);
+        Assert.Same(site, Assert.IsType<Relation>(first.Left).Right);
+        Assert.NotSame(first.Left, second.Left);
+    }
+
+    [Fact]
+    public void RefinementRetainsDualAndDescriptorBindingRulesWithoutChangingInstantiation()
+    {
+        var slot = new Placeholder();
+        var basis = new Carrier();
+        Assert.Same(basis.Inverse(), StructuralPattern.Refine(slot.Dual(), new Relation(slot, basis)));
+        Assert.Same(basis, StructuralPattern.Refine(UnitShape.DescriptorSlot(0),
+            StructuralPattern.BindDescriptor(0, basis)));
+        var point = Relation.Point(basis, 4);
+        Assert.NotSame(point, StructuralPattern.Apply(point));
+        Assert.Same(point, StructuralPattern.Refine(point));
+    }
+
+    [Fact]
     public void BindingReplacesEveryMatchingPlaceholder()
     {
         var slot = new Placeholder();

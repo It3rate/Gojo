@@ -8,12 +8,23 @@ public sealed partial record GojoEncodedSnapshot
     /// inside the restored world are preserved.</summary>
     public IElement[] RestoreRoots()
     {
+        if (IsCompleteGraph) return GojoNumericFormat.Restore(this);
         // Settlement uses creation order to break ties. Traversal order can be
         // different, so allocate identities in the original relative order.
         var carriers = new Carrier[Carriers.Length];
         foreach (var row in Carriers.OrderBy(row => row.Id))
             carriers[row.Index] = row.IsUnknown ? Carrier.Unknown : new Carrier(row.IsInverse);
-        var ticks = TickRefs.Select(row => new TickRef(row.Ticks)).ToArray();
+        var unknown = Carriers.FirstOrDefault(row => row.IsUnknown);
+        var hasUnknown = Carriers.Any(row => row.IsUnknown);
+        var ticks = TickRefs.Select(row =>
+        {
+            if (hasUnknown && (row.Index == unknown.ValueTickRefIndex || row.Index == unknown.TensionTickRefIndex))
+            {
+                if (row.Ticks != 0) throw new InvalidOperationException("Archive wildcard accounting coordinate is not zero.");
+                return row.Index == unknown.ValueTickRefIndex ? Carrier.Unknown.ValueSlot.Tick : Carrier.Unknown.LiveTensionSlot.Tick;
+            }
+            return new TickRef(row.Ticks);
+        }).ToArray();
         var relations = new Relation[Relations.Length];
         foreach (var row in Relations.OrderBy(row => row.Id))
             relations[row.Index] = new Relation(Carrier.Unknown, Carrier.Unknown);

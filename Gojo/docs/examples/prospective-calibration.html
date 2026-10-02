@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>A prediction before its outcome · Gojo</title>
+<style>
+:root{color-scheme:light;--ink:#22333b;--muted:#526469;--paper:#f5f2e9;--blue:#246479;--rust:#a34c35;--line:#d8d8cd}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.55 system-ui,sans-serif}main{max-width:1000px;margin:auto;padding:32px 26px 48px}a{color:var(--blue)}.eyebrow{font-size:.76rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}h1{font:clamp(2.2rem,5vw,3.4rem)/1.12 Georgia,serif;margin:12px 0}header p{max-width:740px;color:var(--muted)}.panel{background:#fffdf8;border:1px solid var(--line);border-radius:12px;padding:20px;margin:22px 0}.legend{display:flex;gap:22px;flex-wrap:wrap;font-size:.85rem}.sensor{color:var(--blue)}.forecast{color:var(--rust)}svg{display:block;width:100%;height:auto;max-height:330px}svg text{font:13px system-ui,sans-serif;fill:var(--muted)}.readings{display:grid;grid-template-columns:1fr 1fr;gap:24px;border-top:1px solid var(--line);padding-top:18px}.label{font-size:.78rem;color:var(--muted)}.value{font:2.3rem/1.3 Georgia,serif}#forecast{color:var(--rust)}#error{color:var(--blue)}.sub{font-size:.85rem;color:var(--muted);min-height:1.5em}.explanation{min-height:143px}.explanation h2{font:1.55rem/1.25 Georgia,serif;margin:0 0 9px}.explanation p{margin:0;max-width:870px}.controls{display:flex;align-items:center;gap:15px;border-top:1px solid var(--line);padding-top:20px}button{font:inherit;border:1px solid var(--line);border-radius:8px;background:#fffdf8;color:var(--ink);padding:9px 14px;cursor:pointer}button:disabled{opacity:.45;cursor:default}button:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid #c79620;outline-offset:4px}input[type=range]{flex:1;min-width:50px;accent-color:var(--blue)}#position{white-space:nowrap;font-size:.85rem}details{border-top:1px solid var(--line);margin-top:24px;padding-top:16px}summary{cursor:pointer}pre{overflow:auto;background:#eaece4;padding:18px;border-radius:8px;font:13px/1.6 ui-monospace,monospace}.notes,footer{font-size:.84rem;color:var(--muted);margin-top:22px}footer{display:flex;flex-wrap:wrap;gap:18px}@media(max-width:560px){main{padding:23px 16px}.panel{padding:12px}.controls{gap:8px}button{padding:8px 10px}.explanation{min-height:205px}.value{font-size:1.9rem}.readings{gap:12px}}
+</style>
+</head>
+<body><main>
+<header><div class="eyebrow">Gojo · prospective calibration</div><h1>A prediction before its outcome.</h1><p>A sensor supplies a changing stream. A local space builds a continuation from what it has already seen, records a future prediction, and waits for evidence. Step through a success, a surprise, and a revised explanation.</p></header>
+<section class="panel" aria-label="Observed samples and the latest issued forecast">
+<div class="legend"><span class="sensor">● Observed sensor sample</span><span class="forecast">○ Issued forecast</span><span>Horizontal axis: source time</span></div>
+<svg id="chart" viewBox="0 0 850 290" role="img" aria-label="Sample and forecast chart"></svg>
+<div class="readings"><div><div class="label">LATEST ISSUED FORECAST</div><div class="value" id="forecast"></div><div class="sub" id="target"></div></div><div><div class="label">OBSERVED − PREDICTED</div><div class="value" id="error"></div><div class="sub" id="assessment"></div></div></div>
+</section>
+<section class="explanation" aria-live="polite" aria-atomic="true"><h2 id="heading"></h2><p id="explanation"></p></section>
+<div class="controls"><button id="prev" aria-label="Previous step">← Back</button><input id="step" type="range" min="0" max="8" value="0" aria-label="Experiment step"><span id="position"></span><button id="next" aria-label="Next step">Next →</button></div>
+<details><summary>Look at the actual request syntax</summary><pre>// Selected from prospective-calibration.gojo.
+// The driver binds these open inputs and invokes their readers.
+let $observation = group($port,?source_event,?sample,?subject,?context);
+let $record_request = group(?state,?observation,?local_event);
+let $fit_request = group(?state,?first,?second,?encoding);
+let $candidate = group(?fit,?readout,?expectation);
+let $issue_request = group(?state,?candidate,?target,?local_event);
+let $assess_request = group(?state,?issue,?receipt,?local_event);</pre><p><a href="../../../Gojo.Encoding.Tests/Fixtures/Syntax/prospective-calibration.gojo">Full authored fixture</a></p></details>
+<p class="notes">This is a recorded replay of Gojo tests; the browser displays checked states rather than executing the kernel. The affine family and sampling policy are selected for the experiment. Two samples infer its parameters, but do not prove that the pattern will continue. An exact mismatch does not establish confidence, reward or responsibility for error.</p>
+<footer><a href="../GojoProspectiveCalibrationFixture.md">Experiment and boundaries</a><a href="two-space-feedback.html">Earlier: two-space communication</a></footer>
+</main>
+<script id="trace" type="application/json">
+[
+ {"samples":[[0,3]],"target":null,"prediction":null,"mismatch":null,"issued":0,"assessed":0,"title":"One observation leaves the continuation open.","text":"At source time 0, the sensor reports 3. There is no fitted rate of change yet. The missing information stays open; it is not treated as zero."},
+ {"samples":[[0,3],[1,7]],"target":null,"prediction":null,"mismatch":null,"issued":0,"assessed":0,"title":"Two samples supply a candidate relation.","text":"The next sample is 7 at time 1. The selected affine family now has the frame 0..1 → 3..7: an increase of four per source-time tick. Many other continuations are possible. This fit has not yet passed a future test."},
+ {"samples":[[0,3],[1,7]],"target":2,"prediction":11,"mismatch":null,"issued":1,"assessed":0,"title":"Record eleven before receiving the next sample.","text":"The space issues 11 for source time 2. Only 3 and 7 are available. Its target, numeric frames and prediction are captured so later adjustment cannot rewrite this claim."},
+ {"samples":[[0,3],[1,7],[2,11]],"target":2,"prediction":11,"mismatch":null,"issued":1,"assessed":0,"title":"The target observation arrives.","text":"The sensor now supplies 11 at time 2. Receipt and assessment are separate actions. Having new evidence does not silently assign a reward or change the model."},
+ {"samples":[[0,3],[1,7],[2,11]],"target":2,"prediction":11,"mismatch":0,"issued":1,"assessed":1,"title":"A successful prospective check.","text":"The selected target matches: observed 11 minus predicted 11 is zero. This is evidence about this continuation in this situation. It is not a universal proof, and repeating the assessment cannot create another observation."},
+ {"samples":[[0,3],[1,7],[2,11]],"target":3,"prediction":15,"mismatch":null,"issued":2,"assessed":1,"title":"Make the next claim while its outcome is unknown.","text":"Using the recent samples 7 and 11, the space issues 15 for time 3. The previous success remains in history; it cannot settle a target that has not arrived."},
+ {"samples":[[0,3],[1,7],[2,11],[3,14]],"target":3,"prediction":15,"mismatch":null,"issued":2,"assessed":1,"title":"The stream changes.","text":"The sensor reports 14, while the captured forecast still says 15. The unexpected observation remains visible alongside the earlier expectation."},
+ {"samples":[[0,3],[1,7],[2,11],[3,14]],"target":3,"prediction":15,"mismatch":-1,"issued":2,"assessed":2,"title":"Preserve the failed prediction.","text":"The mismatch is 14 − 15 = −1. That challenges the connected expectation. It does not, by itself, determine whether to revise the relation, distrust the observation, or investigate a changed context."},
+ {"samples":[[0,3],[1,7],[2,11],[3,14]],"target":4,"prediction":17,"mismatch":null,"issued":3,"assessed":2,"title":"A revised continuation makes another future claim.","text":"A selected new fit through 11 and 14 predicts 17 at time 4. The old prediction of 15 remains recorded with its mismatch. Seventeen is now a hypothesis awaiting an outcome, not a discovered truth."}
+]
+</script>
+<script>
+const trace=JSON.parse(document.querySelector('#trace').textContent);
+const el=id=>document.getElementById(id); let index=0;
+function show(i){
+ index=Math.max(0,Math.min(trace.length-1,i)); const s=trace[index];
+ el('step').value=index; el('position').textContent=`${index+1} / ${trace.length}`;
+ el('prev').disabled=index===0; el('next').disabled=index===trace.length-1;
+ el('heading').textContent=s.title; el('explanation').textContent=s.text;
+ el('forecast').textContent=s.prediction===null?'Open':s.prediction;
+ el('target').textContent=s.target===null?'No forecast issued':`For source time ${s.target}`;
+ el('error').textContent=s.mismatch===null?'—':s.mismatch;
+ el('assessment').textContent=s.prediction===null?'Awaiting a candidate':s.mismatch!==null?'One recorded assessment':s.samples.some(p=>p[0]===s.target)?'Received; not yet assessed':'Waiting for the target sample';
+ const width=Math.min(850,Math.max(350,el('chart').clientWidth)),x=t=>50+(width-80)*t/4,y=v=>245-11*v;
+ el('chart').setAttribute('viewBox',`0 0 ${width} 290`);
+ let drawing=`<line x1="50" y1="245" x2="${width-20}" y2="245" stroke="#bdc6c3"/>`;
+ for(let t=0;t<=4;t++)drawing+=`<text x="${x(t)}" y="273" text-anchor="middle">${t}</text>`;
+ for(const v of [0,5,10,15,20])drawing+=`<line x1="50" y1="${y(v)}" x2="${width-20}" y2="${y(v)}" stroke="#e6e8e0"/><text x="35" y="${y(v)+4}" text-anchor="end">${v}</text>`;
+ drawing+=`<polyline points="${s.samples.map(p=>`${x(p[0])},${y(p[1])}`).join(' ')}" fill="none" stroke="#246479" stroke-width="2"/>`;
+ if(s.target!==null){const before=s.samples.filter(p=>p[0]<s.target).at(-1);drawing+=`<line x1="${x(before[0])}" y1="${y(before[1])}" x2="${x(s.target)}" y2="${y(s.prediction)}" stroke="#a34c35" stroke-width="2" stroke-dasharray="5 5"/><circle cx="${x(s.target)}" cy="${y(s.prediction)}" r="9" fill="#fffdf8" stroke="#a34c35" stroke-width="2"/><text x="${x(s.target)+(s.target===4?-12:15)}" y="${y(s.prediction)-11}" text-anchor="${s.target===4?'end':'start'}">${s.prediction}?</text>`;}
+ for(const p of s.samples)drawing+=`<circle cx="${x(p[0])}" cy="${y(p[1])}" r="4" fill="#246479"/>`;
+ el('chart').innerHTML=drawing;
+ el('chart').setAttribute('aria-label',`Observed ${s.samples.map(p=>`${p[1]} at time ${p[0]}`).join(', ')}. ${s.target===null?'No forecast.':`Forecast ${s.prediction} for time ${s.target}.`}`);
+}
+el('prev').onclick=()=>show(index-1);el('next').onclick=()=>show(index+1);el('step').oninput=e=>show(Number(e.target.value));show(0);
+window.addEventListener('resize',()=>show(index));
+</script>
+</body></html>

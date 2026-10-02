@@ -96,15 +96,12 @@ public static class EquationInspection
                 out _,
                 out _,
                 out _);
-            var errorLocation = residual is CarrierLocation residualLocation
-                ? residualLocation
-                : new CarrierLocation(errorCarrier, 0);
             samples[sampleIndex] = ComparisonSample(
                 index,
                 sampleIndex,
                 predictions[sampleIndex],
                 observations[sampleIndex],
-                errorLocation,
+                residual,
                 claim);
         }
 
@@ -127,8 +124,8 @@ public static class EquationInspection
         var magnitudeCarrier = RootOrUnknown(errorMagnitude);
         var index = new Carrier();
         var count = CountOf(errors);
-        var totalSigned = 0L;
-        var totalMagnitude = 0L;
+        Int128 totalSigned = 0;
+        Int128 totalMagnitude = 0;
         samples = new Relation[count];
 
         for (var sampleIndex = 0; sampleIndex < count; sampleIndex++)
@@ -137,16 +134,16 @@ public static class EquationInspection
             var magnitude = MagnitudeOf(error.Ticks);
             var magnitudeLocation = new CarrierLocation(magnitudeCarrier, magnitude);
             samples[sampleIndex] = FitSample(index, sampleIndex, error, magnitudeLocation);
-            totalSigned = SaturatingAdd(totalSigned, error.Ticks);
-            totalMagnitude = SaturatingAdd(totalMagnitude, magnitude);
+            totalSigned += error.Ticks;
+            totalMagnitude += magnitude;
         }
 
         return Relation.OrderedGroup(
             holder,
             [
                 Relation.Segment(index, 0, count),
-                new CarrierLocation(signedCarrier, totalSigned),
-                new CarrierLocation(magnitudeCarrier, totalMagnitude),
+                new CarrierLocation(signedCarrier, checked((long)totalSigned)),
+                new CarrierLocation(magnitudeCarrier, checked((long)totalMagnitude)),
                 .. samples
             ]);
     }
@@ -398,7 +395,7 @@ public static class EquationInspection
         int sampleIndex,
         CarrierLocation predicted,
         CarrierLocation observed,
-        CarrierLocation error,
+        IElement error,
         Relation claim) =>
         Relation.OrderedGroup(
             new Carrier(),
@@ -459,20 +456,9 @@ public static class EquationInspection
     private static Carrier RootOrNew(Carrier carrier) =>
         carrier ?? new Carrier();
 
-    private static long SaturatingAdd(long left, long right)
-    {
-        var sum = (Int128)left + right;
-        if (sum > long.MaxValue)
-        {
-            return long.MaxValue;
-        }
-
-        return sum < long.MinValue ? long.MinValue : (long)sum;
-    }
-
     private static long MagnitudeOf(long ticks)
     {
         var magnitude = ticks < 0 ? -(Int128)ticks : (Int128)ticks;
-        return magnitude > long.MaxValue ? long.MaxValue : (long)magnitude;
+        return checked((long)magnitude);
     }
 }

@@ -1,11 +1,15 @@
 {
-  "represents": "The current glossary renders this as a 2D projection while the expression names the grade shift.",
+  "represents": "A 2D rectangle-area teaching placeholder. A connected volume shell and its 3D laws are not encoded by this specimen.",
   "entryId": "grades-dimensions-volume-hint",
   "expression": "grade 3: Volume(surface shell)",
-  "encodingNote": "The current glossary renders this as a 2D projection while the expression names the grade shift.",
+  "encodingNote": "A 2D rectangle-area teaching placeholder. A connected volume shell and its 3D laws are not encoded by this specimen.",
   "gojo": {
     "known": [
-      "structure"
+      "area-support",
+      "topological-participation"
+    ],
+    "tension": [
+      "area side/lane not fully selected"
     ]
   }
 }

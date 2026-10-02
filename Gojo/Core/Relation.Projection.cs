@@ -1,5 +1,7 @@
 ﻿namespace Gojo.Core;
 
+using System.Numerics;
+
 public sealed partial class Relation
 {
     #region Projection and Ports
@@ -30,6 +32,21 @@ public sealed partial class Relation
         return false;
     }
 
+    /// <summary>Reads a scalar projection result and its whole or scaled source residue.</summary>
+    public bool TryReadProjection(out CarrierLocation target, out IElement residue)
+    {
+        if (Left is CarrierLocation location && ProjectionResidue.TryRead(Right, out _, out _, out _))
+        {
+            target = location;
+            residue = Right;
+            return true;
+        }
+
+        target = default;
+        residue = default!;
+        return false;
+    }
+
     /// <summary>Projects between two relation surfaces in whichever direction matches.</summary>
     private static bool TryProjectBetweenSurfaces(
         IElement left,
@@ -48,6 +65,12 @@ public sealed partial class Relation
         if (FrameAcceptsProjectionSource(leftFrame, location.Carrier) &&
             FrameAccepts(rightFrame, reader))
         {
+            if (leftFrame.Start == leftFrame.End)
+            {
+                projected = ProjectionResult(new CarrierLocation(reader, 0), location);
+                return false;
+            }
+
             projected = ProjectBetween(
                 location,
                 reader,
@@ -59,6 +82,12 @@ public sealed partial class Relation
         if (FrameAcceptsProjectionSource(rightFrame, location.Carrier) &&
             FrameAccepts(leftFrame, reader))
         {
+            if (rightFrame.Start == rightFrame.End)
+            {
+                projected = ProjectionResult(new CarrierLocation(reader, 0), location);
+                return false;
+            }
+
             projected = ProjectBetween(
                 location,
                 reader,
@@ -125,12 +154,13 @@ public sealed partial class Relation
         }
 
         if (input is not CarrierLocation inputLocation ||
-            !TryProjectToTargetSurface(sourceSurface, targetSurface, inputLocation, out var projection))
+            !TryProjectToTargetSurface(sourceSurface, targetSurface, inputLocation, out var projection) ||
+            projection.Residue is not CarrierLocation residue)
         {
             return false;
         }
 
-        imports.Add(new SlotImport(projection.Target.Carrier, projection.Target.Ticks, projection.Residue));
+        imports.Add(new SlotImport(projection.Target.Carrier, projection.Target.Ticks, residue));
         return true;
     }
 
@@ -159,12 +189,13 @@ public sealed partial class Relation
 
         if (input is not CarrierLocation inputLocation ||
             !TryReadStructuralTarget(targetSurface, out var targetSite) ||
-            !TryProjectToTargetSurface(sourceSurface, targetSurface, inputLocation, out var projection))
+            !TryProjectToTargetSurface(sourceSurface, targetSurface, inputLocation, out var projection) ||
+            projection.Residue is not CarrierLocation residue)
         {
             return false;
         }
 
-        imports.Add(new StructuralSlotImport(targetSite, projection.Target.Ticks, projection.Residue));
+        imports.Add(new StructuralSlotImport(targetSite, projection.Target.Ticks, residue));
         return true;
     }
 
@@ -177,12 +208,13 @@ public sealed partial class Relation
     {
         if (!TryReadAtomicFrameInput(input, sourceSurface, out var inputExtent) ||
             !TryReadStructuralTarget(targetSurface, out var targetSite) ||
-            !TryProjectToTargetSurface(sourceSurface, targetSurface, inputExtent, out var projection))
+            !TryProjectToTargetSurface(sourceSurface, targetSurface, inputExtent, out var projection) ||
+            projection.Residue is not CarrierLocation residue)
         {
             return false;
         }
 
-        imports.Add(new StructuralSlotImport(targetSite, projection.Target.Ticks, projection.Residue));
+        imports.Add(new StructuralSlotImport(targetSite, projection.Target.Ticks, residue));
         return true;
     }
 
@@ -268,9 +300,9 @@ public sealed partial class Relation
         CarrierFrame source,
         CarrierFrame target)
     {
-        var sourceBasis = source.Extent;
-        var targetBasis = target.Extent;
-        if (sourceBasis == 0 || targetBasis == 0)
+        var sourceBasis = (BigInteger)source.End - source.Start;
+        var targetBasis = (BigInteger)target.End - target.Start;
+        if (sourceBasis.IsZero)
         {
             // Keep the absent calibration even for zero input. A zero residue
             // alone cannot distinguish an empty basis from measured zero.
@@ -280,36 +312,33 @@ public sealed partial class Relation
                     Segment(target.Carrier, target.Start, target.End)));
         }
 
-        var relativeTicks = checked(location.Ticks - source.Start);
-        if (relativeTicks == 0)
+        // A constant target frame can be observed but accounts for none of the
+        // selected input. A zero source frame has no defined affine projection.
+        if (targetBasis.IsZero)
         {
-            return ProjectionResult(new CarrierLocation(reader, target.Start), new CarrierLocation(location.Carrier, 0));
+            return ProjectionResult(new CarrierLocation(reader, target.Start), location);
         }
 
-        var sourceMagnitude = MagnitudeOf(sourceBasis);
-        var targetMagnitude = MagnitudeOf(targetBasis);
-        var locationMagnitude = MagnitudeOf(relativeTicks);
-        var scaled = checked(locationMagnitude * targetMagnitude);
-        var projectedMagnitude = scaled / sourceMagnitude;
-        var residueMagnitude = scaled % sourceMagnitude;
-        var sign = Math.Sign(relativeTicks) * Math.Sign(sourceBasis) * Math.Sign(targetBasis);
+        var relativeTicks = (BigInteger)location.Ticks - source.Start;
+        var quotient = BigInteger.DivRem(relativeTicks * targetBasis, sourceBasis, out var scaledRemainder);
+        var result = checked((long)(target.Start + quotient));
+        var residue = ProjectionResidue.Create(location.Carrier, scaledRemainder, targetBasis);
 
         return ProjectionResult(
-            new CarrierLocation(reader, checked(target.Start + SignedTicks(projectedMagnitude, sign))),
-            new CarrierLocation(location.Carrier, SignedTicks(residueMagnitude, Math.Sign(relativeTicks))));
+            new CarrierLocation(reader, result), residue);
     }
 
     /// <summary>Builds the standard projection result pair.</summary>
-    private static Relation ProjectionResult(CarrierLocation projected, CarrierLocation residue) =>
+    private static Relation ProjectionResult(CarrierLocation projected, IElement residue) =>
         new(projected, residue);
 
     /// <summary>Returns positive magnitude of signed ticks.</summary>
     private static ulong MagnitudeOf(long ticks) =>
-        ticks >= 0 ? checked((ulong)ticks) : checked((ulong)-ticks);
+        ticks >= 0 ? (ulong)ticks : checked((ulong)-(Int128)ticks);
 
     /// <summary>Applies a sign to an unsigned tick magnitude.</summary>
     private static long SignedTicks(ulong ticks, int sign) =>
-        sign < 0 ? -checked((long)ticks) : checked((long)ticks);
+        sign < 0 ? checked((long)-(Int128)ticks) : checked((long)ticks);
 
     /// <summary>Scales a location exactly between two basis extents.</summary>
     private static bool TryScale(
@@ -318,18 +347,20 @@ public sealed partial class Relation
         long targetBasis,
         out CarrierLocation scaled)
     {
-        var sourceMagnitude = MagnitudeOf(sourceBasis);
-        var targetMagnitude = MagnitudeOf(targetBasis);
-        var locationMagnitude = MagnitudeOf(location.Ticks);
-        var scaledMagnitude = checked(locationMagnitude * targetMagnitude);
-        if (scaledMagnitude % sourceMagnitude != 0)
+        if (sourceBasis == 0)
         {
             scaled = default;
             return false;
         }
 
-        var sign = Math.Sign(location.Ticks) * Math.Sign(sourceBasis) * Math.Sign(targetBasis);
-        scaled = new CarrierLocation(location.Carrier, SignedTicks(scaledMagnitude / sourceMagnitude, sign));
+        var quotient = BigInteger.DivRem((BigInteger)location.Ticks * targetBasis, sourceBasis, out var remainder);
+        if (!remainder.IsZero)
+        {
+            scaled = default;
+            return false;
+        }
+
+        scaled = new CarrierLocation(location.Carrier, checked((long)quotient));
         return true;
     }
 

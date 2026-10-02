@@ -43,11 +43,11 @@ internal static class BlocksGlossaryStructureCatalog
         AddSpecimens(structures, "resolution-tension",
         [
             ("resolution-read", PartitionedSegment(), "S(A,B) read at coarse and fine resolution", "Resolution belongs to the read. A low-resolution read is still a valid read, not a failed value."),
-            ("unspecified-site", Group(Site(), TensionSlot()), "P(?) + Tension(location)", "The unresolved position remains inspectable instead of becoming a null or exception."),
+            ("unspecified-site", Group(Site(), TensionSlot()), "P(?) + Tension(location)", "Illustrative backing: a concrete site beside an open slot. A constraint connecting that slot to the site's unknown coordinate remains to be constructed."),
             ("closure-tension", Group(SharedPolyline(), TensionSlot()), "S(A,B)+S(B,C)+S(C,A') + close(A',A) -> Tension(delta)", "The topology can ask for closure even while geometry still misses."),
-            ("failed-read", Group(LineSegment(), TensionSlot()), "Read(S(A,B), requested basis) -> residue", "A failed read leaves a witness of the requested interpretation."),
-            ("residue-witness", Group(LineSegment(), TensionSlot()), "Read(source, basis) = result + residue", "Residue is the part that did not settle under the requested basis."),
-            ("settled-read", SharedPolyline(), "source + basis + resolution -> settled read", "Settlement is a new inspectable structure, not just a return value.")
+            ("failed-read", Group(LineSegment(), TensionSlot()), "Read(S(A,B), requested basis) -> residue", "Illustrative line and open slot; the complete selected-source, basis, result and failed-read witness are not yet connected here."),
+            ("residue-witness", Group(LineSegment(), TensionSlot()), "Read(source, basis) = result + residue", "Illustrative line and open slot; a full read witness must connect its source, basis, result and remainder separately from unsettled material tension."),
+            ("settled-read", SharedPolyline(), "source + basis + resolution -> settled read", "This backing is a shared polyline. The caption describes intended settlement evidence; this specimen does not record convergence.")
         ]);
 
     private static void AddSiteFlowBoundary(Dictionary<string, BlocksGlossaryStructure> structures) =>
@@ -66,9 +66,9 @@ internal static class BlocksGlossaryStructureCatalog
         [
             ("addition", SharedPolyline(), "S(A,B) + S(B,C) -> accumulated span", "Addition is shown as attaching compatible spans in sequence."),
             ("stretch", DirectedLine(inverse: false), "S(A,B) + action_stretch(3) -> S(A,B')", "Stretch reads the same segment relation at a fixed ratio. The source span remains inspectable while the multiplied read grows from it."),
-            ("repeat", PartitionedSegment(), "Repeat(action, n) over S(A,B)", "Repeat is first-class structure: selected source, action, count or stopping rule."),
+            ("repeat", PartitionedSegment(), "Repeat(action, n) over S(A,B)", "The partition illustrates repetition. An executable repeat additionally needs its selected source, transition, controller and feedback evidence."),
             ("multiply", RectangleArea(inverse: false), "S(A,B) + stretch(k); also Repeat(add unit, n)", "Gojo multiplication includes both stretch and accumulated repeat, with stretch as the direct multiplicative read."),
-            ("stretch-repeat", Group(DirectedLine(inverse: false), PartitionedSegment()), "Repeat(action_stretch(k), n) -> S0,S1,S2...", "Stretch repeat grows the result by applying the stretch action again to its own output; this is the exponent-style read."),
+            ("stretch-repeat", Group(DirectedLine(inverse: false), PartitionedSegment()), "Repeat(action_stretch(k), n) -> S0,S1,S2...", "The backing combines line and partition geometry. The intended repeated stretch still needs an explicit controller, feedback and transition history."),
             ("compare", PartitionedSegment(), "Read(target by unit U) -> quotient + residue", "Unit comparison asks how many repeated unit reads fit in a target.")
         ]);
 
@@ -140,9 +140,9 @@ internal static class BlocksGlossaryStructureCatalog
             ("site", Site(), "grade 0: P(O)", null),
             ("span", LineSegment(), "grade 1: S(A,B)", null),
             ("area", CircleArea(inverse: false), "grade 2: Area(boundary)", null),
-            ("volume-hint", RectangleArea(inverse: false), "grade 3: Volume(surface shell)", "The current glossary renders this as a 2D projection while the expression names the grade shift."),
+            ("volume-hint", RectangleArea(inverse: false), "grade 3: Volume(surface shell)", "A 2D rectangle-area teaching placeholder. A connected volume shell and its 3D laws are not encoded by this specimen."),
             ("segment-normal", LinearFlow(), "S(A,B) + orthogonal normal -> grade+1 support", "A 1D carrier's normal in 2D is perpendicular line support."),
-            ("point-pair-normal", Group(LinearSites(), LinearFlow()), "P(A)+P(B) in 3D -> cylindrical normal; A=B -> plane normal", "This records the 3D distinction: distant point-pair normals sweep a cylinder, while touching points collapse to plane support.")
+            ("point-pair-normal", Group(LinearSites(), LinearFlow()), "P(A)+P(B) in 3D -> cylindrical normal; A=B -> plane normal", "This linear-site/flow backing illustrates a proposed 3D distinction. It does not yet encode or verify a general cylindrical/plane normal law.")
         ]);
 
     private static void AddFaceNormalSupport(Dictionary<string, BlocksGlossaryStructure> structures) =>
@@ -511,10 +511,14 @@ internal static class BlocksGlossaryStructureCatalog
     private static BlocksGlossaryStructure Curve(CurveJoinKind row, CurveColumn column)
     {
         var frame = new FrameBasis();
-        var lineA = GraphicStructure.FrameSegment(frame.Point(-48, 12), frame.Point(-8, 12));
-        var lineB = GraphicStructure.FrameSegment(frame.Point(8, -10), frame.Point(48, -10));
-        var arcA = GraphicStructure.FrameArc(frame.Point(-18, 8), frame.Point(-48, 8), frame.Point(-10, -24));
-        var arcB = GraphicStructure.FrameArc(frame.Point(22, -2), frame.Point(8, 22), frame.Point(50, 0));
+        var lineAEnd = frame.Point(-8, 12);
+        var lineBStart = frame.Point(8, -10);
+        var arcAEnd = frame.Point(-10, -24);
+        var arcBStart = frame.Point(8, 22);
+        var lineA = GraphicStructure.FrameSegment(frame.Point(-48, 12), lineAEnd);
+        var lineB = GraphicStructure.FrameSegment(lineBStart, frame.Point(48, -10));
+        var arcA = GraphicStructure.FrameArc(frame.Point(-18, 8), frame.Point(-48, 8), arcAEnd);
+        var arcB = GraphicStructure.FrameArc(frame.Point(22, -2), arcBStart, frame.Point(50, 0));
         var incoming = row switch
         {
             CurveJoinKind.LineArc => lineA,
@@ -527,6 +531,8 @@ internal static class BlocksGlossaryStructureCatalog
             CurveJoinKind.LineArc => arcB,
             _ => arcB
         };
+        var incomingEnd = row == CurveJoinKind.ArcArc ? arcAEnd : lineAEnd;
+        var outgoingStart = row == CurveJoinKind.LineLine ? lineBStart : arcBStart;
 
         return column switch
         {
@@ -538,8 +544,9 @@ internal static class BlocksGlossaryStructureCatalog
                 "carrier A + carrier B + Arc(P0,P1) as tangent bridge",
                 "The current bridge is explicit arc evidence. The future read should derive the smoothing relation from carrier tangency and requested settlement."),
             CurveColumn.Bezier => Spec(
-                Group(incoming, outgoing, GraphicStructure.FrameCubicCurve(frame.Point(-8, 12), frame.Point(0, 24), frame.Point(10, -22), frame.Point(26, -10))),
-                "carrier A + carrier B + Bezier(P0,H0,H1,P1)"),
+                Group(incoming, outgoing, GraphicStructure.FrameCubicCurve(incomingEnd, frame.Point(0, 24), frame.Point(10, -22), outgoingStart)),
+                "carrier A + carrier B + Bezier(P0,H0,H1,P1)",
+                "The bridge shares the actual incoming end and outgoing start sites. Control points are illustrative; shared endpoints alone do not establish smooth continuation."),
             CurveColumn.Clothoid => Spec(
                 Group(incoming, outgoing, GraphicStructure.FrameClothoidTransition(GraphicStructure.FrameCurveTransition(incoming, outgoing), GraphicStructure.FrameSegment(frame.Point(-18, -34), frame.Point(28, -34)))),
                 "carrier A -> carrier B with curvature ramp over S(L,0,n)",
@@ -1155,8 +1162,8 @@ internal static class BlocksGlossaryStructureCatalog
         var offset = OffsetRead(source.Read, source.Carrier, source.Span, offsetSections, 18, 3, 120, 10);
         return Spec(
             offset,
-            "PathRead(source) + OffsetRead(normal-distance=18, resolution=3) -> OffsetPathCarrier(0,120)",
-            "The offset read carries a signed distance on the source path normal, resolution evidence for that normal measure, witness normals, and a separate derived path carrier.");
+            "PathRead(source) + requested OffsetRead(distance=18, resolution=3) -> supplied candidate PathRead(0,120)",
+            "The source and candidate geometry are supplied. Distance 18 is a requested extent on an orthogonal carrier; no calibration to the drawing establishes that distance. The attached correspondences do not verify normals or parallelism: the first candidate edge is not parallel to its source. The traversal scale is supplied; it does not measure geometric length.");
     }
 
     private static BlocksGlossaryStructure DerivedCurvedOffset(FrameBasis frame)
@@ -1175,8 +1182,8 @@ internal static class BlocksGlossaryStructureCatalog
         var offset = OffsetRead(source.Read, source.Carrier, source.Span, [offsetCurve], 18, 3, 120, 10);
         return Spec(
             offset,
-            "CurvePathRead(source) + OffsetRead(normal-distance=18, resolution=3)",
-            "The curve offset uses the same structural read as the open offset: source path carrier, normal-distance carrier, resolution evidence, witness normals, and a derived path carrier.");
+            "CurvePathRead(source) + requested OffsetRead(distance=18, resolution=3) -> supplied candidate curve",
+            "Both cubic control polygons are supplied. The offset request retains a distance carrier, resolution and proposed correspondences, but no reader computes or verifies a constant normal offset. The starting displacement already fails a normal check in the drawing's identity metric. The traversal scale is supplied.");
     }
 
     private static BlocksGlossaryStructure DerivedInsetOutset(FrameBasis frame)
@@ -1194,8 +1201,8 @@ internal static class BlocksGlossaryStructureCatalog
                 OffsetRead(sourcePath.Read, sourcePath.Carrier, sourcePath.Span, outset2, 16, 2, 160, 16),
                 OffsetRead(sourcePath.Read, sourcePath.Carrier, sourcePath.Span, inset1, -8, 2, 160, 16),
                 OffsetRead(sourcePath.Read, sourcePath.Carrier, sourcePath.Span, inset2, -16, 2, 160, 16)),
-            "OutlinePathRead + OffsetRead(+d1,+d2,-d1,-d2)",
-            "Inset and outset layers are repeated offset reads from one path carrier. Each layer has its own carrier and partitions, so it is related to the outline without replacing it.");
+            "OutlinePathRead + supplied inset/outset candidates + requested extents",
+            "The nested rectangles are supplied candidates, each with its own carrier and partitions. Their attached extents do not calculate the geometry, verify distance calibration, or settle corner joins. In particular, the inset drawing gaps are 10 and 20 while the requested extents are -8 and -16.");
     }
 
     private static BlocksGlossaryStructure DerivedBranchMergeFill(FrameBasis frame)
@@ -1246,12 +1253,13 @@ internal static class BlocksGlossaryStructureCatalog
         var intended = OffsetRead(source.Read, source.Carrier, source.Span, intendedSections, 18, 3, 120, 10, residue);
         return Spec(
             intended,
-            "OffsetRead(source,+d,resolution) + observed PathRead + residue/tension",
-            "The intended offset carrier and the mismatching observed carrier are both preserved. The difference is tension attached to the read rather than a hidden failure.");
+            "requested OffsetRead(source,+d,resolution) + supplied intended/observed paths + open tension slot",
+            "Both intended and observed geometry are supplied and preserved. An open tension slot marks an unresolved obligation; this builder does not calculate their discrepancy or import it as signed tension, and does not verify that the intended path is a normal offset.");
     }
 
     private static (Relation Read, Carrier Carrier, Relation Span) PathRead(IReadOnlyList<IElement> sections, long lengthTicks, int partitionCount)
     {
+        // The caller supplies this parameterization; lengthTicks is not measured arc length.
         var source = Group([.. sections]);
         var descriptor = new Relation(source, Relation.Segment(Carrier.Unknown, 0, Math.Max(1, lengthTicks)));
         var pathCarrier = new Carrier(UnitShape.DescribedAtom(descriptor));
@@ -1280,7 +1288,9 @@ internal static class BlocksGlossaryStructureCatalog
             normalDistance,
             ResolutionEvidence(normalCarrier, Math.Max(1, Math.Abs(resolutionTicks))));
         var offsetPath = PathRead(offsetSections, lengthTicks, partitionCount);
-        var witnesses = OffsetWitnesses(
+        // These are proposed correspondences, not geometric verification witnesses.
+        // The supplied offsetSections are never calculated from sourcePathRead here.
+        var correspondences = OffsetCorrespondences(
             sourcePathCarrier,
             offsetPath.Carrier,
             normalCarrier,
@@ -1288,8 +1298,8 @@ internal static class BlocksGlossaryStructureCatalog
             lengthTicks,
             Math.Min(4, Math.Max(1, partitionCount - 1)));
         var readBasis = residueOrTension is null
-            ? Group(sourcePathRead, normalBasis, witnesses)
-            : Group(sourcePathRead, normalBasis, witnesses, residueOrTension);
+            ? Group(sourcePathRead, normalBasis, correspondences)
+            : Group(sourcePathRead, normalBasis, correspondences, residueOrTension);
         var read = new Relation(readBasis, offsetPath.Read);
         return read;
     }
@@ -1324,7 +1334,7 @@ internal static class BlocksGlossaryStructureCatalog
         return Group([.. elements]);
     }
 
-    private static Relation OffsetWitnesses(
+    private static Relation OffsetCorrespondences(
         Carrier sourcePathCarrier,
         Carrier offsetPathCarrier,
         Carrier normalCarrier,
@@ -2900,7 +2910,6 @@ internal static class BlocksGlossaryStructureCatalog
 
     private static IElement[] DroneClipRoundedOuterSections(FrameBasis frame) =>
     [
-        GraphicStructure.FrameSegment(frame.Point(-44, -14), frame.Point(-37, -20)),
         GraphicStructure.FrameSegment(frame.Point(-37, -20), frame.Point(-13, -20)),
         GraphicStructure.FrameQuadraticCurve(frame.Point(-13, -20), frame.Point(-9, -25), frame.Point(-4, -25)),
         GraphicStructure.FrameSegment(frame.Point(-4, -25), frame.Point(4, -25)),
@@ -2916,7 +2925,7 @@ internal static class BlocksGlossaryStructureCatalog
         GraphicStructure.FrameSegment(frame.Point(-13, 20), frame.Point(-37, 20)),
         GraphicStructure.FrameQuadraticCurve(frame.Point(-37, 20), frame.Point(-52, 20), frame.Point(-52, 12)),
         GraphicStructure.FrameSegment(frame.Point(-52, 12), frame.Point(-52, -12)),
-        GraphicStructure.FrameQuadraticCurve(frame.Point(-52, -12), frame.Point(-52, -20), frame.Point(-44, -14))
+        GraphicStructure.FrameQuadraticCurve(frame.Point(-52, -12), frame.Point(-52, -20), frame.Point(-37, -20))
     ];
 
     private static IElement[] DroneClipHoleBoundaries(FrameBasis frame)

@@ -133,7 +133,7 @@ public sealed partial class Relation
             return false;
         }
 
-        var tension = checked((ulong)-source.Carrier.Tension);
+        var tension = checked((ulong)-(Int128)source.Carrier.Tension);
         var unitTicks = checked((ulong)unit);
         var received = tension / unitTicks;
         if (received == 0)
@@ -147,12 +147,7 @@ public sealed partial class Relation
     }
 
     /// <summary>Collects all carrier sites participating in settlement application.</summary>
-    private static CarrierLocation[] CarrierSitesOf(IElement element) => element switch
-    {
-        CarrierLocation location => [location],
-        Relation relation => [.. CarrierSitesOf(relation.Left), .. CarrierSitesOf(relation.Right)],
-        _ => []
-    };
+    private static CarrierLocation[] CarrierSitesOf(IElement element) => CarrierLocationsOf(element);
 
     /// <summary>Reads a carrier-site set only when all sites share one carrier.</summary>
     private static bool TryReadOneCarrier(

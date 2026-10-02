@@ -49,7 +49,7 @@ public sealed class GojoStructureEncodingSurfaceTests
     }
 
     [Fact]
-    public void PlaceholderTensionRemainsAsUnresolvedDiagnosticResidue()
+    public void PlaceholderTensionRetainsItsSharedSlotAndOpposedFaces()
     {
         var tension = TensionSlot();
         var encoded = GojoStructureEncodingSurface.CreateDiagnosticSnapshot(new Carrier(), "tension-slot", tension);
@@ -57,8 +57,17 @@ public sealed class GojoStructureEncodingSurfaceTests
         Assert.True(GojoStructureEncodingSurface.TryRead(encoded, out var read));
 
         var relationRows = ReadRelations(read);
-        Assert.Contains(relationRows, row => row.Left.Kind == (long)GojoEncodedElementKind.Placeholder && row.Right.Kind == (long)GojoEncodedElementKind.Placeholder);
+        var relation = Assert.Single(relationRows);
+        Assert.Equal((long)GojoEncodedElementKind.Placeholder, relation.Left.Kind);
+        Assert.Equal((long)GojoEncodedElementKind.Placeholder, relation.Right.Kind);
         Assert.Equal(2, read.Placeholders.Length);
+        Assert.True(GojoStructureEncodingSurface.TryReadPlaceholderRow(read.Placeholders[0], out var first));
+        Assert.True(GojoStructureEncodingSurface.TryReadPlaceholderRow(read.Placeholders[1], out var second));
+        Assert.Equal(first.SlotIndex, second.SlotIndex);
+        Assert.NotEqual(first.IsInverse, second.IsInverse);
+        var json = GojoStructureEncodingJson.StructureFromSurface(encoded);
+        Assert.Equal(2, json.Placeholders.Count);
+        Assert.Equal("placeholder", Assert.Single(json.Relations).Left.Kind);
     }
 
     [Fact]

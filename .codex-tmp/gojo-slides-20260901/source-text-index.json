@@ -1,0 +1,995 @@
+[
+  {
+    "path": "2D symmetry.docx",
+    "kind": "docx",
+    "chars": 27448,
+    "headings": [],
+    "preview": "[normal] Segment Math and Symmetry\n[normal] Symmetric tiling patterns are both deeply compelling, and mathematically unsatisfying. They have been used throughout the history of civilization, from the 12000 year old G\u00f6bekliTepe onwards. These symmetry patterns hold deeper insights into how we calculate, how we think, and indeed how the world works.\n[normal] Frieze patterns are a type of line group, with patterns that repeat only in one direction. These have been mathematically described with many rule sets and notations, and personally I\u2019ve found them all a bit arbitrary. They all enumerate the patterns, but it feels more like classification than insight. Caveat, maybe I\u2019m just too thick to appreciate it. And no doubt I\u2019m adding one more rule set to the pile here. Apologies.\n[normal] My take is these patterns are not base primitives to build on, but a visual embodiment of the rules needed to compare ordered things.\n[normal] The segment number system I\u2019ve been working on for the last five years (yikes!) make symmetry much more intuitive, as the four basic transformations (identity, negate value, negate number line, and negate both) are the same transformations used to construct segme"
+  },
+  {
+    "path": "Articles\\Axioms.docx",
+    "kind": "docx",
+    "chars": 48027,
+    "headings": [
+      "[Heading 1] Core 2 Prompt Axioms",
+      "[Heading 2] Part I. Foundations",
+      "[Heading 3] F1. Fundamental duality",
+      "[Heading 3] F2. Encoding and action are paired but distinct",
+      "[Heading 3] F3. Primitive object",
+      "[Heading 3] F4. No intrinsic measurement",
+      "[Heading 3] F5. Frame",
+      "[Heading 3] F6. Perspective",
+      "[Heading 3] F7. Endpoint-unit rule",
+      "[Heading 3] F8. Reading map",
+      "[Heading 3] F9. Observer conversion",
+      "[Heading 3] F10. State and transform are asymmetric in multiplication",
+      "[Heading 3] F11. Scalar transform",
+      "[Heading 3] F12. Opposition transform",
+      "[Heading 3] F13. Canonical opposition cycle",
+      "[Heading 3] F14. Operator-level law",
+      "[Heading 3] F15. Addition",
+      "[Heading 3] F16. Dominant/recessive convention",
+      "[Heading 3] F17. Derived products",
+      "[Heading 3] F18. Scalar and opposition can compose",
+      "[Heading 3] F19. Core ontology",
+      "[Heading 3] F20. Local description and later placement differ",
+      "[Heading 2] Part II. Repetition and Inverse Continuation",
+      "[Heading 3] R1. Repetition is general",
+      "[Heading 3] R2. Every repetition has three parts",
+      "[Heading 3] R3. Carriers may vary",
+      "[Heading 3] R4. Indices may vary",
+      "[Heading 3] R5. Continuation law determines what \"again\" means",
+      "[Heading 3] R6. Exponentiation is a special case",
+      "[Heading 3] R7. Boundary behavior is repetition",
+      "[Heading 3] R8. Patterns are repetitions",
+      "[Heading 3] R9. Recursion is repetition",
+      "[Heading 3] R10. Repetition may preserve or transform",
+      "[Heading 3] R11. Repetition acts on more than values",
+      "[Heading 3] R12. Tension is a valid repetition outcome",
+      "[Heading 3] R13. Inverse continuation",
+      "[Heading 3] R14. Inverse continuation is generally non-unique",
+      "[Heading 3] R15. Candidate set first",
+      "[Heading 3] R16. Shared selection priority",
+      "[Heading 3] R17. Tension preservation in inversion",
+      "[Heading 3] R18. Principal branch and all-candidates mode",
+      "[Heading 3] R19. Degree-sensitive inverse continuation",
+      "[Heading 3] R20. Preferred inverse-continuation behavior by degree",
+      "[Heading 3] R21. Inverse continuation is reverse path selection",
+      "[Heading 2] Part III. Structure, Quantities, and Units",
+      "[Heading 3] U1. Structure and units are separate",
+      "[Heading 3] U2. A quantity has layered structure",
+      "[Heading 3] U3. Unit signatures form a free abelian group",
+      "[Heading 3] U4. Unit operations",
+      "[Heading 3] U5. Addition requires matching signature",
+      "[Heading 3] U6. Named units are presentation choices",
+      "[Heading 3] U7. Scale and signature differ",
+      "[Heading 3] U8. Physical meaning may be attached later",
+      "[Heading 3] U9. Referent and signature differ",
+      "[Heading 3] U10. Physical reality constrains unit use",
+      "[Heading 3] U11. Structural and unit algebras compose",
+      "[Heading 3] U12. Unit tension is informative",
+      "[Heading 3] U13. Combined principle",
+      "[Heading 3] U14. System aim",
+      "[Heading 2] Part IV. Multiscale Resolution and Layered Readings",
+      "[Heading 3] M1. Resolution frame",
+      "[Heading 3] M2. Resolution ladder",
+      "[Heading 3] M3. Layered quantity",
+      "[Heading 3] M4. Signed digits are allowed",
+      "[Heading 3] M5. Exact fold",
+      "[Heading 3] M6. Exact decomposition",
+      "[Heading 3] M7. Coarse reading",
+      "[Heading 3] M8. Quantization rule",
+      "[Heading 3] M9. Fine detail may collapse to zero",
+      "[Heading 3] M10. Refinement and collapse",
+      "[Heading 3] M11. Representative and residual differ",
+      "[Heading 3] M12. Current Core 2 scope",
+      "[Heading 2] Part V. General Branching",
+      "[Heading 3] B1. Branching is general",
+      "[Heading 3] B2. Linear path",
+      "[Heading 3] B3. Branch family",
+      "[Heading 3] B4. Branch metadata",
+      "[Heading 3] B5. Preimage branching",
+      "[Heading 3] B6. Component branching",
+      "[Heading 3] B7. Continuation branching",
+      "[Heading 3] B8. Extension branching",
+      "[Heading 3] B9. Observer multiplicity is not structural branching by itself",
+      "[Heading 3] B10. Branch valence",
+      "[Heading 3] B11. Branch depth",
+      "[Heading 3] B12. Lift",
+      "[Heading 3] B13. Lift principle",
+      "[Heading 3] B14. Rejoin law",
+      "[Heading 3] B15. Branching and repetition",
+      "[Heading 3] B16. Alternation",
+      "[Heading 3] B17. Contradiction and tension",
+      "[Heading 3] B18. Selection",
+      "[Heading 3] B19. Principal branch",
+      "[Heading 3] B20. All-candidates mode",
+      "[Heading 3] B21. Branch tension",
+      "[Heading 3] B22. Alternative and co-present branches differ",
+      "[Heading 3] B23. Computational principle",
+      "[Heading 2] Part VI. Branch Families and Branch Graphs",
+      "[Heading 3] G1. Branch families are local multiplicity events",
+      "[Heading 3] G2. Branch members carry provenance",
+      "[Heading 3] G3. Projection preserves branch identity when possible",
+      "[Heading 3] G4. Merging requires explicit rejoin",
+      "[Heading 3] G5. Inverse continuation uses alternative reverse families",
+      "[Heading 3] G6. Directed segment boolean splitting uses co-present structural families",
+      "[Heading 3] G7. Fractional powers may carry preimage provenance forward",
+      "[Heading 3] G8. A branch graph is ordered history, not only multiplicity",
+      "[Heading 3] G9. Frontier marks current activity",
+      "[Heading 3] G10. Events and nodes are distinct",
+      "[Heading 3] G11. Edges preserve structural relation",
+      "[Heading 3] G12. Rejoin preserves provenance",
+      "[Heading 3] G13. Selection may itself be a graph event",
+      "[Heading 3] G14. Crossing does not imply joining",
+      "[Heading 3] G15. Standalone graph attachment is allowed",
+      "[Heading 2] Part VII. Dynamic Execution",
+      "[Heading 3] D1. Dynamic context has two layers",
+      "[Heading 3] D2. Strands generate proposals",
+      "[Heading 3] D3. A proposal may be partial",
+      "[Heading 3] D4. Resolution is required",
+      "[Heading 3] D5. Resolution may return a branch family",
+      "[Heading 3] D6. Tension is executable information",
+      "[Heading 3] D7. Environment feeds back"
+    ],
+    "preview": "[Heading 1] Core 2 Prompt Axioms\n[normal] This file is the living consolidated specification for Core 2.\n[normal] Parts I through VIII are general Core 2 system axioms.\nPart IX is a directed-segment appendix aligned to the current geometry and boolean implementation.\nPart X integrates the current pinning redesign as host-relative attachment, encountered local structure, and later folding.\n[Heading 2] Part I. Foundations\n[Heading 3] F1. Fundamental duality\n[normal] The system is built from opposed pairs such as same/opposite, dominant/recessive, left/right, observer/opposite-observer, and encode/act. Each such pair appears in two linked forms:\n[normal] an encoding that names a state or relation\n[normal] a transform that enacts that relation\n[Heading 3] F2. Encoding and action are paired but distinct\n[normal] Examples:\n[normal] 3 encodes triple scale; S_3 applies triple scale\n[normal] i encodes the opposite-unit state; J applies the opposite-unit action\n[normal] -1 encodes negation; N applies negation\n[normal] The encoding and the transform are two formal appearances of the same underlying relation.\n[Heading 3] F3. Primitive object\n[normal] The primitive object is an ordered interval"
+  },
+  {
+    "path": "Articles\\Boolean Arithmetic with Segments.docx",
+    "kind": "docx",
+    "chars": 7602,
+    "headings": [],
+    "preview": "[normal] Arithmetic with Segments\n[normal] The last article talked about how multiplication of segments can be thought of as two squeegees cleaning a window. One cleans each side which creates four quadrants (both dirty, back clean, front clean, and both clean).\n[normal] An interesting unlock here is, it allows treating these quadrants as Boolean objects even though they have length or area. With two inputs, you get the four possible areas that have 16 possible combinations.\n[normal] Now if the clean areas are 0, and the dirty areas are 1 (or vice versa), we get \u2018quantified Boolean\u2019 areas:\n[normal] Which also works in one dimension. Note the overlap in one dimension is position to position (relative) rather than point to point (absolute). Also multiplication works differently because the two values need to be compressed into a single dimension.\n[normal] So the two inputs, A and B, generate four areas, and those areas can be combined in 16 possible ways. This Boolean truth table allows isolating any combination of those areas. These isolated areas can be quantified numerically, and the results can be combined to create mathematical operations and equations. The advantage here is you"
+  },
+  {
+    "path": "Articles\\Emergent Properties.docx",
+    "kind": "docx",
+    "chars": 3689,
+    "headings": [],
+    "preview": "[normal] Emergent Properties\n[normal] There is nothing like experience. We can debate all day whether machines reason, have emergent characteristics, or come up with novel ideas \u2014 but at the heart of it, they don't have experiences. Without experience, the best they can do is simulation.\n[normal] It is very informative then, to create a simple environment where a machine can have an experience. First, it forces you to commit to what an experience is, exactly. Second, you soon realize that an experience requires the sensing of it, an interpretation, and a selected reaction. If a tree falls on a rock, the rock didn't experience anything.\n[normal] So imagine a line-making machine. All it can do is move forward and turn. This could be a living thing, but let's not over complicating things. All that exists in this world is a blank space, and a line that moves left or right. The only 'experience' here is perhaps whatever it feels when it moves, but let's imagine it feels nothing. There is nothing to sense in this world, so there is nothing to interpret, and nothing to react to. At this point, it wouldn't even be able to tell if it was moving in spite of leaving a trailing line.\n[normal] "
+  },
+  {
+    "path": "Articles\\Mathematics Without Infinity.docx",
+    "kind": "docx",
+    "chars": 8428,
+    "headings": [
+      "[Heading 1] Mathematics Without Infinity",
+      "[Heading 3] The Anatomy of a Bounded Number",
+      "[Heading 3] Scaling Spaces: Proportions and Depth",
+      "[Heading 3] Adding Resolution: The Discreteness of Ticks",
+      "[Heading 3] Relative and Geometric Spaces",
+      "[Heading 3] Complex Numbers as Directed Segments",
+      "[Heading 3] The Engine of Pruning: Overflow and Dual Numbers"
+    ],
+    "preview": "[Heading 1] Mathematics Without Infinity\n[normal] Most of us are taught that mathematics requires infinity to function. We learn about lines that stretch forever, decimals that never terminate, and limits that approach an endless horizon. But what if we simply closed the door on infinity? What if we declared that every number must exist within strict, finite boundaries\u2014a maximum scale, a minimum floor, a distinct resolution, and a hard limit on how many times an operation can be repeated?\n[normal] This is not a restricted version of mathematics; it is a highly intentional one. By removing the concept of \"forever,\" we create a cleaner, more geometric, and immensely practical numbering system that closely mirrors how we actually measure, compute, and navigate the physical world.\n[Heading 3] The Anatomy of a Bounded Number\n[normal] To build this system, we discard the infinite number line and replace it with four foundational pillars:\n[normal] The Unit: The foundational scale. One unit defines what \"one step\" means in a given context.\n[normal] The Range (Min/Max): The hard borders of our reality. A maximum bounds the system at the top end, and a minimum bounds it at the bottom.\n[norma"
+  },
+  {
+    "path": "Articles\\Multiplying AI Segments.docx",
+    "kind": "docx",
+    "chars": 9801,
+    "headings": [],
+    "preview": "[normal] Multiplying AI Segments\n[normal] Here is an intuition for how multiplication works. Imagine I have a dirty window in my garage, and my squeegee is the same width as the window. As I drag it down, I\u2018m gradually combining the width along the entire height. I\u2019m merging the width into the height.\n[normal] A segment then can be thought of as the path that\u2019s taken on a partially cleaned pane. If I\u2019m 40% of the way down, then that\u2019s the start point (let\u2019s call it 4), and the bottom of the window is the end point (let\u2019s say 10). There is the area that is already clean, and it defines the start area. The remaining area is the goal area. So we start at 4 and end at 10, and the length of this segment is 6.\n[normal] This suggests the start point has the opposite polarity of the end point, positive up instead of positive down. So the start point is -4, the end point is 10, and the length is 6. That makes more sense.\n[normal] Note that, if we set the start point 2 units above the window, it now starts at (positive) 2 and ends at 10, with a length of 12. The segment length is still computable by just adding the start to the end.\n[normal] There are other ways to interpret these positions."
+  },
+  {
+    "path": "Articles\\Numbers.docx",
+    "kind": "docx",
+    "chars": 95111,
+    "headings": [
+      "[Heading 1] Complexity Spaces",
+      "[Heading 2] Introduction",
+      "[Heading 2] What is a Quantity",
+      "[Heading 2] Reality Gets a Vote",
+      "[Heading 2] Unknown vs. Infinity",
+      "[Heading 2] Bounds and Resolution",
+      "[Heading 2] Complexity Spaces",
+      "[Heading 3] Degrees of Freedom",
+      "[Heading 3] Containers and Constraints",
+      "[Heading 3] Number Spaces",
+      "[Heading 3] Recognizing Perspectives",
+      "[Heading 2] Error and Opportunity",
+      "[Heading 3] Category Error and Measurement Error",
+      "[Heading 3] Error is Information",
+      "[Heading 2] Communication",
+      "[Heading 2] Level of Focus",
+      "[Heading 1] The Math",
+      "[Heading 2] Datapoints",
+      "[Heading 2] Paths",
+      "[Heading 2] Errors",
+      "[Heading 2] Paths and Proportions",
+      "[Heading 2] Paths and Numbers",
+      "[Heading 2] Other Number Systems",
+      "[Heading 2] The Lack of Error Problem",
+      "[Heading 2] Adding Error",
+      "[Heading 2] A Second Degree of Freedom",
+      "[Heading 2] Parameterizing Complexity Spaces",
+      "[Heading 2] Scaling Out",
+      "[Heading 2] Scaling Complexity Spaces",
+      "[Heading 2] Squaring Complexity Spaces",
+      "[Heading 2] Modify and Synthesize",
+      "[Heading 2] Operations",
+      "[Heading 2] Decisions",
+      "[Heading 2] The Time Dimension",
+      "[Heading 2] Calibrated Expressions are Complexity Spaces",
+      "[Heading 2] Types and Mathematical Implications",
+      "[Heading 2] Uncertainty and Randomness",
+      "[Heading 2] Negotiating Truth",
+      "[Heading 2] Simple Sample",
+      "[Heading 2] Parsing and Training",
+      "[Heading 2] Machine Strategies"
+    ],
+    "preview": "[Heading 1] Complexity Spaces\n[Heading 2] Introduction\n[normal] Everything we understand in the universe is derived from understanding quantities. Not just by way of math and numbers either, our thoughts, our perceptions and all meaning comes from comparing and manipulating things we quantify.\n[normal] Surprisingly we don\u2019t spend much time trying to understand how exactly this all works at a\n[normal] fundamental level. As in the \u2018pre-elementary school\u2019 level of understanding, \u201chow can things be measured?\u201d, \u201cwhat is a number?\u201d, \u201cwhat is addition?\u201d, \u201chow can you compare things?\u201d. This level of questions are answered with tradition, not inquiry. With the advent of AI, we face machines that have no tradition other than what we give them. It is becoming necessary to revisit our traditions, clarify them, and come up with a more complete framework for understanding quantities. This new framework quantifies concepts using webs of related perspectives, each with an inherent micro-intelligence. In this way, intelligence is distributed throughout the network in spaces of varying complexity.\n[Heading 2] What is a Quantity\n[normal] All quantities derive from a measure of change. This may not se"
+  },
+  {
+    "path": "Articles\\Pin, Accumulate, and Merge.docx",
+    "kind": "docx",
+    "chars": 27635,
+    "headings": [
+      "[Title] Pin, Accumulate, and Merge",
+      "[Heading 2] The Business of Magnitudes",
+      "[Title] The reason it's hard to imagine exactly what multiplication will do in higher dimensions is because we don't have a great mental model of what exactly we mean by multiplication. Or even addition for that matter. In fact, there are a few stages to operations. First they are selected, pinned together, and an operation is chosen. Then things can be joined at one point, merged point to point, merged every point to every point, or merged point to point by a Boolean rule. Finally, these expansions can be folded back into their original dimensions. Specifically, pinning selects the operating space, merging combines elements within it, and folding collapses the resulting space down to its simpler original form.",
+      "[Heading 3] Pinning",
+      "[Title] Imagine you have two measures. They're separate and you are thinking of ways to compare them together. Let's take hands of playing cards in a Go Fish game. Alice has 3 cards, Bob has 6 cards. First off, we need to establish what we are comparing. Alice and Bob might be in two different games, or in two different cities. To compare, you have to join them together minimally. So mentally take 'one point' on Alice's cards, and join it to 'one point' on Bob's hand. Geometrically it might look like one of these:",
+      "[Title] At this point, the geometry doesn't really matter; the important thing is that these two sets of cards are put into the same context by joining them somehow into a single space. This is not adding them together, or combining them in any way. This is the first stage of any math operation: the selection of elements and pinning them together. This pinned space becomes a frame you can inspect, add data to, and perform operations in.. Imagine picking a new card; you could choose it from either Alice or Bob, or add one to their hands. With the frame as a reference, you can track what happens. It's basically a space where everything lives, and it tells us we are considering these together, their basic structures, and we can encode and track (numerically) every element that exists in the space.",
+      "[Heading 3] Addition",
+      "[Title] Now with them pinned, let's try adding. You can take every value (card) from one hand and 'merge' it into a card from the other hand. You knit things together point by point. Alice card with Bob card, Alice card with Bob card, and you end up with [ABABABBBB]. That would total 9 cards. You could imagine them mixing proportionally as well, something like [BAB,BAB,BAB]. You could even do them randomly [B,B,A,B,A,B,B,B,A]. The point here is that, in this system, every position mixes with every other position and the total accumulates. When pouring red and blue  glasses of water into a jug it feels like mixing, when adding three books onto a stack it feels like appending. You can accumulate with a heuristic or not, there is no right way, so it is considered instantaneous. But it\u2019s your algorithm! Specify a heuristic and play it out over time if it serves your purpose.",
+      "[Title] Another way to think about addition is to take all of the first value and then append all of the second value, tip to tail. When we do this visually, we like to think of it as three apples followed by six oranges for a total of nine, but addition is still a merge, not an ordering. There is no rule in addition that allows you to specify that position 7 must be an orange. A merge will always destroy information about the original elements, and if you want that information going forward, you need to preserve it in some other way.",
+      "[Title] You could imagine doing all of these different accumulation heuristics continuously; the first way would be a blending of some sort, from start to end. And you haven\u2019t created new \u2018stuff\u2019, you\u2019ve just combined existing things. The second method would be taking the first portion and then adding the second portion to it. Generally, we don't think of doing addition continuously, so this doesn't normally matter. That said, they are different things, and there are many situations where it does matter. A recipe will often tell you how to add things while mixing, for example. And it always matters when things happen continuously, whether addition, multiplication, or even rewired boolean operations.",
+      "[Title] The most important point, though, is that you have now taken two collections, pinned them together, and then made them into a single collection. When you just pin them, you still have the two lines to work with, and you still know the value of the first, and the value of the second. When you decide on an operation and merge them, you end up with a single value (the length), and you have lost the original two values. The original information was folded into new information, the original dimensions were folded into a single dimension, and the original order is lost.",
+      "[Title] These are two steps, pinning (where input information is available), and merging (where results are known). Pinning allows you to work with separate things in a new space; merging creates a new space and information, and erases the older spaces. It's the equivalent of the left side of the equation and the right side of the equation. If we were collecting data on Alice and Bob's card hands, we could pin them together into a frame, and that frame could track and compare the cards. If we're collecting meta-information about the game, like the score or the total cards dealt, then we're less interested in the individual characteristics. In this second case, we want a merged set of elements as we care about \u2018who won\u2019 not \u2018how they won\u2019. Joining versus merging is a very key idea in mathematics, and we don't distinguish between these two enough.",
+      "[Heading 3] Multiplication",
+      "[Title] For multiplication, we can start with the same pinned elements. If addition is every portion of one element combining with a mapped equivalent portion on the other element, multiplication is every portion mapping with the whole other element. If this is done continuously all along a length, it looks like stretching. If it is done portion by portion, it looks like multiple additions. It is similar to addition, just it is not 1:1, it is 1:ALL. So 3*4=12 might look like one of:",
+      "[Title] The first two methods are more like repeated addition, 3+3+3+3, or 3 to the 'additive power' of 4 (powers essentially mean repeat in math). Even with the repeat-additive, we still have a question of the input, a single \u2018unit\u2019 can either be three things [a] or one thing of measure 3 [b]. Lastly it can be one thing, of measure 3, stretched to 4 times its length [c]. Three glasses of wine, three cases of wine, and three gallons of wine all have distinct measurement physics.",
+      "[Title] This is clearer when the values aren\u2019t linear, where four rows of three are obviously additive, and a rectangular blend isn\u2019t. A blending of A and B into a rectangle is a true multiplication because of the expansion. Three apples four times, vs. a 3-foot by 4-foot piece of cardboard. You can imagine these happening continuously: one representing four transactions with apples, and one stretching to fill an area. The result is the same, but these are very different operations and suggest different equations will be relevant around these two contexts.",
+      "[Title] Why does any of this matter? With people creating the equations and making these tiny interpretations, we get by with language papering over the cracks. We know we can have half an apple but not half a butter, and we choose operations based on that understood context. Machines could do this just as easily, but we only give them half the information. We don\u2019t tell machines \u2018twice as many\u2019, or \u2018twice as much\u2019, we just say \u20182x\u2019. This is mathematical computable information we are withholding, because our encoding system ignores it. Interpreting reality doesn't involve super complex math, but it does require making good guesses about the simple math that should apply in a given context. It also relies heavily on interpolation, and as absurd as it sounds, interpolating between anything, even addition and multiplication, isn't impossible if you model them specifically as continuous systems.",
+      "[Heading 3] Probability and Merging",
+      "[Title] Another way to think about multiplication is as a probability space, rather than a scaled line or area. Imagine a variation of poker where three of your cards are exposed, and two are hidden/unknown. In the Texas Hold'em version, the exposed cards are called the flop, and we'll call the other two the 'hidden' cards. So looking at each player's flop (exposed cards), you can calculate some kind of score that tells you the probability they will win. If you put Alice's score on the Y-axis, and Bob's score on the X-axis, that multiplication (into a rectangle) tells you the state of the table based on the known cards. The aspect ratio tells you who has a better chance of winning, and the total area tells you how strong the hands are. If both had 3-of-a-kind, we'd get a large area, and if they both had bad cards we'd get a small area. Bob's X-axis would be wider than Alice\u2019s height if he had 3 aces to Alice\u2019s 3 kings. So this is both a multiply \u2018space\u2019 and a multiplied result.",
+      "[Title] Let\u2019s say Bob has a score of 20, and Alice 30. The space is the two scores pinned on each axis and the ability to merge them. The resulting area is NOT a rectangle, it\u2019s just the area of the rectangle. If you displayed this area as a circle or a squiggly shape, it would still be an area of 600. Showing it as a rectangle is handy for us, and helps us interpret both spaces at once, but \u2018area\u2019 isn\u2019t defined as a rectangle. The area space required one number, the axes required two. You can think of this space as the full algebraic equation A*B=C. The current instance might be 20*30=600, and the (20*30) part has information, and the (600) part has information.",
+      "[Title] Thinking about this space and the operation, it can be characterized as A*B=C. This is algebraically abstract, but that does not mean it can't be parameterized. If we know the maximum score is 50, and the minimum resolution our scoring system can provide is 1/2, we can refine the space to be two axes, each with 100 ticks, and the unit being two ticks. All scores start at 0, the minimum, so we only need one quadrant in this setup. Lastly, we need to be able to add values to each axis, and we need the multiply operation.",
+      "[Title] This parameterized space of 50*50 is in fact also made of numbers and operations, just like the input of 20*30 in the previous example. This means you can input 20*30=600 as we did (or more correctly, 40/2+60/2=1200/2 because of the resolution limit of two ticks), and you can use it as a space itself. The 20*30 space may be more useful when speculating further about the current round vs the game. There is no mechanical difference between a framing space and input into a space. And it goes further: each axis is also a space, where it has a min (0), a max (50), a resolution (2 ticks), and an operation (numerator/denominator). You can add any values to either axis. The result, and area of 2500, is also a space \u2013 and in fact the same space as the axis (min: 0, max: 2500, ticks: 4, and a division operation). Both the left and right-hand sides of the equation are spaces, and both are also values. You can input new values into any space if you choose, and it will just piggyback on the parent's range, resolution, and operations.",
+      "[Heading 3] Negative Numbers",
+      "[Title] Let's expand this space a little. So far we are only allowing positive numbers, so how about negative numbers? One way we can do this is to align the score axes' zero point with a 50% chance of winning. Remember, these aren\u2019t \u2018true probabilities\u2019 that go from 0 to 1; they\u2019re just the results of some scoring system. So now the values of Alice and Bob's scores can go from -25 to +25, still with two ticks resolution. These values will always be anchored at zero because they are one dimension; they just can now go from 0 to 25, or 0 to -25. And if they are positive, that hand wins at least half of the time.",
+      "[Title] This does bring up a very key piece of evidence in our quest to understand spaces. We can all understand 2*3=6, and it\u2019s easy to place the subsequent rectangle on a graph, but what about -2*-3=6? The resulting area of 6 is the same, so the area should go in the same place as 2*3=6, right? And yet visually that makes no sense. We have a left-pointing line and a down-pointing line, and when we \u2018connect\u2019 them we get a rectangle in the top right? -2*3 and 2*-3 are just as confusing, as both give a -6 area (whatever that is), and go in either the top-left or bottom-right.\u2019",
+      "[Title] There are a few things going on here, but the most important fact is that the result given as an area is not 2-dimensional in this sense. Area alone is one dimension in that it is specified using one number. The units are two-dimensional, but we\u2019ve erased the connection with their information. We\u2019re saying 6 feet squared is a total area of \u20186\u2019, split however you want between orthogonal units. Again, we can visualize an area as squares, circles, or squiggly lines, but we do it with a single number. Speed is also two-dimensional if you look at the units, but it is specified as a single number (and thought of as a single value, of course, like any rate is). And if you dig, dig, dig, mass (kg/m\u00b3) and temperature (distance\u00b2/time\u00b2) are actually 4 axis units. Once a space with many degrees of freedom is folded though, it operates within its new, lower space\u2019s degrees of freedom.",
+      "[Title] There is still the issue of the actual graph we have, though. We intuitively know where those positive and negative areas \u2018should\u2019 go. Even though the plot describes two spaces at once (A*B and area), this is allowed. We should look closely at what it is telling us.",
+      "[Title] If Alice\u2019s exposed cards have a score of 20, and Bob\u2019s are -10, we know the rectangle will naturally be in the top-left quadrant. These values are opposites combined, positive score and negative score, meaning Alice is favored, and Bob will probably lose. The top-left and bottom-right spaces have opposing forces, creating a strong comparison signal Just knowing the area is in one of these quadrants tells you the scores are a bit lopsided.",
+      "[Title] The other diagonal, bottom-right to top-left, tells you more about the overall strength of the hands. Top-right and both hands are statistically winners; bottom-left and both hands are statistically losers. These are very akin to the cross product (strength quadrants) and the dot product (comparison quadrants). Of course, each time you get both scores, the rectangles can tell you the full picture if you look at the shapes and sizes. It\u2019s just that the quadrants alone hold information, before you measure anything. And in more complex spaces, this quadrant information is very helpful, as we\u2019ll see next.",
+      "[Heading 3] Adding a Dimension",
+      "[Title] Back to poker. The three cards we see allow us to mechanically calculate some score, and we can plot that on an axis, -25 t0 25. What about the two cards we don\u2019t see? We usually dismiss unknowns as noise or chance, but that\u2019s why we\u2019re terrible poker players. A good player has a lot of information about those cards. How the person bets, how confident they look, how they bet last year, if they scratched their butt, etc. I don\u2019t know, as I don\u2019t play poker (obviously), but if this information exists, it can be modeled. We can call it the \u2018confidence\u2019 a player has regarding their secret cards. First, let\u2019s model this on two axes: X is score, Y is confidence. For simplicity, we\u2019ll assume these are the same range and resolution, but of course, they don\u2019t have to be.",
+      "[Title] Assuming confidence is positive-up, and score is positive-right, the top-right quadrant represents a very high chance of winning, with the bottom-left quadrant being very low. Top-left (high confidence, low score) is maybe bluffing, or a low-chance big hand. And bottom-right (low confidence, high score) is maybe a novice player, or a trap. The point being that the values along the backslash diagonal sort of cancel each other out, and the forward-slash values reinforce each other.",
+      "[Title] Once again, two quadrants represent a comparison of properties, and the other quadrants represent the combined scale of them. This makes it hard to compare two players though, as you would need a 4D graph, and the confusion that brings. We can fix this though, with one weird trick\u2026",
+      "[Heading 3] The 2-Dimensional Axis",
+      "[Title] Imagine taking the vertical confidence axis and rotating it counter-clockwise until it is parallel with the score axis. It now points positive-left, and its unit ticks point left as well. Everything on this axis is a start point, and everything on the \u2018score\u2019 axis is an end point. We can now create a directed segment, from confidence to score, all in one dimension.",
+      "[Title] A highly confident player with a good score would have a very long segment, starting at say -20 and ending at 20. A length of 40, pointing in the positive direction! And opposite, a very sullen player with a bad-looking hand would have a very long segment as well, but pointing to the negative. The length of the segment tells you about the certainty of your prediction, and the direction tells you of the predicted outcome. With uncertainty, we would expect shorter lines, and sure enough: a confident player (positive confidence, so start far left) with a bad hand (negative score, so end far left) would likely be a shorter line, all to the left of zero. And a highly confident player with a bad score would be a shorter line to the right of zero. Our predictions in these cases come down to how confident and how bad the hand is; the arrow can still point in either direction even if it is all on one or the other side of zero.",
+      "[Title] This opens a few questions. First, is this even natural? Yes. Anything that is ordered, like a line, has two directions and two orientations. We are used to the two directions, positive and negative. The two orientations feel new, but we deal with it all the time on a vertical axis, arguing whether it should be positive-up or positive-down. We agree that both orientations exist, and the question is which should be discarded. In fact, there is no reason you can\u2019t use both at once; it just requires two distinct units and two distinct values, one for each unit. We can think of one value as a start point and the other as an end point, then we get a directed segment.",
+      "[Title] Linguistically, this is like a dominant measure and its opposite, like sad<->happy vs angry<>happy. Arguably you haven\u2019t fully specified an attribute until you\u2019ve also specified its opposite.",
+      "[Title] Another question is why use positive-left instead of having two positive-right points. Of course you can do both, and we usually specify a range like, \u2018from 10 to 20\u2019. However, when a range is defined with a shared unit, you really just have separate two values and some guidelines. Additionally, the fact that anything ordered has two orientations is just ignored. As a bonus, a length in the new system gives you information about the magnitude of the differences as shown above. It fits perfectly with the natural duals you see everywhere in numbers, operations, groups, and symmetry. As you use these directed segments, there are many natural \u2018true things\u2019 that fall out of them. And no surprise, they map almost perfectly to something that already exists in math\u2026",
+      "[Heading 3] Complex Numbers",
+      "[Title] If you call the positive-left unit the inverted (or imaginary) unit (\u2018i\u2019) and the positive-right the rational (or real) unit (\u2018r\u2019), then you can specify the directed segment as (3i+2), which has a length of 5 and points to the right. Note that the writing of it is order-independent; (2+3i) is the same number. It is handy to have the inverted portion first though, as that is the start point, and our regular numbers are just (0i+2), where the 0 cancels leaving 2.",
+      "[Title] All complex number math works for these directed segments, with the only difference being that rotation wrapping isn\u2019t enforced. You can still have that modular behavior by embedding your values in a space of limited range that wraps when it overflows, but you must choose your frame to behave that way. As a bonus, boolean math is very natural on directed segments. And handy for us, we can pin two of these axes together to create a space to fully analyze the two poker hands we\u2019ve been discussing.",
+      "[Heading 3] Complex 2D Spaces",
+      "[Title] We can now join these two axes of directed segments and try the same multiply operation on them. The score of the exposed cards is the same, going from -25 to +25, and they are represented by the end point of the segments. The start point represents the unknown cards, which is evaluated by the confidence of the player. When multiplying these together (without folding down), we get four quadrants. Each of these quadrants has specific meanings. The quadrants have the same meanings as before, but they are all present at once. So it tells you the total confidence of both players, the total hand strengths, as well as how their hand strength-to-confidence ratios compare to each other. These quadrants are familiar if you remember complex multiplication, which goes something like, in terms of \u2018confidence & score\u2019, cc+cs+sc+ss. Note this is normally written as (a+bi)(c+di) where \u2018a\u2019 and \u2018b\u2019 are Bob\u2019s confidence and score, and \u2018c\u2019 and \u2018d\u2019 are Alice\u2019s.",
+      "[Title] Note that the normal (ac-bd)+(ad+bc)i is changed to +(ad+bc)i+(ac+bd). The order changed because we are going with start->end, and the complex side is the start. This formula is a space with 4 degrees of freedom until you fold it, so we keep it expanded in the intuitive order. Remember that either order has the same meaning though, we establish the \u2018start\u2019 meaning with \u2018i\u2019, not order. As for the - turning to a plus, areas have an inverse, just like segments. Multiplying two positive i\u2019s creates a positive inverted area. It becomes a negative number when converted from a start value to an end value during folding. You can see this by the fact that interpreting the 2i endpoint as a start point would make it -2 (the position is exactly the same, just the perspective changes). The notation here doesn\u2019t fully express the chirality of the area, so we just leave it as is for now.",
+      "[Title] The two directed segments, when merged, will create a rectangle in each of these quadrants, and each rectangle will have an area and an aspect ratio. More importantly, all of this information will have a specific meaning. It has information about the relative and total strengths of the hands and confidences. Finally, this 4-quadrant result can be folded back into a single directed segment: (a+bi)(c+di) = (ac-bd) + (ad+bc)i, which will also have meaning. That is, all the confidence plus the scores merged, and the two ratios of confidence to scores merged. It is more about the final judgment, like \u2018Bob is more likely to lose\u2014the cards are close, but the confidence favors Alice.\u2019",
+      "[Heading 3] Boolean Operations",
+      "[Title] There are three primitive operation categories we can use when merging values: Accumulation, Scaling, and Boolean operations. Just as we can map continuous magnitudes onto these axes, we can also apply discrete logic to them.",
+      "[Title] For two inputs of either true or false, there are 16 possible rules for the outputs. Common ones are AND (only true if both are true), OR (true if either are true), and NOT (only true if both are false). Less common ones are things like 'true no matter what', or even Implication (A \u2192 B), meaning \u2018if A is true, then whatever B is, otherwise true\u2019 (only A true + B false is false).",
+      "[Title] Now conveniently, we notice that 2*3=6 on a graph looks like AND, as well as OR and IDENTITY. But when we get to directed segments, AND is just merging the shown cards (score), and OR is the total score and ratios. IDENTITY is the whole thing. If we think of the score as true, and the confidence as false, we can do these operations, and many more, using only boolean operations. This is a whole rabbit hole I\u2019ve written about elsewhere [1][3][4], but there is gold in there. You can find rules of symmetry, and a reasonable argument that contradiction in the actions of quadrants are what allows you to break out of one dimension into two [2].  If you extend Booleans with probabilities (imagine the score ended up being 90% of the signal), you can interpolate them, and the discrete nature of Booleans fades away (as do the Boolean categories themselves). It becomes more like a 16-pointed symmetric polyhedron with an operation at each point. Then you can interpolate between any two points to explore the interior space. There is a shape there if you study really hard into the precise meanings of these operations. Which I haven\u2019t. All\u2019s I got is , \u2018trust me bro\u2019.",
+      "[Title] Polyhedra aside, probabilistic Boolean interpolations are computationally simple, extremely expressive, and offer fairly easy-to-understand approximations by rounding up to surface points (which are the traditional Boolean operations above).",
+      "[Heading 3] Separation and Error",
+      "[Title] And the information separation allows us to embrace error as information; 2*3=7 tells us where the tension is, and gives us options to correct it. Normally we just reject the answer, but with this framework, we can also adjust the question. The question itself is data in an existing space, and it holds very different information than the result. We can even question the frame. As a result, we now have a computational framework to discover the correctness of our models through balancing evidence. And rather than rejecting error, we seek it out. We are not trying to prove a model with confirmation, but asking, \u201cWhat is the perspective on this that is most likely to give error or surprise?\u201d",
+      "[Heading 3] Conclusion",
+      "[Title] With (2*3) it was harder to see the difference between the pinned equations and the folded result. This is because the \u2018area\u2019 of 6 also really seems like it has sides of length 2 and 3, similar to the input. In reality \u2018area\u2019 has no such requirement. It is much easier to separate these two concepts with directed segments. The pinning and merging become four quadrants, and the folding of these results in a new directed segment. Both of these stages can be very important to encoding the measures and concepts we want to work with, so it is important to give them a formal home in math. Ultimately we understand things by holding a number of these spaces in our focus at the same time, and resolving the error into the most likely solution. The simplest example of this process is how we use two separate concepts at once, two merging input segments, and its area output. It really feels like these two perspectives are a single thing, and we even teach it that way. Why? Because this is how the great illusion works.",
+      "[Heading 3] Links"
+    ],
+    "preview": "[Title] Pin, Accumulate, and Merge\n[Heading 2] The Business of Magnitudes\n[Title] The reason it's hard to imagine exactly what multiplication will do in higher dimensions is because we don't have a great mental model of what exactly we mean by multiplication. Or even addition for that matter. In fact, there are a few stages to operations. First they are selected, pinned together, and an operation is chosen. Then things can be joined at one point, merged point to point, merged every point to every point, or merged point to point by a Boolean rule. Finally, these expansions can be folded back into their original dimensions. Specifically, pinning selects the operating space, merging combines elements within it, and folding collapses the resulting space down to its simpler original form.\n[Heading 3] Pinning\n[Title] Imagine you have two measures. They're separate and you are thinking of ways to compare them together. Let's take hands of playing cards in a Go Fish game. Alice has 3 cards, Bob has 6 cards. First off, we need to establish what we are comparing. Alice and Bob might be in two different games, or in two different cities. To compare, you have to join them together minimally. S"
+  },
+  {
+    "path": "Articles\\Segment Math and Symmetry.docx",
+    "kind": "docx",
+    "chars": 20414,
+    "headings": [
+      "[Heading 1] The Four Units of a Measure",
+      "[Heading 1] The Meaning of Units",
+      "[Heading 1] Encoding as Memory, Prediction and Action",
+      "[Heading 1] Action",
+      "[Heading 1] The Seven Symmetries",
+      "[Heading 2] No Transform",
+      "[Heading 2] Point Transform",
+      "[Heading 2] Horizontal and Vertical Transforms",
+      "[Heading 2] Diagonal Transform",
+      "[Heading 2] Corner Transform",
+      "[Heading 2] Transform All",
+      "[Heading 1] Why the Filter?",
+      "[Heading 1] The primitives of numeracy",
+      "[Heading 1] A Look at the Redundant Patterns",
+      "[Heading 2] Points",
+      "[Heading 2] Stripes and Diagonals",
+      "[Heading 2] Corners",
+      "[Heading 1] Symmetry as Action"
+    ],
+    "preview": "[normal] Segment Math and Symmetry\n[normal] Symmetric tiling patterns are both deeply compelling, and mathematically unsatisfying. They have been used throughout the history of civilization, from the 12000 year old G\u00f6bekli Tepe onwards. These symmetry patterns hold deeper insights into how we calculate, how we think, and indeed how the world works.\n[normal] Frieze patterns are a type of line group, with patterns that repeat only in one direction. These have been mathematically described with many rule sets and notations, and personally I\u2019ve found them all a bit arbitrary. They all enumerate the patterns, but it feels more like classification than insight. Caveat, maybe I\u2019m just too thick to appreciate it. And no doubt I\u2019m adding one more rule set to the pile here. Apologies.\n[normal] My take is these patterns are not base primitives to build on, but a visual embodiment of the rules needed to compare ordered things.\n[normal] The segment number system I\u2019ve been working on for the last five years (yikes!) make symmetry much more intuitive, as the four basic transformations (identity, negate value, negate number line, and negate both) are the same transformations used to construct segm"
+  },
+  {
+    "path": "Articles\\Sequential Math, Parallel Math.docx",
+    "kind": "docx",
+    "chars": 2571,
+    "headings": [],
+    "preview": "[normal] Order of operations is a first class primitive in math that defines the sequence of operations, but parallel operations are mostly not specifiable. This is because we fixate on results rather than processes for equations. And it's one of the reasons calculus can seem so confusing.\n[normal] This is easiest to see in 2D (parallel vs sequential matters). The operations down 1 and across 1 give an 'L' when done sequentially, and a '\\' when done in parallel. Translating this to 1D (1+1) we can get two segments joined (sequential) or a single segment of length 2 (parallel) where every bit of each segment is piecemeal merged into a new one.\n[normal] A better mental model of this is adding four rows of numbers together using column arithmetic (parallel), or adding up receipts on a calculator one after another (sequential).\n[normal] The same is true for multiplication. 3x3x3 stretches a value to 3, stops, stretches that to 9, stops, and then stretches that to 27. If you imagine each of these steps taking the same amount of time, there are three distinct speeds. This is sequential.\n[normal] An example of the parallel version of multiplication is powers. 3^3 starts with three values "
+  },
+  {
+    "path": "Articles\\The Mathematical Interpretation of Symmetric Numbers.docx",
+    "kind": "docx",
+    "chars": 6947,
+    "headings": [
+      "[Heading 1] The Mathematical Interpretation",
+      "[Heading 1] Segment Numbers",
+      "[Heading 1] Beyond Segments"
+    ],
+    "preview": "[Heading 1] The Mathematical Interpretation\n[normal] As explored in the last article, \u201cBoolean Arithmetic with Segments\u201d, boolean values can be considered weighted values that have some true/false threshold. So when we see the four boolean units here, identity, negative-progress, negative-goal, and inversion, we should consider what the weighted version of these mean. They are at the heart of mathematical transformations, and core to defining numbers themselves.\n[normal] Our numbers are defined by the unit segment that defines 0 to 1, and a second segment that starts at 0 and extends to some non fixed length. The number is computed by comparing the unit length to the segment in question.\n[normal] For a \u2018positive to the right\u2019 numbering system like ours, the unit needs to start at zero, and move to the right. From the zero perspective, the goal position is one unit away. From the goal position, the start is -1 away. This suggests that the unit value is on the line with the opposite polarity. From our normal perspective it is position 1, and indeed from its own perspective it is also 1. All unit values are 1, it\u2019s just the units themselves come in four flavors. The red unit\u2019s locatio"
+  },
+  {
+    "path": "Articles\\Thinking in Directed Segments.docx",
+    "kind": "docx",
+    "chars": 5066,
+    "headings": [],
+    "preview": "[normal] Thinking in Directed Segments\n[normal] Directed segments work very well for encoding concepts. They are very simple, a start point and an end point, which gives you a range with a direction. And they have a surprisingly intuitive mapping to the type of complex structures you find in grammar. I've talked about this a lot, but now that I\u2019m getting further into it, I have, perhaps, some better examples.\n[normal] In all languages, tenses can reference future, current or past events, and they can do this from the perspective of the future, current or past. They can use the event\u2018s point of view or the speakers. And they can focus on different aspects of the event; before, beginning, during, completion, or after \u2014 or contiguous combinations of those. Imagine eating a meal (I ate, I\u2019m eating, I\u2019m going to eat). The segment describes the duration of eating, and the calibration (where the basis 0->1 is placed) describes the temporal position of the event. This is [time : time], but you could imagine [distance : distance] (\"there\u2019s a very long bridge in 5 miles\"), or any combination (\"a 10 minute delay in 10 miles\", \"the stock went down last week\" etc). Here are some common English "
+  },
+  {
+    "path": "code\\complexMult.ipynb",
+    "kind": "ipynb",
+    "chars": 5517,
+    "headings": [],
+    "preview": "<head>\n <link rel=\"stylesheet\" type=\"text/css\" href=\"https://jsxgraph.org/distrib/jsxgraph.css\" />\n <script type=\"text/javascript\" src=\"https://jsxgraph.org/distrib/jsxgraphcore.js\"></script>\n <div id=\"box\" class=\"jxgbox\" style=\"width:500px; height:500px;\"></div>\n\n<script type=\"text/javascript\">\n\nfunction plotHiddenPt(x, y, name=\" \", attractor){\n\treturn box.create('point', [x, y], {size:0,attractors:[attractor], attractorDistance:99, snatchDistance:99,name:name});\n}\nfunction plotPoint(x, y, col, name=\" \"){\n\treturn box.create('point', [x,y],{style:7, color:col, name:name});\n}\nfunction plotiPoint(x, y, col, name=\" \"){\n\treturn box.create('point', [x,\"-\"+y],{style:7, color:col, name:name});\n}\nfunction plotLine(x, y, col, name=\" \"){\n\treturn box.create('line', [x,y],{lastArrow:true, color:col, name:name,style:4,straightFirst:false, straightLast:false, strokeWidth:2});\n}\nfunction plotPoly(pts, col, name=\" \"){\n\treturn box.create('polygon', pts,{ fillColor:col,strokeColor:'black',name:name});\n}\nvar box = JXG.JSXGraph.initBoard('box', {showcopyright: false, boundingbox: [-4, 8, 8, -8], axis: true});\nvar org = box.create('point', [0,0], {style:10,size:0,visible:false,fixed:true,name:'org'});\n"
+  },
+  {
+    "path": "Design metrics.docx",
+    "kind": "docx",
+    "chars": 2151,
+    "headings": [],
+    "preview": "[normal] ChatGpt\n[normal] List 20 design techniques that help create a hierarchy of elements, in order of importance.\n[normal] Size: Using larger elements to draw the viewer's attention and convey importance.\n[normal] Font: Using bold, italic, or larger font sizes to emphasize key information.\n[normal] Color: Using contrasting colors or bold shades to draw the viewer's attention.\n[normal] Position: Placing important information at the top or center of the design to create a hierarchy.\n[normal] White space: Using empty space around key elements to draw the viewer's attention and create emphasis.\n[normal] Headings: Using clear headings and subheadings to organize information and create hierarchy.\n[normal] Images: Using images or graphics that are larger or more prominent to draw the viewer's attention.\n[normal] Alignment: Aligning important information with other elements or the margins to create a sense of organization.\n[normal] Typography: Using different font styles or sizes to create hierarchy and emphasize key information.\n[normal] Borders: Using borders around key elements to create emphasis and draw the viewer's attention.\n[normal] Icons: Using icons or symbols to represent ke"
+  },
+  {
+    "path": "Dimension ops.xlsx",
+    "kind": "xlsx",
+    "chars": 462,
+    "headings": [],
+    "preview": "[Sheet] Sheet1\n1pt | equal\n2pt | not equal | 1 line | length |  |  |  | position midpoint (gen point, downcast)\n3pt |  | 1line, unit | sum |  |  |  | compare (reused point, upcast)\n4pt |  | 2 lines |  | 1 area |  |  | center position (downcast 2)\n5pt |\n6pt |  | 3 lines |  | (1 volume)\n7pt |\n8pt |  |  |  | 2 areas | 1 volume\n| point | path | area | volume\npoint | equal | !=, >, <, res\npath |  | >=, <=\narea\nvolume\n2 point\n2 path |  |  +,-,ratio\n2 area\n2 volume"
+  },
+  {
+    "path": "Encodings\\Letter encoding.docx",
+    "kind": "docx",
+    "chars": 702,
+    "headings": [],
+    "preview": "[normal] Letter encoding\n[normal] Direction - 00 horz -, 11 vert |, 01 diag /, 10 diag \\\n[normal] Has curve - start dir different than end dir, or passes through other dirs\n[normal] End joints: 00 none, 10 first only, 01, second only, 11 both\n[normal] Joint type:\n[normal] 1 path: bend (tangent, angle, corner),\n[normal] 2 paths: branch (Y, butt),\n[normal] Cross: coincidence\n[normal] Joint Path values\n[normal] L: 0i+2\n[normal] T: i+1\n\tY: 2i+2\n[normal] F: 0i+1, 0i+1\n\tM: 0i-2, 0i+2, 0i-2\n[normal] Connected: connections by order:\n\tA: 1(3)(2,3)\n[normal] Y: 1(2,3) or 1(2)\n[normal] T: 1(2)\n\tL: 1(2)\n[normal] M: 1(2)(3)(4)\n[normal] D: 1(2)(1)\n[normal] Mirror line(A,C etc), mirror of (bd, pq, bp, dq etc)"
+  },
+  {
+    "path": "GA.docx",
+    "kind": "docx",
+    "chars": 27472,
+    "headings": [],
+    "preview": "[normal] Is Math Universal?\n[normal] It is often claimed that math is a \u2018universal language\u2019 \u2014 that it was discovered rather than invented. Given our limited interactions with alien species, that is a difficult claim to test, but it certainly feels like at least parts of it would be similar in any form of intelligence. Being able to categorize things requires grouping, grouping leads directly to counting and measuring, which leads to adding and multiplying \u2014 and then all mathematics tumbles out. Or is this summary already so rife with human bias that it wouldn\u2019t even be describable to another intelligence?\n[normal] The best we can probably do is to imagine communicating it to another very very different life form. Maybe a smart octopus, a blank computer AI, or a giant smarty pants gas cloud that had no concept of time, space or pants. In this context base ten numbers and even Cartesian coordinates don\u2019t seem so fundamental, but what about counting, adding, comparing and multiplying?\n[normal] Ok, let\u2019s imagine then that there\u2019s an alien AI supercomputer gas cloud floating somewhere in deep space, and by some distant friend of a friend we can communicate with it. You say, \u201cHi, I\u2019m a "
+  },
+  {
+    "path": "Math 5.docx",
+    "kind": "docx",
+    "chars": 59955,
+    "headings": [
+      "[Heading 1] Universal Math from First Principles",
+      "[Heading 2] Universals",
+      "[Heading 3] The Laws of Thermodynamics",
+      "[Heading 3] The Laws of Thermodynamics Applied to Information",
+      "[Heading 3] Implications of The Laws of Information",
+      "[Heading 2] Deriving Universal Math",
+      "[Heading 3] 1.0 Measurement",
+      "[Heading 3] 1.1 Precision",
+      "[Heading 3] 1.2 Extents",
+      "[Heading 3] 1.3 Units, Unots and Basis",
+      "[Heading 3] 1.4 Comparisons",
+      "[Heading 3] 1.5 Reciprocals",
+      "[Heading 3] 1.6 Exploring Unot",
+      "[Heading 3] 1.7 Addition and Subtraction",
+      "[Heading 3] 1.8 Complex Numbers are Segments",
+      "[Heading 3] 1.8 Multiplication",
+      "[Heading 3] 1.9 Multiplying by i",
+      "[Heading 3] 1.10 Repeated Multiplies",
+      "[Heading 3] 1.11 Resolution, Range, and Focus",
+      "[Heading 3] 1.12 Adding Two Segments",
+      "[Heading 3] 1.13 Multiplying Two Segments",
+      "[Heading 3] 1.14 Repetition",
+      "[Heading 3] 1.15 Complete description of a value",
+      "[Heading 3] 1.16 Some Advantages",
+      "[Heading 3] <in progress>",
+      "[Heading 3] Equations",
+      "[Heading 3] 2.1 Repetition with Variation",
+      "[Heading 3] Selection and Evaluation",
+      "[Heading 3] Equations",
+      "[Heading 3] Multiple Domains"
+    ],
+    "preview": "[Heading 1] Universal Math from First Principles\n[normal] <Code that explores this system available here.>\n[Heading 2] Universals\n[normal] Physics is the study of energy, mathematics is the study of magnitudes. Both have parallels to the study of information. Physics has discovered a small number of universal \u2018first principles\u2019 in the laws of thermodynamics. These laws can be interpreted for mathematics as well, giving many new insights.\n[Heading 3] The Laws of Thermodynamics\n[normal] Law 0: If two systems are both in thermal equilibrium with a third system, then they are in thermal equilibrium with each other.\n[normal] Law 1: Energy can not be created or destroyed, but it can be changed from one form to another.\n[normal] Law 2: All closed systems, including the universe, spontaneously tend toward an equilibrium state in which entropy is at a maximum.\n[normal] Law 3: The entropy of a system approaches a constant value as the temperature approaches absolute zero. *Note the word \u2018approaches\u2019, Absolute zero (zero motion) can not be achieved as energy can not be destroyed (law 1). Energy can only be mixed and dispersed.\n[Heading 3] The Laws of Thermodynamics Applied to Information\n[nor"
+  },
+  {
+    "path": "Math backup.docx",
+    "kind": "docx",
+    "chars": 80120,
+    "headings": [],
+    "preview": "[normal] Everything that can be done with a segment on a line\n[normal] A line is like a path that can extend in each direction. A line has a width, but we are only considering the 1D aspect of it, so any width, height, or other surroundings are ignored. Lines have two directions, and we can choose one to be forward and the other backwards.\n[normal] A trait can always be represented by a line. Traits are properties that have magnitudes ordered from lowest to highest in a linear progression. Once calibrated, the line represents the lowest and highest known values for the trait. If values are discovered beyond the limits of the line, it can be extended or made more precise.\n[normal] This line does not have to be straight. We are only considering one dimension, but it could be a curvy line, the edges of a polygon, a satellite's orbit, or a path through the woods. The shape of this line is significant when it represents repetition or symmetries.\n[normal] A focal segment is a segment of any achievable length on this line. The segment has a start point, and end point, so it can point forward or backwards. Note that points are also  segments, just they are the width of the smallest possibl"
+  },
+  {
+    "path": "Math bool to multiplication.docx",
+    "kind": "docx",
+    "chars": 7535,
+    "headings": [
+      "[Title] Arithmetic with Segments"
+    ],
+    "preview": "[Title] Arithmetic with Segments\n[normal] Arithmetic with Segments\n[normal] The last article talked about how multiplication of segments can be thought of as two squeegees cleaning a window. One cleans each side which creates four quadrants (both dirty, back clean, front clean, and both clean).\n[normal] An interesting unlock here is, it allows treating these quadrants as Boolean objects even though they have length or area. With two inputs, you get the four possible areas that have 16 possible combinations.\n[normal] Now if the clean areas are 0, and the dirty areas are 1, we get \u2018quantified boolean\u2019 areas:\n[normal] Which also works in one dimension. Note the overlap in one dimension is position to position (relative) rather than point to point (absolute). Also multiplication works differently because the two values need to be compressed into a single dimension.\n[normal] So the two inputs, A and B, generate four areas, and those areas can be combined in 16 possible ways. This Boolean truth table allows isolating any combination of those areas. These isolated areas can be quantified numerically, and the results can be combined to create mathematical operations and equations. The adva"
+  },
+  {
+    "path": "Math code.docx",
+    "kind": "docx",
+    "chars": 7420,
+    "headings": [],
+    "preview": "[normal] Operators can solve equations (x>3 = -3i+5, the part greater than 3), or evaluate (x>3=true). But they can also \u2018cause\u2019 it to be true. In this case it could stretch or push the target until it was all greater than 3. If it is fixed length it will push, if variable length it will compress. If it is already all greater than three then nothing happens. This allows causation to be explicit. Solving an equation like 3*4 is literally causing 3 to transform into 4. Testing is asking how much effort it would take (and to what parts, if any) without doing it.\n[normal] This could be used to e.g. force a margin of 3 on text or images.\n[normal] Regular equations are about forcing the input to be true, so 3*4 forces 3 to be 4x longer. A number *1 or +0 is true,the rest are false in the strict sense. A comparison with > forcing would be 4*3=15, and it forces the \u20184\u2019 to \u20185\u2019 (or 15 to 12 if set up as 15/4=3. The equals is the comparison operator, which is the only(?) type that can force/cause.\n[normal] Containers : headers, frames, borders and images are containers in design. These create a hierarchy. Precision does this, where the unknown part is contained by the known. Equations are con"
+  },
+  {
+    "path": "Math3 outline.docx",
+    "kind": "docx",
+    "chars": 2764,
+    "headings": [],
+    "preview": "[normal] Universal Parts\n[normal] Energy cant be created or destroyed\n[normal] Same with mass(->energy), charge, momentum, angular momentum\n[normal] Everything is relative\n[normal] Information is from comparison\n[normal] Nothing is infinite\n[normal] Everything is a segment of some sort\n[normal] Nothing is exact\n[normal] Behavior at the edges is part of math\n[normal] Nothing is ever still/unchanging\n[normal] Things diffuse from high to low\n[normal] Time, cause/effect, back refs only\n[normal] Future steps can only depend on previous steps\n[normal] Traits are primitives, objects are composite trait ranges and relations\n[normal] Primitive ops\n[normal] Select\n[normal] add/sub append/merge\n[normal] Stretch (including flip)\n[normal] Change unit\n[normal] Repeat (n times)\n[normal] 1D straight line, 2D triangle (not square) 3D tetrahedron\n[normal] Line is a segment with two directions (1 and i)\n[normal] A unit is the way to calibrate a measure\n[normal] A selection can have gaps\n[normal] Logic is universal\n[normal] Probability is universal (and thus predictability)\n[normal] Nearby states are more likely than far ones\n[normal] There are more \u2018disordered\u2019 states than ordered ones\n[normal] 2D/3D"
+  },
+  {
+    "path": "Math4.docx",
+    "kind": "docx",
+    "chars": 164766,
+    "headings": [
+      "[Title] Universal Math",
+      "[Heading 1] What is universal?",
+      "[Heading 3] Energy can not be created or destroyed",
+      "[Heading 3] Equality is when we can\u2019t tell the difference",
+      "[Heading 3] Things diffuse from high concentrations to low",
+      "[Heading 3] Everything is relative",
+      "[Heading 3] Nothing is infinite",
+      "[Heading 3] Everything is changing, always",
+      "[Heading 3] Traits are the primitives, not objects",
+      "[Heading 3] Logic is universal",
+      "[Heading 3] Probability is universal",
+      "[Heading 3] Symmetry is universal",
+      "[Heading 3] Binary is universal",
+      "[Heading 3] Complexity is inherent in simple things",
+      "[Heading 3] Dimensions are traits",
+      "[Title] What is the Human Part?",
+      "[Heading 3] Base ten",
+      "[Heading 3] Squares, angles and gravity",
+      "[Heading 3] Poor non-linear intuition",
+      "[Heading 3] A sense of the divine",
+      "[Heading 3] We have history, so does our math",
+      "[Heading 3] Basic operations",
+      "[Heading 3] Life is anti-entropy",
+      "[Heading 3] Reality compression",
+      "[Heading 3] Understanding through metaphor",
+      "[Heading 3] We magnify differences",
+      "[Heading 3] We magnify similarities",
+      "[Heading 3] We are made of desire",
+      "[Heading 3] We see objects as primitives, not traits",
+      "[Heading 1] What has changed?",
+      "[Heading 3] Changes in math",
+      "[Heading 3] Changes in engineering",
+      "[Heading 3] Changes in society",
+      "[Heading 1] Deriving the Math",
+      "[Heading 3] Assess and select",
+      "[Heading 3] Select is unselect",
+      "[Heading 3] Everything measurable is a trait",
+      "[Heading 4] Multiple traits",
+      "[Heading 4] Traits in the real world",
+      "[Heading 4] Trait math",
+      "[Heading 3] Focals: every value is a segment on a trait",
+      "[Heading 3] Trait and focal endpoints must be characterized",
+      "[Heading 4] Tolerance",
+      "[Heading 4] Limits of precision",
+      "[Heading 4] Transformation",
+      "[Heading 4] Limits of computation",
+      "[Heading 4] Error and uncertainty",
+      "[Heading 3] Every comparison requires a unit",
+      "[Heading 3] Numbers come from ratios and definitions",
+      "[Heading 3] Everything that can be done with a segment on a line",
+      "[Heading 4] Select",
+      "[Heading 4] Direction",
+      "[Heading 4] Unit",
+      "[Heading 4] Repeat",
+      "[Heading 4] Count",
+      "[Heading 4] Addition",
+      "[Heading 4] Subtraction",
+      "[Heading 4] Negatives",
+      "[Heading 4] Compare",
+      "[Heading 4] Slide",
+      "[Heading 4] Snap",
+      "[Heading 4] Add and Subtract Lengths",
+      "[Heading 4] Repeated Add and Subtract",
+      "[Heading 4] Stretch Segments",
+      "[Heading 4] Stretch Traits",
+      "[Heading 4] Repeated Stretches",
+      "[Heading 4] Measurements and Transformations",
+      "[Heading 4] Rate of Motion",
+      "[Heading 4] Negative Units",
+      "[Heading 4] Unit and Unot",
+      "[Heading 4] Addition with Negative Units",
+      "[Heading 4] Stretching by Negative Units",
+      "[Heading 4] A Segment is a Complex Number",
+      "[Heading 4] A Value can be both a record and an operation",
+      "[Heading 4] Comparing Segments",
+      "[Heading 4] Repeating Scaling of Segments",
+      "[Heading 4] Objects",
+      "[Heading 4] Factorials",
+      "[Heading 4] Grouping",
+      "[Heading 4] Nesting",
+      "[Heading 4] Feedback",
+      "[Heading 3] Multiple Dimensions",
+      "[Heading 4] Two Dimensions",
+      "[Heading 4] Correlation of two traits",
+      "[Heading 4] 2D Addition",
+      "[Heading 4] 2D Multiplication"
+    ],
+    "preview": "[Title] Universal Math\n[normal] Math is discoverable. The math we use is a patchwork of discovered and invented tools that were brilliant and appropriate for their time. But it would not be discoverable. Many mathematical systems have been invented throughout history, and all are quite different from each other. And yet they are also consistent in revealing ways measures relate to each other. There are core truths, and it feels that these must be universal. On a good day they feel inevitable. This is an attempt to discover inevitable math, revealed from first principles.\n[normal] Having explored these ideas for many years, I have two main takeaways.\n[normal] First, math should be much more about thinking than learning. A language must be learned as vocabulary is arbitrary, so reasoning or questioning isn\u2019t helpful. Unlike language, math can be derived, and thus requires thinking. We currently accept math as we accept language, as a standard we inherited, where change is gradual, and questioning it feels silly. This is wrong. Math has always evolved to fit the needs and capabilities of societies. We need our math to be derived from first principles. Small inconsistencies drown large"
+  },
+  {
+    "path": "Math5_outline.docx",
+    "kind": "docx",
+    "chars": 1149,
+    "headings": [],
+    "preview": "[normal] Universals\n[normal] 0\n[normal] Gradient ranges\n[normal] One measure, has range\n[normal] Start and end, gradient\n[normal] Segments (1, 2 or more)\n[normal] Unit segment\n[normal] Negative unit\n[normal] Motion, numbers, hyperbolic\n[normal] Shifting vs stretching (phase, magnitude)\n[normal] Complex math\n[normal] Squares, powers are repeats\n[normal] Select and evaluate are part of equation\n[normal] Relations of two segments is a dot product+\n[normal] Equations show recorded value, recipe to create, and motion of transform\n[normal] Motion curves can be multi dimension, or t dimension (acceleration etc), built with repeats\n[normal] Objects are defined with gradient ranges\n[normal] Objects can be counted, but all objects need definition\n[normal] Objects can have very many range defs, but only a few matter at a time\n[normal] Context is the defs that matter\n[normal] Defs that affect us are more important\n[normal] Defs can be transferred to other objects (metaphor)\n[normal] Def ranges of an object are narrowed in contexts, so one object affects the other\n[normal] ML is the ranges, and how the ranges affect each other as values change."
+  },
+  {
+    "path": "mathNext.txt",
+    "kind": "text",
+    "chars": 813,
+    "headings": [],
+    "preview": "focal to sense, maybe single value?\nexist, diff - equal/difference, direction, half/double/key, low res (not very, very), measures\ntwo focal values for single unit (four possible signed units, aka properties)\ntwo focal values for magnitude (four focals together are numbers)\nyour postition, limits\nresolution, confidence of source, importance\nrandomness\nselection, references\ntwo ops, stretch and append\nrepetition, meaning time is involved, can be new values or persistance of object\npatterns for repetion, meaning equations (samples -> equations)\ncombining numbers\n\t- determine relevant properties (filter)\n\t- weighting\n\t- normalize\n\t- path with gradient\n\t- reject, accept, enhance, erase\n\t- memory of how they contribute to past equations, priors\nreorder, reinterpret (at new resolution or emergent resolution)"
+  },
+  {
+    "path": "Numbers.odt",
+    "kind": "odt",
+    "chars": 85210,
+    "headings": [],
+    "preview": "Everything we understand in the universe is derived from understanding quantities. Not just by way of math and numbers either, our thoughts, our perceptions and all meaning comes from comparing and manipulating things we quantify.\nSurprisingly we don\u2019t spend much time trying to understand how exactly this all works at a\nfundamental level. As in the \u2018pre-elementary school\u2019 level of understanding, \u201chow can things be measured?\u201d, \u201cwhat is a number?\u201d, \u201cwhat is addition?\u201d, \u201chow can you compare things?\u201d. This level of questions are answered with tradition, not inquiry. With the advent of AI, we face machines that have no tradition other than what we give them. It is becoming necessary to revisit our traditions, clarify them, and come up with a more complete framework for understanding quantities. This new framework quantifies concepts using webs of related perspectives, each with an inherent micro-intelligence. In this way, intelligence is distributed throughout the network in spaces of varying complexity.\nAll quantities derive from a measure of change. This may not seem intuitive because it is hard to isolate a single measure from its context. It\u2019s like a deep sea fish has no idea of air"
+  },
+  {
+    "path": "Offline math.docx",
+    "kind": "docx",
+    "chars": 168572,
+    "headings": [],
+    "preview": "[normal] Universal Math\n[normal] Math is discoverable. The math we use is a patchwork of discovered and invented tools that were brilliant and appropriate for their time. But these tools would not be discoverable. Many mathematical systems have been invented throughout history, and all are quite different from each other. And yet they are also consistent. They all reveal show how \u2018measures\u2019 relate to each other. There are common core truths that feel universal. On a good day they feel inevitable. This is an attempt to discover inevitable math, as revealed from first principles.\n[normal] Having explored these ideas for many years, I have two main takeaways.\n[normal] First, math should be much more about thinking than learning. A language must be learned because vocabulary is arbitrary. Reasoning about sounds isn\u2019t helpful.Questioning syntax isn\u2019t helpful. Unlike language, math can be derived by thinking hard about it. We currently accept math as we accept language, as a standard we inherited, where change is gradual, and questioning it feels silly. This is wrong. Math has always evolved to fit the needs and capabilities of societies. We need our math to be derived from first princip"
+  },
+  {
+    "path": "presentations\\ComplexitySpaces.pptx",
+    "kind": "pptx",
+    "chars": 36182,
+    "headings": [
+      "[Slide ]",
+      "[Slide ]",
+      "[Slide ]",
+      "[Slide ]",
+      "[Slide ]",
+      "[Slide ]",
+      "[Slide ]",
+      "[Slide ]",
+      "[Slide ]",
+      "[Slide ]",
+      "[Slide ]",
+      "[Slide ]",
+      "[Slide ]",
+      "[Slide ]",
+      "[Slide ]",
+      "[Slide ]",
+      "[Slide ]",
+      "[Slide ]"
+    ],
+    "preview": "[Slide ]\nComplexity Spaces: A New\nMath for AI\nWe've always understood the world through\norder\n. AI forces us to make the implicit explicit, demanding a rigorous foundation for what it means to measure, compare, and know.\nTradition isn't enough.\nOur most basic assumptions \u2013 what a number is, what addition means, how comparison works \u2013\nare  matters of tradition\n. Machines\nrequire\na more precise framework than this\n.\nIntelligence is distributed.\nComplexity Spaces represent\nconcepts\nas webs of related perspectives, each\nwith\nmicro-intelligence and agency\n.\nThese form networks where understanding\nis dynamically negotiated,\nrather than\ncalculated globally\n.\n[Slide ]\nComprehension Begins at Two\nQuantity doesn't exist in isolation\n\u2013\nit emerges from difference. Without something to compare against, there is no measurement, no perception, and no meaning. Change is the seed of all understanding.\nZero to one is existence; one to two is comprehension\nA single thing in a void cannot be measured, perceived, or even conceived\n. Q\nuantity only becomes possible the moment there is something different to compare it to.\nComparison is the primitive operation\nWhether across time, space, scale, or pure a"
+  },
+  {
+    "path": "presentations\\continuity-probe-poster.jpg",
+    "kind": "image",
+    "chars": 0,
+    "headings": [],
+    "preview": ""
+  },
+  {
+    "path": "presentations\\continuity-probe.mp4",
+    "kind": "binary",
+    "chars": 0,
+    "headings": [],
+    "preview": ""
+  },
+  {
+    "path": "presentations\\GojoMath.m4a",
+    "kind": "binary",
+    "chars": 0,
+    "headings": [],
+    "preview": ""
+  },
+  {
+    "path": "presentations\\letters-quarter.mp4",
+    "kind": "binary",
+    "chars": 0,
+    "headings": [],
+    "preview": ""
+  },
+  {
+    "path": "presentations\\letters.mp4",
+    "kind": "binary",
+    "chars": 0,
+    "headings": [],
+    "preview": ""
+  },
+  {
+    "path": "presentations\\letterSolving.mov",
+    "kind": "binary",
+    "chars": 0,
+    "headings": [],
+    "preview": ""
+  },
+  {
+    "path": "presentations\\math.mp4",
+    "kind": "binary",
+    "chars": 0,
+    "headings": [],
+    "preview": ""
+  },
+  {
+    "path": "presentations\\mathcrop-presentation.mp4",
+    "kind": "binary",
+    "chars": 0,
+    "headings": [],
+    "preview": ""
+  },
+  {
+    "path": "presentations\\ornaments.mp4",
+    "kind": "binary",
+    "chars": 0,
+    "headings": [],
+    "preview": ""
+  },
+  {
+    "path": "presentations\\scrap\\ComplexitySpaces.pptx",
+    "kind": "pptx",
+    "chars": 5516,
+    "headings": [
+      "[Slide ]",
+      "[Slide ]",
+      "[Slide ]",
+      "[Slide ]",
+      "[Slide ]",
+      "[Slide ]",
+      "[Slide ]",
+      "[Slide ]",
+      "[Slide ]",
+      "[Slide ]"
+    ],
+    "preview": "[Slide ]\nCOMPLEXITY\nSPACES\nA Framework for Understanding Quantities,\nPerspectives, and Distributed Intelligence\n[Slide ]\nIntroduction\nQuantities Drive Understanding\nEverything we understand \u2014 thoughts, perceptions, meaning \u2014 comes from comparing and manipulating quantities\nTraditions, Not Inquiry\nFoundational questions like \"what is a number?\" or \"how can things be measured?\" are answered by tradition, not deep investigation\nAI Changes the Game\nMachines have no tradition \u2014 we must revisit our frameworks and create one based on a web of related perspectives, each with micro-intelligence\n2\n[Slide ]\nWhat is a Quantity?\n\"If existence is the transition from 0 to 1,\ncomprehension begins at 2.\"\n1\nChange Creates Quantity\nAll quantities derive from a measure of change \u2014 without a second thing to compare, there is no concept of quantity\n2\nDifference Enables Perception\nCold vs. hot, bigger vs. smaller \u2014 two samples create the phase change that lets us notice and measure\n3\nAbstract or Real\nChange can be over time, place, or scale, but also fully abstract or imagined \u2014 math exists by exploring unequal things\n3\n[Slide ]\nReality Gets a Vote\nRules of a space are substrate-independent, and not opti"
+  },
+  {
+    "path": "presentations\\scrap\\ComplexitySpaces_v2.pptx",
+    "kind": "pptx",
+    "chars": 4646,
+    "headings": [
+      "[Slide ]",
+      "[Slide ]",
+      "[Slide ]",
+      "[Slide ]",
+      "[Slide ]",
+      "[Slide ]",
+      "[Slide ]",
+      "[Slide ]",
+      "[Slide ]",
+      "[Slide ]",
+      "[Slide ]",
+      "[Slide ]",
+      "[Slide ]",
+      "[Slide ]"
+    ],
+    "preview": "[Slide ]\nCOMPLEXITY\nSPACES\nA Framework for Understanding\nQuantities, Perspectives,\nand Distributed Intelligence\n[Slide ]\nIntroduction\nQuantities Drive Everything\nEvery thought, perception, and meaning we have comes from comparing and manipulating quantities \u2014 not just in math, but in all cognition\nTradition, Not Inquiry\n\"What is a number?\" and \"How can things be measured?\" \u2014 these foundational questions are answered by tradition, never revisited\nAI Demands a New Framework\nMachines have no tradition. We need a framework of related perspectives, each with micro-intelligence, rather than flat lists for some higher intelligence to digest\n2\n[Slide ]\nWhat is a Quantity?\nIf existence is the transition from 0 to 1, comprehension begins at 2.\nChange can be over time, place, scale \u2014 or fully abstract and imagined\nThe most abstract math exists only by exploring unequal things\n3\n[Slide ]\nReality Gets a Vote\nRules of a space are substrate-independent, and not optional.\nValues can be ordered, and the interpretation is unambiguous \u2014 4,5,7,6 is never valid\nThe mechanics of addition must hold for areas and oscillations just as for plain numbers\n4\n[Slide ]\nLimits and Resolution\nA: \"They go on foreve"
+  },
+  {
+    "path": "presentations\\scrap\\Concept_Negotiation.pptx",
+    "kind": "pptx",
+    "chars": 437,
+    "headings": [
+      "[Slide ]"
+    ],
+    "preview": "[Slide ]\nConcept Negotiation\nIn a system where error is detectable, it becomes a form of pressure. Local geometric components can \"negotiate\" towards valid configurations by reacting to and creating tensions in the system.\n\u2022 Error Pressure:\nSpaces \"know\" the local forces needed to move toward validity.\n\u2022 Shared Substrate:\nNegotiation happens through environmental tension between complexity spaces, not explicit communication.\n[Notes ]"
+  },
+  {
+    "path": "presentations\\scrap\\slide0.pptx",
+    "kind": "pptx",
+    "chars": 1867,
+    "headings": [
+      "[Slide ]"
+    ],
+    "preview": "[Slide ]\nWhat is a Quantity? Comprehension Begins at Two\nQuantity doesn't exist in isolation\n\u2013\nit emerges from difference. Without something to compare against, there is no measurement, no perception, and no meaning. Change is the seed of all understanding.\nZero to one is existence; one to two is comprehension\nA single thing in a void cannot be measured, perceived, or even conceived\n. Q\nuantity only becomes possible the moment there is something different to compare it to.\nComparison is the primitive operation\nWhether across time, space, scale, or pure abstraction, all quantities\n,\neven the most esoteric mathematics\n,\nare born from noticing that two things are not the same.\n[Notes ]\nWhat is a Quantity\nAll quantities derive from a measure of change. This may not seem intuitive because it is hard to isolate a single measure from its context. It\u2019s like a deep sea fish has no idea of air, and therefore has no idea of water. Imagine living in a void - it isn\u2019t black, it is the absence of the concept of light. You can\u2019t be \u2018here\u2019 because there is no concept of \u2018there\u2019. There can\u2019t be quantity, because there is no change.\nIt's only once there is a second thing to compare to \u2014 something di"
+  },
+  {
+    "path": "presentations\\scrap\\slide1.pptx",
+    "kind": "pptx",
+    "chars": 431,
+    "headings": [
+      "[Slide ]"
+    ],
+    "preview": "[Slide ]\nConcept Negotiation\nIn a system where error is detectable, it becomes a form of pressure. Local geometric components can 'negotiate' towards valid configurations by reacting to and creating tensions in the system.\nError Pressure\nSpaces 'know' the local forces needed to move toward validity.\nShared Substrate\nNegotiation happens through environmental tension between complexity spaces, not explicit communication.\n[Notes ]"
+  },
+  {
+    "path": "presentations\\scrap\\slide2.pptx",
+    "kind": "pptx",
+    "chars": 743,
+    "headings": [
+      "[Slide ]"
+    ],
+    "preview": "[Slide ]\nReality Gets a Vote: Rules Are Non-Negotiable\nQuantities can represent anything\n\u2013\nreal, abstract, or imagined\n\u2013\nbut they are never lawless.\nThe universe is interpretable precisely because the rules governing quantities are universal, consistent, and indifferent to context.\nRules are substrate-independent\n2+2=4 whether you're counting unicorns or measuring temperature - commutativity, ordering, and operational logic hold everywhere they apply, not by convention but by necessity.\nRigor is the foundation\nFor a framework of quantities to be trustworthy, its rules must be exhaustively defined and their implications fully explored \u00e2\u20ac\u201c clean for plain numbers, and equally clean for populations, oscillations, and rotations.\n[Notes ]"
+  },
+  {
+    "path": "presentations\\scrap\\slide3.pptx",
+    "kind": "pptx",
+    "chars": 755,
+    "headings": [
+      "[Slide ]"
+    ],
+    "preview": "[Slide ]\nUnknown vs. Infinity\nHow we define the limits of numbers isn't a technicality\n\u2013\nit's a philosophical choice with deep consequences. Treating limits as unknown rather than infinite produces a more honest, more powerful system for representing how quantities actually behave.\nTwo valid systems, one better mirror\nInfinite-precision real numbers are a useful abstraction, but they hide the truth that most real quantities are partly known and partly not \u00e2\u20ac\u201d unknown is not an edge case, it's a first-class element.\nUnknown is a primitive, not a gap\nWhether something is unknowable, unexamined, random, or simply out of range, the framework must treat unknown values as legitimate residents of the number system, not failures of measurement.\n[Notes ]"
+  },
+  {
+    "path": "presentations\\scrap\\slide4.pptx",
+    "kind": "pptx",
+    "chars": 713,
+    "headings": [
+      "[Slide ]"
+    ],
+    "preview": "[Slide ]\nBounds and Resolution\nWithout infinity as a crutch, every measure must declare its range and resolution explicitly. Far from being a limitation, this reveals a richer structure\n\u2013\none where what you can't express is just as meaningful as what you can.\nResolution encodes reality\n1/2 and 1000/2000 are the same value at low precision, but carry different information\n. T\nhe denominator signals how carefully something was measured, and operations must respect that difference.\nBounds aren't metadata, they're meaning\nA dog can't weigh five hundred tons. The approximate boundary is part of what the word dog means. Precision and bounds belong inside the measure itself, not written in the margins.\n[Notes ]"
+  },
+  {
+    "path": "presentations\\scrap\\slide5a.pptx",
+    "kind": "pptx",
+    "chars": 566,
+    "headings": [
+      "[Slide ]"
+    ],
+    "preview": "[Slide ]\nDegrees of Freedom & Complexity Spaces\nEvery measurable or transformable value is calibrated against a \"complexity space.\" By analyzing the degrees of freedom of simple objects within various spaces, we can understand the fundamental limits and rules governing those spaces.\nUniversal Calibration\nFrom geometry to social interactions, all values exist within a framing space that defines how elements interact.\nThe Geometry of Freedom\nA point's degrees of freedom depend on its container:\n0 in a point, 1 on a line, 2 in an area, and 3 in a volume.\n[Notes ]"
+  },
+  {
+    "path": "presentations\\scrap\\slide5b.pptx",
+    "kind": "pptx",
+    "chars": 614,
+    "headings": [
+      "[Slide ]"
+    ],
+    "preview": "[Slide ]\nA space dictates baseline possibilities, but applying explicit constraints reduces an object's degrees of freedom. Ultimately, the governing mathematics follows these imposed constraints rather than the inherent nature of the object itself.\nBaseline Possibilities\nContainers and Constraints\nA line inherently has varying degrees of freedom depending on its container, ranging from 0 inside a point up to 6 inside a 3D volume.\nThe Power of Constraints\nLocking a line's length on a 1D axis reduces its degrees of freedom to 1, causing it to behave mathematically exactly like a single moving point.\n[Notes ]"
+  },
+  {
+    "path": "presentations\\scrap\\slide5c.pptx",
+    "kind": "pptx",
+    "chars": 717,
+    "headings": [
+      "[Slide ]"
+    ],
+    "preview": "[Slide ]\nNumber Spaces and Segment Math\nStandard numbering rules\u2014like addition, multiplication, and closure\u2014aren't inherent \u201claws of lengths,\u201d but simply the behavior of any system constrained by a zero pivot.\nSummary: Standard arithmetic emerges from constraining a length to a zero anchor. Removing that anchor constraint, while maintaining unit measurements, naturally generates complex number mathematics based on line segments rather than rotations.\nAllowing a segment's start and end points to vary independently produces the exact same math as traditional complex numbers, proving that identical constraints yield identical math across domains.\nZero-Anchored Systems\nComplex Numbers from\nFree\nSegments\n[Notes ]"
+  },
+  {
+    "path": "presentations\\scrap\\slide5d.pptx",
+    "kind": "pptx",
+    "chars": 499,
+    "headings": [
+      "[Slide ]"
+    ],
+    "preview": "[Slide ]\nRecognizing Perspectives\nSeparating the signals from the noise.\nCoexisting Perspectives\nMultiple perspectives can coexist on the same elements simultaneously \u2014 a square sliding across a plane (2 DOF for position) while another view sees only an edge growing and shrinking (1 DOF for size).\nIdentifying Signals\nThe world is full of competing and cooperating actions that negotiate outcomes. The skill is identifying which perspectives carry signal and knowing how to interpret them.\n[Notes ]"
+  },
+  {
+    "path": "presentations\\scrap\\slide5e.pptx",
+    "kind": "pptx",
+    "chars": 516,
+    "headings": [
+      "[Slide ]"
+    ],
+    "preview": "[Slide ]\nDimensionality Reduction\nArea feels 2D but is actually a single value (1D) \u2014 multiplying X and Y merges them, collapsing dimensionality. This isn't a bug; it's what makes complex systems computable.\nSimplifying Complexity\nApples are overwhelmingly complex, but we reduce them to one dimension (weight) for addition.\nOther attributes \u2014 aroma, blemishes \u2014 matter to parallel perspectives.\nComputable Heuristics\nOur minds decompose reality into separate computable heuristics, hallucinating the truth.\n[Notes ]"
+  },
+  {
+    "path": "presentations\\scrap\\slide7b0.pptx",
+    "kind": "pptx",
+    "chars": 616,
+    "headings": [
+      "[Slide ]"
+    ],
+    "preview": "[Slide ]\nError is Information\nGlobal vs. Distributed Learning\nCurrent ML absorbs all knowledge globally and corrects from the top down \u2014 remarkable that it works, unsurprising that it requires stadium-sized computers and months of grinding. Distributed, simpler intelligence has the potential to scale with far less compute.\nDetectable Error\nTraditional math has no concept of \"wrong\" \u2014 every point is valid, every segment is correct. Measurement error exists but is invisible to the system. If error becomes detectable within the system, every perspective gains the ability to sense and correct it locally.\n[Notes ]"
+  },
+  {
+    "path": "presentations\\scrap\\slide7b1.pptx",
+    "kind": "pptx",
+    "chars": 584,
+    "headings": [
+      "[Slide ]"
+    ],
+    "preview": "[Slide ]\nLocal Error, Local Correction\nA segment on a number line creates a boundary \u2014 points outside it know which direction to move to fall inside. Add a second axis and the intersection tightens. Add perpendicular planes and projections may not intersect at all. Each added dimension increases constraint and error signal.\nEach complexity space can negotiate toward a preferred configuration using only local information. No perspective needs to understand any other \u2014 only the tensions they create. Negotiation happens through shared substrate, not explicit coordination.\n[Notes ]"
+  },
+  {
+    "path": "presentations\\scrap\\slide7b2.pptx",
+    "kind": "pptx",
+    "chars": 454,
+    "headings": [
+      "[Slide ]"
+    ],
+    "preview": "[Slide ]\nBiological Architecture\nThis is how biology works: cells, organs, and systems each operate within their own complexity space, correcting locally, unaware of the larger picture \u2014 yet collectively producing coherent outcomes.\nIt is a more powerful architecture than centralized error correction from final outputs. Each space gains agency, negotiates its own goals, and contributes to outcomes it isn't even equipped to perceive directly.\n[Notes ]"
+  },
+  {
+    "path": "presentations\\scrap\\slide8.pptx",
+    "kind": "pptx",
+    "chars": 783,
+    "headings": [
+      "[Slide ]"
+    ],
+    "preview": "[Slide ]\nCommunication Without Coordination\nParallel perspectives communicate automatically through shared substrate \u2014 no message-passing or coordination layer required. A square's bottom-left point can \"want\" to move right while its area \"wants\" to stay fixed; these local pressures act on each other because they share the same space. Even contradictions self-resolve \u2014 each perspective pushes its preference, reacts to the outcome, and incorrect adjustments increase tension that self-corrects.\nThis is why car suspensions and analog circuits share the same math: the force-voltage duality works because they are the same complexity space. Same elements, same transforms, same results. A discovery in one transfers directly to the other \u2014 not by analogy, but by identity.\n[Notes ]"
+  },
+  {
+    "path": "presentations\\scrap\\slide9.pptx",
+    "kind": "pptx",
+    "chars": 858,
+    "headings": [
+      "[Slide ]"
+    ],
+    "preview": "[Slide ]\nLevel of Focus\nStart at the resolution that matters and reduce everything else to the minimum needed. Complexity space reasoning means choosing which truth is load-bearing for the problem at hand.\nReduce, Then Recombine\nIf the problem is a bear, reduce it to what matters \u2014 size: very large; speed: very fast.\nCombine\nthose w\nith direction and distance\nto\nget a\n\u2018danger calculator\u2019\n.\nThe\n\u201cAHHH\u201d\nresult\nof this converts all your leg\ndirectives\nto \u201cRUN\u201d\n. Other attributes are now ignored.\nDimensionality Reduction Isn\u2019t Loss\nPrecision is not the point of perception \u2014 fitting each element to the right complexity level is. The bear\u2019s fur density still exists in its own perspective; it just isn\u2019t load-bearing\nhere. Trust that\ndifferent\nperspectives will have their say through other channels in the shared substrate, if they are\nimportant\n.\n[Notes ]"
+  },
+  {
+    "path": "presentations\\scrap\\taxonomy_of_a_guess.pptx",
+    "kind": "pptx",
+    "chars": 1383,
+    "headings": [
+      "[Slide ]",
+      "[Slide ]",
+      "[Slide ]",
+      "[Slide ]"
+    ],
+    "preview": "[Slide ]\nThe Taxonomy of a Guess\nError is not a monolith. To build better complexity spaces, we must distinguish between a value that is simply inaccurate within a valid frame, and a value that exists in the wrong dimension entirely.\n[Slide ]\nTwo Types of Error\nMeasurement Error\nA specific guess that is factually off the mark (e.g., guessing 150 pounds when the reality is 300).\nCategory Error\nA structural failure using the wrong frame of reference, resolution, or bounds (e.g., measuring in tons, milligrams, or guessing her weight in slot machine icons).\n[Slide ]\nMeasurement Error\nA specific guess that is factually off the mark.\nThe value exists in the correct dimension\nYou're using the right unit of measure (pounds), but the number is wrong.\nThe error is quantifiable\nThe gap between guess and reality can be measured: 150 lbs off.\nCorrectable by calibration\nBetter data or methods can reduce the error within the same framework.\n[Slide ]\nCategory Error\nA structural failure using the wrong frame of reference entirely.\nThe value exists in the wrong dimension\nYou're not even measuring in pounds \u2014 you're using slot machine icons.\nThe error is not quantifiable\nThere's no meaningful distanc"
+  },
+  {
+    "path": "presentations\\scrap\\taxonomy_of_a_guessClaudeGen.pptx",
+    "kind": "pptx",
+    "chars": 1383,
+    "headings": [
+      "[Slide ]",
+      "[Slide ]",
+      "[Slide ]",
+      "[Slide ]"
+    ],
+    "preview": "[Slide ]\nThe Taxonomy of a Guess\nError is not a monolith. To build better complexity spaces, we must distinguish between a value that is simply inaccurate within a valid frame, and a value that exists in the wrong dimension entirely.\n[Slide ]\nTwo Types of Error\nMeasurement Error\nA specific guess that is factually off the mark (e.g., guessing 150 pounds when the reality is 300).\nCategory Error\nA structural failure using the wrong frame of reference, resolution, or bounds (e.g., measuring in tons, milligrams, or guessing her weight in slot machine icons).\n[Slide ]\nMeasurement Error\nA specific guess that is factually off the mark.\nThe value exists in the correct dimension\nYou're using the right unit of measure (pounds), but the number is wrong.\nThe error is quantifiable\nThe gap between guess and reality can be measured: 150 lbs off.\nCorrectable by calibration\nBetter data or methods can reduce the error within the same framework.\n[Slide ]\nCategory Error\nA structural failure using the wrong frame of reference entirely.\nThe value exists in the wrong dimension\nYou're not even measuring in pounds \u2014 you're using slot machine icons.\nThe error is not quantifiable\nThere's no meaningful distanc"
+  },
+  {
+    "path": "presentations\\scratch-process-poster.jpg",
+    "kind": "image",
+    "chars": 0,
+    "headings": [],
+    "preview": ""
+  },
+  {
+    "path": "presentations\\scratch-process.mp4",
+    "kind": "binary",
+    "chars": 0,
+    "headings": [],
+    "preview": ""
+  },
+  {
+    "path": "presentations\\showcase-hero.mp4",
+    "kind": "binary",
+    "chars": 0,
+    "headings": [],
+    "preview": ""
+  },
+  {
+    "path": "presentations\\showcase-poster.jpg",
+    "kind": "image",
+    "chars": 0,
+    "headings": [],
+    "preview": ""
+  },
+  {
+    "path": "Relational contexts.docx",
+    "kind": "docx",
+    "chars": 18362,
+    "headings": [],
+    "preview": "[normal] Relational contexts\n[normal] All information is the result of comparing something measurable with a \u2018ground\u2019, and this ground value is always external to the object in question.\n[normal] There are no yardsticks in the universe, so by necessity our meaning comes from the potential of everything being compared to everything else. This does not mean it\u2019s just a 24/7 free for all though. We always select a non random frame of reference to encode information. This choice is as important as the value we are interested in, but it is so taken for granted that it is often invisible to us. The height and depth of an iceberg is referencing the water level, a color is a material\u2019s \u2018reaction\u2019 to visible light, a width is the relation of two sides to space, and a big dog is referencing normal sized dogs. There is no color material attached to a tree, and no depth property inherent to an iceberg. It feels like a dog has a size all on its own, but without comparison it is just an arbitrary volume \u2013 and what is the size of volume? Is a sphere big?\n[normal] All of our concepts, primitive, compound or metaphorical, spring from the physical world, but it is important to remember that the phys"
+  },
+  {
+    "path": "Segments.docx",
+    "kind": "docx",
+    "chars": 1158,
+    "headings": [],
+    "preview": "[normal] number is 0 based segment, we only change the endpoint\n[normal] Adding is just merging two values bit by bit (+3 always adds 3)\n[normal] multiply is stretching by an input ratio bit by bit (*3 adds a larger value based on original size)\n[normal] segment is number with a startpoint and endpoint.\n[normal] start point is an opposite number, not a subtraction (handicap/head start)\n[normal] the length shows the total distance, so has a direction\n[normal] both sides move in the dominant direction, i is ->| and 1 is |-> numberline is positive right ->\n[normal] inverting the numberline flips those arrows, but only because it changes the dominant direction to <-\n[normal] Adding is still shifting by the values\n[normal] multiply is stretching by the input ratio\n[normal] - total minus head start, and then proportions to account for where that force is on the line.\n[normal] The start can be 'positive', where i would be -i. This is a mirror, as it heads to zero on the right. |<-\n[normal] A mirror is literally a mirror, so zero can start with +i,-1 and end with +-\n[normal] An equal length is not an equal number (2->5 vs 12->15) force, proportions"
+  },
+  {
+    "path": "sessions\\Axioms of Multi-Dimensional Structural Fusions.docx",
+    "kind": "docx",
+    "chars": 3965,
+    "headings": [],
+    "preview": "[normal] Axioms of Multi-Dimensional Structural Fusions\n[normal] Axiom 1: The Primitive Measure The foundational primitive is a single, isolated measure. A single measure does not possess an implicit zero; it represents a single reading that is entirely uncalibrated.\n[normal] Axiom 2: The Origin Before an extent or distance can exist, a single measure must be frozen to act as a fixed origin point.\n[normal] Axiom 3: The Unit Interval An interval is created by recording a second measure relative to the frozen origin. Freezing this interval establishes a unit\u2014a portable denominator with a fixed magnitude that persists independently of changing values around it.\n[normal] Axiom 4: Polarity, Perspective, and the Zero Unit Because units are derived from directed intervals from an origin, they inherently possess direction, establishing dominant and recessive perspectives (e.g., growing vs. shrinking) which are structurally inverted. However, a detected value that cannot be interpreted within these known unit directions manifests as a Zero Unit (0). The Zero Unit acts as an unknown \"tension potential\"\u2014geometrically orthogonal to the established dimensions, like a value moving on a z-axis sl"
+  },
+  {
+    "path": "sessions\\sessions.docx",
+    "kind": "docx",
+    "chars": 9983,
+    "headings": [],
+    "preview": "[normal] I have been running on the assumption that an extent exists and that is the basis of growth in this numbering system. However in reality an extent is already something that has 2 ends, so it can't really be primitive. We think of it as primitive because we're used to measuring from zero for example the height of something, the time of a 100 meter dash, the weight of a bag of apples. This works because we have a convenient zero point that makes sense, but we cannot rely on this in the real world. A light sensor measuring a light level may never experience total darkness. A thermometer measuring temperature will never experience absolute 0. so the correct way to start this is with measures, and the simplest a system of a single measure will have a default 0. We can bootstrap from this.\n when we measure many people in a race, they can run one after another or all at the same time. We're starting from zero, and none of them run backwards, because there are no negative values. There are no negative values because we have an implicit 0, temperatures don't go below absolute 0, and absolute darkness does not get darker. So this single digit measure is by default a positive number "
+  },
+  {
+    "path": "Symmetrical Numbers Explained.docx",
+    "kind": "docx",
+    "chars": 24715,
+    "headings": [
+      "[Heading 1] Numbers from first principles",
+      "[Heading 2] Zero to One",
+      "[Heading 2] One to Two",
+      "[Heading 3] Resolution",
+      "[Heading 3] Direction",
+      "[Heading 3] Length?",
+      "[Heading 2] Three Pieces of Information",
+      "[Heading 2] Four Values \u2013 and Numbers",
+      "[Heading 2] Our Numbers",
+      "[Heading 3] Operations on Numbers",
+      "[Heading 3] Decimals and Fractions",
+      "[Heading 3] Precision",
+      "[Heading 1] Relaxing and Adding Constraints"
+    ],
+    "preview": "[Heading 1] Numbers from first principles\n[normal] To construct numbers from first principles, you must first imagine a world without numbers, without values, and without references. This is hard, so it\u2019s good to have a few models to work from, models that get you from nothing to something. One option is to imagine a universe with nothing in it at all, totally empty with no previous knowledge. No size, no color, no time, no naked ladies. Start from literally nothing.\n[normal] Another option is you can model limited information, perhaps a sensor that you haven\u2019t yet read, a bacteria without perception, or some imagined thing I haven\u2019t told you about. However you model it, the model is unable to make assumptions beyond the information it has \u2013  it exists isolated from the rest of the world, so comparisons to known references aren\u2019t possible.\n[normal] As more information comes in, it gives our model new ways to describe, define and manipulate what it already knows. Each new observation, no matter how seemingly trivial, is a tool that can be used for math. And as I hope to convince you, while we need at least four pieces of information to create numbers, there is a lot of math before a"
+  },
+  {
+    "path": "The Core4 Bootstrap_ Ordered Relation and Structural Integration Rules.docx",
+    "kind": "docx",
+    "chars": 8446,
+    "headings": [
+      "[Heading 3] Core4 Experimental Bootstrap Note (Revised)",
+      "[Heading 4] 1. Bootstrap Stance",
+      "[Heading 4] 2. Ordered Extent And Tick Matter",
+      "[Heading 4] 3. Open Site, Point Claim, And Calibrated Basis",
+      "[Heading 4] 4. Grade 0 And Grade 1",
+      "[Heading 4] 5. Orientation",
+      "[Heading 4] 6. Higher Grade Partitioning",
+      "[Heading 4] 7. Operations Are Relations Read As Integration",
+      "[Heading 4] 8. Operation Core: Partitions And Repeats",
+      "[Heading 4] 9. The Merging Constraint: Addition vs. Multiplication",
+      "[Heading 4] 10. Addition As Zero-Mixing Integration (The Override)",
+      "[Heading 4] 11. Multiplication As Basis Substitution",
+      "[Heading 4] 12. Linked Fold Versus Snapshot Fold",
+      "[Heading 4] 13. Structural Equality Versus Projected Equality",
+      "[Heading 4] 14. What Still Feels Open",
+      "[Heading 4] 15. Current Working Summary"
+    ],
+    "preview": "[Heading 3] Core4 Experimental Bootstrap Note (Revised)\n[normal] This note captures a newer bootstrap picture for the experimental relation model 1. It is intentionally separate from earlier notes to sharpen meanings aggressively, specifically focusing on the physical constraint that fully partitioned structures cannot legally add together through structural merging 1, 2. The goal is to state the smallest physical picture capable of generating basis, value, operation, fold, power, and orientation from one shared ordered integration substrate 1, 3.\n[Heading 4] 1. Bootstrap Stance\n[normal] Before anything is related or committed, a carrier presents a field of long-valued potentials 3. Nothing deeper than ordered potential is assumed yet 3. The first primitive act is to choose one potential as A, choose another as B, and relate A -> B in that order 3. This ordered relation is the bootstrap act 3.\n[Heading 4] 2. Ordered Extent And Tick Matter\n[normal] Relating A -> B creates a directed extent 3. This does not require pinning either endpoint to a globally fixed substrate location; the relation may slide on the substrate while remaining perfectly lawful internally 4. This means later str"
+  },
+  {
+    "path": "twitter\\Property keys.docx",
+    "kind": "docx",
+    "chars": 5852,
+    "headings": [],
+    "preview": "[normal] In this first set of experiments from a few years ago, I wanted *everything* to be values on gradients that could combine, link and interpolate with each other. We did this a little at Pixate, this was the \u2018all in\u2019 version.\n[normal] Samplers\n[normal] All properties can be based on gradients (ranges) with samplers. In this example, all the properties for the middle elements are calculated rather than stored - only the end points have actual values. Eg. Shapes have [3,12] points.\n[normal] These ranges are sampled over t, and t itself is sampled from a range. The number of sides is discrete samples from 3 to 12. These will never \u2018fail\u2019 though - if the range of sides is 3 to 6 it will just adjust based on a rounding rule.\n[normal] This is more like GPU/shader programming than CPU, but it works well on both. The properties that can be set are based on universal enums. Upcoming iterations use \u201ctyped numbers\u201d.\n[normal] Slider Input\n[normal] Here hue and saturation are based on the x,y ranges of the mouse. The scale and pointiness are set by sliders, and number of points on the \u2018clicked range\u2019. All properties of all things can be defined on these types of \u2018trait gradients\u2019, but fi"
+  },
+  {
+    "path": "twitter\\Tweet threads.docx",
+    "kind": "docx",
+    "chars": 13421,
+    "headings": [],
+    "preview": "[normal] Tweet threads\n[normal] The motivation: What the heck are the thoughts in our head made of? Are they in a coherent structure that is walled off from us? Is this structure just too basic to notice, like the smell of air? Are they made of language, or is language made of them?\n[normal] The goal: Understanding our own thought mechanics so we can better emulate it, and ultimately interact with AI at a conceptual level. I think this is a computationally simpler problem than deep learning, and AI will be a combination of both eventually.\n[normal] Maybe that seems hand-wavy. When we hear 'car' and get that concept, what is the concept made of? Is a car a whole bunch of mini-ideas, or a single one? Is it just a picture? How much overlap is there with 'truck', or is that totally different?\n[normal] We can *quickly* tell the difference between \"feeling the blues\" and \"feeling the oranges\". What are those things made of that they can jump around so easily? If they're made of mini-concepts, what are the lowest level 'primitive' concepts there?\n[normal] Even in single words, we can see many things going on. A concept like 'move' is very generic and simple. We append other concepts to it"
+  },
+  {
+    "path": "Universal Math - 5.docx",
+    "kind": "docx",
+    "chars": 86349,
+    "headings": [],
+    "preview": "[normal] Everything that can be done with a segment on a line\n[normal] A line is like a path that can extend in each direction. A line has a width, but we are only considering the 1D aspect of it, so any width, height, or other surroundings are ignored. Lines have two directions, and we can choose one to be forward and the other backwards.\n[normal] A trait can always be represented by a line. Traits are properties that have magnitudes ordered from lowest to highest in a linear progression. Once calibrated, the line represents the lowest and highest known values for the trait. If values are discovered beyond the limits of the line, it can be extended or made more precise.\n[normal] This line does not have to be straight. We are only considering one dimension, but it could be a curvy line, the edges of a polygon, a satellite's orbit, or a path through the woods. The shape of this line is significant when it represents repetition or symmetries.\n[normal] A focal segment is a segment of any achievable length on this line. The segment has a start point, and end point, so it can point forward or backwards. Note that points are also segments, just they are the width of the smallest possible"
+  },
+  {
+    "path": "UniversalMath.docx",
+    "kind": "docx",
+    "chars": 19224,
+    "headings": [],
+    "preview": "[normal] Universal Math\n[normal] Is math universal? Not all of it, that\u2019s for sure, but surely parts of it must be close. Is there a way to tell which is which? How do we even measure and compare things like this? If we lived in a perfect infinite world with the full power of a universal math, would there be limits to it\u2019s abilities? Are perfect world thoughts universal math?\n[normal] Let\u2019s start by trying to define what math is. I don\u2019t mean math as taught in school here, I mean math at the basic basic universal abstract level. Like what does it even do? Why do we care?\n[normal] Math generates information about things by comparing them to other things. We care because this is the only way to generate information.\n[normal] This means without a frame of reference, there can be no information. And because there is no fixed frame of reference in the universe, we always choose our own. And more subtly, we can only group, compare or transform things relative to what is already there. Every piece of information has an equal and opposite piece of information. The equations always balance, even in our minds.\n[normal] The first step in math is to pick a thing, so do this. Now I can\u2019t see yo"
+  },
+  {
+    "path": "verbBreakdowns.txt",
+    "kind": "text",
+    "chars": 14405,
+    "headings": [],
+    "preview": "- what does 'really' modify in these verbs? 'silently'? 'hastily'?\n- body sizes are relative (source size to target size). Eg body picks up box, fingers pick up marble.\n- body=mind arm=idea hand=thought finger=primitive\n- sentances and documents just build up a set of contexts that are like new 'words' with various annotations\n\n\npack - order, container target, multiple source, tight fit, arm/hand task, repeat task, intent to move or store, temp until unpack. first order directness\npaddle - cause movement of self, liquid, flat object, arm task, repeat task. second order directness\npaint - cover, liquid esp paint, arm task, art as finger task, use tool that absorbs liquid and releases some on touch, continous\npark - cause object esp vehicle to move to resting place, off path, intend to leave object, body+ task\npart - move from same 'path' to separate paths, cut connection (opposite POV from line cut circle), permanant\npass (throw) - cause object to move (esp through air) to a target (esp person), arm task, no touch. second order directness\npass (hand) - cause object to move from one actor (esp hand) to another's (esp hand), hand task. first order directness\npass (overtake) - source o"
+  }
+]

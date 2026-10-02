@@ -2,6 +2,7 @@ using System.Globalization;
 using System.Text;
 using Gojo.Core;
 using Gojo.Encoding;
+using Gojo.Encoding.Structures;
 using Gojo.Equations;
 using Gojo.Structures;
 using PredictorScratchpad;

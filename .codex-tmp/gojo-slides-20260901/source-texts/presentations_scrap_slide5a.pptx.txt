@@ -1,0 +1,9 @@
+[Slide ]
+Degrees of Freedom & Complexity Spaces
+Every measurable or transformable value is calibrated against a "complexity space." By analyzing the degrees of freedom of simple objects within various spaces, we can understand the fundamental limits and rules governing those spaces.
+Universal Calibration
+From geometry to social interactions, all values exist within a framing space that defines how elements interact.
+The Geometry of Freedom
+A point's degrees of freedom depend on its container:
+0 in a point, 1 on a line, 2 in an area, and 3 in a volume.
+[Notes ]

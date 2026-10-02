@@ -1,8 +1,8 @@
 {
-  "represents": "Residue is the part that did not settle under the requested basis.",
+  "represents": "Illustrative line and open slot; a full read witness must connect its source, basis, result and remainder separately from unsettled material tension.",
   "entryId": "resolution-tension-residue-witness",
   "expression": "Read(source, basis) = result + residue",
-  "encodingNote": "Residue is the part that did not settle under the requested basis.",
+  "encodingNote": "Illustrative line and open slot; a full read witness must connect its source, basis, result and remainder separately from unsettled material tension.",
   "gojo": {
     "known": [
       "basis",

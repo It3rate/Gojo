@@ -1,0 +1,50 @@
+gojo 1;
+
+let $space = carrier();
+let $x = carrier();
+let $y = carrier(unit_of($x));
+let $t = carrier();
+let $clock = carrier();
+let $basis = group_on($space, span($x,0,1), span($y,0,1));
+let $domain = span($t,0,1000);
+let $grade = group(at($t,500), $domain, $domain, $basis);
+let $p0 = group_on($space, at($x,0), at($y,0));
+let $p1 = group_on($space, at($x,4), at($y,8));
+let $p2 = group_on($space, at($x,8), at($y,0));
+let $p3 = group_on($space, at($x,12), at($y,4));
+let $next_p1 = group_on($space, at($x,4), at($y,16));
+let $lookalike = group_on($space, at($x,4), at($y,8));
+
+// The edit publishes a new version through the same port. The old version is
+// retained as input evidence for earlier applications, not retargeted in place.
+let $publish = action(ports(?edit_value), ?edit_value -> ?control_a,
+    ports(?control_a), group(), ?publication_context);
+let $ab = action(ports(?start,?control_a,$grade),
+    ports(?start,?control_a,$grade) -> ?q0, ports(?q0), group(), $domain);
+let $bc = action(ports(?control_a,?control_b,$grade),
+    ports(?control_a,?control_b,$grade) -> ?q1, ports(?q1), group(), $domain);
+// This independent observation has equal-looking input and output coordinates.
+// Sharing a basis and current numbers must not manufacture a dependency.
+let $independent = action(ports(?lookalike_input,?control_b,$grade),
+    ports(?lookalike_input,?control_b,$grade) -> ?other_q1, ports(?other_q1), group(), $domain);
+let $cd = action(ports(?control_b,?end,$grade),
+    ports(?control_b,?end,$grade) -> ?q2, ports(?q2), group(), $domain);
+let $abc = action(ports(?q0,?q1,$grade),
+    ports(?q0,?q1,$grade) -> ?r0, ports(?r0), group(), $domain);
+let $bcd = action(ports(?q1,?q2,$grade),
+    ports(?q1,?q2,$grade) -> ?r1, ports(?r1), group(), $domain);
+let $sample = action(ports(?r0,?r1,$grade),
+    ports(?r0,?r1,$grade) -> ?curve_point, ports(?curve_point), group(), $domain);
+
+let $initial = frame(bind(?edit_value,$p1), bind(?start,$p0),
+    bind(?control_b,$p2), bind(?end,$p3), bind(?lookalike_input,$lookalike));
+let $edit = frame(bind(?edit_value,$next_p1));
+root group(frame($publish,$ab,$bc,$independent,$cd,$abc,$bcd,$sample),
+    $initial, $edit, $p1 -> $next_p1, $basis, $clock,
+    ports($p0,$p1,$p2,$p3), $lookalike);
+
+// A structural goal and time-step skeleton remain valid before any new sample
+// has been observed. The fixture fills these with actual read/replay evidence.
+root group(?old_applications, ?focus_change, ?dependencies, ?affected_slice,
+    ?pending_replay, ?current_replay, ?timeline,
+    group(?current_curve_read, ?current_parameter, ?current_sample_claim));

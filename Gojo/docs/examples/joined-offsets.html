@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Joined offsets · Gojo</title>
+<style>
+:root{color-scheme:light;--paper:#f6f3eb;--ink:#22372f;--muted:#617269;--line:#d8ded2;--green:#24694d;--rust:#aa4e28}*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.6 system-ui,sans-serif}main{max-width:1080px;margin:auto;padding:32px 28px}a{color:var(--green);text-underline-offset:4px}.eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--green)}h1{font:clamp(32px,5vw,46px)/1.15 Georgia,serif;margin:12px 0 18px}.intro{max-width:860px;color:var(--muted)}.stage{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(270px,1fr);border:1px solid var(--line);border-radius:16px;overflow:hidden;background:#fffdf7}.scene{padding:12px;min-width:0}svg{width:100%;height:auto;display:block}svg text{font:13px system-ui,sans-serif;fill:var(--ink)}.caption{font-size:12px;color:var(--muted);padding:4px 12px 12px;min-height:66px}.readout{background:#eff2e9;padding:24px;display:flex;flex-direction:column;justify-content:center;gap:18px}.label{font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:var(--muted)}.value{font:24px/1.4 Georgia,serif;margin-top:5px}.detail,.view-note{font-size:13px;color:var(--muted)}h2{font:25px/1.3 Georgia,serif;margin:0 0 12px}.explanation{padding-top:22px;min-height:175px}.explanation p{max-width:950px;margin:0}.controls,.views{display:flex;align-items:center;gap:12px;margin:18px 0}.views{flex-wrap:wrap}button,select{background:#fffdf7;border:1px solid var(--line);border-radius:8px;color:var(--ink);font:inherit;padding:8px 14px;cursor:pointer}button:hover:enabled{border-color:var(--green)}button:disabled{opacity:.4;cursor:default}input[type=range]{accent-color:var(--green);flex:1;min-width:30px}.views label{font-size:14px}#position{white-space:nowrap;font-size:13px;color:var(--muted)}details{border-top:1px solid var(--line);padding:16px 0}summary{font-weight:600;cursor:pointer}pre{overflow:auto;max-height:520px;background:#e9eee4;border-radius:10px;padding:18px;font:13px/1.6 ui-monospace,Consolas,monospace}details p,footer{font-size:13px;color:var(--muted)}footer{border-top:1px solid var(--line);padding-top:20px;margin-top:18px;display:flex;flex-wrap:wrap;gap:20px}:focus-visible{outline:3px solid #ba6f36;outline-offset:3px}[hidden]{display:none!important}@media(max-width:650px){main{padding:22px 16px}.stage{grid-template-columns:1fr}.readout{padding:18px;gap:12px}.explanation{min-height:245px}.controls{gap:8px}button{padding:8px 10px}}
+
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:12px;margin:0 12px}.legend span::before{content:'';display:inline-block;width:18px;border-top:3px solid;margin-right:6px;vertical-align:middle}.source-key{color:#8b998d}.offset-key{color:#aa4e28}.result-key{color:#24694d}#parameter{width:100%;height:auto;display:block}.parameter-note{font-size:12px;color:var(--muted);margin:0}.readout{gap:14px}.explanation{min-height:175px}
+</style>
+</head>
+<body><main>
+<div class="eyebrow">Gojo · Geometry construction</div>
+<h1>Joined offsets</h1>
+<p class="intro">Three connected edges of a sketch are moved inward by a measured distance. Constructing each corner is only part of the job: the span between two corners must still follow its source direction.</p>
+<div class="stage"><div class="scene"><svg id="scene" viewBox="0 0 480 380" role="img" aria-label="An open three-edge source path, its measured offsets and calculated joins"></svg>
+<div class="legend"><span class="source-key">Source</span><span class="offset-key">Offset / candidate</span><span class="result-key">Admitted</span></div>
+<div class="caption" id="caption"></div></div>
+<div class="readout" aria-live="polite" aria-atomic="true">
+<div><div class="label">Inputs</div><div class="detail" id="known"></div></div>
+<div><div class="label">Current read</div><div class="value" id="result"></div></div>
+<div id="parameterPanel" hidden><div class="label">Middle edge · source traversal</div><svg id="parameter" viewBox="0 0 320 88" role="img" aria-label="Middle edge start and end parameters"></svg><p class="parameter-note" id="parameterNote"></p></div>
+<div><div class="label">Still retained</div><div class="detail" id="retained"></div></div>
+</div></div>
+<div class="views"><button id="mirror" aria-pressed="false">View from the back</button><label id="distanceControl" hidden>Distance <select id="distance"><option value="2">2 · remaining span</option><option value="3">3 · collapsed span</option><option value="4">4 · reversed span</option></select></label></div>
+<p class="view-note">The back view mirrors the picture horizontally. Source order, relative side and the parameter read stay the same.</p>
+<section class="explanation" aria-live="polite" aria-atomic="true"><h2 id="heading"></h2><p id="explanation"></p></section>
+<div class="controls"><button id="prev">← Back</button><input id="step" type="range" min="0" max="5" value="0" aria-label="Construction step"><span id="position"></span><button id="next">Next →</button></div>
+<details><summary>Look at the syntax</summary><p>The actual fixture supplies source points, a metric, relative sides, scale wholes and permitted parameter supports. The driver binds one common calibration into the request and selects the path reader. No output corner is authored here.</p><pre id="syntax">gojo 1;
+
+// A selected metric chart; all three source edges use its actual basis.
+let $space = carrier();
+let $x = carrier();
+let $y = carrier(unit_of($x));
+let $length = carrier(unit_of($x));
+let $squared = carrier(product_units(unit_of($x), unit_of($x)));
+let $ux = span($x, 0, 1);
+let $uy = span($y, 0, 1);
+let $metric = group(group_on($space, $ux, $uy), frame(
+    ($ux -&gt; $ux) -&gt; at($squared, 1), ($ux -&gt; $uy) -&gt; at($squared, 0),
+    ($uy -&gt; $uy) -&gt; at($squared, 1)));
+
+// Source observations, with actual shared corners B and C.
+let $a = group_on($space, at($x, 0), at($y, 0));
+let $b = group_on($space, at($x, 8), at($y, 0));
+let $c = group_on($space, at($x, 8), at($y, 6));
+let $d = group_on($space, at($x, 0), at($y, 6));
+let $ab = $a -&gt; $b;
+let $bc = $b -&gt; $c;
+let $cd = $c -&gt; $d;
+
+// Relative guides select the inward side; screen orientation is a view choice.
+let $side_ab = $a -&gt; group_on($space, at($x, 0), at($y, 1));
+let $side_bc = $b -&gt; group_on($space, at($x, 7), at($y, 0));
+let $side_cd = $c -&gt; group_on($space, at($x, 8), at($y, 5));
+let $offset_ab = group($ab, $metric, orthogonal($ab) -&gt; ?calibration, $side_ab);
+let $offset_bc = group($bc, $metric, orthogonal($bc) -&gt; ?calibration, $side_bc);
+let $offset_cd = group($cd, $metric, orthogonal($cd) -&gt; ?calibration, $side_cd);
+let $scale_ab = span(carrier(), 0, 1);
+let $scale_bc = span(carrier(), 0, 1);
+let $scale_cd = span(carrier(), 0, 1);
+let $whole_ab = span(carrier(), 0, 1);
+let $whole_bc = span(carrier(), 0, 1);
+let $whole_cd = span(carrier(), 0, 1);
+
+// One support per source edge. Both corners consume the same middle support.
+// The reader must also check the order between the two middle-edge trims.
+root group(
+    group(group($offset_ab, $scale_ab), group($offset_bc, $scale_bc),
+          group($offset_cd, $scale_cd)),
+    group($whole_ab -&gt; $whole_ab, $whole_bc -&gt; $whole_bc,
+          $whole_cd -&gt; $whole_cd));
+
+// The driver refines the same request with one actual shared calibration.
+// These are three separate reads; they do not overwrite earlier witnesses.
+let $reach = span(carrier(), 0, 1);
+root bind(?calibration, $reach -&gt; span($length, 0, 2));
+root bind(?calibration, $reach -&gt; span($length, 0, 3));
+root bind(?calibration, $reach -&gt; span($length, 0, 4));</pre></details>
+<details><summary>How an unfinished path is stored</summary><p>Every candidate edge is an ordered relation. Its corner is the same site used by the neighbouring candidate edge. If a join is unfinished, both use the same open joint slot. Each edge also has an admission witness: its result is either the accepted edge or an open edge slot, with the candidate and failed traversal retained.</p><pre>source → offset request → preparation + exact offset read
+neighbouring offsets + shared source corner + supports → corner read
+candidate span + its source frame + allowed support → admission read
+
+At distance 2: [accepted edge, accepted edge, accepted edge]
+At distance 3: [accepted edge, open edge, accepted edge]
+At distance 4: [accepted edge, open edge, accepted edge]</pre><p>An irrational offset keeps its normal, squared-scale equation and endpoint recipes. The path reader does not invent a joint by choosing points from independently drawn endpoint boxes.</p></details>
+<details><summary>What is checked?</summary><p>The fixture constructs the displayed coordinates and all three admission outcomes. Tests check source contact, actual shared joints, support windows, reversed parameter frames, collapsed or reversed spans, partial irrational geometry, captured history and numeric restoration. This browser presents checked kernel traces; it does not run Gojo.</p><p>This is an open path with bounded straight miters. Parallel corners, caps, round joins, curved offsets, closed regions and crossings between non-neighbouring edges need further contracts. Accepted local spans do not establish a valid filled region.</p></details>
+<footer><a href="../GojoJoinedOffsetPath.md">Structural contract and tests</a><a href="measured-offsets.html">Measured offsets</a><a href="metric-construction.html?step=6">One joined corner</a><a href="../GojoPrimitiveConstructionAudit-2026-09.md">Construction audit</a></footer>
+</main>
+<script id="trace" type="application/json">
+{"source":[[0,0],[8,0],[8,6],[0,6]],"reads":[{"distance":2,"complete":true,"offsets":[[[0,2],[8,2]],[[6,0],[6,6]],[[8,4],[0,4]]],"joints":[[6,2],[6,4]],"candidates":[[[0,2],[6,2]],[[6,2],[6,4]],[[6,4],[0,4]]],"admitted":[true,true,true],"middle":[[1,3],[2,3]]},{"distance":3,"complete":false,"offsets":[[[0,3],[8,3]],[[5,0],[5,6]],[[8,3],[0,3]]],"joints":[[5,3],[5,3]],"candidates":[[[0,3],[5,3]],[[5,3],[5,3]],[[5,3],[0,3]]],"admitted":[true,false,true],"middle":[[1,2],[1,2]]},{"distance":4,"complete":false,"offsets":[[[0,4],[8,4]],[[4,0],[4,6]],[[8,2],[0,2]]],"joints":[[4,4],[4,2]],"candidates":[[[0,4],[4,4]],[[4,4],[4,2]],[[4,2],[0,2]]],"admitted":[true,false,true],"middle":[[2,3],[1,3]]}]}
+</script>
+<script>
+'use strict';
+const el=id=>document.getElementById(id),trace=JSON.parse(el('trace').textContent);
+const stages=[
+ ['Three connected source edges','The source is an open U-shaped path: A → B → C → D. Both incident edges refer to the actual B or C site. The metric and inward side guides are selected inputs. The open ends do not create a filled region or an end cap.','Shared B and C; a common metric and distance calibration.','A → B → C → D','Ordered source connections and the chosen local metric.'],
+ ['Offset each edge','At distance two, each edge receives a calculated normal displacement at both endpoints. The two displaced copies of B do not coincide, and neither do the two copies of C. Equal offset distances have not yet connected these edges.','Distance 2; the same relative side along all three edges.','Three separate offsets','Endpoint correspondence, normal direction and distance evidence.'],
+ ['Construct the two corner joins','Intersect each neighbouring pair of offset supports. The first joint is J1 = (6,2), and the second is J2 = (6,4). Both intersections lie within the permitted parameter windows. Each joint becomes one shared site for its two incident candidate spans.','Each whole source segment admits parameters from 0 to 1.','Two local miters','Both corner calculations and their support parameters.'],
+ ['Check the span between the corners','The middle edge starts at parameter 1/3 and ends at 2/3. It remains inside its permitted support and goes forward in the source direction. All three spans can be admitted as one connected path. The open endpoints also pass their support checks.','Distance 2; the two corners share the middle edge’s support.','All three spans admitted','One actual shared site at each corner, plus the source-to-result correspondence.'],
+ ['Keep a collapsed span unresolved','With distance three, both joints read at (5,3), or halfway along the middle source edge. The remaining traversal is zero. These are still two separately constructed sites. This contract leaves the middle edge open; deciding whether to merge sites or remove an edge needs an explicit topology change.','Distance 3; a fresh read of the same source construction.','Middle span collapsed','Both valid corner reads and the zero remaining traversal. The outer spans overlap in this drawing; no region is certified.'],
+ ['Refuse a reversed middle span','With distance four, J1 is at (4,4) and J2 at (4,2). Each corner is still allowed locally. But the middle span would travel from parameter 2/3 back to 1/3. It is retained as a rejected candidate, while the two outer spans remain valid local results.','Distance 4; both local corner windows still admit their intersections.','Middle span reversed','The two corner results, the candidate span and its failed order read. No repair policy is guessed.']
+];
+let step=0,mirrored=false;
+const row=()=>trace.reads[step<4?0:step-3],fraction=p=>`${p[0]}/${p[1]}`;
+function draw(){
+ let shapes='<defs><marker id="arrow" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7" fill="#aa4e28"/></marker></defs>';
+ const map=p=>{const x=80+38*p[0];return[mirrored?480-x:x,310-38*p[1]];};
+ const line=(a,b,color='#dfe5d9',width=1,dash='',arrow=false)=>{const p=map(a),q=map(b);shapes+=`<line x1="${p[0]}" y1="${p[1]}" x2="${q[0]}" y2="${q[1]}" stroke="${color}" stroke-width="${width}" ${dash?`stroke-dasharray="${dash}"`:''} ${arrow?'marker-end="url(#arrow)"':''}/>`;};
+ const dot=(p,label,color='#24694d',dy=-12,dx=12)=>{const q=map(p);shapes+=`<circle cx="${q[0]}" cy="${q[1]}" r="5" fill="${color}"/><text x="${q[0]+(mirrored?-dx:dx)}" y="${q[1]+dy}" text-anchor="${mirrored?'end':'start'}">${label}</text>`;};
+ for(let x=0;x<=8;x++)line([x,-.5],[x,6.6]);for(let y=0;y<=6;y++)line([-.5,y],[8.5,y]);
+ for(let i=0;i<3;i++)line(trace.source[i],trace.source[i+1],'#8b998d',3);
+ trace.source.forEach((p,i)=>dot(p,'ABCD'[i],'#617269',i<2?24:-14));
+ const r=row();
+ if(step>0)r.offsets.forEach(e=>line(...e,'#c28c70',2,'5 5'));
+ if(step===1)r.offsets.forEach(e=>e.forEach(p=>dot(p,'','#aa4e28')));
+ if(step>=2){
+  if(step>=3)r.candidates.forEach((e,i)=>{if(r.admitted[i])line(...e,'#24694d',5);else if(step===5)line(...e,'#aa4e28',3,'5 4',true);});
+  if(step===4){const q=map(r.joints[0]);shapes+=`<circle cx="${q[0]}" cy="${q[1]}" r="10" fill="#fffdf7" stroke="#aa4e28" stroke-width="3"/>`;dot(r.joints[0],'J1, J2','#aa4e28',-23);}
+  else {dot(r.joints[0],'J1','#24694d',step===5?-14:24);dot(r.joints[1],'J2','#24694d',step===5?25:-14);}
+ }
+ el('scene').innerHTML=shapes;
+ el('caption').textContent=step===0?'Source coordinates belong to the selected chart. Screen direction belongs to this view.':step===1?'The six displaced endpoint observations are calculated, but their corners are still separate.':step===4?'Two joint sites have equal coordinates. This picture cannot establish reference equality or a topology repair.':step===5?'The dashed arrow is the refused middle candidate. The green spans are admitted local results.':'The offset supports remain visible behind the constructed shared joints.';
+ const [first,last]=r.middle;const a=30+260*first[0]/first[1],b=30+260*last[0]/last[1];
+ el('parameter').innerHTML=`<line x1="30" y1="42" x2="290" y2="42" stroke="#bdcbb6" stroke-width="3"/><text x="30" y="78">0</text><text x="285" y="78">1</text><line x1="${a}" y1="42" x2="${b}" y2="42" stroke="${r.complete?'#24694d':'#aa4e28'}" stroke-width="5"/><circle cx="${a}" cy="42" r="5" fill="#24694d"/><circle cx="${b}" cy="42" r="${step===4?8:5}" fill="none" stroke="#aa4e28" stroke-width="2"/><text x="${a}" y="23" text-anchor="middle">start ${fraction(first)}</text><text x="${b}" y="64" text-anchor="middle">end ${fraction(last)}</text>`;
+ el('parameterNote').textContent=step<4?'Start < end: positive remaining traversal.':step===4?'Start = end: no remaining traversal.':'Start > end: would reverse the source direction.';
+}
+function render(){const s=stages[step];['heading','explanation','known','result','retained'].forEach((id,i)=>el(id).textContent=s[i]);el('parameterPanel').hidden=step<3;el('distanceControl').hidden=step<3;el('distance').value=String(row().distance);el('step').value=step;el('position').textContent=`${step+1} / ${stages.length}`;el('prev').disabled=step===0;el('next').disabled=step===5;draw();}
+function move(n){step=Math.max(0,Math.min(5,n));const url=new URL(location.href);url.searchParams.set('step',step);history.replaceState(null,'',url);render();}
+el('prev').onclick=()=>move(step-1);el('next').onclick=()=>move(step+1);el('step').oninput=e=>move(Number(e.target.value));el('distance').onchange=e=>move(Number(e.target.value)+1);
+el('mirror').onclick=()=>{mirrored=!mirrored;el('mirror').setAttribute('aria-pressed',String(mirrored));draw();};
+const initial=Number(new URL(location.href).searchParams.get('step'));step=Number.isFinite(initial)?Math.max(0,Math.min(5,Math.trunc(initial))):0;render();
+</script>
+</body>
+</html>

@@ -1,0 +1,5 @@
+[Slide ]
+Local Error, Local Correction
+A segment on a number line creates a boundary — points outside it know which direction to move to fall inside. Add a second axis and the intersection tightens. Add perpendicular planes and projections may not intersect at all. Each added dimension increases constraint and error signal.
+Each complexity space can negotiate toward a preferred configuration using only local information. No perspective needs to understand any other — only the tensions they create. Negotiation happens through shared substrate, not explicit coordination.
+[Notes ]

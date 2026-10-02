@@ -1,0 +1,103 @@
+[normal] Universal Math
+[normal] Is math universal? Not all of it, that’s for sure, but surely parts of it must be close. Is there a way to tell which is which? How do we even measure and compare things like this? If we lived in a perfect infinite world with the full power of a universal math, would there be limits to it’s abilities? Are perfect world thoughts universal math?
+[normal] Let’s start by trying to define what math is. I don’t mean math as taught in school here, I mean math at the basic basic universal abstract level. Like what does it even do? Why do we care?
+[normal] Math generates information about things by comparing them to other things. We care because this is the only way to generate information.
+[normal] This means without a frame of reference, there can be no information. And because there is no fixed frame of reference in the universe, we always choose our own. And more subtly, we can only group, compare or transform things relative to what is already there. Every piece of information has an equal and opposite piece of information. The equations always balance, even in our minds.
+[normal] The first step in math is to pick a thing, so do this. Now I can’t see you, so I have no idea what you picked. In fact I’ll assume you aren’t even human, and I couldn’t understand what you picked if I wanted to. And to make it fair, I’ll think of something and won’t tell you what it is, though I assure you that I’m human.
+[normal] This brings something into being, or into focus, but it isn’t creating something from nothing. That would be impossible in the universe — energy can’t be created or destroyed. In regular math we often ignore part of an equation, but in universal math it is important to account for everything. When we make a black line on white paper, we add black and remove white. When we put apples into a bag at the store, we add apples to our bag, and remove apples from the store’s pile. This is addition and subtraction. You can have zero apples or all the apples, but you can not make apples from nothing. Even if you are an apple tree you can not make apples from nothing - you need seeds and soil and air and sunshine. Even thinking about an apple requires your brain to change itself into a brain thinking about creating an apple from.
+[normal] So a thing comes from other existing things, either by transforming them, partitioning them or just imagining it instead of something else. This may seem pedantic, but is really important going forward.
+[normal] As a person who can’t see you, and can’t possibly know about you reading this because you are in the future from this perspective, and you may be anyone. You may not even be born yet. YOU MAY EVEN BE A GIANT THINKING  ALIEN GAS CLOUD THAT HAS INTERCEPTED HUMAN RADIO WAVES MILLIONS OF LIGHT YEARS AWAY.  Your thing may be a dog, it may be a cloud, it may be an ‘infinitely small point’ that exists only in your imagination. It may even be the concept of courage, or a fart smell. All good, all we need to start doing universal math is something. Anything, even the idea of nothing is something.
+[normal] Just to note, an infinitely small point is often how we think of this starting point, but the better abstraction is something unknown in every way, other than it exists. It is the verb to be.
+[normal] Also note again that there are actually two things, the thing, and everything else that isn’t the thing. We haven’t created something from nothing, that would be impossible. The idea that energy can’t be created or destroyed isn’t some abstraction, at the very lowest level even information is just a reorganization of energy in one way or another. So we have added a thing into the space that wasn’t the thing —like a black line on a formerly white paper, an apple on a formerly empty table, or the thought of one apple in a bag of them that wasn’t focused in our minds before.
+[normal] Second, think of another thing you can distinguish from the first thing. Again, this can be anything, the only condition is you need to tell that they are two different things. Maybe they are different things, maybe they’re just in different places or at different times.
+[normal] It can even be something about the original thing, like the shape, weight, taste or status.
+[normal] Take one aspect that makes it distinguishable, can you expand and contract that aspect? By how much? To nothing? To everything?
+[normal] The negative unit should be called unot. Better than ynot, because the imaginary y axis is a human trick. And better than unutz, for other reasons.
+[normal] The unit specifies the end of a line, and we normally start that at zero. The unot specifies the start of a line, so doesn’t need to exist if we start at zero. If we start at a non zero place, we get a segment (we always had a segment, just assumed the start). Complex math all works with this, even (2+3i)(4-6i) etc. This just transforms a segment as you would expect it to move.The complex plane should be a full number on each axis, then it transforms full numbers (segments) rather than assuming all vectors start at zero. Every quantity is a segment, it is just we’ve grown used to ignoring the imaginary part of it by starting at zero..
+[normal] Stretching zero times is what you have before you start, which is everything else, or nothing focused on, as you wish.
+[normal] Stretching one line is discrete, because there is no unit, so it is its own unit. This is why discrete things do not need to have exactly the same properties, like apple weights, month lengths etc. Two lines are two things, you can not have half a line, but you can have half an apple. You can have zero apples, and you can count as high as you are able (and even imagine infinity, though obviously not count it).
+[normal] Stretching a second linked line is multiplication, because you have a unit. Things are now as exact as you can measure them. There is no zero here because you can’t stretch something to nothing - if you could, the information on the slug would be destroyed as it passes through zero becoming negative. Because there is no zero, there is no infinity (as it is the reciprocal). There is ‘smaller and larger than can be measured’, but you can’t create or destroy things without addition (even then it is just append and revert, but you can revert to nothing appended).
+[normal] Stretching a third thing is squaring. If the second thing is fixed in size it will bend things, this is something to explore with curves, especially when using the unot to create segments.
+[normal] Doing this more results in cubing, x^4, x^5 etc, which is how we count with decimal places, or calculate e etc. There are clearly numbers for things like cubing three times, or x^4 four times, and there is no doubt already math for that, but probably not super well explored. And it goes on from there as big and small as you can go.
+[normal] 0 - unfocused
+[normal] 1 - unit selected
+[normal] 1*mag - addition
+[normal] 1*mag repeatedly - multiple addition
+[normal] a+a+a n times - multiplication under addition if it is the same num
+[normal] 1+a+?=b - reciprocals for addition, ? is akin to unit changing to other slugs
+[normal] a+(a+1)+(a+2) - additive acceleration
+[normal] 1*a + total - fibonacci type sequences
+[normal] 1*mag*mag - multiplication stretching
+[normal] i*a*a - squaring, but constant, so like multiple addition, but for multiplication (*3*3 same as *9, doesn’t accelerate)
+[normal] a*a*a n times - exponents, but constant speed when n is constant
+[normal] n! - non constant slug per iteration (additive growth)
+[normal] 1*n*relation to n - acceleration (n is not constant each step, stretch growth)
+[normal] a*?=b - mult equation, equivalent to moving unit to slug in reciprocals
+[normal] 1*a*(1-a) - sin cos (accelerate by ratio)
+[normal] 1*(1+1/a) a times (a is small) - grow fixed number of times depending on size, eulers number
+[normal] a^a^a^a… exp exp growth
+[normal] a^2^3^4… exp additive
+[normal] a^total repeating.. Fibo exp growth
+[normal] Discrete objects are defined by a collection of attributes in certain ranges (and orange, by color, edible, peel etc). They can countable as 1.000… because most things obviously fit or don’t. Ranges make this inexact.
+[normal] Attributes are *measured* by a unit, so also inexact. They aren’t countable, because there isn’t information on what or how they can attach to things, nor what ranges they can have. “How many lengths in a room” vs “How many objects in a room are longer than 3 feet”.
+[normal] 0) Unfocused, but not empty. No information. Nothing created or destroyed, everything is already there, just not chosen or aware. This is zero.
+[normal] 1) Select something. Could be discrete or continuous, a thought, an adverb or light. Only discrete things can be exact, but they are defined by collections of ranged attributes. Continuous things can’t be partitioned without a unit, even a default one (big dog vs dog). There are more attributes than we care about, so must categorize and focus (how many lengths in a room?). This will automatically be a unit, but nothing to compare to. Count of one. Wasn’t created from nothing, just focused on, like a highlighter pen. Removed something from unfocused everything else. It was already there, at least as a possible (or impossible) concept. Not much to say, but it is awareness vs unawareness. Doesn’t have to be a chosen thing, eg, next thing a tiny meteor strikes - we’ll never know what that was, but it can be talked about, and mathed. This is a unit, and it is always what it is, nothing grow or shrinks at this level, or at least you couldn’t tell if it did.
+[normal] 2) Select something else you can tell is different. If you can’t tell, it may still be different, but beyond your measuring ability. This is count two, and can be compared, meaning either can be unit, and the other the slug. Without giving a name or property, and assuming we don’t even know which was chosen first, you can only explain differences with attributes. Choose any one (assuming they aren’t already attributes), and see if you can extrapolate between them, or before and beyond them. Some will be discrete attributes, eg dice dots, but you should be able to imagine more or less dots, even if there are no discrete dots between. Also dot patterns, dice location, rotations, temperature etc. If you can’t interpolate, that may be your resolution, or the attributes resolution. Use one as unit and estimate the relative size of the other, that is the number. Estimation has error bars, what are yours? How consistent do you think your measurement is? If your imagined things are discrete, counting is easy, but sums of attributes don’t need to be exact (different sized oranges). Can you imagine paths between courage and magenta? How correlated things are is also part of a measurement.
+[normal] 2b) Select more things. This is addition. Just take the count, or whatever attributes, and put them together, relative to whatever is your unit. Order, amount, total all aren’t the point, it is 3+4+2+7 or whatever your equivalent is. 16 is an outcome, but the operation is assembling and trying to total the objects or attributes you care about. This is adding with no pattern.
+[normal] 2c) Select the same attribute of the (approximately) same size repeatedly. This is multiplication, but under addition. It is 3+3+3+3, or 3 four times, but not 3 scaled or stretched by 4. Super important distinction. You are not stretching something that exists, you are just focusing on things, and comparing them with a unit. You are using ratios to get numbers, but things do not interact with each other - you can’t change one thing and have the ratio stay the same (like you can with multiplication, next). You can focus on nothing, and compare with unit, which is zero. Zero is still possible in level 2. Things grow at the rate you add them. This is growing in equal steps. These groups can be stacked or just repeated on a line eg 314314314…
+[normal] 2d) Add things that change size each time, by some pattern. Like 1+2+3+4.
+[normal] 2e) Add things that change size based on values from previous steps. Like Fibonacci. (Can you do this for future steps? Or steps in the opposite direction of unot steps?).
+[normal] 2f) Add things with steps to a certain amount, and then make a new meta step. You can put this on an xy plane and get a grid. You can do this to many dimensions. It is like polynomials, but only with addition - decimal numbers are an example. Also 3x4 in a grid.
+[normal] 2g) meta meta etc. monster numbers under addition. Obscure, but there is math there.
+[normal] 2h) sequences with addition,subtraction, repeating on a line, as well as unot flips and access to previous states. This is a recipe by instructions (patterns, music, building etc). 2d tesselation patterns are probably all expressible as repeating addition sequences along a line, with the unot direction pointing backwards.
+[normal] 2x) With addition, you can change the size of units or slugs, choose different units etc, but changing one thing never affects another. If you change the unit size, the ‘value’ of everything else will change, but that is like changing miles to kilometers - a change or measure, not of substance.
+[normal] The unit in addition is at zero, and pulling forward selects material in the same direction at the pull rate. The unot in addition is the same, except pulling backwards creates material in the forward direction (and vice versa). So fibonacci can be made using unot: 1) pull backwards to any unit 2) move the zero to the forward end 3) pull backwards two units, or the end if there is only one. Unot allows history in sequences.
+[normal] A random value far beyond the capacity of your measuring system is indistinguishable from infinity in your measuring system. Or at least it’s easy to confuse yourself.
+[normal] X*2+y^2=1 is the unit circle, and made by sweeping all values of x and computing y. But if you sweep x by changing the unit size from +1 to -1, and use the ratio as a number, you sweep both the real and complex numbers. I suspect this results in a clockwise and counterclockwise circle. Need to test. Also hyperbolic should be a four direction shape (x^2-y^2=1).
+[normal] To really understand something you first have to not believe it.
+[normal] Multiplication is apply the unit, then apply the line. What is a good word for the line here? slug, chunk, fragment, slab
+[normal] The values past our resolution is where math happens, where those values transition into something else is where science happens.
+[normal] The normal positive unit and it’s slug indicate the end of the line. The imaginary negative unit and it’s slug indicate the start of the line. Normally a line starts at zero, and in this case the imaginary unit (or the slug) is zero length. A full line can be represented by equal and opposite units and different slugs, or by one slug with variable sized positive and negative units. Without a negative unit, there is no way to tell if a line is 3 to 4 or 4 to 3, so it sets direction.
+[normal] The unit and unot set the size and location of the full unit on a line. The unit is a segment, and we’re used to it starting at zero, but there is no reason it needs to. We define a zero point, and then place a segment on that line that acts as the unit.
+[normal] i^i is 0.20787… this seems very incongruous with everything else, perhaps it gives a 0 length unit segment?
+[normal] Direction forwards
+[normal] Direction backwards
+[normal] Invert forwards
+[normal] Invert backwards
+[normal] Zero to unit
+[normal] Measure
+[normal] Loop/repeat unit
+[normal] Group units, apply all above to groups
+[normal] Repeat identical
+[normal] Stretch (grow at linear rate)
+[normal] Stretch repeated (grow at ^2, ^3… rate)
+[normal] Positive/negative vs unit/unot: In terms of an amount of money +/- would be saving more and saving less (the amount of money is positively correlated to the amount of ‘verb’). Unit vs unot would be spending more and spending less (money amount is negatively correlated to amount of verb). Debt isn’t the negative of savings, it is the negative unit version of savings. Other negatively correlated examples: hole in a pocket, missing chair, telling a lie, running in the wrong direction, dry. The states of things range across missing, lacking, default, optimal, excessive. Unot words point left, thus the more they increase, the further from optimal and below default they go. Words that point to default like average, or away from default like ‘unusual’ express degrees of surprise. The unot words tend to point toward surprise, but the context of what is optimal relative to default determines this. Eg. An unremarkable artist is a unot adjective, because more unremarkable isn’t more optimal. Compare to ‘a normally shaped head’, ‘dizzy’, or even ‘typical upbringing’. Usually there isn’t a positive or negative connotation, but there tends to be a natural increase or decrease. So a bigger dog, a fatter dog, a longer dog, an older dog - all refer to properties that have a natural positive and negative direction (and are units) vs smaller, thinner, shorter, younger, which are unot words. Things like ‘blue’ don’t really have a unot without context, so are just units. Pure adjectives are just scalars on root properties, like more/less/extra(amount, addition), very/slightly(scale, multiplication), not/non (negation), un/counter(inverse, unot), re/multi(repeating) -- and then category specific scalars like bigger(size), worse(quality), pure(concentration), faster(speed)
+[normal] Un == negative unit, Not == negation, so looking at expected (positive unit) to surprising (negative unit):
+[normal] Expected = +1
+[normal] Expected * unot == not unexpected (add un and negate) 1 * -i = !^1
+[normal] Not unexpected == not surprising (surprise is a unot word) !^1 = -i
+[normal] Not surprising * unot == not unsurprising (add un and negate) -i * -i = !^i
+[normal] Not unsurprising == not expected !^i = -1
+[normal] organized->mixed
+[normal] owned->available
+[normal] hurt/heal
+[normal] picked/available
+[normal] just/unjust/biased/unbiased
+[normal] steady/impaired
+[normal] combed/tangle
+[normal] Very Fair * NOT (ccw)
+[normal] Very Fair => Not Very Fair= Slightly Fair
+[normal] Slightly Fair=> Not Slightly Fair = Very Biased
+[normal] Very Biased => Not Very Biased= Slightly Biased
+[normal] Slightly Biased=> Not Slightly Biased= Very Fair
+[normal] Very Fair * NOT UN (cw)
+[normal] Very Fair => Not Very Unfair= Slightly Biased
+[normal] Slightly Biased => Not Slightly Unbiased = Very Biased
+[normal] Very Biased => Not Very Unbiased= Slightly Fair
+[normal] Slightly Fair => Not Slightly Unfair = Very Fair
+[normal] Very Happy * NOT EVEN
+[normal] Not even very happy = slightly happy
+[normal] Not even slightly happy = very sad
+[normal] Not even very sad = slightly sad
+[normal] Not even slightly sad = very happy
+[normal] If the horizontal axis has the short unit, and the vertical has the full unit, ‘not’ always rotates left, while ‘not un’ rotates right. A negative is ‘un’, or the opposite (the more you dig, the deeper you go), while the unot vertical axis is more speeding up vs slowing down.
