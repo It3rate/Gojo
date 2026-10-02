@@ -1,0 +1,595 @@
+﻿trial,seed,phase,channel,model,count,mean_absolute_error,mean_squared_error,signed_bias
+ramp-plateau-cadence,103,all,0,hold,208,4.15,28.93,0.60
+ramp-plateau-cadence,pooled,all,0,hold,624,4.19,30.28,0.59
+ramp-plateau-cadence,pooled,rising/falling; cadence-1,0,hold,84,4.16,21.83,4.11
+ramp-plateau-cadence,103,all,0,last-change,208,3.62,22.93,-0.02
+ramp-plateau-cadence,pooled,all,0,last-change,624,4.08,27.99,-0.03
+ramp-plateau-cadence,pooled,rising/falling; cadence-1,0,last-change,84,2.88,13.38,0.19
+ramp-plateau-cadence,103,all,0,half-change,208,3.24,19.14,0.53
+ramp-plateau-cadence,pooled,all,0,half-change,624,3.45,21.83,0.53
+ramp-plateau-cadence,pooled,rising/falling; cadence-1,0,half-change,84,2.94,14.03,2.41
+ramp-plateau-cadence,103,all,0,slow-change,208,2.66,12.40,-0.11
+ramp-plateau-cadence,pooled,all,0,slow-change,624,2.82,14.34,-0.10
+ramp-plateau-cadence,pooled,rising/falling; cadence-1,0,slow-change,84,2.21,8.78,1.52
+ramp-plateau-cadence,103,all,0,half-bend,208,5.08,43.95,0.25
+ramp-plateau-cadence,pooled,all,0,half-bend,624,5.75,54.53,0.22
+ramp-plateau-cadence,pooled,rising/falling; cadence-1,0,half-bend,84,3.92,23.23,0.47
+ramp-plateau-cadence,103,all,0,reverse-change,208,7.52,92.84,1.23
+ramp-plateau-cadence,pooled,all,0,reverse-change,624,7.56,93.00,1.22
+ramp-plateau-cadence,pooled,rising/falling; cadence-1,0,reverse-change,84,8.04,70.09,8.04
+ramp-plateau-cadence,103,all,0,cross-quarter,208,4.25,30.00,0.95
+ramp-plateau-cadence,pooled,all,0,cross-quarter,624,4.29,31.24,0.93
+ramp-plateau-cadence,pooled,rising/falling; cadence-1,0,cross-quarter,84,5.11,30.80,5.11
+ramp-plateau-cadence,103,all,0,adaptive,208,3.34,20.78,0.88
+ramp-plateau-cadence,pooled,all,0,adaptive,624,3.48,23.26,0.88
+ramp-plateau-cadence,pooled,rising/falling; cadence-1,0,adaptive,84,3.64,19.09,3.54
+ramp-plateau-cadence,103,all,0,equal,208,3.42,21.98,0.91
+ramp-plateau-cadence,pooled,all,0,equal,624,3.56,24.22,0.91
+ramp-plateau-cadence,pooled,rising/falling; cadence-1,0,equal,84,3.66,19.16,3.57
+ramp-plateau-cadence,103,all,0,frozen-40,208,3.39,21.79,0.97
+ramp-plateau-cadence,pooled,all,0,frozen-40,624,3.54,24.08,0.97
+ramp-plateau-cadence,pooled,rising/falling; cadence-1,0,frozen-40,84,3.64,19.09,3.54
+ramp-plateau-cadence,103,all,0,running-mean,208,83.23,11135.80,68.63
+ramp-plateau-cadence,pooled,all,0,running-mean,624,83.24,11132.22,68.54
+ramp-plateau-cadence,pooled,rising/falling; cadence-1,0,running-mean,84,45.82,2359.96,45.82
+ramp-plateau-cadence,103,all,1,hold,208,2.49,9.73,0.12
+ramp-plateau-cadence,pooled,all,1,hold,624,2.53,10.45,0.11
+ramp-plateau-cadence,pooled,rising/falling; cadence-1,1,hold,84,2.97,12.73,-2.78
+ramp-plateau-cadence,103,all,1,last-change,208,2.92,14.03,0.00
+ramp-plateau-cadence,pooled,all,1,last-change,624,3.25,16.09,0.00
+ramp-plateau-cadence,pooled,rising/falling; cadence-1,1,last-change,84,3.08,15.34,-0.20
+ramp-plateau-cadence,103,all,1,half-change,208,2.47,9.83,0.30
+ramp-plateau-cadence,pooled,all,1,half-change,624,2.66,10.89,0.30
+ramp-plateau-cadence,pooled,rising/falling; cadence-1,1,half-change,84,2.61,10.57,-1.26
+ramp-plateau-cadence,103,all,1,slow-change,208,2.05,7.12,0.00
+ramp-plateau-cadence,pooled,all,1,slow-change,624,2.22,7.98,0.03
+ramp-plateau-cadence,pooled,rising/falling; cadence-1,1,slow-change,84,2.38,9.09,-1.57
+ramp-plateau-cadence,103,all,1,half-bend,208,4.04,27.26,0.27
+ramp-plateau-cadence,pooled,all,1,half-bend,624,4.46,30.93,0.22
+ramp-plateau-cadence,pooled,rising/falling; cadence-1,1,half-bend,84,4.17,29.20,0.05
+ramp-plateau-cadence,103,all,1,reverse-change,208,4.08,24.82,0.23
+ramp-plateau-cadence,pooled,all,1,reverse-change,624,4.14,25.72,0.23
+ramp-plateau-cadence,pooled,rising/falling; cadence-1,1,reverse-change,84,5.36,33.63,-5.36
+ramp-plateau-cadence,103,all,1,cross-quarter,208,2.70,11.47,0.34
+ramp-plateau-cadence,pooled,all,1,cross-quarter,624,2.73,11.80,0.35
+ramp-plateau-cadence,pooled,rising/falling; cadence-1,1,cross-quarter,84,3.45,15.88,-3.30
+ramp-plateau-cadence,103,all,1,adaptive,208,2.49,9.96,0.72
+ramp-plateau-cadence,pooled,all,1,adaptive,624,2.60,10.73,0.69
+ramp-plateau-cadence,pooled,rising/falling; cadence-1,1,adaptive,84,2.44,9.65,-1.53
+ramp-plateau-cadence,103,all,1,equal,208,2.46,9.93,0.62
+ramp-plateau-cadence,pooled,all,1,equal,624,2.60,10.76,0.62
+ramp-plateau-cadence,pooled,rising/falling; cadence-1,1,equal,84,2.44,9.65,-1.63
+ramp-plateau-cadence,103,all,1,frozen-40,208,2.49,10.00,0.70
+ramp-plateau-cadence,pooled,all,1,frozen-40,624,2.60,10.83,0.69
+ramp-plateau-cadence,pooled,rising/falling; cadence-1,1,frozen-40,84,2.44,9.65,-1.53
+ramp-plateau-cadence,103,all,1,running-mean,208,66.99,5749.82,-1.38
+ramp-plateau-cadence,pooled,all,1,running-mean,624,67.11,5766.25,-1.53
+ramp-plateau-cadence,pooled,rising/falling; cadence-1,1,running-mean,84,29.35,980.61,-29.35
+ramp-plateau-cadence,pooled,plateau/falling; cadence-1,0,hold,108,1.79,4.42,0.00
+ramp-plateau-cadence,pooled,plateau/falling; cadence-1,0,last-change,108,3.31,15.62,-0.16
+ramp-plateau-cadence,pooled,plateau/falling; cadence-1,0,half-change,108,2.47,8.56,0.15
+ramp-plateau-cadence,pooled,plateau/falling; cadence-1,0,slow-change,108,1.93,5.19,-0.17
+ramp-plateau-cadence,pooled,plateau/falling; cadence-1,0,half-bend,108,4.59,30.83,0.12
+ramp-plateau-cadence,pooled,plateau/falling; cadence-1,0,reverse-change,108,1.70,5.51,0.16
+ramp-plateau-cadence,pooled,plateau/falling; cadence-1,0,cross-quarter,108,2.03,6.09,1.03
+ramp-plateau-cadence,pooled,plateau/falling; cadence-1,0,adaptive,108,2.16,6.88,0.64
+ramp-plateau-cadence,pooled,plateau/falling; cadence-1,0,equal,108,2.17,6.82,0.54
+ramp-plateau-cadence,pooled,plateau/falling; cadence-1,0,frozen-40,108,2.21,7.10,0.65
+ramp-plateau-cadence,pooled,plateau/falling; cadence-1,0,running-mean,108,50.54,2662.95,50.54
+ramp-plateau-cadence,pooled,plateau/falling; cadence-1,1,hold,108,2.84,12.23,-2.67
+ramp-plateau-cadence,pooled,plateau/falling; cadence-1,1,last-change,108,3.37,15.96,0.00
+ramp-plateau-cadence,pooled,plateau/falling; cadence-1,1,half-change,108,2.72,10.61,-1.11
+ramp-plateau-cadence,pooled,plateau/falling; cadence-1,1,slow-change,108,2.40,8.64,-1.38
+ramp-plateau-cadence,pooled,plateau/falling; cadence-1,1,half-bend,108,4.69,30.50,0.13
+ramp-plateau-cadence,pooled,plateau/falling; cadence-1,1,reverse-change,108,5.35,32.59,-5.35
+ramp-plateau-cadence,pooled,plateau/falling; cadence-1,1,cross-quarter,108,2.62,10.34,-2.30
+ramp-plateau-cadence,pooled,plateau/falling; cadence-1,1,adaptive,108,2.54,9.56,-1.28
+ramp-plateau-cadence,pooled,plateau/falling; cadence-1,1,equal,108,2.55,9.79,-1.37
+ramp-plateau-cadence,pooled,plateau/falling; cadence-1,1,frozen-40,108,2.53,9.55,-1.29
+ramp-plateau-cadence,pooled,plateau/falling; cadence-1,1,running-mean,108,72.15,5388.95,-72.15
+ramp-plateau-cadence,pooled,falling/plateau; cadence-2,0,hold,108,3.66,18.46,-3.55
+ramp-plateau-cadence,pooled,falling/plateau; cadence-2,0,last-change,108,3.49,17.97,-0.26
+ramp-plateau-cadence,pooled,falling/plateau; cadence-2,0,half-change,108,2.91,13.08,-1.63
+ramp-plateau-cadence,pooled,falling/plateau; cadence-2,0,slow-change,108,2.70,11.24,-1.88
+ramp-plateau-cadence,pooled,falling/plateau; cadence-2,0,half-bend,108,4.91,34.63,-0.06
+ramp-plateau-cadence,pooled,falling/plateau; cadence-2,0,reverse-change,108,6.84,52.26,-6.84
+ramp-plateau-cadence,pooled,falling/plateau; cadence-2,0,cross-quarter,108,3.40,16.25,-3.18
+ramp-plateau-cadence,pooled,falling/plateau; cadence-2,0,adaptive,108,2.81,12.40,-1.92
+ramp-plateau-cadence,pooled,falling/plateau; cadence-2,0,equal,108,2.89,13.13,-2.08
+ramp-plateau-cadence,pooled,falling/plateau; cadence-2,0,frozen-40,108,2.80,12.36,-1.93
+ramp-plateau-cadence,pooled,falling/plateau; cadence-2,0,running-mean,108,35.87,1845.52,-26.56
+ramp-plateau-cadence,pooled,falling/plateau; cadence-2,1,hold,108,1.66,4.37,0.03
+ramp-plateau-cadence,pooled,falling/plateau; cadence-2,1,last-change,108,3.22,15.35,0.16
+ramp-plateau-cadence,pooled,falling/plateau; cadence-2,1,half-change,108,2.40,8.81,0.31
+ramp-plateau-cadence,pooled,falling/plateau; cadence-2,1,slow-change,108,1.78,5.17,0.06
+ramp-plateau-cadence,pooled,falling/plateau; cadence-2,1,half-bend,108,4.53,31.64,0.38
+ramp-plateau-cadence,pooled,falling/plateau; cadence-2,1,reverse-change,108,1.64,4.24,-0.09
+ramp-plateau-cadence,pooled,falling/plateau; cadence-2,1,cross-quarter,108,1.93,5.87,1.23
+ramp-plateau-cadence,pooled,falling/plateau; cadence-2,1,adaptive,108,2.16,7.38,0.83
+ramp-plateau-cadence,pooled,falling/plateau; cadence-2,1,equal,108,2.16,7.48,0.77
+ramp-plateau-cadence,pooled,falling/plateau; cadence-2,1,frozen-40,108,2.18,7.55,0.85
+ramp-plateau-cadence,pooled,falling/plateau; cadence-2,1,running-mean,108,77.28,6058.23,-77.28
+ramp-plateau-cadence,pooled,rising/rising; cadence-2,0,hold,108,8.77,99.01,8.77
+ramp-plateau-cadence,pooled,rising/rising; cadence-2,0,last-change,108,7.80,81.32,0.62
+ramp-plateau-cadence,pooled,rising/rising; cadence-2,0,half-change,108,6.68,68.83,4.96
+ramp-plateau-cadence,pooled,rising/rising; cadence-2,0,slow-change,108,5.06,38.97,2.63
+ramp-plateau-cadence,pooled,rising/rising; cadence-2,0,half-bend,108,11.47,165.86,0.75
+ramp-plateau-cadence,pooled,rising/rising; cadence-2,0,reverse-change,108,17.00,306.95,16.93
+ramp-plateau-cadence,pooled,rising/rising; cadence-2,0,cross-quarter,108,8.76,99.73,8.76
+ramp-plateau-cadence,pooled,rising/rising; cadence-2,0,adaptive,108,6.99,76.56,6.08
+ramp-plateau-cadence,pooled,rising/rising; cadence-2,0,equal,108,7.25,80.98,6.66
+ramp-plateau-cadence,pooled,rising/rising; cadence-2,0,frozen-40,108,7.24,80.96,6.66
+ramp-plateau-cadence,pooled,rising/rising; cadence-2,0,running-mean,108,94.28,12948.50,75.19
+ramp-plateau-cadence,pooled,rising/rising; cadence-2,1,hold,108,2.25,8.03,1.72
+ramp-plateau-cadence,pooled,rising/rising; cadence-2,1,last-change,108,2.97,15.60,0.08
+ramp-plateau-cadence,pooled,rising/rising; cadence-2,1,half-change,108,2.53,10.55,1.16
+ramp-plateau-cadence,pooled,rising/rising; cadence-2,1,slow-change,108,2.25,8.03,1.40
+ramp-plateau-cadence,pooled,rising/rising; cadence-2,1,half-bend,108,4.05,29.83,0.37
+ramp-plateau-cadence,pooled,rising/rising; cadence-2,1,reverse-change,108,3.45,15.97,3.36
+ramp-plateau-cadence,pooled,rising/rising; cadence-2,1,cross-quarter,108,2.26,8.58,0.06
+ramp-plateau-cadence,pooled,rising/rising; cadence-2,1,adaptive,108,2.56,10.25,1.67
+ramp-plateau-cadence,pooled,rising/rising; cadence-2,1,equal,108,2.58,10.28,1.62
+ramp-plateau-cadence,pooled,rising/rising; cadence-2,1,frozen-40,108,2.58,10.41,1.65
+ramp-plateau-cadence,pooled,rising/rising; cadence-2,1,running-mean,108,26.50,1067.50,-25.52
+ramp-plateau-cadence,pooled,plateau/rising; cadence-3,0,hold,108,1.71,4.43,0.04
+ramp-plateau-cadence,pooled,plateau/rising; cadence-3,0,last-change,108,3.23,17.67,-0.36
+ramp-plateau-cadence,pooled,plateau/rising; cadence-3,0,half-change,108,2.35,8.48,0.07
+ramp-plateau-cadence,pooled,plateau/rising; cadence-3,0,slow-change,108,2.11,8.09,-0.55
+ramp-plateau-cadence,pooled,plateau/rising; cadence-3,0,half-bend,108,4.51,33.31,-0.03
+ramp-plateau-cadence,pooled,plateau/rising; cadence-3,0,reverse-change,108,1.99,11.52,0.45
+ramp-plateau-cadence,pooled,plateau/rising; cadence-3,0,cross-quarter,108,1.90,5.51,-0.50
+ramp-plateau-cadence,pooled,plateau/rising; cadence-3,0,adaptive,108,2.09,6.92,0.33
+ramp-plateau-cadence,pooled,plateau/rising; cadence-3,0,equal,108,2.06,6.73,0.32
+ramp-plateau-cadence,pooled,plateau/rising; cadence-3,0,frozen-40,108,2.05,6.77,0.35
+ramp-plateau-cadence,pooled,plateau/rising; cadence-3,0,running-mean,108,192.48,37205.27,192.48
+ramp-plateau-cadence,pooled,plateau/rising; cadence-3,1,hold,108,3.84,21.26,3.75
+ramp-plateau-cadence,pooled,plateau/rising; cadence-3,1,last-change,108,3.78,20.75,-0.06
+ramp-plateau-cadence,pooled,plateau/rising; cadence-3,1,half-change,108,3.31,16.61,2.09
+ramp-plateau-cadence,pooled,plateau/rising; cadence-3,1,slow-change,108,2.74,12.05,1.51
+ramp-plateau-cadence,pooled,plateau/rising; cadence-3,1,half-bend,108,5.12,38.44,0.09
+ramp-plateau-cadence,pooled,plateau/rising; cadence-3,1,reverse-change,108,7.56,64.78,7.56
+ramp-plateau-cadence,pooled,plateau/rising; cadence-3,1,cross-quarter,108,4.06,23.45,4.02
+ramp-plateau-cadence,pooled,plateau/rising; cadence-3,1,adaptive,108,3.65,20.04,3.15
+ramp-plateau-cadence,pooled,plateau/rising; cadence-3,1,equal,108,3.63,20.04,3.13
+ramp-plateau-cadence,pooled,plateau/rising; cadence-3,1,frozen-40,108,3.65,20.19,3.15
+ramp-plateau-cadence,pooled,plateau/rising; cadence-3,1,running-mean,108,72.55,6447.24,72.55
+ramp-plateau-cadence,pooled,falling/plateau; cadence-3,0,hold,108,5.02,31.63,-5.02
+ramp-plateau-cadence,pooled,falling/plateau; cadence-3,0,last-change,108,3.51,18.74,-0.16
+ramp-plateau-cadence,pooled,falling/plateau; cadence-3,0,half-change,108,3.24,16.27,-2.37
+ramp-plateau-cadence,pooled,falling/plateau; cadence-3,0,slow-change,108,2.77,12.53,-1.83
+ramp-plateau-cadence,pooled,falling/plateau; cadence-3,0,half-bend,108,4.66,32.38,0.14
+ramp-plateau-cadence,pooled,falling/plateau; cadence-3,0,reverse-change,108,9.88,106.55,-9.88
+ramp-plateau-cadence,pooled,falling/plateau; cadence-3,0,cross-quarter,108,4.71,28.97,-4.71
+ramp-plateau-cadence,pooled,falling/plateau; cadence-3,0,adaptive,108,3.25,16.78,-2.76
+ramp-plateau-cadence,pooled,falling/plateau; cadence-3,0,equal,108,3.33,17.37,-2.96
+ramp-plateau-cadence,pooled,falling/plateau; cadence-3,0,frozen-40,108,3.30,17.12,-2.87
+ramp-plateau-cadence,pooled,falling/plateau; cadence-3,0,running-mean,108,72.13,7821.73,68.75
+ramp-plateau-cadence,pooled,falling/plateau; cadence-3,1,hold,108,1.70,4.57,0.01
+ramp-plateau-cadence,pooled,falling/plateau; cadence-3,1,last-change,108,3.05,13.38,-0.01
+ramp-plateau-cadence,pooled,falling/plateau; cadence-3,1,half-change,108,2.35,8.14,0.25
+ramp-plateau-cadence,pooled,falling/plateau; cadence-3,1,slow-change,108,1.80,5.12,-0.15
+ramp-plateau-cadence,pooled,falling/plateau; cadence-3,1,half-bend,108,4.14,25.57,0.27
+ramp-plateau-cadence,pooled,falling/plateau; cadence-3,1,reverse-change,108,1.74,4.87,0.05
+ramp-plateau-cadence,pooled,falling/plateau; cadence-3,1,cross-quarter,108,2.21,7.60,1.60
+ramp-plateau-cadence,pooled,falling/plateau; cadence-3,1,adaptive,108,2.20,7.24,0.81
+ramp-plateau-cadence,pooled,falling/plateau; cadence-3,1,equal,108,2.18,7.05,0.72
+ramp-plateau-cadence,pooled,falling/plateau; cadence-3,1,frozen-40,108,2.20,7.35,0.81
+ramp-plateau-cadence,pooled,falling/plateau; cadence-3,1,running-mean,108,116.40,13591.50,116.40
+smooth-turning,103,all,0,hold,208,11.08,160.83,0.95
+smooth-turning,pooled,all,0,hold,624,10.98,157.05,0.42
+smooth-turning,pooled,steady-turning,0,hold,300,12.31,192.56,-1.64
+smooth-turning,103,all,0,last-change,208,3.91,22.34,-0.12
+smooth-turning,pooled,all,0,last-change,624,4.12,25.23,-0.12
+smooth-turning,pooled,steady-turning,0,last-change,300,4.30,26.66,-0.13
+smooth-turning,103,all,0,half-change,208,5.96,51.41,0.65
+smooth-turning,pooled,all,0,half-change,624,6.00,51.90,0.40
+smooth-turning,pooled,steady-turning,0,half-change,300,6.52,60.50,-0.64
+smooth-turning,103,all,0,slow-change,208,4.65,31.23,-0.05
+smooth-turning,pooled,all,0,slow-change,624,4.72,32.00,-0.32
+smooth-turning,pooled,steady-turning,0,slow-change,300,5.19,37.75,-0.88
+smooth-turning,103,all,0,half-bend,208,5.12,38.25,0.16
+smooth-turning,pooled,all,0,half-bend,624,5.58,45.29,0.17
+smooth-turning,pooled,steady-turning,0,half-bend,300,5.75,46.70,0.21
+smooth-turning,103,all,0,reverse-change,208,22.01,622.98,2.03
+smooth-turning,pooled,all,0,reverse-change,624,21.71,604.45,0.97
+smooth-turning,pooled,steady-turning,0,reverse-change,300,24.56,748.33,-3.15
+smooth-turning,103,all,0,cross-quarter,208,9.85,128.20,1.32
+smooth-turning,pooled,all,0,cross-quarter,624,9.71,124.63,0.85
+smooth-turning,pooled,steady-turning,0,cross-quarter,300,10.93,152.62,-0.94
+smooth-turning,103,all,0,adaptive,208,5.60,46.34,0.99
+smooth-turning,pooled,all,0,adaptive,624,5.70,47.54,0.73
+smooth-turning,pooled,steady-turning,0,adaptive,300,5.97,52.25,-0.26
+smooth-turning,103,all,0,equal,208,7.50,77.54,1.13
+smooth-turning,pooled,all,0,equal,624,7.45,76.23,0.75
+smooth-turning,pooled,steady-turning,0,equal,300,8.15,90.28,-0.59
+smooth-turning,103,all,0,frozen-40,208,5.36,43.44,0.89
+smooth-turning,pooled,all,0,frozen-40,624,5.44,44.04,0.66
+smooth-turning,pooled,steady-turning,0,frozen-40,300,5.86,50.59,-0.26
+smooth-turning,103,all,0,running-mean,208,110.67,14883.44,9.87
+smooth-turning,pooled,all,0,running-mean,624,109.36,14743.00,1.31
+smooth-turning,pooled,steady-turning,0,running-mean,300,114.83,16373.82,-7.26
+smooth-turning,103,all,1,hold,208,8.44,94.07,-0.04
+smooth-turning,pooled,all,1,hold,624,8.55,94.92,-0.34
+smooth-turning,pooled,steady-turning,1,hold,300,8.90,104.24,-1.33
+smooth-turning,103,all,1,last-change,208,4.05,23.94,-0.10
+smooth-turning,pooled,all,1,last-change,624,3.94,23.26,-0.07
+smooth-turning,pooled,steady-turning,1,last-change,300,3.88,22.78,0.00
+smooth-turning,103,all,1,half-change,208,4.78,35.01,0.18
+smooth-turning,pooled,all,1,half-change,624,4.90,35.25,0.04
+smooth-turning,pooled,steady-turning,1,half-change,300,4.98,37.22,-0.42
+smooth-turning,103,all,1,slow-change,208,3.81,21.92,-0.25
+smooth-turning,pooled,all,1,slow-change,624,3.90,22.52,-0.31
+smooth-turning,pooled,steady-turning,1,slow-change,300,4.08,24.62,-0.30
+smooth-turning,103,all,1,half-bend,208,5.33,43.39,0.20
+smooth-turning,pooled,all,1,half-bend,624,5.26,42.37,0.19
+smooth-turning,pooled,steady-turning,1,half-bend,300,5.11,41.03,0.24
+smooth-turning,103,all,1,reverse-change,208,16.64,353.37,0.00
+smooth-turning,pooled,all,1,reverse-change,624,16.73,356.50,-0.62
+smooth-turning,pooled,steady-turning,1,reverse-change,300,17.45,393.72,-2.68
+smooth-turning,103,all,1,cross-quarter,208,7.48,74.61,0.07
+smooth-turning,pooled,all,1,cross-quarter,624,7.52,75.28,-0.10
+smooth-turning,pooled,steady-turning,1,cross-quarter,300,7.83,81.86,-0.57
+smooth-turning,103,all,1,adaptive,208,4.99,37.15,0.49
+smooth-turning,pooled,all,1,adaptive,624,5.08,37.18,0.33
+smooth-turning,pooled,steady-turning,1,adaptive,300,5.10,38.07,-0.05
+smooth-turning,103,all,1,equal,208,5.78,47.83,0.44
+smooth-turning,pooled,all,1,equal,624,5.92,48.74,0.24
+smooth-turning,pooled,steady-turning,1,equal,300,6.09,52.02,-0.30
+smooth-turning,103,all,1,frozen-40,208,4.77,34.59,0.49
+smooth-turning,pooled,all,1,frozen-40,624,5.07,37.29,0.38
+smooth-turning,pooled,steady-turning,1,frozen-40,300,5.18,39.23,0.02
+smooth-turning,103,all,1,running-mean,208,87.05,9825.88,-3.33
+smooth-turning,pooled,all,1,running-mean,624,86.46,9787.92,-3.74
+smooth-turning,pooled,steady-turning,1,running-mean,300,86.38,9897.07,-21.44
+smooth-turning,pooled,period-amplitude-drift,0,hold,324,9.75,124.16,2.33
+smooth-turning,pooled,period-amplitude-drift,0,last-change,324,3.95,23.91,-0.12
+smooth-turning,pooled,period-amplitude-drift,0,half-change,324,5.53,43.94,1.36
+smooth-turning,pooled,period-amplitude-drift,0,slow-change,324,4.28,26.67,0.19
+smooth-turning,pooled,period-amplitude-drift,0,half-bend,324,5.41,43.98,0.14
+smooth-turning,pooled,period-amplitude-drift,0,reverse-change,324,19.07,471.23,4.79
+smooth-turning,pooled,period-amplitude-drift,0,cross-quarter,324,8.58,98.72,2.52
+smooth-turning,pooled,period-amplitude-drift,0,adaptive,324,5.45,43.19,1.65
+smooth-turning,pooled,period-amplitude-drift,0,equal,324,6.81,63.22,2.01
+smooth-turning,pooled,period-amplitude-drift,0,frozen-40,324,5.05,37.98,1.53
+smooth-turning,pooled,period-amplitude-drift,0,running-mean,324,104.30,13232.98,9.25
+smooth-turning,pooled,period-amplitude-drift,1,hold,324,8.22,86.29,0.56
+smooth-turning,pooled,period-amplitude-drift,1,last-change,324,3.99,23.70,-0.15
+smooth-turning,pooled,period-amplitude-drift,1,half-change,324,4.83,33.44,0.48
+smooth-turning,pooled,period-amplitude-drift,1,slow-change,324,3.74,20.57,-0.32
+smooth-turning,pooled,period-amplitude-drift,1,half-bend,324,5.40,43.62,0.14
+smooth-turning,pooled,period-amplitude-drift,1,reverse-change,324,16.07,322.05,1.28
+smooth-turning,pooled,period-amplitude-drift,1,cross-quarter,324,7.23,69.19,0.33
+smooth-turning,pooled,period-amplitude-drift,1,adaptive,324,5.06,36.36,0.69
+smooth-turning,pooled,period-amplitude-drift,1,equal,324,5.76,45.70,0.76
+smooth-turning,pooled,period-amplitude-drift,1,frozen-40,324,4.98,35.50,0.72
+smooth-turning,pooled,period-amplitude-drift,1,running-mean,324,86.54,9686.85,12.64
+mixed-anonymous-input,103,all,0,hold,208,30.97,6458.07,0.76
+mixed-anonymous-input,pooled,all,0,hold,624,33.73,7244.55,0.72
+mixed-anonymous-input,pooled,mixed-with-lag,0,hold,300,31.52,6361.08,0.96
+mixed-anonymous-input,103,all,0,last-change,208,56.56,13539.89,0.10
+mixed-anonymous-input,pooled,all,0,last-change,624,61.71,15442.89,-0.53
+mixed-anonymous-input,pooled,mixed-with-lag,0,last-change,300,57.79,12828.68,-0.85
+mixed-anonymous-input,103,all,0,half-change,208,42.99,8382.84,0.72
+mixed-anonymous-input,pooled,all,0,half-change,624,46.80,9565.03,0.36
+mixed-anonymous-input,pooled,mixed-with-lag,0,half-change,300,43.71,8068.38,0.33
+mixed-anonymous-input,103,all,0,slow-change,208,44.00,7646.25,0.24
+mixed-anonymous-input,pooled,all,0,slow-change,624,46.80,8678.47,-0.37
+mixed-anonymous-input,pooled,mixed-with-lag,0,slow-change,300,44.04,7533.04,-0.46
+mixed-anonymous-input,103,all,0,half-bend,208,80.86,23666.87,0.32
+mixed-anonymous-input,pooled,all,0,half-bend,624,88.18,27065.73,-0.32
+mixed-anonymous-input,pooled,mixed-with-lag,0,half-bend,300,82.04,21958.41,-0.64
+mixed-anonymous-input,103,all,0,reverse-change,208,55.73,12292.99,1.42
+mixed-anonymous-input,pooled,all,0,reverse-change,624,59.29,13233.91,1.98
+mixed-anonymous-input,pooled,mixed-with-lag,0,reverse-change,300,57.31,12085.16,2.78
+mixed-anonymous-input,103,all,0,cross-quarter,208,32.85,6450.27,1.01
+mixed-anonymous-input,pooled,all,0,cross-quarter,624,35.18,7298.84,0.89
+mixed-anonymous-input,pooled,mixed-with-lag,0,cross-quarter,300,33.19,6446.67,1.23
+mixed-anonymous-input,103,all,0,adaptive,208,37.43,7206.34,1.80
+mixed-anonymous-input,pooled,all,0,adaptive,624,39.94,8082.19,0.96
+mixed-anonymous-input,pooled,mixed-with-lag,0,adaptive,300,37.58,6931.11,0.84
+mixed-anonymous-input,103,all,0,equal,208,39.16,7358.41,1.10
+mixed-anonymous-input,pooled,all,0,equal,624,42.58,8386.73,0.83
+mixed-anonymous-input,pooled,mixed-with-lag,0,equal,300,39.70,7140.68,0.94
+mixed-anonymous-input,103,all,0,frozen-40,208,35.99,6928.18,1.21
+mixed-anonymous-input,pooled,all,0,frozen-40,624,39.23,7887.89,0.88
+mixed-anonymous-input,pooled,mixed-with-lag,0,frozen-40,300,36.92,6842.14,0.92
+mixed-anonymous-input,103,all,0,running-mean,208,130.12,20358.65,11.01
+mixed-anonymous-input,pooled,all,0,running-mean,624,121.60,20776.21,22.17
+mixed-anonymous-input,pooled,mixed-with-lag,0,running-mean,300,117.54,19805.28,34.96
+mixed-anonymous-input,103,all,1,hold,208,19.22,759.27,0.75
+mixed-anonymous-input,pooled,all,1,hold,624,17.41,645.14,0.82
+mixed-anonymous-input,pooled,mixed-with-lag,1,hold,300,17.49,661.42,0.49
+mixed-anonymous-input,103,all,1,last-change,208,15.92,667.06,0.17
+mixed-anonymous-input,pooled,all,1,last-change,624,14.51,561.49,-0.05
+mixed-anonymous-input,pooled,mixed-with-lag,1,last-change,300,14.23,561.72,-0.10
+mixed-anonymous-input,103,all,1,half-change,208,13.50,524.24,0.75
+mixed-anonymous-input,pooled,all,1,half-change,624,12.34,443.93,0.65
+mixed-anonymous-input,pooled,mixed-with-lag,1,half-change,300,12.10,447.89,0.47
+mixed-anonymous-input,103,all,1,slow-change,208,16.97,700.42,0.78
+mixed-anonymous-input,pooled,all,1,slow-change,624,14.69,574.57,0.22
+mixed-anonymous-input,pooled,mixed-with-lag,1,slow-change,300,14.61,590.14,0.13
+mixed-anonymous-input,103,all,1,half-bend,208,20.45,955.38,0.27
+mixed-anonymous-input,pooled,all,1,half-bend,624,18.96,817.32,0.13
+mixed-anonymous-input,pooled,mixed-with-lag,1,half-bend,300,18.34,796.82,0.00
+mixed-anonymous-input,103,all,1,reverse-change,208,34.57,2359.66,1.34
+mixed-anonymous-input,pooled,all,1,reverse-change,624,31.31,2002.04,1.70
+mixed-anonymous-input,pooled,mixed-with-lag,1,reverse-change,300,31.77,2071.70,1.10
+mixed-anonymous-input,103,all,1,cross-quarter,208,20.62,920.90,1.01
+mixed-anonymous-input,pooled,all,1,cross-quarter,624,19.97,885.17,0.92
+mixed-anonymous-input,pooled,mixed-with-lag,1,cross-quarter,300,20.06,852.94,0.46
+mixed-anonymous-input,103,all,1,adaptive,208,14.24,553.83,1.34
+mixed-anonymous-input,pooled,all,1,adaptive,624,13.04,473.01,1.01
+mixed-anonymous-input,pooled,mixed-with-lag,1,adaptive,300,12.84,480.62,0.80
+mixed-anonymous-input,103,all,1,equal,208,15.15,573.12,1.12
+mixed-anonymous-input,pooled,all,1,equal,624,13.84,487.98,1.05
+mixed-anonymous-input,pooled,mixed-with-lag,1,equal,300,13.80,496.25,0.79
+mixed-anonymous-input,103,all,1,frozen-40,208,13.90,546.43,1.19
+mixed-anonymous-input,pooled,all,1,frozen-40,624,12.80,463.99,1.00
+mixed-anonymous-input,pooled,mixed-with-lag,1,frozen-40,300,12.75,472.59,0.76
+mixed-anonymous-input,103,all,1,running-mean,208,92.13,11701.38,4.61
+mixed-anonymous-input,pooled,all,1,running-mean,624,96.90,13906.79,14.38
+mixed-anonymous-input,pooled,mixed-with-lag,1,running-mean,300,80.67,10624.66,12.31
+mixed-anonymous-input,pooled,mixed-with-lag-and-gain-drift,0,hold,324,35.78,8062.58,0.50
+mixed-anonymous-input,pooled,mixed-with-lag-and-gain-drift,0,last-change,324,65.34,17863.46,-0.23
+mixed-anonymous-input,pooled,mixed-with-lag-and-gain-drift,0,half-change,324,49.66,10950.82,0.39
+mixed-anonymous-input,pooled,mixed-with-lag-and-gain-drift,0,slow-change,324,49.36,9739.05,-0.28
+mixed-anonymous-input,pooled,mixed-with-lag-and-gain-drift,0,half-bend,324,93.87,31794.74,-0.02
+mixed-anonymous-input,pooled,mixed-with-lag-and-gain-drift,0,reverse-change,324,61.12,14297.56,1.23
+mixed-anonymous-input,pooled,mixed-with-lag-and-gain-drift,0,cross-quarter,324,37.03,8087.88,0.58
+mixed-anonymous-input,pooled,mixed-with-lag-and-gain-drift,0,adaptive,324,42.12,9148.01,1.07
+mixed-anonymous-input,pooled,mixed-with-lag-and-gain-drift,0,equal,324,45.25,9540.47,0.74
+mixed-anonymous-input,pooled,mixed-with-lag-and-gain-drift,0,frozen-40,324,41.36,8856.17,0.84
+mixed-anonymous-input,pooled,mixed-with-lag-and-gain-drift,0,running-mean,324,125.36,21675.22,10.33
+mixed-anonymous-input,pooled,mixed-with-lag-and-gain-drift,1,hold,324,17.34,630.06,1.13
+mixed-anonymous-input,pooled,mixed-with-lag-and-gain-drift,1,last-change,324,14.78,561.28,0.00
+mixed-anonymous-input,pooled,mixed-with-lag-and-gain-drift,1,half-change,324,12.57,440.26,0.82
+mixed-anonymous-input,pooled,mixed-with-lag-and-gain-drift,1,slow-change,324,14.76,560.15,0.31
+mixed-anonymous-input,pooled,mixed-with-lag-and-gain-drift,1,half-bend,324,19.53,836.29,0.24
+mixed-anonymous-input,pooled,mixed-with-lag-and-gain-drift,1,reverse-change,324,30.89,1937.54,2.27
+mixed-anonymous-input,pooled,mixed-with-lag-and-gain-drift,1,cross-quarter,324,19.88,915.01,1.35
+mixed-anonymous-input,pooled,mixed-with-lag-and-gain-drift,1,adaptive,324,13.23,465.97,1.21
+mixed-anonymous-input,pooled,mixed-with-lag-and-gain-drift,1,equal,324,13.88,480.32,1.30
+mixed-anonymous-input,pooled,mixed-with-lag-and-gain-drift,1,frozen-40,324,12.84,456.02,1.21
+mixed-anonymous-input,pooled,mixed-with-lag-and-gain-drift,1,running-mean,324,111.94,16945.79,16.30
+shuffled-marginal-control,103,all,0,hold,208,147.54,34534.60,-1.05
+shuffled-marginal-control,pooled,all,0,hold,624,153.89,36133.08,-0.27
+shuffled-marginal-control,pooled,independent-shuffled-marginals,0,hold,624,153.89,36133.08,-0.27
+shuffled-marginal-control,103,all,0,last-change,208,254.56,101133.94,-1.14
+shuffled-marginal-control,pooled,all,0,last-change,624,268.91,106719.52,-0.27
+shuffled-marginal-control,pooled,independent-shuffled-marginals,0,last-change,624,268.91,106719.52,-0.27
+shuffled-marginal-control,103,all,0,half-change,208,195.02,59056.27,-0.87
+shuffled-marginal-control,pooled,all,0,half-change,624,205.73,62361.32,-0.04
+shuffled-marginal-control,pooled,independent-shuffled-marginals,0,half-change,624,205.73,62361.32,-0.04
+shuffled-marginal-control,103,all,0,slow-change,208,168.00,44100.58,-0.50
+shuffled-marginal-control,pooled,all,0,slow-change,624,175.16,46213.17,-0.14
+shuffled-marginal-control,pooled,independent-shuffled-marginals,0,slow-change,624,175.16,46213.17,-0.14
+shuffled-marginal-control,103,all,0,half-bend,208,347.00,195555.14,-1.89
+shuffled-marginal-control,pooled,all,0,half-bend,624,366.29,205220.82,-0.31
+shuffled-marginal-control,pooled,independent-shuffled-marginals,0,half-bend,624,366.29,205220.82,-0.31
+shuffled-marginal-control,103,all,0,reverse-change,208,160.14,37935.19,-0.96
+shuffled-marginal-control,pooled,all,0,reverse-change,624,157.42,37907.91,-0.27
+shuffled-marginal-control,pooled,independent-shuffled-marginals,0,reverse-change,624,157.42,37907.91,-0.27
+shuffled-marginal-control,103,all,0,cross-quarter,208,153.31,36807.91,-0.79
+shuffled-marginal-control,pooled,all,0,cross-quarter,624,157.33,37861.48,0.02
+shuffled-marginal-control,pooled,independent-shuffled-marginals,0,cross-quarter,624,157.33,37861.48,0.02
+shuffled-marginal-control,103,all,0,adaptive,208,151.37,35872.87,-0.31
+shuffled-marginal-control,pooled,all,0,adaptive,624,157.50,37349.96,-0.10
+shuffled-marginal-control,pooled,independent-shuffled-marginals,0,adaptive,624,157.50,37349.96,-0.10
+shuffled-marginal-control,103,all,0,equal,208,176.56,49254.25,-0.63
+shuffled-marginal-control,pooled,all,0,equal,624,186.39,51690.36,0.21
+shuffled-marginal-control,pooled,independent-shuffled-marginals,0,equal,624,186.39,51690.36,0.21
+shuffled-marginal-control,103,all,0,frozen-40,208,147.69,34379.40,-0.65
+shuffled-marginal-control,pooled,all,0,frozen-40,624,157.44,37646.11,0.40
+shuffled-marginal-control,pooled,independent-shuffled-marginals,0,frozen-40,624,157.44,37646.11,0.40
+shuffled-marginal-control,103,all,0,running-mean,208,124.70,19967.05,-0.34
+shuffled-marginal-control,pooled,all,0,running-mean,624,123.12,20227.00,5.23
+shuffled-marginal-control,pooled,independent-shuffled-marginals,0,running-mean,624,123.12,20227.00,5.23
+shuffled-marginal-control,103,all,1,hold,208,123.63,22838.22,-0.04
+shuffled-marginal-control,pooled,all,1,hold,624,136.02,27772.73,-0.18
+shuffled-marginal-control,pooled,independent-shuffled-marginals,1,hold,624,136.02,27772.73,-0.18
+shuffled-marginal-control,103,all,1,last-change,208,212.54,66726.91,-0.65
+shuffled-marginal-control,pooled,all,1,last-change,624,238.64,82994.26,-0.62
+shuffled-marginal-control,pooled,independent-shuffled-marginals,1,last-change,624,238.64,82994.26,-0.62
+shuffled-marginal-control,103,all,1,half-change,208,161.22,39081.13,-0.10
+shuffled-marginal-control,pooled,all,1,half-change,624,180.95,48431.57,-0.15
+shuffled-marginal-control,pooled,independent-shuffled-marginals,1,half-change,624,180.95,48431.57,-0.15
+shuffled-marginal-control,103,all,1,slow-change,208,140.61,29312.33,-0.75
+shuffled-marginal-control,pooled,all,1,slow-change,624,155.11,35705.69,-0.43
+shuffled-marginal-control,pooled,independent-shuffled-marginals,1,slow-change,624,155.11,35705.69,-0.43
+shuffled-marginal-control,103,all,1,half-bend,208,283.99,124472.02,-0.26
+shuffled-marginal-control,pooled,all,1,half-bend,624,321.54,156848.15,-0.55
+shuffled-marginal-control,pooled,independent-shuffled-marginals,1,half-bend,624,321.54,156848.15,-0.55
+shuffled-marginal-control,103,all,1,reverse-change,208,126.48,24659.99,0.56
+shuffled-marginal-control,pooled,all,1,reverse-change,624,134.83,28192.16,0.25
+shuffled-marginal-control,pooled,independent-shuffled-marginals,1,reverse-change,624,134.83,28192.16,0.25
+shuffled-marginal-control,103,all,1,cross-quarter,208,123.94,23185.36,0.30
+shuffled-marginal-control,pooled,all,1,cross-quarter,624,139.49,29578.50,0.19
+shuffled-marginal-control,pooled,independent-shuffled-marginals,1,cross-quarter,624,139.49,29578.50,0.19
+shuffled-marginal-control,103,all,1,adaptive,208,126.19,23881.65,-0.60
+shuffled-marginal-control,pooled,all,1,adaptive,624,137.86,28774.50,-0.45
+shuffled-marginal-control,pooled,independent-shuffled-marginals,1,adaptive,624,137.86,28774.50,-0.45
+shuffled-marginal-control,103,all,1,equal,208,144.63,31776.73,0.28
+shuffled-marginal-control,pooled,all,1,equal,624,162.99,39620.40,0.23
+shuffled-marginal-control,pooled,independent-shuffled-marginals,1,equal,624,162.99,39620.40,0.23
+shuffled-marginal-control,103,all,1,frozen-40,208,124.59,23118.88,0.11
+shuffled-marginal-control,pooled,all,1,frozen-40,624,142.74,30440.37,0.06
+shuffled-marginal-control,pooled,independent-shuffled-marginals,1,frozen-40,624,142.74,30440.37,0.06
+shuffled-marginal-control,103,all,1,running-mean,208,89.80,11432.00,11.83
+shuffled-marginal-control,pooled,all,1,running-mean,624,96.83,13420.77,2.99
+shuffled-marginal-control,pooled,independent-shuffled-marginals,1,running-mean,624,96.83,13420.77,2.99
+ramp-plateau-cadence,907,all,0,hold,208,4.15,30.69,0.60
+ramp-plateau-cadence,907,all,0,last-change,208,4.24,29.42,-0.02
+ramp-plateau-cadence,907,all,0,half-change,208,3.50,22.64,0.53
+ramp-plateau-cadence,907,all,0,slow-change,208,2.82,14.81,-0.11
+ramp-plateau-cadence,907,all,0,half-bend,208,6.04,58.15,0.20
+ramp-plateau-cadence,907,all,0,reverse-change,208,7.53,93.02,1.22
+ramp-plateau-cadence,907,all,0,cross-quarter,208,4.32,32.03,0.94
+ramp-plateau-cadence,907,all,0,adaptive,208,3.51,24.22,0.87
+ramp-plateau-cadence,907,all,0,equal,208,3.56,24.79,0.90
+ramp-plateau-cadence,907,all,0,frozen-40,208,3.53,24.68,0.97
+ramp-plateau-cadence,907,all,0,running-mean,208,83.25,11144.31,68.47
+ramp-plateau-cadence,907,all,1,hold,208,2.57,10.75,0.12
+ramp-plateau-cadence,907,all,1,last-change,208,3.44,17.23,0.00
+ramp-plateau-cadence,907,all,1,half-change,208,2.75,11.40,0.30
+ramp-plateau-cadence,907,all,1,slow-change,208,2.34,8.42,0.04
+ramp-plateau-cadence,907,all,1,half-bend,208,4.71,33.12,0.23
+ramp-plateau-cadence,907,all,1,reverse-change,208,4.22,25.88,0.24
+ramp-plateau-cadence,907,all,1,cross-quarter,208,2.74,11.98,0.37
+ramp-plateau-cadence,907,all,1,adaptive,208,2.69,11.24,0.68
+ramp-plateau-cadence,907,all,1,equal,208,2.69,11.25,0.62
+ramp-plateau-cadence,907,all,1,frozen-40,208,2.71,11.38,0.68
+ramp-plateau-cadence,907,all,1,running-mean,208,67.15,5778.88,-1.59
+smooth-turning,907,all,0,hold,208,11.33,164.71,0.50
+smooth-turning,907,all,0,last-change,208,4.09,24.99,-0.15
+smooth-turning,907,all,0,half-change,208,6.26,53.79,0.42
+smooth-turning,907,all,0,slow-change,208,4.75,32.80,-0.50
+smooth-turning,907,all,0,half-bend,208,5.62,45.78,0.16
+smooth-turning,907,all,0,reverse-change,208,22.29,636.31,1.17
+smooth-turning,907,all,0,cross-quarter,208,9.99,130.62,0.96
+smooth-turning,907,all,0,adaptive,208,5.88,48.51,0.71
+smooth-turning,907,all,0,equal,208,7.75,79.40,0.75
+smooth-turning,907,all,0,frozen-40,208,5.58,44.42,0.66
+smooth-turning,907,all,0,running-mean,208,109.66,14642.09,7.82
+smooth-turning,907,all,1,hold,208,8.71,98.35,-0.43
+smooth-turning,907,all,1,last-change,208,3.86,22.81,-0.09
+smooth-turning,907,all,1,half-change,208,4.99,35.90,0.02
+smooth-turning,907,all,1,slow-change,208,4.02,23.76,-0.44
+smooth-turning,907,all,1,half-bend,208,5.15,41.83,0.15
+smooth-turning,907,all,1,reverse-change,208,17.00,370.04,-0.78
+smooth-turning,907,all,1,cross-quarter,208,7.63,77.66,-0.23
+smooth-turning,907,all,1,adaptive,208,5.17,38.00,0.26
+smooth-turning,907,all,1,equal,208,6.06,50.58,0.15
+smooth-turning,907,all,1,frozen-40,208,5.12,37.47,0.30
+smooth-turning,907,all,1,running-mean,208,85.15,9620.06,-4.38
+mixed-anonymous-input,907,all,0,hold,208,29.12,6000.65,0.69
+mixed-anonymous-input,907,all,0,last-change,208,53.44,12697.58,-0.22
+mixed-anonymous-input,907,all,0,half-change,208,40.30,7844.73,0.49
+mixed-anonymous-input,907,all,0,slow-change,208,40.55,7190.68,-0.32
+mixed-anonymous-input,907,all,0,half-bend,208,76.20,21887.86,-0.03
+mixed-anonymous-input,907,all,0,reverse-change,208,52.44,11282.90,1.62
+mixed-anonymous-input,907,all,0,cross-quarter,208,29.50,6027.31,0.68
+mixed-anonymous-input,907,all,0,adaptive,208,34.36,6598.86,0.80
+mixed-anonymous-input,907,all,0,equal,208,36.66,6844.66,0.88
+mixed-anonymous-input,907,all,0,frozen-40,208,33.61,6483.30,0.82
+mixed-anonymous-input,907,all,0,running-mean,208,114.11,21963.19,56.50
+mixed-anonymous-input,907,all,1,hold,208,14.42,462.84,1.23
+mixed-anonymous-input,907,all,1,last-change,208,12.21,377.68,-0.29
+mixed-anonymous-input,907,all,1,half-change,208,10.41,310.14,0.73
+mixed-anonymous-input,907,all,1,slow-change,208,11.44,384.64,-0.08
+mixed-anonymous-input,907,all,1,half-bend,208,16.28,565.33,-0.07
+mixed-anonymous-input,907,all,1,reverse-change,208,25.73,1432.03,2.76
+mixed-anonymous-input,907,all,1,cross-quarter,208,17.66,758.82,1.37
+mixed-anonymous-input,907,all,1,adaptive,208,10.91,336.63,1.03
+mixed-anonymous-input,907,all,1,equal,208,11.74,356.80,1.24
+mixed-anonymous-input,907,all,1,frozen-40,208,10.78,329.79,1.05
+mixed-anonymous-input,907,all,1,running-mean,208,104.41,18004.25,43.72
+shuffled-marginal-control,907,all,0,hold,208,153.22,35478.64,-0.86
+shuffled-marginal-control,907,all,0,last-change,208,267.16,103203.98,-1.25
+shuffled-marginal-control,907,all,0,half-change,208,205.31,60475.30,-0.83
+shuffled-marginal-control,907,all,0,slow-change,208,175.04,45286.88,-0.95
+shuffled-marginal-control,907,all,0,half-bend,208,367.02,197646.58,-1.26
+shuffled-marginal-control,907,all,0,reverse-change,208,157.41,38574.57,-0.46
+shuffled-marginal-control,907,all,0,cross-quarter,208,157.78,38060.97,-0.63
+shuffled-marginal-control,907,all,0,adaptive,208,157.82,37295.34,0.10
+shuffled-marginal-control,907,all,0,equal,208,187.31,50392.50,-0.49
+shuffled-marginal-control,907,all,0,frozen-40,208,161.23,38764.16,-0.14
+shuffled-marginal-control,907,all,0,running-mean,208,125.25,21228.77,15.76
+shuffled-marginal-control,907,all,1,hold,208,147.70,34237.85,-0.21
+shuffled-marginal-control,907,all,1,last-change,208,256.07,101174.39,-0.95
+shuffled-marginal-control,907,all,1,half-change,208,194.00,59102.53,-0.30
+shuffled-marginal-control,907,all,1,slow-change,208,167.97,43970.73,-0.47
+shuffled-marginal-control,907,all,1,half-bend,208,347.08,191191.49,-1.66
+shuffled-marginal-control,907,all,1,reverse-change,208,151.56,36023.86,0.53
+shuffled-marginal-control,907,all,1,cross-quarter,208,156.66,37798.33,0.05
+shuffled-marginal-control,907,all,1,adaptive,208,152.15,36386.67,-0.81
+shuffled-marginal-control,907,all,1,equal,208,176.52,48832.05,0.00
+shuffled-marginal-control,907,all,1,frozen-40,208,158.99,38926.53,-0.19
+shuffled-marginal-control,907,all,1,running-mean,208,109.26,17266.47,8.10
+ramp-plateau-cadence,2029,all,0,hold,208,4.26,31.21,0.58
+ramp-plateau-cadence,2029,all,0,last-change,208,4.37,31.62,-0.05
+ramp-plateau-cadence,2029,all,0,half-change,208,3.61,23.71,0.51
+ramp-plateau-cadence,2029,all,0,slow-change,208,2.98,15.81,-0.10
+ramp-plateau-cadence,2029,all,0,half-bend,208,6.11,61.50,0.21
+ramp-plateau-cadence,2029,all,0,reverse-change,208,7.62,93.13,1.21
+ramp-plateau-cadence,2029,all,0,cross-quarter,208,4.29,31.70,0.90
+ramp-plateau-cadence,2029,all,0,adaptive,208,3.60,24.78,0.90
+ramp-plateau-cadence,2029,all,0,equal,208,3.69,25.88,0.91
+ramp-plateau-cadence,2029,all,0,frozen-40,208,3.68,25.78,0.97
+ramp-plateau-cadence,2029,all,0,running-mean,208,83.25,11116.55,68.53
+ramp-plateau-cadence,2029,all,1,hold,208,2.52,10.86,0.11
+ramp-plateau-cadence,2029,all,1,last-change,208,3.39,17.01,-0.01
+ramp-plateau-cadence,2029,all,1,half-change,208,2.75,11.44,0.29
+ramp-plateau-cadence,2029,all,1,slow-change,208,2.27,8.38,0.07
+ramp-plateau-cadence,2029,all,1,half-bend,208,4.64,32.40,0.17
+ramp-plateau-cadence,2029,all,1,reverse-change,208,4.12,26.45,0.23
+ramp-plateau-cadence,2029,all,1,cross-quarter,208,2.74,11.95,0.35
+ramp-plateau-cadence,2029,all,1,adaptive,208,2.61,10.98,0.66
+ramp-plateau-cadence,2029,all,1,equal,208,2.64,11.09,0.62
+ramp-plateau-cadence,2029,all,1,frozen-40,208,2.61,11.09,0.68
+ramp-plateau-cadence,2029,all,1,running-mean,208,67.18,5770.05,-1.60
+smooth-turning,2029,all,0,hold,208,10.54,145.61,-0.19
+smooth-turning,2029,all,0,last-change,208,4.35,28.37,-0.10
+smooth-turning,2029,all,0,half-change,208,5.79,50.50,0.11
+smooth-turning,2029,all,0,slow-change,208,4.74,31.96,-0.41
+smooth-turning,2029,all,0,half-bend,208,5.99,51.83,0.20
+smooth-turning,2029,all,0,reverse-change,208,20.82,554.06,-0.28
+smooth-turning,2029,all,0,cross-quarter,208,9.30,115.08,0.28
+smooth-turning,2029,all,0,adaptive,208,5.62,47.79,0.49
+smooth-turning,2029,all,0,equal,208,7.11,71.75,0.38
+smooth-turning,2029,all,0,frozen-40,208,5.38,44.26,0.44
+smooth-turning,2029,all,0,running-mean,208,107.75,14703.48,-13.75
+smooth-turning,2029,all,1,hold,208,8.50,92.33,-0.55
+smooth-turning,2029,all,1,last-change,208,3.90,23.03,-0.03
+smooth-turning,2029,all,1,half-change,208,4.92,34.85,-0.07
+smooth-turning,2029,all,1,slow-change,208,3.87,21.87,-0.24
+smooth-turning,2029,all,1,half-bend,208,5.30,41.90,0.21
+smooth-turning,2029,all,1,reverse-change,208,16.56,346.11,-1.08
+smooth-turning,2029,all,1,cross-quarter,208,7.44,73.57,-0.14
+smooth-turning,2029,all,1,adaptive,208,5.08,36.39,0.25
+smooth-turning,2029,all,1,equal,208,5.91,47.80,0.14
+smooth-turning,2029,all,1,frozen-40,208,5.33,39.83,0.36
+smooth-turning,2029,all,1,running-mean,208,87.17,9917.81,-3.50
+mixed-anonymous-input,2029,all,0,hold,208,41.09,9274.93,0.71
+mixed-anonymous-input,2029,all,0,last-change,208,75.12,20091.21,-1.47
+mixed-anonymous-input,2029,all,0,half-change,208,57.11,12467.53,-0.11
+mixed-anonymous-input,2029,all,0,slow-change,208,55.85,11198.47,-1.03
+mixed-anonymous-input,2029,all,0,half-bend,208,107.48,35642.47,-1.25
+mixed-anonymous-input,2029,all,0,reverse-change,208,69.69,16125.82,2.89
+mixed-anonymous-input,2029,all,0,cross-quarter,208,43.20,9418.94,0.98
+mixed-anonymous-input,2029,all,0,adaptive,208,48.03,10441.38,0.28
+mixed-anonymous-input,2029,all,0,equal,208,51.94,10957.11,0.52
+mixed-anonymous-input,2029,all,0,frozen-40,208,48.09,10252.19,0.61
+mixed-anonymous-input,2029,all,0,running-mean,208,120.56,20006.78,-0.99
+mixed-anonymous-input,2029,all,1,hold,208,18.60,713.30,0.49
+mixed-anonymous-input,2029,all,1,last-change,208,15.41,639.73,-0.03
+mixed-anonymous-input,2029,all,1,half-change,208,13.12,497.40,0.48
+mixed-anonymous-input,2029,all,1,slow-change,208,15.66,638.64,0.00
+mixed-anonymous-input,2029,all,1,half-bend,208,20.14,931.23,0.19
+mixed-anonymous-input,2029,all,1,reverse-change,208,33.63,2214.42,1.01
+mixed-anonymous-input,2029,all,1,cross-quarter,208,21.63,975.78,0.37
+mixed-anonymous-input,2029,all,1,adaptive,208,13.98,528.57,0.67
+mixed-anonymous-input,2029,all,1,equal,208,14.63,534.00,0.80
+mixed-anonymous-input,2029,all,1,frozen-40,208,13.71,515.74,0.75
+mixed-anonymous-input,2029,all,1,running-mean,208,94.16,12014.73,-5.16
+shuffled-marginal-control,2029,all,0,hold,208,160.92,38385.99,1.09
+shuffled-marginal-control,2029,all,0,last-change,208,285.03,115820.65,1.58
+shuffled-marginal-control,2029,all,0,half-change,208,216.86,67552.38,1.58
+shuffled-marginal-control,2029,all,0,slow-change,208,182.43,49252.05,1.01
+shuffled-marginal-control,2029,all,0,half-bend,208,384.84,222460.75,2.20
+shuffled-marginal-control,2029,all,0,reverse-change,208,154.70,37213.98,0.61
+shuffled-marginal-control,2029,all,0,cross-quarter,208,160.88,38715.55,1.50
+shuffled-marginal-control,2029,all,0,adaptive,208,163.30,38881.68,-0.09
+shuffled-marginal-control,2029,all,0,equal,208,195.29,55424.33,1.78
+shuffled-marginal-control,2029,all,0,frozen-40,208,163.39,39794.77,2.02
+shuffled-marginal-control,2029,all,0,running-mean,208,119.41,19485.17,0.27
+shuffled-marginal-control,2029,all,1,hold,208,136.72,26242.13,-0.29
+shuffled-marginal-control,2029,all,1,last-change,208,247.31,81081.48,-0.25
+shuffled-marginal-control,2029,all,1,half-change,208,187.64,47111.04,-0.04
+shuffled-marginal-control,2029,all,1,slow-change,208,156.77,33834.03,-0.08
+shuffled-marginal-control,2029,all,1,half-bend,208,333.56,154880.93,0.27
+shuffled-marginal-control,2029,all,1,reverse-change,208,126.47,23892.65,-0.34
+shuffled-marginal-control,2029,all,1,cross-quarter,208,137.87,27751.81,0.21
+shuffled-marginal-control,2029,all,1,adaptive,208,135.24,26055.17,0.05
+shuffled-marginal-control,2029,all,1,equal,208,167.82,38252.42,0.39
+shuffled-marginal-control,2029,all,1,frozen-40,208,144.65,29275.69,0.27
+shuffled-marginal-control,2029,all,1,running-mean,208,91.43,11563.85,-10.95
