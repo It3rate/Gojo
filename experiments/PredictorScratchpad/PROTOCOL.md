@@ -63,8 +63,16 @@ read witness, not repeatedly deposited as new transferred pressure.
 
 Report every primitive alongside the adaptive mixture. Compare the adaptive
 mixture with hold, last-change, an equal mixture of the same seven branches,
-and a mixture whose participation is frozen after 40 observed updates. No
+and a mixture whose participation is frozen after exactly 40 completed
+predict-observe-update cycles, affecting the following forecast. Branch temporal
+states keep evolving in all mixture controls. No
 after-the-fact best branch is permitted to act as a forecaster.
+
+Pre-run review amendment: also include a causal running-level mean, using only
+a native accumulated sum and count. It is a comparator, not an extra adaptive
+branch. This challenges the restricted recent-sample palette on shuffled input;
+beating hold does not establish useful temporal prediction. This amendment was
+made before any predictor result was available.
 
 Primary metric: mean absolute error in each sensor's original ticks. Also
 report mean squared error, signed bias, and native adaptive-minus-baseline
