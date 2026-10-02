@@ -90,9 +90,9 @@ public sealed partial class Carrier
 
         public ulong UnitTicks { get; set; }
 
-        public ulong SourceRemainder { get; set; }
-
         public ulong Remaining { get; set; }
+
+        public ulong Offered { get; set; }
 
         public Carrier Source => Key.Source;
 
@@ -109,7 +109,7 @@ public sealed partial class Carrier
     /// from existing local clamp structure; all route records here are runtime
     /// scratch, not durable Gojo structure.
     /// </summary>
-    private static HashSet<ulong> ApplyRuntimeRouteSettlement(Carrier[] carriers)
+    private static HashSet<ulong> ApplyRuntimeRouteSettlement(Carrier[] carriers, List<Relation> activity)
     {
         var discovery = DiscoverRuntimeRoutes(carriers);
         if (discovery.ActiveGroups.Length == 0)
@@ -117,7 +117,7 @@ public sealed partial class Carrier
             return discovery.HandledRelationIds;
         }
 
-        ApplyRuntimeRouteGroups(discovery);
+        ApplyRuntimeRouteGroups(discovery, activity);
         return discovery.HandledRelationIds;
     }
 
@@ -179,10 +179,10 @@ public sealed partial class Carrier
     }
 
     /// <summary>Coordinates source offers and target acceptance across direct routes.</summary>
-    private static void ApplyRuntimeRouteGroups(RuntimeRouteDiscovery discovery)
+    private static void ApplyRuntimeRouteGroups(RuntimeRouteDiscovery discovery, List<Relation> activity)
     {
         var groups = discovery.ActiveGroups;
-        PrepareRuntimeRouteGroups(groups);
+        PrepareRuntimeRouteGroups(groups, activity);
         var lanes = groups
             .SelectMany((group, groupIndex) => group.Candidates.Select(candidate => new RuntimeRouteLane(candidate, groupIndex)))
             .ToArray();
@@ -204,39 +204,52 @@ public sealed partial class Carrier
             }
         }
 
-        for (var index = 0; index < lanes.Length; index++)
+        // Debit each finite source before delivering any receipts. A source
+        // can also be a target; replacing an old remainder after delivery would
+        // erase newly received/cancelled pressure. Differently calibrated groups
+        // must not each spend the same pool. Keep an overcommitted source local
+        // rather than invent an allocation between incompatible group bases.
+        var debits = groups.GroupBy(group => group.Source).ToDictionary(group => group.Key,
+            group => group.Aggregate((Int128)0, (sum, item) =>
+                sum + (Int128)(item.Offered - item.Remaining) * item.UnitTicks));
+        var admittedSources = debits.Where(pair => pair.Value >= 0 &&
+                pair.Value <= Math.Max(0, pair.Key.Tension)).Select(pair => pair.Key).ToHashSet();
+        foreach (var source in admittedSources)
         {
-            if (accepted[index] != 0)
-            {
-                lanes[index].Candidate.TargetCarrier.Receive(checked((long)accepted[index]));
-            }
+            var spent = checked((long)debits[source]);
+            if (spent != 0 && source.KeepTensionRemainder(checked(source.Tension - spent)))
+                activity.Add(groups.First(group => group.Source == source).Candidates[0].Relation);
         }
 
-        foreach (var group in groups)
+        for (var index = 0; index < lanes.Length; index++)
         {
-            var remaining = checked((group.Remaining * group.UnitTicks) + group.SourceRemainder);
-            group.Source.KeepTensionRemainder(checked((long)remaining));
+            if (accepted[index] != 0 && admittedSources.Contains(lanes[index].Candidate.SourceCarrier))
+            {
+                lanes[index].Candidate.TargetCarrier.Receive(checked((long)accepted[index]));
+                activity.Add(lanes[index].Candidate.Relation);
+            }
         }
     }
 
     /// <summary>Accounts local source boundaries and records source route demand.</summary>
-    private static void PrepareRuntimeRouteGroups(RuntimeRouteSourceGroup[] groups)
+    private static void PrepareRuntimeRouteGroups(RuntimeRouteSourceGroup[] groups, List<Relation> activity)
     {
         foreach (var group in groups)
         {
             var first = group.Candidates[0];
-            AccountRuntimeLocal(group.Source, first.SourceBoundary, first.LocalTarget);
+            if (AccountRuntimeLocal(group.Source, first.SourceBoundary, first.LocalTarget))
+                activity.Add(first.Relation);
             group.UnitTicks = checked((ulong)first.Unit);
             if (group.Source.Tension <= 0)
             {
-                group.SourceRemainder = 0;
                 group.Remaining = 0;
+                group.Offered = 0;
                 continue;
             }
 
             var available = checked((ulong)group.Source.Tension);
             group.Remaining = available / group.UnitTicks;
-            group.SourceRemainder = available % group.UnitTicks;
+            group.Offered = group.Remaining;
         }
     }
 

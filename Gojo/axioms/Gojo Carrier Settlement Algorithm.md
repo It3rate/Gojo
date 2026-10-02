@@ -47,16 +47,68 @@ act by adding/removing tension, adjusting relations, or repeating perturbation
 until the structure stabilizes. It should not bypass carrier accounting by
 writing value directly.
 
-The default single-carrier output port exposes two slots:
+The single-carrier output surface distinguishes live coordinates from explicit
+observations:
 
 ```text
-value-slot(C)   = L(C, C.Value)
-tension-slot(C) = L(C, C.Tension)
+ValueSlot(C)       = L(C, shared value coordinate)
+LiveTensionSlot(C) = L(C, shared tension coordinate)
+TensionSlot(C)     = L(C, tension observed at this call)
 ```
 
-The value slot is the ordinary settled read. The tension slot is deliberate
-internal inspection of unresolved participation. A normal output read should
-not silently combine them.
+The value slot is the ordinary settled read. Live tension is deliberate
+inspection of current unresolved participation; the historical tension slot
+does not change later. A normal output read should not silently combine value
+and pressure. Both live coordinates have one canonical `TickRef` and preserve
+their identity through executable archives.
+
+### Coherent arrival and bounded execution
+
+`Carrier.ReceiveTogether(arrivals, maxPasses)` accepts an ordered group of signed
+carrier locations. Each call declares a new input frame, including when values
+repeat or are zero. It freezes every coordinate before admission, combines
+same-carrier changes, and preflights primitive numeric reception before any
+carrier changes. All accepted arrivals enter before attached relations run.
+Unbound, malformed, or unrepresentable arrivals remain an unresolved witness
+with an open admission slot. Failures inside a later arbitrary equation are
+not an atomic rollback of the already admitted frame.
+
+The returned `ReadWitness` connects the requested input, frozen admitted input,
+affected local world anchors, pass basis, used-pass coordinate, and relations
+active in the last observed pass. A zero pass allowance accepts valid input but
+leaves settlement unobserved. An empty final activity group after an executed
+pass means local quiet, not zero tension or universal resolution. Competing
+relations that repeatedly move a target out and back remain active even if
+pass endpoints are equal. At the allowance boundary, active relations remain
+inspectable as continuation. No carrier stores a cached settled flag.
+
+`Carrier.Settle(maxPasses)` returns the same kind of execution observation
+without adding input. Legacy `Add`, `Remove`, `Set`, and `Attach` retain their
+synchronous default allowance and discard the optional observation. Streaming
+callers should use the witnessed entry points when completion matters. This is
+a coherent admission boundary, not an autonomous clock or concurrent scheduler.
+
+### Live levels and finite arrivals
+
+An attached live output drives a requested level. Its delta is calculated
+against the receiving carrier's locally held value plus tension: outstanding
+pressure already belongs to that request. An unchanged negative or capped
+request must not add the same pressure on each pass. Public `Set` continues to
+request a delta relative to visible value; it has different input semantics.
+
+A consuming downstream route can make a live level replenish indefinitely.
+That is continuing drive, not a single conserved packet. Finite arrivals use
+explicit source participation and route it once. Two equal samples need
+distinct arrival boundaries; zero magnitude does not mean no arrival.
+Autonomous creation/advancement of a sampling boundary is future work.
+
+Coordinated routes debit planned outgoing source pressure before delivering
+receipts. A carrier can be both source and receiver, so an old absolute
+remainder must not overwrite newly received or cancelled pressure. Positive
+routes leave negative participation available. If differently calibrated route
+groups propose spending the same pool more than once, that source remains
+unresolved rather than publishing both offers or inventing a preference between
+their bases. This conservative case does not yet provide cross-basis arbitration.
 
 A structured output port may read the value slot through an explicit basis:
 

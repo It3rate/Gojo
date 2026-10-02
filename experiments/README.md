@@ -12,6 +12,16 @@ designs, then records subjective judgments and performs contextual comparisons.
 The host authors interpretations and invokes reads; neither experiment
 demonstrates autonomous language understanding or learned aesthetic judgment.
 
+[PoetryScratchpad](PoetryScratchpad/README.md) uses the supplied *Snagged* and
+*Upon leaving the clockworks* for six connected examples: open referents,
+contextual faces, partial metaphor, repetition, live cross-level reads, and
+allusion. It records both useful native behavior and unresolved capability gaps.
+
+[StreamingScratchpad](StreamingScratchpad/README.md) probes live represented and
+remainder channels, pooled tension routing, and receiver capacity. It documents
+the remaining communication work and a staged light/heat prediction experiment;
+it does not claim autonomous model discovery.
+
 ## Next thinking experiments: protocol fixed before encoding
 
 Designed on 2026-10-01. These four trials have **not been run**. Their purpose is

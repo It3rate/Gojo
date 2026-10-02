@@ -45,7 +45,7 @@ internal static class GojoCompactArchive
         { Id = $"u{u.Index}", Kind = "unitShape", Surface = Ref(u.Surface), Descriptors = u.Descriptors.Select(Ref).ToList() }));
         return new GojoCompactStructureDocument
         {
-            Version = 2, SourceId = sourceId, Root = Ref(graph.Root), Nodes = nodes,
+            Version = 3, SourceId = sourceId, Root = Ref(graph.Root), Nodes = nodes,
             Carriers = graph.Carriers.OrderBy(c => c.Id).Select(c => new GojoCompactCarrierNode
             {
                 Id = names[c.Index], IsInverse = c.IsInverse, IsUnknown = c.IsUnknown,
@@ -53,6 +53,7 @@ internal static class GojoCompactArchive
                 UnitShape = $"u{c.UnitShapeIndex}",
                 Inverse = c.InverseCarrierIndex >= 0 ? names[c.InverseCarrierIndex] : null,
                 ValueTick = c.ValueTickRefIndex >= 0 ? $"t{c.ValueTickRefIndex}" : null,
+                TensionTick = c.TensionTickRefIndex >= 0 ? $"t{c.TensionTickRefIndex}" : null,
                 Attachments = (c.AttachedRelationIndexes ?? []).Select(i => $"r{i}").ToList()
             }).ToList(),
             Counts = new GojoCompactStructureCounts
@@ -120,8 +121,16 @@ internal static class GojoCompactArchive
             if (!carrier.Tension.HasValue) gaps.Add($"Missing {carrier.Id}.tension.");
             if (carrier.IsUnknown && (carrier.Value != 0 || carrier.Tension != 0))
                 gaps.Add($"Wildcard {carrier.Id} cannot carry recorded accounting state.");
+            if (carrier.IsUnknown && carrier.TensionTick is not null)
+                gaps.Add($"Wildcard {carrier.Id} cannot own a live tension coordinate.");
             Reference(carrier.UnitShape, "unitShape", $"{carrier.Id}.unitShape");
             if (!carrier.IsUnknown) Reference(carrier.ValueTick, "tick", $"{carrier.Id}.valueTick");
+            // Version 2 never asserted live pressure identity. Version 3 must
+            // preserve it explicitly rather than guess after a missing field.
+            if (document.Version >= 3 && !carrier.IsUnknown)
+                Reference(carrier.TensionTick, "tick", $"{carrier.Id}.tensionTick");
+            else if (document.Version == 2 && carrier.TensionTick is not null)
+                gaps.Add($"Version 2 cannot assert {carrier.Id}.tensionTick; live pressure requires version 3.");
             if (carrier.Inverse is not null) Reference(carrier.Inverse, "carrier", $"{carrier.Id}.inverse");
             if (carrier.Attachments is null) gaps.Add($"Missing {carrier.Id}.attachments.");
             else foreach (var id in carrier.Attachments) Reference(id, "relation", $"{carrier.Id}.attachments");
@@ -186,6 +195,7 @@ internal static class GojoCompactArchive
                 c.Inverse is null ? -1 : Index(c.Inverse, GojoEncodedElementKind.Carrier))
             {
                 ValueTickRefIndex = c.ValueTick is null ? -1 : Index(c.ValueTick, GojoEncodedElementKind.TickRef),
+                TensionTickRefIndex = c.TensionTick is null ? -1 : Index(c.TensionTick, GojoEncodedElementKind.TickRef),
                 AttachedRelationIndexes = c.Attachments!.Select(id => Index(id, GojoEncodedElementKind.Relation)).ToArray()
             }).ToArray(),
             ticks.Select((t, i) => new GojoEncodedTickRef(i, 0, t.Ticks!.Value)).ToArray(),

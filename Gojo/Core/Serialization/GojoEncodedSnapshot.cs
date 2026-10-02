@@ -36,6 +36,7 @@ public readonly record struct GojoEncodedCarrier(
     int InverseCarrierIndex)
 {
     public int ValueTickRefIndex { get; init; } = -1;
+    public int TensionTickRefIndex { get; init; } = -1;
     public int[]? AttachedRelationIndexes { get; init; }
 }
 
@@ -221,7 +222,8 @@ public sealed partial record GojoEncodedSnapshot(
                 unitShape.Index,
                 inverseCarrier.IsNone ? -1 : inverseCarrier.Index)
             {
-                ValueTickRefIndex = archive && !carrier.IsUnknown ? EncodeTickRef(carrier.ValueSlot.Tick).Index : -1
+                ValueTickRefIndex = archive && !carrier.IsUnknown ? EncodeTickRef(carrier.ValueSlot.Tick).Index : -1,
+                TensionTickRefIndex = archive && !carrier.IsUnknown ? EncodeTickRef(carrier.LiveTensionSlot.Tick).Index : -1
             };
 
             return new GojoEncodedElementRef(GojoEncodedElementKind.Carrier, index);

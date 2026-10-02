@@ -130,7 +130,7 @@ public sealed class IntervalBasisReadSurfaceTests
         // archives retain graph identities that format could not represent.
         AssertJsonEquivalent(fixture, rewritten);
         var archive = GojoStructureCompactJson.Deserialize(generated);
-        Assert.Equal(2, archive.Version);
+        Assert.Equal(3, archive.Version);
         AssertReloadedSpatialStartAlternatives(archive);
         Assert.InRange(reread.Counts.Carriers, 1, 11);
         Assert.InRange(reread.Counts.Nodes, 1, 90);

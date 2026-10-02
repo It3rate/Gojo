@@ -12,6 +12,7 @@ public sealed partial class Carrier : IElement
     private Carrier? inverse;
     private readonly List<Relation> relations = [];
     private TickRef valueTick = new(0);
+    private TickRef tensionTick = new(0);
     private bool settling;
 
     #region Construction and Identity
@@ -69,13 +70,13 @@ public sealed partial class Carrier : IElement
 
     // Used only while reconstructing an unpublished archive graph. Restoring
     // settled state must not replay input or run settlement a second time.
-    internal void RestoreArchiveState(UnitShape unit, TickRef tick, long tension,
+    internal void RestoreArchiveState(UnitShape unit, TickRef tick, TickRef tension,
         Carrier? opposed, IEnumerable<Relation> attachments)
     {
         if (IsUnknown) return;
         UnitShape = unit;
         valueTick = tick;
-        Tension = tension;
+        tensionTick = tension;
         inverse = opposed;
         relations.Clear();
         relations.AddRange(attachments);
@@ -87,13 +88,21 @@ public sealed partial class Carrier : IElement
 
     public ulong Value => checked((ulong)valueTick.Ticks);
 
-    public long Tension { get; private set; }
+    public long Tension
+    {
+        get => tensionTick.Ticks;
+        private set => tensionTick.Set(value);
+    }
 
     public bool HasState => Value != 0 || Tension != 0;
 
     public CarrierLocation ValueSlot => new(this, valueTick);
 
+    /// <summary>Captures current pressure as a historical coordinate observation.</summary>
     public CarrierLocation TensionSlot => new(this, Tension);
+
+    /// <summary>Exposes the shared pressure coordinate for connected live reads.</summary>
+    public CarrierLocation LiveTensionSlot => new(this, tensionTick);
 
     public bool TryReadCircularOrigin(out CarrierLocation origin) =>
         UnitShape.TryReadCircularSource(out origin);
@@ -158,10 +167,7 @@ public sealed partial class Carrier : IElement
     public void Add(ulong ticks)
     {
         Receive(checked((long)ticks));
-        // TODO: Replace immediate quiet settlement with a time-step scheduler
-        // so several perturbations can enter the same connected world before
-        // relations lower tension. Sequential settlement should remain an
-        // explicit higher-level operation when ordered changes matter.
+        // Use ReceiveTogether when several arrivals belong to one input frame.
         SettleWorld();
     }
 
@@ -169,9 +175,7 @@ public sealed partial class Carrier : IElement
     public void Remove(ulong ticks)
     {
         Receive(checked(-checked((long)ticks)));
-        // TODO: See Add. Public perturbations settle synchronously for the
-        // current executable foothold, but the dynamic model wants batched
-        // per-step settlement across independent structures.
+        // This entry point intentionally represents a separate arrival.
         SettleWorld();
     }
 
@@ -179,9 +183,7 @@ public sealed partial class Carrier : IElement
     public void Set(long ticks)
     {
         Receive(checked(ticks - checked((long)Value)));
-        // TODO: See Add. This is slot-style delta input, not direct value
-        // assignment; a future time-step scheduler should batch it with other
-        // same-frame perturbations before settlement.
+        // This is a visible-value delta request, not direct assignment.
         SettleWorld();
     }
 
@@ -200,7 +202,11 @@ public sealed partial class Carrier : IElement
     public Relation AttachAdditive(params IElement[] participants) =>
         Attach(Relation.AdditiveGroup(this, participants));
 
-    /// <summary>Imports a visible location through a port and keeps residue as tension.</summary>
+    /// <summary>
+    /// Performs one explicit import through a port and deposits its residue as
+    /// tension. Each call is another import; repeating it is not an idempotent
+    /// observation. Use Project for a read or AttachLiveOutput for a live level.
+    /// </summary>
     public bool TrySetFrom(Relation port, CarrierLocation input)
     {
         if (!port.TryProject(input, this, out var projected) ||
@@ -231,12 +237,17 @@ public sealed partial class Carrier : IElement
         AbsorbTension();
     }
 
-    /// <summary>Feeds the delta required to make visible value approach ticks without starting another settlement pass.</summary>
+    /// <summary>
+    /// Drives total locally held participation toward ticks without starting a
+    /// settlement pass. Existing unresolved pressure contributes to that total.
+    /// Downstream consumption can still make a live level replenish;
+    /// this is not a finite arrival or a record of previously emitted output.
+    /// </summary>
     internal bool ReceiveTo(long ticks)
     {
         var beforeValue = Value;
         var beforeTension = Tension;
-        Receive(checked(ticks - checked((long)Value)));
+        Receive(checked((long)((Int128)ticks - Value - Tension)));
         return Value != beforeValue || Tension != beforeTension;
     }
 
@@ -307,79 +318,8 @@ public sealed partial class Carrier : IElement
             : $"{Id}{orientation}";
     }
 
-    /// <summary>Applies attached relations until the connected carrier state quiets.</summary>
-    private void SettleWorld()
-    {
-        if (settling)
-        {
-            return;
-        }
-
-        settling = true;
-        try
-        {
-            var carriers = ConnectedCarriers();
-            for (var pass = 0; pass < 256; pass++)
-            {
-                var before = Snapshot(carriers);
-                var runtimeRouteRelations = ApplyRuntimeRouteSettlement(carriers);
-                foreach (var relation in carriers.SelectMany(carrier => carrier.relations)
-                    .GroupBy(relation => relation.Id)
-                    .Select(group => group.First()))
-                {
-                    if (runtimeRouteRelations.Contains(relation.Id))
-                    {
-                        continue;
-                    }
-
-                    relation.Apply();
-                }
-
-                if (Snapshot(carriers).SequenceEqual(before))
-                {
-                    return;
-                }
-
-                carriers = ConnectedCarriers();
-            }
-        }
-        finally
-        {
-            settling = false;
-        }
-    }
-
-    /// <summary>Finds carriers reachable from this carrier through attached relations.</summary>
-    private Carrier[] ConnectedCarriers()
-    {
-        var found = new HashSet<Carrier>();
-        var pending = new Queue<Carrier>();
-        pending.Enqueue(this);
-
-        while (pending.Count != 0)
-        {
-            var carrier = pending.Dequeue();
-            if (!found.Add(carrier))
-            {
-                continue;
-            }
-
-            foreach (var relation in carrier.relations)
-            {
-                foreach (var related in relation.Carriers().Where(carrier => !carrier.IsUnknown))
-                {
-                    pending.Enqueue(related);
-                }
-            }
-        }
-
-        return [.. found.OrderBy(carrier => carrier.Id)];
-    }
-
-    /// <summary>Captures value/tension state for fixed-point settlement checks.</summary>
-    private static string[] Snapshot(Carrier[] carriers) => [.. carriers
-        .Select(carrier => $"{carrier.Id}:{carrier.Value}:{carrier.Tension}")
-        .Order()];
+    /// <summary>Legacy synchronous entry point; explicit Settle returns the execution witness.</summary>
+    private void SettleWorld() => RunSettlement([this], this, this, 256, observe: false);
 
     /// <summary>Allocates the next non-wildcard carrier identity.</summary>
     private static ulong NextId() => idCounter++;

@@ -35,12 +35,21 @@ public sealed partial record GojoEncodedSnapshot
             relations[row.Index].RestoreArchiveSides(Read(row.Left), Read(row.Right));
 
         var units = UnitShapes.Select(row => UnitShape.FromArchive(Read(row.Surface), row.Descriptors.Select(Read).ToArray())).ToArray();
+        var stateTicks = Carriers.Where(row => !row.IsUnknown && row.ValueTickRefIndex >= 0)
+            .Select(row => row.ValueTickRefIndex).ToHashSet();
         foreach (var row in Carriers)
         {
             if (row.IsUnknown) continue;
             var tick = row.ValueTickRefIndex >= 0 ? ticks[row.ValueTickRefIndex] : new TickRef(row.Value);
             if (tick.Ticks < 0 || (ulong)tick.Ticks != row.Value)
                 throw new InvalidOperationException("Archive value slot contradicts its carrier accounting state.");
+            // Older archives did not expose a live pressure coordinate. Their
+            // existing tension locations remain historical observations.
+            var tension = row.TensionTickRefIndex >= 0 ? ticks[row.TensionTickRefIndex] : new TickRef(row.Tension);
+            if (row.TensionTickRefIndex >= 0 && !stateTicks.Add(row.TensionTickRefIndex))
+                throw new InvalidOperationException("Archive tension slot aliases another accounting coordinate.");
+            if (tension.Ticks != row.Tension)
+                throw new InvalidOperationException("Archive tension slot contradicts its carrier accounting state.");
             if (row.InverseCarrierIndex >= 0)
             {
                 var opposed = Carriers[row.InverseCarrierIndex];
@@ -49,7 +58,7 @@ public sealed partial record GojoEncodedSnapshot
             }
             carriers[row.Index].RestoreArchiveState(
                 row.UnitShapeIndex >= 0 ? units[row.UnitShapeIndex] : carriers[row.Index].UnitShape,
-                tick, row.Tension,
+                tick, tension,
                 row.InverseCarrierIndex >= 0 ? carriers[row.InverseCarrierIndex] : null,
                 (row.AttachedRelationIndexes ?? []).Select(index => relations[index]));
         }

@@ -4,7 +4,12 @@ public sealed partial class Relation
 {
     #region Live Output Ports
 
-    /// <summary>Applies an input-to-port relation as a live output read into the port's concrete target carrier.</summary>
+    /// <summary>
+    /// Drives a concrete output carrier from a current input read. The requested
+    /// level includes pressure already held at that carrier. This publication
+    /// does not consume its source: a downstream route can continuously drain
+    /// and replenish it. Finite transfer requires a separate arrival boundary.
+    /// </summary>
     private bool TryApplyLiveOutput()
     {
         if (Right is not Relation port)
@@ -56,7 +61,11 @@ public sealed partial class Relation
         return ApplyLiveOutputTargets(targets);
     }
 
-    /// <summary>Feeds every validated live output target into its carrier by delta.</summary>
+    /// <summary>
+    /// Adjusts each output against its currently held value and tension. This
+    /// prevents repeated pressure from an unchanged blocked request, but does
+    /// not remember or limit participation consumed by downstream structure.
+    /// </summary>
     private static bool ApplyLiveOutputTargets(List<LiveOutputTarget> targets)
     {
         var changed = false;

@@ -229,12 +229,17 @@ comparison only when its local face alignment and residual support that read.
 
 ## 8. Preservation Through Saving
 
-Version 2 graph archives preserve endpoint order, inverse-pair identity, shared
-tick references, value-slot identity, unit descriptors, placeholders, accounting
+Version 3 graph archives preserve endpoint order, inverse-pair identity, shared
+tick references, value-slot and live-tension-slot identity, unit descriptors, placeholders, accounting
 state, carrier-local attachment order, and relative creation order used to
 allocate competing settlement routes. Reload wires the graph without
 replaying input or settling it again. Session-local numeric ids are remapped;
 their relationships and identities inside the restored graph are retained.
+
+Version 2 remains readable with its original historical pressure-coordinate
+semantics. It cannot supply live pressure identity that it did not encode.
+New version-3 files require the pressure-coordinate reference; removing it
+produces an unresolved import rather than a guessed detached coordinate.
 
 Definition-ledger export uses that graph representation as its authoritative
 body. Legacy hand-authored definition rows remain an import syntax. Legacy
@@ -267,10 +272,22 @@ Returned numeric values and proof structures are observations of that call;
 they must not be treated as live output after inputs change. Explicit archives
 preserve the circuit and its input state so it can respond again after reload.
 
-This implementation is evaluation on demand. It does not yet implement a
-continuous simulation, temporal decay, coherent concurrent sampling, adaptive
-retention, or pressure-driven refinement. Scope and coverage stay connected;
+Qualified reads are evaluation on demand. Carrier execution also supports live
+value/pressure coordinates, coherent explicitly supplied input frames and bounded
+settlement observations. It does not yet implement an autonomous continuous
+simulation, temporal decay, sampling, adaptive retention, or pressure-driven
+refinement. Scope and coverage stay connected;
 their operating restrictions are not automatically inferred or enforced.
+
+Prediction is the proposed utility test for evolving structure: an output must
+be issued before the input that tests it. An explanatory fit after observing a
+sample does not earn the same claim. Useful output can become input to further
+structure, allowing a larger pattern to acquire a characteristic cadence and
+transformation capability. Crystallization should retain those connected
+capabilities and operating conditions behind a reusable boundary, not replace
+them with a word, a lookup table, or a frozen answer. Such learning and adaptive
+crystallization are design targets, not capabilities established by the current
+communication foothold.
 
 A coarse on/off read can be sufficient under its threshold and operating scope.
 Finer brightness or heat distinctions need not travel with that local result as

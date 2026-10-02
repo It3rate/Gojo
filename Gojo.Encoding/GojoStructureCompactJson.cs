@@ -6,8 +6,10 @@ using Gojo.Core;
 namespace Gojo.Encoding;
 
 /// <summary>
-/// Versioned reference graph transport. Version 2 preserves ordered relations,
-/// shared coordinates, unit descriptors, inverse pairing and live attachments.
+/// Versioned reference graph transport. Version 3 adds live pressure coordinate
+/// identity to version 2's ordered relations, shared coordinates, descriptors,
+/// inverse pairing and live attachments. Version 2 retains historical pressure
+/// observations without inventing live identity for them.
 /// The legacy folded syntax is readable with explicit missing-evidence residue.
 /// </summary>
 public static class GojoStructureCompactJson
@@ -29,17 +31,17 @@ public static class GojoStructureCompactJson
 
     public static RehydratedCompactStructure ToElement(GojoCompactStructureDocument document)
     {
-        if (document.Version == 2) return GojoCompactArchive.Restore(document);
+        if (document.Version is 2 or 3) return GojoCompactArchive.Restore(document);
         if (document.Version != 0) throw new NotSupportedException($"Unknown compact graph version {document.Version}.");
         return new Reader(document).Read() with { ResidueOrTension = UnitShape.DescriptorSlot(0) };
     }
 
     /// <summary>Returns true only for a complete executable archive. A failed
-    /// version-2 import returns an unresolved witness containing the supplied
+    /// graph import returns an unresolved witness containing the supplied
     /// document and its gaps, never an executable carrier with default state.</summary>
     public static bool TryToElement(GojoCompactStructureDocument document, out RehydratedCompactStructure restored)
     {
-        if (document.Version == 2) return GojoCompactArchive.TryRestore(document, out restored);
+        if (document.Version is 2 or 3) return GojoCompactArchive.TryRestore(document, out restored);
         restored = ToElement(document);
         return false; // Legacy syntax does not contain complete archive evidence.
     }
@@ -174,6 +176,7 @@ public sealed record GojoCompactCarrierNode
     public string? UnitShape { get; init; }
     public string? Inverse { get; init; }
     public string? ValueTick { get; init; }
+    public string? TensionTick { get; init; }
     public List<string>? Attachments { get; init; }
 }
 
