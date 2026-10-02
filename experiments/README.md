@@ -22,6 +22,12 @@ remainder channels, pooled tension routing, and receiver capacity. It documents
 the remaining communication work and a staged light/heat prediction experiment;
 it does not claim autonomous model discovery.
 
+[PredictorScratchpad](PredictorScratchpad/README.md) runs a connected native
+predictor network against ramps, smooth motion, anonymous mixed sensors and
+shuffled controls. It reports useful temporal prediction alongside mixture
+failures, resolution deadbands and the limits of continued adaptation. The
+protocol and controls were committed before trial execution; topology is supplied.
+
 ## Next thinking experiments: protocol fixed before encoding
 
 Designed on 2026-10-01. These four trials have **not been run**. Their purpose is

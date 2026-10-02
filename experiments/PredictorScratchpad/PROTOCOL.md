@@ -92,3 +92,13 @@ squared error; that is not evidence that its permutation has been discovered.
 
 No kernel fix or revised prediction law will be silently inserted after viewing
 results. Record a defect and its correction separately if execution requires one.
+
+## Execution clarification after the first run
+
+The native signed read was confirmed to truncate toward zero, with a signed
+source-basis remainder. Thus the `floor` notation above applies to nonnegative
+quantities; signed forecasts use truncation as required by the original native
+semantics instruction. No prediction law was changed. Additional probes expose
+temporal quantization deadbands, and representative read residues are exported.
+Report differences now subtract native totals before one rounding operation;
+the initial report, which subtracted rounded display means, is preserved.

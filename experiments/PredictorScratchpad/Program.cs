@@ -9,7 +9,10 @@ using N = PredictorScratchpad.NativeCircuit;
 
 // Host: environment, arrival scheduling, read/commit orchestration, and display.
 // Learner and evaluator arithmetic: Gojo equations, claims and carrier inputs.
-var output = Path.GetFullPath("experiments/PredictorScratchpad/out");
+var mechanismOnly = args.Contains("--mechanism-only");
+var output = Path.GetFullPath(mechanismOnly
+    ? "experiments/PredictorScratchpad/out/mechanism"
+    : "experiments/PredictorScratchpad/out");
 Directory.CreateDirectory(output);
 var checks = 0;
 void Check(bool condition, string message)
@@ -56,6 +59,14 @@ CarrierLocation Average(Relation metric, int slot, long grain = 100) =>
     N.Value(N.Divide(N.Sum((N.Parts(metric)[slot] is Carrier c ? c.ValueSlot : N.Parts(metric)[slot], grain)),
         ((Carrier)N.Parts(metric)[0]).ValueSlot));
 string DecimalCell(CarrierLocation hundredths) => (hundredths.Ticks / 100m).ToString("0.00", CultureInfo.InvariantCulture);
+CarrierLocation DifferenceMean(Relation left, Relation right)
+{
+    var a = N.Parts(left);
+    var b = N.Parts(right);
+    Check(((Carrier)a[0]).Value == ((Carrier)b[0]).Value, "Comparison windows differ.");
+    return N.Value(N.Divide(N.Sum((((Carrier)a[1]).ValueSlot, 100), (((Carrier)b[1]).ValueSlot, -100)),
+        ((Carrier)a[0]).ValueSlot));
+}
 
 var metrics = new Dictionary<(string Trial, string Seed, string Phase, int Channel, string Model), Relation>();
 void Record(string trial, string seed, string phase, int channel, string model,
@@ -72,8 +83,10 @@ participation.WriteLine("trial,seed,arrival,channel,branch,weight_before_observa
 var observations = new List<string>();
 var graphSizes = new List<string>();
 var selectedEvidence = new List<IElement>();
+using var residueSamples = new StreamWriter(Path.Combine(output, "residue-samples.csv"), false, Encoding.UTF8);
+residueSamples.WriteLine("trial,seed,arrival,channel,read,residue_index,carrier,ticks");
 var trials = SignalTrials.Generate().ToArray();
-if (args.Contains("--mechanism-only")) trials = trials.Take(1).ToArray();
+if (mechanismOnly) trials = trials.Take(1).ToArray();
 foreach (var trial in trials)
 {
     var network = PredictorNetwork.Create(trial.Samples[0].A, trial.Samples[0].B);
@@ -83,7 +96,7 @@ foreach (var trial in trials)
     long[] Values(Relation read) => N.Parts(read).Cast<Relation>()
         .SelectMany(group => N.Parts(group).Cast<Relation>()).Select(prediction => V(prediction).Ticks).ToArray();
     Check(Values(firstForecast).SequenceEqual(Values(repeatedForecast)), "Unchanged reads changed a forecast.");
-    var limit = args.Contains("--mechanism-only") ? 12 : trial.Samples.Length;
+    var limit = mechanismOnly ? 12 : trial.Samples.Length;
     for (var index = 1; index < limit; index++)
     {
         // Both channels, ALL branches and mixtures are frozen before peeking at
@@ -122,8 +135,20 @@ foreach (var trial in trials)
             for (var branch = 0; branch < branchWeights.Length; branch++)
                 participation.WriteLine($"{trial.Name},{trial.Seed},{index},{channel},{PredictorNetwork.DisplayNames[branch]},{Cell(V(branchWeights[branch]))}");
         }
-        if (index == 40 || index == limit - 1)
+        if (trial.Seed == 103 && (index == 40 || index == limit - 1))
+        {
             selectedEvidence.Add(N.Group(issued, weights, update));
+            for (var channel = 0; channel < forecasts.Length; channel++)
+            {
+                var predictions = N.Parts(forecasts[channel]).Cast<Relation>().ToArray();
+                for (var model = 0; model < predictions.Length; model++)
+                {
+                    var residues = ResolutionProbes.NonzeroResidues(predictions[model]);
+                    for (var part = 0; part < residues.Length; part++)
+                        residueSamples.WriteLine($"{trial.Name},{trial.Seed},{index},{channel},{PredictorNetwork.DisplayNames[model]},{part},{residues[part].Carrier.Id},{Cell(residues[part])}");
+                }
+            }
+        }
     }
     var sizeAfter = GojoEncodedSnapshot.CaptureArchive(network);
     Check(sizeBefore.Carriers.Length == sizeAfter.Carriers.Length && sizeBefore.Relations.Length == sizeAfter.Relations.Length &&
@@ -165,9 +190,10 @@ foreach (var trialName in trials.Select(trial => trial.Name).Distinct())
         Relation M(string model) => metrics[(trialName, "pooled", "all", channel, model)];
         var names = new[] { "hold", "last-change", "adaptive", "equal", "frozen-40", "running-mean" };
         var values = names.Select(name => Average(M(name), 1)).ToArray();
-        // Native comparisons, not differences calculated by the report.
-        var versusHold = N.Value(N.Sum((values[2], 1), (values[0], -1)));
-        var versusEqual = N.Value(N.Sum((values[2], 1), (values[3], -1)));
+        // Subtract native totals before rounding once; do not subtract already
+        // rounded display means. This report-only refinement follows review.
+        var versusHold = DifferenceMean(M("adaptive"), M("hold"));
+        var versusEqual = DifferenceMean(M("adaptive"), M("equal"));
         report.Add($"| {trialName} | {channel} | {string.Join(" | ", values.Select(DecimalCell))} | {DecimalCell(versusHold)} | {DecimalCell(versusEqual)} |");
     }
 using (var summaries = new StreamWriter(Path.Combine(output, "metrics.csv"), false, Encoding.UTF8))
@@ -181,6 +207,9 @@ using (var summaries = new StreamWriter(Path.Combine(output, "metrics.csv"), fal
 }
 report.Add("## Bounded learner structure");
 report.AddRange(graphSizes);
+report.Add("These counts measure reachable persistent structure, not transient allocation or runtime. Temporal commits still use the host reader/scheduler.");
+report.Add("## Post-trial resolution probes (prediction law unchanged)");
+report.AddRange(ResolutionProbes.Run(output, Check));
 report.Add($"Mechanism assertions passed: {checks}. Assertions check execution and preservation, not predictive superiority.");
 report.Add("## Limits\nFixed supplied palette and update law; host-scheduled reads/temporal commits; manually calibrated cross-input contribution and loss prior; integer quantization residue; no autonomous growth, pruning, learned source separation, intervention or phase discovery. Exact numerical forecasts should not be mistaken for calibrated uncertainty. A running mean is a crucial control for shuffled input.");
 File.WriteAllLines(Path.Combine(output, "observations.md"), report);
@@ -189,4 +218,10 @@ File.WriteAllText(Path.Combine(output, "metric-evidence.gojo.json"),
     GojoStructureCompactJson.Serialize(GojoStructureCompactJson.FromElement("predictor/evaluation",
         N.Group(metrics.Where(pair => pair.Key.Seed == "pooled" && pair.Key.Phase == "all")
             .Select(pair => (IElement)pair.Value).ToArray()))));
+File.WriteAllText(Path.Combine(output, "selected-read-evidence.gojo.json"),
+    GojoStructureCompactJson.Serialize(GojoStructureCompactJson.FromElement("predictor/selected-reads",
+        N.Group(selectedEvidence.ToArray()))));
+trace.Dispose();
+participation.Dispose();
+if (!mechanismOnly) PredictionPlots.Write(output);
 Console.WriteLine(string.Join(Environment.NewLine, report));
