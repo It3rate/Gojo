@@ -17,7 +17,7 @@ pending = group(forecast, frozen demanded resolution, selected rung,
                 native cadence calculation)
 learner = group(port, ladder, last two public occurrences, pending,
                 availability, support, demand, policy, latest assessment,
-                latest report)
+                latest report, admission cursor, cursor correspondence)
 ```
 
 Two independent reporters receive the same environment. The first observes
@@ -29,6 +29,9 @@ emission at an observed tick, not an exact physical inflection between samples.
 The second acquires only every twelve ticks. Its endpoint and private reversal
 clues cannot certify which fine events occurred between samples; its public
 fine occurrence collection remains open. A flat endpoint is not zero events.
+The first fine report retains the detector's initial missing-difference
+residue. This conservative learner does not bootstrap from that partial batch;
+its known occurrences remain in the public report for inspection.
 
 Acquisition stride and report span are explicit native spans. Pending source
 events are bounded by one report window; an overrun must not silently discard
@@ -67,6 +70,10 @@ preserves unresolved evidence and clears the cadence trace: hidden cycles must
 not be interpreted as one measured interval. Unknown reports do not change
 support. Reports must be sequential and contiguous; duplicate, foreign and
 out-of-order reports remain failed reads without changing the learner.
+The copied availability is a root-version witness against the shared physical
+admission cursor. Reusing an older root cannot repeat support or admit a newer
+report through stale history. Unsupported demands remain unresolved and can
+be retried when later demand supplies a readable rung.
 
 Compare fixed-period, jittered-period, drifting-period and stopped-event inputs.
 Use three fixed seeds (113, 907, 2029), 360 base ticks per run and twelve-tick

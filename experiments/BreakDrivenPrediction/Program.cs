@@ -4,6 +4,13 @@ using Gojo.Core;
 using Gojo.Structures;
 using C = BreakDrivenPrediction.Continuation;
 
+if (args.FirstOrDefault() == "--timing")
+{
+    BreakDrivenPrediction.TimingTrials.Run(args.Skip(1).FirstOrDefault()
+        ?? "experiments/BreakDrivenPrediction/results/timing");
+    return;
+}
+
 if (args.FirstOrDefault() == "--events")
 {
     BreakDrivenPrediction.EventTrials.Run(args.Skip(1).FirstOrDefault()
