@@ -13,7 +13,7 @@ internal static class NativeCircuit
     public static Relation Group(params IElement[] parts) => Relation.OrderedGroup(new Carrier(), parts);
 
     public static IElement[] Parts(Relation group) =>
-        group.Right is Carrier holder && group.TryReadOrderedElementsOn(holder, out var parts) ? parts : [];
+        group.TryReadOrderedGroup(out var parts) ? parts : [];
 
     public static Carrier Output(IElement element)
     {

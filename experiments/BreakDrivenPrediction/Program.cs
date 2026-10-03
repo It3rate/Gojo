@@ -8,8 +8,9 @@ using C = BreakDrivenPrediction.Continuation;
 // host apparatus. No generator label, future value or cadence enters the graph.
 var output = Path.GetFullPath(args.FirstOrDefault() ?? "experiments/BreakDrivenPrediction/results");
 Directory.CreateDirectory(output);
-var csv = new StringBuilder("trial,arrival,input,actual_delta,export_delta,baseline_delta,shadow_delta,direction_correct,scale_error,timing_connections,pressure\n");
+var csv = new StringBuilder("trial,arrival,input,actual_delta,export_delta,baseline_delta,shadow_delta,direction_correct,no_timing_correct,scale_error,timing_connections,pressure\n");
 var report = new StringBuilder("# First break-driven continuation trials\n\nAll forecasts precede their outcomes. All arrivals are scored, including startup.\n\n");
+var graphNotes = new List<string>();
 report.AppendLine("| Trial | Correct direction: export / no timing / last change | Turns anticipated | False turns | Mean magnitude error | Timing links added / removed | Candidate inspections | Final carriers / relations | Final pressure |");
 report.AppendLine("| --- | --- | --- | --- | --- | --- | --- | --- | --- |");
 foreach (var (name, increments, inspectionAt) in Trials())
@@ -39,7 +40,8 @@ foreach (var (name, increments, inspectionAt) in Trials())
         var actual = (CarrierLocation)a[4];
         var correct = C.Pass((Relation)a[6]);
         if (correct) direction++;
-        if (C.Pass((Relation)C.Parts(controlAssessment)[6])) controlDirection++;
+        var controlCorrect = C.Pass((Relation)C.Parts(controlAssessment)[6]);
+        if (controlCorrect) controlDirection++;
         var error = ReadMagnitude((Relation)a[7]);
         scale += error;
         if (previous is CarrierLocation last)
@@ -59,7 +61,7 @@ foreach (var (name, increments, inspectionAt) in Trials())
         added += after.Count(x => !before.Any(y => ReferenceEquals(x, y)));
         removed += before.Count(x => !after.Any(y => ReferenceEquals(x, y)));
         var shadow = f[8] is CarrierLocation s ? s.Ticks.ToString(CultureInfo.InvariantCulture) : "";
-        csv.AppendLine($"{name},{n + 1},{level},{actual.Ticks},{((CarrierLocation)f[6]).Ticks},{((CarrierLocation)f[5]).Ticks},{shadow},{(correct ? 1 : 0)},{error},{after.Length},{C.Pressure(root).Tension}");
+        csv.AppendLine($"{name},{n + 1},{level},{actual.Ticks},{((CarrierLocation)f[6]).Ticks},{((CarrierLocation)f[5]).Ticks},{shadow},{(correct ? 1 : 0)},{(controlCorrect ? 1 : 0)},{error},{after.Length},{C.Pressure(root).Tension}");
         if ((n + 1) % 32 == 0)
         {
             var snapshot = GojoEncodedSnapshot.CaptureGraph(root);
@@ -70,11 +72,13 @@ foreach (var (name, increments, inspectionAt) in Trials())
     report.AppendLine($"| {name} | {direction}/{increments.Length} / {controlDirection}/{increments.Length} / {lastDirection}/{increments.Length - 1} | {anticipated}/{turns} | {falseTurns} | {((double)scale / increments.Length).ToString("F2", CultureInfo.InvariantCulture)} | {added} / {removed} | {inspected} | {end.Carriers.Length} / {end.Relations.Length} | {C.Pressure(root).Tension} |");
     Console.WriteLine($"{name}: direction {direction}/{increments.Length}, turns {anticipated}/{turns}, false turns {falseTurns}, links +{added}/-{removed}");
     if (sizes.Count != 0)
-        report.AppendLine($"<!-- {name} graph samples: {string.Join("; ", sizes.Select(x => $"{x.At}: {x.Carriers}/{x.Relations}"))} -->");
+        graphNotes.Add($"- {name}: {string.Join("; ", sizes.Select(x => $"{x.At}: {x.Carriers}/{x.Relations}"))}");
 }
 report.AppendLine("\nDirection means strict nonzero signed agreement at the supplied integer basis. Zero deltas remain uncovered by the two primitives. Last-change has no forecast for the first arrival. Magnitude error ignores sign deliberately; wrong direction with correct scale can therefore have zero magnitude error. Timing links may remain available but dormant when their source is not selected.\n");
 report.AppendLine("The environment uses host arithmetic; learner forecasts, difference reads, comparison claims, support changes and timing calculations use native Gojo structure. Host code applies the declared recruitment and bounded support policy. These trials do not establish autonomous primitive discovery, physical cadence, learned utility, adaptive resolution or crystallization.");
 report.AppendLine("\nCandidate inspections count primitive match reads during break-triggered recruitment. Active recurrence, assessment and any existing timing route still require per-arrival reads; this count is not a measure of total compute savings.");
+report.AppendLine("\nReachable graph samples, observation count: carriers/relations. These include attachment ownership and retained evidence; they exclude discarded calculation allocations.\n");
+report.AppendLine(string.Join("\n", graphNotes));
 File.WriteAllText(Path.Combine(output, "first-run.md"), report.ToString());
 File.WriteAllText(Path.Combine(output, "traces.csv"), csv.ToString());
 

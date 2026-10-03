@@ -6,6 +6,30 @@ namespace BreakDrivenPrediction.Tests;
 
 public sealed class BoundaryTests
 {
+    [Fact]
+    public void AFalseAnticipationWithdrawsAConnectionAtItsParticipationFloor()
+    {
+        var root = C.Create(100);
+        for (var i = 0; i < 64; i++)
+        {
+            var issue = C.Issue(root);
+            var f = C.Parts(issue);
+            if (f[7] is Relation edge && ((Carrier)C.Parts(edge)[2]).Value == 2)
+            {
+                Assert.Contains(C.Connections(root), link => ReferenceEquals(link.Right, edge));
+                var level = C.Level(C.Sensor(root)).Ticks + ((CarrierLocation)f[5]).Ticks;
+                Assert.True(C.TryObserve(root, issue, new CarrierLocation(C.Sensor(root), level), out root, out var evidence));
+                Assert.False(C.Pass((Relation)C.Parts(evidence)[8]));
+                Assert.Equal(1UL, ((Carrier)C.Parts(edge)[2]).Value);
+                Assert.DoesNotContain(C.Connections(root), link => ReferenceEquals(link.Right, edge));
+                return;
+            }
+            var next = C.Level(C.Sensor(root)).Ticks + (i % 8 < 3 ? 2 : -2);
+            Assert.True(C.TryObserve(root, issue, new CarrierLocation(C.Sensor(root), next), out root, out _));
+        }
+        Assert.Fail("The fixture must encounter a prospectively supported timing connection.");
+    }
+
     [Theory]
     [InlineData(5)]
     [InlineData(6)]

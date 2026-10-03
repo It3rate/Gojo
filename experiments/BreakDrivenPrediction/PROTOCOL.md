@@ -17,7 +17,7 @@ proposal = group(source-candidate -> target-candidate,
                  completed-run span, support-carrier,
                  native age-minus-duration, native support-minus-floor)
 issue = group(source-clock, issued-at, due-at, input-level,
-              selected continuation, exported continuation,
+              selected binding, baseline continuation, exported continuation,
               timing proposal or open slot, shadow continuation or open slot,
               timing comparison, participation comparison)
 ```
