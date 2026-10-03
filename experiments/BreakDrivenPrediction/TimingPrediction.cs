@@ -5,6 +5,7 @@ using C = BreakDrivenPrediction.Continuation;
 using N = BreakDrivenPrediction.NativeCircuit;
 using L = BreakDrivenPrediction.TimingLadder;
 using A = BreakDrivenPrediction.TimingReadAttention;
+using Q = BreakDrivenPrediction.CadenceScope;
 
 namespace BreakDrivenPrediction;
 
@@ -31,6 +32,17 @@ public static class TimingPrediction
         var root = CreateCore(port, demandedWidth, widths, true);
         var p = C.Parts(root);
         return p.Length == 12 ? C.G([.. p, A.Create(root, probeEvery)]) : root;
+    }
+
+    /// <summary>Adds source-local cadence qualification independently of output
+    /// demand and support. Existing attentive learners keep their earlier law.</summary>
+    public static Relation CreateScoped(Relation port, long demandedWidth = 3,
+        long probeEvery = 4, long slackTicks = 2, params long[] widths)
+    {
+        if (slackTicks < 0) return Relation.UnresolvedRead(port, port, Carrier.Unknown);
+        var root = CreateAttentive(port, demandedWidth, probeEvery, widths);
+        var p = C.Parts(root);
+        return p.Length == 13 ? C.G([.. p, Q.Create(port, (Relation)p[2], (CarrierLocation)p[4], slackTicks)]) : root;
     }
 
     private static Relation CreateCore(Relation port, long demandedWidth, long[] widths, bool allowWithdrawal)
@@ -62,7 +74,18 @@ public static class TimingPrediction
     public static Carrier Demand(Relation root) => (Carrier)C.Parts(root)[6];
 
     /// <summary>These are local inspection adapters over retained native state.</summary>
-    public static bool IsAttentive(Relation root) => C.Parts(root) is { Length: 13 } p && p[12] is Relation;
+    public static bool IsAttentive(Relation root) => C.Parts(root) is { Length: 13 or 14 } p && p[12] is Relation;
+    public static Relation? Scope(Relation root) => C.Parts(root) is { Length: 14 } p ? p[13] as Relation : null;
+    public static bool HasCurrentCadence(Relation root) => Scope(root) is Relation scope && Q.TryExpected(scope, out _);
+    public static IElement RetainedCadence(Relation root) => Scope(root) is Relation scope
+        ? C.Parts(scope)[3] : new Placeholder();
+    public static IElement ContinuationWindow(Relation root) => Scope(root) is Relation scope
+        ? Q.Window(scope) : new Placeholder();
+    public static bool TryExpected(Relation root, out CarrierLocation expected)
+    {
+        expected = default;
+        return Scope(root) is Relation scope && Q.TryExpected(scope, out expected);
+    }
     public static bool IsDormant(Relation root) => IsAttentive(root) &&
         C.Pass(A.On(A.Sample((Relation)C.Parts(root)[12], 2)));
     public static CarrierLocation Phase(Relation root) => IsAttentive(root)
@@ -103,11 +126,13 @@ public static class TimingPrediction
         try
         {
             var p = C.Parts(root);
-            if (p.Length is not (12 or 13) || !TryReport(root, packet, out var available, out var occurrences,
+            if (p.Length is not (12 or 13 or 14) || !TryReport(root, packet, out var available, out var occurrences,
                     out var complete, out var receipt)) return false;
             var supportBefore = C.Copy(Support(root).ValueSlot);
             var supportAfter = supportBefore;
-            var attention = p.Length == 13 ? (Relation)p[12] : null;
+            var attention = p.Length >= 13 ? (Relation)p[12] : null;
+            var scope = Scope(root);
+            var scopeAfter = scope;
             var phaseBefore = attention is null ? default : A.Sample(attention, 0);
             var dormantBefore = attention is null ? default : A.Sample(attention, 2);
             var probeBefore = attention is null ? default : A.Sample(attention, 4);
@@ -131,7 +156,7 @@ public static class TimingPrediction
                 if (wake)
                 {
                     dormantAfter = new CarrierLocation(dormantBefore.Carrier, 0);
-                    history = [new Placeholder(), new Placeholder()];
+                    if (scope is null) history = [new Placeholder(), new Placeholder()];
                 }
                 attentionEvidence = C.G(sleep, C.G(occurrences.Cast<IElement>().ToArray()),
                     C.G(dormantBefore, dormantAfter));
@@ -172,8 +197,19 @@ public static class TimingPrediction
                     pending = new Placeholder();
                     absenceMiss = true;
                 }
-                foreach (var occurrence in occurrences)
-                    history = [history[1], C.Copy(occurrence)];
+                if (scope is null)
+                    foreach (var occurrence in occurrences)
+                        history = [history[1], C.Copy(occurrence)];
+            }
+
+            // Frozen exported promises have now been graded. The source-local
+            // continuity read stages its own chronological checks even when
+            // consumer demand is zero. It never receives utility credit.
+            if (scope is not null)
+            {
+                if (!Q.TryAdvance(scope, packet, available, occurrences, complete, out scopeAfter, out var scopeRead))
+                { assessment = scopeRead; return false; }
+                history = C.Parts((Relation)C.Parts(scopeAfter)[2]);
             }
 
             CarrierLocation? admitted = null;
@@ -208,7 +244,7 @@ public static class TimingPrediction
                 if (attention is null) pending = NewIssue(root, history, available);
                 else
                 {
-                    pending = NewAttentiveIssue(root, attention, history, available,
+                    pending = NewAttentiveIssue(root, attention, scopeAfter, history, available,
                         dormantAfter, probeAfter, out var plannedPhase, out var plannedProbe,
                         out var selectionEvidence);
                     attentionEvidence = C.G(attentionEvidence, selectionEvidence);
@@ -241,10 +277,17 @@ public static class TimingPrediction
             }
             else outcome = C.G(new Placeholder(), new Placeholder(), new Placeholder(), C.G(receipt, response));
             assessment = C.G(p[3], outcome, supportBefore, C.Copy(Support(root).ValueSlot), pending, packet);
-            var retained = new IElement[] { p[0], p[1], C.G(history), pending, C.Copy(available),
+            var freshTrace = scopeAfter is null ? C.G(history) : (Relation)C.Parts(scopeAfter)[2];
+            var retained = new IElement[] { p[0], p[1], freshTrace, pending,
+                scopeAfter is null ? C.Copy(available) : available,
                 p[5], p[6], p[7], assessment, packet, p[10], p[11] };
-            next = attention is null ? C.G(retained) :
-                C.G([.. retained, A.Retain(attention, C.G(attentionEvidence, admission))]);
+            if (attention is null) next = C.G(retained);
+            else
+            {
+                var retainedAttention = A.Retain(attention, C.G(attentionEvidence, admission));
+                next = scopeAfter is null ? C.G([.. retained, retainedAttention]) :
+                    C.G([.. retained, retainedAttention, scopeAfter]);
+            }
             return true;
         }
         catch (OverflowException) { return false; }
@@ -253,7 +296,7 @@ public static class TimingPrediction
     private static bool IsPending(IElement element) => element is Relation relation &&
         C.Parts(relation) is { Length: 4 } p && p[0] is Relation issue && L.Rungs(issue).Length > 0;
 
-    private static IElement NewAttentiveIssue(Relation root, Relation attention, IElement[] history,
+    private static IElement NewAttentiveIssue(Relation root, Relation attention, Relation? scope, IElement[] history,
         CarrierLocation now, CarrierLocation dormant, CarrierLocation requestedProbe,
         out CarrierLocation phaseAfter, out CarrierLocation probeAfter, out Relation selectionEvidence)
     {
@@ -272,6 +315,27 @@ public static class TimingPrediction
         if (!C.Pass(positive) || !C.Pass(awake) || history.Length != 2 ||
             history[0] is not CarrierLocation earlier || history[1] is not CarrierLocation latest ||
             !StrictlyAfter(latest, earlier)) return new Placeholder();
+        CarrierLocation expected = default;
+        if (scope is not null)
+        {
+            if (!Q.TryExpected(scope, out expected))
+            {
+                selectionEvidence = C.G(selectionEvidence, C.Parts(scope)[3], C.Parts(scope)[4]);
+                return new Placeholder();
+            }
+            // An allowance can remain open after its center. Wait for evidence;
+            // do not jump over the unresolved occurrence to a later cycle.
+            var nextTickCircuit = N.Reframe(N.Sum((now, 1), (N.Constant(1), 1)), now.Carrier);
+            var nextTickRead = N.Read(nextTickCircuit);
+            if (!Equation.TryReadPrediction(nextTickRead, out var nextTick, out _))
+            {
+                selectionEvidence = C.G(selectionEvidence, nextTickCircuit, nextTickRead);
+                return Relation.UnresolvedRead(now, selectionEvidence, now.Carrier);
+            }
+            var future = OperationClaim.AtLeast(new Carrier(), expected, nextTick, new Carrier());
+            selectionEvidence = C.G(selectionEvidence, C.Parts(scope)[4], nextTickCircuit, nextTickRead, future);
+            if (!C.Pass(future)) return new Placeholder();
+        }
         if (!A.TrySelect(attention, Ladder(root), demand, requestedProbe, out var selectedLadder,
                 out phaseAfter, out probeAfter, out var selection))
         {
@@ -279,6 +343,15 @@ public static class TimingPrediction
             return Relation.UnresolvedRead(demand, selectionEvidence, now.Carrier);
         }
         selectionEvidence = C.G(selectionEvidence, selection);
+        if (scope is not null)
+        {
+            // Connect the qualified candidate and continuation, not the whole
+            // scope or its batch assessment, to avoid a historical root chain.
+            var scopedEvidence = C.G(C.Parts(scope)[3], C.Parts(scope)[4], selectionEvidence);
+            var scopedIssue = L.Issue(selectedLadder, now, expected, scopedEvidence);
+            var scopedRows = L.Rungs(scopedIssue);
+            return scopedRows.Length == 0 ? scopedIssue : C.G(scopedIssue, demand, scopedRows[0], scopedEvidence);
+        }
         var period = N.Reframe(N.Sum((C.Copy(latest), 1), (C.Copy(earlier), -1)), now.Carrier);
         var age = N.Reframe(N.Sum((C.Copy(now), 1), (C.Copy(latest), -1)), now.Carrier);
         var cycles = N.Divide(age, period);
