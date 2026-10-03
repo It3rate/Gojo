@@ -106,3 +106,11 @@ reversal reader through an opaque public port. It tests prospective consumer
 utility, redundancy, delayed and unrelated signals, delivery gaps and demand
 withdrawal. Run it with `--events`; the original default trials remain intact.
 The expanded experiment suite has 42 passing tests.
+
+## Shared timing ladder extension
+
+The [timing pass](TIMING.md) gives one prospective forecast linked reads at
+several resolutions. It compares batched fine events with sparse endpoint
+acquisition, preserves multiplicity and unknown coverage, and awards support
+once through a requested rung. Run it with `--timing`. The experiment suite now
+has 74 passing tests; pruning and adaptive sampling remain future work.
