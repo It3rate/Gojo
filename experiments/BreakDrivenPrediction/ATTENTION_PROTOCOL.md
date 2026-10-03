@@ -89,6 +89,12 @@ proxies, not elapsed time, total native operation counts or proof of net savings
 Selection and attention witnesses themselves cost work. Source acquisition stays
 fixed; this pass must not claim sensor savings or sampler evolution.
 
+Also record the managed bytes allocated around each learner's observation call,
+using the current-thread allocation counter. Exclude source acquisition,
+report scoring and graph capture; include learner startup. This diagnostic is
+neither retained memory nor a controlled runtime benchmark. It can expose a
+selection policy whose extra native witnesses cost more than the skipped reads.
+
 Include report-window event-presence and event-absence reference scores derived
 from complete public reports. These deliberately simple host reporting baselines
 measure an easier question than exact timing and must be labelled accordingly.
