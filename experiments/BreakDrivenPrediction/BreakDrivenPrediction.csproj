@@ -7,6 +7,5 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="../../Gojo/Gojo.csproj" />
-    <Compile Include="../PredictorScratchpad/NativeCircuit.cs" Link="NativeCircuit.cs" />
   </ItemGroup>
 </Project>

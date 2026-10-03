@@ -10,9 +10,12 @@ Gojo structure, not a new autonomous settlement law.
 stream = group(sensor, arrival-clock, candidates, selected-port -> candidate,
                run-start, observed-onset, proposals, pressure-port, policy,
                latest-event, participating-timing-connections)
-candidate = group(signed continuation on sensor basis)
+candidate = group(signed continuation on sensor basis,
+                  native recurrence current-level + continuation,
+                  exposed structural parameter port)
 proposal = group(source-candidate -> target-candidate,
-                 completed-run span, support-carrier)
+                 completed-run span, support-carrier,
+                 native age-minus-duration, native support-minus-floor)
 issue = group(source-clock, issued-at, due-at, input-level,
               selected continuation, exported continuation,
               timing proposal or open slot, shadow continuation or open slot,
@@ -46,13 +49,22 @@ connection to the exported forecast. Falling below two removes that connection.
 Changing the duration clears its old support. These are supplied local policies,
 not discovered laws or confidence probabilities.
 
+Out-of-range rewards/draws are declined before becoming physical inputs. Thus
+saturation neither banks positive pressure nor accumulates negative debt. The
+declined response remains in the returned assessment; the latest retained event
+keeps bounded outcome evidence. This is explicit forgetting of support, not
+discard of already received tension. A premature observed turn changes the run
+duration and clears old support; a late turn first produces a failed prospective
+handoff, then proposes the new completed duration.
+
 Only the current level, current onset, candidate continuations, two possible
 transition proposals, bounded support, and one latest event remain reachable.
 Successive correct values do not append sample history. Issuance and assessment
 are separate; only the matching next observation can consume an issue. A repeat
 read does not create pressure or count as another observation.
 
-External inspection pressure enters a zero-capacity carrier as real tension.
+External inspection pressure enters a one-tick reset carrier as real tension.
+Its `P(1) -> P(0)` boundary keeps no visible integer value and has no export route.
 It can request reconsideration of a stable continuation's magnitude. Handling
 that request records a response and consumes that request once. Ordinary read
 residue is not injected as new tension. This pass does not discover demand,
