@@ -98,3 +98,11 @@ Verification: the existing solution tests pass with
 `dotnet test Gojo.slnx --no-restore` (1,732 tests). The new project's 23 tests check forecast ordering,
 pure reads, support saturation and withdrawal, pressure, uncovered input,
 incompatible/unrepresentable reads, bounded retention, and checkpoint continuation.
+
+## Independent event supplier extension
+
+The subsequent [event supplier pass](EVENTS.md) connects a separate native
+reversal reader through an opaque public port. It tests prospective consumer
+utility, redundancy, delayed and unrelated signals, delivery gaps and demand
+withdrawal. Run it with `--events`; the original default trials remain intact.
+The expanded experiment suite has 42 passing tests.
