@@ -4,6 +4,7 @@ using Gojo.Structures;
 using C = BreakDrivenPrediction.Continuation;
 using N = BreakDrivenPrediction.NativeCircuit;
 using L = BreakDrivenPrediction.TimingLadder;
+using A = BreakDrivenPrediction.TimingReadAttention;
 
 namespace BreakDrivenPrediction;
 
@@ -16,9 +17,27 @@ public static class TimingPrediction
     // demand, policy, latest assessment, latest report, physical admission cursor,
     // cursor-to-public-clock map. Availability is the root's version witness.
     public static Relation Create(Relation port, long demandedWidth = 3, params long[] widths)
+        => CreateCore(port, demandedWidth, widths, false);
+
+    /// <summary>
+    /// Adds a connected selective-read policy. Zero demand withdraws new work;
+    /// already issued promises retain their frozen demand. Probe cadence counts
+    /// eligible new issues, not reports or elapsed physical time.
+    /// </summary>
+    public static Relation CreateAttentive(Relation port, long demandedWidth = 3,
+        long probeEvery = 4, params long[] widths)
+    {
+        if (probeEvery <= 0) return Relation.UnresolvedRead(port, port, Carrier.Unknown);
+        var root = CreateCore(port, demandedWidth, widths, true);
+        var p = C.Parts(root);
+        return p.Length == 12 ? C.G([.. p, A.Create(root, probeEvery)]) : root;
+    }
+
+    private static Relation CreateCore(Relation port, long demandedWidth, long[] widths, bool allowWithdrawal)
     {
         var p = C.Parts(port);
-        if (p.Length != 3 || p[0] is not Carrier clock || clock.IsUnknown || demandedWidth <= 0)
+        if (p.Length != 3 || p[0] is not Carrier clock || clock.IsUnknown || demandedWidth < 0 ||
+            (demandedWidth == 0 && !allowWithdrawal))
             return Relation.UnresolvedRead(port, port, Carrier.Unknown);
         if (widths.Length == 0) widths = [1, 3, 12];
         var ladder = L.Create(clock, widths);
@@ -42,6 +61,32 @@ public static class TimingPrediction
     public static Carrier Support(Relation root) => (Carrier)C.Parts(root)[5];
     public static Carrier Demand(Relation root) => (Carrier)C.Parts(root)[6];
 
+    /// <summary>These are local inspection adapters over retained native state.</summary>
+    public static bool IsAttentive(Relation root) => C.Parts(root) is { Length: 13 } p && p[12] is Relation;
+    public static bool IsDormant(Relation root) => IsAttentive(root) &&
+        C.Pass(A.On(A.Sample((Relation)C.Parts(root)[12], 2)));
+    public static CarrierLocation Phase(Relation root) => IsAttentive(root)
+        ? A.Sample((Relation)C.Parts(root)[12], 0) : default;
+    public static Relation ProbeSpan(Relation root) => IsAttentive(root)
+        ? (Relation)C.Parts((Relation)C.Parts(root)[12])[1] : C.G();
+    public static Relation? SelectedRung(IElement pending) => IsPending(pending)
+        ? C.Parts((Relation)pending)[2] as Relation : null;
+    public static Relation[] DiagnosticRows(IElement pending) => IsPending(pending)
+        ? L.Rungs((Relation)C.Parts((Relation)pending)[0])
+            .Where(row => !ReferenceEquals(row, SelectedRung(pending))).ToArray() : [];
+    public static Relation[] IssuedRows(Relation assessment) => C.Parts(assessment) is { Length: 6 } p &&
+        !ReferenceEquals(p[0], p[4]) && IsPending(p[4])
+        ? L.Rungs((Relation)C.Parts((Relation)p[4])[0]) : [];
+    public static Relation[] AssessedRows(Relation assessment)
+    {
+        if (C.Parts(assessment) is not { Length: 6 } p || p[1] is not Relation outcome ||
+            C.Parts(outcome) is not { Length: 4 } o || o[0] is not Relation read ||
+            C.Parts(read) is not { Length: 3 } r || r[2] is not Relation rows) return [];
+        var parts = C.Parts(rows);
+        return parts.All(part => part is Relation row && L.TryDifference(row, out _))
+            ? parts.Cast<Relation>().ToArray() : [];
+    }
+
     // Assessment: previous pending, outcome/open, support before/after,
     // new pending, incoming report. Outcome: ladder assessment or absence/open
     // evidence, selected assessment row/open, verdict/open, support response.
@@ -58,13 +103,39 @@ public static class TimingPrediction
         try
         {
             var p = C.Parts(root);
-            if (p.Length != 12 || !TryReport(root, packet, out var available, out var occurrences,
+            if (p.Length is not (12 or 13) || !TryReport(root, packet, out var available, out var occurrences,
                     out var complete, out var receipt)) return false;
             var supportBefore = C.Copy(Support(root).ValueSlot);
+            var supportAfter = supportBefore;
+            var attention = p.Length == 13 ? (Relation)p[12] : null;
+            var phaseBefore = attention is null ? default : A.Sample(attention, 0);
+            var dormantBefore = attention is null ? default : A.Sample(attention, 2);
+            var probeBefore = attention is null ? default : A.Sample(attention, 4);
+            var phaseAfter = phaseBefore;
+            var dormantAfter = dormantBefore;
+            var probeAfter = probeBefore;
+            IElement attentionEvidence = new Placeholder();
             IElement pending = p[3], outcome = new Placeholder();
             var history = Events(root);
             var pendingFields = pending is Relation pendingRelation ? C.Parts(pendingRelation) : [];
             var hasPending = IsPending(pending);
+            var absenceMiss = false;
+
+            // An actual public occurrence can reopen a dormant detector. The
+            // silent interval is not promoted to a recurring period: learn a
+            // fresh two-site trace, including any other events in this batch.
+            if (attention is not null)
+            {
+                var sleep = A.On(dormantBefore);
+                var wake = complete && C.Pass(sleep) && occurrences.Length != 0;
+                if (wake)
+                {
+                    dormantAfter = new CarrierLocation(dormantBefore.Carrier, 0);
+                    history = [new Placeholder(), new Placeholder()];
+                }
+                attentionEvidence = C.G(sleep, C.G(occurrences.Cast<IElement>().ToArray()),
+                    C.G(dormantBefore, dormantAfter));
+            }
 
             // All grading precedes using this batch to propose the next forecast.
             if (!complete)
@@ -89,7 +160,8 @@ public static class TimingPrediction
                     outcome = C.G(read, selected, verdict, receipt);
                     pending = new Placeholder();
                 }
-                else if (hasPending && Expired((Relation)pendingFields[0], available, out var deadlineRead))
+                else if (hasPending && Expired((Relation)pendingFields[0],
+                    attention is null ? null : (Relation)pendingFields[2], available, out var deadlineRead))
                 {
                     // Contiguous, complete empty reports establish absence.
                     // Zero occurrences cannot meet this one-occurrence promise.
@@ -98,15 +170,11 @@ public static class TimingPrediction
                         new CarrierLocation(count, 1), new Carrier());
                     outcome = C.G(C.G(pendingFields[0], deadlineRead, receipt), new Placeholder(), missed, receipt);
                     pending = new Placeholder();
+                    absenceMiss = true;
                 }
                 foreach (var occurrence in occurrences)
                     history = [history[1], C.Copy(occurrence)];
             }
-
-            // A known finer event group is authorized public input. There is no
-            // route from the report into the producer's private trace.
-            if (!IsPending(pending) && complete)
-                pending = NewIssue(root, history, available);
 
             CarrierLocation? admitted = null;
             IElement response = new Placeholder();
@@ -118,7 +186,34 @@ public static class TimingPrediction
                 var lower = OperationClaim.AtLeast(new Carrier(), target, policy[0], new Carrier());
                 var upper = OperationClaim.AtMost(new Carrier(), target, policy[1], new Carrier());
                 response = C.G(requested, lower, upper);
-                if (C.Pass(lower) && C.Pass(upper)) admitted = requested;
+                if (C.Pass(lower) && C.Pass(upper)) { admitted = requested; supportAfter = target; }
+                if (attention is not null && !C.Pass(claim))
+                    probeAfter = new CarrierLocation(probeBefore.Carrier, 1);
+            }
+
+            if (attention is not null)
+            {
+                var exhausted = A.Zero(supportAfter);
+                if (absenceMiss && C.Pass(exhausted))
+                    dormantAfter = new CarrierLocation(dormantBefore.Carrier, 1);
+                attentionEvidence = C.G(attentionEvidence, outcome,
+                    C.G(supportBefore, supportAfter, exhausted), C.G(dormantBefore, dormantAfter),
+                    C.G(probeBefore, probeAfter));
+            }
+
+            // Read support after its admitted response, before scheduling work.
+            // All deltas and projections are staged before the physical batch.
+            if (!IsPending(pending) && complete)
+            {
+                if (attention is null) pending = NewIssue(root, history, available);
+                else
+                {
+                    pending = NewAttentiveIssue(root, attention, history, available,
+                        dormantAfter, probeAfter, out var plannedPhase, out var plannedProbe,
+                        out var selectionEvidence);
+                    attentionEvidence = C.G(attentionEvidence, selectionEvidence);
+                    if (IsPending(pending)) { phaseAfter = plannedPhase; probeAfter = plannedProbe; }
+                }
             }
 
             var cursor = (Carrier)p[10];
@@ -126,8 +221,17 @@ public static class TimingPrediction
             if (!Equation.TryReadPrediction(advance, out var cursorDelta, out _)) return false;
             // The shared admission cursor prevents an old root from crediting an
             // issue twice. Cursor and support enter one whole-arrival settlement.
-            var incoming = admitted is CarrierLocation delta ? C.G(cursorDelta, delta) : C.G(cursorDelta);
-            var admission = Carrier.ReceiveTogether(incoming);
+            var incoming = new List<IElement> { cursorDelta };
+            if (admitted is CarrierLocation delta) incoming.Add(delta);
+            if (attention is not null)
+            {
+                if (!A.TryDelta(phaseAfter, phaseBefore, out var phaseDelta, out var phaseRead) ||
+                    !A.TryDelta(dormantAfter, dormantBefore, out var dormantDelta, out var dormantRead) ||
+                    !A.TryDelta(probeAfter, probeBefore, out var probeDelta, out var probeRead)) return false;
+                incoming.AddRange([phaseDelta, dormantDelta, probeDelta]);
+                attentionEvidence = C.G(attentionEvidence, phaseRead, dormantRead, probeRead);
+            }
+            var admission = Carrier.ReceiveTogether(C.G(incoming.ToArray()));
             if (!SettlementObservation.ObservedQuiet(admission)) return false;
             response = C.G(response, advance, admission);
             if (outcome is Relation oldOutcome)
@@ -137,7 +241,10 @@ public static class TimingPrediction
             }
             else outcome = C.G(new Placeholder(), new Placeholder(), new Placeholder(), C.G(receipt, response));
             assessment = C.G(p[3], outcome, supportBefore, C.Copy(Support(root).ValueSlot), pending, packet);
-            next = C.G(p[0], p[1], C.G(history), pending, C.Copy(available), p[5], p[6], p[7], assessment, packet, p[10], p[11]);
+            var retained = new IElement[] { p[0], p[1], C.G(history), pending, C.Copy(available),
+                p[5], p[6], p[7], assessment, packet, p[10], p[11] };
+            next = attention is null ? C.G(retained) :
+                C.G([.. retained, A.Retain(attention, C.G(attentionEvidence, admission))]);
             return true;
         }
         catch (OverflowException) { return false; }
@@ -145,6 +252,48 @@ public static class TimingPrediction
 
     private static bool IsPending(IElement element) => element is Relation relation &&
         C.Parts(relation) is { Length: 4 } p && p[0] is Relation issue && L.Rungs(issue).Length > 0;
+
+    private static IElement NewAttentiveIssue(Relation root, Relation attention, IElement[] history,
+        CarrierLocation now, CarrierLocation dormant, CarrierLocation requestedProbe,
+        out CarrierLocation phaseAfter, out CarrierLocation probeAfter, out Relation selectionEvidence)
+    {
+        phaseAfter = A.Sample(attention, 0);
+        probeAfter = requestedProbe;
+        var demand = C.Copy(Demand(root).ValueSlot);
+        var demandPressure = C.Copy(Demand(root).LiveTensionSlot);
+        var quietDemand = A.Zero(demandPressure);
+        var positive = A.On(demand);
+        var awake = A.Zero(dormant);
+        selectionEvidence = C.G(demand, dormant, positive, awake, demandPressure, quietDemand);
+        if (!C.Pass(quietDemand))
+            return Relation.UnresolvedRead(C.G(demand, demandPressure), selectionEvidence, now.Carrier);
+        // Demand is a computation gate. No cadence prediction or ladder rung is
+        // constructed while withdrawn, dormant or without two fresh sites.
+        if (!C.Pass(positive) || !C.Pass(awake) || history.Length != 2 ||
+            history[0] is not CarrierLocation earlier || history[1] is not CarrierLocation latest ||
+            !StrictlyAfter(latest, earlier)) return new Placeholder();
+        if (!A.TrySelect(attention, Ladder(root), demand, requestedProbe, out var selectedLadder,
+                out phaseAfter, out probeAfter, out var selection))
+        {
+            selectionEvidence = C.G(selectionEvidence, selection);
+            return Relation.UnresolvedRead(demand, selectionEvidence, now.Carrier);
+        }
+        selectionEvidence = C.G(selectionEvidence, selection);
+        var period = N.Reframe(N.Sum((C.Copy(latest), 1), (C.Copy(earlier), -1)), now.Carrier);
+        var age = N.Reframe(N.Sum((C.Copy(now), 1), (C.Copy(latest), -1)), now.Carrier);
+        var cycles = N.Divide(age, period);
+        var nextCycle = N.Sum((cycles, 1), (N.Constant(1), 1));
+        var forecast = N.Reframe(N.Sum((C.Copy(latest), 1), (N.Product(nextCycle, period), 1)), now.Carrier);
+        var read = N.Read(forecast);
+        if (!Equation.TryReadPrediction(read, out var predicted, out _))
+            return Relation.UnresolvedRead(C.G(history), forecast, now.Carrier);
+        var evidence = C.G(C.G(C.Copy(earlier), C.Copy(latest)), forecast, read, selectionEvidence);
+        var issue = L.Issue(selectedLadder, now, predicted, evidence);
+        var rows = L.Rungs(issue);
+        if (rows.Length == 0) return issue;
+        // Selection order is demanded map first, optional finer diagnostic next.
+        return C.G(issue, demand, rows[0], C.G(evidence, selectionEvidence));
+    }
 
     private static IElement NewIssue(Relation root, IElement[] history, CarrierLocation now)
     {
@@ -197,9 +346,9 @@ public static class TimingPrediction
         return true;
     }
 
-    private static bool Expired(Relation issue, CarrierLocation available, out Relation evidence)
+    private static bool Expired(Relation issue, Relation? selected, CarrierLocation available, out Relation evidence)
     {
-        var rows = L.Rungs(issue);
+        Relation[] rows = selected is null ? L.Rungs(issue) : [selected];
         var claims = new List<IElement>();
         var all = rows.Length > 0;
         foreach (var row in rows)

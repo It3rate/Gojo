@@ -4,6 +4,13 @@ using Gojo.Core;
 using Gojo.Structures;
 using C = BreakDrivenPrediction.Continuation;
 
+if (args.FirstOrDefault() == "--attention")
+{
+    BreakDrivenPrediction.ReadAttentionTrials.Run(args.Skip(1).FirstOrDefault()
+        ?? "experiments/BreakDrivenPrediction/results/attention");
+    return;
+}
+
 if (args.FirstOrDefault() == "--timing")
 {
     BreakDrivenPrediction.TimingTrials.Run(args.Skip(1).FirstOrDefault()
