@@ -113,4 +113,15 @@ The [timing pass](TIMING.md) gives one prospective forecast linked reads at
 several resolutions. It compares batched fine events with sparse endpoint
 acquisition, preserves multiplicity and unknown coverage, and awards support
 once through a requested rung. Run it with `--timing`. The experiment suite now
-has 74 passing tests; pruning and adaptive sampling remain future work.
+had 74 passing tests at that milestone; pruning and adaptive sampling were left
+for later work.
+
+## Demand-directed read extension
+
+The [attention pass](ATTENTION.md) constructs only demanded timing reads, retains
+occasional finer probes and lets unsupported event forecasts become dormant.
+It compares actual allocated bytes as well as skipped reads, with intermittent
+activity and changing demand exposing costs and missed opportunities. Run with
+`--attention`. The experiment suite now has 89 passing tests. Demand, probing and
+dormancy are supplied policies; sampler adaptation and learned utility remain
+future work.
