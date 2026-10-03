@@ -122,6 +122,15 @@ The [attention pass](ATTENTION.md) constructs only demanded timing reads, retain
 occasional finer probes and lets unsupported event forecasts become dormant.
 It compares actual allocated bytes as well as skipped reads, with intermittent
 activity and changing demand exposing costs and missed opportunities. Run with
-`--attention`. The experiment suite now has 89 passing tests. Demand, probing and
+`--attention`. The experiment suite had 89 passing tests at that milestone. Demand, probing and
 dormancy are supplied policies; sampler adaptation and learned utility remain
 future work.
+
+## Cadence applicability extension
+
+The [cadence pass](CADENCE.md) separates a remembered interval from its currently
+grounded continuation and from consumer demand. It preserves break evidence and
+waits for fresh grounds after observed absence or incompatible timing. Run with
+`--cadence`. The experiment suite now has 110 passing tests. The fixed trials show
+useful restraint at a restart, lost valid forecasts at cadence changes, increased
+calculation cost, and the continuing failure to learn alternating intervals.
