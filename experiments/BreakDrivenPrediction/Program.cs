@@ -4,6 +4,13 @@ using Gojo.Core;
 using Gojo.Structures;
 using C = BreakDrivenPrediction.Continuation;
 
+if (args.FirstOrDefault() == "--events")
+{
+    BreakDrivenPrediction.EventTrials.Run(args.Skip(1).FirstOrDefault()
+        ?? "experiments/BreakDrivenPrediction/results/events");
+    return;
+}
+
 // Environment generation, scheduling, measurement counters and file output are
 // host apparatus. No generator label, future value or cadence enters the graph.
 var output = Path.GetFullPath(args.FirstOrDefault() ?? "experiments/BreakDrivenPrediction/results");
