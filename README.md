@@ -6,6 +6,11 @@ The central rule is that meaning should live in inspectable Gojo structure: carr
 
 ## Quick Start
 
+The default integration branch is `master` (renamed from `main`). New feature
+work uses `codex/...` branches. In another existing clone, rename its local
+`main` to `master`, fetch with pruning, set its upstream to `origin/master`, and
+refresh `origin/HEAD`; do not create a second integration branch.
+
 ```powershell
 dotnet test Gojo.slnx
 ```

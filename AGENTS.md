@@ -22,6 +22,13 @@ canonical prompt and its design notes together.
 - Discover current projects and test coverage from `Gojo.slnx` and project
   files; do not rely on copied project lists or historical test counts.
 
+## Git Integration
+
+The repository default branch is `master`. Resolve the current remote default
+before integrating work. Do not create a branch named `main` or `master` merely
+because an integration request uses a historical name; merge into the existing
+default branch. New feature work belongs on a `codex/...` branch.
+
 ## Verification Entry Point
 
 For solution-wide verification, run:

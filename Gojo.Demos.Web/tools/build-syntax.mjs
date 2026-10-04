@@ -10,7 +10,7 @@ const output = path.join(web, 'syntax');
 const catalogue = JSON.parse(await fs.readFile(path.join(web, 'tools/syntax-catalog.json'), 'utf8'));
 const collection = JSON.parse(await fs.readFile(path.join(web, 'tools/syntax-walkthroughs.json'), 'utf8'));
 const escape = s => String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const git = 'https://github.com/It3rate/Gojo/blob/main/';
+const git = 'https://github.com/It3rate/Gojo/blob/master/';
 const demos = catalogue.demos;
 const walkthroughs = collection.walkthroughs;
 const entries = new Map(demos.map(d=>[d.id,{...d,stepCount:d.steps.length}]));
