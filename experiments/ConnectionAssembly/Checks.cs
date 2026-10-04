@@ -57,6 +57,19 @@ public static class Checks
         var afterGap = Observe(ref root, 11, 42);
         Require(A.Complete(afterGap) && A.SampleRaw(A.NodeSamples(afterGap)[0]) == 1,
             "A sequence gap starts a new trace instead of comparing across missing input.");
+
+        var pressured = FlatThenJump(out var pressureWitness, out _);
+        var pressure = A.Pressure(A.Nodes(pressured)[2]);
+        Require(A.SamplePressure(A.NodeSamples(pressureWitness)[2]) == 1 && pressure.Value == 0 && pressure.Tension == 1,
+            "The missing-input check begins with an actual held unmet packet.");
+        var beforeMissing = Controls(pressured);
+        var missing = Observe(ref pressured, 5, null);
+        AssertIncomplete(missing);
+        Require(A.Nodes(pressured).All(node => A.Pressure(node).Value == 0 && A.Pressure(node).Tension == 0),
+            "An unknown observation explicitly clears previously held request pressure.");
+        Require(A.NodeSamples(missing).All(sample => A.SamplePressure(sample) == 0),
+            "The incomplete witness does not retain a stale numeric unmet request.");
+        Require(beforeMissing == Controls(pressured), "Clearing unknown-frame pressure is not support credit or decay.");
     }
 
     private static void IsolatedSquareEdges()
@@ -108,6 +121,9 @@ public static class Checks
             "Previously engaged flat reader requests help on the isolated jump.");
         Require(A.SampleHelp(node) == 0 && A.SamplePressure(node) > 0 && !A.SampleAccounted(node),
             "A current proposal cannot discharge the discovery frame's request.");
+        Require(A.Pressure(A.Nodes(root)[2]).Value == 0 &&
+                A.Pressure(A.Nodes(root)[2]).Tension == A.SamplePressure(node),
+            "The discovery deficit is held as physical tension, not absorbed carrier value.");
         Require(A.WasProposed(proposed) && !A.WasUseful(proposed) && A.SampleReceipt(proposed) == 0,
             "Probe establishment is visible but is not current-frame utility credit.");
         Require(A.Receipt(link).Value == 0 && A.Help(A.Nodes(root)[2]).Value == 0,
@@ -120,6 +136,9 @@ public static class Checks
         Require(A.SampleRaw(consumer) == 0 && A.SampleRequest(consumer) == 1 &&
                 A.SampleHelp(consumer) == 1 && A.SamplePressure(consumer) == 0 && A.SampleAccounted(consumer),
             "The existing helper accounts for the next requested arrival without changing raw recognition.");
+        Require(A.Pressure(A.Nodes(root)[2]).Value == 0 &&
+                A.Pressure(A.Nodes(root)[2]).Tension == A.SamplePressure(consumer),
+            "A later accounting receipt discharges the physical held request.");
         Require(A.SampleReceipt(used) == 1 && A.WasUseful(used) && !A.WasProposed(used),
             "Later use is distinguished from recruitment.");
         Require(A.Support(link).Value > seededSupport, "A necessary later receipt strengthens native link support.");

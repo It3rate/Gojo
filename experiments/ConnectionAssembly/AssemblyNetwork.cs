@@ -35,7 +35,9 @@ public static class AssemblyNetwork
         for (var i = 0; i < nodes.Length; i++)
         {
             var pressure = new Carrier(packet.UnitShape);
-            pressure.Attach(new Relation(Relation.Point(pressure, 0), Relation.Point(pressure, 0)));
+            // Reset every whole request packet to the origin while retaining it
+            // as positive tension. A zero-to-zero boundary would be inert.
+            pressure.Attach(new Relation(Relation.Point(pressure, 1), Relation.Point(pressure, 0)));
             nodes[i] = G(G(Relation.Segment(source, 0, 1), trace, new Placeholder()), constraints[i],
                 new Carrier(packet.UnitShape), new Carrier(credit.UnitShape),
                 new Carrier(packet.UnitShape), new Carrier(packet.UnitShape), pressure,
@@ -381,7 +383,9 @@ public static class AssemblyNetwork
         var increase = N.Reframe(N.Sum((before, 1), (grant, 1)), before.Carrier);
         var increaseRead = N.Read(increase);
         if (!Scalar(increaseRead, out var proposed)) throw new InvalidOperationException("Unresolved native increase.");
-        var ceiling = new CarrierLocation(before.Carrier, upper.Ticks);
+        var ceilingBridge = N.Reframe(upper, before.Carrier);
+        var ceilingRead = N.Read(ceilingBridge);
+        if (!Scalar(ceilingRead, out var ceiling)) throw new InvalidOperationException("Unresolved native cap calibration.");
         var upperClaim = OperationClaim.AtMost(new Carrier(), proposed, ceiling, new Carrier());
         var capped = Pass(upperClaim) ? proposed : ceiling;
         var decline = N.Reframe(N.Sum((capped, 1), (new CarrierLocation(before.Carrier, fade ? 1 : 0), -1)), before.Carrier);
@@ -390,7 +394,7 @@ public static class AssemblyNetwork
         var lower = new CarrierLocation(before.Carrier, 0);
         var lowerClaim = AtLeast(declining, lower);
         after = Pass(lowerClaim) ? declining : lower;
-        return G(before, grant, cap, increase, increaseRead, upperClaim, capped,
+        return G(before, grant, cap, increase, increaseRead, ceilingBridge, ceilingRead, upperClaim, capped,
             decline, declineRead, lowerClaim, after);
     }
 
