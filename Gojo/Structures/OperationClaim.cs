@@ -7,7 +7,7 @@ namespace Gojo.Structures;
 /// structure. Helper names describe construction intent; the claim itself is
 /// the connected surface, residual, one-sided violation, magnitudes, and residue.
 /// </summary>
-public static class OperationClaim
+public static partial class OperationClaim
 {
     /// <summary>Reads a scalar violation only after the local comparison has
     /// settled on an aligned face. A quiet magnitude on an unresolved claim
