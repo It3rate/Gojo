@@ -1,0 +1,169 @@
+Arrival,Phase,Input,Issue,Ready,Eligible,Demand,Tolerance,DeliveredRoute,Evaluable,Baseline,Candidate,Delivered,Actual,BaselineDemand,CandidateDemand,DeliveredDemand,ShadowResponse,DeliveredResponse,BaselineDirection,CandidateDirection,DeliveredDirection,BaselineScaleError,CandidateScaleError,DeliveredScaleError,SupportBefore,SupportAfter,Attached
+1,Transitional turn,0,,False,False,False,,False,False,,,,,,,,,,,,,,,,0,0,False
+2,Transitional turn,2,1,False,False,True,0,False,False,,,,,,,,,,,,,,,,0,0,False
+3,Transitional turn,4,2,False,False,True,0,False,False,,,,,,,,,,,,,,,,0,0,False
+4,Transitional turn,-2,3,True,False,True,0,False,True,2,-2,2,-6,8,4,8,4,0,False,True,False,4,4,4,0,0,False
+5,Transitional turn,-4,4,True,True,True,0,False,True,-6,-2,-6,-2,4,0,4,4,0,True,True,True,4,0,4,0,4,True
+6,Transitional turn,-6,5,True,False,True,0,False,True,-2,6,-2,-2,0,8,0,-8,0,True,False,True,0,4,0,4,4,True
+7,Transitional turn,,6,True,False,True,0,False,False,,,,,,,,,,,,,,,,4,4,True
+8,Transitional turn,0,7,False,False,True,0,False,False,,,,,,,,,,,,,,,,4,4,True
+9,Transitional turn,-2,8,False,False,True,0,False,False,,,,,,,,,,,,,,,,4,4,True
+10,Transitional turn,-4,9,False,False,True,0,False,False,,,,,,,,,,,,,,,,4,4,True
+11,Transitional turn,2,10,True,False,True,0,False,True,-2,2,-2,6,8,4,8,4,0,False,True,False,4,4,4,4,4,True
+12,Transitional turn,4,11,True,True,True,0,True,True,6,2,2,2,4,0,0,4,4,True,True,True,4,0,0,4,8,True
+13,Transitional turn,6,12,True,False,True,0,False,True,2,-6,2,2,0,8,0,-8,0,True,False,True,0,4,0,8,8,True
+14,Transitional turn,,13,True,False,True,0,False,False,,,,,,,,,,,,,,,,8,8,True
+15,Transitional turn,0,14,False,False,True,0,False,False,,,,,,,,,,,,,,,,8,8,True
+16,Transitional turn,2,15,False,False,True,0,False,False,,,,,,,,,,,,,,,,8,8,True
+17,Transitional turn,4,16,False,False,True,0,False,False,,,,,,,,,,,,,,,,8,8,True
+18,Transitional turn,-2,17,True,False,True,0,False,True,2,-2,2,-6,8,4,8,4,0,False,True,False,4,4,4,8,8,True
+19,Transitional turn,-4,18,True,True,True,0,True,True,-6,-2,-2,-2,4,0,0,4,4,True,True,True,4,0,0,8,8,True
+20,Transitional turn,-6,19,True,False,True,0,False,True,-2,6,-2,-2,0,8,0,-8,0,True,False,True,0,4,0,8,8,True
+21,Transitional turn,,20,True,False,True,0,False,False,,,,,,,,,,,,,,,,8,8,True
+22,Transitional turn,0,21,False,False,True,0,False,False,,,,,,,,,,,,,,,,8,8,True
+23,Transitional turn,-2,22,False,False,True,0,False,False,,,,,,,,,,,,,,,,8,8,True
+24,Transitional turn,-4,23,False,False,True,0,False,False,,,,,,,,,,,,,,,,8,8,True
+25,Transitional turn,2,24,True,False,True,0,False,True,-2,2,-2,6,8,4,8,4,0,False,True,False,4,4,4,8,8,True
+26,Transitional turn,4,25,True,True,True,0,True,True,6,2,2,2,4,0,0,4,4,True,True,True,4,0,0,8,8,True
+27,Transitional turn,6,26,True,False,True,0,False,True,2,-6,2,2,0,8,0,-8,0,True,False,True,0,4,0,8,8,True
+28,Transitional turn,,27,True,False,True,0,False,False,,,,,,,,,,,,,,,,8,8,True
+29,Transitional turn,0,28,False,False,True,0,False,False,,,,,,,,,,,,,,,,8,8,True
+30,Transitional turn,2,29,False,False,True,0,False,False,,,,,,,,,,,,,,,,8,8,True
+31,Transitional turn,4,30,False,False,True,0,False,False,,,,,,,,,,,,,,,,8,8,True
+32,Transitional turn,-2,31,True,False,True,0,False,True,2,-2,2,-6,8,4,8,4,0,False,True,False,4,4,4,8,8,True
+33,Transitional turn,-4,32,True,True,True,0,True,True,-6,-2,-2,-2,4,0,0,4,4,True,True,True,4,0,0,8,8,True
+34,Transitional turn,-6,33,True,False,True,0,False,True,-2,6,-2,-2,0,8,0,-8,0,True,False,True,0,4,0,8,8,True
+35,Transitional turn,,34,True,False,True,0,False,False,,,,,,,,,,,,,,,,8,8,True
+36,Transitional turn,0,35,False,False,True,0,False,False,,,,,,,,,,,,,,,,8,8,True
+37,Transitional turn,-2,36,False,False,True,0,False,False,,,,,,,,,,,,,,,,8,8,True
+38,Transitional turn,-4,37,False,False,True,0,False,False,,,,,,,,,,,,,,,,8,8,True
+39,Transitional turn,2,38,True,False,True,0,False,True,-2,2,-2,6,8,4,8,4,0,False,True,False,4,4,4,8,8,True
+40,Transitional turn,4,39,True,True,True,0,True,True,6,2,2,2,4,0,0,4,4,True,True,True,4,0,0,8,8,True
+41,Transitional turn,6,40,True,False,True,0,False,True,2,-6,2,2,0,8,0,-8,0,True,False,True,0,4,0,8,8,True
+42,Transitional turn,,41,True,False,True,0,False,False,,,,,,,,,,,,,,,,8,8,True
+43,Transitional turn,0,42,False,False,True,0,False,False,,,,,,,,,,,,,,,,8,8,True
+44,Transitional turn,2,43,False,False,True,0,False,False,,,,,,,,,,,,,,,,8,8,True
+45,Transitional turn,4,44,False,False,True,0,False,False,,,,,,,,,,,,,,,,8,8,True
+46,Transitional turn,-2,45,True,False,True,0,False,True,2,-2,2,-6,8,4,8,4,0,False,True,False,4,4,4,8,8,True
+47,Transitional turn,-4,46,True,True,True,0,True,True,-6,-2,-2,-2,4,0,0,4,4,True,True,True,4,0,0,8,8,True
+48,Transitional turn,-6,47,True,False,True,0,False,True,-2,6,-2,-2,0,8,0,-8,0,True,False,True,0,4,0,8,8,True
+49,Transitional turn,,48,True,False,True,0,False,False,,,,,,,,,,,,,,,,8,8,True
+50,Transitional turn,0,49,False,False,True,0,False,False,,,,,,,,,,,,,,,,8,8,True
+51,Transitional turn,-2,50,False,False,True,0,False,False,,,,,,,,,,,,,,,,8,8,True
+52,Transitional turn,-4,51,False,False,True,0,False,False,,,,,,,,,,,,,,,,8,8,True
+53,Transitional turn,2,52,True,False,True,0,False,True,-2,2,-2,6,8,4,8,4,0,False,True,False,4,4,4,8,8,True
+54,Transitional turn,4,53,True,True,True,0,True,True,6,2,2,2,4,0,0,4,4,True,True,True,4,0,0,8,8,True
+55,Transitional turn,6,54,True,False,True,0,False,True,2,-6,2,2,0,8,0,-8,0,True,False,True,0,4,0,8,8,True
+56,Transitional turn,,55,True,False,True,0,False,False,,,,,,,,,,,,,,,,8,8,True
+57,New slope persists,0,56,False,False,True,0,False,False,,,,,,,,,,,,,,,,8,8,True
+58,New slope persists,2,57,False,False,True,0,False,False,,,,,,,,,,,,,,,,8,8,True
+59,New slope persists,4,58,False,False,True,0,False,False,,,,,,,,,,,,,,,,8,8,True
+60,New slope persists,-2,59,True,False,True,0,False,True,2,-2,2,-6,8,4,8,4,0,False,True,False,4,4,4,8,8,True
+61,New slope persists,-8,60,True,True,True,0,True,True,-6,-2,-2,-6,0,4,4,-4,-4,True,True,True,0,4,4,8,4,True
+62,New slope persists,-14,61,True,False,True,0,False,True,-6,6,-6,-6,0,12,0,-12,0,True,False,True,0,0,0,4,4,True
+63,New slope persists,,62,True,False,True,0,False,False,,,,,,,,,,,,,,,,4,4,True
+64,New slope persists,0,63,False,False,True,0,False,False,,,,,,,,,,,,,,,,4,4,True
+65,New slope persists,-2,64,False,False,True,0,False,False,,,,,,,,,,,,,,,,4,4,True
+66,New slope persists,-4,65,False,False,True,0,False,False,,,,,,,,,,,,,,,,4,4,True
+67,New slope persists,2,66,True,False,True,0,False,True,-2,2,-2,6,8,4,8,4,0,False,True,False,4,4,4,4,4,True
+68,New slope persists,8,67,True,True,True,0,True,True,6,2,2,6,0,4,4,-4,-4,True,True,True,0,4,4,4,0,False
+69,New slope persists,14,68,True,False,True,0,False,True,6,-6,6,6,0,12,0,-12,0,True,False,True,0,0,0,0,0,False
+70,New slope persists,,69,True,False,True,0,False,False,,,,,,,,,,,,,,,,0,0,False
+71,New slope persists,0,70,False,False,True,0,False,False,,,,,,,,,,,,,,,,0,0,False
+72,New slope persists,2,71,False,False,True,0,False,False,,,,,,,,,,,,,,,,0,0,False
+73,New slope persists,4,72,False,False,True,0,False,False,,,,,,,,,,,,,,,,0,0,False
+74,New slope persists,-2,73,True,False,True,0,False,True,2,-2,2,-6,8,4,8,4,0,False,True,False,4,4,4,0,0,False
+75,New slope persists,-8,74,True,True,True,0,False,True,-6,-2,-6,-6,0,4,0,-4,0,True,True,True,0,4,0,0,0,False
+76,New slope persists,-14,75,True,False,True,0,False,True,-6,6,-6,-6,0,12,0,-12,0,True,False,True,0,0,0,0,0,False
+77,New slope persists,,76,True,False,True,0,False,False,,,,,,,,,,,,,,,,0,0,False
+78,New slope persists,0,77,False,False,True,0,False,False,,,,,,,,,,,,,,,,0,0,False
+79,New slope persists,-2,78,False,False,True,0,False,False,,,,,,,,,,,,,,,,0,0,False
+80,New slope persists,-4,79,False,False,True,0,False,False,,,,,,,,,,,,,,,,0,0,False
+81,New slope persists,2,80,True,False,True,0,False,True,-2,2,-2,6,8,4,8,4,0,False,True,False,4,4,4,0,0,False
+82,New slope persists,8,81,True,True,True,0,False,True,6,2,6,6,0,4,0,-4,0,True,True,True,0,4,0,0,0,False
+83,New slope persists,14,82,True,False,True,0,False,True,6,-6,6,6,0,12,0,-12,0,True,False,True,0,0,0,0,0,False
+84,New slope persists,,83,True,False,True,0,False,False,,,,,,,,,,,,,,,,0,0,False
+85,New slope persists,0,84,False,False,True,0,False,False,,,,,,,,,,,,,,,,0,0,False
+86,New slope persists,2,85,False,False,True,0,False,False,,,,,,,,,,,,,,,,0,0,False
+87,New slope persists,4,86,False,False,True,0,False,False,,,,,,,,,,,,,,,,0,0,False
+88,New slope persists,-2,87,True,False,True,0,False,True,2,-2,2,-6,8,4,8,4,0,False,True,False,4,4,4,0,0,False
+89,New slope persists,-8,88,True,True,True,0,False,True,-6,-2,-6,-6,0,4,0,-4,0,True,True,True,0,4,0,0,0,False
+90,New slope persists,-14,89,True,False,True,0,False,True,-6,6,-6,-6,0,12,0,-12,0,True,False,True,0,0,0,0,0,False
+91,New slope persists,,90,True,False,True,0,False,False,,,,,,,,,,,,,,,,0,0,False
+92,New slope persists,0,91,False,False,True,0,False,False,,,,,,,,,,,,,,,,0,0,False
+93,New slope persists,-2,92,False,False,True,0,False,False,,,,,,,,,,,,,,,,0,0,False
+94,New slope persists,-4,93,False,False,True,0,False,False,,,,,,,,,,,,,,,,0,0,False
+95,New slope persists,2,94,True,False,True,0,False,True,-2,2,-2,6,8,4,8,4,0,False,True,False,4,4,4,0,0,False
+96,New slope persists,8,95,True,True,True,0,False,True,6,2,6,6,0,4,0,-4,0,True,True,True,0,4,0,0,0,False
+97,New slope persists,14,96,True,False,True,0,False,True,6,-6,6,6,0,12,0,-12,0,True,False,True,0,0,0,0,0,False
+98,New slope persists,,97,True,False,True,0,False,False,,,,,,,,,,,,,,,,0,0,False
+99,New slope persists,0,98,False,False,True,0,False,False,,,,,,,,,,,,,,,,0,0,False
+100,New slope persists,2,99,False,False,True,0,False,False,,,,,,,,,,,,,,,,0,0,False
+101,New slope persists,4,100,False,False,True,0,False,False,,,,,,,,,,,,,,,,0,0,False
+102,New slope persists,-2,101,True,False,True,0,False,True,2,-2,2,-6,8,4,8,4,0,False,True,False,4,4,4,0,0,False
+103,New slope persists,-8,102,True,True,True,0,False,True,-6,-2,-6,-6,0,4,0,-4,0,True,True,True,0,4,0,0,0,False
+104,New slope persists,-14,103,True,False,True,0,False,True,-6,6,-6,-6,0,12,0,-12,0,True,False,True,0,0,0,0,0,False
+105,New slope persists,,104,True,False,True,0,False,False,,,,,,,,,,,,,,,,0,0,False
+106,New slope persists,0,105,False,False,True,0,False,False,,,,,,,,,,,,,,,,0,0,False
+107,New slope persists,-2,106,False,False,True,0,False,False,,,,,,,,,,,,,,,,0,0,False
+108,New slope persists,-4,107,False,False,True,0,False,False,,,,,,,,,,,,,,,,0,0,False
+109,New slope persists,2,108,True,False,True,0,False,True,-2,2,-2,6,8,4,8,4,0,False,True,False,4,4,4,0,0,False
+110,New slope persists,8,109,True,True,True,0,False,True,6,2,6,6,0,4,0,-4,0,True,True,True,0,4,0,0,0,False
+111,New slope persists,14,110,True,False,True,0,False,True,6,-6,6,6,0,12,0,-12,0,True,False,True,0,0,0,0,0,False
+112,New slope persists,,111,True,False,True,0,False,False,,,,,,,,,,,,,,,,0,0,False
+113,Transitional turn returns,0,112,False,False,True,0,False,False,,,,,,,,,,,,,,,,0,0,False
+114,Transitional turn returns,2,113,False,False,True,0,False,False,,,,,,,,,,,,,,,,0,0,False
+115,Transitional turn returns,4,114,False,False,True,0,False,False,,,,,,,,,,,,,,,,0,0,False
+116,Transitional turn returns,-2,115,True,False,True,0,False,True,2,-2,2,-6,8,4,8,4,0,False,True,False,4,4,4,0,0,False
+117,Transitional turn returns,-4,116,True,True,True,0,False,True,-6,-2,-6,-2,4,0,4,4,0,True,True,True,4,0,4,0,4,True
+118,Transitional turn returns,-6,117,True,False,True,0,False,True,-2,6,-2,-2,0,8,0,-8,0,True,False,True,0,4,0,4,4,True
+119,Transitional turn returns,,118,True,False,True,0,False,False,,,,,,,,,,,,,,,,4,4,True
+120,Transitional turn returns,0,119,False,False,True,0,False,False,,,,,,,,,,,,,,,,4,4,True
+121,Transitional turn returns,-2,120,False,False,True,0,False,False,,,,,,,,,,,,,,,,4,4,True
+122,Transitional turn returns,-4,121,False,False,True,0,False,False,,,,,,,,,,,,,,,,4,4,True
+123,Transitional turn returns,2,122,True,False,True,0,False,True,-2,2,-2,6,8,4,8,4,0,False,True,False,4,4,4,4,4,True
+124,Transitional turn returns,4,123,True,True,True,0,True,True,6,2,2,2,4,0,0,4,4,True,True,True,4,0,0,4,8,True
+125,Transitional turn returns,6,124,True,False,True,0,False,True,2,-6,2,2,0,8,0,-8,0,True,False,True,0,4,0,8,8,True
+126,Transitional turn returns,,125,True,False,True,0,False,False,,,,,,,,,,,,,,,,8,8,True
+127,Transitional turn returns,0,126,False,False,True,0,False,False,,,,,,,,,,,,,,,,8,8,True
+128,Transitional turn returns,2,127,False,False,True,0,False,False,,,,,,,,,,,,,,,,8,8,True
+129,Transitional turn returns,4,128,False,False,True,0,False,False,,,,,,,,,,,,,,,,8,8,True
+130,Transitional turn returns,-2,129,True,False,True,0,False,True,2,-2,2,-6,8,4,8,4,0,False,True,False,4,4,4,8,8,True
+131,Transitional turn returns,-4,130,True,True,True,0,True,True,-6,-2,-2,-2,4,0,0,4,4,True,True,True,4,0,0,8,8,True
+132,Transitional turn returns,-6,131,True,False,True,0,False,True,-2,6,-2,-2,0,8,0,-8,0,True,False,True,0,4,0,8,8,True
+133,Transitional turn returns,,132,True,False,True,0,False,False,,,,,,,,,,,,,,,,8,8,True
+134,Transitional turn returns,0,133,False,False,True,0,False,False,,,,,,,,,,,,,,,,8,8,True
+135,Transitional turn returns,-2,134,False,False,True,0,False,False,,,,,,,,,,,,,,,,8,8,True
+136,Transitional turn returns,-4,135,False,False,True,0,False,False,,,,,,,,,,,,,,,,8,8,True
+137,Transitional turn returns,2,136,True,False,True,0,False,True,-2,2,-2,6,8,4,8,4,0,False,True,False,4,4,4,8,8,True
+138,Transitional turn returns,4,137,True,True,True,0,True,True,6,2,2,2,4,0,0,4,4,True,True,True,4,0,0,8,8,True
+139,Transitional turn returns,6,138,True,False,True,0,False,True,2,-6,2,2,0,8,0,-8,0,True,False,True,0,4,0,8,8,True
+140,Transitional turn returns,,139,True,False,True,0,False,False,,,,,,,,,,,,,,,,8,8,True
+141,Transitional turn returns,0,140,False,False,True,0,False,False,,,,,,,,,,,,,,,,8,8,True
+142,Transitional turn returns,2,141,False,False,True,0,False,False,,,,,,,,,,,,,,,,8,8,True
+143,Transitional turn returns,4,142,False,False,True,0,False,False,,,,,,,,,,,,,,,,8,8,True
+144,Transitional turn returns,-2,143,True,False,True,0,False,True,2,-2,2,-6,8,4,8,4,0,False,True,False,4,4,4,8,8,True
+145,Transitional turn returns,-4,144,True,True,True,0,True,True,-6,-2,-2,-2,4,0,0,4,4,True,True,True,4,0,0,8,8,True
+146,Transitional turn returns,-6,145,True,False,True,0,False,True,-2,6,-2,-2,0,8,0,-8,0,True,False,True,0,4,0,8,8,True
+147,Transitional turn returns,,146,True,False,True,0,False,False,,,,,,,,,,,,,,,,8,8,True
+148,Transitional turn returns,0,147,False,False,True,0,False,False,,,,,,,,,,,,,,,,8,8,True
+149,Transitional turn returns,-2,148,False,False,True,0,False,False,,,,,,,,,,,,,,,,8,8,True
+150,Transitional turn returns,-4,149,False,False,True,0,False,False,,,,,,,,,,,,,,,,8,8,True
+151,Transitional turn returns,2,150,True,False,True,0,False,True,-2,2,-2,6,8,4,8,4,0,False,True,False,4,4,4,8,8,True
+152,Transitional turn returns,4,151,True,True,True,0,True,True,6,2,2,2,4,0,0,4,4,True,True,True,4,0,0,8,8,True
+153,Transitional turn returns,6,152,True,False,True,0,False,True,2,-6,2,2,0,8,0,-8,0,True,False,True,0,4,0,8,8,True
+154,Transitional turn returns,,153,True,False,True,0,False,False,,,,,,,,,,,,,,,,8,8,True
+155,Transitional turn returns,0,154,False,False,True,0,False,False,,,,,,,,,,,,,,,,8,8,True
+156,Transitional turn returns,2,155,False,False,True,0,False,False,,,,,,,,,,,,,,,,8,8,True
+157,Transitional turn returns,4,156,False,False,True,0,False,False,,,,,,,,,,,,,,,,8,8,True
+158,Transitional turn returns,-2,157,True,False,True,0,False,True,2,-2,2,-6,8,4,8,4,0,False,True,False,4,4,4,8,8,True
+159,Transitional turn returns,-4,158,True,True,True,0,True,True,-6,-2,-2,-2,4,0,0,4,4,True,True,True,4,0,0,8,8,True
+160,Transitional turn returns,-6,159,True,False,True,0,False,True,-2,6,-2,-2,0,8,0,-8,0,True,False,True,0,4,0,8,8,True
+161,Transitional turn returns,,160,True,False,True,0,False,False,,,,,,,,,,,,,,,,8,8,True
+162,Transitional turn returns,0,161,False,False,True,0,False,False,,,,,,,,,,,,,,,,8,8,True
+163,Transitional turn returns,-2,162,False,False,True,0,False,False,,,,,,,,,,,,,,,,8,8,True
+164,Transitional turn returns,-4,163,False,False,True,0,False,False,,,,,,,,,,,,,,,,8,8,True
+165,Transitional turn returns,2,164,True,False,True,0,False,True,-2,2,-2,6,8,4,8,4,0,False,True,False,4,4,4,8,8,True
+166,Transitional turn returns,4,165,True,True,True,0,True,True,6,2,2,2,4,0,0,4,4,True,True,True,4,0,0,8,8,True
+167,Transitional turn returns,6,166,True,False,True,0,False,True,2,-6,2,2,0,8,0,-8,0,True,False,True,0,4,0,8,8,True
+168,Transitional turn returns,,167,True,False,True,0,False,False,,,,,,,,,,,,,,,,8,8,True
