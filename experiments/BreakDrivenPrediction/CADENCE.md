@@ -199,8 +199,17 @@ dotnet run --project experiments/BreakDrivenPrediction/BreakDrivenPrediction.csp
 The experiment suite passes 110 tests, including 21 new cases for closed timing
 bounds, unknown coverage, demand-independent applicability, frozen promises,
 pure reads, partitioned reports, failure atomicity, native checkpoint replay and
-bounded retention. The existing solution passes 1,732 tests with
-`dotnet test Gojo.slnx --no-restore`. Normal solution restore remains blocked by
-the missing `wasm-tools` workload: the attempted installer was canceled while
-starting an elevated .NET process and rolled back. Browser builds are unverified
-at this milestone.
+bounded retention. The initial milestone verified the existing 1,732 solution
+tests with `dotnet test Gojo.slnx --no-restore`; the missing `wasm-tools` workload
+prevented normal restore and browser compilation at that time.
+
+Follow-up verification on 2026-10-03, after the user installed `wasm-tools`, closes
+that blocker. With SDK 10.0.401 and workload set 10.0.401.1, normal
+`dotnet test Gojo.slnx --nologo` restores successfully and passes all 1,732 tests.
+The experiment suite also passes all 110 tests again with `--no-build --no-restore`.
+Explicit Debug builds of `Gojo.Blocks.Browser`, `Gojo.GearShapeLadder.Browser` and
+`GojoCAD.SketchViewer.Browser` pass, including native WebAssembly compilation and
+linking. Blocks reports 43 warnings about obsolete Skia text APIs; the other two
+builds report zero warnings. All three report zero errors. No implementation
+change was needed. This verifies builds, not Release publishing, trimming or an
+interactive browser session.
