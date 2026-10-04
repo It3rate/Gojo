@@ -17,6 +17,7 @@ public static class Checks
         RunOne("Unused support fades one packet per four complete arrivals, reaches zero and leaves no negative debt.", SlowFade);
         RunOne("Repeated read-only inspection does not refresh engagement, support or current pulses.", InspectionIsPure);
         RunOne("Repeated signal changes retain the finite connection neighborhood without multiplying a live contribution.", RepeatedChanges);
+        RunOne("Probes physically attach a dormant publication; fade withdraws it and later probing reuses its identity.", PhysicalLifecycle);
         return passed.ToArray();
 
         void RunOne(string description, Action check)
@@ -225,6 +226,8 @@ public static class Checks
         {
             Observe(ref root, ++sequence, value);
             Require(A.Links(root).Length == slots, "Pattern changes do not add duplicate helper slots.");
+            Require(A.Links(root).All(link => A.Receipt(link).IsAttached((Relation)A.Parts(link)[4]) == (A.Gate(link).Value > 0)),
+                "Physical publications agree with current supported participation through repeated changes.");
         }
         AssertNativeGate(root);
     }
@@ -235,6 +238,8 @@ public static class Checks
         foreach (var link in A.Links(root)) A.Gate(link).Set(0);
         foreach (var node in nodes) { A.Raw(node).Set(0); A.Request(node).Set(0); }
         var selected = FindLink(root, producer: 0, consumer: 2);
+        var publication = (Relation)A.Parts(selected)[4];
+        A.Receipt(selected).Attach(publication);
         var producer = A.ProducerPort(selected);
         var request = A.ConsumerRequest(selected);
         producer.Set(1);
@@ -255,6 +260,28 @@ public static class Checks
         A.Gate(selected).Set(0);
         Require(A.Receipt(selected).Value == 0 && A.Help(nodes[2]).Value == 0,
             "Closing the gate withdraws its actual receipt.");
+    }
+
+    private static void PhysicalLifecycle()
+    {
+        var root = A.Create();
+        var link = FindLink(root, producer: 3, consumer: 2);
+        var publication = (Relation)A.Parts(link)[4];
+        Require(!A.Receipt(link).IsAttached(publication), "An unprobed connection starts physically dormant.");
+        Observe(ref root, 1, 20);
+        Observe(ref root, 2, 20);
+        Observe(ref root, 3, 20);
+        Observe(ref root, 4, 32);
+        Require(A.Receipt(link).IsAttached(publication), "A new probe attaches its actual publication after the discovery frame.");
+        for (long sequence = 5; sequence <= 24; sequence++) Observe(ref root, sequence, 32);
+        Require(!A.Receipt(link).IsAttached(publication), "Fading support removes the publication from settlement participation.");
+        Require(A.Receipt(link).Value == 0 && A.Receipt(link).Tension == 0,
+            "The completed frame cleared the receipt before physical withdrawal.");
+        var reprobe = Observe(ref root, 25, 44);
+        Require(A.WasProposed(LinkSample(reprobe, link)) && A.Receipt(link).IsAttached(publication),
+            "Later useful input reattaches the same dormant relation, not a duplicate publication.");
+        var later = Observe(ref root, 26, 56);
+        Require(A.SampleReceipt(LinkSample(later, link)) == 1, "The reattached connection works on a subsequent arrival.");
     }
 
     private static Relation FlatThenJump(out Relation witness, out Relation link)

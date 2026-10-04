@@ -18,9 +18,9 @@ internal static class Program
         Console.WriteLine($"Connection checks passed: {checks.Length}");
         if (args.Contains("--checks-only")) return 0;
         var output = Path.GetFullPath(args.FirstOrDefault(a => !a.StartsWith("--")) ??
-            "experiments/ConnectionAssembly/results");
+            "experiments/ConnectionAssembly/results-lifecycle");
         Directory.CreateDirectory(output);
-        var report = new StringBuilder("# Connection assembly: first fixed results\n\n");
+        var report = new StringBuilder("# Connection assembly: fixed trials with physical connection withdrawal\n\n");
         report.AppendLine("These are local recognition and help results, not forecasts of future turns. The six readers receive identical raw inputs. Names and phase boundaries exist only in the environment and observer. A new probe is available on the next arrival; current receipts use the previous gates.\n");
         report.AppendLine("## Focused checks\n");
         foreach (var check in checks) report.AppendLine($"- {check}");
@@ -113,7 +113,7 @@ internal static class Program
         report.AppendLine("| --- | --- | --- | --- | --- |");
         foreach (var cost in costs) report.AppendLine(cost);
         report.AppendLine("\nThese are one-run diagnostics, not controlled performance benchmarks. Admission excludes construction, generators, graph capture, serialization and rendering. Retained graphs include the latest witness and all finite connection slots; they are not the complete observer history. The native .gojo files save only each final world. Replay JSON and CSV are observer artifacts and never feed the learner.\n");
-        report.AppendLine("## Interpretation limits\n\nThe six feature scopes, finite 30-slot neighborhood, scan order, support grants, cap and fade interval are supplied. No waveform name or future value is an input. This demonstrates native recognition and executable connection participation, not discovery of new primitives, exact timing prediction, new higher-order concepts, or genetic search. A larger-step zigzag deliberately challenges the fixed jump boundary. Shuffling preserves the pulse-increment multiset while changing order; similar recognition/help results would expose the limited temporal model. Zero gate withdraws a contribution but cannot physically detach the core relation.\n");
+        report.AppendLine("## Interpretation limits\n\nThe six feature scopes, finite 30-slot neighborhood, scan order, support grants, cap and fade interval are supplied. No waveform name or future value is an input. This demonstrates native recognition and executable connection participation, not discovery of new primitives, exact timing prediction, new higher-order concepts, or genetic search. A larger-step zigzag deliberately challenges the fixed jump boundary. Shuffling preserves the pulse-increment multiset while changing order; similar recognition/help results expose the limited temporal model. Supported publications now physically attach; expired ones detach after the current pulses clear. The finite dormant relation templates remain available for later reattachment. The broad generic-help and elapsed-arrival fade policies are intentionally unchanged from the first probe, to isolate this lifecycle change. The new consumer-specific interval-response read has separate focused coverage; it has not been substituted into these consumers.\n");
         File.WriteAllText(Path.Combine(output, "first-run.md"), report.ToString().TrimEnd() + Environment.NewLine);
         return 0;
     }

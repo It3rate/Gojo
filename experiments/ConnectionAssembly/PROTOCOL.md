@@ -96,3 +96,14 @@ A small Avalonia/Skia replay may show the recorded input, native ports and
 connections, support, receipts and pressure. Rendering must never derive links
 from labels or correlations. Explain that it replays recognition/help, not an
 autonomous future-prediction demonstration.
+
+## Lifecycle follow-up
+
+The original protocol and results above remain the baseline. After adding core
+withdrawal, the same readers, inputs and participation/fade policies now open a
+link by attaching its retained publication and close it by detaching that same
+identity. Pulses clear before topology changes, so withdrawal never implicitly
+retracts a receipt. Dormant templates remain available for reuse. Results go to
+`results-lifecycle`, separate from the original run. The new consumer-specific
+interval-response capability has separate focused tests; generic-help policy
+is deliberately unchanged here so the lifecycle effect can be compared.

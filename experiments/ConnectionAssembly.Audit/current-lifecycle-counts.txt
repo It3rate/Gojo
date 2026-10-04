@@ -1,0 +1,48 @@
+created: C=212, R=2276, totalC=212, totalR=2276, A=12
+step240: C=3990, R=40378, totalC=3990, totalR=40378, A=18
+base-without-last-witness: C=217, R=2294, totalC=217, totalR=2294, A=18
+state-and-links-without-node-wrappers: C=147, R=1695, totalC=147, totalR=1695, A=12
+latest-witness-exclusive: C=3773, R=38084, totalC=3990, totalR=40378, A=18
+witness input own: C=1, R=6, totalC=3, totalR=8, A=0
+witness input incremental: C=1, R=6, totalC=218, totalR=2300, A=18
+witness admission own: C=17, R=160, totalC=20, totalR=163, A=0
+witness admission incremental: C=17, R=160, totalC=235, totalR=2460, A=18
+witness nodes own: C=367, R=3461, totalC=494, totalR=4509, A=18
+witness nodes incremental: C=367, R=3461, totalC=602, totalR=5921, A=18
+witness links own: C=1753, R=17204, totalC=1894, totalR=18806, A=12
+witness links incremental: C=1681, R=16532, totalC=2283, totalR=22453, A=18
+witness transitions own: C=1705, R=17893, totalC=1819, totalR=18235, A=15
+witness transitions incremental: C=1705, R=17893, totalC=3988, totalR=40346, A=18
+witness trace own: C=0, R=0, totalC=2, totalR=7, A=0
+witness trace incremental: C=0, R=0, totalC=3988, totalR=40346, A=18
+all node identity: C=0, R=0, totalC=127, totalR=1045, A=18
+all node values: C=6, R=84, totalC=81, totalR=561, A=18
+all node constraint-reads: C=84, R=633, totalC=120, totalR=953, A=0
+all node accounting: C=72, R=672, totalC=125, totalR=1130, A=12
+all node unmet-reads: C=36, R=348, totalC=95, totalR=824, A=18
+all node engagement-update: C=162, R=1626, totalC=170, totalR=1631, A=0
+all link identity: C=0, R=0, totalC=141, totalR=1599, A=12
+all link values: C=30, R=420, totalC=135, totalR=879, A=12
+all link before: C=30, R=180, totalC=117, totalR=501, A=9
+all link ablations: C=792, R=7512, totalC=845, totalR=7970, A=12
+all link support-update: C=810, R=8130, totalC=842, totalR=8135, A=0
+all link gate-claim: C=60, R=480, totalC=92, totalR=482, A=0
+transition opening-target-reads: C=301, R=3062, totalC=347, totalR=3402, A=15
+transition opened-settlement: C=6, R=147, totalC=52, totalR=487, A=15
+transition phase-circuit: C=5, R=59, totalC=7, totalR=61, A=0
+transition phase-read: C=5, R=30, totalC=6, totalR=31, A=0
+transition fade-claim: C=2, R=16, totalC=4, totalR=18, A=0
+transition change-target-reads: C=736, R=7499, totalC=788, totalR=7521, A=6
+transition changed-settlement: C=6, R=321, totalC=57, totalR=342, A=6
+transition closing-target-reads: C=181, R=1838, totalC=219, totalR=2158, A=9
+transition closed-settlement: C=6, R=99, totalC=44, totalR=419, A=9
+transition gate-target-reads: C=451, R=4592, totalC=507, totalR=4912, A=9
+transition installed-settlement: C=6, R=207, totalC=62, totalR=527, A=9
+step241 allocation=11360288
+step241: C=3990, R=40378, totalC=3990, totalR=40378, A=18
+step241 new compared with240: C=3827, R=38733, totalC=3990, totalR=40378, A=18
+step240 lost compared with241: C=3827, R=38733, totalC=3990, totalR=40378, A=18
+stable raw identity=True
+stable link identity=True
+ordered group holder identities=3291
+ordered group scaffold relation identities=22971

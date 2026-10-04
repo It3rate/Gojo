@@ -53,7 +53,10 @@ public static class AssemblyNetwork
             var receipt = new Carrier(packet.UnitShape);
             var equation = Equation.Product(receipt, Equation.UnitPort(Raw(producer)),
                 Equation.UnitPort(gate), Equation.UnitPort(Request(consumer)));
-            var live = receipt.AttachLiveOutput(Input(Raw(producer).ValueSlot, gate.ValueSlot,
+            // Keep the reusable relation dormant until a probe opens it. Its
+            // physical attachment, rather than a side-table status, is the
+            // executable producer-consumer connection.
+            var live = Relation.LiveOutput(Input(Raw(producer).ValueSlot, gate.ValueSlot,
                 Request(consumer).ValueSlot), equation);
             links.Add(G(Raw(producer), Request(consumer), support, gate, live, receipt));
         }
@@ -302,6 +305,20 @@ public static class AssemblyNetwork
             var installed = Carrier.ReceiveTogether(G(gates.ToArray()));
             if (!SettlementObservation.ObservedQuiet(closed) || !SettlementObservation.ObservedQuiet(installed))
             { witness = G(opened, changed, closed, installed); return false; }
+
+            // Closing the pulses has already discharged every live receipt.
+            // Detach itself preserves carrier state; it must never be used as
+            // an implicit retraction of previously delivered participation.
+            foreach (var link in links)
+            {
+                var publication = (Relation)Parts(link)[4];
+                var receipt = Receipt(link);
+                if (Gate(link).Value > 0)
+                {
+                    if (!receipt.IsAttached(publication)) receipt.Attach(publication);
+                }
+                else if (receipt.IsAttached(publication)) receipt.Detach(publication);
+            }
 
             var nextTrace = input is CarrierLocation ? G(last, input) : G(new Placeholder(), new Placeholder());
             witness = G(G(nativeSequence, input), availability, G(nodeSamples), G(linkSamples),

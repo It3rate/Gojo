@@ -7,7 +7,7 @@ inference. Its JSON objects exist only at the rendering boundary.
 From the repository root, open a recorded replay:
 
 ```powershell
-dotnet run --project experiments/ConnectionAssembly.Viewer -- --replay=experiments/ConnectionAssembly/results/changing-patterns.json
+dotnet run --project experiments/ConnectionAssembly.Viewer -- --replay=experiments/ConnectionAssembly/results-lifecycle/changing-patterns.json
 ```
 
 Play / pause, step, scrub, or jump between the recorded phase labels. Playback
@@ -19,7 +19,7 @@ scalar remains visible during an incomplete native read such as warmup.
 Render a PNG without starting Avalonia or opening a window:
 
 ```powershell
-dotnet run --project experiments/ConnectionAssembly.Viewer -- --replay=experiments/ConnectionAssembly/results/changing-patterns.json --render=experiments/ConnectionAssembly/results/replay-frame.png --frame=240
+dotnet run --project experiments/ConnectionAssembly.Viewer -- --replay=experiments/ConnectionAssembly/results-lifecycle/changing-patterns.json --render=experiments/ConnectionAssembly/results-lifecycle/replay-frame.png --frame=240
 ```
 
 `--frame` is a **zero-based array index**, not the source step. It is clamped to
@@ -42,6 +42,10 @@ Read the two times separately:
   values. Closed idle slots are visually hidden but are not claimed to have
   been removed from the native graph. Support controls line weight; this is
   display scaling, not a confidence probability.
+
+The lifecycle follow-up physically detaches expired publications from
+settlement, while retaining their dormant relation templates in the graph.
+The original preattached-gate replay is still available under `results`.
 
 The input phase names and the complete replay history belong to the observer.
 The learner does not receive them. This displays recognition and local help,

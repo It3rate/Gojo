@@ -1,5 +1,13 @@
 # Connection assembly capability experiment
 
+The runner now uses actual core attachment/withdrawal, retaining dormant link
+structure for later reuse. See [the lifecycle follow-up](lifecycle-update.md)
+and [the allocation audit](../ConnectionAssembly.Audit/README.md). New runs write
+to `results-lifecycle`; the original `results` are preserved below as the first
+probe. Statements below about missing detach describe that original revision.
+
+## Original gated-connection probe
+
 This pauses the timing work and asks a narrower question: can a few local Gojo
 readers recruit useful contributions, retain intermittent use, and withdraw
 unused contributions as one shared input changes? The answer is **yes for
@@ -132,8 +140,8 @@ From the repository root:
 
 ```powershell
 dotnet run --project experiments/ConnectionAssembly -c Release -- --checks-only
-dotnet run --project experiments/ConnectionAssembly -c Release -- experiments/ConnectionAssembly/results
-dotnet run --project experiments/ConnectionAssembly.Viewer -c Release -- --replay=experiments/ConnectionAssembly/results/changing-patterns.json
+dotnet run --project experiments/ConnectionAssembly -c Release -- experiments/ConnectionAssembly/results-lifecycle
+dotnet run --project experiments/ConnectionAssembly.Viewer -c Release -- --replay=experiments/ConnectionAssembly/results-lifecycle/changing-patterns.json
 ```
 
 The separate native viewer has play/pause, stepping, scrubbing and phase jumps.
