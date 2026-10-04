@@ -77,6 +77,9 @@ Zigzag uses small constant steps; square uses plateaus and isolated larger edges
 Heartbeat is a supplied repeating short pulse sequence with a longer quiet gap,
 not a physiological model. Add a deterministic shuffled pulse control and a
 larger-step zigzag to expose ambiguity and dependence on the supplied scale.
+Also start an ordered heartbeat from a fresh world for the same 240 arrivals,
+so the shuffled control has a matched initial state. This control was added
+during pre-run review, before any trial results were generated.
 
 Capture raw recognition, requested/received/unmet help, actual gates/support,
 new probes, useful/duplicate receipts, withdrawal, and a few retained graph
