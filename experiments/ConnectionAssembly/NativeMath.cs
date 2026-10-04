@@ -24,8 +24,10 @@ internal static class NativeMath
     }
 
     public static Relation Sum(params (IElement Value, long Coefficient)[] terms)
+        => SumTo(new Carrier(), terms);
+
+    public static Relation SumTo(Carrier output, params (IElement Value, long Coefficient)[] terms)
     {
-        var output = new Carrier();
         if (terms.Length == 0)
             return Group(Equation.Constant(output, 0), new CarrierLocation(output, 0), output, Group());
         var inputs = terms.Select(term => new CarrierLocation(Output(term.Value), 0)).ToArray();
@@ -51,14 +53,26 @@ internal static class NativeMath
             Group(new Relation(input, value)));
     }
 
+    /// <summary>A live coordinate is readable only through an admitted unit
+    /// span. Collapsing that span leaves an unresolved native projection; it
+    /// never turns a retained/default coordinate into a current zero sample.</summary>
+    public static Relation Present(CarrierLocation value, CarrierLocation presence)
+    {
+        var sourceFrame = new Relation(new CarrierLocation(value.Carrier, 0),
+            new CarrierLocation(value.Carrier, presence.Tick));
+        var targetFrame = new Relation(new CarrierLocation(value.Carrier, 0), new CarrierLocation(value.Carrier, 1));
+        return Group(Equation.Affine(sourceFrame, targetFrame), value, value.Carrier, Group());
+    }
+
     public static Relation Read(IElement root) => ReadMany(root)[0];
 
     /// <summary>
-    /// Evaluates a batch using only per-call coordinates and relation copies.
-    /// Bindings substitute shared sites in the local input/equation; persistent
-    /// scratch slots are never retargeted by a read. Concurrent read calls have
-    /// independent scratch. A concurrent writer still needs an admission boundary
-    /// when several distinct physical sites must be observed as one frame.
+    /// Evaluates a batch using per-call coordinates and substitution scratch.
+    /// Unchanged instruction relations are reused; local input coordinates and
+    /// results are captured. The result preserves residue, not an exhaustive
+    /// historical copy of the operational recipe. Persistent scratch slots are
+    /// never retargeted by a read. Concurrent writers still need an admission
+    /// boundary when several physical sites must be observed as one frame.
     /// </summary>
     public static Relation[] ReadMany(params IElement[] roots)
     {
@@ -89,26 +103,34 @@ internal static class NativeMath
                 var upstream = new List<IElement>();
                 var substitutions = new Dictionary<TickRef, TickRef>(ReferenceEqualityComparer.Instance);
                 var copiedRelations = new Dictionary<Relation, Relation>(ReferenceEqualityComparer.Instance);
+                var capturedRelations = new Dictionary<Relation, Relation>(ReferenceEqualityComparer.Instance);
                 var copyingRelations = new HashSet<Relation>(ReferenceEqualityComparer.Instance);
                 var incompleteCopy = false;
 
-                IElement CopyBound(IElement element)
+                IElement CopyBound(IElement element, bool capture = false)
                 {
                     TickRef CopyTick(TickRef tick) =>
-                        substitutions.TryGetValue(tick, out var replacement) ? replacement : Observe(tick);
+                        substitutions.TryGetValue(tick, out var replacement) ? replacement : capture ? Observe(tick) : tick;
                     if (element is CarrierLocation location && location.Carrier is not null && location.Tick is not null)
-                        return new CarrierLocation(location.Carrier, CopyTick(location.Tick));
+                    {
+                        var copiedTick = CopyTick(location.Tick);
+                        return ReferenceEquals(copiedTick, location.Tick) ? element : new CarrierLocation(location.Carrier, copiedTick);
+                    }
                     if (element is TickRef tick) return CopyTick(tick);
                     if (element is not Relation relation) return element;
-                    if (copiedRelations.TryGetValue(relation, out var copied)) return copied;
+                    var copies = capture ? capturedRelations : copiedRelations;
+                    if (copies.TryGetValue(relation, out var copied)) return copied;
                     if (!copyingRelations.Add(relation))
                     {
                         incompleteCopy = true;
                         return new Placeholder();
                     }
-                    copied = new Relation(CopyBound(relation.Left), CopyBound(relation.Right));
+                    var left = CopyBound(relation.Left, capture);
+                    var right = CopyBound(relation.Right, capture);
+                    copied = ReferenceEquals(left, relation.Left) && ReferenceEquals(right, relation.Right)
+                        ? relation : new Relation(left, right);
                     copyingRelations.Remove(relation);
-                    copiedRelations.Add(relation, copied);
+                    copies.Add(relation, copied);
                     return copied;
                 }
 
@@ -133,7 +155,7 @@ internal static class NativeMath
                 }
 
                 var localEquation = (Relation)CopyBound(equation);
-                var localInput = CopyBound(parts[1]);
+                var localInput = CopyBound(parts[1], capture: true);
                 if (incompleteCopy)
                     return memo[node.Id] = Unresolved(localInput, localEquation, output, upstream);
                 // The dynamic ratio frame has no usable basis when its endpoints
@@ -144,8 +166,13 @@ internal static class NativeMath
                 if (!Equation.TryPredict(localEquation, localInput, output, out var prediction) ||
                     !Equation.TryReadPrediction(prediction, out var calculated, out var residue))
                     return memo[node.Id] = Unresolved(localInput, localEquation, output, upstream);
-                return memo[node.Id] = new Relation(new CarrierLocation(calculated.Carrier, calculated.Ticks),
-                    Group(residue, Group(upstream.ToArray())));
+                // This is a current numeric read, not an exhaustive derivation
+                // archive. Keep every upstream residue but do not repeatedly
+                // copy all prior predictions or add group-anchor carriers.
+                IElement retainedResidue = residue;
+                foreach (var read in upstream)
+                    retainedResidue = new Relation(retainedResidue, ((Relation)read).Right);
+                return memo[node.Id] = new Relation(new CarrierLocation(calculated.Carrier, calculated.Ticks), retainedResidue);
             }
             finally { active.Remove(node.Id); }
         }

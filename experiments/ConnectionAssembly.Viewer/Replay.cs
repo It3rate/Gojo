@@ -1,4 +1,6 @@
+using System.Security.Cryptography;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace ConnectionAssembly.Viewer;
 
@@ -9,12 +11,17 @@ internal sealed class Replay
     public string Title { get; set; } = "Connection assembly";
     public string[] NodeNames { get; set; } = [];
     public ReplayFrame[] Frames { get; set; } = [];
+    [JsonIgnore] public string SourcePath { get; private set; } = "";
+    [JsonIgnore] public string ContentFingerprint { get; private set; } = "";
 
     public static Replay Load(string path)
     {
-        var replay = JsonSerializer.Deserialize<Replay>(File.ReadAllText(path),
+        var bytes = File.ReadAllBytes(path);
+        var replay = JsonSerializer.Deserialize<Replay>(bytes,
             new JsonSerializerOptions { PropertyNameCaseInsensitive = true })
             ?? throw new InvalidDataException("The replay file has no document.");
+        replay.SourcePath = Path.GetFullPath(path);
+        replay.ContentFingerprint = Convert.ToHexString(SHA256.HashData(bytes))[..12];
         if (replay.NodeNames.Length != 6 || replay.Frames.Length == 0)
             throw new InvalidDataException("A replay requires six node names and at least one frame.");
         for (var i = 0; i < replay.Frames.Length; i++)
@@ -42,6 +49,7 @@ internal sealed class ReplayFrame
     public ReplayLink[] Links { get; set; } = [];
     public int? NativeRelations { get; set; }
     public int? NativeCarriers { get; set; }
+    public int? NativeAttachedRelations { get; set; }
 }
 
 internal sealed class ReplayNode

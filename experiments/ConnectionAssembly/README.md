@@ -1,10 +1,13 @@
 # Connection assembly capability experiment
 
-The runner now uses actual core attachment/withdrawal, retaining dormant link
-structure for later reuse. See [the lifecycle follow-up](lifecycle-update.md)
-and [the allocation audit](../ConnectionAssembly.Audit/README.md). New runs write
-to `results-lifecycle`; the original `results` are preserved below as the first
-probe. Statements below about missing detach describe that original revision.
+The runner now reuses its connected operational equations and mutable input
+sites, and uses actual core attachment/withdrawal for helper participation.
+See [the dynamic-equation follow-up](dynamic-update.md),
+[the lifecycle follow-up](lifecycle-update.md), and
+[the allocation audit](../ConnectionAssembly.Audit/README.md). New runs write
+to `results-dynamic`. The earlier `results` and `results-lifecycle` are preserved.
+Statements below about missing detach and reconstruction describe the original
+revision, not the current implementation.
 
 ## Original gated-connection probe
 
@@ -140,8 +143,9 @@ From the repository root:
 
 ```powershell
 dotnet run --project experiments/ConnectionAssembly -c Release -- --checks-only
-dotnet run --project experiments/ConnectionAssembly -c Release -- experiments/ConnectionAssembly/results-lifecycle
-dotnet run --project experiments/ConnectionAssembly.Viewer -c Release -- --replay=experiments/ConnectionAssembly/results-lifecycle/changing-patterns.json
+dotnet run --project experiments/ConnectionAssembly -c Release
+./experiments/ConnectionAssembly/Compare-Replays.ps1
+dotnet run --project experiments/ConnectionAssembly.Viewer -c Release
 ```
 
 The separate native viewer has play/pause, stepping, scrubbing and phase jumps.

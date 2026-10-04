@@ -7,8 +7,15 @@ inference. Its JSON objects exist only at the rendering boundary.
 From the repository root, open a recorded replay:
 
 ```powershell
-dotnet run --project experiments/ConnectionAssembly.Viewer -- --replay=experiments/ConnectionAssembly/results-lifecycle/changing-patterns.json
+dotnet run --project experiments/ConnectionAssembly.Viewer -c Release
 ```
+
+The default is `experiments/ConnectionAssembly/results-dynamic/changing-patterns.json`.
+Pass `-- --replay=<path>` to select an earlier or different recording. The header
+shows the exact loaded file path and the first twelve digits of its SHA-256 hash;
+the window title also identifies its result folder. These identify the recorded
+data, not a claim about which kernel is running. Loading occurs once at startup:
+restart the viewer to load a regenerated file. Playback does not run the learner.
 
 Play / pause, step, scrub, or jump between the recorded phase labels. Playback
 advances through 12 observations per second; that is presentation speed, not the
@@ -19,7 +26,7 @@ scalar remains visible during an incomplete native read such as warmup.
 Render a PNG without starting Avalonia or opening a window:
 
 ```powershell
-dotnet run --project experiments/ConnectionAssembly.Viewer -- --replay=experiments/ConnectionAssembly/results-lifecycle/changing-patterns.json --render=experiments/ConnectionAssembly/results-lifecycle/replay-frame.png --frame=240
+dotnet run --project experiments/ConnectionAssembly.Viewer -c Release -- --render=experiments/ConnectionAssembly/results-dynamic/replay-frame.png --frame=239
 ```
 
 `--frame` is a **zero-based array index**, not the source step. It is clamped to
@@ -46,6 +53,13 @@ Read the two times separately:
 The lifecycle follow-up physically detaches expired publications from
 settlement, while retaining their dormant relation templates in the graph.
 The original preattached-gate replay is still available under `results`.
+That lifecycle recording remains under `results-lifecycle`; the dynamic-equation
+follow-up uses `results-dynamic`. Similar recognition and help traces are expected
+when changes preserve the participation policy. Inspect the measured graph counts
+and the accompanying experiment audit for structural changes.
+
+This is the native connection-assembly viewer. Updating it does not update or
+deploy the historical Core4 browser demos.
 
 The input phase names and the complete replay history belong to the observer.
 The learner does not receive them. This displays recognition and local help,
@@ -58,7 +72,9 @@ The JSON contract is the runner's `title`, six `nodeNames`, and sequential
 directed `links`. Nodes expose `id`, `raw`, `request`, `help`, `pressure`,
 `engagement`, and `accounted`; links expose `from`, `to`, `support`, `gate`,
 `receipt`, `proposed`, `useful`, and `released`. Optional counts are
-`nativeRelations` and `nativeCarriers`. Loading validates the report shape;
+`nativeRelations`, `nativeCarriers`, and `nativeAttachedRelations`. The attachment
+count includes all distinct attached relations in the measured graph, not only
+helper links. Loading validates the report shape;
 it does not judge or repair the experiment's readings.
 
 The project has no Gojo dependency and does not join the kernel solution. It

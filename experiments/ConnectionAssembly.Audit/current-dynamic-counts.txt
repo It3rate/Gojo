@@ -1,0 +1,56 @@
+created: C=939, R=14717, totalC=939, totalR=14717, A=12
+created-operational: C=853, R=12709, totalC=853, totalR=12709, A=12
+step240: C=1600, R=24116, totalC=1600, totalR=24116, A=18
+step240-operational: C=853, R=12889, totalC=853, totalR=12889, A=18
+operational new compared with creation: C=0, R=180, totalC=853, totalR=12889, A=18
+operational lost compared with creation: C=0, R=0, totalC=853, totalR=12709, A=12
+base-without-last-witness: C=938, R=14699, totalC=938, totalR=14699, A=18
+state-and-links-without-node-wrappers: C=886, R=14118, totalC=886, totalR=14118, A=18
+latest-witness-exclusive: C=662, R=9417, totalC=1600, totalR=24116, A=18
+witness input own: C=1, R=6, totalC=3, totalR=8, A=0
+witness input incremental: C=1, R=6, totalC=939, totalR=14705, A=18
+witness admission own: C=8, R=78, totalC=13, totalR=117, A=0
+witness admission incremental: C=8, R=78, totalC=947, totalR=14783, A=18
+witness nodes own: C=139, R=1469, totalC=333, totalR=3548, A=18
+witness nodes incremental: C=139, R=1469, totalC=1086, totalR=16252, A=18
+witness links own: C=499, R=5852, totalC=982, totalR=13190, A=12
+witness links incremental: C=481, R=5672, totalC=1567, totalR=21924, A=18
+witness transitions own: C=31, R=2160, totalC=147, totalR=2538, A=15
+witness transitions incremental: C=31, R=2160, totalC=1598, totalR=24084, A=18
+witness trace own: C=0, R=0, totalC=2, totalR=7, A=0
+witness trace incremental: C=0, R=0, totalC=1598, totalR=24084, A=18
+all node identity: C=0, R=0, totalC=128, totalR=1056, A=18
+all node values: C=6, R=84, totalC=81, totalR=561, A=18
+all node constraint-reads: C=66, R=537, totalC=108, totalR=905, A=0
+all node accounting: C=18, R=180, totalC=83, totalR=854, A=12
+all node unmet-reads: C=12, R=156, totalC=83, totalR=764, A=18
+all node engagement-update: C=30, R=414, totalC=80, totalR=1091, A=0
+all link identity: C=0, R=0, totalC=141, totalR=1599, A=12
+all link values: C=30, R=420, totalC=135, totalR=879, A=12
+all link before: C=30, R=180, totalC=117, totalR=501, A=9
+all link ablations: C=198, R=2220, totalC=383, totalR=5054, A=12
+all link support-update: C=150, R=2070, totalC=392, totalR=5435, A=0
+all link gate-claim: C=60, R=480, totalC=92, totalR=482, A=0
+transition participant 0: C=1, R=242, totalC=47, totalR=582, A=15
+transition participant 1: C=6, R=147, totalC=52, totalR=487, A=15
+transition participant 2: C=0, R=0, totalC=4, totalR=38, A=0
+transition participant 3: C=0, R=6, totalC=1, totalR=7, A=0
+transition participant 4: C=2, R=16, totalC=4, totalR=18, A=0
+transition participant 5: C=1, R=590, totalC=52, totalR=611, A=6
+transition participant 6: C=6, R=321, totalC=57, totalR=342, A=6
+transition participant 7: C=1, R=146, totalC=39, totalR=466, A=9
+transition participant 8: C=6, R=99, totalC=44, totalR=419, A=9
+transition participant 9: C=1, R=362, totalC=57, totalR=682, A=9
+transition participant 10: C=6, R=207, totalC=62, totalR=527, A=9
+step241 allocation=5906744
+step241: C=1600, R=24116, totalC=1600, totalR=24116, A=18
+step241 new compared with240: C=663, R=9423, totalC=1600, totalR=24116, A=18
+step240 lost compared with241: C=663, R=9423, totalC=1600, totalR=24116, A=18
+stable raw identity=True
+stable link identity=True
+stable node identity=True
+stable constraint identity=True
+stable operational root identity=True
+all original operational relations retained=True
+ordered group holder identities=1263
+ordered group scaffold relation identities=12870

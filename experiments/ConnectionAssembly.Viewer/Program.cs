@@ -22,7 +22,7 @@ internal static class Program
         try
         {
             string? Read(string name) => args.FirstOrDefault(arg => arg.StartsWith(name + "=", StringComparison.Ordinal))?[(name.Length + 1)..];
-            var path = Read("--replay") ?? "experiments/ConnectionAssembly/results-lifecycle/changing-patterns.json";
+            var path = Read("--replay") ?? "experiments/ConnectionAssembly/results-dynamic/changing-patterns.json";
             Document = Replay.Load(Path.GetFullPath(path));
             InitialFrame = int.TryParse(Read("--frame"), out var frame) ? Math.Clamp(frame, 0, Document.Frames.Length - 1) : 0;
             if (Read("--render") is { Length: > 0 } destination)
@@ -70,7 +70,7 @@ internal sealed class ReplayWindow : Window
 {
     public ReplayWindow(Replay replay, int initial)
     {
-        Title = "Gojo · Connection assembly replay";
+        Title = $"Gojo · Recorded replay · {Path.GetFileName(Path.GetDirectoryName(replay.SourcePath))} · {replay.ContentFingerprint}";
         Width = 1480;
         Height = 1060;
         MinWidth = 1060;

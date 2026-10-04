@@ -29,8 +29,9 @@ internal static class ReplayRenderer
         canvas.Translate((width - DesignWidth * scale) / 2, (height - DesignHeight * scale) / 2);
         canvas.Scale(scale);
         var frame = replay.Frames[index];
-        Text(canvas, replay.Title, 28, 43, 27, Ink, true, 1060);
-        Text(canvas, "CONNECTION ASSEMBLY / RECORDED OBSERVATIONS", 29, 69, 12, Muted);
+        Text(canvas, replay.Title, 28, 35, 27, Ink, true, 1060);
+        Text(canvas, $"RECORDED REPLAY · NO LIVE LEARNING · SHA-256 {replay.ContentFingerprint}", 29, 57, 12, Muted);
+        Text(canvas, replay.SourcePath, 29, 78, 11, Muted, maxWidth: 1423);
         Text(canvas, $"STEP {frame.Step}", 1452, 39, 21, Ink, true, align: SKTextAlign.Right);
         Text(canvas, $"Frame {index + 1} of {replay.Frames.Length}", 1452, 64, 14, Muted, align: SKTextAlign.Right);
 
@@ -41,8 +42,8 @@ internal static class ReplayRenderer
         Text(canvas, "Reading this view", 29, 939, 15, Ink, true);
         Text(canvas, "Ports and receipts describe this arrival. Gates and support are after feedback, available for the next arrival.", 180, 939, 14, Muted);
         Text(canvas, "Recognition and help are local accounting, not a forecast. Phase names belong to the observer, not the learner.", 29, 966, 14, Muted);
-        var graph = frame.NativeRelations is not null || frame.NativeCarriers is not null
-            ? $"Retained: {frame.NativeRelations?.ToString(CultureInfo.InvariantCulture) ?? "—"} relations · {frame.NativeCarriers?.ToString(CultureInfo.InvariantCulture) ?? "—"} carriers"
+        var graph = frame.NativeRelations is not null || frame.NativeCarriers is not null || frame.NativeAttachedRelations is not null
+            ? $"Measured here: {frame.NativeRelations?.ToString(CultureInfo.InvariantCulture) ?? "—"} retained relations · {frame.NativeCarriers?.ToString(CultureInfo.InvariantCulture) ?? "—"} carriers · {frame.NativeAttachedRelations?.ToString(CultureInfo.InvariantCulture) ?? "—"} attached relations"
             : "Retained size not sampled at this step";
         Text(canvas, graph, 1452, 989, 12, Muted, align: SKTextAlign.Right);
         canvas.Restore();

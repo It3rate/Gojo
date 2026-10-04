@@ -32,6 +32,11 @@ var initial = Snapshot(root);
 Report("created", initial);
 var rawIds = Network.Nodes(root).Select(Network.Raw).Select(carrier => carrier.Id).ToArray();
 var linkIds = Network.Links(root).Select(link => link.Id).ToArray();
+var nodeIds = Network.Nodes(root).Select(node => node.Id).ToArray();
+var constraintIds = Network.Nodes(root).Select(node => ((Relation)Network.Parts(node)[1]).Id).ToArray();
+var operational = Network.Operational(root);
+var initialOperational = Snapshot(operational);
+Report("created-operational", initialOperational);
 
 Relation witness = null!;
 for (var step = 1; step <= 240; step++)
@@ -46,11 +51,16 @@ for (var step = 1; step <= 240; step++)
 
 var complete = Snapshot(root);
 Report("step240", complete);
+var currentOperational = Snapshot(Network.Operational(root));
+Report("step240-operational", currentOperational);
+Report("operational new compared with creation", currentOperational, initialOperational);
+Report("operational lost compared with creation", initialOperational, currentOperational);
 var rootParts = Network.Parts(root);
 var witnessParts = Network.Parts(witness);
 
-// The root's final participant is the latest frame witness. The preceding
-// participants retain the current physical network and constructed features.
+// The admission envelope's final participant is the selected latest sample.
+// Its preceding participants retain the reusable physical network and live
+// instruction graph. The envelope is not itself a newly constructed network.
 var baseGraph = Snapshot(rootParts.Take(7).ToArray());
 Report("base-without-last-witness", baseGraph);
 var stateGraph = Snapshot(rootParts[0], rootParts[1], rootParts[3],
@@ -85,15 +95,12 @@ for (var index = 0; index < linkNames.Length; index++)
 }
 
 var transitions = Network.Parts((Relation)witnessParts[4]);
-string[] transitionNames =
-[
-    "opening-target-reads", "opened-settlement", "phase-circuit", "phase-read",
-    "fade-claim", "change-target-reads", "changed-settlement", "closing-target-reads",
-    "closed-settlement", "gate-target-reads", "installed-settlement"
-];
-for (var index = 0; index < transitionNames.Length; index++)
+// These ordered participants are experiment-specific selected evidence, not a
+// universal step schema. Number them without assigning old reconstruction
+// labels to a newer compact witness layout.
+for (var index = 0; index < transitions.Length; index++)
 {
-    Report("transition " + transitionNames[index], Snapshot(transitions[index]), baseGraph);
+    Report("transition participant " + index, Snapshot(transitions[index]), baseGraph);
 }
 
 // Keep capture and reporting outside the admission allocation measurement.
@@ -113,6 +120,13 @@ Console.WriteLine("stable raw identity=" +
     rawIds.SequenceEqual(Network.Nodes(root).Select(Network.Raw).Select(carrier => carrier.Id)));
 Console.WriteLine("stable link identity=" +
     linkIds.SequenceEqual(Network.Links(root).Select(link => link.Id)));
+Console.WriteLine("stable node identity=" +
+    nodeIds.SequenceEqual(Network.Nodes(root).Select(node => node.Id)));
+Console.WriteLine("stable constraint identity=" +
+    constraintIds.SequenceEqual(Network.Nodes(root).Select(node => ((Relation)Network.Parts(node)[1]).Id)));
+Console.WriteLine("stable operational root identity=" + ReferenceEquals(operational, Network.Operational(root)));
+Console.WriteLine("all original operational relations retained=" +
+    RelationIds(initialOperational).IsSubsetOf(RelationIds(Snapshot(Network.Operational(root)))));
 
 var groupHolderIds = new HashSet<ulong>();
 var visitedRelationIds = new HashSet<ulong>();

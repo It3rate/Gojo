@@ -15,10 +15,11 @@ public static class AssemblyNetwork
     // World8: input carrier, admission cursor, nodes, links, policy, two-site
     // trace, copied admission version, latest frame witness/open.
     // Node8: exposed input/trace, constraints, raw, engagement, request, help,
-    // pressure, accounted. Node identity is its raw carrier, not its wrapper.
+    // pressure, accounted. Both the node relation and its ports remain stable.
     // Link6: producer raw, consumer request, support, gate, live product, receipt.
-    // Policy7: engagement cap, support cap, recognition grant, utility grant,
-    // proposal grant, fade span, phase carrier. Policy numbers are supplied.
+    // Policy8: engagement cap, support cap, recognition grant, utility grant,
+    // proposal grant, fade span, phase carrier, persistent operational graph.
+    // The World8 wrapper is an admission token, not an immutable simulation.
     public static Relation Create()
     {
         var source = new Carrier();
@@ -26,11 +27,17 @@ public static class AssemblyNetwork
         var credit = new Carrier();
         var phase = new Carrier();
         var packet = new Carrier();
-        var policy = G(Relation.Segment(credit, 0, 48), Relation.Segment(credit, 0, 48),
-            new CarrierLocation(credit, 8), new CarrierLocation(credit, 6),
-            new CarrierLocation(credit, 3), Relation.Segment(phase, 0, 4), phase);
+        var engagementCap = Relation.Segment(credit, 0, 48);
+        var supportCap = Relation.Segment(credit, 0, 48);
         var trace = G(new Placeholder(), new Placeholder());
-        var constraints = Constraints(new Placeholder(), new Placeholder(), new Placeholder());
+        // A coordinate and its presence participation are separate. Incomplete
+        // frames retain their open-read contract even though these reusable
+        // coordinate sites still retain their most recent admitted position.
+        var sites = Enumerable.Range(0, 3).Select(_ => new Relation(
+            new CarrierLocation(source, 0), new CarrierLocation(packet, 0))).ToArray();
+        var inputSites = G(sites);
+        var present = sites.Select(site => N.Present((CarrierLocation)site.Left, (CarrierLocation)site.Right)).ToArray();
+        var constraints = Constraints(present[0], present[1], present[2]);
         var nodes = new Relation[6];
         for (var i = 0; i < nodes.Length; i++)
         {
@@ -38,7 +45,7 @@ public static class AssemblyNetwork
             // Reset every whole request packet to the origin while retaining it
             // as positive tension. A zero-to-zero boundary would be inert.
             pressure.Attach(new Relation(Relation.Point(pressure, 1), Relation.Point(pressure, 0)));
-            nodes[i] = G(G(Relation.Segment(source, 0, 1), trace, new Placeholder()), constraints[i],
+            nodes[i] = G(G(Relation.Segment(source, 0, 1), inputSites), constraints[i],
                 new Carrier(packet.UnitShape), new Carrier(credit.UnitShape),
                 new Carrier(packet.UnitShape), new Carrier(packet.UnitShape), pressure,
                 new Carrier(packet.UnitShape));
@@ -66,12 +73,38 @@ public static class AssemblyNetwork
             Help(node).AttachLiveOutput(Input(incoming.Select(link => (IElement)Receipt(link).ValueSlot).ToArray()),
                 Equation.Sum(Help(node), incoming.Select(link => Equation.UnitPort(Receipt(link))).ToArray()));
         }
+        var step = new CarrierLocation(phase, 0);
+        var nodeOperations = nodes.Select(node => (IElement)G(
+            N.SumTo(Raw(node), (Raw(node).ValueSlot, 1), (Help(node).ValueSlot, 1)),
+            N.Reframe(Help(node).ValueSlot, Request(node)),
+            BuildBounded(Engagement(node), engagementCap))).ToArray();
+        var linkOperations = links.Select(link =>
+        {
+            var consumer = nodes.Single(node => Request(node).SameIdentityAs(ConsumerRequest(link)));
+            var without = N.SumTo(Help(consumer), (Help(consumer).ValueSlot, 1), (Receipt(link).ValueSlot, -1));
+            return (IElement)G(without,
+                N.SumTo(Raw(consumer), (Raw(consumer).ValueSlot, 1), (without, 1)),
+                BuildBounded(Support(link), supportCap));
+        }).ToArray();
+        var targets = new[] { source, cursor, phase }
+            .Concat(nodes.SelectMany(node => new[] { Raw(node), Request(node), Pressure(node), Engagement(node), (Carrier)Parts(node)[7] }))
+            .Concat(links.SelectMany(link => new[] { Support(link), Gate(link) }))
+            .Select(carrier => (IElement)BuildTarget(carrier)).ToArray();
+        var operational = G(inputSites,
+            N.SumTo(cursor, (cursor.ValueSlot, 1), (new CarrierLocation(cursor, 1), 1)),
+            G(step, N.SumTo(phase, (phase.ValueSlot, 1), (step, 1))),
+            G(nodeOperations), G(linkOperations), G(targets));
+        var policy = G(engagementCap, supportCap,
+            new CarrierLocation(credit, 8), new CarrierLocation(credit, 6),
+            new CarrierLocation(credit, 3), Relation.Segment(phase, 0, 4), phase, operational);
         return G(source, cursor, G(nodes), G(links.ToArray()), policy, trace,
             new CarrierLocation(cursor, 0), new Placeholder());
     }
 
     public static Relation[] Nodes(Relation root) => Parts((Relation)Parts(root)[2]).Cast<Relation>().ToArray();
     public static Relation[] Links(Relation root) => Parts((Relation)Parts(root)[3]).Cast<Relation>().ToArray();
+    /// <summary>The once-built, locally connected live equation and site graph.</summary>
+    public static Relation Operational(Relation root) => (Relation)Parts((Relation)Parts(root)[4])[7];
     public static Carrier Raw(Relation node) => (Carrier)Parts(node)[2];
     public static Carrier Engagement(Relation node) => (Carrier)Parts(node)[3];
     public static Carrier Request(Relation node) => (Carrier)Parts(node)[4];
@@ -101,12 +134,21 @@ public static class AssemblyNetwork
         if (p.Length != 8 || p[0] is not Carrier source || p[1] is not Carrier cursor ||
             p[4] is not Relation policy || p[5] is not Relation trace ||
             p[6] is not CarrierLocation version) return false;
+        var retargetedSites = new List<(TickRef Site, long Before)>();
+        var settlementStarted = false;
         try
         {
+            var operational = Parts(Operational(root));
+            // A disposable local traversal index; the native rows remain the
+            // only source of the response equations and target correspondence.
+            var targetRows = Parts((Relation)operational[5]).Cast<Relation>()
+                .ToDictionary(row => ((Carrier)Parts(row)[0]).Id);
+            var nodeOperations = Parts((Relation)operational[3]).Cast<Relation>().Select(Parts).ToArray();
+            var linkOperations = Parts((Relation)operational[4]).Cast<Relation>().Select(Parts).ToArray();
             var nativeSequence = new CarrierLocation(cursor, sequence);
             var current = Copy(cursor.ValueSlot);
             var currentVersion = Equal(version, current);
-            var successorCircuit = N.Reframe(N.Sum((current, 1), (new CarrierLocation(cursor, 1), 1)), cursor);
+            var successorCircuit = (Relation)operational[1];
             var successorRead = N.Read(successorCircuit);
             if (!Scalar(successorRead, out var successor)) return false;
             var increasing = AtLeast(nativeSequence, successor);
@@ -123,18 +165,23 @@ public static class AssemblyNetwork
             var complete = input is CarrierLocation && older is CarrierLocation && last is CarrierLocation;
             var availability = G(currentVersion, increasing, adjacent, successorCircuit, successorRead,
                 G(older, last, input), new CarrierLocation(cursor, complete ? 1 : 0));
-            var oldNodes = Nodes(root);
-            var constraints = Constraints(older, last, input);
-            var nodes = oldNodes.Select((node, i) =>
+            var sites = Parts((Relation)operational[0]).Cast<Relation>().ToArray();
+            IElement[] inputFrame = [older, last, input];
+            // Explicit admission retargets these shared sites. Reading an
+            // equation never writes them or installs a cached answer.
+            for (var i = 0; i < sites.Length; i++)
             {
-                var parts = Parts(node);
-                return G(G(Relation.Segment(source, 0, 1), G(older, last), input), constraints[i],
-                    parts[2], parts[3], parts[4], parts[5], parts[6], parts[7]);
-            }).ToArray();
+                retargetedSites.Add((((CarrierLocation)sites[i].Right).Tick, ((CarrierLocation)sites[i].Right).Ticks));
+                retargetedSites.Add((((CarrierLocation)sites[i].Left).Tick, ((CarrierLocation)sites[i].Left).Ticks));
+                ((CarrierLocation)sites[i].Right).Tick.Set(inputFrame[i] is CarrierLocation ? 1 : 0);
+                if (inputFrame[i] is CarrierLocation coordinate)
+                    ((CarrierLocation)sites[i].Left).Tick.Set(coordinate.Ticks);
+            }
+            var nodes = Nodes(root);
+            var constraints = nodes.Select(node => (Relation)Parts(node)[1]).ToArray();
             var links = Links(root);
             var q = Parts(policy);
             var phase = (Carrier)q[6];
-            var beforePhase = Copy(phase.ValueSlot);
             var constraintReads = new Relation[nodes.Length];
             var recognized = new bool[nodes.Length];
             var requested = new bool[nodes.Length];
@@ -170,14 +217,15 @@ public static class AssemblyNetwork
             // frame. A numeric report is an external perturbation of the source.
             var opening = new List<IElement>();
             var openingReads = new List<IElement>();
-            AddTarget(opening, openingReads, cursor, nativeSequence);
-            if (input is CarrierLocation supplied) AddTarget(opening, openingReads, source, supplied);
+            AddTarget(targetRows, opening, openingReads, cursor, nativeSequence, retargetedSites);
+            if (input is CarrierLocation supplied) AddTarget(targetRows, opening, openingReads, source, supplied, retargetedSites);
             for (var i = 0; i < nodes.Length; i++)
             {
-                AddTarget(opening, openingReads, Raw(nodes[i]), new CarrierLocation(Raw(nodes[i]), recognized[i] ? 1 : 0));
-                AddTarget(opening, openingReads, Request(nodes[i]), new CarrierLocation(Request(nodes[i]), requested[i] ? 1 : 0));
-                AddTarget(opening, openingReads, Pressure(nodes[i]), new CarrierLocation(Pressure(nodes[i]), requested[i] ? 1 : 0));
+                AddTarget(targetRows, opening, openingReads, Raw(nodes[i]), new CarrierLocation(Raw(nodes[i]), recognized[i] ? 1 : 0), retargetedSites);
+                AddTarget(targetRows, opening, openingReads, Request(nodes[i]), new CarrierLocation(Request(nodes[i]), requested[i] ? 1 : 0), retargetedSites);
+                AddTarget(targetRows, opening, openingReads, Pressure(nodes[i]), new CarrierLocation(Pressure(nodes[i]), requested[i] ? 1 : 0), retargetedSites);
             }
+            settlementStarted = true;
             var opened = Carrier.ReceiveTogether(G(opening.ToArray()));
             if (!SettlementObservation.ObservedQuiet(opened))
             {
@@ -195,9 +243,9 @@ public static class AssemblyNetwork
             var accounted = new bool[nodes.Length];
             for (var i = 0; i < nodes.Length; i++)
             {
-                accounting[i] = Account(frozenRaw[i], frozenHelp[i]);
+                accounting[i] = Account((Relation)nodeOperations[i][0]);
                 accounted[i] = complete && Pass((Relation)Parts(accounting[i])[2]);
-                var helpInRequest = N.Reframe(frozenHelp[i], frozenRequest[i].Carrier);
+                var helpInRequest = (Relation)nodeOperations[i][1];
                 var helpRead = N.Read(helpInRequest);
                 if (!Scalar(helpRead, out var help)) return false;
                 var shortage = OperationClaim.AtMost(new Carrier(), frozenRequest[i], help, Pressure(nodes[i]));
@@ -210,10 +258,10 @@ public static class AssemblyNetwork
             for (var j = 0; j < links.Length; j++)
             {
                 var i = Array.FindIndex(nodes, node => Request(node).SameIdentityAs(ConsumerRequest(links[j])));
-                var withoutCircuit = N.Reframe(N.Sum((frozenHelp[i], 1), (frozenReceipt[j], -1)), frozenHelp[i].Carrier);
+                var withoutCircuit = (Relation)linkOperations[j][0];
                 var withoutRead = N.Read(withoutCircuit);
                 if (!Scalar(withoutRead, out var without)) return false;
-                var withoutAccount = Account(frozenRaw[i], without);
+                var withoutAccount = Account((Relation)linkOperations[j][1]);
                 var positiveReceipt = AtLeast(frozenReceipt[j], new CarrierLocation(frozenReceipt[j].Carrier, 1));
                 useful[j] = complete && accounted[i] && Pass(positiveReceipt) &&
                     !Pass((Relation)Parts(withoutAccount)[2]);
@@ -239,7 +287,9 @@ public static class AssemblyNetwork
                 }
             }
 
-            var phaseCircuit = N.Reframe(N.Sum((beforePhase, 1), (new CarrierLocation(phase, complete ? 1 : 0), 1)), phase);
+            var phaseParts = Parts((Relation)operational[2]);
+            ((CarrierLocation)phaseParts[0]).Tick.Set(complete ? 1 : 0);
+            var phaseCircuit = (Relation)phaseParts[1];
             var phaseRead = N.Read(phaseCircuit);
             if (!Scalar(phaseRead, out var progressedPhase)) return false;
             var fadeSpan = (Relation)q[5];
@@ -255,22 +305,22 @@ public static class AssemblyNetwork
             var supportReads = new Relation[links.Length];
             var nextGate = new CarrierLocation[links.Length];
             var gateClaims = new Relation[links.Length];
-            AddTarget(changes, changeReads, phase, phaseAfter);
+            AddTarget(targetRows, changes, changeReads, phase, phaseAfter);
             for (var i = 0; i < nodes.Length; i++)
             {
                 var reward = complete && recognized[i] ? (CarrierLocation)q[2] : new CarrierLocation(((CarrierLocation)q[2]).Carrier, 0);
-                engagementReads[i] = Bounded(engagementBefore[i], reward, (Relation)q[0], fade, out engagementAfter[i]);
-                AddTarget(changes, changeReads, Engagement(nodes[i]), engagementAfter[i]);
-                AddTarget(changes, changeReads, Pressure(nodes[i]), unmet[i]);
+                engagementReads[i] = Bounded((Relation)nodeOperations[i][2], reward, fade, out engagementAfter[i]);
+                AddTarget(targetRows, changes, changeReads, Engagement(nodes[i]), engagementAfter[i]);
+                AddTarget(targetRows, changes, changeReads, Pressure(nodes[i]), unmet[i]);
                 var accountPort = (Carrier)Parts(nodes[i])[7];
-                AddTarget(changes, changeReads, accountPort, new CarrierLocation(accountPort, accounted[i] ? 1 : 0));
+                AddTarget(targetRows, changes, changeReads, accountPort, new CarrierLocation(accountPort, accounted[i] ? 1 : 0));
             }
             for (var j = 0; j < links.Length; j++)
             {
                 var reward = useful[j] ? (CarrierLocation)q[3] : proposed[j] ? (CarrierLocation)q[4] :
                     new CarrierLocation(((CarrierLocation)q[3]).Carrier, 0);
-                supportReads[j] = Bounded(supportBefore[j], reward, (Relation)q[1], fade, out supportAfter[j]);
-                AddTarget(changes, changeReads, Support(links[j]), supportAfter[j]);
+                supportReads[j] = Bounded((Relation)linkOperations[j][2], reward, fade, out supportAfter[j]);
+                AddTarget(targetRows, changes, changeReads, Support(links[j]), supportAfter[j]);
                 gateClaims[j] = AtLeast(supportAfter[j], new CarrierLocation(supportAfter[j].Carrier, 1));
                 nextGate[j] = new CarrierLocation(Gate(links[j]), Pass(gateClaims[j]) ? 1 : 0);
             }
@@ -295,13 +345,13 @@ public static class AssemblyNetwork
             var closingReads = new List<IElement>();
             foreach (var node in nodes)
             {
-                AddTarget(closing, closingReads, Raw(node), new CarrierLocation(Raw(node), 0));
-                AddTarget(closing, closingReads, Request(node), new CarrierLocation(Request(node), 0));
+                AddTarget(targetRows, closing, closingReads, Raw(node), new CarrierLocation(Raw(node), 0));
+                AddTarget(targetRows, closing, closingReads, Request(node), new CarrierLocation(Request(node), 0));
             }
             var closed = Carrier.ReceiveTogether(G(closing.ToArray()));
             var gates = new List<IElement>();
             var gateReads = new List<IElement>();
-            for (var j = 0; j < links.Length; j++) AddTarget(gates, gateReads, Gate(links[j]), nextGate[j]);
+            for (var j = 0; j < links.Length; j++) AddTarget(targetRows, gates, gateReads, Gate(links[j]), nextGate[j]);
             var installed = Carrier.ReceiveTogether(G(gates.ToArray()));
             if (!SettlementObservation.ObservedQuiet(closed) || !SettlementObservation.ObservedQuiet(installed))
             { witness = G(opened, changed, closed, installed); return false; }
@@ -325,13 +375,22 @@ public static class AssemblyNetwork
                 G(G(openingReads.ToArray()), opened, phaseCircuit, phaseRead, fadeClaim,
                     G(changeReads.ToArray()), changed, G(closingReads.ToArray()), closed,
                     G(gateReads.ToArray()), installed), nextTrace);
-            next = G(source, cursor, G(nodes), G(links), policy, nextTrace, Copy(nativeSequence), witness);
+            next = G(source, cursor, p[2], p[3], policy, nextTrace, Copy(nativeSequence), witness);
             return true;
         }
         catch (OverflowException)
         {
+            // Feature arithmetic can reject an unrepresentable frame before
+            // any physical admission. Restore those exploratory site positions;
+            // a failure after settlement begins instead retains that unsettled
+            // physical state and does not claim transactional rollback.
             witness = Relation.UnresolvedRead(new CarrierLocation(cursor, sequence), root, source);
             return false;
+        }
+        finally
+        {
+            if (!settlementStarted)
+                foreach (var (site, before) in retargetedSites) site.Set(before);
         }
     }
 
@@ -385,51 +444,78 @@ public static class AssemblyNetwork
         ];
     }
 
-    private static Relation Account(CarrierLocation raw, CarrierLocation help)
+    private static Relation Account(Relation circuit)
     {
-        var circuit = N.Reframe(N.Sum((raw, 1), (help, 1)), raw.Carrier);
         var read = N.Read(circuit);
-        if (!Scalar(read, out var total)) return G(circuit, read, Relation.UnresolvedRead(raw, help, raw.Carrier));
-        return G(circuit, read, AtLeast(total, new CarrierLocation(raw.Carrier, 1)));
+        if (!Scalar(read, out var total)) return G(circuit, read, Relation.UnresolvedRead(circuit, circuit, N.Output(circuit)));
+        return G(circuit, read, AtLeast(total, new CarrierLocation(total.Carrier, 1)));
     }
 
-    private static Relation Bounded(CarrierLocation before, CarrierLocation grant, Relation cap,
-        bool fade, out CarrierLocation after)
+    // Bound8: live before, grant site, cap, addition, cap calibration,
+    // selected capped site, fade site, subtraction. The selected sites are
+    // explicitly retargetable instruction inputs, never cached read results.
+    private static Relation BuildBounded(Carrier carrier, Relation cap)
     {
         if (!TimeStepSequence.TryReadSpan(cap, out _, out var upper)) throw new InvalidOperationException("Missing native cap span.");
-        var increase = N.Reframe(N.Sum((before, 1), (grant, 1)), before.Carrier);
+        var grant = new CarrierLocation(upper.Carrier, 0);
+        var capped = new CarrierLocation(carrier, 0);
+        var fade = new CarrierLocation(carrier, 0);
+        return G(carrier.ValueSlot, grant, cap,
+            N.SumTo(carrier, (carrier.ValueSlot, 1), (grant, 1)),
+            N.Reframe(upper, carrier), capped, fade,
+            N.SumTo(carrier, (capped, 1), (fade, -1)));
+    }
+
+    private static Relation Bounded(Relation structure, CarrierLocation grant,
+        bool fade, out CarrierLocation after)
+    {
+        var p = Parts(structure);
+        var before = Copy((CarrierLocation)p[0]);
+        ((CarrierLocation)p[1]).Tick.Set(grant.Ticks);
+        ((CarrierLocation)p[6]).Tick.Set(fade ? 1 : 0);
+        var increase = (Relation)p[3];
         var increaseRead = N.Read(increase);
         if (!Scalar(increaseRead, out var proposed)) throw new InvalidOperationException("Unresolved native increase.");
-        var ceilingBridge = N.Reframe(upper, before.Carrier);
+        var ceilingBridge = (Relation)p[4];
         var ceilingRead = N.Read(ceilingBridge);
         if (!Scalar(ceilingRead, out var ceiling)) throw new InvalidOperationException("Unresolved native cap calibration.");
         var upperClaim = OperationClaim.AtMost(new Carrier(), proposed, ceiling, new Carrier());
         var capped = Pass(upperClaim) ? proposed : ceiling;
-        var decline = N.Reframe(N.Sum((capped, 1), (new CarrierLocation(before.Carrier, fade ? 1 : 0), -1)), before.Carrier);
+        ((CarrierLocation)p[5]).Tick.Set(capped.Ticks);
+        var decline = (Relation)p[7];
         var declineRead = N.Read(decline);
         if (!Scalar(declineRead, out var declining)) throw new InvalidOperationException("Unresolved native fade.");
         var lower = new CarrierLocation(before.Carrier, 0);
         var lowerClaim = AtLeast(declining, lower);
         after = Pass(lowerClaim) ? declining : lower;
-        return G(before, grant, cap, increase, increaseRead, ceilingBridge, ceilingRead, upperClaim, capped,
-            decline, declineRead, lowerClaim, after);
+        return G(structure, before, Copy(grant), increaseRead, ceilingRead,
+            upperClaim, Copy(capped), declineRead, lowerClaim, Copy(after));
     }
 
-    private static void AddTarget(List<IElement> arrivals, List<IElement> witnesses,
-        Carrier carrier, CarrierLocation target)
+    private static Relation BuildTarget(Carrier carrier)
     {
-        var total = N.Sum((Copy(carrier.ValueSlot), 1), (Copy(carrier.LiveTensionSlot), 1));
-        var delta = N.Reframe(N.Sum((target, 1), (total, -1)), carrier);
+        var target = new CarrierLocation(carrier, 0);
+        return G(carrier, target, N.SumTo(carrier, (target, 1),
+            (carrier.ValueSlot, -1), (carrier.LiveTensionSlot, -1)));
+    }
+
+    private static void AddTarget(IReadOnlyDictionary<ulong, Relation> targetRows, List<IElement> arrivals, List<IElement> witnesses,
+        Carrier carrier, CarrierLocation target, List<(TickRef Site, long Before)>? staged = null)
+    {
+        var row = Parts(targetRows[carrier.Id]);
+        staged?.Add((((CarrierLocation)row[1]).Tick, ((CarrierLocation)row[1]).Ticks));
+        ((CarrierLocation)row[1]).Tick.Set(target.Ticks);
+        var delta = (Relation)row[2];
         var read = N.Read(delta);
         if (!Scalar(read, out var change)) throw new InvalidOperationException("Unresolved native state response.");
         arrivals.Add(change);
-        witnesses.Add(G(target, total, delta, read));
+        witnesses.Add(new Relation(Copy(target), read));
     }
 
     private static Relation AtLeast(CarrierLocation actual, CarrierLocation floor) =>
-        OperationClaim.AtLeast(new Carrier(), actual, floor, new Carrier());
+        OperationClaim.AtLeast(new Carrier(), Copy(actual), Copy(floor), new Carrier());
     private static Relation Equal(CarrierLocation actual, CarrierLocation expected) =>
-        OperationClaim.Equality(new Carrier(), actual, expected, new Carrier());
+        OperationClaim.Equality(new Carrier(), Copy(actual), Copy(expected), new Carrier());
     private static CarrierLocation Copy(CarrierLocation value) => new(value.Carrier, value.Ticks);
     private static bool Scalar(Relation read, out CarrierLocation value) => Equation.TryReadPrediction(read, out value, out _);
     private static Relation G(params IElement[] values) => N.Group(values);

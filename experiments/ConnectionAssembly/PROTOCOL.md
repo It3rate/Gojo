@@ -107,3 +107,22 @@ retracts a receipt. Dormant templates remain available for reuse. Results go to
 `results-lifecycle`, separate from the original run. The new consumer-specific
 interval-response capability has separate focused tests; generic-help policy
 is deliberately unchanged here so the lifecycle effect can be compared.
+
+## Dynamic-equation follow-up
+
+Keep the same observations, readers, grants, bounds, recruitment order and fade
+policy. Construct and connect operational equations once, retarget their input
+sites at admitted boundaries, and keep selected historical numeric observations
+separate from the changing structure. Repeated local inspection must not move
+sites or refresh support. Rejected duplicate/stale admissions must not mutate
+the live network. Missing input must remain incomplete.
+
+Measure retained graph sizes, reused physical identities and admission
+allocation separately. A smaller selected witness alone is not evidence that
+operational equations are reused. A frozen numeric sample is not a promise that
+its live structure references describe a frozen historical world.
+
+Save this run in `results-dynamic`. Compare all recorded behavioral fields with
+`results-lifecycle`, excluding only physical IDs and graph-size diagnostics,
+using `Compare-Replays.ps1`. Preserve both baselines. This pass changes execution
+and evidence cost; it is not a new temporal-composition or learning policy.

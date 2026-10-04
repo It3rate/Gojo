@@ -1,5 +1,8 @@
 using Gojo.Core;
+using Gojo.Equations;
+using Gojo.Structures;
 using A = ConnectionAssembly.AssemblyNetwork;
+using N = ConnectionAssembly.NativeMath;
 
 namespace ConnectionAssembly;
 
@@ -18,6 +21,13 @@ public static class Checks
         RunOne("Repeated read-only inspection does not refresh engagement, support or current pulses.", InspectionIsPure);
         RunOne("Repeated signal changes retain the finite connection neighborhood without multiplying a live contribution.", RepeatedChanges);
         RunOne("Probes physically attach a dormant publication; fade withdraws it and later probing reuses its identity.", PhysicalLifecycle);
+        RunOne("One connected equation responds to retargeted sites without replacing its instruction or mutating a pure read.", MutableEquationRead);
+        RunOne("Selected historical numeric samples remain fixed while their identified live network keeps changing.", HistoricalSamples);
+        RunOne("Changing patterns reuse actual node, constraint and operational equation identities.", ReusableOperationalStructure);
+        RunOne("Retargeting an existing native constraint changes its recognition scope without rebuilding its node.", MutableConstraintScope);
+        RunOne("The reusable equations themselves preserve absent input as unreadable, including after a previously complete frame.", NativeMissingInput);
+        RunOne("An unrepresentable feature read before settlement restores every retargeted operational site.", UnrepresentableAdmission);
+        RunOne("An ordinary unresolved feature basis before settlement preserves its tension and rolls back admission-site movement.", UnreadableAdmission);
         return passed.ToArray();
 
         void RunOne(string description, Action check)
@@ -282,6 +292,226 @@ public static class Checks
             "Later useful input reattaches the same dormant relation, not a duplicate publication.");
         var later = Observe(ref root, 26, 56);
         Require(A.SampleReceipt(LinkSample(later, link)) == 1, "The reattached connection works on a subsequent arrival.");
+    }
+
+    private static void MutableEquationRead()
+    {
+        // The instruction and exposed structural sites are constructed once.
+        // These are coordinate retargetings, not hidden carrier value writes.
+        var axis = new Carrier();
+        var output = new Carrier();
+        var x = new CarrierLocation(axis, new TickRef(2));
+        var y = new CarrierLocation(axis, new TickRef(1));
+        var sum = N.Sum((x, 2), (y, -1));
+        var product = N.Product(sum, x);
+        var circuit = N.Reframe(product, output);
+        var instructions = new[] { sum, product, circuit }
+            .Select(part => ((Relation)N.Parts(part)[0]).Id).ToArray();
+        var first = ReadPure(6);
+
+        x.Tick.Set(-3);
+        y.Tick.Set(4);
+        var second = ReadPure(30);
+        Require(Equation.TryReadPrediction(first, out var earlier, out _) && earlier.Ticks == 6,
+            "A retained numeric read does not drift when the exposed input sites move.");
+        x.Tick.Set(0);
+        y.Tick.Set(0);
+        _ = ReadPure(0);
+        Require(Equation.TryReadPrediction(second, out var signedResult, out _) && signedResult.Ticks == 30,
+            "The previous signed-input read remains a captured result after a later zero input.");
+        Require(instructions.SequenceEqual(new[] { sum, product, circuit }
+                .Select(part => ((Relation)N.Parts(part)[0]).Id)),
+            "Retargeting changes the input, not the reusable equation identity.");
+
+        var open = N.Sum((new Placeholder(), 1));
+        var openBefore = GojoNumericFormat.Encode(open);
+        Require(!Equation.TryReadPrediction(N.Read(open), out _, out _),
+            "An unbound input cannot be interpreted as a numeric zero.");
+        Require(openBefore.AsSpan().SequenceEqual(GojoNumericFormat.Encode(open)),
+            "An incomplete read does not repair or mutate its input structure.");
+
+        Relation ReadPure(long expected)
+        {
+            var before = GojoNumericFormat.Encode(circuit);
+            var reads = N.ReadMany(circuit, circuit);
+            foreach (var read in reads)
+                Require(Equation.TryReadPrediction(read, out var value, out _) &&
+                        value.Carrier.SameIdentityAs(output) && value.Ticks == expected,
+                    "The same connected arithmetic instruction reads the current sites in its output basis.");
+            Require(before.AsSpan().SequenceEqual(GojoNumericFormat.Encode(circuit)),
+                "Reading current inputs does not retarget scratch sites or refresh carrier state.");
+            return reads[0];
+        }
+    }
+
+    private static void HistoricalSamples()
+    {
+        var root = FlatThenJump(out var historical, out _);
+        var before = NumericSamples(historical);
+        Require(A.NodeSamples(historical).Any(sample => A.SamplePressure(sample) > 0),
+            "The selected historical frame contains an unmet request, not only zero samples.");
+        for (long sequence = 5; sequence <= 24; sequence++) Observe(ref root, sequence, 32);
+        Observe(ref root, 25, 44);
+        Observe(ref root, 26, 56);
+        Observe(ref root, 27, null);
+        Require(before == NumericSamples(historical),
+            "Selected historical numbers survive later recruitment, fade, withdrawal and missing input.");
+        Require(A.Nodes(root).All(node => A.Raw(node).Value == 0 && A.Request(node).Value == 0),
+            "Retaining a historical success does not republish it into current ports.");
+
+        static string NumericSamples(Relation witness) =>
+            string.Join(";", A.NodeSamples(witness).Select(sample => string.Join(",",
+                A.SampleRaw(sample), A.SampleRequest(sample), A.SampleHelp(sample),
+                A.SamplePressure(sample), A.SampleEngagement(sample), A.SampleAccounted(sample)))) + "/" +
+            string.Join(";", A.LinkSamples(witness).Select(sample => string.Join(",",
+                A.SampleSupport(sample), A.SampleGate(sample), A.SampleReceipt(sample),
+                A.WasProposed(sample), A.WasUseful(sample), A.WasReleased(sample))));
+    }
+
+    private static void ReusableOperationalStructure()
+    {
+        var root = A.Create();
+        var operational = A.Operational(root);
+        var instructions = GojoEncodedSnapshot.CaptureGraph(operational).Relations
+            .Select(relation => relation.Id).ToHashSet();
+        var nodes = A.Nodes(root);
+        var constraints = nodes.Select(node => (Relation)A.Parts(node)[1]).ToArray();
+        var links = A.Links(root);
+        long?[] values = [20, 21, 22, 21, 20, 20, 32, 32, null, 20, 21, 22];
+        for (var index = 0; index < values.Length; index++)
+        {
+            Observe(ref root, index + 1, values[index]);
+            Require(ReferenceEquals(operational, A.Operational(root)),
+                "The connected operational graph survives every arrival, including incomplete input.");
+            Require(nodes.Zip(A.Nodes(root)).All(pair => ReferenceEquals(pair.First, pair.Second)),
+                "Node relations are reused, not just their underlying output carriers.");
+            Require(constraints.Zip(A.Nodes(root)).All(pair =>
+                    ReferenceEquals(pair.First, A.Parts(pair.Second)[1])),
+                "Feature constraints keep the same equation-bearing relation identity.");
+            Require(links.Zip(A.Links(root)).All(pair => ReferenceEquals(pair.First, pair.Second)),
+                "Candidate connections are retained through actual participation changes.");
+            var current = GojoEncodedSnapshot.CaptureGraph(A.Operational(root)).Relations
+                .Select(relation => relation.Id).ToHashSet();
+            Require(instructions.IsSubsetOf(current),
+                "Every initial operational relation remains reachable after retargeting and settlement.");
+        }
+    }
+
+    private static void MutableConstraintScope()
+    {
+        var root = A.Create();
+        Observe(ref root, 1, 20);
+        Observe(ref root, 2, 22);
+        var initially = Observe(ref root, 3, 24);
+        var rise = A.Nodes(root)[0];
+        Require(A.SampleRaw(A.NodeSamples(initially)[0]) == 1,
+            "The authored rise scope initially accepts a sustained change of two ticks.");
+        var constraints = (Relation)A.Parts(rise)[1];
+        var currentDeltaFloor = (Relation)A.Parts(constraints)[0];
+        var floor = (CarrierLocation)currentDeltaFloor.Right;
+        floor.Tick.Set(3);
+        var narrowed = Observe(ref root, 4, 26);
+        Require(A.SampleRaw(A.NodeSamples(narrowed)[0]) == 0,
+            "Raising the existing lower bound excludes the same two-tick movement.");
+        Require(CapturedBound(initially) == 1 && CapturedBound(narrowed) == 3,
+            "The historical comparison retains the bound used for its own arrival.");
+        floor.Tick.Set(1);
+        var restored = Observe(ref root, 5, 28);
+        Require(A.SampleRaw(A.NodeSamples(restored)[0]) == 1,
+            "Restoring the bound restores recognition through the same equation.");
+        Require(ReferenceEquals(rise, A.Nodes(root)[0]) &&
+                ReferenceEquals(constraints, A.Parts(rise)[1]) &&
+                ReferenceEquals(currentDeltaFloor, A.Parts(constraints)[0]),
+            "A structural parameter change does not replace the node, constraint or equation.");
+        Require(A.SampleRaw(A.NodeSamples(initially)[0]) == 1 &&
+                A.SampleRaw(A.NodeSamples(narrowed)[0]) == 0 &&
+                CapturedBound(initially) == 1 && CapturedBound(narrowed) == 3,
+            "Current scope changes do not revise the promised past recognition numbers.");
+
+        static long CapturedBound(Relation witness)
+        {
+            var constraintReads = (Relation)A.Parts(A.NodeSamples(witness)[0])[2];
+            var claims = (Relation)A.Parts(constraintReads)[0];
+            var firstEvidence = (Relation)A.Parts(claims)[0];
+            var claim = (Relation)A.Parts(firstEvidence)[2];
+            Require(OperationClaim.TryRead(claim, out var surface, out _, out _, out _, out _, out _) &&
+                    surface.Right is CarrierLocation,
+                "The selected historical comparison keeps an inspectable numeric bound.");
+            return ((CarrierLocation)surface.Right).Ticks;
+        }
+    }
+
+    private static void NativeMissingInput()
+    {
+        var root = A.Create();
+        var riseConstraints = (Relation)A.Parts(A.Nodes(root)[0])[1];
+        var features = A.Parts(riseConstraints).Cast<Relation>().Select(constraint => constraint.Left).ToArray();
+        Require(Readability().All(known => !known),
+            "Absent initial sites are not usable numeric zeroes inside the native equations.");
+        Observe(ref root, 1, 20);
+        Require(Readability().All(known => !known),
+            "One supplied level does not invent an adjacent change.");
+        Observe(ref root, 2, 21);
+        var partial = Readability();
+        Require(partial[0] && partial[1] && !partial[2] && !partial[3],
+            "Two supplied levels permit the current difference while leaving the older difference open.");
+        Observe(ref root, 3, 22);
+        Require(Readability().All(known => known), "Three adjacent levels bind both current and prior differences.");
+        Observe(ref root, 4, null);
+        var missing = Readability();
+        Require(!missing[0] && !missing[1],
+            "Missing current input prevents a cached current difference from becoming a new answer.");
+        Observe(ref root, 6, 24);
+        Require(Readability().All(known => !known),
+            "A sequence gap does not silently bridge the historical input sites.");
+
+        bool[] Readability()
+        {
+            var before = GojoNumericFormat.Encode(root);
+            var known = N.ReadMany(features).Select(read => Equation.TryReadPrediction(read, out _, out _)).ToArray();
+            Require(before.AsSpan().SequenceEqual(GojoNumericFormat.Encode(root)),
+                "Inspecting partial native feature equations leaves their presence and coordinates unchanged.");
+            return known;
+        }
+    }
+
+    private static void UnrepresentableAdmission()
+    {
+        var root = A.Create();
+        Observe(ref root, 1, 20);
+        Observe(ref root, 2, 21);
+        var before = GojoNumericFormat.Encode(root);
+        Require(!A.TryObserve(root, 3, long.MaxValue, out var rejected, out _),
+            "A feature product beyond the native integer range is not presented as a successful observation.");
+        Require(ReferenceEquals(root, rejected) && before.AsSpan().SequenceEqual(GojoNumericFormat.Encode(root)),
+            "Before-settlement arithmetic failure cannot partially move reusable inputs or admission state.");
+        var recovery = Observe(ref root, 3, 22);
+        Require(A.Complete(recovery) && A.SampleRaw(A.NodeSamples(recovery)[0]) == 1,
+            "A representable retry uses the undamaged prior frame and original admission sequence.");
+    }
+
+    private static void UnreadableAdmission()
+    {
+        var root = A.Create();
+        Observe(ref root, 1, 20);
+        Observe(ref root, 2, 21);
+        var riseConstraints = (Relation)A.Parts(A.Nodes(root)[0])[1];
+        var firstFeature = (Relation)((Relation)A.Parts(riseConstraints)[0]).Left;
+        var equation = (Relation)N.Parts(firstFeature)[0];
+        var firstPort = (Relation)((Relation)equation.Left).Left;
+        Require(TimeStepSequence.TryReadSpan((Relation)firstPort.Left, out var start, out var end),
+            "The feature exposes its authored input span for structural retargeting.");
+        var originalEnd = end.Ticks;
+        end.Tick.Set(start.Ticks);
+        var before = GojoNumericFormat.Encode(root);
+        Require(!A.TryObserve(root, 3, 22, out var rejected, out _),
+            "A collapsed input basis remains unresolved instead of fabricating a recognition value.");
+        Require(ReferenceEquals(root, rejected) && before.AsSpan().SequenceEqual(GojoNumericFormat.Encode(root)),
+            "An ordinary failed local read preserves the pre-admission native structure exactly.");
+        end.Tick.Set(originalEnd);
+        var recovery = Observe(ref root, 3, 22);
+        Require(A.Complete(recovery) && A.SampleRaw(A.NodeSamples(recovery)[0]) == 1,
+            "Restoring the native basis permits the same observation without a lost sequence or stale input.");
     }
 
     private static Relation FlatThenJump(out Relation witness, out Relation link)
