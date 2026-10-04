@@ -89,6 +89,21 @@ while unit shapes and crystallized promises are stable. The new prompt narrows
 mutability to physical state sites and keeps witnesses, unit shape, and
 snapshots stable.
 
+The October connection-assembly audit exposed an implementation mistake in how
+the earlier reconciliation was applied: a small live network was surrounded by
+a freshly rebuilt complete calculation witness on each arrival. Keeping a
+promised historical witness stable does not require rebuilding live constraints,
+equations or connection identities. The prompt now says this explicitly.
+Adaptive current state may move while selected historical coordinates remain
+fixed; exhaustive provenance is a chosen inspection contract, not the default
+definition of a Gojo observation.
+
+Core now exposes explicit local attachment withdrawal and read-only live
+attachment inspection. Withdrawal preserves all carrier state, including held
+tension and a receiver's last published level. It is not an inverse material
+transfer. Reattachment can settle the retained relation against current input.
+Automatic growth, usefulness selection and decay remain separate directions.
+
 ### Tension Versus Residue
 
 Some historical notes use tension for nearly every unresolved quantity. Current

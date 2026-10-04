@@ -11,6 +11,7 @@ public sealed partial class Carrier : IElement
 
     private Carrier? inverse;
     private readonly List<Relation> relations = [];
+    private readonly IReadOnlyList<Relation> attachmentView;
     private TickRef valueTick = new(0);
     private TickRef tensionTick = new(0);
     private bool settling;
@@ -44,6 +45,7 @@ public sealed partial class Carrier : IElement
     {
         Id = id;
         IsInverse = isInverse;
+        attachmentView = relations.AsReadOnly();
         UnitShape = unitShape ?? UnitShape.Atom(this);
     }
 
@@ -65,8 +67,12 @@ public sealed partial class Carrier : IElement
     /// <summary>Existing opposed face, when it has already been materialized.</summary>
     internal Carrier? ExistingInverse => inverse;
 
-    /// <summary>Relations attached to this carrier's local settlement world.</summary>
-    internal IReadOnlyList<Relation> AttachedRelations => relations;
+    /// <summary>
+    /// Read-only live view of this carrier's attachment incidences. Membership
+    /// is physical relation identity, not equality of relation shape. Reading
+    /// this view neither settles nor changes the connected world.
+    /// </summary>
+    public IReadOnlyList<Relation> AttachedRelations => attachmentView;
 
     // Used only while reconstructing an unpublished archive graph. Restoring
     // settled state must not replay input or run settlement a second time.
@@ -147,21 +153,6 @@ public sealed partial class Carrier : IElement
     #endregion
 
     #region Structure and Public Input
-
-    /// <summary>Attaches relation structure to each carrier it references and settles.</summary>
-    public Relation Attach(Relation relation)
-    {
-        foreach (var carrier in relation.Carriers().Where(carrier => !carrier.IsUnknown).Distinct())
-        {
-            if (!carrier.relations.Any(existing => existing.SameIdentityAs(relation)))
-            {
-                carrier.relations.Add(relation);
-            }
-        }
-
-        SettleWorld();
-        return relation;
-    }
 
     /// <summary>Adds positive tick tension and settles the connected world.</summary>
     public void Add(ulong ticks)

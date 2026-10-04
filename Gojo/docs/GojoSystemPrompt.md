@@ -784,8 +784,13 @@ explain causality, replay, refinement, or stale state.
 
 Participation and utility of connections are also dynamic structure. Exploratory
 connections may strengthen, weaken, redirect, or disappear through feedback.
-These are intended mechanisms to develop, not a universal decay rule already
-implemented. Their observations, response routes, and remaining uncertainty
+Core attachment can be explicitly withdrawn and later resumed while retaining
+the relation and carrier state. Withdrawal edits participation; it does not
+retract previously delivered material or clear a receiver's last value/tension.
+Its discovery scope is the local attached world, not a global owner registry.
+Automatic selection, strengthening and decay remain intended mechanisms to
+develop, not a universal decay rule already implemented. Their observations,
+response routes, and remaining uncertainty
 must be inspectable rather than hidden in connection metadata.
 
 History need not be an eternal archive. Distinguish evidence captured for an
@@ -970,6 +975,15 @@ Mutability is reserved for physical state that is meant to move: carrier
 value/tension through delta settlement and explicitly retargetable tick
 references or relation sites. Stable unit shapes, crystallized promises,
 witness history, and derived snapshots should not be silently rewritten.
+
+The stability of a captured witness does not make the live network immutable.
+Reuse its carriers, sites, equations and attachments as inputs change. Capture
+historical coordinates or fuller provenance only for the read or replay promise
+being made; do not routinely rebuild the operational structure just to obtain
+a new observation. A current local read, a retained recent result and an exact
+historical snapshot are different contracts. Dynamic structure is primary;
+memory and derived caches are optional optimizations or explicitly chosen
+evidence, not a mandatory succession of immutable worlds.
 
 ### 9.3 Preserve Incomplete States
 
