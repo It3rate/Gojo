@@ -1,0 +1,2 @@
+results/**/windows.jsonl -text
+results/**/manifest.json -text whitespace=trailing-space,space-before-tab,cr-at-eol

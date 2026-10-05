@@ -147,3 +147,48 @@ fixed expiry, cancellation preserving expenditure, no false reward for a duplica
 bounded search/concurrency, real port/receipt dependence, native transport and
 continuation, release of completed frames, and conserved currency. Do not assert
 a campaign winner. Run the repository solution suite after focused checks.
+
+## Executable choices frozen before the campaign
+
+The implemented choice score is four times the positive part of the route's last
+resolved marginal relief, plus four times the prospect weight times the positive
+part of its quoted aggregate relief. A cold or unreadable quote adds no empirical
+term and remains available for a trial. Negative evidence is retained in the
+native counters; this supplied ranking clips its contribution to attention while
+cancellation responds to nonpositive outcomes. Equal scores keep local order.
+At most two discovered offers are compared. Both may be activated when slots are
+available; with one slot the higher score gets the opportunity. The actual export
+selects the highest-scored freshly delivered source, including a cold paid trial;
+it uses the self-prediction if there is no current paid source output. This is a
+deliberately simple supplied policy, not a learned optimal mixture.
+
+An expiring term with positive accumulated marginal relief and last resolved
+relief of at least one may renew, paying activation again. Unknown outcomes do
+not overwrite that last resolved evidence; an unknown final outcome can therefore
+be followed by renewal from older term evidence when current input is readable.
+Renewal consumes capacity and still requires available funds. A completed term
+with resolved evidence adds one to its contextual affinity if aggregate relief
+is positive, or subtracts one otherwise. All-unknown terms supply no affinity
+change. Affinity is exposed evidence, not an extra hidden score or crystallized
+primitive. New terms reset their own counters, while last resolved route evidence
+can persist through dormancy. That trace is not guaranteed to fit a new context.
+
+Early cancellation requires funds for its stated fee. If unavailable, the request
+leaves the contract active until funded or naturally expired; it does not receive
+free cancellation. Source production is published and paid only when the provider
+can cover its modeled work cost including the incoming service fee. No result is
+silently supplied on credit.
+
+The connected policy exposes horizon, prospect weight, capacity (capped at two by
+the experiment), cancellation threshold, utility scale, funding/cap, fees and the
+renewal threshold. Service costs and delivery prices are also native sites. The
+runner's preset policies merely initialize these parameters. Local source order,
+four supplied recipes and the scheduler remain authored. There is no training,
+private-internals sale, autonomous port invention or permanent free primitive.
+
+The observer's direction-agreement counts use the signs of already captured
+native forecasts/actuals for display only. Native marginal relief and currency
+accounting determine behavior; no report field feeds back into selection. Windows
+flush at phase boundaries, every 48 arrivals and at checkpoints every 80 arrivals.
+Final pending promises remain explicit; totals need not include their future
+outcomes. Full current native checkpoints are retained for continuation.
