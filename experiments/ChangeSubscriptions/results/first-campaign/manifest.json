@@ -1,0 +1,20 @@
+{
+  "Format": "change-subscriptions-v1",
+  "SourceFingerprint": "D3BCE886CA882E13DE47CCED52277B0913AF05EACE218CE67763F7C02020A7F2",
+  "ProtocolFingerprint": "0059D2F8811BAD9810AC586A0A6531C71A5E786110856FC86629AE0E40135AC9",
+  "ConsumerOrder": [
+    "direction",
+    "amount"
+  ],
+  "ViewOrder": [
+    "direction",
+    "amount",
+    "coarse-amount"
+  ],
+  "Policies": [
+    "unthrottled",
+    "fixed2",
+    "escalating32"
+  ],
+  "Limit": "Authored local laws. Host schedules arrivals and observers. Modeled access costs, no autonomous asynchronous kernel scheduler."
+}

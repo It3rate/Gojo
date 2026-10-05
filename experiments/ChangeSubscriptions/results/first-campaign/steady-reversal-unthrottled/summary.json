@@ -1,0 +1,456 @@
+{
+  "Fixture": "steady-reversal",
+  "Policy": "unthrottled",
+  "State": {
+    "Arrival": 353,
+    "Opportunity": 352,
+    "Source": 3,
+    "Consumers": [
+      {
+        "Paid": 352,
+        "Error": 5,
+        "ReferenceError": 288,
+        "Evaluated": 351,
+        "Benefit": 283,
+        "Helpful": 285,
+        "Harmful": 2,
+        "Neutral": 64,
+        "Unknown": 0,
+        "CostlyTies": 64,
+        "Rung": 0,
+        "RetryAfter": 349,
+        "BlockCount": 3,
+        "BlockBenefit": 3,
+        "Notifications": 4,
+        "Joins": 1,
+        "Leaves": 0,
+        "Skips": 0,
+        "Attached": true,
+        "Current": 1
+      },
+      {
+        "Paid": 352,
+        "Error": 579,
+        "ReferenceError": 288,
+        "Evaluated": 351,
+        "Benefit": -291,
+        "Helpful": 0,
+        "Harmful": 287,
+        "Neutral": 64,
+        "Unknown": 0,
+        "CostlyTies": 64,
+        "Rung": 5,
+        "RetryAfter": 381,
+        "BlockCount": 3,
+        "BlockBenefit": -3,
+        "Notifications": 4,
+        "Joins": 1,
+        "Leaves": 0,
+        "Skips": 0,
+        "Attached": true,
+        "Current": 3
+      }
+    ],
+    "Views": [
+      {
+        "Revisions": 4,
+        "Validations": 353,
+        "Valid": true,
+        "Held": 1,
+        "IntervalStart": 258,
+        "IntervalEnd": 353
+      },
+      {
+        "Revisions": 4,
+        "Validations": 353,
+        "Valid": true,
+        "Held": 3,
+        "IntervalStart": 258,
+        "IntervalEnd": 353
+      },
+      {
+        "Revisions": 1,
+        "Validations": 353,
+        "Valid": true,
+        "Held": 0,
+        "IntervalStart": 2,
+        "IntervalEnd": 353
+      }
+    ],
+    "CoarseNotifications": 1
+  },
+  "Phases": [
+    {
+      "Phase": "initial",
+      "Arrivals": 1,
+      "Opportunities": 0,
+      "Changes": [
+        {
+          "Paid": 0,
+          "Error": 0,
+          "ReferenceError": 0,
+          "Evaluated": 0,
+          "Benefit": 0,
+          "Helpful": 0,
+          "Harmful": 0,
+          "Neutral": 0,
+          "Unknown": 0,
+          "CostlyTies": 0,
+          "Rung": 0,
+          "RetryAfter": 0,
+          "BlockCount": 0,
+          "BlockBenefit": 0,
+          "Notifications": 0,
+          "Joins": 1,
+          "Leaves": 0,
+          "Skips": 0,
+          "Attached": true,
+          "Current": null
+        },
+        {
+          "Paid": 0,
+          "Error": 0,
+          "ReferenceError": 0,
+          "Evaluated": 0,
+          "Benefit": 0,
+          "Helpful": 0,
+          "Harmful": 0,
+          "Neutral": 0,
+          "Unknown": 0,
+          "CostlyTies": 0,
+          "Rung": 0,
+          "RetryAfter": 0,
+          "BlockCount": 0,
+          "BlockBenefit": 0,
+          "Notifications": 0,
+          "Joins": 1,
+          "Leaves": 0,
+          "Skips": 0,
+          "Attached": true,
+          "Current": null
+        }
+      ],
+      "PublicationChanges": [
+        0,
+        0,
+        0
+      ],
+      "CoarseNotifications": 0,
+      "StartRungs": [
+        0,
+        0
+      ],
+      "EndRungs": [
+        0,
+        0
+      ]
+    },
+    {
+      "Phase": "increase",
+      "Arrivals": 96,
+      "Opportunities": 96,
+      "Changes": [
+        {
+          "Paid": 96,
+          "Error": 1,
+          "ReferenceError": 96,
+          "Evaluated": 95,
+          "Benefit": 95,
+          "Helpful": 95,
+          "Harmful": 0,
+          "Neutral": 0,
+          "Unknown": 0,
+          "CostlyTies": 0,
+          "Rung": 0,
+          "RetryAfter": 93,
+          "BlockCount": 3,
+          "BlockBenefit": 3,
+          "Notifications": 1,
+          "Joins": 0,
+          "Leaves": 0,
+          "Skips": 0,
+          "Attached": true,
+          "Current": 1
+        },
+        {
+          "Paid": 96,
+          "Error": 191,
+          "ReferenceError": 96,
+          "Evaluated": 95,
+          "Benefit": -95,
+          "Helpful": 0,
+          "Harmful": 95,
+          "Neutral": 0,
+          "Unknown": 0,
+          "CostlyTies": 0,
+          "Rung": 5,
+          "RetryAfter": 125,
+          "BlockCount": 3,
+          "BlockBenefit": -3,
+          "Notifications": 1,
+          "Joins": 0,
+          "Leaves": 0,
+          "Skips": 0,
+          "Attached": true,
+          "Current": 3
+        }
+      ],
+      "PublicationChanges": [
+        1,
+        1,
+        1
+      ],
+      "CoarseNotifications": 1,
+      "StartRungs": [
+        0,
+        0
+      ],
+      "EndRungs": [
+        0,
+        5
+      ]
+    },
+    {
+      "Phase": "decrease",
+      "Arrivals": 96,
+      "Opportunities": 96,
+      "Changes": [
+        {
+          "Paid": 96,
+          "Error": 2,
+          "ReferenceError": 96,
+          "Evaluated": 96,
+          "Benefit": 94,
+          "Helpful": 95,
+          "Harmful": 1,
+          "Neutral": 0,
+          "Unknown": 0,
+          "CostlyTies": 0,
+          "Rung": 0,
+          "RetryAfter": 189,
+          "BlockCount": 3,
+          "BlockBenefit": 3,
+          "Notifications": 1,
+          "Joins": 0,
+          "Leaves": 0,
+          "Skips": 0,
+          "Attached": true,
+          "Current": -1
+        },
+        {
+          "Paid": 96,
+          "Error": 194,
+          "ReferenceError": 96,
+          "Evaluated": 96,
+          "Benefit": -98,
+          "Helpful": 0,
+          "Harmful": 96,
+          "Neutral": 0,
+          "Unknown": 0,
+          "CostlyTies": 0,
+          "Rung": 5,
+          "RetryAfter": 221,
+          "BlockCount": 3,
+          "BlockBenefit": -3,
+          "Notifications": 1,
+          "Joins": 0,
+          "Leaves": 0,
+          "Skips": 0,
+          "Attached": true,
+          "Current": -3
+        }
+      ],
+      "PublicationChanges": [
+        1,
+        1,
+        0
+      ],
+      "CoarseNotifications": 0,
+      "StartRungs": [
+        0,
+        5
+      ],
+      "EndRungs": [
+        0,
+        5
+      ]
+    },
+    {
+      "Phase": "flat",
+      "Arrivals": 64,
+      "Opportunities": 64,
+      "Changes": [
+        {
+          "Paid": 64,
+          "Error": 1,
+          "ReferenceError": 0,
+          "Evaluated": 64,
+          "Benefit": -1,
+          "Helpful": 0,
+          "Harmful": 1,
+          "Neutral": 63,
+          "Unknown": 0,
+          "CostlyTies": 63,
+          "Rung": 0,
+          "RetryAfter": 193,
+          "BlockCount": 3,
+          "BlockBenefit": 0,
+          "Notifications": 1,
+          "Joins": 0,
+          "Leaves": 0,
+          "Skips": 0,
+          "Attached": true,
+          "Current": 0
+        },
+        {
+          "Paid": 64,
+          "Error": 3,
+          "ReferenceError": 0,
+          "Evaluated": 64,
+          "Benefit": -3,
+          "Helpful": 0,
+          "Harmful": 1,
+          "Neutral": 63,
+          "Unknown": 0,
+          "CostlyTies": 63,
+          "Rung": 5,
+          "RetryAfter": 225,
+          "BlockCount": 3,
+          "BlockBenefit": 0,
+          "Notifications": 1,
+          "Joins": 0,
+          "Leaves": 0,
+          "Skips": 0,
+          "Attached": true,
+          "Current": 0
+        }
+      ],
+      "PublicationChanges": [
+        1,
+        1,
+        0
+      ],
+      "CoarseNotifications": 0,
+      "StartRungs": [
+        0,
+        5
+      ],
+      "EndRungs": [
+        0,
+        5
+      ]
+    },
+    {
+      "Phase": "increase-return",
+      "Arrivals": 96,
+      "Opportunities": 96,
+      "Changes": [
+        {
+          "Paid": 96,
+          "Error": 1,
+          "ReferenceError": 96,
+          "Evaluated": 96,
+          "Benefit": 95,
+          "Helpful": 95,
+          "Harmful": 0,
+          "Neutral": 1,
+          "Unknown": 0,
+          "CostlyTies": 1,
+          "Rung": 0,
+          "RetryAfter": 349,
+          "BlockCount": 3,
+          "BlockBenefit": 3,
+          "Notifications": 1,
+          "Joins": 0,
+          "Leaves": 0,
+          "Skips": 0,
+          "Attached": true,
+          "Current": 1
+        },
+        {
+          "Paid": 96,
+          "Error": 191,
+          "ReferenceError": 96,
+          "Evaluated": 96,
+          "Benefit": -95,
+          "Helpful": 0,
+          "Harmful": 95,
+          "Neutral": 1,
+          "Unknown": 0,
+          "CostlyTies": 1,
+          "Rung": 5,
+          "RetryAfter": 381,
+          "BlockCount": 3,
+          "BlockBenefit": -3,
+          "Notifications": 1,
+          "Joins": 0,
+          "Leaves": 0,
+          "Skips": 0,
+          "Attached": true,
+          "Current": 3
+        }
+      ],
+      "PublicationChanges": [
+        1,
+        1,
+        0
+      ],
+      "CoarseNotifications": 0,
+      "StartRungs": [
+        0,
+        5
+      ],
+      "EndRungs": [
+        0,
+        5
+      ]
+    }
+  ],
+  "GraphSamples": [
+    {
+      "Arrival": 1,
+      "Carriers": 208,
+      "Relations": 1812,
+      "Locations": 771,
+      "Ticks": 1152
+    },
+    {
+      "Arrival": 97,
+      "Carriers": 208,
+      "Relations": 1818,
+      "Locations": 785,
+      "Ticks": 1166
+    },
+    {
+      "Arrival": 193,
+      "Carriers": 208,
+      "Relations": 1818,
+      "Locations": 785,
+      "Ticks": 1166
+    },
+    {
+      "Arrival": 257,
+      "Carriers": 208,
+      "Relations": 1818,
+      "Locations": 785,
+      "Ticks": 1166
+    },
+    {
+      "Arrival": 353,
+      "Carriers": 208,
+      "Relations": 1818,
+      "Locations": 785,
+      "Ticks": 1166
+    }
+  ],
+  "PendingPaid": [
+    1,
+    1
+  ],
+  "NativeAllocationBytes": 737677544,
+  "ReportAllocationBytes": 343301544,
+  "NativeMilliseconds": 1449.7123,
+  "ReportMilliseconds": 570.8759000000005,
+  "NativeTransportBytes": 70188,
+  "GraphSampleLimit": "Retained graph at phase boundaries and end; not peak transient memory. Allocations are cumulative."
+}
