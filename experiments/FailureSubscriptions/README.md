@@ -4,6 +4,10 @@ A small Gojo experiment in buying future help at the point where a seeker's
 exported prediction fails. The [protocol](PROTOCOL.md) fixes the structure,
 costs, controls and first campaign before its results.
 
+The [first campaign assessment](ASSESSMENT.md) records useful connection reuse,
+the accuracy/cost tradeoff, and a substantial failure to stop buying harmful help.
+All 24 original runs are retained under `results/first-campaign`.
+
 Four nearby numerical recipes offer continuation, inversion, changing slope and
 zero change. The seeker already predicts the latest difference. One recipe
 duplicates that self-prediction to expose payment for redundant help. Actors see

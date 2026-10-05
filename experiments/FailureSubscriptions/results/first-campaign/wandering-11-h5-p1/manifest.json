@@ -1,0 +1,10 @@
+{
+  "Format": "failure-subscriptions-v1",
+  "Seed": 11,
+  "Scenario": "wandering",
+  "Horizon": 5,
+  "Prospects": true,
+  "Rotation": 0,
+  "SourceFingerprint": "BF1EA68DE0D403970C15799D976F5C023F148F66A3EBAE39D79141B8EC2DF816",
+  "ProtocolFingerprint": "173EFCD7209E1DCE1B9B790E252E0E51BBEB382B7C89A2C30C2A4F6592FA498D"
+}

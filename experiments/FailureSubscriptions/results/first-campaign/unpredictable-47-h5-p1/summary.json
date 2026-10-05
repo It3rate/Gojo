@@ -1,0 +1,209 @@
+{
+  "ManifestHash": "83ED4DCB5F3DD2AA116CEBCA01BA21450B85E8C54998C09EC211D0E0504FD190",
+  "Reason": "requested-end",
+  "Position": 241,
+  "Totals": {
+    "Start": 1,
+    "End": 241,
+    "Admissions": 241,
+    "PriorOpportunities": 240,
+    "Evaluated": 233,
+    "Unknown": 7,
+    "SelfError": 782,
+    "DeliveredError": 641,
+    "DeliveredRelief": 141,
+    "SelfDirectionMatches": 101,
+    "DeliveredDirectionMatches": 78,
+    "Inspections": 126,
+    "MaximumInspected": 2,
+    "MaximumActive": 2,
+    "Activations": 121,
+    "Renewals": 46,
+    "Cancellations": 50,
+    "Expiries": 69,
+    "Sources": [
+      {
+        "Deliveries": 28,
+        "Evaluated": 28,
+        "Unknown": 0,
+        "Helpful": 0,
+        "Neutral": 28,
+        "Harmful": 0,
+        "ConditionalRelief": 0,
+        "Selected": 1
+      },
+      {
+        "Deliveries": 206,
+        "Evaluated": 203,
+        "Unknown": 5,
+        "Helpful": 118,
+        "Neutral": 0,
+        "Harmful": 85,
+        "ConditionalRelief": 100,
+        "Selected": 129
+      },
+      {
+        "Deliveries": 14,
+        "Evaluated": 13,
+        "Unknown": 0,
+        "Helpful": 2,
+        "Neutral": 5,
+        "Harmful": 6,
+        "ConditionalRelief": -17,
+        "Selected": 0
+      },
+      {
+        "Deliveries": 219,
+        "Evaluated": 217,
+        "Unknown": 6,
+        "Helpful": 134,
+        "Neutral": 11,
+        "Harmful": 72,
+        "ConditionalRelief": 176,
+        "Selected": 105
+      }
+    ],
+    "Phases": {
+      "unpredictable": 241
+    },
+    "Conserved": true,
+    "NativeAllocationBytes": 1077614968,
+    "NativeWallMilliseconds": 2836.680900000002,
+    "ReportAllocationBytes": 39419352,
+    "ReportWallMilliseconds": 120.11240000000006
+  },
+  "Current": {
+    "Version": 241,
+    "Reservoir": 63823,
+    "Spent": 1000,
+    "SeekerWallet": 118,
+    "Expenses": {
+      "Inspection": 126,
+      "Activation": 121,
+      "Cancellation": 50,
+      "Calculation": 467,
+      "Self": 236
+    },
+    "Activations": 121,
+    "Renewals": 46,
+    "Cancellations": 50,
+    "Deliveries": 467,
+    "Expiries": 69,
+    "Routes": [
+      {
+        "Active": false,
+        "Remaining": 0,
+        "TermRelief": 0,
+        "LastRelief": 0,
+        "Misses": 2,
+        "Affinity": -7,
+        "ContextAffinities": [
+          -7,
+          -7
+        ],
+        "Present": 0,
+        "Fees": 56,
+        "Prospects": [
+          {
+            "Helpful": 0,
+            "Evaluated": 14,
+            "Unknown": 0,
+            "SignedRelief": 0
+          },
+          {
+            "Helpful": 0,
+            "Evaluated": 14,
+            "Unknown": 0,
+            "SignedRelief": 0
+          }
+        ]
+      },
+      {
+        "Active": true,
+        "Remaining": 5,
+        "TermRelief": 0,
+        "LastRelief": -4,
+        "Misses": 0,
+        "Affinity": -5,
+        "ContextAffinities": [
+          9,
+          -5
+        ],
+        "Present": 1,
+        "Fees": 412,
+        "Prospects": [
+          {
+            "Helpful": 59,
+            "Evaluated": 94,
+            "Unknown": 0,
+            "SignedRelief": 90
+          },
+          {
+            "Helpful": 59,
+            "Evaluated": 109,
+            "Unknown": 5,
+            "SignedRelief": 10
+          }
+        ]
+      },
+      {
+        "Active": true,
+        "Remaining": 5,
+        "TermRelief": 0,
+        "LastRelief": -3,
+        "Misses": 0,
+        "Affinity": -4,
+        "ContextAffinities": [
+          -1,
+          -4
+        ],
+        "Present": 1,
+        "Fees": 28,
+        "Prospects": [
+          {
+            "Helpful": 1,
+            "Evaluated": 4,
+            "Unknown": 0,
+            "SignedRelief": -3
+          },
+          {
+            "Helpful": 1,
+            "Evaluated": 9,
+            "Unknown": 0,
+            "SignedRelief": -14
+          }
+        ]
+      },
+      {
+        "Active": false,
+        "Remaining": 0,
+        "TermRelief": 2,
+        "LastRelief": 0,
+        "Misses": 2,
+        "Affinity": 8,
+        "ContextAffinities": [
+          6,
+          8
+        ],
+        "Present": 0,
+        "Fees": 438,
+        "Prospects": [
+          {
+            "Helpful": 59,
+            "Evaluated": 93,
+            "Unknown": 0,
+            "SignedRelief": 84
+          },
+          {
+            "Helpful": 75,
+            "Evaluated": 124,
+            "Unknown": 6,
+            "SignedRelief": 92
+          }
+        ]
+      }
+    ],
+    "Accounted": true
+  },
+  "Limit": "Supplied recipes, context partitions, costs and attention laws; future estimates are conditional empirical reads, not guaranteed correctness."
+}
