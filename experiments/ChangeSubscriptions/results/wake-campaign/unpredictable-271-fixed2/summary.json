@@ -1,0 +1,250 @@
+{
+  "Fixture": "unpredictable-271",
+  "Policy": "fixed2",
+  "State": {
+    "Arrival": 257,
+    "Opportunity": 256,
+    "Source": -3,
+    "Consumers": [
+      {
+        "Paid": 224,
+        "Error": 238,
+        "ReferenceError": 256,
+        "Evaluated": 224,
+        "Benefit": 18,
+        "Helpful": 121,
+        "Harmful": 103,
+        "Neutral": 0,
+        "Unknown": 0,
+        "CostlyTies": 0,
+        "Rung": 1,
+        "RetryAfter": 257,
+        "BlockCount": 0,
+        "BlockBenefit": 0,
+        "Notifications": 104,
+        "Joins": 16,
+        "Leaves": 16,
+        "Skips": 32,
+        "Attached": false,
+        "Current": null,
+        "Wake": null
+      },
+      {
+        "Paid": 178,
+        "Error": 971,
+        "ReferenceError": 637,
+        "Evaluated": 177,
+        "Benefit": -334,
+        "Helpful": 58,
+        "Harmful": 119,
+        "Neutral": 0,
+        "Unknown": 0,
+        "CostlyTies": 0,
+        "Rung": 1,
+        "RetryAfter": 255,
+        "BlockCount": 1,
+        "BlockBenefit": -1,
+        "Notifications": 131,
+        "Joins": 40,
+        "Leaves": 39,
+        "Skips": 78,
+        "Attached": true,
+        "Current": -3,
+        "Wake": null
+      }
+    ],
+    "Views": [
+      {
+        "Revisions": 119,
+        "Validations": 257,
+        "Valid": true,
+        "Held": -1,
+        "IntervalStart": 256,
+        "IntervalEnd": 257
+      },
+      {
+        "Revisions": 191,
+        "Validations": 257,
+        "Valid": true,
+        "Held": -3,
+        "IntervalStart": 256,
+        "IntervalEnd": 257
+      },
+      {
+        "Revisions": 160,
+        "Validations": 257,
+        "Valid": true,
+        "Held": 0,
+        "IntervalStart": 255,
+        "IntervalEnd": 257
+      }
+    ],
+    "CoarseNotifications": 160
+  },
+  "Phases": [
+    {
+      "Phase": "initial",
+      "Arrivals": 1,
+      "Opportunities": 0,
+      "Changes": [
+        {
+          "Paid": 0,
+          "Error": 0,
+          "ReferenceError": 0,
+          "Evaluated": 0,
+          "Benefit": 0,
+          "Helpful": 0,
+          "Harmful": 0,
+          "Neutral": 0,
+          "Unknown": 0,
+          "CostlyTies": 0,
+          "Rung": 0,
+          "RetryAfter": 0,
+          "BlockCount": 0,
+          "BlockBenefit": 0,
+          "Notifications": 0,
+          "Joins": 1,
+          "Leaves": 0,
+          "Skips": 0,
+          "Attached": true,
+          "Current": null,
+          "Wake": null
+        },
+        {
+          "Paid": 0,
+          "Error": 0,
+          "ReferenceError": 0,
+          "Evaluated": 0,
+          "Benefit": 0,
+          "Helpful": 0,
+          "Harmful": 0,
+          "Neutral": 0,
+          "Unknown": 0,
+          "CostlyTies": 0,
+          "Rung": 0,
+          "RetryAfter": 0,
+          "BlockCount": 0,
+          "BlockBenefit": 0,
+          "Notifications": 0,
+          "Joins": 1,
+          "Leaves": 0,
+          "Skips": 0,
+          "Attached": true,
+          "Current": null,
+          "Wake": null
+        }
+      ],
+      "PublicationChanges": [
+        0,
+        0,
+        0
+      ],
+      "CoarseNotifications": 0,
+      "StartRungs": [
+        0,
+        0
+      ],
+      "EndRungs": [
+        0,
+        0
+      ]
+    },
+    {
+      "Phase": "unpredictable",
+      "Arrivals": 256,
+      "Opportunities": 256,
+      "Changes": [
+        {
+          "Paid": 224,
+          "Error": 238,
+          "ReferenceError": 256,
+          "Evaluated": 224,
+          "Benefit": 18,
+          "Helpful": 121,
+          "Harmful": 103,
+          "Neutral": 0,
+          "Unknown": 0,
+          "CostlyTies": 0,
+          "Rung": 1,
+          "RetryAfter": 257,
+          "BlockCount": 0,
+          "BlockBenefit": 0,
+          "Notifications": 104,
+          "Joins": 15,
+          "Leaves": 16,
+          "Skips": 32,
+          "Attached": false,
+          "Current": null,
+          "Wake": null
+        },
+        {
+          "Paid": 178,
+          "Error": 971,
+          "ReferenceError": 637,
+          "Evaluated": 177,
+          "Benefit": -334,
+          "Helpful": 58,
+          "Harmful": 119,
+          "Neutral": 0,
+          "Unknown": 0,
+          "CostlyTies": 0,
+          "Rung": 1,
+          "RetryAfter": 255,
+          "BlockCount": 1,
+          "BlockBenefit": -1,
+          "Notifications": 131,
+          "Joins": 39,
+          "Leaves": 39,
+          "Skips": 78,
+          "Attached": true,
+          "Current": -3,
+          "Wake": null
+        }
+      ],
+      "PublicationChanges": [
+        119,
+        191,
+        160
+      ],
+      "CoarseNotifications": 160,
+      "StartRungs": [
+        0,
+        0
+      ],
+      "EndRungs": [
+        1,
+        1
+      ]
+    }
+  ],
+  "GraphSamples": [
+    {
+      "Arrival": 1,
+      "Carriers": 200,
+      "Relations": 1748,
+      "Locations": 739,
+      "Ticks": 1104
+    },
+    {
+      "Arrival": 257,
+      "Carriers": 200,
+      "Relations": 1754,
+      "Locations": 750,
+      "Ticks": 1115
+    }
+  ],
+  "PendingPaid": [
+    0,
+    1
+  ],
+  "PendingEarly": [
+    0,
+    0
+  ],
+  "NativeAllocationBytes": 582485184,
+  "ReportAllocationBytes": 272662272,
+  "NativeMilliseconds": 869.2397999999998,
+  "ReportMilliseconds": 390.7249,
+  "NativeTransportBytes": 67431,
+  "GraphSampleLimit": "Retained graph at phase boundaries and end; not peak transient memory. Allocations are cumulative."
+}

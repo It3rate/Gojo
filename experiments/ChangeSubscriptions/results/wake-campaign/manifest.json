@@ -1,0 +1,28 @@
+{
+  "Format": "change-subscriptions-wake-v1",
+  "SourceFingerprint": "396768A028FE40D092C7BBFD6EF18E83FB76531BE7919416F795A4D5B3FCCD9E",
+  "ProtocolFingerprint": "7BD0CFBF6ECC1C4C52A7FF7EF448463EB68B8618313504361E397017F6856EE9",
+  "ConsumerOrder": [
+    "direction",
+    "amount"
+  ],
+  "ViewOrder": [
+    "direction",
+    "amount",
+    "coarse-amount"
+  ],
+  "Policies": [
+    "fixed2",
+    "escalating32",
+    "escalating32-wake2"
+  ],
+  "Fixtures": [
+    "steady-reversal",
+    "grain-gap",
+    "applicability-return",
+    "unpredictable-113",
+    "unpredictable-271",
+    "wake-chatter"
+  ],
+  "Limit": "Authored local laws. Host schedules arrivals and observers. Modeled access costs, no autonomous asynchronous kernel scheduler."
+}
