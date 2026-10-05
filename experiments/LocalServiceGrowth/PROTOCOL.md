@@ -132,3 +132,52 @@ discovery. Failure includes expensive imitation, reliance on the supposedly repl
 input, popularity preventing a useful newcomer, stale endorsements, or a reseller
 surviving solely because of restricted access. Merge, split, autonomous recipe
 synthesis, endogenous pricing and learned global value remain future work.
+
+## Executable policy frozen before the campaign
+
+The implementation uses the following supplied laws. The contract checks passed
+before the campaign; these settings will not be selected against its outcomes.
+
+- Two provider and two consumer wallets start at 32, drawn from the pool.
+  Each arrival can fund a consumer by up to 8, capped at a balance of 64.
+- A ready, affordable candidate is constructed at the first opportunity. There
+  is no learned investment trigger. Before promotion it receives one paid shadow
+  trial per ready arrival while its provider can afford it. Helpful coarse outcomes
+  add one support; other resolved outcomes subtract one, bounded between 0 and 4.
+  Promotion requires support 4 and an input saving. It is irreversible in this
+  experiment, although consumers can stop buying. The offer changes from 6 to 2
+  by the supplied law, not by endogenous price negotiation.
+- Each service can deliver to two clients per arrival. Production is paid once
+  for the current arrival and can serve both; all current presence flags reset
+  on the next arrival. Consumer 0 is scheduled first. This fixed admission order
+  can bias capacity allocation and is not an emergent market rule.
+- Each search inspects at most two neighboring advertisements and costs 1 per
+  inspection. An incumbent is reconsidered after four completed services, or
+  when it is no longer eligible. Ordinary preference is the last own gross
+  benefit minus price, plus `hintWeight * min(qualifiedConnections, 2)`.
+  Its private margin must be positive independently of the popularity term.
+  A previously untested eligible offer, or a non-incumbent on every fourth search,
+  receives a reserved paid trial. This is an authored exploration policy.
+- Initial local benefit expectation is 8. Changing requested detail resets that
+  consumer's local service evidence to this prior, and disconnects its old route.
+  Earlier promises keep their captured interpretation. Latest local benefit is
+  a deliberately small current trace, not an average over historical samples.
+- Outcome benefit is avoided absolute error relative to a zero-change baseline
+  at the requested read: direction clamped to [-1,1], or detail in [-8,8].
+  Coarse avoided error is calibrated at 8 credits per unit; fine at 4. These
+  utility calibrations are supplied. Positive gross benefit qualifies a still
+  attached connection; nonpositive net benefit releases it. Neither evaluation
+  nor a public connection count creates spendable money.
+- Missing or out-of-domain observations remain unresolved. Current publication
+  closes when input is missing. A removed connection contributes neither active
+  nor qualified use; the public signal has no accumulated transaction votes.
+
+The native arithmetic, payment, dependency, support and count structures are
+reusable and mutable. Host scheduling still executes the authored policy and
+constructs local comparison/read witnesses. This is not a self-scheduling soup
+of actors, nor proof that all policy has crystallized into autonomous equations.
+Report windows and full current checkpoints are observers only; completed frames
+are released, while pending predictions and live support remain. Maintained public
+counts avoid client enumeration when reading an offer, but registration can inspect
+local incidence and kernel settlement can traverse connected accounting structure.
+Bounded offer discovery does not make those operations constant-cost.
