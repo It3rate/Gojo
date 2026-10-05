@@ -37,8 +37,9 @@ relief is measured. A different baseline cannot silently share an equivalent
 quality rating.
 
 The initial local window holds four resolved outcomes. Missing observations do
-not become successes, failures or zero relief. A completed nonpositive term
-postpones another purchase in that same context for eight input arrivals. The
+not become successes, failures or zero relief. When a term finishes with a
+nonpositive current local review and new resolved evidence, another purchase in
+that context is postponed for eight input arrivals. The
 negative evidence remains available after this delay. A changed context or an
 elapsed delay permits a bounded paid retrial, rather than permanent exclusion.
 Shopping still examines at most two local neighbors and admits at most two
@@ -75,6 +76,13 @@ does not establish remaining useful life, discover cycle phase, or promise a
 sequence of correct future values. Buying only short intervals limits what can
 be learned about longer ones; the explicit frontier trial makes that limitation
 inspectable.
+
+Renewals retain the original triggering context. Position evidence therefore
+includes continuation terms as well as fresh failure-triggered starts; it does
+not isolate a particular phase of a cycle. Public duration history is cumulative
+within these two contexts; only the connection's four-outcome review is recent.
+An unavailable cold source may delay another source under tight capacity. No
+fairness or universal opportunity to retrial is established.
 
 ## Longer-run runner
 
@@ -125,6 +133,11 @@ nonpositive-source use, suppressed shopping, accepted/offered duration counts,
 renewal/cancellation, unknown coverage and retained structure. Report adverse
 results, resource limits and missing mechanisms alongside any improvement.
 Provider prefix positivity and four-sample reviews are heuristics to test.
+
+Accepted/offered/supported histograms describe formed contracts. The separate
+advertised histogram also includes inspected zero-length offers. Reported graph
+peaks are sampled at checkpoints, not on every arrival. These inspection counts
+and sampled peaks may change if an otherwise identical run is stopped and resumed.
 
 ## Verification boundaries
 

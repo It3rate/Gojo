@@ -14,6 +14,43 @@ internal sealed class EnvironmentSource
         var t = Position % 241;
         var hash = Mix(unchecked((ulong)Seed ^ ((ulong)Position * 0x9E3779B97F4A7C15UL)));
         string phase;
+        if (Scenario == "recurring")
+        {
+            // Longer held-out fixture. Only the resulting level enters actors.
+            // Two-opportunity direction blocks challenge duration inference;
+            // longer blocks and recurrence prevent one convenient horizon winning.
+            var phasePosition = Position % 1024;
+            if (phasePosition < 96 || phasePosition is >= 832 and < 928)
+            {
+                Difference = 2 + (hash % 11 == 0 ? 1 : 0);
+                phase = phasePosition < 96 ? "increasing" : "increasing-return";
+            }
+            else if (phasePosition < 160 || phasePosition >= 928)
+            {
+                Difference = (phasePosition % 2 == 0 ? 1 : -1) * (2 + (hash % 11 == 0 ? 1 : 0));
+                phase = phasePosition < 160 ? "alternating" : "alternating-return";
+            }
+            else if (phasePosition < 288 || phasePosition is >= 704 and < 832)
+            {
+                Difference = (phasePosition / 2 % 2 == 0 ? 1 : -1) * 3;
+                phase = phasePosition < 288 ? "two-opportunity-direction" : "two-opportunity-return";
+            }
+            else if (phasePosition < 416) { Difference = 0; phase = "flat"; }
+            else if (phasePosition < 544)
+            {
+                var offset = (phasePosition - 416) % 12;
+                Difference = offset < 6 ? offset - 3 : 9 - offset;
+                phase = "changing-slope";
+            }
+            else
+            {
+                Difference = ((phasePosition - 544) / 11 % 2 == 0 ? 1 : -1) * (2 + (hash % 11 == 0 ? 1 : 0));
+                phase = "long-direction-blocks";
+            }
+            Level += Difference;
+            Position++;
+            return (phasePosition is 89 or 178 or 772 || phasePosition is >= 344 and <= 347 ? null : Level, phase);
+        }
         if (Scenario == "unpredictable")
         {
             Difference = ((hash & 1) == 0 ? 1 : -1) * (1 + (long)((hash >> 1) % 4));

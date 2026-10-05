@@ -7,13 +7,14 @@ namespace FailureSubscriptions;
 
 /// <summary>
 /// A supplied conditional empirical prospect, not a confidence or a promise of
-/// consecutive correct answers. State7 = G(source port, signed trigger span,
-/// maximum horizon, helpful count, evaluated count, unknown count, signed relief).
+/// consecutive correct answers. State8 = G(source port, signed trigger span,
+/// maximum horizon, helpful count, evaluated count, unknown count, signed relief,
+/// baseline premise/open).
 /// Counts remain unreduced and the signed relief retains harmful outcomes.
 /// </summary>
 public static class ProspectiveOffer
 {
-    public static Relation Create(IElement sourcePort, Relation contextSpan, int horizon = 5)
+    public static Relation Create(IElement sourcePort, Relation contextSpan, int horizon = 5, IElement? premise = null)
     {
         if (horizon <= 0) throw new ArgumentOutOfRangeException(nameof(horizon));
         var observations = new Carrier();
@@ -21,11 +22,12 @@ public static class ProspectiveOffer
             ? new Carrier(lower.Carrier.UnitShape) : new Carrier();
         return G(sourcePort, contextSpan, new CarrierLocation(observations, horizon),
             new Carrier(observations.UnitShape), new Carrier(observations.UnitShape),
-            new Carrier(observations.UnitShape), benefit);
+            new Carrier(observations.UnitShape), benefit, premise ?? new Placeholder());
     }
 
     public static IElement Source(Relation state) => Parts(state)[0];
     public static Relation Context(Relation state) => (Relation)Parts(state)[1];
+    public static IElement Premise(Relation state) => Parts(state)[7];
     public static Carrier Helpful(Relation state) => (Carrier)Parts(state)[3];
     public static Carrier Evaluated(Relation state) => (Carrier)Parts(state)[4];
     public static Carrier Unknown(Relation state) => (Carrier)Parts(state)[5];

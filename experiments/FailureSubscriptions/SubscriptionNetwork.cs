@@ -15,30 +15,33 @@ public static class SubscriptionNetwork
     // Op13: input sites, latest/previous differences, services, seeker, routes,
     // resources, policy, clock, successor, transfer calibrations, expenses,
     // cumulative lifecycle accounts, local neighbors.
-    public static Relation Create(int horizon = 5, bool useProspects = true, int neighborRotation = 0)
+    public static Relation Create(int horizon = 5, bool useProspects = true, int neighborRotation = 0,
+        bool adaptiveAttention = false, bool adaptiveHorizon = false, long resourceBudget = 65536)
     {
-        if (horizon is not (0 or 1 or 5)) throw new ArgumentOutOfRangeException(nameof(horizon));
+        if (horizon is < 0 or > 8) throw new ArgumentOutOfRangeException(nameof(horizon));
         if (neighborRotation is < 0 or > 3) throw new ArgumentOutOfRangeException(nameof(neighborRotation));
+        if (resourceBudget < 256) throw new ArgumentOutOfRangeException(nameof(resourceBudget));
         var signal = new Carrier(); var credit = new Carrier(); var presence = new Carrier();
+        var clock = L(new Carrier(), 0);
         var sites = Enumerable.Range(0, 3).Select(_ => new Relation(L(signal, 0), L(presence, 0))).ToArray();
         var admitted = sites.Select(s => N.Present((CarrierLocation)s.Left, (CarrierLocation)s.Right)).ToArray();
         var previous = N.SumTo(signal, (admitted[1], 1), (admitted[0], -1));
         var latest = N.SumTo(signal, (admitted[2], 1), (admitted[1], -1));
         var recipes = new[] { latest, N.SumTo(signal, (latest, -1)),
             N.SumTo(signal, (latest, 2), (previous, -1)), N.SumTo(signal) };
-        var services = recipes.Select(recipe => BuildService(signal, credit, presence, recipe)).ToArray();
+        var services = recipes.Select(recipe => BuildService(signal, credit, presence, recipe, latest)).ToArray();
         var cursor = new Carrier(); cursor.Add((ulong)neighborRotation);
         // Seeker6: wallet, self recipe, live self output/presence, local cursor,
         // native cursor successor. Latest difference is the supplied self model.
         var seeker = G(new Carrier(credit.UnitShape), latest, L(signal, 0), L(presence, 0), cursor,
             N.SumTo(cursor, (cursor.ValueSlot, 1), (L(cursor, 1), 1)));
-        var routes = services.Select(service => BuildRoute(service, signal, credit)).ToArray();
-        var reservoir = new Carrier(credit.UnitShape); reservoir.Add(65536);
+        var routes = services.Select(service => BuildRoute(service, signal, credit, latest, clock.Carrier)).ToArray();
+        var reservoir = new Carrier(credit.UnitShape); reservoir.Add(checked((ulong)resourceBudget));
         var spent = new Carrier(credit.UnitShape);
         var owners = new[] { reservoir, spent, Wallet(seeker) }.Concat(services.Select(Wallet)).ToArray();
         var total = N.SumTo(credit, owners.SelectMany(c => new[]
             { ((IElement)c.ValueSlot, 1L), ((IElement)c.LiveTensionSlot, 1L) }).ToArray());
-        var resources = G(reservoir, spent, credit, L(credit, 65536), total, G(owners.Cast<IElement>().ToArray()));
+        var resources = G(reservoir, spent, credit, L(credit, resourceBudget), total, G(owners.Cast<IElement>().ToArray()));
         var edges = new List<IElement>();
         foreach (var from in owners)
         foreach (var to in owners)
@@ -46,8 +49,8 @@ public static class SubscriptionNetwork
                 new Relation(Relation.Segment(from, 0, 1), Relation.Segment(to, 0, 1))));
         var policy = G(L(credit, horizon), L(credit, useProspects ? 1 : 0), L(credit, 2),
             L(credit, 2), L(credit, 4), L(credit, 8), L(credit, 128),
-            L(credit, 1), L(credit, 1), L(credit, 1), L(credit, 1), L(credit, 1));
-        var clock = L(new Carrier(), 0);
+            L(credit, 1), L(credit, 1), L(credit, 1), L(credit, 1), L(credit, 1),
+            L(credit, adaptiveAttention ? 1 : 0), L(credit, adaptiveHorizon ? 1 : 0), L(credit, 8));
         var op = G(G(sites), G(latest, previous), G(services), seeker, G(routes), resources, policy, clock,
             N.SumTo(clock.Carrier, (clock, 1), (L(clock.Carrier, 1), 1)), G(edges.ToArray()),
             G(Enumerable.Range(0, 5).Select(_ => (IElement)new Carrier(credit.UnitShape)).ToArray()),
@@ -60,29 +63,44 @@ public static class SubscriptionNetwork
         return root;
     }
 
-    // Service8: wallet, recipe, actual output, presence, operating cost, delivery
-    // price, two trigger-conditioned prospect states, receipt account.
-    private static Relation BuildService(Carrier signal, Carrier credit, Carrier presence, Relation recipe)
+    // Service9: wallet, recipe, actual output, presence, operating cost, delivery
+    // price, two trigger-conditioned prospect states, receipt account, duration
+    // offer states. Public context is shared; reviews below remain route-local.
+    private static Relation BuildService(Carrier signal, Carrier credit, Carrier presence, Relation recipe, Relation baseline)
     {
         var port = L(signal, 0);
-        var contexts = G(ProspectiveOffer.Create(port, Relation.Segment(signal, -32, -1)),
-            ProspectiveOffer.Create(port, Relation.Segment(signal, 1, 32)));
+        var contexts = G(ProspectiveOffer.Create(port, Relation.Segment(signal, -32, -1), 8, baseline),
+            ProspectiveOffer.Create(port, Relation.Segment(signal, 1, 32), 8, baseline));
+        var durations = G(DurationOffer.Create(port, Relation.Segment(signal, -32, -1), premise: baseline),
+            DurationOffer.Create(port, Relation.Segment(signal, 1, 32), premise: baseline));
         return G(new Carrier(credit.UnitShape), recipe, port, L(presence, 0), L(credit, 1), L(credit, 2),
-            contexts, new Carrier(credit.UnitShape));
+            contexts, new Carrier(credit.UnitShape), durations);
     }
 
-    // Route15: supplier, pulse gate, signed receipt, actual live publication,
+    // Route16: supplier, pulse gate, signed receipt, actual live publication,
     // current receipt read, remaining opportunities, term relief, latest own
     // relief, consecutive resolved nonpositive reads, progress, two contextual
-    // affinities, last trigger, resolved term count, last resolved flag, epoch.
-    private static Relation BuildRoute(Relation service, Carrier signal, Carrier credit)
+    // affinities, last trigger, resolved term count, last resolved flag, epoch,
+    // two bounded local reviews tied to their source context and self baseline.
+    private static Relation BuildRoute(Relation service, Carrier signal, Carrier credit, Relation baseline, Carrier clock)
     {
         var gate = new Carrier(); var receipt = new Carrier(signal.UnitShape);
         var publication = Relation.LiveOutput(new Relation(SourcePort(service), gate.ValueSlot),
             Equation.Product(receipt, Equation.Affine(signal, 0, 1, signal, 0, 1), Equation.UnitPort(gate)));
         return G(service, gate, receipt, publication, N.SumTo(signal, (receipt.ValueSlot, 1), (receipt.LiveTensionSlot, 1)),
             new Carrier(), new Carrier(signal.UnitShape), new Carrier(signal.UnitShape), new Carrier(), new Carrier(),
-            G(new Carrier(), new Carrier()), L(signal, 0), new Carrier(), new Carrier(), new Carrier());
+            G(new Carrier(), new Carrier()), L(signal, 0), new Carrier(), new Carrier(), new Carrier(),
+            G(ProspectStates(service).Select(context => BuildReview(context, baseline, signal, clock)).ToArray()));
+    }
+
+    // Review8: supplier context, self baseline, four signed recent samples,
+    // ring cursor, occupied count, reusable sum, retry deadline, observation time.
+    private static Relation BuildReview(Relation context, Relation baseline, Carrier signal, Carrier clock)
+    {
+        var samples = Enumerable.Range(0, 4).Select(_ => new Carrier(signal.UnitShape)).ToArray();
+        var sum = N.SumTo(signal, samples.SelectMany(c => new[]
+            { ((IElement)c.ValueSlot, 1L), ((IElement)c.LiveTensionSlot, 1L) }).ToArray());
+        return G(context, baseline, G(samples.Cast<IElement>().ToArray()), new Carrier(), new Carrier(), sum, L(clock, 0), L(clock, 0));
     }
 
     public static IElement[] Parts(Relation group) => N.Parts(group);
@@ -102,6 +120,7 @@ public static class SubscriptionNetwork
     public static CarrierLocation SourcePort(Relation service) => (CarrierLocation)Parts(service)[2];
     public static CarrierLocation SourcePresence(Relation service) => (CarrierLocation)Parts(service)[3];
     public static Relation[] ProspectStates(Relation service) => Parts((Relation)Parts(service)[6]).Cast<Relation>().ToArray();
+    public static Relation[] DurationStates(Relation service) => Parts((Relation)Parts(service)[8]).Cast<Relation>().ToArray();
     public static Carrier FeesReceived(Relation service) => (Carrier)Parts(service)[7];
     public static Relation RouteService(Relation route) => (Relation)Parts(route)[0];
     public static Carrier Gate(Relation route) => (Carrier)Parts(route)[1];
@@ -117,6 +136,68 @@ public static class SubscriptionNetwork
     public static Carrier ResolvedCount(Relation route) => (Carrier)Parts(route)[12];
     public static Carrier LastResolved(Relation route) => (Carrier)Parts(route)[13];
     public static Carrier Generation(Relation route) => (Carrier)Parts(route)[14];
+    public static Relation[] LocalReviews(Relation route) => Parts((Relation)Parts(route)[15]).Cast<Relation>().ToArray();
+    public static Carrier[] ReviewSamples(Relation review) => Parts((Relation)Parts(review)[2]).Cast<Carrier>().ToArray();
+    public static Carrier ReviewCount(Relation review) => (Carrier)Parts(review)[4];
+    public static CarrierLocation RetryAfter(Relation review) => (CarrierLocation)Parts(review)[6];
+    public static Relation? LocalReview(Relation route, CarrierLocation trigger)
+    {
+        foreach (var review in LocalReviews(route))
+        {
+            var context = ProspectiveOffer.Context((Relation)Parts(review)[0]);
+            if (TimeStepSequence.TryReadSpan(context, out var lower, out var upper))
+            {
+                var claim = OperationClaim.Between(new Carrier(), Copy(trigger), Copy(lower), Copy(upper), new Carrier());
+                if (OperationClaim.TryReadResolvedBetweenViolation(claim, out var remainder) && remainder.Ticks == 0) return review;
+            }
+        }
+        return null;
+    }
+    private static Relation ReviewForQuote(Relation route, Relation quote) => LocalReviews(route).Single(r => ReferenceEquals(Parts(r)[0], Parts(quote)[0]));
+    public static Relation ReadLocalMean(Relation root, Relation review) => ReviewMean(root, review, Signal(root), L(Signal(root), 1));
+    private static Relation ReviewMean(Relation root, Relation review, Carrier target, CarrierLocation scale)
+    {
+        var sum = N.Read((Relation)Parts(review)[5]);
+        var count = Copy(ReviewCount(review).ValueSlot);
+        if (count.Ticks <= 0 || !Scalar(sum, out var numerator)) return Relation.UnresolvedRead(review, sum, target);
+        var equation = Equation.Affine(numerator.Carrier, 0, count.Ticks, target, 0, scale.Ticks);
+        if (!Equation.TryPredict(equation, numerator, target, out var read) || !Scalar(read, out var result))
+            return Relation.UnresolvedRead(review, equation, target);
+        return new Relation(Copy(result), G(review, count, sum, equation, read));
+    }
+
+    private static void ObserveReview(Relation root, Relation review, CarrierLocation relief, CarrierLocation time, List<IElement> evidence)
+    {
+        var p = Parts(review); var cursor = (Carrier)p[3];
+        var sample = ReviewSamples(review)[checked((int)cursor.Value)];
+        var evicted = SignedValue(sample);
+        Set(root, sample, relief, evidence);
+        var count = Min(root, Cash(root, 4), Sum(root, evidence, (ReviewCount(review).ValueSlot, 1), (Cash(root, 1), 1)), evidence);
+        Set(root, ReviewCount(review), count, evidence);
+        var next = Sum(root, evidence, (cursor.ValueSlot, 1), (Cash(root, 1), 1));
+        Set(root, cursor, AtLeast(root, next, Cash(root, 4), evidence) ? Cash(root, 0) : next, evidence);
+        ((CarrierLocation)p[7]).Tick.Set(time.Ticks);
+        evidence.Add(G(review, evicted, Copy(relief), Copy(time), Copy(count)));
+    }
+
+    private static bool ReviewReady(Relation root, Relation review, CarrierLocation time, List<IElement> evidence)
+    {
+        var claim = OperationClaim.AtLeast(new Carrier(), Copy(time), Copy(RetryAfter(review)), new Carrier());
+        evidence.Add(claim);
+        return Pass(claim);
+    }
+
+    public static Relation QuoteDuration(Relation root, Relation service, CarrierLocation trigger, CarrierLocation time, int requestedCap)
+    {
+        foreach (var state in DurationStates(service))
+        {
+            var quote = DurationOffer.Quote(state, Copy(trigger), Copy(time), requestedCap,
+                Copy((CarrierLocation)Parts(service)[5]), Copy(PolicyAt(root, 8)));
+            if (DurationOffer.Matches(quote)) return quote;
+        }
+        return DurationOffer.Quote(DurationStates(service)[0], Copy(trigger), Copy(time), requestedCap,
+            Copy((CarrierLocation)Parts(service)[5]), Copy(PolicyAt(root, 8)));
+    }
     public static bool Attached(Relation route) => Receipt(route).IsAttached(Publication(route));
     public static IElement[] Contracts(Relation root) => Parts((Relation)Parts(root)[2]);
     public static Relation? Contract(Relation root, Relation route) => Contracts(root).OfType<Relation>().SingleOrDefault(c => ReferenceEquals(Parts(c)[0], route));
@@ -145,20 +226,21 @@ public static class SubscriptionNetwork
         return (next, frame);
     }
 
-    // Frame8: time, observation/open, prior outcome, inspected advertisements,
+    // Frame9: time, observation/open, prior outcome, inspected advertisements,
     // lease transitions, new issue, native calculation/accounting witnesses,
-    // conservation. The latest frame may be released after observation.
+    // conservation, locally suppressed visits. The first eight fields retain
+    // their old read surface; suppressed visits are free local review reads.
     public static bool TryObserve(Relation root, long? input, out Relation next, out Relation frame)
     {
         next = root; frame = Relation.UnresolvedRead(root, root, Carrier.Unknown);
         var clock = (CarrierLocation)Op(root)[7];
         if (!Pass(OperationClaim.Equality(new Carrier(), Parts(root)[4], Copy(clock), new Carrier()))) return false;
-        var evidence = new List<IElement>(); var transitions = new List<IElement>();
+        var evidence = new List<IElement>(); var transitions = new List<IElement>(); var suppressed = new List<IElement>();
         var time = Copy(Value(N.Read((Relation)Op(root)[8])));
         foreach (var route in Routes(root)) ClosePulse(root, route, evidence);
         foreach (var service in Services(root)) SourcePresence(service).Tick.Set(0);
         ((CarrierLocation)Parts(Seeker(root))[3]).Tick.Set(0);
-        var outcome = Assess(root, Parts(root)[1] as Relation, input, evidence);
+        var outcome = Assess(root, Parts(root)[1] as Relation, input, time, evidence);
         Admit(root, input); clock.Tick.Set(time.Ticks);
         var funding = Min(root, PolicyAt(root, 5), Sum(root, evidence, (PolicyAt(root, 6), 1), (Wallet(Seeker(root)).ValueSlot, -1)), evidence);
         funding = Min(root, funding, AsCash(root, Reservoir(root).ValueSlot, evidence), evidence);
@@ -183,6 +265,17 @@ public static class SubscriptionNetwork
             var resolved = AtLeast(root, AsCash(root, ResolvedCount(route).ValueSlot, evidence), Cash(root, 1), evidence);
             var good = Positive(root, SignedValue(TermRelief(route)), evidence);
             if (resolved) Add(root, Affinity(route), Cash(root, good ? 1 : -1), evidence);
+            if (resolved && Positive(root, PolicyAt(root, 12), evidence))
+            {
+                var review = ReviewForQuote(route, (Relation)Parts(contract)[4]);
+                var local = ReviewMean(root, review, Credit(root), PolicyAt(root, 4)); evidence.Add(local);
+                if (Scalar(local, out var mean) && AtMost(root, mean, Cash(root, 0), evidence))
+                {
+                    var deadline = NativeSum(time.Carrier, evidence, (time, 1), (PolicyAt(root, 14), 1));
+                    RetryAfter(review).Tick.Set(deadline.Ticks);
+                    evidence.Add(G(route, review, contract, Copy(time), Copy(deadline), local));
+                }
+            }
             var cancellation = Cash(root, 0);
             if (cancel)
             { Charge(root, Wallet(Seeker(root)), PolicyAt(root, 9), CancellationExpense(root), evidence); cancellation = Copy(PolicyAt(root, 9)); Add(root, Cancellations(root), Cash(root, 1), evidence); }
@@ -193,9 +286,13 @@ public static class SubscriptionNetwork
                 Affordable(root, Wallet(Seeker(root)), PolicyAt(root, 8), evidence) && CanIntake(root, evidence))
             {
                 var trigger = (CarrierLocation)Parts(contract)[3];
-                renewed = Activate(root, route, trigger, time, evidence);
-                contracts[i] = renewed;
-                Add(root, Renewals(root), Cash(root, 1), evidence);
+                var allowed = LocalReview(route, trigger);
+                if (!Positive(root, PolicyAt(root, 12), evidence) || allowed is null || ReviewReady(root, allowed, time, evidence))
+                {
+                    renewed = Activate(root, route, trigger, time, evidence);
+                    contracts[i] = renewed is null ? new Placeholder() : renewed;
+                    if (renewed is not null) Add(root, Renewals(root), Cash(root, 1), evidence);
+                }
             }
             transitions.Add(G(route, contract, renewed is null ? new Placeholder() : renewed, renewed is null ? Cash(root, 0) : Copy(PolicyAt(root, 8)),
                 cancellation, Cash(root, renewed is null ? 0 : 1), Cash(root, expired ? 1 : 0)));
@@ -205,11 +302,11 @@ public static class SubscriptionNetwork
         var horizon = (CarrierLocation)Parts((Relation)Op(root)[6])[0];
         if (self is CarrierLocation && o[7] is CarrierLocation evaluated && evaluated.Ticks == 1 &&
             o[3] is CarrierLocation actualError && Positive(root, actualError, evidence) && Positive(root, horizon, evidence))
-            Discover(root, contracts, (CarrierLocation)o[5], time, discovered, transitions, evidence);
+            Discover(root, contracts, (CarrierLocation)o[5], time, discovered, transitions, suppressed, evidence);
         root = G(Operational(root), Parts(root)[1], G(contracts), Parts(root)[3], Parts(root)[4]);
         var issue = Issue(root, input, self, time, evidence);
         frame = G(Copy(time), input.HasValue ? L(Signal(root), input.Value) : new Placeholder(), outcome,
-            G(discovered.ToArray()), G(transitions.ToArray()), issue, G(evidence.ToArray()), Conservation(root));
+            G(discovered.ToArray()), G(transitions.ToArray()), issue, G(evidence.ToArray()), Conservation(root), G(suppressed.ToArray()));
         next = G(Operational(root), issue, G(contracts), frame, Copy(time));
         return true;
     }
@@ -237,13 +334,30 @@ public static class SubscriptionNetwork
         return Copy(value);
     }
 
-    // Contract9: route, start, end, frozen trigger, prospective offer, horizon,
-    // delivery fee, activation cost, captured generation. End is start+horizon.
-    private static Relation Activate(Relation root, Relation route, CarrierLocation trigger, CarrierLocation time, List<IElement> evidence)
+    // Contract10: route, start, end, frozen trigger, prospective offer, horizon,
+    // delivery fee, activation cost, captured generation, duration quote/open.
+    // End is start+accepted horizon; the quote and tariff never track new prices.
+    private static Relation? Activate(Relation root, Relation route, CarrierLocation trigger, CarrierLocation time,
+        List<IElement> evidence, Relation? offeredDuration = null)
     {
-        var horizon = (CarrierLocation)Parts((Relation)Op(root)[6])[0];
+        var horizon = Copy(PolicyAt(root, 0));
+        var deliveryFee = Copy((CarrierLocation)Parts(RouteService(route))[5]);
+        var activationFee = Copy(PolicyAt(root, 8));
+        IElement duration = new Placeholder();
+        if (Positive(root, PolicyAt(root, 13), evidence))
+        {
+            var offered = offeredDuration ?? QuoteDuration(root, RouteService(route), trigger, time, checked((int)horizon.Ticks));
+            duration = offered; evidence.Add(offered);
+            if (!DurationOffer.Matches(offered) || !Positive(root, DurationOffer.Accepted(offered), evidence)) return null;
+            horizon = AsCash(root, DurationOffer.Accepted(offered), evidence);
+            var tariff = Parts((Relation)Parts(offered)[11]);
+            deliveryFee = Copy((CarrierLocation)tariff[0]); activationFee = Copy((CarrierLocation)tariff[1]);
+        }
+        if (!Positive(root, horizon, evidence)) return null;
         var quote = Quote(root, RouteService(route), trigger, time, checked((int)horizon.Ticks));
-        Charge(root, Wallet(Seeker(root)), PolicyAt(root, 8), ActivationExpense(root), evidence);
+        if (!ProspectiveOffer.Matches(quote)) return null;
+        if (!Affordable(root, Wallet(Seeker(root)), activationFee, evidence)) return null;
+        Charge(root, Wallet(Seeker(root)), activationFee, ActivationExpense(root), evidence);
         Add(root, Activations(root), Cash(root, 1), evidence);
         Add(root, Generation(route), Cash(root, 1), evidence);
         Set(root, Remaining(route), horizon, evidence);
@@ -251,8 +365,8 @@ public static class SubscriptionNetwork
         ((CarrierLocation)Parts(route)[11]).Tick.Set(trigger.Ticks);
         if (!Attached(route)) Receipt(route).Attach(Publication(route));
         var end = NativeSum(time.Carrier, evidence, (time, 1), (horizon, 1));
-        return G(route, Copy(time), end, Copy(trigger), quote, Copy(horizon), Copy((CarrierLocation)Parts(RouteService(route))[5]),
-            Copy(PolicyAt(root, 8)), SignedValue(Generation(route)));
+        return G(route, Copy(time), end, Copy(trigger), quote, Copy(horizon), deliveryFee,
+            activationFee, SignedValue(Generation(route)), duration);
     }
 
     private static Relation Quote(Relation root, Relation service, CarrierLocation trigger, CarrierLocation time, int horizon)
@@ -266,28 +380,39 @@ public static class SubscriptionNetwork
     }
 
     private static void Discover(Relation root, IElement[] contracts, CarrierLocation trigger, CarrierLocation time,
-        List<IElement> discovered, List<IElement> transitions, List<IElement> evidence)
+        List<IElement> discovered, List<IElement> transitions, List<IElement> suppressed, List<IElement> evidence)
     {
         var routes = Routes(root); var seeker = Seeker(root); var horizon = (CarrierLocation)Parts((Relation)Op(root)[6])[0];
         var active = NativeSum(Credit(root), evidence, routes.Select(r => ((IElement)L(Credit(root), Attached(r) ? 1 : 0), 1L)).ToArray());
         var intakeThreshold = Sum(root, evidence, (Min(root, Cash(root, 2), PolicyAt(root, 2), evidence), 1), (Cash(root, 1), -1));
         if (!AtMost(root, active, intakeThreshold, evidence)) return;
-        var candidates = new List<(int Index, Relation Quote, CarrierLocation Score, Relation Evidence)>();
+        var candidates = new List<(int Index, Relation Quote, CarrierLocation Score, Relation? Duration)>();
         for (var scan = 0; scan < 2; scan++)
         {
             var cursor = (Carrier)Parts(seeker)[4];
             var index = checked((int)cursor.Value);
             var service = (Relation)Parts((Relation)Op(root)[12])[index];
             Advance(root, evidence);
+            var review = LocalReview(routes[index], trigger);
+            var local = new List<IElement>();
+            if (Positive(root, PolicyAt(root, 12), local) && review is not null && !ReviewReady(root, review, time, local))
+            {
+                suppressed.Add(G(routes[index], review, Copy(RetryAfter(review)), Copy(time), G(local.ToArray())));
+                continue;
+            }
             if (!Affordable(root, Wallet(seeker), PolicyAt(root, 7), evidence)) break;
             Charge(root, Wallet(seeker), PolicyAt(root, 7), InspectionExpense(root), evidence);
             var quote = Quote(root, service, trigger, time, checked((int)horizon.Ticks));
-            var local = new List<IElement>();
             var slot = OperationClaim.AtMost(new Carrier(), Copy(active), Copy(intakeThreshold), new Carrier()); local.Add(slot);
             var score = Score(root, routes[index], quote, local);
+            Relation? duration = null;
+            if (Positive(root, PolicyAt(root, 13), local))
+            { duration = QuoteDuration(root, service, trigger, time, checked((int)horizon.Ticks)); local.Add(duration); }
             var eligible = contracts[index] is Placeholder && Pass(slot) && ProspectiveOffer.Matches(quote);
-            candidates.Add((index, quote, score, G(local.ToArray())));
-            discovered.Add(G(service, quote, slot, Copy(score), Cash(root, eligible ? 1 : 0), G(local.ToArray())));
+            eligible = eligible && (duration is null || (DurationOffer.Matches(duration) && Positive(root, DurationOffer.Accepted(duration), local)));
+            if (eligible) candidates.Add((index, quote, score, duration));
+            discovered.Add(G(service, quote, slot, Copy(score), Cash(root, eligible ? 1 : 0), G(local.ToArray()),
+                review is null ? new Placeholder() : review, duration is null ? new Placeholder() : duration));
         }
         // At most two native scores are compared. No private recipe is run by
         // discovery; equal or unresolved cold offers keep local traversal order.
@@ -299,7 +424,8 @@ public static class SubscriptionNetwork
             if (!AtMost(root, active, intakeThreshold, evidence) || contracts[candidate.Index] is not Placeholder ||
                 !ProspectiveOffer.Matches(candidate.Quote) || !Affordable(root, Wallet(seeker), PolicyAt(root, 8), evidence)) continue;
             var route = routes[candidate.Index];
-            var contract = Activate(root, route, trigger, time, evidence);
+            var contract = Activate(root, route, trigger, time, evidence, candidate.Duration);
+            if (contract is null) continue;
             contracts[candidate.Index] = contract;
             active = Sum(root, evidence, (active, 1), (Cash(root, 1), 1));
             transitions.Add(G(route, new Placeholder(), contract, Copy(PolicyAt(root, 8)), Cash(root, 0), Cash(root, 0), Cash(root, 0)));
@@ -323,6 +449,34 @@ public static class SubscriptionNetwork
 
     private static CarrierLocation Score(Relation root, Relation route, Relation quote, List<IElement> evidence)
     {
+        if (Positive(root, PolicyAt(root, 12), evidence))
+        {
+            // Own bounded observations dominate a supplier's shared claim.
+            // They are not added as if they were independent evidence. The
+            // zero self-reference is a real candidate at the export boundary.
+            var review = ReviewForQuote(route, quote);
+            var own = ReviewMean(root, review, Credit(root), PolicyAt(root, 4));
+            evidence.Add(own);
+            if (Scalar(own, out var signed)) return Copy(signed);
+            var weight = PolicyAt(root, 1);
+            if (Positive(root, weight, evidence) && ProspectiveOffer.Matches(quote))
+            {
+                var counts = Parts(ProspectiveOffer.Counts(quote));
+                var count = (CarrierLocation)counts[1];
+                var benefit = (CarrierLocation)counts[3];
+                if (Positive(root, count, evidence))
+                {
+                    var scale = Sum(root, evidence, (N.Product(PolicyAt(root, 4), weight), 1));
+                    var equation = Equation.Affine(benefit.Carrier, 0, count.Ticks, Credit(root), 0, scale.Ticks);
+                    if (Equation.TryPredict(equation, benefit, Credit(root), out var read))
+                    {
+                        evidence.Add(G(quote, equation, read));
+                        if (Scalar(read, out var publicMean)) return Copy(publicMean);
+                    }
+                }
+            }
+            return Cash(root, 0);
+        }
         var recent = Max(root, Cash(root, 0), AsCash(root, SignedValue(LastRelief(route)), evidence), evidence);
         var score = Sum(root, evidence, (N.Product(recent, PolicyAt(root, 4)), 1));
         var use = (CarrierLocation)Parts((Relation)Op(root)[6])[1];
@@ -339,21 +493,22 @@ public static class SubscriptionNetwork
     private static Relation Issue(Relation root, long? input, IElement self, CarrierLocation time, List<IElement> evidence)
     {
         var local = new List<IElement>(); var promises = new IElement[4]; var routes = Routes(root); var contracts = Contracts(root);
-        IElement exported = self; IElement chosen = new Placeholder(); CarrierLocation? best = null;
+        IElement exported = self; IElement chosen = new Placeholder();
+        CarrierLocation? best = Positive(root, PolicyAt(root, 12), local) ? Cash(root, 0) : null;
         for (var i = 0; i < routes.Length; i++)
         {
             var route = routes[i];
             if (contracts[i] is not Relation contract) { promises[i] = new Placeholder(); continue; }
             var service = RouteService(route); IElement forecast = new Placeholder(); var delivered = false;
             var score = Score(root, route, (Relation)Parts(contract)[4], local);
-            var fundedCost = Sum(root, local, (Wallet(service).ValueSlot, 1), (Parts(service)[5], 1));
-            if (self is CarrierLocation && Affordable(root, Wallet(Seeker(root)), (CarrierLocation)Parts(service)[5], local) &&
+            var fee = (CarrierLocation)Parts(contract)[6];
+            var fundedCost = Sum(root, local, (Wallet(service).ValueSlot, 1), (fee, 1));
+            if (self is CarrierLocation && Affordable(root, Wallet(Seeker(root)), fee, local) &&
                 AtLeast(root, fundedCost, (CarrierLocation)Parts(service)[4], local))
             {
                 var read = N.Read(Recipe(service)); local.Add(read);
                 if (Scalar(read, out var value) && Within(root, value, -24, 24, local))
                 {
-                    var fee = (CarrierLocation)Parts(service)[5];
                     Transfer(root, Wallet(Seeker(root)), Wallet(service), fee, evidence); Add(root, FeesReceived(service), fee, evidence);
                     Charge(root, Wallet(service), (CarrierLocation)Parts(service)[4], CalculationExpense(root), evidence);
                     SourcePort(service).Tick.Set(value.Ticks); SourcePresence(service).Tick.Set(1);
@@ -377,7 +532,7 @@ public static class SubscriptionNetwork
     // trigger actual-export/open, four source outcomes, evaluated flag.
     // SourceOutcome6: promise, response/open, signed conditional relief/open,
     // evaluated flag, helpful flag, prospective update/open.
-    private static Relation Assess(Relation root, Relation? issue, long? input, List<IElement> evidence)
+    private static Relation Assess(Relation root, Relation? issue, long? input, CarrierLocation time, List<IElement> evidence)
     {
         var emptyRows = Enumerable.Range(0, 4).Select(_ => (IElement)new Placeholder()).ToArray();
         if (issue is null) return G(new Placeholder(), new Placeholder(), new Placeholder(), new Placeholder(), new Placeholder(), new Placeholder(), G(emptyRows), Cash(root, 0));
@@ -409,8 +564,20 @@ public static class SubscriptionNetwork
             }
             else response = Relation.UnresolvedRead(promise, issue, Signal(root));
             var update = ProspectiveOffer.Observe(state, quote, conditional, G(issue, promise, response));
+            var updates = new List<IElement> { update };
+            if (Parts(contract).Length > 9 && Parts(contract)[9] is Relation duration)
+            {
+                // IntervalResponse retains its residual carrier. Explicitly
+                // project that read onto the shared signal basis before the
+                // supplier's duration context accepts it as aligned evidence.
+                CarrierLocation? aligned = conditional.HasValue
+                    ? NativeSum(Signal(root), evidence, (conditional.Value, 1)) : null;
+                updates.Add(DurationOffer.Observe((Relation)Parts(duration)[0], duration, Copy(time), aligned, G(issue, promise, response)));
+            }
             if (conditional.HasValue)
             {
+                if (Positive(root, PolicyAt(root, 12), evidence))
+                    ObserveReview(root, ReviewForQuote(route, quote), conditional.Value, time, evidence);
                 Set(root, LastRelief(route), conditional.Value, evidence); Add(root, TermRelief(route), conditional.Value, evidence);
                 Add(root, ResolvedCount(route), Cash(root, 1), evidence); Set(root, LastResolved(route), Cash(root, 1), evidence);
                 if (Positive(root, conditional.Value, evidence)) Set(root, MissCount(route), Cash(root, 0), evidence);
@@ -418,7 +585,7 @@ public static class SubscriptionNetwork
             }
             else Set(root, LastResolved(route), Cash(root, 0), evidence);
             rows[i] = G(promise, response, conditional.HasValue ? Copy(conditional.Value) : new Placeholder(),
-                Cash(root, conditional.HasValue ? 1 : 0), Cash(root, conditional.HasValue && Positive(root, conditional.Value, evidence) ? 1 : 0), update);
+                Cash(root, conditional.HasValue ? 1 : 0), Cash(root, conditional.HasValue && Positive(root, conditional.Value, evidence) ? 1 : 0), G(updates.ToArray()));
         }
         if (!resolved) return G(issue, input.HasValue && p[1] is CarrierLocation ? Copy(actual) : new Placeholder(),
             new Placeholder(), new Placeholder(), new Placeholder(), new Placeholder(), G(rows), Cash(root, 0));

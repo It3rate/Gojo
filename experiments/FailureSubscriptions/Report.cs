@@ -31,11 +31,28 @@ internal sealed class ReportTotals
     public long DeliveredDirectionMatches { get; set; }
     public long Inspections { get; set; }
     public long MaximumInspected { get; set; }
+    public long MaximumVisited { get; set; }
     public long MaximumActive { get; set; }
     public long Activations { get; set; }
     public long Renewals { get; set; }
     public long Cancellations { get; set; }
     public long Expiries { get; set; }
+    public long SelfSelections { get; set; }
+    public long ShadowDeliveries { get; set; }
+    public long ShadowDeliveryFees { get; set; }
+    public long NonpositiveScoredDeliveries { get; set; }
+    public long SuppressedShopping { get; set; }
+    public long ShortenedOffers { get; set; }
+    public long UnavailableDurationOffers { get; set; }
+    public long AbandonedOpportunities { get; set; }
+    public long QuotedCommitmentCost { get; set; }
+    public Dictionary<long, long> AcceptedHorizons { get; set; } = new();
+    public Dictionary<long, long> AdvertisedHorizons { get; set; } = new();
+    public Dictionary<long, long> OfferedHorizons { get; set; } = new();
+    public Dictionary<long, long> BackedHorizons { get; set; } = new();
+    public long CheckpointInspections { get; set; }
+    public long PeakRetainedCarriers { get; set; }
+    public long PeakRetainedRelations { get; set; }
     public SourceTotals[] Sources { get; set; } = [new(), new(), new(), new()];
     public Dictionary<string, long> Phases { get; set; } = new();
     public bool Conserved { get; set; } = true;
@@ -60,7 +77,17 @@ internal static class Report
         var inspected = S.Parts((Relation)f[3]).Length;
         totals.Inspections += inspected;
         totals.MaximumInspected = Math.Max(totals.MaximumInspected, inspected);
+        var suppressed = f.Length > 8 ? S.Parts((Relation)f[8]).Length : 0;
+        totals.SuppressedShopping += suppressed;
+        totals.MaximumVisited = Math.Max(totals.MaximumVisited, inspected + suppressed);
         totals.MaximumActive = Math.Max(totals.MaximumActive, routes.Count(S.Attached));
+        foreach (var advertisement in S.Parts((Relation)f[3]).OfType<Relation>())
+        {
+            var advertised = S.Parts(advertisement);
+            if (advertised.Length <= 7 || advertised[7] is not Relation duration) continue;
+            Increment(totals.AdvertisedHorizons, DurationOffer.Offered(duration).Ticks);
+            if (DurationOffer.Accepted(duration).Ticks == 0) totals.UnavailableDurationOffers++;
+        }
         foreach (var transition in S.Parts((Relation)f[4]).OfType<Relation>())
         {
             var p = S.Parts(transition);
@@ -68,13 +95,38 @@ internal static class Report
             if (Number(p[4]) > 0) totals.Cancellations++;
             totals.Renewals += Number(p[5]);
             totals.Expiries += Number(p[6]);
+            if (p[2] is Relation accepted)
+            {
+                var term = S.Parts(accepted);
+                Increment(totals.AcceptedHorizons, Number(term[5]));
+                if (term.Length > 9 && term[9] is Relation quote)
+                {
+                    Increment(totals.OfferedHorizons, DurationOffer.Offered(quote).Ticks);
+                    Increment(totals.BackedHorizons, DurationOffer.Backed(quote).Ticks);
+                    if (Number(term[5]) < DurationOffer.Offered(quote).Ticks) totals.ShortenedOffers++;
+                    totals.QuotedCommitmentCost += DurationOffer.TotalFee(quote).Ticks;
+                }
+                else totals.QuotedCommitmentCost += Number(term[7]) + Number(term[6]) * Number(term[5]);
+            }
+            if (Number(p[4]) > 0 && p[1] is Relation canceled)
+                totals.AbandonedOpportunities += Math.Max(0, Number(S.Parts(canceled)[2]) - totals.End);
         }
         var current = S.Parts((Relation)f[5]);
         if (current[4] is Relation chosen) totals.Sources[RouteIndex(chosen)].Selected++;
+        else if (current[3] is CarrierLocation) totals.SelfSelections++;
         foreach (var promise in S.Parts((Relation)current[5]).OfType<Relation>())
         {
             var p = S.Parts(promise);
-            if (Number(p[3]) == 1) totals.Sources[RouteIndex((Relation)p[0])].Deliveries++;
+            if (Number(p[3]) == 1)
+            {
+                totals.Sources[RouteIndex((Relation)p[0])].Deliveries++;
+                if (Number(p[4]) <= 0) totals.NonpositiveScoredDeliveries++;
+                if (!ReferenceEquals(current[4], p[0]))
+                {
+                    totals.ShadowDeliveries++;
+                    totals.ShadowDeliveryFees += Number(S.Parts((Relation)p[2])[6]);
+                }
+            }
         }
         var outcome = S.Parts((Relation)f[2]);
         if (outcome[0] is Relation oldIssue)
@@ -116,6 +168,8 @@ internal static class Report
         }
     }
 
+    private static void Increment(Dictionary<long, long> counts, long value) => counts[value] = counts.GetValueOrDefault(value) + 1;
+
     public static object State(Relation root) => new
     {
         Version = S.Version(root), Reservoir = S.Reservoir(root).Value, Spent = S.Spent(root).Value,
@@ -136,6 +190,21 @@ internal static class Report
             ContextAffinities = S.Affinities(r).Select(a => S.SignedValue(a).Ticks).ToArray(),
             Present = S.SourcePresence(S.RouteService(r)).Ticks,
             Fees = S.FeesReceived(S.RouteService(r)).Value,
+            LocalReviews = S.LocalReviews(r).Select(review => new
+            {
+                Resolved = S.ReviewCount(review).Value,
+                Samples = S.ReviewSamples(review).Select(s => S.SignedValue(s).Ticks).ToArray(),
+                RetryAfter = S.RetryAfter(review).Ticks
+            }).ToArray(),
+            DurationProfiles = S.Parts((Relation)S.Parts(S.RouteService(r))[8]).Cast<Relation>().Select(state =>
+                DurationOffer.Rows(state).Select(row => new
+                {
+                    Helpful = DurationOffer.Helpful(row).Value,
+                    Evaluated = DurationOffer.Evaluated(row).Value,
+                    Unknown = DurationOffer.Unknown(row).Value,
+                    Relief = S.SignedValue(DurationOffer.Benefit(row)).Ticks,
+                    RetryAfter = S.SignedValue(DurationOffer.RetryAfter(row)).Ticks
+                }).ToArray()).ToArray(),
             Prospects = S.ProspectStates(S.RouteService(r)).Select(p => new
             {
                 Helpful = ProspectiveOffer.Helpful(p).Value,

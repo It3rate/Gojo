@@ -6,7 +6,9 @@ using Gojo.Core;
 
 namespace FailureSubscriptions;
 
-internal sealed record Manifest(string Format, long Seed, string Scenario, int Horizon, bool Prospects, int Rotation, string SourceFingerprint, string ProtocolFingerprint);
+internal sealed record Manifest(string Format, long Seed, string Scenario, int Horizon, bool Prospects, int Rotation,
+    bool AdaptiveAttention, bool AdaptiveHorizon, long ResourceBudget, int WindowEvery, int CheckpointEvery, bool Profile,
+    string SourceFingerprint, string ProtocolFingerprint);
 internal sealed record RunState(string ManifestHash, EnvironmentSource Environment, long WindowBytes, ReportTotals Totals);
 
 internal static class RunStore
