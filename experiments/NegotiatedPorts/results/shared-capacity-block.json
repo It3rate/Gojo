@@ -1,0 +1,179 @@
+{
+  "trial": "changing-input",
+  "frame": {
+    "Step": 2,
+    "Phase": "Steady rise",
+    "Input": 103,
+    "Reservoir": 4052,
+    "Spent": 3,
+    "Conserved": true,
+    "Offers": [
+      {
+        "Id": 0,
+        "Provider": 0,
+        "Ask": 3,
+        "Cost": 1,
+        "LiveValue": 1
+      },
+      {
+        "Id": 1,
+        "Provider": 1,
+        "Ask": 5,
+        "Cost": 2,
+        "LiveValue": null
+      },
+      {
+        "Id": 2,
+        "Provider": 2,
+        "Ask": 5,
+        "Cost": 2,
+        "LiveValue": null
+      },
+      {
+        "Id": 3,
+        "Provider": 2,
+        "Ask": 7,
+        "Cost": 3,
+        "LiveValue": null
+      }
+    ],
+    "Producers": [
+      {
+        "Id": 0,
+        "Reserve": 6,
+        "Occupied": 1
+      },
+      {
+        "Id": 1,
+        "Reserve": 4,
+        "Occupied": 0
+      },
+      {
+        "Id": 2,
+        "Reserve": 4,
+        "Occupied": 0
+      }
+    ],
+    "Consumers": [
+      {
+        "Id": 0,
+        "Wallet": 15,
+        "Bid": 4,
+        "Cursor": 1,
+        "Completed": 0,
+        "Demand": true,
+        "SelectedOffer": null,
+        "Gate": 0,
+        "Receipt": null,
+        "Forecast": 0,
+        "Price": 0,
+        "ContactFee": 1,
+        "Paid": false,
+        "Previous": {
+          "Issued": true,
+          "Paid": false,
+          "Evaluated": true,
+          "IssueStep": 1,
+          "Offer": null,
+          "Forecast": 0,
+          "Actual": 3,
+          "BaselineDemand": 1,
+          "DeliveredDemand": 1,
+          "Relief": 0,
+          "Gross": 0,
+          "OngoingNet": 0,
+          "TotalNet": 0,
+          "Price": 0,
+          "ContactFee": 0,
+          "Demand": true,
+          "Retained": false
+        }
+      },
+      {
+        "Id": 1,
+        "Wallet": 12,
+        "Bid": 8,
+        "Cursor": 1,
+        "Completed": 0,
+        "Demand": true,
+        "SelectedOffer": 0,
+        "Gate": 1,
+        "Receipt": 1,
+        "Forecast": 1,
+        "Price": 3,
+        "ContactFee": 1,
+        "Paid": true,
+        "Previous": {
+          "Issued": true,
+          "Paid": false,
+          "Evaluated": true,
+          "IssueStep": 1,
+          "Offer": null,
+          "Forecast": 0,
+          "Actual": 3,
+          "BaselineDemand": 3,
+          "DeliveredDemand": 3,
+          "Relief": 0,
+          "Gross": 0,
+          "OngoingNet": 0,
+          "TotalNet": 0,
+          "Price": 0,
+          "ContactFee": 0,
+          "Demand": true,
+          "Retained": false
+        }
+      }
+    ],
+    "Contacts": [
+      {
+        "Consumer": 0,
+        "Offer": 0,
+        "Bid": 4,
+        "Ask": 3,
+        "Fee": 1,
+        "Paid": true,
+        "Fits": true,
+        "Free": false,
+        "Agreed": false
+      },
+      {
+        "Consumer": 1,
+        "Offer": 0,
+        "Bid": 8,
+        "Ask": 3,
+        "Fee": 1,
+        "Paid": true,
+        "Fits": true,
+        "Free": true,
+        "Agreed": true
+      }
+    ],
+    "Payments": [
+      {
+        "From": "reservoir",
+        "To": "consumer-0",
+        "Amount": 3
+      },
+      {
+        "From": "consumer-1",
+        "To": "spent",
+        "Amount": 1
+      },
+      {
+        "From": "consumer-1",
+        "To": "provider-0",
+        "Amount": 3
+      },
+      {
+        "From": "provider-0",
+        "To": "spent",
+        "Amount": 1
+      },
+      {
+        "From": "consumer-0",
+        "To": "spent",
+        "Amount": 1
+      }
+    ]
+  }
+}

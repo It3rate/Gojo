@@ -1,0 +1,523 @@
+{
+  "protocol": "caf8cae",
+  "checks": [
+    "Initial wallets come from one reservoir; shared-provider offers cannot clone funds.",
+    "Intermediate and synthesized surfaces retain native recipes and signed current reads.",
+    "An attached publication follows its exposed changing port, while its issued promise remains frozen.",
+    "Signed negative live data clears before withdrawal and reattachment reuses the relation.",
+    "A service freezes its price, demand and interpretation before the subsequent observation.",
+    "Missing immediate outcomes remain unresolved; later samples cannot replace them.",
+    "Contact, payment and operating expense are separate conserved resource transfers.",
+    "An affordable contact cannot buy a service whose full fee is unaffordable.",
+    "Finite funding respects wallet headroom and cannot manufacture resources from an empty reservoir.",
+    "Provider reserve excess is recycled rather than spent or silently discarded.",
+    "Counteroffers apply prospectively and asks cannot cross their operating-cost floors.",
+    "Two offers of one provider share one service slot; local search is bounded.",
+    "Pure port and resource inspection cannot charge, refresh or mutate the world.",
+    "Current native forecasts recompute after input retargeting without replacing recipes.",
+    "Operational recipes persist and prior world envelopes do not become a history archive.",
+    "Stale callers and invalid funding are rejected before closing flows or moving resources."
+  ],
+  "runs": [
+    {
+      "name": "changing-input",
+      "arrivals": 110,
+      "paidServicesIssued": 172,
+      "evaluatedPaid": 168,
+      "unresolvedPaid": 2,
+      "evaluatedNoService": 46,
+      "contacts": 112,
+      "counteroffers": 5,
+      "capacityBlockedContacts": 33,
+      "consumerErrors": [
+        {
+          "consumer": 0,
+          "basis": "direction ticks",
+          "baselineDemand": 76,
+          "deliveredDemand": 1,
+          "relief": 75
+        },
+        {
+          "consumer": 1,
+          "basis": "source-change ticks",
+          "baselineDemand": 318,
+          "deliveredDemand": 161,
+          "relief": 157
+        }
+      ],
+      "grossCredits": 928,
+      "ongoingNet": 416,
+      "evaluatedPaidNetIncludingOwnContact": 339,
+      "totalConsumerOutlay": 635,
+      "allContactFees": 112,
+      "operatingCosts": 301,
+      "recycledReserves": 138,
+      "finalOutstandingPaid": 2,
+      "phaseAccounting": [
+        {
+          "phase": "Warmup",
+          "arrivals": 1,
+          "paidIssued": 0,
+          "consumerOutlay": 0,
+          "contactFees": 0,
+          "operatingCosts": 0,
+          "grossCreditsForEvaluatedPaidIssuedInPhase": 0
+        },
+        {
+          "phase": "Steady rise",
+          "arrivals": 20,
+          "paidIssued": 31,
+          "consumerOutlay": 130,
+          "contactFees": 21,
+          "operatingCosts": 50,
+          "grossCreditsForEvaluatedPaidIssuedInPhase": 204
+        },
+        {
+          "phase": "Changing rise",
+          "arrivals": 24,
+          "paidIssued": 44,
+          "consumerOutlay": 158,
+          "contactFees": 23,
+          "operatingCosts": 68,
+          "grossCreditsForEvaluatedPaidIssuedInPhase": 180
+        },
+        {
+          "phase": "Missing observation",
+          "arrivals": 1,
+          "paidIssued": 0,
+          "consumerOutlay": 0,
+          "contactFees": 0,
+          "operatingCosts": 0,
+          "grossCreditsForEvaluatedPaidIssuedInPhase": 0
+        },
+        {
+          "phase": "Steady fall",
+          "arrivals": 24,
+          "paidIssued": 40,
+          "consumerOutlay": 129,
+          "contactFees": 17,
+          "operatingCosts": 74,
+          "grossCreditsForEvaluatedPaidIssuedInPhase": 296
+        },
+        {
+          "phase": "Flat",
+          "arrivals": 16,
+          "paidIssued": 16,
+          "consumerOutlay": 80,
+          "contactFees": 32,
+          "operatingCosts": 32,
+          "grossCreditsForEvaluatedPaidIssuedInPhase": -4
+        },
+        {
+          "phase": "Returning rise",
+          "arrivals": 24,
+          "paidIssued": 41,
+          "consumerOutlay": 138,
+          "contactFees": 19,
+          "operatingCosts": 77,
+          "grossCreditsForEvaluatedPaidIssuedInPhase": 252
+        }
+      ],
+      "positivePaid": 145,
+      "zeroPaid": 15,
+      "harmfulPaid": 8,
+      "conservedEveryFrame": true,
+      "finalAsks": [
+        3,
+        4,
+        2,
+        3
+      ],
+      "finalWallets": [
+        13,
+        13
+      ],
+      "finalReserves": [
+        32,
+        32,
+        32
+      ],
+      "Reservoir": 3561,
+      "Spent": 413,
+      "finalCarriers": 694,
+      "finalRelations": 7913,
+      "persistentEquations": true,
+      "cumulativeAdmissionAllocation": 293716736
+    },
+    {
+      "name": "demand-withdrawn",
+      "arrivals": 110,
+      "paidServicesIssued": 135,
+      "evaluatedPaid": 132,
+      "unresolvedPaid": 1,
+      "evaluatedNoService": 82,
+      "contacts": 96,
+      "counteroffers": 5,
+      "capacityBlockedContacts": 24,
+      "consumerErrors": [
+        {
+          "consumer": 0,
+          "basis": "direction ticks",
+          "baselineDemand": 79,
+          "deliveredDemand": 3,
+          "relief": 76
+        },
+        {
+          "consumer": 1,
+          "basis": "source-change ticks",
+          "baselineDemand": 129,
+          "deliveredDemand": 46,
+          "relief": 83
+        }
+      ],
+      "grossCredits": 636,
+      "ongoingNet": 188,
+      "evaluatedPaidNetIncludingOwnContact": 122,
+      "totalConsumerOutlay": 555,
+      "allContactFees": 96,
+      "operatingCosts": 239,
+      "recycledReserves": 136,
+      "finalOutstandingPaid": 2,
+      "phaseAccounting": [
+        {
+          "phase": "Warmup",
+          "arrivals": 1,
+          "paidIssued": 0,
+          "consumerOutlay": 0,
+          "contactFees": 0,
+          "operatingCosts": 0,
+          "grossCreditsForEvaluatedPaidIssuedInPhase": 0
+        },
+        {
+          "phase": "Steady rise",
+          "arrivals": 20,
+          "paidIssued": 31,
+          "consumerOutlay": 130,
+          "contactFees": 21,
+          "operatingCosts": 50,
+          "grossCreditsForEvaluatedPaidIssuedInPhase": 204
+        },
+        {
+          "phase": "Changing rise",
+          "arrivals": 24,
+          "paidIssued": 24,
+          "consumerOutlay": 95,
+          "contactFees": 13,
+          "operatingCosts": 37,
+          "grossCreditsForEvaluatedPaidIssuedInPhase": 84
+        },
+        {
+          "phase": "Missing observation",
+          "arrivals": 1,
+          "paidIssued": 0,
+          "consumerOutlay": 0,
+          "contactFees": 0,
+          "operatingCosts": 0,
+          "grossCreditsForEvaluatedPaidIssuedInPhase": 0
+        },
+        {
+          "phase": "Steady fall",
+          "arrivals": 24,
+          "paidIssued": 23,
+          "consumerOutlay": 84,
+          "contactFees": 10,
+          "operatingCosts": 48,
+          "grossCreditsForEvaluatedPaidIssuedInPhase": 84
+        },
+        {
+          "phase": "Flat",
+          "arrivals": 16,
+          "paidIssued": 16,
+          "consumerOutlay": 88,
+          "contactFees": 32,
+          "operatingCosts": 32,
+          "grossCreditsForEvaluatedPaidIssuedInPhase": 0
+        },
+        {
+          "phase": "Returning rise",
+          "arrivals": 24,
+          "paidIssued": 41,
+          "consumerOutlay": 158,
+          "contactFees": 20,
+          "operatingCosts": 72,
+          "grossCreditsForEvaluatedPaidIssuedInPhase": 264
+        }
+      ],
+      "positivePaid": 114,
+      "zeroPaid": 16,
+      "harmfulPaid": 2,
+      "conservedEveryFrame": true,
+      "finalAsks": [
+        3,
+        4,
+        4,
+        3
+      ],
+      "finalWallets": [
+        13,
+        12
+      ],
+      "finalReserves": [
+        32,
+        32,
+        32
+      ],
+      "Reservoir": 3640,
+      "Spent": 335,
+      "finalCarriers": 694,
+      "finalRelations": 7901,
+      "persistentEquations": true,
+      "cumulativeAdmissionAllocation": 254151448
+    },
+    {
+      "name": "scarce-funding",
+      "arrivals": 110,
+      "paidServicesIssued": 128,
+      "evaluatedPaid": 125,
+      "unresolvedPaid": 1,
+      "evaluatedNoService": 89,
+      "contacts": 145,
+      "counteroffers": 5,
+      "capacityBlockedContacts": 30,
+      "consumerErrors": [
+        {
+          "consumer": 0,
+          "basis": "direction ticks",
+          "baselineDemand": 40,
+          "deliveredDemand": 0,
+          "relief": 40
+        },
+        {
+          "consumer": 1,
+          "basis": "source-change ticks",
+          "baselineDemand": 282,
+          "deliveredDemand": 114,
+          "relief": 168
+        }
+      ],
+      "grossCredits": 832,
+      "ongoingNet": 441,
+      "evaluatedPaidNetIncludingOwnContact": 376,
+      "totalConsumerOutlay": 545,
+      "allContactFees": 145,
+      "operatingCosts": 231,
+      "recycledReserves": 85,
+      "finalOutstandingPaid": 2,
+      "phaseAccounting": [
+        {
+          "phase": "Warmup",
+          "arrivals": 1,
+          "paidIssued": 0,
+          "consumerOutlay": 0,
+          "contactFees": 0,
+          "operatingCosts": 0,
+          "grossCreditsForEvaluatedPaidIssuedInPhase": 0
+        },
+        {
+          "phase": "Steady rise",
+          "arrivals": 20,
+          "paidIssued": 31,
+          "consumerOutlay": 130,
+          "contactFees": 21,
+          "operatingCosts": 50,
+          "grossCreditsForEvaluatedPaidIssuedInPhase": 204
+        },
+        {
+          "phase": "Changing rise",
+          "arrivals": 24,
+          "paidIssued": 19,
+          "consumerOutlay": 94,
+          "contactFees": 37,
+          "operatingCosts": 32,
+          "grossCreditsForEvaluatedPaidIssuedInPhase": 80
+        },
+        {
+          "phase": "Missing observation",
+          "arrivals": 1,
+          "paidIssued": 0,
+          "consumerOutlay": 0,
+          "contactFees": 0,
+          "operatingCosts": 0,
+          "grossCreditsForEvaluatedPaidIssuedInPhase": 0
+        },
+        {
+          "phase": "Steady fall",
+          "arrivals": 24,
+          "paidIssued": 19,
+          "consumerOutlay": 77,
+          "contactFees": 32,
+          "operatingCosts": 36,
+          "grossCreditsForEvaluatedPaidIssuedInPhase": 276
+        },
+        {
+          "phase": "Flat",
+          "arrivals": 16,
+          "paidIssued": 16,
+          "consumerOutlay": 84,
+          "contactFees": 32,
+          "operatingCosts": 32,
+          "grossCreditsForEvaluatedPaidIssuedInPhase": 0
+        },
+        {
+          "phase": "Returning rise",
+          "arrivals": 24,
+          "paidIssued": 43,
+          "consumerOutlay": 160,
+          "contactFees": 23,
+          "operatingCosts": 81,
+          "grossCreditsForEvaluatedPaidIssuedInPhase": 272
+        }
+      ],
+      "positivePaid": 105,
+      "zeroPaid": 16,
+      "harmfulPaid": 4,
+      "conservedEveryFrame": true,
+      "finalAsks": [
+        3,
+        4,
+        2,
+        4
+      ],
+      "finalWallets": [
+        12,
+        11
+      ],
+      "finalReserves": [
+        32,
+        32,
+        32
+      ],
+      "Reservoir": 3601,
+      "Spent": 376,
+      "finalCarriers": 738,
+      "finalRelations": 8344,
+      "persistentEquations": true,
+      "cumulativeAdmissionAllocation": 261252008
+    },
+    {
+      "name": "different-encounters",
+      "arrivals": 110,
+      "paidServicesIssued": 173,
+      "evaluatedPaid": 169,
+      "unresolvedPaid": 2,
+      "evaluatedNoService": 45,
+      "contacts": 110,
+      "counteroffers": 5,
+      "capacityBlockedContacts": 27,
+      "consumerErrors": [
+        {
+          "consumer": 0,
+          "basis": "direction ticks",
+          "baselineDemand": 76,
+          "deliveredDemand": 3,
+          "relief": 73
+        },
+        {
+          "consumer": 1,
+          "basis": "source-change ticks",
+          "baselineDemand": 324,
+          "deliveredDemand": 135,
+          "relief": 189
+        }
+      ],
+      "grossCredits": 1048,
+      "ongoingNet": 501,
+      "evaluatedPaidNetIncludingOwnContact": 424,
+      "totalConsumerOutlay": 670,
+      "allContactFees": 110,
+      "operatingCosts": 320,
+      "recycledReserves": 156,
+      "finalOutstandingPaid": 2,
+      "phaseAccounting": [
+        {
+          "phase": "Warmup",
+          "arrivals": 1,
+          "paidIssued": 0,
+          "consumerOutlay": 0,
+          "contactFees": 0,
+          "operatingCosts": 0,
+          "grossCreditsForEvaluatedPaidIssuedInPhase": 0
+        },
+        {
+          "phase": "Steady rise",
+          "arrivals": 20,
+          "paidIssued": 33,
+          "consumerOutlay": 149,
+          "contactFees": 20,
+          "operatingCosts": 60,
+          "grossCreditsForEvaluatedPaidIssuedInPhase": 244
+        },
+        {
+          "phase": "Changing rise",
+          "arrivals": 24,
+          "paidIssued": 43,
+          "consumerOutlay": 162,
+          "contactFees": 22,
+          "operatingCosts": 77,
+          "grossCreditsForEvaluatedPaidIssuedInPhase": 260
+        },
+        {
+          "phase": "Missing observation",
+          "arrivals": 1,
+          "paidIssued": 0,
+          "consumerOutlay": 0,
+          "contactFees": 0,
+          "operatingCosts": 0,
+          "grossCreditsForEvaluatedPaidIssuedInPhase": 0
+        },
+        {
+          "phase": "Steady fall",
+          "arrivals": 24,
+          "paidIssued": 40,
+          "consumerOutlay": 141,
+          "contactFees": 17,
+          "operatingCosts": 74,
+          "grossCreditsForEvaluatedPaidIssuedInPhase": 296
+        },
+        {
+          "phase": "Flat",
+          "arrivals": 16,
+          "paidIssued": 16,
+          "consumerOutlay": 80,
+          "contactFees": 32,
+          "operatingCosts": 32,
+          "grossCreditsForEvaluatedPaidIssuedInPhase": -4
+        },
+        {
+          "phase": "Returning rise",
+          "arrivals": 24,
+          "paidIssued": 41,
+          "consumerOutlay": 138,
+          "contactFees": 19,
+          "operatingCosts": 77,
+          "grossCreditsForEvaluatedPaidIssuedInPhase": 252
+        }
+      ],
+      "positivePaid": 149,
+      "zeroPaid": 15,
+      "harmfulPaid": 5,
+      "conservedEveryFrame": true,
+      "finalAsks": [
+        3,
+        4,
+        2,
+        3
+      ],
+      "finalWallets": [
+        13,
+        13
+      ],
+      "finalReserves": [
+        32,
+        32,
+        32
+      ],
+      "Reservoir": 3544,
+      "Spent": 430,
+      "finalCarriers": 694,
+      "finalRelations": 7913,
+      "persistentEquations": true,
+      "cumulativeAdmissionAllocation": 292823920
+    }
+  ]
+}
