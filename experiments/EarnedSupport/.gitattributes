@@ -1,1 +1,2 @@
 results/**/windows.jsonl -text
+results/**/manifest.json -text whitespace=cr-at-eol

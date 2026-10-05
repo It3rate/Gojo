@@ -1,0 +1,174 @@
+{
+  "ManifestHash": "009E03A5B57DA91BF8AB1490325561C35F1DE0F2596AD797F71A6EE4426B783B",
+  "Reason": "requested-end",
+  "Position": 1440,
+  "Totals": {
+    "Start": 1,
+    "End": 1440,
+    "Admissions": 1440,
+    "NativeAllocationBytes": 4318007416,
+    "NativeWallMilliseconds": 10796.813399999995,
+    "ObserverAllocationBytes": 761912728,
+    "ObserverWallMilliseconds": 1784.306500000002,
+    "Conserved": true,
+    "ReservoirEmptyObservations": 528,
+    "QuietObservations": 530,
+    "NoContactAttemptObservations": 316,
+    "SuppliedPhases": {
+      "rise-jitter": 240,
+      "rise-new-permutations": 240,
+      "fall-jitter": 240,
+      "flat": 240,
+      "stronger-rise": 240,
+      "return-rise": 240
+    },
+    "Consumers": [
+      {
+        "Demanded": 1440,
+        "ReadableDemanded": 1427,
+        "RequestedFunding": 7200,
+        "DemandedWithSpendableCredit": 919,
+        "AdmittedFunding": 2446,
+        "PriorDemanded": 1439,
+        "EvaluatedDemanded": 1427,
+        "UnresolvedDemanded": 12,
+        "UnresolvedPaid": 4,
+        "EvaluatedPaid": 823,
+        "BaselineError": 1193,
+        "DeliveredError": 531,
+        "PositivePaid": 666,
+        "ZeroPaid": 153,
+        "HarmfulPaid": 4,
+        "RetainedPaid": 600,
+        "Contacts": 962,
+        "PaidContacts": 446,
+        "Purchases": 827,
+        "SameSupplierConsecutiveServices": 450,
+        "NewConnections": 82,
+        "OfferSwitches": 295,
+        "Releases": 82,
+        "QuoteRejections": 5,
+        "CapacityBlockedContacts": 63,
+        "UnfundedContacts": 516,
+        "FailedPaidContactExpense": 69,
+        "ServiceOutlay": 2008,
+        "ContactOutlay": 446,
+        "Gross": 2648,
+        "OfferPurchases": [
+          287,
+          165,
+          181,
+          194
+        ],
+        "PaidAskSum": [
+          450,
+          534,
+          434,
+          590
+        ]
+      },
+      {
+        "Demanded": 1440,
+        "ReadableDemanded": 1427,
+        "RequestedFunding": 11520,
+        "DemandedWithSpendableCredit": 918,
+        "AdmittedFunding": 2527,
+        "PriorDemanded": 1439,
+        "EvaluatedDemanded": 1427,
+        "UnresolvedDemanded": 12,
+        "UnresolvedPaid": 4,
+        "EvaluatedPaid": 819,
+        "BaselineError": 4757,
+        "DeliveredError": 3522,
+        "PositivePaid": 638,
+        "ZeroPaid": 169,
+        "HarmfulPaid": 12,
+        "RetainedPaid": 576,
+        "Contacts": 962,
+        "PaidContacts": 445,
+        "Purchases": 823,
+        "SameSupplierConsecutiveServices": 436,
+        "NewConnections": 91,
+        "OfferSwitches": 296,
+        "Releases": 91,
+        "QuoteRejections": 0,
+        "CapacityBlockedContacts": 58,
+        "UnfundedContacts": 517,
+        "FailedPaidContactExpense": 58,
+        "ServiceOutlay": 2090,
+        "ContactOutlay": 445,
+        "Gross": 4940,
+        "OfferPurchases": [
+          271,
+          180,
+          199,
+          173
+        ],
+        "PaidAskSum": [
+          400,
+          586,
+          568,
+          536
+        ]
+      }
+    ]
+  },
+  "Current": {
+    "Market": {
+      "Version": 1440,
+      "Reservoir": 0,
+      "Spent": 4000,
+      "Wallets": [
+        {
+          "Value": 0,
+          "Tension": 0
+        },
+        {
+          "Value": 0,
+          "Tension": 0
+        }
+      ],
+      "Reserves": [
+        {
+          "Value": 32,
+          "Tension": 0
+        },
+        {
+          "Value": 32,
+          "Tension": 0
+        },
+        {
+          "Value": 32,
+          "Tension": 0
+        }
+      ],
+      "Asks": [
+        1,
+        2,
+        2,
+        3
+      ],
+      "OutstandingDemanded": 2,
+      "OutstandingPaid": 0
+    },
+    "Issued": 0,
+    "Traces": [
+      {
+        "Value": 0,
+        "Tension": 0,
+        "DivisionRemainder": 7,
+        "PaymentRemainder": 0
+      },
+      {
+        "Value": 0,
+        "Tension": 0,
+        "DivisionRemainder": 7,
+        "PaymentRemainder": 0
+      }
+    ],
+    "LastSettledVersion": 1440,
+    "Accounted": true
+  },
+  "Checkpoints": 7,
+  "Limit": "Supplied benefit/cost calibration and fixed offer population; added currency is not additional capacity or proof of regulation."
+}

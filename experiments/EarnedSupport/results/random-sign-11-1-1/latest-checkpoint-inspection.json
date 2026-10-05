@@ -1,0 +1,64 @@
+{
+  "Position": 1440,
+  "Carriers": 279,
+  "Relations": 3616,
+  "Bytes": 56042,
+  "WallMilliseconds": 11.2316,
+  "AllocationBytes": 5370432,
+  "State": {
+    "Market": {
+      "Version": 1440,
+      "Reservoir": 0,
+      "Spent": 4642,
+      "Wallets": [
+        {
+          "Value": 0,
+          "Tension": 0
+        },
+        {
+          "Value": 0,
+          "Tension": 0
+        }
+      ],
+      "Reserves": [
+        {
+          "Value": 11,
+          "Tension": 0
+        },
+        {
+          "Value": 9,
+          "Tension": 0
+        },
+        {
+          "Value": 11,
+          "Tension": 0
+        }
+      ],
+      "Asks": [
+        1,
+        2,
+        2,
+        3
+      ],
+      "OutstandingDemanded": 2,
+      "OutstandingPaid": 0
+    },
+    "Issued": 577,
+    "Traces": [
+      {
+        "Value": 0,
+        "Tension": 0,
+        "DivisionRemainder": 7,
+        "PaymentRemainder": 18
+      },
+      {
+        "Value": 0,
+        "Tension": 0,
+        "DivisionRemainder": -7,
+        "PaymentRemainder": 43
+      }
+    ],
+    "LastSettledVersion": 1440,
+    "Accounted": true
+  }
+}

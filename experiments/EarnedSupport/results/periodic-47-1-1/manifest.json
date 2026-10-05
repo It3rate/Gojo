@@ -1,0 +1,12 @@
+{
+  "Format": "earned-support-v1",
+  "Scenario": "periodic",
+  "Seed": 47,
+  "GainNumerator": 1,
+  "GainDenominator": 1,
+  "Window": 120,
+  "Checkpoint": 240,
+  "SourceFingerprint": "CCA111BEC847D69A83DA507E31E20EA3814421473258D2379437478324915710",
+  "ProtocolFingerprint": "43EFA60665DA412BF661D5C3408962324C41FCFC49A32987EC6580CD5577A501",
+  "CreatedUtc": "2026-10-05T02:28:54.3608166+00:00"
+}
