@@ -1,0 +1,636 @@
+{
+  "measuredAtUtc": "2026-10-05T01:05:15.4454275+00:00",
+  "runtime": ".NET 10.0.12",
+  "os": "Microsoft Windows 10.0.19045",
+  "processorCount": 8,
+  "protocol": "caf8cae; unchanged supplied policy",
+  "methodology": {
+    "warmupsPerTrial": 1,
+    "repetitionsPerTrial": 3,
+    "arrivalsPerTrial": 110,
+    "allocation": "GC.GetAllocatedBytesForCurrentThread around each synchronous stage; cumulative allocation, not retained heap or process RSS.",
+    "time": "Stopwatch.GetTimestamp sums around each stage; Release, warmed, local diagnostic run, not a controlled benchmark.",
+    "admission": "Existing TryObserve, including construction of the latest native evidence frame, native policy arithmetic, conservation claim, transfer and settlement. Excludes market construction, inspector and output serialization.",
+    "localRead": "Compact observer: money state, asks, port values, selected routes, pending promises, prior outcomes and existing conservation claim. Includes native live-receipt reads. Not the full existing viewer observer.",
+    "json": "One compact observer row serialized to UTF-8 per arrival and immediately discarded. No growing replay list and no timed disk writes.",
+    "checkpoint": "One full native checkpoint encoding after each trial; separately one continuation-roots encoding. Includes graph capture and encoding. No timed disk writes.",
+    "resultUse": "No measured record or graph snapshot enters the native learner.",
+    "caution": "Retained graph reduction is not a proof of a fundamental minimum, nor of avoiding allocations that have already happened inside admission. Single-machine timings can vary with contention, GC and JIT."
+  },
+  "graphs": [
+    {
+      "trial": "changing-input",
+      "full": {
+        "carriers": 694,
+        "relations": 7913,
+        "ticks": 4796,
+        "locations": 3467,
+        "units": 669,
+        "placeholders": 0,
+        "attachmentMemberships": 7,
+        "distinctAttachedRelations": 2
+      },
+      "operationalOnly": {
+        "carriers": 171,
+        "relations": 2182,
+        "ticks": 1144,
+        "locations": 843,
+        "units": 150,
+        "placeholders": 0,
+        "attachmentMemberships": 7,
+        "distinctAttachedRelations": 2
+      },
+      "continuationRoots": {
+        "carriers": 192,
+        "relations": 2431,
+        "ticks": 1304,
+        "locations": 961,
+        "units": 171,
+        "placeholders": 0,
+        "attachmentMemberships": 7,
+        "distinctAttachedRelations": 2
+      },
+      "latestFrameRoot": {
+        "carriers": 585,
+        "relations": 6305,
+        "ticks": 4024,
+        "locations": 2883,
+        "units": 569,
+        "placeholders": 0,
+        "attachmentMemberships": 7,
+        "distinctAttachedRelations": 2
+      },
+      "frameForgottenEnvelope": {
+        "carriers": 193,
+        "relations": 2441,
+        "ticks": 1308,
+        "locations": 963,
+        "units": 172,
+        "placeholders": 1,
+        "attachmentMemberships": 7,
+        "distinctAttachedRelations": 2
+      },
+      "paired": {
+        "continuationArrivals": 24,
+        "equivalentEveryArrival": true,
+        "check": "Normalized complete native continuation graphs plus financial and prediction reads; latest frame forgotten after every admission.",
+        "coverage": "Changing increment, flat, falling, missing, jump, withdrawal and scarce funding; bounded fixture, not proof for all future inputs."
+      },
+      "fullNativeBytes": 290272,
+      "continuationNativeBytes": 84128,
+      "frameForgottenNativeBytes": 84446,
+      "caveat": "Frame reachability overlaps operational and pending structure. Do not sum these counts. Omitting retained frame does not avoid its creation inside TryObserve."
+    },
+    {
+      "trial": "demand-withdrawn",
+      "full": {
+        "carriers": 694,
+        "relations": 7901,
+        "ticks": 4786,
+        "locations": 3457,
+        "units": 669,
+        "placeholders": 0,
+        "attachmentMemberships": 7,
+        "distinctAttachedRelations": 2
+      },
+      "operationalOnly": {
+        "carriers": 171,
+        "relations": 2182,
+        "ticks": 1144,
+        "locations": 843,
+        "units": 150,
+        "placeholders": 0,
+        "attachmentMemberships": 7,
+        "distinctAttachedRelations": 2
+      },
+      "continuationRoots": {
+        "carriers": 192,
+        "relations": 2425,
+        "ticks": 1299,
+        "locations": 956,
+        "units": 171,
+        "placeholders": 0,
+        "attachmentMemberships": 7,
+        "distinctAttachedRelations": 2
+      },
+      "latestFrameRoot": {
+        "carriers": 579,
+        "relations": 6205,
+        "ticks": 3963,
+        "locations": 2834,
+        "units": 563,
+        "placeholders": 0,
+        "attachmentMemberships": 7,
+        "distinctAttachedRelations": 2
+      },
+      "frameForgottenEnvelope": {
+        "carriers": 193,
+        "relations": 2435,
+        "ticks": 1303,
+        "locations": 958,
+        "units": 172,
+        "placeholders": 1,
+        "attachmentMemberships": 7,
+        "distinctAttachedRelations": 2
+      },
+      "paired": {
+        "continuationArrivals": 24,
+        "equivalentEveryArrival": true,
+        "check": "Normalized complete native continuation graphs plus financial and prediction reads; latest frame forgotten after every admission.",
+        "coverage": "Changing increment, flat, falling, missing, jump, withdrawal and scarce funding; bounded fixture, not proof for all future inputs."
+      },
+      "fullNativeBytes": 289816,
+      "continuationNativeBytes": 83900,
+      "frameForgottenNativeBytes": 84218,
+      "caveat": "Frame reachability overlaps operational and pending structure. Do not sum these counts. Omitting retained frame does not avoid its creation inside TryObserve."
+    },
+    {
+      "trial": "scarce-funding",
+      "full": {
+        "carriers": 738,
+        "relations": 8344,
+        "ticks": 5084,
+        "locations": 3670,
+        "units": 713,
+        "placeholders": 4,
+        "attachmentMemberships": 7,
+        "distinctAttachedRelations": 2
+      },
+      "operationalOnly": {
+        "carriers": 171,
+        "relations": 2182,
+        "ticks": 1144,
+        "locations": 843,
+        "units": 150,
+        "placeholders": 0,
+        "attachmentMemberships": 7,
+        "distinctAttachedRelations": 2
+      },
+      "continuationRoots": {
+        "carriers": 192,
+        "relations": 2431,
+        "ticks": 1304,
+        "locations": 961,
+        "units": 171,
+        "placeholders": 0,
+        "attachmentMemberships": 7,
+        "distinctAttachedRelations": 2
+      },
+      "latestFrameRoot": {
+        "carriers": 635,
+        "relations": 6825,
+        "ticks": 4358,
+        "locations": 3123,
+        "units": 618,
+        "placeholders": 4,
+        "attachmentMemberships": 7,
+        "distinctAttachedRelations": 2
+      },
+      "frameForgottenEnvelope": {
+        "carriers": 193,
+        "relations": 2441,
+        "ticks": 1308,
+        "locations": 963,
+        "units": 172,
+        "placeholders": 1,
+        "attachmentMemberships": 7,
+        "distinctAttachedRelations": 2
+      },
+      "paired": {
+        "continuationArrivals": 24,
+        "equivalentEveryArrival": true,
+        "check": "Normalized complete native continuation graphs plus financial and prediction reads; latest frame forgotten after every admission.",
+        "coverage": "Changing increment, flat, falling, missing, jump, withdrawal and scarce funding; bounded fixture, not proof for all future inputs."
+      },
+      "fullNativeBytes": 307054,
+      "continuationNativeBytes": 84128,
+      "frameForgottenNativeBytes": 84446,
+      "caveat": "Frame reachability overlaps operational and pending structure. Do not sum these counts. Omitting retained frame does not avoid its creation inside TryObserve."
+    },
+    {
+      "trial": "different-encounters",
+      "full": {
+        "carriers": 694,
+        "relations": 7913,
+        "ticks": 4796,
+        "locations": 3467,
+        "units": 669,
+        "placeholders": 0,
+        "attachmentMemberships": 7,
+        "distinctAttachedRelations": 2
+      },
+      "operationalOnly": {
+        "carriers": 171,
+        "relations": 2182,
+        "ticks": 1144,
+        "locations": 843,
+        "units": 150,
+        "placeholders": 0,
+        "attachmentMemberships": 7,
+        "distinctAttachedRelations": 2
+      },
+      "continuationRoots": {
+        "carriers": 192,
+        "relations": 2431,
+        "ticks": 1304,
+        "locations": 961,
+        "units": 171,
+        "placeholders": 0,
+        "attachmentMemberships": 7,
+        "distinctAttachedRelations": 2
+      },
+      "latestFrameRoot": {
+        "carriers": 585,
+        "relations": 6305,
+        "ticks": 4024,
+        "locations": 2883,
+        "units": 569,
+        "placeholders": 0,
+        "attachmentMemberships": 7,
+        "distinctAttachedRelations": 2
+      },
+      "frameForgottenEnvelope": {
+        "carriers": 193,
+        "relations": 2441,
+        "ticks": 1308,
+        "locations": 963,
+        "units": 172,
+        "placeholders": 1,
+        "attachmentMemberships": 7,
+        "distinctAttachedRelations": 2
+      },
+      "paired": {
+        "continuationArrivals": 24,
+        "equivalentEveryArrival": true,
+        "check": "Normalized complete native continuation graphs plus financial and prediction reads; latest frame forgotten after every admission.",
+        "coverage": "Changing increment, flat, falling, missing, jump, withdrawal and scarce funding; bounded fixture, not proof for all future inputs."
+      },
+      "fullNativeBytes": 290272,
+      "continuationNativeBytes": 84128,
+      "frameForgottenNativeBytes": 84446,
+      "caveat": "Frame reachability overlaps operational and pending structure. Do not sum these counts. Omitting retained frame does not avoid its creation inside TryObserve."
+    }
+  ],
+  "runs": [
+    {
+      "Trial": "changing-input",
+      "Repetition": 0,
+      "Arrivals": 110,
+      "Admission": {
+        "Milliseconds": 342.6032,
+        "AllocatedBytes": 292635288
+      },
+      "LocalRead": {
+        "Milliseconds": 35.1238,
+        "AllocatedBytes": 18948880
+      },
+      "CompactJson": {
+        "Milliseconds": 2.927,
+        "AllocatedBytes": 184344
+      },
+      "FullNativeCheckpoint": {
+        "Milliseconds": 30.1619,
+        "AllocatedBytes": 8258648
+      },
+      "ContinuationCheckpoint": {
+        "Milliseconds": 2.2023,
+        "AllocatedBytes": 2459344
+      },
+      "FullNativeBytes": 290272,
+      "ContinuationNativeBytes": 84128,
+      "CompactJsonBytes": 130653,
+      "ReadWasPure": true,
+      "ContinuationSignature": "5B1619C8541756778DBC04D62C2F4200D28DF82AA33EBC0B5FA4300104BFBDF1"
+    },
+    {
+      "Trial": "demand-withdrawn",
+      "Repetition": 0,
+      "Arrivals": 110,
+      "Admission": {
+        "Milliseconds": 374.8476,
+        "AllocatedBytes": 253204240
+      },
+      "LocalRead": {
+        "Milliseconds": 25.3854,
+        "AllocatedBytes": 18399944
+      },
+      "CompactJson": {
+        "Milliseconds": 3.2364,
+        "AllocatedBytes": 183856
+      },
+      "FullNativeCheckpoint": {
+        "Milliseconds": 15.4407,
+        "AllocatedBytes": 8249640
+      },
+      "ContinuationCheckpoint": {
+        "Milliseconds": 1.8961,
+        "AllocatedBytes": 2457880
+      },
+      "FullNativeBytes": 289816,
+      "ContinuationNativeBytes": 83900,
+      "CompactJsonBytes": 130115,
+      "ReadWasPure": true,
+      "ContinuationSignature": "484F2AC1C20A372640930C4BB23B0C276227989B13525EADAE34473C1CC4F53D"
+    },
+    {
+      "Trial": "scarce-funding",
+      "Repetition": 0,
+      "Arrivals": 110,
+      "Admission": {
+        "Milliseconds": 322.6557,
+        "AllocatedBytes": 261272584
+      },
+      "LocalRead": {
+        "Milliseconds": 31.6161,
+        "AllocatedBytes": 18297136
+      },
+      "CompactJson": {
+        "Milliseconds": 2.9072,
+        "AllocatedBytes": 183856
+      },
+      "FullNativeCheckpoint": {
+        "Milliseconds": 8.6988,
+        "AllocatedBytes": 8915336
+      },
+      "ContinuationCheckpoint": {
+        "Milliseconds": 4.3005,
+        "AllocatedBytes": 2459344
+      },
+      "FullNativeBytes": 307054,
+      "ContinuationNativeBytes": 84128,
+      "CompactJsonBytes": 130061,
+      "ReadWasPure": true,
+      "ContinuationSignature": "56A40685905806D33FB5111BCF518CC79BE6D64404E2B9DB2EA519B7232CC454"
+    },
+    {
+      "Trial": "different-encounters",
+      "Repetition": 0,
+      "Arrivals": 110,
+      "Admission": {
+        "Milliseconds": 360.8794,
+        "AllocatedBytes": 293067080
+      },
+      "LocalRead": {
+        "Milliseconds": 25.7157,
+        "AllocatedBytes": 18965368
+      },
+      "CompactJson": {
+        "Milliseconds": 2.7429,
+        "AllocatedBytes": 184360
+      },
+      "FullNativeCheckpoint": {
+        "Milliseconds": 9.304,
+        "AllocatedBytes": 8255376
+      },
+      "ContinuationCheckpoint": {
+        "Milliseconds": 1.8053,
+        "AllocatedBytes": 2459344
+      },
+      "FullNativeBytes": 290272,
+      "ContinuationNativeBytes": 84128,
+      "CompactJsonBytes": 130656,
+      "ReadWasPure": true,
+      "ContinuationSignature": "2CFA952010E519039C2EB911553FD164374E4342A7629D4F2B6076F02160CA8A"
+    },
+    {
+      "Trial": "different-encounters",
+      "Repetition": 1,
+      "Arrivals": 110,
+      "Admission": {
+        "Milliseconds": 389.6932,
+        "AllocatedBytes": 293067360
+      },
+      "LocalRead": {
+        "Milliseconds": 20.3605,
+        "AllocatedBytes": 18965368
+      },
+      "CompactJson": {
+        "Milliseconds": 2.8276,
+        "AllocatedBytes": 184360
+      },
+      "FullNativeCheckpoint": {
+        "Milliseconds": 9.3673,
+        "AllocatedBytes": 8250496
+      },
+      "ContinuationCheckpoint": {
+        "Milliseconds": 2.5112,
+        "AllocatedBytes": 2459344
+      },
+      "FullNativeBytes": 290272,
+      "ContinuationNativeBytes": 84128,
+      "CompactJsonBytes": 130656,
+      "ReadWasPure": true,
+      "ContinuationSignature": "2CFA952010E519039C2EB911553FD164374E4342A7629D4F2B6076F02160CA8A"
+    },
+    {
+      "Trial": "scarce-funding",
+      "Repetition": 1,
+      "Arrivals": 110,
+      "Admission": {
+        "Milliseconds": 312.8525,
+        "AllocatedBytes": 261272864
+      },
+      "LocalRead": {
+        "Milliseconds": 31.8343,
+        "AllocatedBytes": 18297136
+      },
+      "CompactJson": {
+        "Milliseconds": 2.5717,
+        "AllocatedBytes": 183856
+      },
+      "FullNativeCheckpoint": {
+        "Milliseconds": 9.2506,
+        "AllocatedBytes": 8914296
+      },
+      "ContinuationCheckpoint": {
+        "Milliseconds": 1.7266,
+        "AllocatedBytes": 2459344
+      },
+      "FullNativeBytes": 307054,
+      "ContinuationNativeBytes": 84128,
+      "CompactJsonBytes": 130061,
+      "ReadWasPure": true,
+      "ContinuationSignature": "56A40685905806D33FB5111BCF518CC79BE6D64404E2B9DB2EA519B7232CC454"
+    },
+    {
+      "Trial": "demand-withdrawn",
+      "Repetition": 1,
+      "Arrivals": 110,
+      "Admission": {
+        "Milliseconds": 329.3103,
+        "AllocatedBytes": 253203264
+      },
+      "LocalRead": {
+        "Milliseconds": 25.8159,
+        "AllocatedBytes": 18399944
+      },
+      "CompactJson": {
+        "Milliseconds": 2.8318,
+        "AllocatedBytes": 183856
+      },
+      "FullNativeCheckpoint": {
+        "Milliseconds": 7.7409,
+        "AllocatedBytes": 8249640
+      },
+      "ContinuationCheckpoint": {
+        "Milliseconds": 4.385,
+        "AllocatedBytes": 2457752
+      },
+      "FullNativeBytes": 289816,
+      "ContinuationNativeBytes": 83900,
+      "CompactJsonBytes": 130115,
+      "ReadWasPure": true,
+      "ContinuationSignature": "484F2AC1C20A372640930C4BB23B0C276227989B13525EADAE34473C1CC4F53D"
+    },
+    {
+      "Trial": "changing-input",
+      "Repetition": 1,
+      "Arrivals": 110,
+      "Admission": {
+        "Milliseconds": 384.4842,
+        "AllocatedBytes": 292633576
+      },
+      "LocalRead": {
+        "Milliseconds": 29.8667,
+        "AllocatedBytes": 18948880
+      },
+      "CompactJson": {
+        "Milliseconds": 2.9459,
+        "AllocatedBytes": 184344
+      },
+      "FullNativeCheckpoint": {
+        "Milliseconds": 43.9429,
+        "AllocatedBytes": 8254320
+      },
+      "ContinuationCheckpoint": {
+        "Milliseconds": 1.7802,
+        "AllocatedBytes": 2459216
+      },
+      "FullNativeBytes": 290272,
+      "ContinuationNativeBytes": 84128,
+      "CompactJsonBytes": 130653,
+      "ReadWasPure": true,
+      "ContinuationSignature": "5B1619C8541756778DBC04D62C2F4200D28DF82AA33EBC0B5FA4300104BFBDF1"
+    },
+    {
+      "Trial": "changing-input",
+      "Repetition": 2,
+      "Arrivals": 110,
+      "Admission": {
+        "Milliseconds": 378.6915,
+        "AllocatedBytes": 292633576
+      },
+      "LocalRead": {
+        "Milliseconds": 33.3894,
+        "AllocatedBytes": 18948880
+      },
+      "CompactJson": {
+        "Milliseconds": 3.1936,
+        "AllocatedBytes": 184344
+      },
+      "FullNativeCheckpoint": {
+        "Milliseconds": 14.8316,
+        "AllocatedBytes": 8254000
+      },
+      "ContinuationCheckpoint": {
+        "Milliseconds": 1.3756,
+        "AllocatedBytes": 2459216
+      },
+      "FullNativeBytes": 290272,
+      "ContinuationNativeBytes": 84128,
+      "CompactJsonBytes": 130653,
+      "ReadWasPure": true,
+      "ContinuationSignature": "5B1619C8541756778DBC04D62C2F4200D28DF82AA33EBC0B5FA4300104BFBDF1"
+    },
+    {
+      "Trial": "demand-withdrawn",
+      "Repetition": 2,
+      "Arrivals": 110,
+      "Admission": {
+        "Milliseconds": 280.2248,
+        "AllocatedBytes": 253203264
+      },
+      "LocalRead": {
+        "Milliseconds": 27.7311,
+        "AllocatedBytes": 18399944
+      },
+      "CompactJson": {
+        "Milliseconds": 2.7663,
+        "AllocatedBytes": 183856
+      },
+      "FullNativeCheckpoint": {
+        "Milliseconds": 7.4658,
+        "AllocatedBytes": 8249640
+      },
+      "ContinuationCheckpoint": {
+        "Milliseconds": 1.3453,
+        "AllocatedBytes": 2457752
+      },
+      "FullNativeBytes": 289816,
+      "ContinuationNativeBytes": 83900,
+      "CompactJsonBytes": 130115,
+      "ReadWasPure": true,
+      "ContinuationSignature": "484F2AC1C20A372640930C4BB23B0C276227989B13525EADAE34473C1CC4F53D"
+    },
+    {
+      "Trial": "scarce-funding",
+      "Repetition": 2,
+      "Arrivals": 110,
+      "Admission": {
+        "Milliseconds": 343.3599,
+        "AllocatedBytes": 261272864
+      },
+      "LocalRead": {
+        "Milliseconds": 17.2703,
+        "AllocatedBytes": 18297136
+      },
+      "CompactJson": {
+        "Milliseconds": 2.728,
+        "AllocatedBytes": 183856
+      },
+      "FullNativeCheckpoint": {
+        "Milliseconds": 6.005,
+        "AllocatedBytes": 8915520
+      },
+      "ContinuationCheckpoint": {
+        "Milliseconds": 3.1572,
+        "AllocatedBytes": 2459216
+      },
+      "FullNativeBytes": 307054,
+      "ContinuationNativeBytes": 84128,
+      "CompactJsonBytes": 130061,
+      "ReadWasPure": true,
+      "ContinuationSignature": "56A40685905806D33FB5111BCF518CC79BE6D64404E2B9DB2EA519B7232CC454"
+    },
+    {
+      "Trial": "different-encounters",
+      "Repetition": 2,
+      "Arrivals": 110,
+      "Admission": {
+        "Milliseconds": 331.5572,
+        "AllocatedBytes": 293067360
+      },
+      "LocalRead": {
+        "Milliseconds": 21.8333,
+        "AllocatedBytes": 18965368
+      },
+      "CompactJson": {
+        "Milliseconds": 2.9787,
+        "AllocatedBytes": 184360
+      },
+      "FullNativeCheckpoint": {
+        "Milliseconds": 9.2297,
+        "AllocatedBytes": 8252568
+      },
+      "ContinuationCheckpoint": {
+        "Milliseconds": 1.7117,
+        "AllocatedBytes": 2459216
+      },
+      "FullNativeBytes": 290272,
+      "ContinuationNativeBytes": 84128,
+      "CompactJsonBytes": 130656,
+      "ReadWasPure": true,
+      "ContinuationSignature": "2CFA952010E519039C2EB911553FD164374E4342A7629D4F2B6076F02160CA8A"
+    }
+  ]
+}

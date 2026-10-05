@@ -1,0 +1,155 @@
+{
+  "ManifestHash": "CF4AF2274BB60924C5880E95DDE60B2EC2CF629083C5DE9FC570859EA09547E8",
+  "Reason": "requested-end",
+  "Position": 480,
+  "Totals": {
+    "Start": 1,
+    "End": 480,
+    "Admissions": 480,
+    "NativeAllocationBytes": 1322462872,
+    "NativeWallMilliseconds": 2584.8090999999995,
+    "ObserverAllocationBytes": 259148752,
+    "ObserverWallMilliseconds": 439.7667000000002,
+    "Conserved": true,
+    "ReservoirEmptyObservations": 0,
+    "QuietObservations": 5,
+    "NoContactAttemptObservations": 108,
+    "SuppliedPhases": {
+      "rise-jitter": 80,
+      "rise-new-permutations": 80,
+      "fall-jitter": 80,
+      "flat": 80,
+      "stronger-rise": 80,
+      "return-rise": 80
+    },
+    "Consumers": [
+      {
+        "Demanded": 480,
+        "ReadableDemanded": 475,
+        "RequestedFunding": 2400,
+        "DemandedWithSpendableCredit": 480,
+        "AdmittedFunding": 1350,
+        "PriorDemanded": 479,
+        "EvaluatedDemanded": 475,
+        "UnresolvedDemanded": 4,
+        "UnresolvedPaid": 2,
+        "EvaluatedPaid": 387,
+        "BaselineError": 397,
+        "DeliveredError": 66,
+        "PositivePaid": 333,
+        "ZeroPaid": 52,
+        "HarmfulPaid": 2,
+        "RetainedPaid": 268,
+        "Contacts": 263,
+        "PaidContacts": 263,
+        "Purchases": 389,
+        "SameSupplierConsecutiveServices": 198,
+        "NewConnections": 81,
+        "OfferSwitches": 110,
+        "Releases": 81,
+        "QuoteRejections": 5,
+        "CapacityBlockedContacts": 67,
+        "UnfundedContacts": 0,
+        "FailedPaidContactExpense": 72,
+        "ServiceOutlay": 1080,
+        "ContactOutlay": 263,
+        "Gross": 1324,
+        "OfferPurchases": [
+          157,
+          65,
+          59,
+          108
+        ],
+        "PaidAskSum": [
+          299,
+          260,
+          187,
+          334
+        ]
+      },
+      {
+        "Demanded": 480,
+        "ReadableDemanded": 475,
+        "RequestedFunding": 3840,
+        "DemandedWithSpendableCredit": 480,
+        "AdmittedFunding": 1312,
+        "PriorDemanded": 479,
+        "EvaluatedDemanded": 475,
+        "UnresolvedDemanded": 4,
+        "UnresolvedPaid": 1,
+        "EvaluatedPaid": 395,
+        "BaselineError": 1576,
+        "DeliveredError": 961,
+        "PositivePaid": 321,
+        "ZeroPaid": 71,
+        "HarmfulPaid": 3,
+        "RetainedPaid": 271,
+        "Contacts": 252,
+        "PaidContacts": 252,
+        "Purchases": 397,
+        "SameSupplierConsecutiveServices": 198,
+        "NewConnections": 80,
+        "OfferSwitches": 119,
+        "Releases": 79,
+        "QuoteRejections": 0,
+        "CapacityBlockedContacts": 53,
+        "UnfundedContacts": 0,
+        "FailedPaidContactExpense": 53,
+        "ServiceOutlay": 1056,
+        "ContactOutlay": 252,
+        "Gross": 2460,
+        "OfferPurchases": [
+          155,
+          53,
+          132,
+          57
+        ],
+        "PaidAskSum": [
+          299,
+          212,
+          362,
+          183
+        ]
+      }
+    ]
+  },
+  "Current": {
+    "Version": 480,
+    "Reservoir": 2033,
+    "Spent": 1940,
+    "Wallets": [
+      {
+        "Value": 15,
+        "Tension": 0
+      },
+      {
+        "Value": 12,
+        "Tension": 0
+      }
+    ],
+    "Reserves": [
+      {
+        "Value": 32,
+        "Tension": 0
+      },
+      {
+        "Value": 32,
+        "Tension": 0
+      },
+      {
+        "Value": 32,
+        "Tension": 0
+      }
+    ],
+    "Asks": [
+      1,
+      4,
+      2,
+      3
+    ],
+    "OutstandingDemanded": 2,
+    "OutstandingPaid": 1
+  },
+  "Checkpoints": 6,
+  "Limit": "Fixed native market; no growth, no hidden refill. Quiet after depletion is not stability."
+}

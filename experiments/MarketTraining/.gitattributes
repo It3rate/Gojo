@@ -1,0 +1,3 @@
+# Checkpoint offsets and manifest hashes refer to exact bytes.
+results/**/windows.jsonl -text
+results/**/manifest.json -text whitespace=cr-at-eol

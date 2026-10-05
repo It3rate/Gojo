@@ -1,0 +1,11 @@
+{
+  "Format": "market-campaign-v1",
+  "Generator": "six-block-jitter-v1",
+  "Policy": "NegotiatedPorts-caf8cae-unchanged",
+  "Seed": 47,
+  "Window": 40,
+  "Checkpoint": 120,
+  "SourceFingerprint": "C5385B0452999CF648BB6A7279A232C5CA28650B60BA8734FC93DA065B6B47DE",
+  "ProtocolFingerprint": "81234198F1990ABD54FB62D85F9F75A62DD7AA11C541582FF6AC186CCDAFE500",
+  "CreatedUtc": "2026-10-05T01:17:33.8114074+00:00"
+}

@@ -1,0 +1,49 @@
+{
+  "Position": 480,
+  "Counts": {
+    "Carriers": 193,
+    "Relations": 2435,
+    "TickReferences": 1303,
+    "Length": 1
+  },
+  "CheckpointWallMilliseconds": 10.7534,
+  "CheckpointAllocationBytes": 3894392,
+  "Bytes": 43235,
+  "ResourceState": {
+    "Version": 480,
+    "Reservoir": 1970,
+    "Spent": 2005,
+    "Wallets": [
+      {
+        "Value": 14,
+        "Tension": 0
+      },
+      {
+        "Value": 11,
+        "Tension": 0
+      }
+    ],
+    "Reserves": [
+      {
+        "Value": 32,
+        "Tension": 0
+      },
+      {
+        "Value": 32,
+        "Tension": 0
+      },
+      {
+        "Value": 32,
+        "Tension": 0
+      }
+    ],
+    "Asks": [
+      1,
+      4,
+      2,
+      3
+    ],
+    "OutstandingDemanded": 2,
+    "OutstandingPaid": 2
+  }
+}
