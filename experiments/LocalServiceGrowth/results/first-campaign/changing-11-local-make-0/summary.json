@@ -1,0 +1,147 @@
+{
+  "ManifestHash": "6951C87403EAC7D9744285CABAC97E1952A48DE14555FC84835128D8767DF7BD",
+  "Reason": "requested-end",
+  "Position": 360,
+  "Totals": {
+    "Start": 1,
+    "End": 360,
+    "Admissions": 360,
+    "Consumers": [
+      {
+        "Opportunities": 360,
+        "Purchases": 303,
+        "InspectedAdvertisements": 144,
+        "MaximumInspectedPerSearch": 1,
+        "IneligibleInspections": 0,
+        "UpstreamPurchases": 0,
+        "IntermediaryPurchases": 303,
+        "Fees": 622,
+        "Coarse": {
+          "PriorOpportunities": 359,
+          "Evaluated": 357,
+          "Unresolved": 2,
+          "PaidEvaluated": 301,
+          "BaselineError": 321,
+          "DeliveredError": 65,
+          "Gross": 2048,
+          "PositivePaid": 274,
+          "ZeroPaid": 9,
+          "HarmfulPaid": 18
+        },
+        "Fine": {
+          "PriorOpportunities": 0,
+          "Evaluated": 0,
+          "Unresolved": 0,
+          "PaidEvaluated": 0,
+          "BaselineError": 0,
+          "DeliveredError": 0,
+          "Gross": 0,
+          "PositivePaid": 0,
+          "ZeroPaid": 0,
+          "HarmfulPaid": 0
+        }
+      },
+      {
+        "Opportunities": 360,
+        "Purchases": 276,
+        "InspectedAdvertisements": 344,
+        "MaximumInspectedPerSearch": 2,
+        "IneligibleInspections": 83,
+        "UpstreamPurchases": 114,
+        "IntermediaryPurchases": 162,
+        "Fees": 796,
+        "Coarse": {
+          "PriorOpportunities": 239,
+          "Evaluated": 239,
+          "Unresolved": 0,
+          "PaidEvaluated": 214,
+          "BaselineError": 215,
+          "DeliveredError": 33,
+          "Gross": 1456,
+          "PositivePaid": 194,
+          "ZeroPaid": 8,
+          "HarmfulPaid": 12
+        },
+        "Fine": {
+          "PriorOpportunities": 120,
+          "Evaluated": 118,
+          "Unresolved": 2,
+          "PaidEvaluated": 60,
+          "BaselineError": 315,
+          "DeliveredError": 214,
+          "Gross": 404,
+          "PositivePaid": 50,
+          "ZeroPaid": 6,
+          "HarmfulPaid": 4
+        }
+      }
+    ],
+    "Phases": {
+      "coarse": 120,
+      "fine-second": 120,
+      "coarse-return": 120
+    },
+    "UpstreamInputFees": 16,
+    "SupplierOperatingExpense": 236,
+    "IntermediaryDirectExpense": 332,
+    "ContactExpense": 488,
+    "BuildExpense": 12,
+    "TrialExpense": 4,
+    "Promotions": 1,
+    "FirstPromotion": 6,
+    "UpstreamDependencyObservations": 4,
+    "CandidateTrialOutcomes": 4,
+    "UnresolvedTrialOutcomes": 0,
+    "Conserved": true,
+    "NativeAllocationBytes": 6551917968,
+    "NativeWallMilliseconds": 19222.851100000018,
+    "ReportAllocationBytes": 174116120,
+    "ReportWallMilliseconds": 343.63519999999994
+  },
+  "Current": {
+    "Version": 360,
+    "Reservoir": 63444,
+    "Spent": 1056,
+    "Built": 1,
+    "Promoted": 1,
+    "CandidateSupport": 4,
+    "UpstreamAttached": false,
+    "ActualExpenses": {
+      "Operating": 552,
+      "Contact": 488,
+      "Construction": 12,
+      "Trial": 4
+    },
+    "Services": [
+      {
+        "Ask": 4,
+        "Omission": 0,
+        "ActiveConnections": 1,
+        "QualifiedConnections": 1,
+        "Occupancy": 1,
+        "Present": 1,
+        "Wallet": 268,
+        "Receipts": 472,
+        "Expenses": 236
+      },
+      {
+        "Ask": 2,
+        "Omission": 7,
+        "ActiveConnections": 1,
+        "QualifiedConnections": 1,
+        "Occupancy": 1,
+        "Present": 1,
+        "Wallet": 646,
+        "Receipts": 962,
+        "Expenses": 348
+      }
+    ],
+    "ConsumerWallets": [
+      62,
+      60
+    ],
+    "OutstandingPaid": 2,
+    "Accounted": true
+  },
+  "Limit": "Supplied candidate, prices, topology and primitive population; bounded discovery does not prove million-actor settlement performance."
+}

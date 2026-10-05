@@ -1,0 +1,10 @@
+{
+  "Format": "local-service-growth-v1",
+  "Seed": 47,
+  "Scenario": "changing-demand",
+  "Learning": false,
+  "SupportWeight": 0,
+  "DirectAccess": false,
+  "SourceFingerprint": "E5D4106A79D92F46088A023CD2137D2CC6E4924848E709C40549C1CDCCC314AE",
+  "ProtocolFingerprint": "724FAC8C2AC38272E1CA00D6C7B459396EB6B75C676E478E00A632D31348DB11"
+}

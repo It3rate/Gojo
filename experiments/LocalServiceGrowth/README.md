@@ -5,6 +5,10 @@ public active/qualified connection counts. The [protocol](PROTOCOL.md) was commi
 before implementation trials; its final section freezes the executable policy
 before the first campaign.
 
+The [first assessment](ASSESSMENT.md) reports all 21 trials: independent production
+lowers modeled costs, the public-use hint has no observed effect in this population,
+and unpredictable input exposes chance promotion and repeated search waste.
+
 The fine supplier exposes its current prediction through a live port. An
 intermediary pays to use that port, publishes a coarser result, and can pay to
 construct an independent candidate from available raw input. Later outcomes

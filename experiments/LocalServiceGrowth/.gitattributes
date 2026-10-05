@@ -1,2 +1,3 @@
 results/**/windows.jsonl -text
-results/**/manifest.json -text
+# Hashed by the checkpoint: preserve the original platform line endings.
+results/**/manifest.json -text whitespace=trailing-space,space-before-tab,cr-at-eol
