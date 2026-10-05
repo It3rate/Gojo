@@ -36,6 +36,14 @@ internal static class Fixtures
             foreach (var e in Steps("small-decrease", 96, -1)) yield return e;
             foreach (var e in Steps("large-decrease", 160, -4)) yield return e;
         }
+        else if (name == "wake-chatter")
+        {
+            foreach (var e in Steps("small-increase", 96, 1)) yield return e;
+            foreach (var e in Steps("boundary-chatter", 64, 1, 2)) yield return e;
+            foreach (var e in Steps("isolated-changes", 64, 4, 1)) yield return e;
+            foreach (var e in Steps("paired-reversals", 96, 4, 4, -4, -4)) yield return e;
+            foreach (var e in Steps("useful-return", 128, 4)) yield return e;
+        }
         else if (name is "unpredictable-113" or "unpredictable-271")
         {
             uint state = name.EndsWith("113", StringComparison.Ordinal) ? 113U : 271U;

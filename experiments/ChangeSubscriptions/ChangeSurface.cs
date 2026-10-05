@@ -203,7 +203,7 @@ public static class ChangeSurface
         return G(subscriber, before, Publication(subscriber), RevisionPublication(subscriber));
     }
 
-    public static Relation Notify(Relation subscriber)
+    public static Relation Notify(Relation subscriber, bool includeCurrent = true)
     {
         var evidence = new List<IElement>(); var surface = Surface(subscriber);
         var revision = Sum(Revision(surface), evidence, (RevisionReceipt(subscriber).ValueSlot, 1), (RevisionReceipt(subscriber).LiveTensionSlot, 1));
@@ -214,7 +214,11 @@ public static class ChangeSurface
             Add(NotificationCount(subscriber), L(NotificationCount(subscriber), 1), evidence);
             AcknowledgedRevision(subscriber).Tick.Set(revision.Ticks);
         }
-        TryReceived(subscriber, out _, out var read);
+        // A revision observer need not inspect the selected value as well.
+        // An open result records that omitted read, not a claimed current zero.
+        IElement read = new Placeholder();
+        if (includeCurrent)
+        { TryReceived(subscriber, out _, out var received); read = received; }
         return G(subscriber, L(NotificationCount(subscriber), 0), L(NotificationCount(subscriber), changed ? 1 : 0),
             revision, read, G(evidence.ToArray()));
     }

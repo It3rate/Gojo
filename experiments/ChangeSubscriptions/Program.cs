@@ -17,12 +17,14 @@ internal static class Program
         {
             if (args.Contains("--checks-only"))
             {
-                var count = ChangeSurfaceChecks.Run() + ComparativeRetryChecks.Run() + IntegrationChecks.Run();
+                var count = ChangeSurfaceChecks.Run() + ComparativeRetryChecks.Run() + IntegrationChecks.Run()
+                    + WakeProbeChecks.Run() + WakeIntegrationChecks.Run();
                 Console.WriteLine($"{count} focused check groups passed."); return 0;
             }
-            if (!args.Contains("--campaign"))
+            var wakeCampaign = args.Contains("--wake-campaign");
+            if (!args.Contains("--campaign") && !wakeCampaign)
             {
-                Console.WriteLine("Use --checks-only or --campaign --output <new directory>."); return 0;
+                Console.WriteLine("Use --checks-only, --campaign, or --wake-campaign --output <new directory>."); return 0;
             }
             var outputIndex = Array.IndexOf(args, "--output");
             if (outputIndex < 0 || outputIndex + 1 >= args.Length) throw new ArgumentException("Supply --output with a new directory.");
@@ -31,21 +33,26 @@ internal static class Program
                 throw new IOException("Campaign output must be empty; preserved evidence will not be overwritten.");
             Directory.CreateDirectory(output);
             var repository = Repository();
+            var policies = wakeCampaign ? new[] { "fixed2", "escalating32", "escalating32-wake2" }
+                : new[] { "unthrottled", "fixed2", "escalating32" };
+            var fixtures = new[] { "steady-reversal", "grain-gap", "applicability-return", "unpredictable-113", "unpredictable-271" }
+                .Concat(wakeCampaign ? new[] { "wake-chatter" } : Array.Empty<string>()).ToArray();
             var manifest = new
             {
-                Format = "change-subscriptions-v1", SourceFingerprint = Fingerprint(repository),
-                ProtocolFingerprint = Hash(File.ReadAllBytes(Path.Combine(repository, "experiments/ChangeSubscriptions/PROTOCOL.md"))),
+                Format = wakeCampaign ? "change-subscriptions-wake-v1" : "change-subscriptions-v1", SourceFingerprint = Fingerprint(repository),
+                ProtocolFingerprint = Hash(File.ReadAllBytes(Path.Combine(repository,
+                    wakeCampaign ? "experiments/ChangeSubscriptions/WAKE_PROTOCOL.md" : "experiments/ChangeSubscriptions/PROTOCOL.md"))),
                 ConsumerOrder = new[] { "direction", "amount" }, ViewOrder = new[] { "direction", "amount", "coarse-amount" },
-                Policies = new[] { "unthrottled", "fixed2", "escalating32" },
+                Policies = policies, Fixtures = fixtures,
                 Limit = "Authored local laws. Host schedules arrivals and observers. Modeled access costs, no autonomous asynchronous kernel scheduler."
             };
             File.WriteAllText(Path.Combine(output, "manifest.json"), JsonSerializer.Serialize(manifest, Pretty));
             var summaries = new List<object>();
-            foreach (var fixture in new[] { "steady-reversal", "grain-gap", "applicability-return", "unpredictable-113", "unpredictable-271" })
-            foreach (var policy in new[] { "unthrottled", "fixed2", "escalating32" })
+            foreach (var fixture in fixtures)
+            foreach (var policy in policies)
                 summaries.Add(Run(output, fixture, policy));
             File.WriteAllText(Path.Combine(output, "comparison.json"), JsonSerializer.Serialize(summaries, Pretty));
-            Console.WriteLine($"15 runs complete: {output}"); return 0;
+            Console.WriteLine($"{summaries.Count} runs complete: {output}"); return 0;
         }
         catch (Exception error) { Console.Error.WriteLine(error); return 1; }
     }
@@ -53,7 +60,7 @@ internal static class Program
     private static object Run(string output, string fixture, string policy)
     {
         var directory = Path.Combine(output, $"{fixture}-{policy}"); Directory.CreateDirectory(directory);
-        var root = S.Create(policy != "unthrottled", policy == "fixed2" ? 1 : 5);
+        var root = S.Create(policy != "unthrottled", policy == "fixed2" ? 1 : 5, wake: policy == "escalating32-wake2");
         var before = Report.State(root); var latest = before; string? phase = null;
         var phases = new List<PhaseRow>(); var graphs = new List<object>();
         long nativeBytes = 0, reportBytes = 0; double nativeMs = 0, reportMs = 0;
@@ -88,6 +95,7 @@ internal static class Program
         {
             Fixture = fixture, Policy = policy, State = latest, Phases = phases, GraphSamples = graphs,
             PendingPaid = S.Parts((Relation)S.Parts(root)[1]).Cast<Relation>().Select(p => S.Parts(p)[2] is CarrierLocation ? 1 : 0).ToArray(),
+            PendingEarly = S.Parts((Relation)S.Parts(root)[1]).Cast<Relation>().Select(p => S.Early(p) ? 1 : 0).ToArray(),
             NativeAllocationBytes = nativeBytes, ReportAllocationBytes = reportBytes,
             NativeMilliseconds = nativeMs, ReportMilliseconds = reportMs, NativeTransportBytes = bytes.Length,
             GraphSampleLimit = "Retained graph at phase boundaries and end; not peak transient memory. Allocations are cumulative."

@@ -3,6 +3,7 @@ using Gojo.Structures;
 using N = ConnectionAssembly.NativeMath;
 using C = ChangeSubscriptions.ChangeSurface;
 using R = ChangeSubscriptions.ComparativeRetry;
+using W = ChangeSubscriptions.WakeProbe;
 
 namespace ChangeSubscriptions;
 
@@ -17,9 +18,10 @@ internal static class NativeExperiment
     // Op12 = G(signal,arrival clock,validation clock,input sites,delta recipe,
     // source-direction read,source recipe,source sites,views,consumers,policy,
     // actual-use reads). Sites5 = G(delta,direction,prediction,presence,cost basis).
-    public static Relation Create(bool throttle = true, int maximumRung = 5)
+    public static Relation Create(bool throttle = true, int maximumRung = 5, bool wake = false)
     {
         var signal = new Carrier(); var clock = new Carrier(); var progress = new Carrier();
+        var arrivalSite = L(clock, 0); var opportunitySite = L(progress, 0);
         var flags = new Carrier(); var cost = new Carrier();
         var input = G(L(signal, 0), L(flags, 0), L(signal, 0), L(flags, 0));
         var ip = Parts(input);
@@ -35,20 +37,26 @@ internal static class NativeExperiment
         var views = G(C.Create(prediction, presence, C.DirectionRead(prediction), clock),
             C.Create(prediction, presence, C.MagnitudeRead(prediction), clock),
             C.Create(prediction, presence, C.MagnitudeRead(prediction, 4), clock));
-        var consumers = G(Parts(views).Take(2).Cast<Relation>().Select(view =>
+        var consumers = G(Parts(views).Take(2).Cast<Relation>().Select((view, index) =>
         {
             var subscriber = C.Subscribe(view);
             var retry = R.Create(view, sourceRecipe, C.Current(view).Carrier, progress,
                 maximumRung: maximumRung);
             // Consumer4 = G(surface,subscriber,retry,counters).
             // Counters6 = G(paid units,actual error,reference error,joins,leaves,skips).
-            return (IElement)G(view, subscriber, retry,
-                G(new Carrier(cost.UnitShape), new Carrier(), new Carrier(), new Carrier(), new Carrier(), new Carrier()));
+            var counters = G(new Carrier(cost.UnitShape), new Carrier(), new Carrier(), new Carrier(), new Carrier(), new Carrier());
+            // Optional Consumer6 adds connected wake structure and early outcome
+            // counters (error, reference error, evaluated, unknown). Controls keep
+            // their original structure. The coarse read is an explicit local use.
+            return (IElement)(wake ? G(view, subscriber, retry, counters,
+                W.Create((Relation)Parts(views)[index == 0 ? 0 : 2], retry, clock, opportunitySite),
+                G(new Carrier(), new Carrier(), new Carrier(), new Carrier()))
+                : G(view, subscriber, retry, counters));
         }).ToArray());
         var coarseSubscriber = C.Subscribe((Relation)Parts(views)[2]);
         var policy = G(L(flags, throttle ? 1 : 0), L(cost, 1), coarseSubscriber);
         var actualReads = G(C.DirectionRead(delta), C.MagnitudeRead(delta));
-        var op = G(signal, L(clock, 0), L(progress, 0), input, deltaRecipe, sourceDirection,
+        var op = G(signal, arrivalSite, opportunitySite, input, deltaRecipe, sourceDirection,
             sourceRecipe, sourceSites, views, consumers, policy, actualReads);
         return G(op, G(new Placeholder(), new Placeholder()), new Placeholder(), L(clock, 0));
     }
@@ -60,6 +68,10 @@ internal static class NativeExperiment
     public static Relation Surface(Relation consumer) => (Relation)Parts(consumer)[0];
     public static Relation Subscriber(Relation consumer) => (Relation)Parts(consumer)[1];
     public static Relation Retry(Relation consumer) => (Relation)Parts(consumer)[2];
+    public static Relation? Wake(Relation consumer) => Parts(consumer).Length > 4 ? (Relation)Parts(consumer)[4] : null;
+    public static Carrier EarlyCounter(Relation consumer, int index) => (Carrier)Parts((Relation)Parts(consumer)[5])[index];
+    public static bool Early(Relation promise) => Parts(promise).Length > 6 && C.Pass(OperationClaim.Equality(
+        new Carrier(), Parts(promise)[6], L(((CarrierLocation)Parts(promise)[6]).Carrier, 1), new Carrier()));
     public static Carrier Counter(Relation consumer, int index) => (Carrier)Parts((Relation)Parts(consumer)[3])[index];
     public static CarrierLocation Arrival(Relation root) => (CarrierLocation)Op(root)[1];
     public static CarrierLocation Opportunity(Relation root) => (CarrierLocation)Op(root)[2];
@@ -129,6 +141,16 @@ internal static class NativeExperiment
             local.Add(C.Notify(subscription));
             var ready = R.Ready(Retry(consumer), Copy(Opportunity(root))); local.Add(ready);
             var eligible = !C.Pass(throttle) || C.Pass(ready);
+            var early = false; var wakeState = Wake(consumer);
+            if (wakeState is not null)
+            {
+                local.Add(W.Advance(wakeState, Copy(arrival)));
+                if (!eligible)
+                {
+                    early = W.TryPermit(wakeState, Copy(arrival), out var permission);
+                    local.Add(permission); eligible = early;
+                }
+            }
             if (eligible && !C.Attached(subscription))
             { local.Add(C.Attach(subscription)); Add(Counter(consumer, 3), 1, evidence); }
             else if (!eligible && C.Attached(subscription))
@@ -139,7 +161,11 @@ internal static class NativeExperiment
                 var bill = Copy((CarrierLocation)policy[1]);
                 Add(Counter(consumer, 0), bill, evidence);
                 // Promise6 = G(issued arrival,baseline,supplied,bill,received witness,use).
-                promises[i] = G(Copy(arrival), baseline, Copy(supplied), bill, received, consumer);
+                var promise = wakeState is null
+                    ? G(Copy(arrival), baseline, Copy(supplied), bill, received, consumer)
+                    : G(Copy(arrival), baseline, Copy(supplied), bill, received, consumer, L(baseline.Carrier, early ? 1 : 0));
+                promises[i] = promise;
+                if (early) local.Add(W.Consume(wakeState!, Copy(arrival), promise));
             }
             else
             {
@@ -169,6 +195,7 @@ internal static class NativeExperiment
         evidence.Add(selected);
         if (!C.Scalar(selected, out var actual))
         {
+            if (Early(promise)) Add(EarlyCounter(consumer, 3), 1, evidence);
             IElement unknown = p[2] is CarrierLocation
                 ? R.Observe(Retry(consumer), Copy(Opportunity(root)), null, null, (CarrierLocation)p[3], G(promise, selected))
                 : new Placeholder();
@@ -186,6 +213,12 @@ internal static class NativeExperiment
             throw new InvalidOperationException("An aligned authored loss failed to read.");
         Add(Counter(consumer, 1), suppliedLoss, evidence);
         Add(Counter(consumer, 2), baselineLoss, evidence);
+        if (Early(promise))
+        {
+            Add(EarlyCounter(consumer, 0), suppliedLoss, evidence);
+            Add(EarlyCounter(consumer, 1), baselineLoss, evidence);
+            Add(EarlyCounter(consumer, 2), 1, evidence);
+        }
         IElement review = new Placeholder();
         if (p[2] is CarrierLocation)
         {

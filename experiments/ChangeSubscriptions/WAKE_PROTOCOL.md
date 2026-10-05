@@ -13,6 +13,8 @@ The paid fine-use subscriber remains separate. Capture the current valid coarse
 coordinate as a frozen anchor on withdrawal. This first version deliberately
 anchors at withdrawal, not at the preceding forecast: a change simultaneous with
 withdrawal can consequently be missed.
+If withdrawal starts without a supported value, the first later valid value
+establishes the anchor; it does not itself authorize a trial.
 
 A new, valid coordinate different from that anchor arms a candidate. Confirm it
 only at a second distinct resolved validation opportunity with the same current
@@ -54,8 +56,8 @@ the actor graph. Do not tune thresholds or fixtures after examining the campaign
 
 ## Accounting and interpretation
 
-Keep paid forecasts, initial cheap synchronizations, dormant change notifications
-and confirmation inspections as separate counts. Do not invent an exchange rate
+Keep paid forecasts, initial cheap synchronizations, dormant change notifications,
+scheduled revision checks and confirmation inspections as separate counts. Do not invent an exchange rate
 between them or infer CPU savings from fewer paid forecasts. Report early-probe
 issues separately from ordinary issues, including their later benefit, mistakes,
 unknown outcomes and any still-pending promise. Track denied additional changes.
@@ -65,6 +67,10 @@ false trials and overhead on chatter and unpredictable inputs even if recovery
 improves. Check native transport, once-only advancement, physical connection
 lifecycle, the two-issue allowance and unchanged negative history at grant.
 Retained graph counts and cumulative allocation remain separate measurements.
+Revision-only checks do not read the selected coordinate on silence. Permission
+checks validate the current coordinate when a token is available; they are pure
+reads, not additional observations or mutable inspection counters. These activity
+counts are consequently not an exhaustive instruction or processor-cost ledger.
 
 The source, native publication checks and local host scheduler still advance on
 every arrival. This is a bounded native policy experiment, not an autonomous
