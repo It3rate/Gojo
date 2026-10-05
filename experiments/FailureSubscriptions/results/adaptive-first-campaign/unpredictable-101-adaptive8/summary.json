@@ -1,0 +1,825 @@
+{
+  "ManifestHash": "1D7DFE40A9B99DBFF9665C942C0C01F20DF4FF0CFEA3645FC3D7FBC637A3379A",
+  "Reason": "requested-end",
+  "Position": 1025,
+  "Totals": {
+    "Start": 1,
+    "End": 1025,
+    "Admissions": 1025,
+    "PriorOpportunities": 1024,
+    "Evaluated": 999,
+    "Unknown": 25,
+    "SelfError": 3019,
+    "DeliveredError": 2803,
+    "DeliveredRelief": 216,
+    "SelfDirectionMatches": 502,
+    "DeliveredDirectionMatches": 282,
+    "Inspections": 904,
+    "MaximumInspected": 2,
+    "MaximumVisited": 2,
+    "MaximumActive": 2,
+    "Activations": 752,
+    "Renewals": 143,
+    "Cancellations": 58,
+    "Expiries": 694,
+    "SelfSelections": 489,
+    "ShadowDeliveries": 728,
+    "ShadowDeliveryFees": 1456,
+    "NonpositiveScoredDeliveries": 677,
+    "SuppressedShopping": 864,
+    "ShortenedOffers": 0,
+    "UnavailableDurationOffers": 34,
+    "AbandonedOpportunities": 206,
+    "QuotedCommitmentCost": 3676,
+    "AcceptedHorizons": {
+      "1": 566,
+      "2": 46,
+      "3": 19,
+      "4": 38,
+      "5": 10,
+      "6": 16,
+      "7": 7,
+      "8": 50
+    },
+    "AdvertisedHorizons": {
+      "1": 574,
+      "2": 53,
+      "3": 22,
+      "4": 64,
+      "0": 34,
+      "5": 15,
+      "6": 29,
+      "7": 12,
+      "8": 101
+    },
+    "OfferedHorizons": {
+      "1": 566,
+      "2": 46,
+      "3": 19,
+      "4": 38,
+      "5": 10,
+      "6": 16,
+      "7": 7,
+      "8": 50
+    },
+    "BackedHorizons": {
+      "0": 553,
+      "1": 54,
+      "2": 17,
+      "3": 43,
+      "4": 12,
+      "5": 15,
+      "6": 7,
+      "7": 7,
+      "8": 44
+    },
+    "CheckpointInspections": 3,
+    "PeakRetainedCarriers": 1093,
+    "PeakRetainedRelations": 9241,
+    "Sources": [
+      {
+        "Deliveries": 175,
+        "Evaluated": 174,
+        "Unknown": 1,
+        "Helpful": 0,
+        "Neutral": 174,
+        "Harmful": 0,
+        "ConditionalRelief": 0,
+        "Selected": 0
+      },
+      {
+        "Deliveries": 221,
+        "Evaluated": 220,
+        "Unknown": 1,
+        "Helpful": 113,
+        "Neutral": 0,
+        "Harmful": 107,
+        "ConditionalRelief": -32,
+        "Selected": 72
+      },
+      {
+        "Deliveries": 170,
+        "Evaluated": 169,
+        "Unknown": 1,
+        "Helpful": 33,
+        "Neutral": 15,
+        "Harmful": 121,
+        "ConditionalRelief": -384,
+        "Selected": 2
+      },
+      {
+        "Deliveries": 681,
+        "Evaluated": 675,
+        "Unknown": 15,
+        "Helpful": 371,
+        "Neutral": 58,
+        "Harmful": 246,
+        "ConditionalRelief": 379,
+        "Selected": 445
+      }
+    ],
+    "Phases": {
+      "unpredictable": 1025
+    },
+    "Conserved": true,
+    "NativeAllocationBytes": 5499784880,
+    "NativeWallMilliseconds": 14133.972599999986,
+    "ReportAllocationBytes": 176532040,
+    "ReportWallMilliseconds": 618.3495000000007
+  },
+  "Current": {
+    "Version": 1025,
+    "Reservoir": 1043105,
+    "Spent": 3969,
+    "SeekerWallet": 127,
+    "Expenses": {
+      "Inspection": 904,
+      "Activation": 752,
+      "Cancellation": 58,
+      "Calculation": 1247,
+      "Self": 1008
+    },
+    "Activations": 752,
+    "Renewals": 143,
+    "Cancellations": 58,
+    "Deliveries": 1247,
+    "Expiries": 694,
+    "Routes": [
+      {
+        "Active": false,
+        "Remaining": 0,
+        "TermRelief": 0,
+        "LastRelief": 0,
+        "Misses": 1,
+        "Affinity": -90,
+        "ContextAffinities": [
+          -90,
+          -84
+        ],
+        "Present": 0,
+        "Fees": 350,
+        "LocalReviews": [
+          {
+            "Resolved": 4,
+            "Samples": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "RetryAfter": 1033
+          },
+          {
+            "Resolved": 4,
+            "Samples": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "RetryAfter": 1021
+          }
+        ],
+        "DurationProfiles": [
+          [
+            {
+              "Helpful": 0,
+              "Evaluated": 90,
+              "Unknown": 1,
+              "Relief": 0,
+              "RetryAfter": 1033
+            },
+            {
+              "Helpful": 0,
+              "Evaluated": 0,
+              "Unknown": 0,
+              "Relief": 0,
+              "RetryAfter": 0
+            },
+            {
+              "Helpful": 0,
+              "Evaluated": 0,
+              "Unknown": 0,
+              "Relief": 0,
+              "RetryAfter": 0
+            },
+            {
+              "Helpful": 0,
+              "Evaluated": 0,
+              "Unknown": 0,
+              "Relief": 0,
+              "RetryAfter": 0
+            },
+            {
+              "Helpful": 0,
+              "Evaluated": 0,
+              "Unknown": 0,
+              "Relief": 0,
+              "RetryAfter": 0
+            },
+            {
+              "Helpful": 0,
+              "Evaluated": 0,
+              "Unknown": 0,
+              "Relief": 0,
+              "RetryAfter": 0
+            },
+            {
+              "Helpful": 0,
+              "Evaluated": 0,
+              "Unknown": 0,
+              "Relief": 0,
+              "RetryAfter": 0
+            },
+            {
+              "Helpful": 0,
+              "Evaluated": 0,
+              "Unknown": 0,
+              "Relief": 0,
+              "RetryAfter": 0
+            }
+          ],
+          [
+            {
+              "Helpful": 0,
+              "Evaluated": 84,
+              "Unknown": 0,
+              "Relief": 0,
+              "RetryAfter": 1021
+            },
+            {
+              "Helpful": 0,
+              "Evaluated": 0,
+              "Unknown": 0,
+              "Relief": 0,
+              "RetryAfter": 0
+            },
+            {
+              "Helpful": 0,
+              "Evaluated": 0,
+              "Unknown": 0,
+              "Relief": 0,
+              "RetryAfter": 0
+            },
+            {
+              "Helpful": 0,
+              "Evaluated": 0,
+              "Unknown": 0,
+              "Relief": 0,
+              "RetryAfter": 0
+            },
+            {
+              "Helpful": 0,
+              "Evaluated": 0,
+              "Unknown": 0,
+              "Relief": 0,
+              "RetryAfter": 0
+            },
+            {
+              "Helpful": 0,
+              "Evaluated": 0,
+              "Unknown": 0,
+              "Relief": 0,
+              "RetryAfter": 0
+            },
+            {
+              "Helpful": 0,
+              "Evaluated": 0,
+              "Unknown": 0,
+              "Relief": 0,
+              "RetryAfter": 0
+            },
+            {
+              "Helpful": 0,
+              "Evaluated": 0,
+              "Unknown": 0,
+              "Relief": 0,
+              "RetryAfter": 0
+            }
+          ]
+        ],
+        "Prospects": [
+          {
+            "Helpful": 0,
+            "Evaluated": 90,
+            "Unknown": 1,
+            "SignedRelief": 0
+          },
+          {
+            "Helpful": 0,
+            "Evaluated": 84,
+            "Unknown": 0,
+            "SignedRelief": 0
+          }
+        ]
+      },
+      {
+        "Active": false,
+        "Remaining": 0,
+        "TermRelief": 2,
+        "LastRelief": 2,
+        "Misses": 0,
+        "Affinity": 0,
+        "ContextAffinities": [
+          0,
+          0
+        ],
+        "Present": 0,
+        "Fees": 442,
+        "LocalReviews": [
+          {
+            "Resolved": 4,
+            "Samples": [
+              4,
+              -4,
+              -6,
+              2
+            ],
+            "RetryAfter": 1025
+          },
+          {
+            "Resolved": 4,
+            "Samples": [
+              -4,
+              2,
+              4,
+              -6
+            ],
+            "RetryAfter": 1021
+          }
+        ],
+        "DurationProfiles": [
+          [
+            {
+              "Helpful": 54,
+              "Evaluated": 108,
+              "Unknown": 0,
+              "Relief": -34,
+              "RetryAfter": 1010
+            },
+            {
+              "Helpful": 0,
+              "Evaluated": 0,
+              "Unknown": 0,
+              "Relief": 0,
+              "RetryAfter": 0
+            },
+            {
+              "Helpful": 0,
+              "Evaluated": 0,
+              "Unknown": 0,
+              "Relief": 0,
+              "RetryAfter": 0
+            },
+            {
+              "Helpful": 0,
+              "Evaluated": 0,
+              "Unknown": 0,
+              "Relief": 0,
+              "RetryAfter": 0
+            },
+            {
+              "Helpful": 0,
+              "Evaluated": 0,
+              "Unknown": 0,
+              "Relief": 0,
+              "RetryAfter": 0
+            },
+            {
+              "Helpful": 0,
+              "Evaluated": 0,
+              "Unknown": 0,
+              "Relief": 0,
+              "RetryAfter": 0
+            },
+            {
+              "Helpful": 0,
+              "Evaluated": 0,
+              "Unknown": 0,
+              "Relief": 0,
+              "RetryAfter": 0
+            },
+            {
+              "Helpful": 0,
+              "Evaluated": 0,
+              "Unknown": 0,
+              "Relief": 0,
+              "RetryAfter": 0
+            }
+          ],
+          [
+            {
+              "Helpful": 49,
+              "Evaluated": 98,
+              "Unknown": 1,
+              "Relief": -14,
+              "RetryAfter": 1021
+            },
+            {
+              "Helpful": 6,
+              "Evaluated": 8,
+              "Unknown": 0,
+              "Relief": 14,
+              "RetryAfter": 347
+            },
+            {
+              "Helpful": 4,
+              "Evaluated": 5,
+              "Unknown": 0,
+              "Relief": 4,
+              "RetryAfter": 311
+            },
+            {
+              "Helpful": 0,
+              "Evaluated": 1,
+              "Unknown": 0,
+              "Relief": -2,
+              "RetryAfter": 359
+            },
+            {
+              "Helpful": 0,
+              "Evaluated": 0,
+              "Unknown": 0,
+              "Relief": 0,
+              "RetryAfter": 0
+            },
+            {
+              "Helpful": 0,
+              "Evaluated": 0,
+              "Unknown": 0,
+              "Relief": 0,
+              "RetryAfter": 0
+            },
+            {
+              "Helpful": 0,
+              "Evaluated": 0,
+              "Unknown": 0,
+              "Relief": 0,
+              "RetryAfter": 0
+            },
+            {
+              "Helpful": 0,
+              "Evaluated": 0,
+              "Unknown": 0,
+              "Relief": 0,
+              "RetryAfter": 0
+            }
+          ]
+        ],
+        "Prospects": [
+          {
+            "Helpful": 54,
+            "Evaluated": 108,
+            "Unknown": 0,
+            "SignedRelief": -34
+          },
+          {
+            "Helpful": 59,
+            "Evaluated": 112,
+            "Unknown": 1,
+            "SignedRelief": 2
+          }
+        ]
+      },
+      {
+        "Active": false,
+        "Remaining": 0,
+        "TermRelief": -4,
+        "LastRelief": -4,
+        "Misses": 1,
+        "Affinity": -59,
+        "ContextAffinities": [
+          -44,
+          -59
+        ],
+        "Present": 0,
+        "Fees": 340,
+        "LocalReviews": [
+          {
+            "Resolved": 4,
+            "Samples": [
+              -7,
+              -6,
+              -3,
+              -3
+            ],
+            "RetryAfter": 1026
+          },
+          {
+            "Resolved": 4,
+            "Samples": [
+              -4,
+              -7,
+              -6,
+              2
+            ],
+            "RetryAfter": 1028
+          }
+        ],
+        "DurationProfiles": [
+          [
+            {
+              "Helpful": 22,
+              "Evaluated": 88,
+              "Unknown": 1,
+              "Relief": -166,
+              "RetryAfter": 1026
+            },
+            {
+              "Helpful": 0,
+              "Evaluated": 0,
+              "Unknown": 0,
+              "Relief": 0,
+              "RetryAfter": 0
+            },
+            {
+              "Helpful": 0,
+              "Evaluated": 0,
+              "Unknown": 0,
+              "Relief": 0,
+              "RetryAfter": 0
+            },
+            {
+              "Helpful": 0,
+              "Evaluated": 0,
+              "Unknown": 0,
+              "Relief": 0,
+              "RetryAfter": 0
+            },
+            {
+              "Helpful": 0,
+              "Evaluated": 0,
+              "Unknown": 0,
+              "Relief": 0,
+              "RetryAfter": 0
+            },
+            {
+              "Helpful": 0,
+              "Evaluated": 0,
+              "Unknown": 0,
+              "Relief": 0,
+              "RetryAfter": 0
+            },
+            {
+              "Helpful": 0,
+              "Evaluated": 0,
+              "Unknown": 0,
+              "Relief": 0,
+              "RetryAfter": 0
+            },
+            {
+              "Helpful": 0,
+              "Evaluated": 0,
+              "Unknown": 0,
+              "Relief": 0,
+              "RetryAfter": 0
+            }
+          ],
+          [
+            {
+              "Helpful": 11,
+              "Evaluated": 81,
+              "Unknown": 0,
+              "Relief": -218,
+              "RetryAfter": 1028
+            },
+            {
+              "Helpful": 0,
+              "Evaluated": 0,
+              "Unknown": 0,
+              "Relief": 0,
+              "RetryAfter": 0
+            },
+            {
+              "Helpful": 0,
+              "Evaluated": 0,
+              "Unknown": 0,
+              "Relief": 0,
+              "RetryAfter": 0
+            },
+            {
+              "Helpful": 0,
+              "Evaluated": 0,
+              "Unknown": 0,
+              "Relief": 0,
+              "RetryAfter": 0
+            },
+            {
+              "Helpful": 0,
+              "Evaluated": 0,
+              "Unknown": 0,
+              "Relief": 0,
+              "RetryAfter": 0
+            },
+            {
+              "Helpful": 0,
+              "Evaluated": 0,
+              "Unknown": 0,
+              "Relief": 0,
+              "RetryAfter": 0
+            },
+            {
+              "Helpful": 0,
+              "Evaluated": 0,
+              "Unknown": 0,
+              "Relief": 0,
+              "RetryAfter": 0
+            },
+            {
+              "Helpful": 0,
+              "Evaluated": 0,
+              "Unknown": 0,
+              "Relief": 0,
+              "RetryAfter": 0
+            }
+          ]
+        ],
+        "Prospects": [
+          {
+            "Helpful": 22,
+            "Evaluated": 88,
+            "Unknown": 1,
+            "SignedRelief": -166
+          },
+          {
+            "Helpful": 11,
+            "Evaluated": 81,
+            "Unknown": 0,
+            "SignedRelief": -218
+          }
+        ]
+      },
+      {
+        "Active": false,
+        "Remaining": 0,
+        "TermRelief": -4,
+        "LastRelief": -2,
+        "Misses": 2,
+        "Affinity": 19,
+        "ContextAffinities": [
+          21,
+          19
+        ],
+        "Present": 0,
+        "Fees": 1362,
+        "LocalReviews": [
+          {
+            "Resolved": 4,
+            "Samples": [
+              -1,
+              -3,
+              -4,
+              -1
+            ],
+            "RetryAfter": 1016
+          },
+          {
+            "Resolved": 4,
+            "Samples": [
+              -2,
+              2,
+              -2,
+              -2
+            ],
+            "RetryAfter": 1029
+          }
+        ],
+        "DurationProfiles": [
+          [
+            {
+              "Helpful": 54,
+              "Evaluated": 97,
+              "Unknown": 0,
+              "Relief": 58,
+              "RetryAfter": 1015
+            },
+            {
+              "Helpful": 43,
+              "Evaluated": 89,
+              "Unknown": 1,
+              "Relief": 10,
+              "RetryAfter": 1016
+            },
+            {
+              "Helpful": 37,
+              "Evaluated": 65,
+              "Unknown": 0,
+              "Relief": 41,
+              "RetryAfter": 1013
+            },
+            {
+              "Helpful": 26,
+              "Evaluated": 44,
+              "Unknown": 2,
+              "Relief": 50,
+              "RetryAfter": 1014
+            },
+            {
+              "Helpful": 21,
+              "Evaluated": 34,
+              "Unknown": 2,
+              "Relief": 17,
+              "RetryAfter": 999
+            },
+            {
+              "Helpful": 14,
+              "Evaluated": 26,
+              "Unknown": 3,
+              "Relief": 13,
+              "RetryAfter": 852
+            },
+            {
+              "Helpful": 12,
+              "Evaluated": 22,
+              "Unknown": 2,
+              "Relief": 17,
+              "RetryAfter": 956
+            },
+            {
+              "Helpful": 14,
+              "Evaluated": 18,
+              "Unknown": 2,
+              "Relief": 33,
+              "RetryAfter": 673
+            }
+          ],
+          [
+            {
+              "Helpful": 62,
+              "Evaluated": 103,
+              "Unknown": 0,
+              "Relief": 84,
+              "RetryAfter": 1028
+            },
+            {
+              "Helpful": 44,
+              "Evaluated": 88,
+              "Unknown": 0,
+              "Relief": 23,
+              "RetryAfter": 1029
+            },
+            {
+              "Helpful": 21,
+              "Evaluated": 43,
+              "Unknown": 1,
+              "Relief": 16,
+              "RetryAfter": 1024
+            },
+            {
+              "Helpful": 17,
+              "Evaluated": 32,
+              "Unknown": 1,
+              "Relief": 16,
+              "RetryAfter": 1010
+            },
+            {
+              "Helpful": 4,
+              "Evaluated": 9,
+              "Unknown": 1,
+              "Relief": 1,
+              "RetryAfter": 1026
+            },
+            {
+              "Helpful": 2,
+              "Evaluated": 5,
+              "Unknown": 0,
+              "Relief": 0,
+              "RetryAfter": 949
+            },
+            {
+              "Helpful": 0,
+              "Evaluated": 0,
+              "Unknown": 0,
+              "Relief": 0,
+              "RetryAfter": 0
+            },
+            {
+              "Helpful": 0,
+              "Evaluated": 0,
+              "Unknown": 0,
+              "Relief": 0,
+              "RetryAfter": 0
+            }
+          ]
+        ],
+        "Prospects": [
+          {
+            "Helpful": 221,
+            "Evaluated": 395,
+            "Unknown": 12,
+            "SignedRelief": 239
+          },
+          {
+            "Helpful": 150,
+            "Evaluated": 280,
+            "Unknown": 3,
+            "SignedRelief": 140
+          }
+        ]
+      }
+    ],
+    "Accounted": true
+  },
+  "ProfilingMeasured": true,
+  "Limit": "Supplied recipes, context partitions, costs and attention laws; future estimates are conditional empirical reads, not guaranteed correctness."
+}

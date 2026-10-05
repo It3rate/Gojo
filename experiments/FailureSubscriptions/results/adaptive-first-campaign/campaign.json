@@ -1,0 +1,15 @@
+{
+  "Format": "local-reviews-duration-v2",
+  "Steps": 1025,
+  "Runs": 24,
+  "ResourceBudget": 1048576,
+  "WindowEvery": 128,
+  "CheckpointEvery": 512,
+  "Profile": true,
+  "Seeds": [
+    101,
+    307
+  ],
+  "Rotation": 0,
+  "Limit": "Declared comparison; longer repetitions are separate evidence. No outcome is required to win."
+}

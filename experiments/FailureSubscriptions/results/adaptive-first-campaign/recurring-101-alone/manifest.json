@@ -1,0 +1,16 @@
+{
+  "Format": "failure-subscriptions-v2",
+  "Seed": 101,
+  "Scenario": "recurring",
+  "Horizon": 0,
+  "Prospects": true,
+  "Rotation": 0,
+  "AdaptiveAttention": false,
+  "AdaptiveHorizon": false,
+  "ResourceBudget": 1048576,
+  "WindowEvery": 128,
+  "CheckpointEvery": 512,
+  "Profile": true,
+  "SourceFingerprint": "E2199108DAC6B12AF61248A7723D42FDE37C51EAD8F644DD04394ECD15BDFF1B",
+  "ProtocolFingerprint": "FEA131E833A08D6236CA33D6AE6B4540007BF89E7EDC3C5E80C5A03A37AD80EB"
+}

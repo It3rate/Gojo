@@ -9,6 +9,8 @@ the accuracy/cost tradeoff, and a substantial failure to stop buying harmful hel
 All 24 original runs are retained under `results/first-campaign`.
 
 The current extension follows the [local review and duration protocol](ADAPTIVE_PROTOCOL.md).
+Its [completed longer-run assessment](ADAPTIVE_ASSESSMENT.md) records the results
+and the remaining cost of repeated speculative trials.
 Recent signed evidence on a connection can suppress repeated shopping; public
 source reviews are a fallback when the buyer lacks its own observations. Paid
 trial outputs need not replace the seeker's own answer. Source offers distinguish
@@ -21,7 +23,8 @@ zero change. The seeker already predicts the latest difference. One recipe
 duplicates that self-prediction to expose payment for redundant help. Actors see
 only incoming observations and their own locally available evidence.
 
-Subscriptions cover one or five future input opportunities. At most two are
+Original controls use one or five future input opportunities; current adaptive
+offers span one to eight. At most two subscriptions are
 active; a search reads at most two offers. Each prediction is committed before
 its target arrives. Conditional prospective offers retain helpful, resolved and
 unknown counts, signed relief, and the initiating failure context. Their projected

@@ -8,6 +8,9 @@ $rows = @(Get-ChildItem -LiteralPath $Directory -Filter summary.json -Recurse |
         $manifest = Get-Content -Raw -LiteralPath (Join-Path $_.Directory.FullName 'manifest.json') | ConvertFrom-Json
         $inspection = Get-Content -Raw -LiteralPath (Join-Path $_.Directory.FullName 'latest-checkpoint-inspection.json') | ConvertFrom-Json
         $t = $summary.Totals; $c = $summary.Current; $e = $c.Expenses
+        $acceptedTotal = ($t.AcceptedHorizons.psobject.Properties | ForEach-Object { [long]$_.Name * [long]$_.Value } | Measure-Object -Sum).Sum
+        $consumed = ($t.Sources | ForEach-Object { $_.Evaluated + $_.Unknown } | Measure-Object -Sum).Sum
+        $remaining = ($c.Routes | Measure-Object Remaining -Sum).Sum
         $policy = if ($manifest.Horizon -eq 0) { 'alone' }
             elseif (-not $manifest.AdaptiveAttention) { 'original5' }
             elseif ($manifest.AdaptiveHorizon) { 'adaptive8' } else { 'guarded5' }
@@ -26,6 +29,8 @@ $rows = @(Get-ChildItem -LiteralPath $Directory -Filter summary.json -Recurse |
             AdvertisedHorizons = $t.AdvertisedHorizons; UnavailableDurationOffers = $t.UnavailableDurationOffers
             AcceptedHorizons = $t.AcceptedHorizons; OfferedHorizons = $t.OfferedHorizons; BackedHorizons = $t.BackedHorizons
             ShortenedOffers = $t.ShortenedOffers; AbandonedOpportunities = $t.AbandonedOpportunities
+            AcceptedOpportunities = $acceptedTotal; ConsumedOpportunities = $consumed; RemainingOpportunities = $remaining
+            OpportunityAccounting = $acceptedTotal -eq ($consumed + $t.AbandonedOpportunities + $remaining)
             QuotedCommitmentCost = $t.QuotedCommitmentCost
             DuplicateRelief = $t.Sources[0].ConditionalRelief; DuplicateDeliveries = $t.Sources[0].Deliveries
             DuplicateSelections = $t.Sources[0].Selected
