@@ -1,0 +1,20 @@
+{
+  "command": "dotnet test Gojo.slnx -c Release",
+  "exitCode": 0,
+  "failed": 0,
+  "skipped": 0,
+  "passed": 2269,
+  "projectPassCounts": {
+    "Gojo.Tests": 1009,
+    "Gojo.Encoding.Tests": 725,
+    "GojoCAD.Tests": 155,
+    "Gojo.GearShapeLadder.Tests": 21,
+    "Phototaxis.Tests": 129,
+    "PrimitiveForager.Tests": 6,
+    "PrimitiveLearning.Tests": 64,
+    "CompositeEmergence.Tests": 66,
+    "AdaptiveLifecycle.Tests": 25,
+    "UtilityEcology.Tests": 69
+  },
+  "evidence": "Verified terminal summaries from the completed full solution test. A shared LogFileName caused per-project TRX files to overwrite; the last persisted TRX covers Gojo.Encoding.Tests. Focused experiment TRX files are separate."
+}

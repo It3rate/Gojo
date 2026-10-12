@@ -1,0 +1,93 @@
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  Gojo -> D:\source\repos\It3rate\Gojo-phototaxis\Gojo\bin\Release\net10.0\Gojo.dll
+  Phototaxis -> D:\source\repos\It3rate\Gojo-phototaxis\experiments\Phototaxis\bin\Release\net10.0\Phototaxis.dll
+  Phototaxis.Browser -> D:\source\repos\It3rate\Gojo-phototaxis\experiments\Phototaxis.Browser\bin\Release\net10.0-browser\Phototaxis.Browser.dll
+  Optimizing assemblies for size. This process might take a while.
+  Gojo -> D:\source\repos\It3rate\Gojo-phototaxis\Gojo\bin\Release\net10.0\Gojo.dll
+  Phototaxis -> D:\source\repos\It3rate\Gojo-phototaxis\experiments\Phototaxis\bin\Release\net10.0\Phototaxis.dll
+  AOT'ing 34 assemblies
+  [1/34] Avalonia.Metal.dll -> Avalonia.Metal.dll.bc
+  [2/34] Avalonia.Fonts.Inter.dll -> Avalonia.Fonts.Inter.dll.bc
+  [3/34] Avalonia.HarfBuzz.dll -> Avalonia.HarfBuzz.dll.bc
+  [4/34] Avalonia.Vulkan.dll -> Avalonia.Vulkan.dll.bc
+  [5/34] Avalonia.OpenGL.dll -> Avalonia.OpenGL.dll.bc
+  [6/34] HarfBuzzSharp.dll -> HarfBuzzSharp.dll.bc
+  [7/34] Avalonia.Skia.dll -> Avalonia.Skia.dll.bc
+  [8/34] Avalonia.Browser.dll -> Avalonia.Browser.dll.bc
+  [9/34] SkiaSharp.dll -> SkiaSharp.dll.bc
+  [10/34] Phototaxis.dll -> Phototaxis.dll.bc
+  [11/34] System.Collections.NonGeneric.dll -> System.Collections.NonGeneric.dll.bc
+  [12/34] System.Collections.Specialized.dll -> System.Collections.Specialized.dll.bc
+  [13/34] System.Collections.dll -> System.Collections.dll.bc
+  [14/34] System.Collections.Concurrent.dll -> System.Collections.Concurrent.dll.bc
+  [15/34] Phototaxis.Browser.dll -> Phototaxis.Browser.dll.bc
+  [16/34] Avalonia.Controls.dll -> Avalonia.Controls.dll.bc
+  [17/34] Gojo.dll -> Gojo.dll.bc
+  [18/34] System.ComponentModel.Primitives.dll -> System.ComponentModel.Primitives.dll.bc
+  [19/34] System.ComponentModel.dll -> System.ComponentModel.dll.bc
+  [20/34] System.IO.Pipelines.dll -> System.IO.Pipelines.dll.bc
+  [21/34] System.ObjectModel.dll -> System.ObjectModel.dll.bc
+  [22/34] System.Diagnostics.DiagnosticSource.dll -> System.Diagnostics.DiagnosticSource.dll.bc
+  [23/34] System.Runtime.InteropServices.JavaScript.dll -> System.Runtime.InteropServices.JavaScript.dll.bc
+  [24/34] System.Memory.dll -> System.Memory.dll.bc
+  [25/34] System.ComponentModel.TypeConverter.dll -> System.ComponentModel.TypeConverter.dll.bc
+  [26/34] System.Private.Uri.dll -> System.Private.Uri.dll.bc
+  [27/34] System.Text.Encodings.Web.dll -> System.Text.Encodings.Web.dll.bc
+  [28/34] System.dll -> System.dll.bc
+  [29/34] System.Runtime.Numerics.dll -> System.Runtime.Numerics.dll.bc
+  [30/34] System.Linq.dll -> System.Linq.dll.bc
+  [31/34] System.Text.Json.dll -> System.Text.Json.dll.bc
+  [32/34] Avalonia.Base.dll -> Avalonia.Base.dll.bc
+  [33/34] System.Private.CoreLib.dll -> System.Private.CoreLib.dll.bc
+  [34/34] aot-instances.dll -> aot-instances.dll.bc
+  IL stripping assemblies
+  Compiling assembly bitcode files with -O2 ...
+  [1/34] Avalonia.Metal.dll.bc -> Avalonia.Metal.dll.o [took 4.00s]
+  [2/34] Avalonia.Fonts.Inter.dll.bc -> Avalonia.Fonts.Inter.dll.o [took 4.02s]
+  [3/34] Avalonia.Vulkan.dll.bc -> Avalonia.Vulkan.dll.o [took 4.13s]
+  [4/34] Avalonia.HarfBuzz.dll.bc -> Avalonia.HarfBuzz.dll.o [took 4.20s]
+  [5/34] Avalonia.OpenGL.dll.bc -> Avalonia.OpenGL.dll.o [took 4.63s]
+  [6/34] Avalonia.Browser.dll.bc -> Avalonia.Browser.dll.o [took 9.41s]
+  [7/34] HarfBuzzSharp.dll.bc -> HarfBuzzSharp.dll.o [took 6.55s]
+  [8/34] SkiaSharp.dll.bc -> SkiaSharp.dll.o [took 7.37s]
+  [9/34] Phototaxis.dll.bc -> Phototaxis.dll.o [took 6.92s]
+  [10/34] Avalonia.Skia.dll.bc -> Avalonia.Skia.dll.o [took 7.84s]
+  [11/34] Avalonia.Controls.dll.bc -> Avalonia.Controls.dll.o [took 11.87s]
+  [12/34] System.ComponentModel.Primitives.dll.bc -> System.ComponentModel.Primitives.dll.o [took 4.89s]
+  [13/34] System.Collections.NonGeneric.dll.bc -> System.Collections.NonGeneric.dll.o [took 5.20s]
+  [14/34] System.Collections.Specialized.dll.bc -> System.Collections.Specialized.dll.o [took 4.92s]
+  [15/34] System.Collections.Concurrent.dll.bc -> System.Collections.Concurrent.dll.o [took 5.90s]
+  [16/34] Gojo.dll.bc -> Gojo.dll.o [took 14.08s]
+  [17/34] System.Collections.dll.bc -> System.Collections.dll.o [took 6.42s]
+  [18/34] System.Memory.dll.bc -> System.Memory.dll.o [took 2.03s]
+  [19/34] System.IO.Pipelines.dll.bc -> System.IO.Pipelines.dll.o [took 2.85s]
+  [20/34] System.ComponentModel.dll.bc -> System.ComponentModel.dll.o [took 3.56s]
+  [21/34] Phototaxis.Browser.dll.bc -> Phototaxis.Browser.dll.o [took 9.22s]
+  [22/34] System.Diagnostics.DiagnosticSource.dll.bc -> System.Diagnostics.DiagnosticSource.dll.o [took 4.93s]
+  [23/34] System.ComponentModel.TypeConverter.dll.bc -> System.ComponentModel.TypeConverter.dll.o [took 6.06s]
+  [24/34] System.ObjectModel.dll.bc -> System.ObjectModel.dll.o [took 4.49s]
+  [25/34] System.Runtime.InteropServices.JavaScript.dll.bc -> System.Runtime.InteropServices.JavaScript.dll.o [took 4.49s]
+  [26/34] System.Text.Encodings.Web.dll.bc -> System.Text.Encodings.Web.dll.o [took 4.01s]
+  [27/34] System.Private.Uri.dll.bc -> System.Private.Uri.dll.o [took 5.40s]
+  [28/34] System.dll.bc -> System.dll.o [took 1.88s]
+  [29/34] System.Runtime.Numerics.dll.bc -> System.Runtime.Numerics.dll.o [took 5.95s]
+  [30/34] System.Linq.dll.bc -> System.Linq.dll.o [took 8.93s]
+  [31/34] System.Text.Json.dll.bc -> System.Text.Json.dll.o [took 6.63s]
+  [32/34] Avalonia.Base.dll.bc -> Avalonia.Base.dll.o [took 46.97s]
+  [33/34] System.Private.CoreLib.dll.bc -> System.Private.CoreLib.dll.o [took 43.88s]
+  [34/34] aot-instances.dll.bc -> aot-instances.dll.o [took 72.78s]
+  Compiling native assets with C:\Program Files\dotnet\packs\Microsoft.NET.Runtime.Emscripten.3.1.56.Sdk.win-x64\10.0.12\Sdk\..\tools\emscripten\emcc with -Oz. This may take a while ...
+  [1/4] corebindings.c -> corebindings.o [took 1.39s]
+  [2/4] driver.c -> driver.o [took 1.43s]
+  [3/4] pinvoke.c -> pinvoke.o [took 1.46s]
+  [4/4] runtime.c -> runtime.o [took 1.47s]
+  Linking for initial memory $(WasmInitialHeapSize)=33554432 bytes. Set this msbuild property to change the value.
+  Linking with emcc with -O2. This may take a while ...
+   "C:\Program Files\dotnet\packs\Microsoft.NET.Runtime.Emscripten.3.1.56.Sdk.win-x64\10.0.12\tools\bin\clang.exe" --version
+   "C:\Program Files\dotnet\packs\Microsoft.NET.Runtime.Emscripten.3.1.56.Node.win-x64\10.0.12\tools\bin\node.exe" "C:\Program Files\dotnet\packs\Microsoft.NET.Runtime.Emscripten.3.1.56.Sdk.win-x64\10.0.12\tools\emscripten\src\compiler.mjs" C:\Users\Acer\AppData\Local\Temp\tmpdjgoizqw.json --symbols-only
+   "C:\Program Files\dotnet\packs\Microsoft.NET.Runtime.Emscripten.3.1.56.Sdk.win-x64\10.0.12\tools\bin\wasm-ld.exe" @C:\Users\Acer\AppData\Local\Temp\emscripten_uv00_tiz.rsp.utf-8
+   "C:\Program Files\dotnet\packs\Microsoft.NET.Runtime.Emscripten.3.1.56.Sdk.win-x64\10.0.12\tools\bin\llvm-objcopy.exe" D:\source\repos\It3rate\Gojo-phototaxis\experiments\Phototaxis.Browser\obj\Release\net10.0-browser\wasm\for-publish\dotnet.native.wasm D:\source\repos\It3rate\Gojo-phototaxis\experiments\Phototaxis.Browser\obj\Release\net10.0-browser\wasm\for-publish\dotnet.native.wasm --remove-section=producers
+   "C:\Program Files\dotnet\packs\Microsoft.NET.Runtime.Emscripten.3.1.56.Node.win-x64\10.0.12\tools\bin\node.exe" "C:\Program Files\dotnet\packs\Microsoft.NET.Runtime.Emscripten.3.1.56.Sdk.win-x64\10.0.12\tools\emscripten\src\compiler.mjs" C:\Users\Acer\AppData\Local\Temp\tmplpsplnty.json
+   "C:\Program Files\dotnet\packs\Microsoft.NET.Runtime.Emscripten.3.1.56.Sdk.win-x64\10.0.12\tools\bin\wasm-opt" --strip-target-features --post-emscripten -O2 --low-memory-unused --zero-filled-memory --pass-arg=directize-initial-contents-immutable D:\source\repos\It3rate\Gojo-phototaxis\experiments\Phototaxis.Browser\obj\Release\net10.0-browser\wasm\for-publish\dotnet.native.wasm -o D:\source\repos\It3rate\Gojo-phototaxis\experiments\Phototaxis.Browser\obj\Release\net10.0-browser\wasm\for-publish\dotnet.native.wasm -g --mvp-features --enable-bulk-memory --enable-exception-handling --enable-multivalue --enable-mutable-globals --enable-reference-types --enable-sign-ext --enable-simd
+  Phototaxis.Browser -> D:\source\repos\It3rate\Gojo-phototaxis\experiments\Phototaxis.Browser\publish-browser\

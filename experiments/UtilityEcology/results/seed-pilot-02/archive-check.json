@@ -1,0 +1,82 @@
+[
+  {
+    "seed": 900,
+    "arm": "seed/error-only",
+    "filename": "900-seed-error-only.gojo",
+    "signatureMatched": true,
+    "behavior": {
+      "matched": true,
+      "conserved": true,
+      "aliasesMatched": true,
+      "samplesReplayed": 7,
+      "paidGateSpent": 6,
+      "scope": "Retained ordinal anchors or fresh presence-only requests; reconnected ordered fixture; paid gate continuation. No novel-sample world reconnection.",
+      "trialDecisionsReplayed": 0
+    },
+    "bytes": 4420896
+  },
+  {
+    "seed": 900,
+    "arm": "seed/progress",
+    "filename": "900-seed-progress.gojo",
+    "signatureMatched": true,
+    "behavior": {
+      "matched": true,
+      "conserved": true,
+      "aliasesMatched": true,
+      "samplesReplayed": 7,
+      "paidGateSpent": 6,
+      "scope": "Retained ordinal anchors or fresh presence-only requests; reconnected ordered fixture; paid gate continuation. No novel-sample world reconnection.",
+      "trialDecisionsReplayed": 0
+    },
+    "bytes": 4644338
+  },
+  {
+    "seed": 900,
+    "arm": "seed/paired",
+    "filename": "900-seed-paired.gojo",
+    "signatureMatched": true,
+    "behavior": {
+      "matched": true,
+      "conserved": true,
+      "aliasesMatched": true,
+      "samplesReplayed": 8,
+      "paidGateSpent": 5,
+      "scope": "Saved seed purses and provider/service aliases; completed native admission decisions replayed; retained current/candidate ordinal anchors through an ordered fixture; paid base-gate continuation. No novel acquisition or whole-world resume.",
+      "trialDecisionsReplayed": 3
+    },
+    "bytes": 29979768
+  },
+  {
+    "seed": 900,
+    "arm": "seed/unfiltered",
+    "filename": "900-seed-unfiltered.gojo",
+    "signatureMatched": true,
+    "behavior": {
+      "matched": true,
+      "conserved": true,
+      "aliasesMatched": true,
+      "samplesReplayed": 12,
+      "paidGateSpent": 5,
+      "scope": "Saved seed purses and provider/service aliases; completed native admission decisions replayed; retained current/candidate ordinal anchors through an ordered fixture; paid base-gate continuation. No novel acquisition or whole-world resume.",
+      "trialDecisionsReplayed": 3
+    },
+    "bytes": 30170065
+  },
+  {
+    "seed": 900,
+    "arm": "seed/no-seed",
+    "filename": "900-seed-no-seed.gojo",
+    "signatureMatched": true,
+    "behavior": {
+      "matched": true,
+      "conserved": true,
+      "aliasesMatched": true,
+      "samplesReplayed": 0,
+      "paidGateSpent": 6,
+      "scope": "Saved seed purses and provider/service aliases; completed native admission decisions replayed; retained current/candidate ordinal anchors through an ordered fixture; paid base-gate continuation. No novel acquisition or whole-world resume.",
+      "trialDecisionsReplayed": 0
+    },
+    "bytes": 3840771
+  }
+]

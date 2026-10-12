@@ -1,0 +1,14 @@
+{
+  "seed": 200,
+  "stage": "source",
+  "variant": "neutral-left",
+  "trained": 0,
+  "evidence": [],
+  "selectedDescription": "A * B",
+  "learnedGraph": {
+    "carriers": 780,
+    "relations": 5274,
+    "placeholders": 0,
+    "coordinates": 2263
+  }
+}

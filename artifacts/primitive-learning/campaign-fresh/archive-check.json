@@ -1,0 +1,72 @@
+{
+  "signatures": "four native graph roundtrips passed",
+  "behavior": [
+    {
+      "mode": 0,
+      "direction": -1,
+      "action": 1,
+      "query": 0
+    },
+    {
+      "mode": 0,
+      "direction": 1,
+      "action": -1,
+      "query": 0
+    },
+    {
+      "mode": 1,
+      "direction": -1,
+      "action": -1,
+      "query": 1
+    },
+    {
+      "mode": 1,
+      "direction": 1,
+      "action": 1,
+      "query": 1
+    }
+  ],
+  "queryEvidence": [
+    {
+      "context": 0,
+      "choice": 0,
+      "observations": 655,
+      "positiveBenefit": 2464,
+      "negativeBenefit": 156,
+      "paidCost": 0,
+      "netMean256": 902,
+      "probePhase": 8
+    },
+    {
+      "context": 0,
+      "choice": 1,
+      "observations": 25,
+      "positiveBenefit": 100,
+      "negativeBenefit": 0,
+      "paidCost": 25,
+      "netMean256": 768,
+      "probePhase": 8
+    },
+    {
+      "context": 1,
+      "choice": 0,
+      "observations": 26,
+      "positiveBenefit": 56,
+      "negativeBenefit": 48,
+      "paidCost": 0,
+      "netMean256": 78,
+      "probePhase": 24
+    },
+    {
+      "context": 1,
+      "choice": 1,
+      "observations": 702,
+      "positiveBenefit": 2808,
+      "negativeBenefit": 0,
+      "paidCost": 702,
+      "netMean256": 768,
+      "probePhase": 24
+    }
+  ],
+  "limitation": "Prediction/distinction structurally verified; opaque anchor comparison service also requires restoration for adaptive deployment."
+}

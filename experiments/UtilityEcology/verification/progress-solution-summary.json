@@ -1,0 +1,228 @@
+{
+  "command": "dotnet test Gojo.slnx -c Release --no-restore",
+  "exitCode": 0,
+  "passed": 2298,
+  "failed": 0,
+  "files": [
+    {
+      "file": "Robin_LAPTOPROBIN_2026-10-11_23_28_19_net10.0.trx",
+      "assembly": "D:\\source\\repos\\It3rate\\Gojo-phototaxis\\Gojo.Tests\\bin\\Release\\net10.0\\Gojo.Tests.dll",
+      "counts": {
+        "total": "1009",
+        "executed": "1009",
+        "passed": "1009",
+        "failed": "0",
+        "error": "0",
+        "timeout": "0",
+        "aborted": "0",
+        "inconclusive": "0",
+        "passedButRunAborted": "0",
+        "notRunnable": "0",
+        "notExecuted": "0",
+        "disconnected": "0",
+        "warning": "0",
+        "completed": "0",
+        "inProgress": "0",
+        "pending": "0"
+      }
+    },
+    {
+      "file": "Robin_LAPTOPROBIN_2026-10-11_23_28_25_net10.0.trx",
+      "assembly": "D:\\source\\repos\\It3rate\\Gojo-phototaxis\\experiments\\Phototaxis.Tests\\bin\\Release\\net10.0\\Phototaxis.Tests.dll",
+      "counts": {
+        "total": "129",
+        "executed": "129",
+        "passed": "129",
+        "failed": "0",
+        "error": "0",
+        "timeout": "0",
+        "aborted": "0",
+        "inconclusive": "0",
+        "passedButRunAborted": "0",
+        "notRunnable": "0",
+        "notExecuted": "0",
+        "disconnected": "0",
+        "warning": "0",
+        "completed": "0",
+        "inProgress": "0",
+        "pending": "0"
+      }
+    },
+    {
+      "file": "Robin_LAPTOPROBIN_2026-10-11_23_28_28_net10.0.trx",
+      "assembly": "D:\\source\\repos\\It3rate\\Gojo-phototaxis\\experiments\\PrimitiveLearning.Tests\\bin\\Release\\net10.0\\PrimitiveLearning.Tests.dll",
+      "counts": {
+        "total": "64",
+        "executed": "64",
+        "passed": "64",
+        "failed": "0",
+        "error": "0",
+        "timeout": "0",
+        "aborted": "0",
+        "inconclusive": "0",
+        "passedButRunAborted": "0",
+        "notRunnable": "0",
+        "notExecuted": "0",
+        "disconnected": "0",
+        "warning": "0",
+        "completed": "0",
+        "inProgress": "0",
+        "pending": "0"
+      }
+    },
+    {
+      "file": "Robin_LAPTOPROBIN_2026-10-11_23_28_28_net10.0[1].trx",
+      "assembly": "D:\\source\\repos\\It3rate\\Gojo-phototaxis\\experiments\\CompositeEmergence.Tests\\bin\\Release\\net10.0\\CompositeEmergence.Tests.dll",
+      "counts": {
+        "total": "66",
+        "executed": "66",
+        "passed": "66",
+        "failed": "0",
+        "error": "0",
+        "timeout": "0",
+        "aborted": "0",
+        "inconclusive": "0",
+        "passedButRunAborted": "0",
+        "notRunnable": "0",
+        "notExecuted": "0",
+        "disconnected": "0",
+        "warning": "0",
+        "completed": "0",
+        "inProgress": "0",
+        "pending": "0"
+      }
+    },
+    {
+      "file": "Robin_LAPTOPROBIN_2026-10-11_23_28_29_net10.0.trx",
+      "assembly": "D:\\source\\repos\\It3rate\\Gojo-phototaxis\\experiments\\PrimitiveForager.Tests\\bin\\Release\\net10.0\\PrimitiveForager.Tests.dll",
+      "counts": {
+        "total": "6",
+        "executed": "6",
+        "passed": "6",
+        "failed": "0",
+        "error": "0",
+        "timeout": "0",
+        "aborted": "0",
+        "inconclusive": "0",
+        "passedButRunAborted": "0",
+        "notRunnable": "0",
+        "notExecuted": "0",
+        "disconnected": "0",
+        "warning": "0",
+        "completed": "0",
+        "inProgress": "0",
+        "pending": "0"
+      }
+    },
+    {
+      "file": "Robin_LAPTOPROBIN_2026-10-11_23_28_49_net10.0.trx",
+      "assembly": "D:\\source\\repos\\It3rate\\Gojo-phototaxis\\GojoCAD.Tests\\bin\\Release\\net10.0\\GojoCAD.Tests.dll",
+      "counts": {
+        "total": "155",
+        "executed": "155",
+        "passed": "155",
+        "failed": "0",
+        "error": "0",
+        "timeout": "0",
+        "aborted": "0",
+        "inconclusive": "0",
+        "passedButRunAborted": "0",
+        "notRunnable": "0",
+        "notExecuted": "0",
+        "disconnected": "0",
+        "warning": "0",
+        "completed": "0",
+        "inProgress": "0",
+        "pending": "0"
+      }
+    },
+    {
+      "file": "Robin_LAPTOPROBIN_2026-10-11_23_29_03_net10.0.trx",
+      "assembly": "D:\\source\\repos\\It3rate\\Gojo-phototaxis\\Gojo.GearShapeLadder.Tests\\bin\\Release\\net10.0\\Gojo.GearShapeLadder.Tests.dll",
+      "counts": {
+        "total": "21",
+        "executed": "21",
+        "passed": "21",
+        "failed": "0",
+        "error": "0",
+        "timeout": "0",
+        "aborted": "0",
+        "inconclusive": "0",
+        "passedButRunAborted": "0",
+        "notRunnable": "0",
+        "notExecuted": "0",
+        "disconnected": "0",
+        "warning": "0",
+        "completed": "0",
+        "inProgress": "0",
+        "pending": "0"
+      }
+    },
+    {
+      "file": "Robin_LAPTOPROBIN_2026-10-11_23_29_04_net10.0.trx",
+      "assembly": "D:\\source\\repos\\It3rate\\Gojo-phototaxis\\Gojo.Encoding.Tests\\bin\\Release\\net10.0\\Gojo.Encoding.Tests.dll",
+      "counts": {
+        "total": "725",
+        "executed": "725",
+        "passed": "725",
+        "failed": "0",
+        "error": "0",
+        "timeout": "0",
+        "aborted": "0",
+        "inconclusive": "0",
+        "passedButRunAborted": "0",
+        "notRunnable": "0",
+        "notExecuted": "0",
+        "disconnected": "0",
+        "warning": "0",
+        "completed": "0",
+        "inProgress": "0",
+        "pending": "0"
+      }
+    },
+    {
+      "file": "Robin_LAPTOPROBIN_2026-10-11_23_29_31_net10.0.trx",
+      "assembly": "D:\\source\\repos\\It3rate\\Gojo-phototaxis\\experiments\\UtilityEcology.Tests\\bin\\Release\\net10.0\\UtilityEcology.Tests.dll",
+      "counts": {
+        "total": "98",
+        "executed": "98",
+        "passed": "98",
+        "failed": "0",
+        "error": "0",
+        "timeout": "0",
+        "aborted": "0",
+        "inconclusive": "0",
+        "passedButRunAborted": "0",
+        "notRunnable": "0",
+        "notExecuted": "0",
+        "disconnected": "0",
+        "warning": "0",
+        "completed": "0",
+        "inProgress": "0",
+        "pending": "0"
+      }
+    },
+    {
+      "file": "Robin_LAPTOPROBIN_2026-10-11_23_29_33_net10.0.trx",
+      "assembly": "D:\\source\\repos\\It3rate\\Gojo-phototaxis\\experiments\\AdaptiveLifecycle.Tests\\bin\\Release\\net10.0\\AdaptiveLifecycle.Tests.dll",
+      "counts": {
+        "total": "25",
+        "executed": "25",
+        "passed": "25",
+        "failed": "0",
+        "error": "0",
+        "timeout": "0",
+        "aborted": "0",
+        "inconclusive": "0",
+        "passedButRunAborted": "0",
+        "notRunnable": "0",
+        "notExecuted": "0",
+        "disconnected": "0",
+        "warning": "0",
+        "completed": "0",
+        "inProgress": "0",
+        "pending": "0"
+      }
+    }
+  ]
+}

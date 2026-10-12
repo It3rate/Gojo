@@ -1,0 +1,12 @@
+{
+  "missing_build": {
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "Publish the browser project first: missing D:\\source\\repos\\It3rate\\Gojo-phototaxis\\artifacts\\phototaxis\\preview-launch-check\\unpublished\\index.html\n"
+  },
+  "occupied_exclusive_port": {
+    "exit_code": 1,
+    "stdout": "Open http://127.0.0.1:60510 (Ctrl+C stops the preview).\n",
+    "stderr": "Traceback (most recent call last):\n  File \"D:\\source\\repos\\It3rate\\Gojo-phototaxis\\experiments\\Phototaxis.Browser\\serve.py\", line 25, in <module>\n    with http.server.ThreadingHTTPServer((\"127.0.0.1\", port), functools.partial(Handler, directory=str(directory))) as server:\n  File \"C:\\Program Files\\Python310\\lib\\socketserver.py\", line 452, in __init__\n    self.server_bind()\n  File \"C:\\Program Files\\Python310\\lib\\http\\server.py\", line 137, in server_bind\n    socketserver.TCPServer.server_bind(self)\n  File \"C:\\Program Files\\Python310\\lib\\socketserver.py\", line 466, in server_bind\n    self.socket.bind(self.server_address)\nPermissionError: [WinError 10013] An attempt was made to access a socket in a way forbidden by its access permissions\nPreview server exited with code 1.\nAt D:\\source\\repos\\It3rate\\Gojo-phototaxis\\experiments\\Phototaxis.Browser\\Start-Preview.ps1:15 char:28\n+ ... ODE -ne 0) { throw \"Preview server exited with code $LASTEXITCODE.\" }\n+                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : OperationStopped: (Preview server exited with code 1.:String) [], RuntimeException\n    + FullyQualifiedErrorId : Preview server exited with code 1.\n \n"
+  }
+}

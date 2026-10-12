@@ -25,6 +25,26 @@ public static class QualifiedReadSurface
         TryReadObservation(ReadCurrent(read, new HashSet<Relation>(ReferenceEqualityComparer.Instance)),
             out selected, out basis, out value, out variation, out coverage, out scope, out excluded, out provenance);
 
+    /// <summary>Reads an already published observation only. Does not execute
+    /// a derived read, follow its sources, or elaborate its variation.</summary>
+    public static bool TryReadPublished(Relation read, out IElement selected, out Relation basis,
+        out IElement value, out IElement variation, out IElement coverage,
+        out IElement scope, out IElement excluded, out IElement provenance) =>
+        TryReadObservation(read, out selected, out basis, out value, out variation,
+            out coverage, out scope, out excluded, out provenance);
+
+    /// <summary>Consumes a materialized nominal service value in its exposed
+    /// local basis. A pending supplier calculation remains pending.</summary>
+    public static bool TryReadPublishedValue(Relation read, out CarrierLocation value)
+    {
+        if (TryReadPublished(read, out _, out var basis, out var result, out _, out _, out _, out _, out _) &&
+            result is CarrierLocation location && location.Carrier is not null && location.Tick is not null &&
+            TryFrame(basis, out var start, out var end) &&
+            !start.Carrier.IsUnknown && start.Ticks != end.Ticks && location.Carrier.SameIdentityAs(start.Carrier))
+        { value = location; return true; }
+        value = default; return false;
+    }
+
     // Only an observation has a value slot. Derived reads retain a connected
     // equation and inputs; their current observation is produced on demand.
     private static bool TryReadObservation(Relation read, out IElement selected, out Relation basis,
@@ -262,7 +282,8 @@ public static class QualifiedReadSurface
 
     private static bool TryFrame(Relation? relation, out CarrierLocation start, out CarrierLocation end)
     {
-        if (relation is not null && TryPoint(relation.Left, out start) && TryPoint(relation.Right, out end) && start.Carrier.SameIdentityAs(end.Carrier)) return true;
+        if (relation is not null && TryPoint(relation.Left, out start) && TryPoint(relation.Right, out end) &&
+            start.Carrier is not null && end.Carrier is not null && start.Carrier.SameIdentityAs(end.Carrier)) return true;
         start = end = default; return false;
     }
     private static bool TryPoint(IElement element, out CarrierLocation location)

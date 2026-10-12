@@ -1,0 +1,49 @@
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  Gojo -> D:\source\repos\It3rate\Gojo-phototaxis\Gojo\bin\Release\net10.0\Gojo.dll
+  Phototaxis -> D:\source\repos\It3rate\Gojo-phototaxis\experiments\Phototaxis\bin\Release\net10.0\Phototaxis.dll
+  Phototaxis.Browser -> D:\source\repos\It3rate\Gojo-phototaxis\experiments\Phototaxis.Browser\bin\Release\net10.0-browser\Phototaxis.Browser.dll
+  Optimizing assemblies for size. This process might take a while.
+  Gojo -> D:\source\repos\It3rate\Gojo-phototaxis\Gojo\bin\Release\net10.0\Gojo.dll
+  Phototaxis -> D:\source\repos\It3rate\Gojo-phototaxis\experiments\Phototaxis\bin\Release\net10.0\Phototaxis.dll
+  AOT'ing 34 assemblies
+  [1/34] HarfBuzzSharp.dll -> HarfBuzzSharp.dll.bc
+  [2/34] Avalonia.Browser.dll -> Avalonia.Browser.dll.bc
+  [3/34] Avalonia.Skia.dll -> Avalonia.Skia.dll.bc
+  [4/34] SkiaSharp.dll -> SkiaSharp.dll.bc
+  [5/34] Avalonia.Controls.dll -> Avalonia.Controls.dll.bc
+  [6/34] Gojo.dll -> Gojo.dll.bc
+  [7/34] Phototaxis.Browser.dll -> Phototaxis.Browser.dll.bc
+  [8/34] Phototaxis.dll -> Phototaxis.dll.bc
+  [9/34] System.Text.Json.dll -> System.Text.Json.dll.bc
+  [10/34] System.Linq.dll -> System.Linq.dll.bc
+  [11/34] Avalonia.Base.dll -> Avalonia.Base.dll.bc
+  [12/34] aot-instances.dll -> aot-instances.dll.bc
+  [22/34] skipped unchanged assemblies.
+  IL stripping assemblies
+  Compiling assembly bitcode files with -O2 ...
+  [1/12] HarfBuzzSharp.dll.bc -> HarfBuzzSharp.dll.o [took 4.74s]
+  [2/12] Avalonia.Skia.dll.bc -> Avalonia.Skia.dll.o [took 7.81s]
+  [3/12] Avalonia.Browser.dll.bc -> Avalonia.Browser.dll.o [took 7.92s]
+  [4/12] SkiaSharp.dll.bc -> SkiaSharp.dll.o [took 8.58s]
+  [5/12] Phototaxis.dll.bc -> Phototaxis.dll.o [took 9.57s]
+  [6/12] Avalonia.Controls.dll.bc -> Avalonia.Controls.dll.o [took 10.77s]
+  [7/12] Phototaxis.Browser.dll.bc -> Phototaxis.Browser.dll.o [took 7.91s]
+  [8/12] Gojo.dll.bc -> Gojo.dll.o [took 13.38s]
+  [9/12] System.Text.Json.dll.bc -> System.Text.Json.dll.o [took 8.00s]
+  [10/12] System.Linq.dll.bc -> System.Linq.dll.o [took 8.70s]
+  [11/12] Avalonia.Base.dll.bc -> Avalonia.Base.dll.o [took 39.35s]
+  [12/12] aot-instances.dll.bc -> aot-instances.dll.o [took 74.47s]
+  [2/4] skipped unchanged files
+  Compiling native assets with C:\Program Files\dotnet\packs\Microsoft.NET.Runtime.Emscripten.3.1.56.Sdk.win-x64\10.0.12\Sdk\..\tools\emscripten\emcc with -Oz. This may take a while ...
+  [3/4] corebindings.c -> corebindings.o [took 1.23s]
+  [4/4] driver.c -> driver.o [took 1.28s]
+  Linking for initial memory $(WasmInitialHeapSize)=33554432 bytes. Set this msbuild property to change the value.
+  Linking with emcc with -O2. This may take a while ...
+   "C:\Program Files\dotnet\packs\Microsoft.NET.Runtime.Emscripten.3.1.56.Sdk.win-x64\10.0.12\tools\bin\clang.exe" --version
+   "C:\Program Files\dotnet\packs\Microsoft.NET.Runtime.Emscripten.3.1.56.Node.win-x64\10.0.12\tools\bin\node.exe" "C:\Program Files\dotnet\packs\Microsoft.NET.Runtime.Emscripten.3.1.56.Sdk.win-x64\10.0.12\tools\emscripten\src\compiler.mjs" C:\Users\Acer\AppData\Local\Temp\tmp6za2p4yk.json --symbols-only
+   "C:\Program Files\dotnet\packs\Microsoft.NET.Runtime.Emscripten.3.1.56.Sdk.win-x64\10.0.12\tools\bin\wasm-ld.exe" @C:\Users\Acer\AppData\Local\Temp\emscripten_jgti6j1v.rsp.utf-8
+   "C:\Program Files\dotnet\packs\Microsoft.NET.Runtime.Emscripten.3.1.56.Sdk.win-x64\10.0.12\tools\bin\llvm-objcopy.exe" D:\source\repos\It3rate\Gojo-phototaxis\experiments\Phototaxis.Browser\obj\Release\net10.0-browser\wasm\for-publish\dotnet.native.wasm D:\source\repos\It3rate\Gojo-phototaxis\experiments\Phototaxis.Browser\obj\Release\net10.0-browser\wasm\for-publish\dotnet.native.wasm --remove-section=producers
+   "C:\Program Files\dotnet\packs\Microsoft.NET.Runtime.Emscripten.3.1.56.Node.win-x64\10.0.12\tools\bin\node.exe" "C:\Program Files\dotnet\packs\Microsoft.NET.Runtime.Emscripten.3.1.56.Sdk.win-x64\10.0.12\tools\emscripten\src\compiler.mjs" C:\Users\Acer\AppData\Local\Temp\tmpr07vhbql.json
+   "C:\Program Files\dotnet\packs\Microsoft.NET.Runtime.Emscripten.3.1.56.Sdk.win-x64\10.0.12\tools\bin\wasm-opt" --strip-target-features --post-emscripten -O2 --low-memory-unused --zero-filled-memory --pass-arg=directize-initial-contents-immutable D:\source\repos\It3rate\Gojo-phototaxis\experiments\Phototaxis.Browser\obj\Release\net10.0-browser\wasm\for-publish\dotnet.native.wasm -o D:\source\repos\It3rate\Gojo-phototaxis\experiments\Phototaxis.Browser\obj\Release\net10.0-browser\wasm\for-publish\dotnet.native.wasm -g --mvp-features --enable-bulk-memory --enable-exception-handling --enable-multivalue --enable-mutable-globals --enable-reference-types --enable-sign-ext --enable-simd
+  Phototaxis.Browser -> D:\source\repos\It3rate\Gojo-phototaxis\experiments\Phototaxis.Browser\publish-browser\

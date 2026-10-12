@@ -1,0 +1,34 @@
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  Gojo -> D:\source\repos\It3rate\Gojo-phototaxis\Gojo\bin\Debug\net10.0\Gojo.dll
+  Gojo.Encoding -> D:\source\repos\It3rate\Gojo-phototaxis\Gojo.Encoding\bin\Debug\net10.0\Gojo.Encoding.dll
+  GojoCAD -> D:\source\repos\It3rate\Gojo-phototaxis\GojoCAD\bin\Debug\net10.0\GojoCAD.dll
+  Gojo.Tests -> D:\source\repos\It3rate\Gojo-phototaxis\Gojo.Tests\bin\Debug\net10.0\Gojo.Tests.dll
+Test run for D:\source\repos\It3rate\Gojo-phototaxis\Gojo.Tests\bin\Debug\net10.0\Gojo.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+
+Passed!  - Failed:     0, Passed:   851, Skipped:     0, Total:   851, Duration: 1 s - Gojo.Tests.dll (net10.0)
+  Phototaxis -> D:\source\repos\It3rate\Gojo-phototaxis\experiments\Phototaxis\bin\Debug\net10.0\Phototaxis.dll
+  GojoDraw -> D:\source\repos\It3rate\Gojo-phototaxis\GojoDraw\bin\Debug\net10.0\GojoDraw.dll
+  Gojo.GearShapeLadder -> D:\source\repos\It3rate\Gojo-phototaxis\Gojo.GearShapeLadder\bin\Debug\net10.0\Gojo.GearShapeLadder.dll
+  Gojo.GearShapeLadder.Tests -> D:\source\repos\It3rate\Gojo-phototaxis\Gojo.GearShapeLadder.Tests\bin\Debug\net10.0\Gojo.GearShapeLadder.Tests.dll
+Test run for D:\source\repos\It3rate\Gojo-phototaxis\Gojo.GearShapeLadder.Tests\bin\Debug\net10.0\Gojo.GearShapeLadder.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+  Phototaxis.Tests -> D:\source\repos\It3rate\Gojo-phototaxis\experiments\Phototaxis.Tests\bin\Debug\net10.0\Phototaxis.Tests.dll
+Test run for D:\source\repos\It3rate\Gojo-phototaxis\experiments\Phototaxis.Tests\bin\Debug\net10.0\Phototaxis.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+
+Passed!  - Failed:     0, Passed:    21, Skipped:     0, Total:    21, Duration: 2 s - Gojo.GearShapeLadder.Tests.dll (net10.0)
+  Gojo.Blocks -> D:\source\repos\It3rate\Gojo-phototaxis\Gojo.Blocks\bin\Debug\net10.0\Gojo.Blocks.dll
+  GojoCAD.Tests -> D:\source\repos\It3rate\Gojo-phototaxis\GojoCAD.Tests\bin\Debug\net10.0\GojoCAD.Tests.dll
+Test run for D:\source\repos\It3rate\Gojo-phototaxis\GojoCAD.Tests\bin\Debug\net10.0\GojoCAD.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+
+Passed!  - Failed:     0, Passed:    22, Skipped:     0, Total:    22, Duration: 2 s - Phototaxis.Tests.dll (net10.0)
+
+Passed!  - Failed:     0, Passed:   155, Skipped:     0, Total:   155, Duration: 4 s - GojoCAD.Tests.dll (net10.0)
+  Gojo.Encoding.Tests -> D:\source\repos\It3rate\Gojo-phototaxis\Gojo.Encoding.Tests\bin\Debug\net10.0\Gojo.Encoding.Tests.dll
+Test run for D:\source\repos\It3rate\Gojo-phototaxis\Gojo.Encoding.Tests\bin\Debug\net10.0\Gojo.Encoding.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+
+Passed!  - Failed:     0, Passed:   725, Skipped:     0, Total:   725, Duration: 17 s - Gojo.Encoding.Tests.dll (net10.0)

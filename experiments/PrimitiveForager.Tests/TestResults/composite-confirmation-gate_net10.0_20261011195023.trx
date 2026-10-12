@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="c98552e3-10b1-4f3e-9f46-9da2fc53e38d" name="Robin@LAPTOPROBIN 2026-10-11 19:50:23" runUser="LAPTOPROBIN\Robin" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-10-11T19:50:23.8171542-04:00" queuing="2026-10-11T19:50:23.8171546-04:00" start="2026-10-11T19:50:16.9466037-04:00" finish="2026-10-11T19:50:23.8281657-04:00" />
+  <TestSettings name="default" id="0a8f5ded-407b-4271-906f-42685785988e">
+    <Deployment runDeploymentRoot="Robin_LAPTOPROBIN_2026-10-11_19_50_23" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="5ee0986d-5293-4dbf-bf01-deabb6687aba" testId="26dfeb44-b086-4bcb-6737-765b733867cf" testName="PrimitiveForager.Tests.ForagingBoundaryTests.HeatSafetyWinsOverTheConflictingLowEnergyRoute(heat: 10, expectedMode: 0, expectedAction: 1)" computerName="LAPTOPROBIN" duration="00:00:00.0146392" startTime="2026-10-11T19:50:23.5511299-04:00" endTime="2026-10-11T19:50:23.5542552-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="5ee0986d-5293-4dbf-bf01-deabb6687aba" />
+    <UnitTestResult executionId="4466628e-56c4-4c5e-bc1a-b86a6af62c46" testId="97186abb-75e7-33ff-d102-da6d96aacb63" testName="PrimitiveForager.Tests.ForagingBoundaryTests.AnUnusedFineRequestIsNotCreditedAsAnActionDependency(failedFine: False)" computerName="LAPTOPROBIN" duration="00:00:00.0138392" startTime="2026-10-11T19:50:23.5469831-04:00" endTime="2026-10-11T19:50:23.5472806-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="4466628e-56c4-4c5e-bc1a-b86a6af62c46" />
+    <UnitTestResult executionId="ffe31b79-d3d0-42f0-b00c-84f50d93d860" testId="f5b7a1ac-f521-ccb5-dcb2-61ed8567493d" testName="PrimitiveForager.Tests.ForagingBoundaryTests.ACompletedCycleDoesNotRearmFromAnExistingHighCharge(dark: False)" computerName="LAPTOPROBIN" duration="00:00:00.0004068" startTime="2026-10-11T19:50:23.5745857-04:00" endTime="2026-10-11T19:50:23.5747412-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ffe31b79-d3d0-42f0-b00c-84f50d93d860" />
+    <UnitTestResult executionId="197d908e-f247-4301-850f-5da20df6a284" testId="fbbee2d3-9028-2d62-1c29-d9bd71e04888" testName="PrimitiveForager.Tests.ForagingBoundaryTests.HeatSafetyWinsOverTheConflictingLowEnergyRoute(heat: 90, expectedMode: 1, expectedAction: -1)" computerName="LAPTOPROBIN" duration="00:00:00.0141015" startTime="2026-10-11T19:50:23.5546617-04:00" endTime="2026-10-11T19:50:23.5685720-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="197d908e-f247-4301-850f-5da20df6a284" />
+    <UnitTestResult executionId="f5f10f17-7f0f-4861-80fe-8dd5e247921e" testId="10beb067-ee6e-bfc9-81aa-36412a8bdb93" testName="PrimitiveForager.Tests.ForagingBoundaryTests.AnUnusedFineRequestIsNotCreditedAsAnActionDependency(failedFine: True)" computerName="LAPTOPROBIN" duration="00:00:01.3985223" startTime="2026-10-11T19:50:22.1097239-04:00" endTime="2026-10-11T19:50:23.5247859-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="f5f10f17-7f0f-4861-80fe-8dd5e247921e" />
+    <UnitTestResult executionId="679ba724-5049-474c-937b-a3b57635212b" testId="793a549c-955b-a689-17ed-1f7f21bba618" testName="PrimitiveForager.Tests.ForagingBoundaryTests.ACompletedCycleDoesNotRearmFromAnExistingHighCharge(dark: True)" computerName="LAPTOPROBIN" duration="00:00:00.0044047" startTime="2026-10-11T19:50:23.5694308-04:00" endTime="2026-10-11T19:50:23.5741903-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="679ba724-5049-474c-937b-a3b57635212b" />
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="PrimitiveForager.Tests.ForagingBoundaryTests.AnUnusedFineRequestIsNotCreditedAsAnActionDependency(failedFine: True)" storage="d:\source\repos\it3rate\gojo-phototaxis\experiments\primitiveforager.tests\bin\release\net10.0\primitiveforager.tests.dll" id="10beb067-ee6e-bfc9-81aa-36412a8bdb93">
+      <Execution id="f5f10f17-7f0f-4861-80fe-8dd5e247921e" />
+      <TestMethod codeBase="D:\source\repos\It3rate\Gojo-phototaxis\experiments\PrimitiveForager.Tests\bin\Release\net10.0\PrimitiveForager.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="PrimitiveForager.Tests.ForagingBoundaryTests" name="AnUnusedFineRequestIsNotCreditedAsAnActionDependency" />
+    </UnitTest>
+    <UnitTest name="PrimitiveForager.Tests.ForagingBoundaryTests.ACompletedCycleDoesNotRearmFromAnExistingHighCharge(dark: True)" storage="d:\source\repos\it3rate\gojo-phototaxis\experiments\primitiveforager.tests\bin\release\net10.0\primitiveforager.tests.dll" id="793a549c-955b-a689-17ed-1f7f21bba618">
+      <Execution id="679ba724-5049-474c-937b-a3b57635212b" />
+      <TestMethod codeBase="D:\source\repos\It3rate\Gojo-phototaxis\experiments\PrimitiveForager.Tests\bin\Release\net10.0\PrimitiveForager.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="PrimitiveForager.Tests.ForagingBoundaryTests" name="ACompletedCycleDoesNotRearmFromAnExistingHighCharge" />
+    </UnitTest>
+    <UnitTest name="PrimitiveForager.Tests.ForagingBoundaryTests.ACompletedCycleDoesNotRearmFromAnExistingHighCharge(dark: False)" storage="d:\source\repos\it3rate\gojo-phototaxis\experiments\primitiveforager.tests\bin\release\net10.0\primitiveforager.tests.dll" id="f5b7a1ac-f521-ccb5-dcb2-61ed8567493d">
+      <Execution id="ffe31b79-d3d0-42f0-b00c-84f50d93d860" />
+      <TestMethod codeBase="D:\source\repos\It3rate\Gojo-phototaxis\experiments\PrimitiveForager.Tests\bin\Release\net10.0\PrimitiveForager.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="PrimitiveForager.Tests.ForagingBoundaryTests" name="ACompletedCycleDoesNotRearmFromAnExistingHighCharge" />
+    </UnitTest>
+    <UnitTest name="PrimitiveForager.Tests.ForagingBoundaryTests.HeatSafetyWinsOverTheConflictingLowEnergyRoute(heat: 10, expectedMode: 0, expectedAction: 1)" storage="d:\source\repos\it3rate\gojo-phototaxis\experiments\primitiveforager.tests\bin\release\net10.0\primitiveforager.tests.dll" id="26dfeb44-b086-4bcb-6737-765b733867cf">
+      <Execution id="5ee0986d-5293-4dbf-bf01-deabb6687aba" />
+      <TestMethod codeBase="D:\source\repos\It3rate\Gojo-phototaxis\experiments\PrimitiveForager.Tests\bin\Release\net10.0\PrimitiveForager.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="PrimitiveForager.Tests.ForagingBoundaryTests" name="HeatSafetyWinsOverTheConflictingLowEnergyRoute" />
+    </UnitTest>
+    <UnitTest name="PrimitiveForager.Tests.ForagingBoundaryTests.AnUnusedFineRequestIsNotCreditedAsAnActionDependency(failedFine: False)" storage="d:\source\repos\it3rate\gojo-phototaxis\experiments\primitiveforager.tests\bin\release\net10.0\primitiveforager.tests.dll" id="97186abb-75e7-33ff-d102-da6d96aacb63">
+      <Execution id="4466628e-56c4-4c5e-bc1a-b86a6af62c46" />
+      <TestMethod codeBase="D:\source\repos\It3rate\Gojo-phototaxis\experiments\PrimitiveForager.Tests\bin\Release\net10.0\PrimitiveForager.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="PrimitiveForager.Tests.ForagingBoundaryTests" name="AnUnusedFineRequestIsNotCreditedAsAnActionDependency" />
+    </UnitTest>
+    <UnitTest name="PrimitiveForager.Tests.ForagingBoundaryTests.HeatSafetyWinsOverTheConflictingLowEnergyRoute(heat: 90, expectedMode: 1, expectedAction: -1)" storage="d:\source\repos\it3rate\gojo-phototaxis\experiments\primitiveforager.tests\bin\release\net10.0\primitiveforager.tests.dll" id="fbbee2d3-9028-2d62-1c29-d9bd71e04888">
+      <Execution id="197d908e-f247-4301-850f-5da20df6a284" />
+      <TestMethod codeBase="D:\source\repos\It3rate\Gojo-phototaxis\experiments\PrimitiveForager.Tests\bin\Release\net10.0\PrimitiveForager.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="PrimitiveForager.Tests.ForagingBoundaryTests" name="HeatSafetyWinsOverTheConflictingLowEnergyRoute" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="26dfeb44-b086-4bcb-6737-765b733867cf" executionId="5ee0986d-5293-4dbf-bf01-deabb6687aba" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="97186abb-75e7-33ff-d102-da6d96aacb63" executionId="4466628e-56c4-4c5e-bc1a-b86a6af62c46" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f5b7a1ac-f521-ccb5-dcb2-61ed8567493d" executionId="ffe31b79-d3d0-42f0-b00c-84f50d93d860" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="fbbee2d3-9028-2d62-1c29-d9bd71e04888" executionId="197d908e-f247-4301-850f-5da20df6a284" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="10beb067-ee6e-bfc9-81aa-36412a8bdb93" executionId="f5f10f17-7f0f-4861-80fe-8dd5e247921e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="793a549c-955b-a689-17ed-1f7f21bba618" executionId="679ba724-5049-474c-937b-a3b57635212b" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Completed">
+    <Counters total="6" executed="6" passed="6" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.01] xUnit.net VSTest Adapter v4.0.0-pre.3+7b0f8cb07b (64-bit .NET 10.0.12)&#xD;
+[xUnit.net 00:00:00.88]   Discovering: PrimitiveForager.Tests&#xD;
+[xUnit.net 00:00:01.06]   Discovered:  PrimitiveForager.Tests&#xD;
+[xUnit.net 00:00:01.14]   Starting:    PrimitiveForager.Tests&#xD;
+[xUnit.net 00:00:02.69]   Finished:    PrimitiveForager.Tests&#xD;
+</StdOut>
+    </Output>
+  </ResultSummary>
+</TestRun>

@@ -1,0 +1,71 @@
+[
+  {
+    "design": {
+      "Name": "R3-19",
+      "Seek": 8,
+      "Feed": 5,
+      "Escape": 8,
+      "LeaveAt": 12,
+      "ResumeAt": 0,
+      "Gain": 8,
+      "TurnLimit": 8,
+      "SearchBias": 6,
+      "FeedBrightness": 12,
+      "Deadband": 0,
+      "Normalized": false,
+      "BangBang": false,
+      "SearchCycle": 40,
+      "SearchOn": 5,
+      "EnergyPaced": false
+    },
+    "meanPopulationSeconds": 3675.925,
+    "meanAlive": 19.5,
+    "meanBirths": 11.5
+  },
+  {
+    "design": {
+      "Name": "R3-13",
+      "Seek": 8,
+      "Feed": 5,
+      "Escape": 8,
+      "LeaveAt": 14,
+      "ResumeAt": 12,
+      "Gain": 8,
+      "TurnLimit": 8,
+      "SearchBias": 0,
+      "FeedBrightness": 12,
+      "Deadband": 0,
+      "Normalized": false,
+      "BangBang": false,
+      "SearchCycle": 0,
+      "SearchOn": 0,
+      "EnergyPaced": false
+    },
+    "meanPopulationSeconds": 3584.6000000000004,
+    "meanAlive": 17.5,
+    "meanBirths": 13.5
+  },
+  {
+    "design": {
+      "Name": "R1-01",
+      "Seek": 4,
+      "Feed": 4,
+      "Escape": 4,
+      "LeaveAt": 16,
+      "ResumeAt": 0,
+      "Gain": 0,
+      "TurnLimit": 6,
+      "SearchBias": 0,
+      "FeedBrightness": 12,
+      "Deadband": 0,
+      "Normalized": false,
+      "BangBang": false,
+      "SearchCycle": 0,
+      "SearchOn": 0,
+      "EnergyPaced": false
+    },
+    "meanPopulationSeconds": 1587,
+    "meanAlive": 2,
+    "meanBirths": 1.5
+  }
+]

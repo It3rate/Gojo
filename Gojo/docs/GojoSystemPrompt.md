@@ -349,7 +349,18 @@ not be treated as an error merely because another reader could ask for more.
 
 Resolution may be represented by frame extent, partition, `ResolutionOf`, a
 resolution ladder, or other connected basis structure. Coarse and fine reads
-can coexist. Preserve the residue that would allow later refinement.
+can coexist. Retain exact residue when the read promises recoverable refinement.
+A deliberately lossy read may instead retain a connected loss, preimage or
+unresolved-support surface. It must not promise reconstruction of detail it no
+longer retains.
+
+A receiver may select finite computation through connected capacity, quantum,
+rounding and clipping structure. Its equations may operate at that declared
+resolution throughout, including finite intermediate results. Do not
+automatically increase precision, compute a hidden exact answer, or query finer
+sources. An explicitly requested exact read remains a different contract.
+Clipping and discarded detail must be visible in the finite read's result and
+loss qualifications; they must not silently alter a stable unit promise.
 
 `ResolutionOf(source,n)` uses a positive source-ticks-per-target-tick factor.
 Factor 1 preserves the source unit; nested factors multiply exactly within
@@ -519,6 +530,11 @@ separate ports.
 
 Operate on what a subsystem exposes. Do not reach through a calibrated or
 coarse port to raw carrier ticks unless that raw surface is itself exposed.
+Introspection of another subsystem discovers its advertised ports and their
+contracts, not private state or dependencies. A supplier may deliberately
+publish a coarse service even when it has finer internal information. Select
+the smallest set of queries and connections sufficient for the receiver's
+question; refinement requires an explicit request through an exposed route.
 
 ### 4.2 Small Systems Compose Through One Read/Flow Spine
 
@@ -709,6 +725,14 @@ count establishes importance or accuracy. A discrepancy accepted within a
 tolerance can cease to demand correction while remaining available to a
 stricter read.
 
+Deliberately coarse publication may also discard fine detail to limit local
+computation or communication. The receiver's uncertainty then concerns what
+the exposed service does not distinguish; it does not establish that the
+supplier was uncertain or that a probability model exists. Keep known retained
+residue separate from a discarded complement's possible-value support. If the
+selected support cannot settle a comparison, expose that ambiguity instead of
+consulting private supplier state or automatically escalating precision.
+
 Guaranteed bounds, statistical dispersion, confidence and chosen output
 resolution are different reads with different laws. Do not infer one from
 another without supporting structure. See the working
@@ -722,6 +746,15 @@ conditional on their connected premises, not proof of a physical source's
 truth. Keep rounding outward for enclosures and retain exact endpoints and
 rounding excesses. Nonlinear bounds do not automatically supply an affine
 representation, a probability model or an autonomous uncertainty solver.
+
+The [finite-read fixture](GojoFiniteReadFixture.md) selects a different local
+law: published nominal values and conservative loss support through a finite
+capacity and positive quantum. Clipped tails and unavailable detail remain
+open under that reader; an open endpoint is not a concrete zero. It reads the
+published observation without reevaluating the supplier. Shared observation
+identity can justify cancellation; equal nominal values or separately lost
+detail do not. This fixture does not change exact readers or supply general
+demand-driven execution, statistical learning or automatic refinement.
 
 When several interpretations remain plausible, keep candidate structures
 connected to the same evidence through their own bases, witnesses, residue,
@@ -880,11 +913,18 @@ resolution, applicability, or competing connected interpretations. A correct
 local calculation does not establish that its premises describe the wider
 situation, and local agreement alone does not establish general usefulness.
 
-Conformance includes signed frames, source-basis reconstruction, compatible
-units, retained remainders and numeric range. Exact intermediate arithmetic
+Exact-read conformance includes signed frames, source-basis reconstruction,
+compatible units, retained remainders and numeric range. Exact intermediate arithmetic
 must not silently wrap or saturate; check the range of each stored structural
 result. A rounded read may differ when operations are reordered across a
 coarsening step, provided its full retained evidence accounts for that change.
+
+A finite equation read instead conforms to its explicitly selected rounding,
+capacity and clipping law. It may use bounded host arithmetic with visible
+loss and conservative or unresolved support rather than an exact wider
+intermediate. This is not permission to clip an exact reader, invent a tight
+error bound, or discard material during an import or transfer. Observational
+loss does not introduce carrier tension without an explicit response route.
 
 Do not create a symbolic expression tree as the canonical equation. A compiled
 or optimized form may exist as a derived backend if it can be traced back to
@@ -963,6 +1003,12 @@ reconstructible from, and subordinate to, the canonical Gojo structure.
 Prefer calculated values to stored duplicates. A carrier, relation, unit shape,
 feature site, route, or capacity surface should expose enough local structure
 for the relevant read.
+
+Calculate the information sufficient for the selected question at its declared
+resolution. Minimize unnecessary service queries, connections and retained
+detail. A useful coarse or unresolved answer need not trigger finer work.
+Additional precision, support analysis or statistical interpretation is an
+explicit selected read, not a mandatory expansion of every estimate.
 
 Keep magnitude physically interpretable: within one basis and lane, more
 participation should normally read as a larger magnitude. If a useful concept
@@ -1099,6 +1145,8 @@ the current code and tests prove them:
 - complete structural denominator/unit-inverse semantics;
 - the core carrier axis/flow-face split now prototyped in ConceptSurface;
 - general confidence, attention, and candidate-lifetime mechanics;
+- general demand-driven finite circuits, compressed execution lanes and
+  automatic precision or query-budget selection beyond the finite-read fixture;
 - discovery of mixtures, connection growth/decay, and utility-directed memory
   compression or revision;
 - full transform solving, multi-parent histories, and complete abstraction reads.

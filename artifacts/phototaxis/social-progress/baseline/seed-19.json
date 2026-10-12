@@ -1,0 +1,1561 @@
+{
+  "result": {
+    "seed": 19,
+    "selection": true,
+    "measuredResources": false,
+    "eyeLevels": 256,
+    "ecology": {
+      "LightRadius": 72,
+      "LightOnScale": 1,
+      "PatchHarvestPerPulse": 36,
+      "LightDriftSpeed": 1.5
+    },
+    "binocular": true,
+    "arenaScale": 1,
+    "arenaWidth": 600,
+    "arenaHeight": 408,
+    "population": 20,
+    "features": {
+      "ProgressEscape": false,
+      "Courtship": false
+    },
+    "requestedSeconds": 180,
+    "completed": true,
+    "setupSeconds": 0.2034966,
+    "simulatedSeconds": 180,
+    "wallSeconds": 51.4668625,
+    "alive": 11,
+    "births": 7,
+    "lifetime": 3719.7500000000464,
+    "food": 40708,
+    "starvation": 16,
+    "injuries": 167,
+    "injuryCalories": 6707,
+    "computeCalories": 62,
+    "stationary": 0.045844309445728725,
+    "hungryToward": 0.5100844364145865,
+    "fullAway": 0.5309669522643818,
+    "hungryGradientAlignment": 0.08188110262795091,
+    "hungryGradientSamples": 19145,
+    "localFoodShortfall": 5370,
+    "equalEyes": 0.2171719210430711,
+    "observedBodies": 27,
+    "inquiryIssued": 0,
+    "inquiryAnswers": 0,
+    "stale": 0,
+    "inquiryFailures": 0,
+    "adviceTrials": 0,
+    "predictionChecks": 18574,
+    "predictionAbsoluteError": 1148669,
+    "progressWindows": 453,
+    "lowProgressWindows": 10,
+    "mateCueSamples": 0,
+    "progressEscapes": 0,
+    "distinctModuleCombinations": 5,
+    "structures": [
+      {
+        "id": 0,
+        "generation": 0,
+        "parameters": [
+          [
+            8,
+            5,
+            8,
+            12
+          ],
+          [
+            8,
+            8
+          ],
+          [
+            14,
+            12
+          ],
+          [
+            0,
+            40,
+            5,
+            1,
+            20,
+            100,
+            0,
+            160,
+            768,
+            80
+          ]
+        ],
+        "actuatorTerms": 4,
+        "feedbackCells": 3,
+        "expressionOperations": 92
+      },
+      {
+        "id": 1,
+        "generation": 0,
+        "parameters": [
+          [
+            8,
+            5,
+            8,
+            12
+          ],
+          [
+            4,
+            6
+          ],
+          [
+            14,
+            12
+          ],
+          [
+            6,
+            40,
+            5,
+            1,
+            20,
+            100,
+            6,
+            160,
+            768,
+            80
+          ]
+        ],
+        "actuatorTerms": 6,
+        "feedbackCells": 4,
+        "expressionOperations": 135
+      },
+      {
+        "id": 2,
+        "generation": 0,
+        "parameters": [
+          [
+            8,
+            5,
+            8,
+            12
+          ],
+          [
+            8,
+            8
+          ],
+          [
+            12,
+            0
+          ],
+          [
+            6,
+            40,
+            5,
+            1,
+            20,
+            100,
+            4,
+            160,
+            768,
+            80
+          ]
+        ],
+        "actuatorTerms": 6,
+        "feedbackCells": 4,
+        "expressionOperations": 129
+      },
+      {
+        "id": 3,
+        "generation": 0,
+        "parameters": [
+          [
+            8,
+            5,
+            8,
+            12
+          ],
+          [
+            8,
+            8
+          ],
+          [
+            14,
+            12
+          ],
+          [
+            10,
+            40,
+            5,
+            1,
+            20,
+            100,
+            4,
+            160,
+            768,
+            80
+          ]
+        ],
+        "actuatorTerms": 6,
+        "feedbackCells": 4,
+        "expressionOperations": 135
+      },
+      {
+        "id": 4,
+        "generation": 0,
+        "parameters": [
+          [
+            8,
+            5,
+            8,
+            12
+          ],
+          [
+            8,
+            8
+          ],
+          [
+            14,
+            12
+          ],
+          [
+            6,
+            40,
+            5,
+            -1,
+            20,
+            100,
+            4,
+            160,
+            768,
+            80
+          ]
+        ],
+        "actuatorTerms": 6,
+        "feedbackCells": 4,
+        "expressionOperations": 135
+      },
+      {
+        "id": 5,
+        "generation": 0,
+        "parameters": [
+          [
+            8,
+            5,
+            8,
+            12
+          ],
+          [
+            8,
+            8
+          ],
+          [
+            14,
+            12
+          ],
+          [
+            0,
+            40,
+            5,
+            1,
+            20,
+            100,
+            0,
+            160,
+            768,
+            80
+          ]
+        ],
+        "actuatorTerms": 4,
+        "feedbackCells": 3,
+        "expressionOperations": 92
+      },
+      {
+        "id": 6,
+        "generation": 0,
+        "parameters": [
+          [
+            8,
+            5,
+            8,
+            12
+          ],
+          [
+            4,
+            6
+          ],
+          [
+            14,
+            12
+          ],
+          [
+            6,
+            40,
+            5,
+            1,
+            20,
+            100,
+            6,
+            160,
+            768,
+            80
+          ]
+        ],
+        "actuatorTerms": 6,
+        "feedbackCells": 4,
+        "expressionOperations": 135
+      },
+      {
+        "id": 7,
+        "generation": 0,
+        "parameters": [
+          [
+            8,
+            5,
+            8,
+            12
+          ],
+          [
+            8,
+            8
+          ],
+          [
+            12,
+            0
+          ],
+          [
+            6,
+            40,
+            5,
+            1,
+            20,
+            100,
+            4,
+            160,
+            768,
+            80
+          ]
+        ],
+        "actuatorTerms": 6,
+        "feedbackCells": 4,
+        "expressionOperations": 129
+      },
+      {
+        "id": 8,
+        "generation": 0,
+        "parameters": [
+          [
+            8,
+            5,
+            8,
+            12
+          ],
+          [
+            8,
+            8
+          ],
+          [
+            14,
+            12
+          ],
+          [
+            10,
+            40,
+            5,
+            1,
+            20,
+            100,
+            4,
+            160,
+            768,
+            80
+          ]
+        ],
+        "actuatorTerms": 6,
+        "feedbackCells": 4,
+        "expressionOperations": 135
+      },
+      {
+        "id": 9,
+        "generation": 0,
+        "parameters": [
+          [
+            8,
+            5,
+            8,
+            12
+          ],
+          [
+            8,
+            8
+          ],
+          [
+            14,
+            12
+          ],
+          [
+            6,
+            40,
+            5,
+            -1,
+            20,
+            100,
+            4,
+            160,
+            768,
+            80
+          ]
+        ],
+        "actuatorTerms": 6,
+        "feedbackCells": 4,
+        "expressionOperations": 135
+      },
+      {
+        "id": 10,
+        "generation": 0,
+        "parameters": [
+          [
+            8,
+            5,
+            8,
+            12
+          ],
+          [
+            8,
+            8
+          ],
+          [
+            14,
+            12
+          ],
+          [
+            0,
+            40,
+            5,
+            1,
+            20,
+            100,
+            0,
+            160,
+            768,
+            80
+          ]
+        ],
+        "actuatorTerms": 4,
+        "feedbackCells": 3,
+        "expressionOperations": 92
+      },
+      {
+        "id": 11,
+        "generation": 0,
+        "parameters": [
+          [
+            8,
+            5,
+            8,
+            12
+          ],
+          [
+            4,
+            6
+          ],
+          [
+            14,
+            12
+          ],
+          [
+            6,
+            40,
+            5,
+            1,
+            20,
+            100,
+            6,
+            160,
+            768,
+            80
+          ]
+        ],
+        "actuatorTerms": 6,
+        "feedbackCells": 4,
+        "expressionOperations": 135
+      },
+      {
+        "id": 12,
+        "generation": 0,
+        "parameters": [
+          [
+            8,
+            5,
+            8,
+            12
+          ],
+          [
+            8,
+            8
+          ],
+          [
+            12,
+            0
+          ],
+          [
+            6,
+            40,
+            5,
+            1,
+            20,
+            100,
+            4,
+            160,
+            768,
+            80
+          ]
+        ],
+        "actuatorTerms": 6,
+        "feedbackCells": 4,
+        "expressionOperations": 129
+      },
+      {
+        "id": 13,
+        "generation": 0,
+        "parameters": [
+          [
+            8,
+            5,
+            8,
+            12
+          ],
+          [
+            8,
+            8
+          ],
+          [
+            14,
+            12
+          ],
+          [
+            10,
+            40,
+            5,
+            1,
+            20,
+            100,
+            4,
+            160,
+            768,
+            80
+          ]
+        ],
+        "actuatorTerms": 6,
+        "feedbackCells": 4,
+        "expressionOperations": 135
+      },
+      {
+        "id": 14,
+        "generation": 0,
+        "parameters": [
+          [
+            8,
+            5,
+            8,
+            12
+          ],
+          [
+            8,
+            8
+          ],
+          [
+            14,
+            12
+          ],
+          [
+            6,
+            40,
+            5,
+            -1,
+            20,
+            100,
+            4,
+            160,
+            768,
+            80
+          ]
+        ],
+        "actuatorTerms": 6,
+        "feedbackCells": 4,
+        "expressionOperations": 135
+      },
+      {
+        "id": 15,
+        "generation": 0,
+        "parameters": [
+          [
+            8,
+            5,
+            8,
+            12
+          ],
+          [
+            8,
+            8
+          ],
+          [
+            14,
+            12
+          ],
+          [
+            0,
+            40,
+            5,
+            1,
+            20,
+            100,
+            0,
+            160,
+            768,
+            80
+          ]
+        ],
+        "actuatorTerms": 4,
+        "feedbackCells": 3,
+        "expressionOperations": 92
+      },
+      {
+        "id": 16,
+        "generation": 0,
+        "parameters": [
+          [
+            8,
+            5,
+            8,
+            12
+          ],
+          [
+            4,
+            6
+          ],
+          [
+            14,
+            12
+          ],
+          [
+            6,
+            40,
+            5,
+            1,
+            20,
+            100,
+            6,
+            160,
+            768,
+            80
+          ]
+        ],
+        "actuatorTerms": 6,
+        "feedbackCells": 4,
+        "expressionOperations": 135
+      },
+      {
+        "id": 17,
+        "generation": 0,
+        "parameters": [
+          [
+            8,
+            5,
+            8,
+            12
+          ],
+          [
+            8,
+            8
+          ],
+          [
+            12,
+            0
+          ],
+          [
+            6,
+            40,
+            5,
+            1,
+            20,
+            100,
+            4,
+            160,
+            768,
+            80
+          ]
+        ],
+        "actuatorTerms": 6,
+        "feedbackCells": 4,
+        "expressionOperations": 129
+      },
+      {
+        "id": 18,
+        "generation": 0,
+        "parameters": [
+          [
+            8,
+            5,
+            8,
+            12
+          ],
+          [
+            8,
+            8
+          ],
+          [
+            14,
+            12
+          ],
+          [
+            10,
+            40,
+            5,
+            1,
+            20,
+            100,
+            4,
+            160,
+            768,
+            80
+          ]
+        ],
+        "actuatorTerms": 6,
+        "feedbackCells": 4,
+        "expressionOperations": 135
+      },
+      {
+        "id": 19,
+        "generation": 0,
+        "parameters": [
+          [
+            8,
+            5,
+            8,
+            12
+          ],
+          [
+            8,
+            8
+          ],
+          [
+            14,
+            12
+          ],
+          [
+            6,
+            40,
+            5,
+            -1,
+            20,
+            100,
+            4,
+            160,
+            768,
+            80
+          ]
+        ],
+        "actuatorTerms": 6,
+        "feedbackCells": 4,
+        "expressionOperations": 135
+      },
+      {
+        "id": 20,
+        "generation": 1,
+        "parameters": [
+          [
+            8,
+            5,
+            8,
+            12
+          ],
+          [
+            8,
+            8
+          ],
+          [
+            14,
+            12
+          ],
+          [
+            0,
+            40,
+            5,
+            1,
+            20,
+            100,
+            0,
+            160,
+            768,
+            80
+          ]
+        ],
+        "actuatorTerms": 4,
+        "feedbackCells": 3,
+        "expressionOperations": 92
+      },
+      {
+        "id": 21,
+        "generation": 1,
+        "parameters": [
+          [
+            8,
+            5,
+            8,
+            12
+          ],
+          [
+            8,
+            8
+          ],
+          [
+            12,
+            0
+          ],
+          [
+            6,
+            40,
+            5,
+            1,
+            20,
+            100,
+            4,
+            160,
+            768,
+            80
+          ]
+        ],
+        "actuatorTerms": 6,
+        "feedbackCells": 4,
+        "expressionOperations": 129
+      },
+      {
+        "id": 22,
+        "generation": 1,
+        "parameters": [
+          [
+            8,
+            5,
+            8,
+            12
+          ],
+          [
+            8,
+            8
+          ],
+          [
+            14,
+            12
+          ],
+          [
+            0,
+            40,
+            5,
+            1,
+            20,
+            100,
+            0,
+            160,
+            768,
+            80
+          ]
+        ],
+        "actuatorTerms": 4,
+        "feedbackCells": 3,
+        "expressionOperations": 92
+      },
+      {
+        "id": 23,
+        "generation": 1,
+        "parameters": [
+          [
+            8,
+            5,
+            8,
+            12
+          ],
+          [
+            8,
+            8
+          ],
+          [
+            14,
+            12
+          ],
+          [
+            0,
+            40,
+            5,
+            1,
+            20,
+            100,
+            0,
+            160,
+            768,
+            80
+          ]
+        ],
+        "actuatorTerms": 4,
+        "feedbackCells": 3,
+        "expressionOperations": 92
+      },
+      {
+        "id": 24,
+        "generation": 1,
+        "parameters": [
+          [
+            8,
+            5,
+            8,
+            12
+          ],
+          [
+            8,
+            8
+          ],
+          [
+            14,
+            12
+          ],
+          [
+            6,
+            40,
+            5,
+            -1,
+            20,
+            100,
+            4,
+            160,
+            768,
+            80
+          ]
+        ],
+        "actuatorTerms": 6,
+        "feedbackCells": 4,
+        "expressionOperations": 135
+      },
+      {
+        "id": 25,
+        "generation": 1,
+        "parameters": [
+          [
+            8,
+            5,
+            8,
+            12
+          ],
+          [
+            8,
+            8
+          ],
+          [
+            14,
+            12
+          ],
+          [
+            10,
+            40,
+            5,
+            1,
+            20,
+            100,
+            4,
+            160,
+            768,
+            80
+          ]
+        ],
+        "actuatorTerms": 6,
+        "feedbackCells": 4,
+        "expressionOperations": 135
+      },
+      {
+        "id": 26,
+        "generation": 2,
+        "parameters": [
+          [
+            8,
+            5,
+            8,
+            12
+          ],
+          [
+            8,
+            8
+          ],
+          [
+            14,
+            12
+          ],
+          [
+            0,
+            40,
+            5,
+            1,
+            20,
+            100,
+            0,
+            160,
+            768,
+            80
+          ]
+        ],
+        "actuatorTerms": 4,
+        "feedbackCells": 3,
+        "expressionOperations": 92
+      }
+    ],
+    "bodyUtility": [
+      {
+        "id": 1,
+        "generation": 0,
+        "utility": -74,
+        "visits": 180,
+        "parameters": [
+          [
+            8,
+            5,
+            8,
+            12
+          ],
+          [
+            4,
+            6
+          ],
+          [
+            14,
+            12
+          ],
+          [
+            6,
+            40,
+            5,
+            1,
+            20,
+            100,
+            6,
+            160,
+            768,
+            80
+          ]
+        ]
+      },
+      {
+        "id": 2,
+        "generation": 0,
+        "utility": -19,
+        "visits": 180,
+        "parameters": [
+          [
+            8,
+            5,
+            8,
+            12
+          ],
+          [
+            8,
+            8
+          ],
+          [
+            12,
+            0
+          ],
+          [
+            6,
+            40,
+            5,
+            1,
+            20,
+            100,
+            4,
+            160,
+            768,
+            80
+          ]
+        ]
+      },
+      {
+        "id": 4,
+        "generation": 0,
+        "utility": -14,
+        "visits": 180,
+        "parameters": [
+          [
+            8,
+            5,
+            8,
+            12
+          ],
+          [
+            8,
+            8
+          ],
+          [
+            14,
+            12
+          ],
+          [
+            6,
+            40,
+            5,
+            -1,
+            20,
+            100,
+            4,
+            160,
+            768,
+            80
+          ]
+        ]
+      },
+      {
+        "id": 8,
+        "generation": 0,
+        "utility": -45,
+        "visits": 180,
+        "parameters": [
+          [
+            8,
+            5,
+            8,
+            12
+          ],
+          [
+            8,
+            8
+          ],
+          [
+            14,
+            12
+          ],
+          [
+            10,
+            40,
+            5,
+            1,
+            20,
+            100,
+            4,
+            160,
+            768,
+            80
+          ]
+        ]
+      },
+      {
+        "id": 9,
+        "generation": 0,
+        "utility": 149,
+        "visits": 180,
+        "parameters": [
+          [
+            8,
+            5,
+            8,
+            12
+          ],
+          [
+            8,
+            8
+          ],
+          [
+            14,
+            12
+          ],
+          [
+            6,
+            40,
+            5,
+            -1,
+            20,
+            100,
+            4,
+            160,
+            768,
+            80
+          ]
+        ]
+      },
+      {
+        "id": 14,
+        "generation": 0,
+        "utility": 4,
+        "visits": 180,
+        "parameters": [
+          [
+            8,
+            5,
+            8,
+            12
+          ],
+          [
+            8,
+            8
+          ],
+          [
+            14,
+            12
+          ],
+          [
+            6,
+            40,
+            5,
+            -1,
+            20,
+            100,
+            4,
+            160,
+            768,
+            80
+          ]
+        ]
+      },
+      {
+        "id": 18,
+        "generation": 0,
+        "utility": 446,
+        "visits": 180,
+        "parameters": [
+          [
+            8,
+            5,
+            8,
+            12
+          ],
+          [
+            8,
+            8
+          ],
+          [
+            14,
+            12
+          ],
+          [
+            10,
+            40,
+            5,
+            1,
+            20,
+            100,
+            4,
+            160,
+            768,
+            80
+          ]
+        ]
+      },
+      {
+        "id": 19,
+        "generation": 0,
+        "utility": -145,
+        "visits": 180,
+        "parameters": [
+          [
+            8,
+            5,
+            8,
+            12
+          ],
+          [
+            8,
+            8
+          ],
+          [
+            14,
+            12
+          ],
+          [
+            6,
+            40,
+            5,
+            -1,
+            20,
+            100,
+            4,
+            160,
+            768,
+            80
+          ]
+        ]
+      },
+      {
+        "id": 20,
+        "generation": 1,
+        "utility": 460,
+        "visits": 154,
+        "parameters": [
+          [
+            8,
+            5,
+            8,
+            12
+          ],
+          [
+            8,
+            8
+          ],
+          [
+            14,
+            12
+          ],
+          [
+            0,
+            40,
+            5,
+            1,
+            20,
+            100,
+            0,
+            160,
+            768,
+            80
+          ]
+        ]
+      },
+      {
+        "id": 24,
+        "generation": 1,
+        "utility": 376,
+        "visits": 89,
+        "parameters": [
+          [
+            8,
+            5,
+            8,
+            12
+          ],
+          [
+            8,
+            8
+          ],
+          [
+            14,
+            12
+          ],
+          [
+            6,
+            40,
+            5,
+            -1,
+            20,
+            100,
+            4,
+            160,
+            768,
+            80
+          ]
+        ]
+      },
+      {
+        "id": 26,
+        "generation": 2,
+        "utility": 311,
+        "visits": 59,
+        "parameters": [
+          [
+            8,
+            5,
+            8,
+            12
+          ],
+          [
+            8,
+            8
+          ],
+          [
+            14,
+            12
+          ],
+          [
+            0,
+            40,
+            5,
+            1,
+            20,
+            100,
+            0,
+            160,
+            768,
+            80
+          ]
+        ]
+      }
+    ]
+  },
+  "samples": [
+    {
+      "seconds": 10,
+      "population": 20,
+      "births": 0,
+      "food": 4219,
+      "injuries": 4,
+      "meanSpeed": 19.157049717378076,
+      "stationary": 0.064,
+      "predictionError": 94.55
+    },
+    {
+      "seconds": 20,
+      "population": 20,
+      "births": 0,
+      "food": 7183,
+      "injuries": 6,
+      "meanSpeed": 24.22397020091669,
+      "stationary": 0.064875,
+      "predictionError": 85.25
+    },
+    {
+      "seconds": 30,
+      "population": 21,
+      "births": 1,
+      "food": 9636,
+      "injuries": 23,
+      "meanSpeed": 19.873690458145386,
+      "stationary": 0.060450480291487245,
+      "predictionError": 61.38095238095238
+    },
+    {
+      "seconds": 40,
+      "population": 20,
+      "births": 1,
+      "food": 12927,
+      "injuries": 29,
+      "meanSpeed": 22.160627398170693,
+      "stationary": 0.062192118226600986,
+      "predictionError": 68.7
+    },
+    {
+      "seconds": 50,
+      "population": 20,
+      "births": 1,
+      "food": 16353,
+      "injuries": 39,
+      "meanSpeed": 20.80182700715753,
+      "stationary": 0.06279644268774703,
+      "predictionError": 190.15
+    },
+    {
+      "seconds": 60,
+      "population": 22,
+      "births": 3,
+      "food": 19348,
+      "injuries": 42,
+      "meanSpeed": 20.28943115900031,
+      "stationary": 0.05829504430587463,
+      "predictionError": 36.27272727272727
+    },
+    {
+      "seconds": 70,
+      "population": 23,
+      "births": 4,
+      "food": 21145,
+      "injuries": 43,
+      "meanSpeed": 22.692198088499783,
+      "stationary": 0.051542825515428256,
+      "predictionError": 35.04347826086956
+    },
+    {
+      "seconds": 80,
+      "population": 23,
+      "births": 4,
+      "food": 23615,
+      "injuries": 53,
+      "meanSpeed": 21.62940488026427,
+      "stationary": 0.051092276471290436,
+      "predictionError": 100.3913043478261
+    },
+    {
+      "seconds": 90,
+      "population": 23,
+      "births": 4,
+      "food": 25938,
+      "injuries": 60,
+      "meanSpeed": 23.625354536693056,
+      "stationary": 0.05161645848640705,
+      "predictionError": 44.69565217391305
+    },
+    {
+      "seconds": 100,
+      "population": 24,
+      "births": 5,
+      "food": 28680,
+      "injuries": 69,
+      "meanSpeed": 24.263108220407872,
+      "stationary": 0.050778699990674254,
+      "predictionError": 96.70833333333333
+    },
+    {
+      "seconds": 110,
+      "population": 23,
+      "births": 6,
+      "food": 31361,
+      "injuries": 81,
+      "meanSpeed": 25.92156917384989,
+      "stationary": 0.05283580837318567,
+      "predictionError": 13.043478260869565
+    },
+    {
+      "seconds": 120,
+      "population": 22,
+      "births": 6,
+      "food": 33489,
+      "injuries": 107,
+      "meanSpeed": 25.11277173726752,
+      "stationary": 0.05083090825547557,
+      "predictionError": 71.72727272727273
+    },
+    {
+      "seconds": 130,
+      "population": 22,
+      "births": 7,
+      "food": 35275,
+      "injuries": 132,
+      "meanSpeed": 26.156916438245954,
+      "stationary": 0.05027824739363201,
+      "predictionError": 36.31818181818182
+    },
+    {
+      "seconds": 140,
+      "population": 21,
+      "births": 7,
+      "food": 36212,
+      "injuries": 141,
+      "meanSpeed": 25.376005919032362,
+      "stationary": 0.04816873773708306,
+      "predictionError": 10.761904761904763
+    },
+    {
+      "seconds": 150,
+      "population": 19,
+      "births": 7,
+      "food": 36723,
+      "injuries": 146,
+      "meanSpeed": 25.418191811711633,
+      "stationary": 0.047639537742807964,
+      "predictionError": 48.31578947368421
+    },
+    {
+      "seconds": 160,
+      "population": 16,
+      "births": 7,
+      "food": 37742,
+      "injuries": 156,
+      "meanSpeed": 26.44118310868498,
+      "stationary": 0.046590378327884166,
+      "predictionError": 15.125
+    },
+    {
+      "seconds": 170,
+      "population": 15,
+      "births": 7,
+      "food": 38908,
+      "injuries": 164,
+      "meanSpeed": 23.57198226976046,
+      "stationary": 0.04667597765363128,
+      "predictionError": 41.46666666666667
+    },
+    {
+      "seconds": 180,
+      "population": 11,
+      "births": 7,
+      "food": 40708,
+      "injuries": 167,
+      "meanSpeed": 18.54935946363241,
+      "stationary": 0.045844309445728725,
+      "predictionError": 77.27272727272727
+    }
+  ]
+}

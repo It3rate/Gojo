@@ -1,0 +1,1227 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Gojo · A few samples</title>
+  <style>
+    :root { color-scheme: light; --ink:#21342f; --muted:#64756d; --paper:#f5f5ef; --card:#ffffff; --line:#dfe5dc; --green:#14745e; --lime:#dbedaf; --orange:#b96c39; --radius:20px; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--paper); color:var(--ink); font:15px/1.55 ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif; }
+    button,select,input { font:inherit; }
+    button,select { border:1px solid var(--line); border-radius:11px; background:#fff; color:var(--ink); min-height:44px; }
+    button { padding:9px 16px; cursor:pointer; font-weight:650; }
+    button:hover:not(:disabled) { background:#edf4e8; border-color:#b6c7b5; }
+    button:disabled { opacity:.4; cursor:default; }
+    button:focus-visible,select:focus-visible,input:focus-visible { outline:3px solid #92bca9; outline-offset:3px; }
+    select { padding:8px 34px 8px 12px; width:100%; }
+    input[type="range"] { accent-color:var(--green); width:100%; cursor:pointer; }
+    input[type="checkbox"] { accent-color:var(--green); width:17px; height:17px; margin:0; }
+    main { width:min(1160px,calc(100% - 48px)); margin:0 auto; padding:36px 0 40px; }
+    .eyebrow { display:flex; align-items:center; gap:9px; color:var(--green); font-size:11px; font-weight:800; letter-spacing:.17em; text-transform:uppercase; }
+    .dot { width:8px; height:8px; border-radius:50%; background:var(--green); }
+    header { display:flex; align-items:flex-end; justify-content:space-between; gap:24px; margin-bottom:25px; }
+    h1 { font-size:clamp(29px,4vw,44px); line-height:1.13; letter-spacing:-.04em; font-weight:720; margin:12px 0; }
+    header p { color:var(--muted); max-width:620px; margin:0; font-size:16px; }
+    .badge { border:1px solid #cedcc8; background:#eaf0e3; color:#51704a; padding:6px 11px; border-radius:999px; font-size:11px; font-weight:750; white-space:nowrap; }
+    .panel { border:1px solid var(--line); background:var(--card); border-radius:var(--radius); }
+    .controls { padding:20px 23px 17px; margin-bottom:17px; }
+    .control-top { display:grid; grid-template-columns:minmax(270px,1fr) auto; align-items:end; gap:22px; }
+    .label { display:block; margin-bottom:7px; color:var(--muted); font-size:11px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; }
+    .button-row { display:flex; gap:8px; }
+    #play { background:var(--green); border-color:var(--green); color:#fff; min-width:96px; }
+    #play:hover:not(:disabled) { background:#10644f; }
+    .description { color:var(--muted); margin:13px 0 16px; font-size:13px; }
+    .timeline-row { display:grid; grid-template-columns:auto 1fr auto; gap:16px; align-items:center; }
+    .step-count { font-size:12px; font-weight:750; white-space:nowrap; }
+    .pace { color:var(--muted); font-size:12px; }
+    .pace select { width:87px; min-height:30px; padding:3px 4px; font-size:12px; margin-left:5px; }
+    .cards { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:17px; }
+    .read-card { padding:18px 19px 16px; min-height:145px; }
+    .read-name { display:flex; gap:7px; align-items:center; color:var(--muted); font-size:11px; font-weight:750; text-transform:uppercase; letter-spacing:.085em; }
+    .read-name .mark { color:var(--green); font-size:17px; line-height:1; }
+    .read-value { margin-top:13px; font-size:21px; line-height:1.2; font-weight:720; letter-spacing:-.025em; }
+    .read-note { color:var(--muted); font-size:12px; line-height:1.45; margin-top:8px; }
+    .open { color:var(--orange); }
+    .diagram { overflow:hidden; }
+    .diagram-top { display:flex; gap:20px; justify-content:space-between; align-items:center; padding:22px 23px 14px; }
+    h2 { font-size:17px; margin:0 0 4px; letter-spacing:-.015em; }
+    .caption { font-size:12px; color:var(--muted); margin:0; }
+    .view-toggle { display:flex; align-items:center; gap:8px; font-size:12px; color:var(--muted); cursor:pointer; }
+    .view-toggle.disabled { opacity:.4; cursor:default; }
+    .canvas-wrap { width:100%; padding:0 8px; }
+    canvas { width:100%; display:block; height:270px; }
+    .diagram-foot { border-top:1px solid #e8ece4; display:flex; align-items:center; justify-content:space-between; gap:16px; padding:13px 23px; font-size:12px; color:var(--muted); background:#fbfcf8; }
+    .legend { display:flex; gap:17px; flex-wrap:wrap; }
+    .legend span { display:inline-flex; align-items:center; gap:6px; }
+    .legend-dot { width:9px; height:9px; border-radius:50%; background:#95ac9e; }
+    .legend-dot.current { background:var(--green); }
+    .legend-dash { width:16px; border-top:2px dashed #b9c5b8; }
+    .note { margin:17px 0; padding:16px 20px; background:#e9efdf; border:1px solid #d9e3ce; border-radius:14px; display:flex; align-items:flex-start; gap:12px; }
+    .note-icon { color:var(--green); font-size:18px; line-height:1.4; }
+    .note p { margin:0; font-size:13px; color:#4c6552; }
+    .note strong { color:#2e513e; }
+    .reference { margin-bottom:17px; }
+    .reference-head { padding:16px 20px; display:flex; justify-content:space-between; align-items:center; gap:20px; }
+    .reference-head label { display:flex; align-items:center; gap:10px; font-size:13px; font-weight:650; cursor:pointer; }
+    .reference-body { border-top:1px solid var(--line); padding:12px 17px 9px; }
+    .reference-body p { margin:3px 5px 0; font-size:12px; color:var(--muted); }
+    #reference-canvas { height:150px; }
+    [hidden] { display:none!important; }
+    details { padding:0 20px; }
+    summary { padding:15px 0; cursor:pointer; font-size:13px; font-weight:650; }
+    .stats { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; border-top:1px solid var(--line); padding:16px 0 10px; }
+    .stat-label { color:var(--muted); font-size:11px; }
+    .stat-value { font-size:19px; font-weight:680; margin-top:3px; }
+    .stats-note { color:var(--muted); font-size:11px; padding-bottom:15px; margin:3px 0 0; }
+    footer { display:flex; justify-content:space-between; gap:20px; color:#839086; font-size:11px; margin-top:19px; }
+    .error { margin-top:15px; color:var(--orange); }
+    @media (max-width:760px) {
+      main { width:calc(100% - 28px); padding-top:23px; }
+      header { align-items:flex-start; margin-bottom:20px; } header .badge { display:none; }
+      header p { font-size:14px; }
+      .controls { padding:17px; } .control-top { grid-template-columns:1fr; gap:14px; }
+      .button-row button { flex:1; } .cards { grid-template-columns:repeat(2,1fr); gap:10px; }
+      .read-card { padding:15px; min-height:137px; } .read-value { font-size:19px; }
+      .diagram-top { padding:18px 17px 8px; flex-direction:column; align-items:flex-start; gap:10px; }
+      .diagram-foot { padding:12px 17px; align-items:flex-start; flex-direction:column; gap:8px; }
+      .timeline-row { grid-template-columns:auto 1fr; gap:12px; } .pace { grid-column:2; text-align:right; }
+      .note { padding:14px 15px; } .reference-head { padding:15px; align-items:flex-start; flex-direction:column; gap:6px; }
+      .stats { grid-template-columns:repeat(2,1fr); } footer { flex-direction:column; gap:3px; }
+    }
+    @media (prefers-reduced-motion:reduce) { * { scroll-behavior:auto!important; } }
+  </style>
+</head>
+<body>
+<main>
+  <header>
+    <div>
+      <div class="eyebrow"><span class="dot"></span>Gojo / sample lab</div>
+      <h1>A few samples.<br>A growing sense of place.</h1>
+      <p>Watch observations become remembered points and local order. Measurement comes only when it is explicitly added.</p>
+    </div>
+    <span class="badge">Native Gojo replay</span>
+  </header>
+
+  <section class="panel controls" aria-label="Replay controls">
+    <div class="control-top">
+      <div><label class="label" for="scenario">Try a sampling story</label><select id="scenario" aria-label="Scenario"></select></div>
+      <div class="button-row">
+        <button id="previous" aria-label="Previous observation">← Previous</button>
+        <button id="play">▶ Play</button>
+        <button id="next" aria-label="Next observation">Next →</button>
+      </div>
+    </div>
+    <p id="description" class="description">Loading the native observations…</p>
+    <div class="timeline-row">
+      <span id="step-count" class="step-count">Observation —</span>
+      <input id="timeline" type="range" min="0" max="0" value="0" aria-label="Replay position">
+      <label class="pace" for="pace">Pace <select id="pace"><option value="1500">Slow</option><option value="850" selected>Normal</option><option value="350">Fast</option></select></label>
+    </div>
+  </section>
+
+  <section class="cards" aria-label="What is currently known" aria-live="polite">
+    <article class="panel read-card"><div class="read-name"><span class="mark">●</span>Presence</div><div id="presence-value" class="read-value">—</div><div id="presence-note" class="read-note">A first sample establishes presence.</div></article>
+    <article class="panel read-card"><div class="read-name"><span class="mark">↔</span>Direction</div><div id="direction-value" class="read-value">—</div><div id="direction-note" class="read-note">Order needs another observation.</div></article>
+    <article class="panel read-card"><div class="read-name"><span class="mark">⋯</span>Local region</div><div id="bucket-value" class="read-value">—</div><div id="bucket-note" class="read-note">Boundaries come from remembered samples.</div></article>
+    <article class="panel read-card"><div class="read-name"><span class="mark">⌁</span>Measurement</div><div id="metric-value" class="read-value open">Still open</div><div id="metric-note" class="read-note">Ordering alone supplies no distance unit.</div></article>
+  </section>
+
+  <section class="panel diagram" aria-label="Remembered observations">
+    <div class="diagram-top">
+      <div><h2 id="diagram-title">Remembered points, in order</h2><p id="diagram-caption" class="caption">Ordering only · screen spacing is not a measured distance</p></div>
+      <label id="metric-toggle-label" class="view-toggle disabled"><input id="metric-toggle" type="checkbox" disabled> Show measured spacing</label>
+    </div>
+    <div class="canvas-wrap"><canvas id="structure-canvas" role="img" aria-label="Remembered observations in their native order"></canvas></div>
+    <div class="diagram-foot">
+      <div class="legend"><span><i class="legend-dot current"></i>Current observation</span><span><i class="legend-dot"></i>Remembered point</span><span><i class="legend-dash"></i>Unresolved region</span></div>
+      <span id="phase-note">An explicit metric has not been requested.</span>
+    </div>
+  </section>
+
+  <aside class="note"><span class="note-icon">↗</span><p id="insight"><strong>Presence comes first.</strong> One observation means something was encountered. It does not say how large it is.</p></aside>
+
+  <section class="panel reference">
+    <div class="reference-head">
+      <label for="reference-toggle"><input id="reference-toggle" type="checkbox">Reveal the reference world</label>
+      <span class="caption">Private fixture values · display only</span>
+    </div>
+    <div id="reference-body" class="reference-body" hidden>
+      <p>This separate plot shows the fixture’s private coordinates. Revealing them does not feed information into the learner or change any native result.</p>
+      <canvas id="reference-canvas" role="img" aria-label="Private reference coordinates for observations received so far"></canvas>
+    </div>
+  </section>
+
+  <details class="panel">
+    <summary>What the structure keeps</summary>
+    <div class="stats">
+      <div><div class="stat-label">Remembered points / budget</div><div id="landmark-cost" class="stat-value">—</div></div>
+      <div><div class="stat-label">Observations received</div><div id="sample-cost" class="stat-value">—</div></div>
+      <div><div class="stat-label">Comparisons made</div><div id="comparison-cost" class="stat-value">—</div></div>
+      <div><div class="stat-label">Native archive</div><div id="archive-cost" class="stat-value">—</div></div>
+    </div>
+    <p id="stats-note" class="stats-note">Counts and reads are supplied by the native Gojo experiment. This page only replays and draws them.</p>
+  </details>
+
+  <p id="error" class="error" hidden></p>
+  <footer><span>Built from connected Gojo structure. No browser-side learning or sorting.</span><span id="run-note">Small observations, explicit limits.</span></footer>
+</main>
+
+<script id="sampling-data" type="application/json">{
+  "metadata": {
+    "schema": "sampling-emergence-v1",
+    "generatedAt": "2026-10-11T14:25:19.1257367+00:00",
+    "ordinalRescalingInvariant": true,
+    "sourceBoundary": "Private fixture values are display references. The ordinal learner receives only presence and requested -1/0/\u002B1 comparison witnesses.",
+    "limits": "Landmark rank and repeated sampling do not establish distance, equal spacing, a probability model, or a nominal size series.",
+    "historyPolicy": "The landmark budget limits retained comparison anchors; this small fixture deliberately retains all visits and their witnesses.",
+    "nativeFormatVersion": 2
+  },
+  "scenarios": [
+    {
+      "id": "sparse_presence",
+      "title": "An irregular signal",
+      "description": "Presence and relative ordering, with repeated values and a limited landmark budget.",
+      "budget": 2,
+      "steps": [
+        {
+          "index": 1,
+          "eventId": 1,
+          "sourceValue": -3,
+          "exists": true,
+          "presence": 1,
+          "direction": null,
+          "landmarks": [
+            {
+              "eventId": 1,
+              "sourceValue": -3
+            }
+          ],
+          "bucket": {
+            "lowerEventId": 1,
+            "upperEventId": 1,
+            "equal": true,
+            "resolved": true
+          },
+          "landmarkCount": 1,
+          "sampleCount": 1,
+          "comparisonCount": 0,
+          "metricAvailable": false,
+          "metricValues": [],
+          "nominalAvailable": false,
+          "archiveBytes": 4113,
+          "historySamples": 1,
+          "unresolved": false,
+          "phase": "ordinal",
+          "basisLabel": null,
+          "archiveFile": "sparse_presence-01.gojo",
+          "archiveCarriers": 16,
+          "archiveRelations": 94
+        },
+        {
+          "index": 2,
+          "eventId": 2,
+          "sourceValue": -1,
+          "exists": true,
+          "presence": 1,
+          "direction": 1,
+          "landmarks": [
+            {
+              "eventId": 1,
+              "sourceValue": -3
+            },
+            {
+              "eventId": 2,
+              "sourceValue": -1
+            }
+          ],
+          "bucket": {
+            "lowerEventId": 2,
+            "upperEventId": 2,
+            "equal": true,
+            "resolved": true
+          },
+          "landmarkCount": 2,
+          "sampleCount": 2,
+          "comparisonCount": 1,
+          "metricAvailable": false,
+          "metricValues": [],
+          "nominalAvailable": false,
+          "archiveBytes": 7196,
+          "historySamples": 2,
+          "unresolved": false,
+          "phase": "ordinal",
+          "basisLabel": null,
+          "archiveFile": "sparse_presence-02.gojo",
+          "archiveCarriers": 26,
+          "archiveRelations": 177
+        },
+        {
+          "index": 3,
+          "eventId": 3,
+          "sourceValue": 0,
+          "exists": false,
+          "presence": 0,
+          "direction": null,
+          "landmarks": [
+            {
+              "eventId": 1,
+              "sourceValue": -3
+            },
+            {
+              "eventId": 2,
+              "sourceValue": -1
+            }
+          ],
+          "bucket": {
+            "lowerEventId": null,
+            "upperEventId": null,
+            "equal": false,
+            "resolved": false
+          },
+          "landmarkCount": 2,
+          "sampleCount": 3,
+          "comparisonCount": 1,
+          "metricAvailable": false,
+          "metricValues": [],
+          "nominalAvailable": false,
+          "archiveBytes": 9243,
+          "historySamples": 3,
+          "unresolved": false,
+          "phase": "ordinal",
+          "basisLabel": null,
+          "archiveFile": "sparse_presence-03.gojo",
+          "archiveCarriers": 33,
+          "archiveRelations": 230
+        },
+        {
+          "index": 4,
+          "eventId": 4,
+          "sourceValue": 4,
+          "exists": true,
+          "presence": 1,
+          "direction": 1,
+          "landmarks": [
+            {
+              "eventId": 1,
+              "sourceValue": -3
+            },
+            {
+              "eventId": 2,
+              "sourceValue": -1
+            }
+          ],
+          "bucket": {
+            "lowerEventId": 2,
+            "upperEventId": null,
+            "equal": false,
+            "resolved": true
+          },
+          "landmarkCount": 2,
+          "sampleCount": 4,
+          "comparisonCount": 2,
+          "metricAvailable": false,
+          "metricValues": [],
+          "nominalAvailable": false,
+          "archiveBytes": 12080,
+          "historySamples": 4,
+          "unresolved": false,
+          "phase": "ordinal",
+          "basisLabel": null,
+          "archiveFile": "sparse_presence-04.gojo",
+          "archiveCarriers": 42,
+          "archiveRelations": 307
+        },
+        {
+          "index": 5,
+          "eventId": 5,
+          "sourceValue": 4,
+          "exists": true,
+          "presence": 1,
+          "direction": 0,
+          "landmarks": [
+            {
+              "eventId": 1,
+              "sourceValue": -3
+            },
+            {
+              "eventId": 2,
+              "sourceValue": -1
+            }
+          ],
+          "bucket": {
+            "lowerEventId": 2,
+            "upperEventId": null,
+            "equal": false,
+            "resolved": true
+          },
+          "landmarkCount": 2,
+          "sampleCount": 5,
+          "comparisonCount": 4,
+          "metricAvailable": false,
+          "metricValues": [],
+          "nominalAvailable": false,
+          "archiveBytes": 15712,
+          "historySamples": 5,
+          "unresolved": false,
+          "phase": "ordinal",
+          "basisLabel": null,
+          "archiveFile": "sparse_presence-05.gojo",
+          "archiveCarriers": 53,
+          "archiveRelations": 408
+        },
+        {
+          "index": 6,
+          "eventId": 6,
+          "sourceValue": -2,
+          "exists": true,
+          "presence": 1,
+          "direction": -1,
+          "landmarks": [
+            {
+              "eventId": 1,
+              "sourceValue": -3
+            },
+            {
+              "eventId": 2,
+              "sourceValue": -1
+            }
+          ],
+          "bucket": {
+            "lowerEventId": 1,
+            "upperEventId": 2,
+            "equal": false,
+            "resolved": true
+          },
+          "landmarkCount": 2,
+          "sampleCount": 6,
+          "comparisonCount": 7,
+          "metricAvailable": false,
+          "metricValues": [],
+          "nominalAvailable": false,
+          "archiveBytes": 20134,
+          "historySamples": 6,
+          "unresolved": false,
+          "phase": "ordinal",
+          "basisLabel": null,
+          "archiveFile": "sparse_presence-06.gojo",
+          "archiveCarriers": 66,
+          "archiveRelations": 533
+        },
+        {
+          "index": 7,
+          "eventId": 6,
+          "sourceValue": -2,
+          "exists": true,
+          "presence": 1,
+          "direction": -1,
+          "landmarks": [
+            {
+              "eventId": 1,
+              "sourceValue": -3
+            },
+            {
+              "eventId": 2,
+              "sourceValue": -1
+            }
+          ],
+          "bucket": {
+            "lowerEventId": 1,
+            "upperEventId": 2,
+            "equal": false,
+            "resolved": true
+          },
+          "landmarkCount": 2,
+          "sampleCount": 6,
+          "comparisonCount": 7,
+          "metricAvailable": true,
+          "metricValues": [
+            {
+              "eventId": 1,
+              "value": -3,
+              "unit": "fixture ticks",
+              "lower": -3,
+              "upper": -3
+            },
+            {
+              "eventId": 2,
+              "value": -1,
+              "unit": "fixture ticks",
+              "lower": -1,
+              "upper": -1
+            },
+            {
+              "eventId": 4,
+              "value": 4,
+              "unit": "fixture ticks",
+              "lower": 4,
+              "upper": 4
+            },
+            {
+              "eventId": 5,
+              "value": 4,
+              "unit": "fixture ticks",
+              "lower": 4,
+              "upper": 4
+            },
+            {
+              "eventId": 6,
+              "value": -2,
+              "unit": "fixture ticks",
+              "lower": -2,
+              "upper": -2
+            }
+          ],
+          "nominalAvailable": false,
+          "archiveBytes": 37381,
+          "historySamples": 6,
+          "unresolved": false,
+          "phase": "metric",
+          "basisLabel": "Explicit fixture integer calibration",
+          "archiveFile": "sparse_presence-07.gojo",
+          "archiveCarriers": 89,
+          "archiveRelations": 1115
+        }
+      ],
+      "summary": {
+        "acquisitions": 6,
+        "presentAcquisitions": 5,
+        "distinctPresentFixtureValues": 4,
+        "finalLandmarks": 2,
+        "comparisonQueries": 7,
+        "allArchiveBytes": 105859,
+        "finalArchiveBytes": 37381,
+        "coarseIntervalVisits": 3,
+        "metricAvailable": true,
+        "unresolvedVisits": 0
+      }
+    },
+    {
+      "id": "rescaled_presence",
+      "title": "The same signal, rescaled",
+      "description": "Private values become 100 \u00D7 value \u002B 1000. Presence is unchanged, including missing samples.",
+      "budget": 2,
+      "steps": [
+        {
+          "index": 1,
+          "eventId": 1,
+          "sourceValue": 700,
+          "exists": true,
+          "presence": 1,
+          "direction": null,
+          "landmarks": [
+            {
+              "eventId": 1,
+              "sourceValue": 700
+            }
+          ],
+          "bucket": {
+            "lowerEventId": 1,
+            "upperEventId": 1,
+            "equal": true,
+            "resolved": true
+          },
+          "landmarkCount": 1,
+          "sampleCount": 1,
+          "comparisonCount": 0,
+          "metricAvailable": false,
+          "metricValues": [],
+          "nominalAvailable": false,
+          "archiveBytes": 4113,
+          "historySamples": 1,
+          "unresolved": false,
+          "phase": "ordinal",
+          "basisLabel": null,
+          "archiveFile": "rescaled_presence-01.gojo",
+          "archiveCarriers": 16,
+          "archiveRelations": 94
+        },
+        {
+          "index": 2,
+          "eventId": 2,
+          "sourceValue": 900,
+          "exists": true,
+          "presence": 1,
+          "direction": 1,
+          "landmarks": [
+            {
+              "eventId": 1,
+              "sourceValue": 700
+            },
+            {
+              "eventId": 2,
+              "sourceValue": 900
+            }
+          ],
+          "bucket": {
+            "lowerEventId": 2,
+            "upperEventId": 2,
+            "equal": true,
+            "resolved": true
+          },
+          "landmarkCount": 2,
+          "sampleCount": 2,
+          "comparisonCount": 1,
+          "metricAvailable": false,
+          "metricValues": [],
+          "nominalAvailable": false,
+          "archiveBytes": 7196,
+          "historySamples": 2,
+          "unresolved": false,
+          "phase": "ordinal",
+          "basisLabel": null,
+          "archiveFile": "rescaled_presence-02.gojo",
+          "archiveCarriers": 26,
+          "archiveRelations": 177
+        },
+        {
+          "index": 3,
+          "eventId": 3,
+          "sourceValue": 1000,
+          "exists": false,
+          "presence": 0,
+          "direction": null,
+          "landmarks": [
+            {
+              "eventId": 1,
+              "sourceValue": 700
+            },
+            {
+              "eventId": 2,
+              "sourceValue": 900
+            }
+          ],
+          "bucket": {
+            "lowerEventId": null,
+            "upperEventId": null,
+            "equal": false,
+            "resolved": false
+          },
+          "landmarkCount": 2,
+          "sampleCount": 3,
+          "comparisonCount": 1,
+          "metricAvailable": false,
+          "metricValues": [],
+          "nominalAvailable": false,
+          "archiveBytes": 9243,
+          "historySamples": 3,
+          "unresolved": false,
+          "phase": "ordinal",
+          "basisLabel": null,
+          "archiveFile": "rescaled_presence-03.gojo",
+          "archiveCarriers": 33,
+          "archiveRelations": 230
+        },
+        {
+          "index": 4,
+          "eventId": 4,
+          "sourceValue": 1400,
+          "exists": true,
+          "presence": 1,
+          "direction": 1,
+          "landmarks": [
+            {
+              "eventId": 1,
+              "sourceValue": 700
+            },
+            {
+              "eventId": 2,
+              "sourceValue": 900
+            }
+          ],
+          "bucket": {
+            "lowerEventId": 2,
+            "upperEventId": null,
+            "equal": false,
+            "resolved": true
+          },
+          "landmarkCount": 2,
+          "sampleCount": 4,
+          "comparisonCount": 2,
+          "metricAvailable": false,
+          "metricValues": [],
+          "nominalAvailable": false,
+          "archiveBytes": 12080,
+          "historySamples": 4,
+          "unresolved": false,
+          "phase": "ordinal",
+          "basisLabel": null,
+          "archiveFile": "rescaled_presence-04.gojo",
+          "archiveCarriers": 42,
+          "archiveRelations": 307
+        },
+        {
+          "index": 5,
+          "eventId": 5,
+          "sourceValue": 1400,
+          "exists": true,
+          "presence": 1,
+          "direction": 0,
+          "landmarks": [
+            {
+              "eventId": 1,
+              "sourceValue": 700
+            },
+            {
+              "eventId": 2,
+              "sourceValue": 900
+            }
+          ],
+          "bucket": {
+            "lowerEventId": 2,
+            "upperEventId": null,
+            "equal": false,
+            "resolved": true
+          },
+          "landmarkCount": 2,
+          "sampleCount": 5,
+          "comparisonCount": 4,
+          "metricAvailable": false,
+          "metricValues": [],
+          "nominalAvailable": false,
+          "archiveBytes": 15712,
+          "historySamples": 5,
+          "unresolved": false,
+          "phase": "ordinal",
+          "basisLabel": null,
+          "archiveFile": "rescaled_presence-05.gojo",
+          "archiveCarriers": 53,
+          "archiveRelations": 408
+        },
+        {
+          "index": 6,
+          "eventId": 6,
+          "sourceValue": 800,
+          "exists": true,
+          "presence": 1,
+          "direction": -1,
+          "landmarks": [
+            {
+              "eventId": 1,
+              "sourceValue": 700
+            },
+            {
+              "eventId": 2,
+              "sourceValue": 900
+            }
+          ],
+          "bucket": {
+            "lowerEventId": 1,
+            "upperEventId": 2,
+            "equal": false,
+            "resolved": true
+          },
+          "landmarkCount": 2,
+          "sampleCount": 6,
+          "comparisonCount": 7,
+          "metricAvailable": false,
+          "metricValues": [],
+          "nominalAvailable": false,
+          "archiveBytes": 20134,
+          "historySamples": 6,
+          "unresolved": false,
+          "phase": "ordinal",
+          "basisLabel": null,
+          "archiveFile": "rescaled_presence-06.gojo",
+          "archiveCarriers": 66,
+          "archiveRelations": 533
+        },
+        {
+          "index": 7,
+          "eventId": 6,
+          "sourceValue": 800,
+          "exists": true,
+          "presence": 1,
+          "direction": -1,
+          "landmarks": [
+            {
+              "eventId": 1,
+              "sourceValue": 700
+            },
+            {
+              "eventId": 2,
+              "sourceValue": 900
+            }
+          ],
+          "bucket": {
+            "lowerEventId": 1,
+            "upperEventId": 2,
+            "equal": false,
+            "resolved": true
+          },
+          "landmarkCount": 2,
+          "sampleCount": 6,
+          "comparisonCount": 7,
+          "metricAvailable": true,
+          "metricValues": [
+            {
+              "eventId": 1,
+              "value": 700,
+              "unit": "fixture ticks",
+              "lower": 700,
+              "upper": 700
+            },
+            {
+              "eventId": 2,
+              "value": 900,
+              "unit": "fixture ticks",
+              "lower": 900,
+              "upper": 900
+            },
+            {
+              "eventId": 4,
+              "value": 1400,
+              "unit": "fixture ticks",
+              "lower": 1400,
+              "upper": 1400
+            },
+            {
+              "eventId": 5,
+              "value": 1400,
+              "unit": "fixture ticks",
+              "lower": 1400,
+              "upper": 1400
+            },
+            {
+              "eventId": 6,
+              "value": 800,
+              "unit": "fixture ticks",
+              "lower": 800,
+              "upper": 800
+            }
+          ],
+          "nominalAvailable": false,
+          "archiveBytes": 37381,
+          "historySamples": 6,
+          "unresolved": false,
+          "phase": "metric",
+          "basisLabel": "Explicit rescaled fixture calibration",
+          "archiveFile": "rescaled_presence-07.gojo",
+          "archiveCarriers": 89,
+          "archiveRelations": 1115
+        }
+      ],
+      "summary": {
+        "acquisitions": 6,
+        "presentAcquisitions": 5,
+        "distinctPresentFixtureValues": 4,
+        "finalLandmarks": 2,
+        "comparisonQueries": 7,
+        "allArchiveBytes": 105859,
+        "finalArchiveBytes": 37381,
+        "coarseIntervalVisits": 3,
+        "metricAvailable": true,
+        "unresolvedVisits": 0
+      }
+    },
+    {
+      "id": "distance_tiny_increment",
+      "title": "A tiny change inside a broad interval",
+      "description": "90 and 110 mile anchors, then 100 miles and 100 miles \u002B 1 mm. Distances are manually chosen test data.",
+      "budget": 2,
+      "steps": [
+        {
+          "index": 1,
+          "eventId": 1,
+          "sourceValue": 144840960,
+          "exists": true,
+          "presence": 1,
+          "direction": null,
+          "landmarks": [
+            {
+              "eventId": 1,
+              "sourceValue": 144840960
+            }
+          ],
+          "bucket": {
+            "lowerEventId": 1,
+            "upperEventId": 1,
+            "equal": true,
+            "resolved": true
+          },
+          "landmarkCount": 1,
+          "sampleCount": 1,
+          "comparisonCount": 0,
+          "metricAvailable": false,
+          "metricValues": [],
+          "nominalAvailable": false,
+          "archiveBytes": 4113,
+          "historySamples": 1,
+          "unresolved": false,
+          "phase": "ordinal",
+          "basisLabel": null,
+          "archiveFile": "distance_tiny_increment-01.gojo",
+          "archiveCarriers": 16,
+          "archiveRelations": 94
+        },
+        {
+          "index": 2,
+          "eventId": 2,
+          "sourceValue": 177027840,
+          "exists": true,
+          "presence": 1,
+          "direction": 1,
+          "landmarks": [
+            {
+              "eventId": 1,
+              "sourceValue": 144840960
+            },
+            {
+              "eventId": 2,
+              "sourceValue": 177027840
+            }
+          ],
+          "bucket": {
+            "lowerEventId": 2,
+            "upperEventId": 2,
+            "equal": true,
+            "resolved": true
+          },
+          "landmarkCount": 2,
+          "sampleCount": 2,
+          "comparisonCount": 1,
+          "metricAvailable": false,
+          "metricValues": [],
+          "nominalAvailable": false,
+          "archiveBytes": 7196,
+          "historySamples": 2,
+          "unresolved": false,
+          "phase": "ordinal",
+          "basisLabel": null,
+          "archiveFile": "distance_tiny_increment-02.gojo",
+          "archiveCarriers": 26,
+          "archiveRelations": 177
+        },
+        {
+          "index": 3,
+          "eventId": 3,
+          "sourceValue": 160934400,
+          "exists": true,
+          "presence": 1,
+          "direction": -1,
+          "landmarks": [
+            {
+              "eventId": 1,
+              "sourceValue": 144840960
+            },
+            {
+              "eventId": 2,
+              "sourceValue": 177027840
+            }
+          ],
+          "bucket": {
+            "lowerEventId": 1,
+            "upperEventId": 2,
+            "equal": false,
+            "resolved": true
+          },
+          "landmarkCount": 2,
+          "sampleCount": 3,
+          "comparisonCount": 3,
+          "metricAvailable": false,
+          "metricValues": [],
+          "nominalAvailable": false,
+          "archiveBytes": 10823,
+          "historySamples": 3,
+          "unresolved": false,
+          "phase": "ordinal",
+          "basisLabel": null,
+          "archiveFile": "distance_tiny_increment-03.gojo",
+          "archiveCarriers": 37,
+          "archiveRelations": 278
+        },
+        {
+          "index": 4,
+          "eventId": 4,
+          "sourceValue": 160934401,
+          "exists": true,
+          "presence": 1,
+          "direction": 1,
+          "landmarks": [
+            {
+              "eventId": 1,
+              "sourceValue": 144840960
+            },
+            {
+              "eventId": 2,
+              "sourceValue": 177027840
+            }
+          ],
+          "bucket": {
+            "lowerEventId": 1,
+            "upperEventId": 2,
+            "equal": false,
+            "resolved": true
+          },
+          "landmarkCount": 2,
+          "sampleCount": 4,
+          "comparisonCount": 6,
+          "metricAvailable": false,
+          "metricValues": [],
+          "nominalAvailable": false,
+          "archiveBytes": 15245,
+          "historySamples": 4,
+          "unresolved": false,
+          "phase": "ordinal",
+          "basisLabel": null,
+          "archiveFile": "distance_tiny_increment-04.gojo",
+          "archiveCarriers": 50,
+          "archiveRelations": 403
+        },
+        {
+          "index": 5,
+          "eventId": 4,
+          "sourceValue": 160934401,
+          "exists": true,
+          "presence": 1,
+          "direction": 1,
+          "landmarks": [
+            {
+              "eventId": 1,
+              "sourceValue": 144840960
+            },
+            {
+              "eventId": 2,
+              "sourceValue": 177027840
+            }
+          ],
+          "bucket": {
+            "lowerEventId": 1,
+            "upperEventId": 2,
+            "equal": false,
+            "resolved": true
+          },
+          "landmarkCount": 2,
+          "sampleCount": 4,
+          "comparisonCount": 6,
+          "metricAvailable": true,
+          "metricValues": [
+            {
+              "eventId": 1,
+              "value": 144840960,
+              "unit": "mm",
+              "lower": 144840960,
+              "upper": 144840960
+            },
+            {
+              "eventId": 2,
+              "value": 177027840,
+              "unit": "mm",
+              "lower": 177027840,
+              "upper": 177027840
+            },
+            {
+              "eventId": 3,
+              "value": 160934400,
+              "unit": "mm",
+              "lower": 160934400,
+              "upper": 160934400
+            },
+            {
+              "eventId": 4,
+              "value": 160934401,
+              "unit": "mm",
+              "lower": 160934401,
+              "upper": 160934401
+            }
+          ],
+          "nominalAvailable": false,
+          "archiveBytes": 29814,
+          "historySamples": 4,
+          "unresolved": false,
+          "phase": "metric",
+          "basisLabel": "Millimetres, explicitly calibrated: 1 mile = 1,609,344 mm",
+          "archiveFile": "distance_tiny_increment-05.gojo",
+          "archiveCarriers": 71,
+          "archiveRelations": 886
+        }
+      ],
+      "summary": {
+        "acquisitions": 4,
+        "presentAcquisitions": 4,
+        "distinctPresentFixtureValues": 4,
+        "finalLandmarks": 2,
+        "comparisonQueries": 6,
+        "allArchiveBytes": 67191,
+        "finalArchiveBytes": 29814,
+        "coarseIntervalVisits": 2,
+        "metricAvailable": true,
+        "unresolvedVisits": 0
+      }
+    }
+  ]
+}</script>
+<script>
+(() => {
+  'use strict';
+  const $ = id => document.getElementById(id);
+  const elements = { scenario:$('scenario'), previous:$('previous'), next:$('next'), play:$('play'), timeline:$('timeline'), pace:$('pace'), metric:$('metric-toggle'), reference:$('reference-toggle') };
+  let report;
+  try { report = JSON.parse($('sampling-data').textContent); }
+  catch (_) { fail('The native replay has not been generated yet. Run the sampling experiment to create its preview.'); return; }
+  const scenarios = report.scenarios || [];
+  if (!scenarios.length || scenarios.some(s => !Array.isArray(s.steps) || !s.steps.length)) { fail('This replay contains no native observations.'); return; }
+  let scenarioIndex = 0, stepIndex = 0, timer = null;
+  const colors = { ink:'#21342f', muted:'#738278', green:'#14745e', pale:'#e8f1dc', line:'#d4dfd0', unknown:'#b2beb0', orange:'#b96c39', white:'#fff' };
+  const set = (id,value) => { $(id).textContent = value; };
+  const eventName = value => value === null || value === undefined ? '?' : `S${value}`;
+  const count = value => value === null || value === undefined ? '—' : Number(value).toLocaleString();
+  const coordinate = value => typeof value === 'number' && Number.isFinite(value) ? Number(value.toPrecision(9)).toString() : String(value ?? '—');
+  const currentScenario = () => scenarios[scenarioIndex];
+  const currentStep = () => currentScenario().steps[stepIndex];
+  scenarios.forEach((scenario,index) => { const option = document.createElement('option'); option.value = index; option.textContent = scenario.title; elements.scenario.append(option); });
+
+  function fail(message) {
+    $('error').hidden = false; set('error',message); set('description','No native replay is loaded.');
+    Object.values(elements).forEach(element => element.disabled = true);
+  }
+  function stop() { if (timer !== null) clearInterval(timer); timer = null; set('play','▶ Play'); }
+  function start() {
+    if (stepIndex === currentScenario().steps.length - 1) stepIndex = 0;
+    render(); set('play','Ⅱ Pause');
+    timer = setInterval(() => { if (stepIndex >= currentScenario().steps.length - 1) { stop(); return; } stepIndex++; render(); }, Number(elements.pace.value));
+  }
+  function regionText(bucket) {
+    if (!bucket) return 'Still open';
+    const lo = bucket.lowerEventId, hi = bucket.upperEventId;
+    if (bucket.equal && lo != null) return `Matches ${eventName(lo)}`;
+    if (lo != null && hi != null) return `${eventName(lo)} ↔ ${eventName(hi)}`;
+    if (lo != null) return `Beyond ${eventName(lo)}`;
+    if (hi != null) return `Before ${eventName(hi)}`;
+    return 'Still open';
+  }
+  function render() {
+    const scenario = currentScenario(), step = currentStep(), measured = !!step.metricAvailable;
+    elements.timeline.max = scenario.steps.length - 1; elements.timeline.value = stepIndex;
+    elements.previous.disabled = stepIndex === 0; elements.next.disabled = stepIndex === scenario.steps.length - 1;
+    elements.metric.disabled = !measured; $('metric-toggle-label').classList.toggle('disabled',!measured);
+    if (!measured) elements.metric.checked = false;
+    set('description',scenario.description); set('step-count',`${step.phase === 'metric' ? 'Measured stage' : 'Observation'} ${stepIndex + 1} / ${scenario.steps.length}`);
+    set('presence-value',step.presence === 1 ? 'Present' : step.presence === 0 ? 'No presence' : 'Still open');
+    set('presence-note',step.presence === 1 ? step.sampleCount === 1 ? 'Presence is established. Size is not.' : 'The native read establishes presence.' : 'No positive presence read at this step.');
+    const direction = step.direction;
+    set('direction-value',direction == null ? 'Not yet ordered' : direction > 0 ? 'Higher' : direction < 0 ? 'Lower' : 'Same comparison');
+    $('direction-value').classList.toggle('open',direction == null);
+    set('direction-note',direction == null ? 'A comparison is still unavailable.' : 'Compared with the preceding present sample.');
+    set('bucket-value',regionText(step.bucket));
+    $('bucket-value').classList.toggle('open',!step.bucket?.resolved);
+    set('bucket-note',step.bucket?.equal ? 'Same observable class; magnitude is still open.' : step.bucket?.resolved ? 'Bracketed by remembered observations.' : 'A boundary is still unresolved.');
+    set('metric-value',measured ? 'Calibrated' : 'Still open'); $('metric-value').classList.toggle('open',!measured);
+    const unit = step.basisLabel || step.metricValues?.find(value => value.unit)?.unit;
+    set('metric-note',measured ? `An explicit measurement${unit ? ` in ${unit}` : ''} is now available.` : 'Order supplies no distance or unit.');
+    set('diagram-title',elements.metric.checked ? 'Remembered points, measured' : 'Remembered points, in order');
+    set('diagram-caption',elements.metric.checked ? `Explicit measurement${unit ? ` · ${unit}` : ''} · observed values only` : 'Ordering only · screen spacing is not a measured distance');
+    set('phase-note',measured ? 'The metric was added explicitly at this stage.' : 'An explicit metric has not been requested.');
+    set('landmark-cost',`${count(step.landmarkCount)} / ${count(scenario.budget)}`);
+    set('sample-cost',count(step.sampleCount)); set('comparison-cost',count(step.comparisonCount));
+    set('archive-cost',step.archiveBytes == null ? '—' : `${count(step.archiveBytes)} B`);
+    set('stats-note',`Native Gojo results · ${count(step.historySamples)} retained history samples · the browser only replays and draws.`);
+    const insight = $('insight'); insight.replaceChildren();
+    const strong = document.createElement('strong');
+    let lead,body;
+    if (step.sampleCount === 1 && !measured) { lead = 'Presence comes first. '; body = 'One observation means something was encountered. It does not say how large it is.'; }
+    else if (measured) { lead = 'Measurement is a new read. '; body = 'A chosen basis now supplies numeric distances. The earlier order did not contain that unit.'; }
+    else if (scenario.id === 'rescaled_presence') { lead = 'Order survives a change of scale. '; body = 'Compare this replay with the irregular samples. Their native ordering can stay the same even when the private coordinates change.'; }
+    else if (scenario.id === 'distance_tiny_increment') { lead = 'A small increment can remain positive. '; body = 'The native direction and local region are separate from a coarse numeric bucket. Use the reference view to inspect the private fixture.'; }
+    else if (step.bucket?.resolved) { lead = 'A local region is now available. '; body = 'Remembered observations can bracket this sample. They still do not supply a measured distance.'; }
+    else { lead = 'The remembered points have limits. '; body = 'An open boundary stays open. These references are not the extremes of every observation or of the world.'; }
+    strong.textContent = lead; insight.append(strong,document.createTextNode(body));
+    set('run-note',`${scenario.title} · ${eventName(step.eventId)}`);
+    drawStructure(); if (elements.reference.checked) drawReference();
+  }
+  function prepare(canvas,height) {
+    const width = Math.max(260,canvas.getBoundingClientRect().width), ratio = Math.min(2,window.devicePixelRatio || 1);
+    canvas.width = Math.round(width * ratio); canvas.height = Math.round(height * ratio); canvas.style.height = `${height}px`;
+    const context = canvas.getContext('2d'); context.setTransform(ratio,0,0,ratio,0,0); context.clearRect(0,0,width,height);
+    return { context,width,height };
+  }
+  function line(context,x1,y1,x2,y2,color,width=1,dash=[]) { context.beginPath(); context.strokeStyle=color; context.lineWidth=width; context.setLineDash(dash); context.moveTo(x1,y1); context.lineTo(x2,y2); context.stroke(); context.setLineDash([]); }
+  function text(context,value,x,y,color=colors.muted,size=11,align='center',weight=400) { context.font=`${weight} ${size}px system-ui,sans-serif`; context.fillStyle=color; context.textAlign=align; context.fillText(value,x,y); }
+  function circle(context,x,y,r,fill,stroke=null) { context.beginPath(); context.arc(x,y,r,0,Math.PI*2); context.fillStyle=fill; context.fill(); if(stroke){context.strokeStyle=stroke;context.lineWidth=2;context.stroke();} }
+  function arrow(context,x,y,direction) { line(context,x,y,x+direction*8,y-5,colors.unknown); line(context,x,y,x+direction*8,y+5,colors.unknown); }
+  function drawStructure() {
+    const step = currentStep(), anchors = step.landmarks || [], canvas = $('structure-canvas');
+    const rows = Math.max(1,Math.ceil(anchors.length / (window.innerWidth < 560 ? 5 : 11)));
+    const height = rows > 1 && !elements.metric.checked ? 200 + (rows-1)*85 : 270;
+    const { context:c,width:w } = prepare(canvas,height);
+    canvas.setAttribute('aria-label',`${elements.metric.checked ? 'Measured' : 'Ordering-only'} view. ${anchors.map(anchor => eventName(anchor.eventId)).join(', ')}. ${regionText(step.bucket)}. Outer regions remain unresolved.`);
+    if (!anchors.length) { text(c,'No remembered points yet',w/2,125,colors.muted,14); return; }
+    const measured = elements.metric.checked && step.metricAvailable, margin = w < 520 ? 43 : 72, y = measured ? 136 : 135;
+    const metricMap = new Map((step.metricValues || []).map(value => [value.eventId,value]));
+    const values = anchors.map(anchor => metricMap.get(anchor.eventId)?.value);
+    const canPosition = measured && values.every(value => typeof value === 'number' && Number.isFinite(value));
+    let positions, metricLow, metricHigh;
+    if (canPosition) {
+      const currentValue = metricMap.get(step.eventId)?.value;
+      const displayed = typeof currentValue === 'number' && Number.isFinite(currentValue) ? [...values,currentValue] : values;
+      metricLow = Math.min(...displayed); metricHigh = Math.max(...displayed);
+      positions = values.map(value => metricHigh === metricLow ? w/2 : margin+(value-metricLow)/(metricHigh-metricLow)*(w-margin*2));
+    } else positions = anchors.map((_,i) => anchors.length === 1 ? w/2 : margin+i/(anchors.length-1)*(w-margin*2));
+    const loIndex = anchors.findIndex(anchor => anchor.eventId === step.bucket?.lowerEventId), hiIndex = anchors.findIndex(anchor => anchor.eventId === step.bucket?.upperEventId);
+    if (loIndex >= 0 && hiIndex >= 0 && loIndex !== hiIndex) {
+      const left = Math.min(positions[loIndex],positions[hiIndex]), right = Math.max(positions[loIndex],positions[hiIndex]);
+      c.fillStyle = colors.pale; c.fillRect(left,y-28,right-left,56);
+      text(c,'current local region',(left+right)/2,y-46,colors.green,11,'center',650);
+    }
+    line(c,15,y,positions[0]-14,y,colors.unknown,1.3,[4,5]); arrow(c,14,y,1);
+    for (let i=0;i<positions.length-1;i++) line(c,positions[i]+13,y,positions[i+1]-13,y,colors.line,2);
+    line(c,positions.at(-1)+14,y,w-15,y,colors.unknown,1.3,[4,5]); arrow(c,w-14,y,-1);
+    text(c,'open',margin/2,77,colors.orange,10); text(c,'open',w-margin/2,77,colors.orange,10);
+    const currentAnchor = anchors.findIndex(anchor => anchor.eventId === step.eventId);
+    anchors.forEach((anchor,i) => {
+      const x=positions[i], current=i===currentAnchor;
+      if(current) circle(c,x,y,19,'#e4efdd');
+      circle(c,x,y,current ? 9 : 7,current ? colors.green : '#91a998',colors.white);
+      const offset = canPosition && i>0 && Math.abs(x-positions[i-1])<42 ? 1+(i%2) : 0;
+      text(c,eventName(anchor.eventId),x,y+30+offset*17,current ? colors.green : colors.ink,12,'center',current?750:600);
+      if(canPosition) text(c,coordinate(values[i]),x,y+50+offset*17,colors.muted,10);
+    });
+    if (currentAnchor < 0) {
+      let x = w/2;
+      const currentMetric = metricMap.get(step.eventId)?.value;
+      const measuredCurrent = canPosition && typeof currentMetric === 'number' && Number.isFinite(currentMetric);
+      if(measuredCurrent) x=metricHigh===metricLow?w/2:margin+(currentMetric-metricLow)/(metricHigh-metricLow)*(w-margin*2);
+      else if (loIndex>=0 && hiIndex>=0) x=(positions[loIndex]+positions[hiIndex])/2;
+      else if(loIndex>=0) x=Math.min(w-23,positions[loIndex]+28);
+      else if(hiIndex>=0) x=Math.max(23,positions[hiIndex]-28);
+      if(!measured || measuredCurrent) {
+        line(c,x,y-30,x,y-7,colors.green,1.5); circle(c,x,y-37,6,colors.green);
+        text(c,`${eventName(step.eventId)} · current`,x,y-53,colors.green,11,'center',650);
+      } else text(c,`${eventName(step.eventId)} has no published metric coordinate`,w/2,45,colors.green,11,'center',650);
+    } else if(currentAnchor>=0) text(c,'current sample',positions[currentAnchor],y-31,colors.green,10,'center',650);
+    if(anchors.length===1) text(c,'one remembered observation',w/2,y+78,colors.muted,11);
+    else { text(c,'lower reference',positions[0],y+88,colors.muted,10); text(c,'upper reference',positions.at(-1),y+88,colors.muted,10); }
+    if(measured && !canPosition) text(c,'Measured values are not available for every remembered point.',w/2,height-17,colors.orange,11);
+  }
+  function drawReference() {
+    const scenario=currentScenario(), step=currentStep();
+    const seen=scenario.steps.slice(0,stepIndex+1).filter(value => value.phase!=='metric');
+    const canvas=$('reference-canvas'), {context:c,width:w}=prepare(canvas,150), margin=35, y=60;
+    const numeric=seen.map(value => value.sourceValue).filter(value => typeof value==='number' && Number.isFinite(value));
+    if(!numeric.length){text(c,'No numeric reference coordinates supplied',w/2,70,colors.muted,12);return;}
+    const lo=Math.min(...numeric),hi=Math.max(...numeric);
+    line(c,margin,y,w-margin,y,colors.line,1.5);
+    seen.forEach((value,i)=>{
+      if(typeof value.sourceValue!=='number' || !Number.isFinite(value.sourceValue))return;
+      const x=hi===lo?w/2:margin+(value.sourceValue-lo)/(hi-lo)*(w-2*margin),current=value.eventId===step.eventId;
+      circle(c,x,y,current?6:4,current?colors.orange:'#bac7b6');
+      const level=i%3;
+      text(c,`${eventName(value.eventId)}: ${coordinate(value.sourceValue)}`,x,y+22+level*17,current?colors.orange:colors.muted,10,'center',current?650:400);
+    });
+    text(c,'REFERENCE COORDINATES · RECEIVED OBSERVATIONS ONLY',w/2,20,colors.muted,9,'center',650);
+  }
+  elements.scenario.addEventListener('change',()=>{stop();scenarioIndex=Number(elements.scenario.value);stepIndex=0;elements.metric.checked=false;render();});
+  elements.previous.addEventListener('click',()=>{stop();stepIndex=Math.max(0,stepIndex-1);render();});
+  elements.next.addEventListener('click',()=>{stop();stepIndex=Math.min(currentScenario().steps.length-1,stepIndex+1);render();});
+  elements.timeline.addEventListener('input',()=>{stop();stepIndex=Number(elements.timeline.value);render();});
+  elements.play.addEventListener('click',()=>timer===null?start():stop());
+  elements.pace.addEventListener('change',()=>{if(timer!==null){stop();start();}});
+  elements.metric.addEventListener('change',render);
+  elements.reference.addEventListener('change',()=>{$('reference-body').hidden=!elements.reference.checked;if(elements.reference.checked)drawReference();});
+  window.addEventListener('resize',()=>{drawStructure();if(elements.reference.checked)drawReference();});
+  document.addEventListener('visibilitychange',()=>{if(document.hidden)stop();});
+  render();
+})();
+</script>
+</body>
+</html>

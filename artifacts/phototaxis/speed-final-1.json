@@ -1,0 +1,40 @@
+[
+  {
+    "seed": 7,
+    "learning": false,
+    "seconds": 60,
+    "population": 1,
+    "foodDots": 1,
+    "predation": 0,
+    "starvation": 1,
+    "births": 1,
+    "meanEnergy": 0.41083333333333333,
+    "meanExposure": 0.07377850223973906,
+    "credits": 599,
+    "reviews": 62,
+    "unresolved": 0,
+    "elapsedSeconds": 0.8294602,
+    "allocatedBytes": 155634096,
+    "caloriesConserved": true,
+    "attentionConserved": true
+  },
+  {
+    "seed": 7,
+    "learning": true,
+    "seconds": 60,
+    "population": 1,
+    "foodDots": 15.16,
+    "predation": 0,
+    "starvation": 0,
+    "births": 0,
+    "meanEnergy": 0.9466666666666667,
+    "meanExposure": 0.2818826973502563,
+    "credits": 598,
+    "reviews": 199,
+    "unresolved": 0,
+    "elapsedSeconds": 0.5705866,
+    "allocatedBytes": 175311304,
+    "caloriesConserved": true,
+    "attentionConserved": true
+  }
+]

@@ -1,0 +1,3143 @@
+{
+  "results": [
+    {
+      "seed": 7,
+      "selection": true,
+      "measuredResources": false,
+      "eyeLevels": 256,
+      "ecology": {
+        "LightRadius": 72,
+        "LightOnScale": 1,
+        "PatchHarvestPerPulse": 36,
+        "LightDriftSpeed": 1.5
+      },
+      "binocular": true,
+      "arenaScale": 1,
+      "arenaWidth": 600,
+      "arenaHeight": 408,
+      "population": 20,
+      "features": {
+        "ProgressEscape": false,
+        "Courtship": true
+      },
+      "requestedSeconds": 180,
+      "completed": true,
+      "setupSeconds": 0.6121111,
+      "simulatedSeconds": 180,
+      "wallSeconds": 82.765579,
+      "alive": 17,
+      "births": 11,
+      "lifetime": 4266.85000000007,
+      "food": 43829,
+      "starvation": 14,
+      "injuries": 139,
+      "injuryCalories": 5634,
+      "computeCalories": 68,
+      "stationary": 0.035997187719709396,
+      "hungryToward": 0.5410332231692468,
+      "fullAway": 0.5671735316233604,
+      "hungryGradientAlignment": 0.14223616805493258,
+      "hungryGradientSamples": 19989,
+      "localFoodShortfall": 8854,
+      "equalEyes": 0.21861730827879045,
+      "observedBodies": 31,
+      "inquiryIssued": 0,
+      "inquiryAnswers": 0,
+      "stale": 0,
+      "inquiryFailures": 0,
+      "adviceTrials": 0,
+      "predictionChecks": 21304,
+      "predictionAbsoluteError": 1180977,
+      "progressWindows": 517,
+      "lowProgressWindows": 16,
+      "mateCueSamples": 896,
+      "progressEscapes": 0,
+      "distinctModuleCombinations": 8,
+      "structures": [
+        {
+          "id": 0,
+          "generation": 0,
+          "parameters": [
+            [
+              8,
+              5,
+              8,
+              12
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              14,
+              12
+            ],
+            [
+              0,
+              40,
+              5,
+              1,
+              20,
+              100,
+              0,
+              160,
+              768,
+              80
+            ]
+          ],
+          "actuatorTerms": 4,
+          "feedbackCells": 4,
+          "expressionOperations": 112
+        },
+        {
+          "id": 1,
+          "generation": 0,
+          "parameters": [
+            [
+              8,
+              5,
+              8,
+              12
+            ],
+            [
+              4,
+              6
+            ],
+            [
+              14,
+              12
+            ],
+            [
+              6,
+              40,
+              5,
+              1,
+              20,
+              100,
+              6,
+              160,
+              768,
+              80
+            ]
+          ],
+          "actuatorTerms": 6,
+          "feedbackCells": 5,
+          "expressionOperations": 155
+        },
+        {
+          "id": 2,
+          "generation": 0,
+          "parameters": [
+            [
+              8,
+              5,
+              8,
+              12
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              12,
+              0
+            ],
+            [
+              6,
+              40,
+              5,
+              1,
+              20,
+              100,
+              4,
+              160,
+              768,
+              80
+            ]
+          ],
+          "actuatorTerms": 6,
+          "feedbackCells": 5,
+          "expressionOperations": 149
+        },
+        {
+          "id": 3,
+          "generation": 0,
+          "parameters": [
+            [
+              8,
+              5,
+              8,
+              12
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              14,
+              12
+            ],
+            [
+              10,
+              40,
+              5,
+              1,
+              20,
+              100,
+              4,
+              160,
+              768,
+              80
+            ]
+          ],
+          "actuatorTerms": 6,
+          "feedbackCells": 5,
+          "expressionOperations": 155
+        },
+        {
+          "id": 4,
+          "generation": 0,
+          "parameters": [
+            [
+              8,
+              5,
+              8,
+              12
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              14,
+              12
+            ],
+            [
+              6,
+              40,
+              5,
+              -1,
+              20,
+              100,
+              4,
+              160,
+              768,
+              80
+            ]
+          ],
+          "actuatorTerms": 6,
+          "feedbackCells": 5,
+          "expressionOperations": 155
+        },
+        {
+          "id": 5,
+          "generation": 0,
+          "parameters": [
+            [
+              8,
+              5,
+              8,
+              12
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              14,
+              12
+            ],
+            [
+              0,
+              40,
+              5,
+              1,
+              20,
+              100,
+              0,
+              160,
+              768,
+              80
+            ]
+          ],
+          "actuatorTerms": 4,
+          "feedbackCells": 4,
+          "expressionOperations": 112
+        },
+        {
+          "id": 6,
+          "generation": 0,
+          "parameters": [
+            [
+              8,
+              5,
+              8,
+              12
+            ],
+            [
+              4,
+              6
+            ],
+            [
+              14,
+              12
+            ],
+            [
+              6,
+              40,
+              5,
+              1,
+              20,
+              100,
+              6,
+              160,
+              768,
+              80
+            ]
+          ],
+          "actuatorTerms": 6,
+          "feedbackCells": 5,
+          "expressionOperations": 155
+        },
+        {
+          "id": 7,
+          "generation": 0,
+          "parameters": [
+            [
+              8,
+              5,
+              8,
+              12
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              12,
+              0
+            ],
+            [
+              6,
+              40,
+              5,
+              1,
+              20,
+              100,
+              4,
+              160,
+              768,
+              80
+            ]
+          ],
+          "actuatorTerms": 6,
+          "feedbackCells": 5,
+          "expressionOperations": 149
+        },
+        {
+          "id": 8,
+          "generation": 0,
+          "parameters": [
+            [
+              8,
+              5,
+              8,
+              12
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              14,
+              12
+            ],
+            [
+              10,
+              40,
+              5,
+              1,
+              20,
+              100,
+              4,
+              160,
+              768,
+              80
+            ]
+          ],
+          "actuatorTerms": 6,
+          "feedbackCells": 5,
+          "expressionOperations": 155
+        },
+        {
+          "id": 9,
+          "generation": 0,
+          "parameters": [
+            [
+              8,
+              5,
+              8,
+              12
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              14,
+              12
+            ],
+            [
+              6,
+              40,
+              5,
+              -1,
+              20,
+              100,
+              4,
+              160,
+              768,
+              80
+            ]
+          ],
+          "actuatorTerms": 6,
+          "feedbackCells": 5,
+          "expressionOperations": 155
+        },
+        {
+          "id": 10,
+          "generation": 0,
+          "parameters": [
+            [
+              8,
+              5,
+              8,
+              12
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              14,
+              12
+            ],
+            [
+              0,
+              40,
+              5,
+              1,
+              20,
+              100,
+              0,
+              160,
+              768,
+              80
+            ]
+          ],
+          "actuatorTerms": 4,
+          "feedbackCells": 4,
+          "expressionOperations": 112
+        },
+        {
+          "id": 11,
+          "generation": 0,
+          "parameters": [
+            [
+              8,
+              5,
+              8,
+              12
+            ],
+            [
+              4,
+              6
+            ],
+            [
+              14,
+              12
+            ],
+            [
+              6,
+              40,
+              5,
+              1,
+              20,
+              100,
+              6,
+              160,
+              768,
+              80
+            ]
+          ],
+          "actuatorTerms": 6,
+          "feedbackCells": 5,
+          "expressionOperations": 155
+        },
+        {
+          "id": 12,
+          "generation": 0,
+          "parameters": [
+            [
+              8,
+              5,
+              8,
+              12
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              12,
+              0
+            ],
+            [
+              6,
+              40,
+              5,
+              1,
+              20,
+              100,
+              4,
+              160,
+              768,
+              80
+            ]
+          ],
+          "actuatorTerms": 6,
+          "feedbackCells": 5,
+          "expressionOperations": 149
+        },
+        {
+          "id": 13,
+          "generation": 0,
+          "parameters": [
+            [
+              8,
+              5,
+              8,
+              12
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              14,
+              12
+            ],
+            [
+              10,
+              40,
+              5,
+              1,
+              20,
+              100,
+              4,
+              160,
+              768,
+              80
+            ]
+          ],
+          "actuatorTerms": 6,
+          "feedbackCells": 5,
+          "expressionOperations": 155
+        },
+        {
+          "id": 14,
+          "generation": 0,
+          "parameters": [
+            [
+              8,
+              5,
+              8,
+              12
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              14,
+              12
+            ],
+            [
+              6,
+              40,
+              5,
+              -1,
+              20,
+              100,
+              4,
+              160,
+              768,
+              80
+            ]
+          ],
+          "actuatorTerms": 6,
+          "feedbackCells": 5,
+          "expressionOperations": 155
+        },
+        {
+          "id": 15,
+          "generation": 0,
+          "parameters": [
+            [
+              8,
+              5,
+              8,
+              12
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              14,
+              12
+            ],
+            [
+              0,
+              40,
+              5,
+              1,
+              20,
+              100,
+              0,
+              160,
+              768,
+              80
+            ]
+          ],
+          "actuatorTerms": 4,
+          "feedbackCells": 4,
+          "expressionOperations": 112
+        },
+        {
+          "id": 16,
+          "generation": 0,
+          "parameters": [
+            [
+              8,
+              5,
+              8,
+              12
+            ],
+            [
+              4,
+              6
+            ],
+            [
+              14,
+              12
+            ],
+            [
+              6,
+              40,
+              5,
+              1,
+              20,
+              100,
+              6,
+              160,
+              768,
+              80
+            ]
+          ],
+          "actuatorTerms": 6,
+          "feedbackCells": 5,
+          "expressionOperations": 155
+        },
+        {
+          "id": 17,
+          "generation": 0,
+          "parameters": [
+            [
+              8,
+              5,
+              8,
+              12
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              12,
+              0
+            ],
+            [
+              6,
+              40,
+              5,
+              1,
+              20,
+              100,
+              4,
+              160,
+              768,
+              80
+            ]
+          ],
+          "actuatorTerms": 6,
+          "feedbackCells": 5,
+          "expressionOperations": 149
+        },
+        {
+          "id": 18,
+          "generation": 0,
+          "parameters": [
+            [
+              8,
+              5,
+              8,
+              12
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              14,
+              12
+            ],
+            [
+              10,
+              40,
+              5,
+              1,
+              20,
+              100,
+              4,
+              160,
+              768,
+              80
+            ]
+          ],
+          "actuatorTerms": 6,
+          "feedbackCells": 5,
+          "expressionOperations": 155
+        },
+        {
+          "id": 19,
+          "generation": 0,
+          "parameters": [
+            [
+              8,
+              5,
+              8,
+              12
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              14,
+              12
+            ],
+            [
+              6,
+              40,
+              5,
+              -1,
+              20,
+              100,
+              4,
+              160,
+              768,
+              80
+            ]
+          ],
+          "actuatorTerms": 6,
+          "feedbackCells": 5,
+          "expressionOperations": 155
+        },
+        {
+          "id": 20,
+          "generation": 1,
+          "parameters": [
+            [
+              8,
+              5,
+              8,
+              12
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              12,
+              0
+            ],
+            [
+              0,
+              40,
+              5,
+              1,
+              20,
+              100,
+              0,
+              160,
+              768,
+              80
+            ]
+          ],
+          "actuatorTerms": 4,
+          "feedbackCells": 4,
+          "expressionOperations": 106
+        },
+        {
+          "id": 21,
+          "generation": 1,
+          "parameters": [
+            [
+              8,
+              5,
+              8,
+              12
+            ],
+            [
+              4,
+              6
+            ],
+            [
+              14,
+              12
+            ],
+            [
+              10,
+              40,
+              5,
+              1,
+              20,
+              100,
+              4,
+              160,
+              768,
+              80
+            ]
+          ],
+          "actuatorTerms": 6,
+          "feedbackCells": 5,
+          "expressionOperations": 155
+        },
+        {
+          "id": 22,
+          "generation": 1,
+          "parameters": [
+            [
+              8,
+              5,
+              8,
+              12
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              14,
+              12
+            ],
+            [
+              6,
+              40,
+              5,
+              -1,
+              20,
+              100,
+              4,
+              160,
+              768,
+              80
+            ]
+          ],
+          "actuatorTerms": 6,
+          "feedbackCells": 5,
+          "expressionOperations": 155
+        },
+        {
+          "id": 23,
+          "generation": 1,
+          "parameters": [
+            [
+              8,
+              5,
+              8,
+              12
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              14,
+              12
+            ],
+            [
+              6,
+              40,
+              5,
+              1,
+              20,
+              100,
+              6,
+              160,
+              768,
+              80
+            ]
+          ],
+          "actuatorTerms": 6,
+          "feedbackCells": 5,
+          "expressionOperations": 155
+        },
+        {
+          "id": 24,
+          "generation": 2,
+          "parameters": [
+            [
+              8,
+              5,
+              8,
+              12
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              14,
+              12
+            ],
+            [
+              6,
+              40,
+              5,
+              -1,
+              20,
+              100,
+              4,
+              160,
+              768,
+              80
+            ]
+          ],
+          "actuatorTerms": 6,
+          "feedbackCells": 5,
+          "expressionOperations": 155
+        },
+        {
+          "id": 25,
+          "generation": 1,
+          "parameters": [
+            [
+              8,
+              5,
+              8,
+              12
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              14,
+              12
+            ],
+            [
+              0,
+              40,
+              5,
+              1,
+              20,
+              100,
+              0,
+              160,
+              768,
+              80
+            ]
+          ],
+          "actuatorTerms": 4,
+          "feedbackCells": 4,
+          "expressionOperations": 112
+        },
+        {
+          "id": 26,
+          "generation": 1,
+          "parameters": [
+            [
+              8,
+              5,
+              8,
+              12
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              14,
+              12
+            ],
+            [
+              6,
+              40,
+              5,
+              -1,
+              20,
+              100,
+              4,
+              160,
+              768,
+              80
+            ]
+          ],
+          "actuatorTerms": 6,
+          "feedbackCells": 5,
+          "expressionOperations": 155
+        },
+        {
+          "id": 27,
+          "generation": 1,
+          "parameters": [
+            [
+              8,
+              5,
+              8,
+              12
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              12,
+              0
+            ],
+            [
+              6,
+              40,
+              5,
+              1,
+              20,
+              100,
+              4,
+              160,
+              768,
+              80
+            ]
+          ],
+          "actuatorTerms": 6,
+          "feedbackCells": 5,
+          "expressionOperations": 149
+        },
+        {
+          "id": 28,
+          "generation": 3,
+          "parameters": [
+            [
+              8,
+              5,
+              8,
+              12
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              14,
+              12
+            ],
+            [
+              6,
+              40,
+              5,
+              -1,
+              20,
+              100,
+              4,
+              160,
+              768,
+              80
+            ]
+          ],
+          "actuatorTerms": 6,
+          "feedbackCells": 5,
+          "expressionOperations": 155
+        },
+        {
+          "id": 29,
+          "generation": 2,
+          "parameters": [
+            [
+              8,
+              5,
+              8,
+              12
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              14,
+              12
+            ],
+            [
+              0,
+              40,
+              5,
+              1,
+              20,
+              100,
+              0,
+              160,
+              768,
+              80
+            ]
+          ],
+          "actuatorTerms": 4,
+          "feedbackCells": 4,
+          "expressionOperations": 112
+        },
+        {
+          "id": 30,
+          "generation": 1,
+          "parameters": [
+            [
+              8,
+              5,
+              8,
+              12
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              14,
+              12
+            ],
+            [
+              10,
+              40,
+              5,
+              1,
+              20,
+              100,
+              4,
+              160,
+              768,
+              80
+            ]
+          ],
+          "actuatorTerms": 6,
+          "feedbackCells": 5,
+          "expressionOperations": 155
+        }
+      ],
+      "bodyUtility": [
+        {
+          "id": 0,
+          "generation": 0,
+          "utility": -89,
+          "visits": 180,
+          "parameters": [
+            [
+              8,
+              5,
+              8,
+              12
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              14,
+              12
+            ],
+            [
+              0,
+              40,
+              5,
+              1,
+              20,
+              100,
+              0,
+              160,
+              768,
+              80
+            ]
+          ]
+        },
+        {
+          "id": 1,
+          "generation": 0,
+          "utility": -235,
+          "visits": 180,
+          "parameters": [
+            [
+              8,
+              5,
+              8,
+              12
+            ],
+            [
+              4,
+              6
+            ],
+            [
+              14,
+              12
+            ],
+            [
+              6,
+              40,
+              5,
+              1,
+              20,
+              100,
+              6,
+              160,
+              768,
+              80
+            ]
+          ]
+        },
+        {
+          "id": 2,
+          "generation": 0,
+          "utility": 65,
+          "visits": 180,
+          "parameters": [
+            [
+              8,
+              5,
+              8,
+              12
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              12,
+              0
+            ],
+            [
+              6,
+              40,
+              5,
+              1,
+              20,
+              100,
+              4,
+              160,
+              768,
+              80
+            ]
+          ]
+        },
+        {
+          "id": 3,
+          "generation": 0,
+          "utility": 198,
+          "visits": 180,
+          "parameters": [
+            [
+              8,
+              5,
+              8,
+              12
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              14,
+              12
+            ],
+            [
+              10,
+              40,
+              5,
+              1,
+              20,
+              100,
+              4,
+              160,
+              768,
+              80
+            ]
+          ]
+        },
+        {
+          "id": 7,
+          "generation": 0,
+          "utility": 50,
+          "visits": 180,
+          "parameters": [
+            [
+              8,
+              5,
+              8,
+              12
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              12,
+              0
+            ],
+            [
+              6,
+              40,
+              5,
+              1,
+              20,
+              100,
+              4,
+              160,
+              768,
+              80
+            ]
+          ]
+        },
+        {
+          "id": 8,
+          "generation": 0,
+          "utility": 617,
+          "visits": 180,
+          "parameters": [
+            [
+              8,
+              5,
+              8,
+              12
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              14,
+              12
+            ],
+            [
+              10,
+              40,
+              5,
+              1,
+              20,
+              100,
+              4,
+              160,
+              768,
+              80
+            ]
+          ]
+        },
+        {
+          "id": 9,
+          "generation": 0,
+          "utility": 129,
+          "visits": 180,
+          "parameters": [
+            [
+              8,
+              5,
+              8,
+              12
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              14,
+              12
+            ],
+            [
+              6,
+              40,
+              5,
+              -1,
+              20,
+              100,
+              4,
+              160,
+              768,
+              80
+            ]
+          ]
+        },
+        {
+          "id": 12,
+          "generation": 0,
+          "utility": 96,
+          "visits": 180,
+          "parameters": [
+            [
+              8,
+              5,
+              8,
+              12
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              12,
+              0
+            ],
+            [
+              6,
+              40,
+              5,
+              1,
+              20,
+              100,
+              4,
+              160,
+              768,
+              80
+            ]
+          ]
+        },
+        {
+          "id": 13,
+          "generation": 0,
+          "utility": -34,
+          "visits": 180,
+          "parameters": [
+            [
+              8,
+              5,
+              8,
+              12
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              14,
+              12
+            ],
+            [
+              10,
+              40,
+              5,
+              1,
+              20,
+              100,
+              4,
+              160,
+              768,
+              80
+            ]
+          ]
+        },
+        {
+          "id": 14,
+          "generation": 0,
+          "utility": -281,
+          "visits": 180,
+          "parameters": [
+            [
+              8,
+              5,
+              8,
+              12
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              14,
+              12
+            ],
+            [
+              6,
+              40,
+              5,
+              -1,
+              20,
+              100,
+              4,
+              160,
+              768,
+              80
+            ]
+          ]
+        },
+        {
+          "id": 16,
+          "generation": 0,
+          "utility": -304,
+          "visits": 180,
+          "parameters": [
+            [
+              8,
+              5,
+              8,
+              12
+            ],
+            [
+              4,
+              6
+            ],
+            [
+              14,
+              12
+            ],
+            [
+              6,
+              40,
+              5,
+              1,
+              20,
+              100,
+              6,
+              160,
+              768,
+              80
+            ]
+          ]
+        },
+        {
+          "id": 19,
+          "generation": 0,
+          "utility": -242,
+          "visits": 180,
+          "parameters": [
+            [
+              8,
+              5,
+              8,
+              12
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              14,
+              12
+            ],
+            [
+              6,
+              40,
+              5,
+              -1,
+              20,
+              100,
+              4,
+              160,
+              768,
+              80
+            ]
+          ]
+        },
+        {
+          "id": 21,
+          "generation": 1,
+          "utility": 281,
+          "visits": 155,
+          "parameters": [
+            [
+              8,
+              5,
+              8,
+              12
+            ],
+            [
+              4,
+              6
+            ],
+            [
+              14,
+              12
+            ],
+            [
+              10,
+              40,
+              5,
+              1,
+              20,
+              100,
+              4,
+              160,
+              768,
+              80
+            ]
+          ]
+        },
+        {
+          "id": 22,
+          "generation": 1,
+          "utility": -86,
+          "visits": 148,
+          "parameters": [
+            [
+              8,
+              5,
+              8,
+              12
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              14,
+              12
+            ],
+            [
+              6,
+              40,
+              5,
+              -1,
+              20,
+              100,
+              4,
+              160,
+              768,
+              80
+            ]
+          ]
+        },
+        {
+          "id": 24,
+          "generation": 2,
+          "utility": 264,
+          "visits": 122,
+          "parameters": [
+            [
+              8,
+              5,
+              8,
+              12
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              14,
+              12
+            ],
+            [
+              6,
+              40,
+              5,
+              -1,
+              20,
+              100,
+              4,
+              160,
+              768,
+              80
+            ]
+          ]
+        },
+        {
+          "id": 27,
+          "generation": 1,
+          "utility": 162,
+          "visits": 93,
+          "parameters": [
+            [
+              8,
+              5,
+              8,
+              12
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              12,
+              0
+            ],
+            [
+              6,
+              40,
+              5,
+              1,
+              20,
+              100,
+              4,
+              160,
+              768,
+              80
+            ]
+          ]
+        },
+        {
+          "id": 28,
+          "generation": 3,
+          "utility": -152,
+          "visits": 83,
+          "parameters": [
+            [
+              8,
+              5,
+              8,
+              12
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              14,
+              12
+            ],
+            [
+              6,
+              40,
+              5,
+              -1,
+              20,
+              100,
+              4,
+              160,
+              768,
+              80
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "seed": 19,
+      "selection": true,
+      "measuredResources": false,
+      "eyeLevels": 256,
+      "ecology": {
+        "LightRadius": 72,
+        "LightOnScale": 1,
+        "PatchHarvestPerPulse": 36,
+        "LightDriftSpeed": 1.5
+      },
+      "binocular": true,
+      "arenaScale": 1,
+      "arenaWidth": 600,
+      "arenaHeight": 408,
+      "population": 20,
+      "features": {
+        "ProgressEscape": false,
+        "Courtship": true
+      },
+      "requestedSeconds": 180,
+      "completed": true,
+      "setupSeconds": 0.2416056,
+      "simulatedSeconds": 180,
+      "wallSeconds": 89.5747631,
+      "alive": 13,
+      "births": 6,
+      "lifetime": 3609.049999999935,
+      "food": 39239,
+      "starvation": 13,
+      "injuries": 183,
+      "injuryCalories": 7403,
+      "computeCalories": 57,
+      "stationary": 0.04606028702831495,
+      "hungryToward": 0.5114861374203548,
+      "fullAway": 0.540355988528247,
+      "hungryGradientAlignment": 0.04331113799798607,
+      "hungryGradientSamples": 22232,
+      "localFoodShortfall": 4897,
+      "equalEyes": 0.2024907429237106,
+      "observedBodies": 26,
+      "inquiryIssued": 0,
+      "inquiryAnswers": 0,
+      "stale": 0,
+      "inquiryFailures": 0,
+      "adviceTrials": 0,
+      "predictionChecks": 18021,
+      "predictionAbsoluteError": 1103083,
+      "progressWindows": 437,
+      "lowProgressWindows": 10,
+      "mateCueSamples": 438,
+      "progressEscapes": 0,
+      "distinctModuleCombinations": 5,
+      "structures": [
+        {
+          "id": 0,
+          "generation": 0,
+          "parameters": [
+            [
+              8,
+              5,
+              8,
+              12
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              14,
+              12
+            ],
+            [
+              0,
+              40,
+              5,
+              1,
+              20,
+              100,
+              0,
+              160,
+              768,
+              80
+            ]
+          ],
+          "actuatorTerms": 4,
+          "feedbackCells": 4,
+          "expressionOperations": 112
+        },
+        {
+          "id": 1,
+          "generation": 0,
+          "parameters": [
+            [
+              8,
+              5,
+              8,
+              12
+            ],
+            [
+              4,
+              6
+            ],
+            [
+              14,
+              12
+            ],
+            [
+              6,
+              40,
+              5,
+              1,
+              20,
+              100,
+              6,
+              160,
+              768,
+              80
+            ]
+          ],
+          "actuatorTerms": 6,
+          "feedbackCells": 5,
+          "expressionOperations": 155
+        },
+        {
+          "id": 2,
+          "generation": 0,
+          "parameters": [
+            [
+              8,
+              5,
+              8,
+              12
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              12,
+              0
+            ],
+            [
+              6,
+              40,
+              5,
+              1,
+              20,
+              100,
+              4,
+              160,
+              768,
+              80
+            ]
+          ],
+          "actuatorTerms": 6,
+          "feedbackCells": 5,
+          "expressionOperations": 149
+        },
+        {
+          "id": 3,
+          "generation": 0,
+          "parameters": [
+            [
+              8,
+              5,
+              8,
+              12
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              14,
+              12
+            ],
+            [
+              10,
+              40,
+              5,
+              1,
+              20,
+              100,
+              4,
+              160,
+              768,
+              80
+            ]
+          ],
+          "actuatorTerms": 6,
+          "feedbackCells": 5,
+          "expressionOperations": 155
+        },
+        {
+          "id": 4,
+          "generation": 0,
+          "parameters": [
+            [
+              8,
+              5,
+              8,
+              12
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              14,
+              12
+            ],
+            [
+              6,
+              40,
+              5,
+              -1,
+              20,
+              100,
+              4,
+              160,
+              768,
+              80
+            ]
+          ],
+          "actuatorTerms": 6,
+          "feedbackCells": 5,
+          "expressionOperations": 155
+        },
+        {
+          "id": 5,
+          "generation": 0,
+          "parameters": [
+            [
+              8,
+              5,
+              8,
+              12
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              14,
+              12
+            ],
+            [
+              0,
+              40,
+              5,
+              1,
+              20,
+              100,
+              0,
+              160,
+              768,
+              80
+            ]
+          ],
+          "actuatorTerms": 4,
+          "feedbackCells": 4,
+          "expressionOperations": 112
+        },
+        {
+          "id": 6,
+          "generation": 0,
+          "parameters": [
+            [
+              8,
+              5,
+              8,
+              12
+            ],
+            [
+              4,
+              6
+            ],
+            [
+              14,
+              12
+            ],
+            [
+              6,
+              40,
+              5,
+              1,
+              20,
+              100,
+              6,
+              160,
+              768,
+              80
+            ]
+          ],
+          "actuatorTerms": 6,
+          "feedbackCells": 5,
+          "expressionOperations": 155
+        },
+        {
+          "id": 7,
+          "generation": 0,
+          "parameters": [
+            [
+              8,
+              5,
+              8,
+              12
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              12,
+              0
+            ],
+            [
+              6,
+              40,
+              5,
+              1,
+              20,
+              100,
+              4,
+              160,
+              768,
+              80
+            ]
+          ],
+          "actuatorTerms": 6,
+          "feedbackCells": 5,
+          "expressionOperations": 149
+        },
+        {
+          "id": 8,
+          "generation": 0,
+          "parameters": [
+            [
+              8,
+              5,
+              8,
+              12
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              14,
+              12
+            ],
+            [
+              10,
+              40,
+              5,
+              1,
+              20,
+              100,
+              4,
+              160,
+              768,
+              80
+            ]
+          ],
+          "actuatorTerms": 6,
+          "feedbackCells": 5,
+          "expressionOperations": 155
+        },
+        {
+          "id": 9,
+          "generation": 0,
+          "parameters": [
+            [
+              8,
+              5,
+              8,
+              12
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              14,
+              12
+            ],
+            [
+              6,
+              40,
+              5,
+              -1,
+              20,
+              100,
+              4,
+              160,
+              768,
+              80
+            ]
+          ],
+          "actuatorTerms": 6,
+          "feedbackCells": 5,
+          "expressionOperations": 155
+        },
+        {
+          "id": 10,
+          "generation": 0,
+          "parameters": [
+            [
+              8,
+              5,
+              8,
+              12
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              14,
+              12
+            ],
+            [
+              0,
+              40,
+              5,
+              1,
+              20,
+              100,
+              0,
+              160,
+              768,
+              80
+            ]
+          ],
+          "actuatorTerms": 4,
+          "feedbackCells": 4,
+          "expressionOperations": 112
+        },
+        {
+          "id": 11,
+          "generation": 0,
+          "parameters": [
+            [
+              8,
+              5,
+              8,
+              12
+            ],
+            [
+              4,
+              6
+            ],
+            [
+              14,
+              12
+            ],
+            [
+              6,
+              40,
+              5,
+              1,
+              20,
+              100,
+              6,
+              160,
+              768,
+              80
+            ]
+          ],
+          "actuatorTerms": 6,
+          "feedbackCells": 5,
+          "expressionOperations": 155
+        },
+        {
+          "id": 12,
+          "generation": 0,
+          "parameters": [
+            [
+              8,
+              5,
+              8,
+              12
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              12,
+              0
+            ],
+            [
+              6,
+              40,
+              5,
+              1,
+              20,
+              100,
+              4,
+              160,
+              768,
+              80
+            ]
+          ],
+          "actuatorTerms": 6,
+          "feedbackCells": 5,
+          "expressionOperations": 149
+        },
+        {
+          "id": 13,
+          "generation": 0,
+          "parameters": [
+            [
+              8,
+              5,
+              8,
+              12
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              14,
+              12
+            ],
+            [
+              10,
+              40,
+              5,
+              1,
+              20,
+              100,
+              4,
+              160,
+              768,
+              80
+            ]
+          ],
+          "actuatorTerms": 6,
+          "feedbackCells": 5,
+          "expressionOperations": 155
+        },
+        {
+          "id": 14,
+          "generation": 0,
+          "parameters": [
+            [
+              8,
+              5,
+              8,
+              12
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              14,
+              12
+            ],
+            [
+              6,
+              40,
+              5,
+              -1,
+              20,
+              100,
+              4,
+              160,
+              768,
+              80
+            ]
+          ],
+          "actuatorTerms": 6,
+          "feedbackCells": 5,
+          "expressionOperations": 155
+        },
+        {
+          "id": 15,
+          "generation": 0,
+          "parameters": [
+            [
+              8,
+              5,
+              8,
+              12
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              14,
+              12
+            ],
+            [
+              0,
+              40,
+              5,
+              1,
+              20,
+              100,
+              0,
+              160,
+              768,
+              80
+            ]
+          ],
+          "actuatorTerms": 4,
+          "feedbackCells": 4,
+          "expressionOperations": 112
+        },
+        {
+          "id": 16,
+          "generation": 0,
+          "parameters": [
+            [
+              8,
+              5,
+              8,
+              12
+            ],
+            [
+              4,
+              6
+            ],
+            [
+              14,
+              12
+            ],
+            [
+              6,
+              40,
+              5,
+              1,
+              20,
+              100,
+              6,
+              160,
+              768,
+              80
+            ]
+          ],
+          "actuatorTerms": 6,
+          "feedbackCells": 5,
+          "expressionOperations": 155
+        },
+        {
+          "id": 17,
+          "generation": 0,
+          "parameters": [
+            [
+              8,
+              5,
+              8,
+              12
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              12,
+              0
+            ],
+            [
+              6,
+              40,
+              5,
+              1,
+              20,
+              100,
+              4,
+              160,
+              768,
+              80
+            ]
+          ],
+          "actuatorTerms": 6,
+          "feedbackCells": 5,
+          "expressionOperations": 149
+        },
+        {
+          "id": 18,
+          "generation": 0,
+          "parameters": [
+            [
+              8,
+              5,
+              8,
+              12
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              14,
+              12
+            ],
+            [
+              10,
+              40,
+              5,
+              1,
+              20,
+              100,
+              4,
+              160,
+              768,
+              80
+            ]
+          ],
+          "actuatorTerms": 6,
+          "feedbackCells": 5,
+          "expressionOperations": 155
+        },
+        {
+          "id": 19,
+          "generation": 0,
+          "parameters": [
+            [
+              8,
+              5,
+              8,
+              12
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              14,
+              12
+            ],
+            [
+              6,
+              40,
+              5,
+              -1,
+              20,
+              100,
+              4,
+              160,
+              768,
+              80
+            ]
+          ],
+          "actuatorTerms": 6,
+          "feedbackCells": 5,
+          "expressionOperations": 155
+        },
+        {
+          "id": 20,
+          "generation": 1,
+          "parameters": [
+            [
+              8,
+              5,
+              8,
+              12
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              14,
+              12
+            ],
+            [
+              10,
+              40,
+              5,
+              1,
+              20,
+              100,
+              4,
+              160,
+              768,
+              80
+            ]
+          ],
+          "actuatorTerms": 6,
+          "feedbackCells": 5,
+          "expressionOperations": 155
+        },
+        {
+          "id": 21,
+          "generation": 1,
+          "parameters": [
+            [
+              8,
+              5,
+              8,
+              12
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              14,
+              12
+            ],
+            [
+              0,
+              40,
+              5,
+              1,
+              20,
+              100,
+              0,
+              160,
+              768,
+              80
+            ]
+          ],
+          "actuatorTerms": 4,
+          "feedbackCells": 4,
+          "expressionOperations": 112
+        },
+        {
+          "id": 22,
+          "generation": 1,
+          "parameters": [
+            [
+              8,
+              5,
+              8,
+              12
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              12,
+              0
+            ],
+            [
+              6,
+              40,
+              5,
+              1,
+              20,
+              100,
+              4,
+              160,
+              768,
+              80
+            ]
+          ],
+          "actuatorTerms": 6,
+          "feedbackCells": 5,
+          "expressionOperations": 149
+        },
+        {
+          "id": 23,
+          "generation": 1,
+          "parameters": [
+            [
+              8,
+              5,
+              8,
+              12
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              12,
+              0
+            ],
+            [
+              6,
+              40,
+              5,
+              1,
+              20,
+              100,
+              4,
+              160,
+              768,
+              80
+            ]
+          ],
+          "actuatorTerms": 6,
+          "feedbackCells": 5,
+          "expressionOperations": 149
+        },
+        {
+          "id": 24,
+          "generation": 1,
+          "parameters": [
+            [
+              8,
+              5,
+              8,
+              12
+            ],
+            [
+              4,
+              6
+            ],
+            [
+              14,
+              12
+            ],
+            [
+              6,
+              40,
+              5,
+              1,
+              20,
+              100,
+              6,
+              160,
+              768,
+              80
+            ]
+          ],
+          "actuatorTerms": 6,
+          "feedbackCells": 5,
+          "expressionOperations": 155
+        },
+        {
+          "id": 25,
+          "generation": 1,
+          "parameters": [
+            [
+              8,
+              5,
+              8,
+              12
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              14,
+              12
+            ],
+            [
+              6,
+              40,
+              5,
+              -1,
+              20,
+              100,
+              4,
+              160,
+              768,
+              80
+            ]
+          ],
+          "actuatorTerms": 6,
+          "feedbackCells": 5,
+          "expressionOperations": 155
+        }
+      ],
+      "bodyUtility": [
+        {
+          "id": 1,
+          "generation": 0,
+          "utility": 142,
+          "visits": 180,
+          "parameters": [
+            [
+              8,
+              5,
+              8,
+              12
+            ],
+            [
+              4,
+              6
+            ],
+            [
+              14,
+              12
+            ],
+            [
+              6,
+              40,
+              5,
+              1,
+              20,
+              100,
+              6,
+              160,
+              768,
+              80
+            ]
+          ]
+        },
+        {
+          "id": 4,
+          "generation": 0,
+          "utility": -352,
+          "visits": 180,
+          "parameters": [
+            [
+              8,
+              5,
+              8,
+              12
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              14,
+              12
+            ],
+            [
+              6,
+              40,
+              5,
+              -1,
+              20,
+              100,
+              4,
+              160,
+              768,
+              80
+            ]
+          ]
+        },
+        {
+          "id": 8,
+          "generation": 0,
+          "utility": -62,
+          "visits": 180,
+          "parameters": [
+            [
+              8,
+              5,
+              8,
+              12
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              14,
+              12
+            ],
+            [
+              10,
+              40,
+              5,
+              1,
+              20,
+              100,
+              4,
+              160,
+              768,
+              80
+            ]
+          ]
+        },
+        {
+          "id": 9,
+          "generation": 0,
+          "utility": -137,
+          "visits": 180,
+          "parameters": [
+            [
+              8,
+              5,
+              8,
+              12
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              14,
+              12
+            ],
+            [
+              6,
+              40,
+              5,
+              -1,
+              20,
+              100,
+              4,
+              160,
+              768,
+              80
+            ]
+          ]
+        },
+        {
+          "id": 10,
+          "generation": 0,
+          "utility": 522,
+          "visits": 180,
+          "parameters": [
+            [
+              8,
+              5,
+              8,
+              12
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              14,
+              12
+            ],
+            [
+              0,
+              40,
+              5,
+              1,
+              20,
+              100,
+              0,
+              160,
+              768,
+              80
+            ]
+          ]
+        },
+        {
+          "id": 12,
+          "generation": 0,
+          "utility": 73,
+          "visits": 180,
+          "parameters": [
+            [
+              8,
+              5,
+              8,
+              12
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              12,
+              0
+            ],
+            [
+              6,
+              40,
+              5,
+              1,
+              20,
+              100,
+              4,
+              160,
+              768,
+              80
+            ]
+          ]
+        },
+        {
+          "id": 13,
+          "generation": 0,
+          "utility": -150,
+          "visits": 180,
+          "parameters": [
+            [
+              8,
+              5,
+              8,
+              12
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              14,
+              12
+            ],
+            [
+              10,
+              40,
+              5,
+              1,
+              20,
+              100,
+              4,
+              160,
+              768,
+              80
+            ]
+          ]
+        },
+        {
+          "id": 14,
+          "generation": 0,
+          "utility": -31,
+          "visits": 180,
+          "parameters": [
+            [
+              8,
+              5,
+              8,
+              12
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              14,
+              12
+            ],
+            [
+              6,
+              40,
+              5,
+              -1,
+              20,
+              100,
+              4,
+              160,
+              768,
+              80
+            ]
+          ]
+        },
+        {
+          "id": 17,
+          "generation": 0,
+          "utility": -398,
+          "visits": 180,
+          "parameters": [
+            [
+              8,
+              5,
+              8,
+              12
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              12,
+              0
+            ],
+            [
+              6,
+              40,
+              5,
+              1,
+              20,
+              100,
+              4,
+              160,
+              768,
+              80
+            ]
+          ]
+        },
+        {
+          "id": 18,
+          "generation": 0,
+          "utility": 462,
+          "visits": 180,
+          "parameters": [
+            [
+              8,
+              5,
+              8,
+              12
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              14,
+              12
+            ],
+            [
+              10,
+              40,
+              5,
+              1,
+              20,
+              100,
+              4,
+              160,
+              768,
+              80
+            ]
+          ]
+        },
+        {
+          "id": 19,
+          "generation": 0,
+          "utility": 97,
+          "visits": 180,
+          "parameters": [
+            [
+              8,
+              5,
+              8,
+              12
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              14,
+              12
+            ],
+            [
+              6,
+              40,
+              5,
+              -1,
+              20,
+              100,
+              4,
+              160,
+              768,
+              80
+            ]
+          ]
+        },
+        {
+          "id": 22,
+          "generation": 1,
+          "utility": 44,
+          "visits": 128,
+          "parameters": [
+            [
+              8,
+              5,
+              8,
+              12
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              12,
+              0
+            ],
+            [
+              6,
+              40,
+              5,
+              1,
+              20,
+              100,
+              4,
+              160,
+              768,
+              80
+            ]
+          ]
+        },
+        {
+          "id": 25,
+          "generation": 1,
+          "utility": -302,
+          "visits": 45,
+          "parameters": [
+            [
+              8,
+              5,
+              8,
+              12
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              14,
+              12
+            ],
+            [
+              6,
+              40,
+              5,
+              -1,
+              20,
+              100,
+              4,
+              160,
+              768,
+              80
+            ]
+          ]
+        }
+      ]
+    }
+  ],
+  "nativeAssemblyVersion": "910ae7bd-247b-4597-a01a-dad514c1a3bb",
+  "jev": {
+    "requests": 0,
+    "inputTokens": 0,
+    "dollars": 0,
+    "maximumRequests": 20,
+    "maximumDollars": 0.02
+  }
+}

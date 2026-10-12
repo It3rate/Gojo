@@ -1,0 +1,30 @@
+{
+  "signatures": "four native graph roundtrips passed",
+  "behavior": [
+    {
+      "mode": 0,
+      "direction": -1,
+      "action": -1,
+      "query": 0
+    },
+    {
+      "mode": 0,
+      "direction": 1,
+      "action": -1,
+      "query": 0
+    },
+    {
+      "mode": 1,
+      "direction": -1,
+      "action": -1,
+      "query": 0
+    },
+    {
+      "mode": 1,
+      "direction": 1,
+      "action": -1,
+      "query": 0
+    }
+  ],
+  "limitation": "Prediction/distinction structurally verified; opaque anchor comparison service also requires restoration for adaptive deployment."
+}

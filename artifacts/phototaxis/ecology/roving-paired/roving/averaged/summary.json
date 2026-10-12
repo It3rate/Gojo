@@ -1,0 +1,154 @@
+{
+  "results": [
+    {
+      "seed": 7,
+      "selection": true,
+      "measuredResources": false,
+      "eyeLevels": 256,
+      "ecology": {
+        "LightRadius": 72,
+        "LightOnScale": 1,
+        "PatchHarvestPerPulse": 36,
+        "LightDriftSpeed": 1.5
+      },
+      "binocular": false,
+      "requestedSeconds": 180,
+      "completed": true,
+      "setupSeconds": 0.1310831,
+      "simulatedSeconds": 180,
+      "wallSeconds": 16.9950786,
+      "alive": 1,
+      "births": 2,
+      "lifetime": 1700.4500000000605,
+      "food": 16167,
+      "starvation": 21,
+      "injuries": 231,
+      "injuryCalories": 9132,
+      "computeCalories": 23,
+      "stationary": 0.057952274597390385,
+      "hungryToward": 0.5420387531592249,
+      "fullAway": 0.4978828163466273,
+      "hungryGradientAlignment": 0.057828421000521005,
+      "hungryGradientSamples": 8931,
+      "localFoodShortfall": 757,
+      "equalEyes": 0.17321907117825486,
+      "observedBodies": 22,
+      "inquiryIssued": 0,
+      "inquiryAnswers": 0,
+      "stale": 0,
+      "inquiryFailures": 0,
+      "adviceTrials": 0,
+      "predictionChecks": 8485,
+      "predictionAbsoluteError": 550356,
+      "bodyUtility": [
+        {
+          "id": 16,
+          "generation": 0,
+          "utility": -254,
+          "visits": 180,
+          "parameters": [
+            [
+              8,
+              5,
+              8,
+              12
+            ],
+            [
+              4,
+              6
+            ],
+            [
+              14,
+              12
+            ],
+            [
+              6,
+              40,
+              5,
+              1
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "seed": 19,
+      "selection": true,
+      "measuredResources": false,
+      "eyeLevels": 256,
+      "ecology": {
+        "LightRadius": 72,
+        "LightOnScale": 1,
+        "PatchHarvestPerPulse": 36,
+        "LightDriftSpeed": 1.5
+      },
+      "binocular": false,
+      "requestedSeconds": 180,
+      "completed": true,
+      "setupSeconds": 0.1730773,
+      "simulatedSeconds": 180,
+      "wallSeconds": 26.8702394,
+      "alive": 1,
+      "births": 2,
+      "lifetime": 1623.0499999999647,
+      "food": 14389,
+      "starvation": 21,
+      "injuries": 239,
+      "injuryCalories": 9342,
+      "computeCalories": 20,
+      "stationary": 0.04876847290640394,
+      "hungryToward": 0.5260199985402525,
+      "fullAway": 0.552018724400234,
+      "hungryGradientAlignment": 0.08157728550999918,
+      "hungryGradientSamples": 10318,
+      "localFoodShortfall": 84,
+      "equalEyes": 0.20051850251535447,
+      "observedBodies": 22,
+      "inquiryIssued": 0,
+      "inquiryAnswers": 0,
+      "stale": 0,
+      "inquiryFailures": 0,
+      "adviceTrials": 0,
+      "predictionChecks": 8098,
+      "predictionAbsoluteError": 458911,
+      "bodyUtility": [
+        {
+          "id": 14,
+          "generation": 0,
+          "utility": -380,
+          "visits": 180,
+          "parameters": [
+            [
+              8,
+              5,
+              8,
+              12
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              14,
+              12
+            ],
+            [
+              6,
+              40,
+              5,
+              -1
+            ]
+          ]
+        }
+      ]
+    }
+  ],
+  "nativeAssemblyVersion": "9fb85420-a29d-4b60-b50e-68de4ddee234",
+  "jev": {
+    "requests": 0,
+    "inputTokens": 0,
+    "dollars": 0,
+    "maximumRequests": 20,
+    "maximumDollars": 0.02
+  }
+}

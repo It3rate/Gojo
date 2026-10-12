@@ -1,0 +1,42 @@
+[
+  {
+    "design": {
+      "Name": "R1-11",
+      "Seek": 8,
+      "Feed": 5,
+      "Escape": 10,
+      "LeaveAt": 12,
+      "ResumeAt": 0,
+      "Gain": 4,
+      "TurnLimit": 6,
+      "SearchBias": 0,
+      "FeedBrightness": 12,
+      "Deadband": 0,
+      "Normalized": false,
+      "BangBang": false
+    },
+    "meanPopulationSeconds": 10432.275,
+    "meanAlive": 49.5,
+    "meanBirths": 37.5
+  },
+  {
+    "design": {
+      "Name": "R1-01",
+      "Seek": 4,
+      "Feed": 4,
+      "Escape": 4,
+      "LeaveAt": 16,
+      "ResumeAt": 0,
+      "Gain": 0,
+      "TurnLimit": 6,
+      "SearchBias": 0,
+      "FeedBrightness": 12,
+      "Deadband": 0,
+      "Normalized": false,
+      "BangBang": false
+    },
+    "meanPopulationSeconds": 8448.625,
+    "meanAlive": 39.5,
+    "meanBirths": 23.5
+  }
+]

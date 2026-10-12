@@ -1,0 +1,14 @@
+{
+  "elapsedSeconds": 119.2578458,
+  "rows": 152,
+  "runtime": ".NET 10.0.12",
+  "processors": 8,
+  "settings": {
+    "name": "pilot",
+    "seeds": 2,
+    "train": 640,
+    "test": 256,
+    "warmup": 128,
+    "output": "D:\\source\\repos\\It3rate\\Gojo-phototaxis\\artifacts\\primitive-learning\\pilot-03"
+  }
+}

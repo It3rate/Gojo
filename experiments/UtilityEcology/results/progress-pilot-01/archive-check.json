@@ -1,0 +1,66 @@
+[
+  {
+    "seed": 700,
+    "arm": "progress/error-only/upfront",
+    "filename": "700-progress-error-only-upfront.gojo",
+    "signatureMatched": true,
+    "monetaryMatched": true,
+    "aliasesMatched": true,
+    "behavior": {
+      "matched": true,
+      "samplesReplayed": 7,
+      "continuedMoneyConserved": true,
+      "attentionSpent": 5,
+      "scope": "Retained ordinal anchors or fresh presence-only requests; reconnected ordered fixture; paid gate continuation. No novel-sample world reconnection."
+    },
+    "bytes": 4574211
+  },
+  {
+    "seed": 700,
+    "arm": "progress/signed/upfront",
+    "filename": "700-progress-signed-upfront.gojo",
+    "signatureMatched": true,
+    "monetaryMatched": true,
+    "aliasesMatched": true,
+    "behavior": {
+      "matched": true,
+      "samplesReplayed": 7,
+      "continuedMoneyConserved": true,
+      "attentionSpent": 5,
+      "scope": "Retained ordinal anchors or fresh presence-only requests; reconnected ordered fixture; paid gate continuation. No novel-sample world reconnection."
+    },
+    "bytes": 4598148
+  },
+  {
+    "seed": 700,
+    "arm": "progress/cycle-only/upfront",
+    "filename": "700-progress-cycle-only-upfront.gojo",
+    "signatureMatched": true,
+    "monetaryMatched": true,
+    "aliasesMatched": true,
+    "behavior": {
+      "matched": true,
+      "samplesReplayed": 7,
+      "continuedMoneyConserved": true,
+      "attentionSpent": 5,
+      "scope": "Retained ordinal anchors or fresh presence-only requests; reconnected ordered fixture; paid gate continuation. No novel-sample world reconnection."
+    },
+    "bytes": 4527028
+  },
+  {
+    "seed": 700,
+    "arm": "progress/change/upfront",
+    "filename": "700-progress-change-upfront.gojo",
+    "signatureMatched": true,
+    "monetaryMatched": true,
+    "aliasesMatched": true,
+    "behavior": {
+      "matched": true,
+      "samplesReplayed": 7,
+      "continuedMoneyConserved": true,
+      "attentionSpent": 5,
+      "scope": "Retained ordinal anchors or fresh presence-only requests; reconnected ordered fixture; paid gate continuation. No novel-sample world reconnection."
+    },
+    "bytes": 4636580
+  }
+]

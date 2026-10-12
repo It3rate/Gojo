@@ -1,0 +1,8390 @@
+[
+  {
+    "stage": "discovery",
+    "variant": "learned",
+    "seed": 3,
+    "episode": 64,
+    "meanReturn": 0,
+    "accuracy": 0.296875,
+    "queryRate": 0
+  },
+  {
+    "stage": "discovery",
+    "variant": "learned",
+    "seed": 3,
+    "episode": 128,
+    "meanReturn": 0,
+    "accuracy": 0.53125,
+    "queryRate": 0
+  },
+  {
+    "stage": "discovery",
+    "variant": "learned",
+    "seed": 3,
+    "episode": 192,
+    "meanReturn": 0,
+    "accuracy": 0.6875,
+    "queryRate": 0
+  },
+  {
+    "stage": "discovery",
+    "variant": "learned",
+    "seed": 3,
+    "episode": 256,
+    "meanReturn": 0,
+    "accuracy": 0.765625,
+    "queryRate": 0
+  },
+  {
+    "stage": "discovery",
+    "variant": "learned",
+    "seed": 3,
+    "episode": 320,
+    "meanReturn": 0,
+    "accuracy": 0.8125,
+    "queryRate": 0
+  },
+  {
+    "stage": "discovery",
+    "variant": "learned",
+    "seed": 3,
+    "episode": 384,
+    "meanReturn": 0,
+    "accuracy": 0.84375,
+    "queryRate": 0
+  },
+  {
+    "stage": "discovery",
+    "variant": "no-expansion",
+    "seed": 3,
+    "episode": 64,
+    "meanReturn": 0,
+    "accuracy": 0.296875,
+    "queryRate": 0
+  },
+  {
+    "stage": "discovery",
+    "variant": "no-expansion",
+    "seed": 3,
+    "episode": 128,
+    "meanReturn": 0,
+    "accuracy": 0.3515625,
+    "queryRate": 0
+  },
+  {
+    "stage": "discovery",
+    "variant": "no-expansion",
+    "seed": 3,
+    "episode": 192,
+    "meanReturn": 0,
+    "accuracy": 0.375,
+    "queryRate": 0
+  },
+  {
+    "stage": "discovery",
+    "variant": "no-expansion",
+    "seed": 3,
+    "episode": 256,
+    "meanReturn": 0,
+    "accuracy": 0.37890625,
+    "queryRate": 0
+  },
+  {
+    "stage": "discovery",
+    "variant": "no-expansion",
+    "seed": 3,
+    "episode": 320,
+    "meanReturn": 0,
+    "accuracy": 0.396875,
+    "queryRate": 0
+  },
+  {
+    "stage": "discovery",
+    "variant": "no-expansion",
+    "seed": 3,
+    "episode": 384,
+    "meanReturn": 0,
+    "accuracy": 0.4114583333333333,
+    "queryRate": 0
+  },
+  {
+    "stage": "discovery",
+    "variant": "frozen",
+    "seed": 3,
+    "episode": 64,
+    "meanReturn": 0,
+    "accuracy": 0,
+    "queryRate": 0
+  },
+  {
+    "stage": "discovery",
+    "variant": "frozen",
+    "seed": 3,
+    "episode": 128,
+    "meanReturn": 0,
+    "accuracy": 0,
+    "queryRate": 0
+  },
+  {
+    "stage": "discovery",
+    "variant": "frozen",
+    "seed": 3,
+    "episode": 192,
+    "meanReturn": 0,
+    "accuracy": 0,
+    "queryRate": 0
+  },
+  {
+    "stage": "discovery",
+    "variant": "frozen",
+    "seed": 3,
+    "episode": 256,
+    "meanReturn": 0,
+    "accuracy": 0,
+    "queryRate": 0
+  },
+  {
+    "stage": "discovery",
+    "variant": "frozen",
+    "seed": 3,
+    "episode": 320,
+    "meanReturn": 0,
+    "accuracy": 0,
+    "queryRate": 0
+  },
+  {
+    "stage": "discovery",
+    "variant": "frozen",
+    "seed": 3,
+    "episode": 384,
+    "meanReturn": 0,
+    "accuracy": 0,
+    "queryRate": 0
+  },
+  {
+    "stage": "discovery",
+    "variant": "shuffled-feedback",
+    "seed": 3,
+    "episode": 64,
+    "meanReturn": 0,
+    "accuracy": 0.359375,
+    "queryRate": 0
+  },
+  {
+    "stage": "discovery",
+    "variant": "shuffled-feedback",
+    "seed": 3,
+    "episode": 128,
+    "meanReturn": 0,
+    "accuracy": 0.4375,
+    "queryRate": 0
+  },
+  {
+    "stage": "discovery",
+    "variant": "shuffled-feedback",
+    "seed": 3,
+    "episode": 192,
+    "meanReturn": 0,
+    "accuracy": 0.46875,
+    "queryRate": 0
+  },
+  {
+    "stage": "discovery",
+    "variant": "shuffled-feedback",
+    "seed": 3,
+    "episode": 256,
+    "meanReturn": 0,
+    "accuracy": 0.4609375,
+    "queryRate": 0
+  },
+  {
+    "stage": "discovery",
+    "variant": "shuffled-feedback",
+    "seed": 3,
+    "episode": 320,
+    "meanReturn": 0,
+    "accuracy": 0.45625,
+    "queryRate": 0
+  },
+  {
+    "stage": "discovery",
+    "variant": "shuffled-feedback",
+    "seed": 3,
+    "episode": 384,
+    "meanReturn": 0,
+    "accuracy": 0.453125,
+    "queryRate": 0
+  },
+  {
+    "stage": "discovery",
+    "variant": "shuffled-communication",
+    "seed": 3,
+    "episode": 64,
+    "meanReturn": 0,
+    "accuracy": 0.296875,
+    "queryRate": 0
+  },
+  {
+    "stage": "discovery",
+    "variant": "shuffled-communication",
+    "seed": 3,
+    "episode": 128,
+    "meanReturn": 0,
+    "accuracy": 0.34375,
+    "queryRate": 0
+  },
+  {
+    "stage": "discovery",
+    "variant": "shuffled-communication",
+    "seed": 3,
+    "episode": 192,
+    "meanReturn": 0,
+    "accuracy": 0.3854166666666667,
+    "queryRate": 0
+  },
+  {
+    "stage": "discovery",
+    "variant": "shuffled-communication",
+    "seed": 3,
+    "episode": 256,
+    "meanReturn": 0,
+    "accuracy": 0.4296875,
+    "queryRate": 0
+  },
+  {
+    "stage": "discovery",
+    "variant": "shuffled-communication",
+    "seed": 3,
+    "episode": 320,
+    "meanReturn": 0,
+    "accuracy": 0.446875,
+    "queryRate": 0
+  },
+  {
+    "stage": "discovery",
+    "variant": "shuffled-communication",
+    "seed": 3,
+    "episode": 384,
+    "meanReturn": 0,
+    "accuracy": 0.4609375,
+    "queryRate": 0
+  },
+  {
+    "stage": "discovery",
+    "variant": "no-memory",
+    "seed": 3,
+    "episode": 64,
+    "meanReturn": 0,
+    "accuracy": 0.21875,
+    "queryRate": 0
+  },
+  {
+    "stage": "discovery",
+    "variant": "no-memory",
+    "seed": 3,
+    "episode": 128,
+    "meanReturn": 0,
+    "accuracy": 0.265625,
+    "queryRate": 0
+  },
+  {
+    "stage": "discovery",
+    "variant": "no-memory",
+    "seed": 3,
+    "episode": 192,
+    "meanReturn": 0,
+    "accuracy": 0.2864583333333333,
+    "queryRate": 0
+  },
+  {
+    "stage": "discovery",
+    "variant": "no-memory",
+    "seed": 3,
+    "episode": 256,
+    "meanReturn": 0,
+    "accuracy": 0.31640625,
+    "queryRate": 0
+  },
+  {
+    "stage": "discovery",
+    "variant": "no-memory",
+    "seed": 3,
+    "episode": 320,
+    "meanReturn": 0,
+    "accuracy": 0.3375,
+    "queryRate": 0
+  },
+  {
+    "stage": "discovery",
+    "variant": "no-memory",
+    "seed": 3,
+    "episode": 384,
+    "meanReturn": 0,
+    "accuracy": 0.3515625,
+    "queryRate": 0
+  },
+  {
+    "stage": "discovery",
+    "variant": "previous-pair",
+    "seed": 3,
+    "episode": 64,
+    "meanReturn": 0,
+    "accuracy": 0.3125,
+    "queryRate": 0
+  },
+  {
+    "stage": "discovery",
+    "variant": "previous-pair",
+    "seed": 3,
+    "episode": 128,
+    "meanReturn": 0,
+    "accuracy": 0.359375,
+    "queryRate": 0
+  },
+  {
+    "stage": "discovery",
+    "variant": "previous-pair",
+    "seed": 3,
+    "episode": 192,
+    "meanReturn": 0,
+    "accuracy": 0.3645833333333333,
+    "queryRate": 0
+  },
+  {
+    "stage": "discovery",
+    "variant": "previous-pair",
+    "seed": 3,
+    "episode": 256,
+    "meanReturn": 0,
+    "accuracy": 0.359375,
+    "queryRate": 0
+  },
+  {
+    "stage": "discovery",
+    "variant": "previous-pair",
+    "seed": 3,
+    "episode": 320,
+    "meanReturn": 0,
+    "accuracy": 0.384375,
+    "queryRate": 0
+  },
+  {
+    "stage": "discovery",
+    "variant": "previous-pair",
+    "seed": 3,
+    "episode": 384,
+    "meanReturn": 0,
+    "accuracy": 0.3932291666666667,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "learned",
+    "seed": 3,
+    "episode": 8,
+    "meanReturn": 0.5,
+    "accuracy": 0.625,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "learned",
+    "seed": 3,
+    "episode": 16,
+    "meanReturn": -2,
+    "accuracy": 0.5,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "learned",
+    "seed": 3,
+    "episode": 24,
+    "meanReturn": 1.3333333333333333,
+    "accuracy": 0.6666666666666666,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "learned",
+    "seed": 3,
+    "episode": 32,
+    "meanReturn": 3,
+    "accuracy": 0.75,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "learned",
+    "seed": 3,
+    "episode": 40,
+    "meanReturn": 4,
+    "accuracy": 0.8,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "learned",
+    "seed": 3,
+    "episode": 48,
+    "meanReturn": 4.25,
+    "accuracy": 0.8125,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "learned",
+    "seed": 3,
+    "episode": 56,
+    "meanReturn": 4.428571428571429,
+    "accuracy": 0.8214285714285714,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "learned",
+    "seed": 3,
+    "episode": 64,
+    "meanReturn": 4.875,
+    "accuracy": 0.84375,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "learned",
+    "seed": 3,
+    "episode": 72,
+    "meanReturn": 5.222222222222222,
+    "accuracy": 0.8611111111111112,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "learned",
+    "seed": 3,
+    "episode": 80,
+    "meanReturn": 5.25,
+    "accuracy": 0.8625,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "learned",
+    "seed": 3,
+    "episode": 88,
+    "meanReturn": 5.5,
+    "accuracy": 0.875,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "learned",
+    "seed": 3,
+    "episode": 96,
+    "meanReturn": 5.708333333333333,
+    "accuracy": 0.8854166666666666,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "learned",
+    "seed": 3,
+    "episode": 104,
+    "meanReturn": 5.5,
+    "accuracy": 0.875,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "learned",
+    "seed": 3,
+    "episode": 112,
+    "meanReturn": 5.678571428571429,
+    "accuracy": 0.8839285714285714,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "learned",
+    "seed": 3,
+    "episode": 120,
+    "meanReturn": 5.833333333333333,
+    "accuracy": 0.8916666666666667,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "learned",
+    "seed": 3,
+    "episode": 128,
+    "meanReturn": 5.8125,
+    "accuracy": 0.890625,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "learned",
+    "seed": 3,
+    "episode": 136,
+    "meanReturn": 5.9411764705882355,
+    "accuracy": 0.8970588235294118,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "learned",
+    "seed": 3,
+    "episode": 144,
+    "meanReturn": 6.055555555555555,
+    "accuracy": 0.9027777777777778,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "learned",
+    "seed": 3,
+    "episode": 152,
+    "meanReturn": 6.026315789473684,
+    "accuracy": 0.9013157894736842,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "learned",
+    "seed": 3,
+    "episode": 160,
+    "meanReturn": 6,
+    "accuracy": 0.9,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "learned",
+    "seed": 3,
+    "episode": 168,
+    "meanReturn": 5.976190476190476,
+    "accuracy": 0.8988095238095238,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "learned",
+    "seed": 3,
+    "episode": 176,
+    "meanReturn": 6.068181818181818,
+    "accuracy": 0.9034090909090909,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "learned",
+    "seed": 3,
+    "episode": 184,
+    "meanReturn": 6.043478260869565,
+    "accuracy": 0.9021739130434783,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "learned",
+    "seed": 3,
+    "episode": 192,
+    "meanReturn": 6.125,
+    "accuracy": 0.90625,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-expansion",
+    "seed": 3,
+    "episode": 8,
+    "meanReturn": -4.5,
+    "accuracy": 0.375,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-expansion",
+    "seed": 3,
+    "episode": 16,
+    "meanReturn": -2,
+    "accuracy": 0.5,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-expansion",
+    "seed": 3,
+    "episode": 24,
+    "meanReturn": -3.6666666666666665,
+    "accuracy": 0.4166666666666667,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-expansion",
+    "seed": 3,
+    "episode": 32,
+    "meanReturn": -3.875,
+    "accuracy": 0.40625,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-expansion",
+    "seed": 3,
+    "episode": 40,
+    "meanReturn": -2,
+    "accuracy": 0.5,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-expansion",
+    "seed": 3,
+    "episode": 48,
+    "meanReturn": -1.1666666666666667,
+    "accuracy": 0.5416666666666666,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-expansion",
+    "seed": 3,
+    "episode": 56,
+    "meanReturn": -0.21428571428571427,
+    "accuracy": 0.5892857142857143,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-expansion",
+    "seed": 3,
+    "episode": 64,
+    "meanReturn": -0.125,
+    "accuracy": 0.59375,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-expansion",
+    "seed": 3,
+    "episode": 72,
+    "meanReturn": -0.8888888888888888,
+    "accuracy": 0.5555555555555556,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-expansion",
+    "seed": 3,
+    "episode": 80,
+    "meanReturn": -1,
+    "accuracy": 0.55,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-expansion",
+    "seed": 3,
+    "episode": 88,
+    "meanReturn": -0.4090909090909091,
+    "accuracy": 0.5795454545454546,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-expansion",
+    "seed": 3,
+    "episode": 96,
+    "meanReturn": -0.75,
+    "accuracy": 0.5625,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-expansion",
+    "seed": 3,
+    "episode": 104,
+    "meanReturn": -0.8461538461538461,
+    "accuracy": 0.5576923076923077,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-expansion",
+    "seed": 3,
+    "episode": 112,
+    "meanReturn": -1.2857142857142858,
+    "accuracy": 0.5357142857142857,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-expansion",
+    "seed": 3,
+    "episode": 120,
+    "meanReturn": -1.1666666666666667,
+    "accuracy": 0.5416666666666666,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-expansion",
+    "seed": 3,
+    "episode": 128,
+    "meanReturn": -1.21875,
+    "accuracy": 0.5390625,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-expansion",
+    "seed": 3,
+    "episode": 136,
+    "meanReturn": -1.411764705882353,
+    "accuracy": 0.5294117647058824,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-expansion",
+    "seed": 3,
+    "episode": 144,
+    "meanReturn": -1.4444444444444444,
+    "accuracy": 0.5277777777777778,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-expansion",
+    "seed": 3,
+    "episode": 152,
+    "meanReturn": -1.3421052631578947,
+    "accuracy": 0.5328947368421053,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-expansion",
+    "seed": 3,
+    "episode": 160,
+    "meanReturn": -1.375,
+    "accuracy": 0.53125,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-expansion",
+    "seed": 3,
+    "episode": 168,
+    "meanReturn": -1.1666666666666667,
+    "accuracy": 0.5416666666666666,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-expansion",
+    "seed": 3,
+    "episode": 176,
+    "meanReturn": -1.4318181818181819,
+    "accuracy": 0.5284090909090909,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-expansion",
+    "seed": 3,
+    "episode": 184,
+    "meanReturn": -1.3478260869565217,
+    "accuracy": 0.532608695652174,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-expansion",
+    "seed": 3,
+    "episode": 192,
+    "meanReturn": -1.2708333333333333,
+    "accuracy": 0.5364583333333334,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "frozen",
+    "seed": 3,
+    "episode": 8,
+    "meanReturn": -4.5,
+    "accuracy": 0.375,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "frozen",
+    "seed": 3,
+    "episode": 16,
+    "meanReturn": -2,
+    "accuracy": 0.5,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "frozen",
+    "seed": 3,
+    "episode": 24,
+    "meanReturn": -3.6666666666666665,
+    "accuracy": 0.4166666666666667,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "frozen",
+    "seed": 3,
+    "episode": 32,
+    "meanReturn": -3.875,
+    "accuracy": 0.40625,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "frozen",
+    "seed": 3,
+    "episode": 40,
+    "meanReturn": -2,
+    "accuracy": 0.5,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "frozen",
+    "seed": 3,
+    "episode": 48,
+    "meanReturn": -1.1666666666666667,
+    "accuracy": 0.5416666666666666,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "frozen",
+    "seed": 3,
+    "episode": 56,
+    "meanReturn": -0.21428571428571427,
+    "accuracy": 0.5892857142857143,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "frozen",
+    "seed": 3,
+    "episode": 64,
+    "meanReturn": -0.125,
+    "accuracy": 0.59375,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "frozen",
+    "seed": 3,
+    "episode": 72,
+    "meanReturn": -0.8888888888888888,
+    "accuracy": 0.5555555555555556,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "frozen",
+    "seed": 3,
+    "episode": 80,
+    "meanReturn": -1,
+    "accuracy": 0.55,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "frozen",
+    "seed": 3,
+    "episode": 88,
+    "meanReturn": -0.4090909090909091,
+    "accuracy": 0.5795454545454546,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "frozen",
+    "seed": 3,
+    "episode": 96,
+    "meanReturn": -0.75,
+    "accuracy": 0.5625,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "frozen",
+    "seed": 3,
+    "episode": 104,
+    "meanReturn": -0.8461538461538461,
+    "accuracy": 0.5576923076923077,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "frozen",
+    "seed": 3,
+    "episode": 112,
+    "meanReturn": -1.2857142857142858,
+    "accuracy": 0.5357142857142857,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "frozen",
+    "seed": 3,
+    "episode": 120,
+    "meanReturn": -1.1666666666666667,
+    "accuracy": 0.5416666666666666,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "frozen",
+    "seed": 3,
+    "episode": 128,
+    "meanReturn": -1.21875,
+    "accuracy": 0.5390625,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "frozen",
+    "seed": 3,
+    "episode": 136,
+    "meanReturn": -1.411764705882353,
+    "accuracy": 0.5294117647058824,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "frozen",
+    "seed": 3,
+    "episode": 144,
+    "meanReturn": -1.4444444444444444,
+    "accuracy": 0.5277777777777778,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "frozen",
+    "seed": 3,
+    "episode": 152,
+    "meanReturn": -1.3421052631578947,
+    "accuracy": 0.5328947368421053,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "frozen",
+    "seed": 3,
+    "episode": 160,
+    "meanReturn": -1.375,
+    "accuracy": 0.53125,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "frozen",
+    "seed": 3,
+    "episode": 168,
+    "meanReturn": -1.1666666666666667,
+    "accuracy": 0.5416666666666666,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "frozen",
+    "seed": 3,
+    "episode": 176,
+    "meanReturn": -1.4318181818181819,
+    "accuracy": 0.5284090909090909,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "frozen",
+    "seed": 3,
+    "episode": 184,
+    "meanReturn": -1.3478260869565217,
+    "accuracy": 0.532608695652174,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "frozen",
+    "seed": 3,
+    "episode": 192,
+    "meanReturn": -1.2708333333333333,
+    "accuracy": 0.5364583333333334,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-feedback",
+    "seed": 3,
+    "episode": 8,
+    "meanReturn": -4.5,
+    "accuracy": 0.375,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-feedback",
+    "seed": 3,
+    "episode": 16,
+    "meanReturn": -2,
+    "accuracy": 0.5,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-feedback",
+    "seed": 3,
+    "episode": 24,
+    "meanReturn": -3.6666666666666665,
+    "accuracy": 0.4166666666666667,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-feedback",
+    "seed": 3,
+    "episode": 32,
+    "meanReturn": -3.875,
+    "accuracy": 0.40625,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-feedback",
+    "seed": 3,
+    "episode": 40,
+    "meanReturn": -2,
+    "accuracy": 0.5,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-feedback",
+    "seed": 3,
+    "episode": 48,
+    "meanReturn": -1.1666666666666667,
+    "accuracy": 0.5416666666666666,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-feedback",
+    "seed": 3,
+    "episode": 56,
+    "meanReturn": -0.21428571428571427,
+    "accuracy": 0.5892857142857143,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-feedback",
+    "seed": 3,
+    "episode": 64,
+    "meanReturn": -0.125,
+    "accuracy": 0.59375,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-feedback",
+    "seed": 3,
+    "episode": 72,
+    "meanReturn": -0.8888888888888888,
+    "accuracy": 0.5555555555555556,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-feedback",
+    "seed": 3,
+    "episode": 80,
+    "meanReturn": -1,
+    "accuracy": 0.55,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-feedback",
+    "seed": 3,
+    "episode": 88,
+    "meanReturn": -0.4090909090909091,
+    "accuracy": 0.5795454545454546,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-feedback",
+    "seed": 3,
+    "episode": 96,
+    "meanReturn": -0.75,
+    "accuracy": 0.5625,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-feedback",
+    "seed": 3,
+    "episode": 104,
+    "meanReturn": -0.8461538461538461,
+    "accuracy": 0.5576923076923077,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-feedback",
+    "seed": 3,
+    "episode": 112,
+    "meanReturn": -1.2857142857142858,
+    "accuracy": 0.5357142857142857,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-feedback",
+    "seed": 3,
+    "episode": 120,
+    "meanReturn": -1.1666666666666667,
+    "accuracy": 0.5416666666666666,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-feedback",
+    "seed": 3,
+    "episode": 128,
+    "meanReturn": -1.21875,
+    "accuracy": 0.5390625,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-feedback",
+    "seed": 3,
+    "episode": 136,
+    "meanReturn": -1.411764705882353,
+    "accuracy": 0.5294117647058824,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-feedback",
+    "seed": 3,
+    "episode": 144,
+    "meanReturn": -1.4444444444444444,
+    "accuracy": 0.5277777777777778,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-feedback",
+    "seed": 3,
+    "episode": 152,
+    "meanReturn": -1.3421052631578947,
+    "accuracy": 0.5328947368421053,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-feedback",
+    "seed": 3,
+    "episode": 160,
+    "meanReturn": -1.375,
+    "accuracy": 0.53125,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-feedback",
+    "seed": 3,
+    "episode": 168,
+    "meanReturn": -1.1666666666666667,
+    "accuracy": 0.5416666666666666,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-feedback",
+    "seed": 3,
+    "episode": 176,
+    "meanReturn": -1.4318181818181819,
+    "accuracy": 0.5284090909090909,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-feedback",
+    "seed": 3,
+    "episode": 184,
+    "meanReturn": -1.3478260869565217,
+    "accuracy": 0.532608695652174,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-feedback",
+    "seed": 3,
+    "episode": 192,
+    "meanReturn": -1.2708333333333333,
+    "accuracy": 0.5364583333333334,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-communication",
+    "seed": 3,
+    "episode": 8,
+    "meanReturn": -3,
+    "accuracy": 0.375,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-communication",
+    "seed": 3,
+    "episode": 16,
+    "meanReturn": -2.5,
+    "accuracy": 0.4375,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-communication",
+    "seed": 3,
+    "episode": 24,
+    "meanReturn": -1.5,
+    "accuracy": 0.5,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-communication",
+    "seed": 3,
+    "episode": 32,
+    "meanReturn": -0.375,
+    "accuracy": 0.5625,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-communication",
+    "seed": 3,
+    "episode": 40,
+    "meanReturn": -1.2,
+    "accuracy": 0.525,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-communication",
+    "seed": 3,
+    "episode": 48,
+    "meanReturn": -0.9166666666666666,
+    "accuracy": 0.5416666666666666,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-communication",
+    "seed": 3,
+    "episode": 56,
+    "meanReturn": -0.35714285714285715,
+    "accuracy": 0.5714285714285714,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-communication",
+    "seed": 3,
+    "episode": 64,
+    "meanReturn": -0.25,
+    "accuracy": 0.578125,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-communication",
+    "seed": 3,
+    "episode": 72,
+    "meanReturn": 0.1111111111111111,
+    "accuracy": 0.5972222222222222,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-communication",
+    "seed": 3,
+    "episode": 80,
+    "meanReturn": -0.35,
+    "accuracy": 0.575,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-communication",
+    "seed": 3,
+    "episode": 88,
+    "meanReturn": -0.5,
+    "accuracy": 0.5681818181818182,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-communication",
+    "seed": 3,
+    "episode": 96,
+    "meanReturn": -0.625,
+    "accuracy": 0.5625,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-communication",
+    "seed": 3,
+    "episode": 104,
+    "meanReturn": -1.1153846153846154,
+    "accuracy": 0.5384615384615384,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-communication",
+    "seed": 3,
+    "episode": 112,
+    "meanReturn": -1,
+    "accuracy": 0.5446428571428571,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-communication",
+    "seed": 3,
+    "episode": 120,
+    "meanReturn": -1.0666666666666667,
+    "accuracy": 0.5416666666666666,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-communication",
+    "seed": 3,
+    "episode": 128,
+    "meanReturn": -1.59375,
+    "accuracy": 0.515625,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-communication",
+    "seed": 3,
+    "episode": 136,
+    "meanReturn": -1.6176470588235294,
+    "accuracy": 0.5147058823529411,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-communication",
+    "seed": 3,
+    "episode": 144,
+    "meanReturn": -1.7777777777777777,
+    "accuracy": 0.5069444444444444,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-communication",
+    "seed": 3,
+    "episode": 152,
+    "meanReturn": -2.0526315789473686,
+    "accuracy": 0.4934210526315789,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-communication",
+    "seed": 3,
+    "episode": 160,
+    "meanReturn": -2.05,
+    "accuracy": 0.49375,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-communication",
+    "seed": 3,
+    "episode": 168,
+    "meanReturn": -2.1666666666666665,
+    "accuracy": 0.4880952380952381,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-communication",
+    "seed": 3,
+    "episode": 176,
+    "meanReturn": -2.3863636363636362,
+    "accuracy": 0.4772727272727273,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-communication",
+    "seed": 3,
+    "episode": 184,
+    "meanReturn": -2.5869565217391304,
+    "accuracy": 0.4673913043478261,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-communication",
+    "seed": 3,
+    "episode": 192,
+    "meanReturn": -2.6666666666666665,
+    "accuracy": 0.4635416666666667,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-memory",
+    "seed": 3,
+    "episode": 8,
+    "meanReturn": 0.5,
+    "accuracy": 0.625,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-memory",
+    "seed": 3,
+    "episode": 16,
+    "meanReturn": -2,
+    "accuracy": 0.5,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-memory",
+    "seed": 3,
+    "episode": 24,
+    "meanReturn": -2.8333333333333335,
+    "accuracy": 0.4583333333333333,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-memory",
+    "seed": 3,
+    "episode": 32,
+    "meanReturn": -2.625,
+    "accuracy": 0.46875,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-memory",
+    "seed": 3,
+    "episode": 40,
+    "meanReturn": -2.5,
+    "accuracy": 0.475,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-memory",
+    "seed": 3,
+    "episode": 48,
+    "meanReturn": -1.5833333333333333,
+    "accuracy": 0.5208333333333334,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-memory",
+    "seed": 3,
+    "episode": 56,
+    "meanReturn": -0.21428571428571427,
+    "accuracy": 0.5892857142857143,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-memory",
+    "seed": 3,
+    "episode": 64,
+    "meanReturn": -0.4375,
+    "accuracy": 0.578125,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-memory",
+    "seed": 3,
+    "episode": 72,
+    "meanReturn": -1.1666666666666667,
+    "accuracy": 0.5416666666666666,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-memory",
+    "seed": 3,
+    "episode": 80,
+    "meanReturn": -1,
+    "accuracy": 0.55,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-memory",
+    "seed": 3,
+    "episode": 88,
+    "meanReturn": -0.6363636363636364,
+    "accuracy": 0.5681818181818182,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-memory",
+    "seed": 3,
+    "episode": 96,
+    "meanReturn": -0.9583333333333334,
+    "accuracy": 0.5520833333333334,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-memory",
+    "seed": 3,
+    "episode": 104,
+    "meanReturn": -1.0384615384615385,
+    "accuracy": 0.5480769230769231,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-memory",
+    "seed": 3,
+    "episode": 112,
+    "meanReturn": -1.1071428571428572,
+    "accuracy": 0.5446428571428571,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-memory",
+    "seed": 3,
+    "episode": 120,
+    "meanReturn": -0.8333333333333334,
+    "accuracy": 0.5583333333333333,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-memory",
+    "seed": 3,
+    "episode": 128,
+    "meanReturn": -0.75,
+    "accuracy": 0.5625,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-memory",
+    "seed": 3,
+    "episode": 136,
+    "meanReturn": -1.1176470588235294,
+    "accuracy": 0.5441176470588235,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-memory",
+    "seed": 3,
+    "episode": 144,
+    "meanReturn": -1.0277777777777777,
+    "accuracy": 0.5486111111111112,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-memory",
+    "seed": 3,
+    "episode": 152,
+    "meanReturn": -1.0789473684210527,
+    "accuracy": 0.5460526315789473,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-memory",
+    "seed": 3,
+    "episode": 160,
+    "meanReturn": -1.125,
+    "accuracy": 0.54375,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-memory",
+    "seed": 3,
+    "episode": 168,
+    "meanReturn": -0.9285714285714286,
+    "accuracy": 0.5535714285714286,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-memory",
+    "seed": 3,
+    "episode": 176,
+    "meanReturn": -1.2045454545454546,
+    "accuracy": 0.5397727272727273,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-memory",
+    "seed": 3,
+    "episode": 184,
+    "meanReturn": -1.4565217391304348,
+    "accuracy": 0.5271739130434783,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-memory",
+    "seed": 3,
+    "episode": 192,
+    "meanReturn": -1.375,
+    "accuracy": 0.53125,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "previous-pair",
+    "seed": 3,
+    "episode": 8,
+    "meanReturn": -3,
+    "accuracy": 0.375,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "previous-pair",
+    "seed": 3,
+    "episode": 16,
+    "meanReturn": -3.75,
+    "accuracy": 0.375,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "previous-pair",
+    "seed": 3,
+    "episode": 24,
+    "meanReturn": -2.3333333333333335,
+    "accuracy": 0.4583333333333333,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "previous-pair",
+    "seed": 3,
+    "episode": 32,
+    "meanReturn": -1,
+    "accuracy": 0.53125,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "previous-pair",
+    "seed": 3,
+    "episode": 40,
+    "meanReturn": -0.2,
+    "accuracy": 0.575,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "previous-pair",
+    "seed": 3,
+    "episode": 48,
+    "meanReturn": -0.08333333333333333,
+    "accuracy": 0.5833333333333334,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "previous-pair",
+    "seed": 3,
+    "episode": 56,
+    "meanReturn": -1.0714285714285714,
+    "accuracy": 0.5357142857142857,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "previous-pair",
+    "seed": 3,
+    "episode": 64,
+    "meanReturn": -1.1875,
+    "accuracy": 0.53125,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "previous-pair",
+    "seed": 3,
+    "episode": 72,
+    "meanReturn": -1.2777777777777777,
+    "accuracy": 0.5277777777777778,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "previous-pair",
+    "seed": 3,
+    "episode": 80,
+    "meanReturn": -1.1,
+    "accuracy": 0.5375,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "previous-pair",
+    "seed": 3,
+    "episode": 88,
+    "meanReturn": -1.1818181818181819,
+    "accuracy": 0.5340909090909091,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "previous-pair",
+    "seed": 3,
+    "episode": 96,
+    "meanReturn": -0.8333333333333334,
+    "accuracy": 0.5520833333333334,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "previous-pair",
+    "seed": 3,
+    "episode": 104,
+    "meanReturn": -1.1153846153846154,
+    "accuracy": 0.5384615384615384,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "previous-pair",
+    "seed": 3,
+    "episode": 112,
+    "meanReturn": -1,
+    "accuracy": 0.5446428571428571,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "previous-pair",
+    "seed": 3,
+    "episode": 120,
+    "meanReturn": -0.9,
+    "accuracy": 0.55,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "previous-pair",
+    "seed": 3,
+    "episode": 128,
+    "meanReturn": -1.125,
+    "accuracy": 0.5390625,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "previous-pair",
+    "seed": 3,
+    "episode": 136,
+    "meanReturn": -1.6176470588235294,
+    "accuracy": 0.5147058823529411,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "previous-pair",
+    "seed": 3,
+    "episode": 144,
+    "meanReturn": -1.6388888888888888,
+    "accuracy": 0.5138888888888888,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "previous-pair",
+    "seed": 3,
+    "episode": 152,
+    "meanReturn": -1.7894736842105263,
+    "accuracy": 0.506578947368421,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "previous-pair",
+    "seed": 3,
+    "episode": 160,
+    "meanReturn": -1.925,
+    "accuracy": 0.5,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "previous-pair",
+    "seed": 3,
+    "episode": 168,
+    "meanReturn": -1.5714285714285714,
+    "accuracy": 0.5178571428571429,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "previous-pair",
+    "seed": 3,
+    "episode": 176,
+    "meanReturn": -1.4772727272727273,
+    "accuracy": 0.5227272727272727,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "previous-pair",
+    "seed": 3,
+    "episode": 184,
+    "meanReturn": -1.391304347826087,
+    "accuracy": 0.5271739130434783,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "previous-pair",
+    "seed": 3,
+    "episode": 192,
+    "meanReturn": -1.3125,
+    "accuracy": 0.53125,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "flat",
+    "seed": 3,
+    "episode": 8,
+    "meanReturn": -2,
+    "accuracy": 0.5,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "flat",
+    "seed": 3,
+    "episode": 16,
+    "meanReturn": -2,
+    "accuracy": 0.5,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "flat",
+    "seed": 3,
+    "episode": 24,
+    "meanReturn": -2,
+    "accuracy": 0.5,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "flat",
+    "seed": 3,
+    "episode": 32,
+    "meanReturn": -0.125,
+    "accuracy": 0.59375,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "flat",
+    "seed": 3,
+    "episode": 40,
+    "meanReturn": 1.5,
+    "accuracy": 0.675,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "flat",
+    "seed": 3,
+    "episode": 48,
+    "meanReturn": 2.1666666666666665,
+    "accuracy": 0.7083333333333334,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "flat",
+    "seed": 3,
+    "episode": 56,
+    "meanReturn": 3,
+    "accuracy": 0.75,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "flat",
+    "seed": 3,
+    "episode": 64,
+    "meanReturn": 3,
+    "accuracy": 0.75,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "flat",
+    "seed": 3,
+    "episode": 72,
+    "meanReturn": 3.5555555555555554,
+    "accuracy": 0.7777777777777778,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "flat",
+    "seed": 3,
+    "episode": 80,
+    "meanReturn": 4,
+    "accuracy": 0.8,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "flat",
+    "seed": 3,
+    "episode": 88,
+    "meanReturn": 4.363636363636363,
+    "accuracy": 0.8181818181818182,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "flat",
+    "seed": 3,
+    "episode": 96,
+    "meanReturn": 4.666666666666667,
+    "accuracy": 0.8333333333333334,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "flat",
+    "seed": 3,
+    "episode": 104,
+    "meanReturn": 4.538461538461538,
+    "accuracy": 0.8269230769230769,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "flat",
+    "seed": 3,
+    "episode": 112,
+    "meanReturn": 4.785714285714286,
+    "accuracy": 0.8392857142857143,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "flat",
+    "seed": 3,
+    "episode": 120,
+    "meanReturn": 4.833333333333333,
+    "accuracy": 0.8416666666666667,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "flat",
+    "seed": 3,
+    "episode": 128,
+    "meanReturn": 5.03125,
+    "accuracy": 0.8515625,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "flat",
+    "seed": 3,
+    "episode": 136,
+    "meanReturn": 5.0588235294117645,
+    "accuracy": 0.8529411764705882,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "flat",
+    "seed": 3,
+    "episode": 144,
+    "meanReturn": 4.944444444444445,
+    "accuracy": 0.8472222222222222,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "flat",
+    "seed": 3,
+    "episode": 152,
+    "meanReturn": 4.973684210526316,
+    "accuracy": 0.8486842105263158,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "flat",
+    "seed": 3,
+    "episode": 160,
+    "meanReturn": 5.125,
+    "accuracy": 0.85625,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "flat",
+    "seed": 3,
+    "episode": 168,
+    "meanReturn": 5.261904761904762,
+    "accuracy": 0.8630952380952381,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "flat",
+    "seed": 3,
+    "episode": 176,
+    "meanReturn": 5.2727272727272725,
+    "accuracy": 0.8636363636363636,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "flat",
+    "seed": 3,
+    "episode": 184,
+    "meanReturn": 5.391304347826087,
+    "accuracy": 0.8695652173913043,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "flat",
+    "seed": 3,
+    "episode": 192,
+    "meanReturn": 5.5,
+    "accuracy": 0.875,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "fixed-sum",
+    "seed": 3,
+    "episode": 8,
+    "meanReturn": 0.5,
+    "accuracy": 0.625,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "fixed-sum",
+    "seed": 3,
+    "episode": 16,
+    "meanReturn": -2,
+    "accuracy": 0.5,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "fixed-sum",
+    "seed": 3,
+    "episode": 24,
+    "meanReturn": -0.3333333333333333,
+    "accuracy": 0.5833333333333334,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "fixed-sum",
+    "seed": 3,
+    "episode": 32,
+    "meanReturn": 1.75,
+    "accuracy": 0.6875,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "fixed-sum",
+    "seed": 3,
+    "episode": 40,
+    "meanReturn": 3,
+    "accuracy": 0.75,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "fixed-sum",
+    "seed": 3,
+    "episode": 48,
+    "meanReturn": 3.4166666666666665,
+    "accuracy": 0.7708333333333334,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "fixed-sum",
+    "seed": 3,
+    "episode": 56,
+    "meanReturn": 3.7142857142857144,
+    "accuracy": 0.7857142857142857,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "fixed-sum",
+    "seed": 3,
+    "episode": 64,
+    "meanReturn": 3.625,
+    "accuracy": 0.78125,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "fixed-sum",
+    "seed": 3,
+    "episode": 72,
+    "meanReturn": 4.111111111111111,
+    "accuracy": 0.8055555555555556,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "fixed-sum",
+    "seed": 3,
+    "episode": 80,
+    "meanReturn": 4.5,
+    "accuracy": 0.825,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "fixed-sum",
+    "seed": 3,
+    "episode": 88,
+    "meanReturn": 4.818181818181818,
+    "accuracy": 0.8409090909090909,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "fixed-sum",
+    "seed": 3,
+    "episode": 96,
+    "meanReturn": 5.083333333333333,
+    "accuracy": 0.8541666666666666,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "fixed-sum",
+    "seed": 3,
+    "episode": 104,
+    "meanReturn": 5.115384615384615,
+    "accuracy": 0.8557692307692307,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "fixed-sum",
+    "seed": 3,
+    "episode": 112,
+    "meanReturn": 5.321428571428571,
+    "accuracy": 0.8660714285714286,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "fixed-sum",
+    "seed": 3,
+    "episode": 120,
+    "meanReturn": 5.5,
+    "accuracy": 0.875,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "fixed-sum",
+    "seed": 3,
+    "episode": 128,
+    "meanReturn": 5.5,
+    "accuracy": 0.875,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "fixed-sum",
+    "seed": 3,
+    "episode": 136,
+    "meanReturn": 5.5,
+    "accuracy": 0.875,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "fixed-sum",
+    "seed": 3,
+    "episode": 144,
+    "meanReturn": 5.5,
+    "accuracy": 0.875,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "fixed-sum",
+    "seed": 3,
+    "episode": 152,
+    "meanReturn": 5.5,
+    "accuracy": 0.875,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "fixed-sum",
+    "seed": 3,
+    "episode": 160,
+    "meanReturn": 5.625,
+    "accuracy": 0.88125,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "fixed-sum",
+    "seed": 3,
+    "episode": 168,
+    "meanReturn": 5.619047619047619,
+    "accuracy": 0.8809523809523809,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "fixed-sum",
+    "seed": 3,
+    "episode": 176,
+    "meanReturn": 5.613636363636363,
+    "accuracy": 0.8806818181818182,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "fixed-sum",
+    "seed": 3,
+    "episode": 184,
+    "meanReturn": 5.608695652173913,
+    "accuracy": 0.8804347826086957,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "fixed-sum",
+    "seed": 3,
+    "episode": 192,
+    "meanReturn": 5.708333333333333,
+    "accuracy": 0.8854166666666666,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "reused-service",
+    "seed": 3,
+    "episode": 8,
+    "meanReturn": -2,
+    "accuracy": 0.5,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "reused-service",
+    "seed": 3,
+    "episode": 16,
+    "meanReturn": -0.75,
+    "accuracy": 0.5625,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "reused-service",
+    "seed": 3,
+    "episode": 24,
+    "meanReturn": 1.3333333333333333,
+    "accuracy": 0.6666666666666666,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "reused-service",
+    "seed": 3,
+    "episode": 32,
+    "meanReturn": 3,
+    "accuracy": 0.75,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "reused-service",
+    "seed": 3,
+    "episode": 40,
+    "meanReturn": 4,
+    "accuracy": 0.8,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "reused-service",
+    "seed": 3,
+    "episode": 48,
+    "meanReturn": 4.666666666666667,
+    "accuracy": 0.8333333333333334,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "reused-service",
+    "seed": 3,
+    "episode": 56,
+    "meanReturn": 5.142857142857143,
+    "accuracy": 0.8571428571428571,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "reused-service",
+    "seed": 3,
+    "episode": 64,
+    "meanReturn": 4.875,
+    "accuracy": 0.84375,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "reused-service",
+    "seed": 3,
+    "episode": 72,
+    "meanReturn": 4.944444444444445,
+    "accuracy": 0.8472222222222222,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "reused-service",
+    "seed": 3,
+    "episode": 80,
+    "meanReturn": 5,
+    "accuracy": 0.85,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "reused-service",
+    "seed": 3,
+    "episode": 88,
+    "meanReturn": 5.2727272727272725,
+    "accuracy": 0.8636363636363636,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "reused-service",
+    "seed": 3,
+    "episode": 96,
+    "meanReturn": 5.5,
+    "accuracy": 0.875,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "reused-service",
+    "seed": 3,
+    "episode": 104,
+    "meanReturn": 5.6923076923076925,
+    "accuracy": 0.8846153846153846,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "reused-service",
+    "seed": 3,
+    "episode": 112,
+    "meanReturn": 5.857142857142857,
+    "accuracy": 0.8928571428571429,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "reused-service",
+    "seed": 3,
+    "episode": 120,
+    "meanReturn": 5.833333333333333,
+    "accuracy": 0.8916666666666667,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "reused-service",
+    "seed": 3,
+    "episode": 128,
+    "meanReturn": 5.65625,
+    "accuracy": 0.8828125,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "reused-service",
+    "seed": 3,
+    "episode": 136,
+    "meanReturn": 5.794117647058823,
+    "accuracy": 0.8897058823529411,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "reused-service",
+    "seed": 3,
+    "episode": 144,
+    "meanReturn": 5.916666666666667,
+    "accuracy": 0.8958333333333334,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "reused-service",
+    "seed": 3,
+    "episode": 152,
+    "meanReturn": 6.026315789473684,
+    "accuracy": 0.9013157894736842,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "reused-service",
+    "seed": 3,
+    "episode": 160,
+    "meanReturn": 6.125,
+    "accuracy": 0.90625,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "reused-service",
+    "seed": 3,
+    "episode": 168,
+    "meanReturn": 6.095238095238095,
+    "accuracy": 0.9047619047619048,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "reused-service",
+    "seed": 3,
+    "episode": 176,
+    "meanReturn": 6.068181818181818,
+    "accuracy": 0.9034090909090909,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "reused-service",
+    "seed": 3,
+    "episode": 184,
+    "meanReturn": 6.043478260869565,
+    "accuracy": 0.9021739130434783,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "reused-service",
+    "seed": 3,
+    "episode": 192,
+    "meanReturn": 6.020833333333333,
+    "accuracy": 0.9010416666666666,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fresh-service",
+    "seed": 3,
+    "episode": 8,
+    "meanReturn": -2,
+    "accuracy": 0.5,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fresh-service",
+    "seed": 3,
+    "episode": 16,
+    "meanReturn": -3.25,
+    "accuracy": 0.4375,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fresh-service",
+    "seed": 3,
+    "episode": 24,
+    "meanReturn": -2.8333333333333335,
+    "accuracy": 0.4583333333333333,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fresh-service",
+    "seed": 3,
+    "episode": 32,
+    "meanReturn": -2.625,
+    "accuracy": 0.46875,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fresh-service",
+    "seed": 3,
+    "episode": 40,
+    "meanReturn": -3,
+    "accuracy": 0.45,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fresh-service",
+    "seed": 3,
+    "episode": 48,
+    "meanReturn": -2.8333333333333335,
+    "accuracy": 0.4583333333333333,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fresh-service",
+    "seed": 3,
+    "episode": 56,
+    "meanReturn": -2.7142857142857144,
+    "accuracy": 0.4642857142857143,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fresh-service",
+    "seed": 3,
+    "episode": 64,
+    "meanReturn": -2.9375,
+    "accuracy": 0.453125,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fresh-service",
+    "seed": 3,
+    "episode": 72,
+    "meanReturn": -3.111111111111111,
+    "accuracy": 0.4444444444444444,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fresh-service",
+    "seed": 3,
+    "episode": 80,
+    "meanReturn": -2.75,
+    "accuracy": 0.4625,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fresh-service",
+    "seed": 3,
+    "episode": 88,
+    "meanReturn": -3.1363636363636362,
+    "accuracy": 0.4431818181818182,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fresh-service",
+    "seed": 3,
+    "episode": 96,
+    "meanReturn": -2.4166666666666665,
+    "accuracy": 0.4791666666666667,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fresh-service",
+    "seed": 3,
+    "episode": 104,
+    "meanReturn": -1.6153846153846154,
+    "accuracy": 0.5192307692307693,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fresh-service",
+    "seed": 3,
+    "episode": 112,
+    "meanReturn": -1.1071428571428572,
+    "accuracy": 0.5446428571428571,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fresh-service",
+    "seed": 3,
+    "episode": 120,
+    "meanReturn": -0.5,
+    "accuracy": 0.575,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fresh-service",
+    "seed": 3,
+    "episode": 128,
+    "meanReturn": -0.125,
+    "accuracy": 0.59375,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fresh-service",
+    "seed": 3,
+    "episode": 136,
+    "meanReturn": 0.35294117647058826,
+    "accuracy": 0.6176470588235294,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fresh-service",
+    "seed": 3,
+    "episode": 144,
+    "meanReturn": 0.6388888888888888,
+    "accuracy": 0.6319444444444444,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fresh-service",
+    "seed": 3,
+    "episode": 152,
+    "meanReturn": 1.0263157894736843,
+    "accuracy": 0.6513157894736842,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fresh-service",
+    "seed": 3,
+    "episode": 160,
+    "meanReturn": 1.375,
+    "accuracy": 0.66875,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fresh-service",
+    "seed": 3,
+    "episode": 168,
+    "meanReturn": 1.5714285714285714,
+    "accuracy": 0.6785714285714286,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fresh-service",
+    "seed": 3,
+    "episode": 176,
+    "meanReturn": 1.6363636363636365,
+    "accuracy": 0.6818181818181818,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fresh-service",
+    "seed": 3,
+    "episode": 184,
+    "meanReturn": 1.9130434782608696,
+    "accuracy": 0.6956521739130435,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fresh-service",
+    "seed": 3,
+    "episode": 192,
+    "meanReturn": 2.1666666666666665,
+    "accuracy": 0.7083333333333334,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "no-expansion",
+    "seed": 3,
+    "episode": 8,
+    "meanReturn": -2,
+    "accuracy": 0.5,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "no-expansion",
+    "seed": 3,
+    "episode": 16,
+    "meanReturn": -3.25,
+    "accuracy": 0.4375,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "no-expansion",
+    "seed": 3,
+    "episode": 24,
+    "meanReturn": -2,
+    "accuracy": 0.5,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "no-expansion",
+    "seed": 3,
+    "episode": 32,
+    "meanReturn": -0.75,
+    "accuracy": 0.5625,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "no-expansion",
+    "seed": 3,
+    "episode": 40,
+    "meanReturn": -0.5,
+    "accuracy": 0.575,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "no-expansion",
+    "seed": 3,
+    "episode": 48,
+    "meanReturn": -0.75,
+    "accuracy": 0.5625,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "no-expansion",
+    "seed": 3,
+    "episode": 56,
+    "meanReturn": -0.5714285714285714,
+    "accuracy": 0.5714285714285714,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "no-expansion",
+    "seed": 3,
+    "episode": 64,
+    "meanReturn": -0.125,
+    "accuracy": 0.59375,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "no-expansion",
+    "seed": 3,
+    "episode": 72,
+    "meanReturn": -0.05555555555555555,
+    "accuracy": 0.5972222222222222,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "no-expansion",
+    "seed": 3,
+    "episode": 80,
+    "meanReturn": -0.25,
+    "accuracy": 0.5875,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "no-expansion",
+    "seed": 3,
+    "episode": 88,
+    "meanReturn": -0.6363636363636364,
+    "accuracy": 0.5681818181818182,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "no-expansion",
+    "seed": 3,
+    "episode": 96,
+    "meanReturn": -0.9583333333333334,
+    "accuracy": 0.5520833333333334,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "no-expansion",
+    "seed": 3,
+    "episode": 104,
+    "meanReturn": -0.8461538461538461,
+    "accuracy": 0.5576923076923077,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "no-expansion",
+    "seed": 3,
+    "episode": 112,
+    "meanReturn": -0.5714285714285714,
+    "accuracy": 0.5714285714285714,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "no-expansion",
+    "seed": 3,
+    "episode": 120,
+    "meanReturn": -0.5,
+    "accuracy": 0.575,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "no-expansion",
+    "seed": 3,
+    "episode": 128,
+    "meanReturn": -0.59375,
+    "accuracy": 0.5703125,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "no-expansion",
+    "seed": 3,
+    "episode": 136,
+    "meanReturn": -0.5294117647058824,
+    "accuracy": 0.5735294117647058,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "no-expansion",
+    "seed": 3,
+    "episode": 144,
+    "meanReturn": -0.75,
+    "accuracy": 0.5625,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "no-expansion",
+    "seed": 3,
+    "episode": 152,
+    "meanReturn": -0.5526315789473685,
+    "accuracy": 0.5723684210526315,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "no-expansion",
+    "seed": 3,
+    "episode": 160,
+    "meanReturn": -0.625,
+    "accuracy": 0.56875,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "no-expansion",
+    "seed": 3,
+    "episode": 168,
+    "meanReturn": -0.4523809523809524,
+    "accuracy": 0.5773809523809523,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "no-expansion",
+    "seed": 3,
+    "episode": 176,
+    "meanReturn": -0.4090909090909091,
+    "accuracy": 0.5795454545454546,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "no-expansion",
+    "seed": 3,
+    "episode": 184,
+    "meanReturn": -0.4782608695652174,
+    "accuracy": 0.5760869565217391,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "no-expansion",
+    "seed": 3,
+    "episode": 192,
+    "meanReturn": -0.5416666666666666,
+    "accuracy": 0.5729166666666666,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "shuffled-communication",
+    "seed": 3,
+    "episode": 8,
+    "meanReturn": -3,
+    "accuracy": 0.375,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "shuffled-communication",
+    "seed": 3,
+    "episode": 16,
+    "meanReturn": -3.75,
+    "accuracy": 0.375,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "shuffled-communication",
+    "seed": 3,
+    "episode": 24,
+    "meanReturn": -1.5,
+    "accuracy": 0.5,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "shuffled-communication",
+    "seed": 3,
+    "episode": 32,
+    "meanReturn": -2.875,
+    "accuracy": 0.4375,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "shuffled-communication",
+    "seed": 3,
+    "episode": 40,
+    "meanReturn": -1.7,
+    "accuracy": 0.5,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "shuffled-communication",
+    "seed": 3,
+    "episode": 48,
+    "meanReturn": -0.9166666666666666,
+    "accuracy": 0.5416666666666666,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "shuffled-communication",
+    "seed": 3,
+    "episode": 56,
+    "meanReturn": -0.7142857142857143,
+    "accuracy": 0.5535714285714286,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "shuffled-communication",
+    "seed": 3,
+    "episode": 64,
+    "meanReturn": -0.5625,
+    "accuracy": 0.5625,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "shuffled-communication",
+    "seed": 3,
+    "episode": 72,
+    "meanReturn": -0.7222222222222222,
+    "accuracy": 0.5555555555555556,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "shuffled-communication",
+    "seed": 3,
+    "episode": 80,
+    "meanReturn": -1.1,
+    "accuracy": 0.5375,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "shuffled-communication",
+    "seed": 3,
+    "episode": 88,
+    "meanReturn": -1.4090909090909092,
+    "accuracy": 0.5227272727272727,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "shuffled-communication",
+    "seed": 3,
+    "episode": 96,
+    "meanReturn": -1.25,
+    "accuracy": 0.53125,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "shuffled-communication",
+    "seed": 3,
+    "episode": 104,
+    "meanReturn": -1.3076923076923077,
+    "accuracy": 0.5288461538461539,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "shuffled-communication",
+    "seed": 3,
+    "episode": 112,
+    "meanReturn": -1.3571428571428572,
+    "accuracy": 0.5267857142857143,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "shuffled-communication",
+    "seed": 3,
+    "episode": 120,
+    "meanReturn": -1.5666666666666667,
+    "accuracy": 0.5166666666666667,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "shuffled-communication",
+    "seed": 3,
+    "episode": 128,
+    "meanReturn": -1.90625,
+    "accuracy": 0.5,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "shuffled-communication",
+    "seed": 3,
+    "episode": 136,
+    "meanReturn": -1.6176470588235294,
+    "accuracy": 0.5147058823529411,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "shuffled-communication",
+    "seed": 3,
+    "episode": 144,
+    "meanReturn": -1.5,
+    "accuracy": 0.5208333333333334,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "shuffled-communication",
+    "seed": 3,
+    "episode": 152,
+    "meanReturn": -1.394736842105263,
+    "accuracy": 0.5263157894736842,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "shuffled-communication",
+    "seed": 3,
+    "episode": 160,
+    "meanReturn": -1.3,
+    "accuracy": 0.53125,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "shuffled-communication",
+    "seed": 3,
+    "episode": 168,
+    "meanReturn": -1.3333333333333333,
+    "accuracy": 0.5297619047619048,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "shuffled-communication",
+    "seed": 3,
+    "episode": 176,
+    "meanReturn": -1.5909090909090908,
+    "accuracy": 0.5170454545454546,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "shuffled-communication",
+    "seed": 3,
+    "episode": 184,
+    "meanReturn": -1.7173913043478262,
+    "accuracy": 0.5108695652173914,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "shuffled-communication",
+    "seed": 3,
+    "episode": 192,
+    "meanReturn": -1.8333333333333333,
+    "accuracy": 0.5052083333333334,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "flat",
+    "seed": 3,
+    "episode": 8,
+    "meanReturn": -2,
+    "accuracy": 0.5,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "flat",
+    "seed": 3,
+    "episode": 16,
+    "meanReturn": -0.75,
+    "accuracy": 0.5625,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "flat",
+    "seed": 3,
+    "episode": 24,
+    "meanReturn": -0.3333333333333333,
+    "accuracy": 0.5833333333333334,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "flat",
+    "seed": 3,
+    "episode": 32,
+    "meanReturn": 0.5,
+    "accuracy": 0.625,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "flat",
+    "seed": 3,
+    "episode": 40,
+    "meanReturn": 2,
+    "accuracy": 0.7,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "flat",
+    "seed": 3,
+    "episode": 48,
+    "meanReturn": 3,
+    "accuracy": 0.75,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "flat",
+    "seed": 3,
+    "episode": 56,
+    "meanReturn": 3.357142857142857,
+    "accuracy": 0.7678571428571429,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "flat",
+    "seed": 3,
+    "episode": 64,
+    "meanReturn": 3.625,
+    "accuracy": 0.78125,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "flat",
+    "seed": 3,
+    "episode": 72,
+    "meanReturn": 3.8333333333333335,
+    "accuracy": 0.7916666666666666,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "flat",
+    "seed": 3,
+    "episode": 80,
+    "meanReturn": 3.75,
+    "accuracy": 0.7875,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "flat",
+    "seed": 3,
+    "episode": 88,
+    "meanReturn": 4.136363636363637,
+    "accuracy": 0.8068181818181818,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "flat",
+    "seed": 3,
+    "episode": 96,
+    "meanReturn": 4.458333333333333,
+    "accuracy": 0.8229166666666666,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "flat",
+    "seed": 3,
+    "episode": 104,
+    "meanReturn": 4.730769230769231,
+    "accuracy": 0.8365384615384616,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "flat",
+    "seed": 3,
+    "episode": 112,
+    "meanReturn": 4.785714285714286,
+    "accuracy": 0.8392857142857143,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "flat",
+    "seed": 3,
+    "episode": 120,
+    "meanReturn": 4.833333333333333,
+    "accuracy": 0.8416666666666667,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "flat",
+    "seed": 3,
+    "episode": 128,
+    "meanReturn": 5.03125,
+    "accuracy": 0.8515625,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "flat",
+    "seed": 3,
+    "episode": 136,
+    "meanReturn": 5.205882352941177,
+    "accuracy": 0.8602941176470589,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "flat",
+    "seed": 3,
+    "episode": 144,
+    "meanReturn": 5.083333333333333,
+    "accuracy": 0.8541666666666666,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "flat",
+    "seed": 3,
+    "episode": 152,
+    "meanReturn": 4.973684210526316,
+    "accuracy": 0.8486842105263158,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "flat",
+    "seed": 3,
+    "episode": 160,
+    "meanReturn": 5.125,
+    "accuracy": 0.85625,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "flat",
+    "seed": 3,
+    "episode": 168,
+    "meanReturn": 5.142857142857143,
+    "accuracy": 0.8571428571428571,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "flat",
+    "seed": 3,
+    "episode": 176,
+    "meanReturn": 5.2727272727272725,
+    "accuracy": 0.8636363636363636,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "flat",
+    "seed": 3,
+    "episode": 184,
+    "meanReturn": 5.391304347826087,
+    "accuracy": 0.8695652173913043,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "flat",
+    "seed": 3,
+    "episode": 192,
+    "meanReturn": 5.5,
+    "accuracy": 0.875,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fixed-sum",
+    "seed": 3,
+    "episode": 8,
+    "meanReturn": -2,
+    "accuracy": 0.5,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fixed-sum",
+    "seed": 3,
+    "episode": 16,
+    "meanReturn": -0.75,
+    "accuracy": 0.5625,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fixed-sum",
+    "seed": 3,
+    "episode": 24,
+    "meanReturn": 1.3333333333333333,
+    "accuracy": 0.6666666666666666,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fixed-sum",
+    "seed": 3,
+    "episode": 32,
+    "meanReturn": 1.75,
+    "accuracy": 0.6875,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fixed-sum",
+    "seed": 3,
+    "episode": 40,
+    "meanReturn": 3,
+    "accuracy": 0.75,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fixed-sum",
+    "seed": 3,
+    "episode": 48,
+    "meanReturn": 3.8333333333333335,
+    "accuracy": 0.7916666666666666,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fixed-sum",
+    "seed": 3,
+    "episode": 56,
+    "meanReturn": 4.071428571428571,
+    "accuracy": 0.8035714285714286,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fixed-sum",
+    "seed": 3,
+    "episode": 64,
+    "meanReturn": 3.9375,
+    "accuracy": 0.796875,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fixed-sum",
+    "seed": 3,
+    "episode": 72,
+    "meanReturn": 4.388888888888889,
+    "accuracy": 0.8194444444444444,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fixed-sum",
+    "seed": 3,
+    "episode": 80,
+    "meanReturn": 4.5,
+    "accuracy": 0.825,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fixed-sum",
+    "seed": 3,
+    "episode": 88,
+    "meanReturn": 4.818181818181818,
+    "accuracy": 0.8409090909090909,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fixed-sum",
+    "seed": 3,
+    "episode": 96,
+    "meanReturn": 5.083333333333333,
+    "accuracy": 0.8541666666666666,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fixed-sum",
+    "seed": 3,
+    "episode": 104,
+    "meanReturn": 5.3076923076923075,
+    "accuracy": 0.8653846153846154,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fixed-sum",
+    "seed": 3,
+    "episode": 112,
+    "meanReturn": 5.321428571428571,
+    "accuracy": 0.8660714285714286,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fixed-sum",
+    "seed": 3,
+    "episode": 120,
+    "meanReturn": 5.166666666666667,
+    "accuracy": 0.8583333333333333,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fixed-sum",
+    "seed": 3,
+    "episode": 128,
+    "meanReturn": 5.34375,
+    "accuracy": 0.8671875,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fixed-sum",
+    "seed": 3,
+    "episode": 136,
+    "meanReturn": 5.5,
+    "accuracy": 0.875,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fixed-sum",
+    "seed": 3,
+    "episode": 144,
+    "meanReturn": 5.638888888888889,
+    "accuracy": 0.8819444444444444,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fixed-sum",
+    "seed": 3,
+    "episode": 152,
+    "meanReturn": 5.5,
+    "accuracy": 0.875,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fixed-sum",
+    "seed": 3,
+    "episode": 160,
+    "meanReturn": 5.625,
+    "accuracy": 0.88125,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fixed-sum",
+    "seed": 3,
+    "episode": 168,
+    "meanReturn": 5.619047619047619,
+    "accuracy": 0.8809523809523809,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fixed-sum",
+    "seed": 3,
+    "episode": 176,
+    "meanReturn": 5.7272727272727275,
+    "accuracy": 0.8863636363636364,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fixed-sum",
+    "seed": 3,
+    "episode": 184,
+    "meanReturn": 5.717391304347826,
+    "accuracy": 0.8858695652173914,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fixed-sum",
+    "seed": 3,
+    "episode": 192,
+    "meanReturn": 5.8125,
+    "accuracy": 0.890625,
+    "queryRate": 0
+  },
+  {
+    "stage": "refresh",
+    "variant": "immediate",
+    "seed": 3,
+    "episode": 64,
+    "meanReturn": 7.3125,
+    "accuracy": 0.953125,
+    "queryRate": 0.15625
+  },
+  {
+    "stage": "refresh",
+    "variant": "immediate",
+    "seed": 3,
+    "episode": 128,
+    "meanReturn": 6.78125,
+    "accuracy": 0.9375,
+    "queryRate": 0.125
+  },
+  {
+    "stage": "refresh",
+    "variant": "immediate",
+    "seed": 3,
+    "episode": 192,
+    "meanReturn": 7.03125,
+    "accuracy": 0.953125,
+    "queryRate": 0.109375
+  },
+  {
+    "stage": "refresh",
+    "variant": "immediate",
+    "seed": 3,
+    "episode": 256,
+    "meanReturn": 6.9921875,
+    "accuracy": 0.953125,
+    "queryRate": 0.10546875
+  },
+  {
+    "stage": "refresh",
+    "variant": "immediate",
+    "seed": 3,
+    "episode": 320,
+    "meanReturn": 6.84375,
+    "accuracy": 0.946875,
+    "queryRate": 0.103125
+  },
+  {
+    "stage": "refresh",
+    "variant": "immediate",
+    "seed": 3,
+    "episode": 384,
+    "meanReturn": 6.848958333333333,
+    "accuracy": 0.9479166666666666,
+    "queryRate": 0.1015625
+  },
+  {
+    "stage": "refresh",
+    "variant": "immediate",
+    "seed": 3,
+    "episode": 448,
+    "meanReturn": 6.897321428571429,
+    "accuracy": 0.9508928571428571,
+    "queryRate": 0.10044642857142858
+  },
+  {
+    "stage": "refresh",
+    "variant": "immediate",
+    "seed": 3,
+    "episode": 512,
+    "meanReturn": 6.765625,
+    "accuracy": 0.9453125,
+    "queryRate": 0.10546875
+  },
+  {
+    "stage": "refresh",
+    "variant": "immediate",
+    "seed": 3,
+    "episode": 576,
+    "meanReturn": 6.760416666666667,
+    "accuracy": 0.9461805555555556,
+    "queryRate": 0.11284722222222222
+  },
+  {
+    "stage": "refresh",
+    "variant": "immediate",
+    "seed": 3,
+    "episode": 640,
+    "meanReturn": 6.7875,
+    "accuracy": 0.9484375,
+    "queryRate": 0.11875
+  },
+  {
+    "stage": "refresh",
+    "variant": "immediate",
+    "seed": 3,
+    "episode": 704,
+    "meanReturn": 6.75,
+    "accuracy": 0.9474431818181818,
+    "queryRate": 0.125
+  },
+  {
+    "stage": "refresh",
+    "variant": "immediate",
+    "seed": 3,
+    "episode": 768,
+    "meanReturn": 6.7734375,
+    "accuracy": 0.94921875,
+    "queryRate": 0.12890625
+  },
+  {
+    "stage": "refresh",
+    "variant": "immediate",
+    "seed": 3,
+    "episode": 832,
+    "meanReturn": 6.721153846153846,
+    "accuracy": 0.9471153846153846,
+    "queryRate": 0.13221153846153846
+  },
+  {
+    "stage": "refresh",
+    "variant": "immediate",
+    "seed": 3,
+    "episode": 896,
+    "meanReturn": 6.790178571428571,
+    "accuracy": 0.9508928571428571,
+    "queryRate": 0.13392857142857142
+  },
+  {
+    "stage": "refresh",
+    "variant": "immediate",
+    "seed": 3,
+    "episode": 960,
+    "meanReturn": 6.808333333333334,
+    "accuracy": 0.9520833333333333,
+    "queryRate": 0.13541666666666666
+  },
+  {
+    "stage": "refresh",
+    "variant": "immediate",
+    "seed": 3,
+    "episode": 1024,
+    "meanReturn": 6.822265625,
+    "accuracy": 0.953125,
+    "queryRate": 0.1376953125
+  },
+  {
+    "stage": "refresh",
+    "variant": "immediate",
+    "seed": 3,
+    "episode": 1088,
+    "meanReturn": 6.8161764705882355,
+    "accuracy": 0.953125,
+    "queryRate": 0.13970588235294118
+  },
+  {
+    "stage": "refresh",
+    "variant": "immediate",
+    "seed": 3,
+    "episode": 1152,
+    "meanReturn": 6.828125,
+    "accuracy": 0.9539930555555556,
+    "queryRate": 0.14149305555555555
+  },
+  {
+    "stage": "refresh",
+    "variant": "immediate",
+    "seed": 3,
+    "episode": 1216,
+    "meanReturn": 6.881578947368421,
+    "accuracy": 0.9564144736842105,
+    "queryRate": 0.13815789473684212
+  },
+  {
+    "stage": "refresh",
+    "variant": "immediate",
+    "seed": 3,
+    "episode": 1280,
+    "meanReturn": 6.8796875,
+    "accuracy": 0.95625,
+    "queryRate": 0.13671875
+  },
+  {
+    "stage": "refresh",
+    "variant": "immediate",
+    "seed": 3,
+    "episode": 1344,
+    "meanReturn": 6.894345238095238,
+    "accuracy": 0.9568452380952381,
+    "queryRate": 0.13467261904761904
+  },
+  {
+    "stage": "refresh",
+    "variant": "immediate",
+    "seed": 3,
+    "episode": 1408,
+    "meanReturn": 6.893465909090909,
+    "accuracy": 0.9566761363636364,
+    "queryRate": 0.1328125
+  },
+  {
+    "stage": "refresh",
+    "variant": "immediate",
+    "seed": 3,
+    "episode": 1472,
+    "meanReturn": 6.887228260869565,
+    "accuracy": 0.9565217391304348,
+    "queryRate": 0.13383152173913043
+  },
+  {
+    "stage": "refresh",
+    "variant": "immediate",
+    "seed": 3,
+    "episode": 1536,
+    "meanReturn": 6.907552083333333,
+    "accuracy": 0.9576822916666666,
+    "queryRate": 0.134765625
+  },
+  {
+    "stage": "refresh",
+    "variant": "immediate",
+    "seed": 3,
+    "episode": 1600,
+    "meanReturn": 6.92625,
+    "accuracy": 0.95875,
+    "queryRate": 0.135625
+  },
+  {
+    "stage": "refresh",
+    "variant": "immediate",
+    "seed": 3,
+    "episode": 1664,
+    "meanReturn": 6.930288461538462,
+    "accuracy": 0.9591346153846154,
+    "queryRate": 0.13701923076923078
+  },
+  {
+    "stage": "refresh",
+    "variant": "immediate",
+    "seed": 3,
+    "episode": 1728,
+    "meanReturn": 6.935185185185185,
+    "accuracy": 0.9594907407407407,
+    "queryRate": 0.13773148148148148
+  },
+  {
+    "stage": "refresh",
+    "variant": "immediate",
+    "seed": 3,
+    "episode": 1792,
+    "meanReturn": 6.938616071428571,
+    "accuracy": 0.9598214285714286,
+    "queryRate": 0.13895089285714285
+  },
+  {
+    "stage": "refresh",
+    "variant": "immediate",
+    "seed": 3,
+    "episode": 1856,
+    "meanReturn": 6.936422413793103,
+    "accuracy": 0.9595905172413793,
+    "queryRate": 0.13739224137931033
+  },
+  {
+    "stage": "refresh",
+    "variant": "immediate",
+    "seed": 3,
+    "episode": 1920,
+    "meanReturn": 6.944791666666666,
+    "accuracy": 0.9598958333333333,
+    "queryRate": 0.1359375
+  },
+  {
+    "stage": "refresh",
+    "variant": "immediate",
+    "seed": 3,
+    "episode": 1984,
+    "meanReturn": 6.929435483870968,
+    "accuracy": 0.9591733870967742,
+    "queryRate": 0.13608870967741934
+  },
+  {
+    "stage": "refresh",
+    "variant": "immediate",
+    "seed": 3,
+    "episode": 2048,
+    "meanReturn": 6.9384765625,
+    "accuracy": 0.95947265625,
+    "queryRate": 0.13427734375
+  },
+  {
+    "stage": "refresh",
+    "variant": "delayed",
+    "seed": 3,
+    "episode": 64,
+    "meanReturn": 6.8125,
+    "accuracy": 0.9375,
+    "queryRate": 0.25
+  },
+  {
+    "stage": "refresh",
+    "variant": "delayed",
+    "seed": 3,
+    "episode": 128,
+    "meanReturn": 6.96875,
+    "accuracy": 0.9609375,
+    "queryRate": 0.265625
+  },
+  {
+    "stage": "refresh",
+    "variant": "delayed",
+    "seed": 3,
+    "episode": 192,
+    "meanReturn": 7.041666666666667,
+    "accuracy": 0.9635416666666666,
+    "queryRate": 0.20833333333333334
+  },
+  {
+    "stage": "refresh",
+    "variant": "delayed",
+    "seed": 3,
+    "episode": 256,
+    "meanReturn": 6.734375,
+    "accuracy": 0.953125,
+    "queryRate": 0.234375
+  },
+  {
+    "stage": "refresh",
+    "variant": "delayed",
+    "seed": 3,
+    "episode": 320,
+    "meanReturn": 6.6,
+    "accuracy": 0.959375,
+    "queryRate": 0.35
+  },
+  {
+    "stage": "refresh",
+    "variant": "delayed",
+    "seed": 3,
+    "episode": 384,
+    "meanReturn": 6.473958333333333,
+    "accuracy": 0.9635416666666666,
+    "queryRate": 0.4453125
+  },
+  {
+    "stage": "refresh",
+    "variant": "delayed",
+    "seed": 3,
+    "episode": 448,
+    "meanReturn": 6.424107142857143,
+    "accuracy": 0.96875,
+    "queryRate": 0.515625
+  },
+  {
+    "stage": "refresh",
+    "variant": "delayed",
+    "seed": 3,
+    "episode": 512,
+    "meanReturn": 6.3515625,
+    "accuracy": 0.970703125,
+    "queryRate": 0.56640625
+  },
+  {
+    "stage": "refresh",
+    "variant": "delayed",
+    "seed": 3,
+    "episode": 576,
+    "meanReturn": 6.326388888888889,
+    "accuracy": 0.9739583333333334,
+    "queryRate": 0.6076388888888888
+  },
+  {
+    "stage": "refresh",
+    "variant": "delayed",
+    "seed": 3,
+    "episode": 640,
+    "meanReturn": 6.30625,
+    "accuracy": 0.9765625,
+    "queryRate": 0.640625
+  },
+  {
+    "stage": "refresh",
+    "variant": "delayed",
+    "seed": 3,
+    "episode": 704,
+    "meanReturn": 6.2414772727272725,
+    "accuracy": 0.9730113636363636,
+    "queryRate": 0.6349431818181818
+  },
+  {
+    "stage": "refresh",
+    "variant": "delayed",
+    "seed": 3,
+    "episode": 768,
+    "meanReturn": 6.205729166666667,
+    "accuracy": 0.9739583333333334,
+    "queryRate": 0.66015625
+  },
+  {
+    "stage": "refresh",
+    "variant": "delayed",
+    "seed": 3,
+    "episode": 832,
+    "meanReturn": 6.199519230769231,
+    "accuracy": 0.9759615384615384,
+    "queryRate": 0.6814903846153846
+  },
+  {
+    "stage": "refresh",
+    "variant": "delayed",
+    "seed": 3,
+    "episode": 896,
+    "meanReturn": 6.236607142857143,
+    "accuracy": 0.9776785714285714,
+    "queryRate": 0.6785714285714286
+  },
+  {
+    "stage": "refresh",
+    "variant": "delayed",
+    "seed": 3,
+    "episode": 960,
+    "meanReturn": 6.252083333333333,
+    "accuracy": 0.9760416666666667,
+    "queryRate": 0.653125
+  },
+  {
+    "stage": "refresh",
+    "variant": "delayed",
+    "seed": 3,
+    "episode": 1024,
+    "meanReturn": 6.26953125,
+    "accuracy": 0.974609375,
+    "queryRate": 0.62890625
+  },
+  {
+    "stage": "refresh",
+    "variant": "delayed",
+    "seed": 3,
+    "episode": 1088,
+    "meanReturn": 6.264705882352941,
+    "accuracy": 0.9724264705882353,
+    "queryRate": 0.6084558823529411
+  },
+  {
+    "stage": "refresh",
+    "variant": "delayed",
+    "seed": 3,
+    "episode": 1152,
+    "meanReturn": 6.333333333333333,
+    "accuracy": 0.9730902777777778,
+    "queryRate": 0.5798611111111112
+  },
+  {
+    "stage": "refresh",
+    "variant": "delayed",
+    "seed": 3,
+    "episode": 1216,
+    "meanReturn": 6.416118421052632,
+    "accuracy": 0.9745065789473685,
+    "queryRate": 0.5518092105263158
+  },
+  {
+    "stage": "refresh",
+    "variant": "delayed",
+    "seed": 3,
+    "episode": 1280,
+    "meanReturn": 6.36875,
+    "accuracy": 0.9703125,
+    "queryRate": 0.5328125
+  },
+  {
+    "stage": "refresh",
+    "variant": "delayed",
+    "seed": 3,
+    "episode": 1344,
+    "meanReturn": 6.363095238095238,
+    "accuracy": 0.96875,
+    "queryRate": 0.5193452380952381
+  },
+  {
+    "stage": "refresh",
+    "variant": "delayed",
+    "seed": 3,
+    "episode": 1408,
+    "meanReturn": 6.313920454545454,
+    "accuracy": 0.9659090909090909,
+    "queryRate": 0.5149147727272727
+  },
+  {
+    "stage": "refresh",
+    "variant": "delayed",
+    "seed": 3,
+    "episode": 1472,
+    "meanReturn": 6.305706521739131,
+    "accuracy": 0.967391304347826,
+    "queryRate": 0.5332880434782609
+  },
+  {
+    "stage": "refresh",
+    "variant": "delayed",
+    "seed": 3,
+    "episode": 1536,
+    "meanReturn": 6.338541666666667,
+    "accuracy": 0.96875,
+    "queryRate": 0.5299479166666666
+  },
+  {
+    "stage": "refresh",
+    "variant": "delayed",
+    "seed": 3,
+    "episode": 1600,
+    "meanReturn": 6.3825,
+    "accuracy": 0.97,
+    "queryRate": 0.52
+  },
+  {
+    "stage": "refresh",
+    "variant": "delayed",
+    "seed": 3,
+    "episode": 1664,
+    "meanReturn": 6.393028846153846,
+    "accuracy": 0.9693509615384616,
+    "queryRate": 0.5078125
+  },
+  {
+    "stage": "refresh",
+    "variant": "delayed",
+    "seed": 3,
+    "episode": 1728,
+    "meanReturn": 6.377314814814815,
+    "accuracy": 0.9675925925925926,
+    "queryRate": 0.4976851851851852
+  },
+  {
+    "stage": "refresh",
+    "variant": "delayed",
+    "seed": 3,
+    "episode": 1792,
+    "meanReturn": 6.358258928571429,
+    "accuracy": 0.9670758928571429,
+    "queryRate": 0.5016741071428571
+  },
+  {
+    "stage": "refresh",
+    "variant": "delayed",
+    "seed": 3,
+    "episode": 1856,
+    "meanReturn": 6.3405172413793105,
+    "accuracy": 0.9676724137931034,
+    "queryRate": 0.5161637931034483
+  },
+  {
+    "stage": "refresh",
+    "variant": "delayed",
+    "seed": 3,
+    "episode": 1920,
+    "meanReturn": 6.334375,
+    "accuracy": 0.96875,
+    "queryRate": 0.5296875
+  },
+  {
+    "stage": "refresh",
+    "variant": "delayed",
+    "seed": 3,
+    "episode": 1984,
+    "meanReturn": 6.327620967741935,
+    "accuracy": 0.969758064516129,
+    "queryRate": 0.5428427419354839
+  },
+  {
+    "stage": "refresh",
+    "variant": "delayed",
+    "seed": 3,
+    "episode": 2048,
+    "meanReturn": 6.3359375,
+    "accuracy": 0.9697265625,
+    "queryRate": 0.5380859375
+  },
+  {
+    "stage": "discovery",
+    "variant": "learned",
+    "seed": 4,
+    "episode": 64,
+    "meanReturn": 0,
+    "accuracy": 0.484375,
+    "queryRate": 0
+  },
+  {
+    "stage": "discovery",
+    "variant": "learned",
+    "seed": 4,
+    "episode": 128,
+    "meanReturn": 0,
+    "accuracy": 0.609375,
+    "queryRate": 0
+  },
+  {
+    "stage": "discovery",
+    "variant": "learned",
+    "seed": 4,
+    "episode": 192,
+    "meanReturn": 0,
+    "accuracy": 0.7395833333333334,
+    "queryRate": 0
+  },
+  {
+    "stage": "discovery",
+    "variant": "learned",
+    "seed": 4,
+    "episode": 256,
+    "meanReturn": 0,
+    "accuracy": 0.8046875,
+    "queryRate": 0
+  },
+  {
+    "stage": "discovery",
+    "variant": "learned",
+    "seed": 4,
+    "episode": 320,
+    "meanReturn": 0,
+    "accuracy": 0.84375,
+    "queryRate": 0
+  },
+  {
+    "stage": "discovery",
+    "variant": "learned",
+    "seed": 4,
+    "episode": 384,
+    "meanReturn": 0,
+    "accuracy": 0.8697916666666666,
+    "queryRate": 0
+  },
+  {
+    "stage": "discovery",
+    "variant": "no-expansion",
+    "seed": 4,
+    "episode": 64,
+    "meanReturn": 0,
+    "accuracy": 0.484375,
+    "queryRate": 0
+  },
+  {
+    "stage": "discovery",
+    "variant": "no-expansion",
+    "seed": 4,
+    "episode": 128,
+    "meanReturn": 0,
+    "accuracy": 0.484375,
+    "queryRate": 0
+  },
+  {
+    "stage": "discovery",
+    "variant": "no-expansion",
+    "seed": 4,
+    "episode": 192,
+    "meanReturn": 0,
+    "accuracy": 0.4947916666666667,
+    "queryRate": 0
+  },
+  {
+    "stage": "discovery",
+    "variant": "no-expansion",
+    "seed": 4,
+    "episode": 256,
+    "meanReturn": 0,
+    "accuracy": 0.48828125,
+    "queryRate": 0
+  },
+  {
+    "stage": "discovery",
+    "variant": "no-expansion",
+    "seed": 4,
+    "episode": 320,
+    "meanReturn": 0,
+    "accuracy": 0.509375,
+    "queryRate": 0
+  },
+  {
+    "stage": "discovery",
+    "variant": "no-expansion",
+    "seed": 4,
+    "episode": 384,
+    "meanReturn": 0,
+    "accuracy": 0.5052083333333334,
+    "queryRate": 0
+  },
+  {
+    "stage": "discovery",
+    "variant": "frozen",
+    "seed": 4,
+    "episode": 64,
+    "meanReturn": 0,
+    "accuracy": 0,
+    "queryRate": 0
+  },
+  {
+    "stage": "discovery",
+    "variant": "frozen",
+    "seed": 4,
+    "episode": 128,
+    "meanReturn": 0,
+    "accuracy": 0,
+    "queryRate": 0
+  },
+  {
+    "stage": "discovery",
+    "variant": "frozen",
+    "seed": 4,
+    "episode": 192,
+    "meanReturn": 0,
+    "accuracy": 0,
+    "queryRate": 0
+  },
+  {
+    "stage": "discovery",
+    "variant": "frozen",
+    "seed": 4,
+    "episode": 256,
+    "meanReturn": 0,
+    "accuracy": 0,
+    "queryRate": 0
+  },
+  {
+    "stage": "discovery",
+    "variant": "frozen",
+    "seed": 4,
+    "episode": 320,
+    "meanReturn": 0,
+    "accuracy": 0,
+    "queryRate": 0
+  },
+  {
+    "stage": "discovery",
+    "variant": "frozen",
+    "seed": 4,
+    "episode": 384,
+    "meanReturn": 0,
+    "accuracy": 0,
+    "queryRate": 0
+  },
+  {
+    "stage": "discovery",
+    "variant": "shuffled-feedback",
+    "seed": 4,
+    "episode": 64,
+    "meanReturn": 0,
+    "accuracy": 0.15625,
+    "queryRate": 0
+  },
+  {
+    "stage": "discovery",
+    "variant": "shuffled-feedback",
+    "seed": 4,
+    "episode": 128,
+    "meanReturn": 0,
+    "accuracy": 0.28125,
+    "queryRate": 0
+  },
+  {
+    "stage": "discovery",
+    "variant": "shuffled-feedback",
+    "seed": 4,
+    "episode": 192,
+    "meanReturn": 0,
+    "accuracy": 0.34375,
+    "queryRate": 0
+  },
+  {
+    "stage": "discovery",
+    "variant": "shuffled-feedback",
+    "seed": 4,
+    "episode": 256,
+    "meanReturn": 0,
+    "accuracy": 0.36328125,
+    "queryRate": 0
+  },
+  {
+    "stage": "discovery",
+    "variant": "shuffled-feedback",
+    "seed": 4,
+    "episode": 320,
+    "meanReturn": 0,
+    "accuracy": 0.384375,
+    "queryRate": 0
+  },
+  {
+    "stage": "discovery",
+    "variant": "shuffled-feedback",
+    "seed": 4,
+    "episode": 384,
+    "meanReturn": 0,
+    "accuracy": 0.4114583333333333,
+    "queryRate": 0
+  },
+  {
+    "stage": "discovery",
+    "variant": "shuffled-communication",
+    "seed": 4,
+    "episode": 64,
+    "meanReturn": 0,
+    "accuracy": 0.484375,
+    "queryRate": 0
+  },
+  {
+    "stage": "discovery",
+    "variant": "shuffled-communication",
+    "seed": 4,
+    "episode": 128,
+    "meanReturn": 0,
+    "accuracy": 0.484375,
+    "queryRate": 0
+  },
+  {
+    "stage": "discovery",
+    "variant": "shuffled-communication",
+    "seed": 4,
+    "episode": 192,
+    "meanReturn": 0,
+    "accuracy": 0.4947916666666667,
+    "queryRate": 0
+  },
+  {
+    "stage": "discovery",
+    "variant": "shuffled-communication",
+    "seed": 4,
+    "episode": 256,
+    "meanReturn": 0,
+    "accuracy": 0.4765625,
+    "queryRate": 0
+  },
+  {
+    "stage": "discovery",
+    "variant": "shuffled-communication",
+    "seed": 4,
+    "episode": 320,
+    "meanReturn": 0,
+    "accuracy": 0.5,
+    "queryRate": 0
+  },
+  {
+    "stage": "discovery",
+    "variant": "shuffled-communication",
+    "seed": 4,
+    "episode": 384,
+    "meanReturn": 0,
+    "accuracy": 0.5052083333333334,
+    "queryRate": 0
+  },
+  {
+    "stage": "discovery",
+    "variant": "no-memory",
+    "seed": 4,
+    "episode": 64,
+    "meanReturn": 0,
+    "accuracy": 0.3125,
+    "queryRate": 0
+  },
+  {
+    "stage": "discovery",
+    "variant": "no-memory",
+    "seed": 4,
+    "episode": 128,
+    "meanReturn": 0,
+    "accuracy": 0.296875,
+    "queryRate": 0
+  },
+  {
+    "stage": "discovery",
+    "variant": "no-memory",
+    "seed": 4,
+    "episode": 192,
+    "meanReturn": 0,
+    "accuracy": 0.328125,
+    "queryRate": 0
+  },
+  {
+    "stage": "discovery",
+    "variant": "no-memory",
+    "seed": 4,
+    "episode": 256,
+    "meanReturn": 0,
+    "accuracy": 0.33984375,
+    "queryRate": 0
+  },
+  {
+    "stage": "discovery",
+    "variant": "no-memory",
+    "seed": 4,
+    "episode": 320,
+    "meanReturn": 0,
+    "accuracy": 0.3625,
+    "queryRate": 0
+  },
+  {
+    "stage": "discovery",
+    "variant": "no-memory",
+    "seed": 4,
+    "episode": 384,
+    "meanReturn": 0,
+    "accuracy": 0.3645833333333333,
+    "queryRate": 0
+  },
+  {
+    "stage": "discovery",
+    "variant": "previous-pair",
+    "seed": 4,
+    "episode": 64,
+    "meanReturn": 0,
+    "accuracy": 0.359375,
+    "queryRate": 0
+  },
+  {
+    "stage": "discovery",
+    "variant": "previous-pair",
+    "seed": 4,
+    "episode": 128,
+    "meanReturn": 0,
+    "accuracy": 0.390625,
+    "queryRate": 0
+  },
+  {
+    "stage": "discovery",
+    "variant": "previous-pair",
+    "seed": 4,
+    "episode": 192,
+    "meanReturn": 0,
+    "accuracy": 0.421875,
+    "queryRate": 0
+  },
+  {
+    "stage": "discovery",
+    "variant": "previous-pair",
+    "seed": 4,
+    "episode": 256,
+    "meanReturn": 0,
+    "accuracy": 0.42578125,
+    "queryRate": 0
+  },
+  {
+    "stage": "discovery",
+    "variant": "previous-pair",
+    "seed": 4,
+    "episode": 320,
+    "meanReturn": 0,
+    "accuracy": 0.4375,
+    "queryRate": 0
+  },
+  {
+    "stage": "discovery",
+    "variant": "previous-pair",
+    "seed": 4,
+    "episode": 384,
+    "meanReturn": 0,
+    "accuracy": 0.4479166666666667,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "learned",
+    "seed": 4,
+    "episode": 8,
+    "meanReturn": -2,
+    "accuracy": 0.5,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "learned",
+    "seed": 4,
+    "episode": 16,
+    "meanReturn": 1.75,
+    "accuracy": 0.6875,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "learned",
+    "seed": 4,
+    "episode": 24,
+    "meanReturn": 2.1666666666666665,
+    "accuracy": 0.7083333333333334,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "learned",
+    "seed": 4,
+    "episode": 32,
+    "meanReturn": 3,
+    "accuracy": 0.75,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "learned",
+    "seed": 4,
+    "episode": 40,
+    "meanReturn": 4,
+    "accuracy": 0.8,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "learned",
+    "seed": 4,
+    "episode": 48,
+    "meanReturn": 4.666666666666667,
+    "accuracy": 0.8333333333333334,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "learned",
+    "seed": 4,
+    "episode": 56,
+    "meanReturn": 4.428571428571429,
+    "accuracy": 0.8214285714285714,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "learned",
+    "seed": 4,
+    "episode": 64,
+    "meanReturn": 4.875,
+    "accuracy": 0.84375,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "learned",
+    "seed": 4,
+    "episode": 72,
+    "meanReturn": 5.222222222222222,
+    "accuracy": 0.8611111111111112,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "learned",
+    "seed": 4,
+    "episode": 80,
+    "meanReturn": 5.25,
+    "accuracy": 0.8625,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "learned",
+    "seed": 4,
+    "episode": 88,
+    "meanReturn": 5.5,
+    "accuracy": 0.875,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "learned",
+    "seed": 4,
+    "episode": 96,
+    "meanReturn": 5.708333333333333,
+    "accuracy": 0.8854166666666666,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "learned",
+    "seed": 4,
+    "episode": 104,
+    "meanReturn": 5.6923076923076925,
+    "accuracy": 0.8846153846153846,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "learned",
+    "seed": 4,
+    "episode": 112,
+    "meanReturn": 5.5,
+    "accuracy": 0.875,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "learned",
+    "seed": 4,
+    "episode": 120,
+    "meanReturn": 5.666666666666667,
+    "accuracy": 0.8833333333333333,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "learned",
+    "seed": 4,
+    "episode": 128,
+    "meanReturn": 5.8125,
+    "accuracy": 0.890625,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "learned",
+    "seed": 4,
+    "episode": 136,
+    "meanReturn": 5.9411764705882355,
+    "accuracy": 0.8970588235294118,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "learned",
+    "seed": 4,
+    "episode": 144,
+    "meanReturn": 6.055555555555555,
+    "accuracy": 0.9027777777777778,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "learned",
+    "seed": 4,
+    "episode": 152,
+    "meanReturn": 5.894736842105263,
+    "accuracy": 0.8947368421052632,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "learned",
+    "seed": 4,
+    "episode": 160,
+    "meanReturn": 6,
+    "accuracy": 0.9,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "learned",
+    "seed": 4,
+    "episode": 168,
+    "meanReturn": 6.095238095238095,
+    "accuracy": 0.9047619047619048,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "learned",
+    "seed": 4,
+    "episode": 176,
+    "meanReturn": 6.068181818181818,
+    "accuracy": 0.9034090909090909,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "learned",
+    "seed": 4,
+    "episode": 184,
+    "meanReturn": 6.1521739130434785,
+    "accuracy": 0.907608695652174,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "learned",
+    "seed": 4,
+    "episode": 192,
+    "meanReturn": 6.229166666666667,
+    "accuracy": 0.9114583333333334,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-expansion",
+    "seed": 4,
+    "episode": 8,
+    "meanReturn": -2,
+    "accuracy": 0.5,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-expansion",
+    "seed": 4,
+    "episode": 16,
+    "meanReturn": -2,
+    "accuracy": 0.5,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-expansion",
+    "seed": 4,
+    "episode": 24,
+    "meanReturn": -0.3333333333333333,
+    "accuracy": 0.5833333333333334,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-expansion",
+    "seed": 4,
+    "episode": 32,
+    "meanReturn": -1.375,
+    "accuracy": 0.53125,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-expansion",
+    "seed": 4,
+    "episode": 40,
+    "meanReturn": -1,
+    "accuracy": 0.55,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-expansion",
+    "seed": 4,
+    "episode": 48,
+    "meanReturn": -1.5833333333333333,
+    "accuracy": 0.5208333333333334,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-expansion",
+    "seed": 4,
+    "episode": 56,
+    "meanReturn": -1.6428571428571428,
+    "accuracy": 0.5178571428571429,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-expansion",
+    "seed": 4,
+    "episode": 64,
+    "meanReturn": -2,
+    "accuracy": 0.5,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-expansion",
+    "seed": 4,
+    "episode": 72,
+    "meanReturn": -2.5555555555555554,
+    "accuracy": 0.4722222222222222,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-expansion",
+    "seed": 4,
+    "episode": 80,
+    "meanReturn": -2,
+    "accuracy": 0.5,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-expansion",
+    "seed": 4,
+    "episode": 88,
+    "meanReturn": -1.5454545454545454,
+    "accuracy": 0.5227272727272727,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-expansion",
+    "seed": 4,
+    "episode": 96,
+    "meanReturn": -1.5833333333333333,
+    "accuracy": 0.5208333333333334,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-expansion",
+    "seed": 4,
+    "episode": 104,
+    "meanReturn": -1.4230769230769231,
+    "accuracy": 0.5288461538461539,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-expansion",
+    "seed": 4,
+    "episode": 112,
+    "meanReturn": -1.6428571428571428,
+    "accuracy": 0.5178571428571429,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-expansion",
+    "seed": 4,
+    "episode": 120,
+    "meanReturn": -1.1666666666666667,
+    "accuracy": 0.5416666666666666,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-expansion",
+    "seed": 4,
+    "episode": 128,
+    "meanReturn": -1.0625,
+    "accuracy": 0.546875,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-expansion",
+    "seed": 4,
+    "episode": 136,
+    "meanReturn": -1.1176470588235294,
+    "accuracy": 0.5441176470588235,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-expansion",
+    "seed": 4,
+    "episode": 144,
+    "meanReturn": -0.8888888888888888,
+    "accuracy": 0.5555555555555556,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-expansion",
+    "seed": 4,
+    "episode": 152,
+    "meanReturn": -1.0789473684210527,
+    "accuracy": 0.5460526315789473,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-expansion",
+    "seed": 4,
+    "episode": 160,
+    "meanReturn": -1.25,
+    "accuracy": 0.5375,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-expansion",
+    "seed": 4,
+    "episode": 168,
+    "meanReturn": -0.8095238095238095,
+    "accuracy": 0.5595238095238095,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-expansion",
+    "seed": 4,
+    "episode": 176,
+    "meanReturn": -0.6363636363636364,
+    "accuracy": 0.5681818181818182,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-expansion",
+    "seed": 4,
+    "episode": 184,
+    "meanReturn": -0.8043478260869565,
+    "accuracy": 0.5597826086956522,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-expansion",
+    "seed": 4,
+    "episode": 192,
+    "meanReturn": -0.75,
+    "accuracy": 0.5625,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "frozen",
+    "seed": 4,
+    "episode": 8,
+    "meanReturn": -2,
+    "accuracy": 0.5,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "frozen",
+    "seed": 4,
+    "episode": 16,
+    "meanReturn": -2,
+    "accuracy": 0.5,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "frozen",
+    "seed": 4,
+    "episode": 24,
+    "meanReturn": -0.3333333333333333,
+    "accuracy": 0.5833333333333334,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "frozen",
+    "seed": 4,
+    "episode": 32,
+    "meanReturn": -1.375,
+    "accuracy": 0.53125,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "frozen",
+    "seed": 4,
+    "episode": 40,
+    "meanReturn": -1,
+    "accuracy": 0.55,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "frozen",
+    "seed": 4,
+    "episode": 48,
+    "meanReturn": -1.5833333333333333,
+    "accuracy": 0.5208333333333334,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "frozen",
+    "seed": 4,
+    "episode": 56,
+    "meanReturn": -1.6428571428571428,
+    "accuracy": 0.5178571428571429,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "frozen",
+    "seed": 4,
+    "episode": 64,
+    "meanReturn": -2,
+    "accuracy": 0.5,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "frozen",
+    "seed": 4,
+    "episode": 72,
+    "meanReturn": -2.5555555555555554,
+    "accuracy": 0.4722222222222222,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "frozen",
+    "seed": 4,
+    "episode": 80,
+    "meanReturn": -2,
+    "accuracy": 0.5,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "frozen",
+    "seed": 4,
+    "episode": 88,
+    "meanReturn": -1.5454545454545454,
+    "accuracy": 0.5227272727272727,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "frozen",
+    "seed": 4,
+    "episode": 96,
+    "meanReturn": -1.5833333333333333,
+    "accuracy": 0.5208333333333334,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "frozen",
+    "seed": 4,
+    "episode": 104,
+    "meanReturn": -1.4230769230769231,
+    "accuracy": 0.5288461538461539,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "frozen",
+    "seed": 4,
+    "episode": 112,
+    "meanReturn": -1.6428571428571428,
+    "accuracy": 0.5178571428571429,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "frozen",
+    "seed": 4,
+    "episode": 120,
+    "meanReturn": -1.1666666666666667,
+    "accuracy": 0.5416666666666666,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "frozen",
+    "seed": 4,
+    "episode": 128,
+    "meanReturn": -1.0625,
+    "accuracy": 0.546875,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "frozen",
+    "seed": 4,
+    "episode": 136,
+    "meanReturn": -1.1176470588235294,
+    "accuracy": 0.5441176470588235,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "frozen",
+    "seed": 4,
+    "episode": 144,
+    "meanReturn": -0.8888888888888888,
+    "accuracy": 0.5555555555555556,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "frozen",
+    "seed": 4,
+    "episode": 152,
+    "meanReturn": -1.0789473684210527,
+    "accuracy": 0.5460526315789473,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "frozen",
+    "seed": 4,
+    "episode": 160,
+    "meanReturn": -1.25,
+    "accuracy": 0.5375,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "frozen",
+    "seed": 4,
+    "episode": 168,
+    "meanReturn": -0.8095238095238095,
+    "accuracy": 0.5595238095238095,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "frozen",
+    "seed": 4,
+    "episode": 176,
+    "meanReturn": -0.6363636363636364,
+    "accuracy": 0.5681818181818182,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "frozen",
+    "seed": 4,
+    "episode": 184,
+    "meanReturn": -0.8043478260869565,
+    "accuracy": 0.5597826086956522,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "frozen",
+    "seed": 4,
+    "episode": 192,
+    "meanReturn": -0.75,
+    "accuracy": 0.5625,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-feedback",
+    "seed": 4,
+    "episode": 8,
+    "meanReturn": -3,
+    "accuracy": 0.375,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-feedback",
+    "seed": 4,
+    "episode": 16,
+    "meanReturn": 0,
+    "accuracy": 0.5625,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-feedback",
+    "seed": 4,
+    "episode": 24,
+    "meanReturn": 0.16666666666666666,
+    "accuracy": 0.5833333333333334,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-feedback",
+    "seed": 4,
+    "episode": 32,
+    "meanReturn": -1,
+    "accuracy": 0.53125,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-feedback",
+    "seed": 4,
+    "episode": 40,
+    "meanReturn": -1.2,
+    "accuracy": 0.525,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-feedback",
+    "seed": 4,
+    "episode": 48,
+    "meanReturn": -1.3333333333333333,
+    "accuracy": 0.5208333333333334,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-feedback",
+    "seed": 4,
+    "episode": 56,
+    "meanReturn": -1.0714285714285714,
+    "accuracy": 0.5357142857142857,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-feedback",
+    "seed": 4,
+    "episode": 64,
+    "meanReturn": -1.5,
+    "accuracy": 0.515625,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-feedback",
+    "seed": 4,
+    "episode": 72,
+    "meanReturn": -1.5555555555555556,
+    "accuracy": 0.5138888888888888,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-feedback",
+    "seed": 4,
+    "episode": 80,
+    "meanReturn": -1.35,
+    "accuracy": 0.525,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-feedback",
+    "seed": 4,
+    "episode": 88,
+    "meanReturn": -0.9545454545454546,
+    "accuracy": 0.5454545454545454,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-feedback",
+    "seed": 4,
+    "episode": 96,
+    "meanReturn": -0.625,
+    "accuracy": 0.5625,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-feedback",
+    "seed": 4,
+    "episode": 104,
+    "meanReturn": -0.5384615384615384,
+    "accuracy": 0.5673076923076923,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-feedback",
+    "seed": 4,
+    "episode": 112,
+    "meanReturn": -0.6428571428571429,
+    "accuracy": 0.5625,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-feedback",
+    "seed": 4,
+    "episode": 120,
+    "meanReturn": -0.4,
+    "accuracy": 0.575,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-feedback",
+    "seed": 4,
+    "episode": 128,
+    "meanReturn": -0.5,
+    "accuracy": 0.5703125,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-feedback",
+    "seed": 4,
+    "episode": 136,
+    "meanReturn": -0.5882352941176471,
+    "accuracy": 0.5661764705882353,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-feedback",
+    "seed": 4,
+    "episode": 144,
+    "meanReturn": -0.5277777777777778,
+    "accuracy": 0.5694444444444444,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-feedback",
+    "seed": 4,
+    "episode": 152,
+    "meanReturn": -0.7368421052631579,
+    "accuracy": 0.5592105263157895,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-feedback",
+    "seed": 4,
+    "episode": 160,
+    "meanReturn": -0.8,
+    "accuracy": 0.55625,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-feedback",
+    "seed": 4,
+    "episode": 168,
+    "meanReturn": -0.6190476190476191,
+    "accuracy": 0.5654761904761905,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-feedback",
+    "seed": 4,
+    "episode": 176,
+    "meanReturn": -0.6818181818181818,
+    "accuracy": 0.5625,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-feedback",
+    "seed": 4,
+    "episode": 184,
+    "meanReturn": -0.6304347826086957,
+    "accuracy": 0.5652173913043478,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-feedback",
+    "seed": 4,
+    "episode": 192,
+    "meanReturn": -1,
+    "accuracy": 0.546875,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-communication",
+    "seed": 4,
+    "episode": 8,
+    "meanReturn": -3,
+    "accuracy": 0.375,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-communication",
+    "seed": 4,
+    "episode": 16,
+    "meanReturn": 0,
+    "accuracy": 0.5625,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-communication",
+    "seed": 4,
+    "episode": 24,
+    "meanReturn": -0.6666666666666666,
+    "accuracy": 0.5416666666666666,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-communication",
+    "seed": 4,
+    "episode": 32,
+    "meanReturn": -1,
+    "accuracy": 0.53125,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-communication",
+    "seed": 4,
+    "episode": 40,
+    "meanReturn": -1.2,
+    "accuracy": 0.525,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-communication",
+    "seed": 4,
+    "episode": 48,
+    "meanReturn": -1.3333333333333333,
+    "accuracy": 0.5208333333333334,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-communication",
+    "seed": 4,
+    "episode": 56,
+    "meanReturn": -0.7142857142857143,
+    "accuracy": 0.5535714285714286,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-communication",
+    "seed": 4,
+    "episode": 64,
+    "meanReturn": -1.1875,
+    "accuracy": 0.53125,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-communication",
+    "seed": 4,
+    "episode": 72,
+    "meanReturn": -1.5555555555555556,
+    "accuracy": 0.5138888888888888,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-communication",
+    "seed": 4,
+    "episode": 80,
+    "meanReturn": -1.35,
+    "accuracy": 0.525,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-communication",
+    "seed": 4,
+    "episode": 88,
+    "meanReturn": -0.9545454545454546,
+    "accuracy": 0.5454545454545454,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-communication",
+    "seed": 4,
+    "episode": 96,
+    "meanReturn": -0.625,
+    "accuracy": 0.5625,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-communication",
+    "seed": 4,
+    "episode": 104,
+    "meanReturn": -0.9230769230769231,
+    "accuracy": 0.5480769230769231,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-communication",
+    "seed": 4,
+    "episode": 112,
+    "meanReturn": -1,
+    "accuracy": 0.5446428571428571,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-communication",
+    "seed": 4,
+    "episode": 120,
+    "meanReturn": -0.5666666666666667,
+    "accuracy": 0.5666666666666667,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-communication",
+    "seed": 4,
+    "episode": 128,
+    "meanReturn": -0.5,
+    "accuracy": 0.5703125,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-communication",
+    "seed": 4,
+    "episode": 136,
+    "meanReturn": -0.4411764705882353,
+    "accuracy": 0.5735294117647058,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-communication",
+    "seed": 4,
+    "episode": 144,
+    "meanReturn": -0.5277777777777778,
+    "accuracy": 0.5694444444444444,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-communication",
+    "seed": 4,
+    "episode": 152,
+    "meanReturn": -0.6052631578947368,
+    "accuracy": 0.5657894736842105,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-communication",
+    "seed": 4,
+    "episode": 160,
+    "meanReturn": -0.675,
+    "accuracy": 0.5625,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-communication",
+    "seed": 4,
+    "episode": 168,
+    "meanReturn": -0.6190476190476191,
+    "accuracy": 0.5654761904761905,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-communication",
+    "seed": 4,
+    "episode": 176,
+    "meanReturn": -0.5681818181818182,
+    "accuracy": 0.5681818181818182,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-communication",
+    "seed": 4,
+    "episode": 184,
+    "meanReturn": -0.6304347826086957,
+    "accuracy": 0.5652173913043478,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "shuffled-communication",
+    "seed": 4,
+    "episode": 192,
+    "meanReturn": -0.7916666666666666,
+    "accuracy": 0.5572916666666666,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-memory",
+    "seed": 4,
+    "episode": 8,
+    "meanReturn": -7,
+    "accuracy": 0.25,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-memory",
+    "seed": 4,
+    "episode": 16,
+    "meanReturn": -4.5,
+    "accuracy": 0.375,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-memory",
+    "seed": 4,
+    "episode": 24,
+    "meanReturn": -3.6666666666666665,
+    "accuracy": 0.4166666666666667,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-memory",
+    "seed": 4,
+    "episode": 32,
+    "meanReturn": -2.625,
+    "accuracy": 0.46875,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-memory",
+    "seed": 4,
+    "episode": 40,
+    "meanReturn": -2.5,
+    "accuracy": 0.475,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-memory",
+    "seed": 4,
+    "episode": 48,
+    "meanReturn": -3.25,
+    "accuracy": 0.4375,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-memory",
+    "seed": 4,
+    "episode": 56,
+    "meanReturn": -2.357142857142857,
+    "accuracy": 0.48214285714285715,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-memory",
+    "seed": 4,
+    "episode": 64,
+    "meanReturn": -2.3125,
+    "accuracy": 0.484375,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-memory",
+    "seed": 4,
+    "episode": 72,
+    "meanReturn": -2,
+    "accuracy": 0.5,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-memory",
+    "seed": 4,
+    "episode": 80,
+    "meanReturn": -1.75,
+    "accuracy": 0.5125,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-memory",
+    "seed": 4,
+    "episode": 88,
+    "meanReturn": -1.7727272727272727,
+    "accuracy": 0.5113636363636364,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-memory",
+    "seed": 4,
+    "episode": 96,
+    "meanReturn": -1.375,
+    "accuracy": 0.53125,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-memory",
+    "seed": 4,
+    "episode": 104,
+    "meanReturn": -1.2307692307692308,
+    "accuracy": 0.5384615384615384,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-memory",
+    "seed": 4,
+    "episode": 112,
+    "meanReturn": -1.2857142857142858,
+    "accuracy": 0.5357142857142857,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-memory",
+    "seed": 4,
+    "episode": 120,
+    "meanReturn": -1,
+    "accuracy": 0.55,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-memory",
+    "seed": 4,
+    "episode": 128,
+    "meanReturn": -1.21875,
+    "accuracy": 0.5390625,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-memory",
+    "seed": 4,
+    "episode": 136,
+    "meanReturn": -1.1176470588235294,
+    "accuracy": 0.5441176470588235,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-memory",
+    "seed": 4,
+    "episode": 144,
+    "meanReturn": -1.1666666666666667,
+    "accuracy": 0.5416666666666666,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-memory",
+    "seed": 4,
+    "episode": 152,
+    "meanReturn": -0.9473684210526315,
+    "accuracy": 0.5526315789473685,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-memory",
+    "seed": 4,
+    "episode": 160,
+    "meanReturn": -1.25,
+    "accuracy": 0.5375,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-memory",
+    "seed": 4,
+    "episode": 168,
+    "meanReturn": -0.9285714285714286,
+    "accuracy": 0.5535714285714286,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-memory",
+    "seed": 4,
+    "episode": 176,
+    "meanReturn": -0.9772727272727273,
+    "accuracy": 0.5511363636363636,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-memory",
+    "seed": 4,
+    "episode": 184,
+    "meanReturn": -1.0217391304347827,
+    "accuracy": 0.5489130434782609,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "no-memory",
+    "seed": 4,
+    "episode": 192,
+    "meanReturn": -0.9583333333333334,
+    "accuracy": 0.5520833333333334,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "previous-pair",
+    "seed": 4,
+    "episode": 8,
+    "meanReturn": -3,
+    "accuracy": 0.375,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "previous-pair",
+    "seed": 4,
+    "episode": 16,
+    "meanReturn": 0,
+    "accuracy": 0.5625,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "previous-pair",
+    "seed": 4,
+    "episode": 24,
+    "meanReturn": 1,
+    "accuracy": 0.625,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "previous-pair",
+    "seed": 4,
+    "episode": 32,
+    "meanReturn": 0.25,
+    "accuracy": 0.59375,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "previous-pair",
+    "seed": 4,
+    "episode": 40,
+    "meanReturn": -0.2,
+    "accuracy": 0.575,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "previous-pair",
+    "seed": 4,
+    "episode": 48,
+    "meanReturn": -0.5,
+    "accuracy": 0.5625,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "previous-pair",
+    "seed": 4,
+    "episode": 56,
+    "meanReturn": -0.35714285714285715,
+    "accuracy": 0.5714285714285714,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "previous-pair",
+    "seed": 4,
+    "episode": 64,
+    "meanReturn": -0.875,
+    "accuracy": 0.546875,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "previous-pair",
+    "seed": 4,
+    "episode": 72,
+    "meanReturn": -1,
+    "accuracy": 0.5416666666666666,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "previous-pair",
+    "seed": 4,
+    "episode": 80,
+    "meanReturn": -0.85,
+    "accuracy": 0.55,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "previous-pair",
+    "seed": 4,
+    "episode": 88,
+    "meanReturn": -0.2727272727272727,
+    "accuracy": 0.5795454545454546,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "previous-pair",
+    "seed": 4,
+    "episode": 96,
+    "meanReturn": 0,
+    "accuracy": 0.59375,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "previous-pair",
+    "seed": 4,
+    "episode": 104,
+    "meanReturn": 0.038461538461538464,
+    "accuracy": 0.5961538461538461,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "previous-pair",
+    "seed": 4,
+    "episode": 112,
+    "meanReturn": -0.10714285714285714,
+    "accuracy": 0.5892857142857143,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "previous-pair",
+    "seed": 4,
+    "episode": 120,
+    "meanReturn": 0.26666666666666666,
+    "accuracy": 0.6083333333333333,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "previous-pair",
+    "seed": 4,
+    "episode": 128,
+    "meanReturn": 0.4375,
+    "accuracy": 0.6171875,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "previous-pair",
+    "seed": 4,
+    "episode": 136,
+    "meanReturn": 0.29411764705882354,
+    "accuracy": 0.6102941176470589,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "previous-pair",
+    "seed": 4,
+    "episode": 144,
+    "meanReturn": 0.4444444444444444,
+    "accuracy": 0.6180555555555556,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "previous-pair",
+    "seed": 4,
+    "episode": 152,
+    "meanReturn": 0.18421052631578946,
+    "accuracy": 0.6052631578947368,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "previous-pair",
+    "seed": 4,
+    "episode": 160,
+    "meanReturn": 0.075,
+    "accuracy": 0.6,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "previous-pair",
+    "seed": 4,
+    "episode": 168,
+    "meanReturn": 0.21428571428571427,
+    "accuracy": 0.6071428571428571,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "previous-pair",
+    "seed": 4,
+    "episode": 176,
+    "meanReturn": 0.22727272727272727,
+    "accuracy": 0.6079545454545454,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "previous-pair",
+    "seed": 4,
+    "episode": 184,
+    "meanReturn": 0.13043478260869565,
+    "accuracy": 0.6032608695652174,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "previous-pair",
+    "seed": 4,
+    "episode": 192,
+    "meanReturn": 0.14583333333333334,
+    "accuracy": 0.6041666666666666,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "flat",
+    "seed": 4,
+    "episode": 8,
+    "meanReturn": -2,
+    "accuracy": 0.5,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "flat",
+    "seed": 4,
+    "episode": 16,
+    "meanReturn": -2,
+    "accuracy": 0.5,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "flat",
+    "seed": 4,
+    "episode": 24,
+    "meanReturn": -1.1666666666666667,
+    "accuracy": 0.5416666666666666,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "flat",
+    "seed": 4,
+    "episode": 32,
+    "meanReturn": 1.125,
+    "accuracy": 0.65625,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "flat",
+    "seed": 4,
+    "episode": 40,
+    "meanReturn": 2,
+    "accuracy": 0.7,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "flat",
+    "seed": 4,
+    "episode": 48,
+    "meanReturn": 1.75,
+    "accuracy": 0.6875,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "flat",
+    "seed": 4,
+    "episode": 56,
+    "meanReturn": 2.2857142857142856,
+    "accuracy": 0.7142857142857143,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "flat",
+    "seed": 4,
+    "episode": 64,
+    "meanReturn": 3,
+    "accuracy": 0.75,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "flat",
+    "seed": 4,
+    "episode": 72,
+    "meanReturn": 3.5555555555555554,
+    "accuracy": 0.7777777777777778,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "flat",
+    "seed": 4,
+    "episode": 80,
+    "meanReturn": 4,
+    "accuracy": 0.8,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "flat",
+    "seed": 4,
+    "episode": 88,
+    "meanReturn": 4.363636363636363,
+    "accuracy": 0.8181818181818182,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "flat",
+    "seed": 4,
+    "episode": 96,
+    "meanReturn": 4.458333333333333,
+    "accuracy": 0.8229166666666666,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "flat",
+    "seed": 4,
+    "episode": 104,
+    "meanReturn": 4.730769230769231,
+    "accuracy": 0.8365384615384616,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "flat",
+    "seed": 4,
+    "episode": 112,
+    "meanReturn": 4.607142857142857,
+    "accuracy": 0.8303571428571429,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "flat",
+    "seed": 4,
+    "episode": 120,
+    "meanReturn": 4.666666666666667,
+    "accuracy": 0.8333333333333334,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "flat",
+    "seed": 4,
+    "episode": 128,
+    "meanReturn": 4.875,
+    "accuracy": 0.84375,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "flat",
+    "seed": 4,
+    "episode": 136,
+    "meanReturn": 5.0588235294117645,
+    "accuracy": 0.8529411764705882,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "flat",
+    "seed": 4,
+    "episode": 144,
+    "meanReturn": 5.083333333333333,
+    "accuracy": 0.8541666666666666,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "flat",
+    "seed": 4,
+    "episode": 152,
+    "meanReturn": 5.2368421052631575,
+    "accuracy": 0.8618421052631579,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "flat",
+    "seed": 4,
+    "episode": 160,
+    "meanReturn": 5.25,
+    "accuracy": 0.8625,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "flat",
+    "seed": 4,
+    "episode": 168,
+    "meanReturn": 5.380952380952381,
+    "accuracy": 0.8690476190476191,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "flat",
+    "seed": 4,
+    "episode": 176,
+    "meanReturn": 5.5,
+    "accuracy": 0.875,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "flat",
+    "seed": 4,
+    "episode": 184,
+    "meanReturn": 5.608695652173913,
+    "accuracy": 0.8804347826086957,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "flat",
+    "seed": 4,
+    "episode": 192,
+    "meanReturn": 5.604166666666667,
+    "accuracy": 0.8802083333333334,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "fixed-sum",
+    "seed": 4,
+    "episode": 8,
+    "meanReturn": -2,
+    "accuracy": 0.5,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "fixed-sum",
+    "seed": 4,
+    "episode": 16,
+    "meanReturn": 0.5,
+    "accuracy": 0.625,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "fixed-sum",
+    "seed": 4,
+    "episode": 24,
+    "meanReturn": 0.5,
+    "accuracy": 0.625,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "fixed-sum",
+    "seed": 4,
+    "episode": 32,
+    "meanReturn": 2.375,
+    "accuracy": 0.71875,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "fixed-sum",
+    "seed": 4,
+    "episode": 40,
+    "meanReturn": 3,
+    "accuracy": 0.75,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "fixed-sum",
+    "seed": 4,
+    "episode": 48,
+    "meanReturn": 3,
+    "accuracy": 0.75,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "fixed-sum",
+    "seed": 4,
+    "episode": 56,
+    "meanReturn": 3.357142857142857,
+    "accuracy": 0.7678571428571429,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "fixed-sum",
+    "seed": 4,
+    "episode": 64,
+    "meanReturn": 3.9375,
+    "accuracy": 0.796875,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "fixed-sum",
+    "seed": 4,
+    "episode": 72,
+    "meanReturn": 4.388888888888889,
+    "accuracy": 0.8194444444444444,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "fixed-sum",
+    "seed": 4,
+    "episode": 80,
+    "meanReturn": 4.5,
+    "accuracy": 0.825,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "fixed-sum",
+    "seed": 4,
+    "episode": 88,
+    "meanReturn": 4.818181818181818,
+    "accuracy": 0.8409090909090909,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "fixed-sum",
+    "seed": 4,
+    "episode": 96,
+    "meanReturn": 5.083333333333333,
+    "accuracy": 0.8541666666666666,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "fixed-sum",
+    "seed": 4,
+    "episode": 104,
+    "meanReturn": 5.115384615384615,
+    "accuracy": 0.8557692307692307,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "fixed-sum",
+    "seed": 4,
+    "episode": 112,
+    "meanReturn": 5.142857142857143,
+    "accuracy": 0.8571428571428571,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "fixed-sum",
+    "seed": 4,
+    "episode": 120,
+    "meanReturn": 5.166666666666667,
+    "accuracy": 0.8583333333333333,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "fixed-sum",
+    "seed": 4,
+    "episode": 128,
+    "meanReturn": 5.34375,
+    "accuracy": 0.8671875,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "fixed-sum",
+    "seed": 4,
+    "episode": 136,
+    "meanReturn": 5.5,
+    "accuracy": 0.875,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "fixed-sum",
+    "seed": 4,
+    "episode": 144,
+    "meanReturn": 5.638888888888889,
+    "accuracy": 0.8819444444444444,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "fixed-sum",
+    "seed": 4,
+    "episode": 152,
+    "meanReturn": 5.5,
+    "accuracy": 0.875,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "fixed-sum",
+    "seed": 4,
+    "episode": 160,
+    "meanReturn": 5.625,
+    "accuracy": 0.88125,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "fixed-sum",
+    "seed": 4,
+    "episode": 168,
+    "meanReturn": 5.738095238095238,
+    "accuracy": 0.8869047619047619,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "fixed-sum",
+    "seed": 4,
+    "episode": 176,
+    "meanReturn": 5.840909090909091,
+    "accuracy": 0.8920454545454546,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "fixed-sum",
+    "seed": 4,
+    "episode": 184,
+    "meanReturn": 5.934782608695652,
+    "accuracy": 0.8967391304347826,
+    "queryRate": 0
+  },
+  {
+    "stage": "source",
+    "variant": "fixed-sum",
+    "seed": 4,
+    "episode": 192,
+    "meanReturn": 5.916666666666667,
+    "accuracy": 0.8958333333333334,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "reused-service",
+    "seed": 4,
+    "episode": 8,
+    "meanReturn": 0.5,
+    "accuracy": 0.625,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "reused-service",
+    "seed": 4,
+    "episode": 16,
+    "meanReturn": 0.5,
+    "accuracy": 0.625,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "reused-service",
+    "seed": 4,
+    "episode": 24,
+    "meanReturn": 1.3333333333333333,
+    "accuracy": 0.6666666666666666,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "reused-service",
+    "seed": 4,
+    "episode": 32,
+    "meanReturn": 3,
+    "accuracy": 0.75,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "reused-service",
+    "seed": 4,
+    "episode": 40,
+    "meanReturn": 4,
+    "accuracy": 0.8,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "reused-service",
+    "seed": 4,
+    "episode": 48,
+    "meanReturn": 4.666666666666667,
+    "accuracy": 0.8333333333333334,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "reused-service",
+    "seed": 4,
+    "episode": 56,
+    "meanReturn": 5.142857142857143,
+    "accuracy": 0.8571428571428571,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "reused-service",
+    "seed": 4,
+    "episode": 64,
+    "meanReturn": 4.875,
+    "accuracy": 0.84375,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "reused-service",
+    "seed": 4,
+    "episode": 72,
+    "meanReturn": 4.944444444444445,
+    "accuracy": 0.8472222222222222,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "reused-service",
+    "seed": 4,
+    "episode": 80,
+    "meanReturn": 5,
+    "accuracy": 0.85,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "reused-service",
+    "seed": 4,
+    "episode": 88,
+    "meanReturn": 5.2727272727272725,
+    "accuracy": 0.8636363636363636,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "reused-service",
+    "seed": 4,
+    "episode": 96,
+    "meanReturn": 5.5,
+    "accuracy": 0.875,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "reused-service",
+    "seed": 4,
+    "episode": 104,
+    "meanReturn": 5.6923076923076925,
+    "accuracy": 0.8846153846153846,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "reused-service",
+    "seed": 4,
+    "episode": 112,
+    "meanReturn": 5.678571428571429,
+    "accuracy": 0.8839285714285714,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "reused-service",
+    "seed": 4,
+    "episode": 120,
+    "meanReturn": 5.833333333333333,
+    "accuracy": 0.8916666666666667,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "reused-service",
+    "seed": 4,
+    "episode": 128,
+    "meanReturn": 5.8125,
+    "accuracy": 0.890625,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "reused-service",
+    "seed": 4,
+    "episode": 136,
+    "meanReturn": 5.9411764705882355,
+    "accuracy": 0.8970588235294118,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "reused-service",
+    "seed": 4,
+    "episode": 144,
+    "meanReturn": 5.916666666666667,
+    "accuracy": 0.8958333333333334,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "reused-service",
+    "seed": 4,
+    "episode": 152,
+    "meanReturn": 6.026315789473684,
+    "accuracy": 0.9013157894736842,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "reused-service",
+    "seed": 4,
+    "episode": 160,
+    "meanReturn": 6.125,
+    "accuracy": 0.90625,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "reused-service",
+    "seed": 4,
+    "episode": 168,
+    "meanReturn": 6.095238095238095,
+    "accuracy": 0.9047619047619048,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "reused-service",
+    "seed": 4,
+    "episode": 176,
+    "meanReturn": 6.068181818181818,
+    "accuracy": 0.9034090909090909,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "reused-service",
+    "seed": 4,
+    "episode": 184,
+    "meanReturn": 6.1521739130434785,
+    "accuracy": 0.907608695652174,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "reused-service",
+    "seed": 4,
+    "episode": 192,
+    "meanReturn": 6.229166666666667,
+    "accuracy": 0.9114583333333334,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fresh-service",
+    "seed": 4,
+    "episode": 8,
+    "meanReturn": 0.5,
+    "accuracy": 0.625,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fresh-service",
+    "seed": 4,
+    "episode": 16,
+    "meanReturn": 0.5,
+    "accuracy": 0.625,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fresh-service",
+    "seed": 4,
+    "episode": 24,
+    "meanReturn": -1.1666666666666667,
+    "accuracy": 0.5416666666666666,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fresh-service",
+    "seed": 4,
+    "episode": 32,
+    "meanReturn": -0.125,
+    "accuracy": 0.59375,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fresh-service",
+    "seed": 4,
+    "episode": 40,
+    "meanReturn": 1,
+    "accuracy": 0.65,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fresh-service",
+    "seed": 4,
+    "episode": 48,
+    "meanReturn": 0.5,
+    "accuracy": 0.625,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fresh-service",
+    "seed": 4,
+    "episode": 56,
+    "meanReturn": 0.5,
+    "accuracy": 0.625,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fresh-service",
+    "seed": 4,
+    "episode": 64,
+    "meanReturn": 0.8125,
+    "accuracy": 0.640625,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fresh-service",
+    "seed": 4,
+    "episode": 72,
+    "meanReturn": 0.7777777777777778,
+    "accuracy": 0.6388888888888888,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fresh-service",
+    "seed": 4,
+    "episode": 80,
+    "meanReturn": 0.5,
+    "accuracy": 0.625,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fresh-service",
+    "seed": 4,
+    "episode": 88,
+    "meanReturn": 0.7272727272727273,
+    "accuracy": 0.6363636363636364,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fresh-service",
+    "seed": 4,
+    "episode": 96,
+    "meanReturn": 0.5,
+    "accuracy": 0.625,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fresh-service",
+    "seed": 4,
+    "episode": 104,
+    "meanReturn": 0.6923076923076923,
+    "accuracy": 0.6346153846153846,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fresh-service",
+    "seed": 4,
+    "episode": 112,
+    "meanReturn": 1.0357142857142858,
+    "accuracy": 0.6517857142857143,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fresh-service",
+    "seed": 4,
+    "episode": 120,
+    "meanReturn": 1.3333333333333333,
+    "accuracy": 0.6666666666666666,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fresh-service",
+    "seed": 4,
+    "episode": 128,
+    "meanReturn": 1.4375,
+    "accuracy": 0.671875,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fresh-service",
+    "seed": 4,
+    "episode": 136,
+    "meanReturn": 1.088235294117647,
+    "accuracy": 0.6544117647058824,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fresh-service",
+    "seed": 4,
+    "episode": 144,
+    "meanReturn": 1.0555555555555556,
+    "accuracy": 0.6527777777777778,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fresh-service",
+    "seed": 4,
+    "episode": 152,
+    "meanReturn": 1.0263157894736843,
+    "accuracy": 0.6513157894736842,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fresh-service",
+    "seed": 4,
+    "episode": 160,
+    "meanReturn": 1.125,
+    "accuracy": 0.65625,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fresh-service",
+    "seed": 4,
+    "episode": 168,
+    "meanReturn": 1.4523809523809523,
+    "accuracy": 0.6726190476190477,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fresh-service",
+    "seed": 4,
+    "episode": 176,
+    "meanReturn": 1.75,
+    "accuracy": 0.6875,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fresh-service",
+    "seed": 4,
+    "episode": 184,
+    "meanReturn": 1.9130434782608696,
+    "accuracy": 0.6956521739130435,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fresh-service",
+    "seed": 4,
+    "episode": 192,
+    "meanReturn": 2.1666666666666665,
+    "accuracy": 0.7083333333333334,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "no-expansion",
+    "seed": 4,
+    "episode": 8,
+    "meanReturn": 0.5,
+    "accuracy": 0.625,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "no-expansion",
+    "seed": 4,
+    "episode": 16,
+    "meanReturn": 0.5,
+    "accuracy": 0.625,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "no-expansion",
+    "seed": 4,
+    "episode": 24,
+    "meanReturn": -1.1666666666666667,
+    "accuracy": 0.5416666666666666,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "no-expansion",
+    "seed": 4,
+    "episode": 32,
+    "meanReturn": -2,
+    "accuracy": 0.5,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "no-expansion",
+    "seed": 4,
+    "episode": 40,
+    "meanReturn": -1,
+    "accuracy": 0.55,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "no-expansion",
+    "seed": 4,
+    "episode": 48,
+    "meanReturn": -1.5833333333333333,
+    "accuracy": 0.5208333333333334,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "no-expansion",
+    "seed": 4,
+    "episode": 56,
+    "meanReturn": -1.6428571428571428,
+    "accuracy": 0.5178571428571429,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "no-expansion",
+    "seed": 4,
+    "episode": 64,
+    "meanReturn": -1.6875,
+    "accuracy": 0.515625,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "no-expansion",
+    "seed": 4,
+    "episode": 72,
+    "meanReturn": -2,
+    "accuracy": 0.5,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "no-expansion",
+    "seed": 4,
+    "episode": 80,
+    "meanReturn": -2,
+    "accuracy": 0.5,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "no-expansion",
+    "seed": 4,
+    "episode": 88,
+    "meanReturn": -2,
+    "accuracy": 0.5,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "no-expansion",
+    "seed": 4,
+    "episode": 96,
+    "meanReturn": -1.7916666666666667,
+    "accuracy": 0.5104166666666666,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "no-expansion",
+    "seed": 4,
+    "episode": 104,
+    "meanReturn": -1.6153846153846154,
+    "accuracy": 0.5192307692307693,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "no-expansion",
+    "seed": 4,
+    "episode": 112,
+    "meanReturn": -1.6428571428571428,
+    "accuracy": 0.5178571428571429,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "no-expansion",
+    "seed": 4,
+    "episode": 120,
+    "meanReturn": -1.1666666666666667,
+    "accuracy": 0.5416666666666666,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "no-expansion",
+    "seed": 4,
+    "episode": 128,
+    "meanReturn": -0.90625,
+    "accuracy": 0.5546875,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "no-expansion",
+    "seed": 4,
+    "episode": 136,
+    "meanReturn": -1.2647058823529411,
+    "accuracy": 0.5367647058823529,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "no-expansion",
+    "seed": 4,
+    "episode": 144,
+    "meanReturn": -1.7222222222222223,
+    "accuracy": 0.5138888888888888,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "no-expansion",
+    "seed": 4,
+    "episode": 152,
+    "meanReturn": -1.605263157894737,
+    "accuracy": 0.5197368421052632,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "no-expansion",
+    "seed": 4,
+    "episode": 160,
+    "meanReturn": -1.625,
+    "accuracy": 0.51875,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "no-expansion",
+    "seed": 4,
+    "episode": 168,
+    "meanReturn": -1.7619047619047619,
+    "accuracy": 0.5119047619047619,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "no-expansion",
+    "seed": 4,
+    "episode": 176,
+    "meanReturn": -1.4318181818181819,
+    "accuracy": 0.5284090909090909,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "no-expansion",
+    "seed": 4,
+    "episode": 184,
+    "meanReturn": -1.3478260869565217,
+    "accuracy": 0.532608695652174,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "no-expansion",
+    "seed": 4,
+    "episode": 192,
+    "meanReturn": -1.5833333333333333,
+    "accuracy": 0.5208333333333334,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "shuffled-communication",
+    "seed": 4,
+    "episode": 8,
+    "meanReturn": -0.5,
+    "accuracy": 0.5,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "shuffled-communication",
+    "seed": 4,
+    "episode": 16,
+    "meanReturn": -3.75,
+    "accuracy": 0.375,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "shuffled-communication",
+    "seed": 4,
+    "episode": 24,
+    "meanReturn": -2.3333333333333335,
+    "accuracy": 0.4583333333333333,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "shuffled-communication",
+    "seed": 4,
+    "episode": 32,
+    "meanReturn": -4.125,
+    "accuracy": 0.375,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "shuffled-communication",
+    "seed": 4,
+    "episode": 40,
+    "meanReturn": -3.2,
+    "accuracy": 0.425,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "shuffled-communication",
+    "seed": 4,
+    "episode": 48,
+    "meanReturn": -2.5833333333333335,
+    "accuracy": 0.4583333333333333,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "shuffled-communication",
+    "seed": 4,
+    "episode": 56,
+    "meanReturn": -1.7857142857142858,
+    "accuracy": 0.5,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "shuffled-communication",
+    "seed": 4,
+    "episode": 64,
+    "meanReturn": -2.125,
+    "accuracy": 0.484375,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "shuffled-communication",
+    "seed": 4,
+    "episode": 72,
+    "meanReturn": -2.111111111111111,
+    "accuracy": 0.4861111111111111,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "shuffled-communication",
+    "seed": 4,
+    "episode": 80,
+    "meanReturn": -2.35,
+    "accuracy": 0.475,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "shuffled-communication",
+    "seed": 4,
+    "episode": 88,
+    "meanReturn": -2.3181818181818183,
+    "accuracy": 0.4772727272727273,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "shuffled-communication",
+    "seed": 4,
+    "episode": 96,
+    "meanReturn": -2.0833333333333335,
+    "accuracy": 0.4895833333333333,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "shuffled-communication",
+    "seed": 4,
+    "episode": 104,
+    "meanReturn": -1.6923076923076923,
+    "accuracy": 0.5096153846153846,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "shuffled-communication",
+    "seed": 4,
+    "episode": 112,
+    "meanReturn": -1.1785714285714286,
+    "accuracy": 0.5357142857142857,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "shuffled-communication",
+    "seed": 4,
+    "episode": 120,
+    "meanReturn": -0.9,
+    "accuracy": 0.55,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "shuffled-communication",
+    "seed": 4,
+    "episode": 128,
+    "meanReturn": -0.8125,
+    "accuracy": 0.5546875,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "shuffled-communication",
+    "seed": 4,
+    "episode": 136,
+    "meanReturn": -1.0294117647058822,
+    "accuracy": 0.5441176470588235,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "shuffled-communication",
+    "seed": 4,
+    "episode": 144,
+    "meanReturn": -1.0833333333333333,
+    "accuracy": 0.5416666666666666,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "shuffled-communication",
+    "seed": 4,
+    "episode": 152,
+    "meanReturn": -0.868421052631579,
+    "accuracy": 0.5526315789473685,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "shuffled-communication",
+    "seed": 4,
+    "episode": 160,
+    "meanReturn": -0.8,
+    "accuracy": 0.55625,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "shuffled-communication",
+    "seed": 4,
+    "episode": 168,
+    "meanReturn": -0.9761904761904762,
+    "accuracy": 0.5476190476190477,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "shuffled-communication",
+    "seed": 4,
+    "episode": 176,
+    "meanReturn": -1.1363636363636365,
+    "accuracy": 0.5397727272727273,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "shuffled-communication",
+    "seed": 4,
+    "episode": 184,
+    "meanReturn": -1.2826086956521738,
+    "accuracy": 0.532608695652174,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "shuffled-communication",
+    "seed": 4,
+    "episode": 192,
+    "meanReturn": -1.4166666666666667,
+    "accuracy": 0.5260416666666666,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "flat",
+    "seed": 4,
+    "episode": 8,
+    "meanReturn": -2,
+    "accuracy": 0.5,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "flat",
+    "seed": 4,
+    "episode": 16,
+    "meanReturn": -2,
+    "accuracy": 0.5,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "flat",
+    "seed": 4,
+    "episode": 24,
+    "meanReturn": -1.1666666666666667,
+    "accuracy": 0.5416666666666666,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "flat",
+    "seed": 4,
+    "episode": 32,
+    "meanReturn": -0.125,
+    "accuracy": 0.59375,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "flat",
+    "seed": 4,
+    "episode": 40,
+    "meanReturn": 1,
+    "accuracy": 0.65,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "flat",
+    "seed": 4,
+    "episode": 48,
+    "meanReturn": 1.3333333333333333,
+    "accuracy": 0.6666666666666666,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "flat",
+    "seed": 4,
+    "episode": 56,
+    "meanReturn": 2.2857142857142856,
+    "accuracy": 0.7142857142857143,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "flat",
+    "seed": 4,
+    "episode": 64,
+    "meanReturn": 3,
+    "accuracy": 0.75,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "flat",
+    "seed": 4,
+    "episode": 72,
+    "meanReturn": 3.5555555555555554,
+    "accuracy": 0.7777777777777778,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "flat",
+    "seed": 4,
+    "episode": 80,
+    "meanReturn": 4,
+    "accuracy": 0.8,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "flat",
+    "seed": 4,
+    "episode": 88,
+    "meanReturn": 4.136363636363637,
+    "accuracy": 0.8068181818181818,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "flat",
+    "seed": 4,
+    "episode": 96,
+    "meanReturn": 4.458333333333333,
+    "accuracy": 0.8229166666666666,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "flat",
+    "seed": 4,
+    "episode": 104,
+    "meanReturn": 4.346153846153846,
+    "accuracy": 0.8173076923076923,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "flat",
+    "seed": 4,
+    "episode": 112,
+    "meanReturn": 4.428571428571429,
+    "accuracy": 0.8214285714285714,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "flat",
+    "seed": 4,
+    "episode": 120,
+    "meanReturn": 4.5,
+    "accuracy": 0.825,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "flat",
+    "seed": 4,
+    "episode": 128,
+    "meanReturn": 4.71875,
+    "accuracy": 0.8359375,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "flat",
+    "seed": 4,
+    "episode": 136,
+    "meanReturn": 4.911764705882353,
+    "accuracy": 0.8455882352941176,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "flat",
+    "seed": 4,
+    "episode": 144,
+    "meanReturn": 5.083333333333333,
+    "accuracy": 0.8541666666666666,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "flat",
+    "seed": 4,
+    "episode": 152,
+    "meanReturn": 5.2368421052631575,
+    "accuracy": 0.8618421052631579,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "flat",
+    "seed": 4,
+    "episode": 160,
+    "meanReturn": 5.25,
+    "accuracy": 0.8625,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "flat",
+    "seed": 4,
+    "episode": 168,
+    "meanReturn": 5.380952380952381,
+    "accuracy": 0.8690476190476191,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "flat",
+    "seed": 4,
+    "episode": 176,
+    "meanReturn": 5.5,
+    "accuracy": 0.875,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "flat",
+    "seed": 4,
+    "episode": 184,
+    "meanReturn": 5.608695652173913,
+    "accuracy": 0.8804347826086957,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "flat",
+    "seed": 4,
+    "episode": 192,
+    "meanReturn": 5.708333333333333,
+    "accuracy": 0.8854166666666666,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fixed-sum",
+    "seed": 4,
+    "episode": 8,
+    "meanReturn": 0.5,
+    "accuracy": 0.625,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fixed-sum",
+    "seed": 4,
+    "episode": 16,
+    "meanReturn": 0.5,
+    "accuracy": 0.625,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fixed-sum",
+    "seed": 4,
+    "episode": 24,
+    "meanReturn": 1.3333333333333333,
+    "accuracy": 0.6666666666666666,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fixed-sum",
+    "seed": 4,
+    "episode": 32,
+    "meanReturn": 1.75,
+    "accuracy": 0.6875,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fixed-sum",
+    "seed": 4,
+    "episode": 40,
+    "meanReturn": 3,
+    "accuracy": 0.75,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fixed-sum",
+    "seed": 4,
+    "episode": 48,
+    "meanReturn": 3,
+    "accuracy": 0.75,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fixed-sum",
+    "seed": 4,
+    "episode": 56,
+    "meanReturn": 3.7142857142857144,
+    "accuracy": 0.7857142857142857,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fixed-sum",
+    "seed": 4,
+    "episode": 64,
+    "meanReturn": 3.625,
+    "accuracy": 0.78125,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fixed-sum",
+    "seed": 4,
+    "episode": 72,
+    "meanReturn": 4.111111111111111,
+    "accuracy": 0.8055555555555556,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fixed-sum",
+    "seed": 4,
+    "episode": 80,
+    "meanReturn": 4.5,
+    "accuracy": 0.825,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fixed-sum",
+    "seed": 4,
+    "episode": 88,
+    "meanReturn": 4.590909090909091,
+    "accuracy": 0.8295454545454546,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fixed-sum",
+    "seed": 4,
+    "episode": 96,
+    "meanReturn": 4.875,
+    "accuracy": 0.84375,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fixed-sum",
+    "seed": 4,
+    "episode": 104,
+    "meanReturn": 4.923076923076923,
+    "accuracy": 0.8461538461538461,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fixed-sum",
+    "seed": 4,
+    "episode": 112,
+    "meanReturn": 4.964285714285714,
+    "accuracy": 0.8482142857142857,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fixed-sum",
+    "seed": 4,
+    "episode": 120,
+    "meanReturn": 5.166666666666667,
+    "accuracy": 0.8583333333333333,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fixed-sum",
+    "seed": 4,
+    "episode": 128,
+    "meanReturn": 5.1875,
+    "accuracy": 0.859375,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fixed-sum",
+    "seed": 4,
+    "episode": 136,
+    "meanReturn": 5.352941176470588,
+    "accuracy": 0.8676470588235294,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fixed-sum",
+    "seed": 4,
+    "episode": 144,
+    "meanReturn": 5.5,
+    "accuracy": 0.875,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fixed-sum",
+    "seed": 4,
+    "episode": 152,
+    "meanReturn": 5.631578947368421,
+    "accuracy": 0.881578947368421,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fixed-sum",
+    "seed": 4,
+    "episode": 160,
+    "meanReturn": 5.75,
+    "accuracy": 0.8875,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fixed-sum",
+    "seed": 4,
+    "episode": 168,
+    "meanReturn": 5.857142857142857,
+    "accuracy": 0.8928571428571429,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fixed-sum",
+    "seed": 4,
+    "episode": 176,
+    "meanReturn": 5.840909090909091,
+    "accuracy": 0.8920454545454546,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fixed-sum",
+    "seed": 4,
+    "episode": 184,
+    "meanReturn": 5.934782608695652,
+    "accuracy": 0.8967391304347826,
+    "queryRate": 0
+  },
+  {
+    "stage": "transfer",
+    "variant": "fixed-sum",
+    "seed": 4,
+    "episode": 192,
+    "meanReturn": 6.020833333333333,
+    "accuracy": 0.9010416666666666,
+    "queryRate": 0
+  },
+  {
+    "stage": "refresh",
+    "variant": "immediate",
+    "seed": 4,
+    "episode": 64,
+    "meanReturn": 7,
+    "accuracy": 0.9375,
+    "queryRate": 0.15625
+  },
+  {
+    "stage": "refresh",
+    "variant": "immediate",
+    "seed": 4,
+    "episode": 128,
+    "meanReturn": 6.484375,
+    "accuracy": 0.921875,
+    "queryRate": 0.1171875
+  },
+  {
+    "stage": "refresh",
+    "variant": "immediate",
+    "seed": 4,
+    "episode": 192,
+    "meanReturn": 6.479166666666667,
+    "accuracy": 0.9270833333333334,
+    "queryRate": 0.125
+  },
+  {
+    "stage": "refresh",
+    "variant": "immediate",
+    "seed": 4,
+    "episode": 256,
+    "meanReturn": 6.7421875,
+    "accuracy": 0.94140625,
+    "queryRate": 0.11328125
+  },
+  {
+    "stage": "refresh",
+    "variant": "immediate",
+    "seed": 4,
+    "episode": 320,
+    "meanReturn": 6.9,
+    "accuracy": 0.95,
+    "queryRate": 0.10625
+  },
+  {
+    "stage": "refresh",
+    "variant": "immediate",
+    "seed": 4,
+    "episode": 384,
+    "meanReturn": 6.838541666666667,
+    "accuracy": 0.9479166666666666,
+    "queryRate": 0.10677083333333333
+  },
+  {
+    "stage": "refresh",
+    "variant": "immediate",
+    "seed": 4,
+    "episode": 448,
+    "meanReturn": 6.705357142857143,
+    "accuracy": 0.9419642857142857,
+    "queryRate": 0.10714285714285714
+  },
+  {
+    "stage": "refresh",
+    "variant": "immediate",
+    "seed": 4,
+    "episode": 512,
+    "meanReturn": 6.8046875,
+    "accuracy": 0.947265625,
+    "queryRate": 0.10546875
+  },
+  {
+    "stage": "refresh",
+    "variant": "immediate",
+    "seed": 4,
+    "episode": 576,
+    "meanReturn": 6.774305555555555,
+    "accuracy": 0.9461805555555556,
+    "queryRate": 0.10590277777777778
+  },
+  {
+    "stage": "refresh",
+    "variant": "immediate",
+    "seed": 4,
+    "episode": 640,
+    "meanReturn": 6.778125,
+    "accuracy": 0.946875,
+    "queryRate": 0.1078125
+  },
+  {
+    "stage": "refresh",
+    "variant": "immediate",
+    "seed": 4,
+    "episode": 704,
+    "meanReturn": 6.849431818181818,
+    "accuracy": 0.9502840909090909,
+    "queryRate": 0.10369318181818182
+  },
+  {
+    "stage": "refresh",
+    "variant": "immediate",
+    "seed": 4,
+    "episode": 768,
+    "meanReturn": 6.932291666666667,
+    "accuracy": 0.9544270833333334,
+    "queryRate": 0.1015625
+  },
+  {
+    "stage": "refresh",
+    "variant": "immediate",
+    "seed": 4,
+    "episode": 832,
+    "meanReturn": 6.978365384615385,
+    "accuracy": 0.9567307692307693,
+    "queryRate": 0.09975961538461539
+  },
+  {
+    "stage": "refresh",
+    "variant": "immediate",
+    "seed": 4,
+    "episode": 896,
+    "meanReturn": 6.924107142857143,
+    "accuracy": 0.9542410714285714,
+    "queryRate": 0.10044642857142858
+  },
+  {
+    "stage": "refresh",
+    "variant": "immediate",
+    "seed": 4,
+    "episode": 960,
+    "meanReturn": 6.945833333333334,
+    "accuracy": 0.9552083333333333,
+    "queryRate": 0.09791666666666667
+  },
+  {
+    "stage": "refresh",
+    "variant": "immediate",
+    "seed": 4,
+    "episode": 1024,
+    "meanReturn": 6.939453125,
+    "accuracy": 0.955078125,
+    "queryRate": 0.0986328125
+  },
+  {
+    "stage": "refresh",
+    "variant": "immediate",
+    "seed": 4,
+    "episode": 1088,
+    "meanReturn": 6.974264705882353,
+    "accuracy": 0.9568014705882353,
+    "queryRate": 0.0974264705882353
+  },
+  {
+    "stage": "refresh",
+    "variant": "immediate",
+    "seed": 4,
+    "episode": 1152,
+    "meanReturn": 6.986111111111111,
+    "accuracy": 0.9574652777777778,
+    "queryRate": 0.09722222222222222
+  },
+  {
+    "stage": "refresh",
+    "variant": "immediate",
+    "seed": 4,
+    "episode": 1216,
+    "meanReturn": 7.0131578947368425,
+    "accuracy": 0.9588815789473685,
+    "queryRate": 0.09703947368421052
+  },
+  {
+    "stage": "refresh",
+    "variant": "immediate",
+    "seed": 4,
+    "episode": 1280,
+    "meanReturn": 7.040625,
+    "accuracy": 0.96015625,
+    "queryRate": 0.0953125
+  },
+  {
+    "stage": "refresh",
+    "variant": "immediate",
+    "seed": 4,
+    "episode": 1344,
+    "meanReturn": 7.063988095238095,
+    "accuracy": 0.9613095238095238,
+    "queryRate": 0.09449404761904762
+  },
+  {
+    "stage": "refresh",
+    "variant": "immediate",
+    "seed": 4,
+    "episode": 1408,
+    "meanReturn": 7.0696022727272725,
+    "accuracy": 0.9616477272727273,
+    "queryRate": 0.09446022727272728
+  },
+  {
+    "stage": "refresh",
+    "variant": "immediate",
+    "seed": 4,
+    "episode": 1472,
+    "meanReturn": 7.043478260869565,
+    "accuracy": 0.9605978260869565,
+    "queryRate": 0.09646739130434782
+  },
+  {
+    "stage": "refresh",
+    "variant": "immediate",
+    "seed": 4,
+    "episode": 1536,
+    "meanReturn": 7.036458333333333,
+    "accuracy": 0.9602864583333334,
+    "queryRate": 0.09635416666666667
+  },
+  {
+    "stage": "refresh",
+    "variant": "immediate",
+    "seed": 4,
+    "episode": 1600,
+    "meanReturn": 7.0575,
+    "accuracy": 0.96125,
+    "queryRate": 0.095
+  },
+  {
+    "stage": "refresh",
+    "variant": "immediate",
+    "seed": 4,
+    "episode": 1664,
+    "meanReturn": 7.061298076923077,
+    "accuracy": 0.9615384615384616,
+    "queryRate": 0.09555288461538461
+  },
+  {
+    "stage": "refresh",
+    "variant": "immediate",
+    "seed": 4,
+    "episode": 1728,
+    "meanReturn": 7.06712962962963,
+    "accuracy": 0.9618055555555556,
+    "queryRate": 0.09490740740740741
+  },
+  {
+    "stage": "refresh",
+    "variant": "immediate",
+    "seed": 4,
+    "episode": 1792,
+    "meanReturn": 7.095982142857143,
+    "accuracy": 0.9631696428571429,
+    "queryRate": 0.09375
+  },
+  {
+    "stage": "refresh",
+    "variant": "immediate",
+    "seed": 4,
+    "episode": 1856,
+    "meanReturn": 7.075431034482759,
+    "accuracy": 0.9622844827586207,
+    "queryRate": 0.09482758620689655
+  },
+  {
+    "stage": "refresh",
+    "variant": "immediate",
+    "seed": 4,
+    "episode": 1920,
+    "meanReturn": 7.090625,
+    "accuracy": 0.9630208333333333,
+    "queryRate": 0.09427083333333333
+  },
+  {
+    "stage": "refresh",
+    "variant": "immediate",
+    "seed": 4,
+    "episode": 1984,
+    "meanReturn": 7.09375,
+    "accuracy": 0.9632056451612904,
+    "queryRate": 0.09425403225806452
+  },
+  {
+    "stage": "refresh",
+    "variant": "immediate",
+    "seed": 4,
+    "episode": 2048,
+    "meanReturn": 7.0771484375,
+    "accuracy": 0.96240234375,
+    "queryRate": 0.09423828125
+  },
+  {
+    "stage": "refresh",
+    "variant": "delayed",
+    "seed": 4,
+    "episode": 64,
+    "meanReturn": 6.96875,
+    "accuracy": 0.9375,
+    "queryRate": 0.171875
+  },
+  {
+    "stage": "refresh",
+    "variant": "delayed",
+    "seed": 4,
+    "episode": 128,
+    "meanReturn": 6.21875,
+    "accuracy": 0.9140625,
+    "queryRate": 0.171875
+  },
+  {
+    "stage": "refresh",
+    "variant": "delayed",
+    "seed": 4,
+    "episode": 192,
+    "meanReturn": 5.875,
+    "accuracy": 0.9166666666666666,
+    "queryRate": 0.3229166666666667
+  },
+  {
+    "stage": "refresh",
+    "variant": "delayed",
+    "seed": 4,
+    "episode": 256,
+    "meanReturn": 5.9375,
+    "accuracy": 0.9375,
+    "queryRate": 0.4765625
+  },
+  {
+    "stage": "refresh",
+    "variant": "delayed",
+    "seed": 4,
+    "episode": 320,
+    "meanReturn": 6.11875,
+    "accuracy": 0.95,
+    "queryRate": 0.496875
+  },
+  {
+    "stage": "refresh",
+    "variant": "delayed",
+    "seed": 4,
+    "episode": 384,
+    "meanReturn": 6.234375,
+    "accuracy": 0.953125,
+    "queryRate": 0.4609375
+  },
+  {
+    "stage": "refresh",
+    "variant": "delayed",
+    "seed": 4,
+    "episode": 448,
+    "meanReturn": 6.09375,
+    "accuracy": 0.9441964285714286,
+    "queryRate": 0.43526785714285715
+  },
+  {
+    "stage": "refresh",
+    "variant": "delayed",
+    "seed": 4,
+    "episode": 512,
+    "meanReturn": 6.15234375,
+    "accuracy": 0.951171875,
+    "queryRate": 0.470703125
+  },
+  {
+    "stage": "refresh",
+    "variant": "delayed",
+    "seed": 4,
+    "episode": 576,
+    "meanReturn": 6.295138888888889,
+    "accuracy": 0.9565972222222222,
+    "queryRate": 0.4496527777777778
+  },
+  {
+    "stage": "refresh",
+    "variant": "delayed",
+    "seed": 4,
+    "episode": 640,
+    "meanReturn": 6.253125,
+    "accuracy": 0.953125,
+    "queryRate": 0.4328125
+  },
+  {
+    "stage": "refresh",
+    "variant": "delayed",
+    "seed": 4,
+    "episode": 704,
+    "meanReturn": 6.301136363636363,
+    "accuracy": 0.9545454545454546,
+    "queryRate": 0.42045454545454547
+  },
+  {
+    "stage": "refresh",
+    "variant": "delayed",
+    "seed": 4,
+    "episode": 768,
+    "meanReturn": 6.395833333333333,
+    "accuracy": 0.9583333333333334,
+    "queryRate": 0.4088541666666667
+  },
+  {
+    "stage": "refresh",
+    "variant": "delayed",
+    "seed": 4,
+    "episode": 832,
+    "meanReturn": 6.399038461538462,
+    "accuracy": 0.9579326923076923,
+    "queryRate": 0.4014423076923077
+  },
+  {
+    "stage": "refresh",
+    "variant": "delayed",
+    "seed": 4,
+    "episode": 896,
+    "meanReturn": 6.323660714285714,
+    "accuracy": 0.9575892857142857,
+    "queryRate": 0.4341517857142857
+  },
+  {
+    "stage": "refresh",
+    "variant": "delayed",
+    "seed": 4,
+    "episode": 960,
+    "meanReturn": 6.377083333333333,
+    "accuracy": 0.959375,
+    "queryRate": 0.4239583333333333
+  },
+  {
+    "stage": "refresh",
+    "variant": "delayed",
+    "seed": 4,
+    "episode": 1024,
+    "meanReturn": 6.32421875,
+    "accuracy": 0.9580078125,
+    "queryRate": 0.435546875
+  },
+  {
+    "stage": "refresh",
+    "variant": "delayed",
+    "seed": 4,
+    "episode": 1088,
+    "meanReturn": 6.362132352941177,
+    "accuracy": 0.9604779411764706,
+    "queryRate": 0.44025735294117646
+  },
+  {
+    "stage": "refresh",
+    "variant": "delayed",
+    "seed": 4,
+    "episode": 1152,
+    "meanReturn": 6.418402777777778,
+    "accuracy": 0.9618055555555556,
+    "queryRate": 0.4244791666666667
+  },
+  {
+    "stage": "refresh",
+    "variant": "delayed",
+    "seed": 4,
+    "episode": 1216,
+    "meanReturn": 6.449013157894737,
+    "accuracy": 0.962171052631579,
+    "queryRate": 0.4120065789473684
+  },
+  {
+    "stage": "refresh",
+    "variant": "delayed",
+    "seed": 4,
+    "episode": 1280,
+    "meanReturn": 6.4234375,
+    "accuracy": 0.96015625,
+    "queryRate": 0.40390625
+  },
+  {
+    "stage": "refresh",
+    "variant": "delayed",
+    "seed": 4,
+    "episode": 1344,
+    "meanReturn": 6.470238095238095,
+    "accuracy": 0.9620535714285714,
+    "queryRate": 0.39880952380952384
+  },
+  {
+    "stage": "refresh",
+    "variant": "delayed",
+    "seed": 4,
+    "episode": 1408,
+    "meanReturn": 6.470170454545454,
+    "accuracy": 0.9616477272727273,
+    "queryRate": 0.39417613636363635
+  },
+  {
+    "stage": "refresh",
+    "variant": "delayed",
+    "seed": 4,
+    "episode": 1472,
+    "meanReturn": 6.456521739130435,
+    "accuracy": 0.9605978260869565,
+    "queryRate": 0.389945652173913
+  },
+  {
+    "stage": "refresh",
+    "variant": "delayed",
+    "seed": 4,
+    "episode": 1536,
+    "meanReturn": 6.421875,
+    "accuracy": 0.9609375,
+    "queryRate": 0.41015625
+  },
+  {
+    "stage": "refresh",
+    "variant": "delayed",
+    "seed": 4,
+    "episode": 1600,
+    "meanReturn": 6.4125,
+    "accuracy": 0.9625,
+    "queryRate": 0.43
+  },
+  {
+    "stage": "refresh",
+    "variant": "delayed",
+    "seed": 4,
+    "episode": 1664,
+    "meanReturn": 6.403846153846154,
+    "accuracy": 0.9627403846153846,
+    "queryRate": 0.4362980769230769
+  },
+  {
+    "stage": "refresh",
+    "variant": "delayed",
+    "seed": 4,
+    "episode": 1728,
+    "meanReturn": 6.399305555555555,
+    "accuracy": 0.9641203703703703,
+    "queryRate": 0.4519675925925926
+  },
+  {
+    "stage": "refresh",
+    "variant": "delayed",
+    "seed": 4,
+    "episode": 1792,
+    "meanReturn": 6.4375,
+    "accuracy": 0.9654017857142857,
+    "queryRate": 0.4453125
+  },
+  {
+    "stage": "refresh",
+    "variant": "delayed",
+    "seed": 4,
+    "episode": 1856,
+    "meanReturn": 6.393318965517241,
+    "accuracy": 0.9639008620689655,
+    "queryRate": 0.4520474137931034
+  },
+  {
+    "stage": "refresh",
+    "variant": "delayed",
+    "seed": 4,
+    "episode": 1920,
+    "meanReturn": 6.384375,
+    "accuracy": 0.9651041666666667,
+    "queryRate": 0.46822916666666664
+  },
+  {
+    "stage": "refresh",
+    "variant": "delayed",
+    "seed": 4,
+    "episode": 1984,
+    "meanReturn": 6.376008064516129,
+    "accuracy": 0.9662298387096774,
+    "queryRate": 0.48336693548387094
+  },
+  {
+    "stage": "refresh",
+    "variant": "delayed",
+    "seed": 4,
+    "episode": 2048,
+    "meanReturn": 6.3544921875,
+    "accuracy": 0.96630859375,
+    "queryRate": 0.49462890625
+  }
+]

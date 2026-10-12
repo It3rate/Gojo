@@ -1,0 +1,16 @@
+{
+  "branch": "codex/phototaxis-market",
+  "head": "87afe56c2b81621a3261ad13f141c43cfac98ede",
+  "saved": [
+    {
+      "path": "experiments/UtilityEcology/Program.cs",
+      "backup": "Program.cs.baseline",
+      "sha256": "7d67ceff53b195588f42e7d126ee738fbb2657b470625996791949d7702d938e"
+    },
+    {
+      "path": "experiments/UtilityEcology/README.md",
+      "backup": "README.md",
+      "sha256": "23932970cdd1b5c3561d78799cf9be81ef0c1c21095477fd23912bc2f1fdcbc4"
+    }
+  ]
+}

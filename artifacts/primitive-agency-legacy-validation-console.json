@@ -1,0 +1,275 @@
+{
+  "output": "D:\\source\\repos\\It3rate\\Gojo-phototaxis\\artifacts\\primitive-agency-legacy-validation",
+  "allBackendsMatch": true,
+  "selection": null,
+  "trials": [
+    {
+      "id": "stay_computed",
+      "summary": {
+        "completedCycles": 0,
+        "starvationTicks": 546,
+        "overheatTicks": 0,
+        "meanCharge": 2.95,
+        "movements": 0,
+        "ambiguityTicks": 480,
+        "refinementQueries": 0,
+        "totalOperations": 10200,
+        "elapsedMs": 105.2202,
+        "allocatedBytes": 65174504,
+        "parityHash": "8c399f5454a90f961294548e66590d38fee3974c1deda9c26b06c5f50fb9c284",
+        "archiveBytes": 42907,
+        "finalCharge": 0,
+        "finalHeat": 0,
+        "initialActionUnresolvedTicks": 0
+      }
+    },
+    {
+      "id": "continue_computed",
+      "summary": {
+        "completedCycles": 0,
+        "starvationTicks": 529,
+        "overheatTicks": 0,
+        "meanCharge": 4.678333333333334,
+        "movements": 15,
+        "ambiguityTicks": 436,
+        "refinementQueries": 0,
+        "totalOperations": 10200,
+        "elapsedMs": 103.3571,
+        "allocatedBytes": 64915464,
+        "parityHash": "2019aa65aa85e2694586e9a0309a8007f499555b58b01c9ed4497230d8c27544",
+        "archiveBytes": 43105,
+        "finalCharge": 0,
+        "finalHeat": 0,
+        "initialActionUnresolvedTicks": 0
+      }
+    },
+    {
+      "id": "seek_avoid_computed",
+      "summary": {
+        "completedCycles": 27,
+        "starvationTicks": 96,
+        "overheatTicks": 0,
+        "meanCharge": 56.21333333333333,
+        "movements": 426,
+        "ambiguityTicks": 496,
+        "refinementQueries": 0,
+        "totalOperations": 18058,
+        "elapsedMs": 264.8236,
+        "allocatedBytes": 114184704,
+        "parityHash": "dca66b16e6f9f38596e7c124d1a9dde93e9ee9a966ef097bf5b0d2220fc099e6",
+        "archiveBytes": 61746,
+        "finalCharge": 69,
+        "finalHeat": 10,
+        "initialActionUnresolvedTicks": 496
+      }
+    },
+    {
+      "id": "seek_avoid_lookup",
+      "summary": {
+        "completedCycles": 27,
+        "starvationTicks": 96,
+        "overheatTicks": 0,
+        "meanCharge": 56.21333333333333,
+        "movements": 426,
+        "ambiguityTicks": 496,
+        "refinementQueries": 0,
+        "totalOperations": 18058,
+        "elapsedMs": 227.7527,
+        "allocatedBytes": 128450560,
+        "parityHash": "dca66b16e6f9f38596e7c124d1a9dde93e9ee9a966ef097bf5b0d2220fc099e6",
+        "archiveBytes": 61190,
+        "finalCharge": 69,
+        "finalHeat": 10,
+        "initialActionUnresolvedTicks": 496
+      }
+    },
+    {
+      "id": "round2_no_query_computed",
+      "summary": {
+        "completedCycles": 8,
+        "starvationTicks": 61,
+        "overheatTicks": 0,
+        "meanCharge": 50.278333333333336,
+        "movements": 213,
+        "ambiguityTicks": 327,
+        "refinementQueries": 0,
+        "totalOperations": 17584,
+        "elapsedMs": 78.2736,
+        "allocatedBytes": 111264776,
+        "parityHash": "4da6327187a2ae0ffd09c6ef3656b1cb88b1216cbdec1e6a5bfe861e21cee3ea",
+        "archiveBytes": 67889,
+        "finalCharge": 0,
+        "finalHeat": 0,
+        "initialActionUnresolvedTicks": 287
+      }
+    },
+    {
+      "id": "memory_heat_query_computed",
+      "summary": {
+        "completedCycles": 15,
+        "starvationTicks": 0,
+        "overheatTicks": 0,
+        "meanCharge": 60.605,
+        "movements": 213,
+        "ambiguityTicks": 278,
+        "refinementQueries": 219,
+        "totalOperations": 18244,
+        "elapsedMs": 74.0056,
+        "allocatedBytes": 115912072,
+        "parityHash": "e1d45a5ee9efc9638851cc27a11630c9f83b1d2139eadf183d38437187d55017",
+        "archiveBytes": 69785,
+        "finalCharge": 59,
+        "finalHeat": 0,
+        "initialActionUnresolvedTicks": 219
+      }
+    },
+    {
+      "id": "memory_heat_query_lookup",
+      "summary": {
+        "completedCycles": 15,
+        "starvationTicks": 0,
+        "overheatTicks": 0,
+        "meanCharge": 60.605,
+        "movements": 213,
+        "ambiguityTicks": 278,
+        "refinementQueries": 219,
+        "totalOperations": 18244,
+        "elapsedMs": 86.3192,
+        "allocatedBytes": 130148280,
+        "parityHash": "e1d45a5ee9efc9638851cc27a11630c9f83b1d2139eadf183d38437187d55017",
+        "archiveBytes": 69229,
+        "finalCharge": 59,
+        "finalHeat": 0,
+        "initialActionUnresolvedTicks": 219
+      }
+    },
+    {
+      "id": "memory_heat_query_packed",
+      "summary": {
+        "completedCycles": 15,
+        "starvationTicks": 0,
+        "overheatTicks": 0,
+        "meanCharge": 60.605,
+        "movements": 213,
+        "ambiguityTicks": 278,
+        "refinementQueries": 219,
+        "totalOperations": 18244,
+        "elapsedMs": 77.0498,
+        "allocatedBytes": 111668648,
+        "parityHash": "e1d45a5ee9efc9638851cc27a11630c9f83b1d2139eadf183d38437187d55017",
+        "archiveBytes": 78229,
+        "finalCharge": 59,
+        "finalHeat": 0,
+        "initialActionUnresolvedTicks": 219
+      }
+    }
+  ],
+  "verificationTrials": [],
+  "mathComparisons": [
+    {
+      "allBackendsMatch": true,
+      "trialParity": true,
+      "allInputMasksMatch": true,
+      "maskPairsChecked": 256,
+      "nativeCompileMs": 0.0306,
+      "packedCaptureMs": 0.1878,
+      "description": "Right minus left over native region unions. Computed arithmetic, validated native row traversal, and captured packed rows preserve the same exposed contract.",
+      "timingMethod": "Three warmed passes in rotating order; native reads, result inspections, and witness allocations included. Policy construction and capture are reported separately. These short process-local timings are exploratory.",
+      "backends": [
+        {
+          "backend": "Computed",
+          "medianMs": 3.2002,
+          "nanosecondsPerRead": 12500.78125,
+          "bytesPerRead": 27085.21875
+        },
+        {
+          "backend": "Lookup",
+          "medianMs": 7.3051,
+          "nanosecondsPerRead": 28535.546875,
+          "bytesPerRead": 47075.625
+        },
+        {
+          "backend": "Packed",
+          "medianMs": 2.5343,
+          "nanosecondsPerRead": 9899.609375,
+          "bytesPerRead": 14205.15625
+        }
+      ],
+      "passes": [
+        {
+          "backend": "Computed",
+          "pass": 1,
+          "iterations": 256,
+          "elapsedMs": 3.2981,
+          "allocatedBytes": 6933816,
+          "checksum": 1554
+        },
+        {
+          "backend": "Lookup",
+          "pass": 1,
+          "iterations": 256,
+          "elapsedMs": 7.3051,
+          "allocatedBytes": 12051360,
+          "checksum": 1554
+        },
+        {
+          "backend": "Packed",
+          "pass": 1,
+          "iterations": 256,
+          "elapsedMs": 2.5343,
+          "allocatedBytes": 3636520,
+          "checksum": 1554
+        },
+        {
+          "backend": "Lookup",
+          "pass": 2,
+          "iterations": 256,
+          "elapsedMs": 6.9798,
+          "allocatedBytes": 12051360,
+          "checksum": 1554
+        },
+        {
+          "backend": "Packed",
+          "pass": 2,
+          "iterations": 256,
+          "elapsedMs": 2.5542,
+          "allocatedBytes": 3636520,
+          "checksum": 1554
+        },
+        {
+          "backend": "Computed",
+          "pass": 2,
+          "iterations": 256,
+          "elapsedMs": 3.1012,
+          "allocatedBytes": 6933816,
+          "checksum": 1554
+        },
+        {
+          "backend": "Packed",
+          "pass": 3,
+          "iterations": 256,
+          "elapsedMs": 2.5066,
+          "allocatedBytes": 3636520,
+          "checksum": 1554
+        },
+        {
+          "backend": "Computed",
+          "pass": 3,
+          "iterations": 256,
+          "elapsedMs": 3.2002,
+          "allocatedBytes": 6933816,
+          "checksum": 1554
+        },
+        {
+          "backend": "Lookup",
+          "pass": 3,
+          "iterations": 256,
+          "elapsedMs": 7.5771,
+          "allocatedBytes": 12051360,
+          "checksum": 1554
+        }
+      ],
+      "variantId": "baseline_strict0"
+    }
+  ]
+}

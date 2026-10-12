@@ -1,0 +1,31 @@
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  Gojo -> D:\source\repos\It3rate\Gojo-phototaxis\Gojo\bin\Release\net10.0\Gojo.dll
+  Phototaxis -> D:\source\repos\It3rate\Gojo-phototaxis\experiments\Phototaxis\bin\Release\net10.0\Phototaxis.dll
+  Phototaxis.Browser -> D:\source\repos\It3rate\Gojo-phototaxis\experiments\Phototaxis.Browser\bin\Release\net10.0-browser\Phototaxis.Browser.dll
+  Optimizing assemblies for size. This process might take a while.
+  Gojo -> D:\source\repos\It3rate\Gojo-phototaxis\Gojo\bin\Release\net10.0\Gojo.dll
+  Phototaxis -> D:\source\repos\It3rate\Gojo-phototaxis\experiments\Phototaxis\bin\Release\net10.0\Phototaxis.dll
+  AOT'ing 34 assemblies
+  [1/34] Phototaxis.dll -> Phototaxis.dll.bc
+  [2/34] Phototaxis.Browser.dll -> Phototaxis.Browser.dll.bc
+  [3/34] aot-instances.dll -> aot-instances.dll.bc
+  [31/34] skipped unchanged assemblies.
+  IL stripping assemblies
+  Compiling assembly bitcode files with -O2 ...
+  [1/3] Phototaxis.Browser.dll.bc -> Phototaxis.Browser.dll.o [took 3.58s]
+  [2/3] Phototaxis.dll.bc -> Phototaxis.dll.o [took 3.85s]
+  [3/3] aot-instances.dll.bc -> aot-instances.dll.o [took 61.41s]
+  [2/4] skipped unchanged files
+  Compiling native assets with C:\Program Files\dotnet\packs\Microsoft.NET.Runtime.Emscripten.3.1.56.Sdk.win-x64\10.0.12\Sdk\..\tools\emscripten\emcc with -Oz. This may take a while ...
+  [3/4] corebindings.c -> corebindings.o [took 1.10s]
+  [4/4] driver.c -> driver.o [took 1.14s]
+  Linking for initial memory $(WasmInitialHeapSize)=33554432 bytes. Set this msbuild property to change the value.
+  Linking with emcc with -O2. This may take a while ...
+   "C:\Program Files\dotnet\packs\Microsoft.NET.Runtime.Emscripten.3.1.56.Sdk.win-x64\10.0.12\tools\bin\clang.exe" --version
+   "C:\Program Files\dotnet\packs\Microsoft.NET.Runtime.Emscripten.3.1.56.Node.win-x64\10.0.12\tools\bin\node.exe" "C:\Program Files\dotnet\packs\Microsoft.NET.Runtime.Emscripten.3.1.56.Sdk.win-x64\10.0.12\tools\emscripten\src\compiler.mjs" C:\Users\Acer\AppData\Local\Temp\tmp6otnkbxu.json --symbols-only
+   "C:\Program Files\dotnet\packs\Microsoft.NET.Runtime.Emscripten.3.1.56.Sdk.win-x64\10.0.12\tools\bin\wasm-ld.exe" @C:\Users\Acer\AppData\Local\Temp\emscripten_983fjh7w.rsp.utf-8
+   "C:\Program Files\dotnet\packs\Microsoft.NET.Runtime.Emscripten.3.1.56.Sdk.win-x64\10.0.12\tools\bin\llvm-objcopy.exe" D:\source\repos\It3rate\Gojo-phototaxis\experiments\Phototaxis.Browser\obj\Release\net10.0-browser\wasm\for-publish\dotnet.native.wasm D:\source\repos\It3rate\Gojo-phototaxis\experiments\Phototaxis.Browser\obj\Release\net10.0-browser\wasm\for-publish\dotnet.native.wasm --remove-section=producers
+   "C:\Program Files\dotnet\packs\Microsoft.NET.Runtime.Emscripten.3.1.56.Node.win-x64\10.0.12\tools\bin\node.exe" "C:\Program Files\dotnet\packs\Microsoft.NET.Runtime.Emscripten.3.1.56.Sdk.win-x64\10.0.12\tools\emscripten\src\compiler.mjs" C:\Users\Acer\AppData\Local\Temp\tmp8lpdaaul.json
+   "C:\Program Files\dotnet\packs\Microsoft.NET.Runtime.Emscripten.3.1.56.Sdk.win-x64\10.0.12\tools\bin\wasm-opt" --strip-target-features --post-emscripten -O2 --low-memory-unused --zero-filled-memory --pass-arg=directize-initial-contents-immutable D:\source\repos\It3rate\Gojo-phototaxis\experiments\Phototaxis.Browser\obj\Release\net10.0-browser\wasm\for-publish\dotnet.native.wasm -o D:\source\repos\It3rate\Gojo-phototaxis\experiments\Phototaxis.Browser\obj\Release\net10.0-browser\wasm\for-publish\dotnet.native.wasm -g --mvp-features --enable-bulk-memory --enable-exception-handling --enable-multivalue --enable-mutable-globals --enable-reference-types --enable-sign-ext --enable-simd
+  Phototaxis.Browser -> D:\source\repos\It3rate\Gojo-phototaxis\experiments\Phototaxis.Browser\publish-browser\

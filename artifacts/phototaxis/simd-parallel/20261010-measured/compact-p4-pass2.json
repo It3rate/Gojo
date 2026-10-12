@@ -1,0 +1,350 @@
+{
+  "backend": "Compact",
+  "secondsToRun": 20,
+  "warmupSeconds": 5,
+  "initialPopulation": 20,
+  "trialCount": 4,
+  "maxParallel": 4,
+  "seeds": [
+    7,
+    19,
+    31,
+    43
+  ],
+  "fixedResources": true,
+  "cognitive": true,
+  "roving": true,
+  "isolatedProcesses": true,
+  "host": {
+    "logicalProcessors": 8,
+    "processor": "Intel64 Family 6 Model 158 Stepping 9, GenuineIntel",
+    "framework": ".NET 10.0.12",
+    "architecture": "X64",
+    "os": "Microsoft Windows 10.0.19045",
+    "vector128Accelerated": true,
+    "vector256Accelerated": true,
+    "avx2Supported": true
+  },
+  "batchWallSeconds": 15.9943186,
+  "endToEndSimulatedSpeed": 5.001776068159603,
+  "includingWarmupSimulatedSpeed": 6.252220085199504,
+  "summedTimedWallSeconds": 42.0283025,
+  "summedTimedCpuSeconds": 42.25,
+  "summedTimedAllocatedBytes": 7607448144,
+  "sameSeedDigestsConsistent": true,
+  "trials": [
+    {
+      "index": 1,
+      "seed": 7,
+      "childArguments": [
+        "D:\\source\\repos\\It3rate\\Gojo-phototaxis\\experiments\\Phototaxis.Runner\\bin\\Release\\net10.0\\Phototaxis.Runner.dll",
+        "profile",
+        "20",
+        "20",
+        "--cognitive",
+        "--roving",
+        "--fixed-resources",
+        "--backend",
+        "Compact",
+        "--warmup",
+        "5",
+        "--seed",
+        "7"
+      ],
+      "childEndToEndSeconds": 15.9846956,
+      "profile": {
+        "seed": 7,
+        "initialPopulation": 20,
+        "secondsToRun": 20,
+        "warmupSeconds": 5,
+        "cognitive": true,
+        "Ecology": {
+          "LightRadius": 72,
+          "LightOnScale": 1,
+          "PatchHarvestPerPulse": 36,
+          "LightDriftSpeed": 1.5
+        },
+        "ArenaScale": 1,
+        "fixedResources": true,
+        "nativeAssembly": "f4fa5721-8065-47c2-b6eb-7b18db739470",
+        "backend": "Compact",
+        "wallSeconds": 10.7434687,
+        "actualSpeed": 1.861596152832837,
+        "alive": 21,
+        "allocatedBytes": 1930176344,
+        "cpuSeconds": 10.90625,
+        "host": {
+          "logicalProcessors": 8,
+          "processor": "Intel64 Family 6 Model 158 Stepping 9, GenuineIntel",
+          "framework": ".NET 10.0.12",
+          "architecture": "X64",
+          "os": "Microsoft Windows 10.0.19045",
+          "vector128Accelerated": true,
+          "vector256Accelerated": true,
+          "avx2Supported": true
+        },
+        "simdSupported": true,
+        "collections": [
+          319,
+          112,
+          12
+        ],
+        "execution": {
+          "batches": 42147,
+          "planBuilds": 182,
+          "cacheHits": 39072,
+          "numericSteps": 484331,
+          "fallbacks": 0,
+          "deferredBatches": 2489,
+          "simdBatches": 0,
+          "simdLanes": 0
+        },
+        "stateDigest": "DD81FF9426D8506152002B5EC40D7C2CF273FA2191B33DEDFAEC19A350C9B0CC",
+        "phases": {
+          "supply": 0.0781688,
+          "cognition": 4.3578583,
+          "eyes": 0.4963229,
+          "circuit": 4.0084479,
+          "motion-prediction": 0.890641,
+          "work-photosynthesis-search": 0.7882701,
+          "environment-mating": 0.1234036
+        }
+      }
+    },
+    {
+      "index": 2,
+      "seed": 19,
+      "childArguments": [
+        "D:\\source\\repos\\It3rate\\Gojo-phototaxis\\experiments\\Phototaxis.Runner\\bin\\Release\\net10.0\\Phototaxis.Runner.dll",
+        "profile",
+        "20",
+        "20",
+        "--cognitive",
+        "--roving",
+        "--fixed-resources",
+        "--backend",
+        "Compact",
+        "--warmup",
+        "5",
+        "--seed",
+        "19"
+      ],
+      "childEndToEndSeconds": 15.8127536,
+      "profile": {
+        "seed": 19,
+        "initialPopulation": 20,
+        "secondsToRun": 20,
+        "warmupSeconds": 5,
+        "cognitive": true,
+        "Ecology": {
+          "LightRadius": 72,
+          "LightOnScale": 1,
+          "PatchHarvestPerPulse": 36,
+          "LightDriftSpeed": 1.5
+        },
+        "ArenaScale": 1,
+        "fixedResources": true,
+        "nativeAssembly": "f4fa5721-8065-47c2-b6eb-7b18db739470",
+        "backend": "Compact",
+        "wallSeconds": 10.5303536,
+        "actualSpeed": 1.8992714546641625,
+        "alive": 20,
+        "allocatedBytes": 1900999120,
+        "cpuSeconds": 10.765625,
+        "host": {
+          "logicalProcessors": 8,
+          "processor": "Intel64 Family 6 Model 158 Stepping 9, GenuineIntel",
+          "framework": ".NET 10.0.12",
+          "architecture": "X64",
+          "os": "Microsoft Windows 10.0.19045",
+          "vector128Accelerated": true,
+          "vector256Accelerated": true,
+          "avx2Supported": true
+        },
+        "simdSupported": true,
+        "collections": [
+          313,
+          108,
+          11
+        ],
+        "execution": {
+          "batches": 41788,
+          "planBuilds": 160,
+          "cacheHits": 38812,
+          "numericSteps": 483675,
+          "fallbacks": 0,
+          "deferredBatches": 2416,
+          "simdBatches": 0,
+          "simdLanes": 0
+        },
+        "stateDigest": "8B14DC22168D6E5ABB07E1D0D38BE7D636568BB43E52DF83AF4114600D9E8D0A",
+        "phases": {
+          "supply": 0.0648946,
+          "cognition": 4.0986756,
+          "eyes": 0.2658863,
+          "circuit": 4.0073078,
+          "motion-prediction": 0.9776142,
+          "work-photosynthesis-search": 1.0104938,
+          "environment-mating": 0.1051214
+        }
+      }
+    },
+    {
+      "index": 3,
+      "seed": 31,
+      "childArguments": [
+        "D:\\source\\repos\\It3rate\\Gojo-phototaxis\\experiments\\Phototaxis.Runner\\bin\\Release\\net10.0\\Phototaxis.Runner.dll",
+        "profile",
+        "20",
+        "20",
+        "--cognitive",
+        "--roving",
+        "--fixed-resources",
+        "--backend",
+        "Compact",
+        "--warmup",
+        "5",
+        "--seed",
+        "31"
+      ],
+      "childEndToEndSeconds": 15.7982719,
+      "profile": {
+        "seed": 31,
+        "initialPopulation": 20,
+        "secondsToRun": 20,
+        "warmupSeconds": 5,
+        "cognitive": true,
+        "Ecology": {
+          "LightRadius": 72,
+          "LightOnScale": 1,
+          "PatchHarvestPerPulse": 36,
+          "LightDriftSpeed": 1.5
+        },
+        "ArenaScale": 1,
+        "fixedResources": true,
+        "nativeAssembly": "f4fa5721-8065-47c2-b6eb-7b18db739470",
+        "backend": "Compact",
+        "wallSeconds": 10.5559481,
+        "actualSpeed": 1.8946663824540781,
+        "alive": 22,
+        "allocatedBytes": 1932527520,
+        "cpuSeconds": 10.546875,
+        "host": {
+          "logicalProcessors": 8,
+          "processor": "Intel64 Family 6 Model 158 Stepping 9, GenuineIntel",
+          "framework": ".NET 10.0.12",
+          "architecture": "X64",
+          "os": "Microsoft Windows 10.0.19045",
+          "vector128Accelerated": true,
+          "vector256Accelerated": true,
+          "avx2Supported": true
+        },
+        "simdSupported": true,
+        "collections": [
+          318,
+          111,
+          11
+        ],
+        "execution": {
+          "batches": 42251,
+          "planBuilds": 204,
+          "cacheHits": 39097,
+          "numericSteps": 480782,
+          "fallbacks": 0,
+          "deferredBatches": 2546,
+          "simdBatches": 0,
+          "simdLanes": 0
+        },
+        "stateDigest": "C55E6953B8341C75495CE5A3C926190893A82F8DDE9BA5F21A3ED86AD619C163",
+        "phases": {
+          "supply": 0.1315008,
+          "cognition": 4.2846618,
+          "eyes": 0.4130573,
+          "circuit": 3.7598683,
+          "motion-prediction": 0.8682566,
+          "work-photosynthesis-search": 1.0403238,
+          "environment-mating": 0.0579375
+        }
+      }
+    },
+    {
+      "index": 4,
+      "seed": 43,
+      "childArguments": [
+        "D:\\source\\repos\\It3rate\\Gojo-phototaxis\\experiments\\Phototaxis.Runner\\bin\\Release\\net10.0\\Phototaxis.Runner.dll",
+        "profile",
+        "20",
+        "20",
+        "--cognitive",
+        "--roving",
+        "--fixed-resources",
+        "--backend",
+        "Compact",
+        "--warmup",
+        "5",
+        "--seed",
+        "43"
+      ],
+      "childEndToEndSeconds": 15.4823494,
+      "profile": {
+        "seed": 43,
+        "initialPopulation": 20,
+        "secondsToRun": 20,
+        "warmupSeconds": 5,
+        "cognitive": true,
+        "Ecology": {
+          "LightRadius": 72,
+          "LightOnScale": 1,
+          "PatchHarvestPerPulse": 36,
+          "LightDriftSpeed": 1.5
+        },
+        "ArenaScale": 1,
+        "fixedResources": true,
+        "nativeAssembly": "f4fa5721-8065-47c2-b6eb-7b18db739470",
+        "backend": "Compact",
+        "wallSeconds": 10.1985321,
+        "actualSpeed": 1.9610665342711429,
+        "alive": 19,
+        "allocatedBytes": 1843745160,
+        "cpuSeconds": 10.03125,
+        "host": {
+          "logicalProcessors": 8,
+          "processor": "Intel64 Family 6 Model 158 Stepping 9, GenuineIntel",
+          "framework": ".NET 10.0.12",
+          "architecture": "X64",
+          "os": "Microsoft Windows 10.0.19045",
+          "vector128Accelerated": true,
+          "vector256Accelerated": true,
+          "avx2Supported": true
+        },
+        "simdSupported": true,
+        "collections": [
+          304,
+          107,
+          11
+        ],
+        "execution": {
+          "batches": 40389,
+          "planBuilds": 160,
+          "cacheHits": 37511,
+          "numericSteps": 471828,
+          "fallbacks": 0,
+          "deferredBatches": 2332,
+          "simdBatches": 0,
+          "simdLanes": 0
+        },
+        "stateDigest": "7C0A9502290E332685D9C55C61B6D2E32BDA33F05D0E73723217378081E62AF0",
+        "phases": {
+          "supply": 0.1367989,
+          "cognition": 4.6286338,
+          "eyes": 0.3148658,
+          "circuit": 3.6640923,
+          "motion-prediction": 0.6783363,
+          "work-photosynthesis-search": 0.715239,
+          "environment-mating": 0.0602581
+        }
+      }
+    }
+  ],
+  "pass": 2
+}

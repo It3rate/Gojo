@@ -1,5 +1,6 @@
 using Gojo.Core;
 using Gojo.Equations;
+using Gojo.Structures;
 
 namespace ConnectionAssembly;
 
@@ -18,6 +19,7 @@ internal static class NativeMath
     public static Carrier Output(IElement element)
     {
         if (element is CarrierLocation location) return location.Carrier;
+        if (element is Relation choice && ScopedChoice.TryRead(choice, out _, out _, out _, out var selectedOutput)) return selectedOutput;
         if (element is Relation node && Parts(node) is { Length: 4 } parts && parts[2] is Carrier carrier)
             return carrier;
         return Carrier.Unknown;
@@ -97,6 +99,11 @@ internal static class NativeMath
             if (!active.Add(node.Id)) return Relation.UnresolvedRead(node, node, Output(node));
             try
             {
+                if (ScopedChoice.TryRead(node, out _, out _, out _, out _))
+                {
+                    ScopedChoice.TryObserve(node, Evaluate, out var selected);
+                    return memo[node.Id] = selected;
+                }
                 var parts = Parts(node);
                 if (parts.Length != 4 || parts[0] is not Relation equation || parts[2] is not Carrier output || parts[3] is not Relation bindings)
                     return Relation.UnresolvedRead(node, node, Output(node));

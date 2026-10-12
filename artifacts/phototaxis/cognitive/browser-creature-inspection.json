@@ -1,0 +1,145 @@
+{
+  "roots": 1,
+  "creature": {
+    "index": 1,
+    "processingTerms": 4,
+    "marketTermLimit": 8,
+    "operations": 28,
+    "marketOperationBudgetPerMuscle": 24,
+    "processingGraph": {
+      "Relations": 1584,
+      "Carriers": 173,
+      "Sites": 525
+    },
+    "feedback": [
+      {
+        "value": 15,
+        "period": 4,
+        "recipe": "choose(bands((fullness \u2212 (12 \u002B 0)); [-1048576,0): 15; [0,1048576): 0), 15, choose(bands((((14 \u002B 0) \u2212 1) \u2212 fullness); [-1048576,0): 15; [0,1048576): 0), 0, 15))",
+        "operations": 9
+      }
+    ],
+    "left": {
+      "terms": [
+        {
+          "input": "other input",
+          "sourceIndex": -1,
+          "expression": "choose(15, choose(bands(((12 \u002B 0) \u2212 (left eye \u002B right eye)); [-1048576,0): 15; [0,1048576): 0), (5 \u002B 0), (8 \u002B 0)), (8 \u002B 0))",
+          "operations": 9,
+          "depth": 5,
+          "inputValue": 5,
+          "coefficient": 15,
+          "contribution": 5
+        },
+        {
+          "input": "other input",
+          "sourceIndex": -1,
+          "expression": "(choose(15, choose(bands(((8 \u002B 0) \u2212 ((right eye \u2212 left eye) \u00D7 (8 \u002B 0))); [-1048576,0): 15; [0,1048576): 0), (8 \u002B 0), choose(bands((((right eye \u2212 left eye) \u00D7 (8 \u002B 0)) \u2212 scale((8 \u002B 0))); [-1048576,0): 15; [0,1048576): 0), scale((8 \u002B 0)), ((right eye \u2212 left eye) \u00D7 (8 \u002B 0)))), scale(choose(bands(((8 \u002B 0) \u2212 ((right eye \u2212 left eye) \u00D7 (8 \u002B 0))); [-1048576,0): 15; [0,1048576): 0), (8 \u002B 0), choose(bands((((right eye \u2212 left eye) \u00D7 (8 \u002B 0)) \u2212 scale((8 \u002B 0))); [-1048576,0): 15; [0,1048576): 0), scale((8 \u002B 0)), ((right eye \u2212 left eye) \u00D7 (8 \u002B 0)))))) \u002B choose(bands((920 \u2212 0); [-1048576,0): 15; [0,1048576): 0), (0 \u002B 0), 0))",
+          "operations": 19,
+          "depth": 9,
+          "inputValue": 0,
+          "coefficient": 15,
+          "contribution": 0
+        }
+      ],
+      "computedSum": 5
+    },
+    "right": {
+      "terms": [
+        {
+          "input": "other input",
+          "sourceIndex": -1,
+          "expression": "choose(15, choose(bands(((12 \u002B 0) \u2212 (left eye \u002B right eye)); [-1048576,0): 15; [0,1048576): 0), (5 \u002B 0), (8 \u002B 0)), (8 \u002B 0))",
+          "operations": 9,
+          "depth": 5,
+          "inputValue": 5,
+          "coefficient": 15,
+          "contribution": 5
+        },
+        {
+          "input": "other input",
+          "sourceIndex": -1,
+          "expression": "(choose(15, choose(bands(((8 \u002B 0) \u2212 ((right eye \u2212 left eye) \u00D7 (8 \u002B 0))); [-1048576,0): 15; [0,1048576): 0), (8 \u002B 0), choose(bands((((right eye \u2212 left eye) \u00D7 (8 \u002B 0)) \u2212 scale((8 \u002B 0))); [-1048576,0): 15; [0,1048576): 0), scale((8 \u002B 0)), ((right eye \u2212 left eye) \u00D7 (8 \u002B 0)))), scale(choose(bands(((8 \u002B 0) \u2212 ((right eye \u2212 left eye) \u00D7 (8 \u002B 0))); [-1048576,0): 15; [0,1048576): 0), (8 \u002B 0), choose(bands((((right eye \u2212 left eye) \u00D7 (8 \u002B 0)) \u2212 scale((8 \u002B 0))); [-1048576,0): 15; [0,1048576): 0), scale((8 \u002B 0)), ((right eye \u2212 left eye) \u00D7 (8 \u002B 0)))))) \u002B choose(bands((920 \u2212 0); [-1048576,0): 15; [0,1048576): 0), (0 \u002B 0), 0))",
+          "operations": 19,
+          "depth": 9,
+          "inputValue": 0,
+          "coefficient": -15,
+          "contribution": 0
+        }
+      ],
+      "computedSum": 5
+    },
+    "cognition": {
+      "ownMotion": {
+        "speedSquared": 256,
+        "formula": "(wrapped dx^2 \u002B wrapped dy^2) * 400 / (256 * dt^2)",
+        "currentMotionRead": null
+      },
+      "prediction": {
+        "expected": 275,
+        "actualError": 19,
+        "pressure": 19,
+        "blocked": 0,
+        "pain": 0,
+        "predictionChecks": 229
+      },
+      "appetite": 15,
+      "proximity": {
+        "left": 10,
+        "right": 0
+      },
+      "modules": [
+        {
+          "parameters": [
+            8,
+            5,
+            8,
+            12
+          ],
+          "observedReturns": 102,
+          "support": 46,
+          "estimatedUtility": 0
+        },
+        {
+          "parameters": [
+            8,
+            8
+          ],
+          "observedReturns": 56,
+          "support": 15,
+          "estimatedUtility": 0
+        },
+        {
+          "parameters": [
+            14,
+            12
+          ],
+          "observedReturns": 102,
+          "support": 46,
+          "estimatedUtility": 0
+        },
+        {
+          "parameters": [
+            0,
+            40,
+            5,
+            1
+          ],
+          "observedReturns": 0,
+          "support": 0,
+          "estimatedUtility": 0
+        }
+      ],
+      "inquiry": {
+        "fuel": 1,
+        "requests": 1,
+        "answers": 1,
+        "stale": 0,
+        "failed": 0,
+        "nonzeroTrials": 0
+      }
+    },
+    "lastLeftEdit": null,
+    "lastRightEdit": null
+  }
+}

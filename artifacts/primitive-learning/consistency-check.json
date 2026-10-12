@@ -1,0 +1,40 @@
+[
+  {
+    "study": "campaign-fresh",
+    "complete": true,
+    "rows": 624,
+    "uniqueKeys": 624,
+    "seeds": [
+      100,
+      101,
+      102,
+      103,
+      104,
+      105,
+      106,
+      107
+    ],
+    "resourceIdentityChecked": 352,
+    "failedResourceIdentities": [],
+    "experimentSourceHashMismatches": [],
+    "savedEpisodeEvaluations": 669696,
+    "actualEpisodeEvaluationsIncludingEncodingTrain": 694272
+  },
+  {
+    "study": "persistent-fresh",
+    "complete": true,
+    "rows": 312,
+    "uniqueKeys": 312,
+    "seeds": [
+      100,
+      101,
+      102,
+      103
+    ],
+    "resourceIdentityChecked": 176,
+    "failedResourceIdentities": [],
+    "experimentSourceHashMismatches": [],
+    "savedEpisodeEvaluations": 334848,
+    "actualEpisodeEvaluationsIncludingEncodingTrain": 347136
+  }
+]

@@ -1,0 +1,94 @@
+[
+  {
+    "design": {
+      "Name": "R3-13",
+      "Seek": 8,
+      "Feed": 5,
+      "Escape": 8,
+      "LeaveAt": 14,
+      "ResumeAt": 12,
+      "Gain": 8,
+      "TurnLimit": 8,
+      "SearchBias": 0,
+      "FeedBrightness": 12,
+      "Deadband": 0,
+      "Normalized": false,
+      "BangBang": false,
+      "SearchCycle": 0,
+      "SearchOn": 0,
+      "EnergyPaced": false
+    },
+    "meanPopulationSeconds": 11651.175,
+    "meanAlive": 53.5,
+    "meanBirths": 38.5
+  },
+  {
+    "design": {
+      "Name": "R2-19",
+      "Seek": 8,
+      "Feed": 5,
+      "Escape": 8,
+      "LeaveAt": 14,
+      "ResumeAt": 12,
+      "Gain": 4,
+      "TurnLimit": 6,
+      "SearchBias": 0,
+      "FeedBrightness": 12,
+      "Deadband": 0,
+      "Normalized": false,
+      "BangBang": false,
+      "SearchCycle": 0,
+      "SearchOn": 0,
+      "EnergyPaced": false
+    },
+    "meanPopulationSeconds": 10987.5,
+    "meanAlive": 52.5,
+    "meanBirths": 39
+  },
+  {
+    "design": {
+      "Name": "R1-11",
+      "Seek": 8,
+      "Feed": 5,
+      "Escape": 10,
+      "LeaveAt": 12,
+      "ResumeAt": 0,
+      "Gain": 4,
+      "TurnLimit": 6,
+      "SearchBias": 0,
+      "FeedBrightness": 12,
+      "Deadband": 0,
+      "Normalized": false,
+      "BangBang": false,
+      "SearchCycle": 0,
+      "SearchOn": 0,
+      "EnergyPaced": false
+    },
+    "meanPopulationSeconds": 10359.375,
+    "meanAlive": 54,
+    "meanBirths": 40
+  },
+  {
+    "design": {
+      "Name": "R1-01",
+      "Seek": 4,
+      "Feed": 4,
+      "Escape": 4,
+      "LeaveAt": 16,
+      "ResumeAt": 0,
+      "Gain": 0,
+      "TurnLimit": 6,
+      "SearchBias": 0,
+      "FeedBrightness": 12,
+      "Deadband": 0,
+      "Normalized": false,
+      "BangBang": false,
+      "SearchCycle": 0,
+      "SearchOn": 0,
+      "EnergyPaced": false
+    },
+    "meanPopulationSeconds": 8167.6,
+    "meanAlive": 38,
+    "meanBirths": 19.5
+  }
+]

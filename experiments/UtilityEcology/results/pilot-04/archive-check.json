@@ -1,0 +1,83 @@
+[
+  {
+    "seed": 502,
+    "arm": "no-interpretation-learning",
+    "filename": "502-no-interpretation-learning.gojo",
+    "signatureMatched": true,
+    "monetaryMatched": true,
+    "aliasesMatched": true,
+    "bytes": 1641083
+  },
+  {
+    "seed": 502,
+    "arm": "always/upfront",
+    "filename": "502-always-upfront.gojo",
+    "signatureMatched": true,
+    "monetaryMatched": true,
+    "aliasesMatched": true,
+    "bytes": 2832128
+  },
+  {
+    "seed": 502,
+    "arm": "error/upfront",
+    "filename": "502-error-upfront.gojo",
+    "signatureMatched": true,
+    "monetaryMatched": true,
+    "aliasesMatched": true,
+    "bytes": 2820796
+  },
+  {
+    "seed": 502,
+    "arm": "opportunity/upfront",
+    "filename": "502-opportunity-upfront.gojo",
+    "signatureMatched": true,
+    "monetaryMatched": true,
+    "aliasesMatched": true,
+    "bytes": 2640037
+  },
+  {
+    "seed": 502,
+    "arm": "opportunity/success-paid",
+    "filename": "502-opportunity-success-paid.gojo",
+    "signatureMatched": true,
+    "monetaryMatched": true,
+    "aliasesMatched": true,
+    "bytes": 2622705
+  },
+  {
+    "seed": 502,
+    "arm": "opportunity/success-paid/use-reset",
+    "filename": "502-opportunity-success-paid-use-reset.gojo",
+    "signatureMatched": true,
+    "monetaryMatched": true,
+    "aliasesMatched": true,
+    "bytes": 2138470
+  },
+  {
+    "seed": 502,
+    "arm": "opportunity/success-paid/withdrawn",
+    "filename": "502-opportunity-success-paid-withdrawn.gojo",
+    "signatureMatched": true,
+    "monetaryMatched": true,
+    "aliasesMatched": true,
+    "bytes": 2429995
+  },
+  {
+    "seed": 502,
+    "arm": "opportunity/success-paid/no-renewal",
+    "filename": "502-opportunity-success-paid-no-renewal.gojo",
+    "signatureMatched": true,
+    "monetaryMatched": true,
+    "aliasesMatched": true,
+    "bytes": 2526637
+  },
+  {
+    "seed": 502,
+    "arm": "opportunity/success-paid/early-cutoff",
+    "filename": "502-opportunity-success-paid-early-cutoff.gojo",
+    "signatureMatched": true,
+    "monetaryMatched": true,
+    "aliasesMatched": true,
+    "bytes": 2643284
+  }
+]

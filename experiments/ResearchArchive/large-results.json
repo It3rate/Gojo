@@ -1,0 +1,13 @@
+{
+  "capturedUtc": "2026-10-12T11:46:36.707290+00:00",
+  "files": [
+    {
+      "path": "artifacts/primitive-forager/results.json",
+      "archive": "experiments/ResearchArchive/primitive-forager-results.json.gz",
+      "bytes": 178601262,
+      "sha256": "2712bd1abaa9d06c9cb8e9bf172d51fcf4bc497072a6ea3cdab88abde1508ec7",
+      "archiveBytes": 3244795,
+      "archiveSha256": "6d9771c83c8f43ae88a8c2acc2fe1b09019e7344311935835f1ae8726b863bc8"
+    }
+  ]
+}

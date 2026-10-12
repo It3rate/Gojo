@@ -1,0 +1,2738 @@
+{
+  "metadata": {
+    "schema": "sampling-emergence-v1",
+    "generatedAt": "2026-10-11T14:28:58.389917+00:00",
+    "ordinalRescalingInvariant": true,
+    "sourceBoundary": "Private fixture values are display references. The ordinal learner receives only presence and requested -1/0/\u002B1 comparison witnesses.",
+    "limits": "Landmark rank and repeated sampling do not establish distance, equal spacing, a probability model, or a nominal size series.",
+    "historyPolicy": "The landmark budget limits retained comparison anchors; this small fixture deliberately retains all visits and their witnesses.",
+    "nativeFormatVersion": 2
+  },
+  "scenarios": [
+    {
+      "id": "sparse_presence",
+      "title": "An irregular signal",
+      "description": "Presence and relative ordering, with repeated values and a limited landmark budget.",
+      "budget": 8,
+      "steps": [
+        {
+          "index": 1,
+          "eventId": 1,
+          "sourceValue": 0,
+          "exists": false,
+          "presence": 0,
+          "direction": null,
+          "landmarks": [],
+          "bucket": {
+            "lowerEventId": null,
+            "upperEventId": null,
+            "equal": false,
+            "resolved": false
+          },
+          "landmarkCount": 0,
+          "sampleCount": 1,
+          "comparisonCount": 0,
+          "metricAvailable": false,
+          "metricValues": [],
+          "nominalAvailable": false,
+          "archiveBytes": 3885,
+          "historySamples": 1,
+          "unresolved": false,
+          "phase": "ordinal",
+          "basisLabel": null,
+          "archiveFile": "sparse_presence-01.gojo",
+          "archiveCarriers": 15,
+          "archiveRelations": 89
+        },
+        {
+          "index": 2,
+          "eventId": 2,
+          "sourceValue": 12,
+          "exists": true,
+          "presence": 1,
+          "direction": null,
+          "landmarks": [
+            {
+              "eventId": 2,
+              "sourceValue": 12
+            }
+          ],
+          "bucket": {
+            "lowerEventId": 2,
+            "upperEventId": 2,
+            "equal": true,
+            "resolved": true
+          },
+          "landmarkCount": 1,
+          "sampleCount": 2,
+          "comparisonCount": 0,
+          "metricAvailable": false,
+          "metricValues": [],
+          "nominalAvailable": false,
+          "archiveBytes": 6160,
+          "historySamples": 2,
+          "unresolved": false,
+          "phase": "ordinal",
+          "basisLabel": null,
+          "archiveFile": "sparse_presence-02.gojo",
+          "archiveCarriers": 23,
+          "archiveRelations": 147
+        },
+        {
+          "index": 3,
+          "eventId": 3,
+          "sourceValue": 12,
+          "exists": true,
+          "presence": 1,
+          "direction": 0,
+          "landmarks": [
+            {
+              "eventId": 2,
+              "sourceValue": 12
+            }
+          ],
+          "bucket": {
+            "lowerEventId": 2,
+            "upperEventId": 2,
+            "equal": true,
+            "resolved": true
+          },
+          "landmarkCount": 1,
+          "sampleCount": 3,
+          "comparisonCount": 1,
+          "metricAvailable": false,
+          "metricValues": [],
+          "nominalAvailable": false,
+          "archiveBytes": 8992,
+          "historySamples": 3,
+          "unresolved": false,
+          "phase": "ordinal",
+          "basisLabel": null,
+          "archiveFile": "sparse_presence-03.gojo",
+          "archiveCarriers": 32,
+          "archiveRelations": 224
+        },
+        {
+          "index": 4,
+          "eventId": 4,
+          "sourceValue": 47,
+          "exists": true,
+          "presence": 1,
+          "direction": 1,
+          "landmarks": [
+            {
+              "eventId": 2,
+              "sourceValue": 12
+            },
+            {
+              "eventId": 4,
+              "sourceValue": 47
+            }
+          ],
+          "bucket": {
+            "lowerEventId": 4,
+            "upperEventId": 4,
+            "equal": true,
+            "resolved": true
+          },
+          "landmarkCount": 2,
+          "sampleCount": 4,
+          "comparisonCount": 3,
+          "metricAvailable": false,
+          "metricValues": [],
+          "nominalAvailable": false,
+          "archiveBytes": 12870,
+          "historySamples": 4,
+          "unresolved": false,
+          "phase": "ordinal",
+          "basisLabel": null,
+          "archiveFile": "sparse_presence-04.gojo",
+          "archiveCarriers": 44,
+          "archiveRelations": 331
+        },
+        {
+          "index": 5,
+          "eventId": 5,
+          "sourceValue": 0,
+          "exists": false,
+          "presence": 0,
+          "direction": null,
+          "landmarks": [
+            {
+              "eventId": 2,
+              "sourceValue": 12
+            },
+            {
+              "eventId": 4,
+              "sourceValue": 47
+            }
+          ],
+          "bucket": {
+            "lowerEventId": null,
+            "upperEventId": null,
+            "equal": false,
+            "resolved": false
+          },
+          "landmarkCount": 2,
+          "sampleCount": 5,
+          "comparisonCount": 3,
+          "metricAvailable": false,
+          "metricValues": [],
+          "nominalAvailable": false,
+          "archiveBytes": 14917,
+          "historySamples": 5,
+          "unresolved": false,
+          "phase": "ordinal",
+          "basisLabel": null,
+          "archiveFile": "sparse_presence-05.gojo",
+          "archiveCarriers": 51,
+          "archiveRelations": 384
+        },
+        {
+          "index": 6,
+          "eventId": 6,
+          "sourceValue": 3,
+          "exists": true,
+          "presence": 1,
+          "direction": -1,
+          "landmarks": [
+            {
+              "eventId": 6,
+              "sourceValue": 3
+            },
+            {
+              "eventId": 2,
+              "sourceValue": 12
+            },
+            {
+              "eventId": 4,
+              "sourceValue": 47
+            }
+          ],
+          "bucket": {
+            "lowerEventId": 6,
+            "upperEventId": 6,
+            "equal": true,
+            "resolved": true
+          },
+          "landmarkCount": 3,
+          "sampleCount": 6,
+          "comparisonCount": 5,
+          "metricAvailable": false,
+          "metricValues": [],
+          "nominalAvailable": false,
+          "archiveBytes": 18831,
+          "historySamples": 6,
+          "unresolved": false,
+          "phase": "ordinal",
+          "basisLabel": null,
+          "archiveFile": "sparse_presence-06.gojo",
+          "archiveCarriers": 63,
+          "archiveRelations": 493
+        },
+        {
+          "index": 7,
+          "eventId": 7,
+          "sourceValue": 18,
+          "exists": true,
+          "presence": 1,
+          "direction": 1,
+          "landmarks": [
+            {
+              "eventId": 6,
+              "sourceValue": 3
+            },
+            {
+              "eventId": 2,
+              "sourceValue": 12
+            },
+            {
+              "eventId": 7,
+              "sourceValue": 18
+            },
+            {
+              "eventId": 4,
+              "sourceValue": 47
+            }
+          ],
+          "bucket": {
+            "lowerEventId": 7,
+            "upperEventId": 7,
+            "equal": true,
+            "resolved": true
+          },
+          "landmarkCount": 4,
+          "sampleCount": 7,
+          "comparisonCount": 8,
+          "metricAvailable": false,
+          "metricValues": [],
+          "nominalAvailable": false,
+          "archiveBytes": 23576,
+          "historySamples": 7,
+          "unresolved": false,
+          "phase": "ordinal",
+          "basisLabel": null,
+          "archiveFile": "sparse_presence-07.gojo",
+          "archiveCarriers": 77,
+          "archiveRelations": 628
+        },
+        {
+          "index": 8,
+          "eventId": 8,
+          "sourceValue": 91,
+          "exists": true,
+          "presence": 1,
+          "direction": 1,
+          "landmarks": [
+            {
+              "eventId": 6,
+              "sourceValue": 3
+            },
+            {
+              "eventId": 2,
+              "sourceValue": 12
+            },
+            {
+              "eventId": 7,
+              "sourceValue": 18
+            },
+            {
+              "eventId": 4,
+              "sourceValue": 47
+            },
+            {
+              "eventId": 8,
+              "sourceValue": 91
+            }
+          ],
+          "bucket": {
+            "lowerEventId": 8,
+            "upperEventId": 8,
+            "equal": true,
+            "resolved": true
+          },
+          "landmarkCount": 5,
+          "sampleCount": 8,
+          "comparisonCount": 10,
+          "metricAvailable": false,
+          "metricValues": [],
+          "nominalAvailable": false,
+          "archiveBytes": 27562,
+          "historySamples": 8,
+          "unresolved": false,
+          "phase": "ordinal",
+          "basisLabel": null,
+          "archiveFile": "sparse_presence-08.gojo",
+          "archiveCarriers": 89,
+          "archiveRelations": 741
+        },
+        {
+          "index": 9,
+          "eventId": 9,
+          "sourceValue": 6,
+          "exists": true,
+          "presence": 1,
+          "direction": -1,
+          "landmarks": [
+            {
+              "eventId": 6,
+              "sourceValue": 3
+            },
+            {
+              "eventId": 9,
+              "sourceValue": 6
+            },
+            {
+              "eventId": 2,
+              "sourceValue": 12
+            },
+            {
+              "eventId": 7,
+              "sourceValue": 18
+            },
+            {
+              "eventId": 4,
+              "sourceValue": 47
+            },
+            {
+              "eventId": 8,
+              "sourceValue": 91
+            }
+          ],
+          "bucket": {
+            "lowerEventId": 9,
+            "upperEventId": 9,
+            "equal": true,
+            "resolved": true
+          },
+          "landmarkCount": 6,
+          "sampleCount": 9,
+          "comparisonCount": 14,
+          "metricAvailable": false,
+          "metricValues": [],
+          "nominalAvailable": false,
+          "archiveBytes": 33174,
+          "historySamples": 9,
+          "unresolved": false,
+          "phase": "ordinal",
+          "basisLabel": null,
+          "archiveFile": "sparse_presence-09.gojo",
+          "archiveCarriers": 105,
+          "archiveRelations": 904
+        },
+        {
+          "index": 10,
+          "eventId": 10,
+          "sourceValue": 63,
+          "exists": true,
+          "presence": 1,
+          "direction": 1,
+          "landmarks": [
+            {
+              "eventId": 6,
+              "sourceValue": 3
+            },
+            {
+              "eventId": 9,
+              "sourceValue": 6
+            },
+            {
+              "eventId": 2,
+              "sourceValue": 12
+            },
+            {
+              "eventId": 7,
+              "sourceValue": 18
+            },
+            {
+              "eventId": 4,
+              "sourceValue": 47
+            },
+            {
+              "eventId": 10,
+              "sourceValue": 63
+            },
+            {
+              "eventId": 8,
+              "sourceValue": 91
+            }
+          ],
+          "bucket": {
+            "lowerEventId": 10,
+            "upperEventId": 10,
+            "equal": true,
+            "resolved": true
+          },
+          "landmarkCount": 7,
+          "sampleCount": 10,
+          "comparisonCount": 18,
+          "metricAvailable": false,
+          "metricValues": [],
+          "nominalAvailable": false,
+          "archiveBytes": 38822,
+          "historySamples": 10,
+          "unresolved": false,
+          "phase": "ordinal",
+          "basisLabel": null,
+          "archiveFile": "sparse_presence-10.gojo",
+          "archiveCarriers": 121,
+          "archiveRelations": 1069
+        },
+        {
+          "index": 11,
+          "eventId": 11,
+          "sourceValue": 30,
+          "exists": true,
+          "presence": 1,
+          "direction": -1,
+          "landmarks": [
+            {
+              "eventId": 6,
+              "sourceValue": 3
+            },
+            {
+              "eventId": 9,
+              "sourceValue": 6
+            },
+            {
+              "eventId": 2,
+              "sourceValue": 12
+            },
+            {
+              "eventId": 7,
+              "sourceValue": 18
+            },
+            {
+              "eventId": 11,
+              "sourceValue": 30
+            },
+            {
+              "eventId": 4,
+              "sourceValue": 47
+            },
+            {
+              "eventId": 10,
+              "sourceValue": 63
+            },
+            {
+              "eventId": 8,
+              "sourceValue": 91
+            }
+          ],
+          "bucket": {
+            "lowerEventId": 11,
+            "upperEventId": 11,
+            "equal": true,
+            "resolved": true
+          },
+          "landmarkCount": 8,
+          "sampleCount": 11,
+          "comparisonCount": 21,
+          "metricAvailable": false,
+          "metricValues": [],
+          "nominalAvailable": false,
+          "archiveBytes": 43711,
+          "historySamples": 11,
+          "unresolved": false,
+          "phase": "ordinal",
+          "basisLabel": null,
+          "archiveFile": "sparse_presence-11.gojo",
+          "archiveCarriers": 135,
+          "archiveRelations": 1212
+        },
+        {
+          "index": 12,
+          "eventId": 12,
+          "sourceValue": 84,
+          "exists": true,
+          "presence": 1,
+          "direction": 1,
+          "landmarks": [
+            {
+              "eventId": 6,
+              "sourceValue": 3
+            },
+            {
+              "eventId": 9,
+              "sourceValue": 6
+            },
+            {
+              "eventId": 2,
+              "sourceValue": 12
+            },
+            {
+              "eventId": 7,
+              "sourceValue": 18
+            },
+            {
+              "eventId": 11,
+              "sourceValue": 30
+            },
+            {
+              "eventId": 4,
+              "sourceValue": 47
+            },
+            {
+              "eventId": 10,
+              "sourceValue": 63
+            },
+            {
+              "eventId": 8,
+              "sourceValue": 91
+            }
+          ],
+          "bucket": {
+            "lowerEventId": 10,
+            "upperEventId": 8,
+            "equal": false,
+            "resolved": true
+          },
+          "landmarkCount": 8,
+          "sampleCount": 12,
+          "comparisonCount": 24,
+          "metricAvailable": false,
+          "metricValues": [],
+          "nominalAvailable": false,
+          "archiveBytes": 48133,
+          "historySamples": 12,
+          "unresolved": false,
+          "phase": "ordinal",
+          "basisLabel": null,
+          "archiveFile": "sparse_presence-12.gojo",
+          "archiveCarriers": 148,
+          "archiveRelations": 1337
+        },
+        {
+          "index": 13,
+          "eventId": 13,
+          "sourceValue": 15,
+          "exists": true,
+          "presence": 1,
+          "direction": -1,
+          "landmarks": [
+            {
+              "eventId": 6,
+              "sourceValue": 3
+            },
+            {
+              "eventId": 9,
+              "sourceValue": 6
+            },
+            {
+              "eventId": 2,
+              "sourceValue": 12
+            },
+            {
+              "eventId": 7,
+              "sourceValue": 18
+            },
+            {
+              "eventId": 11,
+              "sourceValue": 30
+            },
+            {
+              "eventId": 4,
+              "sourceValue": 47
+            },
+            {
+              "eventId": 10,
+              "sourceValue": 63
+            },
+            {
+              "eventId": 8,
+              "sourceValue": 91
+            }
+          ],
+          "bucket": {
+            "lowerEventId": 2,
+            "upperEventId": 7,
+            "equal": false,
+            "resolved": true
+          },
+          "landmarkCount": 8,
+          "sampleCount": 13,
+          "comparisonCount": 28,
+          "metricAvailable": false,
+          "metricValues": [],
+          "nominalAvailable": false,
+          "archiveBytes": 53350,
+          "historySamples": 13,
+          "unresolved": false,
+          "phase": "ordinal",
+          "basisLabel": null,
+          "archiveFile": "sparse_presence-13.gojo",
+          "archiveCarriers": 163,
+          "archiveRelations": 1486
+        },
+        {
+          "index": 14,
+          "eventId": 14,
+          "sourceValue": 51,
+          "exists": true,
+          "presence": 1,
+          "direction": 1,
+          "landmarks": [
+            {
+              "eventId": 6,
+              "sourceValue": 3
+            },
+            {
+              "eventId": 9,
+              "sourceValue": 6
+            },
+            {
+              "eventId": 2,
+              "sourceValue": 12
+            },
+            {
+              "eventId": 7,
+              "sourceValue": 18
+            },
+            {
+              "eventId": 11,
+              "sourceValue": 30
+            },
+            {
+              "eventId": 4,
+              "sourceValue": 47
+            },
+            {
+              "eventId": 10,
+              "sourceValue": 63
+            },
+            {
+              "eventId": 8,
+              "sourceValue": 91
+            }
+          ],
+          "bucket": {
+            "lowerEventId": 4,
+            "upperEventId": 10,
+            "equal": false,
+            "resolved": true
+          },
+          "landmarkCount": 8,
+          "sampleCount": 14,
+          "comparisonCount": 32,
+          "metricAvailable": false,
+          "metricValues": [],
+          "nominalAvailable": false,
+          "archiveBytes": 58567,
+          "historySamples": 14,
+          "unresolved": false,
+          "phase": "ordinal",
+          "basisLabel": null,
+          "archiveFile": "sparse_presence-14.gojo",
+          "archiveCarriers": 178,
+          "archiveRelations": 1635
+        },
+        {
+          "index": 15,
+          "eventId": 15,
+          "sourceValue": 22,
+          "exists": true,
+          "presence": 1,
+          "direction": -1,
+          "landmarks": [
+            {
+              "eventId": 6,
+              "sourceValue": 3
+            },
+            {
+              "eventId": 9,
+              "sourceValue": 6
+            },
+            {
+              "eventId": 2,
+              "sourceValue": 12
+            },
+            {
+              "eventId": 7,
+              "sourceValue": 18
+            },
+            {
+              "eventId": 11,
+              "sourceValue": 30
+            },
+            {
+              "eventId": 4,
+              "sourceValue": 47
+            },
+            {
+              "eventId": 10,
+              "sourceValue": 63
+            },
+            {
+              "eventId": 8,
+              "sourceValue": 91
+            }
+          ],
+          "bucket": {
+            "lowerEventId": 7,
+            "upperEventId": 11,
+            "equal": false,
+            "resolved": true
+          },
+          "landmarkCount": 8,
+          "sampleCount": 15,
+          "comparisonCount": 36,
+          "metricAvailable": false,
+          "metricValues": [],
+          "nominalAvailable": false,
+          "archiveBytes": 63784,
+          "historySamples": 15,
+          "unresolved": false,
+          "phase": "ordinal",
+          "basisLabel": null,
+          "archiveFile": "sparse_presence-15.gojo",
+          "archiveCarriers": 193,
+          "archiveRelations": 1784
+        },
+        {
+          "index": 16,
+          "eventId": 16,
+          "sourceValue": 75,
+          "exists": true,
+          "presence": 1,
+          "direction": 1,
+          "landmarks": [
+            {
+              "eventId": 6,
+              "sourceValue": 3
+            },
+            {
+              "eventId": 9,
+              "sourceValue": 6
+            },
+            {
+              "eventId": 2,
+              "sourceValue": 12
+            },
+            {
+              "eventId": 7,
+              "sourceValue": 18
+            },
+            {
+              "eventId": 11,
+              "sourceValue": 30
+            },
+            {
+              "eventId": 4,
+              "sourceValue": 47
+            },
+            {
+              "eventId": 10,
+              "sourceValue": 63
+            },
+            {
+              "eventId": 8,
+              "sourceValue": 91
+            }
+          ],
+          "bucket": {
+            "lowerEventId": 10,
+            "upperEventId": 8,
+            "equal": false,
+            "resolved": true
+          },
+          "landmarkCount": 8,
+          "sampleCount": 16,
+          "comparisonCount": 40,
+          "metricAvailable": false,
+          "metricValues": [],
+          "nominalAvailable": false,
+          "archiveBytes": 69001,
+          "historySamples": 16,
+          "unresolved": false,
+          "phase": "ordinal",
+          "basisLabel": null,
+          "archiveFile": "sparse_presence-16.gojo",
+          "archiveCarriers": 208,
+          "archiveRelations": 1933
+        },
+        {
+          "index": 17,
+          "eventId": 17,
+          "sourceValue": 9,
+          "exists": true,
+          "presence": 1,
+          "direction": -1,
+          "landmarks": [
+            {
+              "eventId": 6,
+              "sourceValue": 3
+            },
+            {
+              "eventId": 9,
+              "sourceValue": 6
+            },
+            {
+              "eventId": 2,
+              "sourceValue": 12
+            },
+            {
+              "eventId": 7,
+              "sourceValue": 18
+            },
+            {
+              "eventId": 11,
+              "sourceValue": 30
+            },
+            {
+              "eventId": 4,
+              "sourceValue": 47
+            },
+            {
+              "eventId": 10,
+              "sourceValue": 63
+            },
+            {
+              "eventId": 8,
+              "sourceValue": 91
+            }
+          ],
+          "bucket": {
+            "lowerEventId": 9,
+            "upperEventId": 2,
+            "equal": false,
+            "resolved": true
+          },
+          "landmarkCount": 8,
+          "sampleCount": 17,
+          "comparisonCount": 44,
+          "metricAvailable": false,
+          "metricValues": [],
+          "nominalAvailable": false,
+          "archiveBytes": 74218,
+          "historySamples": 17,
+          "unresolved": false,
+          "phase": "ordinal",
+          "basisLabel": null,
+          "archiveFile": "sparse_presence-17.gojo",
+          "archiveCarriers": 223,
+          "archiveRelations": 2082
+        },
+        {
+          "index": 18,
+          "eventId": 18,
+          "sourceValue": 39,
+          "exists": true,
+          "presence": 1,
+          "direction": 1,
+          "landmarks": [
+            {
+              "eventId": 6,
+              "sourceValue": 3
+            },
+            {
+              "eventId": 9,
+              "sourceValue": 6
+            },
+            {
+              "eventId": 2,
+              "sourceValue": 12
+            },
+            {
+              "eventId": 7,
+              "sourceValue": 18
+            },
+            {
+              "eventId": 11,
+              "sourceValue": 30
+            },
+            {
+              "eventId": 4,
+              "sourceValue": 47
+            },
+            {
+              "eventId": 10,
+              "sourceValue": 63
+            },
+            {
+              "eventId": 8,
+              "sourceValue": 91
+            }
+          ],
+          "bucket": {
+            "lowerEventId": 11,
+            "upperEventId": 4,
+            "equal": false,
+            "resolved": true
+          },
+          "landmarkCount": 8,
+          "sampleCount": 18,
+          "comparisonCount": 48,
+          "metricAvailable": false,
+          "metricValues": [],
+          "nominalAvailable": false,
+          "archiveBytes": 79435,
+          "historySamples": 18,
+          "unresolved": false,
+          "phase": "ordinal",
+          "basisLabel": null,
+          "archiveFile": "sparse_presence-18.gojo",
+          "archiveCarriers": 238,
+          "archiveRelations": 2231
+        },
+        {
+          "index": 19,
+          "eventId": 19,
+          "sourceValue": 0,
+          "exists": false,
+          "presence": 0,
+          "direction": null,
+          "landmarks": [
+            {
+              "eventId": 6,
+              "sourceValue": 3
+            },
+            {
+              "eventId": 9,
+              "sourceValue": 6
+            },
+            {
+              "eventId": 2,
+              "sourceValue": 12
+            },
+            {
+              "eventId": 7,
+              "sourceValue": 18
+            },
+            {
+              "eventId": 11,
+              "sourceValue": 30
+            },
+            {
+              "eventId": 4,
+              "sourceValue": 47
+            },
+            {
+              "eventId": 10,
+              "sourceValue": 63
+            },
+            {
+              "eventId": 8,
+              "sourceValue": 91
+            }
+          ],
+          "bucket": {
+            "lowerEventId": null,
+            "upperEventId": null,
+            "equal": false,
+            "resolved": false
+          },
+          "landmarkCount": 8,
+          "sampleCount": 19,
+          "comparisonCount": 48,
+          "metricAvailable": false,
+          "metricValues": [],
+          "nominalAvailable": false,
+          "archiveBytes": 81482,
+          "historySamples": 19,
+          "unresolved": false,
+          "phase": "ordinal",
+          "basisLabel": null,
+          "archiveFile": "sparse_presence-19.gojo",
+          "archiveCarriers": 245,
+          "archiveRelations": 2284
+        },
+        {
+          "index": 20,
+          "eventId": 20,
+          "sourceValue": 12,
+          "exists": true,
+          "presence": 1,
+          "direction": -1,
+          "landmarks": [
+            {
+              "eventId": 6,
+              "sourceValue": 3
+            },
+            {
+              "eventId": 9,
+              "sourceValue": 6
+            },
+            {
+              "eventId": 2,
+              "sourceValue": 12
+            },
+            {
+              "eventId": 7,
+              "sourceValue": 18
+            },
+            {
+              "eventId": 11,
+              "sourceValue": 30
+            },
+            {
+              "eventId": 4,
+              "sourceValue": 47
+            },
+            {
+              "eventId": 10,
+              "sourceValue": 63
+            },
+            {
+              "eventId": 8,
+              "sourceValue": 91
+            }
+          ],
+          "bucket": {
+            "lowerEventId": 2,
+            "upperEventId": 2,
+            "equal": true,
+            "resolved": true
+          },
+          "landmarkCount": 8,
+          "sampleCount": 20,
+          "comparisonCount": 53,
+          "metricAvailable": false,
+          "metricValues": [],
+          "nominalAvailable": false,
+          "archiveBytes": 87494,
+          "historySamples": 20,
+          "unresolved": false,
+          "phase": "ordinal",
+          "basisLabel": null,
+          "archiveFile": "sparse_presence-20.gojo",
+          "archiveCarriers": 262,
+          "archiveRelations": 2457
+        },
+        {
+          "index": 21,
+          "eventId": 20,
+          "sourceValue": 12,
+          "exists": true,
+          "presence": 1,
+          "direction": -1,
+          "landmarks": [
+            {
+              "eventId": 6,
+              "sourceValue": 3
+            },
+            {
+              "eventId": 9,
+              "sourceValue": 6
+            },
+            {
+              "eventId": 2,
+              "sourceValue": 12
+            },
+            {
+              "eventId": 7,
+              "sourceValue": 18
+            },
+            {
+              "eventId": 11,
+              "sourceValue": 30
+            },
+            {
+              "eventId": 4,
+              "sourceValue": 47
+            },
+            {
+              "eventId": 10,
+              "sourceValue": 63
+            },
+            {
+              "eventId": 8,
+              "sourceValue": 91
+            }
+          ],
+          "bucket": {
+            "lowerEventId": 2,
+            "upperEventId": 2,
+            "equal": true,
+            "resolved": true
+          },
+          "landmarkCount": 8,
+          "sampleCount": 20,
+          "comparisonCount": 53,
+          "metricAvailable": true,
+          "metricValues": [
+            {
+              "eventId": 2,
+              "value": 12,
+              "unit": "fixture ticks",
+              "lower": 12,
+              "upper": 12
+            },
+            {
+              "eventId": 3,
+              "value": 12,
+              "unit": "fixture ticks",
+              "lower": 12,
+              "upper": 12
+            },
+            {
+              "eventId": 4,
+              "value": 47,
+              "unit": "fixture ticks",
+              "lower": 47,
+              "upper": 47
+            },
+            {
+              "eventId": 6,
+              "value": 3,
+              "unit": "fixture ticks",
+              "lower": 3,
+              "upper": 3
+            },
+            {
+              "eventId": 7,
+              "value": 18,
+              "unit": "fixture ticks",
+              "lower": 18,
+              "upper": 18
+            },
+            {
+              "eventId": 8,
+              "value": 91,
+              "unit": "fixture ticks",
+              "lower": 91,
+              "upper": 91
+            },
+            {
+              "eventId": 9,
+              "value": 6,
+              "unit": "fixture ticks",
+              "lower": 6,
+              "upper": 6
+            },
+            {
+              "eventId": 10,
+              "value": 63,
+              "unit": "fixture ticks",
+              "lower": 63,
+              "upper": 63
+            },
+            {
+              "eventId": 11,
+              "value": 30,
+              "unit": "fixture ticks",
+              "lower": 30,
+              "upper": 30
+            },
+            {
+              "eventId": 12,
+              "value": 84,
+              "unit": "fixture ticks",
+              "lower": 84,
+              "upper": 84
+            },
+            {
+              "eventId": 13,
+              "value": 15,
+              "unit": "fixture ticks",
+              "lower": 15,
+              "upper": 15
+            },
+            {
+              "eventId": 14,
+              "value": 51,
+              "unit": "fixture ticks",
+              "lower": 51,
+              "upper": 51
+            },
+            {
+              "eventId": 15,
+              "value": 22,
+              "unit": "fixture ticks",
+              "lower": 22,
+              "upper": 22
+            },
+            {
+              "eventId": 16,
+              "value": 75,
+              "unit": "fixture ticks",
+              "lower": 75,
+              "upper": 75
+            },
+            {
+              "eventId": 17,
+              "value": 9,
+              "unit": "fixture ticks",
+              "lower": 9,
+              "upper": 9
+            },
+            {
+              "eventId": 18,
+              "value": 39,
+              "unit": "fixture ticks",
+              "lower": 39,
+              "upper": 39
+            },
+            {
+              "eventId": 20,
+              "value": 12,
+              "unit": "fixture ticks",
+              "lower": 12,
+              "upper": 12
+            }
+          ],
+          "nominalAvailable": false,
+          "archiveBytes": 140969,
+          "historySamples": 20,
+          "unresolved": false,
+          "phase": "metric",
+          "basisLabel": "Explicit fixture integer calibration",
+          "archiveFile": "sparse_presence-21.gojo",
+          "archiveCarriers": 321,
+          "archiveRelations": 4311
+        }
+      ],
+      "summary": {
+        "acquisitions": 20,
+        "presentAcquisitions": 17,
+        "distinctPresentFixtureValues": 15,
+        "finalLandmarks": 8,
+        "comparisonQueries": 53,
+        "allArchiveBytes": 988933,
+        "finalArchiveBytes": 140969,
+        "coarseIntervalVisits": 7,
+        "metricAvailable": true,
+        "unresolvedVisits": 0
+      }
+    },
+    {
+      "id": "rescaled_presence",
+      "title": "The same signal, rescaled",
+      "description": "Private values become 100 \u00D7 value \u002B 1000. Presence is unchanged, including missing samples.",
+      "budget": 8,
+      "steps": [
+        {
+          "index": 1,
+          "eventId": 1,
+          "sourceValue": 1000,
+          "exists": false,
+          "presence": 0,
+          "direction": null,
+          "landmarks": [],
+          "bucket": {
+            "lowerEventId": null,
+            "upperEventId": null,
+            "equal": false,
+            "resolved": false
+          },
+          "landmarkCount": 0,
+          "sampleCount": 1,
+          "comparisonCount": 0,
+          "metricAvailable": false,
+          "metricValues": [],
+          "nominalAvailable": false,
+          "archiveBytes": 3885,
+          "historySamples": 1,
+          "unresolved": false,
+          "phase": "ordinal",
+          "basisLabel": null,
+          "archiveFile": "rescaled_presence-01.gojo",
+          "archiveCarriers": 15,
+          "archiveRelations": 89
+        },
+        {
+          "index": 2,
+          "eventId": 2,
+          "sourceValue": 2200,
+          "exists": true,
+          "presence": 1,
+          "direction": null,
+          "landmarks": [
+            {
+              "eventId": 2,
+              "sourceValue": 2200
+            }
+          ],
+          "bucket": {
+            "lowerEventId": 2,
+            "upperEventId": 2,
+            "equal": true,
+            "resolved": true
+          },
+          "landmarkCount": 1,
+          "sampleCount": 2,
+          "comparisonCount": 0,
+          "metricAvailable": false,
+          "metricValues": [],
+          "nominalAvailable": false,
+          "archiveBytes": 6160,
+          "historySamples": 2,
+          "unresolved": false,
+          "phase": "ordinal",
+          "basisLabel": null,
+          "archiveFile": "rescaled_presence-02.gojo",
+          "archiveCarriers": 23,
+          "archiveRelations": 147
+        },
+        {
+          "index": 3,
+          "eventId": 3,
+          "sourceValue": 2200,
+          "exists": true,
+          "presence": 1,
+          "direction": 0,
+          "landmarks": [
+            {
+              "eventId": 2,
+              "sourceValue": 2200
+            }
+          ],
+          "bucket": {
+            "lowerEventId": 2,
+            "upperEventId": 2,
+            "equal": true,
+            "resolved": true
+          },
+          "landmarkCount": 1,
+          "sampleCount": 3,
+          "comparisonCount": 1,
+          "metricAvailable": false,
+          "metricValues": [],
+          "nominalAvailable": false,
+          "archiveBytes": 8992,
+          "historySamples": 3,
+          "unresolved": false,
+          "phase": "ordinal",
+          "basisLabel": null,
+          "archiveFile": "rescaled_presence-03.gojo",
+          "archiveCarriers": 32,
+          "archiveRelations": 224
+        },
+        {
+          "index": 4,
+          "eventId": 4,
+          "sourceValue": 5700,
+          "exists": true,
+          "presence": 1,
+          "direction": 1,
+          "landmarks": [
+            {
+              "eventId": 2,
+              "sourceValue": 2200
+            },
+            {
+              "eventId": 4,
+              "sourceValue": 5700
+            }
+          ],
+          "bucket": {
+            "lowerEventId": 4,
+            "upperEventId": 4,
+            "equal": true,
+            "resolved": true
+          },
+          "landmarkCount": 2,
+          "sampleCount": 4,
+          "comparisonCount": 3,
+          "metricAvailable": false,
+          "metricValues": [],
+          "nominalAvailable": false,
+          "archiveBytes": 12870,
+          "historySamples": 4,
+          "unresolved": false,
+          "phase": "ordinal",
+          "basisLabel": null,
+          "archiveFile": "rescaled_presence-04.gojo",
+          "archiveCarriers": 44,
+          "archiveRelations": 331
+        },
+        {
+          "index": 5,
+          "eventId": 5,
+          "sourceValue": 1000,
+          "exists": false,
+          "presence": 0,
+          "direction": null,
+          "landmarks": [
+            {
+              "eventId": 2,
+              "sourceValue": 2200
+            },
+            {
+              "eventId": 4,
+              "sourceValue": 5700
+            }
+          ],
+          "bucket": {
+            "lowerEventId": null,
+            "upperEventId": null,
+            "equal": false,
+            "resolved": false
+          },
+          "landmarkCount": 2,
+          "sampleCount": 5,
+          "comparisonCount": 3,
+          "metricAvailable": false,
+          "metricValues": [],
+          "nominalAvailable": false,
+          "archiveBytes": 14917,
+          "historySamples": 5,
+          "unresolved": false,
+          "phase": "ordinal",
+          "basisLabel": null,
+          "archiveFile": "rescaled_presence-05.gojo",
+          "archiveCarriers": 51,
+          "archiveRelations": 384
+        },
+        {
+          "index": 6,
+          "eventId": 6,
+          "sourceValue": 1300,
+          "exists": true,
+          "presence": 1,
+          "direction": -1,
+          "landmarks": [
+            {
+              "eventId": 6,
+              "sourceValue": 1300
+            },
+            {
+              "eventId": 2,
+              "sourceValue": 2200
+            },
+            {
+              "eventId": 4,
+              "sourceValue": 5700
+            }
+          ],
+          "bucket": {
+            "lowerEventId": 6,
+            "upperEventId": 6,
+            "equal": true,
+            "resolved": true
+          },
+          "landmarkCount": 3,
+          "sampleCount": 6,
+          "comparisonCount": 5,
+          "metricAvailable": false,
+          "metricValues": [],
+          "nominalAvailable": false,
+          "archiveBytes": 18831,
+          "historySamples": 6,
+          "unresolved": false,
+          "phase": "ordinal",
+          "basisLabel": null,
+          "archiveFile": "rescaled_presence-06.gojo",
+          "archiveCarriers": 63,
+          "archiveRelations": 493
+        },
+        {
+          "index": 7,
+          "eventId": 7,
+          "sourceValue": 2800,
+          "exists": true,
+          "presence": 1,
+          "direction": 1,
+          "landmarks": [
+            {
+              "eventId": 6,
+              "sourceValue": 1300
+            },
+            {
+              "eventId": 2,
+              "sourceValue": 2200
+            },
+            {
+              "eventId": 7,
+              "sourceValue": 2800
+            },
+            {
+              "eventId": 4,
+              "sourceValue": 5700
+            }
+          ],
+          "bucket": {
+            "lowerEventId": 7,
+            "upperEventId": 7,
+            "equal": true,
+            "resolved": true
+          },
+          "landmarkCount": 4,
+          "sampleCount": 7,
+          "comparisonCount": 8,
+          "metricAvailable": false,
+          "metricValues": [],
+          "nominalAvailable": false,
+          "archiveBytes": 23576,
+          "historySamples": 7,
+          "unresolved": false,
+          "phase": "ordinal",
+          "basisLabel": null,
+          "archiveFile": "rescaled_presence-07.gojo",
+          "archiveCarriers": 77,
+          "archiveRelations": 628
+        },
+        {
+          "index": 8,
+          "eventId": 8,
+          "sourceValue": 10100,
+          "exists": true,
+          "presence": 1,
+          "direction": 1,
+          "landmarks": [
+            {
+              "eventId": 6,
+              "sourceValue": 1300
+            },
+            {
+              "eventId": 2,
+              "sourceValue": 2200
+            },
+            {
+              "eventId": 7,
+              "sourceValue": 2800
+            },
+            {
+              "eventId": 4,
+              "sourceValue": 5700
+            },
+            {
+              "eventId": 8,
+              "sourceValue": 10100
+            }
+          ],
+          "bucket": {
+            "lowerEventId": 8,
+            "upperEventId": 8,
+            "equal": true,
+            "resolved": true
+          },
+          "landmarkCount": 5,
+          "sampleCount": 8,
+          "comparisonCount": 10,
+          "metricAvailable": false,
+          "metricValues": [],
+          "nominalAvailable": false,
+          "archiveBytes": 27562,
+          "historySamples": 8,
+          "unresolved": false,
+          "phase": "ordinal",
+          "basisLabel": null,
+          "archiveFile": "rescaled_presence-08.gojo",
+          "archiveCarriers": 89,
+          "archiveRelations": 741
+        },
+        {
+          "index": 9,
+          "eventId": 9,
+          "sourceValue": 1600,
+          "exists": true,
+          "presence": 1,
+          "direction": -1,
+          "landmarks": [
+            {
+              "eventId": 6,
+              "sourceValue": 1300
+            },
+            {
+              "eventId": 9,
+              "sourceValue": 1600
+            },
+            {
+              "eventId": 2,
+              "sourceValue": 2200
+            },
+            {
+              "eventId": 7,
+              "sourceValue": 2800
+            },
+            {
+              "eventId": 4,
+              "sourceValue": 5700
+            },
+            {
+              "eventId": 8,
+              "sourceValue": 10100
+            }
+          ],
+          "bucket": {
+            "lowerEventId": 9,
+            "upperEventId": 9,
+            "equal": true,
+            "resolved": true
+          },
+          "landmarkCount": 6,
+          "sampleCount": 9,
+          "comparisonCount": 14,
+          "metricAvailable": false,
+          "metricValues": [],
+          "nominalAvailable": false,
+          "archiveBytes": 33174,
+          "historySamples": 9,
+          "unresolved": false,
+          "phase": "ordinal",
+          "basisLabel": null,
+          "archiveFile": "rescaled_presence-09.gojo",
+          "archiveCarriers": 105,
+          "archiveRelations": 904
+        },
+        {
+          "index": 10,
+          "eventId": 10,
+          "sourceValue": 7300,
+          "exists": true,
+          "presence": 1,
+          "direction": 1,
+          "landmarks": [
+            {
+              "eventId": 6,
+              "sourceValue": 1300
+            },
+            {
+              "eventId": 9,
+              "sourceValue": 1600
+            },
+            {
+              "eventId": 2,
+              "sourceValue": 2200
+            },
+            {
+              "eventId": 7,
+              "sourceValue": 2800
+            },
+            {
+              "eventId": 4,
+              "sourceValue": 5700
+            },
+            {
+              "eventId": 10,
+              "sourceValue": 7300
+            },
+            {
+              "eventId": 8,
+              "sourceValue": 10100
+            }
+          ],
+          "bucket": {
+            "lowerEventId": 10,
+            "upperEventId": 10,
+            "equal": true,
+            "resolved": true
+          },
+          "landmarkCount": 7,
+          "sampleCount": 10,
+          "comparisonCount": 18,
+          "metricAvailable": false,
+          "metricValues": [],
+          "nominalAvailable": false,
+          "archiveBytes": 38822,
+          "historySamples": 10,
+          "unresolved": false,
+          "phase": "ordinal",
+          "basisLabel": null,
+          "archiveFile": "rescaled_presence-10.gojo",
+          "archiveCarriers": 121,
+          "archiveRelations": 1069
+        },
+        {
+          "index": 11,
+          "eventId": 11,
+          "sourceValue": 4000,
+          "exists": true,
+          "presence": 1,
+          "direction": -1,
+          "landmarks": [
+            {
+              "eventId": 6,
+              "sourceValue": 1300
+            },
+            {
+              "eventId": 9,
+              "sourceValue": 1600
+            },
+            {
+              "eventId": 2,
+              "sourceValue": 2200
+            },
+            {
+              "eventId": 7,
+              "sourceValue": 2800
+            },
+            {
+              "eventId": 11,
+              "sourceValue": 4000
+            },
+            {
+              "eventId": 4,
+              "sourceValue": 5700
+            },
+            {
+              "eventId": 10,
+              "sourceValue": 7300
+            },
+            {
+              "eventId": 8,
+              "sourceValue": 10100
+            }
+          ],
+          "bucket": {
+            "lowerEventId": 11,
+            "upperEventId": 11,
+            "equal": true,
+            "resolved": true
+          },
+          "landmarkCount": 8,
+          "sampleCount": 11,
+          "comparisonCount": 21,
+          "metricAvailable": false,
+          "metricValues": [],
+          "nominalAvailable": false,
+          "archiveBytes": 43711,
+          "historySamples": 11,
+          "unresolved": false,
+          "phase": "ordinal",
+          "basisLabel": null,
+          "archiveFile": "rescaled_presence-11.gojo",
+          "archiveCarriers": 135,
+          "archiveRelations": 1212
+        },
+        {
+          "index": 12,
+          "eventId": 12,
+          "sourceValue": 9400,
+          "exists": true,
+          "presence": 1,
+          "direction": 1,
+          "landmarks": [
+            {
+              "eventId": 6,
+              "sourceValue": 1300
+            },
+            {
+              "eventId": 9,
+              "sourceValue": 1600
+            },
+            {
+              "eventId": 2,
+              "sourceValue": 2200
+            },
+            {
+              "eventId": 7,
+              "sourceValue": 2800
+            },
+            {
+              "eventId": 11,
+              "sourceValue": 4000
+            },
+            {
+              "eventId": 4,
+              "sourceValue": 5700
+            },
+            {
+              "eventId": 10,
+              "sourceValue": 7300
+            },
+            {
+              "eventId": 8,
+              "sourceValue": 10100
+            }
+          ],
+          "bucket": {
+            "lowerEventId": 10,
+            "upperEventId": 8,
+            "equal": false,
+            "resolved": true
+          },
+          "landmarkCount": 8,
+          "sampleCount": 12,
+          "comparisonCount": 24,
+          "metricAvailable": false,
+          "metricValues": [],
+          "nominalAvailable": false,
+          "archiveBytes": 48133,
+          "historySamples": 12,
+          "unresolved": false,
+          "phase": "ordinal",
+          "basisLabel": null,
+          "archiveFile": "rescaled_presence-12.gojo",
+          "archiveCarriers": 148,
+          "archiveRelations": 1337
+        },
+        {
+          "index": 13,
+          "eventId": 13,
+          "sourceValue": 2500,
+          "exists": true,
+          "presence": 1,
+          "direction": -1,
+          "landmarks": [
+            {
+              "eventId": 6,
+              "sourceValue": 1300
+            },
+            {
+              "eventId": 9,
+              "sourceValue": 1600
+            },
+            {
+              "eventId": 2,
+              "sourceValue": 2200
+            },
+            {
+              "eventId": 7,
+              "sourceValue": 2800
+            },
+            {
+              "eventId": 11,
+              "sourceValue": 4000
+            },
+            {
+              "eventId": 4,
+              "sourceValue": 5700
+            },
+            {
+              "eventId": 10,
+              "sourceValue": 7300
+            },
+            {
+              "eventId": 8,
+              "sourceValue": 10100
+            }
+          ],
+          "bucket": {
+            "lowerEventId": 2,
+            "upperEventId": 7,
+            "equal": false,
+            "resolved": true
+          },
+          "landmarkCount": 8,
+          "sampleCount": 13,
+          "comparisonCount": 28,
+          "metricAvailable": false,
+          "metricValues": [],
+          "nominalAvailable": false,
+          "archiveBytes": 53350,
+          "historySamples": 13,
+          "unresolved": false,
+          "phase": "ordinal",
+          "basisLabel": null,
+          "archiveFile": "rescaled_presence-13.gojo",
+          "archiveCarriers": 163,
+          "archiveRelations": 1486
+        },
+        {
+          "index": 14,
+          "eventId": 14,
+          "sourceValue": 6100,
+          "exists": true,
+          "presence": 1,
+          "direction": 1,
+          "landmarks": [
+            {
+              "eventId": 6,
+              "sourceValue": 1300
+            },
+            {
+              "eventId": 9,
+              "sourceValue": 1600
+            },
+            {
+              "eventId": 2,
+              "sourceValue": 2200
+            },
+            {
+              "eventId": 7,
+              "sourceValue": 2800
+            },
+            {
+              "eventId": 11,
+              "sourceValue": 4000
+            },
+            {
+              "eventId": 4,
+              "sourceValue": 5700
+            },
+            {
+              "eventId": 10,
+              "sourceValue": 7300
+            },
+            {
+              "eventId": 8,
+              "sourceValue": 10100
+            }
+          ],
+          "bucket": {
+            "lowerEventId": 4,
+            "upperEventId": 10,
+            "equal": false,
+            "resolved": true
+          },
+          "landmarkCount": 8,
+          "sampleCount": 14,
+          "comparisonCount": 32,
+          "metricAvailable": false,
+          "metricValues": [],
+          "nominalAvailable": false,
+          "archiveBytes": 58567,
+          "historySamples": 14,
+          "unresolved": false,
+          "phase": "ordinal",
+          "basisLabel": null,
+          "archiveFile": "rescaled_presence-14.gojo",
+          "archiveCarriers": 178,
+          "archiveRelations": 1635
+        },
+        {
+          "index": 15,
+          "eventId": 15,
+          "sourceValue": 3200,
+          "exists": true,
+          "presence": 1,
+          "direction": -1,
+          "landmarks": [
+            {
+              "eventId": 6,
+              "sourceValue": 1300
+            },
+            {
+              "eventId": 9,
+              "sourceValue": 1600
+            },
+            {
+              "eventId": 2,
+              "sourceValue": 2200
+            },
+            {
+              "eventId": 7,
+              "sourceValue": 2800
+            },
+            {
+              "eventId": 11,
+              "sourceValue": 4000
+            },
+            {
+              "eventId": 4,
+              "sourceValue": 5700
+            },
+            {
+              "eventId": 10,
+              "sourceValue": 7300
+            },
+            {
+              "eventId": 8,
+              "sourceValue": 10100
+            }
+          ],
+          "bucket": {
+            "lowerEventId": 7,
+            "upperEventId": 11,
+            "equal": false,
+            "resolved": true
+          },
+          "landmarkCount": 8,
+          "sampleCount": 15,
+          "comparisonCount": 36,
+          "metricAvailable": false,
+          "metricValues": [],
+          "nominalAvailable": false,
+          "archiveBytes": 63784,
+          "historySamples": 15,
+          "unresolved": false,
+          "phase": "ordinal",
+          "basisLabel": null,
+          "archiveFile": "rescaled_presence-15.gojo",
+          "archiveCarriers": 193,
+          "archiveRelations": 1784
+        },
+        {
+          "index": 16,
+          "eventId": 16,
+          "sourceValue": 8500,
+          "exists": true,
+          "presence": 1,
+          "direction": 1,
+          "landmarks": [
+            {
+              "eventId": 6,
+              "sourceValue": 1300
+            },
+            {
+              "eventId": 9,
+              "sourceValue": 1600
+            },
+            {
+              "eventId": 2,
+              "sourceValue": 2200
+            },
+            {
+              "eventId": 7,
+              "sourceValue": 2800
+            },
+            {
+              "eventId": 11,
+              "sourceValue": 4000
+            },
+            {
+              "eventId": 4,
+              "sourceValue": 5700
+            },
+            {
+              "eventId": 10,
+              "sourceValue": 7300
+            },
+            {
+              "eventId": 8,
+              "sourceValue": 10100
+            }
+          ],
+          "bucket": {
+            "lowerEventId": 10,
+            "upperEventId": 8,
+            "equal": false,
+            "resolved": true
+          },
+          "landmarkCount": 8,
+          "sampleCount": 16,
+          "comparisonCount": 40,
+          "metricAvailable": false,
+          "metricValues": [],
+          "nominalAvailable": false,
+          "archiveBytes": 69001,
+          "historySamples": 16,
+          "unresolved": false,
+          "phase": "ordinal",
+          "basisLabel": null,
+          "archiveFile": "rescaled_presence-16.gojo",
+          "archiveCarriers": 208,
+          "archiveRelations": 1933
+        },
+        {
+          "index": 17,
+          "eventId": 17,
+          "sourceValue": 1900,
+          "exists": true,
+          "presence": 1,
+          "direction": -1,
+          "landmarks": [
+            {
+              "eventId": 6,
+              "sourceValue": 1300
+            },
+            {
+              "eventId": 9,
+              "sourceValue": 1600
+            },
+            {
+              "eventId": 2,
+              "sourceValue": 2200
+            },
+            {
+              "eventId": 7,
+              "sourceValue": 2800
+            },
+            {
+              "eventId": 11,
+              "sourceValue": 4000
+            },
+            {
+              "eventId": 4,
+              "sourceValue": 5700
+            },
+            {
+              "eventId": 10,
+              "sourceValue": 7300
+            },
+            {
+              "eventId": 8,
+              "sourceValue": 10100
+            }
+          ],
+          "bucket": {
+            "lowerEventId": 9,
+            "upperEventId": 2,
+            "equal": false,
+            "resolved": true
+          },
+          "landmarkCount": 8,
+          "sampleCount": 17,
+          "comparisonCount": 44,
+          "metricAvailable": false,
+          "metricValues": [],
+          "nominalAvailable": false,
+          "archiveBytes": 74218,
+          "historySamples": 17,
+          "unresolved": false,
+          "phase": "ordinal",
+          "basisLabel": null,
+          "archiveFile": "rescaled_presence-17.gojo",
+          "archiveCarriers": 223,
+          "archiveRelations": 2082
+        },
+        {
+          "index": 18,
+          "eventId": 18,
+          "sourceValue": 4900,
+          "exists": true,
+          "presence": 1,
+          "direction": 1,
+          "landmarks": [
+            {
+              "eventId": 6,
+              "sourceValue": 1300
+            },
+            {
+              "eventId": 9,
+              "sourceValue": 1600
+            },
+            {
+              "eventId": 2,
+              "sourceValue": 2200
+            },
+            {
+              "eventId": 7,
+              "sourceValue": 2800
+            },
+            {
+              "eventId": 11,
+              "sourceValue": 4000
+            },
+            {
+              "eventId": 4,
+              "sourceValue": 5700
+            },
+            {
+              "eventId": 10,
+              "sourceValue": 7300
+            },
+            {
+              "eventId": 8,
+              "sourceValue": 10100
+            }
+          ],
+          "bucket": {
+            "lowerEventId": 11,
+            "upperEventId": 4,
+            "equal": false,
+            "resolved": true
+          },
+          "landmarkCount": 8,
+          "sampleCount": 18,
+          "comparisonCount": 48,
+          "metricAvailable": false,
+          "metricValues": [],
+          "nominalAvailable": false,
+          "archiveBytes": 79435,
+          "historySamples": 18,
+          "unresolved": false,
+          "phase": "ordinal",
+          "basisLabel": null,
+          "archiveFile": "rescaled_presence-18.gojo",
+          "archiveCarriers": 238,
+          "archiveRelations": 2231
+        },
+        {
+          "index": 19,
+          "eventId": 19,
+          "sourceValue": 1000,
+          "exists": false,
+          "presence": 0,
+          "direction": null,
+          "landmarks": [
+            {
+              "eventId": 6,
+              "sourceValue": 1300
+            },
+            {
+              "eventId": 9,
+              "sourceValue": 1600
+            },
+            {
+              "eventId": 2,
+              "sourceValue": 2200
+            },
+            {
+              "eventId": 7,
+              "sourceValue": 2800
+            },
+            {
+              "eventId": 11,
+              "sourceValue": 4000
+            },
+            {
+              "eventId": 4,
+              "sourceValue": 5700
+            },
+            {
+              "eventId": 10,
+              "sourceValue": 7300
+            },
+            {
+              "eventId": 8,
+              "sourceValue": 10100
+            }
+          ],
+          "bucket": {
+            "lowerEventId": null,
+            "upperEventId": null,
+            "equal": false,
+            "resolved": false
+          },
+          "landmarkCount": 8,
+          "sampleCount": 19,
+          "comparisonCount": 48,
+          "metricAvailable": false,
+          "metricValues": [],
+          "nominalAvailable": false,
+          "archiveBytes": 81482,
+          "historySamples": 19,
+          "unresolved": false,
+          "phase": "ordinal",
+          "basisLabel": null,
+          "archiveFile": "rescaled_presence-19.gojo",
+          "archiveCarriers": 245,
+          "archiveRelations": 2284
+        },
+        {
+          "index": 20,
+          "eventId": 20,
+          "sourceValue": 2200,
+          "exists": true,
+          "presence": 1,
+          "direction": -1,
+          "landmarks": [
+            {
+              "eventId": 6,
+              "sourceValue": 1300
+            },
+            {
+              "eventId": 9,
+              "sourceValue": 1600
+            },
+            {
+              "eventId": 2,
+              "sourceValue": 2200
+            },
+            {
+              "eventId": 7,
+              "sourceValue": 2800
+            },
+            {
+              "eventId": 11,
+              "sourceValue": 4000
+            },
+            {
+              "eventId": 4,
+              "sourceValue": 5700
+            },
+            {
+              "eventId": 10,
+              "sourceValue": 7300
+            },
+            {
+              "eventId": 8,
+              "sourceValue": 10100
+            }
+          ],
+          "bucket": {
+            "lowerEventId": 2,
+            "upperEventId": 2,
+            "equal": true,
+            "resolved": true
+          },
+          "landmarkCount": 8,
+          "sampleCount": 20,
+          "comparisonCount": 53,
+          "metricAvailable": false,
+          "metricValues": [],
+          "nominalAvailable": false,
+          "archiveBytes": 87494,
+          "historySamples": 20,
+          "unresolved": false,
+          "phase": "ordinal",
+          "basisLabel": null,
+          "archiveFile": "rescaled_presence-20.gojo",
+          "archiveCarriers": 262,
+          "archiveRelations": 2457
+        },
+        {
+          "index": 21,
+          "eventId": 20,
+          "sourceValue": 2200,
+          "exists": true,
+          "presence": 1,
+          "direction": -1,
+          "landmarks": [
+            {
+              "eventId": 6,
+              "sourceValue": 1300
+            },
+            {
+              "eventId": 9,
+              "sourceValue": 1600
+            },
+            {
+              "eventId": 2,
+              "sourceValue": 2200
+            },
+            {
+              "eventId": 7,
+              "sourceValue": 2800
+            },
+            {
+              "eventId": 11,
+              "sourceValue": 4000
+            },
+            {
+              "eventId": 4,
+              "sourceValue": 5700
+            },
+            {
+              "eventId": 10,
+              "sourceValue": 7300
+            },
+            {
+              "eventId": 8,
+              "sourceValue": 10100
+            }
+          ],
+          "bucket": {
+            "lowerEventId": 2,
+            "upperEventId": 2,
+            "equal": true,
+            "resolved": true
+          },
+          "landmarkCount": 8,
+          "sampleCount": 20,
+          "comparisonCount": 53,
+          "metricAvailable": true,
+          "metricValues": [
+            {
+              "eventId": 2,
+              "value": 2200,
+              "unit": "fixture ticks",
+              "lower": 2200,
+              "upper": 2200
+            },
+            {
+              "eventId": 3,
+              "value": 2200,
+              "unit": "fixture ticks",
+              "lower": 2200,
+              "upper": 2200
+            },
+            {
+              "eventId": 4,
+              "value": 5700,
+              "unit": "fixture ticks",
+              "lower": 5700,
+              "upper": 5700
+            },
+            {
+              "eventId": 6,
+              "value": 1300,
+              "unit": "fixture ticks",
+              "lower": 1300,
+              "upper": 1300
+            },
+            {
+              "eventId": 7,
+              "value": 2800,
+              "unit": "fixture ticks",
+              "lower": 2800,
+              "upper": 2800
+            },
+            {
+              "eventId": 8,
+              "value": 10100,
+              "unit": "fixture ticks",
+              "lower": 10100,
+              "upper": 10100
+            },
+            {
+              "eventId": 9,
+              "value": 1600,
+              "unit": "fixture ticks",
+              "lower": 1600,
+              "upper": 1600
+            },
+            {
+              "eventId": 10,
+              "value": 7300,
+              "unit": "fixture ticks",
+              "lower": 7300,
+              "upper": 7300
+            },
+            {
+              "eventId": 11,
+              "value": 4000,
+              "unit": "fixture ticks",
+              "lower": 4000,
+              "upper": 4000
+            },
+            {
+              "eventId": 12,
+              "value": 9400,
+              "unit": "fixture ticks",
+              "lower": 9400,
+              "upper": 9400
+            },
+            {
+              "eventId": 13,
+              "value": 2500,
+              "unit": "fixture ticks",
+              "lower": 2500,
+              "upper": 2500
+            },
+            {
+              "eventId": 14,
+              "value": 6100,
+              "unit": "fixture ticks",
+              "lower": 6100,
+              "upper": 6100
+            },
+            {
+              "eventId": 15,
+              "value": 3200,
+              "unit": "fixture ticks",
+              "lower": 3200,
+              "upper": 3200
+            },
+            {
+              "eventId": 16,
+              "value": 8500,
+              "unit": "fixture ticks",
+              "lower": 8500,
+              "upper": 8500
+            },
+            {
+              "eventId": 17,
+              "value": 1900,
+              "unit": "fixture ticks",
+              "lower": 1900,
+              "upper": 1900
+            },
+            {
+              "eventId": 18,
+              "value": 4900,
+              "unit": "fixture ticks",
+              "lower": 4900,
+              "upper": 4900
+            },
+            {
+              "eventId": 20,
+              "value": 2200,
+              "unit": "fixture ticks",
+              "lower": 2200,
+              "upper": 2200
+            }
+          ],
+          "nominalAvailable": false,
+          "archiveBytes": 140969,
+          "historySamples": 20,
+          "unresolved": false,
+          "phase": "metric",
+          "basisLabel": "Explicit rescaled fixture calibration",
+          "archiveFile": "rescaled_presence-21.gojo",
+          "archiveCarriers": 321,
+          "archiveRelations": 4311
+        }
+      ],
+      "summary": {
+        "acquisitions": 20,
+        "presentAcquisitions": 17,
+        "distinctPresentFixtureValues": 15,
+        "finalLandmarks": 8,
+        "comparisonQueries": 53,
+        "allArchiveBytes": 988933,
+        "finalArchiveBytes": 140969,
+        "coarseIntervalVisits": 7,
+        "metricAvailable": true,
+        "unresolvedVisits": 0
+      }
+    },
+    {
+      "id": "distance_tiny_increment",
+      "title": "A tiny change inside a broad interval",
+      "description": "90 and 110 mile anchors, then 100 miles and 100 miles \u002B 1 mm. Distances are manually chosen test data.",
+      "budget": 2,
+      "steps": [
+        {
+          "index": 1,
+          "eventId": 1,
+          "sourceValue": 144840960,
+          "exists": true,
+          "presence": 1,
+          "direction": null,
+          "landmarks": [
+            {
+              "eventId": 1,
+              "sourceValue": 144840960
+            }
+          ],
+          "bucket": {
+            "lowerEventId": 1,
+            "upperEventId": 1,
+            "equal": true,
+            "resolved": true
+          },
+          "landmarkCount": 1,
+          "sampleCount": 1,
+          "comparisonCount": 0,
+          "metricAvailable": false,
+          "metricValues": [],
+          "nominalAvailable": false,
+          "archiveBytes": 4113,
+          "historySamples": 1,
+          "unresolved": false,
+          "phase": "ordinal",
+          "basisLabel": null,
+          "archiveFile": "distance_tiny_increment-01.gojo",
+          "archiveCarriers": 16,
+          "archiveRelations": 94
+        },
+        {
+          "index": 2,
+          "eventId": 2,
+          "sourceValue": 177027840,
+          "exists": true,
+          "presence": 1,
+          "direction": 1,
+          "landmarks": [
+            {
+              "eventId": 1,
+              "sourceValue": 144840960
+            },
+            {
+              "eventId": 2,
+              "sourceValue": 177027840
+            }
+          ],
+          "bucket": {
+            "lowerEventId": 2,
+            "upperEventId": 2,
+            "equal": true,
+            "resolved": true
+          },
+          "landmarkCount": 2,
+          "sampleCount": 2,
+          "comparisonCount": 1,
+          "metricAvailable": false,
+          "metricValues": [],
+          "nominalAvailable": false,
+          "archiveBytes": 7196,
+          "historySamples": 2,
+          "unresolved": false,
+          "phase": "ordinal",
+          "basisLabel": null,
+          "archiveFile": "distance_tiny_increment-02.gojo",
+          "archiveCarriers": 26,
+          "archiveRelations": 177
+        },
+        {
+          "index": 3,
+          "eventId": 3,
+          "sourceValue": 160934400,
+          "exists": true,
+          "presence": 1,
+          "direction": -1,
+          "landmarks": [
+            {
+              "eventId": 1,
+              "sourceValue": 144840960
+            },
+            {
+              "eventId": 2,
+              "sourceValue": 177027840
+            }
+          ],
+          "bucket": {
+            "lowerEventId": 1,
+            "upperEventId": 2,
+            "equal": false,
+            "resolved": true
+          },
+          "landmarkCount": 2,
+          "sampleCount": 3,
+          "comparisonCount": 3,
+          "metricAvailable": false,
+          "metricValues": [],
+          "nominalAvailable": false,
+          "archiveBytes": 10823,
+          "historySamples": 3,
+          "unresolved": false,
+          "phase": "ordinal",
+          "basisLabel": null,
+          "archiveFile": "distance_tiny_increment-03.gojo",
+          "archiveCarriers": 37,
+          "archiveRelations": 278
+        },
+        {
+          "index": 4,
+          "eventId": 4,
+          "sourceValue": 160934401,
+          "exists": true,
+          "presence": 1,
+          "direction": 1,
+          "landmarks": [
+            {
+              "eventId": 1,
+              "sourceValue": 144840960
+            },
+            {
+              "eventId": 2,
+              "sourceValue": 177027840
+            }
+          ],
+          "bucket": {
+            "lowerEventId": 1,
+            "upperEventId": 2,
+            "equal": false,
+            "resolved": true
+          },
+          "landmarkCount": 2,
+          "sampleCount": 4,
+          "comparisonCount": 6,
+          "metricAvailable": false,
+          "metricValues": [],
+          "nominalAvailable": false,
+          "archiveBytes": 15245,
+          "historySamples": 4,
+          "unresolved": false,
+          "phase": "ordinal",
+          "basisLabel": null,
+          "archiveFile": "distance_tiny_increment-04.gojo",
+          "archiveCarriers": 50,
+          "archiveRelations": 403
+        },
+        {
+          "index": 5,
+          "eventId": 4,
+          "sourceValue": 160934401,
+          "exists": true,
+          "presence": 1,
+          "direction": 1,
+          "landmarks": [
+            {
+              "eventId": 1,
+              "sourceValue": 144840960
+            },
+            {
+              "eventId": 2,
+              "sourceValue": 177027840
+            }
+          ],
+          "bucket": {
+            "lowerEventId": 1,
+            "upperEventId": 2,
+            "equal": false,
+            "resolved": true
+          },
+          "landmarkCount": 2,
+          "sampleCount": 4,
+          "comparisonCount": 6,
+          "metricAvailable": true,
+          "metricValues": [
+            {
+              "eventId": 1,
+              "value": 144840960,
+              "unit": "mm",
+              "lower": 144840960,
+              "upper": 144840960
+            },
+            {
+              "eventId": 2,
+              "value": 177027840,
+              "unit": "mm",
+              "lower": 177027840,
+              "upper": 177027840
+            },
+            {
+              "eventId": 3,
+              "value": 160934400,
+              "unit": "mm",
+              "lower": 160934400,
+              "upper": 160934400
+            },
+            {
+              "eventId": 4,
+              "value": 160934401,
+              "unit": "mm",
+              "lower": 160934401,
+              "upper": 160934401
+            }
+          ],
+          "nominalAvailable": false,
+          "archiveBytes": 29814,
+          "historySamples": 4,
+          "unresolved": false,
+          "phase": "metric",
+          "basisLabel": "Millimetres, explicitly calibrated: 1 mile = 1,609,344 mm",
+          "archiveFile": "distance_tiny_increment-05.gojo",
+          "archiveCarriers": 71,
+          "archiveRelations": 886
+        }
+      ],
+      "summary": {
+        "acquisitions": 4,
+        "presentAcquisitions": 4,
+        "distinctPresentFixtureValues": 4,
+        "finalLandmarks": 2,
+        "comparisonQueries": 6,
+        "allArchiveBytes": 67191,
+        "finalArchiveBytes": 29814,
+        "coarseIntervalVisits": 2,
+        "metricAvailable": true,
+        "unresolvedVisits": 0
+      }
+    }
+  ]
+}

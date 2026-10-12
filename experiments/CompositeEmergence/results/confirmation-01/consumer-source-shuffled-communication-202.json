@@ -1,0 +1,103 @@
+{
+  "seed": 202,
+  "stage": "source",
+  "variant": "shuffled-communication",
+  "trained": 192,
+  "evidence": [
+    {
+      "context": [
+        1,
+        1
+      ],
+      "choice": -1,
+      "observations": 38,
+      "positiveResource": 168,
+      "negativeResource": 204,
+      "mean256": -242
+    },
+    {
+      "context": [
+        1,
+        1
+      ],
+      "choice": 1,
+      "observations": 4,
+      "positiveResource": 0,
+      "negativeResource": 48,
+      "mean256": -3072
+    },
+    {
+      "context": [
+        -1,
+        -1
+      ],
+      "choice": -1,
+      "observations": 5,
+      "positiveResource": 16,
+      "negativeResource": 36,
+      "mean256": -1024
+    },
+    {
+      "context": [
+        -1,
+        -1
+      ],
+      "choice": 1,
+      "observations": 46,
+      "positiveResource": 192,
+      "negativeResource": 264,
+      "mean256": -400
+    },
+    {
+      "context": [
+        -1,
+        1
+      ],
+      "choice": -1,
+      "observations": 5,
+      "positiveResource": 0,
+      "negativeResource": 60,
+      "mean256": -3072
+    },
+    {
+      "context": [
+        -1,
+        1
+      ],
+      "choice": 1,
+      "observations": 54,
+      "positiveResource": 240,
+      "negativeResource": 288,
+      "mean256": -227
+    },
+    {
+      "context": [
+        1,
+        -1
+      ],
+      "choice": -1,
+      "observations": 20,
+      "positiveResource": 96,
+      "negativeResource": 96,
+      "mean256": 0
+    },
+    {
+      "context": [
+        1,
+        -1
+      ],
+      "choice": 1,
+      "observations": 19,
+      "positiveResource": 56,
+      "negativeResource": 144,
+      "mean256": -1185
+    }
+  ],
+  "selectedDescription": "B * B[previous]",
+  "learnedGraph": {
+    "carriers": 808,
+    "relations": 5517,
+    "placeholders": 0,
+    "coordinates": 2363
+  }
+}

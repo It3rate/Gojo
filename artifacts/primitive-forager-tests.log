@@ -1,0 +1,40 @@
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  Gojo -> D:\source\repos\It3rate\Gojo-phototaxis\Gojo\bin\Release\net10.0\Gojo.dll
+  GojoCAD -> D:\source\repos\It3rate\Gojo-phototaxis\GojoCAD\bin\Release\net10.0\GojoCAD.dll
+  Gojo.Encoding -> D:\source\repos\It3rate\Gojo-phototaxis\Gojo.Encoding\bin\Release\net10.0\Gojo.Encoding.dll
+  Gojo.Tests -> D:\source\repos\It3rate\Gojo-phototaxis\Gojo.Tests\bin\Release\net10.0\Gojo.Tests.dll
+  Phototaxis -> D:\source\repos\It3rate\Gojo-phototaxis\experiments\Phototaxis\bin\Release\net10.0\Phototaxis.dll
+  Gojo.GearShapeLadder -> D:\source\repos\It3rate\Gojo-phototaxis\Gojo.GearShapeLadder\bin\Release\net10.0\Gojo.GearShapeLadder.dll
+Test run for D:\source\repos\It3rate\Gojo-phototaxis\Gojo.Tests\bin\Release\net10.0\Gojo.Tests.dll (.NETCoreApp,Version=v10.0)
+  GojoDraw -> D:\source\repos\It3rate\Gojo-phototaxis\GojoDraw\bin\Release\net10.0\GojoDraw.dll
+  PrimitiveForager -> D:\source\repos\It3rate\Gojo-phototaxis\experiments\PrimitiveForager\bin\Release\net10.0\PrimitiveForager.dll
+  Phototaxis.Tests -> D:\source\repos\It3rate\Gojo-phototaxis\experiments\Phototaxis.Tests\bin\Release\net10.0\Phototaxis.Tests.dll
+Test run for D:\source\repos\It3rate\Gojo-phototaxis\experiments\Phototaxis.Tests\bin\Release\net10.0\Phototaxis.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+A total of 1 test files matched the specified pattern.
+  PrimitiveForager.Tests -> D:\source\repos\It3rate\Gojo-phototaxis\experiments\PrimitiveForager.Tests\bin\Release\net10.0\PrimitiveForager.Tests.dll
+Test run for D:\source\repos\It3rate\Gojo-phototaxis\experiments\PrimitiveForager.Tests\bin\Release\net10.0\PrimitiveForager.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+
+Passed!  - Failed:     0, Passed:  1009, Skipped:     0, Total:  1009, Duration: 5 s - Gojo.Tests.dll (net10.0)
+
+Passed!  - Failed:     0, Passed:     6, Skipped:     0, Total:     6, Duration: 544 ms - PrimitiveForager.Tests.dll (net10.0)
+
+Passed!  - Failed:     0, Passed:   129, Skipped:     0, Total:   129, Duration: 20 s - Phototaxis.Tests.dll (net10.0)
+  Gojo.Blocks -> D:\source\repos\It3rate\Gojo-phototaxis\Gojo.Blocks\bin\Release\net10.0\Gojo.Blocks.dll
+  Gojo.GearShapeLadder.Tests -> D:\source\repos\It3rate\Gojo-phototaxis\Gojo.GearShapeLadder.Tests\bin\Release\net10.0\Gojo.GearShapeLadder.Tests.dll
+Test run for D:\source\repos\It3rate\Gojo-phototaxis\Gojo.GearShapeLadder.Tests\bin\Release\net10.0\Gojo.GearShapeLadder.Tests.dll (.NETCoreApp,Version=v10.0)
+  GojoCAD.Tests -> D:\source\repos\It3rate\Gojo-phototaxis\GojoCAD.Tests\bin\Release\net10.0\GojoCAD.Tests.dll
+Test run for D:\source\repos\It3rate\Gojo-phototaxis\GojoCAD.Tests\bin\Release\net10.0\GojoCAD.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+A total of 1 test files matched the specified pattern.
+
+Passed!  - Failed:     0, Passed:    21, Skipped:     0, Total:    21, Duration: 2 s - Gojo.GearShapeLadder.Tests.dll (net10.0)
+
+Passed!  - Failed:     0, Passed:   155, Skipped:     0, Total:   155, Duration: 5 s - GojoCAD.Tests.dll (net10.0)
+  Gojo.Encoding.Tests -> D:\source\repos\It3rate\Gojo-phototaxis\Gojo.Encoding.Tests\bin\Release\net10.0\Gojo.Encoding.Tests.dll
+Test run for D:\source\repos\It3rate\Gojo-phototaxis\Gojo.Encoding.Tests\bin\Release\net10.0\Gojo.Encoding.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+
+Passed!  - Failed:     0, Passed:   725, Skipped:     0, Total:   725, Duration: 16 s - Gojo.Encoding.Tests.dll (net10.0)

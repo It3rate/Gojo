@@ -1,0 +1,7682 @@
+[
+  {
+    "variant": "A0P0Q0S0",
+    "seed": 100,
+    "tick": 128,
+    "returnPerEpisode": 0.3125,
+    "correctRate": 0.5390625,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q0S0",
+    "seed": 100,
+    "tick": 256,
+    "returnPerEpisode": -0.125,
+    "correctRate": 0.484375,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q0S0",
+    "seed": 100,
+    "tick": 384,
+    "returnPerEpisode": -0.375,
+    "correctRate": 0.453125,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q0S0",
+    "seed": 100,
+    "tick": 512,
+    "returnPerEpisode": 0.5625,
+    "correctRate": 0.5703125,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q0S0",
+    "seed": 100,
+    "tick": 640,
+    "returnPerEpisode": -0.5,
+    "correctRate": 0.4375,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q0S0",
+    "seed": 100,
+    "tick": 768,
+    "returnPerEpisode": -0.25,
+    "correctRate": 0.46875,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q0S0",
+    "seed": 100,
+    "tick": 896,
+    "returnPerEpisode": -0.125,
+    "correctRate": 0.484375,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q0S0",
+    "seed": 100,
+    "tick": 1024,
+    "returnPerEpisode": -0.125,
+    "correctRate": 0.484375,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q0S0",
+    "seed": 100,
+    "tick": 1152,
+    "returnPerEpisode": -0.25,
+    "correctRate": 0.46875,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q0S0",
+    "seed": 100,
+    "tick": 1280,
+    "returnPerEpisode": -0.0625,
+    "correctRate": 0.4921875,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q0S0",
+    "seed": 100,
+    "tick": 1408,
+    "returnPerEpisode": 0,
+    "correctRate": 0.5,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q0S0",
+    "seed": 100,
+    "tick": 1536,
+    "returnPerEpisode": 0.25,
+    "correctRate": 0.53125,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q0S0",
+    "seed": 100,
+    "tick": 128,
+    "returnPerEpisode": 0.3125,
+    "correctRate": 0.5390625,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q0S0",
+    "seed": 100,
+    "tick": 256,
+    "returnPerEpisode": -0.125,
+    "correctRate": 0.484375,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q0S0",
+    "seed": 100,
+    "tick": 384,
+    "returnPerEpisode": -0.375,
+    "correctRate": 0.453125,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q0S0",
+    "seed": 100,
+    "tick": 512,
+    "returnPerEpisode": 0.5625,
+    "correctRate": 0.5703125,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q0S0",
+    "seed": 100,
+    "tick": 640,
+    "returnPerEpisode": -0.5,
+    "correctRate": 0.4375,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q0S0",
+    "seed": 100,
+    "tick": 768,
+    "returnPerEpisode": -0.25,
+    "correctRate": 0.46875,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q0S0",
+    "seed": 100,
+    "tick": 896,
+    "returnPerEpisode": -0.125,
+    "correctRate": 0.484375,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q0S0",
+    "seed": 100,
+    "tick": 1024,
+    "returnPerEpisode": -0.125,
+    "correctRate": 0.484375,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q0S0",
+    "seed": 100,
+    "tick": 1152,
+    "returnPerEpisode": -0.25,
+    "correctRate": 0.46875,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q0S0",
+    "seed": 100,
+    "tick": 1280,
+    "returnPerEpisode": -0.0625,
+    "correctRate": 0.4921875,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q0S0",
+    "seed": 100,
+    "tick": 1408,
+    "returnPerEpisode": 0,
+    "correctRate": 0.5,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q0S0",
+    "seed": 100,
+    "tick": 1536,
+    "returnPerEpisode": 0.25,
+    "correctRate": 0.53125,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q0S0",
+    "seed": 100,
+    "tick": 128,
+    "returnPerEpisode": 0.3125,
+    "correctRate": 0.5390625,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q0S0",
+    "seed": 100,
+    "tick": 256,
+    "returnPerEpisode": -0.125,
+    "correctRate": 0.484375,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q0S0",
+    "seed": 100,
+    "tick": 384,
+    "returnPerEpisode": -0.375,
+    "correctRate": 0.453125,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q0S0",
+    "seed": 100,
+    "tick": 512,
+    "returnPerEpisode": 0.5625,
+    "correctRate": 0.5703125,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q0S0",
+    "seed": 100,
+    "tick": 640,
+    "returnPerEpisode": -0.5,
+    "correctRate": 0.4375,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q0S0",
+    "seed": 100,
+    "tick": 768,
+    "returnPerEpisode": -0.25,
+    "correctRate": 0.46875,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q0S0",
+    "seed": 100,
+    "tick": 896,
+    "returnPerEpisode": -0.125,
+    "correctRate": 0.484375,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q0S0",
+    "seed": 100,
+    "tick": 1024,
+    "returnPerEpisode": -0.125,
+    "correctRate": 0.484375,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q0S0",
+    "seed": 100,
+    "tick": 1152,
+    "returnPerEpisode": -0.25,
+    "correctRate": 0.46875,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q0S0",
+    "seed": 100,
+    "tick": 1280,
+    "returnPerEpisode": -0.0625,
+    "correctRate": 0.4921875,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q0S0",
+    "seed": 100,
+    "tick": 1408,
+    "returnPerEpisode": 0,
+    "correctRate": 0.5,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q0S0",
+    "seed": 100,
+    "tick": 1536,
+    "returnPerEpisode": 0.25,
+    "correctRate": 0.53125,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q0S0",
+    "seed": 100,
+    "tick": 128,
+    "returnPerEpisode": 0.3125,
+    "correctRate": 0.5390625,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q0S0",
+    "seed": 100,
+    "tick": 256,
+    "returnPerEpisode": -0.125,
+    "correctRate": 0.484375,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q0S0",
+    "seed": 100,
+    "tick": 384,
+    "returnPerEpisode": -0.375,
+    "correctRate": 0.453125,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q0S0",
+    "seed": 100,
+    "tick": 512,
+    "returnPerEpisode": 0.5625,
+    "correctRate": 0.5703125,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q0S0",
+    "seed": 100,
+    "tick": 640,
+    "returnPerEpisode": -0.5,
+    "correctRate": 0.4375,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q0S0",
+    "seed": 100,
+    "tick": 768,
+    "returnPerEpisode": -0.25,
+    "correctRate": 0.46875,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q0S0",
+    "seed": 100,
+    "tick": 896,
+    "returnPerEpisode": -0.125,
+    "correctRate": 0.484375,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q0S0",
+    "seed": 100,
+    "tick": 1024,
+    "returnPerEpisode": -0.125,
+    "correctRate": 0.484375,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q0S0",
+    "seed": 100,
+    "tick": 1152,
+    "returnPerEpisode": -0.25,
+    "correctRate": 0.46875,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q0S0",
+    "seed": 100,
+    "tick": 1280,
+    "returnPerEpisode": -0.0625,
+    "correctRate": 0.4921875,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q0S0",
+    "seed": 100,
+    "tick": 1408,
+    "returnPerEpisode": 0,
+    "correctRate": 0.5,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q0S0",
+    "seed": 100,
+    "tick": 1536,
+    "returnPerEpisode": 0.25,
+    "correctRate": 0.53125,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q1S0",
+    "seed": 100,
+    "tick": 128,
+    "returnPerEpisode": 0.3125,
+    "correctRate": 0.5390625,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q1S0",
+    "seed": 100,
+    "tick": 256,
+    "returnPerEpisode": -1.0390625,
+    "correctRate": 0.484375,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q1S0",
+    "seed": 100,
+    "tick": 384,
+    "returnPerEpisode": -1.328125,
+    "correctRate": 0.453125,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q1S0",
+    "seed": 100,
+    "tick": 512,
+    "returnPerEpisode": -0.40625,
+    "correctRate": 0.5703125,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q1S0",
+    "seed": 100,
+    "tick": 640,
+    "returnPerEpisode": -1.46875,
+    "correctRate": 0.4375,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q1S0",
+    "seed": 100,
+    "tick": 768,
+    "returnPerEpisode": -1.21875,
+    "correctRate": 0.46875,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q1S0",
+    "seed": 100,
+    "tick": 896,
+    "returnPerEpisode": -0.6953125,
+    "correctRate": 0.484375,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q1S0",
+    "seed": 100,
+    "tick": 1024,
+    "returnPerEpisode": -0.59375,
+    "correctRate": 0.484375,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q1S0",
+    "seed": 100,
+    "tick": 1152,
+    "returnPerEpisode": -0.7578125,
+    "correctRate": 0.46875,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q1S0",
+    "seed": 100,
+    "tick": 1280,
+    "returnPerEpisode": -0.6328125,
+    "correctRate": 0.4921875,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q1S0",
+    "seed": 100,
+    "tick": 1408,
+    "returnPerEpisode": -0.5703125,
+    "correctRate": 0.5,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q1S0",
+    "seed": 100,
+    "tick": 1536,
+    "returnPerEpisode": -0.2421875,
+    "correctRate": 0.53125,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q1S0",
+    "seed": 100,
+    "tick": 128,
+    "returnPerEpisode": 0.3125,
+    "correctRate": 0.5390625,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q1S0",
+    "seed": 100,
+    "tick": 256,
+    "returnPerEpisode": -1.0390625,
+    "correctRate": 0.484375,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q1S0",
+    "seed": 100,
+    "tick": 384,
+    "returnPerEpisode": -1.328125,
+    "correctRate": 0.453125,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q1S0",
+    "seed": 100,
+    "tick": 512,
+    "returnPerEpisode": -0.40625,
+    "correctRate": 0.5703125,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q1S0",
+    "seed": 100,
+    "tick": 640,
+    "returnPerEpisode": -1.46875,
+    "correctRate": 0.4375,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q1S0",
+    "seed": 100,
+    "tick": 768,
+    "returnPerEpisode": -1.21875,
+    "correctRate": 0.46875,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q1S0",
+    "seed": 100,
+    "tick": 896,
+    "returnPerEpisode": -0.6953125,
+    "correctRate": 0.484375,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q1S0",
+    "seed": 100,
+    "tick": 1024,
+    "returnPerEpisode": -0.59375,
+    "correctRate": 0.484375,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q1S0",
+    "seed": 100,
+    "tick": 1152,
+    "returnPerEpisode": -0.7578125,
+    "correctRate": 0.46875,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q1S0",
+    "seed": 100,
+    "tick": 1280,
+    "returnPerEpisode": -0.6328125,
+    "correctRate": 0.4921875,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q1S0",
+    "seed": 100,
+    "tick": 1408,
+    "returnPerEpisode": -0.5703125,
+    "correctRate": 0.5,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q1S0",
+    "seed": 100,
+    "tick": 1536,
+    "returnPerEpisode": -0.2421875,
+    "correctRate": 0.53125,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q1S0",
+    "seed": 100,
+    "tick": 128,
+    "returnPerEpisode": 0.3125,
+    "correctRate": 0.5390625,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q1S0",
+    "seed": 100,
+    "tick": 256,
+    "returnPerEpisode": -1.0390625,
+    "correctRate": 0.484375,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q1S0",
+    "seed": 100,
+    "tick": 384,
+    "returnPerEpisode": -1.328125,
+    "correctRate": 0.453125,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q1S0",
+    "seed": 100,
+    "tick": 512,
+    "returnPerEpisode": -0.40625,
+    "correctRate": 0.5703125,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q1S0",
+    "seed": 100,
+    "tick": 640,
+    "returnPerEpisode": -1.46875,
+    "correctRate": 0.4375,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q1S0",
+    "seed": 100,
+    "tick": 768,
+    "returnPerEpisode": -1.21875,
+    "correctRate": 0.46875,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q1S0",
+    "seed": 100,
+    "tick": 896,
+    "returnPerEpisode": -0.6953125,
+    "correctRate": 0.484375,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q1S0",
+    "seed": 100,
+    "tick": 1024,
+    "returnPerEpisode": -0.59375,
+    "correctRate": 0.484375,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q1S0",
+    "seed": 100,
+    "tick": 1152,
+    "returnPerEpisode": -0.7578125,
+    "correctRate": 0.46875,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q1S0",
+    "seed": 100,
+    "tick": 1280,
+    "returnPerEpisode": -0.6328125,
+    "correctRate": 0.4921875,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q1S0",
+    "seed": 100,
+    "tick": 1408,
+    "returnPerEpisode": -0.5703125,
+    "correctRate": 0.5,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q1S0",
+    "seed": 100,
+    "tick": 1536,
+    "returnPerEpisode": -0.2421875,
+    "correctRate": 0.53125,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q1S0",
+    "seed": 100,
+    "tick": 128,
+    "returnPerEpisode": 0.3125,
+    "correctRate": 0.5390625,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q1S0",
+    "seed": 100,
+    "tick": 256,
+    "returnPerEpisode": -1.0390625,
+    "correctRate": 0.484375,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q1S0",
+    "seed": 100,
+    "tick": 384,
+    "returnPerEpisode": -1.328125,
+    "correctRate": 0.453125,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q1S0",
+    "seed": 100,
+    "tick": 512,
+    "returnPerEpisode": -0.40625,
+    "correctRate": 0.5703125,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q1S0",
+    "seed": 100,
+    "tick": 640,
+    "returnPerEpisode": -1.46875,
+    "correctRate": 0.4375,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q1S0",
+    "seed": 100,
+    "tick": 768,
+    "returnPerEpisode": -1.21875,
+    "correctRate": 0.46875,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q1S0",
+    "seed": 100,
+    "tick": 896,
+    "returnPerEpisode": -0.6953125,
+    "correctRate": 0.484375,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q1S0",
+    "seed": 100,
+    "tick": 1024,
+    "returnPerEpisode": -0.59375,
+    "correctRate": 0.484375,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q1S0",
+    "seed": 100,
+    "tick": 1152,
+    "returnPerEpisode": -0.7578125,
+    "correctRate": 0.46875,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q1S0",
+    "seed": 100,
+    "tick": 1280,
+    "returnPerEpisode": -0.6328125,
+    "correctRate": 0.4921875,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q1S0",
+    "seed": 100,
+    "tick": 1408,
+    "returnPerEpisode": -0.5703125,
+    "correctRate": 0.5,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q1S0",
+    "seed": 100,
+    "tick": 1536,
+    "returnPerEpisode": -0.2421875,
+    "correctRate": 0.53125,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q0S1",
+    "seed": 100,
+    "tick": 128,
+    "returnPerEpisode": 0.3125,
+    "correctRate": 0.5390625,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q0S1",
+    "seed": 100,
+    "tick": 256,
+    "returnPerEpisode": 0.1875,
+    "correctRate": 0.5234375,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q0S1",
+    "seed": 100,
+    "tick": 384,
+    "returnPerEpisode": -0.1875,
+    "correctRate": 0.4765625,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q0S1",
+    "seed": 100,
+    "tick": 512,
+    "returnPerEpisode": 0.625,
+    "correctRate": 0.578125,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q0S1",
+    "seed": 100,
+    "tick": 640,
+    "returnPerEpisode": -0.5,
+    "correctRate": 0.4375,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q0S1",
+    "seed": 100,
+    "tick": 768,
+    "returnPerEpisode": -0.25,
+    "correctRate": 0.46875,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q0S1",
+    "seed": 100,
+    "tick": 896,
+    "returnPerEpisode": -0.1875,
+    "correctRate": 0.4765625,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q0S1",
+    "seed": 100,
+    "tick": 1024,
+    "returnPerEpisode": -0.0625,
+    "correctRate": 0.4921875,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q0S1",
+    "seed": 100,
+    "tick": 1152,
+    "returnPerEpisode": -0.1875,
+    "correctRate": 0.4765625,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q0S1",
+    "seed": 100,
+    "tick": 1280,
+    "returnPerEpisode": -0.0625,
+    "correctRate": 0.4921875,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q0S1",
+    "seed": 100,
+    "tick": 1408,
+    "returnPerEpisode": 0,
+    "correctRate": 0.5,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q0S1",
+    "seed": 100,
+    "tick": 1536,
+    "returnPerEpisode": 0.25,
+    "correctRate": 0.53125,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q0S1",
+    "seed": 100,
+    "tick": 128,
+    "returnPerEpisode": 0.3125,
+    "correctRate": 0.5390625,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q0S1",
+    "seed": 100,
+    "tick": 256,
+    "returnPerEpisode": -0.4375,
+    "correctRate": 0.4453125,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 2
+  },
+  {
+    "variant": "A1P0Q0S1",
+    "seed": 100,
+    "tick": 384,
+    "returnPerEpisode": -0.125,
+    "correctRate": 0.484375,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 2
+  },
+  {
+    "variant": "A1P0Q0S1",
+    "seed": 100,
+    "tick": 512,
+    "returnPerEpisode": 1.4375,
+    "correctRate": 0.6796875,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 9
+  },
+  {
+    "variant": "A1P0Q0S1",
+    "seed": 100,
+    "tick": 640,
+    "returnPerEpisode": 1.5,
+    "correctRate": 0.6875,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 11
+  },
+  {
+    "variant": "A1P0Q0S1",
+    "seed": 100,
+    "tick": 768,
+    "returnPerEpisode": 1.5625,
+    "correctRate": 0.6953125,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 11
+  },
+  {
+    "variant": "A1P0Q0S1",
+    "seed": 100,
+    "tick": 896,
+    "returnPerEpisode": 2.5,
+    "correctRate": 0.8125,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 11
+  },
+  {
+    "variant": "A1P0Q0S1",
+    "seed": 100,
+    "tick": 1024,
+    "returnPerEpisode": 1.375,
+    "correctRate": 0.671875,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 11
+  },
+  {
+    "variant": "A1P0Q0S1",
+    "seed": 100,
+    "tick": 1152,
+    "returnPerEpisode": 1.875,
+    "correctRate": 0.734375,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 11
+  },
+  {
+    "variant": "A1P0Q0S1",
+    "seed": 100,
+    "tick": 1280,
+    "returnPerEpisode": 1.5625,
+    "correctRate": 0.6953125,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 11
+  },
+  {
+    "variant": "A1P0Q0S1",
+    "seed": 100,
+    "tick": 1408,
+    "returnPerEpisode": 1.4375,
+    "correctRate": 0.6796875,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 11
+  },
+  {
+    "variant": "A1P0Q0S1",
+    "seed": 100,
+    "tick": 1536,
+    "returnPerEpisode": 2.125,
+    "correctRate": 0.765625,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 11
+  },
+  {
+    "variant": "A0P1Q0S1",
+    "seed": 100,
+    "tick": 128,
+    "returnPerEpisode": 0.3125,
+    "correctRate": 0.5390625,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q0S1",
+    "seed": 100,
+    "tick": 256,
+    "returnPerEpisode": 0.1875,
+    "correctRate": 0.5234375,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q0S1",
+    "seed": 100,
+    "tick": 384,
+    "returnPerEpisode": -0.1875,
+    "correctRate": 0.4765625,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q0S1",
+    "seed": 100,
+    "tick": 512,
+    "returnPerEpisode": 0.625,
+    "correctRate": 0.578125,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q0S1",
+    "seed": 100,
+    "tick": 640,
+    "returnPerEpisode": -0.5,
+    "correctRate": 0.4375,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q0S1",
+    "seed": 100,
+    "tick": 768,
+    "returnPerEpisode": -0.25,
+    "correctRate": 0.46875,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q0S1",
+    "seed": 100,
+    "tick": 896,
+    "returnPerEpisode": -0.1875,
+    "correctRate": 0.4765625,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q0S1",
+    "seed": 100,
+    "tick": 1024,
+    "returnPerEpisode": -0.0625,
+    "correctRate": 0.4921875,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q0S1",
+    "seed": 100,
+    "tick": 1152,
+    "returnPerEpisode": -0.1875,
+    "correctRate": 0.4765625,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q0S1",
+    "seed": 100,
+    "tick": 1280,
+    "returnPerEpisode": -0.0625,
+    "correctRate": 0.4921875,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q0S1",
+    "seed": 100,
+    "tick": 1408,
+    "returnPerEpisode": 0,
+    "correctRate": 0.5,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q0S1",
+    "seed": 100,
+    "tick": 1536,
+    "returnPerEpisode": 0.25,
+    "correctRate": 0.53125,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q0S1",
+    "seed": 100,
+    "tick": 128,
+    "returnPerEpisode": 0.3125,
+    "correctRate": 0.5390625,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q0S1",
+    "seed": 100,
+    "tick": 256,
+    "returnPerEpisode": -0.4375,
+    "correctRate": 0.4453125,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 2
+  },
+  {
+    "variant": "A1P1Q0S1",
+    "seed": 100,
+    "tick": 384,
+    "returnPerEpisode": -0.125,
+    "correctRate": 0.484375,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 3
+  },
+  {
+    "variant": "A1P1Q0S1",
+    "seed": 100,
+    "tick": 512,
+    "returnPerEpisode": 1,
+    "correctRate": 0.625,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 7
+  },
+  {
+    "variant": "A1P1Q0S1",
+    "seed": 100,
+    "tick": 640,
+    "returnPerEpisode": 0.3125,
+    "correctRate": 0.5390625,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 19
+  },
+  {
+    "variant": "A1P1Q0S1",
+    "seed": 100,
+    "tick": 768,
+    "returnPerEpisode": 1.3125,
+    "correctRate": 0.6640625,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 19
+  },
+  {
+    "variant": "A1P1Q0S1",
+    "seed": 100,
+    "tick": 896,
+    "returnPerEpisode": 0.875,
+    "correctRate": 0.609375,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 19
+  },
+  {
+    "variant": "A1P1Q0S1",
+    "seed": 100,
+    "tick": 1024,
+    "returnPerEpisode": 1.0625,
+    "correctRate": 0.6328125,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 19
+  },
+  {
+    "variant": "A1P1Q0S1",
+    "seed": 100,
+    "tick": 1152,
+    "returnPerEpisode": 0.8125,
+    "correctRate": 0.6015625,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 19
+  },
+  {
+    "variant": "A1P1Q0S1",
+    "seed": 100,
+    "tick": 1280,
+    "returnPerEpisode": 0.75,
+    "correctRate": 0.59375,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 19
+  },
+  {
+    "variant": "A1P1Q0S1",
+    "seed": 100,
+    "tick": 1408,
+    "returnPerEpisode": 1,
+    "correctRate": 0.625,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 19
+  },
+  {
+    "variant": "A1P1Q0S1",
+    "seed": 100,
+    "tick": 1536,
+    "returnPerEpisode": 0.5,
+    "correctRate": 0.5625,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 19
+  },
+  {
+    "variant": "A0P0Q1S1",
+    "seed": 100,
+    "tick": 128,
+    "returnPerEpisode": 0.3125,
+    "correctRate": 0.5390625,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q1S1",
+    "seed": 100,
+    "tick": 256,
+    "returnPerEpisode": -0.9140625,
+    "correctRate": 0.5,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q1S1",
+    "seed": 100,
+    "tick": 384,
+    "returnPerEpisode": -1.203125,
+    "correctRate": 0.46875,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q1S1",
+    "seed": 100,
+    "tick": 512,
+    "returnPerEpisode": -0.46875,
+    "correctRate": 0.5625,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q1S1",
+    "seed": 100,
+    "tick": 640,
+    "returnPerEpisode": -1.53125,
+    "correctRate": 0.4296875,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q1S1",
+    "seed": 100,
+    "tick": 768,
+    "returnPerEpisode": -1.28125,
+    "correctRate": 0.4609375,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q1S1",
+    "seed": 100,
+    "tick": 896,
+    "returnPerEpisode": -0.7578125,
+    "correctRate": 0.4765625,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q1S1",
+    "seed": 100,
+    "tick": 1024,
+    "returnPerEpisode": -0.53125,
+    "correctRate": 0.4921875,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q1S1",
+    "seed": 100,
+    "tick": 1152,
+    "returnPerEpisode": -0.6953125,
+    "correctRate": 0.4765625,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q1S1",
+    "seed": 100,
+    "tick": 1280,
+    "returnPerEpisode": -0.6328125,
+    "correctRate": 0.4921875,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q1S1",
+    "seed": 100,
+    "tick": 1408,
+    "returnPerEpisode": -0.6953125,
+    "correctRate": 0.484375,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q1S1",
+    "seed": 100,
+    "tick": 1536,
+    "returnPerEpisode": -0.2421875,
+    "correctRate": 0.53125,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q1S1",
+    "seed": 100,
+    "tick": 128,
+    "returnPerEpisode": 0.3125,
+    "correctRate": 0.5390625,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q1S1",
+    "seed": 100,
+    "tick": 256,
+    "returnPerEpisode": -0.9140625,
+    "correctRate": 0.5,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q1S1",
+    "seed": 100,
+    "tick": 384,
+    "returnPerEpisode": -0.890625,
+    "correctRate": 0.5078125,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 1
+  },
+  {
+    "variant": "A1P0Q1S1",
+    "seed": 100,
+    "tick": 512,
+    "returnPerEpisode": 2.65625,
+    "correctRate": 0.953125,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 2
+  },
+  {
+    "variant": "A1P0Q1S1",
+    "seed": 100,
+    "tick": 640,
+    "returnPerEpisode": 3.03125,
+    "correctRate": 1,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 2
+  },
+  {
+    "variant": "A1P0Q1S1",
+    "seed": 100,
+    "tick": 768,
+    "returnPerEpisode": 2.78125,
+    "correctRate": 0.96875,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 2
+  },
+  {
+    "variant": "A1P0Q1S1",
+    "seed": 100,
+    "tick": 896,
+    "returnPerEpisode": 3.3046875,
+    "correctRate": 0.984375,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 2
+  },
+  {
+    "variant": "A1P0Q1S1",
+    "seed": 100,
+    "tick": 1024,
+    "returnPerEpisode": 3.03125,
+    "correctRate": 0.9375,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 2
+  },
+  {
+    "variant": "A1P0Q1S1",
+    "seed": 100,
+    "tick": 1152,
+    "returnPerEpisode": 3.1171875,
+    "correctRate": 0.953125,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 2
+  },
+  {
+    "variant": "A1P0Q1S1",
+    "seed": 100,
+    "tick": 1280,
+    "returnPerEpisode": 2.8046875,
+    "correctRate": 0.921875,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 2
+  },
+  {
+    "variant": "A1P0Q1S1",
+    "seed": 100,
+    "tick": 1408,
+    "returnPerEpisode": 3.1796875,
+    "correctRate": 0.96875,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 2
+  },
+  {
+    "variant": "A1P0Q1S1",
+    "seed": 100,
+    "tick": 1536,
+    "returnPerEpisode": 3.1328125,
+    "correctRate": 0.953125,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 2
+  },
+  {
+    "variant": "A0P1Q1S1",
+    "seed": 100,
+    "tick": 128,
+    "returnPerEpisode": 0.3125,
+    "correctRate": 0.5390625,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q1S1",
+    "seed": 100,
+    "tick": 256,
+    "returnPerEpisode": -0.9140625,
+    "correctRate": 0.5,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q1S1",
+    "seed": 100,
+    "tick": 384,
+    "returnPerEpisode": -1.203125,
+    "correctRate": 0.46875,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q1S1",
+    "seed": 100,
+    "tick": 512,
+    "returnPerEpisode": -0.46875,
+    "correctRate": 0.5625,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q1S1",
+    "seed": 100,
+    "tick": 640,
+    "returnPerEpisode": -1.53125,
+    "correctRate": 0.4296875,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q1S1",
+    "seed": 100,
+    "tick": 768,
+    "returnPerEpisode": -1.28125,
+    "correctRate": 0.4609375,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q1S1",
+    "seed": 100,
+    "tick": 896,
+    "returnPerEpisode": -0.7578125,
+    "correctRate": 0.4765625,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q1S1",
+    "seed": 100,
+    "tick": 1024,
+    "returnPerEpisode": -0.53125,
+    "correctRate": 0.4921875,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q1S1",
+    "seed": 100,
+    "tick": 1152,
+    "returnPerEpisode": -0.6953125,
+    "correctRate": 0.4765625,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q1S1",
+    "seed": 100,
+    "tick": 1280,
+    "returnPerEpisode": -0.6328125,
+    "correctRate": 0.4921875,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q1S1",
+    "seed": 100,
+    "tick": 1408,
+    "returnPerEpisode": -0.6953125,
+    "correctRate": 0.484375,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q1S1",
+    "seed": 100,
+    "tick": 1536,
+    "returnPerEpisode": -0.2421875,
+    "correctRate": 0.53125,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q1S1",
+    "seed": 100,
+    "tick": 128,
+    "returnPerEpisode": 0.3125,
+    "correctRate": 0.5390625,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q1S1",
+    "seed": 100,
+    "tick": 256,
+    "returnPerEpisode": -0.9140625,
+    "correctRate": 0.5,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q1S1",
+    "seed": 100,
+    "tick": 384,
+    "returnPerEpisode": -0.890625,
+    "correctRate": 0.5078125,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 1
+  },
+  {
+    "variant": "A1P1Q1S1",
+    "seed": 100,
+    "tick": 512,
+    "returnPerEpisode": 2.71875,
+    "correctRate": 0.9609375,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 2
+  },
+  {
+    "variant": "A1P1Q1S1",
+    "seed": 100,
+    "tick": 640,
+    "returnPerEpisode": 2.96875,
+    "correctRate": 0.9921875,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 2
+  },
+  {
+    "variant": "A1P1Q1S1",
+    "seed": 100,
+    "tick": 768,
+    "returnPerEpisode": 2.78125,
+    "correctRate": 0.96875,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 2
+  },
+  {
+    "variant": "A1P1Q1S1",
+    "seed": 100,
+    "tick": 896,
+    "returnPerEpisode": 3.2421875,
+    "correctRate": 0.9765625,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 2
+  },
+  {
+    "variant": "A1P1Q1S1",
+    "seed": 100,
+    "tick": 1024,
+    "returnPerEpisode": 3.03125,
+    "correctRate": 0.9375,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 2
+  },
+  {
+    "variant": "A1P1Q1S1",
+    "seed": 100,
+    "tick": 1152,
+    "returnPerEpisode": 3.1171875,
+    "correctRate": 0.953125,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 2
+  },
+  {
+    "variant": "A1P1Q1S1",
+    "seed": 100,
+    "tick": 1280,
+    "returnPerEpisode": 2.8046875,
+    "correctRate": 0.921875,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 2
+  },
+  {
+    "variant": "A1P1Q1S1",
+    "seed": 100,
+    "tick": 1408,
+    "returnPerEpisode": 3.1796875,
+    "correctRate": 0.96875,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 2
+  },
+  {
+    "variant": "A1P1Q1S1",
+    "seed": 100,
+    "tick": 1536,
+    "returnPerEpisode": 3.1328125,
+    "correctRate": 0.953125,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 2
+  },
+  {
+    "variant": "A0P0Q0S0",
+    "seed": 101,
+    "tick": 128,
+    "returnPerEpisode": 0,
+    "correctRate": 0.5,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q0S0",
+    "seed": 101,
+    "tick": 256,
+    "returnPerEpisode": -0.3125,
+    "correctRate": 0.4609375,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q0S0",
+    "seed": 101,
+    "tick": 384,
+    "returnPerEpisode": -0.3125,
+    "correctRate": 0.4609375,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q0S0",
+    "seed": 101,
+    "tick": 512,
+    "returnPerEpisode": 0,
+    "correctRate": 0.5,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q0S0",
+    "seed": 101,
+    "tick": 640,
+    "returnPerEpisode": -0.1875,
+    "correctRate": 0.4765625,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q0S0",
+    "seed": 101,
+    "tick": 768,
+    "returnPerEpisode": 0.5,
+    "correctRate": 0.5625,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q0S0",
+    "seed": 101,
+    "tick": 896,
+    "returnPerEpisode": 0,
+    "correctRate": 0.5,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q0S0",
+    "seed": 101,
+    "tick": 1024,
+    "returnPerEpisode": -0.25,
+    "correctRate": 0.46875,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q0S0",
+    "seed": 101,
+    "tick": 1152,
+    "returnPerEpisode": 0,
+    "correctRate": 0.5,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q0S0",
+    "seed": 101,
+    "tick": 1280,
+    "returnPerEpisode": 0,
+    "correctRate": 0.5,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q0S0",
+    "seed": 101,
+    "tick": 1408,
+    "returnPerEpisode": 0.375,
+    "correctRate": 0.546875,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q0S0",
+    "seed": 101,
+    "tick": 1536,
+    "returnPerEpisode": 0,
+    "correctRate": 0.5,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q0S0",
+    "seed": 101,
+    "tick": 128,
+    "returnPerEpisode": 0,
+    "correctRate": 0.5,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q0S0",
+    "seed": 101,
+    "tick": 256,
+    "returnPerEpisode": -0.3125,
+    "correctRate": 0.4609375,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q0S0",
+    "seed": 101,
+    "tick": 384,
+    "returnPerEpisode": -0.3125,
+    "correctRate": 0.4609375,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q0S0",
+    "seed": 101,
+    "tick": 512,
+    "returnPerEpisode": 0,
+    "correctRate": 0.5,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q0S0",
+    "seed": 101,
+    "tick": 640,
+    "returnPerEpisode": -0.1875,
+    "correctRate": 0.4765625,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q0S0",
+    "seed": 101,
+    "tick": 768,
+    "returnPerEpisode": 0.5,
+    "correctRate": 0.5625,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q0S0",
+    "seed": 101,
+    "tick": 896,
+    "returnPerEpisode": 0,
+    "correctRate": 0.5,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q0S0",
+    "seed": 101,
+    "tick": 1024,
+    "returnPerEpisode": -0.25,
+    "correctRate": 0.46875,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q0S0",
+    "seed": 101,
+    "tick": 1152,
+    "returnPerEpisode": 0,
+    "correctRate": 0.5,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q0S0",
+    "seed": 101,
+    "tick": 1280,
+    "returnPerEpisode": 0,
+    "correctRate": 0.5,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q0S0",
+    "seed": 101,
+    "tick": 1408,
+    "returnPerEpisode": 0.375,
+    "correctRate": 0.546875,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q0S0",
+    "seed": 101,
+    "tick": 1536,
+    "returnPerEpisode": 0,
+    "correctRate": 0.5,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q0S0",
+    "seed": 101,
+    "tick": 128,
+    "returnPerEpisode": 0,
+    "correctRate": 0.5,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q0S0",
+    "seed": 101,
+    "tick": 256,
+    "returnPerEpisode": -0.3125,
+    "correctRate": 0.4609375,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q0S0",
+    "seed": 101,
+    "tick": 384,
+    "returnPerEpisode": -0.3125,
+    "correctRate": 0.4609375,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q0S0",
+    "seed": 101,
+    "tick": 512,
+    "returnPerEpisode": 0,
+    "correctRate": 0.5,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q0S0",
+    "seed": 101,
+    "tick": 640,
+    "returnPerEpisode": -0.1875,
+    "correctRate": 0.4765625,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q0S0",
+    "seed": 101,
+    "tick": 768,
+    "returnPerEpisode": 0.5,
+    "correctRate": 0.5625,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q0S0",
+    "seed": 101,
+    "tick": 896,
+    "returnPerEpisode": 0,
+    "correctRate": 0.5,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q0S0",
+    "seed": 101,
+    "tick": 1024,
+    "returnPerEpisode": -0.25,
+    "correctRate": 0.46875,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q0S0",
+    "seed": 101,
+    "tick": 1152,
+    "returnPerEpisode": 0,
+    "correctRate": 0.5,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q0S0",
+    "seed": 101,
+    "tick": 1280,
+    "returnPerEpisode": 0,
+    "correctRate": 0.5,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q0S0",
+    "seed": 101,
+    "tick": 1408,
+    "returnPerEpisode": 0.375,
+    "correctRate": 0.546875,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q0S0",
+    "seed": 101,
+    "tick": 1536,
+    "returnPerEpisode": 0,
+    "correctRate": 0.5,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q0S0",
+    "seed": 101,
+    "tick": 128,
+    "returnPerEpisode": 0,
+    "correctRate": 0.5,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q0S0",
+    "seed": 101,
+    "tick": 256,
+    "returnPerEpisode": -0.3125,
+    "correctRate": 0.4609375,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q0S0",
+    "seed": 101,
+    "tick": 384,
+    "returnPerEpisode": -0.3125,
+    "correctRate": 0.4609375,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q0S0",
+    "seed": 101,
+    "tick": 512,
+    "returnPerEpisode": 0,
+    "correctRate": 0.5,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q0S0",
+    "seed": 101,
+    "tick": 640,
+    "returnPerEpisode": -0.1875,
+    "correctRate": 0.4765625,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q0S0",
+    "seed": 101,
+    "tick": 768,
+    "returnPerEpisode": 0.5,
+    "correctRate": 0.5625,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q0S0",
+    "seed": 101,
+    "tick": 896,
+    "returnPerEpisode": 0,
+    "correctRate": 0.5,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q0S0",
+    "seed": 101,
+    "tick": 1024,
+    "returnPerEpisode": -0.25,
+    "correctRate": 0.46875,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q0S0",
+    "seed": 101,
+    "tick": 1152,
+    "returnPerEpisode": 0,
+    "correctRate": 0.5,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q0S0",
+    "seed": 101,
+    "tick": 1280,
+    "returnPerEpisode": 0,
+    "correctRate": 0.5,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q0S0",
+    "seed": 101,
+    "tick": 1408,
+    "returnPerEpisode": 0.375,
+    "correctRate": 0.546875,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q0S0",
+    "seed": 101,
+    "tick": 1536,
+    "returnPerEpisode": 0,
+    "correctRate": 0.5,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q1S0",
+    "seed": 101,
+    "tick": 128,
+    "returnPerEpisode": 0,
+    "correctRate": 0.5,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q1S0",
+    "seed": 101,
+    "tick": 256,
+    "returnPerEpisode": -0.7890625,
+    "correctRate": 0.4609375,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q1S0",
+    "seed": 101,
+    "tick": 384,
+    "returnPerEpisode": -0.8046875,
+    "correctRate": 0.4609375,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q1S0",
+    "seed": 101,
+    "tick": 512,
+    "returnPerEpisode": -0.453125,
+    "correctRate": 0.5,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q1S0",
+    "seed": 101,
+    "tick": 640,
+    "returnPerEpisode": -0.609375,
+    "correctRate": 0.4765625,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q1S0",
+    "seed": 101,
+    "tick": 768,
+    "returnPerEpisode": 0.0234375,
+    "correctRate": 0.5625,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q1S0",
+    "seed": 101,
+    "tick": 896,
+    "returnPerEpisode": -0.5390625,
+    "correctRate": 0.5,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q1S0",
+    "seed": 101,
+    "tick": 1024,
+    "returnPerEpisode": -0.765625,
+    "correctRate": 0.46875,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q1S0",
+    "seed": 101,
+    "tick": 1152,
+    "returnPerEpisode": -0.5390625,
+    "correctRate": 0.5,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q1S0",
+    "seed": 101,
+    "tick": 1280,
+    "returnPerEpisode": -0.4921875,
+    "correctRate": 0.5,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q1S0",
+    "seed": 101,
+    "tick": 1408,
+    "returnPerEpisode": -0.1484375,
+    "correctRate": 0.546875,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q1S0",
+    "seed": 101,
+    "tick": 1536,
+    "returnPerEpisode": -0.546875,
+    "correctRate": 0.5,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q1S0",
+    "seed": 101,
+    "tick": 128,
+    "returnPerEpisode": 0,
+    "correctRate": 0.5,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q1S0",
+    "seed": 101,
+    "tick": 256,
+    "returnPerEpisode": -0.7890625,
+    "correctRate": 0.4609375,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q1S0",
+    "seed": 101,
+    "tick": 384,
+    "returnPerEpisode": -0.8046875,
+    "correctRate": 0.4609375,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q1S0",
+    "seed": 101,
+    "tick": 512,
+    "returnPerEpisode": -0.453125,
+    "correctRate": 0.5,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q1S0",
+    "seed": 101,
+    "tick": 640,
+    "returnPerEpisode": -0.609375,
+    "correctRate": 0.4765625,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q1S0",
+    "seed": 101,
+    "tick": 768,
+    "returnPerEpisode": 0.0234375,
+    "correctRate": 0.5625,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q1S0",
+    "seed": 101,
+    "tick": 896,
+    "returnPerEpisode": -0.5390625,
+    "correctRate": 0.5,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q1S0",
+    "seed": 101,
+    "tick": 1024,
+    "returnPerEpisode": -0.765625,
+    "correctRate": 0.46875,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q1S0",
+    "seed": 101,
+    "tick": 1152,
+    "returnPerEpisode": -0.5390625,
+    "correctRate": 0.5,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q1S0",
+    "seed": 101,
+    "tick": 1280,
+    "returnPerEpisode": -0.4921875,
+    "correctRate": 0.5,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q1S0",
+    "seed": 101,
+    "tick": 1408,
+    "returnPerEpisode": -0.1484375,
+    "correctRate": 0.546875,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q1S0",
+    "seed": 101,
+    "tick": 1536,
+    "returnPerEpisode": -0.546875,
+    "correctRate": 0.5,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q1S0",
+    "seed": 101,
+    "tick": 128,
+    "returnPerEpisode": 0,
+    "correctRate": 0.5,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q1S0",
+    "seed": 101,
+    "tick": 256,
+    "returnPerEpisode": -0.7890625,
+    "correctRate": 0.4609375,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q1S0",
+    "seed": 101,
+    "tick": 384,
+    "returnPerEpisode": -0.8046875,
+    "correctRate": 0.4609375,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q1S0",
+    "seed": 101,
+    "tick": 512,
+    "returnPerEpisode": -0.453125,
+    "correctRate": 0.5,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q1S0",
+    "seed": 101,
+    "tick": 640,
+    "returnPerEpisode": -0.609375,
+    "correctRate": 0.4765625,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q1S0",
+    "seed": 101,
+    "tick": 768,
+    "returnPerEpisode": 0.0234375,
+    "correctRate": 0.5625,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q1S0",
+    "seed": 101,
+    "tick": 896,
+    "returnPerEpisode": -0.5390625,
+    "correctRate": 0.5,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q1S0",
+    "seed": 101,
+    "tick": 1024,
+    "returnPerEpisode": -0.765625,
+    "correctRate": 0.46875,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q1S0",
+    "seed": 101,
+    "tick": 1152,
+    "returnPerEpisode": -0.5390625,
+    "correctRate": 0.5,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q1S0",
+    "seed": 101,
+    "tick": 1280,
+    "returnPerEpisode": -0.4921875,
+    "correctRate": 0.5,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q1S0",
+    "seed": 101,
+    "tick": 1408,
+    "returnPerEpisode": -0.1484375,
+    "correctRate": 0.546875,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q1S0",
+    "seed": 101,
+    "tick": 1536,
+    "returnPerEpisode": -0.546875,
+    "correctRate": 0.5,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q1S0",
+    "seed": 101,
+    "tick": 128,
+    "returnPerEpisode": 0,
+    "correctRate": 0.5,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q1S0",
+    "seed": 101,
+    "tick": 256,
+    "returnPerEpisode": -0.7890625,
+    "correctRate": 0.4609375,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q1S0",
+    "seed": 101,
+    "tick": 384,
+    "returnPerEpisode": -0.8046875,
+    "correctRate": 0.4609375,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q1S0",
+    "seed": 101,
+    "tick": 512,
+    "returnPerEpisode": -0.453125,
+    "correctRate": 0.5,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q1S0",
+    "seed": 101,
+    "tick": 640,
+    "returnPerEpisode": -0.609375,
+    "correctRate": 0.4765625,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q1S0",
+    "seed": 101,
+    "tick": 768,
+    "returnPerEpisode": 0.0234375,
+    "correctRate": 0.5625,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q1S0",
+    "seed": 101,
+    "tick": 896,
+    "returnPerEpisode": -0.5390625,
+    "correctRate": 0.5,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q1S0",
+    "seed": 101,
+    "tick": 1024,
+    "returnPerEpisode": -0.765625,
+    "correctRate": 0.46875,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q1S0",
+    "seed": 101,
+    "tick": 1152,
+    "returnPerEpisode": -0.5390625,
+    "correctRate": 0.5,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q1S0",
+    "seed": 101,
+    "tick": 1280,
+    "returnPerEpisode": -0.4921875,
+    "correctRate": 0.5,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q1S0",
+    "seed": 101,
+    "tick": 1408,
+    "returnPerEpisode": -0.1484375,
+    "correctRate": 0.546875,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q1S0",
+    "seed": 101,
+    "tick": 1536,
+    "returnPerEpisode": -0.546875,
+    "correctRate": 0.5,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q0S1",
+    "seed": 101,
+    "tick": 128,
+    "returnPerEpisode": 0,
+    "correctRate": 0.5,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q0S1",
+    "seed": 101,
+    "tick": 256,
+    "returnPerEpisode": 0.0625,
+    "correctRate": 0.5078125,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q0S1",
+    "seed": 101,
+    "tick": 384,
+    "returnPerEpisode": -0.375,
+    "correctRate": 0.453125,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q0S1",
+    "seed": 101,
+    "tick": 512,
+    "returnPerEpisode": 0,
+    "correctRate": 0.5,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q0S1",
+    "seed": 101,
+    "tick": 640,
+    "returnPerEpisode": -0.125,
+    "correctRate": 0.484375,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q0S1",
+    "seed": 101,
+    "tick": 768,
+    "returnPerEpisode": 0.5,
+    "correctRate": 0.5625,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q0S1",
+    "seed": 101,
+    "tick": 896,
+    "returnPerEpisode": 0.0625,
+    "correctRate": 0.5078125,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q0S1",
+    "seed": 101,
+    "tick": 1024,
+    "returnPerEpisode": -0.3125,
+    "correctRate": 0.4609375,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q0S1",
+    "seed": 101,
+    "tick": 1152,
+    "returnPerEpisode": 0.0625,
+    "correctRate": 0.5078125,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q0S1",
+    "seed": 101,
+    "tick": 1280,
+    "returnPerEpisode": 0.0625,
+    "correctRate": 0.5078125,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q0S1",
+    "seed": 101,
+    "tick": 1408,
+    "returnPerEpisode": 0.375,
+    "correctRate": 0.546875,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q0S1",
+    "seed": 101,
+    "tick": 1536,
+    "returnPerEpisode": -0.0625,
+    "correctRate": 0.4921875,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q0S1",
+    "seed": 101,
+    "tick": 128,
+    "returnPerEpisode": 0,
+    "correctRate": 0.5,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q0S1",
+    "seed": 101,
+    "tick": 256,
+    "returnPerEpisode": 0.1875,
+    "correctRate": 0.5234375,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 2
+  },
+  {
+    "variant": "A1P0Q0S1",
+    "seed": 101,
+    "tick": 384,
+    "returnPerEpisode": 0.125,
+    "correctRate": 0.515625,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 4
+  },
+  {
+    "variant": "A1P0Q0S1",
+    "seed": 101,
+    "tick": 512,
+    "returnPerEpisode": 0.0625,
+    "correctRate": 0.5078125,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 32
+  },
+  {
+    "variant": "A1P0Q0S1",
+    "seed": 101,
+    "tick": 640,
+    "returnPerEpisode": 0.3125,
+    "correctRate": 0.5390625,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 33
+  },
+  {
+    "variant": "A1P0Q0S1",
+    "seed": 101,
+    "tick": 768,
+    "returnPerEpisode": 1.125,
+    "correctRate": 0.640625,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 35
+  },
+  {
+    "variant": "A1P0Q0S1",
+    "seed": 101,
+    "tick": 896,
+    "returnPerEpisode": 0.5,
+    "correctRate": 0.5625,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 35
+  },
+  {
+    "variant": "A1P0Q0S1",
+    "seed": 101,
+    "tick": 1024,
+    "returnPerEpisode": 0.1875,
+    "correctRate": 0.5234375,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 35
+  },
+  {
+    "variant": "A1P0Q0S1",
+    "seed": 101,
+    "tick": 1152,
+    "returnPerEpisode": 0.4375,
+    "correctRate": 0.5546875,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 39
+  },
+  {
+    "variant": "A1P0Q0S1",
+    "seed": 101,
+    "tick": 1280,
+    "returnPerEpisode": 0.625,
+    "correctRate": 0.578125,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 41
+  },
+  {
+    "variant": "A1P0Q0S1",
+    "seed": 101,
+    "tick": 1408,
+    "returnPerEpisode": 0.8125,
+    "correctRate": 0.6015625,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 41
+  },
+  {
+    "variant": "A1P0Q0S1",
+    "seed": 101,
+    "tick": 1536,
+    "returnPerEpisode": 1.125,
+    "correctRate": 0.640625,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 41
+  },
+  {
+    "variant": "A0P1Q0S1",
+    "seed": 101,
+    "tick": 128,
+    "returnPerEpisode": 0,
+    "correctRate": 0.5,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q0S1",
+    "seed": 101,
+    "tick": 256,
+    "returnPerEpisode": -0.1875,
+    "correctRate": 0.4765625,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q0S1",
+    "seed": 101,
+    "tick": 384,
+    "returnPerEpisode": -0.4375,
+    "correctRate": 0.4453125,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q0S1",
+    "seed": 101,
+    "tick": 512,
+    "returnPerEpisode": -0.0625,
+    "correctRate": 0.4921875,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q0S1",
+    "seed": 101,
+    "tick": 640,
+    "returnPerEpisode": -0.125,
+    "correctRate": 0.484375,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q0S1",
+    "seed": 101,
+    "tick": 768,
+    "returnPerEpisode": 0.4375,
+    "correctRate": 0.5546875,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q0S1",
+    "seed": 101,
+    "tick": 896,
+    "returnPerEpisode": -0.0625,
+    "correctRate": 0.4921875,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q0S1",
+    "seed": 101,
+    "tick": 1024,
+    "returnPerEpisode": -0.25,
+    "correctRate": 0.46875,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q0S1",
+    "seed": 101,
+    "tick": 1152,
+    "returnPerEpisode": 0.0625,
+    "correctRate": 0.5078125,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q0S1",
+    "seed": 101,
+    "tick": 1280,
+    "returnPerEpisode": 0.125,
+    "correctRate": 0.515625,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q0S1",
+    "seed": 101,
+    "tick": 1408,
+    "returnPerEpisode": 0.375,
+    "correctRate": 0.546875,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q0S1",
+    "seed": 101,
+    "tick": 1536,
+    "returnPerEpisode": -0.0625,
+    "correctRate": 0.4921875,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q0S1",
+    "seed": 101,
+    "tick": 128,
+    "returnPerEpisode": 0,
+    "correctRate": 0.5,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q0S1",
+    "seed": 101,
+    "tick": 256,
+    "returnPerEpisode": 0.0625,
+    "correctRate": 0.5078125,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 1
+  },
+  {
+    "variant": "A1P1Q0S1",
+    "seed": 101,
+    "tick": 384,
+    "returnPerEpisode": -0.1875,
+    "correctRate": 0.4765625,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 4
+  },
+  {
+    "variant": "A1P1Q0S1",
+    "seed": 101,
+    "tick": 512,
+    "returnPerEpisode": 1.375,
+    "correctRate": 0.671875,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 13
+  },
+  {
+    "variant": "A1P1Q0S1",
+    "seed": 101,
+    "tick": 640,
+    "returnPerEpisode": 1.875,
+    "correctRate": 0.734375,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 13
+  },
+  {
+    "variant": "A1P1Q0S1",
+    "seed": 101,
+    "tick": 768,
+    "returnPerEpisode": 1.375,
+    "correctRate": 0.671875,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 13
+  },
+  {
+    "variant": "A1P1Q0S1",
+    "seed": 101,
+    "tick": 896,
+    "returnPerEpisode": 0.375,
+    "correctRate": 0.546875,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 13
+  },
+  {
+    "variant": "A1P1Q0S1",
+    "seed": 101,
+    "tick": 1024,
+    "returnPerEpisode": 0.5625,
+    "correctRate": 0.5703125,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 19
+  },
+  {
+    "variant": "A1P1Q0S1",
+    "seed": 101,
+    "tick": 1152,
+    "returnPerEpisode": 1.3125,
+    "correctRate": 0.6640625,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 20
+  },
+  {
+    "variant": "A1P1Q0S1",
+    "seed": 101,
+    "tick": 1280,
+    "returnPerEpisode": 1.875,
+    "correctRate": 0.734375,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 20
+  },
+  {
+    "variant": "A1P1Q0S1",
+    "seed": 101,
+    "tick": 1408,
+    "returnPerEpisode": 1.5625,
+    "correctRate": 0.6953125,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 20
+  },
+  {
+    "variant": "A1P1Q0S1",
+    "seed": 101,
+    "tick": 1536,
+    "returnPerEpisode": 1.6875,
+    "correctRate": 0.7109375,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 20
+  },
+  {
+    "variant": "A0P0Q1S1",
+    "seed": 101,
+    "tick": 128,
+    "returnPerEpisode": 0,
+    "correctRate": 0.5,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q1S1",
+    "seed": 101,
+    "tick": 256,
+    "returnPerEpisode": -0.4140625,
+    "correctRate": 0.5078125,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q1S1",
+    "seed": 101,
+    "tick": 384,
+    "returnPerEpisode": -0.8671875,
+    "correctRate": 0.453125,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q1S1",
+    "seed": 101,
+    "tick": 512,
+    "returnPerEpisode": -0.515625,
+    "correctRate": 0.4921875,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q1S1",
+    "seed": 101,
+    "tick": 640,
+    "returnPerEpisode": -0.546875,
+    "correctRate": 0.484375,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q1S1",
+    "seed": 101,
+    "tick": 768,
+    "returnPerEpisode": 0.0234375,
+    "correctRate": 0.5625,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q1S1",
+    "seed": 101,
+    "tick": 896,
+    "returnPerEpisode": -0.5390625,
+    "correctRate": 0.5,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q1S1",
+    "seed": 101,
+    "tick": 1024,
+    "returnPerEpisode": -0.765625,
+    "correctRate": 0.46875,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q1S1",
+    "seed": 101,
+    "tick": 1152,
+    "returnPerEpisode": -0.4765625,
+    "correctRate": 0.5078125,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q1S1",
+    "seed": 101,
+    "tick": 1280,
+    "returnPerEpisode": -0.4921875,
+    "correctRate": 0.5,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q1S1",
+    "seed": 101,
+    "tick": 1408,
+    "returnPerEpisode": -0.1484375,
+    "correctRate": 0.546875,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q1S1",
+    "seed": 101,
+    "tick": 1536,
+    "returnPerEpisode": -0.609375,
+    "correctRate": 0.4921875,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q1S1",
+    "seed": 101,
+    "tick": 128,
+    "returnPerEpisode": 0,
+    "correctRate": 0.5,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q1S1",
+    "seed": 101,
+    "tick": 256,
+    "returnPerEpisode": -0.9140625,
+    "correctRate": 0.4453125,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 2
+  },
+  {
+    "variant": "A1P0Q1S1",
+    "seed": 101,
+    "tick": 384,
+    "returnPerEpisode": -0.0546875,
+    "correctRate": 0.5546875,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 5
+  },
+  {
+    "variant": "A1P0Q1S1",
+    "seed": 101,
+    "tick": 512,
+    "returnPerEpisode": 2.734375,
+    "correctRate": 0.8984375,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 6
+  },
+  {
+    "variant": "A1P0Q1S1",
+    "seed": 101,
+    "tick": 640,
+    "returnPerEpisode": 3.015625,
+    "correctRate": 0.9296875,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 6
+  },
+  {
+    "variant": "A1P0Q1S1",
+    "seed": 101,
+    "tick": 768,
+    "returnPerEpisode": 3.2109375,
+    "correctRate": 0.9609375,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 6
+  },
+  {
+    "variant": "A1P0Q1S1",
+    "seed": 101,
+    "tick": 896,
+    "returnPerEpisode": 3.0234375,
+    "correctRate": 0.9453125,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 6
+  },
+  {
+    "variant": "A1P0Q1S1",
+    "seed": 101,
+    "tick": 1024,
+    "returnPerEpisode": 3.171875,
+    "correctRate": 0.9609375,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 6
+  },
+  {
+    "variant": "A1P0Q1S1",
+    "seed": 101,
+    "tick": 1152,
+    "returnPerEpisode": 3.2109375,
+    "correctRate": 0.96875,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 6
+  },
+  {
+    "variant": "A1P0Q1S1",
+    "seed": 101,
+    "tick": 1280,
+    "returnPerEpisode": 3.0703125,
+    "correctRate": 0.9453125,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 6
+  },
+  {
+    "variant": "A1P0Q1S1",
+    "seed": 101,
+    "tick": 1408,
+    "returnPerEpisode": 3.1640625,
+    "correctRate": 0.9609375,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 6
+  },
+  {
+    "variant": "A1P0Q1S1",
+    "seed": 101,
+    "tick": 1536,
+    "returnPerEpisode": 3.015625,
+    "correctRate": 0.9453125,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 6
+  },
+  {
+    "variant": "A0P1Q1S1",
+    "seed": 101,
+    "tick": 128,
+    "returnPerEpisode": 0,
+    "correctRate": 0.5,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q1S1",
+    "seed": 101,
+    "tick": 256,
+    "returnPerEpisode": -0.1640625,
+    "correctRate": 0.5390625,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q1S1",
+    "seed": 101,
+    "tick": 384,
+    "returnPerEpisode": -0.8671875,
+    "correctRate": 0.453125,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q1S1",
+    "seed": 101,
+    "tick": 512,
+    "returnPerEpisode": -0.515625,
+    "correctRate": 0.4921875,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q1S1",
+    "seed": 101,
+    "tick": 640,
+    "returnPerEpisode": -0.546875,
+    "correctRate": 0.484375,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q1S1",
+    "seed": 101,
+    "tick": 768,
+    "returnPerEpisode": 0.0234375,
+    "correctRate": 0.5625,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q1S1",
+    "seed": 101,
+    "tick": 896,
+    "returnPerEpisode": -0.5390625,
+    "correctRate": 0.5,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q1S1",
+    "seed": 101,
+    "tick": 1024,
+    "returnPerEpisode": -0.765625,
+    "correctRate": 0.46875,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q1S1",
+    "seed": 101,
+    "tick": 1152,
+    "returnPerEpisode": -0.4765625,
+    "correctRate": 0.5078125,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q1S1",
+    "seed": 101,
+    "tick": 1280,
+    "returnPerEpisode": -0.4921875,
+    "correctRate": 0.5,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q1S1",
+    "seed": 101,
+    "tick": 1408,
+    "returnPerEpisode": -0.1484375,
+    "correctRate": 0.546875,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q1S1",
+    "seed": 101,
+    "tick": 1536,
+    "returnPerEpisode": -0.609375,
+    "correctRate": 0.4921875,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q1S1",
+    "seed": 101,
+    "tick": 128,
+    "returnPerEpisode": 0,
+    "correctRate": 0.5,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q1S1",
+    "seed": 101,
+    "tick": 256,
+    "returnPerEpisode": -0.7890625,
+    "correctRate": 0.4609375,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 2
+  },
+  {
+    "variant": "A1P1Q1S1",
+    "seed": 101,
+    "tick": 384,
+    "returnPerEpisode": -0.1171875,
+    "correctRate": 0.546875,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 5
+  },
+  {
+    "variant": "A1P1Q1S1",
+    "seed": 101,
+    "tick": 512,
+    "returnPerEpisode": 2.796875,
+    "correctRate": 0.90625,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 6
+  },
+  {
+    "variant": "A1P1Q1S1",
+    "seed": 101,
+    "tick": 640,
+    "returnPerEpisode": 3.078125,
+    "correctRate": 0.9375,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 6
+  },
+  {
+    "variant": "A1P1Q1S1",
+    "seed": 101,
+    "tick": 768,
+    "returnPerEpisode": 3.2109375,
+    "correctRate": 0.9609375,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 6
+  },
+  {
+    "variant": "A1P1Q1S1",
+    "seed": 101,
+    "tick": 896,
+    "returnPerEpisode": 2.9609375,
+    "correctRate": 0.9375,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 6
+  },
+  {
+    "variant": "A1P1Q1S1",
+    "seed": 101,
+    "tick": 1024,
+    "returnPerEpisode": 3.296875,
+    "correctRate": 0.9765625,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 6
+  },
+  {
+    "variant": "A1P1Q1S1",
+    "seed": 101,
+    "tick": 1152,
+    "returnPerEpisode": 3.2109375,
+    "correctRate": 0.96875,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 6
+  },
+  {
+    "variant": "A1P1Q1S1",
+    "seed": 101,
+    "tick": 1280,
+    "returnPerEpisode": 3.0703125,
+    "correctRate": 0.9453125,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 6
+  },
+  {
+    "variant": "A1P1Q1S1",
+    "seed": 101,
+    "tick": 1408,
+    "returnPerEpisode": 3.1640625,
+    "correctRate": 0.9609375,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 6
+  },
+  {
+    "variant": "A1P1Q1S1",
+    "seed": 101,
+    "tick": 1536,
+    "returnPerEpisode": 3.078125,
+    "correctRate": 0.953125,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 6
+  },
+  {
+    "variant": "A0P0Q0S0",
+    "seed": 102,
+    "tick": 128,
+    "returnPerEpisode": -0.5625,
+    "correctRate": 0.4296875,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q0S0",
+    "seed": 102,
+    "tick": 256,
+    "returnPerEpisode": 0.375,
+    "correctRate": 0.546875,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q0S0",
+    "seed": 102,
+    "tick": 384,
+    "returnPerEpisode": -0.125,
+    "correctRate": 0.484375,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q0S0",
+    "seed": 102,
+    "tick": 512,
+    "returnPerEpisode": -0.375,
+    "correctRate": 0.453125,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q0S0",
+    "seed": 102,
+    "tick": 640,
+    "returnPerEpisode": 0.4375,
+    "correctRate": 0.5546875,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q0S0",
+    "seed": 102,
+    "tick": 768,
+    "returnPerEpisode": -0.125,
+    "correctRate": 0.484375,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q0S0",
+    "seed": 102,
+    "tick": 896,
+    "returnPerEpisode": 0.25,
+    "correctRate": 0.53125,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q0S0",
+    "seed": 102,
+    "tick": 1024,
+    "returnPerEpisode": 0.375,
+    "correctRate": 0.546875,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q0S0",
+    "seed": 102,
+    "tick": 1152,
+    "returnPerEpisode": 0.625,
+    "correctRate": 0.578125,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q0S0",
+    "seed": 102,
+    "tick": 1280,
+    "returnPerEpisode": 0.1875,
+    "correctRate": 0.5234375,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q0S0",
+    "seed": 102,
+    "tick": 1408,
+    "returnPerEpisode": -0.5,
+    "correctRate": 0.4375,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q0S0",
+    "seed": 102,
+    "tick": 1536,
+    "returnPerEpisode": 0.625,
+    "correctRate": 0.578125,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q0S0",
+    "seed": 102,
+    "tick": 128,
+    "returnPerEpisode": -0.5625,
+    "correctRate": 0.4296875,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q0S0",
+    "seed": 102,
+    "tick": 256,
+    "returnPerEpisode": 0.375,
+    "correctRate": 0.546875,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q0S0",
+    "seed": 102,
+    "tick": 384,
+    "returnPerEpisode": -0.125,
+    "correctRate": 0.484375,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q0S0",
+    "seed": 102,
+    "tick": 512,
+    "returnPerEpisode": -0.375,
+    "correctRate": 0.453125,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q0S0",
+    "seed": 102,
+    "tick": 640,
+    "returnPerEpisode": 0.4375,
+    "correctRate": 0.5546875,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q0S0",
+    "seed": 102,
+    "tick": 768,
+    "returnPerEpisode": -0.125,
+    "correctRate": 0.484375,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q0S0",
+    "seed": 102,
+    "tick": 896,
+    "returnPerEpisode": 0.25,
+    "correctRate": 0.53125,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q0S0",
+    "seed": 102,
+    "tick": 1024,
+    "returnPerEpisode": 0.375,
+    "correctRate": 0.546875,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q0S0",
+    "seed": 102,
+    "tick": 1152,
+    "returnPerEpisode": 0.625,
+    "correctRate": 0.578125,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q0S0",
+    "seed": 102,
+    "tick": 1280,
+    "returnPerEpisode": 0.1875,
+    "correctRate": 0.5234375,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q0S0",
+    "seed": 102,
+    "tick": 1408,
+    "returnPerEpisode": -0.5,
+    "correctRate": 0.4375,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q0S0",
+    "seed": 102,
+    "tick": 1536,
+    "returnPerEpisode": 0.625,
+    "correctRate": 0.578125,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q0S0",
+    "seed": 102,
+    "tick": 128,
+    "returnPerEpisode": -0.5625,
+    "correctRate": 0.4296875,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q0S0",
+    "seed": 102,
+    "tick": 256,
+    "returnPerEpisode": 0.375,
+    "correctRate": 0.546875,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q0S0",
+    "seed": 102,
+    "tick": 384,
+    "returnPerEpisode": -0.125,
+    "correctRate": 0.484375,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q0S0",
+    "seed": 102,
+    "tick": 512,
+    "returnPerEpisode": -0.375,
+    "correctRate": 0.453125,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q0S0",
+    "seed": 102,
+    "tick": 640,
+    "returnPerEpisode": 0.4375,
+    "correctRate": 0.5546875,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q0S0",
+    "seed": 102,
+    "tick": 768,
+    "returnPerEpisode": -0.125,
+    "correctRate": 0.484375,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q0S0",
+    "seed": 102,
+    "tick": 896,
+    "returnPerEpisode": 0.25,
+    "correctRate": 0.53125,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q0S0",
+    "seed": 102,
+    "tick": 1024,
+    "returnPerEpisode": 0.375,
+    "correctRate": 0.546875,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q0S0",
+    "seed": 102,
+    "tick": 1152,
+    "returnPerEpisode": 0.625,
+    "correctRate": 0.578125,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q0S0",
+    "seed": 102,
+    "tick": 1280,
+    "returnPerEpisode": 0.1875,
+    "correctRate": 0.5234375,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q0S0",
+    "seed": 102,
+    "tick": 1408,
+    "returnPerEpisode": -0.5,
+    "correctRate": 0.4375,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q0S0",
+    "seed": 102,
+    "tick": 1536,
+    "returnPerEpisode": 0.625,
+    "correctRate": 0.578125,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q0S0",
+    "seed": 102,
+    "tick": 128,
+    "returnPerEpisode": -0.5625,
+    "correctRate": 0.4296875,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q0S0",
+    "seed": 102,
+    "tick": 256,
+    "returnPerEpisode": 0.375,
+    "correctRate": 0.546875,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q0S0",
+    "seed": 102,
+    "tick": 384,
+    "returnPerEpisode": -0.125,
+    "correctRate": 0.484375,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q0S0",
+    "seed": 102,
+    "tick": 512,
+    "returnPerEpisode": -0.375,
+    "correctRate": 0.453125,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q0S0",
+    "seed": 102,
+    "tick": 640,
+    "returnPerEpisode": 0.4375,
+    "correctRate": 0.5546875,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q0S0",
+    "seed": 102,
+    "tick": 768,
+    "returnPerEpisode": -0.125,
+    "correctRate": 0.484375,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q0S0",
+    "seed": 102,
+    "tick": 896,
+    "returnPerEpisode": 0.25,
+    "correctRate": 0.53125,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q0S0",
+    "seed": 102,
+    "tick": 1024,
+    "returnPerEpisode": 0.375,
+    "correctRate": 0.546875,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q0S0",
+    "seed": 102,
+    "tick": 1152,
+    "returnPerEpisode": 0.625,
+    "correctRate": 0.578125,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q0S0",
+    "seed": 102,
+    "tick": 1280,
+    "returnPerEpisode": 0.1875,
+    "correctRate": 0.5234375,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q0S0",
+    "seed": 102,
+    "tick": 1408,
+    "returnPerEpisode": -0.5,
+    "correctRate": 0.4375,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q0S0",
+    "seed": 102,
+    "tick": 1536,
+    "returnPerEpisode": 0.625,
+    "correctRate": 0.578125,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q1S0",
+    "seed": 102,
+    "tick": 128,
+    "returnPerEpisode": -0.5625,
+    "correctRate": 0.4296875,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q1S0",
+    "seed": 102,
+    "tick": 256,
+    "returnPerEpisode": -0.5,
+    "correctRate": 0.546875,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q1S0",
+    "seed": 102,
+    "tick": 384,
+    "returnPerEpisode": -1.046875,
+    "correctRate": 0.484375,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q1S0",
+    "seed": 102,
+    "tick": 512,
+    "returnPerEpisode": -0.796875,
+    "correctRate": 0.453125,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q1S0",
+    "seed": 102,
+    "tick": 640,
+    "returnPerEpisode": -0.0859375,
+    "correctRate": 0.5546875,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q1S0",
+    "seed": 102,
+    "tick": 768,
+    "returnPerEpisode": -0.5546875,
+    "correctRate": 0.484375,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q1S0",
+    "seed": 102,
+    "tick": 896,
+    "returnPerEpisode": -0.2890625,
+    "correctRate": 0.53125,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q1S0",
+    "seed": 102,
+    "tick": 1024,
+    "returnPerEpisode": -0.0390625,
+    "correctRate": 0.546875,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q1S0",
+    "seed": 102,
+    "tick": 1152,
+    "returnPerEpisode": 0.140625,
+    "correctRate": 0.578125,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q1S0",
+    "seed": 102,
+    "tick": 1280,
+    "returnPerEpisode": -0.328125,
+    "correctRate": 0.5234375,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q1S0",
+    "seed": 102,
+    "tick": 1408,
+    "returnPerEpisode": -0.96875,
+    "correctRate": 0.4375,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q1S0",
+    "seed": 102,
+    "tick": 1536,
+    "returnPerEpisode": 0.1171875,
+    "correctRate": 0.578125,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q1S0",
+    "seed": 102,
+    "tick": 128,
+    "returnPerEpisode": -0.5625,
+    "correctRate": 0.4296875,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q1S0",
+    "seed": 102,
+    "tick": 256,
+    "returnPerEpisode": -0.5,
+    "correctRate": 0.546875,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q1S0",
+    "seed": 102,
+    "tick": 384,
+    "returnPerEpisode": -1.046875,
+    "correctRate": 0.484375,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q1S0",
+    "seed": 102,
+    "tick": 512,
+    "returnPerEpisode": -0.796875,
+    "correctRate": 0.453125,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q1S0",
+    "seed": 102,
+    "tick": 640,
+    "returnPerEpisode": -0.0859375,
+    "correctRate": 0.5546875,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q1S0",
+    "seed": 102,
+    "tick": 768,
+    "returnPerEpisode": -0.5546875,
+    "correctRate": 0.484375,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q1S0",
+    "seed": 102,
+    "tick": 896,
+    "returnPerEpisode": -0.2890625,
+    "correctRate": 0.53125,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q1S0",
+    "seed": 102,
+    "tick": 1024,
+    "returnPerEpisode": -0.0390625,
+    "correctRate": 0.546875,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q1S0",
+    "seed": 102,
+    "tick": 1152,
+    "returnPerEpisode": 0.140625,
+    "correctRate": 0.578125,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q1S0",
+    "seed": 102,
+    "tick": 1280,
+    "returnPerEpisode": -0.328125,
+    "correctRate": 0.5234375,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q1S0",
+    "seed": 102,
+    "tick": 1408,
+    "returnPerEpisode": -0.96875,
+    "correctRate": 0.4375,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q1S0",
+    "seed": 102,
+    "tick": 1536,
+    "returnPerEpisode": 0.1171875,
+    "correctRate": 0.578125,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q1S0",
+    "seed": 102,
+    "tick": 128,
+    "returnPerEpisode": -0.5625,
+    "correctRate": 0.4296875,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q1S0",
+    "seed": 102,
+    "tick": 256,
+    "returnPerEpisode": -0.5390625,
+    "correctRate": 0.546875,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q1S0",
+    "seed": 102,
+    "tick": 384,
+    "returnPerEpisode": -1.046875,
+    "correctRate": 0.484375,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q1S0",
+    "seed": 102,
+    "tick": 512,
+    "returnPerEpisode": -0.796875,
+    "correctRate": 0.453125,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q1S0",
+    "seed": 102,
+    "tick": 640,
+    "returnPerEpisode": -0.0859375,
+    "correctRate": 0.5546875,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q1S0",
+    "seed": 102,
+    "tick": 768,
+    "returnPerEpisode": -0.5546875,
+    "correctRate": 0.484375,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q1S0",
+    "seed": 102,
+    "tick": 896,
+    "returnPerEpisode": -0.2890625,
+    "correctRate": 0.53125,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q1S0",
+    "seed": 102,
+    "tick": 1024,
+    "returnPerEpisode": -0.0390625,
+    "correctRate": 0.546875,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q1S0",
+    "seed": 102,
+    "tick": 1152,
+    "returnPerEpisode": 0.140625,
+    "correctRate": 0.578125,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q1S0",
+    "seed": 102,
+    "tick": 1280,
+    "returnPerEpisode": -0.328125,
+    "correctRate": 0.5234375,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q1S0",
+    "seed": 102,
+    "tick": 1408,
+    "returnPerEpisode": -0.96875,
+    "correctRate": 0.4375,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q1S0",
+    "seed": 102,
+    "tick": 1536,
+    "returnPerEpisode": 0.1171875,
+    "correctRate": 0.578125,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q1S0",
+    "seed": 102,
+    "tick": 128,
+    "returnPerEpisode": -0.5625,
+    "correctRate": 0.4296875,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q1S0",
+    "seed": 102,
+    "tick": 256,
+    "returnPerEpisode": -0.5390625,
+    "correctRate": 0.546875,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q1S0",
+    "seed": 102,
+    "tick": 384,
+    "returnPerEpisode": -1.046875,
+    "correctRate": 0.484375,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q1S0",
+    "seed": 102,
+    "tick": 512,
+    "returnPerEpisode": -0.796875,
+    "correctRate": 0.453125,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q1S0",
+    "seed": 102,
+    "tick": 640,
+    "returnPerEpisode": -0.0859375,
+    "correctRate": 0.5546875,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q1S0",
+    "seed": 102,
+    "tick": 768,
+    "returnPerEpisode": -0.5546875,
+    "correctRate": 0.484375,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q1S0",
+    "seed": 102,
+    "tick": 896,
+    "returnPerEpisode": -0.2890625,
+    "correctRate": 0.53125,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q1S0",
+    "seed": 102,
+    "tick": 1024,
+    "returnPerEpisode": -0.0390625,
+    "correctRate": 0.546875,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q1S0",
+    "seed": 102,
+    "tick": 1152,
+    "returnPerEpisode": 0.140625,
+    "correctRate": 0.578125,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q1S0",
+    "seed": 102,
+    "tick": 1280,
+    "returnPerEpisode": -0.328125,
+    "correctRate": 0.5234375,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q1S0",
+    "seed": 102,
+    "tick": 1408,
+    "returnPerEpisode": -0.96875,
+    "correctRate": 0.4375,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q1S0",
+    "seed": 102,
+    "tick": 1536,
+    "returnPerEpisode": 0.1171875,
+    "correctRate": 0.578125,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q0S1",
+    "seed": 102,
+    "tick": 128,
+    "returnPerEpisode": -0.5625,
+    "correctRate": 0.4296875,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q0S1",
+    "seed": 102,
+    "tick": 256,
+    "returnPerEpisode": -0.125,
+    "correctRate": 0.484375,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q0S1",
+    "seed": 102,
+    "tick": 384,
+    "returnPerEpisode": -0.1875,
+    "correctRate": 0.4765625,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q0S1",
+    "seed": 102,
+    "tick": 512,
+    "returnPerEpisode": -0.4375,
+    "correctRate": 0.4453125,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q0S1",
+    "seed": 102,
+    "tick": 640,
+    "returnPerEpisode": 0.5,
+    "correctRate": 0.5625,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q0S1",
+    "seed": 102,
+    "tick": 768,
+    "returnPerEpisode": -0.125,
+    "correctRate": 0.484375,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q0S1",
+    "seed": 102,
+    "tick": 896,
+    "returnPerEpisode": 0.25,
+    "correctRate": 0.53125,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q0S1",
+    "seed": 102,
+    "tick": 1024,
+    "returnPerEpisode": 0.3125,
+    "correctRate": 0.5390625,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q0S1",
+    "seed": 102,
+    "tick": 1152,
+    "returnPerEpisode": 0.6875,
+    "correctRate": 0.5859375,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q0S1",
+    "seed": 102,
+    "tick": 1280,
+    "returnPerEpisode": 0.1875,
+    "correctRate": 0.5234375,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q0S1",
+    "seed": 102,
+    "tick": 1408,
+    "returnPerEpisode": -0.5,
+    "correctRate": 0.4375,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q0S1",
+    "seed": 102,
+    "tick": 1536,
+    "returnPerEpisode": 0.625,
+    "correctRate": 0.578125,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q0S1",
+    "seed": 102,
+    "tick": 128,
+    "returnPerEpisode": -0.5625,
+    "correctRate": 0.4296875,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q0S1",
+    "seed": 102,
+    "tick": 256,
+    "returnPerEpisode": 0,
+    "correctRate": 0.5,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 3
+  },
+  {
+    "variant": "A1P0Q0S1",
+    "seed": 102,
+    "tick": 384,
+    "returnPerEpisode": 0.25,
+    "correctRate": 0.53125,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 5
+  },
+  {
+    "variant": "A1P0Q0S1",
+    "seed": 102,
+    "tick": 512,
+    "returnPerEpisode": 0.6875,
+    "correctRate": 0.5859375,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 15
+  },
+  {
+    "variant": "A1P0Q0S1",
+    "seed": 102,
+    "tick": 640,
+    "returnPerEpisode": 0.8125,
+    "correctRate": 0.6015625,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 24
+  },
+  {
+    "variant": "A1P0Q0S1",
+    "seed": 102,
+    "tick": 768,
+    "returnPerEpisode": 2.1875,
+    "correctRate": 0.7734375,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 24
+  },
+  {
+    "variant": "A1P0Q0S1",
+    "seed": 102,
+    "tick": 896,
+    "returnPerEpisode": 1.875,
+    "correctRate": 0.734375,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 24
+  },
+  {
+    "variant": "A1P0Q0S1",
+    "seed": 102,
+    "tick": 1024,
+    "returnPerEpisode": 2.4375,
+    "correctRate": 0.8046875,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 24
+  },
+  {
+    "variant": "A1P0Q0S1",
+    "seed": 102,
+    "tick": 1152,
+    "returnPerEpisode": 1.5625,
+    "correctRate": 0.6953125,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 24
+  },
+  {
+    "variant": "A1P0Q0S1",
+    "seed": 102,
+    "tick": 1280,
+    "returnPerEpisode": 1.5625,
+    "correctRate": 0.6953125,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 24
+  },
+  {
+    "variant": "A1P0Q0S1",
+    "seed": 102,
+    "tick": 1408,
+    "returnPerEpisode": 1.75,
+    "correctRate": 0.71875,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 24
+  },
+  {
+    "variant": "A1P0Q0S1",
+    "seed": 102,
+    "tick": 1536,
+    "returnPerEpisode": 0.8125,
+    "correctRate": 0.6015625,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 24
+  },
+  {
+    "variant": "A0P1Q0S1",
+    "seed": 102,
+    "tick": 128,
+    "returnPerEpisode": -0.5625,
+    "correctRate": 0.4296875,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q0S1",
+    "seed": 102,
+    "tick": 256,
+    "returnPerEpisode": -0.5,
+    "correctRate": 0.4375,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q0S1",
+    "seed": 102,
+    "tick": 384,
+    "returnPerEpisode": 0.4375,
+    "correctRate": 0.5546875,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q0S1",
+    "seed": 102,
+    "tick": 512,
+    "returnPerEpisode": -0.375,
+    "correctRate": 0.453125,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q0S1",
+    "seed": 102,
+    "tick": 640,
+    "returnPerEpisode": 0.4375,
+    "correctRate": 0.5546875,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q0S1",
+    "seed": 102,
+    "tick": 768,
+    "returnPerEpisode": -0.1875,
+    "correctRate": 0.4765625,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q0S1",
+    "seed": 102,
+    "tick": 896,
+    "returnPerEpisode": 0.25,
+    "correctRate": 0.53125,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q0S1",
+    "seed": 102,
+    "tick": 1024,
+    "returnPerEpisode": 0.375,
+    "correctRate": 0.546875,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q0S1",
+    "seed": 102,
+    "tick": 1152,
+    "returnPerEpisode": 0.6875,
+    "correctRate": 0.5859375,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q0S1",
+    "seed": 102,
+    "tick": 1280,
+    "returnPerEpisode": 0.125,
+    "correctRate": 0.515625,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q0S1",
+    "seed": 102,
+    "tick": 1408,
+    "returnPerEpisode": -0.4375,
+    "correctRate": 0.4453125,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q0S1",
+    "seed": 102,
+    "tick": 1536,
+    "returnPerEpisode": 0.5625,
+    "correctRate": 0.5703125,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q0S1",
+    "seed": 102,
+    "tick": 128,
+    "returnPerEpisode": -0.5625,
+    "correctRate": 0.4296875,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q0S1",
+    "seed": 102,
+    "tick": 256,
+    "returnPerEpisode": -0.1875,
+    "correctRate": 0.4765625,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 1
+  },
+  {
+    "variant": "A1P1Q0S1",
+    "seed": 102,
+    "tick": 384,
+    "returnPerEpisode": 0.875,
+    "correctRate": 0.609375,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 3
+  },
+  {
+    "variant": "A1P1Q0S1",
+    "seed": 102,
+    "tick": 512,
+    "returnPerEpisode": 0.3125,
+    "correctRate": 0.5390625,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 9
+  },
+  {
+    "variant": "A1P1Q0S1",
+    "seed": 102,
+    "tick": 640,
+    "returnPerEpisode": 0.875,
+    "correctRate": 0.609375,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 10
+  },
+  {
+    "variant": "A1P1Q0S1",
+    "seed": 102,
+    "tick": 768,
+    "returnPerEpisode": 2,
+    "correctRate": 0.75,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 10
+  },
+  {
+    "variant": "A1P1Q0S1",
+    "seed": 102,
+    "tick": 896,
+    "returnPerEpisode": 1.5625,
+    "correctRate": 0.6953125,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 10
+  },
+  {
+    "variant": "A1P1Q0S1",
+    "seed": 102,
+    "tick": 1024,
+    "returnPerEpisode": 1.9375,
+    "correctRate": 0.7421875,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 10
+  },
+  {
+    "variant": "A1P1Q0S1",
+    "seed": 102,
+    "tick": 1152,
+    "returnPerEpisode": 1.75,
+    "correctRate": 0.71875,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 10
+  },
+  {
+    "variant": "A1P1Q0S1",
+    "seed": 102,
+    "tick": 1280,
+    "returnPerEpisode": 1.875,
+    "correctRate": 0.734375,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 10
+  },
+  {
+    "variant": "A1P1Q0S1",
+    "seed": 102,
+    "tick": 1408,
+    "returnPerEpisode": 2.1875,
+    "correctRate": 0.7734375,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 10
+  },
+  {
+    "variant": "A1P1Q0S1",
+    "seed": 102,
+    "tick": 1536,
+    "returnPerEpisode": 2.6875,
+    "correctRate": 0.8359375,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 10
+  },
+  {
+    "variant": "A0P0Q1S1",
+    "seed": 102,
+    "tick": 128,
+    "returnPerEpisode": -0.5625,
+    "correctRate": 0.4296875,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q1S1",
+    "seed": 102,
+    "tick": 256,
+    "returnPerEpisode": -1,
+    "correctRate": 0.484375,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q1S1",
+    "seed": 102,
+    "tick": 384,
+    "returnPerEpisode": -0.984375,
+    "correctRate": 0.4921875,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q1S1",
+    "seed": 102,
+    "tick": 512,
+    "returnPerEpisode": -0.796875,
+    "correctRate": 0.453125,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q1S1",
+    "seed": 102,
+    "tick": 640,
+    "returnPerEpisode": -0.0859375,
+    "correctRate": 0.5546875,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q1S1",
+    "seed": 102,
+    "tick": 768,
+    "returnPerEpisode": -0.6171875,
+    "correctRate": 0.4765625,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q1S1",
+    "seed": 102,
+    "tick": 896,
+    "returnPerEpisode": -0.2890625,
+    "correctRate": 0.53125,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q1S1",
+    "seed": 102,
+    "tick": 1024,
+    "returnPerEpisode": -0.1015625,
+    "correctRate": 0.5390625,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q1S1",
+    "seed": 102,
+    "tick": 1152,
+    "returnPerEpisode": 0.078125,
+    "correctRate": 0.5703125,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q1S1",
+    "seed": 102,
+    "tick": 1280,
+    "returnPerEpisode": -0.328125,
+    "correctRate": 0.5234375,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q1S1",
+    "seed": 102,
+    "tick": 1408,
+    "returnPerEpisode": -0.96875,
+    "correctRate": 0.4375,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q1S1",
+    "seed": 102,
+    "tick": 1536,
+    "returnPerEpisode": 0.0546875,
+    "correctRate": 0.5703125,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q1S1",
+    "seed": 102,
+    "tick": 128,
+    "returnPerEpisode": -0.5625,
+    "correctRate": 0.4296875,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q1S1",
+    "seed": 102,
+    "tick": 256,
+    "returnPerEpisode": -0.875,
+    "correctRate": 0.5,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 1
+  },
+  {
+    "variant": "A1P0Q1S1",
+    "seed": 102,
+    "tick": 384,
+    "returnPerEpisode": -0.796875,
+    "correctRate": 0.515625,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 3
+  },
+  {
+    "variant": "A1P0Q1S1",
+    "seed": 102,
+    "tick": 512,
+    "returnPerEpisode": 2.953125,
+    "correctRate": 0.921875,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 4
+  },
+  {
+    "variant": "A1P0Q1S1",
+    "seed": 102,
+    "tick": 640,
+    "returnPerEpisode": 3.1015625,
+    "correctRate": 0.953125,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 4
+  },
+  {
+    "variant": "A1P0Q1S1",
+    "seed": 102,
+    "tick": 768,
+    "returnPerEpisode": 3.3828125,
+    "correctRate": 0.9765625,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 4
+  },
+  {
+    "variant": "A1P0Q1S1",
+    "seed": 102,
+    "tick": 896,
+    "returnPerEpisode": 3.2734375,
+    "correctRate": 0.9765625,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 4
+  },
+  {
+    "variant": "A1P0Q1S1",
+    "seed": 102,
+    "tick": 1024,
+    "returnPerEpisode": 3.3984375,
+    "correctRate": 0.9765625,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 4
+  },
+  {
+    "variant": "A1P0Q1S1",
+    "seed": 102,
+    "tick": 1152,
+    "returnPerEpisode": 3.265625,
+    "correctRate": 0.96875,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 4
+  },
+  {
+    "variant": "A1P0Q1S1",
+    "seed": 102,
+    "tick": 1280,
+    "returnPerEpisode": 3.234375,
+    "correctRate": 0.96875,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 4
+  },
+  {
+    "variant": "A1P0Q1S1",
+    "seed": 102,
+    "tick": 1408,
+    "returnPerEpisode": 3.09375,
+    "correctRate": 0.9453125,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 4
+  },
+  {
+    "variant": "A1P0Q1S1",
+    "seed": 102,
+    "tick": 1536,
+    "returnPerEpisode": 3.1171875,
+    "correctRate": 0.953125,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 4
+  },
+  {
+    "variant": "A0P1Q1S1",
+    "seed": 102,
+    "tick": 128,
+    "returnPerEpisode": -0.5625,
+    "correctRate": 0.4296875,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q1S1",
+    "seed": 102,
+    "tick": 256,
+    "returnPerEpisode": -1.2890625,
+    "correctRate": 0.453125,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q1S1",
+    "seed": 102,
+    "tick": 384,
+    "returnPerEpisode": -0.859375,
+    "correctRate": 0.5078125,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q1S1",
+    "seed": 102,
+    "tick": 512,
+    "returnPerEpisode": -0.796875,
+    "correctRate": 0.453125,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q1S1",
+    "seed": 102,
+    "tick": 640,
+    "returnPerEpisode": -0.0859375,
+    "correctRate": 0.5546875,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q1S1",
+    "seed": 102,
+    "tick": 768,
+    "returnPerEpisode": -0.6171875,
+    "correctRate": 0.4765625,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q1S1",
+    "seed": 102,
+    "tick": 896,
+    "returnPerEpisode": -0.2890625,
+    "correctRate": 0.53125,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q1S1",
+    "seed": 102,
+    "tick": 1024,
+    "returnPerEpisode": -0.1015625,
+    "correctRate": 0.5390625,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q1S1",
+    "seed": 102,
+    "tick": 1152,
+    "returnPerEpisode": 0.140625,
+    "correctRate": 0.578125,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q1S1",
+    "seed": 102,
+    "tick": 1280,
+    "returnPerEpisode": -0.390625,
+    "correctRate": 0.515625,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q1S1",
+    "seed": 102,
+    "tick": 1408,
+    "returnPerEpisode": -0.96875,
+    "correctRate": 0.4375,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q1S1",
+    "seed": 102,
+    "tick": 1536,
+    "returnPerEpisode": -0.0078125,
+    "correctRate": 0.5625,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q1S1",
+    "seed": 102,
+    "tick": 128,
+    "returnPerEpisode": -0.5625,
+    "correctRate": 0.4296875,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q1S1",
+    "seed": 102,
+    "tick": 256,
+    "returnPerEpisode": -0.9765625,
+    "correctRate": 0.4921875,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q1S1",
+    "seed": 102,
+    "tick": 384,
+    "returnPerEpisode": -0.546875,
+    "correctRate": 0.546875,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 2
+  },
+  {
+    "variant": "A1P1Q1S1",
+    "seed": 102,
+    "tick": 512,
+    "returnPerEpisode": 2.640625,
+    "correctRate": 0.8828125,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 3
+  },
+  {
+    "variant": "A1P1Q1S1",
+    "seed": 102,
+    "tick": 640,
+    "returnPerEpisode": 3.0390625,
+    "correctRate": 0.9453125,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 3
+  },
+  {
+    "variant": "A1P1Q1S1",
+    "seed": 102,
+    "tick": 768,
+    "returnPerEpisode": 3.3828125,
+    "correctRate": 0.9765625,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 3
+  },
+  {
+    "variant": "A1P1Q1S1",
+    "seed": 102,
+    "tick": 896,
+    "returnPerEpisode": 3.2734375,
+    "correctRate": 0.9765625,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 3
+  },
+  {
+    "variant": "A1P1Q1S1",
+    "seed": 102,
+    "tick": 1024,
+    "returnPerEpisode": 3.3984375,
+    "correctRate": 0.9765625,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 3
+  },
+  {
+    "variant": "A1P1Q1S1",
+    "seed": 102,
+    "tick": 1152,
+    "returnPerEpisode": 3.265625,
+    "correctRate": 0.96875,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 3
+  },
+  {
+    "variant": "A1P1Q1S1",
+    "seed": 102,
+    "tick": 1280,
+    "returnPerEpisode": 3.359375,
+    "correctRate": 0.984375,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 3
+  },
+  {
+    "variant": "A1P1Q1S1",
+    "seed": 102,
+    "tick": 1408,
+    "returnPerEpisode": 3.21875,
+    "correctRate": 0.9609375,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 3
+  },
+  {
+    "variant": "A1P1Q1S1",
+    "seed": 102,
+    "tick": 1536,
+    "returnPerEpisode": 3.2421875,
+    "correctRate": 0.96875,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 3
+  },
+  {
+    "variant": "A0P0Q0S0",
+    "seed": 103,
+    "tick": 128,
+    "returnPerEpisode": -0.5,
+    "correctRate": 0.4375,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q0S0",
+    "seed": 103,
+    "tick": 256,
+    "returnPerEpisode": 0.0625,
+    "correctRate": 0.5078125,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q0S0",
+    "seed": 103,
+    "tick": 384,
+    "returnPerEpisode": -0.75,
+    "correctRate": 0.40625,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q0S0",
+    "seed": 103,
+    "tick": 512,
+    "returnPerEpisode": 0.25,
+    "correctRate": 0.53125,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q0S0",
+    "seed": 103,
+    "tick": 640,
+    "returnPerEpisode": -0.3125,
+    "correctRate": 0.4609375,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q0S0",
+    "seed": 103,
+    "tick": 768,
+    "returnPerEpisode": 0.125,
+    "correctRate": 0.515625,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q0S0",
+    "seed": 103,
+    "tick": 896,
+    "returnPerEpisode": -0.375,
+    "correctRate": 0.453125,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q0S0",
+    "seed": 103,
+    "tick": 1024,
+    "returnPerEpisode": -0.125,
+    "correctRate": 0.484375,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q0S0",
+    "seed": 103,
+    "tick": 1152,
+    "returnPerEpisode": 0.875,
+    "correctRate": 0.609375,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q0S0",
+    "seed": 103,
+    "tick": 1280,
+    "returnPerEpisode": 0,
+    "correctRate": 0.5,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q0S0",
+    "seed": 103,
+    "tick": 1408,
+    "returnPerEpisode": -0.3125,
+    "correctRate": 0.4609375,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q0S0",
+    "seed": 103,
+    "tick": 1536,
+    "returnPerEpisode": 0.1875,
+    "correctRate": 0.5234375,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q0S0",
+    "seed": 103,
+    "tick": 128,
+    "returnPerEpisode": -0.5,
+    "correctRate": 0.4375,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q0S0",
+    "seed": 103,
+    "tick": 256,
+    "returnPerEpisode": 0.0625,
+    "correctRate": 0.5078125,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q0S0",
+    "seed": 103,
+    "tick": 384,
+    "returnPerEpisode": -0.75,
+    "correctRate": 0.40625,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q0S0",
+    "seed": 103,
+    "tick": 512,
+    "returnPerEpisode": 0.25,
+    "correctRate": 0.53125,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q0S0",
+    "seed": 103,
+    "tick": 640,
+    "returnPerEpisode": -0.3125,
+    "correctRate": 0.4609375,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q0S0",
+    "seed": 103,
+    "tick": 768,
+    "returnPerEpisode": 0.125,
+    "correctRate": 0.515625,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q0S0",
+    "seed": 103,
+    "tick": 896,
+    "returnPerEpisode": -0.375,
+    "correctRate": 0.453125,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q0S0",
+    "seed": 103,
+    "tick": 1024,
+    "returnPerEpisode": -0.125,
+    "correctRate": 0.484375,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q0S0",
+    "seed": 103,
+    "tick": 1152,
+    "returnPerEpisode": 0.875,
+    "correctRate": 0.609375,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q0S0",
+    "seed": 103,
+    "tick": 1280,
+    "returnPerEpisode": 0,
+    "correctRate": 0.5,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q0S0",
+    "seed": 103,
+    "tick": 1408,
+    "returnPerEpisode": -0.3125,
+    "correctRate": 0.4609375,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q0S0",
+    "seed": 103,
+    "tick": 1536,
+    "returnPerEpisode": 0.1875,
+    "correctRate": 0.5234375,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q0S0",
+    "seed": 103,
+    "tick": 128,
+    "returnPerEpisode": -0.5,
+    "correctRate": 0.4375,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q0S0",
+    "seed": 103,
+    "tick": 256,
+    "returnPerEpisode": 0.0625,
+    "correctRate": 0.5078125,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q0S0",
+    "seed": 103,
+    "tick": 384,
+    "returnPerEpisode": -0.75,
+    "correctRate": 0.40625,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q0S0",
+    "seed": 103,
+    "tick": 512,
+    "returnPerEpisode": 0.25,
+    "correctRate": 0.53125,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q0S0",
+    "seed": 103,
+    "tick": 640,
+    "returnPerEpisode": -0.3125,
+    "correctRate": 0.4609375,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q0S0",
+    "seed": 103,
+    "tick": 768,
+    "returnPerEpisode": 0.125,
+    "correctRate": 0.515625,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q0S0",
+    "seed": 103,
+    "tick": 896,
+    "returnPerEpisode": -0.375,
+    "correctRate": 0.453125,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q0S0",
+    "seed": 103,
+    "tick": 1024,
+    "returnPerEpisode": -0.125,
+    "correctRate": 0.484375,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q0S0",
+    "seed": 103,
+    "tick": 1152,
+    "returnPerEpisode": 0.875,
+    "correctRate": 0.609375,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q0S0",
+    "seed": 103,
+    "tick": 1280,
+    "returnPerEpisode": 0,
+    "correctRate": 0.5,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q0S0",
+    "seed": 103,
+    "tick": 1408,
+    "returnPerEpisode": -0.3125,
+    "correctRate": 0.4609375,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q0S0",
+    "seed": 103,
+    "tick": 1536,
+    "returnPerEpisode": 0.1875,
+    "correctRate": 0.5234375,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q0S0",
+    "seed": 103,
+    "tick": 128,
+    "returnPerEpisode": -0.5,
+    "correctRate": 0.4375,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q0S0",
+    "seed": 103,
+    "tick": 256,
+    "returnPerEpisode": 0.0625,
+    "correctRate": 0.5078125,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q0S0",
+    "seed": 103,
+    "tick": 384,
+    "returnPerEpisode": -0.75,
+    "correctRate": 0.40625,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q0S0",
+    "seed": 103,
+    "tick": 512,
+    "returnPerEpisode": 0.25,
+    "correctRate": 0.53125,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q0S0",
+    "seed": 103,
+    "tick": 640,
+    "returnPerEpisode": -0.3125,
+    "correctRate": 0.4609375,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q0S0",
+    "seed": 103,
+    "tick": 768,
+    "returnPerEpisode": 0.125,
+    "correctRate": 0.515625,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q0S0",
+    "seed": 103,
+    "tick": 896,
+    "returnPerEpisode": -0.375,
+    "correctRate": 0.453125,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q0S0",
+    "seed": 103,
+    "tick": 1024,
+    "returnPerEpisode": -0.125,
+    "correctRate": 0.484375,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q0S0",
+    "seed": 103,
+    "tick": 1152,
+    "returnPerEpisode": 0.875,
+    "correctRate": 0.609375,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q0S0",
+    "seed": 103,
+    "tick": 1280,
+    "returnPerEpisode": 0,
+    "correctRate": 0.5,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q0S0",
+    "seed": 103,
+    "tick": 1408,
+    "returnPerEpisode": -0.3125,
+    "correctRate": 0.4609375,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q0S0",
+    "seed": 103,
+    "tick": 1536,
+    "returnPerEpisode": 0.1875,
+    "correctRate": 0.5234375,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q1S0",
+    "seed": 103,
+    "tick": 128,
+    "returnPerEpisode": -0.5,
+    "correctRate": 0.4375,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q1S0",
+    "seed": 103,
+    "tick": 256,
+    "returnPerEpisode": -0.8125,
+    "correctRate": 0.5078125,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q1S0",
+    "seed": 103,
+    "tick": 384,
+    "returnPerEpisode": -1.7265625,
+    "correctRate": 0.40625,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q1S0",
+    "seed": 103,
+    "tick": 512,
+    "returnPerEpisode": -0.7109375,
+    "correctRate": 0.53125,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q1S0",
+    "seed": 103,
+    "tick": 640,
+    "returnPerEpisode": -1.1171875,
+    "correctRate": 0.4609375,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q1S0",
+    "seed": 103,
+    "tick": 768,
+    "returnPerEpisode": -0.84375,
+    "correctRate": 0.515625,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q1S0",
+    "seed": 103,
+    "tick": 896,
+    "returnPerEpisode": -0.8828125,
+    "correctRate": 0.453125,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q1S0",
+    "seed": 103,
+    "tick": 1024,
+    "returnPerEpisode": -0.6171875,
+    "correctRate": 0.484375,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q1S0",
+    "seed": 103,
+    "tick": 1152,
+    "returnPerEpisode": 0.3828125,
+    "correctRate": 0.609375,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q1S0",
+    "seed": 103,
+    "tick": 1280,
+    "returnPerEpisode": -0.4921875,
+    "correctRate": 0.5,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q1S0",
+    "seed": 103,
+    "tick": 1408,
+    "returnPerEpisode": -0.8671875,
+    "correctRate": 0.4609375,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q1S0",
+    "seed": 103,
+    "tick": 1536,
+    "returnPerEpisode": -0.34375,
+    "correctRate": 0.5234375,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q1S0",
+    "seed": 103,
+    "tick": 128,
+    "returnPerEpisode": -0.5,
+    "correctRate": 0.4375,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q1S0",
+    "seed": 103,
+    "tick": 256,
+    "returnPerEpisode": -0.8125,
+    "correctRate": 0.5078125,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q1S0",
+    "seed": 103,
+    "tick": 384,
+    "returnPerEpisode": -1.7265625,
+    "correctRate": 0.40625,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q1S0",
+    "seed": 103,
+    "tick": 512,
+    "returnPerEpisode": -0.7109375,
+    "correctRate": 0.53125,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q1S0",
+    "seed": 103,
+    "tick": 640,
+    "returnPerEpisode": -1.1171875,
+    "correctRate": 0.4609375,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q1S0",
+    "seed": 103,
+    "tick": 768,
+    "returnPerEpisode": -0.84375,
+    "correctRate": 0.515625,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q1S0",
+    "seed": 103,
+    "tick": 896,
+    "returnPerEpisode": -0.8828125,
+    "correctRate": 0.453125,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q1S0",
+    "seed": 103,
+    "tick": 1024,
+    "returnPerEpisode": -0.6171875,
+    "correctRate": 0.484375,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q1S0",
+    "seed": 103,
+    "tick": 1152,
+    "returnPerEpisode": 0.3828125,
+    "correctRate": 0.609375,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q1S0",
+    "seed": 103,
+    "tick": 1280,
+    "returnPerEpisode": -0.4921875,
+    "correctRate": 0.5,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q1S0",
+    "seed": 103,
+    "tick": 1408,
+    "returnPerEpisode": -0.8671875,
+    "correctRate": 0.4609375,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q1S0",
+    "seed": 103,
+    "tick": 1536,
+    "returnPerEpisode": -0.34375,
+    "correctRate": 0.5234375,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q1S0",
+    "seed": 103,
+    "tick": 128,
+    "returnPerEpisode": -0.5,
+    "correctRate": 0.4375,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q1S0",
+    "seed": 103,
+    "tick": 256,
+    "returnPerEpisode": -0.8125,
+    "correctRate": 0.5078125,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q1S0",
+    "seed": 103,
+    "tick": 384,
+    "returnPerEpisode": -1.7265625,
+    "correctRate": 0.40625,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q1S0",
+    "seed": 103,
+    "tick": 512,
+    "returnPerEpisode": -0.7109375,
+    "correctRate": 0.53125,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q1S0",
+    "seed": 103,
+    "tick": 640,
+    "returnPerEpisode": -1.1171875,
+    "correctRate": 0.4609375,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q1S0",
+    "seed": 103,
+    "tick": 768,
+    "returnPerEpisode": -0.84375,
+    "correctRate": 0.515625,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q1S0",
+    "seed": 103,
+    "tick": 896,
+    "returnPerEpisode": -0.8828125,
+    "correctRate": 0.453125,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q1S0",
+    "seed": 103,
+    "tick": 1024,
+    "returnPerEpisode": -0.6171875,
+    "correctRate": 0.484375,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q1S0",
+    "seed": 103,
+    "tick": 1152,
+    "returnPerEpisode": 0.3828125,
+    "correctRate": 0.609375,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q1S0",
+    "seed": 103,
+    "tick": 1280,
+    "returnPerEpisode": -0.4921875,
+    "correctRate": 0.5,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q1S0",
+    "seed": 103,
+    "tick": 1408,
+    "returnPerEpisode": -0.8671875,
+    "correctRate": 0.4609375,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q1S0",
+    "seed": 103,
+    "tick": 1536,
+    "returnPerEpisode": -0.34375,
+    "correctRate": 0.5234375,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q1S0",
+    "seed": 103,
+    "tick": 128,
+    "returnPerEpisode": -0.5,
+    "correctRate": 0.4375,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q1S0",
+    "seed": 103,
+    "tick": 256,
+    "returnPerEpisode": -0.8125,
+    "correctRate": 0.5078125,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q1S0",
+    "seed": 103,
+    "tick": 384,
+    "returnPerEpisode": -1.7265625,
+    "correctRate": 0.40625,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q1S0",
+    "seed": 103,
+    "tick": 512,
+    "returnPerEpisode": -0.7109375,
+    "correctRate": 0.53125,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q1S0",
+    "seed": 103,
+    "tick": 640,
+    "returnPerEpisode": -1.1171875,
+    "correctRate": 0.4609375,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q1S0",
+    "seed": 103,
+    "tick": 768,
+    "returnPerEpisode": -0.84375,
+    "correctRate": 0.515625,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q1S0",
+    "seed": 103,
+    "tick": 896,
+    "returnPerEpisode": -0.8828125,
+    "correctRate": 0.453125,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q1S0",
+    "seed": 103,
+    "tick": 1024,
+    "returnPerEpisode": -0.6171875,
+    "correctRate": 0.484375,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q1S0",
+    "seed": 103,
+    "tick": 1152,
+    "returnPerEpisode": 0.3828125,
+    "correctRate": 0.609375,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q1S0",
+    "seed": 103,
+    "tick": 1280,
+    "returnPerEpisode": -0.4921875,
+    "correctRate": 0.5,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q1S0",
+    "seed": 103,
+    "tick": 1408,
+    "returnPerEpisode": -0.8671875,
+    "correctRate": 0.4609375,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q1S0",
+    "seed": 103,
+    "tick": 1536,
+    "returnPerEpisode": -0.34375,
+    "correctRate": 0.5234375,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q0S1",
+    "seed": 103,
+    "tick": 128,
+    "returnPerEpisode": -0.5,
+    "correctRate": 0.4375,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q0S1",
+    "seed": 103,
+    "tick": 256,
+    "returnPerEpisode": 0.0625,
+    "correctRate": 0.5078125,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q0S1",
+    "seed": 103,
+    "tick": 384,
+    "returnPerEpisode": -0.625,
+    "correctRate": 0.421875,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q0S1",
+    "seed": 103,
+    "tick": 512,
+    "returnPerEpisode": 0.1875,
+    "correctRate": 0.5234375,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q0S1",
+    "seed": 103,
+    "tick": 640,
+    "returnPerEpisode": -0.25,
+    "correctRate": 0.46875,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q0S1",
+    "seed": 103,
+    "tick": 768,
+    "returnPerEpisode": 0.125,
+    "correctRate": 0.515625,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q0S1",
+    "seed": 103,
+    "tick": 896,
+    "returnPerEpisode": -0.375,
+    "correctRate": 0.453125,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q0S1",
+    "seed": 103,
+    "tick": 1024,
+    "returnPerEpisode": -0.125,
+    "correctRate": 0.484375,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q0S1",
+    "seed": 103,
+    "tick": 1152,
+    "returnPerEpisode": 0.9375,
+    "correctRate": 0.6171875,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q0S1",
+    "seed": 103,
+    "tick": 1280,
+    "returnPerEpisode": 0,
+    "correctRate": 0.5,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q0S1",
+    "seed": 103,
+    "tick": 1408,
+    "returnPerEpisode": -0.25,
+    "correctRate": 0.46875,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q0S1",
+    "seed": 103,
+    "tick": 1536,
+    "returnPerEpisode": 0.25,
+    "correctRate": 0.53125,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q0S1",
+    "seed": 103,
+    "tick": 128,
+    "returnPerEpisode": -0.5,
+    "correctRate": 0.4375,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q0S1",
+    "seed": 103,
+    "tick": 256,
+    "returnPerEpisode": 0.3125,
+    "correctRate": 0.5390625,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 1
+  },
+  {
+    "variant": "A1P0Q0S1",
+    "seed": 103,
+    "tick": 384,
+    "returnPerEpisode": 0.5,
+    "correctRate": 0.5625,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 2
+  },
+  {
+    "variant": "A1P0Q0S1",
+    "seed": 103,
+    "tick": 512,
+    "returnPerEpisode": 0.5625,
+    "correctRate": 0.5703125,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 11
+  },
+  {
+    "variant": "A1P0Q0S1",
+    "seed": 103,
+    "tick": 640,
+    "returnPerEpisode": 1.4375,
+    "correctRate": 0.6796875,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 11
+  },
+  {
+    "variant": "A1P0Q0S1",
+    "seed": 103,
+    "tick": 768,
+    "returnPerEpisode": 0.875,
+    "correctRate": 0.609375,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 11
+  },
+  {
+    "variant": "A1P0Q0S1",
+    "seed": 103,
+    "tick": 896,
+    "returnPerEpisode": 1.1875,
+    "correctRate": 0.6484375,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 11
+  },
+  {
+    "variant": "A1P0Q0S1",
+    "seed": 103,
+    "tick": 1024,
+    "returnPerEpisode": 0.5625,
+    "correctRate": 0.5703125,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 11
+  },
+  {
+    "variant": "A1P0Q0S1",
+    "seed": 103,
+    "tick": 1152,
+    "returnPerEpisode": 0.25,
+    "correctRate": 0.53125,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 15
+  },
+  {
+    "variant": "A1P0Q0S1",
+    "seed": 103,
+    "tick": 1280,
+    "returnPerEpisode": 1.4375,
+    "correctRate": 0.6796875,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 17
+  },
+  {
+    "variant": "A1P0Q0S1",
+    "seed": 103,
+    "tick": 1408,
+    "returnPerEpisode": 0.4375,
+    "correctRate": 0.5546875,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 17
+  },
+  {
+    "variant": "A1P0Q0S1",
+    "seed": 103,
+    "tick": 1536,
+    "returnPerEpisode": 0.1875,
+    "correctRate": 0.5234375,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 19
+  },
+  {
+    "variant": "A0P1Q0S1",
+    "seed": 103,
+    "tick": 128,
+    "returnPerEpisode": -0.5,
+    "correctRate": 0.4375,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q0S1",
+    "seed": 103,
+    "tick": 256,
+    "returnPerEpisode": 0.0625,
+    "correctRate": 0.5078125,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q0S1",
+    "seed": 103,
+    "tick": 384,
+    "returnPerEpisode": -0.625,
+    "correctRate": 0.421875,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q0S1",
+    "seed": 103,
+    "tick": 512,
+    "returnPerEpisode": 0.1875,
+    "correctRate": 0.5234375,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q0S1",
+    "seed": 103,
+    "tick": 640,
+    "returnPerEpisode": -0.25,
+    "correctRate": 0.46875,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q0S1",
+    "seed": 103,
+    "tick": 768,
+    "returnPerEpisode": 0.125,
+    "correctRate": 0.515625,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q0S1",
+    "seed": 103,
+    "tick": 896,
+    "returnPerEpisode": -0.375,
+    "correctRate": 0.453125,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q0S1",
+    "seed": 103,
+    "tick": 1024,
+    "returnPerEpisode": -0.125,
+    "correctRate": 0.484375,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q0S1",
+    "seed": 103,
+    "tick": 1152,
+    "returnPerEpisode": 0.9375,
+    "correctRate": 0.6171875,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q0S1",
+    "seed": 103,
+    "tick": 1280,
+    "returnPerEpisode": 0,
+    "correctRate": 0.5,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q0S1",
+    "seed": 103,
+    "tick": 1408,
+    "returnPerEpisode": -0.25,
+    "correctRate": 0.46875,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q0S1",
+    "seed": 103,
+    "tick": 1536,
+    "returnPerEpisode": 0.25,
+    "correctRate": 0.53125,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q0S1",
+    "seed": 103,
+    "tick": 128,
+    "returnPerEpisode": -0.5,
+    "correctRate": 0.4375,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q0S1",
+    "seed": 103,
+    "tick": 256,
+    "returnPerEpisode": 0.3125,
+    "correctRate": 0.5390625,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 1
+  },
+  {
+    "variant": "A1P1Q0S1",
+    "seed": 103,
+    "tick": 384,
+    "returnPerEpisode": 0.5,
+    "correctRate": 0.5625,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 2
+  },
+  {
+    "variant": "A1P1Q0S1",
+    "seed": 103,
+    "tick": 512,
+    "returnPerEpisode": 0.5625,
+    "correctRate": 0.5703125,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 11
+  },
+  {
+    "variant": "A1P1Q0S1",
+    "seed": 103,
+    "tick": 640,
+    "returnPerEpisode": 1.4375,
+    "correctRate": 0.6796875,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 11
+  },
+  {
+    "variant": "A1P1Q0S1",
+    "seed": 103,
+    "tick": 768,
+    "returnPerEpisode": 0.875,
+    "correctRate": 0.609375,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 11
+  },
+  {
+    "variant": "A1P1Q0S1",
+    "seed": 103,
+    "tick": 896,
+    "returnPerEpisode": 1.1875,
+    "correctRate": 0.6484375,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 11
+  },
+  {
+    "variant": "A1P1Q0S1",
+    "seed": 103,
+    "tick": 1024,
+    "returnPerEpisode": 0.5625,
+    "correctRate": 0.5703125,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 11
+  },
+  {
+    "variant": "A1P1Q0S1",
+    "seed": 103,
+    "tick": 1152,
+    "returnPerEpisode": 0.125,
+    "correctRate": 0.515625,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 15
+  },
+  {
+    "variant": "A1P1Q0S1",
+    "seed": 103,
+    "tick": 1280,
+    "returnPerEpisode": 1.0625,
+    "correctRate": 0.6328125,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 17
+  },
+  {
+    "variant": "A1P1Q0S1",
+    "seed": 103,
+    "tick": 1408,
+    "returnPerEpisode": 0.375,
+    "correctRate": 0.546875,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 17
+  },
+  {
+    "variant": "A1P1Q0S1",
+    "seed": 103,
+    "tick": 1536,
+    "returnPerEpisode": 0.5625,
+    "correctRate": 0.5703125,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 19
+  },
+  {
+    "variant": "A0P0Q1S1",
+    "seed": 103,
+    "tick": 128,
+    "returnPerEpisode": -0.5,
+    "correctRate": 0.4375,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q1S1",
+    "seed": 103,
+    "tick": 256,
+    "returnPerEpisode": -1.0625,
+    "correctRate": 0.4765625,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q1S1",
+    "seed": 103,
+    "tick": 384,
+    "returnPerEpisode": -1.6015625,
+    "correctRate": 0.421875,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q1S1",
+    "seed": 103,
+    "tick": 512,
+    "returnPerEpisode": -0.7734375,
+    "correctRate": 0.5234375,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q1S1",
+    "seed": 103,
+    "tick": 640,
+    "returnPerEpisode": -1.1796875,
+    "correctRate": 0.453125,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q1S1",
+    "seed": 103,
+    "tick": 768,
+    "returnPerEpisode": -0.84375,
+    "correctRate": 0.515625,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q1S1",
+    "seed": 103,
+    "tick": 896,
+    "returnPerEpisode": -0.8828125,
+    "correctRate": 0.453125,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q1S1",
+    "seed": 103,
+    "tick": 1024,
+    "returnPerEpisode": -0.6171875,
+    "correctRate": 0.484375,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q1S1",
+    "seed": 103,
+    "tick": 1152,
+    "returnPerEpisode": 0.3828125,
+    "correctRate": 0.609375,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q1S1",
+    "seed": 103,
+    "tick": 1280,
+    "returnPerEpisode": -0.4296875,
+    "correctRate": 0.5078125,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q1S1",
+    "seed": 103,
+    "tick": 1408,
+    "returnPerEpisode": -0.8046875,
+    "correctRate": 0.46875,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P0Q1S1",
+    "seed": 103,
+    "tick": 1536,
+    "returnPerEpisode": -0.28125,
+    "correctRate": 0.53125,
+    "landmarks": 0,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q1S1",
+    "seed": 103,
+    "tick": 128,
+    "returnPerEpisode": -0.5,
+    "correctRate": 0.4375,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P0Q1S1",
+    "seed": 103,
+    "tick": 256,
+    "returnPerEpisode": -0.8125,
+    "correctRate": 0.5078125,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 1
+  },
+  {
+    "variant": "A1P0Q1S1",
+    "seed": 103,
+    "tick": 384,
+    "returnPerEpisode": -0.4765625,
+    "correctRate": 0.5625,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 1
+  },
+  {
+    "variant": "A1P0Q1S1",
+    "seed": 103,
+    "tick": 512,
+    "returnPerEpisode": 2.0390625,
+    "correctRate": 0.875,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 2
+  },
+  {
+    "variant": "A1P0Q1S1",
+    "seed": 103,
+    "tick": 640,
+    "returnPerEpisode": 2.8203125,
+    "correctRate": 0.953125,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 2
+  },
+  {
+    "variant": "A1P0Q1S1",
+    "seed": 103,
+    "tick": 768,
+    "returnPerEpisode": 2.90625,
+    "correctRate": 0.984375,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 2
+  },
+  {
+    "variant": "A1P0Q1S1",
+    "seed": 103,
+    "tick": 896,
+    "returnPerEpisode": 3.2421875,
+    "correctRate": 0.96875,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 2
+  },
+  {
+    "variant": "A1P0Q1S1",
+    "seed": 103,
+    "tick": 1024,
+    "returnPerEpisode": 3.1953125,
+    "correctRate": 0.9609375,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 2
+  },
+  {
+    "variant": "A1P0Q1S1",
+    "seed": 103,
+    "tick": 1152,
+    "returnPerEpisode": 3.3203125,
+    "correctRate": 0.9765625,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 2
+  },
+  {
+    "variant": "A1P0Q1S1",
+    "seed": 103,
+    "tick": 1280,
+    "returnPerEpisode": 3.0703125,
+    "correctRate": 0.9453125,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 2
+  },
+  {
+    "variant": "A1P0Q1S1",
+    "seed": 103,
+    "tick": 1408,
+    "returnPerEpisode": 3.1953125,
+    "correctRate": 0.96875,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 2
+  },
+  {
+    "variant": "A1P0Q1S1",
+    "seed": 103,
+    "tick": 1536,
+    "returnPerEpisode": 3.34375,
+    "correctRate": 0.984375,
+    "landmarks": 2,
+    "predictorRows": 0,
+    "acceptedEdits": 2
+  },
+  {
+    "variant": "A0P1Q1S1",
+    "seed": 103,
+    "tick": 128,
+    "returnPerEpisode": -0.5,
+    "correctRate": 0.4375,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q1S1",
+    "seed": 103,
+    "tick": 256,
+    "returnPerEpisode": -1.0625,
+    "correctRate": 0.4765625,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q1S1",
+    "seed": 103,
+    "tick": 384,
+    "returnPerEpisode": -1.6015625,
+    "correctRate": 0.421875,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q1S1",
+    "seed": 103,
+    "tick": 512,
+    "returnPerEpisode": -0.7734375,
+    "correctRate": 0.5234375,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q1S1",
+    "seed": 103,
+    "tick": 640,
+    "returnPerEpisode": -1.1796875,
+    "correctRate": 0.453125,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q1S1",
+    "seed": 103,
+    "tick": 768,
+    "returnPerEpisode": -0.84375,
+    "correctRate": 0.515625,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q1S1",
+    "seed": 103,
+    "tick": 896,
+    "returnPerEpisode": -0.8828125,
+    "correctRate": 0.453125,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q1S1",
+    "seed": 103,
+    "tick": 1024,
+    "returnPerEpisode": -0.6171875,
+    "correctRate": 0.484375,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q1S1",
+    "seed": 103,
+    "tick": 1152,
+    "returnPerEpisode": 0.3828125,
+    "correctRate": 0.609375,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q1S1",
+    "seed": 103,
+    "tick": 1280,
+    "returnPerEpisode": -0.4296875,
+    "correctRate": 0.5078125,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q1S1",
+    "seed": 103,
+    "tick": 1408,
+    "returnPerEpisode": -0.8046875,
+    "correctRate": 0.46875,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A0P1Q1S1",
+    "seed": 103,
+    "tick": 1536,
+    "returnPerEpisode": -0.28125,
+    "correctRate": 0.53125,
+    "landmarks": 0,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q1S1",
+    "seed": 103,
+    "tick": 128,
+    "returnPerEpisode": -0.5,
+    "correctRate": 0.4375,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 0
+  },
+  {
+    "variant": "A1P1Q1S1",
+    "seed": 103,
+    "tick": 256,
+    "returnPerEpisode": -0.8125,
+    "correctRate": 0.5078125,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 1
+  },
+  {
+    "variant": "A1P1Q1S1",
+    "seed": 103,
+    "tick": 384,
+    "returnPerEpisode": -0.4765625,
+    "correctRate": 0.5625,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 1
+  },
+  {
+    "variant": "A1P1Q1S1",
+    "seed": 103,
+    "tick": 512,
+    "returnPerEpisode": 2.0390625,
+    "correctRate": 0.875,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 2
+  },
+  {
+    "variant": "A1P1Q1S1",
+    "seed": 103,
+    "tick": 640,
+    "returnPerEpisode": 2.8203125,
+    "correctRate": 0.953125,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 2
+  },
+  {
+    "variant": "A1P1Q1S1",
+    "seed": 103,
+    "tick": 768,
+    "returnPerEpisode": 2.90625,
+    "correctRate": 0.984375,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 2
+  },
+  {
+    "variant": "A1P1Q1S1",
+    "seed": 103,
+    "tick": 896,
+    "returnPerEpisode": 3.2421875,
+    "correctRate": 0.96875,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 2
+  },
+  {
+    "variant": "A1P1Q1S1",
+    "seed": 103,
+    "tick": 1024,
+    "returnPerEpisode": 3.1953125,
+    "correctRate": 0.9609375,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 2
+  },
+  {
+    "variant": "A1P1Q1S1",
+    "seed": 103,
+    "tick": 1152,
+    "returnPerEpisode": 3.3203125,
+    "correctRate": 0.9765625,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 2
+  },
+  {
+    "variant": "A1P1Q1S1",
+    "seed": 103,
+    "tick": 1280,
+    "returnPerEpisode": 3.0078125,
+    "correctRate": 0.9375,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 2
+  },
+  {
+    "variant": "A1P1Q1S1",
+    "seed": 103,
+    "tick": 1408,
+    "returnPerEpisode": 3.1953125,
+    "correctRate": 0.96875,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 2
+  },
+  {
+    "variant": "A1P1Q1S1",
+    "seed": 103,
+    "tick": 1536,
+    "returnPerEpisode": 3.40625,
+    "correctRate": 0.9921875,
+    "landmarks": 2,
+    "predictorRows": 4,
+    "acceptedEdits": 2
+  }
+]

@@ -1,0 +1,162 @@
+[
+  {
+    "seed": 600,
+    "arm": "no-interpretation-learning",
+    "filename": "600-no-interpretation-learning.gojo",
+    "signatureMatched": true,
+    "monetaryMatched": true,
+    "aliasesMatched": true,
+    "behavior": {
+      "matched": true,
+      "samplesReplayed": 4,
+      "continuedMoneyConserved": true,
+      "attentionSpent": 8,
+      "scope": "Retained ordinal anchors or fresh presence-only requests; reconnected ordered fixture; paid gate continuation. No novel-sample world reconnection."
+    },
+    "bytes": 1635591
+  },
+  {
+    "seed": 600,
+    "arm": "always/upfront",
+    "filename": "600-always-upfront.gojo",
+    "signatureMatched": true,
+    "monetaryMatched": true,
+    "aliasesMatched": true,
+    "behavior": {
+      "matched": true,
+      "samplesReplayed": 12,
+      "continuedMoneyConserved": true,
+      "attentionSpent": 8,
+      "scope": "Retained ordinal anchors or fresh presence-only requests; reconnected ordered fixture; paid gate continuation. No novel-sample world reconnection."
+    },
+    "bytes": 2855791
+  },
+  {
+    "seed": 600,
+    "arm": "error/upfront",
+    "filename": "600-error-upfront.gojo",
+    "signatureMatched": true,
+    "monetaryMatched": true,
+    "aliasesMatched": true,
+    "behavior": {
+      "matched": true,
+      "samplesReplayed": 12,
+      "continuedMoneyConserved": true,
+      "attentionSpent": 6,
+      "scope": "Retained ordinal anchors or fresh presence-only requests; reconnected ordered fixture; paid gate continuation. No novel-sample world reconnection."
+    },
+    "bytes": 2769112
+  },
+  {
+    "seed": 600,
+    "arm": "matched/error/upfront",
+    "filename": "600-matched-error-upfront.gojo",
+    "signatureMatched": true,
+    "monetaryMatched": true,
+    "aliasesMatched": true,
+    "behavior": {
+      "matched": true,
+      "samplesReplayed": 6,
+      "continuedMoneyConserved": true,
+      "attentionSpent": 6,
+      "scope": "Retained ordinal anchors or fresh presence-only requests; reconnected ordered fixture; paid gate continuation. No novel-sample world reconnection."
+    },
+    "bytes": 2539077
+  },
+  {
+    "seed": 600,
+    "arm": "opportunity/upfront",
+    "filename": "600-opportunity-upfront.gojo",
+    "signatureMatched": true,
+    "monetaryMatched": true,
+    "aliasesMatched": true,
+    "behavior": {
+      "matched": true,
+      "samplesReplayed": 6,
+      "continuedMoneyConserved": true,
+      "attentionSpent": 6,
+      "scope": "Retained ordinal anchors or fresh presence-only requests; reconnected ordered fixture; paid gate continuation. No novel-sample world reconnection."
+    },
+    "bytes": 2559069
+  },
+  {
+    "seed": 600,
+    "arm": "opportunity/success-paid",
+    "filename": "600-opportunity-success-paid.gojo",
+    "signatureMatched": true,
+    "monetaryMatched": true,
+    "aliasesMatched": true,
+    "behavior": {
+      "matched": true,
+      "samplesReplayed": 7,
+      "continuedMoneyConserved": true,
+      "attentionSpent": 6,
+      "scope": "Retained ordinal anchors or fresh presence-only requests; reconnected ordered fixture; paid gate continuation. No novel-sample world reconnection."
+    },
+    "bytes": 2571582
+  },
+  {
+    "seed": 600,
+    "arm": "opportunity/success-paid/use-reset",
+    "filename": "600-opportunity-success-paid-use-reset.gojo",
+    "signatureMatched": true,
+    "monetaryMatched": true,
+    "aliasesMatched": true,
+    "behavior": {
+      "matched": true,
+      "samplesReplayed": 5,
+      "continuedMoneyConserved": true,
+      "attentionSpent": 7,
+      "scope": "Retained ordinal anchors or fresh presence-only requests; reconnected ordered fixture; paid gate continuation. No novel-sample world reconnection."
+    },
+    "bytes": 2297406
+  },
+  {
+    "seed": 600,
+    "arm": "opportunity/success-paid/withdrawn",
+    "filename": "600-opportunity-success-paid-withdrawn.gojo",
+    "signatureMatched": true,
+    "monetaryMatched": true,
+    "aliasesMatched": true,
+    "behavior": {
+      "matched": true,
+      "samplesReplayed": 7,
+      "continuedMoneyConserved": true,
+      "attentionSpent": 7,
+      "scope": "Retained ordinal anchors or fresh presence-only requests; reconnected ordered fixture; paid gate continuation. No novel-sample world reconnection."
+    },
+    "bytes": 2545596
+  },
+  {
+    "seed": 600,
+    "arm": "opportunity/success-paid/no-renewal",
+    "filename": "600-opportunity-success-paid-no-renewal.gojo",
+    "signatureMatched": true,
+    "monetaryMatched": true,
+    "aliasesMatched": true,
+    "behavior": {
+      "matched": true,
+      "samplesReplayed": 12,
+      "continuedMoneyConserved": true,
+      "attentionSpent": 6,
+      "scope": "Retained ordinal anchors or fresh presence-only requests; reconnected ordered fixture; paid gate continuation. No novel-sample world reconnection."
+    },
+    "bytes": 2573768
+  },
+  {
+    "seed": 600,
+    "arm": "opportunity/success-paid/early-cutoff",
+    "filename": "600-opportunity-success-paid-early-cutoff.gojo",
+    "signatureMatched": true,
+    "monetaryMatched": true,
+    "aliasesMatched": true,
+    "behavior": {
+      "matched": true,
+      "samplesReplayed": 11,
+      "continuedMoneyConserved": true,
+      "attentionSpent": 6,
+      "scope": "Retained ordinal anchors or fresh presence-only requests; reconnected ordered fixture; paid gate continuation. No novel-sample world reconnection."
+    },
+    "bytes": 2624094
+  }
+]

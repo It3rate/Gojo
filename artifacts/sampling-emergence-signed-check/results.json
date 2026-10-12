@@ -1,0 +1,884 @@
+{
+  "metadata": {
+    "schema": "sampling-emergence-v1",
+    "generatedAt": "2026-10-11T14:25:19.1257367+00:00",
+    "ordinalRescalingInvariant": true,
+    "sourceBoundary": "Private fixture values are display references. The ordinal learner receives only presence and requested -1/0/\u002B1 comparison witnesses.",
+    "limits": "Landmark rank and repeated sampling do not establish distance, equal spacing, a probability model, or a nominal size series.",
+    "historyPolicy": "The landmark budget limits retained comparison anchors; this small fixture deliberately retains all visits and their witnesses.",
+    "nativeFormatVersion": 2
+  },
+  "scenarios": [
+    {
+      "id": "sparse_presence",
+      "title": "An irregular signal",
+      "description": "Presence and relative ordering, with repeated values and a limited landmark budget.",
+      "budget": 2,
+      "steps": [
+        {
+          "index": 1,
+          "eventId": 1,
+          "sourceValue": -3,
+          "exists": true,
+          "presence": 1,
+          "direction": null,
+          "landmarks": [
+            {
+              "eventId": 1,
+              "sourceValue": -3
+            }
+          ],
+          "bucket": {
+            "lowerEventId": 1,
+            "upperEventId": 1,
+            "equal": true,
+            "resolved": true
+          },
+          "landmarkCount": 1,
+          "sampleCount": 1,
+          "comparisonCount": 0,
+          "metricAvailable": false,
+          "metricValues": [],
+          "nominalAvailable": false,
+          "archiveBytes": 4113,
+          "historySamples": 1,
+          "unresolved": false,
+          "phase": "ordinal",
+          "basisLabel": null,
+          "archiveFile": "sparse_presence-01.gojo",
+          "archiveCarriers": 16,
+          "archiveRelations": 94
+        },
+        {
+          "index": 2,
+          "eventId": 2,
+          "sourceValue": -1,
+          "exists": true,
+          "presence": 1,
+          "direction": 1,
+          "landmarks": [
+            {
+              "eventId": 1,
+              "sourceValue": -3
+            },
+            {
+              "eventId": 2,
+              "sourceValue": -1
+            }
+          ],
+          "bucket": {
+            "lowerEventId": 2,
+            "upperEventId": 2,
+            "equal": true,
+            "resolved": true
+          },
+          "landmarkCount": 2,
+          "sampleCount": 2,
+          "comparisonCount": 1,
+          "metricAvailable": false,
+          "metricValues": [],
+          "nominalAvailable": false,
+          "archiveBytes": 7196,
+          "historySamples": 2,
+          "unresolved": false,
+          "phase": "ordinal",
+          "basisLabel": null,
+          "archiveFile": "sparse_presence-02.gojo",
+          "archiveCarriers": 26,
+          "archiveRelations": 177
+        },
+        {
+          "index": 3,
+          "eventId": 3,
+          "sourceValue": 0,
+          "exists": false,
+          "presence": 0,
+          "direction": null,
+          "landmarks": [
+            {
+              "eventId": 1,
+              "sourceValue": -3
+            },
+            {
+              "eventId": 2,
+              "sourceValue": -1
+            }
+          ],
+          "bucket": {
+            "lowerEventId": null,
+            "upperEventId": null,
+            "equal": false,
+            "resolved": false
+          },
+          "landmarkCount": 2,
+          "sampleCount": 3,
+          "comparisonCount": 1,
+          "metricAvailable": false,
+          "metricValues": [],
+          "nominalAvailable": false,
+          "archiveBytes": 9243,
+          "historySamples": 3,
+          "unresolved": false,
+          "phase": "ordinal",
+          "basisLabel": null,
+          "archiveFile": "sparse_presence-03.gojo",
+          "archiveCarriers": 33,
+          "archiveRelations": 230
+        },
+        {
+          "index": 4,
+          "eventId": 4,
+          "sourceValue": 4,
+          "exists": true,
+          "presence": 1,
+          "direction": 1,
+          "landmarks": [
+            {
+              "eventId": 1,
+              "sourceValue": -3
+            },
+            {
+              "eventId": 2,
+              "sourceValue": -1
+            }
+          ],
+          "bucket": {
+            "lowerEventId": 2,
+            "upperEventId": null,
+            "equal": false,
+            "resolved": true
+          },
+          "landmarkCount": 2,
+          "sampleCount": 4,
+          "comparisonCount": 2,
+          "metricAvailable": false,
+          "metricValues": [],
+          "nominalAvailable": false,
+          "archiveBytes": 12080,
+          "historySamples": 4,
+          "unresolved": false,
+          "phase": "ordinal",
+          "basisLabel": null,
+          "archiveFile": "sparse_presence-04.gojo",
+          "archiveCarriers": 42,
+          "archiveRelations": 307
+        },
+        {
+          "index": 5,
+          "eventId": 5,
+          "sourceValue": 4,
+          "exists": true,
+          "presence": 1,
+          "direction": 0,
+          "landmarks": [
+            {
+              "eventId": 1,
+              "sourceValue": -3
+            },
+            {
+              "eventId": 2,
+              "sourceValue": -1
+            }
+          ],
+          "bucket": {
+            "lowerEventId": 2,
+            "upperEventId": null,
+            "equal": false,
+            "resolved": true
+          },
+          "landmarkCount": 2,
+          "sampleCount": 5,
+          "comparisonCount": 4,
+          "metricAvailable": false,
+          "metricValues": [],
+          "nominalAvailable": false,
+          "archiveBytes": 15712,
+          "historySamples": 5,
+          "unresolved": false,
+          "phase": "ordinal",
+          "basisLabel": null,
+          "archiveFile": "sparse_presence-05.gojo",
+          "archiveCarriers": 53,
+          "archiveRelations": 408
+        },
+        {
+          "index": 6,
+          "eventId": 6,
+          "sourceValue": -2,
+          "exists": true,
+          "presence": 1,
+          "direction": -1,
+          "landmarks": [
+            {
+              "eventId": 1,
+              "sourceValue": -3
+            },
+            {
+              "eventId": 2,
+              "sourceValue": -1
+            }
+          ],
+          "bucket": {
+            "lowerEventId": 1,
+            "upperEventId": 2,
+            "equal": false,
+            "resolved": true
+          },
+          "landmarkCount": 2,
+          "sampleCount": 6,
+          "comparisonCount": 7,
+          "metricAvailable": false,
+          "metricValues": [],
+          "nominalAvailable": false,
+          "archiveBytes": 20134,
+          "historySamples": 6,
+          "unresolved": false,
+          "phase": "ordinal",
+          "basisLabel": null,
+          "archiveFile": "sparse_presence-06.gojo",
+          "archiveCarriers": 66,
+          "archiveRelations": 533
+        },
+        {
+          "index": 7,
+          "eventId": 6,
+          "sourceValue": -2,
+          "exists": true,
+          "presence": 1,
+          "direction": -1,
+          "landmarks": [
+            {
+              "eventId": 1,
+              "sourceValue": -3
+            },
+            {
+              "eventId": 2,
+              "sourceValue": -1
+            }
+          ],
+          "bucket": {
+            "lowerEventId": 1,
+            "upperEventId": 2,
+            "equal": false,
+            "resolved": true
+          },
+          "landmarkCount": 2,
+          "sampleCount": 6,
+          "comparisonCount": 7,
+          "metricAvailable": true,
+          "metricValues": [
+            {
+              "eventId": 1,
+              "value": -3,
+              "unit": "fixture ticks",
+              "lower": -3,
+              "upper": -3
+            },
+            {
+              "eventId": 2,
+              "value": -1,
+              "unit": "fixture ticks",
+              "lower": -1,
+              "upper": -1
+            },
+            {
+              "eventId": 4,
+              "value": 4,
+              "unit": "fixture ticks",
+              "lower": 4,
+              "upper": 4
+            },
+            {
+              "eventId": 5,
+              "value": 4,
+              "unit": "fixture ticks",
+              "lower": 4,
+              "upper": 4
+            },
+            {
+              "eventId": 6,
+              "value": -2,
+              "unit": "fixture ticks",
+              "lower": -2,
+              "upper": -2
+            }
+          ],
+          "nominalAvailable": false,
+          "archiveBytes": 37381,
+          "historySamples": 6,
+          "unresolved": false,
+          "phase": "metric",
+          "basisLabel": "Explicit fixture integer calibration",
+          "archiveFile": "sparse_presence-07.gojo",
+          "archiveCarriers": 89,
+          "archiveRelations": 1115
+        }
+      ],
+      "summary": {
+        "acquisitions": 6,
+        "presentAcquisitions": 5,
+        "distinctPresentFixtureValues": 4,
+        "finalLandmarks": 2,
+        "comparisonQueries": 7,
+        "allArchiveBytes": 105859,
+        "finalArchiveBytes": 37381,
+        "coarseIntervalVisits": 3,
+        "metricAvailable": true,
+        "unresolvedVisits": 0
+      }
+    },
+    {
+      "id": "rescaled_presence",
+      "title": "The same signal, rescaled",
+      "description": "Private values become 100 \u00D7 value \u002B 1000. Presence is unchanged, including missing samples.",
+      "budget": 2,
+      "steps": [
+        {
+          "index": 1,
+          "eventId": 1,
+          "sourceValue": 700,
+          "exists": true,
+          "presence": 1,
+          "direction": null,
+          "landmarks": [
+            {
+              "eventId": 1,
+              "sourceValue": 700
+            }
+          ],
+          "bucket": {
+            "lowerEventId": 1,
+            "upperEventId": 1,
+            "equal": true,
+            "resolved": true
+          },
+          "landmarkCount": 1,
+          "sampleCount": 1,
+          "comparisonCount": 0,
+          "metricAvailable": false,
+          "metricValues": [],
+          "nominalAvailable": false,
+          "archiveBytes": 4113,
+          "historySamples": 1,
+          "unresolved": false,
+          "phase": "ordinal",
+          "basisLabel": null,
+          "archiveFile": "rescaled_presence-01.gojo",
+          "archiveCarriers": 16,
+          "archiveRelations": 94
+        },
+        {
+          "index": 2,
+          "eventId": 2,
+          "sourceValue": 900,
+          "exists": true,
+          "presence": 1,
+          "direction": 1,
+          "landmarks": [
+            {
+              "eventId": 1,
+              "sourceValue": 700
+            },
+            {
+              "eventId": 2,
+              "sourceValue": 900
+            }
+          ],
+          "bucket": {
+            "lowerEventId": 2,
+            "upperEventId": 2,
+            "equal": true,
+            "resolved": true
+          },
+          "landmarkCount": 2,
+          "sampleCount": 2,
+          "comparisonCount": 1,
+          "metricAvailable": false,
+          "metricValues": [],
+          "nominalAvailable": false,
+          "archiveBytes": 7196,
+          "historySamples": 2,
+          "unresolved": false,
+          "phase": "ordinal",
+          "basisLabel": null,
+          "archiveFile": "rescaled_presence-02.gojo",
+          "archiveCarriers": 26,
+          "archiveRelations": 177
+        },
+        {
+          "index": 3,
+          "eventId": 3,
+          "sourceValue": 1000,
+          "exists": false,
+          "presence": 0,
+          "direction": null,
+          "landmarks": [
+            {
+              "eventId": 1,
+              "sourceValue": 700
+            },
+            {
+              "eventId": 2,
+              "sourceValue": 900
+            }
+          ],
+          "bucket": {
+            "lowerEventId": null,
+            "upperEventId": null,
+            "equal": false,
+            "resolved": false
+          },
+          "landmarkCount": 2,
+          "sampleCount": 3,
+          "comparisonCount": 1,
+          "metricAvailable": false,
+          "metricValues": [],
+          "nominalAvailable": false,
+          "archiveBytes": 9243,
+          "historySamples": 3,
+          "unresolved": false,
+          "phase": "ordinal",
+          "basisLabel": null,
+          "archiveFile": "rescaled_presence-03.gojo",
+          "archiveCarriers": 33,
+          "archiveRelations": 230
+        },
+        {
+          "index": 4,
+          "eventId": 4,
+          "sourceValue": 1400,
+          "exists": true,
+          "presence": 1,
+          "direction": 1,
+          "landmarks": [
+            {
+              "eventId": 1,
+              "sourceValue": 700
+            },
+            {
+              "eventId": 2,
+              "sourceValue": 900
+            }
+          ],
+          "bucket": {
+            "lowerEventId": 2,
+            "upperEventId": null,
+            "equal": false,
+            "resolved": true
+          },
+          "landmarkCount": 2,
+          "sampleCount": 4,
+          "comparisonCount": 2,
+          "metricAvailable": false,
+          "metricValues": [],
+          "nominalAvailable": false,
+          "archiveBytes": 12080,
+          "historySamples": 4,
+          "unresolved": false,
+          "phase": "ordinal",
+          "basisLabel": null,
+          "archiveFile": "rescaled_presence-04.gojo",
+          "archiveCarriers": 42,
+          "archiveRelations": 307
+        },
+        {
+          "index": 5,
+          "eventId": 5,
+          "sourceValue": 1400,
+          "exists": true,
+          "presence": 1,
+          "direction": 0,
+          "landmarks": [
+            {
+              "eventId": 1,
+              "sourceValue": 700
+            },
+            {
+              "eventId": 2,
+              "sourceValue": 900
+            }
+          ],
+          "bucket": {
+            "lowerEventId": 2,
+            "upperEventId": null,
+            "equal": false,
+            "resolved": true
+          },
+          "landmarkCount": 2,
+          "sampleCount": 5,
+          "comparisonCount": 4,
+          "metricAvailable": false,
+          "metricValues": [],
+          "nominalAvailable": false,
+          "archiveBytes": 15712,
+          "historySamples": 5,
+          "unresolved": false,
+          "phase": "ordinal",
+          "basisLabel": null,
+          "archiveFile": "rescaled_presence-05.gojo",
+          "archiveCarriers": 53,
+          "archiveRelations": 408
+        },
+        {
+          "index": 6,
+          "eventId": 6,
+          "sourceValue": 800,
+          "exists": true,
+          "presence": 1,
+          "direction": -1,
+          "landmarks": [
+            {
+              "eventId": 1,
+              "sourceValue": 700
+            },
+            {
+              "eventId": 2,
+              "sourceValue": 900
+            }
+          ],
+          "bucket": {
+            "lowerEventId": 1,
+            "upperEventId": 2,
+            "equal": false,
+            "resolved": true
+          },
+          "landmarkCount": 2,
+          "sampleCount": 6,
+          "comparisonCount": 7,
+          "metricAvailable": false,
+          "metricValues": [],
+          "nominalAvailable": false,
+          "archiveBytes": 20134,
+          "historySamples": 6,
+          "unresolved": false,
+          "phase": "ordinal",
+          "basisLabel": null,
+          "archiveFile": "rescaled_presence-06.gojo",
+          "archiveCarriers": 66,
+          "archiveRelations": 533
+        },
+        {
+          "index": 7,
+          "eventId": 6,
+          "sourceValue": 800,
+          "exists": true,
+          "presence": 1,
+          "direction": -1,
+          "landmarks": [
+            {
+              "eventId": 1,
+              "sourceValue": 700
+            },
+            {
+              "eventId": 2,
+              "sourceValue": 900
+            }
+          ],
+          "bucket": {
+            "lowerEventId": 1,
+            "upperEventId": 2,
+            "equal": false,
+            "resolved": true
+          },
+          "landmarkCount": 2,
+          "sampleCount": 6,
+          "comparisonCount": 7,
+          "metricAvailable": true,
+          "metricValues": [
+            {
+              "eventId": 1,
+              "value": 700,
+              "unit": "fixture ticks",
+              "lower": 700,
+              "upper": 700
+            },
+            {
+              "eventId": 2,
+              "value": 900,
+              "unit": "fixture ticks",
+              "lower": 900,
+              "upper": 900
+            },
+            {
+              "eventId": 4,
+              "value": 1400,
+              "unit": "fixture ticks",
+              "lower": 1400,
+              "upper": 1400
+            },
+            {
+              "eventId": 5,
+              "value": 1400,
+              "unit": "fixture ticks",
+              "lower": 1400,
+              "upper": 1400
+            },
+            {
+              "eventId": 6,
+              "value": 800,
+              "unit": "fixture ticks",
+              "lower": 800,
+              "upper": 800
+            }
+          ],
+          "nominalAvailable": false,
+          "archiveBytes": 37381,
+          "historySamples": 6,
+          "unresolved": false,
+          "phase": "metric",
+          "basisLabel": "Explicit rescaled fixture calibration",
+          "archiveFile": "rescaled_presence-07.gojo",
+          "archiveCarriers": 89,
+          "archiveRelations": 1115
+        }
+      ],
+      "summary": {
+        "acquisitions": 6,
+        "presentAcquisitions": 5,
+        "distinctPresentFixtureValues": 4,
+        "finalLandmarks": 2,
+        "comparisonQueries": 7,
+        "allArchiveBytes": 105859,
+        "finalArchiveBytes": 37381,
+        "coarseIntervalVisits": 3,
+        "metricAvailable": true,
+        "unresolvedVisits": 0
+      }
+    },
+    {
+      "id": "distance_tiny_increment",
+      "title": "A tiny change inside a broad interval",
+      "description": "90 and 110 mile anchors, then 100 miles and 100 miles \u002B 1 mm. Distances are manually chosen test data.",
+      "budget": 2,
+      "steps": [
+        {
+          "index": 1,
+          "eventId": 1,
+          "sourceValue": 144840960,
+          "exists": true,
+          "presence": 1,
+          "direction": null,
+          "landmarks": [
+            {
+              "eventId": 1,
+              "sourceValue": 144840960
+            }
+          ],
+          "bucket": {
+            "lowerEventId": 1,
+            "upperEventId": 1,
+            "equal": true,
+            "resolved": true
+          },
+          "landmarkCount": 1,
+          "sampleCount": 1,
+          "comparisonCount": 0,
+          "metricAvailable": false,
+          "metricValues": [],
+          "nominalAvailable": false,
+          "archiveBytes": 4113,
+          "historySamples": 1,
+          "unresolved": false,
+          "phase": "ordinal",
+          "basisLabel": null,
+          "archiveFile": "distance_tiny_increment-01.gojo",
+          "archiveCarriers": 16,
+          "archiveRelations": 94
+        },
+        {
+          "index": 2,
+          "eventId": 2,
+          "sourceValue": 177027840,
+          "exists": true,
+          "presence": 1,
+          "direction": 1,
+          "landmarks": [
+            {
+              "eventId": 1,
+              "sourceValue": 144840960
+            },
+            {
+              "eventId": 2,
+              "sourceValue": 177027840
+            }
+          ],
+          "bucket": {
+            "lowerEventId": 2,
+            "upperEventId": 2,
+            "equal": true,
+            "resolved": true
+          },
+          "landmarkCount": 2,
+          "sampleCount": 2,
+          "comparisonCount": 1,
+          "metricAvailable": false,
+          "metricValues": [],
+          "nominalAvailable": false,
+          "archiveBytes": 7196,
+          "historySamples": 2,
+          "unresolved": false,
+          "phase": "ordinal",
+          "basisLabel": null,
+          "archiveFile": "distance_tiny_increment-02.gojo",
+          "archiveCarriers": 26,
+          "archiveRelations": 177
+        },
+        {
+          "index": 3,
+          "eventId": 3,
+          "sourceValue": 160934400,
+          "exists": true,
+          "presence": 1,
+          "direction": -1,
+          "landmarks": [
+            {
+              "eventId": 1,
+              "sourceValue": 144840960
+            },
+            {
+              "eventId": 2,
+              "sourceValue": 177027840
+            }
+          ],
+          "bucket": {
+            "lowerEventId": 1,
+            "upperEventId": 2,
+            "equal": false,
+            "resolved": true
+          },
+          "landmarkCount": 2,
+          "sampleCount": 3,
+          "comparisonCount": 3,
+          "metricAvailable": false,
+          "metricValues": [],
+          "nominalAvailable": false,
+          "archiveBytes": 10823,
+          "historySamples": 3,
+          "unresolved": false,
+          "phase": "ordinal",
+          "basisLabel": null,
+          "archiveFile": "distance_tiny_increment-03.gojo",
+          "archiveCarriers": 37,
+          "archiveRelations": 278
+        },
+        {
+          "index": 4,
+          "eventId": 4,
+          "sourceValue": 160934401,
+          "exists": true,
+          "presence": 1,
+          "direction": 1,
+          "landmarks": [
+            {
+              "eventId": 1,
+              "sourceValue": 144840960
+            },
+            {
+              "eventId": 2,
+              "sourceValue": 177027840
+            }
+          ],
+          "bucket": {
+            "lowerEventId": 1,
+            "upperEventId": 2,
+            "equal": false,
+            "resolved": true
+          },
+          "landmarkCount": 2,
+          "sampleCount": 4,
+          "comparisonCount": 6,
+          "metricAvailable": false,
+          "metricValues": [],
+          "nominalAvailable": false,
+          "archiveBytes": 15245,
+          "historySamples": 4,
+          "unresolved": false,
+          "phase": "ordinal",
+          "basisLabel": null,
+          "archiveFile": "distance_tiny_increment-04.gojo",
+          "archiveCarriers": 50,
+          "archiveRelations": 403
+        },
+        {
+          "index": 5,
+          "eventId": 4,
+          "sourceValue": 160934401,
+          "exists": true,
+          "presence": 1,
+          "direction": 1,
+          "landmarks": [
+            {
+              "eventId": 1,
+              "sourceValue": 144840960
+            },
+            {
+              "eventId": 2,
+              "sourceValue": 177027840
+            }
+          ],
+          "bucket": {
+            "lowerEventId": 1,
+            "upperEventId": 2,
+            "equal": false,
+            "resolved": true
+          },
+          "landmarkCount": 2,
+          "sampleCount": 4,
+          "comparisonCount": 6,
+          "metricAvailable": true,
+          "metricValues": [
+            {
+              "eventId": 1,
+              "value": 144840960,
+              "unit": "mm",
+              "lower": 144840960,
+              "upper": 144840960
+            },
+            {
+              "eventId": 2,
+              "value": 177027840,
+              "unit": "mm",
+              "lower": 177027840,
+              "upper": 177027840
+            },
+            {
+              "eventId": 3,
+              "value": 160934400,
+              "unit": "mm",
+              "lower": 160934400,
+              "upper": 160934400
+            },
+            {
+              "eventId": 4,
+              "value": 160934401,
+              "unit": "mm",
+              "lower": 160934401,
+              "upper": 160934401
+            }
+          ],
+          "nominalAvailable": false,
+          "archiveBytes": 29814,
+          "historySamples": 4,
+          "unresolved": false,
+          "phase": "metric",
+          "basisLabel": "Millimetres, explicitly calibrated: 1 mile = 1,609,344 mm",
+          "archiveFile": "distance_tiny_increment-05.gojo",
+          "archiveCarriers": 71,
+          "archiveRelations": 886
+        }
+      ],
+      "summary": {
+        "acquisitions": 4,
+        "presentAcquisitions": 4,
+        "distinctPresentFixtureValues": 4,
+        "finalLandmarks": 2,
+        "comparisonQueries": 6,
+        "allArchiveBytes": 67191,
+        "finalArchiveBytes": 29814,
+        "coarseIntervalVisits": 2,
+        "metricAvailable": true,
+        "unresolvedVisits": 0
+      }
+    }
+  ]
+}

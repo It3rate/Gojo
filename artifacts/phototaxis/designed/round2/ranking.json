@@ -1,0 +1,402 @@
+[
+  {
+    "design": {
+      "Name": "R2-19",
+      "Seek": 8,
+      "Feed": 5,
+      "Escape": 8,
+      "LeaveAt": 14,
+      "ResumeAt": 12,
+      "Gain": 4,
+      "TurnLimit": 6,
+      "SearchBias": 0,
+      "FeedBrightness": 12,
+      "Deadband": 0,
+      "Normalized": false,
+      "BangBang": false
+    },
+    "meanPopulationSeconds": 6323.425,
+    "meanAlive": 44,
+    "meanBirths": 27
+  },
+  {
+    "design": {
+      "Name": "R2-12",
+      "Seek": 8,
+      "Feed": 5,
+      "Escape": 8,
+      "LeaveAt": 12,
+      "ResumeAt": 0,
+      "Gain": 8,
+      "TurnLimit": 8,
+      "SearchBias": 0,
+      "FeedBrightness": 12,
+      "Deadband": 0,
+      "Normalized": false,
+      "BangBang": false
+    },
+    "meanPopulationSeconds": 6082.425,
+    "meanAlive": 43,
+    "meanBirths": 24.5
+  },
+  {
+    "design": {
+      "Name": "R2-03",
+      "Seek": 8,
+      "Feed": 3,
+      "Escape": 10,
+      "LeaveAt": 12,
+      "ResumeAt": 0,
+      "Gain": 4,
+      "TurnLimit": 6,
+      "SearchBias": 0,
+      "FeedBrightness": 12,
+      "Deadband": 0,
+      "Normalized": false,
+      "BangBang": false
+    },
+    "meanPopulationSeconds": 6051.025,
+    "meanAlive": 40,
+    "meanBirths": 24
+  },
+  {
+    "design": {
+      "Name": "R2-02",
+      "Seek": 8,
+      "Feed": 4,
+      "Escape": 10,
+      "LeaveAt": 12,
+      "ResumeAt": 0,
+      "Gain": 4,
+      "TurnLimit": 6,
+      "SearchBias": 0,
+      "FeedBrightness": 12,
+      "Deadband": 0,
+      "Normalized": false,
+      "BangBang": false
+    },
+    "meanPopulationSeconds": 6030.775,
+    "meanAlive": 39,
+    "meanBirths": 22.5
+  },
+  {
+    "design": {
+      "Name": "R2-20",
+      "Seek": 8,
+      "Feed": 4,
+      "Escape": 6,
+      "LeaveAt": 13,
+      "ResumeAt": 0,
+      "Gain": 45,
+      "TurnLimit": 6,
+      "SearchBias": 0,
+      "FeedBrightness": 12,
+      "Deadband": 0,
+      "Normalized": true,
+      "BangBang": false
+    },
+    "meanPopulationSeconds": 6024.425,
+    "meanAlive": 43,
+    "meanBirths": 24.5
+  },
+  {
+    "design": {
+      "Name": "R2-01",
+      "Seek": 8,
+      "Feed": 5,
+      "Escape": 10,
+      "LeaveAt": 12,
+      "ResumeAt": 0,
+      "Gain": 4,
+      "TurnLimit": 6,
+      "SearchBias": 0,
+      "FeedBrightness": 12,
+      "Deadband": 0,
+      "Normalized": false,
+      "BangBang": false
+    },
+    "meanPopulationSeconds": 5999.575,
+    "meanAlive": 39.5,
+    "meanBirths": 21.5
+  },
+  {
+    "design": {
+      "Name": "R2-11",
+      "Seek": 8,
+      "Feed": 5,
+      "Escape": 8,
+      "LeaveAt": 12,
+      "ResumeAt": 0,
+      "Gain": 6,
+      "TurnLimit": 8,
+      "SearchBias": 0,
+      "FeedBrightness": 12,
+      "Deadband": 0,
+      "Normalized": false,
+      "BangBang": false
+    },
+    "meanPopulationSeconds": 5991.075,
+    "meanAlive": 41,
+    "meanBirths": 23
+  },
+  {
+    "design": {
+      "Name": "R2-05",
+      "Seek": 10,
+      "Feed": 5,
+      "Escape": 10,
+      "LeaveAt": 12,
+      "ResumeAt": 0,
+      "Gain": 4,
+      "TurnLimit": 6,
+      "SearchBias": 0,
+      "FeedBrightness": 12,
+      "Deadband": 0,
+      "Normalized": false,
+      "BangBang": false
+    },
+    "meanPopulationSeconds": 5961.875,
+    "meanAlive": 39,
+    "meanBirths": 21
+  },
+  {
+    "design": {
+      "Name": "R2-09",
+      "Seek": 8,
+      "Feed": 5,
+      "Escape": 8,
+      "LeaveAt": 12,
+      "ResumeAt": 0,
+      "Gain": 4,
+      "TurnLimit": 6,
+      "SearchBias": 0,
+      "FeedBrightness": 12,
+      "Deadband": 0,
+      "Normalized": false,
+      "BangBang": false
+    },
+    "meanPopulationSeconds": 5826.875,
+    "meanAlive": 38.5,
+    "meanBirths": 21
+  },
+  {
+    "design": {
+      "Name": "R2-15",
+      "Seek": 8,
+      "Feed": 5,
+      "Escape": 8,
+      "LeaveAt": 14,
+      "ResumeAt": 0,
+      "Gain": 4,
+      "TurnLimit": 6,
+      "SearchBias": 0,
+      "FeedBrightness": 12,
+      "Deadband": 0,
+      "Normalized": false,
+      "BangBang": false
+    },
+    "meanPopulationSeconds": 5817.175,
+    "meanAlive": 39.5,
+    "meanBirths": 22.5
+  },
+  {
+    "design": {
+      "Name": "R2-18",
+      "Seek": 8,
+      "Feed": 5,
+      "Escape": 8,
+      "LeaveAt": 13,
+      "ResumeAt": 11,
+      "Gain": 4,
+      "TurnLimit": 6,
+      "SearchBias": 0,
+      "FeedBrightness": 12,
+      "Deadband": 0,
+      "Normalized": false,
+      "BangBang": false
+    },
+    "meanPopulationSeconds": 5748.275,
+    "meanAlive": 37.5,
+    "meanBirths": 21
+  },
+  {
+    "design": {
+      "Name": "R2-14",
+      "Seek": 8,
+      "Feed": 5,
+      "Escape": 8,
+      "LeaveAt": 13,
+      "ResumeAt": 0,
+      "Gain": 4,
+      "TurnLimit": 6,
+      "SearchBias": 0,
+      "FeedBrightness": 12,
+      "Deadband": 0,
+      "Normalized": false,
+      "BangBang": false
+    },
+    "meanPopulationSeconds": 5675.475,
+    "meanAlive": 37,
+    "meanBirths": 20
+  },
+  {
+    "design": {
+      "Name": "R2-17",
+      "Seek": 8,
+      "Feed": 5,
+      "Escape": 8,
+      "LeaveAt": 12,
+      "ResumeAt": 11,
+      "Gain": 4,
+      "TurnLimit": 6,
+      "SearchBias": 0,
+      "FeedBrightness": 12,
+      "Deadband": 0,
+      "Normalized": false,
+      "BangBang": false
+    },
+    "meanPopulationSeconds": 5672.674999999999,
+    "meanAlive": 38,
+    "meanBirths": 19.5
+  },
+  {
+    "design": {
+      "Name": "R2-16",
+      "Seek": 8,
+      "Feed": 5,
+      "Escape": 8,
+      "LeaveAt": 15,
+      "ResumeAt": 0,
+      "Gain": 4,
+      "TurnLimit": 6,
+      "SearchBias": 0,
+      "FeedBrightness": 12,
+      "Deadband": 0,
+      "Normalized": false,
+      "BangBang": false
+    },
+    "meanPopulationSeconds": 5595.674999999999,
+    "meanAlive": 40,
+    "meanBirths": 21
+  },
+  {
+    "design": {
+      "Name": "R2-08",
+      "Seek": 8,
+      "Feed": 5,
+      "Escape": 4,
+      "LeaveAt": 12,
+      "ResumeAt": 0,
+      "Gain": 4,
+      "TurnLimit": 6,
+      "SearchBias": 0,
+      "FeedBrightness": 12,
+      "Deadband": 0,
+      "Normalized": false,
+      "BangBang": false
+    },
+    "meanPopulationSeconds": 5556.675,
+    "meanAlive": 38,
+    "meanBirths": 20
+  },
+  {
+    "design": {
+      "Name": "R2-10",
+      "Seek": 8,
+      "Feed": 5,
+      "Escape": 8,
+      "LeaveAt": 12,
+      "ResumeAt": 0,
+      "Gain": 3,
+      "TurnLimit": 4,
+      "SearchBias": 0,
+      "FeedBrightness": 12,
+      "Deadband": 0,
+      "Normalized": false,
+      "BangBang": false
+    },
+    "meanPopulationSeconds": 5548.975,
+    "meanAlive": 35,
+    "meanBirths": 18
+  },
+  {
+    "design": {
+      "Name": "R2-07",
+      "Seek": 8,
+      "Feed": 5,
+      "Escape": 5,
+      "LeaveAt": 12,
+      "ResumeAt": 0,
+      "Gain": 4,
+      "TurnLimit": 6,
+      "SearchBias": 0,
+      "FeedBrightness": 12,
+      "Deadband": 0,
+      "Normalized": false,
+      "BangBang": false
+    },
+    "meanPopulationSeconds": 5511.375,
+    "meanAlive": 38.5,
+    "meanBirths": 19.5
+  },
+  {
+    "design": {
+      "Name": "R2-06",
+      "Seek": 8,
+      "Feed": 5,
+      "Escape": 6,
+      "LeaveAt": 12,
+      "ResumeAt": 0,
+      "Gain": 4,
+      "TurnLimit": 6,
+      "SearchBias": 0,
+      "FeedBrightness": 12,
+      "Deadband": 0,
+      "Normalized": false,
+      "BangBang": false
+    },
+    "meanPopulationSeconds": 5485.175,
+    "meanAlive": 35.5,
+    "meanBirths": 18.5
+  },
+  {
+    "design": {
+      "Name": "R2-13",
+      "Seek": 8,
+      "Feed": 5,
+      "Escape": 8,
+      "LeaveAt": 12,
+      "ResumeAt": 0,
+      "Gain": 4,
+      "TurnLimit": 3,
+      "SearchBias": 0,
+      "FeedBrightness": 12,
+      "Deadband": 0,
+      "Normalized": false,
+      "BangBang": false
+    },
+    "meanPopulationSeconds": 5236.275,
+    "meanAlive": 32.5,
+    "meanBirths": 15.5
+  },
+  {
+    "design": {
+      "Name": "R2-04",
+      "Seek": 6,
+      "Feed": 5,
+      "Escape": 8,
+      "LeaveAt": 12,
+      "ResumeAt": 0,
+      "Gain": 4,
+      "TurnLimit": 6,
+      "SearchBias": 0,
+      "FeedBrightness": 12,
+      "Deadband": 0,
+      "Normalized": false,
+      "BangBang": false
+    },
+    "meanPopulationSeconds": 5071.275,
+    "meanAlive": 33,
+    "meanBirths": 15
+  }
+]

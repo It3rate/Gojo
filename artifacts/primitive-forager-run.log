@@ -1,0 +1,266 @@
+full_s7_packed_e0_mirror: cycles 51, starvation 20, heat 0, optional queries 1157, 5453ms
+no_presence_s7_packed_e0_mirror: cycles 40, starvation 46, heat 0, optional queries 1235, 4360ms
+no_orientation_s7_packed_e0_mirror: cycles 0, starvation 1517, heat 0, optional queries 1332, 5128ms
+no_fast_s7_packed_e0_mirror: cycles 64, starvation 0, heat 0, optional queries 1571, 3988ms
+no_slow_s7_packed_e0_mirror: cycles 58, starvation 0, heat 0, optional queries 1325, 3718ms
+no_budget_s7_packed_e0_mirror: cycles 57, starvation 0, heat 0, optional queries 963, 3823ms
+no_refinement_s7_packed_e0_mirror: cycles 57, starvation 0, heat 0, optional queries 704, 3566ms
+always_fine_s7_packed_e0_mirror: cycles 4, starvation 699, heat 0, optional queries 4183, 4288ms
+neutral_s7_packed_e0_mirror: cycles 0, starvation 1497, heat 0, optional queries 0, 3154ms
+full_s19_packed_e0_mirror: cycles 34, starvation 175, heat 0, optional queries 1239, 3760ms
+no_presence_s19_packed_e0_mirror: cycles 10, starvation 205, heat 0, optional queries 1257, 3739ms
+no_orientation_s19_packed_e0_mirror: cycles 0, starvation 1517, heat 0, optional queries 1303, 4293ms
+no_fast_s19_packed_e0_mirror: cycles 67, starvation 2, heat 0, optional queries 1731, 3965ms
+no_slow_s19_packed_e0_mirror: cycles 42, starvation 33, heat 0, optional queries 1217, 3560ms
+no_budget_s19_packed_e0_mirror: cycles 57, starvation 0, heat 0, optional queries 1121, 3568ms
+no_refinement_s19_packed_e0_mirror: cycles 32, starvation 49, heat 11, optional queries 763, 3892ms
+always_fine_s19_packed_e0_mirror: cycles 3, starvation 412, heat 11, optional queries 3998, 3948ms
+neutral_s19_packed_e0_mirror: cycles 0, starvation 1497, heat 0, optional queries 0, 3407ms
+full_s31_packed_e0_mirror: cycles 52, starvation 5, heat 0, optional queries 1236, 4273ms
+no_presence_s31_packed_e0_mirror: cycles 12, starvation 140, heat 0, optional queries 1292, 4218ms
+no_orientation_s31_packed_e0_mirror: cycles 0, starvation 1517, heat 0, optional queries 1308, 3808ms
+no_fast_s31_packed_e0_mirror: cycles 64, starvation 5, heat 0, optional queries 1637, 3832ms
+no_slow_s31_packed_e0_mirror: cycles 55, starvation 10, heat 0, optional queries 1291, 3376ms
+no_budget_s31_packed_e0_mirror: cycles 52, starvation 5, heat 0, optional queries 1216, 3598ms
+no_refinement_s31_packed_e0_mirror: cycles 47, starvation 11, heat 0, optional queries 736, 3592ms
+always_fine_s31_packed_e0_mirror: cycles 5, starvation 508, heat 5, optional queries 4105, 4464ms
+neutral_s31_packed_e0_mirror: cycles 0, starvation 1497, heat 0, optional queries 0, 4499ms
+full_s43_packed_e0_mirror: cycles 37, starvation 36, heat 0, optional queries 1233, 4431ms
+no_presence_s43_packed_e0_mirror: cycles 55, starvation 0, heat 0, optional queries 1181, 3461ms
+no_orientation_s43_packed_e0_mirror: cycles 0, starvation 1517, heat 0, optional queries 1305, 4248ms
+no_fast_s43_packed_e0_mirror: cycles 62, starvation 2, heat 0, optional queries 1745, 3983ms
+no_slow_s43_packed_e0_mirror: cycles 41, starvation 55, heat 0, optional queries 1158, 3843ms
+no_budget_s43_packed_e0_mirror: cycles 41, starvation 9, heat 0, optional queries 1212, 4409ms
+no_refinement_s43_packed_e0_mirror: cycles 37, starvation 29, heat 9, optional queries 809, 3838ms
+always_fine_s43_packed_e0_mirror: cycles 2, starvation 480, heat 5, optional queries 4111, 4165ms
+neutral_s43_packed_e0_mirror: cycles 0, starvation 1466, heat 0, optional queries 1, 3129ms
+{
+  "output": "D:\\source\\repos\\It3rate\\Gojo-phototaxis\\artifacts\\primitive-forager",
+  "ticks": 1536,
+  "totalTicks": 62976,
+  "diagnostics": [
+    {
+      "title": "Warmup is not a zero score",
+      "capability": "unknown / relative reference",
+      "passed": true,
+      "description": "The first present acquisition has no reference score. A second equal acquisition produces a native zero score with all comparison signs equal. The private fixture value is zero in both cases; that value is never published as a brightness coordinate.",
+      "full": "presence 1, fast open, slow open; action 1 (right), mode 0, wait 0; Seek the brighter right eye; fine queries 0, spatial queries 1; reserve/heat forecast open/open",
+      "without": "presence 1, fast 0, slow 0; action 1 (right), mode 0, wait 0; Seek the brighter right eye; fine queries 0, spatial queries 1; reserve/heat forecast open/open"
+    },
+    {
+      "title": "Missing, absent, and present zero stay distinct",
+      "capability": "presence / unknown",
+      "passed": true,
+      "description": "An unavailable acquisition exposes open presence; a dark source exposes presence 0; a present zero-valued private fixture exposes presence 1 and comparable equal events. The full controller holds for the first two with different native reasons. Removing the presence routes makes both continue.",
+      "full": "Missing: action 0 (hold), mode 0, wait 0; Unresolved acquisition: hold while preserving uncertainty; fine queries 0, spatial queries 0; reserve/heat forecast open/open; absent: action 0 (hold), mode 0, wait 0; Measured absence: conserve movement for now; fine queries 0, spatial queries 0; reserve/heat forecast open/open; present private zero: action 1 (right), mode 0, wait 0; Seek the brighter right eye; fine queries 0, spatial queries 1; reserve/heat forecast open/open",
+      "without": "Missing: action 1 (right), mode 0, wait 0; Presence handling removed: continue on open evidence; fine queries 0, spatial queries 0; reserve/heat forecast open/open; absent: action 1 (right), mode 0, wait 0; Presence handling removed: continue on open evidence; fine queries 0, spatial queries 0; reserve/heat forecast open/open"
+    },
+    {
+      "title": "Reversed eye wiring needs its installed orientation",
+      "capability": "order / orientation",
+      "passed": true,
+      "description": "The physical right eye is brighter. Mirrored wiring returns sensor order \u22121 over its actual swapped acquisition pair. The exposed inverse frame calibration maps that ordinal sign to body-right; removing it makes the same native controller choose body-left.",
+      "full": "action 1 (right), mode 0, wait 0; Seek the brighter right eye; fine queries 0, spatial queries 1; reserve/heat forecast open/open",
+      "without": "action -1 (left), mode 0, wait 0; Seek the brighter left eye; fine queries 0, spatial queries 1; reserve/heat forecast open/open"
+    },
+    {
+      "title": "A sufficient coarse support avoids extra precision",
+      "capability": "coarse support / selected precision",
+      "passed": true,
+      "description": "The exposed energy region 85..100 lies wholly above the feeding-to-cooling threshold, and heat 0..19 already establishes cooling. Finer energy and heat readings do not change this response, so the selective native query rules avoid both fees.",
+      "full": "action 0 (hold), mode 1, wait 0; Cooled with a healthy reserve: rest; fine queries 0, spatial queries 0; reserve/heat forecast open/open",
+      "without": "action 0 (hold), mode 1, wait 0; Cooled with a healthy reserve: rest; fine queries 2, spatial queries 0; reserve/heat forecast open/open"
+    },
+    {
+      "title": "Precision is useful when the same support crosses a decision",
+      "capability": "decision-driven precision",
+      "passed": true,
+      "description": "Energy 79 and 80 initially publish the same 70..84 region. A paid finite body reading resolves the native threshold: seek the brighter right side at 79, leave it to cool at 80. Without that service both remain under the same conservative coarse response.",
+      "full": "79: action 1 (right), mode 0, wait 0; Seek the brighter right eye; fine queries 1, spatial queries 1; reserve/heat forecast open/open; 80: action -1 (left), mode 1, wait 0; Cooling: leave the brighter right side; fine queries 1, spatial queries 1; reserve/heat forecast open/open",
+      "without": "79: action 1 (right), mode 0, wait 0; Seek the brighter right eye; fine queries 0, spatial queries 1; reserve/heat forecast open/open; 80: action 1 (right), mode 0, wait 0; Seek the brighter right eye; fine queries 0, spatial queries 1; reserve/heat forecast open/open"
+    },
+    {
+      "title": "Longer context can change a brief decline response",
+      "capability": "fast / slow relative reference",
+      "passed": true,
+      "description": "A private rise from 100 to 159 followed by 154 yields presence 1, fast -10, slow 8. With sufficient declared reserve and heat margin, the native rule arms a four-tick wait. Removing the slow read makes direction action-relevant and requests the eyes instead. This is an authored encounter, not a claim that waiting always helps in the habitat.",
+      "full": "action 0 (hold), mode 0, wait 4; Brief decline: budget permits a four-tick wait; fine queries 1, spatial queries 0; reserve/heat forecast [44\u202644]/[20\u202639]",
+      "without": "action 1 (right), mode 0, wait 0; Seek the brighter right eye; fine queries 0, spatial queries 1; reserve/heat forecast open/open"
+    },
+    {
+      "title": "An unsafe reserve prevents the same wait",
+      "capability": "explicit amount / unit math",
+      "passed": true,
+      "description": "The same ordinal light history now has energy 30. Its exposed support minus the declared four-tick energy drain does not establish the required reserve. Native amount evidence rejects the wait; removing the budget conditions admits it. Light scores are never treated as energy amounts.",
+      "full": "action 1 (right), mode 0, wait 0; Seek the brighter right eye; fine queries 0, spatial queries 1; reserve/heat forecast [-100\u2026-1] \u222A [0\u202619] \u222A [20\u202639]/[20\u202639]",
+      "without": "action 0 (hold), mode 0, wait 4; Brief decline: budget permits a four-tick wait; fine queries 0, spatial queries 0; reserve/heat forecast open/open"
+    },
+    {
+      "title": "Heat forecast can independently reject a wait",
+      "capability": "explicit amount / unit math",
+      "passed": true,
+      "description": "At heat 60, the receiver\u0027s coarse heat support plus its declared four-tick heat rise does not lie wholly inside the waiting safety region. The full controller refuses the same dip wait even with energy 60. This arithmetic uses the explicit body heat domain, not an absolute light origin.",
+      "full": "action 1 (right), mode 0, wait 0; Seek the brighter right eye; fine queries 1, spatial queries 1; reserve/heat forecast [44\u202644]/[65\u202689]",
+      "without": "action 0 (hold), mode 0, wait 4; Brief decline: budget permits a four-tick wait; fine queries 0, spatial queries 0; reserve/heat forecast open/open"
+    },
+    {
+      "title": "A recent rise saves an action-irrelevant eye request",
+      "capability": "fast reference / query relevance",
+      "passed": true,
+      "description": "A sustained ordinal rise establishes the native recent-direction condition. Continuing the remembered heading needs no spatial request. Removing that read produces the same action in this encounter but requires one paid eye comparison; the comparison is not claimed to improve the already-settled action.",
+      "full": "presence 1, fast 16, slow 16; action 1 (right), mode 0, wait 0; Recent relative rise: continue without finer sensing; fine queries 0, spatial queries 0; reserve/heat forecast open/open",
+      "without": "action 1 (right), mode 0, wait 0; Seek the brighter right eye; fine queries 0, spatial queries 1; reserve/heat forecast open/open"
+    },
+    {
+      "title": "Native amount arithmetic / lookup parity",
+      "capability": "coarse arithmetic",
+      "passed": true,
+      "description": "The computed conservative image, native row table and captured packed rows must preserve full observer, action, memory, resource and query trajectories.",
+      "full": "Packed: baf134d1761dfc29f77f4202b5f395523d1fc7c6360e51808f740616cbfadc7e",
+      "without": "Computed: baf134d1761dfc29f77f4202b5f395523d1fc7c6360e51808f740616cbfadc7e"
+    },
+    {
+      "title": "Native amount arithmetic / lookup parity",
+      "capability": "coarse arithmetic",
+      "passed": true,
+      "description": "The computed conservative image, native row table and captured packed rows must preserve full observer, action, memory, resource and query trajectories.",
+      "full": "Packed: baf134d1761dfc29f77f4202b5f395523d1fc7c6360e51808f740616cbfadc7e",
+      "without": "Lookup: baf134d1761dfc29f77f4202b5f395523d1fc7c6360e51808f740616cbfadc7e"
+    },
+    {
+      "title": "No brightness origin required",
+      "capability": "relative scale",
+      "passed": true,
+      "description": "A strictly increasing private light transformation must preserve scores, supports, actions, memory, physiology and service requests; private coordinates are excluded.",
+      "full": "0: private raw field x (nonnegative)",
+      "without": "1: 7x \u002B 1000, a strictly increasing private scale/offset"
+    },
+    {
+      "title": "No brightness origin required",
+      "capability": "relative scale",
+      "passed": true,
+      "description": "A strictly increasing private light transformation must preserve scores, supports, actions, memory, physiology and service requests; private coordinates are excluded.",
+      "full": "0: private raw field x (nonnegative)",
+      "without": "2: x\u00B2 \u002B 17, strictly increasing over the chosen nonnegative private field"
+    },
+    {
+      "title": "Sensor orientation correspondence",
+      "capability": "orientation",
+      "passed": true,
+      "description": "The same forager with a mirrored or forward instrument uses its exposed calibration. Physical trajectories must match.",
+      "full": "Mirrored: baf134d1761dfc29f77f4202b5f395523d1fc7c6360e51808f740616cbfadc7e",
+      "without": "Forward: baf134d1761dfc29f77f4202b5f395523d1fc7c6360e51808f740616cbfadc7e"
+    }
+  ],
+  "comparisons": [
+    {
+      "label": "All capabilities",
+      "runs": 4,
+      "cycles": 174,
+      "starvationTicks": 236,
+      "overheatTicks": 0,
+      "spatialQueries": 2884,
+      "fineQueries": 1981,
+      "comparisonQueries": 126050,
+      "queryCost": 3631.349999999992,
+      "meanCharge": 59.24316406250001
+    },
+    {
+      "label": "Remove absence handling",
+      "runs": 4,
+      "cycles": 117,
+      "starvationTicks": 391,
+      "overheatTicks": 0,
+      "spatialQueries": 2910,
+      "fineQueries": 2055,
+      "comparisonQueries": 126050,
+      "queryCost": 3675.849999999995,
+      "meanCharge": 51.41080729166667
+    },
+    {
+      "label": "Ignore installed orientation",
+      "runs": 4,
+      "cycles": 0,
+      "starvationTicks": 6068,
+      "overheatTicks": 0,
+      "spatialQueries": 5248,
+      "fineQueries": 0,
+      "comparisonQueries": 126050,
+      "queryCost": 5500.099999999968,
+      "meanCharge": 0.3834635416666667
+    },
+    {
+      "label": "Remove recent trend",
+      "runs": 4,
+      "cycles": 257,
+      "starvationTicks": 9,
+      "overheatTicks": 0,
+      "spatialQueries": 4500,
+      "fineQueries": 2184,
+      "comparisonQueries": 126050,
+      "queryCost": 5298.099999999969,
+      "meanCharge": 68.9248046875
+    },
+    {
+      "label": "Remove longer context",
+      "runs": 4,
+      "cycles": 196,
+      "starvationTicks": 98,
+      "overheatTicks": 0,
+      "spatialQueries": 2880,
+      "fineQueries": 2111,
+      "comparisonQueries": 126050,
+      "queryCost": 3659.8499999999963,
+      "meanCharge": 61.6650390625
+    },
+    {
+      "label": "Remove wait budget math",
+      "runs": 4,
+      "cycles": 207,
+      "starvationTicks": 14,
+      "overheatTicks": 0,
+      "spatialQueries": 2441,
+      "fineQueries": 2071,
+      "comparisonQueries": 126050,
+      "queryCost": 3210.8499999999976,
+      "meanCharge": 67.67985026041667
+    },
+    {
+      "label": "Remove finer body service",
+      "runs": 4,
+      "cycles": 173,
+      "starvationTicks": 89,
+      "overheatTicks": 20,
+      "spatialQueries": 3012,
+      "fineQueries": 0,
+      "comparisonQueries": 126050,
+      "queryCost": 3264.0999999999976,
+      "meanCharge": 61.832356770833336
+    },
+    {
+      "label": "Always request finer body values",
+      "runs": 4,
+      "cycles": 14,
+      "starvationTicks": 2099,
+      "overheatTicks": 21,
+      "spatialQueries": 4109,
+      "fineQueries": 12288,
+      "comparisonQueries": 126050,
+      "queryCost": 7433.099999999958,
+      "meanCharge": 18.1181640625
+    },
+    {
+      "label": "Neutral: always right",
+      "runs": 4,
+      "cycles": 0,
+      "starvationTicks": 5957,
+      "overheatTicks": 0,
+      "spatialQueries": 0,
+      "fineQueries": 1,
+      "comparisonQueries": 126050,
+      "queryCost": 252.35,
+      "meanCharge": 0.9830729166666667
+    }
+  ],
+  "nativeArchivesVerified": true
+}

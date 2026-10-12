@@ -1,0 +1,65 @@
+{
+  "command": "dotnet test Gojo.slnx -c Release",
+  "total": 2175,
+  "passed": 2175,
+  "failed": 0,
+  "skipped": 0,
+  "checks": [
+    {
+      "project": "Gojo.Tests/TestResults",
+      "total": 1009,
+      "passed": 1009,
+      "failed": 0,
+      "resultPath": "D:\\source\\repos\\It3rate\\Gojo-phototaxis\\Gojo.Tests\\TestResults\\composite-confirmation-gate_net10.0_20261011195015.trx"
+    },
+    {
+      "project": "Gojo.Encoding.Tests/TestResults",
+      "total": 725,
+      "passed": 725,
+      "failed": 0,
+      "resultPath": "D:\\source\\repos\\It3rate\\Gojo-phototaxis\\Gojo.Encoding.Tests\\TestResults\\composite-confirmation-gate_net10.0_20261011195119.trx"
+    },
+    {
+      "project": "GojoCAD.Tests/TestResults",
+      "total": 155,
+      "passed": 155,
+      "failed": 0,
+      "resultPath": "D:\\source\\repos\\It3rate\\Gojo-phototaxis\\GojoCAD.Tests\\TestResults\\composite-confirmation-gate_net10.0_20261011195055.trx"
+    },
+    {
+      "project": "Gojo.GearShapeLadder.Tests/TestResults",
+      "total": 21,
+      "passed": 21,
+      "failed": 0,
+      "resultPath": "D:\\source\\repos\\It3rate\\Gojo-phototaxis\\Gojo.GearShapeLadder.Tests\\TestResults\\composite-confirmation-gate_net10.0_20261011195045.trx"
+    },
+    {
+      "project": "experiments/Phototaxis.Tests/TestResults",
+      "total": 129,
+      "passed": 129,
+      "failed": 0,
+      "resultPath": "D:\\source\\repos\\It3rate\\Gojo-phototaxis\\experiments\\Phototaxis.Tests\\TestResults\\composite-confirmation-gate_net10.0_20261011195038.trx"
+    },
+    {
+      "project": "experiments/PrimitiveLearning.Tests/TestResults",
+      "total": 64,
+      "passed": 64,
+      "failed": 0,
+      "resultPath": "D:\\source\\repos\\It3rate\\Gojo-phototaxis\\experiments\\PrimitiveLearning.Tests\\TestResults\\composite-confirmation-gate_net10.0_20261011195028.trx"
+    },
+    {
+      "project": "experiments/PrimitiveForager.Tests/TestResults",
+      "total": 6,
+      "passed": 6,
+      "failed": 0,
+      "resultPath": "D:\\source\\repos\\It3rate\\Gojo-phototaxis\\experiments\\PrimitiveForager.Tests\\TestResults\\composite-confirmation-gate_net10.0_20261011195023.trx"
+    },
+    {
+      "project": "experiments/CompositeEmergence.Tests/TestResults",
+      "total": 66,
+      "passed": 66,
+      "failed": 0,
+      "resultPath": "D:\\source\\repos\\It3rate\\Gojo-phototaxis\\experiments\\CompositeEmergence.Tests\\TestResults\\composite-confirmation-gate_net10.0_20261011195058.trx"
+    }
+  ]
+}

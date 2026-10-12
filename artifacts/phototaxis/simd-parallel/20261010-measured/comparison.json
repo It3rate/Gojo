@@ -1,0 +1,66 @@
+{
+  "seconds": 20,
+  "warmup": 5,
+  "population": 20,
+  "seeds": [
+    7,
+    19,
+    31,
+    43
+  ],
+  "passes": 3,
+  "statesMatch": true,
+  "nativeAssembly": "f4fa5721-8065-47c2-b6eb-7b18db739470",
+  "host": {
+    "logicalProcessors": 8,
+    "processor": "Intel64 Family 6 Model 158 Stepping 9, GenuineIntel",
+    "framework": ".NET 10.0.12",
+    "architecture": "X64",
+    "os": "Microsoft Windows 10.0.19045",
+    "vector128Accelerated": true,
+    "vector256Accelerated": true,
+    "avx2Supported": true
+  },
+  "summary": [
+    {
+      "backend": "compact",
+      "parallel": 1,
+      "medianBatchWall": 40.7047684,
+      "endToEndSimulatedSpeed": 1.9653717032326856,
+      "meanTimedAllocation": 7598168210.666667,
+      "meanTimedCpuSeconds": 28.380208333333332,
+      "simdBatches": 0.0,
+      "simdLanes": 0.0
+    },
+    {
+      "backend": "compactsimd",
+      "parallel": 1,
+      "medianBatchWall": 41.2550837,
+      "endToEndSimulatedSpeed": 1.939154955586722,
+      "meanTimedAllocation": 7599844978.666667,
+      "meanTimedCpuSeconds": 28.161458333333332,
+      "simdBatches": 1174170.0,
+      "simdLanes": 2348340.0
+    },
+    {
+      "backend": "compact",
+      "parallel": 2,
+      "medianBatchWall": 24.6698071,
+      "endToEndSimulatedSpeed": 3.2428303827312863,
+      "meanTimedAllocation": 7600150709.333333,
+      "meanTimedCpuSeconds": 33.552083333333336,
+      "simdBatches": 0.0,
+      "simdLanes": 0.0
+    },
+    {
+      "backend": "compact",
+      "parallel": 4,
+      "medianBatchWall": 16.5950127,
+      "endToEndSimulatedSpeed": 4.820725446025118,
+      "meanTimedAllocation": 7605250802.666667,
+      "meanTimedCpuSeconds": 43.260416666666664,
+      "simdBatches": 0.0,
+      "simdLanes": 0.0
+    }
+  ]
+}

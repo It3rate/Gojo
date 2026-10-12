@@ -1,0 +1,109 @@
+{
+  "settings": {
+    "name": "campaign",
+    "seeds": 8,
+    "train": 1536,
+    "test": 768,
+    "warmup": 128,
+    "output": "D:\\source\\repos\\It3rate\\Gojo-phototaxis\\artifacts\\primitive-learning\\campaign-fresh",
+    "seedStart": 100
+  },
+  "heldout": [
+    {
+      "name": "baseline",
+      "threshold": 8,
+      "persistence": 0.05,
+      "queryPrice": 1,
+      "encoding": 0,
+      "missingEvery": 0,
+      "absentEvery": 0,
+      "novelLoads": false
+    },
+    {
+      "name": "novel-loads",
+      "threshold": 8,
+      "persistence": 0.05,
+      "queryPrice": 1,
+      "encoding": 0,
+      "missingEvery": 0,
+      "absentEvery": 0,
+      "novelLoads": true
+    },
+    {
+      "name": "less-predictable",
+      "threshold": 8,
+      "persistence": 0.3,
+      "queryPrice": 1,
+      "encoding": 0,
+      "missingEvery": 0,
+      "absentEvery": 0,
+      "novelLoads": false
+    },
+    {
+      "name": "reversed-flow-law",
+      "threshold": 8,
+      "persistence": 0.95,
+      "queryPrice": 1,
+      "encoding": 0,
+      "missingEvery": 0,
+      "absentEvery": 0,
+      "novelLoads": false
+    },
+    {
+      "name": "expensive-query",
+      "threshold": 8,
+      "persistence": 0.05,
+      "queryPrice": 5,
+      "encoding": 0,
+      "missingEvery": 0,
+      "absentEvery": 0,
+      "novelLoads": false
+    },
+    {
+      "name": "changed-fit",
+      "threshold": 10,
+      "persistence": 0.05,
+      "queryPrice": 1,
+      "encoding": 0,
+      "missingEvery": 0,
+      "absentEvery": 0,
+      "novelLoads": false
+    },
+    {
+      "name": "missing-and-absent",
+      "threshold": 8,
+      "persistence": 0.05,
+      "queryPrice": 1,
+      "encoding": 0,
+      "missingEvery": 17,
+      "absentEvery": 31,
+      "novelLoads": false
+    }
+  ],
+  "sourceHashes": {
+    "AdaptiveOrdinal.cs": "aa4839454a2e1c1e3b8fb8e8ba4c2bcb1c7783c7af9d6563b9a8b40c4d9567c4",
+    "NativeInspection.cs": "f8ae6482a2170e18f51109e6b9e10af3d3803fcdee9993940117f70211b212ff",
+    "OrdinalPredictor.cs": "7167a18766fcce274382629a838da3ea3c67470382c3c34ac87d47090aa8a288",
+    "Program.cs": "f61b9ad10888ba15a0931f019a209268db0ab1564529dda2c8636e005fd813be",
+    "ProgramLearner.cs": "f85242c7e7cb9531cd77a1b8e709ac6f6931287b49022d78306197ebcea456a7",
+    "QueryLearner.cs": "ab1ab15dfcf828dde8bce6d83b5c7510bf116016d83b90cacb23a9c0455dede6",
+    "RelayWorld.cs": "34bb975e0d7dbde8b0b909bb93afd7ed3c220e13f5590863119eedf40dbb1d99",
+    "StudyRunner.cs": "96923a46089cb89f30d2e16d0b5d25210ea7add88a7f42d553fadac49105c652"
+  },
+  "trainSeedRule": "41000 \u002B seed",
+  "testSeedRule": "91000 \u002B seed",
+  "factorial": "A=adaptive partitions, P=predictor, Q=query allocator, S=program selection. Off=frozen initialization.",
+  "baseline": {
+    "name": "baseline",
+    "threshold": 8,
+    "persistence": 0.05,
+    "queryPrice": 1,
+    "encoding": 0,
+    "missingEvery": 0,
+    "absentEvery": 0,
+    "novelLoads": false
+  },
+  "resourceLaw": "Correct route\u002B4; incorrect-4; hold/absent0; query has declared price (shift5). Comparison work reported separately.",
+  "schedule": "A/P learn immediately; Q/S after128 warmup. Simultaneous-query Q starts0. Frozen tests; post-action arrival audits.",
+  "status": "Saved before test results. Pilot is development data; campaign confirms this fixed protocol."
+}

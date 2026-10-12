@@ -1,0 +1,714 @@
+{
+  "directory": "D:\\source\\repos\\It3rate\\Gojo-phototaxis\\experiments\\AdaptiveLifecycle\\results\\pilot-01",
+  "settings": {
+    "discoveryTrain": 768,
+    "consumerTrain": 192,
+    "managerTrain": 2048,
+    "evaluationTrials": 2048,
+    "missingProbability": 0.1,
+    "switchProbability": 0.04,
+    "probePrice": 2
+  },
+  "campaign": false,
+  "elapsedSeconds": 41.5817006,
+  "seedCount": 2,
+  "rowsChecked": 12,
+  "stepsChecked": 24576,
+  "sourceHashesChecked": 127,
+  "archiveChecks": [],
+  "summaries": [
+    {
+      "arm": "always-probe",
+      "seeds": [
+        400,
+        401
+      ],
+      "accuracy": {
+        "n": 2,
+        "mean": 0.7958984375,
+        "low95": 0.7772858329003907,
+        "high95": 0.8145110420996093,
+        "minimum": 0.79443359375,
+        "maximum": 0.79736328125
+      },
+      "coverage": {
+        "n": 2,
+        "mean": 0.7958984375,
+        "low95": 0.7772858329003907,
+        "high95": 0.8145110420996093,
+        "minimum": 0.79443359375,
+        "maximum": 0.79736328125
+      },
+      "queryRate": {
+        "n": 2,
+        "mean": 1,
+        "low95": 1.0,
+        "high95": 1.0,
+        "minimum": 1,
+        "maximum": 1
+      },
+      "meanResource": {
+        "n": 2,
+        "mean": 4.3671875,
+        "low95": 4.218286663203125,
+        "high95": 4.516088336796875,
+        "minimum": 4.35546875,
+        "maximum": 4.37890625
+      },
+      "longestHoldRun": {
+        "n": 2,
+        "mean": 3.5,
+        "low95": -2.85310237,
+        "high95": 9.85310237,
+        "minimum": 3,
+        "maximum": 4
+      },
+      "trailingHoldRun": {
+        "n": 2,
+        "mean": 0.5,
+        "low95": -5.85310237,
+        "high95": 6.85310237,
+        "minimum": 0,
+        "maximum": 1
+      },
+      "failedProbesRecovered": 672,
+      "failedProbesUnrecovered": 164,
+      "conditionalFirstPublicationDelay": {
+        "n": 2,
+        "mean": 1,
+        "low95": 1.0,
+        "high95": 1.0,
+        "minimum": 1,
+        "maximum": 1
+      },
+      "extraManagerUpdates": [
+        0,
+        0
+      ],
+      "newContextRows": [
+        0,
+        0
+      ]
+    },
+    {
+      "arm": "clean-trained/frozen",
+      "seeds": [
+        400,
+        401
+      ],
+      "accuracy": {
+        "n": 2,
+        "mean": 0.0224609375,
+        "low95": -0.08921469009765624,
+        "high95": 0.13413656509765626,
+        "minimum": 0.013671875,
+        "maximum": 0.03125
+      },
+      "coverage": {
+        "n": 2,
+        "mean": 0.0224609375,
+        "low95": -0.08921469009765624,
+        "high95": 0.13413656509765626,
+        "minimum": 0.013671875,
+        "maximum": 0.03125
+      },
+      "queryRate": {
+        "n": 2,
+        "mean": 0.021728515625,
+        "low95": -0.20472484033691402,
+        "high95": 0.24818187158691402,
+        "minimum": 0.00390625,
+        "maximum": 0.03955078125
+      },
+      "meanResource": {
+        "n": 2,
+        "mean": 0.13623046875,
+        "low95": -0.3042678401074218,
+        "high95": 0.5767287776074218,
+        "minimum": 0.1015625,
+        "maximum": 0.1708984375
+      },
+      "longestHoldRun": {
+        "n": 2,
+        "mean": 1994,
+        "low95": 1676.3448815,
+        "high95": 2311.6551185,
+        "minimum": 1969,
+        "maximum": 2019
+      },
+      "trailingHoldRun": {
+        "n": 2,
+        "mean": 1994,
+        "low95": 1676.3448815,
+        "high95": 2311.6551185,
+        "minimum": 1969,
+        "maximum": 2019
+      },
+      "failedProbesRecovered": 12,
+      "failedProbesUnrecovered": 6,
+      "conditionalFirstPublicationDelay": {
+        "n": 1,
+        "mean": 1,
+        "low95": null,
+        "high95": null,
+        "minimum": 1,
+        "maximum": 1
+      },
+      "extraManagerUpdates": [
+        0,
+        0
+      ],
+      "newContextRows": [
+        0,
+        0
+      ]
+    },
+    {
+      "arm": "clean-trained/online",
+      "seeds": [
+        400,
+        401
+      ],
+      "accuracy": {
+        "n": 2,
+        "mean": 0.9287109375,
+        "low95": 0.9225067359667969,
+        "high95": 0.9349151390332031,
+        "minimum": 0.92822265625,
+        "maximum": 0.92919921875
+      },
+      "coverage": {
+        "n": 2,
+        "mean": 0.96923828125,
+        "low95": 0.9444214751171875,
+        "high95": 0.9940550873828125,
+        "minimum": 0.96728515625,
+        "maximum": 0.97119140625
+      },
+      "queryRate": {
+        "n": 2,
+        "mean": 0.142578125,
+        "low95": -0.043547920996093725,
+        "high95": 0.3287041709960937,
+        "minimum": 0.1279296875,
+        "maximum": 0.1572265625
+      },
+      "meanResource": {
+        "n": 2,
+        "mean": 6.658203125,
+        "low95": 6.112233390078125,
+        "high95": 7.204172859921875,
+        "minimum": 6.615234375,
+        "maximum": 6.701171875
+      },
+      "longestHoldRun": {
+        "n": 2,
+        "mean": 3.5,
+        "low95": -2.85310237,
+        "high95": 9.85310237,
+        "minimum": 3,
+        "maximum": 4
+      },
+      "trailingHoldRun": {
+        "n": 2,
+        "mean": 0,
+        "low95": 0.0,
+        "high95": 0.0,
+        "minimum": 0,
+        "maximum": 0
+      },
+      "failedProbesRecovered": 90,
+      "failedProbesUnrecovered": 22,
+      "conditionalFirstPublicationDelay": {
+        "n": 2,
+        "mean": 1.088888888888889,
+        "low95": 0.8065287835555552,
+        "high95": 1.3712489942222228,
+        "minimum": 1.0666666666666667,
+        "maximum": 1.1111111111111112
+      },
+      "extraManagerUpdates": [
+        2048,
+        2048
+      ],
+      "newContextRows": [
+        2,
+        2
+      ]
+    },
+    {
+      "arm": "missing-trained/frozen",
+      "seeds": [
+        400,
+        401
+      ],
+      "accuracy": {
+        "n": 2,
+        "mean": 0.9453125,
+        "low95": 0.9391082984667969,
+        "high95": 0.9515167015332031,
+        "minimum": 0.94482421875,
+        "maximum": 0.94580078125
+      },
+      "coverage": {
+        "n": 2,
+        "mean": 0.988037109375,
+        "low95": 0.9663224040087891,
+        "high95": 1.009751814741211,
+        "minimum": 0.986328125,
+        "maximum": 0.98974609375
+      },
+      "queryRate": {
+        "n": 2,
+        "mean": 0.0546875,
+        "low95": 0.04848329846679687,
+        "high95": 0.06089170153320313,
+        "minimum": 0.05419921875,
+        "maximum": 0.05517578125
+      },
+      "meanResource": {
+        "n": 2,
+        "mean": 6.9404296875,
+        "low95": 6.816345656835938,
+        "high95": 7.064513718164062,
+        "minimum": 6.9306640625,
+        "maximum": 6.9501953125
+      },
+      "longestHoldRun": {
+        "n": 2,
+        "mean": 2.5,
+        "low95": -3.85310237,
+        "high95": 8.85310237,
+        "minimum": 2,
+        "maximum": 3
+      },
+      "trailingHoldRun": {
+        "n": 2,
+        "mean": 0,
+        "low95": 0.0,
+        "high95": 0.0,
+        "minimum": 0,
+        "maximum": 0
+      },
+      "failedProbesRecovered": 36,
+      "failedProbesUnrecovered": 11,
+      "conditionalFirstPublicationDelay": {
+        "n": 2,
+        "mean": 1,
+        "low95": 1.0,
+        "high95": 1.0,
+        "minimum": 1,
+        "maximum": 1
+      },
+      "extraManagerUpdates": [
+        0,
+        0
+      ],
+      "newContextRows": [
+        0,
+        0
+      ]
+    },
+    {
+      "arm": "missing-trained/online",
+      "seeds": [
+        400,
+        401
+      ],
+      "accuracy": {
+        "n": 2,
+        "mean": 0.933837890625,
+        "low95": 0.8997147821923828,
+        "high95": 0.9679609990576172,
+        "minimum": 0.93115234375,
+        "maximum": 0.9365234375
+      },
+      "coverage": {
+        "n": 2,
+        "mean": 0.974853515625,
+        "low95": 0.9345262056591797,
+        "high95": 1.0151808255908203,
+        "minimum": 0.9716796875,
+        "maximum": 0.97802734375
+      },
+      "queryRate": {
+        "n": 2,
+        "mean": 0.12060546875,
+        "low95": 0.09578866261718749,
+        "high95": 0.1454222748828125,
+        "minimum": 0.11865234375,
+        "maximum": 0.12255859375
+      },
+      "meanResource": {
+        "n": 2,
+        "mean": 6.7373046875,
+        "low95": 6.489136626171875,
+        "high95": 6.985472748828125,
+        "minimum": 6.7177734375,
+        "maximum": 6.7568359375
+      },
+      "longestHoldRun": {
+        "n": 2,
+        "mean": 3,
+        "low95": 3.0,
+        "high95": 3.0,
+        "minimum": 3,
+        "maximum": 3
+      },
+      "trailingHoldRun": {
+        "n": 2,
+        "mean": 0,
+        "low95": 0.0,
+        "high95": 0.0,
+        "minimum": 0,
+        "maximum": 0
+      },
+      "failedProbesRecovered": 76,
+      "failedProbesUnrecovered": 18,
+      "conditionalFirstPublicationDelay": {
+        "n": 2,
+        "mean": 1.0652777777777778,
+        "low95": 0.9417452316944449,
+        "high95": 1.1888103238611107,
+        "minimum": 1.0555555555555556,
+        "maximum": 1.075
+      },
+      "extraManagerUpdates": [
+        2048,
+        2048
+      ],
+      "newContextRows": [
+        0,
+        0
+      ]
+    },
+    {
+      "arm": "retry-if-unavailable",
+      "seeds": [
+        400,
+        401
+      ],
+      "accuracy": {
+        "n": 2,
+        "mean": 0.851806640625,
+        "low95": 0.16003816967285156,
+        "high95": 1.5435751115771486,
+        "minimum": 0.79736328125,
+        "maximum": 0.90625
+      },
+      "coverage": {
+        "n": 2,
+        "mean": 0.867431640625,
+        "low95": -0.02287127938964839,
+        "high95": 1.7577345606396484,
+        "minimum": 0.79736328125,
+        "maximum": 0.9375
+      },
+      "queryRate": {
+        "n": 2,
+        "mean": 0.653076171875,
+        "low95": -3.75500901746582,
+        "high95": 5.06116136121582,
+        "minimum": 0.30615234375,
+        "maximum": 1
+      },
+      "meanResource": {
+        "n": 2,
+        "mean": 5.32080078125,
+        "low95": -6.647103976298828,
+        "high95": 17.28870553879883,
+        "minimum": 4.37890625,
+        "maximum": 6.2626953125
+      },
+      "longestHoldRun": {
+        "n": 2,
+        "mean": 3.5,
+        "low95": -2.85310237,
+        "high95": 9.85310237,
+        "minimum": 3,
+        "maximum": 4
+      },
+      "trailingHoldRun": {
+        "n": 2,
+        "mean": 0.5,
+        "low95": -5.85310237,
+        "high95": 6.85310237,
+        "minimum": 0,
+        "maximum": 1
+      },
+      "failedProbesRecovered": 434,
+      "failedProbesUnrecovered": 109,
+      "conditionalFirstPublicationDelay": {
+        "n": 2,
+        "mean": 1,
+        "low95": 1.0,
+        "high95": 1.0,
+        "minimum": 1,
+        "maximum": 1
+      },
+      "extraManagerUpdates": [
+        0,
+        0
+      ],
+      "newContextRows": [
+        0,
+        0
+      ]
+    }
+  ],
+  "pairedComparisons": [
+    {
+      "first": "clean-trained/online",
+      "second": "clean-trained/frozen",
+      "accuracy": {
+        "n": 2,
+        "mean": 0.90625,
+        "low95": 0.7883701708691406,
+        "high95": 1.0241298291308594,
+        "minimum": 0.89697265625,
+        "maximum": 0.91552734375
+      },
+      "coverage": {
+        "n": 2,
+        "mean": 0.94677734375,
+        "low95": 0.8102849100195313,
+        "high95": 1.0832697774804687,
+        "minimum": 0.93603515625,
+        "maximum": 0.95751953125
+      },
+      "queryRate": {
+        "n": 2,
+        "mean": 0.120849609375,
+        "low95": -0.29172979258300785,
+        "high95": 0.5334290113330078,
+        "minimum": 0.08837890625,
+        "maximum": 0.1533203125
+      },
+      "meanResource": {
+        "n": 2,
+        "mean": 6.52197265625,
+        "low95": 6.416501230185547,
+        "high95": 6.627444082314453,
+        "minimum": 6.513671875,
+        "maximum": 6.5302734375
+      }
+    },
+    {
+      "first": "missing-trained/frozen",
+      "second": "clean-trained/frozen",
+      "accuracy": {
+        "n": 2,
+        "mean": 0.9228515625,
+        "low95": 0.8049717333691406,
+        "high95": 1.0407313916308594,
+        "minimum": 0.91357421875,
+        "maximum": 0.93212890625
+      },
+      "coverage": {
+        "n": 2,
+        "mean": 0.965576171875,
+        "low95": 0.8321858389111328,
+        "high95": 1.0989665048388673,
+        "minimum": 0.955078125,
+        "maximum": 0.97607421875
+      },
+      "queryRate": {
+        "n": 2,
+        "mean": 0.032958984375,
+        "low95": -0.1872901700537109,
+        "high95": 0.2532081388037109,
+        "minimum": 0.015625,
+        "maximum": 0.05029296875
+      },
+      "meanResource": {
+        "n": 2,
+        "mean": 6.80419921875,
+        "low95": 6.487784940556641,
+        "high95": 7.120613496943359,
+        "minimum": 6.779296875,
+        "maximum": 6.8291015625
+      }
+    },
+    {
+      "first": "missing-trained/online",
+      "second": "missing-trained/frozen",
+      "accuracy": {
+        "n": 2,
+        "mean": -0.011474609375,
+        "low95": -0.039393516274414064,
+        "high95": 0.01644429752441406,
+        "minimum": -0.013671875,
+        "maximum": -0.00927734375
+      },
+      "coverage": {
+        "n": 2,
+        "mean": -0.01318359375,
+        "low95": -0.031796198349609374,
+        "high95": 0.005429010849609374,
+        "minimum": -0.0146484375,
+        "maximum": -0.01171875
+      },
+      "queryRate": {
+        "n": 2,
+        "mean": 0.06591796875,
+        "low95": 0.047305364150390626,
+        "high95": 0.08453057334960937,
+        "minimum": 0.064453125,
+        "maximum": 0.0673828125
+      },
+      "meanResource": {
+        "n": 2,
+        "mean": -0.203125,
+        "low95": -0.5753770919921875,
+        "high95": 0.16912709199218745,
+        "minimum": -0.232421875,
+        "maximum": -0.173828125
+      }
+    },
+    {
+      "first": "clean-trained/online",
+      "second": "retry-if-unavailable",
+      "accuracy": {
+        "n": 2,
+        "mean": 0.076904296875,
+        "low95": -0.6086599725439453,
+        "high95": 0.7624685662939453,
+        "minimum": 0.02294921875,
+        "maximum": 0.130859375
+      },
+      "coverage": {
+        "n": 2,
+        "mean": 0.101806640625,
+        "low95": -0.7636794732568359,
+        "high95": 0.9672927545068359,
+        "minimum": 0.03369140625,
+        "maximum": 0.169921875
+      },
+      "queryRate": {
+        "n": 2,
+        "mean": -0.510498046875,
+        "low95": -5.104709282211914,
+        "high95": 4.083713188461914,
+        "minimum": -0.8720703125,
+        "maximum": -0.14892578125
+      },
+      "meanResource": {
+        "n": 2,
+        "mean": 1.33740234375,
+        "low95": -11.176472148720704,
+        "high95": 13.851276836220704,
+        "minimum": 0.3525390625,
+        "maximum": 2.322265625
+      }
+    },
+    {
+      "first": "missing-trained/frozen",
+      "second": "retry-if-unavailable",
+      "accuracy": {
+        "n": 2,
+        "mean": 0.093505859375,
+        "low95": -0.5920584100439453,
+        "high95": 0.7790701287939453,
+        "minimum": 0.03955078125,
+        "maximum": 0.1474609375
+      },
+      "coverage": {
+        "n": 2,
+        "mean": 0.12060546875,
+        "low95": -0.7479827458984375,
+        "high95": 0.9891936833984375,
+        "minimum": 0.05224609375,
+        "maximum": 0.18896484375
+      },
+      "queryRate": {
+        "n": 2,
+        "mean": -0.598388671875,
+        "low95": -5.000269659682617,
+        "high95": 3.8034923159326173,
+        "minimum": -0.94482421875,
+        "maximum": -0.251953125
+      },
+      "meanResource": {
+        "n": 2,
+        "mean": 1.61962890625,
+        "low95": -10.472359881962891,
+        "high95": 13.711617694462891,
+        "minimum": 0.66796875,
+        "maximum": 2.5712890625
+      }
+    }
+  ],
+  "lifecycle": {
+    "events": [
+      {
+        "stage": "first birth",
+        "reserve": 16,
+        "tension": 0,
+        "viable": true,
+        "participating": true,
+        "nurseryFunding": 24,
+        "activeParticipants": 1
+      },
+      {
+        "stage": "dormant after 17 ticks",
+        "reserve": 0,
+        "tension": -1,
+        "viable": false,
+        "participating": false,
+        "nurseryFunding": 24,
+        "activeParticipants": 1
+      },
+      {
+        "stage": "first retired",
+        "reserve": 0,
+        "tension": -1,
+        "viable": false,
+        "participating": false,
+        "nurseryFunding": 24,
+        "activeParticipants": 0
+      },
+      {
+        "stage": "replacement born",
+        "reserve": 16,
+        "tension": 0,
+        "viable": true,
+        "participating": true,
+        "nurseryFunding": 8,
+        "activeParticipants": 1
+      },
+      {
+        "stage": "replacement funded and maintained",
+        "reserve": 12,
+        "tension": 0,
+        "viable": true,
+        "participating": true,
+        "nurseryFunding": 8,
+        "activeParticipants": 1
+      },
+      {
+        "stage": "replacement retired",
+        "reserve": 0,
+        "tension": -1,
+        "viable": false,
+        "participating": false,
+        "nurseryFunding": 8,
+        "activeParticipants": 0
+      }
+    ],
+    "dormantWithdraws": true,
+    "debtPreserved": true,
+    "freshIdentity": true,
+    "capacityBlocksBirth": true,
+    "fundingBlocksBirth": true,
+    "fundedParticipantSurvives": true,
+    "transportPreservesState": true,
+    "birthCredits": 32,
+    "remainingNurseryFunding": 8,
+    "initialNurseryFunding": 40
+  },
+  "warnings": [
+    "Current source differs from recorded source: experiments/AdaptiveLifecycle/LifecycleSurface.cs",
+    "Current source differs from recorded source: experiments/AdaptiveLifecycle/Program.cs"
+  ],
+  "paidJevCalls": 0
+}

@@ -1,0 +1,207 @@
+{
+  "seed": 1,
+  "historyDelay": 1,
+  "evidence": [
+    {
+      "context": [
+        0,
+        0,
+        0
+      ],
+      "choice": 0,
+      "observations": 1,
+      "positiveResource": 0,
+      "negativeResource": 0,
+      "mean256": 0
+    },
+    {
+      "context": [
+        0,
+        0,
+        0
+      ],
+      "choice": 1,
+      "observations": 0,
+      "positiveResource": 0,
+      "negativeResource": 0,
+      "mean256": null
+    },
+    {
+      "context": [
+        0,
+        1,
+        0
+      ],
+      "choice": 0,
+      "observations": 2,
+      "positiveResource": 0,
+      "negativeResource": 0,
+      "mean256": 0
+    },
+    {
+      "context": [
+        0,
+        1,
+        0
+      ],
+      "choice": 1,
+      "observations": 1,
+      "positiveResource": 7,
+      "negativeResource": 0,
+      "mean256": 1792
+    },
+    {
+      "context": [
+        1,
+        1,
+        1
+      ],
+      "choice": 0,
+      "observations": 56,
+      "positiveResource": 425,
+      "negativeResource": 34,
+      "mean256": 1787
+    },
+    {
+      "context": [
+        1,
+        1,
+        1
+      ],
+      "choice": 1,
+      "observations": 57,
+      "positiveResource": 399,
+      "negativeResource": 0,
+      "mean256": 1792
+    },
+    {
+      "context": [
+        1,
+        1,
+        -1
+      ],
+      "choice": 0,
+      "observations": 2,
+      "positiveResource": 0,
+      "negativeResource": 24,
+      "mean256": -3072
+    },
+    {
+      "context": [
+        1,
+        1,
+        -1
+      ],
+      "choice": 1,
+      "observations": 11,
+      "positiveResource": 77,
+      "negativeResource": 0,
+      "mean256": 1792
+    },
+    {
+      "context": [
+        1,
+        2,
+        -1
+      ],
+      "choice": 0,
+      "observations": 2,
+      "positiveResource": 0,
+      "negativeResource": 24,
+      "mean256": -3072
+    },
+    {
+      "context": [
+        1,
+        2,
+        -1
+      ],
+      "choice": 1,
+      "observations": 7,
+      "positiveResource": 49,
+      "negativeResource": 0,
+      "mean256": 1792
+    },
+    {
+      "context": [
+        1,
+        2,
+        1
+      ],
+      "choice": 0,
+      "observations": 22,
+      "positiveResource": 160,
+      "negativeResource": 24,
+      "mean256": 1582
+    },
+    {
+      "context": [
+        1,
+        2,
+        1
+      ],
+      "choice": 1,
+      "observations": 45,
+      "positiveResource": 315,
+      "negativeResource": 0,
+      "mean256": 1792
+    },
+    {
+      "context": [
+        1,
+        3,
+        1
+      ],
+      "choice": 0,
+      "observations": 13,
+      "positiveResource": 96,
+      "negativeResource": 12,
+      "mean256": 1654
+    },
+    {
+      "context": [
+        1,
+        3,
+        1
+      ],
+      "choice": 1,
+      "observations": 2,
+      "positiveResource": 14,
+      "negativeResource": 0,
+      "mean256": 1792
+    },
+    {
+      "context": [
+        1,
+        3,
+        -1
+      ],
+      "choice": 0,
+      "observations": 2,
+      "positiveResource": 8,
+      "negativeResource": 12,
+      "mean256": -512
+    },
+    {
+      "context": [
+        1,
+        3,
+        -1
+      ],
+      "choice": 1,
+      "observations": 1,
+      "positiveResource": 7,
+      "negativeResource": 0,
+      "mean256": 1792
+    }
+  ],
+  "rowCount": 8,
+  "updateCount": 2048,
+  "agingEvents": 57,
+  "learnedGraph": {
+    "carriers": 72,
+    "relations": 573,
+    "placeholders": 0,
+    "coordinates": 232
+  }
+}

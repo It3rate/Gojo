@@ -1,0 +1,159 @@
+# Learning-progress confirmation
+
+8 paired seeds; 65,536 total world tasks.
+Resource prices are abstract. The primary measure is physical gross minus burned work per **all** world tasks.
+
+## Group results
+
+| Arm | Net/task | 95% descriptive interval | Gross/task | Burn/task | Action coverage | Bought accuracy | Updates |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| progress/error-only/upfront | 2.720 | [2.509, 2.932] | 5.203 | 2.483 | 68.8% | 94.5% | 2134 |
+| progress/signed/upfront | 2.302 | [1.939, 2.666] | 4.683 | 2.381 | 66.5% | 93.2% | 1691 |
+| progress/cycle-only/upfront | 2.287 | [1.909, 2.665] | 4.670 | 2.383 | 66.5% | 93.1% | 1699 |
+| progress/change/upfront | 2.302 | [1.939, 2.666] | 4.683 | 2.381 | 66.5% | 93.2% | 1691 |
+
+## Paired changes
+
+| Left minus right | Status | Net/task change | 95% descriptive interval | Positive seeds |
+|---|---|---:|---:|---:|
+| signed minus error | Primary | -0.418 | [-0.746, -0.090] | 1/8 |
+| signed minus cycle | Primary | 0.015 | [-0.020, 0.051] | 1/8 |
+| change minus signed | Diagnostic | 0.000 | [0.000, 0.000] | 0/8 |
+
+Intervals use eight paired seed means and unadjusted Student t(7); they are descriptive, not simultaneous significance claims.
+
+## Permission and funding
+
+| Arm | Decisions | Error requests | Final gate requests | Paid grants | Requested but unfunded | Suppressed error requests | Model updates |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| progress/error-only/upfront | 11269 | 2135 | 2135 | 2134 | 1 | 0 | 2134 |
+| progress/signed/upfront | 10903 | 2248 | 1691 | 1691 | 0 | 557 | 1691 |
+| progress/cycle-only/upfront | 10903 | 2267 | 1699 | 1699 | 0 | 568 | 1699 |
+| progress/change/upfront | 10903 | 2248 | 1691 | 1691 | 0 | 557 | 1691 |
+
+## Unique progress comparisons and opened episodes
+
+| Arm | Versions first read | Numeric error versions | Open error versions | Positive threshold | Regression threshold | Coverage threshold | Positive episodes | Change episodes | Coverage episodes | Retests |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| progress/error-only/upfront | 656 | 626 | 30 | 15 | 7 | 3 | 0 | 0 | 0 | 0 |
+| progress/signed/upfront | 633 | 582 | 51 | 11 | 6 | 5 | 6 | 0 | 4 | 298 |
+| progress/cycle-only/upfront | 633 | 579 | 54 | 11 | 6 | 5 | 0 | 0 | 0 | 310 |
+| progress/change/upfront | 633 | 582 | 51 | 11 | 6 | 5 | 6 | 0 | 4 | 298 |
+
+Version counts are deduplicated per seed and provider. Adjacent versions may share one block.
+An episode opening is not necessarily a funded grant, and neither guarantees a useful model update.
+
+## Pure noise: source 2 in every phase
+
+| Arm | Net/task | Burn/task | Coverage | Paid grants | Updates | Refinements | Comparisons | Positive/change/coverage episodes |
+|---|---:|---:|---:|---:|---:|---:|---:|---|
+| progress/error-only/upfront | -1.321 | 0.930 | 16.2% | 507 | 507 | 31 | 643 | 0/0/0 |
+| progress/signed/upfront | -1.270 | 0.858 | 16.1% | 332 | 332 | 31 | 570 | 1/0/1 |
+| progress/cycle-only/upfront | -1.270 | 0.858 | 16.1% | 332 | 332 | 31 | 570 | 0/0/0 |
+| progress/change/upfront | -1.270 | 0.858 | 16.1% | 332 | 332 | 31 | 570 | 1/0/1 |
+
+## Early noise and final new utility: source 3
+
+| Arm | Early-noise net/task | Early-noise paid grants | Final net/task | Profitable final seeds | Final coverage | Final bought accuracy | Numeric/open versions first read in final phase |
+|---|---:|---:|---:|---:|---:|---:|---|
+| progress/error-only/upfront | -1.580 | 272 | 0.037 | 5/8 | 26.5% | 87.4% | 13/2 |
+| progress/signed/upfront | -1.511 | 204 | -0.497 | 0/8 | 18.9% | 73.3% | 3/8 |
+| progress/cycle-only/upfront | -1.511 | 204 | -0.497 | 0/8 | 18.9% | 73.3% | 3/8 |
+| progress/change/upfront | -1.511 | 204 | -0.497 | 0/8 | 18.9% | 73.3% | 3/8 |
+
+Final-phase versions are assigned to the phase of their first decision read; their blocks can include earlier-phase observations.
+A returning source's old comparison can be read in the new phase. Full per-seed window-known counts are in analysis.json.
+
+## Rare return: first 16 world requests in phase 3
+
+| Arm | Net/request | Coverage | Bought accuracy | Paid grants |
+|---|---:|---:|---:|---:|
+| progress/error-only/upfront | 5.070 | 43.0% | 100.0% | 23 |
+| progress/signed/upfront | 1.594 | 26.6% | 85.3% | 9 |
+| progress/cycle-only/upfront | 1.594 | 26.6% | 85.3% | 9 |
+| progress/change/upfront | 1.594 | 26.6% | 85.3% | 9 |
+
+The first 16 **purchases** are also reported separately in analysis.json; these are different denominators.
+
+## Phase and source diagnostics
+
+| Arm | Phase (0-based) | Source | Net/task | Burn/task | Coverage | Bought accuracy | Updates | Refinements |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| progress/error-only/upfront | 0 | 0 | 5.582 | 2.277 | 100.0% | 99.3% | 202 | 0 |
+| progress/error-only/upfront | 0 | 1 | -0.377 | 1.582 | 33.6% | 69.1% | 236 | 8 |
+| progress/error-only/upfront | 0 | 2 | -2.258 | 1.506 | 32.8% | 48.4% | 189 | 8 |
+| progress/error-only/upfront | 0 | 3 | -2.593 | 1.754 | 41.0% | 49.1% | 170 | 8 |
+| progress/error-only/upfront | 1 | 0 | 3.733 | 3.681 | 100.0% | 97.1% | 272 | 11 |
+| progress/error-only/upfront | 1 | 2 | -1.213 | 0.820 | 12.6% | 44.6% | 130 | 8 |
+| progress/error-only/upfront | 1 | 3 | -1.109 | 0.850 | 13.5% | 51.9% | 52 | 1 |
+| progress/error-only/upfront | 2 | 0 | 4.342 | 3.658 | 100.0% | 100.0% | 169 | 0 |
+| progress/error-only/upfront | 2 | 2 | -0.913 | 0.806 | 12.5% | 55.6% | 126 | 8 |
+| progress/error-only/upfront | 2 | 3 | -1.034 | 0.927 | 12.6% | 54.7% | 50 | 7 |
+| progress/error-only/upfront | 3 | 0 | 4.312 | 3.688 | 100.0% | 100.0% | 87 | 0 |
+| progress/error-only/upfront | 3 | 1 | 10.263 | 3.339 | 85.1% | 99.9% | 176 | 1 |
+| progress/error-only/upfront | 3 | 2 | -1.295 | 0.794 | 12.6% | 40.0% | 62 | 7 |
+| progress/error-only/upfront | 3 | 3 | 0.037 | 1.343 | 26.5% | 87.4% | 213 | 6 |
+| progress/signed/upfront | 0 | 0 | 5.582 | 2.277 | 100.0% | 99.3% | 202 | 0 |
+| progress/signed/upfront | 0 | 1 | -0.748 | 1.547 | 33.6% | 66.0% | 190 | 9 |
+| progress/signed/upfront | 0 | 2 | -2.233 | 1.435 | 32.6% | 47.6% | 157 | 8 |
+| progress/signed/upfront | 0 | 3 | -2.599 | 1.708 | 41.0% | 48.5% | 156 | 8 |
+| progress/signed/upfront | 1 | 0 | 3.298 | 3.710 | 100.0% | 95.0% | 298 | 18 |
+| progress/signed/upfront | 1 | 2 | -1.057 | 0.721 | 12.6% | 46.9% | 66 | 8 |
+| progress/signed/upfront | 1 | 3 | -0.791 | 0.685 | 13.2% | 56.9% | 25 | 0 |
+| progress/signed/upfront | 2 | 0 | 4.342 | 3.658 | 100.0% | 100.0% | 169 | 0 |
+| progress/signed/upfront | 2 | 2 | -0.880 | 0.717 | 12.5% | 53.2% | 66 | 8 |
+| progress/signed/upfront | 2 | 3 | -1.110 | 0.843 | 12.6% | 49.1% | 23 | 7 |
+| progress/signed/upfront | 3 | 0 | 4.312 | 3.688 | 100.0% | 100.0% | 87 | 0 |
+| progress/signed/upfront | 3 | 1 | 5.341 | 2.370 | 57.4% | 94.0% | 125 | 8 |
+| progress/signed/upfront | 3 | 2 | -1.370 | 0.790 | 12.6% | 37.5% | 43 | 7 |
+| progress/signed/upfront | 3 | 3 | -0.497 | 0.981 | 18.9% | 73.3% | 84 | 11 |
+| progress/cycle-only/upfront | 0 | 0 | 5.582 | 2.277 | 100.0% | 99.3% | 202 | 0 |
+| progress/cycle-only/upfront | 0 | 1 | -0.748 | 1.547 | 33.6% | 66.0% | 190 | 9 |
+| progress/cycle-only/upfront | 0 | 2 | -2.233 | 1.435 | 32.6% | 47.6% | 157 | 8 |
+| progress/cycle-only/upfront | 0 | 3 | -2.599 | 1.708 | 41.0% | 48.5% | 156 | 8 |
+| progress/cycle-only/upfront | 1 | 0 | 3.205 | 3.720 | 100.0% | 94.6% | 306 | 20 |
+| progress/cycle-only/upfront | 1 | 2 | -1.057 | 0.721 | 12.6% | 46.9% | 66 | 8 |
+| progress/cycle-only/upfront | 1 | 3 | -0.791 | 0.685 | 13.2% | 56.9% | 25 | 0 |
+| progress/cycle-only/upfront | 2 | 0 | 4.342 | 3.658 | 100.0% | 100.0% | 169 | 0 |
+| progress/cycle-only/upfront | 2 | 2 | -0.880 | 0.717 | 12.5% | 53.2% | 66 | 8 |
+| progress/cycle-only/upfront | 2 | 3 | -1.110 | 0.843 | 12.6% | 49.1% | 23 | 7 |
+| progress/cycle-only/upfront | 3 | 0 | 4.312 | 3.688 | 100.0% | 100.0% | 87 | 0 |
+| progress/cycle-only/upfront | 3 | 1 | 5.341 | 2.370 | 57.4% | 94.0% | 125 | 8 |
+| progress/cycle-only/upfront | 3 | 2 | -1.370 | 0.790 | 12.6% | 37.5% | 43 | 7 |
+| progress/cycle-only/upfront | 3 | 3 | -0.497 | 0.981 | 18.9% | 73.3% | 84 | 11 |
+| progress/change/upfront | 0 | 0 | 5.582 | 2.277 | 100.0% | 99.3% | 202 | 0 |
+| progress/change/upfront | 0 | 1 | -0.748 | 1.547 | 33.6% | 66.0% | 190 | 9 |
+| progress/change/upfront | 0 | 2 | -2.233 | 1.435 | 32.6% | 47.6% | 157 | 8 |
+| progress/change/upfront | 0 | 3 | -2.599 | 1.708 | 41.0% | 48.5% | 156 | 8 |
+| progress/change/upfront | 1 | 0 | 3.298 | 3.710 | 100.0% | 95.0% | 298 | 18 |
+| progress/change/upfront | 1 | 2 | -1.057 | 0.721 | 12.6% | 46.9% | 66 | 8 |
+| progress/change/upfront | 1 | 3 | -0.791 | 0.685 | 13.2% | 56.9% | 25 | 0 |
+| progress/change/upfront | 2 | 0 | 4.342 | 3.658 | 100.0% | 100.0% | 169 | 0 |
+| progress/change/upfront | 2 | 2 | -0.880 | 0.717 | 12.5% | 53.2% | 66 | 8 |
+| progress/change/upfront | 2 | 3 | -1.110 | 0.843 | 12.6% | 49.1% | 23 | 7 |
+| progress/change/upfront | 3 | 0 | 4.312 | 3.688 | 100.0% | 100.0% | 87 | 0 |
+| progress/change/upfront | 3 | 1 | 5.341 | 2.370 | 57.4% | 94.0% | 125 | 8 |
+| progress/change/upfront | 3 | 2 | -1.370 | 0.790 | 12.6% | 37.5% | 43 | 7 |
+| progress/change/upfront | 3 | 3 | -0.497 | 0.981 | 18.9% | 73.3% | 84 | 11 |
+
+## Checks and limits
+
+Passed: per-step currency conservation; trace/row totals; paired tapes and source schedules; frozen source hashes; saved native transport, aliases and the declared behavior fixture; progress version/count/coverage consistency.
+
+The complete settings, arm definitions, per-seed variation, grant-trigger breakdowns, source hashes and archive digests are in analysis.json.
+
+- Primary endpoint includes every world task, holds, startup and failed paid investigations.
+- Eight seed estimates use descriptive unadjusted Student t(7) intervals; two-seed pilots have no confidence intervals.
+- Internal upfront fees redistribute resources; physical gross minus burned work determines group return.
+- Costs are abstract; passive monitor work is priced inside the existing one-unit inspection in all four arms.
+- Phase/source descriptions are evaluator-only labels and never learner inputs.
+- Pure noise means source 2 in all phases; source 3 is separately reported as early noise only in phases 0-2.
+- Per-source burns are attributed to their world step, not marginal causal credit.
+- Progress snapshots precede current feedback. Trigger and episode counters can record an episode opening without a funded current grant.
+- Point progress counts deduplicate by seed, provider source and comparison version; adjacent versions can share a block.
+- Evaluator window-known counts are reconstructed from prior bought public advice and actual consequences; they do not calibrate or train the monitor.
+- Numeric progress is conditional on supported predictions; interpretation coverage and open comparisons remain separately visible.
+- Common adaptation is a descriptive first error-free 16-request window in phase 1, not proof of permanent mastery or a primary endpoint.
+- Observer comparisons completed at the last feedback may not have a later decision read; completed and first-read counts differ.
+- Paid permissions, requested permissions and row-recorded actual model updates are different quantities.
+- Saved-file checks cover their declared retained-anchor/presence and paid-decision fixture, not novel external world reconnection.

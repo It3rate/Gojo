@@ -1,0 +1,44 @@
+[
+  {
+    "arm": "clean-trained/frozen",
+    "filename": "clean-trained-frozen.gojo",
+    "signatureMatched": true,
+    "behaviorMatched": true,
+    "bytes": 388049
+  },
+  {
+    "arm": "clean-trained/online",
+    "filename": "clean-trained-online.gojo",
+    "signatureMatched": true,
+    "behaviorMatched": true,
+    "bytes": 446529
+  },
+  {
+    "arm": "missing-trained/frozen",
+    "filename": "missing-trained-frozen.gojo",
+    "signatureMatched": true,
+    "behaviorMatched": true,
+    "bytes": 420008
+  },
+  {
+    "arm": "missing-trained/online",
+    "filename": "missing-trained-online.gojo",
+    "signatureMatched": true,
+    "behaviorMatched": true,
+    "bytes": 446529
+  },
+  {
+    "arm": "always-probe",
+    "filename": "always-probe.gojo",
+    "signatureMatched": true,
+    "behaviorMatched": true,
+    "bytes": 404816
+  },
+  {
+    "arm": "retry-if-unavailable",
+    "filename": "retry-if-unavailable.gojo",
+    "signatureMatched": true,
+    "behaviorMatched": true,
+    "bytes": 415460
+  }
+]

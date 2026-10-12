@@ -1,0 +1,119 @@
+{
+  "auditedUtc": "2026-10-12T11:28:00.627981+00:00",
+  "result": "passed",
+  "mode": "Actual default preview only; no -Apply",
+  "manifest": "experiments/UtilityEcology/backout/seed-trial-20261012/changes.json",
+  "manifestSha256": "08246ab3f250a4d61f2b0c4a07d2a70cd8f68334502249cbb8c9d1527dffc1a8",
+  "scriptSha256": "aedb33b817a4e719a2c016eade1479be4dfdc1d8d300cf69960d35c8d47a0958",
+  "targetCount": 9,
+  "restoreCount": 2,
+  "newProductionFilesRemoved": 5,
+  "newTestFilesRemoved": 2,
+  "rows": [
+    {
+      "path": "experiments/UtilityEcology/Program.cs",
+      "operation": "restore",
+      "targetWithinRepository": true,
+      "currentHashMatched": true,
+      "baselineHashMatched": true,
+      "currentSha256": "a4ab665708dbde49e44014d0ea906b0546f7fe0ac9e7656bcd3acf310537187f"
+    },
+    {
+      "path": "experiments/UtilityEcology/README.md",
+      "operation": "restore",
+      "targetWithinRepository": true,
+      "currentHashMatched": true,
+      "baselineHashMatched": true,
+      "currentSha256": "a02f183f26b747677d93522564e143cf4927d8b9d11414b34674df2851bc1ccb"
+    },
+    {
+      "path": "experiments/UtilityEcology/SeededProvider.cs",
+      "operation": "remove",
+      "targetWithinRepository": true,
+      "currentHashMatched": true,
+      "baselineHashMatched": null,
+      "currentSha256": "0eb0367a4dcfbfba4581f334fdcc45b81a7c3704220a91f17c390f6790d37be2"
+    },
+    {
+      "path": "experiments/UtilityEcology/SeedTrial.cs",
+      "operation": "remove",
+      "targetWithinRepository": true,
+      "currentHashMatched": true,
+      "baselineHashMatched": null,
+      "currentSha256": "6216466add92630739125fd84be72200993a6725ad569b91a2740ee1def52e31"
+    },
+    {
+      "path": "experiments/UtilityEcology/SeedTrialArchive.cs",
+      "operation": "remove",
+      "targetWithinRepository": true,
+      "currentHashMatched": true,
+      "baselineHashMatched": null,
+      "currentSha256": "249ed84b1001c06ab5d35794637a8103779ed626c00f8b70ea0e06ecf31b2514"
+    },
+    {
+      "path": "experiments/UtilityEcology/SeedTrialProgram.cs",
+      "operation": "remove",
+      "targetWithinRepository": true,
+      "currentHashMatched": true,
+      "baselineHashMatched": null,
+      "currentSha256": "104e2ab9bf438a3005bb911abb4505ff0ea79f67017fcc669371019cd103541d"
+    },
+    {
+      "path": "experiments/UtilityEcology/SeedTrialRunner.cs",
+      "operation": "remove",
+      "targetWithinRepository": true,
+      "currentHashMatched": true,
+      "baselineHashMatched": null,
+      "currentSha256": "0e2c1b894787fd571d464c605dbe334e751506143d7dbd5cfff0d7e70ae56364"
+    },
+    {
+      "path": "experiments/UtilityEcology.Tests/SeedTrialTests.cs",
+      "operation": "remove",
+      "targetWithinRepository": true,
+      "currentHashMatched": true,
+      "baselineHashMatched": null,
+      "currentSha256": "8abb1637a283e93fb9c7a091e09f7d498f052abbf0f844f91f683e56297087f6"
+    },
+    {
+      "path": "experiments/UtilityEcology.Tests/SeedTrialRunnerTests.cs",
+      "operation": "remove",
+      "targetWithinRepository": true,
+      "currentHashMatched": true,
+      "baselineHashMatched": null,
+      "currentSha256": "33ba114fb9c49a31fd8f5f31bf58da232672439dc2a4f02df1c8dc1cdbbee2fe"
+    }
+  ],
+  "expectedOwnedSetMatched": true,
+  "allTargetsAndBackupsWithinBoundaries": true,
+  "previewMatched": true,
+  "auditedFilesUnchanged": 147,
+  "previewOutput": [
+    "restore: experiments/UtilityEcology/Program.cs",
+    "restore: experiments/UtilityEcology/README.md",
+    "remove: experiments/UtilityEcology/SeededProvider.cs",
+    "remove: experiments/UtilityEcology/SeedTrial.cs",
+    "remove: experiments/UtilityEcology/SeedTrialArchive.cs",
+    "remove: experiments/UtilityEcology/SeedTrialProgram.cs",
+    "remove: experiments/UtilityEcology/SeedTrialRunner.cs",
+    "remove: experiments/UtilityEcology.Tests/SeedTrialTests.cs",
+    "remove: experiments/UtilityEcology.Tests/SeedTrialRunnerTests.cs",
+    "Preview only. Add -Apply to perform this checked rollback."
+  ],
+  "retained": "Reports, raw studies, native archives, snapshots, review, analysis tools, audit evidence, original gates/economy/runners and unrelated work.",
+  "scope": "Target and backup SHA256 plus all140 frozen source files checked before/after actual preview. Script source uses literal paths and verifies every manifest entry before any mutation. Prior fixture independently refused a later edited file without changing any fixture file.",
+  "limits": "Actual -Apply was not run in the working checkout. Restore/removal behavior is exercised by the isolated parent fixture, not an applied production rollback. Saved new-file ownership is audited against the explicit seed-trial file set, not inferred from Git (the experiment directory is untracked).",
+  "exactBaselineReadmePrefixMatched": true,
+  "baselineReadmeBytes": 18665,
+  "appendedReadmeBytes": 4327,
+  "frozenSourceHashesMatched": 140,
+  "executedPowerShell": "C:\\Users\\Acer\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\native\\powershell\\pwsh.exe",
+  "powerShellVersion": "7.6.5",
+  "finalReadback": {
+    "sourceHashesMatched": 140,
+    "rollbackTargetsMatched": 9,
+    "baselineReadmePrefixMatched": true,
+    "reportEncodingCorrectedAndReadBack": true,
+    "supportingZipReportReadmeManifestSavedProgramScriptMatched": true,
+    "productionChangesByAuditor": false
+  }
+}

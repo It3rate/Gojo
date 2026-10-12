@@ -1,0 +1,418 @@
+{
+  "result": {
+    "seed": 113,
+    "selection": true,
+    "measuredResources": false,
+    "eyeLevels": 256,
+    "ecology": {
+      "LightRadius": 60,
+      "LightOnScale": 0.85,
+      "PatchHarvestPerPulse": 24
+    },
+    "binocular": true,
+    "requestedSeconds": 120,
+    "completed": true,
+    "setupSeconds": 0.3661575,
+    "simulatedSeconds": 120,
+    "wallSeconds": 24.2447214,
+    "alive": 9,
+    "births": 0,
+    "lifetime": 1595.8499999999995,
+    "food": 15433,
+    "starvation": 11,
+    "injuries": 216,
+    "injuryCalories": 8521,
+    "computeCalories": 21,
+    "stationary": 0.031163868704585318,
+    "hungryToward": 0.4256489368837615,
+    "fullAway": 0.4981600735970561,
+    "hungryGradientAlignment": 0.1411068925380547,
+    "hungryGradientSamples": 7282,
+    "localFoodShortfall": 4691,
+    "equalEyes": 0.38168753333960903,
+    "observedBodies": 20,
+    "inquiryIssued": 0,
+    "inquiryAnswers": 0,
+    "stale": 0,
+    "inquiryFailures": 0,
+    "adviceTrials": 0,
+    "predictionChecks": 7962,
+    "predictionAbsoluteError": 394401,
+    "bodyUtility": [
+      {
+        "id": 1,
+        "generation": 0,
+        "utility": -551,
+        "visits": 120,
+        "parameters": [
+          [
+            8,
+            5,
+            8,
+            12
+          ],
+          [
+            4,
+            6
+          ],
+          [
+            14,
+            12
+          ],
+          [
+            6,
+            40,
+            5,
+            1
+          ]
+        ]
+      },
+      {
+        "id": 2,
+        "generation": 0,
+        "utility": -464,
+        "visits": 120,
+        "parameters": [
+          [
+            8,
+            5,
+            8,
+            12
+          ],
+          [
+            8,
+            8
+          ],
+          [
+            12,
+            0
+          ],
+          [
+            6,
+            40,
+            5,
+            1
+          ]
+        ]
+      },
+      {
+        "id": 4,
+        "generation": 0,
+        "utility": 272,
+        "visits": 120,
+        "parameters": [
+          [
+            8,
+            5,
+            8,
+            12
+          ],
+          [
+            8,
+            8
+          ],
+          [
+            14,
+            12
+          ],
+          [
+            6,
+            40,
+            5,
+            -1
+          ]
+        ]
+      },
+      {
+        "id": 7,
+        "generation": 0,
+        "utility": -220,
+        "visits": 120,
+        "parameters": [
+          [
+            8,
+            5,
+            8,
+            12
+          ],
+          [
+            8,
+            8
+          ],
+          [
+            12,
+            0
+          ],
+          [
+            6,
+            40,
+            5,
+            1
+          ]
+        ]
+      },
+      {
+        "id": 9,
+        "generation": 0,
+        "utility": 322,
+        "visits": 120,
+        "parameters": [
+          [
+            8,
+            5,
+            8,
+            12
+          ],
+          [
+            8,
+            8
+          ],
+          [
+            14,
+            12
+          ],
+          [
+            6,
+            40,
+            5,
+            -1
+          ]
+        ]
+      },
+      {
+        "id": 10,
+        "generation": 0,
+        "utility": 485,
+        "visits": 120,
+        "parameters": [
+          [
+            8,
+            5,
+            8,
+            12
+          ],
+          [
+            8,
+            8
+          ],
+          [
+            14,
+            12
+          ],
+          [
+            0,
+            40,
+            5,
+            1
+          ]
+        ]
+      },
+      {
+        "id": 15,
+        "generation": 0,
+        "utility": 304,
+        "visits": 120,
+        "parameters": [
+          [
+            8,
+            5,
+            8,
+            12
+          ],
+          [
+            8,
+            8
+          ],
+          [
+            14,
+            12
+          ],
+          [
+            0,
+            40,
+            5,
+            1
+          ]
+        ]
+      },
+      {
+        "id": 17,
+        "generation": 0,
+        "utility": -3,
+        "visits": 120,
+        "parameters": [
+          [
+            8,
+            5,
+            8,
+            12
+          ],
+          [
+            8,
+            8
+          ],
+          [
+            12,
+            0
+          ],
+          [
+            6,
+            40,
+            5,
+            1
+          ]
+        ]
+      },
+      {
+        "id": 19,
+        "generation": 0,
+        "utility": -361,
+        "visits": 120,
+        "parameters": [
+          [
+            8,
+            5,
+            8,
+            12
+          ],
+          [
+            8,
+            8
+          ],
+          [
+            14,
+            12
+          ],
+          [
+            6,
+            40,
+            5,
+            -1
+          ]
+        ]
+      }
+    ]
+  },
+  "samples": [
+    {
+      "seconds": 10,
+      "population": 20,
+      "births": 0,
+      "food": 2487,
+      "injuries": 24,
+      "meanSpeed": 19.364664509863143,
+      "stationary": 0.04425,
+      "predictionError": 61.45
+    },
+    {
+      "seconds": 20,
+      "population": 20,
+      "births": 0,
+      "food": 3397,
+      "injuries": 83,
+      "meanSpeed": 26.34046800110687,
+      "stationary": 0.029,
+      "predictionError": 10.35
+    },
+    {
+      "seconds": 30,
+      "population": 18,
+      "births": 0,
+      "food": 3482,
+      "injuries": 139,
+      "meanSpeed": 24.224135105277053,
+      "stationary": 0.023316498316498315,
+      "predictionError": 44.27777777777778
+    },
+    {
+      "seconds": 40,
+      "population": 12,
+      "births": 0,
+      "food": 4664,
+      "injuries": 154,
+      "meanSpeed": 20.644689054135142,
+      "stationary": 0.03136933987997818,
+      "predictionError": 62.583333333333336
+    },
+    {
+      "seconds": 50,
+      "population": 12,
+      "births": 0,
+      "food": 5864,
+      "injuries": 154,
+      "meanSpeed": 22.917217597616936,
+      "stationary": 0.031235349273323956,
+      "predictionError": 13.916666666666666
+    },
+    {
+      "seconds": 60,
+      "population": 12,
+      "births": 0,
+      "food": 7900,
+      "injuries": 154,
+      "meanSpeed": 20.135098703633894,
+      "stationary": 0.029541718043567613,
+      "predictionError": 18.333333333333332
+    },
+    {
+      "seconds": 70,
+      "population": 12,
+      "births": 0,
+      "food": 9956,
+      "injuries": 154,
+      "meanSpeed": 23.036939149378103,
+      "stationary": 0.028723015001829492,
+      "predictionError": 88.33333333333333
+    },
+    {
+      "seconds": 80,
+      "population": 12,
+      "births": 0,
+      "food": 11634,
+      "injuries": 165,
+      "meanSpeed": 24.36879119363058,
+      "stationary": 0.028107484338938345,
+      "predictionError": 39.833333333333336
+    },
+    {
+      "seconds": 90,
+      "population": 10,
+      "births": 0,
+      "food": 12751,
+      "injuries": 167,
+      "meanSpeed": 21.476761932878738,
+      "stationary": 0.03345416100286966,
+      "predictionError": 85.4
+    },
+    {
+      "seconds": 100,
+      "population": 9,
+      "births": 0,
+      "food": 13852,
+      "injuries": 184,
+      "meanSpeed": 24.13439246078599,
+      "stationary": 0.034206438859079355,
+      "predictionError": 19.555555555555557
+    },
+    {
+      "seconds": 110,
+      "population": 9,
+      "births": 0,
+      "food": 14593,
+      "injuries": 192,
+      "meanSpeed": 27.319158638846183,
+      "stationary": 0.032162772172065854,
+      "predictionError": 24.444444444444443
+    },
+    {
+      "seconds": 120,
+      "population": 9,
+      "births": 0,
+      "food": 15433,
+      "injuries": 216,
+      "meanSpeed": 25.92941662690093,
+      "stationary": 0.031163868704585318,
+      "predictionError": 23.77777777777778
+    }
+  ]
+}

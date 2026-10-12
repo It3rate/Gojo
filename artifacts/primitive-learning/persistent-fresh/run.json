@@ -1,0 +1,15 @@
+{
+  "elapsedSeconds": 742.4043235,
+  "rows": 312,
+  "runtime": ".NET 10.0.12",
+  "processors": 8,
+  "settings": {
+    "name": "campaign",
+    "seeds": 4,
+    "train": 1536,
+    "test": 768,
+    "warmup": 128,
+    "output": "D:\\source\\repos\\It3rate\\Gojo-phototaxis\\artifacts\\primitive-learning\\persistent-fresh",
+    "seedStart": 100
+  }
+}

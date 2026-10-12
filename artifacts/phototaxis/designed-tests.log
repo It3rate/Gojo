@@ -1,0 +1,9 @@
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  Gojo -> D:\source\repos\It3rate\Gojo-phototaxis\Gojo\bin\Debug\net10.0\Gojo.dll
+  Phototaxis -> D:\source\repos\It3rate\Gojo-phototaxis\experiments\Phototaxis\bin\Debug\net10.0\Phototaxis.dll
+  Phototaxis.Tests -> D:\source\repos\It3rate\Gojo-phototaxis\experiments\Phototaxis.Tests\bin\Debug\net10.0\Phototaxis.Tests.dll
+Test run for D:\source\repos\It3rate\Gojo-phototaxis\experiments\Phototaxis.Tests\bin\Debug\net10.0\Phototaxis.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+
+Passed!  - Failed:     0, Passed:    49, Skipped:     0, Total:    49, Duration: 2 s - Phototaxis.Tests.dll (net10.0)

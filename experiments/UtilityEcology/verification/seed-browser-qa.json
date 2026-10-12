@@ -1,0 +1,23 @@
+{
+  "verifiedUtc": "2026-10-12T11:27:27.958377+00:00",
+  "url": "http://127.0.0.1:4330/seed-review.html",
+  "confirmationSeeds": 8,
+  "worldRequests": 81920,
+  "checks": {
+    "headlineAndAllFiveRowsMatchAnalysis": true,
+    "pendingColumnVisible": true,
+    "usefulCommonClosure320Gain163BurnAndFresh16Shown": true,
+    "rejectedNoiseClosureZeroGain172BurnShown": true,
+    "sourceSelectionChangesActualObservedTrace": true,
+    "nextButtonAdvancesLocalRequestAndPhysicalFacts": true,
+    "narrowLayoutContainsHorizontalTables": true,
+    "defaultViewportRestored": true,
+    "reviewTabMarkedDeliverable": true
+  },
+  "narrowDomWidths": {
+    "clientWidth": 312,
+    "scrollWidth": 312,
+    "mainWidth": 312.5
+  },
+  "scope": "Root browser rendered inspection at default and temporary narrow viewport. Read-only review controls tested; no simulation or external model calls."
+}

@@ -1,0 +1,188 @@
+{
+  "backend": "CompactSimd",
+  "secondsToRun": 1,
+  "warmupSeconds": 0,
+  "initialPopulation": 2,
+  "trialCount": 2,
+  "maxParallel": 1,
+  "seeds": [
+    7
+  ],
+  "fixedResources": true,
+  "cognitive": true,
+  "roving": true,
+  "isolatedProcesses": true,
+  "host": {
+    "logicalProcessors": 8,
+    "processor": "Intel64 Family 6 Model 158 Stepping 9, GenuineIntel",
+    "framework": ".NET 10.0.12",
+    "architecture": "X64",
+    "os": "Microsoft Windows 10.0.19045",
+    "vector128Accelerated": true,
+    "vector256Accelerated": true,
+    "avx2Supported": true
+  },
+  "batchWallSeconds": 1.5080122,
+  "endToEndSimulatedSpeed": 1.3262492173471805,
+  "includingWarmupSimulatedSpeed": 1.3262492173471805,
+  "summedTimedWallSeconds": 0.42196140000000004,
+  "summedTimedCpuSeconds": 0.4375,
+  "summedTimedAllocatedBytes": 38565280,
+  "sameSeedDigestsConsistent": true,
+  "trials": [
+    {
+      "index": 1,
+      "seed": 7,
+      "childArguments": [
+        "profile",
+        "1",
+        "2",
+        "--cognitive",
+        "--roving",
+        "--fixed-resources",
+        "--backend",
+        "CompactSimd",
+        "--warmup",
+        "0",
+        "--seed",
+        "7"
+      ],
+      "childEndToEndSeconds": 0.7598966,
+      "profile": {
+        "seed": 7,
+        "initialPopulation": 2,
+        "secondsToRun": 1,
+        "warmupSeconds": 0,
+        "cognitive": true,
+        "Ecology": {
+          "LightRadius": 72,
+          "LightOnScale": 1,
+          "PatchHarvestPerPulse": 36,
+          "LightDriftSpeed": 1.5
+        },
+        "ArenaScale": 1,
+        "fixedResources": true,
+        "nativeAssembly": "f4fa5721-8065-47c2-b6eb-7b18db739470",
+        "backend": "CompactSimd",
+        "wallSeconds": 0.2293822,
+        "actualSpeed": 4.359536180226713,
+        "alive": 2,
+        "allocatedBytes": 19282664,
+        "cpuSeconds": 0.234375,
+        "host": {
+          "logicalProcessors": 8,
+          "processor": "Intel64 Family 6 Model 158 Stepping 9, GenuineIntel",
+          "framework": ".NET 10.0.12",
+          "architecture": "X64",
+          "os": "Microsoft Windows 10.0.19045",
+          "vector128Accelerated": true,
+          "vector256Accelerated": true,
+          "avx2Supported": true
+        },
+        "simdSupported": true,
+        "collections": [
+          3,
+          1,
+          0
+        ],
+        "execution": {
+          "batches": 209,
+          "planBuilds": 39,
+          "cacheHits": 98,
+          "numericSteps": 1019,
+          "fallbacks": 0,
+          "deferredBatches": 70,
+          "simdBatches": 197,
+          "simdLanes": 394
+        },
+        "stateDigest": "7CA2704E4E63F5A1AF7D7CC7CD83A76DE8B656F09EB31D21EAF181D7578105B8",
+        "phases": {
+          "supply": 0.0045993,
+          "cognition": 0.0490891,
+          "eyes": 0.0034529,
+          "circuit": 0.128367,
+          "motion-prediction": 0.0123896,
+          "work-photosynthesis-search": 0.0153619,
+          "environment-mating": 0.0158861
+        }
+      }
+    },
+    {
+      "index": 2,
+      "seed": 7,
+      "childArguments": [
+        "profile",
+        "1",
+        "2",
+        "--cognitive",
+        "--roving",
+        "--fixed-resources",
+        "--backend",
+        "CompactSimd",
+        "--warmup",
+        "0",
+        "--seed",
+        "7"
+      ],
+      "childEndToEndSeconds": 0.7285136,
+      "profile": {
+        "seed": 7,
+        "initialPopulation": 2,
+        "secondsToRun": 1,
+        "warmupSeconds": 0,
+        "cognitive": true,
+        "Ecology": {
+          "LightRadius": 72,
+          "LightOnScale": 1,
+          "PatchHarvestPerPulse": 36,
+          "LightDriftSpeed": 1.5
+        },
+        "ArenaScale": 1,
+        "fixedResources": true,
+        "nativeAssembly": "f4fa5721-8065-47c2-b6eb-7b18db739470",
+        "backend": "CompactSimd",
+        "wallSeconds": 0.1925792,
+        "actualSpeed": 5.192668782506106,
+        "alive": 2,
+        "allocatedBytes": 19282616,
+        "cpuSeconds": 0.203125,
+        "host": {
+          "logicalProcessors": 8,
+          "processor": "Intel64 Family 6 Model 158 Stepping 9, GenuineIntel",
+          "framework": ".NET 10.0.12",
+          "architecture": "X64",
+          "os": "Microsoft Windows 10.0.19045",
+          "vector128Accelerated": true,
+          "vector256Accelerated": true,
+          "avx2Supported": true
+        },
+        "simdSupported": true,
+        "collections": [
+          3,
+          1,
+          0
+        ],
+        "execution": {
+          "batches": 209,
+          "planBuilds": 39,
+          "cacheHits": 98,
+          "numericSteps": 1019,
+          "fallbacks": 0,
+          "deferredBatches": 70,
+          "simdBatches": 197,
+          "simdLanes": 394
+        },
+        "stateDigest": "7CA2704E4E63F5A1AF7D7CC7CD83A76DE8B656F09EB31D21EAF181D7578105B8",
+        "phases": {
+          "supply": 0.0038617,
+          "cognition": 0.0358963,
+          "eyes": 0.0031255,
+          "circuit": 0.1098098,
+          "motion-prediction": 0.0113517,
+          "work-photosynthesis-search": 0.0159935,
+          "environment-mating": 0.0122274
+        }
+      }
+    }
+  ]
+}

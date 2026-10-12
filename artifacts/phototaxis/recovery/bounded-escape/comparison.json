@@ -1,0 +1,73 @@
+{
+  "baseline": "artifacts/phototaxis/ecology/roving-paired/roving/binocular",
+  "beforeAssembly": "9fb85420-a29d-4b60-b50e-68de4ddee234",
+  "afterAssembly": "2eee6691-a781-4b67-b5bb-6d9131c97e44",
+  "seconds": 180,
+  "seeds": [
+    7,
+    19
+  ],
+  "fixedResourceObservations": true,
+  "worldChanged": false,
+  "pairs": [
+    {
+      "seed": 7,
+      "before": {
+        "alive": 8,
+        "births": 8,
+        "lifetime": 3222.5999999999717,
+        "food": 36604,
+        "injuries": 297,
+        "injuryCalories": 11740,
+        "stationary": 0.03633035492678084
+      },
+      "after": {
+        "completed": true,
+        "simulatedSeconds": 180,
+        "alive": 15,
+        "births": 11,
+        "lifetime": 4296.149999999982,
+        "food": 45137,
+        "injuries": 138,
+        "injuryCalories": 5566,
+        "stationary": 0.03498277627781399
+      },
+      "injuryRateBefore": 0.09216160863898797,
+      "injuryRateAfter": 0.03212178345728165,
+      "survivingGenerations": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "seed": 19,
+      "before": {
+        "alive": 5,
+        "births": 6,
+        "lifetime": 3028.0499999999915,
+        "food": 37523,
+        "injuries": 363,
+        "injuryCalories": 14329,
+        "stationary": 0.04921090861067089
+      },
+      "after": {
+        "completed": true,
+        "simulatedSeconds": 180,
+        "alive": 16,
+        "births": 6,
+        "lifetime": 3909.400000000015,
+        "food": 41723,
+        "injuries": 189,
+        "injuryCalories": 7610,
+        "stationary": 0.03566861059954982
+      },
+      "injuryRateBefore": 0.11987913013325441,
+      "injuryRateAfter": 0.048345014580242304,
+      "survivingGenerations": [
+        0,
+        1
+      ]
+    }
+  ]
+}

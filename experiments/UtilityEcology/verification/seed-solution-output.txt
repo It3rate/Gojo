@@ -1,0 +1,72 @@
+  Gojo -> D:\source\repos\It3rate\Gojo-phototaxis\Gojo\bin\Release\net10.0\Gojo.dll
+  GojoCAD -> D:\source\repos\It3rate\Gojo-phototaxis\GojoCAD\bin\Release\net10.0\GojoCAD.dll
+  Phototaxis -> D:\source\repos\It3rate\Gojo-phototaxis\experiments\Phototaxis\bin\Release\net10.0\Phototaxis.dll
+  PrimitiveLearning -> D:\source\repos\It3rate\Gojo-phototaxis\experiments\PrimitiveLearning\bin\Release\net10.0\PrimitiveLearning.dll
+  PrimitiveForager -> D:\source\repos\It3rate\Gojo-phototaxis\experiments\PrimitiveForager\bin\Release\net10.0\PrimitiveForager.dll
+  Gojo.Encoding -> D:\source\repos\It3rate\Gojo-phototaxis\Gojo.Encoding\bin\Release\net10.0\Gojo.Encoding.dll
+  Gojo.Tests -> D:\source\repos\It3rate\Gojo-phototaxis\Gojo.Tests\bin\Release\net10.0\Gojo.Tests.dll
+  GojoDraw -> D:\source\repos\It3rate\Gojo-phototaxis\GojoDraw\bin\Release\net10.0\GojoDraw.dll
+Test run for D:\source\repos\It3rate\Gojo-phototaxis\Gojo.Tests\bin\Release\net10.0\Gojo.Tests.dll (.NETCoreApp,Version=v10.0)
+  Gojo.GearShapeLadder -> D:\source\repos\It3rate\Gojo-phototaxis\Gojo.GearShapeLadder\bin\Release\net10.0\Gojo.GearShapeLadder.dll
+  PrimitiveForager.Tests -> D:\source\repos\It3rate\Gojo-phototaxis\experiments\PrimitiveForager.Tests\bin\Release\net10.0\PrimitiveForager.Tests.dll
+Test run for D:\source\repos\It3rate\Gojo-phototaxis\experiments\PrimitiveForager.Tests\bin\Release\net10.0\PrimitiveForager.Tests.dll (.NETCoreApp,Version=v10.0)
+  Gojo.Blocks -> D:\source\repos\It3rate\Gojo-phototaxis\Gojo.Blocks\bin\Release\net10.0\Gojo.Blocks.dll
+  Phototaxis.Tests -> D:\source\repos\It3rate\Gojo-phototaxis\experiments\Phototaxis.Tests\bin\Release\net10.0\Phototaxis.Tests.dll
+Test run for D:\source\repos\It3rate\Gojo-phototaxis\experiments\Phototaxis.Tests\bin\Release\net10.0\Phototaxis.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+  PrimitiveLearning.Tests -> D:\source\repos\It3rate\Gojo-phototaxis\experiments\PrimitiveLearning.Tests\bin\Release\net10.0\PrimitiveLearning.Tests.dll
+Test run for D:\source\repos\It3rate\Gojo-phototaxis\experiments\PrimitiveLearning.Tests\bin\Release\net10.0\PrimitiveLearning.Tests.dll (.NETCoreApp,Version=v10.0)
+  GojoCAD.Tests -> D:\source\repos\It3rate\Gojo-phototaxis\GojoCAD.Tests\bin\Release\net10.0\GojoCAD.Tests.dll
+Test run for D:\source\repos\It3rate\Gojo-phototaxis\GojoCAD.Tests\bin\Release\net10.0\GojoCAD.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+  CompositeEmergence -> D:\source\repos\It3rate\Gojo-phototaxis\experiments\CompositeEmergence\bin\Release\net10.0\CompositeEmergence.dll
+  AdaptiveLifecycle -> D:\source\repos\It3rate\Gojo-phototaxis\experiments\AdaptiveLifecycle\bin\Release\net10.0\AdaptiveLifecycle.dll
+A total of 1 test files matched the specified pattern.
+A total of 1 test files matched the specified pattern.
+A total of 1 test files matched the specified pattern.
+Results File: D:\source\repos\It3rate\Gojo-phototaxis\experiments\UtilityEcology\verification\seed-solution\Robin_LAPTOPROBIN_2026-10-12_07_02_34_net10.0.trx
+
+Passed!  - Failed:     0, Passed:     6, Skipped:     0, Total:     6, Duration: 2 s - PrimitiveForager.Tests.dll (net10.0)
+Results File: D:\source\repos\It3rate\Gojo-phototaxis\experiments\UtilityEcology\verification\seed-solution\Robin_LAPTOPROBIN_2026-10-12_07_02_33_net10.0.trx
+
+Passed!  - Failed:     0, Passed:  1009, Skipped:     0, Total:  1009, Duration: 6 s - Gojo.Tests.dll (net10.0)
+  CompositeEmergence.Tests -> D:\source\repos\It3rate\Gojo-phototaxis\experiments\CompositeEmergence.Tests\bin\Release\net10.0\CompositeEmergence.Tests.dll
+Test run for D:\source\repos\It3rate\Gojo-phototaxis\experiments\CompositeEmergence.Tests\bin\Release\net10.0\CompositeEmergence.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+Results File: D:\source\repos\It3rate\Gojo-phototaxis\experiments\UtilityEcology\verification\seed-solution\Robin_LAPTOPROBIN_2026-10-12_07_02_36_net10.0.trx
+
+Passed!  - Failed:     0, Passed:   155, Skipped:     0, Total:   155, Duration: 13 s - GojoCAD.Tests.dll (net10.0)
+  Gojo.GearShapeLadder.Tests -> D:\source\repos\It3rate\Gojo-phototaxis\Gojo.GearShapeLadder.Tests\bin\Release\net10.0\Gojo.GearShapeLadder.Tests.dll
+Test run for D:\source\repos\It3rate\Gojo-phototaxis\Gojo.GearShapeLadder.Tests\bin\Release\net10.0\Gojo.GearShapeLadder.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+Results File: D:\source\repos\It3rate\Gojo-phototaxis\experiments\UtilityEcology\verification\seed-solution\Robin_LAPTOPROBIN_2026-10-12_07_02_36_net10.0[1].trx
+
+Passed!  - Failed:     0, Passed:    64, Skipped:     0, Total:    64, Duration: 19 s - PrimitiveLearning.Tests.dll (net10.0)
+  AdaptiveLifecycle.Tests -> D:\source\repos\It3rate\Gojo-phototaxis\experiments\AdaptiveLifecycle.Tests\bin\Release\net10.0\AdaptiveLifecycle.Tests.dll
+Test run for D:\source\repos\It3rate\Gojo-phototaxis\experiments\AdaptiveLifecycle.Tests\bin\Release\net10.0\AdaptiveLifecycle.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+Results File: D:\source\repos\It3rate\Gojo-phototaxis\experiments\UtilityEcology\verification\seed-solution\Robin_LAPTOPROBIN_2026-10-12_07_02_59_net10.0.trx
+
+Passed!  - Failed:     0, Passed:    21, Skipped:     0, Total:    21, Duration: 4 s - Gojo.GearShapeLadder.Tests.dll (net10.0)
+Results File: D:\source\repos\It3rate\Gojo-phototaxis\experiments\UtilityEcology\verification\seed-solution\Robin_LAPTOPROBIN_2026-10-12_07_02_35_net10.0.trx
+
+Passed!  - Failed:     0, Passed:   129, Skipped:     0, Total:   129, Duration: 35 s - Phototaxis.Tests.dll (net10.0)
+  Gojo.Encoding.Tests -> D:\source\repos\It3rate\Gojo-phototaxis\Gojo.Encoding.Tests\bin\Release\net10.0\Gojo.Encoding.Tests.dll
+Test run for D:\source\repos\It3rate\Gojo-phototaxis\Gojo.Encoding.Tests\bin\Release\net10.0\Gojo.Encoding.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+Results File: D:\source\repos\It3rate\Gojo-phototaxis\experiments\UtilityEcology\verification\seed-solution\Robin_LAPTOPROBIN_2026-10-12_07_03_03_net10.0.trx
+
+Passed!  - Failed:     0, Passed:    25, Skipped:     0, Total:    25, Duration: 9 s - AdaptiveLifecycle.Tests.dll (net10.0)
+Results File: D:\source\repos\It3rate\Gojo-phototaxis\experiments\UtilityEcology\verification\seed-solution\Robin_LAPTOPROBIN_2026-10-12_07_03_16_net10.0.trx
+
+Passed!  - Failed:     0, Passed:   725, Skipped:     0, Total:   725, Duration: 20 s - Gojo.Encoding.Tests.dll (net10.0)
+Results File: D:\source\repos\It3rate\Gojo-phototaxis\experiments\UtilityEcology\verification\seed-solution\Robin_LAPTOPROBIN_2026-10-12_07_02_50_net10.0.trx
+
+Passed!  - Failed:     0, Passed:    66, Skipped:     0, Total:    66, Duration: 52 s - CompositeEmergence.Tests.dll (net10.0)
+  UtilityEcology -> D:\source\repos\It3rate\Gojo-phototaxis\experiments\UtilityEcology\bin\Release\net10.0\UtilityEcology.dll
+  UtilityEcology.Tests -> D:\source\repos\It3rate\Gojo-phototaxis\experiments\UtilityEcology.Tests\bin\Release\net10.0\UtilityEcology.Tests.dll
+Test run for D:\source\repos\It3rate\Gojo-phototaxis\experiments\UtilityEcology.Tests\bin\Release\net10.0\UtilityEcology.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+Results File: D:\source\repos\It3rate\Gojo-phototaxis\experiments\UtilityEcology\verification\seed-solution\Robin_LAPTOPROBIN_2026-10-12_07_03_43_net10.0.trx
+
+Passed!  - Failed:     0, Passed:   119, Skipped:     0, Total:   119, Duration: 24 s - UtilityEcology.Tests.dll (net10.0)

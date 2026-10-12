@@ -1,0 +1,10 @@
+restore: experiments/UtilityEcology/Program.cs
+restore: experiments/UtilityEcology/README.md
+remove: experiments/UtilityEcology/SeededProvider.cs
+remove: experiments/UtilityEcology/SeedTrial.cs
+remove: experiments/UtilityEcology/SeedTrialArchive.cs
+remove: experiments/UtilityEcology/SeedTrialProgram.cs
+remove: experiments/UtilityEcology/SeedTrialRunner.cs
+remove: experiments/UtilityEcology.Tests/SeedTrialTests.cs
+remove: experiments/UtilityEcology.Tests/SeedTrialRunnerTests.cs
+Preview only. Add -Apply to perform this checked rollback.

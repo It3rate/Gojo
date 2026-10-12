@@ -1,0 +1,2 @@
+{"secondsToRun":15,"cognitive":true,"Ecology":{"LightRadius":72,"LightOnScale":1,"PatchHarvestPerPulse":36,"LightDriftSpeed":1.5},"ArenaScale":1,"wallSeconds":5.3354816,"actualSpeed":2.8113675811383176,"alive":20,"allocatedBytes":2056277432,"phases":{"supply":0.034724,"cognition":2.2233447,"eyes":0.1620009,"circuit":2.0224661,"motion-prediction":0.4393847,"work-photosynthesis-search":0.4357563,"environment-mating":0.0163113}}
+

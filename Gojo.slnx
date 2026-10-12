@@ -57,4 +57,40 @@
   <Project Path="Gojo.Blocks/Gojo.Blocks.csproj" />
   <Project Path="Gojo.Blocks.Browser/Gojo.Blocks.Browser.csproj" />
   <Project Path="GojoDraw/GojoDraw.csproj" />
+  <Folder Name="/Experiments/" />
+  <Folder Name="/Experiments/Phototaxis/">
+    <Project Path="experiments/Phototaxis/Phototaxis.csproj" />
+    <Project Path="experiments/Phototaxis.Browser/Phototaxis.Browser.csproj" />
+    <Project Path="experiments/Phototaxis.Runner/Phototaxis.Runner.csproj" />
+    <Project Path="experiments/Phototaxis.Tests/Phototaxis.Tests.csproj" />
+  </Folder>
+  <Folder Name="/Experiments/SamplingEmergence/">
+    <Project Path="experiments/SamplingEmergence/SamplingEmergence.csproj" />
+  </Folder>
+  <Folder Name="/Experiments/PrimitiveAgency/">
+    <Project Path="experiments/PrimitiveAgency/PrimitiveAgency.csproj" />
+  </Folder>
+  <Folder Name="/Experiments/PrimitiveForager/">
+    <Project Path="experiments/PrimitiveForager.Tests/PrimitiveForager.Tests.csproj" />
+    <Project Path="experiments/PrimitiveForager/PrimitiveForager.csproj" />
+  </Folder>
+  <Folder Name="/Experiments/RelativeSignals/">
+    <Project Path="experiments/RelativeSignals/RelativeSignals.csproj" />
+  </Folder>
+  <Folder Name="/Experiments/PrimitiveLearning/">
+    <Project Path="experiments/PrimitiveLearning/PrimitiveLearning.csproj" />
+    <Project Path="experiments/PrimitiveLearning.Tests/PrimitiveLearning.Tests.csproj" />
+  </Folder>
+  <Folder Name="/Experiments/CompositeEmergence/">
+    <Project Path="experiments/CompositeEmergence/CompositeEmergence.csproj" />
+    <Project Path="experiments/CompositeEmergence.Tests/CompositeEmergence.Tests.csproj" />
+  </Folder>
+  <Folder Name="/Experiments/AdaptiveLifecycle/">
+    <Project Path="experiments/AdaptiveLifecycle/AdaptiveLifecycle.csproj" />
+    <Project Path="experiments/AdaptiveLifecycle.Tests/AdaptiveLifecycle.Tests.csproj" />
+  </Folder>
+  <Folder Name="/Experiments/UtilityEcology/">
+    <Project Path="experiments/UtilityEcology/UtilityEcology.csproj" />
+    <Project Path="experiments/UtilityEcology.Tests/UtilityEcology.Tests.csproj" />
+  </Folder>
 </Solution>

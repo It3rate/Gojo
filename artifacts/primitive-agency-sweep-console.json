@@ -1,0 +1,2144 @@
+{
+  "output": "D:\\source\\repos\\It3rate\\Gojo-phototaxis\\artifacts\\primitive-agency-sweep",
+  "allBackendsMatch": true,
+  "selection": {
+    "selectedVariantId": "baseline_strict0",
+    "selectedTrialId": "baseline_strict0_memory_heat_query_computed",
+    "baselineTrialId": "baseline_strict0_memory_heat_query_computed",
+    "baselineCycles": 15,
+    "qualifyingVariantIds": [
+      "baseline_strict0",
+      "baseline_broad10",
+      "baseline_gentle4"
+    ],
+    "rule": "Require zero starvation, zero overheat, and at least the reference cycle count. Minimize queries, then prefer higher mean charge, then more cycles. On a complete tie keep the existing strict reference before comparing variant ids.",
+    "validationTicks": 2400,
+    "validationDescription": "Longer validation in the same periodic world; this is not a held-out world."
+  },
+  "trials": [
+    {
+      "id": "baseline_strict0_memory_heat_query_computed",
+      "summary": {
+        "completedCycles": 15,
+        "starvationTicks": 0,
+        "overheatTicks": 0,
+        "meanCharge": 60.605,
+        "movements": 213,
+        "ambiguityTicks": 278,
+        "refinementQueries": 219,
+        "totalOperations": 18244,
+        "elapsedMs": 218.814,
+        "allocatedBytes": 115912072,
+        "parityHash": "e1d45a5ee9efc9638851cc27a11630c9f83b1d2139eadf183d38437187d55017",
+        "archiveBytes": 69785,
+        "finalCharge": 59,
+        "finalHeat": 0,
+        "initialActionUnresolvedTicks": 219
+      }
+    },
+    {
+      "id": "baseline_strict0_memory_heat_query_lookup",
+      "summary": {
+        "completedCycles": 15,
+        "starvationTicks": 0,
+        "overheatTicks": 0,
+        "meanCharge": 60.605,
+        "movements": 213,
+        "ambiguityTicks": 278,
+        "refinementQueries": 219,
+        "totalOperations": 18244,
+        "elapsedMs": 235.0336,
+        "allocatedBytes": 130148280,
+        "parityHash": "e1d45a5ee9efc9638851cc27a11630c9f83b1d2139eadf183d38437187d55017",
+        "archiveBytes": 69229,
+        "finalCharge": 59,
+        "finalHeat": 0,
+        "initialActionUnresolvedTicks": 219
+      }
+    },
+    {
+      "id": "baseline_strict0_memory_heat_query_packed",
+      "summary": {
+        "completedCycles": 15,
+        "starvationTicks": 0,
+        "overheatTicks": 0,
+        "meanCharge": 60.605,
+        "movements": 213,
+        "ambiguityTicks": 278,
+        "refinementQueries": 219,
+        "totalOperations": 18244,
+        "elapsedMs": 89.7103,
+        "allocatedBytes": 111668648,
+        "parityHash": "e1d45a5ee9efc9638851cc27a11630c9f83b1d2139eadf183d38437187d55017",
+        "archiveBytes": 78229,
+        "finalCharge": 59,
+        "finalHeat": 0,
+        "initialActionUnresolvedTicks": 219
+      }
+    },
+    {
+      "id": "baseline_gentle4_memory_heat_query_computed",
+      "summary": {
+        "completedCycles": 15,
+        "starvationTicks": 0,
+        "overheatTicks": 0,
+        "meanCharge": 60.605,
+        "movements": 213,
+        "ambiguityTicks": 600,
+        "refinementQueries": 219,
+        "totalOperations": 19217,
+        "elapsedMs": 86.9488,
+        "allocatedBytes": 126999120,
+        "parityHash": "099b0150c50c870c4b2f082209476ed5977bc32cc773ec3a4573245e06165146",
+        "archiveBytes": 74897,
+        "finalCharge": 59,
+        "finalHeat": 0,
+        "initialActionUnresolvedTicks": 219
+      }
+    },
+    {
+      "id": "baseline_gentle4_memory_heat_query_lookup",
+      "summary": {
+        "completedCycles": 15,
+        "starvationTicks": 0,
+        "overheatTicks": 0,
+        "meanCharge": 60.605,
+        "movements": 213,
+        "ambiguityTicks": 600,
+        "refinementQueries": 219,
+        "totalOperations": 19217,
+        "elapsedMs": 102.4967,
+        "allocatedBytes": 144244784,
+        "parityHash": "099b0150c50c870c4b2f082209476ed5977bc32cc773ec3a4573245e06165146",
+        "archiveBytes": 74269,
+        "finalCharge": 59,
+        "finalHeat": 0,
+        "initialActionUnresolvedTicks": 219
+      }
+    },
+    {
+      "id": "baseline_gentle4_memory_heat_query_packed",
+      "summary": {
+        "completedCycles": 15,
+        "starvationTicks": 0,
+        "overheatTicks": 0,
+        "meanCharge": 60.605,
+        "movements": 213,
+        "ambiguityTicks": 600,
+        "refinementQueries": 219,
+        "totalOperations": 19217,
+        "elapsedMs": 97.23,
+        "allocatedBytes": 121953984,
+        "parityHash": "099b0150c50c870c4b2f082209476ed5977bc32cc773ec3a4573245e06165146",
+        "archiveBytes": 84325,
+        "finalCharge": 59,
+        "finalHeat": 0,
+        "initialActionUnresolvedTicks": 219
+      }
+    },
+    {
+      "id": "baseline_broad10_memory_heat_query_computed",
+      "summary": {
+        "completedCycles": 15,
+        "starvationTicks": 0,
+        "overheatTicks": 0,
+        "meanCharge": 60.605,
+        "movements": 213,
+        "ambiguityTicks": 600,
+        "refinementQueries": 219,
+        "totalOperations": 19217,
+        "elapsedMs": 94.7622,
+        "allocatedBytes": 126999120,
+        "parityHash": "099b0150c50c870c4b2f082209476ed5977bc32cc773ec3a4573245e06165146",
+        "archiveBytes": 74897,
+        "finalCharge": 59,
+        "finalHeat": 0,
+        "initialActionUnresolvedTicks": 219
+      }
+    },
+    {
+      "id": "baseline_broad10_memory_heat_query_lookup",
+      "summary": {
+        "completedCycles": 15,
+        "starvationTicks": 0,
+        "overheatTicks": 0,
+        "meanCharge": 60.605,
+        "movements": 213,
+        "ambiguityTicks": 600,
+        "refinementQueries": 219,
+        "totalOperations": 19217,
+        "elapsedMs": 119.9041,
+        "allocatedBytes": 144244784,
+        "parityHash": "099b0150c50c870c4b2f082209476ed5977bc32cc773ec3a4573245e06165146",
+        "archiveBytes": 74269,
+        "finalCharge": 59,
+        "finalHeat": 0,
+        "initialActionUnresolvedTicks": 219
+      }
+    },
+    {
+      "id": "baseline_broad10_memory_heat_query_packed",
+      "summary": {
+        "completedCycles": 15,
+        "starvationTicks": 0,
+        "overheatTicks": 0,
+        "meanCharge": 60.605,
+        "movements": 213,
+        "ambiguityTicks": 600,
+        "refinementQueries": 219,
+        "totalOperations": 19217,
+        "elapsedMs": 97.8872,
+        "allocatedBytes": 121953984,
+        "parityHash": "099b0150c50c870c4b2f082209476ed5977bc32cc773ec3a4573245e06165146",
+        "archiveBytes": 84325,
+        "finalCharge": 59,
+        "finalHeat": 0,
+        "initialActionUnresolvedTicks": 219
+      }
+    },
+    {
+      "id": "uniform_strict0_memory_heat_query_computed",
+      "summary": {
+        "completedCycles": 14,
+        "starvationTicks": 10,
+        "overheatTicks": 0,
+        "meanCharge": 56.59,
+        "movements": 231,
+        "ambiguityTicks": 414,
+        "refinementQueries": 263,
+        "totalOperations": 18925,
+        "elapsedMs": 87.3681,
+        "allocatedBytes": 120356728,
+        "parityHash": "e771f7aa31e3a6b8c3e314e202c59c2dd0728a350547295f826dcb38deffac86",
+        "archiveBytes": 72507,
+        "finalCharge": 34,
+        "finalHeat": 5,
+        "initialActionUnresolvedTicks": 263
+      }
+    },
+    {
+      "id": "uniform_strict0_memory_heat_query_lookup",
+      "summary": {
+        "completedCycles": 14,
+        "starvationTicks": 10,
+        "overheatTicks": 0,
+        "meanCharge": 56.59,
+        "movements": 231,
+        "ambiguityTicks": 414,
+        "refinementQueries": 263,
+        "totalOperations": 18925,
+        "elapsedMs": 101.3934,
+        "allocatedBytes": 134611432,
+        "parityHash": "e771f7aa31e3a6b8c3e314e202c59c2dd0728a350547295f826dcb38deffac86",
+        "archiveBytes": 71951,
+        "finalCharge": 34,
+        "finalHeat": 5,
+        "initialActionUnresolvedTicks": 263
+      }
+    },
+    {
+      "id": "uniform_strict0_memory_heat_query_packed",
+      "summary": {
+        "completedCycles": 14,
+        "starvationTicks": 10,
+        "overheatTicks": 0,
+        "meanCharge": 56.59,
+        "movements": 231,
+        "ambiguityTicks": 414,
+        "refinementQueries": 263,
+        "totalOperations": 18925,
+        "elapsedMs": 86.6018,
+        "allocatedBytes": 116085016,
+        "parityHash": "e771f7aa31e3a6b8c3e314e202c59c2dd0728a350547295f826dcb38deffac86",
+        "archiveBytes": 80951,
+        "finalCharge": 34,
+        "finalHeat": 5,
+        "initialActionUnresolvedTicks": 263
+      }
+    },
+    {
+      "id": "uniform_gentle4_memory_heat_query_computed",
+      "summary": {
+        "completedCycles": 14,
+        "starvationTicks": 10,
+        "overheatTicks": 0,
+        "meanCharge": 56.59,
+        "movements": 231,
+        "ambiguityTicks": 600,
+        "refinementQueries": 263,
+        "totalOperations": 20093,
+        "elapsedMs": 95.1234,
+        "allocatedBytes": 133321352,
+        "parityHash": "febc732f6c17f0942161f860df94a8b8b695bf74a7c2dc26b9e36f59f2017723",
+        "archiveBytes": 77763,
+        "finalCharge": 34,
+        "finalHeat": 5,
+        "initialActionUnresolvedTicks": 263
+      }
+    },
+    {
+      "id": "uniform_gentle4_memory_heat_query_lookup",
+      "summary": {
+        "completedCycles": 14,
+        "starvationTicks": 10,
+        "overheatTicks": 0,
+        "meanCharge": 56.59,
+        "movements": 231,
+        "ambiguityTicks": 600,
+        "refinementQueries": 263,
+        "totalOperations": 20093,
+        "elapsedMs": 118.1186,
+        "allocatedBytes": 150628216,
+        "parityHash": "febc732f6c17f0942161f860df94a8b8b695bf74a7c2dc26b9e36f59f2017723",
+        "archiveBytes": 77135,
+        "finalCharge": 34,
+        "finalHeat": 5,
+        "initialActionUnresolvedTicks": 263
+      }
+    },
+    {
+      "id": "uniform_gentle4_memory_heat_query_packed",
+      "summary": {
+        "completedCycles": 14,
+        "starvationTicks": 10,
+        "overheatTicks": 0,
+        "meanCharge": 56.59,
+        "movements": 231,
+        "ambiguityTicks": 600,
+        "refinementQueries": 263,
+        "totalOperations": 20093,
+        "elapsedMs": 99.1248,
+        "allocatedBytes": 128200184,
+        "parityHash": "febc732f6c17f0942161f860df94a8b8b695bf74a7c2dc26b9e36f59f2017723",
+        "archiveBytes": 87191,
+        "finalCharge": 34,
+        "finalHeat": 5,
+        "initialActionUnresolvedTicks": 263
+      }
+    },
+    {
+      "id": "uniform_broad10_memory_heat_query_computed",
+      "summary": {
+        "completedCycles": 14,
+        "starvationTicks": 10,
+        "overheatTicks": 0,
+        "meanCharge": 56.59,
+        "movements": 231,
+        "ambiguityTicks": 600,
+        "refinementQueries": 263,
+        "totalOperations": 20093,
+        "elapsedMs": 96.5427,
+        "allocatedBytes": 133263752,
+        "parityHash": "febc732f6c17f0942161f860df94a8b8b695bf74a7c2dc26b9e36f59f2017723",
+        "archiveBytes": 77763,
+        "finalCharge": 34,
+        "finalHeat": 5,
+        "initialActionUnresolvedTicks": 263
+      }
+    },
+    {
+      "id": "uniform_broad10_memory_heat_query_lookup",
+      "summary": {
+        "completedCycles": 14,
+        "starvationTicks": 10,
+        "overheatTicks": 0,
+        "meanCharge": 56.59,
+        "movements": 231,
+        "ambiguityTicks": 600,
+        "refinementQueries": 263,
+        "totalOperations": 20093,
+        "elapsedMs": 114.3574,
+        "allocatedBytes": 150610584,
+        "parityHash": "febc732f6c17f0942161f860df94a8b8b695bf74a7c2dc26b9e36f59f2017723",
+        "archiveBytes": 77135,
+        "finalCharge": 34,
+        "finalHeat": 5,
+        "initialActionUnresolvedTicks": 263
+      }
+    },
+    {
+      "id": "uniform_broad10_memory_heat_query_packed",
+      "summary": {
+        "completedCycles": 14,
+        "starvationTicks": 10,
+        "overheatTicks": 0,
+        "meanCharge": 56.59,
+        "movements": 231,
+        "ambiguityTicks": 600,
+        "refinementQueries": 263,
+        "totalOperations": 20093,
+        "elapsedMs": 87.5116,
+        "allocatedBytes": 128176184,
+        "parityHash": "febc732f6c17f0942161f860df94a8b8b695bf74a7c2dc26b9e36f59f2017723",
+        "archiveBytes": 87191,
+        "finalCharge": 34,
+        "finalHeat": 5,
+        "initialActionUnresolvedTicks": 263
+      }
+    },
+    {
+      "id": "dimfocused_strict0_memory_heat_query_computed",
+      "summary": {
+        "completedCycles": 16,
+        "starvationTicks": 6,
+        "overheatTicks": 0,
+        "meanCharge": 57.92,
+        "movements": 227,
+        "ambiguityTicks": 573,
+        "refinementQueries": 292,
+        "totalOperations": 19388,
+        "elapsedMs": 84.1618,
+        "allocatedBytes": 123375704,
+        "parityHash": "df7b99d0fe27420e288197962777eba77396fdf97b8c577bb5d1630fb3722c76",
+        "archiveBytes": 69785,
+        "finalCharge": 49,
+        "finalHeat": 0,
+        "initialActionUnresolvedTicks": 292
+      }
+    },
+    {
+      "id": "dimfocused_strict0_memory_heat_query_lookup",
+      "summary": {
+        "completedCycles": 16,
+        "starvationTicks": 6,
+        "overheatTicks": 0,
+        "meanCharge": 57.92,
+        "movements": 227,
+        "ambiguityTicks": 573,
+        "refinementQueries": 292,
+        "totalOperations": 19388,
+        "elapsedMs": 102.3057,
+        "allocatedBytes": 137652032,
+        "parityHash": "df7b99d0fe27420e288197962777eba77396fdf97b8c577bb5d1630fb3722c76",
+        "archiveBytes": 69229,
+        "finalCharge": 49,
+        "finalHeat": 0,
+        "initialActionUnresolvedTicks": 292
+      }
+    },
+    {
+      "id": "dimfocused_strict0_memory_heat_query_packed",
+      "summary": {
+        "completedCycles": 16,
+        "starvationTicks": 6,
+        "overheatTicks": 0,
+        "meanCharge": 57.92,
+        "movements": 227,
+        "ambiguityTicks": 573,
+        "refinementQueries": 292,
+        "totalOperations": 19388,
+        "elapsedMs": 80.9964,
+        "allocatedBytes": 119070920,
+        "parityHash": "df7b99d0fe27420e288197962777eba77396fdf97b8c577bb5d1630fb3722c76",
+        "archiveBytes": 78229,
+        "finalCharge": 49,
+        "finalHeat": 0,
+        "initialActionUnresolvedTicks": 292
+      }
+    },
+    {
+      "id": "dimfocused_gentle4_memory_heat_query_computed",
+      "summary": {
+        "completedCycles": 16,
+        "starvationTicks": 6,
+        "overheatTicks": 0,
+        "meanCharge": 57.92,
+        "movements": 227,
+        "ambiguityTicks": 600,
+        "refinementQueries": 292,
+        "totalOperations": 20604,
+        "elapsedMs": 93.8777,
+        "allocatedBytes": 137088608,
+        "parityHash": "92ea8bb6956627504cd4d59605aa1c49321e4a93a83dd7d7f935582b56f4e2c5",
+        "archiveBytes": 74897,
+        "finalCharge": 49,
+        "finalHeat": 0,
+        "initialActionUnresolvedTicks": 292
+      }
+    },
+    {
+      "id": "dimfocused_gentle4_memory_heat_query_lookup",
+      "summary": {
+        "completedCycles": 16,
+        "starvationTicks": 6,
+        "overheatTicks": 0,
+        "meanCharge": 57.92,
+        "movements": 227,
+        "ambiguityTicks": 600,
+        "refinementQueries": 292,
+        "totalOperations": 20604,
+        "elapsedMs": 111.8379,
+        "allocatedBytes": 154537232,
+        "parityHash": "92ea8bb6956627504cd4d59605aa1c49321e4a93a83dd7d7f935582b56f4e2c5",
+        "archiveBytes": 74269,
+        "finalCharge": 49,
+        "finalHeat": 0,
+        "initialActionUnresolvedTicks": 292
+      }
+    },
+    {
+      "id": "dimfocused_gentle4_memory_heat_query_packed",
+      "summary": {
+        "completedCycles": 16,
+        "starvationTicks": 6,
+        "overheatTicks": 0,
+        "meanCharge": 57.92,
+        "movements": 227,
+        "ambiguityTicks": 600,
+        "refinementQueries": 292,
+        "totalOperations": 20604,
+        "elapsedMs": 92.9828,
+        "allocatedBytes": 131951432,
+        "parityHash": "92ea8bb6956627504cd4d59605aa1c49321e4a93a83dd7d7f935582b56f4e2c5",
+        "archiveBytes": 84325,
+        "finalCharge": 49,
+        "finalHeat": 0,
+        "initialActionUnresolvedTicks": 292
+      }
+    },
+    {
+      "id": "dimfocused_broad10_memory_heat_query_computed",
+      "summary": {
+        "completedCycles": 16,
+        "starvationTicks": 6,
+        "overheatTicks": 0,
+        "meanCharge": 57.92,
+        "movements": 227,
+        "ambiguityTicks": 600,
+        "refinementQueries": 292,
+        "totalOperations": 20604,
+        "elapsedMs": 90.5234,
+        "allocatedBytes": 137088608,
+        "parityHash": "92ea8bb6956627504cd4d59605aa1c49321e4a93a83dd7d7f935582b56f4e2c5",
+        "archiveBytes": 74825,
+        "finalCharge": 49,
+        "finalHeat": 0,
+        "initialActionUnresolvedTicks": 292
+      }
+    },
+    {
+      "id": "dimfocused_broad10_memory_heat_query_lookup",
+      "summary": {
+        "completedCycles": 16,
+        "starvationTicks": 6,
+        "overheatTicks": 0,
+        "meanCharge": 57.92,
+        "movements": 227,
+        "ambiguityTicks": 600,
+        "refinementQueries": 292,
+        "totalOperations": 20604,
+        "elapsedMs": 86.945,
+        "allocatedBytes": 154086032,
+        "parityHash": "92ea8bb6956627504cd4d59605aa1c49321e4a93a83dd7d7f935582b56f4e2c5",
+        "archiveBytes": 74197,
+        "finalCharge": 49,
+        "finalHeat": 0,
+        "initialActionUnresolvedTicks": 292
+      }
+    },
+    {
+      "id": "dimfocused_broad10_memory_heat_query_packed",
+      "summary": {
+        "completedCycles": 16,
+        "starvationTicks": 6,
+        "overheatTicks": 0,
+        "meanCharge": 57.92,
+        "movements": 227,
+        "ambiguityTicks": 600,
+        "refinementQueries": 292,
+        "totalOperations": 20604,
+        "elapsedMs": 80.2782,
+        "allocatedBytes": 131951432,
+        "parityHash": "92ea8bb6956627504cd4d59605aa1c49321e4a93a83dd7d7f935582b56f4e2c5",
+        "archiveBytes": 84181,
+        "finalCharge": 49,
+        "finalHeat": 0,
+        "initialActionUnresolvedTicks": 292
+      }
+    },
+    {
+      "id": "brightfocused_strict0_memory_heat_query_computed",
+      "summary": {
+        "completedCycles": 14,
+        "starvationTicks": 2,
+        "overheatTicks": 0,
+        "meanCharge": 60.77,
+        "movements": 205,
+        "ambiguityTicks": 205,
+        "refinementQueries": 159,
+        "totalOperations": 17366,
+        "elapsedMs": 70.3493,
+        "allocatedBytes": 110176264,
+        "parityHash": "9fd4dc6ca6fb43122259ddbade7aa5651770ec407060dc8669118a0347e97b41",
+        "archiveBytes": 69785,
+        "finalCharge": 64,
+        "finalHeat": 0,
+        "initialActionUnresolvedTicks": 159
+      }
+    },
+    {
+      "id": "brightfocused_strict0_memory_heat_query_lookup",
+      "summary": {
+        "completedCycles": 14,
+        "starvationTicks": 2,
+        "overheatTicks": 0,
+        "meanCharge": 60.77,
+        "movements": 205,
+        "ambiguityTicks": 205,
+        "refinementQueries": 159,
+        "totalOperations": 17366,
+        "elapsedMs": 73.3721,
+        "allocatedBytes": 124402544,
+        "parityHash": "9fd4dc6ca6fb43122259ddbade7aa5651770ec407060dc8669118a0347e97b41",
+        "archiveBytes": 69229,
+        "finalCharge": 64,
+        "finalHeat": 0,
+        "initialActionUnresolvedTicks": 159
+      }
+    },
+    {
+      "id": "brightfocused_strict0_memory_heat_query_packed",
+      "summary": {
+        "completedCycles": 14,
+        "starvationTicks": 2,
+        "overheatTicks": 0,
+        "meanCharge": 60.77,
+        "movements": 205,
+        "ambiguityTicks": 205,
+        "refinementQueries": 159,
+        "totalOperations": 17366,
+        "elapsedMs": 72.2145,
+        "allocatedBytes": 105948024,
+        "parityHash": "9fd4dc6ca6fb43122259ddbade7aa5651770ec407060dc8669118a0347e97b41",
+        "archiveBytes": 78229,
+        "finalCharge": 64,
+        "finalHeat": 0,
+        "initialActionUnresolvedTicks": 159
+      }
+    },
+    {
+      "id": "brightfocused_gentle4_memory_heat_query_computed",
+      "summary": {
+        "completedCycles": 14,
+        "starvationTicks": 2,
+        "overheatTicks": 0,
+        "meanCharge": 60.77,
+        "movements": 205,
+        "ambiguityTicks": 600,
+        "refinementQueries": 159,
+        "totalOperations": 18157,
+        "elapsedMs": 79.4251,
+        "allocatedBytes": 119388440,
+        "parityHash": "6a9b020ad33c41543ef11a73abb7c65ef061ba3c267c62165debfc054b1e3dbd",
+        "archiveBytes": 74897,
+        "finalCharge": 64,
+        "finalHeat": 0,
+        "initialActionUnresolvedTicks": 159
+      }
+    },
+    {
+      "id": "brightfocused_gentle4_memory_heat_query_lookup",
+      "summary": {
+        "completedCycles": 14,
+        "starvationTicks": 2,
+        "overheatTicks": 0,
+        "meanCharge": 60.77,
+        "movements": 205,
+        "ambiguityTicks": 600,
+        "refinementQueries": 159,
+        "totalOperations": 18157,
+        "elapsedMs": 84.1029,
+        "allocatedBytes": 136583880,
+        "parityHash": "6a9b020ad33c41543ef11a73abb7c65ef061ba3c267c62165debfc054b1e3dbd",
+        "archiveBytes": 74269,
+        "finalCharge": 64,
+        "finalHeat": 0,
+        "initialActionUnresolvedTicks": 159
+      }
+    },
+    {
+      "id": "brightfocused_gentle4_memory_heat_query_packed",
+      "summary": {
+        "completedCycles": 14,
+        "starvationTicks": 2,
+        "overheatTicks": 0,
+        "meanCharge": 60.77,
+        "movements": 205,
+        "ambiguityTicks": 600,
+        "refinementQueries": 159,
+        "totalOperations": 18157,
+        "elapsedMs": 64.5533,
+        "allocatedBytes": 114366080,
+        "parityHash": "6a9b020ad33c41543ef11a73abb7c65ef061ba3c267c62165debfc054b1e3dbd",
+        "archiveBytes": 84325,
+        "finalCharge": 64,
+        "finalHeat": 0,
+        "initialActionUnresolvedTicks": 159
+      }
+    },
+    {
+      "id": "brightfocused_broad10_memory_heat_query_computed",
+      "summary": {
+        "completedCycles": 12,
+        "starvationTicks": 12,
+        "overheatTicks": 0,
+        "meanCharge": 59.638333333333335,
+        "movements": 212,
+        "ambiguityTicks": 600,
+        "refinementQueries": 102,
+        "totalOperations": 17370,
+        "elapsedMs": 69.1204,
+        "allocatedBytes": 114046216,
+        "parityHash": "14ab38b6de8c4fafec5d24c473f41914cd0571ee3168b21a897744e672cfb350",
+        "archiveBytes": 74825,
+        "finalCharge": 49,
+        "finalHeat": 0,
+        "initialActionUnresolvedTicks": 102
+      }
+    },
+    {
+      "id": "brightfocused_broad10_memory_heat_query_lookup",
+      "summary": {
+        "completedCycles": 12,
+        "starvationTicks": 12,
+        "overheatTicks": 0,
+        "meanCharge": 59.638333333333335,
+        "movements": 212,
+        "ambiguityTicks": 600,
+        "refinementQueries": 102,
+        "totalOperations": 17370,
+        "elapsedMs": 86.0091,
+        "allocatedBytes": 130874952,
+        "parityHash": "14ab38b6de8c4fafec5d24c473f41914cd0571ee3168b21a897744e672cfb350",
+        "archiveBytes": 74197,
+        "finalCharge": 49,
+        "finalHeat": 0,
+        "initialActionUnresolvedTicks": 102
+      }
+    },
+    {
+      "id": "brightfocused_broad10_memory_heat_query_packed",
+      "summary": {
+        "completedCycles": 12,
+        "starvationTicks": 12,
+        "overheatTicks": 0,
+        "meanCharge": 59.638333333333335,
+        "movements": 212,
+        "ambiguityTicks": 600,
+        "refinementQueries": 102,
+        "totalOperations": 17370,
+        "elapsedMs": 73.181,
+        "allocatedBytes": 108981320,
+        "parityHash": "14ab38b6de8c4fafec5d24c473f41914cd0571ee3168b21a897744e672cfb350",
+        "archiveBytes": 84181,
+        "finalCharge": 49,
+        "finalHeat": 0,
+        "initialActionUnresolvedTicks": 102
+      }
+    }
+  ],
+  "verificationTrials": [
+    {
+      "id": "reference_baseline_strict0_memory_heat_query_computed",
+      "summary": {
+        "completedCycles": 60,
+        "starvationTicks": 0,
+        "overheatTicks": 0,
+        "meanCharge": 60.67125,
+        "movements": 812,
+        "ambiguityTicks": 1094,
+        "refinementQueries": 845,
+        "totalOperations": 72612,
+        "elapsedMs": 258.5096,
+        "allocatedBytes": 461066696,
+        "parityHash": "ae14aff4940895d600945594b07e08fd314666f29b6737bfe78b77761c2539ae",
+        "archiveBytes": 69641,
+        "finalCharge": 64,
+        "finalHeat": 0,
+        "initialActionUnresolvedTicks": 845
+      }
+    },
+    {
+      "id": "selected_baseline_strict0_memory_heat_query_computed",
+      "summary": {
+        "completedCycles": 60,
+        "starvationTicks": 0,
+        "overheatTicks": 0,
+        "meanCharge": 60.67125,
+        "movements": 812,
+        "ambiguityTicks": 1094,
+        "refinementQueries": 845,
+        "totalOperations": 72612,
+        "elapsedMs": 257.0291,
+        "allocatedBytes": 461066696,
+        "parityHash": "ae14aff4940895d600945594b07e08fd314666f29b6737bfe78b77761c2539ae",
+        "archiveBytes": 69641,
+        "finalCharge": 64,
+        "finalHeat": 0,
+        "initialActionUnresolvedTicks": 845
+      }
+    },
+    {
+      "id": "reference_baseline_strict0_memory_heat_query_lookup",
+      "summary": {
+        "completedCycles": 60,
+        "starvationTicks": 0,
+        "overheatTicks": 0,
+        "meanCharge": 60.67125,
+        "movements": 812,
+        "ambiguityTicks": 1094,
+        "refinementQueries": 845,
+        "totalOperations": 72612,
+        "elapsedMs": 298.9254,
+        "allocatedBytes": 518009080,
+        "parityHash": "ae14aff4940895d600945594b07e08fd314666f29b6737bfe78b77761c2539ae",
+        "archiveBytes": 69157,
+        "finalCharge": 64,
+        "finalHeat": 0,
+        "initialActionUnresolvedTicks": 845
+      }
+    },
+    {
+      "id": "selected_baseline_strict0_memory_heat_query_lookup",
+      "summary": {
+        "completedCycles": 60,
+        "starvationTicks": 0,
+        "overheatTicks": 0,
+        "meanCharge": 60.67125,
+        "movements": 812,
+        "ambiguityTicks": 1094,
+        "refinementQueries": 845,
+        "totalOperations": 72612,
+        "elapsedMs": 285.6587,
+        "allocatedBytes": 518009080,
+        "parityHash": "ae14aff4940895d600945594b07e08fd314666f29b6737bfe78b77761c2539ae",
+        "archiveBytes": 69157,
+        "finalCharge": 64,
+        "finalHeat": 0,
+        "initialActionUnresolvedTicks": 845
+      }
+    },
+    {
+      "id": "reference_baseline_strict0_memory_heat_query_packed",
+      "summary": {
+        "completedCycles": 60,
+        "starvationTicks": 0,
+        "overheatTicks": 0,
+        "meanCharge": 60.67125,
+        "movements": 812,
+        "ambiguityTicks": 1094,
+        "refinementQueries": 845,
+        "totalOperations": 72612,
+        "elapsedMs": 303.1475,
+        "allocatedBytes": 444096744,
+        "parityHash": "ae14aff4940895d600945594b07e08fd314666f29b6737bfe78b77761c2539ae",
+        "archiveBytes": 78157,
+        "finalCharge": 64,
+        "finalHeat": 0,
+        "initialActionUnresolvedTicks": 845
+      }
+    },
+    {
+      "id": "selected_baseline_strict0_memory_heat_query_packed",
+      "summary": {
+        "completedCycles": 60,
+        "starvationTicks": 0,
+        "overheatTicks": 0,
+        "meanCharge": 60.67125,
+        "movements": 812,
+        "ambiguityTicks": 1094,
+        "refinementQueries": 845,
+        "totalOperations": 72612,
+        "elapsedMs": 296.5536,
+        "allocatedBytes": 444096744,
+        "parityHash": "ae14aff4940895d600945594b07e08fd314666f29b6737bfe78b77761c2539ae",
+        "archiveBytes": 78157,
+        "finalCharge": 64,
+        "finalHeat": 0,
+        "initialActionUnresolvedTicks": 845
+      }
+    },
+    {
+      "id": "no_query_baseline_strict0_round2_no_query_packed",
+      "summary": {
+        "completedCycles": 33,
+        "starvationTicks": 334,
+        "overheatTicks": 0,
+        "meanCharge": 48.177083333333336,
+        "movements": 970,
+        "ambiguityTicks": 1470,
+        "refinementQueries": 0,
+        "totalOperations": 70993,
+        "elapsedMs": 284.1836,
+        "allocatedBytes": 431928392,
+        "parityHash": "a4d52d4930101cf1996a4baf6288b87e8568ec573a69fc0eb56e64a8424af555",
+        "archiveBytes": 76333,
+        "finalCharge": 60,
+        "finalHeat": 15,
+        "initialActionUnresolvedTicks": 1206
+      }
+    }
+  ],
+  "mathComparisons": [
+    {
+      "allBackendsMatch": true,
+      "trialParity": true,
+      "allInputMasksMatch": true,
+      "maskPairsChecked": 256,
+      "nativeCompileMs": 0.0247,
+      "packedCaptureMs": 0.1657,
+      "description": "Right minus left over native region unions. Computed arithmetic, validated native row traversal, and captured packed rows preserve the same exposed contract.",
+      "timingMethod": "Three warmed passes in rotating order; native reads, result inspections, and witness allocations included. Policy construction and capture are reported separately. These short process-local timings are exploratory.",
+      "backends": [
+        {
+          "backend": "Computed",
+          "medianMs": 25.8865,
+          "nanosecondsPerRead": 12639.892578125,
+          "bytesPerRead": 27067.03125
+        },
+        {
+          "backend": "Lookup",
+          "medianMs": 57.0915,
+          "nanosecondsPerRead": 27876.708984375,
+          "bytesPerRead": 47044.19921875
+        },
+        {
+          "backend": "Packed",
+          "medianMs": 16.786,
+          "nanosecondsPerRead": 8196.2890625,
+          "bytesPerRead": 14167.1640625
+        }
+      ],
+      "passes": [
+        {
+          "backend": "Computed",
+          "pass": 1,
+          "iterations": 2048,
+          "elapsedMs": 26.2759,
+          "allocatedBytes": 55433280,
+          "checksum": 12423
+        },
+        {
+          "backend": "Lookup",
+          "pass": 1,
+          "iterations": 2048,
+          "elapsedMs": 59.6561,
+          "allocatedBytes": 96346520,
+          "checksum": 12423
+        },
+        {
+          "backend": "Packed",
+          "pass": 1,
+          "iterations": 2048,
+          "elapsedMs": 16.786,
+          "allocatedBytes": 29014352,
+          "checksum": 12423
+        },
+        {
+          "backend": "Lookup",
+          "pass": 2,
+          "iterations": 2048,
+          "elapsedMs": 56.6433,
+          "allocatedBytes": 96346520,
+          "checksum": 12423
+        },
+        {
+          "backend": "Packed",
+          "pass": 2,
+          "iterations": 2048,
+          "elapsedMs": 25.3858,
+          "allocatedBytes": 29014352,
+          "checksum": 12423
+        },
+        {
+          "backend": "Computed",
+          "pass": 2,
+          "iterations": 2048,
+          "elapsedMs": 25.7632,
+          "allocatedBytes": 55433280,
+          "checksum": 12423
+        },
+        {
+          "backend": "Packed",
+          "pass": 3,
+          "iterations": 2048,
+          "elapsedMs": 16.233,
+          "allocatedBytes": 29014352,
+          "checksum": 12423
+        },
+        {
+          "backend": "Computed",
+          "pass": 3,
+          "iterations": 2048,
+          "elapsedMs": 25.8865,
+          "allocatedBytes": 55433280,
+          "checksum": 12423
+        },
+        {
+          "backend": "Lookup",
+          "pass": 3,
+          "iterations": 2048,
+          "elapsedMs": 57.0915,
+          "allocatedBytes": 96346520,
+          "checksum": 12423
+        }
+      ],
+      "variantId": "baseline_strict0"
+    },
+    {
+      "allBackendsMatch": true,
+      "trialParity": true,
+      "allInputMasksMatch": true,
+      "maskPairsChecked": 256,
+      "nativeCompileMs": 0.029,
+      "packedCaptureMs": 0.1879,
+      "description": "Right minus left over native region unions. Computed arithmetic, validated native row traversal, and captured packed rows preserve the same exposed contract.",
+      "timingMethod": "Three warmed passes in rotating order; native reads, result inspections, and witness allocations included. Policy construction and capture are reported separately. These short process-local timings are exploratory.",
+      "backends": [
+        {
+          "backend": "Computed",
+          "medianMs": 29.9493,
+          "nanosecondsPerRead": 14623.681640625,
+          "bytesPerRead": 30032.203125
+        },
+        {
+          "backend": "Lookup",
+          "medianMs": 67.36,
+          "nanosecondsPerRead": 32890.625,
+          "bytesPerRead": 55380.5546875
+        },
+        {
+          "backend": "Packed",
+          "medianMs": 17.3456,
+          "nanosecondsPerRead": 8469.53125,
+          "bytesPerRead": 15539.29296875
+        }
+      ],
+      "passes": [
+        {
+          "backend": "Computed",
+          "pass": 1,
+          "iterations": 2048,
+          "elapsedMs": 29.9786,
+          "allocatedBytes": 61505952,
+          "checksum": 56923
+        },
+        {
+          "backend": "Lookup",
+          "pass": 1,
+          "iterations": 2048,
+          "elapsedMs": 67.36,
+          "allocatedBytes": 113419376,
+          "checksum": 56923
+        },
+        {
+          "backend": "Packed",
+          "pass": 1,
+          "iterations": 2048,
+          "elapsedMs": 18.8003,
+          "allocatedBytes": 31824472,
+          "checksum": 56923
+        },
+        {
+          "backend": "Lookup",
+          "pass": 2,
+          "iterations": 2048,
+          "elapsedMs": 70.7657,
+          "allocatedBytes": 113419376,
+          "checksum": 56923
+        },
+        {
+          "backend": "Packed",
+          "pass": 2,
+          "iterations": 2048,
+          "elapsedMs": 17.3456,
+          "allocatedBytes": 31824472,
+          "checksum": 56923
+        },
+        {
+          "backend": "Computed",
+          "pass": 2,
+          "iterations": 2048,
+          "elapsedMs": 29.8691,
+          "allocatedBytes": 61505952,
+          "checksum": 56923
+        },
+        {
+          "backend": "Packed",
+          "pass": 3,
+          "iterations": 2048,
+          "elapsedMs": 16.8168,
+          "allocatedBytes": 31824472,
+          "checksum": 56923
+        },
+        {
+          "backend": "Computed",
+          "pass": 3,
+          "iterations": 2048,
+          "elapsedMs": 29.9493,
+          "allocatedBytes": 61505952,
+          "checksum": 56923
+        },
+        {
+          "backend": "Lookup",
+          "pass": 3,
+          "iterations": 2048,
+          "elapsedMs": 66.7936,
+          "allocatedBytes": 113419376,
+          "checksum": 56923
+        }
+      ],
+      "variantId": "baseline_gentle4"
+    },
+    {
+      "allBackendsMatch": true,
+      "trialParity": true,
+      "allInputMasksMatch": true,
+      "maskPairsChecked": 256,
+      "nativeCompileMs": 0.0282,
+      "packedCaptureMs": 0.1879,
+      "description": "Right minus left over native region unions. Computed arithmetic, validated native row traversal, and captured packed rows preserve the same exposed contract.",
+      "timingMethod": "Three warmed passes in rotating order; native reads, result inspections, and witness allocations included. Policy construction and capture are reported separately. These short process-local timings are exploratory.",
+      "backends": [
+        {
+          "backend": "Computed",
+          "medianMs": 29.4677,
+          "nanosecondsPerRead": 14388.525390625,
+          "bytesPerRead": 30032.203125
+        },
+        {
+          "backend": "Lookup",
+          "medianMs": 74.1142,
+          "nanosecondsPerRead": 36188.57421875,
+          "bytesPerRead": 55380.5546875
+        },
+        {
+          "backend": "Packed",
+          "medianMs": 18.3279,
+          "nanosecondsPerRead": 8949.169921875,
+          "bytesPerRead": 15539.29296875
+        }
+      ],
+      "passes": [
+        {
+          "backend": "Computed",
+          "pass": 1,
+          "iterations": 2048,
+          "elapsedMs": 29.4677,
+          "allocatedBytes": 61505952,
+          "checksum": 56923
+        },
+        {
+          "backend": "Lookup",
+          "pass": 1,
+          "iterations": 2048,
+          "elapsedMs": 68.5439,
+          "allocatedBytes": 113419376,
+          "checksum": 56923
+        },
+        {
+          "backend": "Packed",
+          "pass": 1,
+          "iterations": 2048,
+          "elapsedMs": 18.3279,
+          "allocatedBytes": 31824472,
+          "checksum": 56923
+        },
+        {
+          "backend": "Lookup",
+          "pass": 2,
+          "iterations": 2048,
+          "elapsedMs": 95.5204,
+          "allocatedBytes": 113419376,
+          "checksum": 56923
+        },
+        {
+          "backend": "Packed",
+          "pass": 2,
+          "iterations": 2048,
+          "elapsedMs": 23.2356,
+          "allocatedBytes": 31824472,
+          "checksum": 56923
+        },
+        {
+          "backend": "Computed",
+          "pass": 2,
+          "iterations": 2048,
+          "elapsedMs": 30.0796,
+          "allocatedBytes": 61505952,
+          "checksum": 56923
+        },
+        {
+          "backend": "Packed",
+          "pass": 3,
+          "iterations": 2048,
+          "elapsedMs": 17.194,
+          "allocatedBytes": 31824472,
+          "checksum": 56923
+        },
+        {
+          "backend": "Computed",
+          "pass": 3,
+          "iterations": 2048,
+          "elapsedMs": 28.9614,
+          "allocatedBytes": 61505952,
+          "checksum": 56923
+        },
+        {
+          "backend": "Lookup",
+          "pass": 3,
+          "iterations": 2048,
+          "elapsedMs": 74.1142,
+          "allocatedBytes": 113419376,
+          "checksum": 56923
+        }
+      ],
+      "variantId": "baseline_broad10"
+    },
+    {
+      "allBackendsMatch": true,
+      "trialParity": true,
+      "allInputMasksMatch": true,
+      "maskPairsChecked": 256,
+      "nativeCompileMs": 0.0282,
+      "packedCaptureMs": 0.1698,
+      "description": "Right minus left over native region unions. Computed arithmetic, validated native row traversal, and captured packed rows preserve the same exposed contract.",
+      "timingMethod": "Three warmed passes in rotating order; native reads, result inspections, and witness allocations included. Policy construction and capture are reported separately. These short process-local timings are exploratory.",
+      "backends": [
+        {
+          "backend": "Computed",
+          "medianMs": 28.4796,
+          "nanosecondsPerRead": 13906.0546875,
+          "bytesPerRead": 27067.03125
+        },
+        {
+          "backend": "Lookup",
+          "medianMs": 67.3318,
+          "nanosecondsPerRead": 32876.85546875,
+          "bytesPerRead": 47044.19921875
+        },
+        {
+          "backend": "Packed",
+          "medianMs": 20.2345,
+          "nanosecondsPerRead": 9880.126953125,
+          "bytesPerRead": 14167.1640625
+        }
+      ],
+      "passes": [
+        {
+          "backend": "Computed",
+          "pass": 1,
+          "iterations": 2048,
+          "elapsedMs": 26.031,
+          "allocatedBytes": 55433280,
+          "checksum": 12423
+        },
+        {
+          "backend": "Lookup",
+          "pass": 1,
+          "iterations": 2048,
+          "elapsedMs": 67.3318,
+          "allocatedBytes": 96346520,
+          "checksum": 12423
+        },
+        {
+          "backend": "Packed",
+          "pass": 1,
+          "iterations": 2048,
+          "elapsedMs": 23.1352,
+          "allocatedBytes": 29014352,
+          "checksum": 12423
+        },
+        {
+          "backend": "Lookup",
+          "pass": 2,
+          "iterations": 2048,
+          "elapsedMs": 79.8916,
+          "allocatedBytes": 96346520,
+          "checksum": 12423
+        },
+        {
+          "backend": "Packed",
+          "pass": 2,
+          "iterations": 2048,
+          "elapsedMs": 20.2345,
+          "allocatedBytes": 29014352,
+          "checksum": 12423
+        },
+        {
+          "backend": "Computed",
+          "pass": 2,
+          "iterations": 2048,
+          "elapsedMs": 34.6208,
+          "allocatedBytes": 55433280,
+          "checksum": 12423
+        },
+        {
+          "backend": "Packed",
+          "pass": 3,
+          "iterations": 2048,
+          "elapsedMs": 18.3695,
+          "allocatedBytes": 29014352,
+          "checksum": 12423
+        },
+        {
+          "backend": "Computed",
+          "pass": 3,
+          "iterations": 2048,
+          "elapsedMs": 28.4796,
+          "allocatedBytes": 55433280,
+          "checksum": 12423
+        },
+        {
+          "backend": "Lookup",
+          "pass": 3,
+          "iterations": 2048,
+          "elapsedMs": 59.0893,
+          "allocatedBytes": 96346520,
+          "checksum": 12423
+        }
+      ],
+      "variantId": "uniform_strict0"
+    },
+    {
+      "allBackendsMatch": true,
+      "trialParity": true,
+      "allInputMasksMatch": true,
+      "maskPairsChecked": 256,
+      "nativeCompileMs": 0.0417,
+      "packedCaptureMs": 0.2284,
+      "description": "Right minus left over native region unions. Computed arithmetic, validated native row traversal, and captured packed rows preserve the same exposed contract.",
+      "timingMethod": "Three warmed passes in rotating order; native reads, result inspections, and witness allocations included. Policy construction and capture are reported separately. These short process-local timings are exploratory.",
+      "backends": [
+        {
+          "backend": "Computed",
+          "medianMs": 27.6082,
+          "nanosecondsPerRead": 13480.56640625,
+          "bytesPerRead": 30032.203125
+        },
+        {
+          "backend": "Lookup",
+          "medianMs": 78.3832,
+          "nanosecondsPerRead": 38273.046875,
+          "bytesPerRead": 55380.5546875
+        },
+        {
+          "backend": "Packed",
+          "medianMs": 17.3927,
+          "nanosecondsPerRead": 8492.529296875,
+          "bytesPerRead": 15539.29296875
+        }
+      ],
+      "passes": [
+        {
+          "backend": "Computed",
+          "pass": 1,
+          "iterations": 2048,
+          "elapsedMs": 39.3531,
+          "allocatedBytes": 61505952,
+          "checksum": 56923
+        },
+        {
+          "backend": "Lookup",
+          "pass": 1,
+          "iterations": 2048,
+          "elapsedMs": 94.6453,
+          "allocatedBytes": 113419376,
+          "checksum": 56923
+        },
+        {
+          "backend": "Packed",
+          "pass": 1,
+          "iterations": 2048,
+          "elapsedMs": 23.9015,
+          "allocatedBytes": 31824472,
+          "checksum": 56923
+        },
+        {
+          "backend": "Lookup",
+          "pass": 2,
+          "iterations": 2048,
+          "elapsedMs": 78.3832,
+          "allocatedBytes": 113419376,
+          "checksum": 56923
+        },
+        {
+          "backend": "Packed",
+          "pass": 2,
+          "iterations": 2048,
+          "elapsedMs": 17.3927,
+          "allocatedBytes": 31824472,
+          "checksum": 56923
+        },
+        {
+          "backend": "Computed",
+          "pass": 2,
+          "iterations": 2048,
+          "elapsedMs": 27.6082,
+          "allocatedBytes": 61505952,
+          "checksum": 56923
+        },
+        {
+          "backend": "Packed",
+          "pass": 3,
+          "iterations": 2048,
+          "elapsedMs": 17,
+          "allocatedBytes": 31824472,
+          "checksum": 56923
+        },
+        {
+          "backend": "Computed",
+          "pass": 3,
+          "iterations": 2048,
+          "elapsedMs": 27.5639,
+          "allocatedBytes": 61505952,
+          "checksum": 56923
+        },
+        {
+          "backend": "Lookup",
+          "pass": 3,
+          "iterations": 2048,
+          "elapsedMs": 64.9652,
+          "allocatedBytes": 113419376,
+          "checksum": 56923
+        }
+      ],
+      "variantId": "uniform_gentle4"
+    },
+    {
+      "allBackendsMatch": true,
+      "trialParity": true,
+      "allInputMasksMatch": true,
+      "maskPairsChecked": 256,
+      "nativeCompileMs": 0.0278,
+      "packedCaptureMs": 0.1824,
+      "description": "Right minus left over native region unions. Computed arithmetic, validated native row traversal, and captured packed rows preserve the same exposed contract.",
+      "timingMethod": "Three warmed passes in rotating order; native reads, result inspections, and witness allocations included. Policy construction and capture are reported separately. These short process-local timings are exploratory.",
+      "backends": [
+        {
+          "backend": "Computed",
+          "medianMs": 28.0225,
+          "nanosecondsPerRead": 13682.861328125,
+          "bytesPerRead": 30032.203125
+        },
+        {
+          "backend": "Lookup",
+          "medianMs": 65.9174,
+          "nanosecondsPerRead": 32186.23046875,
+          "bytesPerRead": 55380.5546875
+        },
+        {
+          "backend": "Packed",
+          "medianMs": 16.6259,
+          "nanosecondsPerRead": 8118.115234375001,
+          "bytesPerRead": 15539.29296875
+        }
+      ],
+      "passes": [
+        {
+          "backend": "Computed",
+          "pass": 1,
+          "iterations": 2048,
+          "elapsedMs": 29.6277,
+          "allocatedBytes": 61505952,
+          "checksum": 56923
+        },
+        {
+          "backend": "Lookup",
+          "pass": 1,
+          "iterations": 2048,
+          "elapsedMs": 63.8473,
+          "allocatedBytes": 113419376,
+          "checksum": 56923
+        },
+        {
+          "backend": "Packed",
+          "pass": 1,
+          "iterations": 2048,
+          "elapsedMs": 16.6259,
+          "allocatedBytes": 31824472,
+          "checksum": 56923
+        },
+        {
+          "backend": "Lookup",
+          "pass": 2,
+          "iterations": 2048,
+          "elapsedMs": 65.9174,
+          "allocatedBytes": 113419376,
+          "checksum": 56923
+        },
+        {
+          "backend": "Packed",
+          "pass": 2,
+          "iterations": 2048,
+          "elapsedMs": 16.3614,
+          "allocatedBytes": 31824472,
+          "checksum": 56923
+        },
+        {
+          "backend": "Computed",
+          "pass": 2,
+          "iterations": 2048,
+          "elapsedMs": 27.8058,
+          "allocatedBytes": 61505952,
+          "checksum": 56923
+        },
+        {
+          "backend": "Packed",
+          "pass": 3,
+          "iterations": 2048,
+          "elapsedMs": 16.8134,
+          "allocatedBytes": 31824472,
+          "checksum": 56923
+        },
+        {
+          "backend": "Computed",
+          "pass": 3,
+          "iterations": 2048,
+          "elapsedMs": 28.0225,
+          "allocatedBytes": 61505952,
+          "checksum": 56923
+        },
+        {
+          "backend": "Lookup",
+          "pass": 3,
+          "iterations": 2048,
+          "elapsedMs": 76.4647,
+          "allocatedBytes": 113419376,
+          "checksum": 56923
+        }
+      ],
+      "variantId": "uniform_broad10"
+    },
+    {
+      "allBackendsMatch": true,
+      "trialParity": true,
+      "allInputMasksMatch": true,
+      "maskPairsChecked": 256,
+      "nativeCompileMs": 0.0257,
+      "packedCaptureMs": 0.1708,
+      "description": "Right minus left over native region unions. Computed arithmetic, validated native row traversal, and captured packed rows preserve the same exposed contract.",
+      "timingMethod": "Three warmed passes in rotating order; native reads, result inspections, and witness allocations included. Policy construction and capture are reported separately. These short process-local timings are exploratory.",
+      "backends": [
+        {
+          "backend": "Computed",
+          "medianMs": 25.8287,
+          "nanosecondsPerRead": 12611.669921875,
+          "bytesPerRead": 27067.03125
+        },
+        {
+          "backend": "Lookup",
+          "medianMs": 54.2647,
+          "nanosecondsPerRead": 26496.435546875,
+          "bytesPerRead": 47044.19921875
+        },
+        {
+          "backend": "Packed",
+          "medianMs": 15.635,
+          "nanosecondsPerRead": 7634.27734375,
+          "bytesPerRead": 14167.1640625
+        }
+      ],
+      "passes": [
+        {
+          "backend": "Computed",
+          "pass": 1,
+          "iterations": 2048,
+          "elapsedMs": 25.8287,
+          "allocatedBytes": 55433280,
+          "checksum": 12423
+        },
+        {
+          "backend": "Lookup",
+          "pass": 1,
+          "iterations": 2048,
+          "elapsedMs": 53.959,
+          "allocatedBytes": 96346520,
+          "checksum": 12423
+        },
+        {
+          "backend": "Packed",
+          "pass": 1,
+          "iterations": 2048,
+          "elapsedMs": 15.635,
+          "allocatedBytes": 29014352,
+          "checksum": 12423
+        },
+        {
+          "backend": "Lookup",
+          "pass": 2,
+          "iterations": 2048,
+          "elapsedMs": 56.0643,
+          "allocatedBytes": 96346520,
+          "checksum": 12423
+        },
+        {
+          "backend": "Packed",
+          "pass": 2,
+          "iterations": 2048,
+          "elapsedMs": 16.1447,
+          "allocatedBytes": 29014352,
+          "checksum": 12423
+        },
+        {
+          "backend": "Computed",
+          "pass": 2,
+          "iterations": 2048,
+          "elapsedMs": 25.508,
+          "allocatedBytes": 55433280,
+          "checksum": 12423
+        },
+        {
+          "backend": "Packed",
+          "pass": 3,
+          "iterations": 2048,
+          "elapsedMs": 14.9385,
+          "allocatedBytes": 29014352,
+          "checksum": 12423
+        },
+        {
+          "backend": "Computed",
+          "pass": 3,
+          "iterations": 2048,
+          "elapsedMs": 26.0195,
+          "allocatedBytes": 55433280,
+          "checksum": 12423
+        },
+        {
+          "backend": "Lookup",
+          "pass": 3,
+          "iterations": 2048,
+          "elapsedMs": 54.2647,
+          "allocatedBytes": 96346520,
+          "checksum": 12423
+        }
+      ],
+      "variantId": "dimfocused_strict0"
+    },
+    {
+      "allBackendsMatch": true,
+      "trialParity": true,
+      "allInputMasksMatch": true,
+      "maskPairsChecked": 256,
+      "nativeCompileMs": 0.0296,
+      "packedCaptureMs": 0.1874,
+      "description": "Right minus left over native region unions. Computed arithmetic, validated native row traversal, and captured packed rows preserve the same exposed contract.",
+      "timingMethod": "Three warmed passes in rotating order; native reads, result inspections, and witness allocations included. Policy construction and capture are reported separately. These short process-local timings are exploratory.",
+      "backends": [
+        {
+          "backend": "Computed",
+          "medianMs": 29.3447,
+          "nanosecondsPerRead": 14328.466796875,
+          "bytesPerRead": 30032.203125
+        },
+        {
+          "backend": "Lookup",
+          "medianMs": 66.9689,
+          "nanosecondsPerRead": 32699.658203125004,
+          "bytesPerRead": 55380.5546875
+        },
+        {
+          "backend": "Packed",
+          "medianMs": 17.4692,
+          "nanosecondsPerRead": 8529.8828125,
+          "bytesPerRead": 15539.29296875
+        }
+      ],
+      "passes": [
+        {
+          "backend": "Computed",
+          "pass": 1,
+          "iterations": 2048,
+          "elapsedMs": 29.3447,
+          "allocatedBytes": 61505952,
+          "checksum": 56923
+        },
+        {
+          "backend": "Lookup",
+          "pass": 1,
+          "iterations": 2048,
+          "elapsedMs": 64.9875,
+          "allocatedBytes": 113419376,
+          "checksum": 56923
+        },
+        {
+          "backend": "Packed",
+          "pass": 1,
+          "iterations": 2048,
+          "elapsedMs": 17.4692,
+          "allocatedBytes": 31824472,
+          "checksum": 56923
+        },
+        {
+          "backend": "Lookup",
+          "pass": 2,
+          "iterations": 2048,
+          "elapsedMs": 66.9689,
+          "allocatedBytes": 113419376,
+          "checksum": 56923
+        },
+        {
+          "backend": "Packed",
+          "pass": 2,
+          "iterations": 2048,
+          "elapsedMs": 17.3003,
+          "allocatedBytes": 31824472,
+          "checksum": 56923
+        },
+        {
+          "backend": "Computed",
+          "pass": 2,
+          "iterations": 2048,
+          "elapsedMs": 29.9471,
+          "allocatedBytes": 61505952,
+          "checksum": 56923
+        },
+        {
+          "backend": "Packed",
+          "pass": 3,
+          "iterations": 2048,
+          "elapsedMs": 18.0002,
+          "allocatedBytes": 31824472,
+          "checksum": 56923
+        },
+        {
+          "backend": "Computed",
+          "pass": 3,
+          "iterations": 2048,
+          "elapsedMs": 28.0668,
+          "allocatedBytes": 61505952,
+          "checksum": 56923
+        },
+        {
+          "backend": "Lookup",
+          "pass": 3,
+          "iterations": 2048,
+          "elapsedMs": 67.6743,
+          "allocatedBytes": 113419376,
+          "checksum": 56923
+        }
+      ],
+      "variantId": "dimfocused_gentle4"
+    },
+    {
+      "allBackendsMatch": true,
+      "trialParity": true,
+      "allInputMasksMatch": true,
+      "maskPairsChecked": 256,
+      "nativeCompileMs": 0.028,
+      "packedCaptureMs": 0.1801,
+      "description": "Right minus left over native region unions. Computed arithmetic, validated native row traversal, and captured packed rows preserve the same exposed contract.",
+      "timingMethod": "Three warmed passes in rotating order; native reads, result inspections, and witness allocations included. Policy construction and capture are reported separately. These short process-local timings are exploratory.",
+      "backends": [
+        {
+          "backend": "Computed",
+          "medianMs": 28.5505,
+          "nanosecondsPerRead": 13940.673828125,
+          "bytesPerRead": 29898.6171875
+        },
+        {
+          "backend": "Lookup",
+          "medianMs": 63.5827,
+          "nanosecondsPerRead": 31046.240234375,
+          "bytesPerRead": 54313.546875
+        },
+        {
+          "backend": "Packed",
+          "medianMs": 17.0705,
+          "nanosecondsPerRead": 8335.205078125,
+          "bytesPerRead": 15475.07421875
+        }
+      ],
+      "passes": [
+        {
+          "backend": "Computed",
+          "pass": 1,
+          "iterations": 2048,
+          "elapsedMs": 28.5505,
+          "allocatedBytes": 61232368,
+          "checksum": 54594
+        },
+        {
+          "backend": "Lookup",
+          "pass": 1,
+          "iterations": 2048,
+          "elapsedMs": 63.5827,
+          "allocatedBytes": 111234144,
+          "checksum": 54594
+        },
+        {
+          "backend": "Packed",
+          "pass": 1,
+          "iterations": 2048,
+          "elapsedMs": 17.7455,
+          "allocatedBytes": 31692952,
+          "checksum": 54594
+        },
+        {
+          "backend": "Lookup",
+          "pass": 2,
+          "iterations": 2048,
+          "elapsedMs": 64.5027,
+          "allocatedBytes": 111234144,
+          "checksum": 54594
+        },
+        {
+          "backend": "Packed",
+          "pass": 2,
+          "iterations": 2048,
+          "elapsedMs": 17.0415,
+          "allocatedBytes": 31692952,
+          "checksum": 54594
+        },
+        {
+          "backend": "Computed",
+          "pass": 2,
+          "iterations": 2048,
+          "elapsedMs": 30.0465,
+          "allocatedBytes": 61232368,
+          "checksum": 54594
+        },
+        {
+          "backend": "Packed",
+          "pass": 3,
+          "iterations": 2048,
+          "elapsedMs": 17.0705,
+          "allocatedBytes": 31692952,
+          "checksum": 54594
+        },
+        {
+          "backend": "Computed",
+          "pass": 3,
+          "iterations": 2048,
+          "elapsedMs": 26.961,
+          "allocatedBytes": 61232368,
+          "checksum": 54594
+        },
+        {
+          "backend": "Lookup",
+          "pass": 3,
+          "iterations": 2048,
+          "elapsedMs": 62.9569,
+          "allocatedBytes": 111234144,
+          "checksum": 54594
+        }
+      ],
+      "variantId": "dimfocused_broad10"
+    },
+    {
+      "allBackendsMatch": true,
+      "trialParity": true,
+      "allInputMasksMatch": true,
+      "maskPairsChecked": 256,
+      "nativeCompileMs": 0.0265,
+      "packedCaptureMs": 0.1583,
+      "description": "Right minus left over native region unions. Computed arithmetic, validated native row traversal, and captured packed rows preserve the same exposed contract.",
+      "timingMethod": "Three warmed passes in rotating order; native reads, result inspections, and witness allocations included. Policy construction and capture are reported separately. These short process-local timings are exploratory.",
+      "backends": [
+        {
+          "backend": "Computed",
+          "medianMs": 24.6482,
+          "nanosecondsPerRead": 12035.25390625,
+          "bytesPerRead": 27067.03125
+        },
+        {
+          "backend": "Lookup",
+          "medianMs": 55.7596,
+          "nanosecondsPerRead": 27226.3671875,
+          "bytesPerRead": 47044.19921875
+        },
+        {
+          "backend": "Packed",
+          "medianMs": 15.5954,
+          "nanosecondsPerRead": 7614.94140625,
+          "bytesPerRead": 14167.1640625
+        }
+      ],
+      "passes": [
+        {
+          "backend": "Computed",
+          "pass": 1,
+          "iterations": 2048,
+          "elapsedMs": 24.1342,
+          "allocatedBytes": 55433280,
+          "checksum": 12423
+        },
+        {
+          "backend": "Lookup",
+          "pass": 1,
+          "iterations": 2048,
+          "elapsedMs": 55.7596,
+          "allocatedBytes": 96346520,
+          "checksum": 12423
+        },
+        {
+          "backend": "Packed",
+          "pass": 1,
+          "iterations": 2048,
+          "elapsedMs": 15.5954,
+          "allocatedBytes": 29014352,
+          "checksum": 12423
+        },
+        {
+          "backend": "Lookup",
+          "pass": 2,
+          "iterations": 2048,
+          "elapsedMs": 65.9953,
+          "allocatedBytes": 96346520,
+          "checksum": 12423
+        },
+        {
+          "backend": "Packed",
+          "pass": 2,
+          "iterations": 2048,
+          "elapsedMs": 17.9606,
+          "allocatedBytes": 29014352,
+          "checksum": 12423
+        },
+        {
+          "backend": "Computed",
+          "pass": 2,
+          "iterations": 2048,
+          "elapsedMs": 25.43,
+          "allocatedBytes": 55433280,
+          "checksum": 12423
+        },
+        {
+          "backend": "Packed",
+          "pass": 3,
+          "iterations": 2048,
+          "elapsedMs": 15.2445,
+          "allocatedBytes": 29014352,
+          "checksum": 12423
+        },
+        {
+          "backend": "Computed",
+          "pass": 3,
+          "iterations": 2048,
+          "elapsedMs": 24.6482,
+          "allocatedBytes": 55433280,
+          "checksum": 12423
+        },
+        {
+          "backend": "Lookup",
+          "pass": 3,
+          "iterations": 2048,
+          "elapsedMs": 51.9592,
+          "allocatedBytes": 96346520,
+          "checksum": 12423
+        }
+      ],
+      "variantId": "brightfocused_strict0"
+    },
+    {
+      "allBackendsMatch": true,
+      "trialParity": true,
+      "allInputMasksMatch": true,
+      "maskPairsChecked": 256,
+      "nativeCompileMs": 0.027,
+      "packedCaptureMs": 0.1847,
+      "description": "Right minus left over native region unions. Computed arithmetic, validated native row traversal, and captured packed rows preserve the same exposed contract.",
+      "timingMethod": "Three warmed passes in rotating order; native reads, result inspections, and witness allocations included. Policy construction and capture are reported separately. These short process-local timings are exploratory.",
+      "backends": [
+        {
+          "backend": "Computed",
+          "medianMs": 28.7244,
+          "nanosecondsPerRead": 14025.5859375,
+          "bytesPerRead": 30032.203125
+        },
+        {
+          "backend": "Lookup",
+          "medianMs": 64.8253,
+          "nanosecondsPerRead": 31652.978515625,
+          "bytesPerRead": 55380.5546875
+        },
+        {
+          "backend": "Packed",
+          "medianMs": 17.1457,
+          "nanosecondsPerRead": 8371.923828125,
+          "bytesPerRead": 15539.29296875
+        }
+      ],
+      "passes": [
+        {
+          "backend": "Computed",
+          "pass": 1,
+          "iterations": 2048,
+          "elapsedMs": 28.4496,
+          "allocatedBytes": 61505952,
+          "checksum": 56923
+        },
+        {
+          "backend": "Lookup",
+          "pass": 1,
+          "iterations": 2048,
+          "elapsedMs": 64.3075,
+          "allocatedBytes": 113419376,
+          "checksum": 56923
+        },
+        {
+          "backend": "Packed",
+          "pass": 1,
+          "iterations": 2048,
+          "elapsedMs": 17.1457,
+          "allocatedBytes": 31824472,
+          "checksum": 56923
+        },
+        {
+          "backend": "Lookup",
+          "pass": 2,
+          "iterations": 2048,
+          "elapsedMs": 64.8253,
+          "allocatedBytes": 113419376,
+          "checksum": 56923
+        },
+        {
+          "backend": "Packed",
+          "pass": 2,
+          "iterations": 2048,
+          "elapsedMs": 16.8489,
+          "allocatedBytes": 31824472,
+          "checksum": 56923
+        },
+        {
+          "backend": "Computed",
+          "pass": 2,
+          "iterations": 2048,
+          "elapsedMs": 29.8561,
+          "allocatedBytes": 61505952,
+          "checksum": 56923
+        },
+        {
+          "backend": "Packed",
+          "pass": 3,
+          "iterations": 2048,
+          "elapsedMs": 17.348,
+          "allocatedBytes": 31824472,
+          "checksum": 56923
+        },
+        {
+          "backend": "Computed",
+          "pass": 3,
+          "iterations": 2048,
+          "elapsedMs": 28.7244,
+          "allocatedBytes": 61505952,
+          "checksum": 56923
+        },
+        {
+          "backend": "Lookup",
+          "pass": 3,
+          "iterations": 2048,
+          "elapsedMs": 67.4196,
+          "allocatedBytes": 113419376,
+          "checksum": 56923
+        }
+      ],
+      "variantId": "brightfocused_gentle4"
+    },
+    {
+      "allBackendsMatch": true,
+      "trialParity": true,
+      "allInputMasksMatch": true,
+      "maskPairsChecked": 256,
+      "nativeCompileMs": 0.0499,
+      "packedCaptureMs": 0.2238,
+      "description": "Right minus left over native region unions. Computed arithmetic, validated native row traversal, and captured packed rows preserve the same exposed contract.",
+      "timingMethod": "Three warmed passes in rotating order; native reads, result inspections, and witness allocations included. Policy construction and capture are reported separately. These short process-local timings are exploratory.",
+      "backends": [
+        {
+          "backend": "Computed",
+          "medianMs": 29.337,
+          "nanosecondsPerRead": 14324.70703125,
+          "bytesPerRead": 29976.953125
+        },
+        {
+          "backend": "Lookup",
+          "medianMs": 66.9788,
+          "nanosecondsPerRead": 32704.492187500004,
+          "bytesPerRead": 54428.8046875
+        },
+        {
+          "backend": "Packed",
+          "medianMs": 17.9254,
+          "nanosecondsPerRead": 8752.63671875,
+          "bytesPerRead": 15539.29296875
+        }
+      ],
+      "passes": [
+        {
+          "backend": "Computed",
+          "pass": 1,
+          "iterations": 2048,
+          "elapsedMs": 29.337,
+          "allocatedBytes": 61392800,
+          "checksum": 56923
+        },
+        {
+          "backend": "Lookup",
+          "pass": 1,
+          "iterations": 2048,
+          "elapsedMs": 66.9788,
+          "allocatedBytes": 111470192,
+          "checksum": 56923
+        },
+        {
+          "backend": "Packed",
+          "pass": 1,
+          "iterations": 2048,
+          "elapsedMs": 17.7645,
+          "allocatedBytes": 31824472,
+          "checksum": 56923
+        },
+        {
+          "backend": "Lookup",
+          "pass": 2,
+          "iterations": 2048,
+          "elapsedMs": 66.2754,
+          "allocatedBytes": 111470192,
+          "checksum": 56923
+        },
+        {
+          "backend": "Packed",
+          "pass": 2,
+          "iterations": 2048,
+          "elapsedMs": 17.9254,
+          "allocatedBytes": 31824472,
+          "checksum": 56923
+        },
+        {
+          "backend": "Computed",
+          "pass": 2,
+          "iterations": 2048,
+          "elapsedMs": 28.4669,
+          "allocatedBytes": 61392800,
+          "checksum": 56923
+        },
+        {
+          "backend": "Packed",
+          "pass": 3,
+          "iterations": 2048,
+          "elapsedMs": 19.7099,
+          "allocatedBytes": 31824472,
+          "checksum": 56923
+        },
+        {
+          "backend": "Computed",
+          "pass": 3,
+          "iterations": 2048,
+          "elapsedMs": 31.817,
+          "allocatedBytes": 61392800,
+          "checksum": 56923
+        },
+        {
+          "backend": "Lookup",
+          "pass": 3,
+          "iterations": 2048,
+          "elapsedMs": 71.7374,
+          "allocatedBytes": 111470192,
+          "checksum": 56923
+        }
+      ],
+      "variantId": "brightfocused_broad10"
+    }
+  ]
+}

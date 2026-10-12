@@ -90,8 +90,31 @@ public sealed partial class Relation
         bool scaleByTargetFrame,
         out Relation read)
     {
-        if (targetFrame.Start == targetFrame.End ||
-            !TryCollectOperationSignalFlow(Left, input, reader, out var flow))
+        if (targetFrame.Start == targetFrame.End)
+        {
+            read = default!;
+            return false;
+        }
+
+        // Ordinary scalar operands do not need per-factor component arrays or
+        // fused-face discovery. Use the same projections, folding and residue
+        // law, with the richer path below for open or multi-face participation.
+        var scalarSignals = new List<OperationSignal>();
+        if (TryCollectScalarOperationSignals(Left, input, reader, scalarSignals) && scalarSignals.Count != 0)
+        {
+            if (TryReadPointFrame(Right, out _))
+            {
+                read = OperationSumResult(targetFrame, scalarSignals, scaleByTargetFrame);
+                return true;
+            }
+            if (TryReadFrame(Right, out _))
+            {
+                read = OperationResult(targetFrame, ProductValue(scalarSignals), scalarSignals,
+                    scaleByTargetFrame, ProductInvertsFlow(scalarSignals));
+                return true;
+            }
+        }
+        if (!TryCollectOperationSignalFlow(Left, input, reader, out var flow))
         {
             read = default!;
             return false;
@@ -320,6 +343,20 @@ public sealed partial class Relation
     #endregion
 
     #region Operation and Unit Shape Helpers
+
+    private static bool TryCollectScalarOperationSignals(
+        IElement ports, IElement input, Carrier reader, List<OperationSignal> signals)
+    {
+        if (TryReadPortSurface(ports, out var port))
+        {
+            if (input is not CarrierLocation scalar || !TryReadOperationSignal(port, scalar, reader, out var signal)) return false;
+            signals.Add(signal);
+            return true;
+        }
+        return ports is Relation group && input is Relation inputs &&
+            TryCollectScalarOperationSignals(group.Left, inputs.Left, reader, signals) &&
+            TryCollectScalarOperationSignals(group.Right, inputs.Right, reader, signals);
+    }
 
     /// <summary>Collects one normalized signal flow from input through the operation ports.</summary>
     private static bool TryCollectOperationSignalFlow(

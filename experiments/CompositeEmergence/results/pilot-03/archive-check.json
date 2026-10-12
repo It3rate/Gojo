@@ -1,0 +1,44 @@
+[
+  {
+    "model": "relation",
+    "signatureMatch": true,
+    "behaviorMatch": true,
+    "bytes": 242135,
+    "path": "relation.gojo"
+  },
+  {
+    "model": "consumer",
+    "signatureMatch": true,
+    "behaviorMatch": true,
+    "bytes": 71294,
+    "path": "consumer.gojo"
+  },
+  {
+    "model": "pipeline-0",
+    "signatureMatch": true,
+    "behaviorMatch": true,
+    "bytes": 433076,
+    "path": "pipeline-0.gojo"
+  },
+  {
+    "model": "refresh-0",
+    "signatureMatch": true,
+    "behaviorMatch": true,
+    "bytes": 104543,
+    "path": "refresh-0.gojo"
+  },
+  {
+    "model": "pipeline-4",
+    "signatureMatch": true,
+    "behaviorMatch": true,
+    "bytes": 433328,
+    "path": "pipeline-4.gojo"
+  },
+  {
+    "model": "refresh-4",
+    "signatureMatch": true,
+    "behaviorMatch": true,
+    "bytes": 110305,
+    "path": "refresh-4.gojo"
+  }
+]

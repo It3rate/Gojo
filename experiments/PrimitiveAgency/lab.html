@@ -1,0 +1,391 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Gojo · Charge, cool, repeat</title>
+  <style>
+    :root { color-scheme:light; --ink:#21342f; --muted:#68776d; --paper:#f4f5ee; --line:#dfe5d9; --green:#14745e; --orange:#bd653f; --yellow:#eed66b; --radius:18px; }
+    * { box-sizing:border-box; }
+    body { margin:0; color:var(--ink); background:var(--paper); font:14px/1.55 ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif; }
+    main { width:min(1180px,calc(100% - 44px)); margin:auto; padding:30px 0 36px; }
+    h1 { margin:9px 0 10px; font-size:clamp(31px,4vw,46px); line-height:1.12; letter-spacing:-.045em; }
+    h2 { margin:0 0 4px; font-size:17px; letter-spacing:-.015em; }
+    p { margin:0; } button,select,input { font:inherit; }
+    header { display:flex; justify-content:space-between; gap:20px; align-items:flex-end; margin-bottom:23px; }
+    header p { max-width:660px; color:var(--muted); font-size:15px; }
+    .eyebrow { display:flex; align-items:center; gap:8px; color:var(--green); font-size:11px; font-weight:800; letter-spacing:.15em; text-transform:uppercase; }
+    .eyebrow i { width:8px; height:8px; background:var(--green); border-radius:50%; }
+    .badge { background:#e8f0dc; border:1px solid #d1dfc5; color:#527047; border-radius:999px; padding:6px 11px; font-size:11px; font-weight:700; white-space:nowrap; }
+    .panel { background:#fff; border:1px solid var(--line); border-radius:var(--radius); }
+    .controls { padding:18px 21px 15px; margin-bottom:15px; }
+    .control-top { display:grid; grid-template-columns:minmax(270px,1fr) auto; align-items:end; gap:20px; }
+    .label { display:block; color:var(--muted); font-size:10px; font-weight:800; letter-spacing:.095em; text-transform:uppercase; margin-bottom:6px; }
+    button,select { color:var(--ink); border:1px solid var(--line); border-radius:10px; background:#fff; min-height:42px; }
+    button { cursor:pointer; font-weight:650; padding:8px 14px; }
+    button:hover:not(:disabled) { background:#edf4e8; border-color:#b7cab1; }
+    button:disabled { opacity:.4; cursor:default; }
+    button:focus-visible,select:focus-visible,input:focus-visible { outline:3px solid #99c0aa; outline-offset:3px; }
+    select { width:100%; padding:8px 28px 8px 11px; }
+    .buttons { display:flex; gap:7px; } #play { min-width:94px; color:#fff; background:var(--green); border-color:var(--green); }
+    .description { color:var(--muted); font-size:12px; margin:11px 0 12px; }
+    .timeline { display:grid; grid-template-columns:auto 1fr auto; gap:14px; align-items:center; }
+    .tick { font-size:12px; font-weight:750; white-space:nowrap; font-variant-numeric:tabular-nums; }
+    input[type=range] { width:100%; accent-color:var(--green); cursor:pointer; }
+    .pace { font-size:11px; color:var(--muted); white-space:nowrap; }
+    .pace select { min-height:29px; font-size:11px; width:85px; padding:3px 6px; margin-left:5px; }
+    .world { display:grid; grid-template-columns:minmax(0,1fr) 238px; gap:14px; margin-bottom:14px; }
+    .panel-top { display:flex; justify-content:space-between; align-items:flex-start; gap:14px; padding:18px 21px 4px; }
+    .caption { color:var(--muted); font-size:11px; }
+    .pill { font-size:10px; font-weight:750; white-space:nowrap; border-radius:999px; padding:5px 9px; background:#f0f3e9; color:#66765e; }
+    .canvas-pad { padding:0 8px; } canvas { display:block; width:100%; }
+    #track-canvas { height:196px; }
+    .stage-foot { border-top:1px solid #e7ebdf; padding:10px 21px; display:flex; justify-content:space-between; gap:12px; color:var(--muted); font-size:11px; }
+    .world-meters { padding:18px 19px; }
+    .meter + .meter { margin-top:18px; }
+    .meter-head { display:flex; justify-content:space-between; gap:8px; align-items:baseline; margin-bottom:7px; }
+    .meter-name { font-size:12px; font-weight:650; }
+    .meter-number { font-size:22px; font-weight:720; letter-spacing:-.02em; font-variant-numeric:tabular-nums; }
+    .meter-number small { font-size:11px; font-weight:450; color:var(--muted); }
+    .meter-track { height:10px; background:#eef1e6; border-radius:10px; overflow:hidden; }
+    .meter-fill { height:100%; background:var(--green); width:0; border-radius:10px; } #heat-fill { background:var(--orange); }
+    .meter-note { margin-top:6px; font-size:10px; color:var(--muted); }
+    .cycle-count { display:flex; align-items:baseline; gap:9px; margin-top:19px; padding-top:12px; border-top:1px solid var(--line); }
+    .cycle-count strong { font-size:23px; font-weight:700; } .cycle-count span { font-size:11px; color:var(--muted); }
+    .brain { margin-bottom:14px; overflow:hidden; }
+    .calibration { display:grid; grid-template-columns:1fr 1fr; gap:20px; margin:12px 20px 0; padding:12px 14px; border-radius:11px; background:#f3f6ec; }
+    .calibration strong { font-size:12px; font-weight:650; } .calibration p { margin-top:4px; color:var(--muted); font-size:10px; line-height:1.55; }
+    .brain-grid { display:grid; grid-template-columns:1fr 1fr 1.12fr 1fr; gap:0; padding:16px 20px; }
+    .read { padding:0 18px; border-left:1px solid #e5e9dd; min-height:96px; } .read:first-child { border-left:0; padding-left:0; } .read:last-child { padding-right:0; }
+    .read-name { margin-bottom:9px; font-size:10px; color:var(--muted); text-transform:uppercase; font-weight:800; letter-spacing:.08em; }
+    .eye-row { display:flex; gap:7px; align-items:baseline; margin:5px 0; font-size:12px; } .eye-row b { width:36px; font-weight:550; color:var(--muted); }
+    .support { display:inline-flex; gap:4px; flex-wrap:wrap; }
+    .chip { padding:2px 7px; border-radius:7px; background:#eef3e7; font-size:11px; font-weight:650; }
+    .chip.open { background:#fff1de; color:#965b32; border:1px dashed #e3ba87; }
+    .read-value { font-size:19px; line-height:1.3; font-weight:700; letter-spacing:-.018em; }
+    .read-note { color:var(--muted); font-size:10px; line-height:1.5; margin-top:7px; }
+    .mask-code { color:#8b9589; font-size:9px; font-family:ui-monospace,SFMono-Regular,Consolas,monospace; margin-top:6px; }
+    .decision { border-top:1px solid #e7eadf; background:#f8faf3; padding:12px 20px; display:flex; gap:11px; align-items:flex-start; }
+    .decision.flagged { background:#fff6e8; }
+    .decision-mark { display:flex; align-items:center; justify-content:center; width:26px; height:26px; border-radius:50%; flex:0 0 auto; color:var(--green); background:#e3eeda; font-weight:800; }
+    .decision.flagged .decision-mark { color:#9c5b30; background:#f5e3c4; }
+    .decision strong { font-size:12px; } .decision p { font-size:11px; color:var(--muted); margin-top:2px; }
+    .query-read { display:flex; align-items:center; flex-wrap:wrap; gap:7px; margin-top:9px; font-size:11px; color:#79592f; }
+    .query-read .query-label { font-weight:650; } .query-cost { font-size:10px; color:var(--muted); }
+    .graph { margin-bottom:14px; } #history-canvas { height:195px; }
+    .legend { display:flex; gap:14px; flex-wrap:wrap; color:var(--muted); font-size:10px; }
+    .legend span { display:flex; align-items:center; gap:5px; } .legend i { width:13px; height:3px; background:var(--green); border-radius:3px; }
+    .legend i.heat { background:var(--orange); } .legend i.shift { height:11px; width:0; border-left:1px dashed #9aab92; background:transparent; } .legend i.refine { width:5px; height:5px; border-radius:50%; background:var(--orange); }
+    .graph-foot { padding:0 21px 13px; color:var(--muted); font-size:10px; }
+    .comparison { overflow:hidden; margin-bottom:14px; }
+    .table-wrap { overflow-x:auto; padding:12px 16px 5px; }
+    table { border-collapse:collapse; width:100%; text-align:right; font-size:11px; white-space:nowrap; }
+    th { color:var(--muted); font-size:9px; font-weight:750; text-transform:uppercase; letter-spacing:.05em; padding:8px 10px; border-bottom:1px solid var(--line); }
+    td { padding:10px; border-bottom:1px solid #ebeee4; font-variant-numeric:tabular-nums; }
+    th:first-child,td:first-child { text-align:left; } td:first-child strong { display:block; font-size:11px; font-weight:650; max-width:290px; white-space:normal; } td:first-child small { display:block; font-size:10px; color:var(--muted); }
+    tbody tr { cursor:pointer; } tbody tr:hover { background:#f5f8ee; } tbody tr.selected { background:#edf4e3; }
+    .table-note { padding:10px 21px 15px; color:var(--muted); font-size:11px; }
+    .note { background:#eaf0de; border:1px solid #d9e4ca; color:#53684c; padding:13px 17px; border-radius:13px; margin-bottom:14px; font-size:12px; }
+    details { padding:0 20px; } summary { font-size:12px; font-weight:650; padding:14px 0; cursor:pointer; }
+    .costs { border-top:1px solid var(--line); display:grid; grid-template-columns:repeat(4,1fr); padding:14px 0; gap:12px; }
+    .cost-label { color:var(--muted); font-size:10px; } .cost-number { font-size:18px; font-weight:650; margin-top:3px; }
+    .rules { padding:0 0 14px; font-size:11px; color:var(--muted); } .rules ul { margin:6px 0 0; padding-left:18px; }
+    footer { display:flex; justify-content:space-between; gap:20px; margin-top:18px; color:#84907f; font-size:10px; }
+    .error { color:var(--orange); margin-top:18px; } [hidden] { display:none!important; }
+    @media (max-width:800px) {
+      main { width:calc(100% - 28px); padding-top:22px; } header .badge { display:none; } header p { font-size:13px; }
+      .world { grid-template-columns:1fr; } .world-meters { display:grid; grid-template-columns:1fr 1fr; gap:17px; padding:15px 18px; }
+      .meter + .meter { margin-top:0; } .world-meters > .label { grid-column:1/-1; margin:0; } .cycle-count { grid-column:1/-1; margin:0; padding-top:9px; }
+      .brain-grid { grid-template-columns:1fr 1fr; gap:16px 0; } .read { min-height:90px; } .read:nth-child(3) { border-left:0; padding-left:0; }
+      .calibration { grid-template-columns:1fr; gap:11px; margin:12px 18px 0; }
+      .read:nth-child(2) { padding-right:0; } .control-top { grid-template-columns:1fr; gap:12px; } .buttons button { flex:1; }
+      .controls { padding:16px 17px; } .timeline { grid-template-columns:auto 1fr; gap:10px; } .pace { grid-column:2; text-align:right; }
+      .panel-top { padding:17px 18px 4px; } .stage-foot { padding:10px 18px; flex-wrap:wrap; } .legend { gap:10px; }
+      .costs { grid-template-columns:1fr 1fr; } footer { flex-direction:column; gap:4px; }
+    }
+    @media (max-width:450px) { .panel-top { flex-direction:column; gap:5px; } .read-value { font-size:17px; } .read { padding-left:13px; padding-right:13px; } }
+  </style>
+</head>
+<body>
+<main>
+  <header>
+    <div><div class="eyebrow"><i></i>Gojo / primitive agency</div><h1>Charge, cool, repeat.</h1><p>A creature with coarse observations searches for charge, then leaves to cool. Watch what it reads, what stays uncertain, and what it decides.</p></div>
+    <span class="badge">Hand-designed · native Gojo</span>
+  </header>
+  <section class="panel controls" aria-label="Replay controls">
+    <div class="control-top">
+      <div><label class="label" for="trial">Choose a controller trial</label><select id="trial"></select></div>
+      <div class="buttons"><button id="previous" aria-label="Previous tick">← Back</button><button id="play">▶ Play</button><button id="next" aria-label="Next tick">Next →</button></div>
+    </div>
+    <p id="description" class="description">Loading the native experiment…</p>
+    <div class="timeline"><span id="tick-count" class="tick">Tick —</span><input id="timeline" type="range" min="0" max="0" value="0" aria-label="Replay tick"><label class="pace" for="pace">Pace <select id="pace"><option value="1">Slow</option><option value="4" selected>Normal</option><option value="12">Fast</option></select></label></div>
+  </section>
+  <section class="world" aria-label="The reference world">
+    <article class="panel stage">
+      <div class="panel-top"><div><h2>A small world, one decision at a time</h2><p class="caption">Position and charging peak are display references, not controller inputs.</p></div><span id="relocation" class="pill">The peak moves</span></div>
+      <div class="canvas-pad"><canvas id="track-canvas" role="img" aria-label="Creature and charging peak on a 31-cell track"></canvas></div>
+      <div class="stage-foot"><span id="world-state">Creature — · charging peak —</span><span>State before the command. The next frame shows its effect.</span></div>
+    </article>
+    <article class="panel world-meters" aria-label="World reference meters">
+      <div class="label">World meters · display only</div>
+      <div class="meter"><div class="meter-head"><span class="meter-name">Battery charge</span><div id="charge-value" class="meter-number">—</div></div><div class="meter-track"><div id="charge-fill" class="meter-fill"></div></div><div class="meter-note">Reference energy, before sensor coarsening.</div></div>
+      <div class="meter"><div class="meter-head"><span class="meter-name">Body heat</span><div id="heat-value" class="meter-number">—</div></div><div class="meter-track"><div id="heat-fill" class="meter-fill"></div></div><div class="meter-note">Reference heat, before sensor coarsening.</div></div>
+      <div class="cycle-count"><strong id="cycles">—</strong><span>completed charge / cool cycles</span></div>
+    </article>
+  </section>
+  <section class="panel brain" aria-label="Native controller observations and decision">
+    <div class="panel-top"><div><h2>Inside this decision</h2><p class="caption">Native Gojo reads. Multiple highlighted values are alternatives, not probabilities.</p></div><span id="read-status" class="pill">Coarse observations</span></div>
+    <div id="calibration" class="calibration" hidden><div><span class="label">External eye publication</span><strong id="light-profile">—</strong><p id="light-ranges">—</p></div><div><span class="label">Local interpretation</span><strong id="interpretation">—</strong><p id="interpretation-note">—</p></div></div>
+    <div class="brain-grid">
+      <div class="read"><div class="read-name">Eye supports</div><div class="eye-row"><b>Left</b><span id="left-support" class="support"></span></div><div class="eye-row"><b>Right</b><span id="right-support" class="support"></span></div><div id="eye-masks" class="mask-code">—</div><div class="read-note">Possible finite sensor values.</div></div>
+      <div class="read"><div class="read-name">Gradient alternatives</div><div id="gradient-support" class="support"></div><div id="gradient-mask" class="mask-code">—</div><div id="gradient-note" class="read-note">The native difference preserves unresolved alternatives.</div></div>
+      <div class="read"><div class="read-name">Memory / mode</div><div id="mode" class="read-value">—</div><div id="trend" class="read-note">Trend —</div><div id="internal-supports" class="read-note"></div></div>
+      <div class="read"><div class="read-name">Chosen action</div><div id="action" class="read-value">—</div><div id="action-note" class="read-note">A selected response from native structure.</div></div>
+    </div>
+    <div id="decision" class="decision"><span id="decision-mark" class="decision-mark">·</span><div><strong id="decision-title">A coarse read can be enough.</strong><p id="reason">The native result supplies the selected action and its remaining ambiguity.</p><div id="query-read" class="query-read" hidden><span class="query-label">Spatial comparison returned</span><span id="query-support" class="support"></span><span id="query-cost" class="query-cost"></span></div></div></div>
+  </section>
+  <section class="panel graph" aria-label="World state history">
+    <div class="panel-top"><div><h2>Charge and heat over the run</h2><p class="caption">Reference world traces · click a point in time to inspect its native decision.</p></div><div class="legend"><span><i></i>Charge</span><span><i class="heat"></i>Heat</span><span><i class="shift"></i>Peak relocation</span><span><i class="refine"></i>Top dots: finer reads</span></div></div>
+    <div class="canvas-pad"><canvas id="history-canvas" role="img" aria-label="Battery charge and heat over the trial"></canvas></div>
+    <p class="graph-foot">The faded trace shows the rest of this recorded trial. The brighter part has already replayed.</p>
+  </section>
+  <aside class="note">This is a finite controller experiment designed by us. It tests whether coarse, uncertain Gojo reads can drive useful behavior. These trials do not evolve or learn new policies during the run.</aside>
+  <section class="panel comparison" aria-label="Controller comparison">
+    <div class="panel-top"><div><h2>Compare the trials</h2><p class="caption">Recorded native outcomes · run length is shown explicitly · select any row to replay it.</p></div><span id="parity" class="pill">Computed / lookup comparison</span></div>
+    <div class="table-wrap"><table><thead><tr><th>Controller / backend</th><th>Ticks</th><th>Cycles</th><th>Low charge ticks</th><th>Overheat ticks</th><th>Moves</th><th>Multi-region ticks</th><th>Initial action open</th><th>Queries</th><th>Run time</th></tr></thead><tbody id="comparison-body"></tbody></table></div>
+    <p id="comparison-note" class="table-note">The comparison comes from the native runner.</p>
+  </section>
+  <details class="panel"><summary>World rules and computation costs</summary><div class="costs"><div><div class="cost-label">Native operations, whole trial</div><div id="operations" class="cost-number">—</div></div><div><div class="cost-label">Refinement queries</div><div id="queries" class="cost-number">—</div></div><div><div class="cost-label">Native archive</div><div id="archive" class="cost-number">—</div></div><div><div class="cost-label">Mean reference charge</div><div id="mean-charge" class="cost-number">—</div></div></div><div class="rules"><strong>Same world and physical input channels. Each trial selects its publication and read laws.</strong><ul id="rules"></ul><p id="math-note"></p></div></details>
+  <p id="error" class="error" hidden></p>
+  <footer><span>Controller and finite arithmetic live in Gojo. This page only draws and replays their outputs.</span><span id="run-note">31 cells · 600 ticks</span></footer>
+</main>
+<script id="agency-data" type="application/json">__AGENCY_DATA__</script>
+<script>
+(() => {
+  'use strict';
+  const $ = id => document.getElementById(id);
+  const ui = { trial:$('trial'), previous:$('previous'), next:$('next'), play:$('play'), timeline:$('timeline'), pace:$('pace') };
+  let report;
+  try { report = JSON.parse($('agency-data').textContent); }
+  catch (_) { fail('The native replay has not been generated yet. Run the primitive agency experiment to create its preview.'); return; }
+  const config = report.config || {}, discoveryTrials = report.trials || [], verificationTrials = report.verificationTrials || [];
+  const trials = [...discoveryTrials,...verificationTrials];
+  if (!trials.length || trials.some(t => !Array.isArray(t.steps) || !t.steps.length)) { fail('This replay contains no native trial steps.'); return; }
+  const cells = Math.max(2, Number(config.cells) || 31);
+  const chargeMax = positive(config.chargeMax, 100), heatMax = positive(config.heatMax, 100);
+  const defaultTrialId=report.defaultTrialId || config.defaultTrialId || 'memory_heat_query_computed';
+  let trialIndex = Math.max(0, trials.findIndex(t => t.id === defaultTrialId));
+  let stepIndex = 0, timer = null;
+  const variantFamilies=new Map(discoveryTrials.filter(t=>t.variantId && t.groupLabel).map(t=>[t.variantId,t.groupLabel]));
+  const optionGroups=new Map();
+  trials.forEach((t,i) => {
+    const groupLabel=i>=discoveryTrials.length ? validationGroup(t) : t.groupLabel;
+    let parent=ui.trial;
+    if(groupLabel) { if(!optionGroups.has(groupLabel)) {const group=document.createElement('optgroup');group.label=groupLabel;ui.trial.appendChild(group);optionGroups.set(groupLabel,group);} parent=optionGroups.get(groupLabel); }
+    const option = document.createElement('option'); option.value=i; option.textContent=`${t.variantId && t.interpretationLabel ? interpretationName(t) : t.label || `Round ${t.round}`} · ${t.backend || 'native'}`; parent.appendChild(option);
+  });
+  ui.trial.value=trialIndex;
+  buildComparison();
+  const rules = Array.isArray(config.worldRules) ? config.worldRules : [];
+  rules.forEach(rule => { const li=document.createElement('li'); li.textContent=label(rule); $('rules').appendChild(li); });
+  $('run-note').textContent=`${cells} cells · ${config.ticks || trials[0].steps.length} ticks · native replay`;
+  ui.trial.addEventListener('change', () => selectTrial(Number(ui.trial.value)));
+  ui.previous.addEventListener('click', () => seek(stepIndex-1));
+  ui.next.addEventListener('click', () => seek(stepIndex+1));
+  ui.timeline.addEventListener('input', () => seek(Number(ui.timeline.value)));
+  ui.play.addEventListener('click', () => timer ? stop() : play());
+  document.addEventListener('visibilitychange', () => { if (document.hidden) stop(); });
+  $('history-canvas').addEventListener('click', event => {
+    const rect=event.currentTarget.getBoundingClientRect(), margin=39, fraction=(event.clientX-rect.left-margin)/(rect.width-margin-22);
+    seek(Math.round(clamp(fraction,0,1)*(currentTrial().steps.length-1)));
+  });
+  let resizeTimer;
+  window.addEventListener('resize', () => { clearTimeout(resizeTimer); resizeTimer=setTimeout(draw,80); });
+  render();
+
+  function currentTrial() { return trials[trialIndex]; }
+  function currentStep() { return currentTrial().steps[stepIndex]; }
+  function selectTrial(index) { stop(); trialIndex=clamp(index,0,trials.length-1); stepIndex=0; ui.trial.value=trialIndex; render(); }
+  function seek(index) { stop(); stepIndex=clamp(index,0,currentTrial().steps.length-1); render(); }
+  function play() {
+    if (stepIndex===currentTrial().steps.length-1) stepIndex=0;
+    ui.play.textContent='Ⅱ Pause';
+    timer=setInterval(() => {
+      stepIndex=Math.min(currentTrial().steps.length-1,stepIndex+positive(ui.pace.value,1));
+      render();
+      if (stepIndex===currentTrial().steps.length-1) stop();
+    },90);
+    render();
+  }
+  function stop() { if (timer!==null) clearInterval(timer); timer=null; ui.play.textContent='▶ Play'; }
+  function render() {
+    const trial=currentTrial(), step=currentStep(), summary=trial.summary || {};
+    const sensorAlphabet=trial.lightMaskAlphabet || config.lightMaskAlphabet || config.sensorAlphabet || config.maskAlphabet || [];
+    const gradientAlphabet=trial.gradientAlphabet || config.gradientAlphabet || [];
+    const queryAlphabet=trial.queryAlphabet || gradientAlphabet;
+    ui.timeline.max=trial.steps.length-1; ui.timeline.value=stepIndex;
+    ui.previous.disabled=stepIndex===0; ui.next.disabled=stepIndex===trial.steps.length-1;
+    $('tick-count').textContent=`Tick ${format(step.tick)} / ${format(trial.steps[trial.steps.length-1].tick)}`;
+    $('description').textContent=trial.description || `${trialTitle(trial)} · ${trial.backend || 'native'} arithmetic · ${trial.steps.length} recorded decisions`;
+    meter('charge',step.charge,chargeMax); meter('heat',step.heat,heatMax);
+    $('cycles').textContent=format(step.cycles);
+    $('world-state').textContent=`Creature · cell ${format(step.x)}   |   Charging peak · cell ${format(step.chargerX)}`;
+    const shifted=stepIndex>0 && step.chargerX!==trial.steps[stepIndex-1].chargerX;
+    $('relocation').textContent=shifted ? 'Peak relocated this tick' : config.relocationEvery ? `Peak moves every ${config.relocationEvery} ticks` : 'Relocating charging peak';
+    setSupport('left-support',step.leftMask,sensorAlphabet); setSupport('right-support',step.rightMask,sensorAlphabet);
+    setSupport('gradient-support',step.gradientMask,gradientAlphabet);
+    $('eye-masks').textContent=`L ${maskBits(step.leftMask,sensorAlphabet.length)} · R ${maskBits(step.rightMask,sensorAlphabet.length)}`;
+    $('gradient-mask').textContent=maskBits(step.gradientMask,gradientAlphabet.length);
+    $('gradient-note').textContent=config.gradientDescription || 'Right minus left. The native difference preserves unresolved alternatives.';
+    const interpreted=Boolean(trial.interpretationLabel || trial.interpretationDescription);
+    $('calibration').hidden=!interpreted;
+    if(interpreted) {
+      $('light-profile').textContent=`${variantFamilies.get(trial.variantId) || trial.groupLabel || trial.variantId || 'Selected instrument'} · ${sensorAlphabet.length} bins`;
+      $('light-ranges').textContent=sensorAlphabet.map(label).join(' · ');
+      $('interpretation').textContent=interpretationName(trial);
+      $('interpretation-note').textContent=trial.interpretationDescription;
+    }
+    $('mode').textContent=step.modeLabel || (Number(trial.round)===0?'Baseline':(config.modeLabels?.[step.mode] ?? {0:'Seek charge',1:'Cool'}[step.mode] ?? label(step.mode)));
+    $('trend').textContent=`Central light trend · ${step.trendLabel || (config.trendLabels?.[step.trend] ?? {'-1':'Dimming',0:'Unchanged',1:'Brightening'}[step.trend] ?? label(step.trend))}`;
+    const internal=[];
+    if (step.chargeMask!==undefined) internal.push(`Charge input ${supportLabels(step.chargeMask,config.chargeMaskAlphabet || config.chargeAlphabet || []).join(' / ') || 'Unresolved'}`);
+    if (step.heatMask!==undefined) internal.push(`Heat input ${supportLabels(step.heatMask,config.heatMaskAlphabet || config.heatAlphabet || []).join(' / ') || 'Unresolved'}`);
+    $('internal-supports').textContent=internal.join(' · ');
+    $('action').textContent=step.actionLabel || (config.actionLabels?.[step.action] ?? {'-1':'← Move left',0:'Stay',1:'Move right →'}[step.action] ?? label(step.action));
+    $('action-note').textContent=step.actionDescription || `Native response coordinate · ${label(step.action)}`;
+    const ambiguous=step.ambiguous!==undefined ? Boolean(step.ambiguous) : step.gradientMask===null || step.gradientMask===undefined || supportCount(step.gradientMask)>1;
+    const refined=Boolean(step.refined);
+    $('read-status').textContent=refined ? 'Finer read requested' : step.initialActionUnresolved ? 'Initial action unresolved' : ambiguous ? 'Gradient spans regions' : 'Single-region gradient';
+    $('decision').classList.toggle('flagged',Boolean(step.initialActionUnresolved) || refined);
+    $('decision-mark').textContent=refined ? '↗' : step.initialActionUnresolved ? '?' : ambiguous ? '⋯' : '✓';
+    $('decision-title').textContent=refined ? 'A local refinement was requested.' : step.initialActionUnresolved ? 'The initial action needed a fallback.' : ambiguous && step.initialActionUnresolved===false ? 'The coarse support establishes this response.' : ambiguous ? 'The gradient retains several regions.' : 'The native policy selected a response.';
+    $('reason').textContent=label(step.reason);
+    $('query-read').hidden=!refined;
+    if(refined) {
+      setSupport('query-support',step.queryMask,queryAlphabet);
+      $('query-cost').textContent=config.queryChargeCost===undefined ? '' : `Cost · ${format(config.queryChargeCost)} charge`;
+    }
+    $('operations').textContent=format(summary.totalOperations); $('queries').textContent=format(summary.refinementQueries);
+    $('archive').textContent=bytes(summary.archiveBytes); $('mean-charge').textContent=format(summary.meanCharge,1);
+    $('comparison-body').querySelectorAll('tr[data-trial-index]').forEach(row=>row.classList.toggle('selected',Number(row.dataset.trialIndex)===trialIndex));
+    draw();
+  }
+  function meter(name,value,max) {
+    const target=$(`${name}-value`); target.replaceChildren(); target.appendChild(document.createTextNode(format(value)));
+    const denominator=document.createElement('small'); denominator.textContent=` / ${format(max)}`; target.appendChild(denominator);
+    $(`${name}-fill`).style.width=`${clamp(Number(value)/max,0,1)*100}%`;
+  }
+  function setSupport(id,mask,alphabet) {
+    const element=$(id), values=supportLabels(mask,alphabet), open=values.length!==1;
+    element.replaceChildren();
+    values.forEach(value => { const chip=document.createElement('span'); chip.className=`chip${open?' open':''}`; chip.textContent=value; element.appendChild(chip); });
+    if (!values.length) { const chip=document.createElement('span'); chip.className='chip open'; chip.textContent='Unresolved'; element.appendChild(chip); }
+  }
+  function supportLabels(mask,alphabet) {
+    if (mask===undefined || mask===null) return [];
+    const bits=Number(mask)>>>0, result=[];
+    for(let i=0;i<32;i++) if ((bits>>>i)&1) result.push(alphabet[i]===undefined?`bit ${i}`:label(alphabet[i]));
+    return result;
+  }
+  function supportCount(mask) { let bits=Number(mask)>>>0,count=0; while(bits) { bits&=bits-1; count++; } return count; }
+  function maskBits(mask,width) { return mask===undefined || mask===null ? 'mask unavailable' : `mask ${((Number(mask)>>>0).toString(2)).padStart(Math.min(32,Math.max(1,width)),'0')}`; }
+  function buildComparison() {
+    const body=$('comparison-body');
+    trials.forEach((trial,i) => {
+      const s=trial.summary || {}, row=document.createElement('tr'); row.dataset.trialIndex=i; row.tabIndex=0; row.setAttribute('aria-label',`Replay ${trialTitle(trial)} ${trial.backend || ''}`);
+      const first=document.createElement('td'), title=document.createElement('strong'), subtitle=document.createElement('small');
+      title.textContent=trialTitle(trial); subtitle.textContent=trial.backend || 'Native'; first.append(title,subtitle); row.appendChild(first);
+      [trial.steps.length,s.completedCycles,s.starvationTicks,s.overheatTicks,s.movements,s.ambiguityTicks,s.initialActionUnresolvedTicks,s.refinementQueries].forEach(value=>{ const cell=document.createElement('td'); cell.textContent=format(value); row.appendChild(cell); });
+      const timing=document.createElement('td'); timing.textContent=s.elapsedMs===undefined?'—':`${format(s.elapsedMs,1)} ms`; row.appendChild(timing);
+      row.addEventListener('click',()=>selectTrial(i)); row.addEventListener('keydown',event=>{ if(event.key==='Enter'||event.key===' ') { event.preventDefault(); selectTrial(i); } }); body.appendChild(row);
+    });
+    const comparison=report.mathComparison || {};
+    const pairs=[];
+    const policyKey=trial=>String(trial.strategy || trial.id).replace(/_(computed|lookup|packed)$/i,'');
+    const policies=[...new Set(trials.map(policyKey))];
+    policies.forEach(policy => {
+      const pair=trials.filter(t=>policyKey(t)===policy && ['computed','lookup','packed'].includes(String(t.backend).toLowerCase()));
+      if(pair.length>1 && pair.every(t=>t.summary && t.summary.parityHash)) pairs.push(pair.every(t=>t.summary.parityHash===pair[0].summary.parityHash));
+    });
+    const allMatch=comparison.allBackendsMatch ?? (pairs.length?pairs.every(Boolean):null);
+    if(allMatch!==null) $('parity').textContent=allMatch?'Arithmetic backend outcomes match':'Arithmetic backends differ';
+    $('comparison-note').textContent=comparison.description || 'Cycles and stress ticks are world outcomes. Timings are individual recorded runs, not a controlled benchmark. Both arithmetic backends use the same native policy.';
+    $('math-note').textContent=comparison.note || comparison.notes || '';
+  }
+  function draw() { drawTrack(); drawHistory(); }
+  function prepare(id,height) {
+    const canvas=$(id), width=canvas.clientWidth, ratio=Math.min(2,window.devicePixelRatio || 1);
+    canvas.width=Math.round(width*ratio); canvas.height=Math.round(height*ratio); canvas.style.height=`${height}px`;
+    const ctx=canvas.getContext('2d'); ctx.scale(ratio,ratio); ctx.clearRect(0,0,width,height);
+    return {ctx,width,height};
+  }
+  function drawTrack() {
+    const {ctx,width:w}=prepare('track-canvas',196), step=currentStep(), trial=currentTrial();
+    const left=28,right=w-28, cell=(right-left)/cells, center=x=>left+(Number(x)+.5)*cell, y=94;
+    ctx.fillStyle='#f3f6ed'; rounded(ctx,left,y-20,right-left,40,10); ctx.fill();
+    for(let i=0;i<cells;i++) {
+      const px=center(i); line(ctx,px,y-15,px,y+15,'#e0e7d8',1);
+      if(i%5===0 || i===cells-1) text(ctx,String(i),px,y+42,10,'#8c9985','center');
+    }
+    text(ctx,'CHARGING PEAK',left,21,9,'#9a8436');
+    text(ctx,'CREATURE',left,174,9,'#55795c');
+    // These coordinates are a reference-world projection supplied by the runner.
+    // No light field or controller response is calculated by this page.
+    if(isFiniteNumber(step.chargerX)) {
+      const px=center(step.chargerX); line(ctx,px,51,px,y-23,'#dbc76a',1,[3,3]);
+      circle(ctx,px,41,13,'#fbf2bf'); circle(ctx,px,41,7,'#e0c44c');
+      line(ctx,px-3,41,px+3,41,'#8d7729',1.5); line(ctx,px,38,px,44,'#8d7729',1.5);
+      circle(ctx,px,y,cell>15?7:4,'#e9d880');
+    }
+    const tail=trial.steps.slice(Math.max(0,stepIndex-20),stepIndex+1);
+    tail.forEach((s,i)=>{ if(isFiniteNumber(s.x)) circle(ctx,center(s.x),y+9,Math.min(3,cell/4),`rgba(20,116,94,${.05+.22*i/Math.max(1,tail.length)})`); });
+    if(isFiniteNumber(step.x)) {
+      const px=center(step.x); line(ctx,px,y+22,px,135,'#98b39a',1,[3,3]);
+      circle(ctx,px,148,14,'#e8f1dd');
+      ctx.save(); ctx.translate(px,148); ctx.rotate(Math.PI/5); ctx.fillStyle='#14745e'; rounded(ctx,-10,-6,20,12,6); ctx.fill(); ctx.restore();
+      circle(ctx,px-2,145,1.5,'#ebf3de'); circle(ctx,px+3,148,1.5,'#ebf3de');
+      circle(ctx,px,y,Math.min(6,Math.max(3,cell/3)),'#14745e');
+    }
+    text(ctx,`${cells}-cell track`,right,174,9,'#8b9784','right');
+  }
+  function drawHistory() {
+    const {ctx,width:w,height:h}=prepare('history-canvas',195), trial=currentTrial(), steps=trial.steps;
+    const margin={left:39,right:22,top:17,bottom:35}, x0=margin.left,x1=w-margin.right,y0=margin.top,y1=h-margin.bottom;
+    const x=i=>x0+(x1-x0)*i/Math.max(1,steps.length-1), y=(value,max)=>y1-clamp(Number(value)/max,0,1)*(y1-y0);
+    [0,.5,1].forEach(f=>{const py=y1-f*(y1-y0); line(ctx,x0,py,x1,py,'#e9ede1',1); text(ctx,`${Math.round(f*100)}%`,x0-8,py+3,9,'#8a9783','right');});
+    for(let i=1;i<steps.length;i++) if(steps[i].chargerX!==steps[i-1].chargerX) line(ctx,x(i),y0,x(i),y1,'#d8dfca',1,[3,4]);
+    steps.forEach((step,i)=>{if(step.refined) {ctx.globalAlpha=i<=stepIndex ? .8 : .2;circle(ctx,x(i),y0-7,1.7,'#bd653f');ctx.globalAlpha=1;}});
+    plot('charge',chargeMax,'#14745e'); plot('heat',heatMax,'#bd653f');
+    const cursor=x(stepIndex); line(ctx,cursor,y0,cursor,y1,'#7b9274',1,[3,3]);
+    const step=currentStep(); if(isFiniteNumber(step.charge)) circle(ctx,cursor,y(step.charge,chargeMax),3.5,'#14745e');
+    if(isFiniteNumber(step.heat)) circle(ctx,cursor,y(step.heat,heatMax),3.5,'#bd653f');
+    const count=w<460?3:5;
+    for(let i=0;i<count;i++) {const index=Math.round(i*(steps.length-1)/(count-1)); text(ctx,format(steps[index].tick),x(index),y1+22,9,'#8a9783','center');}
+    function plot(field,max,color) {
+      const trace=end=>{ctx.beginPath(); let started=false; for(let i=0;i<=end;i++){if(!isFiniteNumber(steps[i][field])) {started=false; continue;} if(started) ctx.lineTo(x(i),y(steps[i][field],max)); else {ctx.moveTo(x(i),y(steps[i][field],max));started=true;}} ctx.stroke();};
+      ctx.strokeStyle=color;ctx.lineWidth=1.3;ctx.globalAlpha=.18;trace(steps.length-1);ctx.globalAlpha=1;ctx.lineWidth=1.8;trace(stepIndex);
+    }
+  }
+  function rounded(ctx,x,y,w,h,r) { r=Math.min(r,w/2,h/2);ctx.beginPath();ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath(); }
+  function line(ctx,x1,y1,x2,y2,color,width=1,dash=[]) {ctx.save();ctx.strokeStyle=color;ctx.lineWidth=width;ctx.setLineDash(dash);ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.stroke();ctx.restore();}
+  function circle(ctx,x,y,r,color) {ctx.fillStyle=color;ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.fill();}
+  function text(ctx,value,x,y,size,color,align='left') {ctx.font=`${size}px ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif`;ctx.fillStyle=color;ctx.textAlign=align;ctx.fillText(value,x,y);}
+  function interpretationName(trial) {return {strict0:'Strict',gentle4:'Gentle tolerance (±4)',broad10:'Broad tolerance (±10)'}[trial.interpretationLabel] || label(trial.interpretationLabel);}
+  function validationRole(trial) {const role=String(trial.groupLabel || '').split('·').pop().trim();return {reference:'Reference',selected:'Selected',no_query:'No comparisons'}[role] || null;}
+  function validationGroup(trial) {const role=validationRole(trial);return role ? `Long validation · ${role}` : String(trial.groupLabel || 'Long validation').replace(/^Validation\s*·\s*/i,'');}
+  function trialTitle(trial) {
+    if(!trial.variantId || !trial.interpretationLabel) return trial.label || `Round ${trial.round}`;
+    const family=variantFamilies.get(trial.variantId) || trial.groupLabel || trial.variantId, role=validationRole(trial);
+    return `${role?role+' · ':''}${family} · ${interpretationName(trial)}`;
+  }
+  function label(value) { if(value===null || value===undefined || value==='') return 'Unresolved'; if(typeof value==='object') return value.label || value.description || String(value.value ?? 'Unresolved'); return String(value); }
+  function format(value,decimals=0) {if(value===null || value===undefined || !Number.isFinite(Number(value))) return '—';return Number(value).toLocaleString(undefined,{maximumFractionDigits:decimals});}
+  function bytes(value) {if(value===null || value===undefined || !Number.isFinite(Number(value)))return '—';if(Number(value)>=1048576)return `${format(Number(value)/1048576,1)} MB`;if(Number(value)>=1024)return `${format(Number(value)/1024,1)} KB`;return `${format(value)} B`;}
+  function positive(value,fallback) {const n=Number(value);return Number.isFinite(n)&&n>0?n:fallback;}
+  function isFiniteNumber(value) {return value!==null && value!==undefined && Number.isFinite(Number(value));}
+  function clamp(value,min,max) {return Math.max(min,Math.min(max,value));}
+  function fail(message) {$('error').hidden=false;$('error').textContent=message;ui.previous.disabled=ui.next.disabled=ui.play.disabled=true;$('description').textContent='Native data unavailable.';}
+})();
+</script>
+</body>
+</html>

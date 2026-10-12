@@ -1,0 +1,38 @@
+[
+  {
+    "mode": "cold",
+    "backend": "Planned",
+    "medianWall": 5.3203903,
+    "medianSpeed": 2.8193420321061784,
+    "meanAllocation": 2369410258.6666665,
+    "stateDigest": "69B02E630B63807B637F2B2A4E48681FA56C621DD0AE772D5A1A65C3387DD02D",
+    "nativeAssembly": "9512ada5-e09a-48ed-b1cd-f2edff2231a9"
+  },
+  {
+    "mode": "cold",
+    "backend": "Compact",
+    "medianWall": 4.699272,
+    "medianSpeed": 3.1919837796152257,
+    "meanAllocation": 1511535909.3333333,
+    "stateDigest": "69B02E630B63807B637F2B2A4E48681FA56C621DD0AE772D5A1A65C3387DD02D",
+    "nativeAssembly": "9512ada5-e09a-48ed-b1cd-f2edff2231a9"
+  },
+  {
+    "mode": "warm",
+    "backend": "Planned",
+    "medianWall": 4.4805,
+    "medianSpeed": 3.3478406427854033,
+    "meanAllocation": 2440040610.6666665,
+    "stateDigest": "4E7038F13700E98DC097AAAD3B0A466037F5FA7610F1C638BC85A207A71BAA13",
+    "nativeAssembly": "9512ada5-e09a-48ed-b1cd-f2edff2231a9"
+  },
+  {
+    "mode": "warm",
+    "backend": "Compact",
+    "medianWall": 4.2459541,
+    "medianSpeed": 3.5327748832706414,
+    "meanAllocation": 1394274616.0,
+    "stateDigest": "4E7038F13700E98DC097AAAD3B0A466037F5FA7610F1C638BC85A207A71BAA13",
+    "nativeAssembly": "9512ada5-e09a-48ed-b1cd-f2edff2231a9"
+  }
+]

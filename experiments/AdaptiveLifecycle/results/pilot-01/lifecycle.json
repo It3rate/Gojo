@@ -1,0 +1,68 @@
+{
+  "events": [
+    {
+      "stage": "first birth",
+      "reserve": 16,
+      "tension": 0,
+      "viable": true,
+      "participating": true,
+      "nurseryFunding": 24,
+      "activeParticipants": 1
+    },
+    {
+      "stage": "dormant after 17 ticks",
+      "reserve": 0,
+      "tension": -1,
+      "viable": false,
+      "participating": false,
+      "nurseryFunding": 24,
+      "activeParticipants": 1
+    },
+    {
+      "stage": "first retired",
+      "reserve": 0,
+      "tension": -1,
+      "viable": false,
+      "participating": false,
+      "nurseryFunding": 24,
+      "activeParticipants": 0
+    },
+    {
+      "stage": "replacement born",
+      "reserve": 16,
+      "tension": 0,
+      "viable": true,
+      "participating": true,
+      "nurseryFunding": 8,
+      "activeParticipants": 1
+    },
+    {
+      "stage": "replacement funded and maintained",
+      "reserve": 12,
+      "tension": 0,
+      "viable": true,
+      "participating": true,
+      "nurseryFunding": 8,
+      "activeParticipants": 1
+    },
+    {
+      "stage": "replacement retired",
+      "reserve": 0,
+      "tension": -1,
+      "viable": false,
+      "participating": false,
+      "nurseryFunding": 8,
+      "activeParticipants": 0
+    }
+  ],
+  "dormantWithdraws": true,
+  "debtPreserved": true,
+  "freshIdentity": true,
+  "capacityBlocksBirth": true,
+  "fundingBlocksBirth": true,
+  "fundedParticipantSurvives": true,
+  "transportPreservesState": true,
+  "birthCredits": 32,
+  "remainingNurseryFunding": 8,
+  "initialNurseryFunding": 40
+}

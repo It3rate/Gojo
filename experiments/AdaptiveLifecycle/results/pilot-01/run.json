@@ -1,0 +1,10 @@
+{
+  "status": "complete",
+  "startedUtc": "2026-10-12T00:26:09.2545472Z",
+  "finishedUtc": "2026-10-12T00:26:50.8364953Z",
+  "elapsedSeconds": 41.5817006,
+  "seeds": 2,
+  "seedStart": 400,
+  "campaign": false,
+  "paidJevCalls": 0
+}

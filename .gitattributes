@@ -61,3 +61,37 @@
 #*.PDF   diff=astextplain
 #*.rtf   diff=astextplain
 #*.RTF   diff=astextplain
+
+
+# Research preservation: retain captured bytes and source-checksum line endings.
+/artifacts/** -text
+**/TestResults/*.trx -text
+/experiments/AdaptiveLifecycle/** -text
+/experiments/AdaptiveLifecycle.Tests/** -text
+/experiments/CompositeEmergence/** -text
+/experiments/CompositeEmergence.Tests/** -text
+/experiments/Phototaxis/** -text
+/experiments/Phototaxis.Browser/** -text
+/experiments/Phototaxis.Runner/** -text
+/experiments/Phototaxis.Tests/** -text
+/experiments/PrimitiveAgency/** -text
+/experiments/PrimitiveForager/** -text
+/experiments/PrimitiveForager.Tests/** -text
+/experiments/PrimitiveLearning/** -text
+/experiments/PrimitiveLearning.Tests/** -text
+/experiments/RelativeSignals/** -text
+/experiments/ResearchArchive/** -text
+/experiments/SamplingEmergence/** -text
+/experiments/UtilityEcology/** -text
+/experiments/UtilityEcology.Tests/** -text
+/Gojo/**/*.cs text eol=crlf
+/Gojo/Structures/CoarseDifferencePlan.cs text eol=lf
+/Gojo/Structures/CoarseReadSurface.cs text eol=lf
+/Gojo/Structures/FiniteReadSurface.cs text eol=lf
+/Gojo/Structures/RelativeSignalSurface.cs text eol=lf
+/Gojo/Structures/SamplingSurface.cs text eol=lf
+/Gojo/Structures/ScopedChoice.cs text eol=lf
+/Gojo/Structures/SupportDecisionSurface.cs text eol=lf
+
+# Native numeric archives are opaque transport, not line-oriented text.
+*.gojo binary

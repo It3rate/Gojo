@@ -1,0 +1,74 @@
+[
+  {
+    "seed": 500,
+    "arm": "no-interpretation-learning",
+    "filename": "500-no-interpretation-learning.gojo",
+    "signatureMatched": true,
+    "monetaryMatched": true,
+    "aliasesMatched": true,
+    "bytes": 1630741
+  },
+  {
+    "seed": 500,
+    "arm": "always/upfront",
+    "filename": "500-always-upfront.gojo",
+    "signatureMatched": true,
+    "monetaryMatched": true,
+    "aliasesMatched": true,
+    "bytes": 1741890
+  },
+  {
+    "seed": 500,
+    "arm": "error/upfront",
+    "filename": "500-error-upfront.gojo",
+    "signatureMatched": true,
+    "monetaryMatched": true,
+    "aliasesMatched": true,
+    "bytes": 1813586
+  },
+  {
+    "seed": 500,
+    "arm": "opportunity/upfront",
+    "filename": "500-opportunity-upfront.gojo",
+    "signatureMatched": true,
+    "monetaryMatched": true,
+    "aliasesMatched": true,
+    "bytes": 1845697
+  },
+  {
+    "seed": 500,
+    "arm": "opportunity/success-paid",
+    "filename": "500-opportunity-success-paid.gojo",
+    "signatureMatched": true,
+    "monetaryMatched": true,
+    "aliasesMatched": true,
+    "bytes": 1836405
+  },
+  {
+    "seed": 500,
+    "arm": "opportunity/success-paid/use-reset",
+    "filename": "500-opportunity-success-paid-use-reset.gojo",
+    "signatureMatched": true,
+    "monetaryMatched": true,
+    "aliasesMatched": true,
+    "bytes": 1926632
+  },
+  {
+    "seed": 500,
+    "arm": "opportunity/success-paid/withdrawn",
+    "filename": "500-opportunity-success-paid-withdrawn.gojo",
+    "signatureMatched": true,
+    "monetaryMatched": true,
+    "aliasesMatched": true,
+    "bytes": 1836405
+  },
+  {
+    "seed": 500,
+    "arm": "opportunity/success-paid/no-renewal",
+    "filename": "500-opportunity-success-paid-no-renewal.gojo",
+    "signatureMatched": true,
+    "monetaryMatched": true,
+    "aliasesMatched": true,
+    "bytes": 1836405
+  }
+]

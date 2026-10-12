@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Gojo · Enough evidence to act</title>
+  <style>
+    :root { color-scheme:light; --paper:#f5f5ef; --ink:#21342f; --muted:#69776d; --line:#dfe5d9; --green:#14745e; --orange:#b66b40; --blue:#6988a6; --radius:18px; }
+    * { box-sizing:border-box; }
+    body { margin:0; color:var(--ink); background:var(--paper); font:14px/1.55 ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif; }
+    main { width:min(1150px,calc(100% - 44px)); margin:auto; padding:30px 0 38px; }
+    h1 { font-size:clamp(31px,4vw,46px); line-height:1.15; letter-spacing:-.04em; margin:9px 0 10px; }
+    h2 { font-size:17px; margin:0 0 4px; letter-spacing:-.015em; } p { margin:0; }
+    header { display:flex; align-items:flex-end; justify-content:space-between; gap:22px; margin-bottom:22px; }
+    header p { max-width:710px; color:var(--muted); font-size:15px; }
+    .eyebrow { display:flex; align-items:center; gap:8px; font-size:10px; letter-spacing:.15em; text-transform:uppercase; font-weight:800; color:var(--green); }
+    .eyebrow i { height:8px; width:8px; border-radius:50%; background:var(--green); }
+    .badge,.pill { font-size:10px; font-weight:750; border-radius:999px; padding:5px 10px; background:#e9f0dd; color:#58714e; }
+    .badge { white-space:nowrap; border:1px solid #d0dfc3; }
+    .panel { border:1px solid var(--line); border-radius:var(--radius); background:#fff; }
+    .controls { padding:18px 20px 15px; margin-bottom:14px; }
+    .control-top { display:grid; grid-template-columns:minmax(280px,1fr) auto; align-items:end; gap:20px; }
+    .label { display:block; font-size:10px; color:var(--muted); font-weight:800; letter-spacing:.09em; text-transform:uppercase; margin-bottom:6px; }
+    button,select,input { font:inherit; }
+    button,select { min-height:42px; background:#fff; border:1px solid var(--line); border-radius:10px; color:var(--ink); }
+    button { font-weight:650; padding:8px 14px; cursor:pointer; } button:disabled { opacity:.4; cursor:default; }
+    button:hover:not(:disabled) { background:#eef4e7; border-color:#b5cbb0; }
+    button:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visible { outline:3px solid #9ac3ac; outline-offset:3px; }
+    select { width:100%; padding:8px 27px 8px 11px; }
+    .buttons { display:flex; gap:7px; } #play { min-width:95px; background:var(--green); border-color:var(--green); color:#fff; }
+    .description { margin:10px 0 12px; color:var(--muted); font-size:12px; }
+    .timeline { display:grid; grid-template-columns:auto 1fr auto; gap:14px; align-items:center; }
+    .tick { font-size:12px; font-weight:750; font-variant-numeric:tabular-nums; white-space:nowrap; }
+    input[type=range] { width:100%; accent-color:var(--green); cursor:pointer; }
+    input[type=checkbox] { width:17px; height:17px; accent-color:var(--green); margin:0; }
+    .pace { font-size:11px; color:var(--muted); white-space:nowrap; } .pace select { width:83px; min-height:29px; padding:3px 5px; font-size:11px; margin-left:4px; }
+    .episode-list { display:flex; gap:7px; flex-wrap:wrap; margin-top:15px; padding-top:12px; border-top:1px solid #edf0e7; }
+    .episode-list button { min-height:34px; padding:5px 10px; font-size:11px; font-weight:600; text-align:left; }
+    .episode-list button.active { background:#eaf2df; border-color:#bdcfae; } .episode-list button small { color:var(--muted); margin-right:5px; }
+    .episode-note { min-height:17px; color:var(--muted); font-size:11px; margin-top:8px; }
+    .world { overflow:hidden; margin-bottom:14px; }
+    .panel-top { display:flex; justify-content:space-between; align-items:flex-start; gap:16px; padding:18px 20px 8px; }
+    .caption { font-size:11px; color:var(--muted); }
+    .world-flags { display:flex; flex-wrap:wrap; justify-content:flex-end; gap:5px; }
+    .flag { font-size:10px; font-weight:650; padding:4px 8px; border-radius:6px; background:#eff3e9; color:#64745b; }
+    .flag.active { background:#fff0dc; color:#9c6b35; }
+    .svg-pad { padding:0 8px; } svg { display:block; width:100%; font-family:inherit; }
+    #arena { height:148px; } #body-chart { height:170px; } #relative-chart { height:170px; }
+    .meter-row { display:grid; grid-template-columns:1fr 1fr; gap:24px; padding:0 20px 15px; }
+    .meter-title { display:flex; justify-content:space-between; align-items:center; font-size:12px; margin-bottom:6px; }
+    .meter-title strong { font-size:18px; font-weight:700; font-variant-numeric:tabular-nums; } .meter-title span { color:var(--muted); }
+    .meter-track { height:10px; background:#edf0e7; border-radius:9px; overflow:hidden; } .meter-fill { height:100%; background:var(--green); border-radius:9px; } .meter-fill.heat { background:var(--orange); }
+    .world-foot { display:flex; justify-content:space-between; align-items:center; gap:16px; padding:12px 20px 14px; border-top:1px solid #edf0e7; }
+    .source-toggle { display:flex; align-items:center; gap:9px; cursor:pointer; font-size:11px; font-weight:650; }
+    .world-foot p { max-width:540px; color:var(--muted); font-size:10px; }
+    .decision { padding:18px 20px; margin-bottom:14px; background:#f8faf3; border-color:#d8e3cb; }
+    .decision-top { display:flex; justify-content:space-between; gap:18px; align-items:flex-start; }
+    .action-label { font-size:27px; font-weight:700; letter-spacing:-.03em; line-height:1.2; margin-top:5px; }
+    .mode { font-size:11px; font-weight:650; color:#527050; background:#eaf0df; border-radius:7px; padding:5px 9px; }
+    .reason { margin-top:10px; font-size:13px; }
+    .decision-trail { display:flex; flex-wrap:wrap; gap:6px; margin-top:12px; }
+    .decision-trail .pill { font-size:10px; font-weight:650; background:#e7efdd; color:#52704c; }
+    .decision-trail .pill.open { background:#fff0dc; color:#9c6b35; }
+    .decision-foot { display:flex; justify-content:space-between; flex-wrap:wrap; gap:9px 20px; margin-top:13px; color:var(--muted); font-size:10px; }
+    .evidence-panel { margin-bottom:14px; }
+    .evidence-panel > .panel-top { padding-bottom:13px; }
+    .evidence-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; padding:0 15px 15px; }
+    .evidence { border:1px solid #e3e8dc; border-radius:12px; padding:14px; background:#fbfcf8; min-width:0; }
+    .evidence.used { background:#eff5e6; border-color:#aec9a7; box-shadow:inset 3px 0 0 var(--green); }
+    .evidence.open { background:#fffaf2; border-color:#ead8bc; }
+    .evidence.used.open { box-shadow:inset 3px 0 0 var(--green); }
+    .evidence-top { display:flex; justify-content:space-between; gap:10px; align-items:flex-start; }
+    .evidence h3 { font-size:13px; margin:0; font-weight:700; }
+    .state { font-size:9px; white-space:nowrap; padding:2px 6px; border-radius:5px; background:#e7edde; color:#60744f; }
+    .state.open { background:#fff0d8; color:#9b6b35; } .state.quiet { color:#788070; background:#edf0e8; }
+    .basis { font-size:10px; color:var(--muted); margin-top:4px; }
+    .publication { font-size:14px; line-height:1.4; margin-top:12px; font-weight:650; overflow-wrap:anywhere; }
+    .evidence-note { margin-top:9px; color:var(--muted); font-size:10px; }
+    .evidence-tags { display:flex; flex-wrap:wrap; gap:5px; margin-top:11px; }
+    .evidence-tags span { font-size:9px; padding:2px 6px; background:#f0f3eb; border-radius:4px; color:#68795c; }
+    .evidence-tags .used-tag { background:#dcebd2; color:#3f6843; }
+    details { color:var(--muted); font-size:10px; } details summary { cursor:pointer; font-weight:600; }
+    .witness { margin-top:9px; } .witness div { overflow-wrap:anywhere; margin-top:4px; }
+    .section-note { font-size:10px; color:var(--muted); padding:0 20px 15px; }
+    .charts { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:14px; }
+    .chart { overflow:hidden; }
+    .legend { display:flex; gap:12px; flex-wrap:wrap; color:var(--muted); font-size:10px; }
+    .legend span { display:inline-flex; align-items:center; gap:5px; } .legend i { width:14px; height:3px; border-radius:3px; background:var(--green); }
+    .legend i.heat { background:var(--orange); } .legend i.slow { height:0; border-top:2px dashed var(--orange); background:transparent; }
+    .chart-foot { color:var(--muted); font-size:10px; padding:0 20px 13px; }
+    .relative-read { display:flex; gap:13px; flex-wrap:wrap; font-size:10px; color:var(--muted); padding:0 20px 9px; }
+    .relative-read strong { color:var(--ink); font-size:12px; margin-right:4px; }
+    .outcomes { padding:16px 20px; margin-bottom:14px; }
+    .outcome-grid { display:grid; grid-template-columns:repeat(6,1fr); gap:10px; margin-top:13px; }
+    .outcome strong { font-size:21px; font-weight:700; letter-spacing:-.02em; font-variant-numeric:tabular-nums; display:block; }
+    .outcome span { font-size:10px; color:var(--muted); }
+    .costs { border-top:1px solid #edf0e7; margin-top:13px; padding-top:11px; display:flex; gap:8px 20px; flex-wrap:wrap; font-size:10px; color:var(--muted); }
+    .costs strong { color:var(--ink); font-size:11px; margin-left:4px; }
+    .comparison { overflow:hidden; margin-bottom:14px; }
+    .table-wrap { overflow-x:auto; padding:7px 15px 5px; } table { width:100%; border-collapse:collapse; text-align:right; font-size:11px; white-space:nowrap; }
+    th { color:var(--muted); font-size:9px; text-transform:uppercase; letter-spacing:.05em; font-weight:750; padding:8px 9px; border-bottom:1px solid var(--line); }
+    td { padding:11px 9px; border-bottom:1px solid #edf0e7; font-variant-numeric:tabular-nums; }
+    th:first-child,td:first-child { text-align:left; } td:first-child strong { display:block; font-size:11px; font-weight:650; }
+    td:first-child small { display:block; font-size:10px; color:var(--muted); } tr.selected { background:#edf4e4; }
+    .table-note { color:var(--muted); font-size:10px; padding:9px 20px 13px; }
+    .checks { padding:17px 20px; margin-bottom:14px; }
+    .check-list { display:grid; grid-template-columns:1fr 1fr; gap:9px; margin-top:12px; }
+    .check { border:1px solid #e4e9dc; border-radius:10px; padding:11px 12px; }
+    .check-top { display:flex; justify-content:space-between; gap:10px; align-items:center; font-size:12px; font-weight:650; }
+    .check p { margin-top:5px; color:var(--muted); font-size:10px; } .check .contrast { border-top:1px solid #edf0e7; padding-top:7px; margin-top:8px; }
+    .status { border-radius:6px; padding:2px 6px; font-size:9px; white-space:nowrap; background:#edf3e4; color:#557447; } .status.open { background:#fff1dd; color:#a66c32; }
+    .explanation { padding:17px 20px; background:#edf2e2; border-color:#d9e4cb; margin-bottom:14px; }
+    .explanation p { font-size:12px; color:#607253; margin-top:5px; } .world-rules { margin:10px 0 0; padding-left:18px; color:#607253; font-size:11px; }
+    .archive { padding:14px 20px; } .archive p { margin-top:8px; overflow-wrap:anywhere; }
+    footer { display:flex; justify-content:space-between; gap:18px; font-size:10px; color:#83907e; margin-top:18px; }
+    .empty { font-size:12px; color:var(--muted); padding:12px 5px; } .error { color:var(--orange); margin-top:15px; } [hidden] { display:none!important; }
+    @media (max-width:800px) {
+      main { width:calc(100% - 28px); padding-top:23px; } header .badge { display:none; } header p { font-size:13px; }
+      .control-top { grid-template-columns:1fr; gap:12px; } .buttons button { flex:1; } .controls { padding:16px 17px; }
+      .timeline { grid-template-columns:auto 1fr; gap:10px; } .pace { grid-column:2; text-align:right; }
+      .panel-top { padding:17px 17px 8px; flex-direction:column; gap:8px; } .world-flags { justify-content:flex-start; }
+      .meter-row { padding:0 17px 15px; gap:16px; } .world-foot { padding:12px 17px; flex-direction:column; align-items:flex-start; gap:8px; }
+      .decision { padding:17px; } .action-label { font-size:24px; } .evidence-grid { grid-template-columns:repeat(2,minmax(0,1fr)); padding:0 12px 12px; gap:8px; }
+      .evidence { padding:12px; } .evidence-top { flex-direction:column; gap:4px; } .publication { font-size:13px; }
+      .charts { grid-template-columns:1fr; } .outcomes { padding:16px 17px; } .outcome-grid { grid-template-columns:repeat(3,1fr); gap:12px; }
+      .check-list { grid-template-columns:1fr; } .checks,.explanation,.archive { padding:16px 17px; }
+      footer { flex-direction:column; gap:4px; } .section-note { padding:0 17px 14px; }
+    }
+    @media (prefers-reduced-motion:reduce) { * { scroll-behavior:auto!important; } }
+  </style>
+</head>
+<body>
+<main>
+  <header>
+    <div>
+      <div class="eyebrow"><i></i> Gojo · A creature in a small world</div>
+      <h1>Enough evidence to act.</h1>
+      <p>Follow one creature as it reads its surroundings and chooses a response. Matched runs reveal what each information capability actually contributes.</p>
+    </div>
+    <span class="badge">Hand-designed native structures</span>
+  </header>
+
+  <section class="panel controls" aria-label="Replay controls">
+    <div class="control-top">
+      <div><label class="label" for="run">Choose a matched run</label><select id="run"></select></div>
+      <div class="buttons"><button id="previous" aria-label="Previous tick">←</button><button id="play">Play</button><button id="next" aria-label="Next tick">→</button></div>
+    </div>
+    <p class="description" id="run-description"></p>
+    <div class="timeline">
+      <span class="tick" id="tick-label">Tick —</span>
+      <input type="range" id="timeline" min="0" max="0" value="0" aria-label="Replay tick">
+      <label class="pace">Replay pace<select id="pace"><option value="1">1×</option><option value="4" selected>4×</option><option value="12">12×</option></select></label>
+    </div>
+    <div class="episode-list" id="episodes" aria-label="Jump to an episode"></div>
+    <p class="episode-note" id="episode-note"></p>
+  </section>
+
+  <section class="panel world">
+    <div class="panel-top">
+      <div><h2>The world</h2><p class="caption">A small track, one creature, and changing conditions.</p></div>
+      <div class="world-flags" id="world-flags"></div>
+    </div>
+    <div class="svg-pad"><svg id="arena" role="img" aria-label="Creature location on the track"></svg></div>
+    <div class="meter-row">
+      <div><div class="meter-title"><span>Charge · public observation</span><strong id="charge-label">—</strong></div><div class="meter-track"><div id="charge-fill" class="meter-fill"></div></div></div>
+      <div><div class="meter-title"><span>Heat · public observation</span><strong id="heat-label">—</strong></div><div class="meter-track"><div id="heat-fill" class="meter-fill heat"></div></div></div>
+    </div>
+    <div class="world-foot">
+      <label class="source-toggle"><input type="checkbox" id="reveal-source">Reveal source location · observer only</label>
+      <p id="source-boundary">Position in this drawing is observer context. The native inputs and information used for the decision are shown below.</p>
+    </div>
+  </section>
+
+  <section class="panel decision" aria-label="Native decision">
+    <div class="decision-top">
+      <div><span class="label">The creature's response</span><div class="action-label" id="action-label">—</div></div>
+      <span class="mode" id="mode-label">—</span>
+    </div>
+    <p class="reason" id="reason"></p>
+    <div class="decision-trail" id="decision-trail"></div>
+    <div class="decision-foot"><span id="rule-label"></span><span id="tick-cost"></span></div>
+  </section>
+
+  <section class="panel evidence-panel">
+    <div class="panel-top">
+      <div><h2>What it knows right now</h2><p class="caption">Presence, order, relative change, coarse support, or a calibrated quantity — each can be enough for a different decision.</p></div>
+      <span class="pill">Green edge = used by this decision</span>
+    </div>
+    <div class="evidence-grid" id="evidence"></div>
+    <p class="section-note">These are exposed native publications and witnesses. A read can be settled without being used. An open read stays open; this is not a required sequence of precision levels.</p>
+  </section>
+
+  <div class="charts">
+    <section class="panel chart">
+      <div class="panel-top"><div><h2>The creature over time</h2><p class="caption">Public body observations across this run.</p></div><div class="legend"><span><i></i>Charge</span><span><i class="heat"></i>Heat</span></div></div>
+      <div class="svg-pad"><svg id="body-chart" role="img" aria-label="Charge and heat over time"></svg></div>
+      <p class="chart-foot">The vertical line marks the replay tick. The faded trace is the rest of this recorded run.</p>
+    </section>
+    <section class="panel chart" id="relative-panel">
+      <div class="panel-top"><div><h2>A sense of change</h2><p class="caption">Comparison evidence from fast and slow memory.</p></div><div class="legend"><span><i></i>Fast</span><span><i class="slow"></i>Slow</span></div></div>
+      <div class="relative-read" id="relative-read"></div>
+      <div class="svg-pad"><svg id="relative-chart" role="img" aria-label="Native fast and slow comparison scores over time"></svg></div>
+      <p class="chart-foot">These scores describe comparison evidence. They are not light levels; an open read is not a zero.</p>
+    </section>
+  </div>
+
+  <section class="panel outcomes">
+    <h2>This recorded run</h2><p class="caption" id="outcome-subtitle"></p>
+    <div class="outcome-grid" id="outcomes"></div>
+    <div class="costs" id="costs"></div>
+  </section>
+
+  <section class="panel comparison">
+    <div class="panel-top"><div><h2>Remove a capability. Keep the world matched.</h2><p class="caption">All reported variants stay in this comparison, including ties and capabilities that do not help.</p></div></div>
+    <div class="table-wrap"><table><thead><tr><th>Variant</th><th>Runs</th><th>Cycles</th><th>Starving ticks</th><th>Overheating ticks</th><th>Mean charge</th><th>Spatial asks</th><th>Quantity asks</th><th>Comparisons</th><th>Query cost</th></tr></thead><tbody id="comparison"></tbody></table></div>
+    <p class="table-note">Outcomes and costs come from the native runner. A capability's presence alone does not establish its utility; compare the matched outcomes.</p>
+  </section>
+
+  <section class="panel checks" id="diagnostics-panel">
+    <h2>Small checks behind the behavior</h2><p class="caption">Targeted native checks keep unresolved information and actual decision dependencies visible.</p>
+    <div class="check-list" id="diagnostics"></div>
+  </section>
+
+  <section class="panel explanation">
+    <h2>A small demonstration, not a learned brain</h2>
+    <p>The controller is a hand-designed Gojo structure. The world supplies explicit instruments; native reads, rules, and response routes choose the action. This page only replays the recorded result.</p>
+    <ul class="world-rules" id="world-rules"></ul>
+  </section>
+
+  <details class="panel archive"><summary>Native inspection details</summary><p id="inspection"></p></details>
+  <p class="error" id="error" hidden></p>
+  <footer><span>Gojo · Primitive forager / evidence replay</span><span>Recorded native computation · browser display only</span></footer>
+</main>
+<script type="application/json" id="forager-data">__FORAGER_DATA__</script>
+<script>
+(() => {
+  'use strict';
+  const $ = id => document.getElementById(id);
+  const finite = value => value !== null && value !== undefined && Number.isFinite(Number(value));
+  const asArray = value => Array.isArray(value) ? value : [];
+  const display = value => value === null || value === undefined ? '—' : typeof value === 'object' ? JSON.stringify(value) : String(value);
+  const number = (value, digits = 0) => finite(value) ? Number(value).toLocaleString(undefined, {maximumFractionDigits:digits}) : '—';
+  const text = (node, value) => { node.textContent = display(value); return node; };
+  const make = (tag, className, value, parent) => { const node=document.createElement(tag); if(className) node.className=className; if(value !== undefined) text(node,value); if(parent) parent.appendChild(node); return node; };
+  const svgNode = (tag, attributes, parent) => { const node=document.createElementNS('http://www.w3.org/2000/svg',tag); for(const [key,value] of Object.entries(attributes||{})) node.setAttribute(key,String(value)); if(parent) parent.appendChild(node); return node; };
+  const svgText = (parent,x,y,value,attributes={}) => text(svgNode('text',{x,y,fill:'#69776d','font-size':10,...attributes},parent),value);
+  const line = (svg,x1,y1,x2,y2,attributes={}) => svgNode('line',{x1,y1,x2,y2,stroke:'#dfe5d9',...attributes},svg);
+  let data;
+  try { data=JSON.parse($('forager-data').textContent); } catch(error) { $('error').hidden=false; text($('error'),'This replay has no generated data yet. Run the native experiment to create the replay file.'); return; }
+  const metadata=data.metadata||{}, runs=asArray(data.runs);
+  if(!runs.length) { $('error').hidden=false; text($('error'),'No recorded runs are available.'); return; }
+  let runIndex=Math.max(0,runs.findIndex(run=>run.id===metadata.defaultRunId)), stepIndex=0, timer=null;
+  const currentRun=()=>runs[runIndex], currentSteps=()=>asArray(currentRun().steps), currentStep=()=>currentSteps()[stepIndex]||{};
+  const episodes=()=>asArray(data.episodes).filter(episode=>episode.runId===currentRun().id);
+  const memoryLabels={mode:'Feeding / cooling memory',wait:'Remaining wait',delay:'Wait cooldown',order:'Eye ordering',amount:'Calibrated amount math',coarse:'Coarse support',precision:'Selected precision',heading:'Remembered direction'};
+  const labelsForIds=(ids,evidence)=>asArray(ids).map(id=>asArray(evidence).find(item=>item.id===id)?.label||memoryLabels[id]||id);
+  const groups=new Map();
+  runs.forEach((run,index)=>{ const group=run.removalLabel||'Recorded runs'; if(!groups.has(group)) { const optgroup=document.createElement('optgroup'); optgroup.label=group; $('run').appendChild(optgroup); groups.set(group,optgroup); } const option=document.createElement('option'); option.value=String(index); text(option,run.label||run.id); groups.get(group).appendChild(option); });
+  $('run').value=String(runIndex);
+  text($('source-boundary'),metadata.sourceBoundary||'Position in this drawing is observer context. The native inputs and information used for the decision are shown below.');
+  asArray(metadata.worldRules).forEach(rule=>make('li','',rule,$('world-rules')));
+
+  function stop() { if(timer!==null) clearInterval(timer); timer=null; text($('play'),'Play'); }
+  function play() { if(timer!==null) { stop(); return; } if(stepIndex>=currentSteps().length-1) stepIndex=0; text($('play'),'Pause'); timer=setInterval(()=>{ stepIndex=Math.min(currentSteps().length-1,stepIndex+Number($('pace').value)); renderFrame(); if(stepIndex>=currentSteps().length-1) stop(); },100); }
+  function prepare(svg,height) { const width=Math.max(300,svg.clientWidth||600); svg.replaceChildren(); svg.setAttribute('viewBox',`0 0 ${width} ${height}`); return width; }
+  function renderArena(step) {
+    const svg=$('arena'), width=prepare(svg,148), world=step.world||{}, cells=Math.max(2,Number(metadata.cells)||31), left=24,right=width-24,trackY=83,cellWidth=(right-left)/cells;
+    const x=value=>left+(Number(value)+.5)*cellWidth;
+    svgNode('rect',{x:left,y:trackY-16,width:right-left,height:32,rx:10,fill:'#eef3e8',stroke:'#dfe5d9'},svg);
+    for(let cell=1;cell<cells;cell++) line(svg,left+cell*cellWidth,trackY-13,left+cell*cellWidth,trackY+13,{stroke:'#dae3d0'});
+    if($('reveal-source').checked && finite(world.peakX)) {
+      const px=x(world.peakX);
+      line(svg,px,39,px,trackY-19,{stroke:'#d2b984','stroke-dasharray':'3 4'});
+      svgNode('circle',{cx:px,cy:29,r:10,fill:'#f7e8b6',stroke:'#d2b984'},svg);
+      for(let ray=0;ray<8;ray++) { const angle=ray*Math.PI/4; line(svg,px+Math.cos(angle)*13,29+Math.sin(angle)*13,px+Math.cos(angle)*17,29+Math.sin(angle)*17,{stroke:'#c9ad6c'}); }
+      svgText(svg,24,15,'Charging source · private observer reference',{'font-size':9,fill:'#9d855c'});
+    } else svgText(svg,24,28,'Charging source hidden · observe the creature’s evidence below',{'font-size':10});
+    if(finite(world.x)) {
+      const px=x(world.x), body=svgNode('g',{},svg);
+      svgNode('ellipse',{cx:px,cy:trackY,rx:Math.max(8,Math.min(14,cellWidth*.65)),ry:11,fill:'#14745e',stroke:'#0c5b49','stroke-width':1.2},body);
+      svgNode('circle',{cx:px-3.5,cy:trackY-3,r:2,fill:'#eef7d4'},body); svgNode('circle',{cx:px+3.5,cy:trackY-3,r:2,fill:'#eef7d4'},body);
+      line(svg,px,trackY+15,px,116,{stroke:'#9aba9e'});
+      svgText(svg,Math.max(28,Math.min(width-28,px)),132,'Creature',{'text-anchor':'middle',fill:'#14745e','font-size':10,'font-weight':700});
+    } else svgText(svg,width/2,132,'No recorded creature position',{'text-anchor':'middle'});
+    svgText(svg,24,107,'Track',{'font-size':9});
+    $('world-flags').replaceChildren();
+    [['Cloud',world.cloud],['Absent signal',world.absent],['Unavailable read',world.unavailable]].forEach(([label,value])=>{ if(value===null||value===undefined) return; const active=value===true||value===1||typeof value==='string'&&value.length>0; make('span',`flag${active?' active':''}`,active?label:`${label}: no`,$('world-flags')); });
+    for(const [id,value] of [['charge',world.charge],['heat',world.heat]]) { text($(id+'-label'),number(value,1)); $(id+'-fill').style.width=finite(value)?`${Math.max(0,Math.min(100,Number(value)))}%`:'0%'; $(id+'-fill').style.opacity=finite(value)?'1':'0'; }
+  }
+  function renderDecision(step) {
+    text($('action-label'),step.actionLabel||'No recorded response'); text($('mode-label'),step.modeLabel||'No recorded mode'); text($('reason'),step.reason||'No decision reason was published for this tick.');
+    const decision=step.decision||{}, used=labelsForIds(decision.usedEvidenceIds,step.evidence), open=labelsForIds(decision.unresolvedEvidenceIds,step.evidence);
+    $('decision-trail').replaceChildren();
+    used.forEach(label=>make('span','pill',`Used: ${label}`,$('decision-trail'))); open.forEach(label=>make('span','pill open',`Open: ${label}`,$('decision-trail')));
+    if(!used.length&&!open.length) make('span','caption','No decision dependencies were published.',$('decision-trail'));
+    text($('rule-label'),decision.ruleLabel?`Native rule · ${decision.ruleLabel}`:'Native rule not published');
+    text($('tick-cost'),`This tick · ${number(step.queryCount)} asks · ${number(step.queryCost,2)} declared cost`);
+  }
+  function renderEvidence(step) {
+    const container=$('evidence'); container.replaceChildren();
+    const evidence=asArray(step.evidence), usedIds=new Set(asArray(step.decision?.usedEvidenceIds)), openIds=new Set(asArray(step.decision?.unresolvedEvidenceIds));
+    if(!evidence.length) { make('p','empty','No evidence publications were recorded for this tick.',container); return; }
+    evidence.forEach(entry=>{
+      const used=entry.used===true||usedIds.has(entry.id), open=entry.state==='open'||openIds.has(entry.id), state=entry.state||'State not published';
+      const card=make('article',`evidence${used?' used':''}${open?' open':''}`,undefined,container), top=make('div','evidence-top',undefined,card);
+      make('h3','',entry.label||entry.id,top); make('span',`state${open?' open':''}${state==='not requested'?' quiet':''}`,state,top);
+      make('p','basis',entry.basisLabel||'No basis label published',card); make('p','publication',entry.publicationText||'No publication requested',card);
+      if(entry.lossText) make('p','evidence-note',entry.lossText,card);
+      const tags=make('div','evidence-tags',undefined,card);
+      if(used) make('span','used-tag','Used for this response',tags);
+      else if(state==='settled') make('span','','Read, not admitted by this decision',tags);
+      if(entry.queried===true) make('span','',`Read / request · cost ${number(entry.queryCost,2)}`,tags);
+      if(entry.witnessRef) { const details=make('details','witness',undefined,card); make('summary','','Native witness',details); make('div','',entry.witnessRef,details); }
+    });
+  }
+  function plot(svg,steps,getValue,color,low,high,height,dashed=false) {
+    const width=Number(svg.viewBox.baseVal.width), left=36,right=width-18,top=12,bottom=height-26;
+    const x=index=>left+(right-left)*index/Math.max(1,steps.length-1), y=value=>bottom-(bottom-top)*(Number(value)-low)/(high-low);
+    function path(end) { let d='',connected=false; for(let index=0;index<=end;index++) { const value=getValue(steps[index]); if(!finite(value)) { connected=false; continue; } d+=`${connected?'L':'M'}${x(index).toFixed(2)},${y(value).toFixed(2)} `; connected=true; } return d; }
+    svgNode('path',{d:path(steps.length-1),fill:'none',stroke:color,'stroke-width':1.5,opacity:.18,...(dashed?{'stroke-dasharray':'5 3'}:{})},svg);
+    svgNode('path',{d:path(stepIndex),fill:'none',stroke:color,'stroke-width':2,...(dashed?{'stroke-dasharray':'5 3'}:{})},svg);
+    const value=getValue(steps[stepIndex]); if(finite(value)) svgNode('circle',{cx:x(stepIndex),cy:y(value),r:3,fill:color},svg);
+  }
+  function chartFrame(svg,height,low,high,labels) {
+    const width=prepare(svg,height), left=36,right=width-18,top=12,bottom=height-26;
+    labels.forEach(value=>{ const y=bottom-(bottom-top)*(value-low)/(high-low); line(svg,left,y,right,y,{stroke:value===0?'#d0dac8':'#edf0e7'}); svgText(svg,left-7,y+3,number(value),{'text-anchor':'end','font-size':9}); });
+    const currentX=left+(right-left)*stepIndex/Math.max(1,currentSteps().length-1); line(svg,currentX,top,currentX,bottom,{stroke:'#a3b59c','stroke-dasharray':'3 4'});
+    svgText(svg,left,height-8,`Tick ${display(currentSteps()[0]?.tick)}`,{'font-size':9}); svgText(svg,right,height-8,display(currentSteps().at(-1)?.tick),{'text-anchor':'end','font-size':9});
+  }
+  function renderCharts(step) {
+    const steps=currentSteps(), body=$('body-chart'); chartFrame(body,170,0,100,[0,50,100]); plot(body,steps,item=>item.world?.charge,'#14745e',0,100,170); plot(body,steps,item=>item.world?.heat,'#b66b40',0,100,170);
+    const hasRelative=steps.some(item=>item.fastScore!==undefined||item.slowScore!==undefined||item.fastState!==undefined||item.slowState!==undefined); $('relative-panel').hidden=!hasRelative;
+    if(hasRelative) {
+      const relative=$('relative-chart'); chartFrame(relative,170,-16,16,[-16,0,16]); plot(relative,steps,item=>item.fastScore,'#14745e',-16,16,170); plot(relative,steps,item=>item.slowScore,'#b66b40',-16,16,170,true);
+      $('relative-read').replaceChildren();
+      for(const [name,key] of [['Fast','fast'],['Slow','slow']]) { const item=make('span','',undefined,$('relative-read')); make('strong','',`${name}: ${number(step[key+'Score'])}`,item); make('span','',display(step[key+'State']).replaceAll('_',' '),item); }
+    }
+  }
+  function renderOutcomes() {
+    const run=currentRun(), summary=run.summary||{}; text($('outcome-subtitle'),run.removalLabel||run.label||run.id);
+    $('outcomes').replaceChildren();
+    [['Cycles',summary.cycles],['Starving ticks',summary.starvationTicks],['Overheating ticks',summary.overheatTicks],['Movements',summary.movements],['Mean charge',summary.meanCharge],['Query cost',summary.queryCost]].forEach(([label,value])=>{ const card=make('div','outcome',undefined,$('outcomes')); make('strong','',number(value,label==='Mean charge'||label==='Query cost'?2:0),card); make('span','',label,card); });
+    $('costs').replaceChildren();
+    [['Spatial asks',summary.spatialQueries],['Quantity asks',summary.fineQueries],['Comparison requests',summary.comparisonQueries],['Native elapsed ms',summary.elapsedMs]].forEach(([label,value])=>{ const item=make('span','',label,$('costs')); make('strong','',number(value,2),item); });
+    const uses=summary.capabilityUses; text($('inspection'),`Run: ${display(run.id)} · trajectory: ${display(summary.trajectoryHash)}${uses!==undefined?` · Native capability uses: ${display(uses)}`:''}`);
+  }
+  function renderComparisons() {
+    const rows=asArray(data.matchedComparisons), body=$('comparison'); body.replaceChildren();
+    if(!rows.length) { const row=make('tr','',undefined,body), cell=make('td','empty','No matched aggregate results were published.',row); cell.colSpan=10; return; }
+    rows.forEach(result=>{ const row=make('tr','',undefined,body), label=make('td','',undefined,row); make('strong','',result.label||'Matched variant',label); if(result.description) make('small','',result.description,label); [result.runs,result.cycles,result.starvationTicks,result.overheatTicks,result.meanCharge,result.spatialQueries,result.fineQueries,result.comparisonQueries,result.queryCost].forEach((value,index)=>make('td','',number(Array.isArray(value)?value.length:value,index===4||index===8?2:0),row)); });
+  }
+  function renderDiagnostics() {
+    const diagnostics=asArray(data.diagnostics), container=$('diagnostics'); $('diagnostics-panel').hidden=!diagnostics.length; container.replaceChildren();
+    diagnostics.forEach(check=>{ const card=make('div','check',undefined,container), top=make('div','check-top',undefined,card); make('span','',check.title||check.capability||'Native check',top); make('span',`status${check.passed===true?'':' open'}`,check.passed===true?'Passed':check.passed===false?'Not established':'Open',top); if(check.description) make('p','',check.description,card); if(check.full||check.without) { const contrast=make('div','contrast',undefined,card); if(check.full) make('p','',`Full: ${display(check.full)}`,contrast); if(check.without) make('p','',`Without: ${display(check.without)}`,contrast); } });
+  }
+  function renderEpisodes() {
+    const container=$('episodes'); container.replaceChildren(); const entries=episodes(); container.hidden=!entries.length; $('episode-note').hidden=!entries.length;
+    entries.forEach(episode=>{ const button=make('button','',undefined,container); button.type='button'; button.title=episode.description||episode.title; make('small','',`Tick ${display(episode.tick)}`,button); make('span','',episode.title,button); button.dataset.tick=String(episode.tick); button.addEventListener('click',()=>{ stop(); const found=currentSteps().findIndex(step=>step.tick===episode.tick); if(found>=0) { stepIndex=found; renderFrame(); } }); });
+  }
+  function renderFrame() {
+    const steps=currentSteps(); stepIndex=Math.max(0,Math.min(stepIndex,Math.max(0,steps.length-1))); const step=currentStep(); $('timeline').value=String(stepIndex); text($('tick-label'),`Tick ${display(step.tick)} / ${display(steps.at(-1)?.tick)}`); $('previous').disabled=stepIndex<=0; $('next').disabled=stepIndex>=steps.length-1;
+    renderArena(step); renderDecision(step); renderEvidence(step); renderCharts(step);
+    const episode=episodes().find(entry=>entry.tick===step.tick); text($('episode-note'),episode?`${episode.title} · ${episode.description||''}`:'Jump to an episode to inspect the native evidence for that decision.');
+    $('episodes').querySelectorAll('button').forEach(button=>button.classList.toggle('active',Number(button.dataset.tick)===step.tick));
+  }
+  function selectRun() {
+    stop(); stepIndex=0; const run=currentRun(); $('run').value=String(runIndex); $('timeline').max=String(Math.max(0,currentSteps().length-1)); text($('run-description'),run.description||`${run.removalLabel||run.label||run.id} · ${number(currentSteps().length)} recorded ticks in the matched world.`); renderEpisodes(); renderOutcomes(); renderFrame();
+  }
+  $('run').addEventListener('change',()=>{ runIndex=Number($('run').value); selectRun(); });
+  $('previous').addEventListener('click',()=>{ stop(); stepIndex--; renderFrame(); }); $('next').addEventListener('click',()=>{ stop(); stepIndex++; renderFrame(); }); $('play').addEventListener('click',play);
+  $('timeline').addEventListener('input',()=>{ stop(); stepIndex=Number($('timeline').value); renderFrame(); }); $('reveal-source').addEventListener('change',()=>renderArena(currentStep()));
+  document.addEventListener('visibilitychange',()=>{ if(document.hidden) stop(); }); window.addEventListener('resize',()=>renderFrame());
+  renderComparisons(); renderDiagnostics(); selectRun();
+})();
+</script>
+</body>
+</html>

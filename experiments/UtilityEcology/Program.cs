@@ -1,0 +1,95 @@
+using System.Diagnostics;
+using System.Security.Cryptography;
+using System.Text.Json;
+using Gojo.Core;
+using CompositeEmergence;
+using PrimitiveLearning;
+
+namespace UtilityEcology;
+
+public static class Program
+{
+    private static readonly JsonSerializerOptions Json = new() { WriteIndented = true, PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
+    public static int Main(string[] args)
+    {
+        if (args.Contains("--seed-trial")) return SeedTrialProgram.Run(args);
+        string? output = null; var started = false;
+        try
+        {
+            if (args.Contains("--help"))
+            { Console.WriteLine("Utility ecology: --pilot or --campaign; optional --progress; --output DIRECTORY; --seeds N --seed-start N --phase-length N; --retest-period N (progress study). Separate opt-in study: --seed-trial --help."); return 0; }
+            var campaign = args.Contains("--campaign"); var seeds = campaign ? 8 : 2; var seedStart = campaign ? 600 : 500;
+            var progressStudy = args.Contains("--progress"); var retestPeriod = 16;
+            if (progressStudy) seedStart = campaign ? 800 : 700;
+            var settings = new EcologySettings();
+            for (var index = 0; index < args.Length; index++)
+            {
+                var name = args[index]; if (name is "--pilot" or "--campaign" or "--progress") continue;
+                if (++index >= args.Length) throw new ArgumentException($"Missing value for {name}.");
+                var value = args[index];
+                switch (name)
+                {
+                    case "--output": output = Path.GetFullPath(value); break;
+                    case "--seeds": seeds = int.Parse(value); break;
+                    case "--seed-start": seedStart = int.Parse(value); break;
+                    case "--phase-length": settings = settings with { PhaseLength = int.Parse(value) }; break;
+                    case "--retest-period": retestPeriod = int.Parse(value); break;
+                    default: throw new ArgumentException($"Unknown option {name}.");
+                }
+            }
+            if (seeds is < 1 or > 64 || seedStart < 0 || settings.PhaseLength < 16) throw new ArgumentException("Positive bounded seeds and phase lengths >=16 are required.");
+            output ??= Path.GetFullPath(Path.Combine("experiments", "UtilityEcology", "results", DateTime.UtcNow.ToString("yyyyMMdd-HHmmss") + (campaign ? "-confirmation" : "-pilot")));
+            if (Directory.Exists(output) && Directory.EnumerateFileSystemEntries(output).Any()) throw new IOException("Choose an empty output directory.");
+            Directory.CreateDirectory(output); started = true; var timer = Stopwatch.StartNew(); var startedUtc = DateTime.UtcNow;
+            var arms = (progressStudy ? EcologyRunner.ProgressArms : EcologyRunner.Arms).Select(arm => arm with { RetestPeriod = retestPeriod }).ToArray();
+            Save(output, "manifest.json", new { startedUtc, campaign, study = progressStudy ? "learning-progress" : "utility-ecology", seeds, seedStart, settings, arms,
+                sourceHashes = SourceHashes(), paidJevCalls = 0 });
+            var archives = new List<object>();
+            for (var seed = seedStart; seed < checked(seedStart + seeds); seed++)
+                foreach (var arm in arms)
+                {
+                    Console.WriteLine($"Seed {seed}: {arm.Name}");
+                    var run = EcologyRunner.Run(seed, arm, settings);
+                    var stem = $"{seed}-{arm.Name.Replace('/', '-')}"; Save(output, stem + ".json", run);
+                    if (seed == seedStart)
+                    {
+                        var path = Path.Combine(output, stem + ".gojo"); File.WriteAllBytes(path, GojoNumericFormat.Encode(run.NativeRoot));
+                        var restored = (Relation)GojoNumericFormat.Decode(File.ReadAllBytes(path))[0];
+                        var signature = NativeInspection.Signature(run.NativeRoot) == NativeInspection.Signature(restored);
+                        var fields = NativeGraph.Parts(restored, 9); var economy = ServiceEconomy.FromRoot((Relation)fields[0]);
+                        var bodies = NativeGraph.Parts((Relation)fields[1], 4).Cast<Relation>().Select(InterpretationProvider.FromRoot).ToArray();
+                        var monetary = economy.AccountedMoney == run.AccountedMoney && economy.ExternalNet == run.ExternalNet;
+                        var aliases = bodies.All(body => economy.Services.Any(service =>
+                            InterpretationProvider.FromRoot(service.Body).Gate.Attention.SameIdentityAs(body.Gate.Attention)));
+                        if (!signature || !monetary || !aliases) throw new InvalidOperationException("Actual saved ecology transport failed.");
+                        var behavior = ArchiveReplay.Check(run.NativeRoot, restored);
+                        if (!behavior.Matched || !behavior.ContinuedMoneyConserved) throw new InvalidOperationException("Saved ecology behavior replay failed.");
+                        archives.Add(new { seed, arm = arm.Name, filename = stem + ".gojo", signatureMatched = signature, monetaryMatched = monetary,
+                            aliasesMatched = aliases, behavior, bytes = new FileInfo(path).Length });
+                        Save(output, "archive-check.json", archives);
+                    }
+                    Console.WriteLine($"  net {run.NetPerStep:F3}, {timer.Elapsed.TotalSeconds:F1}s elapsed");
+                }
+            Save(output, "run.json", new { status = "complete", startedUtc, finishedUtc = DateTime.UtcNow, elapsedSeconds = timer.Elapsed.TotalSeconds,
+                seeds, seedStart, arms = arms.Length, trials = checked(seeds * arms.Length * settings.PhaseLength * 4), paidJevCalls = 0 });
+            Console.WriteLine($"Results: {output}"); return 0;
+        }
+        catch (Exception error)
+        {
+            Console.Error.WriteLine(error); if (started && output is not null) Save(output, "failure.json", new { error = error.ToString(), utc = DateTime.UtcNow });
+            return 1;
+        }
+    }
+    private static void Save(string directory, string file, object value) => File.WriteAllText(Path.Combine(directory, file), JsonSerializer.Serialize(value, Json));
+    private static Dictionary<string, string> SourceHashes()
+    {
+        var root = new DirectoryInfo(Directory.GetCurrentDirectory());
+        while (root is not null && !File.Exists(Path.Combine(root.FullName, "Gojo.slnx"))) root = root.Parent;
+        if (root is null) throw new DirectoryNotFoundException("Run within the Gojo repository.");
+        var folders = new[] { "Gojo", "experiments/PrimitiveLearning", "experiments/CompositeEmergence", "experiments/AdaptiveLifecycle", "experiments/UtilityEcology" };
+        return folders.SelectMany(folder => Directory.EnumerateFiles(Path.Combine(root.FullName, folder), "*.cs", SearchOption.AllDirectories))
+            .Where(path => !path.Split(Path.DirectorySeparatorChar).Any(part => part is "bin" or "obj"))
+            .OrderBy(path => path, StringComparer.Ordinal).ToDictionary(path => Path.GetRelativePath(root.FullName, path).Replace('\\', '/'),
+                path => Convert.ToHexString(SHA256.HashData(File.ReadAllBytes(path))).ToLowerInvariant());
+    }
+}

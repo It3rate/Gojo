@@ -455,6 +455,68 @@ are implemented. General algebraic root isolation, analytic branches and
 continuous branch following remain future work. The prompt records the
 structural rule, not a promise that every fractional-power read is solved.
 
+## Finite Calculation And Deliberately Coarse Services, October 2026
+
+The user's follow-up makes finite arithmetic a selected Gojo capability rather
+than only a presentation step after an exact calculation. A receiver may ask
+for a limited useful result, and a supplier may deliberately expose a coarse
+service even when it has finer information internally. The prompt now permits
+finite equations with connected capacity, quantum, rounding and clipping laws.
+It does not require hidden arbitrary-precision calculation followed by a
+display conversion, or automatic precision escalation when information is
+discarded.
+
+This is a separate arithmetic contract. Existing exact projection, enclosure,
+unit scaling, numeric transport and material transfer retain their stated laws.
+Their checked range rules still prohibit silent saturation. Finite observations
+can clip and qualify information; a material transfer still has to account for
+accepted, blocked and remaining participation. Read loss alone does not inject
+carrier tension.
+
+The [finite-read fixture](GojoFiniteReadFixture.md) supplies a small implemented
+surface using ordinary native structure. A bounded whole supplies the capacity,
+including zero, and a positive quantum supplies the selected granularity. A
+qualified observation connects a frozen nominal result, lower and upper support,
+the finite scope, excluded loss and equation provenance. Under this reader only,
+an open endpoint exposes a discarded or clipped tail. It does not revise the
+closed-support grammar of `BoundedQuantity` or reinterpret arbitrary placeholders
+as numeric infinities.
+
+Publication truncates toward zero at the chosen quantum and exposes a
+conservative rounding cell without retaining the exact remainder. Addition,
+subtraction and multiplication consume published observations using guarded
+finite arithmetic. Saturation leaves its appropriate support tail open rather
+than promoting to a wider calculation or claiming a recoverable exact error.
+Subtraction of the same observation retains its shared identity and cancels;
+separate observations with equal nominal values do not supply that identity.
+No statistical independence, probability or confidence law follows from their
+separate construction.
+
+The published reader bypasses reevaluation of the supplier's live calculation.
+A threshold comparison consults only the exposed support, leaving its result
+unresolved if that support cannot settle the question. Source correspondence
+and provenance make the service inspectable without authorizing consumers to
+traverse private supplier state in search of a finer answer. Introspection
+discovers the exposed ports and their promises. More precision requires an
+explicit query through an advertised route; a deliberately limited service need
+not offer one.
+
+The earlier resolution instruction required retaining refinement residue too
+broadly. It now applies to reads that promise recoverable refinement. A lossy
+finite read can keep a preimage, support or open loss surface instead of the
+exact discarded complement. Known retained residue, uncertainty introduced by
+publication, uncertainty of the original observation and statistical confidence
+remain different reads. Coarse publication can direct attention or reduce
+computation without implying that the supplier lacked a finer value.
+
+The wider direction is to construct the smallest adequate local calculation,
+with only the queries, connections and information needed at the receiver's
+chosen resolution. General demand-driven circuits, compressed execution lanes,
+automatic resolution selection and mutation are future work. This fixture is
+opt-in; it does not switch the phototaxis experiment or every Gojo equation to
+finite arithmetic. The canonical prompt describes the arithmetic and interface
+rules, while the fixture documents its concrete implemented scope and tests.
+
 ## Prompt Shape
 
 The final prompt deliberately has four scales:

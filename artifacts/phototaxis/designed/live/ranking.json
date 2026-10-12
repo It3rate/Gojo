@@ -1,0 +1,25 @@
+[
+  {
+    "design": {
+      "Name": "R3-13",
+      "Seek": 8,
+      "Feed": 5,
+      "Escape": 8,
+      "LeaveAt": 14,
+      "ResumeAt": 12,
+      "Gain": 8,
+      "TurnLimit": 8,
+      "SearchBias": 0,
+      "FeedBrightness": 12,
+      "Deadband": 0,
+      "Normalized": false,
+      "BangBang": false,
+      "SearchCycle": 0,
+      "SearchOn": 0,
+      "EnergyPaced": false
+    },
+    "meanPopulationSeconds": 7887.8,
+    "meanAlive": 33,
+    "meanBirths": 17
+  }
+]

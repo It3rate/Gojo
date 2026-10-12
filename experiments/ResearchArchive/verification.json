@@ -1,0 +1,14 @@
+{
+  "verifiedArchive": true,
+  "restoredOriginalBytes": 178601262,
+  "originalSha256": "2712bd1abaa9d06c9cb8e9bf172d51fcf4bc497072a6ea3cdab88abde1508ec7",
+  "restoredInEmptyRoot": true,
+  "conflictingExistingFilePreserved": true,
+  "fixtureGuardsAlsoVerifiedByHelperAgent": [
+    "identical skip",
+    "corrupt archive refusal",
+    "bad original hash cleanup",
+    "path traversal and reserved-name refusal"
+  ],
+  "scope": "Actual178601262-byte result reconstructed from tracked gzip into a new test directory; exact original digest matched. No original worktree results overwritten."
+}

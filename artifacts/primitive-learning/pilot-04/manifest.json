@@ -1,0 +1,98 @@
+{
+  "settings": {
+    "name": "pilot",
+    "seeds": 2,
+    "train": 640,
+    "test": 256,
+    "warmup": 128,
+    "output": "D:\\source\\repos\\It3rate\\Gojo-phototaxis\\artifacts\\primitive-learning\\pilot-04"
+  },
+  "heldout": [
+    {
+      "name": "baseline",
+      "threshold": 8,
+      "persistence": 0.05,
+      "queryPrice": 1,
+      "encoding": 0,
+      "missingEvery": 0,
+      "absentEvery": 0,
+      "novelLoads": false
+    },
+    {
+      "name": "novel-loads",
+      "threshold": 8,
+      "persistence": 0.05,
+      "queryPrice": 1,
+      "encoding": 0,
+      "missingEvery": 0,
+      "absentEvery": 0,
+      "novelLoads": true
+    },
+    {
+      "name": "less-predictable",
+      "threshold": 8,
+      "persistence": 0.3,
+      "queryPrice": 1,
+      "encoding": 0,
+      "missingEvery": 0,
+      "absentEvery": 0,
+      "novelLoads": false
+    },
+    {
+      "name": "reversed-flow-law",
+      "threshold": 8,
+      "persistence": 0.95,
+      "queryPrice": 1,
+      "encoding": 0,
+      "missingEvery": 0,
+      "absentEvery": 0,
+      "novelLoads": false
+    },
+    {
+      "name": "expensive-query",
+      "threshold": 8,
+      "persistence": 0.05,
+      "queryPrice": 5,
+      "encoding": 0,
+      "missingEvery": 0,
+      "absentEvery": 0,
+      "novelLoads": false
+    },
+    {
+      "name": "changed-fit",
+      "threshold": 10,
+      "persistence": 0.05,
+      "queryPrice": 1,
+      "encoding": 0,
+      "missingEvery": 0,
+      "absentEvery": 0,
+      "novelLoads": false
+    },
+    {
+      "name": "missing-and-absent",
+      "threshold": 8,
+      "persistence": 0.05,
+      "queryPrice": 1,
+      "encoding": 0,
+      "missingEvery": 17,
+      "absentEvery": 31,
+      "novelLoads": false
+    }
+  ],
+  "trainSeedRule": "41000 \u002B seed",
+  "testSeedRule": "91000 \u002B seed",
+  "factorial": "A=adaptive partitions, P=predictor, Q=query allocator, S=program selection. Off=frozen initialization.",
+  "baseline": {
+    "name": "baseline",
+    "threshold": 8,
+    "persistence": 0.05,
+    "queryPrice": 1,
+    "encoding": 0,
+    "missingEvery": 0,
+    "absentEvery": 0,
+    "novelLoads": false
+  },
+  "resourceLaw": "Correct route\u002B4; incorrect-4; hold/absent0; query has declared price (shift5). Comparison work reported separately.",
+  "schedule": "Primitive warmup; program learning starts afterward. Frozen tests. Skipped-query arrivals audited after action.",
+  "status": "Saved before test results. Pilot is development data; campaign confirms this fixed protocol."
+}

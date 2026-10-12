@@ -1,0 +1,338 @@
+[
+  {
+    "design": {
+      "Name": "R1-01",
+      "Seek": 4,
+      "Feed": 4,
+      "Escape": 4,
+      "LeaveAt": 16,
+      "ResumeAt": 0,
+      "Gain": 0,
+      "TurnLimit": 6,
+      "SearchBias": 0,
+      "FeedBrightness": 12,
+      "Deadband": 0,
+      "Normalized": false,
+      "BangBang": false
+    },
+    "seed": 41,
+    "requestedSeconds": 300,
+    "simulatedSeconds": 300,
+    "population": 34,
+    "births": 18,
+    "founderSurvivors": 18,
+    "populationSeconds": 8012.65,
+    "meanEnergyDuringLife": 0.5342547149403342,
+    "caloriesAbsorbed": 51429,
+    "foodPerCreatureSecond": 6.418475785164708,
+    "predation": 2,
+    "starvation": 2,
+    "meanEnergy": 0.5367156862745097,
+    "stationaryShare": 0.001616194392616675,
+    "hungryTowardLight": 0.543772623676096,
+    "fullAwayFromLight": 0.5637506086391987,
+    "hungrySamples": 59672,
+    "fullSamples": 43129,
+    "operations": 0,
+    "feedbackCells": 0,
+    "rewrites": 0,
+    "unresolved": 0,
+    "elapsedSeconds": 13.65448,
+    "lightSchedules": [
+      {
+        "X": 458.8456593844321,
+        "Y": 49.50490952306656,
+        "Radius": 72,
+        "PeriodTicks": 2040,
+        "OnTicks": 1520,
+        "PhaseTicks": 1545
+      },
+      {
+        "X": 551.0538960695518,
+        "Y": 125.2303856295675,
+        "Radius": 72,
+        "PeriodTicks": 2680,
+        "OnTicks": 1480,
+        "PhaseTicks": 58
+      },
+      {
+        "X": 396.85265325096094,
+        "Y": 301.78976256530257,
+        "Radius": 72,
+        "PeriodTicks": 2700,
+        "OnTicks": 1500,
+        "PhaseTicks": 1911
+      },
+      {
+        "X": 157.61011951258877,
+        "Y": 267.9308722423999,
+        "Radius": 72,
+        "PeriodTicks": 2780,
+        "OnTicks": 1220,
+        "PhaseTicks": 1997
+      },
+      {
+        "X": 397.5850340270368,
+        "Y": 336.1284555341715,
+        "Radius": 72,
+        "PeriodTicks": 1940,
+        "OnTicks": 900,
+        "PhaseTicks": 1358
+      }
+    ],
+    "caloriesConserved": true,
+    "attentionConserved": true
+  },
+  {
+    "design": {
+      "Name": "R1-01",
+      "Seek": 4,
+      "Feed": 4,
+      "Escape": 4,
+      "LeaveAt": 16,
+      "ResumeAt": 0,
+      "Gain": 0,
+      "TurnLimit": 6,
+      "SearchBias": 0,
+      "FeedBrightness": 12,
+      "Deadband": 0,
+      "Normalized": false,
+      "BangBang": false
+    },
+    "seed": 83,
+    "requestedSeconds": 300,
+    "simulatedSeconds": 300,
+    "population": 45,
+    "births": 29,
+    "founderSurvivors": 17,
+    "populationSeconds": 8884.6,
+    "meanEnergyDuringLife": 0.5968797788683035,
+    "caloriesAbsorbed": 68681,
+    "foodPerCreatureSecond": 7.730342390203273,
+    "predation": 4,
+    "starvation": 0,
+    "meanEnergy": 0.6226851851851853,
+    "stationaryShare": 0.0017277086194088648,
+    "hungryTowardLight": 0.5296907107856051,
+    "fullAwayFromLight": 0.5508435736587322,
+    "hungrySamples": 56937,
+    "fullSamples": 69822,
+    "operations": 0,
+    "feedbackCells": 0,
+    "rewrites": 0,
+    "unresolved": 0,
+    "elapsedSeconds": 12.9691844,
+    "lightSchedules": [
+      {
+        "X": 89.87842689961121,
+        "Y": 62.2368445160039,
+        "Radius": 72,
+        "PeriodTicks": 2780,
+        "OnTicks": 1380,
+        "PhaseTicks": 2332
+      },
+      {
+        "X": 145.85743921383164,
+        "Y": 154.94349489358416,
+        "Radius": 72,
+        "PeriodTicks": 2300,
+        "OnTicks": 1220,
+        "PhaseTicks": 21
+      },
+      {
+        "X": 330.05753509470145,
+        "Y": 133.6131887503961,
+        "Radius": 72,
+        "PeriodTicks": 2580,
+        "OnTicks": 960,
+        "PhaseTicks": 270
+      },
+      {
+        "X": 483.9682488278338,
+        "Y": 46.1535809939511,
+        "Radius": 72,
+        "PeriodTicks": 1960,
+        "OnTicks": 1440,
+        "PhaseTicks": 1876
+      },
+      {
+        "X": 203.07677836067825,
+        "Y": 215.3511898761388,
+        "Radius": 72,
+        "PeriodTicks": 2140,
+        "OnTicks": 1560,
+        "PhaseTicks": 1406
+      }
+    ],
+    "caloriesConserved": true,
+    "attentionConserved": true
+  },
+  {
+    "design": {
+      "Name": "R1-11",
+      "Seek": 8,
+      "Feed": 5,
+      "Escape": 10,
+      "LeaveAt": 12,
+      "ResumeAt": 0,
+      "Gain": 4,
+      "TurnLimit": 6,
+      "SearchBias": 0,
+      "FeedBrightness": 12,
+      "Deadband": 0,
+      "Normalized": false,
+      "BangBang": false
+    },
+    "seed": 41,
+    "requestedSeconds": 300,
+    "simulatedSeconds": 300,
+    "population": 49,
+    "births": 37,
+    "founderSurvivors": 16,
+    "populationSeconds": 9869.9,
+    "meanEnergyDuringLife": 0.5330795313697863,
+    "caloriesAbsorbed": 109562,
+    "foodPerCreatureSecond": 11.100619053891124,
+    "predation": 5,
+    "starvation": 3,
+    "meanEnergy": 0.5692346938775509,
+    "stationaryShare": 0.001945308463104996,
+    "hungryTowardLight": 0.5484525549516822,
+    "fullAwayFromLight": 0.47476378906565453,
+    "hungrySamples": 70471,
+    "fullSamples": 61915,
+    "operations": 17,
+    "feedbackCells": 0,
+    "rewrites": 0,
+    "unresolved": 0,
+    "elapsedSeconds": 28.3798384,
+    "lightSchedules": [
+      {
+        "X": 458.8456593844321,
+        "Y": 49.50490952306656,
+        "Radius": 72,
+        "PeriodTicks": 2040,
+        "OnTicks": 1520,
+        "PhaseTicks": 1545
+      },
+      {
+        "X": 551.0538960695518,
+        "Y": 125.2303856295675,
+        "Radius": 72,
+        "PeriodTicks": 2680,
+        "OnTicks": 1480,
+        "PhaseTicks": 58
+      },
+      {
+        "X": 396.85265325096094,
+        "Y": 301.78976256530257,
+        "Radius": 72,
+        "PeriodTicks": 2700,
+        "OnTicks": 1500,
+        "PhaseTicks": 1911
+      },
+      {
+        "X": 157.61011951258877,
+        "Y": 267.9308722423999,
+        "Radius": 72,
+        "PeriodTicks": 2780,
+        "OnTicks": 1220,
+        "PhaseTicks": 1997
+      },
+      {
+        "X": 397.5850340270368,
+        "Y": 336.1284555341715,
+        "Radius": 72,
+        "PeriodTicks": 1940,
+        "OnTicks": 900,
+        "PhaseTicks": 1358
+      }
+    ],
+    "caloriesConserved": true,
+    "attentionConserved": true
+  },
+  {
+    "design": {
+      "Name": "R1-11",
+      "Seek": 8,
+      "Feed": 5,
+      "Escape": 10,
+      "LeaveAt": 12,
+      "ResumeAt": 0,
+      "Gain": 4,
+      "TurnLimit": 6,
+      "SearchBias": 0,
+      "FeedBrightness": 12,
+      "Deadband": 0,
+      "Normalized": false,
+      "BangBang": false
+    },
+    "seed": 83,
+    "requestedSeconds": 300,
+    "simulatedSeconds": 300,
+    "population": 50,
+    "births": 38,
+    "founderSurvivors": 18,
+    "populationSeconds": 10994.65,
+    "meanEnergyDuringLife": 0.5503612135599282,
+    "caloriesAbsorbed": 121911,
+    "foodPerCreatureSecond": 11.088211084481998,
+    "predation": 6,
+    "starvation": 2,
+    "meanEnergy": 0.6134499999999998,
+    "stationaryShare": 0.0016553505568617465,
+    "hungryTowardLight": 0.595922229869236,
+    "fullAwayFromLight": 0.5059015702392243,
+    "hungrySamples": 69744,
+    "fullSamples": 75912,
+    "operations": 17,
+    "feedbackCells": 0,
+    "rewrites": 0,
+    "unresolved": 0,
+    "elapsedSeconds": 30.1977641,
+    "lightSchedules": [
+      {
+        "X": 89.87842689961121,
+        "Y": 62.2368445160039,
+        "Radius": 72,
+        "PeriodTicks": 2780,
+        "OnTicks": 1380,
+        "PhaseTicks": 2332
+      },
+      {
+        "X": 145.85743921383164,
+        "Y": 154.94349489358416,
+        "Radius": 72,
+        "PeriodTicks": 2300,
+        "OnTicks": 1220,
+        "PhaseTicks": 21
+      },
+      {
+        "X": 330.05753509470145,
+        "Y": 133.6131887503961,
+        "Radius": 72,
+        "PeriodTicks": 2580,
+        "OnTicks": 960,
+        "PhaseTicks": 270
+      },
+      {
+        "X": 483.9682488278338,
+        "Y": 46.1535809939511,
+        "Radius": 72,
+        "PeriodTicks": 1960,
+        "OnTicks": 1440,
+        "PhaseTicks": 1876
+      },
+      {
+        "X": 203.07677836067825,
+        "Y": 215.3511898761388,
+        "Radius": 72,
+        "PeriodTicks": 2140,
+        "OnTicks": 1560,
+        "PhaseTicks": 1406
+      }
+    ],
+    "caloriesConserved": true,
+    "attentionConserved": true
+  }
+]

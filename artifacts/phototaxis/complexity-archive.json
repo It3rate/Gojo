@@ -1,0 +1,577 @@
+{
+  "roots": 1,
+  "ticks": 6000,
+  "population": 8,
+  "calories": 20000000,
+  "attention": 10000000,
+  "circuits": [
+    {
+      "index": 1,
+      "learnedTerms": 2,
+      "marketTermLimit": 8,
+      "processingGraph": {
+        "Relations": 224,
+        "Carriers": 27,
+        "Sites": 69
+      },
+      "left": {
+        "terms": [
+          {
+            "input": "constant",
+            "sourceIndex": 0,
+            "inputValue": 15,
+            "coefficient": 4,
+            "contribution": 4
+          }
+        ],
+        "computedSum": 4
+      },
+      "right": {
+        "terms": [
+          {
+            "input": "constant",
+            "sourceIndex": 0,
+            "inputValue": 15,
+            "coefficient": 4,
+            "contribution": 4
+          }
+        ],
+        "computedSum": 4
+      },
+      "lastLeftEdit": null,
+      "lastRightEdit": null
+    },
+    {
+      "index": 2,
+      "learnedTerms": 6,
+      "marketTermLimit": 8,
+      "processingGraph": {
+        "Relations": 706,
+        "Carriers": 79,
+        "Sites": 225
+      },
+      "left": {
+        "terms": [
+          {
+            "input": "constant",
+            "sourceIndex": 0,
+            "inputValue": 15,
+            "coefficient": 4,
+            "contribution": 4
+          },
+          {
+            "input": "left eye",
+            "sourceIndex": 1,
+            "inputValue": 1,
+            "coefficient": 6,
+            "contribution": 0
+          },
+          {
+            "input": "right eye",
+            "sourceIndex": 2,
+            "inputValue": 1,
+            "coefficient": -6,
+            "contribution": 0
+          }
+        ],
+        "computedSum": 4
+      },
+      "right": {
+        "terms": [
+          {
+            "input": "constant",
+            "sourceIndex": 0,
+            "inputValue": 15,
+            "coefficient": 4,
+            "contribution": 4
+          },
+          {
+            "input": "right eye",
+            "sourceIndex": 2,
+            "inputValue": 1,
+            "coefficient": 6,
+            "contribution": 0
+          },
+          {
+            "input": "left eye",
+            "sourceIndex": 1,
+            "inputValue": 1,
+            "coefficient": -6,
+            "contribution": 0
+          }
+        ],
+        "computedSum": 4
+      },
+      "lastLeftEdit": {
+        "before": 2,
+        "after": 3
+      },
+      "lastRightEdit": {
+        "before": 2,
+        "after": 3
+      }
+    },
+    {
+      "index": 3,
+      "learnedTerms": 6,
+      "marketTermLimit": 8,
+      "processingGraph": {
+        "Relations": 763,
+        "Carriers": 86,
+        "Sites": 245
+      },
+      "left": {
+        "terms": [
+          {
+            "input": "constant",
+            "sourceIndex": 0,
+            "inputValue": 15,
+            "coefficient": 4,
+            "contribution": 4
+          },
+          {
+            "input": "right eye",
+            "sourceIndex": 2,
+            "inputValue": 2,
+            "coefficient": -6,
+            "contribution": 0
+          },
+          {
+            "input": "energy deficit",
+            "sourceIndex": 3,
+            "inputValue": 13,
+            "coefficient": 6,
+            "contribution": 5
+          }
+        ],
+        "computedSum": 9
+      },
+      "right": {
+        "terms": [
+          {
+            "input": "constant",
+            "sourceIndex": 0,
+            "inputValue": 15,
+            "coefficient": 4,
+            "contribution": 4
+          },
+          {
+            "input": "left eye",
+            "sourceIndex": 1,
+            "inputValue": 1,
+            "coefficient": -6,
+            "contribution": 0
+          },
+          {
+            "input": "energy deficit",
+            "sourceIndex": 3,
+            "inputValue": 13,
+            "coefficient": 6,
+            "contribution": 5
+          }
+        ],
+        "computedSum": 9
+      },
+      "lastLeftEdit": {
+        "before": 4,
+        "after": 3
+      },
+      "lastRightEdit": {
+        "before": 4,
+        "after": 3
+      }
+    },
+    {
+      "index": 4,
+      "learnedTerms": 4,
+      "marketTermLimit": 8,
+      "processingGraph": {
+        "Relations": 502,
+        "Carriers": 59,
+        "Sites": 163
+      },
+      "left": {
+        "terms": [
+          {
+            "input": "constant",
+            "sourceIndex": 0,
+            "inputValue": 15,
+            "coefficient": 4,
+            "contribution": 4
+          },
+          {
+            "input": "left eye",
+            "sourceIndex": 1,
+            "inputValue": 3,
+            "coefficient": 6,
+            "contribution": 1
+          }
+        ],
+        "computedSum": 5
+      },
+      "right": {
+        "terms": [
+          {
+            "input": "constant",
+            "sourceIndex": 0,
+            "inputValue": 15,
+            "coefficient": 4,
+            "contribution": 4
+          },
+          {
+            "input": "right eye",
+            "sourceIndex": 2,
+            "inputValue": 3,
+            "coefficient": 6,
+            "contribution": 1
+          }
+        ],
+        "computedSum": 5
+      },
+      "lastLeftEdit": {
+        "before": 1,
+        "after": 2
+      },
+      "lastRightEdit": {
+        "before": 1,
+        "after": 2
+      }
+    },
+    {
+      "index": 5,
+      "learnedTerms": 8,
+      "marketTermLimit": 8,
+      "processingGraph": {
+        "Relations": 1211,
+        "Carriers": 133,
+        "Sites": 382
+      },
+      "left": {
+        "terms": [
+          {
+            "input": "constant",
+            "sourceIndex": 0,
+            "inputValue": 15,
+            "coefficient": 4,
+            "contribution": 4
+          },
+          {
+            "input": "right eye \u00D7 deficit",
+            "sourceIndex": 6,
+            "inputValue": 0,
+            "coefficient": 0,
+            "contribution": 0
+          },
+          {
+            "input": "energy deficit",
+            "sourceIndex": 3,
+            "inputValue": 4,
+            "coefficient": 6,
+            "contribution": 1
+          },
+          {
+            "input": "left eye \u00D7 fullness",
+            "sourceIndex": 7,
+            "inputValue": 0,
+            "coefficient": 6,
+            "contribution": 0
+          }
+        ],
+        "computedSum": 5
+      },
+      "right": {
+        "terms": [
+          {
+            "input": "constant",
+            "sourceIndex": 0,
+            "inputValue": 15,
+            "coefficient": 4,
+            "contribution": 4
+          },
+          {
+            "input": "left eye \u00D7 deficit",
+            "sourceIndex": 5,
+            "inputValue": 0,
+            "coefficient": 0,
+            "contribution": 0
+          },
+          {
+            "input": "energy deficit",
+            "sourceIndex": 3,
+            "inputValue": 4,
+            "coefficient": 6,
+            "contribution": 1
+          },
+          {
+            "input": "right eye \u00D7 fullness",
+            "sourceIndex": 8,
+            "inputValue": 0,
+            "coefficient": 6,
+            "contribution": 0
+          }
+        ],
+        "computedSum": 5
+      },
+      "lastLeftEdit": {
+        "before": 3,
+        "after": 4
+      },
+      "lastRightEdit": {
+        "before": 3,
+        "after": 4
+      }
+    },
+    {
+      "index": 6,
+      "learnedTerms": 8,
+      "marketTermLimit": 8,
+      "processingGraph": {
+        "Relations": 1099,
+        "Carriers": 120,
+        "Sites": 347
+      },
+      "left": {
+        "terms": [
+          {
+            "input": "energy deficit",
+            "sourceIndex": 3,
+            "inputValue": 1,
+            "coefficient": -4,
+            "contribution": 0
+          },
+          {
+            "input": "right eye \u00D7 fullness",
+            "sourceIndex": 8,
+            "inputValue": 2,
+            "coefficient": 0,
+            "contribution": 0
+          },
+          {
+            "input": "left eye",
+            "sourceIndex": 1,
+            "inputValue": 3,
+            "coefficient": 6,
+            "contribution": 1
+          },
+          {
+            "input": "left eye \u00D7 fullness",
+            "sourceIndex": 7,
+            "inputValue": 2,
+            "coefficient": 6,
+            "contribution": 0
+          }
+        ],
+        "computedSum": 1
+      },
+      "right": {
+        "terms": [
+          {
+            "input": "energy deficit",
+            "sourceIndex": 3,
+            "inputValue": 1,
+            "coefficient": -4,
+            "contribution": 0
+          },
+          {
+            "input": "left eye \u00D7 fullness",
+            "sourceIndex": 7,
+            "inputValue": 2,
+            "coefficient": 0,
+            "contribution": 0
+          },
+          {
+            "input": "right eye",
+            "sourceIndex": 2,
+            "inputValue": 3,
+            "coefficient": 6,
+            "contribution": 1
+          },
+          {
+            "input": "right eye \u00D7 fullness",
+            "sourceIndex": 8,
+            "inputValue": 2,
+            "coefficient": 6,
+            "contribution": 0
+          }
+        ],
+        "computedSum": 1
+      },
+      "lastLeftEdit": {
+        "before": 4,
+        "after": 4
+      },
+      "lastRightEdit": {
+        "before": 4,
+        "after": 4
+      }
+    },
+    {
+      "index": 7,
+      "learnedTerms": 8,
+      "marketTermLimit": 8,
+      "processingGraph": {
+        "Relations": 1079,
+        "Carriers": 118,
+        "Sites": 341
+      },
+      "left": {
+        "terms": [
+          {
+            "input": "right eye",
+            "sourceIndex": 2,
+            "inputValue": 1,
+            "coefficient": -4,
+            "contribution": 0
+          },
+          {
+            "input": "right eye \u00D7 deficit",
+            "sourceIndex": 6,
+            "inputValue": 0,
+            "coefficient": 0,
+            "contribution": 0
+          },
+          {
+            "input": "right eye",
+            "sourceIndex": 2,
+            "inputValue": 1,
+            "coefficient": -6,
+            "contribution": 0
+          },
+          {
+            "input": "constant",
+            "sourceIndex": 0,
+            "inputValue": 15,
+            "coefficient": 4,
+            "contribution": 4
+          }
+        ],
+        "computedSum": 4
+      },
+      "right": {
+        "terms": [
+          {
+            "input": "left eye",
+            "sourceIndex": 1,
+            "inputValue": 1,
+            "coefficient": -4,
+            "contribution": 0
+          },
+          {
+            "input": "left eye \u00D7 deficit",
+            "sourceIndex": 5,
+            "inputValue": 0,
+            "coefficient": 0,
+            "contribution": 0
+          },
+          {
+            "input": "left eye",
+            "sourceIndex": 1,
+            "inputValue": 1,
+            "coefficient": -6,
+            "contribution": 0
+          },
+          {
+            "input": "constant",
+            "sourceIndex": 0,
+            "inputValue": 15,
+            "coefficient": 4,
+            "contribution": 4
+          }
+        ],
+        "computedSum": 4
+      },
+      "lastLeftEdit": {
+        "before": 4,
+        "after": 4
+      },
+      "lastRightEdit": {
+        "before": 4,
+        "after": 4
+      }
+    },
+    {
+      "index": 8,
+      "learnedTerms": 8,
+      "marketTermLimit": 8,
+      "processingGraph": {
+        "Relations": 1211,
+        "Carriers": 132,
+        "Sites": 381
+      },
+      "left": {
+        "terms": [
+          {
+            "input": "left eye",
+            "sourceIndex": 1,
+            "inputValue": 5,
+            "coefficient": -4,
+            "contribution": -1
+          },
+          {
+            "input": "right eye \u00D7 deficit",
+            "sourceIndex": 6,
+            "inputValue": 3,
+            "coefficient": 0,
+            "contribution": 0
+          },
+          {
+            "input": "energy deficit",
+            "sourceIndex": 3,
+            "inputValue": 11,
+            "coefficient": 6,
+            "contribution": 4
+          },
+          {
+            "input": "left eye \u00D7 fullness",
+            "sourceIndex": 7,
+            "inputValue": 1,
+            "coefficient": 6,
+            "contribution": 0
+          }
+        ],
+        "computedSum": 3
+      },
+      "right": {
+        "terms": [
+          {
+            "input": "right eye",
+            "sourceIndex": 2,
+            "inputValue": 5,
+            "coefficient": -4,
+            "contribution": -1
+          },
+          {
+            "input": "left eye \u00D7 deficit",
+            "sourceIndex": 5,
+            "inputValue": 3,
+            "coefficient": 0,
+            "contribution": 0
+          },
+          {
+            "input": "energy deficit",
+            "sourceIndex": 3,
+            "inputValue": 11,
+            "coefficient": 6,
+            "contribution": 4
+          },
+          {
+            "input": "right eye \u00D7 fullness",
+            "sourceIndex": 8,
+            "inputValue": 1,
+            "coefficient": 6,
+            "contribution": 0
+          }
+        ],
+        "computedSum": 3
+      },
+      "lastLeftEdit": {
+        "before": 4,
+        "after": 4
+      },
+      "lastRightEdit": {
+        "before": 4,
+        "after": 4
+      }
+    }
+  ]
+}

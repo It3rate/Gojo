@@ -1,0 +1,16 @@
+{
+  "files": [
+    {
+      "path": "experiments/UtilityEcology/Program.fixture",
+      "backup": "Program.cs.baseline",
+      "before": "114aa5cd2e9e22e58e905011ce793c687d96ba6e999cd8e9fd04779465058f2b",
+      "after": "2a63aebbfa22d950988dd7e2653301499004f5e3dc3484b00b9291740b33f218"
+    },
+    {
+      "path": "experiments/UtilityEcology/Seeded.fixture",
+      "backup": null,
+      "before": null,
+      "after": "022e603dab05a4e12521a71aab612bd0ef177e2b61a043f9c9d2903143e57169"
+    }
+  ]
+}

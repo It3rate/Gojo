@@ -54,3 +54,10 @@ docs/
 This repo was extracted from the Core4 workspace so Gojo can be read and developed without the older Core4, runtime, demo, SIMD, and probe projects in the way.
 
 Older ideas worth remembering are summarized in `docs/LegacyCore4IdeaInventory.md`; they should be re-expressed Gojo-natively before becoming code.
+
+## Simulation and learning experiments
+
+The `codex/phototaxis-market` branch preserves the Phototaxis swimming demo and
+its later primitive-number, learning, composition, lifecycle and service-economy
+experiments. See the [experiment index](experiments/README.md) for runnable
+commands, reports, retained results and the lossless large-result restore helper.

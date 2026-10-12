@@ -1,0 +1,15 @@
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  Gojo -> D:\source\repos\It3rate\Gojo-phototaxis\Gojo\bin\Release\net10.0\Gojo.dll
+  Phototaxis -> D:\source\repos\It3rate\Gojo-phototaxis\experiments\Phototaxis\bin\Release\net10.0\Phototaxis.dll
+  Phototaxis.Browser -> D:\source\repos\It3rate\Gojo-phototaxis\experiments\Phototaxis.Browser\bin\Release\net10.0-browser\Phototaxis.Browser.dll
+  Gojo -> D:\source\repos\It3rate\Gojo-phototaxis\Gojo\bin\Release\net10.0\Gojo.dll
+  Phototaxis -> D:\source\repos\It3rate\Gojo-phototaxis\experiments\Phototaxis\bin\Release\net10.0\Phototaxis.dll
+  AOT'ing 34 assemblies
+  Everything is up-to-date, nothing to precompile
+  IL stripping assemblies
+  [2/4] skipped unchanged files
+  Compiling native assets with C:\Program Files\dotnet\packs\Microsoft.NET.Runtime.Emscripten.3.1.56.Sdk.win-x64\10.0.12\Sdk\..\tools\emscripten\emcc with -Oz. This may take a while ...
+  [3/4] corebindings.c -> corebindings.o [took 1.29s]
+  [4/4] driver.c -> driver.o [took 1.35s]
+  Phototaxis.Browser -> D:\source\repos\It3rate\Gojo-phototaxis\experiments\Phototaxis.Browser\publish-browser\

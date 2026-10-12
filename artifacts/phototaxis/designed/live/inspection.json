@@ -1,0 +1,2385 @@
+{
+  "roots": 1,
+  "ticks": 6000,
+  "population": 33,
+  "calories": 20000000,
+  "attention": 10000000,
+  "circuits": [
+    {
+      "index": 1,
+      "processingTerms": 4,
+      "marketTermLimit": 8,
+      "operations": 15,
+      "marketOperationBudgetPerMuscle": 24,
+      "processingGraph": {
+        "Relations": 1123,
+        "Carriers": 121,
+        "Sites": 382
+      },
+      "feedback": [
+        {
+          "value": 15,
+          "period": 4,
+          "recipe": "choose(bands((fullness \u2212 12); [-1048576,0): 15; [0,1048576): 0), 15, choose(bands((13 \u2212 fullness); [-1048576,0): 15; [0,1048576): 0), 0, 15))",
+          "operations": 6
+        }
+      ],
+      "left": {
+        "terms": [
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((12 \u2212 (left eye \u002B right eye)); [-1048576,0): 15; [0,1048576): 0), 5, 8), 8)",
+            "operations": 5,
+            "depth": 5,
+            "inputValue": 5,
+            "coefficient": 15,
+            "contribution": 5
+          },
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye)))), scale(choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye))))))",
+            "operations": 10,
+            "depth": 8,
+            "inputValue": 0,
+            "coefficient": 15,
+            "contribution": 0
+          }
+        ],
+        "computedSum": 5
+      },
+      "right": {
+        "terms": [
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((12 \u2212 (left eye \u002B right eye)); [-1048576,0): 15; [0,1048576): 0), 5, 8), 8)",
+            "operations": 5,
+            "depth": 5,
+            "inputValue": 5,
+            "coefficient": 15,
+            "contribution": 5
+          },
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye)))), scale(choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye))))))",
+            "operations": 10,
+            "depth": 8,
+            "inputValue": 0,
+            "coefficient": -15,
+            "contribution": 0
+          }
+        ],
+        "computedSum": 5
+      },
+      "lastLeftEdit": null,
+      "lastRightEdit": null
+    },
+    {
+      "index": 2,
+      "processingTerms": 4,
+      "marketTermLimit": 8,
+      "operations": 15,
+      "marketOperationBudgetPerMuscle": 24,
+      "processingGraph": {
+        "Relations": 1123,
+        "Carriers": 121,
+        "Sites": 382
+      },
+      "feedback": [
+        {
+          "value": 15,
+          "period": 4,
+          "recipe": "choose(bands((fullness \u2212 12); [-1048576,0): 15; [0,1048576): 0), 15, choose(bands((13 \u2212 fullness); [-1048576,0): 15; [0,1048576): 0), 0, 15))",
+          "operations": 6
+        }
+      ],
+      "left": {
+        "terms": [
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((12 \u2212 (left eye \u002B right eye)); [-1048576,0): 15; [0,1048576): 0), 5, 8), 8)",
+            "operations": 5,
+            "depth": 5,
+            "inputValue": 8,
+            "coefficient": 15,
+            "contribution": 8
+          },
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye)))), scale(choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye))))))",
+            "operations": 10,
+            "depth": 8,
+            "inputValue": 0,
+            "coefficient": 15,
+            "contribution": 0
+          }
+        ],
+        "computedSum": 8
+      },
+      "right": {
+        "terms": [
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((12 \u2212 (left eye \u002B right eye)); [-1048576,0): 15; [0,1048576): 0), 5, 8), 8)",
+            "operations": 5,
+            "depth": 5,
+            "inputValue": 8,
+            "coefficient": 15,
+            "contribution": 8
+          },
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye)))), scale(choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye))))))",
+            "operations": 10,
+            "depth": 8,
+            "inputValue": 0,
+            "coefficient": -15,
+            "contribution": 0
+          }
+        ],
+        "computedSum": 8
+      },
+      "lastLeftEdit": null,
+      "lastRightEdit": null
+    },
+    {
+      "index": 3,
+      "processingTerms": 4,
+      "marketTermLimit": 8,
+      "operations": 15,
+      "marketOperationBudgetPerMuscle": 24,
+      "processingGraph": {
+        "Relations": 1123,
+        "Carriers": 121,
+        "Sites": 382
+      },
+      "feedback": [
+        {
+          "value": 15,
+          "period": 4,
+          "recipe": "choose(bands((fullness \u2212 12); [-1048576,0): 15; [0,1048576): 0), 15, choose(bands((13 \u2212 fullness); [-1048576,0): 15; [0,1048576): 0), 0, 15))",
+          "operations": 6
+        }
+      ],
+      "left": {
+        "terms": [
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((12 \u2212 (left eye \u002B right eye)); [-1048576,0): 15; [0,1048576): 0), 5, 8), 8)",
+            "operations": 5,
+            "depth": 5,
+            "inputValue": 5,
+            "coefficient": 15,
+            "contribution": 5
+          },
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye)))), scale(choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye))))))",
+            "operations": 10,
+            "depth": 8,
+            "inputValue": 0,
+            "coefficient": 15,
+            "contribution": 0
+          }
+        ],
+        "computedSum": 5
+      },
+      "right": {
+        "terms": [
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((12 \u2212 (left eye \u002B right eye)); [-1048576,0): 15; [0,1048576): 0), 5, 8), 8)",
+            "operations": 5,
+            "depth": 5,
+            "inputValue": 5,
+            "coefficient": 15,
+            "contribution": 5
+          },
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye)))), scale(choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye))))))",
+            "operations": 10,
+            "depth": 8,
+            "inputValue": 0,
+            "coefficient": -15,
+            "contribution": 0
+          }
+        ],
+        "computedSum": 5
+      },
+      "lastLeftEdit": null,
+      "lastRightEdit": null
+    },
+    {
+      "index": 4,
+      "processingTerms": 4,
+      "marketTermLimit": 8,
+      "operations": 15,
+      "marketOperationBudgetPerMuscle": 24,
+      "processingGraph": {
+        "Relations": 1123,
+        "Carriers": 121,
+        "Sites": 382
+      },
+      "feedback": [
+        {
+          "value": 15,
+          "period": 4,
+          "recipe": "choose(bands((fullness \u2212 12); [-1048576,0): 15; [0,1048576): 0), 15, choose(bands((13 \u2212 fullness); [-1048576,0): 15; [0,1048576): 0), 0, 15))",
+          "operations": 6
+        }
+      ],
+      "left": {
+        "terms": [
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((12 \u2212 (left eye \u002B right eye)); [-1048576,0): 15; [0,1048576): 0), 5, 8), 8)",
+            "operations": 5,
+            "depth": 5,
+            "inputValue": 5,
+            "coefficient": 15,
+            "contribution": 5
+          },
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye)))), scale(choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye))))))",
+            "operations": 10,
+            "depth": 8,
+            "inputValue": 0,
+            "coefficient": 15,
+            "contribution": 0
+          }
+        ],
+        "computedSum": 5
+      },
+      "right": {
+        "terms": [
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((12 \u2212 (left eye \u002B right eye)); [-1048576,0): 15; [0,1048576): 0), 5, 8), 8)",
+            "operations": 5,
+            "depth": 5,
+            "inputValue": 5,
+            "coefficient": 15,
+            "contribution": 5
+          },
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye)))), scale(choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye))))))",
+            "operations": 10,
+            "depth": 8,
+            "inputValue": 0,
+            "coefficient": -15,
+            "contribution": 0
+          }
+        ],
+        "computedSum": 5
+      },
+      "lastLeftEdit": null,
+      "lastRightEdit": null
+    },
+    {
+      "index": 5,
+      "processingTerms": 4,
+      "marketTermLimit": 8,
+      "operations": 15,
+      "marketOperationBudgetPerMuscle": 24,
+      "processingGraph": {
+        "Relations": 1123,
+        "Carriers": 121,
+        "Sites": 382
+      },
+      "feedback": [
+        {
+          "value": 15,
+          "period": 4,
+          "recipe": "choose(bands((fullness \u2212 12); [-1048576,0): 15; [0,1048576): 0), 15, choose(bands((13 \u2212 fullness); [-1048576,0): 15; [0,1048576): 0), 0, 15))",
+          "operations": 6
+        }
+      ],
+      "left": {
+        "terms": [
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((12 \u2212 (left eye \u002B right eye)); [-1048576,0): 15; [0,1048576): 0), 5, 8), 8)",
+            "operations": 5,
+            "depth": 5,
+            "inputValue": 5,
+            "coefficient": 15,
+            "contribution": 5
+          },
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye)))), scale(choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye))))))",
+            "operations": 10,
+            "depth": 8,
+            "inputValue": 0,
+            "coefficient": 15,
+            "contribution": 0
+          }
+        ],
+        "computedSum": 5
+      },
+      "right": {
+        "terms": [
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((12 \u2212 (left eye \u002B right eye)); [-1048576,0): 15; [0,1048576): 0), 5, 8), 8)",
+            "operations": 5,
+            "depth": 5,
+            "inputValue": 5,
+            "coefficient": 15,
+            "contribution": 5
+          },
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye)))), scale(choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye))))))",
+            "operations": 10,
+            "depth": 8,
+            "inputValue": 0,
+            "coefficient": -15,
+            "contribution": 0
+          }
+        ],
+        "computedSum": 5
+      },
+      "lastLeftEdit": null,
+      "lastRightEdit": null
+    },
+    {
+      "index": 6,
+      "processingTerms": 4,
+      "marketTermLimit": 8,
+      "operations": 15,
+      "marketOperationBudgetPerMuscle": 24,
+      "processingGraph": {
+        "Relations": 1123,
+        "Carriers": 121,
+        "Sites": 382
+      },
+      "feedback": [
+        {
+          "value": 15,
+          "period": 4,
+          "recipe": "choose(bands((fullness \u2212 12); [-1048576,0): 15; [0,1048576): 0), 15, choose(bands((13 \u2212 fullness); [-1048576,0): 15; [0,1048576): 0), 0, 15))",
+          "operations": 6
+        }
+      ],
+      "left": {
+        "terms": [
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((12 \u2212 (left eye \u002B right eye)); [-1048576,0): 15; [0,1048576): 0), 5, 8), 8)",
+            "operations": 5,
+            "depth": 5,
+            "inputValue": 5,
+            "coefficient": 15,
+            "contribution": 5
+          },
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye)))), scale(choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye))))))",
+            "operations": 10,
+            "depth": 8,
+            "inputValue": -8,
+            "coefficient": 15,
+            "contribution": -8
+          }
+        ],
+        "computedSum": -3
+      },
+      "right": {
+        "terms": [
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((12 \u2212 (left eye \u002B right eye)); [-1048576,0): 15; [0,1048576): 0), 5, 8), 8)",
+            "operations": 5,
+            "depth": 5,
+            "inputValue": 5,
+            "coefficient": 15,
+            "contribution": 5
+          },
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye)))), scale(choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye))))))",
+            "operations": 10,
+            "depth": 8,
+            "inputValue": -8,
+            "coefficient": -15,
+            "contribution": 8
+          }
+        ],
+        "computedSum": 13
+      },
+      "lastLeftEdit": null,
+      "lastRightEdit": null
+    },
+    {
+      "index": 7,
+      "processingTerms": 4,
+      "marketTermLimit": 8,
+      "operations": 15,
+      "marketOperationBudgetPerMuscle": 24,
+      "processingGraph": {
+        "Relations": 1123,
+        "Carriers": 121,
+        "Sites": 382
+      },
+      "feedback": [
+        {
+          "value": 0,
+          "period": 4,
+          "recipe": "choose(bands((fullness \u2212 12); [-1048576,0): 15; [0,1048576): 0), 15, choose(bands((13 \u2212 fullness); [-1048576,0): 15; [0,1048576): 0), 0, 0))",
+          "operations": 6
+        }
+      ],
+      "left": {
+        "terms": [
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(0, choose(bands((12 \u2212 (left eye \u002B right eye)); [-1048576,0): 15; [0,1048576): 0), 5, 8), 8)",
+            "operations": 5,
+            "depth": 5,
+            "inputValue": 8,
+            "coefficient": 15,
+            "contribution": 8
+          },
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(0, choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye)))), scale(choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye))))))",
+            "operations": 10,
+            "depth": 8,
+            "inputValue": 0,
+            "coefficient": 15,
+            "contribution": 0
+          }
+        ],
+        "computedSum": 8
+      },
+      "right": {
+        "terms": [
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(0, choose(bands((12 \u2212 (left eye \u002B right eye)); [-1048576,0): 15; [0,1048576): 0), 5, 8), 8)",
+            "operations": 5,
+            "depth": 5,
+            "inputValue": 8,
+            "coefficient": 15,
+            "contribution": 8
+          },
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(0, choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye)))), scale(choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye))))))",
+            "operations": 10,
+            "depth": 8,
+            "inputValue": 0,
+            "coefficient": -15,
+            "contribution": 0
+          }
+        ],
+        "computedSum": 8
+      },
+      "lastLeftEdit": null,
+      "lastRightEdit": null
+    },
+    {
+      "index": 8,
+      "processingTerms": 4,
+      "marketTermLimit": 8,
+      "operations": 15,
+      "marketOperationBudgetPerMuscle": 24,
+      "processingGraph": {
+        "Relations": 1123,
+        "Carriers": 121,
+        "Sites": 382
+      },
+      "feedback": [
+        {
+          "value": 15,
+          "period": 4,
+          "recipe": "choose(bands((fullness \u2212 12); [-1048576,0): 15; [0,1048576): 0), 15, choose(bands((13 \u2212 fullness); [-1048576,0): 15; [0,1048576): 0), 0, 15))",
+          "operations": 6
+        }
+      ],
+      "left": {
+        "terms": [
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((12 \u2212 (left eye \u002B right eye)); [-1048576,0): 15; [0,1048576): 0), 5, 8), 8)",
+            "operations": 5,
+            "depth": 5,
+            "inputValue": 8,
+            "coefficient": 15,
+            "contribution": 8
+          },
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye)))), scale(choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye))))))",
+            "operations": 10,
+            "depth": 8,
+            "inputValue": 0,
+            "coefficient": 15,
+            "contribution": 0
+          }
+        ],
+        "computedSum": 8
+      },
+      "right": {
+        "terms": [
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((12 \u2212 (left eye \u002B right eye)); [-1048576,0): 15; [0,1048576): 0), 5, 8), 8)",
+            "operations": 5,
+            "depth": 5,
+            "inputValue": 8,
+            "coefficient": 15,
+            "contribution": 8
+          },
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye)))), scale(choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye))))))",
+            "operations": 10,
+            "depth": 8,
+            "inputValue": 0,
+            "coefficient": -15,
+            "contribution": 0
+          }
+        ],
+        "computedSum": 8
+      },
+      "lastLeftEdit": null,
+      "lastRightEdit": null
+    },
+    {
+      "index": 9,
+      "processingTerms": 4,
+      "marketTermLimit": 8,
+      "operations": 15,
+      "marketOperationBudgetPerMuscle": 24,
+      "processingGraph": {
+        "Relations": 1123,
+        "Carriers": 121,
+        "Sites": 382
+      },
+      "feedback": [
+        {
+          "value": 0,
+          "period": 4,
+          "recipe": "choose(bands((fullness \u2212 12); [-1048576,0): 15; [0,1048576): 0), 15, choose(bands((13 \u2212 fullness); [-1048576,0): 15; [0,1048576): 0), 0, 0))",
+          "operations": 6
+        }
+      ],
+      "left": {
+        "terms": [
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(0, choose(bands((12 \u2212 (left eye \u002B right eye)); [-1048576,0): 15; [0,1048576): 0), 5, 8), 8)",
+            "operations": 5,
+            "depth": 5,
+            "inputValue": 8,
+            "coefficient": 15,
+            "contribution": 8
+          },
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(0, choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye)))), scale(choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye))))))",
+            "operations": 10,
+            "depth": 8,
+            "inputValue": 0,
+            "coefficient": 15,
+            "contribution": 0
+          }
+        ],
+        "computedSum": 8
+      },
+      "right": {
+        "terms": [
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(0, choose(bands((12 \u2212 (left eye \u002B right eye)); [-1048576,0): 15; [0,1048576): 0), 5, 8), 8)",
+            "operations": 5,
+            "depth": 5,
+            "inputValue": 8,
+            "coefficient": 15,
+            "contribution": 8
+          },
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(0, choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye)))), scale(choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye))))))",
+            "operations": 10,
+            "depth": 8,
+            "inputValue": 0,
+            "coefficient": -15,
+            "contribution": 0
+          }
+        ],
+        "computedSum": 8
+      },
+      "lastLeftEdit": null,
+      "lastRightEdit": null
+    },
+    {
+      "index": 10,
+      "processingTerms": 4,
+      "marketTermLimit": 8,
+      "operations": 15,
+      "marketOperationBudgetPerMuscle": 24,
+      "processingGraph": {
+        "Relations": 1123,
+        "Carriers": 121,
+        "Sites": 382
+      },
+      "feedback": [
+        {
+          "value": 15,
+          "period": 4,
+          "recipe": "choose(bands((fullness \u2212 12); [-1048576,0): 15; [0,1048576): 0), 15, choose(bands((13 \u2212 fullness); [-1048576,0): 15; [0,1048576): 0), 0, 15))",
+          "operations": 6
+        }
+      ],
+      "left": {
+        "terms": [
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((12 \u2212 (left eye \u002B right eye)); [-1048576,0): 15; [0,1048576): 0), 5, 8), 8)",
+            "operations": 5,
+            "depth": 5,
+            "inputValue": 8,
+            "coefficient": 15,
+            "contribution": 8
+          },
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye)))), scale(choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye))))))",
+            "operations": 10,
+            "depth": 8,
+            "inputValue": 0,
+            "coefficient": 15,
+            "contribution": 0
+          }
+        ],
+        "computedSum": 8
+      },
+      "right": {
+        "terms": [
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((12 \u2212 (left eye \u002B right eye)); [-1048576,0): 15; [0,1048576): 0), 5, 8), 8)",
+            "operations": 5,
+            "depth": 5,
+            "inputValue": 8,
+            "coefficient": 15,
+            "contribution": 8
+          },
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye)))), scale(choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye))))))",
+            "operations": 10,
+            "depth": 8,
+            "inputValue": 0,
+            "coefficient": -15,
+            "contribution": 0
+          }
+        ],
+        "computedSum": 8
+      },
+      "lastLeftEdit": null,
+      "lastRightEdit": null
+    },
+    {
+      "index": 11,
+      "processingTerms": 4,
+      "marketTermLimit": 8,
+      "operations": 15,
+      "marketOperationBudgetPerMuscle": 24,
+      "processingGraph": {
+        "Relations": 1123,
+        "Carriers": 121,
+        "Sites": 382
+      },
+      "feedback": [
+        {
+          "value": 15,
+          "period": 4,
+          "recipe": "choose(bands((fullness \u2212 12); [-1048576,0): 15; [0,1048576): 0), 15, choose(bands((13 \u2212 fullness); [-1048576,0): 15; [0,1048576): 0), 0, 15))",
+          "operations": 6
+        }
+      ],
+      "left": {
+        "terms": [
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((12 \u2212 (left eye \u002B right eye)); [-1048576,0): 15; [0,1048576): 0), 5, 8), 8)",
+            "operations": 5,
+            "depth": 5,
+            "inputValue": 8,
+            "coefficient": 15,
+            "contribution": 8
+          },
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye)))), scale(choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye))))))",
+            "operations": 10,
+            "depth": 8,
+            "inputValue": 0,
+            "coefficient": 15,
+            "contribution": 0
+          }
+        ],
+        "computedSum": 8
+      },
+      "right": {
+        "terms": [
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((12 \u2212 (left eye \u002B right eye)); [-1048576,0): 15; [0,1048576): 0), 5, 8), 8)",
+            "operations": 5,
+            "depth": 5,
+            "inputValue": 8,
+            "coefficient": 15,
+            "contribution": 8
+          },
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye)))), scale(choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye))))))",
+            "operations": 10,
+            "depth": 8,
+            "inputValue": 0,
+            "coefficient": -15,
+            "contribution": 0
+          }
+        ],
+        "computedSum": 8
+      },
+      "lastLeftEdit": null,
+      "lastRightEdit": null
+    },
+    {
+      "index": 12,
+      "processingTerms": 4,
+      "marketTermLimit": 8,
+      "operations": 15,
+      "marketOperationBudgetPerMuscle": 24,
+      "processingGraph": {
+        "Relations": 1123,
+        "Carriers": 121,
+        "Sites": 382
+      },
+      "feedback": [
+        {
+          "value": 15,
+          "period": 4,
+          "recipe": "choose(bands((fullness \u2212 12); [-1048576,0): 15; [0,1048576): 0), 15, choose(bands((13 \u2212 fullness); [-1048576,0): 15; [0,1048576): 0), 0, 15))",
+          "operations": 6
+        }
+      ],
+      "left": {
+        "terms": [
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((12 \u2212 (left eye \u002B right eye)); [-1048576,0): 15; [0,1048576): 0), 5, 8), 8)",
+            "operations": 5,
+            "depth": 5,
+            "inputValue": 5,
+            "coefficient": 15,
+            "contribution": 5
+          },
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye)))), scale(choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye))))))",
+            "operations": 10,
+            "depth": 8,
+            "inputValue": 0,
+            "coefficient": 15,
+            "contribution": 0
+          }
+        ],
+        "computedSum": 5
+      },
+      "right": {
+        "terms": [
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((12 \u2212 (left eye \u002B right eye)); [-1048576,0): 15; [0,1048576): 0), 5, 8), 8)",
+            "operations": 5,
+            "depth": 5,
+            "inputValue": 5,
+            "coefficient": 15,
+            "contribution": 5
+          },
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye)))), scale(choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye))))))",
+            "operations": 10,
+            "depth": 8,
+            "inputValue": 0,
+            "coefficient": -15,
+            "contribution": 0
+          }
+        ],
+        "computedSum": 5
+      },
+      "lastLeftEdit": null,
+      "lastRightEdit": null
+    },
+    {
+      "index": 13,
+      "processingTerms": 4,
+      "marketTermLimit": 8,
+      "operations": 15,
+      "marketOperationBudgetPerMuscle": 24,
+      "processingGraph": {
+        "Relations": 1123,
+        "Carriers": 121,
+        "Sites": 382
+      },
+      "feedback": [
+        {
+          "value": 15,
+          "period": 4,
+          "recipe": "choose(bands((fullness \u2212 12); [-1048576,0): 15; [0,1048576): 0), 15, choose(bands((13 \u2212 fullness); [-1048576,0): 15; [0,1048576): 0), 0, 15))",
+          "operations": 6
+        }
+      ],
+      "left": {
+        "terms": [
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((12 \u2212 (left eye \u002B right eye)); [-1048576,0): 15; [0,1048576): 0), 5, 8), 8)",
+            "operations": 5,
+            "depth": 5,
+            "inputValue": 5,
+            "coefficient": 15,
+            "contribution": 5
+          },
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye)))), scale(choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye))))))",
+            "operations": 10,
+            "depth": 8,
+            "inputValue": 0,
+            "coefficient": 15,
+            "contribution": 0
+          }
+        ],
+        "computedSum": 5
+      },
+      "right": {
+        "terms": [
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((12 \u2212 (left eye \u002B right eye)); [-1048576,0): 15; [0,1048576): 0), 5, 8), 8)",
+            "operations": 5,
+            "depth": 5,
+            "inputValue": 5,
+            "coefficient": 15,
+            "contribution": 5
+          },
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye)))), scale(choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye))))))",
+            "operations": 10,
+            "depth": 8,
+            "inputValue": 0,
+            "coefficient": -15,
+            "contribution": 0
+          }
+        ],
+        "computedSum": 5
+      },
+      "lastLeftEdit": null,
+      "lastRightEdit": null
+    },
+    {
+      "index": 14,
+      "processingTerms": 4,
+      "marketTermLimit": 8,
+      "operations": 15,
+      "marketOperationBudgetPerMuscle": 24,
+      "processingGraph": {
+        "Relations": 1123,
+        "Carriers": 121,
+        "Sites": 382
+      },
+      "feedback": [
+        {
+          "value": 15,
+          "period": 4,
+          "recipe": "choose(bands((fullness \u2212 12); [-1048576,0): 15; [0,1048576): 0), 15, choose(bands((13 \u2212 fullness); [-1048576,0): 15; [0,1048576): 0), 0, 15))",
+          "operations": 6
+        }
+      ],
+      "left": {
+        "terms": [
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((12 \u2212 (left eye \u002B right eye)); [-1048576,0): 15; [0,1048576): 0), 5, 8), 8)",
+            "operations": 5,
+            "depth": 5,
+            "inputValue": 5,
+            "coefficient": 15,
+            "contribution": 5
+          },
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye)))), scale(choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye))))))",
+            "operations": 10,
+            "depth": 8,
+            "inputValue": 8,
+            "coefficient": 15,
+            "contribution": 8
+          }
+        ],
+        "computedSum": 13
+      },
+      "right": {
+        "terms": [
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((12 \u2212 (left eye \u002B right eye)); [-1048576,0): 15; [0,1048576): 0), 5, 8), 8)",
+            "operations": 5,
+            "depth": 5,
+            "inputValue": 5,
+            "coefficient": 15,
+            "contribution": 5
+          },
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye)))), scale(choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye))))))",
+            "operations": 10,
+            "depth": 8,
+            "inputValue": 8,
+            "coefficient": -15,
+            "contribution": -8
+          }
+        ],
+        "computedSum": -3
+      },
+      "lastLeftEdit": null,
+      "lastRightEdit": null
+    },
+    {
+      "index": 15,
+      "processingTerms": 4,
+      "marketTermLimit": 8,
+      "operations": 15,
+      "marketOperationBudgetPerMuscle": 24,
+      "processingGraph": {
+        "Relations": 1123,
+        "Carriers": 121,
+        "Sites": 382
+      },
+      "feedback": [
+        {
+          "value": 15,
+          "period": 4,
+          "recipe": "choose(bands((fullness \u2212 12); [-1048576,0): 15; [0,1048576): 0), 15, choose(bands((13 \u2212 fullness); [-1048576,0): 15; [0,1048576): 0), 0, 15))",
+          "operations": 6
+        }
+      ],
+      "left": {
+        "terms": [
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((12 \u2212 (left eye \u002B right eye)); [-1048576,0): 15; [0,1048576): 0), 5, 8), 8)",
+            "operations": 5,
+            "depth": 5,
+            "inputValue": 5,
+            "coefficient": 15,
+            "contribution": 5
+          },
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye)))), scale(choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye))))))",
+            "operations": 10,
+            "depth": 8,
+            "inputValue": 0,
+            "coefficient": 15,
+            "contribution": 0
+          }
+        ],
+        "computedSum": 5
+      },
+      "right": {
+        "terms": [
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((12 \u2212 (left eye \u002B right eye)); [-1048576,0): 15; [0,1048576): 0), 5, 8), 8)",
+            "operations": 5,
+            "depth": 5,
+            "inputValue": 5,
+            "coefficient": 15,
+            "contribution": 5
+          },
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye)))), scale(choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye))))))",
+            "operations": 10,
+            "depth": 8,
+            "inputValue": 0,
+            "coefficient": -15,
+            "contribution": 0
+          }
+        ],
+        "computedSum": 5
+      },
+      "lastLeftEdit": null,
+      "lastRightEdit": null
+    },
+    {
+      "index": 16,
+      "processingTerms": 4,
+      "marketTermLimit": 8,
+      "operations": 15,
+      "marketOperationBudgetPerMuscle": 24,
+      "processingGraph": {
+        "Relations": 1123,
+        "Carriers": 121,
+        "Sites": 382
+      },
+      "feedback": [
+        {
+          "value": 15,
+          "period": 4,
+          "recipe": "choose(bands((fullness \u2212 12); [-1048576,0): 15; [0,1048576): 0), 15, choose(bands((13 \u2212 fullness); [-1048576,0): 15; [0,1048576): 0), 0, 15))",
+          "operations": 6
+        }
+      ],
+      "left": {
+        "terms": [
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((12 \u2212 (left eye \u002B right eye)); [-1048576,0): 15; [0,1048576): 0), 5, 8), 8)",
+            "operations": 5,
+            "depth": 5,
+            "inputValue": 5,
+            "coefficient": 15,
+            "contribution": 5
+          },
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye)))), scale(choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye))))))",
+            "operations": 10,
+            "depth": 8,
+            "inputValue": 0,
+            "coefficient": 15,
+            "contribution": 0
+          }
+        ],
+        "computedSum": 5
+      },
+      "right": {
+        "terms": [
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((12 \u2212 (left eye \u002B right eye)); [-1048576,0): 15; [0,1048576): 0), 5, 8), 8)",
+            "operations": 5,
+            "depth": 5,
+            "inputValue": 5,
+            "coefficient": 15,
+            "contribution": 5
+          },
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye)))), scale(choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye))))))",
+            "operations": 10,
+            "depth": 8,
+            "inputValue": 0,
+            "coefficient": -15,
+            "contribution": 0
+          }
+        ],
+        "computedSum": 5
+      },
+      "lastLeftEdit": null,
+      "lastRightEdit": null
+    },
+    {
+      "index": 17,
+      "processingTerms": 4,
+      "marketTermLimit": 8,
+      "operations": 15,
+      "marketOperationBudgetPerMuscle": 24,
+      "processingGraph": {
+        "Relations": 1123,
+        "Carriers": 121,
+        "Sites": 382
+      },
+      "feedback": [
+        {
+          "value": 0,
+          "period": 4,
+          "recipe": "choose(bands((fullness \u2212 12); [-1048576,0): 15; [0,1048576): 0), 15, choose(bands((13 \u2212 fullness); [-1048576,0): 15; [0,1048576): 0), 0, 0))",
+          "operations": 6
+        }
+      ],
+      "left": {
+        "terms": [
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(0, choose(bands((12 \u2212 (left eye \u002B right eye)); [-1048576,0): 15; [0,1048576): 0), 5, 8), 8)",
+            "operations": 5,
+            "depth": 5,
+            "inputValue": 8,
+            "coefficient": 15,
+            "contribution": 8
+          },
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(0, choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye)))), scale(choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye))))))",
+            "operations": 10,
+            "depth": 8,
+            "inputValue": 0,
+            "coefficient": 15,
+            "contribution": 0
+          }
+        ],
+        "computedSum": 8
+      },
+      "right": {
+        "terms": [
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(0, choose(bands((12 \u2212 (left eye \u002B right eye)); [-1048576,0): 15; [0,1048576): 0), 5, 8), 8)",
+            "operations": 5,
+            "depth": 5,
+            "inputValue": 8,
+            "coefficient": 15,
+            "contribution": 8
+          },
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(0, choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye)))), scale(choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye))))))",
+            "operations": 10,
+            "depth": 8,
+            "inputValue": 0,
+            "coefficient": -15,
+            "contribution": 0
+          }
+        ],
+        "computedSum": 8
+      },
+      "lastLeftEdit": null,
+      "lastRightEdit": null
+    },
+    {
+      "index": 18,
+      "processingTerms": 4,
+      "marketTermLimit": 8,
+      "operations": 15,
+      "marketOperationBudgetPerMuscle": 24,
+      "processingGraph": {
+        "Relations": 1123,
+        "Carriers": 121,
+        "Sites": 382
+      },
+      "feedback": [
+        {
+          "value": 0,
+          "period": 4,
+          "recipe": "choose(bands((fullness \u2212 12); [-1048576,0): 15; [0,1048576): 0), 15, choose(bands((13 \u2212 fullness); [-1048576,0): 15; [0,1048576): 0), 0, 0))",
+          "operations": 6
+        }
+      ],
+      "left": {
+        "terms": [
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(0, choose(bands((12 \u2212 (left eye \u002B right eye)); [-1048576,0): 15; [0,1048576): 0), 5, 8), 8)",
+            "operations": 5,
+            "depth": 5,
+            "inputValue": 8,
+            "coefficient": 15,
+            "contribution": 8
+          },
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(0, choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye)))), scale(choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye))))))",
+            "operations": 10,
+            "depth": 8,
+            "inputValue": 0,
+            "coefficient": 15,
+            "contribution": 0
+          }
+        ],
+        "computedSum": 8
+      },
+      "right": {
+        "terms": [
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(0, choose(bands((12 \u2212 (left eye \u002B right eye)); [-1048576,0): 15; [0,1048576): 0), 5, 8), 8)",
+            "operations": 5,
+            "depth": 5,
+            "inputValue": 8,
+            "coefficient": 15,
+            "contribution": 8
+          },
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(0, choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye)))), scale(choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye))))))",
+            "operations": 10,
+            "depth": 8,
+            "inputValue": 0,
+            "coefficient": -15,
+            "contribution": 0
+          }
+        ],
+        "computedSum": 8
+      },
+      "lastLeftEdit": null,
+      "lastRightEdit": null
+    },
+    {
+      "index": 19,
+      "processingTerms": 4,
+      "marketTermLimit": 8,
+      "operations": 15,
+      "marketOperationBudgetPerMuscle": 24,
+      "processingGraph": {
+        "Relations": 1123,
+        "Carriers": 121,
+        "Sites": 382
+      },
+      "feedback": [
+        {
+          "value": 15,
+          "period": 4,
+          "recipe": "choose(bands((fullness \u2212 12); [-1048576,0): 15; [0,1048576): 0), 15, choose(bands((13 \u2212 fullness); [-1048576,0): 15; [0,1048576): 0), 0, 15))",
+          "operations": 6
+        }
+      ],
+      "left": {
+        "terms": [
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((12 \u2212 (left eye \u002B right eye)); [-1048576,0): 15; [0,1048576): 0), 5, 8), 8)",
+            "operations": 5,
+            "depth": 5,
+            "inputValue": 5,
+            "coefficient": 15,
+            "contribution": 5
+          },
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye)))), scale(choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye))))))",
+            "operations": 10,
+            "depth": 8,
+            "inputValue": 0,
+            "coefficient": 15,
+            "contribution": 0
+          }
+        ],
+        "computedSum": 5
+      },
+      "right": {
+        "terms": [
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((12 \u2212 (left eye \u002B right eye)); [-1048576,0): 15; [0,1048576): 0), 5, 8), 8)",
+            "operations": 5,
+            "depth": 5,
+            "inputValue": 5,
+            "coefficient": 15,
+            "contribution": 5
+          },
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye)))), scale(choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye))))))",
+            "operations": 10,
+            "depth": 8,
+            "inputValue": 0,
+            "coefficient": -15,
+            "contribution": 0
+          }
+        ],
+        "computedSum": 5
+      },
+      "lastLeftEdit": null,
+      "lastRightEdit": null
+    },
+    {
+      "index": 20,
+      "processingTerms": 4,
+      "marketTermLimit": 8,
+      "operations": 15,
+      "marketOperationBudgetPerMuscle": 24,
+      "processingGraph": {
+        "Relations": 1123,
+        "Carriers": 121,
+        "Sites": 382
+      },
+      "feedback": [
+        {
+          "value": 15,
+          "period": 4,
+          "recipe": "choose(bands((fullness \u2212 12); [-1048576,0): 15; [0,1048576): 0), 15, choose(bands((13 \u2212 fullness); [-1048576,0): 15; [0,1048576): 0), 0, 15))",
+          "operations": 6
+        }
+      ],
+      "left": {
+        "terms": [
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((12 \u2212 (left eye \u002B right eye)); [-1048576,0): 15; [0,1048576): 0), 5, 8), 8)",
+            "operations": 5,
+            "depth": 5,
+            "inputValue": 8,
+            "coefficient": 15,
+            "contribution": 8
+          },
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye)))), scale(choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye))))))",
+            "operations": 10,
+            "depth": 8,
+            "inputValue": 0,
+            "coefficient": 15,
+            "contribution": 0
+          }
+        ],
+        "computedSum": 8
+      },
+      "right": {
+        "terms": [
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((12 \u2212 (left eye \u002B right eye)); [-1048576,0): 15; [0,1048576): 0), 5, 8), 8)",
+            "operations": 5,
+            "depth": 5,
+            "inputValue": 8,
+            "coefficient": 15,
+            "contribution": 8
+          },
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye)))), scale(choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye))))))",
+            "operations": 10,
+            "depth": 8,
+            "inputValue": 0,
+            "coefficient": -15,
+            "contribution": 0
+          }
+        ],
+        "computedSum": 8
+      },
+      "lastLeftEdit": null,
+      "lastRightEdit": null
+    },
+    {
+      "index": 21,
+      "processingTerms": 4,
+      "marketTermLimit": 8,
+      "operations": 15,
+      "marketOperationBudgetPerMuscle": 24,
+      "processingGraph": {
+        "Relations": 1123,
+        "Carriers": 121,
+        "Sites": 382
+      },
+      "feedback": [
+        {
+          "value": 15,
+          "period": 4,
+          "recipe": "choose(bands((fullness \u2212 12); [-1048576,0): 15; [0,1048576): 0), 15, choose(bands((13 \u2212 fullness); [-1048576,0): 15; [0,1048576): 0), 0, 15))",
+          "operations": 6
+        }
+      ],
+      "left": {
+        "terms": [
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((12 \u2212 (left eye \u002B right eye)); [-1048576,0): 15; [0,1048576): 0), 5, 8), 8)",
+            "operations": 5,
+            "depth": 5,
+            "inputValue": 8,
+            "coefficient": 15,
+            "contribution": 8
+          },
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye)))), scale(choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye))))))",
+            "operations": 10,
+            "depth": 8,
+            "inputValue": 0,
+            "coefficient": 15,
+            "contribution": 0
+          }
+        ],
+        "computedSum": 8
+      },
+      "right": {
+        "terms": [
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((12 \u2212 (left eye \u002B right eye)); [-1048576,0): 15; [0,1048576): 0), 5, 8), 8)",
+            "operations": 5,
+            "depth": 5,
+            "inputValue": 8,
+            "coefficient": 15,
+            "contribution": 8
+          },
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye)))), scale(choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye))))))",
+            "operations": 10,
+            "depth": 8,
+            "inputValue": 0,
+            "coefficient": -15,
+            "contribution": 0
+          }
+        ],
+        "computedSum": 8
+      },
+      "lastLeftEdit": null,
+      "lastRightEdit": null
+    },
+    {
+      "index": 22,
+      "processingTerms": 4,
+      "marketTermLimit": 8,
+      "operations": 15,
+      "marketOperationBudgetPerMuscle": 24,
+      "processingGraph": {
+        "Relations": 1123,
+        "Carriers": 121,
+        "Sites": 382
+      },
+      "feedback": [
+        {
+          "value": 15,
+          "period": 4,
+          "recipe": "choose(bands((fullness \u2212 12); [-1048576,0): 15; [0,1048576): 0), 15, choose(bands((13 \u2212 fullness); [-1048576,0): 15; [0,1048576): 0), 0, 15))",
+          "operations": 6
+        }
+      ],
+      "left": {
+        "terms": [
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((12 \u2212 (left eye \u002B right eye)); [-1048576,0): 15; [0,1048576): 0), 5, 8), 8)",
+            "operations": 5,
+            "depth": 5,
+            "inputValue": 5,
+            "coefficient": 15,
+            "contribution": 5
+          },
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye)))), scale(choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye))))))",
+            "operations": 10,
+            "depth": 8,
+            "inputValue": 8,
+            "coefficient": 15,
+            "contribution": 8
+          }
+        ],
+        "computedSum": 13
+      },
+      "right": {
+        "terms": [
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((12 \u2212 (left eye \u002B right eye)); [-1048576,0): 15; [0,1048576): 0), 5, 8), 8)",
+            "operations": 5,
+            "depth": 5,
+            "inputValue": 5,
+            "coefficient": 15,
+            "contribution": 5
+          },
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye)))), scale(choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye))))))",
+            "operations": 10,
+            "depth": 8,
+            "inputValue": 8,
+            "coefficient": -15,
+            "contribution": -8
+          }
+        ],
+        "computedSum": -3
+      },
+      "lastLeftEdit": null,
+      "lastRightEdit": null
+    },
+    {
+      "index": 23,
+      "processingTerms": 4,
+      "marketTermLimit": 8,
+      "operations": 15,
+      "marketOperationBudgetPerMuscle": 24,
+      "processingGraph": {
+        "Relations": 1123,
+        "Carriers": 121,
+        "Sites": 382
+      },
+      "feedback": [
+        {
+          "value": 15,
+          "period": 4,
+          "recipe": "choose(bands((fullness \u2212 12); [-1048576,0): 15; [0,1048576): 0), 15, choose(bands((13 \u2212 fullness); [-1048576,0): 15; [0,1048576): 0), 0, 15))",
+          "operations": 6
+        }
+      ],
+      "left": {
+        "terms": [
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((12 \u2212 (left eye \u002B right eye)); [-1048576,0): 15; [0,1048576): 0), 5, 8), 8)",
+            "operations": 5,
+            "depth": 5,
+            "inputValue": 8,
+            "coefficient": 15,
+            "contribution": 8
+          },
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye)))), scale(choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye))))))",
+            "operations": 10,
+            "depth": 8,
+            "inputValue": 0,
+            "coefficient": 15,
+            "contribution": 0
+          }
+        ],
+        "computedSum": 8
+      },
+      "right": {
+        "terms": [
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((12 \u2212 (left eye \u002B right eye)); [-1048576,0): 15; [0,1048576): 0), 5, 8), 8)",
+            "operations": 5,
+            "depth": 5,
+            "inputValue": 8,
+            "coefficient": 15,
+            "contribution": 8
+          },
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye)))), scale(choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye))))))",
+            "operations": 10,
+            "depth": 8,
+            "inputValue": 0,
+            "coefficient": -15,
+            "contribution": 0
+          }
+        ],
+        "computedSum": 8
+      },
+      "lastLeftEdit": null,
+      "lastRightEdit": null
+    },
+    {
+      "index": 24,
+      "processingTerms": 4,
+      "marketTermLimit": 8,
+      "operations": 15,
+      "marketOperationBudgetPerMuscle": 24,
+      "processingGraph": {
+        "Relations": 1123,
+        "Carriers": 121,
+        "Sites": 382
+      },
+      "feedback": [
+        {
+          "value": 15,
+          "period": 4,
+          "recipe": "choose(bands((fullness \u2212 12); [-1048576,0): 15; [0,1048576): 0), 15, choose(bands((13 \u2212 fullness); [-1048576,0): 15; [0,1048576): 0), 0, 15))",
+          "operations": 6
+        }
+      ],
+      "left": {
+        "terms": [
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((12 \u2212 (left eye \u002B right eye)); [-1048576,0): 15; [0,1048576): 0), 5, 8), 8)",
+            "operations": 5,
+            "depth": 5,
+            "inputValue": 8,
+            "coefficient": 15,
+            "contribution": 8
+          },
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye)))), scale(choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye))))))",
+            "operations": 10,
+            "depth": 8,
+            "inputValue": 0,
+            "coefficient": 15,
+            "contribution": 0
+          }
+        ],
+        "computedSum": 8
+      },
+      "right": {
+        "terms": [
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((12 \u2212 (left eye \u002B right eye)); [-1048576,0): 15; [0,1048576): 0), 5, 8), 8)",
+            "operations": 5,
+            "depth": 5,
+            "inputValue": 8,
+            "coefficient": 15,
+            "contribution": 8
+          },
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye)))), scale(choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye))))))",
+            "operations": 10,
+            "depth": 8,
+            "inputValue": 0,
+            "coefficient": -15,
+            "contribution": 0
+          }
+        ],
+        "computedSum": 8
+      },
+      "lastLeftEdit": null,
+      "lastRightEdit": null
+    },
+    {
+      "index": 25,
+      "processingTerms": 4,
+      "marketTermLimit": 8,
+      "operations": 15,
+      "marketOperationBudgetPerMuscle": 24,
+      "processingGraph": {
+        "Relations": 1123,
+        "Carriers": 121,
+        "Sites": 382
+      },
+      "feedback": [
+        {
+          "value": 15,
+          "period": 4,
+          "recipe": "choose(bands((fullness \u2212 12); [-1048576,0): 15; [0,1048576): 0), 15, choose(bands((13 \u2212 fullness); [-1048576,0): 15; [0,1048576): 0), 0, 15))",
+          "operations": 6
+        }
+      ],
+      "left": {
+        "terms": [
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((12 \u2212 (left eye \u002B right eye)); [-1048576,0): 15; [0,1048576): 0), 5, 8), 8)",
+            "operations": 5,
+            "depth": 5,
+            "inputValue": 5,
+            "coefficient": 15,
+            "contribution": 5
+          },
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye)))), scale(choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye))))))",
+            "operations": 10,
+            "depth": 8,
+            "inputValue": 0,
+            "coefficient": 15,
+            "contribution": 0
+          }
+        ],
+        "computedSum": 5
+      },
+      "right": {
+        "terms": [
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((12 \u2212 (left eye \u002B right eye)); [-1048576,0): 15; [0,1048576): 0), 5, 8), 8)",
+            "operations": 5,
+            "depth": 5,
+            "inputValue": 5,
+            "coefficient": 15,
+            "contribution": 5
+          },
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye)))), scale(choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye))))))",
+            "operations": 10,
+            "depth": 8,
+            "inputValue": 0,
+            "coefficient": -15,
+            "contribution": 0
+          }
+        ],
+        "computedSum": 5
+      },
+      "lastLeftEdit": null,
+      "lastRightEdit": null
+    },
+    {
+      "index": 26,
+      "processingTerms": 4,
+      "marketTermLimit": 8,
+      "operations": 15,
+      "marketOperationBudgetPerMuscle": 24,
+      "processingGraph": {
+        "Relations": 1123,
+        "Carriers": 121,
+        "Sites": 382
+      },
+      "feedback": [
+        {
+          "value": 15,
+          "period": 4,
+          "recipe": "choose(bands((fullness \u2212 12); [-1048576,0): 15; [0,1048576): 0), 15, choose(bands((13 \u2212 fullness); [-1048576,0): 15; [0,1048576): 0), 0, 15))",
+          "operations": 6
+        }
+      ],
+      "left": {
+        "terms": [
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((12 \u2212 (left eye \u002B right eye)); [-1048576,0): 15; [0,1048576): 0), 5, 8), 8)",
+            "operations": 5,
+            "depth": 5,
+            "inputValue": 8,
+            "coefficient": 15,
+            "contribution": 8
+          },
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye)))), scale(choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye))))))",
+            "operations": 10,
+            "depth": 8,
+            "inputValue": 0,
+            "coefficient": 15,
+            "contribution": 0
+          }
+        ],
+        "computedSum": 8
+      },
+      "right": {
+        "terms": [
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((12 \u2212 (left eye \u002B right eye)); [-1048576,0): 15; [0,1048576): 0), 5, 8), 8)",
+            "operations": 5,
+            "depth": 5,
+            "inputValue": 8,
+            "coefficient": 15,
+            "contribution": 8
+          },
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye)))), scale(choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye))))))",
+            "operations": 10,
+            "depth": 8,
+            "inputValue": 0,
+            "coefficient": -15,
+            "contribution": 0
+          }
+        ],
+        "computedSum": 8
+      },
+      "lastLeftEdit": null,
+      "lastRightEdit": null
+    },
+    {
+      "index": 27,
+      "processingTerms": 4,
+      "marketTermLimit": 8,
+      "operations": 15,
+      "marketOperationBudgetPerMuscle": 24,
+      "processingGraph": {
+        "Relations": 1123,
+        "Carriers": 121,
+        "Sites": 382
+      },
+      "feedback": [
+        {
+          "value": 15,
+          "period": 4,
+          "recipe": "choose(bands((fullness \u2212 12); [-1048576,0): 15; [0,1048576): 0), 15, choose(bands((13 \u2212 fullness); [-1048576,0): 15; [0,1048576): 0), 0, 15))",
+          "operations": 6
+        }
+      ],
+      "left": {
+        "terms": [
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((12 \u2212 (left eye \u002B right eye)); [-1048576,0): 15; [0,1048576): 0), 5, 8), 8)",
+            "operations": 5,
+            "depth": 5,
+            "inputValue": 5,
+            "coefficient": 15,
+            "contribution": 5
+          },
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye)))), scale(choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye))))))",
+            "operations": 10,
+            "depth": 8,
+            "inputValue": 0,
+            "coefficient": 15,
+            "contribution": 0
+          }
+        ],
+        "computedSum": 5
+      },
+      "right": {
+        "terms": [
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((12 \u2212 (left eye \u002B right eye)); [-1048576,0): 15; [0,1048576): 0), 5, 8), 8)",
+            "operations": 5,
+            "depth": 5,
+            "inputValue": 5,
+            "coefficient": 15,
+            "contribution": 5
+          },
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye)))), scale(choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye))))))",
+            "operations": 10,
+            "depth": 8,
+            "inputValue": 0,
+            "coefficient": -15,
+            "contribution": 0
+          }
+        ],
+        "computedSum": 5
+      },
+      "lastLeftEdit": null,
+      "lastRightEdit": null
+    },
+    {
+      "index": 28,
+      "processingTerms": 4,
+      "marketTermLimit": 8,
+      "operations": 15,
+      "marketOperationBudgetPerMuscle": 24,
+      "processingGraph": {
+        "Relations": 1123,
+        "Carriers": 121,
+        "Sites": 382
+      },
+      "feedback": [
+        {
+          "value": 15,
+          "period": 4,
+          "recipe": "choose(bands((fullness \u2212 12); [-1048576,0): 15; [0,1048576): 0), 15, choose(bands((13 \u2212 fullness); [-1048576,0): 15; [0,1048576): 0), 0, 15))",
+          "operations": 6
+        }
+      ],
+      "left": {
+        "terms": [
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((12 \u2212 (left eye \u002B right eye)); [-1048576,0): 15; [0,1048576): 0), 5, 8), 8)",
+            "operations": 5,
+            "depth": 5,
+            "inputValue": 5,
+            "coefficient": 15,
+            "contribution": 5
+          },
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye)))), scale(choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye))))))",
+            "operations": 10,
+            "depth": 8,
+            "inputValue": 0,
+            "coefficient": 15,
+            "contribution": 0
+          }
+        ],
+        "computedSum": 5
+      },
+      "right": {
+        "terms": [
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((12 \u2212 (left eye \u002B right eye)); [-1048576,0): 15; [0,1048576): 0), 5, 8), 8)",
+            "operations": 5,
+            "depth": 5,
+            "inputValue": 5,
+            "coefficient": 15,
+            "contribution": 5
+          },
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye)))), scale(choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye))))))",
+            "operations": 10,
+            "depth": 8,
+            "inputValue": 0,
+            "coefficient": -15,
+            "contribution": 0
+          }
+        ],
+        "computedSum": 5
+      },
+      "lastLeftEdit": null,
+      "lastRightEdit": null
+    },
+    {
+      "index": 29,
+      "processingTerms": 4,
+      "marketTermLimit": 8,
+      "operations": 15,
+      "marketOperationBudgetPerMuscle": 24,
+      "processingGraph": {
+        "Relations": 1123,
+        "Carriers": 121,
+        "Sites": 382
+      },
+      "feedback": [
+        {
+          "value": 15,
+          "period": 4,
+          "recipe": "choose(bands((fullness \u2212 12); [-1048576,0): 15; [0,1048576): 0), 15, choose(bands((13 \u2212 fullness); [-1048576,0): 15; [0,1048576): 0), 0, 15))",
+          "operations": 6
+        }
+      ],
+      "left": {
+        "terms": [
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((12 \u2212 (left eye \u002B right eye)); [-1048576,0): 15; [0,1048576): 0), 5, 8), 8)",
+            "operations": 5,
+            "depth": 5,
+            "inputValue": 8,
+            "coefficient": 15,
+            "contribution": 8
+          },
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye)))), scale(choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye))))))",
+            "operations": 10,
+            "depth": 8,
+            "inputValue": 0,
+            "coefficient": 15,
+            "contribution": 0
+          }
+        ],
+        "computedSum": 8
+      },
+      "right": {
+        "terms": [
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((12 \u2212 (left eye \u002B right eye)); [-1048576,0): 15; [0,1048576): 0), 5, 8), 8)",
+            "operations": 5,
+            "depth": 5,
+            "inputValue": 8,
+            "coefficient": 15,
+            "contribution": 8
+          },
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye)))), scale(choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye))))))",
+            "operations": 10,
+            "depth": 8,
+            "inputValue": 0,
+            "coefficient": -15,
+            "contribution": 0
+          }
+        ],
+        "computedSum": 8
+      },
+      "lastLeftEdit": null,
+      "lastRightEdit": null
+    },
+    {
+      "index": 30,
+      "processingTerms": 4,
+      "marketTermLimit": 8,
+      "operations": 15,
+      "marketOperationBudgetPerMuscle": 24,
+      "processingGraph": {
+        "Relations": 1123,
+        "Carriers": 121,
+        "Sites": 382
+      },
+      "feedback": [
+        {
+          "value": 15,
+          "period": 4,
+          "recipe": "choose(bands((fullness \u2212 12); [-1048576,0): 15; [0,1048576): 0), 15, choose(bands((13 \u2212 fullness); [-1048576,0): 15; [0,1048576): 0), 0, 15))",
+          "operations": 6
+        }
+      ],
+      "left": {
+        "terms": [
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((12 \u2212 (left eye \u002B right eye)); [-1048576,0): 15; [0,1048576): 0), 5, 8), 8)",
+            "operations": 5,
+            "depth": 5,
+            "inputValue": 5,
+            "coefficient": 15,
+            "contribution": 5
+          },
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye)))), scale(choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye))))))",
+            "operations": 10,
+            "depth": 8,
+            "inputValue": 8,
+            "coefficient": 15,
+            "contribution": 8
+          }
+        ],
+        "computedSum": 13
+      },
+      "right": {
+        "terms": [
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((12 \u2212 (left eye \u002B right eye)); [-1048576,0): 15; [0,1048576): 0), 5, 8), 8)",
+            "operations": 5,
+            "depth": 5,
+            "inputValue": 5,
+            "coefficient": 15,
+            "contribution": 5
+          },
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye)))), scale(choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye))))))",
+            "operations": 10,
+            "depth": 8,
+            "inputValue": 8,
+            "coefficient": -15,
+            "contribution": -8
+          }
+        ],
+        "computedSum": -3
+      },
+      "lastLeftEdit": null,
+      "lastRightEdit": null
+    },
+    {
+      "index": 31,
+      "processingTerms": 4,
+      "marketTermLimit": 8,
+      "operations": 15,
+      "marketOperationBudgetPerMuscle": 24,
+      "processingGraph": {
+        "Relations": 1123,
+        "Carriers": 121,
+        "Sites": 382
+      },
+      "feedback": [
+        {
+          "value": 15,
+          "period": 4,
+          "recipe": "choose(bands((fullness \u2212 12); [-1048576,0): 15; [0,1048576): 0), 15, choose(bands((13 \u2212 fullness); [-1048576,0): 15; [0,1048576): 0), 0, 15))",
+          "operations": 6
+        }
+      ],
+      "left": {
+        "terms": [
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((12 \u2212 (left eye \u002B right eye)); [-1048576,0): 15; [0,1048576): 0), 5, 8), 8)",
+            "operations": 5,
+            "depth": 5,
+            "inputValue": 5,
+            "coefficient": 15,
+            "contribution": 5
+          },
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye)))), scale(choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye))))))",
+            "operations": 10,
+            "depth": 8,
+            "inputValue": 0,
+            "coefficient": 15,
+            "contribution": 0
+          }
+        ],
+        "computedSum": 5
+      },
+      "right": {
+        "terms": [
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((12 \u2212 (left eye \u002B right eye)); [-1048576,0): 15; [0,1048576): 0), 5, 8), 8)",
+            "operations": 5,
+            "depth": 5,
+            "inputValue": 5,
+            "coefficient": 15,
+            "contribution": 5
+          },
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye)))), scale(choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye))))))",
+            "operations": 10,
+            "depth": 8,
+            "inputValue": 0,
+            "coefficient": -15,
+            "contribution": 0
+          }
+        ],
+        "computedSum": 5
+      },
+      "lastLeftEdit": null,
+      "lastRightEdit": null
+    },
+    {
+      "index": 32,
+      "processingTerms": 4,
+      "marketTermLimit": 8,
+      "operations": 15,
+      "marketOperationBudgetPerMuscle": 24,
+      "processingGraph": {
+        "Relations": 1123,
+        "Carriers": 121,
+        "Sites": 382
+      },
+      "feedback": [
+        {
+          "value": 15,
+          "period": 4,
+          "recipe": "choose(bands((fullness \u2212 12); [-1048576,0): 15; [0,1048576): 0), 15, choose(bands((13 \u2212 fullness); [-1048576,0): 15; [0,1048576): 0), 0, 15))",
+          "operations": 6
+        }
+      ],
+      "left": {
+        "terms": [
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((12 \u2212 (left eye \u002B right eye)); [-1048576,0): 15; [0,1048576): 0), 5, 8), 8)",
+            "operations": 5,
+            "depth": 5,
+            "inputValue": 8,
+            "coefficient": 15,
+            "contribution": 8
+          },
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye)))), scale(choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye))))))",
+            "operations": 10,
+            "depth": 8,
+            "inputValue": 0,
+            "coefficient": 15,
+            "contribution": 0
+          }
+        ],
+        "computedSum": 8
+      },
+      "right": {
+        "terms": [
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((12 \u2212 (left eye \u002B right eye)); [-1048576,0): 15; [0,1048576): 0), 5, 8), 8)",
+            "operations": 5,
+            "depth": 5,
+            "inputValue": 8,
+            "coefficient": 15,
+            "contribution": 8
+          },
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye)))), scale(choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye))))))",
+            "operations": 10,
+            "depth": 8,
+            "inputValue": 0,
+            "coefficient": -15,
+            "contribution": 0
+          }
+        ],
+        "computedSum": 8
+      },
+      "lastLeftEdit": null,
+      "lastRightEdit": null
+    },
+    {
+      "index": 33,
+      "processingTerms": 4,
+      "marketTermLimit": 8,
+      "operations": 15,
+      "marketOperationBudgetPerMuscle": 24,
+      "processingGraph": {
+        "Relations": 1123,
+        "Carriers": 121,
+        "Sites": 382
+      },
+      "feedback": [
+        {
+          "value": 15,
+          "period": 4,
+          "recipe": "choose(bands((fullness \u2212 12); [-1048576,0): 15; [0,1048576): 0), 15, choose(bands((13 \u2212 fullness); [-1048576,0): 15; [0,1048576): 0), 0, 15))",
+          "operations": 6
+        }
+      ],
+      "left": {
+        "terms": [
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((12 \u2212 (left eye \u002B right eye)); [-1048576,0): 15; [0,1048576): 0), 5, 8), 8)",
+            "operations": 5,
+            "depth": 5,
+            "inputValue": 8,
+            "coefficient": 15,
+            "contribution": 8
+          },
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye)))), scale(choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye))))))",
+            "operations": 10,
+            "depth": 8,
+            "inputValue": 0,
+            "coefficient": 15,
+            "contribution": 0
+          }
+        ],
+        "computedSum": 8
+      },
+      "right": {
+        "terms": [
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((12 \u2212 (left eye \u002B right eye)); [-1048576,0): 15; [0,1048576): 0), 5, 8), 8)",
+            "operations": 5,
+            "depth": 5,
+            "inputValue": 8,
+            "coefficient": 15,
+            "contribution": 8
+          },
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(15, choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye)))), scale(choose(bands((8 \u2212 scale((right eye \u2212 left eye))); [-1048576,0): 15; [0,1048576): 0), 8, choose(bands((scale((right eye \u2212 left eye)) \u2212 -8); [-1048576,0): 15; [0,1048576): 0), -8, scale((right eye \u2212 left eye))))))",
+            "operations": 10,
+            "depth": 8,
+            "inputValue": 0,
+            "coefficient": -15,
+            "contribution": 0
+          }
+        ],
+        "computedSum": 8
+      },
+      "lastLeftEdit": null,
+      "lastRightEdit": null
+    }
+  ]
+}

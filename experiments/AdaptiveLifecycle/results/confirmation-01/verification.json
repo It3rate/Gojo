@@ -1,0 +1,87 @@
+{
+  "command": "dotnet test Gojo.slnx -c Release",
+  "checks": [
+    {
+      "project": "Gojo.Tests",
+      "resultPath": "D:\\source\\repos\\It3rate\\Gojo-phototaxis\\Gojo.Tests\\TestResults\\adaptive-lifecycle-gate_net10.0_20261011203200.trx",
+      "total": 1009,
+      "passed": 1009,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "project": "Gojo.Encoding.Tests",
+      "resultPath": "D:\\source\\repos\\It3rate\\Gojo-phototaxis\\Gojo.Encoding.Tests\\TestResults\\adaptive-lifecycle-gate_net10.0_20261011203238.trx",
+      "total": 725,
+      "passed": 725,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "project": "Gojo.GearShapeLadder.Tests",
+      "resultPath": "D:\\source\\repos\\It3rate\\Gojo-phototaxis\\Gojo.GearShapeLadder.Tests\\TestResults\\adaptive-lifecycle-gate_net10.0_20261011203201.trx",
+      "total": 21,
+      "passed": 21,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "project": "GojoCAD.Tests",
+      "resultPath": "D:\\source\\repos\\It3rate\\Gojo-phototaxis\\GojoCAD.Tests\\TestResults\\adaptive-lifecycle-gate_net10.0_20261011203247.trx",
+      "total": 155,
+      "passed": 155,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "project": "experiments/Phototaxis.Tests",
+      "resultPath": "D:\\source\\repos\\It3rate\\Gojo-phototaxis\\experiments\\Phototaxis.Tests\\TestResults\\adaptive-lifecycle-gate_net10.0_20261011203239.trx",
+      "total": 129,
+      "passed": 129,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "project": "experiments/PrimitiveForager.Tests",
+      "resultPath": "D:\\source\\repos\\It3rate\\Gojo-phototaxis\\experiments\\PrimitiveForager.Tests\\TestResults\\adaptive-lifecycle-gate_net10.0_20261011203240.trx",
+      "total": 6,
+      "passed": 6,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "project": "experiments/PrimitiveLearning.Tests",
+      "resultPath": "D:\\source\\repos\\It3rate\\Gojo-phototaxis\\experiments\\PrimitiveLearning.Tests\\TestResults\\adaptive-lifecycle-gate_net10.0_20261011203224.trx",
+      "total": 64,
+      "passed": 64,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "project": "experiments/CompositeEmergence.Tests",
+      "resultPath": "D:\\source\\repos\\It3rate\\Gojo-phototaxis\\experiments\\CompositeEmergence.Tests\\TestResults\\adaptive-lifecycle-gate_net10.0_20261011203301.trx",
+      "total": 66,
+      "passed": 66,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "project": "experiments/AdaptiveLifecycle.Tests",
+      "resultPath": "D:\\source\\repos\\It3rate\\Gojo-phototaxis\\experiments\\AdaptiveLifecycle.Tests\\TestResults\\adaptive-lifecycle-gate_net10.0_20261011203252.trx",
+      "total": 25,
+      "passed": 25,
+      "failed": 0,
+      "skipped": 0
+    }
+  ],
+  "total": 2200,
+  "passed": 2200,
+  "failed": 0,
+  "skipped": 0,
+  "sourceArchive": {
+    "filename": "source.zip",
+    "entries": 132,
+    "sourceHashesChecked": 127,
+    "allMatched": true
+  }
+}

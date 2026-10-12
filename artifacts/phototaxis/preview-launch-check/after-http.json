@@ -1,0 +1,23 @@
+[
+  {
+    "Path": "/",
+    "Status": 200,
+    "ContentType": "text/html",
+    "CacheControl": "no-store",
+    "Isolation": "same-origin/require-corp"
+  },
+  {
+    "Path": "/app.css",
+    "Status": 200,
+    "ContentType": "text/css",
+    "CacheControl": "no-store",
+    "Isolation": "same-origin/require-corp"
+  },
+  {
+    "Path": "/_framework/Avalonia.Base.1ecibae0da.wasm",
+    "Status": 200,
+    "ContentType": "application/wasm",
+    "CacheControl": "no-store",
+    "Isolation": "same-origin/require-corp"
+  }
+]

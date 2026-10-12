@@ -1,0 +1,44 @@
+{
+  "secondsToRun": 15,
+  "warmupSeconds": 5,
+  "cognitive": true,
+  "Ecology": {
+    "LightRadius": 72,
+    "LightOnScale": 1,
+    "PatchHarvestPerPulse": 36,
+    "LightDriftSpeed": 1.5
+  },
+  "ArenaScale": 1,
+  "fixedResources": true,
+  "nativeAssembly": "9512ada5-e09a-48ed-b1cd-f2edff2231a9",
+  "backend": "Compact",
+  "wallSeconds": 3.8777596,
+  "actualSpeed": 3.86821297534793,
+  "alive": 20,
+  "allocatedBytes": 1394149536,
+  "collections": [
+    231,
+    80,
+    9
+  ],
+  "execution": {
+    "batches": 31293,
+    "planBuilds": 160,
+    "cacheHits": 29017,
+    "numericSteps": 340033,
+    "fallbacks": 0,
+    "deferredBatches": 1816
+  },
+  "stateDigest": "4E7038F13700E98DC097AAAD3B0A466037F5FA7610F1C638BC85A207A71BAA13",
+  "phases": {
+    "supply": 0.0348719,
+    "cognition": 1.4905952,
+    "eyes": 0.1622691,
+    "circuit": 1.5640168,
+    "motion-prediction": 0.3321348,
+    "work-photosynthesis-search": 0.286448,
+    "environment-mating": 0.0072923
+  },
+  "mode": "warm",
+  "pass": 1
+}

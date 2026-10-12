@@ -1,0 +1,63 @@
+{
+  "generatedUtc": "2026-10-12T11:22:20.575719+00:00",
+  "baselineBranch": "codex/phototaxis-market",
+  "baselineHead": "87afe56c2b81621a3261ad13f141c43cfac98ede",
+  "files": [
+    {
+      "path": "experiments/UtilityEcology/Program.cs",
+      "backup": "Program.cs.baseline",
+      "before": "7d67ceff53b195588f42e7d126ee738fbb2657b470625996791949d7702d938e",
+      "after": "a4ab665708dbde49e44014d0ea906b0546f7fe0ac9e7656bcd3acf310537187f"
+    },
+    {
+      "path": "experiments/UtilityEcology/README.md",
+      "backup": "README.md",
+      "before": "23932970cdd1b5c3561d78799cf9be81ef0c1c21095477fd23912bc2f1fdcbc4",
+      "after": "a02f183f26b747677d93522564e143cf4927d8b9d11414b34674df2851bc1ccb"
+    },
+    {
+      "path": "experiments/UtilityEcology/SeededProvider.cs",
+      "backup": null,
+      "before": null,
+      "after": "0eb0367a4dcfbfba4581f334fdcc45b81a7c3704220a91f17c390f6790d37be2"
+    },
+    {
+      "path": "experiments/UtilityEcology/SeedTrial.cs",
+      "backup": null,
+      "before": null,
+      "after": "6216466add92630739125fd84be72200993a6725ad569b91a2740ee1def52e31"
+    },
+    {
+      "path": "experiments/UtilityEcology/SeedTrialArchive.cs",
+      "backup": null,
+      "before": null,
+      "after": "249ed84b1001c06ab5d35794637a8103779ed626c00f8b70ea0e06ecf31b2514"
+    },
+    {
+      "path": "experiments/UtilityEcology/SeedTrialProgram.cs",
+      "backup": null,
+      "before": null,
+      "after": "104e2ab9bf438a3005bb911abb4505ff0ea79f67017fcc669371019cd103541d"
+    },
+    {
+      "path": "experiments/UtilityEcology/SeedTrialRunner.cs",
+      "backup": null,
+      "before": null,
+      "after": "0e2c1b894787fd571d464c605dbe334e751506143d7dbd5cfff0d7e70ae56364"
+    },
+    {
+      "path": "experiments/UtilityEcology.Tests/SeedTrialTests.cs",
+      "backup": null,
+      "before": null,
+      "after": "8abb1637a283e93fb9c7a091e09f7d498f052abbf0f844f91f683e56297087f6"
+    },
+    {
+      "path": "experiments/UtilityEcology.Tests/SeedTrialRunnerTests.cs",
+      "backup": null,
+      "before": null,
+      "after": "33ba114fb9c49a31fd8f5f31bf58da232672439dc2a4f02df1c8dc1cdbbee2fe"
+    }
+  ],
+  "retained": "Reports, raw studies, snapshots, review, analysis tools, audit evidence and unrelated prior work.",
+  "updatedUtc": "2026-10-12T11:25:44.091901+00:00"
+}

@@ -1,0 +1,22 @@
+{
+  "status": "complete",
+  "settings": {
+    "seeds": 1,
+    "seedStart": 0,
+    "discoveryTrain": 320,
+    "consumerTrain": 96,
+    "testEpisodes": 128,
+    "refreshTrain": 384,
+    "refreshTest": 256,
+    "switchProbability": 0.04,
+    "probePrice": 1,
+    "pilot": true
+  },
+  "startedUtc": "2026-10-11T23:40:31.6433474Z",
+  "finishedUtc": "2026-10-11T23:40:56.9208850Z",
+  "elapsedSeconds": 25.3144747,
+  "resultRows": 107,
+  "trainingEvents": 4544,
+  "evaluations": 19840,
+  "paidJevCalls": 0
+}

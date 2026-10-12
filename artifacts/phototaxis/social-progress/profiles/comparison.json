@@ -1,0 +1,193 @@
+{
+  "simulatedSeconds": 15,
+  "population": 20,
+  "separateProcesses": true,
+  "constructionExcluded": true,
+  "warmupIncluded": true,
+  "uiPresent": false,
+  "groups": [
+    {
+      "treatment": "baseline",
+      "medianWall": 5.6218898,
+      "meanWall": 6.784583233333334,
+      "medianSpeed": 2.668141947570726,
+      "meanAllocation": 2056351896.0,
+      "allTwentyAlive": true,
+      "rows": [
+        {
+          "treatment": "baseline",
+          "pass": 1,
+          "wall": 5.3354816,
+          "speed": 2.8113675811383176,
+          "alive": 20,
+          "allocation": 2056277432,
+          "phases": {
+            "supply": 0.034724,
+            "cognition": 2.2233447,
+            "eyes": 0.1620009,
+            "circuit": 2.0224661,
+            "motion-prediction": 0.4393847,
+            "work-photosynthesis-search": 0.4357563,
+            "environment-mating": 0.0163113
+          }
+        },
+        {
+          "treatment": "baseline",
+          "pass": 2,
+          "wall": 5.6218898,
+          "speed": 2.668141947570726,
+          "alive": 20,
+          "allocation": 2056373048,
+          "phases": {
+            "supply": 0.0581847,
+            "cognition": 2.2634511,
+            "eyes": 0.1186135,
+            "circuit": 2.2916067,
+            "motion-prediction": 0.4136295,
+            "work-photosynthesis-search": 0.459942,
+            "environment-mating": 0.0145926
+          }
+        },
+        {
+          "treatment": "baseline",
+          "pass": 3,
+          "wall": 9.3963783,
+          "speed": 1.596359737879008,
+          "alive": 20,
+          "allocation": 2056405208,
+          "phases": {
+            "supply": 0.0653301,
+            "cognition": 4.0596415,
+            "eyes": 0.2974601,
+            "circuit": 3.5728829,
+            "motion-prediction": 0.7647244,
+            "work-photosynthesis-search": 0.6044748,
+            "environment-mating": 0.0304197
+          }
+        }
+      ]
+    },
+    {
+      "treatment": "combined",
+      "medianWall": 5.8718495,
+      "meanWall": 5.961959966666666,
+      "medianSpeed": 2.554561386493302,
+      "meanAllocation": 2369466018.6666665,
+      "allTwentyAlive": true,
+      "rows": [
+        {
+          "treatment": "combined",
+          "pass": 1,
+          "wall": 6.2166419,
+          "speed": 2.4128782454077013,
+          "alive": 20,
+          "allocation": 2369563336,
+          "phases": {
+            "supply": 0.0223387,
+            "cognition": 2.2990188,
+            "eyes": 0.1061347,
+            "circuit": 2.926188,
+            "motion-prediction": 0.4202394,
+            "work-photosynthesis-search": 0.4064048,
+            "environment-mating": 0.0344487
+          }
+        },
+        {
+          "treatment": "combined",
+          "pass": 2,
+          "wall": 5.8718495,
+          "speed": 2.554561386493302,
+          "alive": 20,
+          "allocation": 2369302000,
+          "phases": {
+            "supply": 0.027506,
+            "cognition": 2.2144678,
+            "eyes": 0.1429758,
+            "circuit": 2.7345834,
+            "motion-prediction": 0.3801184,
+            "work-photosynthesis-search": 0.3429954,
+            "environment-mating": 0.0276341
+          }
+        },
+        {
+          "treatment": "combined",
+          "pass": 3,
+          "wall": 5.7973885,
+          "speed": 2.587371883046996,
+          "alive": 20,
+          "allocation": 2369532720,
+          "phases": {
+            "supply": 0.0166782,
+            "cognition": 2.0280108,
+            "eyes": 0.1285245,
+            "circuit": 2.8516074,
+            "motion-prediction": 0.4102311,
+            "work-photosynthesis-search": 0.3329611,
+            "environment-mating": 0.0277671
+          }
+        }
+      ]
+    },
+    {
+      "treatment": "larger",
+      "medianWall": 5.9840215,
+      "meanWall": 5.867944033333333,
+      "medianSpeed": 2.5066754857080644,
+      "meanAllocation": 2405594685.3333335,
+      "allTwentyAlive": true,
+      "rows": [
+        {
+          "treatment": "larger",
+          "pass": 1,
+          "wall": 6.0747318,
+          "speed": 2.4692448150550446,
+          "alive": 20,
+          "allocation": 2405431216,
+          "phases": {
+            "supply": 0.0509216,
+            "cognition": 2.2449345,
+            "eyes": 0.1718279,
+            "circuit": 2.741731,
+            "motion-prediction": 0.4724875,
+            "work-photosynthesis-search": 0.3741891,
+            "environment-mating": 0.0171151
+          }
+        },
+        {
+          "treatment": "larger",
+          "pass": 2,
+          "wall": 5.9840215,
+          "speed": 2.5066754857080644,
+          "alive": 20,
+          "allocation": 2405852112,
+          "phases": {
+            "supply": 0.0133233,
+            "cognition": 2.0747856,
+            "eyes": 0.1661816,
+            "circuit": 2.9444693,
+            "motion-prediction": 0.4149966,
+            "work-photosynthesis-search": 0.3387127,
+            "environment-mating": 0.0298707
+          }
+        },
+        {
+          "treatment": "larger",
+          "pass": 3,
+          "wall": 5.5450788,
+          "speed": 2.705101323357208,
+          "alive": 20,
+          "allocation": 2405500728,
+          "phases": {
+            "supply": 0.0195098,
+            "cognition": 1.9423452,
+            "eyes": 0.1043991,
+            "circuit": 2.7613711,
+            "motion-prediction": 0.3515086,
+            "work-photosynthesis-search": 0.3510892,
+            "environment-mating": 0.0136243
+          }
+        }
+      ]
+    }
+  ]
+}

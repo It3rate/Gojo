@@ -1,0 +1,30 @@
+[
+  {
+    "model": "relation",
+    "signatureMatch": true,
+    "behaviorMatch": true,
+    "bytes": 238387,
+    "path": "relation.gojo"
+  },
+  {
+    "model": "consumer",
+    "signatureMatch": true,
+    "behaviorMatch": true,
+    "bytes": 71294,
+    "path": "consumer.gojo"
+  },
+  {
+    "model": "refresh-0",
+    "signatureMatch": true,
+    "behaviorMatch": true,
+    "bytes": 104543,
+    "path": "refresh-0.gojo"
+  },
+  {
+    "model": "refresh-4",
+    "signatureMatch": true,
+    "behaviorMatch": true,
+    "bytes": 98781,
+    "path": "refresh-4.gojo"
+  }
+]

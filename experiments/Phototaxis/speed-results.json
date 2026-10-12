@@ -1,0 +1,80 @@
+[
+  {
+    "seed": 7,
+    "learning": false,
+    "population": 20,
+    "seconds": 60,
+    "elapsedSeconds": 7.6318158,
+    "actualSpeed": 7.861824967001955,
+    "allocatedBytes": 2777371760,
+    "foodDots": 122.56,
+    "births": 8,
+    "caloriesConserved": true,
+    "attentionConserved": true
+  },
+  {
+    "seed": 7,
+    "learning": true,
+    "population": 20,
+    "seconds": 60,
+    "elapsedSeconds": 9.7239639,
+    "actualSpeed": 6.170323195050118,
+    "allocatedBytes": 3601192248,
+    "foodDots": 128.63,
+    "births": 10,
+    "caloriesConserved": true,
+    "attentionConserved": true
+  },
+  {
+    "seed": 7,
+    "learning": false,
+    "population": 5,
+    "seconds": 60,
+    "elapsedSeconds": 2.0247485,
+    "actualSpeed": 29.63331001356465,
+    "allocatedBytes": 697676152,
+    "foodDots": 31.17,
+    "births": 2,
+    "caloriesConserved": true,
+    "attentionConserved": true
+  },
+  {
+    "seed": 7,
+    "learning": true,
+    "population": 5,
+    "seconds": 60,
+    "elapsedSeconds": 1.6508163,
+    "actualSpeed": 36.345655176775274,
+    "allocatedBytes": 854594000,
+    "foodDots": 58.99,
+    "births": 0,
+    "caloriesConserved": true,
+    "attentionConserved": true
+  },
+  {
+    "seed": 7,
+    "learning": false,
+    "population": 1,
+    "seconds": 60,
+    "elapsedSeconds": 0.8294602,
+    "actualSpeed": 72.33620130296788,
+    "allocatedBytes": 155634096,
+    "foodDots": 1,
+    "births": 1,
+    "caloriesConserved": true,
+    "attentionConserved": true
+  },
+  {
+    "seed": 7,
+    "learning": true,
+    "population": 1,
+    "seconds": 60,
+    "elapsedSeconds": 0.5705866,
+    "actualSpeed": 105.15494054714918,
+    "allocatedBytes": 175311304,
+    "foodDots": 15.16,
+    "births": 0,
+    "caloriesConserved": true,
+    "attentionConserved": true
+  }
+]

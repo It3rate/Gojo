@@ -1,0 +1,636 @@
+{
+  "roots": 1,
+  "ticks": 6000,
+  "population": 7,
+  "calories": 20000000,
+  "attention": 10000000,
+  "circuits": [
+    {
+      "index": 1,
+      "learnedTerms": 8,
+      "marketTermLimit": 8,
+      "operations": 0,
+      "operationBudgetPerMuscle": 24,
+      "processingGraph": {
+        "Relations": 967,
+        "Carriers": 106,
+        "Sites": 307
+      },
+      "left": {
+        "terms": [
+          {
+            "input": "constant",
+            "sourceIndex": 0,
+            "expression": "15",
+            "operations": 0,
+            "depth": 0,
+            "inputValue": 15,
+            "coefficient": 4,
+            "contribution": 4
+          },
+          {
+            "input": "left eye",
+            "sourceIndex": 1,
+            "expression": "left eye",
+            "operations": 0,
+            "depth": 0,
+            "inputValue": 1,
+            "coefficient": 6,
+            "contribution": 0
+          },
+          {
+            "input": "right eye",
+            "sourceIndex": 2,
+            "expression": "right eye",
+            "operations": 0,
+            "depth": 0,
+            "inputValue": 1,
+            "coefficient": -6,
+            "contribution": 0
+          },
+          {
+            "input": "energy deficit",
+            "sourceIndex": 3,
+            "expression": "hunger",
+            "operations": 0,
+            "depth": 0,
+            "inputValue": 7,
+            "coefficient": 6,
+            "contribution": 2
+          }
+        ],
+        "computedSum": 6
+      },
+      "right": {
+        "terms": [
+          {
+            "input": "constant",
+            "sourceIndex": 0,
+            "expression": "15",
+            "operations": 0,
+            "depth": 0,
+            "inputValue": 15,
+            "coefficient": 4,
+            "contribution": 4
+          },
+          {
+            "input": "right eye",
+            "sourceIndex": 2,
+            "expression": "right eye",
+            "operations": 0,
+            "depth": 0,
+            "inputValue": 1,
+            "coefficient": 6,
+            "contribution": 0
+          },
+          {
+            "input": "left eye",
+            "sourceIndex": 1,
+            "expression": "left eye",
+            "operations": 0,
+            "depth": 0,
+            "inputValue": 1,
+            "coefficient": -6,
+            "contribution": 0
+          },
+          {
+            "input": "energy deficit",
+            "sourceIndex": 3,
+            "expression": "hunger",
+            "operations": 0,
+            "depth": 0,
+            "inputValue": 7,
+            "coefficient": 6,
+            "contribution": 2
+          }
+        ],
+        "computedSum": 6
+      },
+      "lastLeftEdit": {
+        "before": 3,
+        "after": 4
+      },
+      "lastRightEdit": {
+        "before": 3,
+        "after": 4
+      }
+    },
+    {
+      "index": 2,
+      "learnedTerms": 7,
+      "marketTermLimit": 8,
+      "operations": 0,
+      "operationBudgetPerMuscle": 24,
+      "processingGraph": {
+        "Relations": 865,
+        "Carriers": 96,
+        "Sites": 276
+      },
+      "left": {
+        "terms": [
+          {
+            "input": "constant",
+            "sourceIndex": 0,
+            "expression": "15",
+            "operations": 0,
+            "depth": 0,
+            "inputValue": 15,
+            "coefficient": 4,
+            "contribution": 4
+          },
+          {
+            "input": "left eye",
+            "sourceIndex": 1,
+            "expression": "left eye",
+            "operations": 0,
+            "depth": 0,
+            "inputValue": 2,
+            "coefficient": 6,
+            "contribution": 0
+          },
+          {
+            "input": "right eye",
+            "sourceIndex": 2,
+            "expression": "right eye",
+            "operations": 0,
+            "depth": 0,
+            "inputValue": 1,
+            "coefficient": -6,
+            "contribution": 0
+          },
+          {
+            "input": "energy deficit",
+            "sourceIndex": 3,
+            "expression": "hunger",
+            "operations": 0,
+            "depth": 0,
+            "inputValue": 10,
+            "coefficient": 6,
+            "contribution": 4
+          }
+        ],
+        "computedSum": 8
+      },
+      "right": {
+        "terms": [
+          {
+            "input": "constant",
+            "sourceIndex": 0,
+            "expression": "15",
+            "operations": 0,
+            "depth": 0,
+            "inputValue": 15,
+            "coefficient": 4,
+            "contribution": 4
+          },
+          {
+            "input": "right eye",
+            "sourceIndex": 2,
+            "expression": "right eye",
+            "operations": 0,
+            "depth": 0,
+            "inputValue": 1,
+            "coefficient": 6,
+            "contribution": 0
+          },
+          {
+            "input": "left eye",
+            "sourceIndex": 1,
+            "expression": "left eye",
+            "operations": 0,
+            "depth": 0,
+            "inputValue": 2,
+            "coefficient": -6,
+            "contribution": 0
+          }
+        ],
+        "computedSum": 4
+      },
+      "lastLeftEdit": {
+        "before": 3,
+        "after": 4
+      },
+      "lastRightEdit": {
+        "before": 2,
+        "after": 3
+      }
+    },
+    {
+      "index": 3,
+      "learnedTerms": 5,
+      "marketTermLimit": 8,
+      "operations": 0,
+      "operationBudgetPerMuscle": 24,
+      "processingGraph": {
+        "Relations": 604,
+        "Carriers": 69,
+        "Sites": 194
+      },
+      "left": {
+        "terms": [
+          {
+            "input": "constant",
+            "sourceIndex": 0,
+            "expression": "15",
+            "operations": 0,
+            "depth": 0,
+            "inputValue": 15,
+            "coefficient": 4,
+            "contribution": 4
+          },
+          {
+            "input": "left eye",
+            "sourceIndex": 1,
+            "expression": "left eye",
+            "operations": 0,
+            "depth": 0,
+            "inputValue": 1,
+            "coefficient": 6,
+            "contribution": 0
+          }
+        ],
+        "computedSum": 4
+      },
+      "right": {
+        "terms": [
+          {
+            "input": "constant",
+            "sourceIndex": 0,
+            "expression": "15",
+            "operations": 0,
+            "depth": 0,
+            "inputValue": 15,
+            "coefficient": 4,
+            "contribution": 4
+          },
+          {
+            "input": "right eye",
+            "sourceIndex": 2,
+            "expression": "right eye",
+            "operations": 0,
+            "depth": 0,
+            "inputValue": 1,
+            "coefficient": 6,
+            "contribution": 0
+          },
+          {
+            "input": "left eye",
+            "sourceIndex": 1,
+            "expression": "left eye",
+            "operations": 0,
+            "depth": 0,
+            "inputValue": 1,
+            "coefficient": -6,
+            "contribution": 0
+          }
+        ],
+        "computedSum": 4
+      },
+      "lastLeftEdit": {
+        "before": 1,
+        "after": 2
+      },
+      "lastRightEdit": {
+        "before": 2,
+        "after": 3
+      }
+    },
+    {
+      "index": 4,
+      "learnedTerms": 8,
+      "marketTermLimit": 8,
+      "operations": 12,
+      "operationBudgetPerMuscle": 24,
+      "processingGraph": {
+        "Relations": 1629,
+        "Carriers": 169,
+        "Sites": 559
+      },
+      "left": {
+        "terms": [
+          {
+            "input": "constant",
+            "sourceIndex": 0,
+            "expression": "15",
+            "operations": 0,
+            "depth": 0,
+            "inputValue": 15,
+            "coefficient": 4,
+            "contribution": 4
+          },
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(bands(right eye; [-1048576,0): 15; [0,1): 0; [1,1048576): 15), choose(bands(fullness; [-1048576,0): 15; [0,1): 0; [1,1048576): 15), 0, 15), choose(bands(fullness; [-1048576,0): 15; [0,1): 0; [1,1048576): 15), 15, 0))",
+            "operations": 5,
+            "depth": 3,
+            "inputValue": 0,
+            "coefficient": -6,
+            "contribution": 0
+          },
+          {
+            "input": "energy deficit",
+            "sourceIndex": 3,
+            "expression": "hunger",
+            "operations": 0,
+            "depth": 0,
+            "inputValue": 13,
+            "coefficient": 6,
+            "contribution": 5
+          },
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "scale((right eye \u00D7 fullness))",
+            "operations": 2,
+            "depth": 2,
+            "inputValue": 0,
+            "coefficient": 6,
+            "contribution": 0
+          }
+        ],
+        "computedSum": 9
+      },
+      "right": {
+        "terms": [
+          {
+            "input": "constant",
+            "sourceIndex": 0,
+            "expression": "15",
+            "operations": 0,
+            "depth": 0,
+            "inputValue": 15,
+            "coefficient": 4,
+            "contribution": 4
+          },
+          {
+            "input": "other input",
+            "sourceIndex": -1,
+            "expression": "choose(bands(left eye; [-1048576,0): 15; [0,1): 0; [1,1048576): 15), choose(bands(fullness; [-1048576,0): 15; [0,1): 0; [1,1048576): 15), 0, 15), choose(bands(fullness; [-1048576,0): 15; [0,1): 0; [1,1048576): 15), 15, 0))",
+            "operations": 5,
+            "depth": 3,
+            "inputValue": 0,
+            "coefficient": 0,
+            "contribution": 0
+          },
+          {
+            "input": "left eye",
+            "sourceIndex": 1,
+            "expression": "left eye",
+            "operations": 0,
+            "depth": 0,
+            "inputValue": 4,
+            "coefficient": -6,
+            "contribution": -1
+          },
+          {
+            "input": "energy deficit",
+            "sourceIndex": 3,
+            "expression": "hunger",
+            "operations": 0,
+            "depth": 0,
+            "inputValue": 13,
+            "coefficient": 6,
+            "contribution": 5
+          }
+        ],
+        "computedSum": 8
+      },
+      "lastLeftEdit": {
+        "before": 4,
+        "after": 4
+      },
+      "lastRightEdit": {
+        "before": 4,
+        "after": 4
+      }
+    },
+    {
+      "index": 5,
+      "learnedTerms": 6,
+      "marketTermLimit": 8,
+      "operations": 0,
+      "operationBudgetPerMuscle": 24,
+      "processingGraph": {
+        "Relations": 706,
+        "Carriers": 79,
+        "Sites": 225
+      },
+      "left": {
+        "terms": [
+          {
+            "input": "constant",
+            "sourceIndex": 0,
+            "expression": "15",
+            "operations": 0,
+            "depth": 0,
+            "inputValue": 15,
+            "coefficient": 4,
+            "contribution": 4
+          },
+          {
+            "input": "left eye",
+            "sourceIndex": 1,
+            "expression": "left eye",
+            "operations": 0,
+            "depth": 0,
+            "inputValue": 3,
+            "coefficient": 6,
+            "contribution": 1
+          },
+          {
+            "input": "right eye",
+            "sourceIndex": 2,
+            "expression": "right eye",
+            "operations": 0,
+            "depth": 0,
+            "inputValue": 4,
+            "coefficient": -6,
+            "contribution": -1
+          }
+        ],
+        "computedSum": 4
+      },
+      "right": {
+        "terms": [
+          {
+            "input": "constant",
+            "sourceIndex": 0,
+            "expression": "15",
+            "operations": 0,
+            "depth": 0,
+            "inputValue": 15,
+            "coefficient": 4,
+            "contribution": 4
+          },
+          {
+            "input": "right eye",
+            "sourceIndex": 2,
+            "expression": "right eye",
+            "operations": 0,
+            "depth": 0,
+            "inputValue": 4,
+            "coefficient": 6,
+            "contribution": 1
+          },
+          {
+            "input": "left eye",
+            "sourceIndex": 1,
+            "expression": "left eye",
+            "operations": 0,
+            "depth": 0,
+            "inputValue": 3,
+            "coefficient": -6,
+            "contribution": -1
+          }
+        ],
+        "computedSum": 4
+      },
+      "lastLeftEdit": {
+        "before": 2,
+        "after": 3
+      },
+      "lastRightEdit": {
+        "before": 2,
+        "after": 3
+      }
+    },
+    {
+      "index": 6,
+      "learnedTerms": 5,
+      "marketTermLimit": 8,
+      "operations": 0,
+      "operationBudgetPerMuscle": 24,
+      "processingGraph": {
+        "Relations": 661,
+        "Carriers": 76,
+        "Sites": 214
+      },
+      "left": {
+        "terms": [
+          {
+            "input": "constant",
+            "sourceIndex": 0,
+            "expression": "15",
+            "operations": 0,
+            "depth": 0,
+            "inputValue": 15,
+            "coefficient": 4,
+            "contribution": 4
+          },
+          {
+            "input": "right eye",
+            "sourceIndex": 2,
+            "expression": "right eye",
+            "operations": 0,
+            "depth": 0,
+            "inputValue": 10,
+            "coefficient": -6,
+            "contribution": -4
+          },
+          {
+            "input": "energy deficit",
+            "sourceIndex": 3,
+            "expression": "hunger",
+            "operations": 0,
+            "depth": 0,
+            "inputValue": 5,
+            "coefficient": 6,
+            "contribution": 2
+          }
+        ],
+        "computedSum": 2
+      },
+      "right": {
+        "terms": [
+          {
+            "input": "constant",
+            "sourceIndex": 0,
+            "expression": "15",
+            "operations": 0,
+            "depth": 0,
+            "inputValue": 15,
+            "coefficient": 4,
+            "contribution": 4
+          },
+          {
+            "input": "left eye",
+            "sourceIndex": 1,
+            "expression": "left eye",
+            "operations": 0,
+            "depth": 0,
+            "inputValue": 9,
+            "coefficient": -6,
+            "contribution": -3
+          }
+        ],
+        "computedSum": 1
+      },
+      "lastLeftEdit": {
+        "before": 4,
+        "after": 3
+      },
+      "lastRightEdit": {
+        "before": 3,
+        "after": 2
+      }
+    },
+    {
+      "index": 7,
+      "learnedTerms": 3,
+      "marketTermLimit": 8,
+      "operations": 0,
+      "operationBudgetPerMuscle": 24,
+      "processingGraph": {
+        "Relations": 363,
+        "Carriers": 43,
+        "Sites": 116
+      },
+      "left": {
+        "terms": [
+          {
+            "input": "constant",
+            "sourceIndex": 0,
+            "expression": "15",
+            "operations": 0,
+            "depth": 0,
+            "inputValue": 15,
+            "coefficient": 4,
+            "contribution": 4
+          },
+          {
+            "input": "left eye",
+            "sourceIndex": 1,
+            "expression": "left eye",
+            "operations": 0,
+            "depth": 0,
+            "inputValue": 8,
+            "coefficient": 6,
+            "contribution": 3
+          }
+        ],
+        "computedSum": 7
+      },
+      "right": {
+        "terms": [
+          {
+            "input": "constant",
+            "sourceIndex": 0,
+            "expression": "15",
+            "operations": 0,
+            "depth": 0,
+            "inputValue": 15,
+            "coefficient": 4,
+            "contribution": 4
+          }
+        ],
+        "computedSum": 4
+      },
+      "lastLeftEdit": {
+        "before": 1,
+        "after": 2
+      },
+      "lastRightEdit": null
+    }
+  ]
+}
