@@ -1,0 +1,21 @@
+{
+  "verifiedUtc": "2026-10-12T12:18:13.008430+00:00",
+  "commitVerified": "92bf0c947bd244213ce8cfb40ecafbc3ebcd742c",
+  "scope": "Independent fresh clone of the local committed branch; completed checkout using core.longpaths=true; all retained experiment data and current-source hashes checked. No experiment results rerun or replaced.",
+  "checks": {
+    "oversizedResultRestoredExact": true,
+    "historicalRecords789Exact": true,
+    "confirmationProductionSources140Exact": true,
+    "seedRollbackTargets9Exact": true,
+    "confirmationAnalyzer81920TasksPassed": true,
+    "seedRollbackPreviewPassedWithoutMutation": true,
+    "allNewNavigationLinksResolve": true,
+    "buildCachesExcluded": true
+  },
+  "priorSolutionGate": {
+    "passed": 2319,
+    "failed": 0,
+    "productionCodeUnchangedDuringPackaging": true
+  },
+  "nativeNumericArchives": "Declared binary in Git attributes to retain opaque transport and avoid treating numeric payloads as line-oriented source."
+}

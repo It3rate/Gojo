@@ -21,13 +21,14 @@ failed trials remain part of the record. Start with each study's report.
 ## Fresh checkout
 
 ```powershell
-git clone --branch codex/phototaxis-market https://github.com/It3rate/Gojo.git Gojo-phototaxis
+git clone -c core.longpaths=true --branch codex/phototaxis-market https://github.com/It3rate/Gojo.git Gojo-phototaxis
 cd Gojo-phototaxis
 python experiments/ResearchArchive/Restore-LargeResults.py --restore
 dotnet test Gojo.slnx -c Release
 ```
 
-Use Python 3.10 or later and .NET 10. The browser additionally needs the .NET
+Use Python 3.10 or later and .NET 10. The clone command enables Windows long-path
+support for the existing nested sample resources. The browser additionally needs the .NET
 WebAssembly workload for its browser project. The archive command restores one
 170 MiB forager result from a roughly 3 MiB lossless gzip. It checks both hashes,
 keeps identical existing files and refuses conflicting files. All other retained
