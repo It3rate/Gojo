@@ -4,6 +4,10 @@ This branch contains the swimming demo and the subsequent primitive-number,
 local-learning, composition and service-economy studies. Their limitations and
 failed trials remain part of the record. Start with each study's report.
 
+See [Primitive numbers and control](PRIMITIVE-NUMBER-ANALYSIS.md) for the conceptual
+mapping from presence, orientation and coarse regions to calibrated quantities,
+prediction and control, grounded in these experiments.
+
 | Study | Source and documentation | Retained results / review |
 | --- | --- | --- |
 | Phototaxis swimmers, compact backend and cognitive trials | [Simulation](Phototaxis/README.md), [browser launcher](Phototaxis.Browser/Start-Preview.ps1), [headless runner](Phototaxis.Runner/Program.cs) | [Earlier runs](../artifacts/phototaxis/) |
