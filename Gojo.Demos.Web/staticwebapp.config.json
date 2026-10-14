@@ -8,12 +8,14 @@
       "/sketch/*",
       "/core4/*",
       "/syntax/*",
+      "/minds/*",
       "/*.{css,js,wasm,json,dat,br,gz,png,ico,svg,gojo}"
     ]
   },
   "mimeTypes": {
     ".wasm": "application/wasm",
     ".gojo": "text/plain; charset=utf-8",
+    ".jsonl": "application/x-ndjson; charset=utf-8",
     ".svg": "image/svg+xml"
   }
 }

@@ -1,0 +1,40 @@
+gojo 1;
+
+// Source time describes the measured process. Local time orders availability,
+// issuance and assessment; it need not resemble the source's clock.
+let $quantity = carrier(); let $source_time = carrier(); let $local_time = carrier();
+let $latent = carrier(); let $steps = carrier();
+let $port = ports(span($quantity,0,1),$source_time);
+let $stream = group($port,?subject,?context,$local_time);
+let $initial = group($stream,?last_local,ports(),ports(),ports());
+let $direct = span($quantity,0,1) -> span($quantity,0,1);
+let $encode_inverse = span($quantity,0,1) -> span($latent,0,-1);
+let $decode_inverse = span($latent,0,-1) -> span($quantity,0,1);
+
+// Sensor samples are bound only when admitted. The future is an open input.
+let $observation = group($port,?source_event,?sample,?subject,?context);
+let $record_request = group(?state,?observation,?local_event);
+let $fit_request = group(?state,?first,?second,?encoding);
+let $candidate = group(?fit,?readout,?expectation);
+let $issue_request = group(?state,?candidate,?target,?local_event);
+let $assess_request = group(?state,?issue,?receipt,?local_event);
+
+let $record = action(ports(?state,?observation,?local_event),$record_request,
+    ports(?receipt,?next_state),?record_residue,?focus);
+let $fit_action = action(ports(?state,?first,?second,?encoding),$fit_request,
+    ports(?fit),?fit_residue,?focus);
+let $issue_action = action(ports(?state,?candidate,?target,?local_event),$issue_request,
+    ports(?issue,?next_state),?issue_residue,?focus);
+let $assess = action(ports(?state,?issue,?receipt,?local_event),$assess_request,
+    ports(?assessment,?next_state),?assessment_residue,?focus);
+let $actions = group($record,$fit_action,$issue_action,$assess);
+let $feedback = group(?next_state -> ?state,?receipt -> ?second,?second -> ?first);
+
+root $initial;
+root group($direct,$encode_inverse,$decode_inverse);
+root group($observation,$record_request,$fit_request,$candidate,$issue_request,$assess_request);
+root ports(?state,?source_event,?sample,?observation,?local_event,?first,?second,
+    ?encoding,?fit,?readout,?candidate,?target,?issue,?receipt);
+// This declares available transitions and their correspondence. The driver still
+// selects local actions and supplies clock events; this is not an auto scheduler.
+root repeat(?focus,count($steps,12),$actions,$feedback,?remaining,timeline($steps,$initial));

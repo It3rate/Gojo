@@ -1,0 +1,112 @@
+# Experiment 03: predictions before observations
+
+Protocol: `predictions-v1`. Exploratory, selected before the first study run.
+No kernel changes, policy tuning, randomness, or autonomous family selection.
+
+## Question and selected rules
+
+Does continuing the line through the two most recent known samples help predict
+the next observation? When does holding the last value work better?
+
+Reuse the existing `prospective-calibration.gojo` fixture and
+`LocalCalibration.Forecast` readers. For each scheduled target:
+
+1. Give the participant only the target's source time, not its value.
+2. Select the two latest concrete receipts in its connected history. Missing
+   receipts remain open and are skipped for fitting. With fewer than two known
+   samples, record insufficient history and issue nothing.
+3. Fit the selected affine frame and issue the forecast. Keep its selected
+   receipts, frames, expectation slot, residue and local issue event.
+4. Only then admit the scheduled observation, either a signed integer quantity
+   or an open placeholder. Source time and local event order are separate axes.
+5. Ask the existing assessment reader to compare the issue with that receipt.
+   Record refusal for an open outcome; never substitute zero or a later sample.
+
+The participant receives one target at a time. The host owns the finite input
+tape and chooses this fixed policy; it supplies no errors, baseline predictions,
+case labels, regime labels or future values to the participant. The output
+readout and encoding are identity frames. A flat fitted line is legal and
+retains the unrepresented time input as residue. Expectation remains open;
+an exact conditional prediction does not imply confidence about the world.
+
+The structural spine is already implemented:
+
+```text
+stream -> state(receipts, issues, assessments)
+two available receipts -> fit witness(time frame -> quantity frame)
+fit + readout + open expectation -> future issue witness
+later matching receipt + original issue -> signed mismatch witness
+before state -> request/witness -> after state -> timeline
+```
+
+Selecting two receipts is authored focus, not learned attention. Missing samples
+can leave an old line in use for several targets. Record the source-time gap
+from the newest training receipt and do not claim that such a line is current
+knowledge. No maximum-age cutoff, confidence update, pruning, imputation,
+feedback response or model-family switch is introduced in this experiment.
+
+## Cases and split
+
+`PredictionProtocol.Cases` and the copied `cases.json` are the exact input tapes.
+Three development sequences check constant, rising and fractional continuation.
+Nine evaluation sequences use different values and cover a negative constant,
+unequal-time ramp, a reversal, alternating values, a step, gaps across a change,
+missing initial observations, a final blackout, and an entirely missing stream.
+
+These are hand-authored finite examples, not random samples of an application
+population. The policy is fixed before either split runs. Development cases
+validate the apparatus; evaluation cases are run only afterward. Once inspected,
+these evaluation tapes are no longer unused data for a revised policy.
+All cases and any apparatus failures stay in the run directory.
+
+## Comparisons and measurements
+
+- An independent conventional exact rational implementation uses the same
+  two-sample rule, information order and source times. It has its own history
+  and no Gojo readers. Compare availability, selected times, predictions, errors,
+  flat-frame residue indication and unresolved outcomes on every target. This
+  is a numerical check, not a prediction contest or a throughput benchmark.
+- External hold-last issues the most recent known value before seeing the next
+  observation. It needs only one known sample. It is explicitly an external
+  baseline, not a newly implemented Gojo participant.
+- The no-prediction control receives the same samples and issues nothing.
+  Its coverage is zero and error is unavailable, not zero. It has no claim to
+  outperform a method merely by abstaining.
+- Report both methods' issued and scored counts over all scheduled targets.
+  Compare mean absolute errors only on targets where both issued a prediction
+  and an outcome is present. Also report hold-last's wider scored coverage.
+  Empty denominators produce unavailable results.
+- Keep individual signed errors (`observed - predicted`), absolute errors,
+  exact hits and worst absolute errors. Opposite misses cannot cancel the loss.
+- Record missing observations, forecasts awaiting an outcome, insufficient
+  history, fit/issue/assessment refusals, newest-sample age, retained receipts,
+  issues and assessments, and calls to the four Gojo APIs. Calls are a work
+  proxy; they are not comparable CPU work or measurements of energy.
+
+All prediction arithmetic and signed mismatch reads on the participant path
+come from the existing connected Gojo frames. Integers represent authored
+sensor values and event coordinates. Exact fractions used by the reference and
+metric aggregator belong to the external evaluation boundary and never feed
+back. JavaScript floating point is confined to drawing the captured results.
+
+## Records and validation
+
+Write this protocol, fixture and all tapes to a new directory before running.
+Retain each target's record immediately, including predictions before its
+outcome is admitted. Preserve partial event logs if an apparatus exception
+occurs. Save all completed traces, external comparisons and summaries; refuse
+to overwrite a nonempty run directory. One run per case, no random variation
+claimed. JSON is a diagnostic projection, not a restorable graph or exact
+replay contract; connected state and timeline remain inspectable in the runner.
+
+Tests check future-value isolation, prefix invariance, immutable old issues,
+missing-outcome refusal, unequal-time exact calculations, retained flat-frame
+residue, signed error without cancellation, empty-score denominators and a
+deliberately corrupted comparison record. Existing kernel tests remain the
+authority for the underlying forecast contract.
+
+Possible outcomes include losing to hold-last, extending the wrong trend,
+remaining unassessed during missing observations and having no usable history.
+None calls for changing the kernel or the policy to obtain a positive result.
+This experiment does not test multi-source consensus, learned model selection,
+agency, or superiority to conventional mathematics.

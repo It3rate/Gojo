@@ -3,6 +3,18 @@
 ###############################################################################
 * text=auto
 
+# Keep Minds publication source fingerprints stable across operating systems.
+/Minds/**/*.cs text eol=lf
+/Minds.Tests/*.cs text eol=lf
+/Minds/Presentation/*.html text eol=lf
+/Minds/docs/*.md text eol=lf
+/Minds/docs/ExperimentRoadmap.json text eol=lf
+/Gojo.Demos.Web/tools/build-minds.mjs text eol=lf
+
+# Preserve captured experiment bytes, including protocol checksums, across clones.
+Minds/results/** -text -whitespace
+Gojo.Demos.Web/minds/** -text whitespace=cr-at-eol
+
 ###############################################################################
 # Set default behavior for command prompt diff.
 #
