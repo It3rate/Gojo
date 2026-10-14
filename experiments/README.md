@@ -1,8 +1,14 @@
 # Experiments and retained research
 
-This branch contains the swimming demo and the subsequent primitive-number,
-local-learning, composition and service-economy studies. Their limitations and
-failed trials remain part of the record. Start with each study's report.
+**Start with the [chronological experiment overview](OVERVIEW.md).** It covers
+both this folder and `Minds/`, explaining what each study tried, what happened
+and what can be concluded, with links to the detailed evidence.
+
+This folder contains interpretation, prediction, market, swimming,
+primitive-number, local-learning, composition and service-economy studies.
+Their limitations and failed trials remain part of the record. The table below
+provides direct access to the swimming and subsequent learning suite; the
+overview includes the earlier studies and Minds as well.
 
 See [Primitive numbers and control](PRIMITIVE-NUMBER-ANALYSIS.md) for the conceptual
 mapping from presence, orientation and coarse regions to calibrated quantities,
@@ -25,8 +31,8 @@ prediction and control, grounded in these experiments.
 ## Fresh checkout
 
 ```powershell
-git clone -c core.longpaths=true --branch codex/phototaxis-market https://github.com/It3rate/Gojo.git Gojo-phototaxis
-cd Gojo-phototaxis
+git clone -c core.longpaths=true --branch master https://github.com/It3rate/Gojo.git Gojo
+cd Gojo
 python experiments/ResearchArchive/Restore-LargeResults.py --restore
 dotnet test Gojo.slnx -c Release
 ```

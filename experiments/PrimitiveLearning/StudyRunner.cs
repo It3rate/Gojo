@@ -51,10 +51,10 @@ public static class StudyRunner
             int.Parse(Option("--train", pilot ? "640" : "1536")), int.Parse(Option("--test", pilot ? "256" : "768")),
             int.Parse(Option("--warmup", "128")), Path.GetFullPath(Option("--output", $"artifacts/primitive-learning/{(pilot ? "pilot" : "campaign")}")),
             int.Parse(Option("--seed-start", pilot ? "0" : "100")));
-        Directory.CreateDirectory(settings.Output);
-        var sourceDirectory = Path.GetFullPath("experiments/PrimitiveLearning");
+        var sourceDirectory = FindSourceDirectory();
         var sourceHashes = Directory.GetFiles(sourceDirectory, "*.cs").Order().ToDictionary(path => Path.GetFileName(path)!,
             path => Convert.ToHexString(System.Security.Cryptography.SHA256.HashData(File.ReadAllBytes(path))).ToLowerInvariant());
+        Directory.CreateDirectory(settings.Output);
         Save(settings.Output, "manifest.json", new { settings, heldout = Heldout,
             sourceHashes,
             trainSeedRule = "41000 + seed", testSeedRule = "91000 + seed",
@@ -124,6 +124,19 @@ public static class StudyRunner
             .Replace("/*RESULTS*/[]", JsonSerializer.Serialize(results)).Replace("/*CURVES*/[]", JsonSerializer.Serialize(curves))
             .Replace("/*TRACE*/[]", JsonSerializer.Serialize(traces)));
         Console.WriteLine($"Complete: {settings.Output}; {watch.Elapsed.TotalSeconds:F1}s"); return 0;
+    }
+
+    private static string FindSourceDirectory()
+    {
+        foreach (var starting in new[] { AppContext.BaseDirectory, Directory.GetCurrentDirectory() })
+            for (var directory = new DirectoryInfo(starting); directory is not null; directory = directory.Parent)
+            {
+                var source = Path.Combine(directory.FullName, "experiments", "PrimitiveLearning");
+                if (File.Exists(Path.Combine(directory.FullName, "Gojo.slnx")) &&
+                    File.Exists(Path.Combine(source, "PrimitiveLearning.csproj")))
+                    return source;
+            }
+        throw new DirectoryNotFoundException("Cannot locate PrimitiveLearning sources in a Gojo checkout for the run manifest.");
     }
 
     private static void Isolated(StudySettings settings, int seed, List<ResultRow> results)

@@ -4,6 +4,10 @@ Gojo is a lean extraction of the current Gojo kernel and tests from the older Co
 
 The central rule is that meaning should live in inspectable Gojo structure: carriers, locations, relations, unit shapes, slots, residue, timelines, and tension. Helper code may build or read that structure, but it should not become the source of meaning.
 
+For the research, start with the [experiment overview](experiments/OVERVIEW.md):
+a chronological guide to both `Minds/` and `experiments/`, with each study's
+question, results, conclusions and links to the evidence.
+
 ## Quick Start
 
 The default integration branch is `master` (renamed from `main`). New feature
@@ -61,7 +65,8 @@ Older ideas worth remembering are summarized in `docs/LegacyCore4IdeaInventory.m
 
 ## Simulation and learning experiments
 
-The `codex/phototaxis-market` branch preserves the Phototaxis swimming demo and
-its later primitive-number, learning, composition, lifecycle and service-economy
-experiments. See the [experiment index](experiments/README.md) for runnable
-commands, reports, retained results and the lossless large-result restore helper.
+The experiments are retained on `master`, including the Minds notebook,
+Phototaxis swimming demo, prediction and market studies, and later learning,
+composition and lifecycle work. Read the [chronological overview](experiments/OVERVIEW.md)
+for findings, or the [experiment index](experiments/README.md) for runnable
+commands, retained results and the lossless large-result restore helper.

@@ -1,5 +1,10 @@
 # Minds
 
+Start with the [chronological experiment overview](https://github.com/It3rate/Gojo/blob/master/experiments/OVERVIEW.md)
+for the completed studies across both `Minds/` and `experiments/`, their results
+and conclusions. It distinguishes this notebook's recorded experiments from
+the proposed roadmap and the later research.
+
 The public notebook is at [gojo.inklingai.ca/minds](https://gojo.inklingai.ca/minds/).
 The [experiment roadmap](/minds/roadmap/) places the work needed
 immediately before each proposed experiment. It is the current suggested

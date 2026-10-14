@@ -37,9 +37,12 @@ dotnet run --project experiments/PrimitiveLearning -c Release -- --campaign --se
 
 Optional settings: `--seeds`, `--train`, `--test`, `--warmup`, `--persistence`,
 `--query-price`, `--seed-start`, `--output`. Pilots use seed identities starting
-at0; campaigns start at100 to separate them. Run from the root, use a fresh output directory,
-and let a run finish before rebuilding its project. Existing saved data in
-that directory is replaced by a new run.
+at0; campaigns start at100 to separate them. The runner locates repository sources
+from its executable or working directory, so Visual Studio launches from the build
+directory also work. Relative output paths use the launch working directory;
+use an absolute `--output` path to choose the same destination from any launcher.
+Use a fresh output directory and let a run finish before rebuilding its project.
+Existing saved data in that directory is replaced by a new run.
 
 ## See the results
 
