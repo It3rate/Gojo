@@ -3,6 +3,10 @@
 ###############################################################################
 * text=auto
 
+# Preserve captured experiment bytes, including protocol checksums, across clones.
+Minds/results/** -text -whitespace
+Gojo.Demos.Web/minds/** -text whitespace=cr-at-eol
+
 ###############################################################################
 # Set default behavior for command prompt diff.
 #

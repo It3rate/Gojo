@@ -125,6 +125,10 @@ for(const name of ['index.html','app.css','staticwebapp.config.json'])
   await write(name,await fs.readFile(path.join(web,name)));
 for(const file of await walk(path.join(web,'syntax')))
   await write(path.relative(web,file),await fs.readFile(file));
+// Keep Minds in subsequent publications of this shared production bundle.
+await fs.access(path.join(web,'minds','index.html'));
+for(const file of await walk(path.join(web,'minds')))
+  await write(path.relative(web,file),await fs.readFile(file));
 for(const file of await walk(path.join(web,'core4')))
   await write(path.relative(web,file),await fs.readFile(file));
 console.log('Prepared static overlays. Preserved '+baseline.size+' existing public assets.');

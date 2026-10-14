@@ -1,0 +1,33 @@
+{
+  "description": "Published captured observations and source fingerprints. This is a diagnostic publication, not a restorable checkpoint or a preregistered protocol.",
+  "roadmapDate": "2026-09-15",
+  "files": {
+    "Minds/docs/ExperimentRoadmap.json": "sha256-1ad6400a6afdf49a89ff82f0b78cc81f023e65369cc3bd55864e6fec0203d11b",
+    "Minds/results/two-space/trace.json": "sha256-66e0d3af6cccade96165ebb4c3a1d934167806ff11a8d3a454ee052a31905bd5",
+    "Minds/results/two-space/index.html": "sha256-68ee0410c5fd1220d1886ac517af08e0c1014e543e390341e2d147c7e8bf172f",
+    "Minds/TwoSpace/FeedbackExperiment.cs": "sha256-af565f3149637cd2a35ef29d48585c11a6439603e532f83df2417c0dc92028bc",
+    "Minds/TwoSpace/Space.cs": "sha256-b5d28116baf8299c783bc7f6954b54837e1a0513028d785216f7e0bde6e83b8f",
+    "Minds/TwoSpace/PairObserver.cs": "sha256-4df90fac3a56177a5c32b3a04db274426fe5472cd91160086b50d9ca59b3fafa",
+    "Minds/TwoSpace/Graph.cs": "sha256-8d1fd6614e7e83603d9982b5be36c353b1fc2d72e98e73f70d20b9b6f17d5887",
+    "Minds/Presentation/FeedbackReport.cs": "sha256-ee880b4bdb6732719eb54e6fc89eafc53c3099c2ec1cc2d39f49f410de624248",
+    "Minds.Tests/TwoSpaceTests.cs": "sha256-cc054450b491b868887928be327acb05bbde70de37005258af89de78fb9424a1",
+    "Gojo.Encoding.Tests/Fixtures/Syntax/two-space-feedback.gojo": "sha256-3bec4fd439c21a1fd4caab38fbd4861b8b514fa9ce344bd7e2d95587f721d5a7",
+    "Minds/results/feedback-limits/20260915-230957/summary.json": "sha256-eb111eb9e60a940825ab19ab564c98de9f89afb5961136dd1792d3dde638bea7",
+    "Minds/results/feedback-limits/20260915-230957/Protocol.md": "sha256-e820d3b51690ac9afc3998c4691d59b921800bc51fffd1a495ad3834e32ad03f",
+    "Minds/FeedbackLimits/StudyProtocol.cs": "sha256-2a2f74c8dd178ea137f85449c36414bb62212602954c86a33bb31469be4d3051",
+    "Minds/FeedbackLimits/GojoStudy.cs": "sha256-a2dad02396bc506858a45c60415fc9033175cc996ef0218ad5b8cfb7a44f7bc9",
+    "Minds/FeedbackLimits/ConventionalReference.cs": "sha256-01b4fcfd0aba8595054d93f595e05246702ed9c8bebf3d3dbcab696812336bae",
+    "Minds/FeedbackLimits/StudyComparison.cs": "sha256-0f1d4ecbf7ac840b15e3aebc4f1a3d36d8bad48b6f186b4a104ebc9121e66fd7",
+    "Minds.Tests/FeedbackLimitsTests.cs": "sha256-376791c6f98260168c1df7c1c59e692827186d95e4a639fd5a0a5720a83ed4c4",
+    "Minds/results/predictions/20260916-001834/summary.json": "sha256-461649688f14ebfb3e49e4e6b836127f75a12ea7249505931be2bb517b667a8c",
+    "Minds/results/predictions/20260916-001834/Protocol.md": "sha256-bd765de0b21260f6386486532e27e0ab1823bf8cdb67981961961b77290423ee",
+    "Minds/Predictions/ForecastSpace.cs": "sha256-93eab76f5cb4388e17cf8ce9139073741847145afb4e689b2f8f5ed24b53c4bf",
+    "Minds/Predictions/PredictionStudy.cs": "sha256-7b2a57dbab069be7f3d7f0f38a071d9e043570c856a0a4ce87f1a6a82a3194dd",
+    "Minds/Predictions/PredictionEvaluation.cs": "sha256-13bb8eedaf1dfb805b1f32d2fc6ad6d8ce778ea637705935b8e64e9f1e637e94",
+    "Minds/Predictions/PredictionProtocol.cs": "sha256-f4e6c6f99701b294fef13ec4fa5670b9b4af0be2f93170449374890a011dc50c",
+    "Minds/Presentation/PredictionsReport.cs": "sha256-3ca8b3ca794b93fa1d534fce0bab5eb3d61e0639410542b6ffc6dd9d792c6767",
+    "Minds/Presentation/predictions.html": "sha256-6ebfb762449b29aadb04f1f49242b3ef830c4378f2e985b46b4e3d69160986f8",
+    "Minds.Tests/PredictionTests.cs": "sha256-d076ae824810bf967b8acdaea673079fd88efbd4792f46a77a73bd0fdf350403",
+    "Gojo.Encoding.Tests/Fixtures/Syntax/prospective-calibration.gojo": "sha256-bce2d95999e2a34b2db0706c04bdeead3a96f0f33101338031d813b8231f9167"
+  }
+}

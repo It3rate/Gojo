@@ -1,0 +1,78 @@
+gojo 1;
+
+// Each space has private calibration/input structure and its own sequence axis.
+let $ar = carrier(); let $aq = carrier(); let $ag = carrier(); let $ac = carrier();
+let $br = carrier(); let $bq = carrier(); let $bg = carrier(); let $bc = carrier();
+let $a_steps = carrier(); let $b_steps = carrier();
+let $asource = ports($ar, ?a_sensor_history);
+let $bsource = ports($br, ?b_sensor_history);
+let $aref = ports($aq, ?a_reference_history);
+let $bref = ports($bq, ?b_reference_history);
+let $a_report = group($asource, at($ac,0), at($ar,10), ?a_subject, ?a_context);
+let $b_report = group($bsource, at($bc,100), at($br,20), ?b_subject, ?b_context);
+let $a_anchor = group($aref, at($ac,10), at($aq,2), ?a_subject, ?a_context);
+let $b_anchor = group($bref, at($bc,110), at($bq,4), ?b_subject, ?b_context);
+let $a_template = group($asource, ?a_context,
+    span($ar,0,10) -> (point($aq,0) -> ?a_endpoint), point($aq,0), ?a_spread, ?a_support);
+let $b_template = group($bsource, ?b_context,
+    span($br,0,20) -> (point($bq,0) -> ?b_endpoint), point($bq,0), ?b_spread, ?b_support);
+let $a_recipe = group($a_template, ?a_endpoint, $ag, span($ag,0,10) -> span($aq,0,1));
+let $b_recipe = group($b_template, ?b_endpoint, $bg, span($bg,0,10) -> span($bq,0,1));
+
+// Public surfaces expose a native quantity frame and a publication sequence.
+// No private actuator, source report or calibration is reachable from these ports.
+let $a_out = ports(span($aq,0,1), $ac);
+let $b_out = ports(span($bq,0,1), $bc);
+let $a_in = ports(span($aq,0,1), $ac);
+let $b_in = ports(span($bq,0,1), $bc);
+let $a_link = group($b_out, $a_in, ?b_subject -> ?a_subject, ?b_context -> ?a_context,
+    span($bq,0,2) -> span($aq,0,1));
+let $b_link = group($a_out, $b_in, ?a_subject -> ?b_subject, ?a_context -> ?b_context,
+    span($aq,0,1) -> span($bq,0,2));
+let $a_inbox = group($a_link, ?a_latest, ?a_consumed);
+let $b_inbox = group($b_link, ?b_latest, ?b_consumed);
+let $a_focus = group($a_template, ?a_agreement, ports(?a_endpoint,$ag), ports($a_anchor,?a_spread),
+    ?a_next_endpoint, frame(bind(?a_endpoint,?a_next_endpoint)), ?a_mismatch, $asource);
+let $b_focus = group($b_template, ?b_agreement, ports(?b_endpoint,$bg), ports($b_anchor,?b_spread),
+    ?b_next_endpoint, frame(bind(?b_endpoint,?b_next_endpoint)), ?b_mismatch, $bsource);
+let $a_half = span($aq,0,2) -> span($aq,0,1);
+let $b_half = span($bq,0,2) -> span($bq,0,1);
+let $a_full = span($aq,0,1) -> span($aq,0,1);
+let $b_full = span($bq,0,1) -> span($bq,0,1);
+
+// Host-selected reads bind these actual request patterns.
+let $publish_request = group(?state,?prediction,?port,?event,?antecedents,?expectation);
+let $receive_request = group(?message,?inbox,?arrival);
+let $plan_request = group(?state,?comparison,?response,?acceptance,?focus);
+let $respond_request = group(?plan,?state,?history,?controller,?receipt,?inbox);
+let $local_request = group(?plan,?state,?history,?controller);
+let $prediction_request = group(?report,?candidate);
+let $comparison_request = group(?prediction,?feedback_observation,?feedback_map,
+    ?report -> ?feedback_observation);
+let $predict = action(ports(?report,?candidate), $prediction_request, ports(?prediction), ?prediction_residue, ?focus);
+let $publish = action(ports(?state,?prediction), $publish_request, ports(?message), ?publish_residue, ?focus);
+let $receive = action(ports(?message,?inbox), $receive_request,
+    ports(?receipt,?next_inbox,?feedback_observation), ?receive_residue, ?focus);
+let $compare = action(ports(?prediction,?feedback_observation,?feedback_map,?report),
+    $comparison_request, ports(?comparison), ?comparison_residue, ?focus);
+let $plan = action(ports(?state,?comparison), $plan_request, ports(?plan), ?plan_residue, ?focus);
+let $respond = action(ports(?plan,?state,?inbox), $respond_request,
+    ports(?next_state,?next_history,?next_inbox), ?response_residue, ?focus);
+let $actions = group($predict,$publish,$receive,$compare,$plan,$respond);
+let $feedback = group(?next_state -> ?state, ?next_history -> ?history, ?next_inbox -> ?inbox);
+
+root group($a_recipe,$a_report,$a_anchor,$a_out,$a_in,$a_focus,$a_half,$a_full,
+    span($aq,0,0),$a_full,point($ag,0),count($a_steps,24),ports());
+root group($b_recipe,$b_report,$b_anchor,$b_out,$b_in,$b_focus,$b_half,$b_full,
+    span($bq,0,0),$b_full,point($bg,20),count($b_steps,24),ports());
+root $a_inbox;
+root $b_inbox;
+root group($publish_request,$receive_request,$plan_request,$respond_request,$local_request,
+    $prediction_request,$comparison_request);
+root ports(?state,?prediction,?port,?event,?antecedents,?expectation,?message,?inbox,?arrival,
+    ?comparison,?response,?acceptance,?focus,?plan,?history,?controller,?receipt,
+    ?pending_value,?subject,?context,?report,?candidate,?feedback_observation,?feedback_map);
+root repeat($a_focus,count($a_steps,24),$actions,$feedback,?a_remaining,timeline($a_steps,?state));
+root repeat($b_focus,count($b_steps,24),$actions,$feedback,?b_remaining,timeline($b_steps,?state));
+// A partial publication is valid structure: receiving it makes the current read pending.
+root group(group(?port,?event,?pending_value,?subject,?context),?antecedents,?expectation);

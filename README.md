@@ -17,6 +17,10 @@ dotnet test Gojo.slnx
 
 ## Layout
 
+The [Minds notebook](Minds/README.md) retains the two-space feedback and
+prospective prediction experiments, including protocols, recorded outcomes,
+independent comparisons and the static `/minds/` viewers.
+
 ```text
 Gojo/
   Core/             carriers, locations, relations, tick refs, unit shapes

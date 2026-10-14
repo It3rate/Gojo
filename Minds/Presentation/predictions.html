@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Gojo forecasts recorded before observations: fixed line continuation, hold-last comparison, misses and missing samples.">
+<title>Predictions before observations · Gojo Minds</title>
+<style>
+:root{font-family:system-ui,sans-serif;color:#253740;background:#f6f5ef;line-height:1.55;font-synthesis:none}*{box-sizing:border-box}body{margin:0}main{max-width:1120px;margin:auto;padding:32px 24px 60px}a{color:#096c77}nav,.links{display:flex;gap:22px;flex-wrap:wrap}nav{font-size:14px;margin-bottom:42px}.eyebrow{font-size:12px;text-transform:uppercase;letter-spacing:.12em;color:#587078}h1{font-size:clamp(30px,5vw,48px);line-height:1.12;max-width:750px;margin:12px 0 20px}h2{font-size:24px;margin-top:0}h3{font-size:17px;margin:0 0 8px}.lead{max-width:790px;font-size:18px}.muted,small{color:#586b72}.panel{background:#fffefa;border:1px solid #d9dfd9;border-radius:12px;padding:24px;margin:24px 0}.controls{display:flex;align-items:end;gap:18px;flex-wrap:wrap}label{display:block;font-size:14px;font-weight:600}select,button{font:inherit;border:1px solid #9aaaaa;border-radius:6px;padding:9px 12px;background:white;color:inherit}select{max-width:100%;width:380px}button{cursor:pointer}button:disabled{opacity:.4;cursor:default}input[type=range]{width:100%;accent-color:#007d88}input[type=checkbox]{accent-color:#007d88}.step{display:flex;align-items:center;gap:16px;margin-top:22px}.step label{flex:1}.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin:24px 0}.stat{background:#f0f3ef;border-radius:8px;padding:14px}.stat strong{display:block;font-size:24px;overflow-wrap:anywhere}.stat span{font-size:13px}.line{color:#007d88}.hold{color:#aa571e}.actual{color:#293e50}.legend{display:flex;gap:20px;flex-wrap:wrap;font-size:14px}svg{display:block;width:100%;height:auto;margin:14px 0}.explain{padding:16px 20px;border-left:3px solid #007d88;background:#eef5f3;min-height:90px}.table-wrap{overflow:auto}table{width:100%;border-collapse:collapse;font-size:14px}th,td{text-align:left;padding:12px 10px;border-bottom:1px solid #e0e4df;white-space:nowrap}th{font-weight:600;color:#50646c}tr.selected{background:#eaf4f1}details{margin:20px 0}summary{cursor:pointer;font-weight:600}code{font-size:13px;overflow-wrap:anywhere}.alert{color:#983a31;background:#ffeae6;padding:18px}.notes{max-width:850px}.links{font-size:14px;margin:24px 0}.badge{display:inline-block;font-size:12px;padding:3px 8px;background:#e7ece6;border-radius:4px}footer{border-top:1px solid #d9dfd9;margin-top:38px;padding-top:24px;font-size:14px}a:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid #bb731a;outline-offset:3px}@media(max-width:650px){main{padding:20px 14px}.panel{padding:16px}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.step{gap:8px}.step button{padding:8px}nav{margin-bottom:28px}}
+</style></head><body><main>
+<nav aria-label="Minds notebook"><a href="/minds/">← Minds experiments</a><a href="/minds/roadmap/">Roadmap</a><a href="Protocol.md">Selected rules</a><a href="Results.md">Result table</a></nav>
+<header><p class="eyebrow">Experiment 03 · captured Gojo runs</p><h1>Predict first.<br>Then let the observation answer.</h1><p class="lead">Continue the line through the last two known samples. Compare it with holding the last value. Both can be wrong, and neither gets to see the next value first.</p><p class="muted">The model family and sample-selection rule are supplied. Gojo fits the line, preserves each issued prediction, and records its later mismatch. It does not learn when to choose a different model in this experiment.</p></header>
+<div id="failures" role="status"></div>
+<section class="panel" aria-labelledby="walkthrough"><h2 id="walkthrough">Step through a forecast</h2>
+<div class="controls"><div><label for="case">Signal</label><select id="case"></select></div><label><input id="after" type="checkbox" checked> Reveal this target’s observation</label></div>
+<p id="description" class="muted"></p>
+<div class="step"><button id="previous" aria-label="Previous target">← Back</button><label for="step"><span id="position"></span><input id="step" type="range" min="0" value="0" step="1"></label><button id="next" aria-label="Next target">Next →</button></div>
+<div class="stats"><div class="stat"><span>Line forecast</span><strong id="prediction" class="line"></strong></div><div class="stat"><span>Hold-last forecast</span><strong id="hold" class="hold"></strong></div><div class="stat"><span>Observation</span><strong id="outcome" class="actual"></strong></div><div class="stat"><span>Observed − line forecast</span><strong id="error"></strong></div></div>
+<div class="legend"><span class="actual">● Observed values</span><span class="line">◇ Line forecasts</span><span class="hold">□ Hold-last forecasts</span></div>
+<svg id="chart" viewBox="0 0 960 330" role="img" aria-label="Forecasts and observations up to the selected target"></svg>
+<div class="explain" id="explanation" aria-live="polite"></div>
+<details><summary>What was available, and what remains open?</summary><div id="evidence" class="table-wrap"></div><p class="muted">A flat line retains time participation as residue. A missing outcome, a prediction error, and an open expectation are different things; none is automatically material tension.</p></details>
+<div class="links"><a id="download" download>Exact run + independent reference</a><a id="journal" download>Before / after event journal</a><a href="fixture.gojo" download>Gojo fixture</a><a href="cases.json" download>All input tapes</a></div>
+</section>
+<section class="panel"><h2>How this case did over its complete window</h2><p id="scores"></p><p id="coverage" class="muted"></p><p id="cost" class="muted"></p></section>
+<section class="panel"><h2>Every selected case</h2><p class="muted">MAE means mean absolute error. These two error columns use only the same observed targets. Smaller is better; “unavailable” means there was nothing to score. Development cases checked the apparatus before the evaluation tapes ran.</p><div class="table-wrap"><table><thead><tr><th>Signal</th><th>Split</th><th>Shared targets</th><th>Line MAE</th><th>Hold-last MAE</th><th>Awaiting outcome</th></tr></thead><tbody id="all"></tbody></table></div></section>
+<section class="notes"><h2>What this tests</h2><p>A straight line can describe the past exactly and still be a poor prediction. Reversals and sudden steps test that distinction; gaps test whether unknown outcomes stay unknown. No errors are sent back to select a more successful rule.</p><p id="validation"></p><p>The hold-last comparison uses ordinary exact arithmetic outside Gojo. A control that makes no predictions has zero coverage and no error score. This run does not establish a general winner, learned model selection, or a benefit over conventional mathematics.</p></section>
+<footer><div class="links"><a href="Protocol.md">Full protocol</a><a href="summary.json" download>Summary and apparatus failures</a><a href="protocol-record.json" download>Protocol capture record</a></div>Charts display retained readings. Moving the slider does not rerun or change the experiment. Fractions are exact in the records; plotting converts them to browser numbers.</footer>
+<script id="data" type="application/json">__PREDICTIONS_JSON__</script>
+<script>
+'use strict';
+const data=JSON.parse(document.getElementById('data').textContent),el=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const number=s=>{if(s===null||s===undefined)return null;const p=String(s).split('/');return Number(p[0])/(p[1]===undefined?1:Number(p[1]));};
+const show=x=>x===null||x===undefined?'unavailable':String(x);
+const cases=data.completed;
+el('case').innerHTML=cases.map(r=>`<option value="${esc(r.case.id)}">${esc(r.case.name)}${r.case.split==='development'?' · development':''}</option>`).join('');
+const requested=new URLSearchParams(location.search).get('case');
+el('case').value=cases.some(r=>r.case.id===requested)?requested:(cases.some(r=>r.case.id==='reversal')?'reversal':cases[0]?.case.id);
+el('failures').innerHTML=data.failures.length?`<p class="alert">${data.failures.length} apparatus failure(s) retained. See summary.json; incomplete runs are not counted as successful cases.</p>`:'';
+el('validation').textContent=`${cases.length} completed cases; ${data.failures.length} apparatus failures; ${cases.reduce((n,r)=>n+r.differences.length,0)} field differences from an independent exact implementation of the same line rule. That comparison checks the calculation, not predictive usefulness.`;
+function select(){const r=current();if(!r)return;el('step').max=r.rows.length-1;el('step').value=Math.min(2,r.rows.length-1);render();}
+function current(){return cases.find(r=>r.case.id===el('case').value);}
+function render(){
+ const run=current();if(!run)return;const i=Number(el('step').value),r=run.rows[i],ref=run.reference[i],after=el('after').checked,s=run.summary;
+ el('description').textContent=run.case.description;
+ el('position').textContent=`Target ${i+1} of ${run.rows.length} · source time ${r.target}`;
+ el('previous').disabled=i===0;el('next').disabled=i===run.rows.length-1;
+ el('prediction').textContent=show(r.prediction);el('hold').textContent=show(ref.holdLast);
+ el('outcome').textContent=after?(r.outcome===null?'missing':String(r.outcome)):'not yet admitted';
+ el('error').textContent=after?show(r.error):'not yet assessed';
+ let text=r.status==='insufficient-history'?`Only ${r.trainingTimes.length} known sample(s) are available. The line rule needs two and issues nothing.`:
+   r.status!=='issued'?`The selected operation was refused (${r.status}); its unresolved evidence is retained.`:
+   `The line uses samples at source times ${r.trainingTimes.join(' and ')}. Its newest sample is ${r.sampleAge} time unit(s) behind this target. It predicted ${r.prediction} at local event ${r.issueEvent}.`;
+ if(after)text+=r.outcome===null?' The target arrives as an open observation. No error can be measured.':r.prediction===null?' The observation can become training evidence for a later target.':` The observation ${r.outcome} arrives at local event ${r.arrivalEvent}; its signed mismatch is ${show(r.error)}. The issued value stays ${r.prediction}.`;
+ else text+=' The outcome has not been admitted at this stage.';
+ el('explanation').textContent=text;
+ const fields=[['Selected sample times',r.trainingTimes.join(', ')||'none'],['Issue event',show(r.issueEvent)],['Arrival event',after?r.arrivalEvent:'not yet'],['Assessment event',after?show(r.assessmentEvent):'not yet'],['Time residue',r.timeResidue?'retained':'none in this read'],['Expectation','open; no confidence assigned'],['Assessment',after?(r.assessmentAccepted===null?'not requested':r.assessmentAccepted?'accepted':'refused (open outcome)'):'not yet requested']];
+ el('evidence').innerHTML='<table><tbody>'+fields.map(([a,b])=>`<tr><th>${esc(a)}</th><td>${esc(b)}</td></tr>`).join('')+'</tbody></table>';
+ el('download').href=`runs/${run.case.id}.json`;el('journal').href=`runs/${run.case.id}-events.jsonl`;
+ el('scores').textContent=`On ${s.commonTargets} shared observed targets: line MAE ${show(s.affineCommon.meanAbsolute)}, hold-last MAE ${show(s.holdCommon.meanAbsolute)}. Largest absolute errors: ${show(s.affineCommon.maxAbsolute)} and ${show(s.holdCommon.maxAbsolute)}. Exact hits: ${s.affineCommon.exactHits} and ${s.holdCommon.exactHits}.`;
+ el('coverage').textContent=`Of ${s.targets} scheduled targets, ${s.observed} were observed and ${s.missing} missing. Line: ${s.issued} issued, ${s.scored} scored, ${s.awaitingOutcome} awaiting an outcome. Hold-last: ${s.holdIssued} issued, ${s.holdScored} scored; MAE across its wider coverage ${show(s.holdAll.meanAbsolute)}. No-prediction control: 0 issued, error unavailable.`;
+ el('cost').textContent=`Retained Gojo records: ${s.retained[0]} receipts, ${s.retained[1]} issues, ${s.retained[2]} assessments. API calls: ${s.calls.record} record, ${s.calls.fit} fit, ${s.calls.issue} issue, ${s.calls.assess} assess. These are counts of work requests, not timings or energy. ${s.flatResidues} flat forecasts retain time residue; ${s.refused} unexpected refusals.`;
+ el('all').innerHTML=cases.map(c=>`<tr class="${c.case.id===run.case.id?'selected':''}"><td><a href="?case=${esc(c.case.id)}">${esc(c.case.name)}</a></td><td>${esc(c.case.split)}</td><td>${c.summary.commonTargets}</td><td>${show(c.summary.affineCommon.meanAbsolute)}</td><td>${show(c.summary.holdCommon.meanAbsolute)}</td><td>${c.summary.awaitingOutcome}</td></tr>`).join('');
+ draw(run,i,after);
+}
+function draw(run,index,after){
+ const visible=run.rows.slice(0,index+1),all=visible.flatMap((r,i)=>[i<index||after?r.outcome:null,number(r.prediction),number(run.reference[i].holdLast)]).filter(v=>v!==null);
+ let lo=Math.min(0,...all),hi=Math.max(1,...all);const pad=(hi-lo)*.12;lo-=pad;hi+=pad;
+ const first=run.rows[0].target,last=run.rows[run.rows.length-1].target,x=t=>64+(t-first)*860/Math.max(1,last-first),y=v=>276-(v-lo)*244/(hi-lo);
+ let svg='<title>Recorded forecasts and observations through the selected target</title>';
+ for(let j=0;j<=4;j++){const value=lo+(hi-lo)*j/4,yy=y(value);svg+=`<line x1="64" y1="${yy}" x2="924" y2="${yy}" stroke="#e2e7e1"/><text x="54" y="${yy+4}" text-anchor="end" font-size="12" fill="#5a6e75">${Number(value.toFixed(2))}</text>`;}
+ svg+=`<line x1="${x(visible[index].target)}" y1="22" x2="${x(visible[index].target)}" y2="283" stroke="#869795" stroke-dasharray="4 5"/>`;
+ let prior=null;
+ visible.forEach((r,i)=>{const xx=x(r.target),observed=(i<index||after)&&r.outcome!==null;
+   if(observed){const yy=y(r.outcome);if(prior)svg+=`<line x1="${prior[0]}" y1="${prior[1]}" x2="${xx}" y2="${yy}" stroke="#293e50" stroke-width="2"/>`;svg+=`<circle cx="${xx}" cy="${yy}" r="4" fill="#293e50"><title>Observed: ${r.outcome} at ${r.target}</title></circle>`;prior=[xx,yy];}else prior=null;
+   if(r.prediction!==null){const yy=y(number(r.prediction));svg+=`<path d="M ${xx} ${yy-6} l 6 6 -6 6 -6 -6 Z" fill="white" stroke="#007d88" stroke-width="2"><title>Line: ${esc(r.prediction)} at ${r.target}</title></path>`;}
+   const hold=run.reference[i].holdLast;if(hold!==null){const yy=y(number(hold));svg+=`<rect x="${xx-4}" y="${yy-4}" width="8" height="8" fill="none" stroke="#aa571e" stroke-width="2"><title>Hold-last: ${esc(hold)} at ${r.target}</title></rect>`;}
+ });
+ run.rows.forEach(r=>{svg+=`<text x="${x(r.target)}" y="303" text-anchor="middle" font-size="12" fill="#5a6e75">${r.target}</text>`;});
+ svg+='<text x="924" y="327" text-anchor="end" font-size="12" fill="#5a6e75">Source time</text>';el('chart').innerHTML=svg;
+}
+el('case').addEventListener('change',select);el('step').addEventListener('input',render);el('after').addEventListener('change',render);
+el('previous').addEventListener('click',()=>{el('step').value=Number(el('step').value)-1;render();});el('next').addEventListener('click',()=>{el('step').value=Number(el('step').value)+1;render();});
+select();
+</script></main></body></html>

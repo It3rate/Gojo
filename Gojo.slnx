@@ -44,6 +44,19 @@
     <File Path="Gojo.Demos.Web/syntax/README.md" />
   </Folder>
   <Project Path="Gojo/Gojo.csproj" />
+  <Folder Name="/Minds/">
+    <File Path="Minds/README.md" />
+    <File Path="Minds/AGENTS.md" />
+    <File Path="Minds/docs/ExperimentReadiness.md" />
+    <File Path="Minds/docs/ExperimentProtocol.template.md" />
+    <File Path="Minds/docs/TwoSpaceExploration.md" />
+    <File Path="Minds/docs/ExperimentRoadmap.md" />
+    <File Path="Minds/docs/ExperimentRoadmap.json" />
+    <File Path="Minds/docs/FeedbackLimitsProtocol.md" />
+    <File Path="Minds/docs/FeedbackLimitsFindings.md" />
+    <Project Path="Minds/Minds.csproj" />
+    <Project Path="Minds.Tests/Minds.Tests.csproj" />
+  </Folder>
   <Project Path="Gojo.Tests/Gojo.Tests.csproj" />
   <Project Path="Gojo.Encoding/Gojo.Encoding.csproj" />
   <Project Path="Gojo.Encoding.Tests/Gojo.Encoding.Tests.csproj" />
