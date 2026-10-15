@@ -1,0 +1,65 @@
+{
+  "RecordedAt": "2026-10-15T21:04:18.3756246+00:00",
+  "RequestedIterations": 2048,
+  "PreparedSupportPairs": 64,
+  "Runtime": ".NET 10.0.12",
+  "OperatingSystem": "Microsoft Windows 10.0.26200",
+  "Architecture": "X64",
+  "SourceGraph": {
+    "Relations": 90,
+    "Placeholders": 21,
+    "Carriers": 0,
+    "CarrierLocations": 0
+  },
+  "Measurements": [
+    {
+      "Mode": "native interpretation \u002B witness \u002B result encoding",
+      "Iterations": 2048,
+      "ElapsedMilliseconds": 131.9918,
+      "NanosecondsPerOperation": 64449.12109375,
+      "AllocatedBytes": 120871424,
+      "AllocatedBytesPerOperation": 59019.25,
+      "Checksum": -4425838155167264751,
+      "ProducesWitness": true
+    },
+    {
+      "Mode": "compiled execution \u002B witness \u002B result encoding",
+      "Iterations": 2048,
+      "ElapsedMilliseconds": 8.2454,
+      "NanosecondsPerOperation": 4026.07421875,
+      "AllocatedBytes": 6011904,
+      "AllocatedBytesPerOperation": 2935.5,
+      "Checksum": -4425838155167264751,
+      "ProducesWitness": true
+    },
+    {
+      "Mode": "compiled masks \u002B current-law validation",
+      "Iterations": 2048,
+      "ElapsedMilliseconds": 1.421,
+      "NanosecondsPerOperation": 693.84765625,
+      "AllocatedBytes": 0,
+      "AllocatedBytesPerOperation": 0,
+      "Checksum": -4425838155167264751,
+      "ProducesWitness": false
+    },
+    {
+      "Mode": "capture native law into derived table",
+      "Iterations": 25,
+      "ElapsedMilliseconds": 7.8201,
+      "NanosecondsPerOperation": 312804,
+      "AllocatedBytes": 7541200,
+      "AllocatedBytesPerOperation": 301648,
+      "Checksum": 9149324277192176428,
+      "ProducesWitness": false
+    }
+  ],
+  "Qualifications": [
+    "The source fixture uses relation/placeholder identities and supplied detector categories, with no measured numeric operands.",
+    "All 64 closed support pairs are reused in each execution mode; prepared inputs and capture are outside repeated execution timing.",
+    "Native and compiled witness modes materialize read/result/residue/provenance graphs and encode the resulting support for the checksum.",
+    "Compute-only masks omit new witness graphs, but validate the captured law on every call and retain SourceLaw for interpretation.",
+    "Capture is reported separately and interprets the native atomic rows to derive its table.",
+    "Thread allocation counts are managed allocations on the calling thread; these are one-process diagnostic timings, not stable performance guarantees.",
+    "There is no eager numeric baseline: the detector fixture does not expose numeric samples, and this run does not claim a numerical-arithmetic speedup."
+  ]
+}

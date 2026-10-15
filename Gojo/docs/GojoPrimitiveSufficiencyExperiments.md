@@ -4,6 +4,12 @@ Status: exploratory assessment of existing implemented behavior, 2026-10-15.
 The fixture adds tests only; no production code, primitive, reader, dispatcher,
 or foundational rule was changed.
 
+Follow-up: the [structural constraint experiments](GojoStructuralConstraintExperiments.md)
+and [qualitative process experiments](GojoQualitativeProcessExperiments.md) now add
+and exercise an explicit local interpretation law above the unchanged kernel.
+The [combined assessment](GojoPreNumericAssessment.md) distinguishes those new
+capabilities from this initial representation-only baseline.
+
 The question is whether existing Gojo structure can express a moving numeric
 threshold, retain uncertain support, let the comparison participate in another
 relation, and express a nonnumeric three-state domain. A passing assertion about

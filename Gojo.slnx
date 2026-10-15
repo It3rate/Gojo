@@ -1,6 +1,11 @@
 <Solution>
   <Folder Name="/Documentation/">
     <File Path="Gojo/docs/GojoSystemPrompt.md" />
+    <File Path="Gojo/docs/GojoPrimitiveSufficiencyExperiments.md" />
+    <File Path="Gojo/docs/GojoStructuralConstraintExperiments.md" />
+    <File Path="Gojo/docs/GojoQualitativeProcessExperiments.md" />
+    <File Path="Gojo/docs/GojoPreNumericAssessment.md" />
+    <File Path="Gojo/docs/GojoQualitativeExecutionExperiment.md" />
     <File Path="Gojo/docs/Grammar.md" />
     <File Path="Gojo/docs/GojoTextSyntax.md" />
     <File Path="Gojo/docs/GojoSyntaxDynamicCheckpoint-2026-09.md" />
@@ -71,6 +76,10 @@
   <Project Path="Gojo.Blocks.Browser/Gojo.Blocks.Browser.csproj" />
   <Project Path="GojoDraw/GojoDraw.csproj" />
   <Folder Name="/Experiments/" />
+  <Folder Name="/Experiments/QualitativeExecution/">
+    <Project Path="experiments/QualitativeExecution/QualitativeExecution.csproj" />
+    <Project Path="experiments/QualitativeExecution.Tests/QualitativeExecution.Tests.csproj" />
+  </Folder>
   <Folder Name="/Experiments/Phototaxis/">
     <Project Path="experiments/Phototaxis/Phototaxis.csproj" />
     <Project Path="experiments/Phototaxis.Browser/Phototaxis.Browser.csproj" />
