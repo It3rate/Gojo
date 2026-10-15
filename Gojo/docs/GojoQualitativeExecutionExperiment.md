@@ -5,6 +5,10 @@ Status: implemented experimental execution layer, 2026-10-15. This extends
 code lives in `experiments/QualitativeExecution`; this experiment changes no
 kernel primitives or settlement laws.
 
+The [relative reference follow-up](GojoRelativeReferenceExperiment.md) examines
+fixed markers, previous samples and longer baselines at distinct resolutions.
+The counts and diagnostic timings below record this initial execution stage.
+
 ## Finding
 
 A receiver can compute useful local answers from detector categories without

@@ -22,6 +22,8 @@ this initial interface.
 
 See the [experiment report](../../Gojo/docs/GojoQualitativeExecutionExperiment.md)
 for native shapes, assumptions, uncertainty controls, query behavior and limits.
+The [relative reference follow-up](../../Gojo/docs/GojoRelativeReferenceExperiment.md)
+distinguishes fixed-marker, previous-sample and longer-window comparisons.
 
 Run tests and the diagnostic benchmark from the repository root:
 
