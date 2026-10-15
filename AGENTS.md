@@ -27,7 +27,12 @@ canonical prompt and its design notes together.
 The repository default branch is `master`. Resolve the current remote default
 before integrating work. Do not create a branch named `main` or `master` merely
 because an integration request uses a historical name; merge into the existing
-default branch. New feature work belongs on a `codex/...` branch.
+default branch.
+
+Per the user's current workflow, work directly on `master` and commit completed,
+verified checkpoints as experiments progress. Create a separate feature branch
+only when the user requests one. Do not infer permission to push from a request
+to check in locally.
 
 ## Verification Entry Point
 
