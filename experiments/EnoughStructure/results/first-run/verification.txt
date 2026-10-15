@@ -1,0 +1,48 @@
+Test run for C:\Users\Robin\source\repos\Gojo\Gojo.Tests\bin\Debug\net10.0\Gojo.Tests.dll (.NETCoreApp,Version=v10.0)
+Test run for C:\Users\Robin\source\repos\Gojo\experiments\Phototaxis.Tests\bin\Debug\net10.0\Phototaxis.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+Test run for C:\Users\Robin\source\repos\Gojo\experiments\PrimitiveForager.Tests\bin\Debug\net10.0\PrimitiveForager.Tests.dll (.NETCoreApp,Version=v10.0)
+Test run for C:\Users\Robin\source\repos\Gojo\experiments\EnoughStructure.Tests\bin\Debug\net10.0\EnoughStructure.Tests.dll (.NETCoreApp,Version=v10.0)
+Test run for C:\Users\Robin\source\repos\Gojo\experiments\CompositeEmergence.Tests\bin\Debug\net10.0\CompositeEmergence.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+Test run for C:\Users\Robin\source\repos\Gojo\experiments\PrimitiveLearning.Tests\bin\Debug\net10.0\PrimitiveLearning.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+A total of 1 test files matched the specified pattern.
+A total of 1 test files matched the specified pattern.
+A total of 1 test files matched the specified pattern.
+
+Passed!  - Failed:     0, Passed:     6, Skipped:     0, Total:     6, Duration: 245 ms - PrimitiveForager.Tests.dll (net10.0)
+
+Passed!  - Failed:     0, Passed:    20, Skipped:     0, Total:    20, Duration: 645 ms - EnoughStructure.Tests.dll (net10.0)
+Test run for C:\Users\Robin\source\repos\Gojo\GojoCAD.Tests\bin\Debug\net10.0\GojoCAD.Tests.dll (.NETCoreApp,Version=v10.0)
+Test run for C:\Users\Robin\source\repos\Gojo\Gojo.GearShapeLadder.Tests\bin\Debug\net10.0\Gojo.GearShapeLadder.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+A total of 1 test files matched the specified pattern.
+
+Passed!  - Failed:     0, Passed:  1009, Skipped:     0, Total:  1009, Duration: 3 s - Gojo.Tests.dll (net10.0)
+
+Passed!  - Failed:     0, Passed:    21, Skipped:     0, Total:    21, Duration: 1 s - Gojo.GearShapeLadder.Tests.dll (net10.0)
+
+Passed!  - Failed:     0, Passed:   155, Skipped:     0, Total:   155, Duration: 3 s - GojoCAD.Tests.dll (net10.0)
+
+Passed!  - Failed:     0, Passed:    66, Skipped:     0, Total:    66, Duration: 9 s - PrimitiveLearning.Tests.dll (net10.0)
+Test run for C:\Users\Robin\source\repos\Gojo\Gojo.Encoding.Tests\bin\Debug\net10.0\Gojo.Encoding.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+
+Passed!  - Failed:     0, Passed:   725, Skipped:     0, Total:   725, Duration: 10 s - Gojo.Encoding.Tests.dll (net10.0)
+
+Passed!  - Failed:     0, Passed:   129, Skipped:     0, Total:   129, Duration: 22 s - Phototaxis.Tests.dll (net10.0)
+Test run for C:\Users\Robin\source\repos\Gojo\experiments\AdaptiveLifecycle.Tests\bin\Debug\net10.0\AdaptiveLifecycle.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+Test run for C:\Users\Robin\source\repos\Gojo\experiments\UtilityEcology.Tests\bin\Debug\net10.0\UtilityEcology.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+
+Passed!  - Failed:     0, Passed:    25, Skipped:     0, Total:    25, Duration: 6 s - AdaptiveLifecycle.Tests.dll (net10.0)
+
+Passed!  - Failed:     0, Passed:    66, Skipped:     0, Total:    66, Duration: 39 s - CompositeEmergence.Tests.dll (net10.0)
+Test run for C:\Users\Robin\source\repos\Gojo\Minds.Tests\bin\Debug\net10.0\Minds.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+
+Passed!  - Failed:     0, Passed:   119, Skipped:     0, Total:   119, Duration: 19 s - UtilityEcology.Tests.dll (net10.0)
+
+Passed!  - Failed:     0, Passed:    49, Skipped:     0, Total:    49, Duration: 2 s - Minds.Tests.dll (net10.0)

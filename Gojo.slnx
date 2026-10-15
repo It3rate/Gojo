@@ -106,4 +106,8 @@
     <Project Path="experiments/UtilityEcology/UtilityEcology.csproj" />
     <Project Path="experiments/UtilityEcology.Tests/UtilityEcology.Tests.csproj" />
   </Folder>
+  <Folder Name="/Experiments/EnoughStructure/">
+    <Project Path="experiments/EnoughStructure/EnoughStructure.csproj" />
+    <Project Path="experiments/EnoughStructure.Tests/EnoughStructure.Tests.csproj" />
+  </Folder>
 </Solution>

@@ -27,6 +27,7 @@ prediction and control, grounded in these experiments.
 | Local service economy | [Ecology report](UtilityEcology/REPORT.md) | [Review](UtilityEcology/review.html) |
 | Progress alongside error | [Progress report](UtilityEcology/PROGRESS-REPORT.md) | [Review](UtilityEcology/progress-review.html) |
 | Finite seed and paid candidate admission | [Seed report](UtilityEcology/SEED-REPORT.md) | [Review](UtilityEcology/seed-review.html) |
+| Enough: direct and bound construction, contextual questions and goals | [Structure experiment](EnoughStructure/README.md) | [Retained run](EnoughStructure/results/first-run/report.md) |
 
 ## Fresh checkout
 
