@@ -24,6 +24,8 @@ See the [experiment report](../../Gojo/docs/GojoQualitativeExecutionExperiment.m
 for native shapes, assumptions, uncertainty controls, query behavior and limits.
 The [relative reference follow-up](../../Gojo/docs/GojoRelativeReferenceExperiment.md)
 distinguishes fixed-marker, previous-sample and longer-window comparisons.
+The [readiness assessment](../../Gojo/docs/GojoStructuralAlgebraReadiness.md)
+maps these results to topology, pattern, memory and closed-loop experiments.
 
 Run tests and the diagnostic benchmark from the repository root:
 

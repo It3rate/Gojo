@@ -13,6 +13,10 @@ demand/refinement gates and a derived compact backend. Its initial observation
 graph has no numeric samples. The verification counts below describe this
 assessment's earlier stage; the follow-up reports the enlarged solution run.
 
+The [structural algebra readiness review](GojoStructuralAlgebraReadiness.md)
+consolidates this track with existing signal memory, motif generation,
+phototaxis and learning evidence, and proposes the next bounded experiments.
+
 ## Finding
 
 The experiment supports a limited but substantive result: existing elements,
