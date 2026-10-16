@@ -183,6 +183,35 @@ public sealed class FriezeFixture
         return new(name, b, clock.Port, reachOrder ?? S());
     }
 
+    // Root-cycle = Closed(actual emission words).
+    // Layers = Closed(Closed(actual emission words), ...).
+    // Every actual root phase has an explicit route to every layer port. Each
+    // layer advances once per root occurrence; its own phase/pause chain owns
+    // its recurrence. Root sampling adds all their moves on this one cursor.
+    public static FriezeFixture LayeredCycles(QualitativeMotionFrame frame, Relation rootWords,
+        Relation layerCycles, string name = "Layered qualitative cycles")
+    {
+        if (!Closed(layerCycles) || E(layerCycles).Length > 3 || E(layerCycles).Any(cycle => cycle is not Relation))
+            throw new ArgumentException("Supply a closed scope of up to three native layer cycles.", nameof(layerCycles));
+        var cycles = new[] { rootWords }.Concat(E(layerCycles).Cast<Relation>()).ToArray();
+        if (cycles.Any(cycle => !Closed(cycle) || E(cycle).Length is 0 or > 64 || E(cycle).Any(word => word is not Relation)))
+            throw new ArgumentException("Each cycle needs one to 64 native emission words.", nameof(layerCycles));
+        var b = new Builder(frame);
+        foreach (var cycle in cycles)
+            foreach (var word in E(cycle).Cast<Relation>())
+                if (StructuralConstraint.TryReadScope(word, out var moves, out _, out _))
+                    foreach (var move in moves.OfType<Relation>())
+                        if (frame.Direction(move, out _, out _, out var reach) && !b.Reaches.Any(existing => ReferenceEquals(existing, reach)))
+                            b.Reaches.Add(reach);
+        var root = b.Cycle(E(rootWords).Cast<Relation>().ToArray());
+        foreach (var words in E(layerCycles).Cast<Relation>())
+        {
+            var layer = b.Cycle(E(words).Cast<Relation>().ToArray());
+            foreach (var phase in root.Phases) b.Connect(root, phase, layer);
+        }
+        return new(name, b, root.Port, S());
+    }
+
     /// <summary>The count bounds the observation window, not a stored time or
     /// distance. Which component fires is entirely in the native route graph.</summary>
     public Relation Run(int rounds, int eventBudget = 64)

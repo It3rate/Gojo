@@ -1,0 +1,1584 @@
+{
+  "Schema": "qualitative-rhythm-patterns-v1",
+  "Native": {
+    "Elements": 76708,
+    "Carriers": 0,
+    "Locations": 0
+  },
+  "Pictures": [
+    {
+      "Name": "Slow square excursion \u002B fast triangle",
+      "RootRounds": 16,
+      "Components": 3,
+      "PhaseParticipants": 19,
+      "Features": {
+        "Samples": 16,
+        "DistinctWords": 4,
+        "ChangedWordTransitions": 16,
+        "CurrentWordContextsWithAlternatives": 1,
+        "Unresolved": 0,
+        "Violations": 0,
+        "LegalityUnresolved": 0
+      },
+      "Coordination": {
+        "SameFacePairs": 4,
+        "OpposedFacePairs": 4,
+        "Unresolved": 0
+      },
+      "Conditioned": [
+        {
+          "FirstPort": "Slow square excursion",
+          "SecondPort": "Fast triangle",
+          "FirstFace": "up",
+          "Same": 4,
+          "Opposed": 0
+        },
+        {
+          "FirstPort": "Slow square excursion",
+          "SecondPort": "Fast triangle",
+          "FirstFace": "down",
+          "Same": 0,
+          "Opposed": 4
+        }
+      ],
+      "Calibration": {
+        "Horizontal": 4,
+        "Vertical": 4,
+        "SquareNibWidth": 2
+      },
+      "Strokes": 16,
+      "Polygons": 16,
+      "Copies": 50,
+      "CenterlinePeriodX": 64,
+      "CenterlineFundamentalPeriodX": 64,
+      "CenterlineOverlaps": 0,
+      "CenterlineCrossings": 0,
+      "CenterlineSymmetries": [
+        "translation",
+        "half turn"
+      ],
+      "Source": {
+        "Elements": 11950,
+        "Carriers": 0,
+        "Locations": 0
+      },
+      "View": {
+        "Elements": 40929,
+        "Carriers": 71,
+        "Locations": 5382
+      }
+    },
+    {
+      "Name": "Same layers \u2014 fast phase opposed",
+      "RootRounds": 16,
+      "Components": 3,
+      "PhaseParticipants": 19,
+      "Features": {
+        "Samples": 16,
+        "DistinctWords": 4,
+        "ChangedWordTransitions": 16,
+        "CurrentWordContextsWithAlternatives": 1,
+        "Unresolved": 0,
+        "Violations": 0,
+        "LegalityUnresolved": 0
+      },
+      "Coordination": {
+        "SameFacePairs": 4,
+        "OpposedFacePairs": 4,
+        "Unresolved": 0
+      },
+      "Conditioned": [
+        {
+          "FirstPort": "Slow square excursion",
+          "SecondPort": "Fast triangle",
+          "FirstFace": "up",
+          "Same": 0,
+          "Opposed": 4
+        },
+        {
+          "FirstPort": "Slow square excursion",
+          "SecondPort": "Fast triangle",
+          "FirstFace": "down",
+          "Same": 4,
+          "Opposed": 0
+        }
+      ],
+      "Calibration": {
+        "Horizontal": 4,
+        "Vertical": 4,
+        "SquareNibWidth": 2
+      },
+      "Strokes": 16,
+      "Polygons": 16,
+      "Copies": 50,
+      "CenterlinePeriodX": 64,
+      "CenterlineFundamentalPeriodX": 64,
+      "CenterlineOverlaps": 0,
+      "CenterlineCrossings": 0,
+      "CenterlineSymmetries": [
+        "translation",
+        "half turn"
+      ],
+      "Source": {
+        "Elements": 11968,
+        "Carriers": 0,
+        "Locations": 0
+      },
+      "View": {
+        "Elements": 40947,
+        "Carriers": 71,
+        "Locations": 5382
+      }
+    },
+    {
+      "Name": "Slow square \u002B middle triangle \u002B fast triangle",
+      "RootRounds": 16,
+      "Components": 4,
+      "PhaseParticipants": 27,
+      "Features": {
+        "Samples": 16,
+        "DistinctWords": 6,
+        "ChangedWordTransitions": 16,
+        "CurrentWordContextsWithAlternatives": 2,
+        "Unresolved": 0,
+        "Violations": 0,
+        "LegalityUnresolved": 0
+      },
+      "Coordination": {
+        "SameFacePairs": 16,
+        "OpposedFacePairs": 16,
+        "Unresolved": 0
+      },
+      "Conditioned": [
+        {
+          "FirstPort": "Slow square excursion",
+          "SecondPort": "Middle triangle",
+          "FirstFace": "up",
+          "Same": 4,
+          "Opposed": 0
+        },
+        {
+          "FirstPort": "Slow square excursion",
+          "SecondPort": "Fast triangle",
+          "FirstFace": "up",
+          "Same": 4,
+          "Opposed": 0
+        },
+        {
+          "FirstPort": "Middle triangle",
+          "SecondPort": "Fast triangle",
+          "FirstFace": "up",
+          "Same": 4,
+          "Opposed": 4
+        },
+        {
+          "FirstPort": "Middle triangle",
+          "SecondPort": "Fast triangle",
+          "FirstFace": "down",
+          "Same": 4,
+          "Opposed": 4
+        },
+        {
+          "FirstPort": "Slow square excursion",
+          "SecondPort": "Middle triangle",
+          "FirstFace": "down",
+          "Same": 0,
+          "Opposed": 4
+        },
+        {
+          "FirstPort": "Slow square excursion",
+          "SecondPort": "Fast triangle",
+          "FirstFace": "down",
+          "Same": 0,
+          "Opposed": 4
+        }
+      ],
+      "Calibration": {
+        "Horizontal": 4,
+        "Vertical": 4,
+        "SquareNibWidth": 2
+      },
+      "Strokes": 16,
+      "Polygons": 16,
+      "Copies": 50,
+      "CenterlinePeriodX": 64,
+      "CenterlineFundamentalPeriodX": 64,
+      "CenterlineOverlaps": 0,
+      "CenterlineCrossings": 0,
+      "CenterlineSymmetries": [
+        "translation"
+      ],
+      "Source": {
+        "Elements": 15261,
+        "Carriers": 0,
+        "Locations": 0
+      },
+      "View": {
+        "Elements": 70505,
+        "Carriers": 71,
+        "Locations": 9798
+      }
+    },
+    {
+      "Name": "Sixteen-slot regular pulses",
+      "RootRounds": 32,
+      "Components": 2,
+      "PhaseParticipants": 33,
+      "Features": {
+        "Samples": 32,
+        "DistinctWords": 3,
+        "ChangedWordTransitions": 12,
+        "CurrentWordContextsWithAlternatives": 1,
+        "Unresolved": 0,
+        "Violations": 0,
+        "LegalityUnresolved": 0
+      },
+      "Coordination": {
+        "SameFacePairs": 0,
+        "OpposedFacePairs": 0,
+        "Unresolved": 0
+      },
+      "Conditioned": [],
+      "Calibration": {
+        "Horizontal": 4,
+        "Vertical": 4,
+        "SquareNibWidth": 2
+      },
+      "Strokes": 32,
+      "Polygons": 32,
+      "Copies": 98,
+      "CenterlinePeriodX": 128,
+      "CenterlineFundamentalPeriodX": 32,
+      "CenterlineOverlaps": 0,
+      "CenterlineCrossings": 0,
+      "CenterlineSymmetries": [
+        "translation",
+        "vertical mirror"
+      ],
+      "Source": {
+        "Elements": 20922,
+        "Carriers": 0,
+        "Locations": 0
+      },
+      "View": {
+        "Elements": 180377,
+        "Carriers": 135,
+        "Locations": 21926
+      }
+    },
+    {
+      "Name": "Grouped 3\u20133\u20132 pulses",
+      "RootRounds": 16,
+      "Components": 2,
+      "PhaseParticipants": 17,
+      "Features": {
+        "Samples": 16,
+        "DistinctWords": 3,
+        "ChangedWordTransitions": 9,
+        "CurrentWordContextsWithAlternatives": 1,
+        "Unresolved": 0,
+        "Violations": 0,
+        "LegalityUnresolved": 0
+      },
+      "Coordination": {
+        "SameFacePairs": 0,
+        "OpposedFacePairs": 0,
+        "Unresolved": 0
+      },
+      "Conditioned": [],
+      "Calibration": {
+        "Horizontal": 4,
+        "Vertical": 4,
+        "SquareNibWidth": 2
+      },
+      "Strokes": 16,
+      "Polygons": 16,
+      "Copies": 50,
+      "CenterlinePeriodX": 64,
+      "CenterlineFundamentalPeriodX": 64,
+      "CenterlineOverlaps": 0,
+      "CenterlineCrossings": 0,
+      "CenterlineSymmetries": [
+        "translation",
+        "vertical mirror"
+      ],
+      "Source": {
+        "Elements": 9757,
+        "Carriers": 0,
+        "Locations": 0
+      },
+      "View": {
+        "Elements": 72203,
+        "Carriers": 71,
+        "Locations": 11186
+      }
+    },
+    {
+      "Name": "Rectilinear folded key / same brush",
+      "RootRounds": 7,
+      "Components": 1,
+      "PhaseParticipants": 7,
+      "Features": {
+        "Samples": 7,
+        "DistinctWords": 5,
+        "ChangedWordTransitions": 6,
+        "CurrentWordContextsWithAlternatives": 2,
+        "Unresolved": 0,
+        "Violations": 0,
+        "LegalityUnresolved": 0
+      },
+      "Coordination": {
+        "SameFacePairs": 0,
+        "OpposedFacePairs": 0,
+        "Unresolved": 0
+      },
+      "Conditioned": [],
+      "Calibration": {
+        "Horizontal": 4,
+        "Vertical": 4,
+        "SquareNibWidth": 2
+      },
+      "Strokes": 7,
+      "Polygons": 7,
+      "Copies": 26,
+      "CenterlinePeriodX": 12,
+      "CenterlineFundamentalPeriodX": 12,
+      "CenterlineOverlaps": 0,
+      "CenterlineCrossings": 0,
+      "CenterlineSymmetries": [
+        "translation",
+        "half turn"
+      ],
+      "Source": {
+        "Elements": 3252,
+        "Carriers": 0,
+        "Locations": 0
+      },
+      "View": {
+        "Elements": 13038,
+        "Carriers": 38,
+        "Locations": 2150
+      }
+    }
+  ],
+  "Styles": [
+    {
+      "Name": "Slow square excursion \u002B fast triangle",
+      "RootRounds": 16,
+      "Components": 3,
+      "PhaseParticipants": 19,
+      "Features": {
+        "Samples": 16,
+        "DistinctWords": 4,
+        "ChangedWordTransitions": 16,
+        "CurrentWordContextsWithAlternatives": 1,
+        "Unresolved": 0,
+        "Violations": 0,
+        "LegalityUnresolved": 0
+      },
+      "Coordination": {
+        "SameFacePairs": 4,
+        "OpposedFacePairs": 4,
+        "Unresolved": 0
+      },
+      "Conditioned": [
+        {
+          "FirstPort": "Slow square excursion",
+          "SecondPort": "Fast triangle",
+          "FirstFace": "up",
+          "Same": 4,
+          "Opposed": 0
+        },
+        {
+          "FirstPort": "Slow square excursion",
+          "SecondPort": "Fast triangle",
+          "FirstFace": "down",
+          "Same": 0,
+          "Opposed": 4
+        }
+      ],
+      "Calibration": {
+        "Horizontal": 4,
+        "Vertical": 4,
+        "SquareNibWidth": 1
+      },
+      "Strokes": 16,
+      "Polygons": 16,
+      "Copies": 50,
+      "CenterlinePeriodX": 64,
+      "CenterlineFundamentalPeriodX": 64,
+      "CenterlineOverlaps": 0,
+      "CenterlineCrossings": 0,
+      "CenterlineSymmetries": [
+        "translation",
+        "half turn"
+      ],
+      "Source": {
+        "Elements": 11950,
+        "Carriers": 0,
+        "Locations": 0
+      },
+      "View": {
+        "Elements": 44133,
+        "Carriers": 71,
+        "Locations": 6450
+      }
+    },
+    {
+      "Name": "Slow square excursion \u002B fast triangle",
+      "RootRounds": 16,
+      "Components": 3,
+      "PhaseParticipants": 19,
+      "Features": {
+        "Samples": 16,
+        "DistinctWords": 4,
+        "ChangedWordTransitions": 16,
+        "CurrentWordContextsWithAlternatives": 1,
+        "Unresolved": 0,
+        "Violations": 0,
+        "LegalityUnresolved": 0
+      },
+      "Coordination": {
+        "SameFacePairs": 4,
+        "OpposedFacePairs": 4,
+        "Unresolved": 0
+      },
+      "Conditioned": [
+        {
+          "FirstPort": "Slow square excursion",
+          "SecondPort": "Fast triangle",
+          "FirstFace": "up",
+          "Same": 4,
+          "Opposed": 0
+        },
+        {
+          "FirstPort": "Slow square excursion",
+          "SecondPort": "Fast triangle",
+          "FirstFace": "down",
+          "Same": 0,
+          "Opposed": 4
+        }
+      ],
+      "Calibration": {
+        "Horizontal": 4,
+        "Vertical": 4,
+        "SquareNibWidth": 3
+      },
+      "Strokes": 16,
+      "Polygons": 16,
+      "Copies": 50,
+      "CenterlinePeriodX": 64,
+      "CenterlineFundamentalPeriodX": 64,
+      "CenterlineOverlaps": 0,
+      "CenterlineCrossings": 0,
+      "CenterlineSymmetries": [
+        "translation",
+        "half turn"
+      ],
+      "Source": {
+        "Elements": 11950,
+        "Carriers": 0,
+        "Locations": 0
+      },
+      "View": {
+        "Elements": 44133,
+        "Carriers": 71,
+        "Locations": 6450
+      }
+    },
+    {
+      "Name": "Slow square excursion \u002B fast triangle",
+      "RootRounds": 16,
+      "Components": 3,
+      "PhaseParticipants": 19,
+      "Features": {
+        "Samples": 16,
+        "DistinctWords": 4,
+        "ChangedWordTransitions": 16,
+        "CurrentWordContextsWithAlternatives": 1,
+        "Unresolved": 0,
+        "Violations": 0,
+        "LegalityUnresolved": 0
+      },
+      "Coordination": {
+        "SameFacePairs": 4,
+        "OpposedFacePairs": 4,
+        "Unresolved": 0
+      },
+      "Conditioned": [
+        {
+          "FirstPort": "Slow square excursion",
+          "SecondPort": "Fast triangle",
+          "FirstFace": "up",
+          "Same": 4,
+          "Opposed": 0
+        },
+        {
+          "FirstPort": "Slow square excursion",
+          "SecondPort": "Fast triangle",
+          "FirstFace": "down",
+          "Same": 0,
+          "Opposed": 4
+        }
+      ],
+      "Calibration": {
+        "Horizontal": 4,
+        "Vertical": 8,
+        "SquareNibWidth": 2
+      },
+      "Strokes": 16,
+      "Polygons": 16,
+      "Copies": 50,
+      "CenterlinePeriodX": 64,
+      "CenterlineFundamentalPeriodX": 64,
+      "CenterlineOverlaps": 0,
+      "CenterlineCrossings": 0,
+      "CenterlineSymmetries": [
+        "translation",
+        "half turn"
+      ],
+      "Source": {
+        "Elements": 11950,
+        "Carriers": 0,
+        "Locations": 0
+      },
+      "View": {
+        "Elements": 40929,
+        "Carriers": 71,
+        "Locations": 5382
+      }
+    },
+    {
+      "Name": "Same layers \u2014 fast phase opposed",
+      "RootRounds": 16,
+      "Components": 3,
+      "PhaseParticipants": 19,
+      "Features": {
+        "Samples": 16,
+        "DistinctWords": 4,
+        "ChangedWordTransitions": 16,
+        "CurrentWordContextsWithAlternatives": 1,
+        "Unresolved": 0,
+        "Violations": 0,
+        "LegalityUnresolved": 0
+      },
+      "Coordination": {
+        "SameFacePairs": 4,
+        "OpposedFacePairs": 4,
+        "Unresolved": 0
+      },
+      "Conditioned": [
+        {
+          "FirstPort": "Slow square excursion",
+          "SecondPort": "Fast triangle",
+          "FirstFace": "up",
+          "Same": 0,
+          "Opposed": 4
+        },
+        {
+          "FirstPort": "Slow square excursion",
+          "SecondPort": "Fast triangle",
+          "FirstFace": "down",
+          "Same": 4,
+          "Opposed": 0
+        }
+      ],
+      "Calibration": {
+        "Horizontal": 4,
+        "Vertical": 4,
+        "SquareNibWidth": 1
+      },
+      "Strokes": 16,
+      "Polygons": 16,
+      "Copies": 50,
+      "CenterlinePeriodX": 64,
+      "CenterlineFundamentalPeriodX": 64,
+      "CenterlineOverlaps": 0,
+      "CenterlineCrossings": 0,
+      "CenterlineSymmetries": [
+        "translation",
+        "half turn"
+      ],
+      "Source": {
+        "Elements": 11968,
+        "Carriers": 0,
+        "Locations": 0
+      },
+      "View": {
+        "Elements": 44151,
+        "Carriers": 71,
+        "Locations": 6450
+      }
+    },
+    {
+      "Name": "Same layers \u2014 fast phase opposed",
+      "RootRounds": 16,
+      "Components": 3,
+      "PhaseParticipants": 19,
+      "Features": {
+        "Samples": 16,
+        "DistinctWords": 4,
+        "ChangedWordTransitions": 16,
+        "CurrentWordContextsWithAlternatives": 1,
+        "Unresolved": 0,
+        "Violations": 0,
+        "LegalityUnresolved": 0
+      },
+      "Coordination": {
+        "SameFacePairs": 4,
+        "OpposedFacePairs": 4,
+        "Unresolved": 0
+      },
+      "Conditioned": [
+        {
+          "FirstPort": "Slow square excursion",
+          "SecondPort": "Fast triangle",
+          "FirstFace": "up",
+          "Same": 0,
+          "Opposed": 4
+        },
+        {
+          "FirstPort": "Slow square excursion",
+          "SecondPort": "Fast triangle",
+          "FirstFace": "down",
+          "Same": 4,
+          "Opposed": 0
+        }
+      ],
+      "Calibration": {
+        "Horizontal": 4,
+        "Vertical": 4,
+        "SquareNibWidth": 3
+      },
+      "Strokes": 16,
+      "Polygons": 16,
+      "Copies": 50,
+      "CenterlinePeriodX": 64,
+      "CenterlineFundamentalPeriodX": 64,
+      "CenterlineOverlaps": 0,
+      "CenterlineCrossings": 0,
+      "CenterlineSymmetries": [
+        "translation",
+        "half turn"
+      ],
+      "Source": {
+        "Elements": 11968,
+        "Carriers": 0,
+        "Locations": 0
+      },
+      "View": {
+        "Elements": 44151,
+        "Carriers": 71,
+        "Locations": 6450
+      }
+    },
+    {
+      "Name": "Same layers \u2014 fast phase opposed",
+      "RootRounds": 16,
+      "Components": 3,
+      "PhaseParticipants": 19,
+      "Features": {
+        "Samples": 16,
+        "DistinctWords": 4,
+        "ChangedWordTransitions": 16,
+        "CurrentWordContextsWithAlternatives": 1,
+        "Unresolved": 0,
+        "Violations": 0,
+        "LegalityUnresolved": 0
+      },
+      "Coordination": {
+        "SameFacePairs": 4,
+        "OpposedFacePairs": 4,
+        "Unresolved": 0
+      },
+      "Conditioned": [
+        {
+          "FirstPort": "Slow square excursion",
+          "SecondPort": "Fast triangle",
+          "FirstFace": "up",
+          "Same": 0,
+          "Opposed": 4
+        },
+        {
+          "FirstPort": "Slow square excursion",
+          "SecondPort": "Fast triangle",
+          "FirstFace": "down",
+          "Same": 4,
+          "Opposed": 0
+        }
+      ],
+      "Calibration": {
+        "Horizontal": 4,
+        "Vertical": 8,
+        "SquareNibWidth": 2
+      },
+      "Strokes": 16,
+      "Polygons": 16,
+      "Copies": 50,
+      "CenterlinePeriodX": 64,
+      "CenterlineFundamentalPeriodX": 64,
+      "CenterlineOverlaps": 0,
+      "CenterlineCrossings": 0,
+      "CenterlineSymmetries": [
+        "translation",
+        "half turn"
+      ],
+      "Source": {
+        "Elements": 11968,
+        "Carriers": 0,
+        "Locations": 0
+      },
+      "View": {
+        "Elements": 40947,
+        "Carriers": 71,
+        "Locations": 5382
+      }
+    },
+    {
+      "Name": "Slow square \u002B middle triangle \u002B fast triangle",
+      "RootRounds": 16,
+      "Components": 4,
+      "PhaseParticipants": 27,
+      "Features": {
+        "Samples": 16,
+        "DistinctWords": 6,
+        "ChangedWordTransitions": 16,
+        "CurrentWordContextsWithAlternatives": 2,
+        "Unresolved": 0,
+        "Violations": 0,
+        "LegalityUnresolved": 0
+      },
+      "Coordination": {
+        "SameFacePairs": 16,
+        "OpposedFacePairs": 16,
+        "Unresolved": 0
+      },
+      "Conditioned": [
+        {
+          "FirstPort": "Slow square excursion",
+          "SecondPort": "Middle triangle",
+          "FirstFace": "up",
+          "Same": 4,
+          "Opposed": 0
+        },
+        {
+          "FirstPort": "Slow square excursion",
+          "SecondPort": "Fast triangle",
+          "FirstFace": "up",
+          "Same": 4,
+          "Opposed": 0
+        },
+        {
+          "FirstPort": "Middle triangle",
+          "SecondPort": "Fast triangle",
+          "FirstFace": "up",
+          "Same": 4,
+          "Opposed": 4
+        },
+        {
+          "FirstPort": "Middle triangle",
+          "SecondPort": "Fast triangle",
+          "FirstFace": "down",
+          "Same": 4,
+          "Opposed": 4
+        },
+        {
+          "FirstPort": "Slow square excursion",
+          "SecondPort": "Middle triangle",
+          "FirstFace": "down",
+          "Same": 0,
+          "Opposed": 4
+        },
+        {
+          "FirstPort": "Slow square excursion",
+          "SecondPort": "Fast triangle",
+          "FirstFace": "down",
+          "Same": 0,
+          "Opposed": 4
+        }
+      ],
+      "Calibration": {
+        "Horizontal": 4,
+        "Vertical": 4,
+        "SquareNibWidth": 1
+      },
+      "Strokes": 16,
+      "Polygons": 16,
+      "Copies": 50,
+      "CenterlinePeriodX": 64,
+      "CenterlineFundamentalPeriodX": 64,
+      "CenterlineOverlaps": 0,
+      "CenterlineCrossings": 0,
+      "CenterlineSymmetries": [
+        "translation"
+      ],
+      "Source": {
+        "Elements": 15261,
+        "Carriers": 0,
+        "Locations": 0
+      },
+      "View": {
+        "Elements": 73709,
+        "Carriers": 71,
+        "Locations": 10866
+      }
+    },
+    {
+      "Name": "Slow square \u002B middle triangle \u002B fast triangle",
+      "RootRounds": 16,
+      "Components": 4,
+      "PhaseParticipants": 27,
+      "Features": {
+        "Samples": 16,
+        "DistinctWords": 6,
+        "ChangedWordTransitions": 16,
+        "CurrentWordContextsWithAlternatives": 2,
+        "Unresolved": 0,
+        "Violations": 0,
+        "LegalityUnresolved": 0
+      },
+      "Coordination": {
+        "SameFacePairs": 16,
+        "OpposedFacePairs": 16,
+        "Unresolved": 0
+      },
+      "Conditioned": [
+        {
+          "FirstPort": "Slow square excursion",
+          "SecondPort": "Middle triangle",
+          "FirstFace": "up",
+          "Same": 4,
+          "Opposed": 0
+        },
+        {
+          "FirstPort": "Slow square excursion",
+          "SecondPort": "Fast triangle",
+          "FirstFace": "up",
+          "Same": 4,
+          "Opposed": 0
+        },
+        {
+          "FirstPort": "Middle triangle",
+          "SecondPort": "Fast triangle",
+          "FirstFace": "up",
+          "Same": 4,
+          "Opposed": 4
+        },
+        {
+          "FirstPort": "Middle triangle",
+          "SecondPort": "Fast triangle",
+          "FirstFace": "down",
+          "Same": 4,
+          "Opposed": 4
+        },
+        {
+          "FirstPort": "Slow square excursion",
+          "SecondPort": "Middle triangle",
+          "FirstFace": "down",
+          "Same": 0,
+          "Opposed": 4
+        },
+        {
+          "FirstPort": "Slow square excursion",
+          "SecondPort": "Fast triangle",
+          "FirstFace": "down",
+          "Same": 0,
+          "Opposed": 4
+        }
+      ],
+      "Calibration": {
+        "Horizontal": 4,
+        "Vertical": 4,
+        "SquareNibWidth": 3
+      },
+      "Strokes": 16,
+      "Polygons": 16,
+      "Copies": 50,
+      "CenterlinePeriodX": 64,
+      "CenterlineFundamentalPeriodX": 64,
+      "CenterlineOverlaps": 0,
+      "CenterlineCrossings": 0,
+      "CenterlineSymmetries": [
+        "translation"
+      ],
+      "Source": {
+        "Elements": 15261,
+        "Carriers": 0,
+        "Locations": 0
+      },
+      "View": {
+        "Elements": 73709,
+        "Carriers": 71,
+        "Locations": 10866
+      }
+    },
+    {
+      "Name": "Slow square \u002B middle triangle \u002B fast triangle",
+      "RootRounds": 16,
+      "Components": 4,
+      "PhaseParticipants": 27,
+      "Features": {
+        "Samples": 16,
+        "DistinctWords": 6,
+        "ChangedWordTransitions": 16,
+        "CurrentWordContextsWithAlternatives": 2,
+        "Unresolved": 0,
+        "Violations": 0,
+        "LegalityUnresolved": 0
+      },
+      "Coordination": {
+        "SameFacePairs": 16,
+        "OpposedFacePairs": 16,
+        "Unresolved": 0
+      },
+      "Conditioned": [
+        {
+          "FirstPort": "Slow square excursion",
+          "SecondPort": "Middle triangle",
+          "FirstFace": "up",
+          "Same": 4,
+          "Opposed": 0
+        },
+        {
+          "FirstPort": "Slow square excursion",
+          "SecondPort": "Fast triangle",
+          "FirstFace": "up",
+          "Same": 4,
+          "Opposed": 0
+        },
+        {
+          "FirstPort": "Middle triangle",
+          "SecondPort": "Fast triangle",
+          "FirstFace": "up",
+          "Same": 4,
+          "Opposed": 4
+        },
+        {
+          "FirstPort": "Middle triangle",
+          "SecondPort": "Fast triangle",
+          "FirstFace": "down",
+          "Same": 4,
+          "Opposed": 4
+        },
+        {
+          "FirstPort": "Slow square excursion",
+          "SecondPort": "Middle triangle",
+          "FirstFace": "down",
+          "Same": 0,
+          "Opposed": 4
+        },
+        {
+          "FirstPort": "Slow square excursion",
+          "SecondPort": "Fast triangle",
+          "FirstFace": "down",
+          "Same": 0,
+          "Opposed": 4
+        }
+      ],
+      "Calibration": {
+        "Horizontal": 4,
+        "Vertical": 8,
+        "SquareNibWidth": 2
+      },
+      "Strokes": 16,
+      "Polygons": 16,
+      "Copies": 50,
+      "CenterlinePeriodX": 64,
+      "CenterlineFundamentalPeriodX": 64,
+      "CenterlineOverlaps": 0,
+      "CenterlineCrossings": 0,
+      "CenterlineSymmetries": [
+        "translation"
+      ],
+      "Source": {
+        "Elements": 15261,
+        "Carriers": 0,
+        "Locations": 0
+      },
+      "View": {
+        "Elements": 70505,
+        "Carriers": 71,
+        "Locations": 9798
+      }
+    },
+    {
+      "Name": "Sixteen-slot regular pulses",
+      "RootRounds": 32,
+      "Components": 2,
+      "PhaseParticipants": 33,
+      "Features": {
+        "Samples": 32,
+        "DistinctWords": 3,
+        "ChangedWordTransitions": 12,
+        "CurrentWordContextsWithAlternatives": 1,
+        "Unresolved": 0,
+        "Violations": 0,
+        "LegalityUnresolved": 0
+      },
+      "Coordination": {
+        "SameFacePairs": 0,
+        "OpposedFacePairs": 0,
+        "Unresolved": 0
+      },
+      "Conditioned": [],
+      "Calibration": {
+        "Horizontal": 4,
+        "Vertical": 4,
+        "SquareNibWidth": 1
+      },
+      "Strokes": 32,
+      "Polygons": 32,
+      "Copies": 98,
+      "CenterlinePeriodX": 128,
+      "CenterlineFundamentalPeriodX": 32,
+      "CenterlineOverlaps": 0,
+      "CenterlineCrossings": 0,
+      "CenterlineSymmetries": [
+        "translation",
+        "vertical mirror"
+      ],
+      "Source": {
+        "Elements": 20922,
+        "Carriers": 0,
+        "Locations": 0
+      },
+      "View": {
+        "Elements": 186653,
+        "Carriers": 135,
+        "Locations": 24018
+      }
+    },
+    {
+      "Name": "Sixteen-slot regular pulses",
+      "RootRounds": 32,
+      "Components": 2,
+      "PhaseParticipants": 33,
+      "Features": {
+        "Samples": 32,
+        "DistinctWords": 3,
+        "ChangedWordTransitions": 12,
+        "CurrentWordContextsWithAlternatives": 1,
+        "Unresolved": 0,
+        "Violations": 0,
+        "LegalityUnresolved": 0
+      },
+      "Coordination": {
+        "SameFacePairs": 0,
+        "OpposedFacePairs": 0,
+        "Unresolved": 0
+      },
+      "Conditioned": [],
+      "Calibration": {
+        "Horizontal": 4,
+        "Vertical": 4,
+        "SquareNibWidth": 3
+      },
+      "Strokes": 32,
+      "Polygons": 32,
+      "Copies": 98,
+      "CenterlinePeriodX": 128,
+      "CenterlineFundamentalPeriodX": 32,
+      "CenterlineOverlaps": 0,
+      "CenterlineCrossings": 0,
+      "CenterlineSymmetries": [
+        "translation",
+        "vertical mirror"
+      ],
+      "Source": {
+        "Elements": 20922,
+        "Carriers": 0,
+        "Locations": 0
+      },
+      "View": {
+        "Elements": 186653,
+        "Carriers": 135,
+        "Locations": 24018
+      }
+    },
+    {
+      "Name": "Sixteen-slot regular pulses",
+      "RootRounds": 32,
+      "Components": 2,
+      "PhaseParticipants": 33,
+      "Features": {
+        "Samples": 32,
+        "DistinctWords": 3,
+        "ChangedWordTransitions": 12,
+        "CurrentWordContextsWithAlternatives": 1,
+        "Unresolved": 0,
+        "Violations": 0,
+        "LegalityUnresolved": 0
+      },
+      "Coordination": {
+        "SameFacePairs": 0,
+        "OpposedFacePairs": 0,
+        "Unresolved": 0
+      },
+      "Conditioned": [],
+      "Calibration": {
+        "Horizontal": 4,
+        "Vertical": 8,
+        "SquareNibWidth": 2
+      },
+      "Strokes": 32,
+      "Polygons": 32,
+      "Copies": 98,
+      "CenterlinePeriodX": 128,
+      "CenterlineFundamentalPeriodX": 32,
+      "CenterlineOverlaps": 0,
+      "CenterlineCrossings": 0,
+      "CenterlineSymmetries": [
+        "translation",
+        "vertical mirror"
+      ],
+      "Source": {
+        "Elements": 20922,
+        "Carriers": 0,
+        "Locations": 0
+      },
+      "View": {
+        "Elements": 180377,
+        "Carriers": 135,
+        "Locations": 21926
+      }
+    },
+    {
+      "Name": "Grouped 3\u20133\u20132 pulses",
+      "RootRounds": 16,
+      "Components": 2,
+      "PhaseParticipants": 17,
+      "Features": {
+        "Samples": 16,
+        "DistinctWords": 3,
+        "ChangedWordTransitions": 9,
+        "CurrentWordContextsWithAlternatives": 1,
+        "Unresolved": 0,
+        "Violations": 0,
+        "LegalityUnresolved": 0
+      },
+      "Coordination": {
+        "SameFacePairs": 0,
+        "OpposedFacePairs": 0,
+        "Unresolved": 0
+      },
+      "Conditioned": [],
+      "Calibration": {
+        "Horizontal": 4,
+        "Vertical": 4,
+        "SquareNibWidth": 1
+      },
+      "Strokes": 16,
+      "Polygons": 16,
+      "Copies": 50,
+      "CenterlinePeriodX": 64,
+      "CenterlineFundamentalPeriodX": 64,
+      "CenterlineOverlaps": 0,
+      "CenterlineCrossings": 0,
+      "CenterlineSymmetries": [
+        "translation",
+        "vertical mirror"
+      ],
+      "Source": {
+        "Elements": 9757,
+        "Carriers": 0,
+        "Locations": 0
+      },
+      "View": {
+        "Elements": 75407,
+        "Carriers": 71,
+        "Locations": 12254
+      }
+    },
+    {
+      "Name": "Grouped 3\u20133\u20132 pulses",
+      "RootRounds": 16,
+      "Components": 2,
+      "PhaseParticipants": 17,
+      "Features": {
+        "Samples": 16,
+        "DistinctWords": 3,
+        "ChangedWordTransitions": 9,
+        "CurrentWordContextsWithAlternatives": 1,
+        "Unresolved": 0,
+        "Violations": 0,
+        "LegalityUnresolved": 0
+      },
+      "Coordination": {
+        "SameFacePairs": 0,
+        "OpposedFacePairs": 0,
+        "Unresolved": 0
+      },
+      "Conditioned": [],
+      "Calibration": {
+        "Horizontal": 4,
+        "Vertical": 4,
+        "SquareNibWidth": 3
+      },
+      "Strokes": 16,
+      "Polygons": 16,
+      "Copies": 50,
+      "CenterlinePeriodX": 64,
+      "CenterlineFundamentalPeriodX": 64,
+      "CenterlineOverlaps": 0,
+      "CenterlineCrossings": 0,
+      "CenterlineSymmetries": [
+        "translation",
+        "vertical mirror"
+      ],
+      "Source": {
+        "Elements": 9757,
+        "Carriers": 0,
+        "Locations": 0
+      },
+      "View": {
+        "Elements": 75407,
+        "Carriers": 71,
+        "Locations": 12254
+      }
+    },
+    {
+      "Name": "Grouped 3\u20133\u20132 pulses",
+      "RootRounds": 16,
+      "Components": 2,
+      "PhaseParticipants": 17,
+      "Features": {
+        "Samples": 16,
+        "DistinctWords": 3,
+        "ChangedWordTransitions": 9,
+        "CurrentWordContextsWithAlternatives": 1,
+        "Unresolved": 0,
+        "Violations": 0,
+        "LegalityUnresolved": 0
+      },
+      "Coordination": {
+        "SameFacePairs": 0,
+        "OpposedFacePairs": 0,
+        "Unresolved": 0
+      },
+      "Conditioned": [],
+      "Calibration": {
+        "Horizontal": 4,
+        "Vertical": 8,
+        "SquareNibWidth": 2
+      },
+      "Strokes": 16,
+      "Polygons": 16,
+      "Copies": 50,
+      "CenterlinePeriodX": 64,
+      "CenterlineFundamentalPeriodX": 64,
+      "CenterlineOverlaps": 0,
+      "CenterlineCrossings": 0,
+      "CenterlineSymmetries": [
+        "translation",
+        "vertical mirror"
+      ],
+      "Source": {
+        "Elements": 9757,
+        "Carriers": 0,
+        "Locations": 0
+      },
+      "View": {
+        "Elements": 72203,
+        "Carriers": 71,
+        "Locations": 11186
+      }
+    },
+    {
+      "Name": "Rectilinear folded key / same brush",
+      "RootRounds": 7,
+      "Components": 1,
+      "PhaseParticipants": 7,
+      "Features": {
+        "Samples": 7,
+        "DistinctWords": 5,
+        "ChangedWordTransitions": 6,
+        "CurrentWordContextsWithAlternatives": 2,
+        "Unresolved": 0,
+        "Violations": 0,
+        "LegalityUnresolved": 0
+      },
+      "Coordination": {
+        "SameFacePairs": 0,
+        "OpposedFacePairs": 0,
+        "Unresolved": 0
+      },
+      "Conditioned": [],
+      "Calibration": {
+        "Horizontal": 4,
+        "Vertical": 4,
+        "SquareNibWidth": 1
+      },
+      "Strokes": 7,
+      "Polygons": 7,
+      "Copies": 26,
+      "CenterlinePeriodX": 12,
+      "CenterlineFundamentalPeriodX": 12,
+      "CenterlineOverlaps": 0,
+      "CenterlineCrossings": 0,
+      "CenterlineSymmetries": [
+        "translation",
+        "half turn"
+      ],
+      "Source": {
+        "Elements": 3252,
+        "Carriers": 0,
+        "Locations": 0
+      },
+      "View": {
+        "Elements": 14658,
+        "Carriers": 38,
+        "Locations": 2690
+      }
+    },
+    {
+      "Name": "Rectilinear folded key / same brush",
+      "RootRounds": 7,
+      "Components": 1,
+      "PhaseParticipants": 7,
+      "Features": {
+        "Samples": 7,
+        "DistinctWords": 5,
+        "ChangedWordTransitions": 6,
+        "CurrentWordContextsWithAlternatives": 2,
+        "Unresolved": 0,
+        "Violations": 0,
+        "LegalityUnresolved": 0
+      },
+      "Coordination": {
+        "SameFacePairs": 0,
+        "OpposedFacePairs": 0,
+        "Unresolved": 0
+      },
+      "Conditioned": [],
+      "Calibration": {
+        "Horizontal": 4,
+        "Vertical": 4,
+        "SquareNibWidth": 3
+      },
+      "Strokes": 7,
+      "Polygons": 7,
+      "Copies": 26,
+      "CenterlinePeriodX": 12,
+      "CenterlineFundamentalPeriodX": 12,
+      "CenterlineOverlaps": 0,
+      "CenterlineCrossings": 0,
+      "CenterlineSymmetries": [
+        "translation",
+        "half turn"
+      ],
+      "Source": {
+        "Elements": 3252,
+        "Carriers": 0,
+        "Locations": 0
+      },
+      "View": {
+        "Elements": 14658,
+        "Carriers": 38,
+        "Locations": 2690
+      }
+    },
+    {
+      "Name": "Rectilinear folded key / same brush",
+      "RootRounds": 7,
+      "Components": 1,
+      "PhaseParticipants": 7,
+      "Features": {
+        "Samples": 7,
+        "DistinctWords": 5,
+        "ChangedWordTransitions": 6,
+        "CurrentWordContextsWithAlternatives": 2,
+        "Unresolved": 0,
+        "Violations": 0,
+        "LegalityUnresolved": 0
+      },
+      "Coordination": {
+        "SameFacePairs": 0,
+        "OpposedFacePairs": 0,
+        "Unresolved": 0
+      },
+      "Conditioned": [],
+      "Calibration": {
+        "Horizontal": 4,
+        "Vertical": 8,
+        "SquareNibWidth": 2
+      },
+      "Strokes": 7,
+      "Polygons": 7,
+      "Copies": 26,
+      "CenterlinePeriodX": 12,
+      "CenterlineFundamentalPeriodX": 12,
+      "CenterlineOverlaps": 0,
+      "CenterlineCrossings": 0,
+      "CenterlineSymmetries": [
+        "translation",
+        "half turn"
+      ],
+      "Source": {
+        "Elements": 3252,
+        "Carriers": 0,
+        "Locations": 0
+      },
+      "View": {
+        "Elements": 13038,
+        "Carriers": 38,
+        "Locations": 2150
+      }
+    }
+  ],
+  "Controls": [
+    {
+      "Name": "Constant drift / maximum reuse",
+      "RootRounds": 1,
+      "Components": 1,
+      "PhaseParticipants": 1,
+      "Features": {
+        "Samples": 1,
+        "DistinctWords": 1,
+        "ChangedWordTransitions": 0,
+        "CurrentWordContextsWithAlternatives": 0,
+        "Unresolved": 0,
+        "Violations": 0,
+        "LegalityUnresolved": 0
+      },
+      "Coordination": {
+        "SameFacePairs": 0,
+        "OpposedFacePairs": 0,
+        "Unresolved": 0
+      },
+      "Conditioned": [],
+      "Calibration": {
+        "Horizontal": 4,
+        "Vertical": 4,
+        "SquareNibWidth": 2
+      },
+      "Strokes": 1,
+      "Polygons": 1,
+      "Copies": 5,
+      "CenterlinePeriodX": 4,
+      "CenterlineFundamentalPeriodX": 4,
+      "CenterlineOverlaps": 0,
+      "CenterlineCrossings": 0,
+      "CenterlineSymmetries": [
+        "translation",
+        "vertical mirror",
+        "horizontal mirror",
+        "half turn",
+        "glide"
+      ],
+      "Source": {
+        "Elements": 914,
+        "Carriers": 0,
+        "Locations": 0
+      },
+      "View": {
+        "Elements": 2391,
+        "Carriers": 11,
+        "Locations": 334
+      }
+    },
+    {
+      "Name": "Alternating words / A B A B",
+      "RootRounds": 4,
+      "Components": 1,
+      "PhaseParticipants": 4,
+      "Features": {
+        "Samples": 4,
+        "DistinctWords": 2,
+        "ChangedWordTransitions": 4,
+        "CurrentWordContextsWithAlternatives": 0,
+        "Unresolved": 0,
+        "Violations": 0,
+        "LegalityUnresolved": 0
+      },
+      "Coordination": {
+        "SameFacePairs": 0,
+        "OpposedFacePairs": 0,
+        "Unresolved": 0
+      },
+      "Conditioned": [],
+      "Calibration": {
+        "Horizontal": 4,
+        "Vertical": 4,
+        "SquareNibWidth": 2
+      },
+      "Strokes": 4,
+      "Polygons": 4,
+      "Copies": 14,
+      "CenterlinePeriodX": 16,
+      "CenterlineFundamentalPeriodX": 8,
+      "CenterlineOverlaps": 0,
+      "CenterlineCrossings": 0,
+      "CenterlineSymmetries": [
+        "translation",
+        "vertical mirror",
+        "half turn",
+        "glide"
+      ],
+      "Source": {
+        "Elements": 2092,
+        "Carriers": 0,
+        "Locations": 0
+      },
+      "View": {
+        "Elements": 6462,
+        "Carriers": 23,
+        "Locations": 950
+      }
+    },
+    {
+      "Name": "Grouped words / A A B B",
+      "RootRounds": 4,
+      "Components": 1,
+      "PhaseParticipants": 4,
+      "Features": {
+        "Samples": 4,
+        "DistinctWords": 2,
+        "ChangedWordTransitions": 2,
+        "CurrentWordContextsWithAlternatives": 2,
+        "Unresolved": 0,
+        "Violations": 0,
+        "LegalityUnresolved": 0
+      },
+      "Coordination": {
+        "SameFacePairs": 0,
+        "OpposedFacePairs": 0,
+        "Unresolved": 0
+      },
+      "Conditioned": [],
+      "Calibration": {
+        "Horizontal": 4,
+        "Vertical": 4,
+        "SquareNibWidth": 2
+      },
+      "Strokes": 4,
+      "Polygons": 4,
+      "Copies": 14,
+      "CenterlinePeriodX": 16,
+      "CenterlineFundamentalPeriodX": 16,
+      "CenterlineOverlaps": 0,
+      "CenterlineCrossings": 0,
+      "CenterlineSymmetries": [
+        "translation",
+        "vertical mirror",
+        "half turn",
+        "glide"
+      ],
+      "Source": {
+        "Elements": 2094,
+        "Carriers": 0,
+        "Locations": 0
+      },
+      "View": {
+        "Elements": 6795,
+        "Carriers": 23,
+        "Locations": 1022
+      }
+    }
+  ],
+  "Notes": [
+    "Feature counts are descriptive projections, not a human-preference model.",
+    "Square-brush sweep is exact; no finite-cell area, Euclidean constant-width or polygon-union claim.",
+    "Several native contributors share a sample; event execution remains a bounded FIFO cascade.",
+    "Colours encode local emitted-word classes in this view, not material ownership or independent cursors."
+  ]
+}

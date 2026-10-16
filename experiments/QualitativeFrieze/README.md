@@ -7,6 +7,23 @@ or numeric locations. The authored gallery below is the generation checkpoint;
 a following bounded feedback experiment adds explicit legality and preference
 reads without changing the kernel.
 
+The [rhythm and diagonal checkpoint](../../Gojo/docs/GojoRhythmPatternExperiment.md)
+adds exact thick diagonal square-brush footprints, slow/fast/middle phase
+compositions, onset-to-pulse correspondences, local colour views and descriptive
+word/coordination features. The [research note](../../Gojo/docs/GojoPatternFitnessResearch.md)
+grounds future aesthetic fitness work in six primary studies while retaining
+context and observer differences.
+
+```powershell
+dotnet run --project experiments/QualitativeFrieze -c Release -- --rhythms
+```
+
+See the [interactive gallery](results/rhythms/gallery.html),
+[main preview](results/rhythms/gallery-preview.png),
+[style controls](results/rhythms/styles.svg),
+[feature counterexamples](results/rhythms/controls.svg)
+and [diagnostics](results/rhythms/diagnostics.json).
+
 The [layer-analysis checkpoint](../../Gojo/docs/GojoPatternLayerExperiment.md)
 connects rhythmic drives, sampling, actual contributions, ordinal quiet regions,
 multiple field support, explicit union/subtraction passes and reusable motif
