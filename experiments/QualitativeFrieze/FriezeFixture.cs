@@ -44,10 +44,11 @@ public sealed class FriezeFixture
             new Relation(Starts, ReachOrder));
     }
 
-    private FriezeFixture(FriezeFixture source, Relation outputLaw, Relation? sampling = null, string? displayName = null)
+    private FriezeFixture(FriezeFixture source, Relation outputLaw, Relation? sampling = null, string? displayName = null,
+        Relation? starts = null)
     {
         Name = displayName ?? source.Name; Frame = source.Frame; Network = source.Network; RootPort = source.RootPort;
-        Components = source.Components; Reaches = source.Reaches; Starts = source.Starts;
+        Components = source.Components; Reaches = source.Reaches; Starts = starts ?? source.Starts;
         Sampling = sampling ?? source.Sampling; ReachOrder = source.ReachOrder; OutputLaw = outputLaw;
         Surface = new(new Relation(new Relation(Network.Surface, Frame.Surface), new Relation(OutputLaw, Sampling)),
             new Relation(Starts, ReachOrder));
@@ -56,6 +57,15 @@ public sealed class FriezeFixture
     /// <summary>An explicit alternative experiment, preserving the old surface
     /// and its laws. Missing emissions are unknown motion, never implicit pauses.</summary>
     public FriezeFixture WithOutputs(Relation outputLaw) => new(this, outputLaw);
+
+    /// <summary>Selects explicit starting phase bindings while retaining the
+    /// exact transition, emission and sampling surfaces. Incomplete bindings
+    /// remain a matter for the native initial-state read.</summary>
+    public FriezeFixture WithStarts(Relation starts, string? displayName = null)
+    {
+        if (!Closed(starts)) throw new ArgumentException("Starting bindings need a closed offered scope.", nameof(starts));
+        return new(this, OutputLaw, displayName: displayName, starts: starts);
+    }
 
     /// <summary>Changes the sampling connections while sharing the exact event
     /// network, motion law and reach identities. Runs still have fresh histories.</summary>

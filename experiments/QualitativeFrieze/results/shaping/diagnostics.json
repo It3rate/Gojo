@@ -1,0 +1,2429 @@
+{
+  "Schema": "qualitative-pattern-shaping-v1",
+  "Method": "Authored qualitative programs and fields; explicit measured interpretations; no stochastic training.",
+  "LibrarySource": {
+    "Elements": 1861,
+    "Carriers": 0,
+    "Locations": 0
+  },
+  "CenteringLineageNodes": 319655,
+  "Gallery": [
+    {
+      "Name": "Square wave",
+      "Kind": "ribbon",
+      "Source": {
+        "Elements": 267,
+        "Carriers": 0,
+        "Locations": 0
+      },
+      "Field": {
+        "Columns": 16,
+        "Rows": 14,
+        "First": 128,
+        "Second": 96,
+        "Regions": 3,
+        "Interfaces": 128,
+        "Unresolved": 0,
+        "Period": 16,
+        "MinimumY": -3,
+        "MaximumY": 11,
+        "BandWidth": 2,
+        "GapWidth": 2,
+        "FirstFraction": 0.5714285714285714
+      },
+      "Geometry": {
+        "PeriodX": 8,
+        "PeriodY": 0,
+        "FundamentalPeriodX": 8,
+        "Height": 4,
+        "StrokeCount": 4,
+        "OverlapCount": 0,
+        "CrossingCount": 0,
+        "ContactCount": 4,
+        "VerifiedSymmetryNames": [
+          "translation",
+          "vertical mirror",
+          "half turn",
+          "glide"
+        ],
+        "UnresolvedCount": 0
+      },
+      "RoleRegions": {
+        "First": 1,
+        "Second": 2
+      },
+      "ElementaryEqualExtent": true,
+      "Exchange": [
+        {
+          "Name": "half-period translation",
+          "Passed": false,
+          "MapRows": 224,
+          "Matched": 1792,
+          "Unmatched": 160,
+          "Unresolved": 0
+        },
+        {
+          "Name": "half-period glide",
+          "Passed": false,
+          "MapRows": 224,
+          "Matched": 1728,
+          "Unmatched": 224,
+          "Unresolved": 0
+        }
+      ],
+      "BoundaryGaps": {
+        "Below": 1,
+        "Above": 1,
+        "Imbalance": 0
+      },
+      "ObservationNodes": 41459
+    },
+    {
+      "Name": "Stepped battlement",
+      "Kind": "ribbon",
+      "Source": {
+        "Elements": 327,
+        "Carriers": 0,
+        "Locations": 0
+      },
+      "Field": {
+        "Columns": 32,
+        "Rows": 22,
+        "First": 256,
+        "Second": 448,
+        "Regions": 3,
+        "Interfaces": 256,
+        "Unresolved": 0,
+        "Period": 32,
+        "MinimumY": -3,
+        "MaximumY": 19,
+        "BandWidth": 2,
+        "GapWidth": 2,
+        "FirstFraction": 0.36363636363636365
+      },
+      "Geometry": {
+        "PeriodX": 16,
+        "PeriodY": 0,
+        "FundamentalPeriodX": 16,
+        "Height": 8,
+        "StrokeCount": 8,
+        "OverlapCount": 0,
+        "CrossingCount": 0,
+        "ContactCount": 8,
+        "VerifiedSymmetryNames": [
+          "translation",
+          "vertical mirror",
+          "half turn",
+          "glide"
+        ],
+        "UnresolvedCount": 0
+      },
+      "RoleRegions": {
+        "First": 1,
+        "Second": 2
+      },
+      "ElementaryEqualExtent": true,
+      "Exchange": [
+        {
+          "Name": "half-period translation",
+          "Passed": false,
+          "MapRows": 704,
+          "Matched": 5824,
+          "Unmatched": 384,
+          "Unresolved": 0
+        },
+        {
+          "Name": "half-period glide",
+          "Passed": false,
+          "MapRows": 704,
+          "Matched": 5504,
+          "Unmatched": 704,
+          "Unresolved": 0
+        }
+      ],
+      "BoundaryGaps": {
+        "Below": 1,
+        "Above": 1,
+        "Imbalance": 0
+      },
+      "ObservationNodes": 126404
+    },
+    {
+      "Name": "Folded key",
+      "Kind": "ribbon",
+      "Source": {
+        "Elements": 315,
+        "Carriers": 0,
+        "Locations": 0
+      },
+      "Field": {
+        "Columns": 24,
+        "Rows": 22,
+        "First": 288,
+        "Second": 240,
+        "Regions": 3,
+        "Interfaces": 288,
+        "Unresolved": 0,
+        "Period": 24,
+        "MinimumY": -3,
+        "MaximumY": 19,
+        "BandWidth": 2,
+        "GapWidth": 2,
+        "FirstFraction": 0.5454545454545454
+      },
+      "Geometry": {
+        "PeriodX": 12,
+        "PeriodY": 0,
+        "FundamentalPeriodX": 12,
+        "Height": 8,
+        "StrokeCount": 7,
+        "OverlapCount": 0,
+        "CrossingCount": 0,
+        "ContactCount": 7,
+        "VerifiedSymmetryNames": [
+          "translation",
+          "half turn"
+        ],
+        "UnresolvedCount": 0
+      },
+      "RoleRegions": {
+        "First": 1,
+        "Second": 2
+      },
+      "ElementaryEqualExtent": true,
+      "Exchange": [
+        {
+          "Name": "half-period translation",
+          "Passed": false,
+          "MapRows": 528,
+          "Matched": 4384,
+          "Unmatched": 272,
+          "Unresolved": 0
+        },
+        {
+          "Name": "half-period glide",
+          "Passed": false,
+          "MapRows": 528,
+          "Matched": 4384,
+          "Unmatched": 272,
+          "Unresolved": 0
+        }
+      ],
+      "BoundaryGaps": {
+        "Below": 1,
+        "Above": 1,
+        "Imbalance": 0
+      },
+      "ObservationNodes": 97034
+    },
+    {
+      "Name": "Broad folded key",
+      "Kind": "ribbon",
+      "Source": {
+        "Elements": 319,
+        "Carriers": 0,
+        "Locations": 0
+      },
+      "Field": {
+        "Columns": 40,
+        "Rows": 22,
+        "First": 416,
+        "Second": 464,
+        "Regions": 3,
+        "Interfaces": 416,
+        "Unresolved": 0,
+        "Period": 40,
+        "MinimumY": -3,
+        "MaximumY": 19,
+        "BandWidth": 2,
+        "GapWidth": 2,
+        "FirstFraction": 0.4727272727272727
+      },
+      "Geometry": {
+        "PeriodX": 20,
+        "PeriodY": 0,
+        "FundamentalPeriodX": 20,
+        "Height": 8,
+        "StrokeCount": 7,
+        "OverlapCount": 0,
+        "CrossingCount": 0,
+        "ContactCount": 7,
+        "VerifiedSymmetryNames": [
+          "translation"
+        ],
+        "UnresolvedCount": 0
+      },
+      "RoleRegions": {
+        "First": 1,
+        "Second": 2
+      },
+      "ElementaryEqualExtent": true,
+      "Exchange": [
+        {
+          "Name": "half-period translation",
+          "Passed": false,
+          "MapRows": 880,
+          "Matched": 7264,
+          "Unmatched": 496,
+          "Unresolved": 0
+        },
+        {
+          "Name": "half-period glide",
+          "Passed": false,
+          "MapRows": 880,
+          "Matched": 7264,
+          "Unmatched": 496,
+          "Unresolved": 0
+        }
+      ],
+      "BoundaryGaps": {
+        "Below": 1,
+        "Above": 1,
+        "Imbalance": 0
+      },
+      "ObservationNodes": 158701
+    },
+    {
+      "Name": "Alternating opposed keys",
+      "Kind": "ribbon",
+      "Source": {
+        "Elements": 392,
+        "Carriers": 0,
+        "Locations": 0
+      },
+      "Field": {
+        "Columns": 48,
+        "Rows": 38,
+        "First": 576,
+        "Second": 1248,
+        "Regions": 3,
+        "Interfaces": 576,
+        "Unresolved": 0,
+        "Period": 48,
+        "MinimumY": -19,
+        "MaximumY": 19,
+        "BandWidth": 2,
+        "GapWidth": 2,
+        "FirstFraction": 0.3157894736842105
+      },
+      "Geometry": {
+        "PeriodX": 24,
+        "PeriodY": 0,
+        "FundamentalPeriodX": 24,
+        "Height": 16,
+        "StrokeCount": 14,
+        "OverlapCount": 0,
+        "CrossingCount": 0,
+        "ContactCount": 14,
+        "VerifiedSymmetryNames": [
+          "translation",
+          "half turn"
+        ],
+        "UnresolvedCount": 0
+      },
+      "RoleRegions": {
+        "First": 1,
+        "Second": 2
+      },
+      "ElementaryEqualExtent": true,
+      "Exchange": [
+        {
+          "Name": "half-period translation",
+          "Passed": false,
+          "MapRows": 1824,
+          "Matched": 15232,
+          "Unmatched": 992,
+          "Unresolved": 0
+        },
+        {
+          "Name": "half-period glide",
+          "Passed": false,
+          "MapRows": 1824,
+          "Matched": 14784,
+          "Unmatched": 1440,
+          "Unresolved": 0
+        }
+      ],
+      "BoundaryGaps": {
+        "Below": 1,
+        "Above": 1,
+        "Imbalance": 0
+      },
+      "ObservationNodes": 322631
+    },
+    {
+      "Name": "Nested key",
+      "Kind": "ribbon",
+      "Source": {
+        "Elements": 373,
+        "Carriers": 0,
+        "Locations": 0
+      },
+      "Field": {
+        "Columns": 40,
+        "Rows": 38,
+        "First": 800,
+        "Second": 720,
+        "Regions": 3,
+        "Interfaces": 800,
+        "Unresolved": 0,
+        "Period": 40,
+        "MinimumY": -3,
+        "MaximumY": 35,
+        "BandWidth": 2,
+        "GapWidth": 2,
+        "FirstFraction": 0.5263157894736842
+      },
+      "Geometry": {
+        "PeriodX": 20,
+        "PeriodY": 0,
+        "FundamentalPeriodX": 20,
+        "Height": 16,
+        "StrokeCount": 10,
+        "OverlapCount": 0,
+        "CrossingCount": 0,
+        "ContactCount": 10,
+        "VerifiedSymmetryNames": [
+          "translation",
+          "half turn"
+        ],
+        "UnresolvedCount": 0
+      },
+      "RoleRegions": {
+        "First": 1,
+        "Second": 2
+      },
+      "ElementaryEqualExtent": true,
+      "Exchange": [
+        {
+          "Name": "half-period translation",
+          "Passed": false,
+          "MapRows": 1520,
+          "Matched": 12768,
+          "Unmatched": 752,
+          "Unresolved": 0
+        },
+        {
+          "Name": "half-period glide",
+          "Passed": false,
+          "MapRows": 1520,
+          "Matched": 12768,
+          "Unmatched": 752,
+          "Unresolved": 0
+        }
+      ],
+      "BoundaryGaps": {
+        "Below": 1,
+        "Above": 1,
+        "Imbalance": 0
+      },
+      "ObservationNodes": 269823
+    },
+    {
+      "Name": "Deeper nested key",
+      "Kind": "ribbon",
+      "Source": {
+        "Elements": 455,
+        "Carriers": 0,
+        "Locations": 0
+      },
+      "Field": {
+        "Columns": 56,
+        "Rows": 62,
+        "First": 1632,
+        "Second": 1840,
+        "Regions": 3,
+        "Interfaces": 1632,
+        "Unresolved": 0,
+        "Period": 56,
+        "MinimumY": -3,
+        "MaximumY": 59,
+        "BandWidth": 2,
+        "GapWidth": 2,
+        "FirstFraction": 0.4700460829493088
+      },
+      "Geometry": {
+        "PeriodX": 28,
+        "PeriodY": 0,
+        "FundamentalPeriodX": 28,
+        "Height": 28,
+        "StrokeCount": 14,
+        "OverlapCount": 0,
+        "CrossingCount": 0,
+        "ContactCount": 14,
+        "VerifiedSymmetryNames": [
+          "translation"
+        ],
+        "UnresolvedCount": 0
+      },
+      "RoleRegions": {
+        "First": 1,
+        "Second": 2
+      },
+      "ElementaryEqualExtent": true,
+      "Exchange": [
+        {
+          "Name": "half-period translation",
+          "Passed": false,
+          "MapRows": 3472,
+          "Matched": 29216,
+          "Unmatched": 1808,
+          "Unresolved": 0
+        },
+        {
+          "Name": "half-period glide",
+          "Passed": false,
+          "MapRows": 3472,
+          "Matched": 29344,
+          "Unmatched": 1680,
+          "Unresolved": 0
+        }
+      ],
+      "BoundaryGaps": {
+        "Below": 1,
+        "Above": 1,
+        "Imbalance": 0
+      },
+      "ObservationNodes": 616112
+    },
+    {
+      "Name": "Alternating nested keys",
+      "Kind": "ribbon",
+      "Source": {
+        "Elements": 483,
+        "Carriers": 0,
+        "Locations": 0
+      },
+      "Field": {
+        "Columns": 80,
+        "Rows": 70,
+        "First": 1600,
+        "Second": 4000,
+        "Regions": 3,
+        "Interfaces": 1600,
+        "Unresolved": 0,
+        "Period": 80,
+        "MinimumY": -35,
+        "MaximumY": 35,
+        "BandWidth": 2,
+        "GapWidth": 2,
+        "FirstFraction": 0.2857142857142857
+      },
+      "Geometry": {
+        "PeriodX": 40,
+        "PeriodY": 0,
+        "FundamentalPeriodX": 40,
+        "Height": 32,
+        "StrokeCount": 20,
+        "OverlapCount": 0,
+        "CrossingCount": 0,
+        "ContactCount": 20,
+        "VerifiedSymmetryNames": [
+          "translation",
+          "half turn"
+        ],
+        "UnresolvedCount": 0
+      },
+      "RoleRegions": {
+        "First": 1,
+        "Second": 2
+      },
+      "ElementaryEqualExtent": true,
+      "Exchange": [
+        {
+          "Name": "half-period translation",
+          "Passed": false,
+          "MapRows": 5600,
+          "Matched": 47168,
+          "Unmatched": 2912,
+          "Unresolved": 0
+        },
+        {
+          "Name": "half-period glide",
+          "Passed": false,
+          "MapRows": 5600,
+          "Matched": 45504,
+          "Unmatched": 4576,
+          "Unresolved": 0
+        }
+      ],
+      "BoundaryGaps": {
+        "Below": 1,
+        "Above": 1,
+        "Imbalance": 0
+      },
+      "ObservationNodes": 965486
+    },
+    {
+      "Name": "Counterchanging chevron",
+      "Kind": "woven field",
+      "Source": {
+        "Elements": 3535,
+        "Carriers": 0,
+        "Locations": 0
+      },
+      "Columns": 16,
+      "Rows": 8,
+      "Cells": 128,
+      "First": 64,
+      "Second": 64,
+      "Regions": 2,
+      "Interfaces": 28,
+      "Unresolved": 0,
+      "RoleRegions": {
+        "First": 1,
+        "Second": 1
+      },
+      "Exchange": {
+        "Name": "half-period translation under uniform calibration",
+        "Passed": true,
+        "MapRows": 128,
+        "Matched": 608,
+        "Unmatched": 0,
+        "Unresolved": 0
+      },
+      "GenerationReads": 64,
+      "ObservationNodes": 8198
+    },
+    {
+      "Name": "Counterchanging nested fret",
+      "Kind": "woven field",
+      "Source": {
+        "Elements": 3535,
+        "Carriers": 0,
+        "Locations": 0
+      },
+      "Columns": 16,
+      "Rows": 8,
+      "Cells": 128,
+      "First": 64,
+      "Second": 64,
+      "Regions": 2,
+      "Interfaces": 114,
+      "Unresolved": 0,
+      "RoleRegions": {
+        "First": 1,
+        "Second": 1
+      },
+      "Exchange": {
+        "Name": "half-period translation under uniform calibration",
+        "Passed": true,
+        "MapRows": 128,
+        "Matched": 608,
+        "Unmatched": 0,
+        "Unresolved": 0
+      },
+      "GenerationReads": 64,
+      "ObservationNodes": 8628
+    },
+    {
+      "Name": "Counterchanging folded blocks",
+      "Kind": "woven field",
+      "Source": {
+        "Elements": 5441,
+        "Carriers": 0,
+        "Locations": 0
+      },
+      "Columns": 20,
+      "Rows": 10,
+      "Cells": 200,
+      "First": 100,
+      "Second": 100,
+      "Regions": 4,
+      "Interfaces": 84,
+      "Unresolved": 0,
+      "RoleRegions": {
+        "First": 2,
+        "Second": 2
+      },
+      "Exchange": {
+        "Name": "half-period translation under uniform calibration",
+        "Passed": true,
+        "MapRows": 200,
+        "Matched": 960,
+        "Unmatched": 0,
+        "Unresolved": 0
+      },
+      "GenerationReads": 100,
+      "ObservationNodes": 12902
+    }
+  ],
+  "Styles": [
+    {
+      "Name": "Square wave",
+      "Kind": "ribbon",
+      "Source": {
+        "Elements": 268,
+        "Carriers": 0,
+        "Locations": 0
+      },
+      "Field": {
+        "Columns": 16,
+        "Rows": 14,
+        "First": 64,
+        "Second": 160,
+        "Regions": 3,
+        "Interfaces": 128,
+        "Unresolved": 0,
+        "Period": 16,
+        "MinimumY": -3,
+        "MaximumY": 11,
+        "BandWidth": 1,
+        "GapWidth": 3,
+        "FirstFraction": 0.2857142857142857
+      },
+      "Geometry": {
+        "PeriodX": 8,
+        "PeriodY": 0,
+        "FundamentalPeriodX": 8,
+        "Height": 4,
+        "StrokeCount": 4,
+        "OverlapCount": 0,
+        "CrossingCount": 0,
+        "ContactCount": 4,
+        "VerifiedSymmetryNames": [
+          "translation",
+          "vertical mirror",
+          "half turn",
+          "glide"
+        ],
+        "UnresolvedCount": 0
+      },
+      "RoleRegions": {
+        "First": 1,
+        "Second": 2
+      },
+      "ElementaryEqualExtent": false,
+      "Exchange": [
+        {
+          "Name": "half-period translation",
+          "Passed": false,
+          "MapRows": 224,
+          "Matched": 1776,
+          "Unmatched": 176,
+          "Unresolved": 0
+        },
+        {
+          "Name": "half-period glide",
+          "Passed": false,
+          "MapRows": 224,
+          "Matched": 1728,
+          "Unmatched": 224,
+          "Unresolved": 0
+        }
+      ],
+      "BoundaryGaps": {
+        "Below": 2,
+        "Above": 2,
+        "Imbalance": 0
+      },
+      "ObservationNodes": 40683
+    },
+    {
+      "Name": "Square wave",
+      "Kind": "ribbon",
+      "Source": {
+        "Elements": 267,
+        "Carriers": 0,
+        "Locations": 0
+      },
+      "Field": {
+        "Columns": 16,
+        "Rows": 14,
+        "First": 128,
+        "Second": 96,
+        "Regions": 3,
+        "Interfaces": 128,
+        "Unresolved": 0,
+        "Period": 16,
+        "MinimumY": -3,
+        "MaximumY": 11,
+        "BandWidth": 2,
+        "GapWidth": 2,
+        "FirstFraction": 0.5714285714285714
+      },
+      "Geometry": {
+        "PeriodX": 8,
+        "PeriodY": 0,
+        "FundamentalPeriodX": 8,
+        "Height": 4,
+        "StrokeCount": 4,
+        "OverlapCount": 0,
+        "CrossingCount": 0,
+        "ContactCount": 4,
+        "VerifiedSymmetryNames": [
+          "translation",
+          "vertical mirror",
+          "half turn",
+          "glide"
+        ],
+        "UnresolvedCount": 0
+      },
+      "RoleRegions": {
+        "First": 1,
+        "Second": 2
+      },
+      "ElementaryEqualExtent": true,
+      "Exchange": [
+        {
+          "Name": "half-period translation",
+          "Passed": false,
+          "MapRows": 224,
+          "Matched": 1792,
+          "Unmatched": 160,
+          "Unresolved": 0
+        },
+        {
+          "Name": "half-period glide",
+          "Passed": false,
+          "MapRows": 224,
+          "Matched": 1728,
+          "Unmatched": 224,
+          "Unresolved": 0
+        }
+      ],
+      "BoundaryGaps": {
+        "Below": 1,
+        "Above": 1,
+        "Imbalance": 0
+      },
+      "ObservationNodes": 41459
+    },
+    {
+      "Name": "Square wave",
+      "Kind": "ribbon",
+      "Source": {
+        "Elements": 268,
+        "Carriers": 0,
+        "Locations": 0
+      },
+      "Field": {
+        "Columns": 16,
+        "Rows": 14,
+        "First": 192,
+        "Second": 32,
+        "Regions": 3,
+        "Interfaces": 72,
+        "Unresolved": 0,
+        "Period": 16,
+        "MinimumY": -3,
+        "MaximumY": 11,
+        "BandWidth": 3,
+        "GapWidth": 1,
+        "FirstFraction": 0.8571428571428571
+      },
+      "Geometry": {
+        "PeriodX": 8,
+        "PeriodY": 0,
+        "FundamentalPeriodX": 8,
+        "Height": 4,
+        "StrokeCount": 4,
+        "OverlapCount": 0,
+        "CrossingCount": 0,
+        "ContactCount": 4,
+        "VerifiedSymmetryNames": [
+          "translation",
+          "vertical mirror",
+          "half turn",
+          "glide"
+        ],
+        "UnresolvedCount": 0
+      },
+      "RoleRegions": {
+        "First": 1,
+        "Second": 2
+      },
+      "ElementaryEqualExtent": false,
+      "Exchange": [
+        {
+          "Name": "half-period translation",
+          "Passed": false,
+          "MapRows": 224,
+          "Matched": 1776,
+          "Unmatched": 176,
+          "Unresolved": 0
+        },
+        {
+          "Name": "half-period glide",
+          "Passed": false,
+          "MapRows": 224,
+          "Matched": 1728,
+          "Unmatched": 224,
+          "Unresolved": 0
+        }
+      ],
+      "BoundaryGaps": {
+        "Below": 0,
+        "Above": 0,
+        "Imbalance": 0
+      },
+      "ObservationNodes": 42195
+    },
+    {
+      "Name": "Stepped battlement",
+      "Kind": "ribbon",
+      "Source": {
+        "Elements": 328,
+        "Carriers": 0,
+        "Locations": 0
+      },
+      "Field": {
+        "Columns": 32,
+        "Rows": 22,
+        "First": 128,
+        "Second": 576,
+        "Regions": 3,
+        "Interfaces": 256,
+        "Unresolved": 0,
+        "Period": 32,
+        "MinimumY": -3,
+        "MaximumY": 19,
+        "BandWidth": 1,
+        "GapWidth": 3,
+        "FirstFraction": 0.18181818181818182
+      },
+      "Geometry": {
+        "PeriodX": 16,
+        "PeriodY": 0,
+        "FundamentalPeriodX": 16,
+        "Height": 8,
+        "StrokeCount": 8,
+        "OverlapCount": 0,
+        "CrossingCount": 0,
+        "ContactCount": 8,
+        "VerifiedSymmetryNames": [
+          "translation",
+          "vertical mirror",
+          "half turn",
+          "glide"
+        ],
+        "UnresolvedCount": 0
+      },
+      "RoleRegions": {
+        "First": 1,
+        "Second": 2
+      },
+      "ElementaryEqualExtent": false,
+      "Exchange": [
+        {
+          "Name": "half-period translation",
+          "Passed": false,
+          "MapRows": 704,
+          "Matched": 5680,
+          "Unmatched": 528,
+          "Unresolved": 0
+        },
+        {
+          "Name": "half-period glide",
+          "Passed": false,
+          "MapRows": 704,
+          "Matched": 5504,
+          "Unmatched": 704,
+          "Unresolved": 0
+        }
+      ],
+      "BoundaryGaps": {
+        "Below": 2,
+        "Above": 2,
+        "Imbalance": 0
+      },
+      "ObservationNodes": 124844
+    },
+    {
+      "Name": "Stepped battlement",
+      "Kind": "ribbon",
+      "Source": {
+        "Elements": 327,
+        "Carriers": 0,
+        "Locations": 0
+      },
+      "Field": {
+        "Columns": 32,
+        "Rows": 22,
+        "First": 256,
+        "Second": 448,
+        "Regions": 3,
+        "Interfaces": 256,
+        "Unresolved": 0,
+        "Period": 32,
+        "MinimumY": -3,
+        "MaximumY": 19,
+        "BandWidth": 2,
+        "GapWidth": 2,
+        "FirstFraction": 0.36363636363636365
+      },
+      "Geometry": {
+        "PeriodX": 16,
+        "PeriodY": 0,
+        "FundamentalPeriodX": 16,
+        "Height": 8,
+        "StrokeCount": 8,
+        "OverlapCount": 0,
+        "CrossingCount": 0,
+        "ContactCount": 8,
+        "VerifiedSymmetryNames": [
+          "translation",
+          "vertical mirror",
+          "half turn",
+          "glide"
+        ],
+        "UnresolvedCount": 0
+      },
+      "RoleRegions": {
+        "First": 1,
+        "Second": 2
+      },
+      "ElementaryEqualExtent": true,
+      "Exchange": [
+        {
+          "Name": "half-period translation",
+          "Passed": false,
+          "MapRows": 704,
+          "Matched": 5824,
+          "Unmatched": 384,
+          "Unresolved": 0
+        },
+        {
+          "Name": "half-period glide",
+          "Passed": false,
+          "MapRows": 704,
+          "Matched": 5504,
+          "Unmatched": 704,
+          "Unresolved": 0
+        }
+      ],
+      "BoundaryGaps": {
+        "Below": 1,
+        "Above": 1,
+        "Imbalance": 0
+      },
+      "ObservationNodes": 126404
+    },
+    {
+      "Name": "Stepped battlement",
+      "Kind": "ribbon",
+      "Source": {
+        "Elements": 328,
+        "Carriers": 0,
+        "Locations": 0
+      },
+      "Field": {
+        "Columns": 32,
+        "Rows": 22,
+        "First": 384,
+        "Second": 320,
+        "Regions": 3,
+        "Interfaces": 200,
+        "Unresolved": 0,
+        "Period": 32,
+        "MinimumY": -3,
+        "MaximumY": 19,
+        "BandWidth": 3,
+        "GapWidth": 1,
+        "FirstFraction": 0.5454545454545454
+      },
+      "Geometry": {
+        "PeriodX": 16,
+        "PeriodY": 0,
+        "FundamentalPeriodX": 16,
+        "Height": 8,
+        "StrokeCount": 8,
+        "OverlapCount": 0,
+        "CrossingCount": 0,
+        "ContactCount": 8,
+        "VerifiedSymmetryNames": [
+          "translation",
+          "vertical mirror",
+          "half turn",
+          "glide"
+        ],
+        "UnresolvedCount": 0
+      },
+      "RoleRegions": {
+        "First": 1,
+        "Second": 2
+      },
+      "ElementaryEqualExtent": false,
+      "Exchange": [
+        {
+          "Name": "half-period translation",
+          "Passed": false,
+          "MapRows": 704,
+          "Matched": 5936,
+          "Unmatched": 272,
+          "Unresolved": 0
+        },
+        {
+          "Name": "half-period glide",
+          "Passed": false,
+          "MapRows": 704,
+          "Matched": 5504,
+          "Unmatched": 704,
+          "Unresolved": 0
+        }
+      ],
+      "BoundaryGaps": {
+        "Below": 0,
+        "Above": 0,
+        "Imbalance": 0
+      },
+      "ObservationNodes": 128148
+    },
+    {
+      "Name": "Folded key",
+      "Kind": "ribbon",
+      "Source": {
+        "Elements": 316,
+        "Carriers": 0,
+        "Locations": 0
+      },
+      "Field": {
+        "Columns": 24,
+        "Rows": 22,
+        "First": 144,
+        "Second": 384,
+        "Regions": 3,
+        "Interfaces": 288,
+        "Unresolved": 0,
+        "Period": 24,
+        "MinimumY": -3,
+        "MaximumY": 19,
+        "BandWidth": 1,
+        "GapWidth": 3,
+        "FirstFraction": 0.2727272727272727
+      },
+      "Geometry": {
+        "PeriodX": 12,
+        "PeriodY": 0,
+        "FundamentalPeriodX": 12,
+        "Height": 8,
+        "StrokeCount": 7,
+        "OverlapCount": 0,
+        "CrossingCount": 0,
+        "ContactCount": 7,
+        "VerifiedSymmetryNames": [
+          "translation",
+          "half turn"
+        ],
+        "UnresolvedCount": 0
+      },
+      "RoleRegions": {
+        "First": 1,
+        "Second": 2
+      },
+      "ElementaryEqualExtent": false,
+      "Exchange": [
+        {
+          "Name": "half-period translation",
+          "Passed": false,
+          "MapRows": 528,
+          "Matched": 4304,
+          "Unmatched": 352,
+          "Unresolved": 0
+        },
+        {
+          "Name": "half-period glide",
+          "Passed": false,
+          "MapRows": 528,
+          "Matched": 4288,
+          "Unmatched": 368,
+          "Unresolved": 0
+        }
+      ],
+      "BoundaryGaps": {
+        "Below": 2,
+        "Above": 2,
+        "Imbalance": 0
+      },
+      "ObservationNodes": 95446
+    },
+    {
+      "Name": "Folded key",
+      "Kind": "ribbon",
+      "Source": {
+        "Elements": 315,
+        "Carriers": 0,
+        "Locations": 0
+      },
+      "Field": {
+        "Columns": 24,
+        "Rows": 22,
+        "First": 288,
+        "Second": 240,
+        "Regions": 3,
+        "Interfaces": 288,
+        "Unresolved": 0,
+        "Period": 24,
+        "MinimumY": -3,
+        "MaximumY": 19,
+        "BandWidth": 2,
+        "GapWidth": 2,
+        "FirstFraction": 0.5454545454545454
+      },
+      "Geometry": {
+        "PeriodX": 12,
+        "PeriodY": 0,
+        "FundamentalPeriodX": 12,
+        "Height": 8,
+        "StrokeCount": 7,
+        "OverlapCount": 0,
+        "CrossingCount": 0,
+        "ContactCount": 7,
+        "VerifiedSymmetryNames": [
+          "translation",
+          "half turn"
+        ],
+        "UnresolvedCount": 0
+      },
+      "RoleRegions": {
+        "First": 1,
+        "Second": 2
+      },
+      "ElementaryEqualExtent": true,
+      "Exchange": [
+        {
+          "Name": "half-period translation",
+          "Passed": false,
+          "MapRows": 528,
+          "Matched": 4384,
+          "Unmatched": 272,
+          "Unresolved": 0
+        },
+        {
+          "Name": "half-period glide",
+          "Passed": false,
+          "MapRows": 528,
+          "Matched": 4384,
+          "Unmatched": 272,
+          "Unresolved": 0
+        }
+      ],
+      "BoundaryGaps": {
+        "Below": 1,
+        "Above": 1,
+        "Imbalance": 0
+      },
+      "ObservationNodes": 97034
+    },
+    {
+      "Name": "Folded key",
+      "Kind": "ribbon",
+      "Source": {
+        "Elements": 316,
+        "Carriers": 0,
+        "Locations": 0
+      },
+      "Field": {
+        "Columns": 24,
+        "Rows": 22,
+        "First": 432,
+        "Second": 96,
+        "Regions": 3,
+        "Interfaces": 200,
+        "Unresolved": 0,
+        "Period": 24,
+        "MinimumY": -3,
+        "MaximumY": 19,
+        "BandWidth": 3,
+        "GapWidth": 1,
+        "FirstFraction": 0.8181818181818182
+      },
+      "Geometry": {
+        "PeriodX": 12,
+        "PeriodY": 0,
+        "FundamentalPeriodX": 12,
+        "Height": 8,
+        "StrokeCount": 7,
+        "OverlapCount": 0,
+        "CrossingCount": 0,
+        "ContactCount": 7,
+        "VerifiedSymmetryNames": [
+          "translation",
+          "half turn"
+        ],
+        "UnresolvedCount": 0
+      },
+      "RoleRegions": {
+        "First": 1,
+        "Second": 2
+      },
+      "ElementaryEqualExtent": false,
+      "Exchange": [
+        {
+          "Name": "half-period translation",
+          "Passed": false,
+          "MapRows": 528,
+          "Matched": 4288,
+          "Unmatched": 368,
+          "Unresolved": 0
+        },
+        {
+          "Name": "half-period glide",
+          "Passed": false,
+          "MapRows": 528,
+          "Matched": 4272,
+          "Unmatched": 384,
+          "Unresolved": 0
+        }
+      ],
+      "BoundaryGaps": {
+        "Below": 0,
+        "Above": 0,
+        "Imbalance": 0
+      },
+      "ObservationNodes": 98590
+    },
+    {
+      "Name": "Broad folded key",
+      "Kind": "ribbon",
+      "Source": {
+        "Elements": 320,
+        "Carriers": 0,
+        "Locations": 0
+      },
+      "Field": {
+        "Columns": 40,
+        "Rows": 22,
+        "First": 208,
+        "Second": 672,
+        "Regions": 3,
+        "Interfaces": 416,
+        "Unresolved": 0,
+        "Period": 40,
+        "MinimumY": -3,
+        "MaximumY": 19,
+        "BandWidth": 1,
+        "GapWidth": 3,
+        "FirstFraction": 0.23636363636363636
+      },
+      "Geometry": {
+        "PeriodX": 20,
+        "PeriodY": 0,
+        "FundamentalPeriodX": 20,
+        "Height": 8,
+        "StrokeCount": 7,
+        "OverlapCount": 0,
+        "CrossingCount": 0,
+        "ContactCount": 7,
+        "VerifiedSymmetryNames": [
+          "translation"
+        ],
+        "UnresolvedCount": 0
+      },
+      "RoleRegions": {
+        "First": 1,
+        "Second": 2
+      },
+      "ElementaryEqualExtent": false,
+      "Exchange": [
+        {
+          "Name": "half-period translation",
+          "Passed": false,
+          "MapRows": 880,
+          "Matched": 7120,
+          "Unmatched": 640,
+          "Unresolved": 0
+        },
+        {
+          "Name": "half-period glide",
+          "Passed": false,
+          "MapRows": 880,
+          "Matched": 7104,
+          "Unmatched": 656,
+          "Unresolved": 0
+        }
+      ],
+      "BoundaryGaps": {
+        "Below": 2,
+        "Above": 2,
+        "Imbalance": 0
+      },
+      "ObservationNodes": 156665
+    },
+    {
+      "Name": "Broad folded key",
+      "Kind": "ribbon",
+      "Source": {
+        "Elements": 319,
+        "Carriers": 0,
+        "Locations": 0
+      },
+      "Field": {
+        "Columns": 40,
+        "Rows": 22,
+        "First": 416,
+        "Second": 464,
+        "Regions": 3,
+        "Interfaces": 416,
+        "Unresolved": 0,
+        "Period": 40,
+        "MinimumY": -3,
+        "MaximumY": 19,
+        "BandWidth": 2,
+        "GapWidth": 2,
+        "FirstFraction": 0.4727272727272727
+      },
+      "Geometry": {
+        "PeriodX": 20,
+        "PeriodY": 0,
+        "FundamentalPeriodX": 20,
+        "Height": 8,
+        "StrokeCount": 7,
+        "OverlapCount": 0,
+        "CrossingCount": 0,
+        "ContactCount": 7,
+        "VerifiedSymmetryNames": [
+          "translation"
+        ],
+        "UnresolvedCount": 0
+      },
+      "RoleRegions": {
+        "First": 1,
+        "Second": 2
+      },
+      "ElementaryEqualExtent": true,
+      "Exchange": [
+        {
+          "Name": "half-period translation",
+          "Passed": false,
+          "MapRows": 880,
+          "Matched": 7264,
+          "Unmatched": 496,
+          "Unresolved": 0
+        },
+        {
+          "Name": "half-period glide",
+          "Passed": false,
+          "MapRows": 880,
+          "Matched": 7264,
+          "Unmatched": 496,
+          "Unresolved": 0
+        }
+      ],
+      "BoundaryGaps": {
+        "Below": 1,
+        "Above": 1,
+        "Imbalance": 0
+      },
+      "ObservationNodes": 158701
+    },
+    {
+      "Name": "Broad folded key",
+      "Kind": "ribbon",
+      "Source": {
+        "Elements": 320,
+        "Carriers": 0,
+        "Locations": 0
+      },
+      "Field": {
+        "Columns": 40,
+        "Rows": 22,
+        "First": 624,
+        "Second": 256,
+        "Regions": 3,
+        "Interfaces": 280,
+        "Unresolved": 0,
+        "Period": 40,
+        "MinimumY": -3,
+        "MaximumY": 19,
+        "BandWidth": 3,
+        "GapWidth": 1,
+        "FirstFraction": 0.7090909090909091
+      },
+      "Geometry": {
+        "PeriodX": 20,
+        "PeriodY": 0,
+        "FundamentalPeriodX": 20,
+        "Height": 8,
+        "StrokeCount": 7,
+        "OverlapCount": 0,
+        "CrossingCount": 0,
+        "ContactCount": 7,
+        "VerifiedSymmetryNames": [
+          "translation"
+        ],
+        "UnresolvedCount": 0
+      },
+      "RoleRegions": {
+        "First": 1,
+        "Second": 2
+      },
+      "ElementaryEqualExtent": false,
+      "Exchange": [
+        {
+          "Name": "half-period translation",
+          "Passed": false,
+          "MapRows": 880,
+          "Matched": 7248,
+          "Unmatched": 512,
+          "Unresolved": 0
+        },
+        {
+          "Name": "half-period glide",
+          "Passed": false,
+          "MapRows": 880,
+          "Matched": 7232,
+          "Unmatched": 528,
+          "Unresolved": 0
+        }
+      ],
+      "BoundaryGaps": {
+        "Below": 0,
+        "Above": 0,
+        "Imbalance": 0
+      },
+      "ObservationNodes": 160465
+    },
+    {
+      "Name": "Alternating opposed keys",
+      "Kind": "ribbon",
+      "Source": {
+        "Elements": 393,
+        "Carriers": 0,
+        "Locations": 0
+      },
+      "Field": {
+        "Columns": 48,
+        "Rows": 38,
+        "First": 288,
+        "Second": 1536,
+        "Regions": 3,
+        "Interfaces": 576,
+        "Unresolved": 0,
+        "Period": 48,
+        "MinimumY": -19,
+        "MaximumY": 19,
+        "BandWidth": 1,
+        "GapWidth": 3,
+        "FirstFraction": 0.15789473684210525
+      },
+      "Geometry": {
+        "PeriodX": 24,
+        "PeriodY": 0,
+        "FundamentalPeriodX": 24,
+        "Height": 16,
+        "StrokeCount": 14,
+        "OverlapCount": 0,
+        "CrossingCount": 0,
+        "ContactCount": 14,
+        "VerifiedSymmetryNames": [
+          "translation",
+          "half turn"
+        ],
+        "UnresolvedCount": 0
+      },
+      "RoleRegions": {
+        "First": 1,
+        "Second": 2
+      },
+      "ElementaryEqualExtent": false,
+      "Exchange": [
+        {
+          "Name": "half-period translation",
+          "Passed": false,
+          "MapRows": 1824,
+          "Matched": 14832,
+          "Unmatched": 1392,
+          "Unresolved": 0
+        },
+        {
+          "Name": "half-period glide",
+          "Passed": false,
+          "MapRows": 1824,
+          "Matched": 14624,
+          "Unmatched": 1600,
+          "Unresolved": 0
+        }
+      ],
+      "BoundaryGaps": {
+        "Below": 2,
+        "Above": 2,
+        "Imbalance": 0
+      },
+      "ObservationNodes": 319447
+    },
+    {
+      "Name": "Alternating opposed keys",
+      "Kind": "ribbon",
+      "Source": {
+        "Elements": 392,
+        "Carriers": 0,
+        "Locations": 0
+      },
+      "Field": {
+        "Columns": 48,
+        "Rows": 38,
+        "First": 576,
+        "Second": 1248,
+        "Regions": 3,
+        "Interfaces": 576,
+        "Unresolved": 0,
+        "Period": 48,
+        "MinimumY": -19,
+        "MaximumY": 19,
+        "BandWidth": 2,
+        "GapWidth": 2,
+        "FirstFraction": 0.3157894736842105
+      },
+      "Geometry": {
+        "PeriodX": 24,
+        "PeriodY": 0,
+        "FundamentalPeriodX": 24,
+        "Height": 16,
+        "StrokeCount": 14,
+        "OverlapCount": 0,
+        "CrossingCount": 0,
+        "ContactCount": 14,
+        "VerifiedSymmetryNames": [
+          "translation",
+          "half turn"
+        ],
+        "UnresolvedCount": 0
+      },
+      "RoleRegions": {
+        "First": 1,
+        "Second": 2
+      },
+      "ElementaryEqualExtent": true,
+      "Exchange": [
+        {
+          "Name": "half-period translation",
+          "Passed": false,
+          "MapRows": 1824,
+          "Matched": 15232,
+          "Unmatched": 992,
+          "Unresolved": 0
+        },
+        {
+          "Name": "half-period glide",
+          "Passed": false,
+          "MapRows": 1824,
+          "Matched": 14784,
+          "Unmatched": 1440,
+          "Unresolved": 0
+        }
+      ],
+      "BoundaryGaps": {
+        "Below": 1,
+        "Above": 1,
+        "Imbalance": 0
+      },
+      "ObservationNodes": 322631
+    },
+    {
+      "Name": "Alternating opposed keys",
+      "Kind": "ribbon",
+      "Source": {
+        "Elements": 393,
+        "Carriers": 0,
+        "Locations": 0
+      },
+      "Field": {
+        "Columns": 48,
+        "Rows": 38,
+        "First": 864,
+        "Second": 960,
+        "Regions": 3,
+        "Interfaces": 488,
+        "Unresolved": 0,
+        "Period": 48,
+        "MinimumY": -19,
+        "MaximumY": 19,
+        "BandWidth": 3,
+        "GapWidth": 1,
+        "FirstFraction": 0.47368421052631576
+      },
+      "Geometry": {
+        "PeriodX": 24,
+        "PeriodY": 0,
+        "FundamentalPeriodX": 24,
+        "Height": 16,
+        "StrokeCount": 14,
+        "OverlapCount": 0,
+        "CrossingCount": 0,
+        "ContactCount": 14,
+        "VerifiedSymmetryNames": [
+          "translation",
+          "half turn"
+        ],
+        "UnresolvedCount": 0
+      },
+      "RoleRegions": {
+        "First": 1,
+        "Second": 2
+      },
+      "ElementaryEqualExtent": false,
+      "Exchange": [
+        {
+          "Name": "half-period translation",
+          "Passed": false,
+          "MapRows": 1824,
+          "Matched": 15600,
+          "Unmatched": 624,
+          "Unresolved": 0
+        },
+        {
+          "Name": "half-period glide",
+          "Passed": false,
+          "MapRows": 1824,
+          "Matched": 14880,
+          "Unmatched": 1344,
+          "Unresolved": 0
+        }
+      ],
+      "BoundaryGaps": {
+        "Below": 0,
+        "Above": 0,
+        "Imbalance": 0
+      },
+      "ObservationNodes": 326175
+    },
+    {
+      "Name": "Nested key",
+      "Kind": "ribbon",
+      "Source": {
+        "Elements": 374,
+        "Carriers": 0,
+        "Locations": 0
+      },
+      "Field": {
+        "Columns": 40,
+        "Rows": 38,
+        "First": 400,
+        "Second": 1120,
+        "Regions": 3,
+        "Interfaces": 800,
+        "Unresolved": 0,
+        "Period": 40,
+        "MinimumY": -3,
+        "MaximumY": 35,
+        "BandWidth": 1,
+        "GapWidth": 3,
+        "FirstFraction": 0.2631578947368421
+      },
+      "Geometry": {
+        "PeriodX": 20,
+        "PeriodY": 0,
+        "FundamentalPeriodX": 20,
+        "Height": 16,
+        "StrokeCount": 10,
+        "OverlapCount": 0,
+        "CrossingCount": 0,
+        "ContactCount": 10,
+        "VerifiedSymmetryNames": [
+          "translation",
+          "half turn"
+        ],
+        "UnresolvedCount": 0
+      },
+      "RoleRegions": {
+        "First": 1,
+        "Second": 2
+      },
+      "ElementaryEqualExtent": false,
+      "Exchange": [
+        {
+          "Name": "half-period translation",
+          "Passed": false,
+          "MapRows": 1520,
+          "Matched": 12496,
+          "Unmatched": 1024,
+          "Unresolved": 0
+        },
+        {
+          "Name": "half-period glide",
+          "Passed": false,
+          "MapRows": 1520,
+          "Matched": 12480,
+          "Unmatched": 1040,
+          "Unresolved": 0
+        }
+      ],
+      "BoundaryGaps": {
+        "Below": 2,
+        "Above": 2,
+        "Imbalance": 0
+      },
+      "ObservationNodes": 266191
+    },
+    {
+      "Name": "Nested key",
+      "Kind": "ribbon",
+      "Source": {
+        "Elements": 373,
+        "Carriers": 0,
+        "Locations": 0
+      },
+      "Field": {
+        "Columns": 40,
+        "Rows": 38,
+        "First": 800,
+        "Second": 720,
+        "Regions": 3,
+        "Interfaces": 800,
+        "Unresolved": 0,
+        "Period": 40,
+        "MinimumY": -3,
+        "MaximumY": 35,
+        "BandWidth": 2,
+        "GapWidth": 2,
+        "FirstFraction": 0.5263157894736842
+      },
+      "Geometry": {
+        "PeriodX": 20,
+        "PeriodY": 0,
+        "FundamentalPeriodX": 20,
+        "Height": 16,
+        "StrokeCount": 10,
+        "OverlapCount": 0,
+        "CrossingCount": 0,
+        "ContactCount": 10,
+        "VerifiedSymmetryNames": [
+          "translation",
+          "half turn"
+        ],
+        "UnresolvedCount": 0
+      },
+      "RoleRegions": {
+        "First": 1,
+        "Second": 2
+      },
+      "ElementaryEqualExtent": true,
+      "Exchange": [
+        {
+          "Name": "half-period translation",
+          "Passed": false,
+          "MapRows": 1520,
+          "Matched": 12768,
+          "Unmatched": 752,
+          "Unresolved": 0
+        },
+        {
+          "Name": "half-period glide",
+          "Passed": false,
+          "MapRows": 1520,
+          "Matched": 12768,
+          "Unmatched": 752,
+          "Unresolved": 0
+        }
+      ],
+      "BoundaryGaps": {
+        "Below": 1,
+        "Above": 1,
+        "Imbalance": 0
+      },
+      "ObservationNodes": 269823
+    },
+    {
+      "Name": "Nested key",
+      "Kind": "ribbon",
+      "Source": {
+        "Elements": 374,
+        "Carriers": 0,
+        "Locations": 0
+      },
+      "Field": {
+        "Columns": 40,
+        "Rows": 38,
+        "First": 1200,
+        "Second": 320,
+        "Regions": 3,
+        "Interfaces": 648,
+        "Unresolved": 0,
+        "Period": 40,
+        "MinimumY": -3,
+        "MaximumY": 35,
+        "BandWidth": 3,
+        "GapWidth": 1,
+        "FirstFraction": 0.7894736842105263
+      },
+      "Geometry": {
+        "PeriodX": 20,
+        "PeriodY": 0,
+        "FundamentalPeriodX": 20,
+        "Height": 16,
+        "StrokeCount": 10,
+        "OverlapCount": 0,
+        "CrossingCount": 0,
+        "ContactCount": 10,
+        "VerifiedSymmetryNames": [
+          "translation",
+          "half turn"
+        ],
+        "UnresolvedCount": 0
+      },
+      "RoleRegions": {
+        "First": 1,
+        "Second": 2
+      },
+      "ElementaryEqualExtent": false,
+      "Exchange": [
+        {
+          "Name": "half-period translation",
+          "Passed": false,
+          "MapRows": 1520,
+          "Matched": 12480,
+          "Unmatched": 1040,
+          "Unresolved": 0
+        },
+        {
+          "Name": "half-period glide",
+          "Passed": false,
+          "MapRows": 1520,
+          "Matched": 12464,
+          "Unmatched": 1056,
+          "Unresolved": 0
+        }
+      ],
+      "BoundaryGaps": {
+        "Below": 0,
+        "Above": 0,
+        "Imbalance": 0
+      },
+      "ObservationNodes": 273271
+    },
+    {
+      "Name": "Deeper nested key",
+      "Kind": "ribbon",
+      "Source": {
+        "Elements": 456,
+        "Carriers": 0,
+        "Locations": 0
+      },
+      "Field": {
+        "Columns": 56,
+        "Rows": 62,
+        "First": 816,
+        "Second": 2656,
+        "Regions": 3,
+        "Interfaces": 1632,
+        "Unresolved": 0,
+        "Period": 56,
+        "MinimumY": -3,
+        "MaximumY": 59,
+        "BandWidth": 1,
+        "GapWidth": 3,
+        "FirstFraction": 0.2350230414746544
+      },
+      "Geometry": {
+        "PeriodX": 28,
+        "PeriodY": 0,
+        "FundamentalPeriodX": 28,
+        "Height": 28,
+        "StrokeCount": 14,
+        "OverlapCount": 0,
+        "CrossingCount": 0,
+        "ContactCount": 14,
+        "VerifiedSymmetryNames": [
+          "translation"
+        ],
+        "UnresolvedCount": 0
+      },
+      "RoleRegions": {
+        "First": 1,
+        "Second": 2
+      },
+      "ElementaryEqualExtent": false,
+      "Exchange": [
+        {
+          "Name": "half-period translation",
+          "Passed": false,
+          "MapRows": 3472,
+          "Matched": 28592,
+          "Unmatched": 2432,
+          "Unresolved": 0
+        },
+        {
+          "Name": "half-period glide",
+          "Passed": false,
+          "MapRows": 3472,
+          "Matched": 28640,
+          "Unmatched": 2384,
+          "Unresolved": 0
+        }
+      ],
+      "BoundaryGaps": {
+        "Below": 2,
+        "Above": 2,
+        "Imbalance": 0
+      },
+      "ObservationNodes": 609232
+    },
+    {
+      "Name": "Deeper nested key",
+      "Kind": "ribbon",
+      "Source": {
+        "Elements": 455,
+        "Carriers": 0,
+        "Locations": 0
+      },
+      "Field": {
+        "Columns": 56,
+        "Rows": 62,
+        "First": 1632,
+        "Second": 1840,
+        "Regions": 3,
+        "Interfaces": 1632,
+        "Unresolved": 0,
+        "Period": 56,
+        "MinimumY": -3,
+        "MaximumY": 59,
+        "BandWidth": 2,
+        "GapWidth": 2,
+        "FirstFraction": 0.4700460829493088
+      },
+      "Geometry": {
+        "PeriodX": 28,
+        "PeriodY": 0,
+        "FundamentalPeriodX": 28,
+        "Height": 28,
+        "StrokeCount": 14,
+        "OverlapCount": 0,
+        "CrossingCount": 0,
+        "ContactCount": 14,
+        "VerifiedSymmetryNames": [
+          "translation"
+        ],
+        "UnresolvedCount": 0
+      },
+      "RoleRegions": {
+        "First": 1,
+        "Second": 2
+      },
+      "ElementaryEqualExtent": true,
+      "Exchange": [
+        {
+          "Name": "half-period translation",
+          "Passed": false,
+          "MapRows": 3472,
+          "Matched": 29216,
+          "Unmatched": 1808,
+          "Unresolved": 0
+        },
+        {
+          "Name": "half-period glide",
+          "Passed": false,
+          "MapRows": 3472,
+          "Matched": 29344,
+          "Unmatched": 1680,
+          "Unresolved": 0
+        }
+      ],
+      "BoundaryGaps": {
+        "Below": 1,
+        "Above": 1,
+        "Imbalance": 0
+      },
+      "ObservationNodes": 616112
+    },
+    {
+      "Name": "Deeper nested key",
+      "Kind": "ribbon",
+      "Source": {
+        "Elements": 456,
+        "Carriers": 0,
+        "Locations": 0
+      },
+      "Field": {
+        "Columns": 56,
+        "Rows": 62,
+        "First": 2448,
+        "Second": 1024,
+        "Regions": 3,
+        "Interfaces": 1416,
+        "Unresolved": 0,
+        "Period": 56,
+        "MinimumY": -3,
+        "MaximumY": 59,
+        "BandWidth": 3,
+        "GapWidth": 1,
+        "FirstFraction": 0.7050691244239631
+      },
+      "Geometry": {
+        "PeriodX": 28,
+        "PeriodY": 0,
+        "FundamentalPeriodX": 28,
+        "Height": 28,
+        "StrokeCount": 14,
+        "OverlapCount": 0,
+        "CrossingCount": 0,
+        "ContactCount": 14,
+        "VerifiedSymmetryNames": [
+          "translation"
+        ],
+        "UnresolvedCount": 0
+      },
+      "RoleRegions": {
+        "First": 1,
+        "Second": 2
+      },
+      "ElementaryEqualExtent": false,
+      "Exchange": [
+        {
+          "Name": "half-period translation",
+          "Passed": false,
+          "MapRows": 3472,
+          "Matched": 28704,
+          "Unmatched": 2320,
+          "Unresolved": 0
+        },
+        {
+          "Name": "half-period glide",
+          "Passed": false,
+          "MapRows": 3472,
+          "Matched": 28944,
+          "Unmatched": 2080,
+          "Unresolved": 0
+        }
+      ],
+      "BoundaryGaps": {
+        "Below": 0,
+        "Above": 0,
+        "Imbalance": 0
+      },
+      "ObservationNodes": 622712
+    },
+    {
+      "Name": "Alternating nested keys",
+      "Kind": "ribbon",
+      "Source": {
+        "Elements": 484,
+        "Carriers": 0,
+        "Locations": 0
+      },
+      "Field": {
+        "Columns": 80,
+        "Rows": 70,
+        "First": 800,
+        "Second": 4800,
+        "Regions": 3,
+        "Interfaces": 1600,
+        "Unresolved": 0,
+        "Period": 80,
+        "MinimumY": -35,
+        "MaximumY": 35,
+        "BandWidth": 1,
+        "GapWidth": 3,
+        "FirstFraction": 0.14285714285714285
+      },
+      "Geometry": {
+        "PeriodX": 40,
+        "PeriodY": 0,
+        "FundamentalPeriodX": 40,
+        "Height": 32,
+        "StrokeCount": 20,
+        "OverlapCount": 0,
+        "CrossingCount": 0,
+        "ContactCount": 20,
+        "VerifiedSymmetryNames": [
+          "translation",
+          "half turn"
+        ],
+        "UnresolvedCount": 0
+      },
+      "RoleRegions": {
+        "First": 1,
+        "Second": 2
+      },
+      "ElementaryEqualExtent": false,
+      "Exchange": [
+        {
+          "Name": "half-period translation",
+          "Passed": false,
+          "MapRows": 5600,
+          "Matched": 45856,
+          "Unmatched": 4224,
+          "Unresolved": 0
+        },
+        {
+          "Name": "half-period glide",
+          "Passed": false,
+          "MapRows": 5600,
+          "Matched": 45120,
+          "Unmatched": 4960,
+          "Unresolved": 0
+        }
+      ],
+      "BoundaryGaps": {
+        "Below": 2,
+        "Above": 2,
+        "Imbalance": 0
+      },
+      "ObservationNodes": 958214
+    },
+    {
+      "Name": "Alternating nested keys",
+      "Kind": "ribbon",
+      "Source": {
+        "Elements": 483,
+        "Carriers": 0,
+        "Locations": 0
+      },
+      "Field": {
+        "Columns": 80,
+        "Rows": 70,
+        "First": 1600,
+        "Second": 4000,
+        "Regions": 3,
+        "Interfaces": 1600,
+        "Unresolved": 0,
+        "Period": 80,
+        "MinimumY": -35,
+        "MaximumY": 35,
+        "BandWidth": 2,
+        "GapWidth": 2,
+        "FirstFraction": 0.2857142857142857
+      },
+      "Geometry": {
+        "PeriodX": 40,
+        "PeriodY": 0,
+        "FundamentalPeriodX": 40,
+        "Height": 32,
+        "StrokeCount": 20,
+        "OverlapCount": 0,
+        "CrossingCount": 0,
+        "ContactCount": 20,
+        "VerifiedSymmetryNames": [
+          "translation",
+          "half turn"
+        ],
+        "UnresolvedCount": 0
+      },
+      "RoleRegions": {
+        "First": 1,
+        "Second": 2
+      },
+      "ElementaryEqualExtent": true,
+      "Exchange": [
+        {
+          "Name": "half-period translation",
+          "Passed": false,
+          "MapRows": 5600,
+          "Matched": 47168,
+          "Unmatched": 2912,
+          "Unresolved": 0
+        },
+        {
+          "Name": "half-period glide",
+          "Passed": false,
+          "MapRows": 5600,
+          "Matched": 45504,
+          "Unmatched": 4576,
+          "Unresolved": 0
+        }
+      ],
+      "BoundaryGaps": {
+        "Below": 1,
+        "Above": 1,
+        "Imbalance": 0
+      },
+      "ObservationNodes": 965486
+    },
+    {
+      "Name": "Alternating nested keys",
+      "Kind": "ribbon",
+      "Source": {
+        "Elements": 484,
+        "Carriers": 0,
+        "Locations": 0
+      },
+      "Field": {
+        "Columns": 80,
+        "Rows": 70,
+        "First": 2400,
+        "Second": 3200,
+        "Regions": 3,
+        "Interfaces": 1448,
+        "Unresolved": 0,
+        "Period": 80,
+        "MinimumY": -35,
+        "MaximumY": 35,
+        "BandWidth": 3,
+        "GapWidth": 1,
+        "FirstFraction": 0.42857142857142855
+      },
+      "Geometry": {
+        "PeriodX": 40,
+        "PeriodY": 0,
+        "FundamentalPeriodX": 40,
+        "Height": 32,
+        "StrokeCount": 20,
+        "OverlapCount": 0,
+        "CrossingCount": 0,
+        "ContactCount": 20,
+        "VerifiedSymmetryNames": [
+          "translation",
+          "half turn"
+        ],
+        "UnresolvedCount": 0
+      },
+      "RoleRegions": {
+        "First": 1,
+        "Second": 2
+      },
+      "ElementaryEqualExtent": false,
+      "Exchange": [
+        {
+          "Name": "half-period translation",
+          "Passed": false,
+          "MapRows": 5600,
+          "Matched": 48416,
+          "Unmatched": 1664,
+          "Unresolved": 0
+        },
+        {
+          "Name": "half-period glide",
+          "Passed": false,
+          "MapRows": 5600,
+          "Matched": 45632,
+          "Unmatched": 4448,
+          "Unresolved": 0
+        }
+      ],
+      "BoundaryGaps": {
+        "Below": 0,
+        "Above": 0,
+        "Imbalance": 0
+      },
+      "ObservationNodes": 973134
+    }
+  ],
+  "Centering": [
+    {
+      "Name": "Before / original phase origin",
+      "Kind": "ribbon",
+      "Source": {
+        "Elements": 315,
+        "Carriers": 0,
+        "Locations": 0
+      },
+      "Field": {
+        "Columns": 24,
+        "Rows": 38,
+        "First": 288,
+        "Second": 624,
+        "Regions": 3,
+        "Interfaces": 288,
+        "Unresolved": 0,
+        "Period": 24,
+        "MinimumY": -19,
+        "MaximumY": 19,
+        "BandWidth": 2,
+        "GapWidth": 2,
+        "FirstFraction": 0.3157894736842105
+      },
+      "Geometry": {
+        "PeriodX": 12,
+        "PeriodY": 0,
+        "FundamentalPeriodX": 12,
+        "Height": 8,
+        "StrokeCount": 7,
+        "OverlapCount": 0,
+        "CrossingCount": 0,
+        "ContactCount": 7,
+        "VerifiedSymmetryNames": [
+          "translation",
+          "half turn"
+        ],
+        "UnresolvedCount": 0
+      },
+      "RoleRegions": {
+        "First": 1,
+        "Second": 2
+      },
+      "ElementaryEqualExtent": true,
+      "Exchange": [
+        {
+          "Name": "half-period translation",
+          "Passed": false,
+          "MapRows": 912,
+          "Matched": 7456,
+          "Unmatched": 656,
+          "Unresolved": 0
+        },
+        {
+          "Name": "half-period glide",
+          "Passed": false,
+          "MapRows": 912,
+          "Matched": 7648,
+          "Unmatched": 464,
+          "Unresolved": 0
+        }
+      ],
+      "BoundaryGaps": {
+        "Below": 17,
+        "Above": 1,
+        "Imbalance": 16
+      },
+      "ObservationNodes": 159626
+    },
+    {
+      "Name": "After / selected phase origin",
+      "Kind": "ribbon",
+      "Source": {
+        "Elements": 315,
+        "Carriers": 0,
+        "Locations": 0
+      },
+      "Field": {
+        "Columns": 24,
+        "Rows": 38,
+        "First": 288,
+        "Second": 624,
+        "Regions": 3,
+        "Interfaces": 288,
+        "Unresolved": 0,
+        "Period": 24,
+        "MinimumY": -19,
+        "MaximumY": 19,
+        "BandWidth": 2,
+        "GapWidth": 2,
+        "FirstFraction": 0.3157894736842105
+      },
+      "Geometry": {
+        "PeriodX": 12,
+        "PeriodY": 0,
+        "FundamentalPeriodX": 12,
+        "Height": 8,
+        "StrokeCount": 7,
+        "OverlapCount": 0,
+        "CrossingCount": 0,
+        "ContactCount": 7,
+        "VerifiedSymmetryNames": [
+          "translation",
+          "half turn"
+        ],
+        "UnresolvedCount": 0
+      },
+      "RoleRegions": {
+        "First": 1,
+        "Second": 2
+      },
+      "ElementaryEqualExtent": true,
+      "Exchange": [
+        {
+          "Name": "half-period translation",
+          "Passed": false,
+          "MapRows": 912,
+          "Matched": 7456,
+          "Unmatched": 656,
+          "Unresolved": 0
+        },
+        {
+          "Name": "half-period glide",
+          "Passed": false,
+          "MapRows": 912,
+          "Matched": 7456,
+          "Unmatched": 656,
+          "Unresolved": 0
+        }
+      ],
+      "BoundaryGaps": {
+        "Below": 9,
+        "Above": 9,
+        "Imbalance": 0
+      },
+      "ObservationNodes": 160305
+    }
+  ]
+}

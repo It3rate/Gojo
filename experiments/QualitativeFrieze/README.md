@@ -7,6 +7,31 @@ or numeric locations. The authored gallery below is the generation checkpoint;
 a following bounded feedback experiment adds explicit legality and preference
 reads without changing the kernel.
 
+The [pattern-shaping checkpoint](../../Gojo/docs/GojoPatternShapingExperiment.md)
+adds eight deliberately authored centerline programs and explicit two-role
+partitions inspired by the user's fret/meander references. It uses no random
+search. Shared unmeasured reaches, repeated actual moves and a native
+phase-origin edit retain source meaning; measured ribbon width and finite-strip
+geometry remain separate interpretations. Both black and white are actual
+participating roles. Equal width or equal counts alone do not prove a
+color-exchanging symmetry: an explicit bijection must exchange every role and
+preserve directed adjacency.
+
+```powershell
+dotnet run --project experiments/QualitativeFrieze -c Release -- --shape --output experiments/QualitativeFrieze/results/shaping
+```
+
+The shaping output targets are the [SVG gallery](results/shaping/gallery.svg),
+[HTML gallery](results/shaping/gallery.html), [diagnostics](results/shaping/diagnostics.json),
+[thin/equal/heavy styles](results/shaping/styles.svg),
+[phase-origin comparison](results/shaping/centering.svg)
+and [PNG overview](results/shaping/gallery-preview.png).
+The recorded catalog has eleven constructions, including three proved native
+color exchanges. The phase-origin edit changes boundary margins from 17/1 to
+9/9 cells. All three figures were visually checked. The report distinguishes
+the compact stroke source from the larger explicit cell field and separates
+native role exchange from measured geometric and area claims.
+
 ```powershell
 dotnet run --project experiments/QualitativeFrieze -c Release -- --output experiments/QualitativeFrieze/results
 ```
@@ -75,5 +100,5 @@ all geometric symmetries or all possible unmeasured embeddings.
 Run the focused experiments with:
 
 ```powershell
-dotnet test experiments/QualitativeExecution.Tests -c Release --filter "FullyQualifiedName~Frieze|FullyQualifiedName~QualitativeCoverageTests|FullyQualifiedName~PhaseEventNetworkTests|FullyQualifiedName~QualitativeMotionFrameTests"
+dotnet test experiments/QualitativeExecution.Tests -c Release --filter "FullyQualifiedName~Frieze|FullyQualifiedName~QualitativeCoverageTests|FullyQualifiedName~PhaseEventNetworkTests|FullyQualifiedName~QualitativeMotionFrameTests|FullyQualifiedName~PatternShapingLibraryTests|FullyQualifiedName~QualitativePartitionTests|FullyQualifiedName~QualitativeWeaveTests|FullyQualifiedName~RibbonPartitionSupplierTests"
 ```
