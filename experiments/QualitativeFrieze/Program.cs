@@ -11,6 +11,7 @@ if (args.Contains("--learn")) return FriezeLearningExperiment.Run(args.Where(arg
 if (args.Contains("--shape")) return PatternShapingExperiment.Run(args.Where(argument => argument != "--shape").ToArray());
 if (args.Contains("--layers")) return PatternLayerExperiment.Run(args.Where(argument => argument != "--layers").ToArray());
 if (args.Contains("--rhythms")) return RhythmPatternExperiment.Run(args.Where(argument => argument != "--rhythms").ToArray());
+if (args.Contains("--rhythm-friezes")) return RhythmFriezeExperiment.Run(args.Where(argument => argument != "--rhythm-friezes").ToArray());
 
 var output = Path.Combine("experiments", "QualitativeFrieze", "results");
 var rounds = 72;

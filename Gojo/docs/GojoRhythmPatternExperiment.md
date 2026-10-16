@@ -5,6 +5,10 @@ actual contributions, and supplies an exact measured square-brush footprint.
 It adds descriptive process features and comparisons inspired by rhythm
 research. The source stays pre-numeric; no kernel primitive was added.
 
+The later [rhythm-to-frieze checkpoint](GojoRhythmFriezeExperiment.md) uses
+these onset ideas to choose whole turning phrases, including backward reaches,
+nested keys and connectors, rather than only rise/return excursions.
+
 The accompanying [research note](GojoPatternFitnessResearch.md) reviews six
 primary studies and distinguishes empirical findings from the proposed Gojo
 fitness features. No human preference predictor has been trained or validated.

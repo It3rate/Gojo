@@ -1,0 +1,360 @@
+{
+  "Schema": "qualitative-rhythm-friezes-v1",
+  "Native": {
+    "Elements": 69693,
+    "Carriers": 0,
+    "Locations": 0
+  },
+  "Pictures": [
+    {
+      "Name": "3\u20133\u20132 folded keys and connectors",
+      "SourceSlots": 8,
+      "PhraseSelections": 8,
+      "StrokePhases": 26,
+      "ReachParticipations": 32,
+      "PhraseIdentities": 2,
+      "Rhythm": "\u25CF \u00B7 \u00B7 \u25CF \u00B7 \u00B7 \u25CF \u00B7",
+      "CompiledStrokesPerSlot": [
+        7,
+        1,
+        1,
+        7,
+        1,
+        1,
+        7,
+        1
+      ],
+      "Geometry": {
+        "PeriodX": 56,
+        "PeriodY": 0,
+        "FundamentalPeriodX": 56,
+        "Height": 8,
+        "StrokeCount": 26,
+        "OverlapCount": 0,
+        "CrossingCount": 0,
+        "ContactCount": 26,
+        "VerifiedSymmetryNames": [
+          "translation"
+        ],
+        "UnresolvedCount": 0
+      },
+      "Field": {
+        "Columns": 112,
+        "Rows": 24,
+        "First": 1024,
+        "Second": 1664,
+        "Regions": 3,
+        "Interfaces": 1024,
+        "Unresolved": 0,
+        "Period": 112,
+        "MinimumY": -4,
+        "MaximumY": 20,
+        "BandWidth": 2,
+        "GapWidth": 2,
+        "FirstFraction": 0.38095238095238093
+      },
+      "Source": {
+        "Elements": 9037,
+        "Carriers": 0,
+        "Locations": 0
+      },
+      "Observation": {
+        "Elements": 669400,
+        "Carriers": 33,
+        "Locations": 47388
+      }
+    },
+    {
+      "Name": "Same onsets \u2014 nested keys",
+      "SourceSlots": 8,
+      "PhraseSelections": 8,
+      "StrokePhases": 35,
+      "ReachParticipations": 80,
+      "PhraseIdentities": 2,
+      "Rhythm": "\u25CF \u00B7 \u00B7 \u25CF \u00B7 \u00B7 \u25CF \u00B7",
+      "CompiledStrokesPerSlot": [
+        10,
+        1,
+        1,
+        10,
+        1,
+        1,
+        10,
+        1
+      ],
+      "Geometry": {
+        "PeriodX": 80,
+        "PeriodY": 0,
+        "FundamentalPeriodX": 80,
+        "Height": 16,
+        "StrokeCount": 35,
+        "OverlapCount": 0,
+        "CrossingCount": 0,
+        "ContactCount": 35,
+        "VerifiedSymmetryNames": [
+          "translation"
+        ],
+        "UnresolvedCount": 0
+      },
+      "Field": {
+        "Columns": 160,
+        "Rows": 40,
+        "First": 2560,
+        "Second": 3840,
+        "Regions": 3,
+        "Interfaces": 2560,
+        "Unresolved": 0,
+        "Period": 160,
+        "MinimumY": -4,
+        "MaximumY": 36,
+        "BandWidth": 2,
+        "GapWidth": 2,
+        "FirstFraction": 0.4
+      },
+      "Source": {
+        "Elements": 13214,
+        "Carriers": 0,
+        "Locations": 0
+      },
+      "Observation": {
+        "Elements": 1559788,
+        "Carriers": 42,
+        "Locations": 103078
+      }
+    },
+    {
+      "Name": "Same onsets \u2014 square rest phrases",
+      "SourceSlots": 8,
+      "PhraseSelections": 8,
+      "StrokePhases": 41,
+      "ReachParticipations": 47,
+      "PhraseIdentities": 2,
+      "Rhythm": "\u25CF \u00B7 \u00B7 \u25CF \u00B7 \u00B7 \u25CF \u00B7",
+      "CompiledStrokesPerSlot": [
+        7,
+        4,
+        4,
+        7,
+        4,
+        4,
+        7,
+        4
+      ],
+      "Geometry": {
+        "PeriodX": 76,
+        "PeriodY": 0,
+        "FundamentalPeriodX": 76,
+        "Height": 8,
+        "StrokeCount": 41,
+        "OverlapCount": 0,
+        "CrossingCount": 0,
+        "ContactCount": 41,
+        "VerifiedSymmetryNames": [
+          "translation"
+        ],
+        "UnresolvedCount": 0
+      },
+      "Field": {
+        "Columns": 152,
+        "Rows": 24,
+        "First": 1504,
+        "Second": 2144,
+        "Regions": 3,
+        "Interfaces": 1504,
+        "Unresolved": 0,
+        "Period": 152,
+        "MinimumY": -4,
+        "MaximumY": 20,
+        "BandWidth": 2,
+        "GapWidth": 2,
+        "FirstFraction": 0.41228070175438597
+      },
+      "Source": {
+        "Elements": 15519,
+        "Carriers": 0,
+        "Locations": 0
+      },
+      "Observation": {
+        "Elements": 1162263,
+        "Carriers": 48,
+        "Locations": 87170
+      }
+    },
+    {
+      "Name": "3\u20133\u20132 with alternating phrase state",
+      "SourceSlots": 8,
+      "PhraseSelections": 8,
+      "StrokePhases": 26,
+      "ReachParticipations": 36,
+      "PhraseIdentities": 3,
+      "Rhythm": "\u25CF \u00B7 \u00B7 \u25CF \u00B7 \u00B7 \u25CF \u00B7",
+      "CompiledStrokesPerSlot": [
+        7,
+        1,
+        1,
+        7,
+        1,
+        1,
+        7,
+        1
+      ],
+      "Geometry": {
+        "PeriodX": 64,
+        "PeriodY": 0,
+        "FundamentalPeriodX": 64,
+        "Height": 8,
+        "StrokeCount": 26,
+        "OverlapCount": 0,
+        "CrossingCount": 0,
+        "ContactCount": 26,
+        "VerifiedSymmetryNames": [
+          "translation"
+        ],
+        "UnresolvedCount": 0
+      },
+      "Field": {
+        "Columns": 128,
+        "Rows": 24,
+        "First": 1152,
+        "Second": 1920,
+        "Regions": 3,
+        "Interfaces": 1152,
+        "Unresolved": 0,
+        "Period": 128,
+        "MinimumY": -4,
+        "MaximumY": 20,
+        "BandWidth": 2,
+        "GapWidth": 2,
+        "FirstFraction": 0.375
+      },
+      "Source": {
+        "Elements": 9176,
+        "Carriers": 0,
+        "Locations": 0
+      },
+      "Observation": {
+        "Elements": 763019,
+        "Carriers": 33,
+        "Locations": 54476
+      }
+    },
+    {
+      "Name": "Alternating onsets through the same law",
+      "SourceSlots": 8,
+      "PhraseSelections": 8,
+      "StrokePhases": 32,
+      "ReachParticipations": 40,
+      "PhraseIdentities": 2,
+      "Rhythm": "\u25CF \u00B7 \u25CF \u00B7 \u25CF \u00B7 \u25CF \u00B7",
+      "CompiledStrokesPerSlot": [
+        7,
+        1,
+        7,
+        1,
+        7,
+        1,
+        7,
+        1
+      ],
+      "Geometry": {
+        "PeriodX": 64,
+        "PeriodY": 0,
+        "FundamentalPeriodX": 16,
+        "Height": 8,
+        "StrokeCount": 32,
+        "OverlapCount": 0,
+        "CrossingCount": 0,
+        "ContactCount": 32,
+        "VerifiedSymmetryNames": [
+          "translation"
+        ],
+        "UnresolvedCount": 0
+      },
+      "Field": {
+        "Columns": 128,
+        "Rows": 24,
+        "First": 1280,
+        "Second": 1792,
+        "Regions": 3,
+        "Interfaces": 1280,
+        "Unresolved": 0,
+        "Period": 128,
+        "MinimumY": -4,
+        "MaximumY": 20,
+        "BandWidth": 2,
+        "GapWidth": 2,
+        "FirstFraction": 0.4166666666666667
+      },
+      "Source": {
+        "Elements": 11538,
+        "Carriers": 0,
+        "Locations": 0
+      },
+      "Observation": {
+        "Elements": 848159,
+        "Carriers": 39,
+        "Locations": 63144
+      }
+    },
+    {
+      "Name": "Four slots \u2014 nested and folded phrases",
+      "SourceSlots": 4,
+      "PhraseSelections": 4,
+      "StrokePhases": 34,
+      "ReachParticipations": 68,
+      "PhraseIdentities": 2,
+      "Rhythm": "\u25CF \u00B7 \u25CF \u00B7",
+      "CompiledStrokesPerSlot": [
+        10,
+        7,
+        10,
+        7
+      ],
+      "Geometry": {
+        "PeriodX": 64,
+        "PeriodY": 0,
+        "FundamentalPeriodX": 32,
+        "Height": 16,
+        "StrokeCount": 34,
+        "OverlapCount": 0,
+        "CrossingCount": 0,
+        "ContactCount": 34,
+        "VerifiedSymmetryNames": [
+          "translation"
+        ],
+        "UnresolvedCount": 0
+      },
+      "Field": {
+        "Columns": 128,
+        "Rows": 40,
+        "First": 2176,
+        "Second": 2944,
+        "Regions": 3,
+        "Interfaces": 2176,
+        "Unresolved": 0,
+        "Period": 128,
+        "MinimumY": -4,
+        "MaximumY": 36,
+        "BandWidth": 2,
+        "GapWidth": 2,
+        "FirstFraction": 0.425
+      },
+      "Source": {
+        "Elements": 12348,
+        "Carriers": 0,
+        "Locations": 0
+      },
+      "Observation": {
+        "Elements": 1242039,
+        "Carriers": 41,
+        "Locations": 81916
+      }
+    }
+  ],
+  "Notes": [
+    "Onset order is preserved. Expanding slots into unequal stroke counts does not preserve musical timing or spatial beat ratios.",
+    "Phrase grammar and square brush are authored interpretations; rhythm alone does not imply their geometry.",
+    "Fill is exact in each advertised finite strip at H4/V4, band2/gap2. Different strip heights are not one common area objective.",
+    "No random search, audio recognition or preference learning is claimed. Colours identify local selected phrase identities."
+  ]
+}

@@ -7,6 +7,26 @@ or numeric locations. The authored gallery below is the generation checkpoint;
 a following bounded feedback experiment adds explicit legality and preference
 reads without changing the kernel.
 
+The [rhythm-to-frieze checkpoint](../../Gojo/docs/GojoRhythmFriezeExperiment.md)
+uses onset roles and an explicit phrase phase to select whole sequences of
+turns, backward reaches and returns. The same rhythm can select several
+different fret grammars; source slots, selection laws and emitted stroke
+phases remain connected. Expansion preserves event order rather than musical
+duration. The gallery includes phrase colours, black/white inversion, exact
+finite-strip fill and periodic centerline checks.
+
+```powershell
+dotnet run --project experiments/QualitativeFrieze -c Release -- --rhythm-friezes
+```
+
+See the [interactive gallery](results/rhythm-friezes/gallery.html),
+[SVG](results/rhythm-friezes/gallery.svg),
+[preview](results/rhythm-friezes/gallery-preview.png)
+and [diagnostics](results/rhythm-friezes/diagnostics.json).
+The [phrase-colour figure](results/rhythm-friezes/phrases.svg) and
+[colour preview](results/rhythm-friezes/phrases-preview.png) expose the selected
+phrase identities directly.
+
 The [rhythm and diagonal checkpoint](../../Gojo/docs/GojoRhythmPatternExperiment.md)
 adds exact thick diagonal square-brush footprints, slow/fast/middle phase
 compositions, onset-to-pulse correspondences, local colour views and descriptive
