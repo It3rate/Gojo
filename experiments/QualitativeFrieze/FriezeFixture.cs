@@ -103,6 +103,28 @@ public sealed class FriezeFixture
         return new("Greek-key meander", b, clock.Port, S());
     }
 
+    // root-phase -> horizontal-port; root-phase -> alternating-vertical-port.
+    // Root sampling commits both emissions together. Sampling the two component
+    // ports instead commits the same causal applications as separate strokes.
+    // The slower version has a second root phase with only a horizontal route;
+    // that explicit missing vertical trigger is neither an elapsed-time claim
+    // nor a host modulo schedule.
+    public static FriezeFixture CombinedDriveZigzag(bool slowerVertical = false,
+        QualitativeMotionFrame? frame = null, IElement? horizontalReach = null,
+        IElement? verticalReach = null)
+    {
+        var b = new Builder(frame); var h = horizontalReach ?? new Placeholder(); var v = verticalReach ?? new Placeholder();
+        var right = b.Move(b.Frame.Right, h); var up = b.Move(b.Frame.Up, v); var down = b.Move(b.Frame.Down, v);
+        var beat = slowerVertical ? b.Cycle(S(), S()) : b.Cycle(S());
+        var horizontal = b.Cycle(S(right));
+        var vertical = b.Cycle(S(up), S(down));
+        b.Connect(beat, beat.Phases[0], horizontal);
+        b.Connect(beat, beat.Phases[0], vertical);
+        if (slowerVertical) b.Connect(beat, beat.Phases[1], horizontal);
+        return new(slowerVertical ? "Combined drives — slower vertical recurrence" : "Combined drives — alternating vertical recurrence",
+            b, beat.Port, S());
+    }
+
     public static FriezeFixture SlowFastDrift(bool sampleIndividualFirings = false, QualitativeMotionFrame? frame = null)
     {
         var b = new Builder(frame); var fastReach = new Placeholder(); var driftReach = new Placeholder(); var v = new Placeholder();

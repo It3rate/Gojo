@@ -7,6 +7,25 @@ or numeric locations. The authored gallery below is the generation checkpoint;
 a following bounded feedback experiment adds explicit legality and preference
 reads without changing the kernel.
 
+The [layer-analysis checkpoint](../../Gojo/docs/GojoPatternLayerExperiment.md)
+connects rhythmic drives, sampling, actual contributions, ordinal quiet regions,
+multiple field support, explicit union/subtraction passes and reusable motif
+correspondences. It preserves separate histories and both field roles.
+
+```powershell
+dotnet run --project experiments/QualitativeFrieze -c Release -- --layers
+```
+
+See its [interactive gallery](results/layers/gallery.html),
+[SVG](results/layers/gallery.svg), [diagnostics](results/layers/diagnostics.json)
+and [preview](results/layers/gallery-preview.png). The edits and preferences are
+authored; this supplies analysis mechanics for later intentional training.
+The recorded comparison retains an all-dark counterexample to filling every
+quiet plateau, a one-landmark addition, and union/subtraction of a shifted
+motif. Equal dark/light counts can return while the original role exchange
+fails. Compact source programs and complete retained proof graphs remain
+different storage promises.
+
 The [pattern-shaping checkpoint](../../Gojo/docs/GojoPatternShapingExperiment.md)
 adds eight deliberately authored centerline programs and explicit two-role
 partitions inspired by the user's fret/meander references. It uses no random

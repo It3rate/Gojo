@@ -1,0 +1,298 @@
+{
+  "Schema": "qualitative-pattern-layers-v1",
+  "NativeSource": {
+    "Elements": 184225,
+    "Carriers": 0,
+    "Locations": 0
+  },
+  "Observation": {
+    "Elements": 25145,
+    "Carriers": 4,
+    "Locations": 712
+  },
+  "Drives": [
+    {
+      "Name": "Grouped contributions / zigzag",
+      "RootDrives": 12,
+      "Applications": 24,
+      "Samples": 12,
+      "End": {
+        "X": 48,
+        "Y": 0
+      },
+      "Native": {
+        "Elements": 6425,
+        "Carriers": 0,
+        "Locations": 0
+      }
+    },
+    {
+      "Name": "Same laws / staircase",
+      "RootDrives": 12,
+      "Applications": 24,
+      "Samples": 24,
+      "End": {
+        "X": 48,
+        "Y": 0
+      },
+      "Native": {
+        "Elements": 7579,
+        "Carriers": 0,
+        "Locations": 0
+      }
+    },
+    {
+      "Name": "Different recurrence / slow vertical",
+      "RootDrives": 12,
+      "Applications": 18,
+      "Samples": 12,
+      "End": {
+        "X": 48,
+        "Y": 0
+      },
+      "Native": {
+        "Elements": 5629,
+        "Carriers": 0,
+        "Locations": 0
+      }
+    }
+  ],
+  "Fields": {
+    "Native": {
+      "Elements": 164997,
+      "Carriers": 0,
+      "Locations": 0
+    },
+    "Cells": 128,
+    "QuietPlateauCells": 64,
+    "SelectedQuietCells": 1,
+    "NaiveFillAllQuiet": {
+      "First": 128,
+      "Second": 0,
+      "Regions": 1
+    },
+    "OrdinalShellsBefore": 2,
+    "OrdinalShellsAfterQuietAddition": 2,
+    "CrowdedCells": 32,
+    "Correspondences": {
+      "TemplateCells": 64,
+      "SameRole": [
+        {
+          "Passed": true,
+          "MapRows": 64,
+          "Matched": 512,
+          "Unmatched": 0,
+          "Unresolved": 0
+        },
+        {
+          "Passed": false,
+          "MapRows": 64,
+          "Matched": 448,
+          "Unmatched": 64,
+          "Unresolved": 0
+        }
+      ],
+      "OppositeRole": [
+        {
+          "Passed": false,
+          "MapRows": 64,
+          "Matched": 448,
+          "Unmatched": 64,
+          "Unresolved": 0
+        },
+        {
+          "Passed": true,
+          "MapRows": 64,
+          "Matched": 512,
+          "Unmatched": 0,
+          "Unresolved": 0
+        }
+      ],
+      "ShiftedDonor": [
+        {
+          "Passed": true,
+          "MapRows": 64,
+          "Matched": 512,
+          "Unmatched": 0,
+          "Unresolved": 0
+        }
+      ],
+      "ColumnReflectionOppositeRole": [
+        {
+          "Passed": false,
+          "MapRows": 64,
+          "Matched": 480,
+          "Unmatched": 32,
+          "Unresolved": 0
+        },
+        {
+          "Passed": false,
+          "MapRows": 64,
+          "Matched": 504,
+          "Unmatched": 8,
+          "Unresolved": 0
+        },
+        {
+          "Passed": false,
+          "MapRows": 64,
+          "Matched": 480,
+          "Unmatched": 32,
+          "Unresolved": 0
+        },
+        {
+          "Passed": false,
+          "MapRows": 64,
+          "Matched": 488,
+          "Unmatched": 24,
+          "Unresolved": 0
+        },
+        {
+          "Passed": false,
+          "MapRows": 64,
+          "Matched": 480,
+          "Unmatched": 32,
+          "Unresolved": 0
+        },
+        {
+          "Passed": false,
+          "MapRows": 64,
+          "Matched": 472,
+          "Unmatched": 40,
+          "Unresolved": 0
+        },
+        {
+          "Passed": false,
+          "MapRows": 64,
+          "Matched": 480,
+          "Unmatched": 32,
+          "Unresolved": 0
+        },
+        {
+          "Passed": false,
+          "MapRows": 64,
+          "Matched": 456,
+          "Unmatched": 56,
+          "Unresolved": 0
+        },
+        {
+          "Passed": false,
+          "MapRows": 64,
+          "Matched": 480,
+          "Unmatched": 32,
+          "Unresolved": 0
+        },
+        {
+          "Passed": false,
+          "MapRows": 64,
+          "Matched": 456,
+          "Unmatched": 56,
+          "Unresolved": 0
+        },
+        {
+          "Passed": false,
+          "MapRows": 64,
+          "Matched": 480,
+          "Unmatched": 32,
+          "Unresolved": 0
+        },
+        {
+          "Passed": false,
+          "MapRows": 64,
+          "Matched": 472,
+          "Unmatched": 40,
+          "Unresolved": 0
+        },
+        {
+          "Passed": false,
+          "MapRows": 64,
+          "Matched": 480,
+          "Unmatched": 32,
+          "Unresolved": 0
+        },
+        {
+          "Passed": false,
+          "MapRows": 64,
+          "Matched": 488,
+          "Unmatched": 24,
+          "Unresolved": 0
+        },
+        {
+          "Passed": false,
+          "MapRows": 64,
+          "Matched": 480,
+          "Unmatched": 32,
+          "Unresolved": 0
+        },
+        {
+          "Passed": false,
+          "MapRows": 64,
+          "Matched": 504,
+          "Unmatched": 8,
+          "Unresolved": 0
+        }
+      ]
+    },
+    "SelectedHalfShift": [
+      {
+        "Name": "Original",
+        "Passed": true,
+        "Unmatched": 0
+      },
+      {
+        "Name": "Naive quiet fill",
+        "Passed": false,
+        "Unmatched": 128
+      },
+      {
+        "Name": "Landmark addition",
+        "Passed": false,
+        "Unmatched": 2
+      },
+      {
+        "Name": "Shifted layer",
+        "Passed": true,
+        "Unmatched": 0
+      },
+      {
+        "Name": "Union",
+        "Passed": false,
+        "Unmatched": 64
+      },
+      {
+        "Name": "Relaxed",
+        "Passed": false,
+        "Unmatched": 128
+      }
+    ],
+    "Original": {
+      "First": 64,
+      "Second": 64,
+      "Regions": 2
+    },
+    "QuietAddition": {
+      "First": 65,
+      "Second": 63,
+      "Regions": 3
+    },
+    "ShiftedLayer": {
+      "First": 64,
+      "Second": 64,
+      "Regions": 2
+    },
+    "Union": {
+      "First": 96,
+      "Second": 32,
+      "Regions": 9
+    },
+    "Relaxed": {
+      "First": 64,
+      "Second": 64,
+      "Regions": 6
+    }
+  },
+  "Notes": [
+    "Host counts are projections; source decisions use actual cells, roles, laws and witnesses.",
+    "A field correspondence does not reconstruct unique driving history.",
+    "Multi-pass union and subtraction are observational field transformations, not material settlement."
+  ]
+}
