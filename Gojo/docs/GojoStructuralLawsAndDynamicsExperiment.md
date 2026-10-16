@@ -8,6 +8,9 @@ without measured scalar inputs, numeric coordinates or carrier state.
 
 ## Results
 
+The following [resolution and schedule experiment](GojoResolutionAndScheduleExperiment.md)
+implements this checkpoint's proposed connection and measured-supplier work.
+
 | Question | Demonstrated in this checkpoint | Boundary |
 | --- | --- | --- |
 | Can supplied laws be checked rather than merely executed? | Native equation obligations, passing cases, counterexamples and unresolved evidence | Finite supplied obligations; no discovery or universal proof |

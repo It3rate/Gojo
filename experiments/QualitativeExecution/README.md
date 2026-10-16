@@ -30,6 +30,10 @@ The [laws and dynamics checkpoint](../../Gojo/docs/GojoStructuralLawsAndDynamics
 adds finite equation checks, shared landmarks, event-based stock and feedback,
 and a minimal categorical light reflex. Its contracts and limits are explicit;
 it introduces no new kernel primitive.
+The [resolution and schedule checkpoint](../../Gojo/docs/GojoResolutionAndScheduleExperiment.md)
+connects finite resolutions and independent observation schedules, then attaches
+measured interpretation to the same state and landmark identities. These routes
+also compose through the existing categorical reflex.
 
 Run tests and the diagnostic benchmark from the repository root:
 
