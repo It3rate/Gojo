@@ -42,6 +42,9 @@ adds question-directed suppliers, explicit finite action selection, conditional
 packet passages, driven phase recurrence and shared motif generation/recognition.
 Its small rule set separates answers, permission and effects, and tests uncertain
 branches without implicitly forking participation into every possible future.
+The [qualitative frieze experiment](../QualitativeFrieze/README.md) then exercises
+these mechanics with independent and triggered motions, unmeasured reaches,
+explicit sample grouping and separate measured drawings.
 
 Run tests and the diagnostic benchmark from the repository root:
 

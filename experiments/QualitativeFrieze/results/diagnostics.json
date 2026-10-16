@@ -1,0 +1,293 @@
+{
+  "Schema": "qualitative-frieze-run-v1",
+  "Rounds": 72,
+  "Variants": 7,
+  "TotalSourceCarriers": 0,
+  "TotalSourceLocations": 0,
+  "Notes": [
+    "Positive illustrative calibrations are separate from source structure.",
+    "Phase recurrence rounds do not establish equal elapsed duration or metric frieze symmetry.",
+    "Unresolved ordinal comparisons do not imply a lost motion application."
+  ],
+  "Runs": [
+    {
+      "Name": "Square wave \u2014 coupled clocks",
+      "RequestedRounds": 72,
+      "RootDrives": 72,
+      "MotionApplications": 72,
+      "Samples": 72,
+      "SourceCarriers": 0,
+      "SourceLocations": 0,
+      "PhaseRecurrenceRounds": 4,
+      "PhaseReturns": 18,
+      "OpenOrdinalReads": 0,
+      "ExecutionUnresolved": 0,
+      "Embeddings": [
+        {
+          "HorizontalBasis": 12,
+          "VerticalBasis": 20,
+          "ReachLengths": [
+            12,
+            20
+          ],
+          "Complete": true,
+          "Unresolved": 0,
+          "FinalX": 432,
+          "FinalY": 0
+        },
+        {
+          "HorizontalBasis": 24,
+          "VerticalBasis": 10,
+          "ReachLengths": [
+            10,
+            24
+          ],
+          "Complete": true,
+          "Unresolved": 0,
+          "FinalX": 864,
+          "FinalY": 0
+        }
+      ]
+    },
+    {
+      "Name": "Square wave \u2014 direct sequence",
+      "RequestedRounds": 72,
+      "RootDrives": 72,
+      "MotionApplications": 72,
+      "Samples": 72,
+      "SourceCarriers": 0,
+      "SourceLocations": 0,
+      "PhaseRecurrenceRounds": 4,
+      "PhaseReturns": 18,
+      "OpenOrdinalReads": 0,
+      "ExecutionUnresolved": 0,
+      "Embeddings": [
+        {
+          "HorizontalBasis": 12,
+          "VerticalBasis": 20,
+          "ReachLengths": [
+            12,
+            20
+          ],
+          "Complete": true,
+          "Unresolved": 0,
+          "FinalX": 432,
+          "FinalY": 0
+        },
+        {
+          "HorizontalBasis": 24,
+          "VerticalBasis": 10,
+          "ReachLengths": [
+            10,
+            24
+          ],
+          "Complete": true,
+          "Unresolved": 0,
+          "FinalX": 864,
+          "FinalY": 0
+        }
+      ]
+    },
+    {
+      "Name": "Greek-key meander",
+      "RequestedRounds": 72,
+      "RootDrives": 72,
+      "MotionApplications": 72,
+      "Samples": 72,
+      "SourceCarriers": 0,
+      "SourceLocations": 0,
+      "PhaseRecurrenceRounds": 9,
+      "PhaseReturns": 8,
+      "OpenOrdinalReads": 0,
+      "ExecutionUnresolved": 0,
+      "Embeddings": [
+        {
+          "HorizontalBasis": 12,
+          "VerticalBasis": 20,
+          "ReachLengths": [
+            12,
+            20
+          ],
+          "Complete": true,
+          "Unresolved": 0,
+          "FinalX": 288,
+          "FinalY": 0
+        },
+        {
+          "HorizontalBasis": 24,
+          "VerticalBasis": 10,
+          "ReachLengths": [
+            10,
+            24
+          ],
+          "Complete": true,
+          "Unresolved": 0,
+          "FinalX": 576,
+          "FinalY": 0
+        }
+      ]
+    },
+    {
+      "Name": "Slow / fast / drift \u2014 sampled together",
+      "RequestedRounds": 72,
+      "RootDrives": 72,
+      "MotionApplications": 168,
+      "Samples": 72,
+      "SourceCarriers": 0,
+      "SourceLocations": 0,
+      "PhaseRecurrenceRounds": 6,
+      "PhaseReturns": 12,
+      "OpenOrdinalReads": 36,
+      "ExecutionUnresolved": 0,
+      "Embeddings": [
+        {
+          "HorizontalBasis": 12,
+          "VerticalBasis": 20,
+          "ReachLengths": [
+            6,
+            12,
+            20
+          ],
+          "Complete": true,
+          "Unresolved": 0,
+          "FinalX": 432,
+          "FinalY": 0
+        },
+        {
+          "HorizontalBasis": 24,
+          "VerticalBasis": 10,
+          "ReachLengths": [
+            10,
+            12,
+            24
+          ],
+          "Complete": true,
+          "Unresolved": 0,
+          "FinalX": 864,
+          "FinalY": 0
+        }
+      ]
+    },
+    {
+      "Name": "Slow / fast / drift \u2014 every firing",
+      "RequestedRounds": 72,
+      "RootDrives": 72,
+      "MotionApplications": 168,
+      "Samples": 168,
+      "SourceCarriers": 0,
+      "SourceLocations": 0,
+      "PhaseRecurrenceRounds": 6,
+      "PhaseReturns": 12,
+      "OpenOrdinalReads": 0,
+      "ExecutionUnresolved": 0,
+      "Embeddings": [
+        {
+          "HorizontalBasis": 12,
+          "VerticalBasis": 20,
+          "ReachLengths": [
+            6,
+            12,
+            20
+          ],
+          "Complete": true,
+          "Unresolved": 0,
+          "FinalX": 432,
+          "FinalY": 0
+        },
+        {
+          "HorizontalBasis": 24,
+          "VerticalBasis": 10,
+          "ReachLengths": [
+            10,
+            12,
+            24
+          ],
+          "Complete": true,
+          "Unresolved": 0,
+          "FinalX": 864,
+          "FinalY": 0
+        }
+      ]
+    },
+    {
+      "Name": "Three pauses, move; continuous drift",
+      "RequestedRounds": 72,
+      "RootDrives": 72,
+      "MotionApplications": 90,
+      "Samples": 72,
+      "SourceCarriers": 0,
+      "SourceLocations": 0,
+      "PhaseRecurrenceRounds": 8,
+      "PhaseReturns": 9,
+      "OpenOrdinalReads": 0,
+      "ExecutionUnresolved": 0,
+      "Embeddings": [
+        {
+          "HorizontalBasis": 12,
+          "VerticalBasis": 20,
+          "ReachLengths": [
+            12,
+            20
+          ],
+          "Complete": true,
+          "Unresolved": 0,
+          "FinalX": 864,
+          "FinalY": 0
+        },
+        {
+          "HorizontalBasis": 24,
+          "VerticalBasis": 10,
+          "ReachLengths": [
+            10,
+            24
+          ],
+          "Complete": true,
+          "Unresolved": 0,
+          "FinalX": 1728,
+          "FinalY": 0
+        }
+      ]
+    },
+    {
+      "Name": "Alternating short and long reaches",
+      "RequestedRounds": 72,
+      "RootDrives": 72,
+      "MotionApplications": 72,
+      "Samples": 72,
+      "SourceCarriers": 0,
+      "SourceLocations": 0,
+      "PhaseRecurrenceRounds": 4,
+      "PhaseReturns": 18,
+      "OpenOrdinalReads": 0,
+      "ExecutionUnresolved": 0,
+      "Embeddings": [
+        {
+          "HorizontalBasis": 12,
+          "VerticalBasis": 20,
+          "ReachLengths": [
+            6,
+            12,
+            20
+          ],
+          "Complete": true,
+          "Unresolved": 0,
+          "FinalX": 324,
+          "FinalY": 0
+        },
+        {
+          "HorizontalBasis": 24,
+          "VerticalBasis": 10,
+          "ReachLengths": [
+            10,
+            12,
+            24
+          ],
+          "Complete": true,
+          "Unresolved": 0,
+          "FinalX": 648,
+          "FinalY": 0
+        }
+      ]
+    }
+  ]
+}

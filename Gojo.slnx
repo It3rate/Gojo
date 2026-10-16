@@ -12,6 +12,7 @@
     <File Path="Gojo/docs/GojoResolutionAndScheduleExperiment.md" />
     <File Path="Gojo/docs/GojoRefinementComputeComparison.md" />
     <File Path="Gojo/docs/GojoConditionalTemporalMechanics.md" />
+    <File Path="Gojo/docs/GojoQualitativeFriezeExperiment.md" />
     <File Path="Gojo/docs/Grammar.md" />
     <File Path="Gojo/docs/GojoTextSyntax.md" />
     <File Path="Gojo/docs/GojoSyntaxDynamicCheckpoint-2026-09.md" />
@@ -88,6 +89,9 @@
   </Folder>
   <Folder Name="/Experiments/RefinementPerformance/">
     <Project Path="experiments/RefinementPerformance/RefinementPerformance.csproj" />
+  </Folder>
+  <Folder Name="/Experiments/QualitativeFrieze/">
+    <Project Path="experiments/QualitativeFrieze/QualitativeFrieze.csproj" />
   </Folder>
   <Folder Name="/Experiments/Phototaxis/">
     <Project Path="experiments/Phototaxis/Phototaxis.csproj" />
