@@ -15,6 +15,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="../QualitativeExecution/QualitativeExecution.csproj" />
+    <ProjectReference Include="../RefinementPerformance/RefinementPerformance.csproj" />
     <Using Include="Xunit" />
   </ItemGroup>
 </Project>

@@ -34,6 +34,9 @@ The [resolution and schedule checkpoint](../../Gojo/docs/GojoResolutionAndSchedu
 connects finite resolutions and independent observation schedules, then attaches
 measured interpretation to the same state and landmark identities. These routes
 also compose through the existing categorical reflex.
+The [large compute comparison](../RefinementPerformance/README.md) exercises
+connected native, compiled and measured workloads and records a repeatable
+performance baseline, including the new 64-identity finite batch compiler.
 
 Run tests and the diagnostic benchmark from the repository root:
 

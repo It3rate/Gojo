@@ -1,0 +1,175 @@
+{
+  "RecordedAt": "2026-10-16T16:34:37.6585731+00:00",
+  "SourceRevision": "c263482c90a60215b1e12bf5004a9f8f241d4be9",
+  "Runtime": ".NET 10.0.12",
+  "OperatingSystem": "Microsoft Windows 10.0.26200",
+  "Architecture": "X64",
+  "LogicalProcessors": 16,
+  "ServerGc": false,
+  "TieredPgoEnvironment": null,
+  "BuildConfiguration": "Release",
+  "SourceFilesSha256": "D683379CE44D6381C89D43033B0FF0961B7B696D7FB1F3E4D9CF031D2E328B29",
+  "Options": {
+    "Sizes": [
+      512
+    ],
+    "Rounds": 8192,
+    "Samples": 3,
+    "Coverage": false,
+    "CoverageSize": 8,
+    "CoverageRounds": 8,
+    "Mode": "optimized",
+    "Output": "experiments/RefinementPerformance/results/2026-10-16-sustained"
+  },
+  "Measurements": [
+    {
+      "Family": "recurrent-ring",
+      "Mode": "qualitative-batched-masks",
+      "Size": 512,
+      "Rounds": 8192,
+      "Sample": 1,
+      "SetupMilliseconds": 4.2064,
+      "SetupBytes": 4869680,
+      "ElapsedMilliseconds": 284.9523,
+      "AllocatedBytes": 0,
+      "Gen0": 0,
+      "Gen1": 0,
+      "Gen2": 0,
+      "AuditMilliseconds": 1.0706,
+      "AuditBytes": 104152,
+      "Checksum": -874037202555067122,
+      "SourceGraph": {
+        "Relations": 26727,
+        "Placeholders": 7827,
+        "Carriers": 0,
+        "Locations": 0
+      }
+    },
+    {
+      "Family": "recurrent-ring",
+      "Mode": "numeric-compiled-compute",
+      "Size": 512,
+      "Rounds": 8192,
+      "Sample": 1,
+      "SetupMilliseconds": 140.7339,
+      "SetupBytes": 76160720,
+      "ElapsedMilliseconds": 32008.1061,
+      "AllocatedBytes": 41124657984,
+      "Gen0": 4916,
+      "Gen1": 3,
+      "Gen2": 0,
+      "AuditMilliseconds": 17.9785,
+      "AuditBytes": 371416,
+      "Checksum": -1046808036286361133,
+      "SourceGraph": {
+        "Relations": 205324,
+        "Placeholders": 2563,
+        "Carriers": 8195,
+        "Locations": 80900
+      }
+    },
+    {
+      "Family": "recurrent-ring",
+      "Mode": "numeric-compiled-compute",
+      "Size": 512,
+      "Rounds": 8192,
+      "Sample": 2,
+      "SetupMilliseconds": 122.0365,
+      "SetupBytes": 75898576,
+      "ElapsedMilliseconds": 31849.9346,
+      "AllocatedBytes": 41122711488,
+      "Gen0": 4916,
+      "Gen1": 3,
+      "Gen2": 0,
+      "AuditMilliseconds": 1.7517,
+      "AuditBytes": 370872,
+      "Checksum": -1046808036286361133,
+      "SourceGraph": {
+        "Relations": 205324,
+        "Placeholders": 2563,
+        "Carriers": 8195,
+        "Locations": 80900
+      }
+    },
+    {
+      "Family": "recurrent-ring",
+      "Mode": "qualitative-batched-masks",
+      "Size": 512,
+      "Rounds": 8192,
+      "Sample": 2,
+      "SetupMilliseconds": 4.403,
+      "SetupBytes": 4869832,
+      "ElapsedMilliseconds": 139.7186,
+      "AllocatedBytes": 0,
+      "Gen0": 0,
+      "Gen1": 0,
+      "Gen2": 0,
+      "AuditMilliseconds": 0.0696,
+      "AuditBytes": 104152,
+      "Checksum": -874037202555067122,
+      "SourceGraph": {
+        "Relations": 26727,
+        "Placeholders": 7827,
+        "Carriers": 0,
+        "Locations": 0
+      }
+    },
+    {
+      "Family": "recurrent-ring",
+      "Mode": "qualitative-batched-masks",
+      "Size": 512,
+      "Rounds": 8192,
+      "Sample": 3,
+      "SetupMilliseconds": 4.575,
+      "SetupBytes": 4869680,
+      "ElapsedMilliseconds": 162.329,
+      "AllocatedBytes": 0,
+      "Gen0": 0,
+      "Gen1": 0,
+      "Gen2": 0,
+      "AuditMilliseconds": 0.0653,
+      "AuditBytes": 104152,
+      "Checksum": -874037202555067122,
+      "SourceGraph": {
+        "Relations": 26727,
+        "Placeholders": 7827,
+        "Carriers": 0,
+        "Locations": 0
+      }
+    },
+    {
+      "Family": "recurrent-ring",
+      "Mode": "numeric-compiled-compute",
+      "Size": 512,
+      "Rounds": 8192,
+      "Sample": 3,
+      "SetupMilliseconds": 84.5452,
+      "SetupBytes": 75480784,
+      "ElapsedMilliseconds": 31303.509,
+      "AllocatedBytes": 41122711488,
+      "Gen0": 4916,
+      "Gen1": 3,
+      "Gen2": 0,
+      "AuditMilliseconds": 1.3225,
+      "AuditBytes": 370872,
+      "Checksum": -1046808036286361133,
+      "SourceGraph": {
+        "Relations": 205324,
+        "Placeholders": 2563,
+        "Carriers": 8195,
+        "Locations": 80900
+      }
+    }
+  ],
+  "Qualifications": [
+    "One process, single-thread execution; build configuration recorded; construction/capture and execution measured separately; raw samples retained.",
+    "Identical qualitative circuit/checksums for native witnesses, compiled witnesses and batched masks. Different answers and detailed dynamics are expected in the numeric counterpart.",
+    "The qualitative ring executes ten native finite-law applications per cell-round. Compilation derives atomic tables, including nine stock-transition identities, from those same laws.",
+    "Numeric ring executes five equation reads, two numeric conditional selections, stock settlement, and explicit signal/previous/command delta imports. Persistent neighboring ports feed subsequent rounds. Its compiled lane derives arithmetic/interval plans from native equations/policies and still uses kernel tension settlement.",
+    "Batched masks omit per-event witness allocation/history and validate source dependencies once per stage batch. This is a different evidence cost, reported separately; it retains the source laws and supports selected witness reconstruction.",
+    "Numeric stock retains clamp pressure; qualitative stock rejects blocked pulses. This benchmark is a resource comparison of corresponding models, not a claim of behavioral equivalence or an isolated arithmetic-speed comparison.",
+    "Audit costs after execution are separate: qualitative decodes current state and one final law read; numeric decodes current state and reconstructs/verifies a final cell\u0027s native equation/policy evidence. Neither reconstructs an unretained full history.",
+    "Coverage repeats bounded witnessed episodes including patterns, resolution, refinement, laws and event schedules. Measured coverage adds calibrated numeric interpretation; only ordinal evaluation is compiled in that suite.",
+    "Allocated bytes are managed allocations on the executing thread, not retained memory or process peak. No learning, full creature physics, result-quality score or speed threshold is used."
+  ]
+}

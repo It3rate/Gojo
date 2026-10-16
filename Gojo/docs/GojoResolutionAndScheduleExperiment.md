@@ -6,6 +6,10 @@ Status: implemented experimental fixtures, 2026-10-16. This extends the
 
 ## Demonstrated capabilities
 
+The following [large compute comparison](GojoRefinementComputeComparison.md)
+measures native, compiled and numeric execution, including the earlier proposed
+broader performance experiment.
+
 | Requirement | Demonstrated | Boundary |
 | --- | --- | --- |
 | Connect finite resolutions | Native forward images and inverse preimages | Lost fine alternatives remain alternatives |
