@@ -37,6 +37,11 @@ also compose through the existing categorical reflex.
 The [large compute comparison](../RefinementPerformance/README.md) exercises
 connected native, compiled and measured workloads and records a repeatable
 performance baseline, including the new 64-identity finite batch compiler.
+The [conditional and temporal mechanics checkpoint](../../Gojo/docs/GojoConditionalTemporalMechanics.md)
+adds question-directed suppliers, explicit finite action selection, conditional
+packet passages, driven phase recurrence and shared motif generation/recognition.
+Its small rule set separates answers, permission and effects, and tests uncertain
+branches without implicitly forking participation into every possible future.
 
 Run tests and the diagnostic benchmark from the repository root:
 

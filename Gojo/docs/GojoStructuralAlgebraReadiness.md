@@ -13,6 +13,11 @@ stock/feedback dynamics and a minimal authored reflex. The capability map here
 records the preceding review checkpoint; the follow-up distinguishes new
 demonstrations from the broader remaining gaps.
 
+The later [conditional and temporal mechanics checkpoint](GojoConditionalTemporalMechanics.md)
+adds driven phase recurrence, explicit uncertain action choice, conditional finite
+participation and repeated motif generation/recognition. It narrows several gaps
+below without claiming autonomous scheduling or a general pattern algebra.
+
 ## Assessment
 
 The current primitives are sufficient for the finite structural and ordinal
