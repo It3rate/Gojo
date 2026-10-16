@@ -7,6 +7,12 @@ Status: source-grounded review, 2026-10-15. This consolidates the
 with existing sampling, signal memory, geometry, phototaxis and learning work.
 It adds no primitives, execution laws or new experimental campaign.
 
+The subsequent [laws and dynamics checkpoint](GojoStructuralLawsAndDynamicsExperiment.md),
+2026-10-16, implements finite law checks, shared unmeasured landmarks, finite
+stock/feedback dynamics and a minimal authored reflex. The capability map here
+records the preceding review checkpoint; the follow-up distinguishes new
+demonstrations from the broader remaining gaps.
+
 ## Assessment
 
 The current primitives are sufficient for the finite structural and ordinal

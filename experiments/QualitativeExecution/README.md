@@ -26,6 +26,10 @@ The [relative reference follow-up](../../Gojo/docs/GojoRelativeReferenceExperime
 distinguishes fixed-marker, previous-sample and longer-window comparisons.
 The [readiness assessment](../../Gojo/docs/GojoStructuralAlgebraReadiness.md)
 maps these results to topology, pattern, memory and closed-loop experiments.
+The [laws and dynamics checkpoint](../../Gojo/docs/GojoStructuralLawsAndDynamicsExperiment.md)
+adds finite equation checks, shared landmarks, event-based stock and feedback,
+and a minimal categorical light reflex. Its contracts and limits are explicit;
+it introduces no new kernel primitive.
 
 Run tests and the diagnostic benchmark from the repository root:
 
