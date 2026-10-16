@@ -7,6 +7,8 @@ using Gojo.Patterns;
 using Gojo.Experiments.QualitativeExecution;
 using Gojo.Experiments.QualitativeFrieze;
 
+if (args.Contains("--learn")) return FriezeLearningExperiment.Run(args.Where(argument => argument != "--learn").ToArray());
+
 var output = Path.Combine("experiments", "QualitativeFrieze", "results");
 var rounds = 72;
 for (var i = 0; i < args.Length; i++)

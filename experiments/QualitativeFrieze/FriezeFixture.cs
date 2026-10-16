@@ -133,6 +133,24 @@ public sealed class FriezeFixture
         return new("Alternating short and long reaches", b, clock.Port, S(new Relation(shortReach, longReach)));
     }
 
+    /// <summary>Builds an authored cycle from native emission words. The ordered
+    /// phase graph and phase-to-word law retain the program; names are display.
+    /// Later output edits can share this graph through WithOutputs.</summary>
+    public static FriezeFixture Sequence(QualitativeMotionFrame frame, Relation words,
+        string name = "Candidate sequence", Relation? reachOrder = null)
+    {
+        if (!Closed(words) || E(words).Length is 0 or > 64 || E(words).Any(word => word is not Relation))
+            throw new ArgumentException("A finite sequence needs one to 64 native emission words.", nameof(words));
+        var b = new Builder(frame);
+        foreach (var word in E(words).Cast<Relation>())
+            if (StructuralConstraint.TryReadScope(word, out var moves, out _, out _))
+                foreach (var move in moves.OfType<Relation>())
+                    if (frame.Direction(move, out _, out _, out var reach) && !b.Reaches.Any(r => ReferenceEquals(r, reach)))
+                        b.Reaches.Add(reach);
+        var clock = b.Cycle(E(words).Cast<Relation>().ToArray());
+        return new(name, b, clock.Port, reachOrder ?? S());
+    }
+
     /// <summary>The count bounds the observation window, not a stored time or
     /// distance. Which component fires is entirely in the native route graph.</summary>
     public Relation Run(int rounds, int eventBudget = 64)
