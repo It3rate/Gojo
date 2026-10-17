@@ -1,0 +1,199 @@
+{
+  "Scope": "Carrier-free native construction; selected equal-turn promises; finite cell and patch certificates; explicit affine projection; optional integer Euclidean view.",
+  "Laws": [
+    {
+      "Name": "four turns return",
+      "Equal": true
+    },
+    {
+      "Name": "two mirrors return",
+      "Equal": true
+    },
+    {
+      "Name": "mirror / turn / mirror reverses turn",
+      "Equal": true
+    },
+    {
+      "Name": "turn and mirror commute",
+      "Equal": false
+    },
+    {
+      "Name": "independent flips commute",
+      "Equal": true
+    },
+    {
+      "Name": "two flips equal two turns",
+      "Equal": true
+    },
+    {
+      "Name": "one turn equals two flips",
+      "Equal": false
+    },
+    {
+      "Name": "site four-turn return",
+      "Equal": true
+    },
+    {
+      "Name": "site mirror relation",
+      "Equal": true
+    }
+  ],
+  "ClosedContour": true,
+  "EqualTurns": true,
+  "RawContourEqualTurns": false,
+  "CellPassed": true,
+  "Views": [
+    {
+      "Name": "Four-turn field / square view",
+      "NativeCellStrokeCopies": 8,
+      "PatchStrokeCopies": 96,
+      "SharedPatchSites": 225,
+      "NativeElements": 39594,
+      "NumericElements": 0,
+      "MapPassed": true,
+      "NativeQuarter": true,
+      "NativeMirror": false,
+      "Metric": {
+        "XX": 9,
+        "XY": 0,
+        "YY": 9,
+        "Determinant": 81,
+        "QuarterTurnIsEuclideanIsometry": true
+      },
+      "Pending": 0
+    },
+    {
+      "Name": "Turn \u002B mirror field / square view",
+      "NativeCellStrokeCopies": 16,
+      "PatchStrokeCopies": 192,
+      "SharedPatchSites": 225,
+      "NativeElements": 58456,
+      "NumericElements": 0,
+      "MapPassed": true,
+      "NativeQuarter": true,
+      "NativeMirror": true,
+      "Metric": {
+        "XX": 9,
+        "XY": 0,
+        "YY": 9,
+        "Determinant": 81,
+        "QuarterTurnIsEuclideanIsometry": true
+      },
+      "Pending": 0
+    },
+    {
+      "Name": "Two-flip field / square view",
+      "NativeCellStrokeCopies": 8,
+      "PatchStrokeCopies": 96,
+      "SharedPatchSites": 225,
+      "NativeElements": 39588,
+      "NumericElements": 0,
+      "MapPassed": true,
+      "NativeQuarter": false,
+      "NativeMirror": true,
+      "Metric": {
+        "XX": 9,
+        "XY": 0,
+        "YY": 9,
+        "Determinant": 81,
+        "QuarterTurnIsEuclideanIsometry": true
+      },
+      "Pending": 0
+    },
+    {
+      "Name": "Explicit horizontal stretch",
+      "NativeCellStrokeCopies": 8,
+      "PatchStrokeCopies": 96,
+      "SharedPatchSites": 225,
+      "NativeElements": 39595,
+      "NumericElements": 0,
+      "MapPassed": true,
+      "NativeQuarter": true,
+      "NativeMirror": false,
+      "Metric": {
+        "XX": 36,
+        "XY": 0,
+        "YY": 9,
+        "Determinant": 324,
+        "QuarterTurnIsEuclideanIsometry": false
+      },
+      "Pending": 0
+    },
+    {
+      "Name": "Right lean / first realization",
+      "NativeCellStrokeCopies": 8,
+      "PatchStrokeCopies": 96,
+      "SharedPatchSites": 225,
+      "NativeElements": 40339,
+      "NumericElements": 0,
+      "MapPassed": true,
+      "NativeQuarter": true,
+      "NativeMirror": false,
+      "Metric": {
+        "XX": 9,
+        "XY": 3,
+        "YY": 10,
+        "Determinant": 81,
+        "QuarterTurnIsEuclideanIsometry": false
+      },
+      "Pending": 0
+    },
+    {
+      "Name": "Same unmeasured lean / second realization",
+      "NativeCellStrokeCopies": 8,
+      "PatchStrokeCopies": 96,
+      "SharedPatchSites": 225,
+      "NativeElements": 40339,
+      "NumericElements": 0,
+      "MapPassed": true,
+      "NativeQuarter": true,
+      "NativeMirror": false,
+      "Metric": {
+        "XX": 9,
+        "XY": 6,
+        "YY": 13,
+        "Determinant": 81,
+        "QuarterTurnIsEuclideanIsometry": false
+      },
+      "Pending": 0
+    },
+    {
+      "Name": "Left lean / separate direction promise",
+      "NativeCellStrokeCopies": 8,
+      "PatchStrokeCopies": 96,
+      "SharedPatchSites": 225,
+      "NativeElements": 40339,
+      "NumericElements": 0,
+      "MapPassed": true,
+      "NativeQuarter": true,
+      "NativeMirror": false,
+      "Metric": {
+        "XX": 9,
+        "XY": -3,
+        "YY": 10,
+        "Determinant": 81,
+        "QuarterTurnIsEuclideanIsometry": false
+      },
+      "Pending": 0
+    },
+    {
+      "Name": "Turn \u002B mirror field / right lean",
+      "NativeCellStrokeCopies": 16,
+      "PatchStrokeCopies": 192,
+      "SharedPatchSites": 225,
+      "NativeElements": 59343,
+      "NumericElements": 0,
+      "MapPassed": true,
+      "NativeQuarter": true,
+      "NativeMirror": true,
+      "Metric": {
+        "XX": 9,
+        "XY": 3,
+        "YY": 10,
+        "Determinant": 81,
+        "QuarterTurnIsEuclideanIsometry": false
+      },
+      "Pending": 0
+    }
+  ]
+}

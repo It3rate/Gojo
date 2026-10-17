@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1460" height="470" viewBox="0 0 1460 470">
+<rect width="1460" height="470" fill="#f6f2e9"/>
+<g font-family="Segoe UI,Arial,sans-serif" fill="#243640">
+<text x="36" y="42" font-size="25" font-weight="650">Three connected constructions, separate proof obligations</text>
+<text x="36" y="82" font-size="18" font-weight="600">Marked whole traversal</text>
+<circle cx="220" cy="215" r="92" fill="none" stroke="#176b7c" stroke-width="3"/>
+<path d="M220 215L312 215 M220 215L220 123 M220 215L128 215 M220 215L220 307" stroke="#8d9b9d" fill="none"/>
+<g fill="#176b7c"><circle cx="220" cy="215" r="5"/><circle cx="312" cy="215" r="6"/><circle cx="220" cy="123" r="6"/><circle cx="128" cy="215" r="6"/><circle cx="220" cy="307" r="6"/></g>
+<circle cx="312" cy="215" r="11" fill="none" stroke="#b75a2a" stroke-width="2"/>
+<text x="326" y="220" font-size="15">start / return</text>
+<text x="36" y="353" font-size="15">Shared center and unmeasured radial reach.</text>
+<text x="36" y="380" font-size="15">Closed: True · equal-turn promise: True</text>
+<text x="36" y="407" font-size="15">Without that promise, equal turns remain open.</text>
+<text x="515" y="82" font-size="18" font-weight="600">Axis / sign action</text>
+<path d="M585 215H845 M715 105V325" stroke="#8d9b9d" fill="none"/>
+<g fill="#176b7c"><circle cx="815" cy="215" r="7"/><circle cx="715" cy="115" r="7"/><circle cx="615" cy="215" r="7"/><circle cx="715" cy="315" r="7"/></g>
+<g font-size="16"><text x="833" y="220">+X</text><text x="701" y="101">+Y</text><text x="578" y="220">−X</text><text x="701" y="342">−Y</text></g>
+<path d="M805 195Q795 135 738 125 M695 125Q635 135 625 193 M625 237Q635 295 694 305 M738 305Q795 295 805 237" fill="none" stroke="#b75a2a" stroke-width="2"/>
+<text x="515" y="380" font-size="15">+X → +Y → −X → −Y → +X</text>
+<text x="515" y="407" font-size="15">Four-step turn; two independent flips differ.</text>
+<text x="1000" y="82" font-size="18" font-weight="600">Two periodic seam actions</text>
+<path d="M1090 307V123H1274V307Z M1090 307L1274 307L1274 123 M1090 307L1090 123L1274 123" fill="none" stroke="#176b7c" stroke-width="3"/>
+<g fill="#b75a2a"><circle cx="1090" cy="307" r="7"/><circle cx="1274" cy="307" r="7"/><circle cx="1090" cy="123" r="7"/><circle cx="1274" cy="123" r="7"/></g>
+<g font-size="16"><text x="1175" y="335">X</text><text x="1290" y="220">Y</text><text x="1030" y="220">Y</text><text x="1175" y="108">X</text></g>
+<text x="1000" y="353" font-size="15">Same corner, two retained routes: True</text>
+<text x="1000" y="380" font-size="15">Nonzero periods survive quotient endpoint return.</text>
+<text x="1000" y="407" font-size="15">Basis directions and seam actions stay distinct.</text>
+<text x="36" y="450" font-size="14" fill="#52616a">Chosen illustrations. The proofs are native participant maps; the drawing does not establish a physical circle or metric.</text>
+</g></svg>

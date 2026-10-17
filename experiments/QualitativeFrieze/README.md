@@ -7,6 +7,22 @@ or numeric locations. The authored gallery below is the generation checkpoint;
 a following bounded feedback experiment adds explicit legality and preference
 reads without changing the kernel.
 
+The [qualitative square-cell checkpoint](../../Gojo/docs/GojoQualitativeSquareCellExperiment.md)
+connects a marked unmeasured contour, axis/sign actions and two independent
+periodic seams. Three generated fields produce eight square/stretch/lean views.
+The checks separate actual motif symmetry, structural correspondence and the
+optional Euclidean metric. A native two-direction patch joins sites through
+seam rows before interpreting any coordinates.
+
+```powershell
+dotnet run --project experiments/QualitativeFrieze -c Release -- --square-cell
+```
+
+See its [gallery](results/square-cell/gallery.html),
+[figure](results/square-cell/gallery.svg),
+[mechanics](results/square-cell/mechanics.svg)
+and [diagnostics](results/square-cell/diagnostics.json).
+
 The [operating-machine checkpoint](../../Gojo/docs/GojoPatternMachineExperiment.md)
 adds packet reservoirs, threshold questions and stateful drawing muscles.
 The machines create fresh strokes and sites while running: independent pumps

@@ -14,6 +14,7 @@ if (args.Contains("--rhythms")) return RhythmPatternExperiment.Run(args.Where(ar
 if (args.Contains("--rhythm-friezes")) return RhythmFriezeExperiment.Run(args.Where(argument => argument != "--rhythm-friezes").ToArray());
 if (args.Contains("--connected")) return ConnectedPatternExperiment.Run(args.Where(argument => argument != "--connected").ToArray());
 if (args.Contains("--machines")) return PatternMachineExperiment.Run(args.Where(argument => argument != "--machines").ToArray());
+if (args.Contains("--square-cell")) return SquareCellExperiment.Run(args.Where(argument => argument != "--square-cell").ToArray());
 
 var output = Path.Combine("experiments", "QualitativeFrieze", "results");
 var rounds = 72;
