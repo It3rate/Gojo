@@ -1,0 +1,3072 @@
+{
+  "Schema": "adaptive-wallpaper-v1",
+  "Scope": "Finite native motif replacement, explicit non-draining neighbour observations, newly negotiated current-head seams and conserved delayed material passages. No measured energy or trained policy.",
+  "Cases": [
+    {
+      "Name": "One neighbour repairs a seam",
+      "Description": "The left motif holds its handedness. Its neighbour reads the incompatible boundary offer, rebuilds as the reflected motif and republishes its actual ports. The waiting packet crosses on a later round.",
+      "Rounds": 6,
+      "Nodes": 2,
+      "Links": 1,
+      "ImportedPackets": 1,
+      "NumericElements": 0,
+      "Unresolved": 0,
+      "QuarterTurnPassed": false,
+      "Feasibility": {
+        "Preferred": 0,
+        "Passed": 3,
+        "Violations": 0,
+        "Unknown": 0,
+        "Complete": true,
+        "Acceptable": true
+      },
+      "Frames": [
+        {
+          "Round": 0,
+          "Input": 1,
+          "Queued": 0,
+          "Received": 0,
+          "Accepted": 0,
+          "Blocked": 1,
+          "Unknown": 0,
+          "Revisions": 0,
+          "OwnershipPassed": true,
+          "FieldPassed": true,
+          "HistoricalBlockedAttempts": 0,
+          "Nodes": [
+            {
+              "Name": "held source",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": true
+            },
+            {
+              "Name": "adapting neighbour",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": false
+            }
+          ]
+        },
+        {
+          "Round": 1,
+          "Input": 0,
+          "Queued": 1,
+          "Received": 0,
+          "Accepted": 1,
+          "Blocked": 0,
+          "Unknown": 0,
+          "Revisions": 1,
+          "OwnershipPassed": true,
+          "FieldPassed": true,
+          "HistoricalBlockedAttempts": 0,
+          "Nodes": [
+            {
+              "Name": "held source",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": true
+            },
+            {
+              "Name": "adapting neighbour",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            }
+          ]
+        },
+        {
+          "Round": 2,
+          "Input": 0,
+          "Queued": 0,
+          "Received": 1,
+          "Accepted": 1,
+          "Blocked": 0,
+          "Unknown": 0,
+          "Revisions": 1,
+          "OwnershipPassed": true,
+          "FieldPassed": true,
+          "HistoricalBlockedAttempts": 0,
+          "Nodes": [
+            {
+              "Name": "held source",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": true
+            },
+            {
+              "Name": "adapting neighbour",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            }
+          ]
+        },
+        {
+          "Round": 3,
+          "Input": 0,
+          "Queued": 0,
+          "Received": 1,
+          "Accepted": 1,
+          "Blocked": 0,
+          "Unknown": 0,
+          "Revisions": 1,
+          "OwnershipPassed": true,
+          "FieldPassed": true,
+          "HistoricalBlockedAttempts": 0,
+          "Nodes": [
+            {
+              "Name": "held source",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": true
+            },
+            {
+              "Name": "adapting neighbour",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            }
+          ]
+        },
+        {
+          "Round": 4,
+          "Input": 0,
+          "Queued": 0,
+          "Received": 1,
+          "Accepted": 1,
+          "Blocked": 0,
+          "Unknown": 0,
+          "Revisions": 1,
+          "OwnershipPassed": true,
+          "FieldPassed": true,
+          "HistoricalBlockedAttempts": 0,
+          "Nodes": [
+            {
+              "Name": "held source",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": true
+            },
+            {
+              "Name": "adapting neighbour",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            }
+          ]
+        },
+        {
+          "Round": 5,
+          "Input": 0,
+          "Queued": 0,
+          "Received": 1,
+          "Accepted": 1,
+          "Blocked": 0,
+          "Unknown": 0,
+          "Revisions": 1,
+          "OwnershipPassed": true,
+          "FieldPassed": true,
+          "HistoricalBlockedAttempts": 0,
+          "Nodes": [
+            {
+              "Name": "held source",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": true
+            },
+            {
+              "Name": "adapting neighbour",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            }
+          ]
+        },
+        {
+          "Round": 6,
+          "Input": 0,
+          "Queued": 0,
+          "Received": 1,
+          "Accepted": 1,
+          "Blocked": 0,
+          "Unknown": 0,
+          "Revisions": 1,
+          "OwnershipPassed": true,
+          "FieldPassed": true,
+          "HistoricalBlockedAttempts": 0,
+          "Nodes": [
+            {
+              "Name": "held source",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": true
+            },
+            {
+              "Name": "adapting neighbour",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Fourfold cushion agreement",
+      "Description": "All motifs begin with the same incompatible boundary offers. The centre holds its variant; local non-draining observations carry its constraint outward. Complete replacement motifs publish new ports, and queued packets wait for renewed seam acceptance.",
+      "Rounds": 6,
+      "Nodes": 9,
+      "Links": 12,
+      "ImportedPackets": 12,
+      "NumericElements": 0,
+      "Unresolved": 0,
+      "QuarterTurnPassed": true,
+      "Feasibility": {
+        "Preferred": 0,
+        "Passed": 3,
+        "Violations": 0,
+        "Unknown": 0,
+        "Complete": true,
+        "Acceptable": true
+      },
+      "Frames": [
+        {
+          "Round": 0,
+          "Input": 12,
+          "Queued": 0,
+          "Received": 0,
+          "Accepted": 0,
+          "Blocked": 12,
+          "Unknown": 0,
+          "Revisions": 0,
+          "OwnershipPassed": true,
+          "FieldPassed": true,
+          "HistoricalBlockedAttempts": 0,
+          "Nodes": [
+            {
+              "Name": "cushion 1:1",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": false
+            },
+            {
+              "Name": "cushion 2:1",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": false
+            },
+            {
+              "Name": "cushion 3:1",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": false
+            },
+            {
+              "Name": "cushion 1:2",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": false
+            },
+            {
+              "Name": "cushion 2:2",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": true
+            },
+            {
+              "Name": "cushion 3:2",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": false
+            },
+            {
+              "Name": "cushion 1:3",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": false
+            },
+            {
+              "Name": "cushion 2:3",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": false
+            },
+            {
+              "Name": "cushion 3:3",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": false
+            }
+          ]
+        },
+        {
+          "Round": 1,
+          "Input": 0,
+          "Queued": 12,
+          "Received": 0,
+          "Accepted": 4,
+          "Blocked": 8,
+          "Unknown": 0,
+          "Revisions": 8,
+          "OwnershipPassed": true,
+          "FieldPassed": true,
+          "HistoricalBlockedAttempts": 0,
+          "Nodes": [
+            {
+              "Name": "cushion 1:1",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "cushion 2:1",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "cushion 3:1",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "cushion 1:2",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "cushion 2:2",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": true
+            },
+            {
+              "Name": "cushion 3:2",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "cushion 1:3",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "cushion 2:3",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "cushion 3:3",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            }
+          ]
+        },
+        {
+          "Round": 2,
+          "Input": 0,
+          "Queued": 8,
+          "Received": 4,
+          "Accepted": 12,
+          "Blocked": 0,
+          "Unknown": 0,
+          "Revisions": 12,
+          "OwnershipPassed": true,
+          "FieldPassed": true,
+          "HistoricalBlockedAttempts": 8,
+          "Nodes": [
+            {
+              "Name": "cushion 1:1",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "cushion 2:1",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "cushion 3:1",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "cushion 1:2",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "cushion 2:2",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": true
+            },
+            {
+              "Name": "cushion 3:2",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "cushion 1:3",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "cushion 2:3",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "cushion 3:3",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            }
+          ]
+        },
+        {
+          "Round": 3,
+          "Input": 0,
+          "Queued": 0,
+          "Received": 12,
+          "Accepted": 12,
+          "Blocked": 0,
+          "Unknown": 0,
+          "Revisions": 12,
+          "OwnershipPassed": true,
+          "FieldPassed": true,
+          "HistoricalBlockedAttempts": 8,
+          "Nodes": [
+            {
+              "Name": "cushion 1:1",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "cushion 2:1",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "cushion 3:1",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "cushion 1:2",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "cushion 2:2",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": true
+            },
+            {
+              "Name": "cushion 3:2",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "cushion 1:3",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "cushion 2:3",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "cushion 3:3",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            }
+          ]
+        },
+        {
+          "Round": 4,
+          "Input": 0,
+          "Queued": 0,
+          "Received": 12,
+          "Accepted": 12,
+          "Blocked": 0,
+          "Unknown": 0,
+          "Revisions": 12,
+          "OwnershipPassed": true,
+          "FieldPassed": true,
+          "HistoricalBlockedAttempts": 8,
+          "Nodes": [
+            {
+              "Name": "cushion 1:1",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "cushion 2:1",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "cushion 3:1",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "cushion 1:2",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "cushion 2:2",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": true
+            },
+            {
+              "Name": "cushion 3:2",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "cushion 1:3",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "cushion 2:3",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "cushion 3:3",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            }
+          ]
+        },
+        {
+          "Round": 5,
+          "Input": 0,
+          "Queued": 0,
+          "Received": 12,
+          "Accepted": 12,
+          "Blocked": 0,
+          "Unknown": 0,
+          "Revisions": 12,
+          "OwnershipPassed": true,
+          "FieldPassed": true,
+          "HistoricalBlockedAttempts": 8,
+          "Nodes": [
+            {
+              "Name": "cushion 1:1",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "cushion 2:1",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "cushion 3:1",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "cushion 1:2",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "cushion 2:2",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": true
+            },
+            {
+              "Name": "cushion 3:2",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "cushion 1:3",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "cushion 2:3",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "cushion 3:3",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            }
+          ]
+        },
+        {
+          "Round": 6,
+          "Input": 0,
+          "Queued": 0,
+          "Received": 12,
+          "Accepted": 12,
+          "Blocked": 0,
+          "Unknown": 0,
+          "Revisions": 12,
+          "OwnershipPassed": true,
+          "FieldPassed": true,
+          "HistoricalBlockedAttempts": 8,
+          "Nodes": [
+            {
+              "Name": "cushion 1:1",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "cushion 2:1",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "cushion 3:1",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "cushion 1:2",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "cushion 2:2",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": true
+            },
+            {
+              "Name": "cushion 3:2",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "cushion 1:3",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "cushion 2:3",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "cushion 3:3",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "A field of interlocking keys",
+      "Description": "All motifs begin with the same incompatible boundary offers. The centre holds its variant; local non-draining observations carry its constraint outward. Complete replacement motifs publish new ports, and queued packets wait for renewed seam acceptance.",
+      "Rounds": 6,
+      "Nodes": 25,
+      "Links": 40,
+      "ImportedPackets": 40,
+      "NumericElements": 0,
+      "Unresolved": 0,
+      "QuarterTurnPassed": true,
+      "Feasibility": {
+        "Preferred": 0,
+        "Passed": 3,
+        "Violations": 0,
+        "Unknown": 0,
+        "Complete": true,
+        "Acceptable": true
+      },
+      "Frames": [
+        {
+          "Round": 0,
+          "Input": 40,
+          "Queued": 0,
+          "Received": 0,
+          "Accepted": 0,
+          "Blocked": 40,
+          "Unknown": 0,
+          "Revisions": 0,
+          "OwnershipPassed": true,
+          "FieldPassed": true,
+          "HistoricalBlockedAttempts": 0,
+          "Nodes": [
+            {
+              "Name": "key 1:1",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": false
+            },
+            {
+              "Name": "key 2:1",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": false
+            },
+            {
+              "Name": "key 3:1",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": false
+            },
+            {
+              "Name": "key 4:1",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": false
+            },
+            {
+              "Name": "key 5:1",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": false
+            },
+            {
+              "Name": "key 1:2",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": false
+            },
+            {
+              "Name": "key 2:2",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": false
+            },
+            {
+              "Name": "key 3:2",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": false
+            },
+            {
+              "Name": "key 4:2",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": false
+            },
+            {
+              "Name": "key 5:2",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": false
+            },
+            {
+              "Name": "key 1:3",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": false
+            },
+            {
+              "Name": "key 2:3",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": false
+            },
+            {
+              "Name": "key 3:3",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": true
+            },
+            {
+              "Name": "key 4:3",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": false
+            },
+            {
+              "Name": "key 5:3",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": false
+            },
+            {
+              "Name": "key 1:4",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": false
+            },
+            {
+              "Name": "key 2:4",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": false
+            },
+            {
+              "Name": "key 3:4",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": false
+            },
+            {
+              "Name": "key 4:4",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": false
+            },
+            {
+              "Name": "key 5:4",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": false
+            },
+            {
+              "Name": "key 1:5",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": false
+            },
+            {
+              "Name": "key 2:5",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": false
+            },
+            {
+              "Name": "key 3:5",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": false
+            },
+            {
+              "Name": "key 4:5",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": false
+            },
+            {
+              "Name": "key 5:5",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": false
+            }
+          ]
+        },
+        {
+          "Round": 1,
+          "Input": 0,
+          "Queued": 40,
+          "Received": 0,
+          "Accepted": 4,
+          "Blocked": 36,
+          "Unknown": 0,
+          "Revisions": 24,
+          "OwnershipPassed": true,
+          "FieldPassed": true,
+          "HistoricalBlockedAttempts": 0,
+          "Nodes": [
+            {
+              "Name": "key 1:1",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "key 2:1",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "key 3:1",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "key 4:1",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "key 5:1",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "key 1:2",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "key 2:2",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "key 3:2",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "key 4:2",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "key 5:2",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "key 1:3",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "key 2:3",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "key 3:3",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": true
+            },
+            {
+              "Name": "key 4:3",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "key 5:3",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "key 1:4",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "key 2:4",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "key 3:4",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "key 4:4",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "key 5:4",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "key 1:5",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "key 2:5",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "key 3:5",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "key 4:5",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "key 5:5",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            }
+          ]
+        },
+        {
+          "Round": 2,
+          "Input": 0,
+          "Queued": 36,
+          "Received": 4,
+          "Accepted": 16,
+          "Blocked": 24,
+          "Unknown": 0,
+          "Revisions": 44,
+          "OwnershipPassed": true,
+          "FieldPassed": true,
+          "HistoricalBlockedAttempts": 36,
+          "Nodes": [
+            {
+              "Name": "key 1:1",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "key 2:1",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "key 3:1",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "key 4:1",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "key 5:1",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "key 1:2",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "key 2:2",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "key 3:2",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "key 4:2",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "key 5:2",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "key 1:3",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "key 2:3",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "key 3:3",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": true
+            },
+            {
+              "Name": "key 4:3",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "key 5:3",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "key 1:4",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "key 2:4",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "key 3:4",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "key 4:4",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "key 5:4",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "key 1:5",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "key 2:5",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "key 3:5",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "key 4:5",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "key 5:5",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            }
+          ]
+        },
+        {
+          "Round": 3,
+          "Input": 0,
+          "Queued": 24,
+          "Received": 16,
+          "Accepted": 32,
+          "Blocked": 8,
+          "Unknown": 0,
+          "Revisions": 56,
+          "OwnershipPassed": true,
+          "FieldPassed": true,
+          "HistoricalBlockedAttempts": 60,
+          "Nodes": [
+            {
+              "Name": "key 1:1",
+              "Variant": "reflected handedness",
+              "Revisions": 3,
+              "Frozen": false
+            },
+            {
+              "Name": "key 2:1",
+              "Variant": "reflected handedness",
+              "Revisions": 3,
+              "Frozen": false
+            },
+            {
+              "Name": "key 3:1",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "key 4:1",
+              "Variant": "reflected handedness",
+              "Revisions": 3,
+              "Frozen": false
+            },
+            {
+              "Name": "key 5:1",
+              "Variant": "reflected handedness",
+              "Revisions": 3,
+              "Frozen": false
+            },
+            {
+              "Name": "key 1:2",
+              "Variant": "reflected handedness",
+              "Revisions": 3,
+              "Frozen": false
+            },
+            {
+              "Name": "key 2:2",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "key 3:2",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "key 4:2",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "key 5:2",
+              "Variant": "reflected handedness",
+              "Revisions": 3,
+              "Frozen": false
+            },
+            {
+              "Name": "key 1:3",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "key 2:3",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "key 3:3",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": true
+            },
+            {
+              "Name": "key 4:3",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "key 5:3",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "key 1:4",
+              "Variant": "reflected handedness",
+              "Revisions": 3,
+              "Frozen": false
+            },
+            {
+              "Name": "key 2:4",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "key 3:4",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "key 4:4",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "key 5:4",
+              "Variant": "reflected handedness",
+              "Revisions": 3,
+              "Frozen": false
+            },
+            {
+              "Name": "key 1:5",
+              "Variant": "reflected handedness",
+              "Revisions": 3,
+              "Frozen": false
+            },
+            {
+              "Name": "key 2:5",
+              "Variant": "reflected handedness",
+              "Revisions": 3,
+              "Frozen": false
+            },
+            {
+              "Name": "key 3:5",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "key 4:5",
+              "Variant": "reflected handedness",
+              "Revisions": 3,
+              "Frozen": false
+            },
+            {
+              "Name": "key 5:5",
+              "Variant": "reflected handedness",
+              "Revisions": 3,
+              "Frozen": false
+            }
+          ]
+        },
+        {
+          "Round": 4,
+          "Input": 0,
+          "Queued": 8,
+          "Received": 32,
+          "Accepted": 40,
+          "Blocked": 0,
+          "Unknown": 0,
+          "Revisions": 60,
+          "OwnershipPassed": true,
+          "FieldPassed": true,
+          "HistoricalBlockedAttempts": 68,
+          "Nodes": [
+            {
+              "Name": "key 1:1",
+              "Variant": "positive handedness",
+              "Revisions": 4,
+              "Frozen": false
+            },
+            {
+              "Name": "key 2:1",
+              "Variant": "reflected handedness",
+              "Revisions": 3,
+              "Frozen": false
+            },
+            {
+              "Name": "key 3:1",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "key 4:1",
+              "Variant": "reflected handedness",
+              "Revisions": 3,
+              "Frozen": false
+            },
+            {
+              "Name": "key 5:1",
+              "Variant": "positive handedness",
+              "Revisions": 4,
+              "Frozen": false
+            },
+            {
+              "Name": "key 1:2",
+              "Variant": "reflected handedness",
+              "Revisions": 3,
+              "Frozen": false
+            },
+            {
+              "Name": "key 2:2",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "key 3:2",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "key 4:2",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "key 5:2",
+              "Variant": "reflected handedness",
+              "Revisions": 3,
+              "Frozen": false
+            },
+            {
+              "Name": "key 1:3",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "key 2:3",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "key 3:3",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": true
+            },
+            {
+              "Name": "key 4:3",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "key 5:3",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "key 1:4",
+              "Variant": "reflected handedness",
+              "Revisions": 3,
+              "Frozen": false
+            },
+            {
+              "Name": "key 2:4",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "key 3:4",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "key 4:4",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "key 5:4",
+              "Variant": "reflected handedness",
+              "Revisions": 3,
+              "Frozen": false
+            },
+            {
+              "Name": "key 1:5",
+              "Variant": "positive handedness",
+              "Revisions": 4,
+              "Frozen": false
+            },
+            {
+              "Name": "key 2:5",
+              "Variant": "reflected handedness",
+              "Revisions": 3,
+              "Frozen": false
+            },
+            {
+              "Name": "key 3:5",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "key 4:5",
+              "Variant": "reflected handedness",
+              "Revisions": 3,
+              "Frozen": false
+            },
+            {
+              "Name": "key 5:5",
+              "Variant": "positive handedness",
+              "Revisions": 4,
+              "Frozen": false
+            }
+          ]
+        },
+        {
+          "Round": 5,
+          "Input": 0,
+          "Queued": 0,
+          "Received": 40,
+          "Accepted": 40,
+          "Blocked": 0,
+          "Unknown": 0,
+          "Revisions": 60,
+          "OwnershipPassed": true,
+          "FieldPassed": true,
+          "HistoricalBlockedAttempts": 68,
+          "Nodes": [
+            {
+              "Name": "key 1:1",
+              "Variant": "positive handedness",
+              "Revisions": 4,
+              "Frozen": false
+            },
+            {
+              "Name": "key 2:1",
+              "Variant": "reflected handedness",
+              "Revisions": 3,
+              "Frozen": false
+            },
+            {
+              "Name": "key 3:1",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "key 4:1",
+              "Variant": "reflected handedness",
+              "Revisions": 3,
+              "Frozen": false
+            },
+            {
+              "Name": "key 5:1",
+              "Variant": "positive handedness",
+              "Revisions": 4,
+              "Frozen": false
+            },
+            {
+              "Name": "key 1:2",
+              "Variant": "reflected handedness",
+              "Revisions": 3,
+              "Frozen": false
+            },
+            {
+              "Name": "key 2:2",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "key 3:2",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "key 4:2",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "key 5:2",
+              "Variant": "reflected handedness",
+              "Revisions": 3,
+              "Frozen": false
+            },
+            {
+              "Name": "key 1:3",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "key 2:3",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "key 3:3",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": true
+            },
+            {
+              "Name": "key 4:3",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "key 5:3",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "key 1:4",
+              "Variant": "reflected handedness",
+              "Revisions": 3,
+              "Frozen": false
+            },
+            {
+              "Name": "key 2:4",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "key 3:4",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "key 4:4",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "key 5:4",
+              "Variant": "reflected handedness",
+              "Revisions": 3,
+              "Frozen": false
+            },
+            {
+              "Name": "key 1:5",
+              "Variant": "positive handedness",
+              "Revisions": 4,
+              "Frozen": false
+            },
+            {
+              "Name": "key 2:5",
+              "Variant": "reflected handedness",
+              "Revisions": 3,
+              "Frozen": false
+            },
+            {
+              "Name": "key 3:5",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "key 4:5",
+              "Variant": "reflected handedness",
+              "Revisions": 3,
+              "Frozen": false
+            },
+            {
+              "Name": "key 5:5",
+              "Variant": "positive handedness",
+              "Revisions": 4,
+              "Frozen": false
+            }
+          ]
+        },
+        {
+          "Round": 6,
+          "Input": 0,
+          "Queued": 0,
+          "Received": 40,
+          "Accepted": 40,
+          "Blocked": 0,
+          "Unknown": 0,
+          "Revisions": 60,
+          "OwnershipPassed": true,
+          "FieldPassed": true,
+          "HistoricalBlockedAttempts": 68,
+          "Nodes": [
+            {
+              "Name": "key 1:1",
+              "Variant": "positive handedness",
+              "Revisions": 4,
+              "Frozen": false
+            },
+            {
+              "Name": "key 2:1",
+              "Variant": "reflected handedness",
+              "Revisions": 3,
+              "Frozen": false
+            },
+            {
+              "Name": "key 3:1",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "key 4:1",
+              "Variant": "reflected handedness",
+              "Revisions": 3,
+              "Frozen": false
+            },
+            {
+              "Name": "key 5:1",
+              "Variant": "positive handedness",
+              "Revisions": 4,
+              "Frozen": false
+            },
+            {
+              "Name": "key 1:2",
+              "Variant": "reflected handedness",
+              "Revisions": 3,
+              "Frozen": false
+            },
+            {
+              "Name": "key 2:2",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "key 3:2",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "key 4:2",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "key 5:2",
+              "Variant": "reflected handedness",
+              "Revisions": 3,
+              "Frozen": false
+            },
+            {
+              "Name": "key 1:3",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "key 2:3",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "key 3:3",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": true
+            },
+            {
+              "Name": "key 4:3",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "key 5:3",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "key 1:4",
+              "Variant": "reflected handedness",
+              "Revisions": 3,
+              "Frozen": false
+            },
+            {
+              "Name": "key 2:4",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "key 3:4",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "key 4:4",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "key 5:4",
+              "Variant": "reflected handedness",
+              "Revisions": 3,
+              "Frozen": false
+            },
+            {
+              "Name": "key 1:5",
+              "Variant": "positive handedness",
+              "Revisions": 4,
+              "Frozen": false
+            },
+            {
+              "Name": "key 2:5",
+              "Variant": "reflected handedness",
+              "Revisions": 3,
+              "Frozen": false
+            },
+            {
+              "Name": "key 3:5",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "key 4:5",
+              "Variant": "reflected handedness",
+              "Revisions": 3,
+              "Frozen": false
+            },
+            {
+              "Name": "key 5:5",
+              "Variant": "positive handedness",
+              "Revisions": 4,
+              "Frozen": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Rosette field with four held seams",
+      "Description": "The centre and its four axis neighbours hold the same handedness. Surrounding motifs adapt through their inward observation ports, preserving fourfold symmetry while four central material passages remain visibly blocked.",
+      "Rounds": 6,
+      "Nodes": 25,
+      "Links": 40,
+      "ImportedPackets": 40,
+      "NumericElements": 0,
+      "Unresolved": 0,
+      "QuarterTurnPassed": true,
+      "Feasibility": {
+        "Preferred": 0,
+        "Passed": 2,
+        "Violations": 1,
+        "Unknown": 0,
+        "Complete": true,
+        "Acceptable": false
+      },
+      "Frames": [
+        {
+          "Round": 0,
+          "Input": 40,
+          "Queued": 0,
+          "Received": 0,
+          "Accepted": 0,
+          "Blocked": 40,
+          "Unknown": 0,
+          "Revisions": 0,
+          "OwnershipPassed": true,
+          "FieldPassed": true,
+          "HistoricalBlockedAttempts": 0,
+          "Nodes": [
+            {
+              "Name": "rosette 1:1",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 2:1",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 3:1",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 4:1",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 5:1",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 1:2",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 2:2",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 3:2",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": true
+            },
+            {
+              "Name": "rosette 4:2",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 5:2",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 1:3",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 2:3",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": true
+            },
+            {
+              "Name": "rosette 3:3",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": true
+            },
+            {
+              "Name": "rosette 4:3",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": true
+            },
+            {
+              "Name": "rosette 5:3",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 1:4",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 2:4",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 3:4",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": true
+            },
+            {
+              "Name": "rosette 4:4",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 5:4",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 1:5",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 2:5",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 3:5",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 4:5",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 5:5",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": false
+            }
+          ]
+        },
+        {
+          "Round": 1,
+          "Input": 0,
+          "Queued": 40,
+          "Received": 0,
+          "Accepted": 12,
+          "Blocked": 28,
+          "Unknown": 0,
+          "Revisions": 20,
+          "OwnershipPassed": true,
+          "FieldPassed": true,
+          "HistoricalBlockedAttempts": 0,
+          "Nodes": [
+            {
+              "Name": "rosette 1:1",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 2:1",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 3:1",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 4:1",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 5:1",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 1:2",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 2:2",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 3:2",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": true
+            },
+            {
+              "Name": "rosette 4:2",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 5:2",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 1:3",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 2:3",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": true
+            },
+            {
+              "Name": "rosette 3:3",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": true
+            },
+            {
+              "Name": "rosette 4:3",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": true
+            },
+            {
+              "Name": "rosette 5:3",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 1:4",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 2:4",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 3:4",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": true
+            },
+            {
+              "Name": "rosette 4:4",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 5:4",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 1:5",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 2:5",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 3:5",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 4:5",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 5:5",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            }
+          ]
+        },
+        {
+          "Round": 2,
+          "Input": 0,
+          "Queued": 28,
+          "Received": 12,
+          "Accepted": 28,
+          "Blocked": 12,
+          "Unknown": 0,
+          "Revisions": 32,
+          "OwnershipPassed": true,
+          "FieldPassed": true,
+          "HistoricalBlockedAttempts": 28,
+          "Nodes": [
+            {
+              "Name": "rosette 1:1",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 2:1",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 3:1",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 4:1",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 5:1",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 1:2",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 2:2",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 3:2",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": true
+            },
+            {
+              "Name": "rosette 4:2",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 5:2",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 1:3",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 2:3",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": true
+            },
+            {
+              "Name": "rosette 3:3",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": true
+            },
+            {
+              "Name": "rosette 4:3",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": true
+            },
+            {
+              "Name": "rosette 5:3",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 1:4",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 2:4",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 3:4",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": true
+            },
+            {
+              "Name": "rosette 4:4",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 5:4",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 1:5",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 2:5",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 3:5",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 4:5",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 5:5",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            }
+          ]
+        },
+        {
+          "Round": 3,
+          "Input": 0,
+          "Queued": 12,
+          "Received": 28,
+          "Accepted": 36,
+          "Blocked": 4,
+          "Unknown": 0,
+          "Revisions": 36,
+          "OwnershipPassed": true,
+          "FieldPassed": true,
+          "HistoricalBlockedAttempts": 40,
+          "Nodes": [
+            {
+              "Name": "rosette 1:1",
+              "Variant": "reflected handedness",
+              "Revisions": 3,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 2:1",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 3:1",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 4:1",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 5:1",
+              "Variant": "reflected handedness",
+              "Revisions": 3,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 1:2",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 2:2",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 3:2",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": true
+            },
+            {
+              "Name": "rosette 4:2",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 5:2",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 1:3",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 2:3",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": true
+            },
+            {
+              "Name": "rosette 3:3",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": true
+            },
+            {
+              "Name": "rosette 4:3",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": true
+            },
+            {
+              "Name": "rosette 5:3",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 1:4",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 2:4",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 3:4",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": true
+            },
+            {
+              "Name": "rosette 4:4",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 5:4",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 1:5",
+              "Variant": "reflected handedness",
+              "Revisions": 3,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 2:5",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 3:5",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 4:5",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 5:5",
+              "Variant": "reflected handedness",
+              "Revisions": 3,
+              "Frozen": false
+            }
+          ]
+        },
+        {
+          "Round": 4,
+          "Input": 0,
+          "Queued": 4,
+          "Received": 36,
+          "Accepted": 36,
+          "Blocked": 4,
+          "Unknown": 0,
+          "Revisions": 36,
+          "OwnershipPassed": true,
+          "FieldPassed": true,
+          "HistoricalBlockedAttempts": 44,
+          "Nodes": [
+            {
+              "Name": "rosette 1:1",
+              "Variant": "reflected handedness",
+              "Revisions": 3,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 2:1",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 3:1",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 4:1",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 5:1",
+              "Variant": "reflected handedness",
+              "Revisions": 3,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 1:2",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 2:2",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 3:2",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": true
+            },
+            {
+              "Name": "rosette 4:2",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 5:2",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 1:3",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 2:3",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": true
+            },
+            {
+              "Name": "rosette 3:3",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": true
+            },
+            {
+              "Name": "rosette 4:3",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": true
+            },
+            {
+              "Name": "rosette 5:3",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 1:4",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 2:4",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 3:4",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": true
+            },
+            {
+              "Name": "rosette 4:4",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 5:4",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 1:5",
+              "Variant": "reflected handedness",
+              "Revisions": 3,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 2:5",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 3:5",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 4:5",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 5:5",
+              "Variant": "reflected handedness",
+              "Revisions": 3,
+              "Frozen": false
+            }
+          ]
+        },
+        {
+          "Round": 5,
+          "Input": 0,
+          "Queued": 4,
+          "Received": 36,
+          "Accepted": 36,
+          "Blocked": 4,
+          "Unknown": 0,
+          "Revisions": 36,
+          "OwnershipPassed": true,
+          "FieldPassed": true,
+          "HistoricalBlockedAttempts": 48,
+          "Nodes": [
+            {
+              "Name": "rosette 1:1",
+              "Variant": "reflected handedness",
+              "Revisions": 3,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 2:1",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 3:1",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 4:1",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 5:1",
+              "Variant": "reflected handedness",
+              "Revisions": 3,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 1:2",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 2:2",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 3:2",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": true
+            },
+            {
+              "Name": "rosette 4:2",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 5:2",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 1:3",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 2:3",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": true
+            },
+            {
+              "Name": "rosette 3:3",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": true
+            },
+            {
+              "Name": "rosette 4:3",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": true
+            },
+            {
+              "Name": "rosette 5:3",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 1:4",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 2:4",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 3:4",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": true
+            },
+            {
+              "Name": "rosette 4:4",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 5:4",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 1:5",
+              "Variant": "reflected handedness",
+              "Revisions": 3,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 2:5",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 3:5",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 4:5",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 5:5",
+              "Variant": "reflected handedness",
+              "Revisions": 3,
+              "Frozen": false
+            }
+          ]
+        },
+        {
+          "Round": 6,
+          "Input": 0,
+          "Queued": 4,
+          "Received": 36,
+          "Accepted": 36,
+          "Blocked": 4,
+          "Unknown": 0,
+          "Revisions": 36,
+          "OwnershipPassed": true,
+          "FieldPassed": true,
+          "HistoricalBlockedAttempts": 52,
+          "Nodes": [
+            {
+              "Name": "rosette 1:1",
+              "Variant": "reflected handedness",
+              "Revisions": 3,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 2:1",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 3:1",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 4:1",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 5:1",
+              "Variant": "reflected handedness",
+              "Revisions": 3,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 1:2",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 2:2",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 3:2",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": true
+            },
+            {
+              "Name": "rosette 4:2",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 5:2",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 1:3",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 2:3",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": true
+            },
+            {
+              "Name": "rosette 3:3",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": true
+            },
+            {
+              "Name": "rosette 4:3",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": true
+            },
+            {
+              "Name": "rosette 5:3",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 1:4",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 2:4",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 3:4",
+              "Variant": "positive handedness",
+              "Revisions": 0,
+              "Frozen": true
+            },
+            {
+              "Name": "rosette 4:4",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 5:4",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 1:5",
+              "Variant": "reflected handedness",
+              "Revisions": 3,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 2:5",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 3:5",
+              "Variant": "reflected handedness",
+              "Revisions": 1,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 4:5",
+              "Variant": "positive handedness",
+              "Revisions": 2,
+              "Frozen": false
+            },
+            {
+              "Name": "rosette 5:5",
+              "Variant": "reflected handedness",
+              "Revisions": 3,
+              "Frozen": false
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

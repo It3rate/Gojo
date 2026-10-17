@@ -1,5 +1,153 @@
 # Operating qualitative pattern machines
 
+## Adaptive motifs and renegotiated seams checkpoint, 2026-10-17
+
+`--adaptive-wallpaper` lets boundary feedback replace the active motif itself.
+Persistent local drawing actuators execute new complete contour programs,
+publish their new boundary sites and renegotiate their declared neighbour
+connections. Material queues and intake identities survive these changes.
+This extends the fixed-substrate feedback checkpoint below; it does not mutate
+that historical field or reinterpret its accepted seams as current permission.
+
+```powershell
+dotnet run --project experiments/QualitativeFrieze -c Release -- --adaptive-wallpaper
+```
+
+Open the [adaptive gallery](../../experiments/QualitativeFrieze/results/adaptive-wallpaper/gallery.html),
+[figure](../../experiments/QualitativeFrieze/results/adaptive-wallpaper/gallery.svg),
+[preview](../../experiments/QualitativeFrieze/results/adaptive-wallpaper/gallery-preview.png)
+and [diagnostics](../../experiments/QualitativeFrieze/results/adaptive-wallpaper/diagnostics.json).
+Round selection shows actual successive motif heads, seam agreements and packet
+owners. Retired ink is historical evidence, available as a separate view.
+
+The authored grammar contains cushion contours, Greek-key turns and diagonal
+rosettes. Each has two reflected variants. Their four boundary landmarks are
+tangentially offset by a common unmeasured reach. Opposite variants match under
+the supplied repeated-participation cell pitch; equal variants retain a formal
+displacement mismatch. No measured coordinates choose a variant or establish
+contact. Actual quarter-turn and reflection word substitutions explain the
+motif construction.
+
+```text
+template path = start-word -> Closed(actual ordered chord occurrences)
+boundary selector = role -> (actual path -> actual chord occurrence)
+publication = (cell -> role) ->
+              (revision identity -> (actual selector ->
+                                    (accepted drawing receipt -> cursor binding)))
+proposal = (cell -> exact active revision) ->
+           (exact drawing head -> (current question -> selected template))
+replacement = proposal -> (accepted new revision -> (old focus -> new focus))
+agreement = ((machine -> required seam) -> (left head -> right head)) ->
+            ((actual current publications) -> (actual bindings -> equality read))
+```
+
+`AdaptiveMotifNode` keeps one receiver and its entire accepted drawing history.
+A revision compiles the selected path words into actual reset, jump and draw
+actions, checks the complete pure branch, then commits its accepted receipts.
+Port selectors publish the cursor before their exact selected draw occurrence.
+Explicit contour-closure joins identify each path's return with its start.
+The replacement changes the active focus while retaining the old revision,
+compilation correspondence, accepted receipts and change cause. It models
+replacement of a selected ink layer, rather than physically erasing history.
+
+`AdaptiveWallpaperMachine` keeps required links and transport capacity stable.
+An agreement needs actual current publications on both sides and a native
+formal equality read in the common frame. Changing either motif invalidates
+the old permission, even if a later revision returns to equal geometry. A
+copied agreement, foreign publication or stale proposal cannot become current
+permission. Retiring a boundary does not retract already delivered packets.
+An intervening receiver change leaves its stale proposal explicitly pending;
+automatic withdrawal or retry scheduling is not supplied by this experiment.
+
+Two separate interfaces participate in feedback:
+
+- The declared observation route reads a neighbour's boundary advertisement
+  without draining or transferring pressure. It can expose a mismatch while
+  that material connection is blocked.
+- The material passage parks actual identities in a persistent queue and
+  delivers them only through an accepted current agreement and target capacity.
+  Failed admission retains the packet at its queue or source intake.
+
+All local policy questions use the same before-revision snapshot. Their
+finite laws choose a complementary variant, keep the current variant or retain
+competing candidates. The selected complete revisions are applied afterward.
+Queues emitted or seams repaired during a round cannot deliver through that
+round's earlier arrival phase. A later round obtains fresh agreement evidence.
+This distinguishes observing a request, accepting new structure and moving
+material.
+
+The gallery includes a two-motif repair, a 3×3 cushion patch, a 5×5 key field
+and a 5×5 rosette field with a held central cross. The patch observation routes
+point inward toward the centre, where an authored frozen policy supplies a
+reference. The surrounding policies respond locally; no runtime coordinate
+array or target checkerboard assigns their variants. Holding the four central
+axis neighbours in the same variant as the centre deliberately preserves
+incompatible seams instead of forcing agreement.
+
+| Final field | Motif replacements | Accepted / blocked seams | Received / queued packets |
+| --- | ---: | ---: | ---: |
+| Two-motif repair | 1 | 1 / 0 | 1 / 0 |
+| 3×3 cushion | 12 | 12 / 0 | 12 / 0 |
+| 5×5 keys | 60 | 40 / 0 | 40 / 0 |
+| 5×5 held-centre rosettes | 36 | 36 / 4 | 36 / 4 |
+
+All four runs use six explicit event rounds and finish with zero unresolved
+execution failures and zero native numeric carriers/locations. All 93 imported
+identities are accounted for in every displayed frame. The four deliberately
+blocked rosette packets remain at their actual persistent queues.
+
+`AdaptiveWallpaperSymmetry` captures the active revisions and their required
+seams. It composes actual local graph bijections with formal quarter-turn
+position/chord proofs, node/port correspondences and a bijection of accepted
+and blocked seam obligations. Endpoint reversal is explicit where the turn
+reverses an undirected seam's authored order. This avoids a whole-field
+all-pairs graph comparison. All three centred patches pass; the offset pair
+does not. This proves uncalibrated active ink and undirected obligation symmetry,
+without claiming directed flow, policy-state or arbitrary Euclidean symmetry.
+The captured proof remains a historical observation after later revisions.
+Port proofs follow the exact local-join aliases into the admitted graph map;
+another coincident site cannot stand in for the actual junction interface.
+
+`AdaptiveWallpaperAssessment` captures an existing `PatternAestheticProfile`
+with three hard structural criteria: accounted ownership at a settled execution
+boundary, all declared seam obligations fulfilled, and resolved current choices.
+Required seams cannot disappear to improve the result. Known mismatch is a
+violation; missing/stale/no obligation evidence stays unknown. Repair history
+is retained without permanently penalizing a now-settled world. The first
+three cases pass all criteria; the symmetric held-centre field has one known
+violation. Symmetry alone therefore does not certify structural feasibility.
+These are concrete evaluator inputs for later training, not human beauty scores.
+
+Adaptation is not a convergence guarantee. Two reciprocal responsive neighbours
+with identical initial states can synchronously alternate between two
+incompatible configurations. Opposed neighbour requests can also leave a local
+question unresolved. Tests retain those counterexamples, rather than hiding
+them through update order or selecting the first neighbour.
+
+The native machine remains a finite uncalibrated word/packet system, with
+continuous signed carrier tension outside its scope. Boundary advertisements
+drive these authored revision laws; packet occupancy demonstrates preserved
+material permission and capacity, rather than weighting repair choices. New
+grammar discovery, arbitrary boundary growth, pressure-weighted repair and
+retained policy learning remain separate extensions.
+
+The 42 focused cases cover authored path/port identity, actual accepted
+replacement history, delayed repair, current versus stale seam permission,
+queued and delivered ownership through withdrawal, copied/foreign proposals,
+stale receiver heads, reciprocal oscillation, contradictory observations,
+captured feasibility and exact symmetry witnesses. `dotnet test Gojo.slnx`
+passes 3,492 tests across its 12 included test projects. The 42 focused cases
+also pass in Release after the final seam-site congruence refinement. Browser
+checks cover all gallery controls, playback, historical layers and the expected
+93 queued packets in round one, then 89 received plus four queued at the end.
+
+See [where training fits](GojoAdaptiveWallpaperTraining.md) for the reusable
+native evaluation surfaces and comparisons for enumeration, genetic search,
+markets and transformer proposals. The common entry point should be an offered
+structural edit, followed by the same revision, agreement, conservation and
+preference readers. A learner's explanation or score cannot certify its own
+seam or discard blocked participation.
+
 ## Live junction feedback checkpoint, 2026-10-17
 
 `--junction-feedback` connects the preceding field's accepted junctions to

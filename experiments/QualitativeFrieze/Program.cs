@@ -17,6 +17,7 @@ if (args.Contains("--machines")) return PatternMachineExperiment.Run(args.Where(
 if (args.Contains("--wallpaper-machine")) return WallpaperMachineExperiment.Run(args.Where(argument => argument != "--wallpaper-machine").ToArray());
 if (args.Contains("--wallpaper-field")) return ConnectedWallpaperExperiment.Run(args.Where(argument => argument != "--wallpaper-field").ToArray());
 if (args.Contains("--junction-feedback")) return JunctionFeedbackExperiment.Run(args.Where(argument => argument != "--junction-feedback").ToArray());
+if (args.Contains("--adaptive-wallpaper")) return AdaptiveWallpaperExperiment.Run(args.Where(argument => argument != "--adaptive-wallpaper").ToArray());
 if (args.Contains("--wallpaper-flow"))
 {
     var study = new WallpaperFlowStudy();

@@ -7,6 +7,26 @@ or numeric locations. The authored gallery below is the generation checkpoint;
 a following bounded feedback experiment adds explicit legality and preference
 reads without changing the kernel.
 
+The [adaptive wallpaper checkpoint](../../Gojo/docs/GojoPatternMachineExperiment.md#adaptive-motifs-and-renegotiated-seams-checkpoint-2026-10-17)
+lets boundary feedback replace active motifs and publish new ports. Persistent
+queues wait for fresh, current-head seam agreements. Four examples range from
+two-neighbour repair to symmetric cushion, key and rosette fields; four held
+central rosette seams remain blocked with their packets visible.
+
+```powershell
+dotnet run --project experiments/QualitativeFrieze -c Release -- --adaptive-wallpaper
+```
+
+Open the [adaptive gallery](results/adaptive-wallpaper/gallery.html),
+[figure](results/adaptive-wallpaper/gallery.svg),
+[preview](results/adaptive-wallpaper/gallery-preview.png)
+and [diagnostics](results/adaptive-wallpaper/diagnostics.json).
+Actual motif/port/seam correspondences verify formal quarter-turn symmetry of
+the three centred fields. A captured native feasibility profile distinguishes
+accounting, required seam agreement and resolved choices; it is not a beauty
+score. See [where training fits](../../Gojo/docs/GojoAdaptiveWallpaperTraining.md)
+for genetic, market and transformer proposal/selection roles and controls.
+
 The [live junction feedback checkpoint](../../Gojo/docs/GojoPatternMachineExperiment.md#live-junction-feedback-checkpoint-2026-10-17)
 feeds accepted neighbour seams into conserved packet passages, delayed delivery,
 local readiness questions and acknowledged drawing responses. Three paired
