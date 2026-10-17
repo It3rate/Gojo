@@ -7,6 +7,13 @@ or numeric locations. The authored gallery below is the generation checkpoint;
 a following bounded feedback experiment adds explicit legality and preference
 reads without changing the kernel.
 
+The [historical ornament research](../../Gojo/docs/GojoHistoricalOrnamentRules.md)
+extracts construction rules and reusable skeletons from Day, Hay, Jones and the
+International Correspondence Schools textbook. It separates seam obligations,
+motif/field classification and declared aesthetic preferences, and proposes
+cut-and-shift repair as the next experiment. These are research directions,
+not additional implemented generator modes.
+
 The [adaptive wallpaper checkpoint](../../Gojo/docs/GojoPatternMachineExperiment.md#adaptive-motifs-and-renegotiated-seams-checkpoint-2026-10-17)
 lets boundary feedback replace active motifs and publish new ports. Persistent
 queues wait for fresh, current-head seam agreements. Four examples range from

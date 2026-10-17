@@ -137,3 +137,13 @@ acceptable one, and a known violation zero. Any unknown component makes the
 total unavailable. Keep acceptance separate from this descriptive total;
 selection can require all criteria to be acceptable instead of letting several
 preferences compensate for a known crowded-field violation.
+
+## Historical construction rules
+
+The [historical ornament research](GojoHistoricalOrnamentRules.md) adds primary
+examples from Day, Hay, Jones and the International Correspondence Schools
+textbook. It identifies repeat-seam repair, intervening field shapes, alternative
+scaffold selections and subordinate enrichment as useful experiments. Those
+historical prescriptions supply candidate construction contracts and style
+profiles; they are not additional implemented observers or universal laws of
+aesthetic preference.
