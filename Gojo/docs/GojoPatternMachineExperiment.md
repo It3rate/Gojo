@@ -1,5 +1,119 @@
 # Operating qualitative pattern machines
 
+## Live junction feedback checkpoint, 2026-10-17
+
+`--junction-feedback` connects the preceding field's accepted junctions to
+live local packet flow. Four actually generated diamond motifs supply a fixed
+2×2 substrate. Each cell exposes two intake passages, a finite conditional law,
+a phase controller and a separate drawing receiver. Neighbour packets can now
+change the next accepted local response. Screen coordinates do not select the
+neighbours or the response.
+
+```powershell
+dotnet run --project experiments/QualitativeFrieze -c Release -- --junction-feedback
+```
+
+See the [interactive gallery](../../experiments/QualitativeFrieze/results/junction-feedback/gallery.html),
+[figure](../../experiments/QualitativeFrieze/results/junction-feedback/gallery.svg),
+[preview](../../experiments/QualitativeFrieze/results/junction-feedback/gallery-preview.png)
+and [diagnostics](../../experiments/QualitativeFrieze/results/junction-feedback/diagnostics.json).
+The slider and playback select witnessed event rounds. Controls expose the
+fixed substrate, declared feedback routes and node colours. Per-node tables
+show each conditional answer and whether it produced an accepted drawing.
+
+Three paired examples keep the laws and causal controls small:
+
+| Example | Connected behaviour | Control |
+| --- | --- | --- |
+| Circulating relay | One actual packet traverses four cells, producing 12 accepted responses in 12 rounds. Later visits alternate each node's upward/downward diagonal. | Cutting the first seam leaves one local response, then the packet remains at its explicit local sink. |
+| Two-neighbour coincidence | Distinct neighbour packets fill distinct intake sites. The target draws once after both arrive; there are three accepted responses including the two source responses. | Withholding one seed leaves the other arrival held at the target. A filled primary passage cannot fill its auxiliary passage. |
+| Neighbour-controlled reflection | An excitation arrival plus an auxiliary neighbour arrival selects a downward diagonal. | Both seed roles remain, but cutting the auxiliary seam sends that source's packet to its own sink. Excitation alone selects an upward diagonal. |
+
+The coincidence and reflection targets enter a refractory phase after their
+accepted response. Later input would remain owned at their intakes. Sinks are
+explicit retained owners, rather than deletion. The paired worlds have separate
+packet identities connected by native seed-role correspondences; comparing two
+runs does not import one material instance twice.
+
+The general rules exercised here are:
+
+1. A passage between motifs needs an actual accepted seam. Coordinate equality,
+   a copied edge or a missing motif receipt cannot supply that passage.
+2. Readiness is the occupancy of actual local capacity sites. Finite laws
+   combine those reads with the current phase. A missing or open law remains
+   unresolved; it cannot default to rest or motion.
+3. A question observes without duplicating material. Its selected drawing must
+   be accepted against the exact live receiver head before the phase or packet
+   ownership advances.
+4. A packet has one current owner. An accepted response transfers its selected
+   input identities into declared output queues or a local sink. Blocked
+   delivery leaves the packet in its queue.
+5. Only packets queued before a round can arrive in that round. All local
+   questions use the same after-delivery input snapshot. Newly emitted output
+   waits until the next round, including in a cycle.
+
+```text
+actual completed motif receipts
+  -> checked seam -> declared neighbour channel
+  -> previous-round queue -> actual input-site occupancy
+  -> finite signal law -> phase law -> current question
+  -> exact accepted local drawing
+  -> phase transition + identity-preserving packet transfer
+  -> next-round queue or explicit local sink
+```
+
+`QualitativeJunctionTopology` rechecks the field's historical motif completions,
+anchor bindings, port publications, period/equality witnesses and graph-join
+contract. It supplies directed edges only for distinct-cell accepted seams.
+The local output frame has an explicit word projection into that captured
+field's frame. Foreign frames, ambiguous cell ownership and material forks are
+invalid definitions. External seeding enters only exposed node intakes.
+
+`QualitativePacketTransport` adds current ownership above the kernel. The older
+impulse accumulator remembers every imported identity and intentionally rejects
+reimport, even after release. Circulation instead needs one initial import and
+subsequent legal transfers of that same identity. The new ledger records
+actual port/site capacity, declared routes, before/after placements and exact
+operation proofs. It supports atomic transfer batches and shared capacity;
+moving packets release their source sites before destination allocation. An
+invalid batch retains its source ownership. Its receipts expose accepted,
+blocked and remainder participation, with history preventing event replay.
+
+`QualitativeJunctionFlow` composes that ledger with the existing finite laws,
+publications, questions, phase recurrence and drawing receiver. A request
+retains its round, question, receiver head, material head and controller head.
+Acknowledgment preflights the drawing, ownership transfer and phase step before
+committing them. Historical or foreign receipts cannot overwrite newer heads.
+One outstanding request holds this selected local world until acknowledgment;
+the experiment does not yet provide independent asynchronous retry scheduling.
+Every accepted response retains its question, actual drawing receipt, phase
+step and packet-transfer proof. The round timeline also preserves deliveries,
+the shared input snapshot and remaining owners.
+
+All six runs finish with zero pending failures and zero native numeric
+carriers/locations. The repeated relay carries one identity throughout; the
+one-sided coincidence retains its unmatched input. The comparison demonstrates
+supplied local laws and causal effects, without learning those laws.
+
+The pressure here is uncalibrated discrete occupancy, separate from continuous
+signed `Carrier.Tension`. It models a conserved control signal without a
+separate work/energy budget for drawing. Event rounds establish order and a delivery barrier,
+without measured elapsed time. The substrate and its seam geometry remain
+fixed. Live response traces can overlap visually without automatically creating
+new contacts; changing a boundary would require a fresh seam agreement. These
+limits keep the current result about feedback through existing structure.
+
+The 38 focused cases cover accepted seam identity, historical capture,
+circulation, once-only ownership, atomic capacity, delayed arrival, reversed
+node evaluation order, separate-input coincidence, blocked overflow,
+conditional reflection, unresolved permission and exact acknowledgment.
+They also reject foreign frames/ports, duplicate cells, aliased queues and
+seed injection outside intake passages. `dotnet test Gojo.slnx` passes all
+3,450 tests across its 12 included test projects. Browser checks exercise round
+selection, playback, route/colour/substrate controls and the standalone figure
+without page errors. Every saved frame independently accounts for all imported
+packets as held input, queued or sink-owned participation.
+
 ## Connected wallpaper fields checkpoint, 2026-10-17
 
 `--wallpaper-field` expands the acknowledged motif/placement machine into
@@ -52,8 +166,9 @@ runtime endpoint. Its quotient view retains every original site, stroke and
 cause through a many-to-one site correspondence and a one-to-one stroke
 correspondence. Exact class membership and unchanged chord participation are
 checked. This is a post-run observation; it does not rewrite drawing history or
-add material/tension routes inside the running machine. A later experiment can
-connect the derived junction surfaces to an explicit flow or feedback process.
+add material/tension routes inside the running machine. The live junction
+feedback checkpoint above connects these checked surfaces to explicit local
+packet passages while retaining the captured geometry.
 
 Six live 5×4 fields exercise these mechanisms:
 

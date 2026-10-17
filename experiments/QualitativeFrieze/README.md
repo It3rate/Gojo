@@ -7,6 +7,25 @@ or numeric locations. The authored gallery below is the generation checkpoint;
 a following bounded feedback experiment adds explicit legality and preference
 reads without changing the kernel.
 
+The [live junction feedback checkpoint](../../Gojo/docs/GojoPatternMachineExperiment.md#live-junction-feedback-checkpoint-2026-10-17)
+feeds accepted neighbour seams into conserved packet passages, delayed delivery,
+local readiness questions and acknowledged drawing responses. Three paired
+examples show circulation, two-neighbour coincidence and a neighbour selecting
+the opposite diagonal. Their controls cut an actual seam or withhold one seed.
+All execution remains pre-numeric; the captured substrate stays fixed while
+separate local response traces grow.
+
+```powershell
+dotnet run --project experiments/QualitativeFrieze -c Release -- --junction-feedback
+```
+
+Open the [interactive feedback gallery](results/junction-feedback/gallery.html),
+[figure](results/junction-feedback/gallery.svg),
+[preview](results/junction-feedback/gallery-preview.png)
+and [ownership diagnostics](results/junction-feedback/diagnostics.json).
+The round slider exposes actual historical states; feedback routes and response
+colours are independently inspectable.
+
 The [connected wallpaper fields](../../Gojo/docs/GojoPatternMachineExperiment.md)
 add declared motif ports, checked neighbour periods and a derived shared-site
 view of actual machine output. Six 5×4 examples include continuous keys,

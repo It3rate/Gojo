@@ -1,0 +1,1686 @@
+{
+  "Schema": "live-junction-feedback-v1",
+  "Scope": "Captured accepted junction substrate; live conserved discrete packets, delayed queues, finite conditional laws and acknowledged local outputs.",
+  "Cases": [
+    {
+      "Name": "Circulating relay / connected",
+      "Description": "One packet crosses actual accepted junctions around four nodes. Each visit draws the local phase\u0027s next diagonal.",
+      "Rounds": 12,
+      "ImportedPackets": 1,
+      "AcceptedResponses": 12,
+      "NativeNumericElements": 0,
+      "Pending": 0,
+      "Frames": [
+        {
+          "Round": 0,
+          "Input": 1,
+          "Queued": 0,
+          "Sink": 0,
+          "Responses": 0
+        },
+        {
+          "Round": 1,
+          "Input": 0,
+          "Queued": 1,
+          "Sink": 0,
+          "Responses": 1
+        },
+        {
+          "Round": 2,
+          "Input": 0,
+          "Queued": 1,
+          "Sink": 0,
+          "Responses": 2
+        },
+        {
+          "Round": 3,
+          "Input": 0,
+          "Queued": 1,
+          "Sink": 0,
+          "Responses": 3
+        },
+        {
+          "Round": 4,
+          "Input": 0,
+          "Queued": 1,
+          "Sink": 0,
+          "Responses": 4
+        },
+        {
+          "Round": 5,
+          "Input": 0,
+          "Queued": 1,
+          "Sink": 0,
+          "Responses": 5
+        },
+        {
+          "Round": 6,
+          "Input": 0,
+          "Queued": 1,
+          "Sink": 0,
+          "Responses": 6
+        },
+        {
+          "Round": 7,
+          "Input": 0,
+          "Queued": 1,
+          "Sink": 0,
+          "Responses": 7
+        },
+        {
+          "Round": 8,
+          "Input": 0,
+          "Queued": 1,
+          "Sink": 0,
+          "Responses": 8
+        },
+        {
+          "Round": 9,
+          "Input": 0,
+          "Queued": 1,
+          "Sink": 0,
+          "Responses": 9
+        },
+        {
+          "Round": 10,
+          "Input": 0,
+          "Queued": 1,
+          "Sink": 0,
+          "Responses": 10
+        },
+        {
+          "Round": 11,
+          "Input": 0,
+          "Queued": 1,
+          "Sink": 0,
+          "Responses": 11
+        },
+        {
+          "Round": 12,
+          "Input": 0,
+          "Queued": 1,
+          "Sink": 0,
+          "Responses": 12
+        }
+      ],
+      "Decisions": [
+        {
+          "Round": 1,
+          "Node": "A",
+          "Answer": "upward response",
+          "Accepted": 1,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 1,
+          "Node": "B",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 1,
+          "Node": "C",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 1,
+          "Node": "D",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 2,
+          "Node": "A",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 2,
+          "Node": "B",
+          "Answer": "upward response",
+          "Accepted": 1,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 2,
+          "Node": "C",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 2,
+          "Node": "D",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 3,
+          "Node": "A",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 3,
+          "Node": "B",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 3,
+          "Node": "C",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 3,
+          "Node": "D",
+          "Answer": "upward response",
+          "Accepted": 1,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 4,
+          "Node": "A",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 4,
+          "Node": "B",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 4,
+          "Node": "C",
+          "Answer": "upward response",
+          "Accepted": 1,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 4,
+          "Node": "D",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 5,
+          "Node": "A",
+          "Answer": "downward response",
+          "Accepted": 1,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 5,
+          "Node": "B",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 5,
+          "Node": "C",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 5,
+          "Node": "D",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 6,
+          "Node": "A",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 6,
+          "Node": "B",
+          "Answer": "downward response",
+          "Accepted": 1,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 6,
+          "Node": "C",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 6,
+          "Node": "D",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 7,
+          "Node": "A",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 7,
+          "Node": "B",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 7,
+          "Node": "C",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 7,
+          "Node": "D",
+          "Answer": "downward response",
+          "Accepted": 1,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 8,
+          "Node": "A",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 8,
+          "Node": "B",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 8,
+          "Node": "C",
+          "Answer": "downward response",
+          "Accepted": 1,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 8,
+          "Node": "D",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 9,
+          "Node": "A",
+          "Answer": "upward response",
+          "Accepted": 1,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 9,
+          "Node": "B",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 9,
+          "Node": "C",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 9,
+          "Node": "D",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 10,
+          "Node": "A",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 10,
+          "Node": "B",
+          "Answer": "upward response",
+          "Accepted": 1,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 10,
+          "Node": "C",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 10,
+          "Node": "D",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 11,
+          "Node": "A",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 11,
+          "Node": "B",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 11,
+          "Node": "C",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 11,
+          "Node": "D",
+          "Answer": "upward response",
+          "Accepted": 1,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 12,
+          "Node": "A",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 12,
+          "Node": "B",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 12,
+          "Node": "C",
+          "Answer": "upward response",
+          "Accepted": 1,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 12,
+          "Node": "D",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        }
+      ]
+    },
+    {
+      "Name": "Circulating relay / first seam cut",
+      "Description": "The same seed role meets a cut first seam. Its local diagonal is drawn, then the actual packet enters the declared local sink.",
+      "Rounds": 12,
+      "ImportedPackets": 1,
+      "AcceptedResponses": 1,
+      "NativeNumericElements": 0,
+      "Pending": 0,
+      "Frames": [
+        {
+          "Round": 0,
+          "Input": 1,
+          "Queued": 0,
+          "Sink": 0,
+          "Responses": 0
+        },
+        {
+          "Round": 1,
+          "Input": 0,
+          "Queued": 0,
+          "Sink": 1,
+          "Responses": 1
+        },
+        {
+          "Round": 2,
+          "Input": 0,
+          "Queued": 0,
+          "Sink": 1,
+          "Responses": 1
+        },
+        {
+          "Round": 3,
+          "Input": 0,
+          "Queued": 0,
+          "Sink": 1,
+          "Responses": 1
+        },
+        {
+          "Round": 4,
+          "Input": 0,
+          "Queued": 0,
+          "Sink": 1,
+          "Responses": 1
+        },
+        {
+          "Round": 5,
+          "Input": 0,
+          "Queued": 0,
+          "Sink": 1,
+          "Responses": 1
+        },
+        {
+          "Round": 6,
+          "Input": 0,
+          "Queued": 0,
+          "Sink": 1,
+          "Responses": 1
+        },
+        {
+          "Round": 7,
+          "Input": 0,
+          "Queued": 0,
+          "Sink": 1,
+          "Responses": 1
+        },
+        {
+          "Round": 8,
+          "Input": 0,
+          "Queued": 0,
+          "Sink": 1,
+          "Responses": 1
+        },
+        {
+          "Round": 9,
+          "Input": 0,
+          "Queued": 0,
+          "Sink": 1,
+          "Responses": 1
+        },
+        {
+          "Round": 10,
+          "Input": 0,
+          "Queued": 0,
+          "Sink": 1,
+          "Responses": 1
+        },
+        {
+          "Round": 11,
+          "Input": 0,
+          "Queued": 0,
+          "Sink": 1,
+          "Responses": 1
+        },
+        {
+          "Round": 12,
+          "Input": 0,
+          "Queued": 0,
+          "Sink": 1,
+          "Responses": 1
+        }
+      ],
+      "Decisions": [
+        {
+          "Round": 1,
+          "Node": "A",
+          "Answer": "upward response",
+          "Accepted": 1,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 1,
+          "Node": "B",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 1,
+          "Node": "C",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 1,
+          "Node": "D",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 2,
+          "Node": "A",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 2,
+          "Node": "B",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 2,
+          "Node": "C",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 2,
+          "Node": "D",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 3,
+          "Node": "A",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 3,
+          "Node": "B",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 3,
+          "Node": "C",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 3,
+          "Node": "D",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 4,
+          "Node": "A",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 4,
+          "Node": "B",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 4,
+          "Node": "C",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 4,
+          "Node": "D",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 5,
+          "Node": "A",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 5,
+          "Node": "B",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 5,
+          "Node": "C",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 5,
+          "Node": "D",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 6,
+          "Node": "A",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 6,
+          "Node": "B",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 6,
+          "Node": "C",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 6,
+          "Node": "D",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 7,
+          "Node": "A",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 7,
+          "Node": "B",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 7,
+          "Node": "C",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 7,
+          "Node": "D",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 8,
+          "Node": "A",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 8,
+          "Node": "B",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 8,
+          "Node": "C",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 8,
+          "Node": "D",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 9,
+          "Node": "A",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 9,
+          "Node": "B",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 9,
+          "Node": "C",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 9,
+          "Node": "D",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 10,
+          "Node": "A",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 10,
+          "Node": "B",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 10,
+          "Node": "C",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 10,
+          "Node": "D",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 11,
+          "Node": "A",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 11,
+          "Node": "B",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 11,
+          "Node": "C",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 11,
+          "Node": "D",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 12,
+          "Node": "A",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 12,
+          "Node": "B",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 12,
+          "Node": "C",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 12,
+          "Node": "D",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        }
+      ]
+    },
+    {
+      "Name": "Two-neighbour coincidence / both inputs",
+      "Description": "Separate left and lower neighbours fill separate intake sites. Their coincident readiness permits the target\u0027s live diagonal once.",
+      "Rounds": 4,
+      "ImportedPackets": 2,
+      "AcceptedResponses": 3,
+      "NativeNumericElements": 0,
+      "Pending": 0,
+      "Frames": [
+        {
+          "Round": 0,
+          "Input": 2,
+          "Queued": 0,
+          "Sink": 0,
+          "Responses": 0
+        },
+        {
+          "Round": 1,
+          "Input": 0,
+          "Queued": 2,
+          "Sink": 0,
+          "Responses": 2
+        },
+        {
+          "Round": 2,
+          "Input": 0,
+          "Queued": 0,
+          "Sink": 2,
+          "Responses": 3
+        },
+        {
+          "Round": 3,
+          "Input": 0,
+          "Queued": 0,
+          "Sink": 2,
+          "Responses": 3
+        },
+        {
+          "Round": 4,
+          "Input": 0,
+          "Queued": 0,
+          "Sink": 2,
+          "Responses": 3
+        }
+      ],
+      "Decisions": [
+        {
+          "Round": 1,
+          "Node": "A",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 1,
+          "Node": "B",
+          "Answer": "upward response",
+          "Accepted": 1,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 1,
+          "Node": "C",
+          "Answer": "upward response",
+          "Accepted": 1,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 1,
+          "Node": "D",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 2,
+          "Node": "A",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 2,
+          "Node": "B",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 2,
+          "Node": "C",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 2,
+          "Node": "D",
+          "Answer": "upward response",
+          "Accepted": 1,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 3,
+          "Node": "A",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 3,
+          "Node": "B",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 3,
+          "Node": "C",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 3,
+          "Node": "D",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 4,
+          "Node": "A",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 4,
+          "Node": "B",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 4,
+          "Node": "C",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 4,
+          "Node": "D",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        }
+      ]
+    },
+    {
+      "Name": "Two-neighbour coincidence / one input",
+      "Description": "The lower seed is deliberately withheld. The left arrival remains at its own intake; the target\u0027s coincidence action stays waiting.",
+      "Rounds": 4,
+      "ImportedPackets": 1,
+      "AcceptedResponses": 1,
+      "NativeNumericElements": 0,
+      "Pending": 0,
+      "Frames": [
+        {
+          "Round": 0,
+          "Input": 1,
+          "Queued": 0,
+          "Sink": 0,
+          "Responses": 0
+        },
+        {
+          "Round": 1,
+          "Input": 0,
+          "Queued": 1,
+          "Sink": 0,
+          "Responses": 1
+        },
+        {
+          "Round": 2,
+          "Input": 1,
+          "Queued": 0,
+          "Sink": 0,
+          "Responses": 1
+        },
+        {
+          "Round": 3,
+          "Input": 1,
+          "Queued": 0,
+          "Sink": 0,
+          "Responses": 1
+        },
+        {
+          "Round": 4,
+          "Input": 1,
+          "Queued": 0,
+          "Sink": 0,
+          "Responses": 1
+        }
+      ],
+      "Decisions": [
+        {
+          "Round": 1,
+          "Node": "A",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 1,
+          "Node": "B",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 1,
+          "Node": "C",
+          "Answer": "upward response",
+          "Accepted": 1,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 1,
+          "Node": "D",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 2,
+          "Node": "A",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 2,
+          "Node": "B",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 2,
+          "Node": "C",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 2,
+          "Node": "D",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 1,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 3,
+          "Node": "A",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 3,
+          "Node": "B",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 3,
+          "Node": "C",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 3,
+          "Node": "D",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 1,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 4,
+          "Node": "A",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 4,
+          "Node": "B",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 4,
+          "Node": "C",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 4,
+          "Node": "D",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 1,
+          "Auxiliary": 0
+        }
+      ]
+    },
+    {
+      "Name": "Neighbour-controlled reflection / both seams",
+      "Description": "Excitation and the neighbouring inhibitory arrival select a downward diagonal. The accepted action then latches the target refractory.",
+      "Rounds": 4,
+      "ImportedPackets": 2,
+      "AcceptedResponses": 3,
+      "NativeNumericElements": 0,
+      "Pending": 0,
+      "Frames": [
+        {
+          "Round": 0,
+          "Input": 2,
+          "Queued": 0,
+          "Sink": 0,
+          "Responses": 0
+        },
+        {
+          "Round": 1,
+          "Input": 0,
+          "Queued": 2,
+          "Sink": 0,
+          "Responses": 2
+        },
+        {
+          "Round": 2,
+          "Input": 0,
+          "Queued": 0,
+          "Sink": 2,
+          "Responses": 3
+        },
+        {
+          "Round": 3,
+          "Input": 0,
+          "Queued": 0,
+          "Sink": 2,
+          "Responses": 3
+        },
+        {
+          "Round": 4,
+          "Input": 0,
+          "Queued": 0,
+          "Sink": 2,
+          "Responses": 3
+        }
+      ],
+      "Decisions": [
+        {
+          "Round": 1,
+          "Node": "A",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 1,
+          "Node": "B",
+          "Answer": "upward response",
+          "Accepted": 1,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 1,
+          "Node": "C",
+          "Answer": "upward response",
+          "Accepted": 1,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 1,
+          "Node": "D",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 2,
+          "Node": "A",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 2,
+          "Node": "B",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 2,
+          "Node": "C",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 2,
+          "Node": "D",
+          "Answer": "downward response",
+          "Accepted": 1,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 3,
+          "Node": "A",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 3,
+          "Node": "B",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 3,
+          "Node": "C",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 3,
+          "Node": "D",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 4,
+          "Node": "A",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 4,
+          "Node": "B",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 4,
+          "Node": "C",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 4,
+          "Node": "D",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        }
+      ]
+    },
+    {
+      "Name": "Neighbour-controlled reflection / inhibitory seam cut",
+      "Description": "Both seed roles are retained, but the inhibitory seam is absent. The target receives excitation alone and draws an upward diagonal.",
+      "Rounds": 4,
+      "ImportedPackets": 2,
+      "AcceptedResponses": 3,
+      "NativeNumericElements": 0,
+      "Pending": 0,
+      "Frames": [
+        {
+          "Round": 0,
+          "Input": 2,
+          "Queued": 0,
+          "Sink": 0,
+          "Responses": 0
+        },
+        {
+          "Round": 1,
+          "Input": 0,
+          "Queued": 1,
+          "Sink": 1,
+          "Responses": 2
+        },
+        {
+          "Round": 2,
+          "Input": 0,
+          "Queued": 0,
+          "Sink": 2,
+          "Responses": 3
+        },
+        {
+          "Round": 3,
+          "Input": 0,
+          "Queued": 0,
+          "Sink": 2,
+          "Responses": 3
+        },
+        {
+          "Round": 4,
+          "Input": 0,
+          "Queued": 0,
+          "Sink": 2,
+          "Responses": 3
+        }
+      ],
+      "Decisions": [
+        {
+          "Round": 1,
+          "Node": "A",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 1,
+          "Node": "B",
+          "Answer": "upward response",
+          "Accepted": 1,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 1,
+          "Node": "C",
+          "Answer": "upward response",
+          "Accepted": 1,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 1,
+          "Node": "D",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 2,
+          "Node": "A",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 2,
+          "Node": "B",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 2,
+          "Node": "C",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 2,
+          "Node": "D",
+          "Answer": "upward response",
+          "Accepted": 1,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 3,
+          "Node": "A",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 3,
+          "Node": "B",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 3,
+          "Node": "C",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 3,
+          "Node": "D",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 4,
+          "Node": "A",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 4,
+          "Node": "B",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 4,
+          "Node": "C",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        },
+        {
+          "Round": 4,
+          "Node": "D",
+          "Answer": "hold",
+          "Accepted": 0,
+          "Primary": 0,
+          "Auxiliary": 0
+        }
+      ]
+    }
+  ]
+}
