@@ -29,6 +29,13 @@ public static class FriezeCoverage
 
     public static Evaluation Evaluate(FriezeFixture fixture, Relation measuredSource, Relation strokes,
         long period, int cellBudget = 2048, long? minimumY = null, long? maximumY = null)
+        => Evaluate(fixture.Frame, measuredSource, strokes, period, cellBudget, minimumY, maximumY);
+
+    /// <summary>Observes an exposed stroke surface in the supplied motion frame.
+    /// The producer can be a graph with several drawing threads; no traversal
+    /// of a private phase network or continuous single-cursor trace is needed.</summary>
+    public static Evaluation Evaluate(QualitativeMotionFrame frame, Relation measuredSource, Relation strokes,
+        long period, int cellBudget = 2048, long? minimumY = null, long? maximumY = null)
     {
         var metric = new Carrier();
         var quantum = Relation.Segment(metric, 0, 1); var radius = Relation.Point(metric, 1);
@@ -80,8 +87,8 @@ public static class FriezeCoverage
                 var cell = new Placeholder(); lattice[y, x] = cell; cells.Add(cell);
                 var py = checked((long)(minimum + y));
                 coordinates.Add(new Relation(cell, new Relation(
-                    new Relation(fixture.Frame.Horizontal, new CarrierLocation(metric, x)),
-                    new Relation(fixture.Frame.Vertical, new CarrierLocation(metric, py)))));
+                    new Relation(frame.Horizontal, new CarrierLocation(metric, x)),
+                    new Relation(frame.Vertical, new CarrierLocation(metric, py)))));
                 var occupied = new List<IElement>();
                 foreach (var line in lines)
                 {
@@ -140,8 +147,8 @@ public static class FriezeCoverage
             var projection = new Summary(E(cellScope).Length, E(empty).Length, E(single).Length, E(multiple).Length,
                 centerLevels.Length, spread, indices.Count == 0 ? 0 : indices.Values.Max(), E(pending).Length + supplierPending.Count);
             var metricMaps = sourceX is not null && sourceY is not null ? S(
-                new Relation(new Relation(fixture.Frame.Horizontal, Relation.Segment(sourceX, 0, 1)), Relation.Segment(metric, 0, 1)),
-                new Relation(new Relation(fixture.Frame.Vertical, Relation.Segment(sourceY, 0, 1)), Relation.Segment(metric, 0, 1))) : StructuralConstraint.Open();
+                new Relation(new Relation(frame.Horizontal, Relation.Segment(sourceX, 0, 1)), Relation.Segment(metric, 0, 1)),
+                new Relation(new Relation(frame.Vertical, Relation.Segment(sourceY, 0, 1)), Relation.Segment(metric, 0, 1))) : StructuralConstraint.Open();
             var surface = new Relation(new Relation(new Relation(measuredSource, strokes),
                     new Relation(quantum, new Relation(metricMaps, new Relation(radius, new Relation(periodSpan, new Relation(band, budget)))))),
                 new Relation(new Relation(S(coordinates.ToArray()), S(joins.ToArray())), new Relation(read, S(supplierPending.ToArray()))));
@@ -153,7 +160,7 @@ public static class FriezeCoverage
             x = y = 0; xCarrier = yCarrier = null!;
             if (point.Left is not Relation { Right: CarrierLocation horizontal } xRole ||
                 point.Right is not Relation { Right: CarrierLocation vertical } yRole ||
-                !ReferenceEquals(xRole.Left, fixture.Frame.Horizontal) || !ReferenceEquals(yRole.Left, fixture.Frame.Vertical) ||
+                !ReferenceEquals(xRole.Left, frame.Horizontal) || !ReferenceEquals(yRole.Left, frame.Vertical) ||
                 horizontal.Carrier.IsUnknown || horizontal.Carrier.IsInverse || vertical.Carrier.IsUnknown || vertical.Carrier.IsInverse) return false;
             x = horizontal.Ticks; y = vertical.Ticks; xCarrier = horizontal.Carrier; yCarrier = vertical.Carrier;
             return true;

@@ -4,6 +4,12 @@ Research note, 2026-10-16. The papers below are primary empirical studies.
 The proposed Gojo feature vector and experiment are **exploratory**. They are
 not an implemented human-preference predictor or a validated aesthetic score.
 
+The later [connected-pattern checkpoint](GojoConnectedPatternExperiment.md)
+implements one authored profile over native and measured observations, with
+explicit thresholds, unknown outcomes and a crowding counterexample. The
+[rule note](GojoPatternAestheticRules.md) adds directly relevant frieze research.
+This remains an exploratory preference interpretation.
+
 Research supports examining recurrence, organized variation, symmetry and
 expectation together. It does not supply one law saying that more symmetry,
 less complexity, more regularity, or a particular amount of surprise always

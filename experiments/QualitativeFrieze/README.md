@@ -7,6 +7,27 @@ or numeric locations. The authored gallery below is the generation checkpoint;
 a following bounded feedback experiment adds explicit legality and preference
 reads without changing the kernel.
 
+The [connected-pattern checkpoint](../../Gojo/docs/GojoConnectedPatternExperiment.md)
+returns to elementary generators: four ordered levels, diagonal chords,
+shared-site junctions, native graph correspondences and coarse conditional
+ports. Eight constructions and eight one-phase variations expose separate
+native and measured aesthetic profiles. An independent 6/3-phase supplier pair
+drives the conditional ladder. Unknown input stays unranked.
+
+```powershell
+dotnet run --project experiments/QualitativeFrieze -c Release -- --connected
+```
+
+See its [interactive gallery](results/connected/gallery.html),
+[main figure](results/connected/gallery.svg),
+[ranked comparison](results/connected/ranked.svg),
+[calibration alternatives](results/connected/refined.svg),
+[layer diagram](results/connected/layers.svg)
+and [diagnostics](results/connected/diagnostics.json).
+The [aesthetic rule vocabulary](../../Gojo/docs/GojoPatternAestheticRules.md)
+separates primary research from the authored profile and records a dense-ink
+counterexample that motivated adding crowding as a separate criterion.
+
 The [rhythm-to-frieze checkpoint](../../Gojo/docs/GojoRhythmFriezeExperiment.md)
 uses onset roles and an explicit phrase phase to select whole sequences of
 turns, backward reaches and returns. The same rhythm can select several

@@ -1,0 +1,2448 @@
+{
+  "Schema": "qualitative-connected-patterns-v1",
+  "Native": {
+    "Elements": 68810,
+    "Carriers": 0,
+    "Locations": 0
+  },
+  "Candidates": [
+    {
+      "Name": "Four-level chevron",
+      "Pitch": 4,
+      "Columns": 6,
+      "Levels": 4,
+      "Junctions": {
+        "Sites": 24,
+        "Strokes": 6,
+        "Endpoints": 0,
+        "Straight": 4,
+        "L": 2,
+        "T": 0,
+        "Y": 0,
+        "X": 0,
+        "Branches": 0,
+        "Isolated": 18,
+        "Contours": 0,
+        "Windings": 1,
+        "Cuts": 0,
+        "Unresolved": 0,
+        "O": 0
+      },
+      "Geometry": {
+        "PeriodX": 24,
+        "PeriodY": 0,
+        "FundamentalPeriodX": 24,
+        "Height": 12,
+        "StrokeCount": 6,
+        "OverlapCount": 0,
+        "CrossingCount": 0,
+        "ContactCount": 6,
+        "VerifiedSymmetryNames": [
+          "translation",
+          "vertical mirror",
+          "half turn",
+          "glide"
+        ],
+        "UnresolvedCount": 0
+      },
+      "Native": {
+        "Preferred": 3,
+        "Passed": 1,
+        "Violations": 0,
+        "Unknown": 0,
+        "Complete": true,
+        "Acceptable": true
+      },
+      "NativeScore": 7,
+      "Refined": {
+        "Preferred": 3,
+        "Passed": 0,
+        "Violations": 1,
+        "Unknown": 0,
+        "Complete": true,
+        "Acceptable": false
+      },
+      "RefinedScore": 6,
+      "Score": 13,
+      "Eligible": false,
+      "NativeCriteria": [
+        {
+          "Name": "Shared chord vocabulary",
+          "Rank": 1
+        },
+        {
+          "Name": "Endpoint junctions",
+          "Rank": 2
+        },
+        {
+          "Name": "Occupied junction signatures",
+          "Rank": 2
+        },
+        {
+          "Name": "Nonidentity graph correspondences",
+          "Rank": 2
+        }
+      ],
+      "RefinedCriteria": [
+        {
+          "Name": "Empty probe fraction",
+          "Rank": 0
+        },
+        {
+          "Name": "Clearance center spread",
+          "Rank": 2
+        },
+        {
+          "Name": "Measured support isometries",
+          "Rank": 2
+        },
+        {
+          "Name": "Probe crowding",
+          "Rank": 2
+        }
+      ],
+      "ProbeField": {
+        "Cells": 408,
+        "Empty": 336,
+        "Single": 42,
+        "Multiple": 30,
+        "Centers": 2,
+        "ClearanceSpread": 0,
+        "MaximumClearance": 13,
+        "Unresolved": 0,
+        "EmptyFraction": 0.8235294117647058,
+        "MultipleFraction": 0.07352941176470588
+      },
+      "Receipts": {
+        "Accepted": 6,
+        "Blocked": 0,
+        "Pending": 0
+      },
+      "StructuralMaps": [
+        {
+          "Name": "Half-cycle glide",
+          "Passed": true
+        }
+      ],
+      "Source": {
+        "Elements": 3689,
+        "Carriers": 0,
+        "Locations": 0
+      },
+      "Observation": {
+        "Elements": 18686,
+        "Carriers": 5,
+        "Locations": 1855
+      }
+    },
+    {
+      "Name": "Coupled counter-moving chevrons",
+      "Pitch": 4,
+      "Columns": 6,
+      "Levels": 4,
+      "Junctions": {
+        "Sites": 24,
+        "Strokes": 12,
+        "Endpoints": 0,
+        "Straight": 8,
+        "L": 4,
+        "T": 0,
+        "Y": 0,
+        "X": 0,
+        "Branches": 0,
+        "Isolated": 12,
+        "Contours": 0,
+        "Windings": 2,
+        "Cuts": 0,
+        "Unresolved": 0,
+        "O": 0
+      },
+      "Geometry": {
+        "PeriodX": 24,
+        "PeriodY": 0,
+        "FundamentalPeriodX": 12,
+        "Height": 12,
+        "StrokeCount": 12,
+        "OverlapCount": 0,
+        "CrossingCount": 2,
+        "ContactCount": 12,
+        "VerifiedSymmetryNames": [
+          "translation",
+          "vertical mirror",
+          "horizontal mirror",
+          "half turn"
+        ],
+        "UnresolvedCount": 0
+      },
+      "Native": {
+        "Preferred": 3,
+        "Passed": 1,
+        "Violations": 0,
+        "Unknown": 0,
+        "Complete": true,
+        "Acceptable": true
+      },
+      "NativeScore": 7,
+      "Refined": {
+        "Preferred": 2,
+        "Passed": 2,
+        "Violations": 0,
+        "Unknown": 0,
+        "Complete": true,
+        "Acceptable": true
+      },
+      "RefinedScore": 6,
+      "Score": 13,
+      "Eligible": true,
+      "NativeCriteria": [
+        {
+          "Name": "Shared chord vocabulary",
+          "Rank": 1
+        },
+        {
+          "Name": "Endpoint junctions",
+          "Rank": 2
+        },
+        {
+          "Name": "Occupied junction signatures",
+          "Rank": 2
+        },
+        {
+          "Name": "Nonidentity graph correspondences",
+          "Rank": 2
+        }
+      ],
+      "RefinedCriteria": [
+        {
+          "Name": "Empty probe fraction",
+          "Rank": 1
+        },
+        {
+          "Name": "Clearance center spread",
+          "Rank": 1
+        },
+        {
+          "Name": "Measured support isometries",
+          "Rank": 2
+        },
+        {
+          "Name": "Probe crowding",
+          "Rank": 2
+        }
+      ],
+      "ProbeField": {
+        "Cells": 408,
+        "Empty": 274,
+        "Single": 64,
+        "Multiple": 70,
+        "Centers": 6,
+        "ClearanceSpread": 2,
+        "MaximumClearance": 7,
+        "Unresolved": 0,
+        "EmptyFraction": 0.6715686274509803,
+        "MultipleFraction": 0.1715686274509804
+      },
+      "Receipts": {
+        "Accepted": 6,
+        "Blocked": 0,
+        "Pending": 0
+      },
+      "StructuralMaps": [
+        {
+          "Name": "Level reflection",
+          "Passed": true
+        },
+        {
+          "Name": "Half-cycle translation",
+          "Passed": true
+        },
+        {
+          "Name": "Half-cycle glide",
+          "Passed": true
+        }
+      ],
+      "Source": {
+        "Elements": 4700,
+        "Carriers": 0,
+        "Locations": 0
+      },
+      "Observation": {
+        "Elements": 23556,
+        "Carriers": 5,
+        "Locations": 2587
+      }
+    },
+    {
+      "Name": "Diamond lattice with upper branches",
+      "Pitch": 4,
+      "Columns": 4,
+      "Levels": 4,
+      "Junctions": {
+        "Sites": 16,
+        "Strokes": 14,
+        "Endpoints": 0,
+        "Straight": 2,
+        "L": 2,
+        "T": 2,
+        "Y": 2,
+        "X": 2,
+        "Branches": 6,
+        "Isolated": 6,
+        "Contours": 2,
+        "Windings": 3,
+        "Cuts": 0,
+        "Unresolved": 0,
+        "O": 2
+      },
+      "Geometry": {
+        "PeriodX": 16,
+        "PeriodY": 0,
+        "FundamentalPeriodX": 8,
+        "Height": 12,
+        "StrokeCount": 14,
+        "OverlapCount": 0,
+        "CrossingCount": 2,
+        "ContactCount": 8,
+        "VerifiedSymmetryNames": [
+          "translation",
+          "vertical mirror"
+        ],
+        "UnresolvedCount": 0
+      },
+      "Native": {
+        "Preferred": 4,
+        "Passed": 0,
+        "Violations": 0,
+        "Unknown": 0,
+        "Complete": true,
+        "Acceptable": true
+      },
+      "NativeScore": 8,
+      "Refined": {
+        "Preferred": 3,
+        "Passed": 1,
+        "Violations": 0,
+        "Unknown": 0,
+        "Complete": true,
+        "Acceptable": true
+      },
+      "RefinedScore": 7,
+      "Score": 15,
+      "Eligible": true,
+      "NativeCriteria": [
+        {
+          "Name": "Shared chord vocabulary",
+          "Rank": 2
+        },
+        {
+          "Name": "Endpoint junctions",
+          "Rank": 2
+        },
+        {
+          "Name": "Occupied junction signatures",
+          "Rank": 2
+        },
+        {
+          "Name": "Nonidentity graph correspondences",
+          "Rank": 2
+        }
+      ],
+      "RefinedCriteria": [
+        {
+          "Name": "Empty probe fraction",
+          "Rank": 2
+        },
+        {
+          "Name": "Clearance center spread",
+          "Rank": 1
+        },
+        {
+          "Name": "Measured support isometries",
+          "Rank": 2
+        },
+        {
+          "Name": "Probe crowding",
+          "Rank": 2
+        }
+      ],
+      "ProbeField": {
+        "Cells": 272,
+        "Empty": 128,
+        "Single": 90,
+        "Multiple": 54,
+        "Centers": 7,
+        "ClearanceSpread": 4,
+        "MaximumClearance": 5,
+        "Unresolved": 0,
+        "EmptyFraction": 0.47058823529411764,
+        "MultipleFraction": 0.19852941176470587
+      },
+      "Receipts": {
+        "Accepted": 4,
+        "Blocked": 0,
+        "Pending": 0
+      },
+      "StructuralMaps": [
+        {
+          "Name": "Half-cycle translation",
+          "Passed": true
+        }
+      ],
+      "Source": {
+        "Elements": 3697,
+        "Carriers": 0,
+        "Locations": 0
+      },
+      "Observation": {
+        "Elements": 24662,
+        "Carriers": 5,
+        "Locations": 3285
+      }
+    },
+    {
+      "Name": "Four-level crossed braces",
+      "Pitch": 4,
+      "Columns": 4,
+      "Levels": 4,
+      "Junctions": {
+        "Sites": 16,
+        "Strokes": 28,
+        "Endpoints": 0,
+        "Straight": 0,
+        "L": 0,
+        "T": 0,
+        "Y": 8,
+        "X": 8,
+        "Branches": 16,
+        "Isolated": 0,
+        "Contours": 9,
+        "Windings": 4,
+        "Cuts": 0,
+        "Unresolved": 0,
+        "O": 9
+      },
+      "Geometry": {
+        "PeriodX": 16,
+        "PeriodY": 0,
+        "FundamentalPeriodX": 4,
+        "Height": 12,
+        "StrokeCount": 28,
+        "OverlapCount": 0,
+        "CrossingCount": 28,
+        "ContactCount": 8,
+        "VerifiedSymmetryNames": [
+          "translation",
+          "vertical mirror",
+          "horizontal mirror",
+          "half turn"
+        ],
+        "UnresolvedCount": 0
+      },
+      "Native": {
+        "Preferred": 4,
+        "Passed": 0,
+        "Violations": 0,
+        "Unknown": 0,
+        "Complete": true,
+        "Acceptable": true
+      },
+      "NativeScore": 8,
+      "Refined": {
+        "Preferred": 2,
+        "Passed": 1,
+        "Violations": 1,
+        "Unknown": 0,
+        "Complete": true,
+        "Acceptable": false
+      },
+      "RefinedScore": 5,
+      "Score": 13,
+      "Eligible": false,
+      "NativeCriteria": [
+        {
+          "Name": "Shared chord vocabulary",
+          "Rank": 2
+        },
+        {
+          "Name": "Endpoint junctions",
+          "Rank": 2
+        },
+        {
+          "Name": "Occupied junction signatures",
+          "Rank": 2
+        },
+        {
+          "Name": "Nonidentity graph correspondences",
+          "Rank": 2
+        }
+      ],
+      "RefinedCriteria": [
+        {
+          "Name": "Empty probe fraction",
+          "Rank": 1
+        },
+        {
+          "Name": "Clearance center spread",
+          "Rank": 2
+        },
+        {
+          "Name": "Measured support isometries",
+          "Rank": 2
+        },
+        {
+          "Name": "Probe crowding",
+          "Rank": 0
+        }
+      ],
+      "ProbeField": {
+        "Cells": 272,
+        "Empty": 80,
+        "Single": 4,
+        "Multiple": 188,
+        "Centers": 8,
+        "ClearanceSpread": 0,
+        "MaximumClearance": 3,
+        "Unresolved": 0,
+        "EmptyFraction": 0.29411764705882354,
+        "MultipleFraction": 0.6911764705882353
+      },
+      "Receipts": {
+        "Accepted": 4,
+        "Blocked": 0,
+        "Pending": 0
+      },
+      "StructuralMaps": [
+        {
+          "Name": "Half-cycle translation",
+          "Passed": true
+        }
+      ],
+      "Source": {
+        "Elements": 4935,
+        "Carriers": 0,
+        "Locations": 0
+      },
+      "Observation": {
+        "Elements": 39729,
+        "Carriers": 5,
+        "Locations": 5755
+      }
+    },
+    {
+      "Name": "Alternating forked ladder",
+      "Pitch": 4,
+      "Columns": 6,
+      "Levels": 4,
+      "Junctions": {
+        "Sites": 24,
+        "Strokes": 15,
+        "Endpoints": 6,
+        "Straight": 3,
+        "L": 0,
+        "T": 6,
+        "Y": 0,
+        "X": 0,
+        "Branches": 6,
+        "Isolated": 9,
+        "Contours": 0,
+        "Windings": 1,
+        "Cuts": 0,
+        "Unresolved": 0,
+        "O": 0
+      },
+      "Geometry": {
+        "PeriodX": 24,
+        "PeriodY": 0,
+        "FundamentalPeriodX": 8,
+        "Height": 12,
+        "StrokeCount": 15,
+        "OverlapCount": 0,
+        "CrossingCount": 0,
+        "ContactCount": 9,
+        "VerifiedSymmetryNames": [
+          "translation",
+          "vertical mirror"
+        ],
+        "UnresolvedCount": 0
+      },
+      "Native": {
+        "Preferred": 2,
+        "Passed": 2,
+        "Violations": 0,
+        "Unknown": 0,
+        "Complete": true,
+        "Acceptable": true
+      },
+      "NativeScore": 6,
+      "Refined": {
+        "Preferred": 4,
+        "Passed": 0,
+        "Violations": 0,
+        "Unknown": 0,
+        "Complete": true,
+        "Acceptable": true
+      },
+      "RefinedScore": 8,
+      "Score": 14,
+      "Eligible": true,
+      "NativeCriteria": [
+        {
+          "Name": "Shared chord vocabulary",
+          "Rank": 2
+        },
+        {
+          "Name": "Endpoint junctions",
+          "Rank": 1
+        },
+        {
+          "Name": "Occupied junction signatures",
+          "Rank": 2
+        },
+        {
+          "Name": "Nonidentity graph correspondences",
+          "Rank": 1
+        }
+      ],
+      "RefinedCriteria": [
+        {
+          "Name": "Empty probe fraction",
+          "Rank": 2
+        },
+        {
+          "Name": "Clearance center spread",
+          "Rank": 2
+        },
+        {
+          "Name": "Measured support isometries",
+          "Rank": 2
+        },
+        {
+          "Name": "Probe crowding",
+          "Rank": 2
+        }
+      ],
+      "ProbeField": {
+        "Cells": 408,
+        "Empty": 240,
+        "Single": 111,
+        "Multiple": 57,
+        "Centers": 6,
+        "ClearanceSpread": 0,
+        "MaximumClearance": 5,
+        "Unresolved": 0,
+        "EmptyFraction": 0.5882352941176471,
+        "MultipleFraction": 0.13970588235294118
+      },
+      "Receipts": {
+        "Accepted": 6,
+        "Blocked": 0,
+        "Pending": 0
+      },
+      "StructuralMaps": [],
+      "Source": {
+        "Elements": 3756,
+        "Carriers": 0,
+        "Locations": 0
+      },
+      "Observation": {
+        "Elements": 31927,
+        "Carriers": 5,
+        "Locations": 4189
+      }
+    },
+    {
+      "Name": "Glide-related diagonal fans",
+      "Pitch": 4,
+      "Columns": 4,
+      "Levels": 4,
+      "Junctions": {
+        "Sites": 16,
+        "Strokes": 12,
+        "Endpoints": 4,
+        "Straight": 4,
+        "L": 0,
+        "T": 4,
+        "Y": 0,
+        "X": 0,
+        "Branches": 4,
+        "Isolated": 4,
+        "Contours": 0,
+        "Windings": 2,
+        "Cuts": 0,
+        "Unresolved": 0,
+        "O": 0
+      },
+      "Geometry": {
+        "PeriodX": 16,
+        "PeriodY": 0,
+        "FundamentalPeriodX": 8,
+        "Height": 12,
+        "StrokeCount": 12,
+        "OverlapCount": 0,
+        "CrossingCount": 4,
+        "ContactCount": 8,
+        "VerifiedSymmetryNames": [
+          "translation",
+          "glide"
+        ],
+        "UnresolvedCount": 0
+      },
+      "Native": {
+        "Preferred": 4,
+        "Passed": 0,
+        "Violations": 0,
+        "Unknown": 0,
+        "Complete": true,
+        "Acceptable": true
+      },
+      "NativeScore": 8,
+      "Refined": {
+        "Preferred": 2,
+        "Passed": 2,
+        "Violations": 0,
+        "Unknown": 0,
+        "Complete": true,
+        "Acceptable": true
+      },
+      "RefinedScore": 6,
+      "Score": 14,
+      "Eligible": true,
+      "NativeCriteria": [
+        {
+          "Name": "Shared chord vocabulary",
+          "Rank": 2
+        },
+        {
+          "Name": "Endpoint junctions",
+          "Rank": 2
+        },
+        {
+          "Name": "Occupied junction signatures",
+          "Rank": 2
+        },
+        {
+          "Name": "Nonidentity graph correspondences",
+          "Rank": 2
+        }
+      ],
+      "RefinedCriteria": [
+        {
+          "Name": "Empty probe fraction",
+          "Rank": 2
+        },
+        {
+          "Name": "Clearance center spread",
+          "Rank": 1
+        },
+        {
+          "Name": "Measured support isometries",
+          "Rank": 2
+        },
+        {
+          "Name": "Probe crowding",
+          "Rank": 1
+        }
+      ],
+      "ProbeField": {
+        "Cells": 272,
+        "Empty": 128,
+        "Single": 80,
+        "Multiple": 64,
+        "Centers": 8,
+        "ClearanceSpread": 4,
+        "MaximumClearance": 5,
+        "Unresolved": 0,
+        "EmptyFraction": 0.47058823529411764,
+        "MultipleFraction": 0.23529411764705882
+      },
+      "Receipts": {
+        "Accepted": 4,
+        "Blocked": 0,
+        "Pending": 0
+      },
+      "StructuralMaps": [
+        {
+          "Name": "Half-cycle translation",
+          "Passed": true
+        },
+        {
+          "Name": "One-column glide",
+          "Passed": true
+        }
+      ],
+      "Source": {
+        "Elements": 3678,
+        "Carriers": 0,
+        "Locations": 0
+      },
+      "Observation": {
+        "Elements": 26622,
+        "Carriers": 5,
+        "Locations": 3809
+      }
+    },
+    {
+      "Name": "Terraced diagonal bays",
+      "Pitch": 4,
+      "Columns": 8,
+      "Levels": 4,
+      "Junctions": {
+        "Sites": 32,
+        "Strokes": 8,
+        "Endpoints": 0,
+        "Straight": 1,
+        "L": 7,
+        "T": 0,
+        "Y": 0,
+        "X": 0,
+        "Branches": 0,
+        "Isolated": 24,
+        "Contours": 0,
+        "Windings": 1,
+        "Cuts": 0,
+        "Unresolved": 0,
+        "O": 0
+      },
+      "Geometry": {
+        "PeriodX": 32,
+        "PeriodY": 0,
+        "FundamentalPeriodX": 32,
+        "Height": 12,
+        "StrokeCount": 8,
+        "OverlapCount": 0,
+        "CrossingCount": 0,
+        "ContactCount": 8,
+        "VerifiedSymmetryNames": [
+          "translation"
+        ],
+        "UnresolvedCount": 0
+      },
+      "Native": {
+        "Preferred": 3,
+        "Passed": 1,
+        "Violations": 0,
+        "Unknown": 0,
+        "Complete": true,
+        "Acceptable": true
+      },
+      "NativeScore": 7,
+      "Refined": {
+        "Preferred": 2,
+        "Passed": 1,
+        "Violations": 1,
+        "Unknown": 0,
+        "Complete": true,
+        "Acceptable": false
+      },
+      "RefinedScore": 5,
+      "Score": 12,
+      "Eligible": false,
+      "NativeCriteria": [
+        {
+          "Name": "Shared chord vocabulary",
+          "Rank": 2
+        },
+        {
+          "Name": "Endpoint junctions",
+          "Rank": 2
+        },
+        {
+          "Name": "Occupied junction signatures",
+          "Rank": 2
+        },
+        {
+          "Name": "Nonidentity graph correspondences",
+          "Rank": 1
+        }
+      ],
+      "RefinedCriteria": [
+        {
+          "Name": "Empty probe fraction",
+          "Rank": 0
+        },
+        {
+          "Name": "Clearance center spread",
+          "Rank": 2
+        },
+        {
+          "Name": "Measured support isometries",
+          "Rank": 1
+        },
+        {
+          "Name": "Probe crowding",
+          "Rank": 2
+        }
+      ],
+      "ProbeField": {
+        "Cells": 544,
+        "Empty": 440,
+        "Single": 64,
+        "Multiple": 40,
+        "Centers": 2,
+        "ClearanceSpread": 0,
+        "MaximumClearance": 13,
+        "Unresolved": 0,
+        "EmptyFraction": 0.8088235294117647,
+        "MultipleFraction": 0.07352941176470588
+      },
+      "Receipts": {
+        "Accepted": 8,
+        "Blocked": 0,
+        "Pending": 0
+      },
+      "StructuralMaps": [],
+      "Source": {
+        "Elements": 4274,
+        "Carriers": 0,
+        "Locations": 0
+      },
+      "Observation": {
+        "Elements": 29288,
+        "Carriers": 5,
+        "Locations": 3445
+      }
+    },
+    {
+      "Name": "Conditionally pruned ladder",
+      "Pitch": 4,
+      "Columns": 6,
+      "Levels": 4,
+      "Junctions": {
+        "Sites": 24,
+        "Strokes": 10,
+        "Endpoints": 2,
+        "Straight": 6,
+        "L": 0,
+        "T": 2,
+        "Y": 0,
+        "X": 0,
+        "Branches": 2,
+        "Isolated": 14,
+        "Contours": 0,
+        "Windings": 1,
+        "Cuts": 0,
+        "Unresolved": 0,
+        "O": 0
+      },
+      "Geometry": {
+        "PeriodX": 24,
+        "PeriodY": 0,
+        "FundamentalPeriodX": 12,
+        "Height": 8,
+        "StrokeCount": 10,
+        "OverlapCount": 0,
+        "CrossingCount": 0,
+        "ContactCount": 8,
+        "VerifiedSymmetryNames": [
+          "translation",
+          "vertical mirror"
+        ],
+        "UnresolvedCount": 0
+      },
+      "Native": {
+        "Preferred": 3,
+        "Passed": 1,
+        "Violations": 0,
+        "Unknown": 0,
+        "Complete": true,
+        "Acceptable": true
+      },
+      "NativeScore": 7,
+      "Refined": {
+        "Preferred": 2,
+        "Passed": 2,
+        "Violations": 0,
+        "Unknown": 0,
+        "Complete": true,
+        "Acceptable": true
+      },
+      "RefinedScore": 6,
+      "Score": 13,
+      "Eligible": true,
+      "NativeCriteria": [
+        {
+          "Name": "Shared chord vocabulary",
+          "Rank": 1
+        },
+        {
+          "Name": "Endpoint junctions",
+          "Rank": 2
+        },
+        {
+          "Name": "Occupied junction signatures",
+          "Rank": 2
+        },
+        {
+          "Name": "Nonidentity graph correspondences",
+          "Rank": 2
+        }
+      ],
+      "RefinedCriteria": [
+        {
+          "Name": "Empty probe fraction",
+          "Rank": 1
+        },
+        {
+          "Name": "Clearance center spread",
+          "Rank": 1
+        },
+        {
+          "Name": "Measured support isometries",
+          "Rank": 2
+        },
+        {
+          "Name": "Probe crowding",
+          "Rank": 2
+        }
+      ],
+      "ProbeField": {
+        "Cells": 408,
+        "Empty": 292,
+        "Single": 72,
+        "Multiple": 44,
+        "Centers": 3,
+        "ClearanceSpread": 2,
+        "MaximumClearance": 7,
+        "Unresolved": 0,
+        "EmptyFraction": 0.7156862745098039,
+        "MultipleFraction": 0.10784313725490197
+      },
+      "Receipts": {
+        "Accepted": 8,
+        "Blocked": 4,
+        "Pending": 0
+      },
+      "StructuralMaps": [
+        {
+          "Name": "Half-cycle translation",
+          "Passed": true
+        }
+      ],
+      "Source": {
+        "Elements": 5736,
+        "Carriers": 0,
+        "Locations": 0
+      },
+      "Observation": {
+        "Elements": 27155,
+        "Carriers": 5,
+        "Locations": 3079
+      }
+    },
+    {
+      "Name": "Four-level chevron \u2014 authored one-phase variation",
+      "Pitch": 4,
+      "Columns": 6,
+      "Levels": 4,
+      "Junctions": {
+        "Sites": 24,
+        "Strokes": 6,
+        "Endpoints": 4,
+        "Straight": 2,
+        "L": 2,
+        "T": 0,
+        "Y": 0,
+        "X": 0,
+        "Branches": 0,
+        "Isolated": 16,
+        "Contours": 0,
+        "Windings": 0,
+        "Cuts": 0,
+        "Unresolved": 0,
+        "O": 0
+      },
+      "Geometry": {
+        "PeriodX": 24,
+        "PeriodY": 0,
+        "FundamentalPeriodX": 24,
+        "Height": 12,
+        "StrokeCount": 6,
+        "OverlapCount": 0,
+        "CrossingCount": 0,
+        "ContactCount": 4,
+        "VerifiedSymmetryNames": [
+          "translation",
+          "half turn"
+        ],
+        "UnresolvedCount": 0
+      },
+      "Native": {
+        "Preferred": 2,
+        "Passed": 2,
+        "Violations": 0,
+        "Unknown": 0,
+        "Complete": true,
+        "Acceptable": true
+      },
+      "NativeScore": 6,
+      "Refined": {
+        "Preferred": 2,
+        "Passed": 1,
+        "Violations": 1,
+        "Unknown": 0,
+        "Complete": true,
+        "Acceptable": false
+      },
+      "RefinedScore": 5,
+      "Score": 11,
+      "Eligible": false,
+      "NativeCriteria": [
+        {
+          "Name": "Shared chord vocabulary",
+          "Rank": 1
+        },
+        {
+          "Name": "Endpoint junctions",
+          "Rank": 2
+        },
+        {
+          "Name": "Occupied junction signatures",
+          "Rank": 2
+        },
+        {
+          "Name": "Nonidentity graph correspondences",
+          "Rank": 1
+        }
+      ],
+      "RefinedCriteria": [
+        {
+          "Name": "Empty probe fraction",
+          "Rank": 1
+        },
+        {
+          "Name": "Clearance center spread",
+          "Rank": 0
+        },
+        {
+          "Name": "Measured support isometries",
+          "Rank": 2
+        },
+        {
+          "Name": "Probe crowding",
+          "Rank": 2
+        }
+      ],
+      "ProbeField": {
+        "Cells": 408,
+        "Empty": 326,
+        "Single": 62,
+        "Multiple": 20,
+        "Centers": 10,
+        "ClearanceSpread": 10,
+        "MaximumClearance": 11,
+        "Unresolved": 0,
+        "EmptyFraction": 0.7990196078431373,
+        "MultipleFraction": 0.049019607843137254
+      },
+      "Receipts": {
+        "Accepted": 6,
+        "Blocked": 0,
+        "Pending": 0
+      },
+      "StructuralMaps": [],
+      "Source": {
+        "Elements": 3255,
+        "Carriers": 0,
+        "Locations": 0
+      },
+      "Observation": {
+        "Elements": 21529,
+        "Carriers": 5,
+        "Locations": 2531
+      }
+    },
+    {
+      "Name": "Coupled counter-moving chevrons \u2014 authored one-phase variation",
+      "Pitch": 4,
+      "Columns": 6,
+      "Levels": 4,
+      "Junctions": {
+        "Sites": 24,
+        "Strokes": 12,
+        "Endpoints": 0,
+        "Straight": 8,
+        "L": 4,
+        "T": 0,
+        "Y": 0,
+        "X": 0,
+        "Branches": 0,
+        "Isolated": 12,
+        "Contours": 0,
+        "Windings": 2,
+        "Cuts": 0,
+        "Unresolved": 0,
+        "O": 0
+      },
+      "Geometry": {
+        "PeriodX": 24,
+        "PeriodY": 0,
+        "FundamentalPeriodX": 12,
+        "Height": 12,
+        "StrokeCount": 12,
+        "OverlapCount": 0,
+        "CrossingCount": 2,
+        "ContactCount": 12,
+        "VerifiedSymmetryNames": [
+          "translation",
+          "vertical mirror",
+          "horizontal mirror",
+          "half turn"
+        ],
+        "UnresolvedCount": 0
+      },
+      "Native": {
+        "Preferred": 3,
+        "Passed": 1,
+        "Violations": 0,
+        "Unknown": 0,
+        "Complete": true,
+        "Acceptable": true
+      },
+      "NativeScore": 7,
+      "Refined": {
+        "Preferred": 2,
+        "Passed": 2,
+        "Violations": 0,
+        "Unknown": 0,
+        "Complete": true,
+        "Acceptable": true
+      },
+      "RefinedScore": 6,
+      "Score": 13,
+      "Eligible": true,
+      "NativeCriteria": [
+        {
+          "Name": "Shared chord vocabulary",
+          "Rank": 1
+        },
+        {
+          "Name": "Endpoint junctions",
+          "Rank": 2
+        },
+        {
+          "Name": "Occupied junction signatures",
+          "Rank": 2
+        },
+        {
+          "Name": "Nonidentity graph correspondences",
+          "Rank": 2
+        }
+      ],
+      "RefinedCriteria": [
+        {
+          "Name": "Empty probe fraction",
+          "Rank": 1
+        },
+        {
+          "Name": "Clearance center spread",
+          "Rank": 1
+        },
+        {
+          "Name": "Measured support isometries",
+          "Rank": 2
+        },
+        {
+          "Name": "Probe crowding",
+          "Rank": 2
+        }
+      ],
+      "ProbeField": {
+        "Cells": 408,
+        "Empty": 274,
+        "Single": 64,
+        "Multiple": 70,
+        "Centers": 6,
+        "ClearanceSpread": 2,
+        "MaximumClearance": 7,
+        "Unresolved": 0,
+        "EmptyFraction": 0.6715686274509803,
+        "MultipleFraction": 0.1715686274509804
+      },
+      "Receipts": {
+        "Accepted": 6,
+        "Blocked": 0,
+        "Pending": 0
+      },
+      "StructuralMaps": [
+        {
+          "Name": "Level reflection",
+          "Passed": true
+        },
+        {
+          "Name": "Half-cycle translation",
+          "Passed": true
+        },
+        {
+          "Name": "Half-cycle glide",
+          "Passed": true
+        }
+      ],
+      "Source": {
+        "Elements": 4700,
+        "Carriers": 0,
+        "Locations": 0
+      },
+      "Observation": {
+        "Elements": 23556,
+        "Carriers": 5,
+        "Locations": 2587
+      }
+    },
+    {
+      "Name": "Diamond lattice with upper branches \u2014 authored one-phase variation",
+      "Pitch": 4,
+      "Columns": 4,
+      "Levels": 4,
+      "Junctions": {
+        "Sites": 16,
+        "Strokes": 14,
+        "Endpoints": 3,
+        "Straight": 1,
+        "L": 5,
+        "T": 1,
+        "Y": 2,
+        "X": 1,
+        "Branches": 4,
+        "Isolated": 3,
+        "Contours": 2,
+        "Windings": 0,
+        "Cuts": 0,
+        "Unresolved": 0,
+        "O": 2
+      },
+      "Geometry": {
+        "PeriodX": 16,
+        "PeriodY": 0,
+        "FundamentalPeriodX": 16,
+        "Height": 12,
+        "StrokeCount": 14,
+        "OverlapCount": 0,
+        "CrossingCount": 1,
+        "ContactCount": 9,
+        "VerifiedSymmetryNames": [
+          "translation"
+        ],
+        "UnresolvedCount": 0
+      },
+      "Native": {
+        "Preferred": 2,
+        "Passed": 2,
+        "Violations": 0,
+        "Unknown": 0,
+        "Complete": true,
+        "Acceptable": true
+      },
+      "NativeScore": 6,
+      "Refined": {
+        "Preferred": 1,
+        "Passed": 3,
+        "Violations": 0,
+        "Unknown": 0,
+        "Complete": true,
+        "Acceptable": true
+      },
+      "RefinedScore": 5,
+      "Score": 11,
+      "Eligible": true,
+      "NativeCriteria": [
+        {
+          "Name": "Shared chord vocabulary",
+          "Rank": 2
+        },
+        {
+          "Name": "Endpoint junctions",
+          "Rank": 2
+        },
+        {
+          "Name": "Occupied junction signatures",
+          "Rank": 1
+        },
+        {
+          "Name": "Nonidentity graph correspondences",
+          "Rank": 1
+        }
+      ],
+      "RefinedCriteria": [
+        {
+          "Name": "Empty probe fraction",
+          "Rank": 2
+        },
+        {
+          "Name": "Clearance center spread",
+          "Rank": 1
+        },
+        {
+          "Name": "Measured support isometries",
+          "Rank": 1
+        },
+        {
+          "Name": "Probe crowding",
+          "Rank": 1
+        }
+      ],
+      "ProbeField": {
+        "Cells": 272,
+        "Empty": 114,
+        "Single": 103,
+        "Multiple": 55,
+        "Centers": 18,
+        "ClearanceSpread": 4,
+        "MaximumClearance": 5,
+        "Unresolved": 0,
+        "EmptyFraction": 0.41911764705882354,
+        "MultipleFraction": 0.20220588235294118
+      },
+      "Receipts": {
+        "Accepted": 4,
+        "Blocked": 0,
+        "Pending": 0
+      },
+      "StructuralMaps": [],
+      "Source": {
+        "Elements": 2843,
+        "Carriers": 0,
+        "Locations": 0
+      },
+      "Observation": {
+        "Elements": 27866,
+        "Carriers": 5,
+        "Locations": 3989
+      }
+    },
+    {
+      "Name": "Four-level crossed braces \u2014 authored one-phase variation",
+      "Pitch": 4,
+      "Columns": 4,
+      "Levels": 4,
+      "Junctions": {
+        "Sites": 16,
+        "Strokes": 28,
+        "Endpoints": 0,
+        "Straight": 0,
+        "L": 0,
+        "T": 0,
+        "Y": 8,
+        "X": 8,
+        "Branches": 16,
+        "Isolated": 0,
+        "Contours": 9,
+        "Windings": 4,
+        "Cuts": 0,
+        "Unresolved": 0,
+        "O": 9
+      },
+      "Geometry": {
+        "PeriodX": 16,
+        "PeriodY": 0,
+        "FundamentalPeriodX": 4,
+        "Height": 12,
+        "StrokeCount": 28,
+        "OverlapCount": 0,
+        "CrossingCount": 28,
+        "ContactCount": 8,
+        "VerifiedSymmetryNames": [
+          "translation",
+          "vertical mirror",
+          "horizontal mirror",
+          "half turn"
+        ],
+        "UnresolvedCount": 0
+      },
+      "Native": {
+        "Preferred": 3,
+        "Passed": 1,
+        "Violations": 0,
+        "Unknown": 0,
+        "Complete": true,
+        "Acceptable": true
+      },
+      "NativeScore": 7,
+      "Refined": {
+        "Preferred": 2,
+        "Passed": 1,
+        "Violations": 1,
+        "Unknown": 0,
+        "Complete": true,
+        "Acceptable": false
+      },
+      "RefinedScore": 5,
+      "Score": 12,
+      "Eligible": false,
+      "NativeCriteria": [
+        {
+          "Name": "Shared chord vocabulary",
+          "Rank": 2
+        },
+        {
+          "Name": "Endpoint junctions",
+          "Rank": 2
+        },
+        {
+          "Name": "Occupied junction signatures",
+          "Rank": 2
+        },
+        {
+          "Name": "Nonidentity graph correspondences",
+          "Rank": 1
+        }
+      ],
+      "RefinedCriteria": [
+        {
+          "Name": "Empty probe fraction",
+          "Rank": 1
+        },
+        {
+          "Name": "Clearance center spread",
+          "Rank": 2
+        },
+        {
+          "Name": "Measured support isometries",
+          "Rank": 2
+        },
+        {
+          "Name": "Probe crowding",
+          "Rank": 0
+        }
+      ],
+      "ProbeField": {
+        "Cells": 272,
+        "Empty": 80,
+        "Single": 4,
+        "Multiple": 188,
+        "Centers": 8,
+        "ClearanceSpread": 0,
+        "MaximumClearance": 3,
+        "Unresolved": 0,
+        "EmptyFraction": 0.29411764705882354,
+        "MultipleFraction": 0.6911764705882353
+      },
+      "Receipts": {
+        "Accepted": 4,
+        "Blocked": 0,
+        "Pending": 0
+      },
+      "StructuralMaps": [],
+      "Source": {
+        "Elements": 4353,
+        "Carriers": 0,
+        "Locations": 0
+      },
+      "Observation": {
+        "Elements": 39147,
+        "Carriers": 5,
+        "Locations": 5755
+      }
+    },
+    {
+      "Name": "Alternating forked ladder \u2014 authored one-phase variation",
+      "Pitch": 4,
+      "Columns": 6,
+      "Levels": 4,
+      "Junctions": {
+        "Sites": 24,
+        "Strokes": 15,
+        "Endpoints": 7,
+        "Straight": 2,
+        "L": 2,
+        "T": 5,
+        "Y": 0,
+        "X": 0,
+        "Branches": 5,
+        "Isolated": 8,
+        "Contours": 0,
+        "Windings": 0,
+        "Cuts": 0,
+        "Unresolved": 0,
+        "O": 0
+      },
+      "Geometry": {
+        "PeriodX": 24,
+        "PeriodY": 0,
+        "FundamentalPeriodX": 24,
+        "Height": 12,
+        "StrokeCount": 15,
+        "OverlapCount": 0,
+        "CrossingCount": 0,
+        "ContactCount": 9,
+        "VerifiedSymmetryNames": [
+          "translation"
+        ],
+        "UnresolvedCount": 0
+      },
+      "Native": {
+        "Preferred": 2,
+        "Passed": 2,
+        "Violations": 0,
+        "Unknown": 0,
+        "Complete": true,
+        "Acceptable": true
+      },
+      "NativeScore": 6,
+      "Refined": {
+        "Preferred": 2,
+        "Passed": 2,
+        "Violations": 0,
+        "Unknown": 0,
+        "Complete": true,
+        "Acceptable": true
+      },
+      "RefinedScore": 6,
+      "Score": 12,
+      "Eligible": true,
+      "NativeCriteria": [
+        {
+          "Name": "Shared chord vocabulary",
+          "Rank": 2
+        },
+        {
+          "Name": "Endpoint junctions",
+          "Rank": 1
+        },
+        {
+          "Name": "Occupied junction signatures",
+          "Rank": 2
+        },
+        {
+          "Name": "Nonidentity graph correspondences",
+          "Rank": 1
+        }
+      ],
+      "RefinedCriteria": [
+        {
+          "Name": "Empty probe fraction",
+          "Rank": 2
+        },
+        {
+          "Name": "Clearance center spread",
+          "Rank": 1
+        },
+        {
+          "Name": "Measured support isometries",
+          "Rank": 1
+        },
+        {
+          "Name": "Probe crowding",
+          "Rank": 2
+        }
+      ],
+      "ProbeField": {
+        "Cells": 408,
+        "Empty": 235,
+        "Single": 116,
+        "Multiple": 57,
+        "Centers": 6,
+        "ClearanceSpread": 4,
+        "MaximumClearance": 7,
+        "Unresolved": 0,
+        "EmptyFraction": 0.5759803921568627,
+        "MultipleFraction": 0.13970588235294118
+      },
+      "Receipts": {
+        "Accepted": 6,
+        "Blocked": 0,
+        "Pending": 0
+      },
+      "StructuralMaps": [],
+      "Source": {
+        "Elements": 3623,
+        "Carriers": 0,
+        "Locations": 0
+      },
+      "Observation": {
+        "Elements": 39500,
+        "Carriers": 5,
+        "Locations": 5593
+      }
+    },
+    {
+      "Name": "Glide-related diagonal fans \u2014 authored one-phase variation",
+      "Pitch": 4,
+      "Columns": 4,
+      "Levels": 4,
+      "Junctions": {
+        "Sites": 16,
+        "Strokes": 12,
+        "Endpoints": 4,
+        "Straight": 4,
+        "L": 0,
+        "T": 4,
+        "Y": 0,
+        "X": 0,
+        "Branches": 4,
+        "Isolated": 4,
+        "Contours": 0,
+        "Windings": 2,
+        "Cuts": 0,
+        "Unresolved": 0,
+        "O": 0
+      },
+      "Geometry": {
+        "PeriodX": 16,
+        "PeriodY": 0,
+        "FundamentalPeriodX": 16,
+        "Height": 12,
+        "StrokeCount": 12,
+        "OverlapCount": 0,
+        "CrossingCount": 4,
+        "ContactCount": 8,
+        "VerifiedSymmetryNames": [
+          "translation"
+        ],
+        "UnresolvedCount": 0
+      },
+      "Native": {
+        "Preferred": 3,
+        "Passed": 1,
+        "Violations": 0,
+        "Unknown": 0,
+        "Complete": true,
+        "Acceptable": true
+      },
+      "NativeScore": 7,
+      "Refined": {
+        "Preferred": 1,
+        "Passed": 3,
+        "Violations": 0,
+        "Unknown": 0,
+        "Complete": true,
+        "Acceptable": true
+      },
+      "RefinedScore": 5,
+      "Score": 12,
+      "Eligible": true,
+      "NativeCriteria": [
+        {
+          "Name": "Shared chord vocabulary",
+          "Rank": 2
+        },
+        {
+          "Name": "Endpoint junctions",
+          "Rank": 2
+        },
+        {
+          "Name": "Occupied junction signatures",
+          "Rank": 2
+        },
+        {
+          "Name": "Nonidentity graph correspondences",
+          "Rank": 1
+        }
+      ],
+      "RefinedCriteria": [
+        {
+          "Name": "Empty probe fraction",
+          "Rank": 2
+        },
+        {
+          "Name": "Clearance center spread",
+          "Rank": 1
+        },
+        {
+          "Name": "Measured support isometries",
+          "Rank": 1
+        },
+        {
+          "Name": "Probe crowding",
+          "Rank": 1
+        }
+      ],
+      "ProbeField": {
+        "Cells": 272,
+        "Empty": 128,
+        "Single": 80,
+        "Multiple": 64,
+        "Centers": 8,
+        "ClearanceSpread": 4,
+        "MaximumClearance": 5,
+        "Unresolved": 0,
+        "EmptyFraction": 0.47058823529411764,
+        "MultipleFraction": 0.23529411764705882
+      },
+      "Receipts": {
+        "Accepted": 4,
+        "Blocked": 0,
+        "Pending": 0
+      },
+      "StructuralMaps": [],
+      "Source": {
+        "Elements": 2894,
+        "Carriers": 0,
+        "Locations": 0
+      },
+      "Observation": {
+        "Elements": 25829,
+        "Carriers": 5,
+        "Locations": 3801
+      }
+    },
+    {
+      "Name": "Terraced diagonal bays \u2014 authored one-phase variation",
+      "Pitch": 4,
+      "Columns": 8,
+      "Levels": 4,
+      "Junctions": {
+        "Sites": 32,
+        "Strokes": 8,
+        "Endpoints": 4,
+        "Straight": 1,
+        "L": 5,
+        "T": 0,
+        "Y": 0,
+        "X": 0,
+        "Branches": 0,
+        "Isolated": 22,
+        "Contours": 0,
+        "Windings": 0,
+        "Cuts": 0,
+        "Unresolved": 0,
+        "O": 0
+      },
+      "Geometry": {
+        "PeriodX": 32,
+        "PeriodY": 0,
+        "FundamentalPeriodX": 32,
+        "Height": 12,
+        "StrokeCount": 8,
+        "OverlapCount": 0,
+        "CrossingCount": 0,
+        "ContactCount": 6,
+        "VerifiedSymmetryNames": [
+          "translation"
+        ],
+        "UnresolvedCount": 0
+      },
+      "Native": {
+        "Preferred": 3,
+        "Passed": 1,
+        "Violations": 0,
+        "Unknown": 0,
+        "Complete": true,
+        "Acceptable": true
+      },
+      "NativeScore": 7,
+      "Refined": {
+        "Preferred": 1,
+        "Passed": 2,
+        "Violations": 1,
+        "Unknown": 0,
+        "Complete": true,
+        "Acceptable": false
+      },
+      "RefinedScore": 4,
+      "Score": 11,
+      "Eligible": false,
+      "NativeCriteria": [
+        {
+          "Name": "Shared chord vocabulary",
+          "Rank": 2
+        },
+        {
+          "Name": "Endpoint junctions",
+          "Rank": 2
+        },
+        {
+          "Name": "Occupied junction signatures",
+          "Rank": 2
+        },
+        {
+          "Name": "Nonidentity graph correspondences",
+          "Rank": 1
+        }
+      ],
+      "RefinedCriteria": [
+        {
+          "Name": "Empty probe fraction",
+          "Rank": 1
+        },
+        {
+          "Name": "Clearance center spread",
+          "Rank": 0
+        },
+        {
+          "Name": "Measured support isometries",
+          "Rank": 1
+        },
+        {
+          "Name": "Probe crowding",
+          "Rank": 2
+        }
+      ],
+      "ProbeField": {
+        "Cells": 544,
+        "Empty": 430,
+        "Single": 84,
+        "Multiple": 30,
+        "Centers": 8,
+        "ClearanceSpread": 10,
+        "MaximumClearance": 13,
+        "Unresolved": 0,
+        "EmptyFraction": 0.7904411764705882,
+        "MultipleFraction": 0.05514705882352941
+      },
+      "Receipts": {
+        "Accepted": 8,
+        "Blocked": 0,
+        "Pending": 0
+      },
+      "StructuralMaps": [],
+      "Source": {
+        "Elements": 4169,
+        "Carriers": 0,
+        "Locations": 0
+      },
+      "Observation": {
+        "Elements": 31781,
+        "Carriers": 5,
+        "Locations": 3945
+      }
+    },
+    {
+      "Name": "Conditionally pruned ladder \u2014 authored one-phase variation",
+      "Pitch": 4,
+      "Columns": 6,
+      "Levels": 4,
+      "Junctions": {
+        "Sites": 24,
+        "Strokes": 10,
+        "Endpoints": 6,
+        "Straight": 4,
+        "L": 0,
+        "T": 2,
+        "Y": 0,
+        "X": 0,
+        "Branches": 2,
+        "Isolated": 12,
+        "Contours": 0,
+        "Windings": 0,
+        "Cuts": 0,
+        "Unresolved": 0,
+        "O": 0
+      },
+      "Geometry": {
+        "PeriodX": 24,
+        "PeriodY": 0,
+        "FundamentalPeriodX": 24,
+        "Height": 8,
+        "StrokeCount": 10,
+        "OverlapCount": 0,
+        "CrossingCount": 0,
+        "ContactCount": 6,
+        "VerifiedSymmetryNames": [
+          "translation",
+          "vertical mirror"
+        ],
+        "UnresolvedCount": 0
+      },
+      "Native": {
+        "Preferred": 1,
+        "Passed": 3,
+        "Violations": 0,
+        "Unknown": 0,
+        "Complete": true,
+        "Acceptable": true
+      },
+      "NativeScore": 5,
+      "Refined": {
+        "Preferred": 2,
+        "Passed": 2,
+        "Violations": 0,
+        "Unknown": 0,
+        "Complete": true,
+        "Acceptable": true
+      },
+      "RefinedScore": 6,
+      "Score": 11,
+      "Eligible": true,
+      "NativeCriteria": [
+        {
+          "Name": "Shared chord vocabulary",
+          "Rank": 1
+        },
+        {
+          "Name": "Endpoint junctions",
+          "Rank": 1
+        },
+        {
+          "Name": "Occupied junction signatures",
+          "Rank": 2
+        },
+        {
+          "Name": "Nonidentity graph correspondences",
+          "Rank": 1
+        }
+      ],
+      "RefinedCriteria": [
+        {
+          "Name": "Empty probe fraction",
+          "Rank": 1
+        },
+        {
+          "Name": "Clearance center spread",
+          "Rank": 1
+        },
+        {
+          "Name": "Measured support isometries",
+          "Rank": 2
+        },
+        {
+          "Name": "Probe crowding",
+          "Rank": 2
+        }
+      ],
+      "ProbeField": {
+        "Cells": 408,
+        "Empty": 282,
+        "Single": 92,
+        "Multiple": 34,
+        "Centers": 4,
+        "ClearanceSpread": 5,
+        "MaximumClearance": 7,
+        "Unresolved": 0,
+        "EmptyFraction": 0.6911764705882353,
+        "MultipleFraction": 0.08333333333333333
+      },
+      "Receipts": {
+        "Accepted": 8,
+        "Blocked": 4,
+        "Pending": 0
+      },
+      "StructuralMaps": [],
+      "Source": {
+        "Elements": 5316,
+        "Carriers": 0,
+        "Locations": 0
+      },
+      "Observation": {
+        "Elements": 29412,
+        "Carriers": 5,
+        "Locations": 3627
+      }
+    }
+  ],
+  "Refinements": [
+    {
+      "Name": "Four-level crossed braces",
+      "Pitch": 8,
+      "Columns": 4,
+      "Levels": 4,
+      "Junctions": {
+        "Sites": 16,
+        "Strokes": 28,
+        "Endpoints": 0,
+        "Straight": 0,
+        "L": 0,
+        "T": 0,
+        "Y": 8,
+        "X": 8,
+        "Branches": 16,
+        "Isolated": 0,
+        "Contours": 9,
+        "Windings": 4,
+        "Cuts": 0,
+        "Unresolved": 0,
+        "O": 9
+      },
+      "Geometry": {
+        "PeriodX": 32,
+        "PeriodY": 0,
+        "FundamentalPeriodX": 8,
+        "Height": 24,
+        "StrokeCount": 28,
+        "OverlapCount": 0,
+        "CrossingCount": 28,
+        "ContactCount": 8,
+        "VerifiedSymmetryNames": [
+          "translation",
+          "vertical mirror",
+          "horizontal mirror",
+          "half turn"
+        ],
+        "UnresolvedCount": 0
+      },
+      "Native": {
+        "Preferred": 4,
+        "Passed": 0,
+        "Violations": 0,
+        "Unknown": 0,
+        "Complete": true,
+        "Acceptable": true
+      },
+      "NativeScore": 8,
+      "Refined": {
+        "Preferred": 2,
+        "Passed": 1,
+        "Violations": 1,
+        "Unknown": 0,
+        "Complete": true,
+        "Acceptable": false
+      },
+      "RefinedScore": 5,
+      "Score": 13,
+      "Eligible": false,
+      "NativeCriteria": [
+        {
+          "Name": "Shared chord vocabulary",
+          "Rank": 2
+        },
+        {
+          "Name": "Endpoint junctions",
+          "Rank": 2
+        },
+        {
+          "Name": "Occupied junction signatures",
+          "Rank": 2
+        },
+        {
+          "Name": "Nonidentity graph correspondences",
+          "Rank": 2
+        }
+      ],
+      "RefinedCriteria": [
+        {
+          "Name": "Empty probe fraction",
+          "Rank": 2
+        },
+        {
+          "Name": "Clearance center spread",
+          "Rank": 1
+        },
+        {
+          "Name": "Measured support isometries",
+          "Rank": 2
+        },
+        {
+          "Name": "Probe crowding",
+          "Rank": 0
+        }
+      ],
+      "ProbeField": {
+        "Cells": 928,
+        "Empty": 360,
+        "Single": 212,
+        "Multiple": 356,
+        "Centers": 16,
+        "ClearanceSpread": 4,
+        "MaximumClearance": 5,
+        "Unresolved": 0,
+        "EmptyFraction": 0.3879310344827586,
+        "MultipleFraction": 0.38362068965517243
+      },
+      "Receipts": {
+        "Accepted": 4,
+        "Blocked": 0,
+        "Pending": 0
+      },
+      "StructuralMaps": [
+        {
+          "Name": "Half-cycle translation",
+          "Passed": true
+        }
+      ],
+      "Source": {
+        "Elements": 4935,
+        "Carriers": 0,
+        "Locations": 0
+      },
+      "Observation": {
+        "Elements": 56885,
+        "Carriers": 5,
+        "Locations": 7115
+      }
+    },
+    {
+      "Name": "Four-level crossed braces",
+      "Pitch": 12,
+      "Columns": 4,
+      "Levels": 4,
+      "Junctions": {
+        "Sites": 16,
+        "Strokes": 28,
+        "Endpoints": 0,
+        "Straight": 0,
+        "L": 0,
+        "T": 0,
+        "Y": 8,
+        "X": 8,
+        "Branches": 16,
+        "Isolated": 0,
+        "Contours": 9,
+        "Windings": 4,
+        "Cuts": 0,
+        "Unresolved": 0,
+        "O": 9
+      },
+      "Geometry": {
+        "PeriodX": 48,
+        "PeriodY": 0,
+        "FundamentalPeriodX": 12,
+        "Height": 36,
+        "StrokeCount": 28,
+        "OverlapCount": 0,
+        "CrossingCount": 28,
+        "ContactCount": 8,
+        "VerifiedSymmetryNames": [
+          "translation",
+          "vertical mirror",
+          "horizontal mirror",
+          "half turn"
+        ],
+        "UnresolvedCount": 0
+      },
+      "Native": {
+        "Preferred": 4,
+        "Passed": 0,
+        "Violations": 0,
+        "Unknown": 0,
+        "Complete": true,
+        "Acceptable": true
+      },
+      "NativeScore": 8,
+      "Refined": {
+        "Preferred": 3,
+        "Passed": 0,
+        "Violations": 1,
+        "Unknown": 0,
+        "Complete": true,
+        "Acceptable": false
+      },
+      "RefinedScore": 6,
+      "Score": 14,
+      "Eligible": false,
+      "NativeCriteria": [
+        {
+          "Name": "Shared chord vocabulary",
+          "Rank": 2
+        },
+        {
+          "Name": "Endpoint junctions",
+          "Rank": 2
+        },
+        {
+          "Name": "Occupied junction signatures",
+          "Rank": 2
+        },
+        {
+          "Name": "Nonidentity graph correspondences",
+          "Rank": 2
+        }
+      ],
+      "RefinedCriteria": [
+        {
+          "Name": "Empty probe fraction",
+          "Rank": 2
+        },
+        {
+          "Name": "Clearance center spread",
+          "Rank": 0
+        },
+        {
+          "Name": "Measured support isometries",
+          "Rank": 2
+        },
+        {
+          "Name": "Probe crowding",
+          "Rank": 2
+        }
+      ],
+      "ProbeField": {
+        "Cells": 1968,
+        "Empty": 944,
+        "Single": 652,
+        "Multiple": 372,
+        "Centers": 40,
+        "ClearanceSpread": 6,
+        "MaximumClearance": 7,
+        "Unresolved": 0,
+        "EmptyFraction": 0.4796747967479675,
+        "MultipleFraction": 0.18902439024390244
+      },
+      "Receipts": {
+        "Accepted": 4,
+        "Blocked": 0,
+        "Pending": 0
+      },
+      "StructuralMaps": [
+        {
+          "Name": "Half-cycle translation",
+          "Passed": true
+        }
+      ],
+      "Source": {
+        "Elements": 4935,
+        "Carriers": 0,
+        "Locations": 0
+      },
+      "Observation": {
+        "Elements": 83481,
+        "Carriers": 5,
+        "Locations": 9147
+      }
+    },
+    {
+      "Name": "Glide-related diagonal fans",
+      "Pitch": 8,
+      "Columns": 4,
+      "Levels": 4,
+      "Junctions": {
+        "Sites": 16,
+        "Strokes": 12,
+        "Endpoints": 4,
+        "Straight": 4,
+        "L": 0,
+        "T": 4,
+        "Y": 0,
+        "X": 0,
+        "Branches": 4,
+        "Isolated": 4,
+        "Contours": 0,
+        "Windings": 2,
+        "Cuts": 0,
+        "Unresolved": 0,
+        "O": 0
+      },
+      "Geometry": {
+        "PeriodX": 32,
+        "PeriodY": 0,
+        "FundamentalPeriodX": 16,
+        "Height": 24,
+        "StrokeCount": 12,
+        "OverlapCount": 0,
+        "CrossingCount": 4,
+        "ContactCount": 8,
+        "VerifiedSymmetryNames": [
+          "translation",
+          "glide"
+        ],
+        "UnresolvedCount": 0
+      },
+      "Native": {
+        "Preferred": 4,
+        "Passed": 0,
+        "Violations": 0,
+        "Unknown": 0,
+        "Complete": true,
+        "Acceptable": true
+      },
+      "NativeScore": 8,
+      "Refined": {
+        "Preferred": 2,
+        "Passed": 1,
+        "Violations": 1,
+        "Unknown": 0,
+        "Complete": true,
+        "Acceptable": false
+      },
+      "RefinedScore": 5,
+      "Score": 13,
+      "Eligible": false,
+      "NativeCriteria": [
+        {
+          "Name": "Shared chord vocabulary",
+          "Rank": 2
+        },
+        {
+          "Name": "Endpoint junctions",
+          "Rank": 2
+        },
+        {
+          "Name": "Occupied junction signatures",
+          "Rank": 2
+        },
+        {
+          "Name": "Nonidentity graph correspondences",
+          "Rank": 2
+        }
+      ],
+      "RefinedCriteria": [
+        {
+          "Name": "Empty probe fraction",
+          "Rank": 1
+        },
+        {
+          "Name": "Clearance center spread",
+          "Rank": 0
+        },
+        {
+          "Name": "Measured support isometries",
+          "Rank": 2
+        },
+        {
+          "Name": "Probe crowding",
+          "Rank": 2
+        }
+      ],
+      "ProbeField": {
+        "Cells": 928,
+        "Empty": 608,
+        "Single": 248,
+        "Multiple": 72,
+        "Centers": 8,
+        "ClearanceSpread": 6,
+        "MaximumClearance": 9,
+        "Unresolved": 0,
+        "EmptyFraction": 0.6551724137931034,
+        "MultipleFraction": 0.07758620689655173
+      },
+      "Receipts": {
+        "Accepted": 4,
+        "Blocked": 0,
+        "Pending": 0
+      },
+      "StructuralMaps": [
+        {
+          "Name": "Half-cycle translation",
+          "Passed": true
+        },
+        {
+          "Name": "One-column glide",
+          "Passed": true
+        }
+      ],
+      "Source": {
+        "Elements": 3678,
+        "Carriers": 0,
+        "Locations": 0
+      },
+      "Observation": {
+        "Elements": 43358,
+        "Carriers": 5,
+        "Locations": 5169
+      }
+    }
+  ],
+  "Ranked": [
+    "Diamond lattice with upper branches",
+    "Alternating forked ladder",
+    "Glide-related diagonal fans",
+    "Conditionally pruned ladder",
+    "Coupled counter-moving chevrons",
+    "Coupled counter-moving chevrons \u2014 authored one-phase variation"
+  ],
+  "Unknown": {
+    "Name": "Conditionally pruned ladder \u2014 unknown publication",
+    "Native": {
+      "Preferred": 0,
+      "Passed": 0,
+      "Violations": 0,
+      "Unknown": 4,
+      "Complete": false,
+      "Acceptable": false
+    },
+    "Score": null,
+    "SourceObligations": 1
+  },
+  "Preferences": {
+    "NativeMaximum": 8,
+    "RefinedMaximum": 8,
+    "Aggregate": "2 per preferred; 1 per acceptable; 0 per known violation; unavailable for unknowns",
+    "Eligibility": "Complete reads, zero measured retracing, both profiles acceptable; crossings allowed"
+  },
+  "Notes": [
+    "Generation and native decisions contain no numeric carriers or locations; calibration and probe fitness are optional observations.",
+    "Coarse consumers inspect advertised publication contracts, not supplier recurrence or finer state.",
+    "Native graph correspondence is separate from measured isometry and from causal phase-law symmetry.",
+    "Probe occupancy is not exact area. Multiple support near an ordinary join is not itself retracing.",
+    "O counts zero-return graph-cycle witnesses, not bounded white regions or geometric circles.",
+    "Candidate scores are authored preferences, not empirically validated human-beauty predictions."
+  ]
+}
