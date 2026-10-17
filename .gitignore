@@ -366,3 +366,7 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 /Core4/Experimental/RelationFold.cs
+
+# Private local engineering integration; excluded from public Gojo.
+/experiments/ScratchMill/
+/Gojo.ScratchMill.slnx

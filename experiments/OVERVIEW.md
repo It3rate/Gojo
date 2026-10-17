@@ -533,8 +533,7 @@ contracts; the Phototaxis browser/runner and the ConnectionAssembly and
 NegotiatedPorts viewers expose their parent studies; the two resource audits
 are included with their studies above. [ResearchArchive](ResearchArchive/README.md)
 preserves results, including the compressed large forager record.
-[ScratchMill](ScratchMill/UPSTREAM.md) is an earlier imported engineering/conversion
-project, not a reported learning comparison in this sequence.
+Private engineering integrations are excluded from this public experiment index.
 
 For a conceptual synthesis of the sensing and control work, see
 [Primitive numbers and control](PRIMITIVE-NUMBER-ANALYSIS.md).
