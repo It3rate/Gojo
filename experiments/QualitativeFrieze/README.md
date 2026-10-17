@@ -7,6 +7,22 @@ or numeric locations. The authored gallery below is the generation checkpoint;
 a following bounded feedback experiment adds explicit legality and preference
 reads without changing the kernel.
 
+The [connected wallpaper fields](../../Gojo/docs/GojoPatternMachineExperiment.md)
+add declared motif ports, checked neighbour periods and a derived shared-site
+view of actual machine output. Six 5×4 examples include continuous keys,
+diamonds, crossing/junction contrasts, hexagonal rings and six-point stars.
+Native word substitution supplies an order-six action; the 60° screen basis
+is an optional measured interpretation.
+
+```powershell
+dotnet run --project experiments/QualitativeFrieze -c Release -- --wallpaper-field
+```
+
+Open the [field gallery](results/wallpaper-field/gallery.html),
+[figure](results/wallpaper-field/gallery.svg),
+[preview](results/wallpaper-field/gallery-preview.png)
+and [diagnostics](results/wallpaper-field/diagnostics.json).
+
 The [composed wallpaper checkpoint](../../Gojo/docs/GojoPatternMachineExperiment.md)
 connects motif completion to an individually acknowledged cell passage and
 admits the next motif only after accepted placement. Four live 4×3 patches

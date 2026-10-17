@@ -15,6 +15,7 @@ if (args.Contains("--rhythm-friezes")) return RhythmFriezeExperiment.Run(args.Wh
 if (args.Contains("--connected")) return ConnectedPatternExperiment.Run(args.Where(argument => argument != "--connected").ToArray());
 if (args.Contains("--machines")) return PatternMachineExperiment.Run(args.Where(argument => argument != "--machines").ToArray());
 if (args.Contains("--wallpaper-machine")) return WallpaperMachineExperiment.Run(args.Where(argument => argument != "--wallpaper-machine").ToArray());
+if (args.Contains("--wallpaper-field")) return ConnectedWallpaperExperiment.Run(args.Where(argument => argument != "--wallpaper-field").ToArray());
 if (args.Contains("--wallpaper-flow"))
 {
     var study = new WallpaperFlowStudy();

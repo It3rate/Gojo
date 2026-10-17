@@ -1,5 +1,113 @@
 # Operating qualitative pattern machines
 
+## Connected wallpaper fields checkpoint, 2026-10-17
+
+`--wallpaper-field` expands the acknowledged motif/placement machine into
+continuous two-dimensional fields. Ordered boundary roles are part of each
+motif definition. Actual completed motifs publish those roles through their
+accepted drawing receipts. Declared local closures and neighbour connections
+then produce an explicitly connected graph view of the generated ink.
+
+```powershell
+dotnet run --project experiments/QualitativeFrieze -c Release -- --wallpaper-field
+```
+
+See the [interactive field gallery](../../experiments/QualitativeFrieze/results/wallpaper-field/gallery.html),
+[figure](../../experiments/QualitativeFrieze/results/wallpaper-field/gallery.svg),
+[alternative bases](../../experiments/QualitativeFrieze/results/wallpaper-field/alternate.svg)
+and [diagnostics](../../experiments/QualitativeFrieze/results/wallpaper-field/diagnostics.json).
+Controls expose motif ownership, declared junctions, accepted-instruction
+progress, opposite ink and alternative affine interpretations.
+
+The source separates a motif, its construction and its lattice connections.
+This follows a useful aspect of the referenced
+[hybrid-girih paper](https://journals.sagepub.com/doi/10.1177/14780771241279347):
+template construction, symmetry completion and replication network are
+different stages, with corridors connecting neighbouring decorations. The
+current experiment explores these distinctions rather than reproducing the
+paper's complete geometric construction or parameter search.
+
+```text
+port definition = role -> (cursor-port -> actual action)       [before]
+                | role -> (actual action -> cursor-port)       [after]
+publication = (actual cell -> actual port definition) ->
+              (actual motif completion -> (accepted effect -> cursor binding))
+connection = ((from cell -> to cell) -> declared period word) ->
+             Closed(outgoing role -> incoming role)
+join = (actual site -> actual site) -> checked connection witness
+```
+
+A port is published only after an actual complete accepted cycle. Its selected
+action and before/after cursor binding remain attached to that receipt. An
+interior connection checks both the displacement between actual cell anchors
+and equality of its declared boundary endpoints in the global formal frame.
+The period relates anchors; paired boundary ports occupy the same global
+position. A foreign action, wrong period or missing completed motif cannot
+supply the connection. Finite outer frontiers remain separate from failed
+interior promises.
+
+`QualitativeGraphJoin` applies only supplied compatible join declarations.
+Without a declaration, even a path's exact formal return retains its separate
+runtime endpoint. Its quotient view retains every original site, stroke and
+cause through a many-to-one site correspondence and a one-to-one stroke
+correspondence. Exact class membership and unchanged chord participation are
+checked. This is a post-run observation; it does not rewrite drawing history or
+add material/tension routes inside the running machine. A later experiment can
+connect the derived junction surfaces to an explicit flow or feedback process.
+
+Six live 5×4 fields exercise these mechanisms:
+
+| Field | Construction and connection |
+| --- | --- |
+| Interlocking key mesh | Open key paths continue across columns; north/south corner roles connect rows. |
+| Touching diamonds | Simultaneous two-axis chords close locally and join opposite corner roles. |
+| Diagonal weave | Continuous diagonals join at cell corners; interior crossings have no shared site. |
+| Diagonal junction mesh | The same geometric coverage gains split midpoint sites and explicit local junctions. |
+| Six-turn corridor rings | Six compiled word directions form rings; opposite radial roles join across three neighbour directions. |
+| Six-turn star corridors | Paired sides pass through shared inward landmarks before reaching the next outer tip. |
+
+The weave and junction mesh expose different native incidence despite matching
+line coverage. Ring and star decoration also preserve the same connection
+grammar while introducing different path detail. Reported contours are a
+selected finite cycle basis, not an exhaustive count of white regions.
+
+The non-right-angle extension is a native word substitution:
+
+```text
+R(u) = v                 R(-u) = -v
+R(v) = v-u               R(-v) = u-v
+R^3(u) = -u              R^6(u) = u
+```
+
+`QualitativeSixfoldWords` retains actual substitution, cancellation and inverse
+receipts for both generators and the derived third direction. Compiling those
+words to existing acknowledged drawing actions preserves their derivations.
+It does not add a sixfold single-direction actuator. Star sides from `4u`
+through the inward landmark `u+v` to `4v` are the repeated-participation words
+`v-3u` and `3v-u`; the notation abbreviates actual repeated unmeasured moves.
+
+A separate renderer supplies an equal-reach 60° basis for the ring/star view.
+The Gram read `(xx,xy,yy)=(2,1,2)` preserves the actual six-turn action, whereas
+the square Gram read `(1,0,1)` does not. Their positive determinants and
+transformed generator products are computed independently of the native order
+six claim. Changing the display basis preserves incidence while changing
+Euclidean geometry. All six native sources and execution histories have zero
+numeric carriers/locations.
+
+The 36 focused cases check explicit joins versus coordinate equality, exact
+classes and stroke preservation, wrong periods/ports, incomplete or foreign
+motif receipts, frontier handling, crossing versus junction, formal sixfold
+order and inverse laws, wrong-sign nonclosure, compiled execution, radial
+landmarks and optional metric compatibility. Full wallpaper-group
+certification, generic live word-orientation actions and neighbour-driven
+adaptation remain further experiments.
+
+All six runs complete their 20 motifs: 740 actual strokes and 352 accepted join
+declarations in total, with zero pending failures. Every one of the 1,356
+imported packets is released exactly once; active and retained ledgers are
+empty. The final solution check passes 3,412 tests across its 12 included test
+projects. Browser checks exercise all gallery controls without page errors.
+
 ## Composed wallpaper checkpoint, 2026-10-17
 
 The `--wallpaper-machine` experiment connects a reusable motif controller to a
