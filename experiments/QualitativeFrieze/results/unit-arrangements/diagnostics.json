@@ -1,0 +1,74 @@
+{
+  "Schema": "gojo-unit-arrangements-v1",
+  "NativeNumericElements": 0,
+  "Units": 59,
+  "HistoricalAndCurrentPacketAccountsChecked": 128,
+  "AllExecutionsAccounted": true,
+  "ImportedPackets": 616,
+  "Cases": [
+    {
+      "Id": "A01",
+      "Name": "Half-drop diamond units",
+      "Units": 12,
+      "Templates": 1,
+      "Replaced": 0,
+      "Aligned": 0,
+      "Held": 0,
+      "StaleTemplateLandmarks": 0
+    },
+    {
+      "Id": "A02",
+      "Name": "Neighbours negotiate a mirror",
+      "Units": 10,
+      "Templates": 0,
+      "Replaced": 4,
+      "Aligned": 6,
+      "Held": 1,
+      "StaleTemplateLandmarks": 0
+    },
+    {
+      "Id": "A03",
+      "Name": "A scaffold becomes another template",
+      "Units": 8,
+      "Templates": 2,
+      "Replaced": 0,
+      "Aligned": 0,
+      "Held": 0,
+      "StaleTemplateLandmarks": 0
+    },
+    {
+      "Id": "A04",
+      "Name": "Diamond sides elaborate into eight tips",
+      "Units": 6,
+      "Templates": 1,
+      "Replaced": 6,
+      "Aligned": 0,
+      "Held": 0,
+      "StaleTemplateLandmarks": 0
+    }
+  ],
+  "Quilt": {
+    "IsComplete": true,
+    "Faces": 8,
+    "TriangleSelections": 8,
+    "FourEdgeSelectionsBefore": 0,
+    "Removed": 2,
+    "AfterComplete": true,
+    "AfterFaces": 6,
+    "FourEdgeSelectionsAfter": 2,
+    "RemainingComplement": 4
+  },
+  "Crossings": {
+    "IndependentContours": 0,
+    "JoinedX": 1,
+    "AcceptedCentreJoins": 3
+  },
+  "Limits": [
+    "Finite authored laws; no learned policy or global harmony optimizer.",
+    "Requests and held seam demand are structural signals, not calibrated Carrier.Tension.",
+    "Recursive landmark placements are captured dependencies with stale detection; later revisions do not silently move existing dependants.",
+    "Supplied cellular embedding, not discovery of planar faces from an arbitrary drawing. Three edges do not establish metric triangle geometry.",
+    "Connection withdrawal changes a derived participation view, not prior material delivery or original ink history.",
+    "Bridge placement uses optional screen geometry solely for rendering; no projected crossing creates a native site."
+  ]
+}

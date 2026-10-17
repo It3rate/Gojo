@@ -13,6 +13,8 @@
     <File Path="Gojo/docs/GojoRefinementComputeComparison.md" />
     <File Path="Gojo/docs/GojoConditionalTemporalMechanics.md" />
     <File Path="Gojo/docs/GojoQualitativeFriezeExperiment.md" />
+    <File Path="Gojo/docs/GojoPrimitiveFlowExperiment.md" />
+    <File Path="Gojo/docs/GojoUnitArrangementExperiment.md" />
     <File Path="Gojo/docs/GojoFriezeLearningExperiment.md" />
     <File Path="Gojo/docs/GojoPatternShapingExperiment.md" />
     <File Path="Gojo/docs/GojoPatternLayerExperiment.md" />

@@ -207,3 +207,8 @@ and connect the selected stroke structure to an explicit occupied/complementary
 field. That would make the historical scaffold/selection/field distinction
 operational at another layer without teaching the kernel a class for every
 pattern name.
+
+The subsequent [unit arrangement checkpoint](GojoUnitArrangementExperiment.md)
+now exercises published landmarks, local mirror negotiation, captured template
+reuse, coarse/fine side correspondence and explicit chamber questions. Automatic
+field extraction and shared-edge ownership remain separate open work.
