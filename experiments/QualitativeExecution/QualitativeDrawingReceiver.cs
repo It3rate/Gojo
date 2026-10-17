@@ -15,6 +15,8 @@ public sealed class QualitativeDrawingReceiver
     // reset = (anchor-port -> cursor-port) -> Closed()
     // reanchor = (cursor-port -> anchor-port) -> Closed()
     // mirror = orientation-port -> total direction correspondence
+    // direction-action-port = orientation-port -> actual frame opposite pairs
+    // direction-action = direction-action-port -> total opposite-preserving map
     // clause = selected-variables -> actual action pattern
     // Surface = (receiver -> frame.Surface) -> (ports -> clauses)
     // state = (Surface -> (source -> event)) ->
@@ -35,6 +37,7 @@ public sealed class QualitativeDrawingReceiver
     public Relation CursorPort { get; }
     public Relation AnchorPort { get; }
     public Relation OrientationPort { get; }
+    public Relation DirectionActionPort { get; }
     public Relation StrokePort { get; }
     public Relation Clauses { get; }
     public Relation Surface { get; }
@@ -66,6 +69,7 @@ public sealed class QualitativeDrawingReceiver
         AnchorPort = new Relation(Receiver, new Relation(new Placeholder(), new Placeholder()));
         var directions = S(Frame.Right, Frame.Left, Frame.Up, Frame.Down);
         OrientationPort = new Relation(Receiver, new Relation(directions, directions));
+        DirectionActionPort = new Relation(OrientationPort, Frame.Opposites);
         StrokePort = new Relation(CursorPort, new Relation(new Placeholder(), new Placeholder()));
         movementRoute = new Relation(CursorPort, CursorPort);
         IdentityOrientation = S(new Relation(Frame.Right, Frame.Right), new Relation(Frame.Left, Frame.Left),
@@ -79,9 +83,10 @@ public sealed class QualitativeDrawingReceiver
         var word = new Placeholder(); var map = new Placeholder();
         Clauses = S(new Relation(S(word), new Relation(movementRoute, new Relation(word, StrokePort))),
             new Relation(S(word), new Relation(movementRoute, new Relation(word, noStroke))),
-            new Relation(S(), reset), new Relation(S(), anchor), new Relation(S(map), new Relation(OrientationPort, map)));
+            new Relation(S(), reset), new Relation(S(), anchor), new Relation(S(map), new Relation(OrientationPort, map)),
+            new Relation(S(map), new Relation(DirectionActionPort, map)));
         Surface = new Relation(new Relation(Receiver, Frame.Surface),
-            new Relation(S(CursorPort, AnchorPort, OrientationPort, StrokePort), Clauses));
+            new Relation(S(CursorPort, AnchorPort, OrientationPort, StrokePort, DirectionActionPort), Clauses));
         State = Initial(initialEvent ?? new Placeholder(), initialSite);
     }
 
@@ -94,12 +99,23 @@ public sealed class QualitativeDrawingReceiver
     /// output orientation. It does not reflect existing sites or stroke history.</summary>
     public Relation Mirror(Relation directionMap) => new(OrientationPort, directionMap);
 
+    /// <summary>Composes a total, opposite-preserving direction correspondence
+    /// with future output. Axis exchange is permitted; existing sites and
+    /// strokes keep their original frame and history.</summary>
+    public Relation DirectionAction(Relation directionMap) => new(DirectionActionPort, directionMap);
+
     public bool TryReadDraw(IElement action, out Relation chord) => ReadMove(action, StrokePort, out chord);
     public bool TryReadJump(IElement action, out Relation chord) => ReadMove(action, noStroke, out chord);
     public bool TryReadMirror(IElement action, out Relation directionMap)
     {
         directionMap = null!;
         if (action is not Relation { Right: Relation map } row || !ReferenceEquals(row.Left, OrientationPort)) return false;
+        directionMap = map; return true;
+    }
+    public bool TryReadDirectionAction(IElement action, out Relation directionMap)
+    {
+        directionMap = null!;
+        if (action is not Relation { Right: Relation map } row || !ReferenceEquals(row.Left, DirectionActionPort)) return false;
         directionMap = map; return true;
     }
     public bool IsReset(IElement action) => ReferenceEquals(action, reset);
@@ -161,9 +177,15 @@ public sealed class QualitativeDrawingReceiver
         else if (IsAnchor(action)) nextAnchor = cursor;
         else if (TryReadMirror(action, out var map))
         {
-            if (!ValidOrientation(map)) { pending = S(new Relation(action, Frame.Opposites)); return Receipt(); }
+            if (!ValidMirror(map)) { pending = S(new Relation(action, Frame.Opposites)); return Receipt(); }
             nextOrientation = Compose(orientation, map);
             projection = new Relation(new Relation(orientation, map), nextOrientation);
+        }
+        else if (TryReadDirectionAction(action, out map))
+        {
+            if (!TryDirectionMap(map, out var pairs)) { pending = S(new Relation(action, Frame.Opposites)); return Receipt(); }
+            nextOrientation = Compose(orientation, map);
+            projection = new Relation(new Relation(orientation, map), new Relation(nextOrientation, pairs));
         }
         else { blocked = S(offer); return Receipt(); }
         var proof = new Relation(action, new Relation(clauseRead, new Relation(projection, positionRead)));
@@ -259,9 +281,17 @@ public sealed class QualitativeDrawingReceiver
             { if (!ReferenceEquals(next, cursor) || !ReferenceEquals(nextMark, cursor) || !ReferenceEquals(orientation, nextOrientation) || !Closed(projection) || E(projection).Length != 0) return false; }
             else if (TryReadMirror(action, out var map))
             {
-                if (!ValidOrientation(map) || !ReferenceEquals(next, cursor) || !ReferenceEquals(nextMark, mark) ||
+                if (!ValidMirror(map) || !ReferenceEquals(next, cursor) || !ReferenceEquals(nextMark, mark) ||
                     projection.Left is not Relation sources || !ReferenceEquals(sources.Left, orientation) || !ReferenceEquals(sources.Right, map) ||
                     !ReferenceEquals(projection.Right, nextOrientation) || !OrientationEqual(Compose(orientation, map), nextOrientation)) return false;
+            }
+            else if (TryReadDirectionAction(action, out map))
+            {
+                if (!TryDirectionMap(map, out var pairs) || !ReferenceEquals(next, cursor) || !ReferenceEquals(nextMark, mark) ||
+                    projection.Left is not Relation sources || !ReferenceEquals(sources.Left, orientation) || !ReferenceEquals(sources.Right, map) ||
+                    projection.Right is not Relation { Left: Relation result, Right: Relation correspondence } ||
+                    !ReferenceEquals(result, nextOrientation) || !OrientationEqual(Compose(orientation, map), nextOrientation) ||
+                    !SameDirectionPairs(correspondence, pairs)) return false;
             }
             else return false;
         }
@@ -315,14 +345,40 @@ public sealed class QualitativeDrawingReceiver
     private Relation Compose(Relation before, Relation incoming) => S(E(before).Cast<Relation>().Select(row =>
         (IElement)new Relation(row.Left, E(incoming).Cast<Relation>().Single(next => ReferenceEquals(next.Left, row.Right)).Right)).ToArray());
 
-    private bool ValidOrientation(Relation map)
+    private bool ValidOrientation(Relation map) => TryDirectionMap(map, out _);
+
+    private bool TryDirectionMap(Relation map, out Relation correspondence)
     {
+        correspondence = null!;
         if (!Closed(map) || E(map).Length != 4 || E(map).Any(item => item is not Relation)) return false;
         var rows = E(map).Cast<Relation>().ToArray(); var directions = new IElement[] { Frame.Right, Frame.Left, Frame.Up, Frame.Down };
         if (!Unique(rows.Select(row => row.Left).ToArray()) || !Unique(rows.Select(row => row.Right).ToArray()) ||
             rows.Any(row => !directions.Any(direction => ReferenceEquals(direction, row.Left)) || !directions.Any(direction => ReferenceEquals(direction, row.Right)))) return false;
+        if (!Closed(Frame.Opposites) || E(Frame.Opposites).Length != directions.Length ||
+            E(Frame.Opposites).Any(item => item is not Relation)) return false;
+        var pairs = E(Frame.Opposites).Cast<Relation>().ToArray();
+        if (!Unique(pairs.Select(pair => pair.Left).ToArray()) || !Unique(pairs.Select(pair => pair.Right).ToArray()) ||
+            pairs.Any(pair => ReferenceEquals(pair.Left, pair.Right) ||
+                !directions.Any(direction => ReferenceEquals(direction, pair.Left)) ||
+                !directions.Any(direction => ReferenceEquals(direction, pair.Right)) ||
+                !pairs.Any(reverse => ReferenceEquals(reverse.Left, pair.Right) && ReferenceEquals(reverse.Right, pair.Left)))) return false;
+        var evidence = new List<IElement>();
+        foreach (var pair in pairs)
+        {
+            var first = rows.Single(row => ReferenceEquals(row.Left, pair.Left));
+            var second = rows.Single(row => ReferenceEquals(row.Left, pair.Right));
+            var target = pairs.SingleOrDefault(other => ReferenceEquals(other.Left, first.Right) && ReferenceEquals(other.Right, second.Right));
+            if (target is null) return false;
+            evidence.Add(new Relation(new Relation(pair, target), new Relation(first, second)));
+        }
+        correspondence = S(evidence.ToArray()); return true;
+    }
+
+    private bool ValidMirror(Relation map)
+    {
+        if (!ValidOrientation(map)) return false;
         var reach = new Placeholder();
-        foreach (var row in rows)
+        foreach (var row in E(map).Cast<Relation>())
         {
             Frame.Direction(QualitativeMotionFrame.Move(row.Left, reach), out var source, out _, out _);
             Frame.Direction(QualitativeMotionFrame.Move(row.Right, reach), out var target, out _, out _);
@@ -330,6 +386,11 @@ public sealed class QualitativeDrawingReceiver
         }
         return true;
     }
+    private static bool SameDirectionPairs(Relation actual, Relation expected) => Closed(actual) &&
+        E(actual).Length == E(expected).Length && E(actual).Zip(E(expected)).All(pair =>
+            pair.First is Relation { Left: Relation a, Right: Relation b } && pair.Second is Relation { Left: Relation x, Right: Relation y } &&
+            ReferenceEquals(a.Left, x.Left) && ReferenceEquals(a.Right, x.Right) &&
+            ReferenceEquals(b.Left, y.Left) && ReferenceEquals(b.Right, y.Right));
     private static bool OrientationEqual(Relation a, Relation b) => E(a).Length == E(b).Length && E(a).Cast<Relation>().All(row =>
         E(b).OfType<Relation>().Any(other => ReferenceEquals(other.Left, row.Left) && ReferenceEquals(other.Right, row.Right)));
     private bool ValidWord(Relation word) => Closed(word) && E(word).All(item => item is Relation move && Frame.Direction(move, out _, out _, out _));
@@ -342,7 +403,7 @@ public sealed class QualitativeDrawingReceiver
     }
     private Relation? ReadClause(IElement action)
     {
-        var index = TryReadDraw(action, out _) ? 0 : TryReadJump(action, out _) ? 1 : IsReset(action) ? 2 : IsAnchor(action) ? 3 : TryReadMirror(action, out _) ? 4 : -1;
+        var index = TryReadDraw(action, out _) ? 0 : TryReadJump(action, out _) ? 1 : IsReset(action) ? 2 : IsAnchor(action) ? 3 : TryReadMirror(action, out _) ? 4 : TryReadDirectionAction(action, out _) ? 5 : -1;
         return index < 0 ? null : (Relation)E(Clauses)[index];
     }
     private bool ValidClauseRead(Relation action, Relation read)

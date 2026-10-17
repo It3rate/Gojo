@@ -1,0 +1,820 @@
+{
+  "Drives": 16,
+  "Scope": "Operating uncalibrated packet machines; optional equal-pitch display; no measured input or continuous carrier tension.",
+  "Schedule": "One explicit drive imports packets; modules settle in exposed feed-forward order; movement responses combine into one chord; ordered controls act after that sample.",
+  "Machines": [
+    {
+      "Name": "Threshold quarter-turn hooks",
+      "DefinitionElements": 548,
+      "NativeElements": 19489,
+      "NativeCarriers": 0,
+      "Strokes": 16,
+      "Jumps": 8,
+      "Imported": 16,
+      "Active": 0,
+      "Retained": 0,
+      "Released": 16,
+      "Pending": 0,
+      "Events": [
+        {
+          "Drive": 1,
+          "Muscle": "hook strokes",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 1,
+          "Muscle": "turn on completed hook",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 2,
+          "Muscle": "hook strokes",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 2,
+          "Muscle": "turn on completed hook",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 2,
+          "Response": "reset anchor \u2192 apply direction correspondence"
+        },
+        {
+          "Drive": 3,
+          "Muscle": "hook strokes",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 3,
+          "Muscle": "turn on completed hook",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 4,
+          "Muscle": "hook strokes",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 4,
+          "Muscle": "turn on completed hook",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 2,
+          "Response": "reset anchor \u2192 apply direction correspondence"
+        },
+        {
+          "Drive": 5,
+          "Muscle": "hook strokes",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 5,
+          "Muscle": "turn on completed hook",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 6,
+          "Muscle": "hook strokes",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 6,
+          "Muscle": "turn on completed hook",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 2,
+          "Response": "reset anchor \u2192 apply direction correspondence"
+        },
+        {
+          "Drive": 7,
+          "Muscle": "hook strokes",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 7,
+          "Muscle": "turn on completed hook",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 8,
+          "Muscle": "hook strokes",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 8,
+          "Muscle": "turn on completed hook",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 2,
+          "Response": "reset anchor \u2192 apply direction correspondence"
+        },
+        {
+          "Drive": 9,
+          "Muscle": "hook strokes",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 9,
+          "Muscle": "turn on completed hook",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 10,
+          "Muscle": "hook strokes",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 10,
+          "Muscle": "turn on completed hook",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 2,
+          "Response": "reset anchor \u2192 apply direction correspondence"
+        },
+        {
+          "Drive": 11,
+          "Muscle": "hook strokes",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 11,
+          "Muscle": "turn on completed hook",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 12,
+          "Muscle": "hook strokes",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 12,
+          "Muscle": "turn on completed hook",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 2,
+          "Response": "reset anchor \u2192 apply direction correspondence"
+        },
+        {
+          "Drive": 13,
+          "Muscle": "hook strokes",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 13,
+          "Muscle": "turn on completed hook",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 14,
+          "Muscle": "hook strokes",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 14,
+          "Muscle": "turn on completed hook",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 2,
+          "Response": "reset anchor \u2192 apply direction correspondence"
+        },
+        {
+          "Drive": 15,
+          "Muscle": "hook strokes",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 15,
+          "Muscle": "turn on completed hook",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 16,
+          "Muscle": "hook strokes",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 16,
+          "Muscle": "turn on completed hook",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 2,
+          "Response": "reset anchor \u2192 apply direction correspondence"
+        }
+      ]
+    },
+    {
+      "Name": "Threshold glide staples",
+      "DefinitionElements": 612,
+      "NativeElements": 18839,
+      "NativeCarriers": 0,
+      "Strokes": 12,
+      "Jumps": 8,
+      "Imported": 16,
+      "Active": 0,
+      "Retained": 0,
+      "Released": 16,
+      "Pending": 0,
+      "Events": [
+        {
+          "Drive": 1,
+          "Muscle": "staple strokes",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 1,
+          "Muscle": "glide on completed staple",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 2,
+          "Muscle": "staple strokes",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 2,
+          "Muscle": "glide on completed staple",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 3,
+          "Muscle": "staple strokes",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 3,
+          "Muscle": "glide on completed staple",
+          "Intake": 1,
+          "Occupied": 3,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 4,
+          "Muscle": "staple strokes",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": ""
+        },
+        {
+          "Drive": 4,
+          "Muscle": "glide on completed staple",
+          "Intake": 1,
+          "Occupied": 4,
+          "Released": 4,
+          "Response": "reset anchor \u2192 jump \u2192 set anchor \u2192 apply direction correspondence"
+        },
+        {
+          "Drive": 5,
+          "Muscle": "staple strokes",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 5,
+          "Muscle": "glide on completed staple",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 6,
+          "Muscle": "staple strokes",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 6,
+          "Muscle": "glide on completed staple",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 7,
+          "Muscle": "staple strokes",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 7,
+          "Muscle": "glide on completed staple",
+          "Intake": 1,
+          "Occupied": 3,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 8,
+          "Muscle": "staple strokes",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": ""
+        },
+        {
+          "Drive": 8,
+          "Muscle": "glide on completed staple",
+          "Intake": 1,
+          "Occupied": 4,
+          "Released": 4,
+          "Response": "reset anchor \u2192 jump \u2192 set anchor \u2192 apply direction correspondence"
+        },
+        {
+          "Drive": 9,
+          "Muscle": "staple strokes",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 9,
+          "Muscle": "glide on completed staple",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 10,
+          "Muscle": "staple strokes",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 10,
+          "Muscle": "glide on completed staple",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 11,
+          "Muscle": "staple strokes",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 11,
+          "Muscle": "glide on completed staple",
+          "Intake": 1,
+          "Occupied": 3,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 12,
+          "Muscle": "staple strokes",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": ""
+        },
+        {
+          "Drive": 12,
+          "Muscle": "glide on completed staple",
+          "Intake": 1,
+          "Occupied": 4,
+          "Released": 4,
+          "Response": "reset anchor \u2192 jump \u2192 set anchor \u2192 apply direction correspondence"
+        },
+        {
+          "Drive": 13,
+          "Muscle": "staple strokes",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 13,
+          "Muscle": "glide on completed staple",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 14,
+          "Muscle": "staple strokes",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 14,
+          "Muscle": "glide on completed staple",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 15,
+          "Muscle": "staple strokes",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 15,
+          "Muscle": "glide on completed staple",
+          "Intake": 1,
+          "Occupied": 3,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 16,
+          "Muscle": "staple strokes",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": ""
+        },
+        {
+          "Drive": 16,
+          "Muscle": "glide on completed staple",
+          "Intake": 1,
+          "Occupied": 4,
+          "Released": 4,
+          "Response": "reset anchor \u2192 jump \u2192 set anchor \u2192 apply direction correspondence"
+        }
+      ]
+    },
+    {
+      "Name": "Independent periodic placement ports",
+      "DefinitionElements": 526,
+      "NativeElements": 26715,
+      "NativeCarriers": 0,
+      "Strokes": 0,
+      "Jumps": 32,
+      "Imported": 32,
+      "Active": 0,
+      "Retained": 0,
+      "Released": 32,
+      "Pending": 0,
+      "Events": [
+        {
+          "Drive": 1,
+          "Muscle": "X period",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "jump \u2192 set anchor"
+        },
+        {
+          "Drive": 1,
+          "Muscle": "Y period",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "jump \u2192 set anchor"
+        },
+        {
+          "Drive": 2,
+          "Muscle": "X period",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "jump \u2192 set anchor"
+        },
+        {
+          "Drive": 2,
+          "Muscle": "Y period",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "jump \u2192 set anchor"
+        },
+        {
+          "Drive": 3,
+          "Muscle": "X period",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "jump \u2192 set anchor"
+        },
+        {
+          "Drive": 3,
+          "Muscle": "Y period",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "jump \u2192 set anchor"
+        },
+        {
+          "Drive": 4,
+          "Muscle": "X period",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "jump \u2192 set anchor"
+        },
+        {
+          "Drive": 4,
+          "Muscle": "Y period",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "jump \u2192 set anchor"
+        },
+        {
+          "Drive": 5,
+          "Muscle": "X period",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "jump \u2192 set anchor"
+        },
+        {
+          "Drive": 5,
+          "Muscle": "Y period",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "jump \u2192 set anchor"
+        },
+        {
+          "Drive": 6,
+          "Muscle": "X period",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "jump \u2192 set anchor"
+        },
+        {
+          "Drive": 6,
+          "Muscle": "Y period",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "jump \u2192 set anchor"
+        },
+        {
+          "Drive": 7,
+          "Muscle": "X period",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "jump \u2192 set anchor"
+        },
+        {
+          "Drive": 7,
+          "Muscle": "Y period",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "jump \u2192 set anchor"
+        },
+        {
+          "Drive": 8,
+          "Muscle": "X period",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "jump \u2192 set anchor"
+        },
+        {
+          "Drive": 8,
+          "Muscle": "Y period",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "jump \u2192 set anchor"
+        },
+        {
+          "Drive": 9,
+          "Muscle": "X period",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "jump \u2192 set anchor"
+        },
+        {
+          "Drive": 9,
+          "Muscle": "Y period",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "jump \u2192 set anchor"
+        },
+        {
+          "Drive": 10,
+          "Muscle": "X period",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "jump \u2192 set anchor"
+        },
+        {
+          "Drive": 10,
+          "Muscle": "Y period",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "jump \u2192 set anchor"
+        },
+        {
+          "Drive": 11,
+          "Muscle": "X period",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "jump \u2192 set anchor"
+        },
+        {
+          "Drive": 11,
+          "Muscle": "Y period",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "jump \u2192 set anchor"
+        },
+        {
+          "Drive": 12,
+          "Muscle": "X period",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "jump \u2192 set anchor"
+        },
+        {
+          "Drive": 12,
+          "Muscle": "Y period",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "jump \u2192 set anchor"
+        },
+        {
+          "Drive": 13,
+          "Muscle": "X period",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "jump \u2192 set anchor"
+        },
+        {
+          "Drive": 13,
+          "Muscle": "Y period",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "jump \u2192 set anchor"
+        },
+        {
+          "Drive": 14,
+          "Muscle": "X period",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "jump \u2192 set anchor"
+        },
+        {
+          "Drive": 14,
+          "Muscle": "Y period",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "jump \u2192 set anchor"
+        },
+        {
+          "Drive": 15,
+          "Muscle": "X period",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "jump \u2192 set anchor"
+        },
+        {
+          "Drive": 15,
+          "Muscle": "Y period",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "jump \u2192 set anchor"
+        },
+        {
+          "Drive": 16,
+          "Muscle": "X period",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "jump \u2192 set anchor"
+        },
+        {
+          "Drive": 16,
+          "Muscle": "Y period",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "jump \u2192 set anchor"
+        }
+      ]
+    }
+  ]
+}

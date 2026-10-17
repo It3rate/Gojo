@@ -14,6 +14,12 @@ if (args.Contains("--rhythms")) return RhythmPatternExperiment.Run(args.Where(ar
 if (args.Contains("--rhythm-friezes")) return RhythmFriezeExperiment.Run(args.Where(argument => argument != "--rhythm-friezes").ToArray());
 if (args.Contains("--connected")) return ConnectedPatternExperiment.Run(args.Where(argument => argument != "--connected").ToArray());
 if (args.Contains("--machines")) return PatternMachineExperiment.Run(args.Where(argument => argument != "--machines").ToArray());
+if (args.Contains("--wallpaper-flow"))
+{
+    var study = new WallpaperFlowStudy();
+    return PatternMachineExperiment.Run(args.Where(argument => argument != "--wallpaper-flow").ToArray(),
+        [study.Rotation, study.Glide, study.Placement], Path.Combine("experiments", "QualitativeFrieze", "results", "wallpaper-flow"), 16);
+}
 if (args.Contains("--square-cell")) return SquareCellExperiment.Run(args.Where(argument => argument != "--square-cell").ToArray());
 
 var output = Path.Combine("experiments", "QualitativeFrieze", "results");

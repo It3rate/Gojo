@@ -7,6 +7,20 @@ or numeric locations. The authored gallery below is the generation checkpoint;
 a following bounded feedback experiment adds explicit legality and preference
 reads without changing the kernel.
 
+The [wallpaper flow checkpoint](../../Gojo/docs/GojoPatternMachineExperiment.md)
+adds live cross-axis direction actions, threshold-driven quarter-turn hooks,
+glide staples and independent X/Y placement ports. It retains actual receiver
+receipts, unmeasured half-period correspondence and the nonzero result of two
+glides. It is a foothold toward a composed wallpaper machine, not a full group
+classification.
+
+```powershell
+dotnet run --project experiments/QualitativeFrieze -c Release -- --wallpaper-flow
+```
+
+Open its [flow gallery](results/wallpaper-flow/gallery.html) and
+[diagnostics](results/wallpaper-flow/diagnostics.json).
+
 The [qualitative square-cell checkpoint](../../Gojo/docs/GojoQualitativeSquareCellExperiment.md)
 connects a marked unmeasured contour, axis/sign actions and two independent
 periodic seams. Three generated fields produce eight square/stretch/lean views.

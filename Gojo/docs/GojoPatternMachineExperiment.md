@@ -1,5 +1,77 @@
 # Operating qualitative pattern machines
 
+## Wallpaper flow checkpoint, 2026-10-17
+
+The later `--wallpaper-flow` fixture connects the square-cell action algebra to
+live output through one new general direction-action surface. The native port
+connects the receiver's orientation surface to the frame's actual opposite pairs.
+A complete bijection may exchange axes while preserving those pairs. Its accepted
+receipt retains the consumed map rows and recomputes the resulting orientation.
+The existing `Mirror` surface retains its axis-preserving contract. Existing ink,
+site identities and anchor bindings do not change when future direction changes.
+
+```powershell
+dotnet run --project experiments/QualitativeFrieze -c Release -- --wallpaper-flow
+```
+
+The [flow gallery](../../experiments/QualitativeFrieze/results/wallpaper-flow/gallery.html)
+shows actual machine traces, not transformed copies of a finished drawing.
+The default budget is 16 explicit input drives:
+
+| Machine | Local operating law | Observed trace |
+| --- | --- | --- |
+| Quarter-turn hooks | Two hook samples discharge into a two-site reset/turn latch. | 16 strokes, eight resets, eight accepted direction actions. |
+| Glide staples | Three drawing samples and a pause discharge into a four-site reset/jump/anchor/reflect latch. | 12 strokes, four glide transitions, no drawn connectors between staples. |
+| Periodic placement | Independent exposed X/Y inputs request their actual cell-period jump and anchor. | No ink; 32 period jumps, with both channels driven in declared order. |
+
+All three runs have zero pending obligations and zero numeric carriers/locations
+in their native source and histories. Equal-pitch screen coordinates are an
+optional display read. These machines use discrete packet occupancy rather than
+literal continuous carrier tension, and the host drives are events rather than
+a calibrated clock.
+
+The glide's H is an actual ordered half-path of the cell boundary. Its two
+subpaths share the actual midpoint, their moves reuse the common unmeasured
+reach, and their correspondence retains H;H = X. A separate read establishes
+that the chosen reflection preserves H. Two live glide transitions restore
+orientation and leave the nonzero displacement X. An X-reversing reflection
+instead cancels the displacement; being an involution alone cannot establish
+the glide claim. This agrees with the distinction between mirror and glide in
+the [IUCr crystallographic symmetry reference](https://www.iucr.org/what-we-do/education/pamphlets/matrices-mappings-and-crystallographic-symmetry).
+
+The X/Y input ports are separately related to their actual seam and period
+surfaces. Driving X then Y and Y then X produces equal formal displacement while
+retaining different runtime endpoint identities and histories. The cell's seam
+certificate does not automatically identify those fresh runtime sites.
+Likewise, ordered horizontal/vertical draws form two strokes; sampling them
+together forms one chord, even when both executions end at equal displacement.
+
+There are 17 new focused tests across the direction-action receiver and the
+wallpaper study. They include incomplete/foreign/non-bijective maps, broken
+opposite pairing, forged receipts, event replay, missing input and the false
+glide above. Existing receiver and composed-machine tests continue to pass.
+Position and orientation comparisons also expose contextual witnesses linking
+back to the captured trace, historical state and actual cursor binding or map.
+The final solution verification passes 3,352 tests across the 12 included test
+projects; the 38 receiver/composed-machine/wallpaper cases also pass separately.
+
+This is a live generator foothold, not certification of a full wallpaper group.
+The three machines share a declared basis and exposed correspondences; a single
+composed machine that fills a complete two-dimensional field remains the next
+experiment. Individual receiver actions have accepted receipts. The reservoir
+controller still advances on release, so there is no new atomic acknowledgment
+or rollback law across a multi-action bundle. A failed later action must remain
+visible rather than making the earlier release disappear.
+
+The next connection is motif completion -> requested cell passage -> accepted
+placement -> next motif. Only after that closes should an exposed occupancy or
+previous-stroke read influence a local conditional. Native correspondence,
+motif invariance, Euclidean symmetry and aesthetic preference remain separate
+questions. Sixfold/oblique generators and all-wallpaper classification remain
+undemonstrated.
+
+## Earlier five-machine checkpoint
+
 Implemented experiment, 2026-10-17. This checkpoint makes the generating machine
 an inspectable pattern definition: reservoirs, exposed ports, finite local laws,
 controller phases, initial states and actuator clauses. Running it introduces

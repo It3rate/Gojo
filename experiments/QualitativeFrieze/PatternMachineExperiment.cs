@@ -11,15 +11,16 @@ namespace Gojo.Experiments.QualitativeFrieze;
 public static class PatternMachineExperiment
 {
     private static readonly string[] Palette = ["#126c83", "#d07621", "#884ba1", "#417c40"];
-    public static int Run(string[] args)
+    public static int Run(string[] args, IReadOnlyList<PatternMachine>? definitions = null,
+        string? outputDirectory = null, int defaultDrives = 48)
     {
-        var output = Path.Combine("experiments", "QualitativeFrieze", "results", "machines"); var drives = 48;
+        var output = outputDirectory ?? Path.Combine("experiments", "QualitativeFrieze", "results", "machines"); var drives = defaultDrives;
         for (var i = 0; i < args.Length; i++)
             if (args[i] == "--output" && i + 1 < args.Length) output = args[++i];
             else if (args[i] == "--drives" && i + 1 < args.Length && int.TryParse(args[++i], out var n) && n is > 0 and <= 128) drives = n;
             else throw new ArgumentException("Usage: --machines [--output DIRECTORY] [--drives 1..128]");
         Directory.CreateDirectory(output);
-        var views = PatternMachineLibrary.Create().Select(machine => Observe(machine, drives)).ToArray();
+        var views = (definitions ?? PatternMachineLibrary.Create()).Select(machine => Observe(machine, drives)).ToArray();
         var figure = new StringBuilder($"<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"1420\" height=\"{190 + views.Length * 250}\" viewBox=\"0 0 1420 {190 + views.Length * 250}\"><style>text{{font-family:Segoe UI,Arial,sans-serif}}.head{{font-size:26px;font-weight:650}}.label{{font-size:18px;font-weight:600}}.note{{font-size:15px;fill:#52616a}}.ink{{stroke-width:7;stroke-linejoin:round;stroke-linecap:square;fill:none}}.jump{{stroke:#c87a28;stroke-width:1.2;stroke-dasharray:4 4;fill:none}}</style><rect width=\"100%\" height=\"100%\" fill=\"#f5f2e8\"/><text x=\"40\" y=\"45\" class=\"head\">Operating qualitative pattern machines</text><text x=\"40\" y=\"77\" class=\"note\">{drives} explicit drives · finite packet occupancy → threshold question → release → muscle → cursor</text><text x=\"40\" y=\"103\" class=\"note\">No numeric samples or prebuilt output sites. Equal display pitches are an optional calibration.</text><text x=\"40\" y=\"129\" class=\"note\">Blue: one muscle · purple: simultaneous contributions · dashed orange: navigation without ink.</text>");
         for (var i = 0; i < views.Length; i++) figure.Append(Panel(views[i], 165 + 250 * i));
         figure.Append("</svg>");
@@ -126,7 +127,7 @@ public static class PatternMachineExperiment
         }
         return (x, y);
     }
-    private static string Describe(QualitativeDrawingReceiver drawing, IElement action) => drawing.TryReadDraw(action, out _) ? "draw" : drawing.TryReadJump(action, out _) ? "jump" : drawing.IsReset(action) ? "reset anchor" : drawing.IsAnchor(action) ? "set anchor" : drawing.TryReadMirror(action, out _) ? "mirror future output" : "unknown";
+    private static string Describe(QualitativeDrawingReceiver drawing, IElement action) => drawing.TryReadDraw(action, out _) ? "draw" : drawing.TryReadJump(action, out _) ? "jump" : drawing.IsReset(action) ? "reset anchor" : drawing.IsAnchor(action) ? "set anchor" : drawing.TryReadMirror(action, out _) ? "mirror future output" : drawing.TryReadDirectionAction(action, out _) ? "apply direction correspondence" : "unknown";
     private static string F(double value) => value.ToString("0.###", CultureInfo.InvariantCulture);
     private static string H(string value) => WebUtility.HtmlEncode(value);
     private static IElement[] E(Relation scope) => FiniteLaw.Entries(scope);
