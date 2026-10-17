@@ -7,6 +7,19 @@ or numeric locations. The authored gallery below is the generation checkpoint;
 a following bounded feedback experiment adds explicit legality and preference
 reads without changing the kernel.
 
+The [primitive flow experiment](../../Gojo/docs/GojoPrimitiveFlowExperiment.md)
+executes steps, staircases, waves, rectangles, diamonds, meanders, herringbone
+and stars through acknowledged leaf/group calls and existing event sampling.
+Sixteen action recipes and three sampling examples compare different causal
+constructions, limited completion ports and explicit contour joins.
+
+```powershell
+dotnet run --project experiments/QualitativeFrieze -c Release -- --primitive-flows
+```
+
+Open the [primitive flow gallery](results/primitive-flows/gallery.html) and
+[diagnostics](results/primitive-flows/diagnostics.json).
+
 The [skeleton atlas](results/skeleton-atlas/index.html) provides ten named
 families with thirty progressive diagrams, twelve goal skeletons and a short
 experiment-brief builder. These are authored reference targets for discussion,
