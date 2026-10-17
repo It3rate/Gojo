@@ -6,7 +6,8 @@ namespace Gojo.Experiments.QualitativeExecution;
 /// <summary>A local drawing actuator over unmeasured chord participation.
 /// Questions and finite choices belong upstream. This receiver executes one
 /// definite offered action; it never resolves alternatives or samples for them.
-/// Historical branches are independent ledgers, without a global active head.</summary>
+/// Historical branches are independent ledgers. TryCommit separately guards
+/// the convenience receiver's chosen current state.</summary>
 public sealed class QualitativeDrawingReceiver
 {
     // cursor/anchor binding = actual-site -> closed formal displacement
@@ -136,8 +137,18 @@ public sealed class QualitativeDrawingReceiver
     {
         TryReadState(State, out var previous, out _, out _, out _, out _, out _, out _);
         var receipt = Step(State, Offer(Source, eventIdentity, priorEvent ?? previous, closedActionSupport, cause));
-        if (TryReadAccepted(receipt, out var after, out _)) State = after;
+        TryCommit(receipt);
         return receipt;
+    }
+
+    /// <summary>Commits an accepted local patch only while its exact source
+    /// state is this receiver's current head. Historical acceptance remains a
+    /// valid read but cannot overwrite later or independently branched state.</summary>
+    public bool TryCommit(Relation receipt)
+    {
+        if (!TryReadStep(receipt, out var before, out _, out _, out _, out _, out _) ||
+            !ReferenceEquals(before, State) || !TryReadAccepted(receipt, out var after, out _)) return false;
+        State = after; return true;
     }
 
     public Relation Step(Relation state, Relation offer)

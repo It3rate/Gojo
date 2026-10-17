@@ -7,6 +7,21 @@ or numeric locations. The authored gallery below is the generation checkpoint;
 a following bounded feedback experiment adds explicit legality and preference
 reads without changing the kernel.
 
+The [composed wallpaper checkpoint](../../Gojo/docs/GojoPatternMachineExperiment.md)
+connects motif completion to an individually acknowledged cell passage and
+admits the next motif only after accepted placement. Four live 4×3 patches
+combine quarter-turns, mirrors, glide half-periods and independent row moves.
+The native run contains no numeric carriers or preconstructed output sites.
+
+```powershell
+dotnet run --project experiments/QualitativeFrieze -c Release -- --wallpaper-machine
+```
+
+See its [interactive gallery](results/wallpaper-machine/gallery.html),
+[figure](results/wallpaper-machine/gallery.svg),
+[preview](results/wallpaper-machine/gallery-preview.png)
+and [diagnostics](results/wallpaper-machine/diagnostics.json).
+
 The [wallpaper flow checkpoint](../../Gojo/docs/GojoPatternMachineExperiment.md)
 adds live cross-axis direction actions, threshold-driven quarter-turn hooks,
 glide staples and independent X/Y placement ports. It retains actual receiver

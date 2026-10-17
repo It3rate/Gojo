@@ -1,5 +1,103 @@
 # Operating qualitative pattern machines
 
+## Composed wallpaper checkpoint, 2026-10-17
+
+The `--wallpaper-machine` experiment connects a reusable motif controller to a
+finite two-dimensional placement route. Actual accepted completion of the motif
+admits its cell passage. The next motif remains held until the whole passage is
+accepted. The same receiver executes all strokes and navigation; the renderer
+does not tile or transform a completed drawing.
+
+```powershell
+dotnet run --project experiments/QualitativeFrieze -c Release -- --wallpaper-machine
+```
+
+Open the [interactive gallery](../../experiments/QualitativeFrieze/results/wallpaper-machine/gallery.html),
+[figure](../../experiments/QualitativeFrieze/results/wallpaper-machine/gallery.svg),
+or [native diagnostics](../../experiments/QualitativeFrieze/results/wallpaper-machine/diagnostics.json).
+The gallery exposes accepted-instruction progress, actual non-ink placement,
+motif colours, ink inversion and a stretched interpretation of the same trace.
+
+```text
+fresh packet -> single-site threshold -> current question -> pending action
+  -> exact accepted drawing receipt -> packet release + phase advance
+  -> complete motif receipt sequence -> cell-passage input
+  -> reset -> restore world basis -> jump -> anchor -> next orientation
+  -> complete accepted passage -> next motif input
+```
+
+`AcknowledgedPatternSequence` is a general cyclic instruction interpreter above
+the kernel. Its definition connects actual action rows, phase edges, a packet
+reservoir, exposed input/drain surfaces and a completion port. A proposal retains
+the exact action, receiver state, offer, phase state and current threshold
+question. A pure receiver step alone cannot advance the controller. Acceptance
+must match that pending offer and the current receiver state before committing
+the effect, draining its packet and advancing the phase. Historical receipts
+remain readable; they cannot overwrite the live state. Unknown actions remain
+pending instead of receiving a default interpretation.
+
+`WallpaperPatternMachine` connects these components through a native finite law:
+current cell and actual component completion port select the next cell/input
+surface. Its state records that admitted input and dispatch history. Each
+completion retains the actual accepted drawing receipts for its cycle. A
+completion is a non-draining control observation, while subsequent instructions
+receive fresh material packets. The wrapper rejects packet reuse across
+components. It does not multiply released participation to power multiple steps.
+
+Passage actions are individually acknowledged. If reset succeeds and jump
+fails, the reset remains visible and paid for, the jump retains its packet and
+request, and the next motif stays held. A correct acknowledgment can continue
+that request without replaying reset. This is accepted-prefix execution, with
+no multi-action rollback. A dispatch that cannot answer its routing question
+also remains explicitly pending. A declared terminal input stops the finite
+route; further input is returned without importing it.
+
+Navigation explicitly restores the world basis before using a world period
+word. It then anchors the accepted endpoint and installs the next motif's
+orientation. Otherwise a quarter-turn of future ink would also rotate the next
+row move. A row return uses inverse column words followed by the independent
+row word; output sites are created only when those instructions execute.
+
+| Live program | Motif construction | Completed motifs / passages | Strokes | Accepted instructions / released packets |
+| --- | --- | --- | --- | --- |
+| Turning pinwheels | Four hooked arms with reset and quarter-turn between arms. | 12 / 11 | 144 | 295 |
+| Mirrored stepped fans | A stepped half and its reflection; alternate rows turn by a half-turn. | 12 / 11 | 96 | 199 |
+| Glide staples | Half-X passages alternate an X-preserving reflection; neighbouring rows also reflect X. | 12 / 11 | 36 | 91 |
+| Turning keys | Keys turn across columns and add reflection between rows. | 12 / 11 | 48 | 103 |
+
+All four native runs have zero numeric carriers/locations, zero pending
+obligations and a complete packet ownership partition. Ordered move words,
+shared unmeasured reaches, direction correspondences, phase identities and
+actual accepted history determine the output. Four columns and three rows are
+an authored finite phase route; display distances, source loop bounds, trace
+counts and host pulse budgets do not become native measurements. The source
+retains each passage's world word, orientation derivation and cell/seam support.
+
+The focused checks cover exact, alternate, copied, stale, replayed and
+misrouted acknowledgments; missing input; open actions; packet overflow and
+cross-component reuse; partial placement and retry; finite termination; actual
+completion effects; and world-row navigation after all four families' rotations
+or reflections. Completion reads also reject omitted, duplicate, foreign or
+reordered cycle evidence while preserving historical reads. The 24 new focused
+cases pass. Existing legacy machine behavior is preserved.
+Solution verification passes 3,376 tests across the 12 included test projects.
+The final focused rerun passes all 24 new cases, and browser verification finds
+no page errors while exercising the gallery controls.
+
+These are bounded operating patches, not certificates for complete infinite
+wallpaper groups. In particular a turning orientation texture does not prove
+global quarter-turn invariance. Screen crossings and equal displacements do
+not create shared site identities. Equal-pitch Euclidean symmetry and the
+stretched affine interpretation remain distinct from native correspondence.
+The execution uses discrete packet occupancy and explicit event drives;
+continuous signed carrier tension and calibrated elapsed time are separate
+refinements. No learning or aesthetic selection was added in this checkpoint.
+
+The next useful extension is an exposed motif/field or previous-stroke read
+that can influence a local conditional, followed by reusable parameter-bound
+passage templates and open-ended two-axis recurrence. Those can reuse the
+accepted completion/placement connection established here.
+
 ## Wallpaper flow checkpoint, 2026-10-17
 
 The later `--wallpaper-flow` fixture connects the square-cell action algebra to
@@ -56,14 +154,15 @@ The final solution verification passes 3,352 tests across the 12 included test
 projects; the 38 receiver/composed-machine/wallpaper cases also pass separately.
 
 This is a live generator foothold, not certification of a full wallpaper group.
-The three machines share a declared basis and exposed correspondences; a single
-composed machine that fills a complete two-dimensional field remains the next
-experiment. Individual receiver actions have accepted receipts. The reservoir
+The three machines share a declared basis and exposed correspondences. At this
+checkpoint a single composed two-dimensional machine remained the next
+experiment; the composed checkpoint above now closes that link. Individual
+receiver actions have accepted receipts. This earlier reservoir
 controller still advances on release, so there is no new atomic acknowledgment
 or rollback law across a multi-action bundle. A failed later action must remain
 visible rather than making the earlier release disappear.
 
-The next connection is motif completion -> requested cell passage -> accepted
+The proposed next connection was motif completion -> requested cell passage -> accepted
 placement -> next motif. Only after that closes should an exposed occupancy or
 previous-stroke read influence a local conditional. Native correspondence,
 motif invariance, Euclidean symmetry and aesthetic preference remain separate

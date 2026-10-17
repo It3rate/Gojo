@@ -1,0 +1,636 @@
+{
+  "Schema": "acknowledged-wallpaper-machine-v1",
+  "MaximumPulses": 2048,
+  "Scope": "Bounded native routes; no numeric source, output tiling, learning or wallpaper group certification.",
+  "Ownership": "One fresh input packet per accepted instruction; completion notifications are non-draining control observations.",
+  "Machines": [
+    {
+      "Name": "Four-arm turning pinwheels",
+      "Description": "Four live hooked arms share an anchor. Each arm resets and turns; a completed orbit requests the next cell.",
+      "Complete": true,
+      "Steps": 295,
+      "Motifs": 12,
+      "Passages": 11,
+      "Strokes": 144,
+      "NumericElements": 0,
+      "NativeElements": 405548,
+      "Imported": 295,
+      "Active": 0,
+      "Retained": 0,
+      "Released": 295,
+      "Pending": 0,
+      "Milliseconds": 23395,
+      "Connections": [
+        {
+          "Index": 1,
+          "Component": "motif",
+          "Effects": 20,
+          "Next": "cell passage"
+        },
+        {
+          "Index": 2,
+          "Component": "placement",
+          "Effects": 5,
+          "Next": "next motif"
+        },
+        {
+          "Index": 3,
+          "Component": "motif",
+          "Effects": 20,
+          "Next": "cell passage"
+        },
+        {
+          "Index": 4,
+          "Component": "placement",
+          "Effects": 5,
+          "Next": "next motif"
+        },
+        {
+          "Index": 5,
+          "Component": "motif",
+          "Effects": 20,
+          "Next": "cell passage"
+        },
+        {
+          "Index": 6,
+          "Component": "placement",
+          "Effects": 5,
+          "Next": "next motif"
+        },
+        {
+          "Index": 7,
+          "Component": "motif",
+          "Effects": 20,
+          "Next": "cell passage"
+        },
+        {
+          "Index": 8,
+          "Component": "placement",
+          "Effects": 5,
+          "Next": "next motif"
+        },
+        {
+          "Index": 9,
+          "Component": "motif",
+          "Effects": 20,
+          "Next": "cell passage"
+        },
+        {
+          "Index": 10,
+          "Component": "placement",
+          "Effects": 5,
+          "Next": "next motif"
+        },
+        {
+          "Index": 11,
+          "Component": "motif",
+          "Effects": 20,
+          "Next": "cell passage"
+        },
+        {
+          "Index": 12,
+          "Component": "placement",
+          "Effects": 5,
+          "Next": "next motif"
+        },
+        {
+          "Index": 13,
+          "Component": "motif",
+          "Effects": 20,
+          "Next": "cell passage"
+        },
+        {
+          "Index": 14,
+          "Component": "placement",
+          "Effects": 5,
+          "Next": "next motif"
+        },
+        {
+          "Index": 15,
+          "Component": "motif",
+          "Effects": 20,
+          "Next": "cell passage"
+        },
+        {
+          "Index": 16,
+          "Component": "placement",
+          "Effects": 5,
+          "Next": "next motif"
+        },
+        {
+          "Index": 17,
+          "Component": "motif",
+          "Effects": 20,
+          "Next": "cell passage"
+        },
+        {
+          "Index": 18,
+          "Component": "placement",
+          "Effects": 5,
+          "Next": "next motif"
+        },
+        {
+          "Index": 19,
+          "Component": "motif",
+          "Effects": 20,
+          "Next": "cell passage"
+        },
+        {
+          "Index": 20,
+          "Component": "placement",
+          "Effects": 5,
+          "Next": "next motif"
+        },
+        {
+          "Index": 21,
+          "Component": "motif",
+          "Effects": 20,
+          "Next": "cell passage"
+        },
+        {
+          "Index": 22,
+          "Component": "placement",
+          "Effects": 5,
+          "Next": "next motif"
+        },
+        {
+          "Index": 23,
+          "Component": "motif",
+          "Effects": 20,
+          "Next": "declared terminal"
+        }
+      ]
+    },
+    {
+      "Name": "Mirrored stepped fans",
+      "Description": "Each motif draws one stepped half and its reflected partner. Alternate rows use the native half-turn action.",
+      "Complete": true,
+      "Steps": 199,
+      "Motifs": 12,
+      "Passages": 11,
+      "Strokes": 96,
+      "NumericElements": 0,
+      "NativeElements": 205028,
+      "Imported": 199,
+      "Active": 0,
+      "Retained": 0,
+      "Released": 199,
+      "Pending": 0,
+      "Milliseconds": 4767,
+      "Connections": [
+        {
+          "Index": 1,
+          "Component": "motif",
+          "Effects": 12,
+          "Next": "cell passage"
+        },
+        {
+          "Index": 2,
+          "Component": "placement",
+          "Effects": 5,
+          "Next": "next motif"
+        },
+        {
+          "Index": 3,
+          "Component": "motif",
+          "Effects": 12,
+          "Next": "cell passage"
+        },
+        {
+          "Index": 4,
+          "Component": "placement",
+          "Effects": 5,
+          "Next": "next motif"
+        },
+        {
+          "Index": 5,
+          "Component": "motif",
+          "Effects": 12,
+          "Next": "cell passage"
+        },
+        {
+          "Index": 6,
+          "Component": "placement",
+          "Effects": 5,
+          "Next": "next motif"
+        },
+        {
+          "Index": 7,
+          "Component": "motif",
+          "Effects": 12,
+          "Next": "cell passage"
+        },
+        {
+          "Index": 8,
+          "Component": "placement",
+          "Effects": 5,
+          "Next": "next motif"
+        },
+        {
+          "Index": 9,
+          "Component": "motif",
+          "Effects": 12,
+          "Next": "cell passage"
+        },
+        {
+          "Index": 10,
+          "Component": "placement",
+          "Effects": 5,
+          "Next": "next motif"
+        },
+        {
+          "Index": 11,
+          "Component": "motif",
+          "Effects": 12,
+          "Next": "cell passage"
+        },
+        {
+          "Index": 12,
+          "Component": "placement",
+          "Effects": 5,
+          "Next": "next motif"
+        },
+        {
+          "Index": 13,
+          "Component": "motif",
+          "Effects": 12,
+          "Next": "cell passage"
+        },
+        {
+          "Index": 14,
+          "Component": "placement",
+          "Effects": 5,
+          "Next": "next motif"
+        },
+        {
+          "Index": 15,
+          "Component": "motif",
+          "Effects": 12,
+          "Next": "cell passage"
+        },
+        {
+          "Index": 16,
+          "Component": "placement",
+          "Effects": 5,
+          "Next": "next motif"
+        },
+        {
+          "Index": 17,
+          "Component": "motif",
+          "Effects": 12,
+          "Next": "cell passage"
+        },
+        {
+          "Index": 18,
+          "Component": "placement",
+          "Effects": 5,
+          "Next": "next motif"
+        },
+        {
+          "Index": 19,
+          "Component": "motif",
+          "Effects": 12,
+          "Next": "cell passage"
+        },
+        {
+          "Index": 20,
+          "Component": "placement",
+          "Effects": 5,
+          "Next": "next motif"
+        },
+        {
+          "Index": 21,
+          "Component": "motif",
+          "Effects": 12,
+          "Next": "cell passage"
+        },
+        {
+          "Index": 22,
+          "Component": "placement",
+          "Effects": 5,
+          "Next": "next motif"
+        },
+        {
+          "Index": 23,
+          "Component": "motif",
+          "Effects": 12,
+          "Next": "declared terminal"
+        }
+      ]
+    },
+    {
+      "Name": "Glide staples in reflected rows",
+      "Description": "An asymmetric staple advances by the exposed half-X path and flips vertically. Two horizontal passages restore orientation and span X; neighbouring rows also reflect X.",
+      "Complete": true,
+      "Steps": 91,
+      "Motifs": 12,
+      "Passages": 11,
+      "Strokes": 36,
+      "NumericElements": 0,
+      "NativeElements": 65013,
+      "Imported": 91,
+      "Active": 0,
+      "Retained": 0,
+      "Released": 91,
+      "Pending": 0,
+      "Milliseconds": 254,
+      "Connections": [
+        {
+          "Index": 1,
+          "Component": "motif",
+          "Effects": 3,
+          "Next": "cell passage"
+        },
+        {
+          "Index": 2,
+          "Component": "placement",
+          "Effects": 5,
+          "Next": "next motif"
+        },
+        {
+          "Index": 3,
+          "Component": "motif",
+          "Effects": 3,
+          "Next": "cell passage"
+        },
+        {
+          "Index": 4,
+          "Component": "placement",
+          "Effects": 5,
+          "Next": "next motif"
+        },
+        {
+          "Index": 5,
+          "Component": "motif",
+          "Effects": 3,
+          "Next": "cell passage"
+        },
+        {
+          "Index": 6,
+          "Component": "placement",
+          "Effects": 5,
+          "Next": "next motif"
+        },
+        {
+          "Index": 7,
+          "Component": "motif",
+          "Effects": 3,
+          "Next": "cell passage"
+        },
+        {
+          "Index": 8,
+          "Component": "placement",
+          "Effects": 5,
+          "Next": "next motif"
+        },
+        {
+          "Index": 9,
+          "Component": "motif",
+          "Effects": 3,
+          "Next": "cell passage"
+        },
+        {
+          "Index": 10,
+          "Component": "placement",
+          "Effects": 5,
+          "Next": "next motif"
+        },
+        {
+          "Index": 11,
+          "Component": "motif",
+          "Effects": 3,
+          "Next": "cell passage"
+        },
+        {
+          "Index": 12,
+          "Component": "placement",
+          "Effects": 5,
+          "Next": "next motif"
+        },
+        {
+          "Index": 13,
+          "Component": "motif",
+          "Effects": 3,
+          "Next": "cell passage"
+        },
+        {
+          "Index": 14,
+          "Component": "placement",
+          "Effects": 5,
+          "Next": "next motif"
+        },
+        {
+          "Index": 15,
+          "Component": "motif",
+          "Effects": 3,
+          "Next": "cell passage"
+        },
+        {
+          "Index": 16,
+          "Component": "placement",
+          "Effects": 5,
+          "Next": "next motif"
+        },
+        {
+          "Index": 17,
+          "Component": "motif",
+          "Effects": 3,
+          "Next": "cell passage"
+        },
+        {
+          "Index": 18,
+          "Component": "placement",
+          "Effects": 5,
+          "Next": "next motif"
+        },
+        {
+          "Index": 19,
+          "Component": "motif",
+          "Effects": 3,
+          "Next": "cell passage"
+        },
+        {
+          "Index": 20,
+          "Component": "placement",
+          "Effects": 5,
+          "Next": "next motif"
+        },
+        {
+          "Index": 21,
+          "Component": "motif",
+          "Effects": 3,
+          "Next": "cell passage"
+        },
+        {
+          "Index": 22,
+          "Component": "placement",
+          "Effects": 5,
+          "Next": "next motif"
+        },
+        {
+          "Index": 23,
+          "Component": "motif",
+          "Effects": 3,
+          "Next": "declared terminal"
+        }
+      ]
+    },
+    {
+      "Name": "Turning keys with mirrored rows",
+      "Description": "A single stepped key turns between cells. Alternate rows add a reflection; this orientation texture is not a claim of global quarter-turn symmetry.",
+      "Complete": true,
+      "Steps": 103,
+      "Motifs": 12,
+      "Passages": 11,
+      "Strokes": 48,
+      "NumericElements": 0,
+      "NativeElements": 76976,
+      "Imported": 103,
+      "Active": 0,
+      "Retained": 0,
+      "Released": 103,
+      "Pending": 0,
+      "Milliseconds": 448,
+      "Connections": [
+        {
+          "Index": 1,
+          "Component": "motif",
+          "Effects": 4,
+          "Next": "cell passage"
+        },
+        {
+          "Index": 2,
+          "Component": "placement",
+          "Effects": 5,
+          "Next": "next motif"
+        },
+        {
+          "Index": 3,
+          "Component": "motif",
+          "Effects": 4,
+          "Next": "cell passage"
+        },
+        {
+          "Index": 4,
+          "Component": "placement",
+          "Effects": 5,
+          "Next": "next motif"
+        },
+        {
+          "Index": 5,
+          "Component": "motif",
+          "Effects": 4,
+          "Next": "cell passage"
+        },
+        {
+          "Index": 6,
+          "Component": "placement",
+          "Effects": 5,
+          "Next": "next motif"
+        },
+        {
+          "Index": 7,
+          "Component": "motif",
+          "Effects": 4,
+          "Next": "cell passage"
+        },
+        {
+          "Index": 8,
+          "Component": "placement",
+          "Effects": 5,
+          "Next": "next motif"
+        },
+        {
+          "Index": 9,
+          "Component": "motif",
+          "Effects": 4,
+          "Next": "cell passage"
+        },
+        {
+          "Index": 10,
+          "Component": "placement",
+          "Effects": 5,
+          "Next": "next motif"
+        },
+        {
+          "Index": 11,
+          "Component": "motif",
+          "Effects": 4,
+          "Next": "cell passage"
+        },
+        {
+          "Index": 12,
+          "Component": "placement",
+          "Effects": 5,
+          "Next": "next motif"
+        },
+        {
+          "Index": 13,
+          "Component": "motif",
+          "Effects": 4,
+          "Next": "cell passage"
+        },
+        {
+          "Index": 14,
+          "Component": "placement",
+          "Effects": 5,
+          "Next": "next motif"
+        },
+        {
+          "Index": 15,
+          "Component": "motif",
+          "Effects": 4,
+          "Next": "cell passage"
+        },
+        {
+          "Index": 16,
+          "Component": "placement",
+          "Effects": 5,
+          "Next": "next motif"
+        },
+        {
+          "Index": 17,
+          "Component": "motif",
+          "Effects": 4,
+          "Next": "cell passage"
+        },
+        {
+          "Index": 18,
+          "Component": "placement",
+          "Effects": 5,
+          "Next": "next motif"
+        },
+        {
+          "Index": 19,
+          "Component": "motif",
+          "Effects": 4,
+          "Next": "cell passage"
+        },
+        {
+          "Index": 20,
+          "Component": "placement",
+          "Effects": 5,
+          "Next": "next motif"
+        },
+        {
+          "Index": 21,
+          "Component": "motif",
+          "Effects": 4,
+          "Next": "cell passage"
+        },
+        {
+          "Index": 22,
+          "Component": "placement",
+          "Effects": 5,
+          "Next": "next motif"
+        },
+        {
+          "Index": 23,
+          "Component": "motif",
+          "Effects": 4,
+          "Next": "declared terminal"
+        }
+      ]
+    }
+  ]
+}
