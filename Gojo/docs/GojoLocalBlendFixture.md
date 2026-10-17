@@ -10,8 +10,8 @@ This document records the initial experiment and its scoped capture. The later
 summarizes completed numeric transport, uncertainty and replay work, and the
 adaptive mechanisms still to be tested.
 
-Source: [local-blend.gojo](../../Gojo.Encoding.Tests/Fixtures/Syntax/local-blend.gojo).
-Execution: [GojoSyntaxLocalBlendTests](../../Gojo.Encoding.Tests/GojoSyntaxLocalBlendTests.cs).
+Source: [local-blend.gojo](../../Tests/Gojo.Encoding.Tests/Fixtures/Syntax/local-blend.gojo).
+Execution: [GojoSyntaxLocalBlendTests](../../Tests/Gojo.Encoding.Tests/GojoSyntaxLocalBlendTests.cs).
 
 ## What this experiment establishes
 
@@ -224,5 +224,5 @@ than promoting a particular Blocks shape into a canonical value taxonomy.
 Focused verification:
 
 ```powershell
-dotnet test Gojo.Encoding.Tests/Gojo.Encoding.Tests.csproj --filter FullyQualifiedName~GojoSyntaxLocalBlendTests
+dotnet test Tests/Gojo.Encoding.Tests/Gojo.Encoding.Tests.csproj --filter FullyQualifiedName~GojoSyntaxLocalBlendTests
 ```

@@ -78,15 +78,15 @@ it does not make them current Gojo behavior.
 
 Current evidence for these rows includes the
 [core representation](GojoSystemPrompt.md),
-[directed-segment tests](../../Gojo.Tests/Core/DirectedSegmentTests.cs),
-[unit conformance](../../Gojo.Tests/Core/UnitAlgebraConformanceTests.cs),
-[quotient reads](../../Gojo.Tests/Core/QuantityQuotientTests.cs),
-[refinement tests](../../Gojo.Tests/Core/RefinementReadTests.cs),
+[directed-segment tests](../../Tests/Gojo.Tests/Core/DirectedSegmentTests.cs),
+[unit conformance](../../Tests/Gojo.Tests/Core/UnitAlgebraConformanceTests.cs),
+[quotient reads](../../Tests/Gojo.Tests/Core/QuantityQuotientTests.cs),
+[refinement tests](../../Tests/Gojo.Tests/Core/RefinementReadTests.cs),
 [span reads](../Reads/RelationReads.cs),
 [participation settlement](../ConceptSurface/ParticipationSettlementSurface.cs),
-[graphic constructors](../../GojoCAD/GraphicStructure.cs),
-[geometry syntax tests](../../Gojo.Encoding.Tests/GojoSyntaxGeometryTests.cs),
-and [affine composition tests](../../Gojo.Encoding.Tests/GojoSyntaxAffineFrameTests.cs).
+[graphic constructors](../../Applications/GojoCAD/GraphicStructure.cs),
+[geometry syntax tests](../../Tests/Gojo.Encoding.Tests/GojoSyntaxGeometryTests.cs),
+and [affine composition tests](../../Tests/Gojo.Encoding.Tests/GojoSyntaxAffineFrameTests.cs).
 
 ## Changes that affect interpretation, not just naming
 
@@ -150,15 +150,15 @@ The recent statement that â€œcaps, rounded joins and regions remain future workâ
 is true **for the new exact measured-offset/path contract**. It is too broad
 as a statement about the whole repository.
 
-Current [GraphicBoundaryConceptSurface](../../GojoCAD/structures/GraphicBoundaryConceptSurface.cs)
+Current [GraphicBoundaryConceptSurface](../../Applications/GojoCAD/structures/GraphicBoundaryConceptSurface.cs)
 already finds cusp candidates, rounds selected line/line and line/arc corners,
 and builds circular caps at selected line tips. The corresponding
-[tests](../../GojoCAD.Tests/GraphicBoundaryConceptSurfaceTests.cs) exercise them.
+[tests](../../Tests/GojoCAD.Tests/GraphicBoundaryConceptSurfaceTests.cs) exercise them.
 
-Current [GraphicAreaSettlementSurface](../../GojoCAD/structures/GraphicAreaSettlementSurface.cs)
+Current [GraphicAreaSettlementSurface](../../Applications/GojoCAD/structures/GraphicAreaSettlementSurface.cs)
 splits segment/arc boundaries, resolves positive and anti-area loops, preserves
 holes, and assembles outlines. Its
-[tests](../../GojoCAD.Tests/GraphicAreaSettlementSurfaceTests.cs) include separated
+[tests](../../Tests/GojoCAD.Tests/GraphicAreaSettlementSurfaceTests.cs) include separated
 composites, rings, crescents, overlapping boundaries and rounded H-like forms.
 These are executable behaviors, not only labeled pictures.
 
@@ -207,8 +207,8 @@ behavior while rebuilding the representation.
 The [resistive-circuit tests](../../../Core4/Core4.Tests/Dynamics/ResistiveCircuitTests.cs)
 include a 12-to-0 potential network with unequal branches whose middle
 potentials settle to 9 and 6. That is a concrete old capability. Current
-[resistor value structures](../../GojoCAD/electronics/components/resistors/ResistanceValueSurface.cs)
-and [ECAD documentary tests](../../GojoCAD.Tests/EcadDocumentarySurfaceTests.cs)
+[resistor value structures](../../Applications/GojoCAD/electronics/components/resistors/ResistanceValueSurface.cs)
+and [ECAD documentary tests](../../Tests/GojoCAD.Tests/EcadDocumentarySurfaceTests.cs)
 describe nominal values, tolerances, terminals and nets; they are not a
 replacement for the relaxation procedure. Two-space calibration is also a
 different law, despite the similar visual motif of neighbours balancing.
@@ -217,7 +217,7 @@ Core2's [fractional-power tests](../../../ResoEngine/Tests.Core2/FractionalPower
 are another clear loss of application coverage: they test `sqrt(-1)` candidates
 `i` and `-i`, plus selection near a reference branch. They also explicitly defer
 negative fractional exponents, so the old implementation was not complete
-either. Current [integer power tests](../../Gojo.Tests/Equations/EquationPowerTests.cs)
+either. Current [integer power tests](../../Tests/Gojo.Tests/Equations/EquationPowerTests.cs)
 and constrained geometric square roots do not cover those branch semantics.
 
 For signals, the [existing plan](GojoSignalPatternLearningPlan-2026-09.md) already

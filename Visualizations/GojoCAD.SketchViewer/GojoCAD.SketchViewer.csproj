@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <DefineConstants>$(DefineConstants);SKETCHVIEWER_DESKTOP</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Avalonia" Version="11.3.17" />
+    <PackageReference Include="Avalonia.Desktop" Version="11.3.17" />
+    <PackageReference Include="Avalonia.Skia" Version="11.3.17" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Gojo\Gojo.csproj" />
+    <ProjectReference Include="..\..\Applications\GojoCAD\GojoCAD.csproj" />
+    <ProjectReference Include="..\..\Applications\GojoDraw\GojoDraw.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="..\..\Applications\GojoCAD\G code\samples\*.nc" Link="G code\samples\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+</Project>

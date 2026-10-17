@@ -1,7 +1,7 @@
 # Experiments and retained research
 
 **Start with the [chronological experiment overview](OVERVIEW.md).** It covers
-both this folder and `Minds/`, explaining what each study tried, what happened
+both this folder and `experiments/Minds/`, explaining what each study tried, what happened
 and what can be concluded, with links to the detailed evidence.
 
 This folder contains interpretation, prediction, market, swimming,
@@ -16,14 +16,14 @@ prediction and control, grounded in these experiments.
 
 | Study | Source and documentation | Retained results / review |
 | --- | --- | --- |
-| Phototaxis swimmers, compact backend and cognitive trials | [Simulation](Phototaxis/README.md), [browser launcher](Phototaxis.Browser/Start-Preview.ps1), [headless runner](Phototaxis.Runner/Program.cs) | [Earlier runs](../artifacts/phototaxis/) |
-| Sampling into primitive distinctions | [Sampling emergence](SamplingEmergence/README.md) | [Review](../artifacts/sampling-emergence/) |
-| Relative signals and decaying reference | [Relative signals](RelativeSignals/README.md) | [Runs](../artifacts/relative-signals/) |
-| Primitive agency and lookup arithmetic | [Primitive agency](PrimitiveAgency/README.md) | [Runs](../artifacts/primitive-agency/), [sweep](../artifacts/primitive-agency-sweep/) |
-| Primitive foraging | [Primitive forager](PrimitiveForager/README.md) | [Review](../artifacts/primitive-forager/) |
-| Four local/composite learning experiments | [Primitive learning](PrimitiveLearning/REPORT.md) | [Runs](../artifacts/primitive-learning/) |
-| Composite emergence | [Composite emergence](CompositeEmergence/REPORT.md) | [Runs](CompositeEmergence/results/) |
-| Retry, retention and lifecycle adaptation | [Adaptive lifecycle](AdaptiveLifecycle/REPORT.md) | [Runs](AdaptiveLifecycle/results/) |
+| Phototaxis swimmers, compact backend and cognitive trials | [Simulation](Phototaxis/README.md), [browser launcher](Phototaxis.Browser/Start-Preview.ps1), [headless runner](Phototaxis.Runner/Program.cs) | [Earlier runs](../artifacts/phototaxis) |
+| Sampling into primitive distinctions | [Sampling emergence](SamplingEmergence/README.md) | [Review](../artifacts/sampling-emergence) |
+| Relative signals and decaying reference | [Relative signals](RelativeSignals/README.md) | [Runs](../artifacts/relative-signals) |
+| Primitive agency and lookup arithmetic | [Primitive agency](PrimitiveAgency/README.md) | [Runs](../artifacts/primitive-agency), [sweep](../artifacts/primitive-agency-sweep) |
+| Primitive foraging | [Primitive forager](PrimitiveForager/README.md) | [Review](../artifacts/primitive-forager) |
+| Four local/composite learning experiments | [Primitive learning](PrimitiveLearning/REPORT.md) | [Runs](../artifacts/primitive-learning) |
+| Composite emergence | [Composite emergence](CompositeEmergence/REPORT.md) | [Runs](CompositeEmergence/results) |
+| Retry, retention and lifecycle adaptation | [Adaptive lifecycle](AdaptiveLifecycle/REPORT.md) | [Runs](AdaptiveLifecycle/results) |
 | Local service economy | [Ecology report](UtilityEcology/REPORT.md) | [Review](UtilityEcology/review.html) |
 | Progress alongside error | [Progress report](UtilityEcology/PROGRESS-REPORT.md) | [Review](UtilityEcology/progress-review.html) |
 | Finite seed and paid candidate admission | [Seed report](UtilityEcology/SEED-REPORT.md) | [Review](UtilityEcology/seed-review.html) |

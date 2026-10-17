@@ -148,7 +148,7 @@ execution. Pure reference graphs are checked for absence of numeric carriers
 and locations.
 
 ```powershell
-dotnet test experiments/QualitativeExecution.Tests/QualitativeExecution.Tests.csproj
+dotnet test Tests/QualitativeExecution.Tests/QualitativeExecution.Tests.csproj
 dotnet test Gojo.slnx
 ```
 

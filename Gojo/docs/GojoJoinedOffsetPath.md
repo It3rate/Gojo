@@ -50,7 +50,7 @@ observations that strengthen confidence by being counted more than once.
 `SegmentOffset.TryConstructPath` reads this exact two-field surface. Its host
 selects this procedure; neither variable names nor a new syntax opcode select
 the law. The
-[syntax fixture](../../Gojo.Encoding.Tests/Fixtures/Syntax/joined-offset-path.gojo)
+[syntax fixture](../../Tests/Gojo.Encoding.Tests/Fixtures/Syntax/joined-offset-path.gojo)
 supplies inputs only, never calculated joints. Its first root is the common
 request with an open calibration; the next three roots bind that slot to
 distances two, three and four. The driver applies the chosen binding before
@@ -126,14 +126,14 @@ checked against the executable fixture. The browser presents those traces;
 it does not execute Gojo. The back view mirrors horizontally without changing
 the mathematical structure.
 
-The [30 dedicated tests](../../Gojo.Encoding.Tests/GojoSyntaxJoinedOffsetTests.cs)
+The [30 dedicated tests](../../Tests/Gojo.Encoding.Tests/GojoSyntaxJoinedOffsetTests.cs)
 cover shared joint identity, per-edge support and order, open corners,
 irrational preparations, reversed frames, sheared/reflected charts, longer
 paths, integers beyond floating-point precision, failed premises, numeric
 restoration and captured calibration history. Run:
 
 ```powershell
-dotnet test Gojo.Encoding.Tests/Gojo.Encoding.Tests.csproj --filter 'FullyQualifiedName~GojoSyntaxJoinedOffsetTests'
+dotnet test Tests/Gojo.Encoding.Tests/Gojo.Encoding.Tests.csproj --filter 'FullyQualifiedName~GojoSyntaxJoinedOffsetTests'
 dotnet test Gojo.slnx
 ```
 

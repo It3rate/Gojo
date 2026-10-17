@@ -139,7 +139,7 @@ mixed-lane-residue = Residue(unsettled-area-read)
 ```
 
 The inspectable JSON sample lives at
-`Gojo.Encoding.Tests/Fixtures/EncoderJson/concept-definitions/boundary-area-band-variants.json`.
+`Tests/Gojo.Encoding.Tests/Fixtures/EncoderJson/concept-definitions/boundary-area-band-variants.json`.
 This shows that positive area, anti-area, and non-area residue can be built as
 neighboring local definitions. The next problem is discovery: reading these
 forms from ordinary Gojo structure rather than constructing them directly.
@@ -156,7 +156,7 @@ does not depend on row names such as `positive-area`.
 ### Resolution
 
 The first resolution-facet sample now lives at
-`Gojo.Encoding.Tests/Fixtures/EncoderJson/concept-definitions/resolution-facets.json`.
+`Tests/Gojo.Encoding.Tests/Fixtures/EncoderJson/concept-definitions/resolution-facets.json`.
 It keeps eight closely related states separate:
 
 ```text
@@ -238,7 +238,7 @@ residue rules to become first-class.
 ### Offset Read
 
 Offset read now has a primitive definition sample at
-`Gojo.Encoding.Tests/Fixtures/EncoderJson/concept-definitions/offset-variants.json`.
+`Tests/Gojo.Encoding.Tests/Fixtures/EncoderJson/concept-definitions/offset-variants.json`.
 The sample keeps the neighboring offset nouns visible together:
 
 ```text
@@ -266,7 +266,7 @@ when the geometry cannot settle cleanly.
 ### Noun Composition
 
 The first composition sample now lives at
-`Gojo.Encoding.Tests/Fixtures/EncoderJson/concept-definitions/noun-composition-cad-seeds.json`.
+`Tests/Gojo.Encoding.Tests/Fixtures/EncoderJson/concept-definitions/noun-composition-cad-seeds.json`.
 It asks whether the lower noun pieces can combine into common ideas without
 enumerating every permutation:
 
@@ -302,7 +302,7 @@ the same composition without the compact `Band`, `Area+`, `Support`,
 ### Legacy Preposition Focus
 
 The old preposition sample lives at
-`Gojo.Encoding.Tests/Fixtures/EncoderJson/concept-definitions/legacy-preposition-parameterized-focus.json`.
+`Tests/Gojo.Encoding.Tests/Fixtures/EncoderJson/concept-definitions/legacy-preposition-parameterized-focus.json`.
 It is retained as a legacy contrast, not as the active grammar architecture. The
 old shape was:
 

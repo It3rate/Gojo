@@ -36,10 +36,10 @@ need refreshed provenance if its supporting observations change.
 
 ## What the fixture actually does
 
-The [syntax fixture](../../Gojo.Encoding.Tests/Fixtures/Syntax/bezier-replay.gojo)
+The [syntax fixture](../../Tests/Gojo.Encoding.Tests/Fixtures/Syntax/bezier-replay.gojo)
 connects a control-publication port, six interpolation instructions, an
 independent observation, initial bindings, an explicit edit, and open replay
-and timeline roles. The [tests](../../Gojo.Encoding.Tests/GojoSyntaxReplayTests.cs)
+and timeline roles. The [tests](../../Tests/Gojo.Encoding.Tests/GojoSyntaxReplayTests.cs)
 fill those roles with ordinary focus, application, dependency, stale-dependency,
 replay and time-step structures.
 

@@ -378,7 +378,7 @@ current calorie calibration was adjusted to leave room for selection.
 Verification entry points:
 
 ```powershell
-dotnet test experiments/Phototaxis.Tests/Phototaxis.Tests.csproj
+dotnet test Tests/Phototaxis.Tests/Phototaxis.Tests.csproj
 dotnet test Gojo.slnx
 ```
 

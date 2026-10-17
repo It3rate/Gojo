@@ -66,21 +66,21 @@ extend the result beyond that test's premises or representation.
 
 Evidence anchors:
 
-- [Ordinal reference tests](../../experiments/QualitativeExecution.Tests/OrdinalReferenceTests.cs)
+- [Ordinal reference tests](../../Tests/QualitativeExecution.Tests/OrdinalReferenceTests.cs)
   and [implementation](../../experiments/QualitativeExecution/OrdinalReferenceFrame.cs).
-- [Qualitative process tests](../../Gojo.Tests/Experiments/QualitativeProcessTests.cs),
+- [Qualitative process tests](../../Tests/Gojo.Tests/Experiments/QualitativeProcessTests.cs),
   [structural matcher](../Patterns/StructuralConstraint.cs), and
-  [demand/refinement tests](../../experiments/QualitativeExecution.Tests/DemandRefinementTests.cs).
-- [Sampling tests](../../Gojo.Tests/Core/SamplingSurfaceTests.cs),
+  [demand/refinement tests](../../Tests/QualitativeExecution.Tests/DemandRefinementTests.cs).
+- [Sampling tests](../../Tests/Gojo.Tests/Core/SamplingSurfaceTests.cs),
   [relative signal memory](../Structures/RelativeSignalSurface.cs) and
-  [memory tests](../../Gojo.Tests/Core/RelativeSignalSurfaceTests.cs).
-- [Section/junction tests](../../GojoCAD.Tests/GraphicConceptShapeTests.cs),
-  [affine interpolation tests](../../Gojo.Tests/Core/AffineFrameTests.cs), and
-  [actual motif transform tests](../../Gojo.Encoding.Tests/GojoSyntaxAffineFrameTests.cs).
-- [Designed controller tests](../../experiments/Phototaxis.Tests/DesignedControllerTests.cs),
-  [independent-clock tests](../../experiments/Phototaxis.Tests/NativeCreatureTests.cs),
-  [ordinal learning tests](../../experiments/PrimitiveLearning.Tests/AdaptiveOrdinalTests.cs)
-  and [program learning tests](../../experiments/PrimitiveLearning.Tests/ProgramLearnerTests.cs).
+  [memory tests](../../Tests/Gojo.Tests/Core/RelativeSignalSurfaceTests.cs).
+- [Section/junction tests](../../Tests/GojoCAD.Tests/GraphicConceptShapeTests.cs),
+  [affine interpolation tests](../../Tests/Gojo.Tests/Core/AffineFrameTests.cs), and
+  [actual motif transform tests](../../Tests/Gojo.Encoding.Tests/GojoSyntaxAffineFrameTests.cs).
+- [Designed controller tests](../../Tests/Phototaxis.Tests/DesignedControllerTests.cs),
+  [independent-clock tests](../../Tests/Phototaxis.Tests/NativeCreatureTests.cs),
+  [ordinal learning tests](../../Tests/PrimitiveLearning.Tests/AdaptiveOrdinalTests.cs)
+  and [program learning tests](../../Tests/PrimitiveLearning.Tests/ProgramLearnerTests.cs).
 
 ## How much of the algebra is implicit in meaning?
 

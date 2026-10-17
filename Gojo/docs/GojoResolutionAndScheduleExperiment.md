@@ -202,7 +202,7 @@ comparison remain undemonstrated.
 ## Verification
 
 ```powershell
-dotnet test experiments/QualitativeExecution.Tests/QualitativeExecution.Tests.csproj
+dotnet test Tests/QualitativeExecution.Tests/QualitativeExecution.Tests.csproj
 dotnet test Gojo.slnx
 ```
 

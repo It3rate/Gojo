@@ -153,8 +153,8 @@ elaboration of the prior rung.
 The current JSON sketches live in:
 
 ```text
-Gojo.Encoding.Tests/Fixtures/EncoderJson/grammar/intent-refinement-ladder-pcb-route.json
-Gojo.Encoding.Tests/Fixtures/EncoderJson/grammar/intent-refinement-ladder-message-relay.json
+Tests/Gojo.Encoding.Tests/Fixtures/EncoderJson/grammar/intent-refinement-ladder-pcb-route.json
+Tests/Gojo.Encoding.Tests/Fixtures/EncoderJson/grammar/intent-refinement-ladder-message-relay.json
 ```
 
 These are not the final low-level compact relation interchange. They are a

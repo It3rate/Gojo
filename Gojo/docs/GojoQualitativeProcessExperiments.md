@@ -1,7 +1,7 @@
 # Qualitative process experiments
 
 This is an exploratory process fixture, implemented in
-`Gojo.Tests/Experiments/QualitativeProcessTests.cs`. It uses the same general
+`Tests/Gojo.Tests/Experiments/QualitativeProcessTests.cs`. It uses the same general
 `Gojo.Patterns.StructuralConstraint` law as the structural-constraint track.
 It adds no primitive, water-process engine, sign table, or carrier settlement
 rule. The process premises are selected local models, not discovered physical
@@ -141,7 +141,7 @@ connecting their measured comparison witnesses to a revisable qualitative
 dominance premise remains a distinct extension.
 
 The companion
-[`QualitativeNumericRefinementTests.cs`](../../Gojo.Tests/Experiments/QualitativeNumericRefinementTests.cs)
+[`QualitativeNumericRefinementTests.cs`](../../Tests/Gojo.Tests/Experiments/QualitativeNumericRefinementTests.cs)
 adds an explicit numeric-to-qualitative bridge in five cases. Existing finite
 difference and support-decision laws read a measured difference through declared
 positive, negative and zero frames. Each response publishes the same already

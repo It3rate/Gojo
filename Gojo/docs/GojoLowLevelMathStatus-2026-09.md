@@ -40,13 +40,13 @@ exists; that reader and its composition laws have been exercised through text.
 | Unknown mathematics | Placeholder patterns, partial bindings, claims, read residue, unresolved structure | Open element positions work; a concrete location or carrier still requires concrete ticks or a stable unit. Partial patterns can retain missing participants. General propagation of bounded measurement uncertainty remains incomplete. |
 | Numeric range | Integer storage and checked arithmetic, with some helper-specific saturation | Text literals use signed 64-bit integers. This is not arbitrary-precision mathematics; some representable inputs/results still fail on intermediate overflow. |
 
-Evidence includes [ordinary arithmetic](../../Gojo.Tests/Core/OrdinaryMathFlowTests.cs),
-[operation surfaces](../../Gojo.Tests/Core/OperationSurfaceTests.cs),
-[unit shapes](../../Gojo.Tests/Core/UnitShapeTests.cs),
-[duality](../../Gojo.Tests/Core/ElementDualityTests.cs),
-[resolution ladders](../../Gojo.Tests/Core/ResolutionLadderTests.cs),
-[fill crystallization](../../Gojo.Tests/Core/FillCrystallizationTests.cs), and
-[syntax tests](../../Gojo.Encoding.Tests/GojoSyntaxTests.cs).
+Evidence includes [ordinary arithmetic](../../Tests/Gojo.Tests/Core/OrdinaryMathFlowTests.cs),
+[operation surfaces](../../Tests/Gojo.Tests/Core/OperationSurfaceTests.cs),
+[unit shapes](../../Tests/Gojo.Tests/Core/UnitShapeTests.cs),
+[duality](../../Tests/Gojo.Tests/Core/ElementDualityTests.cs),
+[resolution ladders](../../Tests/Gojo.Tests/Core/ResolutionLadderTests.cs),
+[fill crystallization](../../Tests/Gojo.Tests/Core/FillCrystallizationTests.cs), and
+[syntax tests](../../Tests/Gojo.Encoding.Tests/GojoSyntaxTests.cs).
 
 ## A confirmed ratio-remainder mismatch
 
@@ -89,7 +89,7 @@ ticks.
 The issue reaches mutation: `target.TrySetFrom(port, input)` produces target
 value 6 and source tension 2. This observation-to-tension path treats the scaled
 remainder as source participation. Existing tests, including the backward-ratio
-case and [carrier import tests](../../Gojo.Tests/Core/CarrierSlotTests.cs), protect
+case and [carrier import tests](../../Tests/Gojo.Tests/Core/CarrierSlotTests.cs), protect
 this convention, so a passing suite does not resolve the physical interpretation.
 
 The new blend fixture's half-read and four-to-one coarse read have unit target

@@ -170,7 +170,7 @@ and proof of stability remain separate experiments.
 Run the mechanics and compositional cases with:
 
 ```powershell
-dotnet test experiments/QualitativeExecution.Tests/QualitativeExecution.Tests.csproj -c Release --filter "FullyQualifiedName~DemandLawTests|FullyQualifiedName~FiniteChoiceTests|FullyQualifiedName~ConditionalPassageTests|FullyQualifiedName~PhaseRecurrenceTests|FullyQualifiedName~RepeatedMotifTests|FullyQualifiedName~TemporalMotifCompositionTests|FullyQualifiedName~ConditionalTemporalCompositionTests"
+dotnet test Tests/QualitativeExecution.Tests/QualitativeExecution.Tests.csproj -c Release --filter "FullyQualifiedName~DemandLawTests|FullyQualifiedName~FiniteChoiceTests|FullyQualifiedName~ConditionalPassageTests|FullyQualifiedName~PhaseRecurrenceTests|FullyQualifiedName~RepeatedMotifTests|FullyQualifiedName~TemporalMotifCompositionTests|FullyQualifiedName~ConditionalTemporalCompositionTests"
 ```
 
 The full qualitative suite also retains the earlier law, resolution, schedule,

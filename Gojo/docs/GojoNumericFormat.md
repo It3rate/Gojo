@@ -106,9 +106,9 @@ equality is not its round-trip criterion.
 
 ## Evidence
 
-[Core tests](../../Gojo.Tests/Core/NumericFormatTests.cs) check graph identity,
+[Core tests](../../Tests/Gojo.Tests/Core/NumericFormatTests.cs) check graph identity,
 partial patterns, descriptors, malformed packets, deep groups, cycles, pending
-tension and restored live output/carry behavior. [Inventory tests](../../Gojo.Encoding.Tests/NumericMilestoneInventoryTests.cs)
+tension and restored live output/carry behavior. [Inventory tests](../../Tests/Gojo.Encoding.Tests/NumericMilestoneInventoryTests.cs)
 compare every table reference and state field, except intentionally replaced
 runtime IDs, across two round trips for all current authored syntax fixtures and
 every exported Blocks specimen. Quotient and material syntax tests also execute
@@ -116,7 +116,7 @@ after restoration. The gear tests reread every restored rung, contour and shared
 pitch identity. These tests establish fidelity of those graphs and behaviors,
 not mathematical completeness of every depicted concept.
 
-[Live pressure tests](../../Gojo.Tests/Core/NumericLiveTensionFormatTests.cs)
+[Live pressure tests](../../Tests/Gojo.Tests/Core/NumericLiveTensionFormatTests.cs)
 add binary/archive replay, independent historical observations, inverse and
 wildcard slot identity, malformed pressure references, and an independent
 version-1 wire fixture.

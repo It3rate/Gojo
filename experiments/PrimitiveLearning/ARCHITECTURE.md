@@ -249,7 +249,7 @@ coverage must be interpreted separately from learned-state mutation.
 Native transport uses `GojoNumericFormat`, including shared identities,
 coordinates, TickRefs, carrier state, attachments and unit surfaces. Runner
 archives verify all four graph roundtrips and query/program behavior. The
-connected [archive regression](../PrimitiveLearning.Tests/NativeCompositeArchiveTests.cs)
+connected [archive regression](../../Tests/PrimitiveLearning.Tests/NativeCompositeArchiveTests.cs)
 also reconnects a declared external comparison fixture and checks all four
 restored behaviors, shared ports and independent resumed updates. It does not
 serialize a complete live world service for arbitrary deployment.

@@ -7,7 +7,7 @@ feedback path while changing the participation policy before expanding the marke
 
 Protocol: `666e3f6`. Implementation: `c409188`. All sixteen frozen trials completed
 1,440 arrivals: 23,040 total. No parameter was adjusted after viewing results, and
-no first-run output was replaced. Evidence is in [results](results/).
+no first-run output was replaced. Evidence is in [results](results).
 
 ## What was added
 

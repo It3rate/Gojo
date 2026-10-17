@@ -65,7 +65,7 @@ foreign or finer unit. Direction is selected separately from the magnitude.
 ## From a native circle to a usable turn
 
 Fixture:
-[`constructed-circle-rotation.gojo`](../../Gojo.Encoding.Tests/Fixtures/Syntax/constructed-circle-rotation.gojo).
+[`constructed-circle-rotation.gojo`](../../Tests/Gojo.Encoding.Tests/Fixtures/Syntax/constructed-circle-rotation.gojo).
 Reader: `ContourConstruction.TryCalibrateQuarters`.
 
 The circle is first built in the existing way: source point, orthogonal outlet,
@@ -128,7 +128,7 @@ evaluation are not implemented by this bridge.
 ## Constructing a measured straight offset
 
 Fixture:
-[`measured-segment-offset.gojo`](../../Gojo.Encoding.Tests/Fixtures/Syntax/measured-segment-offset.gojo).
+[`measured-segment-offset.gojo`](../../Tests/Gojo.Encoding.Tests/Fixtures/Syntax/measured-segment-offset.gojo).
 Reader: `SegmentOffset.TryConstruct`.
 
 ```gojo
@@ -237,14 +237,14 @@ The host selects a reader and passes actual results into later requests.
 That selection still needs an explicit execution contract in a future compiler;
 it is not currently inferred from variable names or compiled from a demo.
 
-The [tests](../../Gojo.Encoding.Tests/GojoSyntaxMetricConstructionTests.cs) run
+The [tests](../../Tests/Gojo.Encoding.Tests/GojoSyntaxMetricConstructionTests.cs) run
 before and after numeric restoration, compare exact results with independent
 integer identities, exercise a skew chart and opposite guide, reject false
 identity/calibration reads, and preserve bounded failures and captured history.
 Existing circle and rotation tests continue to run against the shared metric.
 
 ```powershell
-dotnet test Gojo.Encoding.Tests/Gojo.Encoding.Tests.csproj --filter 'FullyQualifiedName~GojoSyntaxMetricConstructionTests|FullyQualifiedName~GojoSyntaxCircleConstructionTests|FullyQualifiedName~GojoSyntaxRotationTests'
+dotnet test Tests/Gojo.Encoding.Tests/Gojo.Encoding.Tests.csproj --filter 'FullyQualifiedName~GojoSyntaxMetricConstructionTests|FullyQualifiedName~GojoSyntaxCircleConstructionTests|FullyQualifiedName~GojoSyntaxRotationTests'
 dotnet test Gojo.slnx
 ```
 

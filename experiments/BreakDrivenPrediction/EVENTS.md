@@ -126,7 +126,7 @@ the public-port aliases, private separation and pending forecasts.
 ## Run and verification
 
 ```powershell
-dotnet test experiments/BreakDrivenPrediction.Tests/BreakDrivenPrediction.Tests.csproj --no-restore
+dotnet test Tests/BreakDrivenPrediction.Tests/BreakDrivenPrediction.Tests.csproj --no-restore
 dotnet run --project experiments/BreakDrivenPrediction/BreakDrivenPrediction.csproj -- --events
 dotnet test Gojo.slnx --no-restore
 ```

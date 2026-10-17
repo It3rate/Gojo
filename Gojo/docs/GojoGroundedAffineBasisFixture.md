@@ -3,7 +3,7 @@
 Status: implemented exploratory construction contract, September 2026.
 
 [Open the ten-stage walkthrough](examples/grounded-affine-basis.html).
-The [authored syntax](../../Gojo.Encoding.Tests/Fixtures/Syntax/grounded-affine-basis.gojo)
+The [authored syntax](../../Tests/Gojo.Encoding.Tests/Fixtures/Syntax/grounded-affine-basis.gojo)
 uses existing carriers, relations, crystallization, bindings and interpolation
 requests. The [selected reader](../Structures/AffineBasisConstruction.cs) supplies
 the basis construction and its witnessed coordinate reads.
@@ -187,13 +187,13 @@ The embedded trace is checked against the kernel for both conventions, five
 curve samples, complete/partial/missing controls, and all six intermediate nodes.
 This is an illustrated construction experiment, not a running physical solver.
 
-The [focused tests](../../Gojo.Encoding.Tests/GojoSyntaxGroundedBasisTests.cs)
+The [focused tests](../../Tests/Gojo.Encoding.Tests/GojoSyntaxGroundedBasisTests.cs)
 also cover missing or collapsed spans, false origin attachments, foreign unit
 origins, malformed calibrations, reversed frames, shared tick aliases,
 crystallization stability and numeric restoration.
 
 ```powershell
-dotnet test Gojo.Encoding.Tests/Gojo.Encoding.Tests.csproj --filter FullyQualifiedName~GojoSyntaxGroundedBasisTests
+dotnet test Tests/Gojo.Encoding.Tests/Gojo.Encoding.Tests.csproj --filter FullyQualifiedName~GojoSyntaxGroundedBasisTests
 dotnet test Gojo.slnx
 ```
 

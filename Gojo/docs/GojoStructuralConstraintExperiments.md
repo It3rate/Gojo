@@ -4,7 +4,7 @@ Status: experimental local law implemented above the unchanged kernel,
 2026-10-15. This follows the representation-only
 [primitive sufficiency experiments](GojoPrimitiveSufficiencyExperiments.md).
 The focused fixture is
-[`StructuralConstraintTests.cs`](../../Gojo.Tests/Experiments/StructuralConstraintTests.cs);
+[`StructuralConstraintTests.cs`](../../Tests/Gojo.Tests/Experiments/StructuralConstraintTests.cs);
 the new local reader is
 [`StructuralConstraint`](../Patterns/StructuralConstraint.cs).
 

@@ -62,39 +62,51 @@
     <File Path="Gojo/docs/GojoAffineConstructionFixture.md" />
     <File Path="Gojo/docs/GojoCurveReplayWalkthrough.md" />
     <File Path="Gojo/docs/examples/curve-replay.html" />
-    <File Path="Gojo.Demos.Web/syntax/README.md" />
+    <File Path="Visualizations/Gojo.Demos.Web/syntax/README.md" />
   </Folder>
   <Project Path="Gojo/Gojo.csproj" />
-  <Folder Name="/Minds/">
-    <File Path="Minds/README.md" />
-    <File Path="Minds/AGENTS.md" />
-    <File Path="Minds/docs/ExperimentReadiness.md" />
-    <File Path="Minds/docs/ExperimentProtocol.template.md" />
-    <File Path="Minds/docs/TwoSpaceExploration.md" />
-    <File Path="Minds/docs/ExperimentRoadmap.md" />
-    <File Path="Minds/docs/ExperimentRoadmap.json" />
-    <File Path="Minds/docs/FeedbackLimitsProtocol.md" />
-    <File Path="Minds/docs/FeedbackLimitsFindings.md" />
-    <Project Path="Minds/Minds.csproj" />
-    <Project Path="Minds.Tests/Minds.Tests.csproj" />
-  </Folder>
-  <Project Path="Gojo.Tests/Gojo.Tests.csproj" />
   <Project Path="Gojo.Encoding/Gojo.Encoding.csproj" />
-  <Project Path="Gojo.Encoding.Tests/Gojo.Encoding.Tests.csproj" />
-  <Project Path="Gojo.GearShapeLadder/Gojo.GearShapeLadder.csproj" />
-  <Project Path="Gojo.GearShapeLadder.Browser/Gojo.GearShapeLadder.Browser.csproj" />
-  <Project Path="Gojo.GearShapeLadder.Tests/Gojo.GearShapeLadder.Tests.csproj" />
-  <Project Path="GojoCAD/GojoCAD.csproj" />
-  <Project Path="GojoCAD.Tests/GojoCAD.Tests.csproj" />
-  <Project Path="GojoCAD.SketchViewer/GojoCAD.SketchViewer.csproj" />
-  <Project Path="GojoCAD.SketchViewer.Browser/GojoCAD.SketchViewer.Browser.csproj" />
-  <Project Path="Gojo.Blocks/Gojo.Blocks.csproj" />
-  <Project Path="Gojo.Blocks.Browser/Gojo.Blocks.Browser.csproj" />
-  <Project Path="GojoDraw/GojoDraw.csproj" />
+  <Folder Name="/Applications/">
+    <Project Path="Applications/GojoCAD/GojoCAD.csproj" />
+    <Project Path="Applications/GojoDraw/GojoDraw.csproj" />
+  </Folder>
+  <Folder Name="/Visualizations/">
+    <Project Path="Visualizations/Gojo.Blocks/Gojo.Blocks.csproj" />
+    <Project Path="Visualizations/Gojo.Blocks.Browser/Gojo.Blocks.Browser.csproj" />
+    <Project Path="Visualizations/Gojo.GearShapeLadder/Gojo.GearShapeLadder.csproj" />
+    <Project Path="Visualizations/Gojo.GearShapeLadder.Browser/Gojo.GearShapeLadder.Browser.csproj" />
+    <Project Path="Visualizations/GojoCAD.SketchViewer/GojoCAD.SketchViewer.csproj" />
+    <Project Path="Visualizations/GojoCAD.SketchViewer.Browser/GojoCAD.SketchViewer.Browser.csproj" />
+  </Folder>
+  <Folder Name="/Tests/">
+    <Project Path="Tests/Gojo.Tests/Gojo.Tests.csproj" />
+    <Project Path="Tests/Gojo.Encoding.Tests/Gojo.Encoding.Tests.csproj" />
+    <Project Path="Tests/Gojo.GearShapeLadder.Tests/Gojo.GearShapeLadder.Tests.csproj" />
+    <Project Path="Tests/GojoCAD.Tests/GojoCAD.Tests.csproj" />
+    <Project Path="Tests/Minds.Tests/Minds.Tests.csproj" />
+    <Project Path="Tests/QualitativeExecution.Tests/QualitativeExecution.Tests.csproj" />
+    <Project Path="Tests/Phototaxis.Tests/Phototaxis.Tests.csproj" />
+    <Project Path="Tests/PrimitiveForager.Tests/PrimitiveForager.Tests.csproj" />
+    <Project Path="Tests/PrimitiveLearning.Tests/PrimitiveLearning.Tests.csproj" />
+    <Project Path="Tests/CompositeEmergence.Tests/CompositeEmergence.Tests.csproj" />
+    <Project Path="Tests/AdaptiveLifecycle.Tests/AdaptiveLifecycle.Tests.csproj" />
+    <Project Path="Tests/UtilityEcology.Tests/UtilityEcology.Tests.csproj" />
+  </Folder>
   <Folder Name="/Experiments/" />
+  <Folder Name="/Experiments/Minds/">
+    <File Path="experiments/Minds/README.md" />
+    <File Path="experiments/Minds/AGENTS.md" />
+    <File Path="experiments/Minds/docs/ExperimentReadiness.md" />
+    <File Path="experiments/Minds/docs/ExperimentProtocol.template.md" />
+    <File Path="experiments/Minds/docs/TwoSpaceExploration.md" />
+    <File Path="experiments/Minds/docs/ExperimentRoadmap.md" />
+    <File Path="experiments/Minds/docs/ExperimentRoadmap.json" />
+    <File Path="experiments/Minds/docs/FeedbackLimitsProtocol.md" />
+    <File Path="experiments/Minds/docs/FeedbackLimitsFindings.md" />
+    <Project Path="experiments/Minds/Minds.csproj" />
+  </Folder>
   <Folder Name="/Experiments/QualitativeExecution/">
     <Project Path="experiments/QualitativeExecution/QualitativeExecution.csproj" />
-    <Project Path="experiments/QualitativeExecution.Tests/QualitativeExecution.Tests.csproj" />
   </Folder>
   <Folder Name="/Experiments/RefinementPerformance/">
     <Project Path="experiments/RefinementPerformance/RefinementPerformance.csproj" />
@@ -106,7 +118,6 @@
     <Project Path="experiments/Phototaxis/Phototaxis.csproj" />
     <Project Path="experiments/Phototaxis.Browser/Phototaxis.Browser.csproj" />
     <Project Path="experiments/Phototaxis.Runner/Phototaxis.Runner.csproj" />
-    <Project Path="experiments/Phototaxis.Tests/Phototaxis.Tests.csproj" />
   </Folder>
   <Folder Name="/Experiments/SamplingEmergence/">
     <Project Path="experiments/SamplingEmergence/SamplingEmergence.csproj" />
@@ -115,7 +126,6 @@
     <Project Path="experiments/PrimitiveAgency/PrimitiveAgency.csproj" />
   </Folder>
   <Folder Name="/Experiments/PrimitiveForager/">
-    <Project Path="experiments/PrimitiveForager.Tests/PrimitiveForager.Tests.csproj" />
     <Project Path="experiments/PrimitiveForager/PrimitiveForager.csproj" />
   </Folder>
   <Folder Name="/Experiments/RelativeSignals/">
@@ -123,18 +133,14 @@
   </Folder>
   <Folder Name="/Experiments/PrimitiveLearning/">
     <Project Path="experiments/PrimitiveLearning/PrimitiveLearning.csproj" />
-    <Project Path="experiments/PrimitiveLearning.Tests/PrimitiveLearning.Tests.csproj" />
   </Folder>
   <Folder Name="/Experiments/CompositeEmergence/">
     <Project Path="experiments/CompositeEmergence/CompositeEmergence.csproj" />
-    <Project Path="experiments/CompositeEmergence.Tests/CompositeEmergence.Tests.csproj" />
   </Folder>
   <Folder Name="/Experiments/AdaptiveLifecycle/">
     <Project Path="experiments/AdaptiveLifecycle/AdaptiveLifecycle.csproj" />
-    <Project Path="experiments/AdaptiveLifecycle.Tests/AdaptiveLifecycle.Tests.csproj" />
   </Folder>
   <Folder Name="/Experiments/UtilityEcology/">
     <Project Path="experiments/UtilityEcology/UtilityEcology.csproj" />
-    <Project Path="experiments/UtilityEcology.Tests/UtilityEcology.Tests.csproj" />
   </Folder>
 </Solution>

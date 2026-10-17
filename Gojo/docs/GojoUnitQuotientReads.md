@@ -227,29 +227,29 @@ implicit distributive expansion.
 
 ## Tests and remaining boundary
 
-[Kernel tests](../../Gojo.Tests/Core/UnitQuotientTests.cs) cover matching and
+[Kernel tests](../../Tests/Gojo.Tests/Core/UnitQuotientTests.cs) cover matching and
 unmatched units, reciprocal participation, repeated occurrences, preserved
 order and standards, calibration mismatch, descriptors and opposed faces,
 dimensionless versus numeric reads, partial factors and narrow shape reading.
 A 256-case matrix checks signed exponent differences, one-use pairing and
-idempotent reduction. [Factor inventory tests](../../Gojo.Tests/Core/UnitAlgebraConformanceTests.cs)
+idempotent reduction. [Factor inventory tests](../../Tests/Gojo.Tests/Core/UnitAlgebraConformanceTests.cs)
 protect the three prerequisite reader corrections.
 
-The [authored fixture](../../Gojo.Encoding.Tests/Fixtures/Syntax/unit-quotients.gojo)
-and [syntax tests](../../Gojo.Encoding.Tests/GojoSyntaxUnitQuotientTests.cs)
+The [authored fixture](../../Tests/Gojo.Encoding.Tests/Fixtures/Syntax/unit-quotients.gojo)
+and [syntax tests](../../Tests/Gojo.Encoding.Tests/GojoSyntaxUnitQuotientTests.cs)
 exercise speed/time cancellation in two authored orders, consumption calibration,
 reciprocal participation and binding an open denominator. No parser constructor
 was added.
 
-The follow-up [unit conformance tests](../../Gojo.Tests/Core/QuotientUnitConformanceTests.cs)
+The follow-up [unit conformance tests](../../Tests/Gojo.Tests/Core/QuotientUnitConformanceTests.cs)
 cover stable reciprocal and dimensionless promises, order, repetition,
 descriptors, calibration, snapshot isolation, composite factor inventories and
 refusal to capture partial structure. The
-[quantity tests](../../Gojo.Tests/Core/QuantityQuotientTests.cs) check 3,240 signed
+[quantity tests](../../Tests/Gojo.Tests/Core/QuantityQuotientTests.cs) check 3,240 signed
 divisions by reconstruction, unchanged carrier state, open/zero domains,
 calibration and opposed-output refusal, binding, malformed requests and checked
-range boundaries. The [quantity fixture](../../Gojo.Encoding.Tests/Fixtures/Syntax/quantity-quotients.gojo)
-and [syntax tests](../../Gojo.Encoding.Tests/GojoSyntaxQuantityQuotientTests.cs)
+range boundaries. The [quantity fixture](../../Tests/Gojo.Encoding.Tests/Fixtures/Syntax/quantity-quotients.gojo)
+and [syntax tests](../../Tests/Gojo.Encoding.Tests/GojoSyntaxQuantityQuotientTests.cs)
 exercise the same stages from authored content, including both residues in a
 coarse read. A shared exact ordered-group reader prevents either quotient
 surface from mining fields in nested or malformed lookalikes.
@@ -280,7 +280,7 @@ The broader run also exposed unsafe core ID counters during independent
 concurrent construction. A focused regression reproduced only 22,833 distinct
 carrier IDs from 32,768 constructions. Carrier, relation, tick, placeholder and
 unit-shape allocation now use atomic increments; the
-[concurrency regression](../../Gojo.Tests/Core/ElementIdentityConcurrencyTests.cs)
+[concurrency regression](../../Tests/Gojo.Tests/Core/ElementIdentityConcurrencyTests.cs)
 checks all five families. This fixes identity allocation, not general concurrent
 mutation or settlement of one shared local system.
 
@@ -308,7 +308,7 @@ It then selects the explicit equivalent output read. Dividing 7 speed ticks by
 2 inverse-hour ticks produces 3 mile ticks and 1 speed tick of numerator residue.
 Both witnesses and the original request remain connected.
 
-[Composition tests](../../Gojo.Tests/Core/QuotientCompositionTests.cs) cover
+[Composition tests](../../Tests/Gojo.Tests/Core/QuotientCompositionTests.cs) cover
 denominator inversion, products, partial factors, nested standards and refusal
-of incompatible calibration or faces. The [authored composition fixture](../../Gojo.Encoding.Tests/Fixtures/Syntax/quotient-composition.gojo)
+of incompatible calibration or faces. The [authored composition fixture](../../Tests/Gojo.Encoding.Tests/Fixtures/Syntax/quotient-composition.gojo)
 exercises the same laws before and after [numeric graph restoration](GojoNumericFormat.md).

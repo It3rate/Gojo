@@ -44,7 +44,7 @@ For concrete, illustrated examples, visit the
 experiments explain everyday contexts, selected reads, actions and unresolved
 states, with the actual fixture source available in each page. The browser
 illustrates checked scenarios; it does not execute the kernel. See the
-[authoring and validation workflow](../../Gojo.Demos.Web/syntax/README.md) when
+[authoring and validation workflow](../../Visualizations/Gojo.Demos.Web/syntax/README.md) when
 adding explanations for future fixtures.
 
 This syntax is consequently a blend:
@@ -217,7 +217,7 @@ expresses `n/d` source ticks, with positive, reduced subdivision `d`; whole
 remainders remain locations. This uses existing constructors and does not add
 decimal literals or fractional carrier tension. See the
 [mathematical conformance checkpoint](GojoMathConformance.md) and its
-[executable fixture](../../Gojo.Encoding.Tests/Fixtures/Syntax/math-conformance.gojo).
+[executable fixture](../../Tests/Gojo.Encoding.Tests/Fixtures/Syntax/math-conformance.gojo).
 
 `crystal(relation)` is available only when the supplied relation already exposes
 a crystallizable unit shape. Crystallization stabilizes an already readable
@@ -249,7 +249,7 @@ premature capture is a located syntax error. Keep the partial expression as a
 root and apply explicit bindings before requesting that read.
 
 See [quotient reads and limits](GojoUnitQuotientReads.md) and the executable
-[quantity fixture](../../Gojo.Encoding.Tests/Fixtures/Syntax/quantity-quotients.gojo).
+[quantity fixture](../../Tests/Gojo.Encoding.Tests/Fixtures/Syntax/quantity-quotients.gojo).
 
 ## Boundary and flow lanes
 
@@ -353,7 +353,7 @@ question.
 A wider tool may expose `lane_action($pf,$pi,...)`. That action references an
 already possible lane; it does not create the lane universe. The executable
 example is
-[`ambient-access.gojo`](../../Gojo.Encoding.Tests/Fixtures/Syntax/ambient-access.gojo).
+[`ambient-access.gojo`](../../Tests/Gojo.Encoding.Tests/Fixtures/Syntax/ambient-access.gojo).
 
 ## Actions are scoped relations
 
@@ -603,7 +603,7 @@ For a lossy erasure, a rollback recipe can read `history -> restored`. This is
 structurally different from `reverse(erasure_recipe)`: the history is required
 to recover information the operation did not preserve. The executable cases
 are in
-[`preservation.gojo`](../../Gojo.Encoding.Tests/Fixtures/Syntax/preservation.gojo).
+[`preservation.gojo`](../../Tests/Gojo.Encoding.Tests/Fixtures/Syntax/preservation.gojo).
 
 ## Partition ladders and relative digits
 
@@ -744,18 +744,18 @@ source tick. Like `resolution`, it requires a positive integer, preserves flow
 face/provenance and checks combined factor overflow. Its relation surface
 records scale correspondence; it is not a denominator dimension.
 
-The [composition fixture](../../Gojo.Encoding.Tests/Fixtures/Syntax/quotient-composition.gojo)
+The [composition fixture](../../Tests/Gojo.Encoding.Tests/Fixtures/Syntax/quotient-composition.gojo)
 authors nested quotient units and requests in ordinary groups. Explicit kernel
 expansion/cancellation witnesses select equivalent output units; the parser
 does not silently simplify units or execute division. The
-[material fixture](../../Gojo.Encoding.Tests/Fixtures/Syntax/material-refinement.gojo)
+[material fixture](../../Tests/Gojo.Encoding.Tests/Fixtures/Syntax/material-refinement.gojo)
 authors coarse/fine calibration spans, transfer requests and an open request.
 Its tests execute refinement, coarsening and borrowing both before and after
 numeric restoration. Syntax and these new kernel mechanisms are in step.
 
 ## Bounded quantities and communication focus
 
-The [bounded-quantity fixture](../../Gojo.Encoding.Tests/Fixtures/Syntax/bounded-quantities.gojo)
+The [bounded-quantity fixture](../../Tests/Gojo.Encoding.Tests/Fixtures/Syntax/bounded-quantities.gojo)
 uses existing `group`, `ports`, placeholders, spans and affine calibrations.
 A bounded sample connects its slot, support and evidence; affine reads connect
 an offset and calibrated contributions. Shared slots remain shared after
@@ -825,7 +825,7 @@ shared action edges to establish a two-component algebra. An opposed carrier
 face can supply the generator role; a constructed contour can justify the same
 action through its radial quarters. The generator is not the primitive dual.
 
-The authored [fixture](../../Gojo.Encoding.Tests/Fixtures/Syntax/complex-interpretations.gojo)
+The authored [fixture](../../Tests/Gojo.Encoding.Tests/Fixtures/Syntax/complex-interpretations.gojo)
 contains multiplication and fractional-power requests, partial components,
 an open contour binding and an independent reference-selection request.
 Integer count spans specify p and q; the selected reader retains `w^q=z^p`

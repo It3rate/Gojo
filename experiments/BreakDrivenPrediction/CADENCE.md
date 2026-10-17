@@ -192,7 +192,7 @@ break and candidate surfaces; it does not yet implement this recruitment.
 ## Reproduction and verification
 
 ```powershell
-dotnet test experiments/BreakDrivenPrediction.Tests/BreakDrivenPrediction.Tests.csproj
+dotnet test Tests/BreakDrivenPrediction.Tests/BreakDrivenPrediction.Tests.csproj
 dotnet run --project experiments/BreakDrivenPrediction/BreakDrivenPrediction.csproj -- --cadence
 ```
 

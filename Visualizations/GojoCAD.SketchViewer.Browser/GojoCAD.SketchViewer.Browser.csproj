@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk.WebAssembly">
+  <PropertyGroup>
+    <TargetFramework>net10.0-browser</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <WasmBuildNative>true</WasmBuildNative>
+    <DefineConstants>$(DefineConstants);SKETCHVIEWER_BROWSER</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Avalonia.Browser" Version="11.3.17" />
+    <PackageReference Include="Avalonia.Fonts.Inter" Version="11.3.17" />
+    <PackageReference Include="Avalonia.Skia" Version="11.3.17" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Gojo\Gojo.csproj" />
+    <ProjectReference Include="..\..\Applications\GojoCAD\GojoCAD.csproj" />
+    <ProjectReference Include="..\..\Applications\GojoDraw\GojoDraw.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\GojoCAD.SketchViewer\*.cs" Link="Shared\%(Filename)%(Extension)" />
+    <EmbeddedResource Include="..\..\Applications\GojoCAD\G code\samples\*.nc" LogicalName="GojoCAD.SketchViewer.GCode.%(Filename)%(Extension)" />
+  </ItemGroup>
+</Project>

@@ -129,7 +129,7 @@ topology and documentary PCB attachments.
 
 All 208 exported backing graphs pass two numeric round trips. This establishes
 representational coverage, not every caption's mathematical interpretation.
-Specific examples in [the catalogue](../../Gojo.Blocks/Glossary/BlocksGlossaryStructureCatalog.cs)
+Specific examples in [the catalogue](../../Visualizations/Gojo.Blocks/Glossary/BlocksGlossaryStructureCatalog.cs)
 run ahead of their backing structure:
 
 - `unspecified-site` groups a concrete site with an open dual slot; it is not

@@ -7,7 +7,7 @@ the construction that determines it.
 
 Status: implemented selected reads. See the
 [walkthrough](examples/measured-offsets.html) and
-[authored syntax](../../Gojo.Encoding.Tests/Fixtures/Syntax/measured-offset-refinement.gojo).
+[authored syntax](../../Tests/Gojo.Encoding.Tests/Fixtures/Syntax/measured-offset-refinement.gojo).
 
 ## Structural contract
 
@@ -126,7 +126,7 @@ preparations while composing neighbouring offsets and checking their remaining
 spans. It uses exact rational miters where available. Correlated bounded joint
 coordinates remain a further step; no independent endpoint-box picks are used.
 
-The [focused tests](../../Gojo.Encoding.Tests/GojoSyntaxMeasuredOffsetTests.cs)
+The [focused tests](../../Tests/Gojo.Encoding.Tests/GojoSyntaxMeasuredOffsetTests.cs)
 cover shared-scale cancellation, native and numeric-restored requests, exact
 grid sites, zero distance, a skew chart, opposite guides, rejected negative
 domains and forged preparations, calibration history and storage limits.
@@ -134,7 +134,7 @@ The walkthrough's syntax and all displayed bounds are checked against the
 executed fixture.
 
 ```powershell
-dotnet test Gojo.Encoding.Tests/Gojo.Encoding.Tests.csproj --filter 'FullyQualifiedName~GojoSyntaxMeasuredOffsetTests'
+dotnet test Tests/Gojo.Encoding.Tests/Gojo.Encoding.Tests.csproj --filter 'FullyQualifiedName~GojoSyntaxMeasuredOffsetTests'
 dotnet test Gojo.slnx
 ```
 

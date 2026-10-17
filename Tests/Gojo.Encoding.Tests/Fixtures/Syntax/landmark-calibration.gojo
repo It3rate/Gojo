@@ -1,0 +1,76 @@
+gojo 1;
+
+// Exact records of landmarks; no support interval or distribution is implied.
+let $reported = carrier();
+let $quantity = carrier();
+let $gain = carrier();
+let $time = carrier();
+let $source = ports($reported, ?source_history);
+let $reference = ports($quantity, ?reference_history);
+let $other_reference = ports($quantity, ?other_history);
+let $context = ports(?context);
+let $report10 = group($source, at($time, 0), at($reported, 10), ?first_quantity, $context);
+let $feedback2 = group($reference, at($time, 1), at($quantity, 2), ?first_quantity, $context);
+let $report20 = group($source, at($time, 2), at($reported, 20), ?second_quantity, $context);
+let $feedback4 = group($reference, at($time, 3), at($quantity, 4), ?second_quantity, $context);
+let $feedback8 = group($other_reference, at($time, 4), at($quantity, 8), ?second_quantity, $context);
+let $report0 = group($source, at($time, 5), at($reported, 0), ?third_quantity, $context);
+let $feedback_at_zero = group($reference, at($time, 6), at($quantity, 2), ?third_quantity, $context);
+let $negative_feedback = group($reference, at($time, 7), at($quantity, -2), ?first_quantity, $context);
+let $missing_feedback = group($reference, at($time, 8), ?unavailable, ?first_quantity, $context);
+
+// Both candidates fit 10 -> 2. They disagree at 20, before its feedback arrives.
+let $proportional = group($source, $context,
+    span($reported, 0, 5) -> span($quantity, 0, 1),
+    point($quantity, 0), ?proportional_expectation, ?support);
+let $offset = group($source, $context,
+    span($reported, 8, 9) -> span($quantity, 0, 1),
+    point($quantity, 0), ?offset_expectation, ?support);
+let $open = group($source, $context, ?interpretation,
+    point($quantity, 0), ?open_expectation, ?support);
+let $interpretation_binding = bind(?interpretation,
+    span($reported, 0, 5) -> span($quantity, 0, 1));
+let $feedback_map = span($quantity, 0, 1) -> span($quantity, 0, 1);
+
+// One adjustable target endpoint. The carrier is a whole-tick actuator;
+// its endpoint read is rational (ten actuator ticks per quantity tick).
+let $template = group($source, $context,
+    span($reported, 0, 10) -> (point($quantity, 0) -> ?endpoint),
+    point($quantity, 0), ?learned_expectation, ?support);
+let $endpoint_map = span($gain, 0, 10) -> span($quantity, 0, 1);
+let $recipe = group($template, ?endpoint, $gain, $endpoint_map);
+let $full = span($quantity, 0, 1) -> span($quantity, 0, 1);
+let $half = span($quantity, 0, 2) -> span($quantity, 0, 1);
+let $exact = span($quantity, 0, 0);
+// An explicitly chosen acceptable residual, not the meaning of "about ten".
+let $acceptable = (at($quantity, -1) -> point($quantity, 10)) ->
+                  (at($quantity, 1) -> point($quantity, 10));
+let $focus = group(
+    ports($template, $proportional, $offset), ?requested_agreement,
+    ports(?endpoint, $gain), ports($proportional, $offset, ?learned_expectation),
+    ?next_endpoint, frame(bind(?endpoint, ?next_endpoint)), ?mismatch, $source
+);
+
+// These are the actual request patterns bound and executed by the test driver.
+// The driver selects the reader and event order; the graph retains its operands.
+let $plan_request = group(?state, ?comparison, ?relaxation, ?acceptance, $focus);
+let $apply_request = group(?plan, ?state, ?history, ?controller);
+let $propose = action(ports(?state, ?comparison), $plan_request,
+    ports(?plan), ?planning_residue, $focus);
+let $apply = action(ports(?plan, ?state, ?history, ?controller), $apply_request,
+    ports(?next_state, ?next_history), ?settlement_residue, $focus);
+let $cycle = repeat($focus, count($time, 8), group($propose, $apply),
+    group(?next_state -> ?state, ?next_history -> ?history),
+    ?remaining_mismatch, timeline($time, ?state));
+
+// Ordered fixture roots are an inventory, not an automatic execution schedule.
+root group($report10, $feedback2, $report20, $feedback4, $feedback8,
+           $report0, $feedback_at_zero, $negative_feedback, $missing_feedback);
+root group($proportional, $offset, $open, $interpretation_binding, $feedback_map);
+root $recipe;
+root group($full, $half, $exact, $acceptable, $focus, ports(),
+           count($time, 8), count($time, 4), point($gain, 50));
+root $plan_request;
+root $apply_request;
+root $cycle;
+root ports(?state, ?comparison, ?relaxation, ?acceptance, ?plan, ?history, ?controller);

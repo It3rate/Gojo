@@ -113,15 +113,15 @@ preserves the retained graph. These are separate capabilities.
 | Authoring and transport | Text construction and version-1 integer graph storage, including shared unknowns, unit promises and attachments | No canonical text writer, imports, general execution engine, distributed identity or concurrent checkpoint |
 
 Evidence comes from the syntax suites for
-[mathematics](../../Gojo.Encoding.Tests/GojoSyntaxMathConformanceTests.cs),
-[quotient composition](../../Gojo.Encoding.Tests/GojoSyntaxQuotientCompositionTests.cs),
-[material refinement](../../Gojo.Encoding.Tests/GojoSyntaxMaterialRefinementTests.cs),
-[bounds](../../Gojo.Encoding.Tests/GojoSyntaxBoundedQuantityTests.cs),
-[geometry](../../Gojo.Encoding.Tests/GojoSyntaxGeometryTests.cs),
-[affine reads](../../Gojo.Encoding.Tests/GojoSyntaxAffineFrameTests.cs),
-[local response](../../Gojo.Encoding.Tests/GojoSyntaxLocalBlendTests.cs), and
-[replay](../../Gojo.Encoding.Tests/GojoSyntaxReplayTests.cs).
-The [inventory suite](../../Gojo.Encoding.Tests/NumericMilestoneInventoryTests.cs)
+[mathematics](../../Tests/Gojo.Encoding.Tests/GojoSyntaxMathConformanceTests.cs),
+[quotient composition](../../Tests/Gojo.Encoding.Tests/GojoSyntaxQuotientCompositionTests.cs),
+[material refinement](../../Tests/Gojo.Encoding.Tests/GojoSyntaxMaterialRefinementTests.cs),
+[bounds](../../Tests/Gojo.Encoding.Tests/GojoSyntaxBoundedQuantityTests.cs),
+[geometry](../../Tests/Gojo.Encoding.Tests/GojoSyntaxGeometryTests.cs),
+[affine reads](../../Tests/Gojo.Encoding.Tests/GojoSyntaxAffineFrameTests.cs),
+[local response](../../Tests/Gojo.Encoding.Tests/GojoSyntaxLocalBlendTests.cs), and
+[replay](../../Tests/Gojo.Encoding.Tests/GojoSyntaxReplayTests.cs).
+The [inventory suite](../../Tests/Gojo.Encoding.Tests/NumericMilestoneInventoryTests.cs)
 discovers all current authored fixtures and exported Blocks specimens and
 checks their complete graphs through two numeric restorations. This establishes
 transport fidelity, not complete semantic validation of every Blocks specimen.

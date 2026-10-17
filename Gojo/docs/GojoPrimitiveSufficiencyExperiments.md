@@ -176,13 +176,13 @@ relations nor binding completion should silently acquire those meanings.
 ## Reproduction
 
 The fixture lives in
-[`ThresholdSufficiencyTests.cs`](../../Gojo.Tests/Experiments/ThresholdSufficiencyTests.cs)
+[`ThresholdSufficiencyTests.cs`](../../Tests/Gojo.Tests/Experiments/ThresholdSufficiencyTests.cs)
 and
-[`NonNumericSufficiencyTests.cs`](../../Gojo.Tests/Experiments/NonNumericSufficiencyTests.cs).
+[`NonNumericSufficiencyTests.cs`](../../Tests/Gojo.Tests/Experiments/NonNumericSufficiencyTests.cs).
 Run the focused experiments, then the repository verification entry point:
 
 ```powershell
-dotnet test Gojo.Tests/Gojo.Tests.csproj --filter 'FullyQualifiedName~SufficiencyTests'
+dotnet test Tests/Gojo.Tests/Gojo.Tests.csproj --filter 'FullyQualifiedName~SufficiencyTests'
 dotnet test Gojo.slnx
 ```
 

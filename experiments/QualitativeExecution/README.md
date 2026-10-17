@@ -49,6 +49,6 @@ explicit sample grouping and separate measured drawings.
 Run tests and the diagnostic benchmark from the repository root:
 
 ```powershell
-dotnet test experiments/QualitativeExecution.Tests/QualitativeExecution.Tests.csproj
+dotnet test Tests/QualitativeExecution.Tests/QualitativeExecution.Tests.csproj
 dotnet run --project experiments/QualitativeExecution/QualitativeExecution.csproj -c Release -- --iterations 2048 --output experiments/QualitativeExecution/results
 ```

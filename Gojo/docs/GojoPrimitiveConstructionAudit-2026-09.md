@@ -20,7 +20,7 @@ construction procedure. Several Blocks offsets only have supplied geometry
 connected to a request. Neither should be mistaken for a native construction
 of its input plane, directions or control polygon.
 
-This pass adds [a syntax fixture](../../Gojo.Encoding.Tests/Fixtures/Syntax/constructed-parallels.gojo)
+This pass adds [a syntax fixture](../../Tests/Gojo.Encoding.Tests/Fixtures/Syntax/constructed-parallels.gojo)
 that builds an affine parallelogram from three observed points, then uses its
 constructed corner in a Bézier. It exercises existing kernel reads; there is
 no new geometric opcode or parser execution rule.
@@ -72,11 +72,11 @@ do not mean those broader CAD helpers are absent. Their numerical choices and
 construction evidence still need to be reconciled with these contracts.
 
 The primary implementation sources are
-[`GraphicStructure`](../../GojoCAD/GraphicStructure.cs),
+[`GraphicStructure`](../../Applications/GojoCAD/GraphicStructure.cs),
 [`ContourConstruction`](../Structures/ContourConstruction.cs),
 [`AffineFrame`](../Structures/AffineFrame.cs),
 [`ContourRotation`](../Structures/ContourRotation.cs), and the
-[Blocks construction catalog](../../Gojo.Blocks/Glossary/BlocksGlossaryStructureCatalog.cs).
+[Blocks construction catalog](../../Visualizations/Gojo.Blocks/Glossary/BlocksGlossaryStructureCatalog.cs).
 The [affine fixture notes](GojoAffineConstructionFixture.md) and
 [curve replay walkthrough](GojoCurveReplayWalkthrough.md) document their narrower
 contracts and current change handling.
@@ -257,20 +257,20 @@ None is supplied by a generic name such as `OffsetRead`.
 ## Verification
 
 The new
-[composition tests](../../Gojo.Encoding.Tests/GojoSyntaxPrimitiveConstructionTests.cs)
+[composition tests](../../Tests/Gojo.Encoding.Tests/GojoSyntaxPrimitiveConstructionTests.cs)
 cover exact results, different affine charts, support failure, missing inputs,
 degenerate sources and identity through restoration. The
-[Blocks audit tests](../../Gojo.Encoding.Tests/BlocksOffsetConstructionAuditTests.cs)
+[Blocks audit tests](../../Tests/Gojo.Encoding.Tests/BlocksOffsetConstructionAuditTests.cs)
 read the actual exported candidate graphs. Existing affine, rotation, circle,
 graphic primitive and replay suites cover the earlier mechanisms.
 
-The [metric construction tests](../../Gojo.Encoding.Tests/GojoSyntaxMetricConstructionTests.cs)
+The [metric construction tests](../../Tests/Gojo.Encoding.Tests/GojoSyntaxMetricConstructionTests.cs)
 add native-quarter rotation, measured offsets and bounded joins, including
 exact fractions, sheared charts, opposed guides, failed premises, shared
 identity, captured history and trace-checked walkthrough syntax.
 
 ```powershell
-dotnet test Gojo.Encoding.Tests/Gojo.Encoding.Tests.csproj --filter 'FullyQualifiedName~GojoSyntaxPrimitiveConstructionTests|FullyQualifiedName~BlocksOffsetConstructionAuditTests'
+dotnet test Tests/Gojo.Encoding.Tests/Gojo.Encoding.Tests.csproj --filter 'FullyQualifiedName~GojoSyntaxPrimitiveConstructionTests|FullyQualifiedName~BlocksOffsetConstructionAuditTests'
 dotnet test Gojo.slnx
 ```
 

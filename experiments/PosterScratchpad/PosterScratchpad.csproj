@@ -8,7 +8,7 @@
   <ItemGroup>
     <ProjectReference Include="../../Gojo/Gojo.csproj" />
     <ProjectReference Include="../../Gojo.Encoding/Gojo.Encoding.csproj" />
-    <ProjectReference Include="../../GojoCAD/GojoCAD.csproj" />
-    <ProjectReference Include="../../GojoDraw/GojoDraw.csproj" />
+    <ProjectReference Include="../../Applications/GojoCAD/GojoCAD.csproj" />
+    <ProjectReference Include="../../Applications/GojoDraw/GojoDraw.csproj" />
   </ItemGroup>
 </Project>

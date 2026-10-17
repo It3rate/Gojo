@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bézier curve replay · Gojo</title>
+<style>
+  :root { color-scheme: light; font: 16px/1.55 system-ui,sans-serif; color:#17303b; background:#f4f6f4; }
+  * { box-sizing:border-box; }
+  body { margin:0; padding:36px 24px; }
+  main { max-width:1120px; margin:auto; }
+  .eyebrow { color:#407270; font-size:13px; letter-spacing:.1em; text-transform:uppercase; font-weight:700; }
+  h1 { font-size:clamp(25px,3.3vw,38px); line-height:1.2; max-width:800px; margin:12px 0; }
+  .intro { max-width:800px; color:#4b6068; margin:0 0 24px; }
+  nav { display:flex; gap:8px; flex-wrap:wrap; margin:24px 0; }
+  button { cursor:pointer; font:inherit; font-size:14px; border:1px solid #acbfc2; border-radius:8px; padding:10px 15px; background:white; color:#25464f; }
+  button[aria-pressed=true] { background:#175f69; color:white; border-color:#175f69; }
+  button:focus-visible { outline:3px solid #b87024; outline-offset:3px; }
+  .layout { display:grid; grid-template-columns:1.55fr 1fr; gap:20px; }
+  .card { background:white; border:1px solid #d3deda; border-radius:14px; overflow:hidden; }
+  .caption { padding:14px 20px; border-top:1px solid #e0e6e3; font-size:14px; color:#4b6068; min-height:72px; }
+  svg { display:block; width:100%; height:auto; }
+  .detail { padding:22px; }
+  h2 { font-size:22px; line-height:1.3; margin:0 0 12px; }
+  .detail p { margin:0 0 16px; }
+  .readout { border-left:4px solid #175f69; background:#edf5f3; padding:12px 15px; margin:20px 0; }
+  .readout strong { display:block; font-size:23px; }
+  .waiting { border-color:#ae661d; background:#fff4e7; }
+  .history { color:#657985; font-size:14px; }
+  .grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:18px; }
+  .cell { border-radius:8px; padding:10px 12px; background:#edf5f3; font-size:13px; }
+  .cell b { display:block; font-size:14px; }
+  .cell.pending { background:#fff4e7; color:#82501b; }
+  .cell.retained { background:#eef1f4; color:#4b6275; }
+  .note { max-width:900px; font-size:14px; margin-top:22px; color:#516772; }
+  @media(max-width:760px) { body{padding:24px 14px}.layout{grid-template-columns:1fr} }
+</style>
+<main><style>.notebook-nav{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;margin:0 0 24px;padding:0 0 14px;border-bottom:1px solid #d6dbd0;font:13px/1.5 system-ui,sans-serif}.notebook-nav a,.notebook-next a,.notebook-source a{color:#16776c;text-underline-offset:4px}.notebook-next{margin-top:28px;padding-top:20px;border-top:1px solid #d6dbd0;font:16px/1.5 system-ui,sans-serif}.notebook-source{margin-top:24px;border-top:1px solid #d6dbd0;padding:18px 0}.notebook-source summary{cursor:pointer;font-weight:600}.notebook-source pre{max-height:65vh;overflow:auto;white-space:pre;background:#e9eee4;padding:18px;border-radius:8px;font:13px/1.6 Consolas,monospace}</style><nav class="notebook-nav" aria-label="Syntax notebook"><a href="/syntax/">← Syntax notebook</a><a href="/">All Gojo demos</a></nav>
+  <div class="eyebrow">Gojo · a live construction, one edit</div>
+  <h1>Bézier curve replay</h1>
+  <p class="intro">Imagine shaping a curved handle in a drawing tool. Four controls define its curve.
+    We have calculated one point at parameter <b>t = ½</b>. Now we raise the first inner control.</p>
+  <nav aria-label="Walk through the edit">
+    <button data-step="0">1 · Original</button><button data-step="1">2 · Move control</button>
+    <button data-step="2">3 · First calculations</button><button data-step="3">4 · New sample</button>
+  </nav>
+  <div class="layout">
+    <div class="card">
+      <svg id="drawing" viewBox="0 0 640 500" role="img" aria-label="Curve controls and observed sample"></svg>
+      <div id="caption" class="caption"></div>
+    </div>
+    <section class="card detail" aria-live="polite">
+      <h2 id="title"></h2><p id="explanation"></p>
+      <div id="readout" class="readout"></div>
+      <p class="history" id="history"></p>
+      <div class="grid" id="nodes" aria-label="Local calculation states"></div>
+    </section>
+  </div>
+  <p class="note"><b>What “stale” means here:</b> the earlier answer still describes the earlier curve.
+    It cannot yet serve as a current answer after a premise changes. This is different from a wrong calculation.</p>
+  <p class="note">This walkthrough illustrates the verified <code>bezier-replay.gojo</code> fixture.
+    The buttons select recorded stages; they do not run the Gojo kernel in the browser.
+    Coordinates use local drawing units. The parameter midpoint is not necessarily halfway along the curve’s length.</p>
+<details class="notebook-source"><summary>View syntax · bezier-replay.gojo</summary><p>The fixture defines the construction; the validation driver selects the reads and actions.</p><pre id="syntax">gojo 1;
+
+let $space = carrier();
+let $x = carrier();
+let $y = carrier(unit_of($x));
+let $t = carrier();
+let $clock = carrier();
+let $basis = group_on($space, span($x,0,1), span($y,0,1));
+let $domain = span($t,0,1000);
+let $grade = group(at($t,500), $domain, $domain, $basis);
+let $p0 = group_on($space, at($x,0), at($y,0));
+let $p1 = group_on($space, at($x,4), at($y,8));
+let $p2 = group_on($space, at($x,8), at($y,0));
+let $p3 = group_on($space, at($x,12), at($y,4));
+let $next_p1 = group_on($space, at($x,4), at($y,16));
+let $lookalike = group_on($space, at($x,4), at($y,8));
+
+// The edit publishes a new version through the same port. The old version is
+// retained as input evidence for earlier applications, not retargeted in place.
+let $publish = action(ports(?edit_value), ?edit_value -&gt; ?control_a,
+    ports(?control_a), group(), ?publication_context);
+let $ab = action(ports(?start,?control_a,$grade),
+    ports(?start,?control_a,$grade) -&gt; ?q0, ports(?q0), group(), $domain);
+let $bc = action(ports(?control_a,?control_b,$grade),
+    ports(?control_a,?control_b,$grade) -&gt; ?q1, ports(?q1), group(), $domain);
+// This independent observation has equal-looking input and output coordinates.
+// Sharing a basis and current numbers must not manufacture a dependency.
+let $independent = action(ports(?lookalike_input,?control_b,$grade),
+    ports(?lookalike_input,?control_b,$grade) -&gt; ?other_q1, ports(?other_q1), group(), $domain);
+let $cd = action(ports(?control_b,?end,$grade),
+    ports(?control_b,?end,$grade) -&gt; ?q2, ports(?q2), group(), $domain);
+let $abc = action(ports(?q0,?q1,$grade),
+    ports(?q0,?q1,$grade) -&gt; ?r0, ports(?r0), group(), $domain);
+let $bcd = action(ports(?q1,?q2,$grade),
+    ports(?q1,?q2,$grade) -&gt; ?r1, ports(?r1), group(), $domain);
+let $sample = action(ports(?r0,?r1,$grade),
+    ports(?r0,?r1,$grade) -&gt; ?curve_point, ports(?curve_point), group(), $domain);
+
+let $initial = frame(bind(?edit_value,$p1), bind(?start,$p0),
+    bind(?control_b,$p2), bind(?end,$p3), bind(?lookalike_input,$lookalike));
+let $edit = frame(bind(?edit_value,$next_p1));
+root group(frame($publish,$ab,$bc,$independent,$cd,$abc,$bcd,$sample),
+    $initial, $edit, $p1 -&gt; $next_p1, $basis, $clock,
+    ports($p0,$p1,$p2,$p3), $lookalike);
+
+// A structural goal and time-step skeleton remain valid before any new sample
+// has been observed. The fixture fills these with actual read/replay evidence.
+root group(?old_applications, ?focus_change, ?dependencies, ?affected_slice,
+    ?pending_replay, ?current_replay, ?timeline,
+    group(?current_curve_read, ?current_parameter, ?current_sample_claim));
+</pre><p><a href="/syntax/fixtures/bezier-replay.gojo" download>Download fixture</a> · <a href="https://github.com/It3rate/Gojo/blob/master/Tests/Gojo.Encoding.Tests/GojoSyntaxReplayTests.cs">Read the validations</a></p></details><div class="notebook-next"><a href="/syntax/contour-rotation/">Next: Circle construction →</a><p><a href="/syntax/curve-replay/">Compact replay overview and validation notes</a></p></div></main>
+<script>
+  const original = [[0,0],[4,8],[8,0],[12,4]];
+  const changed = [[0,0],[4,16],[8,0],[12,4]];
+  const states = [
+    { title:'The original observation', explanation:'The sample (6, 3.5) was calculated from the original controls. Its inputs and intermediate results are retained as evidence.', current:'(6, 3.5)', history:'Control A is at (4, 8). All six curve calculations are current.', caption:'The orange control influences the curve. The teal point is the observed sample at t = ½.', fresh:6 },
+    { title:'The premise changes first', explanation:'Control A moves to (4, 16). Five curve calculations depend on it. Their earlier results remain in history, but are withheld from the current result set.', current:'Pending', history:'Historical sample: (6, 3.5). The right-hand first interpolation is unaffected and stays available.', caption:'The dashed curve and hollow point show the previous version. The new control polygon is known; the new sample has not been published.', fresh:1 },
+    { title:'Work can resume locally', explanation:'The two affected first interpolations are recalculated. Their new points are (2, 8) and (6, 8). The later calculations still need to consume those new observations.', current:'Pending', history:'Three later curve calculations remain pending. Refreshing an intermediate result exposes the next dependencies.', caption:'The three first-stage interpolation points are now available. The rightmost one, (10, 2), was carried forward unchanged.', fresh:3 },
+    { title:'A new observation is published', explanation:'The later interpolations use the refreshed inputs and produce (6, 6.5). The earlier sample is preserved alongside the new one, with the edit and replay connecting them.', current:'(6, 6.5)', history:'Historical sample: (6, 3.5), still attached to the original controls. The control moved up 8 units; this sample moved up 3.', caption:'The new curve and sample are teal. The previous curve and sample remain faintly visible for comparison.', fresh:6 }
+  ];
+  const labels = ['First: start → A','First: A → B','First: B → end','Second: left','Second: right','Final sample'];
+  const oldValues = ['(2, 4)','(6, 4)','(10, 2)','(4, 4)','(8, 3)','(6, 3.5)'];
+  const newValues = ['(2, 8)','(6, 8)','(10, 2)','(4, 8)','(8, 5)','(6, 6.5)'];
+  const xy = ([x,y]) => [65+x*40, 430-y*22];
+  const path = controls => controls.map(xy).map((p,i)=>(i===0?'M':i===1?'C':'')+p.join(',')).join(' ');
+  const line = (a,b,color,dash='') => `<line x1="${xy(a)[0]}" y1="${xy(a)[1]}" x2="${xy(b)[0]}" y2="${xy(b)[1]}" stroke="${color}" stroke-width="2" stroke-dasharray="${dash}"/>`;
+  const dot = (p,color,r=6,fill=color) => `<circle cx="${xy(p)[0]}" cy="${xy(p)[1]}" r="${r}" fill="${fill}" stroke="${color}" stroke-width="2.5"/>`;
+  const label = (p,text,color,dx=10,dy=-12) => `<text x="${xy(p)[0]+dx}" y="${xy(p)[1]+dy}" fill="${color}" font-size="14" font-family="system-ui,sans-serif">${text}</text>`;
+  function show(step) {
+    const state=states[step], controls=step===0?original:changed;
+    document.querySelectorAll('button[data-step]').forEach(button=>button.setAttribute('aria-pressed',String(Number(button.dataset.step)===step)));
+    document.getElementById('title').textContent=state.title;
+    document.getElementById('explanation').textContent=state.explanation;
+    document.getElementById('history').textContent=state.history;
+    document.getElementById('caption').textContent=state.caption;
+    const readout=document.getElementById('readout');
+    readout.className='readout'+(step===1||step===2?' waiting':'');
+    readout.innerHTML='Current sample<strong>'+state.current+'</strong>';
+    document.getElementById('nodes').innerHTML=labels.map((label,i)=>{
+      const pending=step===1?i!==2:step===2?i>2:false;
+      const retained=step>0&&i===2;
+      return `<div class="cell ${pending?'pending':retained?'retained':''}"><b>${label}</b>${pending?'Pending':retained?'Carried: ':''}${pending?'':(step===0?oldValues:newValues)[i]}</div>`;
+    }).join('');
+    let svg='<rect width="640" height="500" fill="#ffffff"/>';
+    for(let y=0;y<=16;y+=4) svg+=line([0,y],[12,y],'#e5ece8')+label([0,y],String(y),'#83918e',-28,5);
+    for(let x=0;x<=12;x+=4) svg+=label([x,0],String(x),'#83918e',-4,26);
+    if(step>0) svg+=`<path d="${path(original)}" fill="none" stroke="#9eaeb4" stroke-width="3" stroke-dasharray="7 6"/>`;
+    for(let i=0;i<3;i++) svg+=line(controls[i],controls[i+1],'#99afb1');
+    if(step===0||step===3) svg+=`<path d="${path(controls)}" fill="none" stroke="#176b73" stroke-width="4"/>`;
+    controls.forEach((p,i)=>{ svg+=dot(p,i===1?'#af651d':'#576f78',i===1?7:5); });
+    svg+=label(controls[1],step===0?'Control A (4, 8)':'Control A (4, 16)','#915318');
+    svg+=label(controls[0],'Start','#576f78',0,-12)+label(controls[3],'End','#576f78',10,4);
+    if(step>0) svg+=dot(original[1],'#bac5c6',5,'white')+line(original[1],changed[1],'#bc7c37','4 5');
+    if(step===2) [[2,8],[6,8],[10,2]].forEach(p=>{svg+=dot(p,'#487983',5)+label(p,`(${p[0]}, ${p[1]})`,'#37636a',8,-12);});
+    if(step!==3) svg+=dot([6,3.5],step===0?'#176b73':'#a2733b',8,step===0?'#176b73':'white')+label([6,3.5],step===0?'Sample (6, 3.5)':'Earlier sample','#657985',14,20);
+    else svg+=dot([6,3.5],'#a7b7bb',7,'white')+label([6,3.5],'Earlier (6, 3.5)','#788c94',14,22)+dot([6,6.5],'#176b73',8)+label([6,6.5],'Current (6, 6.5)','#176b73',14,5);
+    document.getElementById('drawing').innerHTML=svg;
+  }
+  document.querySelectorAll('button[data-step]').forEach(button=>button.addEventListener('click',()=>show(Number(button.dataset.step))));
+  const requested=Number(new URLSearchParams(location.search).get('step')||0);
+  show(Number.isInteger(requested)&&requested>=0&&requested<states.length?requested:0);
+</script>
+</html>

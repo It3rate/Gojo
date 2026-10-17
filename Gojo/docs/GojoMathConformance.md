@@ -113,25 +113,25 @@ licenses discarding its residue or treating coarsening as an algebraic identity.
 
 ## Conformance evidence
 
-- [Projection tests](../../Gojo.Tests/Core/ProjectionConformanceTests.cs):
+- [Projection tests](../../Tests/Gojo.Tests/Core/ProjectionConformanceTests.cs):
   5,000 signed/offset frame combinations checked by input reconstruction;
   fractional examples; direction and range; zero spans; whole versus fractional
   import; later-slot rejection without an earlier partial update; shared-site
   structural scaling; follow remainders.
-- [Operation tests](../../Gojo.Tests/Core/OperationConformanceTests.cs): signed
+- [Operation tests](../../Tests/Gojo.Tests/Core/OperationConformanceTests.cs): signed
   sums and products against integer arithmetic, distributivity of exact reads,
   wide accumulation and final overflow, per-operand fractional residue, and
   `(3+2i)(5+4i) = 7+22i` under the existing opposed-face product law. Fused
   expansion retains four terms; the test explicitly re-reads their source pairs
   through the concrete product law before summing. Their displayed participation
   faces are not mistaken for completed scalar folds.
-- [Resolution tests](../../Gojo.Tests/Core/ResolutionConformanceTests.cs):
+- [Resolution tests](../../Tests/Gojo.Tests/Core/ResolutionConformanceTests.cs):
   positive factors, stable-unit overflow, 471 signed direct/staged coarse reads,
   and addition before versus after coarsening with complete accounting.
-- [Boundary projection tests](../../Gojo.Tests/ConceptSurface/BoundaryProjectionConformanceTests.cs):
+- [Boundary projection tests](../../Tests/Gojo.Tests/ConceptSurface/BoundaryProjectionConformanceTests.cs):
   legal and illegal target lanes both preserve fractional source residue.
-- [Text fixture](../../Gojo.Encoding.Tests/Fixtures/Syntax/math-conformance.gojo)
-  and [17 syntax cases](../../Gojo.Encoding.Tests/GojoSyntaxMathConformanceTests.cs):
+- [Text fixture](../../Tests/Gojo.Encoding.Tests/Fixtures/Syntax/math-conformance.gojo)
+  and [17 syntax cases](../../Tests/Gojo.Encoding.Tests/GojoSyntaxMathConformanceTests.cs):
   executable signed operations, ratios, distinct inversions, squared/cubed
   units, crystallization, resolution, partial construction, explicit carry
   activation, orthogonal shape distinctions, incompatible scalar crystallization

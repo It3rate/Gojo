@@ -229,7 +229,7 @@ separate.
 There is existing executable footing:
 [TransformSurface.TryCreateOperationOutputRead](../Structures/TransformSurface.cs)
 reads supported operations through application bindings, and
-[its tests](../../Gojo.Tests/Core/TransformSurfaceTests.cs) exercise operation
+[its tests](../../Tests/Gojo.Tests/Core/TransformSurfaceTests.cs) exercise operation
 outputs and producer-consumer dependencies. General application construction,
 however, still accepts supplied result evidence. These guarantees should not
 be conflated.

@@ -98,7 +98,7 @@ equality between unrelated frames.
 
 ## Return as evidence
 
-[`ReturnEvidenceTests`](../../experiments/QualitativeExecution.Tests/ReturnEvidenceTests.cs)
+[`ReturnEvidenceTests`](../../Tests/QualitativeExecution.Tests/ReturnEvidenceTests.cs)
 preserves three observations: rise, fall and an independently observed return.
 Mixed rise/fall composition alone admits lower, equal and higher. The closing
 comparison selects equal at its declared resolution while retaining both sample
@@ -237,7 +237,7 @@ counted as separate xUnit cases. Pure new graphs and witnesses are checked for
 absence of carriers and carrier locations.
 
 ```powershell
-dotnet test experiments/QualitativeExecution.Tests/QualitativeExecution.Tests.csproj
+dotnet test Tests/QualitativeExecution.Tests/QualitativeExecution.Tests.csproj
 dotnet test Gojo.slnx
 ```
 

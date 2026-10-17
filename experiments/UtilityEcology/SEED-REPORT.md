@@ -18,7 +18,7 @@ does not establish an improved overall learning policy.
 
 Read the [offline review](seed-review.html) for the tables and an actual first-seed
 trace. The [frozen protocol](SEED-PLAN.md), [machine analysis](results/seed-confirmation-01/analysis.json)
-and [raw confirmation folder](results/seed-confirmation-01/) contain the details.
+and [raw confirmation folder](results/seed-confirmation-01) contain the details.
 
 ## Study and verification
 

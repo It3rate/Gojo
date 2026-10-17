@@ -34,7 +34,7 @@ are zero nor obligations to investigate every unknown.
 | Current [equation structures](../Equations/README.md), [affine constructions](GojoAffineConstructionFixture.md) and [bounded quantities](GojoBoundedQuantityFixture.md) | Composable arithmetic, selected exact reads, explicit operands, open structure and conditional bounds. | An automatic search through signal models or a general distribution algebra. |
 | [Landmark calibration](GojoLandmarkCalibrationFixture.md) | Alternative interpretations of a report, feedback and explicit response. | Evidence that an approximate landmark contains a tolerance or that its source is trustworthy. |
 | [Two-space feedback](GojoTwoSpaceFeedbackFixture.md) | Local requests, response strength, retained disagreements and actual settlement. | Predictive learning from static agreement. |
-| [LocalCalibration.Forecast](../Structures/LocalCalibration.Forecast.cs) and [syntax tests](../../Gojo.Encoding.Tests/GojoSyntaxForecastTests.cs) | Receipts, a fit from selected past samples, future issuance, later assessment, copied numeric operands and replay. | Autonomous family selection, a general delivery scheduler, delayed reward allocation or history compression. |
+| [LocalCalibration.Forecast](../Structures/LocalCalibration.Forecast.cs) and [syntax tests](../../Tests/Gojo.Encoding.Tests/GojoSyntaxForecastTests.cs) | Receipts, a fit from selected past samples, future issuance, later assessment, copied numeric operands and replay. | Autonomous family selection, a general delivery scheduler, delayed reward allocation or history compression. |
 
 The sibling Core4 links assume the local repositories remain beside Gojo. They
 are historical evidence, not dependencies of this plan. The

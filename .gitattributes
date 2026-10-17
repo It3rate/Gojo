@@ -4,16 +4,16 @@
 * text=auto
 
 # Keep Minds publication source fingerprints stable across operating systems.
-/Minds/**/*.cs text eol=lf
-/Minds.Tests/*.cs text eol=lf
-/Minds/Presentation/*.html text eol=lf
-/Minds/docs/*.md text eol=lf
-/Minds/docs/ExperimentRoadmap.json text eol=lf
-/Gojo.Demos.Web/tools/build-minds.mjs text eol=lf
+/experiments/Minds/**/*.cs text eol=lf
+/Tests/Minds.Tests/*.cs text eol=lf
+/experiments/Minds/Presentation/*.html text eol=lf
+/experiments/Minds/docs/*.md text eol=lf
+/experiments/Minds/docs/ExperimentRoadmap.json text eol=lf
+/Visualizations/Gojo.Demos.Web/tools/build-minds.mjs text eol=lf
 
 # Preserve captured experiment bytes, including protocol checksums, across clones.
-Minds/results/** -text -whitespace
-Gojo.Demos.Web/minds/** -text whitespace=cr-at-eol
+experiments/Minds/results/** -text -whitespace
+Visualizations/Gojo.Demos.Web/minds/** -text whitespace=cr-at-eol
 
 ###############################################################################
 # Set default behavior for command prompt diff.
@@ -79,23 +79,23 @@ Gojo.Demos.Web/minds/** -text whitespace=cr-at-eol
 /artifacts/** -text
 **/TestResults/*.trx -text
 /experiments/AdaptiveLifecycle/** -text
-/experiments/AdaptiveLifecycle.Tests/** -text
+/Tests/AdaptiveLifecycle.Tests/** -text
 /experiments/CompositeEmergence/** -text
-/experiments/CompositeEmergence.Tests/** -text
+/Tests/CompositeEmergence.Tests/** -text
 /experiments/Phototaxis/** -text
 /experiments/Phototaxis.Browser/** -text
 /experiments/Phototaxis.Runner/** -text
-/experiments/Phototaxis.Tests/** -text
+/Tests/Phototaxis.Tests/** -text
 /experiments/PrimitiveAgency/** -text
 /experiments/PrimitiveForager/** -text
-/experiments/PrimitiveForager.Tests/** -text
+/Tests/PrimitiveForager.Tests/** -text
 /experiments/PrimitiveLearning/** -text
-/experiments/PrimitiveLearning.Tests/** -text
+/Tests/PrimitiveLearning.Tests/** -text
 /experiments/RelativeSignals/** -text
 /experiments/ResearchArchive/** -text
 /experiments/SamplingEmergence/** -text
 /experiments/UtilityEcology/** -text
-/experiments/UtilityEcology.Tests/** -text
+/Tests/UtilityEcology.Tests/** -text
 /Gojo/**/*.cs text eol=crlf
 /Gojo/Structures/CoarseDifferencePlan.cs text eol=lf
 /Gojo/Structures/CoarseReadSurface.cs text eol=lf

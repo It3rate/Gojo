@@ -15,7 +15,7 @@ dotnet test Gojo.slnx
 Or test the project directly:
 
 ```bash
-dotnet test Gojo.Tests/Gojo.Tests.csproj
+dotnet test Tests/Gojo.Tests/Gojo.Tests.csproj
 ```
 
 The core project is:
@@ -27,7 +27,7 @@ Gojo/Gojo.csproj
 The tests are:
 
 ```text
-Gojo.Tests/Gojo.Tests.csproj
+Tests/Gojo.Tests/Gojo.Tests.csproj
 ```
 
 ## Intent
@@ -344,7 +344,7 @@ Gojo/
   Workspace/        scoped/proxy workspace design notes and future mechanics
   axioms/           active model notes and transition notes
 
-Gojo.Tests/
+Tests/Gojo.Tests/
   Core/             tests for carrier settlement, relations, duality, ports,
                     structural slots, tick refs, and unit shapes
   Equations/        tests for equation helpers and equation catalog cases

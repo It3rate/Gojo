@@ -9,7 +9,7 @@ are retained without tuning the policy to those outcomes.
 Run from the repository root:
 
 ```powershell
-dotnet test experiments/BreakDrivenPrediction.Tests/BreakDrivenPrediction.Tests.csproj
+dotnet test Tests/BreakDrivenPrediction.Tests/BreakDrivenPrediction.Tests.csproj
 dotnet run --project experiments/BreakDrivenPrediction/BreakDrivenPrediction.csproj
 ```
 

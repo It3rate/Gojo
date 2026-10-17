@@ -58,7 +58,7 @@ have nonzero extent. Allowed support is a separate closed interval with
 ascending endpoints on that same parameter carrier. Extrapolation requires
 support that admits it; reversing the frame changes the parameter read.
 
-For example, the [affine fixture](../../Gojo.Encoding.Tests/Fixtures/Syntax/affine-frame.gojo)
+For example, the [affine fixture](../../Tests/Gojo.Encoding.Tests/Fixtures/Syntax/affine-frame.gojo)
 interpolates `(-1,2)` and `(2,3)` one third of the way to obtain `(0,7/3)`.
 The fraction is retained as `at(y,7) -> point(y,3)`. This uses the existing
 grounded subdivision representation, not fractional carrier state or a float.
@@ -117,7 +117,7 @@ bindings would reuse earlier observations, not reevaluate their formulas.
 
 ## Curves and continuity
 
-The updated [Bézier fixture](../../Gojo.Encoding.Tests/Fixtures/Syntax/bezier-construction.gojo)
+The updated [Bézier fixture](../../Tests/Gojo.Encoding.Tests/Fixtures/Syntax/bezier-construction.gojo)
 uses six adjacent interpolation requests with one parameter contract. Tests
 compare their results with an independently written Bernstein polynomial at
 nine parameter values, including fractions that must survive intermediate
@@ -130,7 +130,7 @@ parameter gives the same coordinates. No compact chord/control heuristic is
 used to decide which curve the construction means. The earlier ambiguous
 pair-of-spans classifier remains an explicitly documented legacy limitation.
 
-The [bridge fixture](../../Gojo.Encoding.Tests/Fixtures/Syntax/bridge-continuity.gojo)
+The [bridge fixture](../../Tests/Gojo.Encoding.Tests/Fixtures/Syntax/bridge-continuity.gojo)
 connects control polygons, a common normalized parameter, adjacent differences,
 threefold/sixfold calibrations, desired zero mismatches and open curvature/history.
 The endpoint derivatives of a cubic use `3(P1-P0)` and `3(P3-P2)`; second
@@ -176,7 +176,7 @@ transformed. A separate complete-exposure contract would be needed for that
 stronger claim. Disjoint exposure is required; an ancestor and descendant
 cannot both replace overlapping regions in this read.
 
-The extended [frieze fixture](../../Gojo.Encoding.Tests/Fixtures/Syntax/frieze-patterns.gojo)
+The extended [frieze fixture](../../Tests/Gojo.Encoding.Tests/Fixtures/Syntax/frieze-patterns.gojo)
 exposes all three triangle sites. Applying the glide twice agrees with one
 translation on the actual motif, retaining edge order and shared junctions.
 An inverse calibration returns the original coordinates and retains the route;
@@ -214,9 +214,9 @@ discovery and replay-residue bugs the longer construction exposed.
 
 ## Verification
 
-[Kernel tests](../../Gojo.Tests/Core/AffineFrameTests.cs) cover exact arithmetic,
+[Kernel tests](../../Tests/Gojo.Tests/Core/AffineFrameTests.cs) cover exact arithmetic,
 invalid bases, support, partial inputs, alias cancellation and overflow.
-[Syntax tests](../../Gojo.Encoding.Tests/GojoSyntaxAffineFrameTests.cs) exercise
+[Syntax tests](../../Tests/Gojo.Encoding.Tests/GojoSyntaxAffineFrameTests.cs) exercise
 the actual fixtures before and after one/two numeric restorations, and restore
 computed witness chains as well. The inventory additionally round-trips each
 complete fixture graph. Solution verification uses `dotnet test Gojo.slnx`.

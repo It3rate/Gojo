@@ -1,6 +1,6 @@
 # Gojo experiments: a reviewer's guide
 
-This guide brings together the completed work in `Minds/` and `experiments/`
+This guide brings together the completed work in `experiments/Minds/` and `experiments/`
 through **14 October 2026**. Each entry describes the question, the recorded
 outcome, and what that outcome supports. Follow its links for protocols, controls,
 measurements and retained failures.
@@ -43,7 +43,7 @@ Changing message timing or the selected reference changed the result.
 external reference must be observed separately. This demonstrates feedback under
 supplied rules, rather than discovered consensus or truth.
 
-[Results](../Minds/results/two-space/Results.md) · [Visual replay](../Minds/results/two-space/index.html)
+[Results](Minds/results/two-space/Results.md) · [Visual replay](Minds/results/two-space/index.html)
 
 ### 2. Feedback limits · Minds 02 · 15 September
 
@@ -57,7 +57,7 @@ could also produce quiet output for different reasons.
 goal. The independent comparison checks the chosen mathematical contract; it
 does not show superiority over conventional arithmetic.
 
-[Findings](../Minds/docs/FeedbackLimitsFindings.md) · [Visual replay](../Minds/results/feedback-limits/20260915-230957/index.html)
+[Findings](Minds/docs/FeedbackLimitsFindings.md) · [Visual replay](Minds/results/feedback-limits/20260915-230957/index.html)
 
 ### 3. Predictions before outcomes · Minds 03 · 16 September
 
@@ -69,9 +69,9 @@ forecasts. All cases matched the independent exact calculation.
 **Conclusion:** Prospective evaluation works and exposes where a rule fails.
 Fitting this supplied rule is not learning which kind of model to use.
 
-[Findings](../Minds/docs/PredictionFindings.md) · [Visual replay](../Minds/results/predictions/20260916-001834/index.html)
+[Findings](Minds/docs/PredictionFindings.md) · [Visual replay](Minds/results/predictions/20260916-001834/index.html)
 
-The later entries in the [Minds roadmap](../Minds/docs/ExperimentRoadmap.md) are
+The later entries in the [Minds roadmap](Minds/docs/ExperimentRoadmap.md) are
 proposals. Related work below should not be mistaken for completion of those
 numbered protocols.
 
@@ -521,7 +521,7 @@ calculation, not a contest between number systems.
   [public notebook](https://gojo.inklingai.ca/minds/).
 - [The experiments index](README.md) has setup, runtime requirements and archive
   restoration instructions. Outputs live beside some studies under `results/`,
-  and for others under the repository's [`artifacts/`](../artifacts/) folder.
+  and for others under the repository's [`artifacts/`](../artifacts) folder.
   Use a new output directory when repeating a study.
 - Protocols describe what was supplied and what was allowed to change. Results
   describe a captured version; later code fixes do not retroactively replace

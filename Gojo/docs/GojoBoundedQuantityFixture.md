@@ -116,7 +116,7 @@ An unrepresentable result throws overflow rather than silently saturating.
 
 ## Authored fixture
 
-[The version-1 source](../../Gojo.Encoding.Tests/Fixtures/Syntax/bounded-quantities.gojo)
+[The version-1 source](../../Tests/Gojo.Encoding.Tests/Fixtures/Syntax/bounded-quantities.gojo)
 uses existing constructors throughout. Parsing constructs the graph; the
 test driver selects the mathematical read or material action. No additional
 parser keyword or implicit scheduler was introduced.
@@ -186,7 +186,7 @@ readable. Losing that separation would prevent a stricter later query.
 
 ## Verification
 
-[Kernel conformance tests](../../Gojo.Tests/Core/BoundedQuantityTests.cs) cover
+[Kernel conformance tests](../../Tests/Gojo.Tests/Core/BoundedQuantityTests.cs) cover
 shared and distinct slots, event-specific noise, opaque evidence, intersected
 and contradictory supports, partial binding, reversed calibration, exact
 fractions, outward rounding, unsupported faces/bases, stored range limits,
@@ -194,7 +194,7 @@ nonlinear bounds, division domains and tolerance decisions. A 500-case signed
 calibration matrix checks rational extrema. A further 625 shared-source
 assignments check product and quotient enclosure by evaluating concrete samples.
 
-[Syntax tests](../../Gojo.Encoding.Tests/GojoSyntaxBoundedQuantityTests.cs) execute
+[Syntax tests](../../Tests/Gojo.Encoding.Tests/GojoSyntaxBoundedQuantityTests.cs) execute
 all seven authored experiments before restoration and after one and two numeric
 round trips. They also restore a completed material timeline and a computed
 affine witness, then verify their historical values and dependency-sensitive

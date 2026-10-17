@@ -38,7 +38,7 @@ turn result = group(metric, centre -> first rim, centre -> last rim)
 apply request = group(traversal witness, exposed ordered points)
 ```
 
-The [authored fixture](../../Gojo.Encoding.Tests/Fixtures/Syntax/contour-rotation.gojo)
+The [authored fixture](../../Tests/Gojo.Encoding.Tests/Fixtures/Syntax/contour-rotation.gojo)
 contains these structures using existing `gojo 1` constructors. Its six roots
 expose the base surface, a one-edge request, an ordered point frame, a refined
 surface, a partial surface and an application template. The reader's name is
@@ -195,7 +195,7 @@ must read these constructions rather than define them.
 
 ## Verification
 
-[GojoSyntaxRotationTests](../../Gojo.Encoding.Tests/GojoSyntaxRotationTests.cs)
+[GojoSyntaxRotationTests](../../Tests/Gojo.Encoding.Tests/GojoSyntaxRotationTests.cs)
 contains 37 cases covering exact turns, nonperpendicular metrics, signed
 traversal, refinement, partial inputs, refused claims, identity, history,
 numeric restoration and range failures. The nine demo states are checked

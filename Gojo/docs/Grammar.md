@@ -583,7 +583,7 @@ alternatives remain available for later settlement.
 This slice now has a saved diagnostic JSON fixture:
 
 ```text
-Gojo.Encoding.Tests/Fixtures/EncoderJson/grammar/contextual-interval-projection.json
+Tests/Gojo.Encoding.Tests/Fixtures/EncoderJson/grammar/contextual-interval-projection.json
 ```
 
 The fixture is not just a display artifact. It is generated from the compact
@@ -607,7 +607,7 @@ whose words live outside the Gojo structure.
 It also has a compact interchange fixture:
 
 ```text
-Gojo.Encoding.Tests/Fixtures/EncoderJson/grammar/contextual-interval-projection.compact.json
+Tests/Gojo.Encoding.Tests/Fixtures/EncoderJson/grammar/contextual-interval-projection.compact.json
 ```
 
 The compact form stores the same usable grammar evidence as human labels,

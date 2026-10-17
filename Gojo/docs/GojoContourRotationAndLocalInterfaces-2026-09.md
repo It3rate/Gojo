@@ -37,11 +37,11 @@ partition and eventual measurable geometry.
 
 | Current evidence | What it establishes | What it leaves open |
 | --- | --- | --- |
-| [UnitShape.CircularFrom](../Core/UnitShape.cs), [circular structure tests](../../Gojo.Tests/Core/CircularStructureTests.cs) | A point's orthogonal source is retained as inspectable unit provenance. A radial endpoint can be connected to a perimeter marker by an ordinary relation. | The seed does not generate a completed circle, discover its container or enact a rigid turn. |
-| [Ordinary cycle tests](../../Gojo.Tests/Core/OrdinaryMathFlowTests.cs), [unit-shape tests](../../Gojo.Tests/Core/UnitShapeTests.cs) | Partitioned cycles wrap, count crossings through a carry route, and project between explicit cycle ratios. Circular carriers can participate in these same operations. | A counter alone does not prove equal geometric sectors or radius-preserving movement. |
-| [CAD read graph](../../GojoCAD/GraphicReadGraph.cs) and [tests](../../GojoCAD.Tests/GraphicReadGraphTests.cs) | Circular markers, spans, contour partitions, base-to-contour attachments and linear endpoint witnesses are recognized through connected structure. | These selected attachment reads do not supply a complete turning or metric law. |
-| [Graphic syntax fixture](../../Gojo.Encoding.Tests/Fixtures/Syntax/graphic-primitives.gojo) and [tests](../../Gojo.Encoding.Tests/GojoSyntaxGeometryTests.cs) | Carrier-native circular and linear promises and partial ports survive numeric restoration without needing X/Y tuples. | No general contour-to-pose executor is established by those tests. |
-| [Gear model](../../Gojo.GearShapeLadder/GearShapeLadderModel.cs) and [tests](../../Gojo.GearShapeLadder.Tests/GearShapeLadderModelTests.cs) | Motion enters as tension; perimeter projections, opposing motion, phase calibration, shared pitch identity and refinement history remain structural. | The renderer converts ticks to angles; the geometry builder also uses trigonometric sampling. This is not a completed native geometric rotation construction. |
+| [UnitShape.CircularFrom](../Core/UnitShape.cs), [circular structure tests](../../Tests/Gojo.Tests/Core/CircularStructureTests.cs) | A point's orthogonal source is retained as inspectable unit provenance. A radial endpoint can be connected to a perimeter marker by an ordinary relation. | The seed does not generate a completed circle, discover its container or enact a rigid turn. |
+| [Ordinary cycle tests](../../Tests/Gojo.Tests/Core/OrdinaryMathFlowTests.cs), [unit-shape tests](../../Tests/Gojo.Tests/Core/UnitShapeTests.cs) | Partitioned cycles wrap, count crossings through a carry route, and project between explicit cycle ratios. Circular carriers can participate in these same operations. | A counter alone does not prove equal geometric sectors or radius-preserving movement. |
+| [CAD read graph](../../Applications/GojoCAD/GraphicReadGraph.cs) and [tests](../../Tests/GojoCAD.Tests/GraphicReadGraphTests.cs) | Circular markers, spans, contour partitions, base-to-contour attachments and linear endpoint witnesses are recognized through connected structure. | These selected attachment reads do not supply a complete turning or metric law. |
+| [Graphic syntax fixture](../../Tests/Gojo.Encoding.Tests/Fixtures/Syntax/graphic-primitives.gojo) and [tests](../../Tests/Gojo.Encoding.Tests/GojoSyntaxGeometryTests.cs) | Carrier-native circular and linear promises and partial ports survive numeric restoration without needing X/Y tuples. | No general contour-to-pose executor is established by those tests. |
+| [Gear model](../../Visualizations/Gojo.GearShapeLadder/GearShapeLadderModel.cs) and [tests](../../Tests/Gojo.GearShapeLadder.Tests/GearShapeLadderModelTests.cs) | Motion enters as tension; perimeter projections, opposing motion, phase calibration, shared pitch identity and refinement history remain structural. | The renderer converts ticks to angles; the geometry builder also uses trigonometric sampling. This is not a completed native geometric rotation construction. |
 
 For example, the existing syntax already contains this shape:
 
@@ -62,7 +62,7 @@ The missing turning contract should connect to those structures rather than
 replace them with a number named `angle`.
 
 Blocks is useful evidence but remains an experimental inventory. In its
-[structure catalogue](../../Gojo.Blocks/Glossary/BlocksGlossaryStructureCatalog.cs),
+[structure catalogue](../../Visualizations/Gojo.Blocks/Glossary/BlocksGlossaryStructureCatalog.cs),
 the `rotated-frame` row currently groups two line examples; the description
 expresses an intended transform rather than an executed rotation. The
 `PartitionedCircle` builder places numbered markers on a circular carrier but

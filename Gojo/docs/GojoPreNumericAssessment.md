@@ -192,7 +192,7 @@ The new focused cases are:
 Run the new cases and the repository entry point:
 
 ```powershell
-dotnet test Gojo.Tests/Gojo.Tests.csproj --filter 'FullyQualifiedName~StructuralConstraint|FullyQualifiedName~QualitativeProcess|FullyQualifiedName~QualitativeNumeric'
+dotnet test Tests/Gojo.Tests/Gojo.Tests.csproj --filter 'FullyQualifiedName~StructuralConstraint|FullyQualifiedName~QualitativeProcess|FullyQualifiedName~QualitativeNumeric'
 dotnet test Gojo.slnx
 ```
 

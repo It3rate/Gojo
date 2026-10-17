@@ -64,7 +64,7 @@ reward, or change an actuator. An assessment may later motivate an explicitly
 connected response.
 
 The readers are in [LocalCalibration.Forecast.cs](../Structures/LocalCalibration.Forecast.cs).
-The [authored fixture](../../Gojo.Encoding.Tests/Fixtures/Syntax/prospective-calibration.gojo)
+The [authored fixture](../../Tests/Gojo.Encoding.Tests/Fixtures/Syntax/prospective-calibration.gojo)
 contains the actual request patterns, open sensor input, alternative encodings,
 actions and feedback correspondence. The driver binds those patterns with
 `StructuralPattern.Refine` and invokes the selected readers; action names are
@@ -145,7 +145,7 @@ separate steps.
 
 ## Verification and limits
 
-[Syntax execution tests](../../Gojo.Encoding.Tests/GojoSyntaxForecastTests.cs)
+[Syntax execution tests](../../Tests/Gojo.Encoding.Tests/GojoSyntaxForecastTests.cs)
 exercise fitting, prospective issuance, surprise, competing continuations,
 double inversion, incorrect readout, unequal time spacing, fractions, negative
 values, flat continuation, pending observations, missing targets, delayed

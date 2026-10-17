@@ -180,16 +180,16 @@ not infer a physical distance metric for an arbitrary rendering of the faces.
 
 ## Syntax and validation
 
-The [authored fixture](../../Gojo.Encoding.Tests/Fixtures/Syntax/complex-interpretations.gojo)
+The [authored fixture](../../Tests/Gojo.Encoding.Tests/Fixtures/Syntax/complex-interpretations.gojo)
 writes the entire opposed basis, not a literal whose meaning is hidden inside
 the parser. Its circle request accepts the result of the existing
-[constructed circle fixture](../../Gojo.Encoding.Tests/Fixtures/Syntax/constructed-circle-rotation.gojo).
+[constructed circle fixture](../../Tests/Gojo.Encoding.Tests/Fixtures/Syntax/constructed-circle-rotation.gojo).
 No new parser forms are needed. As with the other semantic fixtures, the driver
 selects the local reader. A future compiler must preserve that explicit read
 selection in addition to compiling the basis and request graph; bare parsing
 does not execute an overloaded group.
 
-The [conformance tests](../../Gojo.Encoding.Tests/GojoSyntaxComplexTests.cs)
+The [conformance tests](../../Tests/Gojo.Encoding.Tests/GojoSyntaxComplexTests.cs)
 exercise independent integer arithmetic identities, associativity,
 distributivity, inverse reconstruction and exact Gaussian square roots across
 all quadrants. They compare the circular generator against the existing

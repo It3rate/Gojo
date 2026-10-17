@@ -7,8 +7,8 @@ source truth or automatic trust law is assumed.
 
 Try the [stepped demo](examples/two-space-feedback.html). Its four scenarios
 and 23 stages are checked against the actual Gojo execution by the
-[syntax tests](../../Gojo.Encoding.Tests/GojoSyntaxTwoSpaceTests.cs).
-The [authored fixture](../../Gojo.Encoding.Tests/Fixtures/Syntax/two-space-feedback.gojo)
+[syntax tests](../../Tests/Gojo.Encoding.Tests/GojoSyntaxTwoSpaceTests.cs).
+The [authored fixture](../../Tests/Gojo.Encoding.Tests/Fixtures/Syntax/two-space-feedback.gojo)
 uses existing syntax. The new [exchange readers](../Structures/LocalCalibration.Exchange.cs)
 compose with the previous calibration and signed-response readers.
 

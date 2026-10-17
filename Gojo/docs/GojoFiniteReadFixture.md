@@ -98,7 +98,7 @@ need their own structure and tests.
 
 ## Scope and verification
 
-Focused conformance lives in `Gojo.Tests/Core/FiniteReadSurfaceTests.cs`.
+Focused conformance lives in `Tests/Gojo.Tests/Core/FiniteReadSurfaceTests.cs`.
 The existing exact equation, projection and bounded-quantity readers keep
 their exactness/range contracts. The phototaxis backend still uses those
 existing laws; it has not silently switched to finite arithmetic.

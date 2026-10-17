@@ -61,7 +61,7 @@ idea, but the circle reader must refuse a segment source.
 
 ## Where the landmarks come from
 
-The [authored syntax](../../Gojo.Encoding.Tests/Fixtures/Syntax/circle-construction.gojo)
+The [authored syntax](../../Tests/Gojo.Encoding.Tests/Fixtures/Syntax/circle-construction.gojo)
 uses ordinary version-1 constructors throughout. It exposes the offset before
 its reach is bound, the radius binding, the circle pattern, four subdivisions
 and seven selected landmark requests. The caller applies the radius binding
@@ -174,7 +174,7 @@ centre, and the radius-to-contour attachment establishes its reference site.
 
 ## Verification and limits
 
-[GojoSyntaxCircleConstructionTests](../../Gojo.Encoding.Tests/GojoSyntaxCircleConstructionTests.cs)
+[GojoSyntaxCircleConstructionTests](../../Tests/Gojo.Encoding.Tests/GojoSyntaxCircleConstructionTests.cs)
 checks open construction, closure identity, radial attachment, subdivision,
 signed traversal, large counts, wrong sources and lookalike connections,
 captured evidence and numeric restoration. It also checks the twelve demo

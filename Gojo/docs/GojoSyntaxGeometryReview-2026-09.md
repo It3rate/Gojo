@@ -48,10 +48,10 @@ reads rather than infer semantics from prose.
 
 Executable sources:
 
-- [Graphic primitives](../../Gojo.Encoding.Tests/Fixtures/Syntax/graphic-primitives.gojo)
-- [Bézier construction](../../Gojo.Encoding.Tests/Fixtures/Syntax/bezier-construction.gojo)
-- [Frieze generators](../../Gojo.Encoding.Tests/Fixtures/Syntax/frieze-patterns.gojo)
-- [Semantic checks](../../Gojo.Encoding.Tests/GojoSyntaxGeometryTests.cs)
+- [Graphic primitives](../../Tests/Gojo.Encoding.Tests/Fixtures/Syntax/graphic-primitives.gojo)
+- [Bézier construction](../../Tests/Gojo.Encoding.Tests/Fixtures/Syntax/bezier-construction.gojo)
+- [Frieze generators](../../Tests/Gojo.Encoding.Tests/Fixtures/Syntax/frieze-patterns.gojo)
+- [Semantic checks](../../Tests/Gojo.Encoding.Tests/GojoSyntaxGeometryTests.cs)
 
 ## One authoring addition, no graphic opcodes
 
@@ -285,8 +285,8 @@ ambiguity and missing connections that scalar tests alone would not expose.
 ## Verification
 
 ```powershell
-dotnet test Gojo.Encoding.Tests/Gojo.Encoding.Tests.csproj --filter FullyQualifiedName~GojoSyntaxGeometryTests
-dotnet test GojoCAD.Tests/GojoCAD.Tests.csproj --filter FullyQualifiedName~GraphicParameterSurfaceTests
+dotnet test Tests/Gojo.Encoding.Tests/Gojo.Encoding.Tests.csproj --filter FullyQualifiedName~GojoSyntaxGeometryTests
+dotnet test Tests/GojoCAD.Tests/GojoCAD.Tests.csproj --filter FullyQualifiedName~GraphicParameterSurfaceTests
 dotnet test Gojo.slnx
 ```
 

@@ -175,7 +175,7 @@ what remains unresolved.
 The retained legacy sample is:
 
 ```text
-Gojo.Encoding.Tests/Fixtures/EncoderJson/concept-definitions/legacy-preposition-parameterized-focus.json
+Tests/Gojo.Encoding.Tests/Fixtures/EncoderJson/concept-definitions/legacy-preposition-parameterized-focus.json
 ```
 
 It covered scalar comparison prepositions only:

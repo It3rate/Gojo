@@ -9,9 +9,9 @@ two such adapting calibrations through published observations, versioned
 receipts and per-space histories. Its stepped demo exercises agreement,
 oscillation, delayed delivery and separate local evidence.
 
-Authored experiment: [landmark-calibration.gojo](../../Gojo.Encoding.Tests/Fixtures/Syntax/landmark-calibration.gojo).
-Execution: [syntax tests](../../Gojo.Encoding.Tests/GojoSyntaxCalibrationTests.cs),
-[mathematical conformance](../../Gojo.Tests/Core/LocalCalibrationTests.cs), and
+Authored experiment: [landmark-calibration.gojo](../../Tests/Gojo.Encoding.Tests/Fixtures/Syntax/landmark-calibration.gojo).
+Execution: [syntax tests](../../Tests/Gojo.Encoding.Tests/GojoSyntaxCalibrationTests.cs),
+[mathematical conformance](../../Tests/Gojo.Tests/Core/LocalCalibrationTests.cs), and
 [selected kernel readers](../Structures/LocalCalibration.cs) with their
 [response/application extension](../Structures/LocalCalibration.Response.cs).
 

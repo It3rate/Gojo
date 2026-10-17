@@ -133,7 +133,7 @@ sampler count or learn a global utility function.
 ## Verification and reproduction
 
 ```powershell
-dotnet test experiments/BreakDrivenPrediction.Tests/BreakDrivenPrediction.Tests.csproj --no-restore
+dotnet test Tests/BreakDrivenPrediction.Tests/BreakDrivenPrediction.Tests.csproj --no-restore
 dotnet run --project experiments/BreakDrivenPrediction/BreakDrivenPrediction.csproj -- --timing
 dotnet test Gojo.slnx --no-restore
 ```

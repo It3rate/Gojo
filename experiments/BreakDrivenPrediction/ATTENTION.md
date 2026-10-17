@@ -185,7 +185,7 @@ structure follows from these measurements.
 ## Verification
 
 ```powershell
-dotnet test experiments/BreakDrivenPrediction.Tests/BreakDrivenPrediction.Tests.csproj --no-restore
+dotnet test Tests/BreakDrivenPrediction.Tests/BreakDrivenPrediction.Tests.csproj --no-restore
 dotnet run --project experiments/BreakDrivenPrediction/BreakDrivenPrediction.csproj --no-build -- --attention
 dotnet test Gojo.slnx --no-restore
 ```

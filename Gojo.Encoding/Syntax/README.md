@@ -122,27 +122,27 @@ accepted participation and settlement evidence.
 Small fixtures exercise the first action semantics without adding a hidden
 executor:
 
-- [`ambient-access.gojo`](../../Gojo.Encoding.Tests/Fixtures/Syntax/ambient-access.gojo)
+- [`ambient-access.gojo`](../../Tests/Gojo.Encoding.Tests/Fixtures/Syntax/ambient-access.gojo)
   keeps a four-lane ambient basis while one tool exposes only `PF` and no
   inverse capability. A blocked attempt retains `PI` as residue. A wider tool
   exposes the action to that already-possible lane.
-- [`preservation.gojo`](../../Gojo.Encoding.Tests/Fixtures/Syntax/preservation.gojo)
+- [`preservation.gojo`](../../Tests/Gojo.Encoding.Tests/Fixtures/Syntax/preservation.gojo)
   distinguishes product observation, a same-identity before/after timeline,
   explicit fork topology, erasure without a claimed inverse, and rollback that
   depends on retained history.
-- [`local-blend.gojo`](../../Gojo.Encoding.Tests/Fixtures/Syntax/local-blend.gojo)
+- [`local-blend.gojo`](../../Tests/Gojo.Encoding.Tests/Fixtures/Syntax/local-blend.gojo)
   connects a partial component and partial filter to two calibrated inputs,
   an alternative mixture, a goal, focus, and response routes. Its tests execute
   prediction and signed gain perturbations, retain a stalled step and history,
   and demonstrate equal outputs that remain different structures. See the
   [execution and limits](../../Gojo/docs/GojoLocalBlendFixture.md).
-- [`landmark-calibration.gojo`](../../Gojo.Encoding.Tests/Fixtures/Syntax/landmark-calibration.gojo)
+- [`landmark-calibration.gojo`](../../Tests/Gojo.Encoding.Tests/Fixtures/Syntax/landmark-calibration.gojo)
   separates a reported landmark from its candidate calibration and open
   expectation. Its authored request templates drive one selected parameter
   response; current-version checks, attempt budgets and numeric restoration
   keep the failures inspectable. The [walkthrough](../../Gojo/docs/GojoLandmarkCalibrationFixture.md)
   includes later-event predictions and a conflicting-demand counterexample.
-- [`two-space-feedback.gojo`](../../Gojo.Encoding.Tests/Fixtures/Syntax/two-space-feedback.gojo)
+- [`two-space-feedback.gojo`](../../Tests/Gojo.Encoding.Tests/Fixtures/Syntax/two-space-feedback.gojo)
   connects two adapting calibrations through published observations, explicit
   basis/subject/context correspondence, local inboxes and response budgets.
   Its [walkthrough and demo](../../Gojo/docs/GojoTwoSpaceFeedbackFixture.md)
@@ -170,12 +170,12 @@ false, and `timeline` does not execute its transition.
 
 The [explicit unit quotient read](../../Gojo/docs/GojoUnitQuotientReads.md)
 adds an authored denominator/cancellation experiment with retained standards.
-[`unit-quotients.gojo`](../../Gojo.Encoding.Tests/Fixtures/Syntax/unit-quotients.gojo)
+[`unit-quotients.gojo`](../../Tests/Gojo.Encoding.Tests/Fixtures/Syntax/unit-quotients.gojo)
 uses the existing `group`, `ports`, `point`, `resolution` and binding forms.
 Cancellation is an explicit witnessed read; neither parsing nor ordinary unit
 compatibility silently reorders the expression.
 
-The [quantity fixture](../../Gojo.Encoding.Tests/Fixtures/Syntax/quantity-quotients.gojo)
+The [quantity fixture](../../Tests/Gojo.Encoding.Tests/Fixtures/Syntax/quantity-quotients.gojo)
 adds `quotient_unit(expression)` for complete stable reciprocal/quotient units.
 Ordinary groups express numeric division requests with samples, output and
 standard; tests invoke the kernel reader. Signed division, unresolved domains,
@@ -186,7 +186,7 @@ kernel; it does not introduce a parser execution loop.
 The [mathematical conformance checkpoint](../../Gojo/docs/GojoMathConformance.md)
 corrects the audited general-ratio remainder and range bugs, validates positive
 resolution factors, and adds an executable
-[`math-conformance.gojo`](../../Gojo.Encoding.Tests/Fixtures/Syntax/math-conformance.gojo)
+[`math-conformance.gojo`](../../Tests/Gojo.Encoding.Tests/Fixtures/Syntax/math-conformance.gojo)
 fixture. It covers signed arithmetic, source residue, inversions, repeated units,
 coarse reads, partial patterns and explicit carry activation. It adds no syntax
 constructors. Fractional source remainder is expressible with existing
@@ -194,7 +194,7 @@ constructors. Fractional source remainder is expressible with existing
 before mutation.
 
 Subsequent fixtures now cover
-[nested quotient composition](../../Gojo.Encoding.Tests/Fixtures/Syntax/quotient-composition.gojo),
+[nested quotient composition](../../Tests/Gojo.Encoding.Tests/Fixtures/Syntax/quotient-composition.gojo),
 [explicit material refinement and borrow](../../Gojo/docs/GojoMaterialRefinement.md),
 and [conditional bounded-quantity arithmetic](../../Gojo/docs/GojoBoundedQuantityFixture.md).
 They retain standards, conservation, shared causes, unresolved domains and

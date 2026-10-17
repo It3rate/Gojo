@@ -33,7 +33,7 @@ let $cycle = frame($m0 -&gt; $m1, $m1 -&gt; $m2, $m2 -&gt; $m3, $m3 -&gt; $m0);
 let $surface = group($centre_representation, $contour, $metric, $rims, $cycle);
 let $walk = group($surface, $m0, span($steps, 0, 1));
 root group(?traversal, $points);</pre>
-<p><a href="../../../Gojo.Encoding.Tests/Fixtures/Syntax/contour-rotation.gojo">Read the full authored fixture</a></p>
+<p><a href="../../../Tests/Gojo.Encoding.Tests/Fixtures/Syntax/contour-rotation.gojo">Read the full authored fixture</a></p>
 </details>
 <p class="notes">A recorded replay checked against the Gojo readers. The browser draws the checked coordinates; it does not execute the kernel. This experiment selects an exact planar distance rule and discrete landmarks. Smooth motion, physical torque and uncertain radial geometry remain later work. No angle parameter defines these turns.</p>
 <footer><a href="../GojoContourRotationFixture.md">Construction, procedures and boundaries</a><a href="../GojoContourRotationAndLocalInterfaces-2026-09.md">Why rotation needs an internal basis</a></footer>

@@ -40,13 +40,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Resources\Samples\" />
-    <Folder Include="Resources\prints\" />
+    <Folder Include="Resources\Samples" />
+    <Folder Include="Resources\prints" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Gojo\Gojo.csproj" />
-    <ProjectReference Include="..\..\GojoCAD\GojoCAD.csproj" />
+    <ProjectReference Include="..\..\Applications\GojoCAD\GojoCAD.csproj" />
   </ItemGroup>
 
   <ItemGroup>

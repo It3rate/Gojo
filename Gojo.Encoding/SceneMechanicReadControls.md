@@ -713,7 +713,7 @@ question and modifier information stays in lexical/debug attachments as hints;
 the primary frame still has the same six slots.
 
 The compact JSON fixture
-`Gojo.Encoding.Tests/Fixtures/EncoderJson/grammar/scene-mechanic-read-frames.compact.json`
+`Tests/Gojo.Encoding.Tests/Fixtures/EncoderJson/grammar/scene-mechanic-read-frames.compact.json`
 proves a definition-backed `near` read can reload through the interchange
 format. The read frame references reusable definitions for source, focus,
 basis, open transform, goal, and lexical attachments instead of expanding each

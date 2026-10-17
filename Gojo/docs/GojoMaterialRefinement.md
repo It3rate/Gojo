@@ -74,16 +74,16 @@ storage remain outside this operation.
 
 ## Syntax and evidence
 
-The [authored fixture](../../Gojo.Encoding.Tests/Fixtures/Syntax/material-refinement.gojo)
+The [authored fixture](../../Tests/Gojo.Encoding.Tests/Fixtures/Syntax/material-refinement.gojo)
 uses `subdivision(unit,parts)`, ordinary spans and groups. Parsing builds the
 request. A caller explicitly applies it or asks for borrowing; parsing never
 drains a carrier.
 
-[Kernel tests](../../Gojo.Tests/Core/RefinementTransferTests.cs) reconstruct
+[Kernel tests](../../Tests/Gojo.Tests/Core/RefinementTransferTests.cs) reconstruct
 coarse/fine participation over radices 2 through 7, available values, fine
 remainders, paid draws and exhaustion. They also cover receiver clamps, open
 requests, incompatible calibration and pre-transfer overflow refusal.
-[Syntax tests](../../Gojo.Encoding.Tests/GojoSyntaxMaterialRefinementTests.cs)
+[Syntax tests](../../Tests/Gojo.Encoding.Tests/GojoSyntaxMaterialRefinementTests.cs)
 run the same refine/coarsen/borrow sequence both directly and after numeric
 restoration. The legacy radix ladder now also checks exact composite and scale
 overflow instead of silently saturating.
