@@ -7,6 +7,23 @@ or numeric locations. The authored gallery below is the generation checkpoint;
 a following bounded feedback experiment adds explicit legality and preference
 reads without changing the kernel.
 
+The [operating-machine checkpoint](../../Gojo/docs/GojoPatternMachineExperiment.md)
+adds packet reservoirs, threshold questions and stateful drawing muscles.
+The machines create fresh strokes and sites while running: independent pumps
+combine into diagonal chords, released packets can fill a second reservoir,
+and control muscles mirror future output or reset, jump and reanchor the cursor.
+Their definition contains local laws and initial states rather than output
+coordinates. Discrete occupancy remains separate from continuous carrier tension.
+
+```powershell
+dotnet run --project experiments/QualitativeFrieze -c Release -- --machines
+```
+
+See the [machine gallery and causal events](results/machines/gallery.html),
+[figure](results/machines/gallery.svg),
+[preview](results/machines/gallery-preview.png)
+and [packet diagnostics](results/machines/diagnostics.json).
+
 The [connected-pattern checkpoint](../../Gojo/docs/GojoConnectedPatternExperiment.md)
 returns to elementary generators: four ordered levels, diagonal chords,
 shared-site junctions, native graph correspondences and coarse conditional

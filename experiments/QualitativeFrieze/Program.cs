@@ -13,6 +13,7 @@ if (args.Contains("--layers")) return PatternLayerExperiment.Run(args.Where(argu
 if (args.Contains("--rhythms")) return RhythmPatternExperiment.Run(args.Where(argument => argument != "--rhythms").ToArray());
 if (args.Contains("--rhythm-friezes")) return RhythmFriezeExperiment.Run(args.Where(argument => argument != "--rhythm-friezes").ToArray());
 if (args.Contains("--connected")) return ConnectedPatternExperiment.Run(args.Where(argument => argument != "--connected").ToArray());
+if (args.Contains("--machines")) return PatternMachineExperiment.Run(args.Where(argument => argument != "--machines").ToArray());
 
 var output = Path.Combine("experiments", "QualitativeFrieze", "results");
 var rounds = 72;

@@ -1,0 +1,3922 @@
+{
+  "Drives": 48,
+  "Scope": "Operating uncalibrated packet machines; optional equal-pitch display; no measured input or continuous carrier tension.",
+  "Schedule": "One explicit drive imports packets; modules settle in exposed feed-forward order; movement responses combine into one chord; ordered controls act after that sample.",
+  "Machines": [
+    {
+      "Name": "Threshold terraces",
+      "DefinitionElements": 589,
+      "NativeElements": 64767,
+      "NativeCarriers": 0,
+      "Strokes": 48,
+      "Jumps": 0,
+      "Imported": 96,
+      "Active": 0,
+      "Retained": 0,
+      "Released": 96,
+      "Pending": 0,
+      "Events": [
+        {
+          "Drive": 1,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 1,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 2,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 2,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 2,
+          "Response": "draw"
+        },
+        {
+          "Drive": 3,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 3,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 4,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 4,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 2,
+          "Response": "draw"
+        },
+        {
+          "Drive": 5,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 5,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 6,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 6,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 2,
+          "Response": "draw"
+        },
+        {
+          "Drive": 7,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 7,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 8,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 8,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 2,
+          "Response": "draw"
+        },
+        {
+          "Drive": 9,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 9,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 10,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 10,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 2,
+          "Response": "draw"
+        },
+        {
+          "Drive": 11,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 11,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 12,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 12,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 2,
+          "Response": "draw"
+        },
+        {
+          "Drive": 13,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 13,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 14,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 14,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 2,
+          "Response": "draw"
+        },
+        {
+          "Drive": 15,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 15,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 16,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 16,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 2,
+          "Response": "draw"
+        },
+        {
+          "Drive": 17,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 17,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 18,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 18,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 2,
+          "Response": "draw"
+        },
+        {
+          "Drive": 19,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 19,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 20,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 20,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 2,
+          "Response": "draw"
+        },
+        {
+          "Drive": 21,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 21,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 22,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 22,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 2,
+          "Response": "draw"
+        },
+        {
+          "Drive": 23,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 23,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 24,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 24,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 2,
+          "Response": "draw"
+        },
+        {
+          "Drive": 25,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 25,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 26,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 26,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 2,
+          "Response": "draw"
+        },
+        {
+          "Drive": 27,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 27,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 28,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 28,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 2,
+          "Response": "draw"
+        },
+        {
+          "Drive": 29,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 29,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 30,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 30,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 2,
+          "Response": "draw"
+        },
+        {
+          "Drive": 31,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 31,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 32,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 32,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 2,
+          "Response": "draw"
+        },
+        {
+          "Drive": 33,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 33,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 34,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 34,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 2,
+          "Response": "draw"
+        },
+        {
+          "Drive": 35,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 35,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 36,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 36,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 2,
+          "Response": "draw"
+        },
+        {
+          "Drive": 37,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 37,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 38,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 38,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 2,
+          "Response": "draw"
+        },
+        {
+          "Drive": 39,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 39,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 40,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 40,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 2,
+          "Response": "draw"
+        },
+        {
+          "Drive": 41,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 41,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 42,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 42,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 2,
+          "Response": "draw"
+        },
+        {
+          "Drive": 43,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 43,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 44,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 44,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 2,
+          "Response": "draw"
+        },
+        {
+          "Drive": 45,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 45,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 46,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 46,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 2,
+          "Response": "draw"
+        },
+        {
+          "Drive": 47,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 47,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 48,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 48,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 2,
+          "Response": "draw"
+        }
+      ]
+    },
+    {
+      "Name": "Threshold diagonals",
+      "DefinitionElements": 587,
+      "NativeElements": 67897,
+      "NativeCarriers": 0,
+      "Strokes": 48,
+      "Jumps": 0,
+      "Imported": 96,
+      "Active": 0,
+      "Retained": 0,
+      "Released": 96,
+      "Pending": 0,
+      "Events": [
+        {
+          "Drive": 1,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 1,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 2,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 2,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 3,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 3,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 4,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 4,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 5,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 5,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 6,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 6,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 7,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 7,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 8,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 8,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 9,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 9,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 10,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 10,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 11,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 11,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 12,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 12,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 13,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 13,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 14,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 14,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 15,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 15,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 16,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 16,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 17,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 17,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 18,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 18,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 19,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 19,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 20,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 20,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 21,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 21,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 22,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 22,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 23,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 23,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 24,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 24,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 25,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 25,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 26,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 26,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 27,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 27,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 28,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 28,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 29,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 29,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 30,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 30,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 31,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 31,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 32,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 32,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 33,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 33,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 34,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 34,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 35,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 35,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 36,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 36,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 37,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 37,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 38,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 38,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 39,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 39,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 40,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 40,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 41,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 41,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 42,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 42,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 43,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 43,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 44,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 44,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 45,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 45,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 46,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 46,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 47,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 47,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 48,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 48,
+          "Muscle": "alternating lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        }
+      ]
+    },
+    {
+      "Name": "Threshold key motor",
+      "DefinitionElements": 577,
+      "NativeElements": 31787,
+      "NativeCarriers": 0,
+      "Strokes": 24,
+      "Jumps": 0,
+      "Imported": 48,
+      "Active": 0,
+      "Retained": 0,
+      "Released": 48,
+      "Pending": 0,
+      "Events": [
+        {
+          "Drive": 1,
+          "Muscle": "turn motor",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 2,
+          "Muscle": "turn motor",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 2,
+          "Response": "draw"
+        },
+        {
+          "Drive": 3,
+          "Muscle": "turn motor",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 4,
+          "Muscle": "turn motor",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 2,
+          "Response": "draw"
+        },
+        {
+          "Drive": 5,
+          "Muscle": "turn motor",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 6,
+          "Muscle": "turn motor",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 2,
+          "Response": "draw"
+        },
+        {
+          "Drive": 7,
+          "Muscle": "turn motor",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 8,
+          "Muscle": "turn motor",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 2,
+          "Response": "draw"
+        },
+        {
+          "Drive": 9,
+          "Muscle": "turn motor",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 10,
+          "Muscle": "turn motor",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 2,
+          "Response": "draw"
+        },
+        {
+          "Drive": 11,
+          "Muscle": "turn motor",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 12,
+          "Muscle": "turn motor",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 2,
+          "Response": "draw"
+        },
+        {
+          "Drive": 13,
+          "Muscle": "turn motor",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 14,
+          "Muscle": "turn motor",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 2,
+          "Response": "draw"
+        },
+        {
+          "Drive": 15,
+          "Muscle": "turn motor",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 16,
+          "Muscle": "turn motor",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 2,
+          "Response": "draw"
+        },
+        {
+          "Drive": 17,
+          "Muscle": "turn motor",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 18,
+          "Muscle": "turn motor",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 2,
+          "Response": "draw"
+        },
+        {
+          "Drive": 19,
+          "Muscle": "turn motor",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 20,
+          "Muscle": "turn motor",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 2,
+          "Response": "draw"
+        },
+        {
+          "Drive": 21,
+          "Muscle": "turn motor",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 22,
+          "Muscle": "turn motor",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 2,
+          "Response": "draw"
+        },
+        {
+          "Drive": 23,
+          "Muscle": "turn motor",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 24,
+          "Muscle": "turn motor",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 2,
+          "Response": "draw"
+        },
+        {
+          "Drive": 25,
+          "Muscle": "turn motor",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 26,
+          "Muscle": "turn motor",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 2,
+          "Response": "draw"
+        },
+        {
+          "Drive": 27,
+          "Muscle": "turn motor",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 28,
+          "Muscle": "turn motor",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 2,
+          "Response": "draw"
+        },
+        {
+          "Drive": 29,
+          "Muscle": "turn motor",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 30,
+          "Muscle": "turn motor",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 2,
+          "Response": "draw"
+        },
+        {
+          "Drive": 31,
+          "Muscle": "turn motor",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 32,
+          "Muscle": "turn motor",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 2,
+          "Response": "draw"
+        },
+        {
+          "Drive": 33,
+          "Muscle": "turn motor",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 34,
+          "Muscle": "turn motor",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 2,
+          "Response": "draw"
+        },
+        {
+          "Drive": 35,
+          "Muscle": "turn motor",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 36,
+          "Muscle": "turn motor",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 2,
+          "Response": "draw"
+        },
+        {
+          "Drive": 37,
+          "Muscle": "turn motor",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 38,
+          "Muscle": "turn motor",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 2,
+          "Response": "draw"
+        },
+        {
+          "Drive": 39,
+          "Muscle": "turn motor",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 40,
+          "Muscle": "turn motor",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 2,
+          "Response": "draw"
+        },
+        {
+          "Drive": 41,
+          "Muscle": "turn motor",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 42,
+          "Muscle": "turn motor",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 2,
+          "Response": "draw"
+        },
+        {
+          "Drive": 43,
+          "Muscle": "turn motor",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 44,
+          "Muscle": "turn motor",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 2,
+          "Response": "draw"
+        },
+        {
+          "Drive": 45,
+          "Muscle": "turn motor",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 46,
+          "Muscle": "turn motor",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 2,
+          "Response": "draw"
+        },
+        {
+          "Drive": 47,
+          "Muscle": "turn motor",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 48,
+          "Muscle": "turn motor",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 2,
+          "Response": "draw"
+        }
+      ]
+    },
+    {
+      "Name": "Cascaded mirror latch",
+      "DefinitionElements": 693,
+      "NativeElements": 88215,
+      "NativeCarriers": 0,
+      "Strokes": 48,
+      "Jumps": 0,
+      "Imported": 96,
+      "Active": 0,
+      "Retained": 0,
+      "Released": 96,
+      "Pending": 0,
+      "Events": [
+        {
+          "Drive": 1,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 1,
+          "Muscle": "lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 1,
+          "Muscle": "mirror latch",
+          "Intake": 0,
+          "Occupied": 0,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 2,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 2,
+          "Muscle": "lift",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 2,
+          "Response": "draw"
+        },
+        {
+          "Drive": 2,
+          "Muscle": "mirror latch",
+          "Intake": 2,
+          "Occupied": 2,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 3,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 3,
+          "Muscle": "lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 3,
+          "Muscle": "mirror latch",
+          "Intake": 0,
+          "Occupied": 2,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 4,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 4,
+          "Muscle": "lift",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 2,
+          "Response": "draw"
+        },
+        {
+          "Drive": 4,
+          "Muscle": "mirror latch",
+          "Intake": 2,
+          "Occupied": 4,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 5,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 5,
+          "Muscle": "lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 5,
+          "Muscle": "mirror latch",
+          "Intake": 0,
+          "Occupied": 4,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 6,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 6,
+          "Muscle": "lift",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 2,
+          "Response": "draw"
+        },
+        {
+          "Drive": 6,
+          "Muscle": "mirror latch",
+          "Intake": 2,
+          "Occupied": 6,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 7,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 7,
+          "Muscle": "lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 7,
+          "Muscle": "mirror latch",
+          "Intake": 0,
+          "Occupied": 6,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 8,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 8,
+          "Muscle": "lift",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 2,
+          "Response": "draw"
+        },
+        {
+          "Drive": 8,
+          "Muscle": "mirror latch",
+          "Intake": 2,
+          "Occupied": 8,
+          "Released": 8,
+          "Response": "mirror future output"
+        },
+        {
+          "Drive": 9,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 9,
+          "Muscle": "lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 9,
+          "Muscle": "mirror latch",
+          "Intake": 0,
+          "Occupied": 0,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 10,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 10,
+          "Muscle": "lift",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 2,
+          "Response": "draw"
+        },
+        {
+          "Drive": 10,
+          "Muscle": "mirror latch",
+          "Intake": 2,
+          "Occupied": 2,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 11,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 11,
+          "Muscle": "lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 11,
+          "Muscle": "mirror latch",
+          "Intake": 0,
+          "Occupied": 2,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 12,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 12,
+          "Muscle": "lift",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 2,
+          "Response": "draw"
+        },
+        {
+          "Drive": 12,
+          "Muscle": "mirror latch",
+          "Intake": 2,
+          "Occupied": 4,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 13,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 13,
+          "Muscle": "lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 13,
+          "Muscle": "mirror latch",
+          "Intake": 0,
+          "Occupied": 4,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 14,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 14,
+          "Muscle": "lift",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 2,
+          "Response": "draw"
+        },
+        {
+          "Drive": 14,
+          "Muscle": "mirror latch",
+          "Intake": 2,
+          "Occupied": 6,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 15,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 15,
+          "Muscle": "lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 15,
+          "Muscle": "mirror latch",
+          "Intake": 0,
+          "Occupied": 6,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 16,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 16,
+          "Muscle": "lift",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 2,
+          "Response": "draw"
+        },
+        {
+          "Drive": 16,
+          "Muscle": "mirror latch",
+          "Intake": 2,
+          "Occupied": 8,
+          "Released": 8,
+          "Response": "mirror future output"
+        },
+        {
+          "Drive": 17,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 17,
+          "Muscle": "lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 17,
+          "Muscle": "mirror latch",
+          "Intake": 0,
+          "Occupied": 0,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 18,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 18,
+          "Muscle": "lift",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 2,
+          "Response": "draw"
+        },
+        {
+          "Drive": 18,
+          "Muscle": "mirror latch",
+          "Intake": 2,
+          "Occupied": 2,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 19,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 19,
+          "Muscle": "lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 19,
+          "Muscle": "mirror latch",
+          "Intake": 0,
+          "Occupied": 2,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 20,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 20,
+          "Muscle": "lift",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 2,
+          "Response": "draw"
+        },
+        {
+          "Drive": 20,
+          "Muscle": "mirror latch",
+          "Intake": 2,
+          "Occupied": 4,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 21,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 21,
+          "Muscle": "lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 21,
+          "Muscle": "mirror latch",
+          "Intake": 0,
+          "Occupied": 4,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 22,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 22,
+          "Muscle": "lift",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 2,
+          "Response": "draw"
+        },
+        {
+          "Drive": 22,
+          "Muscle": "mirror latch",
+          "Intake": 2,
+          "Occupied": 6,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 23,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 23,
+          "Muscle": "lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 23,
+          "Muscle": "mirror latch",
+          "Intake": 0,
+          "Occupied": 6,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 24,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 24,
+          "Muscle": "lift",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 2,
+          "Response": "draw"
+        },
+        {
+          "Drive": 24,
+          "Muscle": "mirror latch",
+          "Intake": 2,
+          "Occupied": 8,
+          "Released": 8,
+          "Response": "mirror future output"
+        },
+        {
+          "Drive": 25,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 25,
+          "Muscle": "lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 25,
+          "Muscle": "mirror latch",
+          "Intake": 0,
+          "Occupied": 0,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 26,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 26,
+          "Muscle": "lift",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 2,
+          "Response": "draw"
+        },
+        {
+          "Drive": 26,
+          "Muscle": "mirror latch",
+          "Intake": 2,
+          "Occupied": 2,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 27,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 27,
+          "Muscle": "lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 27,
+          "Muscle": "mirror latch",
+          "Intake": 0,
+          "Occupied": 2,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 28,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 28,
+          "Muscle": "lift",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 2,
+          "Response": "draw"
+        },
+        {
+          "Drive": 28,
+          "Muscle": "mirror latch",
+          "Intake": 2,
+          "Occupied": 4,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 29,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 29,
+          "Muscle": "lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 29,
+          "Muscle": "mirror latch",
+          "Intake": 0,
+          "Occupied": 4,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 30,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 30,
+          "Muscle": "lift",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 2,
+          "Response": "draw"
+        },
+        {
+          "Drive": 30,
+          "Muscle": "mirror latch",
+          "Intake": 2,
+          "Occupied": 6,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 31,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 31,
+          "Muscle": "lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 31,
+          "Muscle": "mirror latch",
+          "Intake": 0,
+          "Occupied": 6,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 32,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 32,
+          "Muscle": "lift",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 2,
+          "Response": "draw"
+        },
+        {
+          "Drive": 32,
+          "Muscle": "mirror latch",
+          "Intake": 2,
+          "Occupied": 8,
+          "Released": 8,
+          "Response": "mirror future output"
+        },
+        {
+          "Drive": 33,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 33,
+          "Muscle": "lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 33,
+          "Muscle": "mirror latch",
+          "Intake": 0,
+          "Occupied": 0,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 34,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 34,
+          "Muscle": "lift",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 2,
+          "Response": "draw"
+        },
+        {
+          "Drive": 34,
+          "Muscle": "mirror latch",
+          "Intake": 2,
+          "Occupied": 2,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 35,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 35,
+          "Muscle": "lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 35,
+          "Muscle": "mirror latch",
+          "Intake": 0,
+          "Occupied": 2,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 36,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 36,
+          "Muscle": "lift",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 2,
+          "Response": "draw"
+        },
+        {
+          "Drive": 36,
+          "Muscle": "mirror latch",
+          "Intake": 2,
+          "Occupied": 4,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 37,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 37,
+          "Muscle": "lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 37,
+          "Muscle": "mirror latch",
+          "Intake": 0,
+          "Occupied": 4,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 38,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 38,
+          "Muscle": "lift",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 2,
+          "Response": "draw"
+        },
+        {
+          "Drive": 38,
+          "Muscle": "mirror latch",
+          "Intake": 2,
+          "Occupied": 6,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 39,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 39,
+          "Muscle": "lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 39,
+          "Muscle": "mirror latch",
+          "Intake": 0,
+          "Occupied": 6,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 40,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 40,
+          "Muscle": "lift",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 2,
+          "Response": "draw"
+        },
+        {
+          "Drive": 40,
+          "Muscle": "mirror latch",
+          "Intake": 2,
+          "Occupied": 8,
+          "Released": 8,
+          "Response": "mirror future output"
+        },
+        {
+          "Drive": 41,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 41,
+          "Muscle": "lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 41,
+          "Muscle": "mirror latch",
+          "Intake": 0,
+          "Occupied": 0,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 42,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 42,
+          "Muscle": "lift",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 2,
+          "Response": "draw"
+        },
+        {
+          "Drive": 42,
+          "Muscle": "mirror latch",
+          "Intake": 2,
+          "Occupied": 2,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 43,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 43,
+          "Muscle": "lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 43,
+          "Muscle": "mirror latch",
+          "Intake": 0,
+          "Occupied": 2,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 44,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 44,
+          "Muscle": "lift",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 2,
+          "Response": "draw"
+        },
+        {
+          "Drive": 44,
+          "Muscle": "mirror latch",
+          "Intake": 2,
+          "Occupied": 4,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 45,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 45,
+          "Muscle": "lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 45,
+          "Muscle": "mirror latch",
+          "Intake": 0,
+          "Occupied": 4,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 46,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 46,
+          "Muscle": "lift",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 2,
+          "Response": "draw"
+        },
+        {
+          "Drive": 46,
+          "Muscle": "mirror latch",
+          "Intake": 2,
+          "Occupied": 6,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 47,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 47,
+          "Muscle": "lift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 47,
+          "Muscle": "mirror latch",
+          "Intake": 0,
+          "Occupied": 6,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 48,
+          "Muscle": "drift",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 48,
+          "Muscle": "lift",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 2,
+          "Response": "draw"
+        },
+        {
+          "Drive": 48,
+          "Muscle": "mirror latch",
+          "Intake": 2,
+          "Occupied": 8,
+          "Released": 8,
+          "Response": "mirror future output"
+        }
+      ]
+    },
+    {
+      "Name": "Anchored diamond shuttles",
+      "DefinitionElements": 623,
+      "NativeElements": 71827,
+      "NativeCarriers": 0,
+      "Strokes": 48,
+      "Jumps": 24,
+      "Imported": 48,
+      "Active": 0,
+      "Retained": 0,
+      "Released": 48,
+      "Pending": 0,
+      "Events": [
+        {
+          "Drive": 1,
+          "Muscle": "diamond muscle",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 1,
+          "Muscle": "anchor and leap",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 2,
+          "Muscle": "diamond muscle",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 2,
+          "Muscle": "anchor and leap",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 3,
+          "Muscle": "diamond muscle",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 3,
+          "Muscle": "anchor and leap",
+          "Intake": 1,
+          "Occupied": 3,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 4,
+          "Muscle": "diamond muscle",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 4,
+          "Muscle": "anchor and leap",
+          "Intake": 1,
+          "Occupied": 4,
+          "Released": 4,
+          "Response": "reset anchor \u2192 jump \u2192 set anchor \u2192 mirror future output"
+        },
+        {
+          "Drive": 5,
+          "Muscle": "diamond muscle",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 5,
+          "Muscle": "anchor and leap",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 6,
+          "Muscle": "diamond muscle",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 6,
+          "Muscle": "anchor and leap",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 7,
+          "Muscle": "diamond muscle",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 7,
+          "Muscle": "anchor and leap",
+          "Intake": 1,
+          "Occupied": 3,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 8,
+          "Muscle": "diamond muscle",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 8,
+          "Muscle": "anchor and leap",
+          "Intake": 1,
+          "Occupied": 4,
+          "Released": 4,
+          "Response": "reset anchor \u2192 jump \u2192 set anchor \u2192 mirror future output"
+        },
+        {
+          "Drive": 9,
+          "Muscle": "diamond muscle",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 9,
+          "Muscle": "anchor and leap",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 10,
+          "Muscle": "diamond muscle",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 10,
+          "Muscle": "anchor and leap",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 11,
+          "Muscle": "diamond muscle",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 11,
+          "Muscle": "anchor and leap",
+          "Intake": 1,
+          "Occupied": 3,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 12,
+          "Muscle": "diamond muscle",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 12,
+          "Muscle": "anchor and leap",
+          "Intake": 1,
+          "Occupied": 4,
+          "Released": 4,
+          "Response": "reset anchor \u2192 jump \u2192 set anchor \u2192 mirror future output"
+        },
+        {
+          "Drive": 13,
+          "Muscle": "diamond muscle",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 13,
+          "Muscle": "anchor and leap",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 14,
+          "Muscle": "diamond muscle",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 14,
+          "Muscle": "anchor and leap",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 15,
+          "Muscle": "diamond muscle",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 15,
+          "Muscle": "anchor and leap",
+          "Intake": 1,
+          "Occupied": 3,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 16,
+          "Muscle": "diamond muscle",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 16,
+          "Muscle": "anchor and leap",
+          "Intake": 1,
+          "Occupied": 4,
+          "Released": 4,
+          "Response": "reset anchor \u2192 jump \u2192 set anchor \u2192 mirror future output"
+        },
+        {
+          "Drive": 17,
+          "Muscle": "diamond muscle",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 17,
+          "Muscle": "anchor and leap",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 18,
+          "Muscle": "diamond muscle",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 18,
+          "Muscle": "anchor and leap",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 19,
+          "Muscle": "diamond muscle",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 19,
+          "Muscle": "anchor and leap",
+          "Intake": 1,
+          "Occupied": 3,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 20,
+          "Muscle": "diamond muscle",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 20,
+          "Muscle": "anchor and leap",
+          "Intake": 1,
+          "Occupied": 4,
+          "Released": 4,
+          "Response": "reset anchor \u2192 jump \u2192 set anchor \u2192 mirror future output"
+        },
+        {
+          "Drive": 21,
+          "Muscle": "diamond muscle",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 21,
+          "Muscle": "anchor and leap",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 22,
+          "Muscle": "diamond muscle",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 22,
+          "Muscle": "anchor and leap",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 23,
+          "Muscle": "diamond muscle",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 23,
+          "Muscle": "anchor and leap",
+          "Intake": 1,
+          "Occupied": 3,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 24,
+          "Muscle": "diamond muscle",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 24,
+          "Muscle": "anchor and leap",
+          "Intake": 1,
+          "Occupied": 4,
+          "Released": 4,
+          "Response": "reset anchor \u2192 jump \u2192 set anchor \u2192 mirror future output"
+        },
+        {
+          "Drive": 25,
+          "Muscle": "diamond muscle",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 25,
+          "Muscle": "anchor and leap",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 26,
+          "Muscle": "diamond muscle",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 26,
+          "Muscle": "anchor and leap",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 27,
+          "Muscle": "diamond muscle",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 27,
+          "Muscle": "anchor and leap",
+          "Intake": 1,
+          "Occupied": 3,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 28,
+          "Muscle": "diamond muscle",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 28,
+          "Muscle": "anchor and leap",
+          "Intake": 1,
+          "Occupied": 4,
+          "Released": 4,
+          "Response": "reset anchor \u2192 jump \u2192 set anchor \u2192 mirror future output"
+        },
+        {
+          "Drive": 29,
+          "Muscle": "diamond muscle",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 29,
+          "Muscle": "anchor and leap",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 30,
+          "Muscle": "diamond muscle",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 30,
+          "Muscle": "anchor and leap",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 31,
+          "Muscle": "diamond muscle",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 31,
+          "Muscle": "anchor and leap",
+          "Intake": 1,
+          "Occupied": 3,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 32,
+          "Muscle": "diamond muscle",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 32,
+          "Muscle": "anchor and leap",
+          "Intake": 1,
+          "Occupied": 4,
+          "Released": 4,
+          "Response": "reset anchor \u2192 jump \u2192 set anchor \u2192 mirror future output"
+        },
+        {
+          "Drive": 33,
+          "Muscle": "diamond muscle",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 33,
+          "Muscle": "anchor and leap",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 34,
+          "Muscle": "diamond muscle",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 34,
+          "Muscle": "anchor and leap",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 35,
+          "Muscle": "diamond muscle",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 35,
+          "Muscle": "anchor and leap",
+          "Intake": 1,
+          "Occupied": 3,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 36,
+          "Muscle": "diamond muscle",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 36,
+          "Muscle": "anchor and leap",
+          "Intake": 1,
+          "Occupied": 4,
+          "Released": 4,
+          "Response": "reset anchor \u2192 jump \u2192 set anchor \u2192 mirror future output"
+        },
+        {
+          "Drive": 37,
+          "Muscle": "diamond muscle",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 37,
+          "Muscle": "anchor and leap",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 38,
+          "Muscle": "diamond muscle",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 38,
+          "Muscle": "anchor and leap",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 39,
+          "Muscle": "diamond muscle",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 39,
+          "Muscle": "anchor and leap",
+          "Intake": 1,
+          "Occupied": 3,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 40,
+          "Muscle": "diamond muscle",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 40,
+          "Muscle": "anchor and leap",
+          "Intake": 1,
+          "Occupied": 4,
+          "Released": 4,
+          "Response": "reset anchor \u2192 jump \u2192 set anchor \u2192 mirror future output"
+        },
+        {
+          "Drive": 41,
+          "Muscle": "diamond muscle",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 41,
+          "Muscle": "anchor and leap",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 42,
+          "Muscle": "diamond muscle",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 42,
+          "Muscle": "anchor and leap",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 43,
+          "Muscle": "diamond muscle",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 43,
+          "Muscle": "anchor and leap",
+          "Intake": 1,
+          "Occupied": 3,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 44,
+          "Muscle": "diamond muscle",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 44,
+          "Muscle": "anchor and leap",
+          "Intake": 1,
+          "Occupied": 4,
+          "Released": 4,
+          "Response": "reset anchor \u2192 jump \u2192 set anchor \u2192 mirror future output"
+        },
+        {
+          "Drive": 45,
+          "Muscle": "diamond muscle",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 45,
+          "Muscle": "anchor and leap",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 46,
+          "Muscle": "diamond muscle",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 46,
+          "Muscle": "anchor and leap",
+          "Intake": 1,
+          "Occupied": 2,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 47,
+          "Muscle": "diamond muscle",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 47,
+          "Muscle": "anchor and leap",
+          "Intake": 1,
+          "Occupied": 3,
+          "Released": 0,
+          "Response": "waiting"
+        },
+        {
+          "Drive": 48,
+          "Muscle": "diamond muscle",
+          "Intake": 1,
+          "Occupied": 1,
+          "Released": 1,
+          "Response": "draw"
+        },
+        {
+          "Drive": 48,
+          "Muscle": "anchor and leap",
+          "Intake": 1,
+          "Occupied": 4,
+          "Released": 4,
+          "Response": "reset anchor \u2192 jump \u2192 set anchor \u2192 mirror future output"
+        }
+      ]
+    }
+  ]
+}
