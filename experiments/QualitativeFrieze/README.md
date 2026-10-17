@@ -7,6 +7,12 @@ or numeric locations. The authored gallery below is the generation checkpoint;
 a following bounded feedback experiment adds explicit legality and preference
 reads without changing the kernel.
 
+The [skeleton atlas](results/skeleton-atlas/index.html) provides ten named
+families with thirty progressive diagrams, twelve goal skeletons and a short
+experiment-brief builder. These are authored reference targets for discussion,
+with source links, required features, allowed variation and explicit misses.
+See the [atlas source and rebuild instructions](SkeletonAtlas/README.md).
+
 The [historical ornament research](../../Gojo/docs/GojoHistoricalOrnamentRules.md)
 extracts construction rules and reusable skeletons from Day, Hay, Jones and the
 International Correspondence Schools textbook. It separates seam obligations,

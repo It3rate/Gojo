@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="260" viewBox="0 0 480 260" role="img" aria-label="S07.C Sector bands"><title>S07.C Sector bands</title><style>.ink,.second,.guide,.scaffold,.frame{fill:none;stroke-linecap:round;stroke-linejoin:round}
+.ink{stroke:#203e42}.second{stroke:#aa603f}
+.scaffold{stroke:#c7d3c4;stroke-width:1}
+.guide{stroke:#adbbb0;stroke-dasharray:4 5;stroke-width:1}
+.frame{stroke:#c5cfc1;stroke-dasharray:3 6;stroke-width:1}
+.node{fill:#203e42;stroke:#fffdf7;stroke-width:1}
+.wash{fill:#e0eadd;stroke:none}.field{fill:#f0dec9;stroke:none}
+.solid{fill:#203e42;stroke:none}.underpass{stroke:#fffdf7;fill:none}
+.diagram-label{font:12px 'Segoe UI',sans-serif;fill:#708276}
+</style><polyline class="ink" points="240,130 342,130" stroke-width="2" fill="none"/><polyline class="ink" points="240,130 291,218.335" stroke-width="2" fill="none"/><polyline class="ink" points="240,130 189,218.335" stroke-width="2" fill="none"/><polyline class="ink" points="240,130 138,130" stroke-width="2" fill="none"/><polyline class="ink" points="240,130 189,41.665" stroke-width="2" fill="none"/><polyline class="ink" points="240,130 291,41.665" stroke-width="2" fill="none"/><polygon class="ink" points="342,130 291,218.335 189,218.335 138,130 189,41.665 291,41.665" stroke-width="2.3" fill="none"/><polygon class="second" points="276,130 258,161.177 222,161.177 204,130 222,98.823 258,98.823" stroke-width="2" fill="none"/><polygon class="second" points="308,130 274,188.89 206,188.89 172,130 206,71.11 274,71.11" stroke-width="2" fill="none"/><circle class="node" cx="240" cy="130" r="2.7"/></svg>

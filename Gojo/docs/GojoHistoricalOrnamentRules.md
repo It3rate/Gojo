@@ -11,6 +11,12 @@ The historical findings below come from selected relevant chapters and plates.
 The proposed Gojo experiments are not new implemented behavior. Current code
 and focused tests remain the authority for the capability table.
 
+The [visual skeleton atlas](../../experiments/QualitativeFrieze/results/skeleton-atlas/index.html)
+now illustrates ten construction families and twelve named goal patterns.
+Its diagrams and target contracts are authored references, not additional
+implemented Gojo laws. The glossary progresses from simple concepts to
+structural elaborations; the goal cards provide expectations for future runs.
+
 ## Sources and scope
 
 | Source | Edition and relevant material |

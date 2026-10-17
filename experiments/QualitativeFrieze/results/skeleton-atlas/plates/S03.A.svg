@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="260" viewBox="0 0 480 260" role="img" aria-label="S03.A One turn"><title>S03.A One turn</title><style>.ink,.second,.guide,.scaffold,.frame{fill:none;stroke-linecap:round;stroke-linejoin:round}
+.ink{stroke:#203e42}.second{stroke:#aa603f}
+.scaffold{stroke:#c7d3c4;stroke-width:1}
+.guide{stroke:#adbbb0;stroke-dasharray:4 5;stroke-width:1}
+.frame{stroke:#c5cfc1;stroke-dasharray:3 6;stroke-width:1}
+.node{fill:#203e42;stroke:#fffdf7;stroke-width:1}
+.wash{fill:#e0eadd;stroke:none}.field{fill:#f0dec9;stroke:none}
+.solid{fill:#203e42;stroke:none}.underpass{stroke:#fffdf7;fill:none}
+.diagram-label{font:12px 'Segoe UI',sans-serif;fill:#708276}
+</style><polyline class="guide" points="40,30 40,230" stroke-width="2" fill="none"/><polyline class="guide" points="80,30 80,230" stroke-width="2" fill="none"/><polyline class="guide" points="120,30 120,230" stroke-width="2" fill="none"/><polyline class="guide" points="160,30 160,230" stroke-width="2" fill="none"/><polyline class="guide" points="200,30 200,230" stroke-width="2" fill="none"/><polyline class="guide" points="240,30 240,230" stroke-width="2" fill="none"/><polyline class="guide" points="280,30 280,230" stroke-width="2" fill="none"/><polyline class="guide" points="320,30 320,230" stroke-width="2" fill="none"/><polyline class="guide" points="360,30 360,230" stroke-width="2" fill="none"/><polyline class="guide" points="400,30 400,230" stroke-width="2" fill="none"/><polyline class="guide" points="440,30 440,230" stroke-width="2" fill="none"/><polyline class="guide" points="40,30 440,30" stroke-width="2" fill="none"/><polyline class="guide" points="40,70 440,70" stroke-width="2" fill="none"/><polyline class="guide" points="40,110 440,110" stroke-width="2" fill="none"/><polyline class="guide" points="40,150 440,150" stroke-width="2" fill="none"/><polyline class="guide" points="40,190 440,190" stroke-width="2" fill="none"/><polyline class="guide" points="40,230 440,230" stroke-width="2" fill="none"/><polyline class="ink" points="140,190 140,70 340,70" stroke-width="2.8" fill="none"/><circle class="node" cx="140" cy="70" r="2.7"/></svg>

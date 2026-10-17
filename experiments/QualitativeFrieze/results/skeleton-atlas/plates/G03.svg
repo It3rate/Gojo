@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="260" viewBox="0 0 480 260" role="img" aria-label="G03 Glide staircase"><title>G03 Glide staircase</title><style>.ink,.second,.guide,.scaffold,.frame{fill:none;stroke-linecap:round;stroke-linejoin:round}
+.ink{stroke:#203e42}.second{stroke:#aa603f}
+.scaffold{stroke:#c7d3c4;stroke-width:1}
+.guide{stroke:#adbbb0;stroke-dasharray:4 5;stroke-width:1}
+.frame{stroke:#c5cfc1;stroke-dasharray:3 6;stroke-width:1}
+.node{fill:#203e42;stroke:#fffdf7;stroke-width:1}
+.wash{fill:#e0eadd;stroke:none}.field{fill:#f0dec9;stroke:none}
+.solid{fill:#203e42;stroke:none}.underpass{stroke:#fffdf7;fill:none}
+.diagram-label{font:12px 'Segoe UI',sans-serif;fill:#708276}
+</style><polyline class="ink" points="20,182 42,182 42,147.333 64,147.333 64,112.667 86,112.667 86,78 108,78" stroke-width="2.5" fill="none"/><polyline class="second" points="108,78 130,78 130,112.667 152,112.667 152,147.333 174,147.333 174,182 196,182" stroke-width="2.5" fill="none"/><polyline class="ink" points="196,182 218,182 218,147.333 240,147.333 240,112.667 262,112.667 262,78 284,78" stroke-width="2.5" fill="none"/><polyline class="second" points="284,78 306,78 306,112.667 328,112.667 328,147.333 350,147.333 350,182 372,182" stroke-width="2.5" fill="none"/><polyline class="ink" points="372,182 394,182 394,147.333 416,147.333 416,112.667 438,112.667 438,78 460,78" stroke-width="2.5" fill="none"/><polyline class="guide" points="20,130 460,130" stroke-width="2" fill="none"/><text x="22" y="224" class="diagram-label">A → reflected B → A</text></svg>

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="260" viewBox="0 0 480 260" role="img" aria-label="G02 Facing meanders"><title>G02 Facing meanders</title><style>.ink,.second,.guide,.scaffold,.frame{fill:none;stroke-linecap:round;stroke-linejoin:round}
+.ink{stroke:#203e42}.second{stroke:#aa603f}
+.scaffold{stroke:#c7d3c4;stroke-width:1}
+.guide{stroke:#adbbb0;stroke-dasharray:4 5;stroke-width:1}
+.frame{stroke:#c5cfc1;stroke-dasharray:3 6;stroke-width:1}
+.node{fill:#203e42;stroke:#fffdf7;stroke-width:1}
+.wash{fill:#e0eadd;stroke:none}.field{fill:#f0dec9;stroke:none}
+.solid{fill:#203e42;stroke:none}.underpass{stroke:#fffdf7;fill:none}
+.diagram-label{font:12px 'Segoe UI',sans-serif;fill:#708276}
+</style><polyline class="ink" points="20,111 20,31 90.4,31 90.4,91 55.2,91 55.2,71 72.8,71 72.8,51 37.6,51 37.6,111 108,111 108,31 178.4,31 178.4,91 143.2,91 143.2,71 160.8,71 160.8,51 125.6,51 125.6,111 196,111 196,31 266.4,31 266.4,91 231.2,91 231.2,71 248.8,71 248.8,51 213.6,51 213.6,111 284,111 284,31 354.4,31 354.4,91 319.2,91 319.2,71 336.8,71 336.8,51 301.6,51 301.6,111 372,111 372,31 442.4,31 442.4,91 407.2,91 407.2,71 424.8,71 424.8,51 389.6,51 389.6,111 460,111" stroke-width="2.3" fill="none"/><polyline class="second" points="20,149 20,229 90.4,229 90.4,169 55.2,169 55.2,189 72.8,189 72.8,209 37.6,209 37.6,149 108,149 108,229 178.4,229 178.4,169 143.2,169 143.2,189 160.8,189 160.8,209 125.6,209 125.6,149 196,149 196,229 266.4,229 266.4,169 231.2,169 231.2,189 248.8,189 248.8,209 213.6,209 213.6,149 284,149 284,229 354.4,229 354.4,169 319.2,169 319.2,189 336.8,189 336.8,209 301.6,209 301.6,149 372,149 372,229 442.4,229 442.4,169 407.2,169 407.2,189 424.8,189 424.8,209 389.6,209 389.6,149 460,149" stroke-width="2.3" fill="none"/><polyline class="guide" points="15,130 465,130" stroke-width="2" fill="none"/></svg>

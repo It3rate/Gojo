@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="260" viewBox="0 0 480 260" role="img" aria-label="S02.B Oblique view"><title>S02.B Oblique view</title><style>.ink,.second,.guide,.scaffold,.frame{fill:none;stroke-linecap:round;stroke-linejoin:round}
+.ink{stroke:#203e42}.second{stroke:#aa603f}
+.scaffold{stroke:#c7d3c4;stroke-width:1}
+.guide{stroke:#adbbb0;stroke-dasharray:4 5;stroke-width:1}
+.frame{stroke:#c5cfc1;stroke-dasharray:3 6;stroke-width:1}
+.node{fill:#203e42;stroke:#fffdf7;stroke-width:1}
+.wash{fill:#e0eadd;stroke:none}.field{fill:#f0dec9;stroke:none}
+.solid{fill:#203e42;stroke:none}.underpass{stroke:#fffdf7;fill:none}
+.diagram-label{font:12px 'Segoe UI',sans-serif;fill:#708276}
+</style><polyline class="ink" points="45,36 345,36" stroke-width="2" fill="none"/><polyline class="ink" points="67,79 367,79" stroke-width="2" fill="none"/><polyline class="ink" points="89,122 389,122" stroke-width="2" fill="none"/><polyline class="ink" points="111,165 411,165" stroke-width="2" fill="none"/><polyline class="ink" points="133,208 433,208" stroke-width="2" fill="none"/><polyline class="ink" points="45,36 133,208" stroke-width="2" fill="none"/><polyline class="ink" points="95,36 183,208" stroke-width="2" fill="none"/><polyline class="ink" points="145,36 233,208" stroke-width="2" fill="none"/><polyline class="ink" points="195,36 283,208" stroke-width="2" fill="none"/><polyline class="ink" points="245,36 333,208" stroke-width="2" fill="none"/><polyline class="ink" points="295,36 383,208" stroke-width="2" fill="none"/><polyline class="ink" points="345,36 433,208" stroke-width="2" fill="none"/><circle class="node" cx="167" cy="79" r="2.7"/><circle class="node" cx="239" cy="122" r="2.7"/><circle class="node" cx="311" cy="165" r="2.7"/></svg>

@@ -1,0 +1,212 @@
+{
+  "families": [
+    {
+      "id": "S01", "name": "Ordered rhythm",
+      "idea": "A repeated span establishes order before additional shape or detail.",
+      "invariant": "Retain the ordered landmarks and their repeat correspondence; equal spacing is an additional promise.",
+      "stages": [
+        {"label": "One span", "caption": "A directed span connects two distinct endpoint landmarks."},
+        {"label": "Repeated chain", "caption": "Corresponding spans continue through recurring landmarks."},
+        {"label": "Aligned rows", "caption": "Several chains add cross-row landmark correspondences."}
+      ],
+      "source": {"label": "Day · Anatomy, pp. 8–9", "url": "https://archive.org/details/ornamentaldesign00dayl/page/n25/mode/1up"}
+    },
+    {
+      "id": "S02", "name": "Cross-lattice",
+      "idea": "Two crossing line families create cells that can be grouped or selected.",
+      "invariant": "Preserve the crossing incidence and cell adjacency; changing the view need not preserve angles or proportions.",
+      "stages": [
+        {"label": "Crossing families", "caption": "Two families of paths define a simple grid."},
+        {"label": "Oblique view", "caption": "The same incidence appears in a slanted representation."},
+        {"label": "Selected cells", "caption": "Grouped cells reveal a secondary pattern on the shared scaffold."}
+      ],
+      "source": {"label": "Day · Anatomy, pp. 9–12", "url": "https://archive.org/details/ornamentaldesign00dayl/page/n26/mode/1up"}
+    },
+    {
+      "id": "S03", "name": "Selected-edge fret",
+      "idea": "Selecting and interrupting lattice edges produces turns, returns and interlocking paths.",
+      "invariant": "Retain path order and edge participation; a return on another level differs from retracing the same edge.",
+      "stages": [
+        {"label": "One turn", "caption": "A selected path turns on an exposed lattice."},
+        {"label": "Stepped return", "caption": "Repeated turns return along a distinct lane."},
+        {"label": "Facing paths", "caption": "Two selections occupy one scaffold without silently merging their identities."}
+      ],
+      "source": {"label": "Day · Anatomy, plate 4", "url": "https://archive.org/details/ornamentaldesign00dayl/page/n78/mode/1up"}
+    },
+    {
+      "id": "S04", "name": "Staggered repeat",
+      "idea": "Neighbouring rows relate through an alternating placement phase.",
+      "invariant": "A claimed half-drop needs a shared period: two half-shifts correspond to that whole period.",
+      "stages": [
+        {"label": "Aligned repeat", "caption": "Identical units recur in aligned rows."},
+        {"label": "Alternating phase", "caption": "Alternate rows shift through a declared half-period correspondence."},
+        {"label": "Diamond scaffold", "caption": "Neighbour connections reveal the staggered field's underlying skeleton."}
+      ],
+      "source": {"label": "Day · Anatomy, pp. 34–36", "url": "https://archive.org/details/ornamentaldesign00dayl/page/n51/mode/1up"}
+    },
+    {
+      "id": "S05", "name": "Triangular compounds",
+      "idea": "Shared triangular cells combine into lozenges, hexagons and stars.",
+      "invariant": "Retain shared edges and compound-cell correspondence; equilateral lengths and turns require explicit additional promises.",
+      "stages": [
+        {"label": "Triangular cell", "caption": "Three edges close one cell with exposed shared-edge roles."},
+        {"label": "Compound centre", "caption": "Six triangular cells meet around one common centre."},
+        {"label": "Selected field", "caption": "Select hexagons and lozenges from a shared triangular scaffold."}
+      ],
+      "source": {"label": "Day · Anatomy, plate 6", "url": "https://archive.org/details/ornamentaldesign00dayl/page/n82/mode/1up"}
+    },
+    {
+      "id": "S06", "name": "Mixed-cell network",
+      "idea": "Different boundary cycles cooperate to close the intervening field.",
+      "invariant": "Account for the gap cells as well as the principal cells; local cycles alone do not prove a global tiling.",
+      "stages": [
+        {"label": "One octagon", "caption": "An eight-edge boundary encloses one cell."},
+        {"label": "Intervening cells", "caption": "Neighbouring octagons expose four-sided gaps that also need boundaries."},
+        {"label": "Closed mixed field", "caption": "Octagons and squares complete a repeated adjacency network."}
+      ],
+      "source": {"label": "Day · Anatomy, plate 9", "url": "https://archive.org/details/ornamentaldesign00dayl/page/n88/mode/1up"}
+    },
+    {
+      "id": "S07", "name": "Radial partition",
+      "idea": "Rays and enclosing contours organize a field around a shared centre.",
+      "invariant": "Retain the common centre, cyclic order and contour correspondence; equal angular sectors are a stronger promise.",
+      "stages": [
+        {"label": "Shared centre", "caption": "Several rays attach to the same actual centre."},
+        {"label": "Closed sectors", "caption": "A closed contour connects the rays in cyclic order."},
+        {"label": "Sector bands", "caption": "Nested contours cross the same radial structure to create related bands."}
+      ],
+      "source": {"label": "Day · Planning, pp. 40–41", "url": "https://archive.org/details/ornamentaldesign00dayl/page/n193/mode/1up"}
+    },
+    {
+      "id": "S08", "name": "Independent-thread interlace",
+      "idea": "Separate paths can cross while retaining independent continuity.",
+      "invariant": "A projected crossing is not automatically a junction; over/under order belongs to an additional local relation.",
+      "stages": [
+        {"label": "Two threads", "caption": "One ordered crossing keeps two identifiable paths separate."},
+        {"label": "Crossing order", "caption": "Successive crossings expose a declared over/under sequence."},
+        {"label": "Angular woven band", "caption": "The crossing sequence repeats while each thread remains traceable."}
+      ],
+      "source": {"label": "ICS · section 2, figure 10", "url": "https://archive.org/details/textbookonorname01inteiala/page/n81/mode/1up"}
+    },
+    {
+      "id": "S09", "name": "Nested boundaries",
+      "idea": "An enclosing boundary can contain bands, subordinate divisions and an inner court.",
+      "invariant": "Retain containment and boundary adjacency; visual nesting alone does not establish equal gaps or scaling.",
+      "stages": [
+        {"label": "Outer boundary", "caption": "One closed boundary distinguishes an inside from its scoped surroundings."},
+        {"label": "Inner court", "caption": "A second boundary creates an intervening band and a retained centre."},
+        {"label": "Subdivided bands", "caption": "Additional divisions enrich the band without erasing its principal organization."}
+      ],
+      "source": {"label": "Day · Planning, pp. 7–8", "url": "https://archive.org/details/ornamentaldesign00dayl/page/n160/mode/1up"}
+    },
+    {
+      "id": "S10", "name": "Counterchanged partition",
+      "idea": "The occupied motif and intervening field can each support a coherent pattern reading.",
+      "invariant": "Retain the common partition and an explicit role correspondence; equal significance does not imply equal physical area.",
+      "stages": [
+        {"label": "Stepped division", "caption": "A stepped boundary divides a bounded field into two regions."},
+        {"label": "Two coherent roles", "caption": "Repetition makes both the selected region and its complement legible."},
+        {"label": "Role exchange", "caption": "Exchange the roles through a supplied correspondence while retaining the partition."}
+      ],
+      "source": {"label": "ICS · section 2, figures 8–9", "url": "https://archive.org/details/textbookonorname01inteiala/page/n79/mode/1up"}
+    }
+  ],
+  "goals": [
+    {
+      "id": "G01", "name": "Continuous key", "families": ["S01", "S03"], "pattern": "key",
+      "why": "A compact target for ordered turns, repeat continuity and legitimate returns.",
+      "must": ["The key path continues across the repeat boundary.", "Returning paths use distinct occupied edges."],
+      "flexible": ["Stretch the key's proportions.", "Vary the band and passage widths."],
+      "miss": "A convincing isolated key whose next repeat breaks the path or retraces an edge.",
+      "source": {"label": "Structural adaptation · Day plate 4", "url": "https://archive.org/details/ornamentaldesign00dayl/page/n78/mode/1up"}
+    },
+    {
+      "id": "G02", "name": "Facing meanders", "families": ["S03", "S09"], "pattern": "facing",
+      "why": "Two related path systems frame a shared interior passage.",
+      "must": ["The two meanders retain distinct path identities.", "Their inward-facing returns bound a recurring central passage."],
+      "flexible": ["Change the gap between the meanders.", "Use longer or shallower returns."],
+      "miss": "Two unrelated rows that happen to sit near each other without a recurring facing relationship.",
+      "source": {"label": "Authored synthesis", "url": ""}
+    },
+    {
+      "id": "G03", "name": "Glide staircase", "families": ["S03", "S04"], "pattern": "glide",
+      "why": "A repeated stepped path exposes how reflection and displacement cooperate.",
+      "must": ["Neighbouring steps follow a declared reflection-and-displacement correspondence.", "The resulting passages continue through the repeat."],
+      "flexible": ["Change the staircase's rise and run.", "Change the separation of opposing steps."],
+      "miss": "An alternating staircase without a consistent glide correspondence between its repeated parts.",
+      "source": {"label": "Authored synthesis", "url": ""}
+    },
+    {
+      "id": "G04", "name": "Half-drop diamonds", "families": ["S02", "S04"], "pattern": "drop",
+      "why": "A sparse field makes phase, neighbourhood and repeat closure easy to inspect.",
+      "must": ["Alternate rows follow one shared half-period promise.", "Both repeat directions preserve the declared neighbour correspondence."],
+      "flexible": ["Stretch the diamond proportions.", "Change the gaps without changing neighbour order."],
+      "miss": "Rows appear staggered locally but drift out of phase when the field repeats.",
+      "source": {"label": "Structural adaptation · Day plates 25–26", "url": "https://archive.org/details/ornamentaldesign00dayl/page/n120/mode/1up"}
+    },
+    {
+      "id": "G05", "name": "Nested diamond courts", "families": ["S07", "S09"], "pattern": "nested_courts",
+      "why": "Nested courts combine enclosing cycles, radial correspondence and intervening passages.",
+      "must": ["Each court retains nested boundary cycles.", "The intervening bands preserve their declared connections."],
+      "flexible": ["Vary court proportions and band widths.", "Change the number of nested boundaries."],
+      "miss": "Nested outlines that collapse a required passage or lose their shared court correspondence.",
+      "source": {"label": "Structural adaptation · Hay plate X", "url": "https://archive.org/details/originalgeometri00hayd/page/n54/mode/1up"}
+    },
+    {
+      "id": "G06", "name": "Triangular chambers", "families": ["S05", "S09"], "pattern": "triangular_chambers",
+      "why": "A repeated triangular subdivision tests compound cells and subordinate enclosure.",
+      "must": ["The intended triangular chambers have closed boundaries.", "Shared edges and enclosing bands retain their declared incidence."],
+      "flexible": ["Stretch triangles without changing incidence.", "Change the depth of the enclosing bands."],
+      "miss": "A triangular-looking fragment whose chamber opens unintentionally at a neighbouring repeat.",
+      "source": {"label": "Structural adaptation · Hay plate XII", "url": "https://archive.org/details/originalgeometri00hayd/page/n58/mode/1up"}
+    },
+    {
+      "id": "G07", "name": "Octagon and square field", "families": ["S02", "S06"], "pattern": "octagons",
+      "why": "The gap shapes become indispensable members of the repeated structure.",
+      "must": ["Eight-edge principal cells alternate with the intended four-edge gap cells.", "Shared boundaries close across both repeat directions."],
+      "flexible": ["Vary edge lengths within compatible cells.", "Exchange which cell family receives visual emphasis."],
+      "miss": "Octagons are repeated while the intervening gaps are omitted or left structurally unresolved.",
+      "source": {"label": "Structural adaptation · Day plate 9", "url": "https://archive.org/details/ornamentaldesign00dayl/page/n88/mode/1up"}
+    },
+    {
+      "id": "G08", "name": "Counterchanged steps", "families": ["S03", "S10"], "pattern": "counterchange",
+      "why": "One stepped partition supports useful motif and field readings.",
+      "must": ["Both roles derive from the same bounded partition.", "A supplied role-exchange correspondence preserves the intended adjacency."],
+      "flexible": ["Change the two roles' physical areas.", "Stretch the steps while preserving their order."],
+      "miss": "Similar ink totals conceal different connectivity, or an empty complement is mistaken for a corresponding pattern.",
+      "source": {"label": "Structural adaptation · ICS figures 8–9", "url": "https://archive.org/details/textbookonorname01inteiala/page/n79/mode/1up"}
+    },
+    {
+      "id": "G09", "name": "Angular woven band", "families": ["S03", "S08"], "pattern": "weave",
+      "why": "Independent continuity and local crossing order create complexity from a small path vocabulary.",
+      "must": ["Every thread remains traceable through each crossing.", "The declared over/under sequence agrees at the repeat boundary."],
+      "flexible": ["Vary thread spacing and bend lengths.", "Exchange the threads' visual emphasis."],
+      "miss": "A crossing silently merges two threads, or the crossing sequence contradicts itself on repetition.",
+      "source": {"label": "Structural adaptation · ICS figure 10", "url": "https://archive.org/details/textbookonorname01inteiala/page/n81/mode/1up"}
+    },
+    {
+      "id": "G10", "name": "Herringbone passages", "families": ["S02", "S03"], "pattern": "herringbone",
+      "why": "Alternating slants produce a directional field with recurring angular passages.",
+      "must": ["Opposing slants recur in a consistent chevron sequence.", "Passages and selected edges continue through neighbouring repeats."],
+      "flexible": ["Change the apparent lean.", "Stretch the branches and intervening passages."],
+      "miss": "Locally attractive elbows accumulate inconsistent direction or disconnected passages across the field.",
+      "source": {"label": "Authored synthesis", "url": ""}
+    },
+    {
+      "id": "G11", "name": "Sixfold star corridors", "families": ["S05", "S07"], "pattern": "star_corridors",
+      "why": "A shared radial organization can coordinate star centres and the corridors between them.",
+      "must": ["Each centre has six ordered corresponding sectors.", "Neighbouring sector boundaries retain the intended corridor connections."],
+      "flexible": ["Vary the star's inner and outer reach.", "Change corridor width under a compatible interpretation."],
+      "miss": "Six rays look balanced around isolated centres while their inter-centre corridors fail to connect.",
+      "source": {"label": "Authored synthesis", "url": ""}
+    },
+    {
+      "id": "G12", "name": "One scaffold two readings", "families": ["S02", "S05", "S10"], "pattern": "selections",
+      "why": "Alternative selections expose how one scaffold can support different coherent readings.",
+      "must": ["Both readings retain correspondence to one shared scaffold.", "Their selected paths and complementary cells remain separately inspectable."],
+      "flexible": ["Choose different supported edge selections.", "Change which reading is emphasized visually."],
+      "miss": "Two similar pictures are asserted to share a scaffold without a participant correspondence.",
+      "source": {"label": "Structural adaptation · Hay plate XXII", "url": "https://archive.org/details/originalgeometri00hayd/page/n86/mode/1up"}
+    }
+  ]
+}
