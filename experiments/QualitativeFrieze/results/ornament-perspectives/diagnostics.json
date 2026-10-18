@@ -1,0 +1,207 @@
+{
+  "Schema": "gojo-ornament-perspectives-v1",
+  "NativeElements": 3147161,
+  "NativeNumericElements": 0,
+  "Seconds": 6.2545912,
+  "Patches": [
+    {
+      "Id": "V01-T",
+      "Name": "Three lozenge readings of one field",
+      "SourceFaces": 60,
+      "SourceEdges": 101,
+      "Views": [
+        {
+          "Id": "T-A",
+          "Name": "Lozenges across the diagonal",
+          "Complete": true,
+          "Groups": 30,
+          "Selected": 60,
+          "Complement": 0,
+          "Contacts": 49,
+          "Overlaps": 0
+        },
+        {
+          "Id": "T-B",
+          "Name": "Lozenges across one edge family",
+          "Complete": true,
+          "Groups": 24,
+          "Selected": 48,
+          "Complement": 12,
+          "Contacts": 33,
+          "Overlaps": 0
+        },
+        {
+          "Id": "T-C",
+          "Name": "Lozenges across the other family",
+          "Complete": true,
+          "Groups": 25,
+          "Selected": 50,
+          "Complement": 10,
+          "Contacts": 36,
+          "Overlaps": 0
+        }
+      ],
+      "Compositions": 0,
+      "CompleteCompositions": true,
+      "Levels": [
+        {
+          "Id": "D1",
+          "Complete": true,
+          "Sites": 60,
+          "Edges": 79,
+          "Cells": 20,
+          "BoundaryEvidence": 44,
+          "Bindings": 60,
+          "CellArities": {
+            "6": 20
+          }
+        },
+        {
+          "Id": "D2",
+          "Complete": true,
+          "Sites": 20,
+          "Edges": 43,
+          "Cells": 24,
+          "BoundaryEvidence": 72,
+          "Bindings": 20,
+          "CellArities": {
+            "3": 24
+          }
+        },
+        {
+          "Id": "D3",
+          "Complete": true,
+          "Sites": 24,
+          "Edges": 29,
+          "Cells": 6,
+          "BoundaryEvidence": 28,
+          "Bindings": 24,
+          "CellArities": {
+            "6": 6
+          }
+        }
+      ],
+      "CompleteLandmarkReads": 60,
+      "UnresolvedLandmarks": 0,
+      "AcceptedConstruction": true,
+      "Markers": 20
+    },
+    {
+      "Id": "V01-F",
+      "Name": "Courts, diamonds and overlapping parents",
+      "SourceFaces": 96,
+      "SourceEdges": 154,
+      "Views": [
+        {
+          "Id": "F-A",
+          "Name": "Four-triangle courts",
+          "Complete": true,
+          "Groups": 24,
+          "Selected": 96,
+          "Complement": 0,
+          "Contacts": 38,
+          "Overlaps": 0
+        },
+        {
+          "Id": "F-B",
+          "Name": "Overlapping vertex diamonds",
+          "Complete": true,
+          "Groups": 15,
+          "Selected": 76,
+          "Complement": 20,
+          "Contacts": 16,
+          "Overlaps": 22
+        },
+        {
+          "Id": "F-C",
+          "Name": "Courts become super-courts",
+          "Complete": true,
+          "Groups": 6,
+          "Selected": 96,
+          "Complement": 0,
+          "Contacts": 7,
+          "Overlaps": 0
+        },
+        {
+          "Id": "F-D",
+          "Name": "The same courts become rows",
+          "Complete": true,
+          "Groups": 4,
+          "Selected": 96,
+          "Complement": 0,
+          "Contacts": 3,
+          "Overlaps": 0
+        },
+        {
+          "Id": "F-E",
+          "Name": "A third grouping level",
+          "Complete": true,
+          "Groups": 1,
+          "Selected": 96,
+          "Complement": 0,
+          "Contacts": 0,
+          "Overlaps": 0
+        }
+      ],
+      "Compositions": 3,
+      "CompleteCompositions": true,
+      "Levels": [
+        {
+          "Id": "D1",
+          "Complete": true,
+          "Sites": 96,
+          "Edges": 134,
+          "Cells": 39,
+          "BoundaryEvidence": 40,
+          "Bindings": 96,
+          "CellArities": {
+            "4": 24,
+            "8": 15
+          }
+        },
+        {
+          "Id": "D2",
+          "Complete": true,
+          "Sites": 39,
+          "Edges": 82,
+          "Cells": 44,
+          "BoundaryEvidence": 104,
+          "Bindings": 39,
+          "CellArities": {
+            "3": 44
+          }
+        },
+        {
+          "Id": "D3",
+          "Complete": true,
+          "Sites": 44,
+          "Edges": 54,
+          "Cells": 11,
+          "BoundaryEvidence": 56,
+          "Bindings": 44,
+          "CellArities": {
+            "4": 8,
+            "8": 3
+          }
+        }
+      ],
+      "CompleteLandmarkReads": 96,
+      "UnresolvedLandmarks": 0,
+      "AcceptedConstruction": true,
+      "Markers": 39
+    }
+  ],
+  "GoalChecks": [
+    "G06: actual closed triangular source chambers and shared-edge incidence.",
+    "G12: multiple views share the exact source; explicit complements and pair correspondences, including overlapping membership.",
+    "G07: fan D1 has four- and eight-edge cells with actual 4-8-8 interior incidence; regular Euclidean octagons are not asserted.",
+    "G11: sixfold source neighbourhood is related exploration; full star-corridor goal not claimed."
+  ],
+  "Limits": [
+    "Authored grouping proposals; no image parsing, blind grouping discovery or learned view selection.",
+    "Overlapping observations do not duplicate material, merge groups or physically join source sites.",
+    "The optional equal-share word read is a selected additive-basis landmark interpretation, not a universal centre law.",
+    "Repeated dual reads preserve source and visible boundary complement, not exact involutive recovery of a finite patch.",
+    "View-defined contact networks need not be cellular embeddings; overlap relations do not imply contact or a new bounded area."
+  ]
+}
