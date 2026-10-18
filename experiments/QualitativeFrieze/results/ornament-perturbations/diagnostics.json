@@ -1,0 +1,2480 @@
+{
+  "Schema": "gojo-ornament-perturbations-v1",
+  "Seconds": 14.3650956,
+  "NativeElements": 7718334,
+  "NativeNumericElements": 0,
+  "TrainingEdges": 64,
+  "HeldOutEdges": 64,
+  "TrainingOccurrences": 12,
+  "HeldOutOccurrences": 12,
+  "Series": [
+    {
+      "Id": "P01",
+      "Name": "One landmark, several resolutions",
+      "States": [
+        {
+          "Id": "original",
+          "Name": "Original field",
+          "Counts": {
+            "Cells": {
+              "Supported": 39,
+              "Refuted": 0,
+              "Unresolved": 0
+            },
+            "Forward": {
+              "Supported": 4,
+              "Refuted": 0,
+              "Unresolved": 0
+            },
+            "Reverse": {
+              "Supported": 4,
+              "Refuted": 0,
+              "Unresolved": 0
+            },
+            "ExactRepeat": {
+              "Supported": 38,
+              "Refuted": 0,
+              "Unresolved": 0
+            },
+            "CompleteLandmarks": 24
+          },
+          "FreshComplete": true,
+          "FreshRoutes": 52,
+          "HeadingQuestions": [
+            {
+              "Name": "Falling / rising / forward",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 2,
+                "Covered": 34,
+                "Uncovered": 30,
+                "Branching": 0,
+                "Description": 8
+              },
+              "HeldOut": {
+                "IsComplete": true,
+                "Recurrences": 2,
+                "Covered": 34,
+                "Uncovered": 30,
+                "Branching": 0,
+                "Description": 8
+              },
+              "TrainingFrontier": true,
+              "HeldOutFrontier": true
+            },
+            {
+              "Name": "Rising / falling / forward",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 2,
+                "Covered": 34,
+                "Uncovered": 30,
+                "Branching": 0,
+                "Description": 8
+              },
+              "HeldOut": {
+                "IsComplete": true,
+                "Recurrences": 2,
+                "Covered": 34,
+                "Uncovered": 30,
+                "Branching": 0,
+                "Description": 8
+              },
+              "TrainingFrontier": true,
+              "HeldOutFrontier": true
+            },
+            {
+              "Name": "Straight forward",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 64,
+                "Branching": 0,
+                "Description": 2
+              },
+              "HeldOut": {
+                "IsComplete": true,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 64,
+                "Branching": 0,
+                "Description": 2
+              },
+              "TrainingFrontier": true,
+              "HeldOutFrontier": true
+            },
+            {
+              "Name": "Two copies of the same recipe",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 2,
+                "Covered": 34,
+                "Uncovered": 30,
+                "Branching": 0,
+                "Description": 16
+              },
+              "HeldOut": {
+                "IsComplete": true,
+                "Recurrences": 2,
+                "Covered": 34,
+                "Uncovered": 30,
+                "Branching": 0,
+                "Description": 16
+              },
+              "TrainingFrontier": false,
+              "HeldOutFrontier": false
+            },
+            {
+              "Name": "Two flats then a diagonal",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 64,
+                "Branching": 0,
+                "Description": 7
+              },
+              "HeldOut": {
+                "IsComplete": true,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 64,
+                "Branching": 0,
+                "Description": 7
+              },
+              "TrainingFrontier": false,
+              "HeldOutFrontier": false
+            }
+          ],
+          "TranslationQuestions": [
+            {
+              "Name": "Six shared reaches",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 8,
+                "Covered": 12,
+                "Uncovered": 0,
+                "Branching": 10,
+                "Description": 12
+              },
+              "HeldOut": {
+                "IsComplete": true,
+                "Recurrences": 8,
+                "Covered": 12,
+                "Uncovered": 0,
+                "Branching": 10,
+                "Description": 12
+              },
+              "TrainingFrontier": true,
+              "HeldOutFrontier": true
+            },
+            {
+              "Name": "Three shared reaches",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 12,
+                "Branching": 0,
+                "Description": 6
+              },
+              "HeldOut": {
+                "IsComplete": true,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 12,
+                "Branching": 0,
+                "Description": 6
+              },
+              "TrainingFrontier": true,
+              "HeldOutFrontier": true
+            },
+            {
+              "Name": "Five shared reaches",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 12,
+                "Branching": 0,
+                "Description": 10
+              },
+              "HeldOut": {
+                "IsComplete": true,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 12,
+                "Branching": 0,
+                "Description": 10
+              },
+              "TrainingFrontier": false,
+              "HeldOutFrontier": false
+            },
+            {
+              "Name": "Seven shared reaches",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 12,
+                "Branching": 0,
+                "Description": 14
+              },
+              "HeldOut": {
+                "IsComplete": true,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 12,
+                "Branching": 0,
+                "Description": 14
+              },
+              "TrainingFrontier": false,
+              "HeldOutFrontier": false
+            }
+          ]
+        },
+        {
+          "Id": "right-1",
+          "Name": "\u002B 1 reach participation",
+          "Counts": {
+            "Cells": {
+              "Supported": 39,
+              "Refuted": 0,
+              "Unresolved": 0
+            },
+            "Forward": {
+              "Supported": 4,
+              "Refuted": 0,
+              "Unresolved": 0
+            },
+            "Reverse": {
+              "Supported": 4,
+              "Refuted": 0,
+              "Unresolved": 0
+            },
+            "ExactRepeat": {
+              "Supported": 34,
+              "Refuted": 0,
+              "Unresolved": 4
+            },
+            "CompleteLandmarks": 23
+          },
+          "FreshComplete": true,
+          "FreshRoutes": 53,
+          "HeadingQuestions": [
+            {
+              "Name": "Falling / rising / forward",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 2,
+                "Covered": 34,
+                "Uncovered": 30,
+                "Branching": 0,
+                "Description": 8
+              },
+              "HeldOut": {
+                "IsComplete": true,
+                "Recurrences": 2,
+                "Covered": 34,
+                "Uncovered": 30,
+                "Branching": 0,
+                "Description": 8
+              },
+              "TrainingFrontier": true,
+              "HeldOutFrontier": true
+            },
+            {
+              "Name": "Rising / falling / forward",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 2,
+                "Covered": 34,
+                "Uncovered": 30,
+                "Branching": 0,
+                "Description": 8
+              },
+              "HeldOut": {
+                "IsComplete": true,
+                "Recurrences": 2,
+                "Covered": 34,
+                "Uncovered": 30,
+                "Branching": 0,
+                "Description": 8
+              },
+              "TrainingFrontier": true,
+              "HeldOutFrontier": true
+            },
+            {
+              "Name": "Straight forward",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 64,
+                "Branching": 0,
+                "Description": 2
+              },
+              "HeldOut": {
+                "IsComplete": true,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 64,
+                "Branching": 0,
+                "Description": 2
+              },
+              "TrainingFrontier": true,
+              "HeldOutFrontier": true
+            },
+            {
+              "Name": "Two copies of the same recipe",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 2,
+                "Covered": 34,
+                "Uncovered": 30,
+                "Branching": 0,
+                "Description": 16
+              },
+              "HeldOut": {
+                "IsComplete": true,
+                "Recurrences": 2,
+                "Covered": 34,
+                "Uncovered": 30,
+                "Branching": 0,
+                "Description": 16
+              },
+              "TrainingFrontier": false,
+              "HeldOutFrontier": false
+            },
+            {
+              "Name": "Two flats then a diagonal",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 64,
+                "Branching": 0,
+                "Description": 7
+              },
+              "HeldOut": {
+                "IsComplete": true,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 64,
+                "Branching": 0,
+                "Description": 7
+              },
+              "TrainingFrontier": false,
+              "HeldOutFrontier": false
+            }
+          ],
+          "TranslationQuestions": [
+            {
+              "Name": "Six shared reaches",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 8,
+                "Covered": 12,
+                "Uncovered": 0,
+                "Branching": 10,
+                "Description": 12
+              },
+              "HeldOut": {
+                "IsComplete": false,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 12,
+                "Branching": 0,
+                "Description": 12
+              },
+              "TrainingFrontier": true,
+              "HeldOutFrontier": false
+            },
+            {
+              "Name": "Three shared reaches",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 12,
+                "Branching": 0,
+                "Description": 6
+              },
+              "HeldOut": {
+                "IsComplete": false,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 12,
+                "Branching": 0,
+                "Description": 6
+              },
+              "TrainingFrontier": true,
+              "HeldOutFrontier": false
+            },
+            {
+              "Name": "Five shared reaches",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 12,
+                "Branching": 0,
+                "Description": 10
+              },
+              "HeldOut": {
+                "IsComplete": false,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 12,
+                "Branching": 0,
+                "Description": 10
+              },
+              "TrainingFrontier": false,
+              "HeldOutFrontier": false
+            },
+            {
+              "Name": "Seven shared reaches",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 12,
+                "Branching": 0,
+                "Description": 14
+              },
+              "HeldOut": {
+                "IsComplete": false,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 12,
+                "Branching": 0,
+                "Description": 14
+              },
+              "TrainingFrontier": false,
+              "HeldOutFrontier": false
+            }
+          ]
+        },
+        {
+          "Id": "right-2",
+          "Name": "\u002B 2 reach participation",
+          "Counts": {
+            "Cells": {
+              "Supported": 39,
+              "Refuted": 0,
+              "Unresolved": 0
+            },
+            "Forward": {
+              "Supported": 3,
+              "Refuted": 1,
+              "Unresolved": 0
+            },
+            "Reverse": {
+              "Supported": 4,
+              "Refuted": 0,
+              "Unresolved": 0
+            },
+            "ExactRepeat": {
+              "Supported": 34,
+              "Refuted": 0,
+              "Unresolved": 4
+            },
+            "CompleteLandmarks": 23
+          },
+          "FreshComplete": true,
+          "FreshRoutes": 54,
+          "HeadingQuestions": [
+            {
+              "Name": "Falling / rising / forward",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 2,
+                "Covered": 34,
+                "Uncovered": 30,
+                "Branching": 0,
+                "Description": 8
+              },
+              "HeldOut": {
+                "IsComplete": true,
+                "Recurrences": 3,
+                "Covered": 33,
+                "Uncovered": 31,
+                "Branching": 0,
+                "Description": 8
+              },
+              "TrainingFrontier": true,
+              "HeldOutFrontier": true
+            },
+            {
+              "Name": "Rising / falling / forward",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 2,
+                "Covered": 34,
+                "Uncovered": 30,
+                "Branching": 0,
+                "Description": 8
+              },
+              "HeldOut": {
+                "IsComplete": true,
+                "Recurrences": 2,
+                "Covered": 34,
+                "Uncovered": 30,
+                "Branching": 0,
+                "Description": 8
+              },
+              "TrainingFrontier": true,
+              "HeldOutFrontier": true
+            },
+            {
+              "Name": "Straight forward",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 64,
+                "Branching": 0,
+                "Description": 2
+              },
+              "HeldOut": {
+                "IsComplete": true,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 64,
+                "Branching": 0,
+                "Description": 2
+              },
+              "TrainingFrontier": true,
+              "HeldOutFrontier": true
+            },
+            {
+              "Name": "Two copies of the same recipe",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 2,
+                "Covered": 34,
+                "Uncovered": 30,
+                "Branching": 0,
+                "Description": 16
+              },
+              "HeldOut": {
+                "IsComplete": true,
+                "Recurrences": 1,
+                "Covered": 17,
+                "Uncovered": 47,
+                "Branching": 0,
+                "Description": 16
+              },
+              "TrainingFrontier": false,
+              "HeldOutFrontier": false
+            },
+            {
+              "Name": "Two flats then a diagonal",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 64,
+                "Branching": 0,
+                "Description": 7
+              },
+              "HeldOut": {
+                "IsComplete": true,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 64,
+                "Branching": 0,
+                "Description": 7
+              },
+              "TrainingFrontier": false,
+              "HeldOutFrontier": false
+            }
+          ],
+          "TranslationQuestions": [
+            {
+              "Name": "Six shared reaches",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 8,
+                "Covered": 12,
+                "Uncovered": 0,
+                "Branching": 10,
+                "Description": 12
+              },
+              "HeldOut": {
+                "IsComplete": false,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 12,
+                "Branching": 0,
+                "Description": 12
+              },
+              "TrainingFrontier": true,
+              "HeldOutFrontier": false
+            },
+            {
+              "Name": "Three shared reaches",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 12,
+                "Branching": 0,
+                "Description": 6
+              },
+              "HeldOut": {
+                "IsComplete": false,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 12,
+                "Branching": 0,
+                "Description": 6
+              },
+              "TrainingFrontier": true,
+              "HeldOutFrontier": false
+            },
+            {
+              "Name": "Five shared reaches",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 12,
+                "Branching": 0,
+                "Description": 10
+              },
+              "HeldOut": {
+                "IsComplete": false,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 12,
+                "Branching": 0,
+                "Description": 10
+              },
+              "TrainingFrontier": false,
+              "HeldOutFrontier": false
+            },
+            {
+              "Name": "Seven shared reaches",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 12,
+                "Branching": 0,
+                "Description": 14
+              },
+              "HeldOut": {
+                "IsComplete": false,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 12,
+                "Branching": 0,
+                "Description": 14
+              },
+              "TrainingFrontier": false,
+              "HeldOutFrontier": false
+            }
+          ]
+        },
+        {
+          "Id": "right-3",
+          "Name": "\u002B 3 reach participation",
+          "Counts": {
+            "Cells": {
+              "Supported": 39,
+              "Refuted": 0,
+              "Unresolved": 0
+            },
+            "Forward": {
+              "Supported": 3,
+              "Refuted": 1,
+              "Unresolved": 0
+            },
+            "Reverse": {
+              "Supported": 4,
+              "Refuted": 0,
+              "Unresolved": 0
+            },
+            "ExactRepeat": {
+              "Supported": 34,
+              "Refuted": 0,
+              "Unresolved": 4
+            },
+            "CompleteLandmarks": 23
+          },
+          "FreshComplete": true,
+          "FreshRoutes": 55,
+          "HeadingQuestions": [
+            {
+              "Name": "Falling / rising / forward",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 2,
+                "Covered": 34,
+                "Uncovered": 30,
+                "Branching": 0,
+                "Description": 8
+              },
+              "HeldOut": {
+                "IsComplete": true,
+                "Recurrences": 3,
+                "Covered": 33,
+                "Uncovered": 31,
+                "Branching": 0,
+                "Description": 8
+              },
+              "TrainingFrontier": true,
+              "HeldOutFrontier": true
+            },
+            {
+              "Name": "Rising / falling / forward",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 2,
+                "Covered": 34,
+                "Uncovered": 30,
+                "Branching": 0,
+                "Description": 8
+              },
+              "HeldOut": {
+                "IsComplete": true,
+                "Recurrences": 2,
+                "Covered": 34,
+                "Uncovered": 30,
+                "Branching": 0,
+                "Description": 8
+              },
+              "TrainingFrontier": true,
+              "HeldOutFrontier": true
+            },
+            {
+              "Name": "Straight forward",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 64,
+                "Branching": 0,
+                "Description": 2
+              },
+              "HeldOut": {
+                "IsComplete": true,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 64,
+                "Branching": 0,
+                "Description": 2
+              },
+              "TrainingFrontier": true,
+              "HeldOutFrontier": true
+            },
+            {
+              "Name": "Two copies of the same recipe",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 2,
+                "Covered": 34,
+                "Uncovered": 30,
+                "Branching": 0,
+                "Description": 16
+              },
+              "HeldOut": {
+                "IsComplete": true,
+                "Recurrences": 1,
+                "Covered": 17,
+                "Uncovered": 47,
+                "Branching": 0,
+                "Description": 16
+              },
+              "TrainingFrontier": false,
+              "HeldOutFrontier": false
+            },
+            {
+              "Name": "Two flats then a diagonal",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 64,
+                "Branching": 0,
+                "Description": 7
+              },
+              "HeldOut": {
+                "IsComplete": true,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 64,
+                "Branching": 0,
+                "Description": 7
+              },
+              "TrainingFrontier": false,
+              "HeldOutFrontier": false
+            }
+          ],
+          "TranslationQuestions": [
+            {
+              "Name": "Six shared reaches",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 8,
+                "Covered": 12,
+                "Uncovered": 0,
+                "Branching": 10,
+                "Description": 12
+              },
+              "HeldOut": {
+                "IsComplete": false,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 12,
+                "Branching": 0,
+                "Description": 12
+              },
+              "TrainingFrontier": true,
+              "HeldOutFrontier": false
+            },
+            {
+              "Name": "Three shared reaches",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 12,
+                "Branching": 0,
+                "Description": 6
+              },
+              "HeldOut": {
+                "IsComplete": false,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 12,
+                "Branching": 0,
+                "Description": 6
+              },
+              "TrainingFrontier": true,
+              "HeldOutFrontier": false
+            },
+            {
+              "Name": "Five shared reaches",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 12,
+                "Branching": 0,
+                "Description": 10
+              },
+              "HeldOut": {
+                "IsComplete": false,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 12,
+                "Branching": 0,
+                "Description": 10
+              },
+              "TrainingFrontier": false,
+              "HeldOutFrontier": false
+            },
+            {
+              "Name": "Seven shared reaches",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 12,
+                "Branching": 0,
+                "Description": 14
+              },
+              "HeldOut": {
+                "IsComplete": false,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 12,
+                "Branching": 0,
+                "Description": 14
+              },
+              "TrainingFrontier": false,
+              "HeldOutFrontier": false
+            }
+          ]
+        },
+        {
+          "Id": "right-4",
+          "Name": "\u002B 4 reach participation",
+          "Counts": {
+            "Cells": {
+              "Supported": 39,
+              "Refuted": 0,
+              "Unresolved": 0
+            },
+            "Forward": {
+              "Supported": 3,
+              "Refuted": 1,
+              "Unresolved": 0
+            },
+            "Reverse": {
+              "Supported": 4,
+              "Refuted": 0,
+              "Unresolved": 0
+            },
+            "ExactRepeat": {
+              "Supported": 34,
+              "Refuted": 4,
+              "Unresolved": 0
+            },
+            "CompleteLandmarks": 24
+          },
+          "FreshComplete": true,
+          "FreshRoutes": 55,
+          "HeadingQuestions": [
+            {
+              "Name": "Falling / rising / forward",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 2,
+                "Covered": 34,
+                "Uncovered": 30,
+                "Branching": 0,
+                "Description": 8
+              },
+              "HeldOut": {
+                "IsComplete": true,
+                "Recurrences": 3,
+                "Covered": 33,
+                "Uncovered": 31,
+                "Branching": 0,
+                "Description": 8
+              },
+              "TrainingFrontier": true,
+              "HeldOutFrontier": true
+            },
+            {
+              "Name": "Rising / falling / forward",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 2,
+                "Covered": 34,
+                "Uncovered": 30,
+                "Branching": 0,
+                "Description": 8
+              },
+              "HeldOut": {
+                "IsComplete": true,
+                "Recurrences": 2,
+                "Covered": 34,
+                "Uncovered": 30,
+                "Branching": 0,
+                "Description": 8
+              },
+              "TrainingFrontier": true,
+              "HeldOutFrontier": true
+            },
+            {
+              "Name": "Straight forward",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 64,
+                "Branching": 0,
+                "Description": 2
+              },
+              "HeldOut": {
+                "IsComplete": true,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 64,
+                "Branching": 0,
+                "Description": 2
+              },
+              "TrainingFrontier": true,
+              "HeldOutFrontier": true
+            },
+            {
+              "Name": "Two copies of the same recipe",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 2,
+                "Covered": 34,
+                "Uncovered": 30,
+                "Branching": 0,
+                "Description": 16
+              },
+              "HeldOut": {
+                "IsComplete": true,
+                "Recurrences": 1,
+                "Covered": 17,
+                "Uncovered": 47,
+                "Branching": 0,
+                "Description": 16
+              },
+              "TrainingFrontier": false,
+              "HeldOutFrontier": false
+            },
+            {
+              "Name": "Two flats then a diagonal",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 64,
+                "Branching": 0,
+                "Description": 7
+              },
+              "HeldOut": {
+                "IsComplete": true,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 64,
+                "Branching": 0,
+                "Description": 7
+              },
+              "TrainingFrontier": false,
+              "HeldOutFrontier": false
+            }
+          ],
+          "TranslationQuestions": [
+            {
+              "Name": "Six shared reaches",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 8,
+                "Covered": 12,
+                "Uncovered": 0,
+                "Branching": 10,
+                "Description": 12
+              },
+              "HeldOut": {
+                "IsComplete": true,
+                "Recurrences": 5,
+                "Covered": 9,
+                "Uncovered": 3,
+                "Branching": 7,
+                "Description": 12
+              },
+              "TrainingFrontier": true,
+              "HeldOutFrontier": true
+            },
+            {
+              "Name": "Three shared reaches",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 12,
+                "Branching": 0,
+                "Description": 6
+              },
+              "HeldOut": {
+                "IsComplete": true,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 12,
+                "Branching": 0,
+                "Description": 6
+              },
+              "TrainingFrontier": true,
+              "HeldOutFrontier": true
+            },
+            {
+              "Name": "Five shared reaches",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 12,
+                "Branching": 0,
+                "Description": 10
+              },
+              "HeldOut": {
+                "IsComplete": true,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 12,
+                "Branching": 0,
+                "Description": 10
+              },
+              "TrainingFrontier": false,
+              "HeldOutFrontier": false
+            },
+            {
+              "Name": "Seven shared reaches",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 12,
+                "Branching": 0,
+                "Description": 14
+              },
+              "HeldOut": {
+                "IsComplete": true,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 12,
+                "Branching": 0,
+                "Description": 14
+              },
+              "TrainingFrontier": false,
+              "HeldOutFrontier": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Id": "P02",
+      "Name": "Withdraw a passage or detach its endpoint",
+      "States": [
+        {
+          "Id": "original",
+          "Name": "Original field",
+          "Counts": {
+            "Cells": {
+              "Supported": 39,
+              "Refuted": 0,
+              "Unresolved": 0
+            },
+            "Forward": {
+              "Supported": 4,
+              "Refuted": 0,
+              "Unresolved": 0
+            },
+            "Reverse": {
+              "Supported": 4,
+              "Refuted": 0,
+              "Unresolved": 0
+            },
+            "ExactRepeat": {
+              "Supported": 38,
+              "Refuted": 0,
+              "Unresolved": 0
+            },
+            "CompleteLandmarks": 24
+          },
+          "FreshComplete": true,
+          "FreshRoutes": 52,
+          "HeadingQuestions": [
+            {
+              "Name": "Falling / rising / forward",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 2,
+                "Covered": 34,
+                "Uncovered": 30,
+                "Branching": 0,
+                "Description": 8
+              },
+              "HeldOut": {
+                "IsComplete": true,
+                "Recurrences": 2,
+                "Covered": 34,
+                "Uncovered": 30,
+                "Branching": 0,
+                "Description": 8
+              },
+              "TrainingFrontier": true,
+              "HeldOutFrontier": true
+            },
+            {
+              "Name": "Rising / falling / forward",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 2,
+                "Covered": 34,
+                "Uncovered": 30,
+                "Branching": 0,
+                "Description": 8
+              },
+              "HeldOut": {
+                "IsComplete": true,
+                "Recurrences": 2,
+                "Covered": 34,
+                "Uncovered": 30,
+                "Branching": 0,
+                "Description": 8
+              },
+              "TrainingFrontier": true,
+              "HeldOutFrontier": true
+            },
+            {
+              "Name": "Straight forward",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 64,
+                "Branching": 0,
+                "Description": 2
+              },
+              "HeldOut": {
+                "IsComplete": true,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 64,
+                "Branching": 0,
+                "Description": 2
+              },
+              "TrainingFrontier": true,
+              "HeldOutFrontier": true
+            },
+            {
+              "Name": "Two copies of the same recipe",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 2,
+                "Covered": 34,
+                "Uncovered": 30,
+                "Branching": 0,
+                "Description": 16
+              },
+              "HeldOut": {
+                "IsComplete": true,
+                "Recurrences": 2,
+                "Covered": 34,
+                "Uncovered": 30,
+                "Branching": 0,
+                "Description": 16
+              },
+              "TrainingFrontier": false,
+              "HeldOutFrontier": false
+            },
+            {
+              "Name": "Two flats then a diagonal",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 64,
+                "Branching": 0,
+                "Description": 7
+              },
+              "HeldOut": {
+                "IsComplete": true,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 64,
+                "Branching": 0,
+                "Description": 7
+              },
+              "TrainingFrontier": false,
+              "HeldOutFrontier": false
+            }
+          ],
+          "TranslationQuestions": [
+            {
+              "Name": "Six shared reaches",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 8,
+                "Covered": 12,
+                "Uncovered": 0,
+                "Branching": 10,
+                "Description": 12
+              },
+              "HeldOut": {
+                "IsComplete": true,
+                "Recurrences": 8,
+                "Covered": 12,
+                "Uncovered": 0,
+                "Branching": 10,
+                "Description": 12
+              },
+              "TrainingFrontier": true,
+              "HeldOutFrontier": true
+            },
+            {
+              "Name": "Three shared reaches",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 12,
+                "Branching": 0,
+                "Description": 6
+              },
+              "HeldOut": {
+                "IsComplete": true,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 12,
+                "Branching": 0,
+                "Description": 6
+              },
+              "TrainingFrontier": true,
+              "HeldOutFrontier": true
+            },
+            {
+              "Name": "Five shared reaches",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 12,
+                "Branching": 0,
+                "Description": 10
+              },
+              "HeldOut": {
+                "IsComplete": true,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 12,
+                "Branching": 0,
+                "Description": 10
+              },
+              "TrainingFrontier": false,
+              "HeldOutFrontier": false
+            },
+            {
+              "Name": "Seven shared reaches",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 12,
+                "Branching": 0,
+                "Description": 14
+              },
+              "HeldOut": {
+                "IsComplete": true,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 12,
+                "Branching": 0,
+                "Description": 14
+              },
+              "TrainingFrontier": false,
+              "HeldOutFrontier": false
+            }
+          ]
+        },
+        {
+          "Id": "withdraw",
+          "Name": "Passage withdrawn",
+          "Counts": {
+            "Cells": {
+              "Supported": 37,
+              "Refuted": 2,
+              "Unresolved": 0
+            },
+            "Forward": {
+              "Supported": 3,
+              "Refuted": 1,
+              "Unresolved": 0
+            },
+            "Reverse": {
+              "Supported": 4,
+              "Refuted": 0,
+              "Unresolved": 0
+            },
+            "ExactRepeat": {
+              "Supported": 34,
+              "Refuted": 0,
+              "Unresolved": 4
+            },
+            "CompleteLandmarks": 23
+          },
+          "FreshComplete": true,
+          "FreshRoutes": 53,
+          "HeadingQuestions": [
+            {
+              "Name": "Falling / rising / forward",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 2,
+                "Covered": 34,
+                "Uncovered": 30,
+                "Branching": 0,
+                "Description": 8
+              },
+              "HeldOut": {
+                "IsComplete": true,
+                "Recurrences": 3,
+                "Covered": 33,
+                "Uncovered": 30,
+                "Branching": 0,
+                "Description": 8
+              },
+              "TrainingFrontier": true,
+              "HeldOutFrontier": true
+            },
+            {
+              "Name": "Rising / falling / forward",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 2,
+                "Covered": 34,
+                "Uncovered": 30,
+                "Branching": 0,
+                "Description": 8
+              },
+              "HeldOut": {
+                "IsComplete": true,
+                "Recurrences": 2,
+                "Covered": 34,
+                "Uncovered": 29,
+                "Branching": 0,
+                "Description": 8
+              },
+              "TrainingFrontier": true,
+              "HeldOutFrontier": true
+            },
+            {
+              "Name": "Straight forward",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 64,
+                "Branching": 0,
+                "Description": 2
+              },
+              "HeldOut": {
+                "IsComplete": true,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 63,
+                "Branching": 0,
+                "Description": 2
+              },
+              "TrainingFrontier": true,
+              "HeldOutFrontier": true
+            },
+            {
+              "Name": "Two copies of the same recipe",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 2,
+                "Covered": 34,
+                "Uncovered": 30,
+                "Branching": 0,
+                "Description": 16
+              },
+              "HeldOut": {
+                "IsComplete": true,
+                "Recurrences": 1,
+                "Covered": 17,
+                "Uncovered": 46,
+                "Branching": 0,
+                "Description": 16
+              },
+              "TrainingFrontier": false,
+              "HeldOutFrontier": false
+            },
+            {
+              "Name": "Two flats then a diagonal",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 64,
+                "Branching": 0,
+                "Description": 7
+              },
+              "HeldOut": {
+                "IsComplete": true,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 63,
+                "Branching": 0,
+                "Description": 7
+              },
+              "TrainingFrontier": false,
+              "HeldOutFrontier": false
+            }
+          ],
+          "TranslationQuestions": [
+            {
+              "Name": "Six shared reaches",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 8,
+                "Covered": 12,
+                "Uncovered": 0,
+                "Branching": 10,
+                "Description": 12
+              },
+              "HeldOut": {
+                "IsComplete": false,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 12,
+                "Branching": 0,
+                "Description": 12
+              },
+              "TrainingFrontier": true,
+              "HeldOutFrontier": false
+            },
+            {
+              "Name": "Three shared reaches",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 12,
+                "Branching": 0,
+                "Description": 6
+              },
+              "HeldOut": {
+                "IsComplete": false,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 12,
+                "Branching": 0,
+                "Description": 6
+              },
+              "TrainingFrontier": true,
+              "HeldOutFrontier": false
+            },
+            {
+              "Name": "Five shared reaches",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 12,
+                "Branching": 0,
+                "Description": 10
+              },
+              "HeldOut": {
+                "IsComplete": false,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 12,
+                "Branching": 0,
+                "Description": 10
+              },
+              "TrainingFrontier": false,
+              "HeldOutFrontier": false
+            },
+            {
+              "Name": "Seven shared reaches",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 12,
+                "Branching": 0,
+                "Description": 14
+              },
+              "HeldOut": {
+                "IsComplete": false,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 12,
+                "Branching": 0,
+                "Description": 14
+              },
+              "TrainingFrontier": false,
+              "HeldOutFrontier": false
+            }
+          ]
+        },
+        {
+          "Id": "detach",
+          "Name": "Endpoint detached",
+          "Counts": {
+            "Cells": {
+              "Supported": 37,
+              "Refuted": 2,
+              "Unresolved": 0
+            },
+            "Forward": {
+              "Supported": 3,
+              "Refuted": 1,
+              "Unresolved": 0
+            },
+            "Reverse": {
+              "Supported": 4,
+              "Refuted": 0,
+              "Unresolved": 0
+            },
+            "ExactRepeat": {
+              "Supported": 34,
+              "Refuted": 0,
+              "Unresolved": 4
+            },
+            "CompleteLandmarks": 23
+          },
+          "FreshComplete": true,
+          "FreshRoutes": 53,
+          "HeadingQuestions": [
+            {
+              "Name": "Falling / rising / forward",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 2,
+                "Covered": 34,
+                "Uncovered": 30,
+                "Branching": 0,
+                "Description": 8
+              },
+              "HeldOut": {
+                "IsComplete": true,
+                "Recurrences": 3,
+                "Covered": 34,
+                "Uncovered": 30,
+                "Branching": 0,
+                "Description": 8
+              },
+              "TrainingFrontier": true,
+              "HeldOutFrontier": true
+            },
+            {
+              "Name": "Rising / falling / forward",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 2,
+                "Covered": 34,
+                "Uncovered": 30,
+                "Branching": 0,
+                "Description": 8
+              },
+              "HeldOut": {
+                "IsComplete": true,
+                "Recurrences": 2,
+                "Covered": 34,
+                "Uncovered": 30,
+                "Branching": 0,
+                "Description": 8
+              },
+              "TrainingFrontier": true,
+              "HeldOutFrontier": false
+            },
+            {
+              "Name": "Straight forward",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 64,
+                "Branching": 0,
+                "Description": 2
+              },
+              "HeldOut": {
+                "IsComplete": true,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 64,
+                "Branching": 0,
+                "Description": 2
+              },
+              "TrainingFrontier": true,
+              "HeldOutFrontier": true
+            },
+            {
+              "Name": "Two copies of the same recipe",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 2,
+                "Covered": 34,
+                "Uncovered": 30,
+                "Branching": 0,
+                "Description": 16
+              },
+              "HeldOut": {
+                "IsComplete": true,
+                "Recurrences": 1,
+                "Covered": 17,
+                "Uncovered": 47,
+                "Branching": 0,
+                "Description": 16
+              },
+              "TrainingFrontier": false,
+              "HeldOutFrontier": false
+            },
+            {
+              "Name": "Two flats then a diagonal",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 64,
+                "Branching": 0,
+                "Description": 7
+              },
+              "HeldOut": {
+                "IsComplete": true,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 64,
+                "Branching": 0,
+                "Description": 7
+              },
+              "TrainingFrontier": false,
+              "HeldOutFrontier": false
+            }
+          ],
+          "TranslationQuestions": [
+            {
+              "Name": "Six shared reaches",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 8,
+                "Covered": 12,
+                "Uncovered": 0,
+                "Branching": 10,
+                "Description": 12
+              },
+              "HeldOut": {
+                "IsComplete": false,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 12,
+                "Branching": 0,
+                "Description": 12
+              },
+              "TrainingFrontier": true,
+              "HeldOutFrontier": false
+            },
+            {
+              "Name": "Three shared reaches",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 12,
+                "Branching": 0,
+                "Description": 6
+              },
+              "HeldOut": {
+                "IsComplete": false,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 12,
+                "Branching": 0,
+                "Description": 6
+              },
+              "TrainingFrontier": true,
+              "HeldOutFrontier": false
+            },
+            {
+              "Name": "Five shared reaches",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 12,
+                "Branching": 0,
+                "Description": 10
+              },
+              "HeldOut": {
+                "IsComplete": false,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 12,
+                "Branching": 0,
+                "Description": 10
+              },
+              "TrainingFrontier": false,
+              "HeldOutFrontier": false
+            },
+            {
+              "Name": "Seven shared reaches",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 12,
+                "Branching": 0,
+                "Description": 14
+              },
+              "HeldOut": {
+                "IsComplete": false,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 12,
+                "Branching": 0,
+                "Description": 14
+              },
+              "TrainingFrontier": false,
+              "HeldOutFrontier": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Id": "P03",
+      "Name": "Unavailable detail stays local",
+      "States": [
+        {
+          "Id": "original",
+          "Name": "Original field",
+          "Counts": {
+            "Cells": {
+              "Supported": 39,
+              "Refuted": 0,
+              "Unresolved": 0
+            },
+            "Forward": {
+              "Supported": 4,
+              "Refuted": 0,
+              "Unresolved": 0
+            },
+            "Reverse": {
+              "Supported": 4,
+              "Refuted": 0,
+              "Unresolved": 0
+            },
+            "ExactRepeat": {
+              "Supported": 38,
+              "Refuted": 0,
+              "Unresolved": 0
+            },
+            "CompleteLandmarks": 24
+          },
+          "FreshComplete": true,
+          "FreshRoutes": 52,
+          "HeadingQuestions": [
+            {
+              "Name": "Falling / rising / forward",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 2,
+                "Covered": 34,
+                "Uncovered": 30,
+                "Branching": 0,
+                "Description": 8
+              },
+              "HeldOut": {
+                "IsComplete": true,
+                "Recurrences": 2,
+                "Covered": 34,
+                "Uncovered": 30,
+                "Branching": 0,
+                "Description": 8
+              },
+              "TrainingFrontier": true,
+              "HeldOutFrontier": true
+            },
+            {
+              "Name": "Rising / falling / forward",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 2,
+                "Covered": 34,
+                "Uncovered": 30,
+                "Branching": 0,
+                "Description": 8
+              },
+              "HeldOut": {
+                "IsComplete": true,
+                "Recurrences": 2,
+                "Covered": 34,
+                "Uncovered": 30,
+                "Branching": 0,
+                "Description": 8
+              },
+              "TrainingFrontier": true,
+              "HeldOutFrontier": true
+            },
+            {
+              "Name": "Straight forward",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 64,
+                "Branching": 0,
+                "Description": 2
+              },
+              "HeldOut": {
+                "IsComplete": true,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 64,
+                "Branching": 0,
+                "Description": 2
+              },
+              "TrainingFrontier": true,
+              "HeldOutFrontier": true
+            },
+            {
+              "Name": "Two copies of the same recipe",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 2,
+                "Covered": 34,
+                "Uncovered": 30,
+                "Branching": 0,
+                "Description": 16
+              },
+              "HeldOut": {
+                "IsComplete": true,
+                "Recurrences": 2,
+                "Covered": 34,
+                "Uncovered": 30,
+                "Branching": 0,
+                "Description": 16
+              },
+              "TrainingFrontier": false,
+              "HeldOutFrontier": false
+            },
+            {
+              "Name": "Two flats then a diagonal",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 64,
+                "Branching": 0,
+                "Description": 7
+              },
+              "HeldOut": {
+                "IsComplete": true,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 64,
+                "Branching": 0,
+                "Description": 7
+              },
+              "TrainingFrontier": false,
+              "HeldOutFrontier": false
+            }
+          ],
+          "TranslationQuestions": [
+            {
+              "Name": "Six shared reaches",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 8,
+                "Covered": 12,
+                "Uncovered": 0,
+                "Branching": 10,
+                "Description": 12
+              },
+              "HeldOut": {
+                "IsComplete": true,
+                "Recurrences": 8,
+                "Covered": 12,
+                "Uncovered": 0,
+                "Branching": 10,
+                "Description": 12
+              },
+              "TrainingFrontier": true,
+              "HeldOutFrontier": true
+            },
+            {
+              "Name": "Three shared reaches",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 12,
+                "Branching": 0,
+                "Description": 6
+              },
+              "HeldOut": {
+                "IsComplete": true,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 12,
+                "Branching": 0,
+                "Description": 6
+              },
+              "TrainingFrontier": true,
+              "HeldOutFrontier": true
+            },
+            {
+              "Name": "Five shared reaches",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 12,
+                "Branching": 0,
+                "Description": 10
+              },
+              "HeldOut": {
+                "IsComplete": true,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 12,
+                "Branching": 0,
+                "Description": 10
+              },
+              "TrainingFrontier": false,
+              "HeldOutFrontier": false
+            },
+            {
+              "Name": "Seven shared reaches",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 12,
+                "Branching": 0,
+                "Description": 14
+              },
+              "HeldOut": {
+                "IsComplete": true,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 12,
+                "Branching": 0,
+                "Description": 14
+              },
+              "TrainingFrontier": false,
+              "HeldOutFrontier": false
+            }
+          ]
+        },
+        {
+          "Id": "open-word",
+          "Name": "Open word tail",
+          "Counts": {
+            "Cells": {
+              "Supported": 39,
+              "Refuted": 0,
+              "Unresolved": 0
+            },
+            "Forward": {
+              "Supported": 3,
+              "Refuted": 0,
+              "Unresolved": 1
+            },
+            "Reverse": {
+              "Supported": 4,
+              "Refuted": 0,
+              "Unresolved": 0
+            },
+            "ExactRepeat": {
+              "Supported": 34,
+              "Refuted": 0,
+              "Unresolved": 4
+            },
+            "CompleteLandmarks": 23
+          },
+          "FreshComplete": false,
+          "FreshRoutes": 0,
+          "HeadingQuestions": [
+            {
+              "Name": "Falling / rising / forward",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 2,
+                "Covered": 34,
+                "Uncovered": 30,
+                "Branching": 0,
+                "Description": 8
+              },
+              "HeldOut": {
+                "IsComplete": false,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 64,
+                "Branching": 0,
+                "Description": 8
+              },
+              "TrainingFrontier": true,
+              "HeldOutFrontier": false
+            },
+            {
+              "Name": "Rising / falling / forward",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 2,
+                "Covered": 34,
+                "Uncovered": 30,
+                "Branching": 0,
+                "Description": 8
+              },
+              "HeldOut": {
+                "IsComplete": false,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 64,
+                "Branching": 0,
+                "Description": 8
+              },
+              "TrainingFrontier": true,
+              "HeldOutFrontier": false
+            },
+            {
+              "Name": "Straight forward",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 64,
+                "Branching": 0,
+                "Description": 2
+              },
+              "HeldOut": {
+                "IsComplete": false,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 64,
+                "Branching": 0,
+                "Description": 2
+              },
+              "TrainingFrontier": true,
+              "HeldOutFrontier": false
+            },
+            {
+              "Name": "Two copies of the same recipe",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 2,
+                "Covered": 34,
+                "Uncovered": 30,
+                "Branching": 0,
+                "Description": 16
+              },
+              "HeldOut": {
+                "IsComplete": false,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 64,
+                "Branching": 0,
+                "Description": 16
+              },
+              "TrainingFrontier": false,
+              "HeldOutFrontier": false
+            },
+            {
+              "Name": "Two flats then a diagonal",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 64,
+                "Branching": 0,
+                "Description": 7
+              },
+              "HeldOut": {
+                "IsComplete": false,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 64,
+                "Branching": 0,
+                "Description": 7
+              },
+              "TrainingFrontier": false,
+              "HeldOutFrontier": false
+            }
+          ],
+          "TranslationQuestions": [
+            {
+              "Name": "Six shared reaches",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 8,
+                "Covered": 12,
+                "Uncovered": 0,
+                "Branching": 10,
+                "Description": 12
+              },
+              "HeldOut": {
+                "IsComplete": false,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 12,
+                "Branching": 0,
+                "Description": 12
+              },
+              "TrainingFrontier": true,
+              "HeldOutFrontier": false
+            },
+            {
+              "Name": "Three shared reaches",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 12,
+                "Branching": 0,
+                "Description": 6
+              },
+              "HeldOut": {
+                "IsComplete": false,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 12,
+                "Branching": 0,
+                "Description": 6
+              },
+              "TrainingFrontier": true,
+              "HeldOutFrontier": false
+            },
+            {
+              "Name": "Five shared reaches",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 12,
+                "Branching": 0,
+                "Description": 10
+              },
+              "HeldOut": {
+                "IsComplete": false,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 12,
+                "Branching": 0,
+                "Description": 10
+              },
+              "TrainingFrontier": false,
+              "HeldOutFrontier": false
+            },
+            {
+              "Name": "Seven shared reaches",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 12,
+                "Branching": 0,
+                "Description": 14
+              },
+              "HeldOut": {
+                "IsComplete": false,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 12,
+                "Branching": 0,
+                "Description": 14
+              },
+              "TrainingFrontier": false,
+              "HeldOutFrontier": false
+            }
+          ]
+        },
+        {
+          "Id": "foreign-reach",
+          "Name": "Another reach identity",
+          "Counts": {
+            "Cells": {
+              "Supported": 39,
+              "Refuted": 0,
+              "Unresolved": 0
+            },
+            "Forward": {
+              "Supported": 3,
+              "Refuted": 0,
+              "Unresolved": 1
+            },
+            "Reverse": {
+              "Supported": 4,
+              "Refuted": 0,
+              "Unresolved": 0
+            },
+            "ExactRepeat": {
+              "Supported": 34,
+              "Refuted": 0,
+              "Unresolved": 4
+            },
+            "CompleteLandmarks": 23
+          },
+          "FreshComplete": false,
+          "FreshRoutes": 0,
+          "HeadingQuestions": [
+            {
+              "Name": "Falling / rising / forward",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 2,
+                "Covered": 34,
+                "Uncovered": 30,
+                "Branching": 0,
+                "Description": 8
+              },
+              "HeldOut": {
+                "IsComplete": false,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 64,
+                "Branching": 0,
+                "Description": 8
+              },
+              "TrainingFrontier": true,
+              "HeldOutFrontier": false
+            },
+            {
+              "Name": "Rising / falling / forward",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 2,
+                "Covered": 34,
+                "Uncovered": 30,
+                "Branching": 0,
+                "Description": 8
+              },
+              "HeldOut": {
+                "IsComplete": false,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 64,
+                "Branching": 0,
+                "Description": 8
+              },
+              "TrainingFrontier": true,
+              "HeldOutFrontier": false
+            },
+            {
+              "Name": "Straight forward",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 64,
+                "Branching": 0,
+                "Description": 2
+              },
+              "HeldOut": {
+                "IsComplete": false,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 64,
+                "Branching": 0,
+                "Description": 2
+              },
+              "TrainingFrontier": true,
+              "HeldOutFrontier": false
+            },
+            {
+              "Name": "Two copies of the same recipe",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 2,
+                "Covered": 34,
+                "Uncovered": 30,
+                "Branching": 0,
+                "Description": 16
+              },
+              "HeldOut": {
+                "IsComplete": false,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 64,
+                "Branching": 0,
+                "Description": 16
+              },
+              "TrainingFrontier": false,
+              "HeldOutFrontier": false
+            },
+            {
+              "Name": "Two flats then a diagonal",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 64,
+                "Branching": 0,
+                "Description": 7
+              },
+              "HeldOut": {
+                "IsComplete": false,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 64,
+                "Branching": 0,
+                "Description": 7
+              },
+              "TrainingFrontier": false,
+              "HeldOutFrontier": false
+            }
+          ],
+          "TranslationQuestions": [
+            {
+              "Name": "Six shared reaches",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 8,
+                "Covered": 12,
+                "Uncovered": 0,
+                "Branching": 10,
+                "Description": 12
+              },
+              "HeldOut": {
+                "IsComplete": false,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 12,
+                "Branching": 0,
+                "Description": 12
+              },
+              "TrainingFrontier": true,
+              "HeldOutFrontier": false
+            },
+            {
+              "Name": "Three shared reaches",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 12,
+                "Branching": 0,
+                "Description": 6
+              },
+              "HeldOut": {
+                "IsComplete": false,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 12,
+                "Branching": 0,
+                "Description": 6
+              },
+              "TrainingFrontier": true,
+              "HeldOutFrontier": false
+            },
+            {
+              "Name": "Five shared reaches",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 12,
+                "Branching": 0,
+                "Description": 10
+              },
+              "HeldOut": {
+                "IsComplete": false,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 12,
+                "Branching": 0,
+                "Description": 10
+              },
+              "TrainingFrontier": false,
+              "HeldOutFrontier": false
+            },
+            {
+              "Name": "Seven shared reaches",
+              "Training": {
+                "IsComplete": true,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 12,
+                "Branching": 0,
+                "Description": 14
+              },
+              "HeldOut": {
+                "IsComplete": false,
+                "Recurrences": 0,
+                "Covered": 0,
+                "Uncovered": 12,
+                "Branching": 0,
+                "Description": 14
+              },
+              "TrainingFrontier": false,
+              "HeldOutFrontier": false
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "Limits": [
+    "Controlled counterfactual structural patches, not rerun material drawing or automatic learning.",
+    "Old claims remain historically valid; statuses concern their application to the changed source.",
+    "Cell recurrence checks supplied topological boundaries, not nondegenerate Euclidean geometry.",
+    "Route revalidation checks the old ordered walk and headings, not continued maximality or uniqueness.",
+    "Fresh full-field discovery can remain globally incomplete while local old-candidate checks still support remote walks.",
+    "Held-out recurrence is deterministic conditional evidence; questions, cut and perturbation probe are authored. No independent statistical generalization or universal aesthetic law is claimed."
+  ]
+}

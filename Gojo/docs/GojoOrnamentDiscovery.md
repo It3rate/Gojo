@@ -220,6 +220,10 @@ selection layer could compare several heading or translation questions through
 held-out recurrence, coverage, branching and description cost. Those costs and
 response routes should remain connected evidence before they drive training.
 
+The [perturbation and question-comparison checkpoint](GojoOrnamentPerturbations.md)
+now implements controlled edits, local reapplication of these candidates and
+fixed training/held-out comparisons of supplied questions.
+
 ## Verification
 
 The focused mechanism tests cover actual correspondence, incomplete and false
