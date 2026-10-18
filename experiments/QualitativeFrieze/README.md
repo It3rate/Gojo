@@ -342,3 +342,21 @@ sequence programs alone use disjoint training and held-out instances. This is
 bounded symbolic induction and observational refinement, not gradient training
 or material tension transfer. Detailed proofs stay on private audit surfaces;
 public layers communicate through fresh identities, prototypes and ports.
+
+## Executable ornament programs
+
+The [experimental v0 contract](../../Gojo/docs/GojoOrnamentProgramEncoding.md)
+stores shared motif path programs, explicit transforms, finite parameter ports
+and periodic disposition rules as one native graph. Bindings and a finite
+sampling window select a patch. The
+[six-sample gallery](results/ornament-program/gallery.html) includes a native
+archive and a graph-derived readable inspection. Standalone replay loads and
+executes that archive without invoking the source motif factory.
+
+```powershell
+dotnet run --project experiments/QualitativeFrieze -c Release -- --ornament-program
+dotnet run --project experiments/QualitativeFrieze -c Release -- --ornament-program --input experiments/QualitativeFrieze/results/ornament-program/program.gojo.json --output artifacts/ornament-program-replay
+```
+
+The format is a narrow executable experiment rather than a frozen dataset
+standard. Recognition services and negotiated seams remain separate mechanisms.

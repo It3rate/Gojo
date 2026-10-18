@@ -17,6 +17,9 @@ The later qualitative-pattern sequence is indexed in the
 and [interactive gallery](QualitativeFrieze/results/hierarchical-recognition/gallery.html)
 follow motif observations into row programs and higher arrangements, then trace
 specific unresolved questions back down through local services.
+The [executable ornament format](../Gojo/docs/GojoOrnamentProgramEncoding.md)
+then separates reusable native generation programs from their parameters and
+sampled patches, including save/load and standalone execution.
 
 ## Reading order
 

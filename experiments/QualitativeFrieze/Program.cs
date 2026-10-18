@@ -16,6 +16,7 @@ if (args.Contains("--connected")) return ConnectedPatternExperiment.Run(args.Whe
 if (args.Contains("--machines")) return PatternMachineExperiment.Run(args.Where(argument => argument != "--machines").ToArray());
 if (args.Contains("--primitive-flows")) return PrimitiveFlowExperiment.Run(args.Where(argument => argument != "--primitive-flows").ToArray());
 if (args.Contains("--unit-arrangements")) return UnitArrangementExperiment.Run(args.Where(argument => argument != "--unit-arrangements").ToArray());
+if (args.Contains("--ornament-program")) return OrnamentProgramExperiment.Run(args.Where(argument => argument != "--ornament-program").ToArray());
 if (args.Contains("--ornament-perspectives")) return OrnamentPerspectiveExperiment.Run(args.Where(argument => argument != "--ornament-perspectives").ToArray());
 if (args.Contains("--ornament-discovery")) return OrnamentDiscoveryExperiment.Run(args.Where(argument => argument != "--ornament-discovery").ToArray());
 if (args.Contains("--ornament-perturbations")) return OrnamentPerturbationExperiment.Run(args.Where(argument => argument != "--ornament-perturbations").ToArray());

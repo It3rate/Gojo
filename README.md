@@ -85,6 +85,11 @@ composes motifs, chamber roles and row programs across opaque interfaces.
 Its [interactive gallery](experiments/QualitativeFrieze/results/hierarchical-recognition/gallery.html)
 follows questions downward and actual evidence back upward, including contrary,
 ambiguous and capacity-limited answers.
+The [ornament program encoding](Gojo/docs/GojoOrnamentProgramEncoding.md)
+separates shared motifs and periodic layout rules from parameter bindings,
+sampling windows and expanded execution. Its
+[gallery](experiments/QualitativeFrieze/results/ornament-program/gallery.html)
+includes six samples from a saved native program, with standalone replay.
 
 For example, run the prospective-prediction experiment and its notebook tests
 from the repository root:

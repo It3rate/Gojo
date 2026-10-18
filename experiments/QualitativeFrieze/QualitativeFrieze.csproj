@@ -7,5 +7,6 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="../QualitativeExecution/QualitativeExecution.csproj" />
+    <ProjectReference Include="../../Gojo.Encoding/Gojo.Encoding.csproj" />
   </ItemGroup>
 </Project>
