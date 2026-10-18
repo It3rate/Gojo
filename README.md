@@ -76,6 +76,10 @@ examines recurring motifs and larger flow arrangements from segment observations
 with construction history and position words withheld. Its retained
 [interactive gallery](experiments/QualitativeFrieze/results/qualitative-recognition/gallery.html)
 compares several interpretations of each field.
+The [evidence and placement follow-up](Gojo/docs/GojoQualitativeRecognitionFirmness.md)
+separates admission from demonstrated flow, adds ordinal chamber placement,
+and rechecks preserved motifs against local changes in its
+[gallery](experiments/QualitativeFrieze/results/recognition-firmness/gallery.html).
 
 For example, run the prospective-prediction experiment and its notebook tests
 from the repository root:

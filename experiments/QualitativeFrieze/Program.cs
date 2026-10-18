@@ -19,6 +19,15 @@ if (args.Contains("--unit-arrangements")) return UnitArrangementExperiment.Run(a
 if (args.Contains("--ornament-perspectives")) return OrnamentPerspectiveExperiment.Run(args.Where(argument => argument != "--ornament-perspectives").ToArray());
 if (args.Contains("--ornament-discovery")) return OrnamentDiscoveryExperiment.Run(args.Where(argument => argument != "--ornament-discovery").ToArray());
 if (args.Contains("--ornament-perturbations")) return OrnamentPerturbationExperiment.Run(args.Where(argument => argument != "--ornament-perturbations").ToArray());
+if (args.Contains("--recognition-firmness"))
+{
+    var firmnessOutput = Path.Combine("experiments", "QualitativeFrieze", "results", "recognition-firmness");
+    var firmnessArgs = args.Where(argument => argument != "--recognition-firmness").ToArray();
+    for (var i = 0; i < firmnessArgs.Length; i++)
+        if (firmnessArgs[i] == "--output" && i + 1 < firmnessArgs.Length) firmnessOutput = firmnessArgs[++i];
+        else throw new ArgumentException("Usage: --recognition-firmness [--output DIRECTORY]");
+    return QualitativeRecognitionFirmnessExperiment.Run(firmnessOutput);
+}
 if (args.Contains("--qualitative-recognition"))
 {
     var recognitionOutput = Path.Combine("experiments", "QualitativeFrieze", "results", "qualitative-recognition");

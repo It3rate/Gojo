@@ -184,7 +184,8 @@ public sealed class QualitativeDispositionInduction
                         if (afterX is not [var xx] || afterY is not [var yy])
                         { boundary.Add(new Relation(obligation, new Placeholder())); continue; }
                         var proof = new Relation(site, new Relation(S(x.Read, xx.Read), S(y.Read, yy.Read)));
-                        if (N.Same(xx.To, yy.To)) commutations.Add(proof);
+                        if (N.Same(xx.To, yy.To) && N.Distinct([site, x.To, y.To, xx.To]) &&
+                            N.Distinct([x.Row, xx.Row, y.Row, yy.Row])) commutations.Add(proof);
                         else unsettled.Add(new Relation(proof, new Relation(xx.To, yy.To)));
                     }
             var closed = triangles.Where(triangle => triangle.Uses.All(use => admitted.Contains(use.Family))).Select(triangle => (IElement)triangle.Read).ToArray();

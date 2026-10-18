@@ -15,6 +15,12 @@ Here the useful question is whether a recognizer can recover structure after
 those advantages have been withheld. This checkpoint concerns recognition;
 reapplying its candidates after perturbations belongs to the next round.
 
+The subsequent [evidence and placement round](GojoQualitativeRecognitionFirmness.md)
+implements local motif revalidation, separates admitted headings from qualified
+route and circuit evidence, and tests ordinal placement without numerical
+coordinates. It also strengthens the distinct-participant law for commuting
+circuits; the finite field findings below retain their stated results.
+
 Open the [recognition gallery](../../experiments/QualitativeFrieze/results/qualitative-recognition/gallery.html),
 or regenerate the retained study from the repository root:
 
