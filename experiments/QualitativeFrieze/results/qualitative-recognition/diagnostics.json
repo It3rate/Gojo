@@ -1,0 +1,6390 @@
+[
+  {
+    "Id": "R01",
+    "Name": "Square grid",
+    "Sites": 20,
+    "Segments": 31,
+    "Search": "Local search: 1981 / 20000 expansions; 282 / 3000 retained occurrences, 36 families. Walks \u22643 edges; cycles \u22646. Selected scope exhausted.",
+    "MotifComplete": true,
+    "DispositionComplete": true,
+    "Motifs": [
+      {
+        "Name": "M001 \u00B7 4-edge cycle \u00B7 12 matches",
+        "Kind": "cycle",
+        "Matches": 12,
+        "Size": 4
+      },
+      {
+        "Name": "M002 \u00B7 6-edge cycle \u00B7 9 matches",
+        "Kind": "cycle",
+        "Matches": 9,
+        "Size": 6
+      },
+      {
+        "Name": "M003 \u00B7 6-edge cycle \u00B7 8 matches",
+        "Kind": "cycle",
+        "Matches": 8,
+        "Size": 6
+      },
+      {
+        "Name": "M004 \u00B7 2-edge walk \u00B7 12 matches",
+        "Kind": "walk",
+        "Matches": 12,
+        "Size": 2
+      },
+      {
+        "Name": "M005 \u00B7 2-edge walk \u00B7 12 matches",
+        "Kind": "walk",
+        "Matches": 12,
+        "Size": 2
+      },
+      {
+        "Name": "M006 \u00B7 2-edge walk \u00B7 12 matches",
+        "Kind": "walk",
+        "Matches": 12,
+        "Size": 2
+      },
+      {
+        "Name": "M007 \u00B7 2-edge walk \u00B7 12 matches",
+        "Kind": "walk",
+        "Matches": 12,
+        "Size": 2
+      },
+      {
+        "Name": "M008 \u00B7 2-edge walk \u00B7 12 matches",
+        "Kind": "walk",
+        "Matches": 12,
+        "Size": 2
+      },
+      {
+        "Name": "M009 \u00B7 2-edge walk \u00B7 10 matches",
+        "Kind": "walk",
+        "Matches": 10,
+        "Size": 2
+      },
+      {
+        "Name": "M010 \u00B7 3-edge walk \u00B7 12 matches",
+        "Kind": "walk",
+        "Matches": 12,
+        "Size": 3
+      },
+      {
+        "Name": "M011 \u00B7 3-edge walk \u00B7 12 matches",
+        "Kind": "walk",
+        "Matches": 12,
+        "Size": 3
+      },
+      {
+        "Name": "M012 \u00B7 3-edge walk \u00B7 12 matches",
+        "Kind": "walk",
+        "Matches": 12,
+        "Size": 3
+      },
+      {
+        "Name": "M013 \u00B7 3-edge walk \u00B7 12 matches",
+        "Kind": "walk",
+        "Matches": 12,
+        "Size": 3
+      },
+      {
+        "Name": "M014 \u00B7 3-edge walk \u00B7 9 matches",
+        "Kind": "walk",
+        "Matches": 9,
+        "Size": 3
+      },
+      {
+        "Name": "M015 \u00B7 3-edge walk \u00B7 9 matches",
+        "Kind": "walk",
+        "Matches": 9,
+        "Size": 3
+      },
+      {
+        "Name": "M016 \u00B7 3-edge walk \u00B7 9 matches",
+        "Kind": "walk",
+        "Matches": 9,
+        "Size": 3
+      },
+      {
+        "Name": "M017 \u00B7 3-edge walk \u00B7 9 matches",
+        "Kind": "walk",
+        "Matches": 9,
+        "Size": 3
+      },
+      {
+        "Name": "M018 \u00B7 3-edge walk \u00B7 9 matches",
+        "Kind": "walk",
+        "Matches": 9,
+        "Size": 3
+      },
+      {
+        "Name": "M019 \u00B7 3-edge walk \u00B7 9 matches",
+        "Kind": "walk",
+        "Matches": 9,
+        "Size": 3
+      },
+      {
+        "Name": "M020 \u00B7 3-edge walk \u00B7 8 matches",
+        "Kind": "walk",
+        "Matches": 8,
+        "Size": 3
+      },
+      {
+        "Name": "M021 \u00B7 3-edge walk \u00B7 8 matches",
+        "Kind": "walk",
+        "Matches": 8,
+        "Size": 3
+      },
+      {
+        "Name": "M022 \u00B7 3-edge walk \u00B7 8 matches",
+        "Kind": "walk",
+        "Matches": 8,
+        "Size": 3
+      },
+      {
+        "Name": "M023 \u00B7 3-edge walk \u00B7 8 matches",
+        "Kind": "walk",
+        "Matches": 8,
+        "Size": 3
+      },
+      {
+        "Name": "M024 \u00B7 3-edge walk \u00B7 8 matches",
+        "Kind": "walk",
+        "Matches": 8,
+        "Size": 3
+      },
+      {
+        "Name": "M025 \u00B7 3-edge walk \u00B7 8 matches",
+        "Kind": "walk",
+        "Matches": 8,
+        "Size": 3
+      },
+      {
+        "Name": "M026 \u00B7 3-edge walk \u00B7 8 matches",
+        "Kind": "walk",
+        "Matches": 8,
+        "Size": 3
+      },
+      {
+        "Name": "M027 \u00B7 3-edge walk \u00B7 5 matches",
+        "Kind": "walk",
+        "Matches": 5,
+        "Size": 3
+      },
+      {
+        "Name": "M028 \u00B7 2-arm junction \u00B7 1 matches",
+        "Kind": "junction",
+        "Matches": 1,
+        "Size": 2
+      },
+      {
+        "Name": "M029 \u00B7 2-arm junction \u00B7 1 matches",
+        "Kind": "junction",
+        "Matches": 1,
+        "Size": 2
+      },
+      {
+        "Name": "M030 \u00B7 2-arm junction \u00B7 1 matches",
+        "Kind": "junction",
+        "Matches": 1,
+        "Size": 2
+      },
+      {
+        "Name": "M031 \u00B7 2-arm junction \u00B7 1 matches",
+        "Kind": "junction",
+        "Matches": 1,
+        "Size": 2
+      },
+      {
+        "Name": "M032 \u00B7 3-arm junction \u00B7 3 matches",
+        "Kind": "junction",
+        "Matches": 3,
+        "Size": 3
+      },
+      {
+        "Name": "M033 \u00B7 3-arm junction \u00B7 3 matches",
+        "Kind": "junction",
+        "Matches": 3,
+        "Size": 3
+      },
+      {
+        "Name": "M034 \u00B7 3-arm junction \u00B7 2 matches",
+        "Kind": "junction",
+        "Matches": 2,
+        "Size": 3
+      },
+      {
+        "Name": "M035 \u00B7 3-arm junction \u00B7 2 matches",
+        "Kind": "junction",
+        "Matches": 2,
+        "Size": 3
+      },
+      {
+        "Name": "M036 \u00B7 4-arm junction \u00B7 6 matches",
+        "Kind": "junction",
+        "Matches": 6,
+        "Size": 4
+      }
+    ],
+    "Interpretations": [
+      {
+        "Key": "D01",
+        "Name": "\u2192 channel \u002B \u2191 channel",
+        "Kind": "basis",
+        "Covered": 31,
+        "Remainder": 0,
+        "Commutations": 12,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 0,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": 282,
+        "MotifStraddling": 0,
+        "Refinements": 0
+      },
+      {
+        "Key": "D02",
+        "Name": "\u2192 / \u2191 two-phase flow",
+        "Kind": "rhythm",
+        "Covered": 27,
+        "Remainder": 4,
+        "Commutations": 0,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 14,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": null,
+        "MotifStraddling": null,
+        "Refinements": null
+      },
+      {
+        "Key": "D03",
+        "Name": "\u2192 / \u2193 two-phase flow",
+        "Kind": "rhythm",
+        "Covered": 27,
+        "Remainder": 4,
+        "Commutations": 0,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 14,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": null,
+        "MotifStraddling": null,
+        "Refinements": null
+      },
+      {
+        "Key": "D04",
+        "Name": "\u2190 / \u2191 two-phase flow",
+        "Kind": "rhythm",
+        "Covered": 27,
+        "Remainder": 4,
+        "Commutations": 0,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 14,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": null,
+        "MotifStraddling": null,
+        "Refinements": null
+      },
+      {
+        "Key": "D05",
+        "Name": "\u2190 / \u2193 two-phase flow",
+        "Kind": "rhythm",
+        "Covered": 27,
+        "Remainder": 4,
+        "Commutations": 0,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 14,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": null,
+        "MotifStraddling": null,
+        "Refinements": null
+      }
+    ]
+  },
+  {
+    "Id": "R02",
+    "Name": "Sheared grid",
+    "Sites": 20,
+    "Segments": 31,
+    "Search": "Local search: 1981 / 20000 expansions; 282 / 3000 retained occurrences, 36 families. Walks \u22643 edges; cycles \u22646. Selected scope exhausted.",
+    "MotifComplete": true,
+    "DispositionComplete": true,
+    "Motifs": [
+      {
+        "Name": "M001 \u00B7 4-edge cycle \u00B7 12 matches",
+        "Kind": "cycle",
+        "Matches": 12,
+        "Size": 4
+      },
+      {
+        "Name": "M002 \u00B7 6-edge cycle \u00B7 9 matches",
+        "Kind": "cycle",
+        "Matches": 9,
+        "Size": 6
+      },
+      {
+        "Name": "M003 \u00B7 6-edge cycle \u00B7 8 matches",
+        "Kind": "cycle",
+        "Matches": 8,
+        "Size": 6
+      },
+      {
+        "Name": "M004 \u00B7 2-edge walk \u00B7 12 matches",
+        "Kind": "walk",
+        "Matches": 12,
+        "Size": 2
+      },
+      {
+        "Name": "M005 \u00B7 2-edge walk \u00B7 12 matches",
+        "Kind": "walk",
+        "Matches": 12,
+        "Size": 2
+      },
+      {
+        "Name": "M006 \u00B7 2-edge walk \u00B7 12 matches",
+        "Kind": "walk",
+        "Matches": 12,
+        "Size": 2
+      },
+      {
+        "Name": "M007 \u00B7 2-edge walk \u00B7 12 matches",
+        "Kind": "walk",
+        "Matches": 12,
+        "Size": 2
+      },
+      {
+        "Name": "M008 \u00B7 2-edge walk \u00B7 12 matches",
+        "Kind": "walk",
+        "Matches": 12,
+        "Size": 2
+      },
+      {
+        "Name": "M009 \u00B7 2-edge walk \u00B7 10 matches",
+        "Kind": "walk",
+        "Matches": 10,
+        "Size": 2
+      },
+      {
+        "Name": "M010 \u00B7 3-edge walk \u00B7 12 matches",
+        "Kind": "walk",
+        "Matches": 12,
+        "Size": 3
+      },
+      {
+        "Name": "M011 \u00B7 3-edge walk \u00B7 12 matches",
+        "Kind": "walk",
+        "Matches": 12,
+        "Size": 3
+      },
+      {
+        "Name": "M012 \u00B7 3-edge walk \u00B7 12 matches",
+        "Kind": "walk",
+        "Matches": 12,
+        "Size": 3
+      },
+      {
+        "Name": "M013 \u00B7 3-edge walk \u00B7 12 matches",
+        "Kind": "walk",
+        "Matches": 12,
+        "Size": 3
+      },
+      {
+        "Name": "M014 \u00B7 3-edge walk \u00B7 9 matches",
+        "Kind": "walk",
+        "Matches": 9,
+        "Size": 3
+      },
+      {
+        "Name": "M015 \u00B7 3-edge walk \u00B7 9 matches",
+        "Kind": "walk",
+        "Matches": 9,
+        "Size": 3
+      },
+      {
+        "Name": "M016 \u00B7 3-edge walk \u00B7 9 matches",
+        "Kind": "walk",
+        "Matches": 9,
+        "Size": 3
+      },
+      {
+        "Name": "M017 \u00B7 3-edge walk \u00B7 9 matches",
+        "Kind": "walk",
+        "Matches": 9,
+        "Size": 3
+      },
+      {
+        "Name": "M018 \u00B7 3-edge walk \u00B7 9 matches",
+        "Kind": "walk",
+        "Matches": 9,
+        "Size": 3
+      },
+      {
+        "Name": "M019 \u00B7 3-edge walk \u00B7 9 matches",
+        "Kind": "walk",
+        "Matches": 9,
+        "Size": 3
+      },
+      {
+        "Name": "M020 \u00B7 3-edge walk \u00B7 8 matches",
+        "Kind": "walk",
+        "Matches": 8,
+        "Size": 3
+      },
+      {
+        "Name": "M021 \u00B7 3-edge walk \u00B7 8 matches",
+        "Kind": "walk",
+        "Matches": 8,
+        "Size": 3
+      },
+      {
+        "Name": "M022 \u00B7 3-edge walk \u00B7 8 matches",
+        "Kind": "walk",
+        "Matches": 8,
+        "Size": 3
+      },
+      {
+        "Name": "M023 \u00B7 3-edge walk \u00B7 8 matches",
+        "Kind": "walk",
+        "Matches": 8,
+        "Size": 3
+      },
+      {
+        "Name": "M024 \u00B7 3-edge walk \u00B7 8 matches",
+        "Kind": "walk",
+        "Matches": 8,
+        "Size": 3
+      },
+      {
+        "Name": "M025 \u00B7 3-edge walk \u00B7 8 matches",
+        "Kind": "walk",
+        "Matches": 8,
+        "Size": 3
+      },
+      {
+        "Name": "M026 \u00B7 3-edge walk \u00B7 8 matches",
+        "Kind": "walk",
+        "Matches": 8,
+        "Size": 3
+      },
+      {
+        "Name": "M027 \u00B7 3-edge walk \u00B7 5 matches",
+        "Kind": "walk",
+        "Matches": 5,
+        "Size": 3
+      },
+      {
+        "Name": "M028 \u00B7 2-arm junction \u00B7 1 matches",
+        "Kind": "junction",
+        "Matches": 1,
+        "Size": 2
+      },
+      {
+        "Name": "M029 \u00B7 2-arm junction \u00B7 1 matches",
+        "Kind": "junction",
+        "Matches": 1,
+        "Size": 2
+      },
+      {
+        "Name": "M030 \u00B7 2-arm junction \u00B7 1 matches",
+        "Kind": "junction",
+        "Matches": 1,
+        "Size": 2
+      },
+      {
+        "Name": "M031 \u00B7 2-arm junction \u00B7 1 matches",
+        "Kind": "junction",
+        "Matches": 1,
+        "Size": 2
+      },
+      {
+        "Name": "M032 \u00B7 3-arm junction \u00B7 3 matches",
+        "Kind": "junction",
+        "Matches": 3,
+        "Size": 3
+      },
+      {
+        "Name": "M033 \u00B7 3-arm junction \u00B7 3 matches",
+        "Kind": "junction",
+        "Matches": 3,
+        "Size": 3
+      },
+      {
+        "Name": "M034 \u00B7 3-arm junction \u00B7 2 matches",
+        "Kind": "junction",
+        "Matches": 2,
+        "Size": 3
+      },
+      {
+        "Name": "M035 \u00B7 3-arm junction \u00B7 2 matches",
+        "Kind": "junction",
+        "Matches": 2,
+        "Size": 3
+      },
+      {
+        "Name": "M036 \u00B7 4-arm junction \u00B7 6 matches",
+        "Kind": "junction",
+        "Matches": 6,
+        "Size": 4
+      }
+    ],
+    "Interpretations": [
+      {
+        "Key": "D01",
+        "Name": "\u2192 channel \u002B \u2197 channel",
+        "Kind": "basis",
+        "Covered": 31,
+        "Remainder": 0,
+        "Commutations": 12,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 0,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": 282,
+        "MotifStraddling": 0,
+        "Refinements": 0
+      },
+      {
+        "Key": "D02",
+        "Name": "\u2192 / \u2197 two-phase flow",
+        "Kind": "rhythm",
+        "Covered": 27,
+        "Remainder": 4,
+        "Commutations": 0,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 14,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": null,
+        "MotifStraddling": null,
+        "Refinements": null
+      },
+      {
+        "Key": "D03",
+        "Name": "\u2192 / \u2199 two-phase flow",
+        "Kind": "rhythm",
+        "Covered": 27,
+        "Remainder": 4,
+        "Commutations": 0,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 14,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": null,
+        "MotifStraddling": null,
+        "Refinements": null
+      },
+      {
+        "Key": "D04",
+        "Name": "\u2190 / \u2197 two-phase flow",
+        "Kind": "rhythm",
+        "Covered": 27,
+        "Remainder": 4,
+        "Commutations": 0,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 14,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": null,
+        "MotifStraddling": null,
+        "Refinements": null
+      },
+      {
+        "Key": "D05",
+        "Name": "\u2190 / \u2199 two-phase flow",
+        "Kind": "rhythm",
+        "Covered": 27,
+        "Remainder": 4,
+        "Commutations": 0,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 14,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": null,
+        "MotifStraddling": null,
+        "Refinements": null
+      }
+    ]
+  },
+  {
+    "Id": "R03",
+    "Name": "Diamond lattice",
+    "Sites": 20,
+    "Segments": 31,
+    "Search": "Local search: 1981 / 20000 expansions; 282 / 3000 retained occurrences, 36 families. Walks \u22643 edges; cycles \u22646. Selected scope exhausted.",
+    "MotifComplete": true,
+    "DispositionComplete": true,
+    "Motifs": [
+      {
+        "Name": "M001 \u00B7 4-edge cycle \u00B7 12 matches",
+        "Kind": "cycle",
+        "Matches": 12,
+        "Size": 4
+      },
+      {
+        "Name": "M002 \u00B7 6-edge cycle \u00B7 9 matches",
+        "Kind": "cycle",
+        "Matches": 9,
+        "Size": 6
+      },
+      {
+        "Name": "M003 \u00B7 6-edge cycle \u00B7 8 matches",
+        "Kind": "cycle",
+        "Matches": 8,
+        "Size": 6
+      },
+      {
+        "Name": "M004 \u00B7 2-edge walk \u00B7 12 matches",
+        "Kind": "walk",
+        "Matches": 12,
+        "Size": 2
+      },
+      {
+        "Name": "M005 \u00B7 2-edge walk \u00B7 12 matches",
+        "Kind": "walk",
+        "Matches": 12,
+        "Size": 2
+      },
+      {
+        "Name": "M006 \u00B7 2-edge walk \u00B7 12 matches",
+        "Kind": "walk",
+        "Matches": 12,
+        "Size": 2
+      },
+      {
+        "Name": "M007 \u00B7 2-edge walk \u00B7 12 matches",
+        "Kind": "walk",
+        "Matches": 12,
+        "Size": 2
+      },
+      {
+        "Name": "M008 \u00B7 2-edge walk \u00B7 12 matches",
+        "Kind": "walk",
+        "Matches": 12,
+        "Size": 2
+      },
+      {
+        "Name": "M009 \u00B7 2-edge walk \u00B7 10 matches",
+        "Kind": "walk",
+        "Matches": 10,
+        "Size": 2
+      },
+      {
+        "Name": "M010 \u00B7 3-edge walk \u00B7 12 matches",
+        "Kind": "walk",
+        "Matches": 12,
+        "Size": 3
+      },
+      {
+        "Name": "M011 \u00B7 3-edge walk \u00B7 12 matches",
+        "Kind": "walk",
+        "Matches": 12,
+        "Size": 3
+      },
+      {
+        "Name": "M012 \u00B7 3-edge walk \u00B7 12 matches",
+        "Kind": "walk",
+        "Matches": 12,
+        "Size": 3
+      },
+      {
+        "Name": "M013 \u00B7 3-edge walk \u00B7 12 matches",
+        "Kind": "walk",
+        "Matches": 12,
+        "Size": 3
+      },
+      {
+        "Name": "M014 \u00B7 3-edge walk \u00B7 9 matches",
+        "Kind": "walk",
+        "Matches": 9,
+        "Size": 3
+      },
+      {
+        "Name": "M015 \u00B7 3-edge walk \u00B7 9 matches",
+        "Kind": "walk",
+        "Matches": 9,
+        "Size": 3
+      },
+      {
+        "Name": "M016 \u00B7 3-edge walk \u00B7 9 matches",
+        "Kind": "walk",
+        "Matches": 9,
+        "Size": 3
+      },
+      {
+        "Name": "M017 \u00B7 3-edge walk \u00B7 9 matches",
+        "Kind": "walk",
+        "Matches": 9,
+        "Size": 3
+      },
+      {
+        "Name": "M018 \u00B7 3-edge walk \u00B7 9 matches",
+        "Kind": "walk",
+        "Matches": 9,
+        "Size": 3
+      },
+      {
+        "Name": "M019 \u00B7 3-edge walk \u00B7 9 matches",
+        "Kind": "walk",
+        "Matches": 9,
+        "Size": 3
+      },
+      {
+        "Name": "M020 \u00B7 3-edge walk \u00B7 8 matches",
+        "Kind": "walk",
+        "Matches": 8,
+        "Size": 3
+      },
+      {
+        "Name": "M021 \u00B7 3-edge walk \u00B7 8 matches",
+        "Kind": "walk",
+        "Matches": 8,
+        "Size": 3
+      },
+      {
+        "Name": "M022 \u00B7 3-edge walk \u00B7 8 matches",
+        "Kind": "walk",
+        "Matches": 8,
+        "Size": 3
+      },
+      {
+        "Name": "M023 \u00B7 3-edge walk \u00B7 8 matches",
+        "Kind": "walk",
+        "Matches": 8,
+        "Size": 3
+      },
+      {
+        "Name": "M024 \u00B7 3-edge walk \u00B7 8 matches",
+        "Kind": "walk",
+        "Matches": 8,
+        "Size": 3
+      },
+      {
+        "Name": "M025 \u00B7 3-edge walk \u00B7 8 matches",
+        "Kind": "walk",
+        "Matches": 8,
+        "Size": 3
+      },
+      {
+        "Name": "M026 \u00B7 3-edge walk \u00B7 8 matches",
+        "Kind": "walk",
+        "Matches": 8,
+        "Size": 3
+      },
+      {
+        "Name": "M027 \u00B7 3-edge walk \u00B7 5 matches",
+        "Kind": "walk",
+        "Matches": 5,
+        "Size": 3
+      },
+      {
+        "Name": "M028 \u00B7 2-arm junction \u00B7 1 matches",
+        "Kind": "junction",
+        "Matches": 1,
+        "Size": 2
+      },
+      {
+        "Name": "M029 \u00B7 2-arm junction \u00B7 1 matches",
+        "Kind": "junction",
+        "Matches": 1,
+        "Size": 2
+      },
+      {
+        "Name": "M030 \u00B7 2-arm junction \u00B7 1 matches",
+        "Kind": "junction",
+        "Matches": 1,
+        "Size": 2
+      },
+      {
+        "Name": "M031 \u00B7 2-arm junction \u00B7 1 matches",
+        "Kind": "junction",
+        "Matches": 1,
+        "Size": 2
+      },
+      {
+        "Name": "M032 \u00B7 3-arm junction \u00B7 3 matches",
+        "Kind": "junction",
+        "Matches": 3,
+        "Size": 3
+      },
+      {
+        "Name": "M033 \u00B7 3-arm junction \u00B7 3 matches",
+        "Kind": "junction",
+        "Matches": 3,
+        "Size": 3
+      },
+      {
+        "Name": "M034 \u00B7 3-arm junction \u00B7 2 matches",
+        "Kind": "junction",
+        "Matches": 2,
+        "Size": 3
+      },
+      {
+        "Name": "M035 \u00B7 3-arm junction \u00B7 2 matches",
+        "Kind": "junction",
+        "Matches": 2,
+        "Size": 3
+      },
+      {
+        "Name": "M036 \u00B7 4-arm junction \u00B7 6 matches",
+        "Kind": "junction",
+        "Matches": 6,
+        "Size": 4
+      }
+    ],
+    "Interpretations": [
+      {
+        "Key": "D01",
+        "Name": "\u2197 channel \u002B \u2198 channel",
+        "Kind": "basis",
+        "Covered": 31,
+        "Remainder": 0,
+        "Commutations": 12,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 0,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": 282,
+        "MotifStraddling": 0,
+        "Refinements": 0
+      },
+      {
+        "Key": "D02",
+        "Name": "\u2197 / \u2198 two-phase flow",
+        "Kind": "rhythm",
+        "Covered": 27,
+        "Remainder": 4,
+        "Commutations": 0,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 14,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": null,
+        "MotifStraddling": null,
+        "Refinements": null
+      },
+      {
+        "Key": "D03",
+        "Name": "\u2197 / \u2196 two-phase flow",
+        "Kind": "rhythm",
+        "Covered": 27,
+        "Remainder": 4,
+        "Commutations": 0,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 14,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": null,
+        "MotifStraddling": null,
+        "Refinements": null
+      },
+      {
+        "Key": "D04",
+        "Name": "\u2199 / \u2198 two-phase flow",
+        "Kind": "rhythm",
+        "Covered": 27,
+        "Remainder": 4,
+        "Commutations": 0,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 14,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": null,
+        "MotifStraddling": null,
+        "Refinements": null
+      },
+      {
+        "Key": "D05",
+        "Name": "\u2199 / \u2196 two-phase flow",
+        "Kind": "rhythm",
+        "Covered": 27,
+        "Remainder": 4,
+        "Commutations": 0,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 14,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": null,
+        "MotifStraddling": null,
+        "Refinements": null
+      }
+    ]
+  },
+  {
+    "Id": "R04",
+    "Name": "Triangular lattice",
+    "Sites": 20,
+    "Segments": 43,
+    "Search": "Local search: 11735 / 20000 expansions; 886 / 3000 retained occurrences, 119 families. Walks \u22643 edges; cycles \u22646. Selected scope exhausted.",
+    "MotifComplete": true,
+    "DispositionComplete": true,
+    "Motifs": [
+      {
+        "Name": "M001 \u00B7 3-edge cycle \u00B7 12 matches",
+        "Kind": "cycle",
+        "Matches": 12,
+        "Size": 3
+      },
+      {
+        "Name": "M002 \u00B7 3-edge cycle \u00B7 12 matches",
+        "Kind": "cycle",
+        "Matches": 12,
+        "Size": 3
+      },
+      {
+        "Name": "M003 \u00B7 4-edge cycle \u00B7 12 matches",
+        "Kind": "cycle",
+        "Matches": 12,
+        "Size": 4
+      },
+      {
+        "Name": "M004 \u00B7 4-edge cycle \u00B7 9 matches",
+        "Kind": "cycle",
+        "Matches": 9,
+        "Size": 4
+      },
+      {
+        "Name": "M005 \u00B7 4-edge cycle \u00B7 8 matches",
+        "Kind": "cycle",
+        "Matches": 8,
+        "Size": 4
+      },
+      {
+        "Name": "M006 \u00B7 5-edge cycle \u00B7 9 matches",
+        "Kind": "cycle",
+        "Matches": 9,
+        "Size": 5
+      },
+      {
+        "Name": "M007 \u00B7 5-edge cycle \u00B7 9 matches",
+        "Kind": "cycle",
+        "Matches": 9,
+        "Size": 5
+      },
+      {
+        "Name": "M008 \u00B7 5-edge cycle \u00B7 8 matches",
+        "Kind": "cycle",
+        "Matches": 8,
+        "Size": 5
+      },
+      {
+        "Name": "M009 \u00B7 5-edge cycle \u00B7 8 matches",
+        "Kind": "cycle",
+        "Matches": 8,
+        "Size": 5
+      },
+      {
+        "Name": "M010 \u00B7 5-edge cycle \u00B7 6 matches",
+        "Kind": "cycle",
+        "Matches": 6,
+        "Size": 5
+      },
+      {
+        "Name": "M011 \u00B7 5-edge cycle \u00B7 6 matches",
+        "Kind": "cycle",
+        "Matches": 6,
+        "Size": 5
+      },
+      {
+        "Name": "M012 \u00B7 6-edge cycle \u00B7 9 matches",
+        "Kind": "cycle",
+        "Matches": 9,
+        "Size": 6
+      },
+      {
+        "Name": "M013 \u00B7 6-edge cycle \u00B7 8 matches",
+        "Kind": "cycle",
+        "Matches": 8,
+        "Size": 6
+      },
+      {
+        "Name": "M014 \u00B7 6-edge cycle \u00B7 6 matches",
+        "Kind": "cycle",
+        "Matches": 6,
+        "Size": 6
+      },
+      {
+        "Name": "M015 \u00B7 6-edge cycle \u00B7 6 matches",
+        "Kind": "cycle",
+        "Matches": 6,
+        "Size": 6
+      },
+      {
+        "Name": "M016 \u00B7 6-edge cycle \u00B7 6 matches",
+        "Kind": "cycle",
+        "Matches": 6,
+        "Size": 6
+      },
+      {
+        "Name": "M017 \u00B7 6-edge cycle \u00B7 6 matches",
+        "Kind": "cycle",
+        "Matches": 6,
+        "Size": 6
+      },
+      {
+        "Name": "M018 \u00B7 6-edge cycle \u00B7 6 matches",
+        "Kind": "cycle",
+        "Matches": 6,
+        "Size": 6
+      },
+      {
+        "Name": "M019 \u00B7 6-edge cycle \u00B7 6 matches",
+        "Kind": "cycle",
+        "Matches": 6,
+        "Size": 6
+      },
+      {
+        "Name": "M020 \u00B7 6-edge cycle \u00B7 6 matches",
+        "Kind": "cycle",
+        "Matches": 6,
+        "Size": 6
+      },
+      {
+        "Name": "M021 \u00B7 6-edge cycle \u00B7 6 matches",
+        "Kind": "cycle",
+        "Matches": 6,
+        "Size": 6
+      },
+      {
+        "Name": "M022 \u00B7 6-edge cycle \u00B7 6 matches",
+        "Kind": "cycle",
+        "Matches": 6,
+        "Size": 6
+      },
+      {
+        "Name": "M023 \u00B7 6-edge cycle \u00B7 6 matches",
+        "Kind": "cycle",
+        "Matches": 6,
+        "Size": 6
+      },
+      {
+        "Name": "M024 \u00B7 6-edge cycle \u00B7 4 matches",
+        "Kind": "cycle",
+        "Matches": 4,
+        "Size": 6
+      },
+      {
+        "Name": "M025 \u00B7 6-edge cycle \u00B7 4 matches",
+        "Kind": "cycle",
+        "Matches": 4,
+        "Size": 6
+      },
+      {
+        "Name": "M026 \u00B7 6-edge cycle \u00B7 3 matches",
+        "Kind": "cycle",
+        "Matches": 3,
+        "Size": 6
+      },
+      {
+        "Name": "M027 \u00B7 2-edge walk \u00B7 12 matches",
+        "Kind": "walk",
+        "Matches": 12,
+        "Size": 2
+      },
+      {
+        "Name": "M028 \u00B7 2-edge walk \u00B7 12 matches",
+        "Kind": "walk",
+        "Matches": 12,
+        "Size": 2
+      },
+      {
+        "Name": "M029 \u00B7 2-edge walk \u00B7 12 matches",
+        "Kind": "walk",
+        "Matches": 12,
+        "Size": 2
+      },
+      {
+        "Name": "M030 \u00B7 2-edge walk \u00B7 12 matches",
+        "Kind": "walk",
+        "Matches": 12,
+        "Size": 2
+      },
+      {
+        "Name": "M031 \u00B7 2-edge walk \u00B7 12 matches",
+        "Kind": "walk",
+        "Matches": 12,
+        "Size": 2
+      },
+      {
+        "Name": "M032 \u00B7 2-edge walk \u00B7 12 matches",
+        "Kind": "walk",
+        "Matches": 12,
+        "Size": 2
+      },
+      {
+        "Name": "M033 \u00B7 2-edge walk \u00B7 12 matches",
+        "Kind": "walk",
+        "Matches": 12,
+        "Size": 2
+      },
+      {
+        "Name": "M034 \u00B7 2-edge walk \u00B7 12 matches",
+        "Kind": "walk",
+        "Matches": 12,
+        "Size": 2
+      },
+      {
+        "Name": "M035 \u00B7 2-edge walk \u00B7 12 matches",
+        "Kind": "walk",
+        "Matches": 12,
+        "Size": 2
+      },
+      {
+        "Name": "M036 \u00B7 2-edge walk \u00B7 10 matches",
+        "Kind": "walk",
+        "Matches": 10,
+        "Size": 2
+      },
+      {
+        "Name": "M037 \u00B7 2-edge walk \u00B7 9 matches",
+        "Kind": "walk",
+        "Matches": 9,
+        "Size": 2
+      },
+      {
+        "Name": "M038 \u00B7 2-edge walk \u00B7 9 matches",
+        "Kind": "walk",
+        "Matches": 9,
+        "Size": 2
+      },
+      {
+        "Name": "M039 \u00B7 2-edge walk \u00B7 8 matches",
+        "Kind": "walk",
+        "Matches": 8,
+        "Size": 2
+      },
+      {
+        "Name": "M040 \u00B7 2-edge walk \u00B7 8 matches",
+        "Kind": "walk",
+        "Matches": 8,
+        "Size": 2
+      },
+      {
+        "Name": "M041 \u00B7 2-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 2
+      },
+      {
+        "Name": "M042 \u00B7 3-edge walk \u00B7 12 matches",
+        "Kind": "walk",
+        "Matches": 12,
+        "Size": 3
+      },
+      {
+        "Name": "M043 \u00B7 3-edge walk \u00B7 12 matches",
+        "Kind": "walk",
+        "Matches": 12,
+        "Size": 3
+      },
+      {
+        "Name": "M044 \u00B7 3-edge walk \u00B7 12 matches",
+        "Kind": "walk",
+        "Matches": 12,
+        "Size": 3
+      },
+      {
+        "Name": "M045 \u00B7 3-edge walk \u00B7 12 matches",
+        "Kind": "walk",
+        "Matches": 12,
+        "Size": 3
+      },
+      {
+        "Name": "M046 \u00B7 3-edge walk \u00B7 12 matches",
+        "Kind": "walk",
+        "Matches": 12,
+        "Size": 3
+      },
+      {
+        "Name": "M047 \u00B7 3-edge walk \u00B7 12 matches",
+        "Kind": "walk",
+        "Matches": 12,
+        "Size": 3
+      },
+      {
+        "Name": "M048 \u00B7 3-edge walk \u00B7 9 matches",
+        "Kind": "walk",
+        "Matches": 9,
+        "Size": 3
+      },
+      {
+        "Name": "M049 \u00B7 3-edge walk \u00B7 9 matches",
+        "Kind": "walk",
+        "Matches": 9,
+        "Size": 3
+      },
+      {
+        "Name": "M050 \u00B7 3-edge walk \u00B7 9 matches",
+        "Kind": "walk",
+        "Matches": 9,
+        "Size": 3
+      },
+      {
+        "Name": "M051 \u00B7 3-edge walk \u00B7 9 matches",
+        "Kind": "walk",
+        "Matches": 9,
+        "Size": 3
+      },
+      {
+        "Name": "M052 \u00B7 3-edge walk \u00B7 9 matches",
+        "Kind": "walk",
+        "Matches": 9,
+        "Size": 3
+      },
+      {
+        "Name": "M053 \u00B7 3-edge walk \u00B7 9 matches",
+        "Kind": "walk",
+        "Matches": 9,
+        "Size": 3
+      },
+      {
+        "Name": "M054 \u00B7 3-edge walk \u00B7 9 matches",
+        "Kind": "walk",
+        "Matches": 9,
+        "Size": 3
+      },
+      {
+        "Name": "M055 \u00B7 3-edge walk \u00B7 9 matches",
+        "Kind": "walk",
+        "Matches": 9,
+        "Size": 3
+      },
+      {
+        "Name": "M056 \u00B7 3-edge walk \u00B7 9 matches",
+        "Kind": "walk",
+        "Matches": 9,
+        "Size": 3
+      },
+      {
+        "Name": "M057 \u00B7 3-edge walk \u00B7 9 matches",
+        "Kind": "walk",
+        "Matches": 9,
+        "Size": 3
+      },
+      {
+        "Name": "M058 \u00B7 3-edge walk \u00B7 9 matches",
+        "Kind": "walk",
+        "Matches": 9,
+        "Size": 3
+      },
+      {
+        "Name": "M059 \u00B7 3-edge walk \u00B7 9 matches",
+        "Kind": "walk",
+        "Matches": 9,
+        "Size": 3
+      },
+      {
+        "Name": "M060 \u00B7 3-edge walk \u00B7 9 matches",
+        "Kind": "walk",
+        "Matches": 9,
+        "Size": 3
+      },
+      {
+        "Name": "M061 \u00B7 3-edge walk \u00B7 9 matches",
+        "Kind": "walk",
+        "Matches": 9,
+        "Size": 3
+      },
+      {
+        "Name": "M062 \u00B7 3-edge walk \u00B7 9 matches",
+        "Kind": "walk",
+        "Matches": 9,
+        "Size": 3
+      },
+      {
+        "Name": "M063 \u00B7 3-edge walk \u00B7 9 matches",
+        "Kind": "walk",
+        "Matches": 9,
+        "Size": 3
+      },
+      {
+        "Name": "M064 \u00B7 3-edge walk \u00B7 9 matches",
+        "Kind": "walk",
+        "Matches": 9,
+        "Size": 3
+      },
+      {
+        "Name": "M065 \u00B7 3-edge walk \u00B7 9 matches",
+        "Kind": "walk",
+        "Matches": 9,
+        "Size": 3
+      },
+      {
+        "Name": "M066 \u00B7 3-edge walk \u00B7 9 matches",
+        "Kind": "walk",
+        "Matches": 9,
+        "Size": 3
+      },
+      {
+        "Name": "M067 \u00B7 3-edge walk \u00B7 8 matches",
+        "Kind": "walk",
+        "Matches": 8,
+        "Size": 3
+      },
+      {
+        "Name": "M068 \u00B7 3-edge walk \u00B7 8 matches",
+        "Kind": "walk",
+        "Matches": 8,
+        "Size": 3
+      },
+      {
+        "Name": "M069 \u00B7 3-edge walk \u00B7 8 matches",
+        "Kind": "walk",
+        "Matches": 8,
+        "Size": 3
+      },
+      {
+        "Name": "M070 \u00B7 3-edge walk \u00B7 8 matches",
+        "Kind": "walk",
+        "Matches": 8,
+        "Size": 3
+      },
+      {
+        "Name": "M071 \u00B7 3-edge walk \u00B7 8 matches",
+        "Kind": "walk",
+        "Matches": 8,
+        "Size": 3
+      },
+      {
+        "Name": "M072 \u00B7 3-edge walk \u00B7 8 matches",
+        "Kind": "walk",
+        "Matches": 8,
+        "Size": 3
+      },
+      {
+        "Name": "M073 \u00B7 3-edge walk \u00B7 8 matches",
+        "Kind": "walk",
+        "Matches": 8,
+        "Size": 3
+      },
+      {
+        "Name": "M074 \u00B7 3-edge walk \u00B7 8 matches",
+        "Kind": "walk",
+        "Matches": 8,
+        "Size": 3
+      },
+      {
+        "Name": "M075 \u00B7 3-edge walk \u00B7 8 matches",
+        "Kind": "walk",
+        "Matches": 8,
+        "Size": 3
+      },
+      {
+        "Name": "M076 \u00B7 3-edge walk \u00B7 8 matches",
+        "Kind": "walk",
+        "Matches": 8,
+        "Size": 3
+      },
+      {
+        "Name": "M077 \u00B7 3-edge walk \u00B7 8 matches",
+        "Kind": "walk",
+        "Matches": 8,
+        "Size": 3
+      },
+      {
+        "Name": "M078 \u00B7 3-edge walk \u00B7 8 matches",
+        "Kind": "walk",
+        "Matches": 8,
+        "Size": 3
+      },
+      {
+        "Name": "M079 \u00B7 3-edge walk \u00B7 8 matches",
+        "Kind": "walk",
+        "Matches": 8,
+        "Size": 3
+      },
+      {
+        "Name": "M080 \u00B7 3-edge walk \u00B7 8 matches",
+        "Kind": "walk",
+        "Matches": 8,
+        "Size": 3
+      },
+      {
+        "Name": "M081 \u00B7 3-edge walk \u00B7 8 matches",
+        "Kind": "walk",
+        "Matches": 8,
+        "Size": 3
+      },
+      {
+        "Name": "M082 \u00B7 3-edge walk \u00B7 8 matches",
+        "Kind": "walk",
+        "Matches": 8,
+        "Size": 3
+      },
+      {
+        "Name": "M083 \u00B7 3-edge walk \u00B7 8 matches",
+        "Kind": "walk",
+        "Matches": 8,
+        "Size": 3
+      },
+      {
+        "Name": "M084 \u00B7 3-edge walk \u00B7 8 matches",
+        "Kind": "walk",
+        "Matches": 8,
+        "Size": 3
+      },
+      {
+        "Name": "M085 \u00B7 3-edge walk \u00B7 8 matches",
+        "Kind": "walk",
+        "Matches": 8,
+        "Size": 3
+      },
+      {
+        "Name": "M086 \u00B7 3-edge walk \u00B7 8 matches",
+        "Kind": "walk",
+        "Matches": 8,
+        "Size": 3
+      },
+      {
+        "Name": "M087 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M088 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M089 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M090 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M091 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M092 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M093 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M094 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M095 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M096 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M097 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M098 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M099 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M100 \u00B7 3-edge walk \u00B7 5 matches",
+        "Kind": "walk",
+        "Matches": 5,
+        "Size": 3
+      },
+      {
+        "Name": "M101 \u00B7 3-edge walk \u00B7 4 matches",
+        "Kind": "walk",
+        "Matches": 4,
+        "Size": 3
+      },
+      {
+        "Name": "M102 \u00B7 3-edge walk \u00B7 4 matches",
+        "Kind": "walk",
+        "Matches": 4,
+        "Size": 3
+      },
+      {
+        "Name": "M103 \u00B7 3-edge walk \u00B7 4 matches",
+        "Kind": "walk",
+        "Matches": 4,
+        "Size": 3
+      },
+      {
+        "Name": "M104 \u00B7 3-edge walk \u00B7 4 matches",
+        "Kind": "walk",
+        "Matches": 4,
+        "Size": 3
+      },
+      {
+        "Name": "M105 \u00B7 3-edge walk \u00B7 4 matches",
+        "Kind": "walk",
+        "Matches": 4,
+        "Size": 3
+      },
+      {
+        "Name": "M106 \u00B7 3-edge walk \u00B7 4 matches",
+        "Kind": "walk",
+        "Matches": 4,
+        "Size": 3
+      },
+      {
+        "Name": "M107 \u00B7 3-edge walk \u00B7 3 matches",
+        "Kind": "walk",
+        "Matches": 3,
+        "Size": 3
+      },
+      {
+        "Name": "M108 \u00B7 3-edge walk \u00B7 3 matches",
+        "Kind": "walk",
+        "Matches": 3,
+        "Size": 3
+      },
+      {
+        "Name": "M109 \u00B7 3-edge walk \u00B7 3 matches",
+        "Kind": "walk",
+        "Matches": 3,
+        "Size": 3
+      },
+      {
+        "Name": "M110 \u00B7 3-edge walk \u00B7 2 matches",
+        "Kind": "walk",
+        "Matches": 2,
+        "Size": 3
+      },
+      {
+        "Name": "M111 \u00B7 2-arm junction \u00B7 1 matches",
+        "Kind": "junction",
+        "Matches": 1,
+        "Size": 2
+      },
+      {
+        "Name": "M112 \u00B7 2-arm junction \u00B7 1 matches",
+        "Kind": "junction",
+        "Matches": 1,
+        "Size": 2
+      },
+      {
+        "Name": "M113 \u00B7 3-arm junction \u00B7 1 matches",
+        "Kind": "junction",
+        "Matches": 1,
+        "Size": 3
+      },
+      {
+        "Name": "M114 \u00B7 3-arm junction \u00B7 1 matches",
+        "Kind": "junction",
+        "Matches": 1,
+        "Size": 3
+      },
+      {
+        "Name": "M115 \u00B7 4-arm junction \u00B7 3 matches",
+        "Kind": "junction",
+        "Matches": 3,
+        "Size": 4
+      },
+      {
+        "Name": "M116 \u00B7 4-arm junction \u00B7 3 matches",
+        "Kind": "junction",
+        "Matches": 3,
+        "Size": 4
+      },
+      {
+        "Name": "M117 \u00B7 4-arm junction \u00B7 2 matches",
+        "Kind": "junction",
+        "Matches": 2,
+        "Size": 4
+      },
+      {
+        "Name": "M118 \u00B7 4-arm junction \u00B7 2 matches",
+        "Kind": "junction",
+        "Matches": 2,
+        "Size": 4
+      },
+      {
+        "Name": "M119 \u00B7 6-arm junction \u00B7 6 matches",
+        "Kind": "junction",
+        "Matches": 6,
+        "Size": 6
+      }
+    ],
+    "Interpretations": [
+      {
+        "Key": "D01",
+        "Name": "\u2192 channel \u002B \u2197 channel \u002B \u2196 channel",
+        "Kind": "basis",
+        "Covered": 43,
+        "Remainder": 0,
+        "Commutations": 29,
+        "Triangles": 24,
+        "Unexpected": 0,
+        "Boundary": 4,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": 886,
+        "MotifStraddling": 0,
+        "Refinements": 0
+      },
+      {
+        "Key": "D02",
+        "Name": "\u2192 channel \u002B \u2197 channel",
+        "Kind": "basis",
+        "Covered": 31,
+        "Remainder": 12,
+        "Commutations": 12,
+        "Triangles": 0,
+        "Unexpected": 24,
+        "Boundary": 0,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": 264,
+        "MotifStraddling": 614,
+        "Refinements": 1
+      },
+      {
+        "Key": "D03",
+        "Name": "\u2192 channel \u002B \u2199 / \u2196 two-phase flow",
+        "Kind": "basis",
+        "Covered": 43,
+        "Remainder": 0,
+        "Commutations": 9,
+        "Triangles": 24,
+        "Unexpected": 0,
+        "Boundary": 0,
+        "Branches": 8,
+        "Unsettled": 0,
+        "MotifContained": 886,
+        "MotifStraddling": 0,
+        "Refinements": 0
+      },
+      {
+        "Key": "D04",
+        "Name": "\u2192 channel \u002B \u2196 channel",
+        "Kind": "basis",
+        "Covered": 28,
+        "Remainder": 15,
+        "Commutations": 9,
+        "Triangles": 0,
+        "Unexpected": 24,
+        "Boundary": 0,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": 205,
+        "MotifStraddling": 666,
+        "Refinements": 1
+      },
+      {
+        "Key": "D05",
+        "Name": "\u2197 channel \u002B \u2190 / \u2198 two-phase flow",
+        "Kind": "basis",
+        "Covered": 43,
+        "Remainder": 0,
+        "Commutations": 8,
+        "Triangles": 24,
+        "Unexpected": 0,
+        "Boundary": 0,
+        "Branches": 9,
+        "Unsettled": 0,
+        "MotifContained": 886,
+        "MotifStraddling": 0,
+        "Refinements": 0
+      },
+      {
+        "Key": "D06",
+        "Name": "\u2197 channel \u002B \u2196 channel",
+        "Kind": "basis",
+        "Covered": 27,
+        "Remainder": 16,
+        "Commutations": 8,
+        "Triangles": 0,
+        "Unexpected": 24,
+        "Boundary": 4,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": 180,
+        "MotifStraddling": 686,
+        "Refinements": 1
+      },
+      {
+        "Key": "D07",
+        "Name": "\u2192 channel \u002B \u2197 / \u2198 two-phase flow",
+        "Kind": "basis",
+        "Covered": 43,
+        "Remainder": 0,
+        "Commutations": 7,
+        "Triangles": 24,
+        "Unexpected": 0,
+        "Boundary": 1,
+        "Branches": 8,
+        "Unsettled": 0,
+        "MotifContained": 886,
+        "MotifStraddling": 0,
+        "Refinements": 0
+      },
+      {
+        "Key": "D08",
+        "Name": "\u2197 channel \u002B \u2192 / \u2196 two-phase flow",
+        "Kind": "basis",
+        "Covered": 43,
+        "Remainder": 0,
+        "Commutations": 5,
+        "Triangles": 24,
+        "Unexpected": 0,
+        "Boundary": 1,
+        "Branches": 9,
+        "Unsettled": 0,
+        "MotifContained": 886,
+        "MotifStraddling": 0,
+        "Refinements": 0
+      },
+      {
+        "Key": "D09",
+        "Name": "\u2196 channel \u002B \u2192 / \u2199 two-phase flow",
+        "Kind": "basis",
+        "Covered": 43,
+        "Remainder": 0,
+        "Commutations": 5,
+        "Triangles": 24,
+        "Unexpected": 0,
+        "Boundary": 0,
+        "Branches": 12,
+        "Unsettled": 0,
+        "MotifContained": 886,
+        "MotifStraddling": 0,
+        "Refinements": 0
+      },
+      {
+        "Key": "D10",
+        "Name": "\u2197 channel \u002B \u2192 / \u2198 two-phase flow",
+        "Kind": "basis",
+        "Covered": 43,
+        "Remainder": 0,
+        "Commutations": 4,
+        "Triangles": 24,
+        "Unexpected": 0,
+        "Boundary": 0,
+        "Branches": 12,
+        "Unsettled": 0,
+        "MotifContained": 886,
+        "MotifStraddling": 0,
+        "Refinements": 0
+      },
+      {
+        "Key": "D11",
+        "Name": "\u2196 channel \u002B \u2190 / \u2199 two-phase flow",
+        "Kind": "basis",
+        "Covered": 43,
+        "Remainder": 0,
+        "Commutations": 3,
+        "Triangles": 24,
+        "Unexpected": 0,
+        "Boundary": 1,
+        "Branches": 12,
+        "Unsettled": 0,
+        "MotifContained": 886,
+        "MotifStraddling": 0,
+        "Refinements": 0
+      },
+      {
+        "Key": "D12",
+        "Name": "\u2196 channel \u002B \u2192 / \u2197 two-phase flow",
+        "Kind": "basis",
+        "Covered": 43,
+        "Remainder": 0,
+        "Commutations": 2,
+        "Triangles": 24,
+        "Unexpected": 0,
+        "Boundary": 1,
+        "Branches": 12,
+        "Unsettled": 0,
+        "MotifContained": 886,
+        "MotifStraddling": 0,
+        "Refinements": 0
+      },
+      {
+        "Key": "D13",
+        "Name": "\u2196 channel \u002B \u2190 / \u2197 two-phase flow",
+        "Kind": "basis",
+        "Covered": 43,
+        "Remainder": 0,
+        "Commutations": 0,
+        "Triangles": 24,
+        "Unexpected": 0,
+        "Boundary": 0,
+        "Branches": 12,
+        "Unsettled": 0,
+        "MotifContained": 886,
+        "MotifStraddling": 0,
+        "Refinements": 0
+      },
+      {
+        "Key": "D14",
+        "Name": "\u2197 channel \u002B \u2190 / \u2196 two-phase flow",
+        "Kind": "basis",
+        "Covered": 43,
+        "Remainder": 0,
+        "Commutations": 0,
+        "Triangles": 24,
+        "Unexpected": 0,
+        "Boundary": 0,
+        "Branches": 12,
+        "Unsettled": 0,
+        "MotifContained": 886,
+        "MotifStraddling": 0,
+        "Refinements": 0
+      },
+      {
+        "Key": "D15",
+        "Name": "\u2192 / \u2196 two-phase flow",
+        "Kind": "rhythm",
+        "Covered": 28,
+        "Remainder": 15,
+        "Commutations": 0,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 8,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": null,
+        "MotifStraddling": null,
+        "Refinements": null
+      },
+      {
+        "Key": "D16",
+        "Name": "\u2190 / \u2198 two-phase flow",
+        "Kind": "rhythm",
+        "Covered": 28,
+        "Remainder": 15,
+        "Commutations": 0,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 8,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": null,
+        "MotifStraddling": null,
+        "Refinements": null
+      },
+      {
+        "Key": "D17",
+        "Name": "\u2192 / \u2197 two-phase flow",
+        "Kind": "rhythm",
+        "Covered": 27,
+        "Remainder": 16,
+        "Commutations": 0,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 14,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": null,
+        "MotifStraddling": null,
+        "Refinements": null
+      },
+      {
+        "Key": "D18",
+        "Name": "\u2192 / \u2199 two-phase flow",
+        "Kind": "rhythm",
+        "Covered": 27,
+        "Remainder": 16,
+        "Commutations": 0,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 14,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": null,
+        "MotifStraddling": null,
+        "Refinements": null
+      },
+      {
+        "Key": "D19",
+        "Name": "\u2190 / \u2197 two-phase flow",
+        "Kind": "rhythm",
+        "Covered": 27,
+        "Remainder": 16,
+        "Commutations": 0,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 14,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": null,
+        "MotifStraddling": null,
+        "Refinements": null
+      },
+      {
+        "Key": "D20",
+        "Name": "\u2190 / \u2199 two-phase flow",
+        "Kind": "rhythm",
+        "Covered": 27,
+        "Remainder": 16,
+        "Commutations": 0,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 14,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": null,
+        "MotifStraddling": null,
+        "Refinements": null
+      },
+      {
+        "Key": "D21",
+        "Name": "\u2197 / \u2198 two-phase flow",
+        "Kind": "rhythm",
+        "Covered": 27,
+        "Remainder": 16,
+        "Commutations": 0,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 6,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": null,
+        "MotifStraddling": null,
+        "Refinements": null
+      },
+      {
+        "Key": "D22",
+        "Name": "\u2199 / \u2196 two-phase flow",
+        "Kind": "rhythm",
+        "Covered": 27,
+        "Remainder": 16,
+        "Commutations": 0,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 6,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": null,
+        "MotifStraddling": null,
+        "Refinements": null
+      },
+      {
+        "Key": "D23",
+        "Name": "\u2192 / \u2198 two-phase flow",
+        "Kind": "rhythm",
+        "Covered": 16,
+        "Remainder": 27,
+        "Commutations": 0,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 18,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": null,
+        "MotifStraddling": null,
+        "Refinements": null
+      },
+      {
+        "Key": "D24",
+        "Name": "\u2190 / \u2196 two-phase flow",
+        "Kind": "rhythm",
+        "Covered": 16,
+        "Remainder": 27,
+        "Commutations": 0,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 18,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": null,
+        "MotifStraddling": null,
+        "Refinements": null
+      }
+    ]
+  },
+  {
+    "Id": "R05",
+    "Name": "Alternating offset rows",
+    "Sites": 25,
+    "Segments": 40,
+    "Search": "Local search: 3177 / 20000 expansions; 387 / 3000 retained occurrences, 64 families. Walks \u22643 edges; cycles \u22646. Selected scope exhausted.",
+    "MotifComplete": true,
+    "DispositionComplete": true,
+    "Motifs": [
+      {
+        "Name": "M001 \u00B7 4-edge cycle \u00B7 8 matches",
+        "Kind": "cycle",
+        "Matches": 8,
+        "Size": 4
+      },
+      {
+        "Name": "M002 \u00B7 4-edge cycle \u00B7 8 matches",
+        "Kind": "cycle",
+        "Matches": 8,
+        "Size": 4
+      },
+      {
+        "Name": "M003 \u00B7 6-edge cycle \u00B7 8 matches",
+        "Kind": "cycle",
+        "Matches": 8,
+        "Size": 6
+      },
+      {
+        "Name": "M004 \u00B7 6-edge cycle \u00B7 6 matches",
+        "Kind": "cycle",
+        "Matches": 6,
+        "Size": 6
+      },
+      {
+        "Name": "M005 \u00B7 6-edge cycle \u00B7 6 matches",
+        "Kind": "cycle",
+        "Matches": 6,
+        "Size": 6
+      },
+      {
+        "Name": "M006 \u00B7 6-edge cycle \u00B7 4 matches",
+        "Kind": "cycle",
+        "Matches": 4,
+        "Size": 6
+      },
+      {
+        "Name": "M007 \u00B7 2-edge walk \u00B7 15 matches",
+        "Kind": "walk",
+        "Matches": 15,
+        "Size": 2
+      },
+      {
+        "Name": "M008 \u00B7 2-edge walk \u00B7 10 matches",
+        "Kind": "walk",
+        "Matches": 10,
+        "Size": 2
+      },
+      {
+        "Name": "M009 \u00B7 2-edge walk \u00B7 8 matches",
+        "Kind": "walk",
+        "Matches": 8,
+        "Size": 2
+      },
+      {
+        "Name": "M010 \u00B7 2-edge walk \u00B7 8 matches",
+        "Kind": "walk",
+        "Matches": 8,
+        "Size": 2
+      },
+      {
+        "Name": "M011 \u00B7 2-edge walk \u00B7 8 matches",
+        "Kind": "walk",
+        "Matches": 8,
+        "Size": 2
+      },
+      {
+        "Name": "M012 \u00B7 2-edge walk \u00B7 8 matches",
+        "Kind": "walk",
+        "Matches": 8,
+        "Size": 2
+      },
+      {
+        "Name": "M013 \u00B7 2-edge walk \u00B7 8 matches",
+        "Kind": "walk",
+        "Matches": 8,
+        "Size": 2
+      },
+      {
+        "Name": "M014 \u00B7 2-edge walk \u00B7 8 matches",
+        "Kind": "walk",
+        "Matches": 8,
+        "Size": 2
+      },
+      {
+        "Name": "M015 \u00B7 2-edge walk \u00B7 8 matches",
+        "Kind": "walk",
+        "Matches": 8,
+        "Size": 2
+      },
+      {
+        "Name": "M016 \u00B7 2-edge walk \u00B7 8 matches",
+        "Kind": "walk",
+        "Matches": 8,
+        "Size": 2
+      },
+      {
+        "Name": "M017 \u00B7 2-edge walk \u00B7 5 matches",
+        "Kind": "walk",
+        "Matches": 5,
+        "Size": 2
+      },
+      {
+        "Name": "M018 \u00B7 3-edge walk \u00B7 10 matches",
+        "Kind": "walk",
+        "Matches": 10,
+        "Size": 3
+      },
+      {
+        "Name": "M019 \u00B7 3-edge walk \u00B7 8 matches",
+        "Kind": "walk",
+        "Matches": 8,
+        "Size": 3
+      },
+      {
+        "Name": "M020 \u00B7 3-edge walk \u00B7 8 matches",
+        "Kind": "walk",
+        "Matches": 8,
+        "Size": 3
+      },
+      {
+        "Name": "M021 \u00B7 3-edge walk \u00B7 8 matches",
+        "Kind": "walk",
+        "Matches": 8,
+        "Size": 3
+      },
+      {
+        "Name": "M022 \u00B7 3-edge walk \u00B7 8 matches",
+        "Kind": "walk",
+        "Matches": 8,
+        "Size": 3
+      },
+      {
+        "Name": "M023 \u00B7 3-edge walk \u00B7 8 matches",
+        "Kind": "walk",
+        "Matches": 8,
+        "Size": 3
+      },
+      {
+        "Name": "M024 \u00B7 3-edge walk \u00B7 8 matches",
+        "Kind": "walk",
+        "Matches": 8,
+        "Size": 3
+      },
+      {
+        "Name": "M025 \u00B7 3-edge walk \u00B7 8 matches",
+        "Kind": "walk",
+        "Matches": 8,
+        "Size": 3
+      },
+      {
+        "Name": "M026 \u00B7 3-edge walk \u00B7 8 matches",
+        "Kind": "walk",
+        "Matches": 8,
+        "Size": 3
+      },
+      {
+        "Name": "M027 \u00B7 3-edge walk \u00B7 8 matches",
+        "Kind": "walk",
+        "Matches": 8,
+        "Size": 3
+      },
+      {
+        "Name": "M028 \u00B7 3-edge walk \u00B7 8 matches",
+        "Kind": "walk",
+        "Matches": 8,
+        "Size": 3
+      },
+      {
+        "Name": "M029 \u00B7 3-edge walk \u00B7 8 matches",
+        "Kind": "walk",
+        "Matches": 8,
+        "Size": 3
+      },
+      {
+        "Name": "M030 \u00B7 3-edge walk \u00B7 8 matches",
+        "Kind": "walk",
+        "Matches": 8,
+        "Size": 3
+      },
+      {
+        "Name": "M031 \u00B7 3-edge walk \u00B7 8 matches",
+        "Kind": "walk",
+        "Matches": 8,
+        "Size": 3
+      },
+      {
+        "Name": "M032 \u00B7 3-edge walk \u00B7 8 matches",
+        "Kind": "walk",
+        "Matches": 8,
+        "Size": 3
+      },
+      {
+        "Name": "M033 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M034 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M035 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M036 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M037 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M038 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M039 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M040 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M041 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M042 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M043 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M044 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M045 \u00B7 3-edge walk \u00B7 5 matches",
+        "Kind": "walk",
+        "Matches": 5,
+        "Size": 3
+      },
+      {
+        "Name": "M046 \u00B7 3-edge walk \u00B7 5 matches",
+        "Kind": "walk",
+        "Matches": 5,
+        "Size": 3
+      },
+      {
+        "Name": "M047 \u00B7 3-edge walk \u00B7 4 matches",
+        "Kind": "walk",
+        "Matches": 4,
+        "Size": 3
+      },
+      {
+        "Name": "M048 \u00B7 3-edge walk \u00B7 4 matches",
+        "Kind": "walk",
+        "Matches": 4,
+        "Size": 3
+      },
+      {
+        "Name": "M049 \u00B7 3-edge walk \u00B7 4 matches",
+        "Kind": "walk",
+        "Matches": 4,
+        "Size": 3
+      },
+      {
+        "Name": "M050 \u00B7 3-edge walk \u00B7 4 matches",
+        "Kind": "walk",
+        "Matches": 4,
+        "Size": 3
+      },
+      {
+        "Name": "M051 \u00B7 3-edge walk \u00B7 4 matches",
+        "Kind": "walk",
+        "Matches": 4,
+        "Size": 3
+      },
+      {
+        "Name": "M052 \u00B7 3-edge walk \u00B7 4 matches",
+        "Kind": "walk",
+        "Matches": 4,
+        "Size": 3
+      },
+      {
+        "Name": "M053 \u00B7 2-arm junction \u00B7 1 matches",
+        "Kind": "junction",
+        "Matches": 1,
+        "Size": 2
+      },
+      {
+        "Name": "M054 \u00B7 2-arm junction \u00B7 1 matches",
+        "Kind": "junction",
+        "Matches": 1,
+        "Size": 2
+      },
+      {
+        "Name": "M055 \u00B7 2-arm junction \u00B7 1 matches",
+        "Kind": "junction",
+        "Matches": 1,
+        "Size": 2
+      },
+      {
+        "Name": "M056 \u00B7 2-arm junction \u00B7 1 matches",
+        "Kind": "junction",
+        "Matches": 1,
+        "Size": 2
+      },
+      {
+        "Name": "M057 \u00B7 3-arm junction \u00B7 3 matches",
+        "Kind": "junction",
+        "Matches": 3,
+        "Size": 3
+      },
+      {
+        "Name": "M058 \u00B7 3-arm junction \u00B7 3 matches",
+        "Kind": "junction",
+        "Matches": 3,
+        "Size": 3
+      },
+      {
+        "Name": "M059 \u00B7 3-arm junction \u00B7 2 matches",
+        "Kind": "junction",
+        "Matches": 2,
+        "Size": 3
+      },
+      {
+        "Name": "M060 \u00B7 3-arm junction \u00B7 2 matches",
+        "Kind": "junction",
+        "Matches": 2,
+        "Size": 3
+      },
+      {
+        "Name": "M061 \u00B7 3-arm junction \u00B7 1 matches",
+        "Kind": "junction",
+        "Matches": 1,
+        "Size": 3
+      },
+      {
+        "Name": "M062 \u00B7 3-arm junction \u00B7 1 matches",
+        "Kind": "junction",
+        "Matches": 1,
+        "Size": 3
+      },
+      {
+        "Name": "M063 \u00B7 4-arm junction \u00B7 6 matches",
+        "Kind": "junction",
+        "Matches": 6,
+        "Size": 4
+      },
+      {
+        "Name": "M064 \u00B7 4-arm junction \u00B7 3 matches",
+        "Kind": "junction",
+        "Matches": 3,
+        "Size": 4
+      }
+    ],
+    "Interpretations": [
+      {
+        "Key": "D01",
+        "Name": "\u2192 channel \u002B \u2197 channel \u002B \u2196 channel",
+        "Kind": "basis",
+        "Covered": 40,
+        "Remainder": 0,
+        "Commutations": 16,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 0,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": 387,
+        "MotifStraddling": 0,
+        "Refinements": 0
+      },
+      {
+        "Key": "D02",
+        "Name": "\u2192 channel \u002B \u2197 / \u2196 two-phase flow",
+        "Kind": "basis",
+        "Covered": 40,
+        "Remainder": 0,
+        "Commutations": 16,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 0,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": 387,
+        "MotifStraddling": 0,
+        "Refinements": 0
+      },
+      {
+        "Key": "D03",
+        "Name": "\u2192 channel \u002B \u2199 / \u2198 two-phase flow",
+        "Kind": "basis",
+        "Covered": 40,
+        "Remainder": 0,
+        "Commutations": 16,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 0,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": 387,
+        "MotifStraddling": 0,
+        "Refinements": 0
+      },
+      {
+        "Key": "D04",
+        "Name": "\u2192 channel \u002B \u2197 channel",
+        "Kind": "basis",
+        "Covered": 30,
+        "Remainder": 10,
+        "Commutations": 8,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 0,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": 144,
+        "MotifStraddling": 243,
+        "Refinements": 3
+      },
+      {
+        "Key": "D05",
+        "Name": "\u2192 channel \u002B \u2196 channel",
+        "Kind": "basis",
+        "Covered": 30,
+        "Remainder": 10,
+        "Commutations": 8,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 0,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": 144,
+        "MotifStraddling": 243,
+        "Refinements": 3
+      },
+      {
+        "Key": "D06",
+        "Name": "\u2197 channel \u002B \u2196 channel",
+        "Kind": "basis",
+        "Covered": 20,
+        "Remainder": 20,
+        "Commutations": 0,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 0,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": 25,
+        "MotifStraddling": 337,
+        "Refinements": 3
+      },
+      {
+        "Key": "D07",
+        "Name": "\u2197 / \u2196 two-phase flow",
+        "Kind": "rhythm",
+        "Covered": 20,
+        "Remainder": 20,
+        "Commutations": 0,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 10,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": null,
+        "MotifStraddling": null,
+        "Refinements": null
+      },
+      {
+        "Key": "D08",
+        "Name": "\u2199 / \u2198 two-phase flow",
+        "Kind": "rhythm",
+        "Covered": 20,
+        "Remainder": 20,
+        "Commutations": 0,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 10,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": null,
+        "MotifStraddling": null,
+        "Refinements": null
+      }
+    ]
+  },
+  {
+    "Id": "R06",
+    "Name": "Zigzag strips",
+    "Sites": 39,
+    "Segments": 36,
+    "Search": "Local search: 408 / 20000 expansions; 102 / 3000 retained occurrences, 8 families. Walks \u22643 edges; cycles \u22646. Selected scope exhausted.",
+    "MotifComplete": true,
+    "DispositionComplete": true,
+    "Motifs": [
+      {
+        "Name": "M001 \u00B7 2-edge walk \u00B7 18 matches",
+        "Kind": "walk",
+        "Matches": 18,
+        "Size": 2
+      },
+      {
+        "Name": "M002 \u00B7 2-edge walk \u00B7 15 matches",
+        "Kind": "walk",
+        "Matches": 15,
+        "Size": 2
+      },
+      {
+        "Name": "M003 \u00B7 3-edge walk \u00B7 15 matches",
+        "Kind": "walk",
+        "Matches": 15,
+        "Size": 3
+      },
+      {
+        "Name": "M004 \u00B7 3-edge walk \u00B7 15 matches",
+        "Kind": "walk",
+        "Matches": 15,
+        "Size": 3
+      },
+      {
+        "Name": "M005 \u00B7 1-arm junction \u00B7 3 matches",
+        "Kind": "junction",
+        "Matches": 3,
+        "Size": 1
+      },
+      {
+        "Name": "M006 \u00B7 1-arm junction \u00B7 3 matches",
+        "Kind": "junction",
+        "Matches": 3,
+        "Size": 1
+      },
+      {
+        "Name": "M007 \u00B7 2-arm junction \u00B7 18 matches",
+        "Kind": "junction",
+        "Matches": 18,
+        "Size": 2
+      },
+      {
+        "Name": "M008 \u00B7 2-arm junction \u00B7 15 matches",
+        "Kind": "junction",
+        "Matches": 15,
+        "Size": 2
+      }
+    ],
+    "Interpretations": [
+      {
+        "Key": "D01",
+        "Name": "\u2197 channel \u002B \u2198 channel",
+        "Kind": "basis",
+        "Covered": 36,
+        "Remainder": 0,
+        "Commutations": 0,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 0,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": 102,
+        "MotifStraddling": 0,
+        "Refinements": 0
+      },
+      {
+        "Key": "D02",
+        "Name": "\u2197 / \u2198 two-phase flow",
+        "Kind": "rhythm",
+        "Covered": 36,
+        "Remainder": 0,
+        "Commutations": 0,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 6,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": null,
+        "MotifStraddling": null,
+        "Refinements": null
+      },
+      {
+        "Key": "D03",
+        "Name": "\u2199 / \u2196 two-phase flow",
+        "Kind": "rhythm",
+        "Covered": 36,
+        "Remainder": 0,
+        "Commutations": 0,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 6,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": null,
+        "MotifStraddling": null,
+        "Refinements": null
+      }
+    ]
+  },
+  {
+    "Id": "R07",
+    "Name": "Hexagonal mesh",
+    "Sites": 30,
+    "Segments": 38,
+    "Search": "Local search: 893 / 20000 expansions; 204 / 3000 retained occurrences, 27 families. Walks \u22643 edges; cycles \u22646. Selected scope exhausted.",
+    "MotifComplete": true,
+    "DispositionComplete": true,
+    "Motifs": [
+      {
+        "Name": "M001 \u00B7 6-edge cycle \u00B7 9 matches",
+        "Kind": "cycle",
+        "Matches": 9,
+        "Size": 6
+      },
+      {
+        "Name": "M002 \u00B7 2-edge walk \u00B7 11 matches",
+        "Kind": "walk",
+        "Matches": 11,
+        "Size": 2
+      },
+      {
+        "Name": "M003 \u00B7 2-edge walk \u00B7 11 matches",
+        "Kind": "walk",
+        "Matches": 11,
+        "Size": 2
+      },
+      {
+        "Name": "M004 \u00B7 2-edge walk \u00B7 10 matches",
+        "Kind": "walk",
+        "Matches": 10,
+        "Size": 2
+      },
+      {
+        "Name": "M005 \u00B7 2-edge walk \u00B7 10 matches",
+        "Kind": "walk",
+        "Matches": 10,
+        "Size": 2
+      },
+      {
+        "Name": "M006 \u00B7 2-edge walk \u00B7 10 matches",
+        "Kind": "walk",
+        "Matches": 10,
+        "Size": 2
+      },
+      {
+        "Name": "M007 \u00B7 2-edge walk \u00B7 10 matches",
+        "Kind": "walk",
+        "Matches": 10,
+        "Size": 2
+      },
+      {
+        "Name": "M008 \u00B7 3-edge walk \u00B7 10 matches",
+        "Kind": "walk",
+        "Matches": 10,
+        "Size": 3
+      },
+      {
+        "Name": "M009 \u00B7 3-edge walk \u00B7 9 matches",
+        "Kind": "walk",
+        "Matches": 9,
+        "Size": 3
+      },
+      {
+        "Name": "M010 \u00B7 3-edge walk \u00B7 9 matches",
+        "Kind": "walk",
+        "Matches": 9,
+        "Size": 3
+      },
+      {
+        "Name": "M011 \u00B7 3-edge walk \u00B7 9 matches",
+        "Kind": "walk",
+        "Matches": 9,
+        "Size": 3
+      },
+      {
+        "Name": "M012 \u00B7 3-edge walk \u00B7 9 matches",
+        "Kind": "walk",
+        "Matches": 9,
+        "Size": 3
+      },
+      {
+        "Name": "M013 \u00B7 3-edge walk \u00B7 9 matches",
+        "Kind": "walk",
+        "Matches": 9,
+        "Size": 3
+      },
+      {
+        "Name": "M014 \u00B7 3-edge walk \u00B7 9 matches",
+        "Kind": "walk",
+        "Matches": 9,
+        "Size": 3
+      },
+      {
+        "Name": "M015 \u00B7 3-edge walk \u00B7 9 matches",
+        "Kind": "walk",
+        "Matches": 9,
+        "Size": 3
+      },
+      {
+        "Name": "M016 \u00B7 3-edge walk \u00B7 8 matches",
+        "Kind": "walk",
+        "Matches": 8,
+        "Size": 3
+      },
+      {
+        "Name": "M017 \u00B7 3-edge walk \u00B7 8 matches",
+        "Kind": "walk",
+        "Matches": 8,
+        "Size": 3
+      },
+      {
+        "Name": "M018 \u00B7 3-edge walk \u00B7 7 matches",
+        "Kind": "walk",
+        "Matches": 7,
+        "Size": 3
+      },
+      {
+        "Name": "M019 \u00B7 3-edge walk \u00B7 7 matches",
+        "Kind": "walk",
+        "Matches": 7,
+        "Size": 3
+      },
+      {
+        "Name": "M020 \u00B7 2-arm junction \u00B7 3 matches",
+        "Kind": "junction",
+        "Matches": 3,
+        "Size": 2
+      },
+      {
+        "Name": "M021 \u00B7 2-arm junction \u00B7 3 matches",
+        "Kind": "junction",
+        "Matches": 3,
+        "Size": 2
+      },
+      {
+        "Name": "M022 \u00B7 2-arm junction \u00B7 2 matches",
+        "Kind": "junction",
+        "Matches": 2,
+        "Size": 2
+      },
+      {
+        "Name": "M023 \u00B7 2-arm junction \u00B7 2 matches",
+        "Kind": "junction",
+        "Matches": 2,
+        "Size": 2
+      },
+      {
+        "Name": "M024 \u00B7 2-arm junction \u00B7 2 matches",
+        "Kind": "junction",
+        "Matches": 2,
+        "Size": 2
+      },
+      {
+        "Name": "M025 \u00B7 2-arm junction \u00B7 2 matches",
+        "Kind": "junction",
+        "Matches": 2,
+        "Size": 2
+      },
+      {
+        "Name": "M026 \u00B7 3-arm junction \u00B7 8 matches",
+        "Kind": "junction",
+        "Matches": 8,
+        "Size": 3
+      },
+      {
+        "Name": "M027 \u00B7 3-arm junction \u00B7 8 matches",
+        "Kind": "junction",
+        "Matches": 8,
+        "Size": 3
+      }
+    ],
+    "Interpretations": [
+      {
+        "Key": "D01",
+        "Name": "\u2196 channel \u002B \u2190 channel \u002B \u2199 channel",
+        "Kind": "basis",
+        "Covered": 38,
+        "Remainder": 0,
+        "Commutations": 0,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 11,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": 204,
+        "MotifStraddling": 0,
+        "Refinements": 0
+      },
+      {
+        "Key": "D02",
+        "Name": "\u2199 channel \u002B \u2196 / \u2190 two-phase flow",
+        "Kind": "basis",
+        "Covered": 38,
+        "Remainder": 0,
+        "Commutations": 0,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 11,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": 204,
+        "MotifStraddling": 0,
+        "Refinements": 0
+      },
+      {
+        "Key": "D03",
+        "Name": "\u2190 channel \u002B \u2196 / \u2197 two-phase flow",
+        "Kind": "basis",
+        "Covered": 38,
+        "Remainder": 0,
+        "Commutations": 0,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 10,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": 204,
+        "MotifStraddling": 0,
+        "Refinements": 0
+      },
+      {
+        "Key": "D04",
+        "Name": "\u2199 channel \u002B \u2198 / \u2192 two-phase flow",
+        "Kind": "basis",
+        "Covered": 38,
+        "Remainder": 0,
+        "Commutations": 0,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 10,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": 204,
+        "MotifStraddling": 0,
+        "Refinements": 0
+      },
+      {
+        "Key": "D05",
+        "Name": "\u2190 channel \u002B \u2198 / \u2199 two-phase flow",
+        "Kind": "basis",
+        "Covered": 38,
+        "Remainder": 0,
+        "Commutations": 0,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 10,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": 204,
+        "MotifStraddling": 0,
+        "Refinements": 0
+      },
+      {
+        "Key": "D06",
+        "Name": "\u2196 channel \u002B \u2190 / \u2199 two-phase flow",
+        "Kind": "basis",
+        "Covered": 38,
+        "Remainder": 0,
+        "Commutations": 0,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 11,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": 204,
+        "MotifStraddling": 0,
+        "Refinements": 0
+      },
+      {
+        "Key": "D07",
+        "Name": "\u2196 channel \u002B \u2192 / \u2197 two-phase flow",
+        "Kind": "basis",
+        "Covered": 38,
+        "Remainder": 0,
+        "Commutations": 0,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 10,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": 204,
+        "MotifStraddling": 0,
+        "Refinements": 0
+      },
+      {
+        "Key": "D08",
+        "Name": "\u2196 channel \u002B \u2199 channel",
+        "Kind": "basis",
+        "Covered": 26,
+        "Remainder": 12,
+        "Commutations": 0,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 11,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": 46,
+        "MotifStraddling": 158,
+        "Refinements": 7
+      },
+      {
+        "Key": "D09",
+        "Name": "\u2196 / \u2197 two-phase flow",
+        "Kind": "rhythm",
+        "Covered": 26,
+        "Remainder": 12,
+        "Commutations": 0,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 8,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": null,
+        "MotifStraddling": null,
+        "Refinements": null
+      },
+      {
+        "Key": "D10",
+        "Name": "\u2198 / \u2199 two-phase flow",
+        "Kind": "rhythm",
+        "Covered": 26,
+        "Remainder": 12,
+        "Commutations": 0,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 8,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": null,
+        "MotifStraddling": null,
+        "Refinements": null
+      },
+      {
+        "Key": "D11",
+        "Name": "\u2196 channel \u002B \u2190 channel",
+        "Kind": "basis",
+        "Covered": 25,
+        "Remainder": 13,
+        "Commutations": 0,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 0,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": 39,
+        "MotifStraddling": 165,
+        "Refinements": 7
+      },
+      {
+        "Key": "D12",
+        "Name": "\u2190 channel \u002B \u2199 channel",
+        "Kind": "basis",
+        "Covered": 25,
+        "Remainder": 13,
+        "Commutations": 0,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 0,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": 39,
+        "MotifStraddling": 165,
+        "Refinements": 7
+      },
+      {
+        "Key": "D13",
+        "Name": "\u2196 / \u2190 two-phase flow",
+        "Kind": "rhythm",
+        "Covered": 23,
+        "Remainder": 15,
+        "Commutations": 0,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 10,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": null,
+        "MotifStraddling": null,
+        "Refinements": null
+      },
+      {
+        "Key": "D14",
+        "Name": "\u2198 / \u2192 two-phase flow",
+        "Kind": "rhythm",
+        "Covered": 23,
+        "Remainder": 15,
+        "Commutations": 0,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 10,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": null,
+        "MotifStraddling": null,
+        "Refinements": null
+      },
+      {
+        "Key": "D15",
+        "Name": "\u2190 / \u2199 two-phase flow",
+        "Kind": "rhythm",
+        "Covered": 23,
+        "Remainder": 15,
+        "Commutations": 0,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 10,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": null,
+        "MotifStraddling": null,
+        "Refinements": null
+      },
+      {
+        "Key": "D16",
+        "Name": "\u2192 / \u2197 two-phase flow",
+        "Kind": "rhythm",
+        "Covered": 23,
+        "Remainder": 15,
+        "Commutations": 0,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 10,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": null,
+        "MotifStraddling": null,
+        "Refinements": null
+      }
+    ]
+  },
+  {
+    "Id": "R08",
+    "Name": "Grid and isolated diamonds",
+    "Sites": 68,
+    "Segments": 79,
+    "Search": "Local search: 2449 / 20000 expansions; 438 / 3000 retained occurrences, 49 families. Walks \u22643 edges; cycles \u22646. Selected scope exhausted.",
+    "MotifComplete": true,
+    "DispositionComplete": true,
+    "Motifs": [
+      {
+        "Name": "M001 \u00B7 4-edge cycle \u00B7 12 matches",
+        "Kind": "cycle",
+        "Matches": 12,
+        "Size": 4
+      },
+      {
+        "Name": "M002 \u00B7 4-edge cycle \u00B7 12 matches",
+        "Kind": "cycle",
+        "Matches": 12,
+        "Size": 4
+      },
+      {
+        "Name": "M003 \u00B7 6-edge cycle \u00B7 9 matches",
+        "Kind": "cycle",
+        "Matches": 9,
+        "Size": 6
+      },
+      {
+        "Name": "M004 \u00B7 6-edge cycle \u00B7 8 matches",
+        "Kind": "cycle",
+        "Matches": 8,
+        "Size": 6
+      },
+      {
+        "Name": "M005 \u00B7 2-edge walk \u00B7 12 matches",
+        "Kind": "walk",
+        "Matches": 12,
+        "Size": 2
+      },
+      {
+        "Name": "M006 \u00B7 2-edge walk \u00B7 12 matches",
+        "Kind": "walk",
+        "Matches": 12,
+        "Size": 2
+      },
+      {
+        "Name": "M007 \u00B7 2-edge walk \u00B7 12 matches",
+        "Kind": "walk",
+        "Matches": 12,
+        "Size": 2
+      },
+      {
+        "Name": "M008 \u00B7 2-edge walk \u00B7 12 matches",
+        "Kind": "walk",
+        "Matches": 12,
+        "Size": 2
+      },
+      {
+        "Name": "M009 \u00B7 2-edge walk \u00B7 12 matches",
+        "Kind": "walk",
+        "Matches": 12,
+        "Size": 2
+      },
+      {
+        "Name": "M010 \u00B7 2-edge walk \u00B7 12 matches",
+        "Kind": "walk",
+        "Matches": 12,
+        "Size": 2
+      },
+      {
+        "Name": "M011 \u00B7 2-edge walk \u00B7 12 matches",
+        "Kind": "walk",
+        "Matches": 12,
+        "Size": 2
+      },
+      {
+        "Name": "M012 \u00B7 2-edge walk \u00B7 12 matches",
+        "Kind": "walk",
+        "Matches": 12,
+        "Size": 2
+      },
+      {
+        "Name": "M013 \u00B7 2-edge walk \u00B7 12 matches",
+        "Kind": "walk",
+        "Matches": 12,
+        "Size": 2
+      },
+      {
+        "Name": "M014 \u00B7 2-edge walk \u00B7 10 matches",
+        "Kind": "walk",
+        "Matches": 10,
+        "Size": 2
+      },
+      {
+        "Name": "M015 \u00B7 3-edge walk \u00B7 12 matches",
+        "Kind": "walk",
+        "Matches": 12,
+        "Size": 3
+      },
+      {
+        "Name": "M016 \u00B7 3-edge walk \u00B7 12 matches",
+        "Kind": "walk",
+        "Matches": 12,
+        "Size": 3
+      },
+      {
+        "Name": "M017 \u00B7 3-edge walk \u00B7 12 matches",
+        "Kind": "walk",
+        "Matches": 12,
+        "Size": 3
+      },
+      {
+        "Name": "M018 \u00B7 3-edge walk \u00B7 12 matches",
+        "Kind": "walk",
+        "Matches": 12,
+        "Size": 3
+      },
+      {
+        "Name": "M019 \u00B7 3-edge walk \u00B7 12 matches",
+        "Kind": "walk",
+        "Matches": 12,
+        "Size": 3
+      },
+      {
+        "Name": "M020 \u00B7 3-edge walk \u00B7 12 matches",
+        "Kind": "walk",
+        "Matches": 12,
+        "Size": 3
+      },
+      {
+        "Name": "M021 \u00B7 3-edge walk \u00B7 12 matches",
+        "Kind": "walk",
+        "Matches": 12,
+        "Size": 3
+      },
+      {
+        "Name": "M022 \u00B7 3-edge walk \u00B7 12 matches",
+        "Kind": "walk",
+        "Matches": 12,
+        "Size": 3
+      },
+      {
+        "Name": "M023 \u00B7 3-edge walk \u00B7 9 matches",
+        "Kind": "walk",
+        "Matches": 9,
+        "Size": 3
+      },
+      {
+        "Name": "M024 \u00B7 3-edge walk \u00B7 9 matches",
+        "Kind": "walk",
+        "Matches": 9,
+        "Size": 3
+      },
+      {
+        "Name": "M025 \u00B7 3-edge walk \u00B7 9 matches",
+        "Kind": "walk",
+        "Matches": 9,
+        "Size": 3
+      },
+      {
+        "Name": "M026 \u00B7 3-edge walk \u00B7 9 matches",
+        "Kind": "walk",
+        "Matches": 9,
+        "Size": 3
+      },
+      {
+        "Name": "M027 \u00B7 3-edge walk \u00B7 9 matches",
+        "Kind": "walk",
+        "Matches": 9,
+        "Size": 3
+      },
+      {
+        "Name": "M028 \u00B7 3-edge walk \u00B7 9 matches",
+        "Kind": "walk",
+        "Matches": 9,
+        "Size": 3
+      },
+      {
+        "Name": "M029 \u00B7 3-edge walk \u00B7 8 matches",
+        "Kind": "walk",
+        "Matches": 8,
+        "Size": 3
+      },
+      {
+        "Name": "M030 \u00B7 3-edge walk \u00B7 8 matches",
+        "Kind": "walk",
+        "Matches": 8,
+        "Size": 3
+      },
+      {
+        "Name": "M031 \u00B7 3-edge walk \u00B7 8 matches",
+        "Kind": "walk",
+        "Matches": 8,
+        "Size": 3
+      },
+      {
+        "Name": "M032 \u00B7 3-edge walk \u00B7 8 matches",
+        "Kind": "walk",
+        "Matches": 8,
+        "Size": 3
+      },
+      {
+        "Name": "M033 \u00B7 3-edge walk \u00B7 8 matches",
+        "Kind": "walk",
+        "Matches": 8,
+        "Size": 3
+      },
+      {
+        "Name": "M034 \u00B7 3-edge walk \u00B7 8 matches",
+        "Kind": "walk",
+        "Matches": 8,
+        "Size": 3
+      },
+      {
+        "Name": "M035 \u00B7 3-edge walk \u00B7 8 matches",
+        "Kind": "walk",
+        "Matches": 8,
+        "Size": 3
+      },
+      {
+        "Name": "M036 \u00B7 3-edge walk \u00B7 5 matches",
+        "Kind": "walk",
+        "Matches": 5,
+        "Size": 3
+      },
+      {
+        "Name": "M037 \u00B7 2-arm junction \u00B7 12 matches",
+        "Kind": "junction",
+        "Matches": 12,
+        "Size": 2
+      },
+      {
+        "Name": "M038 \u00B7 2-arm junction \u00B7 12 matches",
+        "Kind": "junction",
+        "Matches": 12,
+        "Size": 2
+      },
+      {
+        "Name": "M039 \u00B7 2-arm junction \u00B7 12 matches",
+        "Kind": "junction",
+        "Matches": 12,
+        "Size": 2
+      },
+      {
+        "Name": "M040 \u00B7 2-arm junction \u00B7 12 matches",
+        "Kind": "junction",
+        "Matches": 12,
+        "Size": 2
+      },
+      {
+        "Name": "M041 \u00B7 2-arm junction \u00B7 1 matches",
+        "Kind": "junction",
+        "Matches": 1,
+        "Size": 2
+      },
+      {
+        "Name": "M042 \u00B7 2-arm junction \u00B7 1 matches",
+        "Kind": "junction",
+        "Matches": 1,
+        "Size": 2
+      },
+      {
+        "Name": "M043 \u00B7 2-arm junction \u00B7 1 matches",
+        "Kind": "junction",
+        "Matches": 1,
+        "Size": 2
+      },
+      {
+        "Name": "M044 \u00B7 2-arm junction \u00B7 1 matches",
+        "Kind": "junction",
+        "Matches": 1,
+        "Size": 2
+      },
+      {
+        "Name": "M045 \u00B7 3-arm junction \u00B7 3 matches",
+        "Kind": "junction",
+        "Matches": 3,
+        "Size": 3
+      },
+      {
+        "Name": "M046 \u00B7 3-arm junction \u00B7 3 matches",
+        "Kind": "junction",
+        "Matches": 3,
+        "Size": 3
+      },
+      {
+        "Name": "M047 \u00B7 3-arm junction \u00B7 2 matches",
+        "Kind": "junction",
+        "Matches": 2,
+        "Size": 3
+      },
+      {
+        "Name": "M048 \u00B7 3-arm junction \u00B7 2 matches",
+        "Kind": "junction",
+        "Matches": 2,
+        "Size": 3
+      },
+      {
+        "Name": "M049 \u00B7 4-arm junction \u00B7 6 matches",
+        "Kind": "junction",
+        "Matches": 6,
+        "Size": 4
+      }
+    ],
+    "Interpretations": [
+      {
+        "Key": "D01",
+        "Name": "\u2192 channel \u002B \u2196 channel \u002B \u2199 channel",
+        "Kind": "basis",
+        "Covered": 64,
+        "Remainder": 15,
+        "Commutations": 12,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 0,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": 176,
+        "MotifStraddling": 247,
+        "Refinements": 0
+      },
+      {
+        "Key": "D02",
+        "Name": "\u2191 channel \u002B \u2196 channel \u002B \u2199 channel",
+        "Kind": "basis",
+        "Covered": 63,
+        "Remainder": 16,
+        "Commutations": 12,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 0,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": 171,
+        "MotifStraddling": 247,
+        "Refinements": 0
+      },
+      {
+        "Key": "D03",
+        "Name": "\u2192 channel \u002B \u2191 channel \u002B \u2196 channel",
+        "Kind": "basis",
+        "Covered": 55,
+        "Remainder": 24,
+        "Commutations": 12,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 0,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": 282,
+        "MotifStraddling": 156,
+        "Refinements": 0
+      },
+      {
+        "Key": "D04",
+        "Name": "\u2192 channel \u002B \u2191 channel \u002B \u2199 channel",
+        "Kind": "basis",
+        "Covered": 55,
+        "Remainder": 24,
+        "Commutations": 12,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 0,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": 282,
+        "MotifStraddling": 156,
+        "Refinements": 0
+      },
+      {
+        "Key": "D05",
+        "Name": "\u2196 channel \u002B \u2199 channel",
+        "Kind": "basis",
+        "Covered": 48,
+        "Remainder": 31,
+        "Commutations": 12,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 0,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": 156,
+        "MotifStraddling": 0,
+        "Refinements": 2
+      },
+      {
+        "Key": "D06",
+        "Name": "\u2192 channel \u002B \u2191 channel",
+        "Kind": "basis",
+        "Covered": 31,
+        "Remainder": 48,
+        "Commutations": 12,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 0,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": 282,
+        "MotifStraddling": 0,
+        "Refinements": 2
+      },
+      {
+        "Key": "D07",
+        "Name": "\u2196 channel \u002B \u2192 / \u2191 two-phase flow",
+        "Kind": "basis",
+        "Covered": 55,
+        "Remainder": 24,
+        "Commutations": 0,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 0,
+        "Branches": 12,
+        "Unsettled": 0,
+        "MotifContained": 282,
+        "MotifStraddling": 156,
+        "Refinements": 0
+      },
+      {
+        "Key": "D08",
+        "Name": "\u2199 channel \u002B \u2192 / \u2191 two-phase flow",
+        "Kind": "basis",
+        "Covered": 55,
+        "Remainder": 24,
+        "Commutations": 0,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 0,
+        "Branches": 12,
+        "Unsettled": 0,
+        "MotifContained": 282,
+        "MotifStraddling": 156,
+        "Refinements": 0
+      },
+      {
+        "Key": "D09",
+        "Name": "\u2196 channel \u002B \u2192 / \u2193 two-phase flow",
+        "Kind": "basis",
+        "Covered": 55,
+        "Remainder": 24,
+        "Commutations": 0,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 0,
+        "Branches": 12,
+        "Unsettled": 0,
+        "MotifContained": 282,
+        "MotifStraddling": 156,
+        "Refinements": 0
+      },
+      {
+        "Key": "D10",
+        "Name": "\u2199 channel \u002B \u2192 / \u2193 two-phase flow",
+        "Kind": "basis",
+        "Covered": 55,
+        "Remainder": 24,
+        "Commutations": 0,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 0,
+        "Branches": 12,
+        "Unsettled": 0,
+        "MotifContained": 282,
+        "MotifStraddling": 156,
+        "Refinements": 0
+      },
+      {
+        "Key": "D11",
+        "Name": "\u2196 channel \u002B \u2190 / \u2191 two-phase flow",
+        "Kind": "basis",
+        "Covered": 55,
+        "Remainder": 24,
+        "Commutations": 0,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 0,
+        "Branches": 12,
+        "Unsettled": 0,
+        "MotifContained": 282,
+        "MotifStraddling": 156,
+        "Refinements": 0
+      },
+      {
+        "Key": "D12",
+        "Name": "\u2199 channel \u002B \u2190 / \u2191 two-phase flow",
+        "Kind": "basis",
+        "Covered": 55,
+        "Remainder": 24,
+        "Commutations": 0,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 0,
+        "Branches": 12,
+        "Unsettled": 0,
+        "MotifContained": 282,
+        "MotifStraddling": 156,
+        "Refinements": 0
+      },
+      {
+        "Key": "D13",
+        "Name": "\u2196 channel \u002B \u2190 / \u2193 two-phase flow",
+        "Kind": "basis",
+        "Covered": 55,
+        "Remainder": 24,
+        "Commutations": 0,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 0,
+        "Branches": 12,
+        "Unsettled": 0,
+        "MotifContained": 282,
+        "MotifStraddling": 156,
+        "Refinements": 0
+      },
+      {
+        "Key": "D14",
+        "Name": "\u2199 channel \u002B \u2190 / \u2193 two-phase flow",
+        "Kind": "basis",
+        "Covered": 55,
+        "Remainder": 24,
+        "Commutations": 0,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 0,
+        "Branches": 12,
+        "Unsettled": 0,
+        "MotifContained": 282,
+        "MotifStraddling": 156,
+        "Refinements": 0
+      },
+      {
+        "Key": "D15",
+        "Name": "\u2192 channel \u002B \u2196 channel",
+        "Kind": "basis",
+        "Covered": 40,
+        "Remainder": 39,
+        "Commutations": 0,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 0,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": 20,
+        "MotifStraddling": 403,
+        "Refinements": 2
+      },
+      {
+        "Key": "D16",
+        "Name": "\u2192 channel \u002B \u2199 channel",
+        "Kind": "basis",
+        "Covered": 40,
+        "Remainder": 39,
+        "Commutations": 0,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 0,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": 20,
+        "MotifStraddling": 403,
+        "Refinements": 2
+      },
+      {
+        "Key": "D17",
+        "Name": "\u2191 channel \u002B \u2196 channel",
+        "Kind": "basis",
+        "Covered": 39,
+        "Remainder": 40,
+        "Commutations": 0,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 0,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": 15,
+        "MotifStraddling": 403,
+        "Refinements": 2
+      },
+      {
+        "Key": "D18",
+        "Name": "\u2191 channel \u002B \u2199 channel",
+        "Kind": "basis",
+        "Covered": 39,
+        "Remainder": 40,
+        "Commutations": 0,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 0,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": 15,
+        "MotifStraddling": 403,
+        "Refinements": 2
+      },
+      {
+        "Key": "D19",
+        "Name": "\u2192 / \u2191 two-phase flow",
+        "Kind": "rhythm",
+        "Covered": 27,
+        "Remainder": 52,
+        "Commutations": 0,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 14,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": null,
+        "MotifStraddling": null,
+        "Refinements": null
+      },
+      {
+        "Key": "D20",
+        "Name": "\u2192 / \u2193 two-phase flow",
+        "Kind": "rhythm",
+        "Covered": 27,
+        "Remainder": 52,
+        "Commutations": 0,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 14,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": null,
+        "MotifStraddling": null,
+        "Refinements": null
+      },
+      {
+        "Key": "D21",
+        "Name": "\u2190 / \u2191 two-phase flow",
+        "Kind": "rhythm",
+        "Covered": 27,
+        "Remainder": 52,
+        "Commutations": 0,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 14,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": null,
+        "MotifStraddling": null,
+        "Refinements": null
+      },
+      {
+        "Key": "D22",
+        "Name": "\u2190 / \u2193 two-phase flow",
+        "Kind": "rhythm",
+        "Covered": 27,
+        "Remainder": 52,
+        "Commutations": 0,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 14,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": null,
+        "MotifStraddling": null,
+        "Refinements": null
+      }
+    ]
+  },
+  {
+    "Id": "R09",
+    "Name": "Two local organizations",
+    "Sites": 32,
+    "Segments": 57,
+    "Search": "Local search: 8039 / 20000 expansions; 827 / 3000 retained occurrences, 153 families. Walks \u22643 edges; cycles \u22646. Selected scope exhausted.",
+    "MotifComplete": true,
+    "DispositionComplete": true,
+    "Motifs": [
+      {
+        "Name": "M001 \u00B7 3-edge cycle \u00B7 9 matches",
+        "Kind": "cycle",
+        "Matches": 9,
+        "Size": 3
+      },
+      {
+        "Name": "M002 \u00B7 3-edge cycle \u00B7 9 matches",
+        "Kind": "cycle",
+        "Matches": 9,
+        "Size": 3
+      },
+      {
+        "Name": "M003 \u00B7 4-edge cycle \u00B7 9 matches",
+        "Kind": "cycle",
+        "Matches": 9,
+        "Size": 4
+      },
+      {
+        "Name": "M004 \u00B7 4-edge cycle \u00B7 9 matches",
+        "Kind": "cycle",
+        "Matches": 9,
+        "Size": 4
+      },
+      {
+        "Name": "M005 \u00B7 4-edge cycle \u00B7 6 matches",
+        "Kind": "cycle",
+        "Matches": 6,
+        "Size": 4
+      },
+      {
+        "Name": "M006 \u00B7 4-edge cycle \u00B7 6 matches",
+        "Kind": "cycle",
+        "Matches": 6,
+        "Size": 4
+      },
+      {
+        "Name": "M007 \u00B7 5-edge cycle \u00B7 6 matches",
+        "Kind": "cycle",
+        "Matches": 6,
+        "Size": 5
+      },
+      {
+        "Name": "M008 \u00B7 5-edge cycle \u00B7 6 matches",
+        "Kind": "cycle",
+        "Matches": 6,
+        "Size": 5
+      },
+      {
+        "Name": "M009 \u00B7 5-edge cycle \u00B7 6 matches",
+        "Kind": "cycle",
+        "Matches": 6,
+        "Size": 5
+      },
+      {
+        "Name": "M010 \u00B7 5-edge cycle \u00B7 6 matches",
+        "Kind": "cycle",
+        "Matches": 6,
+        "Size": 5
+      },
+      {
+        "Name": "M011 \u00B7 5-edge cycle \u00B7 4 matches",
+        "Kind": "cycle",
+        "Matches": 4,
+        "Size": 5
+      },
+      {
+        "Name": "M012 \u00B7 5-edge cycle \u00B7 4 matches",
+        "Kind": "cycle",
+        "Matches": 4,
+        "Size": 5
+      },
+      {
+        "Name": "M013 \u00B7 6-edge cycle \u00B7 6 matches",
+        "Kind": "cycle",
+        "Matches": 6,
+        "Size": 6
+      },
+      {
+        "Name": "M014 \u00B7 6-edge cycle \u00B7 6 matches",
+        "Kind": "cycle",
+        "Matches": 6,
+        "Size": 6
+      },
+      {
+        "Name": "M015 \u00B7 6-edge cycle \u00B7 6 matches",
+        "Kind": "cycle",
+        "Matches": 6,
+        "Size": 6
+      },
+      {
+        "Name": "M016 \u00B7 6-edge cycle \u00B7 6 matches",
+        "Kind": "cycle",
+        "Matches": 6,
+        "Size": 6
+      },
+      {
+        "Name": "M017 \u00B7 6-edge cycle \u00B7 4 matches",
+        "Kind": "cycle",
+        "Matches": 4,
+        "Size": 6
+      },
+      {
+        "Name": "M018 \u00B7 6-edge cycle \u00B7 4 matches",
+        "Kind": "cycle",
+        "Matches": 4,
+        "Size": 6
+      },
+      {
+        "Name": "M019 \u00B7 6-edge cycle \u00B7 4 matches",
+        "Kind": "cycle",
+        "Matches": 4,
+        "Size": 6
+      },
+      {
+        "Name": "M020 \u00B7 6-edge cycle \u00B7 4 matches",
+        "Kind": "cycle",
+        "Matches": 4,
+        "Size": 6
+      },
+      {
+        "Name": "M021 \u00B7 6-edge cycle \u00B7 4 matches",
+        "Kind": "cycle",
+        "Matches": 4,
+        "Size": 6
+      },
+      {
+        "Name": "M022 \u00B7 6-edge cycle \u00B7 4 matches",
+        "Kind": "cycle",
+        "Matches": 4,
+        "Size": 6
+      },
+      {
+        "Name": "M023 \u00B7 6-edge cycle \u00B7 4 matches",
+        "Kind": "cycle",
+        "Matches": 4,
+        "Size": 6
+      },
+      {
+        "Name": "M024 \u00B7 6-edge cycle \u00B7 4 matches",
+        "Kind": "cycle",
+        "Matches": 4,
+        "Size": 6
+      },
+      {
+        "Name": "M025 \u00B7 6-edge cycle \u00B7 4 matches",
+        "Kind": "cycle",
+        "Matches": 4,
+        "Size": 6
+      },
+      {
+        "Name": "M026 \u00B7 6-edge cycle \u00B7 3 matches",
+        "Kind": "cycle",
+        "Matches": 3,
+        "Size": 6
+      },
+      {
+        "Name": "M027 \u00B7 6-edge cycle \u00B7 3 matches",
+        "Kind": "cycle",
+        "Matches": 3,
+        "Size": 6
+      },
+      {
+        "Name": "M028 \u00B7 6-edge cycle \u00B7 2 matches",
+        "Kind": "cycle",
+        "Matches": 2,
+        "Size": 6
+      },
+      {
+        "Name": "M029 \u00B7 6-edge cycle \u00B7 2 matches",
+        "Kind": "cycle",
+        "Matches": 2,
+        "Size": 6
+      },
+      {
+        "Name": "M030 \u00B7 2-edge walk \u00B7 16 matches",
+        "Kind": "walk",
+        "Matches": 16,
+        "Size": 2
+      },
+      {
+        "Name": "M031 \u00B7 2-edge walk \u00B7 9 matches",
+        "Kind": "walk",
+        "Matches": 9,
+        "Size": 2
+      },
+      {
+        "Name": "M032 \u00B7 2-edge walk \u00B7 9 matches",
+        "Kind": "walk",
+        "Matches": 9,
+        "Size": 2
+      },
+      {
+        "Name": "M033 \u00B7 2-edge walk \u00B7 9 matches",
+        "Kind": "walk",
+        "Matches": 9,
+        "Size": 2
+      },
+      {
+        "Name": "M034 \u00B7 2-edge walk \u00B7 9 matches",
+        "Kind": "walk",
+        "Matches": 9,
+        "Size": 2
+      },
+      {
+        "Name": "M035 \u00B7 2-edge walk \u00B7 9 matches",
+        "Kind": "walk",
+        "Matches": 9,
+        "Size": 2
+      },
+      {
+        "Name": "M036 \u00B7 2-edge walk \u00B7 9 matches",
+        "Kind": "walk",
+        "Matches": 9,
+        "Size": 2
+      },
+      {
+        "Name": "M037 \u00B7 2-edge walk \u00B7 9 matches",
+        "Kind": "walk",
+        "Matches": 9,
+        "Size": 2
+      },
+      {
+        "Name": "M038 \u00B7 2-edge walk \u00B7 9 matches",
+        "Kind": "walk",
+        "Matches": 9,
+        "Size": 2
+      },
+      {
+        "Name": "M039 \u00B7 2-edge walk \u00B7 9 matches",
+        "Kind": "walk",
+        "Matches": 9,
+        "Size": 2
+      },
+      {
+        "Name": "M040 \u00B7 2-edge walk \u00B7 9 matches",
+        "Kind": "walk",
+        "Matches": 9,
+        "Size": 2
+      },
+      {
+        "Name": "M041 \u00B7 2-edge walk \u00B7 9 matches",
+        "Kind": "walk",
+        "Matches": 9,
+        "Size": 2
+      },
+      {
+        "Name": "M042 \u00B7 2-edge walk \u00B7 9 matches",
+        "Kind": "walk",
+        "Matches": 9,
+        "Size": 2
+      },
+      {
+        "Name": "M043 \u00B7 2-edge walk \u00B7 8 matches",
+        "Kind": "walk",
+        "Matches": 8,
+        "Size": 2
+      },
+      {
+        "Name": "M044 \u00B7 2-edge walk \u00B7 8 matches",
+        "Kind": "walk",
+        "Matches": 8,
+        "Size": 2
+      },
+      {
+        "Name": "M045 \u00B7 2-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 2
+      },
+      {
+        "Name": "M046 \u00B7 2-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 2
+      },
+      {
+        "Name": "M047 \u00B7 2-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 2
+      },
+      {
+        "Name": "M048 \u00B7 2-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 2
+      },
+      {
+        "Name": "M049 \u00B7 2-edge walk \u00B7 4 matches",
+        "Kind": "walk",
+        "Matches": 4,
+        "Size": 2
+      },
+      {
+        "Name": "M050 \u00B7 3-edge walk \u00B7 9 matches",
+        "Kind": "walk",
+        "Matches": 9,
+        "Size": 3
+      },
+      {
+        "Name": "M051 \u00B7 3-edge walk \u00B7 9 matches",
+        "Kind": "walk",
+        "Matches": 9,
+        "Size": 3
+      },
+      {
+        "Name": "M052 \u00B7 3-edge walk \u00B7 9 matches",
+        "Kind": "walk",
+        "Matches": 9,
+        "Size": 3
+      },
+      {
+        "Name": "M053 \u00B7 3-edge walk \u00B7 9 matches",
+        "Kind": "walk",
+        "Matches": 9,
+        "Size": 3
+      },
+      {
+        "Name": "M054 \u00B7 3-edge walk \u00B7 9 matches",
+        "Kind": "walk",
+        "Matches": 9,
+        "Size": 3
+      },
+      {
+        "Name": "M055 \u00B7 3-edge walk \u00B7 9 matches",
+        "Kind": "walk",
+        "Matches": 9,
+        "Size": 3
+      },
+      {
+        "Name": "M056 \u00B7 3-edge walk \u00B7 9 matches",
+        "Kind": "walk",
+        "Matches": 9,
+        "Size": 3
+      },
+      {
+        "Name": "M057 \u00B7 3-edge walk \u00B7 9 matches",
+        "Kind": "walk",
+        "Matches": 9,
+        "Size": 3
+      },
+      {
+        "Name": "M058 \u00B7 3-edge walk \u00B7 9 matches",
+        "Kind": "walk",
+        "Matches": 9,
+        "Size": 3
+      },
+      {
+        "Name": "M059 \u00B7 3-edge walk \u00B7 9 matches",
+        "Kind": "walk",
+        "Matches": 9,
+        "Size": 3
+      },
+      {
+        "Name": "M060 \u00B7 3-edge walk \u00B7 8 matches",
+        "Kind": "walk",
+        "Matches": 8,
+        "Size": 3
+      },
+      {
+        "Name": "M061 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M062 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M063 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M064 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M065 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M066 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M067 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M068 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M069 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M070 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M071 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M072 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M073 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M074 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M075 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M076 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M077 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M078 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M079 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M080 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M081 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M082 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M083 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M084 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M085 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M086 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M087 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M088 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M089 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M090 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M091 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M092 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M093 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M094 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M095 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M096 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M097 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M098 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M099 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M100 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M101 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M102 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M103 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M104 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M105 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M106 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M107 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M108 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M109 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M110 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M111 \u00B7 3-edge walk \u00B7 4 matches",
+        "Kind": "walk",
+        "Matches": 4,
+        "Size": 3
+      },
+      {
+        "Name": "M112 \u00B7 3-edge walk \u00B7 4 matches",
+        "Kind": "walk",
+        "Matches": 4,
+        "Size": 3
+      },
+      {
+        "Name": "M113 \u00B7 3-edge walk \u00B7 4 matches",
+        "Kind": "walk",
+        "Matches": 4,
+        "Size": 3
+      },
+      {
+        "Name": "M114 \u00B7 3-edge walk \u00B7 4 matches",
+        "Kind": "walk",
+        "Matches": 4,
+        "Size": 3
+      },
+      {
+        "Name": "M115 \u00B7 3-edge walk \u00B7 4 matches",
+        "Kind": "walk",
+        "Matches": 4,
+        "Size": 3
+      },
+      {
+        "Name": "M116 \u00B7 3-edge walk \u00B7 4 matches",
+        "Kind": "walk",
+        "Matches": 4,
+        "Size": 3
+      },
+      {
+        "Name": "M117 \u00B7 3-edge walk \u00B7 4 matches",
+        "Kind": "walk",
+        "Matches": 4,
+        "Size": 3
+      },
+      {
+        "Name": "M118 \u00B7 3-edge walk \u00B7 4 matches",
+        "Kind": "walk",
+        "Matches": 4,
+        "Size": 3
+      },
+      {
+        "Name": "M119 \u00B7 3-edge walk \u00B7 4 matches",
+        "Kind": "walk",
+        "Matches": 4,
+        "Size": 3
+      },
+      {
+        "Name": "M120 \u00B7 3-edge walk \u00B7 4 matches",
+        "Kind": "walk",
+        "Matches": 4,
+        "Size": 3
+      },
+      {
+        "Name": "M121 \u00B7 3-edge walk \u00B7 4 matches",
+        "Kind": "walk",
+        "Matches": 4,
+        "Size": 3
+      },
+      {
+        "Name": "M122 \u00B7 3-edge walk \u00B7 4 matches",
+        "Kind": "walk",
+        "Matches": 4,
+        "Size": 3
+      },
+      {
+        "Name": "M123 \u00B7 3-edge walk \u00B7 3 matches",
+        "Kind": "walk",
+        "Matches": 3,
+        "Size": 3
+      },
+      {
+        "Name": "M124 \u00B7 3-edge walk \u00B7 3 matches",
+        "Kind": "walk",
+        "Matches": 3,
+        "Size": 3
+      },
+      {
+        "Name": "M125 \u00B7 3-edge walk \u00B7 3 matches",
+        "Kind": "walk",
+        "Matches": 3,
+        "Size": 3
+      },
+      {
+        "Name": "M126 \u00B7 3-edge walk \u00B7 3 matches",
+        "Kind": "walk",
+        "Matches": 3,
+        "Size": 3
+      },
+      {
+        "Name": "M127 \u00B7 3-edge walk \u00B7 3 matches",
+        "Kind": "walk",
+        "Matches": 3,
+        "Size": 3
+      },
+      {
+        "Name": "M128 \u00B7 3-edge walk \u00B7 3 matches",
+        "Kind": "walk",
+        "Matches": 3,
+        "Size": 3
+      },
+      {
+        "Name": "M129 \u00B7 3-edge walk \u00B7 2 matches",
+        "Kind": "walk",
+        "Matches": 2,
+        "Size": 3
+      },
+      {
+        "Name": "M130 \u00B7 3-edge walk \u00B7 2 matches",
+        "Kind": "walk",
+        "Matches": 2,
+        "Size": 3
+      },
+      {
+        "Name": "M131 \u00B7 3-edge walk \u00B7 2 matches",
+        "Kind": "walk",
+        "Matches": 2,
+        "Size": 3
+      },
+      {
+        "Name": "M132 \u00B7 3-edge walk \u00B7 2 matches",
+        "Kind": "walk",
+        "Matches": 2,
+        "Size": 3
+      },
+      {
+        "Name": "M133 \u00B7 3-edge walk \u00B7 2 matches",
+        "Kind": "walk",
+        "Matches": 2,
+        "Size": 3
+      },
+      {
+        "Name": "M134 \u00B7 3-edge walk \u00B7 2 matches",
+        "Kind": "walk",
+        "Matches": 2,
+        "Size": 3
+      },
+      {
+        "Name": "M135 \u00B7 3-edge walk \u00B7 1 matches",
+        "Kind": "walk",
+        "Matches": 1,
+        "Size": 3
+      },
+      {
+        "Name": "M136 \u00B7 2-arm junction \u00B7 1 matches",
+        "Kind": "junction",
+        "Matches": 1,
+        "Size": 2
+      },
+      {
+        "Name": "M137 \u00B7 2-arm junction \u00B7 1 matches",
+        "Kind": "junction",
+        "Matches": 1,
+        "Size": 2
+      },
+      {
+        "Name": "M138 \u00B7 2-arm junction \u00B7 1 matches",
+        "Kind": "junction",
+        "Matches": 1,
+        "Size": 2
+      },
+      {
+        "Name": "M139 \u00B7 2-arm junction \u00B7 1 matches",
+        "Kind": "junction",
+        "Matches": 1,
+        "Size": 2
+      },
+      {
+        "Name": "M140 \u00B7 2-arm junction \u00B7 1 matches",
+        "Kind": "junction",
+        "Matches": 1,
+        "Size": 2
+      },
+      {
+        "Name": "M141 \u00B7 2-arm junction \u00B7 1 matches",
+        "Kind": "junction",
+        "Matches": 1,
+        "Size": 2
+      },
+      {
+        "Name": "M142 \u00B7 3-arm junction \u00B7 2 matches",
+        "Kind": "junction",
+        "Matches": 2,
+        "Size": 3
+      },
+      {
+        "Name": "M143 \u00B7 3-arm junction \u00B7 2 matches",
+        "Kind": "junction",
+        "Matches": 2,
+        "Size": 3
+      },
+      {
+        "Name": "M144 \u00B7 3-arm junction \u00B7 2 matches",
+        "Kind": "junction",
+        "Matches": 2,
+        "Size": 3
+      },
+      {
+        "Name": "M145 \u00B7 3-arm junction \u00B7 2 matches",
+        "Kind": "junction",
+        "Matches": 2,
+        "Size": 3
+      },
+      {
+        "Name": "M146 \u00B7 3-arm junction \u00B7 1 matches",
+        "Kind": "junction",
+        "Matches": 1,
+        "Size": 3
+      },
+      {
+        "Name": "M147 \u00B7 3-arm junction \u00B7 1 matches",
+        "Kind": "junction",
+        "Matches": 1,
+        "Size": 3
+      },
+      {
+        "Name": "M148 \u00B7 4-arm junction \u00B7 4 matches",
+        "Kind": "junction",
+        "Matches": 4,
+        "Size": 4
+      },
+      {
+        "Name": "M149 \u00B7 4-arm junction \u00B7 2 matches",
+        "Kind": "junction",
+        "Matches": 2,
+        "Size": 4
+      },
+      {
+        "Name": "M150 \u00B7 4-arm junction \u00B7 2 matches",
+        "Kind": "junction",
+        "Matches": 2,
+        "Size": 4
+      },
+      {
+        "Name": "M151 \u00B7 4-arm junction \u00B7 2 matches",
+        "Kind": "junction",
+        "Matches": 2,
+        "Size": 4
+      },
+      {
+        "Name": "M152 \u00B7 4-arm junction \u00B7 2 matches",
+        "Kind": "junction",
+        "Matches": 2,
+        "Size": 4
+      },
+      {
+        "Name": "M153 \u00B7 6-arm junction \u00B7 4 matches",
+        "Kind": "junction",
+        "Matches": 4,
+        "Size": 6
+      }
+    ],
+    "Interpretations": [
+      {
+        "Key": "D01",
+        "Name": "\u2192 channel \u002B \u2197 channel \u002B \u2196 channel",
+        "Kind": "basis",
+        "Covered": 45,
+        "Remainder": 12,
+        "Commutations": 21,
+        "Triangles": 18,
+        "Unexpected": 0,
+        "Boundary": 3,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": 634,
+        "MotifStraddling": 181,
+        "Refinements": 0
+      },
+      {
+        "Key": "D02",
+        "Name": "\u2192 channel \u002B \u2191 channel \u002B \u2197 channel",
+        "Kind": "basis",
+        "Covered": 48,
+        "Remainder": 9,
+        "Commutations": 18,
+        "Triangles": 0,
+        "Unexpected": 18,
+        "Boundary": 0,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": 396,
+        "MotifStraddling": 426,
+        "Refinements": 0
+      },
+      {
+        "Key": "D03",
+        "Name": "\u2192 channel \u002B \u2191 channel \u002B \u2196 channel",
+        "Kind": "basis",
+        "Covered": 45,
+        "Remainder": 12,
+        "Commutations": 15,
+        "Triangles": 0,
+        "Unexpected": 18,
+        "Boundary": 0,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": 337,
+        "MotifStraddling": 478,
+        "Refinements": 0
+      },
+      {
+        "Key": "D04",
+        "Name": "\u2197 channel \u002B \u2192 / \u2191 two-phase flow",
+        "Kind": "basis",
+        "Covered": 48,
+        "Remainder": 9,
+        "Commutations": 9,
+        "Triangles": 0,
+        "Unexpected": 18,
+        "Boundary": 0,
+        "Branches": 9,
+        "Unsettled": 0,
+        "MotifContained": 396,
+        "MotifStraddling": 426,
+        "Refinements": 0
+      },
+      {
+        "Key": "D05",
+        "Name": "\u2197 channel \u002B \u2192 / \u2193 two-phase flow",
+        "Kind": "basis",
+        "Covered": 48,
+        "Remainder": 9,
+        "Commutations": 9,
+        "Triangles": 0,
+        "Unexpected": 18,
+        "Boundary": 0,
+        "Branches": 9,
+        "Unsettled": 0,
+        "MotifContained": 396,
+        "MotifStraddling": 426,
+        "Refinements": 0
+      },
+      {
+        "Key": "D06",
+        "Name": "\u2191 channel \u002B \u2192 / \u2197 two-phase flow",
+        "Kind": "basis",
+        "Covered": 48,
+        "Remainder": 9,
+        "Commutations": 9,
+        "Triangles": 0,
+        "Unexpected": 18,
+        "Boundary": 0,
+        "Branches": 9,
+        "Unsettled": 0,
+        "MotifContained": 396,
+        "MotifStraddling": 426,
+        "Refinements": 0
+      },
+      {
+        "Key": "D07",
+        "Name": "\u2191 channel \u002B \u2192 / \u2199 two-phase flow",
+        "Kind": "basis",
+        "Covered": 48,
+        "Remainder": 9,
+        "Commutations": 9,
+        "Triangles": 0,
+        "Unexpected": 18,
+        "Boundary": 0,
+        "Branches": 9,
+        "Unsettled": 0,
+        "MotifContained": 396,
+        "MotifStraddling": 426,
+        "Refinements": 0
+      },
+      {
+        "Key": "D08",
+        "Name": "\u2197 channel \u002B \u2190 / \u2191 two-phase flow",
+        "Kind": "basis",
+        "Covered": 48,
+        "Remainder": 9,
+        "Commutations": 9,
+        "Triangles": 0,
+        "Unexpected": 18,
+        "Boundary": 0,
+        "Branches": 9,
+        "Unsettled": 0,
+        "MotifContained": 396,
+        "MotifStraddling": 426,
+        "Refinements": 0
+      },
+      {
+        "Key": "D09",
+        "Name": "\u2197 channel \u002B \u2190 / \u2193 two-phase flow",
+        "Kind": "basis",
+        "Covered": 48,
+        "Remainder": 9,
+        "Commutations": 9,
+        "Triangles": 0,
+        "Unexpected": 18,
+        "Boundary": 0,
+        "Branches": 9,
+        "Unsettled": 0,
+        "MotifContained": 396,
+        "MotifStraddling": 426,
+        "Refinements": 0
+      },
+      {
+        "Key": "D10",
+        "Name": "\u2191 channel \u002B \u2190 / \u2197 two-phase flow",
+        "Kind": "basis",
+        "Covered": 48,
+        "Remainder": 9,
+        "Commutations": 9,
+        "Triangles": 0,
+        "Unexpected": 18,
+        "Boundary": 0,
+        "Branches": 9,
+        "Unsettled": 0,
+        "MotifContained": 396,
+        "MotifStraddling": 426,
+        "Refinements": 0
+      },
+      {
+        "Key": "D11",
+        "Name": "\u2191 channel \u002B \u2190 / \u2199 two-phase flow",
+        "Kind": "basis",
+        "Covered": 48,
+        "Remainder": 9,
+        "Commutations": 9,
+        "Triangles": 0,
+        "Unexpected": 18,
+        "Boundary": 0,
+        "Branches": 9,
+        "Unsettled": 0,
+        "MotifContained": 396,
+        "MotifStraddling": 426,
+        "Refinements": 0
+      },
+      {
+        "Key": "D12",
+        "Name": "\u2191 channel \u002B \u2192 / \u2196 two-phase flow",
+        "Kind": "basis",
+        "Covered": 45,
+        "Remainder": 12,
+        "Commutations": 9,
+        "Triangles": 0,
+        "Unexpected": 18,
+        "Boundary": 0,
+        "Branches": 6,
+        "Unsettled": 0,
+        "MotifContained": 337,
+        "MotifStraddling": 478,
+        "Refinements": 0
+      },
+      {
+        "Key": "D13",
+        "Name": "\u2191 channel \u002B \u2190 / \u2198 two-phase flow",
+        "Kind": "basis",
+        "Covered": 45,
+        "Remainder": 12,
+        "Commutations": 9,
+        "Triangles": 0,
+        "Unexpected": 18,
+        "Boundary": 0,
+        "Branches": 6,
+        "Unsettled": 0,
+        "MotifContained": 337,
+        "MotifStraddling": 478,
+        "Refinements": 0
+      },
+      {
+        "Key": "D14",
+        "Name": "\u2192 channel \u002B \u2191 channel",
+        "Kind": "basis",
+        "Covered": 36,
+        "Remainder": 21,
+        "Commutations": 9,
+        "Triangles": 0,
+        "Unexpected": 18,
+        "Boundary": 0,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": 217,
+        "MotifStraddling": 478,
+        "Refinements": 2
+      },
+      {
+        "Key": "D15",
+        "Name": "\u2192 channel \u002B \u2197 channel",
+        "Kind": "basis",
+        "Covered": 36,
+        "Remainder": 21,
+        "Commutations": 9,
+        "Triangles": 0,
+        "Unexpected": 18,
+        "Boundary": 0,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": 203,
+        "MotifStraddling": 607,
+        "Refinements": 2
+      },
+      {
+        "Key": "D16",
+        "Name": "\u2197 channel \u002B \u2190 / \u2198 two-phase flow",
+        "Kind": "basis",
+        "Covered": 45,
+        "Remainder": 12,
+        "Commutations": 7,
+        "Triangles": 18,
+        "Unexpected": 0,
+        "Boundary": 0,
+        "Branches": 6,
+        "Unsettled": 0,
+        "MotifContained": 634,
+        "MotifStraddling": 181,
+        "Refinements": 0
+      },
+      {
+        "Key": "D17",
+        "Name": "\u2192 channel \u002B \u2199 / \u2196 two-phase flow",
+        "Kind": "basis",
+        "Covered": 45,
+        "Remainder": 12,
+        "Commutations": 7,
+        "Triangles": 18,
+        "Unexpected": 0,
+        "Boundary": 0,
+        "Branches": 6,
+        "Unsettled": 0,
+        "MotifContained": 634,
+        "MotifStraddling": 181,
+        "Refinements": 0
+      },
+      {
+        "Key": "D18",
+        "Name": "\u2196 channel \u002B \u2192 / \u2191 two-phase flow",
+        "Kind": "basis",
+        "Covered": 45,
+        "Remainder": 12,
+        "Commutations": 6,
+        "Triangles": 0,
+        "Unexpected": 18,
+        "Boundary": 0,
+        "Branches": 9,
+        "Unsettled": 0,
+        "MotifContained": 337,
+        "MotifStraddling": 478,
+        "Refinements": 0
+      },
+      {
+        "Key": "D19",
+        "Name": "\u2196 channel \u002B \u2192 / \u2193 two-phase flow",
+        "Kind": "basis",
+        "Covered": 45,
+        "Remainder": 12,
+        "Commutations": 6,
+        "Triangles": 0,
+        "Unexpected": 18,
+        "Boundary": 0,
+        "Branches": 9,
+        "Unsettled": 0,
+        "MotifContained": 337,
+        "MotifStraddling": 478,
+        "Refinements": 0
+      },
+      {
+        "Key": "D20",
+        "Name": "\u2196 channel \u002B \u2190 / \u2191 two-phase flow",
+        "Kind": "basis",
+        "Covered": 45,
+        "Remainder": 12,
+        "Commutations": 6,
+        "Triangles": 0,
+        "Unexpected": 18,
+        "Boundary": 3,
+        "Branches": 9,
+        "Unsettled": 0,
+        "MotifContained": 337,
+        "MotifStraddling": 478,
+        "Refinements": 0
+      },
+      {
+        "Key": "D21",
+        "Name": "\u2196 channel \u002B \u2190 / \u2193 two-phase flow",
+        "Kind": "basis",
+        "Covered": 45,
+        "Remainder": 12,
+        "Commutations": 6,
+        "Triangles": 0,
+        "Unexpected": 18,
+        "Boundary": 3,
+        "Branches": 9,
+        "Unsettled": 0,
+        "MotifContained": 337,
+        "MotifStraddling": 478,
+        "Refinements": 0
+      },
+      {
+        "Key": "D22",
+        "Name": "\u2192 channel \u002B \u2196 channel",
+        "Kind": "basis",
+        "Covered": 33,
+        "Remainder": 24,
+        "Commutations": 6,
+        "Triangles": 0,
+        "Unexpected": 18,
+        "Boundary": 0,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": 144,
+        "MotifStraddling": 659,
+        "Refinements": 2
+      },
+      {
+        "Key": "D23",
+        "Name": "\u2191 channel \u002B \u2197 channel \u002B \u2196 channel",
+        "Kind": "basis",
+        "Covered": 33,
+        "Remainder": 24,
+        "Commutations": 6,
+        "Triangles": 0,
+        "Unexpected": 18,
+        "Boundary": 3,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": 144,
+        "MotifStraddling": 659,
+        "Refinements": 0
+      },
+      {
+        "Key": "D24",
+        "Name": "\u2197 channel \u002B \u2196 channel",
+        "Kind": "basis",
+        "Covered": 21,
+        "Remainder": 36,
+        "Commutations": 6,
+        "Triangles": 0,
+        "Unexpected": 18,
+        "Boundary": 3,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": 132,
+        "MotifStraddling": 478,
+        "Refinements": 2
+      },
+      {
+        "Key": "D25",
+        "Name": "\u2197 channel \u002B \u2192 / \u2196 two-phase flow",
+        "Kind": "basis",
+        "Covered": 45,
+        "Remainder": 12,
+        "Commutations": 5,
+        "Triangles": 18,
+        "Unexpected": 0,
+        "Boundary": 1,
+        "Branches": 6,
+        "Unsettled": 0,
+        "MotifContained": 634,
+        "MotifStraddling": 181,
+        "Refinements": 0
+      },
+      {
+        "Key": "D26",
+        "Name": "\u2192 channel \u002B \u2197 / \u2198 two-phase flow",
+        "Kind": "basis",
+        "Covered": 45,
+        "Remainder": 12,
+        "Commutations": 5,
+        "Triangles": 18,
+        "Unexpected": 0,
+        "Boundary": 1,
+        "Branches": 6,
+        "Unsettled": 0,
+        "MotifContained": 634,
+        "MotifStraddling": 181,
+        "Refinements": 0
+      },
+      {
+        "Key": "D27",
+        "Name": "\u2196 channel \u002B \u2192 / \u2199 two-phase flow",
+        "Kind": "basis",
+        "Covered": 45,
+        "Remainder": 12,
+        "Commutations": 4,
+        "Triangles": 18,
+        "Unexpected": 0,
+        "Boundary": 0,
+        "Branches": 9,
+        "Unsettled": 0,
+        "MotifContained": 634,
+        "MotifStraddling": 181,
+        "Refinements": 0
+      },
+      {
+        "Key": "D28",
+        "Name": "\u2196 channel \u002B \u2192 / \u2197 two-phase flow",
+        "Kind": "basis",
+        "Covered": 45,
+        "Remainder": 12,
+        "Commutations": 2,
+        "Triangles": 18,
+        "Unexpected": 0,
+        "Boundary": 1,
+        "Branches": 9,
+        "Unsettled": 0,
+        "MotifContained": 634,
+        "MotifStraddling": 181,
+        "Refinements": 0
+      },
+      {
+        "Key": "D29",
+        "Name": "\u2196 channel \u002B \u2190 / \u2199 two-phase flow",
+        "Kind": "basis",
+        "Covered": 45,
+        "Remainder": 12,
+        "Commutations": 2,
+        "Triangles": 18,
+        "Unexpected": 0,
+        "Boundary": 1,
+        "Branches": 9,
+        "Unsettled": 0,
+        "MotifContained": 634,
+        "MotifStraddling": 181,
+        "Refinements": 0
+      },
+      {
+        "Key": "D30",
+        "Name": "\u2196 channel \u002B \u2190 / \u2197 two-phase flow",
+        "Kind": "basis",
+        "Covered": 45,
+        "Remainder": 12,
+        "Commutations": 0,
+        "Triangles": 18,
+        "Unexpected": 0,
+        "Boundary": 0,
+        "Branches": 9,
+        "Unsettled": 0,
+        "MotifContained": 634,
+        "MotifStraddling": 181,
+        "Refinements": 0
+      },
+      {
+        "Key": "D31",
+        "Name": "\u2191 channel \u002B \u2197 / \u2198 two-phase flow",
+        "Kind": "basis",
+        "Covered": 33,
+        "Remainder": 24,
+        "Commutations": 0,
+        "Triangles": 0,
+        "Unexpected": 18,
+        "Boundary": 0,
+        "Branches": 6,
+        "Unsettled": 0,
+        "MotifContained": 144,
+        "MotifStraddling": 659,
+        "Refinements": 0
+      },
+      {
+        "Key": "D32",
+        "Name": "\u2191 channel \u002B \u2199 / \u2196 two-phase flow",
+        "Kind": "basis",
+        "Covered": 33,
+        "Remainder": 24,
+        "Commutations": 0,
+        "Triangles": 0,
+        "Unexpected": 18,
+        "Boundary": 0,
+        "Branches": 6,
+        "Unsettled": 0,
+        "MotifContained": 144,
+        "MotifStraddling": 659,
+        "Refinements": 0
+      },
+      {
+        "Key": "D33",
+        "Name": "\u2191 channel \u002B \u2197 channel",
+        "Kind": "basis",
+        "Covered": 24,
+        "Remainder": 33,
+        "Commutations": 0,
+        "Triangles": 0,
+        "Unexpected": 18,
+        "Boundary": 0,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": 24,
+        "MotifStraddling": 659,
+        "Refinements": 2
+      },
+      {
+        "Key": "D34",
+        "Name": "\u2191 channel \u002B \u2196 channel",
+        "Kind": "basis",
+        "Covered": 21,
+        "Remainder": 36,
+        "Commutations": 0,
+        "Triangles": 0,
+        "Unexpected": 18,
+        "Boundary": 0,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": 17,
+        "MotifStraddling": 607,
+        "Refinements": 2
+      },
+      {
+        "Key": "D35",
+        "Name": "\u2192 / \u2196 two-phase flow",
+        "Kind": "rhythm",
+        "Covered": 21,
+        "Remainder": 36,
+        "Commutations": 0,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 18,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": null,
+        "MotifStraddling": null,
+        "Refinements": null
+      },
+      {
+        "Key": "D36",
+        "Name": "\u2190 / \u2198 two-phase flow",
+        "Kind": "rhythm",
+        "Covered": 21,
+        "Remainder": 36,
+        "Commutations": 0,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 18,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": null,
+        "MotifStraddling": null,
+        "Refinements": null
+      },
+      {
+        "Key": "D37",
+        "Name": "\u2197 / \u2198 two-phase flow",
+        "Kind": "rhythm",
+        "Covered": 21,
+        "Remainder": 36,
+        "Commutations": 0,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 6,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": null,
+        "MotifStraddling": null,
+        "Refinements": null
+      },
+      {
+        "Key": "D38",
+        "Name": "\u2199 / \u2196 two-phase flow",
+        "Kind": "rhythm",
+        "Covered": 21,
+        "Remainder": 36,
+        "Commutations": 0,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 6,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": null,
+        "MotifStraddling": null,
+        "Refinements": null
+      },
+      {
+        "Key": "D39",
+        "Name": "\u2192 / \u2191 two-phase flow",
+        "Kind": "rhythm",
+        "Covered": 20,
+        "Remainder": 37,
+        "Commutations": 0,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 24,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": null,
+        "MotifStraddling": null,
+        "Refinements": null
+      },
+      {
+        "Key": "D40",
+        "Name": "\u2192 / \u2193 two-phase flow",
+        "Kind": "rhythm",
+        "Covered": 20,
+        "Remainder": 37,
+        "Commutations": 0,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 24,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": null,
+        "MotifStraddling": null,
+        "Refinements": null
+      },
+      {
+        "Key": "D41",
+        "Name": "\u2192 / \u2197 two-phase flow",
+        "Kind": "rhythm",
+        "Covered": 20,
+        "Remainder": 37,
+        "Commutations": 0,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 24,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": null,
+        "MotifStraddling": null,
+        "Refinements": null
+      },
+      {
+        "Key": "D42",
+        "Name": "\u2192 / \u2199 two-phase flow",
+        "Kind": "rhythm",
+        "Covered": 20,
+        "Remainder": 37,
+        "Commutations": 0,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 24,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": null,
+        "MotifStraddling": null,
+        "Refinements": null
+      },
+      {
+        "Key": "D43",
+        "Name": "\u2190 / \u2191 two-phase flow",
+        "Kind": "rhythm",
+        "Covered": 20,
+        "Remainder": 37,
+        "Commutations": 0,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 24,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": null,
+        "MotifStraddling": null,
+        "Refinements": null
+      },
+      {
+        "Key": "D44",
+        "Name": "\u2190 / \u2193 two-phase flow",
+        "Kind": "rhythm",
+        "Covered": 20,
+        "Remainder": 37,
+        "Commutations": 0,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 24,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": null,
+        "MotifStraddling": null,
+        "Refinements": null
+      },
+      {
+        "Key": "D45",
+        "Name": "\u2190 / \u2197 two-phase flow",
+        "Kind": "rhythm",
+        "Covered": 20,
+        "Remainder": 37,
+        "Commutations": 0,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 24,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": null,
+        "MotifStraddling": null,
+        "Refinements": null
+      },
+      {
+        "Key": "D46",
+        "Name": "\u2190 / \u2199 two-phase flow",
+        "Kind": "rhythm",
+        "Covered": 20,
+        "Remainder": 37,
+        "Commutations": 0,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 24,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": null,
+        "MotifStraddling": null,
+        "Refinements": null
+      }
+    ]
+  },
+  {
+    "Id": "R10",
+    "Name": "Dense bounded search",
+    "Sites": 110,
+    "Segments": 289,
+    "Search": "Local search: 5000 / 5000 expansions; 500 / 500 retained occurrences, 83 families. Walks \u22643 edges; cycles \u22646. Incomplete: 2651 unsearched cuts and 0 open observations. Retained matches remain valid.",
+    "MotifComplete": false,
+    "DispositionComplete": true,
+    "Motifs": [
+      {
+        "Name": "M001 \u00B7 2-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 2
+      },
+      {
+        "Name": "M002 \u00B7 2-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 2
+      },
+      {
+        "Name": "M003 \u00B7 2-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 2
+      },
+      {
+        "Name": "M004 \u00B7 2-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 2
+      },
+      {
+        "Name": "M005 \u00B7 2-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 2
+      },
+      {
+        "Name": "M006 \u00B7 2-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 2
+      },
+      {
+        "Name": "M007 \u00B7 2-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 2
+      },
+      {
+        "Name": "M008 \u00B7 2-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 2
+      },
+      {
+        "Name": "M009 \u00B7 2-edge walk \u00B7 5 matches",
+        "Kind": "walk",
+        "Matches": 5,
+        "Size": 2
+      },
+      {
+        "Name": "M010 \u00B7 2-edge walk \u00B7 5 matches",
+        "Kind": "walk",
+        "Matches": 5,
+        "Size": 2
+      },
+      {
+        "Name": "M011 \u00B7 2-edge walk \u00B7 5 matches",
+        "Kind": "walk",
+        "Matches": 5,
+        "Size": 2
+      },
+      {
+        "Name": "M012 \u00B7 2-edge walk \u00B7 5 matches",
+        "Kind": "walk",
+        "Matches": 5,
+        "Size": 2
+      },
+      {
+        "Name": "M013 \u00B7 2-edge walk \u00B7 5 matches",
+        "Kind": "walk",
+        "Matches": 5,
+        "Size": 2
+      },
+      {
+        "Name": "M014 \u00B7 2-edge walk \u00B7 5 matches",
+        "Kind": "walk",
+        "Matches": 5,
+        "Size": 2
+      },
+      {
+        "Name": "M015 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M016 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M017 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M018 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M019 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M020 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M021 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M022 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M023 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M024 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M025 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M026 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M027 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M028 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M029 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M030 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M031 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M032 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M033 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M034 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M035 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M036 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M037 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M038 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M039 \u00B7 3-edge walk \u00B7 6 matches",
+        "Kind": "walk",
+        "Matches": 6,
+        "Size": 3
+      },
+      {
+        "Name": "M040 \u00B7 3-edge walk \u00B7 5 matches",
+        "Kind": "walk",
+        "Matches": 5,
+        "Size": 3
+      },
+      {
+        "Name": "M041 \u00B7 3-edge walk \u00B7 5 matches",
+        "Kind": "walk",
+        "Matches": 5,
+        "Size": 3
+      },
+      {
+        "Name": "M042 \u00B7 3-edge walk \u00B7 5 matches",
+        "Kind": "walk",
+        "Matches": 5,
+        "Size": 3
+      },
+      {
+        "Name": "M043 \u00B7 3-edge walk \u00B7 5 matches",
+        "Kind": "walk",
+        "Matches": 5,
+        "Size": 3
+      },
+      {
+        "Name": "M044 \u00B7 3-edge walk \u00B7 5 matches",
+        "Kind": "walk",
+        "Matches": 5,
+        "Size": 3
+      },
+      {
+        "Name": "M045 \u00B7 3-edge walk \u00B7 5 matches",
+        "Kind": "walk",
+        "Matches": 5,
+        "Size": 3
+      },
+      {
+        "Name": "M046 \u00B7 3-edge walk \u00B7 5 matches",
+        "Kind": "walk",
+        "Matches": 5,
+        "Size": 3
+      },
+      {
+        "Name": "M047 \u00B7 3-edge walk \u00B7 5 matches",
+        "Kind": "walk",
+        "Matches": 5,
+        "Size": 3
+      },
+      {
+        "Name": "M048 \u00B7 3-edge walk \u00B7 5 matches",
+        "Kind": "walk",
+        "Matches": 5,
+        "Size": 3
+      },
+      {
+        "Name": "M049 \u00B7 3-edge walk \u00B7 5 matches",
+        "Kind": "walk",
+        "Matches": 5,
+        "Size": 3
+      },
+      {
+        "Name": "M050 \u00B7 3-edge walk \u00B7 5 matches",
+        "Kind": "walk",
+        "Matches": 5,
+        "Size": 3
+      },
+      {
+        "Name": "M051 \u00B7 3-edge walk \u00B7 5 matches",
+        "Kind": "walk",
+        "Matches": 5,
+        "Size": 3
+      },
+      {
+        "Name": "M052 \u00B7 3-edge walk \u00B7 5 matches",
+        "Kind": "walk",
+        "Matches": 5,
+        "Size": 3
+      },
+      {
+        "Name": "M053 \u00B7 3-edge walk \u00B7 5 matches",
+        "Kind": "walk",
+        "Matches": 5,
+        "Size": 3
+      },
+      {
+        "Name": "M054 \u00B7 3-edge walk \u00B7 5 matches",
+        "Kind": "walk",
+        "Matches": 5,
+        "Size": 3
+      },
+      {
+        "Name": "M055 \u00B7 3-edge walk \u00B7 5 matches",
+        "Kind": "walk",
+        "Matches": 5,
+        "Size": 3
+      },
+      {
+        "Name": "M056 \u00B7 3-edge walk \u00B7 5 matches",
+        "Kind": "walk",
+        "Matches": 5,
+        "Size": 3
+      },
+      {
+        "Name": "M057 \u00B7 3-edge walk \u00B7 5 matches",
+        "Kind": "walk",
+        "Matches": 5,
+        "Size": 3
+      },
+      {
+        "Name": "M058 \u00B7 3-edge walk \u00B7 5 matches",
+        "Kind": "walk",
+        "Matches": 5,
+        "Size": 3
+      },
+      {
+        "Name": "M059 \u00B7 3-edge walk \u00B7 5 matches",
+        "Kind": "walk",
+        "Matches": 5,
+        "Size": 3
+      },
+      {
+        "Name": "M060 \u00B7 3-edge walk \u00B7 5 matches",
+        "Kind": "walk",
+        "Matches": 5,
+        "Size": 3
+      },
+      {
+        "Name": "M061 \u00B7 3-edge walk \u00B7 5 matches",
+        "Kind": "walk",
+        "Matches": 5,
+        "Size": 3
+      },
+      {
+        "Name": "M062 \u00B7 3-edge walk \u00B7 4 matches",
+        "Kind": "walk",
+        "Matches": 4,
+        "Size": 3
+      },
+      {
+        "Name": "M063 \u00B7 3-edge walk \u00B7 4 matches",
+        "Kind": "walk",
+        "Matches": 4,
+        "Size": 3
+      },
+      {
+        "Name": "M064 \u00B7 3-edge walk \u00B7 4 matches",
+        "Kind": "walk",
+        "Matches": 4,
+        "Size": 3
+      },
+      {
+        "Name": "M065 \u00B7 3-edge walk \u00B7 4 matches",
+        "Kind": "walk",
+        "Matches": 4,
+        "Size": 3
+      },
+      {
+        "Name": "M066 \u00B7 3-edge walk \u00B7 4 matches",
+        "Kind": "walk",
+        "Matches": 4,
+        "Size": 3
+      },
+      {
+        "Name": "M067 \u00B7 3-edge walk \u00B7 4 matches",
+        "Kind": "walk",
+        "Matches": 4,
+        "Size": 3
+      },
+      {
+        "Name": "M068 \u00B7 3-edge walk \u00B7 4 matches",
+        "Kind": "walk",
+        "Matches": 4,
+        "Size": 3
+      },
+      {
+        "Name": "M069 \u00B7 3-edge walk \u00B7 4 matches",
+        "Kind": "walk",
+        "Matches": 4,
+        "Size": 3
+      },
+      {
+        "Name": "M070 \u00B7 3-edge walk \u00B7 4 matches",
+        "Kind": "walk",
+        "Matches": 4,
+        "Size": 3
+      },
+      {
+        "Name": "M071 \u00B7 3-edge walk \u00B7 4 matches",
+        "Kind": "walk",
+        "Matches": 4,
+        "Size": 3
+      },
+      {
+        "Name": "M072 \u00B7 3-edge walk \u00B7 4 matches",
+        "Kind": "walk",
+        "Matches": 4,
+        "Size": 3
+      },
+      {
+        "Name": "M073 \u00B7 3-edge walk \u00B7 4 matches",
+        "Kind": "walk",
+        "Matches": 4,
+        "Size": 3
+      },
+      {
+        "Name": "M074 \u00B7 3-edge walk \u00B7 4 matches",
+        "Kind": "walk",
+        "Matches": 4,
+        "Size": 3
+      },
+      {
+        "Name": "M075 \u00B7 2-arm junction \u00B7 1 matches",
+        "Kind": "junction",
+        "Matches": 1,
+        "Size": 2
+      },
+      {
+        "Name": "M076 \u00B7 2-arm junction \u00B7 1 matches",
+        "Kind": "junction",
+        "Matches": 1,
+        "Size": 2
+      },
+      {
+        "Name": "M077 \u00B7 3-arm junction \u00B7 1 matches",
+        "Kind": "junction",
+        "Matches": 1,
+        "Size": 3
+      },
+      {
+        "Name": "M078 \u00B7 3-arm junction \u00B7 1 matches",
+        "Kind": "junction",
+        "Matches": 1,
+        "Size": 3
+      },
+      {
+        "Name": "M079 \u00B7 4-arm junction \u00B7 9 matches",
+        "Kind": "junction",
+        "Matches": 9,
+        "Size": 4
+      },
+      {
+        "Name": "M080 \u00B7 4-arm junction \u00B7 9 matches",
+        "Kind": "junction",
+        "Matches": 9,
+        "Size": 4
+      },
+      {
+        "Name": "M081 \u00B7 4-arm junction \u00B7 8 matches",
+        "Kind": "junction",
+        "Matches": 8,
+        "Size": 4
+      },
+      {
+        "Name": "M082 \u00B7 4-arm junction \u00B7 8 matches",
+        "Kind": "junction",
+        "Matches": 8,
+        "Size": 4
+      },
+      {
+        "Name": "M083 \u00B7 6-arm junction \u00B7 72 matches",
+        "Kind": "junction",
+        "Matches": 72,
+        "Size": 6
+      }
+    ],
+    "Interpretations": [
+      {
+        "Key": "D01",
+        "Name": "\u2192 channel \u002B \u2197 channel \u002B \u2196 channel",
+        "Kind": "basis",
+        "Covered": 289,
+        "Remainder": 0,
+        "Commutations": 251,
+        "Triangles": 180,
+        "Unexpected": 0,
+        "Boundary": 10,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": 500,
+        "MotifStraddling": 0,
+        "Refinements": 0
+      },
+      {
+        "Key": "D02",
+        "Name": "\u2192 channel \u002B \u2197 channel",
+        "Kind": "basis",
+        "Covered": 199,
+        "Remainder": 90,
+        "Commutations": 90,
+        "Triangles": 0,
+        "Unexpected": 180,
+        "Boundary": 0,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": 133,
+        "MotifStraddling": 358,
+        "Refinements": 1
+      },
+      {
+        "Key": "D03",
+        "Name": "\u2192 channel \u002B \u2196 channel",
+        "Kind": "basis",
+        "Covered": 190,
+        "Remainder": 99,
+        "Commutations": 81,
+        "Triangles": 0,
+        "Unexpected": 180,
+        "Boundary": 0,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": 117,
+        "MotifStraddling": 371,
+        "Refinements": 1
+      },
+      {
+        "Key": "D04",
+        "Name": "\u2197 channel \u002B \u2196 channel",
+        "Kind": "basis",
+        "Covered": 189,
+        "Remainder": 100,
+        "Commutations": 80,
+        "Triangles": 0,
+        "Unexpected": 180,
+        "Boundary": 10,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": 97,
+        "MotifStraddling": 391,
+        "Refinements": 1
+      },
+      {
+        "Key": "D05",
+        "Name": "\u2192 channel \u002B \u2199 / \u2196 two-phase flow",
+        "Kind": "basis",
+        "Covered": 289,
+        "Remainder": 0,
+        "Commutations": 27,
+        "Triangles": 180,
+        "Unexpected": 0,
+        "Boundary": 0,
+        "Branches": 80,
+        "Unsettled": 0,
+        "MotifContained": 500,
+        "MotifStraddling": 0,
+        "Refinements": 0
+      },
+      {
+        "Key": "D06",
+        "Name": "\u2197 channel \u002B \u2190 / \u2198 two-phase flow",
+        "Kind": "basis",
+        "Covered": 289,
+        "Remainder": 0,
+        "Commutations": 26,
+        "Triangles": 180,
+        "Unexpected": 0,
+        "Boundary": 0,
+        "Branches": 81,
+        "Unsettled": 0,
+        "MotifContained": 500,
+        "MotifStraddling": 0,
+        "Refinements": 0
+      },
+      {
+        "Key": "D07",
+        "Name": "\u2192 channel \u002B \u2197 / \u2198 two-phase flow",
+        "Kind": "basis",
+        "Covered": 289,
+        "Remainder": 0,
+        "Commutations": 19,
+        "Triangles": 180,
+        "Unexpected": 0,
+        "Boundary": 1,
+        "Branches": 80,
+        "Unsettled": 0,
+        "MotifContained": 500,
+        "MotifStraddling": 0,
+        "Refinements": 0
+      },
+      {
+        "Key": "D08",
+        "Name": "\u2197 channel \u002B \u2192 / \u2196 two-phase flow",
+        "Kind": "basis",
+        "Covered": 289,
+        "Remainder": 0,
+        "Commutations": 17,
+        "Triangles": 180,
+        "Unexpected": 0,
+        "Boundary": 1,
+        "Branches": 81,
+        "Unsettled": 0,
+        "MotifContained": 500,
+        "MotifStraddling": 0,
+        "Refinements": 0
+      },
+      {
+        "Key": "D09",
+        "Name": "\u2196 channel \u002B \u2192 / \u2199 two-phase flow",
+        "Kind": "basis",
+        "Covered": 289,
+        "Remainder": 0,
+        "Commutations": 17,
+        "Triangles": 180,
+        "Unexpected": 0,
+        "Boundary": 0,
+        "Branches": 90,
+        "Unsettled": 0,
+        "MotifContained": 500,
+        "MotifStraddling": 0,
+        "Refinements": 0
+      },
+      {
+        "Key": "D10",
+        "Name": "\u2197 channel \u002B \u2192 / \u2198 two-phase flow",
+        "Kind": "basis",
+        "Covered": 289,
+        "Remainder": 0,
+        "Commutations": 10,
+        "Triangles": 180,
+        "Unexpected": 0,
+        "Boundary": 0,
+        "Branches": 90,
+        "Unsettled": 0,
+        "MotifContained": 500,
+        "MotifStraddling": 0,
+        "Refinements": 0
+      },
+      {
+        "Key": "D11",
+        "Name": "\u2196 channel \u002B \u2190 / \u2199 two-phase flow",
+        "Kind": "basis",
+        "Covered": 289,
+        "Remainder": 0,
+        "Commutations": 9,
+        "Triangles": 180,
+        "Unexpected": 0,
+        "Boundary": 1,
+        "Branches": 90,
+        "Unsettled": 0,
+        "MotifContained": 500,
+        "MotifStraddling": 0,
+        "Refinements": 0
+      },
+      {
+        "Key": "D12",
+        "Name": "\u2192 channel \u002B \u2197 / \u2196 two-phase flow",
+        "Kind": "basis",
+        "Covered": 289,
+        "Remainder": 0,
+        "Commutations": 9,
+        "Triangles": 180,
+        "Unexpected": 0,
+        "Boundary": 0,
+        "Branches": 90,
+        "Unsettled": 0,
+        "MotifContained": 500,
+        "MotifStraddling": 0,
+        "Refinements": 0
+      },
+      {
+        "Key": "D13",
+        "Name": "\u2196 channel \u002B \u2192 / \u2197 two-phase flow",
+        "Kind": "basis",
+        "Covered": 289,
+        "Remainder": 0,
+        "Commutations": 8,
+        "Triangles": 180,
+        "Unexpected": 0,
+        "Boundary": 1,
+        "Branches": 90,
+        "Unsettled": 0,
+        "MotifContained": 500,
+        "MotifStraddling": 0,
+        "Refinements": 0
+      },
+      {
+        "Key": "D14",
+        "Name": "\u2196 channel \u002B \u2190 / \u2197 two-phase flow",
+        "Kind": "basis",
+        "Covered": 289,
+        "Remainder": 0,
+        "Commutations": 0,
+        "Triangles": 180,
+        "Unexpected": 0,
+        "Boundary": 0,
+        "Branches": 90,
+        "Unsettled": 0,
+        "MotifContained": 500,
+        "MotifStraddling": 0,
+        "Refinements": 0
+      },
+      {
+        "Key": "D15",
+        "Name": "\u2197 channel \u002B \u2190 / \u2196 two-phase flow",
+        "Kind": "basis",
+        "Covered": 289,
+        "Remainder": 0,
+        "Commutations": 0,
+        "Triangles": 180,
+        "Unexpected": 0,
+        "Boundary": 0,
+        "Branches": 90,
+        "Unsettled": 0,
+        "MotifContained": 500,
+        "MotifStraddling": 0,
+        "Refinements": 0
+      },
+      {
+        "Key": "D16",
+        "Name": "\u2192 channel \u002B \u2199 / \u2198 two-phase flow",
+        "Kind": "basis",
+        "Covered": 289,
+        "Remainder": 0,
+        "Commutations": 0,
+        "Triangles": 180,
+        "Unexpected": 0,
+        "Boundary": 0,
+        "Branches": 90,
+        "Unsettled": 0,
+        "MotifContained": 500,
+        "MotifStraddling": 0,
+        "Refinements": 0
+      },
+      {
+        "Key": "D17",
+        "Name": "\u2192 / \u2197 two-phase flow",
+        "Kind": "rhythm",
+        "Covered": 195,
+        "Remainder": 94,
+        "Commutations": 0,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 38,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": null,
+        "MotifStraddling": null,
+        "Refinements": null
+      },
+      {
+        "Key": "D18",
+        "Name": "\u2192 / \u2199 two-phase flow",
+        "Kind": "rhythm",
+        "Covered": 195,
+        "Remainder": 94,
+        "Commutations": 0,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 38,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": null,
+        "MotifStraddling": null,
+        "Refinements": null
+      },
+      {
+        "Key": "D19",
+        "Name": "\u2190 / \u2197 two-phase flow",
+        "Kind": "rhythm",
+        "Covered": 195,
+        "Remainder": 94,
+        "Commutations": 0,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 38,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": null,
+        "MotifStraddling": null,
+        "Refinements": null
+      },
+      {
+        "Key": "D20",
+        "Name": "\u2190 / \u2199 two-phase flow",
+        "Kind": "rhythm",
+        "Covered": 195,
+        "Remainder": 94,
+        "Commutations": 0,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 38,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": null,
+        "MotifStraddling": null,
+        "Refinements": null
+      },
+      {
+        "Key": "D21",
+        "Name": "\u2192 / \u2196 two-phase flow",
+        "Kind": "rhythm",
+        "Covered": 190,
+        "Remainder": 99,
+        "Commutations": 0,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 20,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": null,
+        "MotifStraddling": null,
+        "Refinements": null
+      },
+      {
+        "Key": "D22",
+        "Name": "\u2190 / \u2198 two-phase flow",
+        "Kind": "rhythm",
+        "Covered": 190,
+        "Remainder": 99,
+        "Commutations": 0,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 20,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": null,
+        "MotifStraddling": null,
+        "Refinements": null
+      },
+      {
+        "Key": "D23",
+        "Name": "\u2197 / \u2198 two-phase flow",
+        "Kind": "rhythm",
+        "Covered": 189,
+        "Remainder": 100,
+        "Commutations": 0,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 18,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": null,
+        "MotifStraddling": null,
+        "Refinements": null
+      },
+      {
+        "Key": "D24",
+        "Name": "\u2199 / \u2196 two-phase flow",
+        "Kind": "rhythm",
+        "Covered": 189,
+        "Remainder": 100,
+        "Commutations": 0,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 18,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": null,
+        "MotifStraddling": null,
+        "Refinements": null
+      },
+      {
+        "Key": "D25",
+        "Name": "\u2192 / \u2198 two-phase flow",
+        "Kind": "rhythm",
+        "Covered": 178,
+        "Remainder": 111,
+        "Commutations": 0,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 54,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": null,
+        "MotifStraddling": null,
+        "Refinements": null
+      },
+      {
+        "Key": "D26",
+        "Name": "\u2190 / \u2196 two-phase flow",
+        "Kind": "rhythm",
+        "Covered": 178,
+        "Remainder": 111,
+        "Commutations": 0,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 54,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": null,
+        "MotifStraddling": null,
+        "Refinements": null
+      },
+      {
+        "Key": "D27",
+        "Name": "\u2197 / \u2196 two-phase flow",
+        "Kind": "rhythm",
+        "Covered": 177,
+        "Remainder": 112,
+        "Commutations": 0,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 56,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": null,
+        "MotifStraddling": null,
+        "Refinements": null
+      },
+      {
+        "Key": "D28",
+        "Name": "\u2199 / \u2198 two-phase flow",
+        "Kind": "rhythm",
+        "Covered": 177,
+        "Remainder": 112,
+        "Commutations": 0,
+        "Triangles": 0,
+        "Unexpected": 0,
+        "Boundary": 56,
+        "Branches": 0,
+        "Unsettled": 0,
+        "MotifContained": null,
+        "MotifStraddling": null,
+        "Refinements": null
+      }
+    ]
+  }
+]

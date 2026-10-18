@@ -27,6 +27,7 @@ prediction and control, grounded in these experiments.
 | Local service economy | [Ecology report](UtilityEcology/REPORT.md) | [Review](UtilityEcology/review.html) |
 | Progress alongside error | [Progress report](UtilityEcology/PROGRESS-REPORT.md) | [Review](UtilityEcology/progress-review.html) |
 | Finite seed and paid candidate admission | [Seed report](UtilityEcology/SEED-REPORT.md) | [Review](UtilityEcology/seed-review.html) |
+| Qualitative motif and disposition recognition | [Recognition report](../Gojo/docs/GojoQualitativeRecognition.md), [observation adapter](QualitativeFrieze/QualitativeRecognitionObservation.cs) | [Interactive gallery](QualitativeFrieze/results/qualitative-recognition/gallery.html) |
 
 ## Fresh checkout
 
@@ -54,6 +55,7 @@ does not expand those claims.
 ## Run the latest study or swimming demo
 
 ```powershell
+dotnet run --project experiments/QualitativeFrieze -c Release -- --qualitative-recognition
 dotnet run --project experiments/UtilityEcology -c Release -- --seed-trial --pilot --phase-length 512 --output experiments/UtilityEcology/results/new-seed-pilot
 ./experiments/Phototaxis.Browser/Start-Preview.ps1
 ```

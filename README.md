@@ -71,6 +71,12 @@ composition and lifecycle work. Read the [chronological overview](experiments/OV
 for findings, or the [experiment index](experiments/README.md) for runnable
 commands, retained results and the lossless large-result restore helper.
 
+The [qualitative recognition study](Gojo/docs/GojoQualitativeRecognition.md)
+examines recurring motifs and larger flow arrangements from segment observations
+with construction history and position words withheld. Its retained
+[interactive gallery](experiments/QualitativeFrieze/results/qualitative-recognition/gallery.html)
+compares several interpretations of each field.
+
 For example, run the prospective-prediction experiment and its notebook tests
 from the repository root:
 

@@ -19,6 +19,15 @@ if (args.Contains("--unit-arrangements")) return UnitArrangementExperiment.Run(a
 if (args.Contains("--ornament-perspectives")) return OrnamentPerspectiveExperiment.Run(args.Where(argument => argument != "--ornament-perspectives").ToArray());
 if (args.Contains("--ornament-discovery")) return OrnamentDiscoveryExperiment.Run(args.Where(argument => argument != "--ornament-discovery").ToArray());
 if (args.Contains("--ornament-perturbations")) return OrnamentPerturbationExperiment.Run(args.Where(argument => argument != "--ornament-perturbations").ToArray());
+if (args.Contains("--qualitative-recognition"))
+{
+    var recognitionOutput = Path.Combine("experiments", "QualitativeFrieze", "results", "qualitative-recognition");
+    var recognitionArgs = args.Where(argument => argument != "--qualitative-recognition").ToArray();
+    for (var i = 0; i < recognitionArgs.Length; i++)
+        if (recognitionArgs[i] == "--output" && i + 1 < recognitionArgs.Length) recognitionOutput = recognitionArgs[++i];
+        else throw new ArgumentException("Usage: --qualitative-recognition [--output DIRECTORY]");
+    return QualitativeRecognitionExperiment.Run(recognitionOutput);
+}
 if (args.Contains("--wallpaper-machine")) return WallpaperMachineExperiment.Run(args.Where(argument => argument != "--wallpaper-machine").ToArray());
 if (args.Contains("--wallpaper-field")) return ConnectedWallpaperExperiment.Run(args.Where(argument => argument != "--wallpaper-field").ToArray());
 if (args.Contains("--junction-feedback")) return JunctionFeedbackExperiment.Run(args.Where(argument => argument != "--junction-feedback").ToArray());
