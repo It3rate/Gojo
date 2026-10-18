@@ -19,6 +19,15 @@ if (args.Contains("--unit-arrangements")) return UnitArrangementExperiment.Run(a
 if (args.Contains("--ornament-perspectives")) return OrnamentPerspectiveExperiment.Run(args.Where(argument => argument != "--ornament-perspectives").ToArray());
 if (args.Contains("--ornament-discovery")) return OrnamentDiscoveryExperiment.Run(args.Where(argument => argument != "--ornament-discovery").ToArray());
 if (args.Contains("--ornament-perturbations")) return OrnamentPerturbationExperiment.Run(args.Where(argument => argument != "--ornament-perturbations").ToArray());
+if (args.Contains("--hierarchical-recognition"))
+{
+    var hierarchicalOutput = Path.Combine("experiments", "QualitativeFrieze", "results", "hierarchical-recognition");
+    var hierarchicalArgs = args.Where(argument => argument != "--hierarchical-recognition").ToArray();
+    for (var i = 0; i < hierarchicalArgs.Length; i++)
+        if (hierarchicalArgs[i] == "--output" && i + 1 < hierarchicalArgs.Length) hierarchicalOutput = hierarchicalArgs[++i];
+        else throw new ArgumentException("Usage: --hierarchical-recognition [--output DIRECTORY]");
+    return QualitativeHierarchicalRecognitionExperiment.Run(hierarchicalOutput);
+}
 if (args.Contains("--recognition-firmness"))
 {
     var firmnessOutput = Path.Combine("experiments", "QualitativeFrieze", "results", "recognition-firmness");

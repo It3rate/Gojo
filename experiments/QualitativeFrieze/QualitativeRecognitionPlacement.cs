@@ -343,6 +343,11 @@ public sealed class QualitativeRecognitionPlacementPublisher
         {
             var projections = words.Select(word => word is null ? null : S(E(word).Cast<Relation>().Where(move =>
                 sourceFrame.Direction(move, out var selected, out _, out _) && ReferenceEquals(axis, selected)).Cast<IElement>().ToArray())).ToArray();
+            // Repeated participation in one actual reach admits a derived
+            // ordering index. Verify its equality buckets and adjacent order
+            // links through the same formal-word reader; their chain supplies
+            // the full order without retaining every pairwise comparison.
+            if (TrySharedReachOrder(out var indexed)) return indexed;
             var comparisons = new int?[sites.Length, sites.Length]; var complete = words.All(word => word is not null);
             for (var i = 0; i < sites.Length; i++)
             {
@@ -373,6 +378,44 @@ public sealed class QualitativeRecognitionPlacementPublisher
             }
             classes.Sort((a, b) => comparisons[a[0], b[0]]!.Value);
             return S(classes.Select(group => (IElement)S(group.Select(index => sites[index]).ToArray())).ToArray());
+
+            bool TrySharedReachOrder(out Relation order)
+            {
+                order = null!;
+                if (projections.Any(projection => projection is null)) return false;
+                var moves = projections.SelectMany(projection => E(projection!)).Cast<Relation>().ToArray();
+                var reaches = moves.Select(move => move.Right).Distinct(N.Participants.Instance).ToArray();
+                if (reaches.Length > 1) return false;
+                var values = projections.Select(projection => E(projection!).Cast<Relation>().Aggregate(0, (value, move) =>
+                {
+                    sourceFrame.Direction(move, out _, out var forward, out _);
+                    return checked(value + (forward ? 1 : -1));
+                })).ToArray();
+                var groups = Enumerable.Range(0, sites.Length).GroupBy(index => values[index]).OrderBy(group => group.Key)
+                    .Select(group => group.ToArray()).ToArray();
+                var proofs = new List<IElement>();
+                for (var groupIndex = 0; groupIndex < groups.Length; groupIndex++)
+                {
+                    var group = groups[groupIndex];
+                    foreach (var index in group.Skip(1))
+                        if (!Verify(group[0], index, equal: true)) return false;
+                    if (groupIndex > 0 && !Verify(groups[groupIndex - 1][0], group[0], equal: false)) return false;
+                }
+                reads.Add(new Relation(new Relation(axis, S(reaches)), S(proofs.ToArray())));
+                order = S(groups.Select(group => (IElement)S(group.Select(index => sites[index]).ToArray())).ToArray());
+                return true;
+
+                bool Verify(int fromIndex, int toIndex, bool equal)
+                {
+                    var difference = sourceFrame.Reduce(projections[toIndex]!, Inverse(projections[fromIndex]!));
+                    if (!sourceFrame.TryReadResult(difference, out var remainder, out _, out var unknown) ||
+                        !C(remainder, out var terms) || E(unknown).Length != 0 ||
+                        (equal ? terms.Length != 0 : terms.Length == 0 || terms.Any(term => term is not Relation move ||
+                            !sourceFrame.Direction(move, out var selected, out var forward, out _) || !ReferenceEquals(selected, axis) || !forward))) return false;
+                    proofs.Add(new Relation(new Relation(axis, new Relation(sites[fromIndex], sites[toIndex])), difference));
+                    return true;
+                }
+            }
         }
         bool ValidWord(Relation word) => C(word, out var terms) && terms.All(term => term is Relation move && sourceFrame.Direction(move, out _, out _, out _));
         Relation Inverse(Relation word) => S(E(word).Reverse().Cast<Relation>().Select(move =>

@@ -11,6 +11,13 @@ Some studies test a supplied mechanism; others let a learner select or adjust
 parts. A working mechanism and an improvement over a simpler control are
 different results throughout this guide.
 
+The later qualitative-pattern sequence is indexed in the
+[experiment catalog](README.md). Its latest
+[hierarchical recognition report](../Gojo/docs/GojoHierarchicalRecognition.md)
+and [interactive gallery](QualitativeFrieze/results/hierarchical-recognition/gallery.html)
+follow motif observations into row programs and higher arrangements, then trace
+specific unresolved questions back down through local services.
+
 ## Reading order
 
 | Order | Recorded period | Work |

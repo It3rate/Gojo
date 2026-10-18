@@ -80,6 +80,11 @@ The [evidence and placement follow-up](Gojo/docs/GojoQualitativeRecognitionFirmn
 separates admission from demonstrated flow, adds ordinal chamber placement,
 and rechecks preserved motifs against local changes in its
 [gallery](experiments/QualitativeFrieze/results/recognition-firmness/gallery.html).
+The [hierarchical recognition study](Gojo/docs/GojoHierarchicalRecognition.md)
+composes motifs, chamber roles and row programs across opaque interfaces.
+Its [interactive gallery](experiments/QualitativeFrieze/results/hierarchical-recognition/gallery.html)
+follows questions downward and actual evidence back upward, including contrary,
+ambiguous and capacity-limited answers.
 
 For example, run the prospective-prediction experiment and its notebook tests
 from the repository root:

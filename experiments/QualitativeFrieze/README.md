@@ -320,5 +320,25 @@ all geometric symmetries or all possible unmeasured embeddings.
 Run the focused experiments with:
 
 ```powershell
-dotnet test experiments/QualitativeExecution.Tests -c Release --filter "FullyQualifiedName~Frieze|FullyQualifiedName~QualitativeCoverageTests|FullyQualifiedName~PhaseEventNetworkTests|FullyQualifiedName~QualitativeMotionFrameTests|FullyQualifiedName~PatternShapingLibraryTests|FullyQualifiedName~QualitativePartitionTests|FullyQualifiedName~QualitativeWeaveTests|FullyQualifiedName~RibbonPartitionSupplierTests"
+dotnet test Tests/QualitativeExecution.Tests -c Release --filter "FullyQualifiedName~Frieze|FullyQualifiedName~QualitativeCoverageTests|FullyQualifiedName~PhaseEventNetworkTests|FullyQualifiedName~QualitativeMotionFrameTests|FullyQualifiedName~PatternShapingLibraryTests|FullyQualifiedName~QualitativePartitionTests|FullyQualifiedName~QualitativeWeaveTests|FullyQualifiedName~RibbonPartitionSupplierTests"
 ```
+
+## Hierarchical recognition
+
+The [layered study](../../Gojo/docs/GojoHierarchicalRecognition.md) reads fine
+motifs as chamber roles, then lifts whole row programs into fresh participants
+for the same finite phase-graph reader at the next level. An upper unresolved
+claim can query a row service, which queries a motif service, preserving actual
+contrary answers, ambiguous alternatives, capacity blocks and causal timelines.
+The [interactive gallery](results/hierarchical-recognition/gallery.html)
+provides initial/final stages and fine, cell-role and row-program views.
+
+```powershell
+dotnet run --project experiments/QualitativeFrieze -c Release -- --hierarchical-recognition
+```
+
+The primitive vocabulary and layout are induced from the full observation;
+sequence programs alone use disjoint training and held-out instances. This is
+bounded symbolic induction and observational refinement, not gradient training
+or material tension transfer. Detailed proofs stay on private audit surfaces;
+public layers communicate through fresh identities, prototypes and ports.
