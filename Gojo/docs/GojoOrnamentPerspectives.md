@@ -230,6 +230,11 @@ readers can validate supplied proposals and derive new structure symbolically;
 they do not discover the source embedding from an image or learn the supplied
 grouping rules.
 
+The subsequent [discovery and emphasis checkpoint](GojoOrnamentDiscovery.md)
+adds bounded recurring-cycle and route discovery over these exposed topologies,
+then makes alternative readings prominent over the complete constructed field.
+It retains declared questions rather than claiming unrestricted discovery.
+
 Bourgoin's points/lines/cells perspectives and centre/diagonal constructions
 motivated the incidence experiments; see his [network discussion, printed
 pp. 246–250](https://archive.org/details/thoriedelorneme01bourgoog/page/n269/mode/1up).

@@ -1,0 +1,195 @@
+{
+  "Schema": "gojo-ornament-discovery-v1",
+  "Seconds": 8.2915536,
+  "NativeElements": 3419306,
+  "NativeNumericElements": 0,
+  "CellLevels": [
+    {
+      "Patch": "V01-T",
+      "Level": 1,
+      "Complete": true,
+      "Families": [
+        {
+          "Arity": 6,
+          "Occurrences": 20
+        }
+      ],
+      "SingletonComplement": 0
+    },
+    {
+      "Patch": "V01-T",
+      "Level": 2,
+      "Complete": true,
+      "Families": [
+        {
+          "Arity": 3,
+          "Occurrences": 24
+        }
+      ],
+      "SingletonComplement": 0
+    },
+    {
+      "Patch": "V01-T",
+      "Level": 3,
+      "Complete": true,
+      "Families": [
+        {
+          "Arity": 6,
+          "Occurrences": 6
+        }
+      ],
+      "SingletonComplement": 0
+    },
+    {
+      "Patch": "V01-F",
+      "Level": 1,
+      "Complete": true,
+      "Families": [
+        {
+          "Arity": 4,
+          "Occurrences": 24
+        },
+        {
+          "Arity": 8,
+          "Occurrences": 15
+        }
+      ],
+      "SingletonComplement": 0
+    },
+    {
+      "Patch": "V01-F",
+      "Level": 2,
+      "Complete": true,
+      "Families": [
+        {
+          "Arity": 3,
+          "Occurrences": 44
+        }
+      ],
+      "SingletonComplement": 0
+    },
+    {
+      "Patch": "V01-F",
+      "Level": 3,
+      "Complete": true,
+      "Families": [
+        {
+          "Arity": 4,
+          "Occurrences": 8
+        },
+        {
+          "Arity": 8,
+          "Occurrences": 3
+        }
+      ],
+      "SingletonComplement": 0
+    }
+  ],
+  "Readings": [
+    {
+      "Id": "D01",
+      "Name": "Remembered marker blossoms",
+      "Patch": "V01-F",
+      "Level": 2,
+      "Occurrences": 39,
+      "Whole": 372,
+      "Selected": 156,
+      "Complement": 216,
+      "RhythmComplete": null,
+      "RhythmConflicts": 0,
+      "RouteCandidates": 0,
+      "BranchAlternatives": 0
+    },
+    {
+      "Id": "D02",
+      "Name": "Alternating diamond gardens",
+      "Patch": "V01-F",
+      "Level": 1,
+      "Occurrences": 24,
+      "Whole": 372,
+      "Selected": 96,
+      "Complement": 276,
+      "RhythmComplete": true,
+      "RhythmConflicts": 0,
+      "RouteCandidates": 0,
+      "BranchAlternatives": 0
+    },
+    {
+      "Id": "D03",
+      "Name": "Eight-sided chambers",
+      "Patch": "V01-F",
+      "Level": 1,
+      "Occurrences": 15,
+      "Whole": 372,
+      "Selected": 98,
+      "Complement": 274,
+      "RhythmComplete": null,
+      "RhythmConflicts": 0,
+      "RouteCandidates": 0,
+      "BranchAlternatives": 0
+    },
+    {
+      "Id": "D04",
+      "Name": "Triangular star field",
+      "Patch": "V01-F",
+      "Level": 2,
+      "Occurrences": 44,
+      "Whole": 372,
+      "Selected": 78,
+      "Complement": 294,
+      "RhythmComplete": null,
+      "RhythmConflicts": 0,
+      "RouteCandidates": 0,
+      "BranchAlternatives": 0
+    },
+    {
+      "Id": "D05",
+      "Name": "Six-sided rosettes",
+      "Patch": "V01-T",
+      "Level": 1,
+      "Occurrences": 20,
+      "Whole": 202,
+      "Selected": 77,
+      "Complement": 125,
+      "RhythmComplete": null,
+      "RhythmConflicts": 0,
+      "RouteCandidates": 0,
+      "BranchAlternatives": 0
+    },
+    {
+      "Id": "D06",
+      "Name": "Growing vine strands",
+      "Patch": "V01-F",
+      "Level": 1,
+      "Occurrences": 4,
+      "Whole": 372,
+      "Selected": 68,
+      "Complement": 304,
+      "RhythmComplete": null,
+      "RhythmConflicts": 0,
+      "RouteCandidates": 52,
+      "BranchAlternatives": 0
+    },
+    {
+      "Id": "D07",
+      "Name": "The other vine reading",
+      "Patch": "V01-F",
+      "Level": 1,
+      "Occurrences": 4,
+      "Whole": 372,
+      "Selected": 68,
+      "Complement": 304,
+      "RhythmComplete": null,
+      "RhythmConflicts": 0,
+      "RouteCandidates": 52,
+      "BranchAlternatives": 0
+    }
+  ],
+  "Limits": [
+    "Bounded supplied cellular topology, not image parsing or unrestricted motif discovery.",
+    "Cycle role-renaming is a coarse arity read, not metric congruence or geometric shape classification.",
+    "Heading grammars and translation/alternation questions are declared; routes and occurrence matches are found from actual structure.",
+    "Ornamental glyphs and visual contrast are presentation interpretations; no aesthetic preference was learned.",
+    "All complementary constructed strokes remain visible. Independent projected crossings do not become joins."
+  ]
+}
