@@ -1,0 +1,34 @@
+{
+  "mode": "field",
+  "skeletonName": "Flat-tipped stars and twelve-ray florets",
+  "plate": {
+    "id": "R-B26-field",
+    "title": "B26 \u00B7 Inset fields and quiet construction",
+    "sourceId": "B26",
+    "description": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact.",
+    "svg": "",
+    "units": 9,
+    "paths": 15,
+    "chords": 72,
+    "addedPaths": 2,
+    "attachments": 2,
+    "strokes": 648,
+    "accepted": 657,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 36,
+    "nativeObjects": 10033,
+    "numericParticipants": 0,
+    "layerPaths": [
+      13,
+      2,
+      13
+    ],
+    "focusComplete": [
+      true,
+      true,
+      true
+    ],
+    "palette": "Aubergine, peach \u0026 parchment"
+  }
+}

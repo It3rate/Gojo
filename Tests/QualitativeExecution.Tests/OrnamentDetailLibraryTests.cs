@@ -152,6 +152,38 @@ public sealed class OrnamentDetailLibraryTests
         Assert.Equal(8, petals);
     }
 
+    [Fact]
+    public void RunningVineBendsAwayFromTheEmergingLeafShoulders()
+    {
+        var study = Studies.Value.Single(study => study.Id == "D02");
+        var path = Assert.IsType<Relation>(E(study.Design.Enrichment.Source.Paths)[0]);
+        Assert.Equal(new[] { (0, -12), (0, -8), (-1, -4), (0, 0), (1, 4), (0, 8), (0, 14) },
+            Points(study.Design.Source.Frame, path));
+    }
+
+    [Fact]
+    public void CornerCurlKeepsItsRootAndAvoidsTheParentAndRightLeafRegion()
+    {
+        var study = Studies.Value.Single(study => study.Id == "D07");
+        var paths = E(study.Design.Enrichment.Source.Paths).Cast<Relation>().ToArray();
+        var curl = Points(study.Design.Source.Frame, paths[^1]);
+        Assert.Equal((1, -1), curl[0]); Assert.Equal((3, 1), curl[^1]);
+        Assert.All(curl, point => Assert.InRange(point.X, 1, 5));
+        var parent = Points(study.Design.Source.Frame, paths[0]);
+        for (var i = 1; i < curl.Length; i++)
+            for (var j = 1; j < parent.Length; j++)
+            {
+                var a = curl[i - 1]; var b = curl[i]; var c = parent[j - 1]; var d = parent[j];
+                // No proper crossing remains. Coincidence at the exact
+                // authored root is retained and is checked separately.
+                Assert.False(Cross(a, b, c) * Cross(a, b, d) < 0 &&
+                    Cross(c, d, a) * Cross(c, d, b) < 0);
+            }
+        Assert.Contains(curl[0], parent);
+        static long Cross((int X, int Y) a, (int X, int Y) b, (int X, int Y) p) =>
+            (long)(b.X - a.X) * (p.Y - a.Y) - (long)(b.Y - a.Y) * (p.X - a.X);
+    }
+
     private static (int X, int Y)[] Points(QualitativeMotionFrame frame, Relation path)
     {
         var cursor = Word((Relation)path.Left); var result = new List<(int X, int Y)> { cursor };

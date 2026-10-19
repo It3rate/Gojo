@@ -1,0 +1,38 @@
+{
+  "design": {
+    "mode": "field",
+    "skeletonName": "Octagons with diamond gaps \u00B7 first interpretation",
+    "plate": {
+      "id": "R-B06-field",
+      "title": "B06 \u00B7 Inset fields and quiet construction",
+      "sourceId": "B06",
+      "description": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact.",
+      "svg": "",
+      "units": 9,
+      "paths": 3,
+      "chords": 28,
+      "addedPaths": 2,
+      "attachments": 2,
+      "strokes": 252,
+      "accepted": 39,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 15,
+      "nativeObjects": 3990,
+      "numericParticipants": 0,
+      "layerPaths": [
+        1,
+        2,
+        1
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Night garden, lilac \u0026 copper"
+    }
+  },
+  "constructionNotes": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+  "curvedPlacedPaths": 9
+}

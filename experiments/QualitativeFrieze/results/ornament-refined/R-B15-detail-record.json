@@ -1,0 +1,34 @@
+{
+  "mode": "detail",
+  "skeletonName": "Two-family oblique mesh",
+  "plate": {
+    "id": "R-B15-detail",
+    "title": "B15 \u00B7 Fine lattice grain and guided leaves",
+    "sourceId": "B15",
+    "description": "The small mesh receives one contained leaf or narrow leaf images along actual half-diagonal guides. No fan of corner leaves accumulates at a shared lattice vertex.",
+    "svg": "",
+    "units": 9,
+    "paths": 3,
+    "chords": 11,
+    "addedPaths": 2,
+    "attachments": 2,
+    "strokes": 99,
+    "accepted": 57,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 33,
+    "nativeObjects": 2156,
+    "numericParticipants": 0,
+    "layerPaths": [
+      1,
+      2,
+      1
+    ],
+    "focusComplete": [
+      true,
+      true,
+      true
+    ],
+    "palette": "Ivory, oxblood \u0026 sage"
+  }
+}

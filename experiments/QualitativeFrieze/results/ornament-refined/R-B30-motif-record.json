@@ -1,0 +1,34 @@
+{
+  "mode": "motif",
+  "skeletonName": "Faceted cloud-scale arches",
+  "plate": {
+    "id": "R-B30-motif",
+    "title": "B30 \u00B7 Cloud valleys and round foliage",
+    "sourceId": "B30",
+    "description": "Angular cloud companions lead the overall design. Paired round leaves and a rooted pearl occupy each existing valley in the intermediate design; fine leaves follow the actual arch courses.",
+    "svg": "",
+    "units": 9,
+    "paths": 28,
+    "chords": 188,
+    "addedPaths": 24,
+    "attachments": 24,
+    "strokes": 1692,
+    "accepted": 115,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 29,
+    "nativeObjects": 53126,
+    "numericParticipants": 0,
+    "layerPaths": [
+      4,
+      12,
+      16
+    ],
+    "focusComplete": [
+      true,
+      true,
+      true
+    ],
+    "palette": "Blush, petrol \u0026 mulberry"
+  }
+}

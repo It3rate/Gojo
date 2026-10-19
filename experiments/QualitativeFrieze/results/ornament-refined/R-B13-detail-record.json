@@ -1,0 +1,34 @@
+{
+  "mode": "detail",
+  "skeletonName": "Interlocking serif-I compartments",
+  "plate": {
+    "id": "R-B13-detail",
+    "title": "B13 \u00B7 Veins and foliage following the scaffold",
+    "sourceId": "B13",
+    "description": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact.",
+    "svg": "",
+    "units": 9,
+    "paths": 12,
+    "chords": 160,
+    "addedPaths": 8,
+    "attachments": 8,
+    "strokes": 1440,
+    "accepted": 596,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 124,
+    "nativeObjects": 24740,
+    "numericParticipants": 0,
+    "layerPaths": [
+      4,
+      12,
+      0
+    ],
+    "focusComplete": [
+      true,
+      true,
+      true
+    ],
+    "palette": "Ivory, oxblood \u0026 sage"
+  }
+}

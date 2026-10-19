@@ -1,0 +1,34 @@
+{
+  "mode": "motif",
+  "skeletonName": "Crossed faceted loop lattice",
+  "plate": {
+    "id": "R-B34-motif",
+    "title": "B34 \u00B7 Conventional leaves and medallions",
+    "sourceId": "B34",
+    "description": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact.",
+    "svg": "",
+    "units": 9,
+    "paths": 16,
+    "chords": 60,
+    "addedPaths": 10,
+    "attachments": 10,
+    "strokes": 540,
+    "accepted": 90,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 18,
+    "nativeObjects": 11710,
+    "numericParticipants": 0,
+    "layerPaths": [
+      6,
+      6,
+      10
+    ],
+    "focusComplete": [
+      true,
+      true,
+      true
+    ],
+    "palette": "Blush, petrol \u0026 mulberry"
+  }
+}

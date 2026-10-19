@@ -1,0 +1,38 @@
+{
+  "design": {
+    "mode": "motif",
+    "skeletonName": "Six-point star junctions",
+    "plate": {
+      "id": "R-B25-motif",
+      "title": "B25 \u00B7 Repeated lotus and trefoil units",
+      "sourceId": "B25",
+      "description": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact.",
+      "svg": "",
+      "units": 9,
+      "paths": 17,
+      "chords": 61,
+      "addedPaths": 13,
+      "attachments": 13,
+      "strokes": 549,
+      "accepted": 61,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 11,
+      "nativeObjects": 11962,
+      "numericParticipants": 0,
+      "layerPaths": [
+        4,
+        7,
+        10
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Oxblood, lapis \u0026 shell"
+    }
+  },
+  "constructionNotes": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+  "curvedPlacedPaths": 54
+}

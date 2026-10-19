@@ -1,0 +1,34 @@
+{
+  "mode": "field",
+  "skeletonName": "Opposed chevron lozenges",
+  "plate": {
+    "id": "R-B21-field",
+    "title": "B21 \u00B7 Inset fields and quiet construction",
+    "sourceId": "B21",
+    "description": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact.",
+    "svg": "",
+    "units": 9,
+    "paths": 6,
+    "chords": 40,
+    "addedPaths": 4,
+    "attachments": 4,
+    "strokes": 360,
+    "accepted": 130,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 59,
+    "nativeObjects": 5019,
+    "numericParticipants": 0,
+    "layerPaths": [
+      2,
+      4,
+      2
+    ],
+    "focusComplete": [
+      true,
+      true,
+      true
+    ],
+    "palette": "Chalk, ink-blue \u0026 terracotta"
+  }
+}

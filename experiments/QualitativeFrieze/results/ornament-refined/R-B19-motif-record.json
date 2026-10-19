@@ -1,0 +1,34 @@
+{
+  "mode": "motif",
+  "skeletonName": "Oblique running bond",
+  "plate": {
+    "id": "R-B19-motif",
+    "title": "B19 \u00B7 Conventional leaves and medallions",
+    "sourceId": "B19",
+    "description": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact.",
+    "svg": "",
+    "units": 9,
+    "paths": 4,
+    "chords": 15,
+    "addedPaths": 3,
+    "attachments": 3,
+    "strokes": 135,
+    "accepted": 53,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 28,
+    "nativeObjects": 3528,
+    "numericParticipants": 0,
+    "layerPaths": [
+      1,
+      2,
+      2
+    ],
+    "focusComplete": [
+      true,
+      true,
+      true
+    ],
+    "palette": "Oxblood, lapis \u0026 shell"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "schema": "gojo-ornament-refined-verification-v1",
+  "solutionTests": {
+    "command": "dotnet test Gojo.slnx -c Release --logger trx --results-directory artifacts/ornament-refined-verified-tests --nologo",
+    "assemblies": 12,
+    "passed": 4224,
+    "failed": 0,
+    "skipped": 0
+  },
+  "nativeCollection": {
+    "skeletons": 36,
+    "designs": 108,
+    "unitsPerDesign": 9,
+    "completeLayerFocusReads": 324,
+    "blocked": 0,
+    "open": 0,
+    "numericParticipants": 0,
+    "curveStudies": 3
+  },
+  "browserReport": "browser-check.json",
+  "limitations": [
+    "Curve fillets are selected display interpretations over native guides.",
+    "Finite examples and selected fit checks do not prove general clearance, native curvature, infinite tiling or aesthetic quality.",
+    "Some enrichments use landmark offsets without physical contact with the visible parent stroke."
+  ]
+}

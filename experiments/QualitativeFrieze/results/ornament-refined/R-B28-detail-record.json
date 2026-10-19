@@ -1,0 +1,34 @@
+{
+  "mode": "detail",
+  "skeletonName": "Faceted shell-fan courses",
+  "plate": {
+    "id": "R-B28-detail",
+    "title": "B28 \u00B7 Graded lotus fans",
+    "sourceId": "B28",
+    "description": "Each actual shell owns a broad inset fan, a graded five-lobed lotus, or fine rib-bound foliage. The common fan base and its spreading construction remain visible.",
+    "svg": "",
+    "units": 9,
+    "paths": 16,
+    "chords": 86,
+    "addedPaths": 8,
+    "attachments": 8,
+    "strokes": 774,
+    "accepted": 356,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 76,
+    "nativeObjects": 13202,
+    "numericParticipants": 0,
+    "layerPaths": [
+      8,
+      8,
+      8
+    ],
+    "focusComplete": [
+      true,
+      true,
+      true
+    ],
+    "palette": "Celadon, plum \u0026 apricot"
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "design": {
+    "mode": "motif",
+    "skeletonName": "Octagons with diamond gaps \u00B7 first interpretation",
+    "plate": {
+      "id": "R-B06-motif",
+      "title": "B06 \u00B7 Conventional leaves and medallions",
+      "sourceId": "B06",
+      "description": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact.",
+      "svg": "",
+      "units": 9,
+      "paths": 10,
+      "chords": 40,
+      "addedPaths": 9,
+      "attachments": 9,
+      "strokes": 360,
+      "accepted": 39,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 15,
+      "nativeObjects": 8058,
+      "numericParticipants": 0,
+      "layerPaths": [
+        1,
+        5,
+        5
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Ivory, oxblood \u0026 sage"
+    }
+  },
+  "constructionNotes": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+  "curvedPlacedPaths": 36
+}

@@ -1,0 +1,34 @@
+{
+  "mode": "field",
+  "skeletonName": "Squares meet diamonds",
+  "plate": {
+    "id": "R-B03-field",
+    "title": "B03 \u00B7 Inset fields and quiet construction",
+    "sourceId": "B03",
+    "description": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact.",
+    "svg": "",
+    "units": 9,
+    "paths": 12,
+    "chords": 96,
+    "addedPaths": 8,
+    "attachments": 8,
+    "strokes": 864,
+    "accepted": 111,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 15,
+    "nativeObjects": 10095,
+    "numericParticipants": 0,
+    "layerPaths": [
+      4,
+      8,
+      4
+    ],
+    "focusComplete": [
+      true,
+      true,
+      true
+    ],
+    "palette": "Ultramarine, sky \u0026 vermilion"
+  }
+}

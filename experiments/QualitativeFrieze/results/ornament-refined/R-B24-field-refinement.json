@@ -1,0 +1,38 @@
+{
+  "design": {
+    "mode": "field",
+    "skeletonName": "Sliding triangles around shorter hexagon gaps",
+    "plate": {
+      "id": "R-B24-field",
+      "title": "B24 \u00B7 Inset fields and quiet construction",
+      "sourceId": "B24",
+      "description": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact.",
+      "svg": "",
+      "units": 9,
+      "paths": 6,
+      "chords": 48,
+      "addedPaths": 4,
+      "attachments": 4,
+      "strokes": 432,
+      "accepted": 68,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 22,
+      "nativeObjects": 7292,
+      "numericParticipants": 0,
+      "layerPaths": [
+        2,
+        4,
+        2
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Aubergine, peach \u0026 parchment"
+    }
+  },
+  "constructionNotes": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+  "curvedPlacedPaths": 18
+}

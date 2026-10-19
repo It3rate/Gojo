@@ -1,0 +1,38 @@
+{
+  "design": {
+    "mode": "motif",
+    "skeletonName": "Alternating pointed lozenges",
+    "plate": {
+      "id": "R-B22-motif",
+      "title": "B22 \u00B7 Conventional leaves and medallions",
+      "sourceId": "B22",
+      "description": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact.",
+      "svg": "",
+      "units": 9,
+      "paths": 16,
+      "chords": 52,
+      "addedPaths": 12,
+      "attachments": 12,
+      "strokes": 468,
+      "accepted": 126,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 18,
+      "nativeObjects": 10811,
+      "numericParticipants": 0,
+      "layerPaths": [
+        4,
+        8,
+        8
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Blush, petrol \u0026 mulberry"
+    }
+  },
+  "constructionNotes": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+  "curvedPlacedPaths": 36
+}

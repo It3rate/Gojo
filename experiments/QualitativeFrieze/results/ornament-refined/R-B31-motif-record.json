@@ -1,0 +1,34 @@
+{
+  "mode": "motif",
+  "skeletonName": "Slender outward arms and round markers",
+  "plate": {
+    "id": "R-B31-motif",
+    "title": "B31 \u00B7 Outward arms with wrist foliage",
+    "sourceId": "B31",
+    "description": "Growth follows actual arm chords, while the round source marker remains an unfilled window. The larger overall construction uses exact angular companion arms.",
+    "svg": "",
+    "units": 9,
+    "paths": 13,
+    "chords": 56,
+    "addedPaths": 8,
+    "attachments": 8,
+    "strokes": 504,
+    "accepted": 63,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 0,
+    "nativeObjects": 18618,
+    "numericParticipants": 0,
+    "layerPaths": [
+      5,
+      5,
+      8
+    ],
+    "focusComplete": [
+      true,
+      true,
+      true
+    ],
+    "palette": "Oxblood, lapis \u0026 shell"
+  }
+}

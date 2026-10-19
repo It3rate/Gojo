@@ -1,0 +1,26 @@
+{
+  "cards": 3,
+  "errors": [],
+  "badLinks": [],
+  "badControls": [],
+  "svgErrors": [],
+  "desktopOverflow": false,
+  "mobileOverflow": false,
+  "native": [
+    {
+      "id": "C-D02",
+      "version": 2,
+      "numeric": 0
+    },
+    {
+      "id": "C-D07",
+      "version": 2,
+      "numeric": 0
+    },
+    {
+      "id": "C-D09",
+      "version": 2,
+      "numeric": 0
+    }
+  ]
+}

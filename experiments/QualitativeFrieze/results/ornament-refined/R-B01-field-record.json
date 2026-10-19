@@ -1,0 +1,34 @@
+{
+  "mode": "field",
+  "skeletonName": "Running brick bond",
+  "plate": {
+    "id": "R-B01-field",
+    "title": "B01 \u00B7 Brick panels and growing sprays",
+    "sourceId": "B01",
+    "description": "The two offset brick interiors carry horizontal cartouches or narrow rooted sprays. Leaf growth stays within the course; the running-bond joints remain readable.",
+    "svg": "",
+    "units": 9,
+    "paths": 6,
+    "chords": 22,
+    "addedPaths": 2,
+    "attachments": 2,
+    "strokes": 198,
+    "accepted": 57,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 15,
+    "nativeObjects": 3273,
+    "numericParticipants": 0,
+    "layerPaths": [
+      4,
+      2,
+      4
+    ],
+    "focusComplete": [
+      true,
+      true,
+      true
+    ],
+    "palette": "Ultramarine, sky \u0026 vermilion"
+  }
+}

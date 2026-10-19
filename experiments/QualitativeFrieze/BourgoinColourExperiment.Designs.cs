@@ -84,12 +84,13 @@ public static partial class BourgoinColourExperiment
     }
 
     private static DesignResult RenderDesign(BourgoinOrnamentDesignLibrary.Design design, string output,
-        int columns, int rows, Func<string, string>? presentation = null, bool detailViews = false)
+        int columns, int rows, Func<string, string>? presentation = null, bool detailViews = false,
+        Relation? presentationHints = null, bool widerWindow = false)
     {
         var source = design.Source;
         var installed = new OrnamentEnrichmentProgram(source.Program, source.Bindings, source.SeamContract, design.Enrichment);
         var initial = (Relation)source.Window.Left;
-        var archive = installed.Save(OrnamentProgram.Window(initial.Left, initial.Right, columns, rows));
+        var archive = installed.Save(OrnamentProgram.Window(initial.Left, initial.Right, columns, rows), presentationHints);
         var archivePath = Path.Combine(output, design.Id + ".gojo.json.gz");
         WriteNative(archivePath, archive);
         using var compressed = new GZipStream(File.OpenRead(archivePath), CompressionMode.Decompress);
@@ -118,6 +119,7 @@ public static partial class BourgoinColourExperiment
         var field = new OrnamentProgramField(run, packet.SeamContract);
         if (!run.IsComplete || !field.IsComplete) throw new InvalidOperationException("Ornament must preserve the source's accepted finite seams.");
         var paths = ReadPaths(run, source.DisplayBasis);
+        var curves = ReadCurvePaths(packet);
         var palette = DesignPalettes[design.PaletteIndex % DesignPalettes.Length] with { Band = design.Weight };
         string Style(string picture) => picture
             .Replace("data-focus='motif'", "data-collection='true' data-focus='" + design.Mode + "'")
@@ -132,21 +134,31 @@ public static partial class BourgoinColourExperiment
 </style>
 """);
         string Present(string picture) => presentation?.Invoke(RefreshDesignStyles(Style(picture))) ?? RefreshDesignStyles(Style(picture));
-        var svg = Present(Svg(design.Id, design.Title, paths, selections, packet, source.DisplayBasis, palette, columns, rows));
+        var svg = Present(Svg(design.Id, design.Title, paths, selections, packet, source.DisplayBasis, palette, columns, rows,
+            curves: curves, widerWindow: widerWindow));
         File.WriteAllText(Path.Combine(output, design.Id + ".svg"), svg);
+        if (presentationHints is not null)
+            File.WriteAllText(Path.Combine(output, design.Id + "-angular.svg"), Present(Svg(design.Id + "-angular",
+                design.Title + " · chord interpretation", paths, selections, packet, source.DisplayBasis, palette, columns, rows,
+                widerWindow: widerWindow)));
         var skeleton = svg.Replace("data-view='ornament'", "data-view='skeleton'");
         File.WriteAllText(Path.Combine(output, design.Id + "-construction.svg"), skeleton);
         if (detailViews)
         {
             var unit = paths.Where(path => path.Unit == 0).ToArray();
             File.WriteAllText(Path.Combine(output, design.Id + "-closeup.svg"), Present(Svg(design.Id + "-closeup",
-                design.Title + " · one executed unit", unit, selections, packet, source.DisplayBasis, palette, columns, rows, fitAll: true)));
+                design.Title + " · one executed unit", unit, selections, packet, source.DisplayBasis, palette, columns, rows,
+                fitAll: true, curves: curves)));
+            if (presentationHints is not null)
+                File.WriteAllText(Path.Combine(output, design.Id + "-closeup-angular.svg"), Present(Svg(design.Id + "-closeup-angular",
+                    design.Title + " · one executed chord unit", unit, selections, packet, source.DisplayBasis, palette, columns, rows, fitAll: true)));
             var retained = N.E(enrichment.Source.Paths).Cast<Relation>().ToHashSet(ReferenceEqualityComparer.Instance);
             var sourcePaths = paths.Where(path => retained.Contains(path.Source)).ToArray();
             File.WriteAllText(Path.Combine(output, design.Id + "-source.svg"), Present(Svg(design.Id + "-source",
                 design.Title + " · retained scaffold", sourcePaths, selections, packet, source.DisplayBasis, palette, columns, rows)));
         }
-        var participants = Reachable(new Relation(packet.Program.Surface, packet.SeamContract)).ToArray();
+        var nativeRoot = new Relation(packet.Program.Surface, packet.SeamContract);
+        var participants = Reachable(packet.PresentationHints is null ? nativeRoot : new Relation(nativeRoot, packet.PresentationHints)).ToArray();
         var numeric = participants.Count(element => element is Carrier or CarrierLocation);
         if (numeric != 0) throw new InvalidOperationException("The native ornament design must remain pre-numeric.");
         var plate = new SceneResult(design.Id, design.Title, design.SourceId, design.Description, svg, run.Units.Count,
@@ -159,6 +171,26 @@ public static partial class BourgoinColourExperiment
         File.WriteAllText(Path.Combine(output, design.Id + "-record.json"),
             JsonSerializer.Serialize(result with { Plate = plate with { Svg = "" } }, JsonOptions));
         Console.WriteLine($"{design.Id}: {plate.Chords} chords/unit, {added} additions, {plate.Accepted} accepted seams, {plate.Blocked} blocked / {plate.Open} open.");
+        return result;
+    }
+
+    private static IReadOnlyDictionary<Relation, IReadOnlySet<int>> ReadCurvePaths(OrnamentFieldPacket packet)
+    {
+        var result = new Dictionary<Relation, IReadOnlySet<int>>(ReferenceEqualityComparer.Instance);
+        if (packet.PresentationHints is null) return result;
+        if (!N.Read(packet.PresentationHints, out var hints)) throw new InvalidOperationException("Curve hints must be a closed native selection scope.");
+        var motifs = N.E(packet.Program.Motifs).Cast<Relation>().ToArray();
+        foreach (var hint in hints)
+        {
+            OrnamentCurveSelection? selected = null;
+            foreach (var actual in motifs)
+                if (hint is Relation surface && OrnamentCurveSelection.TryRead(packet.Program.Frame, actual, surface, out var read))
+                { selected = read; break; }
+            if (selected is null) throw new InvalidOperationException("A curved presentation must select actual imported motif paths and fixed ports.");
+            foreach (var path in N.E(selected.Selected).Cast<Relation>())
+                if (!result.TryAdd(path, selected.FixedLandmarks(path)))
+                    throw new InvalidOperationException("A path must have one unambiguous curve presentation read.");
+        }
         return result;
     }
 

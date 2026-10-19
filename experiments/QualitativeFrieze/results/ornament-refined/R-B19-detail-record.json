@@ -1,0 +1,34 @@
+{
+  "mode": "detail",
+  "skeletonName": "Oblique running bond",
+  "plate": {
+    "id": "R-B19-detail",
+    "title": "B19 \u00B7 Veins and foliage following the scaffold",
+    "sourceId": "B19",
+    "description": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact.",
+    "svg": "",
+    "units": 9,
+    "paths": 3,
+    "chords": 13,
+    "addedPaths": 2,
+    "attachments": 2,
+    "strokes": 117,
+    "accepted": 53,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 28,
+    "nativeObjects": 2796,
+    "numericParticipants": 0,
+    "layerPaths": [
+      1,
+      2,
+      1
+    ],
+    "focusComplete": [
+      true,
+      true,
+      true
+    ],
+    "palette": "Ivory, oxblood \u0026 sage"
+  }
+}

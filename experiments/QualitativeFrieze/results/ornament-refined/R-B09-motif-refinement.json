@@ -1,0 +1,38 @@
+{
+  "design": {
+    "mode": "motif",
+    "skeletonName": "Detached S-shaped fret units",
+    "plate": {
+      "id": "R-B09-motif",
+      "title": "B09 \u00B7 Conventional leaves and medallions",
+      "sourceId": "B09",
+      "description": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact.",
+      "svg": "",
+      "units": 9,
+      "paths": 15,
+      "chords": 55,
+      "addedPaths": 14,
+      "attachments": 14,
+      "strokes": 495,
+      "accepted": 0,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 0,
+      "nativeObjects": 12090,
+      "numericParticipants": 0,
+      "layerPaths": [
+        1,
+        7,
+        8
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Oxblood, lapis \u0026 shell"
+    }
+  },
+  "constructionNotes": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+  "curvedPlacedPaths": 63
+}

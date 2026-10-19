@@ -1,0 +1,34 @@
+{
+  "mode": "detail",
+  "skeletonName": "Interrupted two-strand guilloche",
+  "plate": {
+    "id": "C-D09",
+    "title": "Interrupted two-strand guilloche \u00B7 curved reading",
+    "sourceId": "D09",
+    "description": "One continuous wave passes through a real gap between two other native paths. The selected terminal and restart ports retain a nonzero displacement witness. This decorative crossing does not claim a hidden continuous under-strand or native over/under order.",
+    "svg": "",
+    "units": 9,
+    "paths": 5,
+    "chords": 40,
+    "addedPaths": 2,
+    "attachments": 2,
+    "strokes": 360,
+    "accepted": 18,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 0,
+    "nativeObjects": 2628,
+    "numericParticipants": 0,
+    "layerPaths": [
+      3,
+      1,
+      5
+    ],
+    "focusComplete": [
+      true,
+      true,
+      true
+    ],
+    "palette": "Night garden, lilac \u0026 copper"
+  }
+}

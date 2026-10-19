@@ -1,0 +1,34 @@
+{
+  "mode": "motif",
+  "skeletonName": "Alternating-width orthogonal bands",
+  "plate": {
+    "id": "R-B07-motif",
+    "title": "B07 \u00B7 Orthogonal bands and running foliage",
+    "sourceId": "B07",
+    "description": "Narrow horizontal and vertical strips carry separate running stems, with the central crossing left uncluttered. A broad intermediate leaf occupies the larger existing compartment.",
+    "svg": "",
+    "units": 9,
+    "paths": 8,
+    "chords": 19,
+    "addedPaths": 4,
+    "attachments": 4,
+    "strokes": 171,
+    "accepted": 88,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 29,
+    "nativeObjects": 5241,
+    "numericParticipants": 0,
+    "layerPaths": [
+      4,
+      2,
+      6
+    ],
+    "focusComplete": [
+      true,
+      true,
+      true
+    ],
+    "palette": "Mulberry, malachite \u0026 citron"
+  }
+}

@@ -1,5 +1,12 @@
 # Qualitative frieze generators
 
+The [refined collection](results/ornament-refined/gallery.html) applies the
+stronger detail vocabulary across 108 designs, with selected curve rendering,
+angular and one-unit views, and a [single sheet](results/ornament-refined/overview.html).
+The [three curve studies](results/ornament-curves/gallery.html) isolate vines,
+a corrected curl and an interrupted guilloche. Run `--ornament-refined` or
+`--ornament-curves` with the experiment project.
+
 The [detail study](results/ornament-details/gallery.html) explores ten richer
 native motifs and four integrations into B02/B05, with close-ups, scaffold
 reads and a [single sheet](results/ornament-details/overview.html). Run it with

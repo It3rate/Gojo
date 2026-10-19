@@ -1,0 +1,34 @@
+{
+  "mode": "motif",
+  "skeletonName": "Sliding triangles around shorter hexagon gaps",
+  "plate": {
+    "id": "R-B24-motif",
+    "title": "B24 \u00B7 Repeated lotus and trefoil units",
+    "sourceId": "B24",
+    "description": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact.",
+    "svg": "",
+    "units": 9,
+    "paths": 16,
+    "chords": 62,
+    "addedPaths": 14,
+    "attachments": 14,
+    "strokes": 558,
+    "accepted": 68,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 22,
+    "nativeObjects": 13612,
+    "numericParticipants": 0,
+    "layerPaths": [
+      2,
+      8,
+      8
+    ],
+    "focusComplete": [
+      true,
+      true,
+      true
+    ],
+    "palette": "Blush, petrol \u0026 mulberry"
+  }
+}

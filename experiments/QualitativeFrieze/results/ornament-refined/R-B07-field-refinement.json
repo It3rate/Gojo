@@ -1,0 +1,38 @@
+{
+  "design": {
+    "mode": "field",
+    "skeletonName": "Alternating-width orthogonal bands",
+    "plate": {
+      "id": "R-B07-field",
+      "title": "B07 \u00B7 Orthogonal bands and running foliage",
+      "sourceId": "B07",
+      "description": "Narrow horizontal and vertical strips carry separate running stems, with the central crossing left uncluttered. A broad intermediate leaf occupies the larger existing compartment.",
+      "svg": "",
+      "units": 9,
+      "paths": 5,
+      "chords": 16,
+      "addedPaths": 1,
+      "attachments": 1,
+      "strokes": 144,
+      "accepted": 88,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 29,
+      "nativeObjects": 2941,
+      "numericParticipants": 0,
+      "layerPaths": [
+        4,
+        1,
+        4
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Saffron, ink \u0026 porcelain"
+    }
+  },
+  "constructionNotes": "Narrow horizontal and vertical strips carry separate running stems, with the central crossing left uncluttered. A broad intermediate leaf occupies the larger existing compartment. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+  "curvedPlacedPaths": 0
+}

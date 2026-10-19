@@ -1,0 +1,38 @@
+{
+  "design": {
+    "mode": "motif",
+    "skeletonName": "Returned rows of bent crosses",
+    "plate": {
+      "id": "R-B11-motif",
+      "title": "B11 \u00B7 Conventional leaves and medallions",
+      "sourceId": "B11",
+      "description": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact.",
+      "svg": "",
+      "units": 9,
+      "paths": 24,
+      "chords": 144,
+      "addedPaths": 20,
+      "attachments": 20,
+      "strokes": 1296,
+      "accepted": 473,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 121,
+      "nativeObjects": 36925,
+      "numericParticipants": 0,
+      "layerPaths": [
+        4,
+        12,
+        12
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Oxblood, lapis \u0026 shell"
+    }
+  },
+  "constructionNotes": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+  "curvedPlacedPaths": 72
+}

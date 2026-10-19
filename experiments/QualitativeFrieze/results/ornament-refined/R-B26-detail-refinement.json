@@ -1,0 +1,38 @@
+{
+  "design": {
+    "mode": "detail",
+    "skeletonName": "Flat-tipped stars and twelve-ray florets",
+    "plate": {
+      "id": "R-B26-detail",
+      "title": "B26 \u00B7 Veins and foliage following the scaffold",
+      "sourceId": "B26",
+      "description": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact.",
+      "svg": "",
+      "units": 9,
+      "paths": 20,
+      "chords": 84,
+      "addedPaths": 7,
+      "attachments": 7,
+      "strokes": 756,
+      "accepted": 657,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 36,
+      "nativeObjects": 9582,
+      "numericParticipants": 0,
+      "layerPaths": [
+        13,
+        7,
+        13
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Celadon, plum \u0026 apricot"
+    }
+  },
+  "constructionNotes": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+  "curvedPlacedPaths": 63
+}

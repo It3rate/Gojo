@@ -1,0 +1,34 @@
+{
+  "mode": "field",
+  "skeletonName": "Three-family triangular mesh",
+  "plate": {
+    "id": "R-B16-field",
+    "title": "B16 \u00B7 Fine lattice grain and guided leaves",
+    "sourceId": "B16",
+    "description": "The small mesh receives one contained leaf or narrow leaf images along actual half-diagonal guides. No fan of corner leaves accumulates at a shared lattice vertex.",
+    "svg": "",
+    "units": 9,
+    "paths": 4,
+    "chords": 12,
+    "addedPaths": 2,
+    "attachments": 2,
+    "strokes": 108,
+    "accepted": 164,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 88,
+    "nativeObjects": 3252,
+    "numericParticipants": 0,
+    "layerPaths": [
+      2,
+      4,
+      0
+    ],
+    "focusComplete": [
+      true,
+      true,
+      true
+    ],
+    "palette": "Aubergine, peach \u0026 parchment"
+  }
+}

@@ -118,6 +118,11 @@ finer unmeasured vocabulary and native attachment evidence.
 The [detail study](experiments/QualitativeFrieze/results/ornament-details/gallery.html)
 develops ten richer motifs and four scaffold-following B02/B05 integrations,
 with one-unit close-ups and a single comparison sheet.
+The [refined 108-design collection](experiments/QualitativeFrieze/results/ornament-refined/gallery.html)
+extends that vocabulary across the catalogue with optional curves over native
+guides, angular comparisons and close-ups. The
+[curve studies](experiments/QualitativeFrieze/results/ornament-curves/gallery.html)
+isolate the vine, corrected curl and interrupted guilloche.
 
 For example, run the prospective-prediction experiment and its notebook tests
 from the repository root:

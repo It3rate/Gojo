@@ -1,0 +1,38 @@
+{
+  "design": {
+    "mode": "motif",
+    "skeletonName": "Running brick bond",
+    "plate": {
+      "id": "R-B01-motif",
+      "title": "B01 \u00B7 Brick panels and growing sprays",
+      "sourceId": "B01",
+      "description": "The two offset brick interiors carry horizontal cartouches or narrow rooted sprays. Leaf growth stays within the course; the running-bond joints remain readable.",
+      "svg": "",
+      "units": 9,
+      "paths": 12,
+      "chords": 32,
+      "addedPaths": 8,
+      "attachments": 8,
+      "strokes": 288,
+      "accepted": 57,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 15,
+      "nativeObjects": 5933,
+      "numericParticipants": 0,
+      "layerPaths": [
+        4,
+        2,
+        10
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Celadon, plum \u0026 apricot"
+    }
+  },
+  "constructionNotes": "The two offset brick interiors carry horizontal cartouches or narrow rooted sprays. Leaf growth stays within the course; the running-bond joints remain readable. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+  "curvedPlacedPaths": 18
+}

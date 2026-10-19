@@ -1,0 +1,38 @@
+{
+  "design": {
+    "mode": "motif",
+    "skeletonName": "Three-family triangular mesh",
+    "plate": {
+      "id": "R-B16-motif",
+      "title": "B16 \u00B7 Fine lattice grain and guided leaves",
+      "sourceId": "B16",
+      "description": "The small mesh receives one contained leaf or narrow leaf images along actual half-diagonal guides. No fan of corner leaves accumulates at a shared lattice vertex.",
+      "svg": "",
+      "units": 9,
+      "paths": 16,
+      "chords": 56,
+      "addedPaths": 14,
+      "attachments": 14,
+      "strokes": 504,
+      "accepted": 164,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 88,
+      "nativeObjects": 8355,
+      "numericParticipants": 0,
+      "layerPaths": [
+        2,
+        8,
+        8
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Blush, petrol \u0026 mulberry"
+    }
+  },
+  "constructionNotes": "The small mesh receives one contained leaf or narrow leaf images along actual half-diagonal guides. No fan of corner leaves accumulates at a shared lattice vertex. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+  "curvedPlacedPaths": 54
+}

@@ -1,0 +1,38 @@
+{
+  "design": {
+    "mode": "detail",
+    "skeletonName": "Faceted cloud-scale arches",
+    "plate": {
+      "id": "R-B30-detail",
+      "title": "B30 \u00B7 Cloud valleys and round foliage",
+      "sourceId": "B30",
+      "description": "Angular cloud companions lead the overall design. Paired round leaves and a rooted pearl occupy each existing valley in the intermediate design; fine leaves follow the actual arch courses.",
+      "svg": "",
+      "units": 9,
+      "paths": 8,
+      "chords": 104,
+      "addedPaths": 4,
+      "attachments": 4,
+      "strokes": 936,
+      "accepted": 115,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 29,
+      "nativeObjects": 19359,
+      "numericParticipants": 0,
+      "layerPaths": [
+        4,
+        4,
+        4
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Celadon, plum \u0026 apricot"
+    }
+  },
+  "constructionNotes": "Angular cloud companions lead the overall design. Paired round leaves and a rooted pearl occupy each existing valley in the intermediate design; fine leaves follow the actual arch courses. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+  "curvedPlacedPaths": 36
+}

@@ -8,7 +8,7 @@ public static partial class BourgoinColourExperiment
 {
     private static string Svg(string id, string title, IReadOnlyList<DrawPath> paths, HashSet<Relation>[] layers,
         OrnamentFieldPacket packet, BourgoinPatternLibrary.DisplayBasis basis, Palette palette, int columns, int rows,
-        bool fitAll = false)
+        bool fitAll = false, IReadOnlyDictionary<Relation, IReadOnlySet<int>>? curves = null, bool widerWindow = false)
     {
         const double width = 1200, height = 820, margin = 34;
         var all = paths.SelectMany(path => path.Points).ToArray();
@@ -23,6 +23,7 @@ public static partial class BourgoinColourExperiment
         var maxU = (Math.Abs(v.Y) * aspect + Math.Abs(v.X)) / (2 * Math.Abs(determinant));
         var maxV = (Math.Abs(u.Y) * aspect + Math.Abs(u.X)) / (2 * Math.Abs(determinant));
         var worldHeight = Math.Min(((columns - 1) / 2d - .12) / maxU, ((rows - 1) / 2d - .12) / maxV);
+        if (widerWindow) worldHeight = Math.Min((columns / 2d - .12) / maxU, (rows / 2d - .12) / maxV);
         if (fitAll) worldHeight = Math.Max((all.Max(point => point.Y) - all.Min(point => point.Y)),
             (all.Max(point => point.X) - all.Min(point => point.X)) / aspect) * 1.16;
         var scale = (height - 2 * margin) / worldHeight;
@@ -46,11 +47,16 @@ public static partial class BourgoinColourExperiment
         svg.Append($"<defs><clipPath id='{id}-crop'><rect x='{margin}' y='{margin}' width='{width - 2 * margin}' height='{height - 2 * margin}'/></clipPath>");
         foreach (var path in paths)
         {
-            var d = string.Join(" ", path.Points.Select((point, index) => { var p = Screen(point); return (index == 0 ? "M " : "L ") + F(p.X) + " " + F(p.Y); })) + (path.Closed ? " Z" : "");
-            svg.Append($"<path id='{id}-{path.Id}' d='{d}'/>");
+            var points = path.Points.Select(Screen).ToArray();
+            var angular = string.Join(" ", points.Select((point, index) => (index == 0 ? "M " : "L ") + F(point.X) + " " + F(point.Y))) + (path.Closed ? " Z" : "");
+            IReadOnlySet<int>? fixedSites = null;
+            var curved = curves is not null && curves.TryGetValue(path.Source, out fixedSites);
+            var d = curved ? OrnamentCurvePresentation.PathData(points.Select(point => (point.X, point.Y)).ToArray(),
+                path.Closed, fixedLandmarks: fixedSites) : angular;
+            svg.Append($"<path id='{id}-{path.Id}' data-curve='{(curved ? "true" : "false")}' d='{d}'/><path id='{id}-{path.Id}-guide' d='{angular}'/>");
         }
         svg.Append($"</defs><rect width='1200' height='820' class='ground'/><g clip-path='url(#{id}-crop)'><g class='base'>");
-        foreach (var path in paths) svg.Append($"<use href='#{id}-{path.Id}'/>");
+        foreach (var path in paths) svg.Append($"<use href='#{id}-{path.Id}-guide'/>");
         svg.Append("</g>");
         // Paint each closed mass once, in its coarsest selected layer.
         // Overlapping observational selections can then emphasise its line

@@ -1,0 +1,34 @@
+{
+  "mode": "detail",
+  "skeletonName": "Three-lozenge centred network",
+  "plate": {
+    "id": "R-B20-detail",
+    "title": "B20 \u00B7 Veins and foliage following the scaffold",
+    "sourceId": "B20",
+    "description": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact.",
+    "svg": "",
+    "units": 9,
+    "paths": 9,
+    "chords": 33,
+    "addedPaths": 6,
+    "attachments": 6,
+    "strokes": 297,
+    "accepted": 242,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 55,
+    "nativeObjects": 6379,
+    "numericParticipants": 0,
+    "layerPaths": [
+      3,
+      6,
+      3
+    ],
+    "focusComplete": [
+      true,
+      true,
+      true
+    ],
+    "palette": "Celadon, plum \u0026 apricot"
+  }
+}

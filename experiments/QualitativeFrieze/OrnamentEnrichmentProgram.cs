@@ -99,7 +99,8 @@ public sealed class OrnamentEnrichmentProgram
         }
     }
 
-    public string Save(Relation window) => OrnamentFieldPacket.Save(Program, Bindings, window, SeamContract);
+    public string Save(Relation window, Relation? presentationHints = null) =>
+        OrnamentFieldPacket.Save(Program, Bindings, window, SeamContract, presentationHints);
 
     private static IElement[] Read(Relation scope) => N.Read(scope, out var entries) ? entries :
         throw new ArgumentException("Installation requires a closed native declaration scope.", nameof(scope));

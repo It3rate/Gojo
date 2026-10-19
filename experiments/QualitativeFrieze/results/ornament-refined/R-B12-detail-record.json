@@ -1,0 +1,34 @@
+{
+  "mode": "detail",
+  "skeletonName": "Closed stepped-arm compartments",
+  "plate": {
+    "id": "R-B12-detail",
+    "title": "B12 \u00B7 Veins and foliage following the scaffold",
+    "sourceId": "B12",
+    "description": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact.",
+    "svg": "",
+    "units": 9,
+    "paths": 12,
+    "chords": 112,
+    "addedPaths": 8,
+    "attachments": 8,
+    "strokes": 1008,
+    "accepted": 418,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 122,
+    "nativeObjects": 26721,
+    "numericParticipants": 0,
+    "layerPaths": [
+      4,
+      12,
+      0
+    ],
+    "focusComplete": [
+      true,
+      true,
+      true
+    ],
+    "palette": "Celadon, plum \u0026 apricot"
+  }
+}

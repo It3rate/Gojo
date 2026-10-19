@@ -1,0 +1,38 @@
+{
+  "design": {
+    "mode": "motif",
+    "skeletonName": "Hexagons with triangular interstices",
+    "plate": {
+      "id": "R-B05-motif",
+      "title": "B05 \u00B7 Hexagonal lotus and inward buds",
+      "sourceId": "B05",
+      "description": "The same six-side source supports inset enamel, an inward budwheel or an outward veined lotus. All additions stay inside the source hexagon and leave triangular interstices undecorated.",
+      "svg": "",
+      "units": 9,
+      "paths": 19,
+      "chords": 54,
+      "addedPaths": 18,
+      "attachments": 18,
+      "strokes": 486,
+      "accepted": 31,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 14,
+      "nativeObjects": 13641,
+      "numericParticipants": 0,
+      "layerPaths": [
+        1,
+        13,
+        6
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Celadon, plum \u0026 apricot"
+    }
+  },
+  "constructionNotes": "The same six-side source supports inset enamel, an inward budwheel or an outward veined lotus. All additions stay inside the source hexagon and leave triangular interstices undecorated. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+  "curvedPlacedPaths": 54
+}

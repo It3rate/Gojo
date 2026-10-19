@@ -1,0 +1,34 @@
+{
+  "mode": "field",
+  "skeletonName": "Interrupted diagonal returns and valley joins",
+  "plate": {
+    "id": "R-B32-field",
+    "title": "B32 \u00B7 Inset fields and quiet construction",
+    "sourceId": "B32",
+    "description": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact.",
+    "svg": "",
+    "units": 9,
+    "paths": 10,
+    "chords": 40,
+    "addedPaths": 6,
+    "attachments": 6,
+    "strokes": 360,
+    "accepted": 106,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 56,
+    "nativeObjects": 13466,
+    "numericParticipants": 0,
+    "layerPaths": [
+      6,
+      2,
+      6
+    ],
+    "focusComplete": [
+      true,
+      true,
+      true
+    ],
+    "palette": "Aubergine, peach \u0026 parchment"
+  }
+}

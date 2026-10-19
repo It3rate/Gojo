@@ -1,0 +1,34 @@
+{
+  "mode": "detail",
+  "skeletonName": "Three-leaf running vine",
+  "plate": {
+    "id": "C-D02",
+    "title": "Three-leaf running vine \u00B7 curved reading",
+    "sourceId": "D02",
+    "description": "One curving finite stem supplies three successive public branch landmarks. Reused leaves alternate their face while continuing the same upward growth.",
+    "svg": "",
+    "units": 9,
+    "paths": 13,
+    "chords": 45,
+    "addedPaths": 9,
+    "attachments": 9,
+    "strokes": 405,
+    "accepted": 27,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 0,
+    "nativeObjects": 4950,
+    "numericParticipants": 0,
+    "layerPaths": [
+      4,
+      3,
+      10
+    ],
+    "focusComplete": [
+      true,
+      true,
+      true
+    ],
+    "palette": "Blush, petrol \u0026 mulberry"
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "design": {
+    "mode": "motif",
+    "skeletonName": "Three-lozenge centred network",
+    "plate": {
+      "id": "R-B20-motif",
+      "title": "B20 \u00B7 Repeated lotus and trefoil units",
+      "sourceId": "B20",
+      "description": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact.",
+      "svg": "",
+      "units": 9,
+      "paths": 24,
+      "chords": 87,
+      "addedPaths": 21,
+      "attachments": 21,
+      "strokes": 783,
+      "accepted": 242,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 55,
+      "nativeObjects": 11253,
+      "numericParticipants": 0,
+      "layerPaths": [
+        3,
+        12,
+        12
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Blush, petrol \u0026 mulberry"
+    }
+  },
+  "constructionNotes": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+  "curvedPlacedPaths": 81
+}

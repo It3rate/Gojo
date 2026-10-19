@@ -1,0 +1,38 @@
+{
+  "design": {
+    "mode": "field",
+    "skeletonName": "Dense interlocking serif-I field",
+    "plate": {
+      "id": "R-B14-field",
+      "title": "B14 \u00B7 Inset fields and quiet construction",
+      "sourceId": "B14",
+      "description": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact.",
+      "svg": "",
+      "units": 9,
+      "paths": 8,
+      "chords": 128,
+      "addedPaths": 4,
+      "attachments": 4,
+      "strokes": 1152,
+      "accepted": 476,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 100,
+      "nativeObjects": 16560,
+      "numericParticipants": 0,
+      "layerPaths": [
+        4,
+        4,
+        4
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Aubergine, peach \u0026 parchment"
+    }
+  },
+  "constructionNotes": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+  "curvedPlacedPaths": 36
+}

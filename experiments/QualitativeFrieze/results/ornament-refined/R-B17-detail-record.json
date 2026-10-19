@@ -1,0 +1,34 @@
+{
+  "mode": "detail",
+  "skeletonName": "Rectangle mesh with diagonal ties",
+  "plate": {
+    "id": "R-B17-detail",
+    "title": "B17 \u00B7 Fine lattice grain and guided leaves",
+    "sourceId": "B17",
+    "description": "The small mesh receives one contained leaf or narrow leaf images along actual half-diagonal guides. No fan of corner leaves accumulates at a shared lattice vertex.",
+    "svg": "",
+    "units": 9,
+    "paths": 7,
+    "chords": 32,
+    "addedPaths": 4,
+    "attachments": 4,
+    "strokes": 288,
+    "accepted": 223,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 110,
+    "nativeObjects": 4500,
+    "numericParticipants": 0,
+    "layerPaths": [
+      3,
+      5,
+      2
+    ],
+    "focusComplete": [
+      true,
+      true,
+      true
+    ],
+    "palette": "Ivory, oxblood \u0026 sage"
+  }
+}

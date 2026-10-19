@@ -1,0 +1,34 @@
+{
+  "mode": "field",
+  "skeletonName": "Ribbons with narrow angled junctions",
+  "plate": {
+    "id": "R-B08.B-field",
+    "title": "B08.B \u00B7 Diagonal ribbon sprays",
+    "sourceId": "B08.B",
+    "description": "Actual source direction words supply two oblique strip bases. Foliage follows those bases with restrained transverse reach; the crossing and larger diamond gaps remain visible.",
+    "svg": "",
+    "units": 9,
+    "paths": 6,
+    "chords": 24,
+    "addedPaths": 2,
+    "attachments": 2,
+    "strokes": 216,
+    "accepted": 88,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 29,
+    "nativeObjects": 4769,
+    "numericParticipants": 0,
+    "layerPaths": [
+      4,
+      1,
+      5
+    ],
+    "focusComplete": [
+      true,
+      true,
+      true
+    ],
+    "palette": "Aubergine, peach \u0026 parchment"
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "mode": "field",
+  "skeletonName": "Intersecting diagonal ribbons",
+  "plate": {
+    "id": "R-B08-field",
+    "title": "B08 \u00B7 Diagonal ribbon sprays",
+    "sourceId": "B08",
+    "description": "Actual source direction words supply two oblique strip bases. Foliage follows those bases with restrained transverse reach; the crossing and larger diamond gaps remain visible.",
+    "svg": "",
+    "units": 9,
+    "paths": 6,
+    "chords": 24,
+    "addedPaths": 2,
+    "attachments": 2,
+    "strokes": 216,
+    "accepted": 88,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 29,
+    "nativeObjects": 4626,
+    "numericParticipants": 0,
+    "layerPaths": [
+      4,
+      1,
+      5
+    ],
+    "focusComplete": [
+      true,
+      true,
+      true
+    ],
+    "palette": "Peacock, jade \u0026 coral"
+  }
+}

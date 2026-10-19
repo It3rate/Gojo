@@ -1,0 +1,34 @@
+{
+  "mode": "detail",
+  "skeletonName": "Hexagons with triangular interstices",
+  "plate": {
+    "id": "R-B05-detail",
+    "title": "B05 \u00B7 Hexagonal lotus and inward buds",
+    "sourceId": "B05",
+    "description": "The same six-side source supports inset enamel, an inward budwheel or an outward veined lotus. All additions stay inside the source hexagon and leave triangular interstices undecorated.",
+    "svg": "",
+    "units": 9,
+    "paths": 20,
+    "chords": 72,
+    "addedPaths": 19,
+    "attachments": 19,
+    "strokes": 648,
+    "accepted": 31,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 14,
+    "nativeObjects": 10831,
+    "numericParticipants": 0,
+    "layerPaths": [
+      1,
+      7,
+      13
+    ],
+    "focusComplete": [
+      true,
+      true,
+      true
+    ],
+    "palette": "Peacock, jade \u0026 coral"
+  }
+}

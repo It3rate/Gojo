@@ -1,0 +1,34 @@
+{
+  "mode": "field",
+  "skeletonName": "Continuous angled courses and diamond loops",
+  "plate": {
+    "id": "R-B33-field",
+    "title": "B33 \u00B7 Inset fields and quiet construction",
+    "sourceId": "B33",
+    "description": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact.",
+    "svg": "",
+    "units": 9,
+    "paths": 10,
+    "chords": 40,
+    "addedPaths": 6,
+    "attachments": 6,
+    "strokes": 360,
+    "accepted": 48,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 6,
+    "nativeObjects": 10923,
+    "numericParticipants": 0,
+    "layerPaths": [
+      6,
+      2,
+      6
+    ],
+    "focusComplete": [
+      true,
+      true,
+      true
+    ],
+    "palette": "Chalk, ink-blue \u0026 terracotta"
+  }
+}

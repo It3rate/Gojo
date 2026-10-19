@@ -1,0 +1,38 @@
+{
+  "design": {
+    "mode": "motif",
+    "skeletonName": "Intersecting diagonal ribbons",
+    "plate": {
+      "id": "R-B08-motif",
+      "title": "B08 \u00B7 Diagonal ribbon sprays",
+      "sourceId": "B08",
+      "description": "Actual source direction words supply two oblique strip bases. Foliage follows those bases with restrained transverse reach; the crossing and larger diamond gaps remain visible.",
+      "svg": "",
+      "units": 9,
+      "paths": 11,
+      "chords": 30,
+      "addedPaths": 7,
+      "attachments": 7,
+      "strokes": 270,
+      "accepted": 88,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 29,
+      "nativeObjects": 8232,
+      "numericParticipants": 0,
+      "layerPaths": [
+        4,
+        2,
+        9
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Charcoal, burnt orange \u0026 olive"
+    }
+  },
+  "constructionNotes": "Actual source direction words supply two oblique strip bases. Foliage follows those bases with restrained transverse reach; the crossing and larger diamond gaps remain visible. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+  "curvedPlacedPaths": 18
+}

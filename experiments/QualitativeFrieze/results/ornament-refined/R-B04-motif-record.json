@@ -1,0 +1,34 @@
+{
+  "mode": "motif",
+  "skeletonName": "Honeycomb from three reused contours",
+  "plate": {
+    "id": "R-B04-motif",
+    "title": "B04 \u00B7 Repeated lotus and trefoil units",
+    "sourceId": "B04",
+    "description": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact.",
+    "svg": "",
+    "units": 9,
+    "paths": 24,
+    "chords": 93,
+    "addedPaths": 21,
+    "attachments": 21,
+    "strokes": 837,
+    "accepted": 183,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 60,
+    "nativeObjects": 17908,
+    "numericParticipants": 0,
+    "layerPaths": [
+      3,
+      12,
+      12
+    ],
+    "focusComplete": [
+      true,
+      true,
+      true
+    ],
+    "palette": "Ivory, oxblood \u0026 sage"
+  }
+}

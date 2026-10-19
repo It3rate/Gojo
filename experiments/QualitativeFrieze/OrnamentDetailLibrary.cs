@@ -49,7 +49,7 @@ public static class OrnamentDetailLibrary
                 break;
             case "D02":
                 title = "Three-leaf running vine";
-                scaffold.Path(false, (0, -12), (0, -8), (1, -4), (0, 0), (-1, 4), (0, 8), (0, 14));
+                scaffold.Path(false, (0, -12), (0, -8), (-1, -4), (0, 0), (1, 4), (0, 8), (0, 14));
                 foreach (var (y, side) in new[] { (-8, 1), (0, -1), (8, 1) })
                     scaffold.Path(false, (0, y), (side * 3, y + 3), (side * 6, y + 6));
                 notes = "One curving finite stem supplies three successive public branch landmarks. Reused leaves alternate their face while continuing the same upward growth.";
@@ -86,7 +86,7 @@ public static class OrnamentDetailLibrary
                 scaffold.Path(false, (0, -12), (0, -6), (1, -1), (4, 0), (6, 0), (12, 0));
                 scaffold.Path(false, (0, -6), (-3, -3), (-6, 0));
                 scaffold.Path(false, (6, 0), (9, 3), (12, 6));
-                scaffold.Path(false, (1, -1), (4, -1), (6, 1), (5, 4), (2, 5), (0, 3));
+                scaffold.Path(false, (1, -1), (1, 2), (3, 4), (5, 4), (5, 2), (3, 1));
                 notes = "A turning parent path carries two outward leaves and one returning open curl. The branch guides are joined through actual coincident public source roles; the curl's free end stays open.";
                 break;
             case "D08":

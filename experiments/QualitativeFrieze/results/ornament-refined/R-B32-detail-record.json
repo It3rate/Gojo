@@ -1,0 +1,34 @@
+{
+  "mode": "detail",
+  "skeletonName": "Interrupted diagonal returns and valley joins",
+  "plate": {
+    "id": "R-B32-detail",
+    "title": "B32 \u00B7 Veins and foliage following the scaffold",
+    "sourceId": "B32",
+    "description": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact.",
+    "svg": "",
+    "units": 9,
+    "paths": 12,
+    "chords": 64,
+    "addedPaths": 8,
+    "attachments": 8,
+    "strokes": 576,
+    "accepted": 106,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 56,
+    "nativeObjects": 14121,
+    "numericParticipants": 0,
+    "layerPaths": [
+      4,
+      8,
+      4
+    ],
+    "focusComplete": [
+      true,
+      true,
+      true
+    ],
+    "palette": "Celadon, plum \u0026 apricot"
+  }
+}

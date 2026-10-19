@@ -1,0 +1,133 @@
+{
+  "schema": "gojo-ornament-curves-v1",
+  "allRunsComplete": true,
+  "cases": [
+    {
+      "id": "C-D02",
+      "kind": "study",
+      "constructionNotes": "The parent stem and selected flowing guides receive bounded display fillets, together with the actual pointed leaf contours. Claimed branch landmarks and the leaves\u0027 actual halfway tip ports stay fixed. Veins, faceted pearls and every unselected chord guide are carried unchanged.",
+      "limits": "Selected native guides have an optional bounded curve display. Pinned public landmarks, starts and ends remain fixed; this does not add a native curvature or clearance law.",
+      "design": {
+        "mode": "detail",
+        "skeletonName": "Three-leaf running vine",
+        "plate": {
+          "id": "C-D02",
+          "title": "Three-leaf running vine \u00B7 curved reading",
+          "sourceId": "D02",
+          "description": "One curving finite stem supplies three successive public branch landmarks. Reused leaves alternate their face while continuing the same upward growth.",
+          "svg": "",
+          "units": 9,
+          "paths": 13,
+          "chords": 45,
+          "addedPaths": 9,
+          "attachments": 9,
+          "strokes": 405,
+          "accepted": 27,
+          "blocked": 0,
+          "open": 0,
+          "frontier": 0,
+          "nativeObjects": 4950,
+          "numericParticipants": 0,
+          "layerPaths": [
+            4,
+            3,
+            10
+          ],
+          "focusComplete": [
+            true,
+            true,
+            true
+          ],
+          "palette": "Blush, petrol \u0026 mulberry"
+        }
+      }
+    },
+    {
+      "id": "C-D07",
+      "kind": "study",
+      "constructionNotes": "The parent stem and selected flowing guides receive bounded display fillets, together with the actual pointed leaf contours. Claimed branch landmarks and the leaves\u0027 actual halfway tip ports stay fixed. Veins, faceted pearls and every unselected chord guide are carried unchanged.",
+      "limits": "Selected native guides have an optional bounded curve display. Pinned public landmarks, starts and ends remain fixed; this does not add a native curvature or clearance law.",
+      "design": {
+        "mode": "detail",
+        "skeletonName": "Corner acanthus and returning curl",
+        "plate": {
+          "id": "C-D07",
+          "title": "Corner acanthus and returning curl \u00B7 curved reading",
+          "sourceId": "D07",
+          "description": "A turning parent path carries two outward leaves and one returning open curl. The branch guides are joined through actual coincident public source roles; the curl\u0027s free end stays open.",
+          "svg": "",
+          "units": 9,
+          "paths": 11,
+          "chords": 40,
+          "addedPaths": 7,
+          "attachments": 7,
+          "strokes": 360,
+          "accepted": 27,
+          "blocked": 0,
+          "open": 0,
+          "frontier": 0,
+          "nativeObjects": 4131,
+          "numericParticipants": 0,
+          "layerPaths": [
+            4,
+            3,
+            9
+          ],
+          "focusComplete": [
+            true,
+            true,
+            true
+          ],
+          "palette": "Mulberry, malachite \u0026 citron"
+        }
+      }
+    },
+    {
+      "id": "C-D09",
+      "kind": "study",
+      "constructionNotes": "Three separately acknowledged wave paths receive bounded display fillets. Both actual interruption endpoints remain exact, and the native gap displacement witness stays in the source. The two faceted pearl contours are carried unchanged. No hidden under-strand or over/under law is added.",
+      "limits": "Selected native guides have an optional bounded curve display. Pinned public landmarks, starts and ends remain fixed; this does not add a native curvature or clearance law.",
+      "design": {
+        "mode": "detail",
+        "skeletonName": "Interrupted two-strand guilloche",
+        "plate": {
+          "id": "C-D09",
+          "title": "Interrupted two-strand guilloche \u00B7 curved reading",
+          "sourceId": "D09",
+          "description": "One continuous wave passes through a real gap between two other native paths. The selected terminal and restart ports retain a nonzero displacement witness. This decorative crossing does not claim a hidden continuous under-strand or native over/under order.",
+          "svg": "",
+          "units": 9,
+          "paths": 5,
+          "chords": 40,
+          "addedPaths": 2,
+          "attachments": 2,
+          "strokes": 360,
+          "accepted": 18,
+          "blocked": 0,
+          "open": 0,
+          "frontier": 0,
+          "nativeObjects": 2628,
+          "numericParticipants": 0,
+          "layerPaths": [
+            3,
+            1,
+            5
+          ],
+          "focusComplete": [
+            true,
+            true,
+            true
+          ],
+          "palette": "Night garden, lilac \u0026 copper"
+        }
+      }
+    }
+  ],
+  "limits": [
+    "Optional bounded curve interpretation over imported native chord guides.",
+    "Native selected paths and fixed ports survive packet import by actual reference identity.",
+    "Separate gap endpoints stay exact. No hidden continuity or over/under order is invented.",
+    "Unpinned fillets provide tangent-direction continuity; pinned corners may remain angular.",
+    "The D02 stem and D07 curl were structurally rerouted to avoid their former overlaps before smoothing."
+  ]
+}

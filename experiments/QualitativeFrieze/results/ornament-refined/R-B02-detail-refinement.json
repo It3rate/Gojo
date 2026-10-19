@@ -1,0 +1,38 @@
+{
+  "design": {
+    "mode": "detail",
+    "skeletonName": "Basket rectangles and square gaps",
+    "plate": {
+      "id": "R-B02-detail",
+      "title": "B02 \u00B7 Woven strips with leaf and vein",
+      "sourceId": "B02",
+      "description": "Each actual rectangle owns its stem, leaves and veins through its own public port. Its quarter-related long axis determines the ornament; emergent square gaps stay quiet.",
+      "svg": "",
+      "units": 9,
+      "paths": 36,
+      "chords": 148,
+      "addedPaths": 32,
+      "attachments": 32,
+      "strokes": 1332,
+      "accepted": 186,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 30,
+      "nativeObjects": 27620,
+      "numericParticipants": 0,
+      "layerPaths": [
+        4,
+        20,
+        16
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Saffron, ink \u0026 porcelain"
+    }
+  },
+  "constructionNotes": "Each actual rectangle owns its stem, leaves and veins through its own public port. Its quarter-related long axis determines the ornament; emergent square gaps stay quiet. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+  "curvedPlacedPaths": 144
+}
