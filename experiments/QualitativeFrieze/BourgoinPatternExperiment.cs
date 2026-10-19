@@ -2,6 +2,7 @@ using System.Globalization;
 using System.Net;
 using System.Text;
 using System.Text.Json;
+using System.Xml.Linq;
 using Gojo.Core;
 using Gojo.Experiments.QualitativeExecution;
 using N = Gojo.Experiments.QualitativeFrieze.FieldNative;
@@ -18,6 +19,26 @@ public static class BourgoinPatternExperiment
     private sealed record Point(double X, double Y);
     private sealed record Stroke(IElement From, IElement To, Point A, Point B, int Unit);
     private sealed record Census(int Objects, int Relations, int NumericElements);
+    // A manually observed engraving registration, outside the executable
+    // packet. R/U are image pixels per displayed unmeasured reach.
+    private sealed record SourceRegistration(double Width, double Height, double X, double Y,
+        double RX, double RY, double UX, double UY)
+    {
+        public SourceRegistration(double width, double height, double x, double y, double r, double u)
+            : this(width, height, x, y, r, 0, 0, -u) { }
+    }
+    private static readonly IReadOnlyDictionary<string, SourceRegistration> SourceRegistrations =
+        new Dictionary<string, SourceRegistration>
+        {
+            ["B02"] = new(233, 283, 32, 183, 14.333333, 14),
+            ["B06.B"] = new(659, 416, 112, 326, 12.166667, 11.5),
+            ["B09"] = new(172, 71, 17, 48, 7, 7),
+            ["B10"] = new(233, 321, 33.666667, 305.333347, 6.416667, 6.416667),
+            ["B11"] = new(233, 321, 35, 307.333347, 6.416667, 6.416667),
+            ["B12"] = new(245, 293, 91.2, 60.8, 4.284, 4.284),
+            ["B13"] = new(354, 321, 71, 273.42, 0, -10.38, -10.38, 0),
+            ["B14"] = new(354, 293, 17, 32, 8.7, 8.7)
+        };
     private sealed record Facts(string Id, string Name, int Units, int Sites, int Strokes,
         int Components, int CycleRank, int Accepted, int Blocked, int Unresolved, int Frontier,
         int DuplicateEndpointPairs, Census Definition, Census Packet, int ArchiveBytes);
@@ -27,28 +48,38 @@ public static class BourgoinPatternExperiment
     public static int Run(string[] args)
     {
         var output = Path.Combine("experiments", "QualitativeFrieze", "results", "bourgoin-patterns");
-        string? input = null; int? columns = null, rows = null; var triangular = false;
+        string? input = null, selectedCases = null; int? columns = null, rows = null; var triangular = false;
         for (var i = 0; i < args.Length; i++)
             if (args[i] == "--output" && i + 1 < args.Length) output = args[++i];
             else if (args[i] == "--input" && i + 1 < args.Length) input = args[++i];
+            else if (args[i] == "--cases" && i + 1 < args.Length) selectedCases = args[++i];
             else if (args[i] == "--columns" && i + 1 < args.Length && int.TryParse(args[++i], out var cc) && cc is > 0 and <= 12) columns = cc;
             else if (args[i] == "--rows" && i + 1 < args.Length && int.TryParse(args[++i], out var rr) && rr is > 0 and <= 12) rows = rr;
             else if (args[i] == "--triangular-display") triangular = true;
-            else throw new ArgumentException("Usage: --bourgoin-patterns [--input PACKET.gojo.json] [--columns 1..12] [--rows 1..12] [--triangular-display] [--output DIRECTORY]");
+            else throw new ArgumentException("Usage: --bourgoin-patterns [--input PACKET.gojo.json] [--cases B02,B06.B,...] [--columns 1..12] [--rows 1..12] [--triangular-display] [--output DIRECTORY]");
         Directory.CreateDirectory(output);
-        var entries = Entries(input, triangular).ToArray();
+        var requested = selectedCases?.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+        var entries = Entries(input, triangular).Where(entry => requested is null || requested.Contains(entry.Id, StringComparer.OrdinalIgnoreCase)).ToArray();
+        if (entries.Length == 0 || requested is not null && requested.Any(id => !entries.Any(entry => string.Equals(entry.Id, id, StringComparison.OrdinalIgnoreCase))))
+            throw new ArgumentException("Every selected case must name an available native source recipe.", nameof(args));
         var defaultSources = Path.Combine("experiments", "QualitativeFrieze", "results", "bourgoin-patterns");
         foreach (var entry in entries.Where(entry => entry.Leaf != 0))
         {
             var source = Path.Combine(defaultSources, "source-" + entry.Id + ".jpg");
             var target = Path.Combine(output, "source-" + entry.Id + ".jpg");
             if (File.Exists(source) && !string.Equals(Path.GetFullPath(source), Path.GetFullPath(target), StringComparison.OrdinalIgnoreCase)) File.Copy(source, target, true);
+            var previous = entry.Id == "B06.B" ? "B06" : entry.Id;
+            var before = Path.Combine(defaultSources, "first-pass", previous + ".svg");
+            var after = Path.Combine(output, "first-pass", previous + ".svg");
+            if (File.Exists(before) && !string.Equals(Path.GetFullPath(before), Path.GetFullPath(after), StringComparison.OrdinalIgnoreCase))
+            { Directory.CreateDirectory(Path.GetDirectoryName(after)!); File.Copy(before, after, true); }
         }
         File.WriteAllText(Path.Combine(output, "catalog.json"), JsonSerializer.Serialize(new
         {
             Schema = "gojo-bourgoin-source-catalog-v1",
             Entries = entries.Select(entry => new { entry.Id, entry.Name, entry.Leaf, entry.Reference,
                 entry.Construction, entry.Fidelity, Source = entry.Leaf == 0 ? null : SourceRoot + entry.Leaf + "/mode/1up",
+                SourceRegistration = SourceRegistrations.GetValueOrDefault(entry.Id),
                 DisplayBasis = new { entry.RX, entry.RY, entry.UX, entry.UY } })
         }, new JsonSerializerOptions { WriteIndented = true }));
         var cards = new StringBuilder(); var diagnostics = new List<Facts>(); var failed = false;
@@ -85,7 +116,10 @@ public static class BourgoinPatternExperiment
                 "Triangular display is an optional metric realization, not a native assertion of sixty-degree angles." }
         };
         File.WriteAllText(Path.Combine(output, "diagnostics.json"), JsonSerializer.Serialize(report, new JsonSerializerOptions { WriteIndented = true }));
-        File.WriteAllText(Path.Combine(output, "gallery.html"), Html(cards.ToString(), diagnostics, input is not null));
+        var html = Html(cards.ToString(), diagnostics, input is not null)
+            .Replace("../../../../Gojo/docs/GojoBourgoinRefinementStudy.md", H(Path.GetRelativePath(output, "Gojo/docs/GojoBourgoinRefinementStudy.md").Replace('\\', '/')))
+            .Replace("../ornament-program/gallery.html", H(Path.GetRelativePath(output, "experiments/QualitativeFrieze/results/ornament-program/gallery.html").Replace('\\', '/')));
+        File.WriteAllText(Path.Combine(output, "gallery.html"), html);
         Console.WriteLine($"Wrote {Path.GetFullPath(output)}");
         return failed ? 1 : 0;
     }
@@ -175,7 +209,7 @@ public static class BourgoinPatternExperiment
         var minY = points.Length == 0 ? 0 : points.Min(point => point.Y); var maxY = points.Length == 0 ? 1 : points.Max(point => point.Y);
         var scale = Math.Min((width - 2 * margin) / Math.Max(1, maxX - minX), (height - 2 * margin) / Math.Max(1, maxY - minY));
         Point Display(Point p) => new(width / 2 + (p.X - (minX + maxX) / 2) * scale, height / 2 - (p.Y - (minY + maxY) / 2) * scale);
-        var svg = new StringBuilder($"<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 {width} {height}' role='img' aria-label='{H(entry.Name)}'><title>{H(entry.Name)}</title><style>.ink{{stroke:#263b3a;stroke-width:var(--weight,2.8);stroke-linecap:round;stroke-linejoin:round;fill:none}}.ports{{display:none}}.guides{{display:none}}[data-view=units] .ink{{stroke:var(--unit)}}[data-view=ports] .ports{{display:block}}[data-view=ports] .ink{{stroke:#698685;opacity:.7}}[data-view=construction] .guides{{display:block}}[data-view=construction] .ink{{stroke:#395b5b}}</style><rect width='100%' height='100%' fill='#faf7ee'/>");
+        var svg = new StringBuilder($"<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 {width} {height}' role='img' aria-label='{H(entry.Name)}' data-world-x='{F((minX + maxX) / 2)}' data-world-y='{F((minY + maxY) / 2)}' data-screen-scale='{scale.ToString("R", CultureInfo.InvariantCulture)}'><title>{H(entry.Name)}</title><style>.ink{{stroke:#263b3a;stroke-width:var(--weight,2.8);stroke-linecap:round;stroke-linejoin:round;fill:none}}.ports{{display:none}}.guides{{display:none}}[data-view=units] .ink{{stroke:var(--unit)}}[data-view=ports] .ports{{display:block}}[data-view=ports] .ink{{stroke:#698685;opacity:.7}}[data-view=construction] .guides{{display:block}}[data-view=construction] .ink{{stroke:#395b5b}}</style><rect width='100%' height='100%' fill='#faf7ee'/>");
         svg.Append("<g class='guides' stroke='#c6a970' stroke-width='1' stroke-dasharray='4 5' fill='none'>");
         foreach (var unit in run.Units)
         {
@@ -237,7 +271,41 @@ public static class BourgoinPatternExperiment
         var sourceImage = "source-" + entry.Id + ".jpg";
         var source = entry.Leaf == 0 ? "<p class='note'>Standalone replay. Source attribution and display style live outside the executable packet.</p>" :
             $"<a href='{SourceRoot}{entry.Leaf}/mode/1up' target='_blank' rel='noreferrer'><img loading='lazy' src='{sourceImage}' alt='Source excerpt: {H(entry.Reference)}'/></a><p>{H(entry.Reference)} · scan leaf {entry.Leaf}. <a href='{SourceRoot}{entry.Leaf}/mode/1up'>Open the source page</a>.</p>";
-        return $"<article id='{entry.Id}'><header><span class='eyebrow'>{H(entry.Id)} · imported native field</span><h2>{H(entry.Name)}</h2><p>{H(entry.Construction)}</p></header><div class='comparison'><figure class='result'>{svg}<figcaption>Accepted native output · one optional screen realization</figcaption></figure><figure class='source'>{source}</figure></div><p class='fidelity'>{H(entry.Fidelity)}</p><div class='facts'><span><b>{facts.Units}</b> occurrences</span><span><b>{facts.Strokes}</b> strokes</span><span><b>{facts.Accepted}</b> admitted seams</span><span><b>{facts.Blocked} / {facts.Unresolved}</b> blocked / open</span></div><details><summary>Construction, identities and limits</summary><p>{facts.Definition.Objects:N0} distinct native objects in the reusable program; {facts.Packet.Objects:N0} including sample and seam law. {facts.ArchiveBytes:N0} JSON bytes. All are relation/placeholder objects; there are {facts.Packet.NumericElements} numeric participants.</p><p>The joined ink graph has {facts.Components} connected components and cycle rank {facts.CycleRank}. These are graph diagnostics, not face counts or an aesthetic score. The finite patch has {facts.Frontier} out-of-window seam obligations. {facts.DuplicateEndpointPairs} repeated endpoint-pair edge participations remain explicit.</p><p>Source fidelity is an authored judgement. No image recognition or pixel comparison chose this recipe. The selected display basis is R=({F(entry.RX)},{F(entry.RY)}), U=({F(entry.UX)},{F(entry.UY)}); these coordinates are absent from the executable graph.</p><p><a href='{entry.Id}.gojo.json'>Native packet</a> · <a href='{entry.Id}-encoding.txt'>Graph-derived program inspection</a> · <a href='{entry.Id}.svg'>SVG</a></p></details></article>";
+        return $"<article id='{entry.Id}'><header><span class='eyebrow'>{H(entry.Id)} · imported native field</span><h2>{H(entry.Name)}</h2><p>{H(entry.Construction)}</p></header><div class='comparison'><figure class='result'>{svg}<figcaption>Accepted native output · one optional screen realization</figcaption></figure><figure class='source'>{source}</figure></div><p class='fidelity'>{H(entry.Fidelity)}</p><div class='facts'><span><b>{facts.Units}</b> occurrences</span><span><b>{facts.Strokes}</b> strokes</span><span><b>{facts.Accepted}</b> admitted seams</span><span><b>{facts.Blocked} / {facts.Unresolved}</b> blocked / open</span></div>" + Comparison(entry, svg, output) + $"<details><summary>Construction, identities and limits</summary><p>{facts.Definition.Objects:N0} distinct native objects in the reusable program; {facts.Packet.Objects:N0} including sample and seam law. {facts.ArchiveBytes:N0} JSON bytes. All are relation/placeholder objects; there are {facts.Packet.NumericElements} numeric participants.</p><p>The joined ink graph has {facts.Components} connected components and cycle rank {facts.CycleRank}. These are graph diagnostics, not face counts or an aesthetic score. The finite patch has {facts.Frontier} out-of-window seam obligations. {facts.DuplicateEndpointPairs} repeated endpoint-pair edge participations remain explicit.</p><p>Source fidelity is an authored judgement. Native execution checks alone do not establish agreement with the historical drawing. The selected display basis is R=({F(entry.RX)},{F(entry.RY)}), U=({F(entry.UX)},{F(entry.UY)}); these coordinates are absent from the executable graph.</p><p><a href='{entry.Id}.gojo.json'>Native packet</a> · <a href='{entry.Id}-encoding.txt'>Graph-derived program inspection</a> · <a href='{entry.Id}.svg'>SVG</a></p></details></article>";
+    }
+
+    private static string Comparison(Entry entry, string svg, string output)
+    {
+        if (entry.Leaf == 0) return "";
+        var previous = entry.Id == "B06.B" ? "B06" : entry.Id;
+        if (!File.Exists(Path.Combine(output, "first-pass", previous + ".svg"))) return "";
+        var revised = new[] { "B02", "B06.B", "B08", "B09", "B10", "B11", "B12", "B13", "B14" }.Contains(entry.Id);
+        if (!revised) return "";
+        XNamespace ns = "http://www.w3.org/2000/svg";
+        var root = XDocument.Parse(svg).Root!;
+        double Read(string name) => double.Parse((string)root.Attribute(name)!, CultureInfo.InvariantCulture);
+        var registration = SourceRegistrations.GetValueOrDefault(entry.Id);
+        var registrationMatrix = "matrix(1 0 0 1 0 0)";
+        if (registration is not null)
+        {
+            var imageScale = Math.Min(1000 / registration.Width, 600 / registration.Height);
+            var a = imageScale * registration.RX / Read("data-screen-scale");
+            var b = imageScale * registration.RY / Read("data-screen-scale");
+            var c = -imageScale * registration.UX / Read("data-screen-scale");
+            var d = -imageScale * registration.UY / Read("data-screen-scale");
+            var x = (1000 - registration.Width * imageScale) / 2 + imageScale * (registration.X + registration.RX * Read("data-world-x") + registration.UX * Read("data-world-y")) - a * 500 - c * 300;
+            var y = (600 - registration.Height * imageScale) / 2 + imageScale * (registration.Y + registration.RY * Read("data-world-x") + registration.UY * Read("data-world-y")) - b * 500 - d * 300;
+            registrationMatrix = $"matrix({F(a)} {F(b)} {F(c)} {F(d)} {F(x)} {F(y)})";
+        }
+        var ink = root.Descendants(ns + "path")
+            .Where(path => (string?)path.Attribute("class") == "ink")
+            .Select(path => new XElement(ns + "path", new XAttribute("d", (string)path.Attribute("d")!)));
+        var paths = $"<g transform='{registrationMatrix}'>" + string.Concat(ink.Select(path => path.ToString(SaveOptions.DisableFormatting))) + "</g>";
+        var controls = string.Join("", new[] { ("x", "Across", "-1000", "1000", "0", "1"),
+            ("y", "Down", "-1000", "1000", "0", "1"), ("sx", "Width", ".05", "4", "1", ".001"),
+            ("sy", "Height", ".05", "4", "1", ".001"), ("alpha", "Ink", "0", "1", ".65", ".01") }
+            .Select(item => $"<label>{item.Item2}<input data-register='{item.Item1}' type='range' min='{item.Item3}' max='{item.Item4}' value='{item.Item5}' step='{item.Item6}'></label>"));
+        return $"<details class='comparison-workbench'><summary>First pass and source overlay</summary><div class='before-after'><figure><img loading='lazy' src='first-pass/{previous}.svg' alt='First-pass reconstruction'/><figcaption>First pass</figcaption></figure><figure><img loading='lazy' src='{entry.Id}.svg' alt='Revised construction'/><figcaption>Revised native output</figcaption></figure></div><p class='note'>The red overlay is the accepted output above. Adjust its screen registration against the scan to inspect repeated edges and compartments. This is a visual comparison; registration does not change native geometry or certify a match.</p><div class='registration-controls'>{controls}<button type='button' class='reset-registration'>Reset</button></div><svg class='registration' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 600' role='img' aria-label='Manually registered source comparison'><rect width='1000' height='600' fill='#fff'/><image href='source-{entry.Id}.jpg' width='1000' height='600' preserveAspectRatio='xMidYMid meet'/><g class='registered-ink' fill='none' stroke='#c33724' stroke-width='2.1' stroke-linecap='round' stroke-linejoin='round' opacity='.65'>{paths}</g></svg></details>";
     }
 
     private static string Html(string cards, IReadOnlyList<Facts> facts, bool replay) => """
@@ -245,7 +313,7 @@ public static class BourgoinPatternExperiment
 *{box-sizing:border-box}body{margin:0;background:#eeece2;color:#263b3a;font:16px/1.6 system-ui,sans-serif}main{max-width:1380px;margin:auto;padding:36px 26px 80px}h1,h2{font-family:Georgia,serif;font-weight:500;line-height:1.12}h1{font-size:clamp(36px,5vw,64px);max-width:1050px;margin:12px 0 22px}h2{font-size:31px;margin:10px 0}p{max-width:1050px}a{color:#276d78;text-underline-offset:3px}.eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#7c6440}.intro{font-size:19px}.controls{position:sticky;top:0;z-index:2;background:#faf7eef5;backdrop-filter:blur(8px);border:1px solid #d6d3c5;padding:12px 16px;display:flex;align-items:center;gap:24px;flex-wrap:wrap;margin:28px 0}.controls label{display:flex;align-items:center;gap:10px}select{font:inherit;padding:5px;border:1px solid #afb7aa;background:#fffdf7;color:inherit}input{accent-color:#36737a}nav{display:flex;gap:10px;flex-wrap:wrap;margin:20px 0 32px}nav a{padding:4px 9px;background:#e4e2d5;text-decoration:none}article{margin:30px 0 46px;padding:25px;background:#fffdf7;border:1px solid #d5d4c6;scroll-margin-top:95px}header p{margin:14px 0 18px}.comparison{display:grid;grid-template-columns:minmax(0,1fr) 240px;gap:24px;align-items:center}.comparison figure{margin:0;min-width:0}.result svg{display:block;width:100%;height:auto;max-height:650px;background:#faf7ee}.source img{display:block;width:100%;height:auto;max-height:350px;object-fit:contain;filter:sepia(.1)}figcaption,.source p,.note{font-size:13px;color:#72766a}.source p{margin:8px 0}.fidelity{border-left:3px solid #c1a371;padding-left:14px;color:#675b46;font-size:14px}.facts{display:flex;gap:16px 30px;flex-wrap:wrap;margin:20px 0;font-size:14px}.facts b{display:block;font-size:20px;color:#2b666e}details{border-top:1px solid #e3e0d5;padding-top:14px;font-size:14px}summary{cursor:pointer;color:#2f6972}footer{border-top:1px solid #c7c8ba;padding-top:24px}.note strong{color:#4a665f}@media(max-width:750px){main{padding:24px 14px}article{padding:18px 12px}.comparison{grid-template-columns:1fr}.source{display:flex;align-items:center;gap:14px}.source>a{width:42%;flex-shrink:0}.source img{max-height:180px}.controls{gap:12px}h2{font-size:27px}.facts{gap:12px 22px}}
 </style></head><body data-view="ink"><main><span class="eyebrow">Source study · Jules Bourgoin · 1883 scan</span><h1>One construction, a coherent field</h1><p class="intro">Geometric ornament recipes built from shared unmeasured reaches, ordered path words, finite phase cycles and explicit landmark seams. Every preview executes an imported native packet. The renderer supplies only a screen interpretation.</p><p>These are structural reconstructions and adaptations of selected diagrams in <a href="https://archive.org/details/thoriedelorneme01bourgoog">Théorie de l’ornement</a>. Compare the source excerpt beside each field. Faithfulness, simplifications and open metric assumptions are stated individually.</p><p class="note"><strong>A common plan is useful; one connected ink component is optional.</strong> Bourgoin distinguishes detached, contiguous, crossed and articulated motifs. Guides and source descriptions often explain the composition better than the final outline alone.</p><div class="controls"><label>Read <select id="view"><option value="ink">Unified ornament</option><option value="units">Individual occurrences</option><option value="ports">Actual sites and joins</option><option value="construction">Placement landmarks</option></select></label><label>Line weight <input id="weight" type="range" min="1" max="7" step=".2" value="2.8"></label></div>
 """ + "<nav>" + string.Join("", facts.Select(item => $"<a href='#{item.Id}'>{item.Id}</a>")) + "</nav>" + cards + """
-<footer><p>These are authored structural programmes, not learned imitations. Source citations and crops are reference material. A display crossing does not create a junction; a finite boundary is not an interior failure; shared ink edges are not silently deduplicated.</p><p><a href="../../../../Gojo/docs/GojoBourgoinEncodingStudy.md">Findings and reproduction commands</a> · <a href="diagnostics.json">Diagnostics</a> · <a href="../ornament-program/gallery.html">Earlier ornament program study</a></p></footer></main><script>document.querySelector('#view').addEventListener('change',e=>document.body.dataset.view=e.target.value);document.querySelector('#weight').addEventListener('input',e=>document.documentElement.style.setProperty('--weight',e.target.value));</script></body></html>
+<footer><p>These are authored structural programmes, not learned imitations. Source citations and crops are reference material. A display crossing does not create a junction; a finite boundary is not an interior failure; shared ink edges are not silently deduplicated.</p><p><a href="../../../../Gojo/docs/GojoBourgoinRefinementStudy.md">Findings and reproduction commands</a> · <a href="diagnostics.json">Diagnostics</a> · <a href="../ornament-program/gallery.html">Earlier ornament program study</a></p></footer></main><script>document.querySelector('#view').addEventListener('change',e=>document.body.dataset.view=e.target.value);document.querySelector('#weight').addEventListener('input',e=>document.documentElement.style.setProperty('--weight',e.target.value));for(const panel of document.querySelectorAll('.comparison-workbench')){const sliders=[...panel.querySelectorAll('[data-register]')],ink=panel.querySelector('.registered-ink');function update(){const v=Object.fromEntries(sliders.map(s=>[s.dataset.register,Number(s.value)]));ink.setAttribute('transform',`translate(${v.x} ${v.y}) translate(500 300) scale(${v.sx} ${v.sy}) translate(-500 -300)`);ink.setAttribute('opacity',v.alpha);}for(const s of sliders)s.addEventListener('input',update);panel.querySelector('.reset-registration').addEventListener('click',()=>{for(const s of sliders)s.value=s.defaultValue;update();});update();}</script><style>.before-after{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:20px 0}.before-after figure{margin:0;min-width:0}.before-after img{width:100%;height:auto;display:block}.registration{width:100%;height:auto;display:block;border:1px solid #ddd6c6;margin-bottom:20px}.registration-controls{display:flex;flex-wrap:wrap;gap:12px;margin:16px 0}.registration-controls label{display:flex;gap:8px;align-items:center;font-size:13px}.registration-controls input{max-width:120px}.comparison-workbench{margin:16px 0}.comparison-workbench button{background:#f5efdf;border:1px solid #cec5b1;color:#315d61;padding:5px 12px;cursor:pointer}@media(max-width:600px){.before-after{grid-template-columns:1fr}}</style></body></html>
 """;
 
     private static string H(string value) => WebUtility.HtmlEncode(value);

@@ -6,12 +6,13 @@ namespace Gojo.Experiments.QualitativeExecution.Tests;
 
 public sealed class BourgoinPatternLibraryTests
 {
+    private static readonly Lazy<BourgoinPatternLibrary> Library = new(() => new());
     [Fact]
     public void AllSourceRecipesReplayTheirPathsAndSeamsFromANativeArchive()
     {
-        var recipes = new BourgoinPatternLibrary().Recipes;
-        Assert.Equal(14, recipes.Count);
-        Assert.Equal(14, recipes.Select(recipe => recipe.Id).Distinct().Count());
+        var recipes = Library.Value.Recipes;
+        Assert.Equal(15, recipes.Count);
+        Assert.Equal(15, recipes.Select(recipe => recipe.Id).Distinct().Count());
         foreach (var recipe in recipes)
         {
             var saved = OrnamentFieldPacket.Save(recipe.Program, recipe.Bindings, recipe.Window, recipe.SeamContract);
@@ -23,7 +24,9 @@ public sealed class BourgoinPatternLibraryTests
             var run = loaded.Program.Generate(loaded.Bindings, window);
             Assert.True(run.IsComplete, recipe.Id); Assert.Equal(4, run.Units.Count);
             var field = new OrnamentProgramField(run, loaded.SeamContract);
-            Assert.True(field.IsComplete, recipe.Id); Assert.NotEmpty(E(field.Accepted)); Assert.NotEmpty(E(field.Frontier));
+            Assert.True(field.IsComplete, recipe.Id);
+            if (recipe.Id == "B09") Assert.Empty(E(field.Accepted));
+            else { Assert.NotEmpty(E(field.Accepted)); Assert.NotEmpty(E(field.Frontier)); }
             Assert.True(field.Join.TryReadPassed(field.Join.Evaluate()), recipe.Id);
             Assert.All(run.Units, unit =>
             {
@@ -37,29 +40,30 @@ public sealed class BourgoinPatternLibraryTests
     }
 
     [Fact]
-    public void ReturnedRowsAreSelectedByNativePhaseAndActualSubstitution()
+    public void DiamondReturnLivesInTheActualTwoRowMacrocell()
     {
-        var recipe = new BourgoinPatternLibrary().Recipes.Single(recipe => recipe.Id == "B11");
-        var run = recipe.Program.Generate(recipe.Bindings, recipe.Window);
-        Assert.True(run.IsComplete);
-        var transforms = E(run.Applications).Cast<Relation>().Select(row => ((Relation)((Relation)row.Right).Left).Right)
-            .Distinct(ReferenceEqualityComparer.Instance).ToArray();
-        Assert.Equal(2, transforms.Length);
-        Assert.All(transforms, transform => Assert.Contains(E(recipe.Program.Transforms), actual => ReferenceEquals(actual, transform)));
-        Assert.Same(run.Units[0].Current.Program.Paths, run.Units[4].Current.Program.Paths);
-        Assert.NotSame(run.Units[0].Transform, run.Units[4].Transform);
-        var field = new OrnamentProgramField(run, recipe.SeamContract);
-        Assert.True(field.IsComplete); Assert.NotEmpty(E(field.Inactive)); Assert.NotEmpty(E(field.Accepted));
+        var recipes = Library.Value.Recipes;
+        var direct = recipes.Single(recipe => recipe.Id == "B10");
+        var returned = recipes.Single(recipe => recipe.Id == "B11");
+        var a = direct.Program.Generate(direct.Bindings, SmallWindow(direct));
+        var b = returned.Program.Generate(returned.Bindings, SmallWindow(returned));
+        Assert.True(a.IsComplete); Assert.True(b.IsComplete);
+        Assert.Equal(2, E(a.Units[0].Current.Program.Paths).Length);
+        Assert.Equal(4, E(b.Units[0].Current.Program.Paths).Length);
+        Assert.Equal(2, E(a.Units[0].Current.Program.ClosedPaths).Length);
+        Assert.Equal(4, E(b.Units[0].Current.Program.ClosedPaths).Length);
+        Assert.Equal(2 * E(a.Units[0].Current.Graph.Strokes).Length, E(b.Units[0].Current.Graph.Strokes).Length);
+        Assert.All(b.Units, unit => Assert.Same(b.Units[0].Current.Program.Paths, unit.Current.Program.Paths));
     }
 
     [Theory]
     [InlineData("B01")]
     [InlineData("B04")]
     [InlineData("B06")]
-    [InlineData("B14")]
+    [InlineData("B10")]
     public void NetworkFamiliesNeedCrossCellSeamsEvenWhenTheirLocalPathsAreAlreadyJoined(string id)
     {
-        var recipe = new BourgoinPatternLibrary().Recipes.Single(recipe => recipe.Id == id);
+        var recipe = Library.Value.Recipes.Single(recipe => recipe.Id == id);
         var start = (Relation)recipe.Window.Left;
         var run = recipe.Program.Generate(recipe.Bindings, OrnamentProgram.Window(start.Left, start.Right, 2, 2));
         var complete = new OrnamentProgramField(run, recipe.SeamContract);
@@ -71,6 +75,12 @@ public sealed class BourgoinPatternLibraryTests
         Assert.Equal(E(complete.Graph.Strokes).Length, E(localOnly.Graph.Strokes).Length);
         Assert.True(E(complete.Graph.Sites).Length < E(localOnly.Graph.Sites).Length);
         Assert.True(E(complete.Accepted).Length > E(localOnly.Accepted).Length);
+    }
+
+    private static Relation SmallWindow(BourgoinPatternLibrary.Recipe recipe)
+    {
+        var start = (Relation)recipe.Window.Left;
+        return OrnamentProgram.Window(start.Left, start.Right, 2, 2);
     }
 
     private static int Components(QualitativeStrokeGraph graph)

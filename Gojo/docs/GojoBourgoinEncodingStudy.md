@@ -6,6 +6,12 @@ motifs, move words, phase relations and explicit field seams.
 The test concerns the construction and its readable correspondences, rather
 than whether a finished image resembles a historical plate closely enough.
 
+The [2026-10-19 source-correction follow-up](GojoBourgoinRefinementStudy.md)
+supersedes several interpretations below. The shared gallery now includes
+corrected constructions, the preserved B06 variant and first-pass comparisons.
+This report retains the original encoding findings and counts; its initial
+recipe interpretations do not all match the source.
+
 Open the
 [Bourgoin patterns](../../experiments/QualitativeFrieze/results/bourgoin-patterns/gallery.html).
 
@@ -265,9 +271,9 @@ material through a new seam. Connecting these source recipes to the earlier
 live negotiation and adaptation experiments requires those explicit response
 and settlement routes.
 
-## Results and verification
+## First-pass results and verification
 
-The [generated diagnostics](../../experiments/QualitativeFrieze/results/bourgoin-patterns/diagnostics.json)
+The [first-pass diagnostics](../../experiments/QualitativeFrieze/results/bourgoin-patterns/first-pass/diagnostics.json)
 record 220 completed units, 4,064 native strokes and 1,865 accepted seam
 declarations across the fourteen default fields. Every case has zero blocked
 and zero unresolved entries. The count of

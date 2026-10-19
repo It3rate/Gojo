@@ -94,6 +94,9 @@ The [Bourgoin construction study](Gojo/docs/GojoBourgoinEncodingStudy.md)
 tests a broader source-derived vocabulary and explicit seams between repeated
 units. Its [comparison gallery](experiments/QualitativeFrieze/results/bourgoin-patterns/gallery.html)
 places native generated fields beside the cited historical diagrams.
+The [source-correction follow-up](Gojo/docs/GojoBourgoinRefinementStudy.md)
+uses local lattice refinements and closed negative chambers to improve those
+reconstructions, with preserved first-pass images and source overlays.
 
 For example, run the prospective-prediction experiment and its notebook tests
 from the repository root:

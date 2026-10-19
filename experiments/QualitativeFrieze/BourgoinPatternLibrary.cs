@@ -9,7 +9,7 @@ namespace Gojo.Experiments.QualitativeFrieze;
 /// participation in one shared unmeasured reach; they build native words,
 /// endpoint roles and reusable seam rules. Runtime receives only those native
 /// programs. Titles and book references never select execution.</summary>
-public sealed class BourgoinPatternLibrary
+public sealed partial class BourgoinPatternLibrary
 {
     /// <summary>An optional measured screen interpretation, outside the program.</summary>
     public sealed record DisplayBasis(double RX, double RY, double UX, double UY);
@@ -27,6 +27,8 @@ public sealed class BourgoinPatternLibrary
     public IReadOnlyList<Recipe> Recipes { get; }
     private static readonly DisplayBasis Cartesian = new(1, 0, 0, 1);
     private static readonly DisplayBasis Triangular = new(1, 0, .5, Math.Sqrt(3) / 2);
+    private sealed record SourceRevision(Cell Cell, (int X, int Y) Column, (int X, int Y) Row,
+        string Construction, string Fidelity, bool AlternateRows = false, int Rows = 4);
 
     public BourgoinPatternLibrary()
     {
@@ -40,14 +42,9 @@ public sealed class BourgoinPatternLibrary
             "Two horizontal mortar courses and alternating vertical joints form one macrocell. The next course shares the existing horizontal endpoint roles; no intersection creates a site implicitly.",
             "Diagram-skeleton reconstruction; brick proportions and the finite crop are selected here.", brick, (4, 0), (0, 4));
 
-        var basket = new Cell();
-        basket.Polygon((0, 0), (1, 0), (2, 0), (2, 1), (1, 1), (0, 1));
-        basket.Polygon((2, 0), (3, 0), (3, 1), (3, 2), (2, 2), (2, 1));
-        basket.Polygon((1, 2), (2, 2), (3, 2), (3, 3), (2, 3), (1, 3));
-        basket.Polygon((0, 1), (1, 1), (1, 2), (1, 3), (0, 3), (0, 2));
+        var basket = WovenRectangles();
         Add("B02", "Basket rectangles and square gaps", 275, 252, "Fig. 188",
-            "Four turned rectangular contours surround one square gap. The macrocell repeats in both directions; published mid-edge landmarks make partial shared borders explicit.",
-            "Source-derived rectangular/square arrangement with chosen proportions; not a line-for-line tracing.", basket, (3, 0), (0, 3));
+            basket.Construction, basket.Fidelity, basket.Cell, basket.Column, basket.Row);
 
         var alternation = new Cell();
         Square(alternation, 0, 0); Square(alternation, 3, 3);
@@ -69,9 +66,12 @@ public sealed class BourgoinPatternLibrary
 
         var octagon = new Cell();
         octagon.Polygon((2, 0), (4, 0), (6, 2), (6, 4), (4, 6), (2, 6), (0, 4), (0, 2));
-        Add("B06", "Octagons leave small squares", 278, 255, "Fig. 201",
+        Add("B06", "Octagons with diamond gaps · first interpretation", 278, 255, "Fig. 201",
             "Four chamfered corners replace the corners of each repeated square footprint. Joining the published side endpoints closes the small interstitial four-edge compartments.",
-            "Octagon/square diagram skeleton. Eight equal Euclidean sides are not asserted; the chamfer and straight-side proportions are selected.", octagon, (6, 0), (0, 6));
+            "Preserved first-pass variant. Its diamond gaps use the diagonal octagon sides; the source's upright squares use horizontal and vertical sides. B06.B corrects that distinction.", octagon, (6, 0), (0, 6));
+        var upright = CorrectedOctagonSquares();
+        Add("B06.B", "Octagons with upright square gaps", 278, 255, "Fig. 201",
+            upright.Construction, upright.Fidelity, upright.Cell, upright.Column, upright.Row);
 
         var bands = new Cell();
         bands.Path(false, (0, 0), (2, 0), (6, 0)); bands.Path(false, (0, 2), (2, 2), (6, 2));
@@ -80,63 +80,45 @@ public sealed class BourgoinPatternLibrary
             "Two narrow/wide interval sequences cross. Every intended junction is already a vertex in both local paths; the field contract supplies the shared-site read.",
             "Diagram reconstruction with an authored narrow/wide relation; the source's proportions are not copied exactly.", bands, (6, 0), (0, 6));
 
-        var trellis = new Cell();
-        var along = new[] { (0, 0), (2, 0), (3, 1), (5, 1), (6, 0), (8, 0) };
-        var across = new[] { (0, 0), (0, 2), (-1, 3), (-1, 5), (0, 6), (0, 8) };
-        trellis.Path(false, along.Select(Slant).ToArray()); trellis.Path(false, across.Select(Slant).ToArray());
-        Add("B08", "Cranked diagonal trellis", 279, 256, "Fig. 203",
-            "Two cranked line systems use the same local construction under an oblique word correspondence. Their endpoints continue from cell to cell; the remaining compartments are read from the connected field.",
-            "Source-inspired lozenge/rectangle trellis. Bend proportions and the explicit endpoint-only incidence are this reconstruction's choices.", trellis, (8, 8), (8, -8));
+        var trellis = RibbonDiamonds();
+        Add("B08", "Intersecting diagonal ribbons", 279, 256, "Fig. 203",
+            trellis.Construction, trellis.Fidelity, trellis.Cell, trellis.Column, trellis.Row);
 
-        var key = new Cell(); key.Path(false, Key());
-        key.Path(false, (0, -1), (10, -1)); key.Path(false, (0, 9), (10, 9));
-        Add("B09", "Greek-key border control", 392, 343, "Plate 1, fig. 1 (rectilinear border)",
-            "One non-retracing inward/outward key passage returns to the next repeat boundary. Two independent rails frame the strip; the experiment repeats the finished strip in rows.",
-            "Source-inspired rectilinear Greek-key control, not a tracing of the particular historic border. The second repetition direction is added for this field experiment.", key, (10, 0), (0, 12), rows: 3);
+        var key = DetachedFret();
+        Add("B09", "Detached S-shaped fret units", 392, 343, "Plate 1, fig. 1 (rectilinear border)",
+            key.Construction, key.Fidelity, key.Cell, key.Column, key.Row, rows: key.Rows);
 
-        var bent = BentCell();
+        var bent = DiamondField(false);
         Add("B10", "Direct bent-cross compartments", 408, 349, "Plate 9, fig. 4",
-            "A horizontal cranked passage and its quarter-turned counterpart meet at one exposed root. Direct repetition continues both systems across the field.",
-            "Reconstructed bent-cross grammar inspired by the source; exact channel widths and handedness are selected, not traced.", bent, (6, 0), (0, 6));
+            bent.Construction, bent.Fidelity, bent.Cell, bent.Column, bent.Row, alternateRows: bent.AlternateRows);
 
-        var returned = BentCell();
+        var returned = DiamondField(true);
         Add("B11", "Returned rows of bent crosses", 408, 350, "Plate 9, fig. 5",
-            "The same two-passage motif is read through alternating identity and left/right-reflection substitutions. A two-phase row cycle, not a renderer switch, chooses the actual transform binding.",
-            "Source-inspired direct/returned conjugation experiment. Its explicit line network is an adaptation of the plate's construction rule.", returned, (6, 0), (0, 6), alternateRows: true);
+            returned.Construction, returned.Fidelity, returned.Cell, returned.Column, returned.Row, alternateRows: returned.AlternateRows, rows: 3);
 
-        var spirals = new Cell();
-        var arm = new[] { (-8, 0), (-6, 0), (-6, 5), (-1, 5), (-1, 1), (-4, 1), (-4, 3), (-3, 3), (-3, 2) };
-        spirals.QuarterPaths(arm);
-        Add("B12", "Fourfold spiral-arm field", 408, 350, "Plate 9, fig. 10",
-            "Four turned inward spiral passages surround one unfilled central region. Their outer endpoint roles pair with neighbouring cells, retaining the inward free ends as part of the construction.",
-            "Source-inspired spiral-arm reconstruction. The source's star compartments and exact line continuations are not claimed to be reproduced completely.", spirals, (16, 0), (0, 16));
+        var spirals = ClosedArmField();
+        Add("B12", "Closed stepped-arm compartments", 408, 350, "Plate 9, fig. 10",
+            spirals.Construction, spirals.Fidelity, spirals.Cell, spirals.Column, spirals.Row, columns: 3, rows: 2);
 
-        var fourfold = new Cell();
-        var quarter = new[] { (0, -8), (8, -8), (8, -2), (2, -2), (2, -6), (6, -6),
-            (6, -4), (4, -4), (4, -5), (3, -5), (3, -3), (7, -3), (7, -7),
-            (1, -7), (1, -1), (8, -1), (8, 0) };
-        fourfold.QuarterContour(quarter);
-        Add("B13", "Four-part revolved key scaffold", 418, 355, "Plate 14, fig. 3",
-            "One nested inward/outward key quarter is substituted around a common reference, then closed into a four-part contour. Parallel return channels preserve the key turns; repeated macrocells communicate through actual exposed corners.",
-            "Source-inspired fourfold key scaffold with chosen channel spacing. Native substitution provenance preserves the revolved four-piece construction; the plate's exact crossings and proportions are not traced.", fourfold, (16, 0), (0, 16));
+        var fourfold = InterlockingSerifs(false);
+        Add("B13", "Interlocking serif-I compartments", 418, 355, "Plate 14, fig. 3",
+            fourfold.Construction, fourfold.Fidelity, fourfold.Cell, fourfold.Column, fourfold.Row, columns: 3, rows: 3);
 
-        var maze = new Cell(); maze.Path(false, Key());
-        maze.Path(false, (0, 8), (0, 10));
-        Add("B14", "Connected meander-grid adaptation", 428, 0, "Plate 19, fig. 4",
-            "A reused inward/outward key passage supplies the horizontal flow; a second exposed boundary passage connects successive rows. The contract retains both boundary continuation and internal shared landmarks.",
-            "Source-inspired dense rectilinear meander, with an added explicit row-connection construction. It is not an exact tracing or a claim of the same symmetry group.", maze, (10, 0), (0, 10));
+        var maze = InterlockingSerifs(true);
+        Add("B14", "Dense interlocking serif-I field", 428, 0, "Plate 19, fig. 4",
+            maze.Construction, maze.Fidelity, maze.Cell, maze.Column, maze.Row, columns: 3, rows: 3);
 
         Recipes = recipes.AsReadOnly();
 
         void Add(string id, string name, int leaf, int page, string reference, string construction,
             string fidelity, Cell cell, (int X, int Y) column, (int X, int Y) row,
-            bool triangular = false, bool alternateRows = false, int rows = 4)
+            bool triangular = false, bool alternateRows = false, int columns = 4, int rows = 4)
         {
             var program = cell.Program(name, column, row, alternateRows, out var bindings);
             var phasePair = (Relation)program.Layout.Left;
             var startU = N.E((Relation)((Relation)phasePair.Left).Left)[0];
             var startV = N.E((Relation)((Relation)phasePair.Right).Left)[0];
-            var window = OrnamentProgram.Window(startU, startV, 4, rows);
+            var window = OrnamentProgram.Window(startU, startV, columns, rows);
             recipes.Add(new(id, name, leaf, page, reference, construction, fidelity, program, bindings, window,
                 cell.Word(column), cell.Word(row), cell.Seams(program, bindings, column, row), triangular ? Triangular : Cartesian));
         }
@@ -159,7 +141,7 @@ public sealed class BourgoinPatternLibrary
         return cell;
     }
 
-    private sealed class Cell
+    private sealed partial class Cell
     {
         private readonly QualitativeMotionFrame frame = new();
         private readonly IElement reach = new Placeholder();
@@ -172,7 +154,7 @@ public sealed class BourgoinPatternLibrary
                 .Concat(Enumerable.Range(0, Math.Abs(point.Y)).Select(_ => (IElement)QualitativeMotionFrame.Move(point.Y < 0 ? frame.Down : frame.Up, reach))).ToArray());
 
         public void Polygon(params (int X, int Y)[] vertices) => Path(true, [.. vertices, vertices[0]]);
-        public void Path(bool closes, params (int X, int Y)[] vertices)
+        public Relation Path(bool closes, params (int X, int Y)[] vertices)
         {
             if (vertices.Length < 2) throw new ArgumentException("A source path needs at least one chord.", nameof(vertices));
             var chords = Enumerable.Range(0, vertices.Length - 1).Select(index => Word(
@@ -185,7 +167,10 @@ public sealed class BourgoinPatternLibrary
                 ports.Add(new Relation(role, new Relation(path, index == chords.Length ? path : chords[index])));
                 published.Add((role, Word(vertices[index])));
             }
+            return path;
         }
+
+        public void RetainConstruction(IElement evidence) => construction.Add(evidence);
 
         /// <summary>Actual output path words come from the preceding native
         /// substitution receipts. The source coordinates author only the seed.</summary>

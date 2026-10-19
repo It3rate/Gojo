@@ -1,0 +1,365 @@
+{
+  "Schema": "gojo-bourgoin-pattern-study-v1",
+  "Source": "Jules Bourgoin, Theorie de l\u0027ornement, 1883 scan",
+  "Input": "authored declarations, archived then imported before execution",
+  "AllRunsComplete": true,
+  "Cases": [
+    {
+      "Id": "B01",
+      "Name": "Running brick bond",
+      "Units": 16,
+      "Sites": 76,
+      "Strokes": 96,
+      "Components": 1,
+      "CycleRank": 21,
+      "Accepted": 108,
+      "Blocked": 0,
+      "Unresolved": 0,
+      "Frontier": 20,
+      "DuplicateEndpointPairs": 0,
+      "Definition": {
+        "Objects": 487,
+        "Relations": 380,
+        "NumericElements": 0
+      },
+      "Packet": {
+        "Objects": 610,
+        "Relations": 483,
+        "NumericElements": 0
+      },
+      "ArchiveBytes": 45751
+    },
+    {
+      "Id": "B02",
+      "Name": "Basket rectangles and square gaps",
+      "Units": 16,
+      "Sites": 169,
+      "Strokes": 384,
+      "Components": 1,
+      "CycleRank": 216,
+      "Accepted": 459,
+      "Blocked": 0,
+      "Unresolved": 0,
+      "Frontier": 85,
+      "DuplicateEndpointPairs": 136,
+      "Definition": {
+        "Objects": 637,
+        "Relations": 494,
+        "NumericElements": 0
+      },
+      "Packet": {
+        "Objects": 1028,
+        "Relations": 839,
+        "NumericElements": 0
+      },
+      "ArchiveBytes": 77724
+    },
+    {
+      "Id": "B03",
+      "Name": "Squares meet diamonds",
+      "Units": 16,
+      "Sites": 272,
+      "Strokes": 384,
+      "Components": 1,
+      "CycleRank": 113,
+      "Accepted": 204,
+      "Blocked": 0,
+      "Unresolved": 0,
+      "Frontier": 20,
+      "DuplicateEndpointPairs": 0,
+      "Definition": {
+        "Objects": 717,
+        "Relations": 574,
+        "NumericElements": 0
+      },
+      "Packet": {
+        "Objects": 894,
+        "Relations": 725,
+        "NumericElements": 0
+      },
+      "ArchiveBytes": 67491
+    },
+    {
+      "Id": "B04",
+      "Name": "Honeycomb from three reused contours",
+      "Units": 16,
+      "Sites": 128,
+      "Strokes": 288,
+      "Components": 1,
+      "CycleRank": 161,
+      "Accepted": 351,
+      "Blocked": 0,
+      "Unresolved": 0,
+      "Frontier": 81,
+      "DuplicateEndpointPairs": 113,
+      "Definition": {
+        "Objects": 668,
+        "Relations": 540,
+        "NumericElements": 0
+      },
+      "Packet": {
+        "Objects": 994,
+        "Relations": 827,
+        "NumericElements": 0
+      },
+      "ArchiveBytes": 75301
+    },
+    {
+      "Id": "B05",
+      "Name": "Hexagons with triangular interstices",
+      "Units": 16,
+      "Sites": 63,
+      "Strokes": 96,
+      "Components": 1,
+      "CycleRank": 34,
+      "Accepted": 61,
+      "Blocked": 0,
+      "Unresolved": 0,
+      "Frontier": 19,
+      "DuplicateEndpointPairs": 0,
+      "Definition": {
+        "Objects": 458,
+        "Relations": 360,
+        "NumericElements": 0
+      },
+      "Packet": {
+        "Objects": 554,
+        "Relations": 439,
+        "NumericElements": 0
+      },
+      "ArchiveBytes": 41514
+    },
+    {
+      "Id": "B06",
+      "Name": "Octagons leave small squares",
+      "Units": 16,
+      "Sites": 80,
+      "Strokes": 128,
+      "Components": 1,
+      "CycleRank": 49,
+      "Accepted": 76,
+      "Blocked": 0,
+      "Unresolved": 0,
+      "Frontier": 20,
+      "DuplicateEndpointPairs": 24,
+      "Definition": {
+        "Objects": 496,
+        "Relations": 394,
+        "NumericElements": 0
+      },
+      "Packet": {
+        "Objects": 601,
+        "Relations": 481,
+        "NumericElements": 0
+      },
+      "ArchiveBytes": 45131
+    },
+    {
+      "Id": "B07",
+      "Name": "Alternating-width orthogonal bands",
+      "Units": 16,
+      "Sites": 80,
+      "Strokes": 128,
+      "Components": 1,
+      "CycleRank": 49,
+      "Accepted": 169,
+      "Blocked": 0,
+      "Unresolved": 0,
+      "Frontier": 39,
+      "DuplicateEndpointPairs": 0,
+      "Definition": {
+        "Objects": 529,
+        "Relations": 418,
+        "NumericElements": 0
+      },
+      "Packet": {
+        "Objects": 707,
+        "Relations": 571,
+        "NumericElements": 0
+      },
+      "ArchiveBytes": 53220
+    },
+    {
+      "Id": "B08",
+      "Name": "Cranked diagonal trellis",
+      "Units": 16,
+      "Sites": 152,
+      "Strokes": 160,
+      "Components": 1,
+      "CycleRank": 9,
+      "Accepted": 73,
+      "Blocked": 0,
+      "Unresolved": 0,
+      "Frontier": 23,
+      "DuplicateEndpointPairs": 0,
+      "Definition": {
+        "Objects": 571,
+        "Relations": 462,
+        "NumericElements": 0
+      },
+      "Packet": {
+        "Objects": 678,
+        "Relations": 551,
+        "NumericElements": 0
+      },
+      "ArchiveBytes": 51068
+    },
+    {
+      "Id": "B09",
+      "Name": "Greek-key border control",
+      "Units": 12,
+      "Sites": 249,
+      "Strokes": 240,
+      "Components": 9,
+      "CycleRank": 0,
+      "Accepted": 27,
+      "Blocked": 0,
+      "Unresolved": 0,
+      "Frontier": 9,
+      "DuplicateEndpointPairs": 0,
+      "Definition": {
+        "Objects": 775,
+        "Relations": 643,
+        "NumericElements": 0
+      },
+      "Packet": {
+        "Objects": 847,
+        "Relations": 701,
+        "NumericElements": 0
+      },
+      "ArchiveBytes": 64059
+    },
+    {
+      "Id": "B10",
+      "Name": "Direct bent-cross compartments",
+      "Units": 16,
+      "Sites": 152,
+      "Strokes": 160,
+      "Components": 1,
+      "CycleRank": 9,
+      "Accepted": 73,
+      "Blocked": 0,
+      "Unresolved": 0,
+      "Frontier": 23,
+      "DuplicateEndpointPairs": 0,
+      "Definition": {
+        "Objects": 499,
+        "Relations": 390,
+        "NumericElements": 0
+      },
+      "Packet": {
+        "Objects": 606,
+        "Relations": 479,
+        "NumericElements": 0
+      },
+      "ArchiveBytes": 45437
+    },
+    {
+      "Id": "B11",
+      "Name": "Returned rows of bent crosses",
+      "Units": 16,
+      "Sites": 152,
+      "Strokes": 160,
+      "Components": 1,
+      "CycleRank": 9,
+      "Accepted": 73,
+      "Blocked": 0,
+      "Unresolved": 0,
+      "Frontier": 54,
+      "DuplicateEndpointPairs": 0,
+      "Definition": {
+        "Objects": 510,
+        "Relations": 399,
+        "NumericElements": 0
+      },
+      "Packet": {
+        "Objects": 969,
+        "Relations": 806,
+        "NumericElements": 0
+      },
+      "ArchiveBytes": 73404
+    },
+    {
+      "Id": "B12",
+      "Name": "Fourfold spiral-arm field",
+      "Units": 16,
+      "Sites": 552,
+      "Strokes": 512,
+      "Components": 40,
+      "CycleRank": 0,
+      "Accepted": 24,
+      "Blocked": 0,
+      "Unresolved": 0,
+      "Frontier": 8,
+      "DuplicateEndpointPairs": 0,
+      "Definition": {
+        "Objects": 4354,
+        "Relations": 3693,
+        "NumericElements": 0
+      },
+      "Packet": {
+        "Objects": 4417,
+        "Relations": 3742,
+        "NumericElements": 0
+      },
+      "ArchiveBytes": 344093
+    },
+    {
+      "Id": "B13",
+      "Name": "Four-part revolved key scaffold",
+      "Units": 16,
+      "Sites": 961,
+      "Strokes": 1024,
+      "Components": 1,
+      "CycleRank": 64,
+      "Accepted": 118,
+      "Blocked": 0,
+      "Unresolved": 0,
+      "Frontier": 42,
+      "DuplicateEndpointPairs": 0,
+      "Definition": {
+        "Objects": 8841,
+        "Relations": 7730,
+        "NumericElements": 0
+      },
+      "Packet": {
+        "Objects": 8994,
+        "Relations": 7861,
+        "NumericElements": 0
+      },
+      "ArchiveBytes": 708286
+    },
+    {
+      "Id": "B14",
+      "Name": "Connected meander-grid adaptation",
+      "Units": 16,
+      "Sites": 296,
+      "Strokes": 304,
+      "Components": 1,
+      "CycleRank": 9,
+      "Accepted": 49,
+      "Blocked": 0,
+      "Unresolved": 0,
+      "Frontier": 15,
+      "DuplicateEndpointPairs": 0,
+      "Definition": {
+        "Objects": 714,
+        "Relations": 587,
+        "NumericElements": 0
+      },
+      "Packet": {
+        "Objects": 799,
+        "Relations": 656,
+        "NumericElements": 0
+      },
+      "ArchiveBytes": 60343
+    }
+  ],
+  "Limits": [
+    "Source-derived structural adaptations, not pixel matching or a learned generator.",
+    "Every saved native packet contains only relations/placeholders; screen metrics and source metadata are separate.",
+    "Declared seams join sites; they do not fold duplicate coincident edges.",
+    "A graph cycle is not a certified filled face. Crossings do not become junctions automatically.",
+    "Triangular display is an optional metric realization, not a native assertion of sixty-degree angles."
+  ]
+}

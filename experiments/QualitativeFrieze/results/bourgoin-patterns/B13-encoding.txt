@@ -6,71 +6,125 @@ O is the declared native frame-origin marker. Start and placement words use that
 
 MOTIF DEFINITIONS
 M1:
-  M1.path1 starts at [D(u) D(u) D(u) D(u) D(u) D(u) D(u) D(u)]
-    M1.path1.chord1 = [R(u) R(u) R(u) R(u) R(u) R(u) R(u) R(u)]
-    M1.path1.chord2 = [U(u) U(u) U(u) U(u) U(u) U(u)]
-    M1.path1.chord3 = [L(u) L(u) L(u) L(u) L(u) L(u)]
-    M1.path1.chord4 = [D(u) D(u) D(u) D(u)]
-    M1.path1.chord5 = [R(u) R(u) R(u) R(u)]
-    M1.path1.chord6 = [U(u) U(u)]
-    M1.path1.chord7 = [L(u) L(u)]
-    M1.path1.chord8 = [D(u)]
-    M1.path1.chord9 = [L(u)]
-    M1.path1.chord10 = [U(u) U(u)]
-    M1.path1.chord11 = [R(u) R(u) R(u) R(u)]
-    M1.path1.chord12 = [D(u) D(u) D(u) D(u)]
-    M1.path1.chord13 = [L(u) L(u) L(u) L(u) L(u) L(u)]
-    M1.path1.chord14 = [U(u) U(u) U(u) U(u) U(u) U(u)]
-    M1.path1.chord15 = [R(u) R(u) R(u) R(u) R(u) R(u) R(u)]
-    M1.path1.chord16 = [U(u)]
-    M1.path1.chord17 = [U(u) U(u) U(u) U(u) U(u) U(u) U(u) U(u)]
-    M1.path1.chord18 = [L(u) L(u) L(u) L(u) L(u) L(u)]
-    M1.path1.chord19 = [D(u) D(u) D(u) D(u) D(u) D(u)]
-    M1.path1.chord20 = [R(u) R(u) R(u) R(u)]
-    M1.path1.chord21 = [U(u) U(u) U(u) U(u)]
-    M1.path1.chord22 = [L(u) L(u)]
-    M1.path1.chord23 = [D(u) D(u)]
-    M1.path1.chord24 = [R(u)]
-    M1.path1.chord25 = [D(u)]
-    M1.path1.chord26 = [L(u) L(u)]
-    M1.path1.chord27 = [U(u) U(u) U(u) U(u)]
-    M1.path1.chord28 = [R(u) R(u) R(u) R(u)]
-    M1.path1.chord29 = [D(u) D(u) D(u) D(u) D(u) D(u)]
-    M1.path1.chord30 = [L(u) L(u) L(u) L(u) L(u) L(u)]
-    M1.path1.chord31 = [U(u) U(u) U(u) U(u) U(u) U(u) U(u)]
-    M1.path1.chord32 = [L(u)]
-    M1.path1.chord33 = [L(u) L(u) L(u) L(u) L(u) L(u) L(u) L(u)]
-    M1.path1.chord34 = [D(u) D(u) D(u) D(u) D(u) D(u)]
-    M1.path1.chord35 = [R(u) R(u) R(u) R(u) R(u) R(u)]
-    M1.path1.chord36 = [U(u) U(u) U(u) U(u)]
-    M1.path1.chord37 = [L(u) L(u) L(u) L(u)]
-    M1.path1.chord38 = [D(u) D(u)]
-    M1.path1.chord39 = [R(u) R(u)]
-    M1.path1.chord40 = [U(u)]
-    M1.path1.chord41 = [R(u)]
-    M1.path1.chord42 = [D(u) D(u)]
-    M1.path1.chord43 = [L(u) L(u) L(u) L(u)]
-    M1.path1.chord44 = [U(u) U(u) U(u) U(u)]
-    M1.path1.chord45 = [R(u) R(u) R(u) R(u) R(u) R(u)]
-    M1.path1.chord46 = [D(u) D(u) D(u) D(u) D(u) D(u)]
-    M1.path1.chord47 = [L(u) L(u) L(u) L(u) L(u) L(u) L(u)]
-    M1.path1.chord48 = [D(u)]
-    M1.path1.chord49 = [D(u) D(u) D(u) D(u) D(u) D(u) D(u) D(u)]
-    M1.path1.chord50 = [R(u) R(u) R(u) R(u) R(u) R(u)]
-    M1.path1.chord51 = [U(u) U(u) U(u) U(u) U(u) U(u)]
-    M1.path1.chord52 = [L(u) L(u) L(u) L(u)]
-    M1.path1.chord53 = [D(u) D(u) D(u) D(u)]
-    M1.path1.chord54 = [R(u) R(u)]
-    M1.path1.chord55 = [U(u) U(u)]
-    M1.path1.chord56 = [L(u)]
-    M1.path1.chord57 = [U(u)]
-    M1.path1.chord58 = [R(u) R(u)]
-    M1.path1.chord59 = [D(u) D(u) D(u) D(u)]
-    M1.path1.chord60 = [L(u) L(u) L(u) L(u)]
-    M1.path1.chord61 = [U(u) U(u) U(u) U(u) U(u) U(u)]
-    M1.path1.chord62 = [R(u) R(u) R(u) R(u) R(u) R(u)]
-    M1.path1.chord63 = [D(u) D(u) D(u) D(u) D(u) D(u) D(u)]
-    M1.path1.chord64 = [R(u)]
+  M1.path1 starts at [R(u) R(u) R(u) R(u) R(u) R(u) R(u) R(u) R(u)]
+    M1.path1.chord1 = [D(u) D(u) D(u) D(u) D(u) D(u) D(u)]
+    M1.path1.chord2 = [L(u)]
+    M1.path1.chord3 = [U(u)]
+    M1.path1.chord4 = [L(u)]
+    M1.path1.chord5 = [U(u)]
+    M1.path1.chord6 = [R(u)]
+    M1.path1.chord7 = [U(u)]
+    M1.path1.chord8 = [L(u) L(u) L(u) L(u) L(u) L(u) L(u)]
+    M1.path1.chord9 = [D(u)]
+    M1.path1.chord10 = [R(u)]
+    M1.path1.chord11 = [D(u)]
+    M1.path1.chord12 = [L(u)]
+    M1.path1.chord13 = [D(u)]
+    M1.path1.chord14 = [L(u)]
+    M1.path1.chord15 = [U(u) U(u) U(u) U(u) U(u) U(u) U(u)]
+    M1.path1.chord16 = [R(u)]
+    M1.path1.chord17 = [D(u)]
+    M1.path1.chord18 = [R(u)]
+    M1.path1.chord19 = [D(u)]
+    M1.path1.chord20 = [L(u)]
+    M1.path1.chord21 = [D(u)]
+    M1.path1.chord22 = [R(u) R(u) R(u) R(u) R(u) R(u) R(u)]
+    M1.path1.chord23 = [U(u)]
+    M1.path1.chord24 = [L(u)]
+    M1.path1.chord25 = [U(u)]
+    M1.path1.chord26 = [R(u)]
+    M1.path1.chord27 = [U(u)]
+    M1.path1.chord28 = [R(u)]
+    closure = explicitly declared for this actual path
+  M1.path2 starts at [D(u) D(u) D(u) D(u) D(u) D(u) D(u) D(u) R(u) R(u) R(u) R(u) R(u) R(u) R(u) R(u) R(u) R(u) R(u) R(u) R(u)]
+    M1.path2.chord1 = [L(u) L(u) L(u) L(u) L(u) L(u) L(u)]
+    M1.path2.chord2 = [U(u)]
+    M1.path2.chord3 = [R(u)]
+    M1.path2.chord4 = [U(u)]
+    M1.path2.chord5 = [R(u)]
+    M1.path2.chord6 = [D(u)]
+    M1.path2.chord7 = [R(u)]
+    M1.path2.chord8 = [U(u) U(u) U(u) U(u) U(u) U(u) U(u)]
+    M1.path2.chord9 = [L(u)]
+    M1.path2.chord10 = [D(u)]
+    M1.path2.chord11 = [L(u)]
+    M1.path2.chord12 = [U(u)]
+    M1.path2.chord13 = [L(u)]
+    M1.path2.chord14 = [U(u)]
+    M1.path2.chord15 = [R(u) R(u) R(u) R(u) R(u) R(u) R(u)]
+    M1.path2.chord16 = [D(u)]
+    M1.path2.chord17 = [L(u)]
+    M1.path2.chord18 = [D(u)]
+    M1.path2.chord19 = [L(u)]
+    M1.path2.chord20 = [U(u)]
+    M1.path2.chord21 = [L(u)]
+    M1.path2.chord22 = [D(u) D(u) D(u) D(u) D(u) D(u) D(u)]
+    M1.path2.chord23 = [R(u)]
+    M1.path2.chord24 = [U(u)]
+    M1.path2.chord25 = [R(u)]
+    M1.path2.chord26 = [D(u)]
+    M1.path2.chord27 = [R(u)]
+    M1.path2.chord28 = [D(u)]
+    closure = explicitly declared for this actual path
+  M1.path3 starts at [D(u) D(u) D(u) D(u) D(u) D(u) D(u) D(u) D(u) R(u) R(u) R(u) R(u) R(u) R(u) R(u) R(u) D(u) D(u) D(u) D(u)]
+    M1.path3.chord1 = [L(u) L(u) L(u) L(u) L(u) L(u) L(u)]
+    M1.path3.chord2 = [U(u)]
+    M1.path3.chord3 = [R(u)]
+    M1.path3.chord4 = [U(u)]
+    M1.path3.chord5 = [R(u)]
+    M1.path3.chord6 = [D(u)]
+    M1.path3.chord7 = [R(u)]
+    M1.path3.chord8 = [U(u) U(u) U(u) U(u) U(u) U(u) U(u)]
+    M1.path3.chord9 = [L(u)]
+    M1.path3.chord10 = [D(u)]
+    M1.path3.chord11 = [L(u)]
+    M1.path3.chord12 = [U(u)]
+    M1.path3.chord13 = [L(u)]
+    M1.path3.chord14 = [U(u)]
+    M1.path3.chord15 = [R(u) R(u) R(u) R(u) R(u) R(u) R(u)]
+    M1.path3.chord16 = [D(u)]
+    M1.path3.chord17 = [L(u)]
+    M1.path3.chord18 = [D(u)]
+    M1.path3.chord19 = [L(u)]
+    M1.path3.chord20 = [U(u)]
+    M1.path3.chord21 = [L(u)]
+    M1.path3.chord22 = [D(u) D(u) D(u) D(u) D(u) D(u) D(u)]
+    M1.path3.chord23 = [R(u)]
+    M1.path3.chord24 = [U(u)]
+    M1.path3.chord25 = [R(u)]
+    M1.path3.chord26 = [D(u)]
+    M1.path3.chord27 = [R(u)]
+    M1.path3.chord28 = [D(u)]
+    closure = explicitly declared for this actual path
+  M1.path4 starts at [R(u) R(u) R(u) R(u) R(u) R(u) R(u) R(u) R(u) R(u) R(u) R(u) R(u) R(u) D(u) D(u) D(u) D(u) D(u)]
+    M1.path4.chord1 = [D(u) D(u) D(u) D(u) D(u) D(u) D(u)]
+    M1.path4.chord2 = [L(u)]
+    M1.path4.chord3 = [U(u)]
+    M1.path4.chord4 = [L(u)]
+    M1.path4.chord5 = [U(u)]
+    M1.path4.chord6 = [R(u)]
+    M1.path4.chord7 = [U(u)]
+    M1.path4.chord8 = [L(u) L(u) L(u) L(u) L(u) L(u) L(u)]
+    M1.path4.chord9 = [D(u)]
+    M1.path4.chord10 = [R(u)]
+    M1.path4.chord11 = [D(u)]
+    M1.path4.chord12 = [L(u)]
+    M1.path4.chord13 = [D(u)]
+    M1.path4.chord14 = [L(u)]
+    M1.path4.chord15 = [U(u) U(u) U(u) U(u) U(u) U(u) U(u)]
+    M1.path4.chord16 = [R(u)]
+    M1.path4.chord17 = [D(u)]
+    M1.path4.chord18 = [R(u)]
+    M1.path4.chord19 = [D(u)]
+    M1.path4.chord20 = [L(u)]
+    M1.path4.chord21 = [D(u)]
+    M1.path4.chord22 = [R(u) R(u) R(u) R(u) R(u) R(u) R(u)]
+    M1.path4.chord23 = [U(u)]
+    M1.path4.chord24 = [L(u)]
+    M1.path4.chord25 = [U(u)]
+    M1.path4.chord26 = [R(u)]
+    M1.path4.chord27 = [U(u)]
+    M1.path4.chord28 = [R(u)]
     closure = explicitly declared for this actual path
   M1.port1 selects M1.path1.chord1 (cursor before this chord)
   M1.port2 selects M1.path1.chord2 (cursor before this chord)
@@ -100,43 +154,94 @@ M1:
   M1.port26 selects M1.path1.chord26 (cursor before this chord)
   M1.port27 selects M1.path1.chord27 (cursor before this chord)
   M1.port28 selects M1.path1.chord28 (cursor before this chord)
-  M1.port29 selects M1.path1.chord29 (cursor before this chord)
-  M1.port30 selects M1.path1.chord30 (cursor before this chord)
-  M1.port31 selects M1.path1.chord31 (cursor before this chord)
-  M1.port32 selects M1.path1.chord32 (cursor before this chord)
-  M1.port33 selects M1.path1.chord33 (cursor before this chord)
-  M1.port34 selects M1.path1.chord34 (cursor before this chord)
-  M1.port35 selects M1.path1.chord35 (cursor before this chord)
-  M1.port36 selects M1.path1.chord36 (cursor before this chord)
-  M1.port37 selects M1.path1.chord37 (cursor before this chord)
-  M1.port38 selects M1.path1.chord38 (cursor before this chord)
-  M1.port39 selects M1.path1.chord39 (cursor before this chord)
-  M1.port40 selects M1.path1.chord40 (cursor before this chord)
-  M1.port41 selects M1.path1.chord41 (cursor before this chord)
-  M1.port42 selects M1.path1.chord42 (cursor before this chord)
-  M1.port43 selects M1.path1.chord43 (cursor before this chord)
-  M1.port44 selects M1.path1.chord44 (cursor before this chord)
-  M1.port45 selects M1.path1.chord45 (cursor before this chord)
-  M1.port46 selects M1.path1.chord46 (cursor before this chord)
-  M1.port47 selects M1.path1.chord47 (cursor before this chord)
-  M1.port48 selects M1.path1.chord48 (cursor before this chord)
-  M1.port49 selects M1.path1.chord49 (cursor before this chord)
-  M1.port50 selects M1.path1.chord50 (cursor before this chord)
-  M1.port51 selects M1.path1.chord51 (cursor before this chord)
-  M1.port52 selects M1.path1.chord52 (cursor before this chord)
-  M1.port53 selects M1.path1.chord53 (cursor before this chord)
-  M1.port54 selects M1.path1.chord54 (cursor before this chord)
-  M1.port55 selects M1.path1.chord55 (cursor before this chord)
-  M1.port56 selects M1.path1.chord56 (cursor before this chord)
-  M1.port57 selects M1.path1.chord57 (cursor before this chord)
-  M1.port58 selects M1.path1.chord58 (cursor before this chord)
-  M1.port59 selects M1.path1.chord59 (cursor before this chord)
-  M1.port60 selects M1.path1.chord60 (cursor before this chord)
-  M1.port61 selects M1.path1.chord61 (cursor before this chord)
-  M1.port62 selects M1.path1.chord62 (cursor before this chord)
-  M1.port63 selects M1.path1.chord63 (cursor before this chord)
-  M1.port64 selects M1.path1.chord64 (cursor before this chord)
-  M1.port65 selects M1.path1.end (terminal cursor)
+  M1.port29 selects M1.path1.end (terminal cursor)
+  M1.port30 selects M1.path2.chord1 (cursor before this chord)
+  M1.port31 selects M1.path2.chord2 (cursor before this chord)
+  M1.port32 selects M1.path2.chord3 (cursor before this chord)
+  M1.port33 selects M1.path2.chord4 (cursor before this chord)
+  M1.port34 selects M1.path2.chord5 (cursor before this chord)
+  M1.port35 selects M1.path2.chord6 (cursor before this chord)
+  M1.port36 selects M1.path2.chord7 (cursor before this chord)
+  M1.port37 selects M1.path2.chord8 (cursor before this chord)
+  M1.port38 selects M1.path2.chord9 (cursor before this chord)
+  M1.port39 selects M1.path2.chord10 (cursor before this chord)
+  M1.port40 selects M1.path2.chord11 (cursor before this chord)
+  M1.port41 selects M1.path2.chord12 (cursor before this chord)
+  M1.port42 selects M1.path2.chord13 (cursor before this chord)
+  M1.port43 selects M1.path2.chord14 (cursor before this chord)
+  M1.port44 selects M1.path2.chord15 (cursor before this chord)
+  M1.port45 selects M1.path2.chord16 (cursor before this chord)
+  M1.port46 selects M1.path2.chord17 (cursor before this chord)
+  M1.port47 selects M1.path2.chord18 (cursor before this chord)
+  M1.port48 selects M1.path2.chord19 (cursor before this chord)
+  M1.port49 selects M1.path2.chord20 (cursor before this chord)
+  M1.port50 selects M1.path2.chord21 (cursor before this chord)
+  M1.port51 selects M1.path2.chord22 (cursor before this chord)
+  M1.port52 selects M1.path2.chord23 (cursor before this chord)
+  M1.port53 selects M1.path2.chord24 (cursor before this chord)
+  M1.port54 selects M1.path2.chord25 (cursor before this chord)
+  M1.port55 selects M1.path2.chord26 (cursor before this chord)
+  M1.port56 selects M1.path2.chord27 (cursor before this chord)
+  M1.port57 selects M1.path2.chord28 (cursor before this chord)
+  M1.port58 selects M1.path2.end (terminal cursor)
+  M1.port59 selects M1.path3.chord1 (cursor before this chord)
+  M1.port60 selects M1.path3.chord2 (cursor before this chord)
+  M1.port61 selects M1.path3.chord3 (cursor before this chord)
+  M1.port62 selects M1.path3.chord4 (cursor before this chord)
+  M1.port63 selects M1.path3.chord5 (cursor before this chord)
+  M1.port64 selects M1.path3.chord6 (cursor before this chord)
+  M1.port65 selects M1.path3.chord7 (cursor before this chord)
+  M1.port66 selects M1.path3.chord8 (cursor before this chord)
+  M1.port67 selects M1.path3.chord9 (cursor before this chord)
+  M1.port68 selects M1.path3.chord10 (cursor before this chord)
+  M1.port69 selects M1.path3.chord11 (cursor before this chord)
+  M1.port70 selects M1.path3.chord12 (cursor before this chord)
+  M1.port71 selects M1.path3.chord13 (cursor before this chord)
+  M1.port72 selects M1.path3.chord14 (cursor before this chord)
+  M1.port73 selects M1.path3.chord15 (cursor before this chord)
+  M1.port74 selects M1.path3.chord16 (cursor before this chord)
+  M1.port75 selects M1.path3.chord17 (cursor before this chord)
+  M1.port76 selects M1.path3.chord18 (cursor before this chord)
+  M1.port77 selects M1.path3.chord19 (cursor before this chord)
+  M1.port78 selects M1.path3.chord20 (cursor before this chord)
+  M1.port79 selects M1.path3.chord21 (cursor before this chord)
+  M1.port80 selects M1.path3.chord22 (cursor before this chord)
+  M1.port81 selects M1.path3.chord23 (cursor before this chord)
+  M1.port82 selects M1.path3.chord24 (cursor before this chord)
+  M1.port83 selects M1.path3.chord25 (cursor before this chord)
+  M1.port84 selects M1.path3.chord26 (cursor before this chord)
+  M1.port85 selects M1.path3.chord27 (cursor before this chord)
+  M1.port86 selects M1.path3.chord28 (cursor before this chord)
+  M1.port87 selects M1.path3.end (terminal cursor)
+  M1.port88 selects M1.path4.chord1 (cursor before this chord)
+  M1.port89 selects M1.path4.chord2 (cursor before this chord)
+  M1.port90 selects M1.path4.chord3 (cursor before this chord)
+  M1.port91 selects M1.path4.chord4 (cursor before this chord)
+  M1.port92 selects M1.path4.chord5 (cursor before this chord)
+  M1.port93 selects M1.path4.chord6 (cursor before this chord)
+  M1.port94 selects M1.path4.chord7 (cursor before this chord)
+  M1.port95 selects M1.path4.chord8 (cursor before this chord)
+  M1.port96 selects M1.path4.chord9 (cursor before this chord)
+  M1.port97 selects M1.path4.chord10 (cursor before this chord)
+  M1.port98 selects M1.path4.chord11 (cursor before this chord)
+  M1.port99 selects M1.path4.chord12 (cursor before this chord)
+  M1.port100 selects M1.path4.chord13 (cursor before this chord)
+  M1.port101 selects M1.path4.chord14 (cursor before this chord)
+  M1.port102 selects M1.path4.chord15 (cursor before this chord)
+  M1.port103 selects M1.path4.chord16 (cursor before this chord)
+  M1.port104 selects M1.path4.chord17 (cursor before this chord)
+  M1.port105 selects M1.path4.chord18 (cursor before this chord)
+  M1.port106 selects M1.path4.chord19 (cursor before this chord)
+  M1.port107 selects M1.path4.chord20 (cursor before this chord)
+  M1.port108 selects M1.path4.chord21 (cursor before this chord)
+  M1.port109 selects M1.path4.chord22 (cursor before this chord)
+  M1.port110 selects M1.path4.chord23 (cursor before this chord)
+  M1.port111 selects M1.path4.chord24 (cursor before this chord)
+  M1.port112 selects M1.path4.chord25 (cursor before this chord)
+  M1.port113 selects M1.path4.chord26 (cursor before this chord)
+  M1.port114 selects M1.path4.chord27 (cursor before this chord)
+  M1.port115 selects M1.path4.chord28 (cursor before this chord)
+  M1.port116 selects M1.path4.end (terminal cursor)
 
 TRANSFORM SUBSTITUTIONS
 T1 (declared frame -> same declared frame):
@@ -163,8 +268,8 @@ T4 (declared frame -> same declared frame):
 PARAMETER DOMAINS AND SELECTED BINDINGS
 P1 allows [M1]; selected M1
 P2 allows [T1 T2 T3 T4]; selected T1
-P3 allows [[R(u) R(u) R(u) R(u) R(u) R(u) R(u) R(u) R(u) R(u) R(u) R(u) R(u) R(u) R(u) R(u)]]; selected [R(u) R(u) R(u) R(u) R(u) R(u) R(u) R(u) R(u) R(u) R(u) R(u) R(u) R(u) R(u) R(u)]
-P4 allows [[U(u) U(u) U(u) U(u) U(u) U(u) U(u) U(u) U(u) U(u) U(u) U(u) U(u) U(u) U(u) U(u)]]; selected [U(u) U(u) U(u) U(u) U(u) U(u) U(u) U(u) U(u) U(u) U(u) U(u) U(u) U(u) U(u) U(u)]
+P3 allows [[R(u) R(u) R(u) R(u) R(u) R(u) R(u) R(u) R(u) R(u)]]; selected [R(u) R(u) R(u) R(u) R(u) R(u) R(u) R(u) R(u) R(u)]
+P4 allows [[D(u) D(u) D(u) D(u) D(u) D(u) D(u) D(u) D(u) D(u)]]; selected [D(u) D(u) D(u) D(u) D(u) D(u) D(u) D(u) D(u) D(u)]
 
 LAYOUT PHASES AND RULES
 Column cycle roles = [U0]
@@ -176,14 +281,14 @@ Column displacement reads P3; row displacement reads P4.
 
 SAMPLED WINDOW
 Start roles = (U0, V0).
-Column occurrence slots = [c0 c1 c2 c3]
-Row occurrence slots = [r0 r1 r2 r3]
-These finite scopes sample 16 accepted unit occurrences. Slot counts and aliases are diagnostic reads, not calibrated lengths or clocks.
+Column occurrence slots = [c0 c1 c2]
+Row occurrence slots = [r0 r1 r2]
+These finite scopes sample 9 accepted unit occurrences. Slot counts and aliases are diagnostic reads, not calibrated lengths or clocks.
 
 SHARED REACHES
 u = one actual shared, unmeasured reach identity. Reuse means shared participation; no numerical size is supplied.
 
 
 EXPLICIT FIELD READ
-Accepted seams: 118; blocked: 0; unresolved: 0; declared finite frontier: 42.
+Accepted seams: 596; blocked: 0; unresolved: 0; declared finite frontier: 124.
 Seam declarations select actual motif/transform identities and public roles. Finite offsets walk the sampled occurrence order. Equal display positions do not propose new joins. Parallel stroke participations are retained.

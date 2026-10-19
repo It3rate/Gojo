@@ -33,26 +33,26 @@
       "Id": "B02",
       "Name": "Basket rectangles and square gaps",
       "Units": 16,
-      "Sites": 169,
-      "Strokes": 384,
+      "Sites": 288,
+      "Strokes": 512,
       "Components": 1,
-      "CycleRank": 216,
-      "Accepted": 459,
+      "CycleRank": 225,
+      "Accepted": 344,
       "Blocked": 0,
       "Unresolved": 0,
-      "Frontier": 85,
-      "DuplicateEndpointPairs": 136,
+      "Frontier": 40,
+      "DuplicateEndpointPairs": 112,
       "Definition": {
-        "Objects": 637,
-        "Relations": 494,
+        "Objects": 1522,
+        "Relations": 1212,
         "NumericElements": 0
       },
       "Packet": {
-        "Objects": 1028,
-        "Relations": 839,
+        "Objects": 1799,
+        "Relations": 1453,
         "NumericElements": 0
       },
-      "ArchiveBytes": 77724
+      "ArchiveBytes": 137410
     },
     {
       "Id": "B03",
@@ -131,7 +131,7 @@
     },
     {
       "Id": "B06",
-      "Name": "Octagons leave small squares",
+      "Name": "Octagons with diamond gaps \u00B7 first interpretation",
       "Units": 16,
       "Sites": 80,
       "Strokes": 128,
@@ -153,6 +153,31 @@
         "NumericElements": 0
       },
       "ArchiveBytes": 45131
+    },
+    {
+      "Id": "B06.B",
+      "Name": "Octagons with upright square gaps",
+      "Units": 16,
+      "Sites": 80,
+      "Strokes": 128,
+      "Components": 1,
+      "CycleRank": 49,
+      "Accepted": 76,
+      "Blocked": 0,
+      "Unresolved": 0,
+      "Frontier": 20,
+      "DuplicateEndpointPairs": 24,
+      "Definition": {
+        "Objects": 833,
+        "Relations": 682,
+        "NumericElements": 0
+      },
+      "Packet": {
+        "Objects": 938,
+        "Relations": 769,
+        "NumericElements": 0
+      },
+      "ArchiveBytes": 71017
     },
     {
       "Id": "B07",
@@ -181,178 +206,178 @@
     },
     {
       "Id": "B08",
-      "Name": "Cranked diagonal trellis",
+      "Name": "Intersecting diagonal ribbons",
       "Units": 16,
-      "Sites": 152,
-      "Strokes": 160,
+      "Sites": 80,
+      "Strokes": 128,
       "Components": 1,
-      "CycleRank": 9,
-      "Accepted": 73,
+      "CycleRank": 49,
+      "Accepted": 169,
       "Blocked": 0,
       "Unresolved": 0,
-      "Frontier": 23,
+      "Frontier": 39,
       "DuplicateEndpointPairs": 0,
       "Definition": {
-        "Objects": 571,
-        "Relations": 462,
+        "Objects": 964,
+        "Relations": 771,
         "NumericElements": 0
       },
       "Packet": {
-        "Objects": 678,
-        "Relations": 551,
+        "Objects": 1142,
+        "Relations": 924,
         "NumericElements": 0
       },
-      "ArchiveBytes": 51068
+      "ArchiveBytes": 86393
     },
     {
       "Id": "B09",
-      "Name": "Greek-key border control",
+      "Name": "Detached S-shaped fret units",
       "Units": 12,
-      "Sites": 249,
-      "Strokes": 240,
-      "Components": 9,
+      "Sites": 96,
+      "Strokes": 84,
+      "Components": 12,
       "CycleRank": 0,
-      "Accepted": 27,
+      "Accepted": 0,
       "Blocked": 0,
       "Unresolved": 0,
-      "Frontier": 9,
+      "Frontier": 0,
       "DuplicateEndpointPairs": 0,
       "Definition": {
-        "Objects": 775,
-        "Relations": 643,
+        "Objects": 468,
+        "Relations": 368,
         "NumericElements": 0
       },
       "Packet": {
-        "Objects": 847,
-        "Relations": 701,
+        "Objects": 507,
+        "Relations": 396,
         "NumericElements": 0
       },
-      "ArchiveBytes": 64059
+      "ArchiveBytes": 37895
     },
     {
       "Id": "B10",
       "Name": "Direct bent-cross compartments",
       "Units": 16,
-      "Sites": 152,
-      "Strokes": 160,
+      "Sites": 285,
+      "Strokes": 512,
       "Components": 1,
-      "CycleRank": 9,
-      "Accepted": 73,
+      "CycleRank": 228,
+      "Accepted": 421,
       "Blocked": 0,
       "Unresolved": 0,
-      "Frontier": 23,
-      "DuplicateEndpointPairs": 0,
+      "Frontier": 107,
+      "DuplicateEndpointPairs": 196,
       "Definition": {
-        "Objects": 499,
-        "Relations": 390,
+        "Objects": 3485,
+        "Relations": 3120,
         "NumericElements": 0
       },
       "Packet": {
-        "Objects": 606,
-        "Relations": 479,
+        "Objects": 3879,
+        "Relations": 3469,
         "NumericElements": 0
       },
-      "ArchiveBytes": 45437
+      "ArchiveBytes": 304915
     },
     {
       "Id": "B11",
       "Name": "Returned rows of bent crosses",
-      "Units": 16,
-      "Sites": 152,
-      "Strokes": 160,
+      "Units": 12,
+      "Sites": 413,
+      "Strokes": 768,
       "Components": 1,
-      "CycleRank": 9,
-      "Accepted": 73,
+      "CycleRank": 356,
+      "Accepted": 657,
       "Blocked": 0,
       "Unresolved": 0,
-      "Frontier": 54,
-      "DuplicateEndpointPairs": 0,
+      "Frontier": 135,
+      "DuplicateEndpointPairs": 308,
       "Definition": {
-        "Objects": 510,
-        "Relations": 399,
+        "Objects": 6905,
+        "Relations": 6258,
         "NumericElements": 0
       },
       "Packet": {
-        "Objects": 969,
-        "Relations": 806,
+        "Objects": 7622,
+        "Relations": 6898,
         "NumericElements": 0
       },
-      "ArchiveBytes": 73404
+      "ArchiveBytes": 603547
     },
     {
       "Id": "B12",
-      "Name": "Fourfold spiral-arm field",
-      "Units": 16,
-      "Sites": 552,
-      "Strokes": 512,
-      "Components": 40,
-      "CycleRank": 0,
-      "Accepted": 24,
+      "Name": "Closed stepped-arm compartments",
+      "Units": 6,
+      "Sites": 221,
+      "Strokes": 384,
+      "Components": 1,
+      "CycleRank": 164,
+      "Accepted": 267,
       "Blocked": 0,
       "Unresolved": 0,
-      "Frontier": 8,
-      "DuplicateEndpointPairs": 0,
+      "Frontier": 93,
+      "DuplicateEndpointPairs": 140,
       "Definition": {
-        "Objects": 4354,
-        "Relations": 3693,
+        "Objects": 3885,
+        "Relations": 3380,
         "NumericElements": 0
       },
       "Packet": {
-        "Objects": 4417,
-        "Relations": 3742,
+        "Objects": 4546,
+        "Relations": 3972,
         "NumericElements": 0
       },
-      "ArchiveBytes": 344093
+      "ArchiveBytes": 356443
     },
     {
       "Id": "B13",
-      "Name": "Four-part revolved key scaffold",
-      "Units": 16,
-      "Sites": 961,
-      "Strokes": 1024,
+      "Name": "Interlocking serif-I compartments",
+      "Units": 9,
+      "Sites": 553,
+      "Strokes": 1008,
       "Components": 1,
-      "CycleRank": 64,
-      "Accepted": 118,
+      "CycleRank": 456,
+      "Accepted": 596,
       "Blocked": 0,
       "Unresolved": 0,
-      "Frontier": 42,
-      "DuplicateEndpointPairs": 0,
+      "Frontier": 124,
+      "DuplicateEndpointPairs": 420,
       "Definition": {
-        "Objects": 8841,
-        "Relations": 7730,
+        "Objects": 4450,
+        "Relations": 3712,
         "NumericElements": 0
       },
       "Packet": {
-        "Objects": 8994,
-        "Relations": 7861,
+        "Objects": 5291,
+        "Relations": 4463,
         "NumericElements": 0
       },
-      "ArchiveBytes": 708286
+      "ArchiveBytes": 412952
     },
     {
       "Id": "B14",
-      "Name": "Connected meander-grid adaptation",
-      "Units": 16,
-      "Sites": 296,
-      "Strokes": 304,
+      "Name": "Dense interlocking serif-I field",
+      "Units": 9,
+      "Sites": 385,
+      "Strokes": 720,
       "Components": 1,
-      "CycleRank": 9,
-      "Accepted": 49,
+      "CycleRank": 336,
+      "Accepted": 476,
       "Blocked": 0,
       "Unresolved": 0,
-      "Frontier": 15,
-      "DuplicateEndpointPairs": 0,
+      "Frontier": 100,
+      "DuplicateEndpointPairs": 300,
       "Definition": {
-        "Objects": 714,
-        "Relations": 587,
+        "Objects": 3496,
+        "Relations": 2926,
         "NumericElements": 0
       },
       "Packet": {
-        "Objects": 799,
-        "Relations": 656,
+        "Objects": 4177,
+        "Relations": 3533,
         "NumericElements": 0
       },
-      "ArchiveBytes": 60343
+      "ArchiveBytes": 325520
     }
   ],
   "Limits": [
