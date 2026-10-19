@@ -35,6 +35,7 @@ prediction and control, grounded in these experiments.
 | Bourgoin source corrections and compartment refinements | [Corrections and checks](../Gojo/docs/GojoBourgoinRefinementStudy.md), [refined diamond fields](QualitativeFrieze/BourgoinPatternLibrary.DiamondFields.cs), [interlocking chambers](QualitativeFrieze/BourgoinPatternLibrary.InterlockingShapes.cs) | [Fifteen cases, first-pass comparisons and overlays](QualitativeFrieze/results/bourgoin-patterns/gallery.html) |
 | Bourgoin construction vocabulary | [Shared identities, layers and finite curved profiles](../Gojo/docs/GojoBourgoinVocabularyStudy.md), [exact native construction read](QualitativeFrieze/BourgoinConstructionRead.cs) | [Thirty-six constructions on one sheet](QualitativeFrieze/results/bourgoin-patterns/overview.html) |
 | Native lattice construction ladders | [Retained bases, current-shape reads and deliberate forgetting](../Gojo/docs/GojoLatticeConstructionLadders.md), [native ladder](QualitativeFrieze/QualitativeLatticeLadder.cs) | [Nineteen constructions with rung controls](QualitativeFrieze/results/lattice-ladders/gallery.html), [single sheet](QualitativeFrieze/results/lattice-ladders/overview.html) |
+| One hundred editable lattice constructions | [Withdrawal, reformulation, rules and review](../Gojo/docs/GojoLatticeCatalogue.md), [twenty native recipe families](QualitativeFrieze/LatticeCatalogueRecipes.Families.cs) | [Catalogue and ratings](QualitativeFrieze/results/lattice-catalogue/gallery.html), [whole sheet](QualitativeFrieze/results/lattice-catalogue/overview.html), [construction strips](QualitativeFrieze/results/lattice-catalogue/construction-strips.html) |
 | A grammar in colour | [Native enrichment, finer unmeasured authoring and design hierarchy](../Gojo/docs/GojoOrnamentDesignCollection.md) | [108 designs](QualitativeFrieze/results/ornament-designs/gallery.html), [all designs on one page](QualitativeFrieze/results/ornament-designs/overview.html) |
 | Detail that follows the structure | [Parent, direction, cadence and native finite detail](../Gojo/docs/GojoOrnamentDetailStudy.md) | [Ten studies and four integrations](QualitativeFrieze/results/ornament-details/gallery.html), [single sheet](QualitativeFrieze/results/ornament-details/overview.html) |
 | A flowing grammar | [Native refinement and selected curve interpretation](../Gojo/docs/GojoOrnamentRefinedCollection.md) | [108 refined designs](QualitativeFrieze/results/ornament-refined/gallery.html), [curve studies](QualitativeFrieze/results/ornament-curves/gallery.html), [single sheet](QualitativeFrieze/results/ornament-refined/overview.html) |
@@ -72,6 +73,8 @@ dotnet run --project experiments/QualitativeFrieze -c Release -- --ornament-prog
 dotnet run --project experiments/QualitativeFrieze -c Release -- --bourgoin-patterns
 
 dotnet run --project experiments/QualitativeFrieze -c Release -- --lattice-ladders
+
+dotnet run --project experiments/QualitativeFrieze -c Release -- --lattice-catalogue
 dotnet run --project experiments/UtilityEcology -c Release -- --seed-trial --pilot --phase-length 512 --output experiments/UtilityEcology/results/new-seed-pilot
 ./experiments/Phototaxis.Browser/Start-Preview.ps1
 ```

@@ -1,0 +1,160 @@
+{
+  "schema": "gojo-lattice-catalogue-verification-v1",
+  "capturedAtUtc": "2026-10-19T20:42:48.7613872Z",
+  "solutionTests": {
+    "command": "dotnet test Gojo.slnx -c Release --logger trx --results-directory artifacts/lattice-catalogue-solution-tests --nologo",
+    "assemblies": 12,
+    "passed": 4325,
+    "failed": 0,
+    "skipped": 0,
+    "newStructuralTests": 29,
+    "finalFocusedAssessmentTests": 16,
+    "note": "All runtime changes included in the full solution run. The subdivision test received additional gcd assertions afterward and its sixteen-test class passed again; runtime code did not change.",
+    "results": [
+      {
+        "assembly": "PrimitiveForager.Tests.dll",
+        "passed": 6,
+        "failed": 0,
+        "skipped": 0,
+        "trx": "Robin_WINROBIN_2026-10-19_15_33_55_net10.0.trx",
+        "sha256": "ef01bb879fd5fba36535f3a5bdae874b348e6ad1cc9811718d2caaa804ae9d31"
+      },
+      {
+        "assembly": "Gojo.Tests.dll",
+        "passed": 1069,
+        "failed": 0,
+        "skipped": 0,
+        "trx": "Robin_WINROBIN_2026-10-19_15_33_55_net10.0[1].trx",
+        "sha256": "b6bced991016c2c5301b4f8414285c5efe1d33bad6a19378dfbc0b90d410af60"
+      },
+      {
+        "assembly": "Phototaxis.Tests.dll",
+        "passed": 129,
+        "failed": 0,
+        "skipped": 0,
+        "trx": "Robin_WINROBIN_2026-10-19_15_33_56_net10.0.trx",
+        "sha256": "f9f53cb2c7382d5f1d21d4831dc9550659af0088e5967210d67d21fc8988bc5d"
+      },
+      {
+        "assembly": "QualitativeExecution.Tests.dll",
+        "passed": 1895,
+        "failed": 0,
+        "skipped": 0,
+        "trx": "Robin_WINROBIN_2026-10-19_15_33_56_net10.0[1].trx",
+        "sha256": "c9a8061b847894c20c4f6c2abe81ac59f0e2aff02bbde1158c98db286ad4d7f7"
+      },
+      {
+        "assembly": "PrimitiveLearning.Tests.dll",
+        "passed": 66,
+        "failed": 0,
+        "skipped": 0,
+        "trx": "Robin_WINROBIN_2026-10-19_15_33_59_net10.0.trx",
+        "sha256": "0076441882228e8fb9cb26242d155bc781c2ceecf6d405f4a075f4e2c5ede729"
+      },
+      {
+        "assembly": "Minds.Tests.dll",
+        "passed": 49,
+        "failed": 0,
+        "skipped": 0,
+        "trx": "Robin_WINROBIN_2026-10-19_15_34_00_net10.0.trx",
+        "sha256": "46b92055f4462e4f6e88a89df8e46114c077b84ffecd152d7584827d17c4f071"
+      },
+      {
+        "assembly": "Gojo.GearShapeLadder.Tests.dll",
+        "passed": 21,
+        "failed": 0,
+        "skipped": 0,
+        "trx": "Robin_WINROBIN_2026-10-19_15_34_09_net10.0.trx",
+        "sha256": "88a4cf2d7b837de920a685dfed2cbf0b2dd83405e33ac11db1f0ea9ff846c33d"
+      },
+      {
+        "assembly": "GojoCAD.Tests.dll",
+        "passed": 155,
+        "failed": 0,
+        "skipped": 0,
+        "trx": "Robin_WINROBIN_2026-10-19_15_34_10_net10.0.trx",
+        "sha256": "b1622eed29429c92a17f71c39582892c576a3c6186f3b6cb06c1ae46398b18af"
+      },
+      {
+        "assembly": "Gojo.Encoding.Tests.dll",
+        "passed": 725,
+        "failed": 0,
+        "skipped": 0,
+        "trx": "Robin_WINROBIN_2026-10-19_15_34_11_net10.0.trx",
+        "sha256": "fe6eb999283a83b7bd5a3757921f2e1bc059bf0d1dddb7770b55d6d19a28bce0"
+      },
+      {
+        "assembly": "CompositeEmergence.Tests.dll",
+        "passed": 66,
+        "failed": 0,
+        "skipped": 0,
+        "trx": "Robin_WINROBIN_2026-10-19_15_34_17_net10.0.trx",
+        "sha256": "f9007a3f109cd9f2f424241254e71646e34238a9a7cf01c0df8203ac95298ac7"
+      },
+      {
+        "assembly": "AdaptiveLifecycle.Tests.dll",
+        "passed": 25,
+        "failed": 0,
+        "skipped": 0,
+        "trx": "Robin_WINROBIN_2026-10-19_15_34_33_net10.0.trx",
+        "sha256": "a1defce794a7e8ad836f445ae6e2228a7bf1ae44a024b68329cbf4a888914e8a"
+      },
+      {
+        "assembly": "UtilityEcology.Tests.dll",
+        "passed": 119,
+        "failed": 0,
+        "skipped": 0,
+        "trx": "Robin_WINROBIN_2026-10-19_15_34_34_net10.0.trx",
+        "sha256": "6f088099194280a0d318ae17973b9f6dd68a9a1bf45cc8070c56a49d2b87416d"
+      }
+    ]
+  },
+  "build": {
+    "command": "dotnet build experiments/QualitativeFrieze/QualitativeFrieze.csproj -c Release -o artifacts/lattice-catalogue-bin --nologo",
+    "errors": 0,
+    "warnings": 0
+  },
+  "nativeExecution": {
+    "command": "dotnet artifacts/lattice-catalogue-bin/QualitativeFrieze.dll --lattice-catalogue",
+    "admitted": 100,
+    "distinctFiniteSupportReads": 100,
+    "families": 20,
+    "unitsPerCase": 9,
+    "displayedStages": 480,
+    "uniqueRenderedStages": 233,
+    "actualAncestorAnswers": 380,
+    "nativeNumericParticipants": 0,
+    "blockedSeamObligations": 0,
+    "missingSeamObligations": 0,
+    "zeroChords": 0,
+    "immediateRetraces": 0,
+    "retracedPairs": 0,
+    "geometricOverlaps": 0,
+    "unjoinedContacts": 0,
+    "connectedFields": 90,
+    "intentionalSeparateStrandFields": 10,
+    "compressedConstructionBytes": 2895006,
+    "compressedRepresentativeRuleBytes": 5840200,
+    "independentAudit": "independent-quality.json",
+    "independentFingerprintMatches": 100
+  },
+  "browser": {
+    "report": "browser-check.json",
+    "passed": true,
+    "checks": 1513,
+    "walkedStages": 480,
+    "scriptErrors": 0,
+    "failedRequests": 0,
+    "widths": [
+      1440,
+      430
+    ],
+    "ratings": "Local storage, notes, export/import, stale fingerprint rejection and clear/reload verified in isolated browser context."
+  },
+  "limits": [
+    "Twenty authored template families with five bounded variations, not autonomous discovery.",
+    "Finite common-reach support fingerprints and overlap checks are selected reads, not infinite tiling or aesthetic proofs.",
+    "Current packet history includes source interpretations; retaining an ancestor does not certify current ancestry properties.",
+    "User review may prefer stronger geometric surgery than these baseline variations; further transformation work is a separate continuation."
+  ]
+}

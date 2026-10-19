@@ -109,6 +109,13 @@ retain actual grid ancestors through 19 related constructions, with separate
 current-graph questions and an explicit history-forgetting experiment. Their
 [interactive gallery](experiments/QualitativeFrieze/results/lattice-ladders/gallery.html)
 lets you walk each branch and compare its earlier bases.
+The [hundred-lattice catalogue](Gojo/docs/GojoLatticeCatalogue.md) expands this
+into twenty parameterized families with explicit constraint withdrawal,
+reformulation, coarse compartments and finite rule assessments. Its
+[gallery](experiments/QualitativeFrieze/results/lattice-catalogue/gallery.html)
+shows construction strips and supports local ratings; the
+[whole sheet](experiments/QualitativeFrieze/results/lattice-catalogue/overview.html)
+compares all hundred unfilled scaffolds.
 The [coloured ornament collection](experiments/QualitativeFrieze/results/coloured-ornament/gallery.html)
 adds native landmark-bound petals, leaves and medallions, with three selectable
 focuses guided by Jones's colour and hierarchy proposals. Its

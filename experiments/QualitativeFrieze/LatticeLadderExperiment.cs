@@ -21,7 +21,7 @@ public static partial class LatticeLadderExperiment
         int Depth, int Paths, int Chords, int Units, int Accepted, int Blocked, int Open, int Frontier,
         int Numeric, int Objects, int RawStrokes, int IncidenceStrokes, int SupportStrokes, Candidate[] Raw, Candidate[] Support,
         int Unsearched, Ancestor[] Ancestors);
-    private sealed record Imported(QualitativeLatticeLadder Ladder, OrnamentProgram Program,
+    internal sealed record Imported(QualitativeLatticeLadder Ladder, OrnamentProgram Program,
         Relation Bindings, Relation Window, Relation Contract, Relation Root);
     private static readonly JsonSerializerOptions Options = new(JsonSerializerDefaults.Web) { WriteIndented = true };
 
@@ -142,7 +142,7 @@ public static partial class LatticeLadderExperiment
     private static Relation Packet(BourgoinPatternLibrary.Recipe recipe) =>
         new(new Relation(recipe.Program.Surface, new Relation(recipe.Bindings, recipe.Window)), recipe.SeamContract);
 
-    private static Imported Import(string archive)
+    internal static Imported Import(string archive)
     {
         var document = GojoStructureCompactJson.Deserialize(archive);
         if (document.Carriers.Count != 0 || document.Nodes.Any(node => node.Kind is not ("relation" or "placeholder")))

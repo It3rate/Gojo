@@ -1,0 +1,6248 @@
+{
+  "generatedAt": "2026-10-19T20:38:22.738Z",
+  "inputs": {
+    "gallery.html": "5dc1f79f25ff84fd498536cce1ecbbcf4c1d9d73ab51af9880c279ebd7b9a7b9",
+    "overview.html": "4f4bfaa50246237a8c53c9771df5583a9f250bf0d172271637939d23febe9eb0",
+    "construction-strips.html": "113a2a331e68ed72b80187ff8b264604f3cd650e7c58739dd87a033191938ba1",
+    "overview.svg": "e11909034e1b6ed8044ce9271ecd04ac1b2c32da98ffceb2cefd3e7eb5f1af35",
+    "diagnostics.json": "abb9e33d50f1f96b9a2ecdc247e9f3f9644860d9488ae3aacfd09c97b6450c4f"
+  },
+  "errors": [],
+  "failedRequests": [],
+  "checks": [
+    {
+      "name": "Exactly 100 native catalogue cases",
+      "passed": true
+    },
+    {
+      "name": "Exactly 100 design options",
+      "passed": true
+    },
+    {
+      "name": "Exactly 100 rating cards",
+      "passed": true
+    },
+    {
+      "name": "Choose C001",
+      "passed": true
+    },
+    {
+      "name": "Native packet C001",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C001",
+      "passed": true,
+      "detail": 4
+    },
+    {
+      "name": "Stage cards C001",
+      "passed": true
+    },
+    {
+      "name": "Walk C001 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C001 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C001 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C001 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C001 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C001 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Walk C001 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C001 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage click C001",
+      "passed": true
+    },
+    {
+      "name": "Choose C002",
+      "passed": true
+    },
+    {
+      "name": "Native packet C002",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C002",
+      "passed": true,
+      "detail": 4
+    },
+    {
+      "name": "Stage cards C002",
+      "passed": true
+    },
+    {
+      "name": "Walk C002 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C002 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C002 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C002 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C002 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C002 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Walk C002 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C002 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage click C002",
+      "passed": true
+    },
+    {
+      "name": "Choose C003",
+      "passed": true
+    },
+    {
+      "name": "Native packet C003",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C003",
+      "passed": true,
+      "detail": 4
+    },
+    {
+      "name": "Stage cards C003",
+      "passed": true
+    },
+    {
+      "name": "Walk C003 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C003 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C003 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C003 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C003 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C003 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Walk C003 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C003 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage click C003",
+      "passed": true
+    },
+    {
+      "name": "Choose C004",
+      "passed": true
+    },
+    {
+      "name": "Native packet C004",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C004",
+      "passed": true,
+      "detail": 4
+    },
+    {
+      "name": "Stage cards C004",
+      "passed": true
+    },
+    {
+      "name": "Walk C004 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C004 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C004 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C004 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C004 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C004 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Walk C004 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C004 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage click C004",
+      "passed": true
+    },
+    {
+      "name": "Choose C005",
+      "passed": true
+    },
+    {
+      "name": "Native packet C005",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C005",
+      "passed": true,
+      "detail": 4
+    },
+    {
+      "name": "Stage cards C005",
+      "passed": true
+    },
+    {
+      "name": "Walk C005 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C005 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C005 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C005 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C005 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C005 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Walk C005 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C005 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage click C005",
+      "passed": true
+    },
+    {
+      "name": "Choose C006",
+      "passed": true
+    },
+    {
+      "name": "Native packet C006",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C006",
+      "passed": true,
+      "detail": 6
+    },
+    {
+      "name": "Stage cards C006",
+      "passed": true
+    },
+    {
+      "name": "Walk C006 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C006 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C006 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C006 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C006 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C006 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Walk C006 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C006 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Walk C006 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C006 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Walk C006 rung 5",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C006 rung 5",
+      "passed": true
+    },
+    {
+      "name": "Stage click C006",
+      "passed": true
+    },
+    {
+      "name": "Choose C007",
+      "passed": true
+    },
+    {
+      "name": "Native packet C007",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C007",
+      "passed": true,
+      "detail": 6
+    },
+    {
+      "name": "Stage cards C007",
+      "passed": true
+    },
+    {
+      "name": "Walk C007 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C007 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C007 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C007 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C007 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C007 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Walk C007 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C007 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Walk C007 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C007 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Walk C007 rung 5",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C007 rung 5",
+      "passed": true
+    },
+    {
+      "name": "Stage click C007",
+      "passed": true
+    },
+    {
+      "name": "Choose C008",
+      "passed": true
+    },
+    {
+      "name": "Native packet C008",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C008",
+      "passed": true,
+      "detail": 6
+    },
+    {
+      "name": "Stage cards C008",
+      "passed": true
+    },
+    {
+      "name": "Walk C008 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C008 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C008 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C008 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C008 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C008 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Walk C008 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C008 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Walk C008 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C008 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Walk C008 rung 5",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C008 rung 5",
+      "passed": true
+    },
+    {
+      "name": "Stage click C008",
+      "passed": true
+    },
+    {
+      "name": "Choose C009",
+      "passed": true
+    },
+    {
+      "name": "Native packet C009",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C009",
+      "passed": true,
+      "detail": 6
+    },
+    {
+      "name": "Stage cards C009",
+      "passed": true
+    },
+    {
+      "name": "Walk C009 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C009 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C009 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C009 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C009 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C009 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Walk C009 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C009 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Walk C009 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C009 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Walk C009 rung 5",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C009 rung 5",
+      "passed": true
+    },
+    {
+      "name": "Stage click C009",
+      "passed": true
+    },
+    {
+      "name": "Choose C010",
+      "passed": true
+    },
+    {
+      "name": "Native packet C010",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C010",
+      "passed": true,
+      "detail": 6
+    },
+    {
+      "name": "Stage cards C010",
+      "passed": true
+    },
+    {
+      "name": "Walk C010 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C010 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C010 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C010 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C010 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C010 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Walk C010 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C010 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Walk C010 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C010 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Walk C010 rung 5",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C010 rung 5",
+      "passed": true
+    },
+    {
+      "name": "Stage click C010",
+      "passed": true
+    },
+    {
+      "name": "Choose C011",
+      "passed": true
+    },
+    {
+      "name": "Native packet C011",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C011",
+      "passed": true,
+      "detail": 6
+    },
+    {
+      "name": "Stage cards C011",
+      "passed": true
+    },
+    {
+      "name": "Walk C011 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C011 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C011 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C011 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C011 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C011 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Walk C011 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C011 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Walk C011 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C011 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Walk C011 rung 5",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C011 rung 5",
+      "passed": true
+    },
+    {
+      "name": "Stage click C011",
+      "passed": true
+    },
+    {
+      "name": "Choose C012",
+      "passed": true
+    },
+    {
+      "name": "Native packet C012",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C012",
+      "passed": true,
+      "detail": 6
+    },
+    {
+      "name": "Stage cards C012",
+      "passed": true
+    },
+    {
+      "name": "Walk C012 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C012 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C012 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C012 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C012 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C012 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Walk C012 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C012 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Walk C012 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C012 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Walk C012 rung 5",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C012 rung 5",
+      "passed": true
+    },
+    {
+      "name": "Stage click C012",
+      "passed": true
+    },
+    {
+      "name": "Choose C013",
+      "passed": true
+    },
+    {
+      "name": "Native packet C013",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C013",
+      "passed": true,
+      "detail": 6
+    },
+    {
+      "name": "Stage cards C013",
+      "passed": true
+    },
+    {
+      "name": "Walk C013 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C013 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C013 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C013 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C013 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C013 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Walk C013 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C013 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Walk C013 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C013 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Walk C013 rung 5",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C013 rung 5",
+      "passed": true
+    },
+    {
+      "name": "Stage click C013",
+      "passed": true
+    },
+    {
+      "name": "Choose C014",
+      "passed": true
+    },
+    {
+      "name": "Native packet C014",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C014",
+      "passed": true,
+      "detail": 6
+    },
+    {
+      "name": "Stage cards C014",
+      "passed": true
+    },
+    {
+      "name": "Walk C014 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C014 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C014 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C014 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C014 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C014 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Walk C014 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C014 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Walk C014 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C014 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Walk C014 rung 5",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C014 rung 5",
+      "passed": true
+    },
+    {
+      "name": "Stage click C014",
+      "passed": true
+    },
+    {
+      "name": "Choose C015",
+      "passed": true
+    },
+    {
+      "name": "Native packet C015",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C015",
+      "passed": true,
+      "detail": 6
+    },
+    {
+      "name": "Stage cards C015",
+      "passed": true
+    },
+    {
+      "name": "Walk C015 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C015 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C015 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C015 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C015 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C015 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Walk C015 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C015 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Walk C015 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C015 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Walk C015 rung 5",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C015 rung 5",
+      "passed": true
+    },
+    {
+      "name": "Stage click C015",
+      "passed": true
+    },
+    {
+      "name": "Choose C016",
+      "passed": true
+    },
+    {
+      "name": "Native packet C016",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C016",
+      "passed": true,
+      "detail": 5
+    },
+    {
+      "name": "Stage cards C016",
+      "passed": true
+    },
+    {
+      "name": "Walk C016 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C016 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C016 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C016 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C016 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C016 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Walk C016 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C016 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Walk C016 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C016 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage click C016",
+      "passed": true
+    },
+    {
+      "name": "Choose C017",
+      "passed": true
+    },
+    {
+      "name": "Native packet C017",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C017",
+      "passed": true,
+      "detail": 5
+    },
+    {
+      "name": "Stage cards C017",
+      "passed": true
+    },
+    {
+      "name": "Walk C017 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C017 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C017 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C017 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C017 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C017 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Walk C017 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C017 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Walk C017 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C017 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage click C017",
+      "passed": true
+    },
+    {
+      "name": "Choose C018",
+      "passed": true
+    },
+    {
+      "name": "Native packet C018",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C018",
+      "passed": true,
+      "detail": 5
+    },
+    {
+      "name": "Stage cards C018",
+      "passed": true
+    },
+    {
+      "name": "Walk C018 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C018 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C018 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C018 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C018 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C018 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Walk C018 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C018 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Walk C018 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C018 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage click C018",
+      "passed": true
+    },
+    {
+      "name": "Choose C019",
+      "passed": true
+    },
+    {
+      "name": "Native packet C019",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C019",
+      "passed": true,
+      "detail": 5
+    },
+    {
+      "name": "Stage cards C019",
+      "passed": true
+    },
+    {
+      "name": "Walk C019 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C019 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C019 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C019 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C019 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C019 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Walk C019 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C019 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Walk C019 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C019 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage click C019",
+      "passed": true
+    },
+    {
+      "name": "Choose C020",
+      "passed": true
+    },
+    {
+      "name": "Native packet C020",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C020",
+      "passed": true,
+      "detail": 5
+    },
+    {
+      "name": "Stage cards C020",
+      "passed": true
+    },
+    {
+      "name": "Walk C020 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C020 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C020 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C020 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C020 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C020 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Walk C020 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C020 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Walk C020 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C020 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage click C020",
+      "passed": true
+    },
+    {
+      "name": "Choose C021",
+      "passed": true
+    },
+    {
+      "name": "Native packet C021",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C021",
+      "passed": true,
+      "detail": 4
+    },
+    {
+      "name": "Stage cards C021",
+      "passed": true
+    },
+    {
+      "name": "Walk C021 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C021 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C021 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C021 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C021 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C021 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Walk C021 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C021 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage click C021",
+      "passed": true
+    },
+    {
+      "name": "Choose C022",
+      "passed": true
+    },
+    {
+      "name": "Native packet C022",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C022",
+      "passed": true,
+      "detail": 4
+    },
+    {
+      "name": "Stage cards C022",
+      "passed": true
+    },
+    {
+      "name": "Walk C022 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C022 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C022 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C022 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C022 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C022 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Walk C022 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C022 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage click C022",
+      "passed": true
+    },
+    {
+      "name": "Choose C023",
+      "passed": true
+    },
+    {
+      "name": "Native packet C023",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C023",
+      "passed": true,
+      "detail": 4
+    },
+    {
+      "name": "Stage cards C023",
+      "passed": true
+    },
+    {
+      "name": "Walk C023 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C023 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C023 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C023 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C023 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C023 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Walk C023 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C023 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage click C023",
+      "passed": true
+    },
+    {
+      "name": "Choose C024",
+      "passed": true
+    },
+    {
+      "name": "Native packet C024",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C024",
+      "passed": true,
+      "detail": 4
+    },
+    {
+      "name": "Stage cards C024",
+      "passed": true
+    },
+    {
+      "name": "Walk C024 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C024 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C024 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C024 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C024 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C024 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Walk C024 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C024 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage click C024",
+      "passed": true
+    },
+    {
+      "name": "Choose C025",
+      "passed": true
+    },
+    {
+      "name": "Native packet C025",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C025",
+      "passed": true,
+      "detail": 4
+    },
+    {
+      "name": "Stage cards C025",
+      "passed": true
+    },
+    {
+      "name": "Walk C025 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C025 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C025 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C025 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C025 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C025 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Walk C025 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C025 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage click C025",
+      "passed": true
+    },
+    {
+      "name": "Choose C026",
+      "passed": true
+    },
+    {
+      "name": "Native packet C026",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C026",
+      "passed": true,
+      "detail": 5
+    },
+    {
+      "name": "Stage cards C026",
+      "passed": true
+    },
+    {
+      "name": "Walk C026 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C026 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C026 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C026 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C026 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C026 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Walk C026 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C026 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Walk C026 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C026 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage click C026",
+      "passed": true
+    },
+    {
+      "name": "Choose C027",
+      "passed": true
+    },
+    {
+      "name": "Native packet C027",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C027",
+      "passed": true,
+      "detail": 5
+    },
+    {
+      "name": "Stage cards C027",
+      "passed": true
+    },
+    {
+      "name": "Walk C027 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C027 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C027 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C027 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C027 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C027 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Walk C027 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C027 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Walk C027 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C027 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage click C027",
+      "passed": true
+    },
+    {
+      "name": "Choose C028",
+      "passed": true
+    },
+    {
+      "name": "Native packet C028",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C028",
+      "passed": true,
+      "detail": 5
+    },
+    {
+      "name": "Stage cards C028",
+      "passed": true
+    },
+    {
+      "name": "Walk C028 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C028 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C028 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C028 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C028 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C028 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Walk C028 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C028 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Walk C028 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C028 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage click C028",
+      "passed": true
+    },
+    {
+      "name": "Choose C029",
+      "passed": true
+    },
+    {
+      "name": "Native packet C029",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C029",
+      "passed": true,
+      "detail": 5
+    },
+    {
+      "name": "Stage cards C029",
+      "passed": true
+    },
+    {
+      "name": "Walk C029 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C029 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C029 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C029 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C029 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C029 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Walk C029 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C029 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Walk C029 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C029 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage click C029",
+      "passed": true
+    },
+    {
+      "name": "Choose C030",
+      "passed": true
+    },
+    {
+      "name": "Native packet C030",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C030",
+      "passed": true,
+      "detail": 5
+    },
+    {
+      "name": "Stage cards C030",
+      "passed": true
+    },
+    {
+      "name": "Walk C030 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C030 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C030 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C030 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C030 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C030 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Walk C030 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C030 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Walk C030 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C030 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage click C030",
+      "passed": true
+    },
+    {
+      "name": "Choose C031",
+      "passed": true
+    },
+    {
+      "name": "Native packet C031",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C031",
+      "passed": true,
+      "detail": 3
+    },
+    {
+      "name": "Stage cards C031",
+      "passed": true
+    },
+    {
+      "name": "Walk C031 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C031 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C031 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C031 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C031 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C031 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage click C031",
+      "passed": true
+    },
+    {
+      "name": "Choose C032",
+      "passed": true
+    },
+    {
+      "name": "Native packet C032",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C032",
+      "passed": true,
+      "detail": 3
+    },
+    {
+      "name": "Stage cards C032",
+      "passed": true
+    },
+    {
+      "name": "Walk C032 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C032 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C032 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C032 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C032 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C032 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage click C032",
+      "passed": true
+    },
+    {
+      "name": "Choose C033",
+      "passed": true
+    },
+    {
+      "name": "Native packet C033",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C033",
+      "passed": true,
+      "detail": 3
+    },
+    {
+      "name": "Stage cards C033",
+      "passed": true
+    },
+    {
+      "name": "Walk C033 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C033 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C033 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C033 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C033 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C033 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage click C033",
+      "passed": true
+    },
+    {
+      "name": "Choose C034",
+      "passed": true
+    },
+    {
+      "name": "Native packet C034",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C034",
+      "passed": true,
+      "detail": 3
+    },
+    {
+      "name": "Stage cards C034",
+      "passed": true
+    },
+    {
+      "name": "Walk C034 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C034 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C034 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C034 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C034 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C034 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage click C034",
+      "passed": true
+    },
+    {
+      "name": "Choose C035",
+      "passed": true
+    },
+    {
+      "name": "Native packet C035",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C035",
+      "passed": true,
+      "detail": 3
+    },
+    {
+      "name": "Stage cards C035",
+      "passed": true
+    },
+    {
+      "name": "Walk C035 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C035 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C035 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C035 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C035 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C035 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage click C035",
+      "passed": true
+    },
+    {
+      "name": "Choose C036",
+      "passed": true
+    },
+    {
+      "name": "Native packet C036",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C036",
+      "passed": true,
+      "detail": 4
+    },
+    {
+      "name": "Stage cards C036",
+      "passed": true
+    },
+    {
+      "name": "Walk C036 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C036 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C036 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C036 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C036 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C036 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Walk C036 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C036 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage click C036",
+      "passed": true
+    },
+    {
+      "name": "Choose C037",
+      "passed": true
+    },
+    {
+      "name": "Native packet C037",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C037",
+      "passed": true,
+      "detail": 4
+    },
+    {
+      "name": "Stage cards C037",
+      "passed": true
+    },
+    {
+      "name": "Walk C037 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C037 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C037 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C037 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C037 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C037 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Walk C037 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C037 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage click C037",
+      "passed": true
+    },
+    {
+      "name": "Choose C038",
+      "passed": true
+    },
+    {
+      "name": "Native packet C038",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C038",
+      "passed": true,
+      "detail": 4
+    },
+    {
+      "name": "Stage cards C038",
+      "passed": true
+    },
+    {
+      "name": "Walk C038 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C038 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C038 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C038 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C038 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C038 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Walk C038 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C038 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage click C038",
+      "passed": true
+    },
+    {
+      "name": "Choose C039",
+      "passed": true
+    },
+    {
+      "name": "Native packet C039",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C039",
+      "passed": true,
+      "detail": 4
+    },
+    {
+      "name": "Stage cards C039",
+      "passed": true
+    },
+    {
+      "name": "Walk C039 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C039 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C039 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C039 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C039 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C039 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Walk C039 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C039 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage click C039",
+      "passed": true
+    },
+    {
+      "name": "Choose C040",
+      "passed": true
+    },
+    {
+      "name": "Native packet C040",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C040",
+      "passed": true,
+      "detail": 4
+    },
+    {
+      "name": "Stage cards C040",
+      "passed": true
+    },
+    {
+      "name": "Walk C040 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C040 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C040 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C040 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C040 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C040 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Walk C040 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C040 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage click C040",
+      "passed": true
+    },
+    {
+      "name": "Choose C041",
+      "passed": true
+    },
+    {
+      "name": "Native packet C041",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C041",
+      "passed": true,
+      "detail": 3
+    },
+    {
+      "name": "Stage cards C041",
+      "passed": true
+    },
+    {
+      "name": "Walk C041 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C041 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C041 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C041 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C041 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C041 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage click C041",
+      "passed": true
+    },
+    {
+      "name": "Choose C042",
+      "passed": true
+    },
+    {
+      "name": "Native packet C042",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C042",
+      "passed": true,
+      "detail": 3
+    },
+    {
+      "name": "Stage cards C042",
+      "passed": true
+    },
+    {
+      "name": "Walk C042 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C042 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C042 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C042 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C042 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C042 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage click C042",
+      "passed": true
+    },
+    {
+      "name": "Choose C043",
+      "passed": true
+    },
+    {
+      "name": "Native packet C043",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C043",
+      "passed": true,
+      "detail": 3
+    },
+    {
+      "name": "Stage cards C043",
+      "passed": true
+    },
+    {
+      "name": "Walk C043 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C043 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C043 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C043 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C043 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C043 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage click C043",
+      "passed": true
+    },
+    {
+      "name": "Choose C044",
+      "passed": true
+    },
+    {
+      "name": "Native packet C044",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C044",
+      "passed": true,
+      "detail": 3
+    },
+    {
+      "name": "Stage cards C044",
+      "passed": true
+    },
+    {
+      "name": "Walk C044 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C044 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C044 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C044 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C044 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C044 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage click C044",
+      "passed": true
+    },
+    {
+      "name": "Choose C045",
+      "passed": true
+    },
+    {
+      "name": "Native packet C045",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C045",
+      "passed": true,
+      "detail": 3
+    },
+    {
+      "name": "Stage cards C045",
+      "passed": true
+    },
+    {
+      "name": "Walk C045 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C045 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C045 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C045 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C045 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C045 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage click C045",
+      "passed": true
+    },
+    {
+      "name": "Choose C046",
+      "passed": true
+    },
+    {
+      "name": "Native packet C046",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C046",
+      "passed": true,
+      "detail": 3
+    },
+    {
+      "name": "Stage cards C046",
+      "passed": true
+    },
+    {
+      "name": "Walk C046 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C046 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C046 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C046 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C046 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C046 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage click C046",
+      "passed": true
+    },
+    {
+      "name": "Choose C047",
+      "passed": true
+    },
+    {
+      "name": "Native packet C047",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C047",
+      "passed": true,
+      "detail": 3
+    },
+    {
+      "name": "Stage cards C047",
+      "passed": true
+    },
+    {
+      "name": "Walk C047 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C047 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C047 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C047 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C047 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C047 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage click C047",
+      "passed": true
+    },
+    {
+      "name": "Choose C048",
+      "passed": true
+    },
+    {
+      "name": "Native packet C048",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C048",
+      "passed": true,
+      "detail": 3
+    },
+    {
+      "name": "Stage cards C048",
+      "passed": true
+    },
+    {
+      "name": "Walk C048 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C048 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C048 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C048 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C048 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C048 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage click C048",
+      "passed": true
+    },
+    {
+      "name": "Choose C049",
+      "passed": true
+    },
+    {
+      "name": "Native packet C049",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C049",
+      "passed": true,
+      "detail": 3
+    },
+    {
+      "name": "Stage cards C049",
+      "passed": true
+    },
+    {
+      "name": "Walk C049 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C049 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C049 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C049 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C049 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C049 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage click C049",
+      "passed": true
+    },
+    {
+      "name": "Choose C050",
+      "passed": true
+    },
+    {
+      "name": "Native packet C050",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C050",
+      "passed": true,
+      "detail": 3
+    },
+    {
+      "name": "Stage cards C050",
+      "passed": true
+    },
+    {
+      "name": "Walk C050 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C050 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C050 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C050 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C050 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C050 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage click C050",
+      "passed": true
+    },
+    {
+      "name": "Choose C051",
+      "passed": true
+    },
+    {
+      "name": "Native packet C051",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C051",
+      "passed": true,
+      "detail": 6
+    },
+    {
+      "name": "Stage cards C051",
+      "passed": true
+    },
+    {
+      "name": "Walk C051 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C051 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C051 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C051 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C051 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C051 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Walk C051 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C051 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Walk C051 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C051 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Walk C051 rung 5",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C051 rung 5",
+      "passed": true
+    },
+    {
+      "name": "Stage click C051",
+      "passed": true
+    },
+    {
+      "name": "Choose C052",
+      "passed": true
+    },
+    {
+      "name": "Native packet C052",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C052",
+      "passed": true,
+      "detail": 6
+    },
+    {
+      "name": "Stage cards C052",
+      "passed": true
+    },
+    {
+      "name": "Walk C052 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C052 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C052 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C052 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C052 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C052 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Walk C052 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C052 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Walk C052 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C052 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Walk C052 rung 5",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C052 rung 5",
+      "passed": true
+    },
+    {
+      "name": "Stage click C052",
+      "passed": true
+    },
+    {
+      "name": "Choose C053",
+      "passed": true
+    },
+    {
+      "name": "Native packet C053",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C053",
+      "passed": true,
+      "detail": 6
+    },
+    {
+      "name": "Stage cards C053",
+      "passed": true
+    },
+    {
+      "name": "Walk C053 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C053 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C053 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C053 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C053 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C053 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Walk C053 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C053 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Walk C053 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C053 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Walk C053 rung 5",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C053 rung 5",
+      "passed": true
+    },
+    {
+      "name": "Stage click C053",
+      "passed": true
+    },
+    {
+      "name": "Choose C054",
+      "passed": true
+    },
+    {
+      "name": "Native packet C054",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C054",
+      "passed": true,
+      "detail": 6
+    },
+    {
+      "name": "Stage cards C054",
+      "passed": true
+    },
+    {
+      "name": "Walk C054 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C054 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C054 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C054 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C054 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C054 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Walk C054 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C054 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Walk C054 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C054 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Walk C054 rung 5",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C054 rung 5",
+      "passed": true
+    },
+    {
+      "name": "Stage click C054",
+      "passed": true
+    },
+    {
+      "name": "Choose C055",
+      "passed": true
+    },
+    {
+      "name": "Native packet C055",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C055",
+      "passed": true,
+      "detail": 6
+    },
+    {
+      "name": "Stage cards C055",
+      "passed": true
+    },
+    {
+      "name": "Walk C055 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C055 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C055 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C055 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C055 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C055 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Walk C055 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C055 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Walk C055 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C055 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Walk C055 rung 5",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C055 rung 5",
+      "passed": true
+    },
+    {
+      "name": "Stage click C055",
+      "passed": true
+    },
+    {
+      "name": "Choose C056",
+      "passed": true
+    },
+    {
+      "name": "Native packet C056",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C056",
+      "passed": true,
+      "detail": 5
+    },
+    {
+      "name": "Stage cards C056",
+      "passed": true
+    },
+    {
+      "name": "Walk C056 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C056 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C056 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C056 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C056 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C056 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Walk C056 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C056 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Walk C056 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C056 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage click C056",
+      "passed": true
+    },
+    {
+      "name": "Choose C057",
+      "passed": true
+    },
+    {
+      "name": "Native packet C057",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C057",
+      "passed": true,
+      "detail": 5
+    },
+    {
+      "name": "Stage cards C057",
+      "passed": true
+    },
+    {
+      "name": "Walk C057 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C057 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C057 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C057 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C057 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C057 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Walk C057 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C057 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Walk C057 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C057 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage click C057",
+      "passed": true
+    },
+    {
+      "name": "Choose C058",
+      "passed": true
+    },
+    {
+      "name": "Native packet C058",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C058",
+      "passed": true,
+      "detail": 5
+    },
+    {
+      "name": "Stage cards C058",
+      "passed": true
+    },
+    {
+      "name": "Walk C058 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C058 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C058 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C058 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C058 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C058 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Walk C058 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C058 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Walk C058 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C058 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage click C058",
+      "passed": true
+    },
+    {
+      "name": "Choose C059",
+      "passed": true
+    },
+    {
+      "name": "Native packet C059",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C059",
+      "passed": true,
+      "detail": 5
+    },
+    {
+      "name": "Stage cards C059",
+      "passed": true
+    },
+    {
+      "name": "Walk C059 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C059 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C059 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C059 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C059 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C059 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Walk C059 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C059 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Walk C059 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C059 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage click C059",
+      "passed": true
+    },
+    {
+      "name": "Choose C060",
+      "passed": true
+    },
+    {
+      "name": "Native packet C060",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C060",
+      "passed": true,
+      "detail": 5
+    },
+    {
+      "name": "Stage cards C060",
+      "passed": true
+    },
+    {
+      "name": "Walk C060 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C060 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C060 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C060 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C060 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C060 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Walk C060 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C060 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Walk C060 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C060 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage click C060",
+      "passed": true
+    },
+    {
+      "name": "Choose C061",
+      "passed": true
+    },
+    {
+      "name": "Native packet C061",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C061",
+      "passed": true,
+      "detail": 5
+    },
+    {
+      "name": "Stage cards C061",
+      "passed": true
+    },
+    {
+      "name": "Walk C061 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C061 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C061 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C061 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C061 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C061 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Walk C061 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C061 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Walk C061 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C061 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage click C061",
+      "passed": true
+    },
+    {
+      "name": "Choose C062",
+      "passed": true
+    },
+    {
+      "name": "Native packet C062",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C062",
+      "passed": true,
+      "detail": 5
+    },
+    {
+      "name": "Stage cards C062",
+      "passed": true
+    },
+    {
+      "name": "Walk C062 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C062 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C062 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C062 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C062 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C062 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Walk C062 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C062 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Walk C062 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C062 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage click C062",
+      "passed": true
+    },
+    {
+      "name": "Choose C063",
+      "passed": true
+    },
+    {
+      "name": "Native packet C063",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C063",
+      "passed": true,
+      "detail": 5
+    },
+    {
+      "name": "Stage cards C063",
+      "passed": true
+    },
+    {
+      "name": "Walk C063 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C063 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C063 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C063 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C063 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C063 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Walk C063 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C063 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Walk C063 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C063 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage click C063",
+      "passed": true
+    },
+    {
+      "name": "Choose C064",
+      "passed": true
+    },
+    {
+      "name": "Native packet C064",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C064",
+      "passed": true,
+      "detail": 5
+    },
+    {
+      "name": "Stage cards C064",
+      "passed": true
+    },
+    {
+      "name": "Walk C064 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C064 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C064 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C064 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C064 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C064 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Walk C064 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C064 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Walk C064 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C064 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage click C064",
+      "passed": true
+    },
+    {
+      "name": "Choose C065",
+      "passed": true
+    },
+    {
+      "name": "Native packet C065",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C065",
+      "passed": true,
+      "detail": 5
+    },
+    {
+      "name": "Stage cards C065",
+      "passed": true
+    },
+    {
+      "name": "Walk C065 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C065 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C065 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C065 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C065 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C065 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Walk C065 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C065 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Walk C065 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C065 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage click C065",
+      "passed": true
+    },
+    {
+      "name": "Choose C066",
+      "passed": true
+    },
+    {
+      "name": "Native packet C066",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C066",
+      "passed": true,
+      "detail": 6
+    },
+    {
+      "name": "Stage cards C066",
+      "passed": true
+    },
+    {
+      "name": "Walk C066 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C066 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C066 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C066 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C066 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C066 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Walk C066 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C066 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Walk C066 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C066 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Walk C066 rung 5",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C066 rung 5",
+      "passed": true
+    },
+    {
+      "name": "Stage click C066",
+      "passed": true
+    },
+    {
+      "name": "Choose C067",
+      "passed": true
+    },
+    {
+      "name": "Native packet C067",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C067",
+      "passed": true,
+      "detail": 6
+    },
+    {
+      "name": "Stage cards C067",
+      "passed": true
+    },
+    {
+      "name": "Walk C067 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C067 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C067 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C067 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C067 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C067 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Walk C067 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C067 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Walk C067 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C067 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Walk C067 rung 5",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C067 rung 5",
+      "passed": true
+    },
+    {
+      "name": "Stage click C067",
+      "passed": true
+    },
+    {
+      "name": "Choose C068",
+      "passed": true
+    },
+    {
+      "name": "Native packet C068",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C068",
+      "passed": true,
+      "detail": 6
+    },
+    {
+      "name": "Stage cards C068",
+      "passed": true
+    },
+    {
+      "name": "Walk C068 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C068 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C068 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C068 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C068 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C068 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Walk C068 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C068 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Walk C068 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C068 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Walk C068 rung 5",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C068 rung 5",
+      "passed": true
+    },
+    {
+      "name": "Stage click C068",
+      "passed": true
+    },
+    {
+      "name": "Choose C069",
+      "passed": true
+    },
+    {
+      "name": "Native packet C069",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C069",
+      "passed": true,
+      "detail": 6
+    },
+    {
+      "name": "Stage cards C069",
+      "passed": true
+    },
+    {
+      "name": "Walk C069 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C069 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C069 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C069 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C069 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C069 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Walk C069 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C069 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Walk C069 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C069 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Walk C069 rung 5",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C069 rung 5",
+      "passed": true
+    },
+    {
+      "name": "Stage click C069",
+      "passed": true
+    },
+    {
+      "name": "Choose C070",
+      "passed": true
+    },
+    {
+      "name": "Native packet C070",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C070",
+      "passed": true,
+      "detail": 6
+    },
+    {
+      "name": "Stage cards C070",
+      "passed": true
+    },
+    {
+      "name": "Walk C070 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C070 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C070 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C070 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C070 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C070 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Walk C070 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C070 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Walk C070 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C070 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Walk C070 rung 5",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C070 rung 5",
+      "passed": true
+    },
+    {
+      "name": "Stage click C070",
+      "passed": true
+    },
+    {
+      "name": "Choose C071",
+      "passed": true
+    },
+    {
+      "name": "Native packet C071",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C071",
+      "passed": true,
+      "detail": 5
+    },
+    {
+      "name": "Stage cards C071",
+      "passed": true
+    },
+    {
+      "name": "Walk C071 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C071 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C071 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C071 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C071 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C071 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Walk C071 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C071 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Walk C071 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C071 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage click C071",
+      "passed": true
+    },
+    {
+      "name": "Choose C072",
+      "passed": true
+    },
+    {
+      "name": "Native packet C072",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C072",
+      "passed": true,
+      "detail": 5
+    },
+    {
+      "name": "Stage cards C072",
+      "passed": true
+    },
+    {
+      "name": "Walk C072 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C072 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C072 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C072 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C072 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C072 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Walk C072 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C072 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Walk C072 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C072 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage click C072",
+      "passed": true
+    },
+    {
+      "name": "Choose C073",
+      "passed": true
+    },
+    {
+      "name": "Native packet C073",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C073",
+      "passed": true,
+      "detail": 5
+    },
+    {
+      "name": "Stage cards C073",
+      "passed": true
+    },
+    {
+      "name": "Walk C073 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C073 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C073 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C073 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C073 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C073 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Walk C073 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C073 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Walk C073 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C073 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage click C073",
+      "passed": true
+    },
+    {
+      "name": "Choose C074",
+      "passed": true
+    },
+    {
+      "name": "Native packet C074",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C074",
+      "passed": true,
+      "detail": 5
+    },
+    {
+      "name": "Stage cards C074",
+      "passed": true
+    },
+    {
+      "name": "Walk C074 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C074 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C074 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C074 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C074 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C074 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Walk C074 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C074 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Walk C074 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C074 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage click C074",
+      "passed": true
+    },
+    {
+      "name": "Choose C075",
+      "passed": true
+    },
+    {
+      "name": "Native packet C075",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C075",
+      "passed": true,
+      "detail": 5
+    },
+    {
+      "name": "Stage cards C075",
+      "passed": true
+    },
+    {
+      "name": "Walk C075 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C075 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C075 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C075 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C075 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C075 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Walk C075 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C075 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Walk C075 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C075 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage click C075",
+      "passed": true
+    },
+    {
+      "name": "Choose C076",
+      "passed": true
+    },
+    {
+      "name": "Native packet C076",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C076",
+      "passed": true,
+      "detail": 4
+    },
+    {
+      "name": "Stage cards C076",
+      "passed": true
+    },
+    {
+      "name": "Walk C076 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C076 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C076 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C076 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C076 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C076 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Walk C076 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C076 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage click C076",
+      "passed": true
+    },
+    {
+      "name": "Choose C077",
+      "passed": true
+    },
+    {
+      "name": "Native packet C077",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C077",
+      "passed": true,
+      "detail": 4
+    },
+    {
+      "name": "Stage cards C077",
+      "passed": true
+    },
+    {
+      "name": "Walk C077 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C077 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C077 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C077 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C077 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C077 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Walk C077 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C077 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage click C077",
+      "passed": true
+    },
+    {
+      "name": "Choose C078",
+      "passed": true
+    },
+    {
+      "name": "Native packet C078",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C078",
+      "passed": true,
+      "detail": 4
+    },
+    {
+      "name": "Stage cards C078",
+      "passed": true
+    },
+    {
+      "name": "Walk C078 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C078 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C078 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C078 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C078 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C078 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Walk C078 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C078 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage click C078",
+      "passed": true
+    },
+    {
+      "name": "Choose C079",
+      "passed": true
+    },
+    {
+      "name": "Native packet C079",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C079",
+      "passed": true,
+      "detail": 4
+    },
+    {
+      "name": "Stage cards C079",
+      "passed": true
+    },
+    {
+      "name": "Walk C079 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C079 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C079 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C079 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C079 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C079 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Walk C079 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C079 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage click C079",
+      "passed": true
+    },
+    {
+      "name": "Choose C080",
+      "passed": true
+    },
+    {
+      "name": "Native packet C080",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C080",
+      "passed": true,
+      "detail": 4
+    },
+    {
+      "name": "Stage cards C080",
+      "passed": true
+    },
+    {
+      "name": "Walk C080 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C080 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C080 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C080 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C080 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C080 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Walk C080 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C080 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage click C080",
+      "passed": true
+    },
+    {
+      "name": "Choose C081",
+      "passed": true
+    },
+    {
+      "name": "Native packet C081",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C081",
+      "passed": true,
+      "detail": 5
+    },
+    {
+      "name": "Stage cards C081",
+      "passed": true
+    },
+    {
+      "name": "Walk C081 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C081 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C081 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C081 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C081 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C081 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Walk C081 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C081 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Walk C081 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C081 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage click C081",
+      "passed": true
+    },
+    {
+      "name": "Choose C082",
+      "passed": true
+    },
+    {
+      "name": "Native packet C082",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C082",
+      "passed": true,
+      "detail": 5
+    },
+    {
+      "name": "Stage cards C082",
+      "passed": true
+    },
+    {
+      "name": "Walk C082 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C082 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C082 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C082 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C082 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C082 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Walk C082 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C082 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Walk C082 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C082 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage click C082",
+      "passed": true
+    },
+    {
+      "name": "Choose C083",
+      "passed": true
+    },
+    {
+      "name": "Native packet C083",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C083",
+      "passed": true,
+      "detail": 5
+    },
+    {
+      "name": "Stage cards C083",
+      "passed": true
+    },
+    {
+      "name": "Walk C083 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C083 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C083 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C083 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C083 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C083 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Walk C083 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C083 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Walk C083 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C083 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage click C083",
+      "passed": true
+    },
+    {
+      "name": "Choose C084",
+      "passed": true
+    },
+    {
+      "name": "Native packet C084",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C084",
+      "passed": true,
+      "detail": 5
+    },
+    {
+      "name": "Stage cards C084",
+      "passed": true
+    },
+    {
+      "name": "Walk C084 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C084 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C084 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C084 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C084 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C084 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Walk C084 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C084 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Walk C084 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C084 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage click C084",
+      "passed": true
+    },
+    {
+      "name": "Choose C085",
+      "passed": true
+    },
+    {
+      "name": "Native packet C085",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C085",
+      "passed": true,
+      "detail": 5
+    },
+    {
+      "name": "Stage cards C085",
+      "passed": true
+    },
+    {
+      "name": "Walk C085 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C085 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C085 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C085 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C085 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C085 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Walk C085 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C085 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Walk C085 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C085 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage click C085",
+      "passed": true
+    },
+    {
+      "name": "Choose C086",
+      "passed": true
+    },
+    {
+      "name": "Native packet C086",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C086",
+      "passed": true,
+      "detail": 5
+    },
+    {
+      "name": "Stage cards C086",
+      "passed": true
+    },
+    {
+      "name": "Walk C086 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C086 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C086 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C086 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C086 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C086 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Walk C086 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C086 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Walk C086 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C086 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage click C086",
+      "passed": true
+    },
+    {
+      "name": "Choose C087",
+      "passed": true
+    },
+    {
+      "name": "Native packet C087",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C087",
+      "passed": true,
+      "detail": 5
+    },
+    {
+      "name": "Stage cards C087",
+      "passed": true
+    },
+    {
+      "name": "Walk C087 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C087 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C087 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C087 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C087 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C087 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Walk C087 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C087 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Walk C087 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C087 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage click C087",
+      "passed": true
+    },
+    {
+      "name": "Choose C088",
+      "passed": true
+    },
+    {
+      "name": "Native packet C088",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C088",
+      "passed": true,
+      "detail": 5
+    },
+    {
+      "name": "Stage cards C088",
+      "passed": true
+    },
+    {
+      "name": "Walk C088 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C088 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C088 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C088 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C088 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C088 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Walk C088 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C088 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Walk C088 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C088 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage click C088",
+      "passed": true
+    },
+    {
+      "name": "Choose C089",
+      "passed": true
+    },
+    {
+      "name": "Native packet C089",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C089",
+      "passed": true,
+      "detail": 5
+    },
+    {
+      "name": "Stage cards C089",
+      "passed": true
+    },
+    {
+      "name": "Walk C089 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C089 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C089 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C089 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C089 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C089 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Walk C089 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C089 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Walk C089 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C089 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage click C089",
+      "passed": true
+    },
+    {
+      "name": "Choose C090",
+      "passed": true
+    },
+    {
+      "name": "Native packet C090",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C090",
+      "passed": true,
+      "detail": 5
+    },
+    {
+      "name": "Stage cards C090",
+      "passed": true
+    },
+    {
+      "name": "Walk C090 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C090 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C090 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C090 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C090 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C090 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Walk C090 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C090 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Walk C090 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C090 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage click C090",
+      "passed": true
+    },
+    {
+      "name": "Choose C091",
+      "passed": true
+    },
+    {
+      "name": "Native packet C091",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C091",
+      "passed": true,
+      "detail": 6
+    },
+    {
+      "name": "Stage cards C091",
+      "passed": true
+    },
+    {
+      "name": "Walk C091 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C091 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C091 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C091 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C091 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C091 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Walk C091 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C091 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Walk C091 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C091 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Walk C091 rung 5",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C091 rung 5",
+      "passed": true
+    },
+    {
+      "name": "Stage click C091",
+      "passed": true
+    },
+    {
+      "name": "Choose C092",
+      "passed": true
+    },
+    {
+      "name": "Native packet C092",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C092",
+      "passed": true,
+      "detail": 6
+    },
+    {
+      "name": "Stage cards C092",
+      "passed": true
+    },
+    {
+      "name": "Walk C092 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C092 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C092 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C092 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C092 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C092 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Walk C092 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C092 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Walk C092 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C092 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Walk C092 rung 5",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C092 rung 5",
+      "passed": true
+    },
+    {
+      "name": "Stage click C092",
+      "passed": true
+    },
+    {
+      "name": "Choose C093",
+      "passed": true
+    },
+    {
+      "name": "Native packet C093",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C093",
+      "passed": true,
+      "detail": 6
+    },
+    {
+      "name": "Stage cards C093",
+      "passed": true
+    },
+    {
+      "name": "Walk C093 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C093 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C093 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C093 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C093 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C093 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Walk C093 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C093 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Walk C093 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C093 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Walk C093 rung 5",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C093 rung 5",
+      "passed": true
+    },
+    {
+      "name": "Stage click C093",
+      "passed": true
+    },
+    {
+      "name": "Choose C094",
+      "passed": true
+    },
+    {
+      "name": "Native packet C094",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C094",
+      "passed": true,
+      "detail": 6
+    },
+    {
+      "name": "Stage cards C094",
+      "passed": true
+    },
+    {
+      "name": "Walk C094 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C094 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C094 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C094 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C094 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C094 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Walk C094 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C094 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Walk C094 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C094 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Walk C094 rung 5",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C094 rung 5",
+      "passed": true
+    },
+    {
+      "name": "Stage click C094",
+      "passed": true
+    },
+    {
+      "name": "Choose C095",
+      "passed": true
+    },
+    {
+      "name": "Native packet C095",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C095",
+      "passed": true,
+      "detail": 6
+    },
+    {
+      "name": "Stage cards C095",
+      "passed": true
+    },
+    {
+      "name": "Walk C095 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C095 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C095 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C095 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C095 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C095 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Walk C095 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C095 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Walk C095 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C095 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Walk C095 rung 5",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C095 rung 5",
+      "passed": true
+    },
+    {
+      "name": "Stage click C095",
+      "passed": true
+    },
+    {
+      "name": "Choose C096",
+      "passed": true
+    },
+    {
+      "name": "Native packet C096",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C096",
+      "passed": true,
+      "detail": 6
+    },
+    {
+      "name": "Stage cards C096",
+      "passed": true
+    },
+    {
+      "name": "Walk C096 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C096 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C096 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C096 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C096 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C096 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Walk C096 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C096 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Walk C096 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C096 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Walk C096 rung 5",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C096 rung 5",
+      "passed": true
+    },
+    {
+      "name": "Stage click C096",
+      "passed": true
+    },
+    {
+      "name": "Choose C097",
+      "passed": true
+    },
+    {
+      "name": "Native packet C097",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C097",
+      "passed": true,
+      "detail": 6
+    },
+    {
+      "name": "Stage cards C097",
+      "passed": true
+    },
+    {
+      "name": "Walk C097 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C097 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C097 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C097 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C097 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C097 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Walk C097 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C097 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Walk C097 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C097 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Walk C097 rung 5",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C097 rung 5",
+      "passed": true
+    },
+    {
+      "name": "Stage click C097",
+      "passed": true
+    },
+    {
+      "name": "Choose C098",
+      "passed": true
+    },
+    {
+      "name": "Native packet C098",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C098",
+      "passed": true,
+      "detail": 6
+    },
+    {
+      "name": "Stage cards C098",
+      "passed": true
+    },
+    {
+      "name": "Walk C098 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C098 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C098 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C098 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C098 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C098 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Walk C098 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C098 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Walk C098 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C098 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Walk C098 rung 5",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C098 rung 5",
+      "passed": true
+    },
+    {
+      "name": "Stage click C098",
+      "passed": true
+    },
+    {
+      "name": "Choose C099",
+      "passed": true
+    },
+    {
+      "name": "Native packet C099",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C099",
+      "passed": true,
+      "detail": 6
+    },
+    {
+      "name": "Stage cards C099",
+      "passed": true
+    },
+    {
+      "name": "Walk C099 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C099 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C099 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C099 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C099 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C099 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Walk C099 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C099 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Walk C099 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C099 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Walk C099 rung 5",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C099 rung 5",
+      "passed": true
+    },
+    {
+      "name": "Stage click C099",
+      "passed": true
+    },
+    {
+      "name": "Choose C100",
+      "passed": true
+    },
+    {
+      "name": "Native packet C100",
+      "passed": true
+    },
+    {
+      "name": "Bounded stage count C100",
+      "passed": true,
+      "detail": 6
+    },
+    {
+      "name": "Stage cards C100",
+      "passed": true
+    },
+    {
+      "name": "Walk C100 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C100 rung 0",
+      "passed": true
+    },
+    {
+      "name": "Walk C100 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C100 rung 1",
+      "passed": true
+    },
+    {
+      "name": "Walk C100 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C100 rung 2",
+      "passed": true
+    },
+    {
+      "name": "Walk C100 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C100 rung 3",
+      "passed": true
+    },
+    {
+      "name": "Walk C100 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C100 rung 4",
+      "passed": true
+    },
+    {
+      "name": "Walk C100 rung 5",
+      "passed": true
+    },
+    {
+      "name": "Stage assets C100 rung 5",
+      "passed": true
+    },
+    {
+      "name": "Stage click C100",
+      "passed": true
+    },
+    {
+      "name": "Previous wraps C001 to C100",
+      "passed": true
+    },
+    {
+      "name": "Next wraps C100 to C001",
+      "passed": true
+    },
+    {
+      "name": "Keyboard card activation",
+      "passed": true
+    },
+    {
+      "name": "Twenty construction families",
+      "passed": true
+    },
+    {
+      "name": "Family filter Paired boxes",
+      "passed": true
+    },
+    {
+      "name": "Family filter Shifted courses",
+      "passed": true
+    },
+    {
+      "name": "Family filter Merged chambers",
+      "passed": true
+    },
+    {
+      "name": "Family filter Triangular chambers",
+      "passed": true
+    },
+    {
+      "name": "Family filter Offset crossed chambers",
+      "passed": true
+    },
+    {
+      "name": "Family filter Chamfered cells",
+      "passed": true
+    },
+    {
+      "name": "Family filter Complementary keyed cells",
+      "passed": true
+    },
+    {
+      "name": "Family filter Zigzag courses",
+      "passed": true
+    },
+    {
+      "name": "Family filter Stepped courses",
+      "passed": true
+    },
+    {
+      "name": "Family filter Square-wave chambers",
+      "passed": true
+    },
+    {
+      "name": "Family filter Herringbone assemblies",
+      "passed": true
+    },
+    {
+      "name": "Family filter Honeycomb cells",
+      "passed": true
+    },
+    {
+      "name": "Family filter Hexagons and triangular gaps",
+      "passed": true
+    },
+    {
+      "name": "Family filter Three-chamber lozenges",
+      "passed": true
+    },
+    {
+      "name": "Family filter Star and cross compartments",
+      "passed": true
+    },
+    {
+      "name": "Family filter Detached returned frets",
+      "passed": true
+    },
+    {
+      "name": "Family filter Interleaved returning ribbons",
+      "passed": true
+    },
+    {
+      "name": "Family filter Nested diamond chambers",
+      "passed": true
+    },
+    {
+      "name": "Family filter Six-way chamber fans",
+      "passed": true
+    },
+    {
+      "name": "Family filter Basket rectangle assemblies",
+      "passed": true
+    },
+    {
+      "name": "Calculated filter crossings",
+      "passed": true,
+      "detail": 5
+    },
+    {
+      "name": "Calculated filter contacts",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "Calculated filter overlaps",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "Rating 1",
+      "passed": true
+    },
+    {
+      "name": "Rating 2",
+      "passed": true
+    },
+    {
+      "name": "Rating 3",
+      "passed": true
+    },
+    {
+      "name": "Rating 4",
+      "passed": true
+    },
+    {
+      "name": "Rating 5",
+      "passed": true
+    },
+    {
+      "name": "Rating persists on reload",
+      "passed": true
+    },
+    {
+      "name": "High rating filter",
+      "passed": true
+    },
+    {
+      "name": "Unrated filter",
+      "passed": true
+    },
+    {
+      "name": "Ratings export retains native identity fingerprint",
+      "passed": true
+    },
+    {
+      "name": "Clear rating leaves no numerical preference",
+      "passed": true
+    },
+    {
+      "name": "Cleared preference persists on reload",
+      "passed": true
+    },
+    {
+      "name": "Rating import round trip",
+      "passed": true
+    },
+    {
+      "name": "Invalid fingerprint is ignored",
+      "passed": true
+    },
+    {
+      "name": "Ignored fingerprint does not appear as a live review",
+      "passed": true
+    },
+    {
+      "name": "Same-document hash selects C071",
+      "passed": true
+    },
+    {
+      "name": "Same-document hash exposes inspector",
+      "passed": true
+    },
+    {
+      "name": "Fresh document hash selects C071",
+      "passed": true
+    },
+    {
+      "name": "Fresh document hash exposes inspector",
+      "passed": true
+    },
+    {
+      "name": "QA leaves review storage blank",
+      "passed": true
+    },
+    {
+      "name": "overview.html C071 link selects exact design",
+      "passed": true
+    },
+    {
+      "name": "overview.html C071 link exposes inspector",
+      "passed": true
+    },
+    {
+      "name": "construction-strips.html C071 link selects exact design",
+      "passed": true
+    },
+    {
+      "name": "construction-strips.html C071 link exposes inspector",
+      "passed": true
+    }
+  ],
+  "pages": {
+    "galleryDesktop": {
+      "count": 100,
+      "overflow": false,
+      "images": {
+        "count": 109,
+        "broken": []
+      }
+    },
+    "galleryMobile": {
+      "count": 100,
+      "overflow": false,
+      "images": {
+        "count": 109,
+        "broken": []
+      }
+    },
+    "overview.html-mobile": {
+      "count": 100,
+      "overflow": false,
+      "images": {
+        "count": 100,
+        "broken": []
+      }
+    },
+    "overview.html-desktop": {
+      "count": 100,
+      "overflow": false,
+      "images": {
+        "count": 100,
+        "broken": []
+      }
+    },
+    "construction-strips.html-mobile": {
+      "count": 100,
+      "overflow": false,
+      "images": {
+        "count": 580,
+        "broken": []
+      }
+    },
+    "construction-strips.html-desktop": {
+      "count": 100,
+      "overflow": false,
+      "images": {
+        "count": 580,
+        "broken": []
+      }
+    }
+  },
+  "resources": {
+    "galleryDesktop": {
+      "total": 117,
+      "broken": []
+    },
+    "galleryMobile": {
+      "total": 117,
+      "broken": []
+    },
+    "overview.html-mobile": {
+      "total": 203,
+      "broken": []
+    },
+    "overview.html-desktop": {
+      "total": 203,
+      "broken": []
+    },
+    "construction-strips.html-mobile": {
+      "total": 682,
+      "broken": []
+    },
+    "construction-strips.html-desktop": {
+      "total": 682,
+      "broken": []
+    }
+  },
+  "overviewPng": "overview.png",
+  "walkedStages": 480,
+  "passed": true
+}
