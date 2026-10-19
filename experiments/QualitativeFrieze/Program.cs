@@ -20,6 +20,7 @@ if (args.Contains("--ornament-program")) return OrnamentProgramExperiment.Run(ar
 if (args.Contains("--bourgoin-patterns")) return BourgoinPatternExperiment.Run(args.Where(argument => argument != "--bourgoin-patterns").ToArray());
 if (args.Contains("--bourgoin-colour")) return BourgoinColourExperiment.Run(args.Where(argument => argument != "--bourgoin-colour").ToArray());
 if (args.Contains("--ornament-designs")) return BourgoinColourExperiment.RunDesigns(args.Where(argument => argument != "--ornament-designs").ToArray());
+if (args.Contains("--ornament-details")) return BourgoinColourExperiment.RunDetails(args.Where(argument => argument != "--ornament-details").ToArray());
 if (args.Contains("--ornament-perspectives")) return OrnamentPerspectiveExperiment.Run(args.Where(argument => argument != "--ornament-perspectives").ToArray());
 if (args.Contains("--ornament-discovery")) return OrnamentDiscoveryExperiment.Run(args.Where(argument => argument != "--ornament-discovery").ToArray());
 if (args.Contains("--ornament-perturbations")) return OrnamentPerturbationExperiment.Run(args.Where(argument => argument != "--ornament-perturbations").ToArray());

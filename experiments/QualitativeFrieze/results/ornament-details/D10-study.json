@@ -1,0 +1,40 @@
+{
+  "id": "D10",
+  "kind": "study",
+  "constructionNotes": "A single closed faceted quatrefoil supplies the outer loop. Four smaller pointed compartments follow actual diagonal branch guides inside its four lobes, while an inner cord follows the upright guide. It is an ornamental loop study, not a topological knot assertion.",
+  "limits": "Finite native chords, shared prototypes and actual landmark-offset witnesses; no analytic curvature, occupied-face clearance, automatic physical join from coordinate equality, learned beauty, or hidden over/under continuity is claimed.",
+  "design": {
+    "mode": "detail",
+    "skeletonName": "Quatrefoil loop and inner cord",
+    "plate": {
+      "id": "D10",
+      "title": "Quatrefoil loop and inner cord",
+      "sourceId": "D10",
+      "description": "A single closed faceted quatrefoil supplies the outer loop. Four smaller pointed compartments follow actual diagonal branch guides inside its four lobes, while an inner cord follows the upright guide. It is an ornamental loop study, not a topological knot assertion.",
+      "svg": "",
+      "units": 9,
+      "paths": 11,
+      "chords": 68,
+      "addedPaths": 5,
+      "attachments": 5,
+      "strokes": 612,
+      "accepted": 126,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 0,
+      "nativeObjects": 4238,
+      "numericParticipants": 0,
+      "layerPaths": [
+        6,
+        5,
+        6
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Peacock, jade \u0026 coral"
+    }
+  }
+}

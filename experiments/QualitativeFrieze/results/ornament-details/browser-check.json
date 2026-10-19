@@ -1,0 +1,21 @@
+{
+  "cards": 14,
+  "studies": 10,
+  "integrations": 4,
+  "desktopOverflow": false,
+  "mobileOverflow": false,
+  "selections": [],
+  "errors": [],
+  "badLinks": [],
+  "svgErrors": [],
+  "nativeErrors": [],
+  "totals": {
+    "units": 154,
+    "strokes": 13355,
+    "accepted": 1566,
+    "blocked": 0,
+    "open": 0,
+    "numericParticipants": 0,
+    "addedPaths": 192
+  }
+}

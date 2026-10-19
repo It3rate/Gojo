@@ -1,0 +1,34 @@
+{
+  "mode": "detail",
+  "skeletonName": "Open lotus fan",
+  "plate": {
+    "id": "D06",
+    "title": "Open lotus fan",
+    "sourceId": "D06",
+    "description": "Three leaves grow from an exposed basal fork. Long outer petals turn away from the central upright petal, leaving visible channels of background between them.",
+    "svg": "",
+    "units": 9,
+    "paths": 10,
+    "chords": 42,
+    "addedPaths": 7,
+    "attachments": 7,
+    "strokes": 378,
+    "accepted": 27,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 0,
+    "nativeObjects": 4909,
+    "numericParticipants": 0,
+    "layerPaths": [
+      3,
+      3,
+      7
+    ],
+    "focusComplete": [
+      true,
+      true,
+      true
+    ],
+    "palette": "Celadon, plum \u0026 apricot"
+  }
+}

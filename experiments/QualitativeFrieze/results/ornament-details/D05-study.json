@@ -1,0 +1,40 @@
+{
+  "id": "D05",
+  "kind": "study",
+  "constructionNotes": "A parent stalk divides into five separate branch guides. The central lance, taller inner lobes and lower outer leaves are deliberately graded; they retain small clear intervals rather than forming an accidental solid fan.",
+  "limits": "Finite native chords, shared prototypes and actual landmark-offset witnesses; no analytic curvature, occupied-face clearance, automatic physical join from coordinate equality, learned beauty, or hidden over/under continuity is claimed.",
+  "design": {
+    "mode": "detail",
+    "skeletonName": "Five-lobed anthemion",
+    "plate": {
+      "id": "D05",
+      "title": "Five-lobed anthemion",
+      "sourceId": "D05",
+      "description": "A parent stalk divides into five separate branch guides. The central lance, taller inner lobes and lower outer leaves are deliberately graded; they retain small clear intervals rather than forming an accidental solid fan.",
+      "svg": "",
+      "units": 9,
+      "paths": 17,
+      "chords": 80,
+      "addedPaths": 12,
+      "attachments": 12,
+      "strokes": 720,
+      "accepted": 90,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 0,
+      "nativeObjects": 7653,
+      "numericParticipants": 0,
+      "layerPaths": [
+        5,
+        5,
+        12
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Chalk, ink-blue \u0026 terracotta"
+    }
+  }
+}

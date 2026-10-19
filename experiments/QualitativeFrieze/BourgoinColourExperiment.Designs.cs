@@ -75,42 +75,53 @@ public static partial class BourgoinColourExperiment
         var results = new List<DesignResult>();
         foreach (var design in designs)
         {
-            var source = design.Source;
-            var installed = new OrnamentEnrichmentProgram(source.Program, source.Bindings, source.SeamContract, design.Enrichment);
-            var initial = (Relation)source.Window.Left;
-            var archive = installed.Save(OrnamentProgram.Window(initial.Left, initial.Right, columns, rows));
-            var archivePath = Path.Combine(output, design.Id + ".gojo.json.gz");
-            WriteNative(archivePath, archive);
-            using var compressed = new GZipStream(File.OpenRead(archivePath), CompressionMode.Decompress);
-            using var reader = new StreamReader(compressed);
-            if (!OrnamentFieldPacket.TryLoad(reader.ReadToEnd(), out var packet, out _) ||
-                N.E(packet.Program.Motifs) is not [Relation motif] ||
-                !OrnamentEnrichment.TryReadEnrichment(packet.Program.Frame, motif, out var enrichment))
-                throw new InvalidOperationException("Every design must recover its native layers from the exported packet.");
-            var layerRows = N.E(enrichment.Layers).Cast<Relation>().ToArray();
-            if (layerRows.Length != 3) throw new InvalidOperationException("A design requires three connected native levels.");
-            var selections = new HashSet<Relation>[3]; var focuses = new List<IElement>(); var added = 0; var anchors = 0;
-            for (var layer = 0; layer < 3; layer++)
-            {
-                if (!enrichment.TryReadLayer(layerRows[layer], out var definition, out var chosen, out _, out var additions, out var attachments))
-                    throw new InvalidOperationException("A native design layer did not expose its selections and attachments.");
-                selections[layer] = new(N.E(chosen).Concat(N.E(additions)).Cast<Relation>(), ReferenceEqualityComparer.Instance);
-                anchors += N.E(attachments).Length; added += N.E(additions).Length;
-                var focus = enrichment.Focus(definition.Left);
-                if (!focus.IsComplete) throw new InvalidOperationException("All three native focus reads must carry their siblings.");
-                focuses.Add(focus.Surface);
-            }
-            WriteNative(Path.Combine(output, design.Id + "-focus.gojo.json.gz"), JsonSerializer.Serialize(
-                GojoStructureCompactJson.FromElement("ornament-focus-reads-v1", N.S(focuses.ToArray())),
-                new JsonSerializerOptions(JsonSerializerDefaults.Web)));
-            var run = packet.Program.Generate(packet.Bindings, packet.Window);
-            var field = new OrnamentProgramField(run, packet.SeamContract);
-            if (!run.IsComplete || !field.IsComplete) throw new InvalidOperationException("Ornament must preserve the source's accepted finite seams.");
-            var paths = ReadPaths(run, source.DisplayBasis);
-            var palette = DesignPalettes[design.PaletteIndex % DesignPalettes.Length] with { Band = design.Weight };
-            var svg = Svg(design.Id, design.Title, paths, selections, packet, source.DisplayBasis, palette, columns, rows)
-                .Replace("data-focus='motif'", "data-collection='true' data-focus='" + design.Mode + "'")
-                .Replace("</style>", """
+            results.Add(RenderDesign(design, output, columns, rows));
+        }
+        if (!platesOnly && !resume && modes.Length == 3) WriteDesignCollection(results, output);
+        else if (!platesOnly) Console.WriteLine("Partial/resumed plates saved. Use --assemble after the requested triples are complete.");
+        Console.WriteLine($"Wrote {results.Count} designs to {Path.GetFullPath(output)}");
+        return 0;
+    }
+
+    private static DesignResult RenderDesign(BourgoinOrnamentDesignLibrary.Design design, string output,
+        int columns, int rows, Func<string, string>? presentation = null, bool detailViews = false)
+    {
+        var source = design.Source;
+        var installed = new OrnamentEnrichmentProgram(source.Program, source.Bindings, source.SeamContract, design.Enrichment);
+        var initial = (Relation)source.Window.Left;
+        var archive = installed.Save(OrnamentProgram.Window(initial.Left, initial.Right, columns, rows));
+        var archivePath = Path.Combine(output, design.Id + ".gojo.json.gz");
+        WriteNative(archivePath, archive);
+        using var compressed = new GZipStream(File.OpenRead(archivePath), CompressionMode.Decompress);
+        using var reader = new StreamReader(compressed);
+        if (!OrnamentFieldPacket.TryLoad(reader.ReadToEnd(), out var packet, out _) ||
+            N.E(packet.Program.Motifs) is not [Relation motif] ||
+            !OrnamentEnrichment.TryReadEnrichment(packet.Program.Frame, motif, out var enrichment))
+            throw new InvalidOperationException("Every design must recover its native layers from the exported packet.");
+        var layerRows = N.E(enrichment.Layers).Cast<Relation>().ToArray();
+        if (layerRows.Length != 3) throw new InvalidOperationException("A design requires three connected native levels.");
+        var selections = new HashSet<Relation>[3]; var focuses = new List<IElement>(); var added = 0; var anchors = 0;
+        for (var layer = 0; layer < 3; layer++)
+        {
+            if (!enrichment.TryReadLayer(layerRows[layer], out var definition, out var chosen, out _, out var additions, out var attachments))
+                throw new InvalidOperationException("A native design layer did not expose its selections and attachments.");
+            selections[layer] = new(N.E(chosen).Concat(N.E(additions)).Cast<Relation>(), ReferenceEqualityComparer.Instance);
+            anchors += N.E(attachments).Length; added += N.E(additions).Length;
+            var focus = enrichment.Focus(definition.Left);
+            if (!focus.IsComplete) throw new InvalidOperationException("All three native focus reads must carry their siblings.");
+            focuses.Add(focus.Surface);
+        }
+        WriteNative(Path.Combine(output, design.Id + "-focus.gojo.json.gz"), JsonSerializer.Serialize(
+            GojoStructureCompactJson.FromElement("ornament-focus-reads-v1", N.S(focuses.ToArray())),
+            new JsonSerializerOptions(JsonSerializerDefaults.Web)));
+        var run = packet.Program.Generate(packet.Bindings, packet.Window);
+        var field = new OrnamentProgramField(run, packet.SeamContract);
+        if (!run.IsComplete || !field.IsComplete) throw new InvalidOperationException("Ornament must preserve the source's accepted finite seams.");
+        var paths = ReadPaths(run, source.DisplayBasis);
+        var palette = DesignPalettes[design.PaletteIndex % DesignPalettes.Length] with { Band = design.Weight };
+        string Style(string picture) => picture
+            .Replace("data-focus='motif'", "data-collection='true' data-focus='" + design.Mode + "'")
+            .Replace("</style>", """
 [data-collection] .detail .edge{stroke-width:calc(var(--band) * .24 + 2px)}
 [data-collection] .detail .keyline{stroke-width:calc(var(--band) * .24 + .9px)}
 [data-collection] .detail .pigment{stroke-width:calc(var(--band) * .24)}
@@ -120,29 +131,35 @@ public static partial class BourgoinColourExperiment
 [data-collection][data-focus=detail] .motif{opacity:.68}
 </style>
 """);
-            svg = RefreshDesignStyles(svg);
-            File.WriteAllText(Path.Combine(output, design.Id + ".svg"), svg);
-            var skeleton = svg.Replace("data-view='ornament'", "data-view='skeleton'");
-            File.WriteAllText(Path.Combine(output, design.Id + "-construction.svg"), skeleton);
-            var participants = Reachable(new Relation(packet.Program.Surface, packet.SeamContract)).ToArray();
-            var numeric = participants.Count(element => element is Carrier or CarrierLocation);
-            if (numeric != 0) throw new InvalidOperationException("The native ornament design must remain pre-numeric.");
-            var plate = new SceneResult(design.Id, design.Title, design.SourceId, design.Description, svg, run.Units.Count,
-                N.E(enrichment.Result.Paths).Length,
-                N.E(enrichment.Result.Paths).Cast<Relation>().Sum(path => N.E((Relation)path.Right).Length), added, anchors,
-                N.E(field.Graph.Strokes).Length, N.E(field.Accepted).Length, N.E(field.Blocked).Length,
-                N.E(field.Unresolved).Length, N.E(field.Frontier).Length, participants.Length, numeric,
-                selections.Select(layer => layer.Count).ToArray(), [true, true, true], palette.Name);
-            var result = new DesignResult(design.Mode, source.Name, plate);
-            results.Add(result);
-            File.WriteAllText(Path.Combine(output, design.Id + "-record.json"),
-                JsonSerializer.Serialize(result with { Plate = plate with { Svg = "" } }, JsonOptions));
-            Console.WriteLine($"{design.Id}: {plate.Chords} chords/unit, {added} additions, {plate.Accepted} accepted seams, {plate.Blocked} blocked / {plate.Open} open.");
+        string Present(string picture) => presentation?.Invoke(RefreshDesignStyles(Style(picture))) ?? RefreshDesignStyles(Style(picture));
+        var svg = Present(Svg(design.Id, design.Title, paths, selections, packet, source.DisplayBasis, palette, columns, rows));
+        File.WriteAllText(Path.Combine(output, design.Id + ".svg"), svg);
+        var skeleton = svg.Replace("data-view='ornament'", "data-view='skeleton'");
+        File.WriteAllText(Path.Combine(output, design.Id + "-construction.svg"), skeleton);
+        if (detailViews)
+        {
+            var unit = paths.Where(path => path.Unit == 0).ToArray();
+            File.WriteAllText(Path.Combine(output, design.Id + "-closeup.svg"), Present(Svg(design.Id + "-closeup",
+                design.Title + " · one executed unit", unit, selections, packet, source.DisplayBasis, palette, columns, rows, fitAll: true)));
+            var retained = N.E(enrichment.Source.Paths).Cast<Relation>().ToHashSet(ReferenceEqualityComparer.Instance);
+            var sourcePaths = paths.Where(path => retained.Contains(path.Source)).ToArray();
+            File.WriteAllText(Path.Combine(output, design.Id + "-source.svg"), Present(Svg(design.Id + "-source",
+                design.Title + " · retained scaffold", sourcePaths, selections, packet, source.DisplayBasis, palette, columns, rows)));
         }
-        if (!platesOnly && !resume && modes.Length == 3) WriteDesignCollection(results, output);
-        else if (!platesOnly) Console.WriteLine("Partial/resumed plates saved. Use --assemble after the requested triples are complete.");
-        Console.WriteLine($"Wrote {results.Count} designs to {Path.GetFullPath(output)}");
-        return 0;
+        var participants = Reachable(new Relation(packet.Program.Surface, packet.SeamContract)).ToArray();
+        var numeric = participants.Count(element => element is Carrier or CarrierLocation);
+        if (numeric != 0) throw new InvalidOperationException("The native ornament design must remain pre-numeric.");
+        var plate = new SceneResult(design.Id, design.Title, design.SourceId, design.Description, svg, run.Units.Count,
+            N.E(enrichment.Result.Paths).Length,
+            N.E(enrichment.Result.Paths).Cast<Relation>().Sum(path => N.E((Relation)path.Right).Length), added, anchors,
+            N.E(field.Graph.Strokes).Length, N.E(field.Accepted).Length, N.E(field.Blocked).Length,
+            N.E(field.Unresolved).Length, N.E(field.Frontier).Length, participants.Length, numeric,
+            selections.Select(layer => layer.Count).ToArray(), [true, true, true], palette.Name);
+        var result = new DesignResult(design.Mode, source.Name, plate);
+        File.WriteAllText(Path.Combine(output, design.Id + "-record.json"),
+            JsonSerializer.Serialize(result with { Plate = plate with { Svg = "" } }, JsonOptions));
+        Console.WriteLine($"{design.Id}: {plate.Chords} chords/unit, {added} additions, {plate.Accepted} accepted seams, {plate.Blocked} blocked / {plate.Open} open.");
+        return result;
     }
 
     private static void WriteDesignCollection(IReadOnlyList<DesignResult> results, string output)

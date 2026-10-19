@@ -1,0 +1,40 @@
+{
+  "id": "D01",
+  "kind": "study",
+  "constructionNotes": "Two mirrored images of one lens leaf enclose the actual paired branch guides. Their veins converge toward the parent stem; a small terminal bud remains subordinate.",
+  "limits": "Finite native chords, shared prototypes and actual landmark-offset witnesses; no analytic curvature, occupied-face clearance, automatic physical join from coordinate equality, learned beauty, or hidden over/under continuity is claimed.",
+  "design": {
+    "mode": "detail",
+    "skeletonName": "Mirrored veined leaf sprig",
+    "plate": {
+      "id": "D01",
+      "title": "Mirrored veined leaf sprig",
+      "sourceId": "D01",
+      "description": "Two mirrored images of one lens leaf enclose the actual paired branch guides. Their veins converge toward the parent stem; a small terminal bud remains subordinate.",
+      "svg": "",
+      "units": 9,
+      "paths": 10,
+      "chords": 45,
+      "addedPaths": 7,
+      "attachments": 7,
+      "strokes": 405,
+      "accepted": 27,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 0,
+      "nativeObjects": 4322,
+      "numericParticipants": 0,
+      "layerPaths": [
+        3,
+        2,
+        8
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Charcoal, burnt orange \u0026 olive"
+    }
+  }
+}

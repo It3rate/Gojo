@@ -1,0 +1,34 @@
+{
+  "mode": "detail",
+  "skeletonName": "Six-petal lotus wheel",
+  "plate": {
+    "id": "D04",
+    "title": "Six-petal lotus wheel",
+    "sourceId": "D04",
+    "description": "Six substitution-related petals follow six actual shared-origin radial guides. The triangular presentation basis is explicit; no angular calibration or smooth-circle law is inferred.",
+    "svg": "",
+    "units": 9,
+    "paths": 25,
+    "chords": 102,
+    "addedPaths": 19,
+    "attachments": 19,
+    "strokes": 918,
+    "accepted": 135,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 0,
+    "nativeObjects": 8010,
+    "numericParticipants": 0,
+    "layerPaths": [
+      6,
+      6,
+      19
+    ],
+    "focusComplete": [
+      true,
+      true,
+      true
+    ],
+    "palette": "Saffron, ink \u0026 porcelain"
+  }
+}

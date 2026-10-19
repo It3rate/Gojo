@@ -1,0 +1,34 @@
+{
+  "mode": "detail",
+  "skeletonName": "Pearl-and-leaf linked chain",
+  "plate": {
+    "id": "D08",
+    "title": "Pearl-and-leaf linked chain",
+    "sourceId": "D08",
+    "description": "The actual longitudinal strand carries three alternating leaf branches and four pearl stations. Leaves grow from the line instead of being placed in unrelated corners.",
+    "svg": "",
+    "units": 9,
+    "paths": 14,
+    "chords": 89,
+    "addedPaths": 10,
+    "attachments": 10,
+    "strokes": 801,
+    "accepted": 27,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 0,
+    "nativeObjects": 6491,
+    "numericParticipants": 0,
+    "layerPaths": [
+      4,
+      3,
+      11
+    ],
+    "focusComplete": [
+      true,
+      true,
+      true
+    ],
+    "palette": "Oxblood, lapis \u0026 shell"
+  }
+}

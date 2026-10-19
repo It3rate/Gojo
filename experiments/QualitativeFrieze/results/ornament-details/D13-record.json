@@ -1,0 +1,34 @@
+{
+  "mode": "detail",
+  "skeletonName": "Hexagons with triangular interstices",
+  "plate": {
+    "id": "D13",
+    "title": "Six-petal lotus inside the hexagons",
+    "sourceId": "B05",
+    "description": "One six-petal flower occupies the actual B05 hexagon centre through a boundary-port offset. Its ten-reach radial tips stop short of the sixteen-reach source boundary. Reused vein forks remain inside their own petals; the triangular interstices remain quiet.",
+    "svg": "",
+    "units": 16,
+    "paths": 20,
+    "chords": 96,
+    "addedPaths": 19,
+    "attachments": 19,
+    "strokes": 1536,
+    "accepted": 61,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 19,
+    "nativeObjects": 11362,
+    "numericParticipants": 0,
+    "layerPaths": [
+      1,
+      7,
+      13
+    ],
+    "focusComplete": [
+      true,
+      true,
+      true
+    ],
+    "palette": "Charcoal, burnt orange \u0026 olive"
+  }
+}

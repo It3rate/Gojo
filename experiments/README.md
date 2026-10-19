@@ -35,6 +35,7 @@ prediction and control, grounded in these experiments.
 | Bourgoin source corrections and compartment refinements | [Corrections and checks](../Gojo/docs/GojoBourgoinRefinementStudy.md), [refined diamond fields](QualitativeFrieze/BourgoinPatternLibrary.DiamondFields.cs), [interlocking chambers](QualitativeFrieze/BourgoinPatternLibrary.InterlockingShapes.cs) | [Fifteen cases, first-pass comparisons and overlays](QualitativeFrieze/results/bourgoin-patterns/gallery.html) |
 | Bourgoin construction vocabulary | [Shared identities, layers and finite curved profiles](../Gojo/docs/GojoBourgoinVocabularyStudy.md), [exact native construction read](QualitativeFrieze/BourgoinConstructionRead.cs) | [Thirty-six constructions on one sheet](QualitativeFrieze/results/bourgoin-patterns/overview.html) |
 | A grammar in colour | [Native enrichment, finer unmeasured authoring and design hierarchy](../Gojo/docs/GojoOrnamentDesignCollection.md) | [108 designs](QualitativeFrieze/results/ornament-designs/gallery.html), [all designs on one page](QualitativeFrieze/results/ornament-designs/overview.html) |
+| Detail that follows the structure | [Parent, direction, cadence and native finite detail](../Gojo/docs/GojoOrnamentDetailStudy.md) | [Ten studies and four integrations](QualitativeFrieze/results/ornament-details/gallery.html), [single sheet](QualitativeFrieze/results/ornament-details/overview.html) |
 
 ## Fresh checkout
 

@@ -7,7 +7,8 @@ namespace Gojo.Experiments.QualitativeFrieze;
 public static partial class BourgoinColourExperiment
 {
     private static string Svg(string id, string title, IReadOnlyList<DrawPath> paths, HashSet<Relation>[] layers,
-        OrnamentFieldPacket packet, BourgoinPatternLibrary.DisplayBasis basis, Palette palette, int columns, int rows)
+        OrnamentFieldPacket packet, BourgoinPatternLibrary.DisplayBasis basis, Palette palette, int columns, int rows,
+        bool fitAll = false)
     {
         const double width = 1200, height = 820, margin = 34;
         var all = paths.SelectMany(path => path.Points).ToArray();
@@ -22,6 +23,8 @@ public static partial class BourgoinColourExperiment
         var maxU = (Math.Abs(v.Y) * aspect + Math.Abs(v.X)) / (2 * Math.Abs(determinant));
         var maxV = (Math.Abs(u.Y) * aspect + Math.Abs(u.X)) / (2 * Math.Abs(determinant));
         var worldHeight = Math.Min(((columns - 1) / 2d - .12) / maxU, ((rows - 1) / 2d - .12) / maxV);
+        if (fitAll) worldHeight = Math.Max((all.Max(point => point.Y) - all.Min(point => point.Y)),
+            (all.Max(point => point.X) - all.Min(point => point.X)) / aspect) * 1.16;
         var scale = (height - 2 * margin) / worldHeight;
         Point Screen(Point point) => new(width / 2 + (point.X - centre.X) * scale, height / 2 - (point.Y - centre.Y) * scale);
         var band = Math.Clamp(palette.Band * scale, 1.8, 25);

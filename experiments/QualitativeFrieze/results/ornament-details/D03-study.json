@@ -1,0 +1,40 @@
+{
+  "id": "D03",
+  "kind": "study",
+  "constructionNotes": "Eight actual radial guides support eight images of one pointed petal. Each petal begins at an exposed two-reach neck and ends at its actual ten-reach guide tip, keeping the bases distinct beyond the central seed. Repeated vein forks provide smaller enrichment inside the same compass disposition.",
+  "limits": "Finite native chords, shared prototypes and actual landmark-offset witnesses; no analytic curvature, occupied-face clearance, automatic physical join from coordinate equality, learned beauty, or hidden over/under continuity is claimed.",
+  "design": {
+    "mode": "detail",
+    "skeletonName": "Eight-petal compass rose",
+    "plate": {
+      "id": "D03",
+      "title": "Eight-petal compass rose",
+      "sourceId": "D03",
+      "description": "Eight actual radial guides support eight images of one pointed petal. Each petal begins at an exposed two-reach neck and ends at its actual ten-reach guide tip, keeping the bases distinct beyond the central seed. Repeated vein forks provide smaller enrichment inside the same compass disposition.",
+      "svg": "",
+      "units": 9,
+      "paths": 33,
+      "chords": 140,
+      "addedPaths": 25,
+      "attachments": 25,
+      "strokes": 1260,
+      "accepted": 252,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 0,
+      "nativeObjects": 10945,
+      "numericParticipants": 0,
+      "layerPaths": [
+        8,
+        8,
+        25
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Ultramarine, sky \u0026 vermilion"
+    }
+  }
+}

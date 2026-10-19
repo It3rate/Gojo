@@ -1,0 +1,519 @@
+{
+  "schema": "gojo-ornament-details-v1",
+  "allRunsComplete": true,
+  "studies": 10,
+  "integrations": 4,
+  "cases": [
+    {
+      "id": "D01",
+      "kind": "study",
+      "constructionNotes": "Two mirrored images of one lens leaf enclose the actual paired branch guides. Their veins converge toward the parent stem; a small terminal bud remains subordinate.",
+      "limits": "Finite native chords, shared prototypes and actual landmark-offset witnesses; no analytic curvature, occupied-face clearance, automatic physical join from coordinate equality, learned beauty, or hidden over/under continuity is claimed.",
+      "plate": {
+        "id": "D01",
+        "title": "Mirrored veined leaf sprig",
+        "sourceId": "D01",
+        "description": "Two mirrored images of one lens leaf enclose the actual paired branch guides. Their veins converge toward the parent stem; a small terminal bud remains subordinate.",
+        "svg": "",
+        "units": 9,
+        "paths": 10,
+        "chords": 45,
+        "addedPaths": 7,
+        "attachments": 7,
+        "strokes": 405,
+        "accepted": 27,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 0,
+        "nativeObjects": 4322,
+        "numericParticipants": 0,
+        "layerPaths": [
+          3,
+          2,
+          8
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Charcoal, burnt orange \u0026 olive"
+      }
+    },
+    {
+      "id": "D02",
+      "kind": "study",
+      "constructionNotes": "One curving finite stem supplies three successive public branch landmarks. Reused leaves alternate their face while continuing the same upward growth.",
+      "limits": "Finite native chords, shared prototypes and actual landmark-offset witnesses; no analytic curvature, occupied-face clearance, automatic physical join from coordinate equality, learned beauty, or hidden over/under continuity is claimed.",
+      "plate": {
+        "id": "D02",
+        "title": "Three-leaf running vine",
+        "sourceId": "D02",
+        "description": "One curving finite stem supplies three successive public branch landmarks. Reused leaves alternate their face while continuing the same upward growth.",
+        "svg": "",
+        "units": 9,
+        "paths": 13,
+        "chords": 45,
+        "addedPaths": 9,
+        "attachments": 9,
+        "strokes": 405,
+        "accepted": 27,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 0,
+        "nativeObjects": 4910,
+        "numericParticipants": 0,
+        "layerPaths": [
+          4,
+          3,
+          10
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Blush, petrol \u0026 mulberry"
+      }
+    },
+    {
+      "id": "D03",
+      "kind": "study",
+      "constructionNotes": "Eight actual radial guides support eight images of one pointed petal. Each petal begins at an exposed two-reach neck and ends at its actual ten-reach guide tip, keeping the bases distinct beyond the central seed. Repeated vein forks provide smaller enrichment inside the same compass disposition.",
+      "limits": "Finite native chords, shared prototypes and actual landmark-offset witnesses; no analytic curvature, occupied-face clearance, automatic physical join from coordinate equality, learned beauty, or hidden over/under continuity is claimed.",
+      "plate": {
+        "id": "D03",
+        "title": "Eight-petal compass rose",
+        "sourceId": "D03",
+        "description": "Eight actual radial guides support eight images of one pointed petal. Each petal begins at an exposed two-reach neck and ends at its actual ten-reach guide tip, keeping the bases distinct beyond the central seed. Repeated vein forks provide smaller enrichment inside the same compass disposition.",
+        "svg": "",
+        "units": 9,
+        "paths": 33,
+        "chords": 140,
+        "addedPaths": 25,
+        "attachments": 25,
+        "strokes": 1260,
+        "accepted": 252,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 0,
+        "nativeObjects": 10945,
+        "numericParticipants": 0,
+        "layerPaths": [
+          8,
+          8,
+          25
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Ultramarine, sky \u0026 vermilion"
+      }
+    },
+    {
+      "id": "D04",
+      "kind": "study",
+      "constructionNotes": "Six substitution-related petals follow six actual shared-origin radial guides. The triangular presentation basis is explicit; no angular calibration or smooth-circle law is inferred.",
+      "limits": "Finite native chords, shared prototypes and actual landmark-offset witnesses; no analytic curvature, occupied-face clearance, automatic physical join from coordinate equality, learned beauty, or hidden over/under continuity is claimed.",
+      "plate": {
+        "id": "D04",
+        "title": "Six-petal lotus wheel",
+        "sourceId": "D04",
+        "description": "Six substitution-related petals follow six actual shared-origin radial guides. The triangular presentation basis is explicit; no angular calibration or smooth-circle law is inferred.",
+        "svg": "",
+        "units": 9,
+        "paths": 25,
+        "chords": 102,
+        "addedPaths": 19,
+        "attachments": 19,
+        "strokes": 918,
+        "accepted": 135,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 0,
+        "nativeObjects": 8010,
+        "numericParticipants": 0,
+        "layerPaths": [
+          6,
+          6,
+          19
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Saffron, ink \u0026 porcelain"
+      }
+    },
+    {
+      "id": "D05",
+      "kind": "study",
+      "constructionNotes": "A parent stalk divides into five separate branch guides. The central lance, taller inner lobes and lower outer leaves are deliberately graded; they retain small clear intervals rather than forming an accidental solid fan.",
+      "limits": "Finite native chords, shared prototypes and actual landmark-offset witnesses; no analytic curvature, occupied-face clearance, automatic physical join from coordinate equality, learned beauty, or hidden over/under continuity is claimed.",
+      "plate": {
+        "id": "D05",
+        "title": "Five-lobed anthemion",
+        "sourceId": "D05",
+        "description": "A parent stalk divides into five separate branch guides. The central lance, taller inner lobes and lower outer leaves are deliberately graded; they retain small clear intervals rather than forming an accidental solid fan.",
+        "svg": "",
+        "units": 9,
+        "paths": 17,
+        "chords": 80,
+        "addedPaths": 12,
+        "attachments": 12,
+        "strokes": 720,
+        "accepted": 90,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 0,
+        "nativeObjects": 7653,
+        "numericParticipants": 0,
+        "layerPaths": [
+          5,
+          5,
+          12
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Chalk, ink-blue \u0026 terracotta"
+      }
+    },
+    {
+      "id": "D06",
+      "kind": "study",
+      "constructionNotes": "Three leaves grow from an exposed basal fork. Long outer petals turn away from the central upright petal, leaving visible channels of background between them.",
+      "limits": "Finite native chords, shared prototypes and actual landmark-offset witnesses; no analytic curvature, occupied-face clearance, automatic physical join from coordinate equality, learned beauty, or hidden over/under continuity is claimed.",
+      "plate": {
+        "id": "D06",
+        "title": "Open lotus fan",
+        "sourceId": "D06",
+        "description": "Three leaves grow from an exposed basal fork. Long outer petals turn away from the central upright petal, leaving visible channels of background between them.",
+        "svg": "",
+        "units": 9,
+        "paths": 10,
+        "chords": 42,
+        "addedPaths": 7,
+        "attachments": 7,
+        "strokes": 378,
+        "accepted": 27,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 0,
+        "nativeObjects": 4909,
+        "numericParticipants": 0,
+        "layerPaths": [
+          3,
+          3,
+          7
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Celadon, plum \u0026 apricot"
+      }
+    },
+    {
+      "id": "D07",
+      "kind": "study",
+      "constructionNotes": "A turning parent path carries two outward leaves and one returning open curl. The branch guides are joined through actual coincident public source roles; the curl\u0027s free end stays open.",
+      "limits": "Finite native chords, shared prototypes and actual landmark-offset witnesses; no analytic curvature, occupied-face clearance, automatic physical join from coordinate equality, learned beauty, or hidden over/under continuity is claimed.",
+      "plate": {
+        "id": "D07",
+        "title": "Corner acanthus and returning curl",
+        "sourceId": "D07",
+        "description": "A turning parent path carries two outward leaves and one returning open curl. The branch guides are joined through actual coincident public source roles; the curl\u0027s free end stays open.",
+        "svg": "",
+        "units": 9,
+        "paths": 11,
+        "chords": 40,
+        "addedPaths": 7,
+        "attachments": 7,
+        "strokes": 360,
+        "accepted": 27,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 0,
+        "nativeObjects": 4137,
+        "numericParticipants": 0,
+        "layerPaths": [
+          4,
+          3,
+          9
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Mulberry, malachite \u0026 citron"
+      }
+    },
+    {
+      "id": "D08",
+      "kind": "study",
+      "constructionNotes": "The actual longitudinal strand carries three alternating leaf branches and four pearl stations. Leaves grow from the line instead of being placed in unrelated corners.",
+      "limits": "Finite native chords, shared prototypes and actual landmark-offset witnesses; no analytic curvature, occupied-face clearance, automatic physical join from coordinate equality, learned beauty, or hidden over/under continuity is claimed.",
+      "plate": {
+        "id": "D08",
+        "title": "Pearl-and-leaf linked chain",
+        "sourceId": "D08",
+        "description": "The actual longitudinal strand carries three alternating leaf branches and four pearl stations. Leaves grow from the line instead of being placed in unrelated corners.",
+        "svg": "",
+        "units": 9,
+        "paths": 14,
+        "chords": 89,
+        "addedPaths": 10,
+        "attachments": 10,
+        "strokes": 801,
+        "accepted": 27,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 0,
+        "nativeObjects": 6491,
+        "numericParticipants": 0,
+        "layerPaths": [
+          4,
+          3,
+          11
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Oxblood, lapis \u0026 shell"
+      }
+    },
+    {
+      "id": "D09",
+      "kind": "study",
+      "constructionNotes": "One continuous wave passes through a real gap between two other native paths. The selected terminal and restart ports retain a nonzero displacement witness. This decorative crossing does not claim a hidden continuous under-strand or native over/under order.",
+      "limits": "Finite native chords, shared prototypes and actual landmark-offset witnesses; no analytic curvature, occupied-face clearance, automatic physical join from coordinate equality, learned beauty, or hidden over/under continuity is claimed.",
+      "plate": {
+        "id": "D09",
+        "title": "Interrupted two-strand guilloche",
+        "sourceId": "D09",
+        "description": "One continuous wave passes through a real gap between two other native paths. The selected terminal and restart ports retain a nonzero displacement witness. This decorative crossing does not claim a hidden continuous under-strand or native over/under order.",
+        "svg": "",
+        "units": 9,
+        "paths": 5,
+        "chords": 40,
+        "addedPaths": 2,
+        "attachments": 2,
+        "strokes": 360,
+        "accepted": 18,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 0,
+        "nativeObjects": 2598,
+        "numericParticipants": 0,
+        "layerPaths": [
+          3,
+          1,
+          5
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Night garden, lilac \u0026 copper"
+      }
+    },
+    {
+      "id": "D10",
+      "kind": "study",
+      "constructionNotes": "A single closed faceted quatrefoil supplies the outer loop. Four smaller pointed compartments follow actual diagonal branch guides inside its four lobes, while an inner cord follows the upright guide. It is an ornamental loop study, not a topological knot assertion.",
+      "limits": "Finite native chords, shared prototypes and actual landmark-offset witnesses; no analytic curvature, occupied-face clearance, automatic physical join from coordinate equality, learned beauty, or hidden over/under continuity is claimed.",
+      "plate": {
+        "id": "D10",
+        "title": "Quatrefoil loop and inner cord",
+        "sourceId": "D10",
+        "description": "A single closed faceted quatrefoil supplies the outer loop. Four smaller pointed compartments follow actual diagonal branch guides inside its four lobes, while an inner cord follows the upright guide. It is an ornamental loop study, not a topological knot assertion.",
+        "svg": "",
+        "units": 9,
+        "paths": 11,
+        "chords": 68,
+        "addedPaths": 5,
+        "attachments": 5,
+        "strokes": 612,
+        "accepted": 126,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 0,
+        "nativeObjects": 4238,
+        "numericParticipants": 0,
+        "layerPaths": [
+          6,
+          5,
+          6
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Peacock, jade \u0026 coral"
+      }
+    },
+    {
+      "id": "D11",
+      "kind": "integration",
+      "constructionNotes": "The four actual B02 rectangles retain their alternating native quarter images. Every addition stays inside its own strip envelope (four fine reaches sideways, twelve lengthwise); square gaps stay undecorated. Ornament follows the strip\u0027s long axis rather than the macrocell\u0027s corners.",
+      "limits": "Finite native chords, shared prototypes and actual landmark-offset witnesses; no analytic curvature, occupied-face clearance, automatic physical join from coordinate equality, learned beauty, or hidden over/under continuity is claimed.",
+      "plate": {
+        "id": "D11",
+        "title": "Willow sprigs in the woven strips",
+        "sourceId": "B02",
+        "description": "The four actual B02 rectangles retain their alternating native quarter images. Every addition stays inside its own strip envelope (four fine reaches sideways, twelve lengthwise); square gaps stay undecorated. Ornament follows the strip\u0027s long axis rather than the macrocell\u0027s corners.",
+        "svg": "",
+        "units": 16,
+        "paths": 36,
+        "chords": 172,
+        "addedPaths": 32,
+        "attachments": 32,
+        "strokes": 2752,
+        "accepted": 344,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 40,
+        "nativeObjects": 28141,
+        "numericParticipants": 0,
+        "layerPaths": [
+          4,
+          20,
+          16
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Aubergine, peach \u0026 parchment"
+      }
+    },
+    {
+      "id": "D12",
+      "kind": "integration",
+      "constructionNotes": "The four actual B02 rectangles retain their alternating native quarter images. Every addition stays inside its own strip envelope (four fine reaches sideways, twelve lengthwise); square gaps stay undecorated. Ornament follows the strip\u0027s long axis rather than the macrocell\u0027s corners.",
+      "limits": "Finite native chords, shared prototypes and actual landmark-offset witnesses; no analytic curvature, occupied-face clearance, automatic physical join from coordinate equality, learned beauty, or hidden over/under continuity is claimed.",
+      "plate": {
+        "id": "D12",
+        "title": "Feather-veined basket leaves",
+        "sourceId": "B02",
+        "description": "The four actual B02 rectangles retain their alternating native quarter images. Every addition stays inside its own strip envelope (four fine reaches sideways, twelve lengthwise); square gaps stay undecorated. Ornament follows the strip\u0027s long axis rather than the macrocell\u0027s corners.",
+        "svg": "",
+        "units": 16,
+        "paths": 24,
+        "chords": 100,
+        "addedPaths": 20,
+        "attachments": 20,
+        "strokes": 1600,
+        "accepted": 344,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 40,
+        "nativeObjects": 19636,
+        "numericParticipants": 0,
+        "layerPaths": [
+          4,
+          8,
+          16
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Ivory, oxblood \u0026 sage"
+      }
+    },
+    {
+      "id": "D13",
+      "kind": "integration",
+      "constructionNotes": "One six-petal flower occupies the actual B05 hexagon centre through a boundary-port offset. Its ten-reach radial tips stop short of the sixteen-reach source boundary. Reused vein forks remain inside their own petals; the triangular interstices remain quiet.",
+      "limits": "Finite native chords, shared prototypes and actual landmark-offset witnesses; no analytic curvature, occupied-face clearance, automatic physical join from coordinate equality, learned beauty, or hidden over/under continuity is claimed.",
+      "plate": {
+        "id": "D13",
+        "title": "Six-petal lotus inside the hexagons",
+        "sourceId": "B05",
+        "description": "One six-petal flower occupies the actual B05 hexagon centre through a boundary-port offset. Its ten-reach radial tips stop short of the sixteen-reach source boundary. Reused vein forks remain inside their own petals; the triangular interstices remain quiet.",
+        "svg": "",
+        "units": 16,
+        "paths": 20,
+        "chords": 96,
+        "addedPaths": 19,
+        "attachments": 19,
+        "strokes": 1536,
+        "accepted": 61,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 19,
+        "nativeObjects": 11362,
+        "numericParticipants": 0,
+        "layerPaths": [
+          1,
+          7,
+          13
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Charcoal, burnt orange \u0026 olive"
+      }
+    },
+    {
+      "id": "D14",
+      "kind": "integration",
+      "constructionNotes": "Six actual boundary vertices feed short inward stems, each ending in a separate pointed bud. Buds turn toward the centre but stop four reaches away; that central hexagonal negative space is deliberately left open. This reverses the outward flower reading without changing B05\u0027s source lattice.",
+      "limits": "Finite native chords, shared prototypes and actual landmark-offset witnesses; no analytic curvature, occupied-face clearance, automatic physical join from coordinate equality, learned beauty, or hidden over/under continuity is claimed.",
+      "plate": {
+        "id": "D14",
+        "title": "Inward buds around an open hexagonal heart",
+        "sourceId": "B05",
+        "description": "Six actual boundary vertices feed short inward stems, each ending in a separate pointed bud. Buds turn toward the centre but stop four reaches away; that central hexagonal negative space is deliberately left open. This reverses the outward flower reading without changing B05\u0027s source lattice.",
+        "svg": "",
+        "units": 16,
+        "paths": 19,
+        "chords": 78,
+        "addedPaths": 18,
+        "attachments": 18,
+        "strokes": 1248,
+        "accepted": 61,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 19,
+        "nativeObjects": 14217,
+        "numericParticipants": 0,
+        "layerPaths": [
+          1,
+          13,
+          6
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Blush, petrol \u0026 mulberry"
+      }
+    }
+  ],
+  "limits": [
+    "Authored finite detail programs, not learned aesthetics or automatic fit solving.",
+    "The close-up is a read of the first actually executed unit in the same imported field: 3x3 for studies, 4x4 for integrations.",
+    "Attachments authenticate actual landmarks and offsets; they do not by themselves prove joins, fit or clearance.",
+    "Actual interrupted strands preserve gaps. No hidden continuity or three-dimensional knot order is inferred.",
+    "Colour, edging and contour fill are display interpretations; finite chord petals do not prove analytic curvature."
+  ]
+}

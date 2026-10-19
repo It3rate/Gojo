@@ -1,0 +1,40 @@
+{
+  "id": "D11",
+  "kind": "integration",
+  "constructionNotes": "The four actual B02 rectangles retain their alternating native quarter images. Every addition stays inside its own strip envelope (four fine reaches sideways, twelve lengthwise); square gaps stay undecorated. Ornament follows the strip\u0027s long axis rather than the macrocell\u0027s corners.",
+  "limits": "Finite native chords, shared prototypes and actual landmark-offset witnesses; no analytic curvature, occupied-face clearance, automatic physical join from coordinate equality, learned beauty, or hidden over/under continuity is claimed.",
+  "design": {
+    "mode": "detail",
+    "skeletonName": "Basket rectangles and square gaps",
+    "plate": {
+      "id": "D11",
+      "title": "Willow sprigs in the woven strips",
+      "sourceId": "B02",
+      "description": "The four actual B02 rectangles retain their alternating native quarter images. Every addition stays inside its own strip envelope (four fine reaches sideways, twelve lengthwise); square gaps stay undecorated. Ornament follows the strip\u0027s long axis rather than the macrocell\u0027s corners.",
+      "svg": "",
+      "units": 16,
+      "paths": 36,
+      "chords": 172,
+      "addedPaths": 32,
+      "attachments": 32,
+      "strokes": 2752,
+      "accepted": 344,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 40,
+      "nativeObjects": 28141,
+      "numericParticipants": 0,
+      "layerPaths": [
+        4,
+        20,
+        16
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Aubergine, peach \u0026 parchment"
+    }
+  }
+}

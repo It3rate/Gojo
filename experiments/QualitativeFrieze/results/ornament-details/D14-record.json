@@ -1,0 +1,34 @@
+{
+  "mode": "detail",
+  "skeletonName": "Hexagons with triangular interstices",
+  "plate": {
+    "id": "D14",
+    "title": "Inward buds around an open hexagonal heart",
+    "sourceId": "B05",
+    "description": "Six actual boundary vertices feed short inward stems, each ending in a separate pointed bud. Buds turn toward the centre but stop four reaches away; that central hexagonal negative space is deliberately left open. This reverses the outward flower reading without changing B05\u0027s source lattice.",
+    "svg": "",
+    "units": 16,
+    "paths": 19,
+    "chords": 78,
+    "addedPaths": 18,
+    "attachments": 18,
+    "strokes": 1248,
+    "accepted": 61,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 19,
+    "nativeObjects": 14217,
+    "numericParticipants": 0,
+    "layerPaths": [
+      1,
+      13,
+      6
+    ],
+    "focusComplete": [
+      true,
+      true,
+      true
+    ],
+    "palette": "Blush, petrol \u0026 mulberry"
+  }
+}

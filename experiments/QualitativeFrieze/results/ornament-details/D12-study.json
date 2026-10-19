@@ -1,0 +1,40 @@
+{
+  "id": "D12",
+  "kind": "integration",
+  "constructionNotes": "The four actual B02 rectangles retain their alternating native quarter images. Every addition stays inside its own strip envelope (four fine reaches sideways, twelve lengthwise); square gaps stay undecorated. Ornament follows the strip\u0027s long axis rather than the macrocell\u0027s corners.",
+  "limits": "Finite native chords, shared prototypes and actual landmark-offset witnesses; no analytic curvature, occupied-face clearance, automatic physical join from coordinate equality, learned beauty, or hidden over/under continuity is claimed.",
+  "design": {
+    "mode": "detail",
+    "skeletonName": "Basket rectangles and square gaps",
+    "plate": {
+      "id": "D12",
+      "title": "Feather-veined basket leaves",
+      "sourceId": "B02",
+      "description": "The four actual B02 rectangles retain their alternating native quarter images. Every addition stays inside its own strip envelope (four fine reaches sideways, twelve lengthwise); square gaps stay undecorated. Ornament follows the strip\u0027s long axis rather than the macrocell\u0027s corners.",
+      "svg": "",
+      "units": 16,
+      "paths": 24,
+      "chords": 100,
+      "addedPaths": 20,
+      "attachments": 20,
+      "strokes": 1600,
+      "accepted": 344,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 40,
+      "nativeObjects": 19636,
+      "numericParticipants": 0,
+      "layerPaths": [
+        4,
+        8,
+        16
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Ivory, oxblood \u0026 sage"
+    }
+  }
+}

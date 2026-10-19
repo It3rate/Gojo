@@ -115,6 +115,9 @@ Its [single-page sheet](experiments/QualitativeFrieze/results/ornament-designs/o
 puts all three versions of every skeleton together; the
 [construction study](Gojo/docs/GojoOrnamentDesignCollection.md) describes the
 finer unmeasured vocabulary and native attachment evidence.
+The [detail study](experiments/QualitativeFrieze/results/ornament-details/gallery.html)
+develops ten richer motifs and four scaffold-following B02/B05 integrations,
+with one-unit close-ups and a single comparison sheet.
 
 For example, run the prospective-prediction experiment and its notebook tests
 from the repository root:

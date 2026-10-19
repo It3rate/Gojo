@@ -1,5 +1,10 @@
 # Qualitative frieze generators
 
+The [detail study](results/ornament-details/gallery.html) explores ten richer
+native motifs and four integrations into B02/B05, with close-ups, scaffold
+reads and a [single sheet](results/ornament-details/overview.html). Run it with
+`dotnet run --project experiments/QualitativeFrieze -c Release -- --ornament-details`.
+
 The [full colour collection](results/ornament-designs/gallery.html) extends all
 36 Bourgoin skeletons into 108 distinct designs. Compare broad geometric
 fields, intermediate flowers/foliage and fine local enrichment on the
