@@ -1,0 +1,34 @@
+{
+  "mode": "motif",
+  "skeletonName": "Running brick bond",
+  "plate": {
+    "id": "O-B01-motif",
+    "title": "B01 \u00B7 Tulips in the panels",
+    "sourceId": "B01",
+    "description": "A repeated intermediate unit leads. Conventional leaves, tulips, trefoils, pinwheels or radial flowers reuse actual finite prototypes in explicit substitution images. Their centres and stems attach through public source landmarks with retained offsets. The original disposition is carried intact as the quieter construction.",
+    "svg": "",
+    "units": 25,
+    "paths": 12,
+    "chords": 40,
+    "addedPaths": 8,
+    "attachments": 8,
+    "strokes": 1000,
+    "accepted": 175,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 25,
+    "nativeObjects": 4650,
+    "numericParticipants": 0,
+    "layerPaths": [
+      4,
+      2,
+      10
+    ],
+    "focusComplete": [
+      true,
+      true,
+      true
+    ],
+    "palette": "Blush, petrol \u0026 mulberry"
+  }
+}

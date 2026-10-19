@@ -1,0 +1,34 @@
+{
+  "mode": "detail",
+  "skeletonName": "Squares meet diamonds",
+  "plate": {
+    "id": "O-B03-detail",
+    "title": "B03 \u00B7 Corner fleurons and pearl centres",
+    "sourceId": "B03",
+    "description": "Small local enrichments lead. Paired finite leaflets grow at selected published turns and edge landmarks; buds, pearls or small trefoils punctuate the surviving repeat. The large medallions from the intermediate design are absent. The same skeleton remains, but the introduced path set is deliberately different.",
+    "svg": "",
+    "units": 25,
+    "paths": 32,
+    "chords": 112,
+    "addedPaths": 28,
+    "attachments": 28,
+    "strokes": 2800,
+    "accepted": 325,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 25,
+    "nativeObjects": 15809,
+    "numericParticipants": 0,
+    "layerPaths": [
+      4,
+      4,
+      28
+    ],
+    "focusComplete": [
+      true,
+      true,
+      true
+    ],
+    "palette": "Peacock, jade \u0026 coral"
+  }
+}

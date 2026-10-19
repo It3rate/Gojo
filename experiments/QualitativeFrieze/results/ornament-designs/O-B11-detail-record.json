@@ -1,0 +1,34 @@
+{
+  "mode": "detail",
+  "skeletonName": "Returned rows of bent crosses",
+  "plate": {
+    "id": "O-B11-detail",
+    "title": "B11 \u00B7 Leaflets along the turns",
+    "sourceId": "B11",
+    "description": "Small local enrichments lead. Paired finite leaflets grow at selected published turns and edge landmarks; buds, pearls or small trefoils punctuate the surviving repeat. The large medallions from the intermediate design are absent. The same skeleton remains, but the introduced path set is deliberately different.",
+    "svg": "",
+    "units": 25,
+    "paths": 32,
+    "chords": 152,
+    "addedPaths": 28,
+    "attachments": 28,
+    "strokes": 3800,
+    "accepted": 1445,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 205,
+    "nativeObjects": 35345,
+    "numericParticipants": 0,
+    "layerPaths": [
+      4,
+      4,
+      28
+    ],
+    "focusComplete": [
+      true,
+      true,
+      true
+    ],
+    "palette": "Saffron, ink \u0026 porcelain"
+  }
+}

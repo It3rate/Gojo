@@ -1,0 +1,34 @@
+{
+  "mode": "motif",
+  "skeletonName": "Crossed faceted loop lattice",
+  "plate": {
+    "id": "O-B34-motif",
+    "title": "B34 \u00B7 Growing fret foliage",
+    "sourceId": "B34",
+    "description": "A repeated intermediate unit leads. Conventional leaves, tulips, trefoils, pinwheels or radial flowers reuse actual finite prototypes in explicit substitution images. Their centres and stems attach through public source landmarks with retained offsets. The original disposition is carried intact as the quieter construction.",
+    "svg": "",
+    "units": 25,
+    "paths": 28,
+    "chords": 144,
+    "addedPaths": 22,
+    "attachments": 22,
+    "strokes": 3600,
+    "accepted": 270,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 30,
+    "nativeObjects": 17431,
+    "numericParticipants": 0,
+    "layerPaths": [
+      6,
+      22,
+      6
+    ],
+    "focusComplete": [
+      true,
+      true,
+      true
+    ],
+    "palette": "Peacock, jade \u0026 coral"
+  }
+}

@@ -32,8 +32,9 @@ public sealed partial class BourgoinPatternLibrary
     private sealed record AdditionalSource(string Id, string Name, int Leaf, string Reference,
         SourceRevision Revision, bool Triangular = false, int Columns = 3, int Rows = 3);
 
-    public BourgoinPatternLibrary()
+    public BourgoinPatternLibrary(int subdivisions = 1)
     {
+        BourgoinPatternRefinement.ValidateSubdivisions(subdivisions);
         var recipes = new List<Recipe>();
 
         var brick = new Cell();
@@ -122,7 +123,8 @@ public sealed partial class BourgoinPatternLibrary
                 source.Triangular, revision.AlternateRows, source.Columns, source.Rows);
         }
 
-        Recipes = recipes.AsReadOnly();
+        Recipes = (subdivisions == 1 ? recipes : recipes.Select(recipe =>
+            new BourgoinPatternRefinement(recipe, subdivisions).Result).ToList()).AsReadOnly();
 
         void Add(string id, string name, int leaf, int page, string reference, string construction,
             string fidelity, Cell cell, (int X, int Y) column, (int X, int Y) row,

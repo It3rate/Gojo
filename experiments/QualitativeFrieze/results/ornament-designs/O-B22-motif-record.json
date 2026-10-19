@@ -1,0 +1,34 @@
+{
+  "mode": "motif",
+  "skeletonName": "Alternating pointed lozenges",
+  "plate": {
+    "id": "O-B22-motif",
+    "title": "B22 \u00B7 Leaf and trefoil lattice",
+    "sourceId": "B22",
+    "description": "A repeated intermediate unit leads. Conventional leaves, tulips, trefoils, pinwheels or radial flowers reuse actual finite prototypes in explicit substitution images. Their centres and stems attach through public source landmarks with retained offsets. The original disposition is carried intact as the quieter construction.",
+    "svg": "",
+    "units": 25,
+    "paths": 20,
+    "chords": 104,
+    "addedPaths": 16,
+    "attachments": 16,
+    "strokes": 2600,
+    "accepted": 370,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 30,
+    "nativeObjects": 10978,
+    "numericParticipants": 0,
+    "layerPaths": [
+      4,
+      16,
+      4
+    ],
+    "focusComplete": [
+      true,
+      true,
+      true
+    ],
+    "palette": "Peacock, jade \u0026 coral"
+  }
+}

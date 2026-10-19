@@ -1,0 +1,34 @@
+{
+  "mode": "detail",
+  "skeletonName": "Two-family oblique mesh",
+  "plate": {
+    "id": "O-B15-detail",
+    "title": "B15 \u00B7 Tip buds on the trellis",
+    "sourceId": "B15",
+    "description": "Small local enrichments lead. Paired finite leaflets grow at selected published turns and edge landmarks; buds, pearls or small trefoils punctuate the surviving repeat. The large medallions from the intermediate design are absent. The same skeleton remains, but the introduced path set is deliberately different.",
+    "svg": "",
+    "units": 25,
+    "paths": 3,
+    "chords": 12,
+    "addedPaths": 2,
+    "attachments": 2,
+    "strokes": 300,
+    "accepted": 193,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 57,
+    "nativeObjects": 1881,
+    "numericParticipants": 0,
+    "layerPaths": [
+      1,
+      1,
+      2
+    ],
+    "focusComplete": [
+      true,
+      true,
+      true
+    ],
+    "palette": "Ivory, oxblood \u0026 sage"
+  }
+}

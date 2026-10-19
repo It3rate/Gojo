@@ -1,0 +1,34 @@
+{
+  "mode": "motif",
+  "skeletonName": "Basket rectangles and square gaps",
+  "plate": {
+    "id": "O-B02-motif",
+    "title": "B02 \u00B7 Alternating woven leaf pairs",
+    "sourceId": "B02",
+    "description": "A repeated intermediate unit leads. Conventional leaves, tulips, trefoils, pinwheels or radial flowers reuse actual finite prototypes in explicit substitution images. Their centres and stems attach through public source landmarks with retained offsets. The original disposition is carried intact as the quieter construction.",
+    "svg": "",
+    "units": 25,
+    "paths": 16,
+    "chords": 96,
+    "addedPaths": 12,
+    "attachments": 12,
+    "strokes": 2400,
+    "accepted": 550,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 50,
+    "nativeObjects": 9996,
+    "numericParticipants": 0,
+    "layerPaths": [
+      4,
+      12,
+      4
+    ],
+    "focusComplete": [
+      true,
+      true,
+      true
+    ],
+    "palette": "Saffron, ink \u0026 porcelain"
+  }
+}

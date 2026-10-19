@@ -1,0 +1,34 @@
+{
+  "mode": "detail",
+  "skeletonName": "Faceted shell-fan courses",
+  "plate": {
+    "id": "O-B28-detail",
+    "title": "B28 \u00B7 Radial buds",
+    "sourceId": "B28",
+    "description": "Small local enrichments lead. Paired finite leaflets grow at selected published turns and edge landmarks; buds, pearls or small trefoils punctuate the surviving repeat. The large medallions from the intermediate design are absent. The same skeleton remains, but the introduced path set is deliberately different.",
+    "svg": "",
+    "units": 25,
+    "paths": 28,
+    "chords": 88,
+    "addedPaths": 20,
+    "attachments": 20,
+    "strokes": 2200,
+    "accepted": 1068,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 132,
+    "nativeObjects": 16464,
+    "numericParticipants": 0,
+    "layerPaths": [
+      8,
+      2,
+      26
+    ],
+    "focusComplete": [
+      true,
+      true,
+      true
+    ],
+    "palette": "Blush, petrol \u0026 mulberry"
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "mode": "detail",
+  "skeletonName": "Faceted cloud-scale arches",
+  "plate": {
+    "id": "O-B30-detail",
+    "title": "B30 \u00B7 Pearls on cloud courses",
+    "sourceId": "B30",
+    "description": "Small local enrichments lead. Paired finite leaflets grow at selected published turns and edge landmarks; buds, pearls or small trefoils punctuate the surviving repeat. The large medallions from the intermediate design are absent. The same skeleton remains, but the introduced path set is deliberately different.",
+    "svg": "",
+    "units": 25,
+    "paths": 32,
+    "chords": 232,
+    "addedPaths": 28,
+    "attachments": 28,
+    "strokes": 5800,
+    "accepted": 351,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 49,
+    "nativeObjects": 58423,
+    "numericParticipants": 0,
+    "layerPaths": [
+      4,
+      0,
+      32
+    ],
+    "focusComplete": [
+      true,
+      true,
+      true
+    ],
+    "palette": "Celadon, plum \u0026 apricot"
+  }
+}

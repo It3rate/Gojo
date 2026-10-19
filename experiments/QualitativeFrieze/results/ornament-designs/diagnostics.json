@@ -1,0 +1,3146 @@
+{
+  "schema": "gojo-ornament-designs-v1",
+  "allRunsComplete": true,
+  "skeletons": 36,
+  "designs": 108,
+  "cases": [
+    {
+      "mode": "field",
+      "id": "O-B01-field",
+      "sourceId": "B01",
+      "title": "B01 \u00B7 Architectural panels",
+      "units": 25,
+      "paths": 10,
+      "chords": 34,
+      "addedPaths": 6,
+      "attachments": 6,
+      "strokes": 850,
+      "accepted": 175,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 25,
+      "nativeObjects": 4087,
+      "numericParticipants": 0,
+      "layerPaths": [
+        6,
+        2,
+        6
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Aubergine, peach \u0026 parchment"
+    },
+    {
+      "mode": "motif",
+      "id": "O-B01-motif",
+      "sourceId": "B01",
+      "title": "B01 \u00B7 Tulips in the panels",
+      "units": 25,
+      "paths": 12,
+      "chords": 40,
+      "addedPaths": 8,
+      "attachments": 8,
+      "strokes": 1000,
+      "accepted": 175,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 25,
+      "nativeObjects": 4650,
+      "numericParticipants": 0,
+      "layerPaths": [
+        4,
+        2,
+        10
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Blush, petrol \u0026 mulberry"
+    },
+    {
+      "mode": "detail",
+      "id": "O-B01-detail",
+      "sourceId": "B01",
+      "title": "B01 \u00B7 Border buds and fine stems",
+      "units": 25,
+      "paths": 24,
+      "chords": 68,
+      "addedPaths": 20,
+      "attachments": 20,
+      "strokes": 1700,
+      "accepted": 175,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 25,
+      "nativeObjects": 8345,
+      "numericParticipants": 0,
+      "layerPaths": [
+        4,
+        0,
+        24
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Celadon, plum \u0026 apricot"
+    },
+    {
+      "mode": "field",
+      "id": "O-B02-field",
+      "sourceId": "B02",
+      "title": "B02 \u00B7 Woven compartments",
+      "units": 25,
+      "paths": 16,
+      "chords": 104,
+      "addedPaths": 12,
+      "attachments": 12,
+      "strokes": 2600,
+      "accepted": 550,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 50,
+      "nativeObjects": 11256,
+      "numericParticipants": 0,
+      "layerPaths": [
+        4,
+        12,
+        4
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Charcoal, burnt orange \u0026 olive"
+    },
+    {
+      "mode": "motif",
+      "id": "O-B02-motif",
+      "sourceId": "B02",
+      "title": "B02 \u00B7 Alternating woven leaf pairs",
+      "units": 25,
+      "paths": 16,
+      "chords": 96,
+      "addedPaths": 12,
+      "attachments": 12,
+      "strokes": 2400,
+      "accepted": 550,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 50,
+      "nativeObjects": 9996,
+      "numericParticipants": 0,
+      "layerPaths": [
+        4,
+        12,
+        4
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Saffron, ink \u0026 porcelain"
+    },
+    {
+      "mode": "detail",
+      "id": "O-B02-detail",
+      "sourceId": "B02",
+      "title": "B02 \u00B7 Woven edge seeds",
+      "units": 25,
+      "paths": 32,
+      "chords": 120,
+      "addedPaths": 28,
+      "attachments": 28,
+      "strokes": 3000,
+      "accepted": 550,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 50,
+      "nativeObjects": 17438,
+      "numericParticipants": 0,
+      "layerPaths": [
+        4,
+        4,
+        28
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Oxblood, lapis \u0026 shell"
+    },
+    {
+      "mode": "field",
+      "id": "O-B03-field",
+      "sourceId": "B03",
+      "title": "B03 \u00B7 Enamelled geometric field",
+      "units": 25,
+      "paths": 16,
+      "chords": 112,
+      "addedPaths": 12,
+      "attachments": 12,
+      "strokes": 2800,
+      "accepted": 325,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 25,
+      "nativeObjects": 10096,
+      "numericParticipants": 0,
+      "layerPaths": [
+        4,
+        12,
+        4
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Ultramarine, sky \u0026 vermilion"
+    },
+    {
+      "mode": "motif",
+      "id": "O-B03-motif",
+      "sourceId": "B03",
+      "title": "B03 \u00B7 Rosette medallions",
+      "units": 25,
+      "paths": 40,
+      "chords": 264,
+      "addedPaths": 36,
+      "attachments": 36,
+      "strokes": 6600,
+      "accepted": 325,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 25,
+      "nativeObjects": 22090,
+      "numericParticipants": 0,
+      "layerPaths": [
+        4,
+        36,
+        4
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Celadon, plum \u0026 apricot"
+    },
+    {
+      "mode": "detail",
+      "id": "O-B03-detail",
+      "sourceId": "B03",
+      "title": "B03 \u00B7 Corner fleurons and pearl centres",
+      "units": 25,
+      "paths": 32,
+      "chords": 112,
+      "addedPaths": 28,
+      "attachments": 28,
+      "strokes": 2800,
+      "accepted": 325,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 25,
+      "nativeObjects": 15809,
+      "numericParticipants": 0,
+      "layerPaths": [
+        4,
+        4,
+        28
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Peacock, jade \u0026 coral"
+    },
+    {
+      "mode": "field",
+      "id": "O-B04-field",
+      "sourceId": "B04",
+      "title": "B04 \u00B7 Lotus and star field",
+      "units": 25,
+      "paths": 15,
+      "chords": 78,
+      "addedPaths": 12,
+      "attachments": 12,
+      "strokes": 1950,
+      "accepted": 573,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 102,
+      "nativeObjects": 9760,
+      "numericParticipants": 0,
+      "layerPaths": [
+        3,
+        9,
+        6
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Chalk, ink-blue \u0026 terracotta"
+    },
+    {
+      "mode": "motif",
+      "id": "O-B04-motif",
+      "sourceId": "B04",
+      "title": "B04 \u00B7 Sixfold conventional flowers",
+      "units": 25,
+      "paths": 24,
+      "chords": 174,
+      "addedPaths": 21,
+      "attachments": 21,
+      "strokes": 4350,
+      "accepted": 573,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 102,
+      "nativeObjects": 15347,
+      "numericParticipants": 0,
+      "layerPaths": [
+        3,
+        21,
+        3
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Oxblood, lapis \u0026 shell"
+    },
+    {
+      "mode": "detail",
+      "id": "O-B04-detail",
+      "sourceId": "B04",
+      "title": "B04 \u00B7 Small trefoils and six-seed centres",
+      "units": 25,
+      "paths": 33,
+      "chords": 120,
+      "addedPaths": 30,
+      "attachments": 30,
+      "strokes": 3000,
+      "accepted": 573,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 102,
+      "nativeObjects": 18787,
+      "numericParticipants": 0,
+      "layerPaths": [
+        3,
+        6,
+        27
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Ivory, oxblood \u0026 sage"
+    },
+    {
+      "mode": "field",
+      "id": "O-B05-field",
+      "sourceId": "B05",
+      "title": "B05 \u00B7 Lotus and star field",
+      "units": 25,
+      "paths": 5,
+      "chords": 26,
+      "addedPaths": 4,
+      "attachments": 4,
+      "strokes": 650,
+      "accepted": 101,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 24,
+      "nativeObjects": 3292,
+      "numericParticipants": 0,
+      "layerPaths": [
+        1,
+        3,
+        2
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Mulberry, malachite \u0026 citron"
+    },
+    {
+      "mode": "motif",
+      "id": "O-B05-motif",
+      "sourceId": "B05",
+      "title": "B05 \u00B7 Sixfold conventional flowers",
+      "units": 25,
+      "paths": 8,
+      "chords": 58,
+      "addedPaths": 7,
+      "attachments": 7,
+      "strokes": 1450,
+      "accepted": 101,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 24,
+      "nativeObjects": 4623,
+      "numericParticipants": 0,
+      "layerPaths": [
+        1,
+        7,
+        1
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Peacock, jade \u0026 coral"
+    },
+    {
+      "mode": "detail",
+      "id": "O-B05-detail",
+      "sourceId": "B05",
+      "title": "B05 \u00B7 Small trefoils and six-seed centres",
+      "units": 25,
+      "paths": 11,
+      "chords": 40,
+      "addedPaths": 10,
+      "attachments": 10,
+      "strokes": 1000,
+      "accepted": 101,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 24,
+      "nativeObjects": 5787,
+      "numericParticipants": 0,
+      "layerPaths": [
+        1,
+        2,
+        9
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Blush, petrol \u0026 mulberry"
+    },
+    {
+      "mode": "field",
+      "id": "O-B06-field",
+      "sourceId": "B06",
+      "title": "B06 \u00B7 Enamelled geometric field",
+      "units": 25,
+      "paths": 4,
+      "chords": 32,
+      "addedPaths": 3,
+      "attachments": 3,
+      "strokes": 800,
+      "accepted": 125,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 25,
+      "nativeObjects": 3975,
+      "numericParticipants": 0,
+      "layerPaths": [
+        1,
+        3,
+        1
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Night garden, lilac \u0026 copper"
+    },
+    {
+      "mode": "motif",
+      "id": "O-B06-motif",
+      "sourceId": "B06",
+      "title": "B06 \u00B7 Rosette medallions",
+      "units": 25,
+      "paths": 10,
+      "chords": 84,
+      "addedPaths": 9,
+      "attachments": 9,
+      "strokes": 2100,
+      "accepted": 125,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 25,
+      "nativeObjects": 7516,
+      "numericParticipants": 0,
+      "layerPaths": [
+        1,
+        9,
+        1
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Ivory, oxblood \u0026 sage"
+    },
+    {
+      "mode": "detail",
+      "id": "O-B06-detail",
+      "sourceId": "B06",
+      "title": "B06 \u00B7 Corner fleurons and pearl centres",
+      "units": 25,
+      "paths": 8,
+      "chords": 38,
+      "addedPaths": 7,
+      "attachments": 7,
+      "strokes": 950,
+      "accepted": 125,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 25,
+      "nativeObjects": 6016,
+      "numericParticipants": 0,
+      "layerPaths": [
+        1,
+        1,
+        7
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Saffron, ink \u0026 porcelain"
+    },
+    {
+      "mode": "field",
+      "id": "O-B06.B-field",
+      "sourceId": "B06.B",
+      "title": "B06.B \u00B7 Enamelled geometric field",
+      "units": 25,
+      "paths": 4,
+      "chords": 32,
+      "addedPaths": 3,
+      "attachments": 3,
+      "strokes": 800,
+      "accepted": 125,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 25,
+      "nativeObjects": 4968,
+      "numericParticipants": 0,
+      "layerPaths": [
+        1,
+        3,
+        1
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Peacock, jade \u0026 coral"
+    },
+    {
+      "mode": "motif",
+      "id": "O-B06.B-motif",
+      "sourceId": "B06.B",
+      "title": "B06.B \u00B7 Rosette medallions",
+      "units": 25,
+      "paths": 10,
+      "chords": 84,
+      "addedPaths": 9,
+      "attachments": 9,
+      "strokes": 2100,
+      "accepted": 125,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 25,
+      "nativeObjects": 9099,
+      "numericParticipants": 0,
+      "layerPaths": [
+        1,
+        9,
+        1
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Charcoal, burnt orange \u0026 olive"
+    },
+    {
+      "mode": "detail",
+      "id": "O-B06.B-detail",
+      "sourceId": "B06.B",
+      "title": "B06.B \u00B7 Corner fleurons and pearl centres",
+      "units": 25,
+      "paths": 8,
+      "chords": 38,
+      "addedPaths": 7,
+      "attachments": 7,
+      "strokes": 950,
+      "accepted": 125,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 25,
+      "nativeObjects": 8241,
+      "numericParticipants": 0,
+      "layerPaths": [
+        1,
+        1,
+        7
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Chalk, ink-blue \u0026 terracotta"
+    },
+    {
+      "mode": "field",
+      "id": "O-B07-field",
+      "sourceId": "B07",
+      "title": "B07 \u00B7 Woven compartments",
+      "units": 25,
+      "paths": 8,
+      "chords": 24,
+      "addedPaths": 4,
+      "attachments": 4,
+      "strokes": 600,
+      "accepted": 276,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 49,
+      "nativeObjects": 3782,
+      "numericParticipants": 0,
+      "layerPaths": [
+        6,
+        1,
+        5
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Ivory, oxblood \u0026 sage"
+    },
+    {
+      "mode": "motif",
+      "id": "O-B07-motif",
+      "sourceId": "B07",
+      "title": "B07 \u00B7 Alternating woven leaf pairs",
+      "units": 25,
+      "paths": 7,
+      "chords": 28,
+      "addedPaths": 3,
+      "attachments": 3,
+      "strokes": 700,
+      "accepted": 276,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 49,
+      "nativeObjects": 3498,
+      "numericParticipants": 0,
+      "layerPaths": [
+        4,
+        2,
+        5
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Ultramarine, sky \u0026 vermilion"
+    },
+    {
+      "mode": "detail",
+      "id": "O-B07-detail",
+      "sourceId": "B07",
+      "title": "B07 \u00B7 Woven edge seeds",
+      "units": 25,
+      "paths": 29,
+      "chords": 84,
+      "addedPaths": 25,
+      "attachments": 25,
+      "strokes": 2100,
+      "accepted": 276,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 49,
+      "nativeObjects": 10444,
+      "numericParticipants": 0,
+      "layerPaths": [
+        4,
+        0,
+        29
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Mulberry, malachite \u0026 citron"
+    },
+    {
+      "mode": "field",
+      "id": "O-B08-field",
+      "sourceId": "B08",
+      "title": "B08 \u00B7 Broad-leaf trellis",
+      "units": 25,
+      "paths": 12,
+      "chords": 52,
+      "addedPaths": 8,
+      "attachments": 8,
+      "strokes": 1300,
+      "accepted": 276,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 49,
+      "nativeObjects": 6841,
+      "numericParticipants": 0,
+      "layerPaths": [
+        6,
+        4,
+        6
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Blush, petrol \u0026 mulberry"
+    },
+    {
+      "mode": "motif",
+      "id": "O-B08-motif",
+      "sourceId": "B08",
+      "title": "B08 \u00B7 Leaf and trefoil lattice",
+      "units": 25,
+      "paths": 12,
+      "chords": 64,
+      "addedPaths": 8,
+      "attachments": 8,
+      "strokes": 1600,
+      "accepted": 276,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 49,
+      "nativeObjects": 7153,
+      "numericParticipants": 0,
+      "layerPaths": [
+        4,
+        6,
+        6
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Chalk, ink-blue \u0026 terracotta"
+    },
+    {
+      "mode": "detail",
+      "id": "O-B08-detail",
+      "sourceId": "B08",
+      "title": "B08 \u00B7 Tip buds on the trellis",
+      "units": 25,
+      "paths": 30,
+      "chords": 88,
+      "addedPaths": 26,
+      "attachments": 26,
+      "strokes": 2200,
+      "accepted": 276,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 49,
+      "nativeObjects": 12011,
+      "numericParticipants": 0,
+      "layerPaths": [
+        4,
+        0,
+        30
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Night garden, lilac \u0026 copper"
+    },
+    {
+      "mode": "field",
+      "id": "O-B08.B-field",
+      "sourceId": "B08.B",
+      "title": "B08.B \u00B7 Broad-leaf trellis",
+      "units": 25,
+      "paths": 12,
+      "chords": 52,
+      "addedPaths": 8,
+      "attachments": 8,
+      "strokes": 1300,
+      "accepted": 276,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 49,
+      "nativeObjects": 7310,
+      "numericParticipants": 0,
+      "layerPaths": [
+        6,
+        4,
+        6
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Ultramarine, sky \u0026 vermilion"
+    },
+    {
+      "mode": "motif",
+      "id": "O-B08.B-motif",
+      "sourceId": "B08.B",
+      "title": "B08.B \u00B7 Leaf and trefoil lattice",
+      "units": 25,
+      "paths": 12,
+      "chords": 64,
+      "addedPaths": 8,
+      "attachments": 8,
+      "strokes": 1600,
+      "accepted": 276,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 49,
+      "nativeObjects": 7648,
+      "numericParticipants": 0,
+      "layerPaths": [
+        4,
+        6,
+        6
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Celadon, plum \u0026 apricot"
+    },
+    {
+      "mode": "detail",
+      "id": "O-B08.B-detail",
+      "sourceId": "B08.B",
+      "title": "B08.B \u00B7 Tip buds on the trellis",
+      "units": 25,
+      "paths": 30,
+      "chords": 88,
+      "addedPaths": 26,
+      "attachments": 26,
+      "strokes": 2200,
+      "accepted": 276,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 49,
+      "nativeObjects": 11992,
+      "numericParticipants": 0,
+      "layerPaths": [
+        4,
+        0,
+        30
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Peacock, jade \u0026 coral"
+    },
+    {
+      "mode": "field",
+      "id": "O-B09-field",
+      "sourceId": "B09",
+      "title": "B09 \u00B7 Ribbon and window brocade",
+      "units": 25,
+      "paths": 4,
+      "chords": 22,
+      "addedPaths": 3,
+      "attachments": 3,
+      "strokes": 550,
+      "accepted": 0,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 0,
+      "nativeObjects": 3169,
+      "numericParticipants": 0,
+      "layerPaths": [
+        2,
+        1,
+        2
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Chalk, ink-blue \u0026 terracotta"
+    },
+    {
+      "mode": "motif",
+      "id": "O-B09-motif",
+      "sourceId": "B09",
+      "title": "B09 \u00B7 Growing fret foliage",
+      "units": 25,
+      "paths": 12,
+      "chords": 69,
+      "addedPaths": 11,
+      "attachments": 11,
+      "strokes": 1725,
+      "accepted": 0,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 0,
+      "nativeObjects": 7465,
+      "numericParticipants": 0,
+      "layerPaths": [
+        1,
+        10,
+        2
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Oxblood, lapis \u0026 shell"
+    },
+    {
+      "mode": "detail",
+      "id": "O-B09-detail",
+      "sourceId": "B09",
+      "title": "B09 \u00B7 Leaflets along the turns",
+      "units": 25,
+      "paths": 8,
+      "chords": 29,
+      "addedPaths": 7,
+      "attachments": 7,
+      "strokes": 725,
+      "accepted": 0,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 0,
+      "nativeObjects": 4464,
+      "numericParticipants": 0,
+      "layerPaths": [
+        1,
+        0,
+        8
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Ivory, oxblood \u0026 sage"
+    },
+    {
+      "mode": "field",
+      "id": "O-B10-field",
+      "sourceId": "B10",
+      "title": "B10 \u00B7 Ribbon and window brocade",
+      "units": 25,
+      "paths": 8,
+      "chords": 80,
+      "addedPaths": 6,
+      "attachments": 6,
+      "strokes": 2000,
+      "accepted": 690,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 135,
+      "nativeObjects": 12134,
+      "numericParticipants": 0,
+      "layerPaths": [
+        2,
+        6,
+        2
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Mulberry, malachite \u0026 citron"
+    },
+    {
+      "mode": "motif",
+      "id": "O-B10-motif",
+      "sourceId": "B10",
+      "title": "B10 \u00B7 Growing fret foliage",
+      "units": 25,
+      "paths": 24,
+      "chords": 172,
+      "addedPaths": 22,
+      "attachments": 22,
+      "strokes": 4300,
+      "accepted": 690,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 135,
+      "nativeObjects": 23518,
+      "numericParticipants": 0,
+      "layerPaths": [
+        2,
+        22,
+        2
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Peacock, jade \u0026 coral"
+    },
+    {
+      "mode": "detail",
+      "id": "O-B10-detail",
+      "sourceId": "B10",
+      "title": "B10 \u00B7 Leaflets along the turns",
+      "units": 25,
+      "paths": 16,
+      "chords": 76,
+      "addedPaths": 14,
+      "attachments": 14,
+      "strokes": 1900,
+      "accepted": 690,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 135,
+      "nativeObjects": 16031,
+      "numericParticipants": 0,
+      "layerPaths": [
+        2,
+        2,
+        14
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Blush, petrol \u0026 mulberry"
+    },
+    {
+      "mode": "field",
+      "id": "O-B11-field",
+      "sourceId": "B11",
+      "title": "B11 \u00B7 Ribbon and window brocade",
+      "units": 25,
+      "paths": 16,
+      "chords": 160,
+      "addedPaths": 12,
+      "attachments": 12,
+      "strokes": 4000,
+      "accepted": 1445,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 205,
+      "nativeObjects": 25589,
+      "numericParticipants": 0,
+      "layerPaths": [
+        4,
+        12,
+        4
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Night garden, lilac \u0026 copper"
+    },
+    {
+      "mode": "motif",
+      "id": "O-B11-motif",
+      "sourceId": "B11",
+      "title": "B11 \u00B7 Growing fret foliage",
+      "units": 25,
+      "paths": 36,
+      "chords": 292,
+      "addedPaths": 32,
+      "attachments": 32,
+      "strokes": 7300,
+      "accepted": 1445,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 205,
+      "nativeObjects": 40162,
+      "numericParticipants": 0,
+      "layerPaths": [
+        4,
+        32,
+        4
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Ivory, oxblood \u0026 sage"
+    },
+    {
+      "mode": "detail",
+      "id": "O-B11-detail",
+      "sourceId": "B11",
+      "title": "B11 \u00B7 Leaflets along the turns",
+      "units": 25,
+      "paths": 32,
+      "chords": 152,
+      "addedPaths": 28,
+      "attachments": 28,
+      "strokes": 3800,
+      "accepted": 1445,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 205,
+      "nativeObjects": 35345,
+      "numericParticipants": 0,
+      "layerPaths": [
+        4,
+        4,
+        28
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Saffron, ink \u0026 porcelain"
+    },
+    {
+      "mode": "field",
+      "id": "O-B12-field",
+      "sourceId": "B12",
+      "title": "B12 \u00B7 Ribbon and window brocade",
+      "units": 25,
+      "paths": 16,
+      "chords": 160,
+      "addedPaths": 12,
+      "attachments": 12,
+      "strokes": 4000,
+      "accepted": 1292,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 208,
+      "nativeObjects": 30875,
+      "numericParticipants": 0,
+      "layerPaths": [
+        4,
+        12,
+        4
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Aubergine, peach \u0026 parchment"
+    },
+    {
+      "mode": "motif",
+      "id": "O-B12-motif",
+      "sourceId": "B12",
+      "title": "B12 \u00B7 Growing fret foliage",
+      "units": 25,
+      "paths": 36,
+      "chords": 292,
+      "addedPaths": 32,
+      "attachments": 32,
+      "strokes": 7300,
+      "accepted": 1292,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 208,
+      "nativeObjects": 50621,
+      "numericParticipants": 0,
+      "layerPaths": [
+        4,
+        32,
+        4
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Blush, petrol \u0026 mulberry"
+    },
+    {
+      "mode": "detail",
+      "id": "O-B12-detail",
+      "sourceId": "B12",
+      "title": "B12 \u00B7 Leaflets along the turns",
+      "units": 25,
+      "paths": 32,
+      "chords": 152,
+      "addedPaths": 28,
+      "attachments": 28,
+      "strokes": 3800,
+      "accepted": 1292,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 208,
+      "nativeObjects": 45802,
+      "numericParticipants": 0,
+      "layerPaths": [
+        4,
+        4,
+        28
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Celadon, plum \u0026 apricot"
+    },
+    {
+      "mode": "field",
+      "id": "O-B13-field",
+      "sourceId": "B13",
+      "title": "B13 \u00B7 Ribbon and window brocade",
+      "units": 25,
+      "paths": 16,
+      "chords": 256,
+      "addedPaths": 12,
+      "attachments": 12,
+      "strokes": 6400,
+      "accepted": 1792,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 208,
+      "nativeObjects": 29440,
+      "numericParticipants": 0,
+      "layerPaths": [
+        4,
+        12,
+        4
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Charcoal, burnt orange \u0026 olive"
+    },
+    {
+      "mode": "motif",
+      "id": "O-B13-motif",
+      "sourceId": "B13",
+      "title": "B13 \u00B7 Growing fret foliage",
+      "units": 25,
+      "paths": 36,
+      "chords": 340,
+      "addedPaths": 32,
+      "attachments": 32,
+      "strokes": 8500,
+      "accepted": 1792,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 208,
+      "nativeObjects": 47796,
+      "numericParticipants": 0,
+      "layerPaths": [
+        4,
+        32,
+        4
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Saffron, ink \u0026 porcelain"
+    },
+    {
+      "mode": "detail",
+      "id": "O-B13-detail",
+      "sourceId": "B13",
+      "title": "B13 \u00B7 Leaflets along the turns",
+      "units": 25,
+      "paths": 32,
+      "chords": 200,
+      "addedPaths": 28,
+      "attachments": 28,
+      "strokes": 5000,
+      "accepted": 1792,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 208,
+      "nativeObjects": 40879,
+      "numericParticipants": 0,
+      "layerPaths": [
+        4,
+        4,
+        28
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Oxblood, lapis \u0026 shell"
+    },
+    {
+      "mode": "field",
+      "id": "O-B14-field",
+      "sourceId": "B14",
+      "title": "B14 \u00B7 Ribbon and window brocade",
+      "units": 25,
+      "paths": 16,
+      "chords": 192,
+      "addedPaths": 12,
+      "attachments": 12,
+      "strokes": 4800,
+      "accepted": 1432,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 168,
+      "nativeObjects": 23286,
+      "numericParticipants": 0,
+      "layerPaths": [
+        4,
+        12,
+        4
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Ultramarine, sky \u0026 vermilion"
+    },
+    {
+      "mode": "motif",
+      "id": "O-B14-motif",
+      "sourceId": "B14",
+      "title": "B14 \u00B7 Growing fret foliage",
+      "units": 25,
+      "paths": 36,
+      "chords": 308,
+      "addedPaths": 32,
+      "attachments": 32,
+      "strokes": 7700,
+      "accepted": 1432,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 168,
+      "nativeObjects": 41370,
+      "numericParticipants": 0,
+      "layerPaths": [
+        4,
+        32,
+        4
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Celadon, plum \u0026 apricot"
+    },
+    {
+      "mode": "detail",
+      "id": "O-B14-detail",
+      "sourceId": "B14",
+      "title": "B14 \u00B7 Leaflets along the turns",
+      "units": 25,
+      "paths": 32,
+      "chords": 168,
+      "addedPaths": 28,
+      "attachments": 28,
+      "strokes": 4200,
+      "accepted": 1432,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 168,
+      "nativeObjects": 37769,
+      "numericParticipants": 0,
+      "layerPaths": [
+        4,
+        4,
+        28
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Peacock, jade \u0026 coral"
+    },
+    {
+      "mode": "field",
+      "id": "O-B15-field",
+      "sourceId": "B15",
+      "title": "B15 \u00B7 Broad-leaf trellis",
+      "units": 25,
+      "paths": 5,
+      "chords": 24,
+      "addedPaths": 4,
+      "attachments": 4,
+      "strokes": 600,
+      "accepted": 193,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 57,
+      "nativeObjects": 3074,
+      "numericParticipants": 0,
+      "layerPaths": [
+        1,
+        4,
+        1
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Chalk, ink-blue \u0026 terracotta"
+    },
+    {
+      "mode": "motif",
+      "id": "O-B15-motif",
+      "sourceId": "B15",
+      "title": "B15 \u00B7 Leaf and trefoil lattice",
+      "units": 25,
+      "paths": 5,
+      "chords": 26,
+      "addedPaths": 4,
+      "attachments": 4,
+      "strokes": 650,
+      "accepted": 193,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 57,
+      "nativeObjects": 2923,
+      "numericParticipants": 0,
+      "layerPaths": [
+        1,
+        4,
+        1
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Oxblood, lapis \u0026 shell"
+    },
+    {
+      "mode": "detail",
+      "id": "O-B15-detail",
+      "sourceId": "B15",
+      "title": "B15 \u00B7 Tip buds on the trellis",
+      "units": 25,
+      "paths": 3,
+      "chords": 12,
+      "addedPaths": 2,
+      "attachments": 2,
+      "strokes": 300,
+      "accepted": 193,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 57,
+      "nativeObjects": 1881,
+      "numericParticipants": 0,
+      "layerPaths": [
+        1,
+        1,
+        2
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Ivory, oxblood \u0026 sage"
+    },
+    {
+      "mode": "field",
+      "id": "O-B16-field",
+      "sourceId": "B16",
+      "title": "B16 \u00B7 Broad-leaf trellis",
+      "units": 25,
+      "paths": 10,
+      "chords": 44,
+      "addedPaths": 8,
+      "attachments": 8,
+      "strokes": 1100,
+      "accepted": 548,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 152,
+      "nativeObjects": 5491,
+      "numericParticipants": 0,
+      "layerPaths": [
+        2,
+        8,
+        2
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Mulberry, malachite \u0026 citron"
+    },
+    {
+      "mode": "motif",
+      "id": "O-B16-motif",
+      "sourceId": "B16",
+      "title": "B16 \u00B7 Leaf and trefoil lattice",
+      "units": 25,
+      "paths": 10,
+      "chords": 50,
+      "addedPaths": 8,
+      "attachments": 8,
+      "strokes": 1250,
+      "accepted": 548,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 152,
+      "nativeObjects": 5277,
+      "numericParticipants": 0,
+      "layerPaths": [
+        2,
+        8,
+        2
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Peacock, jade \u0026 coral"
+    },
+    {
+      "mode": "detail",
+      "id": "O-B16-detail",
+      "sourceId": "B16",
+      "title": "B16 \u00B7 Tip buds on the trellis",
+      "units": 25,
+      "paths": 5,
+      "chords": 18,
+      "addedPaths": 3,
+      "attachments": 3,
+      "strokes": 450,
+      "accepted": 548,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 152,
+      "nativeObjects": 2777,
+      "numericParticipants": 0,
+      "layerPaths": [
+        2,
+        2,
+        3
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Blush, petrol \u0026 mulberry"
+    },
+    {
+      "mode": "field",
+      "id": "O-B17-field",
+      "sourceId": "B17",
+      "title": "B17 \u00B7 Broad-leaf trellis",
+      "units": 25,
+      "paths": 7,
+      "chords": 28,
+      "addedPaths": 4,
+      "attachments": 4,
+      "strokes": 700,
+      "accepted": 735,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 190,
+      "nativeObjects": 4006,
+      "numericParticipants": 0,
+      "layerPaths": [
+        3,
+        4,
+        3
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Night garden, lilac \u0026 copper"
+    },
+    {
+      "mode": "motif",
+      "id": "O-B17-motif",
+      "sourceId": "B17",
+      "title": "B17 \u00B7 Leaf and trefoil lattice",
+      "units": 25,
+      "paths": 7,
+      "chords": 30,
+      "addedPaths": 4,
+      "attachments": 4,
+      "strokes": 750,
+      "accepted": 735,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 190,
+      "nativeObjects": 3855,
+      "numericParticipants": 0,
+      "layerPaths": [
+        3,
+        4,
+        3
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Ivory, oxblood \u0026 sage"
+    },
+    {
+      "mode": "detail",
+      "id": "O-B17-detail",
+      "sourceId": "B17",
+      "title": "B17 \u00B7 Tip buds on the trellis",
+      "units": 25,
+      "paths": 5,
+      "chords": 16,
+      "addedPaths": 2,
+      "attachments": 2,
+      "strokes": 400,
+      "accepted": 735,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 190,
+      "nativeObjects": 2705,
+      "numericParticipants": 0,
+      "layerPaths": [
+        3,
+        1,
+        4
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Saffron, ink \u0026 porcelain"
+    },
+    {
+      "mode": "field",
+      "id": "O-B18-field",
+      "sourceId": "B18",
+      "title": "B18 \u00B7 Enamelled geometric field",
+      "units": 25,
+      "paths": 6,
+      "chords": 28,
+      "addedPaths": 3,
+      "attachments": 3,
+      "strokes": 700,
+      "accepted": 735,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 190,
+      "nativeObjects": 3510,
+      "numericParticipants": 0,
+      "layerPaths": [
+        3,
+        3,
+        3
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Aubergine, peach \u0026 parchment"
+    },
+    {
+      "mode": "motif",
+      "id": "O-B18-motif",
+      "sourceId": "B18",
+      "title": "B18 \u00B7 Rosette medallions",
+      "units": 25,
+      "paths": 12,
+      "chords": 60,
+      "addedPaths": 9,
+      "attachments": 9,
+      "strokes": 1500,
+      "accepted": 735,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 190,
+      "nativeObjects": 5825,
+      "numericParticipants": 0,
+      "layerPaths": [
+        3,
+        9,
+        3
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Blush, petrol \u0026 mulberry"
+    },
+    {
+      "mode": "detail",
+      "id": "O-B18-detail",
+      "sourceId": "B18",
+      "title": "B18 \u00B7 Corner fleurons and pearl centres",
+      "units": 25,
+      "paths": 5,
+      "chords": 16,
+      "addedPaths": 2,
+      "attachments": 2,
+      "strokes": 400,
+      "accepted": 735,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 190,
+      "nativeObjects": 2597,
+      "numericParticipants": 0,
+      "layerPaths": [
+        3,
+        1,
+        4
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Celadon, plum \u0026 apricot"
+    },
+    {
+      "mode": "field",
+      "id": "O-B19-field",
+      "sourceId": "B19",
+      "title": "B19 \u00B7 Architectural panels",
+      "units": 25,
+      "paths": 4,
+      "chords": 24,
+      "addedPaths": 3,
+      "attachments": 3,
+      "strokes": 600,
+      "accepted": 177,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 48,
+      "nativeObjects": 3623,
+      "numericParticipants": 0,
+      "layerPaths": [
+        1,
+        3,
+        1
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Charcoal, burnt orange \u0026 olive"
+    },
+    {
+      "mode": "motif",
+      "id": "O-B19-motif",
+      "sourceId": "B19",
+      "title": "B19 \u00B7 Tulips in the panels",
+      "units": 25,
+      "paths": 5,
+      "chords": 23,
+      "addedPaths": 4,
+      "attachments": 4,
+      "strokes": 575,
+      "accepted": 177,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 48,
+      "nativeObjects": 3432,
+      "numericParticipants": 0,
+      "layerPaths": [
+        1,
+        2,
+        3
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Saffron, ink \u0026 porcelain"
+    },
+    {
+      "mode": "detail",
+      "id": "O-B19-detail",
+      "sourceId": "B19",
+      "title": "B19 \u00B7 Border buds and fine stems",
+      "units": 25,
+      "paths": 8,
+      "chords": 28,
+      "addedPaths": 7,
+      "attachments": 7,
+      "strokes": 700,
+      "accepted": 177,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 48,
+      "nativeObjects": 5284,
+      "numericParticipants": 0,
+      "layerPaths": [
+        1,
+        1,
+        7
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Oxblood, lapis \u0026 shell"
+    },
+    {
+      "mode": "field",
+      "id": "O-B20-field",
+      "sourceId": "B20",
+      "title": "B20 \u00B7 Lotus and star field",
+      "units": 25,
+      "paths": 15,
+      "chords": 66,
+      "addedPaths": 12,
+      "attachments": 12,
+      "strokes": 1650,
+      "accepted": 730,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 95,
+      "nativeObjects": 8091,
+      "numericParticipants": 0,
+      "layerPaths": [
+        3,
+        9,
+        6
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Ultramarine, sky \u0026 vermilion"
+    },
+    {
+      "mode": "motif",
+      "id": "O-B20-motif",
+      "sourceId": "B20",
+      "title": "B20 \u00B7 Sixfold conventional flowers",
+      "units": 25,
+      "paths": 24,
+      "chords": 132,
+      "addedPaths": 21,
+      "attachments": 21,
+      "strokes": 3300,
+      "accepted": 730,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 95,
+      "nativeObjects": 11504,
+      "numericParticipants": 0,
+      "layerPaths": [
+        3,
+        21,
+        3
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Celadon, plum \u0026 apricot"
+    },
+    {
+      "mode": "detail",
+      "id": "O-B20-detail",
+      "sourceId": "B20",
+      "title": "B20 \u00B7 Small trefoils and six-seed centres",
+      "units": 25,
+      "paths": 33,
+      "chords": 114,
+      "addedPaths": 30,
+      "attachments": 30,
+      "strokes": 2850,
+      "accepted": 730,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 95,
+      "nativeObjects": 15162,
+      "numericParticipants": 0,
+      "layerPaths": [
+        3,
+        6,
+        27
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Peacock, jade \u0026 coral"
+    },
+    {
+      "mode": "field",
+      "id": "O-B21-field",
+      "sourceId": "B21",
+      "title": "B21 \u00B7 Broad-leaf trellis",
+      "units": 25,
+      "paths": 10,
+      "chords": 48,
+      "addedPaths": 8,
+      "attachments": 8,
+      "strokes": 1200,
+      "accepted": 424,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 101,
+      "nativeObjects": 5627,
+      "numericParticipants": 0,
+      "layerPaths": [
+        2,
+        8,
+        2
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Chalk, ink-blue \u0026 terracotta"
+    },
+    {
+      "mode": "motif",
+      "id": "O-B21-motif",
+      "sourceId": "B21",
+      "title": "B21 \u00B7 Leaf and trefoil lattice",
+      "units": 25,
+      "paths": 10,
+      "chords": 52,
+      "addedPaths": 8,
+      "attachments": 8,
+      "strokes": 1300,
+      "accepted": 424,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 101,
+      "nativeObjects": 5443,
+      "numericParticipants": 0,
+      "layerPaths": [
+        2,
+        8,
+        2
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Oxblood, lapis \u0026 shell"
+    },
+    {
+      "mode": "detail",
+      "id": "O-B21-detail",
+      "sourceId": "B21",
+      "title": "B21 \u00B7 Tip buds on the trellis",
+      "units": 25,
+      "paths": 16,
+      "chords": 52,
+      "addedPaths": 14,
+      "attachments": 14,
+      "strokes": 1300,
+      "accepted": 424,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 101,
+      "nativeObjects": 7488,
+      "numericParticipants": 0,
+      "layerPaths": [
+        2,
+        2,
+        14
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Ivory, oxblood \u0026 sage"
+    },
+    {
+      "mode": "field",
+      "id": "O-B22-field",
+      "sourceId": "B22",
+      "title": "B22 \u00B7 Broad-leaf trellis",
+      "units": 25,
+      "paths": 20,
+      "chords": 96,
+      "addedPaths": 16,
+      "attachments": 16,
+      "strokes": 2400,
+      "accepted": 370,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 30,
+      "nativeObjects": 11528,
+      "numericParticipants": 0,
+      "layerPaths": [
+        4,
+        16,
+        4
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Mulberry, malachite \u0026 citron"
+    },
+    {
+      "mode": "motif",
+      "id": "O-B22-motif",
+      "sourceId": "B22",
+      "title": "B22 \u00B7 Leaf and trefoil lattice",
+      "units": 25,
+      "paths": 20,
+      "chords": 104,
+      "addedPaths": 16,
+      "attachments": 16,
+      "strokes": 2600,
+      "accepted": 370,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 30,
+      "nativeObjects": 10978,
+      "numericParticipants": 0,
+      "layerPaths": [
+        4,
+        16,
+        4
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Peacock, jade \u0026 coral"
+    },
+    {
+      "mode": "detail",
+      "id": "O-B22-detail",
+      "sourceId": "B22",
+      "title": "B22 \u00B7 Tip buds on the trellis",
+      "units": 25,
+      "paths": 32,
+      "chords": 104,
+      "addedPaths": 28,
+      "attachments": 28,
+      "strokes": 2600,
+      "accepted": 370,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 30,
+      "nativeObjects": 16079,
+      "numericParticipants": 0,
+      "layerPaths": [
+        4,
+        4,
+        28
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Blush, petrol \u0026 mulberry"
+    },
+    {
+      "mode": "field",
+      "id": "O-B23-field",
+      "sourceId": "B23",
+      "title": "B23 \u00B7 Architectural panels",
+      "units": 25,
+      "paths": 4,
+      "chords": 26,
+      "addedPaths": 3,
+      "attachments": 3,
+      "strokes": 650,
+      "accepted": 125,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 25,
+      "nativeObjects": 2916,
+      "numericParticipants": 0,
+      "layerPaths": [
+        1,
+        3,
+        1
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Night garden, lilac \u0026 copper"
+    },
+    {
+      "mode": "motif",
+      "id": "O-B23-motif",
+      "sourceId": "B23",
+      "title": "B23 \u00B7 Tulips in the panels",
+      "units": 25,
+      "paths": 5,
+      "chords": 25,
+      "addedPaths": 4,
+      "attachments": 4,
+      "strokes": 625,
+      "accepted": 125,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 25,
+      "nativeObjects": 2963,
+      "numericParticipants": 0,
+      "layerPaths": [
+        1,
+        2,
+        3
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Ivory, oxblood \u0026 sage"
+    },
+    {
+      "mode": "detail",
+      "id": "O-B23-detail",
+      "sourceId": "B23",
+      "title": "B23 \u00B7 Border buds and fine stems",
+      "units": 25,
+      "paths": 8,
+      "chords": 30,
+      "addedPaths": 7,
+      "attachments": 7,
+      "strokes": 750,
+      "accepted": 125,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 25,
+      "nativeObjects": 4059,
+      "numericParticipants": 0,
+      "layerPaths": [
+        1,
+        1,
+        7
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Saffron, ink \u0026 porcelain"
+    },
+    {
+      "mode": "field",
+      "id": "O-B24-field",
+      "sourceId": "B24",
+      "title": "B24 \u00B7 Lotus and star field",
+      "units": 25,
+      "paths": 10,
+      "chords": 52,
+      "addedPaths": 8,
+      "attachments": 8,
+      "strokes": 1300,
+      "accepted": 212,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 38,
+      "nativeObjects": 7502,
+      "numericParticipants": 0,
+      "layerPaths": [
+        2,
+        6,
+        4
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Aubergine, peach \u0026 parchment"
+    },
+    {
+      "mode": "motif",
+      "id": "O-B24-motif",
+      "sourceId": "B24",
+      "title": "B24 \u00B7 Sixfold conventional flowers",
+      "units": 25,
+      "paths": 16,
+      "chords": 92,
+      "addedPaths": 14,
+      "attachments": 14,
+      "strokes": 2300,
+      "accepted": 212,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 38,
+      "nativeObjects": 10748,
+      "numericParticipants": 0,
+      "layerPaths": [
+        2,
+        14,
+        2
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Blush, petrol \u0026 mulberry"
+    },
+    {
+      "mode": "detail",
+      "id": "O-B24-detail",
+      "sourceId": "B24",
+      "title": "B24 \u00B7 Small trefoils and six-seed centres",
+      "units": 25,
+      "paths": 22,
+      "chords": 80,
+      "addedPaths": 20,
+      "attachments": 20,
+      "strokes": 2000,
+      "accepted": 212,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 38,
+      "nativeObjects": 12726,
+      "numericParticipants": 0,
+      "layerPaths": [
+        2,
+        4,
+        18
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Celadon, plum \u0026 apricot"
+    },
+    {
+      "mode": "field",
+      "id": "O-B25-field",
+      "sourceId": "B25",
+      "title": "B25 \u00B7 Lotus and star field",
+      "units": 25,
+      "paths": 8,
+      "chords": 49,
+      "addedPaths": 4,
+      "attachments": 4,
+      "strokes": 1225,
+      "accepted": 181,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 19,
+      "nativeObjects": 6771,
+      "numericParticipants": 0,
+      "layerPaths": [
+        4,
+        3,
+        5
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Charcoal, burnt orange \u0026 olive"
+    },
+    {
+      "mode": "motif",
+      "id": "O-B25-motif",
+      "sourceId": "B25",
+      "title": "B25 \u00B7 Sixfold conventional flowers",
+      "units": 25,
+      "paths": 11,
+      "chords": 75,
+      "addedPaths": 7,
+      "attachments": 7,
+      "strokes": 1875,
+      "accepted": 181,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 19,
+      "nativeObjects": 7607,
+      "numericParticipants": 0,
+      "layerPaths": [
+        4,
+        7,
+        4
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Saffron, ink \u0026 porcelain"
+    },
+    {
+      "mode": "detail",
+      "id": "O-B25-detail",
+      "sourceId": "B25",
+      "title": "B25 \u00B7 Small trefoils and six-seed centres",
+      "units": 25,
+      "paths": 23,
+      "chords": 82,
+      "addedPaths": 19,
+      "attachments": 19,
+      "strokes": 2050,
+      "accepted": 181,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 19,
+      "nativeObjects": 14201,
+      "numericParticipants": 0,
+      "layerPaths": [
+        4,
+        2,
+        21
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Oxblood, lapis \u0026 shell"
+    },
+    {
+      "mode": "field",
+      "id": "O-B26-field",
+      "sourceId": "B26",
+      "title": "B26 \u00B7 Lotus and star field",
+      "units": 25,
+      "paths": 17,
+      "chords": 82,
+      "addedPaths": 4,
+      "attachments": 4,
+      "strokes": 2050,
+      "accepted": 1863,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 62,
+      "nativeObjects": 10735,
+      "numericParticipants": 0,
+      "layerPaths": [
+        13,
+        3,
+        14
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Ultramarine, sky \u0026 vermilion"
+    },
+    {
+      "mode": "motif",
+      "id": "O-B26-motif",
+      "sourceId": "B26",
+      "title": "B26 \u00B7 Sixfold conventional flowers",
+      "units": 25,
+      "paths": 20,
+      "chords": 96,
+      "addedPaths": 7,
+      "attachments": 7,
+      "strokes": 2400,
+      "accepted": 1863,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 62,
+      "nativeObjects": 11411,
+      "numericParticipants": 0,
+      "layerPaths": [
+        13,
+        7,
+        13
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Celadon, plum \u0026 apricot"
+    },
+    {
+      "mode": "detail",
+      "id": "O-B26-detail",
+      "sourceId": "B26",
+      "title": "B26 \u00B7 Small trefoils and six-seed centres",
+      "units": 25,
+      "paths": 32,
+      "chords": 109,
+      "addedPaths": 19,
+      "attachments": 19,
+      "strokes": 2725,
+      "accepted": 1863,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 62,
+      "nativeObjects": 16590,
+      "numericParticipants": 0,
+      "layerPaths": [
+        13,
+        2,
+        30
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Peacock, jade \u0026 coral"
+    },
+    {
+      "mode": "field",
+      "id": "O-B27-field",
+      "sourceId": "B27",
+      "title": "B27 \u00B7 Palmette courses",
+      "units": 25,
+      "paths": 7,
+      "chords": 26,
+      "addedPaths": 3,
+      "attachments": 3,
+      "strokes": 650,
+      "accepted": 105,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 20,
+      "nativeObjects": 3764,
+      "numericParticipants": 0,
+      "layerPaths": [
+        4,
+        3,
+        4
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Chalk, ink-blue \u0026 terracotta"
+    },
+    {
+      "mode": "motif",
+      "id": "O-B27-motif",
+      "sourceId": "B27",
+      "title": "B27 \u00B7 Sprouting chevron flowers",
+      "units": 25,
+      "paths": 8,
+      "chords": 36,
+      "addedPaths": 4,
+      "attachments": 4,
+      "strokes": 900,
+      "accepted": 105,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 20,
+      "nativeObjects": 4285,
+      "numericParticipants": 0,
+      "layerPaths": [
+        4,
+        4,
+        4
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Oxblood, lapis \u0026 shell"
+    },
+    {
+      "mode": "detail",
+      "id": "O-B27-detail",
+      "sourceId": "B27",
+      "title": "B27 \u00B7 Fine chevron seeds",
+      "units": 25,
+      "paths": 29,
+      "chords": 90,
+      "addedPaths": 25,
+      "attachments": 25,
+      "strokes": 2250,
+      "accepted": 105,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 20,
+      "nativeObjects": 12835,
+      "numericParticipants": 0,
+      "layerPaths": [
+        4,
+        1,
+        28
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Ivory, oxblood \u0026 sage"
+    },
+    {
+      "mode": "field",
+      "id": "O-B28-field",
+      "sourceId": "B28",
+      "title": "B28 \u00B7 Layered palm fans",
+      "units": 25,
+      "paths": 16,
+      "chords": 76,
+      "addedPaths": 8,
+      "attachments": 8,
+      "strokes": 1900,
+      "accepted": 1068,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 132,
+      "nativeObjects": 11618,
+      "numericParticipants": 0,
+      "layerPaths": [
+        8,
+        8,
+        8
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Mulberry, malachite \u0026 citron"
+    },
+    {
+      "mode": "motif",
+      "id": "O-B28-motif",
+      "sourceId": "B28",
+      "title": "B28 \u00B7 Lotus fan blossoms",
+      "units": 25,
+      "paths": 28,
+      "chords": 124,
+      "addedPaths": 20,
+      "attachments": 20,
+      "strokes": 3100,
+      "accepted": 1068,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 132,
+      "nativeObjects": 18617,
+      "numericParticipants": 0,
+      "layerPaths": [
+        8,
+        10,
+        18
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Peacock, jade \u0026 coral"
+    },
+    {
+      "mode": "detail",
+      "id": "O-B28-detail",
+      "sourceId": "B28",
+      "title": "B28 \u00B7 Radial buds",
+      "units": 25,
+      "paths": 28,
+      "chords": 88,
+      "addedPaths": 20,
+      "attachments": 20,
+      "strokes": 2200,
+      "accepted": 1068,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 132,
+      "nativeObjects": 16464,
+      "numericParticipants": 0,
+      "layerPaths": [
+        8,
+        2,
+        26
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Blush, petrol \u0026 mulberry"
+    },
+    {
+      "mode": "field",
+      "id": "O-B29-field",
+      "sourceId": "B29",
+      "title": "B29 \u00B7 Lotus and star field",
+      "units": 25,
+      "paths": 5,
+      "chords": 46,
+      "addedPaths": 4,
+      "attachments": 4,
+      "strokes": 1150,
+      "accepted": 157,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 43,
+      "nativeObjects": 6452,
+      "numericParticipants": 0,
+      "layerPaths": [
+        1,
+        3,
+        2
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Night garden, lilac \u0026 copper"
+    },
+    {
+      "mode": "motif",
+      "id": "O-B29-motif",
+      "sourceId": "B29",
+      "title": "B29 \u00B7 Sixfold conventional flowers",
+      "units": 25,
+      "paths": 8,
+      "chords": 72,
+      "addedPaths": 7,
+      "attachments": 7,
+      "strokes": 1800,
+      "accepted": 157,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 43,
+      "nativeObjects": 7624,
+      "numericParticipants": 0,
+      "layerPaths": [
+        1,
+        7,
+        1
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Ivory, oxblood \u0026 sage"
+    },
+    {
+      "mode": "detail",
+      "id": "O-B29-detail",
+      "sourceId": "B29",
+      "title": "B29 \u00B7 Small trefoils and six-seed centres",
+      "units": 25,
+      "paths": 11,
+      "chords": 52,
+      "addedPaths": 10,
+      "attachments": 10,
+      "strokes": 1300,
+      "accepted": 157,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 43,
+      "nativeObjects": 9433,
+      "numericParticipants": 0,
+      "layerPaths": [
+        1,
+        2,
+        9
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Saffron, ink \u0026 porcelain"
+    },
+    {
+      "mode": "field",
+      "id": "O-B30-field",
+      "sourceId": "B30",
+      "title": "B30 \u00B7 Cloud brocade",
+      "units": 25,
+      "paths": 20,
+      "chords": 220,
+      "addedPaths": 16,
+      "attachments": 16,
+      "strokes": 5500,
+      "accepted": 351,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 49,
+      "nativeObjects": 41016,
+      "numericParticipants": 0,
+      "layerPaths": [
+        8,
+        8,
+        8
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Aubergine, peach \u0026 parchment"
+    },
+    {
+      "mode": "motif",
+      "id": "O-B30-motif",
+      "sourceId": "B30",
+      "title": "B30 \u00B7 Round leaves in the cloud valleys",
+      "units": 25,
+      "paths": 36,
+      "chords": 276,
+      "addedPaths": 32,
+      "attachments": 32,
+      "strokes": 6900,
+      "accepted": 351,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 49,
+      "nativeObjects": 72456,
+      "numericParticipants": 0,
+      "layerPaths": [
+        4,
+        16,
+        20
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Blush, petrol \u0026 mulberry"
+    },
+    {
+      "mode": "detail",
+      "id": "O-B30-detail",
+      "sourceId": "B30",
+      "title": "B30 \u00B7 Pearls on cloud courses",
+      "units": 25,
+      "paths": 32,
+      "chords": 232,
+      "addedPaths": 28,
+      "attachments": 28,
+      "strokes": 5800,
+      "accepted": 351,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 49,
+      "nativeObjects": 58423,
+      "numericParticipants": 0,
+      "layerPaths": [
+        4,
+        0,
+        32
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Celadon, plum \u0026 apricot"
+    },
+    {
+      "mode": "field",
+      "id": "O-B31-field",
+      "sourceId": "B31",
+      "title": "B31 \u00B7 Ribbon and window brocade",
+      "units": 25,
+      "paths": 8,
+      "chords": 44,
+      "addedPaths": 3,
+      "attachments": 3,
+      "strokes": 1100,
+      "accepted": 175,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 0,
+      "nativeObjects": 5858,
+      "numericParticipants": 0,
+      "layerPaths": [
+        5,
+        3,
+        5
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Charcoal, burnt orange \u0026 olive"
+    },
+    {
+      "mode": "motif",
+      "id": "O-B31-motif",
+      "sourceId": "B31",
+      "title": "B31 \u00B7 Growing fret foliage",
+      "units": 25,
+      "paths": 22,
+      "chords": 112,
+      "addedPaths": 17,
+      "attachments": 17,
+      "strokes": 2800,
+      "accepted": 175,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 0,
+      "nativeObjects": 14548,
+      "numericParticipants": 0,
+      "layerPaths": [
+        5,
+        17,
+        5
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Saffron, ink \u0026 porcelain"
+    },
+    {
+      "mode": "detail",
+      "id": "O-B31-detail",
+      "sourceId": "B31",
+      "title": "B31 \u00B7 Leaflets along the turns",
+      "units": 25,
+      "paths": 30,
+      "chords": 100,
+      "addedPaths": 25,
+      "attachments": 25,
+      "strokes": 2500,
+      "accepted": 175,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 0,
+      "nativeObjects": 22762,
+      "numericParticipants": 0,
+      "layerPaths": [
+        5,
+        1,
+        29
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Oxblood, lapis \u0026 shell"
+    },
+    {
+      "mode": "field",
+      "id": "O-B32-field",
+      "sourceId": "B32",
+      "title": "B32 \u00B7 Ribbon and window brocade",
+      "units": 25,
+      "paths": 10,
+      "chords": 40,
+      "addedPaths": 6,
+      "attachments": 6,
+      "strokes": 1000,
+      "accepted": 354,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 96,
+      "nativeObjects": 9095,
+      "numericParticipants": 0,
+      "layerPaths": [
+        6,
+        2,
+        6
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Ultramarine, sky \u0026 vermilion"
+    },
+    {
+      "mode": "motif",
+      "id": "O-B32-motif",
+      "sourceId": "B32",
+      "title": "B32 \u00B7 Growing fret foliage",
+      "units": 25,
+      "paths": 26,
+      "chords": 156,
+      "addedPaths": 22,
+      "attachments": 22,
+      "strokes": 3900,
+      "accepted": 354,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 96,
+      "nativeObjects": 23111,
+      "numericParticipants": 0,
+      "layerPaths": [
+        4,
+        20,
+        6
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Celadon, plum \u0026 apricot"
+    },
+    {
+      "mode": "detail",
+      "id": "O-B32-detail",
+      "sourceId": "B32",
+      "title": "B32 \u00B7 Leaflets along the turns",
+      "units": 25,
+      "paths": 30,
+      "chords": 96,
+      "addedPaths": 26,
+      "attachments": 26,
+      "strokes": 2400,
+      "accepted": 354,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 96,
+      "nativeObjects": 23163,
+      "numericParticipants": 0,
+      "layerPaths": [
+        4,
+        0,
+        30
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Peacock, jade \u0026 coral"
+    },
+    {
+      "mode": "field",
+      "id": "O-B33-field",
+      "sourceId": "B33",
+      "title": "B33 \u00B7 Ribbon and window brocade",
+      "units": 25,
+      "paths": 10,
+      "chords": 40,
+      "addedPaths": 6,
+      "attachments": 6,
+      "strokes": 1000,
+      "accepted": 140,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 10,
+      "nativeObjects": 7236,
+      "numericParticipants": 0,
+      "layerPaths": [
+        6,
+        2,
+        6
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Chalk, ink-blue \u0026 terracotta"
+    },
+    {
+      "mode": "motif",
+      "id": "O-B33-motif",
+      "sourceId": "B33",
+      "title": "B33 \u00B7 Growing fret foliage",
+      "units": 25,
+      "paths": 26,
+      "chords": 122,
+      "addedPaths": 22,
+      "attachments": 22,
+      "strokes": 3050,
+      "accepted": 140,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 10,
+      "nativeObjects": 17288,
+      "numericParticipants": 0,
+      "layerPaths": [
+        4,
+        20,
+        6
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Oxblood, lapis \u0026 shell"
+    },
+    {
+      "mode": "detail",
+      "id": "O-B33-detail",
+      "sourceId": "B33",
+      "title": "B33 \u00B7 Leaflets along the turns",
+      "units": 25,
+      "paths": 30,
+      "chords": 94,
+      "addedPaths": 26,
+      "attachments": 26,
+      "strokes": 2350,
+      "accepted": 140,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 10,
+      "nativeObjects": 17702,
+      "numericParticipants": 0,
+      "layerPaths": [
+        4,
+        0,
+        30
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Ivory, oxblood \u0026 sage"
+    },
+    {
+      "mode": "field",
+      "id": "O-B34-field",
+      "sourceId": "B34",
+      "title": "B34 \u00B7 Ribbon and window brocade",
+      "units": 25,
+      "paths": 12,
+      "chords": 52,
+      "addedPaths": 6,
+      "attachments": 6,
+      "strokes": 1300,
+      "accepted": 270,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 30,
+      "nativeObjects": 7836,
+      "numericParticipants": 0,
+      "layerPaths": [
+        6,
+        6,
+        6
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Mulberry, malachite \u0026 citron"
+    },
+    {
+      "mode": "motif",
+      "id": "O-B34-motif",
+      "sourceId": "B34",
+      "title": "B34 \u00B7 Growing fret foliage",
+      "units": 25,
+      "paths": 28,
+      "chords": 144,
+      "addedPaths": 22,
+      "attachments": 22,
+      "strokes": 3600,
+      "accepted": 270,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 30,
+      "nativeObjects": 17431,
+      "numericParticipants": 0,
+      "layerPaths": [
+        6,
+        22,
+        6
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Peacock, jade \u0026 coral"
+    },
+    {
+      "mode": "detail",
+      "id": "O-B34-detail",
+      "sourceId": "B34",
+      "title": "B34 \u00B7 Leaflets along the turns",
+      "units": 25,
+      "paths": 26,
+      "chords": 82,
+      "addedPaths": 20,
+      "attachments": 20,
+      "strokes": 2050,
+      "accepted": 270,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 30,
+      "nativeObjects": 14370,
+      "numericParticipants": 0,
+      "layerPaths": [
+        6,
+        2,
+        24
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Blush, petrol \u0026 mulberry"
+    }
+  ],
+  "limits": [
+    "Three separately authored enrichment programs per retained skeleton, not an autonomous learned style.",
+    "Added finite contours and actual landmark attachments are native; colour, width, edging, fill and crop are display interpretations.",
+    "Closed contour fill does not establish native occupied faces, clearance, smooth curvature or knot order.",
+    "Jones\u0027s design preferences guide authorship; no universal beauty or historical pigment theorem is claimed."
+  ]
+}

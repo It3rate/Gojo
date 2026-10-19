@@ -1,0 +1,34 @@
+{
+  "mode": "motif",
+  "skeletonName": "Opposed chevron lozenges",
+  "plate": {
+    "id": "O-B21-motif",
+    "title": "B21 \u00B7 Leaf and trefoil lattice",
+    "sourceId": "B21",
+    "description": "A repeated intermediate unit leads. Conventional leaves, tulips, trefoils, pinwheels or radial flowers reuse actual finite prototypes in explicit substitution images. Their centres and stems attach through public source landmarks with retained offsets. The original disposition is carried intact as the quieter construction.",
+    "svg": "",
+    "units": 25,
+    "paths": 10,
+    "chords": 52,
+    "addedPaths": 8,
+    "attachments": 8,
+    "strokes": 1300,
+    "accepted": 424,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 101,
+    "nativeObjects": 5443,
+    "numericParticipants": 0,
+    "layerPaths": [
+      2,
+      8,
+      2
+    ],
+    "focusComplete": [
+      true,
+      true,
+      true
+    ],
+    "palette": "Oxblood, lapis \u0026 shell"
+  }
+}

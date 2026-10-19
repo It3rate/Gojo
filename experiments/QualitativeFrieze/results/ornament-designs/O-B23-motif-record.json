@@ -1,0 +1,34 @@
+{
+  "mode": "motif",
+  "skeletonName": "Offset squares and small square gaps",
+  "plate": {
+    "id": "O-B23-motif",
+    "title": "B23 \u00B7 Tulips in the panels",
+    "sourceId": "B23",
+    "description": "A repeated intermediate unit leads. Conventional leaves, tulips, trefoils, pinwheels or radial flowers reuse actual finite prototypes in explicit substitution images. Their centres and stems attach through public source landmarks with retained offsets. The original disposition is carried intact as the quieter construction.",
+    "svg": "",
+    "units": 25,
+    "paths": 5,
+    "chords": 25,
+    "addedPaths": 4,
+    "attachments": 4,
+    "strokes": 625,
+    "accepted": 125,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 25,
+    "nativeObjects": 2963,
+    "numericParticipants": 0,
+    "layerPaths": [
+      1,
+      2,
+      3
+    ],
+    "focusComplete": [
+      true,
+      true,
+      true
+    ],
+    "palette": "Ivory, oxblood \u0026 sage"
+  }
+}

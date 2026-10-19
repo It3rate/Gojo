@@ -1,0 +1,34 @@
+{
+  "mode": "field",
+  "skeletonName": "Offset squares and small square gaps",
+  "plate": {
+    "id": "O-B23-field",
+    "title": "B23 \u00B7 Architectural panels",
+    "sourceId": "B23",
+    "description": "The large repeat leads: retained construction lines carry broad bands, finite inset compartments and sparse large conventional ornament. Subordinate seeds punctuate the centres. This is a separately authored design, with actual native additions and landmark-offset witnesses, rather than a recolouring of the other two designs.",
+    "svg": "",
+    "units": 25,
+    "paths": 4,
+    "chords": 26,
+    "addedPaths": 3,
+    "attachments": 3,
+    "strokes": 650,
+    "accepted": 125,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 25,
+    "nativeObjects": 2916,
+    "numericParticipants": 0,
+    "layerPaths": [
+      1,
+      3,
+      1
+    ],
+    "focusComplete": [
+      true,
+      true,
+      true
+    ],
+    "palette": "Night garden, lilac \u0026 copper"
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "mode": "motif",
+  "skeletonName": "Two-family oblique mesh",
+  "plate": {
+    "id": "O-B15-motif",
+    "title": "B15 \u00B7 Leaf and trefoil lattice",
+    "sourceId": "B15",
+    "description": "A repeated intermediate unit leads. Conventional leaves, tulips, trefoils, pinwheels or radial flowers reuse actual finite prototypes in explicit substitution images. Their centres and stems attach through public source landmarks with retained offsets. The original disposition is carried intact as the quieter construction.",
+    "svg": "",
+    "units": 25,
+    "paths": 5,
+    "chords": 26,
+    "addedPaths": 4,
+    "attachments": 4,
+    "strokes": 650,
+    "accepted": 193,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 57,
+    "nativeObjects": 2923,
+    "numericParticipants": 0,
+    "layerPaths": [
+      1,
+      4,
+      1
+    ],
+    "focusComplete": [
+      true,
+      true,
+      true
+    ],
+    "palette": "Oxblood, lapis \u0026 shell"
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "mode": "field",
+  "skeletonName": "Three-family triangular mesh",
+  "plate": {
+    "id": "O-B16-field",
+    "title": "B16 \u00B7 Broad-leaf trellis",
+    "sourceId": "B16",
+    "description": "The large repeat leads: retained construction lines carry broad bands, finite inset compartments and sparse large conventional ornament. Subordinate seeds punctuate the centres. This is a separately authored design, with actual native additions and landmark-offset witnesses, rather than a recolouring of the other two designs.",
+    "svg": "",
+    "units": 25,
+    "paths": 10,
+    "chords": 44,
+    "addedPaths": 8,
+    "attachments": 8,
+    "strokes": 1100,
+    "accepted": 548,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 152,
+    "nativeObjects": 5491,
+    "numericParticipants": 0,
+    "layerPaths": [
+      2,
+      8,
+      2
+    ],
+    "focusComplete": [
+      true,
+      true,
+      true
+    ],
+    "palette": "Mulberry, malachite \u0026 citron"
+  }
+}

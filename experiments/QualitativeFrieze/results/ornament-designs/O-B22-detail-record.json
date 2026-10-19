@@ -1,0 +1,34 @@
+{
+  "mode": "detail",
+  "skeletonName": "Alternating pointed lozenges",
+  "plate": {
+    "id": "O-B22-detail",
+    "title": "B22 \u00B7 Tip buds on the trellis",
+    "sourceId": "B22",
+    "description": "Small local enrichments lead. Paired finite leaflets grow at selected published turns and edge landmarks; buds, pearls or small trefoils punctuate the surviving repeat. The large medallions from the intermediate design are absent. The same skeleton remains, but the introduced path set is deliberately different.",
+    "svg": "",
+    "units": 25,
+    "paths": 32,
+    "chords": 104,
+    "addedPaths": 28,
+    "attachments": 28,
+    "strokes": 2600,
+    "accepted": 370,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 30,
+    "nativeObjects": 16079,
+    "numericParticipants": 0,
+    "layerPaths": [
+      4,
+      4,
+      28
+    ],
+    "focusComplete": [
+      true,
+      true,
+      true
+    ],
+    "palette": "Blush, petrol \u0026 mulberry"
+  }
+}

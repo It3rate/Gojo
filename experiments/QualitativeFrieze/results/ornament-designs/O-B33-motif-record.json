@@ -1,0 +1,34 @@
+{
+  "mode": "motif",
+  "skeletonName": "Continuous angled courses and diamond loops",
+  "plate": {
+    "id": "O-B33-motif",
+    "title": "B33 \u00B7 Growing fret foliage",
+    "sourceId": "B33",
+    "description": "A repeated intermediate unit leads. Conventional leaves, tulips, trefoils, pinwheels or radial flowers reuse actual finite prototypes in explicit substitution images. Their centres and stems attach through public source landmarks with retained offsets. The original disposition is carried intact as the quieter construction.",
+    "svg": "",
+    "units": 25,
+    "paths": 26,
+    "chords": 122,
+    "addedPaths": 22,
+    "attachments": 22,
+    "strokes": 3050,
+    "accepted": 140,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 10,
+    "nativeObjects": 17288,
+    "numericParticipants": 0,
+    "layerPaths": [
+      4,
+      20,
+      6
+    ],
+    "focusComplete": [
+      true,
+      true,
+      true
+    ],
+    "palette": "Oxblood, lapis \u0026 shell"
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "mode": "motif",
+  "skeletonName": "Faceted shell-fan courses",
+  "plate": {
+    "id": "O-B28-motif",
+    "title": "B28 \u00B7 Lotus fan blossoms",
+    "sourceId": "B28",
+    "description": "A repeated intermediate unit leads. Conventional leaves, tulips, trefoils, pinwheels or radial flowers reuse actual finite prototypes in explicit substitution images. Their centres and stems attach through public source landmarks with retained offsets. The original disposition is carried intact as the quieter construction.",
+    "svg": "",
+    "units": 25,
+    "paths": 28,
+    "chords": 124,
+    "addedPaths": 20,
+    "attachments": 20,
+    "strokes": 3100,
+    "accepted": 1068,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 132,
+    "nativeObjects": 18617,
+    "numericParticipants": 0,
+    "layerPaths": [
+      8,
+      10,
+      18
+    ],
+    "focusComplete": [
+      true,
+      true,
+      true
+    ],
+    "palette": "Peacock, jade \u0026 coral"
+  }
+}

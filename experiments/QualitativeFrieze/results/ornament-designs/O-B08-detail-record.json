@@ -1,0 +1,34 @@
+{
+  "mode": "detail",
+  "skeletonName": "Intersecting diagonal ribbons",
+  "plate": {
+    "id": "O-B08-detail",
+    "title": "B08 \u00B7 Tip buds on the trellis",
+    "sourceId": "B08",
+    "description": "Small local enrichments lead. Paired finite leaflets grow at selected published turns and edge landmarks; buds, pearls or small trefoils punctuate the surviving repeat. The large medallions from the intermediate design are absent. The same skeleton remains, but the introduced path set is deliberately different.",
+    "svg": "",
+    "units": 25,
+    "paths": 30,
+    "chords": 88,
+    "addedPaths": 26,
+    "attachments": 26,
+    "strokes": 2200,
+    "accepted": 276,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 49,
+    "nativeObjects": 12011,
+    "numericParticipants": 0,
+    "layerPaths": [
+      4,
+      0,
+      30
+    ],
+    "focusComplete": [
+      true,
+      true,
+      true
+    ],
+    "palette": "Night garden, lilac \u0026 copper"
+  }
+}

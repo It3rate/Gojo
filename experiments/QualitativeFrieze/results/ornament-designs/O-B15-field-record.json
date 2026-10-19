@@ -1,0 +1,34 @@
+{
+  "mode": "field",
+  "skeletonName": "Two-family oblique mesh",
+  "plate": {
+    "id": "O-B15-field",
+    "title": "B15 \u00B7 Broad-leaf trellis",
+    "sourceId": "B15",
+    "description": "The large repeat leads: retained construction lines carry broad bands, finite inset compartments and sparse large conventional ornament. Subordinate seeds punctuate the centres. This is a separately authored design, with actual native additions and landmark-offset witnesses, rather than a recolouring of the other two designs.",
+    "svg": "",
+    "units": 25,
+    "paths": 5,
+    "chords": 24,
+    "addedPaths": 4,
+    "attachments": 4,
+    "strokes": 600,
+    "accepted": 193,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 57,
+    "nativeObjects": 3074,
+    "numericParticipants": 0,
+    "layerPaths": [
+      1,
+      4,
+      1
+    ],
+    "focusComplete": [
+      true,
+      true,
+      true
+    ],
+    "palette": "Chalk, ink-blue \u0026 terracotta"
+  }
+}

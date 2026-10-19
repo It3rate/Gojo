@@ -1,0 +1,34 @@
+{
+  "mode": "motif",
+  "skeletonName": "Intersecting diagonal ribbons",
+  "plate": {
+    "id": "O-B08-motif",
+    "title": "B08 \u00B7 Leaf and trefoil lattice",
+    "sourceId": "B08",
+    "description": "A repeated intermediate unit leads. Conventional leaves, tulips, trefoils, pinwheels or radial flowers reuse actual finite prototypes in explicit substitution images. Their centres and stems attach through public source landmarks with retained offsets. The original disposition is carried intact as the quieter construction.",
+    "svg": "",
+    "units": 25,
+    "paths": 12,
+    "chords": 64,
+    "addedPaths": 8,
+    "attachments": 8,
+    "strokes": 1600,
+    "accepted": 276,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 49,
+    "nativeObjects": 7153,
+    "numericParticipants": 0,
+    "layerPaths": [
+      4,
+      6,
+      6
+    ],
+    "focusComplete": [
+      true,
+      true,
+      true
+    ],
+    "palette": "Chalk, ink-blue \u0026 terracotta"
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "mode": "motif",
+  "skeletonName": "Interlocking serif-I compartments",
+  "plate": {
+    "id": "O-B13-motif",
+    "title": "B13 \u00B7 Growing fret foliage",
+    "sourceId": "B13",
+    "description": "A repeated intermediate unit leads. Conventional leaves, tulips, trefoils, pinwheels or radial flowers reuse actual finite prototypes in explicit substitution images. Their centres and stems attach through public source landmarks with retained offsets. The original disposition is carried intact as the quieter construction.",
+    "svg": "",
+    "units": 25,
+    "paths": 36,
+    "chords": 340,
+    "addedPaths": 32,
+    "attachments": 32,
+    "strokes": 8500,
+    "accepted": 1792,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 208,
+    "nativeObjects": 47796,
+    "numericParticipants": 0,
+    "layerPaths": [
+      4,
+      32,
+      4
+    ],
+    "focusComplete": [
+      true,
+      true,
+      true
+    ],
+    "palette": "Saffron, ink \u0026 porcelain"
+  }
+}

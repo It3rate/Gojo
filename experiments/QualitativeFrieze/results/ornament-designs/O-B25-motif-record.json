@@ -1,0 +1,34 @@
+{
+  "mode": "motif",
+  "skeletonName": "Six-point star junctions",
+  "plate": {
+    "id": "O-B25-motif",
+    "title": "B25 \u00B7 Sixfold conventional flowers",
+    "sourceId": "B25",
+    "description": "A repeated intermediate unit leads. Conventional leaves, tulips, trefoils, pinwheels or radial flowers reuse actual finite prototypes in explicit substitution images. Their centres and stems attach through public source landmarks with retained offsets. The original disposition is carried intact as the quieter construction.",
+    "svg": "",
+    "units": 25,
+    "paths": 11,
+    "chords": 75,
+    "addedPaths": 7,
+    "attachments": 7,
+    "strokes": 1875,
+    "accepted": 181,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 19,
+    "nativeObjects": 7607,
+    "numericParticipants": 0,
+    "layerPaths": [
+      4,
+      7,
+      4
+    ],
+    "focusComplete": [
+      true,
+      true,
+      true
+    ],
+    "palette": "Saffron, ink \u0026 porcelain"
+  }
+}

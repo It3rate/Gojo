@@ -1,0 +1,34 @@
+{
+  "mode": "detail",
+  "skeletonName": "Alternating-width orthogonal bands",
+  "plate": {
+    "id": "O-B07-detail",
+    "title": "B07 \u00B7 Woven edge seeds",
+    "sourceId": "B07",
+    "description": "Small local enrichments lead. Paired finite leaflets grow at selected published turns and edge landmarks; buds, pearls or small trefoils punctuate the surviving repeat. The large medallions from the intermediate design are absent. The same skeleton remains, but the introduced path set is deliberately different.",
+    "svg": "",
+    "units": 25,
+    "paths": 29,
+    "chords": 84,
+    "addedPaths": 25,
+    "attachments": 25,
+    "strokes": 2100,
+    "accepted": 276,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 49,
+    "nativeObjects": 10444,
+    "numericParticipants": 0,
+    "layerPaths": [
+      4,
+      0,
+      29
+    ],
+    "focusComplete": [
+      true,
+      true,
+      true
+    ],
+    "palette": "Mulberry, malachite \u0026 citron"
+  }
+}

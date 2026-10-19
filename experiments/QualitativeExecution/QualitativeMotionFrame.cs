@@ -85,16 +85,21 @@ public sealed class QualitativeMotionFrame
     {
         var residual = new List<IElement>(); var cancellations = new List<IElement>();
         var unresolved = new List<IElement>(); var incomplete = false;
+        // An ephemeral index of actual native direction participation. It only
+        // rules out absent opposite candidates; it does not replace reach
+        // identity, ordered cancellation or retained uncertainty evidence.
+        var directionCounts = new int[4];
         Append(before); Append(incoming);
         // Known unequal extents do not make the formal displacement incomplete.
         // They prevent a resolved net-direction/return claim at this resolution.
-        for (var i = 0; i < residual.Count; i++)
-            for (var j = i + 1; j < residual.Count; j++)
-                if (residual[i] is Relation a && residual[j] is Relation b &&
-                    Direction(a, out var axisA, out var faceA, out _) &&
-                    Direction(b, out var axisB, out var faceB, out _) &&
-                    ReferenceEquals(axisA, axisB) && faceA != faceB)
-                    unresolved.Add(new Relation(a, b));
+        if (directionCounts[0] != 0 && directionCounts[1] != 0 || directionCounts[2] != 0 && directionCounts[3] != 0)
+            for (var i = 0; i < residual.Count; i++)
+                for (var j = i + 1; j < residual.Count; j++)
+                    if (residual[i] is Relation a && residual[j] is Relation b &&
+                        Direction(a, out var axisA, out var faceA, out _) &&
+                        Direction(b, out var axisB, out var faceB, out _) &&
+                        ReferenceEquals(axisA, axisB) && faceA != faceB)
+                        unresolved.Add(new Relation(a, b));
         var result = incomplete ? StructuralConstraint.Open(residual.ToArray()) : StructuralConstraint.Closed(residual.ToArray());
         return new Relation(new Relation(Surface, new Relation(before, incoming)),
             new Relation(result, new Relation(StructuralConstraint.Closed(cancellations.ToArray()),
@@ -113,13 +118,15 @@ public sealed class QualitativeMotionFrame
                     incomplete = true; residual.Add(entry); unresolved.Add(new Relation(entry, Surface));
                     continue;
                 }
-                var inverse = residual.FindIndex(prior => prior is Relation other &&
+                var directionIndex = DirectionIndex(move);
+                var inverse = directionCounts[directionIndex ^ 1] == 0 ? -1 : residual.FindIndex(prior => prior is Relation other &&
                     Direction(other, out _, out _, out var otherReach) &&
                     FiniteLaw.SameParticipant(reach, otherReach) && Opposed(other, move));
-                if (inverse < 0) residual.Add(move);
+                if (inverse < 0) { residual.Add(move); directionCounts[directionIndex]++; }
                 else
                 {
                     cancellations.Add(new Relation(residual[inverse], move));
+                    directionCounts[DirectionIndex((Relation)residual[inverse])]--;
                     residual.RemoveAt(inverse);
                 }
             }
@@ -147,10 +154,18 @@ public sealed class QualitativeMotionFrame
     private bool Opposed(Relation a, Relation b) => FiniteLaw.Entries(Opposites).Any(entry =>
         entry is Relation pair && ReferenceEquals(pair.Left, a.Left) && ReferenceEquals(pair.Right, b.Left));
 
+    private int DirectionIndex(Relation move) => ReferenceEquals(move.Left, Right) ? 0 :
+        ReferenceEquals(move.Left, Left) ? 1 : ReferenceEquals(move.Left, Up) ? 2 :
+        ReferenceEquals(move.Left, Down) ? 3 : -1;
+
     private bool Accounted(Relation before, Relation incoming, IElement[] survivors, IElement[] pairs,
         IElement[] pending, bool closed)
     {
-        var participation = new List<IElement>(); var incomplete = false;
+        // The contract consumes actual occurrence identities as a multiset.
+        // This per-read index preserves repeated aliases without repeatedly
+        // searching and shifting a long list of source occurrences.
+        var participation = new Dictionary<IElement, int>(ReferenceEqualityComparer.Instance);
+        var participationCount = 0; var incomplete = false;
         var expectedCauses = new List<Relation>();
         Collect(before); Collect(incoming);
         if (closed && incomplete) return false;
@@ -161,14 +176,22 @@ public sealed class QualitativeMotionFrame
                 !Opposed(a, b) || !FiniteLaw.SameParticipant(reachA, reachB) || !Consume(a) || !Consume(b)) return false;
         }
         foreach (var survivor in survivors) if (!Consume(survivor)) return false;
-        if (participation.Count != 0) return false;
-        for (var i = 0; i < survivors.Length; i++)
-            for (var j = i + 1; j < survivors.Length; j++)
-                if (survivors[i] is Relation a && survivors[j] is Relation b &&
-                    Direction(a, out var axisA, out var faceA, out _) &&
-                    Direction(b, out var axisB, out var faceB, out _) &&
-                    ReferenceEquals(axisA, axisB) && faceA != faceB)
-                    expectedCauses.Add(new Relation(a, b));
+        if (participationCount != 0) return false;
+        var directions = 0;
+        foreach (var survivor in survivors)
+        {
+            if (survivor is not Relation move) continue;
+            var index = DirectionIndex(move);
+            if (index >= 0) directions |= 1 << index;
+        }
+        if ((directions & 3) == 3 || (directions & 12) == 12)
+            for (var i = 0; i < survivors.Length; i++)
+                for (var j = i + 1; j < survivors.Length; j++)
+                    if (survivors[i] is Relation a && survivors[j] is Relation b &&
+                        Direction(a, out var axisA, out var faceA, out _) &&
+                        Direction(b, out var axisB, out var faceB, out _) &&
+                        ReferenceEquals(axisA, axisB) && faceA != faceB)
+                        expectedCauses.Add(new Relation(a, b));
         foreach (var entry in pending)
         {
             if (entry is not Relation cause) return false;
@@ -187,7 +210,8 @@ public sealed class QualitativeMotionFrame
             { incomplete = true; expectedCauses.Add(new Relation(scope, tail)); }
             foreach (var entry in entries)
             {
-                participation.Add(entry);
+                participation.TryGetValue(entry, out var occurrences);
+                participation[entry] = checked(occurrences + 1); participationCount = checked(participationCount + 1);
                 if (entry is not Relation move || !Direction(move, out _, out _, out _))
                 { incomplete = true; expectedCauses.Add(new Relation(entry, Surface)); }
             }
@@ -195,9 +219,10 @@ public sealed class QualitativeMotionFrame
 
         bool Consume(IElement entry)
         {
-            var at = participation.FindIndex(candidate => ReferenceEquals(candidate, entry));
-            if (at < 0) return false;
-            participation.RemoveAt(at);
+            if (!participation.TryGetValue(entry, out var occurrences)) return false;
+            if (occurrences == 1) participation.Remove(entry);
+            else participation[entry] = occurrences - 1;
+            participationCount--;
             return true;
         }
     }

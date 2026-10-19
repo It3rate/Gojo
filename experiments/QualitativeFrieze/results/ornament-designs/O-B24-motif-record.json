@@ -1,0 +1,34 @@
+{
+  "mode": "motif",
+  "skeletonName": "Sliding triangles around shorter hexagon gaps",
+  "plate": {
+    "id": "O-B24-motif",
+    "title": "B24 \u00B7 Sixfold conventional flowers",
+    "sourceId": "B24",
+    "description": "A repeated intermediate unit leads. Conventional leaves, tulips, trefoils, pinwheels or radial flowers reuse actual finite prototypes in explicit substitution images. Their centres and stems attach through public source landmarks with retained offsets. The original disposition is carried intact as the quieter construction.",
+    "svg": "",
+    "units": 25,
+    "paths": 16,
+    "chords": 92,
+    "addedPaths": 14,
+    "attachments": 14,
+    "strokes": 2300,
+    "accepted": 212,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 38,
+    "nativeObjects": 10748,
+    "numericParticipants": 0,
+    "layerPaths": [
+      2,
+      14,
+      2
+    ],
+    "focusComplete": [
+      true,
+      true,
+      true
+    ],
+    "palette": "Blush, petrol \u0026 mulberry"
+  }
+}

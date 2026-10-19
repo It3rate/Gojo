@@ -1,0 +1,34 @@
+{
+  "mode": "motif",
+  "skeletonName": "Direct bent-cross compartments",
+  "plate": {
+    "id": "O-B10-motif",
+    "title": "B10 \u00B7 Growing fret foliage",
+    "sourceId": "B10",
+    "description": "A repeated intermediate unit leads. Conventional leaves, tulips, trefoils, pinwheels or radial flowers reuse actual finite prototypes in explicit substitution images. Their centres and stems attach through public source landmarks with retained offsets. The original disposition is carried intact as the quieter construction.",
+    "svg": "",
+    "units": 25,
+    "paths": 24,
+    "chords": 172,
+    "addedPaths": 22,
+    "attachments": 22,
+    "strokes": 4300,
+    "accepted": 690,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 135,
+    "nativeObjects": 23518,
+    "numericParticipants": 0,
+    "layerPaths": [
+      2,
+      22,
+      2
+    ],
+    "focusComplete": [
+      true,
+      true,
+      true
+    ],
+    "palette": "Peacock, jade \u0026 coral"
+  }
+}

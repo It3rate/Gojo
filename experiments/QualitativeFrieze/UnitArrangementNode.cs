@@ -94,6 +94,10 @@ public sealed class UnitArrangementNode : IUnitArrangementEndpoint
 
     private bool Build(UnitArrangementProgram program, IElement cause, out UnitArrangementRevision revision)
     {
+        // This closed synchronous operation has no external callbacks or
+        // concurrent graph edits. Keep repeated prefix authentication exact,
+        // but reuse the already checked immutable states/receipts locally.
+        using var readScope = Drawing.BeginSynchronousReadScope();
         revision = null!;
         if (!program.Complete()) return false;
         UnitArrangementProgram executable;
@@ -151,6 +155,8 @@ public sealed class UnitArrangementNode : IUnitArrangementEndpoint
 
     private bool Drive(PrimitiveFlowLeaf execution, out Relation receipts)
     {
+        using var readScope = Drawing.BeginSynchronousReadScope();
+        using var prefixScope = execution.Sequence.BeginSynchronousReadScope();
         var rows = new List<IElement>();
         var budget = E(execution.Sequence.Actions).Length;
         for (var index = 0; index < budget && E(execution.CompletionEvents).Length == 0; index++)

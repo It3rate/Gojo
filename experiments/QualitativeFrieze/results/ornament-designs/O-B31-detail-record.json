@@ -1,0 +1,34 @@
+{
+  "mode": "detail",
+  "skeletonName": "Slender outward arms and round markers",
+  "plate": {
+    "id": "O-B31-detail",
+    "title": "B31 \u00B7 Leaflets along the turns",
+    "sourceId": "B31",
+    "description": "Small local enrichments lead. Paired finite leaflets grow at selected published turns and edge landmarks; buds, pearls or small trefoils punctuate the surviving repeat. The large medallions from the intermediate design are absent. The same skeleton remains, but the introduced path set is deliberately different.",
+    "svg": "",
+    "units": 25,
+    "paths": 30,
+    "chords": 100,
+    "addedPaths": 25,
+    "attachments": 25,
+    "strokes": 2500,
+    "accepted": 175,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 0,
+    "nativeObjects": 22762,
+    "numericParticipants": 0,
+    "layerPaths": [
+      5,
+      1,
+      29
+    ],
+    "focusComplete": [
+      true,
+      true,
+      true
+    ],
+    "palette": "Oxblood, lapis \u0026 shell"
+  }
+}

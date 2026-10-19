@@ -1,0 +1,34 @@
+{
+  "mode": "detail",
+  "skeletonName": "Three-lozenge centred network",
+  "plate": {
+    "id": "O-B20-detail",
+    "title": "B20 \u00B7 Small trefoils and six-seed centres",
+    "sourceId": "B20",
+    "description": "Small local enrichments lead. Paired finite leaflets grow at selected published turns and edge landmarks; buds, pearls or small trefoils punctuate the surviving repeat. The large medallions from the intermediate design are absent. The same skeleton remains, but the introduced path set is deliberately different.",
+    "svg": "",
+    "units": 25,
+    "paths": 33,
+    "chords": 114,
+    "addedPaths": 30,
+    "attachments": 30,
+    "strokes": 2850,
+    "accepted": 730,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 95,
+    "nativeObjects": 15162,
+    "numericParticipants": 0,
+    "layerPaths": [
+      3,
+      6,
+      27
+    ],
+    "focusComplete": [
+      true,
+      true,
+      true
+    ],
+    "palette": "Peacock, jade \u0026 coral"
+  }
+}

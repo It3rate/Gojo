@@ -1,0 +1,34 @@
+{
+  "mode": "detail",
+  "skeletonName": "Closed stepped-arm compartments",
+  "plate": {
+    "id": "O-B12-detail",
+    "title": "B12 \u00B7 Leaflets along the turns",
+    "sourceId": "B12",
+    "description": "Small local enrichments lead. Paired finite leaflets grow at selected published turns and edge landmarks; buds, pearls or small trefoils punctuate the surviving repeat. The large medallions from the intermediate design are absent. The same skeleton remains, but the introduced path set is deliberately different.",
+    "svg": "",
+    "units": 25,
+    "paths": 32,
+    "chords": 152,
+    "addedPaths": 28,
+    "attachments": 28,
+    "strokes": 3800,
+    "accepted": 1292,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 208,
+    "nativeObjects": 45802,
+    "numericParticipants": 0,
+    "layerPaths": [
+      4,
+      4,
+      28
+    ],
+    "focusComplete": [
+      true,
+      true,
+      true
+    ],
+    "palette": "Celadon, plum \u0026 apricot"
+  }
+}

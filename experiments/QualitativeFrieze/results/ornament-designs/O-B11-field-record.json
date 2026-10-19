@@ -1,0 +1,34 @@
+{
+  "mode": "field",
+  "skeletonName": "Returned rows of bent crosses",
+  "plate": {
+    "id": "O-B11-field",
+    "title": "B11 \u00B7 Ribbon and window brocade",
+    "sourceId": "B11",
+    "description": "The large repeat leads: retained construction lines carry broad bands, finite inset compartments and sparse large conventional ornament. Subordinate seeds punctuate the centres. This is a separately authored design, with actual native additions and landmark-offset witnesses, rather than a recolouring of the other two designs.",
+    "svg": "",
+    "units": 25,
+    "paths": 16,
+    "chords": 160,
+    "addedPaths": 12,
+    "attachments": 12,
+    "strokes": 4000,
+    "accepted": 1445,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 205,
+    "nativeObjects": 25589,
+    "numericParticipants": 0,
+    "layerPaths": [
+      4,
+      12,
+      4
+    ],
+    "focusComplete": [
+      true,
+      true,
+      true
+    ],
+    "palette": "Night garden, lilac \u0026 copper"
+  }
+}

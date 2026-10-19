@@ -1,0 +1,34 @@
+{
+  "mode": "motif",
+  "skeletonName": "Angled paired-band courses",
+  "plate": {
+    "id": "O-B27-motif",
+    "title": "B27 \u00B7 Sprouting chevron flowers",
+    "sourceId": "B27",
+    "description": "A repeated intermediate unit leads. Conventional leaves, tulips, trefoils, pinwheels or radial flowers reuse actual finite prototypes in explicit substitution images. Their centres and stems attach through public source landmarks with retained offsets. The original disposition is carried intact as the quieter construction.",
+    "svg": "",
+    "units": 25,
+    "paths": 8,
+    "chords": 36,
+    "addedPaths": 4,
+    "attachments": 4,
+    "strokes": 900,
+    "accepted": 105,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 20,
+    "nativeObjects": 4285,
+    "numericParticipants": 0,
+    "layerPaths": [
+      4,
+      4,
+      4
+    ],
+    "focusComplete": [
+      true,
+      true,
+      true
+    ],
+    "palette": "Oxblood, lapis \u0026 shell"
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "mode": "detail",
+  "skeletonName": "Running brick bond",
+  "plate": {
+    "id": "O-B01-detail",
+    "title": "B01 \u00B7 Border buds and fine stems",
+    "sourceId": "B01",
+    "description": "Small local enrichments lead. Paired finite leaflets grow at selected published turns and edge landmarks; buds, pearls or small trefoils punctuate the surviving repeat. The large medallions from the intermediate design are absent. The same skeleton remains, but the introduced path set is deliberately different.",
+    "svg": "",
+    "units": 25,
+    "paths": 24,
+    "chords": 68,
+    "addedPaths": 20,
+    "attachments": 20,
+    "strokes": 1700,
+    "accepted": 175,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 25,
+    "nativeObjects": 8345,
+    "numericParticipants": 0,
+    "layerPaths": [
+      4,
+      0,
+      24
+    ],
+    "focusComplete": [
+      true,
+      true,
+      true
+    ],
+    "palette": "Celadon, plum \u0026 apricot"
+  }
+}

@@ -128,6 +128,13 @@ public static partial class BourgoinColourExperiment
             var correspondences = (Relation)application.Left;
             var pathRows = N.E((Relation)correspondences.Left).Cast<Relation>().ToArray();
             var receipts = N.E(revision.Receipts).Cast<Relation>().Where(row => unit.Drawing.TryReadDraw(row.Left, out _)).ToArray();
+            var byWord = new Dictionary<IElement, Queue<Relation>>(N.Participants.Instance);
+            foreach (var receipt in receipts)
+            {
+                unit.Drawing.TryReadDraw(receipt.Left, out var actual);
+                if (!byWord.TryGetValue(actual, out var queue)) byWord.Add(actual, queue = new());
+                queue.Enqueue(receipt);
+            }
             var used = new HashSet<Relation>(ReferenceEqualityComparer.Instance);
             foreach (var pathRow in pathRows)
             {
@@ -135,9 +142,8 @@ public static partial class BourgoinColourExperiment
                 var points = new List<Point>();
                 foreach (var word in N.E((Relation)placedPath.Right).Cast<Relation>())
                 {
-                    var row = receipts.FirstOrDefault(candidate => !used.Contains(candidate) &&
-                        unit.Drawing.TryReadDraw(candidate.Left, out var actual) && ReferenceEquals(actual, word));
-                    if (row is null || !unit.Drawing.TryReadAccepted((Relation)row.Right, out _, out var added) || N.E(added) is not [Relation stroke] ||
+                    if (!byWord.TryGetValue(word, out var queue) || !queue.TryDequeue(out var row) ||
+                        !unit.Drawing.TryReadAccepted((Relation)row.Right, out _, out var added) || N.E(added) is not [Relation stroke] ||
                         !QualitativeStrokeGraph.TryReadStroke(stroke, out _, out var from, out var to, out _))
                         throw new InvalidOperationException("A presented chord must have one actual acknowledged stroke.");
                     used.Add(row); if (points.Count == 0) points.Add(positions[from]); points.Add(positions[to]);

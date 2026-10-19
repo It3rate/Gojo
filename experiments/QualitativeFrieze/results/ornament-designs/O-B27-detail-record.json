@@ -1,0 +1,34 @@
+{
+  "mode": "detail",
+  "skeletonName": "Angled paired-band courses",
+  "plate": {
+    "id": "O-B27-detail",
+    "title": "B27 \u00B7 Fine chevron seeds",
+    "sourceId": "B27",
+    "description": "Small local enrichments lead. Paired finite leaflets grow at selected published turns and edge landmarks; buds, pearls or small trefoils punctuate the surviving repeat. The large medallions from the intermediate design are absent. The same skeleton remains, but the introduced path set is deliberately different.",
+    "svg": "",
+    "units": 25,
+    "paths": 29,
+    "chords": 90,
+    "addedPaths": 25,
+    "attachments": 25,
+    "strokes": 2250,
+    "accepted": 105,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 20,
+    "nativeObjects": 12835,
+    "numericParticipants": 0,
+    "layerPaths": [
+      4,
+      1,
+      28
+    ],
+    "focusComplete": [
+      true,
+      true,
+      true
+    ],
+    "palette": "Ivory, oxblood \u0026 sage"
+  }
+}

@@ -1,5 +1,16 @@
 # Qualitative frieze generators
 
+The [full colour collection](results/ornament-designs/gallery.html) extends all
+36 Bourgoin skeletons into 108 distinct designs. Compare broad geometric
+fields, intermediate flowers/foliage and fine local enrichment on the
+[single large page](results/ornament-designs/overview.html), or zoom the
+combined SVG. The [study](../../Gojo/docs/GojoOrnamentDesignCollection.md)
+separates native construction and landmark attachments from display choices.
+
+~~~powershell
+dotnet run --project experiments/QualitativeFrieze -c Release -- --ornament-designs
+~~~
+
 Authored generators combine the existing qualitative phase machinery with
 explicit event routes, unmeasured shared reaches and sampling connections.
 Their native source graphs contain relations and placeholders, with no carriers

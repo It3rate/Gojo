@@ -61,6 +61,23 @@ public sealed class QualitativeDrawingReceiver
     private readonly Relation movementRoute;
     private readonly Relation reset;
     private readonly Relation anchor;
+    private int readScopeDepth;
+    private Dictionary<Relation, StateRead>? stateReads;
+    private Dictionary<Relation, (Relation After, Relation Strokes)>? acceptedReads;
+
+    /// <summary>Reuses successful exact reads during one synchronous local
+    /// execution. The caller must not concurrently retarget its input graph.
+    /// New states and receipts are still checked in full. All cached verdicts
+    /// are discarded when the outer scope ends; ordinary reads remain fresh.</summary>
+    public IDisposable BeginSynchronousReadScope()
+    {
+        if (readScopeDepth++ == 0)
+        {
+            stateReads = new(ReferenceEqualityComparer.Instance);
+            acceptedReads = new(ReferenceEqualityComparer.Instance);
+        }
+        return new ReadScope(this);
+    }
 
     public QualitativeDrawingReceiver(QualitativeMotionFrame frame, IElement? source = null,
         IElement? initialEvent = null, IElement? initialSite = null)
@@ -212,24 +229,45 @@ public sealed class QualitativeDrawingReceiver
         out Relation orientation, out Relation sites, out Relation strokes, out Relation history)
     {
         eventIdentity = null!; cursor = anchorBinding = orientation = sites = strokes = history = null!;
+        if (stateReads is not null && stateReads.TryGetValue(state, out var remembered))
+        {
+            eventIdentity = remembered.Event; cursor = remembered.Cursor; anchorBinding = remembered.Anchor;
+            orientation = remembered.Orientation; sites = remembered.Sites; strokes = remembered.Strokes; history = remembered.History;
+            return true;
+        }
         if (state.Left is not Relation { Right: Relation owner } context || !ReferenceEquals(context.Left, Surface) || !Same(owner.Left, Source) ||
             state.Right is not Relation { Left: Relation positions, Right: Relation body } ||
             positions.Left is not Relation current || positions.Right is not Relation mark ||
             body.Left is not Relation { Left: Relation frame, Right: Relation bindings } ||
             body.Right is not Relation { Left: Relation ledger } || ledger.Left is not Relation ink || ledger.Right is not Relation events ||
-            !ValidOrientation(frame) || !Closed(bindings) || !Closed(ink) || !Closed(events) || E(events).Length == 0 ||
-            !Same(E(events)[^1], owner.Right) || !Unique(E(events)) ||
-            E(bindings).Any(item => item is not Relation binding || binding.Right is not Relation position || !ValidWord(position)) ||
-            !Unique(E(bindings).Cast<Relation>().Select(binding => binding.Left).ToArray()) ||
-            !E(bindings).Any(item => ReferenceEquals(item, current)) || !E(bindings).Any(item => ReferenceEquals(item, mark))) return false;
+            !ValidOrientation(frame) || !Closed(bindings) || !Closed(ink) || !Closed(events)) return false;
+        // These are indexes over this one exact read, never retained state or
+        // substitute ownership. Every event, binding, word and stroke below is
+        // still admitted. Rewalking the whole scope per stroke made a long
+        // ledger needlessly quadratic before its local checks even began.
+        var eventRows = E(events); var bindingRows = E(bindings);
+        if (eventRows.Length == 0 || !Same(eventRows[^1], owner.Right)) return false;
+        var eventSet = new HashSet<IElement>(ParticipantComparer.Instance);
+        foreach (var item in eventRows) if (!eventSet.Add(item)) return false;
+        var bindingSet = new HashSet<IElement>(ParticipantComparer.Instance);
+        var words = new Dictionary<Relation, bool>(ReferenceEqualityComparer.Instance);
+        foreach (var item in bindingRows)
+            if (item is not Relation binding || binding.Right is not Relation position ||
+                !Word(position) || !bindingSet.Add(binding.Left)) return false;
+        if (!bindingRows.Any(item => ReferenceEquals(item, current)) || !bindingRows.Any(item => ReferenceEquals(item, mark))) return false;
         foreach (var stroke in E(ink))
-            if (stroke is not Relation row || !TryReadStroke(row, out var cause, out var from, out var to, out var chord) || !ValidWord(chord) ||
+            if (stroke is not Relation row || !TryReadStroke(row, out var cause, out var from, out var to, out var chord) || !Word(chord) ||
                 cause is not Relation strokeOffer || !ReadOffer(strokeOffer, out var source, out var occurrence, out _, out _, out _) ||
-                !Same(source, Source) || !E(events).Any(item => Same(item, occurrence)) ||
-                !E(bindings).Cast<Relation>().Any(binding => Same(binding.Left, from)) ||
-                !E(bindings).Cast<Relation>().Any(binding => Same(binding.Left, to))) return false;
+                !Same(source, Source) || !eventSet.Contains(occurrence) || !bindingSet.Contains(from) || !bindingSet.Contains(to)) return false;
         eventIdentity = owner.Right; cursor = current; anchorBinding = mark; orientation = frame; sites = bindings; strokes = ink; history = events;
+        stateReads?.TryAdd(state, new(owner.Right, current, mark, frame, bindings, ink, events));
         return true;
+
+        bool Word(Relation word)
+        {
+            if (!words.TryGetValue(word, out var valid)) { valid = ValidWord(word); words.Add(word, valid); }
+            return valid;
+        }
     }
 
     public bool TryReadStep(Relation receipt, out Relation before, out Relation offer, out Relation after,
@@ -251,6 +289,8 @@ public sealed class QualitativeDrawingReceiver
     public bool TryReadAccepted(Relation receipt, out Relation after, out Relation addedStrokes)
     {
         after = addedStrokes = null!;
+        if (acceptedReads is not null && acceptedReads.TryGetValue(receipt, out var remembered))
+        { after = remembered.After; addedStrokes = remembered.Strokes; return true; }
         if (!TryReadStep(receipt, out var before, out var offer, out var current, out var accepted, out var blocked, out var pending) ||
             E(accepted) is not [var admitted] || !ReferenceEquals(admitted, offer) || E(blocked).Length != 0 || E(pending).Length != 0 ||
             !TryReadState(before, out var prior, out var cursor, out var mark, out var orientation, out var sites, out var strokes, out var history) ||
@@ -306,7 +346,8 @@ public sealed class QualitativeDrawingReceiver
             }
             else return false;
         }
-        after = current; addedStrokes = S(extra.ToArray()); return true;
+        after = current; addedStrokes = S(extra.ToArray());
+        acceptedReads?.TryAdd(receipt, (after, addedStrokes)); return true;
     }
 
     public static bool TryReadStroke(Relation row, out IElement cause, out IElement from, out IElement to, out Relation chord)
@@ -446,6 +487,27 @@ public sealed class QualitativeDrawingReceiver
         E(before).Zip(E(after)).All(pair => ReferenceEquals(pair.First, pair.Second)) && Same(E(after)[^1], last);
     private static bool Unique(IElement[] items) => items.Select((item, i) => items.Take(i).Any(other => Same(item, other))).All(duplicate => !duplicate);
     private static bool Same(IElement a, IElement b) => ReferenceEquals(a, b) || a is Placeholder x && b is Placeholder y && x.Equals(y);
+    private sealed class ParticipantComparer : IEqualityComparer<IElement>
+    {
+        public static readonly ParticipantComparer Instance = new();
+        public bool Equals(IElement? x, IElement? y) => ReferenceEquals(x, y) ||
+            x is Placeholder a && y is Placeholder b && a.Equals(b);
+        public int GetHashCode(IElement item) => item is Placeholder slot ? slot.GetHashCode() :
+            System.Runtime.CompilerServices.RuntimeHelpers.GetHashCode(item);
+    }
+    private sealed record StateRead(IElement Event, Relation Cursor, Relation Anchor,
+        Relation Orientation, Relation Sites, Relation Strokes, Relation History);
+    private sealed class ReadScope(QualitativeDrawingReceiver owner) : IDisposable
+    {
+        private QualitativeDrawingReceiver? receiver = owner;
+        public void Dispose()
+        {
+            if (receiver is not { } current) return;
+            receiver = null;
+            if (--current.readScopeDepth != 0) return;
+            current.stateReads = null; current.acceptedReads = null;
+        }
+    }
     private static Relation S(params IElement[] entries) => StructuralConstraint.Closed(entries);
     private static bool Closed(Relation scope) => StructuralConstraint.TryReadScope(scope, out _, out var seam, out var tail) && seam.Equals(tail);
     private static IElement[] E(Relation scope) => StructuralConstraint.TryReadScope(scope, out var entries, out _, out _) ? entries : [];

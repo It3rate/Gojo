@@ -1,0 +1,34 @@
+{
+  "mode": "motif",
+  "skeletonName": "Honeycomb from three reused contours",
+  "plate": {
+    "id": "O-B04-motif",
+    "title": "B04 \u00B7 Sixfold conventional flowers",
+    "sourceId": "B04",
+    "description": "A repeated intermediate unit leads. Conventional leaves, tulips, trefoils, pinwheels or radial flowers reuse actual finite prototypes in explicit substitution images. Their centres and stems attach through public source landmarks with retained offsets. The original disposition is carried intact as the quieter construction.",
+    "svg": "",
+    "units": 25,
+    "paths": 24,
+    "chords": 174,
+    "addedPaths": 21,
+    "attachments": 21,
+    "strokes": 4350,
+    "accepted": 573,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 102,
+    "nativeObjects": 15347,
+    "numericParticipants": 0,
+    "layerPaths": [
+      3,
+      21,
+      3
+    ],
+    "focusComplete": [
+      true,
+      true,
+      true
+    ],
+    "palette": "Oxblood, lapis \u0026 shell"
+  }
+}

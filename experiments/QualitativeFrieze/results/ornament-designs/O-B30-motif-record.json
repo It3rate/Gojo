@@ -1,0 +1,34 @@
+{
+  "mode": "motif",
+  "skeletonName": "Faceted cloud-scale arches",
+  "plate": {
+    "id": "O-B30-motif",
+    "title": "B30 \u00B7 Round leaves in the cloud valleys",
+    "sourceId": "B30",
+    "description": "A repeated intermediate unit leads. Conventional leaves, tulips, trefoils, pinwheels or radial flowers reuse actual finite prototypes in explicit substitution images. Their centres and stems attach through public source landmarks with retained offsets. The original disposition is carried intact as the quieter construction.",
+    "svg": "",
+    "units": 25,
+    "paths": 36,
+    "chords": 276,
+    "addedPaths": 32,
+    "attachments": 32,
+    "strokes": 6900,
+    "accepted": 351,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 49,
+    "nativeObjects": 72456,
+    "numericParticipants": 0,
+    "layerPaths": [
+      4,
+      16,
+      20
+    ],
+    "focusComplete": [
+      true,
+      true,
+      true
+    ],
+    "palette": "Blush, petrol \u0026 mulberry"
+  }
+}

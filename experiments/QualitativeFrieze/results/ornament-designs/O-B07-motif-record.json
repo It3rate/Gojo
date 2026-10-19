@@ -1,0 +1,34 @@
+{
+  "mode": "motif",
+  "skeletonName": "Alternating-width orthogonal bands",
+  "plate": {
+    "id": "O-B07-motif",
+    "title": "B07 \u00B7 Alternating woven leaf pairs",
+    "sourceId": "B07",
+    "description": "A repeated intermediate unit leads. Conventional leaves, tulips, trefoils, pinwheels or radial flowers reuse actual finite prototypes in explicit substitution images. Their centres and stems attach through public source landmarks with retained offsets. The original disposition is carried intact as the quieter construction.",
+    "svg": "",
+    "units": 25,
+    "paths": 7,
+    "chords": 28,
+    "addedPaths": 3,
+    "attachments": 3,
+    "strokes": 700,
+    "accepted": 276,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 49,
+    "nativeObjects": 3498,
+    "numericParticipants": 0,
+    "layerPaths": [
+      4,
+      2,
+      5
+    ],
+    "focusComplete": [
+      true,
+      true,
+      true
+    ],
+    "palette": "Ultramarine, sky \u0026 vermilion"
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "mode": "detail",
+  "skeletonName": "Continuous angled courses and diamond loops",
+  "plate": {
+    "id": "O-B33-detail",
+    "title": "B33 \u00B7 Leaflets along the turns",
+    "sourceId": "B33",
+    "description": "Small local enrichments lead. Paired finite leaflets grow at selected published turns and edge landmarks; buds, pearls or small trefoils punctuate the surviving repeat. The large medallions from the intermediate design are absent. The same skeleton remains, but the introduced path set is deliberately different.",
+    "svg": "",
+    "units": 25,
+    "paths": 30,
+    "chords": 94,
+    "addedPaths": 26,
+    "attachments": 26,
+    "strokes": 2350,
+    "accepted": 140,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 10,
+    "nativeObjects": 17702,
+    "numericParticipants": 0,
+    "layerPaths": [
+      4,
+      0,
+      30
+    ],
+    "focusComplete": [
+      true,
+      true,
+      true
+    ],
+    "palette": "Ivory, oxblood \u0026 sage"
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "mode": "motif",
+  "skeletonName": "Detached S-shaped fret units",
+  "plate": {
+    "id": "O-B09-motif",
+    "title": "B09 \u00B7 Growing fret foliage",
+    "sourceId": "B09",
+    "description": "A repeated intermediate unit leads. Conventional leaves, tulips, trefoils, pinwheels or radial flowers reuse actual finite prototypes in explicit substitution images. Their centres and stems attach through public source landmarks with retained offsets. The original disposition is carried intact as the quieter construction.",
+    "svg": "",
+    "units": 25,
+    "paths": 12,
+    "chords": 69,
+    "addedPaths": 11,
+    "attachments": 11,
+    "strokes": 1725,
+    "accepted": 0,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 0,
+    "nativeObjects": 7465,
+    "numericParticipants": 0,
+    "layerPaths": [
+      1,
+      10,
+      2
+    ],
+    "focusComplete": [
+      true,
+      true,
+      true
+    ],
+    "palette": "Oxblood, lapis \u0026 shell"
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "mode": "detail",
+  "skeletonName": "Three-family triangular mesh",
+  "plate": {
+    "id": "O-B16-detail",
+    "title": "B16 \u00B7 Tip buds on the trellis",
+    "sourceId": "B16",
+    "description": "Small local enrichments lead. Paired finite leaflets grow at selected published turns and edge landmarks; buds, pearls or small trefoils punctuate the surviving repeat. The large medallions from the intermediate design are absent. The same skeleton remains, but the introduced path set is deliberately different.",
+    "svg": "",
+    "units": 25,
+    "paths": 16,
+    "chords": 66,
+    "addedPaths": 14,
+    "attachments": 14,
+    "strokes": 1650,
+    "accepted": 548,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 152,
+    "nativeObjects": 7913,
+    "numericParticipants": 0,
+    "layerPaths": [
+      2,
+      2,
+      14
+    ],
+    "focusComplete": [
+      true,
+      true,
+      true
+    ],
+    "palette": "Blush, petrol \u0026 mulberry"
+  }
+}

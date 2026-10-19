@@ -1,0 +1,34 @@
+{
+  "mode": "motif",
+  "skeletonName": "Rectangle mesh with diagonal ties",
+  "plate": {
+    "id": "O-B17-motif",
+    "title": "B17 \u00B7 Leaf and trefoil lattice",
+    "sourceId": "B17",
+    "description": "A repeated intermediate unit leads. Conventional leaves, tulips, trefoils, pinwheels or radial flowers reuse actual finite prototypes in explicit substitution images. Their centres and stems attach through public source landmarks with retained offsets. The original disposition is carried intact as the quieter construction.",
+    "svg": "",
+    "units": 25,
+    "paths": 7,
+    "chords": 30,
+    "addedPaths": 4,
+    "attachments": 4,
+    "strokes": 750,
+    "accepted": 735,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 190,
+    "nativeObjects": 3855,
+    "numericParticipants": 0,
+    "layerPaths": [
+      3,
+      4,
+      3
+    ],
+    "focusComplete": [
+      true,
+      true,
+      true
+    ],
+    "palette": "Ivory, oxblood \u0026 sage"
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "mode": "detail",
+  "skeletonName": "Six-point star junctions",
+  "plate": {
+    "id": "O-B25-detail",
+    "title": "B25 \u00B7 Small trefoils and six-seed centres",
+    "sourceId": "B25",
+    "description": "Small local enrichments lead. Paired finite leaflets grow at selected published turns and edge landmarks; buds, pearls or small trefoils punctuate the surviving repeat. The large medallions from the intermediate design are absent. The same skeleton remains, but the introduced path set is deliberately different.",
+    "svg": "",
+    "units": 25,
+    "paths": 23,
+    "chords": 82,
+    "addedPaths": 19,
+    "attachments": 19,
+    "strokes": 2050,
+    "accepted": 181,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 19,
+    "nativeObjects": 14201,
+    "numericParticipants": 0,
+    "layerPaths": [
+      4,
+      2,
+      21
+    ],
+    "focusComplete": [
+      true,
+      true,
+      true
+    ],
+    "palette": "Oxblood, lapis \u0026 shell"
+  }
+}

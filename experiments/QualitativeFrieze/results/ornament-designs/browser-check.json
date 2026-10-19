@@ -1,0 +1,20 @@
+{
+  "cards": 36,
+  "designs": 108,
+  "desktopOverflow": false,
+  "mobileOverflow": false,
+  "overviewDesktopOverflow": false,
+  "overviewMobileOverflow": false,
+  "overviewCards": 36,
+  "overviewImages": 108,
+  "errors": [],
+  "badLinks": [],
+  "svgErrors": [],
+  "nativeErrors": [],
+  "differentGeometry": true,
+  "controls": {
+    "fields": true,
+    "independent": true,
+    "construction": true
+  }
+}

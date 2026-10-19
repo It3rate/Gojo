@@ -1,0 +1,34 @@
+{
+  "mode": "motif",
+  "skeletonName": "Slender outward arms and round markers",
+  "plate": {
+    "id": "O-B31-motif",
+    "title": "B31 \u00B7 Growing fret foliage",
+    "sourceId": "B31",
+    "description": "A repeated intermediate unit leads. Conventional leaves, tulips, trefoils, pinwheels or radial flowers reuse actual finite prototypes in explicit substitution images. Their centres and stems attach through public source landmarks with retained offsets. The original disposition is carried intact as the quieter construction.",
+    "svg": "",
+    "units": 25,
+    "paths": 22,
+    "chords": 112,
+    "addedPaths": 17,
+    "attachments": 17,
+    "strokes": 2800,
+    "accepted": 175,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 0,
+    "nativeObjects": 14548,
+    "numericParticipants": 0,
+    "layerPaths": [
+      5,
+      17,
+      5
+    ],
+    "focusComplete": [
+      true,
+      true,
+      true
+    ],
+    "palette": "Saffron, ink \u0026 porcelain"
+  }
+}

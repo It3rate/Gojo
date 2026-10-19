@@ -1,0 +1,34 @@
+{
+  "mode": "detail",
+  "skeletonName": "Flat-tipped stars and twelve-ray florets",
+  "plate": {
+    "id": "O-B26-detail",
+    "title": "B26 \u00B7 Small trefoils and six-seed centres",
+    "sourceId": "B26",
+    "description": "Small local enrichments lead. Paired finite leaflets grow at selected published turns and edge landmarks; buds, pearls or small trefoils punctuate the surviving repeat. The large medallions from the intermediate design are absent. The same skeleton remains, but the introduced path set is deliberately different.",
+    "svg": "",
+    "units": 25,
+    "paths": 32,
+    "chords": 109,
+    "addedPaths": 19,
+    "attachments": 19,
+    "strokes": 2725,
+    "accepted": 1863,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 62,
+    "nativeObjects": 16590,
+    "numericParticipants": 0,
+    "layerPaths": [
+      13,
+      2,
+      30
+    ],
+    "focusComplete": [
+      true,
+      true,
+      true
+    ],
+    "palette": "Peacock, jade \u0026 coral"
+  }
+}

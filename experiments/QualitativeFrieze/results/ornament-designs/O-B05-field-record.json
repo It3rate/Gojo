@@ -1,0 +1,34 @@
+{
+  "mode": "field",
+  "skeletonName": "Hexagons with triangular interstices",
+  "plate": {
+    "id": "O-B05-field",
+    "title": "B05 \u00B7 Lotus and star field",
+    "sourceId": "B05",
+    "description": "The large repeat leads: retained construction lines carry broad bands, finite inset compartments and sparse large conventional ornament. Subordinate seeds punctuate the centres. This is a separately authored design, with actual native additions and landmark-offset witnesses, rather than a recolouring of the other two designs.",
+    "svg": "",
+    "units": 25,
+    "paths": 5,
+    "chords": 26,
+    "addedPaths": 4,
+    "attachments": 4,
+    "strokes": 650,
+    "accepted": 101,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 24,
+    "nativeObjects": 3292,
+    "numericParticipants": 0,
+    "layerPaths": [
+      1,
+      3,
+      2
+    ],
+    "focusComplete": [
+      true,
+      true,
+      true
+    ],
+    "palette": "Mulberry, malachite \u0026 citron"
+  }
+}

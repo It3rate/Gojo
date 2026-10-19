@@ -1,0 +1,34 @@
+{
+  "mode": "detail",
+  "skeletonName": "Hexagons with triangular interstices",
+  "plate": {
+    "id": "O-B05-detail",
+    "title": "B05 \u00B7 Small trefoils and six-seed centres",
+    "sourceId": "B05",
+    "description": "Small local enrichments lead. Paired finite leaflets grow at selected published turns and edge landmarks; buds, pearls or small trefoils punctuate the surviving repeat. The large medallions from the intermediate design are absent. The same skeleton remains, but the introduced path set is deliberately different.",
+    "svg": "",
+    "units": 25,
+    "paths": 11,
+    "chords": 40,
+    "addedPaths": 10,
+    "attachments": 10,
+    "strokes": 1000,
+    "accepted": 101,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 24,
+    "nativeObjects": 5787,
+    "numericParticipants": 0,
+    "layerPaths": [
+      1,
+      2,
+      9
+    ],
+    "focusComplete": [
+      true,
+      true,
+      true
+    ],
+    "palette": "Blush, petrol \u0026 mulberry"
+  }
+}

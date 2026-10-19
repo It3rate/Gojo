@@ -1,0 +1,34 @@
+{
+  "mode": "motif",
+  "skeletonName": "Oblique running bond",
+  "plate": {
+    "id": "O-B19-motif",
+    "title": "B19 \u00B7 Tulips in the panels",
+    "sourceId": "B19",
+    "description": "A repeated intermediate unit leads. Conventional leaves, tulips, trefoils, pinwheels or radial flowers reuse actual finite prototypes in explicit substitution images. Their centres and stems attach through public source landmarks with retained offsets. The original disposition is carried intact as the quieter construction.",
+    "svg": "",
+    "units": 25,
+    "paths": 5,
+    "chords": 23,
+    "addedPaths": 4,
+    "attachments": 4,
+    "strokes": 575,
+    "accepted": 177,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 48,
+    "nativeObjects": 3432,
+    "numericParticipants": 0,
+    "layerPaths": [
+      1,
+      2,
+      3
+    ],
+    "focusComplete": [
+      true,
+      true,
+      true
+    ],
+    "palette": "Saffron, ink \u0026 porcelain"
+  }
+}

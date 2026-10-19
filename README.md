@@ -108,6 +108,13 @@ The [coloured ornament collection](experiments/QualitativeFrieze/results/coloure
 adds native landmark-bound petals, leaves and medallions, with three selectable
 focuses guided by Jones's colour and hierarchy proposals. Its
 [study](Gojo/docs/GojoColouredOrnamentStudy.md) also corrects B32's diagonal continuation.
+The [full ornament design collection](experiments/QualitativeFrieze/results/ornament-designs/gallery.html)
+extends all 36 skeletons into 108 separately constructed designs, with
+geometric fields, intermediate flowers and foliage, and fine local details.
+Its [single-page sheet](experiments/QualitativeFrieze/results/ornament-designs/overview.html)
+puts all three versions of every skeleton together; the
+[construction study](Gojo/docs/GojoOrnamentDesignCollection.md) describes the
+finer unmeasured vocabulary and native attachment evidence.
 
 For example, run the prospective-prediction experiment and its notebook tests
 from the repository root:

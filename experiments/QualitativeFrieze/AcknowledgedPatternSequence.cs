@@ -24,6 +24,18 @@ public sealed class AcknowledgedPatternSequence
     private readonly IElement source = new Placeholder();
     private readonly IElement refinement = new Placeholder();
     private readonly Relation hold = S();
+    private int readScopeDepth;
+    private Dictionary<Relation, HashSet<Relation>>? prefixReads;
+
+    /// <summary>Reuses authenticated prefix/controller pairs during one
+    /// closed synchronous execution, with no concurrent input retargeting.
+    /// Every new edge is still checked. Neither the native cycle history nor
+    /// its evidence is shortened, and ordinary reads outside the scope are fresh.</summary>
+    public IDisposable BeginSynchronousReadScope()
+    {
+        if (readScopeDepth++ == 0) prefixReads = new(ReferenceEqualityComparer.Instance);
+        return new ReadScope(this);
+    }
 
     public string Name { get; }
     public QualitativeDrawingReceiver Drawing { get; }
@@ -253,8 +265,15 @@ public sealed class AcknowledgedPatternSequence
 
     // Retained cycle receipts are authenticated by the actual phase state's
     // producer evidence, rather than by membership in a hosted history list.
+    /// <summary>Authenticates an exposed receipt prefix against the exact
+    /// controller state produced by its accepted effects. A structurally copied
+    /// scope is readable through its actual entries; an omitted effect or a
+    /// different controller does not inherit another pair's cached verdict.</summary>
+    public bool TryReadCyclePrefix(Relation prefix, Relation controllerBefore) => ValidCyclePrefix(prefix, controllerBefore);
+
     private bool ValidCyclePrefix(Relation prefix, Relation controllerBefore)
     {
+        if (Remembered(prefix, controllerBefore)) return true;
         if (!Closed(prefix) || !Controller.TryReadState(controllerBefore, out _, out _, out var phases) ||
             !Closed(phases) || E(phases) is not [var phase]) return false;
         var rows = E(ActionRows).Cast<Relation>().ToArray(); var index = Array.FindIndex(rows, row => ReferenceEquals(row.Left, phase));
@@ -278,9 +297,37 @@ public sealed class AcknowledgedPatternSequence
                 E(currentPhases) is not [var currentPhase] || !ReferenceEquals(currentPhase, rows[i + 1].Left)) return false;
             var checkedStep = Controller.Step(previous, drive);
             if (!Controller.TryReadAccepted(checkedStep, out _, out _, out var checkedPhase) || !ReferenceEquals(checkedPhase, currentPhase)) return false;
+            // The authenticated request selects this actual earlier prefix,
+            // whose entries have just been checked against the current one.
+            // Its exact previous controller closes an inductive proof, rather
+            // than permitting a copied prefix or unrelated state to certify it.
+            if (Remembered(earlier, previous)) { Remember(prefix, controllerBefore); return true; }
             current = previous;
         }
-        return Controller.TryReadState(current, out _, out _, out var start) && E(start) is [var first] && ReferenceEquals(first, rows[0].Left);
+        var complete = Controller.TryReadState(current, out _, out _, out var start) &&
+            E(start) is [var first] && ReferenceEquals(first, rows[0].Left);
+        if (complete) Remember(prefix, controllerBefore);
+        return complete;
+    }
+
+    private bool Remembered(Relation prefix, Relation controller) => prefixReads is not null &&
+        prefixReads.TryGetValue(prefix, out var controllers) && controllers.Contains(controller);
+    private void Remember(Relation prefix, Relation controller)
+    {
+        if (prefixReads is null) return;
+        if (!prefixReads.TryGetValue(prefix, out var controllers))
+        { controllers = new(ReferenceEqualityComparer.Instance); prefixReads.Add(prefix, controllers); }
+        controllers.Add(controller);
+    }
+    private sealed class ReadScope(AcknowledgedPatternSequence owner) : IDisposable
+    {
+        private AcknowledgedPatternSequence? sequence = owner;
+        public void Dispose()
+        {
+            if (sequence is not { } current) return;
+            sequence = null;
+            if (--current.readScopeDepth == 0) current.prefixReads = null;
+        }
     }
 
     private bool ValidCompletions(Relation completions, Relation request, Relation effect, Relation phaseStep, Relation prefix)

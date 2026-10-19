@@ -1,0 +1,34 @@
+{
+  "mode": "motif",
+  "skeletonName": "Square mesh with diagonal ties",
+  "plate": {
+    "id": "O-B18-motif",
+    "title": "B18 \u00B7 Rosette medallions",
+    "sourceId": "B18",
+    "description": "A repeated intermediate unit leads. Conventional leaves, tulips, trefoils, pinwheels or radial flowers reuse actual finite prototypes in explicit substitution images. Their centres and stems attach through public source landmarks with retained offsets. The original disposition is carried intact as the quieter construction.",
+    "svg": "",
+    "units": 25,
+    "paths": 12,
+    "chords": 60,
+    "addedPaths": 9,
+    "attachments": 9,
+    "strokes": 1500,
+    "accepted": 735,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 190,
+    "nativeObjects": 5825,
+    "numericParticipants": 0,
+    "layerPaths": [
+      3,
+      9,
+      3
+    ],
+    "focusComplete": [
+      true,
+      true,
+      true
+    ],
+    "palette": "Blush, petrol \u0026 mulberry"
+  }
+}

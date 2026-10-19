@@ -1,0 +1,34 @@
+{
+  "mode": "motif",
+  "skeletonName": "Octagons with upright square gaps",
+  "plate": {
+    "id": "O-B06.B-motif",
+    "title": "B06.B \u00B7 Rosette medallions",
+    "sourceId": "B06.B",
+    "description": "A repeated intermediate unit leads. Conventional leaves, tulips, trefoils, pinwheels or radial flowers reuse actual finite prototypes in explicit substitution images. Their centres and stems attach through public source landmarks with retained offsets. The original disposition is carried intact as the quieter construction.",
+    "svg": "",
+    "units": 25,
+    "paths": 10,
+    "chords": 84,
+    "addedPaths": 9,
+    "attachments": 9,
+    "strokes": 2100,
+    "accepted": 125,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 25,
+    "nativeObjects": 9099,
+    "numericParticipants": 0,
+    "layerPaths": [
+      1,
+      9,
+      1
+    ],
+    "focusComplete": [
+      true,
+      true,
+      true
+    ],
+    "palette": "Charcoal, burnt orange \u0026 olive"
+  }
+}

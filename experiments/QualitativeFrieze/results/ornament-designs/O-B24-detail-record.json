@@ -1,0 +1,34 @@
+{
+  "mode": "detail",
+  "skeletonName": "Sliding triangles around shorter hexagon gaps",
+  "plate": {
+    "id": "O-B24-detail",
+    "title": "B24 \u00B7 Small trefoils and six-seed centres",
+    "sourceId": "B24",
+    "description": "Small local enrichments lead. Paired finite leaflets grow at selected published turns and edge landmarks; buds, pearls or small trefoils punctuate the surviving repeat. The large medallions from the intermediate design are absent. The same skeleton remains, but the introduced path set is deliberately different.",
+    "svg": "",
+    "units": 25,
+    "paths": 22,
+    "chords": 80,
+    "addedPaths": 20,
+    "attachments": 20,
+    "strokes": 2000,
+    "accepted": 212,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 38,
+    "nativeObjects": 12726,
+    "numericParticipants": 0,
+    "layerPaths": [
+      2,
+      4,
+      18
+    ],
+    "focusComplete": [
+      true,
+      true,
+      true
+    ],
+    "palette": "Celadon, plum \u0026 apricot"
+  }
+}

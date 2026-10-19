@@ -1,0 +1,34 @@
+{
+  "mode": "field",
+  "skeletonName": "Octagons with diamond gaps \u00B7 first interpretation",
+  "plate": {
+    "id": "O-B06-field",
+    "title": "B06 \u00B7 Enamelled geometric field",
+    "sourceId": "B06",
+    "description": "The large repeat leads: retained construction lines carry broad bands, finite inset compartments and sparse large conventional ornament. Subordinate seeds punctuate the centres. This is a separately authored design, with actual native additions and landmark-offset witnesses, rather than a recolouring of the other two designs.",
+    "svg": "",
+    "units": 25,
+    "paths": 4,
+    "chords": 32,
+    "addedPaths": 3,
+    "attachments": 3,
+    "strokes": 800,
+    "accepted": 125,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 25,
+    "nativeObjects": 3975,
+    "numericParticipants": 0,
+    "layerPaths": [
+      1,
+      3,
+      1
+    ],
+    "focusComplete": [
+      true,
+      true,
+      true
+    ],
+    "palette": "Night garden, lilac \u0026 copper"
+  }
+}
