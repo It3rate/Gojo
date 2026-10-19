@@ -1,0 +1,3796 @@
+{
+  "schema": "gojo-ornament-refined-v1",
+  "allRunsComplete": true,
+  "skeletons": 36,
+  "designs": 108,
+  "cases": [
+    {
+      "mode": "field",
+      "constructionNotes": "The two offset brick interiors carry horizontal cartouches or narrow rooted sprays. Leaf growth stays within the course; the running-bond joints remain readable. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+      "curvedPlacedPaths": 0,
+      "plate": {
+        "id": "R-B01-field",
+        "title": "B01 \u00B7 Brick panels and growing sprays",
+        "sourceId": "B01",
+        "description": "The two offset brick interiors carry horizontal cartouches or narrow rooted sprays. Leaf growth stays within the course; the running-bond joints remain readable.",
+        "svg": "",
+        "units": 9,
+        "paths": 6,
+        "chords": 22,
+        "addedPaths": 2,
+        "attachments": 2,
+        "strokes": 198,
+        "accepted": 57,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 15,
+        "nativeObjects": 3273,
+        "numericParticipants": 0,
+        "layerPaths": [
+          4,
+          2,
+          4
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Fir, celadon \u0026 apricot"
+      }
+    },
+    {
+      "mode": "motif",
+      "constructionNotes": "The two offset brick interiors carry horizontal cartouches or narrow rooted sprays. Leaf growth stays within the course; the running-bond joints remain readable. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+      "curvedPlacedPaths": 18,
+      "plate": {
+        "id": "R-B01-motif",
+        "title": "B01 \u00B7 Brick panels and growing sprays",
+        "sourceId": "B01",
+        "description": "The two offset brick interiors carry horizontal cartouches or narrow rooted sprays. Leaf growth stays within the course; the running-bond joints remain readable.",
+        "svg": "",
+        "units": 9,
+        "paths": 12,
+        "chords": 32,
+        "addedPaths": 8,
+        "attachments": 8,
+        "strokes": 288,
+        "accepted": 57,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 15,
+        "nativeObjects": 5933,
+        "numericParticipants": 0,
+        "layerPaths": [
+          4,
+          2,
+          10
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Saffron, dark blue \u0026 cream"
+      }
+    },
+    {
+      "mode": "detail",
+      "constructionNotes": "The fine reading has a substantial interior silhouette: a repeated flower, fan, leaf panel or connected course blossom. Actual parent ports justify its placement; veins and nested contours articulate the large motif instead of substituting sparse tiny marks for detail. The retained lattice remains the placement and flow scaffold. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+      "curvedPlacedPaths": 36,
+      "plate": {
+        "id": "R-B01-detail",
+        "title": "B01 \u00B7 Full interior ornament and articulated growth",
+        "sourceId": "B01",
+        "description": "The fine reading has a substantial interior silhouette: a repeated flower, fan, leaf panel or connected course blossom. Actual parent ports justify its placement; veins and nested contours articulate the large motif instead of substituting sparse tiny marks for detail. The retained lattice remains the placement and flow scaffold.",
+        "svg": "",
+        "units": 9,
+        "paths": 14,
+        "chords": 36,
+        "addedPaths": 10,
+        "attachments": 10,
+        "strokes": 324,
+        "accepted": 57,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 15,
+        "nativeObjects": 7629,
+        "numericParticipants": 0,
+        "layerPaths": [
+          4,
+          2,
+          12
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Garnet, sea green \u0026 ivory"
+      }
+    },
+    {
+      "mode": "field",
+      "constructionNotes": "Each actual rectangle owns its stem, leaves and veins through its own public port. Its quarter-related long axis determines the ornament; emergent square gaps stay quiet. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+      "curvedPlacedPaths": 0,
+      "plate": {
+        "id": "R-B02-field",
+        "title": "B02 \u00B7 Woven strips with leaf and vein",
+        "sourceId": "B02",
+        "description": "Each actual rectangle owns its stem, leaves and veins through its own public port. Its quarter-related long axis determines the ornament; emergent square gaps stay quiet.",
+        "svg": "",
+        "units": 9,
+        "paths": 12,
+        "chords": 80,
+        "addedPaths": 8,
+        "attachments": 8,
+        "strokes": 720,
+        "accepted": 186,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 30,
+        "nativeObjects": 11163,
+        "numericParticipants": 0,
+        "layerPaths": [
+          4,
+          8,
+          4
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Slate, lavender \u0026 warm ivory"
+      }
+    },
+    {
+      "mode": "motif",
+      "constructionNotes": "Each actual rectangle owns its stem, leaves and veins through its own public port. Its quarter-related long axis determines the ornament; emergent square gaps stay quiet. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+      "curvedPlacedPaths": 36,
+      "plate": {
+        "id": "R-B02-motif",
+        "title": "B02 \u00B7 Woven strips with leaf and vein",
+        "sourceId": "B02",
+        "description": "Each actual rectangle owns its stem, leaves and veins through its own public port. Its quarter-related long axis determines the ornament; emergent square gaps stay quiet.",
+        "svg": "",
+        "units": 9,
+        "paths": 28,
+        "chords": 92,
+        "addedPaths": 24,
+        "attachments": 24,
+        "strokes": 828,
+        "accepted": 186,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 30,
+        "nativeObjects": 21987,
+        "numericParticipants": 0,
+        "layerPaths": [
+          4,
+          8,
+          20
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Chalk, forest \u0026 rose"
+      }
+    },
+    {
+      "mode": "detail",
+      "constructionNotes": "Each actual rectangle owns its stem, leaves and veins through its own public port. Its quarter-related long axis determines the ornament; emergent square gaps stay quiet. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+      "curvedPlacedPaths": 144,
+      "plate": {
+        "id": "R-B02-detail",
+        "title": "B02 \u00B7 Woven strips with leaf and vein",
+        "sourceId": "B02",
+        "description": "Each actual rectangle owns its stem, leaves and veins through its own public port. Its quarter-related long axis determines the ornament; emergent square gaps stay quiet.",
+        "svg": "",
+        "units": 9,
+        "paths": 36,
+        "chords": 148,
+        "addedPaths": 32,
+        "attachments": 32,
+        "strokes": 1332,
+        "accepted": 186,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 30,
+        "nativeObjects": 27620,
+        "numericParticipants": 0,
+        "layerPaths": [
+          4,
+          20,
+          16
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Ivory, lapis \u0026 ochre"
+      }
+    },
+    {
+      "mode": "field",
+      "constructionNotes": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+      "curvedPlacedPaths": 36,
+      "plate": {
+        "id": "R-B03-field",
+        "title": "B03 \u00B7 Inset fields and quiet construction",
+        "sourceId": "B03",
+        "description": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact.",
+        "svg": "",
+        "units": 9,
+        "paths": 12,
+        "chords": 96,
+        "addedPaths": 8,
+        "attachments": 8,
+        "strokes": 864,
+        "accepted": 111,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 15,
+        "nativeObjects": 10095,
+        "numericParticipants": 0,
+        "layerPaths": [
+          4,
+          8,
+          4
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Sand, teal \u0026 vermilion"
+      }
+    },
+    {
+      "mode": "motif",
+      "constructionNotes": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+      "curvedPlacedPaths": 216,
+      "plate": {
+        "id": "R-B03-motif",
+        "title": "B03 \u00B7 Conventional leaves and medallions",
+        "sourceId": "B03",
+        "description": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact.",
+        "svg": "",
+        "units": 9,
+        "paths": 48,
+        "chords": 200,
+        "addedPaths": 44,
+        "attachments": 44,
+        "strokes": 1800,
+        "accepted": 111,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 15,
+        "nativeObjects": 31542,
+        "numericParticipants": 0,
+        "layerPaths": [
+          4,
+          28,
+          20
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Terracotta, shell \u0026 charcoal"
+      }
+    },
+    {
+      "mode": "detail",
+      "constructionNotes": "The fine reading has a substantial interior silhouette: a repeated flower, fan, leaf panel or connected course blossom. Actual parent ports justify its placement; veins and nested contours articulate the large motif instead of substituting sparse tiny marks for detail. The retained lattice remains the placement and flow scaffold. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+      "curvedPlacedPaths": 36,
+      "plate": {
+        "id": "R-B03-detail",
+        "title": "B03 \u00B7 Full interior ornament and articulated growth",
+        "sourceId": "B03",
+        "description": "The fine reading has a substantial interior silhouette: a repeated flower, fan, leaf panel or connected course blossom. Actual parent ports justify its placement; veins and nested contours articulate the large motif instead of substituting sparse tiny marks for detail. The retained lattice remains the placement and flow scaffold.",
+        "svg": "",
+        "units": 9,
+        "paths": 44,
+        "chords": 136,
+        "addedPaths": 40,
+        "attachments": 40,
+        "strokes": 1224,
+        "accepted": 111,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 15,
+        "nativeObjects": 29393,
+        "numericParticipants": 0,
+        "layerPaths": [
+          4,
+          8,
+          36
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Pale jade, burgundy \u0026 brass"
+      }
+    },
+    {
+      "mode": "field",
+      "constructionNotes": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+      "curvedPlacedPaths": 27,
+      "plate": {
+        "id": "R-B04-field",
+        "title": "B04 \u00B7 Inset fields and quiet construction",
+        "sourceId": "B04",
+        "description": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact.",
+        "svg": "",
+        "units": 9,
+        "paths": 9,
+        "chords": 72,
+        "addedPaths": 6,
+        "attachments": 6,
+        "strokes": 648,
+        "accepted": 183,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 60,
+        "nativeObjects": 8679,
+        "numericParticipants": 0,
+        "layerPaths": [
+          3,
+          6,
+          3
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Plum, sage \u0026 champagne"
+      }
+    },
+    {
+      "mode": "motif",
+      "constructionNotes": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+      "curvedPlacedPaths": 81,
+      "plate": {
+        "id": "R-B04-motif",
+        "title": "B04 \u00B7 Repeated lotus and trefoil units",
+        "sourceId": "B04",
+        "description": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact.",
+        "svg": "",
+        "units": 9,
+        "paths": 24,
+        "chords": 93,
+        "addedPaths": 21,
+        "attachments": 21,
+        "strokes": 837,
+        "accepted": 183,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 60,
+        "nativeObjects": 17908,
+        "numericParticipants": 0,
+        "layerPaths": [
+          3,
+          12,
+          12
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Warm white, moss \u0026 carmine"
+      }
+    },
+    {
+      "mode": "detail",
+      "constructionNotes": "The fine reading has a substantial interior silhouette: a repeated flower, fan, leaf panel or connected course blossom. Actual parent ports justify its placement; veins and nested contours articulate the large motif instead of substituting sparse tiny marks for detail. The retained lattice remains the placement and flow scaffold. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+      "curvedPlacedPaths": 162,
+      "plate": {
+        "id": "R-B04-detail",
+        "title": "B04 \u00B7 Full interior ornament and articulated growth",
+        "sourceId": "B04",
+        "description": "The fine reading has a substantial interior silhouette: a repeated flower, fan, leaf panel or connected course blossom. Actual parent ports justify its placement; veins and nested contours articulate the large motif instead of substituting sparse tiny marks for detail. The retained lattice remains the placement and flow scaffold.",
+        "svg": "",
+        "units": 9,
+        "paths": 42,
+        "chords": 156,
+        "addedPaths": 39,
+        "attachments": 39,
+        "strokes": 1404,
+        "accepted": 183,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 60,
+        "nativeObjects": 31641,
+        "numericParticipants": 0,
+        "layerPaths": [
+          3,
+          21,
+          21
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Midnight, flax \u0026 copper"
+      }
+    },
+    {
+      "mode": "field",
+      "constructionNotes": "The same six-side source supports inset enamel, an inward budwheel or an outward veined lotus. All additions stay inside the source hexagon and leave triangular interstices undecorated. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+      "curvedPlacedPaths": 9,
+      "plate": {
+        "id": "R-B05-field",
+        "title": "B05 \u00B7 Hexagonal lotus and inward buds",
+        "sourceId": "B05",
+        "description": "The same six-side source supports inset enamel, an inward budwheel or an outward veined lotus. All additions stay inside the source hexagon and leave triangular interstices undecorated.",
+        "svg": "",
+        "units": 9,
+        "paths": 3,
+        "chords": 24,
+        "addedPaths": 2,
+        "attachments": 2,
+        "strokes": 216,
+        "accepted": 31,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 14,
+        "nativeObjects": 3165,
+        "numericParticipants": 0,
+        "layerPaths": [
+          1,
+          2,
+          1
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Garnet, sea green \u0026 ivory"
+      }
+    },
+    {
+      "mode": "motif",
+      "constructionNotes": "The same six-side source supports inset enamel, an inward budwheel or an outward veined lotus. All additions stay inside the source hexagon and leave triangular interstices undecorated. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+      "curvedPlacedPaths": 54,
+      "plate": {
+        "id": "R-B05-motif",
+        "title": "B05 \u00B7 Hexagonal lotus and inward buds",
+        "sourceId": "B05",
+        "description": "The same six-side source supports inset enamel, an inward budwheel or an outward veined lotus. All additions stay inside the source hexagon and leave triangular interstices undecorated.",
+        "svg": "",
+        "units": 9,
+        "paths": 19,
+        "chords": 54,
+        "addedPaths": 18,
+        "attachments": 18,
+        "strokes": 486,
+        "accepted": 31,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 14,
+        "nativeObjects": 13641,
+        "numericParticipants": 0,
+        "layerPaths": [
+          1,
+          13,
+          6
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Ink, porcelain \u0026 coral"
+      }
+    },
+    {
+      "mode": "detail",
+      "constructionNotes": "The same six-side source supports inset enamel, an inward budwheel or an outward veined lotus. All additions stay inside the source hexagon and leave triangular interstices undecorated. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+      "curvedPlacedPaths": 63,
+      "plate": {
+        "id": "R-B05-detail",
+        "title": "B05 \u00B7 Hexagonal lotus and inward buds",
+        "sourceId": "B05",
+        "description": "The same six-side source supports inset enamel, an inward budwheel or an outward veined lotus. All additions stay inside the source hexagon and leave triangular interstices undecorated.",
+        "svg": "",
+        "units": 9,
+        "paths": 20,
+        "chords": 72,
+        "addedPaths": 19,
+        "attachments": 19,
+        "strokes": 648,
+        "accepted": 31,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 14,
+        "nativeObjects": 10831,
+        "numericParticipants": 0,
+        "layerPaths": [
+          1,
+          7,
+          13
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Mist, petrol \u0026 raspberry"
+      }
+    },
+    {
+      "mode": "field",
+      "constructionNotes": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+      "curvedPlacedPaths": 9,
+      "plate": {
+        "id": "R-B06-field",
+        "title": "B06 \u00B7 Inset fields and quiet construction",
+        "sourceId": "B06",
+        "description": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact.",
+        "svg": "",
+        "units": 9,
+        "paths": 3,
+        "chords": 28,
+        "addedPaths": 2,
+        "attachments": 2,
+        "strokes": 252,
+        "accepted": 39,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 15,
+        "nativeObjects": 3990,
+        "numericParticipants": 0,
+        "layerPaths": [
+          1,
+          2,
+          1
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Ivory, lapis \u0026 ochre"
+      }
+    },
+    {
+      "mode": "motif",
+      "constructionNotes": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+      "curvedPlacedPaths": 36,
+      "plate": {
+        "id": "R-B06-motif",
+        "title": "B06 \u00B7 Conventional leaves and medallions",
+        "sourceId": "B06",
+        "description": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact.",
+        "svg": "",
+        "units": 9,
+        "paths": 10,
+        "chords": 40,
+        "addedPaths": 9,
+        "attachments": 9,
+        "strokes": 360,
+        "accepted": 39,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 15,
+        "nativeObjects": 8058,
+        "numericParticipants": 0,
+        "layerPaths": [
+          1,
+          5,
+          5
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Linen, walnut \u0026 turquoise"
+      }
+    },
+    {
+      "mode": "detail",
+      "constructionNotes": "The fine reading has a substantial interior silhouette: a repeated flower, fan, leaf panel or connected course blossom. Actual parent ports justify its placement; veins and nested contours articulate the large motif instead of substituting sparse tiny marks for detail. The retained lattice remains the placement and flow scaffold. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+      "curvedPlacedPaths": 18,
+      "plate": {
+        "id": "R-B06-detail",
+        "title": "B06 \u00B7 Full interior ornament and articulated growth",
+        "sourceId": "B06",
+        "description": "The fine reading has a substantial interior silhouette: a repeated flower, fan, leaf panel or connected course blossom. Actual parent ports justify its placement; veins and nested contours articulate the large motif instead of substituting sparse tiny marks for detail. The retained lattice remains the placement and flow scaffold.",
+        "svg": "",
+        "units": 9,
+        "paths": 11,
+        "chords": 44,
+        "addedPaths": 10,
+        "attachments": 10,
+        "strokes": 396,
+        "accepted": 39,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 15,
+        "nativeObjects": 10922,
+        "numericParticipants": 0,
+        "layerPaths": [
+          1,
+          2,
+          9
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Dusty blue, ink \u0026 pale gold"
+      }
+    },
+    {
+      "mode": "field",
+      "constructionNotes": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+      "curvedPlacedPaths": 9,
+      "plate": {
+        "id": "R-B06.B-field",
+        "title": "B06.B \u00B7 Inset fields and quiet construction",
+        "sourceId": "B06.B",
+        "description": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact.",
+        "svg": "",
+        "units": 9,
+        "paths": 3,
+        "chords": 28,
+        "addedPaths": 2,
+        "attachments": 2,
+        "strokes": 252,
+        "accepted": 39,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 15,
+        "nativeObjects": 5311,
+        "numericParticipants": 0,
+        "layerPaths": [
+          1,
+          2,
+          1
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Plum, sage \u0026 champagne"
+      }
+    },
+    {
+      "mode": "motif",
+      "constructionNotes": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+      "curvedPlacedPaths": 36,
+      "plate": {
+        "id": "R-B06.B-motif",
+        "title": "B06.B \u00B7 Conventional leaves and medallions",
+        "sourceId": "B06.B",
+        "description": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact.",
+        "svg": "",
+        "units": 9,
+        "paths": 10,
+        "chords": 40,
+        "addedPaths": 9,
+        "attachments": 9,
+        "strokes": 360,
+        "accepted": 39,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 15,
+        "nativeObjects": 10389,
+        "numericParticipants": 0,
+        "layerPaths": [
+          1,
+          5,
+          5
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Warm white, moss \u0026 carmine"
+      }
+    },
+    {
+      "mode": "detail",
+      "constructionNotes": "The fine reading has a substantial interior silhouette: a repeated flower, fan, leaf panel or connected course blossom. Actual parent ports justify its placement; veins and nested contours articulate the large motif instead of substituting sparse tiny marks for detail. The retained lattice remains the placement and flow scaffold. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+      "curvedPlacedPaths": 18,
+      "plate": {
+        "id": "R-B06.B-detail",
+        "title": "B06.B \u00B7 Full interior ornament and articulated growth",
+        "sourceId": "B06.B",
+        "description": "The fine reading has a substantial interior silhouette: a repeated flower, fan, leaf panel or connected course blossom. Actual parent ports justify its placement; veins and nested contours articulate the large motif instead of substituting sparse tiny marks for detail. The retained lattice remains the placement and flow scaffold.",
+        "svg": "",
+        "units": 9,
+        "paths": 11,
+        "chords": 44,
+        "addedPaths": 10,
+        "attachments": 10,
+        "strokes": 396,
+        "accepted": 39,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 15,
+        "nativeObjects": 13597,
+        "numericParticipants": 0,
+        "layerPaths": [
+          1,
+          2,
+          9
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Midnight, flax \u0026 copper"
+      }
+    },
+    {
+      "mode": "field",
+      "constructionNotes": "Narrow horizontal and vertical strips carry separate running stems, with the central crossing left uncluttered. A broad intermediate leaf occupies the larger existing compartment. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+      "curvedPlacedPaths": 0,
+      "plate": {
+        "id": "R-B07-field",
+        "title": "B07 \u00B7 Orthogonal bands and running foliage",
+        "sourceId": "B07",
+        "description": "Narrow horizontal and vertical strips carry separate running stems, with the central crossing left uncluttered. A broad intermediate leaf occupies the larger existing compartment.",
+        "svg": "",
+        "units": 9,
+        "paths": 5,
+        "chords": 16,
+        "addedPaths": 1,
+        "attachments": 1,
+        "strokes": 144,
+        "accepted": 88,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 29,
+        "nativeObjects": 2941,
+        "numericParticipants": 0,
+        "layerPaths": [
+          4,
+          1,
+          4
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Pale jade, burgundy \u0026 brass"
+      }
+    },
+    {
+      "mode": "motif",
+      "constructionNotes": "Narrow horizontal and vertical strips carry separate running stems, with the central crossing left uncluttered. A broad intermediate leaf occupies the larger existing compartment. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+      "curvedPlacedPaths": 9,
+      "plate": {
+        "id": "R-B07-motif",
+        "title": "B07 \u00B7 Orthogonal bands and running foliage",
+        "sourceId": "B07",
+        "description": "Narrow horizontal and vertical strips carry separate running stems, with the central crossing left uncluttered. A broad intermediate leaf occupies the larger existing compartment.",
+        "svg": "",
+        "units": 9,
+        "paths": 8,
+        "chords": 19,
+        "addedPaths": 4,
+        "attachments": 4,
+        "strokes": 171,
+        "accepted": 88,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 29,
+        "nativeObjects": 5241,
+        "numericParticipants": 0,
+        "layerPaths": [
+          4,
+          2,
+          6
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Parchment, indigo \u0026 rust"
+      }
+    },
+    {
+      "mode": "detail",
+      "constructionNotes": "The fine reading has a substantial interior silhouette: a repeated flower, fan, leaf panel or connected course blossom. Actual parent ports justify its placement; veins and nested contours articulate the large motif instead of substituting sparse tiny marks for detail. The retained lattice remains the placement and flow scaffold. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+      "curvedPlacedPaths": 18,
+      "plate": {
+        "id": "R-B07-detail",
+        "title": "B07 \u00B7 Full interior ornament and articulated growth",
+        "sourceId": "B07",
+        "description": "The fine reading has a substantial interior silhouette: a repeated flower, fan, leaf panel or connected course blossom. Actual parent ports justify its placement; veins and nested contours articulate the large motif instead of substituting sparse tiny marks for detail. The retained lattice remains the placement and flow scaffold.",
+        "svg": "",
+        "units": 9,
+        "paths": 14,
+        "chords": 44,
+        "addedPaths": 10,
+        "attachments": 10,
+        "strokes": 396,
+        "accepted": 88,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 29,
+        "nativeObjects": 12251,
+        "numericParticipants": 0,
+        "layerPaths": [
+          4,
+          1,
+          13
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Shell, aubergine \u0026 olive"
+      }
+    },
+    {
+      "mode": "field",
+      "constructionNotes": "The broad diamond between actual oblique ribbon families carries a full medallion rather than leaves on its rails. Alternating long and short petals, inner veins and a contrasting collar occupy the room; a second smaller flower marks the ribbon crossing. The source guides remain behind the ornament. Curved rendering rounds selected flowing contours only; pointed tips, roots and native source seam identities remain fixed. Four colour groups are exact disjoint path selections, not screen-location bins.",
+      "curvedPlacedPaths": 90,
+      "plate": {
+        "id": "R-B08-field",
+        "title": "B08 \u00B7 Flower-filled ribbon diamonds",
+        "sourceId": "B08",
+        "description": "The broad diamond between actual oblique ribbon families carries a full medallion rather than leaves on its rails. Alternating long and short petals, inner veins and a contrasting collar occupy the room; a second smaller flower marks the ribbon crossing. The source guides remain behind the ornament.",
+        "svg": "",
+        "units": 9,
+        "paths": 22,
+        "chords": 84,
+        "addedPaths": 18,
+        "attachments": 18,
+        "strokes": 756,
+        "accepted": 88,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 29,
+        "nativeObjects": 15018,
+        "numericParticipants": 0,
+        "layerPaths": [
+          4,
+          9,
+          9
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Midnight, flax \u0026 copper"
+      }
+    },
+    {
+      "mode": "motif",
+      "constructionNotes": "The broad diamond between actual oblique ribbon families carries a full medallion rather than leaves on its rails. Alternating long and short petals, inner veins and a contrasting collar occupy the room; a second smaller flower marks the ribbon crossing. The source guides remain behind the ornament. Curved rendering rounds selected flowing contours only; pointed tips, roots and native source seam identities remain fixed. Four colour groups are exact disjoint path selections, not screen-location bins.",
+      "curvedPlacedPaths": 99,
+      "plate": {
+        "id": "R-B08-motif",
+        "title": "B08 \u00B7 Flower-filled ribbon diamonds",
+        "sourceId": "B08",
+        "description": "The broad diamond between actual oblique ribbon families carries a full medallion rather than leaves on its rails. Alternating long and short petals, inner veins and a contrasting collar occupy the room; a second smaller flower marks the ribbon crossing. The source guides remain behind the ornament.",
+        "svg": "",
+        "units": 9,
+        "paths": 37,
+        "chords": 114,
+        "addedPaths": 33,
+        "attachments": 33,
+        "strokes": 1026,
+        "accepted": 88,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 29,
+        "nativeObjects": 27441,
+        "numericParticipants": 0,
+        "layerPaths": [
+          4,
+          10,
+          23
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Fir, celadon \u0026 apricot"
+      }
+    },
+    {
+      "mode": "detail",
+      "constructionNotes": "The broad diamond between actual oblique ribbon families carries a full medallion rather than leaves on its rails. Alternating long and short petals, inner veins and a contrasting collar occupy the room; a second smaller flower marks the ribbon crossing. The source guides remain behind the ornament. Curved rendering rounds selected flowing contours only; pointed tips, roots and native source seam identities remain fixed. Four colour groups are exact disjoint path selections, not screen-location bins.",
+      "curvedPlacedPaths": 144,
+      "plate": {
+        "id": "R-B08-detail",
+        "title": "B08 \u00B7 Flower-filled ribbon diamonds",
+        "sourceId": "B08",
+        "description": "The broad diamond between actual oblique ribbon families carries a full medallion rather than leaves on its rails. Alternating long and short petals, inner veins and a contrasting collar occupy the room; a second smaller flower marks the ribbon crossing. The source guides remain behind the ornament.",
+        "svg": "",
+        "units": 9,
+        "paths": 58,
+        "chords": 178,
+        "addedPaths": 54,
+        "attachments": 54,
+        "strokes": 1602,
+        "accepted": 88,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 29,
+        "nativeObjects": 43172,
+        "numericParticipants": 0,
+        "layerPaths": [
+          4,
+          14,
+          40
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Saffron, dark blue \u0026 cream"
+      }
+    },
+    {
+      "mode": "field",
+      "constructionNotes": "The broad diamond between actual oblique ribbon families carries a full medallion rather than leaves on its rails. Alternating long and short petals, inner veins and a contrasting collar occupy the room; a second smaller flower marks the ribbon crossing. The source guides remain behind the ornament. Curved rendering rounds selected flowing contours only; pointed tips, roots and native source seam identities remain fixed. Four colour groups are exact disjoint path selections, not screen-location bins.",
+      "curvedPlacedPaths": 90,
+      "plate": {
+        "id": "R-B08.B-field",
+        "title": "B08.B \u00B7 Flower-filled ribbon diamonds",
+        "sourceId": "B08.B",
+        "description": "The broad diamond between actual oblique ribbon families carries a full medallion rather than leaves on its rails. Alternating long and short petals, inner veins and a contrasting collar occupy the room; a second smaller flower marks the ribbon crossing. The source guides remain behind the ornament.",
+        "svg": "",
+        "units": 9,
+        "paths": 22,
+        "chords": 84,
+        "addedPaths": 18,
+        "attachments": 18,
+        "strokes": 756,
+        "accepted": 88,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 29,
+        "nativeObjects": 17081,
+        "numericParticipants": 0,
+        "layerPaths": [
+          4,
+          9,
+          9
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Ivory, lapis \u0026 ochre"
+      }
+    },
+    {
+      "mode": "motif",
+      "constructionNotes": "The broad diamond between actual oblique ribbon families carries a full medallion rather than leaves on its rails. Alternating long and short petals, inner veins and a contrasting collar occupy the room; a second smaller flower marks the ribbon crossing. The source guides remain behind the ornament. Curved rendering rounds selected flowing contours only; pointed tips, roots and native source seam identities remain fixed. Four colour groups are exact disjoint path selections, not screen-location bins.",
+      "curvedPlacedPaths": 99,
+      "plate": {
+        "id": "R-B08.B-motif",
+        "title": "B08.B \u00B7 Flower-filled ribbon diamonds",
+        "sourceId": "B08.B",
+        "description": "The broad diamond between actual oblique ribbon families carries a full medallion rather than leaves on its rails. Alternating long and short petals, inner veins and a contrasting collar occupy the room; a second smaller flower marks the ribbon crossing. The source guides remain behind the ornament.",
+        "svg": "",
+        "units": 9,
+        "paths": 37,
+        "chords": 114,
+        "addedPaths": 33,
+        "attachments": 33,
+        "strokes": 1026,
+        "accepted": 88,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 29,
+        "nativeObjects": 30290,
+        "numericParticipants": 0,
+        "layerPaths": [
+          4,
+          10,
+          23
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Linen, walnut \u0026 turquoise"
+      }
+    },
+    {
+      "mode": "detail",
+      "constructionNotes": "The broad diamond between actual oblique ribbon families carries a full medallion rather than leaves on its rails. Alternating long and short petals, inner veins and a contrasting collar occupy the room; a second smaller flower marks the ribbon crossing. The source guides remain behind the ornament. Curved rendering rounds selected flowing contours only; pointed tips, roots and native source seam identities remain fixed. Four colour groups are exact disjoint path selections, not screen-location bins.",
+      "curvedPlacedPaths": 144,
+      "plate": {
+        "id": "R-B08.B-detail",
+        "title": "B08.B \u00B7 Flower-filled ribbon diamonds",
+        "sourceId": "B08.B",
+        "description": "The broad diamond between actual oblique ribbon families carries a full medallion rather than leaves on its rails. Alternating long and short petals, inner veins and a contrasting collar occupy the room; a second smaller flower marks the ribbon crossing. The source guides remain behind the ornament.",
+        "svg": "",
+        "units": 9,
+        "paths": 58,
+        "chords": 178,
+        "addedPaths": 54,
+        "attachments": 54,
+        "strokes": 1602,
+        "accepted": 88,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 29,
+        "nativeObjects": 47539,
+        "numericParticipants": 0,
+        "layerPaths": [
+          4,
+          14,
+          40
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Dusty blue, ink \u0026 pale gold"
+      }
+    },
+    {
+      "mode": "field",
+      "constructionNotes": "Two opposed return cups of the detached S receive broad, articulated palmettes. Their separate placement and opposed maps retain the S\u0027s free ends; no new connector pretends that the source is a continuous meander. Curved rendering rounds selected flowing contours only; pointed tips, roots and native source seam identities remain fixed. Four colour groups are exact disjoint path selections, not screen-location bins.",
+      "curvedPlacedPaths": 18,
+      "plate": {
+        "id": "R-B09-field",
+        "title": "B09 \u00B7 Palmettes in opposed S returns",
+        "sourceId": "B09",
+        "description": "Two opposed return cups of the detached S receive broad, articulated palmettes. Their separate placement and opposed maps retain the S\u0027s free ends; no new connector pretends that the source is a continuous meander.",
+        "svg": "",
+        "units": 9,
+        "paths": 5,
+        "chords": 31,
+        "addedPaths": 4,
+        "attachments": 4,
+        "strokes": 279,
+        "accepted": 0,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 0,
+        "nativeObjects": 5655,
+        "numericParticipants": 0,
+        "layerPaths": [
+          1,
+          2,
+          2
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Mist, petrol \u0026 raspberry"
+      }
+    },
+    {
+      "mode": "motif",
+      "constructionNotes": "Two opposed return cups of the detached S receive broad, articulated palmettes. Their separate placement and opposed maps retain the S\u0027s free ends; no new connector pretends that the source is a continuous meander. Curved rendering rounds selected flowing contours only; pointed tips, roots and native source seam identities remain fixed. Four colour groups are exact disjoint path selections, not screen-location bins.",
+      "curvedPlacedPaths": 54,
+      "plate": {
+        "id": "R-B09-motif",
+        "title": "B09 \u00B7 Palmettes in opposed S returns",
+        "sourceId": "B09",
+        "description": "Two opposed return cups of the detached S receive broad, articulated palmettes. Their separate placement and opposed maps retain the S\u0027s free ends; no new connector pretends that the source is a continuous meander.",
+        "svg": "",
+        "units": 9,
+        "paths": 9,
+        "chords": 37,
+        "addedPaths": 8,
+        "attachments": 8,
+        "strokes": 333,
+        "accepted": 0,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 0,
+        "nativeObjects": 8857,
+        "numericParticipants": 0,
+        "layerPaths": [
+          1,
+          2,
+          6
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Slate, lavender \u0026 warm ivory"
+      }
+    },
+    {
+      "mode": "detail",
+      "constructionNotes": "Two opposed return cups of the detached S receive broad, articulated palmettes. Their separate placement and opposed maps retain the S\u0027s free ends; no new connector pretends that the source is a continuous meander. Curved rendering rounds selected flowing contours only; pointed tips, roots and native source seam identities remain fixed. Four colour groups are exact disjoint path selections, not screen-location bins.",
+      "curvedPlacedPaths": 90,
+      "plate": {
+        "id": "R-B09-detail",
+        "title": "B09 \u00B7 Palmettes in opposed S returns",
+        "sourceId": "B09",
+        "description": "Two opposed return cups of the detached S receive broad, articulated palmettes. Their separate placement and opposed maps retain the S\u0027s free ends; no new connector pretends that the source is a continuous meander.",
+        "svg": "",
+        "units": 9,
+        "paths": 13,
+        "chords": 69,
+        "addedPaths": 12,
+        "attachments": 12,
+        "strokes": 621,
+        "accepted": 0,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 0,
+        "nativeObjects": 13130,
+        "numericParticipants": 0,
+        "layerPaths": [
+          1,
+          2,
+          10
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Chalk, forest \u0026 rose"
+      }
+    },
+    {
+      "mode": "field",
+      "constructionNotes": "Each actual pointed chamber supplies its own finite interior placement read and source port. Wide opposed sprays or a radial blossom occupy the interior. Smaller nested leaves and veins articulate those masses, while alternate chamber families take different colours. Curved rendering rounds selected flowing contours only; pointed tips, roots and native source seam identities remain fixed. Four colour groups are exact disjoint path selections, not screen-location bins.",
+      "curvedPlacedPaths": 90,
+      "plate": {
+        "id": "R-B10-field",
+        "title": "B10 \u00B7 Pointed chambers and inward fans",
+        "sourceId": "B10",
+        "description": "Each actual pointed chamber supplies its own finite interior placement read and source port. Wide opposed sprays or a radial blossom occupy the interior. Smaller nested leaves and veins articulate those masses, while alternate chamber families take different colours.",
+        "svg": "",
+        "units": 9,
+        "paths": 20,
+        "chords": 104,
+        "addedPaths": 18,
+        "attachments": 18,
+        "strokes": 936,
+        "accepted": 218,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 79,
+        "nativeObjects": 29142,
+        "numericParticipants": 0,
+        "layerPaths": [
+          2,
+          10,
+          8
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Dusty blue, ink \u0026 pale gold"
+      }
+    },
+    {
+      "mode": "motif",
+      "constructionNotes": "Each actual pointed chamber supplies its own finite interior placement read and source port. Wide opposed sprays or a radial blossom occupy the interior. Smaller nested leaves and veins articulate those masses, while alternate chamber families take different colours. Curved rendering rounds selected flowing contours only; pointed tips, roots and native source seam identities remain fixed. Four colour groups are exact disjoint path selections, not screen-location bins.",
+      "curvedPlacedPaths": 90,
+      "plate": {
+        "id": "R-B10-motif",
+        "title": "B10 \u00B7 Pointed chambers and inward fans",
+        "sourceId": "B10",
+        "description": "Each actual pointed chamber supplies its own finite interior placement read and source port. Wide opposed sprays or a radial blossom occupy the interior. Smaller nested leaves and veins articulate those masses, while alternate chamber families take different colours.",
+        "svg": "",
+        "units": 9,
+        "paths": 14,
+        "chords": 94,
+        "addedPaths": 12,
+        "attachments": 12,
+        "strokes": 846,
+        "accepted": 218,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 79,
+        "nativeObjects": 22377,
+        "numericParticipants": 0,
+        "layerPaths": [
+          2,
+          2,
+          10
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Sand, teal \u0026 vermilion"
+      }
+    },
+    {
+      "mode": "detail",
+      "constructionNotes": "Each actual pointed chamber supplies its own finite interior placement read and source port. Wide opposed sprays or a radial blossom occupy the interior. The detail has four dominant diagonal petals, four short axial petals, one centre and quiet veins; its uninterrupted parent rails remain legible. Alternate chamber families take different colours. Curved rendering rounds selected flowing contours only; pointed tips, roots and native source seam identities remain fixed. Four colour groups are exact disjoint path selections, not screen-location bins.",
+      "curvedPlacedPaths": 162,
+      "plate": {
+        "id": "R-B10-detail",
+        "title": "B10 \u00B7 Pointed chambers and inward fans",
+        "sourceId": "B10",
+        "description": "Each actual pointed chamber supplies its own finite interior placement read and source port. Wide opposed sprays or a radial blossom occupy the interior. The detail has four dominant diagonal petals, four short axial petals, one centre and quiet veins; its uninterrupted parent rails remain legible. Alternate chamber families take different colours.",
+        "svg": "",
+        "units": 9,
+        "paths": 36,
+        "chords": 168,
+        "addedPaths": 34,
+        "attachments": 34,
+        "strokes": 1512,
+        "accepted": 218,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 79,
+        "nativeObjects": 49114,
+        "numericParticipants": 0,
+        "layerPaths": [
+          2,
+          16,
+          18
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Terracotta, shell \u0026 charcoal"
+      }
+    },
+    {
+      "mode": "field",
+      "constructionNotes": "Each actual pointed chamber supplies its own finite interior placement read and source port. Wide opposed sprays or a radial blossom occupy the interior. Smaller nested leaves and veins articulate those masses, while alternate chamber families take different colours. Curved rendering rounds selected flowing contours only; pointed tips, roots and native source seam identities remain fixed. Four colour groups are exact disjoint path selections, not screen-location bins.",
+      "curvedPlacedPaths": 180,
+      "plate": {
+        "id": "R-B11-field",
+        "title": "B11 \u00B7 Counterturned interior gardens",
+        "sourceId": "B11",
+        "description": "Each actual pointed chamber supplies its own finite interior placement read and source port. Wide opposed sprays or a radial blossom occupy the interior. Smaller nested leaves and veins articulate those masses, while alternate chamber families take different colours.",
+        "svg": "",
+        "units": 9,
+        "paths": 40,
+        "chords": 208,
+        "addedPaths": 36,
+        "attachments": 36,
+        "strokes": 1872,
+        "accepted": 473,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 121,
+        "nativeObjects": 65651,
+        "numericParticipants": 0,
+        "layerPaths": [
+          4,
+          20,
+          16
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Shell, aubergine \u0026 olive"
+      }
+    },
+    {
+      "mode": "motif",
+      "constructionNotes": "Each actual pointed chamber supplies its own finite interior placement read and source port. Wide opposed sprays or a radial blossom occupy the interior. Smaller nested leaves and veins articulate those masses, while alternate chamber families take different colours. Curved rendering rounds selected flowing contours only; pointed tips, roots and native source seam identities remain fixed. Four colour groups are exact disjoint path selections, not screen-location bins.",
+      "curvedPlacedPaths": 180,
+      "plate": {
+        "id": "R-B11-motif",
+        "title": "B11 \u00B7 Counterturned interior gardens",
+        "sourceId": "B11",
+        "description": "Each actual pointed chamber supplies its own finite interior placement read and source port. Wide opposed sprays or a radial blossom occupy the interior. Smaller nested leaves and veins articulate those masses, while alternate chamber families take different colours.",
+        "svg": "",
+        "units": 9,
+        "paths": 28,
+        "chords": 188,
+        "addedPaths": 24,
+        "attachments": 24,
+        "strokes": 1692,
+        "accepted": 473,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 121,
+        "nativeObjects": 49200,
+        "numericParticipants": 0,
+        "layerPaths": [
+          4,
+          4,
+          20
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Plum, sage \u0026 champagne"
+      }
+    },
+    {
+      "mode": "detail",
+      "constructionNotes": "Each actual pointed chamber supplies its own finite interior placement read and source port. Wide opposed sprays or a radial blossom occupy the interior. The detail has four dominant diagonal petals, four short axial petals, one centre and quiet veins; its uninterrupted parent rails remain legible. Alternate chamber families take different colours. Curved rendering rounds selected flowing contours only; pointed tips, roots and native source seam identities remain fixed. Four colour groups are exact disjoint path selections, not screen-location bins.",
+      "curvedPlacedPaths": 324,
+      "plate": {
+        "id": "R-B11-detail",
+        "title": "B11 \u00B7 Counterturned interior gardens",
+        "sourceId": "B11",
+        "description": "Each actual pointed chamber supplies its own finite interior placement read and source port. Wide opposed sprays or a radial blossom occupy the interior. The detail has four dominant diagonal petals, four short axial petals, one centre and quiet veins; its uninterrupted parent rails remain legible. Alternate chamber families take different colours.",
+        "svg": "",
+        "units": 9,
+        "paths": 72,
+        "chords": 336,
+        "addedPaths": 68,
+        "attachments": 68,
+        "strokes": 3024,
+        "accepted": 473,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 121,
+        "nativeObjects": 112689,
+        "numericParticipants": 0,
+        "layerPaths": [
+          4,
+          32,
+          36
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Warm white, moss \u0026 carmine"
+      }
+    },
+    {
+      "mode": "field",
+      "constructionNotes": "Large eight-petal flowers cover the middle of the stepped-arm field. Four broad long petals carry the dominant turning read; four shorter interleaved petals and a double collar provide a second scale. The native closed arm contours and diagonal disposition are retained underneath the intentionally occluding ornamental reading. Curved rendering rounds selected flowing contours only; pointed tips, roots and native source seam identities remain fixed. Four colour groups are exact disjoint path selections, not screen-location bins.",
+      "curvedPlacedPaths": 180,
+      "plate": {
+        "id": "R-B12-field",
+        "title": "B12 \u00B7 Rotating eight-petal chamber flowers",
+        "sourceId": "B12",
+        "description": "Large eight-petal flowers cover the middle of the stepped-arm field. Four broad long petals carry the dominant turning read; four shorter interleaved petals and a double collar provide a second scale. The native closed arm contours and diagonal disposition are retained underneath the intentionally occluding ornamental reading.",
+        "svg": "",
+        "units": 9,
+        "paths": 40,
+        "chords": 208,
+        "addedPaths": 36,
+        "attachments": 36,
+        "strokes": 1872,
+        "accepted": 418,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 122,
+        "nativeObjects": 86193,
+        "numericParticipants": 0,
+        "layerPaths": [
+          4,
+          20,
+          16
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Saffron, dark blue \u0026 cream"
+      }
+    },
+    {
+      "mode": "motif",
+      "constructionNotes": "Large eight-petal flowers cover the middle of the stepped-arm field. Four broad long petals carry the dominant turning read; four shorter interleaved petals and a double collar provide a second scale. The native closed arm contours and diagonal disposition are retained underneath the intentionally occluding ornamental reading. Curved rendering rounds selected flowing contours only; pointed tips, roots and native source seam identities remain fixed. Four colour groups are exact disjoint path selections, not screen-location bins.",
+      "curvedPlacedPaths": 324,
+      "plate": {
+        "id": "R-B12-motif",
+        "title": "B12 \u00B7 Rotating eight-petal chamber flowers",
+        "sourceId": "B12",
+        "description": "Large eight-petal flowers cover the middle of the stepped-arm field. Four broad long petals carry the dominant turning read; four shorter interleaved petals and a double collar provide a second scale. The native closed arm contours and diagonal disposition are retained underneath the intentionally occluding ornamental reading.",
+        "svg": "",
+        "units": 9,
+        "paths": 72,
+        "chords": 336,
+        "addedPaths": 68,
+        "attachments": 68,
+        "strokes": 3024,
+        "accepted": 418,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 122,
+        "nativeObjects": 150063,
+        "numericParticipants": 0,
+        "layerPaths": [
+          4,
+          32,
+          36
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Garnet, sea green \u0026 ivory"
+      }
+    },
+    {
+      "mode": "detail",
+      "constructionNotes": "Large eight-petal flowers cover the middle of the stepped-arm field. Four broad long petals carry the dominant turning read; four shorter interleaved petals and a double collar provide a second scale. The native closed arm contours and diagonal disposition are retained underneath the intentionally occluding ornamental reading. Curved rendering rounds selected flowing contours only; pointed tips, roots and native source seam identities remain fixed. Four colour groups are exact disjoint path selections, not screen-location bins.",
+      "curvedPlacedPaths": 360,
+      "plate": {
+        "id": "R-B12-detail",
+        "title": "B12 \u00B7 Rotating eight-petal chamber flowers",
+        "sourceId": "B12",
+        "description": "Large eight-petal flowers cover the middle of the stepped-arm field. Four broad long petals carry the dominant turning read; four shorter interleaved petals and a double collar provide a second scale. The native closed arm contours and diagonal disposition are retained underneath the intentionally occluding ornamental reading.",
+        "svg": "",
+        "units": 9,
+        "paths": 140,
+        "chords": 512,
+        "addedPaths": 136,
+        "attachments": 136,
+        "strokes": 4608,
+        "accepted": 418,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 122,
+        "nativeObjects": 292382,
+        "numericParticipants": 0,
+        "layerPaths": [
+          4,
+          32,
+          104
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Ink, porcelain \u0026 coral"
+      }
+    },
+    {
+      "mode": "field",
+      "constructionNotes": "The four actual quarter-related serif-I contours remain the dominant pattern and retain their exact colour-selection identities. The overall read adds only a centreline; the intermediate read has one slender bar-aligned leaf per chamber; the detail read has two opposed simple leaves meeting at the bar\u0027s centre. Bare caps and interlocks preserve the source rhythm without flowers, cap fans or nested collars. Curved rendering rounds selected flowing contours only; pointed tips, roots and native source seam identities remain fixed. Four colour groups are exact disjoint path selections, not screen-location bins.",
+      "curvedPlacedPaths": 36,
+      "plate": {
+        "id": "R-B13-field",
+        "title": "B13 \u00B7 Quiet interlocking serif bands",
+        "sourceId": "B13",
+        "description": "The four actual quarter-related serif-I contours remain the dominant pattern and retain their exact colour-selection identities. The overall read adds only a centreline; the intermediate read has one slender bar-aligned leaf per chamber; the detail read has two opposed simple leaves meeting at the bar\u0027s centre. Bare caps and interlocks preserve the source rhythm without flowers, cap fans or nested collars.",
+        "svg": "",
+        "units": 9,
+        "paths": 8,
+        "chords": 120,
+        "addedPaths": 4,
+        "attachments": 4,
+        "strokes": 1080,
+        "accepted": 596,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 124,
+        "nativeObjects": 19179,
+        "numericParticipants": 0,
+        "layerPaths": [
+          4,
+          0,
+          4
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Porcelain \u0026 quiet blue"
+      }
+    },
+    {
+      "mode": "motif",
+      "constructionNotes": "The four actual quarter-related serif-I contours remain the dominant pattern and retain their exact colour-selection identities. The overall read adds only a centreline; the intermediate read has one slender bar-aligned leaf per chamber; the detail read has two opposed simple leaves meeting at the bar\u0027s centre. Bare caps and interlocks preserve the source rhythm without flowers, cap fans or nested collars. Curved rendering rounds selected flowing contours only; pointed tips, roots and native source seam identities remain fixed. Four colour groups are exact disjoint path selections, not screen-location bins.",
+      "curvedPlacedPaths": 36,
+      "plate": {
+        "id": "R-B13-motif",
+        "title": "B13 \u00B7 Quiet interlocking serif bands",
+        "sourceId": "B13",
+        "description": "The four actual quarter-related serif-I contours remain the dominant pattern and retain their exact colour-selection identities. The overall read adds only a centreline; the intermediate read has one slender bar-aligned leaf per chamber; the detail read has two opposed simple leaves meeting at the bar\u0027s centre. Bare caps and interlocks preserve the source rhythm without flowers, cap fans or nested collars.",
+        "svg": "",
+        "units": 9,
+        "paths": 12,
+        "chords": 140,
+        "addedPaths": 8,
+        "attachments": 8,
+        "strokes": 1260,
+        "accepted": 596,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 124,
+        "nativeObjects": 27713,
+        "numericParticipants": 0,
+        "layerPaths": [
+          4,
+          4,
+          4
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Porcelain \u0026 quiet blue"
+      }
+    },
+    {
+      "mode": "detail",
+      "constructionNotes": "The four actual quarter-related serif-I contours remain the dominant pattern and retain their exact colour-selection identities. The overall read adds only a centreline; the intermediate read has one slender bar-aligned leaf per chamber; the detail read has two opposed simple leaves meeting at the bar\u0027s centre. Bare caps and interlocks preserve the source rhythm without flowers, cap fans or nested collars. Curved rendering rounds selected flowing contours only; pointed tips, roots and native source seam identities remain fixed. Four colour groups are exact disjoint path selections, not screen-location bins.",
+      "curvedPlacedPaths": 72,
+      "plate": {
+        "id": "R-B13-detail",
+        "title": "B13 \u00B7 Quiet interlocking serif bands",
+        "sourceId": "B13",
+        "description": "The four actual quarter-related serif-I contours remain the dominant pattern and retain their exact colour-selection identities. The overall read adds only a centreline; the intermediate read has one slender bar-aligned leaf per chamber; the detail read has two opposed simple leaves meeting at the bar\u0027s centre. Bare caps and interlocks preserve the source rhythm without flowers, cap fans or nested collars.",
+        "svg": "",
+        "units": 9,
+        "paths": 20,
+        "chords": 168,
+        "addedPaths": 16,
+        "attachments": 16,
+        "strokes": 1512,
+        "accepted": 596,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 124,
+        "nativeObjects": 41297,
+        "numericParticipants": 0,
+        "layerPaths": [
+          4,
+          8,
+          8
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Porcelain \u0026 quiet blue"
+      }
+    },
+    {
+      "mode": "field",
+      "constructionNotes": "The four actual quarter-related serif-I contours remain the dominant pattern and retain their exact colour-selection identities. The overall read adds only a centreline; the intermediate read has one slender bar-aligned leaf per chamber; the detail read has two opposed simple leaves meeting at the bar\u0027s centre. Bare caps and interlocks preserve the source rhythm without flowers, cap fans or nested collars. Curved rendering rounds selected flowing contours only; pointed tips, roots and native source seam identities remain fixed. Four colour groups are exact disjoint path selections, not screen-location bins.",
+      "curvedPlacedPaths": 36,
+      "plate": {
+        "id": "R-B14-field",
+        "title": "B14 \u00B7 Quiet interlocking serif bands",
+        "sourceId": "B14",
+        "description": "The four actual quarter-related serif-I contours remain the dominant pattern and retain their exact colour-selection identities. The overall read adds only a centreline; the intermediate read has one slender bar-aligned leaf per chamber; the detail read has two opposed simple leaves meeting at the bar\u0027s centre. Bare caps and interlocks preserve the source rhythm without flowers, cap fans or nested collars.",
+        "svg": "",
+        "units": 9,
+        "paths": 8,
+        "chords": 88,
+        "addedPaths": 4,
+        "attachments": 4,
+        "strokes": 792,
+        "accepted": 476,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 100,
+        "nativeObjects": 15209,
+        "numericParticipants": 0,
+        "layerPaths": [
+          4,
+          0,
+          4
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Limestone \u0026 sage"
+      }
+    },
+    {
+      "mode": "motif",
+      "constructionNotes": "The four actual quarter-related serif-I contours remain the dominant pattern and retain their exact colour-selection identities. The overall read adds only a centreline; the intermediate read has one slender bar-aligned leaf per chamber; the detail read has two opposed simple leaves meeting at the bar\u0027s centre. Bare caps and interlocks preserve the source rhythm without flowers, cap fans or nested collars. Curved rendering rounds selected flowing contours only; pointed tips, roots and native source seam identities remain fixed. Four colour groups are exact disjoint path selections, not screen-location bins.",
+      "curvedPlacedPaths": 36,
+      "plate": {
+        "id": "R-B14-motif",
+        "title": "B14 \u00B7 Quiet interlocking serif bands",
+        "sourceId": "B14",
+        "description": "The four actual quarter-related serif-I contours remain the dominant pattern and retain their exact colour-selection identities. The overall read adds only a centreline; the intermediate read has one slender bar-aligned leaf per chamber; the detail read has two opposed simple leaves meeting at the bar\u0027s centre. Bare caps and interlocks preserve the source rhythm without flowers, cap fans or nested collars.",
+        "svg": "",
+        "units": 9,
+        "paths": 12,
+        "chords": 108,
+        "addedPaths": 8,
+        "attachments": 8,
+        "strokes": 972,
+        "accepted": 476,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 100,
+        "nativeObjects": 21743,
+        "numericParticipants": 0,
+        "layerPaths": [
+          4,
+          4,
+          4
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Limestone \u0026 sage"
+      }
+    },
+    {
+      "mode": "detail",
+      "constructionNotes": "The four actual quarter-related serif-I contours remain the dominant pattern and retain their exact colour-selection identities. The overall read adds only a centreline; the intermediate read has one slender bar-aligned leaf per chamber; the detail read has two opposed simple leaves meeting at the bar\u0027s centre. Bare caps and interlocks preserve the source rhythm without flowers, cap fans or nested collars. Curved rendering rounds selected flowing contours only; pointed tips, roots and native source seam identities remain fixed. Four colour groups are exact disjoint path selections, not screen-location bins.",
+      "curvedPlacedPaths": 72,
+      "plate": {
+        "id": "R-B14-detail",
+        "title": "B14 \u00B7 Quiet interlocking serif bands",
+        "sourceId": "B14",
+        "description": "The four actual quarter-related serif-I contours remain the dominant pattern and retain their exact colour-selection identities. The overall read adds only a centreline; the intermediate read has one slender bar-aligned leaf per chamber; the detail read has two opposed simple leaves meeting at the bar\u0027s centre. Bare caps and interlocks preserve the source rhythm without flowers, cap fans or nested collars.",
+        "svg": "",
+        "units": 9,
+        "paths": 20,
+        "chords": 136,
+        "addedPaths": 16,
+        "attachments": 16,
+        "strokes": 1224,
+        "accepted": 476,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 100,
+        "nativeObjects": 32131,
+        "numericParticipants": 0,
+        "layerPaths": [
+          4,
+          8,
+          8
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Limestone \u0026 sage"
+      }
+    },
+    {
+      "mode": "field",
+      "constructionNotes": "The small mesh receives one contained leaf or narrow leaf images along actual half-diagonal guides. No fan of corner leaves accumulates at a shared lattice vertex. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+      "curvedPlacedPaths": 0,
+      "plate": {
+        "id": "R-B15-field",
+        "title": "B15 \u00B7 Fine lattice grain and guided leaves",
+        "sourceId": "B15",
+        "description": "The small mesh receives one contained leaf or narrow leaf images along actual half-diagonal guides. No fan of corner leaves accumulates at a shared lattice vertex.",
+        "svg": "",
+        "units": 9,
+        "paths": 2,
+        "chords": 8,
+        "addedPaths": 1,
+        "attachments": 1,
+        "strokes": 72,
+        "accepted": 57,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 33,
+        "nativeObjects": 2003,
+        "numericParticipants": 0,
+        "layerPaths": [
+          1,
+          2,
+          0
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Warm white, moss \u0026 carmine"
+      }
+    },
+    {
+      "mode": "motif",
+      "constructionNotes": "The small mesh receives one contained leaf or narrow leaf images along actual half-diagonal guides. No fan of corner leaves accumulates at a shared lattice vertex. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+      "curvedPlacedPaths": 9,
+      "plate": {
+        "id": "R-B15-motif",
+        "title": "B15 \u00B7 Fine lattice grain and guided leaves",
+        "sourceId": "B15",
+        "description": "The small mesh receives one contained leaf or narrow leaf images along actual half-diagonal guides. No fan of corner leaves accumulates at a shared lattice vertex.",
+        "svg": "",
+        "units": 9,
+        "paths": 4,
+        "chords": 13,
+        "addedPaths": 3,
+        "attachments": 3,
+        "strokes": 117,
+        "accepted": 57,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 33,
+        "nativeObjects": 2655,
+        "numericParticipants": 0,
+        "layerPaths": [
+          1,
+          2,
+          2
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Midnight, flax \u0026 copper"
+      }
+    },
+    {
+      "mode": "detail",
+      "constructionNotes": "The small mesh receives one contained leaf or narrow leaf images along actual half-diagonal guides. No fan of corner leaves accumulates at a shared lattice vertex. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+      "curvedPlacedPaths": 9,
+      "plate": {
+        "id": "R-B15-detail",
+        "title": "B15 \u00B7 Fine lattice grain and guided leaves",
+        "sourceId": "B15",
+        "description": "The small mesh receives one contained leaf or narrow leaf images along actual half-diagonal guides. No fan of corner leaves accumulates at a shared lattice vertex.",
+        "svg": "",
+        "units": 9,
+        "paths": 3,
+        "chords": 11,
+        "addedPaths": 2,
+        "attachments": 2,
+        "strokes": 99,
+        "accepted": 57,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 33,
+        "nativeObjects": 2156,
+        "numericParticipants": 0,
+        "layerPaths": [
+          1,
+          2,
+          1
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Fir, celadon \u0026 apricot"
+      }
+    },
+    {
+      "mode": "field",
+      "constructionNotes": "The small mesh receives one contained leaf or narrow leaf images along actual half-diagonal guides. No fan of corner leaves accumulates at a shared lattice vertex. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+      "curvedPlacedPaths": 0,
+      "plate": {
+        "id": "R-B16-field",
+        "title": "B16 \u00B7 Fine lattice grain and guided leaves",
+        "sourceId": "B16",
+        "description": "The small mesh receives one contained leaf or narrow leaf images along actual half-diagonal guides. No fan of corner leaves accumulates at a shared lattice vertex.",
+        "svg": "",
+        "units": 9,
+        "paths": 4,
+        "chords": 12,
+        "addedPaths": 2,
+        "attachments": 2,
+        "strokes": 108,
+        "accepted": 164,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 88,
+        "nativeObjects": 3252,
+        "numericParticipants": 0,
+        "layerPaths": [
+          2,
+          4,
+          0
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Ink, porcelain \u0026 coral"
+      }
+    },
+    {
+      "mode": "motif",
+      "constructionNotes": "The small mesh receives one contained leaf or narrow leaf images along actual half-diagonal guides. No fan of corner leaves accumulates at a shared lattice vertex. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+      "curvedPlacedPaths": 54,
+      "plate": {
+        "id": "R-B16-motif",
+        "title": "B16 \u00B7 Fine lattice grain and guided leaves",
+        "sourceId": "B16",
+        "description": "The small mesh receives one contained leaf or narrow leaf images along actual half-diagonal guides. No fan of corner leaves accumulates at a shared lattice vertex.",
+        "svg": "",
+        "units": 9,
+        "paths": 16,
+        "chords": 56,
+        "addedPaths": 14,
+        "attachments": 14,
+        "strokes": 504,
+        "accepted": 164,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 88,
+        "nativeObjects": 8355,
+        "numericParticipants": 0,
+        "layerPaths": [
+          2,
+          8,
+          8
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Mist, petrol \u0026 raspberry"
+      }
+    },
+    {
+      "mode": "detail",
+      "constructionNotes": "The fine reading has a substantial interior silhouette: a repeated flower, fan, leaf panel or connected course blossom. Actual parent ports justify its placement; veins and nested contours articulate the large motif instead of substituting sparse tiny marks for detail. The retained lattice remains the placement and flow scaffold. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+      "curvedPlacedPaths": 54,
+      "plate": {
+        "id": "R-B16-detail",
+        "title": "B16 \u00B7 Full interior ornament and articulated growth",
+        "sourceId": "B16",
+        "description": "The fine reading has a substantial interior silhouette: a repeated flower, fan, leaf panel or connected course blossom. Actual parent ports justify its placement; veins and nested contours articulate the large motif instead of substituting sparse tiny marks for detail. The retained lattice remains the placement and flow scaffold.",
+        "svg": "",
+        "units": 9,
+        "paths": 16,
+        "chords": 56,
+        "addedPaths": 14,
+        "attachments": 14,
+        "strokes": 504,
+        "accepted": 164,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 88,
+        "nativeObjects": 8509,
+        "numericParticipants": 0,
+        "layerPaths": [
+          2,
+          8,
+          8
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Slate, lavender \u0026 warm ivory"
+      }
+    },
+    {
+      "mode": "field",
+      "constructionNotes": "The small mesh receives one contained leaf or narrow leaf images along actual half-diagonal guides. No fan of corner leaves accumulates at a shared lattice vertex. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+      "curvedPlacedPaths": 0,
+      "plate": {
+        "id": "R-B17-field",
+        "title": "B17 \u00B7 Fine lattice grain and guided leaves",
+        "sourceId": "B17",
+        "description": "The small mesh receives one contained leaf or narrow leaf images along actual half-diagonal guides. No fan of corner leaves accumulates at a shared lattice vertex.",
+        "svg": "",
+        "units": 9,
+        "paths": 4,
+        "chords": 12,
+        "addedPaths": 1,
+        "attachments": 1,
+        "strokes": 108,
+        "accepted": 223,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 110,
+        "nativeObjects": 2921,
+        "numericParticipants": 0,
+        "layerPaths": [
+          3,
+          2,
+          2
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Linen, walnut \u0026 turquoise"
+      }
+    },
+    {
+      "mode": "motif",
+      "constructionNotes": "The small mesh receives one contained leaf or narrow leaf images along actual half-diagonal guides. No fan of corner leaves accumulates at a shared lattice vertex. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+      "curvedPlacedPaths": 36,
+      "plate": {
+        "id": "R-B17-motif",
+        "title": "B17 \u00B7 Fine lattice grain and guided leaves",
+        "sourceId": "B17",
+        "description": "The small mesh receives one contained leaf or narrow leaf images along actual half-diagonal guides. No fan of corner leaves accumulates at a shared lattice vertex.",
+        "svg": "",
+        "units": 9,
+        "paths": 12,
+        "chords": 40,
+        "addedPaths": 9,
+        "attachments": 9,
+        "strokes": 360,
+        "accepted": 223,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 110,
+        "nativeObjects": 6689,
+        "numericParticipants": 0,
+        "layerPaths": [
+          3,
+          5,
+          7
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Dusty blue, ink \u0026 pale gold"
+      }
+    },
+    {
+      "mode": "detail",
+      "constructionNotes": "The small mesh receives one contained leaf or narrow leaf images along actual half-diagonal guides. No fan of corner leaves accumulates at a shared lattice vertex. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+      "curvedPlacedPaths": 36,
+      "plate": {
+        "id": "R-B17-detail",
+        "title": "B17 \u00B7 Fine lattice grain and guided leaves",
+        "sourceId": "B17",
+        "description": "The small mesh receives one contained leaf or narrow leaf images along actual half-diagonal guides. No fan of corner leaves accumulates at a shared lattice vertex.",
+        "svg": "",
+        "units": 9,
+        "paths": 7,
+        "chords": 32,
+        "addedPaths": 4,
+        "attachments": 4,
+        "strokes": 288,
+        "accepted": 223,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 110,
+        "nativeObjects": 4500,
+        "numericParticipants": 0,
+        "layerPaths": [
+          3,
+          5,
+          2
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Sand, teal \u0026 vermilion"
+      }
+    },
+    {
+      "mode": "field",
+      "constructionNotes": "The small mesh receives one contained leaf or narrow leaf images along actual half-diagonal guides. No fan of corner leaves accumulates at a shared lattice vertex. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+      "curvedPlacedPaths": 0,
+      "plate": {
+        "id": "R-B18-field",
+        "title": "B18 \u00B7 Fine lattice grain and guided leaves",
+        "sourceId": "B18",
+        "description": "The small mesh receives one contained leaf or narrow leaf images along actual half-diagonal guides. No fan of corner leaves accumulates at a shared lattice vertex.",
+        "svg": "",
+        "units": 9,
+        "paths": 4,
+        "chords": 12,
+        "addedPaths": 1,
+        "attachments": 1,
+        "strokes": 108,
+        "accepted": 223,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 110,
+        "nativeObjects": 2617,
+        "numericParticipants": 0,
+        "layerPaths": [
+          3,
+          2,
+          2
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Parchment, indigo \u0026 rust"
+      }
+    },
+    {
+      "mode": "motif",
+      "constructionNotes": "The small mesh receives one contained leaf or narrow leaf images along actual half-diagonal guides. No fan of corner leaves accumulates at a shared lattice vertex. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+      "curvedPlacedPaths": 36,
+      "plate": {
+        "id": "R-B18-motif",
+        "title": "B18 \u00B7 Fine lattice grain and guided leaves",
+        "sourceId": "B18",
+        "description": "The small mesh receives one contained leaf or narrow leaf images along actual half-diagonal guides. No fan of corner leaves accumulates at a shared lattice vertex.",
+        "svg": "",
+        "units": 9,
+        "paths": 12,
+        "chords": 40,
+        "addedPaths": 9,
+        "attachments": 9,
+        "strokes": 360,
+        "accepted": 223,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 110,
+        "nativeObjects": 5929,
+        "numericParticipants": 0,
+        "layerPaths": [
+          3,
+          5,
+          7
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Shell, aubergine \u0026 olive"
+      }
+    },
+    {
+      "mode": "detail",
+      "constructionNotes": "The small mesh receives one contained leaf or narrow leaf images along actual half-diagonal guides. No fan of corner leaves accumulates at a shared lattice vertex. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+      "curvedPlacedPaths": 36,
+      "plate": {
+        "id": "R-B18-detail",
+        "title": "B18 \u00B7 Fine lattice grain and guided leaves",
+        "sourceId": "B18",
+        "description": "The small mesh receives one contained leaf or narrow leaf images along actual half-diagonal guides. No fan of corner leaves accumulates at a shared lattice vertex.",
+        "svg": "",
+        "units": 9,
+        "paths": 7,
+        "chords": 32,
+        "addedPaths": 4,
+        "attachments": 4,
+        "strokes": 288,
+        "accepted": 223,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 110,
+        "nativeObjects": 4108,
+        "numericParticipants": 0,
+        "layerPaths": [
+          3,
+          5,
+          2
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Plum, sage \u0026 champagne"
+      }
+    },
+    {
+      "mode": "field",
+      "constructionNotes": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+      "curvedPlacedPaths": 9,
+      "plate": {
+        "id": "R-B19-field",
+        "title": "B19 \u00B7 Inset fields and quiet construction",
+        "sourceId": "B19",
+        "description": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact.",
+        "svg": "",
+        "units": 9,
+        "paths": 3,
+        "chords": 24,
+        "addedPaths": 2,
+        "attachments": 2,
+        "strokes": 216,
+        "accepted": 53,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 28,
+        "nativeObjects": 3810,
+        "numericParticipants": 0,
+        "layerPaths": [
+          1,
+          2,
+          1
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Fir, celadon \u0026 apricot"
+      }
+    },
+    {
+      "mode": "motif",
+      "constructionNotes": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+      "curvedPlacedPaths": 9,
+      "plate": {
+        "id": "R-B19-motif",
+        "title": "B19 \u00B7 Conventional leaves and medallions",
+        "sourceId": "B19",
+        "description": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact.",
+        "svg": "",
+        "units": 9,
+        "paths": 4,
+        "chords": 15,
+        "addedPaths": 3,
+        "attachments": 3,
+        "strokes": 135,
+        "accepted": 53,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 28,
+        "nativeObjects": 3528,
+        "numericParticipants": 0,
+        "layerPaths": [
+          1,
+          2,
+          2
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Saffron, dark blue \u0026 cream"
+      }
+    },
+    {
+      "mode": "detail",
+      "constructionNotes": "The fine reading has a substantial interior silhouette: a repeated flower, fan, leaf panel or connected course blossom. Actual parent ports justify its placement; veins and nested contours articulate the large motif instead of substituting sparse tiny marks for detail. The retained lattice remains the placement and flow scaffold. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+      "curvedPlacedPaths": 18,
+      "plate": {
+        "id": "R-B19-detail",
+        "title": "B19 \u00B7 Full interior ornament and articulated growth",
+        "sourceId": "B19",
+        "description": "The fine reading has a substantial interior silhouette: a repeated flower, fan, leaf panel or connected course blossom. Actual parent ports justify its placement; veins and nested contours articulate the large motif instead of substituting sparse tiny marks for detail. The retained lattice remains the placement and flow scaffold.",
+        "svg": "",
+        "units": 9,
+        "paths": 6,
+        "chords": 21,
+        "addedPaths": 5,
+        "attachments": 5,
+        "strokes": 189,
+        "accepted": 53,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 28,
+        "nativeObjects": 5720,
+        "numericParticipants": 0,
+        "layerPaths": [
+          1,
+          2,
+          4
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Garnet, sea green \u0026 ivory"
+      }
+    },
+    {
+      "mode": "field",
+      "constructionNotes": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+      "curvedPlacedPaths": 27,
+      "plate": {
+        "id": "R-B20-field",
+        "title": "B20 \u00B7 Inset fields and quiet construction",
+        "sourceId": "B20",
+        "description": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact.",
+        "svg": "",
+        "units": 9,
+        "paths": 9,
+        "chords": 60,
+        "addedPaths": 6,
+        "attachments": 6,
+        "strokes": 540,
+        "accepted": 242,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 55,
+        "nativeObjects": 7424,
+        "numericParticipants": 0,
+        "layerPaths": [
+          3,
+          6,
+          3
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Slate, lavender \u0026 warm ivory"
+      }
+    },
+    {
+      "mode": "motif",
+      "constructionNotes": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+      "curvedPlacedPaths": 81,
+      "plate": {
+        "id": "R-B20-motif",
+        "title": "B20 \u00B7 Repeated lotus and trefoil units",
+        "sourceId": "B20",
+        "description": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact.",
+        "svg": "",
+        "units": 9,
+        "paths": 24,
+        "chords": 87,
+        "addedPaths": 21,
+        "attachments": 21,
+        "strokes": 783,
+        "accepted": 242,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 55,
+        "nativeObjects": 11253,
+        "numericParticipants": 0,
+        "layerPaths": [
+          3,
+          12,
+          12
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Chalk, forest \u0026 rose"
+      }
+    },
+    {
+      "mode": "detail",
+      "constructionNotes": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+      "curvedPlacedPaths": 27,
+      "plate": {
+        "id": "R-B20-detail",
+        "title": "B20 \u00B7 Veins and foliage following the scaffold",
+        "sourceId": "B20",
+        "description": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact.",
+        "svg": "",
+        "units": 9,
+        "paths": 9,
+        "chords": 33,
+        "addedPaths": 6,
+        "attachments": 6,
+        "strokes": 297,
+        "accepted": 242,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 55,
+        "nativeObjects": 6379,
+        "numericParticipants": 0,
+        "layerPaths": [
+          3,
+          6,
+          3
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Ivory, lapis \u0026 ochre"
+      }
+    },
+    {
+      "mode": "field",
+      "constructionNotes": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+      "curvedPlacedPaths": 18,
+      "plate": {
+        "id": "R-B21-field",
+        "title": "B21 \u00B7 Inset fields and quiet construction",
+        "sourceId": "B21",
+        "description": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact.",
+        "svg": "",
+        "units": 9,
+        "paths": 6,
+        "chords": 40,
+        "addedPaths": 4,
+        "attachments": 4,
+        "strokes": 360,
+        "accepted": 130,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 59,
+        "nativeObjects": 5019,
+        "numericParticipants": 0,
+        "layerPaths": [
+          2,
+          4,
+          2
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Sand, teal \u0026 vermilion"
+      }
+    },
+    {
+      "mode": "motif",
+      "constructionNotes": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+      "curvedPlacedPaths": 18,
+      "plate": {
+        "id": "R-B21-motif",
+        "title": "B21 \u00B7 Conventional leaves and medallions",
+        "sourceId": "B21",
+        "description": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact.",
+        "svg": "",
+        "units": 9,
+        "paths": 8,
+        "chords": 26,
+        "addedPaths": 6,
+        "attachments": 6,
+        "strokes": 234,
+        "accepted": 130,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 59,
+        "nativeObjects": 4908,
+        "numericParticipants": 0,
+        "layerPaths": [
+          2,
+          4,
+          4
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Terracotta, shell \u0026 charcoal"
+      }
+    },
+    {
+      "mode": "detail",
+      "constructionNotes": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+      "curvedPlacedPaths": 18,
+      "plate": {
+        "id": "R-B21-detail",
+        "title": "B21 \u00B7 Veins and foliage following the scaffold",
+        "sourceId": "B21",
+        "description": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact.",
+        "svg": "",
+        "units": 9,
+        "paths": 6,
+        "chords": 22,
+        "addedPaths": 4,
+        "attachments": 4,
+        "strokes": 198,
+        "accepted": 130,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 59,
+        "nativeObjects": 3930,
+        "numericParticipants": 0,
+        "layerPaths": [
+          2,
+          4,
+          2
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Pale jade, burgundy \u0026 brass"
+      }
+    },
+    {
+      "mode": "field",
+      "constructionNotes": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+      "curvedPlacedPaths": 36,
+      "plate": {
+        "id": "R-B22-field",
+        "title": "B22 \u00B7 Inset fields and quiet construction",
+        "sourceId": "B22",
+        "description": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact.",
+        "svg": "",
+        "units": 9,
+        "paths": 12,
+        "chords": 80,
+        "addedPaths": 8,
+        "attachments": 8,
+        "strokes": 720,
+        "accepted": 126,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 18,
+        "nativeObjects": 10602,
+        "numericParticipants": 0,
+        "layerPaths": [
+          4,
+          8,
+          4
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Plum, sage \u0026 champagne"
+      }
+    },
+    {
+      "mode": "motif",
+      "constructionNotes": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+      "curvedPlacedPaths": 36,
+      "plate": {
+        "id": "R-B22-motif",
+        "title": "B22 \u00B7 Conventional leaves and medallions",
+        "sourceId": "B22",
+        "description": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact.",
+        "svg": "",
+        "units": 9,
+        "paths": 16,
+        "chords": 52,
+        "addedPaths": 12,
+        "attachments": 12,
+        "strokes": 468,
+        "accepted": 126,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 18,
+        "nativeObjects": 10811,
+        "numericParticipants": 0,
+        "layerPaths": [
+          4,
+          8,
+          8
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Warm white, moss \u0026 carmine"
+      }
+    },
+    {
+      "mode": "detail",
+      "constructionNotes": "The fine reading has a substantial interior silhouette: a repeated flower, fan, leaf panel or connected course blossom. Actual parent ports justify its placement; veins and nested contours articulate the large motif instead of substituting sparse tiny marks for detail. The retained lattice remains the placement and flow scaffold. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+      "curvedPlacedPaths": 72,
+      "plate": {
+        "id": "R-B22-detail",
+        "title": "B22 \u00B7 Full interior ornament and articulated growth",
+        "sourceId": "B22",
+        "description": "The fine reading has a substantial interior silhouette: a repeated flower, fan, leaf panel or connected course blossom. Actual parent ports justify its placement; veins and nested contours articulate the large motif instead of substituting sparse tiny marks for detail. The retained lattice remains the placement and flow scaffold.",
+        "svg": "",
+        "units": 9,
+        "paths": 24,
+        "chords": 76,
+        "addedPaths": 20,
+        "attachments": 20,
+        "strokes": 684,
+        "accepted": 126,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 18,
+        "nativeObjects": 18980,
+        "numericParticipants": 0,
+        "layerPaths": [
+          4,
+          8,
+          16
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Midnight, flax \u0026 copper"
+      }
+    },
+    {
+      "mode": "field",
+      "constructionNotes": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+      "curvedPlacedPaths": 9,
+      "plate": {
+        "id": "R-B23-field",
+        "title": "B23 \u00B7 Inset fields and quiet construction",
+        "sourceId": "B23",
+        "description": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact.",
+        "svg": "",
+        "units": 9,
+        "paths": 3,
+        "chords": 28,
+        "addedPaths": 2,
+        "attachments": 2,
+        "strokes": 252,
+        "accepted": 39,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 15,
+        "nativeObjects": 3047,
+        "numericParticipants": 0,
+        "layerPaths": [
+          1,
+          2,
+          1
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Garnet, sea green \u0026 ivory"
+      }
+    },
+    {
+      "mode": "motif",
+      "constructionNotes": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+      "curvedPlacedPaths": 9,
+      "plate": {
+        "id": "R-B23-motif",
+        "title": "B23 \u00B7 Conventional leaves and medallions",
+        "sourceId": "B23",
+        "description": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact.",
+        "svg": "",
+        "units": 9,
+        "paths": 4,
+        "chords": 17,
+        "addedPaths": 3,
+        "attachments": 3,
+        "strokes": 153,
+        "accepted": 39,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 15,
+        "nativeObjects": 2787,
+        "numericParticipants": 0,
+        "layerPaths": [
+          1,
+          2,
+          2
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Ink, porcelain \u0026 coral"
+      }
+    },
+    {
+      "mode": "detail",
+      "constructionNotes": "The fine reading has a substantial interior silhouette: a repeated flower, fan, leaf panel or connected course blossom. Actual parent ports justify its placement; veins and nested contours articulate the large motif instead of substituting sparse tiny marks for detail. The retained lattice remains the placement and flow scaffold. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+      "curvedPlacedPaths": 9,
+      "plate": {
+        "id": "R-B23-detail",
+        "title": "B23 \u00B7 Full interior ornament and articulated growth",
+        "sourceId": "B23",
+        "description": "The fine reading has a substantial interior silhouette: a repeated flower, fan, leaf panel or connected course blossom. Actual parent ports justify its placement; veins and nested contours articulate the large motif instead of substituting sparse tiny marks for detail. The retained lattice remains the placement and flow scaffold.",
+        "svg": "",
+        "units": 9,
+        "paths": 11,
+        "chords": 36,
+        "addedPaths": 10,
+        "attachments": 10,
+        "strokes": 324,
+        "accepted": 39,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 15,
+        "nativeObjects": 6247,
+        "numericParticipants": 0,
+        "layerPaths": [
+          1,
+          2,
+          9
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Mist, petrol \u0026 raspberry"
+      }
+    },
+    {
+      "mode": "field",
+      "constructionNotes": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+      "curvedPlacedPaths": 18,
+      "plate": {
+        "id": "R-B24-field",
+        "title": "B24 \u00B7 Inset fields and quiet construction",
+        "sourceId": "B24",
+        "description": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact.",
+        "svg": "",
+        "units": 9,
+        "paths": 6,
+        "chords": 48,
+        "addedPaths": 4,
+        "attachments": 4,
+        "strokes": 432,
+        "accepted": 68,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 22,
+        "nativeObjects": 7292,
+        "numericParticipants": 0,
+        "layerPaths": [
+          2,
+          4,
+          2
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Ivory, lapis \u0026 ochre"
+      }
+    },
+    {
+      "mode": "motif",
+      "constructionNotes": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+      "curvedPlacedPaths": 54,
+      "plate": {
+        "id": "R-B24-motif",
+        "title": "B24 \u00B7 Repeated lotus and trefoil units",
+        "sourceId": "B24",
+        "description": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact.",
+        "svg": "",
+        "units": 9,
+        "paths": 16,
+        "chords": 62,
+        "addedPaths": 14,
+        "attachments": 14,
+        "strokes": 558,
+        "accepted": 68,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 22,
+        "nativeObjects": 13612,
+        "numericParticipants": 0,
+        "layerPaths": [
+          2,
+          8,
+          8
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Linen, walnut \u0026 turquoise"
+      }
+    },
+    {
+      "mode": "detail",
+      "constructionNotes": "The fine reading has a substantial interior silhouette: a repeated flower, fan, leaf panel or connected course blossom. Actual parent ports justify its placement; veins and nested contours articulate the large motif instead of substituting sparse tiny marks for detail. The retained lattice remains the placement and flow scaffold. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+      "curvedPlacedPaths": 54,
+      "plate": {
+        "id": "R-B24-detail",
+        "title": "B24 \u00B7 Full interior ornament and articulated growth",
+        "sourceId": "B24",
+        "description": "The fine reading has a substantial interior silhouette: a repeated flower, fan, leaf panel or connected course blossom. Actual parent ports justify its placement; veins and nested contours articulate the large motif instead of substituting sparse tiny marks for detail. The retained lattice remains the placement and flow scaffold.",
+        "svg": "",
+        "units": 9,
+        "paths": 16,
+        "chords": 62,
+        "addedPaths": 14,
+        "attachments": 14,
+        "strokes": 558,
+        "accepted": 68,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 22,
+        "nativeObjects": 13700,
+        "numericParticipants": 0,
+        "layerPaths": [
+          2,
+          8,
+          8
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Dusty blue, ink \u0026 pale gold"
+      }
+    },
+    {
+      "mode": "field",
+      "constructionNotes": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+      "curvedPlacedPaths": 9,
+      "plate": {
+        "id": "R-B25-field",
+        "title": "B25 \u00B7 Inset fields and quiet construction",
+        "sourceId": "B25",
+        "description": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact.",
+        "svg": "",
+        "units": 9,
+        "paths": 6,
+        "chords": 39,
+        "addedPaths": 2,
+        "attachments": 2,
+        "strokes": 351,
+        "accepted": 61,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 11,
+        "nativeObjects": 6730,
+        "numericParticipants": 0,
+        "layerPaths": [
+          4,
+          2,
+          4
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Pale jade, burgundy \u0026 brass"
+      }
+    },
+    {
+      "mode": "motif",
+      "constructionNotes": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+      "curvedPlacedPaths": 54,
+      "plate": {
+        "id": "R-B25-motif",
+        "title": "B25 \u00B7 Repeated lotus and trefoil units",
+        "sourceId": "B25",
+        "description": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact.",
+        "svg": "",
+        "units": 9,
+        "paths": 17,
+        "chords": 61,
+        "addedPaths": 13,
+        "attachments": 13,
+        "strokes": 549,
+        "accepted": 61,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 11,
+        "nativeObjects": 11962,
+        "numericParticipants": 0,
+        "layerPaths": [
+          4,
+          7,
+          10
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Parchment, indigo \u0026 rust"
+      }
+    },
+    {
+      "mode": "detail",
+      "constructionNotes": "The fine reading has a substantial interior silhouette: a repeated flower, fan, leaf panel or connected course blossom. Actual parent ports justify its placement; veins and nested contours articulate the large motif instead of substituting sparse tiny marks for detail. The retained lattice remains the placement and flow scaffold. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+      "curvedPlacedPaths": 63,
+      "plate": {
+        "id": "R-B25-detail",
+        "title": "B25 \u00B7 Full interior ornament and articulated growth",
+        "sourceId": "B25",
+        "description": "The fine reading has a substantial interior silhouette: a repeated flower, fan, leaf panel or connected course blossom. Actual parent ports justify its placement; veins and nested contours articulate the large motif instead of substituting sparse tiny marks for detail. The retained lattice remains the placement and flow scaffold.",
+        "svg": "",
+        "units": 9,
+        "paths": 17,
+        "chords": 69,
+        "addedPaths": 13,
+        "attachments": 13,
+        "strokes": 621,
+        "accepted": 61,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 11,
+        "nativeObjects": 13168,
+        "numericParticipants": 0,
+        "layerPaths": [
+          4,
+          7,
+          10
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Shell, aubergine \u0026 olive"
+      }
+    },
+    {
+      "mode": "field",
+      "constructionNotes": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+      "curvedPlacedPaths": 9,
+      "plate": {
+        "id": "R-B26-field",
+        "title": "B26 \u00B7 Inset fields and quiet construction",
+        "sourceId": "B26",
+        "description": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact.",
+        "svg": "",
+        "units": 9,
+        "paths": 15,
+        "chords": 72,
+        "addedPaths": 2,
+        "attachments": 2,
+        "strokes": 648,
+        "accepted": 657,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 36,
+        "nativeObjects": 10033,
+        "numericParticipants": 0,
+        "layerPaths": [
+          13,
+          2,
+          13
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Midnight, flax \u0026 copper"
+      }
+    },
+    {
+      "mode": "motif",
+      "constructionNotes": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+      "curvedPlacedPaths": 54,
+      "plate": {
+        "id": "R-B26-motif",
+        "title": "B26 \u00B7 Repeated lotus and trefoil units",
+        "sourceId": "B26",
+        "description": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact.",
+        "svg": "",
+        "units": 9,
+        "paths": 26,
+        "chords": 82,
+        "addedPaths": 13,
+        "attachments": 13,
+        "strokes": 738,
+        "accepted": 657,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 36,
+        "nativeObjects": 17239,
+        "numericParticipants": 0,
+        "layerPaths": [
+          13,
+          7,
+          19
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Fir, celadon \u0026 apricot"
+      }
+    },
+    {
+      "mode": "detail",
+      "constructionNotes": "The fine reading has a substantial interior silhouette: a repeated flower, fan, leaf panel or connected course blossom. Actual parent ports justify its placement; veins and nested contours articulate the large motif instead of substituting sparse tiny marks for detail. The retained lattice remains the placement and flow scaffold. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+      "curvedPlacedPaths": 63,
+      "plate": {
+        "id": "R-B26-detail",
+        "title": "B26 \u00B7 Full interior ornament and articulated growth",
+        "sourceId": "B26",
+        "description": "The fine reading has a substantial interior silhouette: a repeated flower, fan, leaf panel or connected course blossom. Actual parent ports justify its placement; veins and nested contours articulate the large motif instead of substituting sparse tiny marks for detail. The retained lattice remains the placement and flow scaffold.",
+        "svg": "",
+        "units": 9,
+        "paths": 26,
+        "chords": 90,
+        "addedPaths": 13,
+        "attachments": 13,
+        "strokes": 810,
+        "accepted": 657,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 36,
+        "nativeObjects": 18523,
+        "numericParticipants": 0,
+        "layerPaths": [
+          13,
+          7,
+          19
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Saffron, dark blue \u0026 cream"
+      }
+    },
+    {
+      "mode": "field",
+      "constructionNotes": "The paired ridges carry companion bands, an apex-rooted three-leaf spray, or smaller edge buds. The intervening diamond remains a subordinate window. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+      "curvedPlacedPaths": 0,
+      "plate": {
+        "id": "R-B27-field",
+        "title": "B27 \u00B7 Sprouting chevron courses",
+        "sourceId": "B27",
+        "description": "The paired ridges carry companion bands, an apex-rooted three-leaf spray, or smaller edge buds. The intervening diamond remains a subordinate window.",
+        "svg": "",
+        "units": 9,
+        "paths": 7,
+        "chords": 22,
+        "addedPaths": 3,
+        "attachments": 3,
+        "strokes": 198,
+        "accepted": 33,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 12,
+        "nativeObjects": 3902,
+        "numericParticipants": 0,
+        "layerPaths": [
+          6,
+          1,
+          4
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Mist, petrol \u0026 raspberry"
+      }
+    },
+    {
+      "mode": "motif",
+      "constructionNotes": "The paired ridges carry companion bands, an apex-rooted three-leaf spray, or smaller edge buds. The intervening diamond remains a subordinate window. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+      "curvedPlacedPaths": 27,
+      "plate": {
+        "id": "R-B27-motif",
+        "title": "B27 \u00B7 Sprouting chevron courses",
+        "sourceId": "B27",
+        "description": "The paired ridges carry companion bands, an apex-rooted three-leaf spray, or smaller edge buds. The intervening diamond remains a subordinate window.",
+        "svg": "",
+        "units": 9,
+        "paths": 12,
+        "chords": 41,
+        "addedPaths": 8,
+        "attachments": 8,
+        "strokes": 369,
+        "accepted": 33,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 12,
+        "nativeObjects": 6962,
+        "numericParticipants": 0,
+        "layerPaths": [
+          4,
+          4,
+          8
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Slate, lavender \u0026 warm ivory"
+      }
+    },
+    {
+      "mode": "detail",
+      "constructionNotes": "The fine reading has a substantial interior silhouette: a repeated flower, fan, leaf panel or connected course blossom. Actual parent ports justify its placement; veins and nested contours articulate the large motif instead of substituting sparse tiny marks for detail. The retained lattice remains the placement and flow scaffold. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+      "curvedPlacedPaths": 27,
+      "plate": {
+        "id": "R-B27-detail",
+        "title": "B27 \u00B7 Full interior ornament and articulated growth",
+        "sourceId": "B27",
+        "description": "The fine reading has a substantial interior silhouette: a repeated flower, fan, leaf panel or connected course blossom. Actual parent ports justify its placement; veins and nested contours articulate the large motif instead of substituting sparse tiny marks for detail. The retained lattice remains the placement and flow scaffold.",
+        "svg": "",
+        "units": 9,
+        "paths": 19,
+        "chords": 62,
+        "addedPaths": 15,
+        "attachments": 15,
+        "strokes": 558,
+        "accepted": 33,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 12,
+        "nativeObjects": 12391,
+        "numericParticipants": 0,
+        "layerPaths": [
+          4,
+          5,
+          14
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Chalk, forest \u0026 rose"
+      }
+    },
+    {
+      "mode": "field",
+      "constructionNotes": "Each actual shell owns a broad inset fan, a graded five-lobed lotus, or fine rib-bound foliage. The common fan base and its spreading construction remain visible. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+      "curvedPlacedPaths": 18,
+      "plate": {
+        "id": "R-B28-field",
+        "title": "B28 \u00B7 Graded lotus fans",
+        "sourceId": "B28",
+        "description": "Each actual shell owns a broad inset fan, a graded five-lobed lotus, or fine rib-bound foliage. The common fan base and its spreading construction remain visible.",
+        "svg": "",
+        "units": 9,
+        "paths": 14,
+        "chords": 82,
+        "addedPaths": 6,
+        "attachments": 6,
+        "strokes": 738,
+        "accepted": 356,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 76,
+        "nativeObjects": 15312,
+        "numericParticipants": 0,
+        "layerPaths": [
+          8,
+          6,
+          8
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Dusty blue, ink \u0026 pale gold"
+      }
+    },
+    {
+      "mode": "motif",
+      "constructionNotes": "Each actual shell owns a broad inset fan, a graded five-lobed lotus, or fine rib-bound foliage. The common fan base and its spreading construction remain visible. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+      "curvedPlacedPaths": 108,
+      "plate": {
+        "id": "R-B28-motif",
+        "title": "B28 \u00B7 Graded lotus fans",
+        "sourceId": "B28",
+        "description": "Each actual shell owns a broad inset fan, a graded five-lobed lotus, or fine rib-bound foliage. The common fan base and its spreading construction remain visible.",
+        "svg": "",
+        "units": 9,
+        "paths": 32,
+        "chords": 124,
+        "addedPaths": 24,
+        "attachments": 24,
+        "strokes": 1116,
+        "accepted": 356,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 76,
+        "nativeObjects": 31468,
+        "numericParticipants": 0,
+        "layerPaths": [
+          8,
+          12,
+          20
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Sand, teal \u0026 vermilion"
+      }
+    },
+    {
+      "mode": "detail",
+      "constructionNotes": "The fine reading has a substantial interior silhouette: a repeated flower, fan, leaf panel or connected course blossom. Actual parent ports justify its placement; veins and nested contours articulate the large motif instead of substituting sparse tiny marks for detail. The retained lattice remains the placement and flow scaffold. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+      "curvedPlacedPaths": 36,
+      "plate": {
+        "id": "R-B28-detail",
+        "title": "B28 \u00B7 Full interior ornament and articulated growth",
+        "sourceId": "B28",
+        "description": "The fine reading has a substantial interior silhouette: a repeated flower, fan, leaf panel or connected course blossom. Actual parent ports justify its placement; veins and nested contours articulate the large motif instead of substituting sparse tiny marks for detail. The retained lattice remains the placement and flow scaffold.",
+        "svg": "",
+        "units": 9,
+        "paths": 22,
+        "chords": 80,
+        "addedPaths": 14,
+        "attachments": 14,
+        "strokes": 720,
+        "accepted": 356,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 76,
+        "nativeObjects": 21646,
+        "numericParticipants": 0,
+        "layerPaths": [
+          8,
+          4,
+          18
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Terracotta, shell \u0026 charcoal"
+      }
+    },
+    {
+      "mode": "field",
+      "constructionNotes": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+      "curvedPlacedPaths": 9,
+      "plate": {
+        "id": "R-B29-field",
+        "title": "B29 \u00B7 Inset fields and quiet construction",
+        "sourceId": "B29",
+        "description": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact.",
+        "svg": "",
+        "units": 9,
+        "paths": 3,
+        "chords": 36,
+        "addedPaths": 2,
+        "attachments": 2,
+        "strokes": 324,
+        "accepted": 47,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 25,
+        "nativeObjects": 5940,
+        "numericParticipants": 0,
+        "layerPaths": [
+          1,
+          2,
+          1
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Shell, aubergine \u0026 olive"
+      }
+    },
+    {
+      "mode": "motif",
+      "constructionNotes": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+      "curvedPlacedPaths": 54,
+      "plate": {
+        "id": "R-B29-motif",
+        "title": "B29 \u00B7 Repeated lotus and trefoil units",
+        "sourceId": "B29",
+        "description": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact.",
+        "svg": "",
+        "units": 9,
+        "paths": 14,
+        "chords": 58,
+        "addedPaths": 13,
+        "attachments": 13,
+        "strokes": 522,
+        "accepted": 47,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 25,
+        "nativeObjects": 11924,
+        "numericParticipants": 0,
+        "layerPaths": [
+          1,
+          7,
+          7
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Plum, sage \u0026 champagne"
+      }
+    },
+    {
+      "mode": "detail",
+      "constructionNotes": "The fine reading has a substantial interior silhouette: a repeated flower, fan, leaf panel or connected course blossom. Actual parent ports justify its placement; veins and nested contours articulate the large motif instead of substituting sparse tiny marks for detail. The retained lattice remains the placement and flow scaffold. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+      "curvedPlacedPaths": 54,
+      "plate": {
+        "id": "R-B29-detail",
+        "title": "B29 \u00B7 Full interior ornament and articulated growth",
+        "sourceId": "B29",
+        "description": "The fine reading has a substantial interior silhouette: a repeated flower, fan, leaf panel or connected course blossom. Actual parent ports justify its placement; veins and nested contours articulate the large motif instead of substituting sparse tiny marks for detail. The retained lattice remains the placement and flow scaffold.",
+        "svg": "",
+        "units": 9,
+        "paths": 14,
+        "chords": 58,
+        "addedPaths": 13,
+        "attachments": 13,
+        "strokes": 522,
+        "accepted": 47,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 25,
+        "nativeObjects": 12650,
+        "numericParticipants": 0,
+        "layerPaths": [
+          1,
+          7,
+          7
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Warm white, moss \u0026 carmine"
+      }
+    },
+    {
+      "mode": "field",
+      "constructionNotes": "Angular cloud companions lead the overall design. Paired round leaves and a rooted pearl occupy each existing valley in the intermediate design; fine leaves follow the actual arch courses. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+      "curvedPlacedPaths": 0,
+      "plate": {
+        "id": "R-B30-field",
+        "title": "B30 \u00B7 Cloud valleys and round foliage",
+        "sourceId": "B30",
+        "description": "Angular cloud companions lead the overall design. Paired round leaves and a rooted pearl occupy each existing valley in the intermediate design; fine leaves follow the actual arch courses.",
+        "svg": "",
+        "units": 9,
+        "paths": 8,
+        "chords": 160,
+        "addedPaths": 4,
+        "attachments": 4,
+        "strokes": 1440,
+        "accepted": 115,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 29,
+        "nativeObjects": 22816,
+        "numericParticipants": 0,
+        "layerPaths": [
+          8,
+          0,
+          4
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Saffron, dark blue \u0026 cream"
+      }
+    },
+    {
+      "mode": "motif",
+      "constructionNotes": "Angular cloud companions lead the overall design. Paired round leaves and a rooted pearl occupy each existing valley in the intermediate design; fine leaves follow the actual arch courses. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+      "curvedPlacedPaths": 108,
+      "plate": {
+        "id": "R-B30-motif",
+        "title": "B30 \u00B7 Cloud valleys and round foliage",
+        "sourceId": "B30",
+        "description": "Angular cloud companions lead the overall design. Paired round leaves and a rooted pearl occupy each existing valley in the intermediate design; fine leaves follow the actual arch courses.",
+        "svg": "",
+        "units": 9,
+        "paths": 28,
+        "chords": 188,
+        "addedPaths": 24,
+        "attachments": 24,
+        "strokes": 1692,
+        "accepted": 115,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 29,
+        "nativeObjects": 53126,
+        "numericParticipants": 0,
+        "layerPaths": [
+          4,
+          12,
+          16
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Garnet, sea green \u0026 ivory"
+      }
+    },
+    {
+      "mode": "detail",
+      "constructionNotes": "The fine reading has a substantial interior silhouette: a repeated flower, fan, leaf panel or connected course blossom. Actual parent ports justify its placement; veins and nested contours articulate the large motif instead of substituting sparse tiny marks for detail. The retained lattice remains the placement and flow scaffold. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+      "curvedPlacedPaths": 72,
+      "plate": {
+        "id": "R-B30-detail",
+        "title": "B30 \u00B7 Full interior ornament and articulated growth",
+        "sourceId": "B30",
+        "description": "The fine reading has a substantial interior silhouette: a repeated flower, fan, leaf panel or connected course blossom. Actual parent ports justify its placement; veins and nested contours articulate the large motif instead of substituting sparse tiny marks for detail. The retained lattice remains the placement and flow scaffold.",
+        "svg": "",
+        "units": 9,
+        "paths": 44,
+        "chords": 224,
+        "addedPaths": 40,
+        "attachments": 40,
+        "strokes": 2016,
+        "accepted": 115,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 29,
+        "nativeObjects": 160670,
+        "numericParticipants": 0,
+        "layerPaths": [
+          4,
+          4,
+          40
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Ink, porcelain \u0026 coral"
+      }
+    },
+    {
+      "mode": "field",
+      "constructionNotes": "Growth follows actual arm chords, while the round source marker remains an unfilled window. The larger overall construction uses exact angular companion arms. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+      "curvedPlacedPaths": 0,
+      "plate": {
+        "id": "R-B31-field",
+        "title": "B31 \u00B7 Outward arms with wrist foliage",
+        "sourceId": "B31",
+        "description": "Growth follows actual arm chords, while the round source marker remains an unfilled window. The larger overall construction uses exact angular companion arms.",
+        "svg": "",
+        "units": 9,
+        "paths": 9,
+        "chords": 36,
+        "addedPaths": 4,
+        "attachments": 4,
+        "strokes": 324,
+        "accepted": 63,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 0,
+        "nativeObjects": 12253,
+        "numericParticipants": 0,
+        "layerPaths": [
+          9,
+          1,
+          4
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Chalk, forest \u0026 rose"
+      }
+    },
+    {
+      "mode": "motif",
+      "constructionNotes": "Growth follows actual arm chords, while the round source marker remains an unfilled window. The larger overall construction uses exact angular companion arms. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+      "curvedPlacedPaths": 36,
+      "plate": {
+        "id": "R-B31-motif",
+        "title": "B31 \u00B7 Outward arms with wrist foliage",
+        "sourceId": "B31",
+        "description": "Growth follows actual arm chords, while the round source marker remains an unfilled window. The larger overall construction uses exact angular companion arms.",
+        "svg": "",
+        "units": 9,
+        "paths": 13,
+        "chords": 56,
+        "addedPaths": 8,
+        "attachments": 8,
+        "strokes": 504,
+        "accepted": 63,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 0,
+        "nativeObjects": 18618,
+        "numericParticipants": 0,
+        "layerPaths": [
+          5,
+          5,
+          8
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Ivory, lapis \u0026 ochre"
+      }
+    },
+    {
+      "mode": "detail",
+      "constructionNotes": "The fine reading has a substantial interior silhouette: a repeated flower, fan, leaf panel or connected course blossom. Actual parent ports justify its placement; veins and nested contours articulate the large motif instead of substituting sparse tiny marks for detail. The retained lattice remains the placement and flow scaffold. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+      "curvedPlacedPaths": 54,
+      "plate": {
+        "id": "R-B31-detail",
+        "title": "B31 \u00B7 Full interior ornament and articulated growth",
+        "sourceId": "B31",
+        "description": "The fine reading has a substantial interior silhouette: a repeated flower, fan, leaf panel or connected course blossom. Actual parent ports justify its placement; veins and nested contours articulate the large motif instead of substituting sparse tiny marks for detail. The retained lattice remains the placement and flow scaffold.",
+        "svg": "",
+        "units": 9,
+        "paths": 23,
+        "chords": 92,
+        "addedPaths": 18,
+        "attachments": 18,
+        "strokes": 828,
+        "accepted": 63,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 0,
+        "nativeObjects": 27816,
+        "numericParticipants": 0,
+        "layerPaths": [
+          5,
+          6,
+          17
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Linen, walnut \u0026 turquoise"
+      }
+    },
+    {
+      "mode": "field",
+      "constructionNotes": "The original interrupted diagonal courses lead every scale. Their separate central ends, diagonal half-drop and authenticated valley contacts remain intact. One small fourfold diamond inlay, articulated by nesting at finer readings, attaches to an actual course port. Broad and banded ink is an optional presentation of the retained courses, not a new ribbon face or topological join. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+      "curvedPlacedPaths": 0,
+      "plate": {
+        "id": "R-B32-field",
+        "title": "B32 \u00B7 Banded diagonal courses and quiet diamond inlays",
+        "sourceId": "B32",
+        "description": "The original interrupted diagonal courses lead every scale. Their separate central ends, diagonal half-drop and authenticated valley contacts remain intact. One small fourfold diamond inlay, articulated by nesting at finer readings, attaches to an actual course port. Broad and banded ink is an optional presentation of the retained courses, not a new ribbon face or topological join.",
+        "svg": "",
+        "units": 9,
+        "paths": 5,
+        "chords": 20,
+        "addedPaths": 1,
+        "attachments": 1,
+        "strokes": 180,
+        "accepted": 106,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 56,
+        "nativeObjects": 5318,
+        "numericParticipants": 0,
+        "layerPaths": [
+          4,
+          1,
+          0
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Ivory, ink-blue \u0026 sand bands"
+      }
+    },
+    {
+      "mode": "motif",
+      "constructionNotes": "The original interrupted diagonal courses lead every scale. Their separate central ends, diagonal half-drop and authenticated valley contacts remain intact. One small fourfold diamond inlay, articulated by nesting at finer readings, attaches to an actual course port. Broad and banded ink is an optional presentation of the retained courses, not a new ribbon face or topological join. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+      "curvedPlacedPaths": 0,
+      "plate": {
+        "id": "R-B32-motif",
+        "title": "B32 \u00B7 Banded diagonal courses and quiet diamond inlays",
+        "sourceId": "B32",
+        "description": "The original interrupted diagonal courses lead every scale. Their separate central ends, diagonal half-drop and authenticated valley contacts remain intact. One small fourfold diamond inlay, articulated by nesting at finer readings, attaches to an actual course port. Broad and banded ink is an optional presentation of the retained courses, not a new ribbon face or topological join.",
+        "svg": "",
+        "units": 9,
+        "paths": 6,
+        "chords": 24,
+        "addedPaths": 2,
+        "attachments": 2,
+        "strokes": 216,
+        "accepted": 106,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 56,
+        "nativeObjects": 6880,
+        "numericParticipants": 0,
+        "layerPaths": [
+          4,
+          1,
+          1
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Indigo, ivory \u0026 brass bands"
+      }
+    },
+    {
+      "mode": "detail",
+      "constructionNotes": "The original interrupted diagonal courses lead every scale. Their separate central ends, diagonal half-drop and authenticated valley contacts remain intact. One small fourfold diamond inlay, articulated by nesting at finer readings, attaches to an actual course port. Broad and banded ink is an optional presentation of the retained courses, not a new ribbon face or topological join. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+      "curvedPlacedPaths": 0,
+      "plate": {
+        "id": "R-B32-detail",
+        "title": "B32 \u00B7 Banded diagonal courses and quiet diamond inlays",
+        "sourceId": "B32",
+        "description": "The original interrupted diagonal courses lead every scale. Their separate central ends, diagonal half-drop and authenticated valley contacts remain intact. One small fourfold diamond inlay, articulated by nesting at finer readings, attaches to an actual course port. Broad and banded ink is an optional presentation of the retained courses, not a new ribbon face or topological join.",
+        "svg": "",
+        "units": 9,
+        "paths": 7,
+        "chords": 28,
+        "addedPaths": 3,
+        "attachments": 3,
+        "strokes": 252,
+        "accepted": 106,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 56,
+        "nativeObjects": 8304,
+        "numericParticipants": 0,
+        "layerPaths": [
+          4,
+          1,
+          2
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Ivory, terracotta \u0026 blue bands"
+      }
+    },
+    {
+      "mode": "field",
+      "constructionNotes": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+      "curvedPlacedPaths": 0,
+      "plate": {
+        "id": "R-B33-field",
+        "title": "B33 \u00B7 Inset fields and quiet construction",
+        "sourceId": "B33",
+        "description": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact.",
+        "svg": "",
+        "units": 9,
+        "paths": 10,
+        "chords": 40,
+        "addedPaths": 6,
+        "attachments": 6,
+        "strokes": 360,
+        "accepted": 48,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 6,
+        "nativeObjects": 10923,
+        "numericParticipants": 0,
+        "layerPaths": [
+          6,
+          2,
+          6
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Warm white, moss \u0026 carmine"
+      }
+    },
+    {
+      "mode": "motif",
+      "constructionNotes": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+      "curvedPlacedPaths": 126,
+      "plate": {
+        "id": "R-B33-motif",
+        "title": "B33 \u00B7 Conventional leaves and medallions",
+        "sourceId": "B33",
+        "description": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact.",
+        "svg": "",
+        "units": 9,
+        "paths": 32,
+        "chords": 110,
+        "addedPaths": 28,
+        "attachments": 28,
+        "strokes": 990,
+        "accepted": 48,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 6,
+        "nativeObjects": 31958,
+        "numericParticipants": 0,
+        "layerPaths": [
+          4,
+          14,
+          18
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Midnight, flax \u0026 copper"
+      }
+    },
+    {
+      "mode": "detail",
+      "constructionNotes": "The fine reading has a substantial interior silhouette: a repeated flower, fan, leaf panel or connected course blossom. Actual parent ports justify its placement; veins and nested contours articulate the large motif instead of substituting sparse tiny marks for detail. The retained lattice remains the placement and flow scaffold. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+      "curvedPlacedPaths": 27,
+      "plate": {
+        "id": "R-B33-detail",
+        "title": "B33 \u00B7 Full interior ornament and articulated growth",
+        "sourceId": "B33",
+        "description": "The fine reading has a substantial interior silhouette: a repeated flower, fan, leaf panel or connected course blossom. Actual parent ports justify its placement; veins and nested contours articulate the large motif instead of substituting sparse tiny marks for detail. The retained lattice remains the placement and flow scaffold.",
+        "svg": "",
+        "units": 9,
+        "paths": 15,
+        "chords": 52,
+        "addedPaths": 11,
+        "attachments": 11,
+        "strokes": 468,
+        "accepted": 48,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 6,
+        "nativeObjects": 14833,
+        "numericParticipants": 0,
+        "layerPaths": [
+          4,
+          2,
+          13
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Fir, celadon \u0026 apricot"
+      }
+    },
+    {
+      "mode": "field",
+      "constructionNotes": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+      "curvedPlacedPaths": 18,
+      "plate": {
+        "id": "R-B34-field",
+        "title": "B34 \u00B7 Inset fields and quiet construction",
+        "sourceId": "B34",
+        "description": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact.",
+        "svg": "",
+        "units": 9,
+        "paths": 10,
+        "chords": 60,
+        "addedPaths": 4,
+        "attachments": 4,
+        "strokes": 540,
+        "accepted": 90,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 18,
+        "nativeObjects": 9152,
+        "numericParticipants": 0,
+        "layerPaths": [
+          6,
+          4,
+          6
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Ink, porcelain \u0026 coral"
+      }
+    },
+    {
+      "mode": "motif",
+      "constructionNotes": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+      "curvedPlacedPaths": 36,
+      "plate": {
+        "id": "R-B34-motif",
+        "title": "B34 \u00B7 Conventional leaves and medallions",
+        "sourceId": "B34",
+        "description": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact.",
+        "svg": "",
+        "units": 9,
+        "paths": 16,
+        "chords": 60,
+        "addedPaths": 10,
+        "attachments": 10,
+        "strokes": 540,
+        "accepted": 90,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 18,
+        "nativeObjects": 11710,
+        "numericParticipants": 0,
+        "layerPaths": [
+          6,
+          6,
+          10
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Mist, petrol \u0026 raspberry"
+      }
+    },
+    {
+      "mode": "detail",
+      "constructionNotes": "The fine reading has a substantial interior silhouette: a repeated flower, fan, leaf panel or connected course blossom. Actual parent ports justify its placement; veins and nested contours articulate the large motif instead of substituting sparse tiny marks for detail. The retained lattice remains the placement and flow scaffold. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+      "curvedPlacedPaths": 18,
+      "plate": {
+        "id": "R-B34-detail",
+        "title": "B34 \u00B7 Full interior ornament and articulated growth",
+        "sourceId": "B34",
+        "description": "The fine reading has a substantial interior silhouette: a repeated flower, fan, leaf panel or connected course blossom. Actual parent ports justify its placement; veins and nested contours articulate the large motif instead of substituting sparse tiny marks for detail. The retained lattice remains the placement and flow scaffold.",
+        "svg": "",
+        "units": 9,
+        "paths": 16,
+        "chords": 56,
+        "addedPaths": 10,
+        "attachments": 10,
+        "strokes": 504,
+        "accepted": 90,
+        "blocked": 0,
+        "open": 0,
+        "frontier": 18,
+        "nativeObjects": 13759,
+        "numericParticipants": 0,
+        "layerPaths": [
+          6,
+          3,
+          13
+        ],
+        "focusComplete": [
+          true,
+          true,
+          true
+        ],
+        "palette": "Slate, lavender \u0026 warm ivory"
+      }
+    }
+  ],
+  "limits": [
+    "Native guides, prototypes, transforms, layers and landmark attachments remain pre-numeric; smoothing is an explicitly selected presentation.",
+    "Version 2 packets retain actual path-linked curve and optional four-colour selections, with fixed public ports in the same native identity graph.",
+    "Bounded quadratic fillets preserve open endpoints, gaps and pinned connection landmarks; unpinned corners have tangent-direction continuity.",
+    "Curve controls, colour, contour fill and the crop are display interpretations, not native curvature, clearance or occupied-area proofs.",
+    "A finite native field is shown closer to its outer frontier than in the earlier collection; no unexecuted repetitions are invented.",
+    "Construction and curve display are authored, not autonomous learning or a universal aesthetic score."
+  ]
+}

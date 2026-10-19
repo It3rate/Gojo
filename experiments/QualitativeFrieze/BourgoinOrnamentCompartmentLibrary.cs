@@ -46,8 +46,8 @@ public static class BourgoinOrnamentCompartmentLibrary
                 notes = "Large eight-petal flowers cover the middle of the stepped-arm field. Four broad long petals carry the dominant turning read; four shorter interleaved petals and a double collar provide a second scale. The native closed arm contours and diagonal disposition are retained underneath the intentionally occluding ornamental reading.";
                 break;
             default:
-                SerifGardens(p, mode); title = "Four-colour interlocking gardens";
-                notes = "The four actual quarter-related serif-I images are four stable colour families. Ornament follows each I's long crossbar and broad end caps, with visible inner veins and curled cap fans. Larger bright flowers punctuate selected interlocks; the complete four-image source remains the placement construction.";
+                SerifGardens(p, mode); title = "Quiet interlocking serif bands";
+                notes = "The four actual quarter-related serif-I contours remain the dominant pattern and retain their exact colour-selection identities. The overall read adds only a centreline; the intermediate read has one slender bar-aligned leaf per chamber; the detail read has two opposed simple leaves meeting at the bar's centre. Bare caps and interlocks preserve the source rhythm without flowers, cap fans or nested collars.";
                 break;
         }
         var enriched = p.Author.Finish();
@@ -178,36 +178,33 @@ public static class BourgoinOrnamentCompartmentLibrary
         for (var index = 0; index < cells.Length; index++)
         {
             var cell = cells[index]; p.Colours[index % 4].Add(cell.Path);
-            var horizontal = cell.Width > cell.Height; var c = cell.Centre; var family = (index + 1) % 4;
+            var horizontal = cell.Width > cell.Height; var c = cell.Centre;
             var anchor = p.Author.NearestPort(c, cell.Path);
-            var map = horizontal ? p.Turn(1) : p.Turn(0);
+            var axis = horizontal ? p.Turn(1) : p.Turn(0);
             var half = (horizontal ? cell.Width : cell.Height) / 2 - 9;
             if (mode == "field")
             {
-                p.Leaf(horizontal ? (c.X - half, c.Y) : (c.X, c.Y - half), half * 2, 2,
-                    map, family, false, anchor);
-                p.Collar(c, 3, 3, anchor);
+                // One quiet lane follows the long bar. No filled ornament
+                // competes with the actual interlocking compartment itself.
+                p.Line(p.Author.Detail, c, [(0, -half), (0, 0), (0, half)], axis,
+                    curve: true, fixedSites: [0, 1, 2], anchor: anchor);
+            }
+            else if (mode == "motif")
+            {
+                // A single shared slender prototype is turned with the
+                // chamber. Keeping it inside the narrow bar leaves its
+                // characteristic stepped caps completely open to inspection.
+                p.Leaf(horizontal ? (c.X - half, c.Y) : (c.X, c.Y - half),
+                    half * 2, 2, axis, 3, false, anchor);
             }
             else
             {
-                p.Line(p.Author.Detail, c, [(-half, 0), (-half / 2, 1), (0, 0), (half / 2, -1), (half, 0)],
-                    horizontal ? null : p.Turn(1), curve: true, fixedSites: [0, 2, 4], anchor: anchor);
-                var ends = horizontal ? new[] { (X: c.X - half - 2, Y: c.Y), (X: c.X + half + 2, Y: c.Y) } :
-                    new[] { (X: c.X, Y: c.Y - half - 2), (X: c.X, Y: c.Y + half + 2) };
-                for (var end = 0; end < ends.Length; end++)
-                    p.Palmette(ends[end], 7, 6, p.Turn((horizontal ? 1 : 0) + end * 2), family, mode == "detail", anchor);
-                if (mode == "detail")
-                    p.Leaf(horizontal ? (c.X - 17, c.Y) : (c.X, c.Y - 17), 34, 2, map, (family + 2) % 4, true, anchor);
+                // The detail adds only the opposed relation of two leaves.
+                // Their common root is the chamber's centre, not a detached
+                // interlock rosette, and no secondary veins subdivide them.
+                p.Leaf(c, half - 1, 2, axis, 3, false, anchor);
+                p.Leaf(c, half - 1, 2, horizontal ? p.Turn(3) : p.Turn(2), 3, false, anchor);
             }
-        }
-        // A shared interlock, not four identical tiny ornaments placed along
-        // the contour. The large flower is intentionally allowed to cover
-        // the fine internal fret detail of the retained construction.
-        if (mode != "field")
-        {
-            p.Flower((56, -48), mode == "detail" ? 8 : 4, mode == "detail" ? 11 : 9, 3, 3,
-                mode == "detail", secondaryLength: 7);
-            p.Collar((56, -48), 3, 1);
         }
     }
 

@@ -1,0 +1,39 @@
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 820' role='img' aria-label='B32 &#183; Banded diagonal courses and quiet diamond inlays &#183; one executed unit' data-collection='true' data-refined='true' data-focus='field' data-view='ornament' style='--ground:#F0E7D4;--field:#325866;--motif:#A76445;--detail:#EFE6D0;--gold:#C3AA79;--pale:#F9F3E4;--ink:#223F4C;--band:10.169px;--reach-px:6.42px;--detail-strength:1' data-source='B32' data-palette='Ivory, ink-blue &amp; sand bands'><title>B32 &#183; Banded diagonal courses and quiet diamond inlays &#183; one executed unit</title><style>
+.ground{fill:var(--ground)}.base{fill:none;stroke:var(--gold);stroke-width:.85;opacity:.28}.layer{stroke-linecap:round;stroke-linejoin:round}
+.edge{fill:none;stroke:var(--ink);stroke-width:calc(var(--band) + 3px)}.keyline{fill:none;stroke:var(--pale);stroke-width:calc(var(--band) + 1.4px)}
+.pigment{fill:none;stroke:var(--colour);stroke-width:var(--band)}.mass{fill:var(--colour);stroke:none}
+.field{--colour:var(--field);opacity:.86}.motif{--colour:var(--motif);opacity:1}.detail{--colour:var(--detail);opacity:calc(.8 * var(--detail-strength))}
+.detail .edge{stroke-width:2.6px}.detail .keyline{stroke-width:1.7px}.detail .pigment{stroke-width:1px}
+.motif .edge{stroke-width:calc(var(--band) * .55 + 3px)}.motif .keyline{stroke-width:calc(var(--band) * .55 + 1.4px)}.motif .pigment{stroke-width:calc(var(--band) * .55)}
+[data-focus=field] .field{opacity:1}[data-focus=field] .motif{opacity:.4}[data-focus=field] .detail{opacity:calc(.4 * var(--detail-strength))}
+[data-focus=detail] .field{opacity:.58}[data-focus=detail] .motif{opacity:.48}[data-focus=detail] .detail{opacity:var(--detail-strength)}
+[data-view=skeleton] .layer{display:none}[data-view=skeleton] .base{stroke:var(--pale);opacity:.9;stroke-width:1.6}
+.anchors{display:none;fill:var(--detail);stroke:var(--ink);stroke-width:1}[data-anchors=true] .anchors{display:block}.frame{fill:none;stroke:var(--gold);stroke-width:1.2}
+[data-collection] .detail .edge{stroke-width:calc(var(--band) * .24 + 2px)}
+[data-collection] .detail .keyline{stroke-width:calc(var(--band) * .24 + .9px)}
+[data-collection] .detail .pigment{stroke-width:calc(var(--band) * .24)}
+[data-collection][data-focus=field] .motif{opacity:.62}
+[data-collection][data-focus=field] .detail{opacity:.62}
+[data-collection][data-focus=detail] .field{opacity:.68}
+[data-collection][data-focus=detail] .motif{opacity:.68}
+[data-collection][data-focus=detail] .field .mass{opacity:.32}[data-refined][data-focus=detail] .field{opacity:.55}
+[data-refined][data-focus=detail] .field .mass{opacity:.16}
+[data-refined][data-focus=detail] .motif{opacity:.86}
+[data-refined][data-colour-groups=true][data-focus=detail] .motif{opacity:1}
+[data-refined][data-colour-groups=true] .field .mass[data-colour-group]{opacity:1}
+[data-refined][data-colour-groups=true][data-focus=detail] .field{opacity:.72}
+[data-refined] .detail .edge{stroke-width:calc(var(--band) * .2 + 1.6px)}
+[data-refined] .detail .keyline{stroke-width:calc(var(--band) * .2 + .7px)}
+[data-refined] .detail .pigment{stroke-width:calc(var(--band) * .2)}
+</style><style data-refined-separation='true'>
+[data-refined][data-source='B32'] .field,[data-refined][data-source='B32'] .motif{opacity:1!important}
+[data-refined][data-source='B32'][data-view=ornament] .base{opacity:0}
+[data-refined][data-source='B32'] .field{stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:3}
+[data-refined][data-source='B32'] .field .edge{stroke:var(--ink);stroke-width:calc(var(--reach-px) * 5.4)}
+[data-refined][data-source='B32'] .field .keyline{stroke:var(--gold);stroke-width:calc(var(--reach-px) * 3.996)}
+[data-refined][data-source='B32'] .field .pigment{stroke:var(--field);stroke-width:calc(var(--reach-px) * 2.592)}
+[data-refined][data-source='B32'] .motif .mass,[data-refined][data-source='B32'] .detail .mass{fill:none}
+[data-refined][data-source='B32'] .motif .edge{stroke-width:calc(var(--reach-px) * .8)}
+[data-refined][data-source='B32'] .motif .keyline{stroke-width:calc(var(--reach-px) * .5)}
+[data-refined][data-source='B32'] .motif .pigment{stroke:var(--motif);stroke-width:calc(var(--reach-px) * .25)}
+</style><defs><clipPath id='R-B32-field-closeup-crop'><rect x='34' y='34' width='1132' height='752'/></clipPath><path id='R-B32-field-closeup-p0' data-curve='false' d='M 112.069 127.514 L 317.514 332.958 L 368.875 384.319 L 574.319 178.875 L 625.681 127.514'/><path id='R-B32-field-closeup-p0-guide' d='M 112.069 127.514 L 317.514 332.958 L 368.875 384.319 L 574.319 178.875 L 625.681 127.514'/><path id='R-B32-field-closeup-p1' data-curve='false' d='M 368.875 384.319 L 574.319 589.764 L 728.403 435.681 L 625.681 332.958 L 574.319 384.319'/><path id='R-B32-field-closeup-p1-guide' d='M 368.875 384.319 L 574.319 589.764 L 728.403 435.681 L 625.681 332.958 L 574.319 384.319'/><path id='R-B32-field-closeup-p2' data-curve='false' d='M 1087.931 692.486 L 882.486 487.042 L 831.125 435.681 L 625.681 641.125 L 574.319 692.486'/><path id='R-B32-field-closeup-p2-guide' d='M 1087.931 692.486 L 882.486 487.042 L 831.125 435.681 L 625.681 641.125 L 574.319 692.486'/><path id='R-B32-field-closeup-p3' data-curve='false' d='M 831.125 435.681 L 625.681 230.236 L 471.597 384.319 L 574.319 487.042 L 625.681 435.681'/><path id='R-B32-field-closeup-p3-guide' d='M 831.125 435.681 L 625.681 230.236 L 471.597 384.319 L 574.319 487.042 L 625.681 435.681'/><path id='R-B32-field-closeup-p4' data-curve='false' d='M 368.875 217.396 L 330.354 255.917 L 368.875 294.437 L 407.396 255.917 L 368.875 217.396 Z'/><path id='R-B32-field-closeup-p4-guide' d='M 368.875 217.396 L 330.354 255.917 L 368.875 294.437 L 407.396 255.917 L 368.875 217.396 Z'/></defs><rect width='1200' height='820' class='ground'/><g clip-path='url(#R-B32-field-closeup-crop)'><g class='base'><use href='#R-B32-field-closeup-p0-guide'/><use href='#R-B32-field-closeup-p1-guide'/><use href='#R-B32-field-closeup-p2-guide'/><use href='#R-B32-field-closeup-p3-guide'/><use href='#R-B32-field-closeup-p4-guide'/></g><g class='layer field' data-native-layer='0'></g><g class='layer motif' data-native-layer='1'><use class='mass' href='#R-B32-field-closeup-p4'/></g><g class='layer detail' data-native-layer='2'></g><g class='layer field' data-native-layer='0'><use class='edge' href='#R-B32-field-closeup-p0'/><use class='edge' href='#R-B32-field-closeup-p1'/><use class='edge' href='#R-B32-field-closeup-p2'/><use class='edge' href='#R-B32-field-closeup-p3'/><use class='keyline' href='#R-B32-field-closeup-p0'/><use class='keyline' href='#R-B32-field-closeup-p1'/><use class='keyline' href='#R-B32-field-closeup-p2'/><use class='keyline' href='#R-B32-field-closeup-p3'/><use class='pigment' href='#R-B32-field-closeup-p0'/><use class='pigment' href='#R-B32-field-closeup-p1'/><use class='pigment' href='#R-B32-field-closeup-p2'/><use class='pigment' href='#R-B32-field-closeup-p3'/></g><g class='layer motif' data-native-layer='1'><use class='edge closed' href='#R-B32-field-closeup-p4'/><use class='keyline closed' href='#R-B32-field-closeup-p4'/><use class='pigment closed' href='#R-B32-field-closeup-p4'/></g><g class='layer detail' data-native-layer='2'></g><g class='anchors'></g></g><rect x='18' y='18' width='1164' height='784' class='frame'/><rect x='24' y='24' width='1152' height='772' class='frame'/></svg>

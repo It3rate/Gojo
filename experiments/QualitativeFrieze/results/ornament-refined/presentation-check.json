@@ -1,0 +1,65 @@
+{
+  "errors": [],
+  "geometryUnchanged": 99,
+  "nativePacketsUnchanged": 99,
+  "revisedPrograms": 9,
+  "palettes": 23,
+  "quietFamilies": [
+    {
+      "source": "B13",
+      "mode": "field",
+      "colours": 2,
+      "opacity": "1"
+    },
+    {
+      "source": "B13",
+      "mode": "motif",
+      "colours": 2,
+      "opacity": "1"
+    },
+    {
+      "source": "B13",
+      "mode": "detail",
+      "colours": 2,
+      "opacity": "1"
+    },
+    {
+      "source": "B14",
+      "mode": "field",
+      "colours": 2,
+      "opacity": "1"
+    },
+    {
+      "source": "B14",
+      "mode": "motif",
+      "colours": 2,
+      "opacity": "1"
+    },
+    {
+      "source": "B14",
+      "mode": "detail",
+      "colours": 2,
+      "opacity": "1"
+    }
+  ],
+  "bandedCourses": [
+    {
+      "mode": "field",
+      "breadth": 5.4,
+      "diagonal": true,
+      "filled": false
+    },
+    {
+      "mode": "motif",
+      "breadth": 5,
+      "diagonal": true,
+      "filled": false
+    },
+    {
+      "mode": "detail",
+      "breadth": 4.6000000000000005,
+      "diagonal": true,
+      "filled": false
+    }
+  ]
+}

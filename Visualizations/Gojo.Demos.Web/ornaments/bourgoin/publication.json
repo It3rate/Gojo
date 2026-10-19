@@ -3,6 +3,8 @@
   "sourceGallery": "experiments/QualitativeFrieze/results/bourgoin-patterns/gallery.html",
   "textNewlines": "LF",
   "count": 36,
+  "presentation": "complete",
+  "omittedLinks": [],
   "files": [
     {
       "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B01-encoding.txt",

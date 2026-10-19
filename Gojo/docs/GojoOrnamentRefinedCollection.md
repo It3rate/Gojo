@@ -15,8 +15,9 @@ retains the previous eight detail images and their native archives from
 checkpoint `919f234` alongside the new reading.
 B08/B08.B carry diamond medallions; B09 keeps separate opposed return cups;
 B10/B11 develop pointed interior gardens. B12 uses eight-petal flowers with
-four dominant diagonal petals. B13/B14 colour their four actual interlocking
-source shapes independently, with cap fans and brighter interlock flowers.
+four dominant diagonal petals. B13/B14 now leave their interlocking source
+shapes dominant: centreline, single bar leaf and opposed leaf-pair readings
+replace the earlier fans, collars and interlock flowers.
 
 The [silhouette and separation comparison](../../experiments/QualitativeFrieze/results/ornament-refined/balance.html)
 retains the detail observations from checkpoint `037527c`. A whole-corpus
@@ -24,15 +25,26 @@ review enlarged 21 finer constructions, including B25/B30/B32/B33/B34.
 Broad lobed flowers, sixfold petal arrangements, nested leaf panels and fan
 bodies replace small on-line marks. B10/B11 now use four dominant diagonal
 petals, four short axial petals, a single centre and quieter veins, supported
-by stronger uninterrupted source rails. The B13/B14 geometry is unchanged;
-solid colour families, ivory keylines and dark outer edges restore separation
-without opacity mixing. Gold is an accent rather than the only separator.
+by stronger uninterrupted source rails. A later restraint pass simplifies
+all three B13/B14 native programs and interprets their four retained source
+groups through two quiet tones: blue/porcelain or sage/limestone. Their leaves
+share a restrained gold accent, with fine separating edges.
+
+B32 now puts its interrupted diagonal courses first. Broad, angular, nested
+ink/gold/pigment strokes produce a banded figure/ground reading. Native source
+paths and free ends remain unchanged. One, two or three nested fourfold diamond
+outlines replace floral additions; the native unit has 20/24/28 chords. Band
+width is a display read of the imported guide's screen reach, not native
+occupied-area or new connection evidence. Elsewhere this final pass changes
+palette only. Eighteen additional restrained warm/cool palette interpretations
+bring variety while retaining light/dark separation and outlined accents.
 
 The [conceptual-complexity table](../../experiments/QualitativeFrieze/results/ornament-refined/complexity.html)
 reviews all 36 finer constructions. It separates authored vocabulary ranges
 from recovered native path, chord, prototype-identity and attachment counts.
-Most proposed vocabularies use 5–11 concepts; B13/B14's 10–15 range crosses
-the suggested review threshold of 12. The denominator is one unit's reusable
+Most proposed vocabularies use 5–11 concepts. The simplified B13/B14 readings
+are now estimated at 4–7; B32's diamond vocabulary is 3–5. Twelve remains a
+suggested review threshold. The denominator is one unit's reusable
 ornamental vocabulary, excluding its underlying lattice, palette and display
 fillets. These are reviewed hypotheses, not discovered concepts or measured
 human cognitive load. See [the method and future discovery direction](GojoOrnamentMotifComplexity.md).
@@ -40,6 +52,17 @@ human cognitive load. See [the method and future discovery direction](GojoOrname
 The [three curve studies](../../experiments/QualitativeFrieze/results/ornament-curves/gallery.html)
 isolate the vine, returning curl and interrupted guilloche before applying
 the same presentation mechanism to the larger collection.
+
+## Website edition
+
+The [public gallery](https://gojo.inklingai.ca/ornaments/flowing-grammar/)
+joins the existing ornament collections. This bounded website edition includes
+all 108 full-field SVGs, 108 executed-unit views, mode selection, the complete
+overview and conceptual-complexity table. Source comparisons use the existing
+Bourgoin collection. Native archives, alternate construction/curve views and
+earlier review images remain in the research checkout; their unavailable
+controls and links are omitted together from the website edition. This keeps
+the complete shared site within its hosting allowance.
 
 ## What changes
 
@@ -61,8 +84,8 @@ loads a saved packet before executing; it does not dispatch on the source
 name to redraw the ornament.
 
 An attachment can be an explicit offset from a source landmark. It need not
-be a physical branch from the visible source stroke: some B32 sprays sit
-beside their parent course. The attachment witness establishes that offset
+be a physical branch from the visible source stroke: some compartment ornaments
+sit beside their parent course. The attachment witness establishes that offset
 correspondence, not general clearance or physical contact.
 
 Some overall panels, especially B12's nonconvex fret, use scaled companion
@@ -192,7 +215,7 @@ packet before execution. All 324 layer-focus reads were complete; the runs
 reported zero blocked seams, open obligations or numeric participants. The
 three isolated curve studies completed with the same checks.
 
-`dotnet test Gojo.slnx -c Release` passed 4,262 tests across 12 assemblies, with
+`dotnet test Gojo.slnx -c Release` passed 4,273 tests across 12 assemblies, with
 zero failures or skips. Focused tests cover native path identity after packet
 import, rejected foreign or forged curve selections, fixed branch landmarks,
 endpoint and gap preservation, source retention and selected containment

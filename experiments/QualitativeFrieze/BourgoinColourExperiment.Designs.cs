@@ -120,7 +120,8 @@ public static partial class BourgoinColourExperiment
         if (!run.IsComplete || !field.IsComplete) throw new InvalidOperationException("Ornament must preserve the source's accepted finite seams.");
         var paths = ReadPaths(run, source.DisplayBasis);
         var (curves, colours) = ReadPresentationPaths(packet);
-        var palette = DesignPalettes[design.PaletteIndex % DesignPalettes.Length] with { Band = design.Weight };
+        var palette = (design.Id.StartsWith("R-", StringComparison.Ordinal) ? RefinedPalette(design.SourceId, design.Mode) :
+            DesignPalettes[design.PaletteIndex % DesignPalettes.Length]) with { Band = design.Weight };
         string Style(string picture) => picture
             .Replace("data-focus='motif'", "data-collection='true' data-focus='" + design.Mode + "'")
             .Replace("</style>", """
@@ -167,7 +168,7 @@ public static partial class BourgoinColourExperiment
             N.E(field.Graph.Strokes).Length, N.E(field.Accepted).Length, N.E(field.Blocked).Length,
             N.E(field.Unresolved).Length, N.E(field.Frontier).Length, participants.Length, numeric,
             selections.Select(layer => layer.Count).ToArray(), [true, true, true],
-            design.Id.StartsWith("R-", StringComparison.Ordinal) ? RefinedPaletteLabel(design.SourceId, palette.Name) : palette.Name);
+            palette.Name);
         var result = new DesignResult(design.Mode, source.Name, plate);
         File.WriteAllText(Path.Combine(output, design.Id + "-record.json"),
             JsonSerializer.Serialize(result with { Plate = plate with { Svg = "" } }, JsonOptions));

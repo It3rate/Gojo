@@ -63,8 +63,10 @@ public sealed class OrnamentMotifComplexityTests
         foreach (var id in new[] { "B13", "B14" })
         {
             var estimate = OrnamentMotifComplexity.FineEstimate(id)!;
-            Assert.True(estimate.MayExceedReviewTrigger); Assert.False(estimate.EntireRangeExceedsReviewTrigger);
+            Assert.False(estimate.MayExceedReviewTrigger);
         }
+        var larger = new OrnamentMotifComplexity.ReviewedEstimate(10, 15, ["a hypothetical larger vocabulary"]);
+        Assert.True(larger.MayExceedReviewTrigger); Assert.False(larger.EntireRangeExceedsReviewTrigger);
         Assert.Null(OrnamentMotifComplexity.FineEstimate("an unknown ornament"));
         Assert.Equal(12, OrnamentMotifComplexity.ReviewTrigger);
     }

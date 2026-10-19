@@ -1,75 +1,53 @@
 {
-  "schema": "gojo-ornament-balance-verification-v1",
+  "schema": "gojo-ornament-presentation-verification-v1",
   "solutionTests": {
-    "command": "dotnet test Gojo.slnx -c Release --logger trx --results-directory artifacts/ornament-balance-final-tests --nologo",
+    "command": "dotnet test Gojo.slnx -c Release --logger trx --results-directory artifacts/ornament-publish-tests --nologo",
     "assemblies": 12,
-    "passed": 4262,
+    "passed": 4273,
     "failed": 0,
     "skipped": 0
   },
-  "finalChangedProjectTests": {
-    "command": "dotnet test Tests/QualitativeExecution.Tests/QualitativeExecution.Tests.csproj -c Release --logger trx --results-directory artifacts/ornament-balance-project-final-tests --nologo --artifacts-path artifacts/ornament-balance-test-build",
-    "passed": 1832,
+  "finalB32FocusedTests": {
+    "passed": 6,
     "failed": 0,
-    "skipped": 0,
-    "purpose": "Rechecked after the final B30 enlargement"
+    "purpose": "Fourfold inlays, course direction correspondence and preserved source identities after final radius selection"
   },
   "nativeCollection": {
-    "skeletons": 36,
     "designs": 108,
-    "reviewedFineVariants": 36,
-    "changedNativeDetailVariants": 23,
-    "displayOnlyColourFamilies": [
-      "B13",
-      "B14"
-    ],
+    "skeletons": 36,
     "unitsPerDesign": 9,
     "completeLayerFocusReads": 324,
     "blocked": 0,
     "open": 0,
     "numericParticipants": 0,
-    "maxChordsPerUnit": 512
+    "changedPrograms": 9,
+    "colourOnlyPrograms": 99,
+    "changedFamilies": [
+      "B13",
+      "B14",
+      "B32"
+    ]
+  },
+  "presentation": {
+    "paletteInterpretations": 23,
+    "quietSerifFieldTones": 2,
+    "bandedB32Inlays": "Unfilled fourfold diamonds",
+    "geometryAndNativePacketsUnchanged": 99,
+    "comparisonCheckpoint": "d8604fa"
   },
   "conceptualReview": {
-    "reviewedDetailVariants": 36,
+    "reviewedFineVariants": 36,
     "unreviewedOtherModes": 72,
-    "nativeArchivesInspected": 108,
-    "suggestedReviewTrigger": 12,
-    "crossingTrigger": [
-      "B13",
-      "B14"
-    ],
-    "crossingRange": "10-15",
-    "basis": "Authored vocabulary ranges per repeated ornamental unit; excludes the underlying lattice, palette and display fillets",
-    "automaticDiscovery": false
-  },
-  "periodicPetalSeparation": {
-    "sources": [
-      "B10",
-      "B11"
-    ],
-    "flowerGroups": [
-      2,
-      4
-    ],
-    "adjacentPeriodImages": 9,
-    "betweenFlowerContacts": 0,
-    "betweenFlowerIntersections": 0,
-    "betweenFlowerContainments": 0,
-    "withinFlowerLayering": "permitted"
-  },
-  "comparisonBaseline": {
-    "commit": "037527c",
-    "detailObservations": 25,
-    "geometryChanges": 23,
-    "colourOnlyChanges": 2
+    "B13B14Range": "4-7",
+    "B32Range": "3-5",
+    "basis": "Authored vocabulary estimate; not autonomous discovery"
   },
   "browserReport": "browser-check.json",
-  "balanceBrowserReport": "balance-browser-check.json",
+  "presentationReport": "presentation-check.json",
   "limitations": [
-    "Conceptual estimates are authored review hypotheses, not measured cognitive load or discovered substructures.",
-    "The broad eight-lobed flower is reused in several families; larger silhouettes do not establish equal ornamental diversity.",
-    "Palette, fillets, outline width and contour fill remain display interpretations.",
-    "Selected finite containment and neighbour checks do not establish general occupied-face, curvature-clearance, infinite-tiling or aesthetic laws."
+    "Band width, contour fill, outline and palette remain presentation interpretations.",
+    "Colour-only preservation is checked against the preceding checkpoint; only B13/B14/B32 native programs are changed.",
+    "The website edition includes all full fields and unit views; large archives and alternate/history views remain in the research checkout.",
+    "No native occupied-face, universal aesthetic or infinite-tiling claim is established."
   ]
 }

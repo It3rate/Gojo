@@ -73,7 +73,54 @@ async function walk(dir) {
         const anchors = await page.locator('a[href^="#"]').evaluateAll(as => as.map(a => a.getAttribute('href').slice(1)));
         assert.deepEqual(await page.evaluate(ids => ids.filter(id => !document.getElementById(id)),anchors),[]);
       }
-      if(c.id === 'bourgoin') {
+      if(c.presentation === 'refined-compact') {
+        const manifest = JSON.parse(await fs.readFile(path.join(web,'ornaments',c.id,'publication.json'),'utf8'));
+        assert.equal(manifest.count,108);
+        assert.equal(manifest.presentation,'refined-compact');
+        assert.equal(manifest.files.filter(f => /\/R-B[\d]+(?:\.B)?-(?:field|motif|detail)(?:-closeup)?\.svg$/.test(f.source)).length,216);
+        assert.equal(manifest.files.filter(f => f.source.endsWith('.gz')).length,0);
+        assert.equal(await page.locator('article').count(),36);
+        assert.equal(await page.locator('.publication-scope').count(),1);
+        assert.equal(await page.locator('#curves, #construction').count(),0);
+        const published = new Set(manifest.files.map(f => f.url));
+        async function checkSelected(mode, unit) {
+          const chosen = await page.locator('article').evaluateAll(cards => cards.map(card => ({
+            mode:card.dataset.mode,
+            image:new URL(card.querySelector('.hero img').src).pathname,
+            link:new URL(card.querySelector('.hero').href).pathname,
+            pressed:[...card.querySelectorAll('.choice[aria-pressed=true]')].map(button => button.dataset.mode)
+          })));
+          for (const item of chosen) {
+            assert.equal(item.mode,mode);
+            assert.deepEqual(item.pressed,[mode]);
+            assert.equal(item.image,item.link);
+            assert.ok(published.has(item.image),'Undeclared gallery image: '+item.image);
+            assert.ok(item.image.endsWith('-'+mode+(unit?'-closeup':'')+'.svg'));
+          }
+        }
+        for (const suffix of ['', '/', '/index.html', '/gallery.html']) {
+          await page.goto(base+'/ornaments/'+c.id+suffix);
+          for (const mode of ['field','detail','motif']) {
+            await page.selectOption('#global-mode',mode);
+            await checkSelected(mode,false);
+          }
+          await page.locator('#unit').check();
+          await checkSelected('motif',true);
+          await page.locator('#unit').uncheck();
+          await checkSelected('motif',false);
+        }
+        const first = page.locator('article').first();
+        await first.locator('.choice[data-mode="detail"]').click();
+        assert.equal(await first.getAttribute('data-mode'),'detail');
+        assert.ok((await first.locator('.hero img').getAttribute('src')).endsWith('-detail.svg'));
+        assert.equal(await page.locator('article[data-mode="motif"]').count(),35);
+        await page.goto(base+'/ornaments/'+c.id+'/overview.html');
+        assert.equal(await page.locator('.triptych img').count(),108);
+        await page.goto(base+'/ornaments/'+c.id+'/complexity.html');
+        assert.equal(await page.locator('tbody tr').count(),36);
+        await page.goto(base+'/ornaments/'+c.id+'/');
+        await page.screenshot({path:path.join(screenshots,c.id+'-desktop.png')});
+      } else if(c.id === 'bourgoin') {
         assert.equal(await page.locator('article').count(),36);
         for(const view of ['units','ports','construction','ink']) {
           await page.selectOption('#view',view);

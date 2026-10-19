@@ -4,35 +4,35 @@
     "skeletonName": "Interlocking serif-I compartments",
     "plate": {
       "id": "R-B13-field",
-      "title": "B13 \u00B7 Four-colour interlocking gardens",
+      "title": "B13 \u00B7 Quiet interlocking serif bands",
       "sourceId": "B13",
-      "description": "The four actual quarter-related serif-I images are four stable colour families. Ornament follows each I\u0027s long crossbar and broad end caps, with visible inner veins and curled cap fans. Larger bright flowers punctuate selected interlocks; the complete four-image source remains the placement construction.",
+      "description": "The four actual quarter-related serif-I contours remain the dominant pattern and retain their exact colour-selection identities. The overall read adds only a centreline; the intermediate read has one slender bar-aligned leaf per chamber; the detail read has two opposed simple leaves meeting at the bar\u0027s centre. Bare caps and interlocks preserve the source rhythm without flowers, cap fans or nested collars.",
       "svg": "",
       "units": 9,
-      "paths": 16,
-      "chords": 188,
-      "addedPaths": 12,
-      "attachments": 12,
-      "strokes": 1692,
+      "paths": 8,
+      "chords": 120,
+      "addedPaths": 4,
+      "attachments": 4,
+      "strokes": 1080,
       "accepted": 596,
       "blocked": 0,
       "open": 0,
       "frontier": 124,
-      "nativeObjects": 36198,
+      "nativeObjects": 19179,
       "numericParticipants": 0,
       "layerPaths": [
         4,
-        4,
-        8
+        0,
+        4
       ],
       "focusComplete": [
         true,
         true,
         true
       ],
-      "palette": "Ink blue, terracotta, ivory \u0026 gold"
+      "palette": "Porcelain \u0026 quiet blue"
     }
   },
-  "constructionNotes": "The four actual quarter-related serif-I images are four stable colour families. Ornament follows each I\u0027s long crossbar and broad end caps, with visible inner veins and curled cap fans. Larger bright flowers punctuate selected interlocks; the complete four-image source remains the placement construction. Curved rendering rounds selected flowing contours only; pointed tips, roots and native source seam identities remain fixed. Four colour groups are exact disjoint path selections, not screen-location bins.",
-  "curvedPlacedPaths": 72
+  "constructionNotes": "The four actual quarter-related serif-I contours remain the dominant pattern and retain their exact colour-selection identities. The overall read adds only a centreline; the intermediate read has one slender bar-aligned leaf per chamber; the detail read has two opposed simple leaves meeting at the bar\u0027s centre. Bare caps and interlocks preserve the source rhythm without flowers, cap fans or nested collars. Curved rendering rounds selected flowing contours only; pointed tips, roots and native source seam identities remain fixed. Four colour groups are exact disjoint path selections, not screen-location bins.",
+  "curvedPlacedPaths": 36
 }

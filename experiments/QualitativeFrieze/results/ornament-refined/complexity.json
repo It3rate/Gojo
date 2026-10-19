@@ -1060,18 +1060,18 @@
     {
       "id": "R-B13-field",
       "skeletonName": "Interlocking serif-I compartments",
-      "title": "B13 \u00B7 Four-colour interlocking gardens",
+      "title": "B13 \u00B7 Quiet interlocking serif bands",
       "assessment": {
         "sourceId": "B13",
         "mode": "field",
         "estimate": null,
         "encoding": {
           "sourcePaths": 4,
-          "addedPaths": 12,
+          "addedPaths": 4,
           "sourceChords": 112,
-          "addedChords": 76,
-          "retainedPrototypeIdentities": 3,
-          "witnessedPrototypePlacements": 12,
+          "addedChords": 8,
+          "retainedPrototypeIdentities": 1,
+          "witnessedPrototypePlacements": 4,
           "unattributedAddedPaths": 0,
           "actualSourceAnchors": 4
         }
@@ -1080,76 +1080,71 @@
     {
       "id": "R-B13-motif",
       "skeletonName": "Interlocking serif-I compartments",
-      "title": "B13 \u00B7 Four-colour interlocking gardens",
+      "title": "B13 \u00B7 Quiet interlocking serif bands",
       "assessment": {
         "sourceId": "B13",
         "mode": "motif",
         "estimate": null,
         "encoding": {
           "sourcePaths": 4,
-          "addedPaths": 37,
+          "addedPaths": 8,
           "sourceChords": 112,
-          "addedChords": 144,
-          "retainedPrototypeIdentities": 7,
-          "witnessedPrototypePlacements": 37,
+          "addedChords": 28,
+          "retainedPrototypeIdentities": 2,
+          "witnessedPrototypePlacements": 8,
           "unattributedAddedPaths": 0,
-          "actualSourceAnchors": 5
+          "actualSourceAnchors": 4
         }
       }
     },
     {
       "id": "R-B13-detail",
       "skeletonName": "Interlocking serif-I compartments",
-      "title": "B13 \u00B7 Four-colour interlocking gardens",
+      "title": "B13 \u00B7 Quiet interlocking serif bands",
       "assessment": {
         "sourceId": "B13",
         "mode": "detail",
         "estimate": {
-          "minimum": 10,
-          "maximum": 15,
+          "minimum": 4,
+          "maximum": 7,
           "conceptualRecipe": [
-            "crossbar stem",
-            "opposed end-cap fans",
-            "fan ribs",
-            "nested fan articulation",
-            "long crossbar leaf",
-            "leaf veins",
-            "interlock flower",
-            "long/short petal alternation",
-            "centre collar",
-            "quarter-related sibling placement"
+            "simple leaf contour",
+            "quiet axial vein",
+            "opposed common-root pair",
+            "bar-aligned placement",
+            "quarter-related sibling correspondence"
           ],
-          "mayExceedReviewTrigger": true,
+          "mayExceedReviewTrigger": false,
           "entireRangeExceedsReviewTrigger": false,
           "basis": "Authored construction review; not autonomous conceptual discovery or a measured cognitive load."
         },
         "encoding": {
           "sourcePaths": 4,
-          "addedPaths": 81,
+          "addedPaths": 16,
           "sourceChords": 112,
-          "addedChords": 288,
-          "retainedPrototypeIdentities": 16,
-          "witnessedPrototypePlacements": 81,
+          "addedChords": 56,
+          "retainedPrototypeIdentities": 2,
+          "witnessedPrototypePlacements": 16,
           "unattributedAddedPaths": 0,
-          "actualSourceAnchors": 5
+          "actualSourceAnchors": 4
         }
       }
     },
     {
       "id": "R-B14-field",
       "skeletonName": "Dense interlocking serif-I field",
-      "title": "B14 \u00B7 Four-colour interlocking gardens",
+      "title": "B14 \u00B7 Quiet interlocking serif bands",
       "assessment": {
         "sourceId": "B14",
         "mode": "field",
         "estimate": null,
         "encoding": {
           "sourcePaths": 4,
-          "addedPaths": 12,
+          "addedPaths": 4,
           "sourceChords": 80,
-          "addedChords": 76,
-          "retainedPrototypeIdentities": 3,
-          "witnessedPrototypePlacements": 12,
+          "addedChords": 8,
+          "retainedPrototypeIdentities": 1,
+          "witnessedPrototypePlacements": 4,
           "unattributedAddedPaths": 0,
           "actualSourceAnchors": 4
         }
@@ -1158,58 +1153,53 @@
     {
       "id": "R-B14-motif",
       "skeletonName": "Dense interlocking serif-I field",
-      "title": "B14 \u00B7 Four-colour interlocking gardens",
+      "title": "B14 \u00B7 Quiet interlocking serif bands",
       "assessment": {
         "sourceId": "B14",
         "mode": "motif",
         "estimate": null,
         "encoding": {
           "sourcePaths": 4,
-          "addedPaths": 37,
+          "addedPaths": 8,
           "sourceChords": 80,
-          "addedChords": 144,
-          "retainedPrototypeIdentities": 7,
-          "witnessedPrototypePlacements": 37,
+          "addedChords": 28,
+          "retainedPrototypeIdentities": 2,
+          "witnessedPrototypePlacements": 8,
           "unattributedAddedPaths": 0,
-          "actualSourceAnchors": 5
+          "actualSourceAnchors": 4
         }
       }
     },
     {
       "id": "R-B14-detail",
       "skeletonName": "Dense interlocking serif-I field",
-      "title": "B14 \u00B7 Four-colour interlocking gardens",
+      "title": "B14 \u00B7 Quiet interlocking serif bands",
       "assessment": {
         "sourceId": "B14",
         "mode": "detail",
         "estimate": {
-          "minimum": 10,
-          "maximum": 15,
+          "minimum": 4,
+          "maximum": 7,
           "conceptualRecipe": [
-            "crossbar stem",
-            "opposed end-cap fans",
-            "fan ribs",
-            "nested fan articulation",
-            "long crossbar leaf",
-            "leaf veins",
-            "interlock flower",
-            "long/short petal alternation",
-            "centre collar",
-            "quarter-related sibling placement"
+            "simple leaf contour",
+            "quiet axial vein",
+            "opposed common-root pair",
+            "bar-aligned placement",
+            "quarter-related sibling correspondence"
           ],
-          "mayExceedReviewTrigger": true,
+          "mayExceedReviewTrigger": false,
           "entireRangeExceedsReviewTrigger": false,
           "basis": "Authored construction review; not autonomous conceptual discovery or a measured cognitive load."
         },
         "encoding": {
           "sourcePaths": 4,
-          "addedPaths": 81,
+          "addedPaths": 16,
           "sourceChords": 80,
-          "addedChords": 288,
-          "retainedPrototypeIdentities": 16,
-          "witnessedPrototypePlacements": 81,
+          "addedChords": 56,
+          "retainedPrototypeIdentities": 2,
+          "witnessedPrototypePlacements": 16,
           "unattributedAddedPaths": 0,
-          "actualSourceAnchors": 5
+          "actualSourceAnchors": 4
         }
       }
     },
@@ -2469,59 +2459,57 @@
     {
       "id": "R-B32-field",
       "skeletonName": "Interrupted diagonal returns and valley joins",
-      "title": "B32 \u00B7 Inset fields and quiet construction",
+      "title": "B32 \u00B7 Banded diagonal courses and quiet diamond inlays",
       "assessment": {
         "sourceId": "B32",
         "mode": "field",
         "estimate": null,
         "encoding": {
           "sourcePaths": 4,
-          "addedPaths": 6,
+          "addedPaths": 1,
           "sourceChords": 16,
-          "addedChords": 24,
-          "retainedPrototypeIdentities": 4,
-          "witnessedPrototypePlacements": 6,
+          "addedChords": 4,
+          "retainedPrototypeIdentities": 1,
+          "witnessedPrototypePlacements": 1,
           "unattributedAddedPaths": 0,
-          "actualSourceAnchors": 4
+          "actualSourceAnchors": 1
         }
       }
     },
     {
       "id": "R-B32-motif",
       "skeletonName": "Interrupted diagonal returns and valley joins",
-      "title": "B32 \u00B7 Conventional leaves and medallions",
+      "title": "B32 \u00B7 Banded diagonal courses and quiet diamond inlays",
       "assessment": {
         "sourceId": "B32",
         "mode": "motif",
         "estimate": null,
         "encoding": {
           "sourcePaths": 4,
-          "addedPaths": 28,
+          "addedPaths": 2,
           "sourceChords": 16,
-          "addedChords": 96,
-          "retainedPrototypeIdentities": 6,
-          "witnessedPrototypePlacements": 28,
+          "addedChords": 8,
+          "retainedPrototypeIdentities": 2,
+          "witnessedPrototypePlacements": 2,
           "unattributedAddedPaths": 0,
-          "actualSourceAnchors": 2
+          "actualSourceAnchors": 1
         }
       }
     },
     {
       "id": "R-B32-detail",
       "skeletonName": "Interrupted diagonal returns and valley joins",
-      "title": "B32 \u00B7 Full interior ornament and articulated growth",
+      "title": "B32 \u00B7 Banded diagonal courses and quiet diamond inlays",
       "assessment": {
         "sourceId": "B32",
         "mode": "detail",
         "estimate": {
-          "minimum": 6,
-          "maximum": 9,
+          "minimum": 3,
+          "maximum": 5,
           "conceptualRecipe": [
-            "eight-lobed blossom contour",
-            "radial veins",
-            "centre",
-            "short connecting stem",
-            "actual source-course attachment",
+            "fourfold diamond contour",
+            "nested scale correspondence",
+            "course-bay attachment",
             "repeat through the staggered disposition"
           ],
           "mayExceedReviewTrigger": false,
@@ -2530,11 +2518,11 @@
         },
         "encoding": {
           "sourcePaths": 4,
-          "addedPaths": 11,
+          "addedPaths": 3,
           "sourceChords": 16,
-          "addedChords": 38,
-          "retainedPrototypeIdentities": 11,
-          "witnessedPrototypePlacements": 11,
+          "addedChords": 12,
+          "retainedPrototypeIdentities": 3,
+          "witnessedPrototypePlacements": 3,
           "unattributedAddedPaths": 0,
           "actualSourceAnchors": 1
         }

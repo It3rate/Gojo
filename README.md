@@ -130,6 +130,9 @@ The [silhouette and colour review](experiments/QualitativeFrieze/results/ornamen
 compares the enlarged detail with its previous checkpoint; a
 [conceptual-complexity table](experiments/QualitativeFrieze/results/ornament-refined/complexity.html)
 keeps reviewed reusable vocabularies separate from native encoding counts.
+The [public ornament gallery](https://gojo.inklingai.ca/ornaments/flowing-grammar/)
+includes all 108 designs and their executed-unit views. Its bounded website
+edition keeps the research archives and alternate construction views in this checkout.
 
 For example, run the prospective-prediction experiment and its notebook tests
 from the repository root:

@@ -4,35 +4,35 @@
     "skeletonName": "Interrupted diagonal returns and valley joins",
     "plate": {
       "id": "R-B32-field",
-      "title": "B32 \u00B7 Inset fields and quiet construction",
+      "title": "B32 \u00B7 Banded diagonal courses and quiet diamond inlays",
       "sourceId": "B32",
-      "description": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact.",
+      "description": "The original interrupted diagonal courses lead every scale. Their separate central ends, diagonal half-drop and authenticated valley contacts remain intact. One small fourfold diamond inlay, articulated by nesting at finer readings, attaches to an actual course port. Broad and banded ink is an optional presentation of the retained courses, not a new ribbon face or topological join.",
       "svg": "",
       "units": 9,
-      "paths": 10,
-      "chords": 40,
-      "addedPaths": 6,
-      "attachments": 6,
-      "strokes": 360,
+      "paths": 5,
+      "chords": 20,
+      "addedPaths": 1,
+      "attachments": 1,
+      "strokes": 180,
       "accepted": 106,
       "blocked": 0,
       "open": 0,
       "frontier": 56,
-      "nativeObjects": 13466,
+      "nativeObjects": 5318,
       "numericParticipants": 0,
       "layerPaths": [
-        6,
-        2,
-        6
+        4,
+        1,
+        0
       ],
       "focusComplete": [
         true,
         true,
         true
       ],
-      "palette": "Aubergine, peach \u0026 parchment"
+      "palette": "Ivory, ink-blue \u0026 sand bands"
     }
   },
-  "constructionNotes": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+  "constructionNotes": "The original interrupted diagonal courses lead every scale. Their separate central ends, diagonal half-drop and authenticated valley contacts remain intact. One small fourfold diamond inlay, articulated by nesting at finer readings, attaches to an actual course port. Broad and banded ink is an optional presentation of the retained courses, not a new ribbon face or topological join. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
   "curvedPlacedPaths": 0
 }

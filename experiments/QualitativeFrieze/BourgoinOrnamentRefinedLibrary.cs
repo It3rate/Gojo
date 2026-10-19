@@ -81,6 +81,10 @@ public static class BourgoinOrnamentRefinedLibrary
                 Arms(p, mode); title = "Outward arms with wrist foliage";
                 notes = "Growth follows actual arm chords, while the round source marker remains an unfilled window. The larger overall construction uses exact angular companion arms.";
                 break;
+            case "B32":
+                DiamondCourses(p, mode); title = "Banded diagonal courses and quiet diamond inlays";
+                notes = "The original interrupted diagonal courses lead every scale. Their separate central ends, diagonal half-drop and authenticated valley contacts remain intact. One small fourfold diamond inlay, articulated by nesting at finer readings, attaches to an actual course port. Broad and banded ink is an optional presentation of the retained courses, not a new ribbon face or topological join.";
+                break;
             default:
                 General(p, mode); title = GeneralTitle(source.Id, mode);
                 notes = "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact.";
@@ -181,13 +185,12 @@ public static class BourgoinOrnamentRefinedLibrary
                 foreach (var arm in a.Paths.Where(path => !path.Closed).Take(4)) p.Follow(arm, 1, 24, 4);
                 p.Blossom((0, 0), 27, closed.Single().Path);
                 return true;
-            case "B32":
             case "B33":
                 var parent = a.Paths.First(path => !path.Closed); var centre = parent.Centre;
                 var port = a.NearestPort(centre, parent.Path); var start = a.Position(port);
                 p.Line(a.Motif, start, [(0, 0), ((centre.X - start.X) / 2, (centre.Y - start.Y) / 2),
                     (centre.X - start.X, centre.Y - start.Y)], anchor: port, curve: true);
-                p.Blossom(centre, p.Source.Id == "B32" ? 18 : 21, parent.Path);
+                p.Blossom(centre, 21, parent.Path);
                 return true;
             case "B34":
                 // Both loop histories survive underneath the single central
@@ -502,6 +505,23 @@ public static class BourgoinOrnamentRefinedLibrary
         {
             if (mode == "field") p.Companion(arm, (1, 1));
             else p.Follow(arm, mode == "motif" ? 1 : 2, mode == "motif" ? 12 : 5, mode == "motif" ? 3 : 1);
+        }
+    }
+
+    private static void DiamondCourses(Painter p, string mode)
+    {
+        var a = p.Author;
+        // Retain each original course once. A second thin detail reading of
+        // that same ink would visually compete with its broader banded read.
+        a.Motif.SelectOnly(); a.Detail.SelectOnly();
+        var parent = a.Paths.First(path => !path.Closed);
+        var centre = parent.Centre; var anchor = a.NearestPort(centre, parent.Path);
+        var radii = mode == "field" ? new[] { 6 } : mode == "motif" ? new[] { 8, 4 } : new[] { 8, 5, 2 };
+        for (var index = 0; index < radii.Length; index++)
+        {
+            var radius = radii[index];
+            p.Contour(index == 0 ? a.Motif : a.Detail, centre,
+                [(0, radius), (-radius, 0), (0, -radius), (radius, 0), (0, radius)], anchor: anchor);
         }
     }
 

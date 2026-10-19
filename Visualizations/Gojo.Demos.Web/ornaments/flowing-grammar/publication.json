@@ -1,0 +1,1797 @@
+{
+  "collection": "flowing-grammar",
+  "sourceGallery": "experiments/QualitativeFrieze/results/ornament-refined/gallery.html",
+  "textNewlines": "LF",
+  "count": 108,
+  "presentation": "refined-compact",
+  "omittedLinks": [
+    "../ornament-curves/gallery.html",
+    "../ornament-designs/gallery.html",
+    "R-B01-detail-angular.svg",
+    "R-B01-detail-closeup-angular.svg",
+    "R-B01-detail-construction.svg",
+    "R-B01-detail-focus.gojo.json.gz",
+    "R-B01-detail-source.svg",
+    "R-B01-detail.gojo.json.gz",
+    "R-B01-field-angular.svg",
+    "R-B01-field-closeup-angular.svg",
+    "R-B01-field-construction.svg",
+    "R-B01-field-focus.gojo.json.gz",
+    "R-B01-field-source.svg",
+    "R-B01-field.gojo.json.gz",
+    "R-B01-motif-angular.svg",
+    "R-B01-motif-closeup-angular.svg",
+    "R-B01-motif-construction.svg",
+    "R-B01-motif-focus.gojo.json.gz",
+    "R-B01-motif-source.svg",
+    "R-B01-motif.gojo.json.gz",
+    "R-B02-detail-angular.svg",
+    "R-B02-detail-closeup-angular.svg",
+    "R-B02-detail-construction.svg",
+    "R-B02-detail-focus.gojo.json.gz",
+    "R-B02-detail-source.svg",
+    "R-B02-detail.gojo.json.gz",
+    "R-B02-field-angular.svg",
+    "R-B02-field-closeup-angular.svg",
+    "R-B02-field-construction.svg",
+    "R-B02-field-focus.gojo.json.gz",
+    "R-B02-field-source.svg",
+    "R-B02-field.gojo.json.gz",
+    "R-B02-motif-angular.svg",
+    "R-B02-motif-closeup-angular.svg",
+    "R-B02-motif-construction.svg",
+    "R-B02-motif-focus.gojo.json.gz",
+    "R-B02-motif-source.svg",
+    "R-B02-motif.gojo.json.gz",
+    "R-B03-detail-angular.svg",
+    "R-B03-detail-closeup-angular.svg",
+    "R-B03-detail-construction.svg",
+    "R-B03-detail-focus.gojo.json.gz",
+    "R-B03-detail-source.svg",
+    "R-B03-detail.gojo.json.gz",
+    "R-B03-field-angular.svg",
+    "R-B03-field-closeup-angular.svg",
+    "R-B03-field-construction.svg",
+    "R-B03-field-focus.gojo.json.gz",
+    "R-B03-field-source.svg",
+    "R-B03-field.gojo.json.gz",
+    "R-B03-motif-angular.svg",
+    "R-B03-motif-closeup-angular.svg",
+    "R-B03-motif-construction.svg",
+    "R-B03-motif-focus.gojo.json.gz",
+    "R-B03-motif-source.svg",
+    "R-B03-motif.gojo.json.gz",
+    "R-B04-detail-angular.svg",
+    "R-B04-detail-closeup-angular.svg",
+    "R-B04-detail-construction.svg",
+    "R-B04-detail-focus.gojo.json.gz",
+    "R-B04-detail-source.svg",
+    "R-B04-detail.gojo.json.gz",
+    "R-B04-field-angular.svg",
+    "R-B04-field-closeup-angular.svg",
+    "R-B04-field-construction.svg",
+    "R-B04-field-focus.gojo.json.gz",
+    "R-B04-field-source.svg",
+    "R-B04-field.gojo.json.gz",
+    "R-B04-motif-angular.svg",
+    "R-B04-motif-closeup-angular.svg",
+    "R-B04-motif-construction.svg",
+    "R-B04-motif-focus.gojo.json.gz",
+    "R-B04-motif-source.svg",
+    "R-B04-motif.gojo.json.gz",
+    "R-B05-detail-angular.svg",
+    "R-B05-detail-closeup-angular.svg",
+    "R-B05-detail-construction.svg",
+    "R-B05-detail-focus.gojo.json.gz",
+    "R-B05-detail-source.svg",
+    "R-B05-detail.gojo.json.gz",
+    "R-B05-field-angular.svg",
+    "R-B05-field-closeup-angular.svg",
+    "R-B05-field-construction.svg",
+    "R-B05-field-focus.gojo.json.gz",
+    "R-B05-field-source.svg",
+    "R-B05-field.gojo.json.gz",
+    "R-B05-motif-angular.svg",
+    "R-B05-motif-closeup-angular.svg",
+    "R-B05-motif-construction.svg",
+    "R-B05-motif-focus.gojo.json.gz",
+    "R-B05-motif-source.svg",
+    "R-B05-motif.gojo.json.gz",
+    "R-B06-detail-angular.svg",
+    "R-B06-detail-closeup-angular.svg",
+    "R-B06-detail-construction.svg",
+    "R-B06-detail-focus.gojo.json.gz",
+    "R-B06-detail-source.svg",
+    "R-B06-detail.gojo.json.gz",
+    "R-B06-field-angular.svg",
+    "R-B06-field-closeup-angular.svg",
+    "R-B06-field-construction.svg",
+    "R-B06-field-focus.gojo.json.gz",
+    "R-B06-field-source.svg",
+    "R-B06-field.gojo.json.gz",
+    "R-B06-motif-angular.svg",
+    "R-B06-motif-closeup-angular.svg",
+    "R-B06-motif-construction.svg",
+    "R-B06-motif-focus.gojo.json.gz",
+    "R-B06-motif-source.svg",
+    "R-B06-motif.gojo.json.gz",
+    "R-B06.B-detail-angular.svg",
+    "R-B06.B-detail-closeup-angular.svg",
+    "R-B06.B-detail-construction.svg",
+    "R-B06.B-detail-focus.gojo.json.gz",
+    "R-B06.B-detail-source.svg",
+    "R-B06.B-detail.gojo.json.gz",
+    "R-B06.B-field-angular.svg",
+    "R-B06.B-field-closeup-angular.svg",
+    "R-B06.B-field-construction.svg",
+    "R-B06.B-field-focus.gojo.json.gz",
+    "R-B06.B-field-source.svg",
+    "R-B06.B-field.gojo.json.gz",
+    "R-B06.B-motif-angular.svg",
+    "R-B06.B-motif-closeup-angular.svg",
+    "R-B06.B-motif-construction.svg",
+    "R-B06.B-motif-focus.gojo.json.gz",
+    "R-B06.B-motif-source.svg",
+    "R-B06.B-motif.gojo.json.gz",
+    "R-B07-detail-angular.svg",
+    "R-B07-detail-closeup-angular.svg",
+    "R-B07-detail-construction.svg",
+    "R-B07-detail-focus.gojo.json.gz",
+    "R-B07-detail-source.svg",
+    "R-B07-detail.gojo.json.gz",
+    "R-B07-field-angular.svg",
+    "R-B07-field-closeup-angular.svg",
+    "R-B07-field-construction.svg",
+    "R-B07-field-focus.gojo.json.gz",
+    "R-B07-field-source.svg",
+    "R-B07-field.gojo.json.gz",
+    "R-B07-motif-angular.svg",
+    "R-B07-motif-closeup-angular.svg",
+    "R-B07-motif-construction.svg",
+    "R-B07-motif-focus.gojo.json.gz",
+    "R-B07-motif-source.svg",
+    "R-B07-motif.gojo.json.gz",
+    "R-B08-detail-angular.svg",
+    "R-B08-detail-closeup-angular.svg",
+    "R-B08-detail-construction.svg",
+    "R-B08-detail-focus.gojo.json.gz",
+    "R-B08-detail-source.svg",
+    "R-B08-detail.gojo.json.gz",
+    "R-B08-field-angular.svg",
+    "R-B08-field-closeup-angular.svg",
+    "R-B08-field-construction.svg",
+    "R-B08-field-focus.gojo.json.gz",
+    "R-B08-field-source.svg",
+    "R-B08-field.gojo.json.gz",
+    "R-B08-motif-angular.svg",
+    "R-B08-motif-closeup-angular.svg",
+    "R-B08-motif-construction.svg",
+    "R-B08-motif-focus.gojo.json.gz",
+    "R-B08-motif-source.svg",
+    "R-B08-motif.gojo.json.gz",
+    "R-B08.B-detail-angular.svg",
+    "R-B08.B-detail-closeup-angular.svg",
+    "R-B08.B-detail-construction.svg",
+    "R-B08.B-detail-focus.gojo.json.gz",
+    "R-B08.B-detail-source.svg",
+    "R-B08.B-detail.gojo.json.gz",
+    "R-B08.B-field-angular.svg",
+    "R-B08.B-field-closeup-angular.svg",
+    "R-B08.B-field-construction.svg",
+    "R-B08.B-field-focus.gojo.json.gz",
+    "R-B08.B-field-source.svg",
+    "R-B08.B-field.gojo.json.gz",
+    "R-B08.B-motif-angular.svg",
+    "R-B08.B-motif-closeup-angular.svg",
+    "R-B08.B-motif-construction.svg",
+    "R-B08.B-motif-focus.gojo.json.gz",
+    "R-B08.B-motif-source.svg",
+    "R-B08.B-motif.gojo.json.gz",
+    "R-B09-detail-angular.svg",
+    "R-B09-detail-closeup-angular.svg",
+    "R-B09-detail-construction.svg",
+    "R-B09-detail-focus.gojo.json.gz",
+    "R-B09-detail-source.svg",
+    "R-B09-detail.gojo.json.gz",
+    "R-B09-field-angular.svg",
+    "R-B09-field-closeup-angular.svg",
+    "R-B09-field-construction.svg",
+    "R-B09-field-focus.gojo.json.gz",
+    "R-B09-field-source.svg",
+    "R-B09-field.gojo.json.gz",
+    "R-B09-motif-angular.svg",
+    "R-B09-motif-closeup-angular.svg",
+    "R-B09-motif-construction.svg",
+    "R-B09-motif-focus.gojo.json.gz",
+    "R-B09-motif-source.svg",
+    "R-B09-motif.gojo.json.gz",
+    "R-B10-detail-angular.svg",
+    "R-B10-detail-closeup-angular.svg",
+    "R-B10-detail-construction.svg",
+    "R-B10-detail-focus.gojo.json.gz",
+    "R-B10-detail-source.svg",
+    "R-B10-detail.gojo.json.gz",
+    "R-B10-field-angular.svg",
+    "R-B10-field-closeup-angular.svg",
+    "R-B10-field-construction.svg",
+    "R-B10-field-focus.gojo.json.gz",
+    "R-B10-field-source.svg",
+    "R-B10-field.gojo.json.gz",
+    "R-B10-motif-angular.svg",
+    "R-B10-motif-closeup-angular.svg",
+    "R-B10-motif-construction.svg",
+    "R-B10-motif-focus.gojo.json.gz",
+    "R-B10-motif-source.svg",
+    "R-B10-motif.gojo.json.gz",
+    "R-B11-detail-angular.svg",
+    "R-B11-detail-closeup-angular.svg",
+    "R-B11-detail-construction.svg",
+    "R-B11-detail-focus.gojo.json.gz",
+    "R-B11-detail-source.svg",
+    "R-B11-detail.gojo.json.gz",
+    "R-B11-field-angular.svg",
+    "R-B11-field-closeup-angular.svg",
+    "R-B11-field-construction.svg",
+    "R-B11-field-focus.gojo.json.gz",
+    "R-B11-field-source.svg",
+    "R-B11-field.gojo.json.gz",
+    "R-B11-motif-angular.svg",
+    "R-B11-motif-closeup-angular.svg",
+    "R-B11-motif-construction.svg",
+    "R-B11-motif-focus.gojo.json.gz",
+    "R-B11-motif-source.svg",
+    "R-B11-motif.gojo.json.gz",
+    "R-B12-detail-angular.svg",
+    "R-B12-detail-closeup-angular.svg",
+    "R-B12-detail-construction.svg",
+    "R-B12-detail-focus.gojo.json.gz",
+    "R-B12-detail-source.svg",
+    "R-B12-detail.gojo.json.gz",
+    "R-B12-field-angular.svg",
+    "R-B12-field-closeup-angular.svg",
+    "R-B12-field-construction.svg",
+    "R-B12-field-focus.gojo.json.gz",
+    "R-B12-field-source.svg",
+    "R-B12-field.gojo.json.gz",
+    "R-B12-motif-angular.svg",
+    "R-B12-motif-closeup-angular.svg",
+    "R-B12-motif-construction.svg",
+    "R-B12-motif-focus.gojo.json.gz",
+    "R-B12-motif-source.svg",
+    "R-B12-motif.gojo.json.gz",
+    "R-B13-detail-angular.svg",
+    "R-B13-detail-closeup-angular.svg",
+    "R-B13-detail-construction.svg",
+    "R-B13-detail-focus.gojo.json.gz",
+    "R-B13-detail-source.svg",
+    "R-B13-detail.gojo.json.gz",
+    "R-B13-field-angular.svg",
+    "R-B13-field-closeup-angular.svg",
+    "R-B13-field-construction.svg",
+    "R-B13-field-focus.gojo.json.gz",
+    "R-B13-field-source.svg",
+    "R-B13-field.gojo.json.gz",
+    "R-B13-motif-angular.svg",
+    "R-B13-motif-closeup-angular.svg",
+    "R-B13-motif-construction.svg",
+    "R-B13-motif-focus.gojo.json.gz",
+    "R-B13-motif-source.svg",
+    "R-B13-motif.gojo.json.gz",
+    "R-B14-detail-angular.svg",
+    "R-B14-detail-closeup-angular.svg",
+    "R-B14-detail-construction.svg",
+    "R-B14-detail-focus.gojo.json.gz",
+    "R-B14-detail-source.svg",
+    "R-B14-detail.gojo.json.gz",
+    "R-B14-field-angular.svg",
+    "R-B14-field-closeup-angular.svg",
+    "R-B14-field-construction.svg",
+    "R-B14-field-focus.gojo.json.gz",
+    "R-B14-field-source.svg",
+    "R-B14-field.gojo.json.gz",
+    "R-B14-motif-angular.svg",
+    "R-B14-motif-closeup-angular.svg",
+    "R-B14-motif-construction.svg",
+    "R-B14-motif-focus.gojo.json.gz",
+    "R-B14-motif-source.svg",
+    "R-B14-motif.gojo.json.gz",
+    "R-B15-detail-angular.svg",
+    "R-B15-detail-closeup-angular.svg",
+    "R-B15-detail-construction.svg",
+    "R-B15-detail-focus.gojo.json.gz",
+    "R-B15-detail-source.svg",
+    "R-B15-detail.gojo.json.gz",
+    "R-B15-field-angular.svg",
+    "R-B15-field-closeup-angular.svg",
+    "R-B15-field-construction.svg",
+    "R-B15-field-focus.gojo.json.gz",
+    "R-B15-field-source.svg",
+    "R-B15-field.gojo.json.gz",
+    "R-B15-motif-angular.svg",
+    "R-B15-motif-closeup-angular.svg",
+    "R-B15-motif-construction.svg",
+    "R-B15-motif-focus.gojo.json.gz",
+    "R-B15-motif-source.svg",
+    "R-B15-motif.gojo.json.gz",
+    "R-B16-detail-angular.svg",
+    "R-B16-detail-closeup-angular.svg",
+    "R-B16-detail-construction.svg",
+    "R-B16-detail-focus.gojo.json.gz",
+    "R-B16-detail-source.svg",
+    "R-B16-detail.gojo.json.gz",
+    "R-B16-field-angular.svg",
+    "R-B16-field-closeup-angular.svg",
+    "R-B16-field-construction.svg",
+    "R-B16-field-focus.gojo.json.gz",
+    "R-B16-field-source.svg",
+    "R-B16-field.gojo.json.gz",
+    "R-B16-motif-angular.svg",
+    "R-B16-motif-closeup-angular.svg",
+    "R-B16-motif-construction.svg",
+    "R-B16-motif-focus.gojo.json.gz",
+    "R-B16-motif-source.svg",
+    "R-B16-motif.gojo.json.gz",
+    "R-B17-detail-angular.svg",
+    "R-B17-detail-closeup-angular.svg",
+    "R-B17-detail-construction.svg",
+    "R-B17-detail-focus.gojo.json.gz",
+    "R-B17-detail-source.svg",
+    "R-B17-detail.gojo.json.gz",
+    "R-B17-field-angular.svg",
+    "R-B17-field-closeup-angular.svg",
+    "R-B17-field-construction.svg",
+    "R-B17-field-focus.gojo.json.gz",
+    "R-B17-field-source.svg",
+    "R-B17-field.gojo.json.gz",
+    "R-B17-motif-angular.svg",
+    "R-B17-motif-closeup-angular.svg",
+    "R-B17-motif-construction.svg",
+    "R-B17-motif-focus.gojo.json.gz",
+    "R-B17-motif-source.svg",
+    "R-B17-motif.gojo.json.gz",
+    "R-B18-detail-angular.svg",
+    "R-B18-detail-closeup-angular.svg",
+    "R-B18-detail-construction.svg",
+    "R-B18-detail-focus.gojo.json.gz",
+    "R-B18-detail-source.svg",
+    "R-B18-detail.gojo.json.gz",
+    "R-B18-field-angular.svg",
+    "R-B18-field-closeup-angular.svg",
+    "R-B18-field-construction.svg",
+    "R-B18-field-focus.gojo.json.gz",
+    "R-B18-field-source.svg",
+    "R-B18-field.gojo.json.gz",
+    "R-B18-motif-angular.svg",
+    "R-B18-motif-closeup-angular.svg",
+    "R-B18-motif-construction.svg",
+    "R-B18-motif-focus.gojo.json.gz",
+    "R-B18-motif-source.svg",
+    "R-B18-motif.gojo.json.gz",
+    "R-B19-detail-angular.svg",
+    "R-B19-detail-closeup-angular.svg",
+    "R-B19-detail-construction.svg",
+    "R-B19-detail-focus.gojo.json.gz",
+    "R-B19-detail-source.svg",
+    "R-B19-detail.gojo.json.gz",
+    "R-B19-field-angular.svg",
+    "R-B19-field-closeup-angular.svg",
+    "R-B19-field-construction.svg",
+    "R-B19-field-focus.gojo.json.gz",
+    "R-B19-field-source.svg",
+    "R-B19-field.gojo.json.gz",
+    "R-B19-motif-angular.svg",
+    "R-B19-motif-closeup-angular.svg",
+    "R-B19-motif-construction.svg",
+    "R-B19-motif-focus.gojo.json.gz",
+    "R-B19-motif-source.svg",
+    "R-B19-motif.gojo.json.gz",
+    "R-B20-detail-angular.svg",
+    "R-B20-detail-closeup-angular.svg",
+    "R-B20-detail-construction.svg",
+    "R-B20-detail-focus.gojo.json.gz",
+    "R-B20-detail-source.svg",
+    "R-B20-detail.gojo.json.gz",
+    "R-B20-field-angular.svg",
+    "R-B20-field-closeup-angular.svg",
+    "R-B20-field-construction.svg",
+    "R-B20-field-focus.gojo.json.gz",
+    "R-B20-field-source.svg",
+    "R-B20-field.gojo.json.gz",
+    "R-B20-motif-angular.svg",
+    "R-B20-motif-closeup-angular.svg",
+    "R-B20-motif-construction.svg",
+    "R-B20-motif-focus.gojo.json.gz",
+    "R-B20-motif-source.svg",
+    "R-B20-motif.gojo.json.gz",
+    "R-B21-detail-angular.svg",
+    "R-B21-detail-closeup-angular.svg",
+    "R-B21-detail-construction.svg",
+    "R-B21-detail-focus.gojo.json.gz",
+    "R-B21-detail-source.svg",
+    "R-B21-detail.gojo.json.gz",
+    "R-B21-field-angular.svg",
+    "R-B21-field-closeup-angular.svg",
+    "R-B21-field-construction.svg",
+    "R-B21-field-focus.gojo.json.gz",
+    "R-B21-field-source.svg",
+    "R-B21-field.gojo.json.gz",
+    "R-B21-motif-angular.svg",
+    "R-B21-motif-closeup-angular.svg",
+    "R-B21-motif-construction.svg",
+    "R-B21-motif-focus.gojo.json.gz",
+    "R-B21-motif-source.svg",
+    "R-B21-motif.gojo.json.gz",
+    "R-B22-detail-angular.svg",
+    "R-B22-detail-closeup-angular.svg",
+    "R-B22-detail-construction.svg",
+    "R-B22-detail-focus.gojo.json.gz",
+    "R-B22-detail-source.svg",
+    "R-B22-detail.gojo.json.gz",
+    "R-B22-field-angular.svg",
+    "R-B22-field-closeup-angular.svg",
+    "R-B22-field-construction.svg",
+    "R-B22-field-focus.gojo.json.gz",
+    "R-B22-field-source.svg",
+    "R-B22-field.gojo.json.gz",
+    "R-B22-motif-angular.svg",
+    "R-B22-motif-closeup-angular.svg",
+    "R-B22-motif-construction.svg",
+    "R-B22-motif-focus.gojo.json.gz",
+    "R-B22-motif-source.svg",
+    "R-B22-motif.gojo.json.gz",
+    "R-B23-detail-angular.svg",
+    "R-B23-detail-closeup-angular.svg",
+    "R-B23-detail-construction.svg",
+    "R-B23-detail-focus.gojo.json.gz",
+    "R-B23-detail-source.svg",
+    "R-B23-detail.gojo.json.gz",
+    "R-B23-field-angular.svg",
+    "R-B23-field-closeup-angular.svg",
+    "R-B23-field-construction.svg",
+    "R-B23-field-focus.gojo.json.gz",
+    "R-B23-field-source.svg",
+    "R-B23-field.gojo.json.gz",
+    "R-B23-motif-angular.svg",
+    "R-B23-motif-closeup-angular.svg",
+    "R-B23-motif-construction.svg",
+    "R-B23-motif-focus.gojo.json.gz",
+    "R-B23-motif-source.svg",
+    "R-B23-motif.gojo.json.gz",
+    "R-B24-detail-angular.svg",
+    "R-B24-detail-closeup-angular.svg",
+    "R-B24-detail-construction.svg",
+    "R-B24-detail-focus.gojo.json.gz",
+    "R-B24-detail-source.svg",
+    "R-B24-detail.gojo.json.gz",
+    "R-B24-field-angular.svg",
+    "R-B24-field-closeup-angular.svg",
+    "R-B24-field-construction.svg",
+    "R-B24-field-focus.gojo.json.gz",
+    "R-B24-field-source.svg",
+    "R-B24-field.gojo.json.gz",
+    "R-B24-motif-angular.svg",
+    "R-B24-motif-closeup-angular.svg",
+    "R-B24-motif-construction.svg",
+    "R-B24-motif-focus.gojo.json.gz",
+    "R-B24-motif-source.svg",
+    "R-B24-motif.gojo.json.gz",
+    "R-B25-detail-angular.svg",
+    "R-B25-detail-closeup-angular.svg",
+    "R-B25-detail-construction.svg",
+    "R-B25-detail-focus.gojo.json.gz",
+    "R-B25-detail-source.svg",
+    "R-B25-detail.gojo.json.gz",
+    "R-B25-field-angular.svg",
+    "R-B25-field-closeup-angular.svg",
+    "R-B25-field-construction.svg",
+    "R-B25-field-focus.gojo.json.gz",
+    "R-B25-field-source.svg",
+    "R-B25-field.gojo.json.gz",
+    "R-B25-motif-angular.svg",
+    "R-B25-motif-closeup-angular.svg",
+    "R-B25-motif-construction.svg",
+    "R-B25-motif-focus.gojo.json.gz",
+    "R-B25-motif-source.svg",
+    "R-B25-motif.gojo.json.gz",
+    "R-B26-detail-angular.svg",
+    "R-B26-detail-closeup-angular.svg",
+    "R-B26-detail-construction.svg",
+    "R-B26-detail-focus.gojo.json.gz",
+    "R-B26-detail-source.svg",
+    "R-B26-detail.gojo.json.gz",
+    "R-B26-field-angular.svg",
+    "R-B26-field-closeup-angular.svg",
+    "R-B26-field-construction.svg",
+    "R-B26-field-focus.gojo.json.gz",
+    "R-B26-field-source.svg",
+    "R-B26-field.gojo.json.gz",
+    "R-B26-motif-angular.svg",
+    "R-B26-motif-closeup-angular.svg",
+    "R-B26-motif-construction.svg",
+    "R-B26-motif-focus.gojo.json.gz",
+    "R-B26-motif-source.svg",
+    "R-B26-motif.gojo.json.gz",
+    "R-B27-detail-angular.svg",
+    "R-B27-detail-closeup-angular.svg",
+    "R-B27-detail-construction.svg",
+    "R-B27-detail-focus.gojo.json.gz",
+    "R-B27-detail-source.svg",
+    "R-B27-detail.gojo.json.gz",
+    "R-B27-field-angular.svg",
+    "R-B27-field-closeup-angular.svg",
+    "R-B27-field-construction.svg",
+    "R-B27-field-focus.gojo.json.gz",
+    "R-B27-field-source.svg",
+    "R-B27-field.gojo.json.gz",
+    "R-B27-motif-angular.svg",
+    "R-B27-motif-closeup-angular.svg",
+    "R-B27-motif-construction.svg",
+    "R-B27-motif-focus.gojo.json.gz",
+    "R-B27-motif-source.svg",
+    "R-B27-motif.gojo.json.gz",
+    "R-B28-detail-angular.svg",
+    "R-B28-detail-closeup-angular.svg",
+    "R-B28-detail-construction.svg",
+    "R-B28-detail-focus.gojo.json.gz",
+    "R-B28-detail-source.svg",
+    "R-B28-detail.gojo.json.gz",
+    "R-B28-field-angular.svg",
+    "R-B28-field-closeup-angular.svg",
+    "R-B28-field-construction.svg",
+    "R-B28-field-focus.gojo.json.gz",
+    "R-B28-field-source.svg",
+    "R-B28-field.gojo.json.gz",
+    "R-B28-motif-angular.svg",
+    "R-B28-motif-closeup-angular.svg",
+    "R-B28-motif-construction.svg",
+    "R-B28-motif-focus.gojo.json.gz",
+    "R-B28-motif-source.svg",
+    "R-B28-motif.gojo.json.gz",
+    "R-B29-detail-angular.svg",
+    "R-B29-detail-closeup-angular.svg",
+    "R-B29-detail-construction.svg",
+    "R-B29-detail-focus.gojo.json.gz",
+    "R-B29-detail-source.svg",
+    "R-B29-detail.gojo.json.gz",
+    "R-B29-field-angular.svg",
+    "R-B29-field-closeup-angular.svg",
+    "R-B29-field-construction.svg",
+    "R-B29-field-focus.gojo.json.gz",
+    "R-B29-field-source.svg",
+    "R-B29-field.gojo.json.gz",
+    "R-B29-motif-angular.svg",
+    "R-B29-motif-closeup-angular.svg",
+    "R-B29-motif-construction.svg",
+    "R-B29-motif-focus.gojo.json.gz",
+    "R-B29-motif-source.svg",
+    "R-B29-motif.gojo.json.gz",
+    "R-B30-detail-angular.svg",
+    "R-B30-detail-closeup-angular.svg",
+    "R-B30-detail-construction.svg",
+    "R-B30-detail-focus.gojo.json.gz",
+    "R-B30-detail-source.svg",
+    "R-B30-detail.gojo.json.gz",
+    "R-B30-field-angular.svg",
+    "R-B30-field-closeup-angular.svg",
+    "R-B30-field-construction.svg",
+    "R-B30-field-focus.gojo.json.gz",
+    "R-B30-field-source.svg",
+    "R-B30-field.gojo.json.gz",
+    "R-B30-motif-angular.svg",
+    "R-B30-motif-closeup-angular.svg",
+    "R-B30-motif-construction.svg",
+    "R-B30-motif-focus.gojo.json.gz",
+    "R-B30-motif-source.svg",
+    "R-B30-motif.gojo.json.gz",
+    "R-B31-detail-angular.svg",
+    "R-B31-detail-closeup-angular.svg",
+    "R-B31-detail-construction.svg",
+    "R-B31-detail-focus.gojo.json.gz",
+    "R-B31-detail-source.svg",
+    "R-B31-detail.gojo.json.gz",
+    "R-B31-field-angular.svg",
+    "R-B31-field-closeup-angular.svg",
+    "R-B31-field-construction.svg",
+    "R-B31-field-focus.gojo.json.gz",
+    "R-B31-field-source.svg",
+    "R-B31-field.gojo.json.gz",
+    "R-B31-motif-angular.svg",
+    "R-B31-motif-closeup-angular.svg",
+    "R-B31-motif-construction.svg",
+    "R-B31-motif-focus.gojo.json.gz",
+    "R-B31-motif-source.svg",
+    "R-B31-motif.gojo.json.gz",
+    "R-B32-detail-angular.svg",
+    "R-B32-detail-closeup-angular.svg",
+    "R-B32-detail-construction.svg",
+    "R-B32-detail-focus.gojo.json.gz",
+    "R-B32-detail-source.svg",
+    "R-B32-detail.gojo.json.gz",
+    "R-B32-field-angular.svg",
+    "R-B32-field-closeup-angular.svg",
+    "R-B32-field-construction.svg",
+    "R-B32-field-focus.gojo.json.gz",
+    "R-B32-field-source.svg",
+    "R-B32-field.gojo.json.gz",
+    "R-B32-motif-angular.svg",
+    "R-B32-motif-closeup-angular.svg",
+    "R-B32-motif-construction.svg",
+    "R-B32-motif-focus.gojo.json.gz",
+    "R-B32-motif-source.svg",
+    "R-B32-motif.gojo.json.gz",
+    "R-B33-detail-angular.svg",
+    "R-B33-detail-closeup-angular.svg",
+    "R-B33-detail-construction.svg",
+    "R-B33-detail-focus.gojo.json.gz",
+    "R-B33-detail-source.svg",
+    "R-B33-detail.gojo.json.gz",
+    "R-B33-field-angular.svg",
+    "R-B33-field-closeup-angular.svg",
+    "R-B33-field-construction.svg",
+    "R-B33-field-focus.gojo.json.gz",
+    "R-B33-field-source.svg",
+    "R-B33-field.gojo.json.gz",
+    "R-B33-motif-angular.svg",
+    "R-B33-motif-closeup-angular.svg",
+    "R-B33-motif-construction.svg",
+    "R-B33-motif-focus.gojo.json.gz",
+    "R-B33-motif-source.svg",
+    "R-B33-motif.gojo.json.gz",
+    "R-B34-detail-angular.svg",
+    "R-B34-detail-closeup-angular.svg",
+    "R-B34-detail-construction.svg",
+    "R-B34-detail-focus.gojo.json.gz",
+    "R-B34-detail-source.svg",
+    "R-B34-detail.gojo.json.gz",
+    "R-B34-field-angular.svg",
+    "R-B34-field-closeup-angular.svg",
+    "R-B34-field-construction.svg",
+    "R-B34-field-focus.gojo.json.gz",
+    "R-B34-field-source.svg",
+    "R-B34-field.gojo.json.gz",
+    "R-B34-motif-angular.svg",
+    "R-B34-motif-closeup-angular.svg",
+    "R-B34-motif-construction.svg",
+    "R-B34-motif-focus.gojo.json.gz",
+    "R-B34-motif-source.svg",
+    "R-B34-motif.gojo.json.gz",
+    "balance.html",
+    "comparison.html",
+    "interiors.png",
+    "interiors.svg",
+    "overview.png",
+    "overview.svg"
+  ],
+  "files": [
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B01-detail-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B01-detail-closeup.svg",
+      "sha256": "df011b0fac4c38f6aade256da4fc94a789622fd0b58ef7dece0d064c69e38351"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B01-detail.svg",
+      "url": "/ornaments/flowing-grammar/R-B01-detail.svg",
+      "sha256": "eb97c7181416c5c2140a2bb9051cfed2d670898453df934fdd4c30fb4cac8c01"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B01-field-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B01-field-closeup.svg",
+      "sha256": "0597a5a4b9087c11c117e8222d9c8b39eb4bd3a5f6299c8ef423db1b8f8fb657"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B01-field.svg",
+      "url": "/ornaments/flowing-grammar/R-B01-field.svg",
+      "sha256": "3f7c919cbde77713d131cb7f2198eca5de240cb58e2948f7d5ef44cebf295862"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B01-motif-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B01-motif-closeup.svg",
+      "sha256": "c0a415702eca76057afbe0d07362bad4b4d23c7b6a6c41bb4a72bf91d3372ebe"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B01-motif.svg",
+      "url": "/ornaments/flowing-grammar/R-B01-motif.svg",
+      "sha256": "66674515180aba4b3f885271bdf5c31781815179812d82ac76da298b80bddd76"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B02-detail-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B02-detail-closeup.svg",
+      "sha256": "f91950163bd1dc0ebd9a06770fa21d85c51a7f792d3bab4a9eb369cc9f6dceed"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B02-detail.svg",
+      "url": "/ornaments/flowing-grammar/R-B02-detail.svg",
+      "sha256": "d4e0c0f9411eae402b28860f3b0b0202368f7454c8c5f87f62dba7122d5cc292"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B02-field-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B02-field-closeup.svg",
+      "sha256": "2b5bdf47111e21fc8893a62fadbefb5d8a963801d3a21fd5334c3d90063b5b3a"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B02-field.svg",
+      "url": "/ornaments/flowing-grammar/R-B02-field.svg",
+      "sha256": "030563a605dde0015a2efa3c7a092b2fa98c0070f2e92eea23c22d89d5fbcdcb"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B02-motif-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B02-motif-closeup.svg",
+      "sha256": "89bcf203ae819ff0f0fad2cb38aab7a3f4dbc3a882ee4fe059e1b79e6ff137ad"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B02-motif.svg",
+      "url": "/ornaments/flowing-grammar/R-B02-motif.svg",
+      "sha256": "d820ae703b7162c1b108b766a9857e8b0eee03621b3030365602c6c76ca71aa6"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B03-detail-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B03-detail-closeup.svg",
+      "sha256": "ea0b8dc9ac6773d000e77c82cce378a66efd6a0a1894c821e11161f30181caf5"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B03-detail.svg",
+      "url": "/ornaments/flowing-grammar/R-B03-detail.svg",
+      "sha256": "e258ff867bc4ef6bcc89f2f35ed8cf667ed63bb4d7a3d271485dec6c69b42e19"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B03-field-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B03-field-closeup.svg",
+      "sha256": "d68f06de03b0e7a73d2b32f4ac0f33d32e0cbc72c73ad6e5133f3ee73c618ba4"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B03-field.svg",
+      "url": "/ornaments/flowing-grammar/R-B03-field.svg",
+      "sha256": "d1c0924458668e268807fdb8ecdbb8464f40a0b561baaadea349ccc7dbc22fa6"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B03-motif-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B03-motif-closeup.svg",
+      "sha256": "0e6c55e24ba6f8690c8ab066f64977c21d7a9f67675d8f8fabbff171aa733941"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B03-motif.svg",
+      "url": "/ornaments/flowing-grammar/R-B03-motif.svg",
+      "sha256": "b2332ae1c9b521ea1c5a9141e6205d8c3b5326d06ec54191e2196c0019071257"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B04-detail-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B04-detail-closeup.svg",
+      "sha256": "6a7a95912a31e463b3e99882a6bde4fe95bafe3a7a172e8ce92ac7dd0a10be72"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B04-detail.svg",
+      "url": "/ornaments/flowing-grammar/R-B04-detail.svg",
+      "sha256": "cdee98420d2ead6ac3efc2f449298dfd2170148890bfe996bc1c553e5fe58c60"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B04-field-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B04-field-closeup.svg",
+      "sha256": "f69974653d88be1b94f566d7f0f99a530f9d6e9cd33accc658c0aa30fb297234"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B04-field.svg",
+      "url": "/ornaments/flowing-grammar/R-B04-field.svg",
+      "sha256": "956f2c543dd7c8262acdb87e2f676f96e3b1fbf2ea5ae4d3eae9103b211bef49"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B04-motif-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B04-motif-closeup.svg",
+      "sha256": "57840710584b8f78e718b62528d1c4e7246c0703cdd5580b8802e23e2c5031cc"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B04-motif.svg",
+      "url": "/ornaments/flowing-grammar/R-B04-motif.svg",
+      "sha256": "4365913f21629c45fce98ac76f817467dc7e4302765601e5c937d45e50c39145"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B05-detail-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B05-detail-closeup.svg",
+      "sha256": "50ed6646ac8b93fbb886984f399576810a19290e83100704542793b15fe0c396"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B05-detail.svg",
+      "url": "/ornaments/flowing-grammar/R-B05-detail.svg",
+      "sha256": "f1cd419e0815238d1e47f3d8efb84bd92eb9510e5a6270df3ccc916b8b0ea923"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B05-field-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B05-field-closeup.svg",
+      "sha256": "38a9a67af6d0247ce054b7266bdd3f3045773faac9663a7581777f6341c33b42"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B05-field.svg",
+      "url": "/ornaments/flowing-grammar/R-B05-field.svg",
+      "sha256": "4bf7e525ee09ee29763c20c5389874656cb87b4985d1f451ac1af36552f69371"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B05-motif-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B05-motif-closeup.svg",
+      "sha256": "4a5f1e36db576553d189c7b93db22ea0f652d99289037fb991d49f37a5c0d46b"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B05-motif.svg",
+      "url": "/ornaments/flowing-grammar/R-B05-motif.svg",
+      "sha256": "c03d70c99dc0518ed88e2cb92bb556f05cc216606a244c96bee431a87b96b3b8"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B06-detail-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B06-detail-closeup.svg",
+      "sha256": "a6c311c85e676815c30d28b0916da68b13752b070712158a51d2aaf9853e3571"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B06-detail.svg",
+      "url": "/ornaments/flowing-grammar/R-B06-detail.svg",
+      "sha256": "142458a1d122a1eed6ba58b588acac06c0526d9b419fb09d1521ccd4b3752840"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B06-field-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B06-field-closeup.svg",
+      "sha256": "30c4972795710bc11e2a7932621bb0534569d3472a62d1689a54286931a6594d"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B06-field.svg",
+      "url": "/ornaments/flowing-grammar/R-B06-field.svg",
+      "sha256": "de80e79752358417330072677cd576990393cee2b1c34fc50cc32d2156f3fca1"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B06-motif-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B06-motif-closeup.svg",
+      "sha256": "2e9330e210ef4616eaedfdfd973fbd4eb2fab7a59c4a55a2d415151eb3174fff"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B06-motif.svg",
+      "url": "/ornaments/flowing-grammar/R-B06-motif.svg",
+      "sha256": "4213617e93a8aa4fec3806593f0a39c07f0d9d82332952b0a12e39564241a71f"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B06.B-detail-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B06.B-detail-closeup.svg",
+      "sha256": "43a89aa2b688acae1ee46bff72d7f63037e45fbae9beaf804949e2eb0074574e"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B06.B-detail.svg",
+      "url": "/ornaments/flowing-grammar/R-B06.B-detail.svg",
+      "sha256": "a287ddf8613fd7361f28722f477714db54995d6397507e5bb542332f55faa323"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B06.B-field-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B06.B-field-closeup.svg",
+      "sha256": "8e901c40eb7305077aed7d51759b5d3afd53fc8871b903a653172d57921cb338"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B06.B-field.svg",
+      "url": "/ornaments/flowing-grammar/R-B06.B-field.svg",
+      "sha256": "0fed63db45a94ea743c09170dcb19e7f48dbc252a71b4ea35c7dee810a7fd10b"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B06.B-motif-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B06.B-motif-closeup.svg",
+      "sha256": "fb7e685b68d45783719ad8f80d07ca9997dbdc3652098a4495e4f4d0b8fc7a60"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B06.B-motif.svg",
+      "url": "/ornaments/flowing-grammar/R-B06.B-motif.svg",
+      "sha256": "b12e807bac2cab9a219d1360068f8cee2a08abfa814aeb8929d9072cda90a130"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B07-detail-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B07-detail-closeup.svg",
+      "sha256": "b522fa84d73f52cd09422ed0e49d02f09685e9b26378e7ff7dfa35d6c10cf295"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B07-detail.svg",
+      "url": "/ornaments/flowing-grammar/R-B07-detail.svg",
+      "sha256": "2c16e3c07d5104571b0eba21ed8c142df059bcddeb280428cb913b795d255a1b"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B07-field-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B07-field-closeup.svg",
+      "sha256": "4cdc3565b2e48946f885c72e70d57119dd09395649e3ac2d460d76de95a73391"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B07-field.svg",
+      "url": "/ornaments/flowing-grammar/R-B07-field.svg",
+      "sha256": "427e0559156da4860cd1755550aab3a491f13b549d8da074557c246744ba350d"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B07-motif-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B07-motif-closeup.svg",
+      "sha256": "ca98dd17595fefc9557bf85291c57c4edb0175a069be68b2876386ea99c2a20c"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B07-motif.svg",
+      "url": "/ornaments/flowing-grammar/R-B07-motif.svg",
+      "sha256": "91031aba416959b7332ac8868b2069b1c0a6ad88a6783a5342bf7446b4793dc4"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B08-detail-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B08-detail-closeup.svg",
+      "sha256": "3d7c659bb6a21d19364b206c3b9ce06295793695d4d9d57bcde2d42817cf9640"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B08-detail.svg",
+      "url": "/ornaments/flowing-grammar/R-B08-detail.svg",
+      "sha256": "ce04c816e46fa229196a4c1b009a925f633927d988375bf3051b8dd6fa43407c"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B08-field-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B08-field-closeup.svg",
+      "sha256": "248e434d54556d3d3320e2744987138ca7db8c76fe6f5d4edf36419bff29ebd7"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B08-field.svg",
+      "url": "/ornaments/flowing-grammar/R-B08-field.svg",
+      "sha256": "f5c37529b590980f9465334efbf90d59294fed80cb67742abbeb7fde32582895"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B08-motif-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B08-motif-closeup.svg",
+      "sha256": "b43f9fa6aab3a013f35e4971d964418de69fc7c9e1439b5f6171a38a10413866"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B08-motif.svg",
+      "url": "/ornaments/flowing-grammar/R-B08-motif.svg",
+      "sha256": "ebfb6b705212c7f73c425bd4073369a18238335653fe1b595021b24b130d1906"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B08.B-detail-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B08.B-detail-closeup.svg",
+      "sha256": "c12b1e72738aecc548e4e2d0f91c0fc0f0f6795a7125de57ef7129bb4a749130"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B08.B-detail.svg",
+      "url": "/ornaments/flowing-grammar/R-B08.B-detail.svg",
+      "sha256": "5405584e3f42bba4de555b80f33e6e2cc4f3cc855fbe567665b2784555be4dfa"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B08.B-field-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B08.B-field-closeup.svg",
+      "sha256": "3577addd5c8682e7fa12d2d29cea4e5ad25cfdfd9f82c23113e9e27142569499"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B08.B-field.svg",
+      "url": "/ornaments/flowing-grammar/R-B08.B-field.svg",
+      "sha256": "1577ce66bf71f23f3215e2fadacb7c2e1041d3f92adfeb8bcb5c1f2490a102fb"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B08.B-motif-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B08.B-motif-closeup.svg",
+      "sha256": "0b90742ae96af00cb0fbab81621ab7f7e215f27b43af2516b44ff141de173f57"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B08.B-motif.svg",
+      "url": "/ornaments/flowing-grammar/R-B08.B-motif.svg",
+      "sha256": "cc4b53e2970a70778deeabd8453ff74dad41f24be0b0dad36e8d9d6f6becd3a3"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B09-detail-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B09-detail-closeup.svg",
+      "sha256": "8393921d65d150bb1f3f70681af0e105dd999199a4c9d4d588494c955f13a3c1"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B09-detail.svg",
+      "url": "/ornaments/flowing-grammar/R-B09-detail.svg",
+      "sha256": "78452fdda88c2d8bd46b3d1866c4d124c23d953b5d35b7f8a501449495684015"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B09-field-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B09-field-closeup.svg",
+      "sha256": "70eab25a094bc634b2c6b7faed9888f41917dd8bb1796c777070b915f3d0e08e"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B09-field.svg",
+      "url": "/ornaments/flowing-grammar/R-B09-field.svg",
+      "sha256": "a5d7911a38c9d0e9dde190d2f80a5a19d540d938f6d884a4d24053598b5f7fe7"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B09-motif-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B09-motif-closeup.svg",
+      "sha256": "f1285387d5df69147ac50df2649cf95083a057aef40dd7f8c42a04940e5b36fe"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B09-motif.svg",
+      "url": "/ornaments/flowing-grammar/R-B09-motif.svg",
+      "sha256": "69a11f7a63e8c45f21491c229a1708d28c1eeac69130f44b31d769031bb80159"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B10-detail-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B10-detail-closeup.svg",
+      "sha256": "b04d0055a792fe8d51e5a8322727cc75f3cadbd781e40af15358fb0d5550cd13"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B10-detail.svg",
+      "url": "/ornaments/flowing-grammar/R-B10-detail.svg",
+      "sha256": "72b5d4271735d77a40132803ea04bf6d54f1e84af375ed2a3eaa50da37c1b75c"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B10-field-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B10-field-closeup.svg",
+      "sha256": "76dd28d322e37eb7b18a01d871452dc7d5d1b2c2af32da4cddd9069319cd0041"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B10-field.svg",
+      "url": "/ornaments/flowing-grammar/R-B10-field.svg",
+      "sha256": "f8e9d8f00579a2ce5a238f36e70ee8c730b73b54fec1f57af0d2d52848a318fa"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B10-motif-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B10-motif-closeup.svg",
+      "sha256": "c24fabcdbe97cc473ebafe9e62ad58fa6d1ffd8904aa8b683e6acc6b8ca2663b"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B10-motif.svg",
+      "url": "/ornaments/flowing-grammar/R-B10-motif.svg",
+      "sha256": "804994227ce08e12698ffd279a8c289c55027c84c04179c7febb837ee01ccbc8"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B11-detail-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B11-detail-closeup.svg",
+      "sha256": "caf288d7b7aae67a88bc2ef63aae51f4a7081845da47cee853d07dc3f38b7afb"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B11-detail.svg",
+      "url": "/ornaments/flowing-grammar/R-B11-detail.svg",
+      "sha256": "a942870ad5cf53d4e021bcd0b434b7878ffc934e52dff657b31e90759efda66d"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B11-field-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B11-field-closeup.svg",
+      "sha256": "537d4907f6c09c55a60bddfd361153277ad58dd336ce30e9d19d1a161b7f0481"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B11-field.svg",
+      "url": "/ornaments/flowing-grammar/R-B11-field.svg",
+      "sha256": "c15b17ba27b271b5b07cae67808e44d862c1bf0b93ec864548c0e31374fb3d21"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B11-motif-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B11-motif-closeup.svg",
+      "sha256": "2eafb0754656b88e02281e8e57f7d60cdc0cc0631b2f2fdf851fea2cc11396d6"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B11-motif.svg",
+      "url": "/ornaments/flowing-grammar/R-B11-motif.svg",
+      "sha256": "0fbfa77c8edbb23a258fcf521c387dbbc5888dc32506cfbed163ac880acaa29e"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B12-detail-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B12-detail-closeup.svg",
+      "sha256": "8ba1e5bd6864596f9ecc48bc7122eca30a2f966983dbf4bd7fad484d7579aed3"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B12-detail.svg",
+      "url": "/ornaments/flowing-grammar/R-B12-detail.svg",
+      "sha256": "31a9abe41347f8b7ff1100e9251d745ff50cc3e039da1aac17c2e0383aea2b6d"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B12-field-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B12-field-closeup.svg",
+      "sha256": "c61bc9ccdca6af01d032555bbace43195ad882d07a8d83d9ba0b5be4f406eef5"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B12-field.svg",
+      "url": "/ornaments/flowing-grammar/R-B12-field.svg",
+      "sha256": "abfa7339a48c28f48e1aec5b30fac741cc56e41d31a101dc7909e7fd0e5831cb"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B12-motif-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B12-motif-closeup.svg",
+      "sha256": "54eca91abd2fd1bde73d41760944fef0fe8c828699debbe7ec89c0dbb357785f"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B12-motif.svg",
+      "url": "/ornaments/flowing-grammar/R-B12-motif.svg",
+      "sha256": "83c3426fa2ce2d12bd493d314e34de75381cfddbbed69780547dd79f42b16a1a"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B13-detail-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B13-detail-closeup.svg",
+      "sha256": "4e3831ad332cb7f89f757411ad554c7b4421c02a5dcdc2acb6429c45451e9758"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B13-detail.svg",
+      "url": "/ornaments/flowing-grammar/R-B13-detail.svg",
+      "sha256": "02db9be7bb1756eaa776f4798127b1a175a966cb4dd75c0e3647cc4919c576ac"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B13-field-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B13-field-closeup.svg",
+      "sha256": "783fcb657dbc24fbc9315163386d02e0042c385d1edc5ec358a150855108521e"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B13-field.svg",
+      "url": "/ornaments/flowing-grammar/R-B13-field.svg",
+      "sha256": "8451fcd46b29cd09d568f05c6519add17994d333e656cdd943f1105109f2bde5"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B13-motif-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B13-motif-closeup.svg",
+      "sha256": "3d52e266c9652c8e5abc6d60ac9720dcc8a3661a8f5fa667b1df06654ed4116f"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B13-motif.svg",
+      "url": "/ornaments/flowing-grammar/R-B13-motif.svg",
+      "sha256": "3454a0907f2b284a43e3612f95c2bc758443cfde2e07e321f2f2669402f96a7f"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B14-detail-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B14-detail-closeup.svg",
+      "sha256": "d5154a6550849a3a0f8ab0de6afacc899868bf0182ed66ef35eaf4ee5dedd99d"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B14-detail.svg",
+      "url": "/ornaments/flowing-grammar/R-B14-detail.svg",
+      "sha256": "05344435a501e7fef9c70d97809a8caee4b058962959f26943ca9da683a8f8de"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B14-field-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B14-field-closeup.svg",
+      "sha256": "ee3c5213549b48e72a745f06c1a721a84076b0b40a575be9d4effed8fd4206ea"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B14-field.svg",
+      "url": "/ornaments/flowing-grammar/R-B14-field.svg",
+      "sha256": "1a9bc64965606e632e12f8fc8d6c12902f8e1b210349ffbe1737d524a71977a3"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B14-motif-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B14-motif-closeup.svg",
+      "sha256": "a42fdf88433c082f56db64c91a7a43cddc81950b92da48944ef05ce9cbb6fa30"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B14-motif.svg",
+      "url": "/ornaments/flowing-grammar/R-B14-motif.svg",
+      "sha256": "4b6464eee111afaa8cc4004a90a095e1908310a5ddce390fe88de86f455f54f8"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B15-detail-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B15-detail-closeup.svg",
+      "sha256": "169bd9571cc01c03815b8946ed7b7dd4e8c2c157b8a96f7ecc0df32931002082"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B15-detail.svg",
+      "url": "/ornaments/flowing-grammar/R-B15-detail.svg",
+      "sha256": "e64cfb23c5315957bb4090680d3382f3b06b5bbfd88d0cb2732d974ff1ba0cc3"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B15-field-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B15-field-closeup.svg",
+      "sha256": "4d0684f221f97e10af80207bbe48f9fc4d0bbece1a75e1b06d5ace7edd2282ea"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B15-field.svg",
+      "url": "/ornaments/flowing-grammar/R-B15-field.svg",
+      "sha256": "f672f6d135388f11214855f7367d7cb5a861e4478c61cb376415a09b63268a25"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B15-motif-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B15-motif-closeup.svg",
+      "sha256": "678b412f9588dfc999b76a055a191099c99ad5e662f0bc3c85ec2d30ee1de480"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B15-motif.svg",
+      "url": "/ornaments/flowing-grammar/R-B15-motif.svg",
+      "sha256": "c9f099304a7bb4338d48c54cb5e4598ca64c0f21870c1fe76372828b3c0db58f"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B16-detail-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B16-detail-closeup.svg",
+      "sha256": "04f92166434bb2425b11973039aba06211f34bb548da21b3be9ce4cfa593fe14"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B16-detail.svg",
+      "url": "/ornaments/flowing-grammar/R-B16-detail.svg",
+      "sha256": "2613acf0d9a6d44a710cd9c48632e6718e172ea2e4330b85f6dfea8a0d7d3556"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B16-field-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B16-field-closeup.svg",
+      "sha256": "31ead5b01640e416e57f7f618aa28c6f2a42cfa483bfbe0143aa0613be9352ba"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B16-field.svg",
+      "url": "/ornaments/flowing-grammar/R-B16-field.svg",
+      "sha256": "bdc0c48a6c9836a7d8c0f05bf9d3280a95b2716bad06ce5546147757cd30b822"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B16-motif-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B16-motif-closeup.svg",
+      "sha256": "ef095e508f0fe7c877aee58d6ed4ab5c0fafcae69c6bc3b198a0094f082cac1b"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B16-motif.svg",
+      "url": "/ornaments/flowing-grammar/R-B16-motif.svg",
+      "sha256": "e16aa37de80bb07ceb2825740be99870abacef2c6467a6f3d5d861ca089a03d3"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B17-detail-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B17-detail-closeup.svg",
+      "sha256": "321be6b3a2b8d93e4953d81c121c57a27877217e20f97cb5bc37b13164fd0a24"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B17-detail.svg",
+      "url": "/ornaments/flowing-grammar/R-B17-detail.svg",
+      "sha256": "acbef1d040ab3be56549db37640ba5b471ed5eec34ae3838e92dd187981a896a"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B17-field-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B17-field-closeup.svg",
+      "sha256": "f7398b5c8516d7f161162a9ab88cfe6095265dd6bce9a70acf12b349c460a025"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B17-field.svg",
+      "url": "/ornaments/flowing-grammar/R-B17-field.svg",
+      "sha256": "7068349b7fa119f55f9357ff711f8b88fd8326dd12b0517a37ff577da5d4da05"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B17-motif-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B17-motif-closeup.svg",
+      "sha256": "00cf8e0aaaf62e5fa6230fc3033d5c95cf89e6786aafc1f7bdaa868e04734bb0"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B17-motif.svg",
+      "url": "/ornaments/flowing-grammar/R-B17-motif.svg",
+      "sha256": "49071aee79f1673ad7ce084bcb97287dde801369f941fc81dea5fb6cc62d9cd6"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B18-detail-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B18-detail-closeup.svg",
+      "sha256": "d99152e069be3ec7c351ba09769b1933f64f1786851ac424d560dc3088dca6e3"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B18-detail.svg",
+      "url": "/ornaments/flowing-grammar/R-B18-detail.svg",
+      "sha256": "f69c929a8be03a739b2fdfd0a86128993699d3aef4081323243d46d301329a07"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B18-field-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B18-field-closeup.svg",
+      "sha256": "20d84837fe56f8e83a074ec5b94ea879f3d9cdae37ad5ee07730af8f22149d93"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B18-field.svg",
+      "url": "/ornaments/flowing-grammar/R-B18-field.svg",
+      "sha256": "7556df8c5d2412bd7b87fbedc2d9d38c910e4fd8748b201e644e3289ecffef46"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B18-motif-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B18-motif-closeup.svg",
+      "sha256": "76140041ad9315ac7a457c71951c0c842e14122426a3f6b972484abb04b8c094"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B18-motif.svg",
+      "url": "/ornaments/flowing-grammar/R-B18-motif.svg",
+      "sha256": "79db921e29589ee04f5651cb57631679e60f4f61db311c07ba83d3f937c671c3"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B19-detail-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B19-detail-closeup.svg",
+      "sha256": "98c31dad80e0bf8c54c70cf2550c1a04c63d02817fe2b4088f984f9298168ab0"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B19-detail.svg",
+      "url": "/ornaments/flowing-grammar/R-B19-detail.svg",
+      "sha256": "7810ec02d44d19194a537268a3432855b20d9c6c10b8281826361ce0d577258d"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B19-field-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B19-field-closeup.svg",
+      "sha256": "4a678cdd77846c45138d764869aafd6ec66cd3fc85ffc82fad3353e7890c6fa5"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B19-field.svg",
+      "url": "/ornaments/flowing-grammar/R-B19-field.svg",
+      "sha256": "a34bf2836ef712c521b108c29e1cf95eb4001ab6bd36453d377beae334d49cf3"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B19-motif-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B19-motif-closeup.svg",
+      "sha256": "329ece293fff6d3f21e8b8762d5c245940ad832b5ca857fe05b0382067df5edf"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B19-motif.svg",
+      "url": "/ornaments/flowing-grammar/R-B19-motif.svg",
+      "sha256": "ba1fe12b8e41ca16500924242eff166403a89d4461bce43e2d938bd9ff273334"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B20-detail-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B20-detail-closeup.svg",
+      "sha256": "bb44a7fd7fb044100afdfa29ac9c9857f09f2be3990710d3eed574d16a7df371"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B20-detail.svg",
+      "url": "/ornaments/flowing-grammar/R-B20-detail.svg",
+      "sha256": "0465bb3cf5e7e2ee20c486dd935efdc93ec7a4afe97fb34d32273d1dffc2875d"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B20-field-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B20-field-closeup.svg",
+      "sha256": "5199bee16a6cecc2fdd41f3bcdf1b497cca2ac13b7d888b3fbd150c51dc7a6a8"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B20-field.svg",
+      "url": "/ornaments/flowing-grammar/R-B20-field.svg",
+      "sha256": "eb21cf6bc9f13fc569e4cbbccc941bb45ad19d3f4edf663b5de79799e0c09f4b"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B20-motif-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B20-motif-closeup.svg",
+      "sha256": "17a454f1b374ddee47a0f04f58df54c2f82f1a535a75442880ebe5e27a1ee341"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B20-motif.svg",
+      "url": "/ornaments/flowing-grammar/R-B20-motif.svg",
+      "sha256": "2fcc1c706aa95070e56c0b0df393c1e44de542aca00af659e6c7d62f644e4aad"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B21-detail-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B21-detail-closeup.svg",
+      "sha256": "d2c4c4e5803a085c589086a32d737a652dc4cf6e0a160bcab47646a0e86252e8"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B21-detail.svg",
+      "url": "/ornaments/flowing-grammar/R-B21-detail.svg",
+      "sha256": "0c5cfbd5513b07d1bfa2ca59d31ff2176d980409a8cb3a5e73dd33ad3592ae04"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B21-field-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B21-field-closeup.svg",
+      "sha256": "755f4eaf3cfc8f3fa92fb65371cf97ae5f0380249da865d1b72d021b66852d94"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B21-field.svg",
+      "url": "/ornaments/flowing-grammar/R-B21-field.svg",
+      "sha256": "62367842a2c2e7b7bd59c308303b81ef9456ea5871e2f4e48f3d4f963c98c3e3"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B21-motif-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B21-motif-closeup.svg",
+      "sha256": "e451500d75931607c960e6c0e3fb77af35be4b19c9528f5c0386ad9ecc7477d4"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B21-motif.svg",
+      "url": "/ornaments/flowing-grammar/R-B21-motif.svg",
+      "sha256": "6ec3d100a2091f150d716b098dce5463c11be8146c96db7fbdca87c336724c9c"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B22-detail-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B22-detail-closeup.svg",
+      "sha256": "6d5412d6808ba3ee17645042a4295f153b929510240738d9c9bde69078fd40c7"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B22-detail.svg",
+      "url": "/ornaments/flowing-grammar/R-B22-detail.svg",
+      "sha256": "e65dc6662c48f5a15b8125bc2caa164ce82afa12a95108ae065f36787f33ed45"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B22-field-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B22-field-closeup.svg",
+      "sha256": "11bc151d6010e5ab1203f9836f6c5b563fb6f43f67fa84613aed32bafee8b5db"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B22-field.svg",
+      "url": "/ornaments/flowing-grammar/R-B22-field.svg",
+      "sha256": "26c85711475a7d7304e220d91282a7dba521756dad1ba2741db15ae58d73a7d2"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B22-motif-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B22-motif-closeup.svg",
+      "sha256": "343a1250c2b7ed35646a93f53f0ce3a75ae2e899d46d909bb7a6eef3dc73ff44"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B22-motif.svg",
+      "url": "/ornaments/flowing-grammar/R-B22-motif.svg",
+      "sha256": "ce4501838ef994c8927999bed5c98ad4013073e2bc78a27835db604346c56200"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B23-detail-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B23-detail-closeup.svg",
+      "sha256": "fbf0e984666f2513fd6cfae314e1e5582fcff49570d76624db6ec87a062b5eb1"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B23-detail.svg",
+      "url": "/ornaments/flowing-grammar/R-B23-detail.svg",
+      "sha256": "9bf33330cb80b4c53f398013ca64460a6459ceeb78c72dc42ae7887f92142add"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B23-field-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B23-field-closeup.svg",
+      "sha256": "39b67e1b87d3ca267f8ea182659ed91d5d5980852ec77a48a5b22b4b63c11734"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B23-field.svg",
+      "url": "/ornaments/flowing-grammar/R-B23-field.svg",
+      "sha256": "f543dd8945fa658624b2d468989771621a55f07710919edb83cb23a3a63b19d3"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B23-motif-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B23-motif-closeup.svg",
+      "sha256": "de6a8c274e67bc1dc2f9ac6f7f377c7dfd48805ebcfbc45f59ed8754dad8ea44"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B23-motif.svg",
+      "url": "/ornaments/flowing-grammar/R-B23-motif.svg",
+      "sha256": "e12b665332d4fb7a4de058049ff8cc453ea2d62db3e5558dcef371b77f531a65"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B24-detail-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B24-detail-closeup.svg",
+      "sha256": "6fe5199e1f0271debe605ceb948714f5f751f85d14bd49d8e2ad427d621adfe5"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B24-detail.svg",
+      "url": "/ornaments/flowing-grammar/R-B24-detail.svg",
+      "sha256": "b91d8a873fcc4bdfe0c6fd24e77072b8c5d603222f5efe6df4ec8184df150cfd"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B24-field-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B24-field-closeup.svg",
+      "sha256": "0d9c3f15f253e4972d63f0af3538940bab407c5ec3edaa09d02575b44924d548"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B24-field.svg",
+      "url": "/ornaments/flowing-grammar/R-B24-field.svg",
+      "sha256": "332926da727e3aa81965a95893e7f02b0ddd9beebe6f2abbad7ea4f79dc2c50c"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B24-motif-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B24-motif-closeup.svg",
+      "sha256": "018bff177eb39c8bba272f109b49cf6d44cf2b24376d6e4b2387dd3d1c3688d7"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B24-motif.svg",
+      "url": "/ornaments/flowing-grammar/R-B24-motif.svg",
+      "sha256": "e331fe64defccd214115cfa210a36eac302db513d8fb2e51ecad0905ec4ac194"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B25-detail-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B25-detail-closeup.svg",
+      "sha256": "3c0ff149fad0cfffd7fe70e88c6ccabecde13d4a098f0dc6d7e61c2c39bec66d"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B25-detail.svg",
+      "url": "/ornaments/flowing-grammar/R-B25-detail.svg",
+      "sha256": "a42c983b04abdd0c61ad5576a1dc5ad3c6e1970f9d0bbba74beb4c424c309cfb"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B25-field-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B25-field-closeup.svg",
+      "sha256": "d47ec37aefbfb149ce82ad8d09294bad159d80b2755e528e09dd4d8e9d635f30"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B25-field.svg",
+      "url": "/ornaments/flowing-grammar/R-B25-field.svg",
+      "sha256": "c03c81279240dd5a077f93cb2291df9be42744241f4e127f914c0eb364c2e67e"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B25-motif-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B25-motif-closeup.svg",
+      "sha256": "3e7543c2e56f3cff1930061c0f305154d6fd358aa0d2e5dc8d03c98a94589b5a"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B25-motif.svg",
+      "url": "/ornaments/flowing-grammar/R-B25-motif.svg",
+      "sha256": "4ba1ef920afd31ed8c1c9072fc43ac991bc0c1b1e858a36e68ab4c04c316d40d"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B26-detail-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B26-detail-closeup.svg",
+      "sha256": "80657c296238297f7d1f1bc87da907fc9f1ace65a5f8b6f3815c606a9ef9e181"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B26-detail.svg",
+      "url": "/ornaments/flowing-grammar/R-B26-detail.svg",
+      "sha256": "196eca6defea8d55d0f97a55769eaeb22b44790dceb21645fdc7d628c48d5a08"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B26-field-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B26-field-closeup.svg",
+      "sha256": "b5ad1011bfae22619f8c124ad941071e2794ac8c8e940a96bb067eb4c068a64f"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B26-field.svg",
+      "url": "/ornaments/flowing-grammar/R-B26-field.svg",
+      "sha256": "cdb2eb2ef4f578c892e08edf86fcca7831a0e892a44fe775c0ab51912f674a25"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B26-motif-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B26-motif-closeup.svg",
+      "sha256": "03c22ff59fa89809c99a805ec347cc71eb2c570a3230cc84ccdb2398efa147eb"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B26-motif.svg",
+      "url": "/ornaments/flowing-grammar/R-B26-motif.svg",
+      "sha256": "b128b7c6c093d21879476fdc1895c54e605af57e6a263b3f5ecc5720073925e9"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B27-detail-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B27-detail-closeup.svg",
+      "sha256": "92043ed6c512590bb00aab437cf66b03dc2a4bf8afec3fbafd66d7b8e6894053"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B27-detail.svg",
+      "url": "/ornaments/flowing-grammar/R-B27-detail.svg",
+      "sha256": "f3cd4af849418592c452b8e25fc02501e3a58c76b02b2610d1936371ada7dae3"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B27-field-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B27-field-closeup.svg",
+      "sha256": "78718395681acc62e1ebc7a89470e75fd632e6064345582a06dcd93c98db527f"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B27-field.svg",
+      "url": "/ornaments/flowing-grammar/R-B27-field.svg",
+      "sha256": "28b723e2489d9b72571c10dc848235a01209306dcee1bd7a9300e5d262ceecb3"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B27-motif-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B27-motif-closeup.svg",
+      "sha256": "64e51af1e988ea0df42384217c6c274638b66cdc425441814b22df37d5a1f095"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B27-motif.svg",
+      "url": "/ornaments/flowing-grammar/R-B27-motif.svg",
+      "sha256": "750477b63e05607bb20b684bbf87dd8a285ee453beee6f736a88fa264d8f83ec"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B28-detail-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B28-detail-closeup.svg",
+      "sha256": "9706ea29569b4b504f558423798dee23e54e534934f6eb9f95055fe4f5f9f860"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B28-detail.svg",
+      "url": "/ornaments/flowing-grammar/R-B28-detail.svg",
+      "sha256": "9e9f1baf9a906a6eedf45320d7634e7437246e9a11388dd5cd089c6d07ea360a"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B28-field-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B28-field-closeup.svg",
+      "sha256": "6b27e1f04b22f11aef700ea0dd6c09cd853675215fec51e7666275d89f36f7f6"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B28-field.svg",
+      "url": "/ornaments/flowing-grammar/R-B28-field.svg",
+      "sha256": "8d291028c8e55f9200ea5226481e98beddd980a802828e11f6547d8b1fefcc01"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B28-motif-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B28-motif-closeup.svg",
+      "sha256": "6bb12daec12d8cfc8ba1448686ad0c5fd6fff98fcfadf05836a8ece60c890375"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B28-motif.svg",
+      "url": "/ornaments/flowing-grammar/R-B28-motif.svg",
+      "sha256": "7a67e9788ae2e2a3633ff68d3b234df5cd583367bf132736cb28284933b22658"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B29-detail-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B29-detail-closeup.svg",
+      "sha256": "a1d565f45270a260b753296b1d6acabb0d3fa2e500bab44708e0ee9820330126"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B29-detail.svg",
+      "url": "/ornaments/flowing-grammar/R-B29-detail.svg",
+      "sha256": "d2ba25be0439624deb33158dd228594f266f779a1d1cb7e63c529d415b8be320"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B29-field-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B29-field-closeup.svg",
+      "sha256": "52869114a8dbb315d47602db0575e2eb4fa2c2e615be8d733256a514585e6c5a"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B29-field.svg",
+      "url": "/ornaments/flowing-grammar/R-B29-field.svg",
+      "sha256": "691dea54bdaca3d0f80a77095ed683d25436c641a0956c0e5d1da01e6cad4afc"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B29-motif-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B29-motif-closeup.svg",
+      "sha256": "e1745b66ca2badef7b92bb1b515ea6c16a85605170b71545aa9541d449c967d1"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B29-motif.svg",
+      "url": "/ornaments/flowing-grammar/R-B29-motif.svg",
+      "sha256": "0fc8a65a8c59741fe013c8616f996e2d0901f24827fea6c9605ac0e653c459f4"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B30-detail-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B30-detail-closeup.svg",
+      "sha256": "ad7a1b00c6e9b399ec3cf888fe37b2c2f507e2e62819f0a0431987bf7cb562c1"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B30-detail.svg",
+      "url": "/ornaments/flowing-grammar/R-B30-detail.svg",
+      "sha256": "7edc615f5aa8df015be24157a1316579d34fec722b06b0a071d068f59889d824"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B30-field-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B30-field-closeup.svg",
+      "sha256": "dabf5a8c0fcd086c98f04c947737fbbfcdc50d2648266868ec82fc7b8b003727"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B30-field.svg",
+      "url": "/ornaments/flowing-grammar/R-B30-field.svg",
+      "sha256": "0ff9762fd4d11eaccb41bae73c7e35fbc1c32c5d8c0644ba6283691d4cacd56a"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B30-motif-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B30-motif-closeup.svg",
+      "sha256": "5b48b3c70f133e7355c577b029971a15621d738d8eeae6a30a0dcb536aeed4f3"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B30-motif.svg",
+      "url": "/ornaments/flowing-grammar/R-B30-motif.svg",
+      "sha256": "45775b90be3b4f6fb99f1a4e646c965866d4f075569be21f64da1517aa71f3f1"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B31-detail-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B31-detail-closeup.svg",
+      "sha256": "069b933cb7bd8cb943bfab81a7b18b5776d00b9a1de13584ed0e462ef23a149f"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B31-detail.svg",
+      "url": "/ornaments/flowing-grammar/R-B31-detail.svg",
+      "sha256": "510f9bc9c3a09e3b3106aabb4a7fc1b6ddea2435bfa58c835075cdac82c94df5"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B31-field-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B31-field-closeup.svg",
+      "sha256": "cf8919768200efec73fada2d421019f32a79029f03ebeff3c8cedfb59f55dcec"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B31-field.svg",
+      "url": "/ornaments/flowing-grammar/R-B31-field.svg",
+      "sha256": "2c4c2f109c9ed99243da5af6e61027d4c324c498a7126f05761f8c0ec19a0587"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B31-motif-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B31-motif-closeup.svg",
+      "sha256": "72f2f001e9b62ca504f857267d7ae50832e6ca6879fe8d689f7517ab2c5e105c"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B31-motif.svg",
+      "url": "/ornaments/flowing-grammar/R-B31-motif.svg",
+      "sha256": "40cfb5b505c01b24c034bcf0c5c4edbfee5bb945772650e663528436c806d2a4"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B32-detail-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B32-detail-closeup.svg",
+      "sha256": "88338f7e659786eb241e3ea484622c93a3221ac87740c9782803b053e03282eb"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B32-detail.svg",
+      "url": "/ornaments/flowing-grammar/R-B32-detail.svg",
+      "sha256": "5aefdddc5aad350824f6e3c983fcebe5f086b315af5f4ac91362cad067a2a0e2"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B32-field-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B32-field-closeup.svg",
+      "sha256": "63ea0cb8bad308ef2def0918e2951092a0eecce9688588ba84025e441b4a340c"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B32-field.svg",
+      "url": "/ornaments/flowing-grammar/R-B32-field.svg",
+      "sha256": "d2e79666afa50031e009acb565fdc4f3d61a4a0e60da4f9893445d4b7693fc21"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B32-motif-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B32-motif-closeup.svg",
+      "sha256": "ea0fd29dc3e9eec37aafa6e447b965dfab7b1e103a61875be18b7540045d4ccd"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B32-motif.svg",
+      "url": "/ornaments/flowing-grammar/R-B32-motif.svg",
+      "sha256": "cd1cbdbeffe25bc2b8981f1c6c958e6284de3cb29b9edfa4ff55d36631af9d64"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B33-detail-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B33-detail-closeup.svg",
+      "sha256": "67d0cb11dcb6d61f6455264193610c17d17259d39ab1dd7a071f3af71dcc5fe9"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B33-detail.svg",
+      "url": "/ornaments/flowing-grammar/R-B33-detail.svg",
+      "sha256": "a45fc05733d7354d52ea4733ab7598fc495e990bf325a0f48422fa598344c5da"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B33-field-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B33-field-closeup.svg",
+      "sha256": "f896531bc51783bbf74a18f5ee070f7a46da1c708914263983589335d949aa57"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B33-field.svg",
+      "url": "/ornaments/flowing-grammar/R-B33-field.svg",
+      "sha256": "816dfb5ec264ae33b1840478fb40cd8faccbd33b01efb539ed136bdbc5a7a0d4"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B33-motif-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B33-motif-closeup.svg",
+      "sha256": "999f6742383de56a8f9ba994fb13dee70ab428a59bc8c18060e5a0ac6351a01d"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B33-motif.svg",
+      "url": "/ornaments/flowing-grammar/R-B33-motif.svg",
+      "sha256": "b6617c33927626d3c6afb2ca97c9ac51e583c903b1c22b1d431dced60812d750"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B34-detail-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B34-detail-closeup.svg",
+      "sha256": "29f428ee3e2e488ab4e3122b88054fa1eab6a912368014461473a502a3a70e48"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B34-detail.svg",
+      "url": "/ornaments/flowing-grammar/R-B34-detail.svg",
+      "sha256": "8199a6272087d72ca00158ba868f96267a0e198dfd3744911ead9717fec2c64c"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B34-field-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B34-field-closeup.svg",
+      "sha256": "4e5dcba491143332751a2b2b1c81a15d73887696d4da07507f93898f2ab1dbf1"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B34-field.svg",
+      "url": "/ornaments/flowing-grammar/R-B34-field.svg",
+      "sha256": "8a7c7b9b6ddf9ddf79336484c51af63cdf3a3ca6ef952675bd9834f3f9a10787"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B34-motif-closeup.svg",
+      "url": "/ornaments/flowing-grammar/R-B34-motif-closeup.svg",
+      "sha256": "bae393b8b7cf0791565f16fadc74d53cd818b2e9946539cdf6134a5998bb778c"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B34-motif.svg",
+      "url": "/ornaments/flowing-grammar/R-B34-motif.svg",
+      "sha256": "252da40601eeb3517689645088de187e0a0fed304a81fbd3dadb1e57f5a3435b"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/complexity.html",
+      "url": "/ornaments/flowing-grammar/complexity.html",
+      "sha256": "94798edb84e293ad5bff5cb285c5f1464ae070a76ef2e2966e4f3900ae375128"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/complexity.json",
+      "url": "/ornaments/flowing-grammar/complexity.json",
+      "sha256": "a3780a891d404834bcf1f3542bfc999cf9f3413e4e22dc3a40f3896bd915f211"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/diagnostics.json",
+      "url": "/ornaments/flowing-grammar/diagnostics.json",
+      "sha256": "895565d1e5ce2b247561c7fc3424ece0b3c9be36e507ea726f66d457d72b2761"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/gallery.html",
+      "url": "/ornaments/flowing-grammar/gallery.html",
+      "sha256": "d2893ac52d53616e58d0d7c210187e152171033e6373f4d01e4ca411c47d29a2"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/interiors-gallery.html",
+      "url": "/ornaments/flowing-grammar/interiors-gallery.html",
+      "sha256": "21e9c233e8bac541a210d26de2ff367dbd9be879833bdbeb27ef06dd734aca92"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/interiors.html",
+      "url": "/ornaments/flowing-grammar/interiors.html",
+      "sha256": "763d915935539b84396b91cf8061409d0708f441ab671a2a9cdffa3977a96fe4"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/overview.html",
+      "url": "/ornaments/flowing-grammar/overview.html",
+      "sha256": "2ff9798d84c5ce932ee5fa6ec8adc07f514c713ff09c8e8cbee61cd6c5ace273"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-refined/verification.json",
+      "url": "/ornaments/flowing-grammar/verification.json",
+      "sha256": "20eb498857d458f059ac9ffb2f86595ed6cf0db4ad35ad4cebdd39b01a40aad8"
+    },
+    {
+      "source": "Gojo/docs/GojoOrnamentRefinedCollection.md",
+      "url": "/ornaments/flowing-grammar/notes/refined-collection.md",
+      "sha256": "bf81a404448b63157b7de4af2b3c9aa102b2f4e2ea5f1a46c6a1076ea833762f"
+    },
+    {
+      "source": "Gojo/docs/GojoOrnamentMotifComplexity.md",
+      "url": "/ornaments/flowing-grammar/notes/motif-complexity.md",
+      "sha256": "bdceec996fed85ed7592c47339c5d77b49612b0f5bd851b04714256c8e2ad97d"
+    }
+  ]
+}

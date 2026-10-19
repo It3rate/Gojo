@@ -65,7 +65,6 @@ public sealed class OrnamentCorpusRefreshTests
     }
 
     [Theory]
-    [InlineData("B32")]
     [InlineData("B33")]
     [InlineData("B34")]
     public void BroadCourseBlossomsKeepEveryOpenOrCrossingSourceHistory(string id)

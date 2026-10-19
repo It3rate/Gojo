@@ -3,32 +3,32 @@
   "skeletonName": "Dense interlocking serif-I field",
   "plate": {
     "id": "R-B14-detail",
-    "title": "B14 \u00B7 Four-colour interlocking gardens",
+    "title": "B14 \u00B7 Quiet interlocking serif bands",
     "sourceId": "B14",
-    "description": "The four actual quarter-related serif-I images are four stable colour families. Ornament follows each I\u0027s long crossbar and broad end caps, with visible inner veins and curled cap fans. Larger bright flowers punctuate selected interlocks; the complete four-image source remains the placement construction.",
+    "description": "The four actual quarter-related serif-I contours remain the dominant pattern and retain their exact colour-selection identities. The overall read adds only a centreline; the intermediate read has one slender bar-aligned leaf per chamber; the detail read has two opposed simple leaves meeting at the bar\u0027s centre. Bare caps and interlocks preserve the source rhythm without flowers, cap fans or nested collars.",
     "svg": "",
     "units": 9,
-    "paths": 85,
-    "chords": 368,
-    "addedPaths": 81,
-    "attachments": 81,
-    "strokes": 3312,
+    "paths": 20,
+    "chords": 136,
+    "addedPaths": 16,
+    "attachments": 16,
+    "strokes": 1224,
     "accepted": 476,
     "blocked": 0,
     "open": 0,
     "frontier": 100,
-    "nativeObjects": 137477,
+    "nativeObjects": 32131,
     "numericParticipants": 0,
     "layerPaths": [
       4,
-      20,
-      61
+      8,
+      8
     ],
     "focusComplete": [
       true,
       true,
       true
     ],
-    "palette": "Teal, plum, ivory \u0026 gold"
+    "palette": "Limestone \u0026 sage"
   }
 }

@@ -136,7 +136,7 @@ public static class OrnamentMotifComplexity
         "B09" => Estimate(7, 10, "palmette outline", "central rib", "opposed side ribs", "nested fan articulation", "centre collar", "opposed return-cup maps", "source-relative attachment"),
         "B10" or "B11" => Estimate(7, 10, "long diagonal petal", "short axial petal", "simple petal vein", "fourfold interleaving", "single centre", "chamber-relative attachment", "alternation between chambers"),
         "B12" => Estimate(8, 11, "long diagonal petal", "short axial petal", "fourfold repetition", "interleaved petal family", "midrib", "branch veins", "nested centre", "chamber-relative rotation and attachment"),
-        "B13" or "B14" => Estimate(10, 15, "crossbar stem", "opposed end-cap fans", "fan ribs", "nested fan articulation", "long crossbar leaf", "leaf veins", "interlock flower", "long/short petal alternation", "centre collar", "quarter-related sibling placement"),
+        "B13" or "B14" => Estimate(4, 7, "simple leaf contour", "quiet axial vein", "opposed common-root pair", "bar-aligned placement", "quarter-related sibling correspondence"),
         "B15" => Estimate(5, 8, "elongated leaf contour", "midrib", "forked veins", "oblique correspondence", "cell-relative placement"),
         "B16" or "B24" => Estimate(5, 8, "contained petal", "petal vein", "threefold arrangement", "triangular-cell attachment", "centre"),
         "B17" or "B18" => Estimate(5, 8, "leaf contour", "midrib or internal articulation", "course following", "opposed/alternating local map", "parent attachment"),
@@ -147,7 +147,8 @@ public static class OrnamentMotifComplexity
         "B28" => Estimate(6, 9, "five-lobed fan contour", "fan rib", "five-part rib arrangement", "centre", "common root", "shell-relative attachment"),
         "B30" => Estimate(5, 8, "eight-lobed flower contour", "radial veins", "centre", "cloud-valley placement", "repeat through the parent disposition"),
         "B31" => Estimate(8, 11, "central blossom contour", "radial veins", "centre", "wrist leaf", "leaf articulation", "quarter-related arm correspondence", "wrist attachment", "source marker retained beneath the blossom"),
-        "B32" or "B33" => Estimate(6, 9, "eight-lobed blossom contour", "radial veins", "centre", "short connecting stem", "actual source-course attachment", "repeat through the staggered disposition"),
+        "B32" => Estimate(3, 5, "fourfold diamond contour", "nested scale correspondence", "course-bay attachment", "repeat through the staggered disposition"),
+        "B33" => Estimate(6, 9, "eight-lobed blossom contour", "radial veins", "centre", "short connecting stem", "actual source-course attachment", "repeat through the staggered disposition"),
         "B34" => Estimate(5, 9, "central blossom contour", "radial veins", "centre", "crossing-relative placement", "unjoined loop histories retained"),
         _ => null
     };

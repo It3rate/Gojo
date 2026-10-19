@@ -118,3 +118,11 @@ move large image, SVG and native-packet downloads to dedicated asset storage.
 Keep the collection URLs stable and update the publication adapter and integrity
 checks to use the chosen asset location. No hosting-plan change was made for
 the first collection.
+
+The refined collection is published at `/ornaments/flowing-grammar/`, with all
+108 main designs and 108 executed-unit SVGs. Its compact publication adapter
+retains mode and unit selection and omits unavailable archive/history controls
+together with their links. On 19 October 2026 the complete prepared bundle
+with this addition was 257,403,979 bytes, within the 262,144,000-byte allowance.
+The existing applications, frozen Core4 archive, Minds, syntax and original
+Bourgoin collection remain in the same deployment.

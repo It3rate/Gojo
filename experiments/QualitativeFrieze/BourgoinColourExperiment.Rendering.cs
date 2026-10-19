@@ -30,7 +30,8 @@ public static partial class BourgoinColourExperiment
         var scale = (height - 2 * margin) / worldHeight;
         Point Screen(Point point) => new(width / 2 + (point.X - centre.X) * scale, height / 2 - (point.Y - centre.Y) * scale);
         var band = Math.Clamp(palette.Band * scale, 1.8, 25);
-        var svg = new StringBuilder($"<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 {F(width)} {F(height)}' role='img' aria-label='{H(title)}' data-focus='motif' data-view='ornament' style='--ground:{palette.Ground};--field:{palette.Field};--motif:{palette.Motif};--detail:{palette.Detail};--gold:{palette.Gold};--pale:{palette.Pale};--ink:{palette.Ink};--band:{F(band)}px;--detail-strength:1'><title>{H(title)}</title>");
+        var displayReach = scale * Math.Sqrt(basis.RX * basis.RX + basis.RY * basis.RY);
+        var svg = new StringBuilder($"<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 {F(width)} {F(height)}' role='img' aria-label='{H(title)}' data-focus='motif' data-view='ornament' style='--ground:{palette.Ground};--field:{palette.Field};--motif:{palette.Motif};--detail:{palette.Detail};--gold:{palette.Gold};--pale:{palette.Pale};--ink:{palette.Ink};--band:{F(band)}px;--reach-px:{F(displayReach)}px;--detail-strength:1'><title>{H(title)}</title>");
         svg.Append("""
 <style>
 .ground{fill:var(--ground)}.base{fill:none;stroke:var(--gold);stroke-width:.85;opacity:.28}.layer{stroke-linecap:round;stroke-linejoin:round}

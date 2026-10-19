@@ -1,0 +1,107 @@
+{
+  "schema": "gojo-ornament-publication-check-v1",
+  "dateUtc": "2026-10-19",
+  "url": "https://gojo.inklingai.ca/ornaments/flowing-grammar/",
+  "index": "https://gojo.inklingai.ca/ornaments/",
+  "providerDeploymentUrl": "https://kind-river-0ad511b0f.7.azurestaticapps.net",
+  "deploymentResult": "succeeded",
+  "bundle": {
+    "bytes": 257403979,
+    "allowedBytes": 262144000,
+    "headroomBytes": 4740021,
+    "files": 1788
+  },
+  "webEdition": {
+    "designs": 108,
+    "executedUnitViews": 108,
+    "paletteInterpretations": 23,
+    "nativeGeometryChanges": 9,
+    "colourOnlyChanges": 99,
+    "nativeArchives": "Retained in research checkout"
+  },
+  "browserVerification": {
+    "schema": "gojo-ornament-publication-qa-v1",
+    "target": "https://gojo.inklingai.ca",
+    "passed": true,
+    "collections": [
+      {
+        "id": "flowing-grammar",
+        "count": 108,
+        "sourceArtifacts": 226,
+        "verifiedNonHtmlHashes": 221,
+        "presentation": "refined-compact"
+      },
+      {
+        "id": "bourgoin",
+        "count": 36,
+        "sourceArtifacts": 189,
+        "verifiedNonHtmlHashes": 186,
+        "presentation": "complete"
+      }
+    ],
+    "linkedResources": 403,
+    "checks": [
+      "source-deterministic-build",
+      "source-deterministic-check",
+      "all-published-non-html-artifact-sha256-hashes",
+      "all-linked-resources-return-200-and-no-html-fallback",
+      "directory-and-no-trailing-slash-and-index-and-gallery-aliases",
+      "all-36-mode-selections-in-4-route-aliases",
+      "executed-unit-toggle",
+      "independent-card-selection",
+      "overview-108-designs",
+      "complexity-36-rows",
+      "legacy-bourgoin-controls-and-overlay-reset",
+      "mobile-no-horizontal-overflow",
+      "missing-resource-real-404",
+      "no-browser-errors"
+    ],
+    "screenshotsDirectory": "artifacts/ornament-publication-live-qa",
+    "buildBytes": {
+      "allCollections": 34459748,
+      "flowingGrammar": 15516319,
+      "bourgoin": 18939971
+    },
+    "completeDeploymentBytes": 257403979,
+    "siteAllowanceBytes": 262144000
+  },
+  "preservedApplicationAssets": {
+    "schema": "gojo-ornament-production-preservation-v1",
+    "origin": "https://gojo.inklingai.ca/",
+    "verifiedPreservedAssets": 445,
+    "expectedPreservedAssets": 445,
+    "pages": [
+      {
+        "relative": "",
+        "status": 200,
+        "title": "Gojo Numeric Structure Visualizations"
+      },
+      {
+        "relative": "syntax/",
+        "status": 200,
+        "title": "Examples · Gojo syntax"
+      },
+      {
+        "relative": "minds/",
+        "status": 200,
+        "title": "Experiments · Gojo Minds"
+      },
+      {
+        "relative": "ornaments/",
+        "status": 200,
+        "title": "Ornament studies · Gojo"
+      },
+      {
+        "relative": "ornaments/flowing-grammar/",
+        "status": 200,
+        "title": "A flowing grammar · Gojo ornament collection"
+      },
+      {
+        "relative": "ornaments/flowing-grammar/overview.html",
+        "status": 200,
+        "title": "A flowing grammar · Gojo ornament collection"
+      }
+    ],
+    "errors": []
+  }
+}
