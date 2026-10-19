@@ -72,6 +72,9 @@ node Visualizations/Gojo.Demos.Web/tools/prepare-syntax-deploy.mjs
 This builds publish-deploy/syntax-site, retains the live browser loaders and
 their resource hashes, fetches missing or changed assets, verifies compressed
 counterparts, and overlays the syntax directory, home page and site config.
+It excludes obsolete fingerprinted WASM files absent from the current runtime
+manifests from the staged bundle, keeping the cache and frozen Core4 archive
+intact. This prevents old application versions from consuming the hosting quota.
 It also overlays Minds and the ornament collections, so subsequent publications
 retain `/minds/` and `/ornaments/`.
 It writes a backup and a public-asset hash manifest to the OS temporary folder.

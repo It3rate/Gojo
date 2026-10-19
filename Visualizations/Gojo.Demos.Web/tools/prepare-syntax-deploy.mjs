@@ -121,6 +121,22 @@ for(const file of originalFiles){
     await write(relative,file.endsWith('.br')?zlib.brotliCompressSync(source):zlib.gzipSync(source));
   }
 }
+// The cache can contain multiple old fingerprinted assemblies. Only the files
+// named by the retained live runtime manifests belong to these applications.
+// Remove obsolete WASM copies from the staged bundle, never from the cache or
+// the frozen Core4 archive. Keep support files and current compressed payloads.
+let obsoleteCount=0,obsoleteBytes=0;
+for(const file of await walk(stage)){
+  const relative=path.relative(stage,file).replaceAll(path.sep,'/');
+  if(!/^(blocks|gears|gearLadder|sketch)\/_framework\/.+\.[a-z0-9]{10}\.wasm(?:\.(?:br|gz))?$/i.test(relative))continue;
+  const plain=relative.replace(/\.(br|gz)$/,'');
+  if(baseline.has(plain))continue;
+  const stagedFile=target(relative);
+  obsoleteBytes+=(await fs.stat(stagedFile)).size;
+  await fs.unlink(stagedFile);
+  obsoleteCount++;
+}
+console.log('Excluded '+obsoleteCount+' obsolete cached WASM files ('+obsoleteBytes+' bytes).');
 for(const name of ['index.html','app.css','staticwebapp.config.json'])
   await write(name,await fs.readFile(path.join(web,name)));
 for(const file of await walk(path.join(web,'syntax')))
