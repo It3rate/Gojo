@@ -4,26 +4,26 @@
     "skeletonName": "Direct bent-cross compartments",
     "plate": {
       "id": "R-B10-detail",
-      "title": "B10 \u00B7 Veins and foliage following the scaffold",
+      "title": "B10 \u00B7 Pointed chambers and inward fans",
       "sourceId": "B10",
-      "description": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact.",
+      "description": "Each actual pointed chamber supplies its own finite interior placement read and source port. Wide opposed sprays or a radial blossom occupy the interior. Smaller nested leaves and veins articulate those masses, while alternate chamber families take different colours.",
       "svg": "",
       "units": 9,
-      "paths": 6,
-      "chords": 56,
-      "addedPaths": 4,
-      "attachments": 4,
-      "strokes": 504,
+      "paths": 62,
+      "chords": 224,
+      "addedPaths": 60,
+      "attachments": 60,
+      "strokes": 2016,
       "accepted": 218,
       "blocked": 0,
       "open": 0,
       "frontier": 79,
-      "nativeObjects": 9538,
+      "nativeObjects": 82151,
       "numericParticipants": 0,
       "layerPaths": [
         2,
-        6,
-        0
+        16,
+        44
       ],
       "focusComplete": [
         true,
@@ -33,6 +33,6 @@
       "palette": "Celadon, plum \u0026 apricot"
     }
   },
-  "constructionNotes": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
-  "curvedPlacedPaths": 36
+  "constructionNotes": "Each actual pointed chamber supplies its own finite interior placement read and source port. Wide opposed sprays or a radial blossom occupy the interior. Smaller nested leaves and veins articulate those masses, while alternate chamber families take different colours. Curved rendering rounds selected flowing contours only; pointed tips, roots and native source seam identities remain fixed. Four colour groups are exact disjoint path selections, not screen-location bins.",
+  "curvedPlacedPaths": 180
 }

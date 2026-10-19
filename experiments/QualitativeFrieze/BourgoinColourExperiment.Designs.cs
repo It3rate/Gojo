@@ -119,7 +119,7 @@ public static partial class BourgoinColourExperiment
         var field = new OrnamentProgramField(run, packet.SeamContract);
         if (!run.IsComplete || !field.IsComplete) throw new InvalidOperationException("Ornament must preserve the source's accepted finite seams.");
         var paths = ReadPaths(run, source.DisplayBasis);
-        var curves = ReadCurvePaths(packet);
+        var (curves, colours) = ReadPresentationPaths(packet);
         var palette = DesignPalettes[design.PaletteIndex % DesignPalettes.Length] with { Band = design.Weight };
         string Style(string picture) => picture
             .Replace("data-focus='motif'", "data-collection='true' data-focus='" + design.Mode + "'")
@@ -135,12 +135,12 @@ public static partial class BourgoinColourExperiment
 """);
         string Present(string picture) => presentation?.Invoke(RefreshDesignStyles(Style(picture))) ?? RefreshDesignStyles(Style(picture));
         var svg = Present(Svg(design.Id, design.Title, paths, selections, packet, source.DisplayBasis, palette, columns, rows,
-            curves: curves, widerWindow: widerWindow));
+            curves: curves, widerWindow: widerWindow, colours: colours));
         File.WriteAllText(Path.Combine(output, design.Id + ".svg"), svg);
         if (presentationHints is not null)
             File.WriteAllText(Path.Combine(output, design.Id + "-angular.svg"), Present(Svg(design.Id + "-angular",
                 design.Title + " · chord interpretation", paths, selections, packet, source.DisplayBasis, palette, columns, rows,
-                widerWindow: widerWindow)));
+                widerWindow: widerWindow, colours: colours)));
         var skeleton = svg.Replace("data-view='ornament'", "data-view='skeleton'");
         File.WriteAllText(Path.Combine(output, design.Id + "-construction.svg"), skeleton);
         if (detailViews)
@@ -148,10 +148,10 @@ public static partial class BourgoinColourExperiment
             var unit = paths.Where(path => path.Unit == 0).ToArray();
             File.WriteAllText(Path.Combine(output, design.Id + "-closeup.svg"), Present(Svg(design.Id + "-closeup",
                 design.Title + " · one executed unit", unit, selections, packet, source.DisplayBasis, palette, columns, rows,
-                fitAll: true, curves: curves)));
+                fitAll: true, curves: curves, colours: colours)));
             if (presentationHints is not null)
                 File.WriteAllText(Path.Combine(output, design.Id + "-closeup-angular.svg"), Present(Svg(design.Id + "-closeup-angular",
-                    design.Title + " · one executed chord unit", unit, selections, packet, source.DisplayBasis, palette, columns, rows, fitAll: true)));
+                    design.Title + " · one executed chord unit", unit, selections, packet, source.DisplayBasis, palette, columns, rows, fitAll: true, colours: colours)));
             var retained = N.E(enrichment.Source.Paths).Cast<Relation>().ToHashSet(ReferenceEqualityComparer.Instance);
             var sourcePaths = paths.Where(path => retained.Contains(path.Source)).ToArray();
             File.WriteAllText(Path.Combine(output, design.Id + "-source.svg"), Present(Svg(design.Id + "-source",
@@ -174,24 +174,40 @@ public static partial class BourgoinColourExperiment
         return result;
     }
 
-    private static IReadOnlyDictionary<Relation, IReadOnlySet<int>> ReadCurvePaths(OrnamentFieldPacket packet)
+    private static (IReadOnlyDictionary<Relation, IReadOnlySet<int>> Curves, IReadOnlyDictionary<Relation, int> Colours)
+        ReadPresentationPaths(OrnamentFieldPacket packet)
     {
-        var result = new Dictionary<Relation, IReadOnlySet<int>>(ReferenceEqualityComparer.Instance);
-        if (packet.PresentationHints is null) return result;
-        if (!N.Read(packet.PresentationHints, out var hints)) throw new InvalidOperationException("Curve hints must be a closed native selection scope.");
+        var curves = new Dictionary<Relation, IReadOnlySet<int>>(ReferenceEqualityComparer.Instance);
+        var colours = new Dictionary<Relation, int>(ReferenceEqualityComparer.Instance);
+        if (packet.PresentationHints is null) return (curves, colours);
+        if (!N.Read(packet.PresentationHints, out var hints)) throw new InvalidOperationException("Presentation hints must be a closed native selection scope.");
         var motifs = N.E(packet.Program.Motifs).Cast<Relation>().ToArray();
         foreach (var hint in hints)
         {
-            OrnamentCurveSelection? selected = null;
+            var recognised = false;
             foreach (var actual in motifs)
-                if (hint is Relation surface && OrnamentCurveSelection.TryRead(packet.Program.Frame, actual, surface, out var read))
-                { selected = read; break; }
-            if (selected is null) throw new InvalidOperationException("A curved presentation must select actual imported motif paths and fixed ports.");
-            foreach (var path in N.E(selected.Selected).Cast<Relation>())
-                if (!result.TryAdd(path, selected.FixedLandmarks(path)))
-                    throw new InvalidOperationException("A path must have one unambiguous curve presentation read.");
+            {
+                if (hint is not Relation surface) continue;
+                if (OrnamentCurveSelection.TryRead(packet.Program.Frame, actual, surface, out var curve))
+                {
+                    foreach (var path in N.E(curve.Selected).Cast<Relation>())
+                        if (!curves.TryAdd(path, curve.FixedLandmarks(path)))
+                            throw new InvalidOperationException("A path must have one unambiguous curve presentation read.");
+                    recognised = true; break;
+                }
+                if (OrnamentColourSelection.TryRead(packet.Program.Frame, actual, surface, out var colour))
+                {
+                    var groups = N.E(colour.Groups).Cast<Relation>().ToArray();
+                    for (var index = 0; index < groups.Length; index++)
+                        foreach (var path in N.E(groups[index]).Cast<Relation>())
+                            if (!colours.TryAdd(path, index))
+                                throw new InvalidOperationException("A path must have one unambiguous colour presentation read.");
+                    recognised = true; break;
+                }
+            }
+            if (!recognised) throw new InvalidOperationException("A presentation hint must select actual imported motif paths and landmarks.");
         }
-        return result;
+        return (curves, colours);
     }
 
     private static void WriteDesignCollection(IReadOnlyList<DesignResult> results, string output)
@@ -225,9 +241,17 @@ public static partial class BourgoinColourExperiment
 
     private static void WriteNative(string file, string json)
     {
-        using var zip = new GZipStream(File.Create(file), CompressionLevel.SmallestSize);
-        using var writer = new StreamWriter(zip, new UTF8Encoding(false));
-        writer.Write(json);
+        var temporary = file + "." + Guid.NewGuid().ToString("N") + ".tmp";
+        try
+        {
+            using (var zip = new GZipStream(File.Create(temporary), CompressionLevel.SmallestSize))
+            using (var writer = new StreamWriter(zip, new UTF8Encoding(false))) writer.Write(json);
+            File.Move(temporary, file, overwrite: true);
+        }
+        finally
+        {
+            if (File.Exists(temporary)) File.Delete(temporary);
+        }
     }
 
     private static string RefreshDesignStyles(string svg) => svg.Contains(FineMassRule, StringComparison.Ordinal)

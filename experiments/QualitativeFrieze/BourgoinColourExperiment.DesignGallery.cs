@@ -39,7 +39,7 @@ public static partial class BourgoinColourExperiment
             {
                 var plate = result.Plate;
                 cards.Append($"<section><b>{H(plate.Id)} · {Labels[Array.IndexOf(Roles, result.Mode)]}</b><p>{H(plate.Description)}</p><p>{plate.Paths} paths / {plate.Chords} chords per unit · {plate.AddedPaths} additions with {plate.Attachments} witnessed attachments · {plate.Accepted} accepted seams · {plate.Blocked} blocked / {plate.Open} open</p><p><a href='{plate.Id}.svg'>Full-size SVG</a> · <a href='{plate.Id}-construction.svg'>All native paths</a> · <a href='{plate.Id}.gojo.json.gz'>Native program · gzip</a> · <a href='{plate.Id}-focus.gojo.json.gz'>Native focus reads · gzip</a></p></section>");
-                if (refined) cards.Append($"<p><a href='{plate.Id}-angular.svg'>Chord interpretation</a> · <a href='{plate.Id}-closeup.svg'>One executed unit</a> · <a href='{plate.Id}-closeup-angular.svg'>One chord unit</a></p>");
+                if (refined) cards.Append($"<p><a href='{plate.Id}-angular.svg'>Chord interpretation</a> · <a href='{plate.Id}-source.svg'>Retained scaffold</a> · <a href='{plate.Id}-closeup.svg'>One executed unit</a> · <a href='{plate.Id}-closeup-angular.svg'>One chord unit</a></p>");
             }
             cards.Append($"<p><a href='{source}#{group.Key}'>Original skeleton and engraving</a></p>");
             if (File.Exists(Path.Combine(output, "first-fine", $"O-{group.Key}-detail.svg")))
@@ -88,6 +88,10 @@ document.querySelector('#unit')?.addEventListener('change',e=>{unit=e.target.che
 document.querySelector('#jump')?.addEventListener('change',e=>{if(e.target.value)document.getElementById(e.target.value)?.scrollIntoView({behavior:'smooth'});});
 </script></body></html>
 """;
+        if (refined && results.Any(result => BourgoinOrnamentCompartmentLibrary.Supports(result.Plate.SourceId)))
+            html = html.Replace("<a href='#principles'>Design principles</a>", "<a href='interiors-gallery.html'>B08–B14 · filled interiors</a><a href='#principles'>Design principles</a>");
+        if (refined && File.Exists(Path.Combine(output, "comparison.html")))
+            html = html.Replace("<a href='#principles'>Design principles</a>", "<a href='comparison.html'>Before and after · detail</a><a href='#principles'>Design principles</a>");
         return !refined ? html : html.Replace("A grammar in colour", "A flowing grammar")
             .Replace("Fine ornament", "Ornamental detail")
             .Replace("close detail", "ornamental detail")

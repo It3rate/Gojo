@@ -4,26 +4,26 @@
     "skeletonName": "Closed stepped-arm compartments",
     "plate": {
       "id": "R-B12-detail",
-      "title": "B12 \u00B7 Veins and foliage following the scaffold",
+      "title": "B12 \u00B7 Rotating eight-petal chamber flowers",
       "sourceId": "B12",
-      "description": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact.",
+      "description": "Large eight-petal flowers cover the middle of the stepped-arm field. Four broad long petals carry the dominant turning read; four shorter interleaved petals and a double collar provide a second scale. The native closed arm contours and diagonal disposition are retained underneath the intentionally occluding ornamental reading.",
       "svg": "",
       "units": 9,
-      "paths": 12,
-      "chords": 112,
-      "addedPaths": 8,
-      "attachments": 8,
-      "strokes": 1008,
+      "paths": 140,
+      "chords": 512,
+      "addedPaths": 136,
+      "attachments": 136,
+      "strokes": 4608,
       "accepted": 418,
       "blocked": 0,
       "open": 0,
       "frontier": 122,
-      "nativeObjects": 26721,
+      "nativeObjects": 292382,
       "numericParticipants": 0,
       "layerPaths": [
         4,
-        12,
-        0
+        32,
+        104
       ],
       "focusComplete": [
         true,
@@ -33,6 +33,6 @@
       "palette": "Celadon, plum \u0026 apricot"
     }
   },
-  "constructionNotes": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
-  "curvedPlacedPaths": 72
+  "constructionNotes": "Large eight-petal flowers cover the middle of the stepped-arm field. Four broad long petals carry the dominant turning read; four shorter interleaved petals and a double collar provide a second scale. The native closed arm contours and diagonal disposition are retained underneath the intentionally occluding ornamental reading. Curved rendering rounds selected flowing contours only; pointed tips, roots and native source seam identities remain fixed. Four colour groups are exact disjoint path selections, not screen-location bins.",
+  "curvedPlacedPaths": 360
 }

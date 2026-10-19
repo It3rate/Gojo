@@ -64,6 +64,9 @@ public static partial class BourgoinColourExperiment
 [data-refined][data-focus=detail] .field{opacity:.55}
 [data-refined][data-focus=detail] .field .mass{opacity:.16}
 [data-refined][data-focus=detail] .motif{opacity:.86}
+[data-refined][data-colour-groups=true][data-focus=detail] .motif{opacity:1}
+[data-refined][data-colour-groups=true] .field .mass[data-colour-group]{opacity:1}
+[data-refined][data-colour-groups=true][data-focus=detail] .field{opacity:.72}
 [data-refined] .detail .edge{stroke-width:calc(var(--band) * .2 + 1.6px)}
 [data-refined] .detail .keyline{stroke-width:calc(var(--band) * .2 + .7px)}
 [data-refined] .detail .pigment{stroke-width:calc(var(--band) * .2)}
@@ -95,11 +98,28 @@ public static partial class BourgoinColourExperiment
         }
         var results = records.Select(record => record.Design with
         { Plate = record.Design.Plate with { Svg = File.ReadAllText(Path.Combine(output, record.Design.Plate.Id + ".svg")) } }).ToArray();
+        WriteInteriorComparison(results, output);
         File.WriteAllText(Path.Combine(output, "gallery.html"), DesignHtml(results, output, false, refined: true));
         File.WriteAllText(Path.Combine(output, "overview.html"), DesignHtml(results, output, true, refined: true));
         File.WriteAllText(Path.Combine(output, "overview.svg"), DesignOverview(results).Replace("A grammar in colour", "A flowing grammar").Replace("Fine ornament", "Ornamental detail"));
         File.WriteAllText(Path.Combine(output, "preview.svg"), DesignOverview(results.Where(result =>
-            new[] { "B02", "B05", "B32" }.Contains(result.Plate.SourceId)).ToArray()).Replace("A grammar in colour", "A flowing grammar").Replace("Fine ornament", "Ornamental detail"));
+            new[] { "B08", "B11", "B12", "B13" }.Contains(result.Plate.SourceId)).ToArray()).Replace("A grammar in colour", "A flowing grammar").Replace("Fine ornament", "Ornamental detail"));
+        var interiors = results.Where(result => BourgoinOrnamentCompartmentLibrary.Supports(result.Plate.SourceId)).ToArray();
+        if (interiors.Length > 0)
+        {
+            string InteriorPage(bool all) => DesignHtml(interiors, output, all, refined: true)
+                .Replace("A flowing grammar", "Ornament fills the field")
+                .Replace("href='gallery.html'", "href='interiors-gallery.html'")
+                .Replace("href='overview.html'", "href='interiors.html'")
+                .Replace("href='overview.svg'", "href='interiors.svg'")
+                .Replace("href='overview.png'", "href='interiors.png'")
+                .Replace("<a href='interiors-gallery.html'>B08–B14 · filled interiors</a>", "<a href='gallery.html'>All 108 refined designs</a>");
+            File.WriteAllText(Path.Combine(output, "interiors-gallery.html"), InteriorPage(false));
+            File.WriteAllText(Path.Combine(output, "interiors.html"), InteriorPage(true));
+            File.WriteAllText(Path.Combine(output, "interiors.svg"), DesignOverview(interiors)
+                .Replace("A grammar in colour", "Ornament fills the field").Replace("Fine ornament", "Ornamental detail")
+                .Replace("gallery.html#", "interiors-gallery.html#"));
+        }
         File.WriteAllText(Path.Combine(output, "diagnostics.json"), JsonSerializer.Serialize(new
         {
             Schema = "gojo-ornament-refined-v1", AllRunsComplete = true,
@@ -107,7 +127,7 @@ public static partial class BourgoinColourExperiment
             Cases = records.Select(record => new { record.Design.Mode, record.ConstructionNotes, record.CurvedPlacedPaths, record.Design.Plate }),
             Limits = new[] {
                 "Native guides, prototypes, transforms, layers and landmark attachments remain pre-numeric; smoothing is an explicitly selected presentation.",
-                "Version 2 packets retain actual path-linked curve selections and fixed public ports in the same native identity graph.",
+                "Version 2 packets retain actual path-linked curve and optional four-colour selections, with fixed public ports in the same native identity graph.",
                 "Bounded quadratic fillets preserve open endpoints, gaps and pinned connection landmarks; unpinned corners have tangent-direction continuity.",
                 "Curve controls, colour, contour fill and the crop are display interpretations, not native curvature, clearance or occupied-area proofs.",
                 "A finite native field is shown closer to its outer frontier than in the earlier collection; no unexecuted repetitions are invented.",
@@ -115,5 +135,27 @@ public static partial class BourgoinColourExperiment
             }
         }, JsonOptions));
         Console.WriteLine($"Assembled {records.Count} refined designs at {Path.GetFullPath(output)}");
+    }
+
+    private static void WriteInteriorComparison(IReadOnlyList<DesignResult> results, string output)
+    {
+        var selected = results.Where(result => result.Mode == "detail" &&
+            BourgoinOrnamentCompartmentLibrary.Supports(result.Plate.SourceId) &&
+            File.Exists(Path.Combine(output, "previous-detail", result.Plate.Id + ".svg"))).ToArray();
+        if (selected.Length == 0) return;
+        var html = new System.Text.StringBuilder("""
+<!doctype html><html lang='en'><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'>
+<title>From guide marks to interior ornament · Gojo</title><style>
+*{box-sizing:border-box}body{margin:0;background:#eee8db;color:#303e41;font:16px/1.6 system-ui}main{max-width:1800px;margin:auto;padding:32px 24px}h1,h2{font-family:Georgia,serif;font-weight:400}h1{font-size:clamp(32px,4vw,60px);line-height:1.15}a{color:#275d68;text-underline-offset:4px}nav{display:flex;flex-wrap:wrap;gap:24px}article{padding:24px 0;border-bottom:1px solid #cdbfa5}.pair{display:grid;grid-template-columns:1fr 1fr;gap:20px}figure{margin:0;min-width:0}img{display:block;width:100%;height:auto;border:1px solid #bbae96}figcaption{padding:8px 0;font-size:14px}p{max-width:1000px}@media(max-width:700px){.pair{grid-template-columns:1fr}main{padding:24px 14px}}@media print{nav{display:none}article{break-inside:avoid}}
+</style><main><h1>From guide marks to interior ornament</h1><p>The earlier detail and its revised reading derive from the same retained skeleton. Larger flowers, shaped colour fields and internal articulation can cover placement lines while retaining the overall course. Each image links to its vector; each native archive retains its own construction.</p><nav><a href='interiors-gallery.html'>The 24 revised designs</a><a href='interiors.html'>Revised sheet</a><a href='gallery.html'>All 108 designs</a></nav>
+""");
+        foreach (var result in selected)
+        {
+            var id = H(result.Plate.Id);
+            html.Append($"<article id='{H(result.Plate.SourceId)}'><h2>{H(result.Plate.SourceId + " · " + result.SkeletonName)}</h2><div class='pair'>" +
+                $"<figure><a href='previous-detail/{id}.svg'><img loading='lazy' src='previous-detail/{id}.svg' width='1200' height='820' alt='Previous detail of {H(result.Plate.SourceId)}'></a><figcaption>Previous detail · checkpoint 919f234 · <a href='previous-detail/{id}.gojo.json.gz'>Native archive</a></figcaption></figure>" +
+                $"<figure><a href='{id}.svg'><img loading='lazy' src='{id}.svg' width='1200' height='820' alt='Revised detail of {H(result.Plate.SourceId)}'></a><figcaption>Interior ornament · <a href='{id}.gojo.json.gz'>Native archive</a> · <a href='{id}-construction.svg'>Construction</a></figcaption></figure></div></article>");
+        }
+        File.WriteAllText(Path.Combine(output, "comparison.html"), html.Append("</main></html>").ToString());
     }
 }

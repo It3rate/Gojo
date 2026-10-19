@@ -8,7 +8,8 @@ public static partial class BourgoinColourExperiment
 {
     private static string Svg(string id, string title, IReadOnlyList<DrawPath> paths, HashSet<Relation>[] layers,
         OrnamentFieldPacket packet, BourgoinPatternLibrary.DisplayBasis basis, Palette palette, int columns, int rows,
-        bool fitAll = false, IReadOnlyDictionary<Relation, IReadOnlySet<int>>? curves = null, bool widerWindow = false)
+        bool fitAll = false, IReadOnlyDictionary<Relation, IReadOnlySet<int>>? curves = null, bool widerWindow = false,
+        IReadOnlyDictionary<Relation, int>? colours = null)
     {
         const double width = 1200, height = 820, margin = 34;
         var all = paths.SelectMany(path => path.Points).ToArray();
@@ -44,6 +45,10 @@ public static partial class BourgoinColourExperiment
 .anchors{display:none;fill:var(--detail);stroke:var(--ink);stroke-width:1}[data-anchors=true] .anchors{display:block}.frame{fill:none;stroke:var(--gold);stroke-width:1.2}
 </style>
 """);
+        if (colours is { Count: > 0 })
+            svg.Replace("data-view='ornament'", "data-view='ornament' data-colour-groups='true'");
+        string Colour(DrawPath path) => colours is not null && colours.TryGetValue(path.Source, out var group)
+            ? $" data-colour-group='{group}' style='--colour:var(--{new[] { "field", "motif", "detail", "gold" }[group]})'" : "";
         svg.Append($"<defs><clipPath id='{id}-crop'><rect x='{margin}' y='{margin}' width='{width - 2 * margin}' height='{height - 2 * margin}'/></clipPath>");
         foreach (var path in paths)
         {
@@ -53,7 +58,7 @@ public static partial class BourgoinColourExperiment
             var curved = curves is not null && curves.TryGetValue(path.Source, out fixedSites);
             var d = curved ? OrnamentCurvePresentation.PathData(points.Select(point => (point.X, point.Y)).ToArray(),
                 path.Closed, fixedLandmarks: fixedSites) : angular;
-            svg.Append($"<path id='{id}-{path.Id}' data-curve='{(curved ? "true" : "false")}' d='{d}'/><path id='{id}-{path.Id}-guide' d='{angular}'/>");
+            svg.Append($"<path id='{id}-{path.Id}' data-curve='{(curved ? "true" : "false")}'{Colour(path)} d='{d}'/><path id='{id}-{path.Id}-guide' d='{angular}'/>");
         }
         svg.Append($"</defs><rect width='1200' height='820' class='ground'/><g clip-path='url(#{id}-crop)'><g class='base'>");
         foreach (var path in paths) svg.Append($"<use href='#{id}-{path.Id}-guide'/>");
@@ -62,20 +67,31 @@ public static partial class BourgoinColourExperiment
         // Overlapping observational selections can then emphasise its line
         // again without covering a sibling layer's interior ornament.
         var filled = new HashSet<string>(StringComparer.Ordinal);
-        for (var layer = 0; layer < layers.Length; layer++)
+        void Masses(int layer)
         {
             svg.Append($"<g class='layer {Roles[layer]}' data-native-layer='{layer}'>");
             foreach (var path in paths.Where(path => path.Closed && layers[layer].Contains(path.Source)))
-                if (filled.Add(path.Id)) svg.Append($"<use class='mass' href='#{id}-{path.Id}'/>");
+                if (filled.Add(path.Id)) svg.Append($"<use class='mass'{Colour(path)} href='#{id}-{path.Id}'/>");
             svg.Append("</g>");
         }
-        for (var layer = 0; layer < layers.Length; layer++)
+        void Strokes(int layer)
         {
             var selected = paths.Where(path => layers[layer].Contains(path.Source)).ToArray();
             svg.Append($"<g class='layer {Roles[layer]}' data-native-layer='{layer}'>");
             foreach (var pass in new[] { "edge", "keyline", "pigment" })
-                foreach (var path in selected) svg.Append($"<use class='{pass}{(path.Closed ? " closed" : "")}' href='#{id}-{path.Id}'/>");
+                foreach (var path in selected) svg.Append($"<use class='{pass}{(path.Closed ? " closed" : "")}'{Colour(path)} href='#{id}-{path.Id}'/>");
             svg.Append("</g>");
+        }
+        if (colours is { Count: > 0 })
+        {
+            // Native layer order becomes the decorative painting order:
+            // a later filled flower may cover earlier placement guides.
+            for (var layer = 0; layer < layers.Length; layer++) { Masses(layer); Strokes(layer); }
+        }
+        else
+        {
+            for (var layer = 0; layer < layers.Length; layer++) Masses(layer);
+            for (var layer = 0; layer < layers.Length; layer++) Strokes(layer);
         }
         svg.Append("<g class='anchors'>");
         foreach (var path in paths.Where(path => layers[2].Contains(path.Source)))

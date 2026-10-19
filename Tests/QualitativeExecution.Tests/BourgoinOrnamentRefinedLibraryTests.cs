@@ -37,7 +37,8 @@ public sealed class BourgoinOrnamentRefinedLibraryTests
                     Assert.Same(layer, Assert.Single(E(focus.Selected))); Assert.Equal(2, E(focus.Complement).Length);
                 }
                 var chords = E(enrichment.Result.Paths).Cast<Relation>().Sum(path => E((Relation)path.Right).Length);
-                Assert.True(chords is >= 1 and <= 200, $"{design.Id}: {chords} chords");
+                var budget = BourgoinOrnamentCompartmentLibrary.SourceIds.Contains(design.SourceId) ? 550 : 200;
+                Assert.True(chords >= 1 && chords <= budget, $"{design.Id}: {chords} chords");
             }
             Assert.True(signatures.Distinct(StringComparer.Ordinal).Count() == 3, group.Key + " modes must add distinct geometry");
         }
@@ -49,7 +50,8 @@ public sealed class BourgoinOrnamentRefinedLibraryTests
         foreach (var variant in Designs.Value)
         {
             var design = variant.Design; var enrichment = design.Enrichment;
-            var hint = Assert.IsType<Relation>(Assert.Single(E(variant.CurveHints)));
+            var hint = E(variant.CurveHints).Cast<Relation>().Single(candidate =>
+                OrnamentCurveSelection.TryRead(design.Source.Frame, enrichment.ResultSurface, candidate, out _));
             Assert.True(OrnamentCurveSelection.TryRead(design.Source.Frame, enrichment.ResultSurface, hint, out var curves), design.Id);
             Assert.Same(enrichment.ResultSurface, curves.SourceSurface);
             foreach (var selected in E(curves.Selected).Cast<Relation>())
@@ -87,7 +89,8 @@ public sealed class BourgoinOrnamentRefinedLibraryTests
         Assert.True(OrnamentFieldPacket.TryLoad(json, out var packet, out var pending)); Assert.Empty(E(pending));
         var actual = Assert.IsType<Relation>(Assert.Single(E(packet.Program.Motifs)));
         Assert.True(OrnamentEnrichment.TryReadEnrichment(packet.Program.Frame, actual, out var imported));
-        var hint = Assert.IsType<Relation>(Assert.Single(E(Assert.IsType<Relation>(packet.PresentationHints))));
+        var hint = E(Assert.IsType<Relation>(packet.PresentationHints)).Cast<Relation>().Single(candidate =>
+            OrnamentCurveSelection.TryRead(packet.Program.Frame, actual, candidate, out _));
         Assert.True(OrnamentCurveSelection.TryRead(packet.Program.Frame, actual, hint, out var curves));
         foreach (var path in E(curves.Selected))
             Assert.Contains(E(imported.Result.Paths), actualPath => ReferenceEquals(actualPath, path));
@@ -139,24 +142,6 @@ public sealed class BourgoinOrnamentRefinedLibraryTests
                     Assert.InRange(point.X, -16, 16); Assert.InRange(point.Y, -16, 16);
                     Assert.InRange(point.X + point.Y, -16, 16);
                 }
-    }
-
-    [Theory]
-    [InlineData("B08")]
-    [InlineData("B08.B")]
-    public void RibbonLeavesHaveOneCommonRootAndOpposedInteriorsInsteadOfCrossedBases(string id)
-    {
-        var design = Designs.Value.Single(item => item.Design.SourceId == id && item.Design.Mode == "motif").Design;
-        var enrichment = design.Enrichment; var original = E(enrichment.Source.Paths);
-        var leaves = E(enrichment.Result.ClosedPaths).Where(path => !original.Any(actual => ReferenceEquals(path, actual)))
-            .Cast<Relation>().Where(path => E((Relation)path.Right).Length == 6).ToArray();
-        Assert.Equal(2, leaves.Length);
-        var first = Points(design.Source.Frame, leaves[0]); var second = Points(design.Source.Frame, leaves[1]);
-        Assert.Equal(first[0], second[0]); Assert.Equal((0, 40), first[0]);
-        // In the native strip basis u=(x+2y)/4, one leaf occupies
-        // u>=20 and its sibling u<=20. Equality is only their root.
-        Assert.All(first.Skip(1).SkipLast(1), point => Assert.True(point.X + 2 * point.Y > 80));
-        Assert.All(second.Skip(1).SkipLast(1), point => Assert.True(point.X + 2 * point.Y < 80));
     }
 
     [Fact]

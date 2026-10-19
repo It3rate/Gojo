@@ -22,6 +22,8 @@ public static class BourgoinOrnamentRefinedLibrary
         var selected = modes.Distinct(StringComparer.Ordinal).ToArray();
         if (selected.Any(mode => mode is not ("field" or "motif" or "detail")))
             throw new ArgumentException("Modes are field, motif or detail.", nameof(modes));
+        if (BourgoinOrnamentCompartmentLibrary.SourceIds.Contains(source.Id))
+            return BourgoinOrnamentCompartmentLibrary.Create(source, paletteIndex, selected);
         return selected.Select(mode => Build(source, paletteIndex, mode)).ToArray();
     }
 

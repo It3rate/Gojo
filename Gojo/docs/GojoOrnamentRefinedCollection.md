@@ -7,6 +7,17 @@ puts the 108 designs together. The earlier
 [108-design collection](../../experiments/QualitativeFrieze/results/ornament-designs/gallery.html)
 remains available as a baseline.
 
+The [B08–B14 interior gallery](../../experiments/QualitativeFrieze/results/ornament-refined/interiors-gallery.html)
+and [24-design sheet](../../experiments/QualitativeFrieze/results/ornament-refined/interiors.html)
+revisit the smaller on-line motifs with broad compartment-filling ornament.
+The [before-and-after page](../../experiments/QualitativeFrieze/results/ornament-refined/comparison.html)
+retains the previous eight detail images and their native archives from
+checkpoint `919f234` alongside the new reading.
+B08/B08.B carry diamond medallions; B09 keeps separate opposed return cups;
+B10/B11 develop pointed interior gardens. B12 uses eight-petal flowers with
+four dominant diagonal petals. B13/B14 colour their four actual interlocking
+source shapes independently, with cap fans and brighter interlock flowers.
+
 The [three curve studies](../../experiments/QualitativeFrieze/results/ornament-curves/gallery.html)
 isolate the vine, returning curl and interrupted guilloche before applying
 the same presentation mechanism to the larger collection.
@@ -87,6 +98,38 @@ Saving without hints still emits version 1. Existing version 1 files retain
 their established loader and execution path. No numeric carrier or location
 is introduced by a curve hint.
 
+## Interior ornament and colour families
+
+The B08–B14 revision preserves the full source as its placement layer and
+puts the new flowers, palmettes, collars and veins in later native layers.
+The source is no longer automatically selected again above every new flower.
+These decorative layers can consequently cover parts of the lattice without
+deleting its paths or changing the finite seam obligations. Construction and
+bare-scaffold views expose those paths again.
+
+Four colour families are another native selection over the actual enriched
+motif:
+
+~~~text
+(actual motif -> four ordered disjoint path groups)
+  -> selected groups -> carried paths -> blocked -> unresolved
+~~~
+
+An exact read refuses foreign or duplicated paths, open groups and forged
+complements. The optional colour and curve selections share the same packet
+capture and rebind, so their selected paths retain their actual identities
+after import. The four palette colours, stroke edging and filled appearance
+remain presentation choices. Source shape membership is not guessed from its
+screen position.
+
+For these selected designs, the renderer paints each layer's fills and lines
+before the next layer. A filled rosette can therefore cover earlier placement
+lines and receive finer veins above it. Other designs retain their earlier
+painting order. The selected finite basis admits more detail: these eight
+families use up to 550 chords per unit, while the other families keep their
+200-chord budget. This raises real native execution cost; it is not a speed
+comparison or a claim that colour creates native occupied faces.
+
 ## Structural corrections before smoothing
 
 D02's two intermediate stem bends now turn away from the emerging leaf
@@ -125,12 +168,21 @@ packet before execution. All 324 layer-focus reads were complete; the runs
 reported zero blocked seams, open obligations or numeric participants. The
 three isolated curve studies completed with the same checks.
 
-`dotnet test Gojo.slnx -c Release` passed 4,224 tests across 12 assemblies, with
+`dotnet test Gojo.slnx -c Release` passed 4,240 tests across 12 assemblies, with
 zero failures or skips. Focused tests cover native path identity after packet
 import, rejected foreign or forged curve selections, fixed branch landmarks,
 endpoint and gap preservation, source retention and selected containment
 cases. A subsequent CLI build and assembly check also verified consistent
 export records and the completed resume path.
+
+B11's first larger flower provided a counterexample: a fit to one source
+chamber did not preserve the counterfield of its neighbour. The final recipe
+retains eight petals and their veins at a reduced outer reach. A dedicated
+regression reads those native petals and both native repeat words, checking
+the four flowers against nine adjacent period images for inter-flower chord
+contact, intersection and containment. Layering within one flower remains
+permitted. This is a selected finite guide-geometry check, separate from
+native occupied-area or general curve-clearance semantics.
 
 The [browser report](../../experiments/QualitativeFrieze/results/ornament-refined/browser-check.json)
 checks all 108 main SVGs and native packets, the 108-image overview, local

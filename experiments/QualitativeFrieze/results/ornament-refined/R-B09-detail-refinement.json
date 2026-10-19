@@ -4,26 +4,26 @@
     "skeletonName": "Detached S-shaped fret units",
     "plate": {
       "id": "R-B09-detail",
-      "title": "B09 \u00B7 Veins and foliage following the scaffold",
+      "title": "B09 \u00B7 Palmettes in opposed S returns",
       "sourceId": "B09",
-      "description": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact.",
+      "description": "Two opposed return cups of the detached S receive broad, articulated palmettes. Their separate placement and opposed maps retain the S\u0027s free ends; no new connector pretends that the source is a continuous meander.",
       "svg": "",
       "units": 9,
-      "paths": 3,
-      "chords": 19,
-      "addedPaths": 2,
-      "attachments": 2,
-      "strokes": 171,
+      "paths": 13,
+      "chords": 69,
+      "addedPaths": 12,
+      "attachments": 12,
+      "strokes": 621,
       "accepted": 0,
       "blocked": 0,
       "open": 0,
       "frontier": 0,
-      "nativeObjects": 2538,
+      "nativeObjects": 13130,
       "numericParticipants": 0,
       "layerPaths": [
         1,
         2,
-        1
+        10
       ],
       "focusComplete": [
         true,
@@ -33,6 +33,6 @@
       "palette": "Ivory, oxblood \u0026 sage"
     }
   },
-  "constructionNotes": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
-  "curvedPlacedPaths": 18
+  "constructionNotes": "Two opposed return cups of the detached S receive broad, articulated palmettes. Their separate placement and opposed maps retain the S\u0027s free ends; no new connector pretends that the source is a continuous meander. Curved rendering rounds selected flowing contours only; pointed tips, roots and native source seam identities remain fixed. Four colour groups are exact disjoint path selections, not screen-location bins.",
+  "curvedPlacedPaths": 90
 }

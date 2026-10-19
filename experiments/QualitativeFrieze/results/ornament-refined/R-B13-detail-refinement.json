@@ -4,26 +4,26 @@
     "skeletonName": "Interlocking serif-I compartments",
     "plate": {
       "id": "R-B13-detail",
-      "title": "B13 \u00B7 Veins and foliage following the scaffold",
+      "title": "B13 \u00B7 Four-colour interlocking gardens",
       "sourceId": "B13",
-      "description": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact.",
+      "description": "The four actual quarter-related serif-I images are four stable colour families. Ornament follows each I\u0027s long crossbar and broad end caps, with visible inner veins and curled cap fans. Larger bright flowers punctuate selected interlocks; the complete four-image source remains the placement construction.",
       "svg": "",
       "units": 9,
-      "paths": 12,
-      "chords": 160,
-      "addedPaths": 8,
-      "attachments": 8,
-      "strokes": 1440,
+      "paths": 85,
+      "chords": 400,
+      "addedPaths": 81,
+      "attachments": 81,
+      "strokes": 3600,
       "accepted": 596,
       "blocked": 0,
       "open": 0,
       "frontier": 124,
-      "nativeObjects": 24740,
+      "nativeObjects": 155091,
       "numericParticipants": 0,
       "layerPaths": [
         4,
-        12,
-        0
+        20,
+        61
       ],
       "focusComplete": [
         true,
@@ -33,6 +33,6 @@
       "palette": "Ivory, oxblood \u0026 sage"
     }
   },
-  "constructionNotes": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
-  "curvedPlacedPaths": 72
+  "constructionNotes": "The four actual quarter-related serif-I images are four stable colour families. Ornament follows each I\u0027s long crossbar and broad end caps, with visible inner veins and curled cap fans. Larger bright flowers punctuate selected interlocks; the complete four-image source remains the placement construction. Curved rendering rounds selected flowing contours only; pointed tips, roots and native source seam identities remain fixed. Four colour groups are exact disjoint path selections, not screen-location bins.",
+  "curvedPlacedPaths": 441
 }

@@ -7,6 +7,11 @@ The [three curve studies](results/ornament-curves/gallery.html) isolate vines,
 a corrected curl and an interrupted guilloche. Run `--ornament-refined` or
 `--ornament-curves` with the experiment project.
 
+The [B08–B14 interior gallery](results/ornament-refined/interiors-gallery.html)
+focuses on compartment-filling motifs, larger eight-petal flowers and native
+four-colour selections. Its [single sheet](results/ornament-refined/interiors.html)
+contains 24 designs. Regenerate these with `--ornament-refined --only B08,B08.B,B09,B10,B11,B12,B13,B14`.
+
 The [detail study](results/ornament-details/gallery.html) explores ten richer
 native motifs and four integrations into B02/B05, with close-ups, scaffold
 reads and a [single sheet](results/ornament-details/overview.html). Run it with

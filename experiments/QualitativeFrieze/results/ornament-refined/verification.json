@@ -1,15 +1,17 @@
 {
-  "schema": "gojo-ornament-refined-verification-v1",
+  "schema": "gojo-ornament-interior-verification-v1",
   "solutionTests": {
-    "command": "dotnet test Gojo.slnx -c Release --logger trx --results-directory artifacts/ornament-refined-verified-tests --nologo",
+    "command": "dotnet test Gojo.slnx -c Release --logger trx --results-directory artifacts/ornament-interior-fitted-tests --nologo",
     "assemblies": 12,
-    "passed": 4224,
+    "passed": 4240,
     "failed": 0,
     "skipped": 0
   },
   "nativeCollection": {
     "skeletons": 36,
     "designs": 108,
+    "revisedInteriorSkeletons": 8,
+    "revisedInteriorDesigns": 24,
     "unitsPerDesign": 9,
     "completeLayerFocusReads": 324,
     "blocked": 0,
@@ -17,10 +19,24 @@
     "numericParticipants": 0,
     "curveStudies": 3
   },
+  "b11GuideSeparation": {
+    "flowerGroups": 4,
+    "adjacentPeriodImages": 9,
+    "betweenFlowerContacts": 0,
+    "betweenFlowerIntersections": 0,
+    "betweenFlowerContainments": 0,
+    "withinFlowerLayering": "permitted"
+  },
+  "comparisonBaseline": {
+    "commit": "919f234",
+    "detailImages": 8,
+    "nativeArchives": 8
+  },
   "browserReport": "browser-check.json",
   "limitations": [
-    "Curve fillets are selected display interpretations over native guides.",
-    "Finite examples and selected fit checks do not prove general clearance, native curvature, infinite tiling or aesthetic quality.",
-    "Some enrichments use landmark offsets without physical contact with the visible parent stroke."
+    "Curve fillets, palette values and contour fills are display interpretations over native paths.",
+    "Finite examples and selected guide-fit checks do not establish general occupied-area, curve-clearance, infinite-tiling or aesthetic laws.",
+    "Source-guide coverage is intentional for selected interior ornament; source paths remain in native structure.",
+    "Dense finite native word and witness execution costs substantially more than the earlier sparse details."
   ]
 }

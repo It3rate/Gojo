@@ -11,7 +11,20 @@
   "badLinks": [],
   "svgErrors": [],
   "nativeErrors": [],
+  "colourErrors": [],
   "differentGeometry": true,
+  "interiors": {
+    "cards": 8,
+    "images": 24,
+    "mobileOverflow": false,
+    "detail": true,
+    "angularUnit": true
+  },
+  "comparison": {
+    "cards": 8,
+    "images": 16,
+    "mobileOverflow": false
+  },
   "controls": {
     "fields": true,
     "independent": true,

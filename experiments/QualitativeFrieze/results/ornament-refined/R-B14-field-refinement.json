@@ -4,26 +4,26 @@
     "skeletonName": "Dense interlocking serif-I field",
     "plate": {
       "id": "R-B14-field",
-      "title": "B14 \u00B7 Inset fields and quiet construction",
+      "title": "B14 \u00B7 Four-colour interlocking gardens",
       "sourceId": "B14",
-      "description": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact.",
+      "description": "The four actual quarter-related serif-I images are four stable colour families. Ornament follows each I\u0027s long crossbar and broad end caps, with visible inner veins and curled cap fans. Larger bright flowers punctuate selected interlocks; the complete four-image source remains the placement construction.",
       "svg": "",
       "units": 9,
-      "paths": 8,
-      "chords": 128,
-      "addedPaths": 4,
-      "attachments": 4,
-      "strokes": 1152,
+      "paths": 16,
+      "chords": 156,
+      "addedPaths": 12,
+      "attachments": 12,
+      "strokes": 1404,
       "accepted": 476,
       "blocked": 0,
       "open": 0,
       "frontier": 100,
-      "nativeObjects": 16560,
+      "nativeObjects": 28468,
       "numericParticipants": 0,
       "layerPaths": [
         4,
         4,
-        4
+        8
       ],
       "focusComplete": [
         true,
@@ -33,6 +33,6 @@
       "palette": "Aubergine, peach \u0026 parchment"
     }
   },
-  "constructionNotes": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
-  "curvedPlacedPaths": 36
+  "constructionNotes": "The four actual quarter-related serif-I images are four stable colour families. Ornament follows each I\u0027s long crossbar and broad end caps, with visible inner veins and curled cap fans. Larger bright flowers punctuate selected interlocks; the complete four-image source remains the placement construction. Curved rendering rounds selected flowing contours only; pointed tips, roots and native source seam identities remain fixed. Four colour groups are exact disjoint path selections, not screen-location bins.",
+  "curvedPlacedPaths": 72
 }

@@ -123,6 +123,9 @@ extends that vocabulary across the catalogue with optional curves over native
 guides, angular comparisons and close-ups. The
 [curve studies](experiments/QualitativeFrieze/results/ornament-curves/gallery.html)
 isolate the vine, corrected curl and interrupted guilloche.
+The [B08–B14 interior studies](experiments/QualitativeFrieze/results/ornament-refined/interiors-gallery.html)
+develop larger flowers, interior gardens and four-colour interlocking shapes,
+with [24 designs on one sheet](experiments/QualitativeFrieze/results/ornament-refined/interiors.html).
 
 For example, run the prospective-prediction experiment and its notebook tests
 from the repository root:

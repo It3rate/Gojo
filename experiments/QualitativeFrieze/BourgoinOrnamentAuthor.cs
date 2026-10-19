@@ -19,6 +19,11 @@ internal sealed class BourgoinOrnamentAuthor
             foreach (var path in paths)
                 if (!selected.Any(actual => ReferenceEquals(actual, path))) selected.Add(path);
         }
+        public void SelectOnly(params Relation[] paths)
+        {
+            selected.Clear();
+            Select(paths);
+        }
         public void Add(UnitArrangementProgram program, Relation attachment)
         { additions.Add(program.Surface); attachments.Add(attachment); }
         public Relation Definition => OrnamentEnrichment.Layer(Identity, N.S(selected.ToArray()),
