@@ -1,0 +1,2416 @@
+<!doctype html><html lang='en'><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'><title>Lattices by construction · Gojo</title><style>*{box-sizing:border-box}body{margin:0;background:#ECE9DE;color:#30474C;font:16px/1.65 system-ui,sans-serif}main{max-width:1560px;margin:auto;padding:34px 28px 70px}h1,h2,h3{font-family:Georgia,serif;font-weight:400;line-height:1.17}h1{font-size:clamp(38px,5vw,68px);margin:16px 0}h2{font-size:33px;margin:12px 0}h3{font-size:23px;margin:10px 0}p{max-width:1050px}.eyebrow{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#826D4A}a{color:#276370;text-underline-offset:4px}nav{display:flex;flex-wrap:wrap;gap:12px 24px;margin:22px 0}button,select{font:inherit;color:inherit;background:#FCFAF1;border:1px solid #B6B5A5;padding:8px 12px;max-width:100%;border-radius:3px}button{cursor:pointer}button[aria-pressed=true]{background:#355A62;color:white}label{display:flex;align-items:center;gap:12px;flex-wrap:wrap}.toolbar{display:flex;align-items:center;gap:14px 30px;flex-wrap:wrap;padding:18px;background:#F5F2E7;border:1px solid #CCC7B4;margin-top:28px}input[type=range]{width:220px;max-width:100%}.two{display:grid;grid-template-columns:1fr 1fr;gap:22px}.panel{min-width:0;background:#F7F4EB;border:1px solid #C9C3B0;padding:18px}.panel img,.card img{display:block;width:100%;height:auto}.note{font-size:14px;color:#6D756E}.status{font-size:14px;padding:10px 14px;background:#E3EADC;border-left:3px solid #5C8174}.status.open{background:#EFE2CD;border-color:#AE8243}.crumbs{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0}.crumbs button{font-size:13px}.facts{display:flex;flex-wrap:wrap;gap:10px 24px;font-size:13px;color:#62736D}.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}.card{min-width:0;background:#F8F5EC;border:1px solid #D0CAB8;padding:14px;cursor:pointer}.card h3{font-size:19px}.card p{font-size:13px;margin:8px 0}.card.selected{outline:3px solid #5B827B}.reading{overflow:auto}table{border-collapse:collapse;font-size:13px;width:100%;margin:14px 0}th,td{padding:7px 10px;border-bottom:1px solid #D3CEBE;text-align:left;white-space:nowrap}section{margin:36px 0 55px}.concept{border-top:1px solid #C7C3B0;padding-top:22px}details{margin:16px 0}summary{cursor:pointer;color:#315F65}.branch-list{columns:2}code{font-size:.9em}.big-overview{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}.big-overview figure{min-width:0;margin:0;background:#F8F5EC;padding:12px}.big-overview img{width:100%;height:auto;display:block}.big-overview figcaption{font:17px Georgia,serif;min-height:42px}@media(max-width:1000px){.cards,.big-overview{grid-template-columns:repeat(3,1fr)}}@media(max-width:700px){main{padding:24px 14px}.two{grid-template-columns:1fr}.cards,.big-overview{grid-template-columns:repeat(2,1fr)}.branch-list{columns:1}h2{font-size:27px}}@media(max-width:420px){.cards,.big-overview{grid-template-columns:1fr}.toolbar{padding:12px}}</style></head><body><main><span class='eyebrow'>Gojo / structural ladders / native and pre-numeric</span><h1>A lattice can remember<br>what it was built from.</h1><p>A shared starting grid branches through native substitutions, chord refinements and explicit edits. Every earlier rung stays an actual structure that can answer a construction-history question. Current shape is a separate question, read from the executed graph with the recipe and history hidden.</p><nav><a href='overview.html'>All constructions together</a><a href='overview.svg'>Whole sheet · SVG</a><a href='../bourgoin-patterns/gallery.html'>Original Bourgoin atlas</a><a href='#crystallization'>Forget history, then read again</a><a href='#coverage'>Atlas coverage and limits</a><a href='diagnostics.json'>Diagnostics</a></nav>
+<div class='toolbar'><label>Choose a branch end <select id='branch'><option value='L00'>L00 &#183; Square starting grid</option><option value='L01'>L01 &#183; Stretch into rectangles</option><option value='L02'>L02 &#183; Insert a middle course</option><option value='L03'>L03 &#183; Shift alternate brick joints</option><option value='L04'>L04 &#183; Shear the running bond</option><option value='L05'>L05 &#183; Shear the square grid</option><option value='L06'>L06 &#183; Add a third tie family</option><option value='L07'>L07 &#183; Add crossing diagonal ties</option><option value='L08'>L08 &#183; Stretch the diagonal network</option><option value='L09'>L09 &#183; Pair narrow orthogonal strips</option><option value='L10'>L10 &#183; Turn paired strips into oblique ribbons</option><option value='L11'>L11 &#183; Expose corner inset sites</option><option value='L12'>L12 &#183; Chamfer the square corners</option><option value='L13'>L13 &#183; Expose basket contact intervals</option><option value='L14'>L14 &#183; Assemble alternating basket rectangles</option><option value='L15'>L15 &#183; Shear the basket assembly</option><option value='L16'>L16 &#183; Try a wider shear</option><option value='L17'>L17 &#183; Try an opposed brick shear</option><option value='L18'>L18 &#183; Try a tighter ribbon disposition</option></select></label><label>Walk its ladder <input id='rung' type='range' min='0' max='1' value='1' step='1'><output id='step'></output></label></div><div class='crumbs' id='crumbs'></div>
+<section id='inspection'><div class='two'><article class='panel'><span class='eyebrow' id='current-label'></span><h2 id='current-title'></h2><img id='current-image' alt='Current executed lattice'><p id='description'></p><p class='note' id='atlas'></p><div class='facts' id='facts'></div></article><article class='panel'><span class='eyebrow'>Question / retained construction basis</span><h2>An earlier rung, literally.</h2><label>Ask for <select id='basis'></select></label><img id='basis-image' alt='Selected retained construction basis'><p class='status' id='basis-answer'></p><p class='note'>This answer follows retained native references. It does not analyze pixels or prove that every property of the earlier graph remains true of the current graph. A brick-joint edit changes connectivity; a shear can preserve it.</p><p><a id='native-link'>Native ladder + field packet</a> · <a id='question-link'>Native questions and witnesses</a></p></article></div>
+<article class='panel concept'><span class='eyebrow'>Question / current incidence / construction history hidden</span><h2>What can this graph support now?</h2><p class='note' id='support-note'></p><div class='reading' id='candidates'></div><details><summary>Drawing histories, support and limits</summary><p>Every acknowledged stroke remains in the fine view. The incidence-support question coalesces only already-shared endpoint pairs with compatible headings and retains a many-to-one correspondence. The strand-support question may additionally contract justified straight degree-two landmarks, keeping their paths and sites as carried evidence. Corners, branches, unjoined crossings and coordinate coincidences cannot supply those contractions. Counts are calculated reads, not confidence scores.</p><div class='reading' id='raw-candidates'></div></details><p class='note'>Commutations are witnessed two-step routes to the same actual site. Triangles are witnessed closed routes. Residue, competing continuations, unsearched proposals and finite boundary obligations stay visible. A channel count alone is not a grid diagnosis.</p></article></section>
+<section><span class='eyebrow'>Shared source / several branches</span><h2>Small operations, different constructions.</h2><div class='cards'><article class='card' id='L00' data-case='L00' tabindex='0' role='button' aria-label='Inspect Square starting grid'><span class='eyebrow'>L00 / rung 0</span><h3>Square starting grid</h3><img src='L00.svg' alt='Square starting grid' loading='lazy'><p>Shared starting construction</p></article><article class='card' id='L01' data-case='L01' tabindex='0' role='button' aria-label='Inspect Stretch into rectangles'><span class='eyebrow'>L01 / rung 1</span><h3>Stretch into rectangles</h3><img src='L01.svg' alt='Stretch into rectangles' loading='lazy'><p>Rectangular grid; precursor to B01 and B02</p></article><article class='card' id='L02' data-case='L02' tabindex='0' role='button' aria-label='Inspect Insert a middle course'><span class='eyebrow'>L02 / rung 2</span><h3>Insert a middle course</h3><img src='L02.svg' alt='Insert a middle course' loading='lazy'><p>B01-family construction</p></article><article class='card' id='L03' data-case='L03' tabindex='0' role='button' aria-label='Inspect Shift alternate brick joints'><span class='eyebrow'>L03 / rung 3</span><h3>Shift alternate brick joints</h3><img src='L03.svg' alt='Shift alternate brick joints' loading='lazy'><p>B01-like running bond</p></article><article class='card' id='L04' data-case='L04' tabindex='0' role='button' aria-label='Inspect Shear the running bond'><span class='eyebrow'>L04 / rung 4</span><h3>Shear the running bond</h3><img src='L04.svg' alt='Shear the running bond' loading='lazy'><p>B19-like oblique running bond</p></article><article class='card' id='L05' data-case='L05' tabindex='0' role='button' aria-label='Inspect Shear the square grid'><span class='eyebrow'>L05 / rung 1</span><h3>Shear the square grid</h3><img src='L05.svg' alt='Shear the square grid' loading='lazy'><p>B15-like oblique quadrilateral grid</p></article><article class='card' id='L06' data-case='L06' tabindex='0' role='button' aria-label='Inspect Add a third tie family'><span class='eyebrow'>L06 / rung 2</span><h3>Add a third tie family</h3><img src='L06.svg' alt='Add a third tie family' loading='lazy'><p>B16-like triangular network</p></article><article class='card' id='L07' data-case='L07' tabindex='0' role='button' aria-label='Inspect Add crossing diagonal ties'><span class='eyebrow'>L07 / rung 1</span><h3>Add crossing diagonal ties</h3><img src='L07.svg' alt='Add crossing diagonal ties' loading='lazy'><p>B18-like square grid with diagonals</p></article><article class='card' id='L08' data-case='L08' tabindex='0' role='button' aria-label='Inspect Stretch the diagonal network'><span class='eyebrow'>L08 / rung 2</span><h3>Stretch the diagonal network</h3><img src='L08.svg' alt='Stretch the diagonal network' loading='lazy'><p>B17-like stretched diagonal network</p></article><article class='card' id='L09' data-case='L09' tabindex='0' role='button' aria-label='Inspect Pair narrow orthogonal strips'><span class='eyebrow'>L09 / rung 1</span><h3>Pair narrow orthogonal strips</h3><img src='L09.svg' alt='Pair narrow orthogonal strips' loading='lazy'><p>B07-like paired orthogonal bands</p></article><article class='card' id='L10' data-case='L10' tabindex='0' role='button' aria-label='Inspect Turn paired strips into oblique ribbons'><span class='eyebrow'>L10 / rung 2</span><h3>Turn paired strips into oblique ribbons</h3><img src='L10.svg' alt='Turn paired strips into oblique ribbons' loading='lazy'><p>B08-like intersecting ribbons</p></article><article class='card' id='L11' data-case='L11' tabindex='0' role='button' aria-label='Inspect Expose corner inset sites'><span class='eyebrow'>L11 / rung 1</span><h3>Expose corner inset sites</h3><img src='L11.svg' alt='Expose corner inset sites' loading='lazy'><p>B06-family preparation</p></article><article class='card' id='L12' data-case='L12' tabindex='0' role='button' aria-label='Inspect Chamfer the square corners'><span class='eyebrow'>L12 / rung 2</span><h3>Chamfer the square corners</h3><img src='L12.svg' alt='Chamfer the square corners' loading='lazy'><p>B06-like octagon and interstitial diamond field</p></article><article class='card' id='L13' data-case='L13' tabindex='0' role='button' aria-label='Inspect Expose basket contact intervals'><span class='eyebrow'>L13 / rung 2</span><h3>Expose basket contact intervals</h3><img src='L13.svg' alt='Expose basket contact intervals' loading='lazy'><p>B02-family assembly preparation</p></article><article class='card' id='L14' data-case='L14' tabindex='0' role='button' aria-label='Inspect Assemble alternating basket rectangles'><span class='eyebrow'>L14 / rung 3</span><h3>Assemble alternating basket rectangles</h3><img src='L14.svg' alt='Assemble alternating basket rectangles' loading='lazy'><p>B02-like basket rectangles and square gaps</p></article><article class='card' id='L15' data-case='L15' tabindex='0' role='button' aria-label='Inspect Shear the basket assembly'><span class='eyebrow'>L15 / rung 4</span><h3>Shear the basket assembly</h3><img src='L15.svg' alt='Shear the basket assembly' loading='lazy'><p>Exploratory oblique basket branch</p></article><article class='card' id='L16' data-case='L16' tabindex='0' role='button' aria-label='Inspect Try a wider shear'><span class='eyebrow'>L16 / rung 1</span><h3>Try a wider shear</h3><img src='L16.svg' alt='Try a wider shear' loading='lazy'><p>New sibling of the oblique-grid family</p></article><article class='card' id='L17' data-case='L17' tabindex='0' role='button' aria-label='Inspect Try an opposed brick shear'><span class='eyebrow'>L17 / rung 4</span><h3>Try an opposed brick shear</h3><img src='L17.svg' alt='Try an opposed brick shear' loading='lazy'><p>New sibling of the oblique-brick family</p></article><article class='card' id='L18' data-case='L18' tabindex='0' role='button' aria-label='Inspect Try a tighter ribbon disposition'><span class='eyebrow'>L18 / rung 2</span><h3>Try a tighter ribbon disposition</h3><img src='L18.svg' alt='Try a tighter ribbon disposition' loading='lazy'><p>New sibling of the ribbon family</p></article></div></section><section id='crystallization' class='concept'><span class='eyebrow'>Deliberate loss / independently identified current world</span><h2>Keep the lattice. Forget its route here.</h2><div class='two'><article class='panel'><h3>L05 · retained shear history</h3><img src='L05.svg' alt='Sheared grid with its construction history'><p>The actual square-grid basis remains available through the ladder.</p></article><article class='panel'><h3>The same current incidence, standalone</h3><img src='crystallized.svg' alt='Independently crystallized current lattice'><p>The current frame, paths, ports, periods and seams are independently rebuilt. The saved standalone world contains no participant from the original history. Exact ancestry lookup is open; a fresh history-blind support read can still recover a grid organization.</p><p><a href='crystallized.gojo.json.gz'>Standalone native world</a> · <a href='crystallization-loss.gojo.json.gz'>External loss receipt</a> · <a href='crystallized-questions.gojo.json.gz'>New observation and queries</a></p></article></div><p class='note'>The external loss receipt explains the deliberate forgetting and is stored separately. Retaining that receipt is different from supplying history to the standalone lattice. Recovering a coarse grid does not reconstruct the exact forgotten sequence of edits.</p></section>
+<section class='concept'><span class='eyebrow'>Counterexample / blocked evidence remains visible</span><h2>A false seam cannot become a join.</h2><div class='two'><div class='panel'><img src='blocked-seam.svg' alt='Current geometry under a deliberately false seam offer'></div><div class='panel'><p>One offered neighbouring role has the wrong displacement. The actual equality read fails and the offered connection stays blocked. A plausible drawing cannot override that obligation.</p><p><a href='blocked-seam.gojo.json.gz'>Native blocked-seam witness</a></p><p class='note'>Accepted seams authenticate exposed endpoint agreements. They do not prove infinite tiling, occupied-area coverage, no retracing or aesthetic merit.</p></div></div></section>
+<section id='coverage' class='concept'><span class='eyebrow'>Starting vocabulary / 36 atlas skeletons</span><h2>Construction families, with a clear frontier.</h2><p>This first round explores grid, brick, oblique mesh, triangular ties, ribbons, corner cuts and basket assemblies. The last three siblings deliberately vary existing substitutions to produce new nearby arrangements. We do not claim to have reconstructed all 36 atlas patterns through ladders.</p><div class='reading'><table><thead><tr><th>Atlas</th><th>Skeleton</th><th>Current ladder relation</th></tr></thead><tbody><tr><td>B01</td><td>Running brick bond</td><td>L01, L02, L03 · related construction; exact atlas equivalence unproved</td></tr><tr><td>B02</td><td>Basket rectangles and square gaps</td><td>L01, L13, L14 · related construction; exact atlas equivalence unproved</td></tr><tr><td>B03</td><td>Squares meet diamonds</td><td>Not constructed in this round</td></tr><tr><td>B04</td><td>Honeycomb from three reused contours</td><td>Not constructed in this round</td></tr><tr><td>B05</td><td>Hexagons with triangular interstices</td><td>Not constructed in this round</td></tr><tr><td>B06</td><td>Octagons with diamond gaps &#183; first interpretation</td><td>L11, L12 · related construction; exact atlas equivalence unproved</td></tr><tr><td>B06.B</td><td>Octagons with upright square gaps</td><td>Not constructed in this round</td></tr><tr><td>B07</td><td>Alternating-width orthogonal bands</td><td>L09 · related construction; exact atlas equivalence unproved</td></tr><tr><td>B08</td><td>Intersecting diagonal ribbons</td><td>L10 · related construction; exact atlas equivalence unproved</td></tr><tr><td>B08.B</td><td>Ribbons with narrow angled junctions</td><td>Not constructed in this round</td></tr><tr><td>B09</td><td>Detached S-shaped fret units</td><td>Not constructed in this round</td></tr><tr><td>B10</td><td>Direct bent-cross compartments</td><td>Not constructed in this round</td></tr><tr><td>B11</td><td>Returned rows of bent crosses</td><td>Not constructed in this round</td></tr><tr><td>B12</td><td>Closed stepped-arm compartments</td><td>Not constructed in this round</td></tr><tr><td>B13</td><td>Interlocking serif-I compartments</td><td>Not constructed in this round</td></tr><tr><td>B14</td><td>Dense interlocking serif-I field</td><td>Not constructed in this round</td></tr><tr><td>B15</td><td>Two-family oblique mesh</td><td>L05 · related construction; exact atlas equivalence unproved</td></tr><tr><td>B16</td><td>Three-family triangular mesh</td><td>L06 · related construction; exact atlas equivalence unproved</td></tr><tr><td>B17</td><td>Rectangle mesh with diagonal ties</td><td>L08 · related construction; exact atlas equivalence unproved</td></tr><tr><td>B18</td><td>Square mesh with diagonal ties</td><td>L07 · related construction; exact atlas equivalence unproved</td></tr><tr><td>B19</td><td>Oblique running bond</td><td>L04 · related construction; exact atlas equivalence unproved</td></tr><tr><td>B20</td><td>Three-lozenge centred network</td><td>Not constructed in this round</td></tr><tr><td>B21</td><td>Opposed chevron lozenges</td><td>Not constructed in this round</td></tr><tr><td>B22</td><td>Alternating pointed lozenges</td><td>Not constructed in this round</td></tr><tr><td>B23</td><td>Offset squares and small square gaps</td><td>Not constructed in this round</td></tr><tr><td>B24</td><td>Sliding triangles around shorter hexagon gaps</td><td>Not constructed in this round</td></tr><tr><td>B25</td><td>Six-point star junctions</td><td>Not constructed in this round</td></tr><tr><td>B26</td><td>Flat-tipped stars and twelve-ray florets</td><td>Not constructed in this round</td></tr><tr><td>B27</td><td>Angled paired-band courses</td><td>Not constructed in this round</td></tr><tr><td>B28</td><td>Faceted shell-fan courses</td><td>Not constructed in this round</td></tr><tr><td>B29</td><td>Sliding hexagons and triangular gaps</td><td>Not constructed in this round</td></tr><tr><td>B30</td><td>Faceted cloud-scale arches</td><td>Not constructed in this round</td></tr><tr><td>B31</td><td>Slender outward arms and round markers</td><td>Not constructed in this round</td></tr><tr><td>B32</td><td>Interrupted diagonal returns and valley joins</td><td>Not constructed in this round</td></tr><tr><td>B33</td><td>Continuous angled courses and diamond loops</td><td>Not constructed in this round</td></tr><tr><td>B34</td><td>Crossed faceted loop lattice</td><td>Not constructed in this round</td></tr></tbody></table></div><p>Three different questions stay separate: “what was this built from?”, “what organization does this current graph support?”, and “which other construction might explain it?”. Native ancestry answers the first directly. The bounded structural readers supply evidence for the second. General inverse reconstruction remains an experiment.</p><p class='note'>Host integers author repetitions of an unmeasured reach. Optional screen coordinates, line widths and aspect ratios belong to presentation. Native ladders, field programs and observations use relations and placeholders, with no numeric carriers. Selected square and triangular appearances do not establish a native Euclidean angle or length theorem.</p></section>
+<script type='application/json' id='cases'>[
+  {
+    "id": "L00",
+    "name": "Square starting grid",
+    "parentId": null,
+    "description": "Four ordered sides expose corners and side midpoints. Explicit seam declarations join repeated cells; matching coordinates alone do not join them.",
+    "atlas": "Shared starting construction",
+    "depth": 0,
+    "paths": 4,
+    "chords": 8,
+    "units": 9,
+    "accepted": 176,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 94,
+    "numeric": 0,
+    "objects": 903,
+    "rawStrokes": 72,
+    "incidenceStrokes": 48,
+    "supportStrokes": 24,
+    "raw": [
+      {
+        "channels": 2,
+        "selected": 72,
+        "commutations": 0,
+        "triangles": 0,
+        "unexpectedTriangles": 0,
+        "residue": 0,
+        "competing": 20,
+        "boundary": 1,
+        "unsettled": 0
+      }
+    ],
+    "support": [
+      {
+        "channels": 2,
+        "selected": 24,
+        "commutations": 9,
+        "triangles": 0,
+        "unexpectedTriangles": 0,
+        "residue": 0,
+        "competing": 0,
+        "boundary": 0,
+        "unsettled": 0
+      }
+    ],
+    "unsearched": 0,
+    "ancestors": []
+  },
+  {
+    "id": "L01",
+    "name": "Stretch into rectangles",
+    "parentId": "L00",
+    "description": "Every actual start, chord and pitch follows R\u2192RR, U\u2192U. The rectangular unit retains the square source and the native substitution receipts.",
+    "atlas": "Rectangular grid; precursor to B01 and B02",
+    "depth": 1,
+    "paths": 4,
+    "chords": 8,
+    "units": 9,
+    "accepted": 176,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 94,
+    "numeric": 0,
+    "objects": 1395,
+    "rawStrokes": 72,
+    "incidenceStrokes": 48,
+    "supportStrokes": 24,
+    "raw": [
+      {
+        "channels": 2,
+        "selected": 72,
+        "commutations": 0,
+        "triangles": 0,
+        "unexpectedTriangles": 0,
+        "residue": 0,
+        "competing": 20,
+        "boundary": 1,
+        "unsettled": 0
+      }
+    ],
+    "support": [
+      {
+        "channels": 2,
+        "selected": 24,
+        "commutations": 9,
+        "triangles": 0,
+        "unexpectedTriangles": 0,
+        "residue": 0,
+        "competing": 0,
+        "boundary": 0,
+        "unsettled": 0
+      }
+    ],
+    "unsearched": 0,
+    "ancestors": [
+      {
+        "id": "L00",
+        "name": "Square starting grid",
+        "sameActualProgram": true
+      }
+    ]
+  },
+  {
+    "id": "L02",
+    "name": "Insert a middle course",
+    "parentId": "L01",
+    "description": "A translated copy of the actual bottom side inserts a course at the existing side midpoints. Existing four sides and their roles are carried unchanged.",
+    "atlas": "B01-family construction",
+    "depth": 2,
+    "paths": 5,
+    "chords": 10,
+    "units": 9,
+    "accepted": 212,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 103,
+    "numeric": 0,
+    "objects": 1560,
+    "rawStrokes": 90,
+    "incidenceStrokes": 66,
+    "supportStrokes": 45,
+    "raw": [
+      {
+        "channels": 2,
+        "selected": 90,
+        "commutations": 0,
+        "triangles": 0,
+        "unexpectedTriangles": 0,
+        "residue": 0,
+        "competing": 22,
+        "boundary": 2,
+        "unsettled": 0
+      }
+    ],
+    "support": [
+      {
+        "channels": 2,
+        "selected": 45,
+        "commutations": 18,
+        "triangles": 0,
+        "unexpectedTriangles": 0,
+        "residue": 0,
+        "competing": 0,
+        "boundary": 0,
+        "unsettled": 0
+      }
+    ],
+    "unsearched": 0,
+    "ancestors": [
+      {
+        "id": "L00",
+        "name": "Square starting grid",
+        "sameActualProgram": true
+      },
+      {
+        "id": "L01",
+        "name": "Stretch into rectangles",
+        "sameActualProgram": true
+      }
+    ]
+  },
+  {
+    "id": "L03",
+    "name": "Shift alternate brick joints",
+    "parentId": "L02",
+    "description": "The side focus is replaced by a lower joint and a shifted upper joint. Horizontal courses remain actual carried paths. This changes adjacency; it is separate from the preceding stretch.",
+    "atlas": "B01-like running bond",
+    "depth": 3,
+    "paths": 5,
+    "chords": 8,
+    "units": 9,
+    "accepted": 108,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 45,
+    "numeric": 0,
+    "objects": 1614,
+    "rawStrokes": 72,
+    "incidenceStrokes": 60,
+    "supportStrokes": 55,
+    "raw": [
+      {
+        "channels": 2,
+        "selected": 72,
+        "commutations": 0,
+        "triangles": 0,
+        "unexpectedTriangles": 0,
+        "residue": 0,
+        "competing": 18,
+        "boundary": 6,
+        "unsettled": 0
+      }
+    ],
+    "support": [
+      {
+        "channels": 2,
+        "selected": 55,
+        "commutations": 0,
+        "triangles": 0,
+        "unexpectedTriangles": 0,
+        "residue": 0,
+        "competing": 0,
+        "boundary": 16,
+        "unsettled": 2
+      }
+    ],
+    "unsearched": 0,
+    "ancestors": [
+      {
+        "id": "L00",
+        "name": "Square starting grid",
+        "sameActualProgram": true
+      },
+      {
+        "id": "L01",
+        "name": "Stretch into rectangles",
+        "sameActualProgram": true
+      },
+      {
+        "id": "L02",
+        "name": "Insert a middle course",
+        "sameActualProgram": true
+      }
+    ]
+  },
+  {
+    "id": "L04",
+    "name": "Shear the running bond",
+    "parentId": "L03",
+    "description": "R\u2192R and U\u2192RU act on the existing brick paths and both period words. The alternating joint topology survives the oblique disposition.",
+    "atlas": "B19-like oblique running bond",
+    "depth": 4,
+    "paths": 5,
+    "chords": 8,
+    "units": 9,
+    "accepted": 108,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 45,
+    "numeric": 0,
+    "objects": 2139,
+    "rawStrokes": 72,
+    "incidenceStrokes": 60,
+    "supportStrokes": 55,
+    "raw": [
+      {
+        "channels": 2,
+        "selected": 72,
+        "commutations": 0,
+        "triangles": 0,
+        "unexpectedTriangles": 0,
+        "residue": 0,
+        "competing": 18,
+        "boundary": 6,
+        "unsettled": 0
+      }
+    ],
+    "support": [
+      {
+        "channels": 2,
+        "selected": 55,
+        "commutations": 0,
+        "triangles": 0,
+        "unexpectedTriangles": 0,
+        "residue": 0,
+        "competing": 0,
+        "boundary": 16,
+        "unsettled": 2
+      }
+    ],
+    "unsearched": 0,
+    "ancestors": [
+      {
+        "id": "L00",
+        "name": "Square starting grid",
+        "sameActualProgram": true
+      },
+      {
+        "id": "L01",
+        "name": "Stretch into rectangles",
+        "sameActualProgram": true
+      },
+      {
+        "id": "L02",
+        "name": "Insert a middle course",
+        "sameActualProgram": true
+      },
+      {
+        "id": "L03",
+        "name": "Shift alternate brick joints",
+        "sameActualProgram": true
+      }
+    ]
+  },
+  {
+    "id": "L05",
+    "name": "Shear the square grid",
+    "parentId": "L00",
+    "description": "The same complete substitution shears the original square branch. No display-basis change supplies the native slant.",
+    "atlas": "B15-like oblique quadrilateral grid",
+    "depth": 1,
+    "paths": 4,
+    "chords": 8,
+    "units": 9,
+    "accepted": 176,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 94,
+    "numeric": 0,
+    "objects": 1395,
+    "rawStrokes": 72,
+    "incidenceStrokes": 48,
+    "supportStrokes": 24,
+    "raw": [
+      {
+        "channels": 2,
+        "selected": 72,
+        "commutations": 0,
+        "triangles": 0,
+        "unexpectedTriangles": 0,
+        "residue": 0,
+        "competing": 20,
+        "boundary": 1,
+        "unsettled": 0
+      }
+    ],
+    "support": [
+      {
+        "channels": 2,
+        "selected": 24,
+        "commutations": 9,
+        "triangles": 0,
+        "unexpectedTriangles": 0,
+        "residue": 0,
+        "competing": 0,
+        "boundary": 0,
+        "unsettled": 0
+      }
+    ],
+    "unsearched": 0,
+    "ancestors": [
+      {
+        "id": "L00",
+        "name": "Square starting grid",
+        "sameActualProgram": true
+      }
+    ]
+  },
+  {
+    "id": "L06",
+    "name": "Add a third tie family",
+    "parentId": "L05",
+    "description": "A new tie joins opposite advertised corners through the actual two-side displacement. The third direction creates triangular circuits. Merely shearing a four-sided grid did not create those ties.",
+    "atlas": "B16-like triangular network",
+    "depth": 2,
+    "paths": 5,
+    "chords": 10,
+    "units": 9,
+    "accepted": 280,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 143,
+    "numeric": 0,
+    "objects": 1713,
+    "rawStrokes": 90,
+    "incidenceStrokes": 66,
+    "supportStrokes": 33,
+    "raw": [
+      {
+        "channels": 2,
+        "selected": 72,
+        "commutations": 0,
+        "triangles": 0,
+        "unexpectedTriangles": 0,
+        "residue": 18,
+        "competing": 20,
+        "boundary": 1,
+        "unsettled": 0
+      },
+      {
+        "channels": 2,
+        "selected": 54,
+        "commutations": 0,
+        "triangles": 0,
+        "unexpectedTriangles": 0,
+        "residue": 36,
+        "competing": 12,
+        "boundary": 2,
+        "unsettled": 0
+      },
+      {
+        "channels": 2,
+        "selected": 54,
+        "commutations": 0,
+        "triangles": 0,
+        "unexpectedTriangles": 0,
+        "residue": 36,
+        "competing": 12,
+        "boundary": 3,
+        "unsettled": 0
+      },
+      {
+        "channels": 3,
+        "selected": 90,
+        "commutations": 0,
+        "triangles": 0,
+        "unexpectedTriangles": 0,
+        "residue": 0,
+        "competing": 44,
+        "boundary": 6,
+        "unsettled": 0
+      }
+    ],
+    "support": [
+      {
+        "channels": 2,
+        "selected": 24,
+        "commutations": 9,
+        "triangles": 0,
+        "unexpectedTriangles": 18,
+        "residue": 9,
+        "competing": 0,
+        "boundary": 0,
+        "unsettled": 0
+      },
+      {
+        "channels": 2,
+        "selected": 21,
+        "commutations": 6,
+        "triangles": 0,
+        "unexpectedTriangles": 18,
+        "residue": 12,
+        "competing": 0,
+        "boundary": 0,
+        "unsettled": 0
+      },
+      {
+        "channels": 2,
+        "selected": 21,
+        "commutations": 6,
+        "triangles": 0,
+        "unexpectedTriangles": 18,
+        "residue": 12,
+        "competing": 0,
+        "boundary": 3,
+        "unsettled": 0
+      },
+      {
+        "channels": 3,
+        "selected": 33,
+        "commutations": 21,
+        "triangles": 18,
+        "unexpectedTriangles": 0,
+        "residue": 0,
+        "competing": 0,
+        "boundary": 3,
+        "unsettled": 0
+      },
+      {
+        "channels": 2,
+        "selected": 33,
+        "commutations": 2,
+        "triangles": 18,
+        "unexpectedTriangles": 0,
+        "residue": 0,
+        "competing": 9,
+        "boundary": 1,
+        "unsettled": 0
+      },
+      {
+        "channels": 2,
+        "selected": 33,
+        "commutations": 4,
+        "triangles": 18,
+        "unexpectedTriangles": 0,
+        "residue": 0,
+        "competing": 9,
+        "boundary": 0,
+        "unsettled": 0
+      },
+      {
+        "channels": 2,
+        "selected": 33,
+        "commutations": 5,
+        "triangles": 18,
+        "unexpectedTriangles": 0,
+        "residue": 0,
+        "competing": 6,
+        "boundary": 1,
+        "unsettled": 0
+      },
+      {
+        "channels": 2,
+        "selected": 33,
+        "commutations": 0,
+        "triangles": 18,
+        "unexpectedTriangles": 0,
+        "residue": 0,
+        "competing": 9,
+        "boundary": 0,
+        "unsettled": 0
+      },
+      {
+        "channels": 2,
+        "selected": 33,
+        "commutations": 2,
+        "triangles": 18,
+        "unexpectedTriangles": 0,
+        "residue": 0,
+        "competing": 9,
+        "boundary": 1,
+        "unsettled": 0
+      },
+      {
+        "channels": 2,
+        "selected": 33,
+        "commutations": 7,
+        "triangles": 18,
+        "unexpectedTriangles": 0,
+        "residue": 0,
+        "competing": 6,
+        "boundary": 0,
+        "unsettled": 0
+      },
+      {
+        "channels": 2,
+        "selected": 33,
+        "commutations": 5,
+        "triangles": 18,
+        "unexpectedTriangles": 0,
+        "residue": 0,
+        "competing": 6,
+        "boundary": 1,
+        "unsettled": 0
+      },
+      {
+        "channels": 2,
+        "selected": 33,
+        "commutations": 7,
+        "triangles": 18,
+        "unexpectedTriangles": 0,
+        "residue": 0,
+        "competing": 6,
+        "boundary": 0,
+        "unsettled": 0
+      }
+    ],
+    "unsearched": 0,
+    "ancestors": [
+      {
+        "id": "L00",
+        "name": "Square starting grid",
+        "sameActualProgram": true
+      },
+      {
+        "id": "L05",
+        "name": "Shear the square grid",
+        "sameActualProgram": true
+      }
+    ]
+  },
+  {
+    "id": "L07",
+    "name": "Add crossing diagonal ties",
+    "parentId": "L00",
+    "description": "Two diagonal paths are composed from actual horizontal and vertical half-side words. Their centre is an explicit endpoint on both paths, so the local seam contract can join it.",
+    "atlas": "B18-like square grid with diagonals",
+    "depth": 1,
+    "paths": 6,
+    "chords": 12,
+    "units": 9,
+    "accepted": 417,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 204,
+    "numeric": 0,
+    "objects": 1547,
+    "rawStrokes": 108,
+    "incidenceStrokes": 84,
+    "supportStrokes": 60,
+    "raw": [
+      {
+        "channels": 2,
+        "selected": 72,
+        "commutations": 0,
+        "triangles": 0,
+        "unexpectedTriangles": 0,
+        "residue": 36,
+        "competing": 20,
+        "boundary": 1,
+        "unsettled": 0
+      },
+      {
+        "channels": 2,
+        "selected": 54,
+        "commutations": 0,
+        "triangles": 0,
+        "unexpectedTriangles": 0,
+        "residue": 54,
+        "competing": 12,
+        "boundary": 3,
+        "unsettled": 0
+      },
+      {
+        "channels": 2,
+        "selected": 54,
+        "commutations": 0,
+        "triangles": 0,
+        "unexpectedTriangles": 0,
+        "residue": 54,
+        "competing": 12,
+        "boundary": 2,
+        "unsettled": 0
+      },
+      {
+        "channels": 2,
+        "selected": 54,
+        "commutations": 0,
+        "triangles": 0,
+        "unexpectedTriangles": 0,
+        "residue": 54,
+        "competing": 12,
+        "boundary": 3,
+        "unsettled": 0
+      },
+      {
+        "channels": 2,
+        "selected": 54,
+        "commutations": 0,
+        "triangles": 0,
+        "unexpectedTriangles": 0,
+        "residue": 54,
+        "competing": 12,
+        "boundary": 3,
+        "unsettled": 0
+      },
+      {
+        "channels": 2,
+        "selected": 36,
+        "commutations": 12,
+        "triangles": 0,
+        "unexpectedTriangles": 0,
+        "residue": 72,
+        "competing": 0,
+        "boundary": 3,
+        "unsettled": 0
+      },
+      {
+        "channels": 3,
+        "selected": 90,
+        "commutations": 0,
+        "triangles": 0,
+        "unexpectedTriangles": 0,
+        "residue": 18,
+        "competing": 44,
+        "boundary": 7,
+        "unsettled": 0
+      },
+      {
+        "channels": 3,
+        "selected": 90,
+        "commutations": 0,
+        "triangles": 0,
+        "unexpectedTriangles": 0,
+        "residue": 18,
+        "competing": 44,
+        "boundary": 6,
+        "unsettled": 0
+      },
+      {
+        "channels": 3,
+        "selected": 72,
+        "commutations": 12,
+        "triangles": 0,
+        "unexpectedTriangles": 0,
+        "residue": 36,
+        "competing": 24,
+        "boundary": 8,
+        "unsettled": 0
+      },
+      {
+        "channels": 3,
+        "selected": 72,
+        "commutations": 12,
+        "triangles": 0,
+        "unexpectedTriangles": 0,
+        "residue": 36,
+        "competing": 24,
+        "boundary": 9,
+        "unsettled": 0
+      },
+      {
+        "channels": 2,
+        "selected": 72,
+        "commutations": 0,
+        "triangles": 0,
+        "unexpectedTriangles": 0,
+        "residue": 36,
+        "competing": 23,
+        "boundary": 1,
+        "unsettled": 0
+      },
+      {
+        "channels": 2,
+        "selected": 72,
+        "commutations": 0,
+        "triangles": 0,
+        "unexpectedTriangles": 0,
+        "residue": 36,
+        "competing": 21,
+        "boundary": 6,
+        "unsettled": 0
+      },
+      {
+        "channels": 2,
+        "selected": 72,
+        "commutations": 0,
+        "triangles": 0,
+        "unexpectedTriangles": 0,
+        "residue": 36,
+        "competing": 21,
+        "boundary": 6,
+        "unsettled": 0
+      },
+      {
+        "channels": 2,
+        "selected": 72,
+        "commutations": 0,
+        "triangles": 0,
+        "unexpectedTriangles": 0,
+        "residue": 36,
+        "competing": 23,
+        "boundary": 1,
+        "unsettled": 0
+      },
+      {
+        "channels": 2,
+        "selected": 72,
+        "commutations": 0,
+        "triangles": 0,
+        "unexpectedTriangles": 0,
+        "residue": 36,
+        "competing": 23,
+        "boundary": 4,
+        "unsettled": 0
+      },
+      {
+        "channels": 2,
+        "selected": 72,
+        "commutations": 0,
+        "triangles": 0,
+        "unexpectedTriangles": 0,
+        "residue": 36,
+        "competing": 23,
+        "boundary": 1,
+        "unsettled": 0
+      },
+      {
+        "channels": 2,
+        "selected": 72,
+        "commutations": 0,
+        "triangles": 0,
+        "unexpectedTriangles": 0,
+        "residue": 36,
+        "competing": 23,
+        "boundary": 1,
+        "unsettled": 0
+      },
+      {
+        "channels": 2,
+        "selected": 72,
+        "commutations": 0,
+        "triangles": 0,
+        "unexpectedTriangles": 0,
+        "residue": 36,
+        "competing": 23,
+        "boundary": 4,
+        "unsettled": 0
+      }
+    ],
+    "support": [
+      {
+        "channels": 2,
+        "selected": 24,
+        "commutations": 9,
+        "triangles": 0,
+        "unexpectedTriangles": 36,
+        "residue": 36,
+        "competing": 0,
+        "boundary": 0,
+        "unsettled": 0
+      },
+      {
+        "channels": 2,
+        "selected": 30,
+        "commutations": 0,
+        "triangles": 0,
+        "unexpectedTriangles": 36,
+        "residue": 30,
+        "competing": 0,
+        "boundary": 9,
+        "unsettled": 0
+      },
+      {
+        "channels": 2,
+        "selected": 30,
+        "commutations": 0,
+        "triangles": 0,
+        "unexpectedTriangles": 36,
+        "residue": 30,
+        "competing": 0,
+        "boundary": 6,
+        "unsettled": 0
+      },
+      {
+        "channels": 2,
+        "selected": 30,
+        "commutations": 0,
+        "triangles": 0,
+        "unexpectedTriangles": 36,
+        "residue": 30,
+        "competing": 0,
+        "boundary": 9,
+        "unsettled": 0
+      },
+      {
+        "channels": 2,
+        "selected": 30,
+        "commutations": 0,
+        "triangles": 0,
+        "unexpectedTriangles": 36,
+        "residue": 30,
+        "competing": 0,
+        "boundary": 9,
+        "unsettled": 0
+      },
+      {
+        "channels": 2,
+        "selected": 36,
+        "commutations": 12,
+        "triangles": 0,
+        "unexpectedTriangles": 36,
+        "residue": 24,
+        "competing": 0,
+        "boundary": 3,
+        "unsettled": 0
+      },
+      {
+        "channels": 3,
+        "selected": 42,
+        "commutations": 9,
+        "triangles": 0,
+        "unexpectedTriangles": 36,
+        "residue": 18,
+        "competing": 0,
+        "boundary": 18,
+        "unsettled": 0
+      },
+      {
+        "channels": 3,
+        "selected": 42,
+        "commutations": 9,
+        "triangles": 0,
+        "unexpectedTriangles": 36,
+        "residue": 18,
+        "competing": 0,
+        "boundary": 15,
+        "unsettled": 0
+      },
+      {
+        "channels": 3,
+        "selected": 48,
+        "commutations": 12,
+        "triangles": 18,
+        "unexpectedTriangles": 18,
+        "residue": 12,
+        "competing": 0,
+        "boundary": 18,
+        "unsettled": 0
+      },
+      {
+        "channels": 3,
+        "selected": 48,
+        "commutations": 12,
+        "triangles": 18,
+        "unexpectedTriangles": 18,
+        "residue": 12,
+        "competing": 0,
+        "boundary": 21,
+        "unsettled": 0
+      },
+      {
+        "channels": 2,
+        "selected": 42,
+        "commutations": 0,
+        "triangles": 0,
+        "unexpectedTriangles": 36,
+        "residue": 18,
+        "competing": 9,
+        "boundary": 0,
+        "unsettled": 0
+      },
+      {
+        "channels": 2,
+        "selected": 42,
+        "commutations": 0,
+        "triangles": 0,
+        "unexpectedTriangles": 36,
+        "residue": 18,
+        "competing": 9,
+        "boundary": 3,
+        "unsettled": 0
+      },
+      {
+        "channels": 2,
+        "selected": 42,
+        "commutations": 0,
+        "triangles": 0,
+        "unexpectedTriangles": 36,
+        "residue": 18,
+        "competing": 9,
+        "boundary": 3,
+        "unsettled": 0
+      },
+      {
+        "channels": 2,
+        "selected": 42,
+        "commutations": 0,
+        "triangles": 0,
+        "unexpectedTriangles": 36,
+        "residue": 18,
+        "competing": 9,
+        "boundary": 4,
+        "unsettled": 0
+      },
+      {
+        "channels": 2,
+        "selected": 42,
+        "commutations": 0,
+        "triangles": 0,
+        "unexpectedTriangles": 36,
+        "residue": 18,
+        "competing": 9,
+        "boundary": 3,
+        "unsettled": 0
+      },
+      {
+        "channels": 2,
+        "selected": 42,
+        "commutations": 0,
+        "triangles": 0,
+        "unexpectedTriangles": 36,
+        "residue": 18,
+        "competing": 9,
+        "boundary": 0,
+        "unsettled": 0
+      },
+      {
+        "channels": 2,
+        "selected": 42,
+        "commutations": 0,
+        "triangles": 0,
+        "unexpectedTriangles": 36,
+        "residue": 18,
+        "competing": 9,
+        "boundary": 4,
+        "unsettled": 0
+      },
+      {
+        "channels": 2,
+        "selected": 42,
+        "commutations": 0,
+        "triangles": 0,
+        "unexpectedTriangles": 36,
+        "residue": 18,
+        "competing": 9,
+        "boundary": 3,
+        "unsettled": 0
+      },
+      {
+        "channels": 2,
+        "selected": 48,
+        "commutations": 0,
+        "triangles": 18,
+        "unexpectedTriangles": 18,
+        "residue": 12,
+        "competing": 15,
+        "boundary": 3,
+        "unsettled": 0
+      },
+      {
+        "channels": 2,
+        "selected": 48,
+        "commutations": 0,
+        "triangles": 18,
+        "unexpectedTriangles": 18,
+        "residue": 12,
+        "competing": 15,
+        "boundary": 6,
+        "unsettled": 0
+      },
+      {
+        "channels": 2,
+        "selected": 48,
+        "commutations": 0,
+        "triangles": 18,
+        "unexpectedTriangles": 18,
+        "residue": 12,
+        "competing": 15,
+        "boundary": 6,
+        "unsettled": 0
+      },
+      {
+        "channels": 2,
+        "selected": 48,
+        "commutations": 0,
+        "triangles": 18,
+        "unexpectedTriangles": 18,
+        "residue": 12,
+        "competing": 15,
+        "boundary": 3,
+        "unsettled": 0
+      },
+      {
+        "channels": 2,
+        "selected": 48,
+        "commutations": 0,
+        "triangles": 18,
+        "unexpectedTriangles": 18,
+        "residue": 12,
+        "competing": 15,
+        "boundary": 4,
+        "unsettled": 0
+      },
+      {
+        "channels": 2,
+        "selected": 48,
+        "commutations": 0,
+        "triangles": 18,
+        "unexpectedTriangles": 18,
+        "residue": 12,
+        "competing": 15,
+        "boundary": 3,
+        "unsettled": 0
+      },
+      {
+        "channels": 2,
+        "selected": 48,
+        "commutations": 0,
+        "triangles": 18,
+        "unexpectedTriangles": 18,
+        "residue": 12,
+        "competing": 15,
+        "boundary": 3,
+        "unsettled": 0
+      },
+      {
+        "channels": 2,
+        "selected": 48,
+        "commutations": 0,
+        "triangles": 18,
+        "unexpectedTriangles": 18,
+        "residue": 12,
+        "competing": 15,
+        "boundary": 4,
+        "unsettled": 0
+      }
+    ],
+    "unsearched": 0,
+    "ancestors": [
+      {
+        "id": "L00",
+        "name": "Square starting grid",
+        "sameActualProgram": true
+      }
+    ]
+  },
+  {
+    "id": "L08",
+    "name": "Stretch the diagonal network",
+    "parentId": "L07",
+    "description": "The previous diagonal network and its pitches follow the actual stretch. Its tied centre and diagonal histories remain; a second finished atlas endpoint is never substituted.",
+    "atlas": "B17-like stretched diagonal network",
+    "depth": 2,
+    "paths": 6,
+    "chords": 12,
+    "units": 9,
+    "accepted": 417,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 204,
+    "numeric": 0,
+    "objects": 2237,
+    "rawStrokes": 108,
+    "incidenceStrokes": 84,
+    "supportStrokes": 60,
+    "raw": [
+      {
+        "channels": 2,
+        "selected": 72,
+        "commutations": 0,
+        "triangles": 0,
+        "unexpectedTriangles": 0,
+        "residue": 36,
+        "competing": 20,
+        "boundary": 1,
+        "unsettled": 0
+      },
+      {
+        "channels": 2,
+        "selected": 54,
+        "commutations": 0,
+        "triangles": 0,
+        "unexpectedTriangles": 0,
+        "residue": 54,
+        "competing": 12,
+        "boundary": 3,
+        "unsettled": 0
+      },
+      {
+        "channels": 2,
+        "selected": 54,
+        "commutations": 0,
+        "triangles": 0,
+        "unexpectedTriangles": 0,
+        "residue": 54,
+        "competing": 12,
+        "boundary": 2,
+        "unsettled": 0
+      },
+      {
+        "channels": 2,
+        "selected": 54,
+        "commutations": 0,
+        "triangles": 0,
+        "unexpectedTriangles": 0,
+        "residue": 54,
+        "competing": 12,
+        "boundary": 3,
+        "unsettled": 0
+      },
+      {
+        "channels": 2,
+        "selected": 54,
+        "commutations": 0,
+        "triangles": 0,
+        "unexpectedTriangles": 0,
+        "residue": 54,
+        "competing": 12,
+        "boundary": 3,
+        "unsettled": 0
+      },
+      {
+        "channels": 2,
+        "selected": 36,
+        "commutations": 12,
+        "triangles": 0,
+        "unexpectedTriangles": 0,
+        "residue": 72,
+        "competing": 0,
+        "boundary": 3,
+        "unsettled": 0
+      },
+      {
+        "channels": 3,
+        "selected": 90,
+        "commutations": 0,
+        "triangles": 0,
+        "unexpectedTriangles": 0,
+        "residue": 18,
+        "competing": 44,
+        "boundary": 7,
+        "unsettled": 0
+      },
+      {
+        "channels": 3,
+        "selected": 90,
+        "commutations": 0,
+        "triangles": 0,
+        "unexpectedTriangles": 0,
+        "residue": 18,
+        "competing": 44,
+        "boundary": 6,
+        "unsettled": 0
+      },
+      {
+        "channels": 3,
+        "selected": 72,
+        "commutations": 12,
+        "triangles": 0,
+        "unexpectedTriangles": 0,
+        "residue": 36,
+        "competing": 24,
+        "boundary": 8,
+        "unsettled": 0
+      },
+      {
+        "channels": 3,
+        "selected": 72,
+        "commutations": 12,
+        "triangles": 0,
+        "unexpectedTriangles": 0,
+        "residue": 36,
+        "competing": 24,
+        "boundary": 9,
+        "unsettled": 0
+      },
+      {
+        "channels": 2,
+        "selected": 72,
+        "commutations": 0,
+        "triangles": 0,
+        "unexpectedTriangles": 0,
+        "residue": 36,
+        "competing": 23,
+        "boundary": 1,
+        "unsettled": 0
+      },
+      {
+        "channels": 2,
+        "selected": 72,
+        "commutations": 0,
+        "triangles": 0,
+        "unexpectedTriangles": 0,
+        "residue": 36,
+        "competing": 21,
+        "boundary": 6,
+        "unsettled": 0
+      },
+      {
+        "channels": 2,
+        "selected": 72,
+        "commutations": 0,
+        "triangles": 0,
+        "unexpectedTriangles": 0,
+        "residue": 36,
+        "competing": 21,
+        "boundary": 6,
+        "unsettled": 0
+      },
+      {
+        "channels": 2,
+        "selected": 72,
+        "commutations": 0,
+        "triangles": 0,
+        "unexpectedTriangles": 0,
+        "residue": 36,
+        "competing": 23,
+        "boundary": 1,
+        "unsettled": 0
+      },
+      {
+        "channels": 2,
+        "selected": 72,
+        "commutations": 0,
+        "triangles": 0,
+        "unexpectedTriangles": 0,
+        "residue": 36,
+        "competing": 23,
+        "boundary": 4,
+        "unsettled": 0
+      },
+      {
+        "channels": 2,
+        "selected": 72,
+        "commutations": 0,
+        "triangles": 0,
+        "unexpectedTriangles": 0,
+        "residue": 36,
+        "competing": 23,
+        "boundary": 1,
+        "unsettled": 0
+      },
+      {
+        "channels": 2,
+        "selected": 72,
+        "commutations": 0,
+        "triangles": 0,
+        "unexpectedTriangles": 0,
+        "residue": 36,
+        "competing": 23,
+        "boundary": 1,
+        "unsettled": 0
+      },
+      {
+        "channels": 2,
+        "selected": 72,
+        "commutations": 0,
+        "triangles": 0,
+        "unexpectedTriangles": 0,
+        "residue": 36,
+        "competing": 23,
+        "boundary": 4,
+        "unsettled": 0
+      }
+    ],
+    "support": [
+      {
+        "channels": 2,
+        "selected": 24,
+        "commutations": 9,
+        "triangles": 0,
+        "unexpectedTriangles": 36,
+        "residue": 36,
+        "competing": 0,
+        "boundary": 0,
+        "unsettled": 0
+      },
+      {
+        "channels": 2,
+        "selected": 30,
+        "commutations": 0,
+        "triangles": 0,
+        "unexpectedTriangles": 36,
+        "residue": 30,
+        "competing": 0,
+        "boundary": 9,
+        "unsettled": 0
+      },
+      {
+        "channels": 2,
+        "selected": 30,
+        "commutations": 0,
+        "triangles": 0,
+        "unexpectedTriangles": 36,
+        "residue": 30,
+        "competing": 0,
+        "boundary": 6,
+        "unsettled": 0
+      },
+      {
+        "channels": 2,
+        "selected": 30,
+        "commutations": 0,
+        "triangles": 0,
+        "unexpectedTriangles": 36,
+        "residue": 30,
+        "competing": 0,
+        "boundary": 9,
+        "unsettled": 0
+      },
+      {
+        "channels": 2,
+        "selected": 30,
+        "commutations": 0,
+        "triangles": 0,
+        "unexpectedTriangles": 36,
+        "residue": 30,
+        "competing": 0,
+        "boundary": 9,
+        "unsettled": 0
+      },
+      {
+        "channels": 2,
+        "selected": 36,
+        "commutations": 12,
+        "triangles": 0,
+        "unexpectedTriangles": 36,
+        "residue": 24,
+        "competing": 0,
+        "boundary": 3,
+        "unsettled": 0
+      },
+      {
+        "channels": 3,
+        "selected": 42,
+        "commutations": 9,
+        "triangles": 0,
+        "unexpectedTriangles": 36,
+        "residue": 18,
+        "competing": 0,
+        "boundary": 18,
+        "unsettled": 0
+      },
+      {
+        "channels": 3,
+        "selected": 42,
+        "commutations": 9,
+        "triangles": 0,
+        "unexpectedTriangles": 36,
+        "residue": 18,
+        "competing": 0,
+        "boundary": 15,
+        "unsettled": 0
+      },
+      {
+        "channels": 3,
+        "selected": 48,
+        "commutations": 12,
+        "triangles": 18,
+        "unexpectedTriangles": 18,
+        "residue": 12,
+        "competing": 0,
+        "boundary": 18,
+        "unsettled": 0
+      },
+      {
+        "channels": 3,
+        "selected": 48,
+        "commutations": 12,
+        "triangles": 18,
+        "unexpectedTriangles": 18,
+        "residue": 12,
+        "competing": 0,
+        "boundary": 21,
+        "unsettled": 0
+      },
+      {
+        "channels": 2,
+        "selected": 42,
+        "commutations": 0,
+        "triangles": 0,
+        "unexpectedTriangles": 36,
+        "residue": 18,
+        "competing": 9,
+        "boundary": 0,
+        "unsettled": 0
+      },
+      {
+        "channels": 2,
+        "selected": 42,
+        "commutations": 0,
+        "triangles": 0,
+        "unexpectedTriangles": 36,
+        "residue": 18,
+        "competing": 9,
+        "boundary": 3,
+        "unsettled": 0
+      },
+      {
+        "channels": 2,
+        "selected": 42,
+        "commutations": 0,
+        "triangles": 0,
+        "unexpectedTriangles": 36,
+        "residue": 18,
+        "competing": 9,
+        "boundary": 3,
+        "unsettled": 0
+      },
+      {
+        "channels": 2,
+        "selected": 42,
+        "commutations": 0,
+        "triangles": 0,
+        "unexpectedTriangles": 36,
+        "residue": 18,
+        "competing": 9,
+        "boundary": 4,
+        "unsettled": 0
+      },
+      {
+        "channels": 2,
+        "selected": 42,
+        "commutations": 0,
+        "triangles": 0,
+        "unexpectedTriangles": 36,
+        "residue": 18,
+        "competing": 9,
+        "boundary": 3,
+        "unsettled": 0
+      },
+      {
+        "channels": 2,
+        "selected": 42,
+        "commutations": 0,
+        "triangles": 0,
+        "unexpectedTriangles": 36,
+        "residue": 18,
+        "competing": 9,
+        "boundary": 0,
+        "unsettled": 0
+      },
+      {
+        "channels": 2,
+        "selected": 42,
+        "commutations": 0,
+        "triangles": 0,
+        "unexpectedTriangles": 36,
+        "residue": 18,
+        "competing": 9,
+        "boundary": 4,
+        "unsettled": 0
+      },
+      {
+        "channels": 2,
+        "selected": 42,
+        "commutations": 0,
+        "triangles": 0,
+        "unexpectedTriangles": 36,
+        "residue": 18,
+        "competing": 9,
+        "boundary": 3,
+        "unsettled": 0
+      },
+      {
+        "channels": 2,
+        "selected": 48,
+        "commutations": 0,
+        "triangles": 18,
+        "unexpectedTriangles": 18,
+        "residue": 12,
+        "competing": 15,
+        "boundary": 3,
+        "unsettled": 0
+      },
+      {
+        "channels": 2,
+        "selected": 48,
+        "commutations": 0,
+        "triangles": 18,
+        "unexpectedTriangles": 18,
+        "residue": 12,
+        "competing": 15,
+        "boundary": 6,
+        "unsettled": 0
+      },
+      {
+        "channels": 2,
+        "selected": 48,
+        "commutations": 0,
+        "triangles": 18,
+        "unexpectedTriangles": 18,
+        "residue": 12,
+        "competing": 15,
+        "boundary": 6,
+        "unsettled": 0
+      },
+      {
+        "channels": 2,
+        "selected": 48,
+        "commutations": 0,
+        "triangles": 18,
+        "unexpectedTriangles": 18,
+        "residue": 12,
+        "competing": 15,
+        "boundary": 3,
+        "unsettled": 0
+      },
+      {
+        "channels": 2,
+        "selected": 48,
+        "commutations": 0,
+        "triangles": 18,
+        "unexpectedTriangles": 18,
+        "residue": 12,
+        "competing": 15,
+        "boundary": 4,
+        "unsettled": 0
+      },
+      {
+        "channels": 2,
+        "selected": 48,
+        "commutations": 0,
+        "triangles": 18,
+        "unexpectedTriangles": 18,
+        "residue": 12,
+        "competing": 15,
+        "boundary": 3,
+        "unsettled": 0
+      },
+      {
+        "channels": 2,
+        "selected": 48,
+        "commutations": 0,
+        "triangles": 18,
+        "unexpectedTriangles": 18,
+        "residue": 12,
+        "competing": 15,
+        "boundary": 3,
+        "unsettled": 0
+      },
+      {
+        "channels": 2,
+        "selected": 48,
+        "commutations": 0,
+        "triangles": 18,
+        "unexpectedTriangles": 18,
+        "residue": 12,
+        "competing": 15,
+        "boundary": 4,
+        "unsettled": 0
+      }
+    ],
+    "unsearched": 0,
+    "ancestors": [
+      {
+        "id": "L00",
+        "name": "Square starting grid",
+        "sameActualProgram": true
+      },
+      {
+        "id": "L07",
+        "name": "Add crossing diagonal ties",
+        "sameActualProgram": true
+      }
+    ]
+  },
+  {
+    "id": "L09",
+    "name": "Pair narrow orthogonal strips",
+    "parentId": "L00",
+    "description": "The bottom and reversed left side are subdivided one/three and each reused with a one-reach offset. All narrow-strip crossings have actual path endpoint roles.",
+    "atlas": "B07-like paired orthogonal bands",
+    "depth": 1,
+    "paths": 4,
+    "chords": 8,
+    "units": 9,
+    "accepted": 88,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 29,
+    "numeric": 0,
+    "objects": 968,
+    "rawStrokes": 72,
+    "incidenceStrokes": 72,
+    "supportStrokes": 72,
+    "raw": [
+      {
+        "channels": 2,
+        "selected": 72,
+        "commutations": 25,
+        "triangles": 0,
+        "unexpectedTriangles": 0,
+        "residue": 0,
+        "competing": 0,
+        "boundary": 11,
+        "unsettled": 0
+      }
+    ],
+    "support": [
+      {
+        "channels": 2,
+        "selected": 72,
+        "commutations": 25,
+        "triangles": 0,
+        "unexpectedTriangles": 0,
+        "residue": 0,
+        "competing": 0,
+        "boundary": 11,
+        "unsettled": 0
+      }
+    ],
+    "unsearched": 0,
+    "ancestors": [
+      {
+        "id": "L00",
+        "name": "Square starting grid",
+        "sameActualProgram": true
+      }
+    ]
+  },
+  {
+    "id": "L10",
+    "name": "Turn paired strips into oblique ribbons",
+    "parentId": "L09",
+    "description": "R\u2192RRU and U\u2192LLU carry the paired-strip incidence and both periods into an oblique ribbon arrangement. The narrow and wide intervals remain native repeated participation.",
+    "atlas": "B08-like intersecting ribbons",
+    "depth": 2,
+    "paths": 4,
+    "chords": 8,
+    "units": 9,
+    "accepted": 88,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 29,
+    "numeric": 0,
+    "objects": 1360,
+    "rawStrokes": 72,
+    "incidenceStrokes": 72,
+    "supportStrokes": 72,
+    "raw": [
+      {
+        "channels": 2,
+        "selected": 72,
+        "commutations": 25,
+        "triangles": 0,
+        "unexpectedTriangles": 0,
+        "residue": 0,
+        "competing": 0,
+        "boundary": 11,
+        "unsettled": 0
+      }
+    ],
+    "support": [
+      {
+        "channels": 2,
+        "selected": 72,
+        "commutations": 25,
+        "triangles": 0,
+        "unexpectedTriangles": 0,
+        "residue": 0,
+        "competing": 0,
+        "boundary": 11,
+        "unsettled": 0
+      }
+    ],
+    "unsearched": 0,
+    "ancestors": [
+      {
+        "id": "L00",
+        "name": "Square starting grid",
+        "sameActualProgram": true
+      },
+      {
+        "id": "L09",
+        "name": "Pair narrow orthogonal strips",
+        "sameActualProgram": true
+      }
+    ]
+  },
+  {
+    "id": "L11",
+    "name": "Expose corner inset sites",
+    "parentId": "L00",
+    "description": "Each two-reach chord is refined into its two actual move occurrences. The square outline is unchanged while the sites needed for a corner cut become explicit.",
+    "atlas": "B06-family preparation",
+    "depth": 1,
+    "paths": 4,
+    "chords": 16,
+    "units": 9,
+    "accepted": 176,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 94,
+    "numeric": 0,
+    "objects": 1373,
+    "rawStrokes": 144,
+    "incidenceStrokes": 144,
+    "supportStrokes": 60,
+    "raw": [
+      {
+        "channels": 2,
+        "selected": 144,
+        "commutations": 0,
+        "triangles": 0,
+        "unexpectedTriangles": 0,
+        "residue": 0,
+        "competing": 20,
+        "boundary": 1,
+        "unsettled": 0
+      }
+    ],
+    "support": [
+      {
+        "channels": 2,
+        "selected": 60,
+        "commutations": 0,
+        "triangles": 0,
+        "unexpectedTriangles": 0,
+        "residue": 0,
+        "competing": 21,
+        "boundary": 0,
+        "unsettled": 0
+      }
+    ],
+    "unsearched": 0,
+    "ancestors": [
+      {
+        "id": "L00",
+        "name": "Square starting grid",
+        "sameActualProgram": true
+      }
+    ]
+  },
+  {
+    "id": "L12",
+    "name": "Chamfer the square corners",
+    "parentId": "L11",
+    "description": "Corner participation is replaced by diagonal bridge chords between the inset sites. Middle side chords remain actual source words. This is a chord/topology edit, with an explicit closed contour, rather than an affine deformation of four corners.",
+    "atlas": "B06-like octagon and interstitial diamond field",
+    "depth": 2,
+    "paths": 1,
+    "chords": 12,
+    "units": 9,
+    "accepted": 51,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 21,
+    "numeric": 0,
+    "objects": 1335,
+    "rawStrokes": 108,
+    "incidenceStrokes": 84,
+    "supportStrokes": 60,
+    "raw": [
+      {
+        "channels": 2,
+        "selected": 54,
+        "commutations": 0,
+        "triangles": 0,
+        "unexpectedTriangles": 0,
+        "residue": 54,
+        "competing": 12,
+        "boundary": 0,
+        "unsettled": 0
+      },
+      {
+        "channels": 2,
+        "selected": 72,
+        "commutations": 0,
+        "triangles": 0,
+        "unexpectedTriangles": 0,
+        "residue": 36,
+        "competing": 24,
+        "boundary": 0,
+        "unsettled": 0
+      },
+      {
+        "channels": 2,
+        "selected": 54,
+        "commutations": 0,
+        "triangles": 0,
+        "unexpectedTriangles": 0,
+        "residue": 54,
+        "competing": 12,
+        "boundary": 3,
+        "unsettled": 0
+      },
+      {
+        "channels": 2,
+        "selected": 54,
+        "commutations": 0,
+        "triangles": 0,
+        "unexpectedTriangles": 0,
+        "residue": 54,
+        "competing": 12,
+        "boundary": 0,
+        "unsettled": 0
+      },
+      {
+        "channels": 2,
+        "selected": 36,
+        "commutations": 4,
+        "triangles": 0,
+        "unexpectedTriangles": 0,
+        "residue": 72,
+        "competing": 0,
+        "boundary": 2,
+        "unsettled": 0
+      },
+      {
+        "channels": 2,
+        "selected": 54,
+        "commutations": 0,
+        "triangles": 0,
+        "unexpectedTriangles": 0,
+        "residue": 54,
+        "competing": 12,
+        "boundary": 0,
+        "unsettled": 0
+      },
+      {
+        "channels": 3,
+        "selected": 90,
+        "commutations": 0,
+        "triangles": 0,
+        "unexpectedTriangles": 0,
+        "residue": 18,
+        "competing": 48,
+        "boundary": 0,
+        "unsettled": 0
+      },
+      {
+        "channels": 3,
+        "selected": 72,
+        "commutations": 4,
+        "triangles": 0,
+        "unexpectedTriangles": 0,
+        "residue": 36,
+        "competing": 24,
+        "boundary": 5,
+        "unsettled": 0
+      },
+      {
+        "channels": 3,
+        "selected": 90,
+        "commutations": 0,
+        "triangles": 0,
+        "unexpectedTriangles": 0,
+        "residue": 18,
+        "competing": 48,
+        "boundary": 3,
+        "unsettled": 0
+      },
+      {
+        "channels": 3,
+        "selected": 72,
+        "commutations": 4,
+        "triangles": 0,
+        "unexpectedTriangles": 0,
+        "residue": 36,
+        "competing": 24,
+        "boundary": 2,
+        "unsettled": 0
+      }
+    ],
+    "support": [
+      {
+        "channels": 2,
+        "selected": 30,
+        "commutations": 0,
+        "triangles": 0,
+        "unexpectedTriangles": 0,
+        "residue": 30,
+        "competing": 0,
+        "boundary": 0,
+        "unsettled": 0
+      },
+      {
+        "channels": 2,
+        "selected": 24,
+        "commutations": 0,
+        "triangles": 0,
+        "unexpectedTriangles": 0,
+        "residue": 36,
+        "competing": 0,
+        "boundary": 0,
+        "unsettled": 0
+      },
+      {
+        "channels": 2,
+        "selected": 30,
+        "commutations": 0,
+        "triangles": 0,
+        "unexpectedTriangles": 0,
+        "residue": 30,
+        "competing": 0,
+        "boundary": 9,
+        "unsettled": 0
+      },
+      {
+        "channels": 2,
+        "selected": 30,
+        "commutations": 0,
+        "triangles": 0,
+        "unexpectedTriangles": 0,
+        "residue": 30,
+        "competing": 0,
+        "boundary": 0,
+        "unsettled": 0
+      },
+      {
+        "channels": 2,
+        "selected": 36,
+        "commutations": 4,
+        "triangles": 0,
+        "unexpectedTriangles": 0,
+        "residue": 24,
+        "competing": 0,
+        "boundary": 2,
+        "unsettled": 0
+      },
+      {
+        "channels": 2,
+        "selected": 30,
+        "commutations": 0,
+        "triangles": 0,
+        "unexpectedTriangles": 0,
+        "residue": 30,
+        "competing": 0,
+        "boundary": 0,
+        "unsettled": 0
+      },
+      {
+        "channels": 3,
+        "selected": 42,
+        "commutations": 0,
+        "triangles": 0,
+        "unexpectedTriangles": 0,
+        "residue": 18,
+        "competing": 0,
+        "boundary": 0,
+        "unsettled": 0
+      },
+      {
+        "channels": 3,
+        "selected": 48,
+        "commutations": 4,
+        "triangles": 0,
+        "unexpectedTriangles": 0,
+        "residue": 12,
+        "competing": 0,
+        "boundary": 11,
+        "unsettled": 0
+      },
+      {
+        "channels": 3,
+        "selected": 42,
+        "commutations": 0,
+        "triangles": 0,
+        "unexpectedTriangles": 0,
+        "residue": 18,
+        "competing": 0,
+        "boundary": 9,
+        "unsettled": 0
+      },
+      {
+        "channels": 3,
+        "selected": 48,
+        "commutations": 4,
+        "triangles": 0,
+        "unexpectedTriangles": 0,
+        "residue": 12,
+        "competing": 0,
+        "boundary": 2,
+        "unsettled": 0
+      }
+    ],
+    "unsearched": 0,
+    "ancestors": [
+      {
+        "id": "L00",
+        "name": "Square starting grid",
+        "sameActualProgram": true
+      },
+      {
+        "id": "L11",
+        "name": "Expose corner inset sites",
+        "sameActualProgram": true
+      }
+    ]
+  },
+  {
+    "id": "L13",
+    "name": "Expose basket contact intervals",
+    "parentId": "L01",
+    "description": "Only the long rectangle chords are subdivided. The outline remains rectangular, while future side contacts become actual path vertices. The next assembly publishes their new endpoint roles.",
+    "atlas": "B02-family assembly preparation",
+    "depth": 2,
+    "paths": 4,
+    "chords": 12,
+    "units": 9,
+    "accepted": 176,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 94,
+    "numeric": 0,
+    "objects": 1815,
+    "rawStrokes": 108,
+    "incidenceStrokes": 96,
+    "supportStrokes": 42,
+    "raw": [
+      {
+        "channels": 2,
+        "selected": 108,
+        "commutations": 0,
+        "triangles": 0,
+        "unexpectedTriangles": 0,
+        "residue": 0,
+        "competing": 20,
+        "boundary": 1,
+        "unsettled": 0
+      }
+    ],
+    "support": [
+      {
+        "channels": 2,
+        "selected": 42,
+        "commutations": 0,
+        "triangles": 0,
+        "unexpectedTriangles": 0,
+        "residue": 0,
+        "competing": 15,
+        "boundary": 0,
+        "unsettled": 0
+      }
+    ],
+    "unsearched": 0,
+    "ancestors": [
+      {
+        "id": "L00",
+        "name": "Square starting grid",
+        "sameActualProgram": true
+      },
+      {
+        "id": "L01",
+        "name": "Stretch into rectangles",
+        "sameActualProgram": true
+      }
+    ]
+  },
+  {
+    "id": "L14",
+    "name": "Assemble alternating basket rectangles",
+    "parentId": "L13",
+    "description": "The actual rectangle is reused twice directly and twice through its quarter substitution, with four retained translation receipts. Split side contacts leave square gaps. This assembly branch has different path topology from running brick.",
+    "atlas": "B02-like basket rectangles and square gaps",
+    "depth": 3,
+    "paths": 16,
+    "chords": 48,
+    "units": 9,
+    "accepted": 444,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 60,
+    "numeric": 0,
+    "objects": 3661,
+    "rawStrokes": 432,
+    "incidenceStrokes": 312,
+    "supportStrokes": 204,
+    "raw": [
+      {
+        "channels": 2,
+        "selected": 432,
+        "commutations": 25,
+        "triangles": 0,
+        "unexpectedTriangles": 0,
+        "residue": 0,
+        "competing": 120,
+        "boundary": 11,
+        "unsettled": 0
+      }
+    ],
+    "support": [
+      {
+        "channels": 2,
+        "selected": 204,
+        "commutations": 25,
+        "triangles": 0,
+        "unexpectedTriangles": 0,
+        "residue": 0,
+        "competing": 0,
+        "boundary": 35,
+        "unsettled": 6
+      }
+    ],
+    "unsearched": 0,
+    "ancestors": [
+      {
+        "id": "L00",
+        "name": "Square starting grid",
+        "sameActualProgram": true
+      },
+      {
+        "id": "L01",
+        "name": "Stretch into rectangles",
+        "sameActualProgram": true
+      },
+      {
+        "id": "L13",
+        "name": "Expose basket contact intervals",
+        "sameActualProgram": true
+      }
+    ]
+  },
+  {
+    "id": "L15",
+    "name": "Shear the basket assembly",
+    "parentId": "L14",
+    "description": "The complete basket assembly is sheared with all contacts and periods. Its four-copy construction stays distinct from the sheared running-bond branch even where a coarse directional read agrees.",
+    "atlas": "Exploratory oblique basket branch",
+    "depth": 4,
+    "paths": 16,
+    "chords": 48,
+    "units": 9,
+    "accepted": 444,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 60,
+    "numeric": 0,
+    "objects": 5463,
+    "rawStrokes": 432,
+    "incidenceStrokes": 312,
+    "supportStrokes": 204,
+    "raw": [
+      {
+        "channels": 2,
+        "selected": 432,
+        "commutations": 25,
+        "triangles": 0,
+        "unexpectedTriangles": 0,
+        "residue": 0,
+        "competing": 120,
+        "boundary": 11,
+        "unsettled": 0
+      }
+    ],
+    "support": [
+      {
+        "channels": 2,
+        "selected": 204,
+        "commutations": 25,
+        "triangles": 0,
+        "unexpectedTriangles": 0,
+        "residue": 0,
+        "competing": 0,
+        "boundary": 35,
+        "unsettled": 6
+      }
+    ],
+    "unsearched": 0,
+    "ancestors": [
+      {
+        "id": "L00",
+        "name": "Square starting grid",
+        "sameActualProgram": true
+      },
+      {
+        "id": "L01",
+        "name": "Stretch into rectangles",
+        "sameActualProgram": true
+      },
+      {
+        "id": "L13",
+        "name": "Expose basket contact intervals",
+        "sameActualProgram": true
+      },
+      {
+        "id": "L14",
+        "name": "Assemble alternating basket rectangles",
+        "sameActualProgram": true
+      }
+    ]
+  },
+  {
+    "id": "L16",
+    "name": "Try a wider shear",
+    "parentId": "L00",
+    "description": "A sibling generated from the same square substitutes U\u2192RRU. The explicit binding and the native word receipts retain this larger offset separately from the first shear.",
+    "atlas": "New sibling of the oblique-grid family",
+    "depth": 1,
+    "paths": 4,
+    "chords": 8,
+    "units": 9,
+    "accepted": 176,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 94,
+    "numeric": 0,
+    "objects": 1419,
+    "rawStrokes": 72,
+    "incidenceStrokes": 48,
+    "supportStrokes": 24,
+    "raw": [
+      {
+        "channels": 2,
+        "selected": 72,
+        "commutations": 0,
+        "triangles": 0,
+        "unexpectedTriangles": 0,
+        "residue": 0,
+        "competing": 20,
+        "boundary": 1,
+        "unsettled": 0
+      }
+    ],
+    "support": [
+      {
+        "channels": 2,
+        "selected": 24,
+        "commutations": 9,
+        "triangles": 0,
+        "unexpectedTriangles": 0,
+        "residue": 0,
+        "competing": 0,
+        "boundary": 0,
+        "unsettled": 0
+      }
+    ],
+    "unsearched": 0,
+    "ancestors": [
+      {
+        "id": "L00",
+        "name": "Square starting grid",
+        "sameActualProgram": true
+      }
+    ]
+  },
+  {
+    "id": "L17",
+    "name": "Try an opposed brick shear",
+    "parentId": "L03",
+    "description": "The same running-bond parent receives U\u2192LU. Its alternating joints remain, while the shear route differs from the earlier R\u2192R, U\u2192RU branch.",
+    "atlas": "New sibling of the oblique-brick family",
+    "depth": 4,
+    "paths": 5,
+    "chords": 8,
+    "units": 9,
+    "accepted": 108,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 45,
+    "numeric": 0,
+    "objects": 2139,
+    "rawStrokes": 72,
+    "incidenceStrokes": 60,
+    "supportStrokes": 55,
+    "raw": [
+      {
+        "channels": 2,
+        "selected": 72,
+        "commutations": 0,
+        "triangles": 0,
+        "unexpectedTriangles": 0,
+        "residue": 0,
+        "competing": 18,
+        "boundary": 6,
+        "unsettled": 0
+      }
+    ],
+    "support": [
+      {
+        "channels": 2,
+        "selected": 55,
+        "commutations": 0,
+        "triangles": 0,
+        "unexpectedTriangles": 0,
+        "residue": 0,
+        "competing": 0,
+        "boundary": 16,
+        "unsettled": 2
+      }
+    ],
+    "unsearched": 0,
+    "ancestors": [
+      {
+        "id": "L00",
+        "name": "Square starting grid",
+        "sameActualProgram": true
+      },
+      {
+        "id": "L01",
+        "name": "Stretch into rectangles",
+        "sameActualProgram": true
+      },
+      {
+        "id": "L02",
+        "name": "Insert a middle course",
+        "sameActualProgram": true
+      },
+      {
+        "id": "L03",
+        "name": "Shift alternate brick joints",
+        "sameActualProgram": true
+      }
+    ]
+  },
+  {
+    "id": "L18",
+    "name": "Try a tighter ribbon disposition",
+    "parentId": "L09",
+    "description": "The paired-strip parent receives R\u2192RU, U\u2192LU. The one/three intervals and explicit crossing ports are reused with a different complete native substitution.",
+    "atlas": "New sibling of the ribbon family",
+    "depth": 2,
+    "paths": 4,
+    "chords": 8,
+    "units": 9,
+    "accepted": 88,
+    "blocked": 0,
+    "open": 0,
+    "frontier": 29,
+    "numeric": 0,
+    "objects": 1334,
+    "rawStrokes": 72,
+    "incidenceStrokes": 72,
+    "supportStrokes": 72,
+    "raw": [
+      {
+        "channels": 2,
+        "selected": 72,
+        "commutations": 25,
+        "triangles": 0,
+        "unexpectedTriangles": 0,
+        "residue": 0,
+        "competing": 0,
+        "boundary": 11,
+        "unsettled": 0
+      }
+    ],
+    "support": [
+      {
+        "channels": 2,
+        "selected": 72,
+        "commutations": 25,
+        "triangles": 0,
+        "unexpectedTriangles": 0,
+        "residue": 0,
+        "competing": 0,
+        "boundary": 11,
+        "unsettled": 0
+      }
+    ],
+    "unsearched": 0,
+    "ancestors": [
+      {
+        "id": "L00",
+        "name": "Square starting grid",
+        "sameActualProgram": true
+      },
+      {
+        "id": "L09",
+        "name": "Pair narrow orthogonal strips",
+        "sameActualProgram": true
+      }
+    ]
+  }
+]</script><script>
+const cases=JSON.parse(document.getElementById('cases').textContent),byId=new Map(cases.map(c=>[c.id,c]));
+const branch=document.getElementById('branch'),rung=document.getElementById('rung'),basis=document.getElementById('basis');let current,chain;
+function table(rows){return '<table><thead><tr><th>Channels</th><th>Selected</th><th>Commutations</th><th>Triangles</th><th>Unexpected triangles</th><th>Residue</th><th>Competing</th><th>Boundary</th><th>Unsettled</th></tr></thead><tbody>'+rows.map(r=>'<tr>'+[r.channels,r.selected,r.commutations,r.triangles,r.unexpectedTriangles,r.residue,r.competing,r.boundary,r.unsettled].map(v=>'<td>'+v+'</td>').join('')+'</tr>').join('')+'</tbody></table>';}
+function showBasis(){const selected=byId.get(basis.value);document.getElementById('basis-image').src=selected.id+'.svg';const actual=current.ancestors.find(a=>a.id===selected.id);document.getElementById('basis-answer').textContent=actual?'Returned the actual retained '+selected.id+' program. Native identity preserved: '+actual.sameActualProgram+'. No shape search was requested.':'This is the current starting rung itself; no earlier construction is required.';}
+function show(){current=byId.get(chain[Number(rung.value)]);document.getElementById('step').textContent=(Number(rung.value)+1)+' / '+chain.length;document.getElementById('current-label').textContent=current.id+' / construction depth '+current.depth;document.getElementById('current-title').textContent=current.name;document.getElementById('current-image').src=current.id+'.svg';document.getElementById('description').textContent=current.description;document.getElementById('atlas').textContent=current.atlas;document.getElementById('facts').textContent=current.paths+' paths / '+current.chords+' chords per unit · '+current.accepted+' accepted seams · '+current.blocked+' blocked · '+current.frontier+' finite frontier obligations';basis.replaceChildren();for(const a of current.ancestors.length?current.ancestors:[current]){const option=document.createElement('option');option.value=a.id;option.textContent=a.id+' · '+a.name;basis.append(option);}showBasis();document.getElementById('native-link').href=current.id+'.gojo.json.gz';document.getElementById('question-link').href=current.id+'-questions.gojo.json.gz';document.getElementById('support-note').textContent=current.rawStrokes+' acknowledged drawing strokes → '+current.incidenceStrokes+' incidence supports → '+current.supportStrokes+' segments in the selected straight-strand question. '+current.unsearched+' proposals remain unsearched. This read receives no recipe or ancestry.';document.getElementById('candidates').innerHTML=table(current.support);document.getElementById('raw-candidates').innerHTML=table(current.raw);for(const card of document.querySelectorAll('.card'))card.classList.toggle('selected',card.dataset.case===current.id);for(const button of document.querySelectorAll('#crumbs button'))button.setAttribute('aria-pressed',button.dataset.case===current.id);}
+function choose(id){const end=byId.get(id);branch.value=id;chain=[...end.ancestors.map(a=>a.id),id];rung.max=chain.length-1;rung.value=chain.length-1;document.getElementById('crumbs').replaceChildren();chain.forEach((item,index)=>{const button=document.createElement('button');button.textContent=item+' · '+byId.get(item).name;button.dataset.case=item;button.addEventListener('click',()=>{rung.value=index;show();});document.getElementById('crumbs').append(button);});history.replaceState(null,'','#'+id);show();}
+const deepLinked=byId.has(location.hash.slice(1));
+window.addEventListener('hashchange',()=>{const id=location.hash.slice(1);if(byId.has(id)){choose(id);document.getElementById('inspection').scrollIntoView();}});
+window.addEventListener('load',()=>{if(deepLinked)requestAnimationFrame(()=>document.getElementById('inspection').scrollIntoView());});
+branch.addEventListener('change',()=>choose(branch.value));rung.addEventListener('input',show);basis.addEventListener('change',showBasis);for(const card of document.querySelectorAll('.card')){card.addEventListener('click',()=>{choose(card.dataset.case);document.getElementById('inspection').scrollIntoView({behavior:'smooth',block:'start'});});card.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();card.click();}});}choose(byId.has(location.hash.slice(1))?location.hash.slice(1):'L04');
+</script></main></body></html>

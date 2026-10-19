@@ -26,6 +26,12 @@ public sealed class UnitArrangementProgram
         Surface = new(frame.Surface, new Relation(new Relation(paths, ports), new Relation(ClosedPaths, Evidence)));
     }
 
+    // An exact native reader preserves the declaration identity shared by
+    // ladder sources, results and imported program contracts.
+    internal UnitArrangementProgram(QualitativeMotionFrame frame, string name, Relation paths,
+        Relation ports, Relation closedPaths, IElement evidence, Relation actualSurface)
+        : this(frame, name, paths, ports, closedPaths, evidence) => Surface = actualSurface;
+
     /// <summary>Applies the actual substitution to every start/chord and keeps
     /// path, word and port correspondences. Incomplete transforms are refused;
     /// no unchanged-word fallback supplies missing geometric participation.</summary>

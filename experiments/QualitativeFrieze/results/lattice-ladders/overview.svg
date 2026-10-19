@@ -1,0 +1,3111 @@
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1880 1815' width='1880' height='1815'><rect width='1880' height='1815' fill='#ECE9DE'/><text x='30' y='44' font-family='Georgia,serif' font-size='34' fill='#30474C'>Lattices by construction · native ladder branches</text><text x='32' y='79' font-family='sans-serif' font-size='17' fill='#66746D'>Actual retained bases · word substitutions, explicit edits and assemblies · selected screen proportions</text><text x='24' y='135' font-family='Georgia,serif' font-size='18' fill='#30474C'>L00 &#183; Square starting grid</text><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 480" role="img" aria-label="Square starting grid" x="20" y="150" width="450" height="300">
+  <title>Square starting grid</title>
+  <rect width="720" height="480" fill="#F8F5EC" />
+  <g fill="none" stroke="#35535A" stroke-width="1.9" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M 150 450 L 220 450" />
+    <path d="M 220 450 L 290 450" />
+    <path d="M 290 450 L 290 380" />
+    <path d="M 290 380 L 290 310" />
+    <path d="M 290 310 L 220 310" />
+    <path d="M 220 310 L 150 310" />
+    <path d="M 150 310 L 150 380" />
+    <path d="M 150 380 L 150 450" />
+    <path d="M 290 450 L 360 450" />
+    <path d="M 360 450 L 430 450" />
+    <path d="M 430 450 L 430 380" />
+    <path d="M 430 380 L 430 310" />
+    <path d="M 430 310 L 360 310" />
+    <path d="M 360 310 L 290 310" />
+    <path d="M 290 310 L 290 380" />
+    <path d="M 290 380 L 290 450" />
+    <path d="M 430 450 L 500 450" />
+    <path d="M 500 450 L 570 450" />
+    <path d="M 570 450 L 570 380" />
+    <path d="M 570 380 L 570 310" />
+    <path d="M 570 310 L 500 310" />
+    <path d="M 500 310 L 430 310" />
+    <path d="M 430 310 L 430 380" />
+    <path d="M 430 380 L 430 450" />
+    <path d="M 150 310 L 220 310" />
+    <path d="M 220 310 L 290 310" />
+    <path d="M 290 310 L 290 240" />
+    <path d="M 290 240 L 290 170" />
+    <path d="M 290 170 L 220 170" />
+    <path d="M 220 170 L 150 170" />
+    <path d="M 150 170 L 150 240" />
+    <path d="M 150 240 L 150 310" />
+    <path d="M 290 310 L 360 310" />
+    <path d="M 360 310 L 430 310" />
+    <path d="M 430 310 L 430 240" />
+    <path d="M 430 240 L 430 170" />
+    <path d="M 430 170 L 360 170" />
+    <path d="M 360 170 L 290 170" />
+    <path d="M 290 170 L 290 240" />
+    <path d="M 290 240 L 290 310" />
+    <path d="M 430 310 L 500 310" />
+    <path d="M 500 310 L 570 310" />
+    <path d="M 570 310 L 570 240" />
+    <path d="M 570 240 L 570 170" />
+    <path d="M 570 170 L 500 170" />
+    <path d="M 500 170 L 430 170" />
+    <path d="M 430 170 L 430 240" />
+    <path d="M 430 240 L 430 310" />
+    <path d="M 150 170 L 220 170" />
+    <path d="M 220 170 L 290 170" />
+    <path d="M 290 170 L 290 100" />
+    <path d="M 290 100 L 290 30" />
+    <path d="M 290 30 L 220 30" />
+    <path d="M 220 30 L 150 30" />
+    <path d="M 150 30 L 150 100" />
+    <path d="M 150 100 L 150 170" />
+    <path d="M 290 170 L 360 170" />
+    <path d="M 360 170 L 430 170" />
+    <path d="M 430 170 L 430 100" />
+    <path d="M 430 100 L 430 30" />
+    <path d="M 430 30 L 360 30" />
+    <path d="M 360 30 L 290 30" />
+    <path d="M 290 30 L 290 100" />
+    <path d="M 290 100 L 290 170" />
+    <path d="M 430 170 L 500 170" />
+    <path d="M 500 170 L 570 170" />
+    <path d="M 570 170 L 570 100" />
+    <path d="M 570 100 L 570 30" />
+    <path d="M 570 30 L 500 30" />
+    <path d="M 500 30 L 430 30" />
+    <path d="M 430 30 L 430 100" />
+    <path d="M 430 100 L 430 170" />
+  </g>
+  <g fill="#A87A42" opacity=".78">
+    <circle cx="290" cy="450" r="2.45" />
+    <circle cx="290" cy="310" r="2.45" />
+    <circle cx="150" cy="310" r="2.45" />
+    <circle cx="430" cy="450" r="2.45" />
+    <circle cx="430" cy="310" r="2.45" />
+    <circle cx="570" cy="310" r="2.45" />
+    <circle cx="290" cy="170" r="2.45" />
+    <circle cx="150" cy="170" r="2.45" />
+    <circle cx="430" cy="170" r="2.45" />
+    <circle cx="570" cy="170" r="2.45" />
+    <circle cx="290" cy="30" r="2.45" />
+    <circle cx="430" cy="30" r="2.45" />
+  </g>
+</svg><text x='489' y='135' font-family='Georgia,serif' font-size='18' fill='#30474C'>L01 &#183; Stretch into rectangles</text><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 480" role="img" aria-label="Stretch into rectangles" x="485" y="150" width="450" height="300">
+  <title>Stretch into rectangles</title>
+  <rect width="720" height="480" fill="#F8F5EC" />
+  <g fill="none" stroke="#35535A" stroke-width="1.9" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M 30 405 L 140 405" />
+    <path d="M 140 405 L 250 405" />
+    <path d="M 250 405 L 250 350" />
+    <path d="M 250 350 L 250 295" />
+    <path d="M 250 295 L 140 295" />
+    <path d="M 140 295 L 30 295" />
+    <path d="M 30 295 L 30 350" />
+    <path d="M 30 350 L 30 405" />
+    <path d="M 250 405 L 360 405" />
+    <path d="M 360 405 L 470 405" />
+    <path d="M 470 405 L 470 350" />
+    <path d="M 470 350 L 470 295" />
+    <path d="M 470 295 L 360 295" />
+    <path d="M 360 295 L 250 295" />
+    <path d="M 250 295 L 250 350" />
+    <path d="M 250 350 L 250 405" />
+    <path d="M 470 405 L 580 405" />
+    <path d="M 580 405 L 690 405" />
+    <path d="M 690 405 L 690 350" />
+    <path d="M 690 350 L 690 295" />
+    <path d="M 690 295 L 580 295" />
+    <path d="M 580 295 L 470 295" />
+    <path d="M 470 295 L 470 350" />
+    <path d="M 470 350 L 470 405" />
+    <path d="M 30 295 L 140 295" />
+    <path d="M 140 295 L 250 295" />
+    <path d="M 250 295 L 250 240" />
+    <path d="M 250 240 L 250 185" />
+    <path d="M 250 185 L 140 185" />
+    <path d="M 140 185 L 30 185" />
+    <path d="M 30 185 L 30 240" />
+    <path d="M 30 240 L 30 295" />
+    <path d="M 250 295 L 360 295" />
+    <path d="M 360 295 L 470 295" />
+    <path d="M 470 295 L 470 240" />
+    <path d="M 470 240 L 470 185" />
+    <path d="M 470 185 L 360 185" />
+    <path d="M 360 185 L 250 185" />
+    <path d="M 250 185 L 250 240" />
+    <path d="M 250 240 L 250 295" />
+    <path d="M 470 295 L 580 295" />
+    <path d="M 580 295 L 690 295" />
+    <path d="M 690 295 L 690 240" />
+    <path d="M 690 240 L 690 185" />
+    <path d="M 690 185 L 580 185" />
+    <path d="M 580 185 L 470 185" />
+    <path d="M 470 185 L 470 240" />
+    <path d="M 470 240 L 470 295" />
+    <path d="M 30 185 L 140 185" />
+    <path d="M 140 185 L 250 185" />
+    <path d="M 250 185 L 250 130" />
+    <path d="M 250 130 L 250 75" />
+    <path d="M 250 75 L 140 75" />
+    <path d="M 140 75 L 30 75" />
+    <path d="M 30 75 L 30 130" />
+    <path d="M 30 130 L 30 185" />
+    <path d="M 250 185 L 360 185" />
+    <path d="M 360 185 L 470 185" />
+    <path d="M 470 185 L 470 130" />
+    <path d="M 470 130 L 470 75" />
+    <path d="M 470 75 L 360 75" />
+    <path d="M 360 75 L 250 75" />
+    <path d="M 250 75 L 250 130" />
+    <path d="M 250 130 L 250 185" />
+    <path d="M 470 185 L 580 185" />
+    <path d="M 580 185 L 690 185" />
+    <path d="M 690 185 L 690 130" />
+    <path d="M 690 130 L 690 75" />
+    <path d="M 690 75 L 580 75" />
+    <path d="M 580 75 L 470 75" />
+    <path d="M 470 75 L 470 130" />
+    <path d="M 470 130 L 470 185" />
+  </g>
+  <g fill="#A87A42" opacity=".78">
+    <circle cx="250" cy="405" r="2.45" />
+    <circle cx="250" cy="295" r="2.45" />
+    <circle cx="30" cy="295" r="2.45" />
+    <circle cx="470" cy="405" r="2.45" />
+    <circle cx="470" cy="295" r="2.45" />
+    <circle cx="690" cy="295" r="2.45" />
+    <circle cx="250" cy="185" r="2.45" />
+    <circle cx="30" cy="185" r="2.45" />
+    <circle cx="470" cy="185" r="2.45" />
+    <circle cx="690" cy="185" r="2.45" />
+    <circle cx="250" cy="75" r="2.45" />
+    <circle cx="470" cy="75" r="2.45" />
+  </g>
+</svg><text x='954' y='135' font-family='Georgia,serif' font-size='18' fill='#30474C'>L02 &#183; Insert a middle course</text><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 480" role="img" aria-label="Insert a middle course" x="950" y="150" width="450" height="300">
+  <title>Insert a middle course</title>
+  <rect width="720" height="480" fill="#F8F5EC" />
+  <g fill="none" stroke="#35535A" stroke-width="1.9" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M 30 405 L 140 405" />
+    <path d="M 140 405 L 250 405" />
+    <path d="M 250 405 L 250 350" />
+    <path d="M 250 350 L 250 295" />
+    <path d="M 250 295 L 140 295" />
+    <path d="M 140 295 L 30 295" />
+    <path d="M 30 295 L 30 350" />
+    <path d="M 30 350 L 30 405" />
+    <path d="M 30 350 L 140 350" />
+    <path d="M 140 350 L 250 350" />
+    <path d="M 250 405 L 360 405" />
+    <path d="M 360 405 L 470 405" />
+    <path d="M 470 405 L 470 350" />
+    <path d="M 470 350 L 470 295" />
+    <path d="M 470 295 L 360 295" />
+    <path d="M 360 295 L 250 295" />
+    <path d="M 250 295 L 250 350" />
+    <path d="M 250 350 L 250 405" />
+    <path d="M 250 350 L 360 350" />
+    <path d="M 360 350 L 470 350" />
+    <path d="M 470 405 L 580 405" />
+    <path d="M 580 405 L 690 405" />
+    <path d="M 690 405 L 690 350" />
+    <path d="M 690 350 L 690 295" />
+    <path d="M 690 295 L 580 295" />
+    <path d="M 580 295 L 470 295" />
+    <path d="M 470 295 L 470 350" />
+    <path d="M 470 350 L 470 405" />
+    <path d="M 470 350 L 580 350" />
+    <path d="M 580 350 L 690 350" />
+    <path d="M 30 295 L 140 295" />
+    <path d="M 140 295 L 250 295" />
+    <path d="M 250 295 L 250 240" />
+    <path d="M 250 240 L 250 185" />
+    <path d="M 250 185 L 140 185" />
+    <path d="M 140 185 L 30 185" />
+    <path d="M 30 185 L 30 240" />
+    <path d="M 30 240 L 30 295" />
+    <path d="M 30 240 L 140 240" />
+    <path d="M 140 240 L 250 240" />
+    <path d="M 250 295 L 360 295" />
+    <path d="M 360 295 L 470 295" />
+    <path d="M 470 295 L 470 240" />
+    <path d="M 470 240 L 470 185" />
+    <path d="M 470 185 L 360 185" />
+    <path d="M 360 185 L 250 185" />
+    <path d="M 250 185 L 250 240" />
+    <path d="M 250 240 L 250 295" />
+    <path d="M 250 240 L 360 240" />
+    <path d="M 360 240 L 470 240" />
+    <path d="M 470 295 L 580 295" />
+    <path d="M 580 295 L 690 295" />
+    <path d="M 690 295 L 690 240" />
+    <path d="M 690 240 L 690 185" />
+    <path d="M 690 185 L 580 185" />
+    <path d="M 580 185 L 470 185" />
+    <path d="M 470 185 L 470 240" />
+    <path d="M 470 240 L 470 295" />
+    <path d="M 470 240 L 580 240" />
+    <path d="M 580 240 L 690 240" />
+    <path d="M 30 185 L 140 185" />
+    <path d="M 140 185 L 250 185" />
+    <path d="M 250 185 L 250 130" />
+    <path d="M 250 130 L 250 75" />
+    <path d="M 250 75 L 140 75" />
+    <path d="M 140 75 L 30 75" />
+    <path d="M 30 75 L 30 130" />
+    <path d="M 30 130 L 30 185" />
+    <path d="M 30 130 L 140 130" />
+    <path d="M 140 130 L 250 130" />
+    <path d="M 250 185 L 360 185" />
+    <path d="M 360 185 L 470 185" />
+    <path d="M 470 185 L 470 130" />
+    <path d="M 470 130 L 470 75" />
+    <path d="M 470 75 L 360 75" />
+    <path d="M 360 75 L 250 75" />
+    <path d="M 250 75 L 250 130" />
+    <path d="M 250 130 L 250 185" />
+    <path d="M 250 130 L 360 130" />
+    <path d="M 360 130 L 470 130" />
+    <path d="M 470 185 L 580 185" />
+    <path d="M 580 185 L 690 185" />
+    <path d="M 690 185 L 690 130" />
+    <path d="M 690 130 L 690 75" />
+    <path d="M 690 75 L 580 75" />
+    <path d="M 580 75 L 470 75" />
+    <path d="M 470 75 L 470 130" />
+    <path d="M 470 130 L 470 185" />
+    <path d="M 470 130 L 580 130" />
+    <path d="M 580 130 L 690 130" />
+  </g>
+  <g fill="#A87A42" opacity=".78">
+    <circle cx="250" cy="405" r="2.45" />
+    <circle cx="250" cy="350" r="2.45" />
+    <circle cx="250" cy="295" r="2.45" />
+    <circle cx="30" cy="295" r="2.45" />
+    <circle cx="30" cy="350" r="2.45" />
+    <circle cx="470" cy="405" r="2.45" />
+    <circle cx="470" cy="350" r="2.45" />
+    <circle cx="470" cy="295" r="2.45" />
+    <circle cx="690" cy="350" r="2.45" />
+    <circle cx="690" cy="295" r="2.45" />
+    <circle cx="250" cy="240" r="2.45" />
+    <circle cx="250" cy="185" r="2.45" />
+    <circle cx="30" cy="185" r="2.45" />
+    <circle cx="30" cy="240" r="2.45" />
+    <circle cx="470" cy="240" r="2.45" />
+    <circle cx="470" cy="185" r="2.45" />
+    <circle cx="690" cy="240" r="2.45" />
+    <circle cx="690" cy="185" r="2.45" />
+    <circle cx="250" cy="130" r="2.45" />
+    <circle cx="250" cy="75" r="2.45" />
+    <circle cx="30" cy="130" r="2.45" />
+    <circle cx="470" cy="130" r="2.45" />
+    <circle cx="470" cy="75" r="2.45" />
+    <circle cx="690" cy="130" r="2.45" />
+  </g>
+</svg><text x='1419' y='135' font-family='Georgia,serif' font-size='18' fill='#30474C'>L03 &#183; Shift alternate brick joints</text><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 480" role="img" aria-label="Shift alternate brick joints" x="1415" y="150" width="450" height="300">
+  <title>Shift alternate brick joints</title>
+  <rect width="720" height="480" fill="#F8F5EC" />
+  <g fill="none" stroke="#35535A" stroke-width="1.9" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M 30 405 L 140 405" />
+    <path d="M 140 405 L 250 405" />
+    <path d="M 250 295 L 140 295" />
+    <path d="M 140 295 L 30 295" />
+    <path d="M 30 350 L 140 350" />
+    <path d="M 140 350 L 250 350" />
+    <path d="M 30 350 L 30 405" />
+    <path d="M 140 350 L 140 295" />
+    <path d="M 250 405 L 360 405" />
+    <path d="M 360 405 L 470 405" />
+    <path d="M 470 295 L 360 295" />
+    <path d="M 360 295 L 250 295" />
+    <path d="M 250 350 L 360 350" />
+    <path d="M 360 350 L 470 350" />
+    <path d="M 250 350 L 250 405" />
+    <path d="M 360 350 L 360 295" />
+    <path d="M 470 405 L 580 405" />
+    <path d="M 580 405 L 690 405" />
+    <path d="M 690 295 L 580 295" />
+    <path d="M 580 295 L 470 295" />
+    <path d="M 470 350 L 580 350" />
+    <path d="M 580 350 L 690 350" />
+    <path d="M 470 350 L 470 405" />
+    <path d="M 580 350 L 580 295" />
+    <path d="M 30 295 L 140 295" />
+    <path d="M 140 295 L 250 295" />
+    <path d="M 250 185 L 140 185" />
+    <path d="M 140 185 L 30 185" />
+    <path d="M 30 240 L 140 240" />
+    <path d="M 140 240 L 250 240" />
+    <path d="M 30 240 L 30 295" />
+    <path d="M 140 240 L 140 185" />
+    <path d="M 250 295 L 360 295" />
+    <path d="M 360 295 L 470 295" />
+    <path d="M 470 185 L 360 185" />
+    <path d="M 360 185 L 250 185" />
+    <path d="M 250 240 L 360 240" />
+    <path d="M 360 240 L 470 240" />
+    <path d="M 250 240 L 250 295" />
+    <path d="M 360 240 L 360 185" />
+    <path d="M 470 295 L 580 295" />
+    <path d="M 580 295 L 690 295" />
+    <path d="M 690 185 L 580 185" />
+    <path d="M 580 185 L 470 185" />
+    <path d="M 470 240 L 580 240" />
+    <path d="M 580 240 L 690 240" />
+    <path d="M 470 240 L 470 295" />
+    <path d="M 580 240 L 580 185" />
+    <path d="M 30 185 L 140 185" />
+    <path d="M 140 185 L 250 185" />
+    <path d="M 250 75 L 140 75" />
+    <path d="M 140 75 L 30 75" />
+    <path d="M 30 130 L 140 130" />
+    <path d="M 140 130 L 250 130" />
+    <path d="M 30 130 L 30 185" />
+    <path d="M 140 130 L 140 75" />
+    <path d="M 250 185 L 360 185" />
+    <path d="M 360 185 L 470 185" />
+    <path d="M 470 75 L 360 75" />
+    <path d="M 360 75 L 250 75" />
+    <path d="M 250 130 L 360 130" />
+    <path d="M 360 130 L 470 130" />
+    <path d="M 250 130 L 250 185" />
+    <path d="M 360 130 L 360 75" />
+    <path d="M 470 185 L 580 185" />
+    <path d="M 580 185 L 690 185" />
+    <path d="M 690 75 L 580 75" />
+    <path d="M 580 75 L 470 75" />
+    <path d="M 470 130 L 580 130" />
+    <path d="M 580 130 L 690 130" />
+    <path d="M 470 130 L 470 185" />
+    <path d="M 580 130 L 580 75" />
+  </g>
+  <g fill="#A87A42" opacity=".78">
+    <circle cx="250" cy="405" r="2.45" />
+    <circle cx="250" cy="295" r="2.45" />
+    <circle cx="140" cy="295" r="2.45" />
+    <circle cx="140" cy="350" r="2.45" />
+    <circle cx="250" cy="350" r="2.45" />
+    <circle cx="470" cy="405" r="2.45" />
+    <circle cx="470" cy="295" r="2.45" />
+    <circle cx="360" cy="295" r="2.45" />
+    <circle cx="360" cy="350" r="2.45" />
+    <circle cx="470" cy="350" r="2.45" />
+    <circle cx="580" cy="295" r="2.45" />
+    <circle cx="580" cy="350" r="2.45" />
+    <circle cx="250" cy="185" r="2.45" />
+    <circle cx="140" cy="185" r="2.45" />
+    <circle cx="140" cy="240" r="2.45" />
+    <circle cx="250" cy="240" r="2.45" />
+    <circle cx="470" cy="185" r="2.45" />
+    <circle cx="360" cy="185" r="2.45" />
+    <circle cx="360" cy="240" r="2.45" />
+    <circle cx="470" cy="240" r="2.45" />
+    <circle cx="580" cy="185" r="2.45" />
+    <circle cx="580" cy="240" r="2.45" />
+    <circle cx="140" cy="75" r="2.45" />
+    <circle cx="140" cy="130" r="2.45" />
+    <circle cx="250" cy="130" r="2.45" />
+    <circle cx="360" cy="75" r="2.45" />
+    <circle cx="360" cy="130" r="2.45" />
+    <circle cx="470" cy="130" r="2.45" />
+    <circle cx="580" cy="75" r="2.45" />
+    <circle cx="580" cy="130" r="2.45" />
+  </g>
+</svg><text x='24' y='475' font-family='Georgia,serif' font-size='18' fill='#30474C'>L04 &#183; Shear the running bond</text><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 480" role="img" aria-label="Shear the running bond" x="20" y="490" width="450" height="300">
+  <title>Shear the running bond</title>
+  <rect width="720" height="480" fill="#F8F5EC" />
+  <g fill="none" stroke="#35535A" stroke-width="1.9" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M 30 350 L 103.333 350" />
+    <path d="M 103.333 350 L 176.667 350" />
+    <path d="M 250 276.667 L 176.667 276.667" />
+    <path d="M 176.667 276.667 L 103.333 276.667" />
+    <path d="M 66.667 313.333 L 140 313.333" />
+    <path d="M 140 313.333 L 213.333 313.333" />
+    <path d="M 66.667 313.333 L 30 350" />
+    <path d="M 140 313.333 L 176.667 276.667" />
+    <path d="M 176.667 350 L 250 350" />
+    <path d="M 250 350 L 323.333 350" />
+    <path d="M 396.667 276.667 L 323.333 276.667" />
+    <path d="M 323.333 276.667 L 250 276.667" />
+    <path d="M 213.333 313.333 L 286.667 313.333" />
+    <path d="M 286.667 313.333 L 360 313.333" />
+    <path d="M 213.333 313.333 L 176.667 350" />
+    <path d="M 286.667 313.333 L 323.333 276.667" />
+    <path d="M 323.333 350 L 396.667 350" />
+    <path d="M 396.667 350 L 470 350" />
+    <path d="M 543.333 276.667 L 470 276.667" />
+    <path d="M 470 276.667 L 396.667 276.667" />
+    <path d="M 360 313.333 L 433.333 313.333" />
+    <path d="M 433.333 313.333 L 506.667 313.333" />
+    <path d="M 360 313.333 L 323.333 350" />
+    <path d="M 433.333 313.333 L 470 276.667" />
+    <path d="M 103.333 276.667 L 176.667 276.667" />
+    <path d="M 176.667 276.667 L 250 276.667" />
+    <path d="M 323.333 203.333 L 250 203.333" />
+    <path d="M 250 203.333 L 176.667 203.333" />
+    <path d="M 140 240 L 213.333 240" />
+    <path d="M 213.333 240 L 286.667 240" />
+    <path d="M 140 240 L 103.333 276.667" />
+    <path d="M 213.333 240 L 250 203.333" />
+    <path d="M 250 276.667 L 323.333 276.667" />
+    <path d="M 323.333 276.667 L 396.667 276.667" />
+    <path d="M 470 203.333 L 396.667 203.333" />
+    <path d="M 396.667 203.333 L 323.333 203.333" />
+    <path d="M 286.667 240 L 360 240" />
+    <path d="M 360 240 L 433.333 240" />
+    <path d="M 286.667 240 L 250 276.667" />
+    <path d="M 360 240 L 396.667 203.333" />
+    <path d="M 396.667 276.667 L 470 276.667" />
+    <path d="M 470 276.667 L 543.333 276.667" />
+    <path d="M 616.667 203.333 L 543.333 203.333" />
+    <path d="M 543.333 203.333 L 470 203.333" />
+    <path d="M 433.333 240 L 506.667 240" />
+    <path d="M 506.667 240 L 580 240" />
+    <path d="M 433.333 240 L 396.667 276.667" />
+    <path d="M 506.667 240 L 543.333 203.333" />
+    <path d="M 176.667 203.333 L 250 203.333" />
+    <path d="M 250 203.333 L 323.333 203.333" />
+    <path d="M 396.667 130 L 323.333 130" />
+    <path d="M 323.333 130 L 250 130" />
+    <path d="M 213.333 166.667 L 286.667 166.667" />
+    <path d="M 286.667 166.667 L 360 166.667" />
+    <path d="M 213.333 166.667 L 176.667 203.333" />
+    <path d="M 286.667 166.667 L 323.333 130" />
+    <path d="M 323.333 203.333 L 396.667 203.333" />
+    <path d="M 396.667 203.333 L 470 203.333" />
+    <path d="M 543.333 130 L 470 130" />
+    <path d="M 470 130 L 396.667 130" />
+    <path d="M 360 166.667 L 433.333 166.667" />
+    <path d="M 433.333 166.667 L 506.667 166.667" />
+    <path d="M 360 166.667 L 323.333 203.333" />
+    <path d="M 433.333 166.667 L 470 130" />
+    <path d="M 470 203.333 L 543.333 203.333" />
+    <path d="M 543.333 203.333 L 616.667 203.333" />
+    <path d="M 690 130 L 616.667 130" />
+    <path d="M 616.667 130 L 543.333 130" />
+    <path d="M 506.667 166.667 L 580 166.667" />
+    <path d="M 580 166.667 L 653.333 166.667" />
+    <path d="M 506.667 166.667 L 470 203.333" />
+    <path d="M 580 166.667 L 616.667 130" />
+  </g>
+  <g fill="#A87A42" opacity=".78">
+    <circle cx="176.667" cy="350" r="2.45" />
+    <circle cx="250" cy="276.667" r="2.45" />
+    <circle cx="176.667" cy="276.667" r="2.45" />
+    <circle cx="140" cy="313.333" r="2.45" />
+    <circle cx="213.333" cy="313.333" r="2.45" />
+    <circle cx="323.333" cy="350" r="2.45" />
+    <circle cx="396.667" cy="276.667" r="2.45" />
+    <circle cx="323.333" cy="276.667" r="2.45" />
+    <circle cx="286.667" cy="313.333" r="2.45" />
+    <circle cx="360" cy="313.333" r="2.45" />
+    <circle cx="470" cy="276.667" r="2.45" />
+    <circle cx="433.333" cy="313.333" r="2.45" />
+    <circle cx="323.333" cy="203.333" r="2.45" />
+    <circle cx="250" cy="203.333" r="2.45" />
+    <circle cx="213.333" cy="240" r="2.45" />
+    <circle cx="286.667" cy="240" r="2.45" />
+    <circle cx="470" cy="203.333" r="2.45" />
+    <circle cx="396.667" cy="203.333" r="2.45" />
+    <circle cx="360" cy="240" r="2.45" />
+    <circle cx="433.333" cy="240" r="2.45" />
+    <circle cx="543.333" cy="203.333" r="2.45" />
+    <circle cx="506.667" cy="240" r="2.45" />
+    <circle cx="323.333" cy="130" r="2.45" />
+    <circle cx="286.667" cy="166.667" r="2.45" />
+    <circle cx="360" cy="166.667" r="2.45" />
+    <circle cx="470" cy="130" r="2.45" />
+    <circle cx="433.333" cy="166.667" r="2.45" />
+    <circle cx="506.667" cy="166.667" r="2.45" />
+    <circle cx="616.667" cy="130" r="2.45" />
+    <circle cx="580" cy="166.667" r="2.45" />
+  </g>
+</svg><text x='489' y='475' font-family='Georgia,serif' font-size='18' fill='#30474C'>L05 &#183; Shear the square grid</text><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 480" role="img" aria-label="Shear the square grid" x="485" y="490" width="450" height="300">
+  <title>Shear the square grid</title>
+  <rect width="720" height="480" fill="#F8F5EC" />
+  <g fill="none" stroke="#35535A" stroke-width="1.9" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M 30 405 L 85 405" />
+    <path d="M 85 405 L 140 405" />
+    <path d="M 140 405 L 195 350" />
+    <path d="M 195 350 L 250 295" />
+    <path d="M 250 295 L 195 295" />
+    <path d="M 195 295 L 140 295" />
+    <path d="M 140 295 L 85 350" />
+    <path d="M 85 350 L 30 405" />
+    <path d="M 140 405 L 195 405" />
+    <path d="M 195 405 L 250 405" />
+    <path d="M 250 405 L 305 350" />
+    <path d="M 305 350 L 360 295" />
+    <path d="M 360 295 L 305 295" />
+    <path d="M 305 295 L 250 295" />
+    <path d="M 250 295 L 195 350" />
+    <path d="M 195 350 L 140 405" />
+    <path d="M 250 405 L 305 405" />
+    <path d="M 305 405 L 360 405" />
+    <path d="M 360 405 L 415 350" />
+    <path d="M 415 350 L 470 295" />
+    <path d="M 470 295 L 415 295" />
+    <path d="M 415 295 L 360 295" />
+    <path d="M 360 295 L 305 350" />
+    <path d="M 305 350 L 250 405" />
+    <path d="M 140 295 L 195 295" />
+    <path d="M 195 295 L 250 295" />
+    <path d="M 250 295 L 305 240" />
+    <path d="M 305 240 L 360 185" />
+    <path d="M 360 185 L 305 185" />
+    <path d="M 305 185 L 250 185" />
+    <path d="M 250 185 L 195 240" />
+    <path d="M 195 240 L 140 295" />
+    <path d="M 250 295 L 305 295" />
+    <path d="M 305 295 L 360 295" />
+    <path d="M 360 295 L 415 240" />
+    <path d="M 415 240 L 470 185" />
+    <path d="M 470 185 L 415 185" />
+    <path d="M 415 185 L 360 185" />
+    <path d="M 360 185 L 305 240" />
+    <path d="M 305 240 L 250 295" />
+    <path d="M 360 295 L 415 295" />
+    <path d="M 415 295 L 470 295" />
+    <path d="M 470 295 L 525 240" />
+    <path d="M 525 240 L 580 185" />
+    <path d="M 580 185 L 525 185" />
+    <path d="M 525 185 L 470 185" />
+    <path d="M 470 185 L 415 240" />
+    <path d="M 415 240 L 360 295" />
+    <path d="M 250 185 L 305 185" />
+    <path d="M 305 185 L 360 185" />
+    <path d="M 360 185 L 415 130" />
+    <path d="M 415 130 L 470 75" />
+    <path d="M 470 75 L 415 75" />
+    <path d="M 415 75 L 360 75" />
+    <path d="M 360 75 L 305 130" />
+    <path d="M 305 130 L 250 185" />
+    <path d="M 360 185 L 415 185" />
+    <path d="M 415 185 L 470 185" />
+    <path d="M 470 185 L 525 130" />
+    <path d="M 525 130 L 580 75" />
+    <path d="M 580 75 L 525 75" />
+    <path d="M 525 75 L 470 75" />
+    <path d="M 470 75 L 415 130" />
+    <path d="M 415 130 L 360 185" />
+    <path d="M 470 185 L 525 185" />
+    <path d="M 525 185 L 580 185" />
+    <path d="M 580 185 L 635 130" />
+    <path d="M 635 130 L 690 75" />
+    <path d="M 690 75 L 635 75" />
+    <path d="M 635 75 L 580 75" />
+    <path d="M 580 75 L 525 130" />
+    <path d="M 525 130 L 470 185" />
+  </g>
+  <g fill="#A87A42" opacity=".78">
+    <circle cx="140" cy="405" r="2.45" />
+    <circle cx="250" cy="295" r="2.45" />
+    <circle cx="140" cy="295" r="2.45" />
+    <circle cx="250" cy="405" r="2.45" />
+    <circle cx="360" cy="295" r="2.45" />
+    <circle cx="470" cy="295" r="2.45" />
+    <circle cx="360" cy="185" r="2.45" />
+    <circle cx="250" cy="185" r="2.45" />
+    <circle cx="470" cy="185" r="2.45" />
+    <circle cx="580" cy="185" r="2.45" />
+    <circle cx="470" cy="75" r="2.45" />
+    <circle cx="580" cy="75" r="2.45" />
+  </g>
+</svg><text x='954' y='475' font-family='Georgia,serif' font-size='18' fill='#30474C'>L06 &#183; Add a third tie family</text><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 480" role="img" aria-label="Add a third tie family" x="950" y="490" width="450" height="300">
+  <title>Add a third tie family</title>
+  <rect width="720" height="480" fill="#F8F5EC" />
+  <g fill="none" stroke="#35535A" stroke-width="1.9" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M 30 405 L 85 405" />
+    <path d="M 85 405 L 140 405" />
+    <path d="M 140 405 L 195 350" />
+    <path d="M 195 350 L 250 295" />
+    <path d="M 250 295 L 195 295" />
+    <path d="M 195 295 L 140 295" />
+    <path d="M 140 295 L 85 350" />
+    <path d="M 85 350 L 30 405" />
+    <path d="M 140 405 L 140 350" />
+    <path d="M 140 350 L 140 295" />
+    <path d="M 140 405 L 195 405" />
+    <path d="M 195 405 L 250 405" />
+    <path d="M 250 405 L 305 350" />
+    <path d="M 305 350 L 360 295" />
+    <path d="M 360 295 L 305 295" />
+    <path d="M 305 295 L 250 295" />
+    <path d="M 250 295 L 195 350" />
+    <path d="M 195 350 L 140 405" />
+    <path d="M 250 405 L 250 350" />
+    <path d="M 250 350 L 250 295" />
+    <path d="M 250 405 L 305 405" />
+    <path d="M 305 405 L 360 405" />
+    <path d="M 360 405 L 415 350" />
+    <path d="M 415 350 L 470 295" />
+    <path d="M 470 295 L 415 295" />
+    <path d="M 415 295 L 360 295" />
+    <path d="M 360 295 L 305 350" />
+    <path d="M 305 350 L 250 405" />
+    <path d="M 360 405 L 360 350" />
+    <path d="M 360 350 L 360 295" />
+    <path d="M 140 295 L 195 295" />
+    <path d="M 195 295 L 250 295" />
+    <path d="M 250 295 L 305 240" />
+    <path d="M 305 240 L 360 185" />
+    <path d="M 360 185 L 305 185" />
+    <path d="M 305 185 L 250 185" />
+    <path d="M 250 185 L 195 240" />
+    <path d="M 195 240 L 140 295" />
+    <path d="M 250 295 L 250 240" />
+    <path d="M 250 240 L 250 185" />
+    <path d="M 250 295 L 305 295" />
+    <path d="M 305 295 L 360 295" />
+    <path d="M 360 295 L 415 240" />
+    <path d="M 415 240 L 470 185" />
+    <path d="M 470 185 L 415 185" />
+    <path d="M 415 185 L 360 185" />
+    <path d="M 360 185 L 305 240" />
+    <path d="M 305 240 L 250 295" />
+    <path d="M 360 295 L 360 240" />
+    <path d="M 360 240 L 360 185" />
+    <path d="M 360 295 L 415 295" />
+    <path d="M 415 295 L 470 295" />
+    <path d="M 470 295 L 525 240" />
+    <path d="M 525 240 L 580 185" />
+    <path d="M 580 185 L 525 185" />
+    <path d="M 525 185 L 470 185" />
+    <path d="M 470 185 L 415 240" />
+    <path d="M 415 240 L 360 295" />
+    <path d="M 470 295 L 470 240" />
+    <path d="M 470 240 L 470 185" />
+    <path d="M 250 185 L 305 185" />
+    <path d="M 305 185 L 360 185" />
+    <path d="M 360 185 L 415 130" />
+    <path d="M 415 130 L 470 75" />
+    <path d="M 470 75 L 415 75" />
+    <path d="M 415 75 L 360 75" />
+    <path d="M 360 75 L 305 130" />
+    <path d="M 305 130 L 250 185" />
+    <path d="M 360 185 L 360 130" />
+    <path d="M 360 130 L 360 75" />
+    <path d="M 360 185 L 415 185" />
+    <path d="M 415 185 L 470 185" />
+    <path d="M 470 185 L 525 130" />
+    <path d="M 525 130 L 580 75" />
+    <path d="M 580 75 L 525 75" />
+    <path d="M 525 75 L 470 75" />
+    <path d="M 470 75 L 415 130" />
+    <path d="M 415 130 L 360 185" />
+    <path d="M 470 185 L 470 130" />
+    <path d="M 470 130 L 470 75" />
+    <path d="M 470 185 L 525 185" />
+    <path d="M 525 185 L 580 185" />
+    <path d="M 580 185 L 635 130" />
+    <path d="M 635 130 L 690 75" />
+    <path d="M 690 75 L 635 75" />
+    <path d="M 635 75 L 580 75" />
+    <path d="M 580 75 L 525 130" />
+    <path d="M 525 130 L 470 185" />
+    <path d="M 580 185 L 580 130" />
+    <path d="M 580 130 L 580 75" />
+  </g>
+  <g fill="#A87A42" opacity=".78">
+    <circle cx="140" cy="405" r="2.45" />
+    <circle cx="250" cy="295" r="2.45" />
+    <circle cx="140" cy="295" r="2.45" />
+    <circle cx="250" cy="405" r="2.45" />
+    <circle cx="360" cy="295" r="2.45" />
+    <circle cx="360" cy="405" r="2.45" />
+    <circle cx="470" cy="295" r="2.45" />
+    <circle cx="360" cy="185" r="2.45" />
+    <circle cx="250" cy="185" r="2.45" />
+    <circle cx="470" cy="185" r="2.45" />
+    <circle cx="580" cy="185" r="2.45" />
+    <circle cx="470" cy="75" r="2.45" />
+    <circle cx="360" cy="75" r="2.45" />
+    <circle cx="580" cy="75" r="2.45" />
+  </g>
+</svg><text x='1419' y='475' font-family='Georgia,serif' font-size='18' fill='#30474C'>L07 &#183; Add crossing diagonal ties</text><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 480" role="img" aria-label="Add crossing diagonal ties" x="1415" y="490" width="450" height="300">
+  <title>Add crossing diagonal ties</title>
+  <rect width="720" height="480" fill="#F8F5EC" />
+  <g fill="none" stroke="#35535A" stroke-width="1.9" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M 150 450 L 220 450" />
+    <path d="M 220 450 L 290 450" />
+    <path d="M 290 450 L 290 380" />
+    <path d="M 290 380 L 290 310" />
+    <path d="M 290 310 L 220 310" />
+    <path d="M 220 310 L 150 310" />
+    <path d="M 150 310 L 150 380" />
+    <path d="M 150 380 L 150 450" />
+    <path d="M 150 450 L 220 380" />
+    <path d="M 220 380 L 290 310" />
+    <path d="M 290 450 L 220 380" />
+    <path d="M 220 380 L 150 310" />
+    <path d="M 290 450 L 360 450" />
+    <path d="M 360 450 L 430 450" />
+    <path d="M 430 450 L 430 380" />
+    <path d="M 430 380 L 430 310" />
+    <path d="M 430 310 L 360 310" />
+    <path d="M 360 310 L 290 310" />
+    <path d="M 290 310 L 290 380" />
+    <path d="M 290 380 L 290 450" />
+    <path d="M 290 450 L 360 380" />
+    <path d="M 360 380 L 430 310" />
+    <path d="M 430 450 L 360 380" />
+    <path d="M 360 380 L 290 310" />
+    <path d="M 430 450 L 500 450" />
+    <path d="M 500 450 L 570 450" />
+    <path d="M 570 450 L 570 380" />
+    <path d="M 570 380 L 570 310" />
+    <path d="M 570 310 L 500 310" />
+    <path d="M 500 310 L 430 310" />
+    <path d="M 430 310 L 430 380" />
+    <path d="M 430 380 L 430 450" />
+    <path d="M 430 450 L 500 380" />
+    <path d="M 500 380 L 570 310" />
+    <path d="M 570 450 L 500 380" />
+    <path d="M 500 380 L 430 310" />
+    <path d="M 150 310 L 220 310" />
+    <path d="M 220 310 L 290 310" />
+    <path d="M 290 310 L 290 240" />
+    <path d="M 290 240 L 290 170" />
+    <path d="M 290 170 L 220 170" />
+    <path d="M 220 170 L 150 170" />
+    <path d="M 150 170 L 150 240" />
+    <path d="M 150 240 L 150 310" />
+    <path d="M 150 310 L 220 240" />
+    <path d="M 220 240 L 290 170" />
+    <path d="M 290 310 L 220 240" />
+    <path d="M 220 240 L 150 170" />
+    <path d="M 290 310 L 360 310" />
+    <path d="M 360 310 L 430 310" />
+    <path d="M 430 310 L 430 240" />
+    <path d="M 430 240 L 430 170" />
+    <path d="M 430 170 L 360 170" />
+    <path d="M 360 170 L 290 170" />
+    <path d="M 290 170 L 290 240" />
+    <path d="M 290 240 L 290 310" />
+    <path d="M 290 310 L 360 240" />
+    <path d="M 360 240 L 430 170" />
+    <path d="M 430 310 L 360 240" />
+    <path d="M 360 240 L 290 170" />
+    <path d="M 430 310 L 500 310" />
+    <path d="M 500 310 L 570 310" />
+    <path d="M 570 310 L 570 240" />
+    <path d="M 570 240 L 570 170" />
+    <path d="M 570 170 L 500 170" />
+    <path d="M 500 170 L 430 170" />
+    <path d="M 430 170 L 430 240" />
+    <path d="M 430 240 L 430 310" />
+    <path d="M 430 310 L 500 240" />
+    <path d="M 500 240 L 570 170" />
+    <path d="M 570 310 L 500 240" />
+    <path d="M 500 240 L 430 170" />
+    <path d="M 150 170 L 220 170" />
+    <path d="M 220 170 L 290 170" />
+    <path d="M 290 170 L 290 100" />
+    <path d="M 290 100 L 290 30" />
+    <path d="M 290 30 L 220 30" />
+    <path d="M 220 30 L 150 30" />
+    <path d="M 150 30 L 150 100" />
+    <path d="M 150 100 L 150 170" />
+    <path d="M 150 170 L 220 100" />
+    <path d="M 220 100 L 290 30" />
+    <path d="M 290 170 L 220 100" />
+    <path d="M 220 100 L 150 30" />
+    <path d="M 290 170 L 360 170" />
+    <path d="M 360 170 L 430 170" />
+    <path d="M 430 170 L 430 100" />
+    <path d="M 430 100 L 430 30" />
+    <path d="M 430 30 L 360 30" />
+    <path d="M 360 30 L 290 30" />
+    <path d="M 290 30 L 290 100" />
+    <path d="M 290 100 L 290 170" />
+    <path d="M 290 170 L 360 100" />
+    <path d="M 360 100 L 430 30" />
+    <path d="M 430 170 L 360 100" />
+    <path d="M 360 100 L 290 30" />
+    <path d="M 430 170 L 500 170" />
+    <path d="M 500 170 L 570 170" />
+    <path d="M 570 170 L 570 100" />
+    <path d="M 570 100 L 570 30" />
+    <path d="M 570 30 L 500 30" />
+    <path d="M 500 30 L 430 30" />
+    <path d="M 430 30 L 430 100" />
+    <path d="M 430 100 L 430 170" />
+    <path d="M 430 170 L 500 100" />
+    <path d="M 500 100 L 570 30" />
+    <path d="M 570 170 L 500 100" />
+    <path d="M 500 100 L 430 30" />
+  </g>
+  <g fill="#A87A42" opacity=".78">
+    <circle cx="150" cy="450" r="2.45" />
+    <circle cx="290" cy="450" r="2.45" />
+    <circle cx="290" cy="310" r="2.45" />
+    <circle cx="150" cy="310" r="2.45" />
+    <circle cx="220" cy="380" r="2.45" />
+    <circle cx="430" cy="450" r="2.45" />
+    <circle cx="430" cy="310" r="2.45" />
+    <circle cx="360" cy="380" r="2.45" />
+    <circle cx="570" cy="450" r="2.45" />
+    <circle cx="570" cy="310" r="2.45" />
+    <circle cx="500" cy="380" r="2.45" />
+    <circle cx="290" cy="170" r="2.45" />
+    <circle cx="150" cy="170" r="2.45" />
+    <circle cx="220" cy="240" r="2.45" />
+    <circle cx="430" cy="170" r="2.45" />
+    <circle cx="360" cy="240" r="2.45" />
+    <circle cx="570" cy="170" r="2.45" />
+    <circle cx="500" cy="240" r="2.45" />
+    <circle cx="290" cy="30" r="2.45" />
+    <circle cx="150" cy="30" r="2.45" />
+    <circle cx="220" cy="100" r="2.45" />
+    <circle cx="430" cy="30" r="2.45" />
+    <circle cx="360" cy="100" r="2.45" />
+    <circle cx="570" cy="30" r="2.45" />
+    <circle cx="500" cy="100" r="2.45" />
+  </g>
+</svg><text x='24' y='815' font-family='Georgia,serif' font-size='18' fill='#30474C'>L08 &#183; Stretch the diagonal network</text><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 480" role="img" aria-label="Stretch the diagonal network" x="20" y="830" width="450" height="300">
+  <title>Stretch the diagonal network</title>
+  <rect width="720" height="480" fill="#F8F5EC" />
+  <g fill="none" stroke="#35535A" stroke-width="1.9" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M 30 405 L 140 405" />
+    <path d="M 140 405 L 250 405" />
+    <path d="M 250 405 L 250 350" />
+    <path d="M 250 350 L 250 295" />
+    <path d="M 250 295 L 140 295" />
+    <path d="M 140 295 L 30 295" />
+    <path d="M 30 295 L 30 350" />
+    <path d="M 30 350 L 30 405" />
+    <path d="M 30 405 L 140 350" />
+    <path d="M 140 350 L 250 295" />
+    <path d="M 250 405 L 140 350" />
+    <path d="M 140 350 L 30 295" />
+    <path d="M 250 405 L 360 405" />
+    <path d="M 360 405 L 470 405" />
+    <path d="M 470 405 L 470 350" />
+    <path d="M 470 350 L 470 295" />
+    <path d="M 470 295 L 360 295" />
+    <path d="M 360 295 L 250 295" />
+    <path d="M 250 295 L 250 350" />
+    <path d="M 250 350 L 250 405" />
+    <path d="M 250 405 L 360 350" />
+    <path d="M 360 350 L 470 295" />
+    <path d="M 470 405 L 360 350" />
+    <path d="M 360 350 L 250 295" />
+    <path d="M 470 405 L 580 405" />
+    <path d="M 580 405 L 690 405" />
+    <path d="M 690 405 L 690 350" />
+    <path d="M 690 350 L 690 295" />
+    <path d="M 690 295 L 580 295" />
+    <path d="M 580 295 L 470 295" />
+    <path d="M 470 295 L 470 350" />
+    <path d="M 470 350 L 470 405" />
+    <path d="M 470 405 L 580 350" />
+    <path d="M 580 350 L 690 295" />
+    <path d="M 690 405 L 580 350" />
+    <path d="M 580 350 L 470 295" />
+    <path d="M 30 295 L 140 295" />
+    <path d="M 140 295 L 250 295" />
+    <path d="M 250 295 L 250 240" />
+    <path d="M 250 240 L 250 185" />
+    <path d="M 250 185 L 140 185" />
+    <path d="M 140 185 L 30 185" />
+    <path d="M 30 185 L 30 240" />
+    <path d="M 30 240 L 30 295" />
+    <path d="M 30 295 L 140 240" />
+    <path d="M 140 240 L 250 185" />
+    <path d="M 250 295 L 140 240" />
+    <path d="M 140 240 L 30 185" />
+    <path d="M 250 295 L 360 295" />
+    <path d="M 360 295 L 470 295" />
+    <path d="M 470 295 L 470 240" />
+    <path d="M 470 240 L 470 185" />
+    <path d="M 470 185 L 360 185" />
+    <path d="M 360 185 L 250 185" />
+    <path d="M 250 185 L 250 240" />
+    <path d="M 250 240 L 250 295" />
+    <path d="M 250 295 L 360 240" />
+    <path d="M 360 240 L 470 185" />
+    <path d="M 470 295 L 360 240" />
+    <path d="M 360 240 L 250 185" />
+    <path d="M 470 295 L 580 295" />
+    <path d="M 580 295 L 690 295" />
+    <path d="M 690 295 L 690 240" />
+    <path d="M 690 240 L 690 185" />
+    <path d="M 690 185 L 580 185" />
+    <path d="M 580 185 L 470 185" />
+    <path d="M 470 185 L 470 240" />
+    <path d="M 470 240 L 470 295" />
+    <path d="M 470 295 L 580 240" />
+    <path d="M 580 240 L 690 185" />
+    <path d="M 690 295 L 580 240" />
+    <path d="M 580 240 L 470 185" />
+    <path d="M 30 185 L 140 185" />
+    <path d="M 140 185 L 250 185" />
+    <path d="M 250 185 L 250 130" />
+    <path d="M 250 130 L 250 75" />
+    <path d="M 250 75 L 140 75" />
+    <path d="M 140 75 L 30 75" />
+    <path d="M 30 75 L 30 130" />
+    <path d="M 30 130 L 30 185" />
+    <path d="M 30 185 L 140 130" />
+    <path d="M 140 130 L 250 75" />
+    <path d="M 250 185 L 140 130" />
+    <path d="M 140 130 L 30 75" />
+    <path d="M 250 185 L 360 185" />
+    <path d="M 360 185 L 470 185" />
+    <path d="M 470 185 L 470 130" />
+    <path d="M 470 130 L 470 75" />
+    <path d="M 470 75 L 360 75" />
+    <path d="M 360 75 L 250 75" />
+    <path d="M 250 75 L 250 130" />
+    <path d="M 250 130 L 250 185" />
+    <path d="M 250 185 L 360 130" />
+    <path d="M 360 130 L 470 75" />
+    <path d="M 470 185 L 360 130" />
+    <path d="M 360 130 L 250 75" />
+    <path d="M 470 185 L 580 185" />
+    <path d="M 580 185 L 690 185" />
+    <path d="M 690 185 L 690 130" />
+    <path d="M 690 130 L 690 75" />
+    <path d="M 690 75 L 580 75" />
+    <path d="M 580 75 L 470 75" />
+    <path d="M 470 75 L 470 130" />
+    <path d="M 470 130 L 470 185" />
+    <path d="M 470 185 L 580 130" />
+    <path d="M 580 130 L 690 75" />
+    <path d="M 690 185 L 580 130" />
+    <path d="M 580 130 L 470 75" />
+  </g>
+  <g fill="#A87A42" opacity=".78">
+    <circle cx="30" cy="405" r="2.45" />
+    <circle cx="250" cy="405" r="2.45" />
+    <circle cx="250" cy="295" r="2.45" />
+    <circle cx="30" cy="295" r="2.45" />
+    <circle cx="140" cy="350" r="2.45" />
+    <circle cx="470" cy="405" r="2.45" />
+    <circle cx="470" cy="295" r="2.45" />
+    <circle cx="360" cy="350" r="2.45" />
+    <circle cx="690" cy="405" r="2.45" />
+    <circle cx="690" cy="295" r="2.45" />
+    <circle cx="580" cy="350" r="2.45" />
+    <circle cx="250" cy="185" r="2.45" />
+    <circle cx="30" cy="185" r="2.45" />
+    <circle cx="140" cy="240" r="2.45" />
+    <circle cx="470" cy="185" r="2.45" />
+    <circle cx="360" cy="240" r="2.45" />
+    <circle cx="690" cy="185" r="2.45" />
+    <circle cx="580" cy="240" r="2.45" />
+    <circle cx="250" cy="75" r="2.45" />
+    <circle cx="30" cy="75" r="2.45" />
+    <circle cx="140" cy="130" r="2.45" />
+    <circle cx="470" cy="75" r="2.45" />
+    <circle cx="360" cy="130" r="2.45" />
+    <circle cx="690" cy="75" r="2.45" />
+    <circle cx="580" cy="130" r="2.45" />
+  </g>
+</svg><text x='489' y='815' font-family='Georgia,serif' font-size='18' fill='#30474C'>L09 &#183; Pair narrow orthogonal strips</text><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 480" role="img" aria-label="Pair narrow orthogonal strips" x="485" y="830" width="450" height="300">
+  <title>Pair narrow orthogonal strips</title>
+  <rect width="720" height="480" fill="#F8F5EC" />
+  <g fill="none" stroke="#35535A" stroke-width="1.9" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M 150 450 L 185 450" />
+    <path d="M 185 450 L 290 450" />
+    <path d="M 150 415 L 185 415" />
+    <path d="M 185 415 L 290 415" />
+    <path d="M 150 450 L 150 415" />
+    <path d="M 150 415 L 150 310" />
+    <path d="M 185 450 L 185 415" />
+    <path d="M 185 415 L 185 310" />
+    <path d="M 290 450 L 325 450" />
+    <path d="M 325 450 L 430 450" />
+    <path d="M 290 415 L 325 415" />
+    <path d="M 325 415 L 430 415" />
+    <path d="M 290 450 L 290 415" />
+    <path d="M 290 415 L 290 310" />
+    <path d="M 325 450 L 325 415" />
+    <path d="M 325 415 L 325 310" />
+    <path d="M 430 450 L 465 450" />
+    <path d="M 465 450 L 570 450" />
+    <path d="M 430 415 L 465 415" />
+    <path d="M 465 415 L 570 415" />
+    <path d="M 430 450 L 430 415" />
+    <path d="M 430 415 L 430 310" />
+    <path d="M 465 450 L 465 415" />
+    <path d="M 465 415 L 465 310" />
+    <path d="M 150 310 L 185 310" />
+    <path d="M 185 310 L 290 310" />
+    <path d="M 150 275 L 185 275" />
+    <path d="M 185 275 L 290 275" />
+    <path d="M 150 310 L 150 275" />
+    <path d="M 150 275 L 150 170" />
+    <path d="M 185 310 L 185 275" />
+    <path d="M 185 275 L 185 170" />
+    <path d="M 290 310 L 325 310" />
+    <path d="M 325 310 L 430 310" />
+    <path d="M 290 275 L 325 275" />
+    <path d="M 325 275 L 430 275" />
+    <path d="M 290 310 L 290 275" />
+    <path d="M 290 275 L 290 170" />
+    <path d="M 325 310 L 325 275" />
+    <path d="M 325 275 L 325 170" />
+    <path d="M 430 310 L 465 310" />
+    <path d="M 465 310 L 570 310" />
+    <path d="M 430 275 L 465 275" />
+    <path d="M 465 275 L 570 275" />
+    <path d="M 430 310 L 430 275" />
+    <path d="M 430 275 L 430 170" />
+    <path d="M 465 310 L 465 275" />
+    <path d="M 465 275 L 465 170" />
+    <path d="M 150 170 L 185 170" />
+    <path d="M 185 170 L 290 170" />
+    <path d="M 150 135 L 185 135" />
+    <path d="M 185 135 L 290 135" />
+    <path d="M 150 170 L 150 135" />
+    <path d="M 150 135 L 150 30" />
+    <path d="M 185 170 L 185 135" />
+    <path d="M 185 135 L 185 30" />
+    <path d="M 290 170 L 325 170" />
+    <path d="M 325 170 L 430 170" />
+    <path d="M 290 135 L 325 135" />
+    <path d="M 325 135 L 430 135" />
+    <path d="M 290 170 L 290 135" />
+    <path d="M 290 135 L 290 30" />
+    <path d="M 325 170 L 325 135" />
+    <path d="M 325 135 L 325 30" />
+    <path d="M 430 170 L 465 170" />
+    <path d="M 465 170 L 570 170" />
+    <path d="M 430 135 L 465 135" />
+    <path d="M 465 135 L 570 135" />
+    <path d="M 430 170 L 430 135" />
+    <path d="M 430 135 L 430 30" />
+    <path d="M 465 170 L 465 135" />
+    <path d="M 465 135 L 465 30" />
+  </g>
+  <g fill="#A87A42" opacity=".78">
+    <circle cx="185" cy="450" r="2.45" />
+    <circle cx="290" cy="450" r="2.45" />
+    <circle cx="150" cy="415" r="2.45" />
+    <circle cx="185" cy="415" r="2.45" />
+    <circle cx="290" cy="415" r="2.45" />
+    <circle cx="150" cy="310" r="2.45" />
+    <circle cx="185" cy="310" r="2.45" />
+    <circle cx="325" cy="450" r="2.45" />
+    <circle cx="430" cy="450" r="2.45" />
+    <circle cx="325" cy="415" r="2.45" />
+    <circle cx="430" cy="415" r="2.45" />
+    <circle cx="290" cy="310" r="2.45" />
+    <circle cx="325" cy="310" r="2.45" />
+    <circle cx="465" cy="450" r="2.45" />
+    <circle cx="465" cy="415" r="2.45" />
+    <circle cx="430" cy="310" r="2.45" />
+    <circle cx="465" cy="310" r="2.45" />
+    <circle cx="150" cy="275" r="2.45" />
+    <circle cx="185" cy="275" r="2.45" />
+    <circle cx="290" cy="275" r="2.45" />
+    <circle cx="150" cy="170" r="2.45" />
+    <circle cx="185" cy="170" r="2.45" />
+    <circle cx="325" cy="275" r="2.45" />
+    <circle cx="430" cy="275" r="2.45" />
+    <circle cx="290" cy="170" r="2.45" />
+    <circle cx="325" cy="170" r="2.45" />
+    <circle cx="465" cy="275" r="2.45" />
+    <circle cx="430" cy="170" r="2.45" />
+    <circle cx="465" cy="170" r="2.45" />
+    <circle cx="150" cy="135" r="2.45" />
+    <circle cx="185" cy="135" r="2.45" />
+    <circle cx="290" cy="135" r="2.45" />
+    <circle cx="325" cy="135" r="2.45" />
+    <circle cx="430" cy="135" r="2.45" />
+    <circle cx="465" cy="135" r="2.45" />
+  </g>
+</svg><text x='954' y='815' font-family='Georgia,serif' font-size='18' fill='#30474C'>L10 &#183; Turn paired strips into oblique ribbons</text><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 480" role="img" aria-label="Turn paired strips into oblique ribbons" x="950" y="830" width="450" height="300">
+  <title>Turn paired strips into oblique ribbons</title>
+  <rect width="720" height="480" fill="#F8F5EC" />
+  <g fill="none" stroke="#35535A" stroke-width="1.9" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M 360 384.375 L 387.5 370.625" />
+    <path d="M 387.5 370.625 L 470 329.375" />
+    <path d="M 332.5 370.625 L 360 356.875" />
+    <path d="M 360 356.875 L 442.5 315.625" />
+    <path d="M 360 384.375 L 332.5 370.625" />
+    <path d="M 332.5 370.625 L 250 329.375" />
+    <path d="M 387.5 370.625 L 360 356.875" />
+    <path d="M 360 356.875 L 277.5 315.625" />
+    <path d="M 470 329.375 L 497.5 315.625" />
+    <path d="M 497.5 315.625 L 580 274.375" />
+    <path d="M 442.5 315.625 L 470 301.875" />
+    <path d="M 470 301.875 L 552.5 260.625" />
+    <path d="M 470 329.375 L 442.5 315.625" />
+    <path d="M 442.5 315.625 L 360 274.375" />
+    <path d="M 497.5 315.625 L 470 301.875" />
+    <path d="M 470 301.875 L 387.5 260.625" />
+    <path d="M 580 274.375 L 607.5 260.625" />
+    <path d="M 607.5 260.625 L 690 219.375" />
+    <path d="M 552.5 260.625 L 580 246.875" />
+    <path d="M 580 246.875 L 662.5 205.625" />
+    <path d="M 580 274.375 L 552.5 260.625" />
+    <path d="M 552.5 260.625 L 470 219.375" />
+    <path d="M 607.5 260.625 L 580 246.875" />
+    <path d="M 580 246.875 L 497.5 205.625" />
+    <path d="M 250 329.375 L 277.5 315.625" />
+    <path d="M 277.5 315.625 L 360 274.375" />
+    <path d="M 222.5 315.625 L 250 301.875" />
+    <path d="M 250 301.875 L 332.5 260.625" />
+    <path d="M 250 329.375 L 222.5 315.625" />
+    <path d="M 222.5 315.625 L 140 274.375" />
+    <path d="M 277.5 315.625 L 250 301.875" />
+    <path d="M 250 301.875 L 167.5 260.625" />
+    <path d="M 360 274.375 L 387.5 260.625" />
+    <path d="M 387.5 260.625 L 470 219.375" />
+    <path d="M 332.5 260.625 L 360 246.875" />
+    <path d="M 360 246.875 L 442.5 205.625" />
+    <path d="M 360 274.375 L 332.5 260.625" />
+    <path d="M 332.5 260.625 L 250 219.375" />
+    <path d="M 387.5 260.625 L 360 246.875" />
+    <path d="M 360 246.875 L 277.5 205.625" />
+    <path d="M 470 219.375 L 497.5 205.625" />
+    <path d="M 497.5 205.625 L 580 164.375" />
+    <path d="M 442.5 205.625 L 470 191.875" />
+    <path d="M 470 191.875 L 552.5 150.625" />
+    <path d="M 470 219.375 L 442.5 205.625" />
+    <path d="M 442.5 205.625 L 360 164.375" />
+    <path d="M 497.5 205.625 L 470 191.875" />
+    <path d="M 470 191.875 L 387.5 150.625" />
+    <path d="M 140 274.375 L 167.5 260.625" />
+    <path d="M 167.5 260.625 L 250 219.375" />
+    <path d="M 112.5 260.625 L 140 246.875" />
+    <path d="M 140 246.875 L 222.5 205.625" />
+    <path d="M 140 274.375 L 112.5 260.625" />
+    <path d="M 112.5 260.625 L 30 219.375" />
+    <path d="M 167.5 260.625 L 140 246.875" />
+    <path d="M 140 246.875 L 57.5 205.625" />
+    <path d="M 250 219.375 L 277.5 205.625" />
+    <path d="M 277.5 205.625 L 360 164.375" />
+    <path d="M 222.5 205.625 L 250 191.875" />
+    <path d="M 250 191.875 L 332.5 150.625" />
+    <path d="M 250 219.375 L 222.5 205.625" />
+    <path d="M 222.5 205.625 L 140 164.375" />
+    <path d="M 277.5 205.625 L 250 191.875" />
+    <path d="M 250 191.875 L 167.5 150.625" />
+    <path d="M 360 164.375 L 387.5 150.625" />
+    <path d="M 387.5 150.625 L 470 109.375" />
+    <path d="M 332.5 150.625 L 360 136.875" />
+    <path d="M 360 136.875 L 442.5 95.625" />
+    <path d="M 360 164.375 L 332.5 150.625" />
+    <path d="M 332.5 150.625 L 250 109.375" />
+    <path d="M 387.5 150.625 L 360 136.875" />
+    <path d="M 360 136.875 L 277.5 95.625" />
+  </g>
+  <g fill="#A87A42" opacity=".78">
+    <circle cx="387.5" cy="370.625" r="2.45" />
+    <circle cx="470" cy="329.375" r="2.45" />
+    <circle cx="332.5" cy="370.625" r="2.45" />
+    <circle cx="360" cy="356.875" r="2.45" />
+    <circle cx="442.5" cy="315.625" r="2.45" />
+    <circle cx="250" cy="329.375" r="2.45" />
+    <circle cx="277.5" cy="315.625" r="2.45" />
+    <circle cx="497.5" cy="315.625" r="2.45" />
+    <circle cx="580" cy="274.375" r="2.45" />
+    <circle cx="470" cy="301.875" r="2.45" />
+    <circle cx="552.5" cy="260.625" r="2.45" />
+    <circle cx="360" cy="274.375" r="2.45" />
+    <circle cx="387.5" cy="260.625" r="2.45" />
+    <circle cx="607.5" cy="260.625" r="2.45" />
+    <circle cx="580" cy="246.875" r="2.45" />
+    <circle cx="470" cy="219.375" r="2.45" />
+    <circle cx="497.5" cy="205.625" r="2.45" />
+    <circle cx="222.5" cy="315.625" r="2.45" />
+    <circle cx="250" cy="301.875" r="2.45" />
+    <circle cx="332.5" cy="260.625" r="2.45" />
+    <circle cx="140" cy="274.375" r="2.45" />
+    <circle cx="167.5" cy="260.625" r="2.45" />
+    <circle cx="360" cy="246.875" r="2.45" />
+    <circle cx="442.5" cy="205.625" r="2.45" />
+    <circle cx="250" cy="219.375" r="2.45" />
+    <circle cx="277.5" cy="205.625" r="2.45" />
+    <circle cx="470" cy="191.875" r="2.45" />
+    <circle cx="360" cy="164.375" r="2.45" />
+    <circle cx="387.5" cy="150.625" r="2.45" />
+    <circle cx="112.5" cy="260.625" r="2.45" />
+    <circle cx="140" cy="246.875" r="2.45" />
+    <circle cx="222.5" cy="205.625" r="2.45" />
+    <circle cx="250" cy="191.875" r="2.45" />
+    <circle cx="332.5" cy="150.625" r="2.45" />
+    <circle cx="360" cy="136.875" r="2.45" />
+  </g>
+</svg><text x='1419' y='815' font-family='Georgia,serif' font-size='18' fill='#30474C'>L11 &#183; Expose corner inset sites</text><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 480" role="img" aria-label="Expose corner inset sites" x="1415" y="830" width="450" height="300">
+  <title>Expose corner inset sites</title>
+  <rect width="720" height="480" fill="#F8F5EC" />
+  <g fill="none" stroke="#35535A" stroke-width="1.9" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M 150 450 L 185 450" />
+    <path d="M 185 450 L 220 450" />
+    <path d="M 220 450 L 255 450" />
+    <path d="M 255 450 L 290 450" />
+    <path d="M 290 450 L 290 415" />
+    <path d="M 290 415 L 290 380" />
+    <path d="M 290 380 L 290 345" />
+    <path d="M 290 345 L 290 310" />
+    <path d="M 290 310 L 255 310" />
+    <path d="M 255 310 L 220 310" />
+    <path d="M 220 310 L 185 310" />
+    <path d="M 185 310 L 150 310" />
+    <path d="M 150 310 L 150 345" />
+    <path d="M 150 345 L 150 380" />
+    <path d="M 150 380 L 150 415" />
+    <path d="M 150 415 L 150 450" />
+    <path d="M 290 450 L 325 450" />
+    <path d="M 325 450 L 360 450" />
+    <path d="M 360 450 L 395 450" />
+    <path d="M 395 450 L 430 450" />
+    <path d="M 430 450 L 430 415" />
+    <path d="M 430 415 L 430 380" />
+    <path d="M 430 380 L 430 345" />
+    <path d="M 430 345 L 430 310" />
+    <path d="M 430 310 L 395 310" />
+    <path d="M 395 310 L 360 310" />
+    <path d="M 360 310 L 325 310" />
+    <path d="M 325 310 L 290 310" />
+    <path d="M 290 310 L 290 345" />
+    <path d="M 290 345 L 290 380" />
+    <path d="M 290 380 L 290 415" />
+    <path d="M 290 415 L 290 450" />
+    <path d="M 430 450 L 465 450" />
+    <path d="M 465 450 L 500 450" />
+    <path d="M 500 450 L 535 450" />
+    <path d="M 535 450 L 570 450" />
+    <path d="M 570 450 L 570 415" />
+    <path d="M 570 415 L 570 380" />
+    <path d="M 570 380 L 570 345" />
+    <path d="M 570 345 L 570 310" />
+    <path d="M 570 310 L 535 310" />
+    <path d="M 535 310 L 500 310" />
+    <path d="M 500 310 L 465 310" />
+    <path d="M 465 310 L 430 310" />
+    <path d="M 430 310 L 430 345" />
+    <path d="M 430 345 L 430 380" />
+    <path d="M 430 380 L 430 415" />
+    <path d="M 430 415 L 430 450" />
+    <path d="M 150 310 L 185 310" />
+    <path d="M 185 310 L 220 310" />
+    <path d="M 220 310 L 255 310" />
+    <path d="M 255 310 L 290 310" />
+    <path d="M 290 310 L 290 275" />
+    <path d="M 290 275 L 290 240" />
+    <path d="M 290 240 L 290 205" />
+    <path d="M 290 205 L 290 170" />
+    <path d="M 290 170 L 255 170" />
+    <path d="M 255 170 L 220 170" />
+    <path d="M 220 170 L 185 170" />
+    <path d="M 185 170 L 150 170" />
+    <path d="M 150 170 L 150 205" />
+    <path d="M 150 205 L 150 240" />
+    <path d="M 150 240 L 150 275" />
+    <path d="M 150 275 L 150 310" />
+    <path d="M 290 310 L 325 310" />
+    <path d="M 325 310 L 360 310" />
+    <path d="M 360 310 L 395 310" />
+    <path d="M 395 310 L 430 310" />
+    <path d="M 430 310 L 430 275" />
+    <path d="M 430 275 L 430 240" />
+    <path d="M 430 240 L 430 205" />
+    <path d="M 430 205 L 430 170" />
+    <path d="M 430 170 L 395 170" />
+    <path d="M 395 170 L 360 170" />
+    <path d="M 360 170 L 325 170" />
+    <path d="M 325 170 L 290 170" />
+    <path d="M 290 170 L 290 205" />
+    <path d="M 290 205 L 290 240" />
+    <path d="M 290 240 L 290 275" />
+    <path d="M 290 275 L 290 310" />
+    <path d="M 430 310 L 465 310" />
+    <path d="M 465 310 L 500 310" />
+    <path d="M 500 310 L 535 310" />
+    <path d="M 535 310 L 570 310" />
+    <path d="M 570 310 L 570 275" />
+    <path d="M 570 275 L 570 240" />
+    <path d="M 570 240 L 570 205" />
+    <path d="M 570 205 L 570 170" />
+    <path d="M 570 170 L 535 170" />
+    <path d="M 535 170 L 500 170" />
+    <path d="M 500 170 L 465 170" />
+    <path d="M 465 170 L 430 170" />
+    <path d="M 430 170 L 430 205" />
+    <path d="M 430 205 L 430 240" />
+    <path d="M 430 240 L 430 275" />
+    <path d="M 430 275 L 430 310" />
+    <path d="M 150 170 L 185 170" />
+    <path d="M 185 170 L 220 170" />
+    <path d="M 220 170 L 255 170" />
+    <path d="M 255 170 L 290 170" />
+    <path d="M 290 170 L 290 135" />
+    <path d="M 290 135 L 290 100" />
+    <path d="M 290 100 L 290 65" />
+    <path d="M 290 65 L 290 30" />
+    <path d="M 290 30 L 255 30" />
+    <path d="M 255 30 L 220 30" />
+    <path d="M 220 30 L 185 30" />
+    <path d="M 185 30 L 150 30" />
+    <path d="M 150 30 L 150 65" />
+    <path d="M 150 65 L 150 100" />
+    <path d="M 150 100 L 150 135" />
+    <path d="M 150 135 L 150 170" />
+    <path d="M 290 170 L 325 170" />
+    <path d="M 325 170 L 360 170" />
+    <path d="M 360 170 L 395 170" />
+    <path d="M 395 170 L 430 170" />
+    <path d="M 430 170 L 430 135" />
+    <path d="M 430 135 L 430 100" />
+    <path d="M 430 100 L 430 65" />
+    <path d="M 430 65 L 430 30" />
+    <path d="M 430 30 L 395 30" />
+    <path d="M 395 30 L 360 30" />
+    <path d="M 360 30 L 325 30" />
+    <path d="M 325 30 L 290 30" />
+    <path d="M 290 30 L 290 65" />
+    <path d="M 290 65 L 290 100" />
+    <path d="M 290 100 L 290 135" />
+    <path d="M 290 135 L 290 170" />
+    <path d="M 430 170 L 465 170" />
+    <path d="M 465 170 L 500 170" />
+    <path d="M 500 170 L 535 170" />
+    <path d="M 535 170 L 570 170" />
+    <path d="M 570 170 L 570 135" />
+    <path d="M 570 135 L 570 100" />
+    <path d="M 570 100 L 570 65" />
+    <path d="M 570 65 L 570 30" />
+    <path d="M 570 30 L 535 30" />
+    <path d="M 535 30 L 500 30" />
+    <path d="M 500 30 L 465 30" />
+    <path d="M 465 30 L 430 30" />
+    <path d="M 430 30 L 430 65" />
+    <path d="M 430 65 L 430 100" />
+    <path d="M 430 100 L 430 135" />
+    <path d="M 430 135 L 430 170" />
+  </g>
+  <g fill="#A87A42" opacity=".78">
+    <circle cx="290" cy="450" r="2.45" />
+    <circle cx="290" cy="380" r="2.45" />
+    <circle cx="290" cy="310" r="2.45" />
+    <circle cx="220" cy="310" r="2.45" />
+    <circle cx="150" cy="310" r="2.45" />
+    <circle cx="430" cy="450" r="2.45" />
+    <circle cx="430" cy="380" r="2.45" />
+    <circle cx="430" cy="310" r="2.45" />
+    <circle cx="360" cy="310" r="2.45" />
+    <circle cx="570" cy="310" r="2.45" />
+    <circle cx="500" cy="310" r="2.45" />
+    <circle cx="290" cy="240" r="2.45" />
+    <circle cx="290" cy="170" r="2.45" />
+    <circle cx="220" cy="170" r="2.45" />
+    <circle cx="150" cy="170" r="2.45" />
+    <circle cx="430" cy="240" r="2.45" />
+    <circle cx="430" cy="170" r="2.45" />
+    <circle cx="360" cy="170" r="2.45" />
+    <circle cx="570" cy="170" r="2.45" />
+    <circle cx="500" cy="170" r="2.45" />
+    <circle cx="290" cy="100" r="2.45" />
+    <circle cx="290" cy="30" r="2.45" />
+    <circle cx="430" cy="100" r="2.45" />
+    <circle cx="430" cy="30" r="2.45" />
+  </g>
+</svg><text x='24' y='1155' font-family='Georgia,serif' font-size='18' fill='#30474C'>L12 &#183; Chamfer the square corners</text><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 480" role="img" aria-label="Chamfer the square corners" x="20" y="1170" width="450" height="300">
+  <title>Chamfer the square corners</title>
+  <rect width="720" height="480" fill="#F8F5EC" />
+  <g fill="none" stroke="#35535A" stroke-width="1.9" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M 185 450 L 220 450" />
+    <path d="M 220 450 L 255 450" />
+    <path d="M 255 450 L 290 415" />
+    <path d="M 290 415 L 290 380" />
+    <path d="M 290 380 L 290 345" />
+    <path d="M 290 345 L 255 310" />
+    <path d="M 255 310 L 220 310" />
+    <path d="M 220 310 L 185 310" />
+    <path d="M 185 310 L 150 345" />
+    <path d="M 150 345 L 150 380" />
+    <path d="M 150 380 L 150 415" />
+    <path d="M 150 415 L 185 450" />
+    <path d="M 325 450 L 360 450" />
+    <path d="M 360 450 L 395 450" />
+    <path d="M 395 450 L 430 415" />
+    <path d="M 430 415 L 430 380" />
+    <path d="M 430 380 L 430 345" />
+    <path d="M 430 345 L 395 310" />
+    <path d="M 395 310 L 360 310" />
+    <path d="M 360 310 L 325 310" />
+    <path d="M 325 310 L 290 345" />
+    <path d="M 290 345 L 290 380" />
+    <path d="M 290 380 L 290 415" />
+    <path d="M 290 415 L 325 450" />
+    <path d="M 465 450 L 500 450" />
+    <path d="M 500 450 L 535 450" />
+    <path d="M 535 450 L 570 415" />
+    <path d="M 570 415 L 570 380" />
+    <path d="M 570 380 L 570 345" />
+    <path d="M 570 345 L 535 310" />
+    <path d="M 535 310 L 500 310" />
+    <path d="M 500 310 L 465 310" />
+    <path d="M 465 310 L 430 345" />
+    <path d="M 430 345 L 430 380" />
+    <path d="M 430 380 L 430 415" />
+    <path d="M 430 415 L 465 450" />
+    <path d="M 185 310 L 220 310" />
+    <path d="M 220 310 L 255 310" />
+    <path d="M 255 310 L 290 275" />
+    <path d="M 290 275 L 290 240" />
+    <path d="M 290 240 L 290 205" />
+    <path d="M 290 205 L 255 170" />
+    <path d="M 255 170 L 220 170" />
+    <path d="M 220 170 L 185 170" />
+    <path d="M 185 170 L 150 205" />
+    <path d="M 150 205 L 150 240" />
+    <path d="M 150 240 L 150 275" />
+    <path d="M 150 275 L 185 310" />
+    <path d="M 325 310 L 360 310" />
+    <path d="M 360 310 L 395 310" />
+    <path d="M 395 310 L 430 275" />
+    <path d="M 430 275 L 430 240" />
+    <path d="M 430 240 L 430 205" />
+    <path d="M 430 205 L 395 170" />
+    <path d="M 395 170 L 360 170" />
+    <path d="M 360 170 L 325 170" />
+    <path d="M 325 170 L 290 205" />
+    <path d="M 290 205 L 290 240" />
+    <path d="M 290 240 L 290 275" />
+    <path d="M 290 275 L 325 310" />
+    <path d="M 465 310 L 500 310" />
+    <path d="M 500 310 L 535 310" />
+    <path d="M 535 310 L 570 275" />
+    <path d="M 570 275 L 570 240" />
+    <path d="M 570 240 L 570 205" />
+    <path d="M 570 205 L 535 170" />
+    <path d="M 535 170 L 500 170" />
+    <path d="M 500 170 L 465 170" />
+    <path d="M 465 170 L 430 205" />
+    <path d="M 430 205 L 430 240" />
+    <path d="M 430 240 L 430 275" />
+    <path d="M 430 275 L 465 310" />
+    <path d="M 185 170 L 220 170" />
+    <path d="M 220 170 L 255 170" />
+    <path d="M 255 170 L 290 135" />
+    <path d="M 290 135 L 290 100" />
+    <path d="M 290 100 L 290 65" />
+    <path d="M 290 65 L 255 30" />
+    <path d="M 255 30 L 220 30" />
+    <path d="M 220 30 L 185 30" />
+    <path d="M 185 30 L 150 65" />
+    <path d="M 150 65 L 150 100" />
+    <path d="M 150 100 L 150 135" />
+    <path d="M 150 135 L 185 170" />
+    <path d="M 325 170 L 360 170" />
+    <path d="M 360 170 L 395 170" />
+    <path d="M 395 170 L 430 135" />
+    <path d="M 430 135 L 430 100" />
+    <path d="M 430 100 L 430 65" />
+    <path d="M 430 65 L 395 30" />
+    <path d="M 395 30 L 360 30" />
+    <path d="M 360 30 L 325 30" />
+    <path d="M 325 30 L 290 65" />
+    <path d="M 290 65 L 290 100" />
+    <path d="M 290 100 L 290 135" />
+    <path d="M 290 135 L 325 170" />
+    <path d="M 465 170 L 500 170" />
+    <path d="M 500 170 L 535 170" />
+    <path d="M 535 170 L 570 135" />
+    <path d="M 570 135 L 570 100" />
+    <path d="M 570 100 L 570 65" />
+    <path d="M 570 65 L 535 30" />
+    <path d="M 535 30 L 500 30" />
+    <path d="M 500 30 L 465 30" />
+    <path d="M 465 30 L 430 65" />
+    <path d="M 430 65 L 430 100" />
+    <path d="M 430 100 L 430 135" />
+    <path d="M 430 135 L 465 170" />
+  </g>
+  <g fill="#A87A42" opacity=".78">
+    <circle cx="290" cy="415" r="2.45" />
+    <circle cx="290" cy="345" r="2.45" />
+    <circle cx="255" cy="310" r="2.45" />
+    <circle cx="185" cy="310" r="2.45" />
+    <circle cx="430" cy="415" r="2.45" />
+    <circle cx="430" cy="345" r="2.45" />
+    <circle cx="395" cy="310" r="2.45" />
+    <circle cx="325" cy="310" r="2.45" />
+    <circle cx="535" cy="310" r="2.45" />
+    <circle cx="465" cy="310" r="2.45" />
+    <circle cx="290" cy="275" r="2.45" />
+    <circle cx="290" cy="205" r="2.45" />
+    <circle cx="255" cy="170" r="2.45" />
+    <circle cx="185" cy="170" r="2.45" />
+    <circle cx="430" cy="275" r="2.45" />
+    <circle cx="430" cy="205" r="2.45" />
+    <circle cx="395" cy="170" r="2.45" />
+    <circle cx="325" cy="170" r="2.45" />
+    <circle cx="535" cy="170" r="2.45" />
+    <circle cx="465" cy="170" r="2.45" />
+    <circle cx="290" cy="135" r="2.45" />
+    <circle cx="290" cy="65" r="2.45" />
+    <circle cx="430" cy="135" r="2.45" />
+    <circle cx="430" cy="65" r="2.45" />
+  </g>
+</svg><text x='489' y='1155' font-family='Georgia,serif' font-size='18' fill='#30474C'>L13 &#183; Expose basket contact intervals</text><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 480" role="img" aria-label="Expose basket contact intervals" x="485" y="1170" width="450" height="300">
+  <title>Expose basket contact intervals</title>
+  <rect width="720" height="480" fill="#F8F5EC" />
+  <g fill="none" stroke="#35535A" stroke-width="1.9" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M 30 405 L 85 405" />
+    <path d="M 85 405 L 140 405" />
+    <path d="M 140 405 L 195 405" />
+    <path d="M 195 405 L 250 405" />
+    <path d="M 250 405 L 250 350" />
+    <path d="M 250 350 L 250 295" />
+    <path d="M 250 295 L 195 295" />
+    <path d="M 195 295 L 140 295" />
+    <path d="M 140 295 L 85 295" />
+    <path d="M 85 295 L 30 295" />
+    <path d="M 30 295 L 30 350" />
+    <path d="M 30 350 L 30 405" />
+    <path d="M 250 405 L 305 405" />
+    <path d="M 305 405 L 360 405" />
+    <path d="M 360 405 L 415 405" />
+    <path d="M 415 405 L 470 405" />
+    <path d="M 470 405 L 470 350" />
+    <path d="M 470 350 L 470 295" />
+    <path d="M 470 295 L 415 295" />
+    <path d="M 415 295 L 360 295" />
+    <path d="M 360 295 L 305 295" />
+    <path d="M 305 295 L 250 295" />
+    <path d="M 250 295 L 250 350" />
+    <path d="M 250 350 L 250 405" />
+    <path d="M 470 405 L 525 405" />
+    <path d="M 525 405 L 580 405" />
+    <path d="M 580 405 L 635 405" />
+    <path d="M 635 405 L 690 405" />
+    <path d="M 690 405 L 690 350" />
+    <path d="M 690 350 L 690 295" />
+    <path d="M 690 295 L 635 295" />
+    <path d="M 635 295 L 580 295" />
+    <path d="M 580 295 L 525 295" />
+    <path d="M 525 295 L 470 295" />
+    <path d="M 470 295 L 470 350" />
+    <path d="M 470 350 L 470 405" />
+    <path d="M 30 295 L 85 295" />
+    <path d="M 85 295 L 140 295" />
+    <path d="M 140 295 L 195 295" />
+    <path d="M 195 295 L 250 295" />
+    <path d="M 250 295 L 250 240" />
+    <path d="M 250 240 L 250 185" />
+    <path d="M 250 185 L 195 185" />
+    <path d="M 195 185 L 140 185" />
+    <path d="M 140 185 L 85 185" />
+    <path d="M 85 185 L 30 185" />
+    <path d="M 30 185 L 30 240" />
+    <path d="M 30 240 L 30 295" />
+    <path d="M 250 295 L 305 295" />
+    <path d="M 305 295 L 360 295" />
+    <path d="M 360 295 L 415 295" />
+    <path d="M 415 295 L 470 295" />
+    <path d="M 470 295 L 470 240" />
+    <path d="M 470 240 L 470 185" />
+    <path d="M 470 185 L 415 185" />
+    <path d="M 415 185 L 360 185" />
+    <path d="M 360 185 L 305 185" />
+    <path d="M 305 185 L 250 185" />
+    <path d="M 250 185 L 250 240" />
+    <path d="M 250 240 L 250 295" />
+    <path d="M 470 295 L 525 295" />
+    <path d="M 525 295 L 580 295" />
+    <path d="M 580 295 L 635 295" />
+    <path d="M 635 295 L 690 295" />
+    <path d="M 690 295 L 690 240" />
+    <path d="M 690 240 L 690 185" />
+    <path d="M 690 185 L 635 185" />
+    <path d="M 635 185 L 580 185" />
+    <path d="M 580 185 L 525 185" />
+    <path d="M 525 185 L 470 185" />
+    <path d="M 470 185 L 470 240" />
+    <path d="M 470 240 L 470 295" />
+    <path d="M 30 185 L 85 185" />
+    <path d="M 85 185 L 140 185" />
+    <path d="M 140 185 L 195 185" />
+    <path d="M 195 185 L 250 185" />
+    <path d="M 250 185 L 250 130" />
+    <path d="M 250 130 L 250 75" />
+    <path d="M 250 75 L 195 75" />
+    <path d="M 195 75 L 140 75" />
+    <path d="M 140 75 L 85 75" />
+    <path d="M 85 75 L 30 75" />
+    <path d="M 30 75 L 30 130" />
+    <path d="M 30 130 L 30 185" />
+    <path d="M 250 185 L 305 185" />
+    <path d="M 305 185 L 360 185" />
+    <path d="M 360 185 L 415 185" />
+    <path d="M 415 185 L 470 185" />
+    <path d="M 470 185 L 470 130" />
+    <path d="M 470 130 L 470 75" />
+    <path d="M 470 75 L 415 75" />
+    <path d="M 415 75 L 360 75" />
+    <path d="M 360 75 L 305 75" />
+    <path d="M 305 75 L 250 75" />
+    <path d="M 250 75 L 250 130" />
+    <path d="M 250 130 L 250 185" />
+    <path d="M 470 185 L 525 185" />
+    <path d="M 525 185 L 580 185" />
+    <path d="M 580 185 L 635 185" />
+    <path d="M 635 185 L 690 185" />
+    <path d="M 690 185 L 690 130" />
+    <path d="M 690 130 L 690 75" />
+    <path d="M 690 75 L 635 75" />
+    <path d="M 635 75 L 580 75" />
+    <path d="M 580 75 L 525 75" />
+    <path d="M 525 75 L 470 75" />
+    <path d="M 470 75 L 470 130" />
+    <path d="M 470 130 L 470 185" />
+  </g>
+  <g fill="#A87A42" opacity=".78">
+    <circle cx="250" cy="405" r="2.45" />
+    <circle cx="250" cy="295" r="2.45" />
+    <circle cx="140" cy="295" r="2.45" />
+    <circle cx="30" cy="295" r="2.45" />
+    <circle cx="470" cy="405" r="2.45" />
+    <circle cx="470" cy="295" r="2.45" />
+    <circle cx="360" cy="295" r="2.45" />
+    <circle cx="690" cy="295" r="2.45" />
+    <circle cx="580" cy="295" r="2.45" />
+    <circle cx="250" cy="185" r="2.45" />
+    <circle cx="140" cy="185" r="2.45" />
+    <circle cx="30" cy="185" r="2.45" />
+    <circle cx="470" cy="185" r="2.45" />
+    <circle cx="360" cy="185" r="2.45" />
+    <circle cx="690" cy="185" r="2.45" />
+    <circle cx="580" cy="185" r="2.45" />
+    <circle cx="250" cy="75" r="2.45" />
+    <circle cx="470" cy="75" r="2.45" />
+  </g>
+</svg><text x='954' y='1155' font-family='Georgia,serif' font-size='18' fill='#30474C'>L14 &#183; Assemble alternating basket rectangles</text><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 480" role="img" aria-label="Assemble alternating basket rectangles" x="950" y="1170" width="450" height="300">
+  <title>Assemble alternating basket rectangles</title>
+  <rect width="720" height="480" fill="#F8F5EC" />
+  <g fill="none" stroke="#35535A" stroke-width="1.9" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M 150 427.895 L 172.105 427.895" />
+    <path d="M 172.105 427.895 L 194.211 427.895" />
+    <path d="M 194.211 427.895 L 216.316 427.895" />
+    <path d="M 216.316 427.895 L 238.421 427.895" />
+    <path d="M 238.421 427.895 L 238.421 405.789" />
+    <path d="M 238.421 405.789 L 238.421 383.684" />
+    <path d="M 238.421 383.684 L 216.316 383.684" />
+    <path d="M 216.316 383.684 L 194.211 383.684" />
+    <path d="M 194.211 383.684 L 172.105 383.684" />
+    <path d="M 172.105 383.684 L 150 383.684" />
+    <path d="M 150 383.684 L 150 405.789" />
+    <path d="M 150 405.789 L 150 427.895" />
+    <path d="M 282.632 450 L 282.632 427.895" />
+    <path d="M 282.632 427.895 L 282.632 405.789" />
+    <path d="M 282.632 405.789 L 282.632 383.684" />
+    <path d="M 282.632 383.684 L 282.632 361.579" />
+    <path d="M 282.632 361.579 L 260.526 361.579" />
+    <path d="M 260.526 361.579 L 238.421 361.579" />
+    <path d="M 238.421 361.579 L 238.421 383.684" />
+    <path d="M 238.421 383.684 L 238.421 405.789" />
+    <path d="M 238.421 405.789 L 238.421 427.895" />
+    <path d="M 238.421 427.895 L 238.421 450" />
+    <path d="M 238.421 450 L 260.526 450" />
+    <path d="M 260.526 450 L 282.632 450" />
+    <path d="M 216.316 361.579 L 238.421 361.579" />
+    <path d="M 238.421 361.579 L 260.526 361.579" />
+    <path d="M 260.526 361.579 L 282.632 361.579" />
+    <path d="M 282.632 361.579 L 304.737 361.579" />
+    <path d="M 304.737 361.579 L 304.737 339.474" />
+    <path d="M 304.737 339.474 L 304.737 317.368" />
+    <path d="M 304.737 317.368 L 282.632 317.368" />
+    <path d="M 282.632 317.368 L 260.526 317.368" />
+    <path d="M 260.526 317.368 L 238.421 317.368" />
+    <path d="M 238.421 317.368 L 216.316 317.368" />
+    <path d="M 216.316 317.368 L 216.316 339.474" />
+    <path d="M 216.316 339.474 L 216.316 361.579" />
+    <path d="M 216.316 383.684 L 216.316 361.579" />
+    <path d="M 216.316 361.579 L 216.316 339.474" />
+    <path d="M 216.316 339.474 L 216.316 317.368" />
+    <path d="M 216.316 317.368 L 216.316 295.263" />
+    <path d="M 216.316 295.263 L 194.211 295.263" />
+    <path d="M 194.211 295.263 L 172.105 295.263" />
+    <path d="M 172.105 295.263 L 172.105 317.368" />
+    <path d="M 172.105 317.368 L 172.105 339.474" />
+    <path d="M 172.105 339.474 L 172.105 361.579" />
+    <path d="M 172.105 361.579 L 172.105 383.684" />
+    <path d="M 172.105 383.684 L 194.211 383.684" />
+    <path d="M 194.211 383.684 L 216.316 383.684" />
+    <path d="M 282.632 427.895 L 304.737 427.895" />
+    <path d="M 304.737 427.895 L 326.842 427.895" />
+    <path d="M 326.842 427.895 L 348.947 427.895" />
+    <path d="M 348.947 427.895 L 371.053 427.895" />
+    <path d="M 371.053 427.895 L 371.053 405.789" />
+    <path d="M 371.053 405.789 L 371.053 383.684" />
+    <path d="M 371.053 383.684 L 348.947 383.684" />
+    <path d="M 348.947 383.684 L 326.842 383.684" />
+    <path d="M 326.842 383.684 L 304.737 383.684" />
+    <path d="M 304.737 383.684 L 282.632 383.684" />
+    <path d="M 282.632 383.684 L 282.632 405.789" />
+    <path d="M 282.632 405.789 L 282.632 427.895" />
+    <path d="M 415.263 450 L 415.263 427.895" />
+    <path d="M 415.263 427.895 L 415.263 405.789" />
+    <path d="M 415.263 405.789 L 415.263 383.684" />
+    <path d="M 415.263 383.684 L 415.263 361.579" />
+    <path d="M 415.263 361.579 L 393.158 361.579" />
+    <path d="M 393.158 361.579 L 371.053 361.579" />
+    <path d="M 371.053 361.579 L 371.053 383.684" />
+    <path d="M 371.053 383.684 L 371.053 405.789" />
+    <path d="M 371.053 405.789 L 371.053 427.895" />
+    <path d="M 371.053 427.895 L 371.053 450" />
+    <path d="M 371.053 450 L 393.158 450" />
+    <path d="M 393.158 450 L 415.263 450" />
+    <path d="M 348.947 361.579 L 371.053 361.579" />
+    <path d="M 371.053 361.579 L 393.158 361.579" />
+    <path d="M 393.158 361.579 L 415.263 361.579" />
+    <path d="M 415.263 361.579 L 437.368 361.579" />
+    <path d="M 437.368 361.579 L 437.368 339.474" />
+    <path d="M 437.368 339.474 L 437.368 317.368" />
+    <path d="M 437.368 317.368 L 415.263 317.368" />
+    <path d="M 415.263 317.368 L 393.158 317.368" />
+    <path d="M 393.158 317.368 L 371.053 317.368" />
+    <path d="M 371.053 317.368 L 348.947 317.368" />
+    <path d="M 348.947 317.368 L 348.947 339.474" />
+    <path d="M 348.947 339.474 L 348.947 361.579" />
+    <path d="M 348.947 383.684 L 348.947 361.579" />
+    <path d="M 348.947 361.579 L 348.947 339.474" />
+    <path d="M 348.947 339.474 L 348.947 317.368" />
+    <path d="M 348.947 317.368 L 348.947 295.263" />
+    <path d="M 348.947 295.263 L 326.842 295.263" />
+    <path d="M 326.842 295.263 L 304.737 295.263" />
+    <path d="M 304.737 295.263 L 304.737 317.368" />
+    <path d="M 304.737 317.368 L 304.737 339.474" />
+    <path d="M 304.737 339.474 L 304.737 361.579" />
+    <path d="M 304.737 361.579 L 304.737 383.684" />
+    <path d="M 304.737 383.684 L 326.842 383.684" />
+    <path d="M 326.842 383.684 L 348.947 383.684" />
+    <path d="M 415.263 427.895 L 437.368 427.895" />
+    <path d="M 437.368 427.895 L 459.474 427.895" />
+    <path d="M 459.474 427.895 L 481.579 427.895" />
+    <path d="M 481.579 427.895 L 503.684 427.895" />
+    <path d="M 503.684 427.895 L 503.684 405.789" />
+    <path d="M 503.684 405.789 L 503.684 383.684" />
+    <path d="M 503.684 383.684 L 481.579 383.684" />
+    <path d="M 481.579 383.684 L 459.474 383.684" />
+    <path d="M 459.474 383.684 L 437.368 383.684" />
+    <path d="M 437.368 383.684 L 415.263 383.684" />
+    <path d="M 415.263 383.684 L 415.263 405.789" />
+    <path d="M 415.263 405.789 L 415.263 427.895" />
+    <path d="M 547.895 450 L 547.895 427.895" />
+    <path d="M 547.895 427.895 L 547.895 405.789" />
+    <path d="M 547.895 405.789 L 547.895 383.684" />
+    <path d="M 547.895 383.684 L 547.895 361.579" />
+    <path d="M 547.895 361.579 L 525.789 361.579" />
+    <path d="M 525.789 361.579 L 503.684 361.579" />
+    <path d="M 503.684 361.579 L 503.684 383.684" />
+    <path d="M 503.684 383.684 L 503.684 405.789" />
+    <path d="M 503.684 405.789 L 503.684 427.895" />
+    <path d="M 503.684 427.895 L 503.684 450" />
+    <path d="M 503.684 450 L 525.789 450" />
+    <path d="M 525.789 450 L 547.895 450" />
+    <path d="M 481.579 361.579 L 503.684 361.579" />
+    <path d="M 503.684 361.579 L 525.789 361.579" />
+    <path d="M 525.789 361.579 L 547.895 361.579" />
+    <path d="M 547.895 361.579 L 570 361.579" />
+    <path d="M 570 361.579 L 570 339.474" />
+    <path d="M 570 339.474 L 570 317.368" />
+    <path d="M 570 317.368 L 547.895 317.368" />
+    <path d="M 547.895 317.368 L 525.789 317.368" />
+    <path d="M 525.789 317.368 L 503.684 317.368" />
+    <path d="M 503.684 317.368 L 481.579 317.368" />
+    <path d="M 481.579 317.368 L 481.579 339.474" />
+    <path d="M 481.579 339.474 L 481.579 361.579" />
+    <path d="M 481.579 383.684 L 481.579 361.579" />
+    <path d="M 481.579 361.579 L 481.579 339.474" />
+    <path d="M 481.579 339.474 L 481.579 317.368" />
+    <path d="M 481.579 317.368 L 481.579 295.263" />
+    <path d="M 481.579 295.263 L 459.474 295.263" />
+    <path d="M 459.474 295.263 L 437.368 295.263" />
+    <path d="M 437.368 295.263 L 437.368 317.368" />
+    <path d="M 437.368 317.368 L 437.368 339.474" />
+    <path d="M 437.368 339.474 L 437.368 361.579" />
+    <path d="M 437.368 361.579 L 437.368 383.684" />
+    <path d="M 437.368 383.684 L 459.474 383.684" />
+    <path d="M 459.474 383.684 L 481.579 383.684" />
+    <path d="M 150 295.263 L 172.105 295.263" />
+    <path d="M 172.105 295.263 L 194.211 295.263" />
+    <path d="M 194.211 295.263 L 216.316 295.263" />
+    <path d="M 216.316 295.263 L 238.421 295.263" />
+    <path d="M 238.421 295.263 L 238.421 273.158" />
+    <path d="M 238.421 273.158 L 238.421 251.053" />
+    <path d="M 238.421 251.053 L 216.316 251.053" />
+    <path d="M 216.316 251.053 L 194.211 251.053" />
+    <path d="M 194.211 251.053 L 172.105 251.053" />
+    <path d="M 172.105 251.053 L 150 251.053" />
+    <path d="M 150 251.053 L 150 273.158" />
+    <path d="M 150 273.158 L 150 295.263" />
+    <path d="M 282.632 317.368 L 282.632 295.263" />
+    <path d="M 282.632 295.263 L 282.632 273.158" />
+    <path d="M 282.632 273.158 L 282.632 251.053" />
+    <path d="M 282.632 251.053 L 282.632 228.947" />
+    <path d="M 282.632 228.947 L 260.526 228.947" />
+    <path d="M 260.526 228.947 L 238.421 228.947" />
+    <path d="M 238.421 228.947 L 238.421 251.053" />
+    <path d="M 238.421 251.053 L 238.421 273.158" />
+    <path d="M 238.421 273.158 L 238.421 295.263" />
+    <path d="M 238.421 295.263 L 238.421 317.368" />
+    <path d="M 238.421 317.368 L 260.526 317.368" />
+    <path d="M 260.526 317.368 L 282.632 317.368" />
+    <path d="M 216.316 228.947 L 238.421 228.947" />
+    <path d="M 238.421 228.947 L 260.526 228.947" />
+    <path d="M 260.526 228.947 L 282.632 228.947" />
+    <path d="M 282.632 228.947 L 304.737 228.947" />
+    <path d="M 304.737 228.947 L 304.737 206.842" />
+    <path d="M 304.737 206.842 L 304.737 184.737" />
+    <path d="M 304.737 184.737 L 282.632 184.737" />
+    <path d="M 282.632 184.737 L 260.526 184.737" />
+    <path d="M 260.526 184.737 L 238.421 184.737" />
+    <path d="M 238.421 184.737 L 216.316 184.737" />
+    <path d="M 216.316 184.737 L 216.316 206.842" />
+    <path d="M 216.316 206.842 L 216.316 228.947" />
+    <path d="M 216.316 251.053 L 216.316 228.947" />
+    <path d="M 216.316 228.947 L 216.316 206.842" />
+    <path d="M 216.316 206.842 L 216.316 184.737" />
+    <path d="M 216.316 184.737 L 216.316 162.632" />
+    <path d="M 216.316 162.632 L 194.211 162.632" />
+    <path d="M 194.211 162.632 L 172.105 162.632" />
+    <path d="M 172.105 162.632 L 172.105 184.737" />
+    <path d="M 172.105 184.737 L 172.105 206.842" />
+    <path d="M 172.105 206.842 L 172.105 228.947" />
+    <path d="M 172.105 228.947 L 172.105 251.053" />
+    <path d="M 172.105 251.053 L 194.211 251.053" />
+    <path d="M 194.211 251.053 L 216.316 251.053" />
+    <path d="M 282.632 295.263 L 304.737 295.263" />
+    <path d="M 304.737 295.263 L 326.842 295.263" />
+    <path d="M 326.842 295.263 L 348.947 295.263" />
+    <path d="M 348.947 295.263 L 371.053 295.263" />
+    <path d="M 371.053 295.263 L 371.053 273.158" />
+    <path d="M 371.053 273.158 L 371.053 251.053" />
+    <path d="M 371.053 251.053 L 348.947 251.053" />
+    <path d="M 348.947 251.053 L 326.842 251.053" />
+    <path d="M 326.842 251.053 L 304.737 251.053" />
+    <path d="M 304.737 251.053 L 282.632 251.053" />
+    <path d="M 282.632 251.053 L 282.632 273.158" />
+    <path d="M 282.632 273.158 L 282.632 295.263" />
+    <path d="M 415.263 317.368 L 415.263 295.263" />
+    <path d="M 415.263 295.263 L 415.263 273.158" />
+    <path d="M 415.263 273.158 L 415.263 251.053" />
+    <path d="M 415.263 251.053 L 415.263 228.947" />
+    <path d="M 415.263 228.947 L 393.158 228.947" />
+    <path d="M 393.158 228.947 L 371.053 228.947" />
+    <path d="M 371.053 228.947 L 371.053 251.053" />
+    <path d="M 371.053 251.053 L 371.053 273.158" />
+    <path d="M 371.053 273.158 L 371.053 295.263" />
+    <path d="M 371.053 295.263 L 371.053 317.368" />
+    <path d="M 371.053 317.368 L 393.158 317.368" />
+    <path d="M 393.158 317.368 L 415.263 317.368" />
+    <path d="M 348.947 228.947 L 371.053 228.947" />
+    <path d="M 371.053 228.947 L 393.158 228.947" />
+    <path d="M 393.158 228.947 L 415.263 228.947" />
+    <path d="M 415.263 228.947 L 437.368 228.947" />
+    <path d="M 437.368 228.947 L 437.368 206.842" />
+    <path d="M 437.368 206.842 L 437.368 184.737" />
+    <path d="M 437.368 184.737 L 415.263 184.737" />
+    <path d="M 415.263 184.737 L 393.158 184.737" />
+    <path d="M 393.158 184.737 L 371.053 184.737" />
+    <path d="M 371.053 184.737 L 348.947 184.737" />
+    <path d="M 348.947 184.737 L 348.947 206.842" />
+    <path d="M 348.947 206.842 L 348.947 228.947" />
+    <path d="M 348.947 251.053 L 348.947 228.947" />
+    <path d="M 348.947 228.947 L 348.947 206.842" />
+    <path d="M 348.947 206.842 L 348.947 184.737" />
+    <path d="M 348.947 184.737 L 348.947 162.632" />
+    <path d="M 348.947 162.632 L 326.842 162.632" />
+    <path d="M 326.842 162.632 L 304.737 162.632" />
+    <path d="M 304.737 162.632 L 304.737 184.737" />
+    <path d="M 304.737 184.737 L 304.737 206.842" />
+    <path d="M 304.737 206.842 L 304.737 228.947" />
+    <path d="M 304.737 228.947 L 304.737 251.053" />
+    <path d="M 304.737 251.053 L 326.842 251.053" />
+    <path d="M 326.842 251.053 L 348.947 251.053" />
+    <path d="M 415.263 295.263 L 437.368 295.263" />
+    <path d="M 437.368 295.263 L 459.474 295.263" />
+    <path d="M 459.474 295.263 L 481.579 295.263" />
+    <path d="M 481.579 295.263 L 503.684 295.263" />
+    <path d="M 503.684 295.263 L 503.684 273.158" />
+    <path d="M 503.684 273.158 L 503.684 251.053" />
+    <path d="M 503.684 251.053 L 481.579 251.053" />
+    <path d="M 481.579 251.053 L 459.474 251.053" />
+    <path d="M 459.474 251.053 L 437.368 251.053" />
+    <path d="M 437.368 251.053 L 415.263 251.053" />
+    <path d="M 415.263 251.053 L 415.263 273.158" />
+    <path d="M 415.263 273.158 L 415.263 295.263" />
+    <path d="M 547.895 317.368 L 547.895 295.263" />
+    <path d="M 547.895 295.263 L 547.895 273.158" />
+    <path d="M 547.895 273.158 L 547.895 251.053" />
+    <path d="M 547.895 251.053 L 547.895 228.947" />
+    <path d="M 547.895 228.947 L 525.789 228.947" />
+    <path d="M 525.789 228.947 L 503.684 228.947" />
+    <path d="M 503.684 228.947 L 503.684 251.053" />
+    <path d="M 503.684 251.053 L 503.684 273.158" />
+    <path d="M 503.684 273.158 L 503.684 295.263" />
+    <path d="M 503.684 295.263 L 503.684 317.368" />
+    <path d="M 503.684 317.368 L 525.789 317.368" />
+    <path d="M 525.789 317.368 L 547.895 317.368" />
+    <path d="M 481.579 228.947 L 503.684 228.947" />
+    <path d="M 503.684 228.947 L 525.789 228.947" />
+    <path d="M 525.789 228.947 L 547.895 228.947" />
+    <path d="M 547.895 228.947 L 570 228.947" />
+    <path d="M 570 228.947 L 570 206.842" />
+    <path d="M 570 206.842 L 570 184.737" />
+    <path d="M 570 184.737 L 547.895 184.737" />
+    <path d="M 547.895 184.737 L 525.789 184.737" />
+    <path d="M 525.789 184.737 L 503.684 184.737" />
+    <path d="M 503.684 184.737 L 481.579 184.737" />
+    <path d="M 481.579 184.737 L 481.579 206.842" />
+    <path d="M 481.579 206.842 L 481.579 228.947" />
+    <path d="M 481.579 251.053 L 481.579 228.947" />
+    <path d="M 481.579 228.947 L 481.579 206.842" />
+    <path d="M 481.579 206.842 L 481.579 184.737" />
+    <path d="M 481.579 184.737 L 481.579 162.632" />
+    <path d="M 481.579 162.632 L 459.474 162.632" />
+    <path d="M 459.474 162.632 L 437.368 162.632" />
+    <path d="M 437.368 162.632 L 437.368 184.737" />
+    <path d="M 437.368 184.737 L 437.368 206.842" />
+    <path d="M 437.368 206.842 L 437.368 228.947" />
+    <path d="M 437.368 228.947 L 437.368 251.053" />
+    <path d="M 437.368 251.053 L 459.474 251.053" />
+    <path d="M 459.474 251.053 L 481.579 251.053" />
+    <path d="M 150 162.632 L 172.105 162.632" />
+    <path d="M 172.105 162.632 L 194.211 162.632" />
+    <path d="M 194.211 162.632 L 216.316 162.632" />
+    <path d="M 216.316 162.632 L 238.421 162.632" />
+    <path d="M 238.421 162.632 L 238.421 140.526" />
+    <path d="M 238.421 140.526 L 238.421 118.421" />
+    <path d="M 238.421 118.421 L 216.316 118.421" />
+    <path d="M 216.316 118.421 L 194.211 118.421" />
+    <path d="M 194.211 118.421 L 172.105 118.421" />
+    <path d="M 172.105 118.421 L 150 118.421" />
+    <path d="M 150 118.421 L 150 140.526" />
+    <path d="M 150 140.526 L 150 162.632" />
+    <path d="M 282.632 184.737 L 282.632 162.632" />
+    <path d="M 282.632 162.632 L 282.632 140.526" />
+    <path d="M 282.632 140.526 L 282.632 118.421" />
+    <path d="M 282.632 118.421 L 282.632 96.316" />
+    <path d="M 282.632 96.316 L 260.526 96.316" />
+    <path d="M 260.526 96.316 L 238.421 96.316" />
+    <path d="M 238.421 96.316 L 238.421 118.421" />
+    <path d="M 238.421 118.421 L 238.421 140.526" />
+    <path d="M 238.421 140.526 L 238.421 162.632" />
+    <path d="M 238.421 162.632 L 238.421 184.737" />
+    <path d="M 238.421 184.737 L 260.526 184.737" />
+    <path d="M 260.526 184.737 L 282.632 184.737" />
+    <path d="M 216.316 96.316 L 238.421 96.316" />
+    <path d="M 238.421 96.316 L 260.526 96.316" />
+    <path d="M 260.526 96.316 L 282.632 96.316" />
+    <path d="M 282.632 96.316 L 304.737 96.316" />
+    <path d="M 304.737 96.316 L 304.737 74.211" />
+    <path d="M 304.737 74.211 L 304.737 52.105" />
+    <path d="M 304.737 52.105 L 282.632 52.105" />
+    <path d="M 282.632 52.105 L 260.526 52.105" />
+    <path d="M 260.526 52.105 L 238.421 52.105" />
+    <path d="M 238.421 52.105 L 216.316 52.105" />
+    <path d="M 216.316 52.105 L 216.316 74.211" />
+    <path d="M 216.316 74.211 L 216.316 96.316" />
+    <path d="M 216.316 118.421 L 216.316 96.316" />
+    <path d="M 216.316 96.316 L 216.316 74.211" />
+    <path d="M 216.316 74.211 L 216.316 52.105" />
+    <path d="M 216.316 52.105 L 216.316 30" />
+    <path d="M 216.316 30 L 194.211 30" />
+    <path d="M 194.211 30 L 172.105 30" />
+    <path d="M 172.105 30 L 172.105 52.105" />
+    <path d="M 172.105 52.105 L 172.105 74.211" />
+    <path d="M 172.105 74.211 L 172.105 96.316" />
+    <path d="M 172.105 96.316 L 172.105 118.421" />
+    <path d="M 172.105 118.421 L 194.211 118.421" />
+    <path d="M 194.211 118.421 L 216.316 118.421" />
+    <path d="M 282.632 162.632 L 304.737 162.632" />
+    <path d="M 304.737 162.632 L 326.842 162.632" />
+    <path d="M 326.842 162.632 L 348.947 162.632" />
+    <path d="M 348.947 162.632 L 371.053 162.632" />
+    <path d="M 371.053 162.632 L 371.053 140.526" />
+    <path d="M 371.053 140.526 L 371.053 118.421" />
+    <path d="M 371.053 118.421 L 348.947 118.421" />
+    <path d="M 348.947 118.421 L 326.842 118.421" />
+    <path d="M 326.842 118.421 L 304.737 118.421" />
+    <path d="M 304.737 118.421 L 282.632 118.421" />
+    <path d="M 282.632 118.421 L 282.632 140.526" />
+    <path d="M 282.632 140.526 L 282.632 162.632" />
+    <path d="M 415.263 184.737 L 415.263 162.632" />
+    <path d="M 415.263 162.632 L 415.263 140.526" />
+    <path d="M 415.263 140.526 L 415.263 118.421" />
+    <path d="M 415.263 118.421 L 415.263 96.316" />
+    <path d="M 415.263 96.316 L 393.158 96.316" />
+    <path d="M 393.158 96.316 L 371.053 96.316" />
+    <path d="M 371.053 96.316 L 371.053 118.421" />
+    <path d="M 371.053 118.421 L 371.053 140.526" />
+    <path d="M 371.053 140.526 L 371.053 162.632" />
+    <path d="M 371.053 162.632 L 371.053 184.737" />
+    <path d="M 371.053 184.737 L 393.158 184.737" />
+    <path d="M 393.158 184.737 L 415.263 184.737" />
+    <path d="M 348.947 96.316 L 371.053 96.316" />
+    <path d="M 371.053 96.316 L 393.158 96.316" />
+    <path d="M 393.158 96.316 L 415.263 96.316" />
+    <path d="M 415.263 96.316 L 437.368 96.316" />
+    <path d="M 437.368 96.316 L 437.368 74.211" />
+    <path d="M 437.368 74.211 L 437.368 52.105" />
+    <path d="M 437.368 52.105 L 415.263 52.105" />
+    <path d="M 415.263 52.105 L 393.158 52.105" />
+    <path d="M 393.158 52.105 L 371.053 52.105" />
+    <path d="M 371.053 52.105 L 348.947 52.105" />
+    <path d="M 348.947 52.105 L 348.947 74.211" />
+    <path d="M 348.947 74.211 L 348.947 96.316" />
+    <path d="M 348.947 118.421 L 348.947 96.316" />
+    <path d="M 348.947 96.316 L 348.947 74.211" />
+    <path d="M 348.947 74.211 L 348.947 52.105" />
+    <path d="M 348.947 52.105 L 348.947 30" />
+    <path d="M 348.947 30 L 326.842 30" />
+    <path d="M 326.842 30 L 304.737 30" />
+    <path d="M 304.737 30 L 304.737 52.105" />
+    <path d="M 304.737 52.105 L 304.737 74.211" />
+    <path d="M 304.737 74.211 L 304.737 96.316" />
+    <path d="M 304.737 96.316 L 304.737 118.421" />
+    <path d="M 304.737 118.421 L 326.842 118.421" />
+    <path d="M 326.842 118.421 L 348.947 118.421" />
+    <path d="M 415.263 162.632 L 437.368 162.632" />
+    <path d="M 437.368 162.632 L 459.474 162.632" />
+    <path d="M 459.474 162.632 L 481.579 162.632" />
+    <path d="M 481.579 162.632 L 503.684 162.632" />
+    <path d="M 503.684 162.632 L 503.684 140.526" />
+    <path d="M 503.684 140.526 L 503.684 118.421" />
+    <path d="M 503.684 118.421 L 481.579 118.421" />
+    <path d="M 481.579 118.421 L 459.474 118.421" />
+    <path d="M 459.474 118.421 L 437.368 118.421" />
+    <path d="M 437.368 118.421 L 415.263 118.421" />
+    <path d="M 415.263 118.421 L 415.263 140.526" />
+    <path d="M 415.263 140.526 L 415.263 162.632" />
+    <path d="M 547.895 184.737 L 547.895 162.632" />
+    <path d="M 547.895 162.632 L 547.895 140.526" />
+    <path d="M 547.895 140.526 L 547.895 118.421" />
+    <path d="M 547.895 118.421 L 547.895 96.316" />
+    <path d="M 547.895 96.316 L 525.789 96.316" />
+    <path d="M 525.789 96.316 L 503.684 96.316" />
+    <path d="M 503.684 96.316 L 503.684 118.421" />
+    <path d="M 503.684 118.421 L 503.684 140.526" />
+    <path d="M 503.684 140.526 L 503.684 162.632" />
+    <path d="M 503.684 162.632 L 503.684 184.737" />
+    <path d="M 503.684 184.737 L 525.789 184.737" />
+    <path d="M 525.789 184.737 L 547.895 184.737" />
+    <path d="M 481.579 96.316 L 503.684 96.316" />
+    <path d="M 503.684 96.316 L 525.789 96.316" />
+    <path d="M 525.789 96.316 L 547.895 96.316" />
+    <path d="M 547.895 96.316 L 570 96.316" />
+    <path d="M 570 96.316 L 570 74.211" />
+    <path d="M 570 74.211 L 570 52.105" />
+    <path d="M 570 52.105 L 547.895 52.105" />
+    <path d="M 547.895 52.105 L 525.789 52.105" />
+    <path d="M 525.789 52.105 L 503.684 52.105" />
+    <path d="M 503.684 52.105 L 481.579 52.105" />
+    <path d="M 481.579 52.105 L 481.579 74.211" />
+    <path d="M 481.579 74.211 L 481.579 96.316" />
+    <path d="M 481.579 118.421 L 481.579 96.316" />
+    <path d="M 481.579 96.316 L 481.579 74.211" />
+    <path d="M 481.579 74.211 L 481.579 52.105" />
+    <path d="M 481.579 52.105 L 481.579 30" />
+    <path d="M 481.579 30 L 459.474 30" />
+    <path d="M 459.474 30 L 437.368 30" />
+    <path d="M 437.368 30 L 437.368 52.105" />
+    <path d="M 437.368 52.105 L 437.368 74.211" />
+    <path d="M 437.368 74.211 L 437.368 96.316" />
+    <path d="M 437.368 96.316 L 437.368 118.421" />
+    <path d="M 437.368 118.421 L 459.474 118.421" />
+    <path d="M 459.474 118.421 L 481.579 118.421" />
+  </g>
+  <g fill="#A87A42" opacity=".78">
+    <circle cx="238.421" cy="427.895" r="2.45" />
+    <circle cx="238.421" cy="383.684" r="2.45" />
+    <circle cx="216.316" cy="383.684" r="2.45" />
+    <circle cx="172.105" cy="383.684" r="2.45" />
+    <circle cx="282.632" cy="427.895" r="2.45" />
+    <circle cx="282.632" cy="383.684" r="2.45" />
+    <circle cx="282.632" cy="361.579" r="2.45" />
+    <circle cx="238.421" cy="361.579" r="2.45" />
+    <circle cx="216.316" cy="361.579" r="2.45" />
+    <circle cx="304.737" cy="361.579" r="2.45" />
+    <circle cx="304.737" cy="317.368" r="2.45" />
+    <circle cx="282.632" cy="317.368" r="2.45" />
+    <circle cx="238.421" cy="317.368" r="2.45" />
+    <circle cx="216.316" cy="317.368" r="2.45" />
+    <circle cx="216.316" cy="295.263" r="2.45" />
+    <circle cx="172.105" cy="295.263" r="2.45" />
+    <circle cx="371.053" cy="427.895" r="2.45" />
+    <circle cx="371.053" cy="383.684" r="2.45" />
+    <circle cx="348.947" cy="383.684" r="2.45" />
+    <circle cx="304.737" cy="383.684" r="2.45" />
+    <circle cx="415.263" cy="427.895" r="2.45" />
+    <circle cx="415.263" cy="383.684" r="2.45" />
+    <circle cx="415.263" cy="361.579" r="2.45" />
+    <circle cx="371.053" cy="361.579" r="2.45" />
+    <circle cx="348.947" cy="361.579" r="2.45" />
+    <circle cx="437.368" cy="361.579" r="2.45" />
+    <circle cx="437.368" cy="317.368" r="2.45" />
+    <circle cx="415.263" cy="317.368" r="2.45" />
+    <circle cx="371.053" cy="317.368" r="2.45" />
+    <circle cx="348.947" cy="317.368" r="2.45" />
+    <circle cx="348.947" cy="295.263" r="2.45" />
+    <circle cx="304.737" cy="295.263" r="2.45" />
+    <circle cx="503.684" cy="427.895" r="2.45" />
+    <circle cx="503.684" cy="383.684" r="2.45" />
+    <circle cx="481.579" cy="383.684" r="2.45" />
+    <circle cx="437.368" cy="383.684" r="2.45" />
+    <circle cx="547.895" cy="361.579" r="2.45" />
+    <circle cx="503.684" cy="361.579" r="2.45" />
+    <circle cx="481.579" cy="361.579" r="2.45" />
+    <circle cx="547.895" cy="317.368" r="2.45" />
+    <circle cx="503.684" cy="317.368" r="2.45" />
+    <circle cx="481.579" cy="317.368" r="2.45" />
+    <circle cx="481.579" cy="295.263" r="2.45" />
+    <circle cx="437.368" cy="295.263" r="2.45" />
+    <circle cx="238.421" cy="295.263" r="2.45" />
+    <circle cx="238.421" cy="251.053" r="2.45" />
+    <circle cx="216.316" cy="251.053" r="2.45" />
+    <circle cx="172.105" cy="251.053" r="2.45" />
+    <circle cx="282.632" cy="295.263" r="2.45" />
+    <circle cx="282.632" cy="251.053" r="2.45" />
+    <circle cx="282.632" cy="228.947" r="2.45" />
+    <circle cx="238.421" cy="228.947" r="2.45" />
+    <circle cx="216.316" cy="228.947" r="2.45" />
+    <circle cx="304.737" cy="228.947" r="2.45" />
+    <circle cx="304.737" cy="184.737" r="2.45" />
+    <circle cx="282.632" cy="184.737" r="2.45" />
+    <circle cx="238.421" cy="184.737" r="2.45" />
+    <circle cx="216.316" cy="184.737" r="2.45" />
+    <circle cx="216.316" cy="162.632" r="2.45" />
+    <circle cx="172.105" cy="162.632" r="2.45" />
+    <circle cx="371.053" cy="295.263" r="2.45" />
+    <circle cx="371.053" cy="251.053" r="2.45" />
+    <circle cx="348.947" cy="251.053" r="2.45" />
+    <circle cx="304.737" cy="251.053" r="2.45" />
+    <circle cx="415.263" cy="295.263" r="2.45" />
+    <circle cx="415.263" cy="251.053" r="2.45" />
+    <circle cx="415.263" cy="228.947" r="2.45" />
+    <circle cx="371.053" cy="228.947" r="2.45" />
+    <circle cx="348.947" cy="228.947" r="2.45" />
+    <circle cx="437.368" cy="228.947" r="2.45" />
+    <circle cx="437.368" cy="184.737" r="2.45" />
+    <circle cx="415.263" cy="184.737" r="2.45" />
+    <circle cx="371.053" cy="184.737" r="2.45" />
+    <circle cx="348.947" cy="184.737" r="2.45" />
+    <circle cx="348.947" cy="162.632" r="2.45" />
+    <circle cx="304.737" cy="162.632" r="2.45" />
+    <circle cx="503.684" cy="295.263" r="2.45" />
+    <circle cx="503.684" cy="251.053" r="2.45" />
+    <circle cx="481.579" cy="251.053" r="2.45" />
+    <circle cx="437.368" cy="251.053" r="2.45" />
+    <circle cx="547.895" cy="228.947" r="2.45" />
+    <circle cx="503.684" cy="228.947" r="2.45" />
+    <circle cx="481.579" cy="228.947" r="2.45" />
+    <circle cx="547.895" cy="184.737" r="2.45" />
+    <circle cx="503.684" cy="184.737" r="2.45" />
+    <circle cx="481.579" cy="184.737" r="2.45" />
+    <circle cx="481.579" cy="162.632" r="2.45" />
+    <circle cx="437.368" cy="162.632" r="2.45" />
+    <circle cx="238.421" cy="162.632" r="2.45" />
+    <circle cx="238.421" cy="118.421" r="2.45" />
+    <circle cx="216.316" cy="118.421" r="2.45" />
+    <circle cx="172.105" cy="118.421" r="2.45" />
+    <circle cx="282.632" cy="162.632" r="2.45" />
+    <circle cx="282.632" cy="118.421" r="2.45" />
+    <circle cx="282.632" cy="96.316" r="2.45" />
+    <circle cx="238.421" cy="96.316" r="2.45" />
+    <circle cx="216.316" cy="96.316" r="2.45" />
+    <circle cx="304.737" cy="96.316" r="2.45" />
+    <circle cx="304.737" cy="52.105" r="2.45" />
+    <circle cx="216.316" cy="52.105" r="2.45" />
+    <circle cx="371.053" cy="162.632" r="2.45" />
+    <circle cx="371.053" cy="118.421" r="2.45" />
+    <circle cx="348.947" cy="118.421" r="2.45" />
+    <circle cx="304.737" cy="118.421" r="2.45" />
+    <circle cx="415.263" cy="162.632" r="2.45" />
+    <circle cx="415.263" cy="118.421" r="2.45" />
+    <circle cx="415.263" cy="96.316" r="2.45" />
+    <circle cx="371.053" cy="96.316" r="2.45" />
+    <circle cx="348.947" cy="96.316" r="2.45" />
+    <circle cx="437.368" cy="96.316" r="2.45" />
+    <circle cx="437.368" cy="52.105" r="2.45" />
+    <circle cx="348.947" cy="52.105" r="2.45" />
+    <circle cx="503.684" cy="162.632" r="2.45" />
+    <circle cx="503.684" cy="118.421" r="2.45" />
+    <circle cx="481.579" cy="118.421" r="2.45" />
+    <circle cx="437.368" cy="118.421" r="2.45" />
+    <circle cx="547.895" cy="96.316" r="2.45" />
+    <circle cx="503.684" cy="96.316" r="2.45" />
+    <circle cx="481.579" cy="96.316" r="2.45" />
+    <circle cx="481.579" cy="52.105" r="2.45" />
+  </g>
+</svg><text x='1419' y='1155' font-family='Georgia,serif' font-size='18' fill='#30474C'>L15 &#183; Shear the basket assembly</text><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 480" role="img" aria-label="Shear the basket assembly" x="1415" y="1170" width="450" height="300">
+  <title>Shear the basket assembly</title>
+  <rect width="720" height="480" fill="#F8F5EC" />
+  <g fill="none" stroke="#35535A" stroke-width="1.9" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M 30 395.833 L 48.333 395.833" />
+    <path d="M 48.333 395.833 L 66.667 395.833" />
+    <path d="M 66.667 395.833 L 85 395.833" />
+    <path d="M 85 395.833 L 103.333 395.833" />
+    <path d="M 103.333 395.833 L 121.667 377.5" />
+    <path d="M 121.667 377.5 L 140 359.167" />
+    <path d="M 140 359.167 L 121.667 359.167" />
+    <path d="M 121.667 359.167 L 103.333 359.167" />
+    <path d="M 103.333 359.167 L 85 359.167" />
+    <path d="M 85 359.167 L 66.667 359.167" />
+    <path d="M 66.667 359.167 L 48.333 377.5" />
+    <path d="M 48.333 377.5 L 30 395.833" />
+    <path d="M 121.667 414.167 L 140 395.833" />
+    <path d="M 140 395.833 L 158.333 377.5" />
+    <path d="M 158.333 377.5 L 176.667 359.167" />
+    <path d="M 176.667 359.167 L 195 340.833" />
+    <path d="M 195 340.833 L 176.667 340.833" />
+    <path d="M 176.667 340.833 L 158.333 340.833" />
+    <path d="M 158.333 340.833 L 140 359.167" />
+    <path d="M 140 359.167 L 121.667 377.5" />
+    <path d="M 121.667 377.5 L 103.333 395.833" />
+    <path d="M 103.333 395.833 L 85 414.167" />
+    <path d="M 85 414.167 L 103.333 414.167" />
+    <path d="M 103.333 414.167 L 121.667 414.167" />
+    <path d="M 140 340.833 L 158.333 340.833" />
+    <path d="M 158.333 340.833 L 176.667 340.833" />
+    <path d="M 176.667 340.833 L 195 340.833" />
+    <path d="M 195 340.833 L 213.333 340.833" />
+    <path d="M 213.333 340.833 L 231.667 322.5" />
+    <path d="M 231.667 322.5 L 250 304.167" />
+    <path d="M 250 304.167 L 231.667 304.167" />
+    <path d="M 231.667 304.167 L 213.333 304.167" />
+    <path d="M 213.333 304.167 L 195 304.167" />
+    <path d="M 195 304.167 L 176.667 304.167" />
+    <path d="M 176.667 304.167 L 158.333 322.5" />
+    <path d="M 158.333 322.5 L 140 340.833" />
+    <path d="M 121.667 359.167 L 140 340.833" />
+    <path d="M 140 340.833 L 158.333 322.5" />
+    <path d="M 158.333 322.5 L 176.667 304.167" />
+    <path d="M 176.667 304.167 L 195 285.833" />
+    <path d="M 195 285.833 L 176.667 285.833" />
+    <path d="M 176.667 285.833 L 158.333 285.833" />
+    <path d="M 158.333 285.833 L 140 304.167" />
+    <path d="M 140 304.167 L 121.667 322.5" />
+    <path d="M 121.667 322.5 L 103.333 340.833" />
+    <path d="M 103.333 340.833 L 85 359.167" />
+    <path d="M 85 359.167 L 103.333 359.167" />
+    <path d="M 103.333 359.167 L 121.667 359.167" />
+    <path d="M 140 395.833 L 158.333 395.833" />
+    <path d="M 158.333 395.833 L 176.667 395.833" />
+    <path d="M 176.667 395.833 L 195 395.833" />
+    <path d="M 195 395.833 L 213.333 395.833" />
+    <path d="M 213.333 395.833 L 231.667 377.5" />
+    <path d="M 231.667 377.5 L 250 359.167" />
+    <path d="M 250 359.167 L 231.667 359.167" />
+    <path d="M 231.667 359.167 L 213.333 359.167" />
+    <path d="M 213.333 359.167 L 195 359.167" />
+    <path d="M 195 359.167 L 176.667 359.167" />
+    <path d="M 176.667 359.167 L 158.333 377.5" />
+    <path d="M 158.333 377.5 L 140 395.833" />
+    <path d="M 231.667 414.167 L 250 395.833" />
+    <path d="M 250 395.833 L 268.333 377.5" />
+    <path d="M 268.333 377.5 L 286.667 359.167" />
+    <path d="M 286.667 359.167 L 305 340.833" />
+    <path d="M 305 340.833 L 286.667 340.833" />
+    <path d="M 286.667 340.833 L 268.333 340.833" />
+    <path d="M 268.333 340.833 L 250 359.167" />
+    <path d="M 250 359.167 L 231.667 377.5" />
+    <path d="M 231.667 377.5 L 213.333 395.833" />
+    <path d="M 213.333 395.833 L 195 414.167" />
+    <path d="M 195 414.167 L 213.333 414.167" />
+    <path d="M 213.333 414.167 L 231.667 414.167" />
+    <path d="M 250 340.833 L 268.333 340.833" />
+    <path d="M 268.333 340.833 L 286.667 340.833" />
+    <path d="M 286.667 340.833 L 305 340.833" />
+    <path d="M 305 340.833 L 323.333 340.833" />
+    <path d="M 323.333 340.833 L 341.667 322.5" />
+    <path d="M 341.667 322.5 L 360 304.167" />
+    <path d="M 360 304.167 L 341.667 304.167" />
+    <path d="M 341.667 304.167 L 323.333 304.167" />
+    <path d="M 323.333 304.167 L 305 304.167" />
+    <path d="M 305 304.167 L 286.667 304.167" />
+    <path d="M 286.667 304.167 L 268.333 322.5" />
+    <path d="M 268.333 322.5 L 250 340.833" />
+    <path d="M 231.667 359.167 L 250 340.833" />
+    <path d="M 250 340.833 L 268.333 322.5" />
+    <path d="M 268.333 322.5 L 286.667 304.167" />
+    <path d="M 286.667 304.167 L 305 285.833" />
+    <path d="M 305 285.833 L 286.667 285.833" />
+    <path d="M 286.667 285.833 L 268.333 285.833" />
+    <path d="M 268.333 285.833 L 250 304.167" />
+    <path d="M 250 304.167 L 231.667 322.5" />
+    <path d="M 231.667 322.5 L 213.333 340.833" />
+    <path d="M 213.333 340.833 L 195 359.167" />
+    <path d="M 195 359.167 L 213.333 359.167" />
+    <path d="M 213.333 359.167 L 231.667 359.167" />
+    <path d="M 250 395.833 L 268.333 395.833" />
+    <path d="M 268.333 395.833 L 286.667 395.833" />
+    <path d="M 286.667 395.833 L 305 395.833" />
+    <path d="M 305 395.833 L 323.333 395.833" />
+    <path d="M 323.333 395.833 L 341.667 377.5" />
+    <path d="M 341.667 377.5 L 360 359.167" />
+    <path d="M 360 359.167 L 341.667 359.167" />
+    <path d="M 341.667 359.167 L 323.333 359.167" />
+    <path d="M 323.333 359.167 L 305 359.167" />
+    <path d="M 305 359.167 L 286.667 359.167" />
+    <path d="M 286.667 359.167 L 268.333 377.5" />
+    <path d="M 268.333 377.5 L 250 395.833" />
+    <path d="M 341.667 414.167 L 360 395.833" />
+    <path d="M 360 395.833 L 378.333 377.5" />
+    <path d="M 378.333 377.5 L 396.667 359.167" />
+    <path d="M 396.667 359.167 L 415 340.833" />
+    <path d="M 415 340.833 L 396.667 340.833" />
+    <path d="M 396.667 340.833 L 378.333 340.833" />
+    <path d="M 378.333 340.833 L 360 359.167" />
+    <path d="M 360 359.167 L 341.667 377.5" />
+    <path d="M 341.667 377.5 L 323.333 395.833" />
+    <path d="M 323.333 395.833 L 305 414.167" />
+    <path d="M 305 414.167 L 323.333 414.167" />
+    <path d="M 323.333 414.167 L 341.667 414.167" />
+    <path d="M 360 340.833 L 378.333 340.833" />
+    <path d="M 378.333 340.833 L 396.667 340.833" />
+    <path d="M 396.667 340.833 L 415 340.833" />
+    <path d="M 415 340.833 L 433.333 340.833" />
+    <path d="M 433.333 340.833 L 451.667 322.5" />
+    <path d="M 451.667 322.5 L 470 304.167" />
+    <path d="M 470 304.167 L 451.667 304.167" />
+    <path d="M 451.667 304.167 L 433.333 304.167" />
+    <path d="M 433.333 304.167 L 415 304.167" />
+    <path d="M 415 304.167 L 396.667 304.167" />
+    <path d="M 396.667 304.167 L 378.333 322.5" />
+    <path d="M 378.333 322.5 L 360 340.833" />
+    <path d="M 341.667 359.167 L 360 340.833" />
+    <path d="M 360 340.833 L 378.333 322.5" />
+    <path d="M 378.333 322.5 L 396.667 304.167" />
+    <path d="M 396.667 304.167 L 415 285.833" />
+    <path d="M 415 285.833 L 396.667 285.833" />
+    <path d="M 396.667 285.833 L 378.333 285.833" />
+    <path d="M 378.333 285.833 L 360 304.167" />
+    <path d="M 360 304.167 L 341.667 322.5" />
+    <path d="M 341.667 322.5 L 323.333 340.833" />
+    <path d="M 323.333 340.833 L 305 359.167" />
+    <path d="M 305 359.167 L 323.333 359.167" />
+    <path d="M 323.333 359.167 L 341.667 359.167" />
+    <path d="M 140 285.833 L 158.333 285.833" />
+    <path d="M 158.333 285.833 L 176.667 285.833" />
+    <path d="M 176.667 285.833 L 195 285.833" />
+    <path d="M 195 285.833 L 213.333 285.833" />
+    <path d="M 213.333 285.833 L 231.667 267.5" />
+    <path d="M 231.667 267.5 L 250 249.167" />
+    <path d="M 250 249.167 L 231.667 249.167" />
+    <path d="M 231.667 249.167 L 213.333 249.167" />
+    <path d="M 213.333 249.167 L 195 249.167" />
+    <path d="M 195 249.167 L 176.667 249.167" />
+    <path d="M 176.667 249.167 L 158.333 267.5" />
+    <path d="M 158.333 267.5 L 140 285.833" />
+    <path d="M 231.667 304.167 L 250 285.833" />
+    <path d="M 250 285.833 L 268.333 267.5" />
+    <path d="M 268.333 267.5 L 286.667 249.167" />
+    <path d="M 286.667 249.167 L 305 230.833" />
+    <path d="M 305 230.833 L 286.667 230.833" />
+    <path d="M 286.667 230.833 L 268.333 230.833" />
+    <path d="M 268.333 230.833 L 250 249.167" />
+    <path d="M 250 249.167 L 231.667 267.5" />
+    <path d="M 231.667 267.5 L 213.333 285.833" />
+    <path d="M 213.333 285.833 L 195 304.167" />
+    <path d="M 195 304.167 L 213.333 304.167" />
+    <path d="M 213.333 304.167 L 231.667 304.167" />
+    <path d="M 250 230.833 L 268.333 230.833" />
+    <path d="M 268.333 230.833 L 286.667 230.833" />
+    <path d="M 286.667 230.833 L 305 230.833" />
+    <path d="M 305 230.833 L 323.333 230.833" />
+    <path d="M 323.333 230.833 L 341.667 212.5" />
+    <path d="M 341.667 212.5 L 360 194.167" />
+    <path d="M 360 194.167 L 341.667 194.167" />
+    <path d="M 341.667 194.167 L 323.333 194.167" />
+    <path d="M 323.333 194.167 L 305 194.167" />
+    <path d="M 305 194.167 L 286.667 194.167" />
+    <path d="M 286.667 194.167 L 268.333 212.5" />
+    <path d="M 268.333 212.5 L 250 230.833" />
+    <path d="M 231.667 249.167 L 250 230.833" />
+    <path d="M 250 230.833 L 268.333 212.5" />
+    <path d="M 268.333 212.5 L 286.667 194.167" />
+    <path d="M 286.667 194.167 L 305 175.833" />
+    <path d="M 305 175.833 L 286.667 175.833" />
+    <path d="M 286.667 175.833 L 268.333 175.833" />
+    <path d="M 268.333 175.833 L 250 194.167" />
+    <path d="M 250 194.167 L 231.667 212.5" />
+    <path d="M 231.667 212.5 L 213.333 230.833" />
+    <path d="M 213.333 230.833 L 195 249.167" />
+    <path d="M 195 249.167 L 213.333 249.167" />
+    <path d="M 213.333 249.167 L 231.667 249.167" />
+    <path d="M 250 285.833 L 268.333 285.833" />
+    <path d="M 268.333 285.833 L 286.667 285.833" />
+    <path d="M 286.667 285.833 L 305 285.833" />
+    <path d="M 305 285.833 L 323.333 285.833" />
+    <path d="M 323.333 285.833 L 341.667 267.5" />
+    <path d="M 341.667 267.5 L 360 249.167" />
+    <path d="M 360 249.167 L 341.667 249.167" />
+    <path d="M 341.667 249.167 L 323.333 249.167" />
+    <path d="M 323.333 249.167 L 305 249.167" />
+    <path d="M 305 249.167 L 286.667 249.167" />
+    <path d="M 286.667 249.167 L 268.333 267.5" />
+    <path d="M 268.333 267.5 L 250 285.833" />
+    <path d="M 341.667 304.167 L 360 285.833" />
+    <path d="M 360 285.833 L 378.333 267.5" />
+    <path d="M 378.333 267.5 L 396.667 249.167" />
+    <path d="M 396.667 249.167 L 415 230.833" />
+    <path d="M 415 230.833 L 396.667 230.833" />
+    <path d="M 396.667 230.833 L 378.333 230.833" />
+    <path d="M 378.333 230.833 L 360 249.167" />
+    <path d="M 360 249.167 L 341.667 267.5" />
+    <path d="M 341.667 267.5 L 323.333 285.833" />
+    <path d="M 323.333 285.833 L 305 304.167" />
+    <path d="M 305 304.167 L 323.333 304.167" />
+    <path d="M 323.333 304.167 L 341.667 304.167" />
+    <path d="M 360 230.833 L 378.333 230.833" />
+    <path d="M 378.333 230.833 L 396.667 230.833" />
+    <path d="M 396.667 230.833 L 415 230.833" />
+    <path d="M 415 230.833 L 433.333 230.833" />
+    <path d="M 433.333 230.833 L 451.667 212.5" />
+    <path d="M 451.667 212.5 L 470 194.167" />
+    <path d="M 470 194.167 L 451.667 194.167" />
+    <path d="M 451.667 194.167 L 433.333 194.167" />
+    <path d="M 433.333 194.167 L 415 194.167" />
+    <path d="M 415 194.167 L 396.667 194.167" />
+    <path d="M 396.667 194.167 L 378.333 212.5" />
+    <path d="M 378.333 212.5 L 360 230.833" />
+    <path d="M 341.667 249.167 L 360 230.833" />
+    <path d="M 360 230.833 L 378.333 212.5" />
+    <path d="M 378.333 212.5 L 396.667 194.167" />
+    <path d="M 396.667 194.167 L 415 175.833" />
+    <path d="M 415 175.833 L 396.667 175.833" />
+    <path d="M 396.667 175.833 L 378.333 175.833" />
+    <path d="M 378.333 175.833 L 360 194.167" />
+    <path d="M 360 194.167 L 341.667 212.5" />
+    <path d="M 341.667 212.5 L 323.333 230.833" />
+    <path d="M 323.333 230.833 L 305 249.167" />
+    <path d="M 305 249.167 L 323.333 249.167" />
+    <path d="M 323.333 249.167 L 341.667 249.167" />
+    <path d="M 360 285.833 L 378.333 285.833" />
+    <path d="M 378.333 285.833 L 396.667 285.833" />
+    <path d="M 396.667 285.833 L 415 285.833" />
+    <path d="M 415 285.833 L 433.333 285.833" />
+    <path d="M 433.333 285.833 L 451.667 267.5" />
+    <path d="M 451.667 267.5 L 470 249.167" />
+    <path d="M 470 249.167 L 451.667 249.167" />
+    <path d="M 451.667 249.167 L 433.333 249.167" />
+    <path d="M 433.333 249.167 L 415 249.167" />
+    <path d="M 415 249.167 L 396.667 249.167" />
+    <path d="M 396.667 249.167 L 378.333 267.5" />
+    <path d="M 378.333 267.5 L 360 285.833" />
+    <path d="M 451.667 304.167 L 470 285.833" />
+    <path d="M 470 285.833 L 488.333 267.5" />
+    <path d="M 488.333 267.5 L 506.667 249.167" />
+    <path d="M 506.667 249.167 L 525 230.833" />
+    <path d="M 525 230.833 L 506.667 230.833" />
+    <path d="M 506.667 230.833 L 488.333 230.833" />
+    <path d="M 488.333 230.833 L 470 249.167" />
+    <path d="M 470 249.167 L 451.667 267.5" />
+    <path d="M 451.667 267.5 L 433.333 285.833" />
+    <path d="M 433.333 285.833 L 415 304.167" />
+    <path d="M 415 304.167 L 433.333 304.167" />
+    <path d="M 433.333 304.167 L 451.667 304.167" />
+    <path d="M 470 230.833 L 488.333 230.833" />
+    <path d="M 488.333 230.833 L 506.667 230.833" />
+    <path d="M 506.667 230.833 L 525 230.833" />
+    <path d="M 525 230.833 L 543.333 230.833" />
+    <path d="M 543.333 230.833 L 561.667 212.5" />
+    <path d="M 561.667 212.5 L 580 194.167" />
+    <path d="M 580 194.167 L 561.667 194.167" />
+    <path d="M 561.667 194.167 L 543.333 194.167" />
+    <path d="M 543.333 194.167 L 525 194.167" />
+    <path d="M 525 194.167 L 506.667 194.167" />
+    <path d="M 506.667 194.167 L 488.333 212.5" />
+    <path d="M 488.333 212.5 L 470 230.833" />
+    <path d="M 451.667 249.167 L 470 230.833" />
+    <path d="M 470 230.833 L 488.333 212.5" />
+    <path d="M 488.333 212.5 L 506.667 194.167" />
+    <path d="M 506.667 194.167 L 525 175.833" />
+    <path d="M 525 175.833 L 506.667 175.833" />
+    <path d="M 506.667 175.833 L 488.333 175.833" />
+    <path d="M 488.333 175.833 L 470 194.167" />
+    <path d="M 470 194.167 L 451.667 212.5" />
+    <path d="M 451.667 212.5 L 433.333 230.833" />
+    <path d="M 433.333 230.833 L 415 249.167" />
+    <path d="M 415 249.167 L 433.333 249.167" />
+    <path d="M 433.333 249.167 L 451.667 249.167" />
+    <path d="M 250 175.833 L 268.333 175.833" />
+    <path d="M 268.333 175.833 L 286.667 175.833" />
+    <path d="M 286.667 175.833 L 305 175.833" />
+    <path d="M 305 175.833 L 323.333 175.833" />
+    <path d="M 323.333 175.833 L 341.667 157.5" />
+    <path d="M 341.667 157.5 L 360 139.167" />
+    <path d="M 360 139.167 L 341.667 139.167" />
+    <path d="M 341.667 139.167 L 323.333 139.167" />
+    <path d="M 323.333 139.167 L 305 139.167" />
+    <path d="M 305 139.167 L 286.667 139.167" />
+    <path d="M 286.667 139.167 L 268.333 157.5" />
+    <path d="M 268.333 157.5 L 250 175.833" />
+    <path d="M 341.667 194.167 L 360 175.833" />
+    <path d="M 360 175.833 L 378.333 157.5" />
+    <path d="M 378.333 157.5 L 396.667 139.167" />
+    <path d="M 396.667 139.167 L 415 120.833" />
+    <path d="M 415 120.833 L 396.667 120.833" />
+    <path d="M 396.667 120.833 L 378.333 120.833" />
+    <path d="M 378.333 120.833 L 360 139.167" />
+    <path d="M 360 139.167 L 341.667 157.5" />
+    <path d="M 341.667 157.5 L 323.333 175.833" />
+    <path d="M 323.333 175.833 L 305 194.167" />
+    <path d="M 305 194.167 L 323.333 194.167" />
+    <path d="M 323.333 194.167 L 341.667 194.167" />
+    <path d="M 360 120.833 L 378.333 120.833" />
+    <path d="M 378.333 120.833 L 396.667 120.833" />
+    <path d="M 396.667 120.833 L 415 120.833" />
+    <path d="M 415 120.833 L 433.333 120.833" />
+    <path d="M 433.333 120.833 L 451.667 102.5" />
+    <path d="M 451.667 102.5 L 470 84.167" />
+    <path d="M 470 84.167 L 451.667 84.167" />
+    <path d="M 451.667 84.167 L 433.333 84.167" />
+    <path d="M 433.333 84.167 L 415 84.167" />
+    <path d="M 415 84.167 L 396.667 84.167" />
+    <path d="M 396.667 84.167 L 378.333 102.5" />
+    <path d="M 378.333 102.5 L 360 120.833" />
+    <path d="M 341.667 139.167 L 360 120.833" />
+    <path d="M 360 120.833 L 378.333 102.5" />
+    <path d="M 378.333 102.5 L 396.667 84.167" />
+    <path d="M 396.667 84.167 L 415 65.833" />
+    <path d="M 415 65.833 L 396.667 65.833" />
+    <path d="M 396.667 65.833 L 378.333 65.833" />
+    <path d="M 378.333 65.833 L 360 84.167" />
+    <path d="M 360 84.167 L 341.667 102.5" />
+    <path d="M 341.667 102.5 L 323.333 120.833" />
+    <path d="M 323.333 120.833 L 305 139.167" />
+    <path d="M 305 139.167 L 323.333 139.167" />
+    <path d="M 323.333 139.167 L 341.667 139.167" />
+    <path d="M 360 175.833 L 378.333 175.833" />
+    <path d="M 378.333 175.833 L 396.667 175.833" />
+    <path d="M 396.667 175.833 L 415 175.833" />
+    <path d="M 415 175.833 L 433.333 175.833" />
+    <path d="M 433.333 175.833 L 451.667 157.5" />
+    <path d="M 451.667 157.5 L 470 139.167" />
+    <path d="M 470 139.167 L 451.667 139.167" />
+    <path d="M 451.667 139.167 L 433.333 139.167" />
+    <path d="M 433.333 139.167 L 415 139.167" />
+    <path d="M 415 139.167 L 396.667 139.167" />
+    <path d="M 396.667 139.167 L 378.333 157.5" />
+    <path d="M 378.333 157.5 L 360 175.833" />
+    <path d="M 451.667 194.167 L 470 175.833" />
+    <path d="M 470 175.833 L 488.333 157.5" />
+    <path d="M 488.333 157.5 L 506.667 139.167" />
+    <path d="M 506.667 139.167 L 525 120.833" />
+    <path d="M 525 120.833 L 506.667 120.833" />
+    <path d="M 506.667 120.833 L 488.333 120.833" />
+    <path d="M 488.333 120.833 L 470 139.167" />
+    <path d="M 470 139.167 L 451.667 157.5" />
+    <path d="M 451.667 157.5 L 433.333 175.833" />
+    <path d="M 433.333 175.833 L 415 194.167" />
+    <path d="M 415 194.167 L 433.333 194.167" />
+    <path d="M 433.333 194.167 L 451.667 194.167" />
+    <path d="M 470 120.833 L 488.333 120.833" />
+    <path d="M 488.333 120.833 L 506.667 120.833" />
+    <path d="M 506.667 120.833 L 525 120.833" />
+    <path d="M 525 120.833 L 543.333 120.833" />
+    <path d="M 543.333 120.833 L 561.667 102.5" />
+    <path d="M 561.667 102.5 L 580 84.167" />
+    <path d="M 580 84.167 L 561.667 84.167" />
+    <path d="M 561.667 84.167 L 543.333 84.167" />
+    <path d="M 543.333 84.167 L 525 84.167" />
+    <path d="M 525 84.167 L 506.667 84.167" />
+    <path d="M 506.667 84.167 L 488.333 102.5" />
+    <path d="M 488.333 102.5 L 470 120.833" />
+    <path d="M 451.667 139.167 L 470 120.833" />
+    <path d="M 470 120.833 L 488.333 102.5" />
+    <path d="M 488.333 102.5 L 506.667 84.167" />
+    <path d="M 506.667 84.167 L 525 65.833" />
+    <path d="M 525 65.833 L 506.667 65.833" />
+    <path d="M 506.667 65.833 L 488.333 65.833" />
+    <path d="M 488.333 65.833 L 470 84.167" />
+    <path d="M 470 84.167 L 451.667 102.5" />
+    <path d="M 451.667 102.5 L 433.333 120.833" />
+    <path d="M 433.333 120.833 L 415 139.167" />
+    <path d="M 415 139.167 L 433.333 139.167" />
+    <path d="M 433.333 139.167 L 451.667 139.167" />
+    <path d="M 470 175.833 L 488.333 175.833" />
+    <path d="M 488.333 175.833 L 506.667 175.833" />
+    <path d="M 506.667 175.833 L 525 175.833" />
+    <path d="M 525 175.833 L 543.333 175.833" />
+    <path d="M 543.333 175.833 L 561.667 157.5" />
+    <path d="M 561.667 157.5 L 580 139.167" />
+    <path d="M 580 139.167 L 561.667 139.167" />
+    <path d="M 561.667 139.167 L 543.333 139.167" />
+    <path d="M 543.333 139.167 L 525 139.167" />
+    <path d="M 525 139.167 L 506.667 139.167" />
+    <path d="M 506.667 139.167 L 488.333 157.5" />
+    <path d="M 488.333 157.5 L 470 175.833" />
+    <path d="M 561.667 194.167 L 580 175.833" />
+    <path d="M 580 175.833 L 598.333 157.5" />
+    <path d="M 598.333 157.5 L 616.667 139.167" />
+    <path d="M 616.667 139.167 L 635 120.833" />
+    <path d="M 635 120.833 L 616.667 120.833" />
+    <path d="M 616.667 120.833 L 598.333 120.833" />
+    <path d="M 598.333 120.833 L 580 139.167" />
+    <path d="M 580 139.167 L 561.667 157.5" />
+    <path d="M 561.667 157.5 L 543.333 175.833" />
+    <path d="M 543.333 175.833 L 525 194.167" />
+    <path d="M 525 194.167 L 543.333 194.167" />
+    <path d="M 543.333 194.167 L 561.667 194.167" />
+    <path d="M 580 120.833 L 598.333 120.833" />
+    <path d="M 598.333 120.833 L 616.667 120.833" />
+    <path d="M 616.667 120.833 L 635 120.833" />
+    <path d="M 635 120.833 L 653.333 120.833" />
+    <path d="M 653.333 120.833 L 671.667 102.5" />
+    <path d="M 671.667 102.5 L 690 84.167" />
+    <path d="M 690 84.167 L 671.667 84.167" />
+    <path d="M 671.667 84.167 L 653.333 84.167" />
+    <path d="M 653.333 84.167 L 635 84.167" />
+    <path d="M 635 84.167 L 616.667 84.167" />
+    <path d="M 616.667 84.167 L 598.333 102.5" />
+    <path d="M 598.333 102.5 L 580 120.833" />
+    <path d="M 561.667 139.167 L 580 120.833" />
+    <path d="M 580 120.833 L 598.333 102.5" />
+    <path d="M 598.333 102.5 L 616.667 84.167" />
+    <path d="M 616.667 84.167 L 635 65.833" />
+    <path d="M 635 65.833 L 616.667 65.833" />
+    <path d="M 616.667 65.833 L 598.333 65.833" />
+    <path d="M 598.333 65.833 L 580 84.167" />
+    <path d="M 580 84.167 L 561.667 102.5" />
+    <path d="M 561.667 102.5 L 543.333 120.833" />
+    <path d="M 543.333 120.833 L 525 139.167" />
+    <path d="M 525 139.167 L 543.333 139.167" />
+    <path d="M 543.333 139.167 L 561.667 139.167" />
+  </g>
+  <g fill="#A87A42" opacity=".78">
+    <circle cx="103.333" cy="395.833" r="2.45" />
+    <circle cx="140" cy="359.167" r="2.45" />
+    <circle cx="121.667" cy="359.167" r="2.45" />
+    <circle cx="85" cy="359.167" r="2.45" />
+    <circle cx="140" cy="395.833" r="2.45" />
+    <circle cx="176.667" cy="359.167" r="2.45" />
+    <circle cx="195" cy="340.833" r="2.45" />
+    <circle cx="158.333" cy="340.833" r="2.45" />
+    <circle cx="140" cy="340.833" r="2.45" />
+    <circle cx="213.333" cy="340.833" r="2.45" />
+    <circle cx="250" cy="304.167" r="2.45" />
+    <circle cx="231.667" cy="304.167" r="2.45" />
+    <circle cx="195" cy="304.167" r="2.45" />
+    <circle cx="176.667" cy="304.167" r="2.45" />
+    <circle cx="195" cy="285.833" r="2.45" />
+    <circle cx="158.333" cy="285.833" r="2.45" />
+    <circle cx="213.333" cy="395.833" r="2.45" />
+    <circle cx="250" cy="359.167" r="2.45" />
+    <circle cx="231.667" cy="359.167" r="2.45" />
+    <circle cx="195" cy="359.167" r="2.45" />
+    <circle cx="250" cy="395.833" r="2.45" />
+    <circle cx="286.667" cy="359.167" r="2.45" />
+    <circle cx="305" cy="340.833" r="2.45" />
+    <circle cx="268.333" cy="340.833" r="2.45" />
+    <circle cx="250" cy="340.833" r="2.45" />
+    <circle cx="323.333" cy="340.833" r="2.45" />
+    <circle cx="360" cy="304.167" r="2.45" />
+    <circle cx="341.667" cy="304.167" r="2.45" />
+    <circle cx="305" cy="304.167" r="2.45" />
+    <circle cx="286.667" cy="304.167" r="2.45" />
+    <circle cx="305" cy="285.833" r="2.45" />
+    <circle cx="268.333" cy="285.833" r="2.45" />
+    <circle cx="323.333" cy="395.833" r="2.45" />
+    <circle cx="360" cy="359.167" r="2.45" />
+    <circle cx="341.667" cy="359.167" r="2.45" />
+    <circle cx="305" cy="359.167" r="2.45" />
+    <circle cx="415" cy="340.833" r="2.45" />
+    <circle cx="378.333" cy="340.833" r="2.45" />
+    <circle cx="360" cy="340.833" r="2.45" />
+    <circle cx="451.667" cy="304.167" r="2.45" />
+    <circle cx="415" cy="304.167" r="2.45" />
+    <circle cx="396.667" cy="304.167" r="2.45" />
+    <circle cx="415" cy="285.833" r="2.45" />
+    <circle cx="378.333" cy="285.833" r="2.45" />
+    <circle cx="213.333" cy="285.833" r="2.45" />
+    <circle cx="250" cy="249.167" r="2.45" />
+    <circle cx="231.667" cy="249.167" r="2.45" />
+    <circle cx="195" cy="249.167" r="2.45" />
+    <circle cx="250" cy="285.833" r="2.45" />
+    <circle cx="286.667" cy="249.167" r="2.45" />
+    <circle cx="305" cy="230.833" r="2.45" />
+    <circle cx="268.333" cy="230.833" r="2.45" />
+    <circle cx="250" cy="230.833" r="2.45" />
+    <circle cx="323.333" cy="230.833" r="2.45" />
+    <circle cx="360" cy="194.167" r="2.45" />
+    <circle cx="341.667" cy="194.167" r="2.45" />
+    <circle cx="305" cy="194.167" r="2.45" />
+    <circle cx="286.667" cy="194.167" r="2.45" />
+    <circle cx="305" cy="175.833" r="2.45" />
+    <circle cx="268.333" cy="175.833" r="2.45" />
+    <circle cx="323.333" cy="285.833" r="2.45" />
+    <circle cx="360" cy="249.167" r="2.45" />
+    <circle cx="341.667" cy="249.167" r="2.45" />
+    <circle cx="305" cy="249.167" r="2.45" />
+    <circle cx="360" cy="285.833" r="2.45" />
+    <circle cx="396.667" cy="249.167" r="2.45" />
+    <circle cx="415" cy="230.833" r="2.45" />
+    <circle cx="378.333" cy="230.833" r="2.45" />
+    <circle cx="360" cy="230.833" r="2.45" />
+    <circle cx="433.333" cy="230.833" r="2.45" />
+    <circle cx="470" cy="194.167" r="2.45" />
+    <circle cx="451.667" cy="194.167" r="2.45" />
+    <circle cx="415" cy="194.167" r="2.45" />
+    <circle cx="396.667" cy="194.167" r="2.45" />
+    <circle cx="415" cy="175.833" r="2.45" />
+    <circle cx="378.333" cy="175.833" r="2.45" />
+    <circle cx="433.333" cy="285.833" r="2.45" />
+    <circle cx="470" cy="249.167" r="2.45" />
+    <circle cx="451.667" cy="249.167" r="2.45" />
+    <circle cx="415" cy="249.167" r="2.45" />
+    <circle cx="525" cy="230.833" r="2.45" />
+    <circle cx="488.333" cy="230.833" r="2.45" />
+    <circle cx="470" cy="230.833" r="2.45" />
+    <circle cx="561.667" cy="194.167" r="2.45" />
+    <circle cx="525" cy="194.167" r="2.45" />
+    <circle cx="506.667" cy="194.167" r="2.45" />
+    <circle cx="525" cy="175.833" r="2.45" />
+    <circle cx="488.333" cy="175.833" r="2.45" />
+    <circle cx="323.333" cy="175.833" r="2.45" />
+    <circle cx="360" cy="139.167" r="2.45" />
+    <circle cx="341.667" cy="139.167" r="2.45" />
+    <circle cx="305" cy="139.167" r="2.45" />
+    <circle cx="360" cy="175.833" r="2.45" />
+    <circle cx="396.667" cy="139.167" r="2.45" />
+    <circle cx="415" cy="120.833" r="2.45" />
+    <circle cx="378.333" cy="120.833" r="2.45" />
+    <circle cx="360" cy="120.833" r="2.45" />
+    <circle cx="433.333" cy="120.833" r="2.45" />
+    <circle cx="470" cy="84.167" r="2.45" />
+    <circle cx="396.667" cy="84.167" r="2.45" />
+    <circle cx="433.333" cy="175.833" r="2.45" />
+    <circle cx="470" cy="139.167" r="2.45" />
+    <circle cx="451.667" cy="139.167" r="2.45" />
+    <circle cx="415" cy="139.167" r="2.45" />
+    <circle cx="470" cy="175.833" r="2.45" />
+    <circle cx="506.667" cy="139.167" r="2.45" />
+    <circle cx="525" cy="120.833" r="2.45" />
+    <circle cx="488.333" cy="120.833" r="2.45" />
+    <circle cx="470" cy="120.833" r="2.45" />
+    <circle cx="543.333" cy="120.833" r="2.45" />
+    <circle cx="580" cy="84.167" r="2.45" />
+    <circle cx="506.667" cy="84.167" r="2.45" />
+    <circle cx="543.333" cy="175.833" r="2.45" />
+    <circle cx="580" cy="139.167" r="2.45" />
+    <circle cx="561.667" cy="139.167" r="2.45" />
+    <circle cx="525" cy="139.167" r="2.45" />
+    <circle cx="635" cy="120.833" r="2.45" />
+    <circle cx="598.333" cy="120.833" r="2.45" />
+    <circle cx="580" cy="120.833" r="2.45" />
+    <circle cx="616.667" cy="84.167" r="2.45" />
+  </g>
+</svg><text x='24' y='1495' font-family='Georgia,serif' font-size='18' fill='#30474C'>L16 &#183; Try a wider shear</text><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 480" role="img" aria-label="Try a wider shear" x="20" y="1510" width="450" height="300">
+  <title>Try a wider shear</title>
+  <rect width="720" height="480" fill="#F8F5EC" />
+  <g fill="none" stroke="#35535A" stroke-width="1.9" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M 30 350 L 66.667 350" />
+    <path d="M 66.667 350 L 103.333 350" />
+    <path d="M 103.333 350 L 176.667 313.333" />
+    <path d="M 176.667 313.333 L 250 276.667" />
+    <path d="M 250 276.667 L 213.333 276.667" />
+    <path d="M 213.333 276.667 L 176.667 276.667" />
+    <path d="M 176.667 276.667 L 103.333 313.333" />
+    <path d="M 103.333 313.333 L 30 350" />
+    <path d="M 103.333 350 L 140 350" />
+    <path d="M 140 350 L 176.667 350" />
+    <path d="M 176.667 350 L 250 313.333" />
+    <path d="M 250 313.333 L 323.333 276.667" />
+    <path d="M 323.333 276.667 L 286.667 276.667" />
+    <path d="M 286.667 276.667 L 250 276.667" />
+    <path d="M 250 276.667 L 176.667 313.333" />
+    <path d="M 176.667 313.333 L 103.333 350" />
+    <path d="M 176.667 350 L 213.333 350" />
+    <path d="M 213.333 350 L 250 350" />
+    <path d="M 250 350 L 323.333 313.333" />
+    <path d="M 323.333 313.333 L 396.667 276.667" />
+    <path d="M 396.667 276.667 L 360 276.667" />
+    <path d="M 360 276.667 L 323.333 276.667" />
+    <path d="M 323.333 276.667 L 250 313.333" />
+    <path d="M 250 313.333 L 176.667 350" />
+    <path d="M 176.667 276.667 L 213.333 276.667" />
+    <path d="M 213.333 276.667 L 250 276.667" />
+    <path d="M 250 276.667 L 323.333 240" />
+    <path d="M 323.333 240 L 396.667 203.333" />
+    <path d="M 396.667 203.333 L 360 203.333" />
+    <path d="M 360 203.333 L 323.333 203.333" />
+    <path d="M 323.333 203.333 L 250 240" />
+    <path d="M 250 240 L 176.667 276.667" />
+    <path d="M 250 276.667 L 286.667 276.667" />
+    <path d="M 286.667 276.667 L 323.333 276.667" />
+    <path d="M 323.333 276.667 L 396.667 240" />
+    <path d="M 396.667 240 L 470 203.333" />
+    <path d="M 470 203.333 L 433.333 203.333" />
+    <path d="M 433.333 203.333 L 396.667 203.333" />
+    <path d="M 396.667 203.333 L 323.333 240" />
+    <path d="M 323.333 240 L 250 276.667" />
+    <path d="M 323.333 276.667 L 360 276.667" />
+    <path d="M 360 276.667 L 396.667 276.667" />
+    <path d="M 396.667 276.667 L 470 240" />
+    <path d="M 470 240 L 543.333 203.333" />
+    <path d="M 543.333 203.333 L 506.667 203.333" />
+    <path d="M 506.667 203.333 L 470 203.333" />
+    <path d="M 470 203.333 L 396.667 240" />
+    <path d="M 396.667 240 L 323.333 276.667" />
+    <path d="M 323.333 203.333 L 360 203.333" />
+    <path d="M 360 203.333 L 396.667 203.333" />
+    <path d="M 396.667 203.333 L 470 166.667" />
+    <path d="M 470 166.667 L 543.333 130" />
+    <path d="M 543.333 130 L 506.667 130" />
+    <path d="M 506.667 130 L 470 130" />
+    <path d="M 470 130 L 396.667 166.667" />
+    <path d="M 396.667 166.667 L 323.333 203.333" />
+    <path d="M 396.667 203.333 L 433.333 203.333" />
+    <path d="M 433.333 203.333 L 470 203.333" />
+    <path d="M 470 203.333 L 543.333 166.667" />
+    <path d="M 543.333 166.667 L 616.667 130" />
+    <path d="M 616.667 130 L 580 130" />
+    <path d="M 580 130 L 543.333 130" />
+    <path d="M 543.333 130 L 470 166.667" />
+    <path d="M 470 166.667 L 396.667 203.333" />
+    <path d="M 470 203.333 L 506.667 203.333" />
+    <path d="M 506.667 203.333 L 543.333 203.333" />
+    <path d="M 543.333 203.333 L 616.667 166.667" />
+    <path d="M 616.667 166.667 L 690 130" />
+    <path d="M 690 130 L 653.333 130" />
+    <path d="M 653.333 130 L 616.667 130" />
+    <path d="M 616.667 130 L 543.333 166.667" />
+    <path d="M 543.333 166.667 L 470 203.333" />
+  </g>
+  <g fill="#A87A42" opacity=".78">
+    <circle cx="103.333" cy="350" r="2.45" />
+    <circle cx="250" cy="276.667" r="2.45" />
+    <circle cx="176.667" cy="276.667" r="2.45" />
+    <circle cx="176.667" cy="350" r="2.45" />
+    <circle cx="323.333" cy="276.667" r="2.45" />
+    <circle cx="396.667" cy="276.667" r="2.45" />
+    <circle cx="396.667" cy="203.333" r="2.45" />
+    <circle cx="323.333" cy="203.333" r="2.45" />
+    <circle cx="470" cy="203.333" r="2.45" />
+    <circle cx="543.333" cy="203.333" r="2.45" />
+    <circle cx="543.333" cy="130" r="2.45" />
+    <circle cx="616.667" cy="130" r="2.45" />
+  </g>
+</svg><text x='489' y='1495' font-family='Georgia,serif' font-size='18' fill='#30474C'>L17 &#183; Try an opposed brick shear</text><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 480" role="img" aria-label="Try an opposed brick shear" x="485" y="1510" width="450" height="300">
+  <title>Try an opposed brick shear</title>
+  <rect width="720" height="480" fill="#F8F5EC" />
+  <g fill="none" stroke="#35535A" stroke-width="1.9" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M 250 350 L 323.333 350" />
+    <path d="M 323.333 350 L 396.667 350" />
+    <path d="M 323.333 276.667 L 250 276.667" />
+    <path d="M 250 276.667 L 176.667 276.667" />
+    <path d="M 213.333 313.333 L 286.667 313.333" />
+    <path d="M 286.667 313.333 L 360 313.333" />
+    <path d="M 213.333 313.333 L 250 350" />
+    <path d="M 286.667 313.333 L 250 276.667" />
+    <path d="M 396.667 350 L 470 350" />
+    <path d="M 470 350 L 543.333 350" />
+    <path d="M 470 276.667 L 396.667 276.667" />
+    <path d="M 396.667 276.667 L 323.333 276.667" />
+    <path d="M 360 313.333 L 433.333 313.333" />
+    <path d="M 433.333 313.333 L 506.667 313.333" />
+    <path d="M 360 313.333 L 396.667 350" />
+    <path d="M 433.333 313.333 L 396.667 276.667" />
+    <path d="M 543.333 350 L 616.667 350" />
+    <path d="M 616.667 350 L 690 350" />
+    <path d="M 616.667 276.667 L 543.333 276.667" />
+    <path d="M 543.333 276.667 L 470 276.667" />
+    <path d="M 506.667 313.333 L 580 313.333" />
+    <path d="M 580 313.333 L 653.333 313.333" />
+    <path d="M 506.667 313.333 L 543.333 350" />
+    <path d="M 580 313.333 L 543.333 276.667" />
+    <path d="M 176.667 276.667 L 250 276.667" />
+    <path d="M 250 276.667 L 323.333 276.667" />
+    <path d="M 250 203.333 L 176.667 203.333" />
+    <path d="M 176.667 203.333 L 103.333 203.333" />
+    <path d="M 140 240 L 213.333 240" />
+    <path d="M 213.333 240 L 286.667 240" />
+    <path d="M 140 240 L 176.667 276.667" />
+    <path d="M 213.333 240 L 176.667 203.333" />
+    <path d="M 323.333 276.667 L 396.667 276.667" />
+    <path d="M 396.667 276.667 L 470 276.667" />
+    <path d="M 396.667 203.333 L 323.333 203.333" />
+    <path d="M 323.333 203.333 L 250 203.333" />
+    <path d="M 286.667 240 L 360 240" />
+    <path d="M 360 240 L 433.333 240" />
+    <path d="M 286.667 240 L 323.333 276.667" />
+    <path d="M 360 240 L 323.333 203.333" />
+    <path d="M 470 276.667 L 543.333 276.667" />
+    <path d="M 543.333 276.667 L 616.667 276.667" />
+    <path d="M 543.333 203.333 L 470 203.333" />
+    <path d="M 470 203.333 L 396.667 203.333" />
+    <path d="M 433.333 240 L 506.667 240" />
+    <path d="M 506.667 240 L 580 240" />
+    <path d="M 433.333 240 L 470 276.667" />
+    <path d="M 506.667 240 L 470 203.333" />
+    <path d="M 103.333 203.333 L 176.667 203.333" />
+    <path d="M 176.667 203.333 L 250 203.333" />
+    <path d="M 176.667 130 L 103.333 130" />
+    <path d="M 103.333 130 L 30 130" />
+    <path d="M 66.667 166.667 L 140 166.667" />
+    <path d="M 140 166.667 L 213.333 166.667" />
+    <path d="M 66.667 166.667 L 103.333 203.333" />
+    <path d="M 140 166.667 L 103.333 130" />
+    <path d="M 250 203.333 L 323.333 203.333" />
+    <path d="M 323.333 203.333 L 396.667 203.333" />
+    <path d="M 323.333 130 L 250 130" />
+    <path d="M 250 130 L 176.667 130" />
+    <path d="M 213.333 166.667 L 286.667 166.667" />
+    <path d="M 286.667 166.667 L 360 166.667" />
+    <path d="M 213.333 166.667 L 250 203.333" />
+    <path d="M 286.667 166.667 L 250 130" />
+    <path d="M 396.667 203.333 L 470 203.333" />
+    <path d="M 470 203.333 L 543.333 203.333" />
+    <path d="M 470 130 L 396.667 130" />
+    <path d="M 396.667 130 L 323.333 130" />
+    <path d="M 360 166.667 L 433.333 166.667" />
+    <path d="M 433.333 166.667 L 506.667 166.667" />
+    <path d="M 360 166.667 L 396.667 203.333" />
+    <path d="M 433.333 166.667 L 396.667 130" />
+  </g>
+  <g fill="#A87A42" opacity=".78">
+    <circle cx="396.667" cy="350" r="2.45" />
+    <circle cx="323.333" cy="276.667" r="2.45" />
+    <circle cx="250" cy="276.667" r="2.45" />
+    <circle cx="286.667" cy="313.333" r="2.45" />
+    <circle cx="360" cy="313.333" r="2.45" />
+    <circle cx="543.333" cy="350" r="2.45" />
+    <circle cx="470" cy="276.667" r="2.45" />
+    <circle cx="396.667" cy="276.667" r="2.45" />
+    <circle cx="433.333" cy="313.333" r="2.45" />
+    <circle cx="506.667" cy="313.333" r="2.45" />
+    <circle cx="543.333" cy="276.667" r="2.45" />
+    <circle cx="580" cy="313.333" r="2.45" />
+    <circle cx="250" cy="203.333" r="2.45" />
+    <circle cx="176.667" cy="203.333" r="2.45" />
+    <circle cx="213.333" cy="240" r="2.45" />
+    <circle cx="286.667" cy="240" r="2.45" />
+    <circle cx="396.667" cy="203.333" r="2.45" />
+    <circle cx="323.333" cy="203.333" r="2.45" />
+    <circle cx="360" cy="240" r="2.45" />
+    <circle cx="433.333" cy="240" r="2.45" />
+    <circle cx="470" cy="203.333" r="2.45" />
+    <circle cx="506.667" cy="240" r="2.45" />
+    <circle cx="103.333" cy="130" r="2.45" />
+    <circle cx="140" cy="166.667" r="2.45" />
+    <circle cx="213.333" cy="166.667" r="2.45" />
+    <circle cx="250" cy="130" r="2.45" />
+    <circle cx="286.667" cy="166.667" r="2.45" />
+    <circle cx="360" cy="166.667" r="2.45" />
+    <circle cx="396.667" cy="130" r="2.45" />
+    <circle cx="433.333" cy="166.667" r="2.45" />
+  </g>
+</svg><text x='954' y='1495' font-family='Georgia,serif' font-size='18' fill='#30474C'>L18 &#183; Try a tighter ribbon disposition</text><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 480" role="img" aria-label="Try a tighter ribbon disposition" x="950" y="1510" width="450" height="300">
+  <title>Try a tighter ribbon disposition</title>
+  <rect width="720" height="480" fill="#F8F5EC" />
+  <g fill="none" stroke="#35535A" stroke-width="1.9" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M 360 450 L 380 430" />
+    <path d="M 380 430 L 440 370" />
+    <path d="M 340 430 L 360 410" />
+    <path d="M 360 410 L 420 350" />
+    <path d="M 360 450 L 340 430" />
+    <path d="M 340 430 L 280 370" />
+    <path d="M 380 430 L 360 410" />
+    <path d="M 360 410 L 300 350" />
+    <path d="M 440 370 L 460 350" />
+    <path d="M 460 350 L 520 290" />
+    <path d="M 420 350 L 440 330" />
+    <path d="M 440 330 L 500 270" />
+    <path d="M 440 370 L 420 350" />
+    <path d="M 420 350 L 360 290" />
+    <path d="M 460 350 L 440 330" />
+    <path d="M 440 330 L 380 270" />
+    <path d="M 520 290 L 540 270" />
+    <path d="M 540 270 L 600 210" />
+    <path d="M 500 270 L 520 250" />
+    <path d="M 520 250 L 580 190" />
+    <path d="M 520 290 L 500 270" />
+    <path d="M 500 270 L 440 210" />
+    <path d="M 540 270 L 520 250" />
+    <path d="M 520 250 L 460 190" />
+    <path d="M 280 370 L 300 350" />
+    <path d="M 300 350 L 360 290" />
+    <path d="M 260 350 L 280 330" />
+    <path d="M 280 330 L 340 270" />
+    <path d="M 280 370 L 260 350" />
+    <path d="M 260 350 L 200 290" />
+    <path d="M 300 350 L 280 330" />
+    <path d="M 280 330 L 220 270" />
+    <path d="M 360 290 L 380 270" />
+    <path d="M 380 270 L 440 210" />
+    <path d="M 340 270 L 360 250" />
+    <path d="M 360 250 L 420 190" />
+    <path d="M 360 290 L 340 270" />
+    <path d="M 340 270 L 280 210" />
+    <path d="M 380 270 L 360 250" />
+    <path d="M 360 250 L 300 190" />
+    <path d="M 440 210 L 460 190" />
+    <path d="M 460 190 L 520 130" />
+    <path d="M 420 190 L 440 170" />
+    <path d="M 440 170 L 500 110" />
+    <path d="M 440 210 L 420 190" />
+    <path d="M 420 190 L 360 130" />
+    <path d="M 460 190 L 440 170" />
+    <path d="M 440 170 L 380 110" />
+    <path d="M 200 290 L 220 270" />
+    <path d="M 220 270 L 280 210" />
+    <path d="M 180 270 L 200 250" />
+    <path d="M 200 250 L 260 190" />
+    <path d="M 200 290 L 180 270" />
+    <path d="M 180 270 L 120 210" />
+    <path d="M 220 270 L 200 250" />
+    <path d="M 200 250 L 140 190" />
+    <path d="M 280 210 L 300 190" />
+    <path d="M 300 190 L 360 130" />
+    <path d="M 260 190 L 280 170" />
+    <path d="M 280 170 L 340 110" />
+    <path d="M 280 210 L 260 190" />
+    <path d="M 260 190 L 200 130" />
+    <path d="M 300 190 L 280 170" />
+    <path d="M 280 170 L 220 110" />
+    <path d="M 360 130 L 380 110" />
+    <path d="M 380 110 L 440 50" />
+    <path d="M 340 110 L 360 90" />
+    <path d="M 360 90 L 420 30" />
+    <path d="M 360 130 L 340 110" />
+    <path d="M 340 110 L 280 50" />
+    <path d="M 380 110 L 360 90" />
+    <path d="M 360 90 L 300 30" />
+  </g>
+  <g fill="#A87A42" opacity=".78">
+    <circle cx="380" cy="430" r="2.45" />
+    <circle cx="440" cy="370" r="2.45" />
+    <circle cx="340" cy="430" r="2.45" />
+    <circle cx="360" cy="410" r="2.45" />
+    <circle cx="420" cy="350" r="2.45" />
+    <circle cx="280" cy="370" r="2.45" />
+    <circle cx="300" cy="350" r="2.45" />
+    <circle cx="460" cy="350" r="2.45" />
+    <circle cx="520" cy="290" r="2.45" />
+    <circle cx="440" cy="330" r="2.45" />
+    <circle cx="500" cy="270" r="2.45" />
+    <circle cx="360" cy="290" r="2.45" />
+    <circle cx="380" cy="270" r="2.45" />
+    <circle cx="540" cy="270" r="2.45" />
+    <circle cx="520" cy="250" r="2.45" />
+    <circle cx="440" cy="210" r="2.45" />
+    <circle cx="460" cy="190" r="2.45" />
+    <circle cx="260" cy="350" r="2.45" />
+    <circle cx="280" cy="330" r="2.45" />
+    <circle cx="340" cy="270" r="2.45" />
+    <circle cx="200" cy="290" r="2.45" />
+    <circle cx="220" cy="270" r="2.45" />
+    <circle cx="360" cy="250" r="2.45" />
+    <circle cx="420" cy="190" r="2.45" />
+    <circle cx="280" cy="210" r="2.45" />
+    <circle cx="300" cy="190" r="2.45" />
+    <circle cx="440" cy="170" r="2.45" />
+    <circle cx="360" cy="130" r="2.45" />
+    <circle cx="380" cy="110" r="2.45" />
+    <circle cx="180" cy="270" r="2.45" />
+    <circle cx="200" cy="250" r="2.45" />
+    <circle cx="260" cy="190" r="2.45" />
+    <circle cx="280" cy="170" r="2.45" />
+    <circle cx="340" cy="110" r="2.45" />
+    <circle cx="360" cy="90" r="2.45" />
+  </g>
+</svg></svg>

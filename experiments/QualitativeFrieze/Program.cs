@@ -18,6 +18,7 @@ if (args.Contains("--primitive-flows")) return PrimitiveFlowExperiment.Run(args.
 if (args.Contains("--unit-arrangements")) return UnitArrangementExperiment.Run(args.Where(argument => argument != "--unit-arrangements").ToArray());
 if (args.Contains("--ornament-program")) return OrnamentProgramExperiment.Run(args.Where(argument => argument != "--ornament-program").ToArray());
 if (args.Contains("--bourgoin-patterns")) return BourgoinPatternExperiment.Run(args.Where(argument => argument != "--bourgoin-patterns").ToArray());
+if (args.Contains("--lattice-ladders")) return LatticeLadderExperiment.Run(args.Where(argument => argument != "--lattice-ladders").ToArray());
 if (args.Contains("--bourgoin-colour")) return BourgoinColourExperiment.Run(args.Where(argument => argument != "--bourgoin-colour").ToArray());
 if (args.Contains("--ornament-designs")) return BourgoinColourExperiment.RunDesigns(args.Where(argument => argument != "--ornament-designs").ToArray());
 if (args.Contains("--ornament-details")) return BourgoinColourExperiment.RunDetails(args.Where(argument => argument != "--ornament-details").ToArray());

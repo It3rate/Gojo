@@ -1,0 +1,185 @@
+{
+  "Schema": "gojo-lattice-ladder-verification-v1",
+  "CapturedAtUtc": "2026-10-19T20:07:03.3768384Z",
+  "SolutionTests": {
+    "Command": "dotnet test Gojo.slnx -c Release --logger trx --results-directory artifacts/lattice-ladder-solution-tests --nologo",
+    "Assemblies": 12,
+    "Passed": 4296,
+    "Failed": 0,
+    "Skipped": 0,
+    "NewStructuralTests": 23,
+    "Scope": "Full solution with all new native implementation and tests. Subsequent changes only correct diagnostic rung counts, documentation and browser hash navigation.",
+    "Results": [
+      {
+        "Assembly": "Gojo.Tests.dll",
+        "Total": 1069,
+        "Passed": 1069,
+        "Failed": 0,
+        "Skipped": 0,
+        "Trx": "Robin_WINROBIN_2026-10-19_14_59_13_net10.0.trx",
+        "Sha256": "7f9e9d83580d64e05b7bd89fd90821fd020ee8e076251af22cfc360427375445"
+      },
+      {
+        "Assembly": "PrimitiveLearning.Tests.dll",
+        "Total": 66,
+        "Passed": 66,
+        "Failed": 0,
+        "Skipped": 0,
+        "Trx": "Robin_WINROBIN_2026-10-19_14_59_14_net10.0.trx",
+        "Sha256": "8627e229e4a66defc264722947be2213743bd32e4cadb061c04e8479b652a0ba"
+      },
+      {
+        "Assembly": "PrimitiveForager.Tests.dll",
+        "Total": 6,
+        "Passed": 6,
+        "Failed": 0,
+        "Skipped": 0,
+        "Trx": "Robin_WINROBIN_2026-10-19_14_59_16_net10.0.trx",
+        "Sha256": "7de9b5d4c293514a11aaa47ccd16ca3f9321480c408dcb3b14596291b4447eda"
+      },
+      {
+        "Assembly": "Gojo.GearShapeLadder.Tests.dll",
+        "Total": 21,
+        "Passed": 21,
+        "Failed": 0,
+        "Skipped": 0,
+        "Trx": "Robin_WINROBIN_2026-10-19_14_59_16_net10.0[1].trx",
+        "Sha256": "085f80b4df4480cc58ea33361540663a21f8b5a391fe5c0d49fb39dcd3fcb10e"
+      },
+      {
+        "Assembly": "Phototaxis.Tests.dll",
+        "Total": 129,
+        "Passed": 129,
+        "Failed": 0,
+        "Skipped": 0,
+        "Trx": "Robin_WINROBIN_2026-10-19_14_59_16_net10.0[2].trx",
+        "Sha256": "b2d754f144e2d5e5dd93c16079687858c02a5e2a43cc9d6de14b86cc2bdebd48"
+      },
+      {
+        "Assembly": "CompositeEmergence.Tests.dll",
+        "Total": 66,
+        "Passed": 66,
+        "Failed": 0,
+        "Skipped": 0,
+        "Trx": "Robin_WINROBIN_2026-10-19_14_59_16_net10.0[3].trx",
+        "Sha256": "e2a0a915e563a222ad7d60b26788b1922bc26085055da41787909c3c01e3da55"
+      },
+      {
+        "Assembly": "Minds.Tests.dll",
+        "Total": 49,
+        "Passed": 49,
+        "Failed": 0,
+        "Skipped": 0,
+        "Trx": "Robin_WINROBIN_2026-10-19_14_59_24_net10.0.trx",
+        "Sha256": "bc7e43aac4be1823bc5dcc3d9c340df939339249f2a049a28a4f4dbe5944128a"
+      },
+      {
+        "Assembly": "GojoCAD.Tests.dll",
+        "Total": 155,
+        "Passed": 155,
+        "Failed": 0,
+        "Skipped": 0,
+        "Trx": "Robin_WINROBIN_2026-10-19_14_59_24_net10.0[1].trx",
+        "Sha256": "160490fe43f692dec2d4394ff2b8bf83887ee4b4aa13ff191682896b240baabb"
+      },
+      {
+        "Assembly": "AdaptiveLifecycle.Tests.dll",
+        "Total": 25,
+        "Passed": 25,
+        "Failed": 0,
+        "Skipped": 0,
+        "Trx": "Robin_WINROBIN_2026-10-19_14_59_25_net10.0.trx",
+        "Sha256": "036fd1416a6b3b81f96b63621c5f887b91421df0b14c81de69d92c80162be82c"
+      },
+      {
+        "Assembly": "UtilityEcology.Tests.dll",
+        "Total": 119,
+        "Passed": 119,
+        "Failed": 0,
+        "Skipped": 0,
+        "Trx": "Robin_WINROBIN_2026-10-19_14_59_26_net10.0.trx",
+        "Sha256": "1021415299582ee470222804c7f603dce29d1f4a0ab62bbf4afcee80e7a6bf9f"
+      },
+      {
+        "Assembly": "Gojo.Encoding.Tests.dll",
+        "Total": 725,
+        "Passed": 725,
+        "Failed": 0,
+        "Skipped": 0,
+        "Trx": "Robin_WINROBIN_2026-10-19_14_59_34_net10.0.trx",
+        "Sha256": "6a8ac4106663ab6c8ca8d86dad328a08b6718a123f2c7740a943d6855fe29e0d"
+      },
+      {
+        "Assembly": "QualitativeExecution.Tests.dll",
+        "Total": 1866,
+        "Passed": 1866,
+        "Failed": 0,
+        "Skipped": 0,
+        "Trx": "Robin_WINROBIN_2026-10-19_14_59_49_net10.0.trx",
+        "Sha256": "673eaa11631beb2b86650bf0f9b2751dc0e3a375a7dec2cd11164dfac3eab732"
+      }
+    ]
+  },
+  "FinalBuild": {
+    "Command": "dotnet build experiments/QualitativeFrieze/QualitativeFrieze.csproj -c Release -o artifacts/lattice-ladder-bin --nologo",
+    "Warnings": 0,
+    "Errors": 0
+  },
+  "NativeExecution": {
+    "Command": "dotnet artifacts/lattice-ladder-bin/QualitativeFrieze.dll --lattice-ladders",
+    "Cases": 19,
+    "UnitsPerCase": 9,
+    "ActualAncestorAnswers": 38,
+    "AcceptedSeams": 3909,
+    "BlockedSeams": 0,
+    "OpenSeams": 0,
+    "FiniteFrontierObligations": 1581,
+    "NumericParticipants": 0,
+    "ExactNativePacketsImportedAndExecuted": 20,
+    "ConstructionPacketsCompressedBytes": 283529,
+    "ExpandedQuestionPacketsCompressedBytes": 39779934,
+    "CounterexampleBlockedSeams": 6,
+    "Crystallization": {
+      "sourceId": "L05",
+      "beforeDepth": 1,
+      "afterDepth": 0,
+      "independentParticipants": true,
+      "exactAncestorAvailable": false,
+      "blindGridRecovered": true,
+      "forgottenRungs": 2,
+      "forgottenEvidenceEntries": 3,
+      "support": [
+        {
+          "channels": 2,
+          "selected": 24,
+          "commutations": 9,
+          "triangles": 0,
+          "unexpectedTriangles": 0,
+          "residue": 0,
+          "competing": 0,
+          "boundary": 0,
+          "unsettled": 0
+        }
+      ]
+    }
+  },
+  "Browser": {
+    "Report": "browser-check.json",
+    "Checks": 53,
+    "Passed": true,
+    "ScriptErrors": 0,
+    "Widths": [
+      1440,
+      430
+    ],
+    "LocalResources": 77,
+    "DynamicNativeLinks": 38
+  },
+  "Limits": [
+    "Historical basis is not a present-shape theorem.",
+    "Some new fine landmarks lack shared contacts; current one-pass coarsening preserves competing evidence.",
+    "Only a subset of the 36 atlas families is constructed.",
+    "Expanded recognition witnesses are much larger than construction packets.",
+    "No native regular-polygon metric, autonomous invention or universal inverse reconstruction is established."
+  ]
+}

@@ -1,0 +1,614 @@
+{
+  "errors": [],
+  "interactions": [
+    {
+      "name": "Default branch L04",
+      "passed": true,
+      "detail": "L04 / construction depth 4"
+    },
+    {
+      "name": "Choose branch L00",
+      "passed": true,
+      "detail": "1 / 1"
+    },
+    {
+      "name": "Native packet links L00",
+      "passed": true,
+      "detail": [
+        "file:///C:/Users/Robin/source/repos/Gojo/experiments/QualitativeFrieze/results/lattice-ladders/L00.gojo.json.gz",
+        "file:///C:/Users/Robin/source/repos/Gojo/experiments/QualitativeFrieze/results/lattice-ladders/L00-questions.gojo.json.gz"
+      ]
+    },
+    {
+      "name": "Choose branch L01",
+      "passed": true,
+      "detail": "2 / 2"
+    },
+    {
+      "name": "Native packet links L01",
+      "passed": true,
+      "detail": [
+        "file:///C:/Users/Robin/source/repos/Gojo/experiments/QualitativeFrieze/results/lattice-ladders/L01.gojo.json.gz",
+        "file:///C:/Users/Robin/source/repos/Gojo/experiments/QualitativeFrieze/results/lattice-ladders/L01-questions.gojo.json.gz"
+      ]
+    },
+    {
+      "name": "Choose branch L02",
+      "passed": true,
+      "detail": "3 / 3"
+    },
+    {
+      "name": "Native packet links L02",
+      "passed": true,
+      "detail": [
+        "file:///C:/Users/Robin/source/repos/Gojo/experiments/QualitativeFrieze/results/lattice-ladders/L02.gojo.json.gz",
+        "file:///C:/Users/Robin/source/repos/Gojo/experiments/QualitativeFrieze/results/lattice-ladders/L02-questions.gojo.json.gz"
+      ]
+    },
+    {
+      "name": "Choose branch L03",
+      "passed": true,
+      "detail": "4 / 4"
+    },
+    {
+      "name": "Native packet links L03",
+      "passed": true,
+      "detail": [
+        "file:///C:/Users/Robin/source/repos/Gojo/experiments/QualitativeFrieze/results/lattice-ladders/L03.gojo.json.gz",
+        "file:///C:/Users/Robin/source/repos/Gojo/experiments/QualitativeFrieze/results/lattice-ladders/L03-questions.gojo.json.gz"
+      ]
+    },
+    {
+      "name": "Choose branch L04",
+      "passed": true,
+      "detail": "5 / 5"
+    },
+    {
+      "name": "Native packet links L04",
+      "passed": true,
+      "detail": [
+        "file:///C:/Users/Robin/source/repos/Gojo/experiments/QualitativeFrieze/results/lattice-ladders/L04.gojo.json.gz",
+        "file:///C:/Users/Robin/source/repos/Gojo/experiments/QualitativeFrieze/results/lattice-ladders/L04-questions.gojo.json.gz"
+      ]
+    },
+    {
+      "name": "Choose branch L05",
+      "passed": true,
+      "detail": "2 / 2"
+    },
+    {
+      "name": "Native packet links L05",
+      "passed": true,
+      "detail": [
+        "file:///C:/Users/Robin/source/repos/Gojo/experiments/QualitativeFrieze/results/lattice-ladders/L05.gojo.json.gz",
+        "file:///C:/Users/Robin/source/repos/Gojo/experiments/QualitativeFrieze/results/lattice-ladders/L05-questions.gojo.json.gz"
+      ]
+    },
+    {
+      "name": "Choose branch L06",
+      "passed": true,
+      "detail": "3 / 3"
+    },
+    {
+      "name": "Native packet links L06",
+      "passed": true,
+      "detail": [
+        "file:///C:/Users/Robin/source/repos/Gojo/experiments/QualitativeFrieze/results/lattice-ladders/L06.gojo.json.gz",
+        "file:///C:/Users/Robin/source/repos/Gojo/experiments/QualitativeFrieze/results/lattice-ladders/L06-questions.gojo.json.gz"
+      ]
+    },
+    {
+      "name": "Choose branch L07",
+      "passed": true,
+      "detail": "2 / 2"
+    },
+    {
+      "name": "Native packet links L07",
+      "passed": true,
+      "detail": [
+        "file:///C:/Users/Robin/source/repos/Gojo/experiments/QualitativeFrieze/results/lattice-ladders/L07.gojo.json.gz",
+        "file:///C:/Users/Robin/source/repos/Gojo/experiments/QualitativeFrieze/results/lattice-ladders/L07-questions.gojo.json.gz"
+      ]
+    },
+    {
+      "name": "Choose branch L08",
+      "passed": true,
+      "detail": "3 / 3"
+    },
+    {
+      "name": "Native packet links L08",
+      "passed": true,
+      "detail": [
+        "file:///C:/Users/Robin/source/repos/Gojo/experiments/QualitativeFrieze/results/lattice-ladders/L08.gojo.json.gz",
+        "file:///C:/Users/Robin/source/repos/Gojo/experiments/QualitativeFrieze/results/lattice-ladders/L08-questions.gojo.json.gz"
+      ]
+    },
+    {
+      "name": "Choose branch L09",
+      "passed": true,
+      "detail": "2 / 2"
+    },
+    {
+      "name": "Native packet links L09",
+      "passed": true,
+      "detail": [
+        "file:///C:/Users/Robin/source/repos/Gojo/experiments/QualitativeFrieze/results/lattice-ladders/L09.gojo.json.gz",
+        "file:///C:/Users/Robin/source/repos/Gojo/experiments/QualitativeFrieze/results/lattice-ladders/L09-questions.gojo.json.gz"
+      ]
+    },
+    {
+      "name": "Choose branch L10",
+      "passed": true,
+      "detail": "3 / 3"
+    },
+    {
+      "name": "Native packet links L10",
+      "passed": true,
+      "detail": [
+        "file:///C:/Users/Robin/source/repos/Gojo/experiments/QualitativeFrieze/results/lattice-ladders/L10.gojo.json.gz",
+        "file:///C:/Users/Robin/source/repos/Gojo/experiments/QualitativeFrieze/results/lattice-ladders/L10-questions.gojo.json.gz"
+      ]
+    },
+    {
+      "name": "Choose branch L11",
+      "passed": true,
+      "detail": "2 / 2"
+    },
+    {
+      "name": "Native packet links L11",
+      "passed": true,
+      "detail": [
+        "file:///C:/Users/Robin/source/repos/Gojo/experiments/QualitativeFrieze/results/lattice-ladders/L11.gojo.json.gz",
+        "file:///C:/Users/Robin/source/repos/Gojo/experiments/QualitativeFrieze/results/lattice-ladders/L11-questions.gojo.json.gz"
+      ]
+    },
+    {
+      "name": "Choose branch L12",
+      "passed": true,
+      "detail": "3 / 3"
+    },
+    {
+      "name": "Native packet links L12",
+      "passed": true,
+      "detail": [
+        "file:///C:/Users/Robin/source/repos/Gojo/experiments/QualitativeFrieze/results/lattice-ladders/L12.gojo.json.gz",
+        "file:///C:/Users/Robin/source/repos/Gojo/experiments/QualitativeFrieze/results/lattice-ladders/L12-questions.gojo.json.gz"
+      ]
+    },
+    {
+      "name": "Choose branch L13",
+      "passed": true,
+      "detail": "3 / 3"
+    },
+    {
+      "name": "Native packet links L13",
+      "passed": true,
+      "detail": [
+        "file:///C:/Users/Robin/source/repos/Gojo/experiments/QualitativeFrieze/results/lattice-ladders/L13.gojo.json.gz",
+        "file:///C:/Users/Robin/source/repos/Gojo/experiments/QualitativeFrieze/results/lattice-ladders/L13-questions.gojo.json.gz"
+      ]
+    },
+    {
+      "name": "Choose branch L14",
+      "passed": true,
+      "detail": "4 / 4"
+    },
+    {
+      "name": "Native packet links L14",
+      "passed": true,
+      "detail": [
+        "file:///C:/Users/Robin/source/repos/Gojo/experiments/QualitativeFrieze/results/lattice-ladders/L14.gojo.json.gz",
+        "file:///C:/Users/Robin/source/repos/Gojo/experiments/QualitativeFrieze/results/lattice-ladders/L14-questions.gojo.json.gz"
+      ]
+    },
+    {
+      "name": "Choose branch L15",
+      "passed": true,
+      "detail": "5 / 5"
+    },
+    {
+      "name": "Native packet links L15",
+      "passed": true,
+      "detail": [
+        "file:///C:/Users/Robin/source/repos/Gojo/experiments/QualitativeFrieze/results/lattice-ladders/L15.gojo.json.gz",
+        "file:///C:/Users/Robin/source/repos/Gojo/experiments/QualitativeFrieze/results/lattice-ladders/L15-questions.gojo.json.gz"
+      ]
+    },
+    {
+      "name": "Choose branch L16",
+      "passed": true,
+      "detail": "2 / 2"
+    },
+    {
+      "name": "Native packet links L16",
+      "passed": true,
+      "detail": [
+        "file:///C:/Users/Robin/source/repos/Gojo/experiments/QualitativeFrieze/results/lattice-ladders/L16.gojo.json.gz",
+        "file:///C:/Users/Robin/source/repos/Gojo/experiments/QualitativeFrieze/results/lattice-ladders/L16-questions.gojo.json.gz"
+      ]
+    },
+    {
+      "name": "Choose branch L17",
+      "passed": true,
+      "detail": "5 / 5"
+    },
+    {
+      "name": "Native packet links L17",
+      "passed": true,
+      "detail": [
+        "file:///C:/Users/Robin/source/repos/Gojo/experiments/QualitativeFrieze/results/lattice-ladders/L17.gojo.json.gz",
+        "file:///C:/Users/Robin/source/repos/Gojo/experiments/QualitativeFrieze/results/lattice-ladders/L17-questions.gojo.json.gz"
+      ]
+    },
+    {
+      "name": "Choose branch L18",
+      "passed": true,
+      "detail": "3 / 3"
+    },
+    {
+      "name": "Native packet links L18",
+      "passed": true,
+      "detail": [
+        "file:///C:/Users/Robin/source/repos/Gojo/experiments/QualitativeFrieze/results/lattice-ladders/L18.gojo.json.gz",
+        "file:///C:/Users/Robin/source/repos/Gojo/experiments/QualitativeFrieze/results/lattice-ladders/L18-questions.gojo.json.gz"
+      ]
+    },
+    {
+      "name": "Basket branch retains exact expected chain",
+      "passed": true,
+      "detail": [
+        "L00",
+        "L01",
+        "L13",
+        "L14"
+      ]
+    },
+    {
+      "name": "Walk basket rung L00",
+      "passed": true,
+      "detail": "1 / 4"
+    },
+    {
+      "name": "Walk basket rung L01",
+      "passed": true,
+      "detail": "2 / 4"
+    },
+    {
+      "name": "Walk basket rung L13",
+      "passed": true,
+      "detail": "3 / 4"
+    },
+    {
+      "name": "Walk basket rung L14",
+      "passed": true,
+      "detail": "4 / 4"
+    },
+    {
+      "name": "Selected actual earlier basis L01",
+      "passed": true,
+      "detail": "Returned the actual retained L01 program. Native identity preserved: true. No shape search was requested."
+    },
+    {
+      "name": "Breadcrumb selects L13 while retaining L14 branch",
+      "passed": true,
+      "detail": "L13 / construction depth 2"
+    },
+    {
+      "name": "Keyboard activates L06 card",
+      "passed": true,
+      "detail": "L06 / construction depth 2"
+    },
+    {
+      "name": "Same-document hash route L14",
+      "passed": true,
+      "detail": "Assemble alternating basket rectangles"
+    },
+    {
+      "name": "Same-document hash shows inspector",
+      "passed": true,
+      "detail": 8.09375
+    },
+    {
+      "name": "Fresh-load hash route L14",
+      "passed": true,
+      "detail": "Assemble alternating basket rectangles"
+    },
+    {
+      "name": "Fresh-load hash shows inspector",
+      "passed": true,
+      "detail": 0.09375
+    },
+    {
+      "name": "Overview L14 link opens exact gallery branch",
+      "passed": true,
+      "detail": "file:///C:/Users/Robin/source/repos/Gojo/experiments/QualitativeFrieze/results/lattice-ladders/gallery.html#L14"
+    },
+    {
+      "name": "Overview L14 link shows inspector",
+      "passed": true,
+      "detail": 0.078125
+    }
+  ],
+  "pages": {
+    "galleryDesktop": {
+      "cards": 19,
+      "overflow": false
+    },
+    "galleryMobile": {
+      "overflow": false,
+      "images": [
+        {
+          "src": "L14.svg",
+          "loaded": true
+        },
+        {
+          "src": "L00.svg",
+          "loaded": true
+        },
+        {
+          "src": "L00.svg",
+          "loaded": true
+        },
+        {
+          "src": "L01.svg",
+          "loaded": true
+        },
+        {
+          "src": "L02.svg",
+          "loaded": true
+        },
+        {
+          "src": "L03.svg",
+          "loaded": true
+        },
+        {
+          "src": "L04.svg",
+          "loaded": true
+        },
+        {
+          "src": "L05.svg",
+          "loaded": true
+        },
+        {
+          "src": "L06.svg",
+          "loaded": true
+        },
+        {
+          "src": "L07.svg",
+          "loaded": true
+        },
+        {
+          "src": "L08.svg",
+          "loaded": true
+        },
+        {
+          "src": "L09.svg",
+          "loaded": true
+        },
+        {
+          "src": "L10.svg",
+          "loaded": true
+        },
+        {
+          "src": "L11.svg",
+          "loaded": true
+        },
+        {
+          "src": "L12.svg",
+          "loaded": true
+        },
+        {
+          "src": "L13.svg",
+          "loaded": true
+        },
+        {
+          "src": "L14.svg",
+          "loaded": true
+        },
+        {
+          "src": "L15.svg",
+          "loaded": true
+        },
+        {
+          "src": "L16.svg",
+          "loaded": true
+        },
+        {
+          "src": "L17.svg",
+          "loaded": true
+        },
+        {
+          "src": "L18.svg",
+          "loaded": true
+        },
+        {
+          "src": "L05.svg",
+          "loaded": true
+        },
+        {
+          "src": "crystallized.svg",
+          "loaded": true
+        },
+        {
+          "src": "blocked-seam.svg",
+          "loaded": true
+        }
+      ]
+    },
+    "overviewMobile": {
+      "overflow": false,
+      "figures": 19,
+      "images": [
+        {
+          "src": "L00.svg",
+          "loaded": true
+        },
+        {
+          "src": "L01.svg",
+          "loaded": true
+        },
+        {
+          "src": "L02.svg",
+          "loaded": true
+        },
+        {
+          "src": "L03.svg",
+          "loaded": true
+        },
+        {
+          "src": "L04.svg",
+          "loaded": true
+        },
+        {
+          "src": "L05.svg",
+          "loaded": true
+        },
+        {
+          "src": "L06.svg",
+          "loaded": true
+        },
+        {
+          "src": "L07.svg",
+          "loaded": true
+        },
+        {
+          "src": "L08.svg",
+          "loaded": true
+        },
+        {
+          "src": "L09.svg",
+          "loaded": true
+        },
+        {
+          "src": "L10.svg",
+          "loaded": true
+        },
+        {
+          "src": "L11.svg",
+          "loaded": true
+        },
+        {
+          "src": "L12.svg",
+          "loaded": true
+        },
+        {
+          "src": "L13.svg",
+          "loaded": true
+        },
+        {
+          "src": "L14.svg",
+          "loaded": true
+        },
+        {
+          "src": "L15.svg",
+          "loaded": true
+        },
+        {
+          "src": "L16.svg",
+          "loaded": true
+        },
+        {
+          "src": "L17.svg",
+          "loaded": true
+        },
+        {
+          "src": "L18.svg",
+          "loaded": true
+        }
+      ]
+    },
+    "overviewDesktop": {
+      "overflow": false,
+      "images": [
+        {
+          "src": "L00.svg",
+          "loaded": true
+        },
+        {
+          "src": "L01.svg",
+          "loaded": true
+        },
+        {
+          "src": "L02.svg",
+          "loaded": true
+        },
+        {
+          "src": "L03.svg",
+          "loaded": true
+        },
+        {
+          "src": "L04.svg",
+          "loaded": true
+        },
+        {
+          "src": "L05.svg",
+          "loaded": true
+        },
+        {
+          "src": "L06.svg",
+          "loaded": true
+        },
+        {
+          "src": "L07.svg",
+          "loaded": true
+        },
+        {
+          "src": "L08.svg",
+          "loaded": true
+        },
+        {
+          "src": "L09.svg",
+          "loaded": true
+        },
+        {
+          "src": "L10.svg",
+          "loaded": true
+        },
+        {
+          "src": "L11.svg",
+          "loaded": true
+        },
+        {
+          "src": "L12.svg",
+          "loaded": true
+        },
+        {
+          "src": "L13.svg",
+          "loaded": true
+        },
+        {
+          "src": "L14.svg",
+          "loaded": true
+        },
+        {
+          "src": "L15.svg",
+          "loaded": true
+        },
+        {
+          "src": "L16.svg",
+          "loaded": true
+        },
+        {
+          "src": "L17.svg",
+          "loaded": true
+        },
+        {
+          "src": "L18.svg",
+          "loaded": true
+        }
+      ]
+    }
+  },
+  "localResources": {
+    "gallery": {
+      "total": 36,
+      "broken": []
+    },
+    "overview": {
+      "total": 41,
+      "broken": []
+    }
+  },
+  "overviewPng": "overview.png",
+  "passed": true
+}

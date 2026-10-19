@@ -104,6 +104,11 @@ while separating authored explanations from computed graph reads.
 The [contact and course study](Gojo/docs/GojoBourgoinContactAndCourseStudy.md)
 refines partial-side sliding contacts, flat-tipped stars, slender arms and
 open ribbon courses while retaining the earlier constructions for comparison.
+The [lattice construction ladders](Gojo/docs/GojoLatticeConstructionLadders.md)
+retain actual grid ancestors through 19 related constructions, with separate
+current-graph questions and an explicit history-forgetting experiment. Their
+[interactive gallery](experiments/QualitativeFrieze/results/lattice-ladders/gallery.html)
+lets you walk each branch and compare its earlier bases.
 The [coloured ornament collection](experiments/QualitativeFrieze/results/coloured-ornament/gallery.html)
 adds native landmark-bound petals, leaves and medallions, with three selectable
 focuses guided by Jones's colour and hierarchy proposals. Its
