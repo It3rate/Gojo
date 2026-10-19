@@ -101,3 +101,20 @@ home page.
 
 The same exclusion applies to `/minds/*`. Verify the Minds index, roadmap,
 five viewer selections and downloadable observations after publishing.
+
+## Growing the ornament series
+
+The collection catalogue and permanent `/ornaments/<id>/` routes let new
+studies join the index without changing old links or the homepage. Keep each
+study's captured results separate, and publish only selected completed studies.
+See [the authoring guide](ornaments/README.md) for the entry format and checks.
+
+On 19 October 2026, Azure reported a 262,144,000-byte (250 MiB) content limit
+for this site. The complete accepted bundle was 241,884,697 bytes after removing
+obsolete cached runtime assemblies, leaving about 20 MB. This is a hosting
+constraint, separate from the collection layout. Before publishing a large
+series, measure the whole bundle and either increase the site's allowance or
+move large image, SVG and native-packet downloads to dedicated asset storage.
+Keep the collection URLs stable and update the publication adapter and integrity
+checks to use the chosen asset location. No hosting-plan change was made for
+the first collection.
