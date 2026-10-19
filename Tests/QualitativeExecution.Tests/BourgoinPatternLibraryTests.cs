@@ -25,8 +25,13 @@ public sealed class BourgoinPatternLibraryTests
             Assert.True(run.IsComplete, recipe.Id); Assert.Equal(4, run.Units.Count);
             var field = new OrnamentProgramField(run, loaded.SeamContract);
             Assert.True(field.IsComplete, recipe.Id);
-            if (recipe.Id == "B09") Assert.Empty(E(field.Accepted));
-            else { Assert.NotEmpty(E(field.Accepted)); Assert.NotEmpty(E(field.Frontier)); }
+            var seamRules = E((Relation)loaded.SeamContract.Right).Cast<Relation>().ToArray();
+            Assert.True((seamRules.Length == 0) == (E(field.Accepted).Length == 0), recipe.Id);
+            // Open separated arms may have actual local junctions without
+            // promising any cross-cell join. Only declared neighbour moves
+            // create out-of-window obligations; ink proximity does not.
+            var hasNeighbourRule = seamRules.Any(rule => E((Relation)((Relation)rule.Right).Left).Length != 0);
+            Assert.True(hasNeighbourRule == (E(field.Frontier).Length != 0), recipe.Id);
             Assert.True(field.Join.TryReadPassed(field.Join.Evaluate()), recipe.Id);
             Assert.All(run.Units, unit =>
             {

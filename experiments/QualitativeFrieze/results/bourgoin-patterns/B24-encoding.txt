@@ -8,22 +8,34 @@ MOTIF DEFINITIONS
 M1:
   M1.path1 starts at []
     M1.path1.chord1 = [R(u) R(u)]
-    M1.path1.chord2 = [L(u) L(u) U(u) U(u)]
-    M1.path1.chord3 = [D(u) D(u)]
+    M1.path1.chord2 = [R(u)]
+    M1.path1.chord3 = [L(u) L(u) U(u) U(u)]
+    M1.path1.chord4 = [L(u) U(u)]
+    M1.path1.chord5 = [D(u) D(u)]
+    M1.path1.chord6 = [D(u)]
     closure = explicitly declared for this actual path
-  M1.path2 starts at [R(u) R(u) R(u) R(u)]
+  M1.path2 starts at [R(u) R(u) R(u) R(u) R(u)]
     M1.path2.chord1 = [L(u) L(u)]
-    M1.path2.chord2 = [R(u) R(u) D(u) D(u)]
-    M1.path2.chord3 = [U(u) U(u)]
+    M1.path2.chord2 = [L(u)]
+    M1.path2.chord3 = [R(u) R(u) D(u) D(u)]
+    M1.path2.chord4 = [R(u) D(u)]
+    M1.path2.chord5 = [U(u) U(u)]
+    M1.path2.chord6 = [U(u)]
     closure = explicitly declared for this actual path
   M1.port1 selects M1.path1.chord1 (cursor before this chord)
   M1.port2 selects M1.path1.chord2 (cursor before this chord)
   M1.port3 selects M1.path1.chord3 (cursor before this chord)
-  M1.port4 selects M1.path1.end (terminal cursor)
-  M1.port5 selects M1.path2.chord1 (cursor before this chord)
-  M1.port6 selects M1.path2.chord2 (cursor before this chord)
-  M1.port7 selects M1.path2.chord3 (cursor before this chord)
-  M1.port8 selects M1.path2.end (terminal cursor)
+  M1.port4 selects M1.path1.chord4 (cursor before this chord)
+  M1.port5 selects M1.path1.chord5 (cursor before this chord)
+  M1.port6 selects M1.path1.chord6 (cursor before this chord)
+  M1.port7 selects M1.path1.end (terminal cursor)
+  M1.port8 selects M1.path2.chord1 (cursor before this chord)
+  M1.port9 selects M1.path2.chord2 (cursor before this chord)
+  M1.port10 selects M1.path2.chord3 (cursor before this chord)
+  M1.port11 selects M1.path2.chord4 (cursor before this chord)
+  M1.port12 selects M1.path2.chord5 (cursor before this chord)
+  M1.port13 selects M1.path2.chord6 (cursor before this chord)
+  M1.port14 selects M1.path2.end (terminal cursor)
 
 TRANSFORM SUBSTITUTIONS
 T1 (declared frame -> same declared frame):
@@ -50,8 +62,8 @@ T4 (declared frame -> same declared frame):
 PARAMETER DOMAINS AND SELECTED BINDINGS
 P1 allows [M1]; selected M1
 P2 allows [T1 T2 T3 T4]; selected T1
-P3 allows [[R(u) R(u) R(u) R(u)]]; selected [R(u) R(u) R(u) R(u)]
-P4 allows [[U(u) U(u) U(u) U(u)]]; selected [U(u) U(u) U(u) U(u)]
+P3 allows [[R(u) R(u) R(u) R(u) R(u) D(u)]]; selected [R(u) R(u) R(u) R(u) R(u) D(u)]
+P4 allows [[R(u) U(u) U(u) U(u) U(u)]]; selected [R(u) U(u) U(u) U(u) U(u)]
 
 LAYOUT PHASES AND RULES
 Column cycle roles = [U0]
@@ -72,5 +84,5 @@ u = one actual shared, unmeasured reach identity. Reuse means shared participati
 
 
 EXPLICIT FIELD READ
-Accepted seams: 55; blocked: 0; unresolved: 0; declared finite frontier: 17.
+Accepted seams: 68; blocked: 0; unresolved: 0; declared finite frontier: 22.
 Seam declarations select actual motif/transform identities and public roles. Finite offsets walk the sampled occurrence order. Equal display positions do not propose new joins. Parallel stroke participations are retained.

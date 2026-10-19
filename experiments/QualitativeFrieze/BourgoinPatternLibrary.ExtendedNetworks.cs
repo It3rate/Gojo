@@ -9,7 +9,7 @@ public sealed partial class BourgoinPatternLibrary
     private static IReadOnlyList<AdditionalSource> ExtendedNetworks() =>
     [
         new("B15", "Two-family oblique mesh", 271, "Fig. 177", ExtendedObliqueMesh()),
-        new("B16", "Three-family triangular mesh", 271, "Fig. 178", ExtendedTriangleMesh(false), Triangular: true),
+        new("B16", "Three-family triangular mesh", 271, "Fig. 178", ExtendedTriangleMesh(), Triangular: true),
         new("B17", "Rectangle mesh with diagonal ties", 272, "Fig. 181 (diagonal elaboration)", ExtendedCrossedMesh(true)),
         new("B18", "Square mesh with diagonal ties", 273, "Fig. 183 (diagonal elaboration)", ExtendedCrossedMesh(false)),
         new("B19", "Oblique running bond", 274, "Fig. 185 (first view)", ExtendedObliqueBond()),
@@ -17,7 +17,7 @@ public sealed partial class BourgoinPatternLibrary
         new("B21", "Opposed chevron lozenges", 274, "Fig. 185 (third view)", ExtendedChevronLozenges()),
         new("B22", "Alternating pointed lozenges", 275, "Fig. 187", ExtendedAlternatingLozenges()),
         new("B23", "Offset squares and small square gaps", 275, "Fig. 190", ExtendedOffsetSquares()),
-        new("B24", "Triangle units around hexagonal gaps", 276, "Fig. 193", ExtendedTriangleMesh(true), Triangular: true)
+        new("B24", "Sliding triangles around shorter hexagon gaps", 276, "Fig. 193", SlidTriangleGaps(), Triangular: true)
     ];
 
     private static SourceRevision ExtendedObliqueMesh()
@@ -113,17 +113,13 @@ public sealed partial class BourgoinPatternLibrary
             "Fig. 190's similarly oriented, displaced squares and smaller interstices. The finite sample has a slanted outer crop because the two periods are oblique. Gap area, occupied faces and exact engraving distances are not inferred by the native contour program.");
     }
 
-    private static SourceRevision ExtendedTriangleMesh(bool gaps)
+    private static SourceRevision ExtendedTriangleMesh()
     {
         var cell = new Cell();
         var triangle = cell.CorrectedSeed(true, (0, 0), (2, 0), (0, 2), (0, 0));
         cell.CorrectedImage(triangle, cell.CorrectedMap((1, 0), (0, 1)), (0, 0));
-        cell.CorrectedImage(triangle, cell.CorrectedMap((-1, 0), (0, -1)), gaps ? (4, 0) : (2, 2));
-        return gaps
-            ? new(cell, (4, 0), (0, 4),
-                "Two opposed images share one triangle prototype. Their wider two-period disposition joins triangle tips and leaves six-edge gap circuits. This constructs the network from triangle units, offering a different generator from a hexagon-first boundary reading.",
-                "Fig. 193's opposed triangular units and conjugate hexagonal gaps. A selected triangular display supplies the familiar equilateral appearance; the native contract retains triangle words and tip joins without a filled-region or regular-hexagon theorem.")
-            : new(cell, (2, 0), (0, 2),
+        cell.CorrectedImage(triangle, cell.CorrectedMap((-1, 0), (0, -1)), (2, 2));
+        return new(cell, (2, 0), (0, 2),
                 "Two opposed images of one triangle share their diagonal boundary. Repeating the pair supplies three direction families, and all intersections are exposed triangle-corner ports. Coincident shared-edge histories remain separate participations.",
                 "Fig. 178's uniform three-family triangular network. The selected triangular screen basis makes the triangles equilateral-looking; the native word and seam construction does not claim angle calibration or deduplicate shared edges.");
     }

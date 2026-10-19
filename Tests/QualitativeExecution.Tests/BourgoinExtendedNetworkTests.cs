@@ -19,7 +19,7 @@ public sealed class BourgoinExtendedNetworkTests
     [InlineData("B21", 2, 2, 8, 1)]
     [InlineData("B22", 4, 4, 16, 1)]
     [InlineData("B23", 1, 1, 8, 1)]
-    [InlineData("B24", 2, 2, 6, 1)]
+    [InlineData("B24", 2, 2, 12, 1)]
     public void ActualPathsRetainTheirSourcePrototypeAndSubstitutionReceipts(string id, int paths, int closed, int chords, int prototypes)
     {
         var recipe = Recipe(id); var motif = Motif(recipe);
@@ -114,11 +114,12 @@ public sealed class BourgoinExtendedNetworkTests
     {
         var mesh = Recipe("B16"); var gaps = Recipe("B24");
         Assert.Equal((2, 0), Profile(mesh.Frame, mesh.ColumnPitch)); Assert.Equal((0, 2), Profile(mesh.Frame, mesh.RowPitch));
-        Assert.Equal((4, 0), Profile(gaps.Frame, gaps.ColumnPitch)); Assert.Equal((0, 4), Profile(gaps.Frame, gaps.RowPitch));
+        Assert.Equal((5, -1), Profile(gaps.Frame, gaps.ColumnPitch)); Assert.Equal((1, 4), Profile(gaps.Frame, gaps.RowPitch));
         foreach (var recipe in new[] { mesh, gaps })
         {
             var motif = Motif(recipe); Assert.Equal(2, E(motif.Closed).Length);
-            Assert.All(E(motif.Paths).Cast<Relation>(), path => Assert.Equal(3, E((Relation)path.Right).Length));
+            var chords = recipe.Id == "B16" ? 3 : 6;
+            Assert.All(E(motif.Paths).Cast<Relation>(), path => Assert.Equal(chords, E((Relation)path.Right).Length));
             var images = Images(motif); Assert.Same(((Relation)images[0].Left).Left, ((Relation)images[1].Left).Left);
         }
     }

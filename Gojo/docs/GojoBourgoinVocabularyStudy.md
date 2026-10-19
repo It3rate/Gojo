@@ -1,5 +1,11 @@
 # Bourgoin atlas: reusable construction and finite curved profiles
 
+Historical checkpoint `9869814`. The later
+[contact and course study](GojoBourgoinContactAndCourseStudy.md) corrects
+B24, B26, B29 and B31–B33 in the live atlas. Counts and case descriptions below
+refer to this earlier checkpoint; its six affected SVGs are retained in the
+gallery's `vocabulary-pass` directory.
+
 Experiment, 2026-10-19. Twenty additional source-based skeletons, B15–B34,
 and B08.B's angled ribbon junctions extend the previous fifteen examples.
 The [comparison gallery](../../experiments/QualitativeFrieze/results/bourgoin-patterns/gallery.html)

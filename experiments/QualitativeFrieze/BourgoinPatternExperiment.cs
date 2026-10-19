@@ -16,6 +16,7 @@ public static class BourgoinPatternExperiment
 {
     private const string SourceRoot = "https://archive.org/details/thoriedelorneme01bourgoog/page/n";
     private static readonly string[] Colours = ["#1b6373", "#a74d36", "#82652c", "#695c89", "#40816b", "#944c77"];
+    private static readonly HashSet<string> ContactCorrections = ["B24", "B26", "B29", "B31", "B32", "B33"];
     private sealed record Point(double X, double Y);
     private sealed record Stroke(IElement From, IElement To, Point A, Point B, int Unit);
     private sealed record Census(int Objects, int Relations, int NumericElements);
@@ -41,7 +42,13 @@ public static class BourgoinPatternExperiment
             ["B11"] = new(233, 321, 35, 307.333347, 6.416667, 6.416667),
             ["B12"] = new(245, 293, 91.2, 60.8, 4.284, 4.284),
             ["B13"] = new(354, 321, 71, 273.42, 0, -10.38, -10.38, 0),
-            ["B14"] = new(354, 293, 17, 32, 8.7, 8.7)
+            ["B14"] = new(354, 293, 17, 32, 8.7, 8.7),
+            ["B24"] = new(233, 264, 7.08, 179.58, 14.58, 0, .08, -13.95),
+            ["B26"] = new(336, 302, 91, 85, 5.06625, 2.925, 2.925, -5.06625),
+            ["B29"] = new(244, 290, 78.984, 220.187, 4.46251, -6.58737, -6.57653, -4.21778),
+            ["B31"] = new(354, 287, 278.5, 234.5, -2.916667, 0, 0, -2.916667),
+            ["B32"] = new(367, 321, 56.81, 79.69, 5.44, 5.44),
+            ["B33"] = new(367, 303, 62.125, 52.125, 6.09375, 6.09375)
         };
     private sealed record Facts(string Id, string Name, int Units, int Sites, int Strokes,
         int Components, int CycleRank, int Accepted, int Blocked, int Unresolved, int Frontier,
@@ -73,9 +80,9 @@ public static class BourgoinPatternExperiment
             var source = Path.Combine(defaultSources, "source-" + entry.Id + ".jpg");
             var target = Path.Combine(output, "source-" + entry.Id + ".jpg");
             if (File.Exists(source) && !string.Equals(Path.GetFullPath(source), Path.GetFullPath(target), StringComparison.OrdinalIgnoreCase)) File.Copy(source, target, true);
-            var previous = entry.Id is "B06.B" or "B08.B" ? entry.Id[..3] : entry.Id;
-            var before = Path.Combine(defaultSources, "first-pass", previous + ".svg");
-            var after = Path.Combine(output, "first-pass", previous + ".svg");
+            var prior = Previous(entry.Id);
+            var before = Path.Combine(defaultSources, prior.Folder, prior.Id + ".svg");
+            var after = Path.Combine(output, prior.Folder, prior.Id + ".svg");
             if (File.Exists(before) && !string.Equals(Path.GetFullPath(before), Path.GetFullPath(after), StringComparison.OrdinalIgnoreCase))
             { Directory.CreateDirectory(Path.GetDirectoryName(after)!); File.Copy(before, after, true); }
         }
@@ -124,7 +131,7 @@ public static class BourgoinPatternExperiment
         };
         File.WriteAllText(Path.Combine(output, "diagnostics.json"), JsonSerializer.Serialize(report, new JsonSerializerOptions { WriteIndented = true }));
         var html = Html(cards.ToString(), diagnostics, input is not null)
-            .Replace("../../../../Gojo/docs/GojoBourgoinRefinementStudy.md", H(Path.GetRelativePath(output, "Gojo/docs/GojoBourgoinVocabularyStudy.md").Replace('\\', '/')))
+            .Replace("../../../../Gojo/docs/GojoBourgoinRefinementStudy.md", H(Path.GetRelativePath(output, "Gojo/docs/GojoBourgoinContactAndCourseStudy.md").Replace('\\', '/')))
             .Replace("../ornament-program/gallery.html", H(Path.GetRelativePath(output, "experiments/QualitativeFrieze/results/ornament-program/gallery.html").Replace('\\', '/')));
         html = html.Replace("<nav>", "<p><a href='overview.html'>All constructions on one page</a> · <a href='overview.svg'>Standalone labelled SVG</a></p><nav>");
         File.WriteAllText(Path.Combine(output, "gallery.html"), html);
@@ -328,12 +335,16 @@ public static class BourgoinPatternExperiment
         return $"<details class='structure-read'><summary>Computed structure, identities and limits</summary><h3>Read from the imported native graph</h3><p>The reusable program declares {c.Motifs} motif definition(s), containing {c.Paths} executable paths, {c.Chords} chords, {c.Ports} landmark ports and {c.ClosedPaths} closed-path claims. The sampled field executes {facts.Units} occurrences; occurrences share the selected definition while retaining their own cursors, sites and applications.</p><p>The exact construction reader admits {c.Images} seed-image correspondences from {c.Prototypes} distinct retained contour prototypes, {c.Refinements} coarse/fine path refinements and {c.CornerMaps} ordered corner correspondences. It leaves {c.OtherEvidence} other evidence entries available without classifying them; {c.BlockedReads} rejected construction reads and {c.OpenReads} open evidence scopes remain visible. This read may admit no prototypes because evidence is absent, unfamiliar, rejected or open; that is not a verdict about the path.</p><p>{facts.Definition.Objects:N0} distinct native objects belong to the reusable program; {facts.Packet.Objects:N0} include the sample and seam law. The packet has {facts.ArchiveBytes:N0} JSON bytes and {facts.Packet.NumericElements} numeric participants. Object and byte counts measure this inspectable representation, not a minimum encoding.</p><h3>Read from execution</h3><p>The joined ink graph has {facts.Components} connected components and cycle rank {facts.CycleRank}. These are graph diagnostics, not face counts or an aesthetic score. The finite patch has {facts.Frontier} out-of-window seam obligations. {facts.DuplicateEndpointPairs} repeated endpoint-pair edge participations remain explicit.</p><h3>Scope of this construction</h3><p>Placement supplies the motif, transform and period words. Local path flow publishes landmark sites; the seam layer checks those exposed ports and admits or blocks shared-site relations. These source recipes do not currently renegotiate their motif in response to neighbouring tension. Reusable seed history and active feedback are different claims. Source fidelity and interpretation remain authored judgements.</p></details>";
     }
 
+    private static (string Folder, string Id, string Label) Previous(string id) => ContactCorrections.Contains(id)
+        ? ("vocabulary-pass", id, "Previous vocabulary pass")
+        : ("first-pass", id is "B06.B" or "B08.B" ? id[..3] : id, "First pass");
+
     private static string Comparison(Entry entry, string svg, string output)
     {
         if (entry.Leaf == 0) return "";
-        var previous = entry.Id is "B06.B" or "B08.B" ? entry.Id[..3] : entry.Id;
-        if (!File.Exists(Path.Combine(output, "first-pass", previous + ".svg"))) return "";
-        var revised = new[] { "B02", "B06.B", "B08", "B08.B", "B09", "B10", "B11", "B12", "B13", "B14" }.Contains(entry.Id);
+        var prior = Previous(entry.Id);
+        if (!File.Exists(Path.Combine(output, prior.Folder, prior.Id + ".svg"))) return "";
+        var revised = ContactCorrections.Contains(entry.Id) || new[] { "B02", "B06.B", "B08", "B08.B", "B09", "B10", "B11", "B12", "B13", "B14" }.Contains(entry.Id);
         if (!revised) return "";
         XNamespace ns = "http://www.w3.org/2000/svg";
         var root = XDocument.Parse(svg).Root!;
@@ -359,7 +370,7 @@ public static class BourgoinPatternExperiment
             ("y", "Down", "-1000", "1000", "0", "1"), ("sx", "Width", ".05", "4", "1", ".001"),
             ("sy", "Height", ".05", "4", "1", ".001"), ("alpha", "Ink", "0", "1", ".65", ".01") }
             .Select(item => $"<label>{item.Item2}<input data-register='{item.Item1}' type='range' min='{item.Item3}' max='{item.Item4}' value='{item.Item5}' step='{item.Item6}'></label>"));
-        return $"<details class='comparison-workbench'><summary>First pass and source overlay</summary><div class='before-after'><figure><img loading='lazy' src='first-pass/{previous}.svg' alt='First-pass reconstruction'/><figcaption>First pass</figcaption></figure><figure><img loading='lazy' src='{entry.Id}.svg' alt='Revised construction'/><figcaption>Revised native output</figcaption></figure></div><p class='note'>The red overlay is the accepted output above. Adjust its screen registration against the scan to inspect repeated edges and compartments. This is a visual comparison; registration does not change native geometry or certify a match.</p><div class='registration-controls'>{controls}<button type='button' class='reset-registration'>Reset</button></div><svg class='registration' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 600' role='img' aria-label='Manually registered source comparison'><rect width='1000' height='600' fill='#fff'/><image href='source-{entry.Id}.jpg' width='1000' height='600' preserveAspectRatio='xMidYMid meet'/><g class='registered-ink' fill='none' stroke='#c33724' stroke-width='2.1' stroke-linecap='round' stroke-linejoin='round' opacity='.65'>{paths}</g></svg></details>";
+        return $"<details class='comparison-workbench'><summary>Previous construction and source overlay</summary><div class='before-after'><figure><img loading='lazy' src='{prior.Folder}/{prior.Id}.svg' alt='Previous reconstruction'/><figcaption>{prior.Label}</figcaption></figure><figure><img loading='lazy' src='{entry.Id}.svg' alt='Revised construction'/><figcaption>Revised native output</figcaption></figure></div><p class='note'>The red overlay is the accepted output above. Adjust its screen registration against the scan to inspect repeated edges and compartments. This is a visual comparison; registration does not change native geometry or certify a match.</p><div class='registration-controls'>{controls}<button type='button' class='reset-registration'>Reset</button></div><svg class='registration' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 600' role='img' aria-label='Manually registered source comparison'><rect width='1000' height='600' fill='#fff'/><image href='source-{entry.Id}.jpg' width='1000' height='600' preserveAspectRatio='xMidYMid meet'/><g class='registered-ink' fill='none' stroke='#c33724' stroke-width='2.1' stroke-linecap='round' stroke-linejoin='round' opacity='.65'>{paths}</g></svg></details>";
     }
 
     private static string Html(string cards, IReadOnlyList<Facts> facts, bool replay) => """

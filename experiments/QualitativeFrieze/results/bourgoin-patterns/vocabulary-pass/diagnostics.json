@@ -1,0 +1,1419 @@
+{
+  "Schema": "gojo-bourgoin-pattern-study-v1",
+  "Source": "Jules Bourgoin, Theorie de l\u0027ornement, 1883 scan",
+  "Input": "authored declarations, archived then imported before execution",
+  "AllRunsComplete": true,
+  "Cases": [
+    {
+      "Id": "B01",
+      "Name": "Running brick bond",
+      "Units": 16,
+      "Sites": 76,
+      "Strokes": 96,
+      "Components": 1,
+      "CycleRank": 21,
+      "Accepted": 108,
+      "Blocked": 0,
+      "Unresolved": 0,
+      "Frontier": 20,
+      "DuplicateEndpointPairs": 0,
+      "Definition": {
+        "Objects": 487,
+        "Relations": 380,
+        "NumericElements": 0
+      },
+      "Packet": {
+        "Objects": 610,
+        "Relations": 483,
+        "NumericElements": 0
+      },
+      "ArchiveBytes": 45751,
+      "Structure": {
+        "Motifs": 1,
+        "Paths": 4,
+        "Chords": 6,
+        "Ports": 10,
+        "ClosedPaths": 0,
+        "Prototypes": 0,
+        "Images": 0,
+        "Refinements": 0,
+        "CornerMaps": 0,
+        "OtherEvidence": 0,
+        "BlockedReads": 0,
+        "OpenReads": 0
+      }
+    },
+    {
+      "Id": "B02",
+      "Name": "Basket rectangles and square gaps",
+      "Units": 16,
+      "Sites": 288,
+      "Strokes": 512,
+      "Components": 1,
+      "CycleRank": 225,
+      "Accepted": 344,
+      "Blocked": 0,
+      "Unresolved": 0,
+      "Frontier": 40,
+      "DuplicateEndpointPairs": 112,
+      "Definition": {
+        "Objects": 1522,
+        "Relations": 1212,
+        "NumericElements": 0
+      },
+      "Packet": {
+        "Objects": 1799,
+        "Relations": 1453,
+        "NumericElements": 0
+      },
+      "ArchiveBytes": 137410,
+      "Structure": {
+        "Motifs": 1,
+        "Paths": 4,
+        "Chords": 32,
+        "Ports": 36,
+        "ClosedPaths": 4,
+        "Prototypes": 1,
+        "Images": 4,
+        "Refinements": 0,
+        "CornerMaps": 0,
+        "OtherEvidence": 0,
+        "BlockedReads": 0,
+        "OpenReads": 0
+      }
+    },
+    {
+      "Id": "B03",
+      "Name": "Squares meet diamonds",
+      "Units": 16,
+      "Sites": 272,
+      "Strokes": 384,
+      "Components": 1,
+      "CycleRank": 113,
+      "Accepted": 204,
+      "Blocked": 0,
+      "Unresolved": 0,
+      "Frontier": 20,
+      "DuplicateEndpointPairs": 0,
+      "Definition": {
+        "Objects": 717,
+        "Relations": 574,
+        "NumericElements": 0
+      },
+      "Packet": {
+        "Objects": 894,
+        "Relations": 725,
+        "NumericElements": 0
+      },
+      "ArchiveBytes": 67491,
+      "Structure": {
+        "Motifs": 1,
+        "Paths": 4,
+        "Chords": 24,
+        "Ports": 28,
+        "ClosedPaths": 4,
+        "Prototypes": 0,
+        "Images": 0,
+        "Refinements": 0,
+        "CornerMaps": 0,
+        "OtherEvidence": 0,
+        "BlockedReads": 0,
+        "OpenReads": 0
+      }
+    },
+    {
+      "Id": "B04",
+      "Name": "Honeycomb from three reused contours",
+      "Units": 16,
+      "Sites": 128,
+      "Strokes": 288,
+      "Components": 1,
+      "CycleRank": 161,
+      "Accepted": 351,
+      "Blocked": 0,
+      "Unresolved": 0,
+      "Frontier": 81,
+      "DuplicateEndpointPairs": 113,
+      "Definition": {
+        "Objects": 668,
+        "Relations": 540,
+        "NumericElements": 0
+      },
+      "Packet": {
+        "Objects": 994,
+        "Relations": 827,
+        "NumericElements": 0
+      },
+      "ArchiveBytes": 75301,
+      "Structure": {
+        "Motifs": 1,
+        "Paths": 3,
+        "Chords": 18,
+        "Ports": 21,
+        "ClosedPaths": 3,
+        "Prototypes": 0,
+        "Images": 0,
+        "Refinements": 0,
+        "CornerMaps": 0,
+        "OtherEvidence": 0,
+        "BlockedReads": 0,
+        "OpenReads": 0
+      }
+    },
+    {
+      "Id": "B05",
+      "Name": "Hexagons with triangular interstices",
+      "Units": 16,
+      "Sites": 63,
+      "Strokes": 96,
+      "Components": 1,
+      "CycleRank": 34,
+      "Accepted": 61,
+      "Blocked": 0,
+      "Unresolved": 0,
+      "Frontier": 19,
+      "DuplicateEndpointPairs": 0,
+      "Definition": {
+        "Objects": 458,
+        "Relations": 360,
+        "NumericElements": 0
+      },
+      "Packet": {
+        "Objects": 554,
+        "Relations": 439,
+        "NumericElements": 0
+      },
+      "ArchiveBytes": 41514,
+      "Structure": {
+        "Motifs": 1,
+        "Paths": 1,
+        "Chords": 6,
+        "Ports": 7,
+        "ClosedPaths": 1,
+        "Prototypes": 0,
+        "Images": 0,
+        "Refinements": 0,
+        "CornerMaps": 0,
+        "OtherEvidence": 0,
+        "BlockedReads": 0,
+        "OpenReads": 0
+      }
+    },
+    {
+      "Id": "B06",
+      "Name": "Octagons with diamond gaps \u00B7 first interpretation",
+      "Units": 16,
+      "Sites": 80,
+      "Strokes": 128,
+      "Components": 1,
+      "CycleRank": 49,
+      "Accepted": 76,
+      "Blocked": 0,
+      "Unresolved": 0,
+      "Frontier": 20,
+      "DuplicateEndpointPairs": 24,
+      "Definition": {
+        "Objects": 496,
+        "Relations": 394,
+        "NumericElements": 0
+      },
+      "Packet": {
+        "Objects": 601,
+        "Relations": 481,
+        "NumericElements": 0
+      },
+      "ArchiveBytes": 45131,
+      "Structure": {
+        "Motifs": 1,
+        "Paths": 1,
+        "Chords": 8,
+        "Ports": 9,
+        "ClosedPaths": 1,
+        "Prototypes": 0,
+        "Images": 0,
+        "Refinements": 0,
+        "CornerMaps": 0,
+        "OtherEvidence": 0,
+        "BlockedReads": 0,
+        "OpenReads": 0
+      }
+    },
+    {
+      "Id": "B06.B",
+      "Name": "Octagons with upright square gaps",
+      "Units": 16,
+      "Sites": 80,
+      "Strokes": 128,
+      "Components": 1,
+      "CycleRank": 49,
+      "Accepted": 76,
+      "Blocked": 0,
+      "Unresolved": 0,
+      "Frontier": 20,
+      "DuplicateEndpointPairs": 24,
+      "Definition": {
+        "Objects": 833,
+        "Relations": 682,
+        "NumericElements": 0
+      },
+      "Packet": {
+        "Objects": 938,
+        "Relations": 769,
+        "NumericElements": 0
+      },
+      "ArchiveBytes": 71017,
+      "Structure": {
+        "Motifs": 1,
+        "Paths": 1,
+        "Chords": 8,
+        "Ports": 9,
+        "ClosedPaths": 1,
+        "Prototypes": 1,
+        "Images": 1,
+        "Refinements": 0,
+        "CornerMaps": 0,
+        "OtherEvidence": 0,
+        "BlockedReads": 0,
+        "OpenReads": 0
+      }
+    },
+    {
+      "Id": "B07",
+      "Name": "Alternating-width orthogonal bands",
+      "Units": 16,
+      "Sites": 80,
+      "Strokes": 128,
+      "Components": 1,
+      "CycleRank": 49,
+      "Accepted": 169,
+      "Blocked": 0,
+      "Unresolved": 0,
+      "Frontier": 39,
+      "DuplicateEndpointPairs": 0,
+      "Definition": {
+        "Objects": 529,
+        "Relations": 418,
+        "NumericElements": 0
+      },
+      "Packet": {
+        "Objects": 707,
+        "Relations": 571,
+        "NumericElements": 0
+      },
+      "ArchiveBytes": 53220,
+      "Structure": {
+        "Motifs": 1,
+        "Paths": 4,
+        "Chords": 8,
+        "Ports": 12,
+        "ClosedPaths": 0,
+        "Prototypes": 0,
+        "Images": 0,
+        "Refinements": 0,
+        "CornerMaps": 0,
+        "OtherEvidence": 0,
+        "BlockedReads": 0,
+        "OpenReads": 0
+      }
+    },
+    {
+      "Id": "B08",
+      "Name": "Intersecting diagonal ribbons",
+      "Units": 16,
+      "Sites": 80,
+      "Strokes": 128,
+      "Components": 1,
+      "CycleRank": 49,
+      "Accepted": 169,
+      "Blocked": 0,
+      "Unresolved": 0,
+      "Frontier": 39,
+      "DuplicateEndpointPairs": 0,
+      "Definition": {
+        "Objects": 964,
+        "Relations": 771,
+        "NumericElements": 0
+      },
+      "Packet": {
+        "Objects": 1142,
+        "Relations": 924,
+        "NumericElements": 0
+      },
+      "ArchiveBytes": 86393,
+      "Structure": {
+        "Motifs": 1,
+        "Paths": 4,
+        "Chords": 8,
+        "Ports": 12,
+        "ClosedPaths": 0,
+        "Prototypes": 4,
+        "Images": 4,
+        "Refinements": 0,
+        "CornerMaps": 0,
+        "OtherEvidence": 0,
+        "BlockedReads": 0,
+        "OpenReads": 0
+      }
+    },
+    {
+      "Id": "B08.B",
+      "Name": "Ribbons with narrow angled junctions",
+      "Units": 16,
+      "Sites": 80,
+      "Strokes": 128,
+      "Components": 1,
+      "CycleRank": 49,
+      "Accepted": 169,
+      "Blocked": 0,
+      "Unresolved": 0,
+      "Frontier": 39,
+      "DuplicateEndpointPairs": 0,
+      "Definition": {
+        "Objects": 1067,
+        "Relations": 883,
+        "NumericElements": 0
+      },
+      "Packet": {
+        "Objects": 1245,
+        "Relations": 1036,
+        "NumericElements": 0
+      },
+      "ArchiveBytes": 94712,
+      "Structure": {
+        "Motifs": 1,
+        "Paths": 4,
+        "Chords": 8,
+        "Ports": 12,
+        "ClosedPaths": 0,
+        "Prototypes": 1,
+        "Images": 4,
+        "Refinements": 0,
+        "CornerMaps": 0,
+        "OtherEvidence": 0,
+        "BlockedReads": 0,
+        "OpenReads": 0
+      }
+    },
+    {
+      "Id": "B09",
+      "Name": "Detached S-shaped fret units",
+      "Units": 12,
+      "Sites": 96,
+      "Strokes": 84,
+      "Components": 12,
+      "CycleRank": 0,
+      "Accepted": 0,
+      "Blocked": 0,
+      "Unresolved": 0,
+      "Frontier": 0,
+      "DuplicateEndpointPairs": 0,
+      "Definition": {
+        "Objects": 468,
+        "Relations": 368,
+        "NumericElements": 0
+      },
+      "Packet": {
+        "Objects": 507,
+        "Relations": 396,
+        "NumericElements": 0
+      },
+      "ArchiveBytes": 37895,
+      "Structure": {
+        "Motifs": 1,
+        "Paths": 1,
+        "Chords": 7,
+        "Ports": 8,
+        "ClosedPaths": 0,
+        "Prototypes": 0,
+        "Images": 0,
+        "Refinements": 0,
+        "CornerMaps": 0,
+        "OtherEvidence": 0,
+        "BlockedReads": 0,
+        "OpenReads": 0
+      }
+    },
+    {
+      "Id": "B10",
+      "Name": "Direct bent-cross compartments",
+      "Units": 16,
+      "Sites": 285,
+      "Strokes": 512,
+      "Components": 1,
+      "CycleRank": 228,
+      "Accepted": 421,
+      "Blocked": 0,
+      "Unresolved": 0,
+      "Frontier": 107,
+      "DuplicateEndpointPairs": 196,
+      "Definition": {
+        "Objects": 3485,
+        "Relations": 3120,
+        "NumericElements": 0
+      },
+      "Packet": {
+        "Objects": 3879,
+        "Relations": 3469,
+        "NumericElements": 0
+      },
+      "ArchiveBytes": 304915,
+      "Structure": {
+        "Motifs": 1,
+        "Paths": 2,
+        "Chords": 32,
+        "Ports": 34,
+        "ClosedPaths": 2,
+        "Prototypes": 0,
+        "Images": 0,
+        "Refinements": 2,
+        "CornerMaps": 0,
+        "OtherEvidence": 34,
+        "BlockedReads": 0,
+        "OpenReads": 0
+      }
+    },
+    {
+      "Id": "B11",
+      "Name": "Returned rows of bent crosses",
+      "Units": 12,
+      "Sites": 413,
+      "Strokes": 768,
+      "Components": 1,
+      "CycleRank": 356,
+      "Accepted": 657,
+      "Blocked": 0,
+      "Unresolved": 0,
+      "Frontier": 135,
+      "DuplicateEndpointPairs": 308,
+      "Definition": {
+        "Objects": 6905,
+        "Relations": 6258,
+        "NumericElements": 0
+      },
+      "Packet": {
+        "Objects": 7622,
+        "Relations": 6898,
+        "NumericElements": 0
+      },
+      "ArchiveBytes": 603547,
+      "Structure": {
+        "Motifs": 1,
+        "Paths": 4,
+        "Chords": 64,
+        "Ports": 68,
+        "ClosedPaths": 4,
+        "Prototypes": 0,
+        "Images": 0,
+        "Refinements": 4,
+        "CornerMaps": 0,
+        "OtherEvidence": 68,
+        "BlockedReads": 0,
+        "OpenReads": 0
+      }
+    },
+    {
+      "Id": "B12",
+      "Name": "Closed stepped-arm compartments",
+      "Units": 6,
+      "Sites": 221,
+      "Strokes": 384,
+      "Components": 1,
+      "CycleRank": 164,
+      "Accepted": 267,
+      "Blocked": 0,
+      "Unresolved": 0,
+      "Frontier": 93,
+      "DuplicateEndpointPairs": 140,
+      "Definition": {
+        "Objects": 3885,
+        "Relations": 3380,
+        "NumericElements": 0
+      },
+      "Packet": {
+        "Objects": 4546,
+        "Relations": 3972,
+        "NumericElements": 0
+      },
+      "ArchiveBytes": 356443,
+      "Structure": {
+        "Motifs": 1,
+        "Paths": 4,
+        "Chords": 64,
+        "Ports": 68,
+        "ClosedPaths": 4,
+        "Prototypes": 2,
+        "Images": 4,
+        "Refinements": 0,
+        "CornerMaps": 4,
+        "OtherEvidence": 0,
+        "BlockedReads": 0,
+        "OpenReads": 0
+      }
+    },
+    {
+      "Id": "B13",
+      "Name": "Interlocking serif-I compartments",
+      "Units": 9,
+      "Sites": 553,
+      "Strokes": 1008,
+      "Components": 1,
+      "CycleRank": 456,
+      "Accepted": 596,
+      "Blocked": 0,
+      "Unresolved": 0,
+      "Frontier": 124,
+      "DuplicateEndpointPairs": 420,
+      "Definition": {
+        "Objects": 4450,
+        "Relations": 3712,
+        "NumericElements": 0
+      },
+      "Packet": {
+        "Objects": 5291,
+        "Relations": 4463,
+        "NumericElements": 0
+      },
+      "ArchiveBytes": 412952,
+      "Structure": {
+        "Motifs": 1,
+        "Paths": 4,
+        "Chords": 112,
+        "Ports": 116,
+        "ClosedPaths": 4,
+        "Prototypes": 1,
+        "Images": 4,
+        "Refinements": 0,
+        "CornerMaps": 4,
+        "OtherEvidence": 0,
+        "BlockedReads": 0,
+        "OpenReads": 0
+      }
+    },
+    {
+      "Id": "B14",
+      "Name": "Dense interlocking serif-I field",
+      "Units": 9,
+      "Sites": 385,
+      "Strokes": 720,
+      "Components": 1,
+      "CycleRank": 336,
+      "Accepted": 476,
+      "Blocked": 0,
+      "Unresolved": 0,
+      "Frontier": 100,
+      "DuplicateEndpointPairs": 300,
+      "Definition": {
+        "Objects": 3496,
+        "Relations": 2926,
+        "NumericElements": 0
+      },
+      "Packet": {
+        "Objects": 4177,
+        "Relations": 3533,
+        "NumericElements": 0
+      },
+      "ArchiveBytes": 325520,
+      "Structure": {
+        "Motifs": 1,
+        "Paths": 4,
+        "Chords": 80,
+        "Ports": 84,
+        "ClosedPaths": 4,
+        "Prototypes": 1,
+        "Images": 4,
+        "Refinements": 0,
+        "CornerMaps": 4,
+        "OtherEvidence": 0,
+        "BlockedReads": 0,
+        "OpenReads": 0
+      }
+    },
+    {
+      "Id": "B15",
+      "Name": "Two-family oblique mesh",
+      "Units": 9,
+      "Sites": 16,
+      "Strokes": 36,
+      "Components": 1,
+      "CycleRank": 21,
+      "Accepted": 57,
+      "Blocked": 0,
+      "Unresolved": 0,
+      "Frontier": 33,
+      "DuplicateEndpointPairs": 12,
+      "Definition": {
+        "Objects": 585,
+        "Relations": 458,
+        "NumericElements": 0
+      },
+      "Packet": {
+        "Objects": 736,
+        "Relations": 589,
+        "NumericElements": 0
+      },
+      "ArchiveBytes": 55383,
+      "Structure": {
+        "Motifs": 1,
+        "Paths": 1,
+        "Chords": 4,
+        "Ports": 5,
+        "ClosedPaths": 1,
+        "Prototypes": 1,
+        "Images": 1,
+        "Refinements": 0,
+        "CornerMaps": 0,
+        "OtherEvidence": 0,
+        "BlockedReads": 0,
+        "OpenReads": 0
+      }
+    },
+    {
+      "Id": "B16",
+      "Name": "Three-family triangular mesh",
+      "Units": 9,
+      "Sites": 16,
+      "Strokes": 54,
+      "Components": 1,
+      "CycleRank": 39,
+      "Accepted": 164,
+      "Blocked": 0,
+      "Unresolved": 0,
+      "Frontier": 88,
+      "DuplicateEndpointPairs": 21,
+      "Definition": {
+        "Objects": 727,
+        "Relations": 574,
+        "NumericElements": 0
+      },
+      "Packet": {
+        "Objects": 1080,
+        "Relations": 889,
+        "NumericElements": 0
+      },
+      "ArchiveBytes": 81763,
+      "Structure": {
+        "Motifs": 1,
+        "Paths": 2,
+        "Chords": 6,
+        "Ports": 8,
+        "ClosedPaths": 2,
+        "Prototypes": 1,
+        "Images": 2,
+        "Refinements": 0,
+        "CornerMaps": 0,
+        "OtherEvidence": 0,
+        "BlockedReads": 0,
+        "OpenReads": 0
+      }
+    },
+    {
+      "Id": "B17",
+      "Name": "Rectangle mesh with diagonal ties",
+      "Units": 9,
+      "Sites": 25,
+      "Strokes": 72,
+      "Components": 1,
+      "CycleRank": 48,
+      "Accepted": 223,
+      "Blocked": 0,
+      "Unresolved": 0,
+      "Frontier": 110,
+      "DuplicateEndpointPairs": 12,
+      "Definition": {
+        "Objects": 846,
+        "Relations": 666,
+        "NumericElements": 0
+      },
+      "Packet": {
+        "Objects": 1296,
+        "Relations": 1069,
+        "NumericElements": 0
+      },
+      "ArchiveBytes": 98369,
+      "Structure": {
+        "Motifs": 1,
+        "Paths": 3,
+        "Chords": 8,
+        "Ports": 11,
+        "ClosedPaths": 1,
+        "Prototypes": 2,
+        "Images": 3,
+        "Refinements": 0,
+        "CornerMaps": 0,
+        "OtherEvidence": 0,
+        "BlockedReads": 0,
+        "OpenReads": 0
+      }
+    },
+    {
+      "Id": "B18",
+      "Name": "Square mesh with diagonal ties",
+      "Units": 9,
+      "Sites": 25,
+      "Strokes": 72,
+      "Components": 1,
+      "CycleRank": 48,
+      "Accepted": 223,
+      "Blocked": 0,
+      "Unresolved": 0,
+      "Frontier": 110,
+      "DuplicateEndpointPairs": 12,
+      "Definition": {
+        "Objects": 826,
+        "Relations": 646,
+        "NumericElements": 0
+      },
+      "Packet": {
+        "Objects": 1276,
+        "Relations": 1049,
+        "NumericElements": 0
+      },
+      "ArchiveBytes": 96761,
+      "Structure": {
+        "Motifs": 1,
+        "Paths": 3,
+        "Chords": 8,
+        "Ports": 11,
+        "ClosedPaths": 1,
+        "Prototypes": 2,
+        "Images": 3,
+        "Refinements": 0,
+        "CornerMaps": 0,
+        "OtherEvidence": 0,
+        "BlockedReads": 0,
+        "OpenReads": 0
+      }
+    },
+    {
+      "Id": "B19",
+      "Name": "Oblique running bond",
+      "Units": 9,
+      "Sites": 30,
+      "Strokes": 54,
+      "Components": 1,
+      "CycleRank": 25,
+      "Accepted": 53,
+      "Blocked": 0,
+      "Unresolved": 0,
+      "Frontier": 28,
+      "DuplicateEndpointPairs": 16,
+      "Definition": {
+        "Objects": 659,
+        "Relations": 520,
+        "NumericElements": 0
+      },
+      "Packet": {
+        "Objects": 797,
+        "Relations": 639,
+        "NumericElements": 0
+      },
+      "ArchiveBytes": 60052,
+      "Structure": {
+        "Motifs": 1,
+        "Paths": 1,
+        "Chords": 6,
+        "Ports": 7,
+        "ClosedPaths": 1,
+        "Prototypes": 1,
+        "Images": 1,
+        "Refinements": 0,
+        "CornerMaps": 0,
+        "OtherEvidence": 0,
+        "BlockedReads": 0,
+        "OpenReads": 0
+      }
+    },
+    {
+      "Id": "B20",
+      "Name": "Three-lozenge centred network",
+      "Units": 9,
+      "Sites": 39,
+      "Strokes": 108,
+      "Components": 1,
+      "CycleRank": 70,
+      "Accepted": 242,
+      "Blocked": 0,
+      "Unresolved": 0,
+      "Frontier": 55,
+      "DuplicateEndpointPairs": 43,
+      "Definition": {
+        "Objects": 1713,
+        "Relations": 1421,
+        "NumericElements": 0
+      },
+      "Packet": {
+        "Objects": 2087,
+        "Relations": 1752,
+        "NumericElements": 0
+      },
+      "ArchiveBytes": 160795,
+      "Structure": {
+        "Motifs": 1,
+        "Paths": 3,
+        "Chords": 12,
+        "Ports": 15,
+        "ClosedPaths": 3,
+        "Prototypes": 1,
+        "Images": 3,
+        "Refinements": 0,
+        "CornerMaps": 0,
+        "OtherEvidence": 1,
+        "BlockedReads": 0,
+        "OpenReads": 0
+      }
+    },
+    {
+      "Id": "B21",
+      "Name": "Opposed chevron lozenges",
+      "Units": 9,
+      "Sites": 28,
+      "Strokes": 72,
+      "Components": 1,
+      "CycleRank": 45,
+      "Accepted": 130,
+      "Blocked": 0,
+      "Unresolved": 0,
+      "Frontier": 59,
+      "DuplicateEndpointPairs": 27,
+      "Definition": {
+        "Objects": 762,
+        "Relations": 598,
+        "NumericElements": 0
+      },
+      "Packet": {
+        "Objects": 1030,
+        "Relations": 835,
+        "NumericElements": 0
+      },
+      "ArchiveBytes": 77839,
+      "Structure": {
+        "Motifs": 1,
+        "Paths": 2,
+        "Chords": 8,
+        "Ports": 10,
+        "ClosedPaths": 2,
+        "Prototypes": 1,
+        "Images": 2,
+        "Refinements": 0,
+        "CornerMaps": 0,
+        "OtherEvidence": 0,
+        "BlockedReads": 0,
+        "OpenReads": 0
+      }
+    },
+    {
+      "Id": "B22",
+      "Name": "Alternating pointed lozenges",
+      "Units": 9,
+      "Sites": 84,
+      "Strokes": 144,
+      "Components": 1,
+      "CycleRank": 61,
+      "Accepted": 126,
+      "Blocked": 0,
+      "Unresolved": 0,
+      "Frontier": 18,
+      "DuplicateEndpointPairs": 0,
+      "Definition": {
+        "Objects": 1188,
+        "Relations": 962,
+        "NumericElements": 0
+      },
+      "Packet": {
+        "Objects": 1381,
+        "Relations": 1129,
+        "NumericElements": 0
+      },
+      "ArchiveBytes": 105064,
+      "Structure": {
+        "Motifs": 1,
+        "Paths": 4,
+        "Chords": 16,
+        "Ports": 20,
+        "ClosedPaths": 4,
+        "Prototypes": 1,
+        "Images": 4,
+        "Refinements": 0,
+        "CornerMaps": 0,
+        "OtherEvidence": 0,
+        "BlockedReads": 0,
+        "OpenReads": 0
+      }
+    },
+    {
+      "Id": "B23",
+      "Name": "Offset squares and small square gaps",
+      "Units": 9,
+      "Sites": 48,
+      "Strokes": 72,
+      "Components": 1,
+      "CycleRank": 25,
+      "Accepted": 39,
+      "Blocked": 0,
+      "Unresolved": 0,
+      "Frontier": 15,
+      "DuplicateEndpointPairs": 12,
+      "Definition": {
+        "Objects": 681,
+        "Relations": 530,
+        "NumericElements": 0
+      },
+      "Packet": {
+        "Objects": 782,
+        "Relations": 615,
+        "NumericElements": 0
+      },
+      "ArchiveBytes": 58791,
+      "Structure": {
+        "Motifs": 1,
+        "Paths": 1,
+        "Chords": 8,
+        "Ports": 9,
+        "ClosedPaths": 1,
+        "Prototypes": 1,
+        "Images": 1,
+        "Refinements": 0,
+        "CornerMaps": 0,
+        "OtherEvidence": 0,
+        "BlockedReads": 0,
+        "OpenReads": 0
+      }
+    },
+    {
+      "Id": "B24",
+      "Name": "Triangle units around hexagonal gaps",
+      "Units": 9,
+      "Sites": 35,
+      "Strokes": 54,
+      "Components": 1,
+      "CycleRank": 20,
+      "Accepted": 55,
+      "Blocked": 0,
+      "Unresolved": 0,
+      "Frontier": 17,
+      "DuplicateEndpointPairs": 0,
+      "Definition": {
+        "Objects": 735,
+        "Relations": 582,
+        "NumericElements": 0
+      },
+      "Packet": {
+        "Objects": 856,
+        "Relations": 685,
+        "NumericElements": 0
+      },
+      "ArchiveBytes": 64536,
+      "Structure": {
+        "Motifs": 1,
+        "Paths": 2,
+        "Chords": 6,
+        "Ports": 8,
+        "ClosedPaths": 2,
+        "Prototypes": 1,
+        "Images": 2,
+        "Refinements": 0,
+        "CornerMaps": 0,
+        "OtherEvidence": 0,
+        "BlockedReads": 0,
+        "OpenReads": 0
+      }
+    },
+    {
+      "Id": "B25",
+      "Name": "Six-point star junctions",
+      "Units": 9,
+      "Sites": 119,
+      "Strokes": 135,
+      "Components": 1,
+      "CycleRank": 17,
+      "Accepted": 61,
+      "Blocked": 0,
+      "Unresolved": 0,
+      "Frontier": 11,
+      "DuplicateEndpointPairs": 0,
+      "Definition": {
+        "Objects": 1412,
+        "Relations": 1177,
+        "NumericElements": 0
+      },
+      "Packet": {
+        "Objects": 1529,
+        "Relations": 1276,
+        "NumericElements": 0
+      },
+      "ArchiveBytes": 117007,
+      "Structure": {
+        "Motifs": 1,
+        "Paths": 4,
+        "Chords": 15,
+        "Ports": 19,
+        "ClosedPaths": 1,
+        "Prototypes": 4,
+        "Images": 4,
+        "Refinements": 0,
+        "CornerMaps": 0,
+        "OtherEvidence": 0,
+        "BlockedReads": 0,
+        "OpenReads": 0
+      }
+    },
+    {
+      "Id": "B26",
+      "Name": "Hexagonal cells with radial florets",
+      "Units": 9,
+      "Sites": 93,
+      "Strokes": 108,
+      "Components": 10,
+      "CycleRank": 25,
+      "Accepted": 188,
+      "Blocked": 0,
+      "Unresolved": 0,
+      "Frontier": 28,
+      "DuplicateEndpointPairs": 16,
+      "Definition": {
+        "Objects": 1450,
+        "Relations": 1175,
+        "NumericElements": 0
+      },
+      "Packet": {
+        "Objects": 1723,
+        "Relations": 1414,
+        "NumericElements": 0
+      },
+      "ArchiveBytes": 131678,
+      "Structure": {
+        "Motifs": 1,
+        "Paths": 7,
+        "Chords": 12,
+        "Ports": 19,
+        "ClosedPaths": 1,
+        "Prototypes": 2,
+        "Images": 7,
+        "Refinements": 0,
+        "CornerMaps": 0,
+        "OtherEvidence": 0,
+        "BlockedReads": 0,
+        "OpenReads": 0
+      }
+    },
+    {
+      "Id": "B27",
+      "Name": "Angled paired-band courses",
+      "Units": 9,
+      "Sites": 129,
+      "Strokes": 126,
+      "Components": 12,
+      "CycleRank": 9,
+      "Accepted": 33,
+      "Blocked": 0,
+      "Unresolved": 0,
+      "Frontier": 12,
+      "DuplicateEndpointPairs": 0,
+      "Definition": {
+        "Objects": 1066,
+        "Relations": 842,
+        "NumericElements": 0
+      },
+      "Packet": {
+        "Objects": 1156,
+        "Relations": 917,
+        "NumericElements": 0
+      },
+      "ArchiveBytes": 87301,
+      "Structure": {
+        "Motifs": 1,
+        "Paths": 4,
+        "Chords": 14,
+        "Ports": 18,
+        "ClosedPaths": 1,
+        "Prototypes": 3,
+        "Images": 4,
+        "Refinements": 0,
+        "CornerMaps": 0,
+        "OtherEvidence": 0,
+        "BlockedReads": 0,
+        "OpenReads": 0
+      }
+    },
+    {
+      "Id": "B28",
+      "Name": "Faceted shell-fan courses",
+      "Units": 9,
+      "Sites": 153,
+      "Strokes": 234,
+      "Components": 1,
+      "CycleRank": 82,
+      "Accepted": 356,
+      "Blocked": 0,
+      "Unresolved": 0,
+      "Frontier": 76,
+      "DuplicateEndpointPairs": 0,
+      "Definition": {
+        "Objects": 1934,
+        "Relations": 1602,
+        "NumericElements": 0
+      },
+      "Packet": {
+        "Objects": 2459,
+        "Relations": 2069,
+        "NumericElements": 0
+      },
+      "ArchiveBytes": 189970,
+      "Structure": {
+        "Motifs": 1,
+        "Paths": 8,
+        "Chords": 26,
+        "Ports": 34,
+        "ClosedPaths": 2,
+        "Prototypes": 4,
+        "Images": 8,
+        "Refinements": 0,
+        "CornerMaps": 0,
+        "OtherEvidence": 0,
+        "BlockedReads": 0,
+        "OpenReads": 0
+      }
+    },
+    {
+      "Id": "B29",
+      "Name": "Hooked hexagon junctions",
+      "Units": 9,
+      "Sites": 113,
+      "Strokes": 243,
+      "Components": 1,
+      "CycleRank": 131,
+      "Accepted": 427,
+      "Blocked": 0,
+      "Unresolved": 0,
+      "Frontier": 194,
+      "DuplicateEndpointPairs": 95,
+      "Definition": {
+        "Objects": 1535,
+        "Relations": 1222,
+        "NumericElements": 0
+      },
+      "Packet": {
+        "Objects": 2333,
+        "Relations": 1941,
+        "NumericElements": 0
+      },
+      "ArchiveBytes": 179460,
+      "Structure": {
+        "Motifs": 1,
+        "Paths": 4,
+        "Chords": 27,
+        "Ports": 31,
+        "ClosedPaths": 4,
+        "Prototypes": 2,
+        "Images": 4,
+        "Refinements": 0,
+        "CornerMaps": 0,
+        "OtherEvidence": 0,
+        "BlockedReads": 0,
+        "OpenReads": 0
+      }
+    },
+    {
+      "Id": "B30",
+      "Name": "Faceted cloud-scale arches",
+      "Units": 9,
+      "Sites": 666,
+      "Strokes": 720,
+      "Components": 1,
+      "CycleRank": 55,
+      "Accepted": 115,
+      "Blocked": 0,
+      "Unresolved": 0,
+      "Frontier": 29,
+      "DuplicateEndpointPairs": 30,
+      "Definition": {
+        "Objects": 3521,
+        "Relations": 2946,
+        "NumericElements": 0
+      },
+      "Packet": {
+        "Objects": 3722,
+        "Relations": 3121,
+        "NumericElements": 0
+      },
+      "ArchiveBytes": 289211,
+      "Structure": {
+        "Motifs": 1,
+        "Paths": 4,
+        "Chords": 80,
+        "Ports": 84,
+        "ClosedPaths": 0,
+        "Prototypes": 1,
+        "Images": 4,
+        "Refinements": 1,
+        "CornerMaps": 0,
+        "OtherEvidence": 0,
+        "BlockedReads": 0,
+        "OpenReads": 0
+      }
+    },
+    {
+      "Id": "B31",
+      "Name": "Four-turn key windows",
+      "Units": 9,
+      "Sites": 276,
+      "Strokes": 288,
+      "Components": 10,
+      "CycleRank": 22,
+      "Accepted": 36,
+      "Blocked": 0,
+      "Unresolved": 0,
+      "Frontier": 9,
+      "DuplicateEndpointPairs": 0,
+      "Definition": {
+        "Objects": 3547,
+        "Relations": 2905,
+        "NumericElements": 0
+      },
+      "Packet": {
+        "Objects": 3635,
+        "Relations": 2978,
+        "NumericElements": 0
+      },
+      "ArchiveBytes": 281199,
+      "Structure": {
+        "Motifs": 1,
+        "Paths": 2,
+        "Chords": 32,
+        "Ports": 34,
+        "ClosedPaths": 2,
+        "Prototypes": 1,
+        "Images": 1,
+        "Refinements": 0,
+        "CornerMaps": 0,
+        "OtherEvidence": 1,
+        "BlockedReads": 0,
+        "OpenReads": 0
+      }
+    },
+    {
+      "Id": "B32",
+      "Name": "Diagonal spiral-key courses",
+      "Units": 9,
+      "Sites": 165,
+      "Strokes": 162,
+      "Components": 3,
+      "CycleRank": 0,
+      "Accepted": 6,
+      "Blocked": 0,
+      "Unresolved": 0,
+      "Frontier": 3,
+      "DuplicateEndpointPairs": 0,
+      "Definition": {
+        "Objects": 1363,
+        "Relations": 1152,
+        "NumericElements": 0
+      },
+      "Packet": {
+        "Objects": 1411,
+        "Relations": 1189,
+        "NumericElements": 0
+      },
+      "ArchiveBytes": 107974,
+      "Structure": {
+        "Motifs": 1,
+        "Paths": 1,
+        "Chords": 18,
+        "Ports": 19,
+        "ClosedPaths": 0,
+        "Prototypes": 1,
+        "Images": 1,
+        "Refinements": 0,
+        "CornerMaps": 0,
+        "OtherEvidence": 0,
+        "BlockedReads": 0,
+        "OpenReads": 0
+      }
+    },
+    {
+      "Id": "B33",
+      "Name": "Folded diagonal ribbon units",
+      "Units": 9,
+      "Sites": 224,
+      "Strokes": 288,
+      "Components": 1,
+      "CycleRank": 65,
+      "Accepted": 94,
+      "Blocked": 0,
+      "Unresolved": 0,
+      "Frontier": 32,
+      "DuplicateEndpointPairs": 36,
+      "Definition": {
+        "Objects": 1422,
+        "Relations": 1126,
+        "NumericElements": 0
+      },
+      "Packet": {
+        "Objects": 1609,
+        "Relations": 1289,
+        "NumericElements": 0
+      },
+      "ArchiveBytes": 122443,
+      "Structure": {
+        "Motifs": 1,
+        "Paths": 2,
+        "Chords": 32,
+        "Ports": 34,
+        "ClosedPaths": 2,
+        "Prototypes": 1,
+        "Images": 2,
+        "Refinements": 0,
+        "CornerMaps": 0,
+        "OtherEvidence": 0,
+        "BlockedReads": 0,
+        "OpenReads": 0
+      }
+    },
+    {
+      "Id": "B34",
+      "Name": "Crossed faceted loop lattice",
+      "Units": 9,
+      "Sites": 156,
+      "Strokes": 180,
+      "Components": 6,
+      "CycleRank": 30,
+      "Accepted": 90,
+      "Blocked": 0,
+      "Unresolved": 0,
+      "Frontier": 18,
+      "DuplicateEndpointPairs": 0,
+      "Definition": {
+        "Objects": 1532,
+        "Relations": 1252,
+        "NumericElements": 0
+      },
+      "Packet": {
+        "Objects": 1689,
+        "Relations": 1387,
+        "NumericElements": 0
+      },
+      "ArchiveBytes": 129232,
+      "Structure": {
+        "Motifs": 1,
+        "Paths": 6,
+        "Chords": 20,
+        "Ports": 26,
+        "ClosedPaths": 2,
+        "Prototypes": 3,
+        "Images": 6,
+        "Refinements": 0,
+        "CornerMaps": 0,
+        "OtherEvidence": 0,
+        "BlockedReads": 0,
+        "OpenReads": 0
+      }
+    }
+  ],
+  "Limits": [
+    "Source-derived structural adaptations, not pixel matching or a learned generator.",
+    "Every saved native packet contains only relations/placeholders; screen metrics and source metadata are separate.",
+    "Declared seams join sites; they do not fold duplicate coincident edges.",
+    "A graph cycle is not a certified filled face. Crossings do not become junctions automatically.",
+    "Triangular display is an optional metric realization, not a native assertion of sixty-degree angles."
+  ]
+}

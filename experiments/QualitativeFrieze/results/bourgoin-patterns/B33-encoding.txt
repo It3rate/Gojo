@@ -7,75 +7,45 @@ O is the declared native frame-origin marker. Start and placement words use that
 MOTIF DEFINITIONS
 M1:
   M1.path1 starts at []
-    M1.path1.chord1 = [L(u) U(u)]
-    M1.path1.chord2 = [L(u) U(u)]
-    M1.path1.chord3 = [L(u) U(u)]
-    M1.path1.chord4 = [L(u) U(u)]
-    M1.path1.chord5 = [R(u) U(u)]
-    M1.path1.chord6 = [R(u) U(u)]
-    M1.path1.chord7 = [R(u) U(u)]
-    M1.path1.chord8 = [R(u) U(u)]
-    M1.path1.chord9 = [R(u) D(u)]
-    M1.path1.chord10 = [L(u) D(u)]
-    M1.path1.chord11 = [L(u) D(u)]
-    M1.path1.chord12 = [L(u) D(u)]
-    M1.path1.chord13 = [R(u) D(u)]
-    M1.path1.chord14 = [R(u) D(u)]
-    M1.path1.chord15 = [R(u) D(u)]
-    M1.path1.chord16 = [L(u) D(u)]
-    closure = explicitly declared for this actual path
-  M1.path2 starts at [U(u) U(u) U(u) U(u) U(u) U(u) U(u) U(u) U(u) U(u)]
-    M1.path2.chord1 = [R(u) D(u)]
-    M1.path2.chord2 = [R(u) D(u)]
-    M1.path2.chord3 = [R(u) D(u)]
-    M1.path2.chord4 = [R(u) D(u)]
-    M1.path2.chord5 = [L(u) D(u)]
-    M1.path2.chord6 = [L(u) D(u)]
-    M1.path2.chord7 = [L(u) D(u)]
-    M1.path2.chord8 = [L(u) D(u)]
-    M1.path2.chord9 = [L(u) U(u)]
-    M1.path2.chord10 = [R(u) U(u)]
-    M1.path2.chord11 = [R(u) U(u)]
-    M1.path2.chord12 = [R(u) U(u)]
-    M1.path2.chord13 = [L(u) U(u)]
-    M1.path2.chord14 = [L(u) U(u)]
-    M1.path2.chord15 = [L(u) U(u)]
-    M1.path2.chord16 = [R(u) U(u)]
-    closure = explicitly declared for this actual path
+    M1.path1.chord1 = [R(u) D(u)]
+    M1.path1.chord2 = [R(u) D(u) R(u) D(u)]
+    M1.path1.chord3 = [L(u) D(u) L(u) D(u)]
+    M1.path1.chord4 = [R(u) D(u)]
+    M1.path1.chord5 = [R(u) U(u) R(u) U(u) R(u) U(u) R(u) U(u) R(u) U(u) R(u) U(u)]
+    closure = not declared
+  M1.path2 starts at [R(u) D(u)]
+    M1.path2.chord1 = [L(u) D(u) L(u) D(u)]
+    M1.path2.chord2 = [R(u) D(u) R(u) D(u)]
+    closure = not declared
+  M1.path3 starts at [R(u) R(u) R(u) R(u) R(u) R(u) D(u) D(u) D(u) D(u)]
+    M1.path3.chord1 = [L(u) D(u)]
+    M1.path3.chord2 = [L(u) D(u) L(u) D(u)]
+    M1.path3.chord3 = [R(u) D(u) R(u) D(u)]
+    M1.path3.chord4 = [L(u) D(u)]
+    M1.path3.chord5 = [L(u) U(u) L(u) U(u) L(u) U(u) L(u) U(u) L(u) U(u) L(u) U(u)]
+    closure = not declared
+  M1.path4 starts at [D(u) R(u) R(u) R(u) R(u) R(u) D(u) D(u) D(u) D(u)]
+    M1.path4.chord1 = [R(u) D(u) R(u) D(u)]
+    M1.path4.chord2 = [L(u) D(u) L(u) D(u)]
+    closure = not declared
   M1.port1 selects M1.path1.chord1 (cursor before this chord)
   M1.port2 selects M1.path1.chord2 (cursor before this chord)
   M1.port3 selects M1.path1.chord3 (cursor before this chord)
   M1.port4 selects M1.path1.chord4 (cursor before this chord)
   M1.port5 selects M1.path1.chord5 (cursor before this chord)
-  M1.port6 selects M1.path1.chord6 (cursor before this chord)
-  M1.port7 selects M1.path1.chord7 (cursor before this chord)
-  M1.port8 selects M1.path1.chord8 (cursor before this chord)
-  M1.port9 selects M1.path1.chord9 (cursor before this chord)
-  M1.port10 selects M1.path1.chord10 (cursor before this chord)
-  M1.port11 selects M1.path1.chord11 (cursor before this chord)
-  M1.port12 selects M1.path1.chord12 (cursor before this chord)
-  M1.port13 selects M1.path1.chord13 (cursor before this chord)
-  M1.port14 selects M1.path1.chord14 (cursor before this chord)
-  M1.port15 selects M1.path1.chord15 (cursor before this chord)
-  M1.port16 selects M1.path1.chord16 (cursor before this chord)
-  M1.port17 selects M1.path1.end (terminal cursor)
-  M1.port18 selects M1.path2.chord1 (cursor before this chord)
-  M1.port19 selects M1.path2.chord2 (cursor before this chord)
-  M1.port20 selects M1.path2.chord3 (cursor before this chord)
-  M1.port21 selects M1.path2.chord4 (cursor before this chord)
-  M1.port22 selects M1.path2.chord5 (cursor before this chord)
-  M1.port23 selects M1.path2.chord6 (cursor before this chord)
-  M1.port24 selects M1.path2.chord7 (cursor before this chord)
-  M1.port25 selects M1.path2.chord8 (cursor before this chord)
-  M1.port26 selects M1.path2.chord9 (cursor before this chord)
-  M1.port27 selects M1.path2.chord10 (cursor before this chord)
-  M1.port28 selects M1.path2.chord11 (cursor before this chord)
-  M1.port29 selects M1.path2.chord12 (cursor before this chord)
-  M1.port30 selects M1.path2.chord13 (cursor before this chord)
-  M1.port31 selects M1.path2.chord14 (cursor before this chord)
-  M1.port32 selects M1.path2.chord15 (cursor before this chord)
-  M1.port33 selects M1.path2.chord16 (cursor before this chord)
-  M1.port34 selects M1.path2.end (terminal cursor)
+  M1.port6 selects M1.path1.end (terminal cursor)
+  M1.port7 selects M1.path2.chord1 (cursor before this chord)
+  M1.port8 selects M1.path2.chord2 (cursor before this chord)
+  M1.port9 selects M1.path2.end (terminal cursor)
+  M1.port10 selects M1.path3.chord1 (cursor before this chord)
+  M1.port11 selects M1.path3.chord2 (cursor before this chord)
+  M1.port12 selects M1.path3.chord3 (cursor before this chord)
+  M1.port13 selects M1.path3.chord4 (cursor before this chord)
+  M1.port14 selects M1.path3.chord5 (cursor before this chord)
+  M1.port15 selects M1.path3.end (terminal cursor)
+  M1.port16 selects M1.path4.chord1 (cursor before this chord)
+  M1.port17 selects M1.path4.chord2 (cursor before this chord)
+  M1.port18 selects M1.path4.end (terminal cursor)
 
 TRANSFORM SUBSTITUTIONS
 T1 (declared frame -> same declared frame):
@@ -102,8 +72,8 @@ T4 (declared frame -> same declared frame):
 PARAMETER DOMAINS AND SELECTED BINDINGS
 P1 allows [M1]; selected M1
 P2 allows [T1 T2 T3 T4]; selected T1
-P3 allows [[R(u) R(u) R(u) R(u) R(u) U(u) U(u) U(u) U(u) U(u)]]; selected [R(u) R(u) R(u) R(u) R(u) U(u) U(u) U(u) U(u) U(u)]
-P4 allows [[L(u) L(u) L(u) L(u) L(u) U(u) U(u) U(u) U(u) U(u)]]; selected [L(u) L(u) L(u) L(u) L(u) U(u) U(u) U(u) U(u) U(u)]
+P3 allows [[R(u) R(u) R(u) R(u) R(u) R(u) R(u) R(u)]]; selected [R(u) R(u) R(u) R(u) R(u) R(u) R(u) R(u)]
+P4 allows [[D(u) D(u) D(u) D(u) D(u) D(u) D(u) D(u)]]; selected [D(u) D(u) D(u) D(u) D(u) D(u) D(u) D(u)]
 
 LAYOUT PHASES AND RULES
 Column cycle roles = [U0]
@@ -124,5 +94,5 @@ u = one actual shared, unmeasured reach identity. Reuse means shared participati
 
 
 EXPLICIT FIELD READ
-Accepted seams: 94; blocked: 0; unresolved: 0; declared finite frontier: 32.
+Accepted seams: 48; blocked: 0; unresolved: 0; declared finite frontier: 6.
 Seam declarations select actual motif/transform identities and public roles. Finite offsets walk the sampled occurrence order. Equal display positions do not propose new joins. Parallel stroke participations are retained.

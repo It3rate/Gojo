@@ -101,6 +101,9 @@ The [construction vocabulary study](Gojo/docs/GojoBourgoinVocabularyStudy.md)
 adds twenty source-based skeletons, finite curved profiles and a
 [single-sheet atlas](experiments/QualitativeFrieze/results/bourgoin-patterns/overview.html),
 while separating authored explanations from computed graph reads.
+The [contact and course study](Gojo/docs/GojoBourgoinContactAndCourseStudy.md)
+refines partial-side sliding contacts, flat-tipped stars, slender arms and
+open ribbon courses while retaining the earlier constructions for comparison.
 
 For example, run the prospective-prediction experiment and its notebook tests
 from the repository root:

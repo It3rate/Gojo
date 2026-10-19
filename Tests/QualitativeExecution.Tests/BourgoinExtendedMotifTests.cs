@@ -35,17 +35,19 @@ public sealed class BourgoinExtendedMotifTests
     }
 
     [Fact]
-    public void FloretStemsReuseOneActualPrototypeThroughSixActualSubstitutions()
+    public void TwelveFloretStemsReuseTwoActualPrototypesThroughSixSubstitutionsEach()
     {
         var recipe = Recipe("B26");
         var read = Read(recipe);
         Assert.True(read.IsReadable);
         Assert.Empty(E(read.Blocked));
-        Assert.Equal(7, read.Images.Count);
+        Assert.Equal(13, read.Images.Count);
         var stems = read.Images.Where(image => E((Relation)image.SourcePath.Right).Length == 1).ToArray();
-        Assert.Equal(6, stems.Length);
-        Assert.All(stems, image => Assert.Same(stems[0].Prototype, image.Prototype));
-        Assert.Equal(6, stems.Select(image => Position(recipe.Frame, Assert.IsType<Relation>(Assert.Single(E((Relation)image.OutputPath.Right))))).Distinct().Count());
+        Assert.Equal(12, stems.Length);
+        var prototypes = stems.GroupBy(image => image.Prototype, ReferenceEqualityComparer.Instance).ToArray();
+        Assert.Equal(2, prototypes.Length);
+        Assert.All(prototypes, group => Assert.Equal(6, group.Count()));
+        Assert.Equal(12, stems.Select(image => Position(recipe.Frame, Assert.IsType<Relation>(Assert.Single(E((Relation)image.OutputPath.Right))))).Distinct().Count());
         var selected = stems[1];
         var transformParts = Assert.IsType<Relation>(selected.Transform.Right);
         var incompleteRows = S(E(Assert.IsType<Relation>(transformParts.Left)).Skip(1).ToArray());

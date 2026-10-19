@@ -7,6 +7,13 @@ or numeric locations. The authored gallery below is the generation checkpoint;
 a following bounded feedback experiment adds explicit legality and preference
 reads without changing the kernel.
 
+The [Bourgoin source atlas](results/bourgoin-patterns/gallery.html) compares
+thirty-six native constructions with reviewed source diagrams. The
+[whole atlas](results/bourgoin-patterns/overview.html) shows them together.
+Its [contact and course study](../../Gojo/docs/GojoBourgoinContactAndCourseStudy.md)
+examines partial-side slides, boundary refinement and repeated open courses;
+earlier constructions remain available beside the source overlays.
+
 The [primitive flow experiment](../../Gojo/docs/GojoPrimitiveFlowExperiment.md)
 executes steps, staircases, waves, rectangles, diamonds, meanders, herringbone
 and stars through acknowledged leaf/group calls and existing event sampling.

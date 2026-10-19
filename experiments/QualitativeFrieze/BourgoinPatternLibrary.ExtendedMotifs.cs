@@ -10,14 +10,14 @@ public sealed partial class BourgoinPatternLibrary
     private static IReadOnlyList<AdditionalSource> ExtendedMotifs() =>
     [
         new("B25", "Six-point star junctions", 412, "Plate 11, fig. 3", ExtendedStarJunctions(), Triangular: true),
-        new("B26", "Hexagonal cells with radial florets", 416, "Plate 13, fig. 8", ExtendedHexagonalFlorets(), Triangular: true),
+        new("B26", "Flat-tipped stars and twelve-ray florets", 416, "Plate 13, fig. 8", FlatStarFlorets(), Triangular: true),
         new("B27", "Angled paired-band courses", 416, "Plate 13, fig. 4", ExtendedAngledBands()),
         new("B28", "Faceted shell-fan courses", 416, "Plate 13, fig. 6", ExtendedFans()),
-        new("B29", "Hooked hexagon junctions", 424, "Plate 17, fig. 4", ExtendedHookedHexagons(), Triangular: true),
+        new("B29", "Sliding hexagons and triangular gaps", 424, "Plate 17, fig. 4", SlidHexagonGaps(), Triangular: true),
         new("B30", "Faceted cloud-scale arches", 424, "Plate 17, fig. 7", ExtendedCloudScales()),
-        new("B31", "Four-turn key windows", 428, "Plate 19, fig. 3", ExtendedKeyWindows()),
-        new("B32", "Diagonal spiral-key courses", 430, "Plate 20, fig. 3", ExtendedDiagonalKeys()),
-        new("B33", "Folded diagonal ribbon units", 430, "Plate 20, fig. 7", ExtendedFoldedRibbons()),
+        new("B31", "Slender outward arms and round markers", 428, "Plate 19, fig. 3", OutwardArmWindows()),
+        new("B32", "Interrupted diagonal returns and valley joins", 430, "Plate 20, fig. 3", InterruptedDiagonalKeys()),
+        new("B33", "Continuous angled courses and diamond loops", 430, "Plate 20, fig. 7", ContinuousAngledChannels()),
         new("B34", "Crossed faceted loop lattice", 432, "Plate 21, fig. 2", ExtendedCrossedLoops())
     ];
 
@@ -39,18 +39,6 @@ public sealed partial class BourgoinPatternLibrary
         return new(cell, (12, 0), (0, 12),
             "One closed twelve-corner six-point star repeats on a triangular disposition. Three published neighbour passages connect each star to the next copies; all six contact directions follow from the native repeat and shared endpoint roles.",
             "A source-derived star-junction skeleton of Plate 11 fig. 3. The six long points and recurring disposition are retained; the source's intervening irregular polygon network is deliberately coarsened to passages. This is not a tracing of every source chamber.");
-    }
-
-    private static SourceRevision ExtendedHexagonalFlorets()
-    {
-        var cell = new Cell();
-        var hexagon = cell.CorrectedSeed(true, (4, 0), (0, 4), (-4, 4), (-4, 0), (0, -4), (4, -4), (4, 0));
-        cell.CorrectedImage(hexagon, cell.CorrectedMap((1, 0), (0, 1)), (0, 0));
-        var ray = cell.CorrectedSeed(false, (0, 0), (2, 0));
-        foreach (var turn in cell.ExtendedSixTurns()) cell.CorrectedImage(ray, turn, (0, 0));
-        return new(cell, (8, -4), (4, 4),
-            "A closed hexagonal boundary supplies the repeating cell. Six actual word substitutions reuse one radial stem inside it. Neighbour cells share advertised boundary endpoints, while the six stems meet only through their separately declared central ports.",
-            "A skeleton reading of Plate 13 fig. 8: hexagonal disposition and sixfold radial floret are retained. Petal curvature, the inner contour bands, colour and botanical filling are omitted. The optional triangular display supplies regular-looking hexagons rather than an angle calibration.");
     }
 
     private static SourceRevision ExtendedAngledBands()
@@ -87,19 +75,6 @@ public sealed partial class BourgoinPatternLibrary
             "A faceted shell-fan skeleton of Plate 13 fig. 6. Staggering, common fan apex and spreading ribs are retained. Scrolls, curved outlines, concentric inner arcs and ornament inside the fan are omitted; the finite chords do not claim smooth-curve semantics.");
     }
 
-    private static SourceRevision ExtendedHookedHexagons()
-    {
-        var cell = new Cell();
-        var hexagon = cell.ExtendedGridSeed(true, (3, 0), (0, 3), (-3, 3), (-3, 0), (0, -3), (3, -3), (3, 0));
-        cell.CorrectedImage(hexagon, cell.CorrectedMap((1, 0), (0, 1)), (0, 0));
-        var hook = cell.CorrectedSeed(true, (3, 0), (4, 0), (3, -1), (3, 0));
-        var turns = cell.ExtendedSixTurns();
-        foreach (var index in new[] { 0, 2, 4 }) cell.CorrectedImage(hook, turns[index], (0, 0));
-        return new(cell, (6, -3), (3, 3),
-            "A six-edge compartment repeats on its hexagonal neighbour disposition. Three images of one small triangular hook select alternating boundary faces. Split native side landmarks expose the hook contacts before neighbouring copies negotiate their sites.",
-            "A skeleton of Plate 17 fig. 4's hexagon framework and small directional junction hooks. The freehand flower is excluded. Hook faces and relative shared-reach sizes are selected, and no filled black triangle or botanical contour is inferred from the line graph.");
-    }
-
     private static SourceRevision ExtendedCloudScales()
     {
         var cell = new Cell();
@@ -116,40 +91,6 @@ public sealed partial class BourgoinPatternLibrary
         return new(cell, (48, 0), (0, 16),
             "A straight coarse span is replaced by one twenty-chord cloud profile: two smaller lateral lobes flank a higher central lobe. Its original endpoints retain an exact zero-displacement refinement proof. Four actual images reuse the same fine prototype in staggered courses. The central top landmark is explicitly split so the next course's endpoints can meet a published port rather than a rendered chord interior.",
             "A faceted three-lobed cloud-scale skeleton of Plate 17 fig. 7. It retains the small/high/small lobe order and staggered courses; finite flat and angled chords approximate each curved silhouette. Smooth curvature, the source's short accent strokes and filled cloud-region inference are omitted.");
-    }
-
-    private static SourceRevision ExtendedKeyWindows()
-    {
-        var cell = new Cell();
-        cell.QuarterContour([(4, 0), (4, 1), (1, 1), (1, 2), (2, 2), (2, 3), (0, 3), (0, 4)]);
-        var marker = cell.CorrectedSeed(true, (0, 1), (1, 0), (0, -1), (-1, 0), (0, 1));
-        cell.CorrectedImage(marker, cell.CorrectedMap((1, 0), (0, 1)), (0, 0));
-        return new(cell, (8, 0), (0, 8),
-            "One stepped quarter boundary produces a closed four-part key window through actual quarter-turn substitution receipts and a finite word-return witness. A separate small four-edge central marker supplies the repeated dot's skeleton. Published outer tip roles connect adjacent copies.",
-            "An authored four-turn key-window reading inspired by Plate 19 fig. 3's bent-cross units and centre dots. It retains the repeated turning-arm character, not every source boundary chamber; the dot is an outlined marker, and the source's continuous fret topology is not claimed to be identical.");
-    }
-
-    private static SourceRevision ExtendedDiagonalKeys()
-    {
-        var cell = new Cell();
-        var key = cell.CorrectedSeed(false, Key());
-        cell.CorrectedImage(key, cell.CorrectedMap((1, 1), (-1, 1)), (0, 0));
-        return new(cell, (10, 10), (-9, 9),
-            "A nested rectilinear key traversal is reused through the explicit word correspondence R→R+U and U→L+U. Both repeat directions use the same correspondence. Its actual terminal role meets the next start role along each diagonal course, while successive courses stay distinct.",
-            "A diagonal spiral-key course adaptation of Plate 20 fig. 3. The turning traversal and oblique repeated disposition follow the source family; the authored nested key has additional turns, selected spacing and no shaded ribbon filling. The display's apparent 45-degree direction is an optional interpretation of the native word map.");
-    }
-
-    private static SourceRevision ExtendedFoldedRibbons()
-    {
-        var cell = new Cell();
-        var corner = cell.ExtendedGridSeed(true, (0, 0), (0, 4), (4, 4), (4, 3), (1, 3), (1, 0), (0, 0));
-        var diagonal = cell.CorrectedMap((1, 1), (-1, 1));
-        var opposed = cell.CorrectedMap((-1, -1), (1, -1));
-        cell.CorrectedImage(corner, diagonal, (0, 0));
-        cell.CorrectedImage(corner, opposed, (0, 10));
-        return new(cell, (5, 5), (-5, 5),
-            "One closed folded-strip contour supplies two opposed images on an oblique disposition. Every unit side landmark is exposed before contact, so repeated copies can share the corner boundaries without merging unrelated intersecting stroke interiors.",
-            "A folded-ribbon scaffold adaptation of Plate 20 fig. 7's interleaved diagonal lozenges. It preserves paired oblique folds and repeated lozenge spacing; over/under weaving, the source's exact central lozenge shapes and filled shading are not encoded.");
     }
 
     private static SourceRevision ExtendedCrossedLoops()
