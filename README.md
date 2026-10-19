@@ -97,6 +97,10 @@ places native generated fields beside the cited historical diagrams.
 The [source-correction follow-up](Gojo/docs/GojoBourgoinRefinementStudy.md)
 uses local lattice refinements and closed negative chambers to improve those
 reconstructions, with preserved first-pass images and source overlays.
+The [construction vocabulary study](Gojo/docs/GojoBourgoinVocabularyStudy.md)
+adds twenty source-based skeletons, finite curved profiles and a
+[single-sheet atlas](experiments/QualitativeFrieze/results/bourgoin-patterns/overview.html),
+while separating authored explanations from computed graph reads.
 
 For example, run the prospective-prediction experiment and its notebook tests
 from the repository root:

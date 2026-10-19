@@ -1,9 +1,11 @@
 # Bourgoin reconstruction: source corrections and local refinements
 
-Follow-up experiment, 2026-10-19. The [comparison gallery](../../experiments/QualitativeFrieze/results/bourgoin-patterns/gallery.html)
-now contains fifteen native examples, including the preserved B06 interpretation
+Follow-up experiment, 2026-10-19. This checkpoint produced fifteen native
+examples in the [comparison gallery](../../experiments/QualitativeFrieze/results/bourgoin-patterns/gallery.html), including the preserved B06 interpretation
 and its source-oriented counterpart B06.B. Revised cards retain their first-pass
 images and provide an adjustable overlay of actual native output on the source.
+The subsequent [vocabulary study](GojoBourgoinVocabularyStudy.md) expands that
+retained baseline to thirty-six examples and adds a single-sheet atlas.
 
 The first pass established executable descriptions, archive replay and explicit
 seam admission. Those checks did not establish agreement with the historical

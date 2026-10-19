@@ -33,6 +33,7 @@ prediction and control, grounded in these experiments.
 | Executable ornament program encoding | [Format and findings](../Gojo/docs/GojoOrnamentProgramEncoding.md), [native program](QualitativeFrieze/OrnamentProgram.cs) | [Six samples and runnable archive](QualitativeFrieze/results/ornament-program/gallery.html) |
 | Bourgoin geometric ornament constructions | [Findings and sources](../Gojo/docs/GojoBourgoinEncodingStudy.md), [native field assembler](QualitativeFrieze/OrnamentProgramField.cs) | [Source comparison gallery and replayable packets](QualitativeFrieze/results/bourgoin-patterns/gallery.html) |
 | Bourgoin source corrections and compartment refinements | [Corrections and checks](../Gojo/docs/GojoBourgoinRefinementStudy.md), [refined diamond fields](QualitativeFrieze/BourgoinPatternLibrary.DiamondFields.cs), [interlocking chambers](QualitativeFrieze/BourgoinPatternLibrary.InterlockingShapes.cs) | [Fifteen cases, first-pass comparisons and overlays](QualitativeFrieze/results/bourgoin-patterns/gallery.html) |
+| Bourgoin construction vocabulary | [Shared identities, layers and finite curved profiles](../Gojo/docs/GojoBourgoinVocabularyStudy.md), [exact native construction read](QualitativeFrieze/BourgoinConstructionRead.cs) | [Thirty-six constructions on one sheet](QualitativeFrieze/results/bourgoin-patterns/overview.html) |
 
 ## Fresh checkout
 

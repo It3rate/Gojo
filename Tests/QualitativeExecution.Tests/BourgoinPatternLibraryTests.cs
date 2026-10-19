@@ -11,8 +11,8 @@ public sealed class BourgoinPatternLibraryTests
     public void AllSourceRecipesReplayTheirPathsAndSeamsFromANativeArchive()
     {
         var recipes = Library.Value.Recipes;
-        Assert.Equal(15, recipes.Count);
-        Assert.Equal(15, recipes.Select(recipe => recipe.Id).Distinct().Count());
+        Assert.Equal(36, recipes.Count);
+        Assert.Equal(36, recipes.Select(recipe => recipe.Id).Distinct().Count());
         foreach (var recipe in recipes)
         {
             var saved = OrnamentFieldPacket.Save(recipe.Program, recipe.Bindings, recipe.Window, recipe.SeamContract);

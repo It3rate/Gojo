@@ -76,6 +76,24 @@ public sealed class BourgoinCorrectedNetworkTests
         Assert.Equal((4, 0), Position(recipe.Frame, recipe.ColumnPitch)); Assert.Equal((6, 3), Bounds(recipe.Frame, path));
     }
 
+    [Fact]
+    public void B08SecondReadReusesOneBentSeedAndRetainsActualJunctionCorners()
+    {
+        var recipe = Recipe("B08.B"); var motif = Motif(recipe);
+        var evidence = E(motif.Evidence).Cast<Relation>().ToArray(); Assert.Equal(4, evidence.Length);
+        var prototype = Assert.IsType<Relation>(evidence[0].Left).Left;
+        Assert.All(evidence, row => Assert.Same(prototype, Assert.IsType<Relation>(row.Left).Left));
+        Assert.All(E(motif.Paths).Cast<Relation>(), path =>
+        {
+            var words = E((Relation)path.Right).Cast<Relation>().ToArray(); Assert.Equal(2, words.Length);
+            var a = Position(recipe.Frame, words[0]); var b = Position(recipe.Frame, words[1]);
+            Assert.Equal((1, 2), (Math.Abs(a.X), a.Y)); Assert.Equal((7, 4), (Math.Abs(b.X), b.Y));
+            Assert.NotEqual(a.X * b.Y, a.Y * b.X);
+        });
+        var field = Field(recipe); Assert.True(field.IsComplete); Assert.NotEmpty(E(field.Accepted));
+        Assert.True(HasFourEdgeRoute(field.Graph, diagonal: true));
+    }
+
     private static BourgoinPatternLibrary.Recipe Recipe(string id) => Library.Value.Recipes.Single(recipe => recipe.Id == id);
     private static OrnamentProgramField Field(BourgoinPatternLibrary.Recipe recipe) => new(recipe.Program.Generate(recipe.Bindings, SmallWindow(recipe)), recipe.SeamContract);
     private static Relation SmallWindow(BourgoinPatternLibrary.Recipe recipe)

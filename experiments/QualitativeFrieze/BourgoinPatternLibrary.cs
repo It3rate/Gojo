@@ -29,6 +29,8 @@ public sealed partial class BourgoinPatternLibrary
     private static readonly DisplayBasis Triangular = new(1, 0, .5, Math.Sqrt(3) / 2);
     private sealed record SourceRevision(Cell Cell, (int X, int Y) Column, (int X, int Y) Row,
         string Construction, string Fidelity, bool AlternateRows = false, int Rows = 4);
+    private sealed record AdditionalSource(string Id, string Name, int Leaf, string Reference,
+        SourceRevision Revision, bool Triangular = false, int Columns = 3, int Rows = 3);
 
     public BourgoinPatternLibrary()
     {
@@ -83,6 +85,10 @@ public sealed partial class BourgoinPatternLibrary
         var trellis = RibbonDiamonds();
         Add("B08", "Intersecting diagonal ribbons", 279, 256, "Fig. 203",
             trellis.Construction, trellis.Fidelity, trellis.Cell, trellis.Column, trellis.Row);
+        var ribbonJunctions = AngledRibbonJunctions();
+        Add("B08.B", "Ribbons with narrow angled junctions", 279, 256, "Fig. 203",
+            ribbonJunctions.Construction, ribbonJunctions.Fidelity, ribbonJunctions.Cell,
+            ribbonJunctions.Column, ribbonJunctions.Row);
 
         var key = DetachedFret();
         Add("B09", "Detached S-shaped fret units", 392, 343, "Plate 1, fig. 1 (rectilinear border)",
@@ -107,6 +113,14 @@ public sealed partial class BourgoinPatternLibrary
         var maze = InterlockingSerifs(true);
         Add("B14", "Dense interlocking serif-I field", 428, 0, "Plate 19, fig. 4",
             maze.Construction, maze.Fidelity, maze.Cell, maze.Column, maze.Row, columns: 3, rows: 3);
+
+        foreach (var source in ExtendedNetworks().Concat(ExtendedMotifs()))
+        {
+            var revision = source.Revision;
+            Add(source.Id, source.Name, source.Leaf, 0, source.Reference,
+                revision.Construction, revision.Fidelity, revision.Cell, revision.Column, revision.Row,
+                source.Triangular, revision.AlternateRows, source.Columns, source.Rows);
+        }
 
         Recipes = recipes.AsReadOnly();
 

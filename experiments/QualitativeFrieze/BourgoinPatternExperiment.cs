@@ -19,6 +19,9 @@ public static class BourgoinPatternExperiment
     private sealed record Point(double X, double Y);
     private sealed record Stroke(IElement From, IElement To, Point A, Point B, int Unit);
     private sealed record Census(int Objects, int Relations, int NumericElements);
+    private sealed record ConstructionFacts(int Motifs, int Paths, int Chords, int Ports,
+        int ClosedPaths, int Prototypes, int Images, int Refinements, int CornerMaps,
+        int OtherEvidence, int BlockedReads, int OpenReads);
     // A manually observed engraving registration, outside the executable
     // packet. R/U are image pixels per displayed unmeasured reach.
     private sealed record SourceRegistration(double Width, double Height, double X, double Y,
@@ -32,6 +35,7 @@ public static class BourgoinPatternExperiment
         {
             ["B02"] = new(233, 283, 32, 183, 14.333333, 14),
             ["B06.B"] = new(659, 416, 112, 326, 12.166667, 11.5),
+            ["B08.B"] = new(733, 471, 165, 288, 7.625, 8.667),
             ["B09"] = new(172, 71, 17, 48, 7, 7),
             ["B10"] = new(233, 321, 33.666667, 305.333347, 6.416667, 6.416667),
             ["B11"] = new(233, 321, 35, 307.333347, 6.416667, 6.416667),
@@ -41,7 +45,8 @@ public static class BourgoinPatternExperiment
         };
     private sealed record Facts(string Id, string Name, int Units, int Sites, int Strokes,
         int Components, int CycleRank, int Accepted, int Blocked, int Unresolved, int Frontier,
-        int DuplicateEndpointPairs, Census Definition, Census Packet, int ArchiveBytes);
+        int DuplicateEndpointPairs, Census Definition, Census Packet, int ArchiveBytes,
+        ConstructionFacts Structure);
     private sealed record Entry(string Id, string Name, int Leaf, string Reference, string Construction,
         string Fidelity, OrnamentFieldPacket Packet, string Archive, double RX, double RY, double UX, double UY);
 
@@ -59,7 +64,7 @@ public static class BourgoinPatternExperiment
             else throw new ArgumentException("Usage: --bourgoin-patterns [--input PACKET.gojo.json] [--cases B02,B06.B,...] [--columns 1..12] [--rows 1..12] [--triangular-display] [--output DIRECTORY]");
         Directory.CreateDirectory(output);
         var requested = selectedCases?.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
-        var entries = Entries(input, triangular).Where(entry => requested is null || requested.Contains(entry.Id, StringComparer.OrdinalIgnoreCase)).ToArray();
+        var entries = Entries(input, triangular, requested).Where(entry => requested is null || requested.Contains(entry.Id, StringComparer.OrdinalIgnoreCase)).ToArray();
         if (entries.Length == 0 || requested is not null && requested.Any(id => !entries.Any(entry => string.Equals(entry.Id, id, StringComparison.OrdinalIgnoreCase))))
             throw new ArgumentException("Every selected case must name an available native source recipe.", nameof(args));
         var defaultSources = Path.Combine("experiments", "QualitativeFrieze", "results", "bourgoin-patterns");
@@ -68,7 +73,7 @@ public static class BourgoinPatternExperiment
             var source = Path.Combine(defaultSources, "source-" + entry.Id + ".jpg");
             var target = Path.Combine(output, "source-" + entry.Id + ".jpg");
             if (File.Exists(source) && !string.Equals(Path.GetFullPath(source), Path.GetFullPath(target), StringComparison.OrdinalIgnoreCase)) File.Copy(source, target, true);
-            var previous = entry.Id == "B06.B" ? "B06" : entry.Id;
+            var previous = entry.Id is "B06.B" or "B08.B" ? entry.Id[..3] : entry.Id;
             var before = Path.Combine(defaultSources, "first-pass", previous + ".svg");
             var after = Path.Combine(output, "first-pass", previous + ".svg");
             if (File.Exists(before) && !string.Equals(Path.GetFullPath(before), Path.GetFullPath(after), StringComparison.OrdinalIgnoreCase))
@@ -83,6 +88,7 @@ public static class BourgoinPatternExperiment
                 DisplayBasis = new { entry.RX, entry.RY, entry.UX, entry.UY } })
         }, new JsonSerializerOptions { WriteIndented = true }));
         var cards = new StringBuilder(); var diagnostics = new List<Facts>(); var failed = false;
+        var overview = new List<(string Id, string Name, string Svg)>();
         foreach (var entry in entries)
         {
             var packet = entry.Packet;
@@ -94,6 +100,7 @@ public static class BourgoinPatternExperiment
             diagnostics.Add(facts);
             failed |= !run.IsComplete || facts.Blocked != 0 || facts.Unresolved != 0 || facts.Definition.NumericElements != 0 || facts.Packet.NumericElements != 0;
             var svg = Svg(entry, run, field);
+            overview.Add((entry.Id, entry.Name, svg));
             File.WriteAllText(Path.Combine(output, entry.Id + ".svg"), svg);
             File.WriteAllText(Path.Combine(output, entry.Id + ".gojo.json"), saved);
             var inspection = OrnamentProgramExperiment.Describe(new(entry.Id, entry.Name, entry.Construction,
@@ -117,14 +124,17 @@ public static class BourgoinPatternExperiment
         };
         File.WriteAllText(Path.Combine(output, "diagnostics.json"), JsonSerializer.Serialize(report, new JsonSerializerOptions { WriteIndented = true }));
         var html = Html(cards.ToString(), diagnostics, input is not null)
-            .Replace("../../../../Gojo/docs/GojoBourgoinRefinementStudy.md", H(Path.GetRelativePath(output, "Gojo/docs/GojoBourgoinRefinementStudy.md").Replace('\\', '/')))
+            .Replace("../../../../Gojo/docs/GojoBourgoinRefinementStudy.md", H(Path.GetRelativePath(output, "Gojo/docs/GojoBourgoinVocabularyStudy.md").Replace('\\', '/')))
             .Replace("../ornament-program/gallery.html", H(Path.GetRelativePath(output, "experiments/QualitativeFrieze/results/ornament-program/gallery.html").Replace('\\', '/')));
+        html = html.Replace("<nav>", "<p><a href='overview.html'>All constructions on one page</a> · <a href='overview.svg'>Standalone labelled SVG</a></p><nav>");
         File.WriteAllText(Path.Combine(output, "gallery.html"), html);
+        File.WriteAllText(Path.Combine(output, "overview.svg"), Overview(overview));
+        File.WriteAllText(Path.Combine(output, "overview.html"), "<!doctype html><html lang='en'><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'><title>Bourgoin · all constructions</title><style>body{margin:0;background:#eeece2;color:#263b3a;font:16px system-ui}nav{padding:18px 24px}a{color:#276d78;margin-right:20px}img{display:block;width:100%;height:auto}</style><nav><a href='gallery.html'>Detailed comparisons</a><a href='overview.svg'>Standalone SVG · zoom or save</a></nav><img src='overview.svg' alt='Labelled overview of all native Bourgoin constructions'></html>");
         Console.WriteLine($"Wrote {Path.GetFullPath(output)}");
         return failed ? 1 : 0;
     }
 
-    private static IEnumerable<Entry> Entries(string? input, bool triangular)
+    private static IEnumerable<Entry> Entries(string? input, bool triangular, string[]? requested)
     {
         if (input is not null)
         {
@@ -135,7 +145,8 @@ public static class BourgoinPatternExperiment
                 "No authoring library invoked. Display basis is an explicit renderer choice.", packet, archive, 1, 0, triangular ? .5 : 0, triangular ? Math.Sqrt(3) / 2 : 1);
             yield break;
         }
-        foreach (var recipe in new BourgoinPatternLibrary().Recipes)
+        foreach (var recipe in new BourgoinPatternLibrary().Recipes.Where(recipe =>
+                     requested is null || requested.Contains(recipe.Id, StringComparer.OrdinalIgnoreCase)))
         {
             var archive = OrnamentFieldPacket.Save(recipe.Program, recipe.Bindings, recipe.Window, recipe.SeamContract);
             if (!OrnamentFieldPacket.TryLoad(archive, out var packet, out _)) throw new InvalidDataException("A source declaration failed to round-trip: " + recipe.Id);
@@ -172,7 +183,44 @@ public static class BourgoinPatternExperiment
             N.E(run.Blocked).Length + N.E(field.Blocked).Length,
             N.E(run.Unresolved).Length + N.E(field.Unresolved).Length, N.E(field.Frontier).Length, duplicatePairs,
             Count(entry.Packet.Program.Surface), Count(new Relation(new Relation(entry.Packet.Program.Surface,
-                new Relation(entry.Packet.Bindings, window)), entry.Packet.SeamContract)), System.Text.Encoding.UTF8.GetByteCount(saved));
+                new Relation(entry.Packet.Bindings, window)), entry.Packet.SeamContract)), System.Text.Encoding.UTF8.GetByteCount(saved),
+            Construction(entry.Packet.Program));
+    }
+
+    private static ConstructionFacts Construction(OrnamentProgram program)
+    {
+        var reads = N.E(program.Motifs).Cast<Relation>().Select(motif => new BourgoinConstructionRead(program.Frame, motif)).ToArray();
+        var prototypes = reads.SelectMany(read => N.E(read.Prototypes)).Distinct(N.Participants.Instance).Count();
+        return new(reads.Length, reads.Sum(read => read.PathCount), reads.Sum(read => read.ChordCount),
+            reads.Sum(read => read.PortCount), reads.Sum(read => read.ClosedPathCount), prototypes,
+            reads.Sum(read => read.Images.Count), reads.Sum(read => read.Refinements.Count),
+            reads.Sum(read => read.Corners.Count), reads.Sum(read => N.E(read.Unrecognized).Length),
+            reads.Sum(read => N.E(read.Blocked).Length), reads.Sum(read => N.E(read.Unresolved).Length));
+    }
+
+    private static string Overview(IReadOnlyList<(string Id, string Name, string Svg)> items)
+    {
+        const int columns = 6, tileWidth = 410, tileHeight = 302, inset = 18, heading = 112;
+        var rows = (items.Count + columns - 1) / columns;
+        var svg = new StringBuilder($"<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='{columns * tileWidth + inset * 2}' height='{rows * tileHeight + heading + inset}' viewBox='0 0 {columns * tileWidth + inset * 2} {rows * tileHeight + heading + inset}' role='img' aria-label='All Bourgoin native constructions'><style>text{{fill:#263b3a;font-family:Georgia,serif}}.ink{{--weight:4}}</style><rect width='100%' height='100%' fill='#eeece2'/><text x='{inset}' y='44' font-size='32'>Bourgoin · native construction atlas</text><text x='{inset}' y='78' font-size='18'>{items.Count} executable skeletons · shared motifs, explicit transforms and landmark seams · selected screen proportions</text>");
+        for (var i = 0; i < items.Count; i++)
+        {
+            var item = items[i]; var x = inset + i % columns * tileWidth; var y = heading + i / columns * tileHeight;
+            var root = XDocument.Parse(item.Svg).Root!;
+            root.SetAttributeValue("x", x + 8); root.SetAttributeValue("y", y + 53);
+            root.SetAttributeValue("width", tileWidth - 24); root.SetAttributeValue("height", tileHeight - 69);
+            var words = item.Name.Split(' '); var lines = new List<string>(); var line = item.Id + " ·";
+            foreach (var word in words)
+            {
+                if (line.Length + word.Length > 39) { lines.Add(line); line = word; }
+                else line += " " + word;
+            }
+            lines.Add(line);
+            svg.Append($"<a xlink:href='gallery.html#{H(item.Id)}'><rect x='{x}' y='{y}' width='{tileWidth - 10}' height='{tileHeight - 10}' fill='#fffdf7' stroke='#d5d4c6'/>");
+            for (var j = 0; j < lines.Count; j++) svg.Append($"<text x='{x + 12}' y='{y + 22 + j * 19}' font-size='16'>{H(lines[j])}</text>");
+            svg.Append(root.ToString(SaveOptions.DisableFormatting)).Append("</a>");
+        }
+        return svg.Append("</svg>").ToString();
     }
 
     private static Census Count(IElement root)
@@ -271,15 +319,21 @@ public static class BourgoinPatternExperiment
         var sourceImage = "source-" + entry.Id + ".jpg";
         var source = entry.Leaf == 0 ? "<p class='note'>Standalone replay. Source attribution and display style live outside the executable packet.</p>" :
             $"<a href='{SourceRoot}{entry.Leaf}/mode/1up' target='_blank' rel='noreferrer'><img loading='lazy' src='{sourceImage}' alt='Source excerpt: {H(entry.Reference)}'/></a><p>{H(entry.Reference)} · scan leaf {entry.Leaf}. <a href='{SourceRoot}{entry.Leaf}/mode/1up'>Open the source page</a>.</p>";
-        return $"<article id='{entry.Id}'><header><span class='eyebrow'>{H(entry.Id)} · imported native field</span><h2>{H(entry.Name)}</h2><p>{H(entry.Construction)}</p></header><div class='comparison'><figure class='result'>{svg}<figcaption>Accepted native output · one optional screen realization</figcaption></figure><figure class='source'>{source}</figure></div><p class='fidelity'>{H(entry.Fidelity)}</p><div class='facts'><span><b>{facts.Units}</b> occurrences</span><span><b>{facts.Strokes}</b> strokes</span><span><b>{facts.Accepted}</b> admitted seams</span><span><b>{facts.Blocked} / {facts.Unresolved}</b> blocked / open</span></div>" + Comparison(entry, svg, output) + $"<details><summary>Construction, identities and limits</summary><p>{facts.Definition.Objects:N0} distinct native objects in the reusable program; {facts.Packet.Objects:N0} including sample and seam law. {facts.ArchiveBytes:N0} JSON bytes. All are relation/placeholder objects; there are {facts.Packet.NumericElements} numeric participants.</p><p>The joined ink graph has {facts.Components} connected components and cycle rank {facts.CycleRank}. These are graph diagnostics, not face counts or an aesthetic score. The finite patch has {facts.Frontier} out-of-window seam obligations. {facts.DuplicateEndpointPairs} repeated endpoint-pair edge participations remain explicit.</p><p>Source fidelity is an authored judgement. Native execution checks alone do not establish agreement with the historical drawing. The selected display basis is R=({F(entry.RX)},{F(entry.RY)}), U=({F(entry.UX)},{F(entry.UY)}); these coordinates are absent from the executable graph.</p><p><a href='{entry.Id}.gojo.json'>Native packet</a> · <a href='{entry.Id}-encoding.txt'>Graph-derived program inspection</a> · <a href='{entry.Id}.svg'>SVG</a></p></details></article>";
+        return $"<article id='{entry.Id}'><header><span class='eyebrow'>{H(entry.Id)} · imported native field</span><h2>{H(entry.Name)}</h2><p class='note'>Authored recipe · description of the generating construction</p><p>{H(entry.Construction)}</p></header><div class='comparison'><figure class='result'>{svg}<figcaption>Accepted native output · one optional screen realization</figcaption></figure><figure class='source'>{source}</figure></div><p class='fidelity'><strong>Authored source assessment.</strong> {H(entry.Fidelity)}</p><div class='facts'><span><b>{facts.Units}</b> occurrences</span><span><b>{facts.Strokes}</b> strokes</span><span><b>{facts.Accepted}</b> admitted seams</span><span><b>{facts.Blocked} / {facts.Unresolved}</b> blocked / open</span></div>" + Comparison(entry, svg, output) + ConstructionPanel(facts) + $"<p class='note'>The selected display basis is R=({F(entry.RX)},{F(entry.RY)}), U=({F(entry.UX)},{F(entry.UY)}); screen coordinates are absent from the executable graph. <a href='{entry.Id}.gojo.json'>Native packet</a> · <a href='{entry.Id}-encoding.txt'>Graph-derived program inspection</a> · <a href='{entry.Id}.svg'>SVG</a></p></article>";
+    }
+
+    private static string ConstructionPanel(Facts facts)
+    {
+        var c = facts.Structure;
+        return $"<details class='structure-read'><summary>Computed structure, identities and limits</summary><h3>Read from the imported native graph</h3><p>The reusable program declares {c.Motifs} motif definition(s), containing {c.Paths} executable paths, {c.Chords} chords, {c.Ports} landmark ports and {c.ClosedPaths} closed-path claims. The sampled field executes {facts.Units} occurrences; occurrences share the selected definition while retaining their own cursors, sites and applications.</p><p>The exact construction reader admits {c.Images} seed-image correspondences from {c.Prototypes} distinct retained contour prototypes, {c.Refinements} coarse/fine path refinements and {c.CornerMaps} ordered corner correspondences. It leaves {c.OtherEvidence} other evidence entries available without classifying them; {c.BlockedReads} rejected construction reads and {c.OpenReads} open evidence scopes remain visible. This read may admit no prototypes because evidence is absent, unfamiliar, rejected or open; that is not a verdict about the path.</p><p>{facts.Definition.Objects:N0} distinct native objects belong to the reusable program; {facts.Packet.Objects:N0} include the sample and seam law. The packet has {facts.ArchiveBytes:N0} JSON bytes and {facts.Packet.NumericElements} numeric participants. Object and byte counts measure this inspectable representation, not a minimum encoding.</p><h3>Read from execution</h3><p>The joined ink graph has {facts.Components} connected components and cycle rank {facts.CycleRank}. These are graph diagnostics, not face counts or an aesthetic score. The finite patch has {facts.Frontier} out-of-window seam obligations. {facts.DuplicateEndpointPairs} repeated endpoint-pair edge participations remain explicit.</p><h3>Scope of this construction</h3><p>Placement supplies the motif, transform and period words. Local path flow publishes landmark sites; the seam layer checks those exposed ports and admits or blocks shared-site relations. These source recipes do not currently renegotiate their motif in response to neighbouring tension. Reusable seed history and active feedback are different claims. Source fidelity and interpretation remain authored judgements.</p></details>";
     }
 
     private static string Comparison(Entry entry, string svg, string output)
     {
         if (entry.Leaf == 0) return "";
-        var previous = entry.Id == "B06.B" ? "B06" : entry.Id;
+        var previous = entry.Id is "B06.B" or "B08.B" ? entry.Id[..3] : entry.Id;
         if (!File.Exists(Path.Combine(output, "first-pass", previous + ".svg"))) return "";
-        var revised = new[] { "B02", "B06.B", "B08", "B09", "B10", "B11", "B12", "B13", "B14" }.Contains(entry.Id);
+        var revised = new[] { "B02", "B06.B", "B08", "B08.B", "B09", "B10", "B11", "B12", "B13", "B14" }.Contains(entry.Id);
         if (!revised) return "";
         XNamespace ns = "http://www.w3.org/2000/svg";
         var root = XDocument.Parse(svg).Root!;

@@ -41,6 +41,12 @@ CROPS = {
     (428, 4): (.20, .49, .49, .645),
 }
 
+# Later source studies keep reviewed crop locations beside their authoring
+# helpers. These remain presentation references, never generation parameters.
+for crop_file in Path(__file__).parent.glob("bourgoin_extended_*_crops.json"):
+    for key, crop in json.loads(crop_file.read_text(encoding="utf-8")).items():
+        CROPS[tuple(int(part) for part in key.split(":"))] = tuple(crop)
+
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
