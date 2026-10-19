@@ -32,6 +32,12 @@ public sealed class OrnamentProgram
         Surface = new(frame.Surface, new Relation(motifs, new Relation(transforms, new Relation(parameters, layout))));
     }
 
+    // A parsed declaration already has an identity. Preserve it when other
+    // imported contracts refer to that very declaration rather than a copy.
+    internal OrnamentProgram(QualitativeMotionFrame frame, Relation motifs, Relation transforms,
+        Relation parameters, Relation layout, Relation surface) : this(frame, motifs, transforms, parameters, layout)
+    { Surface = surface; }
+
     public static Relation Window(IElement startU, IElement startV, int columns, int rows)
     {
         ArgumentOutOfRangeException.ThrowIfNegative(columns); ArgumentOutOfRangeException.ThrowIfNegative(rows);
@@ -213,7 +219,7 @@ public sealed class OrnamentProgram
             root.Left is not Relation { Left: var actualFrame, Right: Relation { Left: Relation motifs,
                 Right: Relation { Left: Relation transforms, Right: Relation { Left: Relation parameters, Right: Relation layout } } } } program ||
             !ReferenceEquals(actualFrame, frameRead.Target.Surface) || root.Right is not Relation { Left: Relation bindings, Right: Relation window }) return false;
-        var read = new OrnamentProgram(frameRead.Target, motifs, transforms, parameters, layout);
+        var read = new OrnamentProgram(frameRead.Target, motifs, transforms, parameters, layout, program);
         sample = new(read, bindings, window, source, new(frameRead.Witness, witness)); unresolved = S(); return true;
     }
 

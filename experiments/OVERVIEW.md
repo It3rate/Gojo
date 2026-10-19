@@ -20,6 +20,12 @@ specific unresolved questions back down through local services.
 The [executable ornament format](../Gojo/docs/GojoOrnamentProgramEncoding.md)
 then separates reusable native generation programs from their parameters and
 sampled patches, including save/load and standalone execution.
+The [Bourgoin construction study](../Gojo/docs/GojoBourgoinEncodingStudy.md)
+then exercises source-derived geometric fields with explicit public-landmark
+seams, separate finite boundaries, and imported programs that can sample new
+windows without an authoring factory. Its
+[source comparison gallery](QualitativeFrieze/results/bourgoin-patterns/gallery.html)
+states reconstruction limits alongside each example.
 
 ## Reading order
 

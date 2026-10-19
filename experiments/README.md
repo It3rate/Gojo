@@ -31,6 +31,7 @@ prediction and control, grounded in these experiments.
 | Recognition evidence and ordinal placement | [Firmness report](../Gojo/docs/GojoQualitativeRecognitionFirmness.md), [evidence reader](QualitativeFrieze/QualitativeDispositionEvidence.cs), [placement](QualitativeFrieze/QualitativeRecognitionPlacement.cs) | [Interactive gallery](QualitativeFrieze/results/recognition-firmness/gallery.html) |
 | Hierarchical pattern recognition | [Report](../Gojo/docs/GojoHierarchicalRecognition.md), [phase grammar](QualitativeFrieze/QualitativePatternGrammar.cs), [layered study](QualitativeFrieze/QualitativeHierarchicalRecognitionStudy.cs) | [Interactive gallery](QualitativeFrieze/results/hierarchical-recognition/gallery.html) |
 | Executable ornament program encoding | [Format and findings](../Gojo/docs/GojoOrnamentProgramEncoding.md), [native program](QualitativeFrieze/OrnamentProgram.cs) | [Six samples and runnable archive](QualitativeFrieze/results/ornament-program/gallery.html) |
+| Bourgoin geometric ornament constructions | [Findings and sources](../Gojo/docs/GojoBourgoinEncodingStudy.md), [native field assembler](QualitativeFrieze/OrnamentProgramField.cs) | [Source comparison gallery and replayable packets](QualitativeFrieze/results/bourgoin-patterns/gallery.html) |
 
 ## Fresh checkout
 
@@ -61,6 +62,8 @@ does not expand those claims.
 dotnet run --project experiments/QualitativeFrieze -c Release -- --recognition-firmness
 dotnet run --project experiments/QualitativeFrieze -c Release -- --hierarchical-recognition
 dotnet run --project experiments/QualitativeFrieze -c Release -- --ornament-program
+
+dotnet run --project experiments/QualitativeFrieze -c Release -- --bourgoin-patterns
 dotnet run --project experiments/UtilityEcology -c Release -- --seed-trial --pilot --phase-length 512 --output experiments/UtilityEcology/results/new-seed-pilot
 ./experiments/Phototaxis.Browser/Start-Preview.ps1
 ```

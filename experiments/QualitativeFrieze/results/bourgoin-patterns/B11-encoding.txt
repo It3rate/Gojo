@@ -1,0 +1,87 @@
+ACTUAL STORED SAMPLE — GRAPH-DERIVED INSPECTION
+
+Aliases below identify actual native participants in this sample. They are local presentation names, not executable tags, a canonical encoding, or a parsable replacement for program.gojo.json.
+R/L and U/D name the two declared ordered axes and their reverse directions. [ ... ] is an ordered closed scope; Open[ ... ] retains an unknown tail. Every move occurrence is shown separately. Each chord word is one drawing action; its internal move terms do not introduce intermediate line corners.
+O is the declared native frame-origin marker. Start and placement words use that reference; [] means empty displacement and does not by itself identify two physical sites.
+
+MOTIF DEFINITIONS
+M1:
+  M1.path1 starts at []
+    M1.path1.chord1 = [R(u) R(u)]
+    M1.path1.chord2 = [U(u)]
+    M1.path1.chord3 = [R(u) R(u)]
+    M1.path1.chord4 = [D(u)]
+    M1.path1.chord5 = [R(u) R(u)]
+    closure = not declared
+  M1.path2 starts at []
+    M1.path2.chord1 = [U(u) U(u)]
+    M1.path2.chord2 = [L(u)]
+    M1.path2.chord3 = [U(u) U(u)]
+    M1.path2.chord4 = [R(u)]
+    M1.path2.chord5 = [U(u) U(u)]
+    closure = not declared
+  M1.port1 selects M1.path1.chord1 (cursor before this chord)
+  M1.port2 selects M1.path1.chord2 (cursor before this chord)
+  M1.port3 selects M1.path1.chord3 (cursor before this chord)
+  M1.port4 selects M1.path1.chord4 (cursor before this chord)
+  M1.port5 selects M1.path1.chord5 (cursor before this chord)
+  M1.port6 selects M1.path1.end (terminal cursor)
+  M1.port7 selects M1.path2.chord1 (cursor before this chord)
+  M1.port8 selects M1.path2.chord2 (cursor before this chord)
+  M1.port9 selects M1.path2.chord3 (cursor before this chord)
+  M1.port10 selects M1.path2.chord4 (cursor before this chord)
+  M1.port11 selects M1.path2.chord5 (cursor before this chord)
+  M1.port12 selects M1.path2.end (terminal cursor)
+
+TRANSFORM SUBSTITUTIONS
+T1 (declared frame -> same declared frame):
+  R(u) -> [R(u)]
+  L(u) -> [L(u)]
+  U(u) -> [U(u)]
+  D(u) -> [D(u)]
+T2 (declared frame -> same declared frame):
+  R(u) -> [L(u)]
+  L(u) -> [R(u)]
+  U(u) -> [U(u)]
+  D(u) -> [D(u)]
+T3 (declared frame -> same declared frame):
+  R(u) -> [U(u)]
+  L(u) -> [D(u)]
+  U(u) -> [L(u)]
+  D(u) -> [R(u)]
+T4 (declared frame -> same declared frame):
+  R(u) -> [L(u)]
+  L(u) -> [R(u)]
+  U(u) -> [D(u)]
+  D(u) -> [U(u)]
+
+PARAMETER DOMAINS AND SELECTED BINDINGS
+P1 allows [M1]; selected M1
+P2 allows [T1 T2 T3 T4]; selected T1
+P3 allows [[R(u) R(u) R(u) R(u) R(u) R(u)]]; selected [R(u) R(u) R(u) R(u) R(u) R(u)]
+P4 allows [[U(u) U(u) U(u) U(u) U(u) U(u)]]; selected [U(u) U(u) U(u) U(u) U(u) U(u)]
+P5 allows [T1 T2 T3 T4]; selected T2
+
+LAYOUT PHASES AND RULES
+Column cycle roles = [U0]
+  U0 -> U0
+Row cycle roles = [V0 V1]
+  V0 -> V1
+  V1 -> V0
+Column displacement reads P3; row displacement reads P4.
+  (U0, V0) -> (motif P1, transform P2)
+  (U0, V1) -> (motif P1, transform P5)
+
+SAMPLED WINDOW
+Start roles = (U0, V0).
+Column occurrence slots = [c0 c1 c2 c3]
+Row occurrence slots = [r0 r1 r2 r3]
+These finite scopes sample 16 accepted unit occurrences. Slot counts and aliases are diagnostic reads, not calibrated lengths or clocks.
+
+SHARED REACHES
+u = one actual shared, unmeasured reach identity. Reuse means shared participation; no numerical size is supplied.
+
+
+EXPLICIT FIELD READ
+Accepted seams: 73; blocked: 0; unresolved: 0; declared finite frontier: 54.
+Seam declarations select actual motif/transform identities and public roles. Finite offsets walk the sampled occurrence order. Equal display positions do not propose new joins. Parallel stroke participations are retained.

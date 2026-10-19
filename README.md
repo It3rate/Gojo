@@ -90,6 +90,10 @@ separates shared motifs and periodic layout rules from parameter bindings,
 sampling windows and expanded execution. Its
 [gallery](experiments/QualitativeFrieze/results/ornament-program/gallery.html)
 includes six samples from a saved native program, with standalone replay.
+The [Bourgoin construction study](Gojo/docs/GojoBourgoinEncodingStudy.md)
+tests a broader source-derived vocabulary and explicit seams between repeated
+units. Its [comparison gallery](experiments/QualitativeFrieze/results/bourgoin-patterns/gallery.html)
+places native generated fields beside the cited historical diagrams.
 
 For example, run the prospective-prediction experiment and its notebook tests
 from the repository root:

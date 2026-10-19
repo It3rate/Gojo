@@ -225,7 +225,7 @@ public static class OrnamentProgramExperiment
 
     /// <summary>Presentation aliases are derived from actual native scopes.
     /// This report is neither an executable language nor an alternate parser.</summary>
-    private static string Describe(OrnamentProgramStudy.Variant sample)
+    internal static string Describe(OrnamentProgramStudy.Variant sample)
     {
         var program = sample.Program;
         var text = new StringBuilder("ACTUAL STORED SAMPLE — GRAPH-DERIVED INSPECTION\n\n");
