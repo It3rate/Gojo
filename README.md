@@ -120,6 +120,10 @@ The [geometric transformation follow-up](Gojo/docs/GojoLatticeGeometryTransforma
 then changes the actual spans with notches, bends, cuts, shared runs and moved
 hubs. Its [before/after gallery](experiments/QualitativeFrieze/results/lattice-transformations/gallery.html)
 separates real support change from regrouping or rescaling the same pattern.
+The [interior-first study](Gojo/docs/GojoLatticeInteriorStudy.md) merges actual
+atomic faces into non-overlapping cells, with explicit competing seam claims.
+Its [hundred-case gallery](experiments/QualitativeFrieze/results/lattice-interiors/gallery.html)
+compares filled interiors, outlines and removed dividers.
 The [coloured ornament collection](experiments/QualitativeFrieze/results/coloured-ornament/gallery.html)
 adds native landmark-bound petals, leaves and medallions, with three selectable
 focuses guided by Jones's colour and hierarchy proposals. Its

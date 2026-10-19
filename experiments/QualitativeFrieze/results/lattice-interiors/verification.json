@@ -1,0 +1,159 @@
+{
+  "schema": "gojo-lattice-interiors-verification-v1",
+  "capturedAtUtc": "2026-10-19T22:12:29.367508+00:00",
+  "solutionTests": {
+    "command": "dotnet test Gojo.slnx -c Release --logger trx --results-directory artifacts/lattice-interiors-final-solution-tests --nologo",
+    "assemblies": 12,
+    "passed": 4389,
+    "failed": 0,
+    "skipped": 0,
+    "newStructuralTests": 38,
+    "results": [
+      {
+        "assembly": "Gojo.Tests.dll",
+        "passed": 1069,
+        "failed": 0,
+        "skipped": 0,
+        "trx": "Robin_WINROBIN_2026-10-19_17_07_13_net10.0.trx",
+        "sha256": "44d14f951b64abd5b045a9798fc243caa1b052fd251af8925db385871079bf73"
+      },
+      {
+        "assembly": "PrimitiveForager.Tests.dll",
+        "passed": 6,
+        "failed": 0,
+        "skipped": 0,
+        "trx": "Robin_WINROBIN_2026-10-19_17_07_15_net10.0.trx",
+        "sha256": "e594f1cb566213c52ff179b9bf0d748b492746e5c85c964ec48c46f3993918a0"
+      },
+      {
+        "assembly": "PrimitiveLearning.Tests.dll",
+        "passed": 66,
+        "failed": 0,
+        "skipped": 0,
+        "trx": "Robin_WINROBIN_2026-10-19_17_07_16_net10.0.trx",
+        "sha256": "3576f783954ba9ba7e7796e0ecea8d824f97030e586e2660b91d58c0ca59cf58"
+      },
+      {
+        "assembly": "CompositeEmergence.Tests.dll",
+        "passed": 66,
+        "failed": 0,
+        "skipped": 0,
+        "trx": "Robin_WINROBIN_2026-10-19_17_07_16_net10.0[1].trx",
+        "sha256": "55ff4c70b9636a4f23aded2cd4e56b238731efb416dff4312d5252dab2cc6eaa"
+      },
+      {
+        "assembly": "Phototaxis.Tests.dll",
+        "passed": 129,
+        "failed": 0,
+        "skipped": 0,
+        "trx": "Robin_WINROBIN_2026-10-19_17_07_18_net10.0.trx",
+        "sha256": "9391b0ed3416f0ec0051db320615ec35874821298491d466d4afd1e99658656d"
+      },
+      {
+        "assembly": "Minds.Tests.dll",
+        "passed": 49,
+        "failed": 0,
+        "skipped": 0,
+        "trx": "Robin_WINROBIN_2026-10-19_17_07_21_net10.0.trx",
+        "sha256": "1c317c1af4310e5dece93012a62de48b8299c977732cbd7366363654181e0964"
+      },
+      {
+        "assembly": "QualitativeExecution.Tests.dll",
+        "passed": 1959,
+        "failed": 0,
+        "skipped": 0,
+        "trx": "Robin_WINROBIN_2026-10-19_17_07_25_net10.0.trx",
+        "sha256": "ad870fb47cc608d5c5669fd4ee2541edae08595b1da9f990a234a48f0975fd11"
+      },
+      {
+        "assembly": "GojoCAD.Tests.dll",
+        "passed": 155,
+        "failed": 0,
+        "skipped": 0,
+        "trx": "Robin_WINROBIN_2026-10-19_17_07_33_net10.0.trx",
+        "sha256": "1bed93ed4dcef011e7d738056c8d9cfffa507a571f907811b65a1772b07e7b4b"
+      },
+      {
+        "assembly": "Gojo.GearShapeLadder.Tests.dll",
+        "passed": 21,
+        "failed": 0,
+        "skipped": 0,
+        "trx": "Robin_WINROBIN_2026-10-19_17_07_34_net10.0.trx",
+        "sha256": "b2363bc150c7dfcc163640ed0c6c0b3c2277ce22c5c7620d4e97dc9c9a7c5ddc"
+      },
+      {
+        "assembly": "Gojo.Encoding.Tests.dll",
+        "passed": 725,
+        "failed": 0,
+        "skipped": 0,
+        "trx": "Robin_WINROBIN_2026-10-19_17_07_35_net10.0.trx",
+        "sha256": "5af58cd6f602cc3aba54336e1350de7903420b0f946c540e8d28ba8f26c5b176"
+      },
+      {
+        "assembly": "AdaptiveLifecycle.Tests.dll",
+        "passed": 25,
+        "failed": 0,
+        "skipped": 0,
+        "trx": "Robin_WINROBIN_2026-10-19_17_08_11_net10.0.trx",
+        "sha256": "8b67c1f282b2761dab27521b8caf74d989be54d224c3892ef02ec6a218a0be17"
+      },
+      {
+        "assembly": "UtilityEcology.Tests.dll",
+        "passed": 119,
+        "failed": 0,
+        "skipped": 0,
+        "trx": "Robin_WINROBIN_2026-10-19_17_08_11_net10.0[1].trx",
+        "sha256": "cef31e8ddaabce97606a5263cc5a1a7ca551bdf88927ca797fcfd57d9c7de54b"
+      }
+    ]
+  },
+  "build": {
+    "command": "dotnet build experiments/QualitativeFrieze/QualitativeFrieze.csproj -c Release -o artifacts/lattice-interiors-bin --nologo",
+    "warnings": 0,
+    "errors": 0
+  },
+  "nativeExecution": {
+    "command": "dotnet artifacts/lattice-interiors-bin/QualitativeFrieze.dll --lattice-interiors",
+    "cases": 100,
+    "embeddedExclusivePartitions": 100,
+    "periodicFiniteFields": 100,
+    "distinctFiniteInteriorReads": 100,
+    "finalCells": 5373,
+    "atomicFaces": 25668,
+    "removedInternalEdges": 22500,
+    "sharedInterCellEdges": 19091,
+    "multiplyOwnedAtoms": 0,
+    "unownedAtoms": 0,
+    "overlappingAtomPairs": 0,
+    "nativeNumericParticipants": 0,
+    "displayedStages": 310,
+    "retainedIncompatibleProposalStages": 10,
+    "matchedTranslatedAtomPairs": 25668,
+    "nativeConstructionBytes": 20237060,
+    "representativeRulePackets": 5,
+    "rejectedRuleExamples": 4
+  },
+  "browser": {
+    "report": "browser-check.json",
+    "passed": true,
+    "checks": 2826,
+    "walkedStages": 310,
+    "walkedModes": 930,
+    "renderedInteriorCases": 100,
+    "widths": [
+      1440,
+      430
+    ],
+    "scriptErrors": 0,
+    "failedRequests": 0,
+    "presentationNote": "Actual boundary dart vertices retained through SVG projection; independent polygon audit uses 1e-7 display-unit tolerance."
+  },
+  "independentAggregation": "independent-summary.json",
+  "limits": [
+    "Exact partition and convex-atom embedding in a supplied finite domain; not arbitrary polygon booleans or image recognition.",
+    "Finite native template correspondence and period area checked; not a theorem about every infinite continuation.",
+    "No numeric carriers; exact geometric checks use counted formal reach participation and integer arithmetic.",
+    "Shape preferences are authored diagnostics in the selected embedding; anisotropic legal fields remain review cases.",
+    "Contested face owners are explicitly supplied choices; autonomous aesthetic negotiation and learning are not implemented."
+  ]
+}

@@ -111,3 +111,4 @@ Visualizations/Gojo.Demos.Web/minds/** -text whitespace=cr-at-eol
 # Preserve the captured browser-input hashes of the lattice research galleries.
 /experiments/QualitativeFrieze/results/lattice-catalogue/** -text -whitespace
 /experiments/QualitativeFrieze/results/lattice-transformations/** -text -whitespace
+/experiments/QualitativeFrieze/results/lattice-interiors/** -text -whitespace

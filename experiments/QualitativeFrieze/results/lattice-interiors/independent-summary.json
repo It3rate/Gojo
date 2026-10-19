@@ -1,0 +1,108 @@
+{
+  "generatedAt": "2026-10-19T22:09:17.942Z",
+  "scope": "Independent aggregation of supplied native diagnostics plus manual rendered-sheet review; not an independent human-preference validation",
+  "inputSha256": "d7c6159a0c9df3f4a23c2607d8a782515959d5fd4c0fcdfdfd3b6977968a2f22",
+  "cases": 100,
+  "exclusiveFinals": 100,
+  "embeddedFinals": 100,
+  "periodicFinals": 100,
+  "nativeCarrierFreeCases": 100,
+  "distinctFiniteInteriorReads": 100,
+  "atomAccountingFinals": 100,
+  "sharedBoundaryFinals": 100,
+  "casesWithWithdrawnInternalEdges": 100,
+  "unsettledProposalStages": [
+    {
+      "id": "I091",
+      "multiplyOwnedAtoms": 15,
+      "blocked": 15,
+      "open": 0
+    },
+    {
+      "id": "I092",
+      "multiplyOwnedAtoms": 30,
+      "blocked": 30,
+      "open": 0
+    },
+    {
+      "id": "I093",
+      "multiplyOwnedAtoms": 30,
+      "blocked": 30,
+      "open": 0
+    },
+    {
+      "id": "I094",
+      "multiplyOwnedAtoms": 60,
+      "blocked": 60,
+      "open": 0
+    },
+    {
+      "id": "I095",
+      "multiplyOwnedAtoms": 60,
+      "blocked": 60,
+      "open": 0
+    },
+    {
+      "id": "I096",
+      "multiplyOwnedAtoms": 30,
+      "blocked": 30,
+      "open": 0
+    },
+    {
+      "id": "I097",
+      "multiplyOwnedAtoms": 75,
+      "blocked": 75,
+      "open": 0
+    },
+    {
+      "id": "I098",
+      "multiplyOwnedAtoms": 60,
+      "blocked": 60,
+      "open": 0
+    },
+    {
+      "id": "I099",
+      "multiplyOwnedAtoms": 75,
+      "blocked": 75,
+      "open": 0
+    },
+    {
+      "id": "I100",
+      "multiplyOwnedAtoms": 60,
+      "blocked": 60,
+      "open": 0
+    }
+  ],
+  "finalCells": 5373,
+  "broadSides": {
+    "minimum": 3,
+    "maximum": 20
+  },
+  "boxOccupancy": {
+    "minimum": 0.20512820512820512,
+    "maximum": 1
+  },
+  "finalBoundaryDetailWarnings": 0,
+  "visualReview": {
+    "strengths": [
+      "I021",
+      "I035",
+      "I043",
+      "I048",
+      "I064",
+      "I066",
+      "I069",
+      "I090",
+      "I091"
+    ],
+    "weakerButLegalAnisotropicDisplays": [
+      "I004",
+      "I019",
+      "I044",
+      "I049",
+      "I053",
+      "I059"
+    ],
+    "notes": "Closed L/T/step cells and polyhex interiors are legible as shared spaces. Very narrow stretched fields have weaker shape legibility at overview size; this is a preference, not a topology violation. Actual diagrams are finite whole-cell patches with visible frontiers."
+  }
+}
