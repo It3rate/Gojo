@@ -1,22 +1,28 @@
 {
-  "schema": "gojo-ornament-region-presentation-check-v1",
-  "baseline": "485046a",
-  "nativeIdentityEvidence": "BourgoinBandedCourseOrnamentTests: actual source hook-start bindings and quarter-related petal orbits",
+  "schema": "gojo-ornament-focus-colour-check-v1",
+  "baseline": "ba9ec84",
+  "scope": "Presentation only: six B13/B14 colour readings; source contours and native motifs preserved",
   "errors": [],
-  "geometryUnchanged": 105,
-  "nativePacketsUnchanged": 105,
-  "focusPacketsUnchanged": 105,
-  "revisedPrograms": 3,
-  "regionFamilies": [
+  "designs": 108,
+  "geometryUnchanged": 108,
+  "nativePacketsUnchanged": 108,
+  "focusPacketsUnchanged": 108,
+  "unchangedOtherMainSvgs": 102,
+  "changedTargetMainSvgs": 6,
+  "targetVariantGeometryUnchanged": 30,
+  "sixDistinctPalettes": true,
+  "regions": [
     {
       "source": "B13",
       "mode": "field",
       "view": "field",
+      "palette": "Indigo, clay, flax & olive interlocks",
+      "signature": "#F1E8D6|#4B667A|#B16D57|#D8CCA4|#949E76|#EEE8D3|#3F535B",
       "fills": [
-        "rgb(104, 133, 138)",
-        "rgb(174, 128, 109)",
-        "rgb(212, 199, 167)",
-        "rgb(164, 171, 134)"
+        "rgb(75, 102, 122)",
+        "rgb(177, 109, 87)",
+        "rgb(216, 204, 164)",
+        "rgb(148, 158, 118)"
       ],
       "groups": [
         "0",
@@ -24,26 +30,38 @@
         "2",
         "3"
       ],
-      "opacity": [
-        1
-      ],
-      "parentOpacity": [
-        1
-      ],
       "contoursClosed": true,
-      "colouredSourcePigments": [],
-      "sourcePigments": 0,
-      "masses": 36
+      "sourceOpaque": true,
+      "colouredSourceBoundaryStrokes": 0,
+      "sourceFamilyMeanSeparation": 0.21423550415018766,
+      "motif": {
+        "elements": 0,
+        "colours": [],
+        "opacity": [],
+        "meanContrast": null
+      },
+      "detail": {
+        "elements": 36,
+        "colours": [
+          "rgb(63, 83, 91)"
+        ],
+        "opacity": [
+          0.2
+        ],
+        "meanContrast": 0.047240907525801124
+      }
     },
     {
       "source": "B13",
       "mode": "field",
       "view": "unit",
+      "palette": "Indigo, clay, flax & olive interlocks",
+      "signature": "#F1E8D6|#4B667A|#B16D57|#D8CCA4|#949E76|#EEE8D3|#3F535B",
       "fills": [
-        "rgb(104, 133, 138)",
-        "rgb(174, 128, 109)",
-        "rgb(212, 199, 167)",
-        "rgb(164, 171, 134)"
+        "rgb(75, 102, 122)",
+        "rgb(177, 109, 87)",
+        "rgb(216, 204, 164)",
+        "rgb(148, 158, 118)"
       ],
       "groups": [
         "0",
@@ -51,26 +69,38 @@
         "2",
         "3"
       ],
-      "opacity": [
-        1
-      ],
-      "parentOpacity": [
-        1
-      ],
       "contoursClosed": true,
-      "colouredSourcePigments": [],
-      "sourcePigments": 0,
-      "masses": 4
+      "sourceOpaque": true,
+      "colouredSourceBoundaryStrokes": 0,
+      "sourceFamilyMeanSeparation": 0.21423550415018766,
+      "motif": {
+        "elements": 0,
+        "colours": [],
+        "opacity": [],
+        "meanContrast": null
+      },
+      "detail": {
+        "elements": 4,
+        "colours": [
+          "rgb(63, 83, 91)"
+        ],
+        "opacity": [
+          0.2
+        ],
+        "meanContrast": 0.04724090752580114
+      }
     },
     {
       "source": "B13",
       "mode": "motif",
       "view": "field",
+      "palette": "Celadon, copper, flax & slate leaves",
+      "signature": "#E8DEC8|#58756D|#A88669|#B8AF8C|#717F96|#FAE3B6|#344A4B",
       "fills": [
-        "rgb(104, 133, 138)",
-        "rgb(174, 128, 109)",
-        "rgb(212, 199, 167)",
-        "rgb(164, 171, 134)"
+        "rgb(88, 117, 109)",
+        "rgb(168, 134, 105)",
+        "rgb(184, 175, 140)",
+        "rgb(113, 127, 150)"
       ],
       "groups": [
         "0",
@@ -78,26 +108,42 @@
         "2",
         "3"
       ],
-      "opacity": [
-        1
-      ],
-      "parentOpacity": [
-        1
-      ],
       "contoursClosed": true,
-      "colouredSourcePigments": [],
-      "sourcePigments": 0,
-      "masses": 36
+      "sourceOpaque": true,
+      "colouredSourceBoundaryStrokes": 0,
+      "sourceFamilyMeanSeparation": 0.13914634458991834,
+      "motif": {
+        "elements": 72,
+        "colours": [
+          "rgb(250, 227, 182)"
+        ],
+        "opacity": [
+          0.95
+        ],
+        "meanContrast": 0.2834198984531358
+      },
+      "detail": {
+        "elements": 36,
+        "colours": [
+          "rgb(52, 74, 75)"
+        ],
+        "opacity": [
+          0.65
+        ],
+        "meanContrast": 0.15756568026638365
+      }
     },
     {
       "source": "B13",
       "mode": "motif",
       "view": "unit",
+      "palette": "Celadon, copper, flax & slate leaves",
+      "signature": "#E8DEC8|#58756D|#A88669|#B8AF8C|#717F96|#FAE3B6|#344A4B",
       "fills": [
-        "rgb(104, 133, 138)",
-        "rgb(174, 128, 109)",
-        "rgb(212, 199, 167)",
-        "rgb(164, 171, 134)"
+        "rgb(88, 117, 109)",
+        "rgb(168, 134, 105)",
+        "rgb(184, 175, 140)",
+        "rgb(113, 127, 150)"
       ],
       "groups": [
         "0",
@@ -105,26 +151,42 @@
         "2",
         "3"
       ],
-      "opacity": [
-        1
-      ],
-      "parentOpacity": [
-        1
-      ],
       "contoursClosed": true,
-      "colouredSourcePigments": [],
-      "sourcePigments": 0,
-      "masses": 4
+      "sourceOpaque": true,
+      "colouredSourceBoundaryStrokes": 0,
+      "sourceFamilyMeanSeparation": 0.13914634458991834,
+      "motif": {
+        "elements": 8,
+        "colours": [
+          "rgb(250, 227, 182)"
+        ],
+        "opacity": [
+          0.95
+        ],
+        "meanContrast": 0.2834198984531351
+      },
+      "detail": {
+        "elements": 4,
+        "colours": [
+          "rgb(52, 74, 75)"
+        ],
+        "opacity": [
+          0.65
+        ],
+        "meanContrast": 0.15756568026638365
+      }
     },
     {
       "source": "B13",
       "mode": "detail",
       "view": "field",
+      "palette": "Midnight chambers & amber foliage",
+      "signature": "#323B49|#495564|#65546A|#55685F|#6A6152|#E8BE73|#25313B",
       "fills": [
-        "rgb(104, 133, 138)",
-        "rgb(174, 128, 109)",
-        "rgb(212, 199, 167)",
-        "rgb(164, 171, 134)"
+        "rgb(73, 85, 100)",
+        "rgb(101, 84, 106)",
+        "rgb(85, 104, 95)",
+        "rgb(106, 97, 82)"
       ],
       "groups": [
         "0",
@@ -132,26 +194,42 @@
         "2",
         "3"
       ],
-      "opacity": [
-        1
-      ],
-      "parentOpacity": [
-        1
-      ],
       "contoursClosed": true,
-      "colouredSourcePigments": [],
-      "sourcePigments": 0,
-      "masses": 36
+      "sourceOpaque": true,
+      "colouredSourceBoundaryStrokes": 0,
+      "sourceFamilyMeanSeparation": 0.05989519730395589,
+      "motif": {
+        "elements": 144,
+        "colours": [
+          "rgb(232, 190, 115)"
+        ],
+        "opacity": [
+          1
+        ],
+        "meanContrast": 0.3631831761717542
+      },
+      "detail": {
+        "elements": 72,
+        "colours": [
+          "rgb(37, 49, 59)"
+        ],
+        "opacity": [
+          0.95
+        ],
+        "meanContrast": 0.16576784562600697
+      }
     },
     {
       "source": "B13",
       "mode": "detail",
       "view": "unit",
+      "palette": "Midnight chambers & amber foliage",
+      "signature": "#323B49|#495564|#65546A|#55685F|#6A6152|#E8BE73|#25313B",
       "fills": [
-        "rgb(104, 133, 138)",
-        "rgb(174, 128, 109)",
-        "rgb(212, 199, 167)",
-        "rgb(164, 171, 134)"
+        "rgb(73, 85, 100)",
+        "rgb(101, 84, 106)",
+        "rgb(85, 104, 95)",
+        "rgb(106, 97, 82)"
       ],
       "groups": [
         "0",
@@ -159,26 +237,42 @@
         "2",
         "3"
       ],
-      "opacity": [
-        1
-      ],
-      "parentOpacity": [
-        1
-      ],
       "contoursClosed": true,
-      "colouredSourcePigments": [],
-      "sourcePigments": 0,
-      "masses": 4
+      "sourceOpaque": true,
+      "colouredSourceBoundaryStrokes": 0,
+      "sourceFamilyMeanSeparation": 0.05989519730395589,
+      "motif": {
+        "elements": 16,
+        "colours": [
+          "rgb(232, 190, 115)"
+        ],
+        "opacity": [
+          1
+        ],
+        "meanContrast": 0.36318317617175533
+      },
+      "detail": {
+        "elements": 8,
+        "colours": [
+          "rgb(37, 49, 59)"
+        ],
+        "opacity": [
+          0.95
+        ],
+        "meanContrast": 0.1657678456260075
+      }
     },
     {
       "source": "B14",
       "mode": "field",
       "view": "field",
+      "palette": "Lake, garnet, porcelain & honey interlocks",
+      "signature": "#F1E8D9|#416F77|#A56A79|#D7D6C0|#BC9E69|#E8DECC|#3D5258",
       "fills": [
-        "rgb(107, 142, 136)",
-        "rgb(160, 128, 149)",
-        "rgb(208, 194, 163)",
-        "rgb(181, 164, 119)"
+        "rgb(65, 111, 119)",
+        "rgb(165, 106, 121)",
+        "rgb(215, 214, 192)",
+        "rgb(188, 158, 105)"
       ],
       "groups": [
         "0",
@@ -186,26 +280,38 @@
         "2",
         "3"
       ],
-      "opacity": [
-        1
-      ],
-      "parentOpacity": [
-        1
-      ],
       "contoursClosed": true,
-      "colouredSourcePigments": [],
-      "sourcePigments": 0,
-      "masses": 36
+      "sourceOpaque": true,
+      "colouredSourceBoundaryStrokes": 0,
+      "sourceFamilyMeanSeparation": 0.22738782082810047,
+      "motif": {
+        "elements": 0,
+        "colours": [],
+        "opacity": [],
+        "meanContrast": null
+      },
+      "detail": {
+        "elements": 36,
+        "colours": [
+          "rgb(61, 82, 88)"
+        ],
+        "opacity": [
+          0.2
+        ],
+        "meanContrast": 0.05085422860735207
+      }
     },
     {
       "source": "B14",
       "mode": "field",
       "view": "unit",
+      "palette": "Lake, garnet, porcelain & honey interlocks",
+      "signature": "#F1E8D9|#416F77|#A56A79|#D7D6C0|#BC9E69|#E8DECC|#3D5258",
       "fills": [
-        "rgb(107, 142, 136)",
-        "rgb(160, 128, 149)",
-        "rgb(208, 194, 163)",
-        "rgb(181, 164, 119)"
+        "rgb(65, 111, 119)",
+        "rgb(165, 106, 121)",
+        "rgb(215, 214, 192)",
+        "rgb(188, 158, 105)"
       ],
       "groups": [
         "0",
@@ -213,26 +319,38 @@
         "2",
         "3"
       ],
-      "opacity": [
-        1
-      ],
-      "parentOpacity": [
-        1
-      ],
       "contoursClosed": true,
-      "colouredSourcePigments": [],
-      "sourcePigments": 0,
-      "masses": 4
+      "sourceOpaque": true,
+      "colouredSourceBoundaryStrokes": 0,
+      "sourceFamilyMeanSeparation": 0.22738782082810047,
+      "motif": {
+        "elements": 0,
+        "colours": [],
+        "opacity": [],
+        "meanContrast": null
+      },
+      "detail": {
+        "elements": 4,
+        "colours": [
+          "rgb(61, 82, 88)"
+        ],
+        "opacity": [
+          0.2
+        ],
+        "meanContrast": 0.05085422860735207
+      }
     },
     {
       "source": "B14",
       "mode": "motif",
       "view": "field",
+      "palette": "Heather, rose, sage & ochre leaves",
+      "signature": "#E7DED7|#88768B|#A18E87|#B4BAA7|#B7A06F|#F8ECDE|#4F4B59",
       "fills": [
-        "rgb(107, 142, 136)",
-        "rgb(160, 128, 149)",
-        "rgb(208, 194, 163)",
-        "rgb(181, 164, 119)"
+        "rgb(136, 118, 139)",
+        "rgb(161, 142, 135)",
+        "rgb(180, 186, 167)",
+        "rgb(183, 160, 111)"
       ],
       "groups": [
         "0",
@@ -240,26 +358,42 @@
         "2",
         "3"
       ],
-      "opacity": [
-        1
-      ],
-      "parentOpacity": [
-        1
-      ],
       "contoursClosed": true,
-      "colouredSourcePigments": [],
-      "sourcePigments": 0,
-      "masses": 36
+      "sourceOpaque": true,
+      "colouredSourceBoundaryStrokes": 0,
+      "sourceFamilyMeanSeparation": 0.12047798292368452,
+      "motif": {
+        "elements": 72,
+        "colours": [
+          "rgb(248, 236, 222)"
+        ],
+        "opacity": [
+          0.95
+        ],
+        "meanContrast": 0.2524612487126029
+      },
+      "detail": {
+        "elements": 36,
+        "colours": [
+          "rgb(79, 75, 89)"
+        ],
+        "opacity": [
+          0.65
+        ],
+        "meanContrast": 0.17149034202126104
+      }
     },
     {
       "source": "B14",
       "mode": "motif",
       "view": "unit",
+      "palette": "Heather, rose, sage & ochre leaves",
+      "signature": "#E7DED7|#88768B|#A18E87|#B4BAA7|#B7A06F|#F8ECDE|#4F4B59",
       "fills": [
-        "rgb(107, 142, 136)",
-        "rgb(160, 128, 149)",
-        "rgb(208, 194, 163)",
-        "rgb(181, 164, 119)"
+        "rgb(136, 118, 139)",
+        "rgb(161, 142, 135)",
+        "rgb(180, 186, 167)",
+        "rgb(183, 160, 111)"
       ],
       "groups": [
         "0",
@@ -267,26 +401,42 @@
         "2",
         "3"
       ],
-      "opacity": [
-        1
-      ],
-      "parentOpacity": [
-        1
-      ],
       "contoursClosed": true,
-      "colouredSourcePigments": [],
-      "sourcePigments": 0,
-      "masses": 4
+      "sourceOpaque": true,
+      "colouredSourceBoundaryStrokes": 0,
+      "sourceFamilyMeanSeparation": 0.12047798292368452,
+      "motif": {
+        "elements": 8,
+        "colours": [
+          "rgb(248, 236, 222)"
+        ],
+        "opacity": [
+          0.95
+        ],
+        "meanContrast": 0.2524612487126033
+      },
+      "detail": {
+        "elements": 4,
+        "colours": [
+          "rgb(79, 75, 89)"
+        ],
+        "opacity": [
+          0.65
+        ],
+        "meanContrast": 0.17149034202126118
+      }
     },
     {
       "source": "B14",
       "mode": "detail",
       "view": "field",
+      "palette": "Porcelain chambers & mulberry foliage",
+      "signature": "#F4EFE1|#D4DFD1|#E1D6DE|#DCD7C4|#C4DADD|#76566A|#F6ECD6",
       "fills": [
-        "rgb(107, 142, 136)",
-        "rgb(160, 128, 149)",
-        "rgb(208, 194, 163)",
-        "rgb(181, 164, 119)"
+        "rgb(212, 223, 209)",
+        "rgb(225, 214, 222)",
+        "rgb(220, 215, 196)",
+        "rgb(196, 218, 221)"
       ],
       "groups": [
         "0",
@@ -294,26 +444,42 @@
         "2",
         "3"
       ],
-      "opacity": [
-        1
-      ],
-      "parentOpacity": [
-        1
-      ],
       "contoursClosed": true,
-      "colouredSourcePigments": [],
-      "sourcePigments": 0,
-      "masses": 36
+      "sourceOpaque": true,
+      "colouredSourceBoundaryStrokes": 0,
+      "sourceFamilyMeanSeparation": 0.03525028779863883,
+      "motif": {
+        "elements": 144,
+        "colours": [
+          "rgb(118, 86, 106)"
+        ],
+        "opacity": [
+          1
+        ],
+        "meanContrast": 0.3939613744454848
+      },
+      "detail": {
+        "elements": 72,
+        "colours": [
+          "rgb(246, 236, 214)"
+        ],
+        "opacity": [
+          0.95
+        ],
+        "meanContrast": 0.06733150680419318
+      }
     },
     {
       "source": "B14",
       "mode": "detail",
       "view": "unit",
+      "palette": "Porcelain chambers & mulberry foliage",
+      "signature": "#F4EFE1|#D4DFD1|#E1D6DE|#DCD7C4|#C4DADD|#76566A|#F6ECD6",
       "fills": [
-        "rgb(107, 142, 136)",
-        "rgb(160, 128, 149)",
-        "rgb(208, 194, 163)",
-        "rgb(181, 164, 119)"
+        "rgb(212, 223, 209)",
+        "rgb(225, 214, 222)",
+        "rgb(220, 215, 196)",
+        "rgb(196, 218, 221)"
       ],
       "groups": [
         "0",
@@ -321,174 +487,127 @@
         "2",
         "3"
       ],
-      "opacity": [
-        1
-      ],
-      "parentOpacity": [
-        1
-      ],
       "contoursClosed": true,
-      "colouredSourcePigments": [],
-      "sourcePigments": 0,
-      "masses": 4
+      "sourceOpaque": true,
+      "colouredSourceBoundaryStrokes": 0,
+      "sourceFamilyMeanSeparation": 0.03525028779863883,
+      "motif": {
+        "elements": 16,
+        "colours": [
+          "rgb(118, 86, 106)"
+        ],
+        "opacity": [
+          1
+        ],
+        "meanContrast": 0.3939613744454857
+      },
+      "detail": {
+        "elements": 8,
+        "colours": [
+          "rgb(246, 236, 214)"
+        ],
+        "opacity": [
+          0.95
+        ],
+        "meanContrast": 0.06733150680419316
+      }
     }
   ],
-  "bandedCourses": [
+  "progression": [
     {
-      "mode": "field",
-      "view": "field",
-      "width": 48.2712,
-      "reach": 8.533,
-      "widthInReaches": 5.657002226649479,
-      "centrelineSpacing": 96.52431820790657,
-      "negativeGap": 48.253118207906574,
-      "widthToSpacing": 0.5000936644382946,
-      "sourcePaths": 36,
-      "expectedCentres": 18,
-      "petalsAtCentres": [
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0
+      "source": "B13",
+      "sourceFamilySeparation": [
+        {
+          "mode": "field",
+          "value": 0.21423550415018766
+        },
+        {
+          "mode": "motif",
+          "value": 0.13914634458991834
+        },
+        {
+          "mode": "detail",
+          "value": 0.05989519730395589
+        }
       ],
-      "otherContours": 0,
-      "otherContoursCentred": true
+      "leafContrast": [
+        {
+          "mode": "field",
+          "value": null
+        },
+        {
+          "mode": "motif",
+          "value": 0.2834198984531358
+        },
+        {
+          "mode": "detail",
+          "value": 0.3631831761717542
+        }
+      ],
+      "veinContrast": [
+        {
+          "mode": "field",
+          "value": 0.047240907525801124
+        },
+        {
+          "mode": "motif",
+          "value": 0.15756568026638365
+        },
+        {
+          "mode": "detail",
+          "value": 0.16576784562600697
+        }
+      ],
+      "sourceSeparationReduced": true,
+      "accentRelativeContrastIncreased": true
     },
     {
-      "mode": "field",
-      "view": "unit",
-      "width": 36.3179,
-      "reach": 6.42,
-      "widthInReaches": 5.6569937694704056,
-      "centrelineSpacing": 72.63506922429924,
-      "negativeGap": 36.31716922429924,
-      "widthToSpacing": 0.5000050304605513,
-      "sourcePaths": 4,
-      "expectedCentres": 2,
-      "petalsAtCentres": [
-        0,
-        0
+      "source": "B14",
+      "sourceFamilySeparation": [
+        {
+          "mode": "field",
+          "value": 0.22738782082810047
+        },
+        {
+          "mode": "motif",
+          "value": 0.12047798292368452
+        },
+        {
+          "mode": "detail",
+          "value": 0.03525028779863883
+        }
       ],
-      "otherContours": 0,
-      "otherContoursCentred": true
-    },
-    {
-      "mode": "motif",
-      "view": "field",
-      "width": 48.2712,
-      "reach": 8.533,
-      "widthInReaches": 5.657002226649479,
-      "centrelineSpacing": 96.52431820790657,
-      "negativeGap": 48.253118207906574,
-      "widthToSpacing": 0.5000936644382946,
-      "sourcePaths": 36,
-      "expectedCentres": 18,
-      "petalsAtCentres": [
-        4,
-        4,
-        4,
-        4,
-        4,
-        4,
-        4,
-        4,
-        4,
-        4,
-        4,
-        4,
-        4,
-        4,
-        4,
-        4,
-        4,
-        4
+      "leafContrast": [
+        {
+          "mode": "field",
+          "value": null
+        },
+        {
+          "mode": "motif",
+          "value": 0.2524612487126029
+        },
+        {
+          "mode": "detail",
+          "value": 0.3939613744454848
+        }
       ],
-      "otherContours": 18,
-      "otherContoursCentred": true
-    },
-    {
-      "mode": "motif",
-      "view": "unit",
-      "width": 36.3179,
-      "reach": 6.42,
-      "widthInReaches": 5.6569937694704056,
-      "centrelineSpacing": 72.63506922429924,
-      "negativeGap": 36.31716922429924,
-      "widthToSpacing": 0.5000050304605513,
-      "sourcePaths": 4,
-      "expectedCentres": 2,
-      "petalsAtCentres": [
-        4,
-        4
+      "veinContrast": [
+        {
+          "mode": "field",
+          "value": 0.05085422860735207
+        },
+        {
+          "mode": "motif",
+          "value": 0.17149034202126104
+        },
+        {
+          "mode": "detail",
+          "value": 0.06733150680419318
+        }
       ],
-      "otherContours": 2,
-      "otherContoursCentred": true
-    },
-    {
-      "mode": "detail",
-      "view": "field",
-      "width": 48.2712,
-      "reach": 8.533,
-      "widthInReaches": 5.657002226649479,
-      "centrelineSpacing": 96.52431820790657,
-      "negativeGap": 48.253118207906574,
-      "widthToSpacing": 0.5000936644382946,
-      "sourcePaths": 36,
-      "expectedCentres": 18,
-      "petalsAtCentres": [
-        4,
-        4,
-        4,
-        4,
-        4,
-        4,
-        4,
-        4,
-        4,
-        4,
-        4,
-        4,
-        4,
-        4,
-        4,
-        4,
-        4,
-        4
-      ],
-      "otherContours": 18,
-      "otherContoursCentred": true
-    },
-    {
-      "mode": "detail",
-      "view": "unit",
-      "width": 36.3179,
-      "reach": 6.42,
-      "widthInReaches": 5.6569937694704056,
-      "centrelineSpacing": 72.63506922429924,
-      "negativeGap": 36.31716922429924,
-      "widthToSpacing": 0.5000050304605513,
-      "sourcePaths": 4,
-      "expectedCentres": 2,
-      "petalsAtCentres": [
-        4,
-        4
-      ],
-      "otherContours": 2,
-      "otherContoursCentred": true
+      "sourceSeparationReduced": true,
+      "accentRelativeContrastIncreased": true
     }
-  ]
+  ],
+  "screenshot": "C:\\Users\\Robin\\source\\repos\\Gojo\\artifacts\\ornament-focus-palettes.png"
 }

@@ -1,16 +1,19 @@
 {
-  "schema": "gojo-ornament-presentation-verification-v2",
+  "schema": "gojo-ornament-presentation-verification-v3",
   "solutionTests": {
     "command": "dotnet test Gojo.slnx -c Release --logger trx --results-directory artifacts/ornament-crossing-tests --nologo",
     "assemblies": 12,
     "passed": 4273,
     "failed": 0,
-    "skipped": 0
+    "skipped": 0,
+    "checkpoint": "ba9ec84",
+    "scope": "Last native implementation checkpoint; current follow-up changes display palettes and styles only."
   },
   "focusedChecks": {
     "B32": 7,
     "quietSerifAndSourceTiling": 18,
-    "purpose": "Actual source-port anchoring, quarter-related petals, source retention, chamber tiling and contained current leaves"
+    "purpose": "Actual source-port anchoring, quarter-related petals, source retention, chamber tiling and contained current leaves",
+    "checkpoint": "ba9ec84"
   },
   "nativeCollection": {
     "designs": 108,
@@ -20,25 +23,25 @@
     "blocked": 0,
     "open": 0,
     "numericParticipants": 0,
-    "changedPrograms": 3,
-    "unchangedPrograms": 105,
-    "changedFamilies": [
-      "B32"
-    ],
+    "changedPrograms": 0,
+    "unchangedPrograms": 108,
+    "changedFamilies": [],
     "presentationOnlyFamilies": [
       "B13",
       "B14"
     ],
-    "comparisonCheckpoint": "485046a"
+    "comparisonCheckpoint": "ba9ec84"
   },
   "presentation": {
-    "paletteInterpretations": 23,
+    "paletteInterpretations": 27,
     "serifFieldColours": 4,
     "sourceColouredBoundaryStrokes": false,
     "B32Overall": "Retained courses only",
     "B32Ornament": "Two small fourfold rosettes per unit at actual opposed hook-start ports",
     "B32BandToParallelPitch": 0.5,
-    "geometryAndNativePacketsUnchanged": 105
+    "geometryAndNativePacketsUnchanged": 108,
+    "distinctSerifFocusPalettes": 6,
+    "focusProgression": "Four contrasting chambers → cream leaves → amber on dark / mulberry on pale; source colour differences decrease while leaf and vein emphasis increases."
   },
   "conceptualReview": {
     "reviewedFineVariants": 36,
@@ -51,8 +54,17 @@
   "presentationReport": "presentation-check.json",
   "limitations": [
     "Band width, contour fill, outline and palette remain presentation interpretations.",
-    "105 native programs and focus packets are unchanged from485046a; only B32 native authoring is revised.",
+    "All108 native programs and108 focus packets are unchanged fromba9ec84; this follow-up changes colour and presentation emphasis only.",
     "The website edition includes all full fields and unit views; archives and alternate/history views remain in the research checkout.",
     "No native occupied-face, universal aesthetic or infinite-tiling claim is established."
-  ]
+  ],
+  "currentPass": {
+    "displayOnly": true,
+    "build": "Release build succeeded with zero warnings/errors",
+    "uniqueFocusPalettes": 6,
+    "changedMainSvgPresentations": 6,
+    "unchangedOtherMainSvgs": 102,
+    "nativeArchivesUnchanged": 216,
+    "guideGeometriesUnchanged": 108
+  }
 }

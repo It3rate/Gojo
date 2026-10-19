@@ -1,78 +1,73 @@
 {
-  "schema": "gojo-ornament-publication-check-v2",
+  "schema": "gojo-ornament-publication-check-v3",
   "dateUtc": "2026-10-19",
   "url": "https://gojo.inklingai.ca/ornaments/flowing-grammar/",
   "index": "https://gojo.inklingai.ca/ornaments/",
   "providerDeploymentUrl": "https://kind-river-0ad511b0f.7.azurestaticapps.net",
   "deploymentResult": "succeeded",
   "bundle": {
-    "bytes": 257537928,
+    "bytes": 257541007,
     "allowedBytes": 262144000,
-    "headroomBytes": 4606072,
+    "headroomBytes": 4602993,
     "files": 1788
   },
   "webEdition": {
     "designs": 108,
     "executedUnitViews": 108,
-    "paletteInterpretations": 23,
-    "nativeProgramChanges": 3,
+    "paletteInterpretations": 27,
+    "uniqueB13B14FocusPalettes": 6,
+    "nativeProgramChanges": 0,
     "presentationOnlyChanges": 6,
-    "unchangedNativePrograms": 105,
-    "unchangedDesigns": 99,
-    "comparisonCheckpoint": "485046a",
+    "unchangedNativePrograms": 108,
+    "unchangedDesigns": 102,
+    "comparisonCheckpoint": "ba9ec84",
     "nativeArchives": "Retained in research checkout"
   },
   "localBrowserVerification": {
-    "schema": "gojo-ornament-region-publication-local-v1",
+    "schema": "gojo-ornament-focus-publication-local-check-v1",
     "passed": true,
-    "build": {
-      "collections": 2,
-      "generatedFiles": 420,
-      "generatedBytes": 34593697,
-      "flowingGrammarFiles": 228,
-      "flowingGrammarBytes": 15650252,
-      "bourgoinFiles": 191,
-      "bourgoinBytes": 18939971
-    },
-    "sourceHashes": {
-      "flowingGrammar": 221,
-      "bourgoin": 186
-    },
-    "linkedResources": 403,
-    "browserChecks": [
+    "collections": 2,
+    "files": 420,
+    "buildBytes": 34596776,
+    "flowingGrammarBytes": 15653331,
+    "bourgoinBytes": 18939971,
+    "sourceFilesUnchanged": true,
+    "links": 403,
+    "hashes": 407,
+    "checks": [
+      "builder",
+      "builder --check",
+      "published artifact hashes",
+      "linked resources",
       "navigation",
       "gallery aliases",
-      "mode and unit controls",
-      "desktop and mobile layout",
-      "missing assets return 404"
+      "focus and per-card controls",
+      "unit views",
+      "mobile layouts"
     ],
-    "screenshots": "artifacts/ornament-region-publication-local-qa",
-    "log": "artifacts/ornament-region-publication-local-qa.log",
-    "publicationTreeBytes": 34600911,
-    "publicationTreeDeltaFrom485046a": 133949,
-    "deployed": false
+    "screenshotsDirectory": "artifacts/ornament-focus-publication-local-qa"
   },
   "liveBrowserVerification": {
-    "schema": "gojo-ornament-region-publication-live-v1",
+    "schema": "gojo-ornament-focus-publication-live-check-v1",
     "passed": true,
-    "origin": "https://gojo.inklingai.ca",
+    "target": "https://gojo.inklingai.ca",
     "collections": 2,
-    "sourceHashes": {
-      "flowingGrammar": 221,
-      "bourgoin": 186,
-      "total": 407
-    },
-    "linkedResources": 403,
-    "browserChecks": [
+    "files": 420,
+    "buildBytes": 34596776,
+    "flowingGrammarBytes": 15653331,
+    "bourgoinBytes": 18939971,
+    "links": 403,
+    "hashes": 407,
+    "checks": [
+      "published artifact hashes",
+      "linked resources",
       "navigation",
       "gallery aliases",
-      "mode and unit controls",
-      "desktop and mobile layout",
-      "missing assets return 404"
+      "focus and per-card controls",
+      "unit views",
+      "mobile layouts"
     ],
-    "screenshots": "artifacts/ornament-region-publication-live-qa",
-    "log": "artifacts/ornament-region-publication-live-qa.log",
-    "errors": []
+    "screenshotsDirectory": "artifacts/ornament-focus-publication-live-qa"
   },
   "preservedApplicationAssets": {
     "schema": "gojo-ornament-production-preservation-v1",

@@ -28,8 +28,18 @@ public static partial class BourgoinColourExperiment
 
     private static Palette RefinedPalette(string source, string mode)
     {
-        if (source == "B13") return new("Muted blue, clay, flax & olive chambers", "#EEE7D7", "#68858A", "#AE806D", "#D4C7A7", "#A4AB86", "#F4EDDA", "#45565A", .12);
-        if (source == "B14") return new("Muted teal, mauve, flax & ochre chambers", "#EEE7D7", "#6B8E88", "#A08095", "#D0C2A3", "#B5A477", "#F4EDDA", "#4C5554", .12);
+        if (source == "B13") return mode switch
+        {
+            "field" => new("Indigo, clay, flax & olive interlocks", "#F1E8D6", "#4B667A", "#B16D57", "#D8CCA4", "#949E76", "#EEE8D3", "#3F535B", .12),
+            "motif" => new("Celadon, copper, flax & slate leaves", "#E8DEC8", "#58756D", "#A88669", "#B8AF8C", "#717F96", "#FAE3B6", "#344A4B", .12),
+            _ => new("Midnight chambers & amber foliage", "#323B49", "#495564", "#65546A", "#55685F", "#6A6152", "#E8BE73", "#25313B", .12)
+        };
+        if (source == "B14") return mode switch
+        {
+            "field" => new("Lake, garnet, porcelain & honey interlocks", "#F1E8D9", "#416F77", "#A56A79", "#D7D6C0", "#BC9E69", "#E8DECC", "#3D5258", .12),
+            "motif" => new("Heather, rose, sage & ochre leaves", "#E7DED7", "#88768B", "#A18E87", "#B4BAA7", "#B7A06F", "#F8ECDE", "#4F4B59", .12),
+            _ => new("Porcelain chambers & mulberry foliage", "#F4EFE1", "#D4DFD1", "#E1D6DE", "#DCD7C4", "#C4DADD", "#76566A", "#F6ECD6", .12)
+        };
         if (source == "B32") return mode switch
         {
             "field" => new("Ivory, ink-blue & sand bands", "#F0E7D4", "#325866", "#A76445", "#EFE6D0", "#C3AA79", "#F9F3E4", "#223F4C", .12),

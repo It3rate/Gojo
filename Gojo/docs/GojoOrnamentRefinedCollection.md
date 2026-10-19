@@ -15,9 +15,10 @@ retains the previous eight detail images and their native archives from
 checkpoint `919f234` alongside the new reading.
 B08/B08.B carry diamond medallions; B09 keeps separate opposed return cups;
 B10/B11 develop pointed interior gardens. B12 uses eight-petal flowers with
-four dominant diagonal petals. B13/B14 now leave their interlocking source
-shapes dominant: centreline, single bar leaf and opposed leaf-pair readings
-replace the earlier fans, collars and interlock flowers.
+four dominant diagonal petals. B13/B14 use centreline, single bar leaf and
+opposed leaf-pair readings in place of the earlier fans, collars and interlock
+flowers. Their overall views emphasize the interlocking source shapes; their
+fine views emphasize the retained foliage.
 
 The [silhouette and separation comparison](../../experiments/QualitativeFrieze/results/ornament-refined/balance.html)
 retains the detail observations from checkpoint `037527c`. A whole-corpus
@@ -26,8 +27,11 @@ Broad lobed flowers, sixfold petal arrangements, nested leaf panels and fan
 bodies replace small on-line marks. B10/B11 now use four dominant diagonal
 petals, four short axial petals, a single centre and quieter veins, supported
 by stronger uninterrupted source rails. A later restraint pass simplifies
-all three B13/B14 native programs. Their four retained source groups have four
-restrained colours, with ivory leaves and thin neutral separators. Only the
+all three B13/B14 native programs. Each of their six focus views has a distinct
+palette: contrasting four-colour interlocks first, cream-leaf intermediate
+readings, then amber foliage on dark chambers or mulberry foliage on pale
+chambers. Finer field colours are closer together and their neutral separators
+quieter, bringing the unchanged leaves and veins forward. Only the
 actual closed source masses carry those colours: suppressing broad coloured
 boundary strokes prevents colour from overflowing into neighbouring chambers.
 The current simple leaf and opposed-pair motifs are unchanged.
