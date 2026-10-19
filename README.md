@@ -126,6 +126,10 @@ isolate the vine, corrected curl and interrupted guilloche.
 The [B08–B14 interior studies](experiments/QualitativeFrieze/results/ornament-refined/interiors-gallery.html)
 develop larger flowers, interior gardens and four-colour interlocking shapes,
 with [24 designs on one sheet](experiments/QualitativeFrieze/results/ornament-refined/interiors.html).
+The [silhouette and colour review](experiments/QualitativeFrieze/results/ornament-refined/balance.html)
+compares the enlarged detail with its previous checkpoint; a
+[conceptual-complexity table](experiments/QualitativeFrieze/results/ornament-refined/complexity.html)
+keeps reviewed reusable vocabularies separate from native encoding counts.
 
 For example, run the prospective-prediction experiment and its notebook tests
 from the repository root:

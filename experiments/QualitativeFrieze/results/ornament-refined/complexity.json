@@ -1,0 +1,2691 @@
+{
+  "schema": "gojo-ornament-complexity-review-v1",
+  "designs": 108,
+  "reviewedDetailVariants": 36,
+  "allEncodingCountsAgreeWithNativeExports": true,
+  "suggestedReviewTrigger": 12,
+  "estimateGranularity": "One repeating unit\u0027s ornamental construction vocabulary: reusable shapes, internal articulation, symmetry/repetition and attachment rules. Repeated instances are not counted separately; the underlying lattice, palette and display fillets are outside this estimate.",
+  "limits": [
+    "Conceptual estimates are authored construction-review ranges, not measured human cognitive load or autonomous discovery.",
+    "Only detail variants have reviewed estimates; other variants retain null and native statistics.",
+    "The estimate counts a repeating unit\u0027s reusable ornamental vocabulary, not its repeated instances. The underlying lattice, palette and display fillets are outside this denominator.",
+    "Native path/chord counts and retained prototype identities are separately recovered encoding statistics; neither is used as the conceptual count.",
+    "Twelve is a suggested review trigger. A range crossing it asks for a closer look, not automatic rejection.",
+    "No minimum-description-length score, learned chunker, cognitive-load predictor or SUBDUE search is implemented."
+  ],
+  "cases": [
+    {
+      "id": "R-B01-field",
+      "skeletonName": "Running brick bond",
+      "title": "B01 \u00B7 Brick panels and growing sprays",
+      "assessment": {
+        "sourceId": "B01",
+        "mode": "field",
+        "estimate": null,
+        "encoding": {
+          "sourcePaths": 4,
+          "addedPaths": 2,
+          "sourceChords": 6,
+          "addedChords": 16,
+          "retainedPrototypeIdentities": 1,
+          "witnessedPrototypePlacements": 2,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 2
+        }
+      }
+    },
+    {
+      "id": "R-B01-motif",
+      "skeletonName": "Running brick bond",
+      "title": "B01 \u00B7 Brick panels and growing sprays",
+      "assessment": {
+        "sourceId": "B01",
+        "mode": "motif",
+        "estimate": null,
+        "encoding": {
+          "sourcePaths": 4,
+          "addedPaths": 8,
+          "sourceChords": 6,
+          "addedChords": 26,
+          "retainedPrototypeIdentities": 4,
+          "witnessedPrototypePlacements": 8,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 3
+        }
+      }
+    },
+    {
+      "id": "R-B01-detail",
+      "skeletonName": "Running brick bond",
+      "title": "B01 \u00B7 Full interior ornament and articulated growth",
+      "assessment": {
+        "sourceId": "B01",
+        "mode": "detail",
+        "estimate": {
+          "minimum": 6,
+          "maximum": 9,
+          "conceptualRecipe": [
+            "broad leaf contour",
+            "axial vein",
+            "repeated fork veins",
+            "nested inner leaf",
+            "paired brick-interior placement",
+            "parent attachment"
+          ],
+          "mayExceedReviewTrigger": false,
+          "entireRangeExceedsReviewTrigger": false,
+          "basis": "Authored construction review; not autonomous conceptual discovery or a measured cognitive load."
+        },
+        "encoding": {
+          "sourcePaths": 4,
+          "addedPaths": 10,
+          "sourceChords": 6,
+          "addedChords": 30,
+          "retainedPrototypeIdentities": 5,
+          "witnessedPrototypePlacements": 10,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 2
+        }
+      }
+    },
+    {
+      "id": "R-B02-field",
+      "skeletonName": "Basket rectangles and square gaps",
+      "title": "B02 \u00B7 Woven strips with leaf and vein",
+      "assessment": {
+        "sourceId": "B02",
+        "mode": "field",
+        "estimate": null,
+        "encoding": {
+          "sourcePaths": 4,
+          "addedPaths": 8,
+          "sourceChords": 32,
+          "addedChords": 48,
+          "retainedPrototypeIdentities": 2,
+          "witnessedPrototypePlacements": 8,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 4
+        }
+      }
+    },
+    {
+      "id": "R-B02-motif",
+      "skeletonName": "Basket rectangles and square gaps",
+      "title": "B02 \u00B7 Woven strips with leaf and vein",
+      "assessment": {
+        "sourceId": "B02",
+        "mode": "motif",
+        "estimate": null,
+        "encoding": {
+          "sourcePaths": 4,
+          "addedPaths": 24,
+          "sourceChords": 32,
+          "addedChords": 60,
+          "retainedPrototypeIdentities": 6,
+          "witnessedPrototypePlacements": 24,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 4
+        }
+      }
+    },
+    {
+      "id": "R-B02-detail",
+      "skeletonName": "Basket rectangles and square gaps",
+      "title": "B02 \u00B7 Woven strips with leaf and vein",
+      "assessment": {
+        "sourceId": "B02",
+        "mode": "detail",
+        "estimate": {
+          "minimum": 6,
+          "maximum": 8,
+          "conceptualRecipe": [
+            "strip-following stem",
+            "leaf contour",
+            "midrib and branch veins",
+            "alternating rooted leaves",
+            "terminal seed",
+            "quarter-related strip placement"
+          ],
+          "mayExceedReviewTrigger": false,
+          "entireRangeExceedsReviewTrigger": false,
+          "basis": "Authored construction review; not autonomous conceptual discovery or a measured cognitive load."
+        },
+        "encoding": {
+          "sourcePaths": 4,
+          "addedPaths": 32,
+          "sourceChords": 32,
+          "addedChords": 116,
+          "retainedPrototypeIdentities": 4,
+          "witnessedPrototypePlacements": 32,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 4
+        }
+      }
+    },
+    {
+      "id": "R-B03-field",
+      "skeletonName": "Squares meet diamonds",
+      "title": "B03 \u00B7 Inset fields and quiet construction",
+      "assessment": {
+        "sourceId": "B03",
+        "mode": "field",
+        "estimate": null,
+        "encoding": {
+          "sourcePaths": 4,
+          "addedPaths": 8,
+          "sourceChords": 24,
+          "addedChords": 72,
+          "retainedPrototypeIdentities": 3,
+          "witnessedPrototypePlacements": 8,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 6
+        }
+      }
+    },
+    {
+      "id": "R-B03-motif",
+      "skeletonName": "Squares meet diamonds",
+      "title": "B03 \u00B7 Conventional leaves and medallions",
+      "assessment": {
+        "sourceId": "B03",
+        "mode": "motif",
+        "estimate": null,
+        "encoding": {
+          "sourcePaths": 4,
+          "addedPaths": 44,
+          "sourceChords": 24,
+          "addedChords": 176,
+          "retainedPrototypeIdentities": 6,
+          "witnessedPrototypePlacements": 44,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 4
+        }
+      }
+    },
+    {
+      "id": "R-B03-detail",
+      "skeletonName": "Squares meet diamonds",
+      "title": "B03 \u00B7 Full interior ornament and articulated growth",
+      "assessment": {
+        "sourceId": "B03",
+        "mode": "detail",
+        "estimate": {
+          "minimum": 6,
+          "maximum": 9,
+          "conceptualRecipe": [
+            "eight-lobed rosette contour",
+            "radial vein",
+            "eightfold vein arrangement",
+            "centre",
+            "complementary cell-family placement",
+            "parent attachment"
+          ],
+          "mayExceedReviewTrigger": false,
+          "entireRangeExceedsReviewTrigger": false,
+          "basis": "Authored construction review; not autonomous conceptual discovery or a measured cognitive load."
+        },
+        "encoding": {
+          "sourcePaths": 4,
+          "addedPaths": 40,
+          "sourceChords": 24,
+          "addedChords": 112,
+          "retainedPrototypeIdentities": 19,
+          "witnessedPrototypePlacements": 40,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 4
+        }
+      }
+    },
+    {
+      "id": "R-B04-field",
+      "skeletonName": "Honeycomb from three reused contours",
+      "title": "B04 \u00B7 Inset fields and quiet construction",
+      "assessment": {
+        "sourceId": "B04",
+        "mode": "field",
+        "estimate": null,
+        "encoding": {
+          "sourcePaths": 3,
+          "addedPaths": 6,
+          "sourceChords": 18,
+          "addedChords": 54,
+          "retainedPrototypeIdentities": 2,
+          "witnessedPrototypePlacements": 6,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 3
+        }
+      }
+    },
+    {
+      "id": "R-B04-motif",
+      "skeletonName": "Honeycomb from three reused contours",
+      "title": "B04 \u00B7 Repeated lotus and trefoil units",
+      "assessment": {
+        "sourceId": "B04",
+        "mode": "motif",
+        "estimate": null,
+        "encoding": {
+          "sourcePaths": 3,
+          "addedPaths": 21,
+          "sourceChords": 18,
+          "addedChords": 75,
+          "retainedPrototypeIdentities": 3,
+          "witnessedPrototypePlacements": 21,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 3
+        }
+      }
+    },
+    {
+      "id": "R-B04-detail",
+      "skeletonName": "Honeycomb from three reused contours",
+      "title": "B04 \u00B7 Full interior ornament and articulated growth",
+      "assessment": {
+        "sourceId": "B04",
+        "mode": "detail",
+        "estimate": {
+          "minimum": 6,
+          "maximum": 9,
+          "conceptualRecipe": [
+            "shared petal",
+            "petal vein",
+            "sixfold arrangement",
+            "centre",
+            "interior-relative placement",
+            "parent attachment"
+          ],
+          "mayExceedReviewTrigger": false,
+          "entireRangeExceedsReviewTrigger": false,
+          "basis": "Authored construction review; not autonomous conceptual discovery or a measured cognitive load."
+        },
+        "encoding": {
+          "sourcePaths": 3,
+          "addedPaths": 39,
+          "sourceChords": 18,
+          "addedChords": 138,
+          "retainedPrototypeIdentities": 3,
+          "witnessedPrototypePlacements": 39,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 3
+        }
+      }
+    },
+    {
+      "id": "R-B05-field",
+      "skeletonName": "Hexagons with triangular interstices",
+      "title": "B05 \u00B7 Hexagonal lotus and inward buds",
+      "assessment": {
+        "sourceId": "B05",
+        "mode": "field",
+        "estimate": null,
+        "encoding": {
+          "sourcePaths": 1,
+          "addedPaths": 2,
+          "sourceChords": 6,
+          "addedChords": 18,
+          "retainedPrototypeIdentities": 2,
+          "witnessedPrototypePlacements": 2,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 1
+        }
+      }
+    },
+    {
+      "id": "R-B05-motif",
+      "skeletonName": "Hexagons with triangular interstices",
+      "title": "B05 \u00B7 Hexagonal lotus and inward buds",
+      "assessment": {
+        "sourceId": "B05",
+        "mode": "motif",
+        "estimate": null,
+        "encoding": {
+          "sourcePaths": 1,
+          "addedPaths": 18,
+          "sourceChords": 6,
+          "addedChords": 48,
+          "retainedPrototypeIdentities": 8,
+          "witnessedPrototypePlacements": 18,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 6
+        }
+      }
+    },
+    {
+      "id": "R-B05-detail",
+      "skeletonName": "Hexagons with triangular interstices",
+      "title": "B05 \u00B7 Hexagonal lotus and inward buds",
+      "assessment": {
+        "sourceId": "B05",
+        "mode": "detail",
+        "estimate": {
+          "minimum": 5,
+          "maximum": 8,
+          "conceptualRecipe": [
+            "petal contour",
+            "midrib and forked veins",
+            "sixfold arrangement",
+            "central seed",
+            "shared parent landmark"
+          ],
+          "mayExceedReviewTrigger": false,
+          "entireRangeExceedsReviewTrigger": false,
+          "basis": "Authored construction review; not autonomous conceptual discovery or a measured cognitive load."
+        },
+        "encoding": {
+          "sourcePaths": 1,
+          "addedPaths": 19,
+          "sourceChords": 6,
+          "addedChords": 66,
+          "retainedPrototypeIdentities": 4,
+          "witnessedPrototypePlacements": 19,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 1
+        }
+      }
+    },
+    {
+      "id": "R-B06-field",
+      "skeletonName": "Octagons with diamond gaps \u00B7 first interpretation",
+      "title": "B06 \u00B7 Inset fields and quiet construction",
+      "assessment": {
+        "sourceId": "B06",
+        "mode": "field",
+        "estimate": null,
+        "encoding": {
+          "sourcePaths": 1,
+          "addedPaths": 2,
+          "sourceChords": 8,
+          "addedChords": 20,
+          "retainedPrototypeIdentities": 2,
+          "witnessedPrototypePlacements": 2,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 1
+        }
+      }
+    },
+    {
+      "id": "R-B06-motif",
+      "skeletonName": "Octagons with diamond gaps \u00B7 first interpretation",
+      "title": "B06 \u00B7 Conventional leaves and medallions",
+      "assessment": {
+        "sourceId": "B06",
+        "mode": "motif",
+        "estimate": null,
+        "encoding": {
+          "sourcePaths": 1,
+          "addedPaths": 9,
+          "sourceChords": 8,
+          "addedChords": 32,
+          "retainedPrototypeIdentities": 3,
+          "witnessedPrototypePlacements": 9,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 1
+        }
+      }
+    },
+    {
+      "id": "R-B06-detail",
+      "skeletonName": "Octagons with diamond gaps \u00B7 first interpretation",
+      "title": "B06 \u00B7 Full interior ornament and articulated growth",
+      "assessment": {
+        "sourceId": "B06",
+        "mode": "detail",
+        "estimate": {
+          "minimum": 6,
+          "maximum": 9,
+          "conceptualRecipe": [
+            "eight-lobed rosette contour",
+            "radial vein",
+            "eightfold vein arrangement",
+            "centre",
+            "complementary cell-family placement",
+            "parent attachment"
+          ],
+          "mayExceedReviewTrigger": false,
+          "entireRangeExceedsReviewTrigger": false,
+          "basis": "Authored construction review; not autonomous conceptual discovery or a measured cognitive load."
+        },
+        "encoding": {
+          "sourcePaths": 1,
+          "addedPaths": 10,
+          "sourceChords": 8,
+          "addedChords": 36,
+          "retainedPrototypeIdentities": 10,
+          "witnessedPrototypePlacements": 10,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 1
+        }
+      }
+    },
+    {
+      "id": "R-B06.B-field",
+      "skeletonName": "Octagons with upright square gaps",
+      "title": "B06.B \u00B7 Inset fields and quiet construction",
+      "assessment": {
+        "sourceId": "B06.B",
+        "mode": "field",
+        "estimate": null,
+        "encoding": {
+          "sourcePaths": 1,
+          "addedPaths": 2,
+          "sourceChords": 8,
+          "addedChords": 20,
+          "retainedPrototypeIdentities": 2,
+          "witnessedPrototypePlacements": 2,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 1
+        }
+      }
+    },
+    {
+      "id": "R-B06.B-motif",
+      "skeletonName": "Octagons with upright square gaps",
+      "title": "B06.B \u00B7 Conventional leaves and medallions",
+      "assessment": {
+        "sourceId": "B06.B",
+        "mode": "motif",
+        "estimate": null,
+        "encoding": {
+          "sourcePaths": 1,
+          "addedPaths": 9,
+          "sourceChords": 8,
+          "addedChords": 32,
+          "retainedPrototypeIdentities": 3,
+          "witnessedPrototypePlacements": 9,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 1
+        }
+      }
+    },
+    {
+      "id": "R-B06.B-detail",
+      "skeletonName": "Octagons with upright square gaps",
+      "title": "B06.B \u00B7 Full interior ornament and articulated growth",
+      "assessment": {
+        "sourceId": "B06.B",
+        "mode": "detail",
+        "estimate": {
+          "minimum": 6,
+          "maximum": 9,
+          "conceptualRecipe": [
+            "eight-lobed rosette contour",
+            "radial vein",
+            "eightfold vein arrangement",
+            "centre",
+            "complementary cell-family placement",
+            "parent attachment"
+          ],
+          "mayExceedReviewTrigger": false,
+          "entireRangeExceedsReviewTrigger": false,
+          "basis": "Authored construction review; not autonomous conceptual discovery or a measured cognitive load."
+        },
+        "encoding": {
+          "sourcePaths": 1,
+          "addedPaths": 10,
+          "sourceChords": 8,
+          "addedChords": 36,
+          "retainedPrototypeIdentities": 10,
+          "witnessedPrototypePlacements": 10,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 1
+        }
+      }
+    },
+    {
+      "id": "R-B07-field",
+      "skeletonName": "Alternating-width orthogonal bands",
+      "title": "B07 \u00B7 Orthogonal bands and running foliage",
+      "assessment": {
+        "sourceId": "B07",
+        "mode": "field",
+        "estimate": null,
+        "encoding": {
+          "sourcePaths": 4,
+          "addedPaths": 1,
+          "sourceChords": 8,
+          "addedChords": 8,
+          "retainedPrototypeIdentities": 1,
+          "witnessedPrototypePlacements": 1,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 1
+        }
+      }
+    },
+    {
+      "id": "R-B07-motif",
+      "skeletonName": "Alternating-width orthogonal bands",
+      "title": "B07 \u00B7 Orthogonal bands and running foliage",
+      "assessment": {
+        "sourceId": "B07",
+        "mode": "motif",
+        "estimate": null,
+        "encoding": {
+          "sourcePaths": 4,
+          "addedPaths": 4,
+          "sourceChords": 8,
+          "addedChords": 11,
+          "retainedPrototypeIdentities": 4,
+          "witnessedPrototypePlacements": 4,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 1
+        }
+      }
+    },
+    {
+      "id": "R-B07-detail",
+      "skeletonName": "Alternating-width orthogonal bands",
+      "title": "B07 \u00B7 Full interior ornament and articulated growth",
+      "assessment": {
+        "sourceId": "B07",
+        "mode": "detail",
+        "estimate": {
+          "minimum": 5,
+          "maximum": 8,
+          "conceptualRecipe": [
+            "broad eight-lobed rosette contour",
+            "radial veins",
+            "centre",
+            "wide grid-interior placement",
+            "parent attachment"
+          ],
+          "mayExceedReviewTrigger": false,
+          "entireRangeExceedsReviewTrigger": false,
+          "basis": "Authored construction review; not autonomous conceptual discovery or a measured cognitive load."
+        },
+        "encoding": {
+          "sourcePaths": 4,
+          "addedPaths": 10,
+          "sourceChords": 8,
+          "addedChords": 36,
+          "retainedPrototypeIdentities": 10,
+          "witnessedPrototypePlacements": 10,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 1
+        }
+      }
+    },
+    {
+      "id": "R-B08-field",
+      "skeletonName": "Intersecting diagonal ribbons",
+      "title": "B08 \u00B7 Flower-filled ribbon diamonds",
+      "assessment": {
+        "sourceId": "B08",
+        "mode": "field",
+        "estimate": null,
+        "encoding": {
+          "sourcePaths": 4,
+          "addedPaths": 18,
+          "sourceChords": 8,
+          "addedChords": 76,
+          "retainedPrototypeIdentities": 6,
+          "witnessedPrototypePlacements": 18,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 2
+        }
+      }
+    },
+    {
+      "id": "R-B08-motif",
+      "skeletonName": "Intersecting diagonal ribbons",
+      "title": "B08 \u00B7 Flower-filled ribbon diamonds",
+      "assessment": {
+        "sourceId": "B08",
+        "mode": "motif",
+        "estimate": null,
+        "encoding": {
+          "sourcePaths": 4,
+          "addedPaths": 33,
+          "sourceChords": 8,
+          "addedChords": 106,
+          "retainedPrototypeIdentities": 11,
+          "witnessedPrototypePlacements": 33,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 2
+        }
+      }
+    },
+    {
+      "id": "R-B08-detail",
+      "skeletonName": "Intersecting diagonal ribbons",
+      "title": "B08 \u00B7 Flower-filled ribbon diamonds",
+      "assessment": {
+        "sourceId": "B08",
+        "mode": "detail",
+        "estimate": {
+          "minimum": 8,
+          "maximum": 11,
+          "conceptualRecipe": [
+            "long petal",
+            "short petal",
+            "radial alternation",
+            "petal veins",
+            "opposed horizontal leaves",
+            "nested centre collars",
+            "crossing flower",
+            "diamond-room placement"
+          ],
+          "mayExceedReviewTrigger": false,
+          "entireRangeExceedsReviewTrigger": false,
+          "basis": "Authored construction review; not autonomous conceptual discovery or a measured cognitive load."
+        },
+        "encoding": {
+          "sourcePaths": 4,
+          "addedPaths": 54,
+          "sourceChords": 8,
+          "addedChords": 170,
+          "retainedPrototypeIdentities": 17,
+          "witnessedPrototypePlacements": 54,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 2
+        }
+      }
+    },
+    {
+      "id": "R-B08.B-field",
+      "skeletonName": "Ribbons with narrow angled junctions",
+      "title": "B08.B \u00B7 Flower-filled ribbon diamonds",
+      "assessment": {
+        "sourceId": "B08.B",
+        "mode": "field",
+        "estimate": null,
+        "encoding": {
+          "sourcePaths": 4,
+          "addedPaths": 18,
+          "sourceChords": 8,
+          "addedChords": 76,
+          "retainedPrototypeIdentities": 6,
+          "witnessedPrototypePlacements": 18,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 3
+        }
+      }
+    },
+    {
+      "id": "R-B08.B-motif",
+      "skeletonName": "Ribbons with narrow angled junctions",
+      "title": "B08.B \u00B7 Flower-filled ribbon diamonds",
+      "assessment": {
+        "sourceId": "B08.B",
+        "mode": "motif",
+        "estimate": null,
+        "encoding": {
+          "sourcePaths": 4,
+          "addedPaths": 33,
+          "sourceChords": 8,
+          "addedChords": 106,
+          "retainedPrototypeIdentities": 11,
+          "witnessedPrototypePlacements": 33,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 3
+        }
+      }
+    },
+    {
+      "id": "R-B08.B-detail",
+      "skeletonName": "Ribbons with narrow angled junctions",
+      "title": "B08.B \u00B7 Flower-filled ribbon diamonds",
+      "assessment": {
+        "sourceId": "B08.B",
+        "mode": "detail",
+        "estimate": {
+          "minimum": 8,
+          "maximum": 11,
+          "conceptualRecipe": [
+            "long petal",
+            "short petal",
+            "radial alternation",
+            "petal veins",
+            "opposed horizontal leaves",
+            "nested centre collars",
+            "crossing flower",
+            "diamond-room placement"
+          ],
+          "mayExceedReviewTrigger": false,
+          "entireRangeExceedsReviewTrigger": false,
+          "basis": "Authored construction review; not autonomous conceptual discovery or a measured cognitive load."
+        },
+        "encoding": {
+          "sourcePaths": 4,
+          "addedPaths": 54,
+          "sourceChords": 8,
+          "addedChords": 170,
+          "retainedPrototypeIdentities": 17,
+          "witnessedPrototypePlacements": 54,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 3
+        }
+      }
+    },
+    {
+      "id": "R-B09-field",
+      "skeletonName": "Detached S-shaped fret units",
+      "title": "B09 \u00B7 Palmettes in opposed S returns",
+      "assessment": {
+        "sourceId": "B09",
+        "mode": "field",
+        "estimate": null,
+        "encoding": {
+          "sourcePaths": 1,
+          "addedPaths": 4,
+          "sourceChords": 7,
+          "addedChords": 24,
+          "retainedPrototypeIdentities": 2,
+          "witnessedPrototypePlacements": 4,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 2
+        }
+      }
+    },
+    {
+      "id": "R-B09-motif",
+      "skeletonName": "Detached S-shaped fret units",
+      "title": "B09 \u00B7 Palmettes in opposed S returns",
+      "assessment": {
+        "sourceId": "B09",
+        "mode": "motif",
+        "estimate": null,
+        "encoding": {
+          "sourcePaths": 1,
+          "addedPaths": 8,
+          "sourceChords": 7,
+          "addedChords": 30,
+          "retainedPrototypeIdentities": 4,
+          "witnessedPrototypePlacements": 8,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 2
+        }
+      }
+    },
+    {
+      "id": "R-B09-detail",
+      "skeletonName": "Detached S-shaped fret units",
+      "title": "B09 \u00B7 Palmettes in opposed S returns",
+      "assessment": {
+        "sourceId": "B09",
+        "mode": "detail",
+        "estimate": {
+          "minimum": 7,
+          "maximum": 10,
+          "conceptualRecipe": [
+            "palmette outline",
+            "central rib",
+            "opposed side ribs",
+            "nested fan articulation",
+            "centre collar",
+            "opposed return-cup maps",
+            "source-relative attachment"
+          ],
+          "mayExceedReviewTrigger": false,
+          "entireRangeExceedsReviewTrigger": false,
+          "basis": "Authored construction review; not autonomous conceptual discovery or a measured cognitive load."
+        },
+        "encoding": {
+          "sourcePaths": 1,
+          "addedPaths": 12,
+          "sourceChords": 7,
+          "addedChords": 62,
+          "retainedPrototypeIdentities": 6,
+          "witnessedPrototypePlacements": 12,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 2
+        }
+      }
+    },
+    {
+      "id": "R-B10-field",
+      "skeletonName": "Direct bent-cross compartments",
+      "title": "B10 \u00B7 Pointed chambers and inward fans",
+      "assessment": {
+        "sourceId": "B10",
+        "mode": "field",
+        "estimate": null,
+        "encoding": {
+          "sourcePaths": 2,
+          "addedPaths": 18,
+          "sourceChords": 32,
+          "addedChords": 72,
+          "retainedPrototypeIdentities": 3,
+          "witnessedPrototypePlacements": 18,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 2
+        }
+      }
+    },
+    {
+      "id": "R-B10-motif",
+      "skeletonName": "Direct bent-cross compartments",
+      "title": "B10 \u00B7 Pointed chambers and inward fans",
+      "assessment": {
+        "sourceId": "B10",
+        "mode": "motif",
+        "estimate": null,
+        "encoding": {
+          "sourcePaths": 2,
+          "addedPaths": 12,
+          "sourceChords": 32,
+          "addedChords": 62,
+          "retainedPrototypeIdentities": 6,
+          "witnessedPrototypePlacements": 12,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 2
+        }
+      }
+    },
+    {
+      "id": "R-B10-detail",
+      "skeletonName": "Direct bent-cross compartments",
+      "title": "B10 \u00B7 Pointed chambers and inward fans",
+      "assessment": {
+        "sourceId": "B10",
+        "mode": "detail",
+        "estimate": {
+          "minimum": 7,
+          "maximum": 10,
+          "conceptualRecipe": [
+            "long diagonal petal",
+            "short axial petal",
+            "simple petal vein",
+            "fourfold interleaving",
+            "single centre",
+            "chamber-relative attachment",
+            "alternation between chambers"
+          ],
+          "mayExceedReviewTrigger": false,
+          "entireRangeExceedsReviewTrigger": false,
+          "basis": "Authored construction review; not autonomous conceptual discovery or a measured cognitive load."
+        },
+        "encoding": {
+          "sourcePaths": 2,
+          "addedPaths": 34,
+          "sourceChords": 32,
+          "addedChords": 136,
+          "retainedPrototypeIdentities": 5,
+          "witnessedPrototypePlacements": 34,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 2
+        }
+      }
+    },
+    {
+      "id": "R-B11-field",
+      "skeletonName": "Returned rows of bent crosses",
+      "title": "B11 \u00B7 Counterturned interior gardens",
+      "assessment": {
+        "sourceId": "B11",
+        "mode": "field",
+        "estimate": null,
+        "encoding": {
+          "sourcePaths": 4,
+          "addedPaths": 36,
+          "sourceChords": 64,
+          "addedChords": 144,
+          "retainedPrototypeIdentities": 3,
+          "witnessedPrototypePlacements": 36,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 4
+        }
+      }
+    },
+    {
+      "id": "R-B11-motif",
+      "skeletonName": "Returned rows of bent crosses",
+      "title": "B11 \u00B7 Counterturned interior gardens",
+      "assessment": {
+        "sourceId": "B11",
+        "mode": "motif",
+        "estimate": null,
+        "encoding": {
+          "sourcePaths": 4,
+          "addedPaths": 24,
+          "sourceChords": 64,
+          "addedChords": 124,
+          "retainedPrototypeIdentities": 6,
+          "witnessedPrototypePlacements": 24,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 4
+        }
+      }
+    },
+    {
+      "id": "R-B11-detail",
+      "skeletonName": "Returned rows of bent crosses",
+      "title": "B11 \u00B7 Counterturned interior gardens",
+      "assessment": {
+        "sourceId": "B11",
+        "mode": "detail",
+        "estimate": {
+          "minimum": 7,
+          "maximum": 10,
+          "conceptualRecipe": [
+            "long diagonal petal",
+            "short axial petal",
+            "simple petal vein",
+            "fourfold interleaving",
+            "single centre",
+            "chamber-relative attachment",
+            "alternation between chambers"
+          ],
+          "mayExceedReviewTrigger": false,
+          "entireRangeExceedsReviewTrigger": false,
+          "basis": "Authored construction review; not autonomous conceptual discovery or a measured cognitive load."
+        },
+        "encoding": {
+          "sourcePaths": 4,
+          "addedPaths": 68,
+          "sourceChords": 64,
+          "addedChords": 272,
+          "retainedPrototypeIdentities": 5,
+          "witnessedPrototypePlacements": 68,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 4
+        }
+      }
+    },
+    {
+      "id": "R-B12-field",
+      "skeletonName": "Closed stepped-arm compartments",
+      "title": "B12 \u00B7 Rotating eight-petal chamber flowers",
+      "assessment": {
+        "sourceId": "B12",
+        "mode": "field",
+        "estimate": null,
+        "encoding": {
+          "sourcePaths": 4,
+          "addedPaths": 36,
+          "sourceChords": 64,
+          "addedChords": 144,
+          "retainedPrototypeIdentities": 3,
+          "witnessedPrototypePlacements": 36,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 4
+        }
+      }
+    },
+    {
+      "id": "R-B12-motif",
+      "skeletonName": "Closed stepped-arm compartments",
+      "title": "B12 \u00B7 Rotating eight-petal chamber flowers",
+      "assessment": {
+        "sourceId": "B12",
+        "mode": "motif",
+        "estimate": null,
+        "encoding": {
+          "sourcePaths": 4,
+          "addedPaths": 68,
+          "sourceChords": 64,
+          "addedChords": 272,
+          "retainedPrototypeIdentities": 5,
+          "witnessedPrototypePlacements": 68,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 4
+        }
+      }
+    },
+    {
+      "id": "R-B12-detail",
+      "skeletonName": "Closed stepped-arm compartments",
+      "title": "B12 \u00B7 Rotating eight-petal chamber flowers",
+      "assessment": {
+        "sourceId": "B12",
+        "mode": "detail",
+        "estimate": {
+          "minimum": 8,
+          "maximum": 11,
+          "conceptualRecipe": [
+            "long diagonal petal",
+            "short axial petal",
+            "fourfold repetition",
+            "interleaved petal family",
+            "midrib",
+            "branch veins",
+            "nested centre",
+            "chamber-relative rotation and attachment"
+          ],
+          "mayExceedReviewTrigger": false,
+          "entireRangeExceedsReviewTrigger": false,
+          "basis": "Authored construction review; not autonomous conceptual discovery or a measured cognitive load."
+        },
+        "encoding": {
+          "sourcePaths": 4,
+          "addedPaths": 136,
+          "sourceChords": 64,
+          "addedChords": 448,
+          "retainedPrototypeIdentities": 10,
+          "witnessedPrototypePlacements": 136,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 4
+        }
+      }
+    },
+    {
+      "id": "R-B13-field",
+      "skeletonName": "Interlocking serif-I compartments",
+      "title": "B13 \u00B7 Four-colour interlocking gardens",
+      "assessment": {
+        "sourceId": "B13",
+        "mode": "field",
+        "estimate": null,
+        "encoding": {
+          "sourcePaths": 4,
+          "addedPaths": 12,
+          "sourceChords": 112,
+          "addedChords": 76,
+          "retainedPrototypeIdentities": 3,
+          "witnessedPrototypePlacements": 12,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 4
+        }
+      }
+    },
+    {
+      "id": "R-B13-motif",
+      "skeletonName": "Interlocking serif-I compartments",
+      "title": "B13 \u00B7 Four-colour interlocking gardens",
+      "assessment": {
+        "sourceId": "B13",
+        "mode": "motif",
+        "estimate": null,
+        "encoding": {
+          "sourcePaths": 4,
+          "addedPaths": 37,
+          "sourceChords": 112,
+          "addedChords": 144,
+          "retainedPrototypeIdentities": 7,
+          "witnessedPrototypePlacements": 37,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 5
+        }
+      }
+    },
+    {
+      "id": "R-B13-detail",
+      "skeletonName": "Interlocking serif-I compartments",
+      "title": "B13 \u00B7 Four-colour interlocking gardens",
+      "assessment": {
+        "sourceId": "B13",
+        "mode": "detail",
+        "estimate": {
+          "minimum": 10,
+          "maximum": 15,
+          "conceptualRecipe": [
+            "crossbar stem",
+            "opposed end-cap fans",
+            "fan ribs",
+            "nested fan articulation",
+            "long crossbar leaf",
+            "leaf veins",
+            "interlock flower",
+            "long/short petal alternation",
+            "centre collar",
+            "quarter-related sibling placement"
+          ],
+          "mayExceedReviewTrigger": true,
+          "entireRangeExceedsReviewTrigger": false,
+          "basis": "Authored construction review; not autonomous conceptual discovery or a measured cognitive load."
+        },
+        "encoding": {
+          "sourcePaths": 4,
+          "addedPaths": 81,
+          "sourceChords": 112,
+          "addedChords": 288,
+          "retainedPrototypeIdentities": 16,
+          "witnessedPrototypePlacements": 81,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 5
+        }
+      }
+    },
+    {
+      "id": "R-B14-field",
+      "skeletonName": "Dense interlocking serif-I field",
+      "title": "B14 \u00B7 Four-colour interlocking gardens",
+      "assessment": {
+        "sourceId": "B14",
+        "mode": "field",
+        "estimate": null,
+        "encoding": {
+          "sourcePaths": 4,
+          "addedPaths": 12,
+          "sourceChords": 80,
+          "addedChords": 76,
+          "retainedPrototypeIdentities": 3,
+          "witnessedPrototypePlacements": 12,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 4
+        }
+      }
+    },
+    {
+      "id": "R-B14-motif",
+      "skeletonName": "Dense interlocking serif-I field",
+      "title": "B14 \u00B7 Four-colour interlocking gardens",
+      "assessment": {
+        "sourceId": "B14",
+        "mode": "motif",
+        "estimate": null,
+        "encoding": {
+          "sourcePaths": 4,
+          "addedPaths": 37,
+          "sourceChords": 80,
+          "addedChords": 144,
+          "retainedPrototypeIdentities": 7,
+          "witnessedPrototypePlacements": 37,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 5
+        }
+      }
+    },
+    {
+      "id": "R-B14-detail",
+      "skeletonName": "Dense interlocking serif-I field",
+      "title": "B14 \u00B7 Four-colour interlocking gardens",
+      "assessment": {
+        "sourceId": "B14",
+        "mode": "detail",
+        "estimate": {
+          "minimum": 10,
+          "maximum": 15,
+          "conceptualRecipe": [
+            "crossbar stem",
+            "opposed end-cap fans",
+            "fan ribs",
+            "nested fan articulation",
+            "long crossbar leaf",
+            "leaf veins",
+            "interlock flower",
+            "long/short petal alternation",
+            "centre collar",
+            "quarter-related sibling placement"
+          ],
+          "mayExceedReviewTrigger": true,
+          "entireRangeExceedsReviewTrigger": false,
+          "basis": "Authored construction review; not autonomous conceptual discovery or a measured cognitive load."
+        },
+        "encoding": {
+          "sourcePaths": 4,
+          "addedPaths": 81,
+          "sourceChords": 80,
+          "addedChords": 288,
+          "retainedPrototypeIdentities": 16,
+          "witnessedPrototypePlacements": 81,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 5
+        }
+      }
+    },
+    {
+      "id": "R-B15-field",
+      "skeletonName": "Two-family oblique mesh",
+      "title": "B15 \u00B7 Fine lattice grain and guided leaves",
+      "assessment": {
+        "sourceId": "B15",
+        "mode": "field",
+        "estimate": null,
+        "encoding": {
+          "sourcePaths": 1,
+          "addedPaths": 1,
+          "sourceChords": 4,
+          "addedChords": 4,
+          "retainedPrototypeIdentities": 1,
+          "witnessedPrototypePlacements": 1,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 1
+        }
+      }
+    },
+    {
+      "id": "R-B15-motif",
+      "skeletonName": "Two-family oblique mesh",
+      "title": "B15 \u00B7 Fine lattice grain and guided leaves",
+      "assessment": {
+        "sourceId": "B15",
+        "mode": "motif",
+        "estimate": null,
+        "encoding": {
+          "sourcePaths": 1,
+          "addedPaths": 3,
+          "sourceChords": 4,
+          "addedChords": 9,
+          "retainedPrototypeIdentities": 3,
+          "witnessedPrototypePlacements": 3,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 1
+        }
+      }
+    },
+    {
+      "id": "R-B15-detail",
+      "skeletonName": "Two-family oblique mesh",
+      "title": "B15 \u00B7 Fine lattice grain and guided leaves",
+      "assessment": {
+        "sourceId": "B15",
+        "mode": "detail",
+        "estimate": {
+          "minimum": 5,
+          "maximum": 8,
+          "conceptualRecipe": [
+            "elongated leaf contour",
+            "midrib",
+            "forked veins",
+            "oblique correspondence",
+            "cell-relative placement"
+          ],
+          "mayExceedReviewTrigger": false,
+          "entireRangeExceedsReviewTrigger": false,
+          "basis": "Authored construction review; not autonomous conceptual discovery or a measured cognitive load."
+        },
+        "encoding": {
+          "sourcePaths": 1,
+          "addedPaths": 2,
+          "sourceChords": 4,
+          "addedChords": 7,
+          "retainedPrototypeIdentities": 2,
+          "witnessedPrototypePlacements": 2,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 1
+        }
+      }
+    },
+    {
+      "id": "R-B16-field",
+      "skeletonName": "Three-family triangular mesh",
+      "title": "B16 \u00B7 Fine lattice grain and guided leaves",
+      "assessment": {
+        "sourceId": "B16",
+        "mode": "field",
+        "estimate": null,
+        "encoding": {
+          "sourcePaths": 2,
+          "addedPaths": 2,
+          "sourceChords": 6,
+          "addedChords": 6,
+          "retainedPrototypeIdentities": 2,
+          "witnessedPrototypePlacements": 2,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 2
+        }
+      }
+    },
+    {
+      "id": "R-B16-motif",
+      "skeletonName": "Three-family triangular mesh",
+      "title": "B16 \u00B7 Fine lattice grain and guided leaves",
+      "assessment": {
+        "sourceId": "B16",
+        "mode": "motif",
+        "estimate": null,
+        "encoding": {
+          "sourcePaths": 2,
+          "addedPaths": 14,
+          "sourceChords": 6,
+          "addedChords": 50,
+          "retainedPrototypeIdentities": 3,
+          "witnessedPrototypePlacements": 14,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 2
+        }
+      }
+    },
+    {
+      "id": "R-B16-detail",
+      "skeletonName": "Three-family triangular mesh",
+      "title": "B16 \u00B7 Full interior ornament and articulated growth",
+      "assessment": {
+        "sourceId": "B16",
+        "mode": "detail",
+        "estimate": {
+          "minimum": 5,
+          "maximum": 8,
+          "conceptualRecipe": [
+            "contained petal",
+            "petal vein",
+            "threefold arrangement",
+            "triangular-cell attachment",
+            "centre"
+          ],
+          "mayExceedReviewTrigger": false,
+          "entireRangeExceedsReviewTrigger": false,
+          "basis": "Authored construction review; not autonomous conceptual discovery or a measured cognitive load."
+        },
+        "encoding": {
+          "sourcePaths": 2,
+          "addedPaths": 14,
+          "sourceChords": 6,
+          "addedChords": 50,
+          "retainedPrototypeIdentities": 3,
+          "witnessedPrototypePlacements": 14,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 2
+        }
+      }
+    },
+    {
+      "id": "R-B17-field",
+      "skeletonName": "Rectangle mesh with diagonal ties",
+      "title": "B17 \u00B7 Fine lattice grain and guided leaves",
+      "assessment": {
+        "sourceId": "B17",
+        "mode": "field",
+        "estimate": null,
+        "encoding": {
+          "sourcePaths": 3,
+          "addedPaths": 1,
+          "sourceChords": 8,
+          "addedChords": 4,
+          "retainedPrototypeIdentities": 1,
+          "witnessedPrototypePlacements": 1,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 1
+        }
+      }
+    },
+    {
+      "id": "R-B17-motif",
+      "skeletonName": "Rectangle mesh with diagonal ties",
+      "title": "B17 \u00B7 Fine lattice grain and guided leaves",
+      "assessment": {
+        "sourceId": "B17",
+        "mode": "motif",
+        "estimate": null,
+        "encoding": {
+          "sourcePaths": 3,
+          "addedPaths": 9,
+          "sourceChords": 8,
+          "addedChords": 32,
+          "retainedPrototypeIdentities": 3,
+          "witnessedPrototypePlacements": 9,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 1
+        }
+      }
+    },
+    {
+      "id": "R-B17-detail",
+      "skeletonName": "Rectangle mesh with diagonal ties",
+      "title": "B17 \u00B7 Fine lattice grain and guided leaves",
+      "assessment": {
+        "sourceId": "B17",
+        "mode": "detail",
+        "estimate": {
+          "minimum": 5,
+          "maximum": 8,
+          "conceptualRecipe": [
+            "leaf contour",
+            "midrib or internal articulation",
+            "course following",
+            "opposed/alternating local map",
+            "parent attachment"
+          ],
+          "mayExceedReviewTrigger": false,
+          "entireRangeExceedsReviewTrigger": false,
+          "basis": "Authored construction review; not autonomous conceptual discovery or a measured cognitive load."
+        },
+        "encoding": {
+          "sourcePaths": 3,
+          "addedPaths": 4,
+          "sourceChords": 8,
+          "addedChords": 24,
+          "retainedPrototypeIdentities": 1,
+          "witnessedPrototypePlacements": 4,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 4
+        }
+      }
+    },
+    {
+      "id": "R-B18-field",
+      "skeletonName": "Square mesh with diagonal ties",
+      "title": "B18 \u00B7 Fine lattice grain and guided leaves",
+      "assessment": {
+        "sourceId": "B18",
+        "mode": "field",
+        "estimate": null,
+        "encoding": {
+          "sourcePaths": 3,
+          "addedPaths": 1,
+          "sourceChords": 8,
+          "addedChords": 4,
+          "retainedPrototypeIdentities": 1,
+          "witnessedPrototypePlacements": 1,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 1
+        }
+      }
+    },
+    {
+      "id": "R-B18-motif",
+      "skeletonName": "Square mesh with diagonal ties",
+      "title": "B18 \u00B7 Fine lattice grain and guided leaves",
+      "assessment": {
+        "sourceId": "B18",
+        "mode": "motif",
+        "estimate": null,
+        "encoding": {
+          "sourcePaths": 3,
+          "addedPaths": 9,
+          "sourceChords": 8,
+          "addedChords": 32,
+          "retainedPrototypeIdentities": 3,
+          "witnessedPrototypePlacements": 9,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 1
+        }
+      }
+    },
+    {
+      "id": "R-B18-detail",
+      "skeletonName": "Square mesh with diagonal ties",
+      "title": "B18 \u00B7 Fine lattice grain and guided leaves",
+      "assessment": {
+        "sourceId": "B18",
+        "mode": "detail",
+        "estimate": {
+          "minimum": 5,
+          "maximum": 8,
+          "conceptualRecipe": [
+            "leaf contour",
+            "midrib or internal articulation",
+            "course following",
+            "opposed/alternating local map",
+            "parent attachment"
+          ],
+          "mayExceedReviewTrigger": false,
+          "entireRangeExceedsReviewTrigger": false,
+          "basis": "Authored construction review; not autonomous conceptual discovery or a measured cognitive load."
+        },
+        "encoding": {
+          "sourcePaths": 3,
+          "addedPaths": 4,
+          "sourceChords": 8,
+          "addedChords": 24,
+          "retainedPrototypeIdentities": 1,
+          "witnessedPrototypePlacements": 4,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 4
+        }
+      }
+    },
+    {
+      "id": "R-B19-field",
+      "skeletonName": "Oblique running bond",
+      "title": "B19 \u00B7 Inset fields and quiet construction",
+      "assessment": {
+        "sourceId": "B19",
+        "mode": "field",
+        "estimate": null,
+        "encoding": {
+          "sourcePaths": 1,
+          "addedPaths": 2,
+          "sourceChords": 6,
+          "addedChords": 18,
+          "retainedPrototypeIdentities": 2,
+          "witnessedPrototypePlacements": 2,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 1
+        }
+      }
+    },
+    {
+      "id": "R-B19-motif",
+      "skeletonName": "Oblique running bond",
+      "title": "B19 \u00B7 Conventional leaves and medallions",
+      "assessment": {
+        "sourceId": "B19",
+        "mode": "motif",
+        "estimate": null,
+        "encoding": {
+          "sourcePaths": 1,
+          "addedPaths": 3,
+          "sourceChords": 6,
+          "addedChords": 9,
+          "retainedPrototypeIdentities": 3,
+          "witnessedPrototypePlacements": 3,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 1
+        }
+      }
+    },
+    {
+      "id": "R-B19-detail",
+      "skeletonName": "Oblique running bond",
+      "title": "B19 \u00B7 Full interior ornament and articulated growth",
+      "assessment": {
+        "sourceId": "B19",
+        "mode": "detail",
+        "estimate": {
+          "minimum": 6,
+          "maximum": 9,
+          "conceptualRecipe": [
+            "elongated interior leaf",
+            "axial vein",
+            "repeated fork veins",
+            "nested inner leaf",
+            "cell-axis correspondence",
+            "shared parent attachment"
+          ],
+          "mayExceedReviewTrigger": false,
+          "entireRangeExceedsReviewTrigger": false,
+          "basis": "Authored construction review; not autonomous conceptual discovery or a measured cognitive load."
+        },
+        "encoding": {
+          "sourcePaths": 1,
+          "addedPaths": 5,
+          "sourceChords": 6,
+          "addedChords": 15,
+          "retainedPrototypeIdentities": 5,
+          "witnessedPrototypePlacements": 5,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 1
+        }
+      }
+    },
+    {
+      "id": "R-B20-field",
+      "skeletonName": "Three-lozenge centred network",
+      "title": "B20 \u00B7 Inset fields and quiet construction",
+      "assessment": {
+        "sourceId": "B20",
+        "mode": "field",
+        "estimate": null,
+        "encoding": {
+          "sourcePaths": 3,
+          "addedPaths": 6,
+          "sourceChords": 12,
+          "addedChords": 48,
+          "retainedPrototypeIdentities": 4,
+          "witnessedPrototypePlacements": 6,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 3
+        }
+      }
+    },
+    {
+      "id": "R-B20-motif",
+      "skeletonName": "Three-lozenge centred network",
+      "title": "B20 \u00B7 Repeated lotus and trefoil units",
+      "assessment": {
+        "sourceId": "B20",
+        "mode": "motif",
+        "estimate": null,
+        "encoding": {
+          "sourcePaths": 3,
+          "addedPaths": 21,
+          "sourceChords": 12,
+          "addedChords": 75,
+          "retainedPrototypeIdentities": 3,
+          "witnessedPrototypePlacements": 21,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 3
+        }
+      }
+    },
+    {
+      "id": "R-B20-detail",
+      "skeletonName": "Three-lozenge centred network",
+      "title": "B20 \u00B7 Veins and foliage following the scaffold",
+      "assessment": {
+        "sourceId": "B20",
+        "mode": "detail",
+        "estimate": {
+          "minimum": 5,
+          "maximum": 8,
+          "conceptualRecipe": [
+            "interior leaf",
+            "internal vein",
+            "local symmetric correspondence",
+            "cell-relative attachment",
+            "repeat through the parent disposition"
+          ],
+          "mayExceedReviewTrigger": false,
+          "entireRangeExceedsReviewTrigger": false,
+          "basis": "Authored construction review; not autonomous conceptual discovery or a measured cognitive load."
+        },
+        "encoding": {
+          "sourcePaths": 3,
+          "addedPaths": 6,
+          "sourceChords": 12,
+          "addedChords": 21,
+          "retainedPrototypeIdentities": 4,
+          "witnessedPrototypePlacements": 6,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 3
+        }
+      }
+    },
+    {
+      "id": "R-B21-field",
+      "skeletonName": "Opposed chevron lozenges",
+      "title": "B21 \u00B7 Inset fields and quiet construction",
+      "assessment": {
+        "sourceId": "B21",
+        "mode": "field",
+        "estimate": null,
+        "encoding": {
+          "sourcePaths": 2,
+          "addedPaths": 4,
+          "sourceChords": 8,
+          "addedChords": 32,
+          "retainedPrototypeIdentities": 3,
+          "witnessedPrototypePlacements": 4,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 2
+        }
+      }
+    },
+    {
+      "id": "R-B21-motif",
+      "skeletonName": "Opposed chevron lozenges",
+      "title": "B21 \u00B7 Conventional leaves and medallions",
+      "assessment": {
+        "sourceId": "B21",
+        "mode": "motif",
+        "estimate": null,
+        "encoding": {
+          "sourcePaths": 2,
+          "addedPaths": 6,
+          "sourceChords": 8,
+          "addedChords": 18,
+          "retainedPrototypeIdentities": 3,
+          "witnessedPrototypePlacements": 6,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 2
+        }
+      }
+    },
+    {
+      "id": "R-B21-detail",
+      "skeletonName": "Opposed chevron lozenges",
+      "title": "B21 \u00B7 Veins and foliage following the scaffold",
+      "assessment": {
+        "sourceId": "B21",
+        "mode": "detail",
+        "estimate": {
+          "minimum": 5,
+          "maximum": 8,
+          "conceptualRecipe": [
+            "elongated interior leaf",
+            "midrib",
+            "cell-axis correspondence",
+            "shared parent attachment",
+            "repetition through the disposition"
+          ],
+          "mayExceedReviewTrigger": false,
+          "entireRangeExceedsReviewTrigger": false,
+          "basis": "Authored construction review; not autonomous conceptual discovery or a measured cognitive load."
+        },
+        "encoding": {
+          "sourcePaths": 2,
+          "addedPaths": 4,
+          "sourceChords": 8,
+          "addedChords": 14,
+          "retainedPrototypeIdentities": 2,
+          "witnessedPrototypePlacements": 4,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 2
+        }
+      }
+    },
+    {
+      "id": "R-B22-field",
+      "skeletonName": "Alternating pointed lozenges",
+      "title": "B22 \u00B7 Inset fields and quiet construction",
+      "assessment": {
+        "sourceId": "B22",
+        "mode": "field",
+        "estimate": null,
+        "encoding": {
+          "sourcePaths": 4,
+          "addedPaths": 8,
+          "sourceChords": 16,
+          "addedChords": 64,
+          "retainedPrototypeIdentities": 3,
+          "witnessedPrototypePlacements": 8,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 7
+        }
+      }
+    },
+    {
+      "id": "R-B22-motif",
+      "skeletonName": "Alternating pointed lozenges",
+      "title": "B22 \u00B7 Conventional leaves and medallions",
+      "assessment": {
+        "sourceId": "B22",
+        "mode": "motif",
+        "estimate": null,
+        "encoding": {
+          "sourcePaths": 4,
+          "addedPaths": 12,
+          "sourceChords": 16,
+          "addedChords": 36,
+          "retainedPrototypeIdentities": 3,
+          "witnessedPrototypePlacements": 12,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 4
+        }
+      }
+    },
+    {
+      "id": "R-B22-detail",
+      "skeletonName": "Alternating pointed lozenges",
+      "title": "B22 \u00B7 Full interior ornament and articulated growth",
+      "assessment": {
+        "sourceId": "B22",
+        "mode": "detail",
+        "estimate": {
+          "minimum": 6,
+          "maximum": 9,
+          "conceptualRecipe": [
+            "elongated interior leaf",
+            "axial vein",
+            "repeated fork veins",
+            "nested inner leaf",
+            "cell-axis correspondence",
+            "shared parent attachment"
+          ],
+          "mayExceedReviewTrigger": false,
+          "entireRangeExceedsReviewTrigger": false,
+          "basis": "Authored construction review; not autonomous conceptual discovery or a measured cognitive load."
+        },
+        "encoding": {
+          "sourcePaths": 4,
+          "addedPaths": 20,
+          "sourceChords": 16,
+          "addedChords": 60,
+          "retainedPrototypeIdentities": 5,
+          "witnessedPrototypePlacements": 20,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 4
+        }
+      }
+    },
+    {
+      "id": "R-B23-field",
+      "skeletonName": "Offset squares and small square gaps",
+      "title": "B23 \u00B7 Inset fields and quiet construction",
+      "assessment": {
+        "sourceId": "B23",
+        "mode": "field",
+        "estimate": null,
+        "encoding": {
+          "sourcePaths": 1,
+          "addedPaths": 2,
+          "sourceChords": 8,
+          "addedChords": 20,
+          "retainedPrototypeIdentities": 2,
+          "witnessedPrototypePlacements": 2,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 1
+        }
+      }
+    },
+    {
+      "id": "R-B23-motif",
+      "skeletonName": "Offset squares and small square gaps",
+      "title": "B23 \u00B7 Conventional leaves and medallions",
+      "assessment": {
+        "sourceId": "B23",
+        "mode": "motif",
+        "estimate": null,
+        "encoding": {
+          "sourcePaths": 1,
+          "addedPaths": 3,
+          "sourceChords": 8,
+          "addedChords": 9,
+          "retainedPrototypeIdentities": 3,
+          "witnessedPrototypePlacements": 3,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 1
+        }
+      }
+    },
+    {
+      "id": "R-B23-detail",
+      "skeletonName": "Offset squares and small square gaps",
+      "title": "B23 \u00B7 Full interior ornament and articulated growth",
+      "assessment": {
+        "sourceId": "B23",
+        "mode": "detail",
+        "estimate": {
+          "minimum": 5,
+          "maximum": 8,
+          "conceptualRecipe": [
+            "eight-lobed flower contour",
+            "radial vein",
+            "radial vein arrangement",
+            "centre",
+            "square-relative attachment"
+          ],
+          "mayExceedReviewTrigger": false,
+          "entireRangeExceedsReviewTrigger": false,
+          "basis": "Authored construction review; not autonomous conceptual discovery or a measured cognitive load."
+        },
+        "encoding": {
+          "sourcePaths": 1,
+          "addedPaths": 10,
+          "sourceChords": 8,
+          "addedChords": 28,
+          "retainedPrototypeIdentities": 10,
+          "witnessedPrototypePlacements": 10,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 1
+        }
+      }
+    },
+    {
+      "id": "R-B24-field",
+      "skeletonName": "Sliding triangles around shorter hexagon gaps",
+      "title": "B24 \u00B7 Inset fields and quiet construction",
+      "assessment": {
+        "sourceId": "B24",
+        "mode": "field",
+        "estimate": null,
+        "encoding": {
+          "sourcePaths": 2,
+          "addedPaths": 4,
+          "sourceChords": 12,
+          "addedChords": 36,
+          "retainedPrototypeIdentities": 3,
+          "witnessedPrototypePlacements": 4,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 2
+        }
+      }
+    },
+    {
+      "id": "R-B24-motif",
+      "skeletonName": "Sliding triangles around shorter hexagon gaps",
+      "title": "B24 \u00B7 Repeated lotus and trefoil units",
+      "assessment": {
+        "sourceId": "B24",
+        "mode": "motif",
+        "estimate": null,
+        "encoding": {
+          "sourcePaths": 2,
+          "addedPaths": 14,
+          "sourceChords": 12,
+          "addedChords": 50,
+          "retainedPrototypeIdentities": 3,
+          "witnessedPrototypePlacements": 14,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 2
+        }
+      }
+    },
+    {
+      "id": "R-B24-detail",
+      "skeletonName": "Sliding triangles around shorter hexagon gaps",
+      "title": "B24 \u00B7 Full interior ornament and articulated growth",
+      "assessment": {
+        "sourceId": "B24",
+        "mode": "detail",
+        "estimate": {
+          "minimum": 5,
+          "maximum": 8,
+          "conceptualRecipe": [
+            "contained petal",
+            "petal vein",
+            "threefold arrangement",
+            "triangular-cell attachment",
+            "centre"
+          ],
+          "mayExceedReviewTrigger": false,
+          "entireRangeExceedsReviewTrigger": false,
+          "basis": "Authored construction review; not autonomous conceptual discovery or a measured cognitive load."
+        },
+        "encoding": {
+          "sourcePaths": 2,
+          "addedPaths": 14,
+          "sourceChords": 12,
+          "addedChords": 50,
+          "retainedPrototypeIdentities": 3,
+          "witnessedPrototypePlacements": 14,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 2
+        }
+      }
+    },
+    {
+      "id": "R-B25-field",
+      "skeletonName": "Six-point star junctions",
+      "title": "B25 \u00B7 Inset fields and quiet construction",
+      "assessment": {
+        "sourceId": "B25",
+        "mode": "field",
+        "estimate": null,
+        "encoding": {
+          "sourcePaths": 4,
+          "addedPaths": 2,
+          "sourceChords": 15,
+          "addedChords": 24,
+          "retainedPrototypeIdentities": 2,
+          "witnessedPrototypePlacements": 2,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 1
+        }
+      }
+    },
+    {
+      "id": "R-B25-motif",
+      "skeletonName": "Six-point star junctions",
+      "title": "B25 \u00B7 Repeated lotus and trefoil units",
+      "assessment": {
+        "sourceId": "B25",
+        "mode": "motif",
+        "estimate": null,
+        "encoding": {
+          "sourcePaths": 4,
+          "addedPaths": 13,
+          "sourceChords": 15,
+          "addedChords": 46,
+          "retainedPrototypeIdentities": 3,
+          "witnessedPrototypePlacements": 13,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 1
+        }
+      }
+    },
+    {
+      "id": "R-B25-detail",
+      "skeletonName": "Six-point star junctions",
+      "title": "B25 \u00B7 Full interior ornament and articulated growth",
+      "assessment": {
+        "sourceId": "B25",
+        "mode": "detail",
+        "estimate": {
+          "minimum": 6,
+          "maximum": 9,
+          "conceptualRecipe": [
+            "shared petal",
+            "petal vein",
+            "sixfold arrangement",
+            "centre",
+            "interior-relative placement",
+            "parent attachment"
+          ],
+          "mayExceedReviewTrigger": false,
+          "entireRangeExceedsReviewTrigger": false,
+          "basis": "Authored construction review; not autonomous conceptual discovery or a measured cognitive load."
+        },
+        "encoding": {
+          "sourcePaths": 4,
+          "addedPaths": 13,
+          "sourceChords": 15,
+          "addedChords": 54,
+          "retainedPrototypeIdentities": 3,
+          "witnessedPrototypePlacements": 13,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 1
+        }
+      }
+    },
+    {
+      "id": "R-B26-field",
+      "skeletonName": "Flat-tipped stars and twelve-ray florets",
+      "title": "B26 \u00B7 Inset fields and quiet construction",
+      "assessment": {
+        "sourceId": "B26",
+        "mode": "field",
+        "estimate": null,
+        "encoding": {
+          "sourcePaths": 13,
+          "addedPaths": 2,
+          "sourceChords": 36,
+          "addedChords": 36,
+          "retainedPrototypeIdentities": 2,
+          "witnessedPrototypePlacements": 2,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 2
+        }
+      }
+    },
+    {
+      "id": "R-B26-motif",
+      "skeletonName": "Flat-tipped stars and twelve-ray florets",
+      "title": "B26 \u00B7 Repeated lotus and trefoil units",
+      "assessment": {
+        "sourceId": "B26",
+        "mode": "motif",
+        "estimate": null,
+        "encoding": {
+          "sourcePaths": 13,
+          "addedPaths": 13,
+          "sourceChords": 36,
+          "addedChords": 46,
+          "retainedPrototypeIdentities": 3,
+          "witnessedPrototypePlacements": 13,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 1
+        }
+      }
+    },
+    {
+      "id": "R-B26-detail",
+      "skeletonName": "Flat-tipped stars and twelve-ray florets",
+      "title": "B26 \u00B7 Full interior ornament and articulated growth",
+      "assessment": {
+        "sourceId": "B26",
+        "mode": "detail",
+        "estimate": {
+          "minimum": 6,
+          "maximum": 9,
+          "conceptualRecipe": [
+            "shared petal",
+            "petal vein",
+            "sixfold arrangement",
+            "centre",
+            "interior-relative placement",
+            "parent attachment"
+          ],
+          "mayExceedReviewTrigger": false,
+          "entireRangeExceedsReviewTrigger": false,
+          "basis": "Authored construction review; not autonomous conceptual discovery or a measured cognitive load."
+        },
+        "encoding": {
+          "sourcePaths": 13,
+          "addedPaths": 13,
+          "sourceChords": 36,
+          "addedChords": 54,
+          "retainedPrototypeIdentities": 3,
+          "witnessedPrototypePlacements": 13,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 1
+        }
+      }
+    },
+    {
+      "id": "R-B27-field",
+      "skeletonName": "Angled paired-band courses",
+      "title": "B27 \u00B7 Sprouting chevron courses",
+      "assessment": {
+        "sourceId": "B27",
+        "mode": "field",
+        "estimate": null,
+        "encoding": {
+          "sourcePaths": 4,
+          "addedPaths": 3,
+          "sourceChords": 14,
+          "addedChords": 8,
+          "retainedPrototypeIdentities": 2,
+          "witnessedPrototypePlacements": 3,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 3
+        }
+      }
+    },
+    {
+      "id": "R-B27-motif",
+      "skeletonName": "Angled paired-band courses",
+      "title": "B27 \u00B7 Sprouting chevron courses",
+      "assessment": {
+        "sourceId": "B27",
+        "mode": "motif",
+        "estimate": null,
+        "encoding": {
+          "sourcePaths": 4,
+          "addedPaths": 8,
+          "sourceChords": 14,
+          "addedChords": 27,
+          "retainedPrototypeIdentities": 6,
+          "witnessedPrototypePlacements": 8,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 1
+        }
+      }
+    },
+    {
+      "id": "R-B27-detail",
+      "skeletonName": "Angled paired-band courses",
+      "title": "B27 \u00B7 Full interior ornament and articulated growth",
+      "assessment": {
+        "sourceId": "B27",
+        "mode": "detail",
+        "estimate": {
+          "minimum": 8,
+          "maximum": 11,
+          "conceptualRecipe": [
+            "ridge foliage",
+            "leaf veins",
+            "paired ridge correspondence",
+            "inset diamond",
+            "eight-lobed flower contour",
+            "radial veins",
+            "centre",
+            "parent-course attachment"
+          ],
+          "mayExceedReviewTrigger": false,
+          "entireRangeExceedsReviewTrigger": false,
+          "basis": "Authored construction review; not autonomous conceptual discovery or a measured cognitive load."
+        },
+        "encoding": {
+          "sourcePaths": 4,
+          "addedPaths": 15,
+          "sourceChords": 14,
+          "addedChords": 48,
+          "retainedPrototypeIdentities": 13,
+          "witnessedPrototypePlacements": 15,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 3
+        }
+      }
+    },
+    {
+      "id": "R-B28-field",
+      "skeletonName": "Faceted shell-fan courses",
+      "title": "B28 \u00B7 Graded lotus fans",
+      "assessment": {
+        "sourceId": "B28",
+        "mode": "field",
+        "estimate": null,
+        "encoding": {
+          "sourcePaths": 8,
+          "addedPaths": 6,
+          "sourceChords": 26,
+          "addedChords": 56,
+          "retainedPrototypeIdentities": 3,
+          "witnessedPrototypePlacements": 6,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 2
+        }
+      }
+    },
+    {
+      "id": "R-B28-motif",
+      "skeletonName": "Faceted shell-fan courses",
+      "title": "B28 \u00B7 Graded lotus fans",
+      "assessment": {
+        "sourceId": "B28",
+        "mode": "motif",
+        "estimate": null,
+        "encoding": {
+          "sourcePaths": 8,
+          "addedPaths": 24,
+          "sourceChords": 26,
+          "addedChords": 98,
+          "retainedPrototypeIdentities": 6,
+          "witnessedPrototypePlacements": 24,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 2
+        }
+      }
+    },
+    {
+      "id": "R-B28-detail",
+      "skeletonName": "Faceted shell-fan courses",
+      "title": "B28 \u00B7 Full interior ornament and articulated growth",
+      "assessment": {
+        "sourceId": "B28",
+        "mode": "detail",
+        "estimate": {
+          "minimum": 6,
+          "maximum": 9,
+          "conceptualRecipe": [
+            "five-lobed fan contour",
+            "fan rib",
+            "five-part rib arrangement",
+            "centre",
+            "common root",
+            "shell-relative attachment"
+          ],
+          "mayExceedReviewTrigger": false,
+          "entireRangeExceedsReviewTrigger": false,
+          "basis": "Authored construction review; not autonomous conceptual discovery or a measured cognitive load."
+        },
+        "encoding": {
+          "sourcePaths": 8,
+          "addedPaths": 14,
+          "sourceChords": 26,
+          "addedChords": 54,
+          "retainedPrototypeIdentities": 7,
+          "witnessedPrototypePlacements": 14,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 2
+        }
+      }
+    },
+    {
+      "id": "R-B29-field",
+      "skeletonName": "Sliding hexagons and triangular gaps",
+      "title": "B29 \u00B7 Inset fields and quiet construction",
+      "assessment": {
+        "sourceId": "B29",
+        "mode": "field",
+        "estimate": null,
+        "encoding": {
+          "sourcePaths": 1,
+          "addedPaths": 2,
+          "sourceChords": 12,
+          "addedChords": 24,
+          "retainedPrototypeIdentities": 2,
+          "witnessedPrototypePlacements": 2,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 1
+        }
+      }
+    },
+    {
+      "id": "R-B29-motif",
+      "skeletonName": "Sliding hexagons and triangular gaps",
+      "title": "B29 \u00B7 Repeated lotus and trefoil units",
+      "assessment": {
+        "sourceId": "B29",
+        "mode": "motif",
+        "estimate": null,
+        "encoding": {
+          "sourcePaths": 1,
+          "addedPaths": 13,
+          "sourceChords": 12,
+          "addedChords": 46,
+          "retainedPrototypeIdentities": 3,
+          "witnessedPrototypePlacements": 13,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 1
+        }
+      }
+    },
+    {
+      "id": "R-B29-detail",
+      "skeletonName": "Sliding hexagons and triangular gaps",
+      "title": "B29 \u00B7 Full interior ornament and articulated growth",
+      "assessment": {
+        "sourceId": "B29",
+        "mode": "detail",
+        "estimate": {
+          "minimum": 6,
+          "maximum": 9,
+          "conceptualRecipe": [
+            "shared petal",
+            "petal vein",
+            "sixfold arrangement",
+            "centre",
+            "interior-relative placement",
+            "parent attachment"
+          ],
+          "mayExceedReviewTrigger": false,
+          "entireRangeExceedsReviewTrigger": false,
+          "basis": "Authored construction review; not autonomous conceptual discovery or a measured cognitive load."
+        },
+        "encoding": {
+          "sourcePaths": 1,
+          "addedPaths": 13,
+          "sourceChords": 12,
+          "addedChords": 46,
+          "retainedPrototypeIdentities": 3,
+          "witnessedPrototypePlacements": 13,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 1
+        }
+      }
+    },
+    {
+      "id": "R-B30-field",
+      "skeletonName": "Faceted cloud-scale arches",
+      "title": "B30 \u00B7 Cloud valleys and round foliage",
+      "assessment": {
+        "sourceId": "B30",
+        "mode": "field",
+        "estimate": null,
+        "encoding": {
+          "sourcePaths": 4,
+          "addedPaths": 4,
+          "sourceChords": 80,
+          "addedChords": 80,
+          "retainedPrototypeIdentities": 1,
+          "witnessedPrototypePlacements": 4,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 4
+        }
+      }
+    },
+    {
+      "id": "R-B30-motif",
+      "skeletonName": "Faceted cloud-scale arches",
+      "title": "B30 \u00B7 Cloud valleys and round foliage",
+      "assessment": {
+        "sourceId": "B30",
+        "mode": "motif",
+        "estimate": null,
+        "encoding": {
+          "sourcePaths": 4,
+          "addedPaths": 24,
+          "sourceChords": 80,
+          "addedChords": 108,
+          "retainedPrototypeIdentities": 4,
+          "witnessedPrototypePlacements": 24,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 4
+        }
+      }
+    },
+    {
+      "id": "R-B30-detail",
+      "skeletonName": "Faceted cloud-scale arches",
+      "title": "B30 \u00B7 Full interior ornament and articulated growth",
+      "assessment": {
+        "sourceId": "B30",
+        "mode": "detail",
+        "estimate": {
+          "minimum": 5,
+          "maximum": 8,
+          "conceptualRecipe": [
+            "eight-lobed flower contour",
+            "radial veins",
+            "centre",
+            "cloud-valley placement",
+            "repeat through the parent disposition"
+          ],
+          "mayExceedReviewTrigger": false,
+          "entireRangeExceedsReviewTrigger": false,
+          "basis": "Authored construction review; not autonomous conceptual discovery or a measured cognitive load."
+        },
+        "encoding": {
+          "sourcePaths": 4,
+          "addedPaths": 40,
+          "sourceChords": 80,
+          "addedChords": 144,
+          "retainedPrototypeIdentities": 10,
+          "witnessedPrototypePlacements": 40,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 4
+        }
+      }
+    },
+    {
+      "id": "R-B31-field",
+      "skeletonName": "Slender outward arms and round markers",
+      "title": "B31 \u00B7 Outward arms with wrist foliage",
+      "assessment": {
+        "sourceId": "B31",
+        "mode": "field",
+        "estimate": null,
+        "encoding": {
+          "sourcePaths": 5,
+          "addedPaths": 4,
+          "sourceChords": 24,
+          "addedChords": 12,
+          "retainedPrototypeIdentities": 4,
+          "witnessedPrototypePlacements": 4,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 4
+        }
+      }
+    },
+    {
+      "id": "R-B31-motif",
+      "skeletonName": "Slender outward arms and round markers",
+      "title": "B31 \u00B7 Outward arms with wrist foliage",
+      "assessment": {
+        "sourceId": "B31",
+        "mode": "motif",
+        "estimate": null,
+        "encoding": {
+          "sourcePaths": 5,
+          "addedPaths": 8,
+          "sourceChords": 24,
+          "addedChords": 32,
+          "retainedPrototypeIdentities": 2,
+          "witnessedPrototypePlacements": 8,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 4
+        }
+      }
+    },
+    {
+      "id": "R-B31-detail",
+      "skeletonName": "Slender outward arms and round markers",
+      "title": "B31 \u00B7 Full interior ornament and articulated growth",
+      "assessment": {
+        "sourceId": "B31",
+        "mode": "detail",
+        "estimate": {
+          "minimum": 8,
+          "maximum": 11,
+          "conceptualRecipe": [
+            "central blossom contour",
+            "radial veins",
+            "centre",
+            "wrist leaf",
+            "leaf articulation",
+            "quarter-related arm correspondence",
+            "wrist attachment",
+            "source marker retained beneath the blossom"
+          ],
+          "mayExceedReviewTrigger": false,
+          "entireRangeExceedsReviewTrigger": false,
+          "basis": "Authored construction review; not autonomous conceptual discovery or a measured cognitive load."
+        },
+        "encoding": {
+          "sourcePaths": 5,
+          "addedPaths": 18,
+          "sourceChords": 24,
+          "addedChords": 68,
+          "retainedPrototypeIdentities": 12,
+          "witnessedPrototypePlacements": 18,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 5
+        }
+      }
+    },
+    {
+      "id": "R-B32-field",
+      "skeletonName": "Interrupted diagonal returns and valley joins",
+      "title": "B32 \u00B7 Inset fields and quiet construction",
+      "assessment": {
+        "sourceId": "B32",
+        "mode": "field",
+        "estimate": null,
+        "encoding": {
+          "sourcePaths": 4,
+          "addedPaths": 6,
+          "sourceChords": 16,
+          "addedChords": 24,
+          "retainedPrototypeIdentities": 4,
+          "witnessedPrototypePlacements": 6,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 4
+        }
+      }
+    },
+    {
+      "id": "R-B32-motif",
+      "skeletonName": "Interrupted diagonal returns and valley joins",
+      "title": "B32 \u00B7 Conventional leaves and medallions",
+      "assessment": {
+        "sourceId": "B32",
+        "mode": "motif",
+        "estimate": null,
+        "encoding": {
+          "sourcePaths": 4,
+          "addedPaths": 28,
+          "sourceChords": 16,
+          "addedChords": 96,
+          "retainedPrototypeIdentities": 6,
+          "witnessedPrototypePlacements": 28,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 2
+        }
+      }
+    },
+    {
+      "id": "R-B32-detail",
+      "skeletonName": "Interrupted diagonal returns and valley joins",
+      "title": "B32 \u00B7 Full interior ornament and articulated growth",
+      "assessment": {
+        "sourceId": "B32",
+        "mode": "detail",
+        "estimate": {
+          "minimum": 6,
+          "maximum": 9,
+          "conceptualRecipe": [
+            "eight-lobed blossom contour",
+            "radial veins",
+            "centre",
+            "short connecting stem",
+            "actual source-course attachment",
+            "repeat through the staggered disposition"
+          ],
+          "mayExceedReviewTrigger": false,
+          "entireRangeExceedsReviewTrigger": false,
+          "basis": "Authored construction review; not autonomous conceptual discovery or a measured cognitive load."
+        },
+        "encoding": {
+          "sourcePaths": 4,
+          "addedPaths": 11,
+          "sourceChords": 16,
+          "addedChords": 38,
+          "retainedPrototypeIdentities": 11,
+          "witnessedPrototypePlacements": 11,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 1
+        }
+      }
+    },
+    {
+      "id": "R-B33-field",
+      "skeletonName": "Continuous angled courses and diamond loops",
+      "title": "B33 \u00B7 Inset fields and quiet construction",
+      "assessment": {
+        "sourceId": "B33",
+        "mode": "field",
+        "estimate": null,
+        "encoding": {
+          "sourcePaths": 4,
+          "addedPaths": 6,
+          "sourceChords": 14,
+          "addedChords": 26,
+          "retainedPrototypeIdentities": 4,
+          "witnessedPrototypePlacements": 6,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 4
+        }
+      }
+    },
+    {
+      "id": "R-B33-motif",
+      "skeletonName": "Continuous angled courses and diamond loops",
+      "title": "B33 \u00B7 Conventional leaves and medallions",
+      "assessment": {
+        "sourceId": "B33",
+        "mode": "motif",
+        "estimate": null,
+        "encoding": {
+          "sourcePaths": 4,
+          "addedPaths": 28,
+          "sourceChords": 14,
+          "addedChords": 96,
+          "retainedPrototypeIdentities": 6,
+          "witnessedPrototypePlacements": 28,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 2
+        }
+      }
+    },
+    {
+      "id": "R-B33-detail",
+      "skeletonName": "Continuous angled courses and diamond loops",
+      "title": "B33 \u00B7 Full interior ornament and articulated growth",
+      "assessment": {
+        "sourceId": "B33",
+        "mode": "detail",
+        "estimate": {
+          "minimum": 6,
+          "maximum": 9,
+          "conceptualRecipe": [
+            "eight-lobed blossom contour",
+            "radial veins",
+            "centre",
+            "short connecting stem",
+            "actual source-course attachment",
+            "repeat through the staggered disposition"
+          ],
+          "mayExceedReviewTrigger": false,
+          "entireRangeExceedsReviewTrigger": false,
+          "basis": "Authored construction review; not autonomous conceptual discovery or a measured cognitive load."
+        },
+        "encoding": {
+          "sourcePaths": 4,
+          "addedPaths": 11,
+          "sourceChords": 14,
+          "addedChords": 38,
+          "retainedPrototypeIdentities": 11,
+          "witnessedPrototypePlacements": 11,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 1
+        }
+      }
+    },
+    {
+      "id": "R-B34-field",
+      "skeletonName": "Crossed faceted loop lattice",
+      "title": "B34 \u00B7 Inset fields and quiet construction",
+      "assessment": {
+        "sourceId": "B34",
+        "mode": "field",
+        "estimate": null,
+        "encoding": {
+          "sourcePaths": 6,
+          "addedPaths": 4,
+          "sourceChords": 20,
+          "addedChords": 40,
+          "retainedPrototypeIdentities": 3,
+          "witnessedPrototypePlacements": 4,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 2
+        }
+      }
+    },
+    {
+      "id": "R-B34-motif",
+      "skeletonName": "Crossed faceted loop lattice",
+      "title": "B34 \u00B7 Conventional leaves and medallions",
+      "assessment": {
+        "sourceId": "B34",
+        "mode": "motif",
+        "estimate": null,
+        "encoding": {
+          "sourcePaths": 6,
+          "addedPaths": 10,
+          "sourceChords": 20,
+          "addedChords": 40,
+          "retainedPrototypeIdentities": 5,
+          "witnessedPrototypePlacements": 10,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 4
+        }
+      }
+    },
+    {
+      "id": "R-B34-detail",
+      "skeletonName": "Crossed faceted loop lattice",
+      "title": "B34 \u00B7 Full interior ornament and articulated growth",
+      "assessment": {
+        "sourceId": "B34",
+        "mode": "detail",
+        "estimate": {
+          "minimum": 5,
+          "maximum": 9,
+          "conceptualRecipe": [
+            "central blossom contour",
+            "radial veins",
+            "centre",
+            "crossing-relative placement",
+            "unjoined loop histories retained"
+          ],
+          "mayExceedReviewTrigger": false,
+          "entireRangeExceedsReviewTrigger": false,
+          "basis": "Authored construction review; not autonomous conceptual discovery or a measured cognitive load."
+        },
+        "encoding": {
+          "sourcePaths": 6,
+          "addedPaths": 10,
+          "sourceChords": 20,
+          "addedChords": 36,
+          "retainedPrototypeIdentities": 10,
+          "witnessedPrototypePlacements": 10,
+          "unattributedAddedPaths": 0,
+          "actualSourceAnchors": 1
+        }
+      }
+    }
+  ]
+}

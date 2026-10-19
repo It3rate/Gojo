@@ -1,26 +1,57 @@
 {
-  "schema": "gojo-ornament-interior-verification-v1",
+  "schema": "gojo-ornament-balance-verification-v1",
   "solutionTests": {
-    "command": "dotnet test Gojo.slnx -c Release --logger trx --results-directory artifacts/ornament-interior-fitted-tests --nologo",
+    "command": "dotnet test Gojo.slnx -c Release --logger trx --results-directory artifacts/ornament-balance-final-tests --nologo",
     "assemblies": 12,
-    "passed": 4240,
+    "passed": 4262,
     "failed": 0,
     "skipped": 0
+  },
+  "finalChangedProjectTests": {
+    "command": "dotnet test Tests/QualitativeExecution.Tests/QualitativeExecution.Tests.csproj -c Release --logger trx --results-directory artifacts/ornament-balance-project-final-tests --nologo --artifacts-path artifacts/ornament-balance-test-build",
+    "passed": 1832,
+    "failed": 0,
+    "skipped": 0,
+    "purpose": "Rechecked after the final B30 enlargement"
   },
   "nativeCollection": {
     "skeletons": 36,
     "designs": 108,
-    "revisedInteriorSkeletons": 8,
-    "revisedInteriorDesigns": 24,
+    "reviewedFineVariants": 36,
+    "changedNativeDetailVariants": 23,
+    "displayOnlyColourFamilies": [
+      "B13",
+      "B14"
+    ],
     "unitsPerDesign": 9,
     "completeLayerFocusReads": 324,
     "blocked": 0,
     "open": 0,
     "numericParticipants": 0,
-    "curveStudies": 3
+    "maxChordsPerUnit": 512
   },
-  "b11GuideSeparation": {
-    "flowerGroups": 4,
+  "conceptualReview": {
+    "reviewedDetailVariants": 36,
+    "unreviewedOtherModes": 72,
+    "nativeArchivesInspected": 108,
+    "suggestedReviewTrigger": 12,
+    "crossingTrigger": [
+      "B13",
+      "B14"
+    ],
+    "crossingRange": "10-15",
+    "basis": "Authored vocabulary ranges per repeated ornamental unit; excludes the underlying lattice, palette and display fillets",
+    "automaticDiscovery": false
+  },
+  "periodicPetalSeparation": {
+    "sources": [
+      "B10",
+      "B11"
+    ],
+    "flowerGroups": [
+      2,
+      4
+    ],
     "adjacentPeriodImages": 9,
     "betweenFlowerContacts": 0,
     "betweenFlowerIntersections": 0,
@@ -28,15 +59,17 @@
     "withinFlowerLayering": "permitted"
   },
   "comparisonBaseline": {
-    "commit": "919f234",
-    "detailImages": 8,
-    "nativeArchives": 8
+    "commit": "037527c",
+    "detailObservations": 25,
+    "geometryChanges": 23,
+    "colourOnlyChanges": 2
   },
   "browserReport": "browser-check.json",
+  "balanceBrowserReport": "balance-browser-check.json",
   "limitations": [
-    "Curve fillets, palette values and contour fills are display interpretations over native paths.",
-    "Finite examples and selected guide-fit checks do not establish general occupied-area, curve-clearance, infinite-tiling or aesthetic laws.",
-    "Source-guide coverage is intentional for selected interior ornament; source paths remain in native structure.",
-    "Dense finite native word and witness execution costs substantially more than the earlier sparse details."
+    "Conceptual estimates are authored review hypotheses, not measured cognitive load or discovered substructures.",
+    "The broad eight-lobed flower is reused in several families; larger silhouettes do not establish equal ornamental diversity.",
+    "Palette, fillets, outline width and contour fill remain display interpretations.",
+    "Selected finite containment and neighbour checks do not establish general occupied-face, curvature-clearance, infinite-tiling or aesthetic laws."
   ]
 }

@@ -30,7 +30,12 @@ public static class BourgoinOrnamentRefinedLibrary
     private static RefinedDesign Build(BourgoinPatternLibrary.Recipe source, int palette, string mode)
     {
         var p = new Painter(source); string title; string notes;
-        switch (source.Id)
+        if (mode == "detail" && InteriorDetail(p))
+        {
+            title = "Full interior ornament and articulated growth";
+            notes = "The fine reading has a substantial interior silhouette: a repeated flower, fan, leaf panel or connected course blossom. Actual parent ports justify its placement; veins and nested contours articulate the large motif instead of substituting sparse tiny marks for detail. The retained lattice remains the placement and flow scaffold.";
+        }
+        else switch (source.Id)
         {
             case "B01":
                 Brick(p, mode); title = "Brick panels and growing sprays";
@@ -93,6 +98,104 @@ public static class BourgoinOrnamentRefinedLibrary
             p.Author.Detail.Identity, notes, (number * 5 + palette + (mode == "field" ? 0 : mode == "motif" ? 3 : 7)) % 12, weight);
         return new(design, N.S(hint.Surface), notes +
             " Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.");
+    }
+
+    /// <summary>Authored finer readings of existing compartments. The host
+    /// chooses their finite words; their installed paths, root attachments,
+    /// selected source and refinement correspondence remain native.</summary>
+    private static bool InteriorDetail(Painter p)
+    {
+        var a = p.Author; var closed = a.Paths.Where(path => path.Closed).ToArray();
+        switch (p.Source.Id)
+        {
+            case "B01":
+                foreach (var c in new[] { (X: 16, Y: 8), (X: 0, Y: 24) })
+                    p.ArticulatedLeaf((c.X - 12, c.Y), 24, 5, a.Map((0, 1), (1, 0)));
+                return true;
+            case "B03":
+            case "B06":
+            case "B06.B":
+                foreach (var cell in closed)
+                {
+                    var r = Math.Clamp(Math.Min(cell.Width, cell.Height) * 3 / 8, 5, 20);
+                    p.Blossom(cell.Centre, r, cell.Path);
+                }
+                return true;
+            case "B04":
+            case "B29":
+                foreach (var cell in closed)
+                    p.Rosette(cell.Centre, 6, Math.Min(cell.Width, cell.Height) / 3,
+                        p.Source.Id == "B29" ? 4 : 2, cell.Path);
+                return true;
+            case "B07":
+                p.Blossom((32, 32), 14);
+                return true;
+            case "B16":
+            case "B24":
+                foreach (var cell in closed)
+                    p.Rosette(Centre(cell, true), 3, p.Source.Id == "B24" ? 6 : 4, 2, cell.Path);
+                return true;
+            case "B19":
+            case "B22":
+                foreach (var cell in closed)
+                {
+                    var c = cell.Centre; var vertical = cell.Height >= cell.Width;
+                    var length = Math.Min(32, Math.Max(cell.Width, cell.Height) * 3 / 4);
+                    var width = p.Source.Id == "B19" ? 6 : 4;
+                    var root = vertical ? (c.X, c.Y - length / 2) : (c.X - length / 2, c.Y);
+                    p.ArticulatedLeaf(root, length, width, vertical ? null : a.Map((0, 1), (1, 0)),
+                        a.NearestPort(c, cell.Path));
+                }
+                return true;
+            case "B23":
+                foreach (var cell in closed) p.Blossom(cell.Centre, 6, cell.Path);
+                return true;
+            case "B25":
+                p.Rosette(closed.Single().Centre, 6, 23, 4, closed.Single().Path, coreRadius: 3);
+                return true;
+            case "B26":
+                p.Rosette((0, 0), 6, 24, 4, closed.Single().Path, coreRadius: 3);
+                return true;
+            case "B27":
+                foreach (var ridge in a.Paths.Where(path => !path.Closed).Take(2)) p.Follow(ridge, 1, 12, 2);
+                foreach (var cell in closed) { p.Inset(cell, 3, 4); p.Blossom(cell.Centre, 6, cell.Path); }
+                return true;
+            case "B28":
+                foreach (var shell in closed)
+                {
+                    var root = shell.Vertices.OrderBy(point => point.Y).First();
+                    var anchor = a.NearestPort(root, shell.Path); var at = (root.X, root.Y + 5);
+                    p.Contour(a.Motif, at, [(0, 0), (-22, 20), (-18, 26), (-12, 23), (-8, 30), (0, 33),
+                        (8, 30), (12, 23), (18, 26), (22, 20), (0, 0)], anchor: anchor, curve: true,
+                        fixedVertices: [0, 2, 4, 5, 6, 8]);
+                    foreach (var tip in new[] { (-18, 22), (-8, 26), (0, 29), (8, 26), (18, 22) })
+                        p.Line(a.Detail, at, [(0, 0), tip], anchor: anchor);
+                    p.Pearl((at.Item1, at.Item2 + 4), 2, anchor);
+                }
+                return true;
+            case "B30":
+                foreach (var course in a.Paths)
+                    p.Blossom(course.Centre, 40, course.Path, verticalRadius: 28);
+                return true;
+            case "B31":
+                foreach (var arm in a.Paths.Where(path => !path.Closed).Take(4)) p.Follow(arm, 1, 24, 4);
+                p.Blossom((0, 0), 27, closed.Single().Path);
+                return true;
+            case "B32":
+            case "B33":
+                var parent = a.Paths.First(path => !path.Closed); var centre = parent.Centre;
+                var port = a.NearestPort(centre, parent.Path); var start = a.Position(port);
+                p.Line(a.Motif, start, [(0, 0), ((centre.X - start.X) / 2, (centre.Y - start.Y) / 2),
+                    (centre.X - start.X, centre.Y - start.Y)], anchor: port, curve: true);
+                p.Blossom(centre, p.Source.Id == "B32" ? 18 : 21, parent.Path);
+                return true;
+            case "B34":
+                // Both loop histories survive underneath the single central
+                // blossom; no synthetic join is inserted at their crossings.
+                p.Blossom((0, 0), 22, closed[0].Path);
+                return true;
+            default: return false;
+        }
     }
 
     private static void Brick(Painter p, string mode)
@@ -472,6 +575,35 @@ public static class BourgoinOrnamentRefinedLibrary
                 Line(Author.Detail, at, [(-width + 1, high), (0, q), (width - 1, high)], map, anchor);
         }
 
+        public void ArticulatedLeaf((int X, int Y) at, int length, int width,
+            QualitativePatternTransform? map = null, Relation? anchor = null)
+        {
+            Leaf(at, length, width, map, true, anchor);
+            var lower = length / 3; var upper = length * 2 / 3;
+            Line(Author.Detail, at, [(-width + 1, upper), (0, upper - 2), (width - 1, upper)], map, anchor);
+            Contour(Author.Detail, at, [(0, 3), (-Math.Max(1, width - 2), lower), (0, length - 3),
+                (Math.Max(1, width - 2), lower), (0, 3)], map, anchor, curve: true, fixedVertices: [0, 2]);
+        }
+
+        public void Blossom((int X, int Y) centre, int radius, Relation? parent = null, int? verticalRadius = null)
+        {
+            var anchor = Author.NearestPort(centre, parent);
+            var neck = Math.Max(2, radius / 3); var width = Math.Max(1, radius / 5);
+            var diagonal = Math.Max(3, radius * 2 / 3);
+            (int X, int Y) Fit((int X, int Y) point) =>
+                (point.X, verticalRadius is int height ? point.Y * height / radius : point.Y);
+            (int X, int Y)[] outline = [(0, radius), (-width, neck), (-diagonal, diagonal), (-neck, width),
+                (-radius, 0), (-neck, -width), (-diagonal, -diagonal), (-width, -neck), (0, -radius),
+                (width, -neck), (diagonal, -diagonal), (neck, -width), (radius, 0), (neck, width),
+                (diagonal, diagonal), (width, neck), (0, radius)];
+            Contour(Author.Motif, centre, outline.Select(Fit).ToArray(), anchor: anchor, curve: true);
+            foreach (var tip in new[] { (0, radius - 2), (-radius + 2, 0), (0, -radius + 2), (radius - 2, 0),
+                (-diagonal + 1, diagonal - 1), (-diagonal + 1, -diagonal + 1),
+                (diagonal - 1, -diagonal + 1), (diagonal - 1, diagonal - 1) })
+                Line(Author.Detail, centre, [(0, 0), Fit(tip)], anchor: anchor);
+            Pearl(centre, radius >= 14 ? 3 : 1, anchor);
+        }
+
         public void Pearl((int X, int Y) at, int radius, Relation? anchor = null)
         {
             if (radius == 1)
@@ -497,7 +629,8 @@ public static class BourgoinOrnamentRefinedLibrary
                 anchor: Author.NearestPort(c, path.Path));
         }
 
-        public void Rosette((int X, int Y) centre, int petals, int length, int width, Relation? parent = null, bool spines = true)
+        public void Rosette((int X, int Y) centre, int petals, int length, int width, Relation? parent = null, bool spines = true,
+            int coreRadius = 1)
         {
             var anchor = Author.NearestPort(centre, parent);
             var maps = petals is 3 or 6 ? SixMaps().Where((_, index) => petals == 6 || index % 2 == 0).ToArray() : petals == 8 ?
@@ -509,7 +642,7 @@ public static class BourgoinOrnamentRefinedLibrary
             for (var i = 0; i < maps.Length; i++)
                 Leaf(centre, petals == 8 && i % 2 != 0 ? Math.Max(3, length * 2 / 3) : length,
                     width, maps[i], forks: false, anchor: anchor, spine: spines);
-            Pearl(centre, 1, anchor);
+            Pearl(centre, coreRadius, anchor);
         }
 
         public void Companion(BourgoinOrnamentAuthor.PathRead path, (int X, int Y) offset)

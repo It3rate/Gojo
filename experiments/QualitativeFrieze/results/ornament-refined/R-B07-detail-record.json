@@ -3,9 +3,9 @@
   "skeletonName": "Alternating-width orthogonal bands",
   "plate": {
     "id": "R-B07-detail",
-    "title": "B07 \u00B7 Orthogonal bands and running foliage",
+    "title": "B07 \u00B7 Full interior ornament and articulated growth",
     "sourceId": "B07",
-    "description": "Narrow horizontal and vertical strips carry separate running stems, with the central crossing left uncluttered. A broad intermediate leaf occupies the larger existing compartment.",
+    "description": "The fine reading has a substantial interior silhouette: a repeated flower, fan, leaf panel or connected course blossom. Actual parent ports justify its placement; veins and nested contours articulate the large motif instead of substituting sparse tiny marks for detail. The retained lattice remains the placement and flow scaffold.",
     "svg": "",
     "units": 9,
     "paths": 14,
@@ -17,12 +17,12 @@
     "blocked": 0,
     "open": 0,
     "frontier": 29,
-    "nativeObjects": 9024,
+    "nativeObjects": 12251,
     "numericParticipants": 0,
     "layerPaths": [
       4,
-      6,
-      8
+      1,
+      13
     ],
     "focusComplete": [
       true,

@@ -4,26 +4,26 @@
     "skeletonName": "Angled paired-band courses",
     "plate": {
       "id": "R-B27-detail",
-      "title": "B27 \u00B7 Sprouting chevron courses",
+      "title": "B27 \u00B7 Full interior ornament and articulated growth",
       "sourceId": "B27",
-      "description": "The paired ridges carry companion bands, an apex-rooted three-leaf spray, or smaller edge buds. The intervening diamond remains a subordinate window.",
+      "description": "The fine reading has a substantial interior silhouette: a repeated flower, fan, leaf panel or connected course blossom. Actual parent ports justify its placement; veins and nested contours articulate the large motif instead of substituting sparse tiny marks for detail. The retained lattice remains the placement and flow scaffold.",
       "svg": "",
       "units": 9,
-      "paths": 7,
-      "chords": 30,
-      "addedPaths": 3,
-      "attachments": 3,
-      "strokes": 270,
+      "paths": 19,
+      "chords": 62,
+      "addedPaths": 15,
+      "attachments": 15,
+      "strokes": 558,
       "accepted": 33,
       "blocked": 0,
       "open": 0,
       "frontier": 12,
-      "nativeObjects": 3961,
+      "nativeObjects": 12391,
       "numericParticipants": 0,
       "layerPaths": [
         4,
-        3,
-        4
+        5,
+        14
       ],
       "focusComplete": [
         true,
@@ -33,6 +33,6 @@
       "palette": "Ivory, oxblood \u0026 sage"
     }
   },
-  "constructionNotes": "The paired ridges carry companion bands, an apex-rooted three-leaf spray, or smaller edge buds. The intervening diamond remains a subordinate window. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
-  "curvedPlacedPaths": 18
+  "constructionNotes": "The fine reading has a substantial interior silhouette: a repeated flower, fan, leaf panel or connected course blossom. Actual parent ports justify its placement; veins and nested contours articulate the large motif instead of substituting sparse tiny marks for detail. The retained lattice remains the placement and flow scaffold. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+  "curvedPlacedPaths": 27
 }

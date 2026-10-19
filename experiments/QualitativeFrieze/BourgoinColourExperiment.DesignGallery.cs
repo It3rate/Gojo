@@ -15,6 +15,9 @@ public static partial class BourgoinColourExperiment
             var ordered = Roles.Select(role => group.Single(result => result.Mode == role)).ToArray();
             nav.Append($"<a href='#{group.Key}'>{H(group.Key)}</a>");
             cards.Append($"<article id='{group.Key}'><header><span class='eyebrow'>{H(group.Key)} · one retained skeleton</span><h2>{H(ordered[0].SkeletonName)}</h2></header>");
+            if (refined && OrnamentMotifComplexity.FineEstimate(group.Key) is { } estimate)
+                cards.Append($"<p class='concepts'>Detail vocabulary: <a href='complexity.html#{H(group.Key)}'>{estimate.Minimum}–{estimate.Maximum} reviewed concepts</a>" +
+                    (estimate.MayExceedReviewTrigger ? " · grouping review suggested" : "") + "</p>");
             if (overview)
             {
                 cards.Append("<div class='triptych'>");
@@ -92,6 +95,10 @@ document.querySelector('#jump')?.addEventListener('change',e=>{if(e.target.value
             html = html.Replace("<a href='#principles'>Design principles</a>", "<a href='interiors-gallery.html'>B08–B14 · filled interiors</a><a href='#principles'>Design principles</a>");
         if (refined && File.Exists(Path.Combine(output, "comparison.html")))
             html = html.Replace("<a href='#principles'>Design principles</a>", "<a href='comparison.html'>Before and after · detail</a><a href='#principles'>Design principles</a>");
+        if (refined)
+            html = html.Replace("<a href='#principles'>Design principles</a>", "<a href='complexity.html'>Conceptual complexity</a><a href='#principles'>Design principles</a>");
+        if (refined && File.Exists(Path.Combine(output, "balance.html")))
+            html = html.Replace("<a href='#principles'>Design principles</a>", "<a href='balance.html'>This review · before and after</a><a href='#principles'>Design principles</a>");
         return !refined ? html : html.Replace("A grammar in colour", "A flowing grammar")
             .Replace("Fine ornament", "Ornamental detail")
             .Replace("close detail", "ornamental detail")

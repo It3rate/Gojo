@@ -4,26 +4,26 @@
     "skeletonName": "Faceted cloud-scale arches",
     "plate": {
       "id": "R-B30-detail",
-      "title": "B30 \u00B7 Cloud valleys and round foliage",
+      "title": "B30 \u00B7 Full interior ornament and articulated growth",
       "sourceId": "B30",
-      "description": "Angular cloud companions lead the overall design. Paired round leaves and a rooted pearl occupy each existing valley in the intermediate design; fine leaves follow the actual arch courses.",
+      "description": "The fine reading has a substantial interior silhouette: a repeated flower, fan, leaf panel or connected course blossom. Actual parent ports justify its placement; veins and nested contours articulate the large motif instead of substituting sparse tiny marks for detail. The retained lattice remains the placement and flow scaffold.",
       "svg": "",
       "units": 9,
-      "paths": 8,
-      "chords": 104,
-      "addedPaths": 4,
-      "attachments": 4,
-      "strokes": 936,
+      "paths": 44,
+      "chords": 224,
+      "addedPaths": 40,
+      "attachments": 40,
+      "strokes": 2016,
       "accepted": 115,
       "blocked": 0,
       "open": 0,
       "frontier": 29,
-      "nativeObjects": 19359,
+      "nativeObjects": 160670,
       "numericParticipants": 0,
       "layerPaths": [
         4,
         4,
-        4
+        40
       ],
       "focusComplete": [
         true,
@@ -33,6 +33,6 @@
       "palette": "Celadon, plum \u0026 apricot"
     }
   },
-  "constructionNotes": "Angular cloud companions lead the overall design. Paired round leaves and a rooted pearl occupy each existing valley in the intermediate design; fine leaves follow the actual arch courses. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
-  "curvedPlacedPaths": 36
+  "constructionNotes": "The fine reading has a substantial interior silhouette: a repeated flower, fan, leaf panel or connected course blossom. Actual parent ports justify its placement; veins and nested contours articulate the large motif instead of substituting sparse tiny marks for detail. The retained lattice remains the placement and flow scaffold. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+  "curvedPlacedPaths": 72
 }

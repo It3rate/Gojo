@@ -39,7 +39,7 @@ public static class BourgoinOrnamentCompartmentLibrary
                 break;
             case "B10": case "B11":
                 PointedRooms(p, mode); title = source.Id == "B11" ? "Counterturned interior gardens" : "Pointed chambers and inward fans";
-                notes = "Each actual pointed chamber supplies its own finite interior placement read and source port. Wide opposed sprays or a radial blossom occupy the interior. Smaller nested leaves and veins articulate those masses, while alternate chamber families take different colours.";
+                notes = "Each actual pointed chamber supplies its own finite interior placement read and source port. Wide opposed sprays or a radial blossom occupy the interior. The detail has four dominant diagonal petals, four short axial petals, one centre and quiet veins; its uninterrupted parent rails remain legible. Alternate chamber families take different colours.";
                 break;
             case "B12":
                 ArmRosettes(p, mode); title = "Rotating eight-petal chamber flowers";
@@ -132,14 +132,13 @@ public static class BourgoinOrnamentCompartmentLibrary
             }
             else
             {
-                var secondary = Math.Max(3, 3 * r / 4);
-                p.Flower(c, 8, secondary * 2, Math.Max(3, r / 2), family, true,
-                    secondaryLength: secondary, anchor: anchor);
-                p.Collar(c, 3, 3, anchor); p.Collar(c, 1, (family + 2) % 4, anchor);
-                // The chamber owns one coherent eight-part flower, not a
-                // large seed plus a second tiny dot. B11 deliberately lets
-                // its broad axial petals cover local interior construction;
-                // the retained source remains available in the angular read.
+                var axial = Math.Max(3, r / 3);
+                p.Flower(c, 8, axial, Math.Max(3, r / 3), family, false,
+                    secondaryLength: axial * 2, anchor: anchor);
+                p.Collar(c, 2, 3, anchor);
+                // The long diagonal petals fit the chamber's pointed read.
+                // One centre and one vein per petal preserve that silhouette
+                // without the previous nested crossing fan of detail.
             }
         }
     }

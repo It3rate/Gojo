@@ -4,26 +4,26 @@
     "skeletonName": "Sliding triangles around shorter hexagon gaps",
     "plate": {
       "id": "R-B24-detail",
-      "title": "B24 \u00B7 Veins and foliage following the scaffold",
+      "title": "B24 \u00B7 Full interior ornament and articulated growth",
       "sourceId": "B24",
-      "description": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact.",
+      "description": "The fine reading has a substantial interior silhouette: a repeated flower, fan, leaf panel or connected course blossom. Actual parent ports justify its placement; veins and nested contours articulate the large motif instead of substituting sparse tiny marks for detail. The retained lattice remains the placement and flow scaffold.",
       "svg": "",
       "units": 9,
-      "paths": 6,
-      "chords": 26,
-      "addedPaths": 4,
-      "attachments": 4,
-      "strokes": 234,
+      "paths": 16,
+      "chords": 62,
+      "addedPaths": 14,
+      "attachments": 14,
+      "strokes": 558,
       "accepted": 68,
       "blocked": 0,
       "open": 0,
       "frontier": 22,
-      "nativeObjects": 5779,
+      "nativeObjects": 13700,
       "numericParticipants": 0,
       "layerPaths": [
         2,
-        4,
-        2
+        8,
+        8
       ],
       "focusComplete": [
         true,
@@ -33,6 +33,6 @@
       "palette": "Celadon, plum \u0026 apricot"
     }
   },
-  "constructionNotes": "The leading scale changes the introduced structure: broad inset construction, repeated botanical units, or finer leaves and veins following actual source courses. Old source paths, ports, periods and seams remain intact. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
-  "curvedPlacedPaths": 18
+  "constructionNotes": "The fine reading has a substantial interior silhouette: a repeated flower, fan, leaf panel or connected course blossom. Actual parent ports justify its placement; veins and nested contours articulate the large motif instead of substituting sparse tiny marks for detail. The retained lattice remains the placement and flow scaffold. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+  "curvedPlacedPaths": 54
 }

@@ -18,6 +18,25 @@ B10/B11 develop pointed interior gardens. B12 uses eight-petal flowers with
 four dominant diagonal petals. B13/B14 colour their four actual interlocking
 source shapes independently, with cap fans and brighter interlock flowers.
 
+The [silhouette and separation comparison](../../experiments/QualitativeFrieze/results/ornament-refined/balance.html)
+retains the detail observations from checkpoint `037527c`. A whole-corpus
+review enlarged 21 finer constructions, including B25/B30/B32/B33/B34.
+Broad lobed flowers, sixfold petal arrangements, nested leaf panels and fan
+bodies replace small on-line marks. B10/B11 now use four dominant diagonal
+petals, four short axial petals, a single centre and quieter veins, supported
+by stronger uninterrupted source rails. The B13/B14 geometry is unchanged;
+solid colour families, ivory keylines and dark outer edges restore separation
+without opacity mixing. Gold is an accent rather than the only separator.
+
+The [conceptual-complexity table](../../experiments/QualitativeFrieze/results/ornament-refined/complexity.html)
+reviews all 36 finer constructions. It separates authored vocabulary ranges
+from recovered native path, chord, prototype-identity and attachment counts.
+Most proposed vocabularies use 5–11 concepts; B13/B14's 10–15 range crosses
+the suggested review threshold of 12. The denominator is one unit's reusable
+ornamental vocabulary, excluding its underlying lattice, palette and display
+fillets. These are reviewed hypotheses, not discovered concepts or measured
+human cognitive load. See [the method and future discovery direction](GojoOrnamentMotifComplexity.md).
+
 The [three curve studies](../../experiments/QualitativeFrieze/results/ornament-curves/gallery.html)
 isolate the vine, returning curl and interrupted guilloche before applying
 the same presentation mechanism to the larger collection.
@@ -126,8 +145,8 @@ For these selected designs, the renderer paints each layer's fills and lines
 before the next layer. A filled rosette can therefore cover earlier placement
 lines and receive finer veins above it. Other designs retain their earlier
 painting order. The selected finite basis admits more detail: these eight
-families use up to 550 chords per unit, while the other families keep their
-200-chord budget. This raises real native execution cost; it is not a speed
+families use up to 550 chords per unit. B30's broader four-flower detail uses
+224 chords; other families keep their 200-chord budget. This raises real native execution cost; it is not a speed
 comparison or a claim that colour creates native occupied faces.
 
 ## Structural corrections before smoothing
@@ -150,7 +169,12 @@ dotnet run --project experiments/QualitativeFrieze -c Release -- --ornament-refi
 dotnet test Gojo.slnx -c Release
 ~~~
 
-`--samples 3..6` changes the finite native window. Disjoint source batches may
+`--samples 1..6` changes the finite native window; one-unit runs are useful
+for local previews, while the collection keeps its full 3×3 executed fields.
+`--repaint` reapplies source-scoped SVG separation rules and palette labels
+to retained observations without changing geometry or rerunning settlement.
+Follow it with `--assemble` to rebuild the sheets and complexity review.
+Disjoint source batches may
 use `--plates-only` and a common output folder, then `--assemble`. Mode subsets
 use `--modes field,motif,detail`. `--resume` checks required files and native
 sample dimensions; after an intentional authoring change, regenerate the
@@ -168,21 +192,30 @@ packet before execution. All 324 layer-focus reads were complete; the runs
 reported zero blocked seams, open obligations or numeric participants. The
 three isolated curve studies completed with the same checks.
 
-`dotnet test Gojo.slnx -c Release` passed 4,240 tests across 12 assemblies, with
+`dotnet test Gojo.slnx -c Release` passed 4,262 tests across 12 assemblies, with
 zero failures or skips. Focused tests cover native path identity after packet
 import, rejected foreign or forged curve selections, fixed branch landmarks,
 endpoint and gap preservation, source retention and selected containment
 cases. A subsequent CLI build and assembly check also verified consistent
 export records and the completed resume path.
 
-B11's first larger flower provided a counterexample: a fit to one source
+B10/B11's larger flowers provided a counterexample: a fit to one source
 chamber did not preserve the counterfield of its neighbour. The final recipe
-retains eight petals and their veins at a reduced outer reach. A dedicated
+retains eight petals and quiet veins at a reduced outer reach. A dedicated
 regression reads those native petals and both native repeat words, checking
-the four flowers against nine adjacent period images for inter-flower chord
+the two/four flowers against nine adjacent period images for inter-flower chord
 contact, intersection and containment. Layering within one flower remains
 permitted. This is a selected finite guide-geometry check, separate from
 native occupied-area or general curve-clearance semantics.
+
+Additional finite checks cover enlarged motifs within their actual parent
+compartments, B30's broad main-lobe flowers and neighbouring bodies, and
+retained crossing histories in B32/B33/B34. Complexity tests distinguish
+shared prototypes from equal but independently authored shapes, keep unknown
+ancestry unattributed, and verify the same counts after native packet import.
+These checks do not validate the authored conceptual estimates as cognitive
+measurements. The full 1,832-test qualitative project was rechecked after
+the final B30 size adjustment.
 
 The [browser report](../../experiments/QualitativeFrieze/results/ornament-refined/browser-check.json)
 checks all 108 main SVGs and native packets, the 108-image overview, local

@@ -4,26 +4,26 @@
     "skeletonName": "Running brick bond",
     "plate": {
       "id": "R-B01-detail",
-      "title": "B01 \u00B7 Brick panels and growing sprays",
+      "title": "B01 \u00B7 Full interior ornament and articulated growth",
       "sourceId": "B01",
-      "description": "The two offset brick interiors carry horizontal cartouches or narrow rooted sprays. Leaf growth stays within the course; the running-bond joints remain readable.",
+      "description": "The fine reading has a substantial interior silhouette: a repeated flower, fan, leaf panel or connected course blossom. Actual parent ports justify its placement; veins and nested contours articulate the large motif instead of substituting sparse tiny marks for detail. The retained lattice remains the placement and flow scaffold.",
       "svg": "",
       "units": 9,
       "paths": 14,
-      "chords": 42,
+      "chords": 36,
       "addedPaths": 10,
       "attachments": 10,
-      "strokes": 378,
+      "strokes": 324,
       "accepted": 57,
       "blocked": 0,
       "open": 0,
       "frontier": 15,
-      "nativeObjects": 6722,
+      "nativeObjects": 7629,
       "numericParticipants": 0,
       "layerPaths": [
         4,
-        6,
-        8
+        2,
+        12
       ],
       "focusComplete": [
         true,
@@ -33,6 +33,6 @@
       "palette": "Peacock, jade \u0026 coral"
     }
   },
-  "constructionNotes": "The two offset brick interiors carry horizontal cartouches or narrow rooted sprays. Leaf growth stays within the course; the running-bond joints remain readable. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
-  "curvedPlacedPaths": 54
+  "constructionNotes": "The fine reading has a substantial interior silhouette: a repeated flower, fan, leaf panel or connected course blossom. Actual parent ports justify its placement; veins and nested contours articulate the large motif instead of substituting sparse tiny marks for detail. The retained lattice remains the placement and flow scaffold. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+  "curvedPlacedPaths": 36
 }

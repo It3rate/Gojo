@@ -10,19 +10,42 @@ public static partial class BourgoinColourExperiment
     public static int RunRefined(string[] args)
     {
         var output = Path.Combine("experiments", "QualitativeFrieze", "results", "ornament-refined");
-        var samples = 3; string? only = null; var modes = Roles; var assemble = false; var platesOnly = false; var resume = false;
+        var samples = 3; string? only = null; var modes = Roles; var assemble = false; var platesOnly = false; var resume = false; var repaint = false;
         for (var index = 0; index < args.Length; index++)
             if (args[index] == "--output" && index + 1 < args.Length) output = args[++index];
-            else if (args[index] == "--samples" && index + 1 < args.Length && int.TryParse(args[++index], out var size) && size is >= 3 and <= 6) samples = size;
+            else if (args[index] == "--samples" && index + 1 < args.Length && int.TryParse(args[++index], out var size) && size is >= 1 and <= 6) samples = size;
             else if (args[index] == "--only" && index + 1 < args.Length) only = args[++index];
             else if (args[index] == "--modes" && index + 1 < args.Length) modes = args[++index].Split(',');
             else if (args[index] == "--assemble") assemble = true;
             else if (args[index] == "--plates-only") platesOnly = true;
             else if (args[index] == "--resume") resume = true;
-            else throw new ArgumentException("Usage: --ornament-refined [--samples 3..6] [--only B02,B05] [--modes field,motif,detail] [--plates-only | --assemble] [--resume] [--output DIRECTORY]");
+            else if (args[index] == "--repaint") repaint = true;
+            else throw new ArgumentException("Usage: --ornament-refined [--samples 1..6] [--only B02,B05] [--modes field,motif,detail] [--plates-only | --assemble | --repaint] [--resume] [--output DIRECTORY]");
         if (modes.Length == 0 || modes.Distinct(StringComparer.Ordinal).Count() != modes.Length || modes.Any(mode => !Roles.Contains(mode)))
             throw new ArgumentException("Choose distinct design modes from field, motif and detail.");
         Directory.CreateDirectory(output);
+        if (repaint)
+        {
+            if (assemble || resume || platesOnly) throw new ArgumentException("Repainting changes saved SVG presentation only; assemble separately.");
+            var selectedIds = only?.Split(',').ToHashSet(StringComparer.Ordinal);
+            foreach (var recordPath in Directory.GetFiles(output, "*-refinement.json"))
+            {
+                var record = JsonSerializer.Deserialize<RefinedResult>(File.ReadAllText(recordPath), JsonOptions) ??
+                    throw new InvalidOperationException("A saved refinement record could not be read.");
+                if ((selectedIds is not null && !selectedIds.Contains(record.Design.Plate.SourceId)) || !modes.Contains(record.Design.Mode)) continue;
+                foreach (var suffix in new[] { ".svg", "-angular.svg", "-construction.svg", "-closeup.svg", "-closeup-angular.svg", "-source.svg" })
+                {
+                    var file = Path.Combine(output, record.Design.Plate.Id + suffix);
+                    File.WriteAllText(file, RestyleRefinedSvg(File.ReadAllText(file)));
+                }
+                var recoloured = record with { Design = record.Design with { Plate = record.Design.Plate with
+                    { Palette = RefinedPaletteLabel(record.Design.Plate.SourceId, record.Design.Plate.Palette) } } };
+                File.WriteAllText(recordPath, JsonSerializer.Serialize(recoloured, JsonOptions));
+                File.WriteAllText(Path.Combine(output, record.Design.Plate.Id + "-record.json"), JsonSerializer.Serialize(recoloured.Design, JsonOptions));
+            }
+            Console.WriteLine("Repainted retained SVG observations and palette labels; native programs and execution outcomes are unchanged.");
+            return 0;
+        }
         if (assemble)
         {
             var restored = Directory.GetFiles(output, "*-refinement.json").Select(file =>
@@ -59,7 +82,7 @@ public static partial class BourgoinColourExperiment
         return 0;
     }
 
-    private static string RefinedStyle(string svg) => svg.Replace("data-collection='true'", "data-collection='true' data-refined='true'")
+    private static string RefinedStyle(string svg) => RestyleRefinedSvg(svg.Replace("data-collection='true'", "data-collection='true' data-refined='true'")
         .Replace("</style>", """
 [data-refined][data-focus=detail] .field{opacity:.55}
 [data-refined][data-focus=detail] .field .mass{opacity:.16}
@@ -71,7 +94,7 @@ public static partial class BourgoinColourExperiment
 [data-refined] .detail .keyline{stroke-width:calc(var(--band) * .2 + .7px)}
 [data-refined] .detail .pigment{stroke-width:calc(var(--band) * .2)}
 </style>
-""");
+"""));
 
     private static bool HasSavedRefined(string output, string id, int samples)
     {
@@ -98,6 +121,8 @@ public static partial class BourgoinColourExperiment
         }
         var results = records.Select(record => record.Design with
         { Plate = record.Design.Plate with { Svg = File.ReadAllText(Path.Combine(output, record.Design.Plate.Id + ".svg")) } }).ToArray();
+        WriteRefinedComplexity(records, output);
+        WriteBalanceComparison(results, output);
         WriteInteriorComparison(results, output);
         File.WriteAllText(Path.Combine(output, "gallery.html"), DesignHtml(results, output, false, refined: true));
         File.WriteAllText(Path.Combine(output, "overview.html"), DesignHtml(results, output, true, refined: true));
@@ -157,5 +182,27 @@ public static partial class BourgoinColourExperiment
                 $"<figure><a href='{id}.svg'><img loading='lazy' src='{id}.svg' width='1200' height='820' alt='Revised detail of {H(result.Plate.SourceId)}'></a><figcaption>Interior ornament · <a href='{id}.gojo.json.gz'>Native archive</a> · <a href='{id}-construction.svg'>Construction</a></figcaption></figure></div></article>");
         }
         File.WriteAllText(Path.Combine(output, "comparison.html"), html.Append("</main></html>").ToString());
+    }
+
+    private static void WriteBalanceComparison(IReadOnlyList<DesignResult> results, string output)
+    {
+        var selected = results.Where(result => result.Mode == "detail" &&
+            File.Exists(Path.Combine(output, "before-balance", result.Plate.Id + ".svg"))).ToArray();
+        if (selected.Length == 0) return;
+        var html = new System.Text.StringBuilder("""
+<!doctype html><html lang='en'><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'>
+<title>Silhouette, placement and colour separation · Gojo ornament</title><style>
+*{box-sizing:border-box}body{margin:0;background:#eee8db;color:#303e41;font:16px/1.6 system-ui}main{max-width:1900px;margin:auto;padding:32px 24px}h1,h2{font-family:Georgia,serif;font-weight:400}h1{font-size:clamp(32px,4vw,60px);line-height:1.15}a{color:#275d68;text-underline-offset:4px}nav{display:flex;flex-wrap:wrap;gap:20px}article{padding:24px 0;border-bottom:1px solid #cdbfa5;scroll-margin-top:24px}.pair{display:grid;grid-template-columns:1fr 1fr;gap:20px}figure{margin:0;min-width:0}img{display:block;width:100%;height:auto;border:1px solid #bbae96}figcaption{padding:8px 0;font-size:14px}p{max-width:1100px}@media(max-width:700px){.pair{grid-template-columns:1fr}main{padding:24px 14px}}@media print{nav{display:none}article{break-inside:avoid}}
+</style><main><h1>Stronger motifs.<br>Clearer neighbours.</h1><p>Twenty-one finer readings gain broader, internally articulated silhouettes. B10 and B11 receive simpler chamber flowers and stronger parent rails; B13 and B14 retain their geometry with solid colour families and ivory/dark separators. These are reviewed authored changes, not a trained aesthetic score.</p><p>Detail describes a role in the whole, rather than a maximum size. A broad flower can replace a tiny mark while preserving its parent course. Compare the earlier checkpoint with the current executed field, then inspect its native construction and proposed conceptual vocabulary.</p><nav><a href='gallery.html'>All 108 designs</a><a href='overview.html'>Whole collection on one page</a><a href='complexity.html'>Conceptual complexity</a><a href='before-balance/manifest.json'>Previous observations · checkpoint</a></nav>
+""");
+        html.Append("<nav>" + string.Join("", selected.Select(result => $"<a href='#{H(result.Plate.SourceId)}'>{H(result.Plate.SourceId)}</a>")) + "</nav>");
+        foreach (var result in selected)
+        {
+            var id = H(result.Plate.Id); var source = H(result.Plate.SourceId);
+            html.Append($"<article id='{source}'><h2>{source} · {H(result.SkeletonName)}</h2><div class='pair'>" +
+                $"<figure><a href='before-balance/{id}.svg'><img loading='lazy' src='before-balance/{id}.svg' width='1200' height='820' alt='Previous {source} detail'></a><figcaption>Previous · checkpoint 037527c</figcaption></figure>" +
+                $"<figure><a href='{id}.svg'><img loading='lazy' src='{id}.svg' width='1200' height='820' alt='Revised {source} detail'></a><figcaption>Current · <a href='{id}-closeup.svg'>One executed unit</a> · <a href='{id}-construction.svg'>Construction</a> · <a href='complexity.html#{source}'>Conceptual review</a></figcaption></figure></div><p>{H(result.Plate.Description)}</p></article>");
+        }
+        File.WriteAllText(Path.Combine(output, "balance.html"), html.Append("</main></html>").ToString());
     }
 }

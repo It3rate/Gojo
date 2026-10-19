@@ -106,7 +106,7 @@ public sealed class BourgoinOrnamentCompartmentLibraryTests
     [Theory]
     [InlineData("B10", 16)]
     [InlineData("B11", 32)]
-    public void PointedRoomsHaveOneFullEightPetalFlowerWithDominantAxialReach(string id, int expectedPetals)
+    public void PointedRoomsHaveOneEightPetalFlowerWithFourDominantDiagonalPetals(string id, int expectedPetals)
     {
         var design = Designs.Value.Single(item => item.Design.SourceId == id && item.Design.Mode == "detail").Design;
         var sourcePaths = E(design.Enrichment.Source.Paths);
@@ -119,26 +119,30 @@ public sealed class BourgoinOrnamentCompartmentLibraryTests
             var diagonal = Points(design.Source.Frame, petals[room * 8 + 1]);
             var axialReach = Math.Max(Math.Abs(axial[3].X - axial[0].X), Math.Abs(axial[3].Y - axial[0].Y));
             var diagonalReach = Math.Max(Math.Abs(diagonal[3].X - diagonal[0].X), Math.Abs(diagonal[3].Y - diagonal[0].Y));
-            Assert.True(axialReach >= 2 * diagonalReach, $"{id}: dominant {axialReach}, secondary {diagonalReach}");
-            if (id == "B11") Assert.True(axialReach >= 10);
+            Assert.True(diagonalReach >= 2 * axialReach, $"{id}: dominant {diagonalReach}, secondary {axialReach}");
+            if (id == "B11") Assert.True(diagonalReach >= 6);
         }
+        var addedClosed = E(design.Enrichment.Result.ClosedPaths).Length - E(design.Enrichment.Source.ClosedPaths).Length;
+        Assert.Equal(expectedPetals + expectedPetals / 8, addedClosed); // one centre per flower
     }
 
-    [Fact]
-    public void ReturnedRoomFlowersHaveStrictlySeparatePetalsAcrossTheirPeriodicNeighbours()
+    [Theory]
+    [InlineData("B10", 16, 2)]
+    [InlineData("B11", 32, 4)]
+    public void PointedRoomFlowersHaveStrictlySeparatePetalsAcrossTheirPeriodicNeighbours(string id, int expectedPetals, int expectedCentres)
     {
-        var design = Designs.Value.Single(item => item.Design.SourceId == "B11" && item.Design.Mode == "detail").Design;
+        var design = Designs.Value.Single(item => item.Design.SourceId == id && item.Design.Mode == "detail").Design;
         var sourcePaths = E(design.Enrichment.Source.Paths);
         var petals = E(design.Enrichment.Result.ClosedPaths).Cast<Relation>()
             .Where(path => !sourcePaths.Any(actual => ReferenceEquals(path, actual)) && E((Relation)path.Right).Length == 6)
             .Select(path => Points(design.Source.Frame, path)).ToArray();
-        Assert.Equal(32, petals.Length);
+        Assert.Equal(expectedPetals, petals.Length);
         var flowers = petals.Chunk(8).Select(group => new
         {
             Petals = group,
             Centre = (X: group.Average(path => path[0].X), Y: group.Average(path => path[0].Y))
         }).ToArray();
-        Assert.Equal(4, flowers.Select(flower => flower.Centre).Distinct().Count());
+        Assert.Equal(expectedCentres, flowers.Select(flower => flower.Centre).Distinct().Count());
         // Each body's eight actual root sites form the same small radial
         // collar around one centre. The comparison permits overlap within a
         // flower, but never treats nearby different centres as one body.
@@ -161,7 +165,7 @@ public sealed class BourgoinOrnamentCompartmentLibraryTests
                             foreach (var actual in flowers[second].Petals)
                             {
                                 var b = actual.Select(point => (X: point.X + dx, Y: point.Y + dy)).ToArray();
-                                var witness = $"B11 bodies {flowers[first].Centre} and {flowers[second].Centre}, period ({u},{v})";
+                                var witness = $"{id} bodies {flowers[first].Centre} and {flowers[second].Centre}, period ({u},{v})";
                                 Assert.False(Intersects(a, b), witness + " have touching/crossing petal chords");
                                 Assert.False(Inside(a, b[0]) || Inside(b, a[0]), witness + " have nested different-body petals");
                             }

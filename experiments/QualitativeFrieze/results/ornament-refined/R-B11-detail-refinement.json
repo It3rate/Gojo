@@ -6,24 +6,24 @@
       "id": "R-B11-detail",
       "title": "B11 \u00B7 Counterturned interior gardens",
       "sourceId": "B11",
-      "description": "Each actual pointed chamber supplies its own finite interior placement read and source port. Wide opposed sprays or a radial blossom occupy the interior. Smaller nested leaves and veins articulate those masses, while alternate chamber families take different colours.",
+      "description": "Each actual pointed chamber supplies its own finite interior placement read and source port. Wide opposed sprays or a radial blossom occupy the interior. The detail has four dominant diagonal petals, four short axial petals, one centre and quiet veins; its uninterrupted parent rails remain legible. Alternate chamber families take different colours.",
       "svg": "",
       "units": 9,
-      "paths": 124,
-      "chords": 448,
-      "addedPaths": 120,
-      "attachments": 120,
-      "strokes": 4032,
+      "paths": 72,
+      "chords": 336,
+      "addedPaths": 68,
+      "attachments": 68,
+      "strokes": 3024,
       "accepted": 473,
       "blocked": 0,
       "open": 0,
       "frontier": 121,
-      "nativeObjects": 189936,
+      "nativeObjects": 112689,
       "numericParticipants": 0,
       "layerPaths": [
         4,
         32,
-        88
+        36
       ],
       "focusComplete": [
         true,
@@ -33,6 +33,6 @@
       "palette": "Ivory, oxblood \u0026 sage"
     }
   },
-  "constructionNotes": "Each actual pointed chamber supplies its own finite interior placement read and source port. Wide opposed sprays or a radial blossom occupy the interior. Smaller nested leaves and veins articulate those masses, while alternate chamber families take different colours. Curved rendering rounds selected flowing contours only; pointed tips, roots and native source seam identities remain fixed. Four colour groups are exact disjoint path selections, not screen-location bins.",
-  "curvedPlacedPaths": 360
+  "constructionNotes": "Each actual pointed chamber supplies its own finite interior placement read and source port. Wide opposed sprays or a radial blossom occupy the interior. The detail has four dominant diagonal petals, four short axial petals, one centre and quiet veins; its uninterrupted parent rails remain legible. Alternate chamber families take different colours. Curved rendering rounds selected flowing contours only; pointed tips, roots and native source seam identities remain fixed. Four colour groups are exact disjoint path selections, not screen-location bins.",
+  "curvedPlacedPaths": 324
 }

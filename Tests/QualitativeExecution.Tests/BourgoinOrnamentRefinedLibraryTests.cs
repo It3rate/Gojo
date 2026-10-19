@@ -37,7 +37,8 @@ public sealed class BourgoinOrnamentRefinedLibraryTests
                     Assert.Same(layer, Assert.Single(E(focus.Selected))); Assert.Equal(2, E(focus.Complement).Length);
                 }
                 var chords = E(enrichment.Result.Paths).Cast<Relation>().Sum(path => E((Relation)path.Right).Length);
-                var budget = BourgoinOrnamentCompartmentLibrary.SourceIds.Contains(design.SourceId) ? 550 : 200;
+                var budget = BourgoinOrnamentCompartmentLibrary.SourceIds.Contains(design.SourceId) ||
+                    design is { SourceId: "B30", Mode: "detail" } ? 550 : 200;
                 Assert.True(chords >= 1 && chords <= budget, $"{design.Id}: {chords} chords");
             }
             Assert.True(signatures.Distinct(StringComparer.Ordinal).Count() == 3, group.Key + " modes must add distinct geometry");

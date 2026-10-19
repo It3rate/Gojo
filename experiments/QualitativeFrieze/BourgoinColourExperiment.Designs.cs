@@ -166,7 +166,8 @@ public static partial class BourgoinColourExperiment
             N.E(enrichment.Result.Paths).Cast<Relation>().Sum(path => N.E((Relation)path.Right).Length), added, anchors,
             N.E(field.Graph.Strokes).Length, N.E(field.Accepted).Length, N.E(field.Blocked).Length,
             N.E(field.Unresolved).Length, N.E(field.Frontier).Length, participants.Length, numeric,
-            selections.Select(layer => layer.Count).ToArray(), [true, true, true], palette.Name);
+            selections.Select(layer => layer.Count).ToArray(), [true, true, true],
+            design.Id.StartsWith("R-", StringComparison.Ordinal) ? RefinedPaletteLabel(design.SourceId, palette.Name) : palette.Name);
         var result = new DesignResult(design.Mode, source.Name, plate);
         File.WriteAllText(Path.Combine(output, design.Id + "-record.json"),
             JsonSerializer.Serialize(result with { Plate = plate with { Svg = "" } }, JsonOptions));
