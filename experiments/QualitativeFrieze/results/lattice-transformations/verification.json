@@ -1,0 +1,168 @@
+{
+  "schema": "gojo-lattice-transformations-verification-v1",
+  "capturedAtUtc": "2026-10-19T21:20:13.236218+00:00",
+  "solutionTests": {
+    "command": "dotnet test Gojo.slnx -c Release --logger trx --results-directory artifacts/lattice-transformation-solution-tests --nologo",
+    "assemblies": 12,
+    "passed": 4351,
+    "failed": 0,
+    "skipped": 0,
+    "newStructuralTests": 26,
+    "results": [
+      {
+        "assembly": "Gojo.Tests.dll",
+        "passed": 1069,
+        "failed": 0,
+        "skipped": 0,
+        "trx": "Robin_WINROBIN_2026-10-19_16_03_15_net10.0.trx",
+        "sha256": "5f0cbd443dd2109436baa457bd1069b34b1a0f914ec93b79a500565f40891fba"
+      },
+      {
+        "assembly": "PrimitiveLearning.Tests.dll",
+        "passed": 66,
+        "failed": 0,
+        "skipped": 0,
+        "trx": "Robin_WINROBIN_2026-10-19_16_03_17_net10.0.trx",
+        "sha256": "175f3fd80357e49246ebb19b32136b7d353f0cdc9c015e4156b4fea80688c331"
+      },
+      {
+        "assembly": "Phototaxis.Tests.dll",
+        "passed": 129,
+        "failed": 0,
+        "skipped": 0,
+        "trx": "Robin_WINROBIN_2026-10-19_16_03_17_net10.0[1].trx",
+        "sha256": "86d278454f2f80fd4c112712863fed09311a050ed555d8136ca6b73f5fe9e2d5"
+      },
+      {
+        "assembly": "Minds.Tests.dll",
+        "passed": 49,
+        "failed": 0,
+        "skipped": 0,
+        "trx": "Robin_WINROBIN_2026-10-19_16_03_20_net10.0.trx",
+        "sha256": "e2204a4b5ad70e905b70490d0fdd659ed8d53e5dc48ea51351b4ab2a6b801d13"
+      },
+      {
+        "assembly": "UtilityEcology.Tests.dll",
+        "passed": 119,
+        "failed": 0,
+        "skipped": 0,
+        "trx": "Robin_WINROBIN_2026-10-19_16_03_21_net10.0.trx",
+        "sha256": "6385ef131e9be501a9c4d59091fc552b70d11b06307f15cec9beba28049d8351"
+      },
+      {
+        "assembly": "GojoCAD.Tests.dll",
+        "passed": 155,
+        "failed": 0,
+        "skipped": 0,
+        "trx": "Robin_WINROBIN_2026-10-19_16_03_22_net10.0.trx",
+        "sha256": "1f036f2948ac6eed1bb923b99dacf6b899097a7ee53cda7564109c4c163199a2"
+      },
+      {
+        "assembly": "PrimitiveForager.Tests.dll",
+        "passed": 6,
+        "failed": 0,
+        "skipped": 0,
+        "trx": "Robin_WINROBIN_2026-10-19_16_03_27_net10.0.trx",
+        "sha256": "7f833678b9b93a9c3506c15b43956a8dd85714146fbc5ae964ec7ba2ed1f731c"
+      },
+      {
+        "assembly": "Gojo.Encoding.Tests.dll",
+        "passed": 725,
+        "failed": 0,
+        "skipped": 0,
+        "trx": "Robin_WINROBIN_2026-10-19_16_03_28_net10.0.trx",
+        "sha256": "4ef7aa5a8a66ba16ca39d6b387f06a3097477e4a58a5d5d6bb07998179daa9d6"
+      },
+      {
+        "assembly": "Gojo.GearShapeLadder.Tests.dll",
+        "passed": 21,
+        "failed": 0,
+        "skipped": 0,
+        "trx": "Robin_WINROBIN_2026-10-19_16_03_31_net10.0.trx",
+        "sha256": "43825ca404ca5c91291aced955efe21bdd2fd1f3bed04d298041ebfd7f1ba410"
+      },
+      {
+        "assembly": "QualitativeExecution.Tests.dll",
+        "passed": 1921,
+        "failed": 0,
+        "skipped": 0,
+        "trx": "Robin_WINROBIN_2026-10-19_16_03_50_net10.0.trx",
+        "sha256": "586330862162560c38d4392a2663de3c6d633032b069f164aaa934dcd1969f60"
+      },
+      {
+        "assembly": "AdaptiveLifecycle.Tests.dll",
+        "passed": 25,
+        "failed": 0,
+        "skipped": 0,
+        "trx": "Robin_WINROBIN_2026-10-19_16_03_59_net10.0.trx",
+        "sha256": "ae50a457b18887600f586df56f40500da10b7363ce701e5e9952b32994652fdb"
+      },
+      {
+        "assembly": "CompositeEmergence.Tests.dll",
+        "passed": 66,
+        "failed": 0,
+        "skipped": 0,
+        "trx": "Robin_WINROBIN_2026-10-19_16_03_59_net10.0[1].trx",
+        "sha256": "fa17377766595f168759fd4659274b39fbf19cc35ba56080e6504da4e95acda7"
+      }
+    ]
+  },
+  "build": {
+    "command": "dotnet build experiments/QualitativeFrieze/QualitativeFrieze.csproj -c Release -o artifacts/lattice-transformation-bin --nologo",
+    "errors": 0,
+    "warnings": 0
+  },
+  "nativeExecution": {
+    "command": "dotnet artifacts/lattice-transformation-bin/QualitativeFrieze.dll --lattice-transformations",
+    "admitted": 100,
+    "distinctFiniteSupportReads": 100,
+    "actualUnitSupportChanges": 100,
+    "changedFiniteFieldSupportAndJunctionReads": 100,
+    "sourceFamilies": 10,
+    "transformationIntents": 10,
+    "observedOutcomeFamilies": 11,
+    "unitsPerCase": 9,
+    "displayedStages": 977,
+    "uniqueRenderedStages": 541,
+    "actualAncestorAnswers": 877,
+    "nativeNumericParticipants": 0,
+    "blockedSeamObligations": 0,
+    "missingSeamObligations": 0,
+    "zeroChords": 0,
+    "immediateRetraces": 0,
+    "retracedPairs": 0,
+    "geometricOverlaps": 0,
+    "unjoinedContacts": 72,
+    "unjoinedProperCrossings": 288,
+    "connectedFields": 65,
+    "separateStrandFields": 35,
+    "unitSupportChangeRatioRange": [
+      0.27941176470588236,
+      0.875
+    ],
+    "compressedConstructionBytes": 12039721,
+    "representativeRulePackets": 5,
+    "compressedRepresentativeRuleBytes": 28539088
+  },
+  "browser": {
+    "report": "browser-check.json",
+    "passed": true,
+    "checks": 4383,
+    "walkedStages": 977,
+    "scriptErrors": 0,
+    "failedRequests": 0,
+    "widths": [
+      1440,
+      430
+    ],
+    "ratings": "Local ratings, notes, persistence, export/import, fingerprint rejection and clear/reload checked in an isolated browser context."
+  },
+  "retainedCounterexample": "history/failed-fusion.json",
+  "limits": [
+    "Ten authored source families with ten bounded geometric edit combinations; this is not autonomous discovery or 100 unrelated visual families.",
+    "Unit support change measures unique formal atoms; expanded-field fingerprints include junction topology and do not quantify field ink difference.",
+    "Finite common-reach support, contact and crossing reads do not establish infinite occupied-face tiling or aesthetic merit.",
+    "Intentional unjoined proper crossings and separate strands remain visible; the native gate is not a blanket connected-tiling claim.",
+    "Full retained-history and diagnostic witness packets are research encodings, not minimal compressed pattern definitions."
+  ]
+}
