@@ -9,6 +9,7 @@
       "/core4/*",
       "/syntax/*",
       "/minds/*",
+      "/ornaments/*",
       "/*.{css,js,wasm,json,dat,br,gz,png,ico,svg,gojo}"
     ]
   },

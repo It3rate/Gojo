@@ -1,0 +1,2 @@
+# Keep the generated publication and its integrity hashes stable across clones.
+* -text whitespace=cr-at-eol

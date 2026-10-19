@@ -1,0 +1,953 @@
+{
+  "collection": "bourgoin",
+  "sourceGallery": "experiments/QualitativeFrieze/results/bourgoin-patterns/gallery.html",
+  "textNewlines": "LF",
+  "count": 36,
+  "files": [
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B01-encoding.txt",
+      "url": "/ornaments/bourgoin/B01-encoding.txt",
+      "sha256": "08432702b6e2c0afb056a8dc85e57ebb7705bf40b3d5319f340d890dcea68306"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B01.gojo.json",
+      "url": "/ornaments/bourgoin/B01.gojo.json",
+      "sha256": "90b3d05387b8400be1c70f74b7a1ae78034facb7422a8809bb4b57298b7dc79d"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B01.svg",
+      "url": "/ornaments/bourgoin/B01.svg",
+      "sha256": "687219e30a4b573fff6bb68680644b816093af46170f9dd11beebc978bab9f54"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B02-encoding.txt",
+      "url": "/ornaments/bourgoin/B02-encoding.txt",
+      "sha256": "6502a257354d6cf60a37681c3251679e6f77181b2b1b15cf4a6ffb92e559b9d6"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B02.gojo.json",
+      "url": "/ornaments/bourgoin/B02.gojo.json",
+      "sha256": "90ea1f2924e5187092962f17b57034c979844c6e042ade810e07d50f0cfe78d1"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B02.svg",
+      "url": "/ornaments/bourgoin/B02.svg",
+      "sha256": "7af8e421d405227073ce91333f646b9939e14c1f47a82ed39c36c789adb28565"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B03-encoding.txt",
+      "url": "/ornaments/bourgoin/B03-encoding.txt",
+      "sha256": "e2b1461eddf3bb65520d580ebe5598a928cd8d7b832d2c3d5e4fc7f7036c4dd2"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B03.gojo.json",
+      "url": "/ornaments/bourgoin/B03.gojo.json",
+      "sha256": "f7a921184270e8c457e05c14e4fb885d421df7c63d11325053d3b76bb6afb9ed"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B03.svg",
+      "url": "/ornaments/bourgoin/B03.svg",
+      "sha256": "8b72ba64d9c0eff24bcac53d466fb40696476d2cbcf18c919bc73078ca3cd62a"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B04-encoding.txt",
+      "url": "/ornaments/bourgoin/B04-encoding.txt",
+      "sha256": "dc5e1662411212f1154241df9979f2da92bc4774b5cf0e1945b0534e0ceee196"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B04.gojo.json",
+      "url": "/ornaments/bourgoin/B04.gojo.json",
+      "sha256": "bd3a169b6f8dc5ebee14f4faed7b3311a35b3f735de5791cc778872704cf5003"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B04.svg",
+      "url": "/ornaments/bourgoin/B04.svg",
+      "sha256": "62ee5f0924f3cf5b08c6c59409b0fe7cbc7ca3e72327503cd8eacc42d583f04b"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B05-encoding.txt",
+      "url": "/ornaments/bourgoin/B05-encoding.txt",
+      "sha256": "ebe93f3e1dc3db361c9d45aabf4b41d4e8831d82822c52ee42b9afb7ddbcb74b"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B05.gojo.json",
+      "url": "/ornaments/bourgoin/B05.gojo.json",
+      "sha256": "41d5fe26b9bf217399131f05e7bc235d23d26caabf75894ee08cc214ac1f8e12"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B05.svg",
+      "url": "/ornaments/bourgoin/B05.svg",
+      "sha256": "a2f9211e40b8e1fe8723294591b484f036276c723603e08c3366ae549e991be4"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B06-encoding.txt",
+      "url": "/ornaments/bourgoin/B06-encoding.txt",
+      "sha256": "e625cb28d3e41999ca5ffef4a61106121e1054c1d6a0020439de31bf59c49755"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B06.B-encoding.txt",
+      "url": "/ornaments/bourgoin/B06.B-encoding.txt",
+      "sha256": "56c326e988bc148534b40ae94989bd977339b8f03bbc0ad985e06fa2af5dca9e"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B06.B.gojo.json",
+      "url": "/ornaments/bourgoin/B06.B.gojo.json",
+      "sha256": "fedfdaf131b0f90dfdad26d399da3c4ab0c0477fff17bb29e25bf4d14bc1b630"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B06.B.svg",
+      "url": "/ornaments/bourgoin/B06.B.svg",
+      "sha256": "2a5e3f3650194141914c31da78e45c15f555c0556dea128da9461b7305c8412c"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B06.gojo.json",
+      "url": "/ornaments/bourgoin/B06.gojo.json",
+      "sha256": "43b357faaf2dbdfb8232abf7fb29a8846f970c2312499fcc3c1f8a63b62e6eb8"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B06.svg",
+      "url": "/ornaments/bourgoin/B06.svg",
+      "sha256": "466c7a9a05622a78f1fbf57124f6f5d1046a81155ace93664bf596ae582126a9"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B07-encoding.txt",
+      "url": "/ornaments/bourgoin/B07-encoding.txt",
+      "sha256": "4056aa7207855c8d010560a4ef4ee5fe2f23b975b10168c81ce5199b8c768be8"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B07.gojo.json",
+      "url": "/ornaments/bourgoin/B07.gojo.json",
+      "sha256": "f368723fd32c97c8d918161ca030f5bb788e7c82f8307b752c4902fec68e4db2"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B07.svg",
+      "url": "/ornaments/bourgoin/B07.svg",
+      "sha256": "3d737f3e73aaaeefac912ab8b8d81d050715c44c87a77cbf01f8a9762243f54d"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B08-encoding.txt",
+      "url": "/ornaments/bourgoin/B08-encoding.txt",
+      "sha256": "cc370e2200739b49cb8929790c229c5c3f64fab942e193ffb24d2b897aa6fd0b"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B08.B-encoding.txt",
+      "url": "/ornaments/bourgoin/B08.B-encoding.txt",
+      "sha256": "0902410f6806b5a321c85b06daf96cda28e7f503721826d42e2401de4260cad3"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B08.B.gojo.json",
+      "url": "/ornaments/bourgoin/B08.B.gojo.json",
+      "sha256": "2ceafd8b7a94cd32e3e8f73c6e04d149e2252d023b380c48d1a4d475228c95ac"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B08.B.svg",
+      "url": "/ornaments/bourgoin/B08.B.svg",
+      "sha256": "36dd1cfc6dae3d969a150b9c346922ce18a4d6762e58b1164a880cf430b467eb"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B08.gojo.json",
+      "url": "/ornaments/bourgoin/B08.gojo.json",
+      "sha256": "1465265eb938b59f069af1906a2c475a840522fbc90970c6cab4939733fa8029"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B08.svg",
+      "url": "/ornaments/bourgoin/B08.svg",
+      "sha256": "11336ba85dbf80068ac772f2b2fe70d71ac68d143bba20a73832f93c345ba9b8"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B09-encoding.txt",
+      "url": "/ornaments/bourgoin/B09-encoding.txt",
+      "sha256": "f8afef0fc1f726b20b2c2ed58408b33fc4ff86d759d33363e5f2ed918a6cb7c3"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B09.gojo.json",
+      "url": "/ornaments/bourgoin/B09.gojo.json",
+      "sha256": "1c030097754bac6682c911bf16ee0f1a60561bb1ceb2bdfd3777d7c2e8755dc5"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B09.svg",
+      "url": "/ornaments/bourgoin/B09.svg",
+      "sha256": "03b36b8d9ce561f621e52dbd331c55d0bde3c83ec3b0d720edd6dc227fd6fb68"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B10-encoding.txt",
+      "url": "/ornaments/bourgoin/B10-encoding.txt",
+      "sha256": "2c33ffd4ee4235a8fbf9549f75cc559515a1c956e205e3425ca61b3e7de4e238"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B10.gojo.json",
+      "url": "/ornaments/bourgoin/B10.gojo.json",
+      "sha256": "1762ede03d01db3b6d536c4c42a79b0053b0409ac87ae7d75a70cf2587c6da35"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B10.svg",
+      "url": "/ornaments/bourgoin/B10.svg",
+      "sha256": "2f3b9b84db6a1a86d9117e576546cd70247676a89d2ebb6c225ba0e44b1b7667"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B11-encoding.txt",
+      "url": "/ornaments/bourgoin/B11-encoding.txt",
+      "sha256": "892b071bec3a86946861bb618ecdfddfe812a47d89decc5ec8e51130ab47fa0d"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B11.gojo.json",
+      "url": "/ornaments/bourgoin/B11.gojo.json",
+      "sha256": "d79704489de5123ce2019cdd2994f69c417dc0ee0765743921e9f1369e2c83c4"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B11.svg",
+      "url": "/ornaments/bourgoin/B11.svg",
+      "sha256": "a64408e8da01eba615b884a6f14515d0b6bcf4948804d71240f1c097e35cc390"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B12-encoding.txt",
+      "url": "/ornaments/bourgoin/B12-encoding.txt",
+      "sha256": "89da2975690a6179d0099cbfb8779b40b96c63adaa775a142381a510325d05d4"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B12.gojo.json",
+      "url": "/ornaments/bourgoin/B12.gojo.json",
+      "sha256": "0c8534e0644c96ebfa5f76169a998739090661e1ad019508005e4893083f7e84"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B12.svg",
+      "url": "/ornaments/bourgoin/B12.svg",
+      "sha256": "20876866d0739b79fe0989c436341028d5e110f2ef6e1249f09f4c32aac83e2e"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B13-encoding.txt",
+      "url": "/ornaments/bourgoin/B13-encoding.txt",
+      "sha256": "77172ed09644c59dda8f7dd56aefb75d28bb11a768de436df29035072158ade4"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B13.gojo.json",
+      "url": "/ornaments/bourgoin/B13.gojo.json",
+      "sha256": "4b3f0a2f0707eee6e5ec1c5045afed046407490896aceba333594725e6e4f35b"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B13.svg",
+      "url": "/ornaments/bourgoin/B13.svg",
+      "sha256": "8d19202d68b405624925c165342fb6c4786885ae834eb7394359da1a35c7ab11"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B14-encoding.txt",
+      "url": "/ornaments/bourgoin/B14-encoding.txt",
+      "sha256": "770777168758b85d2ba81da2b307e7306cb8f5254afb36f5d439186122b22a2a"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B14.gojo.json",
+      "url": "/ornaments/bourgoin/B14.gojo.json",
+      "sha256": "060df2f8ed58856c93770db21f765261d0a1ecb49c79880f42d7f9a505b3e354"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B14.svg",
+      "url": "/ornaments/bourgoin/B14.svg",
+      "sha256": "3e1a5dcddf61a5f29a738456e035c5b650bed17421a8f9d3c29eeb9927177d6c"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B15-encoding.txt",
+      "url": "/ornaments/bourgoin/B15-encoding.txt",
+      "sha256": "300c03685d7691ece99aa170f12d0f453eeb6419a67a41a84424ac4cb2d8f77b"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B15.gojo.json",
+      "url": "/ornaments/bourgoin/B15.gojo.json",
+      "sha256": "54d8bd81b6e75e4d96626768cd07155311eb36e486f3242d2add9547229c993b"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B15.svg",
+      "url": "/ornaments/bourgoin/B15.svg",
+      "sha256": "b23e23a469ed9af4e85569b810bd35554637f647cf02fd6a2cbeb4d4a21c49bc"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B16-encoding.txt",
+      "url": "/ornaments/bourgoin/B16-encoding.txt",
+      "sha256": "20e0824bbe06db4c5e9e9fc48f40811951242a97188dc1125af727eb07393a34"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B16.gojo.json",
+      "url": "/ornaments/bourgoin/B16.gojo.json",
+      "sha256": "8d392893d6101b884e061d335a38d772375e7909c7ea64bcc03d049b66072a02"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B16.svg",
+      "url": "/ornaments/bourgoin/B16.svg",
+      "sha256": "d502b34bd51df8120c49926a542cceb4edbeb0a0530002d385f2e6e14981f947"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B17-encoding.txt",
+      "url": "/ornaments/bourgoin/B17-encoding.txt",
+      "sha256": "78f98fcbd515b9eb4f44b04cb469046fc5efdb46b124c74500c6198bfe1a23da"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B17.gojo.json",
+      "url": "/ornaments/bourgoin/B17.gojo.json",
+      "sha256": "aa268d9f80e96a8cc4a501f70289430666a8a9203bef19b1b26dcf41aaa53f68"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B17.svg",
+      "url": "/ornaments/bourgoin/B17.svg",
+      "sha256": "fc39eafbe7109784d39ad3b2e127c21d3a06dadb59c3c413924df964ad9cdfc7"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B18-encoding.txt",
+      "url": "/ornaments/bourgoin/B18-encoding.txt",
+      "sha256": "9d41abd16aabe4bb7cb1f6d162589367137606976dde0bb056a14bdac989c3ec"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B18.gojo.json",
+      "url": "/ornaments/bourgoin/B18.gojo.json",
+      "sha256": "525d3865b3e0c958fef1d6433372b540dbb7259a5e73b5ff91cf178c3c2b5a0c"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B18.svg",
+      "url": "/ornaments/bourgoin/B18.svg",
+      "sha256": "591092fb42875b77504515d8bb971591073339e6d15f225a76c0aae1296067fb"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B19-encoding.txt",
+      "url": "/ornaments/bourgoin/B19-encoding.txt",
+      "sha256": "3cd2ffc1d7ed8b7c155ec83a72965c11e623f8009434c21e855bb065974b821a"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B19.gojo.json",
+      "url": "/ornaments/bourgoin/B19.gojo.json",
+      "sha256": "48332b1b5b05908d8913723a5a73af4bfcb9b3ad5a7028cbb3f113d772bdca53"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B19.svg",
+      "url": "/ornaments/bourgoin/B19.svg",
+      "sha256": "5efff8bba306096e7d8442d98dc7aec133f2d39e62e55287ca4f8218abd851f1"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B20-encoding.txt",
+      "url": "/ornaments/bourgoin/B20-encoding.txt",
+      "sha256": "b3b3a1abe8bbd785d0b4f31b4d975cc90142bd56c58a73f5c5847cb3331db0af"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B20.gojo.json",
+      "url": "/ornaments/bourgoin/B20.gojo.json",
+      "sha256": "0ab535106ef92dbe68e64f72fd60831c6a607418c7522fa045acb7fd869d2f34"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B20.svg",
+      "url": "/ornaments/bourgoin/B20.svg",
+      "sha256": "61d3f7bf50b04acfb270355a57256c13eb6df88803c054fa3cb038ba73c92fb8"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B21-encoding.txt",
+      "url": "/ornaments/bourgoin/B21-encoding.txt",
+      "sha256": "b26423df69662e19cf755d8bba5ca266d738c36a45cd97dc4a85b8d412145b78"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B21.gojo.json",
+      "url": "/ornaments/bourgoin/B21.gojo.json",
+      "sha256": "7362e23bec60d52357abc37c43bbd13ab44e2248df75c8db7b3abadb19429e30"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B21.svg",
+      "url": "/ornaments/bourgoin/B21.svg",
+      "sha256": "1718df59951a86b57b539a9985be03d1b5b1527121125f1dac624bf3dd0a671c"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B22-encoding.txt",
+      "url": "/ornaments/bourgoin/B22-encoding.txt",
+      "sha256": "7d8f728ca0a43aec60712babf5084ce72fc1b3ad81850d8038490d5d5d0bd308"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B22.gojo.json",
+      "url": "/ornaments/bourgoin/B22.gojo.json",
+      "sha256": "6d2c3462fd978386035f31b12b55a13cb1c61fe703a52257cfc3ec32b54bcc45"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B22.svg",
+      "url": "/ornaments/bourgoin/B22.svg",
+      "sha256": "23a4d6e1e7da0a004fa0031d1e22267b62907d2acf5296d04b822a8d5ee24d15"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B23-encoding.txt",
+      "url": "/ornaments/bourgoin/B23-encoding.txt",
+      "sha256": "1426521c0011aa219426cba4ec606442954d81ad69f15747eab693ad65e76e7c"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B23.gojo.json",
+      "url": "/ornaments/bourgoin/B23.gojo.json",
+      "sha256": "59e5064ff4104ceb0f3481d0ab25ebef2b1129bf1d1327b2abcce665f5a58699"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B23.svg",
+      "url": "/ornaments/bourgoin/B23.svg",
+      "sha256": "9cd5b351c492441e44cdbddadd7491a07c4f71dd1fdd64b5f5fb2ca242737f95"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B24-encoding.txt",
+      "url": "/ornaments/bourgoin/B24-encoding.txt",
+      "sha256": "90183590c7f8f44ead65762fe316769f2e04c563149125a78f670abdae31e1f1"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B24.gojo.json",
+      "url": "/ornaments/bourgoin/B24.gojo.json",
+      "sha256": "01a5819935c96f6833a44edce980e650e17bd6c9e200b1a53f98a1bbe4b21ba7"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B24.svg",
+      "url": "/ornaments/bourgoin/B24.svg",
+      "sha256": "2ff99e086608838da3ef6d0378c3d3ab3191793052ca5740d6e786b9cdedfe33"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B25-encoding.txt",
+      "url": "/ornaments/bourgoin/B25-encoding.txt",
+      "sha256": "9ab49c2534576fc5b44ba762f705101d4aa419892f386195e077021375647f44"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B25.gojo.json",
+      "url": "/ornaments/bourgoin/B25.gojo.json",
+      "sha256": "28882efa337d1cdce5c727ed6d48d280ec26d0fca29448093b0378a42a288948"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B25.svg",
+      "url": "/ornaments/bourgoin/B25.svg",
+      "sha256": "a099a6cada37c634d195a6dccd1d83b64103f8305a60137148bb6c973153d1c2"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B26-encoding.txt",
+      "url": "/ornaments/bourgoin/B26-encoding.txt",
+      "sha256": "1c1f37ca11078b8a87cbe173406e262886c68d10f5d793a824dc4d8826fa4abe"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B26.gojo.json",
+      "url": "/ornaments/bourgoin/B26.gojo.json",
+      "sha256": "d7a58deff2d93122ad9df4098bf1b58c6c352d3ba87617bd7aa6ee164ebf6e84"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B26.svg",
+      "url": "/ornaments/bourgoin/B26.svg",
+      "sha256": "3fcd42b276b9e968f67fcdd06ff18ed52c3c875f33b85cd299a188428c896a2c"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B27-encoding.txt",
+      "url": "/ornaments/bourgoin/B27-encoding.txt",
+      "sha256": "1b7458743d0d4e765056176af8ce2b2a2635f778d67bf51113b282074c82f83b"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B27.gojo.json",
+      "url": "/ornaments/bourgoin/B27.gojo.json",
+      "sha256": "cee8f3b412bfac27474342f057677a4ddb7ce6b9ae9eb975e23fb0ae1fcac902"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B27.svg",
+      "url": "/ornaments/bourgoin/B27.svg",
+      "sha256": "f184ce55d5a53ed774f5ae2632ac4289946cc0a12f3b597fd61facff6aa7974c"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B28-encoding.txt",
+      "url": "/ornaments/bourgoin/B28-encoding.txt",
+      "sha256": "b749ea8387ef8a3a39e304117c00cecd2408c9da9090e31ea03f78c596d10c91"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B28.gojo.json",
+      "url": "/ornaments/bourgoin/B28.gojo.json",
+      "sha256": "8e66bc4adb9719a565c15436746e5c0f9d46a480e57d838d1e5c6a9ee91fffaa"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B28.svg",
+      "url": "/ornaments/bourgoin/B28.svg",
+      "sha256": "6fc9cb40582b3de7f4dccc79cee2012bbfbb73d3cfe2eaa4ebb0ee8f2646d855"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B29-encoding.txt",
+      "url": "/ornaments/bourgoin/B29-encoding.txt",
+      "sha256": "8ee8fbe57d47d18cd8cf7c5fd3e914fc2d7ffee95abe376a1265fcfc80756e9d"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B29.gojo.json",
+      "url": "/ornaments/bourgoin/B29.gojo.json",
+      "sha256": "249619bb4d13c7517a85a56095be991922e41edc499ccee1b1133a414f4d256b"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B29.svg",
+      "url": "/ornaments/bourgoin/B29.svg",
+      "sha256": "85dcb4cad216736c9f5f2fa372394b913e43cf6e4a0094a8fa2628276e328043"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B30-encoding.txt",
+      "url": "/ornaments/bourgoin/B30-encoding.txt",
+      "sha256": "d4e884f2359d1d43bde052bb5bd8d5c1e672a0730ffb67c50a4447a37178a640"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B30.gojo.json",
+      "url": "/ornaments/bourgoin/B30.gojo.json",
+      "sha256": "c613946a385ecf59470b5523fef182e3d36f2c7396bfed070eff2fb0fecd106c"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B30.svg",
+      "url": "/ornaments/bourgoin/B30.svg",
+      "sha256": "f695af366b64921f782424b897aa93a47f6f68aa772b00665b6f650b14e5fd90"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B31-encoding.txt",
+      "url": "/ornaments/bourgoin/B31-encoding.txt",
+      "sha256": "1aaf5abae106db85191539acd32f5a518f9642489832e8dc25709ff8c817a181"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B31.gojo.json",
+      "url": "/ornaments/bourgoin/B31.gojo.json",
+      "sha256": "6bdf9a54e79aed31213f330c9dba97addd63caeb4bee23925e8947a3d7fc850a"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B31.svg",
+      "url": "/ornaments/bourgoin/B31.svg",
+      "sha256": "4c0a61e489d1234f40d22a6b22d7b7ca0c11c5620c8f1143d947eda9f7330f15"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B32-encoding.txt",
+      "url": "/ornaments/bourgoin/B32-encoding.txt",
+      "sha256": "3d44e87738887fa8dcee6a649e83967fa3595f792cfb6fade38d005fa5779b1c"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B32.gojo.json",
+      "url": "/ornaments/bourgoin/B32.gojo.json",
+      "sha256": "3106825aa5a748f1c604f252f60a4bbf48347c7951f6dfd984507058d657f290"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B32.svg",
+      "url": "/ornaments/bourgoin/B32.svg",
+      "sha256": "662f276a2c4794771c7e6e2b6a2f29ce5c74cc1081100a6cbec8fa8d3cfea5fd"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B33-encoding.txt",
+      "url": "/ornaments/bourgoin/B33-encoding.txt",
+      "sha256": "c5e26f2559cc6957f6f80a5626f23822b68b353422cae0df57f9ae9ade51de6e"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B33.gojo.json",
+      "url": "/ornaments/bourgoin/B33.gojo.json",
+      "sha256": "50bee66e732650de6311d2a2a2f0b2fb46b03260d12ff0837c32940617fda026"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B33.svg",
+      "url": "/ornaments/bourgoin/B33.svg",
+      "sha256": "5975fed1ce35e89cd9eab787d29c3d98fbf41d6abfdd97b8776c1539ac55ceb7"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B34-encoding.txt",
+      "url": "/ornaments/bourgoin/B34-encoding.txt",
+      "sha256": "ad774b735d2efde41923485ac2803da604e0bcdb3c153598ccc2fbabe927f1e8"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B34.gojo.json",
+      "url": "/ornaments/bourgoin/B34.gojo.json",
+      "sha256": "e4fd864c1a87171379c946784648e6d297116d6db2120f32803d0f97942f23f7"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/B34.svg",
+      "url": "/ornaments/bourgoin/B34.svg",
+      "sha256": "f3e4d87c90c4f85d29e1684d00761e41a7b86ed6738fe579dae3df1c4706d291"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/bourgoin-preview.png",
+      "url": "/ornaments/bourgoin/bourgoin-preview.png",
+      "sha256": "8fcbc20f210bcba5a2fe64bfd3e7cd59626613f9358be53d88c9f66a5c0ebf04"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/catalog.json",
+      "url": "/ornaments/bourgoin/catalog.json",
+      "sha256": "b9a250c6b71b916ce2708f39bbd79626cd313879a4c301333ba45d7ab7199cc6"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/contact-pass/B32.svg",
+      "url": "/ornaments/bourgoin/contact-pass/B32.svg",
+      "sha256": "e9f0e355b838a36a5121c52362aff59d1fbffc2e0605b46ef2a151d5918c8c2a"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/contact-pass/catalog.json",
+      "url": "/ornaments/bourgoin/contact-pass/catalog.json",
+      "sha256": "f5e36aab89fd5ad09afb99d4e13b25e70228b1c5ae07b411cba65ac6703ab632"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/contact-pass/diagnostics.json",
+      "url": "/ornaments/bourgoin/contact-pass/diagnostics.json",
+      "sha256": "b09154e66aa0c3510a3c46fa09bebba4c85cd7d60830bda65464d53e5bc5946e"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/diagnostics.json",
+      "url": "/ornaments/bourgoin/diagnostics.json",
+      "sha256": "8003b70c416f3b718e17eea3cbbc87c898342ea74a5e75f258065e09344f4273"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/first-pass/B01.svg",
+      "url": "/ornaments/bourgoin/first-pass/B01.svg",
+      "sha256": "cb5116cbb36ad82197715be680ef3334924e930cf4ccdea2b2f1cff949dc3ef5"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/first-pass/B02.svg",
+      "url": "/ornaments/bourgoin/first-pass/B02.svg",
+      "sha256": "2ff7a03499c0cde7decde3a71054162823075540309e853a7ef98f68e3445073"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/first-pass/B03.svg",
+      "url": "/ornaments/bourgoin/first-pass/B03.svg",
+      "sha256": "74085b048e41f2e9b792cb6f9d6cdfacf8c329b825e71298c67d129003bdceb8"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/first-pass/B04.svg",
+      "url": "/ornaments/bourgoin/first-pass/B04.svg",
+      "sha256": "3e7ad3cb684d860b91a4afb21508a69fabdb6e7e4f50ad37d42400c6ca3807d6"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/first-pass/B05.svg",
+      "url": "/ornaments/bourgoin/first-pass/B05.svg",
+      "sha256": "521beeff966e0e20c5467770a0666a0913bb16db5ae08b07d8e806f68d7dc6c6"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/first-pass/B06.svg",
+      "url": "/ornaments/bourgoin/first-pass/B06.svg",
+      "sha256": "b3480e7b11845ffff0bbd068d5a09e01defb3a1723ca5904dbd5d3b1a801e905"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/first-pass/B07.svg",
+      "url": "/ornaments/bourgoin/first-pass/B07.svg",
+      "sha256": "af4d63dbc15d2ebb95dc61915120ed3e228364f2dac015c3f2cc37f988a5efdc"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/first-pass/B08.svg",
+      "url": "/ornaments/bourgoin/first-pass/B08.svg",
+      "sha256": "4ffa4c9cbfbaa71795c39798b0e65c5836912382a954a531f7e982be4abef8a1"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/first-pass/B09.svg",
+      "url": "/ornaments/bourgoin/first-pass/B09.svg",
+      "sha256": "d4e8f030c6fb26ed39458a20611d2c94f6de84275e35adb172317265aa07bdb9"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/first-pass/B10.svg",
+      "url": "/ornaments/bourgoin/first-pass/B10.svg",
+      "sha256": "ba67fee1363e180c4b3c3ba3a1eb197491fdb8711d62a6e7d54ce804bb87ec25"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/first-pass/B11.svg",
+      "url": "/ornaments/bourgoin/first-pass/B11.svg",
+      "sha256": "025d6fc1af096ee2827ba0be5e7d75d76836c095bd636753f21110f0dc2322cf"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/first-pass/B12.svg",
+      "url": "/ornaments/bourgoin/first-pass/B12.svg",
+      "sha256": "c1144fc939caf212dff015d301c9bdb034212f6783f91616c5b5a7c7264f8d22"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/first-pass/B13.svg",
+      "url": "/ornaments/bourgoin/first-pass/B13.svg",
+      "sha256": "c6d32cc687dd4c56ee2e58b0dd8aee1262a4601ffe1766d1f33556b204abba1d"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/first-pass/B14.svg",
+      "url": "/ornaments/bourgoin/first-pass/B14.svg",
+      "sha256": "334a720e67c7cd77110f71c67ece3d2e5fb939f04d82367cd46ea2177ffc1109"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/first-pass/diagnostics.json",
+      "url": "/ornaments/bourgoin/first-pass/diagnostics.json",
+      "sha256": "157eea99ed357eae7d7f8cc2057a9eca63cd6b45fed1ce431e35f935618a5836"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/gallery.html",
+      "url": "/ornaments/bourgoin/gallery.html",
+      "sha256": "fafbf2e4e9ca5a19deb3ff8adf326e6ce67a6d3d0001fe4c6d8ab24e12485368"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/overview.html",
+      "url": "/ornaments/bourgoin/overview.html",
+      "sha256": "7e261643b7d86eb9a4f8bfdc79bdff6ea649fe8bd4b2423b55e7795d08fdca7e"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/overview.png",
+      "url": "/ornaments/bourgoin/overview.png",
+      "sha256": "c64aa3bba6663323ab9e106d7a8bdab81fdb4fd0dd15103deb1b26167baf8450"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/overview.svg",
+      "url": "/ornaments/bourgoin/overview.svg",
+      "sha256": "9ea14e6959548a705c1bb16660ac25b3c2220109b9aac255eeac80b06fb248cf"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/source-B01.jpg",
+      "url": "/ornaments/bourgoin/source-B01.jpg",
+      "sha256": "aff1e11fd66919d0f291de005e129e783382f27056e20905cdedc19f2b2268e3"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/source-B02.jpg",
+      "url": "/ornaments/bourgoin/source-B02.jpg",
+      "sha256": "66718f48c9425b81a0be073d10743787be54662d4bb70ceb5099a4a01a818c9f"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/source-B03.jpg",
+      "url": "/ornaments/bourgoin/source-B03.jpg",
+      "sha256": "6015d2912ce21f7a785168ef80abe929b0a2b822cad9da657ae54f4da29c0693"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/source-B04.jpg",
+      "url": "/ornaments/bourgoin/source-B04.jpg",
+      "sha256": "d1b59b60994f86bab0fa0b0090b767a20abee4c9d4fbd086920a724d9d53a22a"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/source-B05.jpg",
+      "url": "/ornaments/bourgoin/source-B05.jpg",
+      "sha256": "a7ad66cf9b12682c4f73e2fc2d2643e2929df9921e72ae6ccc1882f898c9845f"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/source-B06.B.jpg",
+      "url": "/ornaments/bourgoin/source-B06.B.jpg",
+      "sha256": "b252e4f6e1bbf4fe832819c07790cbe052ee0e54deb3d1b426f8cba1933ca7ec"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/source-B06.jpg",
+      "url": "/ornaments/bourgoin/source-B06.jpg",
+      "sha256": "b252e4f6e1bbf4fe832819c07790cbe052ee0e54deb3d1b426f8cba1933ca7ec"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/source-B07.jpg",
+      "url": "/ornaments/bourgoin/source-B07.jpg",
+      "sha256": "f4c9a00d83cf0eecac2f941b6266a15a24fa89d2dc7b4d631d2b27c14a01e037"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/source-B08.B.jpg",
+      "url": "/ornaments/bourgoin/source-B08.B.jpg",
+      "sha256": "596a8952d99c57c1f199b8912717f1d764ae4909cca6ec81a320465241003945"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/source-B08.jpg",
+      "url": "/ornaments/bourgoin/source-B08.jpg",
+      "sha256": "596a8952d99c57c1f199b8912717f1d764ae4909cca6ec81a320465241003945"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/source-B09.jpg",
+      "url": "/ornaments/bourgoin/source-B09.jpg",
+      "sha256": "bb3280440a854973a6da805dccc3158d2669e57fbce02e78002ad31437bd6f4b"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/source-B10.jpg",
+      "url": "/ornaments/bourgoin/source-B10.jpg",
+      "sha256": "3aec98f34f78994b0a3a59b811f2171fbebf03cffc5ecb97594ea7842d837714"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/source-B11.jpg",
+      "url": "/ornaments/bourgoin/source-B11.jpg",
+      "sha256": "5e152e520b2b24b4fe90104c6de1b524d463acb8dbd72ebecb85cc15182a9800"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/source-B12.jpg",
+      "url": "/ornaments/bourgoin/source-B12.jpg",
+      "sha256": "1d394e2152a22a3387a917e0a364614bdb20645bae8b1920f4e3c693ff42f8f6"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/source-B13.jpg",
+      "url": "/ornaments/bourgoin/source-B13.jpg",
+      "sha256": "d77436215e635445261e785a3b58a3b880061985b6d05f2499940e0ede0f6778"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/source-B14.jpg",
+      "url": "/ornaments/bourgoin/source-B14.jpg",
+      "sha256": "86e7a7fcf3b3ed6a82c4a6eb74f3e1293bac9482d06d1d6fd42235876dc40c27"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/source-B15.jpg",
+      "url": "/ornaments/bourgoin/source-B15.jpg",
+      "sha256": "134661b95d69a754b5dd8760146844c998c0e5fac94e8e9414e9d7fb8613aa25"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/source-B16.jpg",
+      "url": "/ornaments/bourgoin/source-B16.jpg",
+      "sha256": "e798caf959ca1e06bc6607ab68a03be9e2bd0166e7e33a6908bec2cff2956269"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/source-B17.jpg",
+      "url": "/ornaments/bourgoin/source-B17.jpg",
+      "sha256": "607720aa9d61e9966cf2fa98d65e03699573c7e404e4ee05d991b36b4057c861"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/source-B18.jpg",
+      "url": "/ornaments/bourgoin/source-B18.jpg",
+      "sha256": "f2e7240a46c8eb1f4776e510f0f25463c481eb4d8b3d9415303c5b2ca416970a"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/source-B19.jpg",
+      "url": "/ornaments/bourgoin/source-B19.jpg",
+      "sha256": "ba6fe2bca5eb59c82012d9f4e5729c48023271610b955103465223a630afcbc8"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/source-B20.jpg",
+      "url": "/ornaments/bourgoin/source-B20.jpg",
+      "sha256": "ba6fe2bca5eb59c82012d9f4e5729c48023271610b955103465223a630afcbc8"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/source-B21.jpg",
+      "url": "/ornaments/bourgoin/source-B21.jpg",
+      "sha256": "ba6fe2bca5eb59c82012d9f4e5729c48023271610b955103465223a630afcbc8"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/source-B22.jpg",
+      "url": "/ornaments/bourgoin/source-B22.jpg",
+      "sha256": "783a3e5fbe10be02ed12169656cb4292d553bab9ccca5c479e97c142ffc7c71b"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/source-B23.jpg",
+      "url": "/ornaments/bourgoin/source-B23.jpg",
+      "sha256": "0045dd522339ead2e592c48fdd6cd27f212c0bb207b37af66930b8d7c3a73bd1"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/source-B24.jpg",
+      "url": "/ornaments/bourgoin/source-B24.jpg",
+      "sha256": "3af75d0867a6ec850b5ab0e6f075e622f1df9a52421e575bf50b2c77e49fa315"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/source-B25.jpg",
+      "url": "/ornaments/bourgoin/source-B25.jpg",
+      "sha256": "fe91679ffa5b7b04777f327d3f56cd2654e7991d483ff84cc6272e54a20429f1"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/source-B26.jpg",
+      "url": "/ornaments/bourgoin/source-B26.jpg",
+      "sha256": "2e26c8e3d1f7615b10519186f29e0a7add9d966fbe9bab5087aed8d82c8135e9"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/source-B27.jpg",
+      "url": "/ornaments/bourgoin/source-B27.jpg",
+      "sha256": "81b1ea6ff8c4c4b960d3b8595233b94688b5b1a19dec8829bd567f789a134e03"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/source-B28.jpg",
+      "url": "/ornaments/bourgoin/source-B28.jpg",
+      "sha256": "1ebddcc0441ac017d228c0249f054ad5f0435d063d77eaca202f3606dd9ad57d"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/source-B29.jpg",
+      "url": "/ornaments/bourgoin/source-B29.jpg",
+      "sha256": "1b6128479fec328ec6a998d602d2efa558575179ce6a7f50ea6f662fc869e68d"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/source-B30.jpg",
+      "url": "/ornaments/bourgoin/source-B30.jpg",
+      "sha256": "e9817fc6c7e7e55dd7e45e63715956b8e3f5ff9089af32b70c3d6147733fc547"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/source-B31.jpg",
+      "url": "/ornaments/bourgoin/source-B31.jpg",
+      "sha256": "ebebb43fb30fe518c919b0a5ce46117986c11561aeb8843c8cd08fad29faae99"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/source-B32.jpg",
+      "url": "/ornaments/bourgoin/source-B32.jpg",
+      "sha256": "b492297362c0a5a8a57dc2d86805f10898cdb11487ca7dd82bfc8da4beff8386"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/source-B33.jpg",
+      "url": "/ornaments/bourgoin/source-B33.jpg",
+      "sha256": "4880f135471f8785f7255977ba480796392beb64761a34c00a3b5eb8b07d109c"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/source-B34.jpg",
+      "url": "/ornaments/bourgoin/source-B34.jpg",
+      "sha256": "ec8c10a03a5e62d7c27910a299fbe67cf5a510923e11341402bd4616e611286f"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/vocabulary-pass/B24.svg",
+      "url": "/ornaments/bourgoin/vocabulary-pass/B24.svg",
+      "sha256": "d8461b359cbe6c1a7bbcbd0a345384c09aa232d67a0ca4c4d1cf9593e724e194"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/vocabulary-pass/B26.svg",
+      "url": "/ornaments/bourgoin/vocabulary-pass/B26.svg",
+      "sha256": "4a007eee08bb1cfd6e87e0800f205a8fa805f30e85f6b1deb678af024a436535"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/vocabulary-pass/B29.svg",
+      "url": "/ornaments/bourgoin/vocabulary-pass/B29.svg",
+      "sha256": "b351267bb7787a00988af0018ce87b0ff7f890adff6ecca47cb1767e964625ac"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/vocabulary-pass/B31.svg",
+      "url": "/ornaments/bourgoin/vocabulary-pass/B31.svg",
+      "sha256": "36b6f793e16ee22140d294b552151745c718f1b02db241b920f9bb0fee69337c"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/vocabulary-pass/B32.svg",
+      "url": "/ornaments/bourgoin/vocabulary-pass/B32.svg",
+      "sha256": "4f219a2b4a89d514bf187259937cb22184b178cb59f5be33e7bb30145622b544"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/vocabulary-pass/B33.svg",
+      "url": "/ornaments/bourgoin/vocabulary-pass/B33.svg",
+      "sha256": "d1fff6518974f28a332c382f43f4e4ccb9dc0f7a3996c8b99eea6092c6b00839"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/vocabulary-pass/catalog.json",
+      "url": "/ornaments/bourgoin/vocabulary-pass/catalog.json",
+      "sha256": "2c57ffca85b244b2eeb18bda0348cc4c0210d2d4a21e19ba6a4b95ae905df844"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns/vocabulary-pass/diagnostics.json",
+      "url": "/ornaments/bourgoin/vocabulary-pass/diagnostics.json",
+      "sha256": "3c29588c84bf2900328fadc735bc4feb1d2a4b9e043cb48227df32fd44a369a0"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-program/P01.svg",
+      "url": "/ornaments/bourgoin/program/P01.svg",
+      "sha256": "52558b43374a42355f6343505a39771497300dbeef041e20a9c5ecca3af5c263"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-program/P02.svg",
+      "url": "/ornaments/bourgoin/program/P02.svg",
+      "sha256": "be04ce3a17cdbeb4a34b7971887c1f0c5bff67f9f5758af91a8d376272318698"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-program/P03.svg",
+      "url": "/ornaments/bourgoin/program/P03.svg",
+      "sha256": "0d60f6265aa2b6841ad025aa3b2300d97d0a46588c9ca5adc5e2326d3bbce9ef"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-program/P04.svg",
+      "url": "/ornaments/bourgoin/program/P04.svg",
+      "sha256": "f2bc40d69597ec3098537e90b99a82bcd66b5ceb4cdd8370ee44388c77ece690"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-program/P05.svg",
+      "url": "/ornaments/bourgoin/program/P05.svg",
+      "sha256": "cdf8787996a3087c77f677373f114c58568ba67871eeb2b82787070e4034fbc1"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-program/P06.svg",
+      "url": "/ornaments/bourgoin/program/P06.svg",
+      "sha256": "9b002dd0795fda968257382641338ad0b0f080dcbbd8d07d835c46fe42624e94"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-program/diagnostics.json",
+      "url": "/ornaments/bourgoin/program/diagnostics.json",
+      "sha256": "ce84d849c78358b69fd66ef2604797891e69f7f7c81cba97f4dc270cde217016"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-program/encoding.txt",
+      "url": "/ornaments/bourgoin/program/encoding.txt",
+      "sha256": "12c8f69207275aca12b613da1ddb0e200a4cb7847279339888f9c65b1a4383b5"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-program/gallery.html",
+      "url": "/ornaments/bourgoin/program/gallery.html",
+      "sha256": "9df3360a766b49e260462af17c2a464f607eba4b09cc2a827aea795d9a4ecb32"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-program/ornament-preview.png",
+      "url": "/ornaments/bourgoin/program/ornament-preview.png",
+      "sha256": "f0d8676eb625e8295148e69ba3bad6f6db52dd527324e6cc91df81c0f01f9687"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-program/program.gojo.json",
+      "url": "/ornaments/bourgoin/program/program.gojo.json",
+      "sha256": "05cc98d08c77bbad7e253fe96648a84342fc4d0e81a168e2fbe480db5bb7c86b"
+    },
+    {
+      "source": "Gojo/docs/GojoBourgoinContactAndCourseStudy.md",
+      "url": "/ornaments/bourgoin/notes/contact-and-course.md",
+      "sha256": "5081021d27a31c286f7ab84890cfe4c8c8175a67c0aa2bfed490ca458e481c62"
+    }
+  ]
+}

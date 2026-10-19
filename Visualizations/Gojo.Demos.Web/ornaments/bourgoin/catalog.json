@@ -1,0 +1,716 @@
+{
+  "Schema": "gojo-bourgoin-source-catalog-v1",
+  "Entries": [
+    {
+      "Id": "B01",
+      "Name": "Running brick bond",
+      "Leaf": 274,
+      "Reference": "Fig. 186",
+      "Construction": "Two horizontal mortar courses and alternating vertical joints form one macrocell. The next course shares the existing horizontal endpoint roles; no intersection creates a site implicitly.",
+      "Fidelity": "Diagram-skeleton reconstruction; brick proportions and the finite crop are selected here.",
+      "Source": "https://archive.org/details/thoriedelorneme01bourgoog/page/n274/mode/1up",
+      "SourceRegistration": null,
+      "DisplayBasis": {
+        "RX": 1,
+        "RY": 0,
+        "UX": 0,
+        "UY": 1
+      }
+    },
+    {
+      "Id": "B02",
+      "Name": "Basket rectangles and square gaps",
+      "Leaf": 275,
+      "Reference": "Fig. 188",
+      "Construction": "One elongated rectangle is reused twice vertically and twice after a quarter-turn. Neighbouring rectangle centres are staggered, and explicit split side contacts leave small square interstices; no square motif is placed in those gaps.",
+      "Fidelity": "Rebuilt from the actual Fig. 188 arrangement: central side-to-side contacts, alternating horizontal/vertical elongated rectangles, and square gaps. Shared-reach proportions are selected; the book\u0027s drawn stroke widths are outside the native skeleton.",
+      "Source": "https://archive.org/details/thoriedelorneme01bourgoog/page/n275/mode/1up",
+      "SourceRegistration": {
+        "Width": 233,
+        "Height": 283,
+        "X": 32,
+        "Y": 183,
+        "RX": 14.333333,
+        "RY": 0,
+        "UX": 0,
+        "UY": -14
+      },
+      "DisplayBasis": {
+        "RX": 1,
+        "RY": 0,
+        "UX": 0,
+        "UY": 1
+      }
+    },
+    {
+      "Id": "B03",
+      "Name": "Squares meet diamonds",
+      "Leaf": 275,
+      "Reference": "Fig. 189",
+      "Construction": "Two squares and two corner-oriented four-side contours form one alternating macrocell. Diamond tips meet explicitly split square sides through endpoint ports.",
+      "Fidelity": "Adaptation of the square/corner-square opposition; no claim of the source\u0027s exact spacing or metric square equivalence.",
+      "Source": "https://archive.org/details/thoriedelorneme01bourgoog/page/n275/mode/1up",
+      "SourceRegistration": null,
+      "DisplayBasis": {
+        "RX": 1,
+        "RY": 0,
+        "UX": 0,
+        "UY": 1
+      }
+    },
+    {
+      "Id": "B04",
+      "Name": "Honeycomb from three reused contours",
+      "Leaf": 277,
+      "Reference": "Fig. 196",
+      "Construction": "Three translated six-edge contours form a periodic macrocell. Neighbouring contours share advertised endpoint sites; their coincident stroke histories remain separate participation.",
+      "Fidelity": "Reconstruction of the honeycomb incidence pattern. Regular-looking hexagons come from the optional triangular display, not a native angle or length theorem.",
+      "Source": "https://archive.org/details/thoriedelorneme01bourgoog/page/n277/mode/1up",
+      "SourceRegistration": null,
+      "DisplayBasis": {
+        "RX": 1,
+        "RY": 0,
+        "UX": 0.5,
+        "UY": 0.8660254037844386
+      }
+    },
+    {
+      "Id": "B05",
+      "Name": "Hexagons with triangular interstices",
+      "Leaf": 277,
+      "Reference": "Fig. 197",
+      "Construction": "One six-edge contour repeats on a triangular disposition. Its vertices meet neighbouring contours; three-sided gaps emerge from those connections rather than a separately placed triangle glyph.",
+      "Fidelity": "Trihexagonal topology reconstruction with a selected triangular display basis; regular-polygon calibration remains outside the program.",
+      "Source": "https://archive.org/details/thoriedelorneme01bourgoog/page/n277/mode/1up",
+      "SourceRegistration": null,
+      "DisplayBasis": {
+        "RX": 1,
+        "RY": 0,
+        "UX": 0.5,
+        "UY": 0.8660254037844386
+      }
+    },
+    {
+      "Id": "B06",
+      "Name": "Octagons with diamond gaps \u00B7 first interpretation",
+      "Leaf": 278,
+      "Reference": "Fig. 201",
+      "Construction": "Four chamfered corners replace the corners of each repeated square footprint. Joining the published side endpoints closes the small interstitial four-edge compartments.",
+      "Fidelity": "Preserved first-pass variant. Its diamond gaps use the diagonal octagon sides; the source\u0027s upright squares use horizontal and vertical sides. B06.B corrects that distinction.",
+      "Source": "https://archive.org/details/thoriedelorneme01bourgoog/page/n278/mode/1up",
+      "SourceRegistration": null,
+      "DisplayBasis": {
+        "RX": 1,
+        "RY": 0,
+        "UX": 0,
+        "UY": 1
+      }
+    },
+    {
+      "Id": "B06.B",
+      "Name": "Octagons with upright square gaps",
+      "Leaf": 278,
+      "Reference": "Fig. 201",
+      "Construction": "The existing eight-side contour is reinterpreted by the native correspondence R\u2192R\u002BU and U\u2192L\u002BU, and both period words follow the same map. Horizontal and vertical octagon sides now bound upright square gaps, as in Fig. 201.",
+      "Fidelity": "A second, source-aligned orientation of the earlier octagon network. The selected Cartesian display reads this map as a scaled 45-degree turn; the pre-numeric program promises its actual word correspondence and endpoint joins, not regular octagons or an angle calibration.",
+      "Source": "https://archive.org/details/thoriedelorneme01bourgoog/page/n278/mode/1up",
+      "SourceRegistration": {
+        "Width": 659,
+        "Height": 416,
+        "X": 112,
+        "Y": 326,
+        "RX": 12.166667,
+        "RY": 0,
+        "UX": 0,
+        "UY": -11.5
+      },
+      "DisplayBasis": {
+        "RX": 1,
+        "RY": 0,
+        "UX": 0,
+        "UY": 1
+      }
+    },
+    {
+      "Id": "B07",
+      "Name": "Alternating-width orthogonal bands",
+      "Leaf": 279,
+      "Reference": "Fig. 202",
+      "Construction": "Two narrow/wide interval sequences cross. Every intended junction is already a vertex in both local paths; the field contract supplies the shared-site read.",
+      "Fidelity": "Diagram reconstruction with an authored narrow/wide relation; the source\u0027s proportions are not copied exactly.",
+      "Source": "https://archive.org/details/thoriedelorneme01bourgoog/page/n279/mode/1up",
+      "SourceRegistration": null,
+      "DisplayBasis": {
+        "RX": 1,
+        "RY": 0,
+        "UX": 0,
+        "UY": 1
+      }
+    },
+    {
+      "Id": "B08",
+      "Name": "Intersecting diagonal ribbons",
+      "Leaf": 279,
+      "Reference": "Fig. 203",
+      "Construction": "Two straight paired-line systems cross on an oblique disposition. Alternating narrow/wide separations create large diamond areas, narrow four-sided ribbon compartments, and small crossing compartments. All intended contacts are explicit endpoint roles; dotted construction guides and curves are omitted.",
+      "Fidelity": "A revised Fig. 203 ribbon skeleton replacing the cranked-wave reading. This preserves the paired diagonal disposition and its compartment hierarchy; slopes, narrow/wide proportions and the finite crop remain selected rather than traced from raster pixels. The source\u0027s steeper short junction transitions remain simplified to straight ribbon lines.",
+      "Source": "https://archive.org/details/thoriedelorneme01bourgoog/page/n279/mode/1up",
+      "SourceRegistration": null,
+      "DisplayBasis": {
+        "RX": 1,
+        "RY": 0,
+        "UX": 0,
+        "UY": 1
+      }
+    },
+    {
+      "Id": "B08.B",
+      "Name": "Ribbons with narrow angled junctions",
+      "Leaf": 279,
+      "Reference": "Fig. 203",
+      "Construction": "One short-steep/long-shallow two-chord ribbon seed supplies four translated or mirrored images. Exposed corners join into narrow upright crossing diamonds; the long edges bound the larger diamonds. Both period words belong to the same shared-reach frame.",
+      "Fidelity": "A second reading of Fig. 203\u0027s solid lines. Unlike B08\u0027s straight paired families, the short junction edges change heading. This is a finite angular skeleton with selected proportions, not a smooth-curve or exact raster tracing. Dotted guides are omitted.",
+      "Source": "https://archive.org/details/thoriedelorneme01bourgoog/page/n279/mode/1up",
+      "SourceRegistration": {
+        "Width": 733,
+        "Height": 471,
+        "X": 165,
+        "Y": 288,
+        "RX": 7.625,
+        "RY": 0,
+        "UX": 0,
+        "UY": -8.667
+      },
+      "DisplayBasis": {
+        "RX": 1,
+        "RY": 0,
+        "UX": 0,
+        "UY": 1
+      }
+    },
+    {
+      "Id": "B09",
+      "Name": "Detached S-shaped fret units",
+      "Leaf": 392,
+      "Reference": "Plate 1, fig. 1 (rectilinear border)",
+      "Construction": "A short sideways-S traversal has two shallow opposed hooks and two free ends. Translated units interleave their extents without sharing body endpoints, so the field contains detached units rather than one end-to-end meander.",
+      "Fidelity": "Rebuilt from Plate 1 fig. 1\u0027s shallow fret reading. The framing rails are omitted from this skeleton so detached body connectivity is explicit; repeated rows are a presentation sample added to the source strip.",
+      "Source": "https://archive.org/details/thoriedelorneme01bourgoog/page/n392/mode/1up",
+      "SourceRegistration": {
+        "Width": 172,
+        "Height": 71,
+        "X": 17,
+        "Y": 48,
+        "RX": 7,
+        "RY": 0,
+        "UX": 0,
+        "UY": -7
+      },
+      "DisplayBasis": {
+        "RX": 1,
+        "RY": 0,
+        "UX": 0,
+        "UY": 1
+      }
+    },
+    {
+      "Id": "B10",
+      "Name": "Direct bent-cross compartments",
+      "Leaf": 408,
+      "Reference": "Plate 9, fig. 4",
+      "Construction": "A diamond scaffold supplies four coarse landmarks per compartment. Each diagonal boundary is replaced by its traced pointed detour, with diagonal ends and two orthogonal middle chords. Two closed compartment orientations tile the repeat; shared landmark ports negotiate the boundary junctions.",
+      "Fidelity": "Relative boundary reconstruction checked by a trace overlay against the enlarged plate. The pointed diagonals, shared detours and compartment arrangement follow the source; exact ink thickness, scan irregularity and calibrated distances are not reproduced.",
+      "Source": "https://archive.org/details/thoriedelorneme01bourgoog/page/n408/mode/1up",
+      "SourceRegistration": {
+        "Width": 233,
+        "Height": 321,
+        "X": 33.666667,
+        "Y": 305.333347,
+        "RX": 6.416667,
+        "RY": 0,
+        "UX": 0,
+        "UY": -6.416667
+      },
+      "DisplayBasis": {
+        "RX": 1,
+        "RY": 0,
+        "UX": 0,
+        "UY": 1
+      }
+    },
+    {
+      "Id": "B11",
+      "Name": "Returned rows of bent crosses",
+      "Leaf": 408,
+      "Reference": "Plate 9, fig. 5",
+      "Construction": "A diamond scaffold supplies four coarse landmarks per compartment. Each diagonal boundary is replaced by its traced pointed detour. Successive root rows have opposite handedness; both rows are retained inside one native repeat, producing the distinct intervening closed compartments of Plate 9 figure 5.",
+      "Fidelity": "Relative boundary reconstruction checked by a trace overlay against the enlarged plate. The pointed diagonals, shared detours and compartment arrangement follow the source; exact ink thickness, scan irregularity and calibrated distances are not reproduced.",
+      "Source": "https://archive.org/details/thoriedelorneme01bourgoog/page/n408/mode/1up",
+      "SourceRegistration": {
+        "Width": 233,
+        "Height": 321,
+        "X": 35,
+        "Y": 307.333347,
+        "RX": 6.416667,
+        "RY": 0,
+        "UX": 0,
+        "UY": -6.416667
+      },
+      "DisplayBasis": {
+        "RX": 1,
+        "RY": 0,
+        "UX": 0,
+        "UY": 1
+      }
+    },
+    {
+      "Id": "B12",
+      "Name": "Closed stepped-arm compartments",
+      "Leaf": 408,
+      "Reference": "Plate 9, fig. 10",
+      "Construction": "Two closed stepped-arm compartment prototypes alternate diagonally. One has two same-side arms with hands bent together; the other has opposed arms whose hands turn toward the body. Actual mirrored images supply the next row. Every source corner is retained as a port correspondence, so the closed white chambers and their diagonal junctions determine the field rather than open spiral strokes.",
+      "Fidelity": "Reconstructed from the closed negative compartments of Plate 9 fig. 10. The two sixteen-corner contours, their opposed row handedness and their interlocking disposition follow the source. Finite shared-reach proportions are selected from the trace; printed ink width and exact raster coordinates are not native promises.",
+      "Source": "https://archive.org/details/thoriedelorneme01bourgoog/page/n408/mode/1up",
+      "SourceRegistration": {
+        "Width": 245,
+        "Height": 293,
+        "X": 91.2,
+        "Y": 60.8,
+        "RX": 4.284,
+        "RY": 0,
+        "UX": 0,
+        "UY": -4.284
+      },
+      "DisplayBasis": {
+        "RX": 1,
+        "RY": 0,
+        "UX": 0,
+        "UY": 1
+      }
+    },
+    {
+      "Id": "B13",
+      "Name": "Interlocking serif-I compartments",
+      "Leaf": 418,
+      "Reference": "Plate 14, fig. 3",
+      "Construction": "A closed twenty-eight-corner serif-I compartment has short serifs inset from the cap ends. Horizontal and actual quarter-turned vertical images alternate on a staggered disposition. Four images form the macrocell; shared boundary landmark ports expose the interlocking chambers and articulated corner details.",
+      "Fidelity": "Reconstructed from Plate 14 fig. 3\u0027s inset-serif negative compartments, not a four-armed Greek key. The actual contour, corner order and horizontal/vertical interlock are source-derived. Exact printed proportions, stroke widths and filled-region inference remain outside the native contour program.",
+      "Source": "https://archive.org/details/thoriedelorneme01bourgoog/page/n418/mode/1up",
+      "SourceRegistration": {
+        "Width": 354,
+        "Height": 321,
+        "X": 71,
+        "Y": 273.42,
+        "RX": 0,
+        "RY": -10.38,
+        "UX": -10.38,
+        "UY": 0
+      },
+      "DisplayBasis": {
+        "RX": 1,
+        "RY": 0,
+        "UX": 0,
+        "UY": 1
+      }
+    },
+    {
+      "Id": "B14",
+      "Name": "Dense interlocking serif-I field",
+      "Leaf": 428,
+      "Reference": "Plate 19, fig. 4",
+      "Construction": "A closed twenty-corner serif-I compartment repeats horizontally and after an actual quarter-turn vertically. Four staggered images form one macrocell; adjacent caps and inward serifs interlock. The spaces are closed compartments of the boundary network rather than decorations laid over a meander.",
+      "Fidelity": "Reconstructed from the repeated horizontal/vertical negative I compartments of Plate 19 fig. 4. Their cap-end serifs and interlocking disposition replace the earlier open Greek-key approximation. Shared-reach proportions and a thin boundary interpretation are selected; this is not a tracing of the printed ink.",
+      "Source": "https://archive.org/details/thoriedelorneme01bourgoog/page/n428/mode/1up",
+      "SourceRegistration": {
+        "Width": 354,
+        "Height": 293,
+        "X": 17,
+        "Y": 32,
+        "RX": 8.7,
+        "RY": 0,
+        "UX": 0,
+        "UY": -8.7
+      },
+      "DisplayBasis": {
+        "RX": 1,
+        "RY": 0,
+        "UX": 0,
+        "UY": 1
+      }
+    },
+    {
+      "Id": "B15",
+      "Name": "Two-family oblique mesh",
+      "Leaf": 271,
+      "Reference": "Fig. 177",
+      "Construction": "One closed four-side prototype is read through R\u21923R and U\u2192L\u002B2U. Repeating its two actual side words supplies the two crossing line families, with endpoint seams at their common corners.",
+      "Fidelity": "Fig. 177\u0027s two-family parallelogram disposition. Its uniform incidence and direction families are retained; the slant, shared-reach proportions and finite crop are selected rather than calibrated from the engraving.",
+      "Source": "https://archive.org/details/thoriedelorneme01bourgoog/page/n271/mode/1up",
+      "SourceRegistration": null,
+      "DisplayBasis": {
+        "RX": 1,
+        "RY": 0,
+        "UX": 0,
+        "UY": 1
+      }
+    },
+    {
+      "Id": "B16",
+      "Name": "Three-family triangular mesh",
+      "Leaf": 271,
+      "Reference": "Fig. 178",
+      "Construction": "Two opposed images of one triangle share their diagonal boundary. Repeating the pair supplies three direction families, and all intersections are exposed triangle-corner ports. Coincident shared-edge histories remain separate participations.",
+      "Fidelity": "Fig. 178\u0027s uniform three-family triangular network. The selected triangular screen basis makes the triangles equilateral-looking; the native word and seam construction does not claim angle calibration or deduplicate shared edges.",
+      "Source": "https://archive.org/details/thoriedelorneme01bourgoog/page/n271/mode/1up",
+      "SourceRegistration": null,
+      "DisplayBasis": {
+        "RX": 1,
+        "RY": 0,
+        "UX": 0.5,
+        "UY": 0.8660254037844386
+      }
+    },
+    {
+      "Id": "B17",
+      "Name": "Rectangle mesh with diagonal ties",
+      "Leaf": 272,
+      "Reference": "Fig. 181 (diagonal elaboration)",
+      "Construction": "A closed cell boundary and two differently read images of the same diagonal prototype form a four-family network. Both diagonal paths expose their common middle landmark, so their crossing is an admitted shared site rather than a drawing coincidence.",
+      "Fidelity": "Fig. 181\u0027s rectangle grid and its illustrated diagonal elaboration. The diagonal subfield is extended uniformly here; the engraving\u0027s deliberately varying subdivision density is not reproduced. Rectangle aspect and the Cartesian display are selected.",
+      "Source": "https://archive.org/details/thoriedelorneme01bourgoog/page/n272/mode/1up",
+      "SourceRegistration": null,
+      "DisplayBasis": {
+        "RX": 1,
+        "RY": 0,
+        "UX": 0,
+        "UY": 1
+      }
+    },
+    {
+      "Id": "B18",
+      "Name": "Square mesh with diagonal ties",
+      "Leaf": 273,
+      "Reference": "Fig. 183 (diagonal elaboration)",
+      "Construction": "A closed cell boundary and two differently read images of the same diagonal prototype form a four-family network. Both diagonal paths expose their common middle landmark, so their crossing is an admitted shared site rather than a drawing coincidence.",
+      "Fidelity": "Fig. 183\u0027s square grid and its illustrated diagonal elaboration. The diagonal subfield is extended uniformly here; this does not reproduce the lower-left change of subdivision density. Equal side words support the selected square display without claiming a general geometric calibration.",
+      "Source": "https://archive.org/details/thoriedelorneme01bourgoog/page/n273/mode/1up",
+      "SourceRegistration": null,
+      "DisplayBasis": {
+        "RX": 1,
+        "RY": 0,
+        "UX": 0,
+        "UY": 1
+      }
+    },
+    {
+      "Id": "B19",
+      "Name": "Oblique running bond",
+      "Leaf": 274,
+      "Reference": "Fig. 185 (first view)",
+      "Construction": "One four-side tile is placed on an oblique bond. Its top and bottom carry explicit middle contacts; the second period moves one half-width and one whole course, creating the staggered T connections.",
+      "Fidelity": "The first Fig. 185 disposition: equally oriented oblique quadrilaterals on a staggered bond. The shared-side contact order follows that read; equal Euclidean side lengths, exact slant and printed proportions are not native promises.",
+      "Source": "https://archive.org/details/thoriedelorneme01bourgoog/page/n274/mode/1up",
+      "SourceRegistration": null,
+      "DisplayBasis": {
+        "RX": 1,
+        "RY": 0,
+        "UX": 0,
+        "UY": 1
+      }
+    },
+    {
+      "Id": "B20",
+      "Name": "Three-lozenge centred network",
+      "Leaf": 274,
+      "Reference": "Fig. 185 (second view)",
+      "Construction": "Three images share one lozenge prototype and one central landmark. Their explicit word correspondences close the three-phase substitution orbit. The enclosing six-corner outline repeats through its own two period words, and neighbouring outlines meet only through declared ports.",
+      "Fidelity": "The centred three-direction reading in Fig. 185\u0027s second view. The selected triangular screen basis makes the three lozenges read like a projected cube. The native claim is the shared prototype, three-phase word return and endpoint topology, not a three-dimensional solid or a calibrated rotation angle.",
+      "Source": "https://archive.org/details/thoriedelorneme01bourgoog/page/n274/mode/1up",
+      "SourceRegistration": null,
+      "DisplayBasis": {
+        "RX": 1,
+        "RY": 0,
+        "UX": 0.5,
+        "UY": 0.8660254037844386
+      }
+    },
+    {
+      "Id": "B21",
+      "Name": "Opposed chevron lozenges",
+      "Leaf": 274,
+      "Reference": "Fig. 185 (third view)",
+      "Construction": "Two opposed images of one lozenge share the central vertical side. Repeating that pair creates vertical strands crossed by regularly alternating chevrons; the alternating slope is retained in the actual chord words.",
+      "Fidelity": "Fig. 185\u0027s third view, with its two opposed lozenge directions and continuous vertical family. Heights and slants are selected shared-reach proportions; the source\u0027s exact aspect is not measured.",
+      "Source": "https://archive.org/details/thoriedelorneme01bourgoog/page/n274/mode/1up",
+      "SourceRegistration": null,
+      "DisplayBasis": {
+        "RX": 1,
+        "RY": 0,
+        "UX": 0,
+        "UY": 1
+      }
+    },
+    {
+      "Id": "B22",
+      "Name": "Alternating pointed lozenges",
+      "Leaf": 275,
+      "Reference": "Fig. 187",
+      "Construction": "One elongated pointed lozenge supplies horizontal and turned images on a four-place repeat. Adjacent tips are explicitly joined. The unfilled four-edge circuits between them arise from the lozenge sides; no separate gap-square path is authored.",
+      "Fidelity": "Fig. 187\u0027s alternating lozenge disposition. The selected Cartesian realization gives square-looking interstices and alternating long-axis directions. These are contour and endpoint constructions, not native filled-face or equal-angle theorems.",
+      "Source": "https://archive.org/details/thoriedelorneme01bourgoog/page/n275/mode/1up",
+      "SourceRegistration": null,
+      "DisplayBasis": {
+        "RX": 1,
+        "RY": 0,
+        "UX": 0,
+        "UY": 1
+      }
+    },
+    {
+      "Id": "B23",
+      "Name": "Offset squares and small square gaps",
+      "Leaf": 275,
+      "Reference": "Fig. 190",
+      "Construction": "One upright square outline exposes its four side-middle landmarks. Oblique period words offset neighbouring copies by a whole side and a half-side. Admitted half-side contacts leave smaller square circuits between the repeated outlines.",
+      "Fidelity": "Fig. 190\u0027s similarly oriented, displaced squares and smaller interstices. The finite sample has a slanted outer crop because the two periods are oblique. Gap area, occupied faces and exact engraving distances are not inferred by the native contour program.",
+      "Source": "https://archive.org/details/thoriedelorneme01bourgoog/page/n275/mode/1up",
+      "SourceRegistration": null,
+      "DisplayBasis": {
+        "RX": 1,
+        "RY": 0,
+        "UX": 0,
+        "UY": 1
+      }
+    },
+    {
+      "Id": "B24",
+      "Name": "Sliding triangles around shorter hexagon gaps",
+      "Leaf": 276,
+      "Reference": "Fig. 193",
+      "Construction": "Two opposed images share one three-side prototype. Each whole side retains its exposed fragment and its contact subspan. Nonempty contact subspans give partial-side overlaps and shorter six-edge gap circuits; an empty contact gives the tip-only baseline. The gaps have no separately authored contour.",
+      "Fidelity": "Revised Fig. 193 reading: long triangle sides share only a terminal subspan when the residual gap is shorter than the side. The selected sample uses 3 shared reaches per triangle side and 2 per residual gap side. These are finite word proportions, not calibrated engraving distances or a filled-face theorem.",
+      "Source": "https://archive.org/details/thoriedelorneme01bourgoog/page/n276/mode/1up",
+      "SourceRegistration": {
+        "Width": 233,
+        "Height": 264,
+        "X": 7.08,
+        "Y": 179.58,
+        "RX": 14.58,
+        "RY": 0,
+        "UX": 0.08,
+        "UY": -13.95
+      },
+      "DisplayBasis": {
+        "RX": 1,
+        "RY": 0,
+        "UX": 0.5,
+        "UY": 0.8660254037844386
+      }
+    },
+    {
+      "Id": "B25",
+      "Name": "Six-point star junctions",
+      "Leaf": 412,
+      "Reference": "Plate 11, fig. 3",
+      "Construction": "One closed twelve-corner six-point star repeats on a triangular disposition. Three published neighbour passages connect each star to the next copies; all six contact directions follow from the native repeat and shared endpoint roles.",
+      "Fidelity": "A source-derived star-junction skeleton of Plate 11 fig. 3. The six long points and recurring disposition are retained; the source\u0027s intervening irregular polygon network is deliberately coarsened to passages. This is not a tracing of every source chamber.",
+      "Source": "https://archive.org/details/thoriedelorneme01bourgoog/page/n412/mode/1up",
+      "SourceRegistration": null,
+      "DisplayBasis": {
+        "RX": 1,
+        "RY": 0,
+        "UX": 0.5,
+        "UY": 0.8660254037844386
+      }
+    },
+    {
+      "Id": "B26",
+      "Name": "Flat-tipped stars and twelve-ray florets",
+      "Leaf": 416,
+      "Reference": "Plate 13, fig. 8",
+      "Construction": "A coarse six-chord hexagon fixes the six flat-tip midpoint roles. Each coarse chord is replaced by an endpoint-preserving four-chord chain that pulls the old corner inward and retains the two neighbouring half-flat tips. One actual refined boundary repeats on the hexagonal neighbour disposition. Small six-sided gaps emerge at three-cell meetings; no small hexagon motif is placed there. Two stem prototypes each have six actual word-substitution images, producing twelve centre rays.",
+      "Fidelity": "A revised skeleton of Plate 13 fig. 8: six flat tips, six inward corners, small hexagonal interstices and twelve radial floret participants replace the earlier plain-hexagon/six-spoke reading. The source\u0027s curved petal heads, coloured bands, exact proportions and filled regions remain outside this thin-line construction. The triangular screen basis is an optional interpretation, not a native angle calibration.",
+      "Source": "https://archive.org/details/thoriedelorneme01bourgoog/page/n416/mode/1up",
+      "SourceRegistration": {
+        "Width": 336,
+        "Height": 302,
+        "X": 91,
+        "Y": 85,
+        "RX": 5.06625,
+        "RY": 2.925,
+        "UX": 2.925,
+        "UY": -5.06625
+      },
+      "DisplayBasis": {
+        "RX": 1,
+        "RY": 0,
+        "UX": 0.5,
+        "UY": 0.8660254037844386
+      }
+    },
+    {
+      "Id": "B27",
+      "Name": "Angled paired-band courses",
+      "Leaf": 416,
+      "Reference": "Plate 13, fig. 4",
+      "Construction": "Two translated copies of one angled ridge establish a paired band. A cranked inset follows its cadence and a four-edge diamond occupies the intervening course. Published end roles join each ridge and inset to the next column.",
+      "Fidelity": "A deliberately coarse construction-line reading of Plate 13 fig. 4. Paired angled courses, the central fret cadence and intervening diamond rhythm are retained; fine knot filling, exact fret proportions and the coloured ribbon interpretation are omitted.",
+      "Source": "https://archive.org/details/thoriedelorneme01bourgoog/page/n416/mode/1up",
+      "SourceRegistration": null,
+      "DisplayBasis": {
+        "RX": 1,
+        "RY": 0,
+        "UX": 0,
+        "UY": 1
+      }
+    },
+    {
+      "Id": "B28",
+      "Name": "Faceted shell-fan courses",
+      "Leaf": 416,
+      "Reference": "Plate 13, fig. 6",
+      "Construction": "One faceted shell boundary and three radial rib prototypes repeat in two staggered courses. Ribs consume the same exposed shell-apex and top-edge landmarks; the second course\u0027s upper corners meet the preceding shell tips through explicit seam rules.",
+      "Fidelity": "A faceted shell-fan skeleton of Plate 13 fig. 6. Staggering, common fan apex and spreading ribs are retained. Scrolls, curved outlines, concentric inner arcs and ornament inside the fan are omitted; the finite chords do not claim smooth-curve semantics.",
+      "Source": "https://archive.org/details/thoriedelorneme01bourgoog/page/n416/mode/1up",
+      "SourceRegistration": null,
+      "DisplayBasis": {
+        "RX": 1,
+        "RY": 0,
+        "UX": 0,
+        "UY": 1
+      }
+    },
+    {
+      "Id": "B29",
+      "Name": "Sliding hexagons and triangular gaps",
+      "Leaf": 424,
+      "Reference": "Plate 17, fig. 4",
+      "Construction": "One six-side prototype repeats with a tangential offset along each neighbouring side. Actual contact-end landmarks split each long side into a shared subspan and an exposed remainder. Nonzero offsets leave small triangular gap circuits; zero offset retains aligned whole-side contacts. No triangle or hook motif is added.",
+      "Fidelity": "Revised Plate 17 fig. 4 reading: relatively slid hexagons, rather than hexagons decorated with triangular hooks. The selected sample uses 4 shared reaches per side and a signed -1-reach tangential offset. Botanical decoration, ink width, exact distances, coincident-edge folding and filled-region inference remain outside this contour construction.",
+      "Source": "https://archive.org/details/thoriedelorneme01bourgoog/page/n424/mode/1up",
+      "SourceRegistration": {
+        "Width": 244,
+        "Height": 290,
+        "X": 78.984,
+        "Y": 220.187,
+        "RX": 4.46251,
+        "RY": -6.58737,
+        "UX": -6.57653,
+        "UY": -4.21778
+      },
+      "DisplayBasis": {
+        "RX": 1,
+        "RY": 0,
+        "UX": 0.5,
+        "UY": 0.8660254037844386
+      }
+    },
+    {
+      "Id": "B30",
+      "Name": "Faceted cloud-scale arches",
+      "Leaf": 424,
+      "Reference": "Plate 17, fig. 7",
+      "Construction": "A straight coarse span is replaced by one twenty-chord cloud profile: two smaller lateral lobes flank a higher central lobe. Its original endpoints retain an exact zero-displacement refinement proof. Four actual images reuse the same fine prototype in staggered courses. The central top landmark is explicitly split so the next course\u0027s endpoints can meet a published port rather than a rendered chord interior.",
+      "Fidelity": "A faceted three-lobed cloud-scale skeleton of Plate 17 fig. 7. It retains the small/high/small lobe order and staggered courses; finite flat and angled chords approximate each curved silhouette. Smooth curvature, the source\u0027s short accent strokes and filled cloud-region inference are omitted.",
+      "Source": "https://archive.org/details/thoriedelorneme01bourgoog/page/n424/mode/1up",
+      "SourceRegistration": null,
+      "DisplayBasis": {
+        "RX": 1,
+        "RY": 0,
+        "UX": 0,
+        "UY": 1
+      }
+    },
+    {
+      "Id": "B31",
+      "Name": "Slender outward arms and round markers",
+      "Leaf": 428,
+      "Reference": "Plate 19, fig. 3",
+      "Construction": "Four actual quarter-related images reuse one slender three-chord arm. Their proximal roles share a junction, their two successive turns retain one handedness, and the long terminal hands travel outward beyond the wrists. The staggered junction disposition surrounds a separate central round marker. That marker is an actual twelve-chord closed native contour, not an SVG circle substituted for a diamond.",
+      "Fidelity": "A simplified source-aligned reading of Plate 19 fig. 3\u0027s slender turning arms and round interstitial dots. It replaces the previous heavy closed key-window outline. Selected arm proportions and the source\u0027s short weave breaks are not traced exactly; no over/under order is claimed. The coarse round marker has flat facets and collinear subdivisions, not analytic-circle semantics or an inferred occupied face.",
+      "Source": "https://archive.org/details/thoriedelorneme01bourgoog/page/n428/mode/1up",
+      "SourceRegistration": {
+        "Width": 354,
+        "Height": 287,
+        "X": 278.5,
+        "Y": 234.5,
+        "RX": -2.916667,
+        "RY": 0,
+        "UX": 0,
+        "UY": -2.916667
+      },
+      "DisplayBasis": {
+        "RX": 1,
+        "RY": 0,
+        "UX": 0,
+        "UY": 1
+      }
+    },
+    {
+      "Id": "B32",
+      "Name": "Interrupted diagonal returns and valley joins",
+      "Leaf": 430,
+      "Reference": "Plate 20, fig. 3",
+      "Construction": "Two distinct open hooked returns attach to opposed staircase courses. Their inner ends remain one source-grid step apart instead of becoming one continuous spiral. The half-turned pair reuses two actual prototypes. Successive courses move diagonally by a half-drop, placing the next crest into the preceding course\u0027s valley. An exposed straight-side landmark accepts the neighbouring hook endpoint through an actual seam; coincident boundary participations remain separate stroke histories.",
+      "Fidelity": "Reconstructed from Plate 20 fig. 3\u0027s dark strip and checked against its lighter repeated field. The repeated field uses a diagonal half-drop rather than vertically stacking the strip. Separate central ends and explicit valley T contacts remain intact. Shared-reach proportions are selected from the source; scan breaks, printed ink width and filled ribbon faces are not inferred.",
+      "Source": "https://archive.org/details/thoriedelorneme01bourgoog/page/n430/mode/1up",
+      "SourceRegistration": {
+        "Width": 367,
+        "Height": 321,
+        "X": 56.81,
+        "Y": 79.69,
+        "RX": 5.44,
+        "RY": 0,
+        "UX": 0,
+        "UY": -5.44
+      },
+      "DisplayBasis": {
+        "RX": 1,
+        "RY": 0,
+        "UX": 0,
+        "UY": 1
+      }
+    },
+    {
+      "Id": "B33",
+      "Name": "Continuous angled courses and diamond loops",
+      "Leaf": 430,
+      "Reference": "Plate 20, fig. 7",
+      "Construction": "An open angular course repeats continuously along each strip. A separate two-chord attachment meets two published course sites, closing the small diamond. The lower field alternates actual reflected and unreflected courses at a half-drop; the two courses form one repeat and interlock without enclosing an L-shaped ribbon unit. Both T contacts on each course require explicit endpoint seam declarations.",
+      "Fidelity": "Reconstructed from Plate 20 fig. 7\u0027s dark line construction and repeated lighter field. The source\u0027s lower-field handedness and half-drop are retained rather than simply stacking the top strip at a full-height interval. The small diamond compartments and surrounding angled-channel disposition replace the earlier isolated folded-strip contours. White-passage continuity is a chosen-basis geometric reading of boundaries, not native filled-face inference; source shading, ink width and over/under weaving remain outside the program.",
+      "Source": "https://archive.org/details/thoriedelorneme01bourgoog/page/n430/mode/1up",
+      "SourceRegistration": {
+        "Width": 367,
+        "Height": 303,
+        "X": 62.125,
+        "Y": 52.125,
+        "RX": 6.09375,
+        "RY": 0,
+        "UX": 0,
+        "UY": -6.09375
+      },
+      "DisplayBasis": {
+        "RX": 1,
+        "RY": 0,
+        "UX": 0,
+        "UY": 1
+      }
+    },
+    {
+      "Id": "B34",
+      "Name": "Crossed faceted loop lattice",
+      "Leaf": 432,
+      "Reference": "Plate 21, fig. 2",
+      "Construction": "Two actual images of one faceted closed loop cross through their chord interiors. Four paired neighbour passages connect the advertised outer caps. No crossing site is manufactured: the crossing lines have no common endpoint selector there, whereas cap contacts carry actual seam declarations.",
+      "Fidelity": "A faceted crossed-loop lattice inspired by Plate 21 fig. 2\u0027s square-knot framework. The repeating loop and large-cell skeleton is retained; botanical filling, smooth turns, ribbon thickness and over/under knot order are omitted. This is an explicit nonjoining line crossing, not a proof of the source knot\u0027s topology.",
+      "Source": "https://archive.org/details/thoriedelorneme01bourgoog/page/n432/mode/1up",
+      "SourceRegistration": null,
+      "DisplayBasis": {
+        "RX": 1,
+        "RY": 0,
+        "UX": 0,
+        "UY": 1
+      }
+    }
+  ]
+}

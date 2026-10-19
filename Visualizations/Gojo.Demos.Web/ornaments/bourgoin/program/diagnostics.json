@@ -1,0 +1,183 @@
+{
+  "Schema": "gojo-ornament-program-study-v1",
+  "Input": "authored-native-sample",
+  "ArchiveBytes": 49984,
+  "ArchiveCorrespondenceNodes": 2593,
+  "AllRunsComplete": true,
+  "Cases": [
+    {
+      "Id": "P01",
+      "Name": "One stored checker machine",
+      "LoadedFromArchive": false,
+      "Units": 24,
+      "Strokes": 120,
+      "Applications": 24,
+      "Blocked": 0,
+      "Unresolved": 0,
+      "Program": {
+        "Nodes": 622,
+        "Relations": 503,
+        "Participants": 119,
+        "NumericElements": 0
+      },
+      "Sample": {
+        "Nodes": 665,
+        "Relations": 533,
+        "Participants": 132,
+        "NumericElements": 0
+      },
+      "Expanded": {
+        "Nodes": 132779,
+        "Relations": 108845,
+        "Participants": 23934,
+        "NumericElements": 0
+      }
+    },
+    {
+      "Id": "P02",
+      "Name": "A smaller observation window",
+      "LoadedFromArchive": true,
+      "Units": 9,
+      "Strokes": 44,
+      "Applications": 9,
+      "Blocked": 0,
+      "Unresolved": 0,
+      "Program": {
+        "Nodes": 622,
+        "Relations": 503,
+        "Participants": 119,
+        "NumericElements": 0
+      },
+      "Sample": {
+        "Nodes": 657,
+        "Relations": 529,
+        "Participants": 128,
+        "NumericElements": 0
+      },
+      "Expanded": {
+        "Nodes": 48291,
+        "Relations": 39334,
+        "Participants": 8957,
+        "NumericElements": 0
+      }
+    },
+    {
+      "Id": "P03",
+      "Name": "A different phase origin",
+      "LoadedFromArchive": true,
+      "Units": 24,
+      "Strokes": 120,
+      "Applications": 24,
+      "Blocked": 0,
+      "Unresolved": 0,
+      "Program": {
+        "Nodes": 622,
+        "Relations": 503,
+        "Participants": 119,
+        "NumericElements": 0
+      },
+      "Sample": {
+        "Nodes": 665,
+        "Relations": 533,
+        "Participants": 132,
+        "NumericElements": 0
+      },
+      "Expanded": {
+        "Nodes": 132779,
+        "Relations": 108845,
+        "Participants": 23934,
+        "NumericElements": 0
+      }
+    },
+    {
+      "Id": "P04",
+      "Name": "Mirrored hooks and diagonal turns",
+      "LoadedFromArchive": true,
+      "Units": 24,
+      "Strokes": 120,
+      "Applications": 24,
+      "Blocked": 0,
+      "Unresolved": 0,
+      "Program": {
+        "Nodes": 622,
+        "Relations": 503,
+        "Participants": 119,
+        "NumericElements": 0
+      },
+      "Sample": {
+        "Nodes": 665,
+        "Relations": 533,
+        "Participants": 132,
+        "NumericElements": 0
+      },
+      "Expanded": {
+        "Nodes": 130955,
+        "Relations": 107045,
+        "Participants": 23910,
+        "NumericElements": 0
+      }
+    },
+    {
+      "Id": "P05",
+      "Name": "A denser diamond field",
+      "LoadedFromArchive": true,
+      "Units": 24,
+      "Strokes": 96,
+      "Applications": 24,
+      "Blocked": 0,
+      "Unresolved": 0,
+      "Program": {
+        "Nodes": 622,
+        "Relations": 503,
+        "Participants": 119,
+        "NumericElements": 0
+      },
+      "Sample": {
+        "Nodes": 665,
+        "Relations": 533,
+        "Participants": 132,
+        "NumericElements": 0
+      },
+      "Expanded": {
+        "Nodes": 116139,
+        "Relations": 94725,
+        "Participants": 21414,
+        "NumericElements": 0
+      }
+    },
+    {
+      "Id": "P06",
+      "Name": "An oblique repeating field",
+      "LoadedFromArchive": true,
+      "Units": 24,
+      "Strokes": 120,
+      "Applications": 24,
+      "Blocked": 0,
+      "Unresolved": 0,
+      "Program": {
+        "Nodes": 622,
+        "Relations": 503,
+        "Participants": 119,
+        "NumericElements": 0
+      },
+      "Sample": {
+        "Nodes": 665,
+        "Relations": 533,
+        "Participants": 132,
+        "NumericElements": 0
+      },
+      "Expanded": {
+        "Nodes": 132151,
+        "Relations": 108241,
+        "Participants": 23910,
+        "NumericElements": 0
+      }
+    }
+  ],
+  "Limits": [
+    "Finite authored motif/transform domains and layout rules; not learned construction synthesis.",
+    "A relative phase origin and a finite sampling window, not a calibrated clock or measured spatial frequency.",
+    "No new seam negotiation, endpoint fusion, rooted descriptor bins or metric regularity inference.",
+    "Optional screen interpretation assigns every symbolic move reach size one; archive execution does not require that interpretation."
+  ]
+}

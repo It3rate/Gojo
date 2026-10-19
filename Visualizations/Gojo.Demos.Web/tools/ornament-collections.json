@@ -1,0 +1,25 @@
+{
+  "collections": [
+    {
+      "id": "bourgoin",
+      "title": "Bourgoin constructions",
+      "subtitle": "Source study · Jules Bourgoin · 1883",
+      "description": "Brick bonds, woven fields, stars and open courses. Compare each Gojo construction with its historical source, inspect the joins and placement, and explore the earlier interpretations.",
+      "source": "experiments/QualitativeFrieze/results/bourgoin-patterns",
+      "gallery": "gallery.html",
+      "catalog": "catalog.json",
+      "countLabel": "constructions",
+      "previews": [
+        { "file": "B02.svg", "alt": "Basket rectangles with square gaps" },
+        { "file": "B26.svg", "alt": "Flat-tipped stars with twelve-ray florets" },
+        { "file": "B31.svg", "alt": "Repeated bent arms with round markers" }
+      ],
+      "relatedDirectories": [
+        { "source": "experiments/QualitativeFrieze/results/ornament-program", "destination": "program" }
+      ],
+      "documents": [
+        { "source": "Gojo/docs/GojoBourgoinContactAndCourseStudy.md", "destination": "notes/contact-and-course.md" }
+      ]
+    }
+  ]
+}

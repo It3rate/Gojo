@@ -129,6 +129,10 @@ for(const file of await walk(path.join(web,'syntax')))
 await fs.access(path.join(web,'minds','index.html'));
 for(const file of await walk(path.join(web,'minds')))
   await write(path.relative(web,file),await fs.readFile(file));
+// Preserve the growing ornament collection alongside the other static sections.
+await fs.access(path.join(web,'ornaments','index.html'));
+for(const file of await walk(path.join(web,'ornaments')))
+  await write(path.relative(web,file),await fs.readFile(file));
 for(const file of await walk(path.join(web,'core4')))
   await write(path.relative(web,file),await fs.readFile(file));
 console.log('Prepared static overlays. Preserved '+baseline.size+' existing public assets.');

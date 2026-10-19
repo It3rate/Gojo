@@ -1,0 +1,126 @@
+GOJO ORNAMENT PROGRAM — FINITE NATIVE FORMAT, VERSION 0
+
+C(...) means an ordered closed native scope; -> means an ordered relation.
+Names below describe connected slots. Names are not executable tags.
+
+PROGRAM = frame -> (C(motif surfaces) -> (C(transform surfaces) ->
+          (C(parameter-slot -> C(actual allowed choices)) -> layout)))
+
+MOTIF = frame -> ((C(start-word -> C(chord words)) -> C(public ports)) ->
+        (C(explicit closed paths) -> evidence))
+MOVE = actual ordered direction -> shared symbolic reach
+WORD = C(actual move occurrences)
+TRANSFORM = (source frame -> target frame) ->
+            (C(actual move pattern -> replacement word) -> evidence)
+
+CYCLE = C(actual phase identities) -> C(phase -> successor)
+LAYOUT = (column cycle -> row cycle) ->
+         ((column-step parameter -> row-step parameter) ->
+          C((column phase -> row phase) -> (motif parameter -> transform parameter)))
+BINDINGS = C(actual parameter slot -> actual member of its allowed choices)
+WINDOW = (actual starting column phase -> actual starting row phase) ->
+         (C(column occurrence slots) -> C(row occurrence slots))
+
+A sample retains the complete native program, actual bindings and actual window.
+The JSON archive transports that connected native graph with shared identity.
+Loading rebinds the declared frame and preserves native correspondence; it does
+not call a named motif factory. Parameter changes select existing archived
+choices. Every generated unit executes through the existing acknowledged unit
+actuator, retaining local requests, receipts, transform reads and blocked work.
+
+Program definition, chosen sample and expanded execution audit are distinct.
+This finite template expresses possible patterns; it is not a proof that any
+chosen pattern was discovered, optimal, Euclidean-regular or aesthetically good.
+There is no new rooted-neighbourhood binning or endpoint negotiation here.
+
+The optional renderer reads accepted endpoint words. It assigns each move reach
+display size one. This measured presentation is not part of native execution.
+Projected crossings and coincident endpoint positions never create shared sites.
+
+The graph-derived sample inspection below is explanatory text, with local human
+aliases. It is not a parsable or canonical semantic file. The executable archive
+is program.gojo.json; no label in this report selects execution.
+
+ACTUAL STORED SAMPLE — GRAPH-DERIVED INSPECTION
+
+Aliases below identify actual native participants in this sample. They are local presentation names, not executable tags, a canonical encoding, or a parsable replacement for program.gojo.json.
+R/L and U/D name the two declared ordered axes and their reverse directions. [ ... ] is an ordered closed scope; Open[ ... ] retains an unknown tail. Every move occurrence is shown separately. Each chord word is one drawing action; its internal move terms do not introduce intermediate line corners.
+O is the declared native frame-origin marker. Start and placement words use that reference; [] means empty displacement and does not by itself identify two physical sites.
+
+MOTIF DEFINITIONS
+M1:
+  M1.path1 starts at [D(u) D(u)]
+    M1.path1.chord1 = [R(u) R(u) U(u) U(u)]
+    M1.path1.chord2 = [L(u) L(u) U(u) U(u)]
+    M1.path1.chord3 = [L(u) L(u) D(u) D(u)]
+    M1.path1.chord4 = [R(u) R(u) D(u) D(u)]
+    closure = explicitly declared for this actual path
+  M1.port1 selects M1.path1.chord1 (cursor before this chord)
+  M1.port2 selects M1.path1.end (terminal cursor)
+M2:
+  M2.path1 starts at [L(u) L(u) D(u)]
+    M2.path1.chord1 = [U(u) U(u) U(u)]
+    M2.path1.chord2 = [R(u) R(u) R(u)]
+    M2.path1.chord3 = [D(u) D(u)]
+    M2.path1.chord4 = [L(u) L(u)]
+    M2.path1.chord5 = [U(u)]
+    M2.path1.chord6 = [R(u)]
+    closure = not declared
+  M2.port1 selects M2.path1.chord1 (cursor before this chord)
+  M2.port2 selects M2.path1.end (terminal cursor)
+M3:
+  M3.path1 starts at [L(u) L(u)]
+    M3.path1.chord1 = [R(u) U(u)]
+    M3.path1.chord2 = [R(u) D(u)]
+    M3.path1.chord3 = [R(u) U(u)]
+    M3.path1.chord4 = [R(u) D(u)]
+    closure = not declared
+  M3.port1 selects M3.path1.chord1 (cursor before this chord)
+  M3.port2 selects M3.path1.end (terminal cursor)
+
+TRANSFORM SUBSTITUTIONS
+T1 (declared frame -> same declared frame):
+  R(u) -> [R(u)]
+  L(u) -> [L(u)]
+  U(u) -> [U(u)]
+  D(u) -> [D(u)]
+T2 (declared frame -> same declared frame):
+  R(u) -> [L(u)]
+  L(u) -> [R(u)]
+  U(u) -> [U(u)]
+  D(u) -> [D(u)]
+T3 (declared frame -> same declared frame):
+  R(u) -> [U(u)]
+  L(u) -> [D(u)]
+  U(u) -> [L(u)]
+  D(u) -> [R(u)]
+
+PARAMETER DOMAINS AND SELECTED BINDINGS
+P1 allows [M1 M2 M3]; selected M1
+P2 allows [M1 M2 M3]; selected M2
+P3 allows [T1 T2 T3]; selected T1
+P4 allows [T1 T2 T3]; selected T3
+P5 allows [[R(u) R(u) R(u) R(u) R(u) R(u)] [R(u) R(u) R(u) R(u)] [R(u) R(u) R(u) R(u) U(u) U(u)]]; selected [R(u) R(u) R(u) R(u) R(u) R(u)]
+P6 allows [[U(u) U(u) U(u) U(u) U(u) U(u)] [U(u) U(u) U(u) U(u)] [R(u) R(u) R(u) U(u) U(u) U(u) U(u) U(u) U(u)]]; selected [U(u) U(u) U(u) U(u) U(u) U(u)]
+
+LAYOUT PHASES AND RULES
+Column cycle roles = [U0 U1]
+  U0 -> U1
+  U1 -> U0
+Row cycle roles = [V0 V1]
+  V0 -> V1
+  V1 -> V0
+Column displacement reads P5; row displacement reads P6.
+  (U0, V0) -> (motif P1, transform P3)
+  (U1, V0) -> (motif P2, transform P4)
+  (U0, V1) -> (motif P2, transform P4)
+  (U1, V1) -> (motif P1, transform P3)
+
+SAMPLED WINDOW
+Start roles = (U0, V0).
+Column occurrence slots = [c0 c1 c2 c3 c4 c5]
+Row occurrence slots = [r0 r1 r2 r3]
+These finite scopes sample 24 accepted unit occurrences. Slot counts and aliases are diagnostic reads, not calibrated lengths or clocks.
+
+SHARED REACHES
+u = one actual shared, unmeasured reach identity. Reuse means shared participation; no numerical size is supplied.

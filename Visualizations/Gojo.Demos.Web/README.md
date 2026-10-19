@@ -4,6 +4,8 @@ Static landing page for `https://gojo.inklingai.ca/`.
 
 The production bundle mounts the browser applications beneath this page:
 
+- `/ornaments/` — ornament collections, source comparisons and native downloads;
+  start with the [collection publishing guide](ornaments/README.md)
 - `/minds/` — captured Gojo experiments, step viewer, research notes and the
   experiment/development roadmap
 - `/syntax/` — illustrated syntax notebook, with thumbnails, stepped examples
@@ -70,7 +72,8 @@ node Visualizations/Gojo.Demos.Web/tools/prepare-syntax-deploy.mjs
 This builds publish-deploy/syntax-site, retains the live browser loaders and
 their resource hashes, fetches missing or changed assets, verifies compressed
 counterparts, and overlays the syntax directory, home page and site config.
-It also overlays Minds, so a later syntax publication retains `/minds/`.
+It also overlays Minds and the ornament collections, so subsequent publications
+retain `/minds/` and `/ornaments/`.
 It writes a backup and a public-asset hash manifest to the OS temporary folder.
 The cached smooth, performance and six-rung variants were not deployed when
 this gallery was added; their runtime endpoints return 404. The preparation
