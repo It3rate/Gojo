@@ -14,6 +14,16 @@ Its [contact and course study](../../Gojo/docs/GojoBourgoinContactAndCourseStudy
 examines partial-side slides, boundary refinement and repeated open courses;
 earlier constructions remain available beside the source overlays.
 
+The [coloured ornament collection](results/coloured-ornament/gallery.html)
+enriches four of those native skeletons through actual exposed landmarks.
+Overall, motif and detail focuses retain their siblings while changing
+visual prominence. See the [study](../../Gojo/docs/GojoColouredOrnamentStudy.md)
+and [Jones research notes](research/jones-colour-notes.md).
+
+~~~powershell
+dotnet run --project experiments/QualitativeFrieze -c Release -- --bourgoin-colour
+~~~
+
 The [primitive flow experiment](../../Gojo/docs/GojoPrimitiveFlowExperiment.md)
 executes steps, staircases, waves, rectangles, diamonds, meanders, herringbone
 and stars through acknowledged leaf/group calls and existing event sampling.

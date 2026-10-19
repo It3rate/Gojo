@@ -10,7 +10,7 @@ public sealed class BourgoinRibbonCourseCorrectionTests
     private static readonly Lazy<BourgoinPatternLibrary> Library = new(() => new());
 
     [Theory]
-    [InlineData("B32", 4, 14, 2)]
+    [InlineData("B32", 4, 16, 2)]
     [InlineData("B33", 4, 14, 2)]
     public void OpenCourseDefinitionsAndActualSourceImagesReplaceTheClosedStripReading(string id, int paths, int chords, int prototypes)
     {
@@ -31,14 +31,50 @@ public sealed class BourgoinRibbonCourseCorrectionTests
         var recipe = Recipe("B32"); var field = Field(recipe, 2, 2);
         Assert.True(field.IsComplete); var neighbours = Neighbours(field.Graph);
         var centralEnds = new[] { (X: -1, Y: -5), (X: 0, Y: -6) };
-        foreach (var column in new[] { 0, 10 }) foreach (var row in new[] { 0, -10 })
+        foreach (var column in new[] { 0, 10 }) foreach (var row in new[] { (X: 0, Y: 0), (X: 5, Y: -5) })
         {
-            var sites = centralEnds.Select(point => SiteAt(field, (point.X + column, point.Y + row))).ToArray();
+            var sites = centralEnds.Select(point => SiteAt(field, (point.X + column + row.X, point.Y + row.Y))).ToArray();
             Assert.NotSame(sites[0], sites[1]);
             Assert.All(sites, site => Assert.Single(neighbours[site]));
             Assert.DoesNotContain(sites[1], neighbours[sites[0]]);
         }
         Assert.Contains(neighbours.Values, adjacent => adjacent.Count == 3);
+    }
+
+    [Fact]
+    public void B32DiagonalHalfDropJoinsTheHookEndToTheNextExposedStraightSide()
+    {
+        var recipe = Recipe("B32"); var field = Field(recipe, 2, 2);
+        Assert.True(field.IsComplete); Assert.Equal((5, -5), Position(recipe.Frame, recipe.RowPitch));
+        var neighbours = Neighbours(field.Graph);
+        // This hook endpoint lies inside the following course's original long
+        // side. A published landmark splits that side before the seam joins it.
+        var joined = SiteAt(field, (-1, -9)); var valley = SiteAt(field, (-5, -5));
+        Assert.Contains(valley, neighbours[joined]);
+        Assert.Contains(SiteAt(field, (0, -10)), neighbours[joined]);
+        Assert.Contains(SiteAt(field, (2, -6)), neighbours[joined]);
+        Assert.Equal(3, neighbours[joined].Count);
+        var repeatedPair = E(field.Graph.Strokes).Cast<Relation>().Count(stroke =>
+        {
+            Assert.True(QualitativeStrokeGraph.TryReadStroke(stroke, out _, out var from, out var to, out _));
+            return ReferenceEquals(from, valley) && ReferenceEquals(to, joined);
+        });
+        Assert.Equal(2, repeatedPair); // Independent coincident stroke histories.
+    }
+
+    [Fact]
+    public void B32RemovingTheNeighbourMoveBlocksItsOtherwiseAuthenticatedContactRoles()
+    {
+        var recipe = Recipe("B32"); var run = Run(recipe, 2, 2);
+        var rules = E((Relation)recipe.SeamContract.Right).Cast<Relation>().Select(rule =>
+        {
+            var details = (Relation)rule.Right;
+            return E((Relation)details.Left).Length == 0 ? rule : new Relation(rule.Left,
+                new Relation(OrnamentProgramField.Offset(recipe.Program, 0, 0), details.Right));
+        }).ToArray();
+        var wrong = new OrnamentProgramField(run, OrnamentProgramField.Contract(recipe.Program, rules));
+        Assert.False(wrong.IsComplete); Assert.NotEmpty(E(wrong.Blocked));
+        Assert.Equal(E(new OrnamentProgramField(run, recipe.SeamContract).SourceGraph.Strokes).Length, E(wrong.SourceGraph.Strokes).Length);
     }
 
     [Theory]

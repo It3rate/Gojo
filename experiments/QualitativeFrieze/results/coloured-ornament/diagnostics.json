@@ -1,0 +1,125 @@
+{
+  "schema": "gojo-coloured-ornament-v1",
+  "allRunsComplete": true,
+  "cases": [
+    {
+      "id": "C01",
+      "title": "Flat-star flower garden",
+      "sourceId": "B26",
+      "units": 25,
+      "paths": 19,
+      "chords": 60,
+      "addedPaths": 6,
+      "attachments": 6,
+      "strokes": 1500,
+      "accepted": 1863,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 62,
+      "nativeObjects": 5765,
+      "numericParticipants": 0,
+      "layerPaths": [
+        1,
+        12,
+        18
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Lapis, madder \u0026 old gold"
+    },
+    {
+      "id": "C02",
+      "title": "Octagons and quartered medallions",
+      "sourceId": "B06.B",
+      "units": 25,
+      "paths": 6,
+      "chords": 32,
+      "addedPaths": 5,
+      "attachments": 5,
+      "strokes": 800,
+      "accepted": 125,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 25,
+      "nativeObjects": 3236,
+      "numericParticipants": 0,
+      "layerPaths": [
+        1,
+        2,
+        5
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Ivory, verdigris \u0026 coral"
+    },
+    {
+      "id": "C03",
+      "title": "Fret stems, wrist leaves and round flowers",
+      "sourceId": "B31",
+      "units": 25,
+      "paths": 13,
+      "chords": 56,
+      "addedPaths": 8,
+      "attachments": 8,
+      "strokes": 1400,
+      "accepted": 175,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 0,
+      "nativeObjects": 5092,
+      "numericParticipants": 0,
+      "layerPaths": [
+        4,
+        5,
+        5
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Indigo stems \u0026 vermilion flowers"
+    },
+    {
+      "id": "C04",
+      "title": "Diagonal brocade and small diamond seeds",
+      "sourceId": "B33",
+      "units": 25,
+      "paths": 6,
+      "chords": 22,
+      "addedPaths": 2,
+      "attachments": 2,
+      "strokes": 550,
+      "accepted": 140,
+      "blocked": 0,
+      "open": 0,
+      "frontier": 10,
+      "nativeObjects": 2170,
+      "numericParticipants": 0,
+      "layerPaths": [
+        2,
+        2,
+        4
+      ],
+      "focusComplete": [
+        true,
+        true,
+        true
+      ],
+      "palette": "Copper, slate \u0026 champagne"
+    }
+  ],
+  "limits": [
+    "Authored ornament and selected historical style; no learned aesthetics or image recognition.",
+    "SVG colour, contour fill, edging and clipping are presentation interpretations, not native occupied faces or crossing order.",
+    "Focus controls select precomputed native reads and retain siblings; opacity is visual contrast, not material change.",
+    "Finite chord ornaments do not establish analytic circles, curves or tangency.",
+    "The rectangular display crops the accepted finite field. It does not prove an infinite wallpaper or colour-area theorem."
+  ]
+}

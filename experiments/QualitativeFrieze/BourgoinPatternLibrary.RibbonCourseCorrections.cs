@@ -8,8 +8,10 @@ public sealed partial class BourgoinPatternLibrary
         // The source's dark strip becomes rectilinear in this local grid.
         // Its two returns have separate central free ends: (2,3) and (3,3).
         // They must never be silently joined into one long spiral traversal.
+        // The first side exposes the end of the preceding row's hook. That
+        // extra landmark splits the same straight run; it creates no new bend.
         var backbone = cell.CorrectedSeed(false, RibbonAligned(
-            (-5, 5), (0, 5), (0, 1), (0, 0)));
+            (-5, 5), (-1, 5), (0, 5), (0, 1), (0, 0)));
         var hook = cell.CorrectedSeed(false, RibbonAligned(
             (0, 5), (4, 5), (4, 2), (2, 2), (2, 3)));
         var diagonal = cell.CorrectedMap((1, -1), (1, 1));
@@ -20,9 +22,9 @@ public sealed partial class BourgoinPatternLibrary
         // signed repeated-reach substitution plus an actual placement word.
         cell.CorrectedImage(backbone, opposed, (-1, -11));
         cell.CorrectedImage(hook, opposed, (-1, -11));
-        return new(cell, (10, 0), (0, -10),
-            "Two distinct open hooked returns attach to opposed staircase courses. Their inner ends remain one source-grid step apart instead of becoming one continuous spiral. The half-turned pair reuses two actual prototypes. Published valley and cross-course landmarks admit the T attachments; coincident short boundary participations remain separate histories until the seam read joins their sites.",
-            "Reconstructed from Plate 20 fig. 3's dark strip and checked against its lighter repeated field. The separate central ends, opposed returns and valley T contacts replace the previous single-spiral interpretation. Shared-reach proportions are selected from the source; scan breaks, printed ink width and filled ribbon faces are not inferred.");
+        return new(cell, (10, 0), (5, -5),
+            "Two distinct open hooked returns attach to opposed staircase courses. Their inner ends remain one source-grid step apart instead of becoming one continuous spiral. The half-turned pair reuses two actual prototypes. Successive courses move diagonally by a half-drop, placing the next crest into the preceding course's valley. An exposed straight-side landmark accepts the neighbouring hook endpoint through an actual seam; coincident boundary participations remain separate stroke histories.",
+            "Reconstructed from Plate 20 fig. 3's dark strip and checked against its lighter repeated field. The repeated field uses a diagonal half-drop rather than vertically stacking the strip. Separate central ends and explicit valley T contacts remain intact. Shared-reach proportions are selected from the source; scan breaks, printed ink width and filled ribbon faces are not inferred.");
     }
 
     private static SourceRevision ContinuousAngledChannels()

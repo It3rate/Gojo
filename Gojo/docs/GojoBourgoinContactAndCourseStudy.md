@@ -1,5 +1,10 @@
 # Bourgoin atlas: sliding contacts and open courses
 
+Historical checkpoint **287d250**. The subsequent
+[colour and hierarchy study](GojoColouredOrnamentStudy.md) corrects B32's
+diagonal row placement and adds its missing public T landmark. B32's fourteen
+chords and the aggregate counts below describe this earlier checkpoint.
+
 This experiment revises B24, B26, B29 and B31–B33 against the source diagrams.
 The [gallery](../../experiments/QualitativeFrieze/results/bourgoin-patterns/gallery.html)
 and [whole atlas](../../experiments/QualitativeFrieze/results/bourgoin-patterns/overview.html)

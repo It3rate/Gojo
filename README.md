@@ -104,6 +104,10 @@ while separating authored explanations from computed graph reads.
 The [contact and course study](Gojo/docs/GojoBourgoinContactAndCourseStudy.md)
 refines partial-side sliding contacts, flat-tipped stars, slender arms and
 open ribbon courses while retaining the earlier constructions for comparison.
+The [coloured ornament collection](experiments/QualitativeFrieze/results/coloured-ornament/gallery.html)
+adds native landmark-bound petals, leaves and medallions, with three selectable
+focuses guided by Jones's colour and hierarchy proposals. Its
+[study](Gojo/docs/GojoColouredOrnamentStudy.md) also corrects B32's diagonal continuation.
 
 For example, run the prospective-prediction experiment and its notebook tests
 from the repository root:
