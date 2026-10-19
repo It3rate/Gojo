@@ -28,8 +28,8 @@ public static partial class BourgoinColourExperiment
 
     private static Palette RefinedPalette(string source, string mode)
     {
-        if (source == "B13") return new("Porcelain & quiet blue", "#F2ECDE", "#446B79", "#DCE1DC", "#6C7E78", "#BAA677", "#F9F4E8", "#344C54", .12);
-        if (source == "B14") return new("Limestone & sage", "#F0EBDA", "#67796B", "#D9DDCB", "#77816A", "#B39568", "#FBF6E9", "#455548", .12);
+        if (source == "B13") return new("Muted blue, clay, flax & olive chambers", "#EEE7D7", "#68858A", "#AE806D", "#D4C7A7", "#A4AB86", "#F4EDDA", "#45565A", .12);
+        if (source == "B14") return new("Muted teal, mauve, flax & ochre chambers", "#EEE7D7", "#6B8E88", "#A08095", "#D0C2A3", "#B5A477", "#F4EDDA", "#4C5554", .12);
         if (source == "B32") return mode switch
         {
             "field" => new("Ivory, ink-blue & sand bands", "#F0E7D4", "#325866", "#A76445", "#EFE6D0", "#C3AA79", "#F9F3E4", "#223F4C", .12),

@@ -1,65 +1,494 @@
 {
+  "schema": "gojo-ornament-region-presentation-check-v1",
+  "baseline": "485046a",
+  "nativeIdentityEvidence": "BourgoinBandedCourseOrnamentTests: actual source hook-start bindings and quarter-related petal orbits",
   "errors": [],
-  "geometryUnchanged": 99,
-  "nativePacketsUnchanged": 99,
-  "revisedPrograms": 9,
-  "palettes": 23,
-  "quietFamilies": [
+  "geometryUnchanged": 105,
+  "nativePacketsUnchanged": 105,
+  "focusPacketsUnchanged": 105,
+  "revisedPrograms": 3,
+  "regionFamilies": [
     {
       "source": "B13",
       "mode": "field",
-      "colours": 2,
-      "opacity": "1"
+      "view": "field",
+      "fills": [
+        "rgb(104, 133, 138)",
+        "rgb(174, 128, 109)",
+        "rgb(212, 199, 167)",
+        "rgb(164, 171, 134)"
+      ],
+      "groups": [
+        "0",
+        "1",
+        "2",
+        "3"
+      ],
+      "opacity": [
+        1
+      ],
+      "parentOpacity": [
+        1
+      ],
+      "contoursClosed": true,
+      "colouredSourcePigments": [],
+      "sourcePigments": 0,
+      "masses": 36
+    },
+    {
+      "source": "B13",
+      "mode": "field",
+      "view": "unit",
+      "fills": [
+        "rgb(104, 133, 138)",
+        "rgb(174, 128, 109)",
+        "rgb(212, 199, 167)",
+        "rgb(164, 171, 134)"
+      ],
+      "groups": [
+        "0",
+        "1",
+        "2",
+        "3"
+      ],
+      "opacity": [
+        1
+      ],
+      "parentOpacity": [
+        1
+      ],
+      "contoursClosed": true,
+      "colouredSourcePigments": [],
+      "sourcePigments": 0,
+      "masses": 4
     },
     {
       "source": "B13",
       "mode": "motif",
-      "colours": 2,
-      "opacity": "1"
+      "view": "field",
+      "fills": [
+        "rgb(104, 133, 138)",
+        "rgb(174, 128, 109)",
+        "rgb(212, 199, 167)",
+        "rgb(164, 171, 134)"
+      ],
+      "groups": [
+        "0",
+        "1",
+        "2",
+        "3"
+      ],
+      "opacity": [
+        1
+      ],
+      "parentOpacity": [
+        1
+      ],
+      "contoursClosed": true,
+      "colouredSourcePigments": [],
+      "sourcePigments": 0,
+      "masses": 36
+    },
+    {
+      "source": "B13",
+      "mode": "motif",
+      "view": "unit",
+      "fills": [
+        "rgb(104, 133, 138)",
+        "rgb(174, 128, 109)",
+        "rgb(212, 199, 167)",
+        "rgb(164, 171, 134)"
+      ],
+      "groups": [
+        "0",
+        "1",
+        "2",
+        "3"
+      ],
+      "opacity": [
+        1
+      ],
+      "parentOpacity": [
+        1
+      ],
+      "contoursClosed": true,
+      "colouredSourcePigments": [],
+      "sourcePigments": 0,
+      "masses": 4
     },
     {
       "source": "B13",
       "mode": "detail",
-      "colours": 2,
-      "opacity": "1"
+      "view": "field",
+      "fills": [
+        "rgb(104, 133, 138)",
+        "rgb(174, 128, 109)",
+        "rgb(212, 199, 167)",
+        "rgb(164, 171, 134)"
+      ],
+      "groups": [
+        "0",
+        "1",
+        "2",
+        "3"
+      ],
+      "opacity": [
+        1
+      ],
+      "parentOpacity": [
+        1
+      ],
+      "contoursClosed": true,
+      "colouredSourcePigments": [],
+      "sourcePigments": 0,
+      "masses": 36
+    },
+    {
+      "source": "B13",
+      "mode": "detail",
+      "view": "unit",
+      "fills": [
+        "rgb(104, 133, 138)",
+        "rgb(174, 128, 109)",
+        "rgb(212, 199, 167)",
+        "rgb(164, 171, 134)"
+      ],
+      "groups": [
+        "0",
+        "1",
+        "2",
+        "3"
+      ],
+      "opacity": [
+        1
+      ],
+      "parentOpacity": [
+        1
+      ],
+      "contoursClosed": true,
+      "colouredSourcePigments": [],
+      "sourcePigments": 0,
+      "masses": 4
     },
     {
       "source": "B14",
       "mode": "field",
-      "colours": 2,
-      "opacity": "1"
+      "view": "field",
+      "fills": [
+        "rgb(107, 142, 136)",
+        "rgb(160, 128, 149)",
+        "rgb(208, 194, 163)",
+        "rgb(181, 164, 119)"
+      ],
+      "groups": [
+        "0",
+        "1",
+        "2",
+        "3"
+      ],
+      "opacity": [
+        1
+      ],
+      "parentOpacity": [
+        1
+      ],
+      "contoursClosed": true,
+      "colouredSourcePigments": [],
+      "sourcePigments": 0,
+      "masses": 36
+    },
+    {
+      "source": "B14",
+      "mode": "field",
+      "view": "unit",
+      "fills": [
+        "rgb(107, 142, 136)",
+        "rgb(160, 128, 149)",
+        "rgb(208, 194, 163)",
+        "rgb(181, 164, 119)"
+      ],
+      "groups": [
+        "0",
+        "1",
+        "2",
+        "3"
+      ],
+      "opacity": [
+        1
+      ],
+      "parentOpacity": [
+        1
+      ],
+      "contoursClosed": true,
+      "colouredSourcePigments": [],
+      "sourcePigments": 0,
+      "masses": 4
     },
     {
       "source": "B14",
       "mode": "motif",
-      "colours": 2,
-      "opacity": "1"
+      "view": "field",
+      "fills": [
+        "rgb(107, 142, 136)",
+        "rgb(160, 128, 149)",
+        "rgb(208, 194, 163)",
+        "rgb(181, 164, 119)"
+      ],
+      "groups": [
+        "0",
+        "1",
+        "2",
+        "3"
+      ],
+      "opacity": [
+        1
+      ],
+      "parentOpacity": [
+        1
+      ],
+      "contoursClosed": true,
+      "colouredSourcePigments": [],
+      "sourcePigments": 0,
+      "masses": 36
+    },
+    {
+      "source": "B14",
+      "mode": "motif",
+      "view": "unit",
+      "fills": [
+        "rgb(107, 142, 136)",
+        "rgb(160, 128, 149)",
+        "rgb(208, 194, 163)",
+        "rgb(181, 164, 119)"
+      ],
+      "groups": [
+        "0",
+        "1",
+        "2",
+        "3"
+      ],
+      "opacity": [
+        1
+      ],
+      "parentOpacity": [
+        1
+      ],
+      "contoursClosed": true,
+      "colouredSourcePigments": [],
+      "sourcePigments": 0,
+      "masses": 4
     },
     {
       "source": "B14",
       "mode": "detail",
-      "colours": 2,
-      "opacity": "1"
+      "view": "field",
+      "fills": [
+        "rgb(107, 142, 136)",
+        "rgb(160, 128, 149)",
+        "rgb(208, 194, 163)",
+        "rgb(181, 164, 119)"
+      ],
+      "groups": [
+        "0",
+        "1",
+        "2",
+        "3"
+      ],
+      "opacity": [
+        1
+      ],
+      "parentOpacity": [
+        1
+      ],
+      "contoursClosed": true,
+      "colouredSourcePigments": [],
+      "sourcePigments": 0,
+      "masses": 36
+    },
+    {
+      "source": "B14",
+      "mode": "detail",
+      "view": "unit",
+      "fills": [
+        "rgb(107, 142, 136)",
+        "rgb(160, 128, 149)",
+        "rgb(208, 194, 163)",
+        "rgb(181, 164, 119)"
+      ],
+      "groups": [
+        "0",
+        "1",
+        "2",
+        "3"
+      ],
+      "opacity": [
+        1
+      ],
+      "parentOpacity": [
+        1
+      ],
+      "contoursClosed": true,
+      "colouredSourcePigments": [],
+      "sourcePigments": 0,
+      "masses": 4
     }
   ],
   "bandedCourses": [
     {
       "mode": "field",
-      "breadth": 5.4,
-      "diagonal": true,
-      "filled": false
+      "view": "field",
+      "width": 48.2712,
+      "reach": 8.533,
+      "widthInReaches": 5.657002226649479,
+      "centrelineSpacing": 96.52431820790657,
+      "negativeGap": 48.253118207906574,
+      "widthToSpacing": 0.5000936644382946,
+      "sourcePaths": 36,
+      "expectedCentres": 18,
+      "petalsAtCentres": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "otherContours": 0,
+      "otherContoursCentred": true
+    },
+    {
+      "mode": "field",
+      "view": "unit",
+      "width": 36.3179,
+      "reach": 6.42,
+      "widthInReaches": 5.6569937694704056,
+      "centrelineSpacing": 72.63506922429924,
+      "negativeGap": 36.31716922429924,
+      "widthToSpacing": 0.5000050304605513,
+      "sourcePaths": 4,
+      "expectedCentres": 2,
+      "petalsAtCentres": [
+        0,
+        0
+      ],
+      "otherContours": 0,
+      "otherContoursCentred": true
     },
     {
       "mode": "motif",
-      "breadth": 5,
-      "diagonal": true,
-      "filled": false
+      "view": "field",
+      "width": 48.2712,
+      "reach": 8.533,
+      "widthInReaches": 5.657002226649479,
+      "centrelineSpacing": 96.52431820790657,
+      "negativeGap": 48.253118207906574,
+      "widthToSpacing": 0.5000936644382946,
+      "sourcePaths": 36,
+      "expectedCentres": 18,
+      "petalsAtCentres": [
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "otherContours": 18,
+      "otherContoursCentred": true
+    },
+    {
+      "mode": "motif",
+      "view": "unit",
+      "width": 36.3179,
+      "reach": 6.42,
+      "widthInReaches": 5.6569937694704056,
+      "centrelineSpacing": 72.63506922429924,
+      "negativeGap": 36.31716922429924,
+      "widthToSpacing": 0.5000050304605513,
+      "sourcePaths": 4,
+      "expectedCentres": 2,
+      "petalsAtCentres": [
+        4,
+        4
+      ],
+      "otherContours": 2,
+      "otherContoursCentred": true
     },
     {
       "mode": "detail",
-      "breadth": 4.6000000000000005,
-      "diagonal": true,
-      "filled": false
+      "view": "field",
+      "width": 48.2712,
+      "reach": 8.533,
+      "widthInReaches": 5.657002226649479,
+      "centrelineSpacing": 96.52431820790657,
+      "negativeGap": 48.253118207906574,
+      "widthToSpacing": 0.5000936644382946,
+      "sourcePaths": 36,
+      "expectedCentres": 18,
+      "petalsAtCentres": [
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "otherContours": 18,
+      "otherContoursCentred": true
+    },
+    {
+      "mode": "detail",
+      "view": "unit",
+      "width": 36.3179,
+      "reach": 6.42,
+      "widthInReaches": 5.6569937694704056,
+      "centrelineSpacing": 72.63506922429924,
+      "negativeGap": 36.31716922429924,
+      "widthToSpacing": 0.5000050304605513,
+      "sourcePaths": 4,
+      "expectedCentres": 2,
+      "petalsAtCentres": [
+        4,
+        4
+      ],
+      "otherContours": 2,
+      "otherContoursCentred": true
     }
   ]
 }

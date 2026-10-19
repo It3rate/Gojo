@@ -39,7 +39,7 @@ Examples of this authored reading:
 | B13 / B14 | 4–7 | Simple leaf, quiet axial vein, opposed common-root pair, bar placement and quarter-related sibling correspondence. |
 | B25 / B26 | 6–9 | Shared petal, vein, sixfold arrangement, centre and star-interior placement. |
 | B30 | 5–8 | Eight-lobed silhouette, radial veins, centre and cloud-valley placement. |
-| B32 | 3–5 | Fourfold diamond, nesting, actual course-bay attachment and staggered repetition. |
+| B32 | 5–7 | Diamond petal, fourfold rosette, centre, quiet midrib, actual opposed hook-port attachment and staggered repetition. |
 | B33 | 6–9 | Eight-lobed silhouette, radial veins, centre, short stem and actual source-course attachment. |
 | B34 | 5–9 | Blossom silhouette, radial articulation, centre and crossing-relative placement; the retained loops still do not join. |
 

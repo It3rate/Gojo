@@ -82,8 +82,8 @@ public static class BourgoinOrnamentRefinedLibrary
                 notes = "Growth follows actual arm chords, while the round source marker remains an unfilled window. The larger overall construction uses exact angular companion arms.";
                 break;
             case "B32":
-                DiamondCourses(p, mode); title = "Banded diagonal courses and quiet diamond inlays";
-                notes = "The original interrupted diagonal courses lead every scale. Their separate central ends, diagonal half-drop and authenticated valley contacts remain intact. One small fourfold diamond inlay, articulated by nesting at finer readings, attaches to an actual course port. Broad and banded ink is an optional presentation of the retained courses, not a new ribbon face or topological join.";
+                DiamondCourses(p, mode); title = "Banded diagonal courses and crossing rosettes";
+                notes = "The original interrupted diagonal courses lead every scale. Their separate central ends, diagonal half-drop and authenticated valley contacts remain intact. The disposition contains only those lines. Small fourfold diamond-petal rosettes in the other readings attach to the actual hook-start ports in the two opposed crossing families; the fine reading adds quiet petal midribs. Coordinate contact is a placement read, not a new source join. Broad and banded ink remains presentation of the retained courses, not a new ribbon face.";
                 break;
             default:
                 General(p, mode); title = GeneralTitle(source.Id, mode);
@@ -514,14 +514,26 @@ public static class BourgoinOrnamentRefinedLibrary
         // Retain each original course once. A second thin detail reading of
         // that same ink would visually compete with its broader banded read.
         a.Motif.SelectOnly(); a.Detail.SelectOnly();
-        var parent = a.Paths.First(path => !path.Closed);
-        var centre = parent.Centre; var anchor = a.NearestPort(centre, parent.Path);
-        var radii = mode == "field" ? new[] { 6 } : mode == "motif" ? new[] { 8, 4 } : new[] { 8, 5, 2 };
-        for (var index = 0; index < radii.Length; index++)
+        if (mode == "field") return;
+
+        // Select the two opposed hook starts where the retained backbone also
+        // exposes a corner. These are actual source ports, not bay centres or
+        // renderer intersections. Repetition supplies the marked X readings;
+        // coordinate agreement here does not authenticate another native join.
+        var hooks = a.Paths.Where(hook => !hook.Closed && a.Paths.Any(backbone =>
+            !ReferenceEquals(backbone.Path, hook.Path) &&
+            backbone.Vertices.Skip(1).SkipLast(1).Contains(hook.Vertices[0]))).ToArray();
+        foreach (var hook in hooks)
         {
-            var radius = radii[index];
-            p.Contour(index == 0 ? a.Motif : a.Detail, centre,
-                [(0, radius), (-radius, 0), (0, -radius), (radius, 0), (0, radius)], anchor: anchor);
+            var centre = hook.Vertices[0]; var anchor = a.Port(hook, 0);
+            foreach (var map in new[] { a.Map((1, 0), (0, 1)), a.Map((0, 1), (-1, 0)),
+                a.Map((-1, 0), (0, -1)), a.Map((0, -1), (1, 0)) })
+            {
+                p.Contour(a.Motif, centre, [(0, 0), (0, 2), (3, 3), (2, 0), (0, 0)],
+                    map, anchor, curve: true, fixedVertices: [0, 2]);
+                if (mode == "detail") p.Line(a.Detail, centre, [(0, 0), (2, 2)], map, anchor);
+            }
+            p.Pearl(centre, 1, anchor);
         }
     }
 

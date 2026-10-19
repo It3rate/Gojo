@@ -28,7 +28,8 @@ public sealed class BourgoinOrnamentRefinedLibraryTests
                 foreach (var path in original)
                     Assert.Contains(E(enrichment.Result.Paths), actual => ReferenceEquals(path, actual));
                 var introduced = E(enrichment.Result.Paths).Where(path => !original.Any(actual => ReferenceEquals(path, actual))).Cast<Relation>().ToArray();
-                Assert.NotEmpty(introduced);
+                if (design is { SourceId: "B32", Mode: "field" }) Assert.Empty(introduced);
+                else Assert.NotEmpty(introduced);
                 signatures.Add(string.Join("|", introduced.Select(path => Signature(source.Frame, path)).Order(StringComparer.Ordinal)));
                 foreach (var layer in E(enrichment.Layers).Cast<Relation>())
                 {

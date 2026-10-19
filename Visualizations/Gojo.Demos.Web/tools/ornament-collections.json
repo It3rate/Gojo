@@ -25,7 +25,7 @@
       "previews": [
         { "file": "R-B05-detail.svg", "alt": "Rosettes and leaf forms following a triangular and hexagonal lattice" },
         { "file": "R-B12-detail.svg", "alt": "Eight-petal flowers following stepped chambers" },
-        { "file": "R-B32-detail.svg", "alt": "Banded diagonal returns and diamond ornament" }
+        { "file": "R-B32-detail.svg", "alt": "Balanced diagonal bands and small fourfold crossing rosettes" }
       ],
       "documents": [
         { "source": "Gojo/docs/GojoOrnamentRefinedCollection.md", "destination": "notes/refined-collection.md" },

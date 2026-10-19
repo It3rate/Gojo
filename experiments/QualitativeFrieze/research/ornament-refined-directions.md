@@ -228,3 +228,21 @@ the original construction and its limits remain inspectable. Source anchoring,
 convincing visible growth, containment and preferred aesthetic hierarchy remain
 different questions. The atlas provides examples and counterexamples for those
 questions rather than collapsing them into one successful attachment flag.
+
+### Current restraint and region review
+
+The later user-directed restraint pass supersedes the earlier B32 flower-chain
+recipe above. Its overall reading is now just the retained interrupted course.
+Intermediate and fine readings use two small fourfold rosettes per unit at
+actual opposed hook-start ports. Their petals reuse quarter-related native
+placements; fine reading adds quiet midribs. Floating bay-centre diamonds are
+removed. Broad ink/gold/pigment bands occupy half the adjacent course pitch in
+the screen read, leaving equally wide clear channels. Thickening a line still
+does not create a native join or establish an occupied face.
+
+B13/B14 retain the simplified leaves and restore four muted colour families.
+An important presentation counterexample was a coloured centred outline:
+although the actual closed source chambers tile correctly, that outline
+expanded the visible colour beyond each chamber. Colour now comes only from
+the closed source mass, with thin neutral separators. This fixes the visible
+region reading without changing the source contours or current motifs.

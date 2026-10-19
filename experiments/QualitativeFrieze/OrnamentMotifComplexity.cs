@@ -147,7 +147,7 @@ public static class OrnamentMotifComplexity
         "B28" => Estimate(6, 9, "five-lobed fan contour", "fan rib", "five-part rib arrangement", "centre", "common root", "shell-relative attachment"),
         "B30" => Estimate(5, 8, "eight-lobed flower contour", "radial veins", "centre", "cloud-valley placement", "repeat through the parent disposition"),
         "B31" => Estimate(8, 11, "central blossom contour", "radial veins", "centre", "wrist leaf", "leaf articulation", "quarter-related arm correspondence", "wrist attachment", "source marker retained beneath the blossom"),
-        "B32" => Estimate(3, 5, "fourfold diamond contour", "nested scale correspondence", "course-bay attachment", "repeat through the staggered disposition"),
+        "B32" => Estimate(5, 7, "small diamond-based petal", "quarter-related fourfold rosette", "quiet midrib and centre", "actual hook-start attachment", "opposed crossing-family correspondence", "repeat through the staggered disposition"),
         "B33" => Estimate(6, 9, "eight-lobed blossom contour", "radial veins", "centre", "short connecting stem", "actual source-course attachment", "repeat through the staggered disposition"),
         "B34" => Estimate(5, 9, "central blossom contour", "radial veins", "centre", "crossing-relative placement", "unjoined loop histories retained"),
         _ => null

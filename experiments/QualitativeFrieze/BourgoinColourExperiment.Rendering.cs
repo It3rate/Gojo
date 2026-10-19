@@ -83,10 +83,11 @@ public static partial class BourgoinColourExperiment
                 foreach (var path in selected) svg.Append($"<use class='{pass}{(path.Closed ? " closed" : "")}'{Colour(path)} href='#{id}-{path.Id}'/>");
             svg.Append("</g>");
         }
-        if (colours is { Count: > 0 })
+        if (colours is { Count: > 0 } || id.StartsWith("R-B32-", StringComparison.Ordinal))
         {
             // Native layer order becomes the decorative painting order:
-            // a later filled flower may cover earlier placement guides.
+            // a later filled flower may cover earlier placement guides,
+            // including the broad diagonal courses of refined B32.
             for (var layer = 0; layer < layers.Length; layer++) { Masses(layer); Strokes(layer); }
         }
         else

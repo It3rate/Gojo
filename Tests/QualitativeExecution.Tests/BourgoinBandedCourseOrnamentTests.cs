@@ -49,49 +49,71 @@ public sealed class BourgoinBandedCourseOrnamentTests
     }
 
     [Theory]
-    [InlineData("field", 1)]
-    [InlineData("motif", 2)]
-    [InlineData("detail", 3)]
-    public void TheRestrainedInlayHasGenuineFourfoldDiamondSymmetryWithoutCurvedFloralPaths(string mode, int outlines)
+    [InlineData("field", 0, 0)]
+    [InlineData("motif", 10, 0)]
+    [InlineData("detail", 18, 8)]
+    public void OnlyOrnamentalReadingsAddSmallFourfoldRosettesAtTheActualOpposedCrossingPorts(
+        string mode, int addedPaths, int midribs)
     {
         var variant = Variants.Value.Single(item => item.Design.Mode == mode);
-        var design = variant.Design; var enrichment = design.Enrichment;
-        var original = E(enrichment.Source.Paths);
+        var design = variant.Design; var enrichment = design.Enrichment; var frame = design.Source.Frame;
+        var source = E(enrichment.Source.Paths).Cast<Relation>().ToArray();
         var added = E(enrichment.Result.Paths).Cast<Relation>()
-            .Where(path => !original.Any(source => ReferenceEquals(source, path))).ToArray();
-        Assert.Equal(outlines, added.Length);
-        var courseDirections = original.Cast<Relation>().SelectMany(path =>
+            .Where(path => !source.Any(original => ReferenceEquals(original, path))).ToArray();
+        Assert.Equal(addedPaths, added.Length);
+        var hooks = source.Where(hook => source.Any(backbone => !ReferenceEquals(backbone, hook) &&
+            Points(frame, backbone).Skip(1).SkipLast(1).Contains(Points(frame, hook)[0]))).ToArray();
+        Assert.Equal(2, hooks.Length);
+        var ports = hooks.Select(hook => E(enrichment.Source.Ports).Cast<Relation>().Single(port =>
+            port.Right is Relation pick && ReferenceEquals(pick.Left, hook) &&
+            ReferenceEquals(pick.Right, E((Relation)hook.Right)[0]))).ToArray();
+        var rooted = new Dictionary<Relation, List<Relation>>(ReferenceEqualityComparer.Instance);
+        foreach (var port in ports) rooted.Add(port, []);
+        foreach (var layer in E(enrichment.Layers).Cast<Relation>())
         {
-            var points = Points(design.Source.Frame, path);
-            return points.Zip(points.Skip(1), (a, b) => (X: b.X - a.X, Y: b.Y - a.Y));
-        }).ToArray();
-        (int X, int Y)? commonCentre = null;
-        foreach (var path in added)
-        {
-            Assert.Contains(E(enrichment.Result.ClosedPaths), actual => ReferenceEquals(actual, path));
-            var points = Points(design.Source.Frame, path);
-            Assert.Equal(points[0], points[^1]); Assert.Equal(5, points.Length);
-            var centre = ((points.Min(point => point.X) + points.Max(point => point.X)) / 2,
-                (points.Min(point => point.Y) + points.Max(point => point.Y)) / 2);
-            commonCentre ??= centre; Assert.Equal(commonCentre.Value, centre);
-            var local = points.Take(4).Select(point => (X: point.X - centre.Item1, Y: point.Y - centre.Item2)).ToHashSet();
-            Assert.Equal(4, local.Count);
-            foreach (var point in local)
+            Assert.True(enrichment.TryReadLayer(layer, out _, out _, out _, out _, out var receipts));
+            foreach (var receipt in E(receipts).Cast<Relation>())
             {
-                Assert.True(point.X == 0 || point.Y == 0);
-                Assert.Contains((-point.Y, point.X), local);
+                var attachment = Assert.IsType<Relation>(receipt.Left);
+                var port = Assert.IsType<Relation>(attachment.Left);
+                Assert.Contains(ports, actual => ReferenceEquals(actual, port));
+                var path = Assert.IsType<Relation>(((Relation)attachment.Right).Right);
+                rooted[port].Add(path);
+                var root = Points(frame, (Relation)((Relation)port.Right).Left)[0];
+                Assert.All(Points(frame, path), point =>
+                {
+                    Assert.InRange(point.X - root.X, -3, 3);
+                    Assert.InRange(point.Y - root.Y, -3, 3);
+                });
             }
-            foreach (var (first, second) in points.Zip(points.Skip(1)))
-            {
-                var edge = (X: second.X - first.X, Y: second.Y - first.Y);
-                Assert.Contains(courseDirections, direction => (long)direction.X * edge.Y == (long)direction.Y * edge.X);
-            }
-            Assert.InRange(points.Max(point => point.X) - points.Min(point => point.X), 1, 16);
         }
+        foreach (var (port, paths) in rooted)
+        {
+            Assert.Equal(addedPaths / 2, paths.Count);
+            var centre = Points(frame, (Relation)((Relation)port.Right).Left)[0];
+            var petals = paths.Where(path => E((Relation)path.Right).Length == 4 &&
+                Points(frame, path)[0] == centre).ToArray();
+            Assert.Equal(mode == "field" ? 0 : 4, petals.Length);
+            var signatures = petals.Select(path => Points(frame, path).Take(4)
+                .Select(point => (X: point.X - centre.X, Y: point.Y - centre.Y)).ToHashSet()).ToArray();
+            foreach (var points in signatures)
+            {
+                Assert.Contains((0, 0), points);
+                Assert.All(points, point => { Assert.InRange(point.X, -3, 3); Assert.InRange(point.Y, -3, 3); });
+                var quarter = points.Select(point => (-point.Y, point.X)).ToHashSet();
+                Assert.Contains(signatures, other => other.SetEquals(quarter));
+            }
+        }
+        Assert.Equal(midribs, added.Count(path => !E(enrichment.Result.ClosedPaths).Any(closed => ReferenceEquals(closed, path))));
         var hint = Assert.IsType<Relation>(Assert.Single(E(variant.CurveHints)));
-        Assert.True(OrnamentCurveSelection.TryRead(design.Source.Frame, enrichment.ResultSurface, hint, out var curves));
-        Assert.Empty(E(curves.Selected));
-        Assert.Equal(E(enrichment.Result.Paths).Length, E(curves.Complement).Length);
+        Assert.True(OrnamentCurveSelection.TryRead(frame, enrichment.ResultSurface, hint, out var curves));
+        Assert.Equal(mode == "field" ? 0 : 8, E(curves.Selected).Length);
+        foreach (var petal in E(curves.Selected).Cast<Relation>())
+        {
+            Assert.Contains(0, curves.FixedLandmarks(petal));
+            Assert.Contains(2, curves.FixedLandmarks(petal));
+        }
+        Assert.Equal(E(enrichment.Result.Paths).Length, E(curves.Selected).Length + E(curves.Complement).Length);
     }
 
     private static (int X, int Y)[] Points(QualitativeMotionFrame frame, Relation path)

@@ -1086,62 +1086,62 @@
     {
       "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B13-detail-closeup.svg",
       "url": "/ornaments/flowing-grammar/R-B13-detail-closeup.svg",
-      "sha256": "4e3831ad332cb7f89f757411ad554c7b4421c02a5dcdc2acb6429c45451e9758"
+      "sha256": "48c50eca77729035886e2d05aac54cbc359035ef271a509b933270c769502a23"
     },
     {
       "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B13-detail.svg",
       "url": "/ornaments/flowing-grammar/R-B13-detail.svg",
-      "sha256": "02db9be7bb1756eaa776f4798127b1a175a966cb4dd75c0e3647cc4919c576ac"
+      "sha256": "50aa824a33cb9510c8783723996be7eb64bc562a2dd82e8db99777375a607f3f"
     },
     {
       "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B13-field-closeup.svg",
       "url": "/ornaments/flowing-grammar/R-B13-field-closeup.svg",
-      "sha256": "783fcb657dbc24fbc9315163386d02e0042c385d1edc5ec358a150855108521e"
+      "sha256": "8564bee1bb3b10363bcc92aafeb9ce5d65bbc0308fd7294e35ceb3c1ee0594d8"
     },
     {
       "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B13-field.svg",
       "url": "/ornaments/flowing-grammar/R-B13-field.svg",
-      "sha256": "8451fcd46b29cd09d568f05c6519add17994d333e656cdd943f1105109f2bde5"
+      "sha256": "c68eeff3138e0c528e6e32930e09a3e87bb36590fd66424231f7f3c8e83cfe79"
     },
     {
       "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B13-motif-closeup.svg",
       "url": "/ornaments/flowing-grammar/R-B13-motif-closeup.svg",
-      "sha256": "3d52e266c9652c8e5abc6d60ac9720dcc8a3661a8f5fa667b1df06654ed4116f"
+      "sha256": "973cda378dc134d82620d56308d9b9709caf43184bbdca77f7f7f13533f27946"
     },
     {
       "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B13-motif.svg",
       "url": "/ornaments/flowing-grammar/R-B13-motif.svg",
-      "sha256": "3454a0907f2b284a43e3612f95c2bc758443cfde2e07e321f2f2669402f96a7f"
+      "sha256": "0ad678f7633717ce905af1295a1a25d0a745d24294cc517b7815f1cccb2b63f4"
     },
     {
       "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B14-detail-closeup.svg",
       "url": "/ornaments/flowing-grammar/R-B14-detail-closeup.svg",
-      "sha256": "d5154a6550849a3a0f8ab0de6afacc899868bf0182ed66ef35eaf4ee5dedd99d"
+      "sha256": "c078f9f0ae6127a6a1bad7fe906444e8e34cf5517683580af9108cd531e25d25"
     },
     {
       "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B14-detail.svg",
       "url": "/ornaments/flowing-grammar/R-B14-detail.svg",
-      "sha256": "05344435a501e7fef9c70d97809a8caee4b058962959f26943ca9da683a8f8de"
+      "sha256": "f5416e1eee47f6aea0d73bceea4d5a72122d658dd4d8b7132f749165f7b456e8"
     },
     {
       "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B14-field-closeup.svg",
       "url": "/ornaments/flowing-grammar/R-B14-field-closeup.svg",
-      "sha256": "ee3c5213549b48e72a745f06c1a721a84076b0b40a575be9d4effed8fd4206ea"
+      "sha256": "d67bcd383871c4af3720dbacff216c5a58505dd40479535b618de7aa988b557f"
     },
     {
       "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B14-field.svg",
       "url": "/ornaments/flowing-grammar/R-B14-field.svg",
-      "sha256": "1a9bc64965606e632e12f8fc8d6c12902f8e1b210349ffbe1737d524a71977a3"
+      "sha256": "3bced6777d4059ee4ca08edc186fb8cfc21e26ab5fd23a00d6fd3db3eab4e15e"
     },
     {
       "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B14-motif-closeup.svg",
       "url": "/ornaments/flowing-grammar/R-B14-motif-closeup.svg",
-      "sha256": "a42fdf88433c082f56db64c91a7a43cddc81950b92da48944ef05ce9cbb6fa30"
+      "sha256": "ecd467efadbc7ff17c19ea171a18c00b06bb6eab650c8e5c6d19c4d516366254"
     },
     {
       "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B14-motif.svg",
       "url": "/ornaments/flowing-grammar/R-B14-motif.svg",
-      "sha256": "4b6464eee111afaa8cc4004a90a095e1908310a5ddce390fe88de86f455f54f8"
+      "sha256": "0280e51eedf99163ce8416db7851e6eba18407c9bd1f936bee17a27576e57f1b"
     },
     {
       "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B15-detail-closeup.svg",
@@ -1656,32 +1656,32 @@
     {
       "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B32-detail-closeup.svg",
       "url": "/ornaments/flowing-grammar/R-B32-detail-closeup.svg",
-      "sha256": "88338f7e659786eb241e3ea484622c93a3221ac87740c9782803b053e03282eb"
+      "sha256": "11844da832272d2c20ef0dfa2cf3a55d85988db4b4f539fb2bc00e54a11b00a8"
     },
     {
       "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B32-detail.svg",
       "url": "/ornaments/flowing-grammar/R-B32-detail.svg",
-      "sha256": "5aefdddc5aad350824f6e3c983fcebe5f086b315af5f4ac91362cad067a2a0e2"
+      "sha256": "a0826002f066b7d82505fc3843a5cc997fd59fee8171d46ddd4d2a9e78261cf7"
     },
     {
       "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B32-field-closeup.svg",
       "url": "/ornaments/flowing-grammar/R-B32-field-closeup.svg",
-      "sha256": "63ea0cb8bad308ef2def0918e2951092a0eecce9688588ba84025e441b4a340c"
+      "sha256": "d6810576a7728b9801f8d21da26fb60ddc3da8efb70c96540c62279947f79430"
     },
     {
       "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B32-field.svg",
       "url": "/ornaments/flowing-grammar/R-B32-field.svg",
-      "sha256": "d2e79666afa50031e009acb565fdc4f3d61a4a0e60da4f9893445d4b7693fc21"
+      "sha256": "39d2322c6321b393080d8a2de4ca915c40e131f11964dec317e5d3e639a1d2d5"
     },
     {
       "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B32-motif-closeup.svg",
       "url": "/ornaments/flowing-grammar/R-B32-motif-closeup.svg",
-      "sha256": "ea0fd29dc3e9eec37aafa6e447b965dfab7b1e103a61875be18b7540045d4ccd"
+      "sha256": "587db4352f25d572e2a4f704b43bb39433ff48c4966c0f3388031b2e8ea05ae7"
     },
     {
       "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B32-motif.svg",
       "url": "/ornaments/flowing-grammar/R-B32-motif.svg",
-      "sha256": "cd1cbdbeffe25bc2b8981f1c6c958e6284de3cb29b9edfa4ff55d36631af9d64"
+      "sha256": "58e2ac7748af665cd0d576da5f44f909dc59a1f754300c3b320b8dfb3c4b5a71"
     },
     {
       "source": "experiments/QualitativeFrieze/results/ornament-refined/R-B33-detail-closeup.svg",
@@ -1746,52 +1746,52 @@
     {
       "source": "experiments/QualitativeFrieze/results/ornament-refined/complexity.html",
       "url": "/ornaments/flowing-grammar/complexity.html",
-      "sha256": "94798edb84e293ad5bff5cb285c5f1464ae070a76ef2e2966e4f3900ae375128"
+      "sha256": "074effdc712e0da0fe66d4ca566b65c7ad1fe6481b7884f6107e8d10bac833dd"
     },
     {
       "source": "experiments/QualitativeFrieze/results/ornament-refined/complexity.json",
       "url": "/ornaments/flowing-grammar/complexity.json",
-      "sha256": "a3780a891d404834bcf1f3542bfc999cf9f3413e4e22dc3a40f3896bd915f211"
+      "sha256": "6c4e00bc6b422f0db5fee42d32029e38dcae885b2963247b78e5c28258630bbe"
     },
     {
       "source": "experiments/QualitativeFrieze/results/ornament-refined/diagnostics.json",
       "url": "/ornaments/flowing-grammar/diagnostics.json",
-      "sha256": "895565d1e5ce2b247561c7fc3424ece0b3c9be36e507ea726f66d457d72b2761"
+      "sha256": "35fc1c6e8989ed8f3d2bdcf530c238edaec22886559fe75c0482cd56f64638c3"
     },
     {
       "source": "experiments/QualitativeFrieze/results/ornament-refined/gallery.html",
       "url": "/ornaments/flowing-grammar/gallery.html",
-      "sha256": "d2893ac52d53616e58d0d7c210187e152171033e6373f4d01e4ca411c47d29a2"
+      "sha256": "41471cddcdb66fbbc27406407a43d013218ccf0bbcbf5e57f40bf27c8adf793f"
     },
     {
       "source": "experiments/QualitativeFrieze/results/ornament-refined/interiors-gallery.html",
       "url": "/ornaments/flowing-grammar/interiors-gallery.html",
-      "sha256": "21e9c233e8bac541a210d26de2ff367dbd9be879833bdbeb27ef06dd734aca92"
+      "sha256": "ea6228057d59f818d2bf200aac8f4f328ca41505d000fdb282ea4f410c92ee9d"
     },
     {
       "source": "experiments/QualitativeFrieze/results/ornament-refined/interiors.html",
       "url": "/ornaments/flowing-grammar/interiors.html",
-      "sha256": "763d915935539b84396b91cf8061409d0708f441ab671a2a9cdffa3977a96fe4"
+      "sha256": "4e422f4ff378e7db2c191cef2513da4210cd5b533f6799a7cec8209da7914035"
     },
     {
       "source": "experiments/QualitativeFrieze/results/ornament-refined/overview.html",
       "url": "/ornaments/flowing-grammar/overview.html",
-      "sha256": "2ff9798d84c5ce932ee5fa6ec8adc07f514c713ff09c8e8cbee61cd6c5ace273"
+      "sha256": "c55dd55a23c99fe3944d9f959ee901a324d7cc6f88337bde0241569dfe18501a"
     },
     {
       "source": "experiments/QualitativeFrieze/results/ornament-refined/verification.json",
       "url": "/ornaments/flowing-grammar/verification.json",
-      "sha256": "20eb498857d458f059ac9ffb2f86595ed6cf0db4ad35ad4cebdd39b01a40aad8"
+      "sha256": "e02434914dd28897bed00b68d175231847ce79fb27ccd7b1d289b214f1d8db4b"
     },
     {
       "source": "Gojo/docs/GojoOrnamentRefinedCollection.md",
       "url": "/ornaments/flowing-grammar/notes/refined-collection.md",
-      "sha256": "bf81a404448b63157b7de4af2b3c9aa102b2f4e2ea5f1a46c6a1076ea833762f"
+      "sha256": "1bd5b743a3e0560b3209c8394677355304613f069890d9c4fa2105605185f32e"
     },
     {
       "source": "Gojo/docs/GojoOrnamentMotifComplexity.md",
       "url": "/ornaments/flowing-grammar/notes/motif-complexity.md",
-      "sha256": "bdceec996fed85ed7592c47339c5d77b49612b0f5bd851b04714256c8e2ad97d"
+      "sha256": "7e50931d029cc2ba38d9423a457075fd2d1490ff43d59ba2b918113104228efc"
     }
   ]
 }

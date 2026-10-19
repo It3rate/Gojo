@@ -2459,57 +2459,59 @@
     {
       "id": "R-B32-field",
       "skeletonName": "Interrupted diagonal returns and valley joins",
-      "title": "B32 \u00B7 Banded diagonal courses and quiet diamond inlays",
+      "title": "B32 \u00B7 Banded diagonal courses and crossing rosettes",
       "assessment": {
         "sourceId": "B32",
         "mode": "field",
         "estimate": null,
         "encoding": {
           "sourcePaths": 4,
-          "addedPaths": 1,
+          "addedPaths": 0,
           "sourceChords": 16,
-          "addedChords": 4,
-          "retainedPrototypeIdentities": 1,
-          "witnessedPrototypePlacements": 1,
+          "addedChords": 0,
+          "retainedPrototypeIdentities": 0,
+          "witnessedPrototypePlacements": 0,
           "unattributedAddedPaths": 0,
-          "actualSourceAnchors": 1
+          "actualSourceAnchors": 0
         }
       }
     },
     {
       "id": "R-B32-motif",
       "skeletonName": "Interrupted diagonal returns and valley joins",
-      "title": "B32 \u00B7 Banded diagonal courses and quiet diamond inlays",
+      "title": "B32 \u00B7 Banded diagonal courses and crossing rosettes",
       "assessment": {
         "sourceId": "B32",
         "mode": "motif",
         "estimate": null,
         "encoding": {
           "sourcePaths": 4,
-          "addedPaths": 2,
+          "addedPaths": 10,
           "sourceChords": 16,
-          "addedChords": 8,
+          "addedChords": 40,
           "retainedPrototypeIdentities": 2,
-          "witnessedPrototypePlacements": 2,
+          "witnessedPrototypePlacements": 10,
           "unattributedAddedPaths": 0,
-          "actualSourceAnchors": 1
+          "actualSourceAnchors": 2
         }
       }
     },
     {
       "id": "R-B32-detail",
       "skeletonName": "Interrupted diagonal returns and valley joins",
-      "title": "B32 \u00B7 Banded diagonal courses and quiet diamond inlays",
+      "title": "B32 \u00B7 Banded diagonal courses and crossing rosettes",
       "assessment": {
         "sourceId": "B32",
         "mode": "detail",
         "estimate": {
-          "minimum": 3,
-          "maximum": 5,
+          "minimum": 5,
+          "maximum": 7,
           "conceptualRecipe": [
-            "fourfold diamond contour",
-            "nested scale correspondence",
-            "course-bay attachment",
+            "small diamond-based petal",
+            "quarter-related fourfold rosette",
+            "quiet midrib and centre",
+            "actual hook-start attachment",
+            "opposed crossing-family correspondence",
             "repeat through the staggered disposition"
           ],
           "mayExceedReviewTrigger": false,
@@ -2518,13 +2520,13 @@
         },
         "encoding": {
           "sourcePaths": 4,
-          "addedPaths": 3,
+          "addedPaths": 18,
           "sourceChords": 16,
-          "addedChords": 12,
+          "addedChords": 48,
           "retainedPrototypeIdentities": 3,
-          "witnessedPrototypePlacements": 3,
+          "witnessedPrototypePlacements": 18,
           "unattributedAddedPaths": 0,
-          "actualSourceAnchors": 1
+          "actualSourceAnchors": 2
         }
       }
     },

@@ -39,38 +39,28 @@ public static partial class BourgoinColourExperiment
         var css = new StringBuilder();
         if (source is "B13" or "B14")
         {
-            css.AppendLine($"{scope} .field{{opacity:1!important}}");
-            css.AppendLine($"{scope} .field .mass[data-colour-group]{{opacity:1!important}}");
-            css.AppendLine($"{scope}[data-view=ornament] .base{{opacity:0}}");
-            css.AppendLine($"{scope} .field .edge{{stroke:var(--pale);stroke-width:calc(var(--band) * .2 + 1.6px)}}");
-            css.AppendLine($"{scope} .field .keyline{{stroke:var(--ink);stroke-width:calc(var(--band) * .2 + .95px)}}");
-            css.AppendLine($"{scope} .field .pigment{{stroke:var(--ink);stroke-width:calc(var(--band) * .2 + .55px)}}");
-            css.AppendLine($"{scope} .motif{{opacity:.82!important}}");
-            css.AppendLine($"{scope} .motif [data-colour-group]{{--colour:var(--gold)!important}}");
-            css.AppendLine($"{scope} .motif .edge{{stroke:var(--ink);stroke-width:calc(var(--band) * .35 + 1.4px)}}");
-            css.AppendLine($"{scope} .motif .keyline{{stroke:var(--pale);stroke-width:calc(var(--band) * .35 + .7px)}}");
-            css.AppendLine($"{scope} .motif .pigment{{stroke-width:calc(var(--band) * .35)}}");
-            css.AppendLine($"{scope} .detail{{opacity:.45!important}}");
-            css.AppendLine($"{scope} .detail .edge,{scope} .detail .keyline{{stroke:none}}");
-            css.AppendLine($"{scope} .detail .pigment{{stroke:var(--ink);stroke-width:calc(var(--band) * .12 + .45px)}}");
-            for (var group = 0; group < 4; group++)
-                css.AppendLine($"{scope} .field [data-colour-group='{group}']{{--colour:var(--{(group % 2 == 0 ? "field" : "motif")})!important}}");
+            AppendQuietSerifStyle(css, scope);
         }
         else if (source == "B32")
         {
-            // The displayed band width follows the imported guide's screen
-            // reach. It neither changes a native gap nor establishes a join.
-            var breadth = mode == "field" ? 5.4 : mode == "motif" ? 5.0 : 4.6;
+            // The source's adjacent diagonal courses are eight shared reaches
+            // apart on each axis: normal spacing is 8*sqrt(2). Half that pitch
+            // gives equal displayed band and clear-space widths in each mode.
+            // This is a screen interpretation, not an occupied native face.
+            var breadth = 4 * Math.Sqrt(2);
             css.AppendLine($"{scope} .field,{scope} .motif{{opacity:1!important}}");
             css.AppendLine($"{scope}[data-view=ornament] .base{{opacity:0}}");
             css.AppendLine($"{scope} .field{{stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:3}}");
             css.AppendLine($"{scope} .field .edge{{stroke:var(--ink);stroke-width:calc(var(--reach-px) * {F(breadth)})}}");
-            css.AppendLine($"{scope} .field .keyline{{stroke:var(--gold);stroke-width:calc(var(--reach-px) * {F(breadth * .74)})}}");
-            css.AppendLine($"{scope} .field .pigment{{stroke:var(--field);stroke-width:calc(var(--reach-px) * {F(breadth * .48)})}}");
-            css.AppendLine($"{scope} .motif .mass,{scope} .detail .mass{{fill:none}}");
-            css.AppendLine($"{scope} .motif .edge{{stroke-width:calc(var(--reach-px) * .8)}}");
-            css.AppendLine($"{scope} .motif .keyline{{stroke-width:calc(var(--reach-px) * .5)}}");
-            css.AppendLine($"{scope} .motif .pigment{{stroke:var(--motif);stroke-width:calc(var(--reach-px) * .25)}}");
+            css.AppendLine($"{scope} .field .keyline{{stroke:var(--gold);stroke-width:calc(var(--reach-px) * {F(breadth * .88)})}}");
+            css.AppendLine($"{scope} .field .pigment{{stroke:var(--field);stroke-width:calc(var(--reach-px) * {F(breadth * .72)})}}");
+            css.AppendLine($"{scope} .motif .mass{{fill:var(--motif);opacity:1}}");
+            css.AppendLine($"{scope} .motif .edge{{stroke-width:calc(var(--reach-px) * .28)}}");
+            css.AppendLine($"{scope} .motif .keyline{{stroke-width:calc(var(--reach-px) * .18)}}");
+            css.AppendLine($"{scope} .motif .pigment{{stroke:var(--pale);stroke-width:calc(var(--reach-px) * .1)}}");
+            css.AppendLine($"{scope} .detail{{opacity:.85!important}}");
+            css.AppendLine($"{scope} .detail .edge,{scope} .detail .keyline{{stroke:none}}");
+            css.AppendLine($"{scope} .detail .pigment{{stroke:var(--pale);stroke-width:calc(var(--reach-px) * .1)}}");
         }
         else
         {

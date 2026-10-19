@@ -26,24 +26,28 @@ Broad lobed flowers, sixfold petal arrangements, nested leaf panels and fan
 bodies replace small on-line marks. B10/B11 now use four dominant diagonal
 petals, four short axial petals, a single centre and quieter veins, supported
 by stronger uninterrupted source rails. A later restraint pass simplifies
-all three B13/B14 native programs and interprets their four retained source
-groups through two quiet tones: blue/porcelain or sage/limestone. Their leaves
-share a restrained gold accent, with fine separating edges.
+all three B13/B14 native programs. Their four retained source groups have four
+restrained colours, with ivory leaves and thin neutral separators. Only the
+actual closed source masses carry those colours: suppressing broad coloured
+boundary strokes prevents colour from overflowing into neighbouring chambers.
+The current simple leaf and opposed-pair motifs are unchanged.
 
 B32 now puts its interrupted diagonal courses first. Broad, angular, nested
 ink/gold/pigment strokes produce a banded figure/ground reading. Native source
-paths and free ends remain unchanged. One, two or three nested fourfold diamond
-outlines replace floral additions; the native unit has 20/24/28 chords. Band
-width is a display read of the imported guide's screen reach, not native
-occupied-area or new connection evidence. Elsewhere this final pass changes
-palette only. Eighteen additional restrained warm/cool palette interpretations
+paths and free ends remain unchanged. The overall reading contains only those
+lines. Intermediate and fine readings add two small fourfold rosettes at actual
+opposed hook-start ports, replacing the floating bay-centre diamonds. Fine
+reading adds petal midribs. The native units have 16/56/64 chords. Displayed band
+width is half the parallel-course centreline pitch, balancing band and clear
+space in each mode. This measured presentation does not establish native
+occupied-area or new connection evidence. Eighteen restrained warm/cool palette interpretations
 bring variety while retaining light/dark separation and outlined accents.
 
 The [conceptual-complexity table](../../experiments/QualitativeFrieze/results/ornament-refined/complexity.html)
 reviews all 36 finer constructions. It separates authored vocabulary ranges
 from recovered native path, chord, prototype-identity and attachment counts.
 Most proposed vocabularies use 5–11 concepts. The simplified B13/B14 readings
-are now estimated at 4–7; B32's diamond vocabulary is 3–5. Twelve remains a
+are now estimated at 4–7; B32's rosette vocabulary is 5–7. Twelve remains a
 suggested review threshold. The denominator is one unit's reusable
 ornamental vocabulary, excluding its underlying lattice, palette and display
 fillets. These are reviewed hypotheses, not discovered concepts or measured
@@ -164,7 +168,7 @@ after import. The four palette colours, stroke edging and filled appearance
 remain presentation choices. Source shape membership is not guessed from its
 screen position.
 
-For these selected designs, the renderer paints each layer's fills and lines
+For these selected designs and B32, the renderer paints each layer's fills and lines
 before the next layer. A filled rosette can therefore cover earlier placement
 lines and receive finer veins above it. Other designs retain their earlier
 painting order. The selected finite basis admits more detail: these eight
@@ -237,8 +241,11 @@ retained crossing histories in B32/B33/B34. Complexity tests distinguish
 shared prototypes from equal but independently authored shapes, keep unknown
 ancestry unattributed, and verify the same counts after native packet import.
 These checks do not validate the authored conceptual estimates as cognitive
-measurements. The full 1,832-test qualitative project was rechecked after
-the final B30 size adjustment.
+measurements. The 1,843-test qualitative project is included in solution-wide
+verification. B32 checks preserve source identities and separate ends, require
+no additions in the overall reading, and verify small quarter-related petals
+attached to the actual opposed source ports. B13/B14 checks distinguish
+bar-contained motif placement from the independent source-chamber tiling read.
 
 The [browser report](../../experiments/QualitativeFrieze/results/ornament-refined/browser-check.json)
 checks all 108 main SVGs and native packets, the 108-image overview, local

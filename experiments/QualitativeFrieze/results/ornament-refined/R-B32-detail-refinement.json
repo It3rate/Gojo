@@ -4,26 +4,26 @@
     "skeletonName": "Interrupted diagonal returns and valley joins",
     "plate": {
       "id": "R-B32-detail",
-      "title": "B32 \u00B7 Banded diagonal courses and quiet diamond inlays",
+      "title": "B32 \u00B7 Banded diagonal courses and crossing rosettes",
       "sourceId": "B32",
-      "description": "The original interrupted diagonal courses lead every scale. Their separate central ends, diagonal half-drop and authenticated valley contacts remain intact. One small fourfold diamond inlay, articulated by nesting at finer readings, attaches to an actual course port. Broad and banded ink is an optional presentation of the retained courses, not a new ribbon face or topological join.",
+      "description": "The original interrupted diagonal courses lead every scale. Their separate central ends, diagonal half-drop and authenticated valley contacts remain intact. The disposition contains only those lines. Small fourfold diamond-petal rosettes in the other readings attach to the actual hook-start ports in the two opposed crossing families; the fine reading adds quiet petal midribs. Coordinate contact is a placement read, not a new source join. Broad and banded ink remains presentation of the retained courses, not a new ribbon face.",
       "svg": "",
       "units": 9,
-      "paths": 7,
-      "chords": 28,
-      "addedPaths": 3,
-      "attachments": 3,
-      "strokes": 252,
+      "paths": 22,
+      "chords": 64,
+      "addedPaths": 18,
+      "attachments": 18,
+      "strokes": 576,
       "accepted": 106,
       "blocked": 0,
       "open": 0,
       "frontier": 56,
-      "nativeObjects": 8304,
+      "nativeObjects": 20037,
       "numericParticipants": 0,
       "layerPaths": [
         4,
-        1,
-        2
+        8,
+        10
       ],
       "focusComplete": [
         true,
@@ -33,6 +33,6 @@
       "palette": "Ivory, terracotta \u0026 blue bands"
     }
   },
-  "constructionNotes": "The original interrupted diagonal courses lead every scale. Their separate central ends, diagonal half-drop and authenticated valley contacts remain intact. One small fourfold diamond inlay, articulated by nesting at finer readings, attaches to an actual course port. Broad and banded ink is an optional presentation of the retained courses, not a new ribbon face or topological join. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
-  "curvedPlacedPaths": 0
+  "constructionNotes": "The original interrupted diagonal courses lead every scale. Their separate central ends, diagonal half-drop and authenticated valley contacts remain intact. The disposition contains only those lines. Small fourfold diamond-petal rosettes in the other readings attach to the actual hook-start ports in the two opposed crossing families; the fine reading adds quiet petal midribs. Coordinate contact is a placement read, not a new source join. Broad and banded ink remains presentation of the retained courses, not a new ribbon face. Optional curved display selects only intended flowing paths and retains actual roots, tips and seam landmarks; native execution remains finite chords.",
+  "curvedPlacedPaths": 72
 }
