@@ -209,11 +209,23 @@ public static class OccurrenceComposition
     internal sealed class Option(CommunicationMatch match, Relation? actualSiteMap = null)
     {
         internal CommunicationMatch Match { get; } = match;
-        internal IElement[] Sites { get; } = N.E(match.Occurrence.Sites);
-        internal IElement[] Edges { get; } = N.E(match.Occurrence.Segments);
-        internal Relation Surface { get; } = new(match.Occurrence.Sites, match.Occurrence.Segments);
-        internal Relation? SiteMap { get; } = actualSiteMap;
+        internal Participation Participation { get; } = new(new(match.Occurrence.Sites, match.Occurrence.Segments), actualSiteMap);
+        internal IElement[] Sites => Participation.Sites;
+        internal IElement[] Edges => Participation.Edges;
+        internal Relation Surface => Participation.Surface;
+        internal Relation? SiteMap => Participation.SiteMap;
         internal Relation Correspondence { get; } = actualSiteMap is null ? match.Witness : new(match.Witness, actualSiteMap);
+        internal IElement[] Select(Relation selection) => Participation.Select(selection);
+    }
+
+    /// <summary>A local read of certified native occurrence participation. Both
+    /// fresh search and restored witness validation use the same joint law.</summary>
+    internal sealed class Participation(Relation surface, Relation? siteMap)
+    {
+        internal Relation Surface { get; } = surface;
+        internal Relation? SiteMap { get; } = siteMap;
+        internal IElement[] Sites { get; } = N.E((Relation)surface.Left);
+        internal IElement[] Edges { get; } = N.E((Relation)surface.Right);
         internal IElement[] Select(Relation selection) => N.E((Relation)selection.Right).Select(site =>
             N.E(SiteMap!).Cast<Relation>().Single(binding => N.Same(binding.Left, site)).Right).ToArray();
     }
@@ -234,29 +246,50 @@ public static class OccurrenceComposition
         public Relation Refuted { get; }
         public Relation Open { get; }
         public Relation Blocked { get; }
+        public Relation Stale { get; }
+        public RetainedMatch? Retained { get; }
         public Relation Surface { get; }
         public IReadOnlyList<Witness> Witnesses { get; }
         public string Answer => N.E(Blocked).Length != 0 ? "Blocked" : N.E(Supported).Length != 0 ? "Yes" :
             N.E(Refuted).Length != 0 ? "No" : "Open";
 
         public Assessment(QualitativeMotifInduction output, Question question, int assignmentCapacity = 4096,
-            int correspondenceCapacity = 4096)
+            int correspondenceCapacity = 4096, RetainedMatch? retained = null)
         {
             ArgumentNullException.ThrowIfNull(output); ArgumentNullException.ThrowIfNull(question);
             if (assignmentCapacity < 0) throw new ArgumentOutOfRangeException(nameof(assignmentCapacity));
             if (correspondenceCapacity < 0) throw new ArgumentOutOfRangeException(nameof(correspondenceCapacity));
-            Output = output; Question = question;
+            Output = output; Question = question; Retained = retained;
             var slots = Enumerable.Range(0, assignmentCapacity).Select(_ => (IElement)new Placeholder()).ToArray();
             Budget = N.S(slots);
-            var mappingSlots = Enumerable.Range(0, question.HasSelectedSiteConstraints ? correspondenceCapacity : 0)
+            var mappingSlots = Enumerable.Range(0, question.HasSelectedSiteConstraints || retained is not null ? correspondenceCapacity : 0)
                 .Select(_ => (IElement)new Placeholder()).ToArray();
             CorrespondenceBudget = N.S(mappingSlots);
             var mappingConsumed = new List<IElement>(); var mappingCut = false;
             var inventory = new List<IElement>(); var consumed = new List<IElement>(); var rejected = new List<IElement>();
             var supported = new List<IElement>(); var refuted = new List<IElement>();
             var pending = new List<IElement>(N.E(question.Unresolved)); var blocked = new List<IElement>(N.E(question.Blocked));
+            var stale = new List<IElement>();
+            if (retained is not null)
+            {
+                blocked.AddRange(N.E(retained.Blocked)); pending.AddRange(N.E(retained.Open));
+                if (retained.IsValid)
+                {
+                    foreach (var pin in N.E(retained.Pins).Cast<Relation>())
+                    {
+                        var role = question.Roles.SingleOrDefault(item => N.Same(item.Slot, pin.Left));
+                        if (role is null || pin.Right is not Relation row || !ReferenceEquals(role.PatternSurface, row.Left))
+                            blocked.Add(new Relation(question.Surface, pin));
+                    }
+                    if (!ReferenceEquals(retained.Observation, output.Observation.Surface))
+                    {
+                        var mismatch = new Relation(retained.Surface, new Relation(retained.Observation, output.Observation.Surface));
+                        stale.Add(mismatch); pending.Add(mismatch);
+                    }
+                }
+            }
             var witnesses = new List<Witness>();
-            if (question.IsValid)
+            if (question.IsValid && blocked.Count == 0 && stale.Count == 0 && (retained?.IsValid ?? true))
             {
                 var choices = new List<Option[]>(); var complete = output.IsComplete; var absent = false;
                 foreach (var role in question.Roles)
@@ -266,7 +299,7 @@ public static class OccurrenceComposition
                     var options = new List<Option>();
                     foreach (var match in assessment.Matches)
                     {
-                        if (!question.HasSelectedSiteConstraints)
+                        if (!question.HasSelectedSiteConstraints && retained is null)
                         {
                             var candidate = new Option(match);
                             // Traversal aliases are not fresh physical instances.
@@ -292,6 +325,7 @@ public static class OccurrenceComposition
                             var actual = N.S(N.E(map).Cast<Relation>().Select(binding => (IElement)new Relation(binding.Left,
                                 N.E(match.Occurrence.SiteBindings).Cast<Relation>().Single(row => N.Same(row.Left, binding.Right)).Right)).ToArray());
                             var candidate = new Option(mappedMatch, actual);
+                            if (retained is not null && !retained.Accepts(role, candidate.Surface, actual)) continue;
                             // Edge aliases are quotiented only when their full query-site
                             // correspondence also agrees. Named landmarks must not vanish.
                             if (!options.Any(prior => SameSet(prior.Edges, candidate.Edges) &&
@@ -307,6 +341,8 @@ public static class OccurrenceComposition
                         CommunicationShape.TryRead(role.PatternSurface, out var shape) && WithinGrammar(output, shape) && !mappingCut;
                 }
                 if (absent) refuted.Add(new Relation(question.Surface, N.S(inventory.ToArray())));
+                else if (choices.Any(options => options.Length == 0) && complete)
+                    refuted.Add(new Relation(question.Surface, N.S(inventory.ToArray())));
                 else if (choices.Any(options => options.Length == 0))
                     pending.Add(new Relation(question.Surface, StructuralConstraint.Open(output.Unsearched, output.Unresolved,
                         output.Budget, CorrespondenceBudget, N.S(mappingConsumed.ToArray()))));
@@ -330,7 +366,8 @@ public static class OccurrenceComposition
                             var partial = N.S(question.Roles.Take(depth + 1).Select((role, index) =>
                                 (IElement)new Relation(role.Slot, selected[index].Match.Occurrence.Read)).ToArray());
                             consumed.Add(new Relation(slots[consumed.Count], partial));
-                            var pass = Check(depth, out var checks, out var failures);
+                            var pass = CheckAssignments(question, selected.Take(depth + 1).Select(option => option.Participation).ToArray(),
+                                out var checks, out var failures);
                             if (!pass) { rejected.Add(new Relation(partial, failures)); continue; }
                             if (depth + 1 == choices.Count)
                             { witnesses.Add(new(question, selected.ToArray(), checks)); return; }
@@ -339,68 +376,74 @@ public static class OccurrenceComposition
                         }
                     }
 
-                    bool Check(int depth, out Relation checks, out Relation failures)
-                    {
-                        var accepted = new List<IElement>(); var denied = new List<IElement>();
-                        Inspect(question.DistinctEdgeSets, edges: true, requireShared: null);
-                        Inspect(question.DisjointSites, edges: false, requireShared: false);
-                        Inspect(question.SharedSites, edges: false, requireShared: true);
-                        Inspect(question.SharedEdges, edges: true, requireShared: true);
-                        Inspect(question.DisjointEdges, edges: true, requireShared: false);
-                        InspectSelected(question.SharedSelectedSites, requireShared: true);
-                        InspectSelected(question.DisjointSelectedSites, requireShared: false);
-                        checks = N.S(accepted.ToArray()); failures = N.S(denied.ToArray()); return denied.Count == 0;
-
-                        void Inspect(Relation scope, bool edges, bool? requireShared)
-                        {
-                            foreach (var pair in N.E(scope).Cast<Relation>())
-                            {
-                                var a = Index(question.Roles, pair.Left); var b = Index(question.Roles, pair.Right);
-                                if (a > depth || b > depth) continue;
-                                var left = edges ? selected[a].Edges : selected[a].Sites;
-                                var right = edges ? selected[b].Edges : selected[b].Sites;
-                                var common = left.Where(item => right.Any(other => N.Same(item, other))).ToArray();
-                                var onlyLeft = left.Where(item => !right.Any(other => N.Same(item, other))).ToArray();
-                                var onlyRight = right.Where(item => !left.Any(other => N.Same(item, other))).ToArray();
-                                var proof = new Relation(new Relation(scope, pair), new Relation(
-                                    new Relation(selected[a].Surface, selected[b].Surface),
-                                    new Relation(N.S(common), new Relation(N.S(onlyLeft), N.S(onlyRight)))));
-                                var passes = requireShared.HasValue ? (common.Length != 0) == requireShared.Value :
-                                    onlyLeft.Length != 0 || onlyRight.Length != 0;
-                                (passes ? accepted : denied).Add(proof);
-                            }
-                        }
-
-                        void InspectSelected(Relation scope, bool requireShared)
-                        {
-                            foreach (var pair in N.E(scope).Cast<Relation>())
-                            {
-                                var first = (Relation)pair.Left; var second = (Relation)pair.Right;
-                                var a = Index(question.Roles, first.Left); var b = Index(question.Roles, second.Left);
-                                if (a > depth || b > depth) continue;
-                                var left = selected[a].Select(first); var right = selected[b].Select(second);
-                                var common = left.Where(site => right.Any(other => N.Same(site, other))).ToArray();
-                                var leftOnly = left.Where(site => !right.Any(other => N.Same(site, other))).ToArray();
-                                var rightOnly = right.Where(site => !left.Any(other => N.Same(site, other))).ToArray();
-                                var proof = new Relation(new Relation(scope, pair), new Relation(
-                                    new Relation(new Relation(first, N.S(left)), new Relation(second, N.S(right))),
-                                    new Relation(N.S(common), new Relation(N.S(leftOnly), N.S(rightOnly)))));
-                                ((common.Length != 0) == requireShared ? accepted : denied).Add(proof);
-                            }
-                        }
-                    }
                 }
             }
             Inventory = N.S(inventory.ToArray()); Consumed = N.S(consumed.ToArray());
             Remaining = N.S(slots.Skip(consumed.Count).ToArray()); Rejected = N.S(rejected.ToArray());
             Supported = N.S(supported.ToArray()); Refuted = N.S(refuted.ToArray());
-            Open = N.S(pending.ToArray()); Blocked = N.S(blocked.ToArray()); Witnesses = witnesses;
+            Open = N.S(pending.ToArray()); Blocked = N.S(blocked.ToArray()); Stale = N.S(stale.ToArray()); Witnesses = witnesses;
             CorrespondenceConsumed = N.S(mappingConsumed.ToArray());
             CorrespondenceRemaining = N.S(mappingSlots.Skip(mappingConsumed.Count).ToArray());
             Surface = new(new Relation(new Relation(output.Surface, question.Surface), Budget),
                 new Relation(Inventory, new Relation(Consumed, new Relation(Remaining, new Relation(Rejected,
                     new Relation(Supported, new Relation(Refuted, new Relation(Open, new Relation(Blocked,
                         new Relation(CorrespondenceBudget, new Relation(CorrespondenceConsumed, CorrespondenceRemaining)))))))))));
+            // Legacy assessments preserve their exact contract. A continued
+            // read exposes memory and stale-event evidence in a separate native
+            // envelope; a mismatch never silently searches a replacement event.
+            if (retained is not null) Surface = new(Surface, new Relation(retained.Surface, Stale));
+        }
+    }
+
+    internal static bool CheckAssignments(Question question, IReadOnlyList<Participation> selected,
+        out Relation checks, out Relation failures)
+    {
+        var accepted = new List<IElement>(); var denied = new List<IElement>();
+        Inspect(question.DistinctEdgeSets, edges: true, requireShared: null);
+        Inspect(question.DisjointSites, edges: false, requireShared: false);
+        Inspect(question.SharedSites, edges: false, requireShared: true);
+        Inspect(question.SharedEdges, edges: true, requireShared: true);
+        Inspect(question.DisjointEdges, edges: true, requireShared: false);
+        InspectSelected(question.SharedSelectedSites, requireShared: true);
+        InspectSelected(question.DisjointSelectedSites, requireShared: false);
+        checks = N.S(accepted.ToArray()); failures = N.S(denied.ToArray()); return denied.Count == 0;
+
+        void Inspect(Relation scope, bool edges, bool? requireShared)
+        {
+            foreach (var pair in N.E(scope).Cast<Relation>())
+            {
+                var a = Index(question.Roles, pair.Left); var b = Index(question.Roles, pair.Right);
+                if (a >= selected.Count || b >= selected.Count) continue;
+                var left = edges ? selected[a].Edges : selected[a].Sites;
+                var right = edges ? selected[b].Edges : selected[b].Sites;
+                var common = left.Where(item => right.Any(other => N.Same(item, other))).ToArray();
+                var onlyLeft = left.Where(item => !right.Any(other => N.Same(item, other))).ToArray();
+                var onlyRight = right.Where(item => !left.Any(other => N.Same(item, other))).ToArray();
+                var proof = new Relation(new Relation(scope, pair), new Relation(
+                    new Relation(selected[a].Surface, selected[b].Surface),
+                    new Relation(N.S(common), new Relation(N.S(onlyLeft), N.S(onlyRight)))));
+                var passes = requireShared.HasValue ? (common.Length != 0) == requireShared.Value :
+                    onlyLeft.Length != 0 || onlyRight.Length != 0;
+                (passes ? accepted : denied).Add(proof);
+            }
+        }
+
+        void InspectSelected(Relation scope, bool requireShared)
+        {
+            foreach (var pair in N.E(scope).Cast<Relation>())
+            {
+                var first = (Relation)pair.Left; var second = (Relation)pair.Right;
+                var a = Index(question.Roles, first.Left); var b = Index(question.Roles, second.Left);
+                if (a >= selected.Count || b >= selected.Count) continue;
+                var left = selected[a].Select(first); var right = selected[b].Select(second);
+                var common = left.Where(site => right.Any(other => N.Same(site, other))).ToArray();
+                var leftOnly = left.Where(site => !right.Any(other => N.Same(site, other))).ToArray();
+                var rightOnly = right.Where(site => !left.Any(other => N.Same(site, other))).ToArray();
+                var proof = new Relation(new Relation(scope, pair), new Relation(
+                    new Relation(new Relation(first, N.S(left)), new Relation(second, N.S(right))),
+                    new Relation(N.S(common), new Relation(N.S(leftOnly), N.S(rightOnly)))));
+                ((common.Length != 0) == requireShared ? accepted : denied).Add(proof);
+            }
         }
     }
 

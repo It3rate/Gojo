@@ -1,0 +1,275 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Gojo · Keep the match in view</title><style>
+:root{--ink:#263d4e;--muted:#64717d;--paper:#f3f0e7;--card:#fffdf7;--line:#c8cfd5;--blue:#346ca1;--soft:#edf1f5}*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.55 system-ui,sans-serif}main{max-width:1340px;margin:auto;padding:36px 28px 65px}h1,h2,h3{font:500 30px/1.2 Georgia,serif}h1{font-size:46px;margin:12px 0 18px}h2{font-size:30px}h3{font-size:23px;margin:8px 0 12px}p{max-width:1040px}a{color:#275c8c}button{font:inherit;padding:10px 15px;border:1px solid #8d9ba8;border-radius:5px;background:var(--card);color:var(--ink);cursor:pointer}button:hover{border-color:var(--blue)}button[aria-pressed=true]{color:white;background:#344d63;border-color:#344d63}.eyebrow{font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}.intro{font-size:21px;max-width:1070px}.mechanics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:15px;margin:28px 0}.mechanic{padding:15px;background:var(--card);border-top:3px solid #73869b}.mechanic strong{display:block}.mechanic p{font-size:15px;margin:8px 0 0}.legend{padding:14px 18px;border:1px solid var(--line);background:var(--card)}.key{display:inline-block;width:24px;height:4px;background:var(--blue);vertical-align:middle;margin-right:7px}.case{margin:38px 0;padding:25px;background:var(--card);border:1px solid var(--line);border-radius:8px;min-width:0;scroll-margin-top:15px}.case h2{margin:5px 0 13px}.steps{display:flex;gap:8px;flex-wrap:wrap;margin:22px 0}.steps button{font-size:15px}.stage{border-left:4px solid #73869b;background:var(--soft);padding:17px 21px;margin:20px 0;min-height:130px}.stage h3{margin:0 0 9px}.stage p{margin:5px 0}.stage .stage-question{font-size:19px}.answer{font-weight:750;color:var(--ink);font-size:23px}.scene-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin:22px 0}.scene{margin:0;padding:17px 18px;border:1px solid var(--line);min-width:0;background:#faf8f1}.scene figcaption{font-size:15px;font-weight:650}.scene img{display:block;width:100%;height:auto;margin:14px 0 5px}.scene p{font-size:14px;color:var(--muted);margin:9px 0 0}.comparison{border-top:1px solid var(--line);padding-top:18px;margin-top:20px}.comparison h3{font-size:24px}.comparison-question{font-size:19px;margin:9px 0 16px}.answer-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.answer-card{padding:17px 20px;background:var(--soft);border:1px solid var(--line);min-width:0}.answer-card h4{font-size:17px;margin:0 0 8px}.answer-card .answer{font-size:29px}.answer-card p{font-size:15px;margin:8px 0}.interpretation{font-size:16px;margin:17px 0 5px;padding-left:15px;border-left:3px solid #73869b}.recheck-note{font-size:15px}.technical{margin-top:24px;font-size:14px;color:var(--muted)}summary{cursor:pointer}details p{margin:12px 0}.table-wrap{overflow:auto}table{width:100%;border-collapse:collapse;margin-top:12px;font-size:14px}th,td{padding:8px;text-align:left;border-bottom:1px solid var(--line)}th{font-weight:650}.controls{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.control{padding:18px 20px;border:1px dashed #9ba6b0;background:var(--card);min-width:0}.control h3{font-size:23px}.control p{margin:9px 0;font-size:16px}.control .control-status{font-size:17px}.limits li{margin:10px 0}code{overflow-wrap:anywhere}.run{color:var(--muted);font-size:15px}footer{margin-top:35px;border-top:1px solid var(--line);padding-top:20px;font-size:15px;color:var(--muted)}[hidden]{display:none!important}
+@media(max-width:1000px){.mechanics{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:680px){main{padding:23px 14px 45px}h1{font-size:35px}h2{font-size:27px}.case{padding:17px 14px}.mechanics,.scene-grid,.answer-grid,.controls{grid-template-columns:1fr}.steps button{flex:1 1 45%;text-align:left}.stage{padding:15px}.scene{padding:13px}.intro{font-size:19px}.stage .stage-question,.comparison-question{font-size:17px}}
+</style></head><body><main>
+<div class="eyebrow">Gojo · pre-numeric pattern matching</div><h1>Keep the match in view</h1>
+<p class="intro">Finding <em>a</em> path that answers a question is different from asking another question about <em>the same</em> path. These examples retain an actual match, then test what changes when its partners may—or may not—change.</p>
+<p>The engine reads shared sites, ordered connections and qualitative directions. A site can be <em>between</em> two endpoints without specifying distances or equal subdivision. The pictures illustrate those structures; matching receives no pixels, screen positions or measured lengths.</p>
+<div class="mechanics"><div class="mechanic"><strong>1 · Find a match</strong><p>A question identifies an actual occurrence, with bindings from pattern roles to participating sites and edges.</p></div><div class="mechanic"><strong>2 · Retain the context</strong><p>Choose which roles must keep that occurrence and its internal site correspondence.</p></div><div class="mechanic"><strong>3 · Ask a follow-up</strong><p>Compare an unrestricted search with a question about the retained participants.</p></div><div class="mechanic"><strong>4 · Recheck the condition</strong><p>A later No can coexist with the original Yes: the questions ask different things.</p></div></div>
+<p class="legend"><span class="key" aria-hidden="true"></span><strong>Blue marks retained participation.</strong> It does not mean Yes, correct or preferred. All answers use the same text colour. Both pictures show the complete structure; the second highlights the selected roles. Solid copper dots mark actual shared sites; paired hollow purple dots keep coincident, unjoined sites separate.</p>
+<div id="cases"></div>
+<h2>Boundary and incomplete-read controls</h2><p>Rebuilding a reader over the same observation preserves the retained context. A new observation needs its own correspondence. An unfinished read stays Open; a changed role contract remains visible.</p><div id="controls" class="controls"></div>
+<h2>Scope and limits</h2><ul id="limits" class="limits"></ul>
+<details><summary>Native evidence and reproduction</summary><p id="native" class="run"></p><p><a href="matches.gojo.json.gz">Native study archive</a> · <a href="diagnostics.json">Report data</a> · <a href="../../../../Gojo/docs/GojoRetainedMatchExperiments.md">Experiment explanation</a></p><p><code>dotnet run --project experiments/QualitativeFrieze -c Release -- --retained-match</code></p></details>
+<footer>The retained context is an explicit selection of a certified match. It supplies no automatic correspondence to another observation event.</footer>
+</main><script id="data" type="application/json">{
+  "schema": "retained-match-v1",
+  "cases": [
+    {
+      "id": "R01",
+      "name": "A new match can answer the wrong question",
+      "description": "The first question selects a two-edge path through a loop\u0027s upper corner at a site between the path endpoints. A separate lower path has an endpoint join. Searching afresh answers Yes using that other path; retaining the selected path answers No.",
+      "focusLabel": "Retained two-edge path",
+      "sourceImage": "R01-source.svg",
+      "focusedImage": "R01-retained.svg",
+      "initialQuestion": "Select a two-edge straight path whose site between its endpoints joins the loop\u0027s upper corner.",
+      "followupQuestion": "Does an endpoint of the selected two-edge path join a three-edge loop?",
+      "initialAnswer": "Yes",
+      "freshAnswer": "Yes",
+      "retainedAnswer": "No",
+      "recheckAnswer": "Yes",
+      "retainedRoles": 1,
+      "selectedEdges": 2,
+      "search": {
+        "initial": {
+          "assignments": 4,
+          "mappings": 18
+        },
+        "fresh": {
+          "assignments": 2,
+          "mappings": 18
+        },
+        "retained": {
+          "assignments": 4,
+          "mappings": 18
+        },
+        "recheck": {
+          "assignments": 2,
+          "mappings": 18
+        }
+      }
+    },
+    {
+      "id": "R02",
+      "name": "Keep the path while allowing a new partner",
+      "description": "The selected path contacts the first loop at a site between its endpoints, and another loop through its right endpoint. Only the path role is retained. The loop role may find a different partner, so the follow-up can establish the endpoint join without replacing the path.",
+      "focusLabel": "Retained two-edge path",
+      "sourceImage": "R02-source.svg",
+      "focusedImage": "R02-retained.svg",
+      "initialQuestion": "Select a two-edge straight path whose site between its endpoints joins the loop\u0027s upper corner.",
+      "followupQuestion": "Does an endpoint of the selected two-edge path join a three-edge loop?",
+      "initialAnswer": "Yes",
+      "freshAnswer": "Yes",
+      "retainedAnswer": "Yes",
+      "recheckAnswer": "Yes",
+      "retainedRoles": 1,
+      "selectedEdges": 2,
+      "search": {
+        "initial": {
+          "assignments": 5,
+          "mappings": 20
+        },
+        "fresh": {
+          "assignments": 2,
+          "mappings": 20
+        },
+        "retained": {
+          "assignments": 4,
+          "mappings": 20
+        },
+        "recheck": {
+          "assignments": 2,
+          "mappings": 20
+        }
+      }
+    },
+    {
+      "id": "R03",
+      "name": "Keep the whole original pair",
+      "description": "Both the path and its original loop are retained. That pair meets at a site between the path endpoints, so an endpoint-contact question answers No. The nearby second loop cannot silently replace the retained loop, although an unrestricted search can find an endpoint join.",
+      "focusLabel": "Retained path and original loop",
+      "sourceImage": "R03-source.svg",
+      "focusedImage": "R03-retained.svg",
+      "initialQuestion": "Select a two-edge straight path whose site between its endpoints joins the loop\u0027s upper corner.",
+      "followupQuestion": "Does an endpoint of the selected two-edge path join a three-edge loop?",
+      "initialAnswer": "Yes",
+      "freshAnswer": "Yes",
+      "retainedAnswer": "No",
+      "recheckAnswer": "Yes",
+      "retainedRoles": 2,
+      "selectedEdges": 5,
+      "search": {
+        "initial": {
+          "assignments": 5,
+          "mappings": 20
+        },
+        "fresh": {
+          "assignments": 2,
+          "mappings": 20
+        },
+        "retained": {
+          "assignments": 2,
+          "mappings": 20
+        },
+        "recheck": {
+          "assignments": 2,
+          "mappings": 20
+        }
+      }
+    },
+    {
+      "id": "R04",
+      "name": "Between with unequal uncalibrated steps",
+      "description": "The path starts at one loop\u0027s upper corner and contacts a second loop at its internal site. The ordered two-edge path places that site between its endpoints. The publication carries incidence and headings, so the follow-up needs no length, equal subdivision or calibration. Only the path is retained; the loop partner may change.",
+      "focusLabel": "Retained path and its site between the endpoints",
+      "sourceImage": "R04-source.svg",
+      "focusedImage": "R04-retained.svg",
+      "initialQuestion": "Select a two-edge straight path with an endpoint at the loop\u0027s upper corner.",
+      "followupQuestion": "Does the site between the selected path\u0027s endpoints join a three-edge loop?",
+      "initialAnswer": "Yes",
+      "freshAnswer": "Yes",
+      "retainedAnswer": "Yes",
+      "recheckAnswer": "Yes",
+      "retainedRoles": 1,
+      "selectedEdges": 2,
+      "search": {
+        "initial": {
+          "assignments": 2,
+          "mappings": 14
+        },
+        "fresh": {
+          "assignments": 4,
+          "mappings": 14
+        },
+        "retained": {
+          "assignments": 4,
+          "mappings": 14
+        },
+        "recheck": {
+          "assignments": 2,
+          "mappings": 14
+        }
+      }
+    },
+    {
+      "id": "R05",
+      "name": "Between with equal uncalibrated steps",
+      "description": "The path starts at one loop\u0027s upper corner and contacts a second loop at its internal site. The ordered two-edge path places that site between its endpoints. The publication carries incidence and headings, so the follow-up needs no length, equal subdivision or calibration. Only the path is retained; the loop partner may change.",
+      "focusLabel": "Retained path and its site between the endpoints",
+      "sourceImage": "R05-source.svg",
+      "focusedImage": "R05-retained.svg",
+      "initialQuestion": "Select a two-edge straight path with an endpoint at the loop\u0027s upper corner.",
+      "followupQuestion": "Does the site between the selected path\u0027s endpoints join a three-edge loop?",
+      "initialAnswer": "Yes",
+      "freshAnswer": "Yes",
+      "retainedAnswer": "Yes",
+      "recheckAnswer": "Yes",
+      "retainedRoles": 1,
+      "selectedEdges": 2,
+      "search": {
+        "initial": {
+          "assignments": 2,
+          "mappings": 14
+        },
+        "fresh": {
+          "assignments": 4,
+          "mappings": 14
+        },
+        "retained": {
+          "assignments": 4,
+          "mappings": 14
+        },
+        "recheck": {
+          "assignments": 2,
+          "mappings": 14
+        }
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Rebuild the reader, retain the observation",
+      "purpose": "A new induction wrapper over the same observation can use the same retained actual sites and edges.",
+      "answer": "No",
+      "stale": 0,
+      "open": 0,
+      "blocked": 0,
+      "assignments": 4,
+      "correspondences": 18
+    },
+    {
+      "name": "A new observation event",
+      "purpose": "A lookalike event does not establish identity with the retained observation. The reference stays unsettled.",
+      "answer": "Open",
+      "stale": 1,
+      "open": 1,
+      "blocked": 0,
+      "assignments": 0,
+      "correspondences": 0
+    },
+    {
+      "name": "Unfinished capture",
+      "purpose": "An open selection is not a complete retained context and does not authorize replacement by another matching path.",
+      "answer": "Open",
+      "stale": 0,
+      "open": 1,
+      "blocked": 0,
+      "assignments": 0,
+      "correspondences": 0
+    },
+    {
+      "name": "No follow-up search capacity",
+      "purpose": "Remembering a match does not manufacture an answer when the required follow-up search is unfinished.",
+      "answer": "Open",
+      "stale": 0,
+      "open": 1,
+      "blocked": 0,
+      "assignments": 0,
+      "correspondences": 18
+    },
+    {
+      "name": "Retained role absent from the question",
+      "purpose": "The supplied context and question must agree about the retained role slots. An unadmitted slot is blocked.",
+      "answer": "Blocked",
+      "stale": 0,
+      "open": 0,
+      "blocked": 1,
+      "assignments": 0,
+      "correspondences": 0
+    }
+  ],
+  "nativeElements": 807051,
+  "nativeNumericElements": 0,
+  "archiveRoundTrip": true,
+  "elapsedMilliseconds": 911.4732,
+  "limits": [
+    "These are bounded structural reads over supplied native motif templates. Selecting an actual witness is explicit; the fixture does not learn which interpretation to retain.",
+    "Retention fixes the selected roles\u0027 actual sites, edge footprint and complete pattern-site correspondence. Unretained roles remain available for another matching partner.",
+    "An unrestricted Yes can use another occurrence. A retained No answers about the remembered context; it neither erases that match nor authorizes substitution.",
+    "A site between path endpoints is an ordered topological relation. No equal subdivision, length or calibration is required by these questions.",
+    "The reference is scoped to one published observation event. A new event remains Open until an explicit correspondence or transfer establishes continuity.",
+    "The retained object is a certified interpretation of exposed incidence and headings. It need not recover the author\u0027s drawn path grouping when several native walks are valid.",
+    "The memory retains its complete proof history. Compact adaptive memory, event tracking, arbitrary pattern discovery and learned selection remain separate work.",
+    "Motif matching and correspondence preparation remain eager and bounded. Fewer admissible matches do not by themselves establish a source-side computation saving."
+  ]
+}</script><script>
+'use strict';const model=JSON.parse(document.getElementById('data').textContent);
+const esc=value=>String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const stepLabels=['1 · Find a match','2 · Retain the context','3 · Ask a follow-up','4 · Recheck the condition'];
+document.getElementById('cases').innerHTML=model.cases.map(c=>`<article class="case" data-case="${esc(c.id)}"><div class="eyebrow">${esc(c.id)} · retained occurrence</div><h2>${esc(c.name)}</h2><p>${esc(c.description)}</p><div class="steps" aria-label="Experiment steps">${stepLabels.map((label,i)=>`<button data-step="${i}" aria-pressed="false">${label}</button>`).join('')}</div><div class="stage" aria-live="polite"></div><div class="scene-grid"><figure class="scene"><figcaption>Complete advertised structure</figcaption><img class="source-image" src="${esc(c.sourceImage)}" alt="${esc(c.name)}: complete structure"><p>Actual joins and separate participants remain visible.</p></figure><figure class="scene"><figcaption>${esc(c.focusLabel)}</figcaption><img class="focused-image" src="${esc(c.focusedImage)}" alt="${esc(c.focusLabel)} highlighted within the complete structure"><p>Blue edges show the retained roles; every other edge remains in view.</p></figure></div><section class="comparison"><h3>Two contexts for the same follow-up question</h3><p class="comparison-question">${esc(c.followupQuestion)}</p><div class="answer-grid"><div class="answer-card"><h4>Unrestricted search</h4><div class="answer fresh-answer">${esc(c.freshAnswer)}</div><p>Any matching occurrence may satisfy this question.</p></div><div class="answer-card"><h4>Using retained context</h4><div class="answer retained-answer">${esc(c.retainedAnswer)}</div><p>The selected roles must keep their actual participants and site bindings.</p></div></div><p class="interpretation"></p><p class="recheck-note"></p></section><details class="technical"><summary>Inspect the retained scope and local search</summary><p>${c.retainedRoles} retained role${c.retainedRoles===1?'':'s'}; ${c.selectedEdges} actual selected edges. Counts describe this particular read.</p><div class="table-wrap"><table><thead><tr><th>Read</th><th>Role extensions</th><th>Site correspondence steps</th></tr></thead><tbody>${[['initial','Find the match'],['fresh','Unrestricted follow-up'],['retained','Retained follow-up'],['recheck','Recheck the condition']].map(([key,label])=>`<tr><td>${label}</td><td>${c.search[key].assignments}</td><td>${c.search[key].mappings}</td></tr>`).join('')}</tbody></table></div></details></article>`).join('');
+function render(c,index){const article=document.querySelector(`[data-case="${c.id}"]`);article.dataset.step=index;article.querySelectorAll('[data-step]').forEach(button=>button.setAttribute('aria-pressed',String(Number(button.dataset.step)===index)));const stage=article.querySelector('.stage');
+ if(index===0)stage.innerHTML=`<h3>Find an occurrence that satisfies the condition</h3><p class="stage-question">${esc(c.initialQuestion)}</p><p>Answer: <span class="answer initial-answer">${esc(c.initialAnswer)}</span></p><p>The selected match supplies actual site and edge bindings.</p>`;
+ else if(index===1)stage.innerHTML=`<h3>Retain these participants for the next question</h3><p class="stage-question">${esc(c.focusLabel)}</p><p>${c.retainedRoles===1?'One role is retained. Other roles remain free to find partners.':'Both roles are retained. Neither participant may be silently replaced.'}</p><p>The full internal site correspondence stays attached to the selected match.</p>`;
+ else if(index===2)stage.innerHTML=`<h3>Ask the follow-up using each context</h3><p class="stage-question">${esc(c.followupQuestion)}</p><p>The two answers below concern the same question with different permitted bindings.</p>`;
+ else stage.innerHTML=`<h3>Recheck the original condition</h3><p class="stage-question">${esc(c.initialQuestion)}</p><p>Answer with retained context: <span class="answer recheck-answer">${esc(c.recheckAnswer)}</span></p><p>The original condition remains valid. A different answer to the follow-up does not undo it.</p>`;
+ article.querySelector('.comparison').hidden=index<2;
+ article.querySelector('.interpretation').textContent=c.freshAnswer!==c.retainedAnswer?'The unrestricted Yes and retained No are compatible: an available occurrence satisfies the follow-up, but the retained context does not.':c.retainedRoles===1?'The retained occurrence satisfies the follow-up. A role that was left free may bind a new partner.':'The retained participants satisfy the follow-up without replacing the selected context.';
+ article.querySelector('.recheck-note').textContent=index===3?`Recheck of the initial condition: ${c.recheckAnswer}. The scene and the retained participants have not changed.`:'';
+}
+for(const c of model.cases){const article=document.querySelector(`[data-case="${c.id}"]`);article.querySelectorAll('[data-step]').forEach(button=>button.addEventListener('click',()=>render(c,Number(button.dataset.step))));render(c,3);}
+document.getElementById('controls').innerHTML=model.controls.map((c,index)=>`<article class="control" data-control="${index}"><h3>${esc(c.name)}</h3><p class="control-status">Answer: <span class="answer">${esc(c.answer)}</span></p><p>${esc(c.purpose)}</p><details class="technical"><summary>Inspect unresolved evidence</summary><p>${c.stale} stale qualifications · ${c.open} open qualifications · ${c.blocked} blocked qualifications</p><p>${c.assignments} role extensions · ${c.correspondences} site correspondence steps</p></details></article>`).join('');
+document.getElementById('limits').innerHTML=model.limits.map(text=>`<li>${esc(text)}</li>`).join('');
+document.getElementById('native').textContent=`${model.nativeElements.toLocaleString()} native participants, ${model.nativeNumericElements} measured numeric participants. Archive round trip: ${model.archiveRoundTrip?'verified':'not verified'}. Local study execution: ${model.elapsedMilliseconds.toFixed(1)} ms; excludes presentation and archive work.`;
+const requested=new URLSearchParams(location.search).get('case');if(requested){const target=[...document.querySelectorAll('[data-case]')].find(article=>article.dataset.case===requested);if(target)target.scrollIntoView();}
+</script></body></html>

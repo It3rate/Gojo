@@ -1,0 +1,241 @@
+{
+  "schema": "retained-match-v1",
+  "cases": [
+    {
+      "id": "R01",
+      "name": "A new match can answer the wrong question",
+      "description": "The first question selects a two-edge path through a loop\u0027s upper corner at a site between the path endpoints. A separate lower path has an endpoint join. Searching afresh answers Yes using that other path; retaining the selected path answers No.",
+      "focusLabel": "Retained two-edge path",
+      "sourceImage": "R01-source.svg",
+      "focusedImage": "R01-retained.svg",
+      "initialQuestion": "Select a two-edge straight path whose site between its endpoints joins the loop\u0027s upper corner.",
+      "followupQuestion": "Does an endpoint of the selected two-edge path join a three-edge loop?",
+      "initialAnswer": "Yes",
+      "freshAnswer": "Yes",
+      "retainedAnswer": "No",
+      "recheckAnswer": "Yes",
+      "retainedRoles": 1,
+      "selectedEdges": 2,
+      "search": {
+        "initial": {
+          "assignments": 4,
+          "mappings": 18
+        },
+        "fresh": {
+          "assignments": 2,
+          "mappings": 18
+        },
+        "retained": {
+          "assignments": 4,
+          "mappings": 18
+        },
+        "recheck": {
+          "assignments": 2,
+          "mappings": 18
+        }
+      }
+    },
+    {
+      "id": "R02",
+      "name": "Keep the path while allowing a new partner",
+      "description": "The selected path contacts the first loop at a site between its endpoints, and another loop through its right endpoint. Only the path role is retained. The loop role may find a different partner, so the follow-up can establish the endpoint join without replacing the path.",
+      "focusLabel": "Retained two-edge path",
+      "sourceImage": "R02-source.svg",
+      "focusedImage": "R02-retained.svg",
+      "initialQuestion": "Select a two-edge straight path whose site between its endpoints joins the loop\u0027s upper corner.",
+      "followupQuestion": "Does an endpoint of the selected two-edge path join a three-edge loop?",
+      "initialAnswer": "Yes",
+      "freshAnswer": "Yes",
+      "retainedAnswer": "Yes",
+      "recheckAnswer": "Yes",
+      "retainedRoles": 1,
+      "selectedEdges": 2,
+      "search": {
+        "initial": {
+          "assignments": 5,
+          "mappings": 20
+        },
+        "fresh": {
+          "assignments": 2,
+          "mappings": 20
+        },
+        "retained": {
+          "assignments": 4,
+          "mappings": 20
+        },
+        "recheck": {
+          "assignments": 2,
+          "mappings": 20
+        }
+      }
+    },
+    {
+      "id": "R03",
+      "name": "Keep the whole original pair",
+      "description": "Both the path and its original loop are retained. That pair meets at a site between the path endpoints, so an endpoint-contact question answers No. The nearby second loop cannot silently replace the retained loop, although an unrestricted search can find an endpoint join.",
+      "focusLabel": "Retained path and original loop",
+      "sourceImage": "R03-source.svg",
+      "focusedImage": "R03-retained.svg",
+      "initialQuestion": "Select a two-edge straight path whose site between its endpoints joins the loop\u0027s upper corner.",
+      "followupQuestion": "Does an endpoint of the selected two-edge path join a three-edge loop?",
+      "initialAnswer": "Yes",
+      "freshAnswer": "Yes",
+      "retainedAnswer": "No",
+      "recheckAnswer": "Yes",
+      "retainedRoles": 2,
+      "selectedEdges": 5,
+      "search": {
+        "initial": {
+          "assignments": 5,
+          "mappings": 20
+        },
+        "fresh": {
+          "assignments": 2,
+          "mappings": 20
+        },
+        "retained": {
+          "assignments": 2,
+          "mappings": 20
+        },
+        "recheck": {
+          "assignments": 2,
+          "mappings": 20
+        }
+      }
+    },
+    {
+      "id": "R04",
+      "name": "Between with unequal uncalibrated steps",
+      "description": "The path starts at one loop\u0027s upper corner and contacts a second loop at its internal site. The ordered two-edge path places that site between its endpoints. The publication carries incidence and headings, so the follow-up needs no length, equal subdivision or calibration. Only the path is retained; the loop partner may change.",
+      "focusLabel": "Retained path and its site between the endpoints",
+      "sourceImage": "R04-source.svg",
+      "focusedImage": "R04-retained.svg",
+      "initialQuestion": "Select a two-edge straight path with an endpoint at the loop\u0027s upper corner.",
+      "followupQuestion": "Does the site between the selected path\u0027s endpoints join a three-edge loop?",
+      "initialAnswer": "Yes",
+      "freshAnswer": "Yes",
+      "retainedAnswer": "Yes",
+      "recheckAnswer": "Yes",
+      "retainedRoles": 1,
+      "selectedEdges": 2,
+      "search": {
+        "initial": {
+          "assignments": 2,
+          "mappings": 14
+        },
+        "fresh": {
+          "assignments": 4,
+          "mappings": 14
+        },
+        "retained": {
+          "assignments": 4,
+          "mappings": 14
+        },
+        "recheck": {
+          "assignments": 2,
+          "mappings": 14
+        }
+      }
+    },
+    {
+      "id": "R05",
+      "name": "Between with equal uncalibrated steps",
+      "description": "The path starts at one loop\u0027s upper corner and contacts a second loop at its internal site. The ordered two-edge path places that site between its endpoints. The publication carries incidence and headings, so the follow-up needs no length, equal subdivision or calibration. Only the path is retained; the loop partner may change.",
+      "focusLabel": "Retained path and its site between the endpoints",
+      "sourceImage": "R05-source.svg",
+      "focusedImage": "R05-retained.svg",
+      "initialQuestion": "Select a two-edge straight path with an endpoint at the loop\u0027s upper corner.",
+      "followupQuestion": "Does the site between the selected path\u0027s endpoints join a three-edge loop?",
+      "initialAnswer": "Yes",
+      "freshAnswer": "Yes",
+      "retainedAnswer": "Yes",
+      "recheckAnswer": "Yes",
+      "retainedRoles": 1,
+      "selectedEdges": 2,
+      "search": {
+        "initial": {
+          "assignments": 2,
+          "mappings": 14
+        },
+        "fresh": {
+          "assignments": 4,
+          "mappings": 14
+        },
+        "retained": {
+          "assignments": 4,
+          "mappings": 14
+        },
+        "recheck": {
+          "assignments": 2,
+          "mappings": 14
+        }
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Rebuild the reader, retain the observation",
+      "purpose": "A new induction wrapper over the same observation can use the same retained actual sites and edges.",
+      "answer": "No",
+      "stale": 0,
+      "open": 0,
+      "blocked": 0,
+      "assignments": 4,
+      "correspondences": 18
+    },
+    {
+      "name": "A new observation event",
+      "purpose": "A lookalike event does not establish identity with the retained observation. The reference stays unsettled.",
+      "answer": "Open",
+      "stale": 1,
+      "open": 1,
+      "blocked": 0,
+      "assignments": 0,
+      "correspondences": 0
+    },
+    {
+      "name": "Unfinished capture",
+      "purpose": "An open selection is not a complete retained context and does not authorize replacement by another matching path.",
+      "answer": "Open",
+      "stale": 0,
+      "open": 1,
+      "blocked": 0,
+      "assignments": 0,
+      "correspondences": 0
+    },
+    {
+      "name": "No follow-up search capacity",
+      "purpose": "Remembering a match does not manufacture an answer when the required follow-up search is unfinished.",
+      "answer": "Open",
+      "stale": 0,
+      "open": 1,
+      "blocked": 0,
+      "assignments": 0,
+      "correspondences": 18
+    },
+    {
+      "name": "Retained role absent from the question",
+      "purpose": "The supplied context and question must agree about the retained role slots. An unadmitted slot is blocked.",
+      "answer": "Blocked",
+      "stale": 0,
+      "open": 0,
+      "blocked": 1,
+      "assignments": 0,
+      "correspondences": 0
+    }
+  ],
+  "nativeElements": 807051,
+  "nativeNumericElements": 0,
+  "archiveRoundTrip": true,
+  "elapsedMilliseconds": 911.4732,
+  "limits": [
+    "These are bounded structural reads over supplied native motif templates. Selecting an actual witness is explicit; the fixture does not learn which interpretation to retain.",
+    "Retention fixes the selected roles\u0027 actual sites, edge footprint and complete pattern-site correspondence. Unretained roles remain available for another matching partner.",
+    "An unrestricted Yes can use another occurrence. A retained No answers about the remembered context; it neither erases that match nor authorizes substitution.",
+    "A site between path endpoints is an ordered topological relation. No equal subdivision, length or calibration is required by these questions.",
+    "The reference is scoped to one published observation event. A new event remains Open until an explicit correspondence or transfer establishes continuity.",
+    "The retained object is a certified interpretation of exposed incidence and headings. It need not recover the author\u0027s drawn path grouping when several native walks are valid.",
+    "The memory retains its complete proof history. Compact adaptive memory, event tracking, arbitrary pattern discovery and learned selection remain separate work.",
+    "Motif matching and correspondence preparation remain eager and bounded. Fewer admissible matches do not by themselves establish a source-side computation saving."
+  ]
+}

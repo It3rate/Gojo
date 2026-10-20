@@ -1,5 +1,16 @@
 # Qualitative frieze generators
 
+The [retained-match gallery](results/retained-match/gallery.html) follows an
+actual matched path through later questions. It distinguishes a retained path
+from a replacement, and retaining one participant from retaining a whole pair.
+Its between questions require no length or equal subdivision. Read the
+[retained-reference study](../../Gojo/docs/GojoRetainedMatchExperiments.md).
+
+```powershell
+dotnet run --project experiments/QualitativeFrieze -c Release -- --retained-match
+node experiments/QualitativeFrieze/tools/check-retained-match.cjs
+```
+
 The [landmark-composition gallery](results/landmark-composition/gallery.html)
 refines whole-motif contact into endpoint and selected-corner contact, while
 keeping an internal vertex distinct from an equal-distance midpoint. Both

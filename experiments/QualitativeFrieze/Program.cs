@@ -31,6 +31,7 @@ if (args.Contains("--evidence-selection")) return EvidenceSelectionExperiment.Ru
 if (args.Contains("--structural-evidence")) return StructuralEvidenceExperiment.Run(args.Where(argument => argument != "--structural-evidence").ToArray());
 if (args.Contains("--occurrence-composition")) return OccurrenceCompositionExperiment.Run(args.Where(argument => argument != "--occurrence-composition").ToArray());
 if (args.Contains("--landmark-composition")) return OccurrenceCompositionExperiment.Run(args.Where(argument => argument != "--landmark-composition").Append("--landmarks").ToArray());
+if (args.Contains("--retained-match")) return RetainedMatchExperiment.Run(args.Where(argument => argument != "--retained-match").ToArray());
 if (args.Contains("--bourgoin-colour")) return BourgoinColourExperiment.Run(args.Where(argument => argument != "--bourgoin-colour").ToArray());
 if (args.Contains("--ornament-designs")) return BourgoinColourExperiment.RunDesigns(args.Where(argument => argument != "--ornament-designs").ToArray());
 if (args.Contains("--ornament-details")) return BourgoinColourExperiment.RunDetails(args.Where(argument => argument != "--ornament-details").ToArray());

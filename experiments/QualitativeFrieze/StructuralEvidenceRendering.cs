@@ -8,14 +8,19 @@ namespace Gojo.Experiments.QualitativeFrieze;
 
 public static partial class StructuralEvidenceExperiment
 {
-    internal static string RenderSample(StructuralEvidenceCases.Sample sample, string title) => Svg(sample, title);
+    internal static string RenderSample(StructuralEvidenceCases.Sample sample, string title,
+        Relation? selectedObservedSegments = null) => Svg(sample, title, selectedObservedSegments);
 
     private readonly record struct Point(double X, double Y);
 
     /// <summary>Illustration of an already executed sample. Coincident screen
     /// positions affect marker presentation only; they never create native joins.</summary>
-    private static string Svg(StructuralEvidenceCases.Sample sample, string title)
+    private static string Svg(StructuralEvidenceCases.Sample sample, string title, Relation? selectedObservedSegments = null)
     {
+        var selected = selectedObservedSegments is null ? null : E(selectedObservedSegments)
+            .Select(observed => E(sample.Publisher.SegmentMap).Cast<Relation>()
+                .Single(map => ReferenceEquals(map.Right, observed)).Left)
+            .ToHashSet((IEqualityComparer<IElement>)ReferenceEqualityComparer.Instance);
         var positions = E(sample.Bindings).Cast<Relation>().ToDictionary(row => row.Left,
             row => Position((Relation)row.Right), (IEqualityComparer<IElement>)ReferenceEqualityComparer.Instance);
         var minX = positions.Values.Min(p => p.X); var maxX = positions.Values.Max(p => p.X);
@@ -32,7 +37,9 @@ public static partial class StructuralEvidenceExperiment
         foreach (var stroke in strokes)
         {
             var a = P(positions[stroke.From]); var b = P(positions[stroke.To]);
-            svg.Append($"<line class='actual-edge' x1='{F(a.X)}' y1='{F(a.Y)}' x2='{F(b.X)}' y2='{F(b.Y)}' stroke='#28616a' stroke-width='5' stroke-linecap='round'/>");
+            var retained = selected?.Contains(stroke.Stroke) == true;
+            var colour = selected is null ? "#28616a" : retained ? "#315f90" : "#7b8588";
+            svg.Append($"<line class='actual-edge{(retained ? " retained-edge" : "")}' x1='{F(a.X)}' y1='{F(a.Y)}' x2='{F(b.X)}' y2='{F(b.Y)}' stroke='{colour}' stroke-width='{(retained ? "7" : "5")}' stroke-linecap='round'/>");
         }
         foreach (var group in positions.GroupBy(row => row.Value))
         {
