@@ -1,0 +1,1236 @@
+{
+  "schema": "communication-loop-v1",
+  "cases": [
+    {
+      "id": "C01",
+      "name": "A shared junction, not coincident arms",
+      "description": "Axial endpoint hints admit independent arms and other open paths. One actual four-arm incidence promise repairs the receiver\u0027s guess without fixing reach or screen dimensions.",
+      "intentImage": "C01-intent.svg",
+      "commitments": 1,
+      "promises": [
+        "Require: Shared site with 4 outgoing segments"
+      ],
+      "initialHints": 2,
+      "trials": [
+        {
+          "context": "Fragments first \u00B7 first extent",
+          "before": {
+            "id": "cross-cut-1",
+            "name": "Four coincident independent arms / extent 1",
+            "image": "C01-1-before.svg",
+            "admissible": 6,
+            "examined": 14,
+            "sentHints": 2,
+            "sentPatterns": [
+              "Require: Endpoint facing left",
+              "Require: Endpoint facing down"
+            ],
+            "proposalWork": 28,
+            "read": {
+              "supported": 0,
+              "refuted": 1,
+              "unresolved": 0,
+              "satisfied": false
+            },
+            "patterns": [
+              {
+                "kind": "junction",
+                "sites": 2,
+                "segments": 1,
+                "occurrences": 2,
+                "signature": "J:1\u003E1"
+              },
+              {
+                "kind": "junction",
+                "sites": 2,
+                "segments": 1,
+                "occurrences": 2,
+                "signature": "J:2\u003E1"
+              },
+              {
+                "kind": "junction",
+                "sites": 2,
+                "segments": 1,
+                "occurrences": 2,
+                "signature": "J:4\u003E1"
+              },
+              {
+                "kind": "junction",
+                "sites": 2,
+                "segments": 1,
+                "occurrences": 2,
+                "signature": "J:8\u003E1"
+              }
+            ]
+          },
+          "after": {
+            "id": "cross-joined-1",
+            "name": "One four-arm junction / extent 1",
+            "image": "C01-1-after.svg",
+            "admissible": 2,
+            "examined": 14,
+            "sentHints": 3,
+            "sentPatterns": [
+              "Require: Endpoint facing left",
+              "Require: Endpoint facing down",
+              "Require: Shared site with 4 outgoing segments"
+            ],
+            "proposalWork": 40,
+            "read": {
+              "supported": 1,
+              "refuted": 0,
+              "unresolved": 0,
+              "satisfied": true
+            },
+            "patterns": [
+              {
+                "kind": "junction",
+                "sites": 5,
+                "segments": 4,
+                "occurrences": 1,
+                "signature": "J:1\u003E1,2\u003E2,4\u003E3,8\u003E4"
+              },
+              {
+                "kind": "junction",
+                "sites": 2,
+                "segments": 1,
+                "occurrences": 1,
+                "signature": "J:2\u003E1"
+              },
+              {
+                "kind": "junction",
+                "sites": 2,
+                "segments": 1,
+                "occurrences": 1,
+                "signature": "J:1\u003E1"
+              },
+              {
+                "kind": "junction",
+                "sites": 2,
+                "segments": 1,
+                "occurrences": 1,
+                "signature": "J:8\u003E1"
+              },
+              {
+                "kind": "junction",
+                "sites": 2,
+                "segments": 1,
+                "occurrences": 1,
+                "signature": "J:4\u003E1"
+              },
+              {
+                "kind": "walk",
+                "sites": 3,
+                "segments": 2,
+                "occurrences": 1,
+                "signature": "W:1,1"
+              },
+              {
+                "kind": "walk",
+                "sites": 3,
+                "segments": 2,
+                "occurrences": 1,
+                "signature": "W:2,4"
+              },
+              {
+                "kind": "walk",
+                "sites": 3,
+                "segments": 2,
+                "occurrences": 1,
+                "signature": "W:2,8"
+              },
+              {
+                "kind": "walk",
+                "sites": 3,
+                "segments": 2,
+                "occurrences": 1,
+                "signature": "W:1,4"
+              },
+              {
+                "kind": "walk",
+                "sites": 3,
+                "segments": 2,
+                "occurrences": 1,
+                "signature": "W:1,8"
+              },
+              {
+                "kind": "walk",
+                "sites": 3,
+                "segments": 2,
+                "occurrences": 1,
+                "signature": "W:4,4"
+              }
+            ]
+          },
+          "repair": "Add one required native pattern after inspecting the failed commitment."
+        },
+        {
+          "context": "Open paths first \u00B7 second extent",
+          "before": {
+            "id": "rectangle-cut-2",
+            "name": "Four separate contour sides / extent 2",
+            "image": "C01-2-before.svg",
+            "admissible": 6,
+            "examined": 14,
+            "sentHints": 2,
+            "sentPatterns": [
+              "Require: Endpoint facing left",
+              "Require: Endpoint facing down"
+            ],
+            "proposalWork": 28,
+            "read": {
+              "supported": 0,
+              "refuted": 1,
+              "unresolved": 0,
+              "satisfied": false
+            },
+            "patterns": [
+              {
+                "kind": "junction",
+                "sites": 2,
+                "segments": 1,
+                "occurrences": 2,
+                "signature": "J:1\u003E1"
+              },
+              {
+                "kind": "junction",
+                "sites": 2,
+                "segments": 1,
+                "occurrences": 2,
+                "signature": "J:2\u003E1"
+              },
+              {
+                "kind": "junction",
+                "sites": 2,
+                "segments": 1,
+                "occurrences": 2,
+                "signature": "J:4\u003E1"
+              },
+              {
+                "kind": "junction",
+                "sites": 2,
+                "segments": 1,
+                "occurrences": 2,
+                "signature": "J:8\u003E1"
+              }
+            ]
+          },
+          "after": {
+            "id": "cross-joined-2",
+            "name": "One four-arm junction / extent 2",
+            "image": "C01-2-after.svg",
+            "admissible": 2,
+            "examined": 14,
+            "sentHints": 3,
+            "sentPatterns": [
+              "Require: Endpoint facing left",
+              "Require: Endpoint facing down",
+              "Require: Shared site with 4 outgoing segments"
+            ],
+            "proposalWork": 40,
+            "read": {
+              "supported": 1,
+              "refuted": 0,
+              "unresolved": 0,
+              "satisfied": true
+            },
+            "patterns": [
+              {
+                "kind": "junction",
+                "sites": 5,
+                "segments": 4,
+                "occurrences": 1,
+                "signature": "J:1\u003E1,2\u003E2,4\u003E3,8\u003E4"
+              },
+              {
+                "kind": "junction",
+                "sites": 2,
+                "segments": 1,
+                "occurrences": 1,
+                "signature": "J:2\u003E1"
+              },
+              {
+                "kind": "junction",
+                "sites": 2,
+                "segments": 1,
+                "occurrences": 1,
+                "signature": "J:1\u003E1"
+              },
+              {
+                "kind": "junction",
+                "sites": 2,
+                "segments": 1,
+                "occurrences": 1,
+                "signature": "J:8\u003E1"
+              },
+              {
+                "kind": "junction",
+                "sites": 2,
+                "segments": 1,
+                "occurrences": 1,
+                "signature": "J:4\u003E1"
+              },
+              {
+                "kind": "walk",
+                "sites": 3,
+                "segments": 2,
+                "occurrences": 1,
+                "signature": "W:1,1"
+              },
+              {
+                "kind": "walk",
+                "sites": 3,
+                "segments": 2,
+                "occurrences": 1,
+                "signature": "W:2,4"
+              },
+              {
+                "kind": "walk",
+                "sites": 3,
+                "segments": 2,
+                "occurrences": 1,
+                "signature": "W:2,8"
+              },
+              {
+                "kind": "walk",
+                "sites": 3,
+                "segments": 2,
+                "occurrences": 1,
+                "signature": "W:1,4"
+              },
+              {
+                "kind": "walk",
+                "sites": 3,
+                "segments": 2,
+                "occurrences": 1,
+                "signature": "W:1,8"
+              },
+              {
+                "kind": "walk",
+                "sites": 3,
+                "segments": 2,
+                "occurrences": 1,
+                "signature": "W:4,4"
+              }
+            ]
+          },
+          "repair": "Add one required native pattern after inspecting the failed commitment."
+        }
+      ]
+    },
+    {
+      "id": "C02",
+      "name": "Closure, not an almost-closed walk",
+      "description": "A corner hint survives in an open rectangular path. Adding the actual cyclic participation promise selects a closed contour; the equal-looking unjoined endpoints do not certify closure.",
+      "intentImage": "C02-intent.svg",
+      "commitments": 1,
+      "promises": [
+        "Require: Closed route with 4 segments"
+      ],
+      "initialHints": 1,
+      "trials": [
+        {
+          "context": "Fragments first \u00B7 first extent",
+          "before": {
+            "id": "rectangle-open-1",
+            "name": "Unjoined endpoint return / extent 1",
+            "image": "C02-1-before.svg",
+            "admissible": 4,
+            "examined": 14,
+            "sentHints": 1,
+            "sentPatterns": [
+              "Require: Shared site with 2 outgoing segments"
+            ],
+            "proposalWork": 43,
+            "read": {
+              "supported": 0,
+              "refuted": 1,
+              "unresolved": 0,
+              "satisfied": false
+            },
+            "patterns": [
+              {
+                "kind": "junction",
+                "sites": 2,
+                "segments": 1,
+                "occurrences": 1,
+                "signature": "J:1\u003E1"
+              },
+              {
+                "kind": "junction",
+                "sites": 3,
+                "segments": 2,
+                "occurrences": 1,
+                "signature": "J:2\u003E1,4\u003E2"
+              },
+              {
+                "kind": "junction",
+                "sites": 3,
+                "segments": 2,
+                "occurrences": 1,
+                "signature": "J:2\u003E1,8\u003E2"
+              },
+              {
+                "kind": "junction",
+                "sites": 3,
+                "segments": 2,
+                "occurrences": 1,
+                "signature": "J:1\u003E1,8\u003E2"
+              },
+              {
+                "kind": "junction",
+                "sites": 2,
+                "segments": 1,
+                "occurrences": 1,
+                "signature": "J:4\u003E1"
+              },
+              {
+                "kind": "walk",
+                "sites": 3,
+                "segments": 2,
+                "occurrences": 1,
+                "signature": "W:1,4"
+              },
+              {
+                "kind": "walk",
+                "sites": 4,
+                "segments": 3,
+                "occurrences": 1,
+                "signature": "W:1,4,2"
+              },
+              {
+                "kind": "walk",
+                "sites": 3,
+                "segments": 2,
+                "occurrences": 1,
+                "signature": "W:1,8"
+              },
+              {
+                "kind": "walk",
+                "sites": 4,
+                "segments": 3,
+                "occurrences": 1,
+                "signature": "W:4,1,8"
+              },
+              {
+                "kind": "walk",
+                "sites": 3,
+                "segments": 2,
+                "occurrences": 1,
+                "signature": "W:2,8"
+              }
+            ]
+          },
+          "after": {
+            "id": "rectangle-closed-1",
+            "name": "Closed four-sided contour / extent 1",
+            "image": "C02-1-after.svg",
+            "admissible": 2,
+            "examined": 14,
+            "sentHints": 2,
+            "sentPatterns": [
+              "Require: Shared site with 2 outgoing segments",
+              "Require: Closed route with 4 segments"
+            ],
+            "proposalWork": 52,
+            "read": {
+              "supported": 1,
+              "refuted": 0,
+              "unresolved": 0,
+              "satisfied": true
+            },
+            "patterns": [
+              {
+                "kind": "junction",
+                "sites": 3,
+                "segments": 2,
+                "occurrences": 1,
+                "signature": "J:1\u003E1,4\u003E2"
+              },
+              {
+                "kind": "junction",
+                "sites": 3,
+                "segments": 2,
+                "occurrences": 1,
+                "signature": "J:2\u003E1,4\u003E2"
+              },
+              {
+                "kind": "junction",
+                "sites": 3,
+                "segments": 2,
+                "occurrences": 1,
+                "signature": "J:2\u003E1,8\u003E2"
+              },
+              {
+                "kind": "junction",
+                "sites": 3,
+                "segments": 2,
+                "occurrences": 1,
+                "signature": "J:1\u003E1,8\u003E2"
+              },
+              {
+                "kind": "walk",
+                "sites": 3,
+                "segments": 2,
+                "occurrences": 1,
+                "signature": "W:1,4"
+              },
+              {
+                "kind": "walk",
+                "sites": 4,
+                "segments": 3,
+                "occurrences": 1,
+                "signature": "W:1,4,2"
+              },
+              {
+                "kind": "walk",
+                "sites": 3,
+                "segments": 2,
+                "occurrences": 1,
+                "signature": "W:2,8"
+              },
+              {
+                "kind": "walk",
+                "sites": 4,
+                "segments": 3,
+                "occurrences": 1,
+                "signature": "W:4,1,8"
+              },
+              {
+                "kind": "walk",
+                "sites": 3,
+                "segments": 2,
+                "occurrences": 1,
+                "signature": "W:2,4"
+              },
+              {
+                "kind": "walk",
+                "sites": 4,
+                "segments": 3,
+                "occurrences": 1,
+                "signature": "W:2,4,1"
+              },
+              {
+                "kind": "walk",
+                "sites": 3,
+                "segments": 2,
+                "occurrences": 1,
+                "signature": "W:1,8"
+              },
+              {
+                "kind": "walk",
+                "sites": 4,
+                "segments": 3,
+                "occurrences": 1,
+                "signature": "W:8,1,4"
+              },
+              {
+                "kind": "cycle",
+                "sites": 4,
+                "segments": 4,
+                "occurrences": 1,
+                "signature": "C:1,4,2,8"
+              }
+            ]
+          },
+          "repair": "Add one required native pattern after inspecting the failed commitment."
+        },
+        {
+          "context": "Open paths first \u00B7 second extent",
+          "before": {
+            "id": "rectangle-open-2",
+            "name": "Unjoined endpoint return / extent 2",
+            "image": "C02-2-before.svg",
+            "admissible": 4,
+            "examined": 14,
+            "sentHints": 1,
+            "sentPatterns": [
+              "Require: Shared site with 2 outgoing segments"
+            ],
+            "proposalWork": 43,
+            "read": {
+              "supported": 0,
+              "refuted": 1,
+              "unresolved": 0,
+              "satisfied": false
+            },
+            "patterns": [
+              {
+                "kind": "junction",
+                "sites": 2,
+                "segments": 1,
+                "occurrences": 1,
+                "signature": "J:1\u003E1"
+              },
+              {
+                "kind": "junction",
+                "sites": 3,
+                "segments": 2,
+                "occurrences": 1,
+                "signature": "J:2\u003E1,4\u003E2"
+              },
+              {
+                "kind": "junction",
+                "sites": 3,
+                "segments": 2,
+                "occurrences": 1,
+                "signature": "J:2\u003E1,8\u003E2"
+              },
+              {
+                "kind": "junction",
+                "sites": 3,
+                "segments": 2,
+                "occurrences": 1,
+                "signature": "J:1\u003E1,8\u003E2"
+              },
+              {
+                "kind": "junction",
+                "sites": 2,
+                "segments": 1,
+                "occurrences": 1,
+                "signature": "J:4\u003E1"
+              },
+              {
+                "kind": "walk",
+                "sites": 3,
+                "segments": 2,
+                "occurrences": 1,
+                "signature": "W:1,4"
+              },
+              {
+                "kind": "walk",
+                "sites": 4,
+                "segments": 3,
+                "occurrences": 1,
+                "signature": "W:1,4,2"
+              },
+              {
+                "kind": "walk",
+                "sites": 3,
+                "segments": 2,
+                "occurrences": 1,
+                "signature": "W:1,8"
+              },
+              {
+                "kind": "walk",
+                "sites": 4,
+                "segments": 3,
+                "occurrences": 1,
+                "signature": "W:4,1,8"
+              },
+              {
+                "kind": "walk",
+                "sites": 3,
+                "segments": 2,
+                "occurrences": 1,
+                "signature": "W:2,8"
+              }
+            ]
+          },
+          "after": {
+            "id": "rectangle-closed-2",
+            "name": "Closed four-sided contour / extent 2",
+            "image": "C02-2-after.svg",
+            "admissible": 2,
+            "examined": 14,
+            "sentHints": 2,
+            "sentPatterns": [
+              "Require: Shared site with 2 outgoing segments",
+              "Require: Closed route with 4 segments"
+            ],
+            "proposalWork": 52,
+            "read": {
+              "supported": 1,
+              "refuted": 0,
+              "unresolved": 0,
+              "satisfied": true
+            },
+            "patterns": [
+              {
+                "kind": "junction",
+                "sites": 3,
+                "segments": 2,
+                "occurrences": 1,
+                "signature": "J:1\u003E1,4\u003E2"
+              },
+              {
+                "kind": "junction",
+                "sites": 3,
+                "segments": 2,
+                "occurrences": 1,
+                "signature": "J:2\u003E1,4\u003E2"
+              },
+              {
+                "kind": "junction",
+                "sites": 3,
+                "segments": 2,
+                "occurrences": 1,
+                "signature": "J:2\u003E1,8\u003E2"
+              },
+              {
+                "kind": "junction",
+                "sites": 3,
+                "segments": 2,
+                "occurrences": 1,
+                "signature": "J:1\u003E1,8\u003E2"
+              },
+              {
+                "kind": "walk",
+                "sites": 3,
+                "segments": 2,
+                "occurrences": 1,
+                "signature": "W:1,4"
+              },
+              {
+                "kind": "walk",
+                "sites": 4,
+                "segments": 3,
+                "occurrences": 1,
+                "signature": "W:1,4,2"
+              },
+              {
+                "kind": "walk",
+                "sites": 3,
+                "segments": 2,
+                "occurrences": 1,
+                "signature": "W:2,8"
+              },
+              {
+                "kind": "walk",
+                "sites": 4,
+                "segments": 3,
+                "occurrences": 1,
+                "signature": "W:4,1,8"
+              },
+              {
+                "kind": "walk",
+                "sites": 3,
+                "segments": 2,
+                "occurrences": 1,
+                "signature": "W:2,4"
+              },
+              {
+                "kind": "walk",
+                "sites": 4,
+                "segments": 3,
+                "occurrences": 1,
+                "signature": "W:2,4,1"
+              },
+              {
+                "kind": "walk",
+                "sites": 3,
+                "segments": 2,
+                "occurrences": 1,
+                "signature": "W:1,8"
+              },
+              {
+                "kind": "walk",
+                "sites": 4,
+                "segments": 3,
+                "occurrences": 1,
+                "signature": "W:8,1,4"
+              },
+              {
+                "kind": "cycle",
+                "sites": 4,
+                "segments": 4,
+                "occurrences": 1,
+                "signature": "C:1,4,2,8"
+              }
+            ]
+          },
+          "repair": "Add one required native pattern after inspecting the failed commitment."
+        }
+      ]
+    },
+    {
+      "id": "C03",
+      "name": "A connected alternating walk, not loose segments",
+      "description": "A diagonal endpoint alone also describes separate strokes. One ordered three-edge walk promise preserves connected alternation while leaving unmeasured extents free.",
+      "intentImage": "C03-intent.svg",
+      "commitments": 1,
+      "promises": [
+        "Require: Ordered walk with 3 segments"
+      ],
+      "initialHints": 1,
+      "trials": [
+        {
+          "context": "Fragments first \u00B7 first extent",
+          "before": {
+            "id": "zigzag-cut-1",
+            "name": "Separate alternating strokes / extent 1",
+            "image": "C03-1-before.svg",
+            "admissible": 4,
+            "examined": 14,
+            "sentHints": 1,
+            "sentPatterns": [
+              "Require: Endpoint facing right \u002B up"
+            ],
+            "proposalWork": 28,
+            "read": {
+              "supported": 0,
+              "refuted": 1,
+              "unresolved": 0,
+              "satisfied": false
+            },
+            "patterns": [
+              {
+                "kind": "junction",
+                "sites": 2,
+                "segments": 1,
+                "occurrences": 2,
+                "signature": "J:5\u003E1"
+              },
+              {
+                "kind": "junction",
+                "sites": 2,
+                "segments": 1,
+                "occurrences": 2,
+                "signature": "J:10\u003E1"
+              },
+              {
+                "kind": "junction",
+                "sites": 2,
+                "segments": 1,
+                "occurrences": 2,
+                "signature": "J:9\u003E1"
+              },
+              {
+                "kind": "junction",
+                "sites": 2,
+                "segments": 1,
+                "occurrences": 2,
+                "signature": "J:6\u003E1"
+              }
+            ]
+          },
+          "after": {
+            "id": "zigzag-chain-1",
+            "name": "Connected alternating path / extent 1",
+            "image": "C03-1-after.svg",
+            "admissible": 2,
+            "examined": 14,
+            "sentHints": 2,
+            "sentPatterns": [
+              "Require: Endpoint facing right \u002B up",
+              "Require: Ordered walk with 3 segments"
+            ],
+            "proposalWork": 43,
+            "read": {
+              "supported": 1,
+              "refuted": 0,
+              "unresolved": 0,
+              "satisfied": true
+            },
+            "patterns": [
+              {
+                "kind": "junction",
+                "sites": 2,
+                "segments": 1,
+                "occurrences": 1,
+                "signature": "J:5\u003E1"
+              },
+              {
+                "kind": "junction",
+                "sites": 3,
+                "segments": 2,
+                "occurrences": 2,
+                "signature": "J:9\u003E1,10\u003E2"
+              },
+              {
+                "kind": "junction",
+                "sites": 3,
+                "segments": 2,
+                "occurrences": 1,
+                "signature": "J:5\u003E1,6\u003E2"
+              },
+              {
+                "kind": "junction",
+                "sites": 2,
+                "segments": 1,
+                "occurrences": 1,
+                "signature": "J:6\u003E1"
+              },
+              {
+                "kind": "walk",
+                "sites": 3,
+                "segments": 2,
+                "occurrences": 2,
+                "signature": "W:5,9"
+              },
+              {
+                "kind": "walk",
+                "sites": 4,
+                "segments": 3,
+                "occurrences": 1,
+                "signature": "W:5,9,5"
+              },
+              {
+                "kind": "walk",
+                "sites": 3,
+                "segments": 2,
+                "occurrences": 1,
+                "signature": "W:9,5"
+              },
+              {
+                "kind": "walk",
+                "sites": 4,
+                "segments": 3,
+                "occurrences": 1,
+                "signature": "W:6,10,6"
+              }
+            ]
+          },
+          "repair": "Add one required native pattern after inspecting the failed commitment."
+        },
+        {
+          "context": "Open paths first \u00B7 second extent",
+          "before": {
+            "id": "zigzag-cut-2",
+            "name": "Separate alternating strokes / extent 2",
+            "image": "C03-2-before.svg",
+            "admissible": 4,
+            "examined": 14,
+            "sentHints": 1,
+            "sentPatterns": [
+              "Require: Endpoint facing right \u002B up"
+            ],
+            "proposalWork": 28,
+            "read": {
+              "supported": 0,
+              "refuted": 1,
+              "unresolved": 0,
+              "satisfied": false
+            },
+            "patterns": [
+              {
+                "kind": "junction",
+                "sites": 2,
+                "segments": 1,
+                "occurrences": 2,
+                "signature": "J:5\u003E1"
+              },
+              {
+                "kind": "junction",
+                "sites": 2,
+                "segments": 1,
+                "occurrences": 2,
+                "signature": "J:10\u003E1"
+              },
+              {
+                "kind": "junction",
+                "sites": 2,
+                "segments": 1,
+                "occurrences": 2,
+                "signature": "J:9\u003E1"
+              },
+              {
+                "kind": "junction",
+                "sites": 2,
+                "segments": 1,
+                "occurrences": 2,
+                "signature": "J:6\u003E1"
+              }
+            ]
+          },
+          "after": {
+            "id": "zigzag-chain-2",
+            "name": "Connected alternating path / extent 2",
+            "image": "C03-2-after.svg",
+            "admissible": 2,
+            "examined": 14,
+            "sentHints": 2,
+            "sentPatterns": [
+              "Require: Endpoint facing right \u002B up",
+              "Require: Ordered walk with 3 segments"
+            ],
+            "proposalWork": 43,
+            "read": {
+              "supported": 1,
+              "refuted": 0,
+              "unresolved": 0,
+              "satisfied": true
+            },
+            "patterns": [
+              {
+                "kind": "junction",
+                "sites": 2,
+                "segments": 1,
+                "occurrences": 1,
+                "signature": "J:5\u003E1"
+              },
+              {
+                "kind": "junction",
+                "sites": 3,
+                "segments": 2,
+                "occurrences": 2,
+                "signature": "J:9\u003E1,10\u003E2"
+              },
+              {
+                "kind": "junction",
+                "sites": 3,
+                "segments": 2,
+                "occurrences": 1,
+                "signature": "J:5\u003E1,6\u003E2"
+              },
+              {
+                "kind": "junction",
+                "sites": 2,
+                "segments": 1,
+                "occurrences": 1,
+                "signature": "J:6\u003E1"
+              },
+              {
+                "kind": "walk",
+                "sites": 3,
+                "segments": 2,
+                "occurrences": 2,
+                "signature": "W:5,9"
+              },
+              {
+                "kind": "walk",
+                "sites": 4,
+                "segments": 3,
+                "occurrences": 1,
+                "signature": "W:5,9,5"
+              },
+              {
+                "kind": "walk",
+                "sites": 3,
+                "segments": 2,
+                "occurrences": 1,
+                "signature": "W:9,5"
+              },
+              {
+                "kind": "walk",
+                "sites": 4,
+                "segments": 3,
+                "occurrences": 1,
+                "signature": "W:6,10,6"
+              }
+            ]
+          },
+          "repair": "Add one required native pattern after inspecting the failed commitment."
+        }
+      ]
+    }
+  ],
+  "librarySize": 14,
+  "ablations": [
+    {
+      "case": "C01",
+      "options": 8,
+      "minimumHints": 1,
+      "best": [
+        {
+          "hints": 1,
+          "messageParticipants": 197,
+          "admissible": 2,
+          "robust": true,
+          "sentPatterns": [
+            "Require: Shared site with 4 outgoing segments"
+          ]
+        }
+      ],
+      "all": [
+        {
+          "hints": 0,
+          "messageParticipants": 5,
+          "admissible": 14,
+          "robust": false,
+          "sentPatterns": []
+        },
+        {
+          "hints": 1,
+          "messageParticipants": 167,
+          "admissible": 6,
+          "robust": false,
+          "sentPatterns": [
+            "Require: Endpoint facing left"
+          ]
+        },
+        {
+          "hints": 1,
+          "messageParticipants": 167,
+          "admissible": 6,
+          "robust": false,
+          "sentPatterns": [
+            "Require: Endpoint facing down"
+          ]
+        },
+        {
+          "hints": 2,
+          "messageParticipants": 194,
+          "admissible": 6,
+          "robust": false,
+          "sentPatterns": [
+            "Require: Endpoint facing left",
+            "Require: Endpoint facing down"
+          ]
+        },
+        {
+          "hints": 1,
+          "messageParticipants": 197,
+          "admissible": 2,
+          "robust": true,
+          "sentPatterns": [
+            "Require: Shared site with 4 outgoing segments"
+          ]
+        },
+        {
+          "hints": 2,
+          "messageParticipants": 224,
+          "admissible": 2,
+          "robust": true,
+          "sentPatterns": [
+            "Require: Endpoint facing left",
+            "Require: Shared site with 4 outgoing segments"
+          ]
+        },
+        {
+          "hints": 2,
+          "messageParticipants": 224,
+          "admissible": 2,
+          "robust": true,
+          "sentPatterns": [
+            "Require: Endpoint facing down",
+            "Require: Shared site with 4 outgoing segments"
+          ]
+        },
+        {
+          "hints": 3,
+          "messageParticipants": 251,
+          "admissible": 2,
+          "robust": true,
+          "sentPatterns": [
+            "Require: Endpoint facing left",
+            "Require: Endpoint facing down",
+            "Require: Shared site with 4 outgoing segments"
+          ]
+        }
+      ]
+    },
+    {
+      "case": "C02",
+      "options": 4,
+      "minimumHints": 1,
+      "best": [
+        {
+          "hints": 1,
+          "messageParticipants": 205,
+          "admissible": 2,
+          "robust": true,
+          "sentPatterns": [
+            "Require: Closed route with 4 segments"
+          ]
+        }
+      ],
+      "all": [
+        {
+          "hints": 0,
+          "messageParticipants": 5,
+          "admissible": 14,
+          "robust": false,
+          "sentPatterns": []
+        },
+        {
+          "hints": 1,
+          "messageParticipants": 177,
+          "admissible": 4,
+          "robust": false,
+          "sentPatterns": [
+            "Require: Shared site with 2 outgoing segments"
+          ]
+        },
+        {
+          "hints": 1,
+          "messageParticipants": 205,
+          "admissible": 2,
+          "robust": true,
+          "sentPatterns": [
+            "Require: Closed route with 4 segments"
+          ]
+        },
+        {
+          "hints": 2,
+          "messageParticipants": 242,
+          "admissible": 2,
+          "robust": true,
+          "sentPatterns": [
+            "Require: Shared site with 2 outgoing segments",
+            "Require: Closed route with 4 segments"
+          ]
+        }
+      ]
+    },
+    {
+      "case": "C03",
+      "options": 4,
+      "minimumHints": 1,
+      "best": [
+        {
+          "hints": 1,
+          "messageParticipants": 198,
+          "admissible": 2,
+          "robust": true,
+          "sentPatterns": [
+            "Require: Ordered walk with 3 segments"
+          ]
+        }
+      ],
+      "all": [
+        {
+          "hints": 0,
+          "messageParticipants": 5,
+          "admissible": 14,
+          "robust": false,
+          "sentPatterns": []
+        },
+        {
+          "hints": 1,
+          "messageParticipants": 168,
+          "admissible": 4,
+          "robust": false,
+          "sentPatterns": [
+            "Require: Endpoint facing right \u002B up"
+          ]
+        },
+        {
+          "hints": 1,
+          "messageParticipants": 198,
+          "admissible": 2,
+          "robust": true,
+          "sentPatterns": [
+            "Require: Ordered walk with 3 segments"
+          ]
+        },
+        {
+          "hints": 2,
+          "messageParticipants": 226,
+          "admissible": 2,
+          "robust": true,
+          "sentPatterns": [
+            "Require: Endpoint facing right \u002B up",
+            "Require: Ordered walk with 3 segments"
+          ]
+        }
+      ]
+    }
+  ],
+  "nativeElements": 245335,
+  "nativeNumericElements": 0,
+  "archiveRoundTrip": true,
+  "beforeSatisfied": 0,
+  "afterSatisfied": 6,
+  "trials": 6,
+  "limits": [
+    "The receiver samples a finite executable library through an exposed preference order. This round does not train a model or synthesize arbitrary new programs.",
+    "Each sample is executed through acknowledged native drawing flow. The critic independently republishes and induces patterns from the selected output.",
+    "Reader inputs contain fresh sites, segments, coarse headings and actual incidence. Sender requirements, recipes, labels and rendering are outside that boundary.",
+    "A required pattern asks for an occurrence, not exact whole-output identity. Omitted properties remain unspecified; no probability is implied.",
+    "Absence requires completed search within the declared finite motif grammar. Exhausted or unsupported questions remain unresolved.",
+    "The reader does not establish metric squares, empty interiors, equal lengths, physical transfer laws, visual occlusion or general ornament recognition.",
+    "Numeric counters and screen coordinates are diagnostics and presentation. The connected experiment archive contains no numeric carriers.",
+    "Shared engine/library cost and reconstruction work matter alongside message size. Sparse hints are not an end-to-end compression or speed result."
+  ]
+}

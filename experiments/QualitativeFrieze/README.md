@@ -1,5 +1,15 @@
 # Qualitative frieze generators
 
+The [communication gallery](results/communication-loop/gallery.html) compares
+sparse native messages, fresh receiver executions, independent output reads
+and one-hint repairs. Exhaustive hint ablation also checks which earlier hints
+can be omitted. Read the [study and training direction](../../Gojo/docs/GojoCommunicationLoopExperiments.md).
+
+```powershell
+dotnet run --project experiments/QualitativeFrieze -- --communication-loop
+node experiments/QualitativeFrieze/tools/check-communication-loop.cjs
+```
+
 The [junction interpretation gallery](results/junction-interpretations/gallery.html)
 separates actual endpoint incidence, projected crossing/contact cues and open
 continuation/depth hypotheses in eight native examples. Compare the
