@@ -1,6 +1,31 @@
 {
   "collections": [
     {
+      "id": "lattice-interiors",
+      "title": "Shape the spaces",
+      "subtitle": "Interior-first lattices · 100 constructions",
+      "description": "L and T rooms, stepped fields, triangle mergers and negotiated seams. Compare the coloured interiors with their shared boundaries, inspect captured shape summaries and record your preferences.",
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors",
+      "gallery": "gallery.html",
+      "catalog": "diagnostics.json",
+      "countProperty": "cases",
+      "countLabel": "lattices",
+      "presentation": "interiors-compact",
+      "includeFiles": [
+        "^(?:gallery|overview|rules)\\.html$",
+        "^I[0-9]{3}(?:-cells)?\\.svg$",
+        "^X0[1-4]\\.svg$"
+      ],
+      "omitLinks": [
+        "^X0[1-4]\\.gojo\\.json\\.gz$"
+      ],
+      "previews": [
+        { "file": "I011-cells.svg", "alt": "Interlocking L-shaped interiors sharing common boundaries" },
+        { "file": "I061-cells.svg", "alt": "Hexagons made by merging six triangular interiors" },
+        { "file": "I090-cells.svg", "alt": "Six-point stars and their companion spaces" }
+      ]
+    },
+    {
       "id": "flowing-grammar",
       "title": "A flowing grammar",
       "subtitle": "Colour and ornament · 36 skeletons · 108 designs",

@@ -120,6 +120,81 @@ async function walk(dir) {
         assert.equal(await page.locator('tbody tr').count(),36);
         await page.goto(base+'/ornaments/'+c.id+'/');
         await page.screenshot({path:path.join(screenshots,c.id+'-desktop.png')});
+      } else if(c.presentation === 'interiors-compact') {
+        const manifest = JSON.parse(await fs.readFile(path.join(web,'ornaments',c.id,'publication.json'),'utf8'));
+        assert.equal(manifest.count,100);
+        assert.equal(manifest.presentation,'interiors-compact');
+        assert.equal(manifest.files.filter(f => /\/I\d{3}(?:-cells)?\.svg$/.test(f.source)).length,200);
+        assert.equal(manifest.files.filter(f => /\/X0[1-4]\.svg$/.test(f.source)).length,4);
+        assert.equal(manifest.files.filter(f => f.source.endsWith('.gz')).length,0);
+        assert.equal(await page.locator('.card').count(),100);
+        assert.equal(await page.locator('.publication-scope').count(),1);
+        assert.match(await page.locator('.publication-scope').textContent(),/Construction stages, full diagnostics and native archives remain/);
+        const data=await page.locator('#data').textContent(),captured=JSON.parse(data);
+        assert.equal(captured.length,100);
+        const published=new Set(manifest.files.map(f=>f.url));
+        for(const mode of ['cells','lines']) {
+          await page.selectOption('#view',mode);
+          for(const item of captured) {
+            await page.selectOption('#design',item.id);
+            const image=new URL(await page.locator('#field').getAttribute('src'),base+'/ornaments/'+c.id+'/').pathname;
+            assert.equal(image,'/ornaments/'+c.id+'/'+item.id+(mode==='cells'?'-cells':'')+'.svg');
+            assert.ok(published.has(image));
+            assert.equal(await page.locator('#title').textContent(),item.id+' · '+item.name);
+            assert.equal(await page.locator('#fingerprint').textContent(),item.fingerprint);
+            assert.match(await page.locator('#native').textContent(),/0 numeric carriers/);
+            assert.ok(item.overlaps===0&&item.multiplyOwned===0&&item.unowned===0);
+            assert.equal(await page.locator('.card.selected').getAttribute('data-case'),item.id);
+          }
+        }
+        await page.goto(base+'/ornaments/'+c.id+'/?design=I090');
+        assert.equal(await page.locator('#design').inputValue(),'I090');
+        await page.locator('#next').click();assert.equal(await page.locator('#design').inputValue(),'I091');
+        await page.locator('#previous').click();assert.equal(await page.locator('#design').inputValue(),'I090');
+        await page.selectOption('#family',captured[0].family);
+        assert.equal(await page.locator('.card:visible').count(),captured.filter(x=>x.family===captured[0].family).length);
+        await page.selectOption('#family','');await page.locator('#search').fill('I061');
+        assert.equal(await page.locator('.card:visible').count(),1);
+        await page.locator('.card:visible').click();assert.equal(await page.locator('#design').inputValue(),'I061');
+        await page.locator('#search').fill('');
+        await page.locator('[data-rating="4"]').click();
+        await page.locator('#review-note').fill('A repeated shared-boundary study.');
+        await page.reload();assert.equal(await page.locator('#review-note').inputValue(),'A repeated shared-boundary study.');
+        assert.equal(await page.locator('[data-rating="4"]').getAttribute('aria-pressed'),'true');
+        const downloadEvent=page.waitForEvent('download');await page.locator('#export').click();
+        const download=await downloadEvent,exportedPath=path.join(screenshots,'interior-ratings.json');await download.saveAs(exportedPath);
+        const exported=JSON.parse(await fs.readFile(exportedPath,'utf8'));
+        assert.equal(exported.reviews.I061.rating,4);
+        assert.equal(exported.reviews.I061.fingerprint,captured.find(x=>x.id==='I061').fingerprint);
+        await page.locator('[data-rating="0"]').click();
+        await page.locator('#review-note').fill('');
+        await page.locator('#import-file').setInputFiles(exportedPath);
+        await page.waitForFunction(()=>document.getElementById('rating-status').textContent.startsWith('Imported'));
+        assert.equal(await page.locator('#review-note').inputValue(),'A repeated shared-boundary study.');
+        const bad={...exported,reviews:{I061:{...exported.reviews.I061,fingerprint:'wrong-capture'}}};
+        await page.locator('#import-file').setInputFiles({name:'mismatched-ratings.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(bad))});
+        await page.waitForFunction(()=>document.getElementById('rating-status').textContent.includes('do not match'));
+        assert.equal(await page.locator('#review-note').inputValue(),'A repeated shared-boundary study.');
+        await page.evaluate(value=>localStorage.setItem('gojo-lattice-interiors-web-ratings-v1',JSON.stringify(value.reviews)),bad);
+        await page.reload();
+        assert.equal(await page.locator('#rating-status').textContent(),'Not rated');
+        assert.equal(await page.locator('#review-note').inputValue(),'');
+        await page.evaluate(()=>localStorage.removeItem('gojo-lattice-interiors-web-ratings-v1'));
+        await page.goto(base+'/ornaments/'+c.id+'/overview.html');
+        assert.equal(await page.locator('figure').count(),100);
+        for(const mode of ['cells','lines']) {
+          await page.selectOption('#overview-mode',mode);
+          const images=await page.locator('figure img').evaluateAll(xs=>xs.map(x=>({id:x.dataset.case,url:new URL(x.src).pathname})));
+          assert.equal(images.length,100);
+          for(const image of images)assert.equal(image.url,'/ornaments/'+c.id+'/'+image.id+(mode==='cells'?'-cells':'')+'.svg');
+        }
+        await page.goto(base+'/ornaments/'+c.id+'/rules.html');
+        assert.equal(await page.locator('.rules img').count(),4);
+        assert.equal(await page.locator('a[href$=".gz"]').count(),0);
+        assert.equal(await page.locator('.publication-scope').count(),1);
+        await page.goto(base+'/ornaments/'+c.id+'/');
+        await page.screenshot({path:path.join(screenshots,c.id+'-desktop.png')});
+        console.log('Verified all 100 interior designs in both views, captured facts, filters, ratings, matching import, mismatched import rejection and all-design overview.');
       } else if(c.id === 'bourgoin') {
         assert.equal(await page.locator('article').count(),36);
         for(const view of ['units','ports','construction','ink']) {
@@ -140,7 +215,7 @@ async function walk(dir) {
       }
     }
     await page.setViewportSize({width:390,height:844});
-    for(const route of ['/ornaments/',...collections.map(c => '/ornaments/'+c.id+'/')]) {
+    for(const route of ['/ornaments/',...collections.flatMap(c => ['/ornaments/'+c.id+'/',...(c.presentation==='interiors-compact'?['/ornaments/'+c.id+'/overview.html','/ornaments/'+c.id+'/rules.html']:[])])]) {
       await page.goto(base+route);
       assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth+1),'Mobile overflow: '+route);
       await page.screenshot({path:path.join(screenshots,route.split('/').filter(Boolean).join('-')+'-mobile.png')});

@@ -126,3 +126,11 @@ together with their links. On 19 October 2026 the complete prepared bundle
 with this addition was 257,403,979 bytes, within the 262,144,000-byte allowance.
 The existing applications, frozen Core4 archive, Minds, syntax and original
 Bourgoin collection remain in the same deployment.
+
+The interior-first lattice collection is added at `/ornaments/lattice-interiors/`.
+Its compact publication adapter includes all 100 final coloured and outline
+views, captured facts, ratings, overview and rejected examples, while retaining
+the larger construction/native archives in the research checkout. The selected
+collection adds about 3.9 MB. The complete production bundle must still be
+measured on each publication; its remaining capacity is now below 1 MB under
+the last verified allowance. No hosting-plan change is needed for this edition.

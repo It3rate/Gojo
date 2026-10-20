@@ -1,5 +1,15 @@
 # Ornament collections
 
+`/ornaments/lattice-interiors/` adds all 100 recorded interior-first lattices.
+Its bounded website edition retains the 100 coloured and 100 outline SVGs,
+captured cell and repeat summaries, family/search controls, local ratings with
+fingerprint-checked export/import, an all-design overview, and four rejected
+interior examples. Construction stages, full diagnostics and native archives
+remain in the research checkout; the publication scope states this explicitly.
+The adapter in `tools/interiors-publication.mjs` projects captured facts and
+does not execute geometry or alter any SVG. The complete research gallery is
+at `experiments/QualitativeFrieze/results/lattice-interiors/gallery.html`.
+
 Public entry: `/ornaments/`. The Gojo homepage links here; each collection has
 a permanent child route. `/ornaments/bourgoin/` retains 36 source
 comparisons, construction views, earlier SVG interpretations, native packets

@@ -1,0 +1,1050 @@
+{
+  "collection": "lattice-interiors",
+  "sourceGallery": "experiments/QualitativeFrieze/results/lattice-interiors/gallery.html",
+  "textNewlines": "LF",
+  "count": 100,
+  "presentation": "interiors-compact",
+  "omittedLinks": [
+    "X01.gojo.json.gz",
+    "X02.gojo.json.gz",
+    "X03.gojo.json.gz",
+    "X04.gojo.json.gz"
+  ],
+  "files": [
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I001-cells.svg",
+      "url": "/ornaments/lattice-interiors/I001-cells.svg",
+      "sha256": "c64c439d81e9bdc4cd7ed93dcfdf4ccc81443893025bf2c092383b7180e78f51"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I001.svg",
+      "url": "/ornaments/lattice-interiors/I001.svg",
+      "sha256": "caca1a431202621b3c0031ce7a5da36348fdd142c37c4d7ea47456714c5bfc93"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I002-cells.svg",
+      "url": "/ornaments/lattice-interiors/I002-cells.svg",
+      "sha256": "90e006c024b45144f58fb0b731cd02d2f5da2ca8fa093f1b8052c6e53202596c"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I002.svg",
+      "url": "/ornaments/lattice-interiors/I002.svg",
+      "sha256": "cf5000dc9a993229735daccfc1ba2a6dc73f373028947dfc5af730beea87ac9c"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I003-cells.svg",
+      "url": "/ornaments/lattice-interiors/I003-cells.svg",
+      "sha256": "95b82a54c0d97270c7b789c6db1f954fd09b404d44a31cdf3feb7a178c8679eb"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I003.svg",
+      "url": "/ornaments/lattice-interiors/I003.svg",
+      "sha256": "a1d94402992323d81d806f7d0428a5f0572516d12d47bb5663147a47ff42d7b5"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I004-cells.svg",
+      "url": "/ornaments/lattice-interiors/I004-cells.svg",
+      "sha256": "9a45a5791fee43ba14501069b776fe8bcf178c7d425ade08e74a430493f0bc24"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I004.svg",
+      "url": "/ornaments/lattice-interiors/I004.svg",
+      "sha256": "751ae3ade14f528a0a80300921527810debfc6b9bd29849a481ab15b4b24f41d"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I005-cells.svg",
+      "url": "/ornaments/lattice-interiors/I005-cells.svg",
+      "sha256": "5ecac3cfef36eef7a5a37fd23cdaf2cc3b922cf6038cd5a8ce98777582bedbec"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I005.svg",
+      "url": "/ornaments/lattice-interiors/I005.svg",
+      "sha256": "cb7e8b4737e73fb7dc1c0f8b6d4a9bdb485ddcb1227176055a5f4e10e3895c9a"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I006-cells.svg",
+      "url": "/ornaments/lattice-interiors/I006-cells.svg",
+      "sha256": "6d7fffe7b5fa1153fd81445dac05cdf6159e8687b73029bfe29f526a95a2495f"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I006.svg",
+      "url": "/ornaments/lattice-interiors/I006.svg",
+      "sha256": "5e83bbcf53287585097ad14cafdccd2513996e703da80edd036d66e26dfdc858"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I007-cells.svg",
+      "url": "/ornaments/lattice-interiors/I007-cells.svg",
+      "sha256": "f2adc73dc872ac1ba692cf49757641fb0bad2dc6f2fbbcff39126fc30c35e623"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I007.svg",
+      "url": "/ornaments/lattice-interiors/I007.svg",
+      "sha256": "2a4067cccd2ee4963a51f3b461b70b0a851b1769becb920bc8a4c09c7af8ac6f"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I008-cells.svg",
+      "url": "/ornaments/lattice-interiors/I008-cells.svg",
+      "sha256": "295c7e7d5657e1569e16bbdb064a24a7c4945dac2effb28b6245468216290cf9"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I008.svg",
+      "url": "/ornaments/lattice-interiors/I008.svg",
+      "sha256": "af8dad11dba63603e3e849cf4fe9879a0075ea010db530173fc67f690682504b"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I009-cells.svg",
+      "url": "/ornaments/lattice-interiors/I009-cells.svg",
+      "sha256": "5f24e9e33e5d62585992347b62cb63a1b6d2284d363f1fbb92e774b43b7feac7"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I009.svg",
+      "url": "/ornaments/lattice-interiors/I009.svg",
+      "sha256": "21b147e2316f8986677bc94848e813c793f54ca79af26367ee149cee1254b5ca"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I010-cells.svg",
+      "url": "/ornaments/lattice-interiors/I010-cells.svg",
+      "sha256": "ef6141c0a24fa1ba5e2217278238504694b28e6c21d3af44580f7b3c9bbad989"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I010.svg",
+      "url": "/ornaments/lattice-interiors/I010.svg",
+      "sha256": "ea69bf34a5b73f593a584ed0a36ecefa8dafd37e0501006e2d2afffba66b793c"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I011-cells.svg",
+      "url": "/ornaments/lattice-interiors/I011-cells.svg",
+      "sha256": "056f33ea90c8a346977acea44f91e93bcf1ceae2bf809701c939b92b8e9af4dd"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I011.svg",
+      "url": "/ornaments/lattice-interiors/I011.svg",
+      "sha256": "fde12d0d029d51d0a1b08a376cc10c06ba773d09d9b5606a2e66a8fc0aa9c4d4"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I012-cells.svg",
+      "url": "/ornaments/lattice-interiors/I012-cells.svg",
+      "sha256": "f13aeccc405f3f0f28008b6811de3c21792b04de9eb6e81331af992bf00f6694"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I012.svg",
+      "url": "/ornaments/lattice-interiors/I012.svg",
+      "sha256": "0049f4325a26cba05ce9d8577cb703aaf0dd4357688d9c4d4e8b25f6e01d725b"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I013-cells.svg",
+      "url": "/ornaments/lattice-interiors/I013-cells.svg",
+      "sha256": "4cc60626fb7561ba06b67bf6eeb8f5c87e2025b46cbba2971aaa7ad407224b9f"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I013.svg",
+      "url": "/ornaments/lattice-interiors/I013.svg",
+      "sha256": "69860d93e8f373c64de757b7b52b1e9ffcf25b0455da8045a99f17b3a06e0be4"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I014-cells.svg",
+      "url": "/ornaments/lattice-interiors/I014-cells.svg",
+      "sha256": "1cb6c58023fc1b77dbec409076dd3982d9cd1a245e5f13b4cd673c978426b3a3"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I014.svg",
+      "url": "/ornaments/lattice-interiors/I014.svg",
+      "sha256": "2cc056216d3cba310ccbd76561b0001daaee8561365d97e9a6c5b5acf69384db"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I015-cells.svg",
+      "url": "/ornaments/lattice-interiors/I015-cells.svg",
+      "sha256": "7dcfc1dcd07bccae629a018c07eff984daa27f064d54b9575aeec78ea114ec02"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I015.svg",
+      "url": "/ornaments/lattice-interiors/I015.svg",
+      "sha256": "889fc98f8ac4add7ed243defe5491c7e25fed13688dc43265f54d3558eceef50"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I016-cells.svg",
+      "url": "/ornaments/lattice-interiors/I016-cells.svg",
+      "sha256": "978157acb5943c54117aeb38db5dba2a0c409280246360505214a64694d8402f"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I016.svg",
+      "url": "/ornaments/lattice-interiors/I016.svg",
+      "sha256": "42e62a47d81587a8a9b28d70879bdfc317fef0713603ddf8a75ab31c5c9ec1af"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I017-cells.svg",
+      "url": "/ornaments/lattice-interiors/I017-cells.svg",
+      "sha256": "a6f73378f897e5cd4ef9f020a2b345801eadb10b11733b26b10689000fbf112d"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I017.svg",
+      "url": "/ornaments/lattice-interiors/I017.svg",
+      "sha256": "6bf3a87b7118181a02deb881fc269a654cca0cc695ae7d6b42456d1a2bd98982"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I018-cells.svg",
+      "url": "/ornaments/lattice-interiors/I018-cells.svg",
+      "sha256": "c4164ff5a897ded3f6d15382dd36812149d47644746bcc187a6ef07edd973687"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I018.svg",
+      "url": "/ornaments/lattice-interiors/I018.svg",
+      "sha256": "06ae4ec006babf3fac51dd15445dfa5cfd631d7f77dffb0ac1faa31f1c25b020"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I019-cells.svg",
+      "url": "/ornaments/lattice-interiors/I019-cells.svg",
+      "sha256": "51a54a558e2f25331d947c3a42828b9b7ba8a5af855d2a78fd978775a4e8f88d"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I019.svg",
+      "url": "/ornaments/lattice-interiors/I019.svg",
+      "sha256": "fb294ed824bc32db14ef5e3c202dc091829d59fd41b914773ec6ba9d11f99a64"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I020-cells.svg",
+      "url": "/ornaments/lattice-interiors/I020-cells.svg",
+      "sha256": "faad46f48c45f637d2e8e20631f7b21493f43e4bbfd786cc7f8e6e8fa6c444ed"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I020.svg",
+      "url": "/ornaments/lattice-interiors/I020.svg",
+      "sha256": "e1c49188006bfdd043bab53cd4a0b17733752c6dca5deeef331b508ad8cce316"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I021-cells.svg",
+      "url": "/ornaments/lattice-interiors/I021-cells.svg",
+      "sha256": "4f92ce5118183597ef467c1828d5c8af52bf5232e5a499272cb5ff29d023aeda"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I021.svg",
+      "url": "/ornaments/lattice-interiors/I021.svg",
+      "sha256": "50de2bb6de8852d176e3db04e45c1f6c91ae966f3959adb30a735275753fb44b"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I022-cells.svg",
+      "url": "/ornaments/lattice-interiors/I022-cells.svg",
+      "sha256": "8711fa4b9e1a6915dabcc25a37b7bdce1d2a791a2120f106fea1836b1b014fbd"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I022.svg",
+      "url": "/ornaments/lattice-interiors/I022.svg",
+      "sha256": "88d32608607b5a882272a8d263523957414b445c467321ef366f3032dd9bc6dd"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I023-cells.svg",
+      "url": "/ornaments/lattice-interiors/I023-cells.svg",
+      "sha256": "271a73268acdad3a1134a4521b504fbd7f0b12379a99251666d1dfeab8278752"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I023.svg",
+      "url": "/ornaments/lattice-interiors/I023.svg",
+      "sha256": "25f6d1fef65ddd503e20ff15e232fc474b0cb7afa942a0007e7884ffefbc8e6d"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I024-cells.svg",
+      "url": "/ornaments/lattice-interiors/I024-cells.svg",
+      "sha256": "795f3fcdb5a119e7f492ff2c762b2a46c6883c91cd780cbabc3fc44a6a5391d3"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I024.svg",
+      "url": "/ornaments/lattice-interiors/I024.svg",
+      "sha256": "28b513aeb974019dd298e38bb2a7722a150e8e3d8fd4a681ab40b02ed01b6493"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I025-cells.svg",
+      "url": "/ornaments/lattice-interiors/I025-cells.svg",
+      "sha256": "cb22e174c1b1c909f74d90a17455b0a9c255cca206a25d5041cf1ab954570c5f"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I025.svg",
+      "url": "/ornaments/lattice-interiors/I025.svg",
+      "sha256": "2b36bb4017c188a86909877ba6cd3819c13a33b1016de64ca4502ddc90ef5517"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I026-cells.svg",
+      "url": "/ornaments/lattice-interiors/I026-cells.svg",
+      "sha256": "907af853c889d22fa14a89660b5669955d49484a50f0806eb6ca6c3b01f57b89"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I026.svg",
+      "url": "/ornaments/lattice-interiors/I026.svg",
+      "sha256": "3570f637260f27ede30c2618e2d99c2fc28e9a8cba0426592ca61f051c241c60"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I027-cells.svg",
+      "url": "/ornaments/lattice-interiors/I027-cells.svg",
+      "sha256": "133e4556f24bbf2f625b3c945223295f6809bd79db37d82183eb3f6db8e0b2ce"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I027.svg",
+      "url": "/ornaments/lattice-interiors/I027.svg",
+      "sha256": "6dc7e04b52bc77f1213b8bf8798fd64bd1481c3359b9deb3ecb5aea19fdfd80f"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I028-cells.svg",
+      "url": "/ornaments/lattice-interiors/I028-cells.svg",
+      "sha256": "53dda9d144374f17a9b55995fe872c5f863272804aa19894d3820c9c284ef5ef"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I028.svg",
+      "url": "/ornaments/lattice-interiors/I028.svg",
+      "sha256": "41e957853f868b942264f4018380e5b573f4163bcae4a5125aa268d4b5c02344"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I029-cells.svg",
+      "url": "/ornaments/lattice-interiors/I029-cells.svg",
+      "sha256": "85b8d63d4b4c0a0bf0eabc6d67a6e198cced5c410361f80ab5fdca26aea36432"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I029.svg",
+      "url": "/ornaments/lattice-interiors/I029.svg",
+      "sha256": "7381f4aa49dd852cff04c7be8074f2e8b20ad6872354e4082a6866ae9da4531b"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I030-cells.svg",
+      "url": "/ornaments/lattice-interiors/I030-cells.svg",
+      "sha256": "593b0913222698a3d81e8e9a90a489ea271182fc38eafad0a2901434cb6360b7"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I030.svg",
+      "url": "/ornaments/lattice-interiors/I030.svg",
+      "sha256": "b2721c4698b634d3e3bcc12641b0d71a631d40a365cc8e29e00bada62c3e55c4"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I031-cells.svg",
+      "url": "/ornaments/lattice-interiors/I031-cells.svg",
+      "sha256": "b48c6f32dcba655eb87a7d2a298d74f8e12829bd94bc3daac5563d207b0a010c"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I031.svg",
+      "url": "/ornaments/lattice-interiors/I031.svg",
+      "sha256": "b9000ce54c64014a9c413b194c205fba9852296fbc583d232bf2bc1e250a6230"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I032-cells.svg",
+      "url": "/ornaments/lattice-interiors/I032-cells.svg",
+      "sha256": "36150c3c86e98c4d07aae474769307cc5d0b3d2dda1d2ef8b46b47864aabf933"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I032.svg",
+      "url": "/ornaments/lattice-interiors/I032.svg",
+      "sha256": "76d465a5a5b4bc04e53674ee2ef33a4a95153863501fb488eae89ac207a61dc9"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I033-cells.svg",
+      "url": "/ornaments/lattice-interiors/I033-cells.svg",
+      "sha256": "29f8ec43d3ce1b28fb93ef3b4f7529f9504b52049f8c63e39f69697f6dc968e7"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I033.svg",
+      "url": "/ornaments/lattice-interiors/I033.svg",
+      "sha256": "8f908b0468b6f7a1f6846781b01b8eebcf4a520e0355f904459cc943a8f02a58"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I034-cells.svg",
+      "url": "/ornaments/lattice-interiors/I034-cells.svg",
+      "sha256": "fb05b8792414738ccf6acd51ca95abe62c0e3ac7b3e0b34c7fcd444998f7e98c"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I034.svg",
+      "url": "/ornaments/lattice-interiors/I034.svg",
+      "sha256": "ca39867c4ce5b54cda9d8beec4c46b92aec4cc4e3849e1b2b6cf2b06828d5b0d"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I035-cells.svg",
+      "url": "/ornaments/lattice-interiors/I035-cells.svg",
+      "sha256": "6445c19a1ad73f8304e4cc83518a3efbf963b8f04550063f93f4fe5d44f9484b"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I035.svg",
+      "url": "/ornaments/lattice-interiors/I035.svg",
+      "sha256": "d32be3d9ccfa8c3b8d64846eac8065e092d8b3a4d0c9928cc8871cc36fa10491"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I036-cells.svg",
+      "url": "/ornaments/lattice-interiors/I036-cells.svg",
+      "sha256": "39e1b3631b651c3618bb412b162d6428a4f3cba2f6e63e447149e2576586d6e0"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I036.svg",
+      "url": "/ornaments/lattice-interiors/I036.svg",
+      "sha256": "4118942eb6c07ec140d2781f2d6bf9f5b992e3aa2e81162f1f4ea3238f05660f"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I037-cells.svg",
+      "url": "/ornaments/lattice-interiors/I037-cells.svg",
+      "sha256": "b5f2b27a62ebf29199c83363b2c2f6d8b6296f75744bb4f0f448b425a04af599"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I037.svg",
+      "url": "/ornaments/lattice-interiors/I037.svg",
+      "sha256": "aef1c32885fd585d9528bb1589493e1c77ffcea91ef3b63798d07ca7511e80dc"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I038-cells.svg",
+      "url": "/ornaments/lattice-interiors/I038-cells.svg",
+      "sha256": "e707546047cc5e01a797d1e9b7126f69aac2dc3f3fb20da7ea5800a2d62f7483"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I038.svg",
+      "url": "/ornaments/lattice-interiors/I038.svg",
+      "sha256": "c70d6d6015a2edfdf36a21db2dd4fda88f46d2abf2933fdc7eed44e1e306bfd1"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I039-cells.svg",
+      "url": "/ornaments/lattice-interiors/I039-cells.svg",
+      "sha256": "74ba0647f48520d7bf6fbd3d04ab7b88f698d7ecac90868b1851dfe67cf83e9a"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I039.svg",
+      "url": "/ornaments/lattice-interiors/I039.svg",
+      "sha256": "963002cb5501a4f90fa01a274cc56741c36abbd138decb72b7a56d02b3862b3b"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I040-cells.svg",
+      "url": "/ornaments/lattice-interiors/I040-cells.svg",
+      "sha256": "e2a72d678fb3ce01df720273b8fcf86b95db589c2cdb93f8ce3adfe62f79a07a"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I040.svg",
+      "url": "/ornaments/lattice-interiors/I040.svg",
+      "sha256": "ecc4c0c4b9b42c09ed856fad1e5a8894b1b1193b8dacd11a8125fc39985b0a1c"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I041-cells.svg",
+      "url": "/ornaments/lattice-interiors/I041-cells.svg",
+      "sha256": "d13fa4a824c21121c170eefb508027f60a37848dc8b6b26904e7627c15e9b249"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I041.svg",
+      "url": "/ornaments/lattice-interiors/I041.svg",
+      "sha256": "310b8f6adca13f9ea2eaa5e93804773ebea911800a99d98975e3db06716cce9e"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I042-cells.svg",
+      "url": "/ornaments/lattice-interiors/I042-cells.svg",
+      "sha256": "ea8df834466824257e722b90688ec4bf8acd6fa33b950f59b962354229d0c98a"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I042.svg",
+      "url": "/ornaments/lattice-interiors/I042.svg",
+      "sha256": "934dda39687bf47a3ccc27da1e3fa240e44535086496389a137f5f3b47f9e5b8"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I043-cells.svg",
+      "url": "/ornaments/lattice-interiors/I043-cells.svg",
+      "sha256": "3905e786658bc86c868cb21afa77fb918a24f2db8d3b6b0cd31f2cfe5336a94b"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I043.svg",
+      "url": "/ornaments/lattice-interiors/I043.svg",
+      "sha256": "1baeb0cf9aca6a89ab12644c85d1dc2d0b1660f6427e87978cfeaae31ab4cd94"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I044-cells.svg",
+      "url": "/ornaments/lattice-interiors/I044-cells.svg",
+      "sha256": "db8c9dcb417c62123de8f69abc1de6ef31e393bb910b803f4dc0186febc63f6e"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I044.svg",
+      "url": "/ornaments/lattice-interiors/I044.svg",
+      "sha256": "08508de986f5a407e27394af19a8326d034344d69d8c3d7852230e7a9a889ad5"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I045-cells.svg",
+      "url": "/ornaments/lattice-interiors/I045-cells.svg",
+      "sha256": "e653c052ed85b17b6494ceaadbe92c23413621f231dbc0e436bd7277eeee7e09"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I045.svg",
+      "url": "/ornaments/lattice-interiors/I045.svg",
+      "sha256": "a5f6ca8638a0f0fb96cfaccf275e4753dd98bb93ed522d42bbe843bd63c19b44"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I046-cells.svg",
+      "url": "/ornaments/lattice-interiors/I046-cells.svg",
+      "sha256": "588517da5caf0779cc94b0f49b9c8cb3aa390c87cb3caac1a7dc00ed67e6db61"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I046.svg",
+      "url": "/ornaments/lattice-interiors/I046.svg",
+      "sha256": "b02958c9f9406e31836d8ef0dbfc728f3af0d868c5598bcf4233dfb25f76b7ac"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I047-cells.svg",
+      "url": "/ornaments/lattice-interiors/I047-cells.svg",
+      "sha256": "4d9daf879dce3c0874d273025181c743108b4b481ffa7a90e87a37a54510fc7f"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I047.svg",
+      "url": "/ornaments/lattice-interiors/I047.svg",
+      "sha256": "f2aaec3506099b1648b2c2b3d4106a0c3cda3df215c29c2c343ee87a47c67501"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I048-cells.svg",
+      "url": "/ornaments/lattice-interiors/I048-cells.svg",
+      "sha256": "006810f11118e5675312ced5d5245174a2a2ac001781dcc76d053f5434de5c3f"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I048.svg",
+      "url": "/ornaments/lattice-interiors/I048.svg",
+      "sha256": "70567bd9b82c0ec304dbee03202b506fb02fc10d1ca21c2a2c7e091a94c9afdd"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I049-cells.svg",
+      "url": "/ornaments/lattice-interiors/I049-cells.svg",
+      "sha256": "2c6eb9bff1a348d00e2a7967fcfa8d28a67136f9ce9303f4a56e8937aaba788f"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I049.svg",
+      "url": "/ornaments/lattice-interiors/I049.svg",
+      "sha256": "c1d36295aefbba1ec7a0f5c52b32403059a329f04061e0842f2b38aad94cac17"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I050-cells.svg",
+      "url": "/ornaments/lattice-interiors/I050-cells.svg",
+      "sha256": "34eff1080e0f0eb6d5af2aa56895bdccbaed1c444c64b7239d25bf74773b395b"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I050.svg",
+      "url": "/ornaments/lattice-interiors/I050.svg",
+      "sha256": "d859e93cd6d1b2c6dd8fc50937039cb2dde765c829f9ebdbfbe8dc3be96aad5b"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I051-cells.svg",
+      "url": "/ornaments/lattice-interiors/I051-cells.svg",
+      "sha256": "b77f61992d132f41e9775335b9abaaaea065538d43c9c43869eba724d20e726d"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I051.svg",
+      "url": "/ornaments/lattice-interiors/I051.svg",
+      "sha256": "fabea94c23ed762b7827fe42b8001eb85f241f7eb34347421fc05be24eff51dc"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I052-cells.svg",
+      "url": "/ornaments/lattice-interiors/I052-cells.svg",
+      "sha256": "b189dfb62123c0780b96e825cfa54c7cc4181847303ede007906e5f202084f97"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I052.svg",
+      "url": "/ornaments/lattice-interiors/I052.svg",
+      "sha256": "a31a20a7671b34040a85eeb53650e0c5c2662f2059ca3fa0c91899446b1901a1"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I053-cells.svg",
+      "url": "/ornaments/lattice-interiors/I053-cells.svg",
+      "sha256": "e86d449589ef6959876190bf8baf1fedd0bdaaf20a8c1532b5b5c298ba84f845"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I053.svg",
+      "url": "/ornaments/lattice-interiors/I053.svg",
+      "sha256": "76ecfe5266ea5277f0f54cc6badf7a86184fb4b5f82c9355ab3457c81bcf920e"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I054-cells.svg",
+      "url": "/ornaments/lattice-interiors/I054-cells.svg",
+      "sha256": "6b8b1d35d880cbeab15d8bee6813956b8929844fec6fb262fd9c872a53006524"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I054.svg",
+      "url": "/ornaments/lattice-interiors/I054.svg",
+      "sha256": "ab7eaa578a4de9d7136127942f7fe67ab0afded728e22212b5a25f23ce32d065"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I055-cells.svg",
+      "url": "/ornaments/lattice-interiors/I055-cells.svg",
+      "sha256": "0b707ee72d5e4ed9a831af9a978c906889fa462b33e514bbdff1dca866dc9185"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I055.svg",
+      "url": "/ornaments/lattice-interiors/I055.svg",
+      "sha256": "220e384679f9d45f46d1a00e17709f167121be6708599b0544865cdf21e845a7"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I056-cells.svg",
+      "url": "/ornaments/lattice-interiors/I056-cells.svg",
+      "sha256": "c1c1cb9c84d4e57ca3f9068693e4497d70f8a719c55810fe3a37ea2b696ebb72"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I056.svg",
+      "url": "/ornaments/lattice-interiors/I056.svg",
+      "sha256": "02802641d8f0db87099f11acc75d89eb84b7742e6c63447b000a46455eb9105b"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I057-cells.svg",
+      "url": "/ornaments/lattice-interiors/I057-cells.svg",
+      "sha256": "c591367348fe41d587733e5dea9696415dce5d1fcf6040c22b7413e769c2210b"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I057.svg",
+      "url": "/ornaments/lattice-interiors/I057.svg",
+      "sha256": "da4f19f138096c95e982bccc2b3fd5cfb5db1188c263d23a60679d67379ab215"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I058-cells.svg",
+      "url": "/ornaments/lattice-interiors/I058-cells.svg",
+      "sha256": "82e673335ad4273bb853678e94894bfdfb3376ac7fb2e4f598c09f453ed47e3a"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I058.svg",
+      "url": "/ornaments/lattice-interiors/I058.svg",
+      "sha256": "a2429a5381f379370f5c836d484da7c12692021445744b0fb8a56c0bb02daf70"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I059-cells.svg",
+      "url": "/ornaments/lattice-interiors/I059-cells.svg",
+      "sha256": "36834f85405f98bab0444c3136963c33218950cc7391f91721089781e7db786d"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I059.svg",
+      "url": "/ornaments/lattice-interiors/I059.svg",
+      "sha256": "dd8d67c152eef60431fb9653fdf28bd4585b830cc715705b26f27695119c7f18"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I060-cells.svg",
+      "url": "/ornaments/lattice-interiors/I060-cells.svg",
+      "sha256": "4cfb88bc5ddcf7fa4f30e9bab749d90b498f6bd85594caf023affe90f30e09cf"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I060.svg",
+      "url": "/ornaments/lattice-interiors/I060.svg",
+      "sha256": "d63352b0de99076d3bf448c83b7cf590f2074078550b8569973ddb012caad916"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I061-cells.svg",
+      "url": "/ornaments/lattice-interiors/I061-cells.svg",
+      "sha256": "a414f6da972f2c93e87cc3f5ff9aff90d780ae76f0dca6e146232bc39506b144"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I061.svg",
+      "url": "/ornaments/lattice-interiors/I061.svg",
+      "sha256": "7a6ce3b83e3abf388441217fa72bf71a83b36bd7c88463f69634f537f9d8df58"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I062-cells.svg",
+      "url": "/ornaments/lattice-interiors/I062-cells.svg",
+      "sha256": "07d4ef3049c95ce9bb26650735150ce0befde1a828857554ef6a08f4792026b8"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I062.svg",
+      "url": "/ornaments/lattice-interiors/I062.svg",
+      "sha256": "a5ef40dfdc88eb75fd0d3847ff1ca63fe0715278db9c1cf33582a0d4e101c96f"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I063-cells.svg",
+      "url": "/ornaments/lattice-interiors/I063-cells.svg",
+      "sha256": "b1f28613532ae04e23a42a55c39d4b523e71c24464fa291daae2660558133164"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I063.svg",
+      "url": "/ornaments/lattice-interiors/I063.svg",
+      "sha256": "7dbf63ff324b9b9fa9e5f861e4409e048b8c110d60753673c5b18ea712e7c4be"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I064-cells.svg",
+      "url": "/ornaments/lattice-interiors/I064-cells.svg",
+      "sha256": "fab4099458494be4896c03f6a5c0b384d40f9822ae910e52c41547364e00470f"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I064.svg",
+      "url": "/ornaments/lattice-interiors/I064.svg",
+      "sha256": "b6552e8536cc0a87df2c7b3edfcfad4c15df185a4a2446fe7e3a601d7e089d05"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I065-cells.svg",
+      "url": "/ornaments/lattice-interiors/I065-cells.svg",
+      "sha256": "2486781283a5861a1bb245d48e975cb6e258783b8ade854e4c3ff504ac2f3c5b"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I065.svg",
+      "url": "/ornaments/lattice-interiors/I065.svg",
+      "sha256": "7db854383735852b7925e7d10fdde0e14172e8eeec61a17a7471e5e413ea252d"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I066-cells.svg",
+      "url": "/ornaments/lattice-interiors/I066-cells.svg",
+      "sha256": "1cd0e744ee4bab717a717fc5f3ede9e75b046ea34766dad3ef52a3f5ac0a7f7a"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I066.svg",
+      "url": "/ornaments/lattice-interiors/I066.svg",
+      "sha256": "12b5279abe668d7e53d1be3339fd1aa05edff15e45802b8651f420986e73fda3"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I067-cells.svg",
+      "url": "/ornaments/lattice-interiors/I067-cells.svg",
+      "sha256": "b4c5a9d9516686c1b8318f117b4518b6fd07798738de32ba1fcfc09ac7d1d353"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I067.svg",
+      "url": "/ornaments/lattice-interiors/I067.svg",
+      "sha256": "569a385912a3b010bd620505e529872046909c715b5039214a77b37ffe6d04d9"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I068-cells.svg",
+      "url": "/ornaments/lattice-interiors/I068-cells.svg",
+      "sha256": "4955d3a5151dd23f20b22fbf1c5a54f1db1e0246955cb2d57d0e0d658708dad6"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I068.svg",
+      "url": "/ornaments/lattice-interiors/I068.svg",
+      "sha256": "afcc1399743f258a3a36bda1fde15f0a837b0db31976c670f97e9fd64a05a351"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I069-cells.svg",
+      "url": "/ornaments/lattice-interiors/I069-cells.svg",
+      "sha256": "de8b41880bb5d992eeaf6c1a9627404bdc38e494b51a0dee468d49d2fc149584"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I069.svg",
+      "url": "/ornaments/lattice-interiors/I069.svg",
+      "sha256": "07a3d9bf506d81d6b5511bebf4c43a5ca149394bd53ec95d68495d95f5a0cae9"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I070-cells.svg",
+      "url": "/ornaments/lattice-interiors/I070-cells.svg",
+      "sha256": "ca57650a25794812cd6b6149c97ddf283b57a0e3d9085dc293353de56568d1d3"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I070.svg",
+      "url": "/ornaments/lattice-interiors/I070.svg",
+      "sha256": "8abd83632e414c67bfa510d267e624be79efccb8bba350a612a84755a8621faa"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I071-cells.svg",
+      "url": "/ornaments/lattice-interiors/I071-cells.svg",
+      "sha256": "6e5bbd80771b323846e0e13c5da930f3444819957de6abac8dfd324df4863ecb"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I071.svg",
+      "url": "/ornaments/lattice-interiors/I071.svg",
+      "sha256": "706e5b81a702a5fe9b158026095bf2c2d6251e17a458a692785ab980d8d18693"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I072-cells.svg",
+      "url": "/ornaments/lattice-interiors/I072-cells.svg",
+      "sha256": "a0a7544e1a0bcd90b03c1b94b600197ed52504be126073c23a4c55a23279b92d"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I072.svg",
+      "url": "/ornaments/lattice-interiors/I072.svg",
+      "sha256": "1a720d93a1f9e576b45885ed8721f8a4443a6c8ab55cce0d1bb1d2249b4e6bf9"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I073-cells.svg",
+      "url": "/ornaments/lattice-interiors/I073-cells.svg",
+      "sha256": "327370102173596fcab97519da0a3e7a53479a5256d8aa271c2fe85cd609c236"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I073.svg",
+      "url": "/ornaments/lattice-interiors/I073.svg",
+      "sha256": "9e064f49dfd0abff117e249a017d02fdfb3420633097f624bbfc34c8b0094703"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I074-cells.svg",
+      "url": "/ornaments/lattice-interiors/I074-cells.svg",
+      "sha256": "5742383b80516490ce4e22e4a0545a2f1909dde9e42a0d509e696770ad5af868"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I074.svg",
+      "url": "/ornaments/lattice-interiors/I074.svg",
+      "sha256": "3a7897d6fdd2227fc01b8e349f169226731c1971f918cff42fe07aa32a45b235"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I075-cells.svg",
+      "url": "/ornaments/lattice-interiors/I075-cells.svg",
+      "sha256": "6bd7e8d523c2282aecdda0f88edadd711d22ea8052c0b81798f435178d633760"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I075.svg",
+      "url": "/ornaments/lattice-interiors/I075.svg",
+      "sha256": "a07e1c65e5ad5227a5f94786c20b326b17209bcdedd67af1c69a374fa81348fe"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I076-cells.svg",
+      "url": "/ornaments/lattice-interiors/I076-cells.svg",
+      "sha256": "e18417187c38abff65280acacc07c6aa7cb78ff0aa2bb0af48f099e7f476e511"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I076.svg",
+      "url": "/ornaments/lattice-interiors/I076.svg",
+      "sha256": "c1ce4c68b661d6181ea9f926717fb8f0c86fde2782d30efc82d475f6b067d15c"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I077-cells.svg",
+      "url": "/ornaments/lattice-interiors/I077-cells.svg",
+      "sha256": "2c1b732713f3fdb3a709a883c6082b4bbd7c33d78dad02392be05cf3baf865ce"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I077.svg",
+      "url": "/ornaments/lattice-interiors/I077.svg",
+      "sha256": "fe1efa8902bfc61d05de0bbd67ebff8a64e5b9288be9a8beae69b0255e820fcf"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I078-cells.svg",
+      "url": "/ornaments/lattice-interiors/I078-cells.svg",
+      "sha256": "e2ec7ac2fa2325d91479b3647e9bcea3029474ec3d0c9f5cb6d5a1a31834e5bc"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I078.svg",
+      "url": "/ornaments/lattice-interiors/I078.svg",
+      "sha256": "4dd3bad8f835b56c278368fac51377288e4f3e1aa78a4e4dc61efa64afbdff77"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I079-cells.svg",
+      "url": "/ornaments/lattice-interiors/I079-cells.svg",
+      "sha256": "cc77771d66b90f046ef68b1e7ad0a63d2a687d23e0659c3da375986fc3dd1561"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I079.svg",
+      "url": "/ornaments/lattice-interiors/I079.svg",
+      "sha256": "5dd51a6f93d27a78dabc1fe77d9a7de6b181b891d82c4cada289e8829de273ee"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I080-cells.svg",
+      "url": "/ornaments/lattice-interiors/I080-cells.svg",
+      "sha256": "07c97bc251d335f247cf9831c069c026fa1ebee53671e81a99695ed5f8329042"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I080.svg",
+      "url": "/ornaments/lattice-interiors/I080.svg",
+      "sha256": "e5dae9a18f8bc6ab5f04ffd63a45e46735162701afe7b554f95f6002f82fc61b"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I081-cells.svg",
+      "url": "/ornaments/lattice-interiors/I081-cells.svg",
+      "sha256": "212199bc06afd1c185e414266c04b80c8342b5b7edc62e6243eb0bc51f5d2d8d"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I081.svg",
+      "url": "/ornaments/lattice-interiors/I081.svg",
+      "sha256": "0f012141b8cc93546330f588c1d39931f53769971795ef29747ff83f89303754"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I082-cells.svg",
+      "url": "/ornaments/lattice-interiors/I082-cells.svg",
+      "sha256": "661d83ed0c4f687df3a0359d940e7576d4623d7ba57a3ac866bfd67a1825665d"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I082.svg",
+      "url": "/ornaments/lattice-interiors/I082.svg",
+      "sha256": "14fe9f550e0e4baa605e07f92d4c4aa0a5f0a7204839756a36bb789e67c29f46"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I083-cells.svg",
+      "url": "/ornaments/lattice-interiors/I083-cells.svg",
+      "sha256": "76a2a89ed51c8a13bd28e4c783c6c7a71e38a546966d8fe8bd0299d30532e155"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I083.svg",
+      "url": "/ornaments/lattice-interiors/I083.svg",
+      "sha256": "19ea64a336a5297f2078d2e7d52f2a67a0e7d26c65a4a0076d6aef8d09d834aa"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I084-cells.svg",
+      "url": "/ornaments/lattice-interiors/I084-cells.svg",
+      "sha256": "1c70a0cdb6c1dc4367010d2395b18527a664cdfb4b8b9024db3ca14381c8add2"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I084.svg",
+      "url": "/ornaments/lattice-interiors/I084.svg",
+      "sha256": "722d3220ec6244b38da1392def55816a2f0fde3f5dada68d0f48a82c31c3f520"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I085-cells.svg",
+      "url": "/ornaments/lattice-interiors/I085-cells.svg",
+      "sha256": "7950d3ca4e32760e63e0adb17661fe3b3d5d8829b1a0f4c2134b2b263d82ceb9"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I085.svg",
+      "url": "/ornaments/lattice-interiors/I085.svg",
+      "sha256": "23707ee2294079b665b7825bee8a1464f7d85e1ec0d29bb71161f06260a5023c"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I086-cells.svg",
+      "url": "/ornaments/lattice-interiors/I086-cells.svg",
+      "sha256": "46cee501a51c3ece456692009987e7337e5ce80bbf0a0498c9547d605eff11fb"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I086.svg",
+      "url": "/ornaments/lattice-interiors/I086.svg",
+      "sha256": "c87c57a7d4ce7485b3b0fe65f100aab6d4051dc030dcde984926f651cecfe7a2"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I087-cells.svg",
+      "url": "/ornaments/lattice-interiors/I087-cells.svg",
+      "sha256": "799884ff4f323c6861483cf9e1ae3e812be404f05430ef1611311bdd71df2639"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I087.svg",
+      "url": "/ornaments/lattice-interiors/I087.svg",
+      "sha256": "7f153271c3ab745cd1c14a7f5e0ecda2559e57fd67091a1dab6d915c3222773b"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I088-cells.svg",
+      "url": "/ornaments/lattice-interiors/I088-cells.svg",
+      "sha256": "bf2dd173eb5684b78dfcb03010272abcfde4cd9a555d526739b542a1999b9c81"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I088.svg",
+      "url": "/ornaments/lattice-interiors/I088.svg",
+      "sha256": "bcd1b7bbd888f9e91f34109a56d4662f49cda5ce9fa63d150eeb43a52c54d201"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I089-cells.svg",
+      "url": "/ornaments/lattice-interiors/I089-cells.svg",
+      "sha256": "d1cfce02be9b9949e1b8646068d03e33bdd2714d0e686f317393815faa1fac7c"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I089.svg",
+      "url": "/ornaments/lattice-interiors/I089.svg",
+      "sha256": "7916aea8e1dc6e17861a1a7c62fe8a15140123505dc83231680f8e95e30e1d82"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I090-cells.svg",
+      "url": "/ornaments/lattice-interiors/I090-cells.svg",
+      "sha256": "5a1d14702c0345bf410759d2de56a0ed20c446a839463badd635121868b960cc"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I090.svg",
+      "url": "/ornaments/lattice-interiors/I090.svg",
+      "sha256": "cc08a499cfa1f6815a1f40138e235a4c742acd0f8cd907e8422e33d98f3bfc23"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I091-cells.svg",
+      "url": "/ornaments/lattice-interiors/I091-cells.svg",
+      "sha256": "7ad465543ecd9b2334675be7295af323b233fcb95ab394bd993857ba3c1152c9"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I091.svg",
+      "url": "/ornaments/lattice-interiors/I091.svg",
+      "sha256": "5f1b90f1a3aeeff881bd93c0e41890994b7c33e74d92cc46df351bbef15c7760"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I092-cells.svg",
+      "url": "/ornaments/lattice-interiors/I092-cells.svg",
+      "sha256": "189b1f0c34614fd5b4dfc46c9e42bdc6ac432721a9bbde1c43270a270225c9e1"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I092.svg",
+      "url": "/ornaments/lattice-interiors/I092.svg",
+      "sha256": "80adc70e67f3eed7437905b8af882ae5ad5ccdaefddc784f9a213bd6f9666eca"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I093-cells.svg",
+      "url": "/ornaments/lattice-interiors/I093-cells.svg",
+      "sha256": "4b60a1649c48cd6ffc0140d5d5f75576355fe5e52fb77882f69cb0ebbb8b98e1"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I093.svg",
+      "url": "/ornaments/lattice-interiors/I093.svg",
+      "sha256": "f955f6fc2a5810254171463ebbd9fec14b48bcc1a51fe2ac7b1a61d87e0fbc1f"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I094-cells.svg",
+      "url": "/ornaments/lattice-interiors/I094-cells.svg",
+      "sha256": "fe4f95a85247ec0db972460522baa72cbc54a02aaf58e15790ce0094bfe2d62c"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I094.svg",
+      "url": "/ornaments/lattice-interiors/I094.svg",
+      "sha256": "b8c5b57222be53d0d0e175a198cbbf996f6866fca14470abce754462a5d8c71d"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I095-cells.svg",
+      "url": "/ornaments/lattice-interiors/I095-cells.svg",
+      "sha256": "44c4e5d8067ba03d1036218d2a03d8647d63d9c750abf2179c8158c4f4103e5a"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I095.svg",
+      "url": "/ornaments/lattice-interiors/I095.svg",
+      "sha256": "2ea62c48d1853831bf8811533b24e0d64e138b5e0894828d1695bd6cd8441e02"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I096-cells.svg",
+      "url": "/ornaments/lattice-interiors/I096-cells.svg",
+      "sha256": "ad5d8aae0f21b3df170170f0539abb631089304cd4e81cba47c57e828f980e72"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I096.svg",
+      "url": "/ornaments/lattice-interiors/I096.svg",
+      "sha256": "e9b313a342efd96a1f781c7da3aa0428dc047740395ba3346b27e3e8c208e407"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I097-cells.svg",
+      "url": "/ornaments/lattice-interiors/I097-cells.svg",
+      "sha256": "f16425b1003db7e95472457582a8bcdb5b6bf87c82b18f0d34f5406ab5da6cba"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I097.svg",
+      "url": "/ornaments/lattice-interiors/I097.svg",
+      "sha256": "c48d0e3573f8f9965dea1af58d008f43fa28797136bc4a80c69db341dd33e2c8"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I098-cells.svg",
+      "url": "/ornaments/lattice-interiors/I098-cells.svg",
+      "sha256": "2dd94731c42f8d06e43d038e5a7127d8768c3771e2da03ac4c557fddd4d3a12b"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I098.svg",
+      "url": "/ornaments/lattice-interiors/I098.svg",
+      "sha256": "f2a192de83aca956026cb0ba77f21b5970c089d75004d5d2a759080116d7c762"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I099-cells.svg",
+      "url": "/ornaments/lattice-interiors/I099-cells.svg",
+      "sha256": "a2d16dccf3aacfae4e37d070ebdeaf80d355fce79fd2330b84a40bf53f01394f"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I099.svg",
+      "url": "/ornaments/lattice-interiors/I099.svg",
+      "sha256": "f0de478b2eda85d237696982ca1d8eb788ee796cfd22c020bc84b84019a45487"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I100-cells.svg",
+      "url": "/ornaments/lattice-interiors/I100-cells.svg",
+      "sha256": "cce78c0dfeb2a83c414e6599af30316b38e6c790a462579c0be99ea768080a59"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/I100.svg",
+      "url": "/ornaments/lattice-interiors/I100.svg",
+      "sha256": "071b9e3795d7b77e5adb2c081b64797e50bfe7c0d8c06bef94f62c0f962126f6"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/X01.svg",
+      "url": "/ornaments/lattice-interiors/X01.svg",
+      "sha256": "d27333a53e629d8b774b63511fd90399dff98499489c61e2a0e030b43dfce0de"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/X02.svg",
+      "url": "/ornaments/lattice-interiors/X02.svg",
+      "sha256": "d32eecaa2570ff215079fd1759e288ca37856242bc882dc6f3fbe73e44b63b6c"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/X03.svg",
+      "url": "/ornaments/lattice-interiors/X03.svg",
+      "sha256": "145b78fbf2a50e6cb6ad80522f2001bc019db3bf075a35dc7fe72733c0c1c9c4"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/X04.svg",
+      "url": "/ornaments/lattice-interiors/X04.svg",
+      "sha256": "2d9db05a95b4f71f28cfc0e861606b9bfb6aff6f78e43217346b1846044c57cc"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/gallery.html",
+      "url": "/ornaments/lattice-interiors/gallery.html",
+      "sha256": "865c4bc4f2bd5168ff042c84941219457b06521ec3c85a7a85a7c221bd5806ad"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/overview.html",
+      "url": "/ornaments/lattice-interiors/overview.html",
+      "sha256": "65837aa3d58529c94fedcc93893c3d095a2b9acea323471e505c8f98ab9d2654"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/lattice-interiors/rules.html",
+      "url": "/ornaments/lattice-interiors/rules.html",
+      "sha256": "c4539c599376c232fd4c4afe2aafe91610e8dad0ff0be0818fa38f67d47b2759"
+    }
+  ]
+}

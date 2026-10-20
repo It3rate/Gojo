@@ -3,6 +3,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import { fileURLToPath } from 'node:url';
+import { interiorsPublication } from './interiors-publication.mjs';
 const web = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const repo = path.resolve(web, '../..');
 const output = path.join(web, 'ornaments');
@@ -67,14 +68,16 @@ for (const collection of collections) {
 }
 for (const { collection, root, route, sources, gallery } of selections) {
   const urls = publicUrls;
+  const catalogue = JSON.parse(await fs.readFile(inside(root, collection.catalog), 'utf8'));
   const provenance = [];
   const omissions = new Set();
   const omitted = (collection.omitLinks || []).map(pattern => new RegExp(pattern));
   function adapt(html, source) {
+    if (collection.presentation === 'interiors-compact') html = interiorsPublication(html, source, catalogue);
     // A compact publication is a declared presentation subset. Omitted controls
     // and downloads must disappear together; no missing asset is silently mapped
     // to a different design or an HTML fallback.
-    if (collection.presentation === 'refined-compact') {
+    if (['refined-compact', 'interiors-compact'].includes(collection.presentation)) {
       html = html.replace(/<label\b[^>]*>(?:(?!<\/label>)[\s\S])*?\bid=['"](?:curves|construction)['"](?:(?!<\/label>)[\s\S])*?<\/label>/g, '');
       html = html.replace(/<a\b([^>]*?)\bhref=(['"])(.*?)\2([^>]*)>([\s\S]*?)<\/a>/g, (match, before, quote, value) => {
         if (!value || value.startsWith('#') || /^(?:https?:|data:|mailto:)/i.test(value)) return match;
@@ -87,9 +90,11 @@ for (const { collection, root, route, sources, gallery } of selections) {
         return '';
       });
       html = html.replace(/(<p[^>]*>)\s*(?:·\s*)+/g, '$1').replace(/(?:\s*·)+\s*(<\/p>)/g, '$1').replace(/(?:\s*·){2,}/g, ' · ');
-      const notice = '<aside class="publication-scope" aria-label="Publication scope">This website edition includes all 108 designs and their executed unit views. Construction archives, alternate chord views and earlier review images remain in the research checkout. <a href="/ornaments/bourgoin/">Compare the original skeleton studies</a>.</aside>';
-      html = html.replace(/(<p class=['"]intro['"][^>]*>[\s\S]*?<\/p>)/, '$1' + notice);
-      html = html.replace('</head>', '<style>.publication-scope{font-size:13px;max-width:1050px;padding:13px 17px;border-left:3px solid #a28a61;background:#f7f1e5;margin:16px 0 24px}</style></head>');
+      if (collection.presentation === 'refined-compact') {
+        const notice = '<aside class="publication-scope" aria-label="Publication scope">This website edition includes all 108 designs and their executed unit views. Construction archives, alternate chord views and earlier review images remain in the research checkout. <a href="/ornaments/bourgoin/">Compare the original skeleton studies</a>.</aside>';
+        html = html.replace(/(<p class=['"]intro['"][^>]*>[\s\S]*?<\/p>)/, '$1' + notice);
+        html = html.replace('</head>', '<style>.publication-scope{font-size:13px;max-width:1050px;padding:13px 17px;border-left:3px solid #a28a61;background:#f7f1e5;margin:16px 0 24px}</style></head>');
+      }
     }
     // Absolute site URLs also work when Azure serves a directory without a trailing slash.
     html = html.replace(/\b(href|src)=(['"])(.*?)\2/g, (match, attribute, quote, value) => {
@@ -121,7 +126,6 @@ for (const { collection, root, route, sources, gallery } of selections) {
     emit(url.slice('/ornaments/'.length), published);
     if (key(source) === key(gallery)) emit(collection.id + '/index.html', published);
   }
-  const catalogue = JSON.parse(await fs.readFile(inside(root, collection.catalog), 'utf8'));
   const entries = catalogue[collection.countProperty || 'Entries'];
   if (!Array.isArray(entries)) throw new Error('Catalogue count property is not an array: ' + collection.id);
   const count = entries.length;
