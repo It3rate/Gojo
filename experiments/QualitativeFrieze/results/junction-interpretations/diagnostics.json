@@ -1,0 +1,335 @@
+{
+  "schema": "junction-interpretations-v1",
+  "cases": [
+    {
+      "id": "J01",
+      "name": "Crossing without a junction",
+      "description": "Two complete strokes cross in the declared affine support. They have four endpoint sites and two physical components. Both proposed depth orders remain unresolved; neither creates a shared site.",
+      "comparisonGroup": "cross",
+      "source": "J01-source.svg",
+      "actual": "J01-actual.svg",
+      "cues": "J01-cues.svg",
+      "sourceFacts": {
+        "sites": 4,
+        "strokes": 2,
+        "joinedSites": 0,
+        "strokePairConnections": 0,
+        "components": 2,
+        "endpoints": 4,
+        "l": 0,
+        "t": 0,
+        "y": 0,
+        "x": 0
+      },
+      "inferenceFacts": {
+        "projectedCrossings": 1,
+        "strictCrossings": 1,
+        "projectedContacts": 0,
+        "facingGaps": 0,
+        "candidates": 2,
+        "blocked": 0,
+        "open": 0
+      },
+      "candidates": [
+        {
+          "id": "J01-H1",
+          "name": "Retain separate strands; propose a depth order",
+          "image": "J01-H1.svg",
+          "bridgeCount": 0,
+          "cutCount": 0,
+          "depthCount": 1,
+          "obligationCount": 1,
+          "virtualComponents": 2,
+          "open": true
+        },
+        {
+          "id": "J01-H2",
+          "name": "Retain separate strands; propose a depth order",
+          "image": "J01-H2.svg",
+          "bridgeCount": 0,
+          "cutCount": 0,
+          "depthCount": 1,
+          "obligationCount": 1,
+          "virtualComponents": 2,
+          "open": true
+        }
+      ]
+    },
+    {
+      "id": "J02",
+      "name": "One actual four-arm junction",
+      "description": "The same visible support is split into four strokes meeting at one actual shared site. A connection query sees one component and six incident stroke pairs. The projected-crossing reader need not invent an extra intersection.",
+      "comparisonGroup": "cross",
+      "source": "J02-source.svg",
+      "actual": "J02-actual.svg",
+      "cues": "J02-cues.svg",
+      "sourceFacts": {
+        "sites": 5,
+        "strokes": 4,
+        "joinedSites": 1,
+        "strokePairConnections": 6,
+        "components": 1,
+        "endpoints": 4,
+        "l": 0,
+        "t": 0,
+        "y": 0,
+        "x": 1
+      },
+      "inferenceFacts": {
+        "projectedCrossings": 0,
+        "strictCrossings": 0,
+        "projectedContacts": 0,
+        "facingGaps": 0,
+        "candidates": 0,
+        "blocked": 0,
+        "open": 0
+      },
+      "candidates": []
+    },
+    {
+      "id": "J03",
+      "name": "Actual branching Y",
+      "description": "Three strokes share a site with no opposed ray pair. This is actual branching topology; its Y-like read does not claim historical growth, botanical identity, or ownership by one original object.",
+      "comparisonGroup": "branch",
+      "source": "J03-source.svg",
+      "actual": "J03-actual.svg",
+      "cues": "J03-cues.svg",
+      "sourceFacts": {
+        "sites": 4,
+        "strokes": 3,
+        "joinedSites": 1,
+        "strokePairConnections": 3,
+        "components": 1,
+        "endpoints": 3,
+        "l": 0,
+        "t": 0,
+        "y": 1,
+        "x": 0
+      },
+      "inferenceFacts": {
+        "projectedCrossings": 0,
+        "strictCrossings": 0,
+        "projectedContacts": 0,
+        "facingGaps": 0,
+        "candidates": 0,
+        "blocked": 0,
+        "open": 0
+      },
+      "candidates": []
+    },
+    {
+      "id": "J04",
+      "name": "Actual T junction",
+      "description": "One shared site has three incident rays, including one opposed pair. The branch is known; an absorbing or transmitting flow law would still need a separate connection contract.",
+      "comparisonGroup": "tee",
+      "source": "J04-source.svg",
+      "actual": "J04-actual.svg",
+      "cues": "J04-cues.svg",
+      "sourceFacts": {
+        "sites": 4,
+        "strokes": 3,
+        "joinedSites": 1,
+        "strokePairConnections": 3,
+        "components": 1,
+        "endpoints": 3,
+        "l": 0,
+        "t": 1,
+        "y": 0,
+        "x": 0
+      },
+      "inferenceFacts": {
+        "projectedCrossings": 0,
+        "strictCrossings": 0,
+        "projectedContacts": 0,
+        "facingGaps": 0,
+        "candidates": 0,
+        "blocked": 0,
+        "open": 0
+      },
+      "candidates": []
+    },
+    {
+      "id": "J05",
+      "name": "A stem merely reaches the rail",
+      "description": "The picture agrees with the T, but the rail has no middle site and the stem endpoint remains independent. Formal contact support is evidence for a possible reading, not authority to split the rail or weld sites.",
+      "comparisonGroup": "tee",
+      "source": "J05-source.svg",
+      "actual": "J05-actual.svg",
+      "cues": "J05-cues.svg",
+      "sourceFacts": {
+        "sites": 4,
+        "strokes": 2,
+        "joinedSites": 0,
+        "strokePairConnections": 0,
+        "components": 2,
+        "endpoints": 4,
+        "l": 0,
+        "t": 0,
+        "y": 0,
+        "x": 0
+      },
+      "inferenceFacts": {
+        "projectedCrossings": 1,
+        "strictCrossings": 0,
+        "projectedContacts": 1,
+        "facingGaps": 0,
+        "candidates": 2,
+        "blocked": 0,
+        "open": 0
+      },
+      "candidates": [
+        {
+          "id": "J05-H1",
+          "name": "Retain separate strands; propose a depth order",
+          "image": "J05-H1.svg",
+          "bridgeCount": 0,
+          "cutCount": 0,
+          "depthCount": 1,
+          "obligationCount": 1,
+          "virtualComponents": 2,
+          "open": true
+        },
+        {
+          "id": "J05-H2",
+          "name": "Retain separate strands; propose a depth order",
+          "image": "J05-H2.svg",
+          "bridgeCount": 0,
+          "cutCount": 0,
+          "depthCount": 1,
+          "obligationCount": 1,
+          "virtualComponents": 2,
+          "open": true
+        }
+      ]
+    },
+    {
+      "id": "J06",
+      "name": "Gap with an apparent overpass",
+      "description": "Facing collinear endpoints support a proposed continuation. A separate transverse strand occupies the gap, supporting an occlusion hypothesis. Deliberate cut endpoints remain a competing candidate; no hidden line is asserted.",
+      "comparisonGroup": "gap",
+      "source": "J06-source.svg",
+      "actual": "J06-actual.svg",
+      "cues": "J06-cues.svg",
+      "sourceFacts": {
+        "sites": 6,
+        "strokes": 3,
+        "joinedSites": 0,
+        "strokePairConnections": 0,
+        "components": 3,
+        "endpoints": 6,
+        "l": 0,
+        "t": 0,
+        "y": 0,
+        "x": 0
+      },
+      "inferenceFacts": {
+        "projectedCrossings": 0,
+        "strictCrossings": 0,
+        "projectedContacts": 0,
+        "facingGaps": 1,
+        "candidates": 2,
+        "blocked": 0,
+        "open": 0
+      },
+      "candidates": [
+        {
+          "id": "J06-H1",
+          "name": "Propose a hidden continuation",
+          "image": "J06-H1.svg",
+          "bridgeCount": 1,
+          "cutCount": 0,
+          "depthCount": 1,
+          "obligationCount": 1,
+          "virtualComponents": 2,
+          "open": true
+        },
+        {
+          "id": "J06-H2",
+          "name": "Retain separate cut endpoints",
+          "image": "J06-H2.svg",
+          "bridgeCount": 0,
+          "cutCount": 2,
+          "depthCount": 0,
+          "obligationCount": 1,
+          "virtualComponents": 3,
+          "open": true
+        }
+      ]
+    },
+    {
+      "id": "J07",
+      "name": "Offset gap refuses collinear completion",
+      "description": "The separated horizontal strands are offset in the other axis. The blocked witness retains that displacement; a same-direction impression cannot establish a straight hidden continuation.",
+      "comparisonGroup": "gap",
+      "source": "J07-source.svg",
+      "actual": "J07-actual.svg",
+      "cues": "J07-cues.svg",
+      "sourceFacts": {
+        "sites": 6,
+        "strokes": 3,
+        "joinedSites": 0,
+        "strokePairConnections": 0,
+        "components": 3,
+        "endpoints": 6,
+        "l": 0,
+        "t": 0,
+        "y": 0,
+        "x": 0
+      },
+      "inferenceFacts": {
+        "projectedCrossings": 0,
+        "strictCrossings": 0,
+        "projectedContacts": 0,
+        "facingGaps": 0,
+        "candidates": 0,
+        "blocked": 2,
+        "open": 0
+      },
+      "candidates": []
+    },
+    {
+      "id": "J08",
+      "name": "Angular crossing remains open",
+      "description": "Both strokes carry two-axis displacement. This narrow reader deliberately supplies no general angular-intersection solver. The source is complete while that selected question remains open.",
+      "comparisonGroup": "open",
+      "source": "J08-source.svg",
+      "actual": "J08-actual.svg",
+      "cues": "J08-cues.svg",
+      "sourceFacts": {
+        "sites": 4,
+        "strokes": 2,
+        "joinedSites": 0,
+        "strokePairConnections": 0,
+        "components": 2,
+        "endpoints": 4,
+        "l": 0,
+        "t": 0,
+        "y": 0,
+        "x": 0
+      },
+      "inferenceFacts": {
+        "projectedCrossings": 0,
+        "strictCrossings": 0,
+        "projectedContacts": 0,
+        "facingGaps": 0,
+        "candidates": 0,
+        "blocked": 0,
+        "open": 1
+      },
+      "candidates": []
+    }
+  ],
+  "nativeElements": 2439,
+  "nativeNumericElements": 0,
+  "archiveRoundTrip": true,
+  "limits": [
+    "Sources are authored native stroke observations, not parsed photographs or generated-recipe metadata.",
+    "Shared sites, formal projected intersections, continuation proposals, depth-order proposals and legal material transfer are separate reads.",
+    "The projected-intersection reader is bounded to declared axis-aligned intervals. Unsupported angular intersections and unresolved formal orders remain open.",
+    "Every continuation or depth proposal retains open obligations. No candidate installs a junction or modifies the observed source.",
+    "Component counts under a continuation proposal describe an observational grouping, not accepted physical connectivity or a transfer route.",
+    "T/Y/X/L summaries are native ray-incidence descriptions. L does not establish a right angle, and T does not establish absorption.",
+    "Screen angles, equal illustrative lengths, line weight and colour are renderer choices. They are not input to the inference reader.",
+    "Glyph recognition, inferred object ancestry, automatic junction commitment, learned salience and general weave reconstruction remain untested."
+  ]
+}

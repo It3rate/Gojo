@@ -1,5 +1,16 @@
 # Qualitative frieze generators
 
+The [junction interpretation gallery](results/junction-interpretations/gallery.html)
+separates actual endpoint incidence, projected crossing/contact cues and open
+continuation/depth hypotheses in eight native examples. Compare the
+[overview](results/junction-interpretations/overview.html) or read the
+[study](../../Gojo/docs/GojoJunctionInterpretationExperiments.md).
+
+```powershell
+dotnet run --project experiments/QualitativeFrieze -- --junction-interpretations
+node experiments/QualitativeFrieze/tools/check-junction-interpretations.cjs
+```
+
 The [construction-context gallery](results/construction-contexts/gallery.html)
 compares seventeen executable path steps and three alternative shared-field
 constructions. The [overview](results/construction-contexts/overview.html)

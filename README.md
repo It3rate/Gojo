@@ -132,6 +132,10 @@ optional construction memory and overlapping views consumed by new flow.
 Their [interactive gallery](experiments/QualitativeFrieze/results/construction-contexts/gallery.html)
 and [all-step overview](experiments/QualitativeFrieze/results/construction-contexts/overview.html)
 compare seventeen path steps and three shared-field constructions.
+The [junction interpretation study](Gojo/docs/GojoJunctionInterpretationExperiments.md)
+then separates actual joins from projected crossings, endpoint contacts and
+speculative gap continuations. Its [gallery](experiments/QualitativeFrieze/results/junction-interpretations/gallery.html)
+retains competing cut and depth readings without altering source topology.
 The [coloured ornament collection](experiments/QualitativeFrieze/results/coloured-ornament/gallery.html)
 adds native landmark-bound petals, leaves and medallions, with three selectable
 focuses guided by Jones's colour and hierarchy proposals. Its

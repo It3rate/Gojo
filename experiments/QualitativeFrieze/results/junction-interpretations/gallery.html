@@ -1,0 +1,356 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Junctions and possible interpretations · Gojo</title><style>
+*{box-sizing:border-box}:root{--ink:#27454a;--muted:#6a766e;--paper:#fbf8ef;--edge:#d7d6c7;--gold:#b97635;--plum:#a45c85}body{margin:0;background:#eeeee2;color:var(--ink);font:16px/1.6 system-ui,sans-serif}main{max-width:1530px;margin:auto;padding:40px 28px 70px}header{max-width:1050px}.eyebrow{font-size:12px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#9b6841}h1{font:clamp(32px,4vw,50px)/1.15 Georgia,serif;margin:12px 0 20px}h2{font:29px/1.2 Georgia,serif;margin:10px 0}h3{font-size:15px;font-weight:650;margin:0 0 10px}p{margin:10px 0 16px}.lede{font-size:19px}.nav{display:flex;flex-wrap:wrap;gap:9px;margin:20px 0 30px}.nav a{border:1px solid var(--edge);border-radius:20px;padding:6px 13px;background:var(--paper);text-decoration:none;font-size:14px}a{color:#246a70;text-underline-offset:3px}.legend{background:#e1e6d9;border-left:3px solid #849465;padding:15px 20px;max-width:1100px;margin:25px 0 35px}.case{margin:35px 0 50px;scroll-margin-top:20px}.case>p{max-width:1050px}.triptych{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:17px}.panel{min-width:0;background:var(--paper);border:1px solid var(--edge);padding:20px}.panel img{width:100%;height:auto;display:block}.picture-link{display:block}dl{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin:15px 0 0;border-top:1px solid var(--edge);padding-top:13px}dt{font-size:11px;line-height:1.3;color:var(--muted)}dd{font-size:22px;margin:2px 0}.support{font-size:13px;color:var(--muted);min-height:45px;margin-top:13px}.hypothesis-choice{display:block;width:100%;font:13px system-ui;padding:8px;border:1px solid #b5b9a8;background:#fffdf7;color:var(--ink);margin-top:12px}.status{font-size:13px;line-height:1.4;padding:9px 11px;background:#f1e7d3;border-left:3px solid var(--gold);margin:12px 0}.status.open{border-color:var(--plum);background:#eee4e9}.alternatives{font-size:13px;color:var(--muted)}details{border-block:1px solid var(--edge);padding:14px 0;margin:30px 0}summary{cursor:pointer;font-weight:650}li{margin:7px 0}.footer{font-size:14px;color:var(--muted);border-top:1px solid var(--edge);padding-top:20px}.comparison{font-size:13px}svg{max-width:100%}@media(max-width:950px){.triptych{grid-template-columns:1fr}.panel{padding:16px}.panel img{max-height:300px;object-fit:contain}.support{min-height:0}main{padding:25px 16px}.nav{gap:7px}.nav a{font-size:13px}}
+</style></head><body><main><header><span class="eyebrow">Gojo · local evidence and competing readings</span><h1>Where a line meets another<br>is a question.</h1><p class="lede">The same visible support can describe independent strands, a shared junction, or an interrupted continuation. These examples separate what the source actually connects from what a local cue makes worth considering.</p><p>Solid dots mark actual shared sites; hollow dots mark endpoints. Dashed gold rings mark projected cues without creating sites. In candidate views, purple dashes propose a continuation and orange proposes a front/back order. Every proposal remains unresolved.</p><nav class="nav"><a href="overview.html">All examples together</a><a href="diagnostics.json">Captured query evidence</a><a href="junctions.gojo.json.gz">Native Gojo archive</a><a href="../construction-contexts/gallery.html">Construction contexts</a></nav></header>
+<div class="legend"><strong>Keep the questions separate:</strong> does it share a site, continue as a strand, sit in front of another, belong to one object, or permit transfer? A useful cue for one question does not answer all the others.<p>Open read evidence counts missing or unresolved cue reads. A completely supported cue can still have several open interpretations.</p></div><div id="cases"></div><details><summary>What this round establishes and leaves open</summary><ul id="limits"></ul><p>Inputs expose native sites, strokes, formal unmeasured words and actual incidence. No renderer coordinates or image parsing feed the reader. The source is never rewritten when a candidate is selected.</p><p>Junction cues can support completion, while context can change the interpretation. See <a href="https://bpb-us-e1.wpmucdn.com/sites.dartmouth.edu/dist/9/2172/files/2020/01/2.pdf">Tse and Albert (1998)</a>. Our proposal rules are a bounded engineering experiment rather than a model of human perception.</p></details><footer class="footer"><p id="native-summary"></p><p>Connection counts name their basis: sites with multiple incident strokes, incident stroke pairs, connected source components, or components under an explicitly selected observational continuation. None supplies a material transfer law.</p><p><a href="overview.html">Overview</a> · <a href="diagnostics.json">Diagnostics</a> · <a href="junctions.gojo.json.gz">Native archive</a></p></footer><script id="data" type="application/json">{
+  "schema": "junction-interpretations-v1",
+  "cases": [
+    {
+      "id": "J01",
+      "name": "Crossing without a junction",
+      "description": "Two complete strokes cross in the declared affine support. They have four endpoint sites and two physical components. Both proposed depth orders remain unresolved; neither creates a shared site.",
+      "comparisonGroup": "cross",
+      "source": "J01-source.svg",
+      "actual": "J01-actual.svg",
+      "cues": "J01-cues.svg",
+      "sourceFacts": {
+        "sites": 4,
+        "strokes": 2,
+        "joinedSites": 0,
+        "strokePairConnections": 0,
+        "components": 2,
+        "endpoints": 4,
+        "l": 0,
+        "t": 0,
+        "y": 0,
+        "x": 0
+      },
+      "inferenceFacts": {
+        "projectedCrossings": 1,
+        "strictCrossings": 1,
+        "projectedContacts": 0,
+        "facingGaps": 0,
+        "candidates": 2,
+        "blocked": 0,
+        "open": 0
+      },
+      "candidates": [
+        {
+          "id": "J01-H1",
+          "name": "Retain separate strands; propose a depth order",
+          "image": "J01-H1.svg",
+          "bridgeCount": 0,
+          "cutCount": 0,
+          "depthCount": 1,
+          "obligationCount": 1,
+          "virtualComponents": 2,
+          "open": true
+        },
+        {
+          "id": "J01-H2",
+          "name": "Retain separate strands; propose a depth order",
+          "image": "J01-H2.svg",
+          "bridgeCount": 0,
+          "cutCount": 0,
+          "depthCount": 1,
+          "obligationCount": 1,
+          "virtualComponents": 2,
+          "open": true
+        }
+      ]
+    },
+    {
+      "id": "J02",
+      "name": "One actual four-arm junction",
+      "description": "The same visible support is split into four strokes meeting at one actual shared site. A connection query sees one component and six incident stroke pairs. The projected-crossing reader need not invent an extra intersection.",
+      "comparisonGroup": "cross",
+      "source": "J02-source.svg",
+      "actual": "J02-actual.svg",
+      "cues": "J02-cues.svg",
+      "sourceFacts": {
+        "sites": 5,
+        "strokes": 4,
+        "joinedSites": 1,
+        "strokePairConnections": 6,
+        "components": 1,
+        "endpoints": 4,
+        "l": 0,
+        "t": 0,
+        "y": 0,
+        "x": 1
+      },
+      "inferenceFacts": {
+        "projectedCrossings": 0,
+        "strictCrossings": 0,
+        "projectedContacts": 0,
+        "facingGaps": 0,
+        "candidates": 0,
+        "blocked": 0,
+        "open": 0
+      },
+      "candidates": []
+    },
+    {
+      "id": "J03",
+      "name": "Actual branching Y",
+      "description": "Three strokes share a site with no opposed ray pair. This is actual branching topology; its Y-like read does not claim historical growth, botanical identity, or ownership by one original object.",
+      "comparisonGroup": "branch",
+      "source": "J03-source.svg",
+      "actual": "J03-actual.svg",
+      "cues": "J03-cues.svg",
+      "sourceFacts": {
+        "sites": 4,
+        "strokes": 3,
+        "joinedSites": 1,
+        "strokePairConnections": 3,
+        "components": 1,
+        "endpoints": 3,
+        "l": 0,
+        "t": 0,
+        "y": 1,
+        "x": 0
+      },
+      "inferenceFacts": {
+        "projectedCrossings": 0,
+        "strictCrossings": 0,
+        "projectedContacts": 0,
+        "facingGaps": 0,
+        "candidates": 0,
+        "blocked": 0,
+        "open": 0
+      },
+      "candidates": []
+    },
+    {
+      "id": "J04",
+      "name": "Actual T junction",
+      "description": "One shared site has three incident rays, including one opposed pair. The branch is known; an absorbing or transmitting flow law would still need a separate connection contract.",
+      "comparisonGroup": "tee",
+      "source": "J04-source.svg",
+      "actual": "J04-actual.svg",
+      "cues": "J04-cues.svg",
+      "sourceFacts": {
+        "sites": 4,
+        "strokes": 3,
+        "joinedSites": 1,
+        "strokePairConnections": 3,
+        "components": 1,
+        "endpoints": 3,
+        "l": 0,
+        "t": 1,
+        "y": 0,
+        "x": 0
+      },
+      "inferenceFacts": {
+        "projectedCrossings": 0,
+        "strictCrossings": 0,
+        "projectedContacts": 0,
+        "facingGaps": 0,
+        "candidates": 0,
+        "blocked": 0,
+        "open": 0
+      },
+      "candidates": []
+    },
+    {
+      "id": "J05",
+      "name": "A stem merely reaches the rail",
+      "description": "The picture agrees with the T, but the rail has no middle site and the stem endpoint remains independent. Formal contact support is evidence for a possible reading, not authority to split the rail or weld sites.",
+      "comparisonGroup": "tee",
+      "source": "J05-source.svg",
+      "actual": "J05-actual.svg",
+      "cues": "J05-cues.svg",
+      "sourceFacts": {
+        "sites": 4,
+        "strokes": 2,
+        "joinedSites": 0,
+        "strokePairConnections": 0,
+        "components": 2,
+        "endpoints": 4,
+        "l": 0,
+        "t": 0,
+        "y": 0,
+        "x": 0
+      },
+      "inferenceFacts": {
+        "projectedCrossings": 1,
+        "strictCrossings": 0,
+        "projectedContacts": 1,
+        "facingGaps": 0,
+        "candidates": 2,
+        "blocked": 0,
+        "open": 0
+      },
+      "candidates": [
+        {
+          "id": "J05-H1",
+          "name": "Retain separate strands; propose a depth order",
+          "image": "J05-H1.svg",
+          "bridgeCount": 0,
+          "cutCount": 0,
+          "depthCount": 1,
+          "obligationCount": 1,
+          "virtualComponents": 2,
+          "open": true
+        },
+        {
+          "id": "J05-H2",
+          "name": "Retain separate strands; propose a depth order",
+          "image": "J05-H2.svg",
+          "bridgeCount": 0,
+          "cutCount": 0,
+          "depthCount": 1,
+          "obligationCount": 1,
+          "virtualComponents": 2,
+          "open": true
+        }
+      ]
+    },
+    {
+      "id": "J06",
+      "name": "Gap with an apparent overpass",
+      "description": "Facing collinear endpoints support a proposed continuation. A separate transverse strand occupies the gap, supporting an occlusion hypothesis. Deliberate cut endpoints remain a competing candidate; no hidden line is asserted.",
+      "comparisonGroup": "gap",
+      "source": "J06-source.svg",
+      "actual": "J06-actual.svg",
+      "cues": "J06-cues.svg",
+      "sourceFacts": {
+        "sites": 6,
+        "strokes": 3,
+        "joinedSites": 0,
+        "strokePairConnections": 0,
+        "components": 3,
+        "endpoints": 6,
+        "l": 0,
+        "t": 0,
+        "y": 0,
+        "x": 0
+      },
+      "inferenceFacts": {
+        "projectedCrossings": 0,
+        "strictCrossings": 0,
+        "projectedContacts": 0,
+        "facingGaps": 1,
+        "candidates": 2,
+        "blocked": 0,
+        "open": 0
+      },
+      "candidates": [
+        {
+          "id": "J06-H1",
+          "name": "Propose a hidden continuation",
+          "image": "J06-H1.svg",
+          "bridgeCount": 1,
+          "cutCount": 0,
+          "depthCount": 1,
+          "obligationCount": 1,
+          "virtualComponents": 2,
+          "open": true
+        },
+        {
+          "id": "J06-H2",
+          "name": "Retain separate cut endpoints",
+          "image": "J06-H2.svg",
+          "bridgeCount": 0,
+          "cutCount": 2,
+          "depthCount": 0,
+          "obligationCount": 1,
+          "virtualComponents": 3,
+          "open": true
+        }
+      ]
+    },
+    {
+      "id": "J07",
+      "name": "Offset gap refuses collinear completion",
+      "description": "The separated horizontal strands are offset in the other axis. The blocked witness retains that displacement; a same-direction impression cannot establish a straight hidden continuation.",
+      "comparisonGroup": "gap",
+      "source": "J07-source.svg",
+      "actual": "J07-actual.svg",
+      "cues": "J07-cues.svg",
+      "sourceFacts": {
+        "sites": 6,
+        "strokes": 3,
+        "joinedSites": 0,
+        "strokePairConnections": 0,
+        "components": 3,
+        "endpoints": 6,
+        "l": 0,
+        "t": 0,
+        "y": 0,
+        "x": 0
+      },
+      "inferenceFacts": {
+        "projectedCrossings": 0,
+        "strictCrossings": 0,
+        "projectedContacts": 0,
+        "facingGaps": 0,
+        "candidates": 0,
+        "blocked": 2,
+        "open": 0
+      },
+      "candidates": []
+    },
+    {
+      "id": "J08",
+      "name": "Angular crossing remains open",
+      "description": "Both strokes carry two-axis displacement. This narrow reader deliberately supplies no general angular-intersection solver. The source is complete while that selected question remains open.",
+      "comparisonGroup": "open",
+      "source": "J08-source.svg",
+      "actual": "J08-actual.svg",
+      "cues": "J08-cues.svg",
+      "sourceFacts": {
+        "sites": 4,
+        "strokes": 2,
+        "joinedSites": 0,
+        "strokePairConnections": 0,
+        "components": 2,
+        "endpoints": 4,
+        "l": 0,
+        "t": 0,
+        "y": 0,
+        "x": 0
+      },
+      "inferenceFacts": {
+        "projectedCrossings": 0,
+        "strictCrossings": 0,
+        "projectedContacts": 0,
+        "facingGaps": 0,
+        "candidates": 0,
+        "blocked": 0,
+        "open": 1
+      },
+      "candidates": []
+    }
+  ],
+  "nativeElements": 2439,
+  "nativeNumericElements": 0,
+  "archiveRoundTrip": true,
+  "limits": [
+    "Sources are authored native stroke observations, not parsed photographs or generated-recipe metadata.",
+    "Shared sites, formal projected intersections, continuation proposals, depth-order proposals and legal material transfer are separate reads.",
+    "The projected-intersection reader is bounded to declared axis-aligned intervals. Unsupported angular intersections and unresolved formal orders remain open.",
+    "Every continuation or depth proposal retains open obligations. No candidate installs a junction or modifies the observed source.",
+    "Component counts under a continuation proposal describe an observational grouping, not accepted physical connectivity or a transfer route.",
+    "T/Y/X/L summaries are native ray-incidence descriptions. L does not establish a right angle, and T does not establish absorption.",
+    "Screen angles, equal illustrative lengths, line weight and colour are renderer choices. They are not input to the inference reader.",
+    "Glyph recognition, inferred object ancestry, automatic junction commitment, learned salience and general weave reconstruction remain untested."
+  ]
+}</script><script>
+'use strict';const model=JSON.parse(document.querySelector('#data').textContent),escape=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const facts=entries=>entries.map(([k,v])=>`<div><dt>${escape(k)}</dt><dd>${v}</dd></div>`).join('');
+for(const item of model.cases){const article=document.createElement('article');article.className='case';article.dataset.case=item.id;article.id=item.id;
+ const s=item.sourceFacts,f=item.inferenceFacts,peers=model.cases.filter(peer=>peer.id!==item.id&&peer.comparisonGroup===item.comparisonGroup);
+ article.innerHTML=`<span class="eyebrow">${escape(item.id)} · local read</span><h2>${escape(item.name)}</h2><p>${escape(item.description)}</p><p class="comparison">${peers.map(peer=>`Compare <a href="gallery.html?case=${peer.id}">${escape(peer.id+' · '+peer.name)}</a>`).join(' · ')}</p><div class="triptych"><section class="panel"><h3>Observed drawing</h3><a class="picture-link" href="${item.source}"><img src="${item.source}" alt="${escape(item.name)} observed drawing"></a><p class="support">Equal visible support can preserve different endpoint identities and actual connections.</p><dl class="observation-facts">${facts([['Actual strokes',s.strokes],['Actual site roles',s.sites],['Native numbers',0]])}</dl></section><section class="panel"><h3>What the source actually connects</h3><a class="picture-link" href="${item.actual}"><img src="${item.actual}" alt="${escape(item.name)} actual shared site topology"></a><p class="support">Solid dots are actual shared sites; endpoint coincidence alone supplies no connection.</p><dl class="source-facts">${facts([['Sites with ≥2 strokes',s.joinedSites],['Incident stroke pairs',s.strokePairConnections],['Source components',s.components],['Endpoints',s.endpoints],['T / Y / X',s.t+' / '+s.y+' / '+s.x],['Nonstraight 2-ray sites',s.l]])}</dl></section><section class="panel hypothesis"><h3>Cues and possible interpretations</h3><a class="picture-link candidate-link"><img class="candidate-image" alt=""></a><label><span class="alternatives">Inspect a reading</span><select class="hypothesis-choice" aria-label="${escape(item.id)} interpretation"></select></label><p class="status"></p><p class="support candidate-description"></p><dl class="candidate-facts"></dl></section></div>`;
+ const choice=article.querySelector('.hypothesis-choice');choice.add(new Option('Cue evidence only','-1'));item.candidates.forEach((candidate,index)=>choice.add(new Option(`${index+1}. ${candidate.name}`,String(index))));
+ function update(){const index=Number(choice.value),candidate=item.candidates[index],src=candidate?candidate.image:item.cues;
+  article.dataset.hypothesis=candidate?candidate.id:'cues';article.querySelector('.candidate-image').src=src;article.querySelector('.candidate-image').alt=`${item.id}: ${candidate?candidate.name:'cue evidence only'}`;article.querySelector('.candidate-link').href=src;
+  const status=article.querySelector('.status');status.className='status'+(candidate||f.open?' open':'');
+  status.textContent=candidate?'Open hypothesis · source remains unchanged':f.open?`${f.open} open evidence items · a missing read is not a negative finding`:item.candidates.length?`${item.candidates.length} candidate readings retained`:'No candidate proposed by this bounded reader';
+  article.querySelector('.candidate-description').textContent=candidate?`${candidate.bridgeCount} proposed continuations · ${candidate.cutCount} retained cut endpoints · ${candidate.depthCount} proposed depth orders. Components under this observational reading: ${candidate.virtualComponents}; actual source: ${s.components}.`:'A strict crossing is interior to both strokes; projected endpoint contact is a separate cue. Neither creates a shared site.';
+  article.querySelector('.candidate-facts').innerHTML=facts([['Strict projected crossings',f.strictCrossings],['Projected endpoint contacts',f.projectedContacts],['Facing collinear gaps',f.facingGaps],['Candidate readings',f.candidates],['Blocked cue evidence',f.blocked],['Open read evidence',f.open]]);
+ }
+ choice.addEventListener('change',update);choice.value=item.candidates.length?'0':'-1';update();document.querySelector('#cases').append(article);
+}
+document.querySelector('#limits').innerHTML=model.limits.map(s=>`<li>${escape(s)}</li>`).join('');document.querySelector('#native-summary').textContent=`${model.cases.length} authored source cases · ${model.nativeElements.toLocaleString()} captured native participants · ${model.nativeNumericElements} numeric participants · native archive round-trip verified.`;
+const requested=new URLSearchParams(location.search).get('case');if(requested)document.getElementById(requested)?.scrollIntoView();
+</script></main></body></html>
