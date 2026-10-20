@@ -1,5 +1,14 @@
 # Qualitative frieze generators
 
+The [equivalence revision gallery](results/equivalence-revision/gallery.html)
+explores provisional shared structure, local exceptions, conflicting suppliers
+and limited receivers. Compare the [study notes](../../Gojo/docs/GojoEquivalenceRevisionExperiments.md).
+
+```powershell
+dotnet run --project experiments/QualitativeFrieze -- --equivalence-revision
+node experiments/QualitativeFrieze/tools/check-equivalence-revision.cjs
+```
+
 The [communication gallery](results/communication-loop/gallery.html) compares
 sparse native messages, fresh receiver executions, independent output reads
 and one-hint repairs. Exhaustive hint ablation also checks which earlier hints

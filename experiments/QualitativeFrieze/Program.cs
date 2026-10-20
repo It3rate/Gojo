@@ -25,6 +25,7 @@ if (args.Contains("--lattice-interiors")) return InteriorLatticeExperiment.Run(a
 if (args.Contains("--construction-contexts")) return ConstructionContextExperiment.Run(args.Where(argument => argument != "--construction-contexts").ToArray());
 if (args.Contains("--junction-interpretations")) return JunctionInterpretationExperiment.Run(args.Where(argument => argument != "--junction-interpretations").ToArray());
 if (args.Contains("--communication-loop")) return CommunicationLoopExperiment.Run(args.Where(argument => argument != "--communication-loop").ToArray());
+if (args.Contains("--equivalence-revision")) return EquivalenceRevisionExperiment.Run(args.Where(argument => argument != "--equivalence-revision").ToArray());
 if (args.Contains("--bourgoin-colour")) return BourgoinColourExperiment.Run(args.Where(argument => argument != "--bourgoin-colour").ToArray());
 if (args.Contains("--ornament-designs")) return BourgoinColourExperiment.RunDesigns(args.Where(argument => argument != "--ornament-designs").ToArray());
 if (args.Contains("--ornament-details")) return BourgoinColourExperiment.RunDetails(args.Where(argument => argument != "--ornament-details").ToArray());

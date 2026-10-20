@@ -1,0 +1,995 @@
+{
+  "schema": "equivalence-revision-v1",
+  "cases": [
+    {
+      "id": "E01",
+      "name": "Square-like first, rectangular on refinement",
+      "description": "A formal common-reach default is revised without retracting the true coarse contour. Screen right angles are presentation; no Euclidean square inference is claimed.",
+      "stages": [
+        {
+          "id": "E01-a",
+          "name": "A useful default",
+          "description": "Coarse headings and actual closure admit both constructions. Reusing one parameter is the simpler provisional choice; no source spans have been published.",
+          "image": "E01-a.svg",
+          "chosen": "Shared-reach four-cycle",
+          "coarseClosed": true,
+          "cycles": 1,
+          "eligible": 2,
+          "pareto": 1,
+          "carried": 0,
+          "withdrawn": 0,
+          "lowerResolution": false,
+          "blockedExact": false,
+          "conflicts": 0,
+          "workingScope": "All published sources",
+          "sampleValues": [
+            {
+              "role": "Cell 1 \u00B7 horizontal",
+              "word": "u"
+            },
+            {
+              "role": "Cell 1 \u00B7 vertical",
+              "word": "u"
+            }
+          ],
+          "publications": [],
+          "candidates": [
+            {
+              "id": "square",
+              "name": "Shared-reach four-cycle",
+              "chosen": true,
+              "eligible": true,
+              "pareto": true,
+              "parameters": 1,
+              "nativeCost": 203,
+              "supported": 0,
+              "refuted": 0,
+              "open": 1,
+              "blocked": 0,
+              "conflicts": 0,
+              "workingRefuted": 0,
+              "sampleRefuted": 0,
+              "workingSampleRefuted": 0,
+              "retained": 1,
+              "withdrawn": 0
+            },
+            {
+              "id": "rectangle",
+              "name": "Unequal-reach four-cycle",
+              "chosen": false,
+              "eligible": true,
+              "pareto": false,
+              "parameters": 2,
+              "nativeCost": 207,
+              "supported": 0,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0,
+              "conflicts": 0,
+              "workingRefuted": 0,
+              "sampleRefuted": 0,
+              "workingSampleRefuted": 0,
+              "retained": 0,
+              "withdrawn": 0
+            }
+          ]
+        },
+        {
+          "id": "E01-b",
+          "name": "Reveal a distinguishing span",
+          "description": "The source now exposes two shared-basis participations horizontally and one vertically. The shared-span assumption is refuted; the same coarse four-cycle remains valid.",
+          "image": "E01-b.svg",
+          "chosen": "Unequal-reach four-cycle",
+          "coarseClosed": true,
+          "cycles": 1,
+          "eligible": 1,
+          "pareto": 1,
+          "carried": 0,
+          "withdrawn": 1,
+          "lowerResolution": false,
+          "blockedExact": false,
+          "conflicts": 0,
+          "workingScope": "All published sources",
+          "sampleValues": [
+            {
+              "role": "Cell 1 \u00B7 horizontal",
+              "word": "u \u00B7 u"
+            },
+            {
+              "role": "Cell 1 \u00B7 vertical",
+              "word": "u"
+            }
+          ],
+          "publications": [
+            {
+              "source": "Supplier 1",
+              "revision": "Publication 1",
+              "working": true,
+              "values": [
+                {
+                  "role": "Cell 1 \u00B7 horizontal",
+                  "word": "u \u00B7 u"
+                },
+                {
+                  "role": "Cell 1 \u00B7 vertical",
+                  "word": "u"
+                }
+              ]
+            }
+          ],
+          "candidates": [
+            {
+              "id": "square",
+              "name": "Shared-reach four-cycle",
+              "chosen": false,
+              "eligible": false,
+              "pareto": false,
+              "parameters": 1,
+              "nativeCost": 203,
+              "supported": 0,
+              "refuted": 1,
+              "open": 0,
+              "blocked": 0,
+              "conflicts": 0,
+              "workingRefuted": 1,
+              "sampleRefuted": 1,
+              "workingSampleRefuted": 1,
+              "retained": 0,
+              "withdrawn": 1
+            },
+            {
+              "id": "rectangle",
+              "name": "Unequal-reach four-cycle",
+              "chosen": true,
+              "eligible": true,
+              "pareto": true,
+              "parameters": 2,
+              "nativeCost": 207,
+              "supported": 0,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0,
+              "conflicts": 0,
+              "workingRefuted": 0,
+              "sampleRefuted": 0,
+              "workingSampleRefuted": 0,
+              "retained": 0,
+              "withdrawn": 0
+            }
+          ]
+        },
+        {
+          "id": "E01-c",
+          "name": "Send the distinction next time",
+          "description": "The next receiver receives the actual distinguishing publication immediately and need not make and repair the same default.",
+          "image": "E01-c.svg",
+          "chosen": "Unequal-reach four-cycle",
+          "coarseClosed": true,
+          "cycles": 1,
+          "eligible": 1,
+          "pareto": 1,
+          "carried": 0,
+          "withdrawn": 0,
+          "lowerResolution": false,
+          "blockedExact": false,
+          "conflicts": 0,
+          "workingScope": "All published sources",
+          "sampleValues": [
+            {
+              "role": "Cell 1 \u00B7 horizontal",
+              "word": "u \u00B7 u"
+            },
+            {
+              "role": "Cell 1 \u00B7 vertical",
+              "word": "u"
+            }
+          ],
+          "publications": [
+            {
+              "source": "Supplier 1",
+              "revision": "Publication 1",
+              "working": true,
+              "values": [
+                {
+                  "role": "Cell 1 \u00B7 horizontal",
+                  "word": "u \u00B7 u"
+                },
+                {
+                  "role": "Cell 1 \u00B7 vertical",
+                  "word": "u"
+                }
+              ]
+            }
+          ],
+          "candidates": [
+            {
+              "id": "square",
+              "name": "Shared-reach four-cycle",
+              "chosen": false,
+              "eligible": false,
+              "pareto": false,
+              "parameters": 1,
+              "nativeCost": 203,
+              "supported": 0,
+              "refuted": 1,
+              "open": 0,
+              "blocked": 0,
+              "conflicts": 0,
+              "workingRefuted": 1,
+              "sampleRefuted": 1,
+              "workingSampleRefuted": 1,
+              "retained": 0,
+              "withdrawn": 1
+            },
+            {
+              "id": "rectangle",
+              "name": "Unequal-reach four-cycle",
+              "chosen": true,
+              "eligible": true,
+              "pareto": true,
+              "parameters": 2,
+              "nativeCost": 207,
+              "supported": 0,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0,
+              "conflicts": 0,
+              "workingRefuted": 0,
+              "sampleRefuted": 0,
+              "workingSampleRefuted": 0,
+              "retained": 0,
+              "withdrawn": 0
+            }
+          ]
+        }
+      ],
+      "hasNextMessage": true
+    },
+    {
+      "id": "E02",
+      "name": "Repeated cells with one local exception",
+      "description": "A finite reusable template changes one binding, keeping unaffected correspondences inspectable.",
+      "stages": [
+        {
+          "id": "E02-a",
+          "name": "Reuse through the hidden cell",
+          "description": "The exposed outside cells agree. The middle cell remains unspecified, so uniform sharing is an economical guess.",
+          "image": "E02-a.svg",
+          "chosen": "One shared parameter across three cells",
+          "coarseClosed": true,
+          "cycles": 3,
+          "eligible": 2,
+          "pareto": 1,
+          "carried": 0,
+          "withdrawn": 0,
+          "lowerResolution": false,
+          "blockedExact": false,
+          "conflicts": 0,
+          "workingScope": "All published sources",
+          "sampleValues": [
+            {
+              "role": "Cell 1 \u00B7 horizontal",
+              "word": "u"
+            },
+            {
+              "role": "Cell 1 \u00B7 vertical",
+              "word": "u"
+            },
+            {
+              "role": "Cell 2 \u00B7 horizontal",
+              "word": "u"
+            },
+            {
+              "role": "Cell 2 \u00B7 vertical",
+              "word": "u"
+            },
+            {
+              "role": "Cell 3 \u00B7 horizontal",
+              "word": "u"
+            },
+            {
+              "role": "Cell 3 \u00B7 vertical",
+              "word": "u"
+            }
+          ],
+          "publications": [
+            {
+              "source": "Supplier 1",
+              "revision": "Publication 1",
+              "working": true,
+              "values": [
+                {
+                  "role": "Cell 1 \u00B7 horizontal",
+                  "word": "u"
+                },
+                {
+                  "role": "Cell 1 \u00B7 vertical",
+                  "word": "u"
+                },
+                {
+                  "role": "Cell 3 \u00B7 horizontal",
+                  "word": "u"
+                },
+                {
+                  "role": "Cell 3 \u00B7 vertical",
+                  "word": "u"
+                }
+              ]
+            }
+          ],
+          "candidates": [
+            {
+              "id": "uniform",
+              "name": "One shared parameter across three cells",
+              "chosen": true,
+              "eligible": true,
+              "pareto": true,
+              "parameters": 1,
+              "nativeCost": 337,
+              "supported": 6,
+              "refuted": 0,
+              "open": 9,
+              "blocked": 0,
+              "conflicts": 0,
+              "workingRefuted": 0,
+              "sampleRefuted": 0,
+              "workingSampleRefuted": 0,
+              "retained": 15,
+              "withdrawn": 0
+            },
+            {
+              "id": "exception",
+              "name": "One local middle-span exception",
+              "chosen": false,
+              "eligible": true,
+              "pareto": false,
+              "parameters": 2,
+              "nativeCost": 341,
+              "supported": 6,
+              "refuted": 0,
+              "open": 4,
+              "blocked": 0,
+              "conflicts": 0,
+              "workingRefuted": 0,
+              "sampleRefuted": 0,
+              "workingSampleRefuted": 0,
+              "retained": 10,
+              "withdrawn": 0
+            },
+            {
+              "id": "wide",
+              "name": "Repeat the wider cell everywhere",
+              "chosen": false,
+              "eligible": false,
+              "pareto": false,
+              "parameters": 2,
+              "nativeCost": 349,
+              "supported": 2,
+              "refuted": 0,
+              "open": 4,
+              "blocked": 0,
+              "conflicts": 0,
+              "workingRefuted": 0,
+              "sampleRefuted": 2,
+              "workingSampleRefuted": 2,
+              "retained": 6,
+              "withdrawn": 0
+            }
+          ]
+        },
+        {
+          "id": "E02-b",
+          "name": "Keep the rule, scope the exception",
+          "description": "Only the middle horizontal span differs. The revised interpretation preserves outside equivalences and all three closures instead of abandoning the template.",
+          "image": "E02-b.svg",
+          "chosen": "One local middle-span exception",
+          "coarseClosed": true,
+          "cycles": 3,
+          "eligible": 1,
+          "pareto": 1,
+          "carried": 10,
+          "withdrawn": 5,
+          "lowerResolution": false,
+          "blockedExact": false,
+          "conflicts": 0,
+          "workingScope": "All published sources",
+          "sampleValues": [
+            {
+              "role": "Cell 1 \u00B7 horizontal",
+              "word": "u"
+            },
+            {
+              "role": "Cell 1 \u00B7 vertical",
+              "word": "u"
+            },
+            {
+              "role": "Cell 2 \u00B7 horizontal",
+              "word": "u \u00B7 u"
+            },
+            {
+              "role": "Cell 2 \u00B7 vertical",
+              "word": "u"
+            },
+            {
+              "role": "Cell 3 \u00B7 horizontal",
+              "word": "u"
+            },
+            {
+              "role": "Cell 3 \u00B7 vertical",
+              "word": "u"
+            }
+          ],
+          "publications": [
+            {
+              "source": "Supplier 1",
+              "revision": "Publication 2",
+              "working": true,
+              "values": [
+                {
+                  "role": "Cell 1 \u00B7 horizontal",
+                  "word": "u"
+                },
+                {
+                  "role": "Cell 1 \u00B7 vertical",
+                  "word": "u"
+                },
+                {
+                  "role": "Cell 2 \u00B7 horizontal",
+                  "word": "u \u00B7 u"
+                },
+                {
+                  "role": "Cell 2 \u00B7 vertical",
+                  "word": "u"
+                },
+                {
+                  "role": "Cell 3 \u00B7 horizontal",
+                  "word": "u"
+                },
+                {
+                  "role": "Cell 3 \u00B7 vertical",
+                  "word": "u"
+                }
+              ]
+            }
+          ],
+          "candidates": [
+            {
+              "id": "uniform",
+              "name": "One shared parameter across three cells",
+              "chosen": false,
+              "eligible": false,
+              "pareto": false,
+              "parameters": 1,
+              "nativeCost": 337,
+              "supported": 10,
+              "refuted": 5,
+              "open": 0,
+              "blocked": 0,
+              "conflicts": 0,
+              "workingRefuted": 5,
+              "sampleRefuted": 1,
+              "workingSampleRefuted": 1,
+              "retained": 10,
+              "withdrawn": 5
+            },
+            {
+              "id": "exception",
+              "name": "One local middle-span exception",
+              "chosen": true,
+              "eligible": true,
+              "pareto": true,
+              "parameters": 2,
+              "nativeCost": 341,
+              "supported": 10,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0,
+              "conflicts": 0,
+              "workingRefuted": 0,
+              "sampleRefuted": 0,
+              "workingSampleRefuted": 0,
+              "retained": 10,
+              "withdrawn": 0
+            },
+            {
+              "id": "wide",
+              "name": "Repeat the wider cell everywhere",
+              "chosen": false,
+              "eligible": false,
+              "pareto": false,
+              "parameters": 2,
+              "nativeCost": 349,
+              "supported": 4,
+              "refuted": 2,
+              "open": 0,
+              "blocked": 0,
+              "conflicts": 0,
+              "workingRefuted": 2,
+              "sampleRefuted": 2,
+              "workingSampleRefuted": 2,
+              "retained": 4,
+              "withdrawn": 2
+            }
+          ]
+        }
+      ],
+      "hasNextMessage": true
+    },
+    {
+      "id": "E03",
+      "name": "Contradiction is retained, context selects a working route",
+      "description": "Choosing an actionable interpretation is separate from declaring all observations reconciled.",
+      "stages": [
+        {
+          "id": "E03-a",
+          "name": "Two incompatible reports",
+          "description": "Two exposed routes assert incompatible spans for the same roles, source instance and observation event. No hypothesis satisfies the whole evidence set.",
+          "image": null,
+          "chosen": null,
+          "coarseClosed": false,
+          "cycles": 0,
+          "eligible": 0,
+          "pareto": 0,
+          "carried": 0,
+          "withdrawn": 0,
+          "lowerResolution": false,
+          "blockedExact": false,
+          "conflicts": 2,
+          "workingScope": "All published sources",
+          "sampleValues": [],
+          "publications": [
+            {
+              "source": "Supplier 1",
+              "revision": "Publication 1",
+              "working": true,
+              "values": [
+                {
+                  "role": "Cell 1 \u00B7 horizontal",
+                  "word": "u"
+                },
+                {
+                  "role": "Cell 1 \u00B7 vertical",
+                  "word": "u"
+                }
+              ]
+            },
+            {
+              "source": "Supplier 2",
+              "revision": "Publication 1",
+              "working": true,
+              "values": [
+                {
+                  "role": "Cell 1 \u00B7 horizontal",
+                  "word": "u \u00B7 u"
+                },
+                {
+                  "role": "Cell 1 \u00B7 vertical",
+                  "word": "u"
+                }
+              ]
+            }
+          ],
+          "candidates": [
+            {
+              "id": "square",
+              "name": "Shared-reach four-cycle",
+              "chosen": false,
+              "eligible": false,
+              "pareto": false,
+              "parameters": 1,
+              "nativeCost": 203,
+              "supported": 1,
+              "refuted": 1,
+              "open": 0,
+              "blocked": 0,
+              "conflicts": 2,
+              "workingRefuted": 1,
+              "sampleRefuted": 1,
+              "workingSampleRefuted": 1,
+              "retained": 0,
+              "withdrawn": 1
+            },
+            {
+              "id": "rectangle",
+              "name": "Unequal-reach four-cycle",
+              "chosen": false,
+              "eligible": false,
+              "pareto": false,
+              "parameters": 2,
+              "nativeCost": 207,
+              "supported": 0,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0,
+              "conflicts": 1,
+              "workingRefuted": 0,
+              "sampleRefuted": 1,
+              "workingSampleRefuted": 1,
+              "retained": 0,
+              "withdrawn": 0
+            }
+          ]
+        },
+        {
+          "id": "E03-b",
+          "name": "Work provisionally through route A",
+          "description": "An explicit context scopes working selection to route A. The contradictory route-B report remains visible; the conflict has not been settled.",
+          "image": "E03-b.svg",
+          "chosen": "Shared-reach four-cycle",
+          "coarseClosed": true,
+          "cycles": 1,
+          "eligible": 1,
+          "pareto": 1,
+          "carried": 0,
+          "withdrawn": 0,
+          "lowerResolution": false,
+          "blockedExact": false,
+          "conflicts": 2,
+          "workingScope": "Supplier 1",
+          "sampleValues": [
+            {
+              "role": "Cell 1 \u00B7 horizontal",
+              "word": "u"
+            },
+            {
+              "role": "Cell 1 \u00B7 vertical",
+              "word": "u"
+            }
+          ],
+          "publications": [
+            {
+              "source": "Supplier 1",
+              "revision": "Publication 1",
+              "working": true,
+              "values": [
+                {
+                  "role": "Cell 1 \u00B7 horizontal",
+                  "word": "u"
+                },
+                {
+                  "role": "Cell 1 \u00B7 vertical",
+                  "word": "u"
+                }
+              ]
+            },
+            {
+              "source": "Supplier 2",
+              "revision": "Publication 1",
+              "working": false,
+              "values": [
+                {
+                  "role": "Cell 1 \u00B7 horizontal",
+                  "word": "u \u00B7 u"
+                },
+                {
+                  "role": "Cell 1 \u00B7 vertical",
+                  "word": "u"
+                }
+              ]
+            }
+          ],
+          "candidates": [
+            {
+              "id": "square",
+              "name": "Shared-reach four-cycle",
+              "chosen": true,
+              "eligible": true,
+              "pareto": true,
+              "parameters": 1,
+              "nativeCost": 203,
+              "supported": 1,
+              "refuted": 1,
+              "open": 0,
+              "blocked": 0,
+              "conflicts": 2,
+              "workingRefuted": 0,
+              "sampleRefuted": 1,
+              "workingSampleRefuted": 0,
+              "retained": 1,
+              "withdrawn": 0
+            },
+            {
+              "id": "rectangle",
+              "name": "Unequal-reach four-cycle",
+              "chosen": false,
+              "eligible": false,
+              "pareto": false,
+              "parameters": 2,
+              "nativeCost": 207,
+              "supported": 0,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0,
+              "conflicts": 1,
+              "workingRefuted": 0,
+              "sampleRefuted": 1,
+              "workingSampleRefuted": 1,
+              "retained": 0,
+              "withdrawn": 0
+            }
+          ]
+        },
+        {
+          "id": "E03-c",
+          "name": "Work provisionally through route B",
+          "description": "Changing the declared working source changes the working construction. Both reports remain assessed and the disagreement is still present.",
+          "image": "E03-c.svg",
+          "chosen": "Unequal-reach four-cycle",
+          "coarseClosed": true,
+          "cycles": 1,
+          "eligible": 1,
+          "pareto": 1,
+          "carried": 0,
+          "withdrawn": 1,
+          "lowerResolution": false,
+          "blockedExact": false,
+          "conflicts": 2,
+          "workingScope": "Supplier 2",
+          "sampleValues": [
+            {
+              "role": "Cell 1 \u00B7 horizontal",
+              "word": "u \u00B7 u"
+            },
+            {
+              "role": "Cell 1 \u00B7 vertical",
+              "word": "u"
+            }
+          ],
+          "publications": [
+            {
+              "source": "Supplier 1",
+              "revision": "Publication 1",
+              "working": false,
+              "values": [
+                {
+                  "role": "Cell 1 \u00B7 horizontal",
+                  "word": "u"
+                },
+                {
+                  "role": "Cell 1 \u00B7 vertical",
+                  "word": "u"
+                }
+              ]
+            },
+            {
+              "source": "Supplier 2",
+              "revision": "Publication 1",
+              "working": true,
+              "values": [
+                {
+                  "role": "Cell 1 \u00B7 horizontal",
+                  "word": "u \u00B7 u"
+                },
+                {
+                  "role": "Cell 1 \u00B7 vertical",
+                  "word": "u"
+                }
+              ]
+            }
+          ],
+          "candidates": [
+            {
+              "id": "square",
+              "name": "Shared-reach four-cycle",
+              "chosen": false,
+              "eligible": false,
+              "pareto": false,
+              "parameters": 1,
+              "nativeCost": 203,
+              "supported": 1,
+              "refuted": 1,
+              "open": 0,
+              "blocked": 0,
+              "conflicts": 2,
+              "workingRefuted": 1,
+              "sampleRefuted": 1,
+              "workingSampleRefuted": 1,
+              "retained": 0,
+              "withdrawn": 1
+            },
+            {
+              "id": "rectangle",
+              "name": "Unequal-reach four-cycle",
+              "chosen": true,
+              "eligible": true,
+              "pareto": true,
+              "parameters": 2,
+              "nativeCost": 207,
+              "supported": 0,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0,
+              "conflicts": 1,
+              "workingRefuted": 0,
+              "sampleRefuted": 1,
+              "workingSampleRefuted": 0,
+              "retained": 0,
+              "withdrawn": 0
+            }
+          ]
+        }
+      ],
+      "hasNextMessage": true
+    },
+    {
+      "id": "E04",
+      "name": "Capability changes the answer contract",
+      "description": "Lower-resolution success is useful and explicit; it does not certify exact reconstruction of the source spans.",
+      "stages": [
+        {
+          "id": "E04-a",
+          "name": "The fine request is blocked",
+          "description": "The engine can execute only the shared-reach program. Exposed unequal source spans refute that candidate; missing capability cannot make the fine evidence disappear.",
+          "image": null,
+          "chosen": null,
+          "coarseClosed": false,
+          "cycles": 0,
+          "eligible": 0,
+          "pareto": 0,
+          "carried": 0,
+          "withdrawn": 0,
+          "lowerResolution": false,
+          "blockedExact": false,
+          "conflicts": 0,
+          "workingScope": "All published sources",
+          "sampleValues": [],
+          "publications": [
+            {
+              "source": "Supplier 1",
+              "revision": "Publication 1",
+              "working": true,
+              "values": [
+                {
+                  "role": "Cell 1 \u00B7 horizontal",
+                  "word": "u \u00B7 u"
+                },
+                {
+                  "role": "Cell 1 \u00B7 vertical",
+                  "word": "u"
+                }
+              ]
+            }
+          ],
+          "candidates": [
+            {
+              "id": "square",
+              "name": "Shared-reach four-cycle",
+              "chosen": false,
+              "eligible": false,
+              "pareto": false,
+              "parameters": 1,
+              "nativeCost": 203,
+              "supported": 0,
+              "refuted": 1,
+              "open": 0,
+              "blocked": 0,
+              "conflicts": 0,
+              "workingRefuted": 1,
+              "sampleRefuted": 1,
+              "workingSampleRefuted": 1,
+              "retained": 0,
+              "withdrawn": 1
+            },
+            {
+              "id": "rectangle",
+              "name": "Unequal-reach four-cycle",
+              "chosen": false,
+              "eligible": false,
+              "pareto": false,
+              "parameters": 2,
+              "nativeCost": 207,
+              "supported": 0,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 1,
+              "conflicts": 0,
+              "workingRefuted": 0,
+              "sampleRefuted": 0,
+              "workingSampleRefuted": 0,
+              "retained": 0,
+              "withdrawn": 0
+            }
+          ]
+        },
+        {
+          "id": "E04-b",
+          "name": "Accept an explicitly coarser answer",
+          "description": "A separate topology-only working request leaves the fine publication outside the selected read. The blocked exact request and unaccounted fine evidence are carried alongside the useful four-cycle output.",
+          "image": "E04-b.svg",
+          "chosen": "Shared-reach four-cycle",
+          "coarseClosed": true,
+          "cycles": 1,
+          "eligible": 1,
+          "pareto": 1,
+          "carried": 0,
+          "withdrawn": 0,
+          "lowerResolution": true,
+          "blockedExact": true,
+          "conflicts": 0,
+          "workingScope": "Topology only \u00B7 fine span reports carried outside this read",
+          "sampleValues": [
+            {
+              "role": "Cell 1 \u00B7 horizontal",
+              "word": "u"
+            },
+            {
+              "role": "Cell 1 \u00B7 vertical",
+              "word": "u"
+            }
+          ],
+          "publications": [
+            {
+              "source": "Supplier 1",
+              "revision": "Publication 1",
+              "working": false,
+              "values": [
+                {
+                  "role": "Cell 1 \u00B7 horizontal",
+                  "word": "u \u00B7 u"
+                },
+                {
+                  "role": "Cell 1 \u00B7 vertical",
+                  "word": "u"
+                }
+              ]
+            }
+          ],
+          "candidates": [
+            {
+              "id": "square",
+              "name": "Shared-reach four-cycle",
+              "chosen": true,
+              "eligible": true,
+              "pareto": true,
+              "parameters": 1,
+              "nativeCost": 203,
+              "supported": 0,
+              "refuted": 1,
+              "open": 1,
+              "blocked": 0,
+              "conflicts": 0,
+              "workingRefuted": 0,
+              "sampleRefuted": 1,
+              "workingSampleRefuted": 0,
+              "retained": 1,
+              "withdrawn": 0
+            },
+            {
+              "id": "rectangle",
+              "name": "Unequal-reach four-cycle",
+              "chosen": false,
+              "eligible": false,
+              "pareto": false,
+              "parameters": 2,
+              "nativeCost": 207,
+              "supported": 0,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 1,
+              "conflicts": 0,
+              "workingRefuted": 0,
+              "sampleRefuted": 0,
+              "workingSampleRefuted": 0,
+              "retained": 0,
+              "withdrawn": 0
+            }
+          ]
+        }
+      ],
+      "hasNextMessage": true
+    }
+  ],
+  "stages": 10,
+  "nativeElements": 84826,
+  "nativeNumericElements": 0,
+  "archiveRoundTrip": true,
+  "limits": [
+    "This is a finite candidate-selection and revision fixture, with authored publication and context schedules. No statistical model has been trained.",
+    "Native comparisons concern repeated positive participation in an explicitly shared unmeasured basis. They do not prove Euclidean square geometry or physical cross-axis calibration.",
+    "Published source values, proposed equalities and realized sample values remain separate. A generated equal-span sample is not new evidence that the source has equal spans.",
+    "An explicit working-source scope permits a conditional choice while all conflicting reports remain visible. Choosing a route does not reconcile the suppliers.",
+    "A topology-only answer carries the blocked finer request. Its square-like display is one coarse sample, not a certification of source proportions.",
+    "Selection uses capability and source conformance, then separate parameter/program complexity axes and an explicit preference. It is not a universal simplicity or aesthetic law.",
+    "Fresh acknowledged output is inspected through a history-blind topology publication and a separately exposed actual-stroke participation read. Rendering feeds neither reader."
+  ]
+}
