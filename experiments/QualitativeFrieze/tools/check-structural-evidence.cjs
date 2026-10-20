@@ -18,6 +18,26 @@ const directory = path.dirname(gallery), screenshots = path.resolve('artifacts/s
   for (const summary of model.summaries) { assert.equal(summary.resolved, 5); assert.equal(summary.open, 1); }
   const transferred = model.episodes.filter(e => e.policy === 'transferred' && e.control === null);
   assert.equal(transferred.filter(e => e.correctAtVocabulary).length, 5);
+  for (const episode of model.episodes) {
+    assert.equal(episode.stages[0].name, '0 · Start: no source facts yet');
+    for (const [stageIndex, stage] of episode.stages.entries()) {
+      for (const read of stage.reads) {
+        assert.ok(Object.hasOwn(read, 'answerToQuestion'), `${episode.id}: candidate answer must be exported`);
+        if (stageIndex === 0) assert.equal(read.answerToQuestion, null);
+        else assert.ok(['Yes', 'No', 'Open'].includes(read.answerToQuestion));
+      }
+    }
+  }
+  const closure = model.episodes.find(e => e.caseId === 'S01' && e.policy === 'fixed' && e.control === null);
+  assert.equal(closure.stages[0].eligible.length, 4);
+  assert.equal(closure.stages[1].answer, 'No');
+  assert.equal(closure.stages[1].eligible.length, 4);
+  assert.ok(closure.stages[1].reads.every(read => read.answerToQuestion === 'No'));
+  assert.equal(closure.stages[2].question, 'Is there a closed loop with exactly three edges?');
+  assert.equal(closure.stages[2].answer, 'Yes');
+  assert.deepEqual(closure.stages[2].eligible, [3]);
+  assert.equal(closure.stages[2].reads.find(read => read.index === 1).answerToQuestion, 'No');
+  assert.equal(closure.stages[2].reads.find(read => read.index === 3).answerToQuestion, 'Yes');
   const ambiguous = transferred.find(e => e.caseId === 'S06');
   assert.equal(ambiguous.correctAmbiguity, true); assert.equal(ambiguous.stages.at(-1).eligible.length, 2);
   const controls = Object.fromEntries(model.episodes.filter(e => e.control).map(e => [e.control, e]));
@@ -60,13 +80,48 @@ const directory = path.dirname(gallery), screenshots = path.resolve('artifacts/s
           const stage = episode.stages[index];
           for (const candidate of example.candidates) {
             const card = article.locator(`[data-candidate="${candidate.index}"]`);
+            const read = stage.reads.find(r => r.index === candidate.index);
             assert.equal(await card.evaluate(e => e.classList.contains('rejected')), !stage.eligible.includes(candidate.index));
+            const candidateAnswer = await card.locator('.candidate-answer').textContent();
+            if (index === 0) assert.match(candidateAnswer, /Not asked yet/);
+            else {
+              assert.match(candidateAnswer, /^This candidate answers:/);
+              assert.ok(candidateAnswer.includes(read.answerToQuestion), `${episode.id}: displayed answer disagrees with native prediction`);
+            }
+            assert.match(await card.locator('.badge').textContent(), /^(Still possible|Ruled out|Not yet tested|Blocked)/);
+          }
+          if (index === 0) {
+            assert.match(await article.locator('.evidence').textContent(), /start|starting|baseline/i);
+            assert.equal(await article.locator('.candidate.resolved').count(), 0);
           }
         }
       }
       await article.locator('select').selectOption(example.id + '-transferred');
       await article.locator('[data-step]').last().click();
     }
+    const closureArticle = page.locator('#cases article[data-case="S01"]');
+    await closureArticle.locator('select').selectOption(closure.id);
+    await closureArticle.locator('[data-step="1"]').click();
+    assert.equal(await closureArticle.locator('.candidate.resolved').count(), 0);
+    assert.equal(await closureArticle.locator('.candidate.kept').count(), 4);
+    assert.equal(await closureArticle.locator('.candidate.rejected').count(), 0);
+    for (const candidate of await closureArticle.locator('.candidate').all()) {
+      assert.equal((await candidate.locator('.candidate-answer').textContent()).trim(), 'This candidate answers: No');
+      assert.match(await candidate.locator('.badge').textContent(), /^Still possible/);
+    }
+    assert.match(await closureArticle.locator('.evidence').textContent(), /cannot distinguish|does not distinguish|nondiscriminating|no alternatives.*ruled out/i);
+    await closureArticle.screenshot({ path: path.join(screenshots, 'nondiscriminating-no.png') });
+    await closureArticle.locator('[data-step="2"]').click();
+    assert.match(await closureArticle.locator('.evidence').textContent(), /closed loop with exactly three edges/);
+    assert.match(await closureArticle.locator('[data-candidate="1"] .candidate-answer').textContent(), /answers: No/);
+    assert.match(await closureArticle.locator('[data-candidate="1"] .badge').textContent(), /^Ruled out/);
+    assert.match(await closureArticle.locator('[data-candidate="3"] .candidate-answer').textContent(), /answers: Yes/);
+    assert.equal(await closureArticle.locator('.candidate.resolved').count(), 1);
+    await closureArticle.screenshot({ path: path.join(screenshots, 'closed-loop-question.png') });
+    const crossingArticle = page.locator('#cases article[data-case="S02"]');
+    assert.equal(await crossingArticle.locator('.candidate.resolved').count(), 1);
+    assert.match(await crossingArticle.locator('.candidate.resolved .candidate-answer').textContent(), /answers: No/,
+      'A sole survivor can answer No: green is compatibility, not an affirmative answer');
     await check();
     await page.screenshot({ path: path.join(screenshots, 'gallery-desktop.png'), fullPage: true });
     await page.locator('#cases article[data-case="S02"]').screenshot({ path: path.join(screenshots, 'crossing-question.png') });

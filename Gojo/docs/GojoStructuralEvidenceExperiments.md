@@ -152,6 +152,16 @@ The gallery makes the interpretation process visible:
 
 - Stage zero shows all admitted constructions. Later buttons show a question,
   a supplier reply and which candidates remain compatible.
+- Stage zero is the actual baseline before any source reply in this run. It is
+  not a future placeholder. The receiver already knows its candidate library
+  and exposed question ports, but has not yet asked the source anything.
+- Each card states its own predicted answer separately from whether it remains
+  possible. Source **No** and candidate **No** agree; that candidate is not
+  ruled out. Neutral cards remain possible, red cards are ruled out, and green
+  indicates a sole remaining candidate rather than an affirmative answer.
+- "Cycle" means a closed loop returning to its starting site. The question
+  banners use "closed loop with exactly three/four edges" to distinguish this
+  from an open path containing the same number of edges.
 - Solid copper dots mark actual shared sites. Hollow endpoint circles mark
   free endpoints. Paired hollow purple markers distinguish separate site
   identities at one displayed position.

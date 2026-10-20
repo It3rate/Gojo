@@ -1,10 +1,10 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Beyond rectangles · Gojo structural inquiry</title>
 <style>
-*{box-sizing:border-box}body{margin:0;background:#eeeee2;color:#27454a;font:16px/1.6 system-ui,sans-serif}main{max-width:1500px;margin:auto;padding:35px 25px 70px}header{max-width:1120px}h1,h2{font-family:Georgia,serif;font-weight:400;line-height:1.2}h1{font-size:clamp(34px,4vw,52px);margin:12px 0 20px}h2{font-size:30px}.eyebrow{font-size:12px;text-transform:uppercase;letter-spacing:.13em;color:#a96640;font-weight:700}.lede{font-size:19px}a{color:#246a70;text-underline-offset:3px}.nav{display:flex;gap:10px;flex-wrap:wrap;margin:20px 0}.nav a{padding:6px 13px;border:1px solid #d5d5c6;border-radius:20px;background:#fbf8ef;text-decoration:none;font-size:14px}.note,.legend{background:#e1e6d9;border-left:3px solid #849465;padding:15px 20px;margin:24px 0}.legend{background:#e8e5f0;border-color:#805b91}.dot{display:inline-block;width:10px;height:10px;border-radius:50%;background:#b76b45}.hollow{display:inline-block;width:11px;height:11px;border:2px solid #718780;border-radius:50%}.separate{display:inline-block;color:#805b91;font-weight:bold;letter-spacing:-5px;margin-right:5px}.table-wrap{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:14px}th,td{padding:9px 12px;border-bottom:1px solid #d5d5c6;text-align:left;vertical-align:top}th{font-weight:650}section{margin:35px 0}.case{background:#fbf8ef;border:1px solid #d5d5c6;padding:24px;margin:35px 0;scroll-margin-top:20px}.meta{font-size:14px;color:#617269}.context{padding:10px 15px;background:#efeddf;border-left:3px solid #a8a580}.controls{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:18px 0}select,button{font:inherit;color:inherit;border:1px solid #bac8bd;background:#fbf8ef;border-radius:5px;padding:7px 12px}button{cursor:pointer;font-size:14px}button.current{background:#28616a;color:white;border-color:#28616a}.stages{display:flex;gap:7px;flex-wrap:wrap}.evidence{padding:14px 18px;background:#e7ece3;border-left:3px solid #718780;margin:18px 0;min-height:95px}.evidence strong{display:block}.evidence.open{background:#f2e8d7;border-color:#b9803f}.candidates{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}.candidates.four{grid-template-columns:repeat(4,minmax(0,1fr))}.candidate{border:2px solid #d5d5c6;padding:14px;min-width:0;background:#fbf8ef;transition:border-color .15s}.candidate h3{font-size:16px;line-height:1.4;margin:0 0 8px;min-height:44px}.candidate img{width:100%;height:auto;display:block}.candidate.kept{border-color:#638068;background:#edf1e5}.candidate.rejected{border-color:#bd8d83;background:#f3e9e2}.candidate.rejected img{opacity:.45}.candidate.blocked{border-style:dashed;border-color:#b9803f}.badge{font-size:13px;line-height:1.4;margin:10px 0 3px}.source{display:grid;grid-template-columns:minmax(180px,420px) 1fr;gap:20px;align-items:center}.source img{width:100%;height:auto}.status{padding:12px 15px;border-left:3px solid #638068;background:#e6eddf;margin:18px 0}.status.open{background:#f1e6d5;border-color:#b9803f}details{border-top:1px solid #d5d5c6;padding:13px 0;margin-top:16px}summary{cursor:pointer;font-size:14px}.small{font-size:14px}.footer{font-size:14px;border-top:1px solid #d5d5c6;margin-top:30px;padding-top:20px}.control-case{border-left:4px solid #b9803f}@media(max-width:1100px){.candidates.four{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:750px){main{padding:25px 14px}.case{padding:17px}.candidates,.candidates.four{grid-template-columns:1fr}.source{grid-template-columns:1fr}.candidate img{max-height:230px;object-fit:contain}.candidate h3{min-height:0}th,td{padding:8px}}
+*{box-sizing:border-box}body{margin:0;background:#eeeee2;color:#27454a;font:16px/1.6 system-ui,sans-serif}main{max-width:1500px;margin:auto;padding:35px 25px 70px}header{max-width:1120px}h1,h2{font-family:Georgia,serif;font-weight:400;line-height:1.2}h1{font-size:clamp(34px,4vw,52px);margin:12px 0 20px}h2{font-size:30px}.eyebrow{font-size:12px;text-transform:uppercase;letter-spacing:.13em;color:#a96640;font-weight:700}.lede{font-size:19px}a{color:#246a70;text-underline-offset:3px}.nav{display:flex;gap:10px;flex-wrap:wrap;margin:20px 0}.nav a{padding:6px 13px;border:1px solid #d5d5c6;border-radius:20px;background:#fbf8ef;text-decoration:none;font-size:14px}.note,.legend{background:#e1e6d9;border-left:3px solid #849465;padding:15px 20px;margin:24px 0}.legend{background:#e8e5f0;border-color:#805b91}.dot{display:inline-block;width:10px;height:10px;border-radius:50%;background:#b76b45}.hollow{display:inline-block;width:11px;height:11px;border:2px solid #718780;border-radius:50%}.separate{display:inline-block;color:#805b91;font-weight:bold;letter-spacing:-5px;margin-right:5px}.table-wrap{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:14px}th,td{padding:9px 12px;border-bottom:1px solid #d5d5c6;text-align:left;vertical-align:top}th{font-weight:650}section{margin:35px 0}.case{background:#fbf8ef;border:1px solid #d5d5c6;padding:24px;margin:35px 0;scroll-margin-top:20px}.meta{font-size:14px;color:#617269}.context{padding:10px 15px;background:#efeddf;border-left:3px solid #a8a580}.controls{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:18px 0}select,button{font:inherit;color:inherit;border:1px solid #bac8bd;background:#fbf8ef;border-radius:5px;padding:7px 12px}button{cursor:pointer;font-size:14px}button.current{background:#28616a;color:white;border-color:#28616a}.stages{display:flex;gap:7px;flex-wrap:wrap}.evidence{padding:14px 18px;background:#e8edef;border-left:3px solid #718780;margin:18px 0;min-height:95px}.evidence strong{display:block}.evidence.open{background:#f2e8d7;border-color:#b9803f}.candidates{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}.candidates.four{grid-template-columns:repeat(4,minmax(0,1fr))}.candidate{border:2px solid #d5d5c6;padding:14px;min-width:0;background:#fbf8ef;transition:border-color .15s}.candidate h3{font-size:16px;line-height:1.4;margin:0 0 8px;min-height:44px}.candidate img{width:100%;height:auto;display:block}.candidate.kept{border-color:#8198a0;background:#f0f2ef}.candidate.resolved{border-color:#638068;background:#e6eddf}.candidate.uncertain{border-color:#b9803f;background:#f3ead9}.candidate-answer{font-size:14px;font-weight:650;margin:12px 0 6px}.candidate.rejected{border-color:#bd8d83;background:#f3e9e2}.candidate.rejected img{opacity:.45}.candidate.blocked{border-style:dashed;border-color:#b9803f}.badge{font-size:13px;line-height:1.4;margin:10px 0 3px}.source{display:grid;grid-template-columns:minmax(180px,420px) 1fr;gap:20px;align-items:center}.source img{width:100%;height:auto}.status{padding:12px 15px;border-left:3px solid #8198a0;background:#e8edef;margin:18px 0}.status.resolved{border-color:#638068;background:#e6eddf}.status.open{background:#f1e6d5;border-color:#b9803f}details{border-top:1px solid #d5d5c6;padding:13px 0;margin-top:16px}summary{cursor:pointer;font-size:14px}.small{font-size:14px}.footer{font-size:14px;border-top:1px solid #d5d5c6;margin-top:30px;padding-top:20px}.control-case{border-left:4px solid #b9803f}@media(max-width:1100px){.candidates.four{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:750px){main{padding:25px 14px}.case{padding:17px}.candidates,.candidates.four{grid-template-columns:1fr}.source{grid-template-columns:1fr}.candidate img{max-height:230px;object-fit:contain}.candidate h3{min-height:0}th,td{padding:8px}}
 </style></head><body><main><header><span class="eyebrow">Gojo · beyond span changes</span><h1>Which structure is possible?<br>Which question would distinguish it?</h1><p class="lede">Six small cases replace square-to-rectangle changes with closure, actual joins, headings and continuity. An unchanged policy learned on span evidence chooses questions about these new structures.</p><nav class="nav"><a href="diagnostics.json">All captured results</a><a href="inquiries.gojo.json.gz">Native inquiries and private audit archive</a><a href="../evidence-selection/gallery.html">Earlier span-selection study</a><a href="../equivalence-revision/gallery.html">Earlier expectation revisions</a></nav></header>
-<div class="note"><strong>How to read this experiment</strong><ol><li>The receiver starts with a small library of possible constructions. These pictures show those alternatives, not a sequence of shape morphs.</li><li>It asks a supplier one structural question. The supplier publishes <em>yes</em>, <em>no</em> or <em>open</em> with a scoped witness.</li><li>Compatible alternatives remain. A separate private evaluator later checks their bounded motif vocabulary against the source.</li></ol><p>This is closer to twenty questions than general shape recognition. A useful outcome can be one supported construction, several unresolved interpretations, or a visible conflict.</p></div>
+<div class="note"><strong>How to read this experiment</strong><ol><li>The receiver starts with a small library of possible constructions. These pictures show those alternatives, not a sequence of shape morphs.</li><li>It asks a supplier one structural question. The supplier publishes <em>yes</em>, <em>no</em> or <em>open</em> with a scoped witness.</li><li>A candidate remains possible when its answer agrees with the source reply. Both may answer <em>No</em>. A separate private evaluator later checks the remaining alternatives.</li></ol><p>This is closer to twenty questions than general shape recognition. A useful outcome can be one supported construction, several unresolved interpretations, or a visible conflict.</p><p><strong>Answer and survival are separate:</strong> source says <b>No</b> + candidate says <b>No</b> means <em>still possible</em>. Neutral cards remain possible; red cards are ruled out; green marks one remaining candidate. Green never means the candidate answered yes.</p><p><strong>Closed loop (cycle):</strong> following its connected edges returns to the starting site. A triangle is a closed three-edge loop. The open three-sided square fragment is a path with two free ends.</p></div>
 <div class="legend"><strong>Diagram legend:</strong> <span class="dot"></span> shared native site · <span class="hollow"></span> free endpoint · <span class="separate">○○</span> separate identities at one displayed position · dashed purple circle: a declared nonjoining crossing, with over/under unspecified.<p class="small">All coordinates and proportions are illustrative. In particular, overlapping screen locations do not create a joint. The receiver reads native relations, not these SVGs.</p></div>
-<section><h2>Unchanged policy, different kinds of evidence</h2><p>The five coefficients are reproduced from the earlier 48 span-training episodes. There is no structural retraining here. Each policy receives the same alternatives and questions.</p><div class="table-wrap"><table><thead><tr><th>Question strategy</th><th>Uniquely resolved / 6</th><th>Open / 6</th><th>Mean requests</th></tr></thead><tbody id="summary"></tbody></table></div><p class="small">One open case is expected: the same square topology has two different recipes. The fixed strategy encounters a valid but nondiscriminating broader question first in the other five cases. These six authored cases are mechanics checks, not a statistical recognition benchmark.</p></section>
+<section><h2>Unchanged policy, different kinds of evidence</h2><p>The five coefficients are reproduced from the earlier 48 span-training episodes. There is no structural retraining here. Each policy receives the same alternatives and questions.</p><div class="table-wrap"><table><thead><tr><th>Question strategy</th><th>Uniquely resolved / 6</th><th>Open / 6</th><th>Mean requests</th></tr></thead><tbody id="summary"></tbody></table></div><p class="small">One open case is expected: the same square topology has two different recipes. The fixed strategy deliberately asks an unhelpful broader check first in the other five cases: every candidate gives the same answer, so that check rules out none. This is a comparison baseline; the disagreement and transferred strategies skip it. These six authored cases are mechanics checks, not a statistical recognition benchmark.</p></section>
 <section><h2>Inspect the alternatives and replies</h2><p>Use the numbered stages to compare before and after evidence. Switch strategy to inspect which question it asked first. The private source is collapsed beneath each case.</p><div id="cases"></div></section>
 <section><h2>Three ways a question can remain unsettled</h2><div id="controls"></div></section>
 <details><summary>What this establishes, and what it does not</summary><ul id="limits"></ul></details><footer class="footer"><p id="native"></p><p>Source-side motif induction is currently eager. This run tests selective communication and hypothesis filtering; it does not yet demonstrate avoided source-side computation.</p></footer>
@@ -243,7 +243,7 @@
       "expectedAmbiguity": false,
       "stages": [
         {
-          "name": "0 \u00B7 Alternatives before any reply",
+          "name": "0 \u00B7 Start: no source facts yet",
           "question": null,
           "answer": null,
           "features": null,
@@ -258,6 +258,7 @@
           "reads": [
             {
               "index": 0,
+              "answerToQuestion": null,
               "supported": 0,
               "refuted": 0,
               "open": 0,
@@ -265,6 +266,7 @@
             },
             {
               "index": 1,
+              "answerToQuestion": null,
               "supported": 0,
               "refuted": 0,
               "open": 0,
@@ -272,6 +274,7 @@
             },
             {
               "index": 2,
+              "answerToQuestion": null,
               "supported": 0,
               "refuted": 0,
               "open": 0,
@@ -279,6 +282,7 @@
             },
             {
               "index": 3,
+              "answerToQuestion": null,
               "supported": 0,
               "refuted": 0,
               "open": 0,
@@ -308,6 +312,7 @@
           "reads": [
             {
               "index": 0,
+              "answerToQuestion": "No",
               "supported": 1,
               "refuted": 0,
               "open": 0,
@@ -315,6 +320,7 @@
             },
             {
               "index": 1,
+              "answerToQuestion": "No",
               "supported": 1,
               "refuted": 0,
               "open": 0,
@@ -322,6 +328,7 @@
             },
             {
               "index": 2,
+              "answerToQuestion": "No",
               "supported": 1,
               "refuted": 0,
               "open": 0,
@@ -329,6 +336,7 @@
             },
             {
               "index": 3,
+              "answerToQuestion": "No",
               "supported": 1,
               "refuted": 0,
               "open": 0,
@@ -338,7 +346,7 @@
         },
         {
           "name": "2 \u00B7 Yes",
-          "question": "Is there a three-edge cycle?",
+          "question": "Is there a closed loop with exactly three edges?",
           "answer": "Yes",
           "features": [
             1,
@@ -355,6 +363,7 @@
           "reads": [
             {
               "index": 0,
+              "answerToQuestion": "No",
               "supported": 1,
               "refuted": 1,
               "open": 0,
@@ -362,6 +371,7 @@
             },
             {
               "index": 1,
+              "answerToQuestion": "No",
               "supported": 1,
               "refuted": 1,
               "open": 0,
@@ -369,6 +379,7 @@
             },
             {
               "index": 2,
+              "answerToQuestion": "No",
               "supported": 1,
               "refuted": 1,
               "open": 0,
@@ -376,6 +387,7 @@
             },
             {
               "index": 3,
+              "answerToQuestion": "Yes",
               "supported": 2,
               "refuted": 0,
               "open": 0,
@@ -433,7 +445,7 @@
       "expectedAmbiguity": false,
       "stages": [
         {
-          "name": "0 \u00B7 Alternatives before any reply",
+          "name": "0 \u00B7 Start: no source facts yet",
           "question": null,
           "answer": null,
           "features": null,
@@ -447,6 +459,7 @@
           "reads": [
             {
               "index": 0,
+              "answerToQuestion": null,
               "supported": 0,
               "refuted": 0,
               "open": 0,
@@ -454,6 +467,7 @@
             },
             {
               "index": 1,
+              "answerToQuestion": null,
               "supported": 0,
               "refuted": 0,
               "open": 0,
@@ -461,6 +475,7 @@
             },
             {
               "index": 2,
+              "answerToQuestion": null,
               "supported": 0,
               "refuted": 0,
               "open": 0,
@@ -470,7 +485,7 @@
         },
         {
           "name": "1 \u00B7 No",
-          "question": "Is there a four-edge closed contour? (broader check)",
+          "question": "Is there a closed loop with exactly four edges? (broader check)",
           "answer": "No",
           "features": [
             1,
@@ -489,6 +504,7 @@
           "reads": [
             {
               "index": 0,
+              "answerToQuestion": "No",
               "supported": 1,
               "refuted": 0,
               "open": 0,
@@ -496,6 +512,7 @@
             },
             {
               "index": 1,
+              "answerToQuestion": "No",
               "supported": 1,
               "refuted": 0,
               "open": 0,
@@ -503,6 +520,7 @@
             },
             {
               "index": 2,
+              "answerToQuestion": "No",
               "supported": 1,
               "refuted": 0,
               "open": 0,
@@ -530,6 +548,7 @@
           "reads": [
             {
               "index": 0,
+              "answerToQuestion": "Yes",
               "supported": 1,
               "refuted": 1,
               "open": 0,
@@ -537,6 +556,7 @@
             },
             {
               "index": 1,
+              "answerToQuestion": "No",
               "supported": 2,
               "refuted": 0,
               "open": 0,
@@ -544,6 +564,7 @@
             },
             {
               "index": 2,
+              "answerToQuestion": "No",
               "supported": 2,
               "refuted": 0,
               "open": 0,
@@ -570,6 +591,7 @@
           "reads": [
             {
               "index": 0,
+              "answerToQuestion": "No",
               "supported": 2,
               "refuted": 1,
               "open": 0,
@@ -577,6 +599,7 @@
             },
             {
               "index": 1,
+              "answerToQuestion": "Yes",
               "supported": 2,
               "refuted": 1,
               "open": 0,
@@ -584,6 +607,7 @@
             },
             {
               "index": 2,
+              "answerToQuestion": "No",
               "supported": 3,
               "refuted": 0,
               "open": 0,
@@ -633,7 +657,7 @@
       "expectedAmbiguity": false,
       "stages": [
         {
-          "name": "0 \u00B7 Alternatives before any reply",
+          "name": "0 \u00B7 Start: no source facts yet",
           "question": null,
           "answer": null,
           "features": null,
@@ -647,6 +671,7 @@
           "reads": [
             {
               "index": 0,
+              "answerToQuestion": null,
               "supported": 0,
               "refuted": 0,
               "open": 0,
@@ -654,6 +679,7 @@
             },
             {
               "index": 1,
+              "answerToQuestion": null,
               "supported": 0,
               "refuted": 0,
               "open": 0,
@@ -661,6 +687,7 @@
             },
             {
               "index": 2,
+              "answerToQuestion": null,
               "supported": 0,
               "refuted": 0,
               "open": 0,
@@ -670,7 +697,7 @@
         },
         {
           "name": "1 \u00B7 No",
-          "question": "Is there a four-edge closed contour? (broader check)",
+          "question": "Is there a closed loop with exactly four edges? (broader check)",
           "answer": "No",
           "features": [
             1,
@@ -689,6 +716,7 @@
           "reads": [
             {
               "index": 0,
+              "answerToQuestion": "No",
               "supported": 1,
               "refuted": 0,
               "open": 0,
@@ -696,6 +724,7 @@
             },
             {
               "index": 1,
+              "answerToQuestion": "No",
               "supported": 1,
               "refuted": 0,
               "open": 0,
@@ -703,6 +732,7 @@
             },
             {
               "index": 2,
+              "answerToQuestion": "No",
               "supported": 1,
               "refuted": 0,
               "open": 0,
@@ -730,6 +760,7 @@
           "reads": [
             {
               "index": 0,
+              "answerToQuestion": "Yes",
               "supported": 1,
               "refuted": 1,
               "open": 0,
@@ -737,6 +768,7 @@
             },
             {
               "index": 1,
+              "answerToQuestion": "No",
               "supported": 2,
               "refuted": 0,
               "open": 0,
@@ -744,6 +776,7 @@
             },
             {
               "index": 2,
+              "answerToQuestion": "No",
               "supported": 2,
               "refuted": 0,
               "open": 0,
@@ -770,6 +803,7 @@
           "reads": [
             {
               "index": 0,
+              "answerToQuestion": "No",
               "supported": 1,
               "refuted": 2,
               "open": 0,
@@ -777,6 +811,7 @@
             },
             {
               "index": 1,
+              "answerToQuestion": "No",
               "supported": 2,
               "refuted": 1,
               "open": 0,
@@ -784,6 +819,7 @@
             },
             {
               "index": 2,
+              "answerToQuestion": "Yes",
               "supported": 3,
               "refuted": 0,
               "open": 0,
@@ -833,7 +869,7 @@
       "expectedAmbiguity": false,
       "stages": [
         {
-          "name": "0 \u00B7 Alternatives before any reply",
+          "name": "0 \u00B7 Start: no source facts yet",
           "question": null,
           "answer": null,
           "features": null,
@@ -847,6 +883,7 @@
           "reads": [
             {
               "index": 0,
+              "answerToQuestion": null,
               "supported": 0,
               "refuted": 0,
               "open": 0,
@@ -854,6 +891,7 @@
             },
             {
               "index": 1,
+              "answerToQuestion": null,
               "supported": 0,
               "refuted": 0,
               "open": 0,
@@ -861,6 +899,7 @@
             },
             {
               "index": 2,
+              "answerToQuestion": null,
               "supported": 0,
               "refuted": 0,
               "open": 0,
@@ -870,7 +909,7 @@
         },
         {
           "name": "1 \u00B7 No",
-          "question": "Is there a four-edge closed contour? (broader check)",
+          "question": "Is there a closed loop with exactly four edges? (broader check)",
           "answer": "No",
           "features": [
             1,
@@ -889,6 +928,7 @@
           "reads": [
             {
               "index": 0,
+              "answerToQuestion": "No",
               "supported": 1,
               "refuted": 0,
               "open": 0,
@@ -896,6 +936,7 @@
             },
             {
               "index": 1,
+              "answerToQuestion": "No",
               "supported": 1,
               "refuted": 0,
               "open": 0,
@@ -903,6 +944,7 @@
             },
             {
               "index": 2,
+              "answerToQuestion": "No",
               "supported": 1,
               "refuted": 0,
               "open": 0,
@@ -929,6 +971,7 @@
           "reads": [
             {
               "index": 0,
+              "answerToQuestion": "No",
               "supported": 1,
               "refuted": 1,
               "open": 0,
@@ -936,6 +979,7 @@
             },
             {
               "index": 1,
+              "answerToQuestion": "No",
               "supported": 1,
               "refuted": 1,
               "open": 0,
@@ -943,6 +987,7 @@
             },
             {
               "index": 2,
+              "answerToQuestion": "Yes",
               "supported": 2,
               "refuted": 0,
               "open": 0,
@@ -992,7 +1037,7 @@
       "expectedAmbiguity": false,
       "stages": [
         {
-          "name": "0 \u00B7 Alternatives before any reply",
+          "name": "0 \u00B7 Start: no source facts yet",
           "question": null,
           "answer": null,
           "features": null,
@@ -1006,6 +1051,7 @@
           "reads": [
             {
               "index": 0,
+              "answerToQuestion": null,
               "supported": 0,
               "refuted": 0,
               "open": 0,
@@ -1013,6 +1059,7 @@
             },
             {
               "index": 1,
+              "answerToQuestion": null,
               "supported": 0,
               "refuted": 0,
               "open": 0,
@@ -1020,6 +1067,7 @@
             },
             {
               "index": 2,
+              "answerToQuestion": null,
               "supported": 0,
               "refuted": 0,
               "open": 0,
@@ -1029,7 +1077,7 @@
         },
         {
           "name": "1 \u00B7 No",
-          "question": "Is there a four-edge closed contour? (broader check)",
+          "question": "Is there a closed loop with exactly four edges? (broader check)",
           "answer": "No",
           "features": [
             1,
@@ -1048,6 +1096,7 @@
           "reads": [
             {
               "index": 0,
+              "answerToQuestion": "No",
               "supported": 1,
               "refuted": 0,
               "open": 0,
@@ -1055,6 +1104,7 @@
             },
             {
               "index": 1,
+              "answerToQuestion": "No",
               "supported": 1,
               "refuted": 0,
               "open": 0,
@@ -1062,6 +1112,7 @@
             },
             {
               "index": 2,
+              "answerToQuestion": "No",
               "supported": 1,
               "refuted": 0,
               "open": 0,
@@ -1088,6 +1139,7 @@
           "reads": [
             {
               "index": 0,
+              "answerToQuestion": "No",
               "supported": 1,
               "refuted": 1,
               "open": 0,
@@ -1095,6 +1147,7 @@
             },
             {
               "index": 1,
+              "answerToQuestion": "No",
               "supported": 1,
               "refuted": 1,
               "open": 0,
@@ -1102,6 +1155,7 @@
             },
             {
               "index": 2,
+              "answerToQuestion": "Yes",
               "supported": 2,
               "refuted": 0,
               "open": 0,
@@ -1151,7 +1205,7 @@
       "expectedAmbiguity": true,
       "stages": [
         {
-          "name": "0 \u00B7 Alternatives before any reply",
+          "name": "0 \u00B7 Start: no source facts yet",
           "question": null,
           "answer": null,
           "features": null,
@@ -1164,6 +1218,7 @@
           "reads": [
             {
               "index": 0,
+              "answerToQuestion": null,
               "supported": 0,
               "refuted": 0,
               "open": 0,
@@ -1171,6 +1226,7 @@
             },
             {
               "index": 1,
+              "answerToQuestion": null,
               "supported": 0,
               "refuted": 0,
               "open": 0,
@@ -1180,7 +1236,7 @@
         },
         {
           "name": "1 \u00B7 Yes",
-          "question": "Is there a four-edge cycle?",
+          "question": "Is there a closed loop with exactly four edges?",
           "answer": "Yes",
           "features": [
             1,
@@ -1198,6 +1254,7 @@
           "reads": [
             {
               "index": 0,
+              "answerToQuestion": "Yes",
               "supported": 1,
               "refuted": 0,
               "open": 0,
@@ -1205,6 +1262,7 @@
             },
             {
               "index": 1,
+              "answerToQuestion": "Yes",
               "supported": 1,
               "refuted": 0,
               "open": 0,
@@ -1246,7 +1304,7 @@
       "expectedAmbiguity": false,
       "stages": [
         {
-          "name": "0 \u00B7 Alternatives before any reply",
+          "name": "0 \u00B7 Start: no source facts yet",
           "question": null,
           "answer": null,
           "features": null,
@@ -1261,6 +1319,7 @@
           "reads": [
             {
               "index": 0,
+              "answerToQuestion": null,
               "supported": 0,
               "refuted": 0,
               "open": 0,
@@ -1268,6 +1327,7 @@
             },
             {
               "index": 1,
+              "answerToQuestion": null,
               "supported": 0,
               "refuted": 0,
               "open": 0,
@@ -1275,6 +1335,7 @@
             },
             {
               "index": 2,
+              "answerToQuestion": null,
               "supported": 0,
               "refuted": 0,
               "open": 0,
@@ -1282,6 +1343,7 @@
             },
             {
               "index": 3,
+              "answerToQuestion": null,
               "supported": 0,
               "refuted": 0,
               "open": 0,
@@ -1291,7 +1353,7 @@
         },
         {
           "name": "1 \u00B7 Yes",
-          "question": "Is there a three-edge cycle?",
+          "question": "Is there a closed loop with exactly three edges?",
           "answer": "Yes",
           "features": [
             1,
@@ -1308,6 +1370,7 @@
           "reads": [
             {
               "index": 0,
+              "answerToQuestion": "No",
               "supported": 0,
               "refuted": 1,
               "open": 0,
@@ -1315,6 +1378,7 @@
             },
             {
               "index": 1,
+              "answerToQuestion": "No",
               "supported": 0,
               "refuted": 1,
               "open": 0,
@@ -1322,6 +1386,7 @@
             },
             {
               "index": 2,
+              "answerToQuestion": "No",
               "supported": 0,
               "refuted": 1,
               "open": 0,
@@ -1329,6 +1394,7 @@
             },
             {
               "index": 3,
+              "answerToQuestion": "Yes",
               "supported": 1,
               "refuted": 0,
               "open": 0,
@@ -1386,7 +1452,7 @@
       "expectedAmbiguity": false,
       "stages": [
         {
-          "name": "0 \u00B7 Alternatives before any reply",
+          "name": "0 \u00B7 Start: no source facts yet",
           "question": null,
           "answer": null,
           "features": null,
@@ -1400,6 +1466,7 @@
           "reads": [
             {
               "index": 0,
+              "answerToQuestion": null,
               "supported": 0,
               "refuted": 0,
               "open": 0,
@@ -1407,6 +1474,7 @@
             },
             {
               "index": 1,
+              "answerToQuestion": null,
               "supported": 0,
               "refuted": 0,
               "open": 0,
@@ -1414,6 +1482,7 @@
             },
             {
               "index": 2,
+              "answerToQuestion": null,
               "supported": 0,
               "refuted": 0,
               "open": 0,
@@ -1423,7 +1492,7 @@
         },
         {
           "name": "1 \u00B7 No",
-          "question": "Is there a four-edge closed contour? (broader check)",
+          "question": "Is there a closed loop with exactly four edges? (broader check)",
           "answer": "No",
           "features": [
             1,
@@ -1442,6 +1511,7 @@
           "reads": [
             {
               "index": 0,
+              "answerToQuestion": "No",
               "supported": 1,
               "refuted": 0,
               "open": 0,
@@ -1449,6 +1519,7 @@
             },
             {
               "index": 1,
+              "answerToQuestion": "No",
               "supported": 1,
               "refuted": 0,
               "open": 0,
@@ -1456,6 +1527,7 @@
             },
             {
               "index": 2,
+              "answerToQuestion": "No",
               "supported": 1,
               "refuted": 0,
               "open": 0,
@@ -1483,6 +1555,7 @@
           "reads": [
             {
               "index": 0,
+              "answerToQuestion": "No",
               "supported": 2,
               "refuted": 0,
               "open": 0,
@@ -1490,6 +1563,7 @@
             },
             {
               "index": 1,
+              "answerToQuestion": "Yes",
               "supported": 1,
               "refuted": 1,
               "open": 0,
@@ -1497,6 +1571,7 @@
             },
             {
               "index": 2,
+              "answerToQuestion": "No",
               "supported": 2,
               "refuted": 0,
               "open": 0,
@@ -1523,6 +1598,7 @@
           "reads": [
             {
               "index": 0,
+              "answerToQuestion": "Yes",
               "supported": 2,
               "refuted": 1,
               "open": 0,
@@ -1530,6 +1606,7 @@
             },
             {
               "index": 1,
+              "answerToQuestion": "No",
               "supported": 2,
               "refuted": 1,
               "open": 0,
@@ -1537,6 +1614,7 @@
             },
             {
               "index": 2,
+              "answerToQuestion": "No",
               "supported": 3,
               "refuted": 0,
               "open": 0,
@@ -1586,7 +1664,7 @@
       "expectedAmbiguity": false,
       "stages": [
         {
-          "name": "0 \u00B7 Alternatives before any reply",
+          "name": "0 \u00B7 Start: no source facts yet",
           "question": null,
           "answer": null,
           "features": null,
@@ -1600,6 +1678,7 @@
           "reads": [
             {
               "index": 0,
+              "answerToQuestion": null,
               "supported": 0,
               "refuted": 0,
               "open": 0,
@@ -1607,6 +1686,7 @@
             },
             {
               "index": 1,
+              "answerToQuestion": null,
               "supported": 0,
               "refuted": 0,
               "open": 0,
@@ -1614,6 +1694,7 @@
             },
             {
               "index": 2,
+              "answerToQuestion": null,
               "supported": 0,
               "refuted": 0,
               "open": 0,
@@ -1641,6 +1722,7 @@
           "reads": [
             {
               "index": 0,
+              "answerToQuestion": "Yes",
               "supported": 0,
               "refuted": 1,
               "open": 0,
@@ -1648,6 +1730,7 @@
             },
             {
               "index": 1,
+              "answerToQuestion": "No",
               "supported": 1,
               "refuted": 0,
               "open": 0,
@@ -1655,6 +1738,7 @@
             },
             {
               "index": 2,
+              "answerToQuestion": "No",
               "supported": 1,
               "refuted": 0,
               "open": 0,
@@ -1681,6 +1765,7 @@
           "reads": [
             {
               "index": 0,
+              "answerToQuestion": "No",
               "supported": 0,
               "refuted": 2,
               "open": 0,
@@ -1688,6 +1773,7 @@
             },
             {
               "index": 1,
+              "answerToQuestion": "No",
               "supported": 1,
               "refuted": 1,
               "open": 0,
@@ -1695,6 +1781,7 @@
             },
             {
               "index": 2,
+              "answerToQuestion": "Yes",
               "supported": 2,
               "refuted": 0,
               "open": 0,
@@ -1744,7 +1831,7 @@
       "expectedAmbiguity": false,
       "stages": [
         {
-          "name": "0 \u00B7 Alternatives before any reply",
+          "name": "0 \u00B7 Start: no source facts yet",
           "question": null,
           "answer": null,
           "features": null,
@@ -1758,6 +1845,7 @@
           "reads": [
             {
               "index": 0,
+              "answerToQuestion": null,
               "supported": 0,
               "refuted": 0,
               "open": 0,
@@ -1765,6 +1853,7 @@
             },
             {
               "index": 1,
+              "answerToQuestion": null,
               "supported": 0,
               "refuted": 0,
               "open": 0,
@@ -1772,6 +1861,7 @@
             },
             {
               "index": 2,
+              "answerToQuestion": null,
               "supported": 0,
               "refuted": 0,
               "open": 0,
@@ -1781,7 +1871,7 @@
         },
         {
           "name": "1 \u00B7 No",
-          "question": "Is there a four-edge closed contour? (broader check)",
+          "question": "Is there a closed loop with exactly four edges? (broader check)",
           "answer": "No",
           "features": [
             1,
@@ -1800,6 +1890,7 @@
           "reads": [
             {
               "index": 0,
+              "answerToQuestion": "No",
               "supported": 1,
               "refuted": 0,
               "open": 0,
@@ -1807,6 +1898,7 @@
             },
             {
               "index": 1,
+              "answerToQuestion": "No",
               "supported": 1,
               "refuted": 0,
               "open": 0,
@@ -1814,6 +1906,7 @@
             },
             {
               "index": 2,
+              "answerToQuestion": "No",
               "supported": 1,
               "refuted": 0,
               "open": 0,
@@ -1840,6 +1933,7 @@
           "reads": [
             {
               "index": 0,
+              "answerToQuestion": "No",
               "supported": 1,
               "refuted": 1,
               "open": 0,
@@ -1847,6 +1941,7 @@
             },
             {
               "index": 1,
+              "answerToQuestion": "No",
               "supported": 1,
               "refuted": 1,
               "open": 0,
@@ -1854,6 +1949,7 @@
             },
             {
               "index": 2,
+              "answerToQuestion": "Yes",
               "supported": 2,
               "refuted": 0,
               "open": 0,
@@ -1903,7 +1999,7 @@
       "expectedAmbiguity": false,
       "stages": [
         {
-          "name": "0 \u00B7 Alternatives before any reply",
+          "name": "0 \u00B7 Start: no source facts yet",
           "question": null,
           "answer": null,
           "features": null,
@@ -1917,6 +2013,7 @@
           "reads": [
             {
               "index": 0,
+              "answerToQuestion": null,
               "supported": 0,
               "refuted": 0,
               "open": 0,
@@ -1924,6 +2021,7 @@
             },
             {
               "index": 1,
+              "answerToQuestion": null,
               "supported": 0,
               "refuted": 0,
               "open": 0,
@@ -1931,6 +2029,7 @@
             },
             {
               "index": 2,
+              "answerToQuestion": null,
               "supported": 0,
               "refuted": 0,
               "open": 0,
@@ -1958,6 +2057,7 @@
           "reads": [
             {
               "index": 0,
+              "answerToQuestion": "Yes",
               "supported": 0,
               "refuted": 1,
               "open": 0,
@@ -1965,6 +2065,7 @@
             },
             {
               "index": 1,
+              "answerToQuestion": "No",
               "supported": 1,
               "refuted": 0,
               "open": 0,
@@ -1972,6 +2073,7 @@
             },
             {
               "index": 2,
+              "answerToQuestion": "No",
               "supported": 1,
               "refuted": 0,
               "open": 0,
@@ -1981,7 +2083,7 @@
         },
         {
           "name": "2 \u00B7 No",
-          "question": "Is there a four-edge closed contour? (broader check)",
+          "question": "Is there a closed loop with exactly four edges? (broader check)",
           "answer": "No",
           "features": [
             1,
@@ -1999,6 +2101,7 @@
           "reads": [
             {
               "index": 0,
+              "answerToQuestion": "No",
               "supported": 1,
               "refuted": 1,
               "open": 0,
@@ -2006,6 +2109,7 @@
             },
             {
               "index": 1,
+              "answerToQuestion": "No",
               "supported": 2,
               "refuted": 0,
               "open": 0,
@@ -2013,6 +2117,7 @@
             },
             {
               "index": 2,
+              "answerToQuestion": "No",
               "supported": 2,
               "refuted": 0,
               "open": 0,
@@ -2039,6 +2144,7 @@
           "reads": [
             {
               "index": 0,
+              "answerToQuestion": "No",
               "supported": 1,
               "refuted": 2,
               "open": 0,
@@ -2046,6 +2152,7 @@
             },
             {
               "index": 1,
+              "answerToQuestion": "No",
               "supported": 2,
               "refuted": 1,
               "open": 0,
@@ -2053,6 +2160,7 @@
             },
             {
               "index": 2,
+              "answerToQuestion": "Yes",
               "supported": 3,
               "refuted": 0,
               "open": 0,
@@ -2102,7 +2210,7 @@
       "expectedAmbiguity": true,
       "stages": [
         {
-          "name": "0 \u00B7 Alternatives before any reply",
+          "name": "0 \u00B7 Start: no source facts yet",
           "question": null,
           "answer": null,
           "features": null,
@@ -2115,6 +2223,7 @@
           "reads": [
             {
               "index": 0,
+              "answerToQuestion": null,
               "supported": 0,
               "refuted": 0,
               "open": 0,
@@ -2122,6 +2231,7 @@
             },
             {
               "index": 1,
+              "answerToQuestion": null,
               "supported": 0,
               "refuted": 0,
               "open": 0,
@@ -2131,7 +2241,7 @@
         },
         {
           "name": "1 \u00B7 Yes",
-          "question": "Is there a four-edge cycle?",
+          "question": "Is there a closed loop with exactly four edges?",
           "answer": "Yes",
           "features": [
             1,
@@ -2149,6 +2259,7 @@
           "reads": [
             {
               "index": 0,
+              "answerToQuestion": "Yes",
               "supported": 1,
               "refuted": 0,
               "open": 0,
@@ -2156,6 +2267,7 @@
             },
             {
               "index": 1,
+              "answerToQuestion": "Yes",
               "supported": 1,
               "refuted": 0,
               "open": 0,
@@ -2197,7 +2309,7 @@
       "expectedAmbiguity": false,
       "stages": [
         {
-          "name": "0 \u00B7 Alternatives before any reply",
+          "name": "0 \u00B7 Start: no source facts yet",
           "question": null,
           "answer": null,
           "features": null,
@@ -2212,6 +2324,7 @@
           "reads": [
             {
               "index": 0,
+              "answerToQuestion": null,
               "supported": 0,
               "refuted": 0,
               "open": 0,
@@ -2219,6 +2332,7 @@
             },
             {
               "index": 1,
+              "answerToQuestion": null,
               "supported": 0,
               "refuted": 0,
               "open": 0,
@@ -2226,6 +2340,7 @@
             },
             {
               "index": 2,
+              "answerToQuestion": null,
               "supported": 0,
               "refuted": 0,
               "open": 0,
@@ -2233,6 +2348,7 @@
             },
             {
               "index": 3,
+              "answerToQuestion": null,
               "supported": 0,
               "refuted": 0,
               "open": 0,
@@ -2242,7 +2358,7 @@
         },
         {
           "name": "1 \u00B7 Yes",
-          "question": "Is there a three-edge cycle?",
+          "question": "Is there a closed loop with exactly three edges?",
           "answer": "Yes",
           "features": [
             1,
@@ -2259,6 +2375,7 @@
           "reads": [
             {
               "index": 0,
+              "answerToQuestion": "No",
               "supported": 0,
               "refuted": 1,
               "open": 0,
@@ -2266,6 +2383,7 @@
             },
             {
               "index": 1,
+              "answerToQuestion": "No",
               "supported": 0,
               "refuted": 1,
               "open": 0,
@@ -2273,6 +2391,7 @@
             },
             {
               "index": 2,
+              "answerToQuestion": "No",
               "supported": 0,
               "refuted": 1,
               "open": 0,
@@ -2280,6 +2399,7 @@
             },
             {
               "index": 3,
+              "answerToQuestion": "Yes",
               "supported": 1,
               "refuted": 0,
               "open": 0,
@@ -2337,7 +2457,7 @@
       "expectedAmbiguity": false,
       "stages": [
         {
-          "name": "0 \u00B7 Alternatives before any reply",
+          "name": "0 \u00B7 Start: no source facts yet",
           "question": null,
           "answer": null,
           "features": null,
@@ -2351,6 +2471,7 @@
           "reads": [
             {
               "index": 0,
+              "answerToQuestion": null,
               "supported": 0,
               "refuted": 0,
               "open": 0,
@@ -2358,6 +2479,7 @@
             },
             {
               "index": 1,
+              "answerToQuestion": null,
               "supported": 0,
               "refuted": 0,
               "open": 0,
@@ -2365,6 +2487,7 @@
             },
             {
               "index": 2,
+              "answerToQuestion": null,
               "supported": 0,
               "refuted": 0,
               "open": 0,
@@ -2392,6 +2515,7 @@
           "reads": [
             {
               "index": 0,
+              "answerToQuestion": "Yes",
               "supported": 0,
               "refuted": 1,
               "open": 0,
@@ -2399,6 +2523,7 @@
             },
             {
               "index": 1,
+              "answerToQuestion": "No",
               "supported": 1,
               "refuted": 0,
               "open": 0,
@@ -2406,6 +2531,7 @@
             },
             {
               "index": 2,
+              "answerToQuestion": "No",
               "supported": 1,
               "refuted": 0,
               "open": 0,
@@ -2432,6 +2558,7 @@
           "reads": [
             {
               "index": 0,
+              "answerToQuestion": "No",
               "supported": 1,
               "refuted": 1,
               "open": 0,
@@ -2439,6 +2566,7 @@
             },
             {
               "index": 1,
+              "answerToQuestion": "Yes",
               "supported": 1,
               "refuted": 1,
               "open": 0,
@@ -2446,6 +2574,7 @@
             },
             {
               "index": 2,
+              "answerToQuestion": "No",
               "supported": 2,
               "refuted": 0,
               "open": 0,
@@ -2495,7 +2624,7 @@
       "expectedAmbiguity": false,
       "stages": [
         {
-          "name": "0 \u00B7 Alternatives before any reply",
+          "name": "0 \u00B7 Start: no source facts yet",
           "question": null,
           "answer": null,
           "features": null,
@@ -2509,6 +2638,7 @@
           "reads": [
             {
               "index": 0,
+              "answerToQuestion": null,
               "supported": 0,
               "refuted": 0,
               "open": 0,
@@ -2516,6 +2646,7 @@
             },
             {
               "index": 1,
+              "answerToQuestion": null,
               "supported": 0,
               "refuted": 0,
               "open": 0,
@@ -2523,6 +2654,7 @@
             },
             {
               "index": 2,
+              "answerToQuestion": null,
               "supported": 0,
               "refuted": 0,
               "open": 0,
@@ -2550,6 +2682,7 @@
           "reads": [
             {
               "index": 0,
+              "answerToQuestion": "Yes",
               "supported": 0,
               "refuted": 1,
               "open": 0,
@@ -2557,6 +2690,7 @@
             },
             {
               "index": 1,
+              "answerToQuestion": "No",
               "supported": 1,
               "refuted": 0,
               "open": 0,
@@ -2564,6 +2698,7 @@
             },
             {
               "index": 2,
+              "answerToQuestion": "No",
               "supported": 1,
               "refuted": 0,
               "open": 0,
@@ -2590,6 +2725,7 @@
           "reads": [
             {
               "index": 0,
+              "answerToQuestion": "No",
               "supported": 0,
               "refuted": 2,
               "open": 0,
@@ -2597,6 +2733,7 @@
             },
             {
               "index": 1,
+              "answerToQuestion": "No",
               "supported": 1,
               "refuted": 1,
               "open": 0,
@@ -2604,6 +2741,7 @@
             },
             {
               "index": 2,
+              "answerToQuestion": "Yes",
               "supported": 2,
               "refuted": 0,
               "open": 0,
@@ -2653,7 +2791,7 @@
       "expectedAmbiguity": false,
       "stages": [
         {
-          "name": "0 \u00B7 Alternatives before any reply",
+          "name": "0 \u00B7 Start: no source facts yet",
           "question": null,
           "answer": null,
           "features": null,
@@ -2667,6 +2805,7 @@
           "reads": [
             {
               "index": 0,
+              "answerToQuestion": null,
               "supported": 0,
               "refuted": 0,
               "open": 0,
@@ -2674,6 +2813,7 @@
             },
             {
               "index": 1,
+              "answerToQuestion": null,
               "supported": 0,
               "refuted": 0,
               "open": 0,
@@ -2681,6 +2821,7 @@
             },
             {
               "index": 2,
+              "answerToQuestion": null,
               "supported": 0,
               "refuted": 0,
               "open": 0,
@@ -2707,6 +2848,7 @@
           "reads": [
             {
               "index": 0,
+              "answerToQuestion": "No",
               "supported": 0,
               "refuted": 1,
               "open": 0,
@@ -2714,6 +2856,7 @@
             },
             {
               "index": 1,
+              "answerToQuestion": "No",
               "supported": 0,
               "refuted": 1,
               "open": 0,
@@ -2721,6 +2864,7 @@
             },
             {
               "index": 2,
+              "answerToQuestion": "Yes",
               "supported": 1,
               "refuted": 0,
               "open": 0,
@@ -2770,7 +2914,7 @@
       "expectedAmbiguity": false,
       "stages": [
         {
-          "name": "0 \u00B7 Alternatives before any reply",
+          "name": "0 \u00B7 Start: no source facts yet",
           "question": null,
           "answer": null,
           "features": null,
@@ -2784,6 +2928,7 @@
           "reads": [
             {
               "index": 0,
+              "answerToQuestion": null,
               "supported": 0,
               "refuted": 0,
               "open": 0,
@@ -2791,6 +2936,7 @@
             },
             {
               "index": 1,
+              "answerToQuestion": null,
               "supported": 0,
               "refuted": 0,
               "open": 0,
@@ -2798,6 +2944,7 @@
             },
             {
               "index": 2,
+              "answerToQuestion": null,
               "supported": 0,
               "refuted": 0,
               "open": 0,
@@ -2824,6 +2971,7 @@
           "reads": [
             {
               "index": 0,
+              "answerToQuestion": "No",
               "supported": 0,
               "refuted": 1,
               "open": 0,
@@ -2831,6 +2979,7 @@
             },
             {
               "index": 1,
+              "answerToQuestion": "No",
               "supported": 0,
               "refuted": 1,
               "open": 0,
@@ -2838,6 +2987,7 @@
             },
             {
               "index": 2,
+              "answerToQuestion": "Yes",
               "supported": 1,
               "refuted": 0,
               "open": 0,
@@ -2887,7 +3037,7 @@
       "expectedAmbiguity": true,
       "stages": [
         {
-          "name": "0 \u00B7 Alternatives before any reply",
+          "name": "0 \u00B7 Start: no source facts yet",
           "question": null,
           "answer": null,
           "features": null,
@@ -2900,6 +3050,7 @@
           "reads": [
             {
               "index": 0,
+              "answerToQuestion": null,
               "supported": 0,
               "refuted": 0,
               "open": 0,
@@ -2907,6 +3058,7 @@
             },
             {
               "index": 1,
+              "answerToQuestion": null,
               "supported": 0,
               "refuted": 0,
               "open": 0,
@@ -2916,7 +3068,7 @@
         },
         {
           "name": "1 \u00B7 Yes",
-          "question": "Is there a four-edge cycle?",
+          "question": "Is there a closed loop with exactly four edges?",
           "answer": "Yes",
           "features": [
             1,
@@ -2934,6 +3086,7 @@
           "reads": [
             {
               "index": 0,
+              "answerToQuestion": "Yes",
               "supported": 1,
               "refuted": 0,
               "open": 0,
@@ -2941,6 +3094,7 @@
             },
             {
               "index": 1,
+              "answerToQuestion": "Yes",
               "supported": 1,
               "refuted": 0,
               "open": 0,
@@ -2982,7 +3136,7 @@
       "expectedAmbiguity": false,
       "stages": [
         {
-          "name": "0 \u00B7 Alternatives before any reply",
+          "name": "0 \u00B7 Start: no source facts yet",
           "question": null,
           "answer": null,
           "features": null,
@@ -2997,6 +3151,7 @@
           "reads": [
             {
               "index": 0,
+              "answerToQuestion": null,
               "supported": 0,
               "refuted": 0,
               "open": 0,
@@ -3004,6 +3159,7 @@
             },
             {
               "index": 1,
+              "answerToQuestion": null,
               "supported": 0,
               "refuted": 0,
               "open": 0,
@@ -3011,6 +3167,7 @@
             },
             {
               "index": 2,
+              "answerToQuestion": null,
               "supported": 0,
               "refuted": 0,
               "open": 0,
@@ -3018,6 +3175,7 @@
             },
             {
               "index": 3,
+              "answerToQuestion": null,
               "supported": 0,
               "refuted": 0,
               "open": 0,
@@ -3027,7 +3185,7 @@
         },
         {
           "name": "1 \u00B7 Yes",
-          "question": "Is there a three-edge cycle?",
+          "question": "Is there a closed loop with exactly three edges?",
           "answer": "Yes",
           "features": [
             1,
@@ -3044,6 +3202,7 @@
           "reads": [
             {
               "index": 0,
+              "answerToQuestion": "No",
               "supported": 0,
               "refuted": 1,
               "open": 0,
@@ -3051,6 +3210,7 @@
             },
             {
               "index": 1,
+              "answerToQuestion": "No",
               "supported": 0,
               "refuted": 1,
               "open": 0,
@@ -3058,6 +3218,7 @@
             },
             {
               "index": 2,
+              "answerToQuestion": "No",
               "supported": 0,
               "refuted": 1,
               "open": 0,
@@ -3065,6 +3226,7 @@
             },
             {
               "index": 3,
+              "answerToQuestion": "Yes",
               "supported": 1,
               "refuted": 0,
               "open": 0,
@@ -3122,7 +3284,7 @@
       "expectedAmbiguity": false,
       "stages": [
         {
-          "name": "0 \u00B7 Alternatives before any reply",
+          "name": "0 \u00B7 Start: no source facts yet",
           "question": null,
           "answer": null,
           "features": null,
@@ -3136,6 +3298,7 @@
           "reads": [
             {
               "index": 0,
+              "answerToQuestion": null,
               "supported": 0,
               "refuted": 0,
               "open": 0,
@@ -3143,6 +3306,7 @@
             },
             {
               "index": 1,
+              "answerToQuestion": null,
               "supported": 0,
               "refuted": 0,
               "open": 0,
@@ -3150,6 +3314,7 @@
             },
             {
               "index": 2,
+              "answerToQuestion": null,
               "supported": 0,
               "refuted": 0,
               "open": 0,
@@ -3177,6 +3342,7 @@
           "reads": [
             {
               "index": 0,
+              "answerToQuestion": "Yes",
               "supported": 0,
               "refuted": 1,
               "open": 0,
@@ -3184,6 +3350,7 @@
             },
             {
               "index": 1,
+              "answerToQuestion": "No",
               "supported": 1,
               "refuted": 0,
               "open": 0,
@@ -3191,6 +3358,7 @@
             },
             {
               "index": 2,
+              "answerToQuestion": "No",
               "supported": 1,
               "refuted": 0,
               "open": 0,
@@ -3217,6 +3385,7 @@
           "reads": [
             {
               "index": 0,
+              "answerToQuestion": "No",
               "supported": 1,
               "refuted": 1,
               "open": 0,
@@ -3224,6 +3393,7 @@
             },
             {
               "index": 1,
+              "answerToQuestion": "Yes",
               "supported": 1,
               "refuted": 1,
               "open": 0,
@@ -3231,6 +3401,7 @@
             },
             {
               "index": 2,
+              "answerToQuestion": "No",
               "supported": 2,
               "refuted": 0,
               "open": 0,
@@ -3280,7 +3451,7 @@
       "expectedAmbiguity": false,
       "stages": [
         {
-          "name": "0 \u00B7 Alternatives before any reply",
+          "name": "0 \u00B7 Start: no source facts yet",
           "question": null,
           "answer": null,
           "features": null,
@@ -3294,6 +3465,7 @@
           "reads": [
             {
               "index": 0,
+              "answerToQuestion": null,
               "supported": 0,
               "refuted": 0,
               "open": 0,
@@ -3301,6 +3473,7 @@
             },
             {
               "index": 1,
+              "answerToQuestion": null,
               "supported": 0,
               "refuted": 0,
               "open": 0,
@@ -3308,6 +3481,7 @@
             },
             {
               "index": 2,
+              "answerToQuestion": null,
               "supported": 0,
               "refuted": 0,
               "open": 0,
@@ -3335,6 +3509,7 @@
           "reads": [
             {
               "index": 0,
+              "answerToQuestion": "Yes",
               "supported": 0,
               "refuted": 1,
               "open": 0,
@@ -3342,6 +3517,7 @@
             },
             {
               "index": 1,
+              "answerToQuestion": "No",
               "supported": 1,
               "refuted": 0,
               "open": 0,
@@ -3349,6 +3525,7 @@
             },
             {
               "index": 2,
+              "answerToQuestion": "No",
               "supported": 1,
               "refuted": 0,
               "open": 0,
@@ -3375,6 +3552,7 @@
           "reads": [
             {
               "index": 0,
+              "answerToQuestion": "No",
               "supported": 0,
               "refuted": 2,
               "open": 0,
@@ -3382,6 +3560,7 @@
             },
             {
               "index": 1,
+              "answerToQuestion": "No",
               "supported": 1,
               "refuted": 1,
               "open": 0,
@@ -3389,6 +3568,7 @@
             },
             {
               "index": 2,
+              "answerToQuestion": "Yes",
               "supported": 2,
               "refuted": 0,
               "open": 0,
@@ -3438,7 +3618,7 @@
       "expectedAmbiguity": false,
       "stages": [
         {
-          "name": "0 \u00B7 Alternatives before any reply",
+          "name": "0 \u00B7 Start: no source facts yet",
           "question": null,
           "answer": null,
           "features": null,
@@ -3452,6 +3632,7 @@
           "reads": [
             {
               "index": 0,
+              "answerToQuestion": null,
               "supported": 0,
               "refuted": 0,
               "open": 0,
@@ -3459,6 +3640,7 @@
             },
             {
               "index": 1,
+              "answerToQuestion": null,
               "supported": 0,
               "refuted": 0,
               "open": 0,
@@ -3466,6 +3648,7 @@
             },
             {
               "index": 2,
+              "answerToQuestion": null,
               "supported": 0,
               "refuted": 0,
               "open": 0,
@@ -3492,6 +3675,7 @@
           "reads": [
             {
               "index": 0,
+              "answerToQuestion": "No",
               "supported": 0,
               "refuted": 1,
               "open": 0,
@@ -3499,6 +3683,7 @@
             },
             {
               "index": 1,
+              "answerToQuestion": "No",
               "supported": 0,
               "refuted": 1,
               "open": 0,
@@ -3506,6 +3691,7 @@
             },
             {
               "index": 2,
+              "answerToQuestion": "Yes",
               "supported": 1,
               "refuted": 0,
               "open": 0,
@@ -3555,7 +3741,7 @@
       "expectedAmbiguity": false,
       "stages": [
         {
-          "name": "0 \u00B7 Alternatives before any reply",
+          "name": "0 \u00B7 Start: no source facts yet",
           "question": null,
           "answer": null,
           "features": null,
@@ -3569,6 +3755,7 @@
           "reads": [
             {
               "index": 0,
+              "answerToQuestion": null,
               "supported": 0,
               "refuted": 0,
               "open": 0,
@@ -3576,6 +3763,7 @@
             },
             {
               "index": 1,
+              "answerToQuestion": null,
               "supported": 0,
               "refuted": 0,
               "open": 0,
@@ -3583,6 +3771,7 @@
             },
             {
               "index": 2,
+              "answerToQuestion": null,
               "supported": 0,
               "refuted": 0,
               "open": 0,
@@ -3609,6 +3798,7 @@
           "reads": [
             {
               "index": 0,
+              "answerToQuestion": "No",
               "supported": 0,
               "refuted": 1,
               "open": 0,
@@ -3616,6 +3806,7 @@
             },
             {
               "index": 1,
+              "answerToQuestion": "No",
               "supported": 0,
               "refuted": 1,
               "open": 0,
@@ -3623,6 +3814,7 @@
             },
             {
               "index": 2,
+              "answerToQuestion": "Yes",
               "supported": 1,
               "refuted": 0,
               "open": 0,
@@ -3672,7 +3864,7 @@
       "expectedAmbiguity": true,
       "stages": [
         {
-          "name": "0 \u00B7 Alternatives before any reply",
+          "name": "0 \u00B7 Start: no source facts yet",
           "question": null,
           "answer": null,
           "features": null,
@@ -3685,6 +3877,7 @@
           "reads": [
             {
               "index": 0,
+              "answerToQuestion": null,
               "supported": 0,
               "refuted": 0,
               "open": 0,
@@ -3692,6 +3885,7 @@
             },
             {
               "index": 1,
+              "answerToQuestion": null,
               "supported": 0,
               "refuted": 0,
               "open": 0,
@@ -3701,7 +3895,7 @@
         },
         {
           "name": "1 \u00B7 Yes",
-          "question": "Is there a four-edge cycle?",
+          "question": "Is there a closed loop with exactly four edges?",
           "answer": "Yes",
           "features": [
             1,
@@ -3719,6 +3913,7 @@
           "reads": [
             {
               "index": 0,
+              "answerToQuestion": "Yes",
               "supported": 1,
               "refuted": 0,
               "open": 0,
@@ -3726,6 +3921,7 @@
             },
             {
               "index": 1,
+              "answerToQuestion": "Yes",
               "supported": 1,
               "refuted": 0,
               "open": 0,
@@ -3767,7 +3963,7 @@
       "expectedAmbiguity": false,
       "stages": [
         {
-          "name": "0 \u00B7 Alternatives before any reply",
+          "name": "0 \u00B7 Start: no source facts yet",
           "question": null,
           "answer": null,
           "features": null,
@@ -3782,6 +3978,7 @@
           "reads": [
             {
               "index": 0,
+              "answerToQuestion": null,
               "supported": 0,
               "refuted": 0,
               "open": 0,
@@ -3789,6 +3986,7 @@
             },
             {
               "index": 1,
+              "answerToQuestion": null,
               "supported": 0,
               "refuted": 0,
               "open": 0,
@@ -3796,6 +3994,7 @@
             },
             {
               "index": 2,
+              "answerToQuestion": null,
               "supported": 0,
               "refuted": 0,
               "open": 0,
@@ -3803,6 +4002,7 @@
             },
             {
               "index": 3,
+              "answerToQuestion": null,
               "supported": 0,
               "refuted": 0,
               "open": 0,
@@ -3812,7 +4012,7 @@
         },
         {
           "name": "1 \u00B7 Open",
-          "question": "Is there a three-edge cycle?",
+          "question": "Is there a closed loop with exactly three edges?",
           "answer": "Open",
           "features": [
             1,
@@ -3832,6 +4032,7 @@
           "reads": [
             {
               "index": 0,
+              "answerToQuestion": "No",
               "supported": 0,
               "refuted": 0,
               "open": 1,
@@ -3839,6 +4040,7 @@
             },
             {
               "index": 1,
+              "answerToQuestion": "No",
               "supported": 0,
               "refuted": 0,
               "open": 1,
@@ -3846,6 +4048,7 @@
             },
             {
               "index": 2,
+              "answerToQuestion": "No",
               "supported": 0,
               "refuted": 0,
               "open": 1,
@@ -3853,6 +4056,7 @@
             },
             {
               "index": 3,
+              "answerToQuestion": "Yes",
               "supported": 0,
               "refuted": 0,
               "open": 1,
@@ -3882,6 +4086,7 @@
           "reads": [
             {
               "index": 0,
+              "answerToQuestion": "No",
               "supported": 0,
               "refuted": 0,
               "open": 2,
@@ -3889,6 +4094,7 @@
             },
             {
               "index": 1,
+              "answerToQuestion": "No",
               "supported": 0,
               "refuted": 0,
               "open": 2,
@@ -3896,6 +4102,7 @@
             },
             {
               "index": 2,
+              "answerToQuestion": "No",
               "supported": 0,
               "refuted": 0,
               "open": 2,
@@ -3903,6 +4110,7 @@
             },
             {
               "index": 3,
+              "answerToQuestion": "No",
               "supported": 0,
               "refuted": 0,
               "open": 2,
@@ -3960,7 +4168,7 @@
       "expectedAmbiguity": false,
       "stages": [
         {
-          "name": "0 \u00B7 Alternatives before any reply",
+          "name": "0 \u00B7 Start: no source facts yet",
           "question": null,
           "answer": null,
           "features": null,
@@ -3975,6 +4183,7 @@
           "reads": [
             {
               "index": 0,
+              "answerToQuestion": null,
               "supported": 0,
               "refuted": 0,
               "open": 0,
@@ -3982,6 +4191,7 @@
             },
             {
               "index": 1,
+              "answerToQuestion": null,
               "supported": 0,
               "refuted": 0,
               "open": 0,
@@ -3989,6 +4199,7 @@
             },
             {
               "index": 2,
+              "answerToQuestion": null,
               "supported": 0,
               "refuted": 0,
               "open": 0,
@@ -3996,6 +4207,7 @@
             },
             {
               "index": 3,
+              "answerToQuestion": null,
               "supported": 0,
               "refuted": 0,
               "open": 0,
@@ -4005,7 +4217,7 @@
         },
         {
           "name": "1 \u00B7 Yes",
-          "question": "Is there a three-edge cycle?",
+          "question": "Is there a closed loop with exactly three edges?",
           "answer": "Yes",
           "features": [
             1,
@@ -4022,6 +4234,7 @@
           "reads": [
             {
               "index": 0,
+              "answerToQuestion": "No",
               "supported": 0,
               "refuted": 1,
               "open": 0,
@@ -4029,6 +4242,7 @@
             },
             {
               "index": 1,
+              "answerToQuestion": "No",
               "supported": 0,
               "refuted": 1,
               "open": 0,
@@ -4036,6 +4250,7 @@
             },
             {
               "index": 2,
+              "answerToQuestion": "No",
               "supported": 0,
               "refuted": 1,
               "open": 0,
@@ -4043,6 +4258,7 @@
             },
             {
               "index": 3,
+              "answerToQuestion": "Yes",
               "supported": 1,
               "refuted": 0,
               "open": 0,
@@ -4052,7 +4268,7 @@
         },
         {
           "name": "2 \u00B7 No",
-          "question": "Is there a three-edge cycle?",
+          "question": "Is there a closed loop with exactly three edges?",
           "answer": "No",
           "features": [
             1,
@@ -4067,6 +4283,7 @@
           "reads": [
             {
               "index": 0,
+              "answerToQuestion": "No",
               "supported": 1,
               "refuted": 1,
               "open": 0,
@@ -4074,6 +4291,7 @@
             },
             {
               "index": 1,
+              "answerToQuestion": "No",
               "supported": 1,
               "refuted": 1,
               "open": 0,
@@ -4081,6 +4299,7 @@
             },
             {
               "index": 2,
+              "answerToQuestion": "No",
               "supported": 1,
               "refuted": 1,
               "open": 0,
@@ -4088,6 +4307,7 @@
             },
             {
               "index": 3,
+              "answerToQuestion": "Yes",
               "supported": 1,
               "refuted": 1,
               "open": 0,
@@ -4145,7 +4365,7 @@
       "expectedAmbiguity": false,
       "stages": [
         {
-          "name": "0 \u00B7 Alternatives before any reply",
+          "name": "0 \u00B7 Start: no source facts yet",
           "question": null,
           "answer": null,
           "features": null,
@@ -4155,6 +4375,7 @@
           "reads": [
             {
               "index": 0,
+              "answerToQuestion": null,
               "supported": 0,
               "refuted": 0,
               "open": 0,
@@ -4162,6 +4383,7 @@
             },
             {
               "index": 1,
+              "answerToQuestion": null,
               "supported": 0,
               "refuted": 0,
               "open": 0,
@@ -4169,6 +4391,7 @@
             },
             {
               "index": 2,
+              "answerToQuestion": null,
               "supported": 0,
               "refuted": 0,
               "open": 0,
@@ -4176,6 +4399,7 @@
             },
             {
               "index": 3,
+              "answerToQuestion": null,
               "supported": 0,
               "refuted": 0,
               "open": 0,
@@ -4277,7 +4501,7 @@
   "nativeElements": 2360754,
   "nativeNumericElements": 0,
   "archiveRoundTrip": true,
-  "elapsedStudyMilliseconds": 1945.1682,
+  "elapsedStudyMilliseconds": 1697.9111,
   "limits": [
     "The candidates are supplied executable constructions. This is selective inquiry among known possibilities, not open-ended shape discovery or pixel recognition.",
     "The earlier five ranking coefficients are reused unchanged. No new topology, join or heading examples train them in this run.",
@@ -4297,13 +4521,22 @@ const names={fixed:'Fixed question order',random:'Seeded random',disagreement:'C
 document.querySelector('#summary').innerHTML=model.summaries.map(s=>`<tr><td>${esc(names[s.policy])}</td><td>${s.resolved}</td><td>${s.open}</td><td>${s.meanRequests.toFixed(2)}</td></tr>`).join('');
 function article(example,control=null){const runs=model.episodes.filter(e=>e.caseId===example.id&&e.control===control),node=document.createElement('article');node.className='case'+(control?' control-case':'');node.dataset.case=example.id;if(control)node.dataset.control=control;
 const controlTitles={unsearched:'Search budget exhausted',conflict:'Two reports contradict each other',incapable:'No admitted output capability'};
-node.innerHTML=`<h2>${esc(control?controlTitles[control]:example.id+' · '+example.name)}</h2><p>${esc(example.description)}</p><p class="context"><strong>What matters:</strong> ${esc(example.questionPurpose)}<br><span class="small">Human reading cue: ${esc(example.humanReading)} This cue explains the example; it is not an extra native message to the receiver.</span></p><div class="controls"><label>Strategy <select aria-label="Question strategy for ${esc(example.id)}">${runs.map(e=>`<option value="${esc(e.id)}">${esc(names[e.policy])}</option>`).join('')}</select></label><span class="meta">Choose a stage below</span></div><div class="stages"></div><div class="evidence" aria-live="polite"></div><div class="candidates ${example.candidates.length===4?'four':''}">${example.candidates.map(c=>`<div class="candidate" data-candidate="${c.index}"><h3>${c.index+1}. ${esc(c.name)}</h3><a href="${esc(c.image)}"><img src="${esc(c.image)}" alt="${esc(c.name)}"></a><p class="badge"></p></div>`).join('')}</div><div class="status"></div><details class="source-details"><summary>Reveal the private source and independent evaluation</summary><div class="source"><img src="${esc(example.sourceImage)}" alt="Private source: ${esc(example.sourceName)}"><p><strong>Source:</strong> ${esc(example.sourceName)}<br>The receiver never receives this complete source image or its generating program. This panel is for inspection after the run.</p></div><div class="evaluation"></div></details>`;
+node.innerHTML=`<h2>${esc(control?controlTitles[control]:example.id+' · '+example.name)}</h2><p>${esc(example.description)}</p><p class="context"><strong>What matters:</strong> ${esc(example.questionPurpose)}<br><span class="small">Human reading cue: ${esc(example.humanReading)} This cue explains the example; it is not an extra native message to the receiver.</span></p><div class="controls"><label>Strategy <select aria-label="Question strategy for ${esc(example.id)}">${runs.map(e=>`<option value="${esc(e.id)}">${esc(names[e.policy])}</option>`).join('')}</select></label><span class="meta">Choose a stage below</span></div><div class="stages"></div><div class="evidence" aria-live="polite"></div><div class="candidates ${example.candidates.length===4?'four':''}">${example.candidates.map(c=>`<div class="candidate" data-candidate="${c.index}"><h3>${c.index+1}. ${esc(c.name)}</h3><a href="${esc(c.image)}"><img src="${esc(c.image)}" alt="${esc(c.name)}"></a><p class="candidate-answer"></p><p class="badge"></p></div>`).join('')}</div><div class="status"></div><details class="source-details"><summary>Reveal the private source and independent evaluation</summary><div class="source"><img src="${esc(example.sourceImage)}" alt="Private source: ${esc(example.sourceName)}"><p><strong>Source:</strong> ${esc(example.sourceName)}<br>The receiver never receives this complete source image or its generating program. This panel is for inspection after the run.</p></div><div class="evaluation"></div></details>`;
 const select=node.querySelector('select');select.value=(runs.find(e=>e.policy==='transferred')||runs[0]).id;let stageIndex=0;
 function show(index){const run=runs.find(e=>e.id===select.value),stage=run.stages[index];stageIndex=index;node.dataset.episode=run.id;node.dataset.stage=String(index);
 node.querySelector('.stages').innerHTML=run.stages.map((s,i)=>`<button class="${i===index?'current':''}" data-step="${i}" aria-pressed="${i===index}">${esc(s.name)}</button>`).join('');node.querySelectorAll('[data-step]').forEach(button=>button.onclick=()=>show(Number(button.dataset.step)));
-const evidence=node.querySelector('.evidence');evidence.classList.toggle('open',stage.answer==='Open'||stage.conflicts>0);evidence.innerHTML=index===0?'<strong>No replies have been imported.</strong>Every admitted candidate remains an alternative; none is a recognized answer.':`<strong>Asked: ${esc(stage.question)}</strong>Supplier answer: <b>${esc(stage.answer)}</b> · ${stage.eligible.length} compatible candidates remain.${stage.conflicts?` ${stage.conflicts} literal conflict witness retained.`:''}`;
-for(const card of node.querySelectorAll('[data-candidate]')){const i=Number(card.dataset.candidate),read=stage.reads.find(r=>r.index===i),kept=stage.eligible.includes(i);card.classList.toggle('kept',kept&&index>0);card.classList.toggle('rejected',!kept);card.classList.toggle('blocked',read.blocked>0);card.querySelector('.badge').textContent=index===0?(kept?'Admitted alternative; not yet distinguished':'Unavailable to this receiver'):read.blocked>0?'Blocked; capability or conflict is still visible':!kept?'Rejected by imported evidence':read.open>0?'Still possible; some evidence is open':'Compatible with the imported replies';}
-const status=node.querySelector('.status');status.textContent=index===run.stages.length-1?run.status:`After this stage: ${stage.eligible.length} alternatives remain. Continue to inspect later evidence.`;status.classList.toggle('open',!run.correctAtVocabulary);
+const evidence=node.querySelector('.evidence');evidence.classList.toggle('open',stage.answer==='Open'||stage.conflicts>0);
+const sameCount=index>0&&stage.eligible.length===run.stages[index-1].eligible.length;
+const allAgree=index>0&&stage.answer!=='Open'&&run.stages[index-1].eligible.every(i=>stage.reads.find(r=>r.index===i).answerToQuestion===stage.answer);
+const effect=sameCount?(allAgree?` All ${stage.eligible.length} remaining candidates also answer ${esc(stage.answer)}. No alternatives were ruled out; this question cannot distinguish them.`:' No alternatives were ruled out by this reply; some evidence is still open.'):'';
+evidence.innerHTML=index===0?'<strong>Start of this experiment: no source replies yet.</strong>The receiver has the candidate library and question ports, but has not asked the hidden source anything. This is the actual baseline for the run, not a future placeholder. All admitted alternatives await source evidence.':`<strong>Question sent to the hidden source: ${esc(stage.question)}</strong>Source reply: <b>${esc(stage.answer)}</b> · ${stage.eligible.length} candidates still possible.${effect}${stage.conflicts?` ${stage.conflicts} conflict witness retained.`:''}`;
+for(const card of node.querySelectorAll('[data-candidate]')){
+const i=Number(card.dataset.candidate),read=stage.reads.find(r=>r.index===i),kept=stage.eligible.includes(i),resolved=index>0&&kept&&stage.eligible.length===1&&read.open===0&&read.blocked===0;
+card.classList.toggle('kept',kept&&index>0);card.classList.toggle('resolved',resolved);card.classList.toggle('uncertain',kept&&read.open>0);card.classList.toggle('rejected',!kept);card.classList.toggle('blocked',read.blocked>0);
+card.querySelector('.candidate-answer').textContent=index===0?'Not asked yet':`This candidate answers: ${read.answerToQuestion}`;
+card.querySelector('.badge').textContent=read.blocked>0?'Blocked · capability or conflict remains visible':index===0?'Not yet tested · admitted alternative':!kept?'Ruled out · disagrees with a source reply':read.open>0?'Still possible · some evidence remains open':resolved?'Still possible · only remaining candidate':'Still possible · agrees with the source replies';
+}
+const status=node.querySelector('.status'),atEnd=index===run.stages.length-1;status.textContent=atEnd?run.status:`After this stage: ${stage.eligible.length} alternatives remain. Continue to inspect later evidence.`;status.classList.toggle('resolved',atEnd&&run.correctAtVocabulary);status.classList.toggle('open',atEnd&&!run.correctAtVocabulary);
 node.querySelector('.evaluation').innerHTML=`<p class="small">Independent evaluation tests both complete bounded motif inventories. It does not establish exact geometry, multiplicity, global arrangement or ancestry.</p><div class="table-wrap"><table><thead><tr><th>Candidate</th><th>Vocabulary agreement</th><th>Opposed claims</th><th>Open</th></tr></thead><tbody>${run.evaluations.map(e=>`<tr><td>${esc(example.candidates[e.index].name)}</td><td>${e.compatible?'Agrees':'Does not certify'}</td><td>${e.refuted}</td><td>${e.open}</td></tr>`).join('')}</tbody></table></div>`;
 }select.onchange=()=>{const run=runs.find(e=>e.id===select.value);show(Math.min(stageIndex,run.stages.length-1));};show((runs.find(e=>e.id===select.value)).stages.length-1);return node;}
 for(const example of model.cases)document.querySelector('#cases').append(article(example));for(const control of ['unsearched','conflict','incapable']){const run=model.episodes.find(e=>e.control===control);document.querySelector('#controls').append(article(model.cases.find(c=>c.id===run.caseId),control));}

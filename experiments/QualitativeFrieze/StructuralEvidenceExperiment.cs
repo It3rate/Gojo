@@ -38,17 +38,18 @@ public static partial class StructuralEvidenceExperiment
         {
             int Index(StructuralEvidenceInquiry.Candidate candidate) => episode.Receiver.Candidates.ToList()
                 .FindIndex(actual => ReferenceEquals(actual, candidate));
-            object Stage(StructuralEvidenceInquiry.Assessment assessment, string name, string? question = null,
+            object Stage(StructuralEvidenceInquiry.Assessment assessment, string name, StructuralEvidenceInquiry.Query? question = null,
                 string? answer = null, double[]? features = null, double? prediction = null) => new {
-                    Name = name, Question = question, Answer = answer, Features = features, Prediction = prediction,
+                    Name = name, Question = question is null ? null : QuestionLabel(question.Name), Answer = answer, Features = features, Prediction = prediction,
                     Eligible = assessment.Eligible.Select(read => Index(read.Candidate)).ToArray(),
                     Conflicts = E(assessment.Conflicts).Length,
                     Reads = assessment.Candidates.Select(read => new { Index = Index(read.Candidate),
+                        AnswerToQuestion = question is null ? null : PredictionAnswer(episode.Receiver.Predict(read.Candidate, question)),
                         Supported = E(read.Supported).Length, Refuted = E(read.Refuted).Length,
                         Open = E(read.Open).Length, Blocked = E(read.Blocked).Length }).ToArray() };
-            var stages = new List<object> { Stage(episode.Initial, "0 · Alternatives before any reply") };
+            var stages = new List<object> { Stage(episode.Initial, "0 · Start: no source facts yet") };
             stages.AddRange(episode.Steps.Select((step, index) => Stage(step.After, (index + 1) + " · " + Answer(step.Response),
-                step.Query.Name, Answer(step.Response), step.Features.Values, step.Prediction)));
+                step.Query, Answer(step.Response), step.Features.Values, step.Prediction)));
             var expected = episode.Case.ExpectedAmbiguity;
             var status = episode.CorrectAtVocabulary ? "One candidate remains and independently agrees with the source at the tested motif vocabulary."
                 : episode.CorrectAmbiguity ? "Both recipes remain possible. The exposed output does not reveal how it was constructed."
@@ -105,6 +106,12 @@ public static partial class StructuralEvidenceExperiment
     }
     private static string Answer(StructuralEvidenceInquiry.Response response) => E(response.Supported).Length > 0 ? "Yes"
         : E(response.Refuted).Length > 0 ? "No" : "Open";
+    private static string PredictionAnswer(CommunicationAssessment prediction) => prediction.SupportedCount > 0 ? "Yes"
+        : prediction.RefutedCount > 0 ? "No" : "Open";
+    private static string QuestionLabel(string question) => question
+        .Replace("three-edge cycle", "closed loop with exactly three edges", StringComparison.Ordinal)
+        .Replace("four-edge cycle", "closed loop with exactly four edges", StringComparison.Ordinal)
+        .Replace("four-edge closed contour", "closed loop with exactly four edges", StringComparison.Ordinal);
     private static IEnumerable<IElement> Reachable(IElement root)
     {
         var seen = new HashSet<IElement>(ReferenceEqualityComparer.Instance); var pending = new Stack<IElement>(); pending.Push(root);
