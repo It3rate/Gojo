@@ -126,7 +126,7 @@ public static partial class EquivalenceRevisionExperiment
             : string.Join(" · ", terms.Select(_ => "u")) + (closed ? "" : " … open");
     }
     private sealed record Point(double X, double Y);
-    private static string Svg(QualitativeMotionFrame frame, QualitativeStrokeGraph graph, Relation bindings, string title)
+    internal static string Svg(QualitativeMotionFrame frame, QualitativeStrokeGraph graph, Relation bindings, string title)
     {
         var positions = E(bindings).Cast<Relation>().ToDictionary(binding => binding.Left, binding => Position(frame, (Relation)binding.Right),
             (IEqualityComparer<IElement>)ReferenceEqualityComparer.Instance);

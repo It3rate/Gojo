@@ -1,5 +1,17 @@
 # Qualitative frieze generators
 
+The [evidence-selection gallery](results/evidence-selection/gallery.html) trains
+a small CPU policy to choose an informative exposed read, with held-out layout
+families and open, conflicting and capability-limited controls. Compare the
+[learning study](../../Gojo/docs/GojoEvidenceSelectionExperiments.md) and
+[measured local execution costs](../../Gojo/docs/GojoLocalExperimentCosts.md).
+
+```powershell
+dotnet run --project experiments/QualitativeFrieze -c Release -- --evidence-selection
+dotnet run --project experiments/QualitativeFrieze -c Release -- --equivalence-costs
+node experiments/QualitativeFrieze/tools/check-evidence-selection.cjs
+```
+
 The [equivalence revision gallery](results/equivalence-revision/gallery.html)
 explores provisional shared structure, local exceptions, conflicting suppliers
 and limited receivers. Compare the [study notes](../../Gojo/docs/GojoEquivalenceRevisionExperiments.md).

@@ -1,0 +1,181 @@
+{
+  "schema": "equivalence-local-costs-v1",
+  "measuredAtUtc": "2026-10-20T18:43:35.2508837+00:00",
+  "runtime": ".NET 10.0.12",
+  "processArchitecture": 1,
+  "osDescription": "Microsoft Windows 10.0.26200",
+  "logicalProcessors": 16,
+  "configuration": "Release",
+  "countsPerStudy": {
+    "cases": 4,
+    "stages": 10,
+    "outputExecutions": 8,
+    "additionalExemplarExecutions": 1,
+    "nativeParticipants": 84826
+  },
+  "firstConstruction": {
+    "elapsedMilliseconds": 212.1772,
+    "cpuMilliseconds": 343.75,
+    "allocatedBytes": 50244328,
+    "managedBytesAfter": 5357200,
+    "gen0Collections": 6,
+    "gen1Collections": 1,
+    "gen2Collections": 0
+  },
+  "warmConstruction": {
+    "repetitions": 9,
+    "medianElapsedMilliseconds": 81.9908,
+    "medianCpuMilliseconds": 109.375,
+    "medianAllocatedBytes": 50187040,
+    "samples": [
+      {
+        "elapsedMilliseconds": 79.3183,
+        "cpuMilliseconds": 109.375,
+        "allocatedBytes": 50188144,
+        "managedBytesAfter": 9324256,
+        "gen0Collections": 6,
+        "gen1Collections": 1,
+        "gen2Collections": 1
+      },
+      {
+        "elapsedMilliseconds": 61.0258,
+        "cpuMilliseconds": 62.5,
+        "allocatedBytes": 50180160,
+        "managedBytesAfter": 13718248,
+        "gen0Collections": 6,
+        "gen1Collections": 0,
+        "gen2Collections": 0
+      },
+      {
+        "elapsedMilliseconds": 108.2467,
+        "cpuMilliseconds": 156.25,
+        "allocatedBytes": 50189760,
+        "managedBytesAfter": 9385144,
+        "gen0Collections": 7,
+        "gen1Collections": 2,
+        "gen2Collections": 1
+      },
+      {
+        "elapsedMilliseconds": 100.7933,
+        "cpuMilliseconds": 109.375,
+        "allocatedBytes": 50187040,
+        "managedBytesAfter": 13694296,
+        "gen0Collections": 6,
+        "gen1Collections": 1,
+        "gen2Collections": 0
+      },
+      {
+        "elapsedMilliseconds": 81.9908,
+        "cpuMilliseconds": 125,
+        "allocatedBytes": 50183632,
+        "managedBytesAfter": 18106072,
+        "gen0Collections": 6,
+        "gen1Collections": 0,
+        "gen2Collections": 0
+      },
+      {
+        "elapsedMilliseconds": 97.6883,
+        "cpuMilliseconds": 93.75,
+        "allocatedBytes": 50188360,
+        "managedBytesAfter": 9461472,
+        "gen0Collections": 7,
+        "gen1Collections": 2,
+        "gen2Collections": 1
+      },
+      {
+        "elapsedMilliseconds": 81.3822,
+        "cpuMilliseconds": 109.375,
+        "allocatedBytes": 50183632,
+        "managedBytesAfter": 13745856,
+        "gen0Collections": 6,
+        "gen1Collections": 1,
+        "gen2Collections": 0
+      },
+      {
+        "elapsedMilliseconds": 71.1694,
+        "cpuMilliseconds": 93.75,
+        "allocatedBytes": 50187040,
+        "managedBytesAfter": 18164104,
+        "gen0Collections": 6,
+        "gen1Collections": 0,
+        "gen2Collections": 0
+      },
+      {
+        "elapsedMilliseconds": 93.8711,
+        "cpuMilliseconds": 78.125,
+        "allocatedBytes": 50201600,
+        "managedBytesAfter": 9516440,
+        "gen0Collections": 7,
+        "gen1Collections": 2,
+        "gen2Collections": 1
+      }
+    ]
+  },
+  "firstArchive": {
+    "elapsedMilliseconds": 824.8777,
+    "cpuMilliseconds": 1078.125,
+    "allocatedBytes": 217905912,
+    "managedBytesAfter": 157417800,
+    "gen0Collections": 12,
+    "gen1Collections": 10,
+    "gen2Collections": 4
+  },
+  "warmArchive": {
+    "repetitions": 3,
+    "medianElapsedMilliseconds": 629.3557,
+    "medianCpuMilliseconds": 796.875,
+    "medianAllocatedBytes": 139459128,
+    "jsonUtf8Bytes": 9233608,
+    "gzipBytes": 743779,
+    "roundTrip": true,
+    "samples": [
+      {
+        "elapsedMilliseconds": 732.6014,
+        "cpuMilliseconds": 1390.625,
+        "allocatedBytes": 144783648,
+        "managedBytesAfter": 152712840,
+        "gen0Collections": 12,
+        "gen1Collections": 9,
+        "gen2Collections": 3
+      },
+      {
+        "elapsedMilliseconds": 629.3557,
+        "cpuMilliseconds": 796.875,
+        "allocatedBytes": 139459128,
+        "managedBytesAfter": 155688248,
+        "gen0Collections": 9,
+        "gen1Collections": 8,
+        "gen2Collections": 2
+      },
+      {
+        "elapsedMilliseconds": 513.4491,
+        "cpuMilliseconds": 796.875,
+        "allocatedBytes": 139445280,
+        "managedBytesAfter": 153818976,
+        "gen0Collections": 10,
+        "gen1Collections": 8,
+        "gen2Collections": 2
+      }
+    ]
+  },
+  "memory": {
+    "sampleIntervalMilliseconds": 20,
+    "sampledMaximumWorkingSetBytes": 252956672,
+    "sampledMaximumPrivateBytes": 265478144,
+    "processLifetimePeakWorkingSetBytes": 257622016
+  },
+  "conditionalProjection": {
+    "targetStages": 32000,
+    "constructionOnlyHours": 0.0728807111111111,
+    "constructionAndFullArchiveHours": 0.632308,
+    "fullArchiveBytes": 2380092800
+  },
+  "limits": [
+    "One sample rebuilds the entire four-case study, not one independent training episode. Per-stage projections are workload normalization only.",
+    "Warm runs exclude SDK build, process launch, HTML/SVG generation, file I/O and statistical policy training. First construction includes JIT.",
+    "Archive samples include capture, JSON serialization, parsing, full restoration, participant-count check and smallest-size gzip in memory.",
+    "Allocation is cumulative managed allocation, not live RAM. Memory maxima cover this process and both phases; 20 ms sampling can miss brief peaks.",
+    "Projection assumes exactly this small workload and sequential execution. Different structure size, search breadth and training can change costs substantially.",
+    "No hidden-source training, GPU computation, remote calls or paid infrastructure is involved. Retaining every full native archive is optional."
+  ]
+}
