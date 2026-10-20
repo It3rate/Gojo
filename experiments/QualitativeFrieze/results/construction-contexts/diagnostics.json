@@ -1,0 +1,443 @@
+{
+  "schema": "gojo-construction-contexts-v1",
+  "cases": [
+    {
+      "id": "C01",
+      "name": "Equal support, different replacement scopes",
+      "description": "Both drawings have exactly corresponding formal segment support. One construction has a closed ordered path; the other resets before each side. A whole-path replacement can select only actual paths in its supplied source. This is a difference in exposed focus granularity, not an impossibility theorem about other encodings.",
+      "variants": [
+        {
+          "id": "C01-A",
+          "name": "One closed path",
+          "description": "The foreign side selector cannot become a member of the closed-path source merely by having the same drawing.",
+          "steps": [
+            {
+              "id": "C01-A1",
+              "name": "Closed path",
+              "description": "One path, four chords and one explicit closure claim.",
+              "plain": "C01-A1.svg",
+              "construction": "C01-A1-construction.svg",
+              "paths": 1,
+              "chords": 4,
+              "closedClaims": 1,
+              "ports": 5,
+              "rungs": 1,
+              "blocked": 0,
+              "open": 0,
+              "receipts": 2,
+              "nativeElements": 5097,
+              "nativeNumericElements": 0,
+              "acceptedActions": 6
+            },
+            {
+              "id": "C01-A2",
+              "name": "Side replacement refused",
+              "description": "The requested side belongs to the alternative construction. The native blocked scope retains the refused focus; the original path is carried unchanged.",
+              "plain": "C01-A2.svg",
+              "construction": "C01-A2-construction.svg",
+              "paths": 1,
+              "chords": 4,
+              "closedClaims": 1,
+              "ports": 5,
+              "rungs": 2,
+              "blocked": 1,
+              "open": 0,
+              "receipts": 0,
+              "nativeElements": 4823,
+              "nativeNumericElements": 0,
+              "acceptedActions": 6
+            }
+          ]
+        },
+        {
+          "id": "C01-B",
+          "name": "Four exposed side paths",
+          "description": "The same replacement question can select an actual side here. No contour-closure promise is supplied for the four-path construction.",
+          "steps": [
+            {
+              "id": "C01-B1",
+              "name": "Same segment support",
+              "description": "Four reset paths retain distinct cursor/site identities despite their formal endpoint agreement.",
+              "plain": "C01-B1.svg",
+              "construction": "C01-B1-construction.svg",
+              "paths": 4,
+              "chords": 4,
+              "closedClaims": 0,
+              "ports": 8,
+              "rungs": 1,
+              "blocked": 0,
+              "open": 0,
+              "receipts": 2,
+              "nativeElements": 8682,
+              "nativeNumericElements": 0,
+              "acceptedActions": 12
+            },
+            {
+              "id": "C01-B2",
+              "name": "Upper rail detached",
+              "description": "The actual upper path moves outward. The resulting opening is intentional and no closed-interior claim is invented.",
+              "plain": "C01-B2.svg",
+              "construction": "C01-B2-construction.svg",
+              "paths": 4,
+              "chords": 4,
+              "closedClaims": 0,
+              "ports": 8,
+              "rungs": 2,
+              "blocked": 0,
+              "open": 0,
+              "receipts": 1,
+              "nativeElements": 8464,
+              "nativeNumericElements": 0,
+              "acceptedActions": 12
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "C02",
+      "name": "Reformulation changes the next available focus",
+      "description": "A ladder may withdraw a traversal/closure contract while retaining exact support correspondence. Moving the newly exposed rail leaves a gap. A subsequent explicit replacement extends both side reaches and restores a declared closed walk; this is a proposed construction, not an automatic solver.",
+      "variants": [
+        {
+          "id": "C02-A",
+          "name": "Split, move, reconnect",
+          "description": "Construction history retains the withdrawn path and the scope of each replacement.",
+          "steps": [
+            {
+              "id": "C02-A1",
+              "name": "Before reformulation",
+              "description": "The closed square is the actual initial rung.",
+              "plain": "C02-A1.svg",
+              "construction": "C02-A1-construction.svg",
+              "paths": 1,
+              "chords": 4,
+              "closedClaims": 1,
+              "ports": 5,
+              "rungs": 1,
+              "blocked": 0,
+              "open": 0,
+              "receipts": 0,
+              "nativeElements": 4674,
+              "nativeNumericElements": 0,
+              "acceptedActions": 6
+            },
+            {
+              "id": "C02-A2",
+              "name": "Same drawing, new scope",
+              "description": "The whole path is replaced by four independent sides. Its closure role is withdrawn; ordered support is checked separately.",
+              "plain": "C02-A2.svg",
+              "construction": "C02-A2-construction.svg",
+              "paths": 4,
+              "chords": 4,
+              "closedClaims": 0,
+              "ports": 8,
+              "rungs": 2,
+              "blocked": 0,
+              "open": 0,
+              "receipts": 2,
+              "nativeElements": 8722,
+              "nativeNumericElements": 0,
+              "acceptedActions": 12
+            },
+            {
+              "id": "C02-A3",
+              "name": "Expose the gap",
+              "description": "One actual rail moves. The other three path identities are carried, and no closure is asserted.",
+              "plain": "C02-A3.svg",
+              "construction": "C02-A3-construction.svg",
+              "paths": 4,
+              "chords": 4,
+              "closedClaims": 0,
+              "ports": 8,
+              "rungs": 3,
+              "blocked": 0,
+              "open": 0,
+              "receipts": 1,
+              "nativeElements": 8826,
+              "nativeNumericElements": 0,
+              "acceptedActions": 12
+            },
+            {
+              "id": "C02-A4",
+              "name": "New rectangular closure",
+              "description": "The side extents are explicitly revised and the four-side traversal is rebound as one closed path. Earlier square history is retained, not asserted as the current shape.",
+              "plain": "C02-A4.svg",
+              "construction": "C02-A4-construction.svg",
+              "paths": 1,
+              "chords": 4,
+              "closedClaims": 1,
+              "ports": 5,
+              "rungs": 4,
+              "blocked": 0,
+              "open": 0,
+              "receipts": 0,
+              "nativeElements": 5401,
+              "nativeNumericElements": 0,
+              "acceptedActions": 6
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "C03",
+      "name": "Chord detail becomes a reusable construction unit",
+      "description": "A closed-path context does support local chord refinement: every replacement chain must retain its selected chord\u0027s formal endpoint displacement. The coarse square survives as history while the current shape acquires new bends. A further layer repeats the complete detailed unit.",
+      "variants": [
+        {
+          "id": "C03-A",
+          "name": "Preserve ends, change contour",
+          "description": "Shared reach participation and cancellation receipts justify the endpoint promises without a measured length.",
+          "steps": [
+            {
+              "id": "C03-A1",
+              "name": "Coarse square",
+              "description": "Each coarse chord has three repeated participations in one unmeasured reach.",
+              "plain": "C03-A1.svg",
+              "construction": "C03-A1-construction.svg",
+              "paths": 1,
+              "chords": 4,
+              "closedClaims": 1,
+              "ports": 5,
+              "rungs": 1,
+              "blocked": 0,
+              "open": 0,
+              "receipts": 0,
+              "nativeElements": 4674,
+              "nativeNumericElements": 0,
+              "acceptedActions": 6
+            },
+            {
+              "id": "C03-A2",
+              "name": "One notched side",
+              "description": "Five fine chords replace one actual coarse chord. Their net displacement is exactly the old chord; straightness is deliberately not preserved.",
+              "plain": "C03-A2.svg",
+              "construction": "C03-A2-construction.svg",
+              "paths": 1,
+              "chords": 8,
+              "closedClaims": 1,
+              "ports": 5,
+              "rungs": 2,
+              "blocked": 0,
+              "open": 0,
+              "receipts": 0,
+              "nativeElements": 7410,
+              "nativeNumericElements": 0,
+              "acceptedActions": 10
+            },
+            {
+              "id": "C03-A3",
+              "name": "Four notched sides",
+              "description": "The same relative outward/forward/inward construction is supplied on each side; all closure reductions remain readable.",
+              "plain": "C03-A3.svg",
+              "construction": "C03-A3-construction.svg",
+              "paths": 1,
+              "chords": 20,
+              "closedClaims": 1,
+              "ports": 5,
+              "rungs": 3,
+              "blocked": 0,
+              "open": 0,
+              "receipts": 0,
+              "nativeElements": 16652,
+              "nativeNumericElements": 0,
+              "acceptedActions": 22
+            },
+            {
+              "id": "C03-A4",
+              "name": "Repeat the detailed unit",
+              "description": "Four translated occurrences share the actual detailed chord scope. The additional native ornament run retains its selected motif, two phase cycles, step words and four accepted unit executions.",
+              "plain": "C03-A4.svg",
+              "construction": "C03-A4-construction.svg",
+              "paths": 4,
+              "chords": 80,
+              "closedClaims": 4,
+              "ports": 84,
+              "rungs": 4,
+              "blocked": 0,
+              "open": 0,
+              "receipts": 2,
+              "nativeElements": 167575,
+              "nativeNumericElements": 0,
+              "acceptedActions": 88
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "C04",
+      "name": "Construction memory is a useful optional context",
+      "description": "The current notched contour can retain the actual square construction or be captured into an independently identified native world. The loss receipt stays outside the standalone result. Visible agreement does not transfer old selector identities, and a remembered square never proves that the current fine chain is straight.",
+      "variants": [
+        {
+          "id": "C04-A",
+          "name": "Keep construction memory",
+          "description": "The earlier coarse program remains directly addressable under a history question.",
+          "steps": [
+            {
+              "id": "C04-A1",
+              "name": "Current detailed contour",
+              "description": "The notched program retains every actual refinement rung.",
+              "plain": "C04-A1.svg",
+              "construction": "C04-A1-construction.svg",
+              "paths": 1,
+              "chords": 20,
+              "closedClaims": 1,
+              "ports": 5,
+              "rungs": 3,
+              "blocked": 0,
+              "open": 0,
+              "receipts": 0,
+              "nativeElements": 16652,
+              "nativeNumericElements": 0,
+              "acceptedActions": 22
+            },
+            {
+              "id": "C04-A2",
+              "name": "Read the earlier square",
+              "description": "This witness answers an ancestry question with the actual earlier program. It does not replace the current drawing or assert current straight sides.",
+              "plain": "C04-A2.svg",
+              "construction": "C04-A2-construction.svg",
+              "paths": 1,
+              "chords": 20,
+              "closedClaims": 1,
+              "ports": 5,
+              "rungs": 3,
+              "blocked": 0,
+              "open": 0,
+              "receipts": 1,
+              "nativeElements": 16663,
+              "nativeNumericElements": 0,
+              "acceptedActions": 22
+            }
+          ]
+        },
+        {
+          "id": "C04-B",
+          "name": "Independent capture",
+          "description": "The same current relation shape survives, with fresh identities and no internal construction history.",
+          "steps": [
+            {
+              "id": "C04-B1",
+              "name": "Captured current structure",
+              "description": "The standalone program has one rung and an empty evidence scope. Exact source-to-copy correspondence is available only in the external loss receipt.",
+              "plain": "C04-B1.svg",
+              "construction": "C04-B1-construction.svg",
+              "paths": 1,
+              "chords": 20,
+              "closedClaims": 1,
+              "ports": 5,
+              "rungs": 1,
+              "blocked": 0,
+              "open": 0,
+              "receipts": 2,
+              "nativeElements": 17533,
+              "nativeNumericElements": 0,
+              "acceptedActions": 22
+            },
+            {
+              "id": "C04-B2",
+              "name": "Old ancestry remains open",
+              "description": "The old square is not part of the standalone history. Its query stays unresolved rather than being recovered from visual resemblance.",
+              "plain": "C04-B2.svg",
+              "construction": "C04-B2-construction.svg",
+              "paths": 1,
+              "chords": 20,
+              "closedClaims": 1,
+              "ports": 5,
+              "rungs": 1,
+              "blocked": 0,
+              "open": 0,
+              "receipts": 1,
+              "nativeElements": 16265,
+              "nativeNumericElements": 0,
+              "acceptedActions": 22
+            },
+            {
+              "id": "C04-B3",
+              "name": "Old focus refused",
+              "description": "A source path from before capture cannot select a path in the fresh world. All captured path and closure contracts remain carried.",
+              "plain": "C04-B3.svg",
+              "construction": "C04-B3-construction.svg",
+              "paths": 1,
+              "chords": 20,
+              "closedClaims": 1,
+              "ports": 5,
+              "rungs": 2,
+              "blocked": 1,
+              "open": 0,
+              "receipts": 0,
+              "nativeElements": 16225,
+              "nativeNumericElements": 0,
+              "acceptedActions": 22
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "views": [
+    {
+      "id": "V01",
+      "name": "Courts become a mesh",
+      "description": "Four actual triangular chambers form each court. Court boundary contacts become construction passages.",
+      "source": "field-source.svg",
+      "groups": "V01-groups.svg",
+      "result": "V01-result.svg",
+      "ornament": "V01-ornament.svg",
+      "groupCount": 12,
+      "selectedFaces": 48,
+      "complement": 0,
+      "contacts": 17,
+      "overlaps": 0,
+      "actuators": 17,
+      "decorations": 12
+    },
+    {
+      "id": "V02",
+      "name": "Vertex diamonds become a shifted mesh",
+      "description": "Eight actual chambers meet around each interior source vertex. Neighbouring diamonds share chambers; that overlap is retained separately from boundary contact.",
+      "source": "field-source.svg",
+      "groups": "V02-groups.svg",
+      "result": "V02-result.svg",
+      "ornament": "V02-ornament.svg",
+      "groupCount": 6,
+      "selectedFaces": 34,
+      "complement": 14,
+      "contacts": 4,
+      "overlaps": 7,
+      "actuators": 4,
+      "decorations": 6
+    },
+    {
+      "id": "V03",
+      "name": "Courts become broad courses",
+      "description": "Each row consumes four actual court reads. Its contact network becomes a three-node course rather than another copy of the court mesh.",
+      "source": "field-source.svg",
+      "groups": "V03-groups.svg",
+      "result": "V03-result.svg",
+      "ornament": "V03-ornament.svg",
+      "groupCount": 3,
+      "selectedFaces": 48,
+      "complement": 0,
+      "contacts": 2,
+      "overlaps": 0,
+      "actuators": 2,
+      "decorations": 3
+    }
+  ],
+  "nativeElements": 941389,
+  "nativeNumericElements": 0,
+  "archiveRoundTrip": true,
+  "limits": [
+    "Authored constructions and grouping proposals; automatic Gestalt discovery is not claimed.",
+    "Formal displacement equality does not establish contact, material joining, straightness or Euclidean regularity.",
+    "The display selects an equal unit length for each open reach; colour and scale are presentation choices.",
+    "Blocked/open edit scopes preserve the last admitted program; a historical ancestor is not a current-shape certificate.",
+    "Overlap is non-draining shared observation. Only actual boundary contact creates construction passages.",
+    "Counts describe actual structural participation in these supplied contracts; they are not general search complexity or perceptual salience scores.",
+    "No model training, learned ranking, image recognition, free-angle polygon geometry or global aesthetic optimum is demonstrated."
+  ]
+}

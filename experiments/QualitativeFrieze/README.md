@@ -1,5 +1,17 @@
 # Qualitative frieze generators
 
+The [construction-context gallery](results/construction-contexts/gallery.html)
+compares seventeen executable path steps and three alternative shared-field
+constructions. The [overview](results/construction-contexts/overview.html)
+shows every step together. Same drawing, different editing surfaces; retained
+versus forgotten history; and overlapping reads that become new construction
+are distinguished in the [study](../../Gojo/docs/GojoConstructionContextExperiments.md).
+
+```powershell
+dotnet run --project experiments/QualitativeFrieze -- --construction-contexts
+node experiments/QualitativeFrieze/tools/check-construction-contexts.cjs
+```
+
 The [refined collection](results/ornament-refined/gallery.html) applies the
 stronger detail vocabulary across 108 designs, with selected curve rendering,
 angular and one-unit views, and a [single sheet](results/ornament-refined/overview.html).

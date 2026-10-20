@@ -6,6 +6,12 @@ are distinguished from a general implemented perceptual or concept-learning
 system. This round publishes the recorded lattices; it does not run the new
 Gestalt experiments.
 
+The subsequent [construction-context experiments](GojoConstructionContextExperiments.md)
+execute a narrower first round: actual path edit scopes, explicit reformulation,
+retained versus captured history and alternative observation views consumed by
+new construction. Colour-based discovery and the 48 cue conditions below remain
+proposed work.
+
 ## One source can support several useful reads
 
 A grouping cue can propose a useful context without assigning the entire

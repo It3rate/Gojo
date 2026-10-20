@@ -22,6 +22,7 @@ if (args.Contains("--lattice-ladders")) return LatticeLadderExperiment.Run(args.
 if (args.Contains("--lattice-catalogue")) return LatticeCatalogueExperiment.Run(args.Where(argument => argument != "--lattice-catalogue").ToArray());
 if (args.Contains("--lattice-transformations")) return LatticeCatalogueExperiment.Run(args.Where(argument => argument != "--lattice-transformations").Append("--transformations").ToArray());
 if (args.Contains("--lattice-interiors")) return InteriorLatticeExperiment.Run(args.Where(argument => argument != "--lattice-interiors").ToArray());
+if (args.Contains("--construction-contexts")) return ConstructionContextExperiment.Run(args.Where(argument => argument != "--construction-contexts").ToArray());
 if (args.Contains("--bourgoin-colour")) return BourgoinColourExperiment.Run(args.Where(argument => argument != "--bourgoin-colour").ToArray());
 if (args.Contains("--ornament-designs")) return BourgoinColourExperiment.RunDesigns(args.Where(argument => argument != "--ornament-designs").ToArray());
 if (args.Contains("--ornament-details")) return BourgoinColourExperiment.RunDetails(args.Where(argument => argument != "--ornament-details").ToArray());

@@ -126,6 +126,12 @@ Its [hundred-case gallery](experiments/QualitativeFrieze/results/lattice-interio
 compares filled interiors, outlines and removed dividers.
 The [Gestalt exploration plan](Gojo/docs/GojoGestaltViewsExploration.md) proposes
 overlapping cue-based reads and compares constructive contexts for the same shape.
+The [construction-context experiments](Gojo/docs/GojoConstructionContextExperiments.md)
+exercise equal support with different edit scopes, constraint withdrawal,
+optional construction memory and overlapping views consumed by new flow.
+Their [interactive gallery](experiments/QualitativeFrieze/results/construction-contexts/gallery.html)
+and [all-step overview](experiments/QualitativeFrieze/results/construction-contexts/overview.html)
+compare seventeen path steps and three shared-field constructions.
 The [coloured ornament collection](experiments/QualitativeFrieze/results/coloured-ornament/gallery.html)
 adds native landmark-bound petals, leaves and medallions, with three selectable
 focuses guided by Jones's colour and hierarchy proposals. Its
