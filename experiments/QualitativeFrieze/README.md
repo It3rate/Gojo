@@ -1,5 +1,16 @@
 # Qualitative frieze generators
 
+The [occurrence-composition gallery](results/occurrence-composition/gallery.html)
+tests the next layer above individual motifs: distinct loop footprints, shared
+corners and edges, and a separate path contacting two contours. It also
+preserves spacing ambiguity and bounded-search Open answers. Read the
+[composition study](../../Gojo/docs/GojoOccurrenceCompositionExperiments.md).
+
+```powershell
+dotnet run --project experiments/QualitativeFrieze -c Release -- --occurrence-composition
+node experiments/QualitativeFrieze/tools/check-occurrence-composition.cjs
+```
+
 The [structural-evidence gallery](results/structural-evidence/gallery.html)
 expands inquiry beyond rectangles into closure, shared joints, headings and
 path continuity. It shows all alternatives, successive replies and an expected

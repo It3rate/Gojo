@@ -178,6 +178,12 @@ evidence with preserved prior candidates, uneven query cost and learning which
 questions or hypotheses to propose. Scaling motif composition and disposition
 recognition remains separate from these small acquisition fixtures.
 
+The [occurrence-composition follow-up](GojoOccurrenceCompositionExperiments.md)
+now tests that specific vocabulary limit: distinct loop footprints, shared
+corners, reused edges and a three-role bridge. It preserves spacing ambiguity
+and unfinished assignment search. It is a direct local inventory read, rather
+than an extension of this fixture's private supplier transport or training.
+
 ## Reproduction and verification
 
 ```powershell

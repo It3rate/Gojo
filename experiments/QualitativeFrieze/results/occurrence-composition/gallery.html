@@ -1,0 +1,943 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Gojo · Motifs and their connections</title><style>
+:root{--ink:#25434b;--muted:#65776f;--paper:#f4f0e4;--line:#c7cbbb;--accent:#9c5739}*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.55 system-ui,sans-serif}main{max-width:1400px;margin:auto;padding:35px 28px 70px}h1,h2,h3{font-family:Georgia,serif;font-weight:500;line-height:1.2}h1{font-size:44px;margin:12px 0}h2{font-size:30px}h3{font-size:23px;margin:10px 0}p{max-width:1000px}a{color:#27626e}button,select{font:inherit}button{padding:9px 14px;border:1px solid #8c9c93;border-radius:5px;background:#fffaf0;color:var(--ink);cursor:pointer}button[aria-pressed=true]{background:#25434b;color:white}button:hover{border-color:var(--accent)}.eyebrow{letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-size:13px}.intro{font-size:20px}.rules{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:24px 0}.rule{border-top:3px solid #9c5739;padding:12px 15px;background:#fffaf0}.rule strong{display:block}.rule p{font-size:15px;margin:7px 0}.example{margin:40px 0;padding:24px;background:#fffdf5;border:1px solid var(--line);border-radius:8px;scroll-margin-top:15px}.example h2{margin:4px 0 12px}.purpose{color:var(--muted)}.steps{display:flex;flex-wrap:wrap;gap:8px;margin:20px 0}.steps button{font-size:15px}.question{border-left:4px solid #718b80;background:#e8ede4;padding:16px 20px;font-size:20px;min-height:110px}.question p{margin:3px 0}.question small{font-size:14px;color:var(--muted)}.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin:20px 0}.candidate{padding:17px;border:2px solid var(--line);background:#fbf8ef;border-radius:5px}.candidate.resolved{border-color:#66866c;background:#edf3e5}.candidate.rejected{border-color:#b68275;background:#f5e9e3}.candidate.uncertain{border-style:dashed;border-color:#b59659}.candidate.rejected img{opacity:.46}.candidate img{display:block;width:100%;height:auto;margin:14px 0}.candidate-answer{font-weight:650;margin:8px 0}.badge{font-size:15px}.vocabulary{font-size:14px;color:var(--muted);padding-top:12px;border-top:1px solid var(--line);margin-top:15px}.source{padding:12px 18px;background:#f0eee4;border:1px dashed var(--line)}.source img{display:block;max-width:560px;width:100%;margin:12px auto}.finding{border-left:4px solid var(--accent);padding:7px 16px;color:#654a3b}.controls{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}.control{border:1px dashed #ad8d52;background:#f8f0de;padding:20px}.table-wrap{overflow:auto}table{border-collapse:collapse;width:100%;font-size:15px}th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line)}th{background:#e8e8da}.status{font-size:14px;color:var(--muted)}details{margin:15px 0}summary{cursor:pointer}code{overflow-wrap:anywhere}.limits li{margin:8px 0}footer{border-top:1px solid var(--line);margin-top:35px;padding-top:18px;color:var(--muted);font-size:15px}
+@media(max-width:1000px){.rules{grid-template-columns:repeat(2,1fr)}.cards{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:640px){main{padding:22px 14px 45px}h1{font-size:34px}.example{padding:15px}.rules,.cards,.controls{grid-template-columns:1fr}.question{padding:13px;font-size:18px}.steps button{max-width:100%;text-align:left}h2{font-size:26px}}
+</style></head><body><main>
+<div class="eyebrow">Gojo · pre-numeric structural experiments</div><h1>A motif is only the beginning</h1>
+<p class="intro">Can the same small motif vocabulary describe <em>copies and their relationships</em>? These five cases separate a loop's existence from its multiplicity, shared corners, shared edges and path contacts.</p>
+<p>The engine reads native segments, shared-site identities and coarse directions. Questions request the illustrated motifs with their heading patterns, rather than every possible polygon or rotation. These are local analysis tests over exposed inventories; the pictures are illustrations made afterwards. Matching receives no pixels, screen coordinates or construction history.</p>
+<div class="rules"><div class="rule"><strong>1 · Bind a role</strong><p>Find an actual occurrence of a supplied native motif.</p></div><div class="rule"><strong>2 · Keep copies distinct</strong><p>Different starts or reverse readings of one loop still use the same actual edges.</p></div><div class="rule"><strong>3 · Ask about sharing</strong><p>Require a shared site or edge, or require that selected roles stay disjoint.</p></div><div class="rule"><strong>4 · Preserve an open read</strong><p>Without enough search or the right evidence, do not turn “not found” into “No”.</p></div></div>
+<p><strong>Reading the cards:</strong> a candidate's Yes/No is its answer to the current question. A neutral card remains possible, red is ruled out by an answer difference, and green means one fully tested candidate remains. Source <strong>No</strong> and candidate <strong>No</strong> agree. Solid copper dots mark actual joins; paired hollow purple dots mark separate identities at the same displayed position.</p>
+<div id="cases"></div>
+<h2>Budget controls</h2><p>Both controls should stay Open. A complete list of motifs does not establish a compound answer until the required assignments have been searched.</p><div id="controls" class="controls"></div>
+<h2>Small scaling check</h2><p>These inputs contain separate identical triangle loops. Finding a pair can finish early. Proving that no pair shares a site needs more assignments. A small joint budget stops that search with an Open answer.</p>
+<p class="status">Each row is one local diagnostic run, after a warm-up. “Attempts” counts attempted role extensions, including rejected partial assignments. The budget does not bound motif induction or preparation. Timings exclude drawing and archive work; they are not a throughput benchmark.</p>
+<div class="table-wrap"><table id="scaling"><thead><tr><th>Loops</th><th>Question</th><th>Budget</th><th>Answer</th><th>Attempts</th><th>Inventory ms</th><th>Joint read ms</th></tr></thead><tbody></tbody></table></div>
+<h2>What this establishes—and what stays open</h2><ul id="limits" class="limits"></ul>
+<details><summary>Native archive and reproduction</summary><p id="native"></p><p><a href="composition.gojo.json.gz">Full native study archive</a> · <a href="diagnostics.json">Derived report data</a> · <a href="../../../../Gojo/docs/GojoOccurrenceCompositionExperiments.md">Experiment explanation</a></p><p><code>dotnet run --project experiments/QualitativeFrieze -c Release -- --occurrence-composition</code></p></details>
+<footer><a href="../structural-evidence/gallery.html">Earlier single-motif question experiments</a> · No new kernel primitive, model fitting or cloud computation in this run.</footer>
+</main><script type="application/json" id="data">{
+  "schema": "occurrence-composition-v1",
+  "cases": [
+    {
+      "id": "C01",
+      "name": "One motif is not two occurrences",
+      "description": "One, two and three triangles answer the same old existential motif vocabulary. Separate role slots with explicit distinct-occurrence constraints ask stronger questions. At least two does not establish exactly two; a third question distinguishes three copies. Reversing a traversal cannot supply another copy.",
+      "questionPurpose": "Confirm the motif, require two distinct footprints, then test the three-occurrence alternative.",
+      "expectedAmbiguity": false,
+      "source": {
+        "name": "2 separate triangle contours",
+        "image": "C01-source.svg"
+      },
+      "candidates": [
+        {
+          "index": 0,
+          "name": "1 separate triangle contours",
+          "image": "C01-candidate-0.svg",
+          "sites": 3,
+          "edges": 3,
+          "earlierVocabulary": "Agrees"
+        },
+        {
+          "index": 1,
+          "name": "2 separate triangle contours",
+          "image": "C01-candidate-1.svg",
+          "sites": 6,
+          "edges": 6,
+          "earlierVocabulary": "Agrees"
+        },
+        {
+          "index": 2,
+          "name": "3 separate triangle contours",
+          "image": "C01-candidate-2.svg",
+          "sites": 9,
+          "edges": 9,
+          "earlierVocabulary": "Agrees"
+        }
+      ],
+      "stages": [
+        {
+          "index": 0,
+          "question": null,
+          "sourceAnswer": null,
+          "attempts": 0,
+          "compatible": [
+            0,
+            1,
+            2
+          ],
+          "reads": [
+            {
+              "index": 0,
+              "isCompatible": true,
+              "isSettled": true,
+              "answer": null,
+              "agreements": 0,
+              "oppositions": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "isCompatible": true,
+              "isSettled": true,
+              "answer": null,
+              "agreements": 0,
+              "oppositions": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 2,
+              "isCompatible": true,
+              "isSettled": true,
+              "answer": null,
+              "agreements": 0,
+              "oppositions": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        },
+        {
+          "index": 1,
+          "question": "Does a closed three-edge loop exist?",
+          "sourceAnswer": "Yes",
+          "attempts": 1,
+          "compatible": [
+            0,
+            1,
+            2
+          ],
+          "reads": [
+            {
+              "index": 0,
+              "isCompatible": true,
+              "isSettled": true,
+              "answer": "Yes",
+              "agreements": 1,
+              "oppositions": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "isCompatible": true,
+              "isSettled": true,
+              "answer": "Yes",
+              "agreements": 1,
+              "oppositions": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 2,
+              "isCompatible": true,
+              "isSettled": true,
+              "answer": "Yes",
+              "agreements": 1,
+              "oppositions": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        },
+        {
+          "index": 2,
+          "question": "Are there at least two distinct closed three-edge loops?",
+          "sourceAnswer": "Yes",
+          "attempts": 3,
+          "compatible": [
+            1,
+            2
+          ],
+          "reads": [
+            {
+              "index": 0,
+              "isCompatible": false,
+              "isSettled": false,
+              "answer": "No",
+              "agreements": 1,
+              "oppositions": 1,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "isCompatible": true,
+              "isSettled": true,
+              "answer": "Yes",
+              "agreements": 2,
+              "oppositions": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 2,
+              "isCompatible": true,
+              "isSettled": true,
+              "answer": "Yes",
+              "agreements": 2,
+              "oppositions": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        },
+        {
+          "index": 3,
+          "question": "Are there at least three distinct closed three-edge loops?",
+          "sourceAnswer": "No",
+          "attempts": 10,
+          "compatible": [
+            1
+          ],
+          "reads": [
+            {
+              "index": 0,
+              "isCompatible": false,
+              "isSettled": false,
+              "answer": "No",
+              "agreements": 2,
+              "oppositions": 1,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "isCompatible": true,
+              "isSettled": true,
+              "answer": "No",
+              "agreements": 3,
+              "oppositions": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 2,
+              "isCompatible": false,
+              "isSettled": false,
+              "answer": "Yes",
+              "agreements": 2,
+              "oppositions": 1,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "C02",
+      "name": "Touching is a relation between motifs",
+      "description": "Two square contours may be separate, meet at an explicitly joined corner, or share an actual boundary edge. A shared site and disjoint edges select corner contact without inventing a measured distance.",
+      "questionPurpose": "Compose two contour roles with shared-site and disjoint-edge obligations.",
+      "expectedAmbiguity": false,
+      "source": {
+        "name": "Two contours joined at one corner",
+        "image": "C02-source.svg"
+      },
+      "candidates": [
+        {
+          "index": 0,
+          "name": "Two separate four-edge contours",
+          "image": "C02-candidate-0.svg",
+          "sites": 8,
+          "edges": 8,
+          "earlierVocabulary": "Differs"
+        },
+        {
+          "index": 1,
+          "name": "Two contours sharing one actual boundary edge",
+          "image": "C02-candidate-1.svg",
+          "sites": 6,
+          "edges": 7,
+          "earlierVocabulary": "Differs"
+        },
+        {
+          "index": 2,
+          "name": "Two contours joined at one corner",
+          "image": "C02-candidate-2.svg",
+          "sites": 7,
+          "edges": 8,
+          "earlierVocabulary": "Agrees"
+        }
+      ],
+      "stages": [
+        {
+          "index": 0,
+          "question": null,
+          "sourceAnswer": null,
+          "attempts": 0,
+          "compatible": [
+            0,
+            1,
+            2
+          ],
+          "reads": [
+            {
+              "index": 0,
+              "isCompatible": true,
+              "isSettled": true,
+              "answer": null,
+              "agreements": 0,
+              "oppositions": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "isCompatible": true,
+              "isSettled": true,
+              "answer": null,
+              "agreements": 0,
+              "oppositions": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 2,
+              "isCompatible": true,
+              "isSettled": true,
+              "answer": null,
+              "agreements": 0,
+              "oppositions": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        },
+        {
+          "index": 1,
+          "question": "Do two distinct four-edge loops share a site without sharing an edge?",
+          "sourceAnswer": "Yes",
+          "attempts": 3,
+          "compatible": [
+            2
+          ],
+          "reads": [
+            {
+              "index": 0,
+              "isCompatible": false,
+              "isSettled": false,
+              "answer": "No",
+              "agreements": 0,
+              "oppositions": 1,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "isCompatible": false,
+              "isSettled": false,
+              "answer": "No",
+              "agreements": 0,
+              "oppositions": 1,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 2,
+              "isCompatible": true,
+              "isSettled": true,
+              "answer": "Yes",
+              "agreements": 1,
+              "oppositions": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "C03",
+      "name": "A common seam is not a duplicated line",
+      "description": "The adjacent contours reuse one actual edge. The common boundary is drawn once; the neighbour\u0027s three remaining sides are attached through exposed endpoint ports. Equal positions alone never create the shared edge.",
+      "questionPurpose": "Require two different contour footprints with a common actual edge identity.",
+      "expectedAmbiguity": false,
+      "source": {
+        "name": "Two contours sharing one actual boundary edge",
+        "image": "C03-source.svg"
+      },
+      "candidates": [
+        {
+          "index": 0,
+          "name": "Two separate four-edge contours",
+          "image": "C03-candidate-0.svg",
+          "sites": 8,
+          "edges": 8,
+          "earlierVocabulary": "Differs"
+        },
+        {
+          "index": 1,
+          "name": "Two contours joined at one corner",
+          "image": "C03-candidate-1.svg",
+          "sites": 7,
+          "edges": 8,
+          "earlierVocabulary": "Differs"
+        },
+        {
+          "index": 2,
+          "name": "Two contours sharing one actual boundary edge",
+          "image": "C03-candidate-2.svg",
+          "sites": 6,
+          "edges": 7,
+          "earlierVocabulary": "Agrees"
+        }
+      ],
+      "stages": [
+        {
+          "index": 0,
+          "question": null,
+          "sourceAnswer": null,
+          "attempts": 0,
+          "compatible": [
+            0,
+            1,
+            2
+          ],
+          "reads": [
+            {
+              "index": 0,
+              "isCompatible": true,
+              "isSettled": true,
+              "answer": null,
+              "agreements": 0,
+              "oppositions": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "isCompatible": true,
+              "isSettled": true,
+              "answer": null,
+              "agreements": 0,
+              "oppositions": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 2,
+              "isCompatible": true,
+              "isSettled": true,
+              "answer": null,
+              "agreements": 0,
+              "oppositions": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        },
+        {
+          "index": 1,
+          "question": "Do two distinct four-edge loops share an actual edge?",
+          "sourceAnswer": "Yes",
+          "attempts": 3,
+          "compatible": [
+            2
+          ],
+          "reads": [
+            {
+              "index": 0,
+              "isCompatible": false,
+              "isSettled": false,
+              "answer": "No",
+              "agreements": 0,
+              "oppositions": 1,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "isCompatible": false,
+              "isSettled": false,
+              "answer": "No",
+              "agreements": 0,
+              "oppositions": 1,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 2,
+              "isCompatible": true,
+              "isSettled": true,
+              "answer": "Yes",
+              "agreements": 1,
+              "oppositions": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "C04",
+      "name": "One path contacts two motifs",
+      "description": "Both alternatives draw two loops and an intervening two-edge path in the same positions. Only one accepts the endpoint joins. A third motif role tests contact with both loops. The query checks shared sites anywhere in these motifs; it does not specifically select the path endpoints.",
+      "questionPurpose": "Compose three local patterns through shared-site obligations; keep the endpoint-specific limit explicit.",
+      "expectedAmbiguity": false,
+      "source": {
+        "name": "Two contours joined by a two-edge bridge",
+        "image": "C04-source.svg"
+      },
+      "candidates": [
+        {
+          "index": 0,
+          "name": "Bridge endpoints touch without joining",
+          "image": "C04-candidate-0.svg",
+          "sites": 11,
+          "edges": 10,
+          "earlierVocabulary": "Differs"
+        },
+        {
+          "index": 1,
+          "name": "Two contours joined by a two-edge bridge",
+          "image": "C04-candidate-1.svg",
+          "sites": 9,
+          "edges": 10,
+          "earlierVocabulary": "Agrees"
+        }
+      ],
+      "stages": [
+        {
+          "index": 0,
+          "question": null,
+          "sourceAnswer": null,
+          "attempts": 0,
+          "compatible": [
+            0,
+            1
+          ],
+          "reads": [
+            {
+              "index": 0,
+              "isCompatible": true,
+              "isSettled": true,
+              "answer": null,
+              "agreements": 0,
+              "oppositions": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "isCompatible": true,
+              "isSettled": true,
+              "answer": null,
+              "agreements": 0,
+              "oppositions": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        },
+        {
+          "index": 1,
+          "question": "Does a separate two-edge path share a site with each of two site-disjoint four-edge loops?",
+          "sourceAnswer": "Yes",
+          "attempts": 5,
+          "compatible": [
+            1
+          ],
+          "reads": [
+            {
+              "index": 0,
+              "isCompatible": false,
+              "isSettled": false,
+              "answer": "No",
+              "agreements": 0,
+              "oppositions": 1,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "isCompatible": true,
+              "isSettled": true,
+              "answer": "Yes",
+              "agreements": 1,
+              "oppositions": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "C05",
+      "name": "Topology does not supply spacing",
+      "description": "The source and alternatives place two triangles at different separations. The advertised port deliberately publishes the same incidence and heading information in each case. Both remain compatible: no spacing, period or relative-order service has been exposed.",
+      "questionPurpose": "Keep the coarse two-motif read and preserve the unasked arrangement ambiguity.",
+      "expectedAmbiguity": true,
+      "source": {
+        "name": "2 separate triangle contours",
+        "image": "C05-source.svg"
+      },
+      "candidates": [
+        {
+          "index": 0,
+          "name": "2 separate triangle contours",
+          "image": "C05-candidate-0.svg",
+          "sites": 6,
+          "edges": 6,
+          "earlierVocabulary": "Agrees"
+        },
+        {
+          "index": 1,
+          "name": "2 separate triangle contours",
+          "image": "C05-candidate-1.svg",
+          "sites": 6,
+          "edges": 6,
+          "earlierVocabulary": "Agrees"
+        }
+      ],
+      "stages": [
+        {
+          "index": 0,
+          "question": null,
+          "sourceAnswer": null,
+          "attempts": 0,
+          "compatible": [
+            0,
+            1
+          ],
+          "reads": [
+            {
+              "index": 0,
+              "isCompatible": true,
+              "isSettled": true,
+              "answer": null,
+              "agreements": 0,
+              "oppositions": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "isCompatible": true,
+              "isSettled": true,
+              "answer": null,
+              "agreements": 0,
+              "oppositions": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        },
+        {
+          "index": 1,
+          "question": "Are two distinct three-edge loops site-disjoint?",
+          "sourceAnswer": "Yes",
+          "attempts": 3,
+          "compatible": [
+            0,
+            1
+          ],
+          "reads": [
+            {
+              "index": 0,
+              "isCompatible": true,
+              "isSettled": true,
+              "answer": "Yes",
+              "agreements": 1,
+              "oppositions": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "isCompatible": true,
+              "isSettled": true,
+              "answer": "Yes",
+              "agreements": 1,
+              "oppositions": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "controls": [
+    {
+      "name": "No joint-search budget",
+      "purpose": "A complete motif inventory is insufficient if the compound assignments have not been searched.",
+      "answer": "Open",
+      "attempts": 0,
+      "open": 1,
+      "blocked": 0
+    },
+    {
+      "name": "No motif-search budget",
+      "purpose": "Missing a motif in an unsearched inventory cannot establish absence.",
+      "answer": "Open",
+      "attempts": 0,
+      "open": 1,
+      "blocked": 0
+    }
+  ],
+  "scaling": [
+    {
+      "copies": 1,
+      "sites": 3,
+      "edges": 3,
+      "question": "Two site-disjoint loops",
+      "assignmentCapacity": 8,
+      "answer": "No",
+      "attempts": 2,
+      "inductionMilliseconds": 0.5968,
+      "jointMilliseconds": 0.6503
+    },
+    {
+      "copies": 1,
+      "sites": 3,
+      "edges": 3,
+      "question": "Two site-disjoint loops",
+      "assignmentCapacity": 4096,
+      "answer": "No",
+      "attempts": 2,
+      "inductionMilliseconds": 0.5968,
+      "jointMilliseconds": 0.9319
+    },
+    {
+      "copies": 1,
+      "sites": 3,
+      "edges": 3,
+      "question": "Two loops sharing a site",
+      "assignmentCapacity": 8,
+      "answer": "No",
+      "attempts": 2,
+      "inductionMilliseconds": 0.5968,
+      "jointMilliseconds": 0.856
+    },
+    {
+      "copies": 1,
+      "sites": 3,
+      "edges": 3,
+      "question": "Two loops sharing a site",
+      "assignmentCapacity": 4096,
+      "answer": "No",
+      "attempts": 2,
+      "inductionMilliseconds": 0.5968,
+      "jointMilliseconds": 1.1285
+    },
+    {
+      "copies": 2,
+      "sites": 6,
+      "edges": 6,
+      "question": "Two site-disjoint loops",
+      "assignmentCapacity": 8,
+      "answer": "Yes",
+      "attempts": 3,
+      "inductionMilliseconds": 0.5999,
+      "jointMilliseconds": 0.7172
+    },
+    {
+      "copies": 2,
+      "sites": 6,
+      "edges": 6,
+      "question": "Two site-disjoint loops",
+      "assignmentCapacity": 4096,
+      "answer": "Yes",
+      "attempts": 3,
+      "inductionMilliseconds": 0.5999,
+      "jointMilliseconds": 0.8932
+    },
+    {
+      "copies": 2,
+      "sites": 6,
+      "edges": 6,
+      "question": "Two loops sharing a site",
+      "assignmentCapacity": 8,
+      "answer": "No",
+      "attempts": 6,
+      "inductionMilliseconds": 0.5999,
+      "jointMilliseconds": 0.548
+    },
+    {
+      "copies": 2,
+      "sites": 6,
+      "edges": 6,
+      "question": "Two loops sharing a site",
+      "assignmentCapacity": 4096,
+      "answer": "No",
+      "attempts": 6,
+      "inductionMilliseconds": 0.5999,
+      "jointMilliseconds": 0.8197
+    },
+    {
+      "copies": 4,
+      "sites": 12,
+      "edges": 12,
+      "question": "Two site-disjoint loops",
+      "assignmentCapacity": 8,
+      "answer": "Yes",
+      "attempts": 3,
+      "inductionMilliseconds": 0.9413,
+      "jointMilliseconds": 0.7269
+    },
+    {
+      "copies": 4,
+      "sites": 12,
+      "edges": 12,
+      "question": "Two site-disjoint loops",
+      "assignmentCapacity": 4096,
+      "answer": "Yes",
+      "attempts": 3,
+      "inductionMilliseconds": 0.9413,
+      "jointMilliseconds": 0.8765
+    },
+    {
+      "copies": 4,
+      "sites": 12,
+      "edges": 12,
+      "question": "Two loops sharing a site",
+      "assignmentCapacity": 8,
+      "answer": "Open",
+      "attempts": 8,
+      "inductionMilliseconds": 0.9413,
+      "jointMilliseconds": 3.6643
+    },
+    {
+      "copies": 4,
+      "sites": 12,
+      "edges": 12,
+      "question": "Two loops sharing a site",
+      "assignmentCapacity": 4096,
+      "answer": "No",
+      "attempts": 20,
+      "inductionMilliseconds": 0.9413,
+      "jointMilliseconds": 0.9275
+    },
+    {
+      "copies": 8,
+      "sites": 24,
+      "edges": 24,
+      "question": "Two site-disjoint loops",
+      "assignmentCapacity": 8,
+      "answer": "Yes",
+      "attempts": 3,
+      "inductionMilliseconds": 0.9899,
+      "jointMilliseconds": 1.7238
+    },
+    {
+      "copies": 8,
+      "sites": 24,
+      "edges": 24,
+      "question": "Two site-disjoint loops",
+      "assignmentCapacity": 4096,
+      "answer": "Yes",
+      "attempts": 3,
+      "inductionMilliseconds": 0.9899,
+      "jointMilliseconds": 1.4778
+    },
+    {
+      "copies": 8,
+      "sites": 24,
+      "edges": 24,
+      "question": "Two loops sharing a site",
+      "assignmentCapacity": 8,
+      "answer": "Open",
+      "attempts": 8,
+      "inductionMilliseconds": 0.9899,
+      "jointMilliseconds": 4.4187
+    },
+    {
+      "copies": 8,
+      "sites": 24,
+      "edges": 24,
+      "question": "Two loops sharing a site",
+      "assignmentCapacity": 4096,
+      "answer": "No",
+      "attempts": 72,
+      "inductionMilliseconds": 0.9899,
+      "jointMilliseconds": 2.4149
+    },
+    {
+      "copies": 16,
+      "sites": 48,
+      "edges": 48,
+      "question": "Two site-disjoint loops",
+      "assignmentCapacity": 8,
+      "answer": "Yes",
+      "attempts": 3,
+      "inductionMilliseconds": 2.8733,
+      "jointMilliseconds": 4.34
+    },
+    {
+      "copies": 16,
+      "sites": 48,
+      "edges": 48,
+      "question": "Two site-disjoint loops",
+      "assignmentCapacity": 4096,
+      "answer": "Yes",
+      "attempts": 3,
+      "inductionMilliseconds": 2.8733,
+      "jointMilliseconds": 1.5954
+    },
+    {
+      "copies": 16,
+      "sites": 48,
+      "edges": 48,
+      "question": "Two loops sharing a site",
+      "assignmentCapacity": 8,
+      "answer": "Open",
+      "attempts": 8,
+      "inductionMilliseconds": 2.8733,
+      "jointMilliseconds": 2.3192
+    },
+    {
+      "copies": 16,
+      "sites": 48,
+      "edges": 48,
+      "question": "Two loops sharing a site",
+      "assignmentCapacity": 4096,
+      "answer": "No",
+      "attempts": 272,
+      "inductionMilliseconds": 2.8733,
+      "jointMilliseconds": 4.8159
+    }
+  ],
+  "nativeElements": 841295,
+  "nativeNumericElements": 0,
+  "archiveRoundTrip": true,
+  "buildMilliseconds": 1192.3093,
+  "limits": [
+    "Questions are composed from supplied native motif definitions. This run does not learn new motifs, select questions statistically, or recognize pixels.",
+    "The reader observes an explicitly exposed local inventory. It does not implement a new private supplier/reply protocol; complete source assessments belong to this local analysis and audit fixture.",
+    "Distinct means different actual edge footprints. Multiple traversal starts or reverse readings of the same loop are not additional copies.",
+    "Two/three roles establish an existential lower bound, not an exact global count. A disjoint pair does not prove that the entire graph is disconnected.",
+    "Sharing uses actual site or edge identity. Coincident illustrative positions do not join, merge or duplicate participants.",
+    "A negative answer requires complete motif search within its supported grammar and exhausted compound assignments. An exhausted budget remains Open.",
+    "Connectivity and qualitative headings do not determine spacing, calibrated shape, an infinite repetition law, empty interiors or construction ancestry.",
+    "The assignment budget bounds attempted role extensions. Inventory induction, option construction, matching and allocation still incur work outside that budget. Timings are small local diagnostics, not throughput forecasts.",
+    "This is one layer of composition over motif occurrences, not arbitrary recursive concept discovery. No new kernel primitive or numeric geometric measurement is introduced."
+  ]
+}</script><script>
+'use strict'; const model=JSON.parse(document.getElementById('data').textContent);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const findings={C01:'Existence alone loses multiplicity. Two distinct roles establish at least two loops; a third role can test the next lower bound. None of these claims gives an exact global count.',C02:'Two closed contours can remain distinct while sharing a corner. Sharing a site and reusing an edge are separate questions.',C03:'A shared edge is one actual participant reused by both loops. Two overlapping but separately drawn edges do not satisfy that question.',C04:'These examples differ at the path’s endpoint joins. The current query checks shared sites anywhere in each motif; it does not specifically require endpoints. A middle vertex could satisfy contact too.',C05:'The near and far arrangements remain possible. Spacing was removed from the exposed observation, so this reader has no evidence to prefer either.'};
+function render(example,index){const stage=example.stages[index],article=document.querySelector(`[data-case="${example.id}"]`);article.dataset.stage=index;
+ article.querySelectorAll('[data-step]').forEach(b=>b.setAttribute('aria-pressed',String(Number(b.dataset.step)===index)));
+ const q=article.querySelector('.question');q.innerHTML=index===0?'<p><strong>Start · no compound questions yet</strong></p><p>All supplied alternatives are admitted.</p>':`<p><strong>Asked: ${esc(stage.question)}</strong></p><p>Source answers: <strong>${esc(stage.sourceAnswer)}</strong> · ${stage.compatible.length} candidate${stage.compatible.length===1?'':'s'} remain possible.</p><small>${stage.attempts} attempted role extensions in the source read. The comparison keeps all earlier replies.</small>`;
+ article.querySelector('.cards').innerHTML=example.candidates.map(candidate=>{
+  const read=stage.reads.find(r=>r.index===candidate.index),resolved=index>0&&stage.compatible.length===1&&read.isSettled;
+  const mismatch=example.stages.slice(1,index+1).find(s=>{const a=s.reads.find(r=>r.index===candidate.index).answer;return ['Yes','No'].includes(a)&&['Yes','No'].includes(s.sourceAnswer)&&a!==s.sourceAnswer});
+  const cls=!read.isCompatible?'rejected':!read.isSettled?'uncertain':resolved?'resolved':'kept';
+  const badge=!read.isCompatible?`Ruled out${mismatch?` at step ${mismatch.index}`:' by an answer difference'}`:index===0?'Admitted alternative · not yet tested':read.open?'Still possible · some evidence remains open':resolved?'Only fully tested alternative remaining':'Still possible · answers agree';
+  const reason=mismatch?`<p class="reason">Step ${mismatch.index}: source <strong>${esc(mismatch.sourceAnswer)}</strong>; this candidate <strong>${esc(mismatch.reads.find(r=>r.index===candidate.index).answer)}</strong>.</p>`:'';
+  const label=example.id==='C01'?['One triangle contour','Two separate triangle contours','Three separate triangle contours'][candidate.index]:example.id==='C05'?['Nearby pair of contours','More widely separated pair'][candidate.index]:candidate.name;
+  return `<div class="candidate ${cls}" data-candidate="${candidate.index}"><h3>${candidate.index+1}. ${esc(label)}</h3><img src="${esc(candidate.image)}" alt="${esc(label)}"><p class="candidate-answer">${index===0?'Not asked yet':`This candidate answers: ${esc(read.answer)}`}</p><div class="badge">${esc(badge)}</div>${reason}<div class="vocabulary">Earlier existential motif vocabulary: <strong>${esc(candidate.earlierVocabulary)}</strong>.<br>This compares presence of local motif types, not how many copies exist.</div></div>`}).join('');
+ article.querySelector('.finding').textContent=index===example.stages.length-1?findings[example.id]:'Step through the questions to inspect which distinctions become justified.';}
+document.getElementById('cases').innerHTML=model.cases.map(example=>`<article class="example" data-case="${esc(example.id)}"><div class="eyebrow">${esc(example.id)} · ${example.expectedAmbiguity?'expected ambiguity':'structural distinction'}</div><h2>${esc(example.name)}</h2><p>${esc(example.description)}</p><p class="purpose">${esc(example.questionPurpose)}</p><div class="steps">${example.stages.map((s,i)=>`<button data-step="${i}" aria-pressed="false">${i===0?'0 · Start':`${i} · ${esc(s.question)}`}</button>`).join('')}</div><div class="question" aria-live="polite"></div><div class="cards"></div><p class="finding"></p><details class="source"><summary>Inspect the source after the read</summary><p>${esc(example.source.name)}. This independently executed sample supplied the source answers.</p><img src="${esc(example.source.image)}" alt="${esc(example.source.name)}"></details></article>`).join('');
+for(const example of model.cases){const article=document.querySelector(`[data-case="${example.id}"]`);article.querySelectorAll('[data-step]').forEach(b=>b.onclick=()=>render(example,Number(b.dataset.step)));render(example,example.stages.length-1);}
+document.getElementById('controls').innerHTML=model.controls.map(c=>`<article class="control"><h3>${esc(c.name)}</h3><p>Answer: <strong>${esc(c.answer)}</strong> · ${c.attempts} role extensions</p><p>${esc(c.purpose)}</p></article>`).join('');
+document.querySelector('#scaling tbody').innerHTML=model.scaling.map(r=>`<tr><td>${r.copies}</td><td>${esc(r.question)}</td><td>${r.assignmentCapacity}</td><td>${esc(r.answer)}</td><td>${r.attempts}</td><td>${r.inductionMilliseconds.toFixed(3)}</td><td>${r.jointMilliseconds.toFixed(3)}</td></tr>`).join('');
+document.getElementById('limits').innerHTML=model.limits.map(s=>`<li>${esc(s)}</li>`).join('');document.getElementById('native').textContent=`${model.nativeElements.toLocaleString()} native participants, ${model.nativeNumericElements} measured numeric participants; complete archive restored. Study build ${model.buildMilliseconds.toFixed(1)} ms, including execution, inventory reads, comparisons and scaling diagnostics; excludes presentation and archive.`;
+const requested=new URLSearchParams(location.search).get('case');if(requested){const target=[...document.querySelectorAll('[data-case]')].find(e=>e.dataset.case===requested);if(target)target.scrollIntoView();}
+</script></body></html>

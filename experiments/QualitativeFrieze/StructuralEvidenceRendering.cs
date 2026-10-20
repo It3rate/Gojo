@@ -8,6 +8,8 @@ namespace Gojo.Experiments.QualitativeFrieze;
 
 public static partial class StructuralEvidenceExperiment
 {
+    internal static string RenderSample(StructuralEvidenceCases.Sample sample, string title) => Svg(sample, title);
+
     private readonly record struct Point(double X, double Y);
 
     /// <summary>Illustration of an already executed sample. Coincident screen
