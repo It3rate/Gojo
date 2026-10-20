@@ -22,7 +22,12 @@ public sealed class CommunicationPattern
     public CommunicationPattern(QualitativeMotionFrame frame, Relation definition)
     {
         Frame = frame; Definition = definition; Surface = new(frame.Surface, definition);
-        var reader = new QualitativeMotifInduction(new(frame, N.S(), N.S()), proposalCapacity: 0);
+        // Parsing a supplied graph does not request occurrence discovery.
+        // Empty budgets avoid allocating unused search/retention slots, while
+        // TryReadPattern still validates stars, walks and cycles of any legal
+        // supplied length independently of the discovery grammar bounds.
+        var reader = new QualitativeMotifInduction(new(frame, N.S(), N.S()),
+            maxCycleEdges: 0, proposalCapacity: 0, maxWalkEdges: 0, retainedCapacity: 0);
         IsValid = reader.TryReadPattern(definition, out var kind, out var signature) &&
             CommunicationShape.TryRead(Surface, out _);
         Kind = IsValid ? kind : ""; Signature = IsValid ? signature : "";

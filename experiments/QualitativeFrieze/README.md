@@ -1,5 +1,20 @@
 # Qualitative frieze generators
 
+The [ornament reconstruction gallery](results/ornament-reconstruction/gallery.html)
+compares visible motifs, joint occurrences, mechanical paths and read focus
+across 416 executed specifications from 26 families. It includes compact
+messages, capability/context differences, fresh native generation and active
+inquiry. The [overview](results/ornament-reconstruction/overview.html) displays
+the complete candidate repertoire. Read the
+[methods and findings](../../Gojo/docs/GojoOrnamentReconstructionExperiments.md)
+for the boundaries between goal agreement and full reconstruction.
+
+```powershell
+dotnet run --project experiments/QualitativeFrieze -c Release -- --ornament-reconstruction --pool 10
+dotnet run --project experiments/QualitativeFrieze -c Release -- --ornament-reconstruction --dialogue
+dotnet run --project experiments/QualitativeFrieze -c Release -- --ornament-reconstruction --refresh-report
+```
+
 The [retained-match gallery](results/retained-match/gallery.html) follows an
 actual matched path through later questions. It distinguishes a retained path
 from a replacement, and retaining one participant from retaining a whole pair.
